@@ -11,7 +11,7 @@
   }
 
   body {
-    font-family: "Open Sans", "Arial";
+    font-family: theme("fontFamily.sans");
     -webkit-font-smoothing: antialiased;
     /* This needs to come after -webkit-font-smoothing */
     -moz-osx-font-smoothing: grayscale;
