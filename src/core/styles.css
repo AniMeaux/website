@@ -1,0 +1,24 @@
+@import url("https://fonts.googleapis.com/css?family=Playfair+Display:300,400,400i,600,700&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:300,400,400i,600,700&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    font-size: 16px;
+  }
+
+  body {
+    font-family: "Open Sans", "Arial";
+    -webkit-font-smoothing: antialiased;
+    /* This needs to come after -webkit-font-smoothing */
+    -moz-osx-font-smoothing: grayscale;
+    text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+    font-size: inherit;
+    line-height: 1.5;
+    color: theme("colors.gray.900");
+  }
+}

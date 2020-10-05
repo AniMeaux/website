@@ -1,0 +1,14 @@
+{
+  "extends": "react-app",
+  "overrides": [
+    {
+      "files": ["*.js"],
+      "parserOptions": {
+        "sourceType": "script"
+      },
+      "rules": {
+        "strict": ["warn", "global"]
+      }
+    }
+  ]
+}
