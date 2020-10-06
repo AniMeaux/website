@@ -25,15 +25,13 @@ export const ANIMAL_SPECIES_ORDER_ALPHABETICAL = [
 ];
 
 export enum AnimalAge {
-  BABY = "BABY",
-  YOUNG = "YOUNG",
+  JUNIOR = "JUNIOR",
   ADULT = "ADULT",
   SENIOR = "SENIOR",
 }
 
 export const ANIMAL_AGES_ORDER = [
-  AnimalAge.BABY,
-  AnimalAge.YOUNG,
+  AnimalAge.JUNIOR,
   AnimalAge.ADULT,
   AnimalAge.SENIOR,
 ];
@@ -41,8 +39,7 @@ export const ANIMAL_AGES_ORDER = [
 export const AnimalAgesLabels: {
   [key in AnimalAge]: string;
 } = {
-  BABY: "Bébé",
-  YOUNG: "Jeune",
+  JUNIOR: "Junior",
   ADULT: "Adulte",
   SENIOR: "Sénior",
 };
