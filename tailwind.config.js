@@ -7,7 +7,7 @@ module.exports = {
     removeDeprecatedGapUtilities: true,
     purgeLayersByDefault: true,
   },
-  purge: ["./pages/**/*.{ts,tsx}"],
+  purge: ["./src/**/*.{ts,tsx}"],
   theme: {
     screens: {
       lg: "800px",
