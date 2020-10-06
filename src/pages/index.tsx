@@ -32,7 +32,7 @@ function Select<ValueType = string>({
   return (
     <select
       {...rest}
-      value={`${value}` ?? ""}
+      value={value == null ? "" : `${value}`}
       onChange={(e) => {
         onChange((e.target.value as any) as ValueType);
       }}
