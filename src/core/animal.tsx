@@ -43,3 +43,11 @@ export const AnimalAgesLabels: {
   ADULT: "Adulte",
   SENIOR: "Sénior",
 };
+
+export enum AnimalStatus {
+  ADOPTED = "ADOPTED",
+  FREE = "FREE",
+  OPEN_TO_ADOPTION = "OPEN_TO_ADOPTION",
+  OPEN_TO_RESERVATION = "OPEN_TO_RESERVATION",
+  UNAVAILABLE = "UNAVAILABLE",
+}

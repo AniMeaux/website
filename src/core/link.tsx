@@ -1,7 +1,8 @@
 import NextLink, { LinkProps as NextLinkProps } from "next/link";
 import * as React from "react";
 
-type LinkProps = NextLinkProps & React.AnchorHTMLAttributes<HTMLAnchorElement>;
+export type LinkProps = NextLinkProps &
+  React.AnchorHTMLAttributes<HTMLAnchorElement>;
 
 /**
  * Simple Wrapper around Next/Link component to Automatically add the anchor.

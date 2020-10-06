@@ -20,6 +20,15 @@ module.exports = {
       fontSize: {
         hero: "5rem",
       },
+      inset: {
+        "1/1": "100%",
+      },
+      width: {
+        "max-content": "max-content",
+      },
+      backgroundOpacity: {
+        "10": "0.1",
+      },
     },
   },
   variants: {

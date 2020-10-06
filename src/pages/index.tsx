@@ -1,6 +1,6 @@
 import classnames from "classnames";
 import * as React from "react";
-import { FaSearch } from "react-icons/fa";
+import { FaAngleDown, FaAngleUp, FaSearch } from "react-icons/fa";
 import {
   AnimalAge,
   AnimalAgesLabels,
@@ -9,7 +9,7 @@ import {
   ANIMAL_AGES_ORDER,
   ANIMAL_SPECIES_ORDER_ALPHABETICAL,
 } from "../core/animal";
-import { Link } from "../core/link";
+import { Link, LinkProps } from "../core/link";
 import NameAndLogo from "../ui/nameAndLogo.svg";
 
 type SelectProps<ValueType> = Omit<
@@ -121,23 +121,119 @@ function SearchForm({ className }: React.FormHTMLAttributes<HTMLFormElement>) {
   );
 }
 
+const NavItemClasses =
+  "px-4 py-2 flex items-center flex-none font-semibold uppercase rounded hover:bg-white hover:bg-opacity-10";
+
+type NavItemMenuProps = {
+  label: string;
+  children: React.ReactNode;
+};
+
+function NavItemMenu({ label, children }: NavItemMenuProps) {
+  const [isMenuVisible, setIsMenuVisible] = React.useState(false);
+
+  const rootElement = React.useRef<HTMLLIElement>(null!);
+
+  function onBlur(event: React.FocusEvent<HTMLLIElement>) {
+    if (
+      event.relatedTarget == null ||
+      !rootElement.current.contains(event.relatedTarget as Node)
+    ) {
+      setIsMenuVisible(false);
+    }
+  }
+
+  return (
+    <li className="relative" onBlur={onBlur} ref={rootElement}>
+      <button
+        onClick={() => setIsMenuVisible((isMenuVisible) => !isMenuVisible)}
+        className={classnames(NavItemClasses, {
+          "bg-white": isMenuVisible,
+          "bg-opacity-25": isMenuVisible,
+        })}
+      >
+        <span className="mr-2">{label}</span>{" "}
+        {isMenuVisible ? <FaAngleUp /> : <FaAngleDown />}
+      </button>
+
+      <ul
+        children={children}
+        className={classnames(
+          "absolute top-1/1 left-0 mt-2 py-2 list-none w-max-content rounded bg-white text-gray-900 font-semibold",
+          {
+            hidden: !isMenuVisible,
+          }
+        )}
+      />
+    </li>
+  );
+}
+
+function NavItemMenuItem(props: LinkProps) {
+  return (
+    <li>
+      <Link
+        {...props}
+        className="px-4 py-2 flex items-center flex-none hover:bg-gray-200"
+      />
+    </li>
+  );
+}
+
+function Header() {
+  return (
+    <header className="absolute z-10 w-full h-16 px-4 flex items-center text-white">
+      <Link href="/" className="p-2 rounded hover:bg-white hover:bg-opacity-10">
+        <NameAndLogo className="text-4xl" />
+      </Link>
+
+      <nav className="ml-auto text-sm">
+        <ul className="list-none flex items-center space-x-2">
+          <NavItemMenu label="Animaux">
+            <NavItemMenuItem href="/search?animalStatus=open_to_adoption">
+              À l'adoption
+            </NavItemMenuItem>
+
+            <NavItemMenuItem href="/search?animalStatus=adopted">
+              Adoptés
+            </NavItemMenuItem>
+
+            <NavItemMenuItem href="/search">Recherche avancée</NavItemMenuItem>
+          </NavItemMenu>
+
+          <NavItemMenu label="Agir">
+            <NavItemMenuItem href="/host-family">
+              Devenir famille d'accueil
+            </NavItemMenuItem>
+
+            <NavItemMenuItem href="/volunteer">
+              Devenir bénévole
+            </NavItemMenuItem>
+
+            <NavItemMenuItem href="/donate">Faire un don</NavItemMenuItem>
+          </NavItemMenu>
+
+          <li>
+            <Link href="/partners" className={NavItemClasses}>
+              Partenaires
+            </Link>
+          </li>
+
+          <li>
+            <Link href="/blog" className={NavItemClasses}>
+              Blog
+            </Link>
+          </li>
+        </ul>
+      </nav>
+    </header>
+  );
+}
+
 export default function HomePage() {
   return (
     <>
-      <header className="absolute z-10 w-full h-16 px-4 flex items-center text-white text-sm">
-        <Link href="/" className="p-2">
-          <NameAndLogo className="text-4xl" />
-        </Link>
-
-        <span className="ml-auto p-2 flex items-center flex-none uppercase">
-          Animaux
-        </span>
-        <span className="p-2 flex items-center flex-none uppercase">Agir</span>
-        <span className="p-2 flex items-center flex-none uppercase">
-          Partenaires
-        </span>
-        <span className="p-2 flex items-center flex-none uppercase">Blog</span>
-      </header>
+      <Header />
 
       <main>
         <section className="relative h-screen text-2xl">
