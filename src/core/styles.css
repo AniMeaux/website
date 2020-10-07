@@ -23,6 +23,17 @@
   }
 }
 
+@layer components {
+  .a11y-focus:focus {
+    @apply outline-none;
+  }
+
+  .a11y-focus:focus-visible,
+  .a11y-focus.focus-visible {
+    @apply outline;
+  }
+}
+
 @layer utilities {
   @variants focus-visible {
     .outline {
@@ -32,13 +43,13 @@
       outline: 5px auto -webkit-focus-ring-color;
     }
   }
-}
 
-.a11y-focus:focus {
-  @apply outline-none;
-}
-
-.a11y-focus:focus-visible,
-.a11y-focus.focus-visible {
-  @apply outline;
+  @responsive {
+    .hero-text {
+      top: 50%;
+      transform: translateY(-50%);
+      left: 55%;
+      width: 40%;
+    }
+  }
 }

@@ -11,7 +11,8 @@ module.exports = {
   purge: ["./src/**/*.{ts,tsx}"],
   theme: {
     screens: {
-      lg: "800px",
+      md: "800px",
+      lg: "1024px",
     },
     extend: {
       fontFamily: {
@@ -22,10 +23,15 @@ module.exports = {
         hero: "5rem",
       },
       inset: {
+        "1/2": "50%",
         "1/1": "100%",
       },
       width: {
         "max-content": "max-content",
+      },
+      height: {
+        "screen-1/2": "50vh",
+        "screen-8/12": "66.666667vh",
       },
       backgroundOpacity: {
         "10": "0.1",

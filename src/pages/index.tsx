@@ -1,6 +1,13 @@
-import classnames from "classnames";
+import cn from "classnames";
 import * as React from "react";
-import { FaAngleDown, FaAngleUp, FaSearch } from "react-icons/fa";
+import {
+  FaAngleDown,
+  FaAngleUp,
+  FaBars,
+  FaFacebook,
+  FaInstagram,
+  FaSearch,
+} from "react-icons/fa";
 import {
   AnimalAge,
   AnimalAgesLabels,
@@ -10,6 +17,7 @@ import {
   ANIMAL_SPECIES_ORDER_ALPHABETICAL,
 } from "../core/animal";
 import { Link, LinkProps } from "../core/link";
+import Logo from "../ui/logo.svg";
 import NameAndLogo from "../ui/nameAndLogo.svg";
 
 type SelectProps<ValueType> = Omit<
@@ -36,7 +44,7 @@ function Select<ValueType = string>({
       onChange={(e) => {
         onChange((e.target.value as any) as ValueType);
       }}
-      className={classnames(
+      className={cn(
         "min-w-0 appearance-none truncate px-6 cursor-pointer a11y-focus",
         {
           "text-gray-600": value == null,
@@ -76,7 +84,7 @@ function SearchForm({ className }: React.FormHTMLAttributes<HTMLFormElement>) {
 
   return (
     <div
-      className={classnames(
+      className={cn(
         "shadow h-12 rounded-full bg-white flex items-center text-xl",
         className
       )}
@@ -113,16 +121,13 @@ function SearchForm({ className }: React.FormHTMLAttributes<HTMLFormElement>) {
 
       <Link
         href={link}
-        className="h-12 w-12 flex-none border-4 border-white rounded-full bg-blue-500 hover:bg-blue-400 flex items-center justify-center"
+        className="h-12 w-12 flex-none border-4 border-white rounded-full bg-blue-500 md:hover:bg-blue-400 flex items-center justify-center text-white"
       >
         <FaSearch />
       </Link>
     </div>
   );
 }
-
-const NavItemClasses =
-  "px-4 py-2 flex items-center flex-none font-semibold uppercase rounded hover:bg-white hover:bg-opacity-10 a11y-focus";
 
 type NavItemMenuProps = {
   label: string;
@@ -131,14 +136,15 @@ type NavItemMenuProps = {
 
 function NavItemMenu({ label, children }: NavItemMenuProps) {
   const [isMenuVisible, setIsMenuVisible] = React.useState(false);
-
   const rootElement = React.useRef<HTMLLIElement>(null!);
   const buttonElement = React.useRef<HTMLButtonElement>(null!);
 
   function onBlur(event: React.FocusEvent<HTMLLIElement>) {
     if (
-      event.relatedTarget == null ||
-      !rootElement.current.contains(event.relatedTarget as Node)
+      // We don't want this behaviour for medium and smaller screens.
+      window.innerWidth >= 1024 &&
+      (event.relatedTarget == null ||
+        !rootElement.current.contains(event.relatedTarget as Node))
     ) {
       setIsMenuVisible(false);
     }
@@ -147,12 +153,13 @@ function NavItemMenu({ label, children }: NavItemMenuProps) {
   function onKeyDown(event: React.KeyboardEvent<HTMLLIElement>) {
     if (event.key === "Escape" && isMenuVisible) {
       setIsMenuVisible(false);
+      buttonElement.current.focus();
     }
   }
 
   return (
     <li
-      className="relative"
+      className="relative w-full lg:w-auto"
       onBlur={onBlur}
       ref={rootElement}
       onKeyDown={onKeyDown}
@@ -163,19 +170,19 @@ function NavItemMenu({ label, children }: NavItemMenuProps) {
           setIsMenuVisible((isMenuVisible) => !isMenuVisible);
           buttonElement.current.focus();
         }}
-        className={classnames(NavItemClasses, {
-          "bg-white": isMenuVisible,
-          "bg-opacity-25": isMenuVisible,
-        })}
+        className={cn(
+          "h-10 flex items-center flex-none opacity-75 font-semibold uppercase a11y-focus w-full md:hover:opacity-100 lg:w-auto",
+          { "md:opacity-100": isMenuVisible }
+        )}
       >
-        <span className="mr-2">{label}</span>{" "}
+        <span className="mr-auto lg:mr-1">{label}</span>{" "}
         {isMenuVisible ? <FaAngleUp /> : <FaAngleDown />}
       </button>
 
       <ul
         children={children}
-        className={classnames(
-          "absolute top-1/1 left-0 mt-2 py-2 list-none w-max-content rounded bg-white text-gray-900 font-semibold",
+        className={cn(
+          "list-none text-gray-900 font-semibold lg:absolute lg:top-1/1 lg:left-0 lg:mt-2 lg:py-2 lg:w-max-content lg:rounded lg:bg-white",
           { hidden: !isMenuVisible }
         )}
       />
@@ -188,58 +195,149 @@ function NavItemMenuItem(props: LinkProps) {
     <li>
       <Link
         {...props}
-        className="px-4 py-2 flex items-center flex-none hover:bg-gray-200"
+        className="h-10 flex items-center flex-none lg:px-4 md:hover:bg-gray-200"
       />
     </li>
   );
 }
 
 function Header() {
+  const [isMenuVisible, setIsMenuVisible] = React.useState(false);
+  const buttonElement = React.useRef<HTMLButtonElement>(null!);
+  const navElement = React.useRef<HTMLElement>(null!);
+
+  function onBlur(event: React.FocusEvent<HTMLElement>) {
+    if (
+      event.relatedTarget == null ||
+      !navElement.current.contains(event.relatedTarget as Node)
+    ) {
+      setIsMenuVisible(false);
+    }
+  }
+
+  function onKeyDown(event: React.KeyboardEvent<HTMLElement>) {
+    if (event.key === "Escape" && isMenuVisible) {
+      setIsMenuVisible(false);
+      buttonElement.current.focus();
+    }
+  }
+
   return (
     <header className="absolute z-10 w-full h-16 px-4 flex items-center text-white">
-      <Link href="/" className={NavItemClasses}>
-        <NameAndLogo className="text-4xl" />
-      </Link>
+      <section className="min-w-0 h-full flex-1 flex items-center">
+        <button
+          title="Afficher le menu"
+          onClick={() => {
+            setIsMenuVisible((isMenuVisible) => !isMenuVisible);
+            buttonElement.current.focus();
+          }}
+          onKeyDown={onKeyDown}
+          onBlur={onBlur}
+          ref={buttonElement}
+          className="w-10 h-10 flex items-center justify-center flex-none text-xl font-semibold uppercase opacity-75 a11y-focus md:hover:opacity-100 lg:hidden"
+        >
+          <FaBars />
+        </button>
 
-      <nav className="ml-auto text-sm">
-        <ul className="list-none flex items-center space-x-2">
-          <NavItemMenu label="Animaux">
-            <NavItemMenuItem href="/search?animalStatus=open_to_adoption">
-              À l'adoption
-            </NavItemMenuItem>
+        {/* Menu overlay */}
+        <div
+          aria-hidden
+          onClick={() => setIsMenuVisible(false)}
+          className={cn(
+            "lg:hidden fixed top-0 left-0 w-full h-screen bg-black bg-opacity-25",
+            { hidden: !isMenuVisible }
+          )}
+        />
 
-            <NavItemMenuItem href="/search?animalStatus=adopted">
-              Adoptés
-            </NavItemMenuItem>
+        <nav
+          ref={navElement}
+          onKeyDown={onKeyDown}
+          onBlur={onBlur}
+          className={cn(
+            "fixed top-0 left-0 w-10/12 h-screen max-w-sm overflow-auto text-sm bg-white text-gray-900 lg:block lg:static lg:w-auto lg:h-auto lg:max-w-none lg:bg-transparent lg:text-white",
+            { hidden: !isMenuVisible }
+          )}
+        >
+          <div className="lg:hidden h-16 flex items-center justify-center">
+            <Logo className="text-4xl" />
+          </div>
 
-            <NavItemMenuItem href="/search">Recherche avancée</NavItemMenuItem>
-          </NavItemMenu>
+          <ul className="mt-4 px-8 list-none flex flex-col items-start space-y-4 lg:mt-0 lg:px-0 lg:flex-row lg:items-center lg:space-y-0 lg:space-x-4">
+            <NavItemMenu label="Animaux">
+              <NavItemMenuItem href="/search?animalStatus=open_to_adoption">
+                À l'adoption
+              </NavItemMenuItem>
 
-          <NavItemMenu label="Agir">
-            <NavItemMenuItem href="/host-family">
-              Devenir famille d'accueil
-            </NavItemMenuItem>
+              <NavItemMenuItem href="/search?animalStatus=adopted">
+                Adoptés
+              </NavItemMenuItem>
 
-            <NavItemMenuItem href="/volunteer">
-              Devenir bénévole
-            </NavItemMenuItem>
+              <NavItemMenuItem href="/search">
+                Recherche avancée
+              </NavItemMenuItem>
+            </NavItemMenu>
 
-            <NavItemMenuItem href="/donate">Faire un don</NavItemMenuItem>
-          </NavItemMenu>
+            <NavItemMenu label="Agir">
+              <NavItemMenuItem href="/host-family">
+                Devenir famille d'accueil
+              </NavItemMenuItem>
 
-          <li>
-            <Link href="/partners" className={NavItemClasses}>
-              Partenaires
-            </Link>
-          </li>
+              <NavItemMenuItem href="/volunteer">
+                Devenir bénévole
+              </NavItemMenuItem>
 
-          <li>
-            <Link href="/blog" className={NavItemClasses}>
-              Blog
-            </Link>
-          </li>
-        </ul>
-      </nav>
+              <NavItemMenuItem href="/donate">Faire un don</NavItemMenuItem>
+            </NavItemMenu>
+
+            <li className="w-full lg:w-auto">
+              <Link
+                href="/partners"
+                className="w-full h-10 flex items-center flex-none opacity-75 font-semibold uppercase a11y-focus md:hover:opacity-100 lg:w-auto"
+              >
+                Partenaires
+              </Link>
+            </li>
+
+            <li className="w-full lg:w-auto">
+              <Link
+                href="/blog"
+                className="w-full h-10 flex items-center flex-none opacity-75 font-semibold uppercase a11y-focus md:hover:opacity-100 lg:w-auto"
+              >
+                Blog
+              </Link>
+            </li>
+          </ul>
+        </nav>
+      </section>
+
+      <section className="h-full flex-none flex items-center">
+        <Link
+          title="Retour à la page d'accueil"
+          href="/"
+          className="h-10 flex items-center text-4xl"
+        >
+          <NameAndLogo role="img" className="hidden md:block" />
+          <Logo role="img" className="md:hidden" />
+        </Link>
+      </section>
+
+      <section className="min-w-0 h-full flex-1 flex items-center justify-end text-xl">
+        <a
+          title="Aller sur la page Facebook"
+          href="https://www.facebook.com/animeaux.protectionanimale"
+          className="w-10 h-10 flex items-center justify-center opacity-75 a11y-focus md:hover:opacity-100"
+        >
+          <FaFacebook role="img" />
+        </a>
+
+        <a
+          title="Aller sur la page Instagram"
+          href="https://www.instagram.com/associationanimeaux"
+          className="w-10 h-10 flex items-center justify-center opacity-75 a11y-focus md:hover:opacity-100"
+        >
+          <FaInstagram role="img" />
+        </a>
+      </section>
     </header>
   );
 }
@@ -250,31 +348,28 @@ export default function HomePage() {
       <Header />
 
       <main>
-        <section className="relative h-screen text-2xl">
-          <img
-            src="/landing-image.jpg"
-            alt="Adoptez"
-            className="h-full w-full object-cover"
-          />
+        <section className="relative md:h-screen text-lg md:text-2xl">
+          <picture>
+            <source srcSet="/landing-image.jpg" media="(min-width: 800px)" />
+            <img
+              src="/landing-image-small.jpg"
+              alt="Adoptez"
+              className="w-full h-screen-8/12 md:h-full object-cover"
+            />
+          </picture>
 
-          <div
-            className="absolute flex flex-col items-start text-left text-white"
-            style={{
-              top: "50%",
-              transform: "translateY(-50%)",
-              left: "55%",
-              width: "40%",
-            }}
-          >
-            <h1 className="mb-8 leading-none font-serif text-hero">
-              Adoptez-moi, bordel
-            </h1>
-            <p className="mb-8 w-full">
-              Trouvez le compagnon de vos rêves et donnez-lui une seconde
-              chance.
-            </p>
+          <div className="relative md:absolute mx-auto md:mx-0 w-10/12 md:w-auto md:hero-text flex flex-col items-start text-left md:text-white">
+            <div>
+              <h1 className="mt-10 md:mt-0 mb-4 md:mb-8 leading-none font-serif text-5xl md:text-hero">
+                Adoptez-moi, bordel
+              </h1>
+              <p className="mb-8 w-full">
+                Trouvez le compagnon de vos rêves et donnez-lui une seconde
+                chance.
+              </p>
+            </div>
 
-            <SearchForm className="w-full max-w-sm" />
+            <SearchForm className="absolute top-0 left-1/2 transform -translate-x-1/2 md:translate-x-0 -translate-y-1/2 md:translate-y-0 mb-6 md:mb-0 md:static w-full max-w-sm" />
           </div>
         </section>
       </main>
