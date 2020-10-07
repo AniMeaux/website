@@ -1,6 +1,6 @@
 "use strict";
 
-const { fontFamily } = require("tailwindcss/defaultTheme");
+const { colors, fontFamily } = require("tailwindcss/defaultTheme");
 const { variants } = require("tailwindcss/defaultConfig");
 
 module.exports = {
@@ -20,7 +20,10 @@ module.exports = {
         serif: ['"Playfair Display"'].concat(fontFamily.serif),
       },
       fontSize: {
-        hero: "5rem",
+        "7xl": "5rem",
+      },
+      textColor: {
+        default: colors.gray[900],
       },
       inset: {
         "1/2": "50%",
