@@ -22,3 +22,23 @@
     color: theme("colors.gray.900");
   }
 }
+
+@layer utilities {
+  @variants focus-visible {
+    .outline {
+      /* Default tailwind outline */
+      /* See https://github.com/tailwindlabs/tailwindcss/blob/2b0b306a77cc0f34cd25054a0d661a18278786bc/src/plugins/css/preflight.css#L37 */
+      outline: 1px dotted;
+      outline: 5px auto -webkit-focus-ring-color;
+    }
+  }
+}
+
+.a11y-focus:focus {
+  @apply outline-none;
+}
+
+.a11y-focus:focus-visible,
+.a11y-focus.focus-visible {
+  @apply outline;
+}

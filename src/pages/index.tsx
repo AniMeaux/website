@@ -37,7 +37,7 @@ function Select<ValueType = string>({
         onChange((e.target.value as any) as ValueType);
       }}
       className={classnames(
-        "min-w-0 appearance-none truncate px-6 cursor-pointer",
+        "min-w-0 appearance-none truncate px-6 cursor-pointer a11y-focus",
         {
           "text-gray-600": value == null,
           "text-gray-900": value != null,
@@ -122,7 +122,7 @@ function SearchForm({ className }: React.FormHTMLAttributes<HTMLFormElement>) {
 }
 
 const NavItemClasses =
-  "px-4 py-2 flex items-center flex-none font-semibold uppercase rounded hover:bg-white hover:bg-opacity-10";
+  "px-4 py-2 flex items-center flex-none font-semibold uppercase rounded hover:bg-white hover:bg-opacity-10 a11y-focus";
 
 type NavItemMenuProps = {
   label: string;
@@ -133,6 +133,7 @@ function NavItemMenu({ label, children }: NavItemMenuProps) {
   const [isMenuVisible, setIsMenuVisible] = React.useState(false);
 
   const rootElement = React.useRef<HTMLLIElement>(null!);
+  const buttonElement = React.useRef<HTMLButtonElement>(null!);
 
   function onBlur(event: React.FocusEvent<HTMLLIElement>) {
     if (
@@ -143,10 +144,25 @@ function NavItemMenu({ label, children }: NavItemMenuProps) {
     }
   }
 
+  function onKeyDown(event: React.KeyboardEvent<HTMLLIElement>) {
+    if (event.key === "Escape" && isMenuVisible) {
+      setIsMenuVisible(false);
+    }
+  }
+
   return (
-    <li className="relative" onBlur={onBlur} ref={rootElement}>
+    <li
+      className="relative"
+      onBlur={onBlur}
+      ref={rootElement}
+      onKeyDown={onKeyDown}
+    >
       <button
-        onClick={() => setIsMenuVisible((isMenuVisible) => !isMenuVisible)}
+        ref={buttonElement}
+        onClick={() => {
+          setIsMenuVisible((isMenuVisible) => !isMenuVisible);
+          buttonElement.current.focus();
+        }}
         className={classnames(NavItemClasses, {
           "bg-white": isMenuVisible,
           "bg-opacity-25": isMenuVisible,
@@ -160,9 +176,7 @@ function NavItemMenu({ label, children }: NavItemMenuProps) {
         children={children}
         className={classnames(
           "absolute top-1/1 left-0 mt-2 py-2 list-none w-max-content rounded bg-white text-gray-900 font-semibold",
-          {
-            hidden: !isMenuVisible,
-          }
+          { hidden: !isMenuVisible }
         )}
       />
     </li>
@@ -183,7 +197,7 @@ function NavItemMenuItem(props: LinkProps) {
 function Header() {
   return (
     <header className="absolute z-10 w-full h-16 px-4 flex items-center text-white">
-      <Link href="/" className="p-2 rounded hover:bg-white hover:bg-opacity-10">
+      <Link href="/" className={NavItemClasses}>
         <NameAndLogo className="text-4xl" />
       </Link>
 
