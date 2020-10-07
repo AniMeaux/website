@@ -45,11 +45,8 @@ function Select<ValueType = string>({
         onChange((e.target.value as any) as ValueType);
       }}
       className={cn(
-        "min-w-0 appearance-none truncate px-6 cursor-pointer a11y-focus",
-        {
-          "text-gray-600": value == null,
-          "text-gray-900": value != null,
-        },
+        "appearance-none min-w-0 truncate px-4 bg-transparent cursor-pointer a11y-focus",
+        { "text-opacity-50 md:hover:text-opacity-100": value == null },
         className
       )}
     >
@@ -84,10 +81,7 @@ function SearchForm({ className }: React.FormHTMLAttributes<HTMLFormElement>) {
 
   return (
     <div
-      className={cn(
-        "shadow h-12 rounded-full bg-white flex items-center text-xl",
-        className
-      )}
+      className={cn("shadow p-2 rounded bg-white flex items-center", className)}
     >
       <Select
         label="Espèce"
@@ -95,7 +89,7 @@ function SearchForm({ className }: React.FormHTMLAttributes<HTMLFormElement>) {
         name="species"
         value={animalSpecies}
         onChange={(value) => setAnimalSpecies(value)}
-        className="h-full flex-1 min-w-0 rounded-l-full border-r focus:z-10"
+        className="h-10 flex-1 min-w-0 focus:z-10"
       >
         {ANIMAL_SPECIES_ORDER_ALPHABETICAL.map((animalSpecies) => (
           <option key={animalSpecies} value={animalSpecies}>
@@ -104,13 +98,15 @@ function SearchForm({ className }: React.FormHTMLAttributes<HTMLFormElement>) {
         ))}
       </Select>
 
+      <hr className="h-10 flex-none border-l" />
+
       <Select
         label="Âge"
         id="age"
         name="age"
         value={animalAge}
         onChange={(value) => setAnimalAge(value)}
-        className="h-full flex-1 min-w-0 focus:z-10"
+        className="h-10 flex-1 min-w-0 focus:z-10"
       >
         {ANIMAL_AGES_ORDER.map((animalAge) => (
           <option key={animalAge} value={animalAge}>
@@ -121,9 +117,10 @@ function SearchForm({ className }: React.FormHTMLAttributes<HTMLFormElement>) {
 
       <Link
         href={link}
-        className="h-12 w-12 flex-none border-4 border-white rounded-full bg-blue-500 md:hover:bg-blue-400 flex items-center justify-center text-white"
+        className="ml-2 w-10 h-10 flex-none rounded lg:w-auto lg:px-4 bg-blue-500 flex items-center justify-center text-white font-semibold md:hover:bg-blue-400"
       >
         <FaSearch />
+        <span className="ml-2 hidden lg:inline">Chercher</span>
       </Link>
     </div>
   );
@@ -182,7 +179,7 @@ function NavItemMenu({ label, children }: NavItemMenuProps) {
       <ul
         children={children}
         className={cn(
-          "list-none text-gray-900 font-semibold lg:absolute lg:top-1/1 lg:left-0 lg:mt-2 lg:py-2 lg:w-max-content lg:rounded lg:bg-white",
+          "list-none text-default font-semibold lg:absolute lg:top-1/1 lg:left-0 lg:mt-2 lg:py-2 lg:w-max-content lg:rounded lg:bg-white",
           { hidden: !isMenuVisible }
         )}
       />
@@ -254,7 +251,7 @@ function Header() {
           onKeyDown={onKeyDown}
           onBlur={onBlur}
           className={cn(
-            "fixed top-0 left-0 w-10/12 h-screen max-w-sm overflow-auto text-sm bg-white text-gray-900 lg:block lg:static lg:w-auto lg:h-auto lg:max-w-none lg:overflow-visible lg:bg-transparent lg:text-white",
+            "fixed top-0 left-0 w-10/12 h-screen max-w-sm overflow-auto text-sm bg-white text-default lg:block lg:static lg:w-auto lg:h-auto lg:max-w-none lg:overflow-visible lg:bg-transparent lg:text-white",
             { hidden: !isMenuVisible }
           )}
         >
@@ -348,19 +345,19 @@ export default function HomePage() {
       <Header />
 
       <main>
-        <section className="relative md:h-screen text-lg md:text-2xl">
+        <section className="relative md:h-screen">
           <picture>
             <source srcSet="/landing-image.jpg" media="(min-width: 800px)" />
             <img
               src="/landing-image-small.jpg"
               alt="Adoptez"
-              className="w-full h-screen-8/12 md:h-full object-cover"
+              className="w-full h-screen-8/12 object-cover md:h-full"
             />
           </picture>
 
-          <div className="relative md:absolute mx-auto md:mx-0 w-10/12 md:w-auto md:hero-text flex flex-col items-start text-left md:text-white">
-            <div>
-              <h1 className="mt-10 md:mt-0 mb-4 md:mb-8 leading-none font-serif text-5xl md:text-hero">
+          <div className="relative mx-auto w-10/12 flex flex-col items-start text-left md:absolute md:hero-text-position md:mx-0 md:w-auto">
+            <div className="text-lg md:text-2xl md:text-white">
+              <h1 className="mt-10 mb-4 leading-none font-serif text-5xl md:mt-0 md:mb-8 md:text-7xl">
                 Adoptez-moi, bordel
               </h1>
               <p className="mb-8 w-full">
@@ -369,7 +366,7 @@ export default function HomePage() {
               </p>
             </div>
 
-            <SearchForm className="absolute top-0 left-1/2 transform -translate-x-1/2 md:translate-x-0 -translate-y-1/2 md:translate-y-0 mb-6 md:mb-0 md:static w-full max-w-sm" />
+            <SearchForm className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 mb-6 w-full max-w-lg text-xl md:static md:translate-x-0 md:translate-y-0 md:mb-0" />
           </div>
         </section>
       </main>
