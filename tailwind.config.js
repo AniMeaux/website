@@ -1,6 +1,7 @@
 "use strict";
 
 const { fontFamily } = require("tailwindcss/defaultTheme");
+const { variants } = require("tailwindcss/defaultConfig");
 
 module.exports = {
   future: {
@@ -34,7 +35,7 @@ module.exports = {
   variants: {
     // Allow to move up elements when focused to make sure the focus ring is
     // entirely visible.
-    zIndex: ["responsive", "focus"],
+    zIndex: variants.zIndex.concat(["focus"]),
   },
   plugins: [],
 };
