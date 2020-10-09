@@ -117,7 +117,7 @@ function SearchForm({ className }: React.FormHTMLAttributes<HTMLFormElement>) {
 
       <Link
         href={link}
-        className="ml-2 w-10 h-10 flex-none rounded lg:w-auto lg:px-4 bg-primary flex items-center justify-center font-semibold text-default-color md:hover:bg-primary-lighter"
+        className="ml-2 w-10 h-10 flex-none rounded lg:w-auto lg:px-4 bg-primary flex items-center justify-center font-semibold text-white md:hover:bg-primary-lighter"
       >
         <FaSearch />
         <span className="ml-2 hidden lg:inline">Chercher</span>
@@ -179,7 +179,7 @@ function NavItemMenu({ label, children }: NavItemMenuProps) {
       <ul
         children={children}
         className={cn(
-          "list-none text-default-color font-semibold lg:absolute lg:top-1/1 lg:left-0 lg:mt-2 lg:py-2 lg:w-max-content lg:rounded lg:bg-white",
+          "text-default-color font-semibold lg:absolute lg:top-1/1 lg:left-0 lg:mt-2 lg:py-2 lg:w-max-content lg:rounded lg:bg-white",
           { hidden: !isMenuVisible }
         )}
       />
@@ -192,9 +192,33 @@ function NavItemMenuItem(props: LinkProps) {
     <li>
       <Link
         {...props}
-        className="h-10 flex items-center flex-none lg:px-4 md:hover:bg-primary md:hover:bg-opacity-50"
+        className="h-10 flex items-center flex-none lg:px-4 md:hover:bg-primary md:hover:bg-opacity-10"
       />
     </li>
+  );
+}
+
+function NavItemLink(props: LinkProps) {
+  return (
+    <li className="w-full lg:w-auto">
+      <Link
+        {...props}
+        className="w-full h-10 flex items-center flex-none opacity-75 font-semibold uppercase a11y-focus md:hover:opacity-100 lg:w-auto"
+      />
+    </li>
+  );
+}
+
+function NavItemSocialLink(
+  props: React.AnchorHTMLAttributes<HTMLAnchorElement>
+) {
+  return (
+    // The content is passed as children.
+    // eslint-disable-next-line jsx-a11y/anchor-has-content
+    <a
+      {...props}
+      className="w-10 h-10 flex items-center justify-center opacity-75 a11y-focus md:hover:opacity-100"
+    />
   );
 }
 
@@ -259,7 +283,7 @@ function Header() {
             <Logo className="text-4xl" />
           </div>
 
-          <ul className="mt-4 px-8 list-none flex flex-col items-start space-y-4 lg:mt-0 lg:px-0 lg:flex-row lg:items-center lg:space-y-0 lg:space-x-4">
+          <ul className="mt-4 px-8 flex flex-col items-start space-y-4 lg:mt-0 lg:px-0 lg:flex-row lg:items-center lg:space-y-0 lg:space-x-4">
             <NavItemMenu label="Animaux">
               <NavItemMenuItem href="/search?animalStatus=open_to_adoption">
                 À l'adoption
@@ -286,23 +310,8 @@ function Header() {
               <NavItemMenuItem href="/donate">Faire un don</NavItemMenuItem>
             </NavItemMenu>
 
-            <li className="w-full lg:w-auto">
-              <Link
-                href="/partners"
-                className="w-full h-10 flex items-center flex-none opacity-75 font-semibold uppercase a11y-focus md:hover:opacity-100 lg:w-auto"
-              >
-                Partenaires
-              </Link>
-            </li>
-
-            <li className="w-full lg:w-auto">
-              <Link
-                href="/blog"
-                className="w-full h-10 flex items-center flex-none opacity-75 font-semibold uppercase a11y-focus md:hover:opacity-100 lg:w-auto"
-              >
-                Blog
-              </Link>
-            </li>
+            <NavItemLink href="/partners">Partenaires</NavItemLink>
+            <NavItemLink href="/blog">Blog</NavItemLink>
           </ul>
         </nav>
       </section>
@@ -319,23 +328,75 @@ function Header() {
       </section>
 
       <section className="min-w-0 h-full flex-1 flex items-center justify-end text-xl">
-        <a
+        <NavItemSocialLink
           title="Aller sur la page Facebook"
           href="https://www.facebook.com/animeaux.protectionanimale"
-          className="w-10 h-10 flex items-center justify-center opacity-75 a11y-focus md:hover:opacity-100"
         >
           <FaFacebook role="img" />
-        </a>
+        </NavItemSocialLink>
 
-        <a
+        <NavItemSocialLink
           title="Aller sur la page Instagram"
           href="https://www.instagram.com/associationanimeaux"
-          className="w-10 h-10 flex items-center justify-center opacity-75 a11y-focus md:hover:opacity-100"
         >
           <FaInstagram role="img" />
-        </a>
+        </NavItemSocialLink>
       </section>
     </header>
+  );
+}
+
+function HeroSection() {
+  return (
+    <section className="relative md:h-screen">
+      <picture>
+        <source srcSet="/landing-image.jpg" media="(min-width: 800px)" />
+        <img
+          src="/landing-image-small.jpg"
+          alt="Adoptez"
+          className="w-full h-screen-8/12 object-cover md:h-full"
+        />
+      </picture>
+
+      <div className="relative mx-auto w-10/12 flex flex-col items-start text-left md:absolute md:hero-text-position md:mx-0 md:w-auto">
+        <div className="text-lg md:text-2xl md:text-white">
+          <h1 className="mt-12 mb-4 leading-none font-serif text-5xl md:mt-0 md:mb-8 md:text-7xl">
+            Adoptez-moi, bordel
+          </h1>
+          <p className="mb-8 w-full">
+            Trouvez le compagnon de vos rêves et donnez-lui une seconde chance.
+          </p>
+        </div>
+
+        <SearchForm className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 mb-6 w-full max-w-lg text-md md:static md:translate-x-0 md:translate-y-0 md:mb-0 md:text-xl" />
+      </div>
+    </section>
+  );
+}
+
+type StatisticItemProps = {
+  title: string;
+  value: string;
+};
+
+function StatisticItem({ title, value }: StatisticItemProps) {
+  return (
+    <section className="flex-1 py-4 md:py-0 md:px-6">
+      <div className="shadow-md h-full p-4 bg-white rounded-lg flex flex-col items-center justify-center text-center md:p-8">
+        <h3 className="text-3xl font-bold md:text-5xl">{value}</h3>
+        <p className="flex items-center text-sm md:text">{title}</p>
+      </div>
+    </section>
+  );
+}
+
+function StatisticsSection() {
+  return (
+    <section className="p-8 flex flex-col items-stretch md:p-20 md:flex-row bg-gray-200">
+      <StatisticItem value="2 ans" title="D'existences" />
+      <StatisticItem value="3 450" title="Prises en charge" />
+      <StatisticItem value="46" title="Bénévoles" />
+    </section>
   );
 }
 
@@ -343,32 +404,9 @@ export default function HomePage() {
   return (
     <>
       <Header />
-
       <main>
-        <section className="relative md:h-screen">
-          <picture>
-            <source srcSet="/landing-image.jpg" media="(min-width: 800px)" />
-            <img
-              src="/landing-image-small.jpg"
-              alt="Adoptez"
-              className="w-full h-screen-8/12 object-cover md:h-full"
-            />
-          </picture>
-
-          <div className="relative mx-auto w-10/12 flex flex-col items-start text-left md:absolute md:hero-text-position md:mx-0 md:w-auto">
-            <div className="text-lg md:text-2xl md:text-white">
-              <h1 className="mt-12 mb-4 leading-none font-serif text-5xl md:mt-0 md:mb-8 md:text-7xl">
-                Adoptez-moi, bordel
-              </h1>
-              <p className="mb-8 w-full">
-                Trouvez le compagnon de vos rêves et donnez-lui une seconde
-                chance.
-              </p>
-            </div>
-
-            <SearchForm className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 mb-6 w-full max-w-lg text-md md:static md:translate-x-0 md:translate-y-0 md:mb-0 md:text-xl" />
-          </div>
-        </section>
+        <HeroSection />
+        <StatisticsSection />
       </main>
     </>
   );
