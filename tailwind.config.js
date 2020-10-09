@@ -15,6 +15,12 @@ module.exports = {
       lg: "1024px",
     },
     extend: {
+      colors: {
+        primary: {
+          default: "#f6d2ca",
+          lighter: "#f9e1dc",
+        },
+      },
       fontFamily: {
         sans: ['"Open Sans"'].concat(fontFamily.sans),
         serif: ['"Playfair Display"'].concat(fontFamily.serif),
@@ -23,7 +29,7 @@ module.exports = {
         "7xl": "5rem",
       },
       textColor: {
-        default: colors.gray[900],
+        "default-color": colors.gray[900],
       },
       inset: {
         "1/2": "50%",
