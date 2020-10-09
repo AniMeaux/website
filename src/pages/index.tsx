@@ -45,7 +45,7 @@ function Select<ValueType = string>({
         onChange((e.target.value as any) as ValueType);
       }}
       className={cn(
-        "appearance-none min-w-0 truncate px-4 bg-transparent cursor-pointer a11y-focus",
+        "appearance-none min-w-0 truncate px-4 bg-transparent text-default-color cursor-pointer a11y-focus",
         { "text-opacity-50 md:hover:text-opacity-100": value == null },
         className
       )}
@@ -117,7 +117,7 @@ function SearchForm({ className }: React.FormHTMLAttributes<HTMLFormElement>) {
 
       <Link
         href={link}
-        className="ml-2 w-10 h-10 flex-none rounded lg:w-auto lg:px-4 bg-blue-500 flex items-center justify-center text-white font-semibold md:hover:bg-blue-400"
+        className="ml-2 w-10 h-10 flex-none rounded lg:w-auto lg:px-4 bg-primary flex items-center justify-center font-semibold text-default-color md:hover:bg-primary-lighter"
       >
         <FaSearch />
         <span className="ml-2 hidden lg:inline">Chercher</span>
@@ -179,7 +179,7 @@ function NavItemMenu({ label, children }: NavItemMenuProps) {
       <ul
         children={children}
         className={cn(
-          "list-none text-default font-semibold lg:absolute lg:top-1/1 lg:left-0 lg:mt-2 lg:py-2 lg:w-max-content lg:rounded lg:bg-white",
+          "list-none text-default-color font-semibold lg:absolute lg:top-1/1 lg:left-0 lg:mt-2 lg:py-2 lg:w-max-content lg:rounded lg:bg-white",
           { hidden: !isMenuVisible }
         )}
       />
@@ -192,7 +192,7 @@ function NavItemMenuItem(props: LinkProps) {
     <li>
       <Link
         {...props}
-        className="h-10 flex items-center flex-none lg:px-4 md:hover:bg-gray-200"
+        className="h-10 flex items-center flex-none lg:px-4 md:hover:bg-primary md:hover:bg-opacity-50"
       />
     </li>
   );
@@ -251,7 +251,7 @@ function Header() {
           onKeyDown={onKeyDown}
           onBlur={onBlur}
           className={cn(
-            "fixed top-0 left-0 w-10/12 h-screen max-w-sm overflow-auto text-sm bg-white text-default lg:block lg:static lg:w-auto lg:h-auto lg:max-w-none lg:overflow-visible lg:bg-transparent lg:text-white",
+            "fixed top-0 left-0 w-10/12 h-screen max-w-sm overflow-auto text-sm bg-white text-default-color lg:block lg:static lg:w-auto lg:h-auto lg:max-w-none lg:overflow-visible lg:bg-transparent lg:text-white",
             { hidden: !isMenuVisible }
           )}
         >
@@ -357,7 +357,7 @@ export default function HomePage() {
 
           <div className="relative mx-auto w-10/12 flex flex-col items-start text-left md:absolute md:hero-text-position md:mx-0 md:w-auto">
             <div className="text-lg md:text-2xl md:text-white">
-              <h1 className="mt-10 mb-4 leading-none font-serif text-5xl md:mt-0 md:mb-8 md:text-7xl">
+              <h1 className="mt-12 mb-4 leading-none font-serif text-5xl md:mt-0 md:mb-8 md:text-7xl">
                 Adoptez-moi, bordel
               </h1>
               <p className="mb-8 w-full">
@@ -366,7 +366,7 @@ export default function HomePage() {
               </p>
             </div>
 
-            <SearchForm className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 mb-6 w-full max-w-lg text-xl md:static md:translate-x-0 md:translate-y-0 md:mb-0" />
+            <SearchForm className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 mb-6 w-full max-w-lg text-md md:static md:translate-x-0 md:translate-y-0 md:mb-0 md:text-xl" />
           </div>
         </section>
       </main>
