@@ -254,7 +254,7 @@ function Header() {
           onKeyDown={onKeyDown}
           onBlur={onBlur}
           className={cn(
-            "fixed top-0 left-0 w-10/12 h-screen max-w-sm overflow-auto text-sm bg-white text-gray-900 lg:block lg:static lg:w-auto lg:h-auto lg:max-w-none lg:bg-transparent lg:text-white",
+            "fixed top-0 left-0 w-10/12 h-screen max-w-sm overflow-auto text-sm bg-white text-gray-900 lg:block lg:static lg:w-auto lg:h-auto lg:max-w-none lg:overflow-visible lg:bg-transparent lg:text-white",
             { hidden: !isMenuVisible }
           )}
         >
