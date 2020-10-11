@@ -117,7 +117,7 @@ function SearchForm({ className }: React.FormHTMLAttributes<HTMLFormElement>) {
 
       <Link
         href={link}
-        className="ml-2 w-10 h-10 flex-none rounded lg:w-auto lg:px-4 bg-primary flex items-center justify-center font-semibold text-white md:hover:bg-primary-lighter"
+        className="ml-2 w-10 h-10 flex-none rounded lg:w-auto lg:px-4 bg-blue-500 flex items-center justify-center font-semibold text-white md:hover:bg-blue-400"
       >
         <FaSearch />
         <span className="ml-2 hidden lg:inline">Chercher</span>
@@ -192,7 +192,7 @@ function NavItemMenuItem(props: LinkProps) {
     <li>
       <Link
         {...props}
-        className="h-10 flex items-center flex-none lg:px-4 md:hover:bg-primary md:hover:bg-opacity-10"
+        className="h-10 flex items-center flex-none lg:px-4 md:hover:bg-blue-100"
       />
     </li>
   );
@@ -346,31 +346,146 @@ function Header() {
   );
 }
 
-function HeroSection() {
+type HeroSectionProps = {
+  imageUrlLarge: string;
+  imageUrlSmall: string;
+  imageAlt: string;
+  title: string;
+  message: string;
+  action: React.ReactNode;
+};
+
+function HeroSection({
+  imageUrlLarge,
+  imageUrlSmall,
+  imageAlt,
+  action,
+  message,
+  title,
+}: HeroSectionProps) {
   return (
     <section className="relative md:h-screen">
       <picture>
-        <source srcSet="/landing-image.jpg" media="(min-width: 800px)" />
+        <source srcSet={imageUrlLarge} media="(min-width: 800px)" />
         <img
-          src="/landing-image-small.jpg"
-          alt="Adoptez"
+          src={imageUrlSmall}
+          alt={imageAlt}
           className="w-full h-screen-8/12 object-cover md:h-full"
         />
       </picture>
 
-      <div className="relative mx-auto w-10/12 flex flex-col items-start text-left md:absolute md:hero-text-position md:mx-0 md:w-auto">
+      <div
+        className={
+          "relative mx-auto w-10/12 flex flex-col items-start text-left md:absolute md:hero-text-position md:mx-0 md:w-auto"
+        }
+      >
         <div className="text-lg md:text-2xl md:text-white">
           <h1 className="mt-12 mb-4 leading-none font-serif text-5xl md:mt-0 md:mb-8 md:text-7xl">
-            Adoptez-moi, bordel
+            {title}
           </h1>
-          <p className="mb-8 w-full">
-            Trouvez le compagnon de vos rêves et donnez-lui une seconde chance.
-          </p>
+
+          <p className="mb-8 w-full">{message}</p>
         </div>
 
-        <SearchForm className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 mb-6 w-full max-w-lg text-md md:static md:translate-x-0 md:translate-y-0 md:mb-0 md:text-xl" />
+        {action}
       </div>
     </section>
+  );
+}
+
+type Color = "none" | "blue" | "green" | "yellow" | "red" | "cyan";
+
+const BackgroundColorClasses: { [key in Color]: string } = {
+  none: "",
+  blue: "bg-blue-100",
+  cyan: "bg-cyan-100",
+  green: "bg-green-100",
+  red: "bg-red-100",
+  yellow: "bg-yellow-100",
+};
+
+const CtaColorClasses: { [key in Color]: string } = {
+  none: "bg-blue-500 text-blueText-500 md:hover:bg-blue-400",
+  blue: "bg-blue-500 text-blueText-500 md:hover:bg-blue-400",
+  cyan: "bg-cyan-500 text-cyanText-500 md:hover:bg-cyan-400",
+  green: "bg-green-500 text-greenText-500 md:hover:bg-green-400",
+  red: "bg-red-500 text-redText-500 md:hover:bg-red-400",
+  yellow: "bg-yellow-500 text-yellowText-500 md:hover:bg-yellow-400",
+};
+
+type SectionProps = {
+  imageUrl: string;
+  imageAlt: string;
+  title: string;
+  message: string;
+  action: LinkProps;
+  isReversed?: boolean;
+  backgroundColor?: Color;
+};
+
+function Section({
+  action,
+  imageAlt,
+  imageUrl,
+  message,
+  title,
+  backgroundColor = "none",
+  isReversed = false,
+}: SectionProps) {
+  return (
+    <section className={BackgroundColorClasses[backgroundColor]}>
+      <div
+        className={cn(
+          "mx-auto w-10/12 py-16 flex flex-col items-center md:py-32 md:flex-row",
+          {
+            "md:flex-row-reverse": isReversed,
+            "md:flex-row": !isReversed,
+          }
+        )}
+      >
+        <img
+          src={imageUrl}
+          alt={imageAlt}
+          className="w-full h-56 flex-none rounded-lg object-cover md:w-1/3 md:h-80"
+        />
+
+        <div
+          className={cn("mt-4 flex-1 flex flex-col md:mt-0", {
+            "md:items-end md:text-right md:mr-16": isReversed,
+            "md:items-start md:ml-16": !isReversed,
+          })}
+        >
+          <h2 className="w-full leading-none font-serif text-4xl md:text-6xl">
+            {title}
+          </h2>
+
+          <p className="mt-4 w-full md:text-xl">{message}</p>
+
+          <Link
+            {...action}
+            className={cn(
+              "mt-8 shadow w-full h-10 rounded px-8 flex items-center justify-center font-semibold text-white md:w-auto",
+              CtaColorClasses[backgroundColor]
+            )}
+          />
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function AdoptSection() {
+  return (
+    <HeroSection
+      title="Adoptez-moi, bordel"
+      message="Trouvez le compagnon de vos rêves et donnez-lui une seconde chance."
+      imageAlt="Adoptez"
+      imageUrlLarge="/landing-image.jpg"
+      imageUrlSmall="/landing-image-small.jpg"
+      action={
+        <SearchForm className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 mb-6 w-full max-w-lg text-md md:static md:translate-x-0 md:translate-y-0 md:mb-0 md:text-xl" />
+      }
+    />
   );
 }
 
@@ -381,22 +496,92 @@ type StatisticItemProps = {
 
 function StatisticItem({ title, value }: StatisticItemProps) {
   return (
-    <section className="flex-1 py-4 md:py-0 md:px-6">
-      <div className="shadow-md h-full p-4 bg-white rounded-lg flex flex-col items-center justify-center text-center md:p-8">
-        <h3 className="text-3xl font-bold md:text-5xl">{value}</h3>
-        <p className="flex items-center text-sm md:text">{title}</p>
-      </div>
+    <section className="h-32 flex-none flex flex-col items-center justify-center text-center md:h-40 md:flex-1">
+      <h3 className="text-4xl font-semibold md:text-5xl">{value}</h3>
+      <p className="flex items-center text-base">{title}</p>
     </section>
+  );
+}
+
+function StatisticSeparator() {
+  return (
+    <hr className="w-2/3 flex-none self-center md:w-auto md:h-32 md:border-l" />
   );
 }
 
 function StatisticsSection() {
   return (
-    <section className="p-8 flex flex-col items-stretch md:p-20 md:flex-row bg-gray-200">
+    <section className="mx-auto w-10/12 py-8 flex flex-col items-stretch md:py-20 md:flex-row">
       <StatisticItem value="2 ans" title="D'existences" />
+      <StatisticSeparator />
       <StatisticItem value="3 450" title="Prises en charge" />
+      <StatisticSeparator />
       <StatisticItem value="46" title="Bénévoles" />
     </section>
+  );
+}
+
+function CatSterilization() {
+  return (
+    <Section
+      title="Stérilisation des chats errants"
+      message="Lorem ipsum dolor sit amet consectetur adipisicing elit."
+      imageAlt="Stérilisation des chats errants"
+      imageUrl="/stray-cat-small.jpg"
+      action={{
+        href: "/stray-cats",
+        children: "En savoir plus",
+      }}
+    />
+  );
+}
+
+function HostFamilly() {
+  return (
+    <Section
+      isReversed
+      backgroundColor="green"
+      title="Devenez famille d'accueil"
+      message="Lorem ipsum dolor sit amet consectetur adipisicing elit."
+      imageAlt="Famille d'accueil"
+      imageUrl="/host-familly-small.jpg"
+      action={{
+        href: "/host-familly",
+        children: "En savoir plus",
+      }}
+    />
+  );
+}
+
+function Volonteer() {
+  return (
+    <Section
+      title="Devenez bénévole"
+      message="Lorem ipsum dolor sit amet consectetur adipisicing elit."
+      imageAlt="Bénévoles"
+      imageUrl="/volonteer-small.jpg"
+      action={{
+        href: "/volonteer",
+        children: "En savoir plus",
+      }}
+    />
+  );
+}
+
+function Donation() {
+  return (
+    <Section
+      isReversed
+      backgroundColor="yellow"
+      title="Faîtes un don !"
+      message="Vous souhaitez nous aider mais vous ne pouvez accueillir ou adopter? Vous pouvez nous faire un don ! Ce don servira à financer les soins vétérinaires, effectuer plus de sauvetages et acheter du matériel pour les animaux."
+      imageAlt="Faire un don"
+      imageUrl="/donation-small.jpg"
+      action={{
+        href: "/donation",
+        children: "En savoir plus",
+      }}
+    />
   );
 }
 
@@ -405,8 +590,12 @@ export default function HomePage() {
     <>
       <Header />
       <main>
-        <HeroSection />
+        <AdoptSection />
         <StatisticsSection />
+        <CatSterilization />
+        <HostFamilly />
+        <Volonteer />
+        <Donation />
       </main>
     </>
   );
