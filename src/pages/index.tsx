@@ -6,6 +6,7 @@ import {
   FaBars,
   FaFacebook,
   FaInstagram,
+  FaPaperPlane,
   FaSearch,
 } from "react-icons/fa";
 import {
@@ -45,8 +46,11 @@ function Select<ValueType = string>({
         onChange((e.target.value as any) as ValueType);
       }}
       className={cn(
-        "appearance-none min-w-0 truncate px-4 bg-transparent text-default-color cursor-pointer a11y-focus",
-        { "text-opacity-50 md:hover:text-opacity-100": value == null },
+        "appearance-none min-w-0 truncate px-4 bg-transparent cursor-pointer a11y-focus",
+        {
+          "text-gray-600 md:hover:text-default-color": value == null,
+          "text-default-color": value != null,
+        },
         className
       )}
     >
@@ -117,7 +121,7 @@ function SearchForm({ className }: React.FormHTMLAttributes<HTMLFormElement>) {
 
       <Link
         href={link}
-        className="ml-2 w-10 h-10 flex-none rounded lg:w-auto lg:px-4 bg-blue-500 flex items-center justify-center font-semibold text-white md:hover:bg-blue-400"
+        className="ml-2 w-10 h-10 flex-none rounded bg-blue-500 flex items-center justify-center font-semibold text-white md:hover:bg-blue-400 lg:w-auto lg:px-4"
       >
         <FaSearch />
         <span className="ml-2 hidden lg:inline">Chercher</span>
@@ -346,6 +350,115 @@ function Header() {
   );
 }
 
+function NewletterForm() {
+  const [email, setEmail] = React.useState("");
+
+  function onSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+  }
+
+  return (
+    <form onSubmit={onSubmit} className="rounded bg-white p-2 flex">
+      <input
+        aria-label="Email"
+        name="email"
+        type="email"
+        value={email}
+        onChange={(event) => setEmail(event.target.value)}
+        placeholder="jean@mail.fr"
+        className="h-10 flex-1 bg-transparent px-4 placeholder-gray-600 a11y-focus"
+      />
+
+      <button
+        type="submit"
+        className="ml-2 w-10 h-10 flex-none rounded bg-blue-500 flex items-center justify-center font-semibold text-white a11y-focus md:hover:bg-blue-400"
+      >
+        <FaPaperPlane />
+      </button>
+    </form>
+  );
+}
+
+type FooterItemProps = {
+  title: string;
+  children: React.ReactNode;
+};
+
+function FooterItem({ title, children }: FooterItemProps) {
+  return (
+    <li className="flex-1">
+      <p className="mb-2 font-semibold">{title}</p>
+      {children}
+    </li>
+  );
+}
+
+function FooterItemSocialLink(
+  props: React.AnchorHTMLAttributes<HTMLAnchorElement>
+) {
+  return (
+    // The content is passed as children.
+    // eslint-disable-next-line jsx-a11y/anchor-has-content
+    <a
+      {...props}
+      className="w-10 h-10 flex items-center justify-center a11y-focus md:hover:text-blue-500"
+    />
+  );
+}
+
+function Footer() {
+  return (
+    <footer className="bg-gray-100">
+      <div className="mx-auto w-10/12 py-16 flex flex-col items-center">
+        <h2 className="font-serif text-4xl">Restez informés</h2>
+
+        <ul className="mt-8 w-full flex flex-col text-center space-y-12 md:flex-row md:space-y-0 md:space-x-6">
+          <FooterItem title="Abonnez-vous">
+            <NewletterForm />
+          </FooterItem>
+
+          <FooterItem title="Suivez-nous">
+            <ul className="flex items-center justify-center">
+              <li>
+                <FooterItemSocialLink
+                  title="Aller sur la page Facebook"
+                  href="https://www.facebook.com/animeaux.protectionanimale"
+                >
+                  <FaFacebook role="img" />
+                </FooterItemSocialLink>
+              </li>
+              <li>
+                <FooterItemSocialLink
+                  title="Aller sur la page Instagram"
+                  href="https://www.instagram.com/associationanimeaux"
+                >
+                  <FaInstagram role="img" />
+                </FooterItemSocialLink>
+              </li>
+            </ul>
+          </FooterItem>
+
+          <FooterItem title="Contactez-nous">
+            <address>
+              Association Ani'Meaux
+              <br />
+              SIRET: 839 627 171
+              <br />
+              6, Rue Notre Dame
+              <br />
+              77100, MEAUX
+            </address>
+          </FooterItem>
+        </ul>
+      </div>
+
+      <div className="mx-auto w-10/12 py-12 flex items-center justify-center text-sm text-gray-500">
+        Ani'Meaux © {new Date().getFullYear()}
+      </div>
+    </footer>
+  );
+}
+
 type HeroSectionProps = {
   imageUrlLarge: string;
   imageUrlSmall: string;
@@ -464,7 +577,7 @@ function Section({
           <Link
             {...action}
             className={cn(
-              "mt-8 shadow w-full h-10 rounded px-8 flex items-center justify-center font-semibold text-white md:w-auto",
+              "mt-8 shadow w-full h-10 rounded px-8 flex items-center justify-center font-semibold text-white a11y-focus md:w-auto",
               CtaColorClasses[backgroundColor]
             )}
           />
@@ -505,13 +618,13 @@ function StatisticItem({ title, value }: StatisticItemProps) {
 
 function StatisticSeparator() {
   return (
-    <hr className="w-2/3 flex-none self-center md:w-auto md:h-32 md:border-l" />
+    <hr className="w-full flex-none self-center border-white border-t-8 md:w-auto md:h-40 md:border-l-8 md:border-t-0" />
   );
 }
 
 function StatisticsSection() {
   return (
-    <section className="mx-auto w-10/12 py-8 flex flex-col items-stretch md:py-20 md:flex-row">
+    <section className="mx-auto my-8 w-10/12 bg-gray-100 rounded-lg flex flex-col items-stretch md:my-20 md:flex-row">
       <StatisticItem value="2 ans" title="D'existences" />
       <StatisticSeparator />
       <StatisticItem value="3 450" title="Prises en charge" />
@@ -589,6 +702,7 @@ export default function HomePage() {
   return (
     <>
       <Header />
+
       <main>
         <AdoptSection />
         <StatisticsSection />
@@ -597,6 +711,8 @@ export default function HomePage() {
         <Volonteer />
         <Donation />
       </main>
+
+      <Footer />
     </>
   );
 }

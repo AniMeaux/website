@@ -139,6 +139,18 @@ module.exports = {
           800: TEXT_COLOR_DARK,
           900: TEXT_COLOR_DARK,
         },
+        gray: {
+          50: "#F9F9F9",
+          100: "#F3F3F3",
+          200: "#E1E1E1",
+          300: "#CFCFCF",
+          400: "#ACACAC",
+          500: "#888888",
+          600: "#7A7A7A",
+          700: "#525252",
+          800: "#3D3D3D",
+          900: "#292929",
+        },
       },
       fontFamily: {
         sans: ['"Open Sans"'].concat(fontFamily.sans),
