@@ -1,0 +1,44 @@
+{
+  "name": "@animeaux/office",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev -p 3001",
+    "build": "next build",
+    "format": "prettier --write .",
+    "lint": "run-s lint:*",
+    "lint:format": "prettier --list-different .",
+    "lint:js": "eslint --ext .js,.ts,.tsx .",
+    "lint:ts": "tsc --noEmit",
+    "start:prod": "next start -p 3001"
+  },
+  "dependencies": {
+    "@animeaux/shared": "*",
+    "classnames": "^2.2.6",
+    "focus-visible": "^5.1.0",
+    "graphql.macro": "^1.4.2",
+    "invariant": "^2.2.4",
+    "next": "^9.3.6",
+    "react": "^16.13.1",
+    "react-app-polyfill": "^1.0.6",
+    "react-behave": "^1.1.1",
+    "react-dom": "^16.13.1",
+    "react-icons": "^3.10.0",
+    "react-markdown": "^4.3.1"
+  },
+  "devDependencies": {
+    "@svgr/webpack": "^5.4.0",
+    "@types/classnames": "^2.2.10",
+    "@types/invariant": "^2.2.33",
+    "@types/node": "^14.11.8",
+    "@types/react": "^16.9.34",
+    "@types/react-dom": "^16.9.7",
+    "babel-plugin-macros": "^2.8.0",
+    "npm-run-all": "^4.1.5",
+    "postcss-flexbugs-fixes": "^4.2.1",
+    "postcss-focus-visible": "^5.0.0",
+    "postcss-preset-env": "^6.7.0",
+    "tailwindcss": "^1.8.10",
+    "typescript": "^3.9.3"
+  }
+}
