@@ -13,6 +13,7 @@
     "start:prod": "next start"
   },
   "dependencies": {
+    "@animeaux/shared": "*",
     "classnames": "^2.2.6",
     "focus-visible": "^5.1.0",
     "graphql.macro": "^1.4.2",
@@ -29,6 +30,7 @@
     "@svgr/webpack": "^5.4.0",
     "@types/classnames": "^2.2.10",
     "@types/invariant": "^2.2.33",
+    "@types/node": "^14.11.8",
     "@types/react": "^16.9.34",
     "@types/react-dom": "^16.9.7",
     "babel-plugin-macros": "^2.8.0",

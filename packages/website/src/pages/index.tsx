@@ -1,3 +1,11 @@
+import {
+  AnimalAge,
+  AnimalAgesLabels,
+  AnimalSpecies,
+  AnimalSpeciesLabels,
+  ANIMAL_AGES_ORDER,
+  ANIMAL_SPECIES_ORDER_ALPHABETICAL,
+} from "@animeaux/shared";
 import cn from "classnames";
 import * as React from "react";
 import {
@@ -9,14 +17,6 @@ import {
   FaPaperPlane,
   FaSearch,
 } from "react-icons/fa";
-import {
-  AnimalAge,
-  AnimalAgesLabels,
-  AnimalSpecies,
-  AnimalSpeciesLabels,
-  ANIMAL_AGES_ORDER,
-  ANIMAL_SPECIES_ORDER_ALPHABETICAL,
-} from "../core/animal";
 import { Link, LinkProps } from "../core/link";
 import Logo from "../ui/logo.svg";
 import NameAndLogo from "../ui/nameAndLogo.svg";
