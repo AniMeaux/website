@@ -20,6 +20,12 @@ export function Link({
   // All HTML anchor attributes.
   ...rest
 }: LinkProps) {
+  if (/^http/.test(href)) {
+    // The content is passed as children.
+    // eslint-disable-next-line jsx-a11y/anchor-has-content
+    return <a {...rest} href={href} />;
+  }
+
   return (
     <NextLink
       href={href}

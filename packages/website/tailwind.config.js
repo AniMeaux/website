@@ -19,6 +19,10 @@ module.exports = {
     },
     extend: {
       colors: {
+        action: {
+          green: "#39C957",
+          greenLight: "#63d47b",
+        },
         blue: {
           50: "#F2F8FC",
           100: "#E6F2F9",
@@ -172,10 +176,17 @@ module.exports = {
       height: {
         "80": "20rem",
         "screen-1/2": "50vh",
+        "screen-4/12": "33.333334vh",
         "screen-8/12": "66.666667vh",
       },
       backgroundOpacity: {
         "10": "0.1",
+      },
+      borderColor: (theme) => ({
+        default: theme("colors.gray.100"),
+      }),
+      flex: {
+        "2": "2 2 0%",
       },
     },
   },
