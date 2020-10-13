@@ -15,6 +15,7 @@
   "dependencies": {
     "@animeaux/shared": "*",
     "classnames": "^2.2.6",
+    "firebase": "^7.23.0",
     "focus-visible": "^5.1.0",
     "graphql.macro": "^1.4.2",
     "invariant": "^2.2.4",

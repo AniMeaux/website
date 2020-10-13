@@ -1,5 +1,5 @@
-@import url("https://fonts.googleapis.com/css?family=Roboto:300,400,400i,600,700&display=swap");
-@import url("https://fonts.googleapis.com/css?family=Open+Sans:300,400,400i,600,700&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Roboto:300,400,400i,500,600,700&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:300,400,400i,500,600,700&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -8,6 +8,7 @@
 @layer base {
   html {
     font-size: 16px;
+    background-color: theme("colors.gray.50");
   }
 
   body {
@@ -31,6 +32,68 @@
   .a11y-focus:focus-visible,
   .a11y-focus.focus-visible {
     @apply outline;
+  }
+
+  .flat-shadow {
+    @apply border border-b-4;
+  }
+
+  @keyframes loader-spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  .animation-loader-spin {
+    animation: loader-spin 1.5s linear infinite;
+  }
+
+  @keyframes loader-stroke {
+    0% {
+      stroke-dasharray: 1, 300;
+      stroke-dashoffset: 0;
+    }
+
+    50% {
+      stroke-dasharray: 150, 300;
+      /* Yep, that's right! */
+      /* Computed by: `circle.getTotalLength()`. */
+      stroke-dashoffset: -175.6449737548828 / 4;
+    }
+
+    100% {
+      stroke-dasharray: 150, 300;
+      stroke-dashoffset: -175.6449737548828;
+    }
+  }
+
+  @keyframes loader-colors {
+    0% {
+      @apply text-blue-500;
+    }
+    20% {
+      @apply text-green-500;
+    }
+    40% {
+      @apply text-yellow-500;
+    }
+    60% {
+      @apply text-red-500;
+    }
+    80% {
+      @apply text-cyan-500;
+    }
+    100% {
+      @apply text-blue-500;
+    }
+  }
+
+  .animation-loader-svg {
+    animation: loader-stroke 2s ease-in-out infinite,
+      loader-colors 10s step-start infinite;
   }
 }
 

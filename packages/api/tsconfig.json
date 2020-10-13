@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": ["esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -12,8 +12,7 @@
     "moduleResolution": "Node",
     "isolatedModules": true,
     "module": "esnext",
-    "declaration": true,
-    "outDir": "build"
+    "noEmit": true
   },
   "include": ["src"]
 }
