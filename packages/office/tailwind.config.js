@@ -1,9 +1,7 @@
 "use strict";
 
-const { colors, fontFamily } = require("tailwindcss/defaultTheme");
+const { fontFamily } = require("tailwindcss/defaultTheme");
 const { variants } = require("tailwindcss/defaultConfig");
-
-const TEXT_COLOR_LIGHT = colors.gray[900];
 
 module.exports = {
   future: {
@@ -100,18 +98,27 @@ module.exports = {
         "8xl": "6rem",
         "9xl": "7rem",
       },
-      textColor: {
-        "default-color": TEXT_COLOR_LIGHT,
-      },
-      borderColor: (theme) => ({
-        default: "rgba(0, 0, 0, 0.07)",
+      textColor: (theme) => ({
+        "default-color": theme("colors.gray.800"),
       }),
+      inset: {
+        "4": "1rem",
+        "1/2": "50%",
+        "1/1": "100%",
+      },
+      height: {
+        "screen-5/12": "41.666667vh",
+      },
+      borderColor: {
+        default: "rgba(0, 0, 0, 0.07)",
+      },
     },
   },
   variants: {
     // Allow to move up elements when focused to make sure the focus ring is
     // entirely visible.
     zIndex: variants.zIndex.concat(["focus"]),
+    opacity: variants.opacity.concat(["disabled"]),
   },
   plugins: [],
 };

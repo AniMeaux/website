@@ -10,7 +10,7 @@ export function Field({ alignItems, className, ...rest }: FieldProps) {
     <div
       {...rest}
       className={cn(
-        "py-4 flex flex-col",
+        "pt-4 flex flex-col",
         { "items-end": alignItems === "end" },
         className
       )}

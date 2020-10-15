@@ -1,6 +1,5 @@
 import cn from "classnames";
 import * as React from "react";
-import { FormFog } from "./formFog";
 
 type FormProps = React.FormHTMLAttributes<HTMLFormElement> & {
   pending?: boolean;
@@ -8,19 +7,17 @@ type FormProps = React.FormHTMLAttributes<HTMLFormElement> & {
 
 export function Form({
   onSubmit,
-  pending,
-  children,
+  pending = false,
   className,
   ...rest
 }: FormProps) {
   const formElement = React.useRef<HTMLFormElement>(null!);
-  const disabled = pending;
 
   React.useLayoutEffect(() => {
-    if (disabled) {
+    if (pending) {
       formElement.current.focus();
     }
-  }, [disabled]);
+  }, [pending]);
 
   return (
     <form
@@ -34,13 +31,7 @@ export function Form({
           onSubmit(event);
         }
       }}
-      className={cn(
-        "relative py-8 px-4 flex flex-col focus:outline-none",
-        className
-      )}
-    >
-      {children}
-      {pending && <FormFog />}
-    </form>
+      className={cn("relative flex flex-col focus:outline-none", className)}
+    />
   );
 }

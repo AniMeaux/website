@@ -9,7 +9,7 @@ export function Button({
     <button
       {...rest}
       className={cn(
-        "h-10 bg-blue-500 rounded-md px-4 text-white font-medium a11y-focus",
+        "h-10 disabled:opacity-75 bg-blue-500 rounded-md px-4 text-sm text-white uppercase tracking-wide font-medium a11y-focus",
         className
       )}
     />

@@ -1,6 +1,7 @@
 import firebase from "firebase/app";
 import * as React from "react";
 import { useAsyncCallback } from "react-behave";
+import { FaEnvelope, FaLock } from "react-icons/fa";
 import Logo from "../ui/logo.svg";
 import { Button } from "./button";
 import { ErrorMessage } from "./errorMessage";
@@ -10,6 +11,7 @@ import { Input } from "./formElements/input";
 import { Label } from "./formElements/label";
 import { PageHead } from "./layouts/pageHead";
 import { PageTitle } from "./layouts/pageTitle";
+import { ProgressBar } from "./loaders/progressBar";
 
 export function SignInPage() {
   const [email, setEmail] = React.useState("simon@animeaux.org");
@@ -35,24 +37,27 @@ export function SignInPage() {
     }
   }, [email, password]);
 
+  // We also want to display the loader when the sign in succeed to wait until
+  // the page "redirect".
+  const pending = signInState.value || signInState.pending;
+
   return (
-    <main>
+    <main className="w-screen h-screen bg-white flex flex-col justify-center">
       <PageHead />
       <PageTitle />
 
-      <div className="mx-auto mt-8 w-10/12 max-w-sm bg-white rounded-lg flat-shadow">
-        <header className="text-8xl pt-16 pb-8 flex justify-center">
-          <Logo />
-        </header>
+      {pending && <ProgressBar />}
 
-        <Form
-          onSubmit={signIn}
-          // We also want to display the loader when the sign in succeed to
-          // wait until the page "redirect".
-          pending={signInState.value || signInState.pending}
-        >
+      <div className="relative px-4 flex flex-col">
+        <Logo className="absolute bottom-1/1 left-1/2 transform -translate-x-1/2 mb-8 text-7xl" />
+
+        <h1 className="text-3xl font-serif">Bienvenue</h1>
+
+        <Form onSubmit={signIn}>
           {signInState.error != null && (
-            <ErrorMessage>{signInState.error.message}</ErrorMessage>
+            <Field>
+              <ErrorMessage>{signInState.error.message}</ErrorMessage>
+            </Field>
           )}
 
           <Field>
@@ -63,8 +68,8 @@ export function SignInPage() {
               type="email"
               value={email}
               onChange={setEmail}
-              disabled={signInState.pending}
-              hasError={signInState.error != null}
+              placeholder="jean@mail.fr"
+              rightIcon={<FaEnvelope />}
             />
           </Field>
 
@@ -76,13 +81,12 @@ export function SignInPage() {
               type="password"
               value={password}
               onChange={setPassword}
-              disabled={signInState.pending}
-              hasError={signInState.error != null}
+              rightIcon={<FaLock />}
             />
           </Field>
 
           <Field>
-            <Button type="submit" disabled={signInState.pending}>
+            <Button type="submit" disabled={pending}>
               Se connecter
             </Button>
           </Field>

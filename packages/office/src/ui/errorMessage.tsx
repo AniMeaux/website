@@ -9,7 +9,7 @@ export function ErrorMessage({
     <p
       {...rest}
       className={cn(
-        "bg-red-50 px-4 py-2 rounded-lg text-red-500 font-medium",
+        "bg-red-50 px-4 py-2 rounded-lg text-sm text-red-500 font-medium",
         className
       )}
     />

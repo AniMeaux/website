@@ -20,7 +20,7 @@
     text-rendering: optimizeLegibility;
     font-size: inherit;
     line-height: 1.5;
-    color: theme("colors.gray.900");
+    color: theme("textColor.default-color");
   }
 }
 
@@ -94,6 +94,70 @@
   .animation-loader-svg {
     animation: loader-stroke 2s ease-in-out infinite,
       loader-colors 10s step-start infinite;
+  }
+
+  .animation-progress-bar {
+    @apply text-blue-500;
+    height: 2px;
+    display: block;
+    background-clip: padding-box;
+    overflow: hidden;
+  }
+
+  @keyframes progress-bar-long {
+    0% {
+      left: -35%;
+      right: 100%;
+    }
+
+    60% {
+      left: 100%;
+      right: -90%;
+    }
+
+    100% {
+      left: 100%;
+      right: -90%;
+    }
+  }
+
+  .animation-progress-bar::before {
+    content: "";
+    background-color: currentColor;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    animation: progress-bar-long 2s cubic-bezier(0.65, 0.815, 0.735, 0.395)
+      infinite;
+  }
+
+  @keyframes progress-bar-short {
+    0% {
+      left: -200%;
+      right: 100%;
+    }
+
+    60% {
+      left: 107%;
+      right: -8%;
+    }
+
+    100% {
+      left: 107%;
+      right: -8%;
+    }
+  }
+
+  .animation-progress-bar::after {
+    content: "";
+    background-color: currentColor;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    animation: progress-bar-short 2s cubic-bezier(0.165, 0.84, 0.44, 1) infinite;
+    animation-delay: 1.15s;
   }
 }
 

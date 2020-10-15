@@ -10,7 +10,7 @@ export function Label({ inline = false, className, ...rest }: LabelProps) {
     <label
       {...rest}
       className={cn(
-        { "pl-1": inline, "text-gray-600 pb-1": !inline },
+        { "pl-1": inline, "pb-1 text-sm text-gray-600": !inline },
         className
       )}
     />
