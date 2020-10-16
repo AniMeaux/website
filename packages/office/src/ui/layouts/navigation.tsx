@@ -2,11 +2,12 @@ import { Link, LinkProps } from "@animeaux/shared";
 import cn from "classnames";
 import { useRouter } from "next/router";
 import * as React from "react";
-import { FaBars, FaHandshake, FaParagraph, FaPaw } from "react-icons/fa";
+import { FaBars, FaHandshake, FaParagraph } from "react-icons/fa";
 import { UrlObject } from "url";
+import Logo from "../logo.svg";
 
 function NavItemIcon({ Icon }: { Icon: React.ElementType }) {
-  return <Icon className="text-2xl" />;
+  return <Icon className="text-xl" />;
 }
 
 function NavItemLabel({ children }: { children: string }) {
@@ -41,21 +42,24 @@ function NavLink({
   return (
     <Link
       {...props}
-      className={cn("opacity-50 flex flex-col items-center", {
-        "opacity-100 text-blue-500": active,
-      })}
+      className={cn(
+        "h-full opacity-50 flex flex-col items-center justify-center",
+        {
+          "opacity-100 text-blue-500": active,
+        }
+      )}
     />
   );
 }
 
 export function Navigation() {
   return (
-    <footer className="fixed bottom-0 left-0 right-0 border-t py-2">
-      <nav>
-        <ul className="flex items-center">
+    <footer className="fixed bottom-0 left-0 right-0 h-16 border-t bg-white">
+      <nav className="h-full">
+        <ul className="h-full flex">
           <li className="flex-1">
             <NavLink href="/" strict>
-              <NavItemIcon Icon={FaPaw} />
+              <NavItemIcon Icon={Logo} />
               <NavItemLabel>Animaux</NavItemLabel>
             </NavLink>
           </li>

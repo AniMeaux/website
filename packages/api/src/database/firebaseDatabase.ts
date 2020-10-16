@@ -4,6 +4,7 @@ import {
   DBUserFromStore,
   DBUserRole,
   DEFAULT_RESOURCE_PERMISSIONS,
+  hasErrorCode,
   User,
   UserRole,
 } from "@animeaux/shared";
@@ -16,12 +17,6 @@ function mapFirebaseUser(user: admin.auth.UserRecord): DBUserFromAuth {
     displayName: user.displayName ?? user.email!,
     email: user.email!,
   };
-}
-
-// Authentication errors have a `code` attribute.
-// See https://firebase.google.com/docs/reference/js/firebase.auth.Auth#error-codes_12
-function hasErrorCode(error: any, code: string): boolean {
-  return typeof error.code === "string" && (error.code as string) === code;
 }
 
 async function getUserRoleIdForUser(userId: string): Promise<string> {

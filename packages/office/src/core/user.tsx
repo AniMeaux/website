@@ -10,9 +10,35 @@ import { fetchGraphQL } from "./fetchGraphQL";
 type CurrentUserContextValue = {
   currentUser: User;
   signOut(): Promise<void>;
+  updateProfile(displayName: string): Promise<void>;
+  updatePassword(currentPassword: string, newPassword: string): Promise<void>;
 };
 
 const CurrentUserContext = React.createContext<CurrentUserContextValue>(null!);
+
+async function updateProfile(displayName: string) {
+  displayName = displayName.trim();
+
+  if (displayName === "") {
+    throw new Error("Un nom est obligatoire");
+  }
+
+  const currentUser = firebase.auth().currentUser;
+  await currentUser!.updateProfile({ displayName });
+  await currentUser!.reload();
+}
+
+async function updatePassword(currentPassword: string, newPassword: string) {
+  const currentUser = firebase.auth().currentUser;
+  const credential = firebase.auth.EmailAuthProvider.credential(
+    currentUser!.email!,
+    currentPassword
+  );
+
+  await currentUser!.reauthenticateWithCredential(credential);
+  await currentUser!.updatePassword(newPassword);
+  await currentUser!.reload();
+}
 
 async function signOut() {
   try {
@@ -101,9 +127,22 @@ export function CurrentUserContextProvider({
     });
   }, []);
 
+  const updateProfileCallback = React.useCallback<
+    CurrentUserContextValue["updateProfile"]
+  >(async (profile) => {
+    await updateProfile(profile);
+    const user = await getCurrentUser();
+    setState({ hasResult: true, currentUser: user });
+  }, []);
+
   const value = React.useMemo<CurrentUserContextValue>(
-    () => ({ currentUser: currentUser!, signOut }),
-    [currentUser]
+    () => ({
+      currentUser: currentUser!,
+      signOut,
+      updateProfile: updateProfileCallback,
+      updatePassword,
+    }),
+    [currentUser, updateProfileCallback]
   );
 
   if (!hasResult) {

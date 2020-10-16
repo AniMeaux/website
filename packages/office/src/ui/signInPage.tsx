@@ -2,16 +2,18 @@ import firebase from "firebase/app";
 import * as React from "react";
 import { useAsyncCallback } from "react-behave";
 import { FaEnvelope, FaLock } from "react-icons/fa";
-import Logo from "../ui/logo.svg";
+import Logo from "../ui/logoWithColors.svg";
 import { Button } from "./button";
-import { ErrorMessage } from "./errorMessage";
+import { Adornment } from "./formElements/adornment";
 import { Field } from "./formElements/field";
 import { Form } from "./formElements/form";
 import { Input } from "./formElements/input";
 import { Label } from "./formElements/label";
+import { PasswordInput } from "./formElements/passwordInput";
 import { PageHead } from "./layouts/pageHead";
 import { PageTitle } from "./layouts/pageTitle";
 import { ProgressBar } from "./loaders/progressBar";
+import { Message } from "./message";
 
 export function SignInPage() {
   const [email, setEmail] = React.useState("simon@animeaux.org");
@@ -42,21 +44,21 @@ export function SignInPage() {
   const pending = signInState.value || signInState.pending;
 
   return (
-    <main className="w-screen h-screen bg-white flex flex-col justify-center">
+    <main className="w-screen h-screen flex flex-col justify-center">
       <PageHead />
       <PageTitle />
 
       {pending && <ProgressBar />}
 
       <div className="relative px-4 flex flex-col">
-        <Logo className="absolute bottom-1/1 left-1/2 transform -translate-x-1/2 mb-8 text-7xl" />
+        <Logo className="absolute bottom-1/1 left-1/2 transform -translate-x-1/2 mb-8 text-8xl" />
 
         <h1 className="text-3xl font-serif">Bienvenue</h1>
 
         <Form onSubmit={signIn}>
           {signInState.error != null && (
             <Field>
-              <ErrorMessage>{signInState.error.message}</ErrorMessage>
+              <Message type="error">{signInState.error.message}</Message>
             </Field>
           )}
 
@@ -69,24 +71,36 @@ export function SignInPage() {
               value={email}
               onChange={setEmail}
               placeholder="jean@mail.fr"
-              rightIcon={<FaEnvelope />}
+              leftAdornment={
+                <Adornment>
+                  <FaEnvelope />
+                </Adornment>
+              }
             />
           </Field>
 
           <Field>
             <Label htmlFor="password">Mot de passe</Label>
-            <Input
+            <PasswordInput
               name="password"
               id="password"
-              type="password"
               value={password}
               onChange={setPassword}
-              rightIcon={<FaLock />}
+              leftAdornment={
+                <Adornment>
+                  <FaLock />
+                </Adornment>
+              }
             />
           </Field>
 
           <Field>
-            <Button type="submit" disabled={pending}>
+            <Button
+              type="submit"
+              variant="primary"
+              color="blue"
+              disabled={pending}
+            >
               Se connecter
             </Button>
           </Field>

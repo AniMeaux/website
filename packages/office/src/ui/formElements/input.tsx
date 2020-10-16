@@ -1,19 +1,21 @@
 import cn from "classnames";
 import * as React from "react";
 
-type InputProps = Omit<
+export type InputProps = Omit<
   React.InputHTMLAttributes<HTMLInputElement>,
   "onChange"
 > & {
-  errorMessage?: string;
+  errorMessage?: string | null;
   onChange?: React.Dispatch<React.SetStateAction<string>>;
-  rightIcon?: React.ReactNode;
+  leftAdornment?: React.ReactNode;
+  rightAdornment?: React.ReactNode;
 };
 
 export function Input({
   errorMessage,
   onChange,
-  rightIcon,
+  leftAdornment,
+  rightAdornment,
   className,
   ...rest
 }: InputProps) {
@@ -28,14 +30,24 @@ export function Input({
         }}
         className={cn(
           "a11y-focus h-10 w-full rounded-md px-4 placeholder-gray-500",
-          { "pl-12": rightIcon != null },
+          {
+            "pl-12": leftAdornment != null,
+            "pr-12": rightAdornment != null,
+            "border-2 border-red-500": errorMessage != null,
+          },
           "bg-gray-100 focus:bg-white"
         )}
       />
 
-      {rightIcon != null && (
-        <span className="absolute top-0 left-0 h-10 pl-4 text-gray-700 flex items-center">
-          {rightIcon}
+      {leftAdornment != null && (
+        <span className="absolute top-0 left-0 h-10 pl-2 text-gray-700 flex items-center">
+          {leftAdornment}
+        </span>
+      )}
+
+      {rightAdornment != null && (
+        <span className="absolute top-0 right-0 h-10 pr-2 text-gray-700 flex items-center">
+          {rightAdornment}
         </span>
       )}
 
