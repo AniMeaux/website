@@ -1,7 +1,7 @@
 import { Link } from "@animeaux/shared";
 import * as React from "react";
 import { useAsyncCallback } from "react-behave";
-import { FaAngleRight, FaArrowLeft, FaUser } from "react-icons/fa";
+import { FaAngleRight, FaLock, FaUser } from "react-icons/fa";
 import { useCurrentUser } from "../../core/user";
 import { Button } from "../../ui/button";
 import { Adornment } from "../../ui/formElements/adornment";
@@ -10,11 +10,12 @@ import { Form } from "../../ui/formElements/form";
 import { Input } from "../../ui/formElements/input";
 import { Label } from "../../ui/formElements/label";
 import {
-  HeaderBackLink,
   Header,
+  HeaderBackLink,
   HeaderPlaceholder,
   HeaderTitle,
 } from "../../ui/layouts/header";
+import { Main } from "../../ui/layouts/main";
 import { ProgressBar } from "../../ui/loaders/progressBar";
 import { Message } from "../../ui/message";
 import { Separator } from "../../ui/separator";
@@ -44,7 +45,7 @@ export default function ProfilePage() {
 
       {updateProfileCallbackState.pending && <ProgressBar />}
 
-      <main className="pt-16">
+      <Main>
         <Separator large className="mb-2" />
 
         <Form className="px-4" onSubmit={updateProfileCallback}>
@@ -91,8 +92,9 @@ export default function ProfilePage() {
         <div className="px-4 py-2">
           <Link
             href="/profile/password"
-            className="a11y-focus w-full h-10 flex items-center"
+            className="a11y-focus w-full h-12 flex items-center"
           >
+            <FaLock className="mr-4" />
             <span className="flex-1">Changer de mot de passe</span>
             <FaAngleRight />
           </Link>
@@ -105,7 +107,7 @@ export default function ProfilePage() {
             Se déconnecter
           </Button>
         </div>
-      </main>
+      </Main>
     </>
   );
 }

@@ -15,6 +15,7 @@ import {
   HeaderPlaceholder,
   HeaderTitle,
 } from "../../ui/layouts/header";
+import { Main } from "../../ui/layouts/main";
 import { ProgressBar } from "../../ui/loaders/progressBar";
 import { Message } from "../../ui/message";
 import { Separator } from "../../ui/separator";
@@ -58,7 +59,7 @@ export default function PasswordPage() {
 
       {pending && <ProgressBar />}
 
-      <main className="pt-16">
+      <Main>
         <Separator large className="mb-2" />
 
         <Form className="px-4" onSubmit={updatePasswordCallback}>
@@ -119,7 +120,7 @@ export default function PasswordPage() {
             </Button>
           </Field>
         </Form>
-      </main>
+      </Main>
     </>
   );
 }

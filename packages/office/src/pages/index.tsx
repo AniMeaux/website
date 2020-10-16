@@ -5,6 +5,7 @@ import { useCurrentUser } from "../core/user";
 import { Adornment } from "../ui/formElements/adornment";
 import { Input } from "../ui/formElements/input";
 import { Header, HeaderAction } from "../ui/layouts/header";
+import { Main } from "../ui/layouts/main";
 import { PrimaryAction } from "../ui/primaryAction";
 import { UserAvatar } from "../ui/userAvatar";
 
@@ -35,7 +36,7 @@ export default function AnimalListPage() {
         </Link>
       </Header>
 
-      <main className="pt-16"></main>
+      <Main></Main>
 
       <PrimaryAction>
         <FaPlus />
