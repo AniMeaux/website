@@ -13,7 +13,7 @@ const typeDefs = gql`
   type User {
     id: ID!
     email: String!
-    displayName: String
+    displayName: String!
     role: UserRole!
   }
 

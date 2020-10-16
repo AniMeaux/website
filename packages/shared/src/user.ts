@@ -3,7 +3,7 @@ import { UserRole } from "./userRole";
 export type User = {
   id: string;
   email: string;
-  displayName: string | null;
+  displayName: string;
   role: UserRole;
 };
 

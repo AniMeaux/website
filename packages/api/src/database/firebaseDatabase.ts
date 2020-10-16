@@ -13,7 +13,7 @@ import { Database } from "./databaseType";
 function mapFirebaseUser(user: admin.auth.UserRecord): DBUserFromAuth {
   return {
     id: user.uid,
-    displayName: user.displayName ?? null,
+    displayName: user.displayName ?? user.email!,
     email: user.email!,
   };
 }
