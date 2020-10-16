@@ -44,29 +44,7 @@ export const FirebaseDatabase: Database = {
     }
   },
 
-  async getUserRole(id: string): Promise<UserRole | null> {
-    const userRoleSnapshot = await admin
-      .firestore()
-      .collection("userRoles")
-      .doc(id)
-      .get();
-
-    const dbUserRole = (userRoleSnapshot.data() as DBUserRole) ?? null;
-
-    if (dbUserRole != null) {
-      return {
-        ...dbUserRole,
-        resourcePermissions: {
-          // Some resource keys are allowed to be missing from the data in
-          // which case they have a default value.
-          ...DEFAULT_RESOURCE_PERMISSIONS,
-          ...dbUserRole.resourcePermissions,
-        },
-      };
-    }
-
-    return null;
-  },
+  //// User ////////////////////////////////////////////////////////////////////
 
   async getUserForQueryContext(token: string): Promise<User | null> {
     try {
@@ -102,5 +80,40 @@ export const FirebaseDatabase: Database = {
 
       throw error;
     }
+  },
+
+  //// User Role ///////////////////////////////////////////////////////////////
+
+  async getAllUserRoles(): Promise<DBUserRole[]> {
+    const userRolesSnapshot = await admin
+      .firestore()
+      .collection("userRoles")
+      .get();
+
+    return userRolesSnapshot.docs.map((doc) => doc.data() as DBUserRole);
+  },
+
+  async getUserRole(id: string): Promise<UserRole | null> {
+    const userRoleSnapshot = await admin
+      .firestore()
+      .collection("userRoles")
+      .doc(id)
+      .get();
+
+    const dbUserRole = (userRoleSnapshot.data() as DBUserRole) ?? null;
+
+    if (dbUserRole != null) {
+      return {
+        ...dbUserRole,
+        resourcePermissions: {
+          // Some resource keys are allowed to be missing from the data in
+          // which case they have a default value.
+          ...DEFAULT_RESOURCE_PERMISSIONS,
+          ...dbUserRole.resourcePermissions,
+        },
+      };
+    }
+
+    return null;
   },
 };

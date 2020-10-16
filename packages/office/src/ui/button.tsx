@@ -9,7 +9,7 @@ type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   color?: ButtonColor;
 };
 
-const ButtonStyles: {
+const ButtonClassName: {
   [key in ButtonVariant]: {
     [key in ButtonColor]: string;
   };
@@ -37,7 +37,7 @@ export function Button({
       {...rest}
       className={cn(
         "a11y-focus h-10 disabled:opacity-75 rounded-md px-4 text-sm uppercase tracking-wide font-medium",
-        ButtonStyles[variant][color],
+        ButtonClassName[variant][color],
         className
       )}
     />

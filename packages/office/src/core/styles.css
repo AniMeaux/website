@@ -159,6 +159,77 @@
     animation: progress-bar-short 2s cubic-bezier(0.165, 0.84, 0.44, 1) infinite;
     animation-delay: 1.15s;
   }
+
+  @keyframes placeholder-pulse {
+    0% {
+      background-position: -1000px 0;
+    }
+
+    100% {
+      background-position: 1000px 0;
+    }
+  }
+
+  .placeholder {
+    @apply relative inline-flex items-center;
+  }
+
+  .placeholder::before {
+    /* Display some text to make sure to have the correct height when it is
+     * set to "auto". */
+    content: ".";
+    opacity: 0;
+  }
+
+  .placeholder::after {
+    @apply absolute w-full inline-block rounded;
+    content: "";
+    height: 70%;
+    background: linear-gradient(
+      to right,
+      rgba(237, 237, 237, 0.2),
+      rgba(129, 129, 129, 0.2) 50%,
+      rgba(237, 237, 237, 0.2)
+    );
+    background-size: 1000px auto;
+    animation-duration: 3s;
+    animation-fill-mode: forwards;
+    animation-iteration-count: infinite;
+    animation-name: placeholder-pulse;
+    animation-timing-function: linear;
+  }
+
+  .placeholder-avatar {
+    @apply w-10 h-10;
+  }
+
+  .placeholder-avatar::after {
+    @apply h-full rounded-full;
+  }
+
+  .placeholder-checkbox {
+    @apply w-8 h-8;
+  }
+
+  .placeholder-checkbox::after {
+    @apply h-full;
+  }
+
+  .placeholder-checkbox-field {
+    @apply w-1/2 h-10;
+  }
+
+  .placeholder-input {
+    @apply w-full h-10;
+  }
+
+  .placeholder-label {
+    @apply w-3/12;
+  }
+
+  .placeholder-text {
+    @apply w-9/12;
+  }
 }
 
 @layer utilities {

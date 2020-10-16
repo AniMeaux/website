@@ -1,21 +1,15 @@
 import { User } from "@animeaux/shared";
-import cn from "classnames";
 import * as React from "react";
+import { Avatar, AvatarProps } from "./avatar";
 
-type UserAvatarProps = React.HTMLAttributes<HTMLSpanElement> & {
+type UserAvatarProps = AvatarProps & {
   user: User;
 };
 
-export function UserAvatar({ user, className, ...rest }: UserAvatarProps) {
+export function UserAvatar({ user, color = "blue", ...rest }: UserAvatarProps) {
   return (
-    <span
-      {...rest}
-      className={cn(
-        "w-10 h-10 bg-blue-100 rounded-full text-blue-500 text-xl font-medium flex items-center justify-center",
-        className
-      )}
-    >
+    <Avatar {...rest} color={color}>
       {user.displayName[0].toUpperCase()}
-    </span>
+    </Avatar>
   );
 }

@@ -4,12 +4,6 @@ import { database } from "../database";
 import { QueryContext } from "./shared";
 
 const typeDefs = gql`
-  type UserRole {
-    id: ID!
-    name: String!
-    resourcePermissions: JSONObject!
-  }
-
   type User {
     id: ID!
     email: String!
@@ -18,10 +12,6 @@ const typeDefs = gql`
   }
 
   extend type Query {
-    # User role
-    getUserRole(id: ID!): UserRole @auth
-
-    # User
     getCurrentUser: User
     getUser(id: ID!): User @auth
   }
@@ -47,10 +37,6 @@ const resolvers: IResolvers = {
 };
 
 const queries: IResolverObject = {
-  getUserRole: async (parent: any, { id }: { id: string }) => {
-    return await database.getUserRole(id);
-  },
-
   getCurrentUser: async (parent: any, args: any, context: QueryContext) => {
     return context.user;
   },

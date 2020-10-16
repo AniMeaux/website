@@ -1,8 +1,13 @@
-import { DBUser, User, UserRole } from "@animeaux/shared";
+import { DBUser, DBUserRole, User, UserRole } from "@animeaux/shared";
 
 export type Database = {
   initialize(): void;
-  getUserRole(id: string): Promise<UserRole | null>;
+
+  // User
   getUserForQueryContext(token: string): Promise<User | null>;
   getUser(id: string): Promise<DBUser | null>;
+
+  // User roles
+  getAllUserRoles(): Promise<DBUserRole[]>;
+  getUserRole(id: string): Promise<UserRole | null>;
 };
