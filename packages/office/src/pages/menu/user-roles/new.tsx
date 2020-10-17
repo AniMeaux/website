@@ -1,4 +1,4 @@
-import { ErrorCodeLabels } from "@animeaux/shared";
+import { getErrorMessage } from "@animeaux/shared";
 import * as React from "react";
 import { PageComponent } from "../../../core/pageComponent";
 import { useCreateUserRole } from "../../../core/userRole";
@@ -14,11 +14,6 @@ import { UserRoleForm } from "../../../ui/ressourcesForm/userRoleForm";
 const NewUserRolePage: PageComponent = () => {
   const [onSubmit, { pending, error }] = useCreateUserRole();
 
-  let errorMessage: string | null = null;
-  if (error != null) {
-    errorMessage = ErrorCodeLabels[error.message] ?? error.message;
-  }
-
   return (
     <>
       <Header>
@@ -31,7 +26,9 @@ const NewUserRolePage: PageComponent = () => {
         <UserRoleForm
           onSubmit={onSubmit}
           pending={pending}
-          errors={{ name: errorMessage }}
+          errors={{
+            name: error == null ? null : getErrorMessage(error),
+          }}
           className="px-4"
         />
       </Main>

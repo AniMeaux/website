@@ -14,9 +14,6 @@ const ErrorCodeLabels: { [key in ErrorCode]: string } = {
   [ErrorCode.USER_ROLE_NAME_ALREADY_USED]: "Le nom déjà utilisé",
 };
 
-// Loosely typed object to allow usages without casting:
-//   `ErrorCodeLabels[error.message]`
-// instead of:
-//   `ErrorCodeLabels[error.message as ErrorCode]`
-const ErrorCodeLabelsLooselyTyped: { [key: string]: string } = ErrorCodeLabels;
-export { ErrorCodeLabelsLooselyTyped as ErrorCodeLabels };
+export function getErrorMessage(error: Error): string {
+  return ErrorCodeLabels[error.message as ErrorCode] ?? error.message;
+}
