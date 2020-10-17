@@ -10,5 +10,7 @@ export function Separator({
   className,
   ...rest
 }: SeparatorProps) {
-  return <hr {...rest} className={cn({ "border-t-8": large }, className)} />;
+  return (
+    <hr {...rest} className={cn("my-2", { "border-t-8": large }, className)} />
+  );
 }

@@ -1,17 +1,16 @@
-import { Link } from "@animeaux/shared";
 import * as React from "react";
 import { FaFilter, FaPlus, FaSearch } from "react-icons/fa";
-import { useCurrentUser } from "../core/user";
 import { Adornment } from "../ui/formElements/adornment";
 import { Input } from "../ui/formElements/input";
-import { Header, HeaderAction } from "../ui/layouts/header";
+import {
+  Header,
+  HeaderAction,
+  HeaderCurrentUserAvatar,
+} from "../ui/layouts/header";
 import { Main } from "../ui/layouts/main";
 import { PrimaryAction } from "../ui/primaryAction";
-import { UserAvatar } from "../ui/userAvatar";
 
 export default function AnimalListPage() {
-  const { currentUser } = useCurrentUser();
-
   return (
     <>
       <Header className="border-b">
@@ -31,9 +30,7 @@ export default function AnimalListPage() {
           }
         />
 
-        <Link href="/profile" className="a11y-focus flex-none">
-          <UserAvatar user={currentUser} />
-        </Link>
+        <HeaderCurrentUserAvatar />
       </Header>
 
       <Main></Main>

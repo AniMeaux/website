@@ -10,6 +10,7 @@ import {
 } from "react-icons/fa";
 import {
   Header,
+  HeaderCurrentUserAvatar,
   HeaderPlaceholder,
   HeaderTitle,
 } from "../../ui/layouts/header";
@@ -38,7 +39,7 @@ export default function MenuPage() {
       <Header>
         <HeaderPlaceholder />
         <HeaderTitle>Menu</HeaderTitle>
-        <HeaderPlaceholder />
+        <HeaderCurrentUserAvatar />
       </Header>
 
       <Main>
@@ -48,7 +49,7 @@ export default function MenuPage() {
           </MenuLinkItem>
 
           <li>
-            <Separator className="my-2" />
+            <Separator />
           </li>
 
           <MenuLinkItem href="/menu/users" Icon={FaUser}>
@@ -60,7 +61,7 @@ export default function MenuPage() {
           </MenuLinkItem>
 
           <li>
-            <Separator className="my-2" />
+            <Separator />
           </li>
 
           <MenuLinkItem href="/menu/animal-species" Icon={FaDna}>

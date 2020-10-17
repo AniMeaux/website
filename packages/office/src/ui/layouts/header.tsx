@@ -2,8 +2,10 @@ import { Link, LinkProps } from "@animeaux/shared";
 import cn from "classnames";
 import * as React from "react";
 import { FaArrowLeft } from "react-icons/fa";
+import { useCurrentUser } from "../../core/user";
+import { UserAvatar } from "../userAvatar";
 
-export function HeaderBackLink({ className, ...rest }: LinkProps) {
+export function HeaderLink({ className, ...rest }: LinkProps) {
   return (
     <Link
       {...rest}
@@ -11,9 +13,15 @@ export function HeaderBackLink({ className, ...rest }: LinkProps) {
         "a11y-focus w-10 h-10 flex-none flex items-center justify-center",
         className
       )}
-    >
+    />
+  );
+}
+
+export function HeaderBackLink(props: LinkProps) {
+  return (
+    <HeaderLink {...props}>
       <FaArrowLeft />
-    </Link>
+    </HeaderLink>
   );
 }
 
@@ -65,5 +73,15 @@ export function Header({
         className
       )}
     />
+  );
+}
+
+export function HeaderCurrentUserAvatar() {
+  const { currentUser } = useCurrentUser();
+
+  return (
+    <HeaderLink href="/profile">
+      <UserAvatar user={currentUser} />
+    </HeaderLink>
   );
 }

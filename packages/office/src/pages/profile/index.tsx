@@ -89,7 +89,7 @@ export default function ProfilePage() {
           </Field>
         </Form>
 
-        <Separator large className="my-2" />
+        <Separator large />
 
         <div className="px-4 py-2">
           <Link
@@ -102,7 +102,7 @@ export default function ProfilePage() {
           </Link>
         </div>
 
-        <Separator large className="my-2" />
+        <Separator large />
 
         <div className="px-4 py-2">
           <Button onClick={signOut} color="red" className="w-full">
