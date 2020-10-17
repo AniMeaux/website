@@ -10,12 +10,11 @@ import {
 } from "react-icons/fa";
 import {
   Header,
-  HeaderBackLink,
   HeaderPlaceholder,
   HeaderTitle,
-} from "../ui/layouts/header";
-import { Main } from "../ui/layouts/main";
-import { Separator } from "../ui/separator";
+} from "../../ui/layouts/header";
+import { Main } from "../../ui/layouts/main";
+import { Separator } from "../../ui/separator";
 
 function MenuLinkItem({
   Icon,
@@ -37,16 +36,14 @@ export default function MenuPage() {
   return (
     <>
       <Header>
-        <HeaderBackLink href="/" />
+        <HeaderPlaceholder />
         <HeaderTitle>Menu</HeaderTitle>
         <HeaderPlaceholder />
       </Header>
 
       <Main>
-        <Separator large className="mb-2" />
-
         <ul className="px-2">
-          <MenuLinkItem href="/host-families" Icon={FaHome}>
+          <MenuLinkItem href="/menu/host-families" Icon={FaHome}>
             Familles d'accueil
           </MenuLinkItem>
 
@@ -54,11 +51,11 @@ export default function MenuPage() {
             <Separator className="my-2" />
           </li>
 
-          <MenuLinkItem href="/users" Icon={FaUser}>
+          <MenuLinkItem href="/menu/users" Icon={FaUser}>
             Utilisateurs
           </MenuLinkItem>
 
-          <MenuLinkItem href="/user-roles" Icon={FaShieldAlt}>
+          <MenuLinkItem href="/menu/user-roles" Icon={FaShieldAlt}>
             Rôles utilisateur
           </MenuLinkItem>
 
@@ -66,11 +63,11 @@ export default function MenuPage() {
             <Separator className="my-2" />
           </li>
 
-          <MenuLinkItem href="/animal-species" Icon={FaDna}>
+          <MenuLinkItem href="/menu/animal-species" Icon={FaDna}>
             Races animale
           </MenuLinkItem>
 
-          <MenuLinkItem href="/animal-characteristics" Icon={FaTag}>
+          <MenuLinkItem href="/menu/animal-characteristics" Icon={FaTag}>
             Caracteristiques animale
           </MenuLinkItem>
         </ul>

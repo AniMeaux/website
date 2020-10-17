@@ -1,16 +1,11 @@
 import cn from "classnames";
 import * as React from "react";
 
-type FormProps = React.FormHTMLAttributes<HTMLFormElement> & {
-  pending?: boolean;
+export type FormProps = React.FormHTMLAttributes<HTMLFormElement> & {
+  pending: boolean;
 };
 
-export function Form({
-  onSubmit,
-  pending = false,
-  className,
-  ...rest
-}: FormProps) {
+export function Form({ onSubmit, pending, className, ...rest }: FormProps) {
   const formElement = React.useRef<HTMLFormElement>(null!);
 
   React.useLayoutEffect(() => {

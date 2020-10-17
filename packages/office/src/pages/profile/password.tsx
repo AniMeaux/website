@@ -18,7 +18,6 @@ import {
 import { Main } from "../../ui/layouts/main";
 import { ProgressBar } from "../../ui/loaders/progressBar";
 import { Message } from "../../ui/message";
-import { Separator } from "../../ui/separator";
 
 export default function PasswordPage() {
   const { updatePassword } = useCurrentUser();
@@ -60,9 +59,11 @@ export default function PasswordPage() {
       {pending && <ProgressBar />}
 
       <Main>
-        <Separator large className="mb-2" />
-
-        <Form className="px-4" onSubmit={updatePasswordCallback}>
+        <Form
+          className="px-4"
+          onSubmit={updatePasswordCallback}
+          pending={pending}
+        >
           {globalError != null && (
             <Field>
               <Message type="error">{globalError}</Message>
@@ -82,6 +83,7 @@ export default function PasswordPage() {
             <PasswordInput
               name="password"
               id="password"
+              autoComplete="password"
               value={currentPassword}
               onChange={setCurrentPassword}
               errorMessage={currentPasswordError}
@@ -98,6 +100,7 @@ export default function PasswordPage() {
             <PasswordInput
               name="new-password"
               id="new-password"
+              autoComplete="new-password"
               value={newPassword}
               onChange={setNewPassword}
               errorMessage={newPasswordError}

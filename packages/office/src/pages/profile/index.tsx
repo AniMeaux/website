@@ -26,7 +26,7 @@ export default function ProfilePage() {
 
   const [
     updateProfileCallback,
-    updateProfileCallbackState,
+    { pending, value: hasSucceeded, error },
   ] = useAsyncCallback(async () => {
     if (currentUser.displayName !== displayName) {
       await updateProfile(displayName);
@@ -43,20 +43,21 @@ export default function ProfilePage() {
         <HeaderPlaceholder />
       </Header>
 
-      {updateProfileCallbackState.pending && <ProgressBar />}
+      {pending && <ProgressBar />}
 
       <Main>
-        <Separator large className="mb-2" />
-
-        <Form className="px-4" onSubmit={updateProfileCallback}>
-          {updateProfileCallbackState.error == null &&
-            updateProfileCallbackState.value && (
-              <Field>
-                <Message type="success">
-                  Votre profile à bien été mis à jour.
-                </Message>
-              </Field>
-            )}
+        <Form
+          className="px-4"
+          onSubmit={updateProfileCallback}
+          pending={pending}
+        >
+          {error == null && hasSucceeded && (
+            <Field>
+              <Message type="success">
+                Votre profile à bien été mis à jour.
+              </Message>
+            </Field>
+          )}
 
           <Field>
             <Label htmlFor="name">Nom</Label>
@@ -64,9 +65,10 @@ export default function ProfilePage() {
               name="name"
               id="name"
               type="text"
+              autoComplete="name"
               value={displayName}
               onChange={setDisplayName}
-              errorMessage={updateProfileCallbackState.error?.message}
+              errorMessage={error?.message}
               leftAdornment={
                 <Adornment>
                   <FaUser />
@@ -80,7 +82,7 @@ export default function ProfilePage() {
               type="submit"
               variant="primary"
               color="blue"
-              disabled={updateProfileCallbackState.pending}
+              disabled={pending}
             >
               Modifier
             </Button>

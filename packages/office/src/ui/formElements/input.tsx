@@ -29,13 +29,12 @@ export function Input({
           }
         }}
         className={cn(
-          "a11y-focus h-10 w-full rounded-md px-4 placeholder-gray-500",
+          "a11y-focus h-10 w-full rounded-md bg-gray-100 focus:bg-white px-4 placeholder-gray-500",
           {
             "pl-12": leftAdornment != null,
             "pr-12": rightAdornment != null,
             "border-2 border-red-500": errorMessage != null,
-          },
-          "bg-gray-100 focus:bg-white"
+          }
         )}
       />
 

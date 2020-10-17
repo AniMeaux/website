@@ -6,21 +6,20 @@ import {
 } from "@animeaux/shared";
 import * as React from "react";
 import { FaPlus, FaShieldAlt } from "react-icons/fa";
-import { useCurrentUser } from "../../core/user";
-import { useAllUserRoles } from "../../core/userRole";
-import { Avatar } from "../../ui/avatar";
+import { useCurrentUser } from "../../../core/user";
+import { useAllUserRoles } from "../../../core/userRole";
+import { Avatar } from "../../../ui/avatar";
 import {
   Header,
   HeaderBackLink,
   HeaderPlaceholder,
   HeaderTitle,
-} from "../../ui/layouts/header";
-import { Main } from "../../ui/layouts/main";
-import { Placeholder, Placeholders } from "../../ui/loaders/placeholder";
-import { ProgressBar } from "../../ui/loaders/progressBar";
-import { Message } from "../../ui/message";
-import { PrimaryActionLink } from "../../ui/primaryAction";
-import { Separator } from "../../ui/separator";
+} from "../../../ui/layouts/header";
+import { Main } from "../../../ui/layouts/main";
+import { Placeholder, Placeholders } from "../../../ui/loaders/placeholder";
+import { ProgressBar } from "../../../ui/loaders/progressBar";
+import { Message } from "../../../ui/message";
+import { PrimaryActionLink } from "../../../ui/primaryAction";
 
 type ItemProps = {
   avatar: React.ReactNode;
@@ -124,14 +123,12 @@ export default function UserRolesPage() {
       {pending && <ProgressBar />}
 
       <Main>
-        <Separator large className="mb-2" />
-
         {error != null && <Message type="error">{error.message}</Message>}
 
         <ul className="px-2">{body}</ul>
 
         {canEdit && (
-          <PrimaryActionLink href="/user-roles/new">
+          <PrimaryActionLink href="/menu/user-roles/new">
             <FaPlus />
           </PrimaryActionLink>
         )}

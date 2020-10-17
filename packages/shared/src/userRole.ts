@@ -54,3 +54,8 @@ export type DBUserRole = {
   name: string;
   resourcePermissions: DBResourcePermissions;
 };
+
+export type CreateUserRolePayload = {
+  name: string;
+  resourcePermissions: ResourcePermissions;
+};

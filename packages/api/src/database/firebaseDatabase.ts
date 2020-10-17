@@ -1,14 +1,18 @@
 import {
+  CreateUserRolePayload,
   DBUser,
   DBUserFromAuth,
   DBUserFromStore,
   DBUserRole,
   DEFAULT_RESOURCE_PERMISSIONS,
   hasErrorCode,
+  ErrorCode,
   User,
   UserRole,
 } from "@animeaux/shared";
+import { UserInputError } from "apollo-server";
 import * as admin from "firebase-admin";
+import { v4 as uuid } from "uuid";
 import { Database } from "./databaseType";
 
 function mapFirebaseUser(user: admin.auth.UserRecord): DBUserFromAuth {
@@ -115,5 +119,35 @@ export const FirebaseDatabase: Database = {
     }
 
     return null;
+  },
+
+  async createUserRole({
+    name,
+    resourcePermissions,
+  }: CreateUserRolePayload): Promise<DBUserRole> {
+    name = name.trim();
+
+    if (name === "") {
+      throw new UserInputError(ErrorCode.USER_ROLE_MISSING_NAME);
+    }
+
+    const userRolesCollection = admin.firestore().collection("userRoles");
+    const userRoleSnapshot = await userRolesCollection
+      .where("name", "==", name)
+      .get();
+
+    if (!userRoleSnapshot.empty) {
+      throw new UserInputError(ErrorCode.USER_ROLE_NAME_ALREADY_USED);
+    }
+
+    const userRole: DBUserRole = {
+      id: uuid(),
+      name,
+      resourcePermissions,
+    };
+
+    await userRolesCollection.doc(userRole.id).set(userRole);
+
+    return userRole;
   },
 };

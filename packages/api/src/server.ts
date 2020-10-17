@@ -16,6 +16,7 @@ const rootTypeDefs = gql`
   scalar JSONObject
 
   type Query
+  type Mutation
 `;
 
 const apolloServer = new ApolloServer({
@@ -39,6 +40,7 @@ const apolloServer = new ApolloServer({
   schemaDirectives: Object.assign({}, AuthDirective.schemaDirectives),
   resolvers: Object.assign(UserModel.resolvers, {
     Query: Object.assign({}, UserRoleModel.queries, UserModel.queries),
+    Mutation: Object.assign({}, UserRoleModel.mutations),
   }),
 });
 

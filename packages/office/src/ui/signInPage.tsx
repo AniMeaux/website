@@ -55,7 +55,7 @@ export function SignInPage() {
 
         <h1 className="text-3xl font-serif">Bienvenue</h1>
 
-        <Form onSubmit={signIn}>
+        <Form onSubmit={signIn} pending={pending}>
           {signInState.error != null && (
             <Field>
               <Message type="error">{signInState.error.message}</Message>
@@ -68,6 +68,7 @@ export function SignInPage() {
               name="email"
               id="email"
               type="email"
+              autoComplete="email"
               value={email}
               onChange={setEmail}
               placeholder="jean@mail.fr"

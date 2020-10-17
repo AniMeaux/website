@@ -54,7 +54,7 @@ function NavLink({
 
 export function Navigation() {
   return (
-    <footer className="fixed bottom-0 left-0 right-0 h-16 border-t bg-white">
+    <footer className="z-30 fixed bottom-0 left-0 right-0 h-16 border-t bg-white">
       <nav className="h-full">
         <ul className="h-full flex">
           <li className="flex-1">
@@ -81,7 +81,7 @@ export function Navigation() {
           <li className="flex-1">
             <NavLink href="/menu">
               <NavItemIcon Icon={FaBars} />
-              <NavItemLabel>Plus</NavItemLabel>
+              <NavItemLabel>Menu</NavItemLabel>
             </NavLink>
           </li>
         </ul>

@@ -61,7 +61,7 @@ export function Header({
     <header
       {...rest}
       className={cn(
-        "fixed top-0 left-0 right-0 h-16 bg-white px-2 flex items-center",
+        "z-30 fixed top-0 left-0 right-0 h-16 bg-white border-b px-2 flex items-center",
         className
       )}
     />
