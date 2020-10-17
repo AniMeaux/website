@@ -20,7 +20,7 @@ import Logo from "../ui/logo.svg";
 import { fetchGraphQL } from "./fetchGraphQL";
 import { RessourceCache } from "./ressourceCache";
 
-export const UserRoleIcon: { [key in ResourceKey]: React.ElementType } = {
+export const ResourceIcons: { [key in ResourceKey]: React.ElementType } = {
   animal: Logo,
   animal_breed: FaDna,
   animal_characteristic: FaTag,
