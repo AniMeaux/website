@@ -1,9 +1,35 @@
-import { CreateUserRolePayload, ErrorCode, UserRole } from "@animeaux/shared";
+import {
+  CreateUserRolePayload,
+  ErrorCode,
+  ResourceKey,
+  UserRole,
+} from "@animeaux/shared";
 import { gql } from "graphql.macro";
 import { useRouter } from "next/router";
 import { useAsyncCallback, useAsyncMemo } from "react-behave";
+import {
+  FaDna,
+  FaHandshake,
+  FaHome,
+  FaParagraph,
+  FaShieldAlt,
+  FaTag,
+  FaUser,
+} from "react-icons/fa";
+import Logo from "../ui/logo.svg";
 import { fetchGraphQL } from "./fetchGraphQL";
 import { RessourceCache } from "./ressourceCache";
+
+export const UserRoleIcon: { [key in ResourceKey]: React.ElementType } = {
+  animal: Logo,
+  animal_breed: FaDna,
+  animal_characteristic: FaTag,
+  blog: FaParagraph,
+  host_family: FaHome,
+  partner: FaHandshake,
+  user: FaUser,
+  user_role: FaShieldAlt,
+};
 
 const GetAllUserRolesQuery = gql`
   query GetAllUserRolesQuery {

@@ -1,10 +1,10 @@
-import { Link, LinkProps } from "@animeaux/shared";
+import { Link, LinkProps, ResourceLabels } from "@animeaux/shared";
 import cn from "classnames";
 import { useRouter } from "next/router";
 import * as React from "react";
-import { FaBars, FaHandshake, FaParagraph } from "react-icons/fa";
+import { FaBars } from "react-icons/fa";
 import { UrlObject } from "url";
-import Logo from "../logo.svg";
+import { UserRoleIcon } from "../../core/userRole";
 
 function NavItemIcon({ Icon }: { Icon: React.ElementType }) {
   return <Icon className="text-xl" />;
@@ -59,21 +59,21 @@ export function Navigation() {
         <ul className="h-full flex">
           <li className="flex-1">
             <NavLink href="/" strict>
-              <NavItemIcon Icon={Logo} />
+              <NavItemIcon Icon={UserRoleIcon.animal} />
               <NavItemLabel>Animaux</NavItemLabel>
             </NavLink>
           </li>
 
           <li className="flex-1">
             <NavLink href="/articles">
-              <NavItemIcon Icon={FaParagraph} />
-              <NavItemLabel>Articles</NavItemLabel>
+              <NavItemIcon Icon={UserRoleIcon.blog} />
+              <NavItemLabel>Blog</NavItemLabel>
             </NavLink>
           </li>
 
           <li className="flex-1">
             <NavLink href="/partners">
-              <NavItemIcon Icon={FaHandshake} />
+              <NavItemIcon Icon={UserRoleIcon.partner} />
               <NavItemLabel>Partenaires</NavItemLabel>
             </NavLink>
           </li>

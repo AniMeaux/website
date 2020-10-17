@@ -1,13 +1,7 @@
-import { Link, LinkProps } from "@animeaux/shared";
+import { Link, LinkProps, ResourceLabels } from "@animeaux/shared";
 import * as React from "react";
-import {
-  FaAngleRight,
-  FaDna,
-  FaHome,
-  FaShieldAlt,
-  FaTag,
-  FaUser,
-} from "react-icons/fa";
+import { FaAngleRight } from "react-icons/fa";
+import { UserRoleIcon } from "../../core/userRole";
 import {
   Header,
   HeaderCurrentUserAvatar,
@@ -44,32 +38,41 @@ export default function MenuPage() {
 
       <Main>
         <ul className="px-2">
-          <MenuLinkItem href="/menu/host-families" Icon={FaHome}>
-            Familles d'accueil
+          <MenuLinkItem
+            href="/menu/host-families"
+            Icon={UserRoleIcon.host_family}
+          >
+            Familles d'accueils
           </MenuLinkItem>
 
           <li>
             <Separator />
           </li>
 
-          <MenuLinkItem href="/menu/users" Icon={FaUser}>
+          <MenuLinkItem href="/menu/users" Icon={UserRoleIcon.user}>
             Utilisateurs
           </MenuLinkItem>
 
-          <MenuLinkItem href="/menu/user-roles" Icon={FaShieldAlt}>
-            Rôles utilisateur
+          <MenuLinkItem href="/menu/user-roles" Icon={UserRoleIcon.user_role}>
+            Rôles utilisateurs
           </MenuLinkItem>
 
           <li>
             <Separator />
           </li>
 
-          <MenuLinkItem href="/menu/animal-species" Icon={FaDna}>
-            Races animale
+          <MenuLinkItem
+            href="/menu/animal-species"
+            Icon={UserRoleIcon.animal_breed}
+          >
+            Races animales
           </MenuLinkItem>
 
-          <MenuLinkItem href="/menu/animal-characteristics" Icon={FaTag}>
-            Caracteristiques animale
+          <MenuLinkItem
+            href="/menu/animal-characteristics"
+            Icon={UserRoleIcon.animal_characteristic}
+          >
+            Caractéristiques animales
           </MenuLinkItem>
         </ul>
       </Main>

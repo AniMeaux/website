@@ -3,7 +3,7 @@ export const ResourceKeysOrder = [
   "animal_breed",
   "animal_characteristic",
   "blog",
-  "contact",
+  "host_family",
   "partner",
   "user",
   "user_role",
@@ -24,20 +24,20 @@ export const DEFAULT_RESOURCE_PERMISSIONS: ResourcePermissions = {
   animal_breed: false,
   animal_characteristic: false,
   blog: false,
-  contact: false,
+  host_family: false,
   partner: false,
   user: false,
   user_role: false,
 };
 
-export const ResourcePermissionsLabels: {
+export const ResourceLabels: {
   [key in ResourceKey]: string;
 } = {
   animal: "Animaux",
   animal_breed: "Races animales",
   animal_characteristic: "Charactéristiques animales",
   blog: "Blog",
-  contact: "Contact",
+  host_family: "Familles d'accueils",
   partner: "Partenaires",
   user: "Utilisateurs",
   user_role: "Rôles utilisateurs",

@@ -1,7 +1,7 @@
 import {
   Link,
   ResourceKeysOrder,
-  ResourcePermissionsLabels,
+  ResourceLabels,
   UserRole,
 } from "@animeaux/shared";
 import * as React from "react";
@@ -53,7 +53,7 @@ function UserRoleItem({ userRole }: { userRole: UserRole }) {
 
         <span className="truncate text-xs text-gray-600">
           {ResourceKeysOrder.filter((key) => userRole.resourcePermissions[key])
-            .map((key) => ResourcePermissionsLabels[key])
+            .map((key) => ResourceLabels[key])
             .join(", ")}
         </span>
       </Item>
@@ -116,7 +116,7 @@ export default function UserRolesPage() {
     <>
       <Header>
         <HeaderBackLink href="/menu" />
-        <HeaderTitle>Rôles utilisateur</HeaderTitle>
+        <HeaderTitle>Rôles utilisateurs</HeaderTitle>
         <HeaderPlaceholder />
       </Header>
 

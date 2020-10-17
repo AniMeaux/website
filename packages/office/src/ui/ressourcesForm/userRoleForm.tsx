@@ -3,7 +3,7 @@ import {
   DEFAULT_RESOURCE_PERMISSIONS,
   ResourceKeysOrder,
   ResourcePermissions,
-  ResourcePermissionsLabels,
+  ResourceLabels,
   UserRole,
 } from "@animeaux/shared";
 import * as React from "react";
@@ -82,7 +82,7 @@ export function UserRoleForm({
                   name="permission"
                 />
 
-                <span className="ml-2">{ResourcePermissionsLabels[key]}</span>
+                <span className="ml-2">{ResourceLabels[key]}</span>
               </CheckboxField>
             </li>
           ))}
