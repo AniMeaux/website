@@ -38,8 +38,8 @@ function Item({ avatar, children }: ItemProps) {
 function UserRoleItem({ userRole }: { userRole: UserRole }) {
   return (
     <Link
-      href="/user-roles/[userRoleId]"
-      as={`/user-roles/${userRole.id}`}
+      href="/menu/user-roles/[userRoleId]"
+      as={`/menu/user-roles/${userRole.id}`}
       className="flex flex-col"
     >
       <Item
@@ -74,17 +74,17 @@ function LoadingRows() {
   );
 }
 
-function NoRows() {
-  return (
-    <li>
-      <p className="px-2 py-4 text-sm text-gray-600 text-center">
-        Il n'y a pas encore de rôle utilisateur.
-      </p>
-    </li>
-  );
-}
-
 function UserRolesRows({ userRoles }: { userRoles: UserRole[] }) {
+  if (userRoles.length === 0) {
+    return (
+      <li>
+        <p className="px-2 py-4 text-sm text-gray-600 text-center">
+          Il n'y a pas encore de rôle utilisateur.
+        </p>
+      </li>
+    );
+  }
+
   return (
     <>
       {userRoles.map((userRole) => (
@@ -102,14 +102,11 @@ export default function UserRolesPage() {
 
   const [userRoles, { pending, error }] = useAllUserRoles();
 
-  let body = null;
-
-  if (userRoles == null) {
-    body = <LoadingRows />;
-  } else if (userRoles.length === 0) {
-    body = <NoRows />;
-  } else {
+  let body: React.ReactNode | null = null;
+  if (userRoles != null) {
     body = <UserRolesRows userRoles={userRoles} />;
+  } else if (pending) {
+    body = <LoadingRows />;
   }
 
   return (
@@ -122,10 +119,10 @@ export default function UserRolesPage() {
 
       {pending && <ProgressBar />}
 
-      <Main>
+      <Main className="px-2">
         {error != null && <Message type="error">{error.message}</Message>}
 
-        <ul className="px-2">{body}</ul>
+        <ul>{body}</ul>
 
         {canEdit && (
           <PrimaryActionLink href="/menu/user-roles/new">
