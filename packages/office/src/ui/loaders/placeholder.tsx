@@ -5,16 +5,20 @@ type PlaceholderPreset =
   | "avatar"
   | "checkbox"
   | "checkbox-field"
+  | "icon"
   | "input"
   | "label"
+  | "tag"
   | "text";
 
 const PresetClassName: { [key in PlaceholderPreset]: string } = {
   avatar: "placeholder-avatar",
   checkbox: "placeholder-checkbox",
   "checkbox-field": "placeholder-checkbox-field",
+  icon: "placeholder-icon",
   input: "placeholder-input",
   label: "placeholder-label",
+  tag: "placeholder-tag",
   text: "placeholder-text",
 };
 

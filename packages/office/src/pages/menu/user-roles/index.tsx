@@ -9,6 +9,15 @@ import { FaPlus, FaShieldAlt } from "react-icons/fa";
 import { useCurrentUser } from "../../../core/user";
 import { useAllUserRoles } from "../../../core/userRole";
 import { Avatar } from "../../../ui/avatar";
+import { EmptyMessage } from "../../../ui/emptyMessage";
+import {
+  Item,
+  ItemIcon,
+  ItemContent,
+  ItemMainText,
+  ItemSecondaryText,
+  LinkItem,
+} from "../../../ui/item";
 import {
   Header,
   HeaderBackLink,
@@ -21,43 +30,29 @@ import { ProgressBar } from "../../../ui/loaders/progressBar";
 import { Message } from "../../../ui/message";
 import { PrimaryActionLink } from "../../../ui/primaryAction";
 
-type ItemProps = {
-  avatar: React.ReactNode;
-  children: React.ReactNode;
-};
-
-function Item({ avatar, children }: ItemProps) {
-  return (
-    <span className="h-16 px-2 flex items-center">
-      <span className="mr-4 flex-none">{avatar}</span>
-      <span className="flex-1 min-w-0 flex flex-col">{children}</span>
-    </span>
-  );
-}
-
 function UserRoleItem({ userRole }: { userRole: UserRole }) {
   return (
-    <Link
+    <LinkItem
+      large
       href="/menu/user-roles/[userRoleId]"
       as={`/menu/user-roles/${userRole.id}`}
-      className="flex flex-col"
     >
-      <Item
-        avatar={
-          <Avatar>
-            <FaShieldAlt />
-          </Avatar>
-        }
-      >
-        <span className="truncate">{userRole.name}</span>
+      <ItemIcon>
+        <Avatar>
+          <FaShieldAlt />
+        </Avatar>
+      </ItemIcon>
 
-        <span className="truncate text-xs text-gray-600">
+      <ItemContent>
+        <ItemMainText>{userRole.name}</ItemMainText>
+
+        <ItemSecondaryText>
           {ResourceKeysOrder.filter((key) => userRole.resourcePermissions[key])
             .map((key) => ResourceLabels[key])
             .join(", ")}
-        </span>
-      </Item>
-    </Link>
+        </ItemSecondaryText>
+      </ItemContent>
+    </LinkItem>
   );
 }
 
@@ -65,9 +60,15 @@ function LoadingRows() {
   return (
     <Placeholders count={5}>
       <li>
-        <Item avatar={<Placeholder preset="avatar" />}>
-          <Placeholder preset="label" />
-          <Placeholder preset="text" className="text-xs" />
+        <Item large>
+          <ItemIcon>
+            <Placeholder preset="avatar" />
+          </ItemIcon>
+
+          <ItemContent>
+            <Placeholder preset="label" />
+            <Placeholder preset="text" className="text-xs" />
+          </ItemContent>
         </Item>
       </li>
     </Placeholders>
@@ -78,9 +79,7 @@ function UserRolesRows({ userRoles }: { userRoles: UserRole[] }) {
   if (userRoles.length === 0) {
     return (
       <li>
-        <p className="px-2 py-4 text-sm text-gray-600 text-center">
-          Il n'y a pas encore de rôle utilisateur.
-        </p>
+        <EmptyMessage>Il n'y a pas encore de rôle utilisateur.</EmptyMessage>
       </li>
     );
   }
@@ -119,7 +118,7 @@ export default function UserRolesPage() {
 
       {pending && <ProgressBar />}
 
-      <Main className="px-2">
+      <Main hasPrimaryAction={canEdit} className="px-2">
         {error != null && <Message type="error">{error.message}</Message>}
 
         <ul>{body}</ul>

@@ -1,4 +1,3 @@
-import { Link } from "@animeaux/shared";
 import * as React from "react";
 import { useAsyncCallback } from "react-behave";
 import { FaAngleRight, FaLock, FaUser } from "react-icons/fa";
@@ -9,13 +8,14 @@ import { Field } from "../../ui/formElements/field";
 import { Form } from "../../ui/formElements/form";
 import { Input } from "../../ui/formElements/input";
 import { Label } from "../../ui/formElements/label";
+import { ItemContent, ItemIcon, ItemMainText, LinkItem } from "../../ui/item";
 import {
   Header,
-  HeaderBackLink,
   HeaderPlaceholder,
   HeaderTitle,
 } from "../../ui/layouts/header";
 import { Main } from "../../ui/layouts/main";
+import { Section, SectionTitle } from "../../ui/layouts/section";
 import { ProgressBar } from "../../ui/loaders/progressBar";
 import { Message } from "../../ui/message";
 import { Separator } from "../../ui/separator";
@@ -38,7 +38,7 @@ export default function ProfilePage() {
   return (
     <>
       <Header>
-        <HeaderBackLink href="/" />
+        <HeaderPlaceholder />
         <HeaderTitle>Profile</HeaderTitle>
         <HeaderPlaceholder />
       </Header>
@@ -46,69 +46,82 @@ export default function ProfilePage() {
       {pending && <ProgressBar />}
 
       <Main>
-        <Form
-          className="px-4"
-          onSubmit={updateProfileCallback}
-          pending={pending}
-        >
-          {error == null && hasSucceeded && (
-            <Field>
-              <Message type="success">
-                Votre profile à bien été mis à jour.
-              </Message>
-            </Field>
-          )}
+        <Section>
+          <SectionTitle>Mettre à jour votre profile</SectionTitle>
 
-          <Field>
-            <Label htmlFor="name">Nom</Label>
-            <Input
-              name="name"
-              id="name"
-              type="text"
-              autoComplete="name"
-              value={displayName}
-              onChange={setDisplayName}
-              errorMessage={error?.message}
-              leftAdornment={
-                <Adornment>
-                  <FaUser />
-                </Adornment>
-              }
-            />
-          </Field>
-
-          <Field>
-            <Button
-              type="submit"
-              variant="primary"
-              color="blue"
-              disabled={pending}
-            >
-              Modifier
-            </Button>
-          </Field>
-        </Form>
-
-        <Separator large />
-
-        <div className="px-4 py-2">
-          <Link
-            href="/profile/password"
-            className="a11y-focus w-full h-12 flex items-center"
+          <Form
+            className="px-2"
+            onSubmit={updateProfileCallback}
+            pending={pending}
           >
-            <FaLock className="mr-4" />
-            <span className="flex-1">Changer de mot de passe</span>
-            <FaAngleRight />
-          </Link>
-        </div>
+            {error == null && hasSucceeded && (
+              <Field>
+                <Message type="success">
+                  Votre profile à bien été mis à jour.
+                </Message>
+              </Field>
+            )}
 
-        <Separator large />
+            <Field>
+              <Label htmlFor="name">Nom</Label>
+              <Input
+                name="name"
+                id="name"
+                type="text"
+                autoComplete="name"
+                value={displayName}
+                onChange={setDisplayName}
+                errorMessage={error?.message}
+                leftAdornment={
+                  <Adornment>
+                    <FaUser />
+                  </Adornment>
+                }
+              />
+            </Field>
 
-        <div className="px-4 py-2">
+            <Field>
+              <Button
+                type="submit"
+                variant="primary"
+                color="blue"
+                disabled={pending}
+              >
+                Modifier
+              </Button>
+            </Field>
+          </Form>
+        </Section>
+
+        <Separator />
+
+        <Section>
+          <SectionTitle>Mon compte</SectionTitle>
+
+          <LinkItem href="/profile/password">
+            <ItemIcon>
+              <FaLock />
+            </ItemIcon>
+
+            <ItemContent>
+              <ItemMainText>Changer de mot de passe</ItemMainText>
+            </ItemContent>
+
+            <ItemIcon>
+              <FaAngleRight />
+            </ItemIcon>
+          </LinkItem>
+        </Section>
+
+        <Separator />
+
+        <Section className="px-4">
+          <SectionTitle>Actions</SectionTitle>
+
           <Button onClick={signOut} color="red" className="w-full">
             Se déconnecter
           </Button>
-        </div>
+        </Section>
       </Main>
     </>
   );

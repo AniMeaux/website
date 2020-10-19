@@ -58,7 +58,7 @@ async function updateToken(firebaseUser: firebase.User | null) {
       const token = await firebaseUser.getIdToken();
       localStorage.setItem(TOKEN_KEY, token);
     } catch (error) {
-      console.error("Could not set token in cookie:", error);
+      console.error("Could not set token in storage:", error);
     }
   }
 }
@@ -95,10 +95,6 @@ type UserState = {
   hasResult: boolean;
   currentUser: User | null;
 };
-
-// Firebase id tokens expire in one hour.
-// Set cookie expiry to match.
-// const COOKIE_EXPIRES_IN = 1 / 24;
 
 export function CurrentUserContextProvider({
   resourcePermissionKey,

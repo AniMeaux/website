@@ -4,15 +4,7 @@ import { useRouter } from "next/router";
 import * as React from "react";
 import { FaBars } from "react-icons/fa";
 import { UrlObject } from "url";
-import { ResourceIcons } from "../../core/userRole";
-
-function NavItemIcon({ Icon }: { Icon: React.ElementType }) {
-  return <Icon className="text-xl" />;
-}
-
-function NavItemLabel({ children }: { children: string }) {
-  return <span className="text-xs">{children}</span>;
-}
+import { ResourceIcon } from "../../core/userRole";
 
 function getPathname(url: string | UrlObject): string {
   if (typeof url === "string") {
@@ -22,10 +14,13 @@ function getPathname(url: string | UrlObject): string {
   return url.pathname!;
 }
 
-function NavLink({
-  strict = false,
-  ...props
-}: LinkProps & { strict?: boolean }) {
+type NavLinkProps = LinkProps & {
+  label: string;
+  icon: React.ReactNode;
+  strict?: boolean;
+};
+
+function NavLink({ label, icon, strict = false, ...props }: NavLinkProps) {
   const router = useRouter();
   let pathname: string;
 
@@ -42,13 +37,17 @@ function NavLink({
   return (
     <Link
       {...props}
-      className={cn(
-        "h-full opacity-50 flex flex-col items-center justify-center",
-        {
-          "opacity-100 text-blue-500": active,
-        }
-      )}
-    />
+      className="h-full px-2 flex flex-col items-center justify-center"
+    >
+      <span
+        className={cn("opacity-50 h-10 px-4 rounded-full flex items-center", {
+          "opacity-100 bg-blue-100 text-blue-500": active,
+        })}
+      >
+        <span className="text-lg">{icon}</span>
+        {active && <span className="ml-2">{label}</span>}
+      </span>
+    </Link>
   );
 }
 
@@ -58,31 +57,32 @@ export function Navigation() {
       <nav className="h-full">
         <ul className="h-full flex">
           <li className="flex-1">
-            <NavLink href="/" strict>
-              <NavItemIcon Icon={ResourceIcons.animal} />
-              <NavItemLabel>Animaux</NavItemLabel>
-            </NavLink>
+            <NavLink
+              label="Animaux"
+              icon={<ResourceIcon resourceKey="animal" />}
+              href="/"
+              strict
+            />
           </li>
 
           <li className="flex-1">
-            <NavLink href="/articles">
-              <NavItemIcon Icon={ResourceIcons.blog} />
-              <NavItemLabel>Blog</NavItemLabel>
-            </NavLink>
+            <NavLink
+              label="FA"
+              icon={<ResourceIcon resourceKey="host_family" />}
+              href="/host-families"
+            />
           </li>
 
           <li className="flex-1">
-            <NavLink href="/partners">
-              <NavItemIcon Icon={ResourceIcons.partner} />
-              <NavItemLabel>Partenaires</NavItemLabel>
-            </NavLink>
+            <NavLink
+              label="Partenaires"
+              icon={<ResourceIcon resourceKey="partner" />}
+              href="/partners"
+            />
           </li>
 
           <li className="flex-1">
-            <NavLink href="/menu">
-              <NavItemIcon Icon={FaBars} />
-              <NavItemLabel>Menu</NavItemLabel>
-            </NavLink>
+            <NavLink label="Menu" icon={<FaBars />} href="/menu" />
           </li>
         </ul>
       </nav>

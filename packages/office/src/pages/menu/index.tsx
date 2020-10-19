@@ -1,7 +1,13 @@
-import { Link, LinkProps, ResourceLabels } from "@animeaux/shared";
 import * as React from "react";
 import { FaAngleRight } from "react-icons/fa";
-import { UserRoleIcon } from "../../core/userRole";
+import { ResourceIcon } from "../../core/userRole";
+import {
+  ItemContent,
+  ItemIcon,
+  ItemMainText,
+  LinkItem,
+  LinkItemProps,
+} from "../../ui/item";
 import {
   Header,
   HeaderCurrentUserAvatar,
@@ -9,20 +15,27 @@ import {
   HeaderTitle,
 } from "../../ui/layouts/header";
 import { Main } from "../../ui/layouts/main";
+import { Section } from "../../ui/layouts/section";
 import { Separator } from "../../ui/separator";
 
 function MenuLinkItem({
-  Icon,
+  icon,
   children,
   ...rest
-}: LinkProps & { Icon: React.ElementType }) {
+}: LinkItemProps & { icon: React.ReactNode }) {
   return (
     <li>
-      <Link {...rest} className="a11y-focus w-full h-12 px-2 flex items-center">
-        <Icon className="mr-4" />
-        <span className="flex-1">{children}</span>
-        <FaAngleRight />
-      </Link>
+      <LinkItem {...rest}>
+        <ItemIcon>{icon}</ItemIcon>
+
+        <ItemContent>
+          <ItemMainText>{children}</ItemMainText>
+        </ItemContent>
+
+        <ItemIcon>
+          <FaAngleRight />
+        </ItemIcon>
+      </LinkItem>
     </li>
   );
 }
@@ -37,44 +50,52 @@ export default function MenuPage() {
       </Header>
 
       <Main>
-        <ul className="px-2">
-          <MenuLinkItem
-            href="/menu/host-families"
-            Icon={UserRoleIcon.host_family}
-          >
-            Familles d'accueils
-          </MenuLinkItem>
+        <Section>
+          <ul>
+            <MenuLinkItem
+              href="/menu/articles"
+              icon={<ResourceIcon resourceKey="blog" />}
+            >
+              Articles
+            </MenuLinkItem>
 
-          <li>
-            <Separator />
-          </li>
+            <li>
+              <Separator />
+            </li>
 
-          <MenuLinkItem href="/menu/users" Icon={UserRoleIcon.user}>
-            Utilisateurs
-          </MenuLinkItem>
+            <MenuLinkItem
+              href="/menu/animal-species"
+              icon={<ResourceIcon resourceKey="animal_breed" />}
+            >
+              Races animales
+            </MenuLinkItem>
 
-          <MenuLinkItem href="/menu/user-roles" Icon={UserRoleIcon.user_role}>
-            Rôles utilisateurs
-          </MenuLinkItem>
+            <MenuLinkItem
+              href="/menu/animal-characteristics"
+              icon={<ResourceIcon resourceKey="animal_characteristic" />}
+            >
+              Caractéristiques animales
+            </MenuLinkItem>
 
-          <li>
-            <Separator />
-          </li>
+            <li>
+              <Separator />
+            </li>
 
-          <MenuLinkItem
-            href="/menu/animal-species"
-            Icon={UserRoleIcon.animal_breed}
-          >
-            Races animales
-          </MenuLinkItem>
+            <MenuLinkItem
+              href="/menu/users"
+              icon={<ResourceIcon resourceKey="user" />}
+            >
+              Utilisateurs
+            </MenuLinkItem>
 
-          <MenuLinkItem
-            href="/menu/animal-characteristics"
-            Icon={UserRoleIcon.animal_characteristic}
-          >
-            Caractéristiques animales
-          </MenuLinkItem>
-        </ul>
+            <MenuLinkItem
+              href="/menu/user-roles"
+              icon={<ResourceIcon resourceKey="user_role" />}
+            >
+              Rôles utilisateurs
+            </MenuLinkItem>
+          </ul>
+        </Section>
       </Main>
     </>
   );

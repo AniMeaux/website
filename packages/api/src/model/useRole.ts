@@ -1,5 +1,5 @@
-import { CreateUserRolePayload } from "@animeaux/shared";
-import { gql, IResolverObject } from "apollo-server";
+import { CreateUserRolePayload, DBUserRole } from "@animeaux/shared";
+import { gql, IResolverObject, IResolvers } from "apollo-server";
 import { database } from "../database";
 
 const typeDefs = gql`
@@ -7,6 +7,7 @@ const typeDefs = gql`
     id: ID!
     name: String!
     resourcePermissions: JSONObject!
+    users: [User!]!
   }
 
   extend type Query {
@@ -19,6 +20,14 @@ const typeDefs = gql`
       @auth(resourceKey: "user_role")
   }
 `;
+
+const resolvers: IResolvers = {
+  UserRole: {
+    users: async (userRole: DBUserRole) => {
+      return await database.getAllUsers({ roleId: userRole.id });
+    },
+  },
+};
 
 const queries: IResolverObject = {
   getAllUserRoles: async () => {
@@ -38,6 +47,7 @@ const mutations: IResolverObject = {
 
 export const UserRoleModel = {
   typeDefs,
+  resolvers,
   queries,
   mutations,
 };

@@ -1,4 +1,4 @@
-import { UserRole } from "./userRole";
+import { DBUserRole, UserRole } from "./userRole";
 
 export type User = {
   id: string;
@@ -7,12 +7,26 @@ export type User = {
   role: UserRole;
 };
 
-export type DBUserFromAuth = Omit<User, "role">;
+export type DBUserFromAuth = {
+  id: string;
+  email: string;
+  displayName: string;
+};
 
-export type DBUserFromStore = Pick<User, "id"> & {
+export type DBUserFromStore = {
+  id: string;
   roleId: string;
 };
 
-export type DBUser = Omit<User, "role"> & {
-  roleId: string;
+export type DBUser = DBUserFromAuth & DBUserFromStore;
+
+export type DBUserForQueryContext = {
+  id: string;
+  email: string;
+  displayName: string;
+  role: DBUserRole;
+};
+
+export type UserFilters = {
+  roleId?: string | null;
 };

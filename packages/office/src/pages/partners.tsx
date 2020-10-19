@@ -10,7 +10,7 @@ import {
 import { Main } from "../ui/layouts/main";
 import { PrimaryAction } from "../ui/primaryAction";
 
-export default function AnimalListPage() {
+export default function PartnerListPage() {
   return (
     <>
       <Header>

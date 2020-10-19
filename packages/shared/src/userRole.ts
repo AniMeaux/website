@@ -1,3 +1,5 @@
+import { User } from "./user";
+
 export const ResourceKeysOrder = [
   "animal",
   "animal_breed",
@@ -35,9 +37,9 @@ export const ResourceLabels: {
 } = {
   animal: "Animaux",
   animal_breed: "Races animales",
-  animal_characteristic: "Charactéristiques animales",
-  blog: "Blog",
-  host_family: "Familles d'accueils",
+  animal_characteristic: "Caractéristiques animales",
+  blog: "Articles",
+  host_family: "Familles d'accueil",
   partner: "Partenaires",
   user: "Utilisateurs",
   user_role: "Rôles utilisateurs",
@@ -47,6 +49,7 @@ export type UserRole = {
   id: string;
   name: string;
   resourcePermissions: ResourcePermissions;
+  users: User[];
 };
 
 export type DBUserRole = {

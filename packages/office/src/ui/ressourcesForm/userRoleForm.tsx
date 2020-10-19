@@ -2,8 +2,8 @@ import {
   CreateUserRolePayload,
   DEFAULT_RESOURCE_PERMISSIONS,
   ResourceKeysOrder,
-  ResourcePermissions,
   ResourceLabels,
+  ResourcePermissions,
   UserRole,
 } from "@animeaux/shared";
 import * as React from "react";
@@ -65,7 +65,7 @@ export function UserRoleForm({
       </Field>
 
       <Field>
-        <Label>Peut modifier</Label>
+        <Label>Ressources pouvant être modifiées</Label>
 
         <ul>
           {ResourceKeysOrder.map((key) => (

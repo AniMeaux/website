@@ -1,4 +1,4 @@
-import { User } from "@animeaux/shared";
+import { DBUserForQueryContext } from "@animeaux/shared";
 import { ApolloServer, gql } from "apollo-server";
 import { IncomingMessage } from "http";
 import { ListenOptions } from "net";
@@ -23,7 +23,7 @@ const apolloServer = new ApolloServer({
   context: async ({ req }: { req: IncomingMessage }): Promise<QueryContext> => {
     const token = (req.headers.authorisation as string)?.replace("Bearer ", "");
 
-    let user: User | null = null;
+    let user: DBUserForQueryContext | null = null;
 
     if (token != null) {
       user = await database.getUserForQueryContext(token);
@@ -38,7 +38,7 @@ const apolloServer = new ApolloServer({
     UserModel.typeDefs,
   ],
   schemaDirectives: Object.assign({}, AuthDirective.schemaDirectives),
-  resolvers: Object.assign(UserModel.resolvers, {
+  resolvers: Object.assign(UserModel.resolvers, UserRoleModel.resolvers, {
     Query: Object.assign({}, UserRoleModel.queries, UserModel.queries),
     Mutation: Object.assign({}, UserRoleModel.mutations),
   }),

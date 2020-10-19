@@ -30,10 +30,10 @@ export function SignInPage() {
         typeof error.code === "string" &&
         (error.code as string).startsWith("auth/")
       ) {
-        throw new Error("Identifiants invalides, veuillez réessayer.");
+        throw new Error("Identifiants invalides, veuillez réessayer");
       } else {
         throw new Error(
-          "un problème est survenu, veuillez réessayer ultérieurement."
+          "un problème est survenu, veuillez réessayer ultérieurement"
         );
       }
     }

@@ -8,7 +8,7 @@
 @layer base {
   html {
     font-size: 16px;
-    background-color: white;
+    background-color: theme("colors.white");
   }
 
   body {
@@ -208,7 +208,7 @@
   }
 
   .placeholder-checkbox {
-    @apply w-8 h-8;
+    @apply w-4 h-4;
   }
 
   .placeholder-checkbox::after {
@@ -217,6 +217,15 @@
 
   .placeholder-checkbox-field {
     @apply w-1/2 h-10;
+  }
+
+  .placeholder-icon {
+    width: 1em;
+    height: 1em;
+  }
+
+  .placeholder-icon::after {
+    @apply h-full rounded-full;
   }
 
   .placeholder-input {
@@ -229,6 +238,14 @@
 
   .placeholder-text {
     @apply w-9/12;
+  }
+
+  .placeholder-tag {
+    @apply w-20 h-8;
+  }
+
+  .placeholder-tag::after {
+    @apply rounded-full;
   }
 }
 

@@ -34,10 +34,7 @@ export function HeaderTitle({
     // eslint-disable-next-line jsx-a11y/heading-has-content
     <h1
       {...rest}
-      className={cn(
-        "mx-2 flex-1 text-center font-semibold font-serif",
-        className
-      )}
+      className={cn("mx-2 flex-1 text-center font-bold font-serif", className)}
     />
   );
 }
@@ -61,6 +58,16 @@ export function HeaderAction({
   );
 }
 
+export function HeaderCurrentUserAvatar() {
+  const { currentUser } = useCurrentUser();
+
+  return (
+    <HeaderLink href="/profile">
+      <UserAvatar user={currentUser} />
+    </HeaderLink>
+  );
+}
+
 export function Header({
   className,
   ...rest
@@ -69,19 +76,9 @@ export function Header({
     <header
       {...rest}
       className={cn(
-        "z-30 fixed top-0 left-0 right-0 h-16 bg-white border-b px-2 flex items-center",
+        "z-30 fixed top-0 left-0 right-0 h-16 border-b bg-white px-2 flex items-center",
         className
       )}
     />
-  );
-}
-
-export function HeaderCurrentUserAvatar() {
-  const { currentUser } = useCurrentUser();
-
-  return (
-    <HeaderLink href="/profile">
-      <UserAvatar user={currentUser} />
-    </HeaderLink>
   );
 }

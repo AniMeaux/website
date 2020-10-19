@@ -1,5 +1,5 @@
-import { User } from "@animeaux/shared";
+import { DBUserForQueryContext } from "@animeaux/shared";
 
 export type QueryContext = {
-  user: User | null;
+  user: DBUserForQueryContext | null;
 };

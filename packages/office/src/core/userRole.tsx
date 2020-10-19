@@ -6,12 +6,13 @@ import {
 } from "@animeaux/shared";
 import { gql } from "graphql.macro";
 import { useRouter } from "next/router";
+import * as React from "react";
 import { useAsyncCallback, useAsyncMemo } from "react-behave";
 import {
   FaDna,
+  FaFileAlt,
   FaHandshake,
   FaHome,
-  FaParagraph,
   FaShieldAlt,
   FaTag,
   FaUser,
@@ -20,16 +21,25 @@ import Logo from "../ui/logo.svg";
 import { fetchGraphQL } from "./fetchGraphQL";
 import { RessourceCache } from "./ressourceCache";
 
-export const ResourceIcons: { [key in ResourceKey]: React.ElementType } = {
+const ResourceIcons: { [key in ResourceKey]: React.ElementType } = {
   animal: Logo,
   animal_breed: FaDna,
   animal_characteristic: FaTag,
-  blog: FaParagraph,
+  blog: FaFileAlt,
   host_family: FaHome,
   partner: FaHandshake,
   user: FaUser,
   user_role: FaShieldAlt,
 };
+
+export type ResourceIconProps = React.SVGAttributes<HTMLOrSVGElement> & {
+  resourceKey: ResourceKey;
+};
+
+export function ResourceIcon({ resourceKey, ...rest }: ResourceIconProps) {
+  const Icon = ResourceIcons[resourceKey];
+  return <Icon {...rest} />;
+}
 
 const GetAllUserRolesQuery = gql`
   query GetAllUserRolesQuery {
@@ -56,6 +66,41 @@ export function useAllUserRoles() {
   );
 }
 
+const GetUserRoleQuery = gql`
+  query GetUserRoleQuery($id: ID!) {
+    userRole: getUserRole(id: $id) {
+      id
+      name
+      resourcePermissions
+      users {
+        id
+        displayName
+        email
+      }
+    }
+  }
+`;
+
+export function useUserRole(userRoleId: string) {
+  return useAsyncMemo<UserRole | null>(
+    async () => {
+      const { userRole } = await fetchGraphQL<
+        { userRole: UserRole | null },
+        { id: string }
+      >(GetUserRoleQuery, { variables: { id: userRoleId } });
+
+      if (userRole == null) {
+        throw new Error(ErrorCode.USER_ROLE_NOT_FOUND);
+      }
+
+      RessourceCache.setItem(`userRole:${userRole.id}`, userRole);
+      return userRole;
+    },
+    [userRoleId],
+    { initialValue: RessourceCache.getItem(`userRole:${userRoleId}`) }
+  );
+}
+
 const CreateUserRoleQuery = gql`
   mutation CreateUserRoleQuery(
     $name: String!
@@ -68,6 +113,11 @@ const CreateUserRoleQuery = gql`
       id
       name
       resourcePermissions
+      users {
+        id
+        displayName
+        email
+      }
     }
   }
 `;

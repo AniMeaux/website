@@ -1,4 +1,4 @@
-import { DBUser, User } from "@animeaux/shared";
+import { DBUser, DBUserForQueryContext, UserFilters } from "@animeaux/shared";
 import { gql, IResolverObject, IResolvers } from "apollo-server";
 import { database } from "../database";
 import { QueryContext } from "./shared";
@@ -13,17 +13,20 @@ const typeDefs = gql`
 
   extend type Query {
     getCurrentUser: User
+    getAllUsers(roleId: ID): [User!]! @auth
     getUser(id: ID!): User @auth
   }
 `;
 
-function hasUserRole(user: DBUser | User): user is User {
+function hasUserRole(
+  user: DBUser | DBUserForQueryContext
+): user is DBUserForQueryContext {
   return "role" in user;
 }
 
 const resolvers: IResolvers = {
   User: {
-    role: async (user: DBUser | User) => {
+    role: async (user: DBUser | DBUserForQueryContext) => {
       // The user object can come from the context in which case the role has
       // already been fetched.
       // See `getCurrentUser` bellow.
@@ -37,11 +40,22 @@ const resolvers: IResolvers = {
 };
 
 const queries: IResolverObject = {
-  getCurrentUser: async (parent: any, args: any, context: QueryContext) => {
+  getCurrentUser: async (
+    parent: any,
+    args: any,
+    context: QueryContext
+  ): Promise<DBUserForQueryContext | null> => {
     return context.user;
   },
 
-  getUser: async (parent: any, { id }: { id: string }) => {
+  getAllUsers: async (parent: any, filters: UserFilters): Promise<DBUser[]> => {
+    return await database.getAllUsers(filters);
+  },
+
+  getUser: async (
+    parent: any,
+    { id }: { id: string }
+  ): Promise<DBUser | null> => {
     return await database.getUser(id);
   },
 };

@@ -1,14 +1,14 @@
 import {
   CreateUserRolePayload,
   DBUser,
+  DBUserForQueryContext,
   DBUserFromAuth,
   DBUserFromStore,
   DBUserRole,
   DEFAULT_RESOURCE_PERMISSIONS,
-  hasErrorCode,
   ErrorCode,
-  User,
-  UserRole,
+  hasErrorCode,
+  UserFilters,
 } from "@animeaux/shared";
 import { UserInputError } from "apollo-server";
 import * as admin from "firebase-admin";
@@ -50,7 +50,9 @@ export const FirebaseDatabase: Database = {
 
   //// User ////////////////////////////////////////////////////////////////////
 
-  async getUserForQueryContext(token: string): Promise<User | null> {
+  async getUserForQueryContext(
+    token: string
+  ): Promise<DBUserForQueryContext | null> {
     try {
       const decodedToken = await admin.auth().verifyIdToken(token, true);
       const userRecord = await admin.auth().getUser(decodedToken.uid);
@@ -66,6 +68,43 @@ export const FirebaseDatabase: Database = {
     } catch (error) {
       return null;
     }
+  },
+
+  async getAllUsers(filters: UserFilters = {}): Promise<DBUser[]> {
+    let usersFromStoreQuery: FirebaseFirestore.Query<FirebaseFirestore.DocumentData> = admin
+      .firestore()
+      .collection("users");
+
+    if (filters.roleId != null) {
+      usersFromStoreQuery = usersFromStoreQuery.where(
+        "roleId",
+        "==",
+        filters.roleId
+      );
+    }
+
+    const [usersFromAuth, usersSnapshot] = await Promise.all([
+      admin.auth().listUsers(),
+      usersFromStoreQuery.get(),
+    ]);
+
+    let users: DBUser[] = [];
+
+    usersSnapshot.docs.forEach((doc) => {
+      const userFromStore = doc.data() as DBUserFromStore;
+      const userRecord = usersFromAuth.users.find(
+        (userFromAuth) => userFromStore.id === userFromAuth.uid
+      );
+
+      if (userRecord != null) {
+        users.push({
+          ...userFromStore,
+          ...mapFirebaseUser(userRecord),
+        });
+      }
+    });
+
+    return users;
   },
 
   async getUser(id: string): Promise<DBUser | null> {
@@ -97,7 +136,7 @@ export const FirebaseDatabase: Database = {
     return userRolesSnapshot.docs.map((doc) => doc.data() as DBUserRole);
   },
 
-  async getUserRole(id: string): Promise<UserRole | null> {
+  async getUserRole(id: string): Promise<DBUserRole | null> {
     const userRoleSnapshot = await admin
       .firestore()
       .collection("userRoles")
