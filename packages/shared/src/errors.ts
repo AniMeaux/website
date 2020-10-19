@@ -5,11 +5,15 @@ export function hasErrorCode(error: any, code: string): boolean {
 }
 
 export enum ErrorCode {
+  AUTH_NOT_AUTHENTICATED = "auth/not-authenticated",
+  AUTH_NOT_AUTHORIZED = "auth/not-authorized",
   USER_ROLE_MISSING_NAME = "user-role/missing-name",
   USER_ROLE_NAME_ALREADY_USED = "user-role/name-already-used",
 }
 
 const ErrorCodeLabels: { [key in ErrorCode]: string } = {
+  [ErrorCode.AUTH_NOT_AUTHENTICATED]: "",
+  [ErrorCode.AUTH_NOT_AUTHORIZED]: "",
   [ErrorCode.USER_ROLE_MISSING_NAME]: "Le nom est obligatoire",
   [ErrorCode.USER_ROLE_NAME_ALREADY_USED]: "Le nom déjà utilisé",
 };

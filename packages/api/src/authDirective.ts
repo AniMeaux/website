@@ -1,4 +1,4 @@
-import { ResourceKey } from "@animeaux/shared";
+import { ErrorCode, ResourceKey } from "@animeaux/shared";
 import {
   AuthenticationError,
   gql,
@@ -19,13 +19,12 @@ class AuthDirectiveVisitor extends SchemaDirectiveVisitor {
     field.resolve = function (...args) {
       const { user }: QueryContext = args[2];
 
-      if (
-        user == null ||
-        (resourceKey != null && !user.role.resourcePermissions[resourceKey])
-      ) {
-        throw new AuthenticationError(
-          `You don't have the authorisation to access the field "${field.name}".`
-        );
+      if (user == null) {
+        throw new AuthenticationError(ErrorCode.AUTH_NOT_AUTHENTICATED);
+      }
+
+      if (resourceKey != null && !user.role.resourcePermissions[resourceKey]) {
+        throw new AuthenticationError(ErrorCode.AUTH_NOT_AUTHORIZED);
       }
 
       return originalResolve.apply(this, args);
