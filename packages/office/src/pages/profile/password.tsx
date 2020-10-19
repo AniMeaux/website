@@ -1,4 +1,4 @@
-import { hasErrorCode } from "@animeaux/shared";
+import { ErrorCode, getErrorMessage, hasErrorCode } from "@animeaux/shared";
 import * as React from "react";
 import { useAsyncCallback } from "react-behave";
 import { FaLock } from "react-icons/fa";
@@ -39,12 +39,14 @@ export default function PasswordPage() {
   let globalError: string | null = null;
 
   if (error != null) {
-    if (hasErrorCode(error, "auth/wrong-password")) {
-      currentPasswordError = "Le mot de passe est invalide";
-    } else if (hasErrorCode(error, "auth/weak-password")) {
-      newPasswordError = "Le mot de passe doit avoir au moins 6 caractères";
+    const errorMessage = getErrorMessage(error);
+
+    if (hasErrorCode(error, ErrorCode.AUTH_WRONG_PASSWORD)) {
+      currentPasswordError = errorMessage;
+    } else if (hasErrorCode(error, ErrorCode.AUTH_WEEK_PASSWORD)) {
+      newPasswordError = errorMessage;
     } else {
-      globalError = error.message;
+      globalError = errorMessage;
     }
   }
 
@@ -58,26 +60,20 @@ export default function PasswordPage() {
 
       {pending && <ProgressBar />}
 
-      <Main>
-        <Form
-          className="px-4"
-          onSubmit={updatePasswordCallback}
-          pending={pending}
-        >
-          {globalError != null && (
-            <Field>
-              <Message type="error">{globalError}</Message>
-            </Field>
-          )}
+      <Main className="px-4">
+        {globalError != null && (
+          <Message type="error" className="mb-2">
+            {globalError}
+          </Message>
+        )}
 
-          {error == null && hasSucceeded && (
-            <Field>
-              <Message type="success">
-                Votre mot de passe à bien été mis à jour.
-              </Message>
-            </Field>
-          )}
+        {error == null && hasSucceeded && (
+          <Message type="success" className="mb-2">
+            Votre mot de passe à bien été mis à jour.
+          </Message>
+        )}
 
+        <Form onSubmit={updatePasswordCallback} pending={pending}>
           <Field>
             <Label htmlFor="password">Mot de passe actuel</Label>
             <PasswordInput

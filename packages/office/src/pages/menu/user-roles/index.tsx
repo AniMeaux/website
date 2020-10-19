@@ -1,5 +1,5 @@
 import {
-  Link,
+  getErrorMessage,
   ResourceKeysOrder,
   ResourceLabels,
   UserRole,
@@ -12,8 +12,8 @@ import { Avatar } from "../../../ui/avatar";
 import { EmptyMessage } from "../../../ui/emptyMessage";
 import {
   Item,
-  ItemIcon,
   ItemContent,
+  ItemIcon,
   ItemMainText,
   ItemSecondaryText,
   LinkItem,
@@ -119,7 +119,11 @@ export default function UserRolesPage() {
       {pending && <ProgressBar />}
 
       <Main hasPrimaryAction={canEdit} className="px-2">
-        {error != null && <Message type="error">{error.message}</Message>}
+        {error != null && (
+          <Message type="error" className="mx-2 mb-2">
+            {getErrorMessage(error)}
+          </Message>
+        )}
 
         <ul>{body}</ul>
 

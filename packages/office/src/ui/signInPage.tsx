@@ -1,3 +1,4 @@
+import { ErrorCode, getErrorCode } from "@animeaux/shared";
 import firebase from "firebase/app";
 import * as React from "react";
 import { useAsyncCallback } from "react-behave";
@@ -15,6 +16,15 @@ import { PageTitle } from "./layouts/pageTitle";
 import { ProgressBar } from "./loaders/progressBar";
 import { Message } from "./message";
 
+function isAuthError(error: Error): boolean {
+  return [
+    ErrorCode.AUTH_INVALID_EMAIL,
+    ErrorCode.AUTH_USER_DISABLED,
+    ErrorCode.AUTH_USER_NOT_FOUND,
+    ErrorCode.AUTH_WRONG_PASSWORD,
+  ].includes(getErrorCode(error));
+}
+
 export function SignInPage() {
   const [email, setEmail] = React.useState("simon@animeaux.org");
   const [password, setPassword] = React.useState(`sS'R7("f)ZYC#X-Jv,`);
@@ -24,12 +34,7 @@ export function SignInPage() {
       await firebase.auth().signInWithEmailAndPassword(email, password);
       return true;
     } catch (error) {
-      // Authentication errors have a code that start with "auth/".
-      // See https://firebase.google.com/docs/reference/js/firebase.auth.Auth#error-codes_12
-      if (
-        typeof error.code === "string" &&
-        (error.code as string).startsWith("auth/")
-      ) {
+      if (isAuthError(error)) {
         throw new Error("Identifiants invalides, veuillez réessayer");
       } else {
         throw new Error(
@@ -55,13 +60,13 @@ export function SignInPage() {
 
         <h1 className="text-3xl font-serif">Bienvenue</h1>
 
-        <Form onSubmit={signIn} pending={pending}>
-          {signInState.error != null && (
-            <Field>
-              <Message type="error">{signInState.error.message}</Message>
-            </Field>
-          )}
+        {signInState.error != null && (
+          <Message type="error" className="my-2">
+            {signInState.error.message}
+          </Message>
+        )}
 
+        <Form onSubmit={signIn} pending={pending}>
           <Field>
             <Label htmlFor="email">Email</Label>
             <Input

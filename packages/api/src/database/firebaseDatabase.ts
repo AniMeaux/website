@@ -117,7 +117,7 @@ export const FirebaseDatabase: Database = {
       return { ...mapFirebaseUser(userRecord), roleId };
     } catch (error) {
       // See https://firebase.google.com/docs/auth/admin/errors
-      if (hasErrorCode(error, "auth/user-not-found")) {
+      if (hasErrorCode(error, ErrorCode.AUTH_USER_NOT_FOUND)) {
         return null;
       }
 

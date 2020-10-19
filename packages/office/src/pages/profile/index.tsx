@@ -1,3 +1,4 @@
+import { getErrorMessage } from "@animeaux/shared";
 import * as React from "react";
 import { useAsyncCallback } from "react-behave";
 import { FaAngleRight, FaLock, FaUser } from "react-icons/fa";
@@ -49,19 +50,17 @@ export default function ProfilePage() {
         <Section>
           <SectionTitle>Mettre à jour votre profile</SectionTitle>
 
+          {error == null && hasSucceeded && (
+            <Message type="success" className="mx-2 my-2">
+              Votre profile à bien été mis à jour.
+            </Message>
+          )}
+
           <Form
             className="px-2"
             onSubmit={updateProfileCallback}
             pending={pending}
           >
-            {error == null && hasSucceeded && (
-              <Field>
-                <Message type="success">
-                  Votre profile à bien été mis à jour.
-                </Message>
-              </Field>
-            )}
-
             <Field>
               <Label htmlFor="name">Nom</Label>
               <Input
@@ -71,7 +70,7 @@ export default function ProfilePage() {
                 autoComplete="name"
                 value={displayName}
                 onChange={setDisplayName}
-                errorMessage={error?.message}
+                errorMessage={error == null ? null : getErrorMessage(error)}
                 leftAdornment={
                   <Adornment>
                     <FaUser />

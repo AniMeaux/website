@@ -199,7 +199,7 @@ export default function UserRolePage() {
 
       <Main hasPrimaryAction={canEdit}>
         {error != null && (
-          <Message type="error" className="mx-4">
+          <Message type="error" className="mx-4 mb-4">
             {getErrorMessage(error)}
           </Message>
         )}
