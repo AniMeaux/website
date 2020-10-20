@@ -1,7 +1,5 @@
 import * as React from "react";
 
-type UnauthorisedPageProps = {};
-
-export function UnauthorisedPage({}: UnauthorisedPageProps) {
+export function UnauthorisedPage() {
   return <div>UnauthorisedPage</div>;
 }

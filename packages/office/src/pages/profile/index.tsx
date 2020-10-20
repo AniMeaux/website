@@ -97,7 +97,7 @@ export default function ProfilePage() {
         <Section>
           <SectionTitle>Mon compte</SectionTitle>
 
-          <LinkItem href="/profile/password">
+          <LinkItem href="password">
             <ItemIcon>
               <FaLock />
             </ItemIcon>

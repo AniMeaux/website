@@ -53,7 +53,7 @@ export default function PasswordPage() {
   return (
     <>
       <Header>
-        <HeaderBackLink href="/profile" />
+        <HeaderBackLink href=".." />
         <HeaderTitle>Mot de passe</HeaderTitle>
         <HeaderPlaceholder />
       </Header>

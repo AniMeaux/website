@@ -12,19 +12,19 @@ import { Main } from "../../../ui/layouts/main";
 import { UserRoleForm } from "../../../ui/ressourcesForm/userRoleForm";
 
 const NewUserRolePage: PageComponent = () => {
-  const [onSubmit, { pending, error }] = useCreateUserRole();
+  const [createUserRole, { pending, error }] = useCreateUserRole();
 
   return (
     <>
       <Header>
-        <HeaderBackLink href="/menu/user-roles" />
+        <HeaderBackLink href=".." />
         <HeaderTitle>Nouveau rôle utilisateur</HeaderTitle>
         <HeaderPlaceholder />
       </Header>
 
       <Main>
         <UserRoleForm
-          onSubmit={onSubmit}
+          onSubmit={createUserRole}
           pending={pending}
           errors={{
             name: error == null ? null : getErrorMessage(error),

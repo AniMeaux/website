@@ -53,7 +53,7 @@ export default function MenuPage() {
         <Section>
           <ul>
             <MenuLinkItem
-              href="/menu/articles"
+              href="articles"
               icon={<ResourceIcon resourceKey="blog" />}
             >
               Articles
@@ -64,14 +64,14 @@ export default function MenuPage() {
             </li>
 
             <MenuLinkItem
-              href="/menu/animal-species"
+              href="animal-species"
               icon={<ResourceIcon resourceKey="animal_breed" />}
             >
               Races animales
             </MenuLinkItem>
 
             <MenuLinkItem
-              href="/menu/animal-characteristics"
+              href="animal-characteristics"
               icon={<ResourceIcon resourceKey="animal_characteristic" />}
             >
               Caractéristiques animales
@@ -82,14 +82,14 @@ export default function MenuPage() {
             </li>
 
             <MenuLinkItem
-              href="/menu/users"
+              href="users"
               icon={<ResourceIcon resourceKey="user" />}
             >
               Utilisateurs
             </MenuLinkItem>
 
             <MenuLinkItem
-              href="/menu/user-roles"
+              href="user-roles"
               icon={<ResourceIcon resourceKey="user_role" />}
             >
               Rôles utilisateurs

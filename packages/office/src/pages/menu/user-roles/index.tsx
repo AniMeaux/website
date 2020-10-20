@@ -32,11 +32,7 @@ import { PrimaryActionLink } from "../../../ui/primaryAction";
 
 function UserRoleItem({ userRole }: { userRole: UserRole }) {
   return (
-    <LinkItem
-      large
-      href="/menu/user-roles/[userRoleId]"
-      as={`/menu/user-roles/${userRole.id}`}
-    >
+    <LinkItem large href={userRole.id}>
       <ItemIcon>
         <Avatar>
           <FaShieldAlt />
@@ -111,7 +107,7 @@ export default function UserRolesPage() {
   return (
     <>
       <Header>
-        <HeaderBackLink href="/menu" />
+        <HeaderBackLink href=".." />
         <HeaderTitle>Rôles utilisateurs</HeaderTitle>
         <HeaderPlaceholder />
       </Header>
@@ -128,7 +124,7 @@ export default function UserRolesPage() {
         <ul>{body}</ul>
 
         {canEdit && (
-          <PrimaryActionLink href="/menu/user-roles/new">
+          <PrimaryActionLink href="./new">
             <FaPlus />
           </PrimaryActionLink>
         )}

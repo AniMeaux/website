@@ -3,16 +3,7 @@ import cn from "classnames";
 import { useRouter } from "next/router";
 import * as React from "react";
 import { FaBars } from "react-icons/fa";
-import { UrlObject } from "url";
 import { ResourceIcon } from "../../core/userRole";
-
-function getPathname(url: string | UrlObject): string {
-  if (typeof url === "string") {
-    return url;
-  }
-
-  return url.pathname!;
-}
 
 type NavLinkProps = LinkProps & {
   label: string;
@@ -22,17 +13,10 @@ type NavLinkProps = LinkProps & {
 
 function NavLink({ label, icon, strict = false, ...props }: NavLinkProps) {
   const router = useRouter();
-  let pathname: string;
-
-  if (props.as == null) {
-    pathname = getPathname(props.href);
-  } else {
-    pathname = getPathname(props.as);
-  }
 
   const active = strict
-    ? router.asPath === pathname
-    : router.asPath.startsWith(pathname);
+    ? router.asPath === props.href
+    : router.asPath.startsWith(props.href);
 
   return (
     <Link

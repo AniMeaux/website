@@ -190,7 +190,7 @@ export default function UserRolePage() {
   return (
     <>
       <Header>
-        <HeaderBackLink href="/menu/user-roles" />
+        <HeaderBackLink href=".." />
         <HeaderTitle>{title}</HeaderTitle>
         <HeaderPlaceholder />
       </Header>
@@ -207,10 +207,7 @@ export default function UserRolePage() {
         {body}
 
         {canEdit && (
-          <PrimaryActionLink
-            href="/menu/user-roles/[userRoleId]/edit"
-            as={`/menu/user-roles/${userRoleId}/edit`}
-          >
+          <PrimaryActionLink href="edit">
             <FaPen />
           </PrimaryActionLink>
         )}
