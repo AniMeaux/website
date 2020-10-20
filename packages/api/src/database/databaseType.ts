@@ -20,4 +20,5 @@ export type Database = {
   getUserRole(id: string): Promise<DBUserRole | null>;
   createUserRole(payload: CreateUserRolePayload): Promise<DBUserRole>;
   updateUserRole(payload: UpdateUserRolePayload): Promise<DBUserRole>;
+  deleteUserRole(id: string): Promise<boolean>;
 };

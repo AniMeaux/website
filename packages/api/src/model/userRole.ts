@@ -28,6 +28,8 @@ const typeDefs = gql`
       name: String
       resourcePermissions: JSONObject
     ): UserRole @auth(resourceKey: "user_role")
+
+    deleteUserRole(id: ID!): Boolean! @auth(resourceKey: "user_role")
   }
 `;
 
@@ -56,6 +58,10 @@ const mutations: IResolverObject = {
 
   updateUserRole: async (parent: any, payload: UpdateUserRolePayload) => {
     return await database.updateUserRole(payload);
+  },
+
+  deleteUserRole: async (parent: any, { id }: { id: string }) => {
+    return await database.deleteUserRole(id);
   },
 };
 

@@ -7,9 +7,13 @@ import {
 } from "@animeaux/shared";
 import { useRouter } from "next/router";
 import * as React from "react";
-import { FaPen } from "react-icons/fa";
+import { FaPen, FaTrash } from "react-icons/fa";
 import { useCurrentUser } from "../../../../core/user";
-import { ResourceIcon, useUserRole } from "../../../../core/userRole";
+import {
+  ResourceIcon,
+  useDeleteUserRole,
+  useUserRole,
+} from "../../../../core/userRole";
 import { EmptyMessage } from "../../../../ui/emptyMessage";
 import {
   Item,
@@ -20,6 +24,7 @@ import {
 } from "../../../../ui/item";
 import {
   Header,
+  HeaderAction,
   HeaderBackLink,
   HeaderPlaceholder,
   HeaderTitle,
@@ -153,7 +158,11 @@ function UsersPlaceholderSection() {
 export default function UserRolePage() {
   const router = useRouter();
   const userRoleId = router.query.userRoleId as string;
-  const [userRole, { error, pending }] = useUserRole(userRoleId);
+  const [userRole, userRoleState] = useUserRole(userRoleId);
+
+  const [onDeleteUserRole, onDeleteUserRoleState] = useDeleteUserRole(
+    userRoleId
+  );
 
   const { currentUser } = useCurrentUser();
   const canEdit =
@@ -162,9 +171,9 @@ export default function UserRolePage() {
   let title: React.ReactNode | null = null;
   if (userRole != null) {
     title = userRole.name;
-  } else if (pending) {
+  } else if (userRoleState.pending) {
     title = <Placeholder preset="text" />;
-  } else if (error != null) {
+  } else if (userRoleState.error != null) {
     title = "Oups";
   }
 
@@ -177,7 +186,7 @@ export default function UserRolePage() {
         <UsersSection userRole={userRole} />
       </>
     );
-  } else if (pending) {
+  } else if (userRoleState.pending) {
     body = (
       <>
         <ResourcePermissionsPlaceholderSection />
@@ -192,15 +201,44 @@ export default function UserRolePage() {
       <Header>
         <HeaderBackLink href=".." />
         <HeaderTitle>{title}</HeaderTitle>
-        <HeaderPlaceholder />
+
+        {canEdit ? (
+          <HeaderAction
+            variant="secondary"
+            color="red"
+            onClick={() => {
+              if (
+                window.confirm(
+                  `Êtes-vous sûr de vouloir supprimer le rôle utilisateur ${
+                    userRole!.name
+                  } ?`
+                )
+              ) {
+                onDeleteUserRole();
+              }
+            }}
+          >
+            <FaTrash />
+          </HeaderAction>
+        ) : (
+          <HeaderPlaceholder />
+        )}
       </Header>
 
-      {pending && <ProgressBar />}
+      {(userRoleState.pending || onDeleteUserRoleState.pending) && (
+        <ProgressBar />
+      )}
 
       <Main hasPrimaryAction={canEdit}>
-        {error != null && (
+        {userRoleState.error != null && (
           <Message type="error" className="mx-4 mb-4">
-            {getErrorMessage(error)}
+            {getErrorMessage(userRoleState.error)}
+          </Message>
+        )}
+
+        {onDeleteUserRoleState.error != null && (
+          <Message type="error" className="mx-4 mb-4">
+            {getErrorMessage(onDeleteUserRoleState.error)}
           </Message>
         )}
 

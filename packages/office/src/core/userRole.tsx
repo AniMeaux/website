@@ -96,6 +96,16 @@ export function useUserRole(userRoleId: string) {
         throw new Error(ErrorCode.USER_ROLE_NOT_FOUND);
       }
 
+      const cachedUserRole = RessourceCache.getItem<UserRole | null>(
+        `userRole:${userRoleId}`
+      );
+
+      if (isEqual(cachedUserRole, userRole)) {
+        // Return the cached value to preserve the object reference during
+        // editing.
+        return cachedUserRole;
+      }
+
       RessourceCache.setItem(`userRole:${userRole.id}`, userRole);
       return userRole;
     },
@@ -211,4 +221,24 @@ export function useUpdateUserRole(): [
     },
     [router]
   );
+}
+
+const DeleteUserRoleQuery = gql`
+  mutation DeleteUserRoleQuery($id: ID!) {
+    deleteUserRole(id: $id)
+  }
+`;
+
+export function useDeleteUserRole(
+  userRoleId: string
+): [() => Promise<void>, AsyncState<void>] {
+  const router = useRouter();
+  return useAsyncCallback(async () => {
+    await fetchGraphQL<boolean, { id: string }>(DeleteUserRoleQuery, {
+      variables: { id: userRoleId },
+    });
+
+    RessourceCache.removeItem(`userRole:${userRoleId}`);
+    router.push("/menu/user-roles");
+  }, [userRoleId, router]);
 }

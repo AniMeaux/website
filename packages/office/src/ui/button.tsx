@@ -4,9 +4,10 @@ import * as React from "react";
 type ButtonVariant = "secondary" | "primary";
 type ButtonColor = "default" | "blue" | "red";
 
-type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
+export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   variant?: ButtonVariant;
   color?: ButtonColor;
+  iconOnly?: boolean;
 };
 
 const ButtonClassName: {
@@ -29,6 +30,7 @@ const ButtonClassName: {
 export function Button({
   variant = "secondary",
   color = "default",
+  iconOnly = false,
   className,
   ...rest
 }: ButtonProps) {
@@ -36,8 +38,12 @@ export function Button({
     <button
       {...rest}
       className={cn(
-        "a11y-focus h-10 disabled:opacity-75 rounded-md px-4 text-sm uppercase tracking-wide font-medium",
+        "a11y-focus h-10 disabled:opacity-75",
         ButtonClassName[variant][color],
+        {
+          "w-10 rounded-full": iconOnly,
+          "rounded-md px-4 text-sm uppercase tracking-wide font-medium": !iconOnly,
+        },
         className
       )}
     />

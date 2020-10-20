@@ -216,4 +216,10 @@ export const FirebaseDatabase: Database = {
 
     return { ...userRole, ...payload };
   },
+
+  async deleteUserRole(id: string): Promise<boolean> {
+    const userRolesCollection = admin.firestore().collection("userRoles");
+    await userRolesCollection.doc(id).delete();
+    return true;
+  },
 };

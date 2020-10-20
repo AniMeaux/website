@@ -3,6 +3,7 @@ import cn from "classnames";
 import * as React from "react";
 import { FaArrowLeft } from "react-icons/fa";
 import { useCurrentUser } from "../../core/user";
+import { Button, ButtonProps } from "../button";
 import { UserAvatar } from "../userAvatar";
 
 export function HeaderLink({ className, ...rest }: LinkProps) {
@@ -43,17 +44,12 @@ export function HeaderPlaceholder() {
   return <span className="flex-none w-10" />;
 }
 
-export function HeaderAction({
-  className,
-  ...rest
-}: React.ButtonHTMLAttributes<HTMLButtonElement>) {
+export function HeaderAction({ className, ...rest }: ButtonProps) {
   return (
-    <button
+    <Button
       {...rest}
-      className={cn(
-        "a11y-focus w-10 h-10 flex-none flex items-center justify-center",
-        className
-      )}
+      iconOnly
+      className={cn("flex-none flex items-center justify-center", className)}
     />
   );
 }

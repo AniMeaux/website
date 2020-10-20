@@ -6,7 +6,7 @@ import { AuthDirective } from "./authDirective";
 import { database } from "./database";
 import { QueryContext } from "./model/shared";
 import { UserModel } from "./model/user";
-import { UserRoleModel } from "./model/useRole";
+import { UserRoleModel } from "./model/userRole";
 
 const SERVER_OPTIONS: ListenOptions = {
   port: +process.env.PORT,
