@@ -1,10 +1,10 @@
 import {
-  CreateUserRolePayload,
   DEFAULT_RESOURCE_PERMISSIONS,
   ResourceKeysOrder,
   ResourceLabels,
   ResourcePermissions,
   UserRole,
+  UserRoleFormPayload,
 } from "@animeaux/shared";
 import * as React from "react";
 import { FaShieldAlt } from "react-icons/fa";
@@ -15,11 +15,12 @@ import { CheckboxField, Field } from "../formElements/field";
 import { Form, FormProps } from "../formElements/form";
 import { Input } from "../formElements/input";
 import { Label } from "../formElements/label";
+import { Placeholder, Placeholders } from "../loaders/placeholder";
 import { ProgressBar } from "../loaders/progressBar";
 
-type UserRoleFormProps = FormProps & {
+type UserRoleFormProps = Omit<FormProps, "onSubmit"> & {
   userRole?: UserRole;
-  onSubmit: (payload: CreateUserRolePayload) => void;
+  onSubmit: (payload: UserRoleFormPayload) => any;
   errors?: {
     name?: string | null;
   };
@@ -32,10 +33,17 @@ export function UserRoleForm({
   pending,
   ...rest
 }: UserRoleFormProps) {
-  const [name, setName] = React.useState("");
+  const [name, setName] = React.useState(userRole?.name ?? "");
   const [resourcePermissions, setResourcePermissions] = React.useState<
     ResourcePermissions
-  >(DEFAULT_RESOURCE_PERMISSIONS);
+  >(userRole?.resourcePermissions ?? DEFAULT_RESOURCE_PERMISSIONS);
+
+  React.useEffect(() => {
+    setName(userRole?.name ?? "");
+    setResourcePermissions(
+      userRole?.resourcePermissions ?? DEFAULT_RESOURCE_PERMISSIONS
+    );
+  }, [userRole]);
 
   return (
     <Form
@@ -91,8 +99,36 @@ export function UserRoleForm({
 
       <Field>
         <Button type="submit" variant="primary" color="blue" disabled={pending}>
-          Créer
+          {userRole == null ? "Créer" : "Modifier"}
         </Button>
+      </Field>
+    </Form>
+  );
+}
+
+export function UserRoleFormPlaceholder() {
+  return (
+    <Form>
+      <Field>
+        <Label>
+          <Placeholder preset="label" />
+        </Label>
+
+        <Placeholder preset="input" />
+      </Field>
+
+      <Field>
+        <Label>
+          <Placeholder preset="label" />
+        </Label>
+
+        <ul>
+          <Placeholders count={ResourceKeysOrder.length}>
+            <li>
+              <Placeholder preset="checkbox-field" />
+            </li>
+          </Placeholders>
+        </ul>
       </Field>
     </Form>
   );

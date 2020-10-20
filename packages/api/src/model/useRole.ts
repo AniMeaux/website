@@ -1,4 +1,8 @@
-import { CreateUserRolePayload, DBUserRole } from "@animeaux/shared";
+import {
+  CreateUserRolePayload,
+  DBUserRole,
+  UpdateUserRolePayload,
+} from "@animeaux/shared";
 import { gql, IResolverObject, IResolvers } from "apollo-server";
 import { database } from "../database";
 
@@ -18,6 +22,12 @@ const typeDefs = gql`
   extend type Mutation {
     createUserRole(name: String!, resourcePermissions: JSONObject!): UserRole
       @auth(resourceKey: "user_role")
+
+    updateUserRole(
+      id: ID!
+      name: String
+      resourcePermissions: JSONObject
+    ): UserRole @auth(resourceKey: "user_role")
   }
 `;
 
@@ -42,6 +52,10 @@ const queries: IResolverObject = {
 const mutations: IResolverObject = {
   createUserRole: async (parent: any, payload: CreateUserRolePayload) => {
     return await database.createUserRole(payload);
+  },
+
+  updateUserRole: async (parent: any, payload: UpdateUserRolePayload) => {
+    return await database.updateUserRole(payload);
   },
 };
 

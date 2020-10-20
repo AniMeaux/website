@@ -8,6 +8,7 @@ import {
   DEFAULT_RESOURCE_PERMISSIONS,
   ErrorCode,
   hasErrorCode,
+  UpdateUserRolePayload,
   UserFilters,
 } from "@animeaux/shared";
 import { UserInputError } from "apollo-server";
@@ -188,5 +189,31 @@ export const FirebaseDatabase: Database = {
     await userRolesCollection.doc(userRole.id).set(userRole);
 
     return userRole;
+  },
+
+  async updateUserRole(payload: UpdateUserRolePayload): Promise<DBUserRole> {
+    if (payload.name != null) {
+      payload.name = payload.name.trim();
+
+      if (payload.name === "") {
+        throw new UserInputError(ErrorCode.USER_ROLE_MISSING_NAME);
+      }
+    }
+
+    const userRoleReference = admin
+      .firestore()
+      .collection("userRoles")
+      .doc(payload.id);
+
+    const userRoleSnapshot = await userRoleReference.get();
+    let userRole = (userRoleSnapshot.data() as DBUserRole) ?? null;
+
+    if (userRole == null) {
+      throw new UserInputError(ErrorCode.USER_ROLE_NOT_FOUND);
+    }
+
+    await userRoleReference.update(payload);
+
+    return { ...userRole, ...payload };
   },
 };

@@ -2,12 +2,15 @@ import {
   CreateUserRolePayload,
   ErrorCode,
   ResourceKey,
+  UpdateUserRolePayload,
   UserRole,
+  UserRoleFormPayload,
 } from "@animeaux/shared";
 import { gql } from "graphql.macro";
+import isEqual from "lodash.isequal";
 import { useRouter } from "next/router";
 import * as React from "react";
-import { useAsyncCallback, useAsyncMemo } from "react-behave";
+import { AsyncState, useAsyncCallback, useAsyncMemo } from "react-behave";
 import {
   FaDna,
   FaFileAlt,
@@ -122,10 +125,13 @@ const CreateUserRoleQuery = gql`
   }
 `;
 
-export function useCreateUserRole() {
+export function useCreateUserRole(): [
+  (payload: UserRoleFormPayload) => Promise<void>,
+  AsyncState<void>
+] {
   const router = useRouter();
   return useAsyncCallback(
-    async (payload: CreateUserRolePayload) => {
+    async (payload: UserRoleFormPayload) => {
       if (payload.name.trim() === "") {
         throw new Error(ErrorCode.USER_ROLE_MISSING_NAME);
       }
@@ -136,10 +142,72 @@ export function useCreateUserRole() {
       >(CreateUserRoleQuery, { variables: payload });
 
       RessourceCache.setItem(`userRole:${userRole.id}`, userRole);
-      router.push(
-        "/menu/user-roles/[userRoleId]",
-        `/menu/user-roles/${userRole.id}`
-      );
+      router.push(`/menu/user-roles/${userRole.id}`);
+    },
+    [router]
+  );
+}
+
+const UpdateUserRoleQuery = gql`
+  mutation UpdateUserRoleQuery(
+    $id: ID!
+    $name: String
+    $resourcePermissions: JSONObject
+  ) {
+    userRole: updateUserRole(
+      id: $id
+      name: $name
+      resourcePermissions: $resourcePermissions
+    ) {
+      id
+      name
+      resourcePermissions
+      users {
+        id
+        displayName
+        email
+      }
+    }
+  }
+`;
+
+export function useUpdateUserRole(): [
+  (currentUserRole: UserRole, payload: UserRoleFormPayload) => Promise<void>,
+  AsyncState<void>
+] {
+  const router = useRouter();
+  return useAsyncCallback(
+    async (currentUserRole: UserRole, formPayload: UserRoleFormPayload) => {
+      formPayload.name = formPayload.name.trim();
+
+      const payload: UpdateUserRolePayload = {
+        id: currentUserRole.id,
+      };
+
+      if (formPayload.name !== currentUserRole.name) {
+        payload.name = formPayload.name;
+      }
+
+      if (
+        !isEqual(
+          formPayload.resourcePermissions,
+          currentUserRole.resourcePermissions
+        )
+      ) {
+        payload.resourcePermissions = formPayload.resourcePermissions;
+      }
+
+      if (payload.name === "") {
+        throw new Error(ErrorCode.USER_ROLE_MISSING_NAME);
+      }
+
+      const { userRole } = await fetchGraphQL<
+        { userRole: UserRole },
+        UpdateUserRolePayload
+      >(UpdateUserRoleQuery, { variables: payload });
+
+      RessourceCache.setItem(`userRole:${userRole.id}`, userRole);
+      router.push(`/menu/user-roles/${userRole.id}`);
     },
     [router]
   );

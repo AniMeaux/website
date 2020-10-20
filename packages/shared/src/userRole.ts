@@ -58,7 +58,18 @@ export type DBUserRole = {
   resourcePermissions: DBResourcePermissions;
 };
 
+export type UserRoleFormPayload = {
+  name: string;
+  resourcePermissions: ResourcePermissions;
+};
+
 export type CreateUserRolePayload = {
   name: string;
   resourcePermissions: ResourcePermissions;
+};
+
+export type UpdateUserRolePayload = {
+  id: string;
+  name?: string;
+  resourcePermissions?: ResourcePermissions;
 };

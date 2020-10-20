@@ -3,6 +3,7 @@ import {
   DBUser,
   DBUserForQueryContext,
   DBUserRole,
+  UpdateUserRolePayload,
   UserFilters,
 } from "@animeaux/shared";
 
@@ -18,4 +19,5 @@ export type Database = {
   getAllUserRoles(): Promise<DBUserRole[]>;
   getUserRole(id: string): Promise<DBUserRole | null>;
   createUserRole(payload: CreateUserRolePayload): Promise<DBUserRole>;
+  updateUserRole(payload: UpdateUserRolePayload): Promise<DBUserRole>;
 };
