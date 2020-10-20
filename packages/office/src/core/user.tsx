@@ -3,9 +3,11 @@ import firebase from "firebase/app";
 import { gql } from "graphql.macro";
 import invariant from "invariant";
 import * as React from "react";
+import { useAsyncMemo } from "react-behave";
 import { SignInPage } from "../ui/signInPage";
 import { UnauthorisedPage } from "../ui/unauthorisedPage";
 import { fetchGraphQL } from "./fetchGraphQL";
+import { RessourceCache } from "./ressourceCache";
 
 type CurrentUserContextValue = {
   currentUser: User;
@@ -169,4 +171,29 @@ export function useCurrentUser() {
     "useCurrentUser should not be used outside of a UserContextProvider."
   );
   return { currentUser, ...rest };
+}
+
+const GetAllUsersQuery = gql`
+  query GetAllUsersQuery {
+    users: getAllUsers {
+      id
+      displayName
+      email
+      role {
+        name
+      }
+    }
+  }
+`;
+
+export function useAllUsers() {
+  return useAsyncMemo<User[] | null>(
+    async () => {
+      const { users } = await fetchGraphQL<{ users: User[] }>(GetAllUsersQuery);
+      RessourceCache.setItem("users", users);
+      return users;
+    },
+    [],
+    { initialValue: RessourceCache.getItem("users") }
+  );
 }

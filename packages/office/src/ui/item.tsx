@@ -55,11 +55,38 @@ export function ItemContent({
   );
 }
 
+export function ItemContentRow({
+  className,
+  ...rest
+}: React.HTMLAttributes<HTMLSpanElement>) {
+  return (
+    <span
+      {...rest}
+      className={cn("flex items-center justify-between", className)}
+    />
+  );
+}
+
 export function ItemMainText({
   className,
   ...rest
 }: React.HTMLAttributes<HTMLSpanElement>) {
-  return <span {...rest} className={cn("truncate", className)} />;
+  return <span {...rest} className={cn("flex-1 truncate", className)} />;
+}
+
+export function ItemSecondaryAction({
+  className,
+  ...rest
+}: React.HTMLAttributes<HTMLSpanElement>) {
+  return (
+    <span
+      {...rest}
+      className={cn(
+        "ml-4 flex-none text-xs text-gray-600 flex items-center",
+        className
+      )}
+    />
+  );
 }
 
 export function ItemSecondaryText({
@@ -69,7 +96,7 @@ export function ItemSecondaryText({
   return (
     <span
       {...rest}
-      className={cn("truncate text-xs text-gray-600", className)}
+      className={cn("flex-1 truncate text-sm text-gray-600", className)}
     />
   );
 }
