@@ -24,14 +24,14 @@ function mapFirebaseUser(user: admin.auth.UserRecord): DBUserFromAuth {
   };
 }
 
-async function getUserRoleIdForUser(userId: string): Promise<string> {
+async function getUserRoleIdForUser(userId: string): Promise<string | null> {
   const userSnapshot = await admin
     .firestore()
     .collection("users")
     .doc(userId)
     .get();
 
-  return (userSnapshot.data() as DBUserFromStore).roleId;
+  return (userSnapshot.data() as DBUserFromStore)?.roleId ?? null;
 }
 
 export const FirebaseDatabase: Database = {
@@ -63,6 +63,13 @@ export const FirebaseDatabase: Database = {
       }
 
       const roleId = await getUserRoleIdForUser(userRecord.uid);
+
+      // If the role is missing it probably means we were given the token of a
+      // deleted user.
+      if (roleId == null) {
+        return null;
+      }
+
       const role = (await FirebaseDatabase.getUserRole(roleId))!;
 
       return { ...mapFirebaseUser(userRecord), role };
@@ -114,6 +121,10 @@ export const FirebaseDatabase: Database = {
         admin.auth().getUser(id),
         getUserRoleIdForUser(id),
       ]);
+
+      if (userRecord == null || roleId == null) {
+        return null;
+      }
 
       return { ...mapFirebaseUser(userRecord), roleId };
     } catch (error) {

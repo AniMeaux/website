@@ -19,6 +19,7 @@ export enum ErrorCode {
   USER_ROLE_MISSING_NAME = "user-role/missing-name",
   USER_ROLE_NAME_ALREADY_USED = "user-role/name-already-used",
   USER_ROLE_NOT_FOUND = "user-role/not-found",
+  USER_NOT_FOUND = "user/not-found",
 }
 
 const ErrorCodeLabels: { [key in ErrorCode]?: string } = {
@@ -28,6 +29,7 @@ const ErrorCodeLabels: { [key in ErrorCode]?: string } = {
   [ErrorCode.USER_ROLE_MISSING_NAME]: "Le nom est obligatoire",
   [ErrorCode.USER_ROLE_NAME_ALREADY_USED]: "Le nom déjà utilisé",
   [ErrorCode.USER_ROLE_NOT_FOUND]: "Le rôle utilisateur est introuvable",
+  [ErrorCode.USER_NOT_FOUND]: "L'utilisateur est introuvable",
 };
 
 export function getErrorMessage(error: Error): string {

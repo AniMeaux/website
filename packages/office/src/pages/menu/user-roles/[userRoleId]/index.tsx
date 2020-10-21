@@ -21,6 +21,7 @@ import {
   ItemIcon,
   ItemMainText,
   ItemSecondaryText,
+  LinkItem,
 } from "../../../../ui/item";
 import {
   Header,
@@ -87,7 +88,7 @@ function ResourcePermissionsPlaceholderSection() {
 
 function UserItem({ user }: { user: User }) {
   return (
-    <Item large>
+    <LinkItem large href={`/menu/users/${user.id}`}>
       <ItemIcon>
         <UserAvatar user={user} />
       </ItemIcon>
@@ -96,7 +97,7 @@ function UserItem({ user }: { user: User }) {
         <ItemMainText>{user.displayName}</ItemMainText>
         <ItemSecondaryText>{user.email}</ItemSecondaryText>
       </ItemContent>
-    </Item>
+    </LinkItem>
   );
 }
 

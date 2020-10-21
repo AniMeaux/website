@@ -1,9 +1,10 @@
-import { ResourceKey, User } from "@animeaux/shared";
+import { ErrorCode, ResourceKey, User } from "@animeaux/shared";
 import firebase from "firebase/app";
 import { gql } from "graphql.macro";
 import invariant from "invariant";
 import * as React from "react";
 import { useAsyncMemo } from "react-behave";
+import isEqual from "lodash.isequal";
 import { SignInPage } from "../ui/signInPage";
 import { UnauthorisedPage } from "../ui/unauthorisedPage";
 import { fetchGraphQL } from "./fetchGraphQL";
@@ -195,5 +196,46 @@ export function useAllUsers() {
     },
     [],
     { initialValue: RessourceCache.getItem("users") }
+  );
+}
+
+const GetUserQuery = gql`
+  query GetUserQuery($id: ID!) {
+    user: getUser(id: $id) {
+      id
+      displayName
+      email
+      role {
+        id
+        name
+      }
+    }
+  }
+`;
+
+export function useUser(userId: string) {
+  return useAsyncMemo<User | null>(
+    async () => {
+      const { user } = await fetchGraphQL<{ user: User | null }>(GetUserQuery, {
+        variables: { id: userId },
+      });
+
+      if (user == null) {
+        throw new Error(ErrorCode.USER_NOT_FOUND);
+      }
+
+      const cachedUser = RessourceCache.getItem<User | null>(`user:${userId}`);
+
+      if (isEqual(cachedUser, user)) {
+        // Return the cached value to preserve the object reference during
+        // editing.
+        return cachedUser;
+      }
+
+      RessourceCache.setItem(`user:${user.id}`, user);
+      return user;
+    },
+    [userId],
+    { initialValue: RessourceCache.getItem(`user:${userId}`) }
   );
 }
