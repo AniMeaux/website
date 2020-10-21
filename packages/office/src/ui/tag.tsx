@@ -9,9 +9,12 @@ export function TagList({
   return <ul {...rest} className={cn("flex flex-wrap", className)} />;
 }
 
-export function TagListPlaceholder() {
+export function TagListPlaceholder({
+  className,
+  ...rest
+}: React.HTMLAttributes<HTMLUListElement>) {
   return (
-    <ul className="flex flex-wrap">
+    <ul {...rest} className={cn("flex flex-wrap", className)}>
       <Placeholders count={5}>
         <TagListItem>
           <Placeholder preset="tag" />

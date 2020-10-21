@@ -57,7 +57,7 @@ function ResourcePermissionsSection({ userRole }: { userRole: UserRole }) {
       <SectionTitle>Ressources pouvant être modifiées</SectionTitle>
       {resourcesKey.length === 0 && <EmptyMessage>Aucune</EmptyMessage>}
 
-      <TagList>
+      <TagList className="px-1">
         {resourcesKey.map((key) => (
           <TagListItem key={key}>
             <Tag>
@@ -81,7 +81,7 @@ function ResourcePermissionsPlaceholderSection() {
         <Placeholder preset="text" />
       </SectionTitle>
 
-      <TagListPlaceholder />
+      <TagListPlaceholder className="px-1" />
     </Section>
   );
 }
