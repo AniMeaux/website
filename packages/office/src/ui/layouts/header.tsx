@@ -2,7 +2,7 @@ import { Link, LinkProps } from "@animeaux/shared";
 import cn from "classnames";
 import * as React from "react";
 import { FaArrowLeft } from "react-icons/fa";
-import { useCurrentUser } from "../../core/user";
+import { useCurrentUser } from "../../core/user/currentUserContext";
 import { Button, ButtonProps } from "../button";
 import { UserAvatar } from "../userAvatar";
 

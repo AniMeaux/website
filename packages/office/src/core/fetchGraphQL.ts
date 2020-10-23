@@ -2,7 +2,7 @@ import { ErrorCode } from "@animeaux/shared";
 import firebase from "firebase/app";
 import { DocumentNode } from "graphql";
 import { IncomingMessage } from "http";
-import { TOKEN_KEY } from "./user";
+import { TOKEN_KEY } from "./user/currentUserContext";
 
 type fetchGraphQLOptions<Variables> = {
   variables?: Variables;

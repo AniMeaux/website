@@ -5,7 +5,7 @@ import { initFirebase } from "../core/initFirebase";
 import { PageComponent } from "../core/pageComponent";
 import { ScreenSizeContextProvider } from "../core/screenSize";
 import "../core/styles.css";
-import { CurrentUserContextProvider } from "../core/user";
+import { CurrentUserContextProvider } from "../core/user/currentUserContext";
 import { PageLayout } from "../ui/layouts/pageLayout";
 
 initFirebase();

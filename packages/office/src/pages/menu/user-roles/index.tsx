@@ -6,7 +6,7 @@ import {
 } from "@animeaux/shared";
 import * as React from "react";
 import { FaPlus, FaShieldAlt } from "react-icons/fa";
-import { useCurrentUser } from "../../../core/user";
+import { useCurrentUser } from "../../../core/user/currentUserContext";
 import { useAllUserRoles } from "../../../core/userRole";
 import { Avatar } from "../../../ui/avatar";
 import { EmptyMessage } from "../../../ui/emptyMessage";

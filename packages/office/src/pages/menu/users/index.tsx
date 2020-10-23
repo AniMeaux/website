@@ -1,7 +1,8 @@
 import { getErrorMessage, User } from "@animeaux/shared";
 import * as React from "react";
 import { FaPlus } from "react-icons/fa";
-import { useAllUsers, useCurrentUser } from "../../../core/user";
+import { useCurrentUser } from "../../../core/user/currentUserContext";
+import { useAllUsers } from "../../../core/user/userQueries";
 import { EmptyMessage } from "../../../ui/emptyMessage";
 import {
   Item,

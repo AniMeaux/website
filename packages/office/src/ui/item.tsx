@@ -19,7 +19,9 @@ export function Item({ large = false, className, ...rest }: ItemProps) {
   );
 }
 
-export type LinkItemProps = LinkProps & ItemProps;
+export type LinkItemProps = LinkProps & {
+  large?: boolean;
+};
 
 export function LinkItem({ large = false, className, ...rest }: LinkItemProps) {
   return (

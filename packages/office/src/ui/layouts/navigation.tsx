@@ -14,9 +14,11 @@ type NavLinkProps = LinkProps & {
 function NavLink({ label, icon, strict = false, ...props }: NavLinkProps) {
   const router = useRouter();
 
+  const currentPath = router.asPath.split("?")[0];
+
   const active = strict
-    ? router.asPath === props.href
-    : router.asPath.startsWith(props.href);
+    ? currentPath === props.href
+    : currentPath.startsWith(props.href);
 
   return (
     <Link

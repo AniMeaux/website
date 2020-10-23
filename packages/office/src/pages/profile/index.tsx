@@ -2,7 +2,7 @@ import { getErrorMessage } from "@animeaux/shared";
 import * as React from "react";
 import { useAsyncCallback } from "react-behave";
 import { FaAngleRight, FaLock, FaUser } from "react-icons/fa";
-import { useCurrentUser } from "../../core/user";
+import { useCurrentUser } from "../../core/user/currentUserContext";
 import { Button } from "../../ui/button";
 import { Adornment } from "../../ui/formElements/adornment";
 import { Field } from "../../ui/formElements/field";

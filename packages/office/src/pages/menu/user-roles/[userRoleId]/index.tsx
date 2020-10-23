@@ -8,7 +8,7 @@ import {
 import { useRouter } from "next/router";
 import * as React from "react";
 import { FaPen, FaTrash } from "react-icons/fa";
-import { useCurrentUser } from "../../../../core/user";
+import { useCurrentUser } from "../../../../core/user/currentUserContext";
 import {
   ResourceIcon,
   useDeleteUserRole,
