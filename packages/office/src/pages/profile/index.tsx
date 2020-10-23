@@ -1,4 +1,5 @@
 import { getErrorMessage } from "@animeaux/shared";
+import { useRouter } from "next/router";
 import * as React from "react";
 import { useAsyncCallback } from "react-behave";
 import { FaAngleRight, FaLock, FaUser } from "react-icons/fa";
@@ -12,6 +13,7 @@ import { Label } from "../../ui/formElements/label";
 import { ItemContent, ItemIcon, ItemMainText, LinkItem } from "../../ui/item";
 import {
   Header,
+  HeaderCloseLink,
   HeaderPlaceholder,
   HeaderTitle,
 } from "../../ui/layouts/header";
@@ -22,6 +24,9 @@ import { Message } from "../../ui/message";
 import { Separator } from "../../ui/separator";
 
 export default function ProfilePage() {
+  const router = useRouter();
+  const back = (router.query.back as string) ?? "/";
+
   const { currentUser, signOut, updateProfile } = useCurrentUser();
   const [displayName, setDisplayName] = React.useState(currentUser.displayName);
 
@@ -39,7 +44,7 @@ export default function ProfilePage() {
   return (
     <>
       <Header>
-        <HeaderPlaceholder />
+        <HeaderCloseLink href={back} />
         <HeaderTitle>Profile</HeaderTitle>
         <HeaderPlaceholder />
       </Header>
@@ -79,7 +84,7 @@ export default function ProfilePage() {
               />
             </Field>
 
-            <Field>
+            <Field className="md:items-start">
               <Button
                 type="submit"
                 variant="primary"
@@ -97,7 +102,7 @@ export default function ProfilePage() {
         <Section>
           <SectionTitle>Mon compte</SectionTitle>
 
-          <LinkItem href="password">
+          <LinkItem href={`password?back=${encodeURIComponent(back)}`}>
             <ItemIcon>
               <FaLock />
             </ItemIcon>
@@ -114,12 +119,14 @@ export default function ProfilePage() {
 
         <Separator />
 
-        <Section className="px-4">
+        <Section>
           <SectionTitle>Actions</SectionTitle>
 
-          <Button onClick={signOut} color="red" className="w-full">
-            Se déconnecter
-          </Button>
+          <div className="px-2">
+            <Button onClick={signOut} color="red" className="w-full md:w-auto">
+              Se déconnecter
+            </Button>
+          </div>
         </Section>
       </Main>
     </>

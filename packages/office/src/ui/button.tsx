@@ -38,11 +38,11 @@ export function Button({
     <button
       {...rest}
       className={cn(
-        "a11y-focus h-10 disabled:opacity-75",
+        "a11y-focus disabled:opacity-75 h-10",
         ButtonClassName[variant][color],
         {
           "w-10 rounded-full": iconOnly,
-          "rounded-md px-4 text-sm uppercase tracking-wide font-medium": !iconOnly,
+          "rounded-md px-4 min-w-button text-sm uppercase tracking-wide font-medium": !iconOnly,
         },
         className
       )}

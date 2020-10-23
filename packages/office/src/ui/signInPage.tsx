@@ -55,7 +55,7 @@ export function SignInPage() {
 
       {pending && <ProgressBar />}
 
-      <div className="relative px-4 flex flex-col">
+      <div className="relative mx-auto w-full max-w-md px-4 flex flex-col">
         <Logo className="absolute bottom-1/1 left-1/2 transform -translate-x-1/2 mb-8 text-8xl" />
 
         <h1 className="text-3xl font-serif">Bienvenue</h1>

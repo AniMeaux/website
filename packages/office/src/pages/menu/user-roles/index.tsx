@@ -6,6 +6,7 @@ import {
 } from "@animeaux/shared";
 import * as React from "react";
 import { FaPlus, FaShieldAlt } from "react-icons/fa";
+import { ScreenSize, useScreenSize } from "../../../core/screenSize";
 import { useCurrentUser } from "../../../core/user/currentUserContext";
 import { useAllUserRoles } from "../../../core/userRole";
 import { Avatar } from "../../../ui/avatar";
@@ -21,6 +22,7 @@ import {
 import {
   Header,
   HeaderBackLink,
+  HeaderCurrentUserAvatar,
   HeaderPlaceholder,
   HeaderTitle,
 } from "../../../ui/layouts/header";
@@ -56,7 +58,7 @@ function LoadingRows() {
   return (
     <Placeholders count={5}>
       <li>
-        <Item large>
+        <Item size="large">
           <ItemIcon>
             <Placeholder preset="avatar" />
           </ItemIcon>
@@ -92,6 +94,7 @@ function UserRolesRows({ userRoles }: { userRoles: UserRole[] }) {
 }
 
 export default function UserRolesPage() {
+  const { screenSize } = useScreenSize();
   const { currentUser } = useCurrentUser();
   const canEdit = currentUser.role.resourcePermissions.user_role;
 
@@ -107,9 +110,14 @@ export default function UserRolesPage() {
   return (
     <>
       <Header>
-        <HeaderBackLink href=".." />
+        {screenSize === ScreenSize.SMALL ? (
+          <HeaderBackLink href=".." />
+        ) : (
+          <HeaderPlaceholder />
+        )}
+
         <HeaderTitle>Rôles utilisateurs</HeaderTitle>
-        <HeaderPlaceholder />
+        <HeaderCurrentUserAvatar />
       </Header>
 
       {pending && <ProgressBar />}

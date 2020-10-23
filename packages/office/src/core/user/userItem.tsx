@@ -14,7 +14,7 @@ type UserItemProps = ItemProps & { user: User };
 
 export function UserItem({ user, ...rest }: UserItemProps) {
   return (
-    <Item {...rest} large>
+    <Item {...rest} size="large">
       <ItemIcon>
         <UserAvatar user={user} />
       </ItemIcon>

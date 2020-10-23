@@ -103,7 +103,7 @@ function UserItem({ user }: { user: User }) {
 
 function UserItemPlaceholder() {
   return (
-    <Item large>
+    <Item size="large">
       <ItemIcon>
         <Placeholder preset="avatar" />
       </ItemIcon>

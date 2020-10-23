@@ -1,4 +1,5 @@
 import { ErrorCode, getErrorMessage, hasErrorCode } from "@animeaux/shared";
+import { useRouter } from "next/router";
 import * as React from "react";
 import { useAsyncCallback } from "react-behave";
 import { FaLock } from "react-icons/fa";
@@ -20,6 +21,9 @@ import { ProgressBar } from "../../ui/loaders/progressBar";
 import { Message } from "../../ui/message";
 
 export default function PasswordPage() {
+  const router = useRouter();
+  const back = (router.query.back as string) ?? "/";
+
   const { updatePassword } = useCurrentUser();
   const [currentPassword, setCurrentPassword] = React.useState("");
   const [newPassword, setNewPassword] = React.useState("");
@@ -53,7 +57,7 @@ export default function PasswordPage() {
   return (
     <>
       <Header>
-        <HeaderBackLink href=".." />
+        <HeaderBackLink href={`..?back=${encodeURIComponent(back)}`} />
         <HeaderTitle>Mot de passe</HeaderTitle>
         <HeaderPlaceholder />
       </Header>

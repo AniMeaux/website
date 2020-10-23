@@ -1,11 +1,10 @@
 import * as React from "react";
-import { FaFilter, FaPlus, FaSearch } from "react-icons/fa";
-import { Adornment } from "../ui/formElements/adornment";
-import { Input } from "../ui/formElements/input";
+import { FaPlus } from "react-icons/fa";
 import {
   Header,
-  HeaderAction,
   HeaderCurrentUserAvatar,
+  HeaderPlaceholder,
+  HeaderTitle,
 } from "../ui/layouts/header";
 import { Main } from "../ui/layouts/main";
 import { PrimaryAction } from "../ui/primaryAction";
@@ -14,22 +13,8 @@ export default function PartnerListPage() {
   return (
     <>
       <Header>
-        <HeaderAction>
-          <FaFilter />
-        </HeaderAction>
-
-        <Input
-          type="text"
-          role="search"
-          placeholder="Chercher"
-          className="mx-2 flex-1"
-          leftAdornment={
-            <Adornment>
-              <FaSearch />
-            </Adornment>
-          }
-        />
-
+        <HeaderPlaceholder />
+        <HeaderTitle>Partenaires</HeaderTitle>
         <HeaderCurrentUserAvatar />
       </Header>
 

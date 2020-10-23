@@ -2,17 +2,25 @@ import { Link, LinkProps } from "@animeaux/shared";
 import cn from "classnames";
 import * as React from "react";
 
+type ItemSize = "small" | "medium" | "large";
+
 type ItemProps = React.HTMLAttributes<HTMLSpanElement> & {
-  large?: boolean;
+  size?: ItemSize;
 };
 
-export function Item({ large = false, className, ...rest }: ItemProps) {
+const ItemSizeClasses: { [key in ItemSize]: string } = {
+  large: "h-16 space-x-4",
+  medium: "h-12 space-x-4",
+  small: "h-10 space-x-2",
+};
+
+export function Item({ size = "medium", className, ...rest }: ItemProps) {
   return (
     <span
       {...rest}
       className={cn(
-        "w-full px-2 flex items-center space-x-4",
-        { "h-16": large, "h-12": !large },
+        "w-full px-2 flex items-center",
+        ItemSizeClasses[size],
         className
       )}
     />

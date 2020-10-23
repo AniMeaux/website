@@ -97,7 +97,7 @@ export function UserRoleForm({
         </ul>
       </Field>
 
-      <Field>
+      <Field className="md:items-start">
         <Button type="submit" variant="primary" color="blue" disabled={pending}>
           {userRole == null ? "Créer" : "Modifier"}
         </Button>

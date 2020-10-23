@@ -109,6 +109,10 @@ module.exports = {
         "1/2": "50%",
         "1/1": "100%",
       },
+      minWidth: {
+        button: "10rem",
+        "fit-content": "fit-content",
+      },
       height: {
         "screen-5/12": "41.666667vh",
       },

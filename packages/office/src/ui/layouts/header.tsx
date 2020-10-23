@@ -1,7 +1,8 @@
 import { Link, LinkProps } from "@animeaux/shared";
 import cn from "classnames";
+import { useRouter } from "next/router";
 import * as React from "react";
-import { FaArrowLeft } from "react-icons/fa";
+import { FaArrowLeft, FaTimes } from "react-icons/fa";
 import { useCurrentUser } from "../../core/user/currentUserContext";
 import { Button, ButtonProps } from "../button";
 import { UserAvatar } from "../userAvatar";
@@ -22,6 +23,14 @@ export function HeaderBackLink(props: LinkProps) {
   return (
     <HeaderLink {...props}>
       <FaArrowLeft />
+    </HeaderLink>
+  );
+}
+
+export function HeaderCloseLink(props: LinkProps) {
+  return (
+    <HeaderLink {...props}>
+      <FaTimes />
     </HeaderLink>
   );
 }
@@ -55,10 +64,13 @@ export function HeaderAction({ className, ...rest }: ButtonProps) {
 }
 
 export function HeaderCurrentUserAvatar() {
+  const router = useRouter();
   const { currentUser } = useCurrentUser();
 
   return (
-    <HeaderLink href="/profile">
+    <HeaderLink
+      href={`/profile?back=${encodeURIComponent(router.asPath.split("?")[0])}`}
+    >
       <UserAvatar user={currentUser} />
     </HeaderLink>
   );
@@ -72,7 +84,7 @@ export function Header({
     <header
       {...rest}
       className={cn(
-        "z-30 fixed top-0 left-0 right-0 h-16 border-b bg-white px-2 flex items-center",
+        "z-30 sticky top-0 w-full h-16 border-b bg-white px-2 flex items-center",
         className
       )}
     />

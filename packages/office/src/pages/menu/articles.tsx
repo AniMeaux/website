@@ -5,16 +5,16 @@ import {
   HeaderCurrentUserAvatar,
   HeaderPlaceholder,
   HeaderTitle,
-} from "../ui/layouts/header";
-import { Main } from "../ui/layouts/main";
-import { PrimaryAction } from "../ui/primaryAction";
+} from "../../ui/layouts/header";
+import { Main } from "../../ui/layouts/main";
+import { PrimaryAction } from "../../ui/primaryAction";
 
 export default function ArticleListPage() {
   return (
     <>
       <Header>
         <HeaderPlaceholder />
-        <HeaderTitle>Familles d'accueil</HeaderTitle>
+        <HeaderTitle>Articles</HeaderTitle>
         <HeaderCurrentUserAvatar />
       </Header>
 

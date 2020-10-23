@@ -13,7 +13,7 @@ export function Main({
   return (
     <main
       {...rest}
-      className={cn("py-20", { "pb-40": hasPrimaryAction }, className)}
+      className={cn("pt-4", { "pb-20": hasPrimaryAction }, className)}
     />
   );
 }

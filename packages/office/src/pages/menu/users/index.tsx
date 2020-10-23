@@ -1,6 +1,7 @@
 import { getErrorMessage, User } from "@animeaux/shared";
 import * as React from "react";
 import { FaPlus } from "react-icons/fa";
+import { ScreenSize, useScreenSize } from "../../../core/screenSize";
 import { useCurrentUser } from "../../../core/user/currentUserContext";
 import { useAllUsers } from "../../../core/user/userQueries";
 import { EmptyMessage } from "../../../ui/emptyMessage";
@@ -15,6 +16,7 @@ import {
 import {
   Header,
   HeaderBackLink,
+  HeaderCurrentUserAvatar,
   HeaderPlaceholder,
   HeaderTitle,
 } from "../../../ui/layouts/header";
@@ -44,7 +46,7 @@ function LoadingRows() {
   return (
     <Placeholders count={5}>
       <li>
-        <Item large>
+        <Item size="large">
           <ItemIcon>
             <Placeholder preset="avatar" />
           </ItemIcon>
@@ -85,6 +87,7 @@ function UsersRows({ users }: { users: User[] }) {
 }
 
 export default function UsersPage() {
+  const { screenSize } = useScreenSize();
   const { currentUser } = useCurrentUser();
   const canEdit = currentUser.role.resourcePermissions.user;
 
@@ -100,9 +103,14 @@ export default function UsersPage() {
   return (
     <>
       <Header>
-        <HeaderBackLink href=".." />
+        {screenSize === ScreenSize.SMALL ? (
+          <HeaderBackLink href=".." />
+        ) : (
+          <HeaderPlaceholder />
+        )}
+
         <HeaderTitle>Utilisateurs</HeaderTitle>
-        <HeaderPlaceholder />
+        <HeaderCurrentUserAvatar />
       </Header>
 
       {pending && <ProgressBar />}
