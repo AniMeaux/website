@@ -2,7 +2,10 @@ import { getErrorMessage } from "@animeaux/shared";
 import { useRouter } from "next/router";
 import * as React from "react";
 import { PageComponent } from "../../../../core/pageComponent";
-import { useUpdateUserRole, useUserRole } from "../../../../core/userRole";
+import {
+  useUpdateUserRole,
+  useUserRole,
+} from "../../../../core/userRole/userRoleQueries";
 import {
   Header,
   HeaderBackLink,

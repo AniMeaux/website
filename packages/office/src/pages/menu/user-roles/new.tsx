@@ -1,7 +1,7 @@
 import { getErrorMessage } from "@animeaux/shared";
 import * as React from "react";
 import { PageComponent } from "../../../core/pageComponent";
-import { useCreateUserRole } from "../../../core/userRole";
+import { useCreateUserRole } from "../../../core/userRole/userRoleQueries";
 import {
   Header,
   HeaderBackLink,

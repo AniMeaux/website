@@ -8,7 +8,7 @@ import * as React from "react";
 import { FaPlus, FaShieldAlt } from "react-icons/fa";
 import { ScreenSize, useScreenSize } from "../../../core/screenSize";
 import { useCurrentUser } from "../../../core/user/currentUserContext";
-import { useAllUserRoles } from "../../../core/userRole";
+import { useAllUserRoles } from "../../../core/userRole/userRoleQueries";
 import { Avatar } from "../../../ui/avatar";
 import { EmptyMessage } from "../../../ui/emptyMessage";
 import {

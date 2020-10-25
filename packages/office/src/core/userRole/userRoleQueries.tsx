@@ -1,7 +1,6 @@
 import {
   CreateUserRolePayload,
   ErrorCode,
-  ResourceKey,
   UpdateUserRolePayload,
   UserRole,
   UserRoleFormPayload,
@@ -9,40 +8,9 @@ import {
 import { gql } from "graphql.macro";
 import isEqual from "lodash.isequal";
 import { useRouter } from "next/router";
-import * as React from "react";
 import { AsyncState, useAsyncCallback, useAsyncMemo } from "react-behave";
-import {
-  FaDna,
-  FaFileAlt,
-  FaHandshake,
-  FaHome,
-  FaShieldAlt,
-  FaTag,
-  FaUser,
-} from "react-icons/fa";
-import Logo from "../ui/logo.svg";
-import { fetchGraphQL } from "./fetchGraphQL";
-import { RessourceCache } from "./ressourceCache";
-
-const ResourceIcons: { [key in ResourceKey]: React.ElementType } = {
-  animal: Logo,
-  animal_breed: FaDna,
-  animal_characteristic: FaTag,
-  blog: FaFileAlt,
-  host_family: FaHome,
-  partner: FaHandshake,
-  user: FaUser,
-  user_role: FaShieldAlt,
-};
-
-export type ResourceIconProps = React.SVGAttributes<HTMLOrSVGElement> & {
-  resourceKey: ResourceKey;
-};
-
-export function ResourceIcon({ resourceKey, ...rest }: ResourceIconProps) {
-  const Icon = ResourceIcons[resourceKey];
-  return <Icon {...rest} />;
-}
+import { fetchGraphQL } from "../fetchGraphQL";
+import { RessourceCache } from "../ressourceCache";
 
 const GetAllUserRolesQuery = gql`
   query GetAllUserRolesQuery {

@@ -1,6 +1,6 @@
 import * as React from "react";
 import { FaAngleRight } from "react-icons/fa";
-import { ResourceIcon } from "../../core/userRole";
+import { ResourceIcon } from "../../core/resource";
 import {
   ItemContent,
   ItemIcon,

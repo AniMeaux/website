@@ -8,12 +8,12 @@ import {
 import { useRouter } from "next/router";
 import * as React from "react";
 import { FaPen, FaTrash } from "react-icons/fa";
+import { ResourceIcon } from "../../../../core/resource";
 import { useCurrentUser } from "../../../../core/user/currentUserContext";
 import {
-  ResourceIcon,
   useDeleteUserRole,
   useUserRole,
-} from "../../../../core/userRole";
+} from "../../../../core/userRole/userRoleQueries";
 import { EmptyMessage } from "../../../../ui/emptyMessage";
 import {
   Item,

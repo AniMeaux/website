@@ -2,9 +2,9 @@ import { getErrorMessage, User } from "@animeaux/shared";
 import { useRouter } from "next/router";
 import * as React from "react";
 import { FaEnvelope, FaPen } from "react-icons/fa";
+import { ResourceIcon } from "../../../../core/resource";
 import { useCurrentUser } from "../../../../core/user/currentUserContext";
 import { useUser } from "../../../../core/user/userQueries";
-import { ResourceIcon } from "../../../../core/userRole";
 import {
   Item,
   ItemContent,
