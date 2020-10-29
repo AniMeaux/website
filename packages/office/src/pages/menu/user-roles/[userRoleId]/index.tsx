@@ -31,6 +31,7 @@ import {
   HeaderTitle,
 } from "../../../../ui/layouts/header";
 import { Main } from "../../../../ui/layouts/main";
+import { PageLayout } from "../../../../ui/layouts/pageLayout";
 import { Section, SectionTitle } from "../../../../ui/layouts/section";
 import { Placeholder, Placeholders } from "../../../../ui/loaders/placeholder";
 import { ProgressBar } from "../../../../ui/loaders/progressBar";
@@ -198,34 +199,36 @@ export default function UserRolePage() {
   }
 
   return (
-    <>
-      <Header>
-        <HeaderBackLink href=".." />
-        <HeaderTitle>{title}</HeaderTitle>
+    <PageLayout
+      header={
+        <Header>
+          <HeaderBackLink href=".." />
+          <HeaderTitle>{title}</HeaderTitle>
 
-        {canEdit ? (
-          <HeaderAction
-            variant="secondary"
-            color="red"
-            onClick={() => {
-              if (
-                window.confirm(
-                  `Êtes-vous sûr de vouloir supprimer le rôle utilisateur ${
-                    userRole!.name
-                  } ?`
-                )
-              ) {
-                onDeleteUserRole();
-              }
-            }}
-          >
-            <FaTrash />
-          </HeaderAction>
-        ) : (
-          <HeaderPlaceholder />
-        )}
-      </Header>
-
+          {canEdit ? (
+            <HeaderAction
+              variant="secondary"
+              color="red"
+              onClick={() => {
+                if (
+                  window.confirm(
+                    `Êtes-vous sûr de vouloir supprimer le rôle utilisateur ${
+                      userRole!.name
+                    } ?`
+                  )
+                ) {
+                  onDeleteUserRole();
+                }
+              }}
+            >
+              <FaTrash />
+            </HeaderAction>
+          ) : (
+            <HeaderPlaceholder />
+          )}
+        </Header>
+      }
+    >
       {(userRoleState.pending || onDeleteUserRoleState.pending) && (
         <ProgressBar />
       )}
@@ -251,6 +254,6 @@ export default function UserRolePage() {
           </PrimaryActionLink>
         )}
       </Main>
-    </>
+    </PageLayout>
   );
 }

@@ -44,7 +44,10 @@ export function HeaderTitle({
     // eslint-disable-next-line jsx-a11y/heading-has-content
     <h1
       {...rest}
-      className={cn("mx-2 flex-1 text-center font-bold font-serif", className)}
+      className={cn(
+        "mx-2 flex-1 text-center md:text-left font-bold font-serif",
+        className
+      )}
     />
   );
 }
@@ -84,7 +87,7 @@ export function Header({
     <header
       {...rest}
       className={cn(
-        "z-30 sticky top-0 w-full h-16 border-b bg-white px-2 flex items-center",
+        "z-20 sticky top-0 w-full h-16 flex-none border-b bg-white px-2 flex items-center",
         className
       )}
     />

@@ -15,6 +15,7 @@ import {
   HeaderTitle,
 } from "../../ui/layouts/header";
 import { Main } from "../../ui/layouts/main";
+import { PageLayout } from "../../ui/layouts/pageLayout";
 import { Section } from "../../ui/layouts/section";
 import { Separator } from "../../ui/separator";
 
@@ -42,13 +43,15 @@ function MenuLinkItem({
 
 export default function MenuPage() {
   return (
-    <>
-      <Header>
-        <HeaderPlaceholder />
-        <HeaderTitle>Menu</HeaderTitle>
-        <HeaderCurrentUserAvatar />
-      </Header>
-
+    <PageLayout
+      header={
+        <Header>
+          <HeaderPlaceholder />
+          <HeaderTitle>Menu</HeaderTitle>
+          <HeaderCurrentUserAvatar />
+        </Header>
+      }
+    >
       <Main>
         <Section>
           <ul>
@@ -97,6 +100,6 @@ export default function MenuPage() {
           </ul>
         </Section>
       </Main>
-    </>
+    </PageLayout>
   );
 }

@@ -19,6 +19,7 @@ import {
   HeaderTitle,
 } from "../../../../ui/layouts/header";
 import { Main } from "../../../../ui/layouts/main";
+import { PageLayout } from "../../../../ui/layouts/pageLayout";
 import { Section, SectionTitle } from "../../../../ui/layouts/section";
 import { Placeholder, Placeholders } from "../../../../ui/loaders/placeholder";
 import { ProgressBar } from "../../../../ui/loaders/progressBar";
@@ -147,13 +148,15 @@ export default function UserPage() {
   }
 
   return (
-    <>
-      <Header>
-        <HeaderBackLink href=".." />
-        <HeaderTitle>{title}</HeaderTitle>
-        <HeaderPlaceholder />
-      </Header>
-
+    <PageLayout
+      header={
+        <Header>
+          <HeaderBackLink href=".." />
+          <HeaderTitle>{title}</HeaderTitle>
+          <HeaderPlaceholder />
+        </Header>
+      }
+    >
       {userState.pending && <ProgressBar />}
 
       <Main hasPrimaryAction={canEdit}>
@@ -171,6 +174,6 @@ export default function UserPage() {
           </PrimaryActionLink>
         )}
       </Main>
-    </>
+    </PageLayout>
   );
 }

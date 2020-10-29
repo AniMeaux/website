@@ -31,34 +31,49 @@ export function TagListItem({
   return <li {...rest} className={cn("p-1 max-w-full", className)} />;
 }
 
+type TagSize = "small" | "large";
+type TagColor = "gray" | "blue" | "white";
+
+const TagSizeClassNames: { [key in TagSize]: string } = {
+  large: "h-10 space-x-2",
+  small: "h-8 text-sm space-x-2",
+};
+
+const TagColorClassNames: { [key in TagColor]: string } = {
+  blue: "bg-blue-100 text-blue-500",
+  gray: "bg-gray-100",
+  white: "bg-white",
+};
+
+type TagProps = React.HTMLAttributes<HTMLSpanElement> & {
+  size?: TagSize;
+  color?: TagColor;
+};
+
 export function Tag({
+  size = "small",
+  color = "gray",
   className,
   ...rest
-}: React.HTMLAttributes<HTMLSpanElement>) {
+}: TagProps) {
   return (
     <span
       {...rest}
       className={cn(
-        "h-8 rounded-full bg-gray-100 px-4 flex items-center text-sm space-x-2",
+        "rounded-full px-4 flex items-center",
+        TagSizeClassNames[size],
+        TagColorClassNames[color],
         className
       )}
     />
   );
 }
 
-type TagIconProps = {
-  children: React.ReactElement;
-  className?: string;
-};
-
-export function TagIcon({ className, children }: TagIconProps) {
-  return React.cloneElement(children, {
-    className: cn(
-      children.props.className,
-      "flex-none text-gray-700",
-      className
-    ),
-  });
+export function TagIcon({
+  className,
+  ...rest
+}: React.HTMLAttributes<HTMLSpanElement>) {
+  return <span {...rest} className={cn("flex-none", className)} />;
 }
 
 export function TagText({

@@ -18,6 +18,7 @@ import {
   HeaderTitle,
 } from "../../ui/layouts/header";
 import { Main } from "../../ui/layouts/main";
+import { PageLayout } from "../../ui/layouts/pageLayout";
 import { Section, SectionTitle } from "../../ui/layouts/section";
 import { ProgressBar } from "../../ui/loaders/progressBar";
 import { Message } from "../../ui/message";
@@ -42,13 +43,15 @@ export default function ProfilePage() {
   }, [displayName, currentUser, updateProfile]);
 
   return (
-    <>
-      <Header>
-        <HeaderCloseLink href={back} />
-        <HeaderTitle>Profile</HeaderTitle>
-        <HeaderPlaceholder />
-      </Header>
-
+    <PageLayout
+      header={
+        <Header>
+          <HeaderCloseLink href={back} />
+          <HeaderTitle>Profile</HeaderTitle>
+          <HeaderPlaceholder />
+        </Header>
+      }
+    >
       {pending && <ProgressBar />}
 
       <Main>
@@ -129,6 +132,6 @@ export default function ProfilePage() {
           </div>
         </Section>
       </Main>
-    </>
+    </PageLayout>
   );
 }

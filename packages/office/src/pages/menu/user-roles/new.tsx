@@ -9,19 +9,22 @@ import {
   HeaderTitle,
 } from "../../../ui/layouts/header";
 import { Main } from "../../../ui/layouts/main";
+import { PageLayout } from "../../../ui/layouts/pageLayout";
 import { UserRoleForm } from "../../../ui/ressourcesForm/userRoleForm";
 
 const NewUserRolePage: PageComponent = () => {
   const [createUserRole, { pending, error }] = useCreateUserRole();
 
   return (
-    <>
-      <Header>
-        <HeaderBackLink href=".." />
-        <HeaderTitle>Nouveau rôle utilisateur</HeaderTitle>
-        <HeaderPlaceholder />
-      </Header>
-
+    <PageLayout
+      header={
+        <Header>
+          <HeaderBackLink href=".." />
+          <HeaderTitle>Nouveau rôle utilisateur</HeaderTitle>
+          <HeaderPlaceholder />
+        </Header>
+      }
+    >
       <Main>
         <UserRoleForm
           onSubmit={createUserRole}
@@ -32,7 +35,7 @@ const NewUserRolePage: PageComponent = () => {
           className="px-4"
         />
       </Main>
-    </>
+    </PageLayout>
   );
 };
 

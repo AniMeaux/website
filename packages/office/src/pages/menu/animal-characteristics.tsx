@@ -7,22 +7,25 @@ import {
   HeaderTitle,
 } from "../../ui/layouts/header";
 import { Main } from "../../ui/layouts/main";
+import { PageLayout } from "../../ui/layouts/pageLayout";
 import { PrimaryAction } from "../../ui/primaryAction";
 
 export default function AnimalCharacteristicsListPage() {
   return (
-    <>
-      <Header>
-        <HeaderPlaceholder />
-        <HeaderTitle>Caractéristiques animales</HeaderTitle>
-        <HeaderCurrentUserAvatar />
-      </Header>
-
+    <PageLayout
+      header={
+        <Header>
+          <HeaderPlaceholder />
+          <HeaderTitle>Caractéristiques animales</HeaderTitle>
+          <HeaderCurrentUserAvatar />
+        </Header>
+      }
+    >
       <Main hasPrimaryAction>
         <PrimaryAction>
           <FaPlus />
         </PrimaryAction>
       </Main>
-    </>
+    </PageLayout>
   );
 }

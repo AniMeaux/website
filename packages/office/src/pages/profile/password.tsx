@@ -17,6 +17,7 @@ import {
   HeaderTitle,
 } from "../../ui/layouts/header";
 import { Main } from "../../ui/layouts/main";
+import { PageLayout } from "../../ui/layouts/pageLayout";
 import { ProgressBar } from "../../ui/loaders/progressBar";
 import { Message } from "../../ui/message";
 
@@ -55,13 +56,15 @@ export default function PasswordPage() {
   }
 
   return (
-    <>
-      <Header>
-        <HeaderBackLink href={`..?back=${encodeURIComponent(back)}`} />
-        <HeaderTitle>Mot de passe</HeaderTitle>
-        <HeaderPlaceholder />
-      </Header>
-
+    <PageLayout
+      header={
+        <Header>
+          <HeaderBackLink href={`..?back=${encodeURIComponent(back)}`} />
+          <HeaderTitle>Mot de passe</HeaderTitle>
+          <HeaderPlaceholder />
+        </Header>
+      }
+    >
       {pending && <ProgressBar />}
 
       <Main className="px-4">
@@ -124,6 +127,6 @@ export default function PasswordPage() {
           </Field>
         </Form>
       </Main>
-    </>
+    </PageLayout>
   );
 }

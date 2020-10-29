@@ -6,9 +6,9 @@ import { FaAngleDoubleLeft, FaAngleDoubleRight, FaBars } from "react-icons/fa";
 import { ResourceIcon } from "../../core/resource";
 import { ScreenSize, useScreenSize } from "../../core/screenSize";
 import { Button } from "../button";
-import { Item, ItemContent, ItemIcon, ItemMainText } from "../item";
 import Logo from "../logoWithColors.svg";
 import { Separator } from "../separator";
+import { Tag, TagIcon, TagText } from "../tag";
 
 function NavItem(props: React.HTMLAttributes<HTMLLIElement>) {
   return <li {...props} className="flex-1 md:flex-none" />;
@@ -49,50 +49,33 @@ function NavLink({
       {...props}
       className="h-full md:h-12 px-2 md:px-0 flex flex-col items-center md:items-stretch justify-center"
     >
-      <Item
-        size="small"
-        className={cn(
-          "opacity-50 md:opacity-100 rounded-full px-4 md:space-x-4",
-          {
-            "opacity-100 bg-blue-100 text-blue-500": active,
-          }
-        )}
-      >
-        <ItemIcon className={cn({ "text-blue-500": active })}>{icon}</ItemIcon>
-
-        {showLabel && (
-          <ItemContent>
-            <ItemMainText>{label}</ItemMainText>
-          </ItemContent>
-        )}
-      </Item>
+      <Tag size="large" color={active ? "blue" : "white"}>
+        <TagIcon>{icon}</TagIcon>
+        {showLabel && <TagText>{label}</TagText>}
+      </Tag>
     </Link>
   );
 }
 
-export function Navigation({
-  className,
-  ...rest
-}: React.HTMLAttributes<HTMLElement>) {
+export function Navigation(props: React.HTMLAttributes<HTMLElement>) {
   const { screenSize } = useScreenSize();
   const [isNavExpanded, setIsNavExpanded] = React.useState(true);
 
   return (
     <div
-      {...rest}
+      {...props}
       className={cn(
-        "z-30 fixed md:sticky md:top-0 right-0 bottom-0 left-0 h-16 md:h-auto border-t md:border-t-0 md:border-r bg-white flex md:flex-col",
-        { "md:w-2/12 md:min-w-fit-content": isNavExpanded },
-        className
+        "z-30 fixed md:static right-0 bottom-0 left-0 h-16 md:h-auto md:flex-none border-t md:border-t-0 md:border-r bg-white flex md:flex-col",
+        { "md:w-2/12 md:min-w-fit-content": isNavExpanded }
       )}
     >
       {screenSize !== ScreenSize.SMALL && (
-        <div className="w-full h-16 flex-none border-b flex items-center justify-center text-4xl">
+        <div className="w-full h-16 flex-none flex items-center justify-center text-4xl">
           <Logo />
         </div>
       )}
 
-      <nav className="w-full h-full md:h-auto flex-1">
+      <nav className="w-full h-full md:h-auto flex-1 md:min-h-0 md:overflow-auto">
         <ul className="h-full md:px-2 md:py-4 flex md:flex-col">
           <NavItem>
             <NavLink

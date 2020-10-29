@@ -11,9 +11,9 @@ export function AppLayout({ children }: PageLayoutProps) {
     <>
       <PageHead />
 
-      <div className="min-h-screen md:flex md:items-stretch">
-        <Navigation className="md:flex-none" />
-        <div className="relative md:flex-1 md:min-w-0">{children}</div>
+      <div className="md:h-screen md:flex md:items-stretch">
+        <Navigation />
+        {children}
       </div>
     </>
   );

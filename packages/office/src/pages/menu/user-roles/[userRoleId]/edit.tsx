@@ -13,6 +13,7 @@ import {
   HeaderTitle,
 } from "../../../../ui/layouts/header";
 import { Main } from "../../../../ui/layouts/main";
+import { PageLayout } from "../../../../ui/layouts/pageLayout";
 import { Placeholder } from "../../../../ui/loaders/placeholder";
 import { ProgressBar } from "../../../../ui/loaders/progressBar";
 import { Message } from "../../../../ui/message";
@@ -56,13 +57,15 @@ const EditUserRolePage: PageComponent = () => {
   }
 
   return (
-    <>
-      <Header>
-        <HeaderBackLink href=".." />
-        <HeaderTitle>{title}</HeaderTitle>
-        <HeaderPlaceholder />
-      </Header>
-
+    <PageLayout
+      header={
+        <Header>
+          <HeaderBackLink href=".." />
+          <HeaderTitle>{title}</HeaderTitle>
+          <HeaderPlaceholder />
+        </Header>
+      }
+    >
       {(userRoleState.pending || updateUserRoleState.pending) && (
         <ProgressBar />
       )}
@@ -76,7 +79,7 @@ const EditUserRolePage: PageComponent = () => {
 
         {body}
       </Main>
-    </>
+    </PageLayout>
   );
 };
 

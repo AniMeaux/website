@@ -27,6 +27,7 @@ import {
   HeaderTitle,
 } from "../../../ui/layouts/header";
 import { Main } from "../../../ui/layouts/main";
+import { PageLayout } from "../../../ui/layouts/pageLayout";
 import { Placeholder, Placeholders } from "../../../ui/loaders/placeholder";
 import { ProgressBar } from "../../../ui/loaders/progressBar";
 import { Message } from "../../../ui/message";
@@ -108,18 +109,20 @@ export default function UserRolesPage() {
   }
 
   return (
-    <>
-      <Header>
-        {screenSize === ScreenSize.SMALL ? (
-          <HeaderBackLink href=".." />
-        ) : (
-          <HeaderPlaceholder />
-        )}
+    <PageLayout
+      header={
+        <Header>
+          {screenSize === ScreenSize.SMALL ? (
+            <HeaderBackLink href=".." />
+          ) : (
+            <HeaderPlaceholder />
+          )}
 
-        <HeaderTitle>Rôles utilisateurs</HeaderTitle>
-        <HeaderCurrentUserAvatar />
-      </Header>
-
+          <HeaderTitle>Rôles utilisateurs</HeaderTitle>
+          <HeaderCurrentUserAvatar />
+        </Header>
+      }
+    >
       {pending && <ProgressBar />}
 
       <Main hasPrimaryAction={canEdit} className="px-2">
@@ -137,6 +140,6 @@ export default function UserRolesPage() {
           </PrimaryActionLink>
         )}
       </Main>
-    </>
+    </PageLayout>
   );
 }

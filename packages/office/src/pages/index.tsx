@@ -8,36 +8,39 @@ import {
   HeaderCurrentUserAvatar,
 } from "../ui/layouts/header";
 import { Main } from "../ui/layouts/main";
+import { PageLayout } from "../ui/layouts/pageLayout";
 import { PrimaryAction } from "../ui/primaryAction";
 
 export default function AnimalListPage() {
   return (
-    <>
-      <Header>
-        <HeaderAction>
-          <FaFilter />
-        </HeaderAction>
+    <PageLayout
+      header={
+        <Header>
+          <HeaderAction>
+            <FaFilter />
+          </HeaderAction>
 
-        <Input
-          type="text"
-          role="search"
-          placeholder="Chercher"
-          className="mx-2 flex-1"
-          leftAdornment={
-            <Adornment>
-              <FaSearch />
-            </Adornment>
-          }
-        />
+          <Input
+            type="text"
+            role="search"
+            placeholder="Chercher"
+            className="mx-2 flex-1"
+            leftAdornment={
+              <Adornment>
+                <FaSearch />
+              </Adornment>
+            }
+          />
 
-        <HeaderCurrentUserAvatar />
-      </Header>
-
+          <HeaderCurrentUserAvatar />
+        </Header>
+      }
+    >
       <Main hasPrimaryAction>
         <PrimaryAction>
           <FaPlus />
         </PrimaryAction>
       </Main>
-    </>
+    </PageLayout>
   );
 }

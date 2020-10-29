@@ -9,7 +9,7 @@ import {
   FaTag,
   FaUser,
 } from "react-icons/fa";
-import Logo from "../../ui/logo.svg";
+import Logo from "../ui/logo.svg";
 
 const ResourceIcons: { [key in ResourceKey]: React.ElementType } = {
   animal: Logo,
