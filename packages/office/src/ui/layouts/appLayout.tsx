@@ -6,7 +6,7 @@ type PageLayoutProps = {
   children?: React.ReactNode;
 };
 
-export function PageLayout({ children }: PageLayoutProps) {
+export function AppLayout({ children }: PageLayoutProps) {
   return (
     <>
       <PageHead />

@@ -6,7 +6,7 @@ import { PageComponent } from "../core/pageComponent";
 import { ScreenSizeContextProvider } from "../core/screenSize";
 import "../core/styles.css";
 import { CurrentUserContextProvider } from "../core/user/currentUserContext";
-import { PageLayout } from "../ui/layouts/pageLayout";
+import { AppLayout } from "../ui/layouts/appLayout";
 
 initFirebase();
 
@@ -20,9 +20,9 @@ export default function App({ Component, pageProps }: AppProps) {
       <CurrentUserContextProvider
         resourcePermissionKey={Component.resourcePermissionKey}
       >
-        <PageLayout>
+        <AppLayout>
           <Component {...pageProps} />
-        </PageLayout>
+        </AppLayout>
       </CurrentUserContextProvider>
     </ScreenSizeContextProvider>
   );
