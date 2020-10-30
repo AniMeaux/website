@@ -14,7 +14,7 @@ export function CurrentUserProfile() {
   const { currentUser, signOut } = useCurrentUser();
 
   return (
-    <>
+    <div className="min-w-xs">
       <Section>
         <UserItem user={currentUser} />
       </Section>
@@ -58,6 +58,6 @@ export function CurrentUserProfile() {
           Se déconnecter
         </Button>
       </Section>
-    </>
+    </div>
   );
 }
