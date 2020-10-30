@@ -8,15 +8,15 @@ import {
 } from "@animeaux/shared";
 import * as React from "react";
 import { FaShieldAlt } from "react-icons/fa";
-import { Button } from "../button";
-import { Adornment } from "../formElements/adornment";
-import { Checkbox } from "../formElements/checkbox";
-import { CheckboxField, Field } from "../formElements/field";
-import { Form, FormProps } from "../formElements/form";
-import { Input } from "../formElements/input";
-import { Label } from "../formElements/label";
-import { Placeholder, Placeholders } from "../loaders/placeholder";
-import { ProgressBar } from "../loaders/progressBar";
+import { Button } from "../../ui/button";
+import { Adornment } from "../../ui/formElements/adornment";
+import { Checkbox } from "../../ui/formElements/checkbox";
+import { CheckboxField, Field } from "../../ui/formElements/field";
+import { Form, FormProps } from "../../ui/formElements/form";
+import { Input } from "../../ui/formElements/input";
+import { Label } from "../../ui/formElements/label";
+import { Placeholder, Placeholders } from "../../ui/loaders/placeholder";
+import { ProgressBar } from "../../ui/loaders/progressBar";
 
 type UserRoleFormProps = Omit<FormProps, "onSubmit"> & {
   userRole?: UserRole;

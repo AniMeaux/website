@@ -20,7 +20,7 @@ import { Message } from "../../../../ui/message";
 import {
   UserRoleForm,
   UserRoleFormPlaceholder,
-} from "../../../../ui/ressourcesForm/userRoleForm";
+} from "../../../../core/userRole/userRoleForm";
 
 const EditUserRolePage: PageComponent = () => {
   const router = useRouter();

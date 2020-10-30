@@ -1,6 +1,7 @@
 import { getErrorMessage } from "@animeaux/shared";
 import * as React from "react";
 import { PageComponent } from "../../../core/pageComponent";
+import { UserRoleForm } from "../../../core/userRole/userRoleForm";
 import { useCreateUserRole } from "../../../core/userRole/userRoleQueries";
 import {
   Header,
@@ -10,7 +11,6 @@ import {
 } from "../../../ui/layouts/header";
 import { Main } from "../../../ui/layouts/main";
 import { PageLayout } from "../../../ui/layouts/pageLayout";
-import { UserRoleForm } from "../../../ui/ressourcesForm/userRoleForm";
 
 const NewUserRolePage: PageComponent = () => {
   const [createUserRole, { pending, error }] = useCreateUserRole();
