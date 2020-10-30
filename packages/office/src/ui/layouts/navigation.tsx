@@ -69,7 +69,7 @@ export function Navigation(props: React.HTMLAttributes<HTMLElement>) {
         { "md:w-2/12 md:min-w-fit-content": isNavExpanded }
       )}
     >
-      {screenSize !== ScreenSize.SMALL && (
+      {screenSize > ScreenSize.SMALL && (
         <div className="w-full h-16 flex-none flex items-center justify-center text-4xl">
           <Logo />
         </div>
@@ -118,7 +118,7 @@ export function Navigation(props: React.HTMLAttributes<HTMLElement>) {
             </NavItem>
           )}
 
-          {screenSize !== ScreenSize.SMALL && (
+          {screenSize > ScreenSize.SMALL && (
             <>
               <NavItem>
                 <Separator className="mx-4" />
@@ -181,7 +181,7 @@ export function Navigation(props: React.HTMLAttributes<HTMLElement>) {
         </ul>
       </nav>
 
-      {screenSize !== ScreenSize.SMALL && (
+      {screenSize > ScreenSize.SMALL && (
         <div className="flex-none h-16 px-2 flex items-center justify-center">
           <Button
             onClick={() => setIsNavExpanded((e) => !e)}

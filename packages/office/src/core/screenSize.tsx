@@ -2,9 +2,9 @@ import invariant from "invariant";
 import * as React from "react";
 
 export enum ScreenSize {
-  SMALL = "SMALL",
-  MEDIUM = "MEDIUM",
-  LARGE = "LARGE",
+  SMALL = 0,
+  MEDIUM = 1,
+  LARGE = 2,
 }
 
 type ScreenSizeContextValue = {

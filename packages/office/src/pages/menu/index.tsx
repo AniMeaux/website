@@ -47,7 +47,7 @@ export default function MenuPage() {
   const router = useRouter();
 
   React.useLayoutEffect(() => {
-    if (screenSize !== ScreenSize.SMALL) {
+    if (screenSize > ScreenSize.SMALL) {
       router.replace("/");
     }
   }, [screenSize, router]);
