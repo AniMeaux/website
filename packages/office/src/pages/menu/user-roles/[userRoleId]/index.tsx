@@ -2,7 +2,6 @@ import {
   getErrorMessage,
   ResourceKeysOrder,
   ResourceLabels,
-  User,
   UserRole,
 } from "@animeaux/shared";
 import { useRouter } from "next/router";
@@ -11,6 +10,7 @@ import { FaPen } from "react-icons/fa";
 import { PageComponent } from "../../../../core/pageComponent";
 import { ResourceIcon } from "../../../../core/resource";
 import { useCurrentUser } from "../../../../core/user/currentUserContext";
+import { UserItem } from "../../../../core/user/userItem";
 import {
   useDeleteUserRole,
   useUserRole,
@@ -23,7 +23,6 @@ import {
   ItemIcon,
   ItemMainText,
   ItemSecondaryText,
-  LinkItem,
 } from "../../../../ui/item";
 import { Aside, AsideLayout } from "../../../../ui/layouts/aside";
 import {
@@ -46,7 +45,6 @@ import {
   TagListPlaceholder,
   TagText,
 } from "../../../../ui/tag";
-import { UserAvatar } from "../../../../ui/userAvatar";
 import { UserRolesPage } from "../index";
 
 function ResourcePermissionsSection({ userRole }: { userRole: UserRole }) {
@@ -85,21 +83,6 @@ function ResourcePermissionsPlaceholderSection() {
 
       <TagListPlaceholder className="px-1" />
     </Section>
-  );
-}
-
-function UserItem({ user }: { user: User }) {
-  return (
-    <LinkItem large href={`/menu/users/${user.id}`}>
-      <ItemIcon>
-        <UserAvatar user={user} />
-      </ItemIcon>
-
-      <ItemContent>
-        <ItemMainText>{user.displayName}</ItemMainText>
-        <ItemSecondaryText>{user.email}</ItemSecondaryText>
-      </ItemContent>
-    </LinkItem>
   );
 }
 
@@ -165,7 +148,6 @@ function ActionsSection({ userRole }: { userRole: UserRole }) {
 
   return (
     <Section>
-      <SectionTitle>Actions</SectionTitle>
       {onDeleteUserRoleState.error != null && (
         <Message type="error" className="mx-4 mb-4">
           {getErrorMessage(onDeleteUserRoleState.error)}
@@ -200,10 +182,6 @@ function ActionsSection({ userRole }: { userRole: UserRole }) {
 function ActionsPlaceholderSection() {
   return (
     <Section>
-      <SectionTitle>
-        <Placeholder preset="text" />
-      </SectionTitle>
-
       <ul>
         <li>
           <Placeholder preset="input" />

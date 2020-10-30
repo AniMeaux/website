@@ -3,10 +3,12 @@ import cn from "classnames";
 import * as React from "react";
 
 type ItemSize = "small" | "medium" | "large";
-
-export type ItemProps = React.HTMLAttributes<HTMLSpanElement> & {
+type ItemCommonProps = {
   size?: ItemSize;
+  active?: boolean;
 };
+
+export type ItemProps = React.HTMLAttributes<HTMLSpanElement> & ItemCommonProps;
 
 const ItemSizeClasses: { [key in ItemSize]: string } = {
   large: "h-16 space-x-4",
@@ -14,30 +16,40 @@ const ItemSizeClasses: { [key in ItemSize]: string } = {
   small: "h-10 space-x-2",
 };
 
-export function Item({ size = "medium", className, ...rest }: ItemProps) {
+export function Item({
+  size = "medium",
+  active = false,
+  className,
+  ...rest
+}: ItemProps) {
   return (
     <span
       {...rest}
       className={cn(
-        "w-full px-2 flex items-center",
+        "w-full rounded-md px-2 flex items-center",
         ItemSizeClasses[size],
+        { "bg-blue-50 text-blue-500": active },
         className
       )}
     />
   );
 }
 
-export type LinkItemProps = LinkProps & {
-  large?: boolean;
-};
+export type LinkItemProps = LinkProps & ItemCommonProps;
 
-export function LinkItem({ large = false, className, ...rest }: LinkItemProps) {
+export function LinkItem({
+  size = "medium",
+  active = false,
+  className,
+  ...rest
+}: LinkItemProps) {
   return (
     <Link
       {...rest}
       className={cn(
-        "a11y-focus w-full px-2 flex items-center space-x-4",
-        { "h-16": large, "h-12": !large },
+        "a11y-focus w-full rounded-md px-2 flex items-center md:hover:bg-gray-50",
+        ItemSizeClasses[size],
+        { "bg-blue-50 text-blue-500 md:hover:bg-blue-100": active },
         className
       )}
     />
@@ -92,7 +104,7 @@ export function ItemSecondaryAction({
     <span
       {...rest}
       className={cn(
-        "ml-4 flex-none text-xs text-gray-600 flex items-center",
+        "ml-4 flex-none text-xs opacity-75 flex items-center",
         className
       )}
     />
@@ -106,7 +118,7 @@ export function ItemSecondaryText({
   return (
     <span
       {...rest}
-      className={cn("flex-1 truncate text-sm text-gray-600", className)}
+      className={cn("flex-1 truncate text-sm opacity-75", className)}
     />
   );
 }

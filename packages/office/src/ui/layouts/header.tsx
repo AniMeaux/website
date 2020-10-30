@@ -4,7 +4,7 @@ import * as React from "react";
 import { FaArrowLeft, FaTimes } from "react-icons/fa";
 import { useCurrentUser } from "../../core/user/currentUserContext";
 import { CurrentUserProfile } from "../../core/user/currentUserProfile";
-import { Button, ButtonProps } from "../button";
+import { Button, ButtonClassName, ButtonProps } from "../button";
 import { Dropdown } from "../dropdown";
 import { UserAvatar } from "../userAvatar";
 
@@ -13,7 +13,7 @@ export function HeaderLink({ className, ...rest }: LinkProps) {
     <Link
       {...rest}
       className={cn(
-        "a11y-focus w-10 h-10 flex-none flex items-center justify-center",
+        "a11y-focus w-10 h-10 flex-none rounded-full flex items-center justify-center",
         className
       )}
     />
@@ -22,7 +22,7 @@ export function HeaderLink({ className, ...rest }: LinkProps) {
 
 export function HeaderBackLink(props: LinkProps) {
   return (
-    <HeaderLink {...props}>
+    <HeaderLink {...props} className={ButtonClassName.secondary.default}>
       <FaArrowLeft />
     </HeaderLink>
   );
@@ -30,7 +30,7 @@ export function HeaderBackLink(props: LinkProps) {
 
 export function HeaderCloseLink(props: LinkProps) {
   return (
-    <HeaderLink {...props}>
+    <HeaderLink {...props} className={ButtonClassName.secondary.default}>
       <FaTimes />
     </HeaderLink>
   );

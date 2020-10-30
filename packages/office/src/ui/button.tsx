@@ -11,19 +11,19 @@ export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   refProp?: React.RefObject<HTMLButtonElement>;
 };
 
-const ButtonClassName: {
+export const ButtonClassName: {
   [key in ButtonVariant]: {
     [key in ButtonColor]: string;
   };
 } = {
   secondary: {
-    default: "",
-    blue: "bg-blue-50 text-blue-500",
-    red: "bg-red-50 text-red-500",
+    default: "md:hover:bg-gray-50",
+    blue: "bg-blue-50 md:hover:bg-blue-100 text-blue-500",
+    red: "bg-red-50 md:hover:bg-red-100 text-red-500",
   },
   primary: {
     default: "",
-    blue: "bg-blue-500 text-white",
+    blue: "bg-blue-500 md:hover:bg-blue-400 text-white",
     red: "",
   },
 };

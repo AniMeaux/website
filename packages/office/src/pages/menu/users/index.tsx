@@ -29,7 +29,7 @@ import { UserAvatar } from "../../../ui/userAvatar";
 
 function UserItem({ user }: { user: User }) {
   return (
-    <LinkItem large href={user.id}>
+    <LinkItem size="large" href={user.id}>
       <ItemIcon>
         <UserAvatar user={user} />
       </ItemIcon>

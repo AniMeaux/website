@@ -4,6 +4,7 @@ import {
   ResourceLabels,
   UserRole,
 } from "@animeaux/shared";
+import { useRouter } from "next/router";
 import * as React from "react";
 import { FaPlus, FaShieldAlt } from "react-icons/fa";
 import { ScreenSize, useScreenSize } from "../../../core/screenSize";
@@ -34,13 +35,18 @@ import { PrimaryActionLink } from "../../../ui/primaryAction";
 
 type UserRoleItemProps = {
   userRole: UserRole;
+  active?: boolean;
 };
 
-function UserRoleItem({ userRole }: UserRoleItemProps) {
+function UserRoleItem({ userRole, active }: UserRoleItemProps) {
   return (
-    <LinkItem large href={`/menu/user-roles/${userRole.id}`}>
+    <LinkItem
+      size="large"
+      href={`/menu/user-roles/${userRole.id}`}
+      active={active}
+    >
       <ItemIcon>
-        <Avatar>
+        <Avatar color={active ? "blue" : "default"}>
           <FaShieldAlt />
         </Avatar>
       </ItemIcon>
@@ -79,9 +85,10 @@ function LoadingRows() {
 
 type UserRolesRowsProps = {
   userRoles: UserRole[];
+  activeUserRoleId: string | null;
 };
 
-function UserRolesRows({ userRoles }: UserRolesRowsProps) {
+function UserRolesRows({ userRoles, activeUserRoleId }: UserRolesRowsProps) {
   if (userRoles.length === 0) {
     return (
       <li>
@@ -94,7 +101,10 @@ function UserRolesRows({ userRoles }: UserRolesRowsProps) {
     <>
       {userRoles.map((userRole) => (
         <li key={userRole.id}>
-          <UserRoleItem userRole={userRole} />
+          <UserRoleItem
+            userRole={userRole}
+            active={activeUserRoleId === userRole.id}
+          />
         </li>
       ))}
     </>
@@ -107,7 +117,10 @@ type UserRolesPageProps = {
 
 export default UserRolesPage;
 export function UserRolesPage({ children }: UserRolesPageProps) {
-  // const isStandAlonePage = children == null;
+  const router = useRouter();
+  const activeUserRoleId: string | null =
+    (router.query.userRoleId as string) ?? null;
+
   const { screenSize } = useScreenSize();
   const { currentUser } = useCurrentUser();
   const canEdit = currentUser.role.resourcePermissions.user_role;
@@ -116,7 +129,12 @@ export function UserRolesPage({ children }: UserRolesPageProps) {
 
   let body: React.ReactNode | null = null;
   if (userRoles != null) {
-    body = <UserRolesRows userRoles={userRoles} />;
+    body = (
+      <UserRolesRows
+        activeUserRoleId={activeUserRoleId}
+        userRoles={userRoles}
+      />
+    );
   } else if (pending) {
     body = <LoadingRows />;
   }
