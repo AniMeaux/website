@@ -163,7 +163,7 @@ export default function UserPage() {
 
       {userState.pending && <ProgressBar />}
 
-      <Main hasPrimaryAction={canEdit}>
+      <Main>
         {userState.error != null && (
           <Message type="error" className="mx-4 mb-4">
             {getErrorMessage(userState.error)}

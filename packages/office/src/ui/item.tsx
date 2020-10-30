@@ -4,7 +4,7 @@ import * as React from "react";
 
 type ItemSize = "small" | "medium" | "large";
 
-type ItemProps = React.HTMLAttributes<HTMLSpanElement> & {
+export type ItemProps = React.HTMLAttributes<HTMLSpanElement> & {
   size?: ItemSize;
 };
 

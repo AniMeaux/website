@@ -3,24 +3,24 @@ import { useRouter } from "next/router";
 import * as React from "react";
 import { useAsyncCallback } from "react-behave";
 import { FaLock } from "react-icons/fa";
-import { useCurrentUser } from "../../core/user/currentUserContext";
-import { Button } from "../../ui/button";
-import { Adornment } from "../../ui/formElements/adornment";
-import { Field } from "../../ui/formElements/field";
-import { Form } from "../../ui/formElements/form";
-import { Label } from "../../ui/formElements/label";
-import { PasswordInput } from "../../ui/formElements/passwordInput";
+import { useCurrentUser } from "../core/user/currentUserContext";
+import { Button } from "../ui/button";
+import { Adornment } from "../ui/formElements/adornment";
+import { Field } from "../ui/formElements/field";
+import { Form } from "../ui/formElements/form";
+import { Label } from "../ui/formElements/label";
+import { PasswordInput } from "../ui/formElements/passwordInput";
 import {
   Header,
   HeaderBackLink,
   HeaderPlaceholder,
   HeaderTitle,
-} from "../../ui/layouts/header";
-import { Main, PageLayout } from "../../ui/layouts/page";
-import { ProgressBar } from "../../ui/loaders/progressBar";
-import { Message } from "../../ui/message";
+} from "../ui/layouts/header";
+import { Main, PageLayout } from "../ui/layouts/page";
+import { ProgressBar } from "../ui/loaders/progressBar";
+import { Message } from "../ui/message";
 
-export default function PasswordPage() {
+export default function EditPassword() {
   const router = useRouter();
   const back = (router.query.back as string) ?? "/";
 
@@ -58,7 +58,7 @@ export default function PasswordPage() {
     <PageLayout
       header={
         <Header>
-          <HeaderBackLink href={`..?back=${encodeURIComponent(back)}`} />
+          <HeaderBackLink href={back} />
           <HeaderTitle>Mot de passe</HeaderTitle>
           <HeaderPlaceholder />
         </Header>
@@ -66,7 +66,7 @@ export default function PasswordPage() {
     >
       {pending && <ProgressBar />}
 
-      <Main className="px-4">
+      <Main center className="px-4">
         {globalError != null && (
           <Message type="error" className="mb-2">
             {globalError}
@@ -114,7 +114,7 @@ export default function PasswordPage() {
             />
           </Field>
 
-          <Field>
+          <Field className="md:items-start">
             <Button
               type="submit"
               variant="primary"

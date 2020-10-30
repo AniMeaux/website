@@ -36,7 +36,7 @@ import { Section, SectionTitle } from "../../../../ui/layouts/section";
 import { Placeholder, Placeholders } from "../../../../ui/loaders/placeholder";
 import { ProgressBar } from "../../../../ui/loaders/progressBar";
 import { Message } from "../../../../ui/message";
-import { AsidePrimaryActionLink } from "../../../../ui/primaryAction";
+import { PrimaryActionLink } from "../../../../ui/primaryAction";
 import { Separator } from "../../../../ui/separator";
 import {
   Tag,
@@ -272,7 +272,7 @@ const UserRolePage: PageComponent = () => {
 
       {userRoleState.pending && <ProgressBar />}
 
-      <Aside hasPrimaryAction={canEdit}>
+      <Aside>
         {userRoleState.error != null && (
           <Message type="error" className="mx-4 mb-4">
             {getErrorMessage(userRoleState.error)}
@@ -282,9 +282,9 @@ const UserRolePage: PageComponent = () => {
         {body}
 
         {canEdit && (
-          <AsidePrimaryActionLink href="edit">
+          <PrimaryActionLink href="edit">
             <FaPen />
-          </AsidePrimaryActionLink>
+          </PrimaryActionLink>
         )}
       </Aside>
     </AsideLayout>

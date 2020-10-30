@@ -140,7 +140,7 @@ export function UserRolesPage({ children }: UserRolesPageProps) {
 
       {pending && <ProgressBar />}
 
-      <Main hasPrimaryAction={canEdit} className="px-2">
+      <Main className="px-2">
         {error != null && (
           <Message type="error" className="mx-2 mb-2">
             {getErrorMessage(error)}

@@ -21,20 +21,19 @@ export function PageTitle({ title }: PageTitleProps) {
 }
 
 type MainProps = React.HTMLAttributes<HTMLElement> & {
-  hasPrimaryAction?: boolean;
+  center?: boolean;
 };
 
-export function Main({
-  hasPrimaryAction = false,
-  className,
-  ...rest
-}: MainProps) {
+export function Main({ center = false, className, ...rest }: MainProps) {
   return (
     <main
       {...rest}
       className={cn(
-        "md:flex-1 md:min-w-0 md:min-h-0 md:overflow-auto pt-4 pb-20 md:pb-4",
-        { "pb-36 md:pb-20": hasPrimaryAction },
+        "md:min-w-0 md:min-h-0 md:overflow-auto pt-4 pb-36 md:pb-20",
+        {
+          "md:mx-auto md:w-10/12 md:max-w-screen-md": center,
+          "md:flex-1": !center,
+        },
         className
       )}
     />

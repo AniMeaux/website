@@ -1,10 +1,11 @@
 import { Link, LinkProps } from "@animeaux/shared";
 import cn from "classnames";
-import { useRouter } from "next/router";
 import * as React from "react";
 import { FaArrowLeft, FaTimes } from "react-icons/fa";
 import { useCurrentUser } from "../../core/user/currentUserContext";
+import { CurrentUserProfile } from "../../core/user/currentUserProfile";
 import { Button, ButtonProps } from "../button";
+import { Dropdown } from "../dropdown";
 import { UserAvatar } from "../userAvatar";
 
 export function HeaderLink({ className, ...rest }: LinkProps) {
@@ -74,15 +75,28 @@ export function HeaderAction({ className, ...rest }: ButtonProps) {
 }
 
 export function HeaderCurrentUserAvatar() {
-  const router = useRouter();
   const { currentUser } = useCurrentUser();
+  const actionButton = React.useRef<HTMLButtonElement>(null!);
+  const [isDropdownVisible, setIsDropdownVisible] = React.useState(false);
 
   return (
-    <HeaderLink
-      href={`/profile?back=${encodeURIComponent(router.asPath.split("?")[0])}`}
-    >
-      <UserAvatar user={currentUser} />
-    </HeaderLink>
+    <>
+      <HeaderAction
+        onClick={() => setIsDropdownVisible((v) => !v)}
+        refProp={actionButton}
+      >
+        <UserAvatar user={currentUser} />
+      </HeaderAction>
+
+      {isDropdownVisible && (
+        <Dropdown
+          onClose={() => setIsDropdownVisible(false)}
+          actionElement={actionButton}
+        >
+          <CurrentUserProfile />
+        </Dropdown>
+      )}
+    </>
   );
 }
 

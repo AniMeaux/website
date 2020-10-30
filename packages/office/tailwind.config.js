@@ -131,6 +131,9 @@ module.exports = {
         button: "10rem",
         "fit-content": "fit-content",
       },
+      maxWidth: {
+        ...base12,
+      },
       maxHeight: {
         ...base12,
       },

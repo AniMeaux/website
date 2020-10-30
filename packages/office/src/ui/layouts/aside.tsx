@@ -16,21 +16,15 @@ export function AsideLayout({
   );
 }
 
-type AsideProps = React.HTMLAttributes<HTMLElement> & {
-  hasPrimaryAction?: boolean;
-};
-
 export function Aside({
-  hasPrimaryAction = false,
   className,
   ...rest
-}: AsideProps) {
+}: React.HTMLAttributes<HTMLElement>) {
   return (
     <div
       {...rest}
       className={cn(
-        "min-h-0 flex-1 overflow-auto py-4",
-        { "pb-20": hasPrimaryAction },
+        "min-h-0 flex-1 overflow-auto pt-4 pb-36 md:pb-20",
         className
       )}
     />

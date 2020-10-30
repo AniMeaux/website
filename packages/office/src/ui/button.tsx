@@ -8,6 +8,7 @@ export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   variant?: ButtonVariant;
   color?: ButtonColor;
   iconOnly?: boolean;
+  refProp?: React.RefObject<HTMLButtonElement>;
 };
 
 const ButtonClassName: {
@@ -31,12 +32,14 @@ export function Button({
   variant = "secondary",
   color = "default",
   iconOnly = false,
+  refProp,
   className,
   ...rest
 }: ButtonProps) {
   return (
     <button
       {...rest}
+      ref={refProp}
       className={cn(
         "a11y-focus disabled:opacity-75 h-10",
         ButtonClassName[variant][color],
