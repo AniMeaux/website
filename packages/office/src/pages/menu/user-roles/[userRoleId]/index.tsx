@@ -7,13 +7,15 @@ import {
 } from "@animeaux/shared";
 import { useRouter } from "next/router";
 import * as React from "react";
-import { FaPen, FaTrash } from "react-icons/fa";
+import { FaPen } from "react-icons/fa";
+import { PageComponent } from "../../../../core/pageComponent";
 import { ResourceIcon } from "../../../../core/resource";
 import { useCurrentUser } from "../../../../core/user/currentUserContext";
 import {
   useDeleteUserRole,
   useUserRole,
 } from "../../../../core/userRole/userRoleQueries";
+import { Button } from "../../../../ui/button";
 import { EmptyMessage } from "../../../../ui/emptyMessage";
 import {
   Item,
@@ -23,20 +25,18 @@ import {
   ItemSecondaryText,
   LinkItem,
 } from "../../../../ui/item";
+import { Aside, AsideLayout } from "../../../../ui/layouts/aside";
 import {
+  AsideHeaderTitle,
   Header,
-  HeaderAction,
-  HeaderBackLink,
+  HeaderCloseLink,
   HeaderPlaceholder,
-  HeaderTitle,
 } from "../../../../ui/layouts/header";
-import { Main } from "../../../../ui/layouts/main";
-import { PageLayout } from "../../../../ui/layouts/pageLayout";
 import { Section, SectionTitle } from "../../../../ui/layouts/section";
 import { Placeholder, Placeholders } from "../../../../ui/loaders/placeholder";
 import { ProgressBar } from "../../../../ui/loaders/progressBar";
 import { Message } from "../../../../ui/message";
-import { PrimaryActionLink } from "../../../../ui/primaryAction";
+import { AsidePrimaryActionLink } from "../../../../ui/primaryAction";
 import { Separator } from "../../../../ui/separator";
 import {
   Tag,
@@ -47,6 +47,7 @@ import {
   TagText,
 } from "../../../../ui/tag";
 import { UserAvatar } from "../../../../ui/userAvatar";
+import { UserRolesPage } from "../index";
 
 function ResourcePermissionsSection({ userRole }: { userRole: UserRole }) {
   const resourcesKey = ResourceKeysOrder.filter(
@@ -157,14 +158,65 @@ function UsersPlaceholderSection() {
   );
 }
 
-export default function UserRolePage() {
+function ActionsSection({ userRole }: { userRole: UserRole }) {
+  const [onDeleteUserRole, onDeleteUserRoleState] = useDeleteUserRole(
+    userRole.id
+  );
+
+  return (
+    <Section>
+      <SectionTitle>Actions</SectionTitle>
+      {onDeleteUserRoleState.error != null && (
+        <Message type="error" className="mx-4 mb-4">
+          {getErrorMessage(onDeleteUserRoleState.error)}
+        </Message>
+      )}
+
+      <ul>
+        <li>
+          <Button
+            onClick={() => {
+              if (
+                window.confirm(
+                  `Êtes-vous sûr de vouloir supprimer le rôle utilisateur ${
+                    userRole!.name
+                  } ?`
+                )
+              ) {
+                onDeleteUserRole();
+              }
+            }}
+            color="red"
+            className="w-full"
+          >
+            Supprimer
+          </Button>
+        </li>
+      </ul>
+    </Section>
+  );
+}
+
+function ActionsPlaceholderSection() {
+  return (
+    <Section>
+      <SectionTitle>
+        <Placeholder preset="text" />
+      </SectionTitle>
+
+      <ul>
+        <li>
+          <Placeholder preset="input" />
+        </li>
+      </ul>
+    </Section>
+  );
+}
+
+const UserRolePage: PageComponent = () => {
   const router = useRouter();
   const userRoleId = router.query.userRoleId as string;
   const [userRole, userRoleState] = useUserRole(userRoleId);
-
-  const [onDeleteUserRole, onDeleteUserRoleState] = useDeleteUserRole(
-    userRoleId
-  );
 
   const { currentUser } = useCurrentUser();
   const canEdit =
@@ -186,6 +238,12 @@ export default function UserRolePage() {
         <ResourcePermissionsSection userRole={userRole} />
         <Separator />
         <UsersSection userRole={userRole} />
+        {canEdit && (
+          <>
+            <Separator />
+            <ActionsSection userRole={userRole} />
+          </>
+        )}
       </>
     );
   } else if (userRoleState.pending) {
@@ -194,66 +252,45 @@ export default function UserRolePage() {
         <ResourcePermissionsPlaceholderSection />
         <Separator />
         <UsersPlaceholderSection />
+        {canEdit && (
+          <>
+            <Separator />
+            <ActionsPlaceholderSection />
+          </>
+        )}
       </>
     );
   }
 
   return (
-    <PageLayout
-      header={
-        <Header>
-          <HeaderBackLink href=".." />
-          <HeaderTitle>{title}</HeaderTitle>
+    <AsideLayout>
+      <Header>
+        <HeaderPlaceholder />
+        <AsideHeaderTitle>{title}</AsideHeaderTitle>
+        <HeaderCloseLink href=".." />
+      </Header>
 
-          {canEdit ? (
-            <HeaderAction
-              variant="secondary"
-              color="red"
-              onClick={() => {
-                if (
-                  window.confirm(
-                    `Êtes-vous sûr de vouloir supprimer le rôle utilisateur ${
-                      userRole!.name
-                    } ?`
-                  )
-                ) {
-                  onDeleteUserRole();
-                }
-              }}
-            >
-              <FaTrash />
-            </HeaderAction>
-          ) : (
-            <HeaderPlaceholder />
-          )}
-        </Header>
-      }
-    >
-      {(userRoleState.pending || onDeleteUserRoleState.pending) && (
-        <ProgressBar />
-      )}
+      {userRoleState.pending && <ProgressBar />}
 
-      <Main hasPrimaryAction={canEdit}>
+      <Aside hasPrimaryAction={canEdit}>
         {userRoleState.error != null && (
           <Message type="error" className="mx-4 mb-4">
             {getErrorMessage(userRoleState.error)}
           </Message>
         )}
 
-        {onDeleteUserRoleState.error != null && (
-          <Message type="error" className="mx-4 mb-4">
-            {getErrorMessage(onDeleteUserRoleState.error)}
-          </Message>
-        )}
-
         {body}
 
         {canEdit && (
-          <PrimaryActionLink href="edit">
+          <AsidePrimaryActionLink href="edit">
             <FaPen />
-          </PrimaryActionLink>
+          </AsidePrimaryActionLink>
         )}
-      </Main>
-    </PageLayout>
+      </Aside>
+    </AsideLayout>
   );
-}
+};
+
+UserRolePage.WrapperComponent = UserRolesPage;
+
+export default UserRolePage;

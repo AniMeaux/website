@@ -1,0 +1,66 @@
+import cn from "classnames";
+import Head from "next/head";
+import * as React from "react";
+
+type PageTitleProps = {
+  title?: string | null;
+};
+
+export function PageTitle({ title }: PageTitleProps) {
+  let pageTitle = "Meaux'Pets";
+
+  if (title != null) {
+    pageTitle = `${title} | ${pageTitle}`;
+  }
+
+  return (
+    <Head>
+      <title>{pageTitle}</title>
+    </Head>
+  );
+}
+
+type MainProps = React.HTMLAttributes<HTMLElement> & {
+  hasPrimaryAction?: boolean;
+};
+
+export function Main({
+  hasPrimaryAction = false,
+  className,
+  ...rest
+}: MainProps) {
+  return (
+    <main
+      {...rest}
+      className={cn(
+        "md:flex-1 md:min-w-0 md:min-h-0 md:overflow-auto pt-4 pb-20 md:pb-4",
+        { "pb-36 md:pb-20": hasPrimaryAction },
+        className
+      )}
+    />
+  );
+}
+
+type PageLayoutProps = React.HTMLAttributes<HTMLDivElement> & {
+  header: React.ReactNode;
+};
+
+export function PageLayout({
+  header,
+  children,
+  className,
+  ...rest
+}: PageLayoutProps) {
+  return (
+    <div
+      {...rest}
+      className={cn("md:flex-1 md:min-w-0 md:flex md:flex-col", className)}
+    >
+      {header}
+
+      <div className="md:flex-1 md:min-h-0 md:flex md:items-stretch">
+        {children}
+      </div>
+    </div>
+  );
+}

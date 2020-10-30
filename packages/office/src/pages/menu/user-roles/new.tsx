@@ -1,31 +1,29 @@
 import { getErrorMessage } from "@animeaux/shared";
 import * as React from "react";
 import { PageComponent } from "../../../core/pageComponent";
-import { UserRoleForm } from "../../../core/userRole/userRoleForm";
 import { useCreateUserRole } from "../../../core/userRole/userRoleQueries";
+import { Aside, AsideLayout } from "../../../ui/layouts/aside";
 import {
+  AsideHeaderTitle,
   Header,
-  HeaderBackLink,
+  HeaderCloseLink,
   HeaderPlaceholder,
-  HeaderTitle,
 } from "../../../ui/layouts/header";
-import { Main } from "../../../ui/layouts/main";
-import { PageLayout } from "../../../ui/layouts/pageLayout";
+import { UserRoleForm } from "../../../core/userRole/userRoleForm";
+import { UserRolesPage } from "./index";
 
 const NewUserRolePage: PageComponent = () => {
   const [createUserRole, { pending, error }] = useCreateUserRole();
 
   return (
-    <PageLayout
-      header={
-        <Header>
-          <HeaderBackLink href=".." />
-          <HeaderTitle>Nouveau rôle utilisateur</HeaderTitle>
-          <HeaderPlaceholder />
-        </Header>
-      }
-    >
-      <Main>
+    <AsideLayout>
+      <Header>
+        <HeaderPlaceholder />
+        <AsideHeaderTitle>Nouveau rôle utilisateur</AsideHeaderTitle>
+        <HeaderCloseLink href=".." />
+      </Header>
+
+      <Aside>
         <UserRoleForm
           onSubmit={createUserRole}
           pending={pending}
@@ -34,11 +32,12 @@ const NewUserRolePage: PageComponent = () => {
           }}
           className="px-4"
         />
-      </Main>
-    </PageLayout>
+      </Aside>
+    </AsideLayout>
   );
 };
 
 NewUserRolePage.resourcePermissionKey = "user_role";
+NewUserRolePage.WrapperComponent = UserRolesPage;
 
 export default NewUserRolePage;

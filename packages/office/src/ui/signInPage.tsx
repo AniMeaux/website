@@ -11,8 +11,7 @@ import { Form } from "./formElements/form";
 import { Input } from "./formElements/input";
 import { Label } from "./formElements/label";
 import { PasswordInput } from "./formElements/passwordInput";
-import { PageHead } from "./layouts/pageHead";
-import { PageTitle } from "./layouts/pageTitle";
+import { PageTitle } from "./layouts/page";
 import { ProgressBar } from "./loaders/progressBar";
 import { Message } from "./message";
 
@@ -50,8 +49,7 @@ export function SignInPage() {
 
   return (
     <main className="w-screen h-screen flex flex-col justify-center">
-      <PageHead />
-      <PageTitle />
+      <PageTitle title="Connexion" />
 
       {pending && <ProgressBar />}
 

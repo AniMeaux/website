@@ -26,16 +26,19 @@ import {
   HeaderPlaceholder,
   HeaderTitle,
 } from "../../../ui/layouts/header";
-import { Main } from "../../../ui/layouts/main";
-import { PageLayout } from "../../../ui/layouts/pageLayout";
+import { Main, PageLayout, PageTitle } from "../../../ui/layouts/page";
 import { Placeholder, Placeholders } from "../../../ui/loaders/placeholder";
 import { ProgressBar } from "../../../ui/loaders/progressBar";
 import { Message } from "../../../ui/message";
 import { PrimaryActionLink } from "../../../ui/primaryAction";
 
-function UserRoleItem({ userRole }: { userRole: UserRole }) {
+type UserRoleItemProps = {
+  userRole: UserRole;
+};
+
+function UserRoleItem({ userRole }: UserRoleItemProps) {
   return (
-    <LinkItem large href={userRole.id}>
+    <LinkItem large href={`/menu/user-roles/${userRole.id}`}>
       <ItemIcon>
         <Avatar>
           <FaShieldAlt />
@@ -74,7 +77,11 @@ function LoadingRows() {
   );
 }
 
-function UserRolesRows({ userRoles }: { userRoles: UserRole[] }) {
+type UserRolesRowsProps = {
+  userRoles: UserRole[];
+};
+
+function UserRolesRows({ userRoles }: UserRolesRowsProps) {
   if (userRoles.length === 0) {
     return (
       <li>
@@ -94,7 +101,13 @@ function UserRolesRows({ userRoles }: { userRoles: UserRole[] }) {
   );
 }
 
-export default function UserRolesPage() {
+type UserRolesPageProps = {
+  children?: React.ReactNode;
+};
+
+export default UserRolesPage;
+export function UserRolesPage({ children }: UserRolesPageProps) {
+  // const isStandAlonePage = children == null;
   const { screenSize } = useScreenSize();
   const { currentUser } = useCurrentUser();
   const canEdit = currentUser.role.resourcePermissions.user_role;
@@ -123,6 +136,8 @@ export default function UserRolesPage() {
         </Header>
       }
     >
+      <PageTitle title="Rôles utilisateurs" />
+
       {pending && <ProgressBar />}
 
       <Main hasPrimaryAction={canEdit} className="px-2">
@@ -140,6 +155,8 @@ export default function UserRolesPage() {
           </PrimaryActionLink>
         )}
       </Main>
+
+      {children}
     </PageLayout>
   );
 }

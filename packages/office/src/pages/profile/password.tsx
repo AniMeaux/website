@@ -16,8 +16,7 @@ import {
   HeaderPlaceholder,
   HeaderTitle,
 } from "../../ui/layouts/header";
-import { Main } from "../../ui/layouts/main";
-import { PageLayout } from "../../ui/layouts/pageLayout";
+import { Main, PageLayout } from "../../ui/layouts/page";
 import { ProgressBar } from "../../ui/loaders/progressBar";
 import { Message } from "../../ui/message";
 

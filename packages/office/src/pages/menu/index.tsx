@@ -1,6 +1,8 @@
+import { useRouter } from "next/router";
 import * as React from "react";
 import { FaAngleRight } from "react-icons/fa";
 import { ResourceIcon } from "../../core/resource";
+import { ScreenSize, useScreenSize } from "../../core/screenSize";
 import {
   ItemContent,
   ItemIcon,
@@ -14,8 +16,7 @@ import {
   HeaderPlaceholder,
   HeaderTitle,
 } from "../../ui/layouts/header";
-import { Main } from "../../ui/layouts/main";
-import { PageLayout } from "../../ui/layouts/pageLayout";
+import { Main, PageLayout, PageTitle } from "../../ui/layouts/page";
 import { Section } from "../../ui/layouts/section";
 import { Separator } from "../../ui/separator";
 
@@ -42,6 +43,15 @@ function MenuLinkItem({
 }
 
 export default function MenuPage() {
+  const { screenSize } = useScreenSize();
+  const router = useRouter();
+
+  React.useLayoutEffect(() => {
+    if (screenSize !== ScreenSize.SMALL) {
+      router.replace("/");
+    }
+  }, [screenSize, router]);
+
   return (
     <PageLayout
       header={
@@ -52,6 +62,8 @@ export default function MenuPage() {
         </Header>
       }
     >
+      <PageTitle title="Menu" />
+
       <Main>
         <Section>
           <ul>

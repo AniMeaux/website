@@ -3,24 +3,24 @@ import { useRouter } from "next/router";
 import * as React from "react";
 import { PageComponent } from "../../../../core/pageComponent";
 import {
-  useUpdateUserRole,
-  useUserRole,
-} from "../../../../core/userRole/userRoleQueries";
-import {
-  Header,
-  HeaderBackLink,
-  HeaderPlaceholder,
-  HeaderTitle,
-} from "../../../../ui/layouts/header";
-import { Main } from "../../../../ui/layouts/main";
-import { PageLayout } from "../../../../ui/layouts/pageLayout";
-import { Placeholder } from "../../../../ui/loaders/placeholder";
-import { ProgressBar } from "../../../../ui/loaders/progressBar";
-import { Message } from "../../../../ui/message";
-import {
   UserRoleForm,
   UserRoleFormPlaceholder,
 } from "../../../../core/userRole/userRoleForm";
+import {
+  useUpdateUserRole,
+  useUserRole,
+} from "../../../../core/userRole/userRoleQueries";
+import { Aside, AsideLayout } from "../../../../ui/layouts/aside";
+import {
+  AsideHeaderTitle,
+  Header,
+  HeaderBackLink,
+  HeaderCloseLink,
+} from "../../../../ui/layouts/header";
+import { Placeholder } from "../../../../ui/loaders/placeholder";
+import { ProgressBar } from "../../../../ui/loaders/progressBar";
+import { Message } from "../../../../ui/message";
+import { UserRolesPage } from "../index";
 
 const EditUserRolePage: PageComponent = () => {
   const router = useRouter();
@@ -57,20 +57,18 @@ const EditUserRolePage: PageComponent = () => {
   }
 
   return (
-    <PageLayout
-      header={
-        <Header>
-          <HeaderBackLink href=".." />
-          <HeaderTitle>{title}</HeaderTitle>
-          <HeaderPlaceholder />
-        </Header>
-      }
-    >
+    <AsideLayout>
+      <Header>
+        <HeaderBackLink href=".." />
+        <AsideHeaderTitle>{title}</AsideHeaderTitle>
+        <HeaderCloseLink href="../.." />
+      </Header>
+
       {(userRoleState.pending || updateUserRoleState.pending) && (
         <ProgressBar />
       )}
 
-      <Main className="px-4">
+      <Aside className="px-4">
         {userRoleState.error != null && (
           <Message type="error" className="mb-4">
             {getErrorMessage(userRoleState.error)}
@@ -78,11 +76,12 @@ const EditUserRolePage: PageComponent = () => {
         )}
 
         {body}
-      </Main>
-    </PageLayout>
+      </Aside>
+    </AsideLayout>
   );
 };
 
 EditUserRolePage.resourcePermissionKey = "user_role";
+EditUserRolePage.WrapperComponent = UserRolesPage;
 
 export default EditUserRolePage;

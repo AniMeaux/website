@@ -52,6 +52,13 @@ export function HeaderTitle({
   );
 }
 
+export function AsideHeaderTitle({
+  className,
+  ...rest
+}: React.HTMLAttributes<HTMLHeadingElement>) {
+  return <HeaderTitle {...rest} className={cn("md:text-center", className)} />;
+}
+
 export function HeaderPlaceholder() {
   return <span className="flex-none w-10" />;
 }

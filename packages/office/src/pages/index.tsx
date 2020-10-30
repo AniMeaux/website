@@ -1,5 +1,5 @@
 import * as React from "react";
-import { FaFilter, FaPlus, FaSearch } from "react-icons/fa";
+import { FaFilter, FaSearch } from "react-icons/fa";
 import { Adornment } from "../ui/formElements/adornment";
 import { Input } from "../ui/formElements/input";
 import {
@@ -7,9 +7,7 @@ import {
   HeaderAction,
   HeaderCurrentUserAvatar,
 } from "../ui/layouts/header";
-import { Main } from "../ui/layouts/main";
-import { PageLayout } from "../ui/layouts/pageLayout";
-import { PrimaryAction } from "../ui/primaryAction";
+import { Main, PageLayout, PageTitle } from "../ui/layouts/page";
 
 export default function AnimalListPage() {
   return (
@@ -36,11 +34,9 @@ export default function AnimalListPage() {
         </Header>
       }
     >
-      <Main hasPrimaryAction>
-        <PrimaryAction>
-          <FaPlus />
-        </PrimaryAction>
-      </Main>
+      <PageTitle title="Animaux" />
+
+      <Main></Main>
     </PageLayout>
   );
 }

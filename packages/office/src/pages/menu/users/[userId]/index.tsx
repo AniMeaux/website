@@ -18,8 +18,7 @@ import {
   HeaderPlaceholder,
   HeaderTitle,
 } from "../../../../ui/layouts/header";
-import { Main } from "../../../../ui/layouts/main";
-import { PageLayout } from "../../../../ui/layouts/pageLayout";
+import { Main, PageLayout, PageTitle } from "../../../../ui/layouts/page";
 import { Section, SectionTitle } from "../../../../ui/layouts/section";
 import { Placeholder, Placeholders } from "../../../../ui/loaders/placeholder";
 import { ProgressBar } from "../../../../ui/loaders/progressBar";
@@ -119,13 +118,16 @@ export default function UserPage() {
   const { currentUser } = useCurrentUser();
   const canEdit = user != null && currentUser.role.resourcePermissions.user;
 
-  let title: React.ReactNode | null = null;
+  let headerTitle: React.ReactNode | null = null;
+  let pageTitle: string | null = null;
   if (user != null) {
-    title = user.displayName;
+    headerTitle = user.displayName;
+    pageTitle = user.displayName;
   } else if (userState.pending) {
-    title = <Placeholder preset="text" />;
+    headerTitle = <Placeholder preset="text" />;
   } else if (userState.error != null) {
-    title = "Oups";
+    headerTitle = "Oups";
+    pageTitle = "Oups";
   }
 
   let body: React.ReactNode | null = null;
@@ -152,11 +154,13 @@ export default function UserPage() {
       header={
         <Header>
           <HeaderBackLink href=".." />
-          <HeaderTitle>{title}</HeaderTitle>
+          <HeaderTitle>{headerTitle}</HeaderTitle>
           <HeaderPlaceholder />
         </Header>
       }
     >
+      <PageTitle title={pageTitle} />
+
       {userState.pending && <ProgressBar />}
 
       <Main hasPrimaryAction={canEdit}>

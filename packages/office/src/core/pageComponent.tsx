@@ -7,4 +7,5 @@ export type PageComponent<Props = {}> = NextComponentType<
   Props
 > & {
   resourcePermissionKey?: ResourceKey;
+  WrapperComponent?: React.ElementType;
 };

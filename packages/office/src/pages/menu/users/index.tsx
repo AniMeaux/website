@@ -20,8 +20,7 @@ import {
   HeaderPlaceholder,
   HeaderTitle,
 } from "../../../ui/layouts/header";
-import { Main } from "../../../ui/layouts/main";
-import { PageLayout } from "../../../ui/layouts/pageLayout";
+import { Main, PageLayout, PageTitle } from "../../../ui/layouts/page";
 import { Placeholder, Placeholders } from "../../../ui/loaders/placeholder";
 import { ProgressBar } from "../../../ui/loaders/progressBar";
 import { Message } from "../../../ui/message";
@@ -116,6 +115,8 @@ export default function UsersPage() {
         </Header>
       }
     >
+      <PageTitle title="Utilisateurs" />
+
       {pending && <ProgressBar />}
 
       <Main hasPrimaryAction={canEdit} className="px-2">
