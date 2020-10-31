@@ -7,11 +7,7 @@ type PageTitleProps = {
 };
 
 export function PageTitle({ title }: PageTitleProps) {
-  let pageTitle = "Meaux'Pets";
-
-  if (title != null) {
-    pageTitle = `${title} | ${pageTitle}`;
-  }
+  const pageTitle = title ?? "Meaux'Pets";
 
   return (
     <Head>

@@ -10,6 +10,7 @@ import {
   HeaderCloseLink,
   HeaderPlaceholder,
 } from "../../../ui/layouts/header";
+import { PageTitle } from "../../../ui/layouts/page";
 import { UserRolesPage } from "./index";
 
 const NewUserRolePage: PageComponent = () => {
@@ -22,6 +23,8 @@ const NewUserRolePage: PageComponent = () => {
         <AsideHeaderTitle>Nouveau rôle utilisateur</AsideHeaderTitle>
         <HeaderCloseLink href=".." />
       </Header>
+
+      <PageTitle title="Nouveau rôle utilisateur" />
 
       <Aside>
         <UserRoleForm

@@ -17,6 +17,7 @@ import {
   HeaderBackLink,
   HeaderCloseLink,
 } from "../../../../ui/layouts/header";
+import { PageTitle } from "../../../../ui/layouts/page";
 import { Placeholder } from "../../../../ui/loaders/placeholder";
 import { Message } from "../../../../ui/message";
 import { UserRolesPage } from "../index";
@@ -27,13 +28,16 @@ const EditUserRolePage: PageComponent = () => {
   const { userRole, ...userRoleState } = useUserRole(userRoleId);
   const [updateUserRole, updateUserRoleState] = useUpdateUserRole();
 
-  let title: React.ReactNode | null = null;
+  let pageTitle: string | null = null;
+  let headerTitle: React.ReactNode | null = null;
   if (userRole != null) {
-    title = userRole.name;
+    pageTitle = `Modifier ${userRole.name}`;
+    headerTitle = userRole.name;
   } else if (userRoleState.isLoading) {
-    title = <Placeholder preset="text" />;
+    headerTitle = <Placeholder preset="text" />;
   } else if (userRoleState.error != null) {
-    title = "Oups";
+    pageTitle = "Oups";
+    headerTitle = "Oups";
   }
 
   let body: React.ReactNode | null = null;
@@ -61,9 +65,11 @@ const EditUserRolePage: PageComponent = () => {
     <AsideLayout>
       <Header>
         <HeaderBackLink href=".." />
-        <AsideHeaderTitle>{title}</AsideHeaderTitle>
+        <AsideHeaderTitle>{headerTitle}</AsideHeaderTitle>
         <HeaderCloseLink href="../.." />
       </Header>
+
+      <PageTitle title={pageTitle} />
 
       <Aside className="px-4">
         {userRoleState.error != null && (
