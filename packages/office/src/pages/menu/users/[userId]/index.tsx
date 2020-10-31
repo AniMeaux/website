@@ -25,30 +25,7 @@ import { Section, SectionTitle } from "../../../../ui/layouts/section";
 import { Placeholder, Placeholders } from "../../../../ui/loaders/placeholder";
 import { Message } from "../../../../ui/message";
 import { PrimaryActionLink } from "../../../../ui/primaryAction";
-import { Separator } from "../../../../ui/separator";
-import { UserAvatar } from "../../../../ui/userAvatar";
 import { UsersPage } from "../index";
-
-function MainProfileSection({ user }: { user: User }) {
-  return (
-    <Section className="flex flex-col items-center">
-      <UserAvatar large user={user} />
-
-      <h2 className="mt-2 text-3xl font-serif font-medium">
-        {user.displayName}
-      </h2>
-    </Section>
-  );
-}
-
-function MainProfilePlaceholderSection() {
-  return (
-    <Section className="flex flex-col items-center">
-      <Placeholder preset="avatar" className="w-32 h-32" />
-      <Placeholder preset="label" className="mt-2 text-3xl" />
-    </Section>
-  );
-}
 
 function SecondaryProfileSection({ user }: { user: User }) {
   return (
@@ -135,8 +112,6 @@ const UserPage: PageComponent = () => {
   if (user != null) {
     body = (
       <>
-        <MainProfileSection user={user} />
-        <Separator noBorder />
         <SecondaryProfileSection user={user} />
         {currentUser.role.resourcePermissions.user && (
           <PrimaryActionLink href="edit">
@@ -146,13 +121,7 @@ const UserPage: PageComponent = () => {
       </>
     );
   } else if (isLoading) {
-    body = (
-      <>
-        <MainProfilePlaceholderSection />
-        <Separator noBorder />
-        <SecondaryProfilePlaceholderSection />
-      </>
-    );
+    body = <SecondaryProfilePlaceholderSection />;
   }
 
   return (
