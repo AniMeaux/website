@@ -29,7 +29,6 @@ import {
 } from "../../../ui/layouts/header";
 import { Main, PageLayout, PageTitle } from "../../../ui/layouts/page";
 import { Placeholder, Placeholders } from "../../../ui/loaders/placeholder";
-import { ProgressBar } from "../../../ui/loaders/progressBar";
 import { Message } from "../../../ui/message";
 import { PrimaryActionLink } from "../../../ui/primaryAction";
 
@@ -42,7 +41,7 @@ function UserRoleItem({ userRole, active }: UserRoleItemProps) {
   return (
     <LinkItem
       size="large"
-      href={`/menu/user-roles/${userRole.id}`}
+      href={active ? "/menu/user-roles" : `/menu/user-roles/${userRole.id}`}
       active={active}
     >
       <ItemIcon>
@@ -125,7 +124,7 @@ export function UserRolesPage({ children }: UserRolesPageProps) {
   const { currentUser } = useCurrentUser();
   const canEdit = currentUser.role.resourcePermissions.user_role;
 
-  const [userRoles, { pending, error }] = useAllUserRoles();
+  const { userRoles, isLoading, error } = useAllUserRoles();
 
   let body: React.ReactNode | null = null;
   if (userRoles != null) {
@@ -135,7 +134,7 @@ export function UserRolesPage({ children }: UserRolesPageProps) {
         userRoles={userRoles}
       />
     );
-  } else if (pending) {
+  } else if (isLoading) {
     body = <LoadingRows />;
   }
 
@@ -155,8 +154,6 @@ export function UserRolesPage({ children }: UserRolesPageProps) {
       }
     >
       <PageTitle title="Rôles utilisateurs" />
-
-      {pending && <ProgressBar />}
 
       <Main className="px-2">
         {error != null && (

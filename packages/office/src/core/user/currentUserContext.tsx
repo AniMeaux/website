@@ -1,11 +1,10 @@
 import { ResourceKey, User } from "@animeaux/shared";
 import firebase from "firebase/app";
-import { gql } from "graphql.macro";
 import invariant from "invariant";
 import * as React from "react";
 import { SignInPage } from "../../ui/signInPage";
 import { UnauthorisedPage } from "../../ui/unauthorisedPage";
-import { fetchGraphQL } from "../fetchGraphQL";
+import { fetchGraphQL, gql } from "../request";
 
 type CurrentUserContextValue = {
   currentUser: User;

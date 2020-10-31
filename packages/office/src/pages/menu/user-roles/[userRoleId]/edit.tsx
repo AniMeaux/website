@@ -18,20 +18,19 @@ import {
   HeaderCloseLink,
 } from "../../../../ui/layouts/header";
 import { Placeholder } from "../../../../ui/loaders/placeholder";
-import { ProgressBar } from "../../../../ui/loaders/progressBar";
 import { Message } from "../../../../ui/message";
 import { UserRolesPage } from "../index";
 
 const EditUserRolePage: PageComponent = () => {
   const router = useRouter();
   const userRoleId = router.query.userRoleId as string;
-  const [userRole, userRoleState] = useUserRole(userRoleId);
+  const { userRole, ...userRoleState } = useUserRole(userRoleId);
   const [updateUserRole, updateUserRoleState] = useUpdateUserRole();
 
   let title: React.ReactNode | null = null;
   if (userRole != null) {
     title = userRole.name;
-  } else if (userRoleState.pending) {
+  } else if (userRoleState.isLoading) {
     title = <Placeholder preset="text" />;
   } else if (userRoleState.error != null) {
     title = "Oups";
@@ -42,8 +41,10 @@ const EditUserRolePage: PageComponent = () => {
     body = (
       <UserRoleForm
         userRole={userRole}
-        onSubmit={(payload) => updateUserRole(userRole, payload)}
-        pending={updateUserRoleState.pending}
+        onSubmit={(payload) =>
+          updateUserRole({ currentUserRole: userRole, formPayload: payload })
+        }
+        pending={updateUserRoleState.isLoading}
         errors={{
           name:
             updateUserRoleState.error == null
@@ -52,7 +53,7 @@ const EditUserRolePage: PageComponent = () => {
         }}
       />
     );
-  } else if (userRoleState.pending) {
+  } else if (userRoleState.isLoading) {
     body = <UserRoleFormPlaceholder />;
   }
 
@@ -63,10 +64,6 @@ const EditUserRolePage: PageComponent = () => {
         <AsideHeaderTitle>{title}</AsideHeaderTitle>
         <HeaderCloseLink href="../.." />
       </Header>
-
-      {(userRoleState.pending || updateUserRoleState.pending) && (
-        <ProgressBar />
-      )}
 
       <Aside className="px-4">
         {userRoleState.error != null && (

@@ -1,4 +1,5 @@
 import { getErrorMessage, User } from "@animeaux/shared";
+import { useRouter } from "next/router";
 import * as React from "react";
 import { FaPlus } from "react-icons/fa";
 import { ScreenSize, useScreenSize } from "../../../core/screenSize";
@@ -22,14 +23,22 @@ import {
 } from "../../../ui/layouts/header";
 import { Main, PageLayout, PageTitle } from "../../../ui/layouts/page";
 import { Placeholder, Placeholders } from "../../../ui/loaders/placeholder";
-import { ProgressBar } from "../../../ui/loaders/progressBar";
 import { Message } from "../../../ui/message";
 import { PrimaryActionLink } from "../../../ui/primaryAction";
 import { UserAvatar } from "../../../ui/userAvatar";
 
-function UserItem({ user }: { user: User }) {
+type UserItemProps = {
+  user: User;
+  active?: boolean;
+};
+
+function UserItem({ user, active }: UserItemProps) {
   return (
-    <LinkItem size="large" href={user.id}>
+    <LinkItem
+      size="large"
+      href={active ? "/menu/users" : `/menu/users/${user.id}`}
+      active={active}
+    >
       <ItemIcon>
         <UserAvatar user={user} />
       </ItemIcon>
@@ -66,7 +75,12 @@ function LoadingRows() {
   );
 }
 
-function UsersRows({ users }: { users: User[] }) {
+type UsersRowsProps = {
+  users: User[];
+  activeUserId: string | null;
+};
+
+function UsersRows({ users, activeUserId }: UsersRowsProps) {
   if (users.length === 0) {
     return (
       <li>
@@ -79,24 +93,32 @@ function UsersRows({ users }: { users: User[] }) {
     <>
       {users.map((user) => (
         <li key={user.id}>
-          <UserItem user={user} />
+          <UserItem user={user} active={activeUserId === user.id} />
         </li>
       ))}
     </>
   );
 }
 
-export default function UsersPage() {
+type UserPageProps = {
+  children?: React.ReactNode;
+};
+
+export default UsersPage;
+export function UsersPage({ children }: UserPageProps) {
+  const router = useRouter();
+  const activeUserId: string | null = (router.query.userId as string) ?? null;
+
   const { screenSize } = useScreenSize();
   const { currentUser } = useCurrentUser();
   const canEdit = currentUser.role.resourcePermissions.user;
 
-  const [users, { pending, error }] = useAllUsers();
+  const { users, isLoading, error } = useAllUsers();
 
   let body: React.ReactNode | null = null;
   if (users != null) {
-    body = <UsersRows users={users} />;
-  } else if (pending) {
+    body = <UsersRows activeUserId={activeUserId} users={users} />;
+  } else if (isLoading) {
     body = <LoadingRows />;
   }
 
@@ -117,8 +139,6 @@ export default function UsersPage() {
     >
       <PageTitle title="Utilisateurs" />
 
-      {pending && <ProgressBar />}
-
       <Main className="px-2">
         {error != null && (
           <Message type="error" className="mx-2 mb-2">
@@ -134,6 +154,8 @@ export default function UsersPage() {
           </PrimaryActionLink>
         )}
       </Main>
+
+      {children}
     </PageLayout>
   );
 }

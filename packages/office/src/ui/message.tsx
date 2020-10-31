@@ -28,7 +28,7 @@ export function Message({ type, children, className, ...rest }: MessageProps) {
         className
       )}
     >
-      <Icon className="mr-4 text-xl" />
+      <Icon className="mr-4 flex-none text-xl" />
       <p className="flex-1">{children}</p>
     </div>
   );

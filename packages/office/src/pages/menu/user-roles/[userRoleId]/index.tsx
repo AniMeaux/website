@@ -31,9 +31,9 @@ import {
   HeaderCloseLink,
   HeaderPlaceholder,
 } from "../../../../ui/layouts/header";
+import { PageTitle } from "../../../../ui/layouts/page";
 import { Section, SectionTitle } from "../../../../ui/layouts/section";
 import { Placeholder, Placeholders } from "../../../../ui/loaders/placeholder";
-import { ProgressBar } from "../../../../ui/loaders/progressBar";
 import { Message } from "../../../../ui/message";
 import { PrimaryActionLink } from "../../../../ui/primaryAction";
 import { Separator } from "../../../../ui/separator";
@@ -142,9 +142,7 @@ function UsersPlaceholderSection() {
 }
 
 function ActionsSection({ userRole }: { userRole: UserRole }) {
-  const [onDeleteUserRole, onDeleteUserRoleState] = useDeleteUserRole(
-    userRole.id
-  );
+  const [onDeleteUserRole, onDeleteUserRoleState] = useDeleteUserRole();
 
   return (
     <Section>
@@ -165,7 +163,7 @@ function ActionsSection({ userRole }: { userRole: UserRole }) {
                   } ?`
                 )
               ) {
-                onDeleteUserRole();
+                onDeleteUserRole(userRole.id);
               }
             }}
             color="red"
@@ -194,19 +192,20 @@ function ActionsPlaceholderSection() {
 const UserRolePage: PageComponent = () => {
   const router = useRouter();
   const userRoleId = router.query.userRoleId as string;
-  const [userRole, userRoleState] = useUserRole(userRoleId);
+  const { userRole, isLoading, error } = useUserRole(userRoleId);
 
   const { currentUser } = useCurrentUser();
-  const canEdit =
-    userRole != null && currentUser.role.resourcePermissions.user_role;
 
-  let title: React.ReactNode | null = null;
+  let pageTitle: string | null = null;
+  let headerTitle: React.ReactNode | null = null;
   if (userRole != null) {
-    title = userRole.name;
-  } else if (userRoleState.pending) {
-    title = <Placeholder preset="text" />;
-  } else if (userRoleState.error != null) {
-    title = "Oups";
+    pageTitle = userRole.name;
+    headerTitle = userRole.name;
+  } else if (isLoading) {
+    headerTitle = <Placeholder preset="text" />;
+  } else if (error != null) {
+    pageTitle = "Oups";
+    headerTitle = "Oups";
   }
 
   let body: React.ReactNode | null = null;
@@ -216,21 +215,25 @@ const UserRolePage: PageComponent = () => {
         <ResourcePermissionsSection userRole={userRole} />
         <Separator />
         <UsersSection userRole={userRole} />
-        {canEdit && (
+        {currentUser.role.resourcePermissions.user_role && (
           <>
             <Separator />
             <ActionsSection userRole={userRole} />
+
+            <PrimaryActionLink href="edit">
+              <FaPen />
+            </PrimaryActionLink>
           </>
         )}
       </>
     );
-  } else if (userRoleState.pending) {
+  } else if (isLoading) {
     body = (
       <>
         <ResourcePermissionsPlaceholderSection />
         <Separator />
         <UsersPlaceholderSection />
-        {canEdit && (
+        {currentUser.role.resourcePermissions.user_role && (
           <>
             <Separator />
             <ActionsPlaceholderSection />
@@ -244,26 +247,20 @@ const UserRolePage: PageComponent = () => {
     <AsideLayout>
       <Header>
         <HeaderPlaceholder />
-        <AsideHeaderTitle>{title}</AsideHeaderTitle>
+        <AsideHeaderTitle>{headerTitle}</AsideHeaderTitle>
         <HeaderCloseLink href=".." />
       </Header>
 
-      {userRoleState.pending && <ProgressBar />}
+      <PageTitle title={pageTitle} />
 
       <Aside>
-        {userRoleState.error != null && (
+        {error != null && (
           <Message type="error" className="mx-4 mb-4">
-            {getErrorMessage(userRoleState.error)}
+            {getErrorMessage(error)}
           </Message>
         )}
 
         {body}
-
-        {canEdit && (
-          <PrimaryActionLink href="edit">
-            <FaPen />
-          </PrimaryActionLink>
-        )}
       </Aside>
     </AsideLayout>
   );

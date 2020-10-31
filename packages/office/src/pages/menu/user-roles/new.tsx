@@ -1,6 +1,7 @@
 import { getErrorMessage } from "@animeaux/shared";
 import * as React from "react";
 import { PageComponent } from "../../../core/pageComponent";
+import { UserRoleForm } from "../../../core/userRole/userRoleForm";
 import { useCreateUserRole } from "../../../core/userRole/userRoleQueries";
 import { Aside, AsideLayout } from "../../../ui/layouts/aside";
 import {
@@ -9,11 +10,10 @@ import {
   HeaderCloseLink,
   HeaderPlaceholder,
 } from "../../../ui/layouts/header";
-import { UserRoleForm } from "../../../core/userRole/userRoleForm";
 import { UserRolesPage } from "./index";
 
 const NewUserRolePage: PageComponent = () => {
-  const [createUserRole, { pending, error }] = useCreateUserRole();
+  const [createUserRole, { isLoading, error }] = useCreateUserRole();
 
   return (
     <AsideLayout>
@@ -26,7 +26,7 @@ const NewUserRolePage: PageComponent = () => {
       <Aside>
         <UserRoleForm
           onSubmit={createUserRole}
-          pending={pending}
+          pending={isLoading}
           errors={{
             name: error == null ? null : getErrorMessage(error),
           }}

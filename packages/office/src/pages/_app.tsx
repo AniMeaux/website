@@ -4,6 +4,7 @@ import Head from "next/head";
 import * as React from "react";
 import { initFirebase } from "../core/initFirebase";
 import { PageComponent } from "../core/pageComponent";
+import { RequestContextProvider } from "../core/request";
 import { ScreenSizeContextProvider } from "../core/screenSize";
 import "../core/styles.css";
 import { CurrentUserContextProvider } from "../core/user/currentUserContext";
@@ -41,13 +42,15 @@ export default function App({ Component, pageProps }: AppProps) {
     <>
       <PageHead />
 
-      <ScreenSizeContextProvider>
-        <CurrentUserContextProvider
-          resourcePermissionKey={Component.resourcePermissionKey}
-        >
-          <AppLayout>{children}</AppLayout>
-        </CurrentUserContextProvider>
-      </ScreenSizeContextProvider>
+      <RequestContextProvider>
+        <ScreenSizeContextProvider>
+          <CurrentUserContextProvider
+            resourcePermissionKey={Component.resourcePermissionKey}
+          >
+            <AppLayout>{children}</AppLayout>
+          </CurrentUserContextProvider>
+        </ScreenSizeContextProvider>
+      </RequestContextProvider>
     </>
   );
 }

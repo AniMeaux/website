@@ -5,12 +5,15 @@ import {
   UserRole,
   UserRoleFormPayload,
 } from "@animeaux/shared";
-import { gql } from "graphql.macro";
 import isEqual from "lodash.isequal";
 import { useRouter } from "next/router";
-import { AsyncState, useAsyncCallback, useAsyncMemo } from "react-behave";
-import { fetchGraphQL } from "../fetchGraphQL";
-import { RessourceCache } from "../ressourceCache";
+import {
+  fetchGraphQL,
+  gql,
+  useMutation,
+  useQuery,
+  useQueryCache,
+} from "../request";
 
 const GetAllUserRolesQuery = gql`
   query GetAllUserRolesQuery {
@@ -23,18 +26,18 @@ const GetAllUserRolesQuery = gql`
 `;
 
 export function useAllUserRoles() {
-  return useAsyncMemo<UserRole[] | null>(
+  const { data, ...rest } = useQuery<UserRole[], Error>(
+    "user-roles",
     async () => {
       const { userRoles } = await fetchGraphQL<{ userRoles: UserRole[] }>(
         GetAllUserRolesQuery
       );
 
-      RessourceCache.setItem("userRoles", userRoles);
       return userRoles;
-    },
-    [],
-    { initialValue: RessourceCache.getItem("userRoles") }
+    }
   );
+
+  return { ...rest, userRoles: data };
 }
 
 const GetUserRoleQuery = gql`
@@ -53,7 +56,8 @@ const GetUserRoleQuery = gql`
 `;
 
 export function useUserRole(userRoleId: string) {
-  return useAsyncMemo<UserRole | null>(
+  const { data, ...rest } = useQuery<UserRole | null, Error>(
+    ["user-role", userRoleId],
     async () => {
       const { userRole } = await fetchGraphQL<
         { userRole: UserRole | null },
@@ -64,22 +68,11 @@ export function useUserRole(userRoleId: string) {
         throw new Error(ErrorCode.USER_ROLE_NOT_FOUND);
       }
 
-      const cachedUserRole = RessourceCache.getItem<UserRole | null>(
-        `userRole:${userRoleId}`
-      );
-
-      if (isEqual(cachedUserRole, userRole)) {
-        // Return the cached value to preserve the object reference during
-        // editing.
-        return cachedUserRole;
-      }
-
-      RessourceCache.setItem(`userRole:${userRole.id}`, userRole);
       return userRole;
-    },
-    [userRoleId],
-    { initialValue: RessourceCache.getItem(`userRole:${userRoleId}`) }
+    }
   );
+
+  return { ...rest, userRole: data };
 }
 
 const CreateUserRoleQuery = gql`
@@ -103,13 +96,12 @@ const CreateUserRoleQuery = gql`
   }
 `;
 
-export function useCreateUserRole(): [
-  (payload: UserRoleFormPayload) => Promise<void>,
-  AsyncState<void>
-] {
+export function useCreateUserRole() {
   const router = useRouter();
-  return useAsyncCallback(
-    async (payload: UserRoleFormPayload) => {
+  const queryCache = useQueryCache();
+
+  return useMutation<UserRole, Error, UserRoleFormPayload>(
+    async (payload) => {
       if (payload.name.trim() === "") {
         throw new Error(ErrorCode.USER_ROLE_MISSING_NAME);
       }
@@ -119,10 +111,16 @@ export function useCreateUserRole(): [
         CreateUserRolePayload
       >(CreateUserRoleQuery, { variables: payload });
 
-      RessourceCache.setItem(`userRole:${userRole.id}`, userRole);
       router.push(`/menu/user-roles/${userRole.id}`);
+      return userRole;
     },
-    [router]
+    {
+      onSuccess() {
+        // We don't know where the data will be added to the list so we can't
+        // manualy update the cache.
+        queryCache.invalidateQueries("user-roles");
+      },
+    }
   );
 }
 
@@ -149,13 +147,16 @@ const UpdateUserRoleQuery = gql`
   }
 `;
 
-export function useUpdateUserRole(): [
-  (currentUserRole: UserRole, payload: UserRoleFormPayload) => Promise<void>,
-  AsyncState<void>
-] {
+export function useUpdateUserRole() {
   const router = useRouter();
-  return useAsyncCallback(
-    async (currentUserRole: UserRole, formPayload: UserRoleFormPayload) => {
+  const queryCache = useQueryCache();
+
+  return useMutation<
+    UserRole,
+    Error,
+    { currentUserRole: UserRole; formPayload: UserRoleFormPayload }
+  >(
+    async ({ currentUserRole, formPayload }) => {
       formPayload.name = formPayload.name.trim();
 
       const payload: UpdateUserRolePayload = {
@@ -184,10 +185,23 @@ export function useUpdateUserRole(): [
         UpdateUserRolePayload
       >(UpdateUserRoleQuery, { variables: payload });
 
-      RessourceCache.setItem(`userRole:${userRole.id}`, userRole);
       router.push(`/menu/user-roles/${userRole.id}`);
+      return userRole;
     },
-    [router]
+    {
+      onSuccess(userRole) {
+        queryCache.setQueryData<UserRole[]>(
+          "user-roles",
+          (userRoles) =>
+            (userRoles ?? []).map((u) => (u.id === userRole.id ? userRole : u)),
+          { initialStale: true }
+        );
+
+        queryCache.setQueryData(["user-role", userRole.id], userRole, {
+          initialStale: true,
+        });
+      },
+    }
   );
 }
 
@@ -197,16 +211,30 @@ const DeleteUserRoleQuery = gql`
   }
 `;
 
-export function useDeleteUserRole(
-  userRoleId: string
-): [() => Promise<void>, AsyncState<void>] {
+export function useDeleteUserRole() {
   const router = useRouter();
-  return useAsyncCallback(async () => {
-    await fetchGraphQL<boolean, { id: string }>(DeleteUserRoleQuery, {
-      variables: { id: userRoleId },
-    });
+  const queryCache = useQueryCache();
 
-    RessourceCache.removeItem(`userRole:${userRoleId}`);
-    router.push("/menu/user-roles");
-  }, [userRoleId, router]);
+  return useMutation<string, Error, string>(
+    async (userRoleId) => {
+      await fetchGraphQL<boolean, { id: string }>(DeleteUserRoleQuery, {
+        variables: { id: userRoleId },
+      });
+
+      router.push("/menu/user-roles");
+      return userRoleId;
+    },
+    {
+      onSuccess(userRoleId) {
+        queryCache.setQueryData<UserRole[]>(
+          "user-roles",
+          (userRoles) =>
+            (userRoles ?? []).filter((userRole) => userRole.id !== userRoleId),
+          { initialStale: true }
+        );
+
+        queryCache.removeQueries(["user-role", userRoleId]);
+      },
+    }
+  );
 }

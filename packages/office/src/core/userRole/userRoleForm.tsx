@@ -16,7 +16,6 @@ import { Form, FormProps } from "../../ui/formElements/form";
 import { Input } from "../../ui/formElements/input";
 import { Label } from "../../ui/formElements/label";
 import { Placeholder, Placeholders } from "../../ui/loaders/placeholder";
-import { ProgressBar } from "../../ui/loaders/progressBar";
 
 type UserRoleFormProps = Omit<FormProps, "onSubmit"> & {
   userRole?: UserRole;
@@ -51,8 +50,6 @@ export function UserRoleForm({
       pending={pending}
       onSubmit={() => onSubmit({ name, resourcePermissions })}
     >
-      {pending && <ProgressBar />}
-
       <Field>
         <Label htmlFor="role-name">Nom</Label>
         <Input
