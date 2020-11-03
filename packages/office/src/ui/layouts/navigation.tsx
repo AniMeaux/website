@@ -69,7 +69,7 @@ export function Navigation(props: React.HTMLAttributes<HTMLElement>) {
       {...props}
       className={cn(
         "z-30 fixed md:static right-0 bottom-0 left-0 h-16 md:h-auto md:flex-none border-t md:border-t-0 md:border-r bg-white flex md:flex-col",
-        { "md:w-2/12 md:min-w-fit-content": isNavExpanded }
+        { "md:w-3/12 md:min-w-fit-content": isNavExpanded }
       )}
     >
       {screenSize > ScreenSize.SMALL && (
@@ -145,15 +145,6 @@ export function Navigation(props: React.HTMLAttributes<HTMLElement>) {
                   label="Races animales"
                   icon={<ResourceIcon resourceKey="animal_breed" />}
                   href="/menu/animal-species"
-                  isNavExpanded={isNavExpanded}
-                />
-              </NavItem>
-
-              <NavItem>
-                <NavLink
-                  label="Caractéristiques animales"
-                  icon={<ResourceIcon resourceKey="animal_characteristic" />}
-                  href="/menu/animal-characteristics"
                   isNavExpanded={isNavExpanded}
                 />
               </NavItem>

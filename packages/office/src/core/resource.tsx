@@ -6,7 +6,6 @@ import {
   FaHandshake,
   FaHome,
   FaShieldAlt,
-  FaTag,
   FaUser,
 } from "react-icons/fa";
 import Logo from "../ui/logo.svg";
@@ -14,7 +13,6 @@ import Logo from "../ui/logo.svg";
 const ResourceIcons: { [key in ResourceKey]: React.ElementType } = {
   animal: Logo,
   animal_breed: FaDna,
-  animal_characteristic: FaTag,
   blog: FaFileAlt,
   host_family: FaHome,
   partner: FaHandshake,

@@ -85,13 +85,6 @@ export default function MenuPage() {
               Races animales
             </MenuLinkItem>
 
-            <MenuLinkItem
-              href="animal-characteristics"
-              icon={<ResourceIcon resourceKey="animal_characteristic" />}
-            >
-              Caractéristiques animales
-            </MenuLinkItem>
-
             <li>
               <Separator />
             </li>

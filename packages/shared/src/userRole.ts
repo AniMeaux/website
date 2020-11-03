@@ -3,7 +3,6 @@ import { User } from "./user";
 export const ResourceKeysOrder = [
   "animal",
   "animal_breed",
-  "animal_characteristic",
   "blog",
   "host_family",
   "partner",
@@ -24,7 +23,6 @@ export type DBResourcePermissions = {
 export const DEFAULT_RESOURCE_PERMISSIONS: ResourcePermissions = {
   animal: false,
   animal_breed: false,
-  animal_characteristic: false,
   blog: false,
   host_family: false,
   partner: false,
@@ -37,7 +35,6 @@ export const ResourceLabels: {
 } = {
   animal: "Animaux",
   animal_breed: "Races animales",
-  animal_characteristic: "Caractéristiques animales",
   blog: "Articles",
   host_family: "Familles d'accueil",
   partner: "Partenaires",
