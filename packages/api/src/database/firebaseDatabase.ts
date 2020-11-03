@@ -19,6 +19,7 @@ import { UserInputError } from "apollo-server";
 import * as admin from "firebase-admin";
 import isEmpty from "lodash.isempty";
 import isEqual from "lodash.isequal";
+import orderBy from "lodash.orderby";
 import { v4 as uuid } from "uuid";
 import { Database } from "./databaseType";
 
@@ -74,6 +75,7 @@ export const FirebaseDatabase: Database = {
     const userRolesSnapshot = await admin
       .firestore()
       .collection("userRoles")
+      .orderBy("name", "asc")
       .get();
 
     return userRolesSnapshot.docs.map((doc) => doc.data() as DBUserRole);
@@ -253,9 +255,13 @@ export const FirebaseDatabase: Database = {
       }
     });
 
+    users = orderBy(users, [(u) => u.displayName], "asc");
+
     // Only show disabled users to authorized users.
     if (currentUser.role.resourcePermissions.user) {
-      users = users.concat(disabledUsers);
+      users = users.concat(
+        orderBy(disabledUsers, [(u) => u.displayName], "asc")
+      );
     }
 
     return users;
