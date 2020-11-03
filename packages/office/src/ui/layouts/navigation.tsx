@@ -8,7 +8,6 @@ import { ScreenSize, useScreenSize } from "../../core/screenSize";
 import { Button } from "../button";
 import Logo from "../logoWithColors.svg";
 import { Separator } from "../separator";
-import { Tag, TagIcon, TagText } from "../tag";
 
 function NavItem(props: React.HTMLAttributes<HTMLLIElement>) {
   return <li {...props} className="flex-1 md:flex-none" />;
@@ -37,22 +36,26 @@ function NavLink({
     ? currentPath === props.href
     : currentPath.startsWith(props.href);
 
-  let showLabel: boolean;
-  if (screenSize === ScreenSize.SMALL) {
-    showLabel = active;
-  } else {
-    showLabel = isNavExpanded;
-  }
+  const showLabel = screenSize === ScreenSize.SMALL || isNavExpanded;
 
   return (
     <Link
       {...props}
-      className="h-full md:h-12 px-2 md:px-0 flex flex-col items-center md:items-stretch justify-center"
+      className={cn(
+        "h-full md:h-12 px-2 flex flex-col md:flex-row items-center justify-center",
+        {
+          "text-blue-500": active,
+          "text-default-color text-opacity-50 md:text-opacity-80 md:hover:text-opacity-100": !active,
+        }
+      )}
     >
-      <Tag size="large" color={active ? "blue" : "white"}>
-        <TagIcon>{icon}</TagIcon>
-        {showLabel && <TagText>{label}</TagText>}
-      </Tag>
+      <span className="flex-none text-xl md:text-lg">{icon}</span>
+
+      {showLabel && (
+        <span className="md:ml-4 flex-none md:flex-1 md:min-w-0 md:truncate text-xs md:text-base">
+          {label}
+        </span>
+      )}
     </Link>
   );
 }
@@ -121,7 +124,7 @@ export function Navigation(props: React.HTMLAttributes<HTMLElement>) {
           {screenSize > ScreenSize.SMALL && (
             <>
               <NavItem>
-                <Separator className="mx-4" />
+                <Separator className="mx-2" />
               </NavItem>
 
               <NavItem>
@@ -134,7 +137,7 @@ export function Navigation(props: React.HTMLAttributes<HTMLElement>) {
               </NavItem>
 
               <NavItem>
-                <Separator className="mx-4" />
+                <Separator className="mx-2" />
               </NavItem>
 
               <NavItem>
@@ -156,7 +159,7 @@ export function Navigation(props: React.HTMLAttributes<HTMLElement>) {
               </NavItem>
 
               <NavItem>
-                <Separator className="mx-4" />
+                <Separator className="mx-2" />
               </NavItem>
 
               <NavItem>
@@ -182,10 +185,14 @@ export function Navigation(props: React.HTMLAttributes<HTMLElement>) {
       </nav>
 
       {screenSize > ScreenSize.SMALL && (
-        <div className="flex-none h-16 px-2 flex items-center justify-center">
+        <div
+          className={cn("flex-none h-16 flex items-center justify-center", {
+            "px-2": isNavExpanded,
+          })}
+        >
           <Button
             onClick={() => setIsNavExpanded((e) => !e)}
-            className="w-full flex items-center justify-center"
+            className={cn({ "w-full": isNavExpanded })}
             iconOnly={!isNavExpanded}
           >
             {isNavExpanded ? <FaAngleDoubleLeft /> : <FaAngleDoubleRight />}

@@ -17,7 +17,7 @@ export function ActionAdornment({
       {...props}
       // Use type button to make sure we don't submit a form.
       type="button"
-      className={cn("p-2", className)}
+      className={cn("p-2 pointer-events-auto", className)}
     />
   );
 }

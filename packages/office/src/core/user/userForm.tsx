@@ -140,11 +140,11 @@ export function UserForm({
             </Adornment>
           }
           rightAdornment={
-            areUserRolesLoading && (
+            areUserRolesLoading ? (
               <Adornment>
                 <Spinner />
               </Adornment>
-            )
+            ) : null
           }
         >
           {userRoles != null &&

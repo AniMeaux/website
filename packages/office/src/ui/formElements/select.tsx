@@ -1,5 +1,8 @@
 import cn from "classnames";
 import * as React from "react";
+import { FaCaretDown } from "react-icons/fa";
+import { Adornment } from "./adornment";
+import { BaseInput, getInputClassName } from "./baseInput";
 
 export type SelectProps = Omit<
   React.SelectHTMLAttributes<HTMLSelectElement>,
@@ -23,10 +26,24 @@ export function Select({
   rightAdornment,
   children,
   className,
+  disabled,
   ...rest
 }: SelectProps) {
   return (
-    <span className={cn("relative", className)}>
+    <BaseInput
+      disabled={disabled}
+      leftAdornment={leftAdornment}
+      rightAdornment={
+        rightAdornment ?? (
+          <Adornment>
+            <FaCaretDown />
+          </Adornment>
+        )
+      }
+      errorMessage={errorMessage}
+      infoMessage={infoMessage}
+      className={className}
+    >
       <select
         {...rest}
         value={value ?? ""}
@@ -35,14 +52,16 @@ export function Select({
             onChange(event.target.value);
           }
         }}
+        disabled={disabled}
         className={cn(
-          "a11y-focus appearance-none h-10 w-full min-w-0 rounded-md bg-black bg-opacity-5 md:hover:bg-opacity-3 focus:bg-transparent px-4 truncate cursor-pointer text-default-color",
-          {
-            "text-opacity-70": value == null,
-            "pl-12": leftAdornment != null,
-            "pr-12": rightAdornment != null,
-            "border-2 border-red-500": errorMessage != null,
-          }
+          getInputClassName({
+            disabled,
+            errorMessage,
+            leftAdornment,
+            rightAdornment,
+          }),
+          "appearance-none truncate cursor-pointer",
+          { "text-opacity-70": value == null }
         )}
       >
         <option disabled value="">
@@ -51,28 +70,6 @@ export function Select({
 
         {children}
       </select>
-
-      {leftAdornment != null && (
-        <span className="absolute top-0 left-0 h-10 pl-2 text-gray-700 flex items-center">
-          {leftAdornment}
-        </span>
-      )}
-
-      {rightAdornment != null && (
-        <span className="absolute top-0 right-0 h-10 pr-2 text-gray-700 flex items-center">
-          {rightAdornment}
-        </span>
-      )}
-
-      {errorMessage != null && (
-        <p className="mt-1 text-sm text-red-500 font-medium">{errorMessage}</p>
-      )}
-
-      {infoMessage != null && errorMessage == null && (
-        <p className="mt-1 text-sm text-opacity-90 text-default-color">
-          {infoMessage}
-        </p>
-      )}
-    </span>
+    </BaseInput>
   );
 }

@@ -17,13 +17,13 @@ export const ButtonClassName: {
   };
 } = {
   secondary: {
-    default: "md:hover:bg-gray-50",
-    blue: "bg-blue-50 md:hover:bg-blue-100 text-blue-500",
-    red: "bg-red-50 md:hover:bg-red-100 text-red-500",
+    default: "bg-black bg-opacity-0 md:hover:bg-opacity-4",
+    blue: "bg-blue-500 bg-opacity-5 md:hover:bg-opacity-10 text-blue-500",
+    red: "bg-red-500 bg-opacity-5 md:hover:bg-opacity-10 text-red-500",
   },
   primary: {
     default: "",
-    blue: "bg-blue-500 md:hover:bg-blue-400 text-white",
+    blue: "bg-blue-500 md:hover:bg-opacity-90 text-white",
     red: "",
   },
 };
@@ -41,7 +41,7 @@ export function Button({
       {...rest}
       ref={refProp}
       className={cn(
-        "a11y-focus disabled:opacity-75 h-10",
+        "a11y-focus disabled:opacity-75 h-10 flex items-center justify-center",
         ButtonClassName[variant][color],
         {
           "w-10 rounded-full": iconOnly,

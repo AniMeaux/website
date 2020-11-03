@@ -65,13 +65,7 @@ export function HeaderPlaceholder() {
 }
 
 export function HeaderAction({ className, ...rest }: ButtonProps) {
-  return (
-    <Button
-      {...rest}
-      iconOnly
-      className={cn("flex-none flex items-center justify-center", className)}
-    />
-  );
+  return <Button {...rest} iconOnly className={cn("flex-none", className)} />;
 }
 
 export function HeaderCurrentUserAvatar() {

@@ -45,7 +45,7 @@ function UserRoleItem({ userRole, active }: UserRoleItemProps) {
       active={active}
     >
       <ItemIcon>
-        <Avatar color={active ? "blue" : "default"}>
+        <Avatar>
           <FaShieldAlt />
         </Avatar>
       </ItemIcon>

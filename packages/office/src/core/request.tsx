@@ -118,7 +118,11 @@ export function RequestContextProvider({
       <RequestContext.Provider value={value}>
         {children}
         <RequestProgressBar />
-        {process.env.NODE_ENV === "development" && <ReactQueryDevtools />}
+        {process.env.NODE_ENV === "development" && (
+          <ReactQueryDevtools
+            toggleButtonProps={{ style: { bottom: "5rem" } }}
+          />
+        )}
       </RequestContext.Provider>
     </ReactQueryCacheProvider>
   );

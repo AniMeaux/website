@@ -6,8 +6,8 @@ type AvatarColor = "default" | "blue";
 const AvatarClassName: {
   [key in AvatarColor]: string;
 } = {
-  blue: "bg-blue-100 text-blue-500",
-  default: "bg-gray-100 text-gray-700",
+  blue: "bg-blue-500 bg-opacity-5 text-blue-500",
+  default: "bg-black bg-opacity-5 text-default-color text-opacity-90",
 };
 
 export type AvatarProps = React.HTMLAttributes<HTMLSpanElement> & {

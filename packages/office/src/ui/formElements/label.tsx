@@ -9,7 +9,7 @@ export function Label({
     <label
       {...rest}
       className={cn(
-        "pb-1 text-sm text-opacity-70 text-default-color",
+        "pb-1 text-sm text-default-color text-opacity-70",
         className
       )}
     />
