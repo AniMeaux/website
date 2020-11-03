@@ -25,17 +25,24 @@ import { UserRolesPage } from "../index";
 const EditUserRolePage: PageComponent = () => {
   const router = useRouter();
   const userRoleId = router.query.userRoleId as string;
-  const { userRole, ...userRoleState } = useUserRole(userRoleId);
-  const [updateUserRole, updateUserRoleState] = useUpdateUserRole();
+  const { userRole, isUserRoleLoading, userRoleError } = useUserRole(
+    userRoleId
+  );
+
+  const {
+    updateUserRole,
+    isUpdateUserRoleLoading,
+    updateUserRoleError,
+  } = useUpdateUserRole();
 
   let pageTitle: string | null = null;
   let headerTitle: React.ReactNode | null = null;
   if (userRole != null) {
     pageTitle = `Modifier ${userRole.name}`;
     headerTitle = userRole.name;
-  } else if (userRoleState.isLoading) {
+  } else if (isUserRoleLoading) {
     headerTitle = <Placeholder preset="text" />;
-  } else if (userRoleState.error != null) {
+  } else if (userRoleError != null) {
     pageTitle = "Oups";
     headerTitle = "Oups";
   }
@@ -48,16 +55,16 @@ const EditUserRolePage: PageComponent = () => {
         onSubmit={(payload) =>
           updateUserRole({ currentUserRole: userRole, formPayload: payload })
         }
-        pending={updateUserRoleState.isLoading}
+        pending={isUpdateUserRoleLoading}
         errors={{
           name:
-            updateUserRoleState.error == null
+            updateUserRoleError == null
               ? null
-              : getErrorMessage(updateUserRoleState.error),
+              : getErrorMessage(updateUserRoleError),
         }}
       />
     );
-  } else if (userRoleState.isLoading) {
+  } else if (isUserRoleLoading) {
     body = <UserRoleFormPlaceholder />;
   }
 
@@ -72,9 +79,9 @@ const EditUserRolePage: PageComponent = () => {
       <PageTitle title={pageTitle} />
 
       <Aside className="px-4">
-        {userRoleState.error != null && (
+        {userRoleError != null && (
           <Message type="error" className="mb-4">
-            {getErrorMessage(userRoleState.error)}
+            {getErrorMessage(userRoleError)}
           </Message>
         )}
 

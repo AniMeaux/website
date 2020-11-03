@@ -5,7 +5,7 @@ import {
   SchemaDirectiveVisitor,
 } from "apollo-server";
 import { defaultFieldResolver, GraphQLField } from "graphql";
-import { QueryContext } from "./model/shared";
+import { AuthContext } from "./model/shared";
 
 const typeDefs = gql`
   directive @auth(resourceKey: String) on FIELD_DEFINITION
@@ -17,7 +17,7 @@ class AuthDirectiveVisitor extends SchemaDirectiveVisitor {
     const originalResolve = field.resolve || defaultFieldResolver;
 
     field.resolve = function (...args) {
-      const { user }: QueryContext = args[2];
+      const { user }: AuthContext = args[2];
 
       if (user == null) {
         throw new AuthenticationError(ErrorCode.AUTH_NOT_AUTHENTICATED);

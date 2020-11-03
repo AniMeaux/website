@@ -7,14 +7,16 @@ import {
   ItemMainText,
   ItemProps,
   ItemSecondaryText,
+  LinkItem,
+  LinkItemProps,
 } from "../../ui/item";
 import { UserAvatar } from "../../ui/userAvatar";
 
-type UserItemProps = ItemProps & { user: User };
+type UserItemContentProp = { user: User };
 
-export function UserItem({ user, ...rest }: UserItemProps) {
+function UserItemContent({ user }: UserItemContentProp) {
   return (
-    <Item {...rest} size="large">
+    <>
       <ItemIcon>
         <UserAvatar user={user} />
       </ItemIcon>
@@ -23,6 +25,32 @@ export function UserItem({ user, ...rest }: UserItemProps) {
         <ItemMainText>{user.displayName}</ItemMainText>
         <ItemSecondaryText>{user.email}</ItemSecondaryText>
       </ItemContent>
+    </>
+  );
+}
+
+type UserItemProps = ItemProps & UserItemContentProp;
+
+export function UserItem({ user, ...rest }: UserItemProps) {
+  return (
+    <Item {...rest} size="large">
+      <UserItemContent user={user} />
     </Item>
+  );
+}
+
+type UserLinkItemProps = Omit<LinkItemProps, "href"> & UserItemContentProp;
+
+export function UserLinkItem({ user, active, ...rest }: UserLinkItemProps) {
+  return (
+    <LinkItem
+      {...rest}
+      size="large"
+      href={active ? "/menu/users" : `/menu/users/${user.id}`}
+      active={active}
+      disabled={user.disabled}
+    >
+      <UserItemContent user={user} />
+    </LinkItem>
   );
 }

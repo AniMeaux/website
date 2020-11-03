@@ -6,6 +6,7 @@ type ItemSize = "small" | "medium" | "large";
 type ItemCommonProps = {
   size?: ItemSize;
   active?: boolean;
+  disabled?: boolean;
 };
 
 export type ItemProps = React.HTMLAttributes<HTMLSpanElement> & ItemCommonProps;
@@ -19,6 +20,7 @@ const ItemSizeClasses: { [key in ItemSize]: string } = {
 export function Item({
   size = "medium",
   active = false,
+  disabled = false,
   className,
   ...rest
 }: ItemProps) {
@@ -28,7 +30,10 @@ export function Item({
       className={cn(
         "w-full rounded-md px-2 flex items-center",
         ItemSizeClasses[size],
-        { "bg-blue-50 text-blue-500": active },
+        {
+          "bg-blue-50 text-blue-500": active,
+          "opacity-60": disabled,
+        },
         className
       )}
     />
@@ -40,6 +45,7 @@ export type LinkItemProps = LinkProps & ItemCommonProps;
 export function LinkItem({
   size = "medium",
   active = false,
+  disabled = false,
   className,
   ...rest
 }: LinkItemProps) {
@@ -49,7 +55,10 @@ export function LinkItem({
       className={cn(
         "a11y-focus w-full rounded-md px-2 flex items-center md:hover:bg-gray-50",
         ItemSizeClasses[size],
-        { "bg-blue-50 text-blue-500 md:hover:bg-blue-100": active },
+        {
+          "bg-blue-50 text-blue-500 md:hover:bg-blue-100": active,
+          "opacity-60": disabled,
+        },
         className
       )}
     />

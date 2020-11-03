@@ -1,21 +1,14 @@
 import cn from "classnames";
 import * as React from "react";
 
-type SpinnerProps = React.HTMLAttributes<HTMLDivElement> & {
-  size?: "normal" | "large";
-};
-
-export function Spinner({ size = "normal", className }: SpinnerProps) {
+export function Spinner({
+  className,
+  ...rest
+}: React.HTMLAttributes<HTMLDivElement>) {
   return (
     <div
-      className={cn(
-        "relative animation-loader-spin",
-        {
-          "text-xl": size === "normal",
-          "text-5xl": size === "large",
-        },
-        className
-      )}
+      {...rest}
+      className={cn("relative animation-loader-spin", className)}
       style={{ width: "1em", height: "1em" }}
     >
       <svg

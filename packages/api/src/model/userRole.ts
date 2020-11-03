@@ -5,6 +5,7 @@ import {
 } from "@animeaux/shared";
 import { gql, IResolverObject, IResolvers } from "apollo-server";
 import { database } from "../database";
+import { QueryContext } from "./shared";
 
 const typeDefs = gql`
   type UserRole {
@@ -35,8 +36,12 @@ const typeDefs = gql`
 
 const resolvers: IResolvers = {
   UserRole: {
-    users: async (userRole: DBUserRole) => {
-      return await database.getAllUsers({ roleId: userRole.id });
+    users: async (
+      userRole: DBUserRole,
+      parameters: any,
+      context: QueryContext
+    ) => {
+      return await database.getAllUsers(context.user, { roleId: userRole.id });
     },
   },
 };

@@ -1,44 +1,56 @@
 import cn from "classnames";
 import * as React from "react";
 
-export type InputProps = Omit<
-  React.InputHTMLAttributes<HTMLInputElement>,
-  "onChange"
+export type SelectProps = Omit<
+  React.SelectHTMLAttributes<HTMLSelectElement>,
+  "onChange" | "value"
 > & {
   errorMessage?: string | null;
   infoMessage?: string | null;
-  onChange?: React.Dispatch<React.SetStateAction<string>>;
+  value?: string | null;
+  onChange?: React.Dispatch<React.SetStateAction<string | null>>;
   leftAdornment?: React.ReactNode;
   rightAdornment?: React.ReactNode;
 };
 
-export function Input({
+export function Select({
   errorMessage,
   infoMessage,
+  placeholder,
+  value,
   onChange,
   leftAdornment,
   rightAdornment,
+  children,
   className,
   ...rest
-}: InputProps) {
+}: SelectProps) {
   return (
     <span className={cn("relative", className)}>
-      <input
+      <select
         {...rest}
+        value={value ?? ""}
         onChange={(event) => {
           if (onChange != null) {
             onChange(event.target.value);
           }
         }}
         className={cn(
-          "a11y-focus h-10 w-full rounded-md bg-black bg-opacity-5 md:hover:bg-opacity-3 focus:bg-transparent px-4 placeholder-opacity-70 placeholder-default-color",
+          "a11y-focus appearance-none h-10 w-full min-w-0 rounded-md bg-black bg-opacity-5 md:hover:bg-opacity-3 focus:bg-transparent px-4 truncate cursor-pointer text-default-color",
           {
+            "text-opacity-70": value == null,
             "pl-12": leftAdornment != null,
             "pr-12": rightAdornment != null,
             "border-2 border-red-500": errorMessage != null,
           }
         )}
-      />
+      >
+        <option disabled value="">
+          {placeholder}
+        </option>
+
+        {children}
+      </select>
 
       {leftAdornment != null && (
         <span className="absolute top-0 left-0 h-10 pl-2 text-gray-700 flex items-center">

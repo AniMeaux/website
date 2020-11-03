@@ -26,7 +26,7 @@ function isAuthError(error: Error): boolean {
 
 export function SignInPage() {
   const [email, setEmail] = React.useState("simon@animeaux.org");
-  const [password, setPassword] = React.useState(`sS'R7("f)ZYC#X-Jv,`);
+  const [password, setPassword] = React.useState(`password`);
 
   const [signIn, signInState] = useAsyncCallback<boolean>(async () => {
     try {
@@ -88,6 +88,7 @@ export function SignInPage() {
             <PasswordInput
               name="password"
               id="password"
+              autoComplete="password"
               value={password}
               onChange={setPassword}
               leftAdornment={

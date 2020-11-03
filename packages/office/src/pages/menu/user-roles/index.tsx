@@ -124,7 +124,7 @@ export function UserRolesPage({ children }: UserRolesPageProps) {
   const { currentUser } = useCurrentUser();
   const canEdit = currentUser.role.resourcePermissions.user_role;
 
-  const { userRoles, isLoading, error } = useAllUserRoles();
+  const { userRoles, areUserRolesLoading, userRolesError } = useAllUserRoles();
 
   let body: React.ReactNode | null = null;
   if (userRoles != null) {
@@ -134,7 +134,7 @@ export function UserRolesPage({ children }: UserRolesPageProps) {
         userRoles={userRoles}
       />
     );
-  } else if (isLoading) {
+  } else if (areUserRolesLoading) {
     body = <LoadingRows />;
   }
 
@@ -156,9 +156,9 @@ export function UserRolesPage({ children }: UserRolesPageProps) {
       <PageTitle title="Rôles utilisateurs" />
 
       <Main className="px-2">
-        {error != null && (
+        {userRolesError != null && (
           <Message type="error" className="mx-2 mb-2">
-            {getErrorMessage(error)}
+            {getErrorMessage(userRolesError)}
           </Message>
         )}
 

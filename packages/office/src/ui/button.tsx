@@ -52,3 +52,24 @@ export function Button({
     />
   );
 }
+
+type ButtonWithConfirmationProps = ButtonProps & {
+  confirmationMessage: string;
+};
+
+export function ButtonWithConfirmation({
+  confirmationMessage,
+  onClick,
+  ...rest
+}: ButtonWithConfirmationProps) {
+  return (
+    <Button
+      {...rest}
+      onClick={(event) => {
+        if (window.confirm(confirmationMessage) && onClick != null) {
+          onClick(event);
+        }
+      }}
+    />
+  );
+}

@@ -5,12 +5,14 @@ export type User = {
   email: string;
   displayName: string;
   role: UserRole;
+  disabled: boolean;
 };
 
 export type DBUserFromAuth = {
   id: string;
   email: string;
   displayName: string;
+  disabled: boolean;
 };
 
 export type DBUserFromStore = {
@@ -25,6 +27,28 @@ export type DBUserForQueryContext = {
   email: string;
   displayName: string;
   role: DBUserRole;
+  disabled: boolean;
+};
+
+export type UserFormPayload = {
+  email: string;
+  displayName: string;
+  password: string;
+  roleId: string | null;
+};
+
+export type CreateUserPayload = {
+  email: string;
+  displayName: string;
+  password: string;
+  roleId: string;
+};
+
+export type UpdateUserPayload = {
+  id: string;
+  displayName?: string;
+  password?: string;
+  roleId?: string;
 };
 
 export type UserFilters = {

@@ -4,6 +4,7 @@ import * as React from "react";
 import { FaPlus } from "react-icons/fa";
 import { ScreenSize, useScreenSize } from "../../../core/screenSize";
 import { useCurrentUser } from "../../../core/user/currentUserContext";
+import { UserLinkItem } from "../../../core/user/userItem";
 import { useAllUsers } from "../../../core/user/userQueries";
 import { EmptyMessage } from "../../../ui/emptyMessage";
 import {
@@ -12,7 +13,6 @@ import {
   ItemIcon,
   ItemMainText,
   ItemSecondaryText,
-  LinkItem,
 } from "../../../ui/item";
 import {
   Header,
@@ -25,31 +25,6 @@ import { Main, PageLayout, PageTitle } from "../../../ui/layouts/page";
 import { Placeholder, Placeholders } from "../../../ui/loaders/placeholder";
 import { Message } from "../../../ui/message";
 import { PrimaryActionLink } from "../../../ui/primaryAction";
-import { UserAvatar } from "../../../ui/userAvatar";
-
-type UserItemProps = {
-  user: User;
-  active?: boolean;
-};
-
-function UserItem({ user, active }: UserItemProps) {
-  return (
-    <LinkItem
-      size="large"
-      href={active ? "/menu/users" : `/menu/users/${user.id}`}
-      active={active}
-    >
-      <ItemIcon>
-        <UserAvatar user={user} />
-      </ItemIcon>
-
-      <ItemContent>
-        <ItemMainText>{user.displayName}</ItemMainText>
-        <ItemSecondaryText>{user.email}</ItemSecondaryText>
-      </ItemContent>
-    </LinkItem>
-  );
-}
 
 function LoadingRows() {
   return (
@@ -93,7 +68,7 @@ function UsersRows({ users, activeUserId }: UsersRowsProps) {
     <>
       {users.map((user) => (
         <li key={user.id}>
-          <UserItem user={user} active={activeUserId === user.id} />
+          <UserLinkItem user={user} active={activeUserId === user.id} />
         </li>
       ))}
     </>
@@ -113,12 +88,12 @@ export function UsersPage({ children }: UserPageProps) {
   const { currentUser } = useCurrentUser();
   const canEdit = currentUser.role.resourcePermissions.user;
 
-  const { users, isLoading, error } = useAllUsers();
+  const { users, areUsersLoading, usersError } = useAllUsers();
 
   let body: React.ReactNode | null = null;
   if (users != null) {
     body = <UsersRows activeUserId={activeUserId} users={users} />;
-  } else if (isLoading) {
+  } else if (areUsersLoading) {
     body = <LoadingRows />;
   }
 
@@ -140,9 +115,9 @@ export function UsersPage({ children }: UserPageProps) {
       <PageTitle title="Utilisateurs" />
 
       <Main className="px-2">
-        {error != null && (
+        {usersError != null && (
           <Message type="error" className="mx-2 mb-2">
-            {getErrorMessage(error)}
+            {getErrorMessage(usersError)}
           </Message>
         )}
 

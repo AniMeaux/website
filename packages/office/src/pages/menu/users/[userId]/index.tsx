@@ -5,14 +5,13 @@ import { FaEnvelope, FaPen } from "react-icons/fa";
 import { PageComponent } from "../../../../core/pageComponent";
 import { ResourceIcon } from "../../../../core/resource";
 import { useCurrentUser } from "../../../../core/user/currentUserContext";
-import { useUser } from "../../../../core/user/userQueries";
 import {
-  Item,
-  ItemContent,
-  ItemIcon,
-  ItemMainText,
-  LinkItem,
-} from "../../../../ui/item";
+  useDeleteUser,
+  useToggleUserBlockedStatus,
+  useUser,
+} from "../../../../core/user/userQueries";
+import { ButtonWithConfirmation } from "../../../../ui/button";
+import { Item, ItemContent, ItemIcon, ItemMainText } from "../../../../ui/item";
 import { Aside, AsideLayout } from "../../../../ui/layouts/aside";
 import {
   AsideHeaderTitle,
@@ -25,9 +24,10 @@ import { Section, SectionTitle } from "../../../../ui/layouts/section";
 import { Placeholder, Placeholders } from "../../../../ui/loaders/placeholder";
 import { Message } from "../../../../ui/message";
 import { PrimaryActionLink } from "../../../../ui/primaryAction";
+import { Separator } from "../../../../ui/separator";
 import { UsersPage } from "../index";
 
-function SecondaryProfileSection({ user }: { user: User }) {
+function ProfileSection({ user }: { user: User }) {
   return (
     <Section>
       <SectionTitle>Profile</SectionTitle>
@@ -46,7 +46,7 @@ function SecondaryProfileSection({ user }: { user: User }) {
         </li>
 
         <li>
-          <LinkItem href={`/menu/user-roles/${user.role.id}`}>
+          <Item>
             <ItemIcon>
               <ResourceIcon resourceKey="user_role" />
             </ItemIcon>
@@ -54,14 +54,14 @@ function SecondaryProfileSection({ user }: { user: User }) {
             <ItemContent>
               <ItemMainText>{user.role.name}</ItemMainText>
             </ItemContent>
-          </LinkItem>
+          </Item>
         </li>
       </ul>
     </Section>
   );
 }
 
-function SecondaryProfilePlaceholderSection() {
+function ProfilePlaceholderSection() {
   return (
     <Section>
       <SectionTitle>
@@ -89,10 +89,81 @@ function SecondaryProfilePlaceholderSection() {
   );
 }
 
+function ActionsSection({ user }: { user: User }) {
+  const { deleteUser, deleteUserError } = useDeleteUser();
+  const {
+    toggleUserBlockedStatus,
+    toggleUserBlockedStatusError,
+  } = useToggleUserBlockedStatus();
+
+  return (
+    <Section className="px-4">
+      {toggleUserBlockedStatusError != null && (
+        <Message type="error" className="mb-4">
+          {getErrorMessage(toggleUserBlockedStatusError)}
+        </Message>
+      )}
+
+      {deleteUserError != null && (
+        <Message type="error" className="mb-4">
+          {getErrorMessage(deleteUserError)}
+        </Message>
+      )}
+
+      <ul className="space-y-4">
+        <li>
+          <ButtonWithConfirmation
+            confirmationMessage={
+              user.disabled
+                ? `Êtes-vous sûr de vouloir débloquer l'utilisateur ${user.displayName} ?`
+                : `Êtes-vous sûr de vouloir bloquer l'utilisateur ${user.displayName} ?`
+            }
+            onClick={() => toggleUserBlockedStatus(user.id)}
+            color="blue"
+            className="w-full"
+          >
+            {user.disabled ? "Débloquer" : "Bloquer"}
+          </ButtonWithConfirmation>
+        </li>
+
+        <li>
+          <ButtonWithConfirmation
+            confirmationMessage={[
+              `Êtes-vous sûr de vouloir supprimer l'utilisateur ${
+                user!.displayName
+              } ?`,
+              "L'action est irréversible.",
+            ].join("\n")}
+            onClick={() => deleteUser(user.id)}
+            color="red"
+            className="w-full"
+          >
+            Supprimer
+          </ButtonWithConfirmation>
+        </li>
+      </ul>
+    </Section>
+  );
+}
+
+function ActionsPlaceholderSection() {
+  return (
+    <Section className="px-4">
+      <ul>
+        <Placeholders count={2}>
+          <li>
+            <Placeholder preset="input" />
+          </li>
+        </Placeholders>
+      </ul>
+    </Section>
+  );
+}
+
 const UserPage: PageComponent = () => {
   const router = useRouter();
   const userId = router.query.userId as string;
-  const { user, isLoading, error } = useUser(userId);
+  const { user, isUserLoading, userError } = useUser(userId);
 
   const { currentUser } = useCurrentUser();
 
@@ -101,9 +172,9 @@ const UserPage: PageComponent = () => {
   if (user != null) {
     pageTitle = user.displayName;
     headerTitle = user.displayName;
-  } else if (isLoading) {
+  } else if (isUserLoading) {
     headerTitle = <Placeholder preset="text" />;
-  } else if (error != null) {
+  } else if (userError != null) {
     headerTitle = "Oups";
     pageTitle = "Oups";
   }
@@ -112,16 +183,31 @@ const UserPage: PageComponent = () => {
   if (user != null) {
     body = (
       <>
-        <SecondaryProfileSection user={user} />
+        <ProfileSection user={user} />
         {currentUser.role.resourcePermissions.user && (
-          <PrimaryActionLink href="edit">
-            <FaPen />
-          </PrimaryActionLink>
+          <>
+            <Separator />
+            <ActionsSection user={user} />
+
+            <PrimaryActionLink href="edit">
+              <FaPen />
+            </PrimaryActionLink>
+          </>
         )}
       </>
     );
-  } else if (isLoading) {
-    body = <SecondaryProfilePlaceholderSection />;
+  } else if (isUserLoading) {
+    body = (
+      <>
+        <ProfilePlaceholderSection />
+        {currentUser.role.resourcePermissions.user && (
+          <>
+            <Separator />
+            <ActionsPlaceholderSection />
+          </>
+        )}
+      </>
+    );
   }
 
   return (
@@ -135,9 +221,9 @@ const UserPage: PageComponent = () => {
       <PageTitle title={pageTitle} />
 
       <Aside>
-        {error != null && (
+        {userError != null && (
           <Message type="error" className="mx-4 mb-4">
-            {getErrorMessage(error)}
+            {getErrorMessage(userError)}
           </Message>
         )}
 

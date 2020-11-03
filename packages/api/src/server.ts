@@ -4,7 +4,7 @@ import { IncomingMessage } from "http";
 import { ListenOptions } from "net";
 import { AuthDirective } from "./authDirective";
 import { database } from "./database";
-import { QueryContext } from "./model/shared";
+import { AuthContext } from "./model/shared";
 import { UserModel } from "./model/user";
 import { UserRoleModel } from "./model/userRole";
 
@@ -20,7 +20,7 @@ const rootTypeDefs = gql`
 `;
 
 const apolloServer = new ApolloServer({
-  context: async ({ req }: { req: IncomingMessage }): Promise<QueryContext> => {
+  context: async ({ req }: { req: IncomingMessage }): Promise<AuthContext> => {
     const token = (req.headers.authorisation as string)?.replace("Bearer ", "");
 
     let user: DBUserForQueryContext | null = null;
@@ -40,7 +40,7 @@ const apolloServer = new ApolloServer({
   schemaDirectives: Object.assign({}, AuthDirective.schemaDirectives),
   resolvers: Object.assign(UserModel.resolvers, UserRoleModel.resolvers, {
     Query: Object.assign({}, UserRoleModel.queries, UserModel.queries),
-    Mutation: Object.assign({}, UserRoleModel.mutations),
+    Mutation: Object.assign({}, UserRoleModel.mutations, UserModel.mutations),
   }),
 });
 

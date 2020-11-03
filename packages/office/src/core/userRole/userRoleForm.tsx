@@ -38,10 +38,10 @@ export function UserRoleForm({
   >(userRole?.resourcePermissions ?? DEFAULT_RESOURCE_PERMISSIONS);
 
   React.useEffect(() => {
-    setName(userRole?.name ?? "");
-    setResourcePermissions(
-      userRole?.resourcePermissions ?? DEFAULT_RESOURCE_PERMISSIONS
-    );
+    if (userRole != null) {
+      setName(userRole.name);
+      setResourcePermissions(userRole.resourcePermissions);
+    }
   }, [userRole]);
 
   return (

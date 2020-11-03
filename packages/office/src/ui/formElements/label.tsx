@@ -6,6 +6,12 @@ export function Label({
   ...rest
 }: React.LabelHTMLAttributes<HTMLLabelElement>) {
   return (
-    <label {...rest} className={cn("pb-1 text-sm text-gray-600", className)} />
+    <label
+      {...rest}
+      className={cn(
+        "pb-1 text-sm text-opacity-70 text-default-color",
+        className
+      )}
+    />
   );
 }

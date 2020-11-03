@@ -15,7 +15,7 @@ import {
   useDeleteUserRole,
   useUserRole,
 } from "../../../../core/userRole/userRoleQueries";
-import { Button } from "../../../../ui/button";
+import { ButtonWithConfirmation } from "../../../../ui/button";
 import { EmptyMessage } from "../../../../ui/emptyMessage";
 import {
   Item,
@@ -142,35 +142,28 @@ function UsersPlaceholderSection() {
 }
 
 function ActionsSection({ userRole }: { userRole: UserRole }) {
-  const [onDeleteUserRole, onDeleteUserRoleState] = useDeleteUserRole();
+  const { deleteUserRole, deleteUserRoleError } = useDeleteUserRole();
 
   return (
-    <Section>
-      {onDeleteUserRoleState.error != null && (
-        <Message type="error" className="mx-4 mb-4">
-          {getErrorMessage(onDeleteUserRoleState.error)}
+    <Section className="px-4">
+      {deleteUserRoleError != null && (
+        <Message type="error" className="mb-4">
+          {getErrorMessage(deleteUserRoleError)}
         </Message>
       )}
 
       <ul>
         <li>
-          <Button
-            onClick={() => {
-              if (
-                window.confirm(
-                  `Êtes-vous sûr de vouloir supprimer le rôle utilisateur ${
-                    userRole!.name
-                  } ?`
-                )
-              ) {
-                onDeleteUserRole(userRole.id);
-              }
-            }}
+          <ButtonWithConfirmation
+            confirmationMessage={`Êtes-vous sûr de vouloir supprimer le rôle utilisateur ${userRole.name} ?`}
+            onClick={() => deleteUserRole(userRole.id)}
+            // We cannot delete a role that has users.
+            disabled={userRole.users.length > 0}
             color="red"
             className="w-full"
           >
             Supprimer
-          </Button>
+          </ButtonWithConfirmation>
         </li>
       </ul>
     </Section>
@@ -179,7 +172,7 @@ function ActionsSection({ userRole }: { userRole: UserRole }) {
 
 function ActionsPlaceholderSection() {
   return (
-    <Section>
+    <Section className="px-4">
       <ul>
         <li>
           <Placeholder preset="input" />
@@ -192,7 +185,9 @@ function ActionsPlaceholderSection() {
 const UserRolePage: PageComponent = () => {
   const router = useRouter();
   const userRoleId = router.query.userRoleId as string;
-  const { userRole, isLoading, error } = useUserRole(userRoleId);
+  const { userRole, isUserRoleLoading, userRoleError } = useUserRole(
+    userRoleId
+  );
 
   const { currentUser } = useCurrentUser();
 
@@ -201,9 +196,9 @@ const UserRolePage: PageComponent = () => {
   if (userRole != null) {
     pageTitle = userRole.name;
     headerTitle = userRole.name;
-  } else if (isLoading) {
+  } else if (isUserRoleLoading) {
     headerTitle = <Placeholder preset="text" />;
-  } else if (error != null) {
+  } else if (userRoleError != null) {
     pageTitle = "Oups";
     headerTitle = "Oups";
   }
@@ -227,7 +222,7 @@ const UserRolePage: PageComponent = () => {
         )}
       </>
     );
-  } else if (isLoading) {
+  } else if (isUserRoleLoading) {
     body = (
       <>
         <ResourcePermissionsPlaceholderSection />
@@ -254,9 +249,9 @@ const UserRolePage: PageComponent = () => {
       <PageTitle title={pageTitle} />
 
       <Aside>
-        {error != null && (
+        {userRoleError != null && (
           <Message type="error" className="mx-4 mb-4">
-            {getErrorMessage(error)}
+            {getErrorMessage(userRoleError)}
           </Message>
         )}
 
