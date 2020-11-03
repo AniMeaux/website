@@ -22,7 +22,13 @@ export function HeaderLink({ className, ...rest }: LinkProps) {
 
 export function HeaderBackLink(props: LinkProps) {
   return (
-    <HeaderLink {...props} className={ButtonClassName.secondary.default}>
+    <HeaderLink
+      {...props}
+      className={cn(
+        ButtonClassName.secondary.default.base,
+        ButtonClassName.secondary.default.enabled
+      )}
+    >
       <FaArrowLeft />
     </HeaderLink>
   );
@@ -30,7 +36,13 @@ export function HeaderBackLink(props: LinkProps) {
 
 export function HeaderCloseLink(props: LinkProps) {
   return (
-    <HeaderLink {...props} className={ButtonClassName.secondary.default}>
+    <HeaderLink
+      {...props}
+      className={cn(
+        ButtonClassName.secondary.default.base,
+        ButtonClassName.secondary.default.enabled
+      )}
+    >
       <FaTimes />
     </HeaderLink>
   );

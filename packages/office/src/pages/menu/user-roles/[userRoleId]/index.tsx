@@ -159,6 +159,11 @@ function ActionsSection({ userRole }: { userRole: UserRole }) {
             onClick={() => deleteUserRole(userRole.id)}
             // We cannot delete a role that has users.
             disabled={userRole.users.length > 0}
+            title={
+              userRole.users.length > 0
+                ? "Le rôle utilisateur ne peut pas être supprimé parce qu'il est utilisé par au moins un utilisateur"
+                : undefined
+            }
             color="red"
             className="w-full"
           >

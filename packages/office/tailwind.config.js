@@ -187,6 +187,7 @@ module.exports = {
     // entirely visible.
     zIndex: variants.zIndex.concat(["focus"]),
     opacity: variants.opacity.concat(["disabled"]),
+    cursor: variants.cursor.concat(["disabled"]),
   },
   plugins: [],
 };

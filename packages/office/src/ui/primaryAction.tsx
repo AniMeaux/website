@@ -9,7 +9,8 @@ export function PrimaryActionLink({ className, ...rest }: LinkProps) {
       {...rest}
       className={cn(
         "a11y-focus shadow-md fixed bottom-20 md:bottom-4 right-4 w-12 h-12 rounded-full text-xl flex items-center justify-center",
-        ButtonClassName.primary.blue,
+        ButtonClassName.primary.blue.base,
+        ButtonClassName.primary.blue.enabled,
         className
       )}
     />

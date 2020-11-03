@@ -90,11 +90,15 @@ function ProfilePlaceholderSection() {
 }
 
 function ActionsSection({ user }: { user: User }) {
+  const { currentUser } = useCurrentUser();
   const { deleteUser, deleteUserError } = useDeleteUser();
   const {
     toggleUserBlockedStatus,
     toggleUserBlockedStatusError,
   } = useToggleUserBlockedStatus();
+
+  // The current user cannot block/delete himself.
+  const disabled = currentUser.id === user.id;
 
   return (
     <Section className="px-4">
@@ -120,6 +124,12 @@ function ActionsSection({ user }: { user: User }) {
             }
             onClick={() => toggleUserBlockedStatus(user.id)}
             color="blue"
+            disabled={disabled}
+            title={
+              disabled
+                ? "Vous ne pouvez pas bloquer votre propre utilisateur"
+                : undefined
+            }
             className="w-full"
           >
             {user.disabled ? "Débloquer" : "Bloquer"}
@@ -136,6 +146,12 @@ function ActionsSection({ user }: { user: User }) {
             ].join("\n")}
             onClick={() => deleteUser(user.id)}
             color="red"
+            disabled={disabled}
+            title={
+              disabled
+                ? "Vous ne pouvez pas supprimer votre propre utilisateur"
+                : undefined
+            }
             className="w-full"
           >
             Supprimer

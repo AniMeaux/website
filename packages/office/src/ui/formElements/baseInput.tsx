@@ -105,7 +105,7 @@ export function getInputClassName({
   rightAdornment,
 }: GetInputClassNameOptions) {
   return cn(
-    "a11y-focus h-10 w-full min-w-0 rounded-md bg-black bg-opacity-5 focus:bg-transparent px-4 text-default-color",
+    "a11y-focus disabled:pointer-events-none h-10 w-full min-w-0 rounded-md bg-black bg-opacity-5 focus:bg-transparent px-4 text-default-color",
     {
       "md:hover:bg-opacity-3": !disabled,
       "pl-12": leftAdornment != null,
