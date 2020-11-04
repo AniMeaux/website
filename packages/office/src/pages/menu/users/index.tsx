@@ -87,13 +87,12 @@ export function UsersPage({ children }: UserPageProps) {
   const { screenSize } = useScreenSize();
   const { currentUser } = useCurrentUser();
   const canEdit = currentUser.role.resourcePermissions.user;
-
-  const { users, areUsersLoading, usersError } = useAllUsers();
+  const [users, usersRequest] = useAllUsers();
 
   let body: React.ReactNode | null = null;
   if (users != null) {
     body = <UsersRows activeUserId={activeUserId} users={users} />;
-  } else if (areUsersLoading) {
+  } else if (usersRequest.isLoading) {
     body = <LoadingRows />;
   }
 
@@ -115,9 +114,9 @@ export function UsersPage({ children }: UserPageProps) {
       <PageTitle title="Utilisateurs" />
 
       <Main className="px-2">
-        {usersError != null && (
+        {usersRequest.error != null && (
           <Message type="error" className="mx-2 mb-2">
-            {getErrorMessage(usersError)}
+            {getErrorMessage(usersRequest.error)}
           </Message>
         )}
 

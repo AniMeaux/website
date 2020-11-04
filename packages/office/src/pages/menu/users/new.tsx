@@ -15,26 +15,32 @@ import { Message } from "../../../ui/message";
 import { UsersPage } from "./index";
 
 const NewUserPage: PageComponent = () => {
-  const { createUser, isCreateUserLoading, createUserError } = useCreateUser();
+  const [createUser, createUserRequest] = useCreateUser();
 
   const errors: UserFormErrors = {};
   let globalErrorMessgae: string | null = null;
 
-  if (createUserError != null) {
-    const errorMessage = getErrorMessage(createUserError);
+  if (createUserRequest.error != null) {
+    const errorMessage = getErrorMessage(createUserRequest.error);
 
-    if (hasErrorCode(createUserError, ErrorCode.USER_MISSING_DISPLAY_NAME)) {
+    if (
+      hasErrorCode(createUserRequest.error, ErrorCode.USER_MISSING_DISPLAY_NAME)
+    ) {
       errors.displayName = errorMessage;
     } else if (
-      hasErrorCode(createUserError, [
+      hasErrorCode(createUserRequest.error, [
         ErrorCode.USER_EMAIL_ALREADY_EXISTS,
         ErrorCode.USER_INVALID_EMAIL,
       ])
     ) {
       errors.email = errorMessage;
-    } else if (hasErrorCode(createUserError, ErrorCode.USER_INVALID_PASSWORD)) {
+    } else if (
+      hasErrorCode(createUserRequest.error, ErrorCode.USER_INVALID_PASSWORD)
+    ) {
       errors.password = errorMessage;
-    } else if (hasErrorCode(createUserError, ErrorCode.USER_MISSING_ROLE)) {
+    } else if (
+      hasErrorCode(createUserRequest.error, ErrorCode.USER_MISSING_ROLE)
+    ) {
       errors.role = errorMessage;
     } else {
       globalErrorMessgae = errorMessage;
@@ -60,7 +66,7 @@ const NewUserPage: PageComponent = () => {
 
         <UserForm
           onSubmit={createUser}
-          pending={isCreateUserLoading}
+          pending={createUserRequest.isLoading}
           errors={errors}
         />
       </Aside>

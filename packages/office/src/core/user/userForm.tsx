@@ -37,7 +37,7 @@ export function UserForm({
   const [email, setEmail] = React.useState(user?.email ?? "");
   const [password, setPassword] = React.useState("");
   const [roleId, setRoleId] = React.useState<string | null>(null);
-  const { userRoles, areUserRolesLoading, userRolesError } = useAllUserRoles();
+  const [userRoles, userRolesRequest] = useAllUserRoles();
 
   React.useEffect(() => {
     if (user != null) {
@@ -130,9 +130,9 @@ export function UserForm({
           onChange={setRoleId}
           placeholder="Choisir un rôle"
           errorMessage={
-            userRolesError == null
+            userRolesRequest.error == null
               ? errors?.role
-              : getErrorMessage(userRolesError)
+              : getErrorMessage(userRolesRequest.error)
           }
           leftAdornment={
             <Adornment>
@@ -140,7 +140,7 @@ export function UserForm({
             </Adornment>
           }
           rightAdornment={
-            areUserRolesLoading ? (
+            userRolesRequest.isLoading ? (
               <Adornment>
                 <Spinner />
               </Adornment>

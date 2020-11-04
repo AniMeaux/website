@@ -142,13 +142,13 @@ function UsersPlaceholderSection() {
 }
 
 function ActionsSection({ userRole }: { userRole: UserRole }) {
-  const { deleteUserRole, deleteUserRoleError } = useDeleteUserRole();
+  const [deleteUserRole, deleteUserRoleRequest] = useDeleteUserRole();
 
   return (
     <Section className="px-4">
-      {deleteUserRoleError != null && (
+      {deleteUserRoleRequest.error != null && (
         <Message type="error" className="mb-4">
-          {getErrorMessage(deleteUserRoleError)}
+          {getErrorMessage(deleteUserRoleRequest.error)}
         </Message>
       )}
 
@@ -190,9 +190,7 @@ function ActionsPlaceholderSection() {
 const UserRolePage: PageComponent = () => {
   const router = useRouter();
   const userRoleId = router.query.userRoleId as string;
-  const { userRole, isUserRoleLoading, userRoleError } = useUserRole(
-    userRoleId
-  );
+  const [userRole, userRoleRequest] = useUserRole(userRoleId);
 
   const { currentUser } = useCurrentUser();
 
@@ -201,9 +199,9 @@ const UserRolePage: PageComponent = () => {
   if (userRole != null) {
     pageTitle = userRole.name;
     headerTitle = userRole.name;
-  } else if (isUserRoleLoading) {
+  } else if (userRoleRequest.isLoading) {
     headerTitle = <Placeholder preset="text" />;
-  } else if (userRoleError != null) {
+  } else if (userRoleRequest.error != null) {
     pageTitle = "Oups";
     headerTitle = "Oups";
   }
@@ -227,7 +225,7 @@ const UserRolePage: PageComponent = () => {
         )}
       </>
     );
-  } else if (isUserRoleLoading) {
+  } else if (userRoleRequest.isLoading) {
     body = (
       <>
         <ResourcePermissionsPlaceholderSection />
@@ -254,9 +252,9 @@ const UserRolePage: PageComponent = () => {
       <PageTitle title={pageTitle} />
 
       <Aside>
-        {userRoleError != null && (
+        {userRoleRequest.error != null && (
           <Message type="error" className="mx-4 mb-4">
-            {getErrorMessage(userRoleError)}
+            {getErrorMessage(userRoleRequest.error)}
           </Message>
         )}
 

@@ -47,7 +47,7 @@ const GetAllUserRolesQuery = gql`
 `;
 
 export function useAllUserRoles() {
-  const { data, isLoading, error, ...rest } = useQuery<UserRole[], Error>(
+  const { data, ...rest } = useQuery<UserRole[], Error>(
     "user-roles",
     async () => {
       const { userRoles } = await fetchGraphQL<{ userRoles: UserRole[] }>(
@@ -58,12 +58,7 @@ export function useAllUserRoles() {
     }
   );
 
-  return {
-    ...rest,
-    userRoles: data,
-    areUserRolesLoading: isLoading,
-    userRolesError: error,
-  };
+  return [data, rest] as const;
 }
 
 const GetUserRoleQuery = gql`
@@ -77,7 +72,7 @@ const GetUserRoleQuery = gql`
 `;
 
 export function useUserRole(userRoleId: string) {
-  const { data, isLoading, error, ...rest } = useQuery<UserRole | null, Error>(
+  const { data, ...rest } = useQuery<UserRole | null, Error>(
     ["user-role", userRoleId],
     async () => {
       const { userRole } = await fetchGraphQL<
@@ -93,12 +88,7 @@ export function useUserRole(userRoleId: string) {
     }
   );
 
-  return {
-    ...rest,
-    userRole: data,
-    isUserRoleLoading: isLoading,
-    userRoleError: error,
-  };
+  return [data, rest] as const;
 }
 
 const CreateUserRoleQuery = gql`
@@ -121,11 +111,7 @@ export function useCreateUserRole() {
   const router = useRouter();
   const queryCache = useQueryCache();
 
-  const [createUserRole, { isLoading, error, ...rest }] = useMutation<
-    UserRole,
-    Error,
-    UserRoleFormPayload
-  >(
+  return useMutation<UserRole, Error, UserRoleFormPayload>(
     async (payload) => {
       if (payload.name.trim() === "") {
         throw new Error(ErrorCode.USER_ROLE_MISSING_NAME);
@@ -151,13 +137,6 @@ export function useCreateUserRole() {
       },
     }
   );
-
-  return {
-    ...rest,
-    createUserRole,
-    isCreateUserRoleLoading: isLoading,
-    createUserError: error,
-  };
 }
 
 const UpdateUserRoleQuery = gql`
@@ -182,7 +161,7 @@ export function useUpdateUserRole() {
   const router = useRouter();
   const queryCache = useQueryCache();
 
-  const [updateUserRole, { isLoading, error, ...rest }] = useMutation<
+  return useMutation<
     UserRole,
     Error,
     { currentUserRole: UserRole; formPayload: UserRoleFormPayload }
@@ -233,13 +212,6 @@ export function useUpdateUserRole() {
       },
     }
   );
-
-  return {
-    ...rest,
-    updateUserRole,
-    isUpdateUserRoleLoading: isLoading,
-    updateUserRoleError: error,
-  };
 }
 
 const DeleteUserRoleQuery = gql`
@@ -252,11 +224,7 @@ export function useDeleteUserRole() {
   const router = useRouter();
   const queryCache = useQueryCache();
 
-  const [deleteUserRole, { isLoading, error, ...rest }] = useMutation<
-    string,
-    Error,
-    string
-  >(
+  return useMutation<string, Error, string>(
     async (userRoleId) => {
       await fetchGraphQL<boolean, { id: string }>(DeleteUserRoleQuery, {
         variables: { id: userRoleId },
@@ -278,11 +246,4 @@ export function useDeleteUserRole() {
       },
     }
   );
-
-  return {
-    ...rest,
-    deleteUserRole,
-    isDeleteUserRoleLoading: isLoading,
-    deleteUserRoleError: error,
-  };
 }

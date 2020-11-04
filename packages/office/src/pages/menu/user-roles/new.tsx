@@ -14,11 +14,7 @@ import { PageTitle } from "../../../ui/layouts/page";
 import { UserRolesPage } from "./index";
 
 const NewUserRolePage: PageComponent = () => {
-  const {
-    createUserRole,
-    isCreateUserRoleLoading,
-    createUserError,
-  } = useCreateUserRole();
+  const [createUserRole, createUserRoleRequest] = useCreateUserRole();
 
   return (
     <AsideLayout>
@@ -33,10 +29,12 @@ const NewUserRolePage: PageComponent = () => {
       <Aside>
         <UserRoleForm
           onSubmit={createUserRole}
-          pending={isCreateUserRoleLoading}
+          pending={createUserRoleRequest.isLoading}
           errors={{
             name:
-              createUserError == null ? null : getErrorMessage(createUserError),
+              createUserRoleRequest.error == null
+                ? null
+                : getErrorMessage(createUserRoleRequest.error),
           }}
           className="px-4"
         />

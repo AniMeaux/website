@@ -42,20 +42,12 @@ const GetAllUsersQuery = gql`
 `;
 
 export function useAllUsers() {
-  const { data, isLoading, error, ...rest } = useQuery<User[], Error>(
-    "users",
-    async () => {
-      const { users } = await fetchGraphQL<{ users: User[] }>(GetAllUsersQuery);
-      return users;
-    }
-  );
+  const { data, ...rest } = useQuery<User[], Error>("users", async () => {
+    const { users } = await fetchGraphQL<{ users: User[] }>(GetAllUsersQuery);
+    return users;
+  });
 
-  return {
-    ...rest,
-    users: data,
-    areUsersLoading: isLoading,
-    usersError: error,
-  };
+  return [data, rest] as const;
 }
 
 const GetUserQuery = gql`
@@ -69,7 +61,7 @@ const GetUserQuery = gql`
 `;
 
 export function useUser(userId: string) {
-  const { data, isLoading, error, ...rest } = useQuery<User | null, Error>(
+  const { data, ...rest } = useQuery<User | null, Error>(
     ["user", userId],
     async () => {
       const { user } = await fetchGraphQL<
@@ -85,12 +77,7 @@ export function useUser(userId: string) {
     }
   );
 
-  return {
-    ...rest,
-    user: data,
-    isUserLoading: isLoading,
-    userError: error,
-  };
+  return [data, rest] as const;
 }
 
 const CreateUserQuery = gql`
@@ -117,11 +104,7 @@ export function useCreateUser() {
   const router = useRouter();
   const queryCache = useQueryCache();
 
-  const [createUser, { isLoading, error, ...rest }] = useMutation<
-    User,
-    Error,
-    UserFormPayload
-  >(
+  return useMutation<User, Error, UserFormPayload>(
     async (payload) => {
       if (payload.displayName.trim() === "") {
         throw new Error(ErrorCode.USER_MISSING_DISPLAY_NAME);
@@ -161,13 +144,6 @@ export function useCreateUser() {
       },
     }
   );
-
-  return {
-    ...rest,
-    createUser,
-    isCreateUserLoading: isLoading,
-    createUserError: error,
-  };
 }
 
 const UpdateUserQuery = gql`
@@ -194,7 +170,7 @@ export function useUpdateUser() {
   const router = useRouter();
   const queryCache = useQueryCache();
 
-  const [updateUser, { isLoading, error, ...rest }] = useMutation<
+  return useMutation<
     User,
     Error,
     { currentUser: User; formPayload: UserFormPayload }
@@ -246,13 +222,6 @@ export function useUpdateUser() {
       },
     }
   );
-
-  return {
-    ...rest,
-    updateUser,
-    isUpdateUserLoading: isLoading,
-    updateUserError: error,
-  };
 }
 
 const DeleteUserQuery = gql`
@@ -265,11 +234,7 @@ export function useDeleteUser() {
   const router = useRouter();
   const queryCache = useQueryCache();
 
-  const [deleteUser, { isLoading, error, ...rest }] = useMutation<
-    string,
-    Error,
-    string
-  >(
+  return useMutation<string, Error, string>(
     async (userId) => {
       await fetchGraphQL<boolean, { id: string }>(DeleteUserQuery, {
         variables: { id: userId },
@@ -290,13 +255,6 @@ export function useDeleteUser() {
       },
     }
   );
-
-  return {
-    ...rest,
-    deleteUser,
-    isDeleteUserLoading: isLoading,
-    deleteUserError: error,
-  };
 }
 
 const ToggleUserBlockedStatus = gql`
@@ -313,11 +271,7 @@ export function useToggleUserBlockedStatus() {
   const router = useRouter();
   const queryCache = useQueryCache();
 
-  const [toggleUserBlockedStatus, { isLoading, error, ...rest }] = useMutation<
-    User,
-    Error,
-    string
-  >(
+  return useMutation<User, Error, string>(
     async (userId) => {
       const { user } = await fetchGraphQL<{ user: User }, { id: string }>(
         ToggleUserBlockedStatus,
@@ -341,11 +295,4 @@ export function useToggleUserBlockedStatus() {
       },
     }
   );
-
-  return {
-    ...rest,
-    toggleUserBlockedStatus,
-    isToggleUserBlockedStatusLoading: isLoading,
-    toggleUserBlockedStatusError: error,
-  };
 }

@@ -23,17 +23,17 @@ import { UsersPage } from "../index";
 const EditUserPage: PageComponent = () => {
   const router = useRouter();
   const userId = router.query.userId as string;
-  const { user, isUserLoading, userError } = useUser(userId);
-  const { updateUser, isUpdateUserLoading, updateUserError } = useUpdateUser();
+  const [user, userRequest] = useUser(userId);
+  const [updateUser, updateUserRequest] = useUpdateUser();
 
   let pageTitle: string | null = null;
   let headerTitle: React.ReactNode | null = null;
   if (user != null) {
     pageTitle = `Modifier ${user.displayName}`;
     headerTitle = user.displayName;
-  } else if (isUserLoading) {
+  } else if (userRequest.isLoading) {
     headerTitle = <Placeholder preset="text" />;
-  } else if (userError != null) {
+  } else if (userRequest.error != null) {
     pageTitle = "Oups";
     headerTitle = "Oups";
   }
@@ -41,12 +41,16 @@ const EditUserPage: PageComponent = () => {
   const errors: UserFormErrors = {};
   let globalErrorMessgae: string | null = null;
 
-  if (updateUserError != null) {
-    const errorMessage = getErrorMessage(updateUserError);
+  if (updateUserRequest.error != null) {
+    const errorMessage = getErrorMessage(updateUserRequest.error);
 
-    if (hasErrorCode(updateUserError, ErrorCode.USER_MISSING_DISPLAY_NAME)) {
+    if (
+      hasErrorCode(updateUserRequest.error, ErrorCode.USER_MISSING_DISPLAY_NAME)
+    ) {
       errors.displayName = errorMessage;
-    } else if (hasErrorCode(updateUserError, ErrorCode.USER_INVALID_PASSWORD)) {
+    } else if (
+      hasErrorCode(updateUserRequest.error, ErrorCode.USER_INVALID_PASSWORD)
+    ) {
       errors.password = errorMessage;
     } else {
       globalErrorMessgae = errorMessage;
@@ -61,11 +65,11 @@ const EditUserPage: PageComponent = () => {
         onSubmit={(payload) =>
           updateUser({ currentUser: user, formPayload: payload })
         }
-        pending={isUpdateUserLoading}
+        pending={updateUserRequest.isLoading}
         errors={errors}
       />
     );
-  } else if (isUserLoading) {
+  } else if (userRequest.isLoading) {
     body = <UserFormPlaceholder />;
   }
 
@@ -86,9 +90,9 @@ const EditUserPage: PageComponent = () => {
           </Message>
         )}
 
-        {userError != null && (
+        {userRequest.error != null && (
           <Message type="error" className="mb-4">
-            {getErrorMessage(userError)}
+            {getErrorMessage(userRequest.error)}
           </Message>
         )}
 

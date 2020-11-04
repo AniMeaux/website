@@ -25,24 +25,17 @@ import { UserRolesPage } from "../index";
 const EditUserRolePage: PageComponent = () => {
   const router = useRouter();
   const userRoleId = router.query.userRoleId as string;
-  const { userRole, isUserRoleLoading, userRoleError } = useUserRole(
-    userRoleId
-  );
-
-  const {
-    updateUserRole,
-    isUpdateUserRoleLoading,
-    updateUserRoleError,
-  } = useUpdateUserRole();
+  const [userRole, userRoleRequest] = useUserRole(userRoleId);
+  const [updateUserRole, updateUserRoleRequest] = useUpdateUserRole();
 
   let pageTitle: string | null = null;
   let headerTitle: React.ReactNode | null = null;
   if (userRole != null) {
     pageTitle = `Modifier ${userRole.name}`;
     headerTitle = userRole.name;
-  } else if (isUserRoleLoading) {
+  } else if (userRoleRequest.isLoading) {
     headerTitle = <Placeholder preset="text" />;
-  } else if (userRoleError != null) {
+  } else if (userRoleRequest.error != null) {
     pageTitle = "Oups";
     headerTitle = "Oups";
   }
@@ -55,16 +48,16 @@ const EditUserRolePage: PageComponent = () => {
         onSubmit={(payload) =>
           updateUserRole({ currentUserRole: userRole, formPayload: payload })
         }
-        pending={isUpdateUserRoleLoading}
+        pending={updateUserRoleRequest.isLoading}
         errors={{
           name:
-            updateUserRoleError == null
+            updateUserRoleRequest.error == null
               ? null
-              : getErrorMessage(updateUserRoleError),
+              : getErrorMessage(updateUserRoleRequest.error),
         }}
       />
     );
-  } else if (isUserRoleLoading) {
+  } else if (userRoleRequest.isLoading) {
     body = <UserRoleFormPlaceholder />;
   }
 
@@ -79,9 +72,9 @@ const EditUserRolePage: PageComponent = () => {
       <PageTitle title={pageTitle} />
 
       <Aside className="px-4">
-        {userRoleError != null && (
+        {userRoleRequest.error != null && (
           <Message type="error" className="mb-4">
-            {getErrorMessage(userRoleError)}
+            {getErrorMessage(userRoleRequest.error)}
           </Message>
         )}
 

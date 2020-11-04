@@ -91,26 +91,26 @@ function ProfilePlaceholderSection() {
 
 function ActionsSection({ user }: { user: User }) {
   const { currentUser } = useCurrentUser();
-  const { deleteUser, deleteUserError } = useDeleteUser();
-  const {
+  const [deleteUser, deleteUserRequest] = useDeleteUser();
+  const [
     toggleUserBlockedStatus,
-    toggleUserBlockedStatusError,
-  } = useToggleUserBlockedStatus();
+    toggleUserBlockedStatusRequest,
+  ] = useToggleUserBlockedStatus();
 
   // The current user cannot block/delete himself.
   const disabled = currentUser.id === user.id;
 
   return (
     <Section className="px-4">
-      {toggleUserBlockedStatusError != null && (
+      {toggleUserBlockedStatusRequest.error != null && (
         <Message type="error" className="mb-4">
-          {getErrorMessage(toggleUserBlockedStatusError)}
+          {getErrorMessage(toggleUserBlockedStatusRequest.error)}
         </Message>
       )}
 
-      {deleteUserError != null && (
+      {deleteUserRequest.error != null && (
         <Message type="error" className="mb-4">
-          {getErrorMessage(deleteUserError)}
+          {getErrorMessage(deleteUserRequest.error)}
         </Message>
       )}
 
@@ -179,7 +179,7 @@ function ActionsPlaceholderSection() {
 const UserPage: PageComponent = () => {
   const router = useRouter();
   const userId = router.query.userId as string;
-  const { user, isUserLoading, userError } = useUser(userId);
+  const [user, userRequest] = useUser(userId);
 
   const { currentUser } = useCurrentUser();
 
@@ -188,9 +188,9 @@ const UserPage: PageComponent = () => {
   if (user != null) {
     pageTitle = user.displayName;
     headerTitle = user.displayName;
-  } else if (isUserLoading) {
+  } else if (userRequest.isLoading) {
     headerTitle = <Placeholder preset="text" />;
-  } else if (userError != null) {
+  } else if (userRequest.error != null) {
     headerTitle = "Oups";
     pageTitle = "Oups";
   }
@@ -212,7 +212,7 @@ const UserPage: PageComponent = () => {
         )}
       </>
     );
-  } else if (isUserLoading) {
+  } else if (userRequest.isLoading) {
     body = (
       <>
         <ProfilePlaceholderSection />
@@ -237,9 +237,9 @@ const UserPage: PageComponent = () => {
       <PageTitle title={pageTitle} />
 
       <Aside>
-        {userError != null && (
+        {userRequest.error != null && (
           <Message type="error" className="mx-4 mb-4">
-            {getErrorMessage(userError)}
+            {getErrorMessage(userRequest.error)}
           </Message>
         )}
 
