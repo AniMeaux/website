@@ -15,14 +15,35 @@ import {
   useQueryCache,
 } from "../request";
 
+const UserRoleCore = gql`
+  fragment UserRoleCore on UserRole {
+    id
+    name
+    resourcePermissions
+  }
+`;
+
+const UserRoleDetailed = gql`
+  fragment UserRoleDetailed on UserRole {
+    ...UserRoleCore
+    users {
+      id
+      displayName
+      email
+    }
+  }
+
+  ${UserRoleCore}
+`;
+
 const GetAllUserRolesQuery = gql`
   query GetAllUserRolesQuery {
     userRoles: getAllUserRoles {
-      id
-      name
-      resourcePermissions
+      ...UserRoleCore
     }
   }
+
+  ${UserRoleCore}
 `;
 
 export function useAllUserRoles() {
@@ -48,16 +69,11 @@ export function useAllUserRoles() {
 const GetUserRoleQuery = gql`
   query GetUserRoleQuery($id: ID!) {
     userRole: getUserRole(id: $id) {
-      id
-      name
-      resourcePermissions
-      users {
-        id
-        displayName
-        email
-      }
+      ...UserRoleDetailed
     }
   }
+
+  ${UserRoleDetailed}
 `;
 
 export function useUserRole(userRoleId: string) {
@@ -94,16 +110,11 @@ const CreateUserRoleQuery = gql`
       name: $name
       resourcePermissions: $resourcePermissions
     ) {
-      id
-      name
-      resourcePermissions
-      users {
-        id
-        displayName
-        email
-      }
+      ...UserRoleDetailed
     }
   }
+
+  ${UserRoleDetailed}
 `;
 
 export function useCreateUserRole() {
@@ -160,16 +171,11 @@ const UpdateUserRoleQuery = gql`
       name: $name
       resourcePermissions: $resourcePermissions
     ) {
-      id
-      name
-      resourcePermissions
-      users {
-        id
-        displayName
-        email
-      }
+      ...UserRoleDetailed
     }
   }
+
+  ${UserRoleDetailed}
 `;
 
 export function useUpdateUserRole() {

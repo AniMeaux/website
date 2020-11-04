@@ -10,18 +10,35 @@ import { useRouter } from "next/router";
 import { useQueryCache } from "react-query";
 import { fetchGraphQL, gql, useMutation, useQuery } from "../request";
 
+const UserCore = gql`
+  fragment UserCore on User {
+    id
+    displayName
+    email
+    disabled
+  }
+`;
+
+const UserDetailed = gql`
+  fragment UserDetailed on User {
+    ...UserCore
+    role {
+      id
+      name
+    }
+  }
+
+  ${UserCore}
+`;
+
 const GetAllUsersQuery = gql`
   query GetAllUsersQuery {
     users: getAllUsers {
-      id
-      displayName
-      email
-      disabled
-      role {
-        name
-      }
+      ...UserCore
     }
   }
+
+  ${UserCore}
 `;
 
 export function useAllUsers() {
@@ -44,16 +61,11 @@ export function useAllUsers() {
 const GetUserQuery = gql`
   query GetUserQuery($id: ID!) {
     user: getUser(id: $id) {
-      id
-      displayName
-      email
-      disabled
-      role {
-        id
-        name
-      }
+      ...UserDetailed
     }
   }
+
+  ${UserDetailed}
 `;
 
 export function useUser(userId: string) {
@@ -94,16 +106,11 @@ const CreateUserQuery = gql`
       password: $password
       roleId: $roleId
     ) {
-      id
-      displayName
-      email
-      disabled
-      role {
-        id
-        name
-      }
+      ...UserDetailed
     }
   }
+
+  ${UserDetailed}
 `;
 
 export function useCreateUser() {
@@ -176,16 +183,11 @@ const UpdateUserQuery = gql`
       password: $password
       roleId: $roleId
     ) {
-      id
-      displayName
-      email
-      disabled
-      role {
-        id
-        name
-      }
+      ...UserDetailed
     }
   }
+
+  ${UserDetailed}
 `;
 
 export function useUpdateUser() {
@@ -300,16 +302,11 @@ export function useDeleteUser() {
 const ToggleUserBlockedStatus = gql`
   mutation ToggleUserBlockedStatus($id: ID!) {
     user: toggleUserBlockedStatus(id: $id) {
-      id
-      displayName
-      email
-      disabled
-      role {
-        id
-        name
-      }
+      ...UserDetailed
     }
   }
+
+  ${UserDetailed}
 `;
 
 export function useToggleUserBlockedStatus() {
