@@ -24,7 +24,7 @@ export function Aside({
     <div
       {...rest}
       className={cn(
-        "min-h-0 flex-1 overflow-auto pt-4 pb-36 md:pb-20",
+        "min-h-0 flex-1 overflow-auto pt-4 pb-32 md:pb-20",
         className
       )}
     />

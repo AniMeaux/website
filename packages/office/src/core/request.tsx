@@ -120,7 +120,7 @@ export function RequestContextProvider({
         <RequestProgressBar />
         {process.env.NODE_ENV === "development" && (
           <ReactQueryDevtools
-            toggleButtonProps={{ style: { bottom: "5rem" } }}
+            toggleButtonProps={{ style: { bottom: "4rem" } }}
           />
         )}
       </RequestContext.Provider>

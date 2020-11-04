@@ -25,7 +25,7 @@ export function Main({ center = false, className, ...rest }: MainProps) {
     <main
       {...rest}
       className={cn(
-        "md:min-w-0 md:min-h-0 md:overflow-auto pt-4 pb-36 md:pb-20",
+        "md:min-w-0 md:min-h-0 md:overflow-auto pt-4 pb-32 md:pb-20",
         {
           "md:mx-auto md:w-10/12 md:max-w-screen-md": center,
           "md:flex-1": !center,

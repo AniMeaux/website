@@ -126,6 +126,7 @@ module.exports = {
         serif: ['"Open Sans"'].concat(fontFamily.serif),
       },
       fontSize: {
+        "2xs": "0.625rem",
         "7xl": "5rem",
         "8xl": "6rem",
         "9xl": "7rem",
@@ -141,9 +142,6 @@ module.exports = {
       },
       opacity: {
         ...opacities,
-      },
-      padding: {
-        36: "9rem",
       },
       inset: {
         "4": "1rem",

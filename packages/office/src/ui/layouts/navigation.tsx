@@ -52,7 +52,7 @@ function NavLink({
       <span className="flex-none text-xl md:text-lg">{icon}</span>
 
       {showLabel && (
-        <span className="md:ml-4 flex-none md:flex-1 md:min-w-0 md:truncate text-xs md:text-base">
+        <span className="md:ml-4 flex-none md:flex-1 md:min-w-0 md:truncate text-2xs md:text-base">
           {label}
         </span>
       )}
@@ -68,7 +68,7 @@ export function Navigation(props: React.HTMLAttributes<HTMLElement>) {
     <div
       {...props}
       className={cn(
-        "z-30 fixed md:static right-0 bottom-0 left-0 h-16 md:h-auto md:flex-none border-t md:border-t-0 md:border-r bg-white flex md:flex-col",
+        "z-30 fixed md:static right-0 bottom-0 left-0 h-12 md:h-auto md:flex-none border-t md:border-t-0 md:border-r bg-white flex md:flex-col",
         { "md:w-3/12 md:min-w-fit-content": isNavExpanded }
       )}
     >
