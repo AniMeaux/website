@@ -1,6 +1,6 @@
 import { getErrorMessage, User, UserFormPayload } from "@animeaux/shared";
 import * as React from "react";
-import { FaEnvelope, FaLock, FaShieldAlt, FaUser } from "react-icons/fa";
+import { FaEnvelope, FaLock } from "react-icons/fa";
 import { Button } from "../../ui/button";
 import { Adornment } from "../../ui/formElements/adornment";
 import { Field } from "../../ui/formElements/field";
@@ -11,6 +11,7 @@ import { PasswordInput } from "../../ui/formElements/passwordInput";
 import { Select } from "../../ui/formElements/select";
 import { Placeholder, Placeholders } from "../../ui/loaders/placeholder";
 import { Spinner } from "../../ui/loaders/spinner";
+import { ResourceIcon } from "../resource";
 import { useAllUserRoles } from "../userRole/userRoleQueries";
 
 export type UserFormErrors = {
@@ -36,7 +37,9 @@ export function UserForm({
   const [displayName, setDisplayName] = React.useState(user?.displayName ?? "");
   const [email, setEmail] = React.useState(user?.email ?? "");
   const [password, setPassword] = React.useState("");
-  const [roleId, setRoleId] = React.useState<string | null>(null);
+  const [roleId, setRoleId] = React.useState<string | null>(
+    user?.role.id ?? null
+  );
   const [userRoles, userRolesRequest] = useAllUserRoles();
 
   React.useEffect(() => {
@@ -67,7 +70,7 @@ export function UserForm({
           errorMessage={errors?.displayName}
           leftAdornment={
             <Adornment>
-              <FaUser />
+              <ResourceIcon resourceKey="user" />
             </Adornment>
           }
         />
@@ -136,7 +139,7 @@ export function UserForm({
           }
           leftAdornment={
             <Adornment>
-              <FaShieldAlt />
+              <ResourceIcon resourceKey="user_role" />
             </Adornment>
           }
           rightAdornment={

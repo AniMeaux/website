@@ -16,7 +16,7 @@ export const AnimalSpeciesLabels: {
   RODENT: "Rongeur",
 };
 
-export const ANIMAL_SPECIES_ORDER_ALPHABETICAL = [
+export const ANIMAL_SPECIES_ALPHABETICAL_ORDER = [
   AnimalSpecies.CAT,
   AnimalSpecies.DOG,
   AnimalSpecies.BIRD,

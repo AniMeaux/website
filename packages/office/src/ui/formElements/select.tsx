@@ -4,19 +4,19 @@ import { FaCaretDown } from "react-icons/fa";
 import { Adornment } from "./adornment";
 import { BaseInput, getInputClassName } from "./baseInput";
 
-export type SelectProps = Omit<
+export type SelectProps<ValueType> = Omit<
   React.SelectHTMLAttributes<HTMLSelectElement>,
   "onChange" | "value"
 > & {
   errorMessage?: string | null;
   infoMessage?: string | null;
-  value?: string | null;
-  onChange?: React.Dispatch<React.SetStateAction<string | null>>;
+  value?: ValueType | null;
+  onChange?: React.Dispatch<React.SetStateAction<ValueType | null>>;
   leftAdornment?: React.ReactNode;
   rightAdornment?: React.ReactNode;
 };
 
-export function Select({
+export function Select<ValueType = string>({
   errorMessage,
   infoMessage,
   placeholder,
@@ -28,7 +28,7 @@ export function Select({
   className,
   disabled,
   ...rest
-}: SelectProps) {
+}: SelectProps<ValueType>) {
   return (
     <BaseInput
       disabled={disabled}
@@ -46,10 +46,10 @@ export function Select({
     >
       <select
         {...rest}
-        value={value ?? ""}
+        value={value == null ? "" : String(value)}
         onChange={(event) => {
           if (onChange != null) {
-            onChange(event.target.value);
+            onChange((event.target.value as any) as ValueType);
           }
         }}
         disabled={disabled}

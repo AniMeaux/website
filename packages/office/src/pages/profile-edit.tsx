@@ -2,7 +2,7 @@ import { getErrorMessage } from "@animeaux/shared";
 import { useRouter } from "next/router";
 import * as React from "react";
 import { useAsyncCallback } from "react-behave";
-import { FaUser } from "react-icons/fa";
+import { ResourceIcon } from "../core/resource";
 import { useCurrentUser } from "../core/user/currentUserContext";
 import { Button } from "../ui/button";
 import { Adornment } from "../ui/formElements/adornment";
@@ -70,7 +70,7 @@ export default function EditProfile() {
               errorMessage={error == null ? null : getErrorMessage(error)}
               leftAdornment={
                 <Adornment>
-                  <FaUser />
+                  <ResourceIcon resourceKey="user" />
                 </Adornment>
               }
             />

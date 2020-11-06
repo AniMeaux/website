@@ -79,7 +79,7 @@ export default function MenuPage() {
             </li>
 
             <MenuLinkItem
-              href="animal-species"
+              href="animal-breeds"
               icon={<ResourceIcon resourceKey="animal_breed" />}
             >
               Races animales

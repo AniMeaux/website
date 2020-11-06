@@ -144,7 +144,7 @@ export function Navigation(props: React.HTMLAttributes<HTMLElement>) {
                 <NavLink
                   label="Races animales"
                   icon={<ResourceIcon resourceKey="animal_breed" />}
-                  href="/menu/animal-species"
+                  href="/menu/animal-breeds"
                   isNavExpanded={isNavExpanded}
                 />
               </NavItem>

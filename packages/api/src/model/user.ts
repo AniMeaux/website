@@ -30,14 +30,14 @@ const typeDefs = gql`
       displayName: String!
       password: String!
       roleId: ID!
-    ): User @auth(resourceKey: "user")
+    ): User! @auth(resourceKey: "user")
 
     updateUser(
       id: ID!
       displayName: String
       password: String
       roleId: ID
-    ): User @auth(resourceKey: "user")
+    ): User! @auth(resourceKey: "user")
 
     deleteUser(id: ID!): Boolean! @auth(resourceKey: "user")
     toggleUserBlockedStatus(id: ID!): User! @auth(resourceKey: "user")

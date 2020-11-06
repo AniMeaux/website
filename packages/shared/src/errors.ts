@@ -43,6 +43,14 @@ export enum ErrorCode {
   USER_INVALID_PASSWORD = "auth/invalid-password",
   USER_IS_REFERENCED = "user/is-referenced",
   USER_IS_CURRENT_USER = "user/is-current-user",
+
+  //// Animal Breed ////////////////////////////////////////////////////////////
+
+  ANIMAL_BREED_NOT_FOUND = "animal-breed/not-found",
+  ANIMAL_BREED_MISSING_NAME = "animal-breed/missing-name",
+  ANIMAL_BREED_NAME_ALREADY_USED = "animal-breed/name-already-used",
+  ANIMAL_BREED_MISSING_SPECIES = "animal-breed/missing-species",
+  ANIMAL_BREED_IS_REFERENCED = "animal-breed/is-referenced",
 }
 
 const ErrorCodeLabels: { [key in ErrorCode]?: string } = {
@@ -56,7 +64,7 @@ const ErrorCodeLabels: { [key in ErrorCode]?: string } = {
 
   [ErrorCode.USER_ROLE_NOT_FOUND]: "Le rôle utilisateur est introuvable",
   [ErrorCode.USER_ROLE_MISSING_NAME]: "Le nom est obligatoire",
-  [ErrorCode.USER_ROLE_NAME_ALREADY_USED]: "Le nom déjà utilisé",
+  [ErrorCode.USER_ROLE_NAME_ALREADY_USED]: "Le nom est déjà utilisé",
   [ErrorCode.USER_ROLE_IS_REFERENCED]:
     "Le rôle utilisateur ne peut pas être supprimé parce qu'il est utilisé par au moins un utilisateur",
 
@@ -73,6 +81,15 @@ const ErrorCodeLabels: { [key in ErrorCode]?: string } = {
     "L'utilisateur ne peut pas être supprimé parce qu'il est référencé par au moins un article",
   [ErrorCode.USER_IS_CURRENT_USER]:
     "Vous ne pouvez pas supprimer ou bloquer votre propre utilisateur",
+
+  //// Animal Breed ////////////////////////////////////////////////////////////
+
+  [ErrorCode.ANIMAL_BREED_NOT_FOUND]: "Le rôle utilisateur est introuvable",
+  [ErrorCode.ANIMAL_BREED_MISSING_NAME]: "Le nom est obligatoire",
+  [ErrorCode.ANIMAL_BREED_NAME_ALREADY_USED]: "Le nom est déjà utilisé",
+  [ErrorCode.ANIMAL_BREED_MISSING_SPECIES]: "L'espèce est obligatoire",
+  [ErrorCode.ANIMAL_BREED_IS_REFERENCED]:
+    "La race animale ne peut pas être supprimée parce qu'elle est référencée par au moins un animal",
 };
 
 export function getErrorMessage(error: Error): string {

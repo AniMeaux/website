@@ -1,6 +1,9 @@
 import {
+  AnimalSpecies,
+  CreateAnimalBreedPayload,
   CreateUserPayload,
   CreateUserRolePayload,
+  DBAnimalBreed,
   DBUser,
   DBUserForQueryContext,
   DBUserFromAuth,
@@ -11,6 +14,7 @@ import {
   ErrorCode,
   getErrorCode,
   hasErrorCode,
+  UpdateAnimalBreedPayload,
   UpdateUserPayload,
   UpdateUserRolePayload,
   UserFilters,
@@ -51,6 +55,22 @@ async function assertUserRoleNameNotUsed(name: string) {
 
   if (!userRoleSnapshot.empty) {
     throw new UserInputError(ErrorCode.USER_ROLE_NAME_ALREADY_USED);
+  }
+}
+
+async function assertAnimalBreedNameNotUsed(
+  name: string,
+  species: AnimalSpecies
+) {
+  const animalBreedSnapshot = await admin
+    .firestore()
+    .collection("animalBreeds")
+    .where("name", "==", name)
+    .where("species", "==", species)
+    .get();
+
+  if (!animalBreedSnapshot.empty) {
+    throw new UserInputError(ErrorCode.ANIMAL_BREED_NAME_ALREADY_USED);
   }
 }
 
@@ -105,18 +125,22 @@ export const FirebaseDatabase: Database = {
     return null;
   },
 
-  async createUserRole(payload: CreateUserRolePayload): Promise<DBUserRole> {
-    payload.name = payload.name.trim();
+  async createUserRole({
+    name,
+    resourcePermissions,
+  }: CreateUserRolePayload): Promise<DBUserRole> {
+    name = name.trim();
 
-    if (payload.name === "") {
+    if (name === "") {
       throw new UserInputError(ErrorCode.USER_ROLE_MISSING_NAME);
     }
 
-    await assertUserRoleNameNotUsed(payload.name);
+    await assertUserRoleNameNotUsed(name);
 
     const userRole: DBUserRole = {
       id: uuid(),
-      ...payload,
+      name,
+      resourcePermissions,
     };
 
     await admin
@@ -447,5 +471,99 @@ export const FirebaseDatabase: Database = {
     const payload: Partial<DBUserFromAuth> = { disabled: !user.disabled };
     await admin.auth().updateUser(id, payload);
     return { ...user, ...payload };
+  },
+
+  //// Animal Breed ////////////////////////////////////////////////////////////
+
+  async getAllAnimalBreeds(): Promise<DBAnimalBreed[]> {
+    const animalBreedsSnapshot = await admin
+      .firestore()
+      .collection("animalBreeds")
+      .orderBy("name", "asc")
+      .get();
+
+    return animalBreedsSnapshot.docs.map((doc) => doc.data() as DBAnimalBreed);
+  },
+
+  async getAnimalBreed(id: string): Promise<DBAnimalBreed | null> {
+    const animalBreedSnapshot = await admin
+      .firestore()
+      .collection("animalBreeds")
+      .doc(id)
+      .get();
+
+    return (animalBreedSnapshot.data() as DBAnimalBreed) ?? null;
+  },
+
+  async createAnimalBreed({
+    name,
+    species,
+  }: CreateAnimalBreedPayload): Promise<DBAnimalBreed> {
+    name = name.trim();
+    if (name === "") {
+      throw new UserInputError(ErrorCode.ANIMAL_BREED_MISSING_NAME);
+    }
+
+    await assertAnimalBreedNameNotUsed(name, species);
+
+    const animalBreed: DBAnimalBreed = {
+      id: uuid(),
+      name,
+      species,
+    };
+
+    await admin
+      .firestore()
+      .collection("animalBreeds")
+      .doc(animalBreed.id)
+      .set(animalBreed);
+
+    return animalBreed;
+  },
+
+  async updateAnimalBreed({
+    id,
+    name,
+    species,
+  }: UpdateAnimalBreedPayload): Promise<DBAnimalBreed> {
+    const animalBreed = await FirebaseDatabase.getAnimalBreed(id);
+    if (animalBreed == null) {
+      throw new UserInputError(ErrorCode.ANIMAL_BREED_NOT_FOUND);
+    }
+
+    const payload: Partial<DBAnimalBreed> = {};
+
+    if (name != null) {
+      name = name.trim();
+
+      if (name === "") {
+        throw new UserInputError(ErrorCode.ANIMAL_BREED_MISSING_NAME);
+      }
+
+      if (name !== animalBreed.name) {
+        assertAnimalBreedNameNotUsed(name, species ?? animalBreed.species);
+        payload.name = name;
+      }
+    }
+
+    if (species != null && species !== animalBreed.species) {
+      payload.species = species;
+    }
+
+    if (!isEmpty(payload)) {
+      await admin
+        .firestore()
+        .collection("animalBreeds")
+        .doc(id)
+        .update(payload);
+    }
+
+    return { ...animalBreed, ...payload };
+  },
+
+  async deleteAnimalBreed(id: string): Promise<boolean> {
+    // TODO: Check that the breed is not referenced by an animal.
+    await admin.firestore().collection("animalBreeds").doc(id).delete();
+    return true;
   },
 };

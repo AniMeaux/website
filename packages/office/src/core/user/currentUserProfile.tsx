@@ -1,10 +1,11 @@
 import { useRouter } from "next/router";
 import * as React from "react";
-import { FaAngleRight, FaLock, FaUser } from "react-icons/fa";
+import { FaAngleRight, FaLock } from "react-icons/fa";
 import { Button } from "../../ui/button";
 import { ItemContent, ItemIcon, ItemMainText, LinkItem } from "../../ui/item";
 import { Section } from "../../ui/layouts/section";
 import { Separator } from "../../ui/separator";
+import { ResourceIcon } from "../resource";
 import { useCurrentUser } from "./currentUserContext";
 import { UserItem } from "./userItem";
 
@@ -24,7 +25,7 @@ export function CurrentUserProfile() {
       <Section>
         <LinkItem href={`/profile-edit?back=${back}`}>
           <ItemIcon>
-            <FaUser />
+            <ResourceIcon resourceKey="user" />
           </ItemIcon>
 
           <ItemContent>

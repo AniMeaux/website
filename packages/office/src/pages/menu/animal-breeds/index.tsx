@@ -1,16 +1,15 @@
 import {
+  AnimalBreed,
+  AnimalSpeciesLabels,
   getErrorMessage,
-  ResourceKeysOrder,
-  ResourceLabels,
-  UserRole,
 } from "@animeaux/shared";
 import { useRouter } from "next/router";
 import * as React from "react";
 import { FaPlus } from "react-icons/fa";
+import { useAllAnimalBreeds } from "../../../core/animalBreed/animalBreedQueries";
 import { ResourceIcon } from "../../../core/resource";
 import { ScreenSize, useScreenSize } from "../../../core/screenSize";
 import { useCurrentUser } from "../../../core/user/currentUserContext";
-import { useAllUserRoles } from "../../../core/userRole/userRoleQueries";
 import { Avatar } from "../../../ui/avatar";
 import { EmptyMessage } from "../../../ui/emptyMessage";
 import {
@@ -33,34 +32,65 @@ import { Placeholder, Placeholders } from "../../../ui/loaders/placeholder";
 import { Message } from "../../../ui/message";
 import { PrimaryActionLink } from "../../../ui/primaryAction";
 
-type UserRoleItemProps = {
-  userRole: UserRole;
+type AnimalBreedItemProps = {
+  animalBreed: AnimalBreed;
   active?: boolean;
 };
 
-function UserRoleItem({ userRole, active }: UserRoleItemProps) {
+function AnimalBreedItem({ animalBreed, active }: AnimalBreedItemProps) {
   return (
     <LinkItem
       size="large"
-      href={active ? "/menu/user-roles" : `/menu/user-roles/${userRole.id}`}
+      href={
+        active ? "/menu/animal-breeds" : `/menu/animal-breeds/${animalBreed.id}`
+      }
       active={active}
     >
       <ItemIcon>
         <Avatar>
-          <ResourceIcon resourceKey="user_role" />
+          <ResourceIcon resourceKey="animal_breed" />
         </Avatar>
       </ItemIcon>
 
       <ItemContent>
-        <ItemMainText>{userRole.name}</ItemMainText>
+        <ItemMainText>{animalBreed.name}</ItemMainText>
 
         <ItemSecondaryText>
-          {ResourceKeysOrder.filter((key) => userRole.resourcePermissions[key])
-            .map((key) => ResourceLabels[key])
-            .join(", ")}
+          {AnimalSpeciesLabels[animalBreed.species]}
         </ItemSecondaryText>
       </ItemContent>
     </LinkItem>
+  );
+}
+
+type AnimalBreedsRowsProps = {
+  animalBreeds: AnimalBreed[];
+  activeAnimalBreedId: string | null;
+};
+
+function AnimalBreedsRows({
+  animalBreeds,
+  activeAnimalBreedId,
+}: AnimalBreedsRowsProps) {
+  if (animalBreeds.length === 0) {
+    return (
+      <li>
+        <EmptyMessage>Il n'y a pas encore de race.</EmptyMessage>
+      </li>
+    );
+  }
+
+  return (
+    <>
+      {animalBreeds.map((animalBreed) => (
+        <li key={animalBreed.id}>
+          <AnimalBreedItem
+            animalBreed={animalBreed}
+            active={activeAnimalBreedId === animalBreed.id}
+          />
+        </li>
+      ))}
+    </>
   );
 }
 
@@ -83,58 +113,30 @@ function LoadingRows() {
   );
 }
 
-type UserRolesRowsProps = {
-  userRoles: UserRole[];
-  activeUserRoleId: string | null;
-};
-
-function UserRolesRows({ userRoles, activeUserRoleId }: UserRolesRowsProps) {
-  if (userRoles.length === 0) {
-    return (
-      <li>
-        <EmptyMessage>Il n'y a pas encore de rôle utilisateur.</EmptyMessage>
-      </li>
-    );
-  }
-
-  return (
-    <>
-      {userRoles.map((userRole) => (
-        <li key={userRole.id}>
-          <UserRoleItem
-            userRole={userRole}
-            active={activeUserRoleId === userRole.id}
-          />
-        </li>
-      ))}
-    </>
-  );
-}
-
-type UserRolesPageProps = {
+type AnimalBreedsPageProps = {
   children?: React.ReactNode;
 };
 
-export default UserRolesPage;
-export function UserRolesPage({ children }: UserRolesPageProps) {
+export default AnimalBreedsPage;
+export function AnimalBreedsPage({ children }: AnimalBreedsPageProps) {
   const router = useRouter();
-  const activeUserRoleId: string | null =
-    (router.query.userRoleId as string) ?? null;
+  const activeAnimalBreedId: string | null =
+    (router.query.animalBreedId as string) ?? null;
 
   const { screenSize } = useScreenSize();
   const { currentUser } = useCurrentUser();
-  const canEdit = currentUser.role.resourcePermissions.user_role;
-  const [userRoles, userRolesRequest] = useAllUserRoles();
+  const canEdit = currentUser.role.resourcePermissions.animal_breed;
+  const [animalBreeds, animalBreedsRequest] = useAllAnimalBreeds();
 
   let body: React.ReactNode | null = null;
-  if (userRoles != null) {
+  if (animalBreeds != null) {
     body = (
-      <UserRolesRows
-        activeUserRoleId={activeUserRoleId}
-        userRoles={userRoles}
+      <AnimalBreedsRows
+        animalBreeds={animalBreeds}
+        activeAnimalBreedId={activeAnimalBreedId}
       />
     );
-  } else if (userRolesRequest.isLoading) {
+  } else if (animalBreedsRequest.isLoading) {
     body = <LoadingRows />;
   }
 
@@ -148,17 +150,17 @@ export function UserRolesPage({ children }: UserRolesPageProps) {
             <HeaderPlaceholder />
           )}
 
-          <HeaderTitle>Rôles utilisateurs</HeaderTitle>
+          <HeaderTitle>Races animales</HeaderTitle>
           <HeaderCurrentUserAvatar />
         </Header>
       }
     >
-      <PageTitle title="Rôles utilisateurs" />
+      <PageTitle title="Races animales" />
 
       <Main className="px-2">
-        {userRolesRequest.error != null && (
+        {animalBreedsRequest.error != null && (
           <Message type="error" className="mx-2 mb-2">
-            {getErrorMessage(userRolesRequest.error)}
+            {getErrorMessage(animalBreedsRequest.error)}
           </Message>
         )}
 

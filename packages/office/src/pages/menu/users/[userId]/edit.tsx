@@ -62,8 +62,8 @@ const EditUserPage: PageComponent = () => {
     body = (
       <UserForm
         user={user}
-        onSubmit={(payload) =>
-          updateUser({ currentUser: user, formPayload: payload })
+        onSubmit={(formPayload) =>
+          updateUser({ currentUser: user, formPayload })
         }
         pending={updateUserRequest.isLoading}
         errors={errors}

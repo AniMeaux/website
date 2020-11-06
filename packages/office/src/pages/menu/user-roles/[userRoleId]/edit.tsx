@@ -45,8 +45,8 @@ const EditUserRolePage: PageComponent = () => {
     body = (
       <UserRoleForm
         userRole={userRole}
-        onSubmit={(payload) =>
-          updateUserRole({ currentUserRole: userRole, formPayload: payload })
+        onSubmit={(formPayload) =>
+          updateUserRole({ currentUserRole: userRole, formPayload })
         }
         pending={updateUserRoleRequest.isLoading}
         errors={{

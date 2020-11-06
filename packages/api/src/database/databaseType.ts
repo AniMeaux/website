@@ -1,9 +1,12 @@
 import {
+  CreateAnimalBreedPayload,
   CreateUserPayload,
   CreateUserRolePayload,
+  DBAnimalBreed,
   DBUser,
   DBUserForQueryContext,
   DBUserRole,
+  UpdateAnimalBreedPayload,
   UpdateUserPayload,
   UpdateUserRolePayload,
   UserFilters,
@@ -12,14 +15,16 @@ import {
 export type Database = {
   initialize(): void;
 
-  // User roles
+  //// User Role ///////////////////////////////////////////////////////////////
+
   getAllUserRoles(): Promise<DBUserRole[]>;
   getUserRole(id: string): Promise<DBUserRole | null>;
   createUserRole(payload: CreateUserRolePayload): Promise<DBUserRole>;
   updateUserRole(payload: UpdateUserRolePayload): Promise<DBUserRole>;
   deleteUserRole(id: string): Promise<boolean>;
 
-  // User
+  //// User ////////////////////////////////////////////////////////////////////
+
   getUserForQueryContext(token: string): Promise<DBUserForQueryContext | null>;
   getAllUsers(
     currentUser: DBUserForQueryContext,
@@ -39,4 +44,12 @@ export type Database = {
     currentUser: DBUserForQueryContext,
     id: string
   ): Promise<DBUser>;
+
+  //// Animal Breed ////////////////////////////////////////////////////////////
+
+  getAllAnimalBreeds(): Promise<DBAnimalBreed[]>;
+  getAnimalBreed(id: string): Promise<DBAnimalBreed | null>;
+  createAnimalBreed(payload: CreateAnimalBreedPayload): Promise<DBAnimalBreed>;
+  updateAnimalBreed(payload: UpdateAnimalBreedPayload): Promise<DBAnimalBreed>;
+  deleteAnimalBreed(id: string): Promise<boolean>;
 };

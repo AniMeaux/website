@@ -21,14 +21,14 @@ const typeDefs = gql`
   }
 
   extend type Mutation {
-    createUserRole(name: String!, resourcePermissions: JSONObject!): UserRole
+    createUserRole(name: String!, resourcePermissions: JSONObject!): UserRole!
       @auth(resourceKey: "user_role")
 
     updateUserRole(
       id: ID!
       name: String
       resourcePermissions: JSONObject
-    ): UserRole @auth(resourceKey: "user_role")
+    ): UserRole! @auth(resourceKey: "user_role")
 
     deleteUserRole(id: ID!): Boolean! @auth(resourceKey: "user_role")
   }

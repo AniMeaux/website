@@ -2,12 +2,10 @@ import {
   DEFAULT_RESOURCE_PERMISSIONS,
   ResourceKeysOrder,
   ResourceLabels,
-  ResourcePermissions,
   UserRole,
   UserRoleFormPayload,
 } from "@animeaux/shared";
 import * as React from "react";
-import { FaShieldAlt } from "react-icons/fa";
 import { Button } from "../../ui/button";
 import { Adornment } from "../../ui/formElements/adornment";
 import { Checkbox } from "../../ui/formElements/checkbox";
@@ -16,6 +14,7 @@ import { Form, FormProps } from "../../ui/formElements/form";
 import { Input } from "../../ui/formElements/input";
 import { Label } from "../../ui/formElements/label";
 import { Placeholder, Placeholders } from "../../ui/loaders/placeholder";
+import { ResourceIcon } from "../resource";
 
 type UserRoleFormProps = Omit<FormProps, "onSubmit"> & {
   userRole?: UserRole;
@@ -33,9 +32,9 @@ export function UserRoleForm({
   ...rest
 }: UserRoleFormProps) {
   const [name, setName] = React.useState(userRole?.name ?? "");
-  const [resourcePermissions, setResourcePermissions] = React.useState<
-    ResourcePermissions
-  >(userRole?.resourcePermissions ?? DEFAULT_RESOURCE_PERMISSIONS);
+  const [resourcePermissions, setResourcePermissions] = React.useState(
+    userRole?.resourcePermissions ?? DEFAULT_RESOURCE_PERMISSIONS
+  );
 
   React.useEffect(() => {
     if (userRole != null) {
@@ -63,7 +62,7 @@ export function UserRoleForm({
           errorMessage={errors?.name}
           leftAdornment={
             <Adornment>
-              <FaShieldAlt />
+              <ResourceIcon resourceKey="user_role" />
             </Adornment>
           }
         />
