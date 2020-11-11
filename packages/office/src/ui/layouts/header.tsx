@@ -88,7 +88,7 @@ export function HeaderCurrentUserAvatar() {
   return (
     <>
       <HeaderAction
-        onClick={() => setIsDropdownVisible((v) => !v)}
+        onClick={() => setIsDropdownVisible(true)}
         refProp={actionButton}
       >
         <UserAvatar user={currentUser} />
@@ -114,7 +114,7 @@ export function Header({
     <header
       {...rest}
       className={cn(
-        "z-20 sticky top-0 w-full h-16 flex-none border-b bg-white px-2 flex items-center",
+        "z-20 sticky top-0 w-full h-16 flex-none border-b bg-white px-2 flex items-center justify-between",
         className
       )}
     />

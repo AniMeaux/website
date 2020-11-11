@@ -158,7 +158,7 @@ export function AnimalBreedsPage({ children }: AnimalBreedsPageProps) {
           <SearchInput
             onSearch={setSearch}
             placeholder="Chercher une race"
-            className="mr-2 flex-1"
+            className="mr-2 flex-1 md:flex-none md:w-7/12"
           />
 
           <HeaderCurrentUserAvatar />
