@@ -9,7 +9,7 @@ export function AsideLayout({
     <aside
       {...rest}
       className={cn(
-        "z-40 fixed md:static top-0 left-0 w-full md:w-5/12 md:min-w-0 md:max-w-md h-screen md:h-auto md:min-h-0 md:flex-none md:border-l bg-white flex flex-col",
+        "z-40 fixed md:static top-0 left-0 w-full md:w-5/12 md:min-w-0 h-screen md:h-auto md:min-h-0 md:flex-none md:border-l bg-white flex flex-col",
         className
       )}
     />
