@@ -10,7 +10,7 @@ export type SelectProps<ValueType> = Omit<
 > &
   BaseInputProps & {
     value?: ValueType | null;
-    onChange?: React.Dispatch<React.SetStateAction<ValueType | null>>;
+    onChange?: (value: ValueType) => void;
   };
 
 export function Select<ValueType = string>({
@@ -26,17 +26,19 @@ export function Select<ValueType = string>({
   disabled,
   ...rest
 }: SelectProps<ValueType>) {
+  if (rightAdornment == null) {
+    rightAdornment = (
+      <Adornment>
+        <FaCaretDown />
+      </Adornment>
+    );
+  }
+
   return (
     <BaseInput
       disabled={disabled}
       leftAdornment={leftAdornment}
-      rightAdornment={
-        rightAdornment ?? (
-          <Adornment>
-            <FaCaretDown />
-          </Adornment>
-        )
-      }
+      rightAdornment={rightAdornment}
       errorMessage={errorMessage}
       infoMessage={infoMessage}
       className={className}
