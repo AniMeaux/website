@@ -8,6 +8,7 @@ export type InputProps = Omit<
 > &
   BaseInputProps & {
     onChange?: React.Dispatch<React.SetStateAction<string>>;
+    refProp?: React.RefObject<HTMLInputElement>;
   };
 
 export function Input({
@@ -16,8 +17,9 @@ export function Input({
   onChange,
   leftAdornment,
   rightAdornment,
-  className,
   disabled,
+  refProp,
+  className,
   ...rest
 }: InputProps) {
   return (
@@ -37,6 +39,7 @@ export function Input({
             onChange(event.target.value);
           }
         }}
+        ref={refProp}
         className={cn(
           getInputClassName({
             disabled,

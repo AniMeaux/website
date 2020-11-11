@@ -13,15 +13,21 @@ export function Adornment({
   );
 }
 
+type ActionAdornmentProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
+  refProp?: React.RefObject<HTMLButtonElement>;
+};
+
 export function ActionAdornment({
+  refProp,
   className,
   ...props
-}: React.ButtonHTMLAttributes<HTMLButtonElement>) {
+}: ActionAdornmentProps) {
   return (
     <button
       {...props}
       // Use type button to make sure we don't submit a form.
       type="button"
+      ref={refProp}
       className={cn(
         "w-8 h-8 flex items-center justify-center pointer-events-auto",
         className

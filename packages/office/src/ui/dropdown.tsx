@@ -40,7 +40,7 @@ function DropdownContent({
       <div
         {...rest}
         tabIndex={-1}
-        className={cn("a11y-focus", className)}
+        className={cn("a11y-focus z-50", className)}
         ref={refProp}
       />
 
@@ -52,6 +52,7 @@ function DropdownContent({
 
 type DeviceDropdownProps = {
   actionElement: React.MutableRefObject<HTMLButtonElement>;
+  referenceElement: React.MutableRefObject<HTMLElement>;
   dropdownElement: React.MutableRefObject<HTMLDivElement>;
   children?: React.ReactNode;
 };
@@ -66,7 +67,7 @@ function SmallDeviceDropdown({
 
       <DropdownContent
         refProp={dropdownElement}
-        className="z-50 fixed bottom-0 left-0 w-full max-h-1/2 overflow-hidden rounded-t-md bg-white pt-4 pb-8"
+        className="fixed bottom-0 left-0 w-full max-h-1/2 overflow-hidden rounded-t-md bg-white pt-4 pb-8"
       >
         {children}
       </DropdownContent>
@@ -75,11 +76,19 @@ function SmallDeviceDropdown({
 }
 
 function LargeDeviceDropdown({
-  actionElement,
+  referenceElement,
   dropdownElement,
   children,
 }: DeviceDropdownProps) {
-  const { style } = usePopper(actionElement, dropdownElement);
+  // Make sure the dropdown is at least as large as the reference.
+  React.useEffect(() => {
+    const referenceRect = referenceElement.current.getBoundingClientRect();
+    dropdownElement.current.style.minWidth = `${referenceRect.width}px`;
+  });
+
+  const { style } = usePopper(referenceElement, dropdownElement, {
+    placement: "bottom-end",
+  });
 
   return (
     <>
@@ -87,7 +96,7 @@ function LargeDeviceDropdown({
 
       <DropdownContent
         refProp={dropdownElement}
-        className="z-50 shadow-md my-2 rounded-md border bg-white py-4"
+        className="shadow-md my-2 rounded-md border bg-white py-4"
         style={style as React.CSSProperties}
       >
         {children}
@@ -98,11 +107,17 @@ function LargeDeviceDropdown({
 
 type DropdownProps = {
   actionElement: React.MutableRefObject<HTMLButtonElement>;
+  referenceElement?: React.MutableRefObject<HTMLElement>;
   onClose: () => void;
   children?: React.ReactNode;
 };
 
-export function Dropdown({ actionElement, onClose, children }: DropdownProps) {
+export function Dropdown({
+  actionElement,
+  referenceElement,
+  onClose,
+  children,
+}: DropdownProps) {
   const { screenSize } = useScreenSize();
   const mountingPoint = React.useMemo(() => document.createElement("div"), []);
 
@@ -142,6 +157,7 @@ export function Dropdown({ actionElement, onClose, children }: DropdownProps) {
   const props: DeviceDropdownProps = {
     children,
     actionElement,
+    referenceElement: referenceElement ?? actionElement,
     dropdownElement,
   };
 

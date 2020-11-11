@@ -1,19 +1,26 @@
 import {
   AnimalBreed,
+  AnimalSpecies,
   AnimalSpeciesLabels,
+  ANIMAL_SPECIES_ALPHABETICAL_ORDER,
   getErrorMessage,
   PaginatedResponse,
 } from "@animeaux/shared";
 import { useRouter } from "next/router";
 import * as React from "react";
-import { FaPlus } from "react-icons/fa";
+import { FaDna, FaPlus } from "react-icons/fa";
 import { useAllAnimalBreeds } from "../../../core/animalBreed/animalBreedQueries";
 import { ResourceIcon } from "../../../core/resource";
 import { useCurrentUser } from "../../../core/user/currentUserContext";
 import { Avatar } from "../../../ui/avatar";
 import { Button } from "../../../ui/button";
 import { EmptyMessage } from "../../../ui/emptyMessage";
+import { Adornment } from "../../../ui/formElements/adornment";
+import { Field } from "../../../ui/formElements/field";
+import { Form } from "../../../ui/formElements/form";
+import { Label } from "../../../ui/formElements/label";
 import { SearchInput } from "../../../ui/formElements/searchInput";
+import { Select } from "../../../ui/formElements/select";
 import {
   Item,
   ItemContent,
@@ -27,6 +34,43 @@ import { Main, PageLayout, PageTitle } from "../../../ui/layouts/page";
 import { Placeholder, Placeholders } from "../../../ui/loaders/placeholder";
 import { Message } from "../../../ui/message";
 import { PrimaryActionLink } from "../../../ui/primaryAction";
+
+type FiltersProps = {
+  species: AnimalSpecies | null;
+  onSpeciesChange: (species: AnimalSpecies | null) => void;
+};
+
+function Filters({ species, onSpeciesChange }: FiltersProps) {
+  const value: AnimalSpecies | "all" = species ?? "all";
+
+  return (
+    <Form className="px-4">
+      <Field>
+        <Label htmlFor="species">Espèce</Label>
+        <Select
+          name="species"
+          id="species"
+          value={value}
+          onChange={(value) => onSpeciesChange(value === "all" ? null : value)}
+          placeholder="Filtrer par espèce"
+          leftAdornment={
+            <Adornment>
+              <FaDna />
+            </Adornment>
+          }
+        >
+          <option value="all">Toutes</option>
+
+          {ANIMAL_SPECIES_ALPHABETICAL_ORDER.map((species) => (
+            <option key={species} value={species}>
+              {AnimalSpeciesLabels[species]}
+            </option>
+          ))}
+        </Select>
+      </Field>
+    </Form>
+  );
+}
 
 type AnimalBreedItemProps = {
   animalBreed: AnimalBreed;
@@ -60,13 +104,13 @@ function AnimalBreedItem({ animalBreed, active }: AnimalBreedItemProps) {
 }
 
 type AnimalBreedsRowsProps = {
-  search: string;
+  hasSearch: boolean;
   animalBreedsPages: PaginatedResponse<AnimalBreed>[];
   activeAnimalBreedId: string | null;
 };
 
 function AnimalBreedsRows({
-  search,
+  hasSearch,
   animalBreedsPages,
   activeAnimalBreedId,
 }: AnimalBreedsRowsProps) {
@@ -75,9 +119,7 @@ function AnimalBreedsRows({
     return (
       <li>
         <EmptyMessage>
-          {search === ""
-            ? "Il n'y a pas encore de race."
-            : "Aucune race trouvée."}
+          {hasSearch ? "Aucune race trouvée." : "Il n'y a pas encore de race."}
         </EmptyMessage>
       </li>
     );
@@ -134,15 +176,18 @@ export function AnimalBreedsPage({ children }: AnimalBreedsPageProps) {
   const canEdit = currentUser.role.resourcePermissions.animal_breed;
 
   const [search, setSearch] = React.useState("");
+  const [species, setSpecies] = React.useState<AnimalSpecies | null>(null);
+
   const [animalBreedsPages, animalBreedsPagesRequest] = useAllAnimalBreeds({
     search,
+    species,
   });
 
   let body: React.ReactNode | null = null;
   if (animalBreedsPages != null) {
     body = (
       <AnimalBreedsRows
-        search={search}
+        hasSearch={search !== "" || species != null}
         animalBreedsPages={animalBreedsPages}
         activeAnimalBreedId={activeAnimalBreedId}
       />
@@ -157,6 +202,8 @@ export function AnimalBreedsPage({ children }: AnimalBreedsPageProps) {
         <Header>
           <SearchInput
             onSearch={setSearch}
+            filters={<Filters species={species} onSpeciesChange={setSpecies} />}
+            hasActiveFilters={species != null}
             placeholder="Chercher une race"
             className="mr-2 flex-1 md:flex-none md:w-7/12"
           />
