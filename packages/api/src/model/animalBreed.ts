@@ -1,4 +1,5 @@
 import {
+  AnimalBreedFilters,
   CreateAnimalBreedPayload,
   UpdateAnimalBreedPayload,
 } from "@animeaux/shared";
@@ -20,8 +21,20 @@ const typeDefs = gql`
     species: AnimalSpecies!
   }
 
+  type AllAnimalBreedsResponse {
+    hits: [AnimalBreed!]!
+    hitsTotalCount: Int!
+    page: Int!
+    pageCount: Int!
+  }
+
   extend type Query {
-    getAllAnimalBreeds: [AnimalBreed!]! @auth
+    getAllAnimalBreeds(
+      search: String
+      page: Int
+      species: AnimalSpecies
+    ): AllAnimalBreedsResponse! @auth
+
     getAnimalBreed(id: ID!): AnimalBreed @auth
   }
 
@@ -40,8 +53,8 @@ const typeDefs = gql`
 `;
 
 const queries: IResolverObject = {
-  getAllAnimalBreeds: async () => {
-    return await database.getAllAnimalBreeds();
+  getAllAnimalBreeds: async (parent: any, filters: AnimalBreedFilters) => {
+    return await database.getAllAnimalBreeds(filters);
   },
 
   getAnimalBreed: async (parent: any, { id }: { id: string }) => {

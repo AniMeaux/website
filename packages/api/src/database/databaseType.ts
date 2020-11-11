@@ -1,4 +1,5 @@
 import {
+  AnimalBreedFilters,
   CreateAnimalBreedPayload,
   CreateUserPayload,
   CreateUserRolePayload,
@@ -6,6 +7,7 @@ import {
   DBUser,
   DBUserForQueryContext,
   DBUserRole,
+  PaginatedResponse,
   UpdateAnimalBreedPayload,
   UpdateUserPayload,
   UpdateUserRolePayload,
@@ -47,7 +49,9 @@ export type Database = {
 
   //// Animal Breed ////////////////////////////////////////////////////////////
 
-  getAllAnimalBreeds(): Promise<DBAnimalBreed[]>;
+  getAllAnimalBreeds(
+    filters: AnimalBreedFilters
+  ): Promise<PaginatedResponse<DBAnimalBreed>>;
   getAnimalBreed(id: string): Promise<DBAnimalBreed | null>;
   createAnimalBreed(payload: CreateAnimalBreedPayload): Promise<DBAnimalBreed>;
   updateAnimalBreed(payload: UpdateAnimalBreedPayload): Promise<DBAnimalBreed>;

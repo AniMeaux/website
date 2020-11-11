@@ -5,7 +5,12 @@ export function Adornment({
   className,
   ...props
 }: React.HTMLAttributes<HTMLSpanElement>) {
-  return <span {...props} className={cn("p-2", className)} />;
+  return (
+    <span
+      {...props}
+      className={cn("w-8 h-8 flex items-center justify-center", className)}
+    />
+  );
 }
 
 export function ActionAdornment({
@@ -17,7 +22,10 @@ export function ActionAdornment({
       {...props}
       // Use type button to make sure we don't submit a form.
       type="button"
-      className={cn("p-2 pointer-events-auto", className)}
+      className={cn(
+        "w-8 h-8 flex items-center justify-center pointer-events-auto",
+        className
+      )}
     />
   );
 }

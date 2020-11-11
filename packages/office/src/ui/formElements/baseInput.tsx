@@ -1,10 +1,20 @@
 import cn from "classnames";
 import * as React from "react";
+import invariant from "invariant";
 
-type InputWrapperProps = React.HTMLAttributes<HTMLSpanElement> & {
+function ensureArray<DataType>(value: DataType[] | DataType | null) {
+  if (value == null) {
+    return [];
+  }
+
+  const array = Array.isArray(value) ? value : [value];
+  return array.filter(Boolean);
+}
+
+export type BaseInputProps = {
   disabled?: boolean;
-  leftAdornment?: React.ReactNode;
-  rightAdornment?: React.ReactNode;
+  leftAdornment?: React.ReactNode | React.ReactNode[];
+  rightAdornment?: React.ReactNode | React.ReactNode[];
   errorMessage?: string | null;
   infoMessage?: string | null;
 };
@@ -18,7 +28,10 @@ export function BaseInput({
   infoMessage,
   className,
   ...rest
-}: InputWrapperProps) {
+}: React.HTMLAttributes<HTMLSpanElement> & BaseInputProps) {
+  const rightAdornments = ensureArray(rightAdornment);
+  const leftAdornments = ensureArray(leftAdornment);
+
   return (
     <span
       {...rest}
@@ -26,13 +39,19 @@ export function BaseInput({
     >
       {children}
 
-      {leftAdornment != null && (
-        <AdornmentContainer side="left">{leftAdornment}</AdornmentContainer>
-      )}
+      {leftAdornments.length > 0 &&
+        React.createElement(
+          AdornmentContainer,
+          { side: "left" },
+          ...leftAdornments
+        )}
 
-      {rightAdornment != null && (
-        <AdornmentContainer side="right">{rightAdornment}</AdornmentContainer>
-      )}
+      {rightAdornments.length > 0 &&
+        React.createElement(
+          AdornmentContainer,
+          { side: "right" },
+          ...rightAdornments
+        )}
 
       {errorMessage != null && <Message error>{errorMessage}</Message>}
 
@@ -50,8 +69,8 @@ type AdornmentContainerProps = React.HTMLAttributes<HTMLSpanElement> & {
 const AdornmentSideClassName: {
   [key in AdornmentContainerProps["side"]]: string;
 } = {
-  left: "left-0 pl-2",
-  right: "right-0 pr-2",
+  left: "left-0",
+  right: "right-0",
 };
 
 function AdornmentContainer({
@@ -63,7 +82,7 @@ function AdornmentContainer({
     <span
       {...rest}
       className={cn(
-        "pointer-events-none absolute top-0 h-10 text-gray-700 flex items-center",
+        "pointer-events-none absolute top-0 h-10 px-2 text-gray-700 flex items-center",
         AdornmentSideClassName[side],
         className
       )}
@@ -91,12 +110,11 @@ function Message({ error = false, className, ...rest }: MessageProps) {
   );
 }
 
-type GetInputClassNameOptions = {
-  disabled?: boolean;
-  leftAdornment?: React.ReactNode;
-  rightAdornment?: React.ReactNode;
-  errorMessage?: string | null;
-};
+type GetInputClassNameOptions = Omit<BaseInputProps, "infoMessage">;
+
+// The index correspond to the number of adornments.
+const PaddingLeftClassNames = ["pl-4", "pl-12", "pl-20"];
+const PaddingRightClassNames = ["pr-4", "pr-12", "pr-20"];
 
 export function getInputClassName({
   disabled,
@@ -104,13 +122,22 @@ export function getInputClassName({
   leftAdornment,
   rightAdornment,
 }: GetInputClassNameOptions) {
+  const rightAdornments = ensureArray(rightAdornment);
+  const leftAdornments = ensureArray(leftAdornment);
+
+  const paddingLeftClassName = PaddingLeftClassNames[leftAdornments.length];
+  invariant(paddingLeftClassName != null, "Only 2 adornments are supported.");
+
+  const paddingRightClassName = PaddingRightClassNames[rightAdornments.length];
+  invariant(paddingRightClassName != null, "Only 2 adornments are supported.");
+
   return cn(
     "a11y-focus disabled:pointer-events-none h-10 w-full min-w-0 rounded-md bg-black bg-opacity-5 focus:bg-transparent px-4 text-default-color",
     {
       "md:hover:bg-opacity-3": !disabled,
-      "pl-12": leftAdornment != null,
-      "pr-12": rightAdornment != null,
       "border-2 border-red-500": errorMessage != null,
-    }
+    },
+    paddingLeftClassName,
+    paddingRightClassName
   );
 }

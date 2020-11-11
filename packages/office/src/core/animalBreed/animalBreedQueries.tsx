@@ -1,12 +1,15 @@
 import {
   AnimalBreed,
+  AnimalBreedFilters,
   AnimalBreedFormPayload,
   CreateAnimalBreedPayload,
   ErrorCode,
+  PaginatedResponse,
   UpdateAnimalBreedPayload,
 } from "@animeaux/shared";
 import { gql } from "graphql-request";
 import { useRouter } from "next/router";
+import { useInfiniteQuery } from "react-query";
 import { fetchGraphQL, useMutation, useQuery, useQueryCache } from "../request";
 
 const AnimalBreedCore = gql`
@@ -18,24 +21,52 @@ const AnimalBreedCore = gql`
 `;
 
 const GetAllAnimalBreedsQuery = gql`
-  query GetAllAnimalBreedsQuery {
-    animalBreeds: getAllAnimalBreeds {
-      ...AnimalBreedCore
+  query GetAllAnimalBreedsQuery(
+    $search: String
+    $page: Int
+    $species: AnimalSpecies
+  ) {
+    response: getAllAnimalBreeds(
+      search: $search
+      page: $page
+      species: $species
+    ) {
+      hits {
+        ...AnimalBreedCore
+      }
+      hitsTotalCount
+      page
+      pageCount
     }
   }
 
   ${AnimalBreedCore}
 `;
 
-export function useAllAnimalBreeds() {
-  const { data, ...rest } = useQuery<AnimalBreed[], Error>(
-    "animal-breeds",
-    async () => {
-      const { animalBreeds } = await fetchGraphQL<{
-        animalBreeds: AnimalBreed[];
-      }>(GetAllAnimalBreedsQuery);
+export function useAllAnimalBreeds(filters: AnimalBreedFilters = {}) {
+  const { data, ...rest } = useInfiniteQuery<
+    PaginatedResponse<AnimalBreed>,
+    Error
+  >(
+    ["animal-breeds", filters],
+    async (key: string, filters: AnimalBreedFilters, page: number = 0) => {
+      const { response } = await fetchGraphQL<
+        { response: PaginatedResponse<AnimalBreed> },
+        AnimalBreedFilters
+      >(GetAllAnimalBreedsQuery, {
+        variables: { ...filters, page },
+      });
 
-      return animalBreeds;
+      return response;
+    },
+    {
+      // Return the next page that will be passed as last parameter of the
+      // fetch function.
+      getFetchMore(lastGroup) {
+        if (lastGroup.page < lastGroup.pageCount - 1) {
+          return lastGroup.page + 1;
+        }
+      },
     }
   );
 

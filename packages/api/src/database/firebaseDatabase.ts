@@ -1,4 +1,5 @@
 import {
+  AnimalBreedFilters,
   AnimalSpecies,
   CreateAnimalBreedPayload,
   CreateUserPayload,
@@ -14,6 +15,7 @@ import {
   ErrorCode,
   getErrorCode,
   hasErrorCode,
+  PaginatedResponse,
   UpdateAnimalBreedPayload,
   UpdateUserPayload,
   UpdateUserRolePayload,
@@ -21,6 +23,7 @@ import {
 } from "@animeaux/shared";
 import { UserInputError } from "apollo-server";
 import * as admin from "firebase-admin";
+import algoliasearch from "algoliasearch";
 import isEmpty from "lodash.isempty";
 import isEqual from "lodash.isequal";
 import orderBy from "lodash.orderby";
@@ -73,6 +76,13 @@ async function assertAnimalBreedNameNotUsed(
     throw new UserInputError(ErrorCode.ANIMAL_BREED_NAME_ALREADY_USED);
   }
 }
+
+const AlgoliaClient = algoliasearch(
+  process.env.ALGOLIA_ID,
+  process.env.ALGOLIA_ADMIN_KEY
+);
+
+const AnimalBreedsIndex = AlgoliaClient.initIndex("animalBreeds");
 
 export const FirebaseDatabase: Database = {
   initialize() {
@@ -475,14 +485,29 @@ export const FirebaseDatabase: Database = {
 
   //// Animal Breed ////////////////////////////////////////////////////////////
 
-  async getAllAnimalBreeds(): Promise<DBAnimalBreed[]> {
-    const animalBreedsSnapshot = await admin
-      .firestore()
-      .collection("animalBreeds")
-      .orderBy("name", "asc")
-      .get();
+  async getAllAnimalBreeds(
+    filters: AnimalBreedFilters
+  ): Promise<PaginatedResponse<DBAnimalBreed>> {
+    const facetFilters: string[] = [];
 
-    return animalBreedsSnapshot.docs.map((doc) => doc.data() as DBAnimalBreed);
+    if (filters.species != null) {
+      facetFilters.push(`species:${filters.species}`);
+    }
+
+    const result = await AnimalBreedsIndex.search<DBAnimalBreed>(
+      filters.search ?? "",
+      {
+        page: filters.page ?? 0,
+        facetFilters,
+      }
+    );
+
+    return {
+      hits: result.hits,
+      hitsTotalCount: result.nbHits,
+      page: result.page,
+      pageCount: result.nbPages,
+    };
   },
 
   async getAnimalBreed(id: string): Promise<DBAnimalBreed | null> {
@@ -517,6 +542,11 @@ export const FirebaseDatabase: Database = {
       .collection("animalBreeds")
       .doc(animalBreed.id)
       .set(animalBreed);
+
+    await AnimalBreedsIndex.saveObject({
+      ...animalBreed,
+      objectID: animalBreed.id,
+    });
 
     return animalBreed;
   },
@@ -556,6 +586,11 @@ export const FirebaseDatabase: Database = {
         .collection("animalBreeds")
         .doc(id)
         .update(payload);
+
+      await AnimalBreedsIndex.partialUpdateObject({
+        ...payload,
+        objectID: animalBreed.id,
+      });
     }
 
     return { ...animalBreed, ...payload };
@@ -564,6 +599,7 @@ export const FirebaseDatabase: Database = {
   async deleteAnimalBreed(id: string): Promise<boolean> {
     // TODO: Check that the breed is not referenced by an animal.
     await admin.firestore().collection("animalBreeds").doc(id).delete();
+    await AnimalBreedsIndex.deleteObject(id);
     return true;
   },
 };

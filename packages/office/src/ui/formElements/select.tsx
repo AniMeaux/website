@@ -2,19 +2,16 @@ import cn from "classnames";
 import * as React from "react";
 import { FaCaretDown } from "react-icons/fa";
 import { Adornment } from "./adornment";
-import { BaseInput, getInputClassName } from "./baseInput";
+import { BaseInput, BaseInputProps, getInputClassName } from "./baseInput";
 
 export type SelectProps<ValueType> = Omit<
   React.SelectHTMLAttributes<HTMLSelectElement>,
   "onChange" | "value"
-> & {
-  errorMessage?: string | null;
-  infoMessage?: string | null;
-  value?: ValueType | null;
-  onChange?: React.Dispatch<React.SetStateAction<ValueType | null>>;
-  leftAdornment?: React.ReactNode;
-  rightAdornment?: React.ReactNode;
-};
+> &
+  BaseInputProps & {
+    value?: ValueType | null;
+    onChange?: React.Dispatch<React.SetStateAction<ValueType | null>>;
+  };
 
 export function Select<ValueType = string>({
   errorMessage,

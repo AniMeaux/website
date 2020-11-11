@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@animeaux/shared": "*",
+    "algoliasearch": "^4.6.0",
     "apollo-server": "^2.18.2",
     "date-fns": "^2.13.0",
     "dotenv": "^8.2.0",

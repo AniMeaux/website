@@ -2,16 +2,18 @@ import {
   AnimalBreed,
   AnimalSpeciesLabels,
   getErrorMessage,
+  PaginatedResponse,
 } from "@animeaux/shared";
 import { useRouter } from "next/router";
 import * as React from "react";
 import { FaPlus } from "react-icons/fa";
 import { useAllAnimalBreeds } from "../../../core/animalBreed/animalBreedQueries";
 import { ResourceIcon } from "../../../core/resource";
-import { ScreenSize, useScreenSize } from "../../../core/screenSize";
 import { useCurrentUser } from "../../../core/user/currentUserContext";
 import { Avatar } from "../../../ui/avatar";
+import { Button } from "../../../ui/button";
 import { EmptyMessage } from "../../../ui/emptyMessage";
+import { SearchInput } from "../../../ui/formElements/searchInput";
 import {
   Item,
   ItemContent,
@@ -20,13 +22,7 @@ import {
   ItemSecondaryText,
   LinkItem,
 } from "../../../ui/item";
-import {
-  Header,
-  HeaderBackLink,
-  HeaderCurrentUserAvatar,
-  HeaderPlaceholder,
-  HeaderTitle,
-} from "../../../ui/layouts/header";
+import { Header, HeaderCurrentUserAvatar } from "../../../ui/layouts/header";
 import { Main, PageLayout, PageTitle } from "../../../ui/layouts/page";
 import { Placeholder, Placeholders } from "../../../ui/loaders/placeholder";
 import { Message } from "../../../ui/message";
@@ -64,34 +60,45 @@ function AnimalBreedItem({ animalBreed, active }: AnimalBreedItemProps) {
 }
 
 type AnimalBreedsRowsProps = {
-  animalBreeds: AnimalBreed[];
+  search: string;
+  animalBreedsPages: PaginatedResponse<AnimalBreed>[];
   activeAnimalBreedId: string | null;
 };
 
 function AnimalBreedsRows({
-  animalBreeds,
+  search,
+  animalBreedsPages,
   activeAnimalBreedId,
 }: AnimalBreedsRowsProps) {
-  if (animalBreeds.length === 0) {
+  // There is allways at least one page.
+  if (animalBreedsPages[0].hits.length === 0) {
     return (
       <li>
-        <EmptyMessage>Il n'y a pas encore de race.</EmptyMessage>
+        <EmptyMessage>
+          {search === ""
+            ? "Il n'y a pas encore de race."
+            : "Aucune race trouvée."}
+        </EmptyMessage>
       </li>
     );
   }
 
-  return (
-    <>
-      {animalBreeds.map((animalBreed) => (
+  const children: React.ReactNode[] = [];
+
+  animalBreedsPages.forEach((page) => {
+    page.hits.forEach((animalBreed) => {
+      children.push(
         <li key={animalBreed.id}>
           <AnimalBreedItem
             animalBreed={animalBreed}
             active={activeAnimalBreedId === animalBreed.id}
           />
         </li>
-      ))}
-    </>
-  );
+      );
+    });
+  });
+
+  return <>{children}</>;
 }
 
 function LoadingRows() {
@@ -123,20 +130,24 @@ export function AnimalBreedsPage({ children }: AnimalBreedsPageProps) {
   const activeAnimalBreedId: string | null =
     (router.query.animalBreedId as string) ?? null;
 
-  const { screenSize } = useScreenSize();
   const { currentUser } = useCurrentUser();
   const canEdit = currentUser.role.resourcePermissions.animal_breed;
-  const [animalBreeds, animalBreedsRequest] = useAllAnimalBreeds();
+
+  const [search, setSearch] = React.useState("");
+  const [animalBreedsPages, animalBreedsPagesRequest] = useAllAnimalBreeds({
+    search,
+  });
 
   let body: React.ReactNode | null = null;
-  if (animalBreeds != null) {
+  if (animalBreedsPages != null) {
     body = (
       <AnimalBreedsRows
-        animalBreeds={animalBreeds}
+        search={search}
+        animalBreedsPages={animalBreedsPages}
         activeAnimalBreedId={activeAnimalBreedId}
       />
     );
-  } else if (animalBreedsRequest.isLoading) {
+  } else if (animalBreedsPagesRequest.isLoading) {
     body = <LoadingRows />;
   }
 
@@ -144,13 +155,12 @@ export function AnimalBreedsPage({ children }: AnimalBreedsPageProps) {
     <PageLayout
       header={
         <Header>
-          {screenSize === ScreenSize.SMALL ? (
-            <HeaderBackLink href=".." />
-          ) : (
-            <HeaderPlaceholder />
-          )}
+          <SearchInput
+            onSearch={setSearch}
+            placeholder="Chercher une race"
+            className="mr-2 flex-1"
+          />
 
-          <HeaderTitle>Races animales</HeaderTitle>
           <HeaderCurrentUserAvatar />
         </Header>
       }
@@ -158,13 +168,19 @@ export function AnimalBreedsPage({ children }: AnimalBreedsPageProps) {
       <PageTitle title="Races animales" />
 
       <Main className="px-2">
-        {animalBreedsRequest.error != null && (
+        {animalBreedsPagesRequest.error != null && (
           <Message type="error" className="mx-2 mb-2">
-            {getErrorMessage(animalBreedsRequest.error)}
+            {getErrorMessage(animalBreedsPagesRequest.error)}
           </Message>
         )}
 
         <ul>{body}</ul>
+
+        {animalBreedsPagesRequest.canFetchMore && (
+          <Button onClick={() => animalBreedsPagesRequest.fetchMore()}>
+            En afficher plus
+          </Button>
+        )}
 
         {canEdit && (
           <PrimaryActionLink href="./new">

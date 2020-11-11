@@ -1,17 +1,14 @@
 import cn from "classnames";
 import * as React from "react";
-import { BaseInput, getInputClassName } from "./baseInput";
+import { BaseInput, BaseInputProps, getInputClassName } from "./baseInput";
 
 export type InputProps = Omit<
   React.InputHTMLAttributes<HTMLInputElement>,
   "onChange"
-> & {
-  errorMessage?: string | null;
-  infoMessage?: string | null;
-  onChange?: React.Dispatch<React.SetStateAction<string>>;
-  leftAdornment?: React.ReactNode;
-  rightAdornment?: React.ReactNode;
-};
+> &
+  BaseInputProps & {
+    onChange?: React.Dispatch<React.SetStateAction<string>>;
+  };
 
 export function Input({
   errorMessage,

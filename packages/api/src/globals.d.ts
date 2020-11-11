@@ -6,5 +6,7 @@ declare namespace NodeJS {
     FIREBASE_CLIENT_EMAIL: string;
     FIREBASE_DATABASE_URL: string;
     FIREBASE_PRIVATE_KEY: string;
+    ALGOLIA_ID: string;
+    ALGOLIA_ADMIN_KEY: string;
   }
 }
