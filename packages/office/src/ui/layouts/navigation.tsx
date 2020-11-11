@@ -69,7 +69,7 @@ export function Navigation(props: React.HTMLAttributes<HTMLElement>) {
       {...props}
       className={cn(
         "z-30 fixed md:static right-0 bottom-0 left-0 h-12 md:h-auto md:flex-none border-t md:border-t-0 md:border-r bg-white flex md:flex-col",
-        { "md:w-3/12 md:min-w-fit-content": isNavExpanded }
+        { "md:w-64": isNavExpanded }
       )}
     >
       {screenSize > ScreenSize.SMALL && (
