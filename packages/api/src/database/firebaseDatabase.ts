@@ -2,9 +2,11 @@ import {
   AnimalBreedFilters,
   AnimalSpecies,
   CreateAnimalBreedPayload,
+  CreateHostFamilyPayload,
   CreateUserPayload,
   CreateUserRolePayload,
   DBAnimalBreed,
+  DBHostFamily,
   DBUser,
   DBUserForQueryContext,
   DBUserFromAuth,
@@ -15,20 +17,30 @@ import {
   ErrorCode,
   getErrorCode,
   hasErrorCode,
+  HostFamilyFilters,
   PaginatedResponse,
   UpdateAnimalBreedPayload,
+  UpdateHostFamilyPayload,
   UpdateUserPayload,
   UpdateUserRolePayload,
   UserFilters,
 } from "@animeaux/shared";
+import algoliasearch from "algoliasearch";
 import { UserInputError } from "apollo-server";
 import * as admin from "firebase-admin";
-import algoliasearch from "algoliasearch";
 import isEmpty from "lodash.isempty";
 import isEqual from "lodash.isequal";
 import orderBy from "lodash.orderby";
 import { v4 as uuid } from "uuid";
 import { Database } from "./databaseType";
+
+const AlgoliaClient = algoliasearch(
+  process.env.ALGOLIA_ID,
+  process.env.ALGOLIA_ADMIN_KEY
+);
+
+const AnimalBreedsIndex = AlgoliaClient.initIndex("animalBreeds");
+const HostFamiliesIndex = AlgoliaClient.initIndex("hostFamilies");
 
 function mapFirebaseUser(user: admin.auth.UserRecord): DBUserFromAuth {
   return {
@@ -77,12 +89,17 @@ async function assertAnimalBreedNameNotUsed(
   }
 }
 
-const AlgoliaClient = algoliasearch(
-  process.env.ALGOLIA_ID,
-  process.env.ALGOLIA_ADMIN_KEY
-);
+async function assertHostFamilyNameNotUsed(name: string) {
+  const hostFamilySnapshot = await admin
+    .firestore()
+    .collection("hostFamilies")
+    .where("name", "==", name)
+    .get();
 
-const AnimalBreedsIndex = AlgoliaClient.initIndex("animalBreeds");
+  if (!hostFamilySnapshot.empty) {
+    throw new UserInputError(ErrorCode.HOST_FAMILY_NAME_ALREADY_USED);
+  }
+}
 
 export const FirebaseDatabase: Database = {
   initialize() {
@@ -600,6 +617,150 @@ export const FirebaseDatabase: Database = {
     // TODO: Check that the breed is not referenced by an animal.
     await admin.firestore().collection("animalBreeds").doc(id).delete();
     await AnimalBreedsIndex.deleteObject(id);
+    return true;
+  },
+
+  //// Host Family /////////////////////////////////////////////////////////////
+
+  async getAllHostFamilies(
+    filters: HostFamilyFilters
+  ): Promise<PaginatedResponse<DBHostFamily>> {
+    const result = await HostFamiliesIndex.search<DBHostFamily>(
+      filters.search ?? "",
+      { page: filters.page ?? 0 }
+    );
+
+    return {
+      hits: result.hits,
+      hitsTotalCount: result.nbHits,
+      page: result.page,
+      pageCount: result.nbPages,
+    };
+  },
+
+  async getHostFamily(id: string): Promise<DBHostFamily | null> {
+    const hostFamilySnapshot = await admin
+      .firestore()
+      .collection("hostFamilies")
+      .doc(id)
+      .get();
+
+    return (hostFamilySnapshot.data() as DBHostFamily) ?? null;
+  },
+
+  async createHostFamily({
+    name,
+    address,
+    phone,
+  }: CreateHostFamilyPayload): Promise<DBHostFamily> {
+    name = name.trim();
+    if (name === "") {
+      throw new UserInputError(ErrorCode.HOST_FAMILY_MISSING_NAME);
+    }
+
+    address = address.trim();
+    if (address === "") {
+      throw new UserInputError(ErrorCode.HOST_FAMILY_MISSING_ADDRESS);
+    }
+
+    phone = phone.trim();
+    if (phone === "") {
+      throw new UserInputError(ErrorCode.HOST_FAMILY_MISSING_PHONE);
+    }
+
+    await assertHostFamilyNameNotUsed(name);
+
+    const hostFamily: DBHostFamily = {
+      id: uuid(),
+      name,
+      address,
+      phone,
+    };
+
+    await admin
+      .firestore()
+      .collection("hostFamilies")
+      .doc(hostFamily.id)
+      .set(hostFamily);
+
+    await HostFamiliesIndex.saveObject({
+      ...hostFamily,
+      objectID: hostFamily.id,
+    });
+
+    return hostFamily;
+  },
+
+  async updateHostFamily({
+    id,
+    name,
+    address,
+    phone,
+  }: UpdateHostFamilyPayload): Promise<DBHostFamily> {
+    const hostFamily = await FirebaseDatabase.getHostFamily(id);
+    if (hostFamily == null) {
+      throw new UserInputError(ErrorCode.HOST_FAMILY_NOT_FOUND);
+    }
+
+    const payload: Partial<DBHostFamily> = {};
+
+    if (name != null) {
+      name = name.trim();
+
+      if (name === "") {
+        throw new UserInputError(ErrorCode.HOST_FAMILY_MISSING_NAME);
+      }
+
+      if (name !== hostFamily.name) {
+        assertHostFamilyNameNotUsed(name);
+        payload.name = name;
+      }
+    }
+
+    if (address != null) {
+      address = address.trim();
+
+      if (address === "") {
+        throw new UserInputError(ErrorCode.HOST_FAMILY_MISSING_ADDRESS);
+      }
+
+      if (address !== hostFamily.address) {
+        payload.address = address;
+      }
+    }
+
+    if (phone != null) {
+      phone = phone.trim();
+
+      if (phone === "") {
+        throw new UserInputError(ErrorCode.HOST_FAMILY_MISSING_PHONE);
+      }
+
+      if (phone !== hostFamily.phone) {
+        payload.phone = phone;
+      }
+    }
+
+    if (!isEmpty(payload)) {
+      await admin
+        .firestore()
+        .collection("hostFamilies")
+        .doc(id)
+        .update(payload);
+
+      await HostFamiliesIndex.partialUpdateObject({
+        ...payload,
+        objectID: hostFamily.id,
+      });
+    }
+
+    return { ...hostFamily, ...payload };
+  },
+
+  async deleteHostFamily(id: string): Promise<boolean> {
+    // TODO: Check that the host family is not referenced by an animal.
+    await admin.firestore().collection("hostFamilies").doc(id).delete();
+    await HostFamiliesIndex.deleteObject(id);
     return true;
   },
 };

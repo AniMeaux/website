@@ -1,14 +1,18 @@
 import {
   AnimalBreedFilters,
   CreateAnimalBreedPayload,
+  CreateHostFamilyPayload,
   CreateUserPayload,
   CreateUserRolePayload,
   DBAnimalBreed,
+  DBHostFamily,
   DBUser,
   DBUserForQueryContext,
   DBUserRole,
+  HostFamilyFilters,
   PaginatedResponse,
   UpdateAnimalBreedPayload,
+  UpdateHostFamilyPayload,
   UpdateUserPayload,
   UpdateUserRolePayload,
   UserFilters,
@@ -56,4 +60,14 @@ export type Database = {
   createAnimalBreed(payload: CreateAnimalBreedPayload): Promise<DBAnimalBreed>;
   updateAnimalBreed(payload: UpdateAnimalBreedPayload): Promise<DBAnimalBreed>;
   deleteAnimalBreed(id: string): Promise<boolean>;
+
+  //// Host Family /////////////////////////////////////////////////////////////
+
+  getAllHostFamilies(
+    filters: HostFamilyFilters
+  ): Promise<PaginatedResponse<DBHostFamily>>;
+  getHostFamily(id: string): Promise<DBHostFamily | null>;
+  createHostFamily(payload: CreateHostFamilyPayload): Promise<DBHostFamily>;
+  updateHostFamily(payload: UpdateHostFamilyPayload): Promise<DBHostFamily>;
+  deleteHostFamily(id: string): Promise<boolean>;
 };

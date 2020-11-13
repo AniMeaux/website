@@ -5,6 +5,7 @@ import { ListenOptions } from "net";
 import { AuthDirective } from "./authDirective";
 import { database } from "./database";
 import { AnimalBreedModel } from "./model/animalBreed";
+import { HostFamilyModel } from "./model/hostFamily";
 import { AuthContext } from "./model/shared";
 import { UserModel } from "./model/user";
 import { UserRoleModel } from "./model/userRole";
@@ -38,6 +39,7 @@ const apolloServer = new ApolloServer({
     UserRoleModel.typeDefs,
     UserModel.typeDefs,
     AnimalBreedModel.typeDefs,
+    HostFamilyModel.typeDefs,
   ],
   schemaDirectives: Object.assign({}, AuthDirective.schemaDirectives),
   resolvers: Object.assign(UserModel.resolvers, UserRoleModel.resolvers, {
@@ -45,13 +47,15 @@ const apolloServer = new ApolloServer({
       {},
       UserRoleModel.queries,
       UserModel.queries,
-      AnimalBreedModel.queries
+      AnimalBreedModel.queries,
+      HostFamilyModel.queries
     ),
     Mutation: Object.assign(
       {},
       UserRoleModel.mutations,
       UserModel.mutations,
-      AnimalBreedModel.mutations
+      AnimalBreedModel.mutations,
+      HostFamilyModel.mutations
     ),
   }),
 });
