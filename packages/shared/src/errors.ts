@@ -48,8 +48,8 @@ export enum ErrorCode {
 
   ANIMAL_BREED_NOT_FOUND = "animal-breed/not-found",
   ANIMAL_BREED_MISSING_NAME = "animal-breed/missing-name",
-  ANIMAL_BREED_NAME_ALREADY_USED = "animal-breed/name-already-used",
   ANIMAL_BREED_MISSING_SPECIES = "animal-breed/missing-species",
+  ANIMAL_BREED_NAME_ALREADY_USED = "animal-breed/name-already-used",
   ANIMAL_BREED_IS_REFERENCED = "animal-breed/is-referenced",
 }
 
@@ -84,12 +84,12 @@ const ErrorCodeLabels: { [key in ErrorCode]?: string } = {
 
   //// Animal Breed ////////////////////////////////////////////////////////////
 
-  [ErrorCode.ANIMAL_BREED_NOT_FOUND]: "Le rôle utilisateur est introuvable",
+  [ErrorCode.ANIMAL_BREED_NOT_FOUND]: "La race utilisateur est introuvable",
   [ErrorCode.ANIMAL_BREED_MISSING_NAME]: "Le nom est obligatoire",
   [ErrorCode.ANIMAL_BREED_NAME_ALREADY_USED]: "Le nom est déjà utilisé",
   [ErrorCode.ANIMAL_BREED_MISSING_SPECIES]: "L'espèce est obligatoire",
   [ErrorCode.ANIMAL_BREED_IS_REFERENCED]:
-    "La race animale ne peut pas être supprimée parce qu'elle est référencée par au moins un animal",
+    "La race ne peut pas être supprimée parce qu'elle est référencée par au moins un animal",
 };
 
 export function getErrorMessage(error: Error): string {

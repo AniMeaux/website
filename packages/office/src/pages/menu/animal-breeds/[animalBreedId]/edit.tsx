@@ -4,20 +4,13 @@ import * as React from "react";
 import {
   AnimalBreedForm,
   AnimalBreedFormErrors,
+  AnimalBreedFormPlaceholder,
 } from "../../../../core/animalBreed/animalBreedForm";
 import {
   useAnimalBreed,
   useUpdateAnimalBreed,
 } from "../../../../core/animalBreed/animalBreedQueries";
 import { PageComponent } from "../../../../core/pageComponent";
-import {
-  UserRoleForm,
-  UserRoleFormPlaceholder,
-} from "../../../../core/userRole/userRoleForm";
-import {
-  useUpdateUserRole,
-  useUserRole,
-} from "../../../../core/userRole/userRoleQueries";
 import { Aside, AsideLayout } from "../../../../ui/layouts/aside";
 import {
   AsideHeaderTitle,
@@ -82,16 +75,11 @@ const EditAnimalBreedPage: PageComponent = () => {
           updateAnimalBreed({ currentAnimalBreed: animalBreed, formPayload })
         }
         pending={updateAnimalBreedRequest.isLoading}
-        errors={{
-          name:
-            updateAnimalBreedRequest.error == null
-              ? null
-              : getErrorMessage(updateAnimalBreedRequest.error),
-        }}
+        errors={errors}
       />
     );
   } else if (animalBreedRequest.isLoading) {
-    body = <UserRoleFormPlaceholder />;
+    body = <AnimalBreedFormPlaceholder />;
   }
 
   return (

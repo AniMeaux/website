@@ -46,10 +46,10 @@ function Filters({ species, onSpeciesChange }: FiltersProps) {
   return (
     <Form className="px-4">
       <Field>
-        <Label htmlFor="species">Espèce</Label>
+        <Label htmlFor="species-filter">Espèce</Label>
         <Select
           name="species"
-          id="species"
+          id="species-filter"
           value={value}
           onChange={(value) => onSpeciesChange(value === "all" ? null : value)}
           placeholder="Filtrer par espèce"

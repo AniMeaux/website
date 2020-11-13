@@ -1,7 +1,6 @@
 import {
   AnimalBreed,
   AnimalBreedFormPayload,
-  AnimalSpecies,
   AnimalSpeciesLabels,
   ANIMAL_SPECIES_ALPHABETICAL_ORDER,
 } from "@animeaux/shared";
@@ -36,9 +35,7 @@ export function AnimalBreedForm({
   ...rest
 }: AnimalBreedFormProps) {
   const [name, setName] = React.useState(animalBreed?.name ?? "");
-  const [species, setSpecies] = React.useState<AnimalSpecies | null>(
-    animalBreed?.species ?? null
-  );
+  const [species, setSpecies] = React.useState(animalBreed?.species ?? null);
 
   React.useEffect(() => {
     if (animalBreed != null) {
@@ -104,7 +101,7 @@ export function AnimalBreedForm({
   );
 }
 
-export function UserRoleFormPlaceholder() {
+export function AnimalBreedFormPlaceholder() {
   return (
     <Form>
       <Placeholders count={2}>
