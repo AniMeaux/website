@@ -9,6 +9,7 @@ import {
 } from "@animeaux/shared";
 import { gql } from "graphql-request";
 import { useRouter } from "next/router";
+import * as React from "react";
 import { useInfiniteQuery } from "react-query";
 import { fetchGraphQL, useMutation, useQuery, useQueryCache } from "../request";
 
@@ -43,18 +44,21 @@ const GetAllAnimalBreedsQuery = gql`
   ${AnimalBreedCore}
 `;
 
-export function useAllAnimalBreeds(filters: AnimalBreedFilters = {}) {
-  const { data, ...rest } = useInfiniteQuery<
+export function useAllAnimalBreeds({
+  search,
+  species,
+}: AnimalBreedFilters = {}) {
+  const { data, refetch, ...rest } = useInfiniteQuery<
     PaginatedResponse<AnimalBreed>,
     Error
   >(
-    ["animal-breeds", filters],
-    async (key: string, filters: AnimalBreedFilters, page: number = 0) => {
+    "animal-breeds",
+    async (key: string, page: number = 0) => {
       const { response } = await fetchGraphQL<
         { response: PaginatedResponse<AnimalBreed> },
         AnimalBreedFilters
       >(GetAllAnimalBreedsQuery, {
-        variables: { ...filters, page },
+        variables: { search, species, page },
       });
 
       return response;
@@ -70,7 +74,13 @@ export function useAllAnimalBreeds(filters: AnimalBreedFilters = {}) {
     }
   );
 
-  return [data, rest] as const;
+  // We don't add filters to the key to avoid polluting the cache and all the
+  // loading states.
+  React.useEffect(() => {
+    refetch();
+  }, [search, species, refetch]);
+
+  return [data, { ...rest, refetch }] as const;
 }
 
 const GetAnimalBreedQuery = gql`
@@ -213,12 +223,15 @@ export function useUpdateAnimalBreed() {
           initialStale: true,
         });
 
-        queryCache.setQueryData<AnimalBreed[]>(
+        queryCache.setQueryData<PaginatedResponse<AnimalBreed>[]>(
           "animal-breeds",
-          (animalBreeds) =>
-            (animalBreeds ?? []).map((b) =>
-              b.id === animalBreed.id ? animalBreed : b
-            ),
+          (animalBreedsPages) =>
+            (animalBreedsPages ?? []).map((page) => ({
+              ...page,
+              hits: page.hits.map((a) =>
+                a.id === animalBreed.id ? animalBreed : a
+              ),
+            })),
           { initialStale: true }
         );
       },
@@ -249,12 +262,13 @@ export function useDeleteAnimalBreed() {
       onSuccess(animalBreedId) {
         queryCache.removeQueries(["animal-breed", animalBreedId]);
 
-        queryCache.setQueryData<AnimalBreed[]>(
+        queryCache.setQueryData<PaginatedResponse<AnimalBreed>[]>(
           "animal-breeds",
-          (animalBreeds) =>
-            (animalBreeds ?? []).filter(
-              (animalBreed) => animalBreed.id !== animalBreedId
-            ),
+          (animalBreedsPages) =>
+            (animalBreedsPages ?? []).map((page) => ({
+              ...page,
+              hits: page.hits.filter((a) => a.id !== animalBreedId),
+            })),
           { initialStale: true }
         );
       },
