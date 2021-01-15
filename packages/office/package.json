@@ -13,12 +13,13 @@
     "start:prod": "next start -p 3001"
   },
   "dependencies": {
-    "@animeaux/shared": "*",
+    "@animeaux/shared-entities": "*",
+    "@animeaux/ui-library": "*",
     "classnames": "^2.2.6",
     "firebase": "^7.23.0",
     "focus-visible": "^5.1.0",
     "graphql": "^15.4.0",
-    "graphql-request": "^3.3.0",
+    "graphql-request": "^3.4.0",
     "invariant": "^2.2.4",
     "lodash.isequal": "^4.5.0",
     "next": "^9.5.5",

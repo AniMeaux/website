@@ -1,17 +1,16 @@
-import { DBUserForQueryContext } from "@animeaux/shared";
+import { User } from "@animeaux/shared-entities";
 import { ApolloServer, gql } from "apollo-server";
 import { IncomingMessage } from "http";
 import { ListenOptions } from "net";
 import { AuthDirective } from "./authDirective";
 import { database } from "./database";
-import { AnimalBreedModel } from "./model/animalBreed";
-import { HostFamilyModel } from "./model/hostFamily";
+// import { AnimalBreedModel } from "./model/animalBreed";
+// import { HostFamilyModel } from "./model/hostFamily";
 import { AuthContext } from "./model/shared";
 import { UserModel } from "./model/user";
-import { UserRoleModel } from "./model/userRole";
 
 const SERVER_OPTIONS: ListenOptions = {
-  port: +process.env.PORT,
+  port: Number(process.env.PORT),
 };
 
 const rootTypeDefs = gql`
@@ -25,7 +24,7 @@ const apolloServer = new ApolloServer({
   context: async ({ req }: { req: IncomingMessage }): Promise<AuthContext> => {
     const token = (req.headers.authorisation as string)?.replace("Bearer ", "");
 
-    let user: DBUserForQueryContext | null = null;
+    let user: User | null = null;
 
     if (token != null) {
       user = await database.getUserForQueryContext(token);
@@ -36,26 +35,23 @@ const apolloServer = new ApolloServer({
   typeDefs: [
     rootTypeDefs,
     AuthDirective.typeDefs,
-    UserRoleModel.typeDefs,
     UserModel.typeDefs,
-    AnimalBreedModel.typeDefs,
-    HostFamilyModel.typeDefs,
+    // AnimalBreedModel.typeDefs,
+    // HostFamilyModel.typeDefs,
   ],
   schemaDirectives: Object.assign({}, AuthDirective.schemaDirectives),
-  resolvers: Object.assign(UserModel.resolvers, UserRoleModel.resolvers, {
+  resolvers: Object.assign({
     Query: Object.assign(
       {},
-      UserRoleModel.queries,
-      UserModel.queries,
-      AnimalBreedModel.queries,
-      HostFamilyModel.queries
+      UserModel.queries
+      // AnimalBreedModel.queries,
+      // HostFamilyModel.queries
     ),
     Mutation: Object.assign(
       {},
-      UserRoleModel.mutations,
-      UserModel.mutations,
-      AnimalBreedModel.mutations,
-      HostFamilyModel.mutations
+      UserModel.mutations
+      // AnimalBreedModel.mutations,
+      // HostFamilyModel.mutations
     ),
   }),
 });

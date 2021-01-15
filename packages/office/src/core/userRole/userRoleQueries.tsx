@@ -4,7 +4,7 @@ import {
   UpdateUserRolePayload,
   UserRole,
   UserRoleFormPayload,
-} from "@animeaux/shared";
+} from "@animeaux/shared-entities";
 import isEqual from "lodash.isequal";
 import { useRouter } from "next/router";
 import {

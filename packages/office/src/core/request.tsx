@@ -1,4 +1,4 @@
-import { ErrorCode } from "@animeaux/shared";
+import { ErrorCode } from "@animeaux/shared-entities";
 import firebase from "firebase/app";
 import { GraphQLClient, gql } from "graphql-request";
 import invariant from "invariant";

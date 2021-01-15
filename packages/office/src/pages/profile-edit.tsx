@@ -1,4 +1,4 @@
-import { getErrorMessage } from "@animeaux/shared";
+import { getErrorMessage } from "@animeaux/shared-entities";
 import { useRouter } from "next/router";
 import * as React from "react";
 import { useAsyncCallback } from "react-behave";

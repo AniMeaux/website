@@ -1,11 +1,9 @@
 import {
   CreateUserPayload,
-  DBUser,
-  DBUserForQueryContext,
   UpdateUserPayload,
-  UserFilters,
-} from "@animeaux/shared";
-import { gql, IResolverObject, IResolvers } from "apollo-server";
+  User,
+} from "@animeaux/shared-entities";
+import { gql, IResolverObject } from "apollo-server";
 import { database } from "../database";
 import { QueryContext } from "./shared";
 
@@ -14,14 +12,14 @@ const typeDefs = gql`
     id: ID!
     email: String!
     displayName: String!
-    role: UserRole!
+    groups: [UserGroup!]!
     disabled: Boolean!
   }
 
   extend type Query {
     getCurrentUser: User
-    getAllUsers(roleId: ID): [User!]! @auth
-    getUser(id: ID!): User @auth
+    getAllUsers: [User!]! @auth(groups: [ADMIN])
+    getUser(id: ID!): User @auth(groups: [ADMIN])
   }
 
   extend type Mutation {
@@ -29,65 +27,39 @@ const typeDefs = gql`
       email: String!
       displayName: String!
       password: String!
-      roleId: ID!
-    ): User! @auth(resourceKey: "user")
+      groups: [UserGroup!]!
+    ): User! @auth(groups: [ADMIN])
 
     updateUser(
       id: ID!
       displayName: String
       password: String
-      roleId: ID
-    ): User! @auth(resourceKey: "user")
+      groups: [UserGroup!]
+    ): User! @auth(groups: [ADMIN])
 
-    deleteUser(id: ID!): Boolean! @auth(resourceKey: "user")
-    toggleUserBlockedStatus(id: ID!): User! @auth(resourceKey: "user")
+    deleteUser(id: ID!): Boolean! @auth(groups: [ADMIN])
+    toggleUserBlockedStatus(id: ID!): User! @auth(groups: [ADMIN])
   }
 `;
-
-function hasUserRole(
-  user: DBUser | DBUserForQueryContext
-): user is DBUserForQueryContext {
-  return "role" in user;
-}
-
-const resolvers: IResolvers = {
-  User: {
-    role: async (user: DBUser | DBUserForQueryContext) => {
-      // The user object can come from the context in which case the role has
-      // already been fetched.
-      // See `getCurrentUser` bellow.
-      if (hasUserRole(user)) {
-        return user.role;
-      }
-
-      return await database.getUserRole(user.roleId);
-    },
-  },
-};
 
 const queries: IResolverObject = {
   getCurrentUser: async (
     parent: any,
     args: any,
     context: QueryContext
-  ): Promise<DBUserForQueryContext | null> => {
+  ): Promise<User | null> => {
     return context.user;
   },
 
-  getAllUsers: async (
-    parent: any,
-    filters: UserFilters,
-    context: QueryContext
-  ): Promise<DBUser[]> => {
-    return await database.getAllUsers(context.user, filters);
+  getAllUsers: async (parent: any): Promise<User[]> => {
+    return await database.getAllUsers();
   },
 
   getUser: async (
     parent: any,
-    { id }: { id: string },
-    context: QueryContext
-  ): Promise<DBUser | null> => {
-    return await database.getUser(context.user, id);
+    { id }: { id: string }
+  ): Promise<User | null> => {
+    return await database.getUser(id);
   },
 };
 
@@ -123,7 +95,6 @@ const mutations: IResolverObject = {
 
 export const UserModel = {
   typeDefs,
-  resolvers,
   queries,
   mutations,
 };

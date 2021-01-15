@@ -1,4 +1,8 @@
-import { ErrorCode, ResourceKey } from "@animeaux/shared";
+import {
+  doesGroupsIntersect,
+  ErrorCode,
+  UserGroup,
+} from "@animeaux/shared-entities";
 import {
   AuthenticationError,
   gql,
@@ -8,12 +12,19 @@ import { defaultFieldResolver, GraphQLField } from "graphql";
 import { AuthContext } from "./model/shared";
 
 const typeDefs = gql`
-  directive @auth(resourceKey: String) on FIELD_DEFINITION
+  enum UserGroup {
+    ADMIN
+    ANIMAL_MANAGER
+    BLOGGER
+    HEAD_OF_PARTNERSHIPS
+  }
+
+  directive @auth(groups: [UserGroup!]) on FIELD_DEFINITION
 `;
 
 class AuthDirectiveVisitor extends SchemaDirectiveVisitor {
   visitFieldDefinition(field: GraphQLField<any, any>) {
-    const resourceKey: ResourceKey | null = this.args.resourceKey;
+    const authorisedGroups: UserGroup[] | null = this.args.groups;
     const originalResolve = field.resolve || defaultFieldResolver;
 
     field.resolve = function (...args) {
@@ -23,7 +34,10 @@ class AuthDirectiveVisitor extends SchemaDirectiveVisitor {
         throw new AuthenticationError(ErrorCode.AUTH_NOT_AUTHENTICATED);
       }
 
-      if (resourceKey != null && !user.role.resourcePermissions[resourceKey]) {
+      if (
+        authorisedGroups != null &&
+        !doesGroupsIntersect(user.groups, authorisedGroups)
+      ) {
         throw new AuthenticationError(ErrorCode.AUTH_NOT_AUTHORIZED);
       }
 

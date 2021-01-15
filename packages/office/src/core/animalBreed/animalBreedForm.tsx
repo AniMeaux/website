@@ -3,7 +3,7 @@ import {
   AnimalBreedFormPayload,
   AnimalSpeciesLabels,
   ANIMAL_SPECIES_ALPHABETICAL_ORDER,
-} from "@animeaux/shared";
+} from "@animeaux/shared-entities";
 import * as React from "react";
 import { FaDna } from "react-icons/fa";
 import { Button } from "../../ui/button";

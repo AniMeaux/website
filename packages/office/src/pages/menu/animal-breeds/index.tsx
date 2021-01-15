@@ -5,7 +5,7 @@ import {
   ANIMAL_SPECIES_ALPHABETICAL_ORDER,
   getErrorMessage,
   PaginatedResponse,
-} from "@animeaux/shared";
+} from "@animeaux/shared-entities";
 import { useRouter } from "next/router";
 import * as React from "react";
 import { FaDna, FaPlus } from "react-icons/fa";

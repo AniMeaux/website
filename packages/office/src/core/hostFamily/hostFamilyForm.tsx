@@ -1,4 +1,4 @@
-import { HostFamily, HostFamilyFormPayload } from "@animeaux/shared";
+import { HostFamily, HostFamilyFormPayload } from "@animeaux/shared-entities";
 import * as React from "react";
 import { FaMapMarker, FaPhone } from "react-icons/fa";
 import { Button } from "../../ui/button";

@@ -1,4 +1,4 @@
-import { User } from "@animeaux/shared";
+import { User } from "@animeaux/shared-entities";
 import * as React from "react";
 import {
   Item,

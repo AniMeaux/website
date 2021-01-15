@@ -1,4 +1,4 @@
-import { ErrorCode, getErrorCode } from "@animeaux/shared";
+import { ErrorCode, getErrorCode } from "@animeaux/shared-entities";
 import firebase from "firebase/app";
 import * as React from "react";
 import { useAsyncCallback } from "react-behave";

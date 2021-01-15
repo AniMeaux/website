@@ -1,4 +1,4 @@
-import { getErrorMessage } from "@animeaux/shared";
+import { getErrorMessage } from "@animeaux/shared-entities";
 import * as React from "react";
 import { PageComponent } from "../../../core/pageComponent";
 import { UserRoleForm } from "../../../core/userRole/userRoleForm";

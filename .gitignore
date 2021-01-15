@@ -12,3 +12,5 @@ yarn-error.log*
 build/
 out/
 node_modules/
+sw.js
+workbox-*

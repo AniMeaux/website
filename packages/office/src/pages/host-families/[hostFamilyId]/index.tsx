@@ -1,4 +1,4 @@
-import { getErrorMessage, HostFamily } from "@animeaux/shared";
+import { getErrorMessage, HostFamily } from "@animeaux/shared-entities";
 import { useRouter } from "next/router";
 import * as React from "react";
 import { FaMapMarker, FaPen, FaPhone } from "react-icons/fa";

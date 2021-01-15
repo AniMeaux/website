@@ -1,6 +1,7 @@
 import "./env";
 import { Server } from "./server";
 
+// See `ProcessEnv` in global.d.ts.
 const missingEnvVariables = [
   "NODE_ENV",
   "PORT",

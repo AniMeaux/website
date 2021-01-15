@@ -40,7 +40,7 @@ module.exports = {
     removeDeprecatedGapUtilities: true,
     purgeLayersByDefault: true,
   },
-  purge: ["./src/**/*.{ts,tsx}"],
+  purge: ["./src/**/*.{ts,tsx}", "../ui-library/**/*.{ts,tsx}"],
   theme: {
     screens: {
       md: "800px",

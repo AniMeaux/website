@@ -7,7 +7,7 @@ import {
   ANIMAL_SPECIES_ORDER_ALPHABETICAL,
   Link,
   LinkProps,
-} from "@animeaux/shared";
+} from "@animeaux/shared-entities";
 import cn from "classnames";
 import * as React from "react";
 import {

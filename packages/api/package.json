@@ -5,12 +5,14 @@
   "main": "build/index.js",
   "scripts": {
     "build": "babel src -d build --extensions \".ts\" --copy-files",
+    "clean": "rm -rf build",
+    "clean-build": "run-s clean build",
     "dev": "yarn build && run-p \"build -w\" start:dev",
     "start:dev": "NODE_ENV=\"development\" nodemon --watch build .",
     "start:prod": "NODE_ENV=\"production\" node ."
   },
   "dependencies": {
-    "@animeaux/shared": "*",
+    "@animeaux/shared-entities": "*",
     "algoliasearch": "^4.6.0",
     "apollo-server": "^2.18.2",
     "date-fns": "^2.13.0",

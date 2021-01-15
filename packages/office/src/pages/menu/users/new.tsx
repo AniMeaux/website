@@ -1,4 +1,8 @@
-import { ErrorCode, getErrorMessage, hasErrorCode } from "@animeaux/shared";
+import {
+  ErrorCode,
+  getErrorMessage,
+  hasErrorCode,
+} from "@animeaux/shared-entities";
 import * as React from "react";
 import { PageComponent } from "../../../core/pageComponent";
 import { UserForm, UserFormErrors } from "../../../core/user/userForm";

@@ -4,7 +4,7 @@ import {
   ResourceLabels,
   UserRole,
   UserRoleFormPayload,
-} from "@animeaux/shared";
+} from "@animeaux/shared-entities";
 import * as React from "react";
 import { Button } from "../../ui/button";
 import { Adornment } from "../../ui/formElements/adornment";

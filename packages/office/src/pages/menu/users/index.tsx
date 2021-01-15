@@ -1,4 +1,4 @@
-import { getErrorMessage, User } from "@animeaux/shared";
+import { getErrorMessage, User } from "@animeaux/shared-entities";
 import { useRouter } from "next/router";
 import * as React from "react";
 import { FaPlus } from "react-icons/fa";

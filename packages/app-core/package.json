@@ -1,0 +1,43 @@
+{
+  "name": "@animeaux/app-core",
+  "version": "1.0.0",
+  "private": true,
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
+  "sideEffects": false,
+  "scripts": {
+    "build": "run-s build:*",
+    "build:js": "babel src -d build --extensions \".ts,.tsx\"",
+    "build:types": "tsc --emitDeclarationOnly",
+    "clean": "rm -rf build",
+    "clean-build": "run-s clean build",
+    "dev": "run-p -l \"build:* -w\""
+  },
+  "peerDependencies": {
+    "firebase": "*",
+    "next": "*",
+    "react": "*",
+    "react-icons": "*",
+    "react-query": "*",
+    "react-query-devtools": "*"
+  },
+  "dependencies": {
+    "@animeaux/shared-entities": "*",
+    "@animeaux/ui-library": "*",
+    "graphql-request": "^3.4.0",
+    "invariant": "^2.2.4"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.9.6",
+    "@babel/plugin-proposal-nullish-coalescing-operator": "^7.8.3",
+    "@babel/plugin-proposal-numeric-separator": "^7.8.3",
+    "@babel/plugin-proposal-optional-chaining": "^7.9.0",
+    "@babel/preset-env": "^7.9.6",
+    "@babel/preset-react": "^7.10.4",
+    "@babel/preset-typescript": "^7.9.0",
+    "babel-plugin-macros": "^2.8.0",
+    "npm-run-all": "^4.1.5",
+    "typescript": "^3.8.3"
+  }
+}

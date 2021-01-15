@@ -1,4 +1,8 @@
-import { getErrorMessage, User, UserFormPayload } from "@animeaux/shared";
+import {
+  getErrorMessage,
+  User,
+  UserFormPayload,
+} from "@animeaux/shared-entities";
 import * as React from "react";
 import { FaEnvelope, FaLock } from "react-icons/fa";
 import { Button } from "../../ui/button";

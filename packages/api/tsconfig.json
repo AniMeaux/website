@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "lib": ["esnext"],
+    "target": "ES5",
+    "lib": ["ESNext"],
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -11,7 +11,7 @@
     "resolveJsonModule": true,
     "moduleResolution": "Node",
     "isolatedModules": true,
-    "module": "esnext",
+    "module": "ESNext",
     "noEmit": true
   },
   "include": ["src"]

@@ -1,4 +1,4 @@
-import { Link, LinkProps } from "@animeaux/shared";
+import { Link, LinkProps } from "@animeaux/ui-library";
 import cn from "classnames";
 import * as React from "react";
 import { ButtonClassName } from "./button";

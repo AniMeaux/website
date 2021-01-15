@@ -1,4 +1,8 @@
-import { ErrorCode, getErrorMessage, hasErrorCode } from "@animeaux/shared";
+import {
+  ErrorCode,
+  getErrorMessage,
+  hasErrorCode,
+} from "@animeaux/shared-entities";
 import * as React from "react";
 import {
   HostFamilyForm,

@@ -4,32 +4,28 @@ import {
   CreateAnimalBreedPayload,
   CreateHostFamilyPayload,
   CreateUserPayload,
-  CreateUserRolePayload,
   DBAnimalBreed,
   DBHostFamily,
-  DBUser,
-  DBUserForQueryContext,
   DBUserFromAuth,
   DBUserFromStore,
-  DBUserRole,
-  DEFAULT_RESOURCE_PERMISSIONS,
   EMAIL_PATTERN,
   ErrorCode,
   getErrorCode,
   hasErrorCode,
+  haveSameGroups,
   HostFamilyFilters,
   PaginatedResponse,
+  sortGroupsByLabel,
   UpdateAnimalBreedPayload,
   UpdateHostFamilyPayload,
   UpdateUserPayload,
-  UpdateUserRolePayload,
-  UserFilters,
-} from "@animeaux/shared";
+  User,
+  UserGroup,
+} from "@animeaux/shared-entities";
 import algoliasearch from "algoliasearch";
 import { UserInputError } from "apollo-server";
 import * as admin from "firebase-admin";
 import isEmpty from "lodash.isempty";
-import isEqual from "lodash.isequal";
 import orderBy from "lodash.orderby";
 import { v4 as uuid } from "uuid";
 import { Database } from "./databaseType";
@@ -51,26 +47,16 @@ function mapFirebaseUser(user: admin.auth.UserRecord): DBUserFromAuth {
   };
 }
 
-async function getUserRoleIdForUser(userId: string): Promise<string | null> {
+async function getUserGroupsForUser(
+  userId: string
+): Promise<UserGroup[] | null> {
   const userSnapshot = await admin
     .firestore()
     .collection("users")
     .doc(userId)
     .get();
 
-  return (userSnapshot.data() as DBUserFromStore)?.roleId ?? null;
-}
-
-async function assertUserRoleNameNotUsed(name: string) {
-  const userRoleSnapshot = await admin
-    .firestore()
-    .collection("userRoles")
-    .where("name", "==", name)
-    .get();
-
-  if (!userRoleSnapshot.empty) {
-    throw new UserInputError(ErrorCode.USER_ROLE_NAME_ALREADY_USED);
-  }
+  return (userSnapshot.data() as DBUserFromStore)?.groups ?? null;
 }
 
 async function assertAnimalBreedNameNotUsed(
@@ -116,128 +102,9 @@ export const FirebaseDatabase: Database = {
     }
   },
 
-  //// User Role ///////////////////////////////////////////////////////////////
-
-  async getAllUserRoles(): Promise<DBUserRole[]> {
-    const userRolesSnapshot = await admin
-      .firestore()
-      .collection("userRoles")
-      .orderBy("name", "asc")
-      .get();
-
-    return userRolesSnapshot.docs.map((doc) => doc.data() as DBUserRole);
-  },
-
-  async getUserRole(id: string): Promise<DBUserRole | null> {
-    const userRoleSnapshot = await admin
-      .firestore()
-      .collection("userRoles")
-      .doc(id)
-      .get();
-
-    const dbUserRole = (userRoleSnapshot.data() as DBUserRole) ?? null;
-
-    if (dbUserRole != null) {
-      return {
-        ...dbUserRole,
-        resourcePermissions: {
-          // Some resource keys are allowed to be missing from the data in
-          // which case they have a default value.
-          ...DEFAULT_RESOURCE_PERMISSIONS,
-          ...dbUserRole.resourcePermissions,
-        },
-      };
-    }
-
-    return null;
-  },
-
-  async createUserRole({
-    name,
-    resourcePermissions,
-  }: CreateUserRolePayload): Promise<DBUserRole> {
-    name = name.trim();
-
-    if (name === "") {
-      throw new UserInputError(ErrorCode.USER_ROLE_MISSING_NAME);
-    }
-
-    await assertUserRoleNameNotUsed(name);
-
-    const userRole: DBUserRole = {
-      id: uuid(),
-      name,
-      resourcePermissions,
-    };
-
-    await admin
-      .firestore()
-      .collection("userRoles")
-      .doc(userRole.id)
-      .set(userRole);
-
-    return userRole;
-  },
-
-  async updateUserRole({
-    id,
-    name,
-    resourcePermissions,
-  }: UpdateUserRolePayload): Promise<DBUserRole> {
-    const userRole = await FirebaseDatabase.getUserRole(id);
-    if (userRole == null) {
-      throw new UserInputError(ErrorCode.USER_ROLE_NOT_FOUND);
-    }
-
-    const payload: Partial<DBUserRole> = {};
-
-    if (name != null) {
-      name = name.trim();
-
-      if (name === "") {
-        throw new UserInputError(ErrorCode.USER_ROLE_MISSING_NAME);
-      }
-
-      if (name !== userRole.name) {
-        assertUserRoleNameNotUsed(name);
-        payload.name = name;
-      }
-    }
-
-    if (
-      resourcePermissions != null &&
-      !isEqual(resourcePermissions, userRole.resourcePermissions)
-    ) {
-      payload.resourcePermissions = resourcePermissions;
-    }
-
-    if (!isEmpty(payload)) {
-      await admin.firestore().collection("userRoles").doc(id).update(payload);
-    }
-
-    return { ...userRole, ...payload };
-  },
-
-  async deleteUserRole(id: string): Promise<boolean> {
-    const usersSnapshot = await admin
-      .firestore()
-      .collection("users")
-      .where("roleId", "==", id)
-      .get();
-
-    if (usersSnapshot.docs.length > 0) {
-      throw new UserInputError(ErrorCode.USER_ROLE_IS_REFERENCED);
-    }
-
-    await admin.firestore().collection("userRoles").doc(id).delete();
-    return true;
-  },
-
   //// User ////////////////////////////////////////////////////////////////////
 
-  async getUserForQueryContext(
-    token: string
-  ): Promise<DBUserForQueryContext | null> {
+  async getUserForQueryContext(token: string): Promise<User | null> {
     try {
       const decodedToken = await admin.auth().verifyIdToken(token, true);
       const userRecord = await admin.auth().getUser(decodedToken.uid);
@@ -246,45 +113,25 @@ export const FirebaseDatabase: Database = {
         return null;
       }
 
-      const roleId = await getUserRoleIdForUser(userRecord.uid);
-      if (roleId == null) {
+      const groups = await getUserGroupsForUser(userRecord.uid);
+      if (groups == null) {
         return null;
       }
 
-      const role = await FirebaseDatabase.getUserRole(roleId);
-      if (role == null) {
-        return null;
-      }
-
-      return { ...mapFirebaseUser(userRecord), role };
+      return { ...mapFirebaseUser(userRecord), groups };
     } catch (error) {
       return null;
     }
   },
 
-  async getAllUsers(
-    currentUser: DBUserForQueryContext,
-    filters: UserFilters = {}
-  ): Promise<DBUser[]> {
-    let usersFromStoreQuery: FirebaseFirestore.Query<FirebaseFirestore.DocumentData> = admin
-      .firestore()
-      .collection("users");
-
-    if (filters.roleId != null) {
-      usersFromStoreQuery = usersFromStoreQuery.where(
-        "roleId",
-        "==",
-        filters.roleId
-      );
-    }
-
+  async getAllUsers(): Promise<User[]> {
     const [usersFromAuth, usersSnapshot] = await Promise.all([
       admin.auth().listUsers(),
-      usersFromStoreQuery.get(),
+      admin.firestore().collection("users").get(),
     ]);
 
-    let users: DBUser[] = [];
-    let disabledUsers: DBUser[] = [];
+    let users: User[] = [];
+    let disabledUsers: User[] = [];
 
     usersSnapshot.docs.forEach((doc) => {
       const userFromStore = doc.data() as DBUserFromStore;
@@ -293,7 +140,7 @@ export const FirebaseDatabase: Database = {
       );
 
       if (userRecord != null) {
-        const user: DBUser = {
+        const user: User = {
           ...userFromStore,
           ...mapFirebaseUser(userRecord),
         };
@@ -307,37 +154,23 @@ export const FirebaseDatabase: Database = {
     });
 
     users = orderBy(users, [(u) => u.displayName], "asc");
-
-    // Only show disabled users to authorized users.
-    if (currentUser.role.resourcePermissions.user) {
-      users = users.concat(
-        orderBy(disabledUsers, [(u) => u.displayName], "asc")
-      );
-    }
+    users = users.concat(orderBy(disabledUsers, [(u) => u.displayName], "asc"));
 
     return users;
   },
 
-  async getUser(
-    currentUser: DBUserForQueryContext,
-    id: string
-  ): Promise<DBUser | null> {
+  async getUser(id: string): Promise<User | null> {
     try {
-      const [userRecord, roleId] = await Promise.all([
+      const [userRecord, groups] = await Promise.all([
         admin.auth().getUser(id),
-        getUserRoleIdForUser(id),
+        getUserGroupsForUser(id),
       ]);
 
-      if (userRecord == null || roleId == null) {
+      if (userRecord == null || groups == null) {
         return null;
       }
 
-      // Only show disabled users to authorized users.
-      if (userRecord.disabled && !currentUser.role.resourcePermissions.user) {
-        return null;
-      }
-
-      return { ...mapFirebaseUser(userRecord), roleId };
+      return { ...mapFirebaseUser(userRecord), groups };
     } catch (error) {
       // See https://firebase.google.com/docs/auth/admin/errors
       if (hasErrorCode(error, ErrorCode.AUTH_USER_NOT_FOUND)) {
@@ -352,8 +185,8 @@ export const FirebaseDatabase: Database = {
     displayName,
     email,
     password,
-    roleId,
-  }: CreateUserPayload): Promise<DBUser> {
+    groups,
+  }: CreateUserPayload): Promise<User> {
     displayName = displayName.trim();
     email = email.trim();
 
@@ -363,6 +196,10 @@ export const FirebaseDatabase: Database = {
 
     if (!EMAIL_PATTERN.test(email)) {
       throw new UserInputError(ErrorCode.USER_INVALID_EMAIL);
+    }
+
+    if (groups.length === 0) {
+      throw new UserInputError(ErrorCode.USER_MISSING_GROUP);
     }
 
     try {
@@ -376,7 +213,7 @@ export const FirebaseDatabase: Database = {
 
       const userFromStore: DBUserFromStore = {
         id: userFromAuth.id,
-        roleId,
+        groups,
       };
 
       await admin
@@ -406,10 +243,10 @@ export const FirebaseDatabase: Database = {
   },
 
   async updateUser(
-    currentUser: DBUserForQueryContext,
-    { id, displayName, password, roleId }: UpdateUserPayload
-  ): Promise<DBUser> {
-    const user = await FirebaseDatabase.getUser(currentUser, id);
+    currentUser: User,
+    { id, displayName, password, groups }: UpdateUserPayload
+  ): Promise<User> {
+    const user = await FirebaseDatabase.getUser(id);
     if (user == null) {
       throw new UserInputError(ErrorCode.USER_NOT_FOUND);
     }
@@ -450,8 +287,18 @@ export const FirebaseDatabase: Database = {
 
     const userFromStorePayload: Partial<DBUserFromStore> = {};
 
-    if (roleId != null && roleId !== user.roleId) {
-      userFromStorePayload.roleId = roleId;
+    if (groups != null && !haveSameGroups(groups, user.groups)) {
+      // Don't allow an admin (only admins can access users) to lock himself
+      // out.
+      if (currentUser.id === user.id && !groups.includes(UserGroup.ADMIN)) {
+        throw new UserInputError(ErrorCode.USER_IS_ADMIN);
+      }
+
+      if (groups.length === 0) {
+        throw new UserInputError(ErrorCode.USER_MISSING_GROUP);
+      }
+
+      userFromStorePayload.groups = groups;
     }
 
     if (!isEmpty(userFromStorePayload)) {
@@ -469,10 +316,8 @@ export const FirebaseDatabase: Database = {
     };
   },
 
-  async deleteUser(
-    currentUser: DBUserForQueryContext,
-    id: string
-  ): Promise<boolean> {
+  async deleteUser(currentUser: User, id: string): Promise<boolean> {
+    // Don't allow a use to delete himself.
     if (currentUser.id === id) {
       throw new UserInputError(ErrorCode.USER_IS_CURRENT_USER);
     }
@@ -482,15 +327,13 @@ export const FirebaseDatabase: Database = {
     return true;
   },
 
-  async toggleUserBlockedStatus(
-    currentUser: DBUserForQueryContext,
-    id: string
-  ): Promise<DBUser> {
+  async toggleUserBlockedStatus(currentUser: User, id: string): Promise<User> {
+    // Don't allow a use to block himself.
     if (currentUser.id === id) {
       throw new UserInputError(ErrorCode.USER_IS_CURRENT_USER);
     }
 
-    const user = await FirebaseDatabase.getUser(currentUser, id);
+    const user = await FirebaseDatabase.getUser(id);
     if (user == null) {
       throw new UserInputError(ErrorCode.USER_NOT_FOUND);
     }

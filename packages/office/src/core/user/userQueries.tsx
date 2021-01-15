@@ -5,7 +5,7 @@ import {
   UpdateUserPayload,
   User,
   UserFormPayload,
-} from "@animeaux/shared";
+} from "@animeaux/shared-entities";
 import { useRouter } from "next/router";
 import { useQueryCache } from "react-query";
 import { fetchGraphQL, gql, useMutation, useQuery } from "../request";

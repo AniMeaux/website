@@ -1,4 +1,4 @@
-import { ResourceKey } from "@animeaux/shared";
+import { ResourceKey } from "@animeaux/shared-entities";
 import * as React from "react";
 import {
   FaFileAlt,

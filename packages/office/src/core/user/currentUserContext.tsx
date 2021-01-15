@@ -1,4 +1,4 @@
-import { ResourceKey, User } from "@animeaux/shared";
+import { ResourceKey, User } from "@animeaux/shared-entities";
 import firebase from "firebase/app";
 import invariant from "invariant";
 import * as React from "react";

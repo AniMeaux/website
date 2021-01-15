@@ -1,9 +1,9 @@
-import { DBUserForQueryContext } from "@animeaux/shared";
+import { User } from "@animeaux/shared-entities";
 
 export type AuthContext = {
-  user: DBUserForQueryContext | null;
+  user: User | null;
 };
 
 export type QueryContext = {
-  user: DBUserForQueryContext;
+  user: User;
 };

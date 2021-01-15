@@ -6,7 +6,7 @@ import {
   ErrorCode,
   PaginatedResponse,
   UpdateAnimalBreedPayload,
-} from "@animeaux/shared";
+} from "@animeaux/shared-entities";
 import { gql } from "graphql-request";
 import { useRouter } from "next/router";
 import * as React from "react";

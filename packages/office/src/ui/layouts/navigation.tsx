@@ -1,4 +1,4 @@
-import { Link, LinkProps } from "@animeaux/shared";
+import { Link, LinkProps } from "@animeaux/ui-library";
 import cn from "classnames";
 import { useRouter } from "next/router";
 import * as React from "react";

@@ -13,7 +13,7 @@
     "start:prod": "next start"
   },
   "dependencies": {
-    "@animeaux/shared": "*",
+    "@animeaux/shared-entities": "*",
     "classnames": "^2.2.6",
     "focus-visible": "^5.1.0",
     "graphql.macro": "^1.4.2",

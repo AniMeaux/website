@@ -2,7 +2,7 @@ import {
   CreateHostFamilyPayload,
   HostFamilyFilters,
   UpdateHostFamilyPayload,
-} from "@animeaux/shared";
+} from "@animeaux/shared-entities";
 import { gql, IResolverObject } from "apollo-server";
 import { database } from "../database";
 
