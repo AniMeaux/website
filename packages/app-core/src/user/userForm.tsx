@@ -93,8 +93,8 @@ export function UserForm({
           <Input
             name="email"
             id="email"
-            type="text"
-            autoComplete="email"
+            type="email"
+            autoComplete="new-email"
             // The email cannot be updated.
             disabled={user != null}
             value={email}
