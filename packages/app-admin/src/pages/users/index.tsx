@@ -11,6 +11,7 @@ import {
   Header,
   HeaderLink,
   HeaderTitle,
+  Main,
   Message,
   Placeholders,
   UserAvatar,
@@ -77,7 +78,7 @@ export default function UserListPage() {
         </HeaderLink>
       </Header>
 
-      <main className="py-4">
+      <Main>
         {usersRequest.error != null && (
           <Message type="error" className="mx-4 mb-4">
             {getErrorMessage(usersRequest.error)}
@@ -85,7 +86,7 @@ export default function UserListPage() {
         )}
 
         {content}
-      </main>
+      </Main>
     </div>
   );
 }

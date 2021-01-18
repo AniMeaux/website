@@ -14,6 +14,7 @@ import {
   HeaderBackLink,
   HeaderPlaceholder,
   HeaderTitle,
+  Main,
   Message,
   resolveUrl,
 } from "@animeaux/ui-library";
@@ -66,9 +67,9 @@ export default function CreateUserPage() {
         <HeaderPlaceholder />
       </Header>
 
-      <main className="py-4">
+      <Main>
         {globalErrorMessgae != null && (
-          <Message type="error" className="mx-4 mb-2">
+          <Message type="error" className="mx-4 mb-4">
             {globalErrorMessgae}
           </Message>
         )}
@@ -78,7 +79,7 @@ export default function CreateUserPage() {
           pending={createUserRequest.isLoading}
           errors={errors}
         />
-      </main>
+      </Main>
     </div>
   );
 }

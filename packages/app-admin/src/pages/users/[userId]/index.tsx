@@ -22,6 +22,7 @@ import {
   ItemContent,
   ItemIcon,
   ItemMainText,
+  Main,
   Message,
   Placeholder,
   Placeholders,
@@ -284,7 +285,7 @@ export default function UserPage() {
         )}
       </Header>
 
-      <main className="py-4">
+      <Main>
         {updateSucceeded && (
           <Message type="success" className="mx-4 mb-4">
             L'utilisateur à bien été modifié
@@ -304,7 +305,7 @@ export default function UserPage() {
         )}
 
         {content}
-      </main>
+      </Main>
     </div>
   );
 }
