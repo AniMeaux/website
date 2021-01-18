@@ -28,14 +28,14 @@ export function Checkbox({
             onChange(event.target.checked);
           }
         }}
-        className={cn("a11y-focus appearance-none w-4 h-4 border rounded", {
+        className={cn("a11y-focus appearance-none w-5 h-5 border rounded", {
           "bg-blue-500 border-blue-500": checked,
           "bg-white border-gray-400": !checked,
         })}
       />
 
       {checked && (
-        <FaCheck className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-xs text-white" />
+        <FaCheck className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-s text-white" />
       )}
     </span>
   );
