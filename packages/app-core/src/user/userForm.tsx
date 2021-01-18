@@ -78,7 +78,6 @@ export function UserForm({
             autoComplete="name"
             value={displayName}
             onChange={setDisplayName}
-            autoFocus
             placeholder="Jean"
             errorMessage={errors?.displayName}
             leftAdornment={
