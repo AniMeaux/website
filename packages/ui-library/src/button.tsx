@@ -1,7 +1,7 @@
 import cn from "classnames";
 import * as React from "react";
 
-type ButtonVariant = "secondary" | "primary";
+type ButtonVariant = "secondary" | "primary" | "outlined";
 type ButtonColor = "default" | "blue" | "red";
 
 export const ButtonClassName: {
@@ -34,6 +34,20 @@ export const ButtonClassName: {
     blue: {
       base: "bg-blue-500 text-white",
       enabled: "md:hover:bg-opacity-90",
+    },
+    red: {
+      base: "",
+      enabled: "",
+    },
+  },
+  outlined: {
+    default: {
+      base: "bg-black bg-opacity-0 border",
+      enabled: "md:hover:bg-opacity-4",
+    },
+    blue: {
+      base: "",
+      enabled: "",
     },
     red: {
       base: "",

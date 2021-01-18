@@ -33,22 +33,22 @@ const typeDefs = gql`
       search: String
       page: Int
       species: AnimalSpecies
-    ): AllAnimalBreedsResponse! @auth
+    ): AllAnimalBreedsResponse! @auth(groups: [ADMIN])
 
-    getAnimalBreed(id: ID!): AnimalBreed @auth
+    getAnimalBreed(id: ID!): AnimalBreed @auth(groups: [ADMIN])
   }
 
   extend type Mutation {
     createAnimalBreed(name: String!, species: AnimalSpecies!): AnimalBreed!
-      @auth(resourceKey: "animal_breed")
+      @auth(groups: [ADMIN])
 
     updateAnimalBreed(
       id: ID!
       name: String
       species: AnimalSpecies
-    ): AnimalBreed! @auth(resourceKey: "animal_breed")
+    ): AnimalBreed! @auth(groups: [ADMIN])
 
-    deleteAnimalBreed(id: ID!): Boolean! @auth(resourceKey: "animal_breed")
+    deleteAnimalBreed(id: ID!): Boolean! @auth(groups: [ADMIN])
   }
 `;
 

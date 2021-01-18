@@ -15,7 +15,6 @@ import {
   haveSameGroups,
   HostFamilyFilters,
   PaginatedResponse,
-  sortGroupsByLabel,
   UpdateAnimalBreedPayload,
   UpdateHostFamilyPayload,
   UpdateUserPayload,

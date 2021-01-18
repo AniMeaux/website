@@ -18,6 +18,7 @@ import {
 } from "@animeaux/ui-library";
 import * as React from "react";
 import { FaPlus } from "react-icons/fa";
+import { Navigation } from "../../core/navigation";
 
 function LoadingRows() {
   return (
@@ -87,6 +88,8 @@ export default function UserListPage() {
 
         {content}
       </Main>
+
+      <Navigation />
     </div>
   );
 }

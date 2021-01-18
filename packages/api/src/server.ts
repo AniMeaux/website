@@ -4,7 +4,7 @@ import { IncomingMessage } from "http";
 import { ListenOptions } from "net";
 import { AuthDirective } from "./authDirective";
 import { database } from "./database";
-// import { AnimalBreedModel } from "./model/animalBreed";
+import { AnimalBreedModel } from "./model/animalBreed";
 // import { HostFamilyModel } from "./model/hostFamily";
 import { AuthContext } from "./model/shared";
 import { UserModel } from "./model/user";
@@ -36,21 +36,21 @@ const apolloServer = new ApolloServer({
     rootTypeDefs,
     AuthDirective.typeDefs,
     UserModel.typeDefs,
-    // AnimalBreedModel.typeDefs,
+    AnimalBreedModel.typeDefs,
     // HostFamilyModel.typeDefs,
   ],
   schemaDirectives: Object.assign({}, AuthDirective.schemaDirectives),
   resolvers: Object.assign({
     Query: Object.assign(
       {},
-      UserModel.queries
-      // AnimalBreedModel.queries,
+      UserModel.queries,
+      AnimalBreedModel.queries
       // HostFamilyModel.queries
     ),
     Mutation: Object.assign(
       {},
-      UserModel.mutations
-      // AnimalBreedModel.mutations,
+      UserModel.mutations,
+      AnimalBreedModel.mutations
       // HostFamilyModel.mutations
     ),
   }),
