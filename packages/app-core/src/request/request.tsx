@@ -14,7 +14,16 @@ import { NetworkStatus } from "./networkStatus";
 
 export * from "react-query";
 
-export const queryClient = new QueryClient();
+export const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      // This value doesn't need to be low as all mutations update the cache to
+      // avoid refetching data we already have.
+      // 1 minute
+      staleTime: 1000 * 60,
+    },
+  },
+});
 
 // Mutations are not taken into account in `useIsFetching` so we provide our own
 // context and `useMutation` to support it.
