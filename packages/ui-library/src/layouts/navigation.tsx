@@ -57,11 +57,11 @@ export function Navigation({
     <nav
       {...rest}
       className={cn(
-        "z-20 fixed right-0 navigation-bottom left-0 h-14 border-t bg-white",
+        "z-20 fixed right-0 bottom-0 navigation-pb left-0 bg-white",
         className
       )}
     >
-      <ul className="w-full h-full flex">{children}</ul>
+      <ul className="w-full h-14 border-t flex">{children}</ul>
     </nav>
   );
 }

@@ -248,9 +248,9 @@
     @apply rounded-full;
   }
 
-  .navigation-bottom {
-    bottom: 0;
-    bottom: env(safe-area-inset-bottom, 0);
+  .navigation-pb {
+    padding-bottom: 0;
+    padding-bottom: env(safe-area-inset-bottom, 0);
   }
 
   .main-pb {
