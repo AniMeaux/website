@@ -70,7 +70,7 @@ async function assertAnimalBreedNameNotUsed(
     .get();
 
   if (!animalBreedSnapshot.empty) {
-    throw new UserInputError(ErrorCode.ANIMAL_BREED_NAME_ALREADY_USED);
+    throw new UserInputError(ErrorCode.ANIMAL_BREED_ALREADY_EXIST);
   }
 }
 

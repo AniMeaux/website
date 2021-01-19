@@ -226,15 +226,20 @@ export function useUpdateAnimalBreed(
           initialStale: true,
         });
 
-        queryCache.setQueryData<PaginatedResponse<AnimalBreed>[]>(
+        queryCache.setQueryData<PaginatedResponse<AnimalBreed>[] | null>(
           "animal-breeds",
-          (animalBreedsPages) =>
-            (animalBreedsPages ?? []).map((page) => ({
+          (animalBreedsPages) => {
+            if (animalBreedsPages == null) {
+              return null;
+            }
+
+            return animalBreedsPages.map((page) => ({
               ...page,
               hits: page.hits.map((a) =>
                 a.id === animalBreed.id ? animalBreed : a
               ),
-            })),
+            }));
+          },
           { initialStale: true }
         );
 
@@ -269,13 +274,18 @@ export function useDeleteAnimalBreed(
       onSuccess(animalBreedId) {
         queryCache.removeQueries(["animal-breed", animalBreedId]);
 
-        queryCache.setQueryData<PaginatedResponse<AnimalBreed>[]>(
+        queryCache.setQueryData<PaginatedResponse<AnimalBreed>[] | null>(
           "animal-breeds",
-          (animalBreedsPages) =>
-            (animalBreedsPages ?? []).map((page) => ({
+          (animalBreedsPages) => {
+            if (animalBreedsPages == null) {
+              return null;
+            }
+
+            return animalBreedsPages.map((page) => ({
               ...page,
               hits: page.hits.filter((a) => a.id !== animalBreedId),
-            })),
+            }));
+          },
           { initialStale: true }
         );
 

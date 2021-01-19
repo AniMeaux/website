@@ -1,3 +1,5 @@
+import { sortByLabels } from "./enumUtils";
+
 export enum AnimalSpecies {
   BIRD = "BIRD",
   CAT = "CAT",
@@ -16,13 +18,10 @@ export const AnimalSpeciesLabels: {
   RODENT: "Rongeur",
 };
 
-export const ANIMAL_SPECIES_ALPHABETICAL_ORDER = [
-  AnimalSpecies.CAT,
-  AnimalSpecies.DOG,
-  AnimalSpecies.BIRD,
-  AnimalSpecies.REPTILE,
-  AnimalSpecies.RODENT,
-];
+export const ANIMAL_SPECIES_ALPHABETICAL_ORDER = sortByLabels(
+  Object.keys(AnimalSpecies) as AnimalSpecies[],
+  AnimalSpeciesLabels
+);
 
 export enum AnimalAge {
   JUNIOR = "JUNIOR",
