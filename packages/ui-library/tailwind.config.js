@@ -40,7 +40,12 @@ module.exports = {
     removeDeprecatedGapUtilities: true,
     purgeLayersByDefault: true,
   },
-  purge: ["./src/**/*.{ts,tsx}", "../ui-library/**/*.{ts,tsx}"],
+  // Paths relative to the application importing it.
+  purge: [
+    "./src/**/*.{ts,tsx}",
+    "../ui-library/**/*.{ts,tsx}",
+    "../app-core/**/*.{ts,tsx}",
+  ],
   theme: {
     screens: {
       md: "800px",
