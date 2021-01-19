@@ -83,7 +83,7 @@ export default function UserListPage() {
         </HeaderLink>
       </Header>
 
-      <Main>
+      <Main hasNavigation>
         {usersRequest.error != null && (
           <Message type="error" className="mx-4 mb-4">
             {getErrorMessage(usersRequest.error)}

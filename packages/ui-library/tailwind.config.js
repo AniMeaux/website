@@ -176,6 +176,7 @@ module.exports = {
       },
       height: {
         ...base12,
+        "14": "3.5rem",
         "screen-5/12": "41.666667vh",
       },
       borderColor: {

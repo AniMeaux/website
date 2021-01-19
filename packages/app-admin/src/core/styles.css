@@ -247,6 +247,21 @@
   .placeholder-tag::after {
     @apply rounded-full;
   }
+
+  .navigation-bottom {
+    bottom: 0;
+    bottom: env(safe-area-inset-bottom, 0);
+  }
+
+  .main-pb {
+    padding-bottom: 1rem;
+    padding-bottom: calc(1rem + env(safe-area-inset-bottom, 0));
+  }
+
+  .main-pb-with-navigation {
+    padding-bottom: 5rem;
+    padding-bottom: calc(5rem + env(safe-area-inset-bottom, 0));
+  }
 }
 
 @layer utilities {

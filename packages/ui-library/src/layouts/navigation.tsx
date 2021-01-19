@@ -57,7 +57,7 @@ export function Navigation({
     <nav
       {...rest}
       className={cn(
-        "z-20 fixed right-0 bottom-0 left-0 h-12 border-t bg-white",
+        "z-20 fixed right-0 navigation-bottom left-0 h-14 border-t bg-white",
         className
       )}
     >

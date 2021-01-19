@@ -97,7 +97,7 @@ export default function AnimalBreedListPage() {
         </HeaderLink>
       </Header>
 
-      <Main>
+      <Main hasNavigation>
         {animalBreedsPagesRequest.error != null && (
           <Message type="error" className="mx-4 mb-4">
             {getErrorMessage(animalBreedsPagesRequest.error)}
