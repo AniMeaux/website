@@ -196,9 +196,15 @@ export function useUpdateUser(onSuccess?: (user: User) => void) {
           initialStale: true,
         });
 
-        queryCache.setQueryData<User[]>(
+        queryCache.setQueryData<User[] | null>(
           "users",
-          (users) => (users ?? []).map((u) => (u.id === user.id ? user : u)),
+          (users) => {
+            if (users == null) {
+              return null;
+            }
+
+            return users.map((u) => (u.id === user.id ? user : u));
+          },
           { initialStale: true }
         );
 
@@ -231,9 +237,15 @@ export function useDeleteUser(onSuccess?: (userId: string) => void) {
       onSuccess(userId) {
         queryCache.removeQueries(["user", userId]);
 
-        queryCache.setQueryData<User[]>(
+        queryCache.setQueryData<User[] | null>(
           "users",
-          (users) => (users ?? []).filter((user) => user.id !== userId),
+          (users) => {
+            if (users == null) {
+              return null;
+            }
+
+            return users.filter((user) => user.id !== userId);
+          },
           { initialStale: true }
         );
 
@@ -273,9 +285,15 @@ export function useToggleUserBlockedStatus(onSuccess?: (user: User) => void) {
           initialStale: true,
         });
 
-        queryCache.setQueryData<User[]>(
+        queryCache.setQueryData<User[] | null>(
           "users",
-          (users) => (users ?? []).map((u) => (u.id === user.id ? user : u)),
+          (users) => {
+            if (users == null) {
+              return null;
+            }
+
+            return users.map((u) => (u.id === user.id ? user : u));
+          },
           { initialStale: true }
         );
 
