@@ -81,7 +81,7 @@ function ActionsSection({ animalBreed }: { animalBreed: AnimalBreed }) {
   const router = useRouter();
   const [deleteAnimalBreed, deleteAnimalBreedRequest] = useDeleteAnimalBreed(
     () => {
-      router.push(resolveUrl(router.asPath, ".."));
+      router.push(resolveUrl(router.asPath, "..?deleteSucceeded"));
     }
   );
 

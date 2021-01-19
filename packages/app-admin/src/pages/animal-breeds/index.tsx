@@ -21,6 +21,7 @@ import {
   Placeholders,
   UserAvatar,
 } from "@animeaux/ui-library";
+import { useRouter } from "next/router";
 import * as React from "react";
 import { FaPlus } from "react-icons/fa";
 import { Navigation } from "../../core/navigation";
@@ -66,6 +67,9 @@ function AnimalBreedsRows({ animalBreedsPages }: AnimalBreedsRowsProps) {
 }
 
 export default function AnimalBreedListPage() {
+  const router = useRouter();
+  const deleteSucceeded = router.query.deleteSucceeded != null;
+
   const { currentUser } = useCurrentUser();
   const [animalBreedsPages, animalBreedsPagesRequest] = useAllAnimalBreeds();
 
@@ -97,6 +101,12 @@ export default function AnimalBreedListPage() {
         {animalBreedsPagesRequest.error != null && (
           <Message type="error" className="mx-4 mb-4">
             {getErrorMessage(animalBreedsPagesRequest.error)}
+          </Message>
+        )}
+
+        {deleteSucceeded && (
+          <Message type="success" className="mx-4 mb-4">
+            La race à bien été supprimée
           </Message>
         )}
 

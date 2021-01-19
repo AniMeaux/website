@@ -16,6 +16,7 @@ import {
   Placeholders,
   UserAvatar,
 } from "@animeaux/ui-library";
+import { useRouter } from "next/router";
 import * as React from "react";
 import { FaPlus } from "react-icons/fa";
 import { Navigation } from "../../core/navigation";
@@ -53,6 +54,9 @@ function UsersRows({ users }: UsersRowsProps) {
 }
 
 export default function UserListPage() {
+  const router = useRouter();
+  const deleteSucceeded = router.query.deleteSucceeded != null;
+
   const { currentUser } = useCurrentUser();
   const [users, usersRequest] = useAllUsers();
 
@@ -83,6 +87,12 @@ export default function UserListPage() {
         {usersRequest.error != null && (
           <Message type="error" className="mx-4 mb-4">
             {getErrorMessage(usersRequest.error)}
+          </Message>
+        )}
+
+        {deleteSucceeded && (
+          <Message type="success" className="mx-4 mb-4">
+            L'utilisateur à bien été supprimée
           </Message>
         )}
 

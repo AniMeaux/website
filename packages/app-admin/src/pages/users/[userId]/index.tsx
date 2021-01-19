@@ -137,7 +137,7 @@ function ActionsSection({ user }: { user: User }) {
 
   const router = useRouter();
   const [deleteUser, deleteUserRequest] = useDeleteUser(() => {
-    router.push(resolveUrl(router.asPath, ".."));
+    router.push(resolveUrl(router.asPath, "..?deleteSucceeded"));
   });
 
   const [
