@@ -163,9 +163,10 @@ export function UserForm({
                       });
                     }}
                     name="groups"
+                    className="mr-4"
                   />
 
-                  <Adornment className="ml-2">
+                  <Adornment>
                     <UserGroupIcon userGroup={group} />
                   </Adornment>
 
