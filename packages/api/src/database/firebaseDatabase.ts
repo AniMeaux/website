@@ -430,12 +430,16 @@ export const FirebaseDatabase: Database = {
       }
 
       if (name !== animalBreed.name) {
-        assertAnimalBreedNameNotUsed(name, species ?? animalBreed.species);
+        await assertAnimalBreedNameNotUsed(
+          name,
+          species ?? animalBreed.species
+        );
         payload.name = name;
       }
     }
 
     if (species != null && species !== animalBreed.species) {
+      await assertAnimalBreedNameNotUsed(name ?? animalBreed.name, species);
       payload.species = species;
     }
 
@@ -554,7 +558,7 @@ export const FirebaseDatabase: Database = {
       }
 
       if (name !== hostFamily.name) {
-        assertHostFamilyNameNotUsed(name);
+        await assertHostFamilyNameNotUsed(name);
         payload.name = name;
       }
     }
