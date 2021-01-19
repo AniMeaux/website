@@ -81,7 +81,7 @@ const ErrorCodeLabels: { [key in ErrorCode]?: string } = {
 
   //// Animal Breed ////////////////////////////////////////////////////////////
 
-  [ErrorCode.ANIMAL_BREED_NOT_FOUND]: "La race utilisateur est introuvable",
+  [ErrorCode.ANIMAL_BREED_NOT_FOUND]: "La race est introuvable",
   [ErrorCode.ANIMAL_BREED_MISSING_NAME]: "Le nom est obligatoire",
   [ErrorCode.ANIMAL_BREED_ALREADY_EXIST]: "Cette race existe déjà",
   [ErrorCode.ANIMAL_BREED_MISSING_SPECIES]: "L'espèce est obligatoire",
