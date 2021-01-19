@@ -5,10 +5,11 @@ import {
 } from "@animeaux/shared-entities";
 import { SignInPage } from "@animeaux/ui-library";
 import firebase from "firebase/app";
+import { gql } from "graphql-request";
 import invariant from "invariant";
 import * as React from "react";
 import { PageTitle } from "../pageTitle";
-import { fetchGraphQL, gql } from "../request";
+import { fetchGraphQL } from "../request";
 import { UserCore } from "./userQueries";
 
 type CurrentUserContextValue = {

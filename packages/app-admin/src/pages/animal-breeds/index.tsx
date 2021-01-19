@@ -79,8 +79,8 @@ export default function AnimalBreedListPage() {
 
   if (animalBreedsPages != null) {
     // There is allways at least one page.
-    animalBreedsCount = `(${animalBreedsPages[0].hitsTotalCount})`;
-    content = <AnimalBreedsRows animalBreedsPages={animalBreedsPages} />;
+    animalBreedsCount = `(${animalBreedsPages.pages[0].hitsTotalCount})`;
+    content = <AnimalBreedsRows animalBreedsPages={animalBreedsPages.pages} />;
   } else if (animalBreedsPagesRequest.isLoading) {
     content = <LoadingRows />;
   }
@@ -119,9 +119,9 @@ export default function AnimalBreedListPage() {
 
         {content}
 
-        {animalBreedsPagesRequest.canFetchMore && (
+        {animalBreedsPagesRequest.hasNextPage && (
           <Button
-            onClick={() => animalBreedsPagesRequest.fetchMore()}
+            onClick={() => animalBreedsPagesRequest.fetchNextPage()}
             variant="outlined"
             className="mx-auto mt-4"
           >

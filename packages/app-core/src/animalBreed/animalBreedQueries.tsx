@@ -9,8 +9,14 @@ import {
 } from "@animeaux/shared-entities";
 import { gql } from "graphql-request";
 import * as React from "react";
-import { useInfiniteQuery } from "react-query";
-import { fetchGraphQL, useMutation, useQuery, useQueryCache } from "../request";
+import {
+  fetchGraphQL,
+  InfiniteData,
+  useInfiniteQuery,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "../request";
 
 const AnimalBreedCore = gql`
   fragment AnimalBreedCore on AnimalBreed {
@@ -52,20 +58,20 @@ export function useAllAnimalBreeds({
     Error
   >(
     "animal-breeds",
-    async (key: string, page: number = 0) => {
+    async ({ pageParam = 0 }) => {
       const { response } = await fetchGraphQL<
         { response: PaginatedResponse<AnimalBreed> },
         AnimalBreedFilters
       >(GetAllAnimalBreedsQuery, {
-        variables: { search, species, page },
+        variables: { search, species, page: pageParam },
       });
 
       return response;
     },
     {
-      // Return the next page that will be passed as last parameter of the
-      // fetch function.
-      getFetchMore(lastGroup) {
+      // Return the next page that will be passed as `pageParam` to the fetch
+      // function.
+      getNextPageParam(lastGroup) {
         if (lastGroup.page < lastGroup.pageCount - 1) {
           return lastGroup.page + 1;
         }
@@ -125,9 +131,13 @@ const CreateAnimalBreedQuery = gql`
 export function useCreateAnimalBreed(
   onSuccess?: (animalBreed: AnimalBreed) => void
 ) {
-  const queryCache = useQueryCache();
+  const queryClient = useQueryClient();
 
-  return useMutation<AnimalBreed, Error, AnimalBreedFormPayload>(
+  const { mutate, ...rest } = useMutation<
+    AnimalBreed,
+    Error,
+    AnimalBreedFormPayload
+  >(
     async (payload) => {
       if (payload.name.trim() === "") {
         throw new Error(ErrorCode.ANIMAL_BREED_MISSING_NAME);
@@ -152,13 +162,11 @@ export function useCreateAnimalBreed(
     },
     {
       onSuccess(animalBreed) {
-        queryCache.setQueryData(["animal-breed", animalBreed.id], animalBreed, {
-          initialStale: true,
-        });
+        queryClient.setQueryData(["animal-breed", animalBreed.id], animalBreed);
 
         // We don't know where the data will be added to the list so we can't
         // manualy update the cache.
-        queryCache.invalidateQueries("animal-breeds");
+        queryClient.invalidateQueries("animal-breeds");
 
         if (onSuccess != null) {
           onSuccess(animalBreed);
@@ -166,6 +174,8 @@ export function useCreateAnimalBreed(
       },
     }
   );
+
+  return [mutate, rest] as const;
 }
 
 const UpdateAnimalBreedQuery = gql`
@@ -185,9 +195,9 @@ const UpdateAnimalBreedQuery = gql`
 export function useUpdateAnimalBreed(
   onSuccess?: (animalBreed: AnimalBreed) => void
 ) {
-  const queryCache = useQueryCache();
+  const queryClient = useQueryClient();
 
-  return useMutation<
+  const { mutate, ...rest } = useMutation<
     AnimalBreed,
     Error,
     { currentAnimalBreed: AnimalBreed; formPayload: AnimalBreedFormPayload }
@@ -222,26 +232,25 @@ export function useUpdateAnimalBreed(
     },
     {
       onSuccess(animalBreed) {
-        queryCache.setQueryData(["animal-breed", animalBreed.id], animalBreed, {
-          initialStale: true,
-        });
+        queryClient.setQueryData(["animal-breed", animalBreed.id], animalBreed);
 
-        queryCache.setQueryData<PaginatedResponse<AnimalBreed>[] | null>(
-          "animal-breeds",
-          (animalBreedsPages) => {
-            if (animalBreedsPages == null) {
-              return null;
-            }
+        queryClient.setQueryData<InfiniteData<
+          PaginatedResponse<AnimalBreed>
+        > | null>("animal-breeds", (animalBreedsPages) => {
+          if (animalBreedsPages == null) {
+            return null;
+          }
 
-            return animalBreedsPages.map((page) => ({
+          return {
+            ...animalBreedsPages,
+            pages: animalBreedsPages.pages.map((page) => ({
               ...page,
               hits: page.hits.map((a) =>
                 a.id === animalBreed.id ? animalBreed : a
               ),
-            }));
-          },
-          { initialStale: true }
-        );
+            })),
+          };
+        });
 
         if (onSuccess != null) {
           onSuccess(animalBreed);
@@ -249,6 +258,8 @@ export function useUpdateAnimalBreed(
       },
     }
   );
+
+  return [mutate, rest] as const;
 }
 
 const DeleteAnimalBreedQuery = gql`
@@ -260,9 +271,9 @@ const DeleteAnimalBreedQuery = gql`
 export function useDeleteAnimalBreed(
   onSuccess?: (animalBreedId: string) => void
 ) {
-  const queryCache = useQueryCache();
+  const queryClient = useQueryClient();
 
-  return useMutation<string, Error, string>(
+  const { mutate, ...rest } = useMutation<string, Error, string>(
     async (animalBreedId) => {
       await fetchGraphQL<boolean, { id: string }>(DeleteAnimalBreedQuery, {
         variables: { id: animalBreedId },
@@ -272,22 +283,23 @@ export function useDeleteAnimalBreed(
     },
     {
       onSuccess(animalBreedId) {
-        queryCache.removeQueries(["animal-breed", animalBreedId]);
+        queryClient.removeQueries(["animal-breed", animalBreedId]);
 
-        queryCache.setQueryData<PaginatedResponse<AnimalBreed>[] | null>(
-          "animal-breeds",
-          (animalBreedsPages) => {
-            if (animalBreedsPages == null) {
-              return null;
-            }
+        queryClient.setQueryData<InfiniteData<
+          PaginatedResponse<AnimalBreed>
+        > | null>("animal-breeds", (animalBreedsPages) => {
+          if (animalBreedsPages == null) {
+            return null;
+          }
 
-            return animalBreedsPages.map((page) => ({
+          return {
+            ...animalBreedsPages,
+            pages: animalBreedsPages.pages.map((page) => ({
               ...page,
               hits: page.hits.filter((a) => a.id !== animalBreedId),
-            }));
-          },
-          { initialStale: true }
-        );
+            })),
+          };
+        });
 
         if (onSuccess != null) {
           onSuccess(animalBreedId);
@@ -295,4 +307,6 @@ export function useDeleteAnimalBreed(
       },
     }
   );
+
+  return [mutate, rest] as const;
 }

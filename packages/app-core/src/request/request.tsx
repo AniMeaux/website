@@ -2,19 +2,19 @@ import { ProgressBar } from "@animeaux/ui-library";
 import invariant from "invariant";
 import * as React from "react";
 import {
-  MutationConfig,
   MutationFunction,
-  QueryCache,
-  ReactQueryCacheProvider,
+  QueryClient,
+  QueryClientProvider,
   useIsFetching,
   useMutation as useMutationReactQuery,
+  UseMutationOptions,
 } from "react-query";
-import { ReactQueryDevtools } from "react-query-devtools";
+import { ReactQueryDevtools } from "react-query/devtools";
 import { NetworkStatus } from "./networkStatus";
 
 export * from "react-query";
 
-export const queryCache = new QueryCache();
+export const queryClient = new QueryClient();
 
 // Mutations are not taken into account in `useIsFetching` so we provide our own
 // context and `useMutation` to support it.
@@ -63,7 +63,7 @@ export function RequestContextProvider({
   );
 
   return (
-    <ReactQueryCacheProvider queryCache={queryCache}>
+    <QueryClientProvider client={queryClient}>
       <RequestContext.Provider value={value}>
         {children}
         <NetworkStatus />
@@ -75,28 +75,26 @@ export function RequestContextProvider({
           />
         )}
       </RequestContext.Provider>
-    </ReactQueryCacheProvider>
+    </QueryClientProvider>
   );
 }
 
 export function useMutation<
-  TResult,
+  TData = unknown,
   TError = unknown,
-  TVariables = undefined,
-  TSnapshot = unknown
+  TVariables = void,
+  TContext = unknown
 >(
-  mutationFn: MutationFunction<TResult, TVariables>,
-  config?: MutationConfig<TResult, TError, TVariables, TSnapshot>
+  mutationFn: MutationFunction<TData, TVariables>,
+  options?: UseMutationOptions<TData, TError, TVariables, TContext>
 ) {
   const { setPendingMutationCount } = useRequest();
-  const mutation = useMutationReactQuery<
-    TResult,
-    TError,
-    TVariables,
-    TSnapshot
-  >(mutationFn, config);
+  const mutation = useMutationReactQuery<TData, TError, TVariables, TContext>(
+    mutationFn,
+    options
+  );
 
-  const { isLoading } = mutation[1];
+  const { isLoading } = mutation;
 
   React.useEffect(() => {
     if (isLoading) {

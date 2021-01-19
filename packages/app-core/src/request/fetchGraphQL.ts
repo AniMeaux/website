@@ -1,9 +1,6 @@
 import { ErrorCode } from "@animeaux/shared-entities";
 import firebase from "firebase/app";
-import { gql, GraphQLClient } from "graphql-request";
-
-// For some reason we can't `export * from "graphql-request"`.
-export { gql };
+import { GraphQLClient } from "graphql-request";
 
 const graphQlClient = new GraphQLClient(process.env.NEXT_PUBLIC_API_URL);
 

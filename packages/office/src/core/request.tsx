@@ -11,7 +11,7 @@ import {
   useIsFetching,
   useMutation as useMutationReactQuery,
 } from "react-query";
-import { ReactQueryDevtools } from "react-query-devtools";
+import { ReactQueryDevtools } from "react-query/devtools";
 import { ProgressBar } from "../ui/loaders/progressBar";
 import { TOKEN_KEY } from "./user/currentUserContext";
 

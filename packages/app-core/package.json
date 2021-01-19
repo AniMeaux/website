@@ -18,8 +18,7 @@
     "next": "*",
     "react": "*",
     "react-icons": "*",
-    "react-query": "*",
-    "react-query-devtools": "*"
+    "react-query": "*"
   },
   "dependencies": {
     "@animeaux/shared-entities": "*",

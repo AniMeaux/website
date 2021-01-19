@@ -2,13 +2,18 @@ import {
   CreateUserPayload,
   EMAIL_PATTERN,
   ErrorCode,
+  haveSameGroups,
   UpdateUserPayload,
   User,
   UserFormPayload,
-  haveSameGroups,
 } from "@animeaux/shared-entities";
-import { useQueryCache } from "react-query";
-import { fetchGraphQL, gql, useMutation, useQuery } from "../request";
+import { gql } from "graphql-request";
+import {
+  fetchGraphQL,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "../request";
 
 export const UserCore = gql`
   fragment UserCore on User {
@@ -90,9 +95,9 @@ const CreateUserQuery = gql`
 `;
 
 export function useCreateUser(onSuccess?: (user: User) => void) {
-  const queryCache = useQueryCache();
+  const queryClient = useQueryClient();
 
-  return useMutation<User, Error, UserFormPayload>(
+  const { mutate, ...rest } = useMutation<User, Error, UserFormPayload>(
     async (payload) => {
       if (payload.displayName.trim() === "") {
         throw new Error(ErrorCode.USER_MISSING_DISPLAY_NAME);
@@ -117,13 +122,11 @@ export function useCreateUser(onSuccess?: (user: User) => void) {
     },
     {
       onSuccess(user) {
-        queryCache.setQueryData(["user", user.id], user, {
-          initialStale: true,
-        });
+        queryClient.setQueryData(["user", user.id], user);
 
         // We don't know where the data will be added to the list so we can't
         // manualy update the cache.
-        queryCache.invalidateQueries("users");
+        queryClient.invalidateQueries("users");
 
         if (onSuccess != null) {
           onSuccess(user);
@@ -131,6 +134,8 @@ export function useCreateUser(onSuccess?: (user: User) => void) {
       },
     }
   );
+
+  return [mutate, rest] as const;
 }
 
 const UpdateUserQuery = gql`
@@ -154,9 +159,9 @@ const UpdateUserQuery = gql`
 `;
 
 export function useUpdateUser(onSuccess?: (user: User) => void) {
-  const queryCache = useQueryCache();
+  const queryClient = useQueryClient();
 
-  return useMutation<
+  const { mutate, ...rest } = useMutation<
     User,
     Error,
     { currentUser: User; formPayload: UserFormPayload }
@@ -192,21 +197,15 @@ export function useUpdateUser(onSuccess?: (user: User) => void) {
     },
     {
       onSuccess(user) {
-        queryCache.setQueryData(["user", user.id], user, {
-          initialStale: true,
+        queryClient.setQueryData(["user", user.id], user);
+
+        queryClient.setQueryData<User[] | null>("users", (users) => {
+          if (users == null) {
+            return null;
+          }
+
+          return users.map((u) => (u.id === user.id ? user : u));
         });
-
-        queryCache.setQueryData<User[] | null>(
-          "users",
-          (users) => {
-            if (users == null) {
-              return null;
-            }
-
-            return users.map((u) => (u.id === user.id ? user : u));
-          },
-          { initialStale: true }
-        );
 
         if (onSuccess != null) {
           onSuccess(user);
@@ -214,6 +213,8 @@ export function useUpdateUser(onSuccess?: (user: User) => void) {
       },
     }
   );
+
+  return [mutate, rest] as const;
 }
 
 const DeleteUserQuery = gql`
@@ -223,9 +224,9 @@ const DeleteUserQuery = gql`
 `;
 
 export function useDeleteUser(onSuccess?: (userId: string) => void) {
-  const queryCache = useQueryCache();
+  const queryClient = useQueryClient();
 
-  return useMutation<string, Error, string>(
+  const { mutate, ...rest } = useMutation<string, Error, string>(
     async (userId) => {
       await fetchGraphQL<boolean, { id: string }>(DeleteUserQuery, {
         variables: { id: userId },
@@ -235,19 +236,15 @@ export function useDeleteUser(onSuccess?: (userId: string) => void) {
     },
     {
       onSuccess(userId) {
-        queryCache.removeQueries(["user", userId]);
+        queryClient.removeQueries(["user", userId]);
 
-        queryCache.setQueryData<User[] | null>(
-          "users",
-          (users) => {
-            if (users == null) {
-              return null;
-            }
+        queryClient.setQueryData<User[] | null>("users", (users) => {
+          if (users == null) {
+            return null;
+          }
 
-            return users.filter((user) => user.id !== userId);
-          },
-          { initialStale: true }
-        );
+          return users.filter((user) => user.id !== userId);
+        });
 
         if (onSuccess != null) {
           onSuccess(userId);
@@ -255,6 +252,8 @@ export function useDeleteUser(onSuccess?: (userId: string) => void) {
       },
     }
   );
+
+  return [mutate, rest] as const;
 }
 
 const ToggleUserBlockedStatus = gql`
@@ -268,9 +267,9 @@ const ToggleUserBlockedStatus = gql`
 `;
 
 export function useToggleUserBlockedStatus(onSuccess?: (user: User) => void) {
-  const queryCache = useQueryCache();
+  const queryClient = useQueryClient();
 
-  return useMutation<User, Error, string>(
+  const { mutate, ...rest } = useMutation<User, Error, string>(
     async (userId) => {
       const { user } = await fetchGraphQL<{ user: User }, { id: string }>(
         ToggleUserBlockedStatus,
@@ -281,21 +280,15 @@ export function useToggleUserBlockedStatus(onSuccess?: (user: User) => void) {
     },
     {
       onSuccess(user) {
-        queryCache.setQueryData(["user", user.id], user, {
-          initialStale: true,
+        queryClient.setQueryData(["user", user.id], user);
+
+        queryClient.setQueryData<User[] | null>("users", (users) => {
+          if (users == null) {
+            return null;
+          }
+
+          return users.map((u) => (u.id === user.id ? user : u));
         });
-
-        queryCache.setQueryData<User[] | null>(
-          "users",
-          (users) => {
-            if (users == null) {
-              return null;
-            }
-
-            return users.map((u) => (u.id === user.id ? user : u));
-          },
-          { initialStale: true }
-        );
 
         if (onSuccess != null) {
           onSuccess(user);
@@ -303,4 +296,6 @@ export function useToggleUserBlockedStatus(onSuccess?: (user: User) => void) {
       },
     }
   );
+
+  return [mutate, rest] as const;
 }
