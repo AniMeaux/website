@@ -25,9 +25,7 @@ export default function CreateAnimalBreedPage() {
   const router = useRouter();
   const [createAnimalBreed, createAnimalBreedRequest] = useCreateAnimalBreed(
     (animalBreed) => {
-      router.push(
-        resolveUrl(router.asPath, `../${animalBreed.id}?creationSucceeded`)
-      );
+      router.push(resolveUrl(router.asPath, "../?creationSucceeded"));
     }
   );
 

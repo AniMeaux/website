@@ -24,7 +24,7 @@ import * as React from "react";
 export default function CreateUserPage() {
   const router = useRouter();
   const [createUser, createUserRequest] = useCreateUser((user) => {
-    router.push(resolveUrl(router.asPath, `../${user.id}?creationSucceeded`));
+    router.push(resolveUrl(router.asPath, "../?creationSucceeded"));
   });
 
   const errors: UserFormErrors = {};

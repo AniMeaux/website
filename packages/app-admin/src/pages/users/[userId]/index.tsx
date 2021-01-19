@@ -228,7 +228,6 @@ export default function UserPage() {
   const router = useRouter();
   const userId = router.query.userId as string;
   const updateSucceeded = router.query.updateSucceeded != null;
-  const creationSucceeded = router.query.creationSucceeded != null;
   const [user, userRequest] = useUser(userId);
 
   let pageTitle: string | null = null;
@@ -289,12 +288,6 @@ export default function UserPage() {
         {updateSucceeded && (
           <Message type="success" className="mx-4 mb-4">
             L'utilisateur à bien été modifié
-          </Message>
-        )}
-
-        {creationSucceeded && (
-          <Message type="success" className="mx-4 mb-4">
-            L'utilisateur à bien été créé
           </Message>
         )}
 

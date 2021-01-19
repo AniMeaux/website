@@ -56,6 +56,7 @@ function UsersRows({ users }: UsersRowsProps) {
 export default function UserListPage() {
   const router = useRouter();
   const deleteSucceeded = router.query.deleteSucceeded != null;
+  const creationSucceeded = router.query.creationSucceeded != null;
 
   const { currentUser } = useCurrentUser();
   const [users, usersRequest] = useAllUsers();
@@ -93,6 +94,12 @@ export default function UserListPage() {
         {deleteSucceeded && (
           <Message type="success" className="mx-4 mb-4">
             L'utilisateur à bien été supprimée
+          </Message>
+        )}
+
+        {creationSucceeded && (
+          <Message type="success" className="mx-4 mb-4">
+            L'utilisateur à bien été créé
           </Message>
         )}
 

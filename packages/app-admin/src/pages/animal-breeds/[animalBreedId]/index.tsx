@@ -129,7 +129,6 @@ export default function AnimalBreedPage() {
   const router = useRouter();
   const animalBreedId = router.query.animalBreedId as string;
   const updateSucceeded = router.query.updateSucceeded != null;
-  const creationSucceeded = router.query.creationSucceeded != null;
   const [animalBreed, animalBreedRequest] = useAnimalBreed(animalBreedId);
 
   let pageTitle: string | null = null;
@@ -186,12 +185,6 @@ export default function AnimalBreedPage() {
         {updateSucceeded && (
           <Message type="success" className="mx-4 mb-4">
             La race à bien été modifié
-          </Message>
-        )}
-
-        {creationSucceeded && (
-          <Message type="success" className="mx-4 mb-4">
-            La race à bien été créé
           </Message>
         )}
 
