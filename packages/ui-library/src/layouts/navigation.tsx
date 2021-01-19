@@ -42,7 +42,7 @@ export function NavLink({
         className
       )}
     >
-      <span className="flex-none text-xl">{icon}</span>
+      <span className="flex-none text-2xl">{icon}</span>
       <span className="flex-none text-2xs">{label}</span>
     </Link>
   );
