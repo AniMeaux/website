@@ -1,17 +1,19 @@
 import { ErrorCode, getErrorCode } from "@animeaux/shared-entities";
+import {
+  Adornment,
+  Button,
+  Field,
+  Form,
+  Input,
+  Label,
+  Message,
+  PasswordInput,
+  ProgressBar,
+} from "@animeaux/ui-library";
 import firebase from "firebase/app";
 import * as React from "react";
 import { useAsyncCallback } from "react-behave";
 import { FaEnvelope, FaLock } from "react-icons/fa";
-import { Button } from "./button";
-import { Adornment } from "./formElements/adornment";
-import { Field } from "./formElements/field";
-import { Form } from "./formElements/form";
-import { Input } from "./formElements/input";
-import { Label } from "./formElements/label";
-import { PasswordInput } from "./formElements/passwordInput";
-import { ProgressBar } from "./loaders/progressBar";
-import { Message } from "./message";
 
 function isAuthError(error: Error): boolean {
   return [
@@ -54,7 +56,12 @@ export function SignInPage({ logo: Logo }: SignInPageProps) {
       {pending && <ProgressBar />}
 
       <div className="relative mx-auto w-full max-w-md px-4 flex flex-col">
-        <Logo className="absolute bottom-1/1 left-1/2 transform -translate-x-1/2 mb-8 text-8xl" />
+        <div className="absolute bottom-1/1 left-1/2 transform -translate-x-1/2 mb-8 flex flex-col items-center">
+          <Logo className="text-8xl" />
+          <span className="font-serif tracking-wide">
+            {process.env.NEXT_PUBLIC_APP_SHORT_NAME}
+          </span>
+        </div>
 
         <h1 className="text-3xl font-serif">Bienvenue</h1>
 

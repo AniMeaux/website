@@ -10,6 +10,5 @@ export * from "./message";
 export * from "./popovers";
 export * from "./screenSize";
 export * from "./separator";
-export * from "./signInPage";
 export * from "./userAvatar";
 export * from "./userGroupIcon";
