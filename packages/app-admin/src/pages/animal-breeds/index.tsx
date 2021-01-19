@@ -87,11 +87,11 @@ export default function AnimalBreedListPage() {
 
   return (
     <div>
-      <PageTitle title="Races animales" />
+      <PageTitle title="Races" />
 
       <Header>
         <UserAvatar user={currentUser} />
-        <HeaderTitle>Races animales {animalBreedsCount}</HeaderTitle>
+        <HeaderTitle>Races {animalBreedsCount}</HeaderTitle>
 
         <HeaderLink href="./new">
           <FaPlus />

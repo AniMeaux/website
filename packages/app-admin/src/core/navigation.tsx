@@ -14,11 +14,7 @@ export function Navigation() {
       </NavItem>
 
       <NavItem>
-        <NavLink
-          label="Races animales"
-          href="/animal-breeds"
-          icon={<FaTag />}
-        />
+        <NavLink label="Races" href="/animal-breeds" icon={<FaTag />} />
       </NavItem>
     </BaseNavigation>
   );
