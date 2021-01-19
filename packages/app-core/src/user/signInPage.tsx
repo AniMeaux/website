@@ -58,7 +58,7 @@ export function SignInPage({ logo: Logo }: SignInPageProps) {
       <div className="relative mx-auto w-full max-w-md px-4 flex flex-col">
         <div className="absolute bottom-1/1 left-1/2 transform -translate-x-1/2 mb-8 flex flex-col items-center">
           <Logo className="text-8xl" />
-          <span className="font-serif tracking-wide">
+          <span className="font-serif tracking-wider">
             {process.env.NEXT_PUBLIC_APP_SHORT_NAME}
           </span>
         </div>
