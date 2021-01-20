@@ -1,6 +1,6 @@
 import "react-app-polyfill/stable";
 import "focus-visible";
-import "../core/styles.css";
+import "@animeaux/ui-library/styles.css";
 
 import {
   CurrentUserContextProvider,
@@ -11,9 +11,9 @@ import { ScreenSizeContextProvider } from "@animeaux/ui-library";
 import { AppProps as BaseAppProps } from "next/app";
 import Head from "next/head";
 import * as React from "react";
+import Logo from "../core/appLogo.svg";
 import { initFirebase } from "../core/initFirebase";
 import { PageComponent } from "../core/pageComponent";
-import Logo from "../ui/appLogo.svg";
 
 initFirebase();
 
