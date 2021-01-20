@@ -53,6 +53,8 @@ export function useAllAnimalBreeds({
   search,
   species,
 }: AnimalBreedFilters = {}) {
+  const isInitialRender = React.useRef(true);
+
   const { data, refetch, ...rest } = useInfiniteQuery<
     PaginatedResponse<AnimalBreed>,
     Error
@@ -82,7 +84,13 @@ export function useAllAnimalBreeds({
   // We don't add filters to the key to avoid polluting the cache and all the
   // loading states.
   React.useEffect(() => {
-    refetch();
+    // We don't want to refetch after the inital render because
+    // `useInfiniteQuery` already does it.
+    if (isInitialRender.current) {
+      isInitialRender.current = false;
+    } else {
+      refetch();
+    }
   }, [search, species, refetch]);
 
   return [data, { ...rest, refetch }] as const;
