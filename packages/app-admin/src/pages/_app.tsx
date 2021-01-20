@@ -7,7 +7,10 @@ import {
   RequestContextProvider,
 } from "@animeaux/app-core";
 import { UserGroup } from "@animeaux/shared-entities";
-import { ScreenSizeContextProvider } from "@animeaux/ui-library";
+import {
+  ApplicationLayout,
+  ScreenSizeContextProvider,
+} from "@animeaux/ui-library";
 import { AppProps as BaseAppProps } from "next/app";
 import Head from "next/head";
 import * as React from "react";
@@ -76,12 +79,14 @@ export default function App({ Component, pageProps }: AppProps) {
 
       <RequestContextProvider>
         <ScreenSizeContextProvider>
-          <CurrentUserContextProvider
-            logo={Logo}
-            authorisedGroups={[UserGroup.ADMIN]}
-          >
-            {children}
-          </CurrentUserContextProvider>
+          <ApplicationLayout>
+            <CurrentUserContextProvider
+              logo={Logo}
+              authorisedGroups={[UserGroup.ADMIN]}
+            >
+              {children}
+            </CurrentUserContextProvider>
+          </ApplicationLayout>
         </ScreenSizeContextProvider>
       </RequestContextProvider>
     </>

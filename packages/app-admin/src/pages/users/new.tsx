@@ -9,17 +9,11 @@ import {
   getErrorMessage,
   hasErrorCode,
 } from "@animeaux/shared-entities";
-import {
-  Header,
-  HeaderBackLink,
-  HeaderPlaceholder,
-  HeaderTitle,
-  Main,
-  Message,
-  resolveUrl,
-} from "@animeaux/ui-library";
+import { Main, Message, resolveUrl } from "@animeaux/ui-library";
 import { useRouter } from "next/router";
 import * as React from "react";
+import { Header } from "../../core/header";
+import { Navigation } from "../../core/navigation";
 
 export default function CreateUserPage() {
   const router = useRouter();
@@ -60,12 +54,7 @@ export default function CreateUserPage() {
   return (
     <div>
       <PageTitle title="Nouvel utilisateur" />
-
-      <Header>
-        <HeaderBackLink href=".." />
-        <HeaderTitle>Nouvel utilisateur</HeaderTitle>
-        <HeaderPlaceholder />
-      </Header>
+      <Header headerTitle="Nouvel utilisateur" canGoBack />
 
       <Main>
         {globalErrorMessgae != null && (
@@ -80,6 +69,8 @@ export default function CreateUserPage() {
           errors={errors}
         />
       </Main>
+
+      <Navigation hideOnSmallScreen />
     </div>
   );
 }

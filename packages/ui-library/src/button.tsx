@@ -1,5 +1,6 @@
 import cn from "classnames";
 import * as React from "react";
+import { Link, LinkProps } from "./link";
 
 type ButtonVariant = "secondary" | "primary" | "outlined";
 type ButtonColor = "default" | "blue" | "red";
@@ -56,17 +57,47 @@ export const ButtonClassName: {
   },
 };
 
-export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
+type ButtonPropsForClassName = {
+  variant?: ButtonVariant;
+  color?: ButtonColor;
+  iconOnly?: boolean;
+  disabled?: boolean;
+  className?: string;
+};
+
+function getButtonClassName({
+  variant = "secondary",
+  color = "default",
+  iconOnly = false,
+  disabled = false,
+  className,
+}: ButtonPropsForClassName) {
+  return cn(
+    "a11y-focus disabled:opacity-75 disabled:cursor-auto h-10 flex items-center justify-center",
+    ButtonClassName[variant][color].base,
+    {
+      [ButtonClassName[variant][color].enabled]: !disabled,
+      "w-10 rounded-full": iconOnly,
+      "rounded-md px-4 min-w-button text-sm uppercase tracking-wide font-medium": !iconOnly,
+    },
+    className
+  );
+}
+
+type BaseButtonProps = {
   variant?: ButtonVariant;
   color?: ButtonColor;
   iconOnly?: boolean;
   refProp?: React.RefObject<HTMLButtonElement>;
 };
 
+export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> &
+  BaseButtonProps;
+
 export function Button({
-  variant = "secondary",
-  color = "default",
-  iconOnly = false,
+  variant,
+  color,
+  iconOnly,
   disabled = false,
   refProp,
   className,
@@ -77,21 +108,18 @@ export function Button({
       {...rest}
       ref={refProp}
       disabled={disabled}
-      className={cn(
-        "a11y-focus disabled:opacity-75 disabled:cursor-auto h-10 flex items-center justify-center",
-        ButtonClassName[variant][color].base,
-        {
-          [ButtonClassName[variant][color].enabled]: !disabled,
-          "w-10 rounded-full": iconOnly,
-          "rounded-md px-4 min-w-button text-sm uppercase tracking-wide font-medium": !iconOnly,
-        },
-        className
-      )}
+      className={getButtonClassName({
+        className,
+        color,
+        disabled,
+        iconOnly,
+        variant,
+      })}
     />
   );
 }
 
-type ButtonWithConfirmationProps = ButtonProps & {
+export type ButtonWithConfirmationProps = ButtonProps & {
   confirmationMessage: string;
 };
 
@@ -108,6 +136,31 @@ export function ButtonWithConfirmation({
           onClick(event);
         }
       }}
+    />
+  );
+}
+
+export type ButtonLinkProps = LinkProps & BaseButtonProps;
+
+export function ButtonLink({
+  variant,
+  color,
+  iconOnly,
+  refProp,
+  className,
+  ...rest
+}: ButtonLinkProps) {
+  return (
+    <Link
+      {...rest}
+      refProp={refProp}
+      className={getButtonClassName({
+        className,
+        color,
+        disabled: false,
+        iconOnly,
+        variant,
+      })}
     />
   );
 }

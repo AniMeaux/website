@@ -2,11 +2,23 @@ import {
   Navigation as BaseNavigation,
   NavItem,
   NavLink,
+  ScreenSize,
+  useScreenSize,
 } from "@animeaux/ui-library";
 import * as React from "react";
 import { FaTag, FaUser } from "react-icons/fa";
 
-export function Navigation() {
+type NavigationProps = {
+  hideOnSmallScreen?: boolean;
+};
+
+export function Navigation({ hideOnSmallScreen = false }: NavigationProps) {
+  const { screenSize } = useScreenSize();
+
+  if (hideOnSmallScreen && screenSize === ScreenSize.SMALL) {
+    return null;
+  }
+
   return (
     <BaseNavigation>
       <NavItem>

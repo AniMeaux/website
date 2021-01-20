@@ -11,18 +11,11 @@ import {
   getErrorMessage,
   hasErrorCode,
 } from "@animeaux/shared-entities";
-import {
-  Header,
-  HeaderBackLink,
-  HeaderPlaceholder,
-  HeaderTitle,
-  Main,
-  Message,
-  Placeholder,
-  resolveUrl,
-} from "@animeaux/ui-library";
+import { Main, Message, Placeholder, resolveUrl } from "@animeaux/ui-library";
 import { useRouter } from "next/router";
 import * as React from "react";
+import { Header } from "../../../core/header";
+import { Navigation } from "../../../core/navigation";
 
 export default function AnimalBreedEditPage() {
   const router = useRouter();
@@ -93,12 +86,7 @@ export default function AnimalBreedEditPage() {
   return (
     <div>
       <PageTitle title={pageTitle} />
-
-      <Header>
-        <HeaderBackLink href=".." />
-        <HeaderTitle>{headerTitle}</HeaderTitle>
-        <HeaderPlaceholder />
-      </Header>
+      <Header headerTitle={headerTitle} canGoBack />
 
       <Main>
         {globalErrorMessgae != null && (
@@ -115,6 +103,8 @@ export default function AnimalBreedEditPage() {
 
         {content}
       </Main>
+
+      <Navigation hideOnSmallScreen />
     </div>
   );
 }

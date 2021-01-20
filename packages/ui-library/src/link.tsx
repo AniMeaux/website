@@ -74,12 +74,13 @@ export type LinkProps = Omit<
 > & {
   // Make it mandatory.
   href: string;
+  refProp?: React.RefObject<HTMLAnchorElement>;
 };
 
 /**
  * Simple Wrapper around Next/Link component to Automatically add the anchor.
  */
-export function Link({ href, ...rest }: LinkProps) {
+export function Link({ href, refProp, ...rest }: LinkProps) {
   const router = useRouter();
   href = resolveUrl(router.asPath, href);
 
@@ -87,7 +88,7 @@ export function Link({ href, ...rest }: LinkProps) {
     <NextLink href={href}>
       {/* The content is passed as children. */}
       {/* eslint-disable-next-line jsx-a11y/anchor-has-content */}
-      <a {...rest} />
+      <a {...rest} ref={refProp} />
     </NextLink>
   );
 }

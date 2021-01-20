@@ -13,11 +13,6 @@ import {
 } from "@animeaux/shared-entities";
 import {
   ButtonWithConfirmation,
-  Header,
-  HeaderBackLink,
-  HeaderLink,
-  HeaderPlaceholder,
-  HeaderTitle,
   Item,
   ItemContent,
   ItemIcon,
@@ -35,6 +30,8 @@ import {
 import { useRouter } from "next/router";
 import * as React from "react";
 import { FaEnvelope, FaPen } from "react-icons/fa";
+import { Header } from "../../../core/header";
+import { Navigation } from "../../../core/navigation";
 
 function ProfileSection({ user }: { user: User }) {
   return (
@@ -271,18 +268,19 @@ export default function UserPage() {
     <div>
       <PageTitle title={pageTitle} />
 
-      <Header>
-        <HeaderBackLink href=".." />
-        <HeaderTitle>{headerTitle}</HeaderTitle>
-
-        {user != null ? (
-          <HeaderLink href="./edit">
-            <FaPen />
-          </HeaderLink>
-        ) : (
-          <HeaderPlaceholder />
-        )}
-      </Header>
+      <Header
+        headerTitle={headerTitle}
+        canGoBack
+        action={
+          user == null
+            ? undefined
+            : {
+                href: "./edit",
+                icon: FaPen,
+                label: "Modifier",
+              }
+        }
+      />
 
       <Main>
         {updateSucceeded && (
@@ -299,6 +297,8 @@ export default function UserPage() {
 
         {content}
       </Main>
+
+      <Navigation hideOnSmallScreen />
     </div>
   );
 }

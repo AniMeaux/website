@@ -1,24 +1,20 @@
 import {
   PageTitle,
   useAllUsers,
-  useCurrentUser,
   UserItemPlaceholder,
   UserLinkItem,
 } from "@animeaux/app-core";
 import { getErrorMessage, User } from "@animeaux/shared-entities";
 import {
   EmptyMessage,
-  Header,
-  HeaderLink,
-  HeaderTitle,
   Main,
   Message,
   Placeholders,
-  UserAvatar,
 } from "@animeaux/ui-library";
 import { useRouter } from "next/router";
 import * as React from "react";
 import { FaPlus } from "react-icons/fa";
+import { Header } from "../../core/header";
 import { Navigation } from "../../core/navigation";
 
 function LoadingRows() {
@@ -58,11 +54,10 @@ export default function UserListPage() {
   const deleteSucceeded = router.query.deleteSucceeded != null;
   const creationSucceeded = router.query.creationSucceeded != null;
 
-  const { currentUser } = useCurrentUser();
   const [users, usersRequest] = useAllUsers();
 
   let content: React.ReactNode | null = null;
-  let userCount: React.ReactNode | null = null;
+  let userCount: string = "";
 
   if (users != null) {
     userCount = `(${users.length})`;
@@ -75,16 +70,16 @@ export default function UserListPage() {
     <div>
       <PageTitle title="Utilisateurs" />
 
-      <Header>
-        <UserAvatar user={currentUser} />
-        <HeaderTitle>Utilisateurs {userCount}</HeaderTitle>
+      <Header
+        headerTitle={`Utilisateurs ${userCount}`}
+        action={{
+          href: "./new",
+          icon: FaPlus,
+          label: "Créer un utilisateur",
+        }}
+      />
 
-        <HeaderLink href="./new">
-          <FaPlus />
-        </HeaderLink>
-      </Header>
-
-      <Main hasNavigation>
+      <Main>
         {usersRequest.error != null && (
           <Message type="error" className="mx-4 mb-4">
             {getErrorMessage(usersRequest.error)}

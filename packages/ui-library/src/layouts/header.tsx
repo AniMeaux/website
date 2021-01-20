@@ -1,28 +1,58 @@
 import cn from "classnames";
 import * as React from "react";
 import { FaArrowLeft } from "react-icons/fa";
-import { ButtonClassName } from "../button";
-import { Link, LinkProps } from "../link";
+import { ButtonLink, ButtonLinkProps } from "../button";
+import { ScreenSize, useScreenSize } from "../screenSize";
+import { UserAvatar, UserAvatarProps } from "../userAvatar";
+import { useApplicationLayout } from "./applicationLayout";
 
-export function HeaderLink({ className, ...rest }: LinkProps) {
+export function HeaderButtonLink(props: ButtonLinkProps) {
+  return <ButtonLink {...props} />;
+}
+
+export function HeaderBackLink(props: Omit<ButtonLinkProps, "iconOnly">) {
   return (
-    <Link
-      {...rest}
-      className={cn(
-        "a11y-focus w-10 h-10 flex-none rounded-full flex items-center justify-center",
-        ButtonClassName.secondary.default.base,
-        ButtonClassName.secondary.default.enabled,
-        className
-      )}
-    />
+    <HeaderButtonLink {...props} iconOnly>
+      <FaArrowLeft />
+    </HeaderButtonLink>
   );
 }
 
-export function HeaderBackLink(props: LinkProps) {
+export type HeaderApplicationNameProps = React.HTMLAttributes<
+  HTMLSpanElement
+> & {
+  logo: React.ElementType;
+  applicationName: string;
+};
+
+export function HeaderApplicationName({
+  logo: Logo,
+  applicationName,
+  className,
+  ...rest
+}: HeaderApplicationNameProps) {
+  const { isNavigationCollapsed } = useApplicationLayout();
+
   return (
-    <HeaderLink {...props}>
-      <FaArrowLeft />
-    </HeaderLink>
+    <span
+      {...rest}
+      className={cn(
+        "flex items-center",
+        {
+          "w-18 justify-center": isNavigationCollapsed,
+          "w-64 px-4": !isNavigationCollapsed,
+        },
+        className
+      )}
+    >
+      <Logo className="flex-none w-10 h-10" />
+
+      {!isNavigationCollapsed && (
+        <span className="ml-2 flex-1 min-w-0 truncate font-serif text-xl tracking-wider">
+          {applicationName}
+        </span>
+      )}
+    </span>
   );
 }
 
@@ -36,15 +66,40 @@ export function HeaderTitle({
     <h1
       {...rest}
       className={cn(
-        "mx-2 flex-1 min-w-0 truncate text-center md:text-left font-bold font-serif",
+        "flex-1 min-w-0 px-4 truncate text-center md:text-left font-bold font-serif",
         className
       )}
     />
   );
 }
 
-export function HeaderPlaceholder() {
+export function HeaderUserAvatar({
+  user,
+  className,
+  ...rest
+}: UserAvatarProps) {
+  const { screenSize } = useScreenSize();
+
+  return (
+    <span className={cn("flex-none px-4 flex items-center", className)}>
+      {screenSize > ScreenSize.SMALL && (
+        <span className="mr-2">{user.displayName}</span>
+      )}
+
+      <UserAvatar {...rest} user={user} />
+    </span>
+  );
+}
+
+export function HeaderIconOnlyLinkPlaceholder() {
   return <span className="flex-none w-10" />;
+}
+
+export function HeaderGroup({
+  className,
+  ...rest
+}: React.HTMLAttributes<HTMLSpanElement>) {
+  return <span {...rest} className={cn("px-4", className)} />;
 }
 
 export function Header({
@@ -55,7 +110,7 @@ export function Header({
     <header
       {...rest}
       className={cn(
-        "z-20 sticky top-0 w-full h-16 flex-none border-b bg-white px-4 flex items-center justify-between",
+        "z-20 sticky top-0 w-full h-16 flex-none border-b bg-white flex items-center",
         className
       )}
     />

@@ -9,17 +9,11 @@ import {
   getErrorMessage,
   hasErrorCode,
 } from "@animeaux/shared-entities";
-import {
-  Header,
-  HeaderBackLink,
-  HeaderPlaceholder,
-  HeaderTitle,
-  Main,
-  Message,
-  resolveUrl,
-} from "@animeaux/ui-library";
+import { Main, Message, resolveUrl } from "@animeaux/ui-library";
 import { useRouter } from "next/router";
 import * as React from "react";
+import { Header } from "../../core/header";
+import { Navigation } from "../../core/navigation";
 
 export default function CreateAnimalBreedPage() {
   const router = useRouter();
@@ -58,12 +52,7 @@ export default function CreateAnimalBreedPage() {
   return (
     <div>
       <PageTitle title="Nouvelle race" />
-
-      <Header>
-        <HeaderBackLink href=".." />
-        <HeaderTitle>Nouvelle race</HeaderTitle>
-        <HeaderPlaceholder />
-      </Header>
+      <Header headerTitle="Nouvelle race" canGoBack />
 
       <Main>
         {globalErrorMessgae != null && (
@@ -78,6 +67,8 @@ export default function CreateAnimalBreedPage() {
           errors={errors}
         />
       </Main>
+
+      <Navigation hideOnSmallScreen />
     </div>
   );
 }

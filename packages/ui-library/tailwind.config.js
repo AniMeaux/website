@@ -126,6 +126,9 @@ module.exports = {
           900: "#003939",
         },
       },
+      spacing: {
+        ...base12,
+      },
       fontFamily: {
         sans: ["Roboto"].concat(fontFamily.sans),
         serif: ['"Open Sans"'].concat(fontFamily.serif),
@@ -178,6 +181,9 @@ module.exports = {
       },
       maxHeight: {
         ...base12,
+      },
+      width: {
+        "18": "4.5rem",
       },
       height: {
         ...base12,

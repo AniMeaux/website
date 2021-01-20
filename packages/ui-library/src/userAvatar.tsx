@@ -2,7 +2,7 @@ import { User } from "@animeaux/shared-entities";
 import * as React from "react";
 import { Avatar, AvatarProps } from "./avatar";
 
-type UserAvatarProps = AvatarProps & {
+export type UserAvatarProps = AvatarProps & {
   user: User;
 };
 

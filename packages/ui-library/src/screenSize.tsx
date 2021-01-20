@@ -31,9 +31,7 @@ function getScreenSize() {
 
 export function ScreenSizeContextProvider({
   children,
-}: {
-  children?: React.ReactNode;
-}) {
+}: React.PropsWithChildren<{}>) {
   const [screenSize, setScreenSize] = React.useState(getScreenSize);
 
   React.useEffect(() => {

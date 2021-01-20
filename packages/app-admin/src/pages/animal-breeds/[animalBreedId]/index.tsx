@@ -10,11 +10,6 @@ import {
 } from "@animeaux/shared-entities";
 import {
   ButtonWithConfirmation,
-  Header,
-  HeaderBackLink,
-  HeaderLink,
-  HeaderPlaceholder,
-  HeaderTitle,
   Item,
   ItemContent,
   ItemIcon,
@@ -30,6 +25,8 @@ import {
 import { useRouter } from "next/router";
 import * as React from "react";
 import { FaDna, FaPen } from "react-icons/fa";
+import { Header } from "../../../core/header";
+import { Navigation } from "../../../core/navigation";
 
 function DetailsSection({ animalBreed }: { animalBreed: AnimalBreed }) {
   return (
@@ -168,18 +165,19 @@ export default function AnimalBreedPage() {
     <div>
       <PageTitle title={pageTitle} />
 
-      <Header>
-        <HeaderBackLink href=".." />
-        <HeaderTitle>{headerTitle}</HeaderTitle>
-
-        {animalBreed != null ? (
-          <HeaderLink href="./edit">
-            <FaPen />
-          </HeaderLink>
-        ) : (
-          <HeaderPlaceholder />
-        )}
-      </Header>
+      <Header
+        headerTitle={headerTitle}
+        canGoBack
+        action={
+          animalBreed == null
+            ? undefined
+            : {
+                href: "./edit",
+                icon: FaPen,
+                label: "Modifier",
+              }
+        }
+      />
 
       <Main>
         {updateSucceeded && (
@@ -196,6 +194,8 @@ export default function AnimalBreedPage() {
 
         {content}
       </Main>
+
+      <Navigation hideOnSmallScreen />
     </div>
   );
 }

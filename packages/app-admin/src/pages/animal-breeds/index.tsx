@@ -13,17 +13,14 @@ import {
 import {
   Button,
   EmptyMessage,
-  Header,
-  HeaderLink,
-  HeaderTitle,
   Main,
   Message,
   Placeholders,
-  UserAvatar,
 } from "@animeaux/ui-library";
 import { useRouter } from "next/router";
 import * as React from "react";
 import { FaPlus } from "react-icons/fa";
+import { Header } from "../../core/header";
 import { Navigation } from "../../core/navigation";
 
 function LoadingRows() {
@@ -75,7 +72,7 @@ export default function AnimalBreedListPage() {
   const [animalBreedsPages, animalBreedsPagesRequest] = useAllAnimalBreeds();
 
   let content: React.ReactNode | null = null;
-  let animalBreedsCount: React.ReactNode | null = null;
+  let animalBreedsCount: string = "";
 
   if (animalBreedsPages != null) {
     // There is allways at least one page.
@@ -89,16 +86,16 @@ export default function AnimalBreedListPage() {
     <div>
       <PageTitle title="Races" />
 
-      <Header>
-        <UserAvatar user={currentUser} />
-        <HeaderTitle>Races {animalBreedsCount}</HeaderTitle>
+      <Header
+        headerTitle={`Races ${animalBreedsCount}`}
+        action={{
+          href: "./new",
+          icon: FaPlus,
+          label: "Créer une race",
+        }}
+      />
 
-        <HeaderLink href="./new">
-          <FaPlus />
-        </HeaderLink>
-      </Header>
-
-      <Main hasNavigation>
+      <Main>
         {animalBreedsPagesRequest.error != null && (
           <Message type="error" className="mx-4 mb-4">
             {getErrorMessage(animalBreedsPagesRequest.error)}

@@ -52,7 +52,7 @@ export function SignInPage({ logo: Logo }: SignInPageProps) {
   const pending = signInState.value || signInState.pending;
 
   return (
-    <main className="pt-screen-3/10 md:pt-0 md:w-screen md:h-screen flex flex-col justify-center">
+    <main className="pt-screen-3/10 flex flex-col justify-center">
       {pending && <ProgressBar />}
 
       <div className="relative mx-auto w-full max-w-md px-4 flex flex-col">
