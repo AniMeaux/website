@@ -4,7 +4,7 @@ import {
   CreateAnimalBreedPayload,
   CreateHostFamilyPayload,
   CreateUserPayload,
-  DBAnimalBreed,
+  AnimalBreed,
   DBHostFamily,
   DBUserFromAuth,
   DBUserFromStore,
@@ -346,14 +346,14 @@ export const FirebaseDatabase: Database = {
 
   async getAllAnimalBreeds(
     filters: AnimalBreedFilters
-  ): Promise<PaginatedResponse<DBAnimalBreed>> {
+  ): Promise<PaginatedResponse<AnimalBreed>> {
     const facetFilters: string[] = [];
 
     if (filters.species != null) {
       facetFilters.push(`species:${filters.species}`);
     }
 
-    const result = await AnimalBreedsIndex.search<DBAnimalBreed>(
+    const result = await AnimalBreedsIndex.search<AnimalBreed>(
       filters.search ?? "",
       {
         page: filters.page ?? 0,
@@ -369,20 +369,20 @@ export const FirebaseDatabase: Database = {
     };
   },
 
-  async getAnimalBreed(id: string): Promise<DBAnimalBreed | null> {
+  async getAnimalBreed(id: string): Promise<AnimalBreed | null> {
     const animalBreedSnapshot = await admin
       .firestore()
       .collection("animalBreeds")
       .doc(id)
       .get();
 
-    return (animalBreedSnapshot.data() as DBAnimalBreed) ?? null;
+    return (animalBreedSnapshot.data() as AnimalBreed) ?? null;
   },
 
   async createAnimalBreed({
     name,
     species,
-  }: CreateAnimalBreedPayload): Promise<DBAnimalBreed> {
+  }: CreateAnimalBreedPayload): Promise<AnimalBreed> {
     name = name.trim();
     if (name === "") {
       throw new UserInputError(ErrorCode.ANIMAL_BREED_MISSING_NAME);
@@ -390,7 +390,7 @@ export const FirebaseDatabase: Database = {
 
     await assertAnimalBreedNameNotUsed(name, species);
 
-    const animalBreed: DBAnimalBreed = {
+    const animalBreed: AnimalBreed = {
       id: uuid(),
       name,
       species,
@@ -414,13 +414,13 @@ export const FirebaseDatabase: Database = {
     id,
     name,
     species,
-  }: UpdateAnimalBreedPayload): Promise<DBAnimalBreed> {
+  }: UpdateAnimalBreedPayload): Promise<AnimalBreed> {
     const animalBreed = await FirebaseDatabase.getAnimalBreed(id);
     if (animalBreed == null) {
       throw new UserInputError(ErrorCode.ANIMAL_BREED_NOT_FOUND);
     }
 
-    const payload: Partial<DBAnimalBreed> = {};
+    const payload: Partial<AnimalBreed> = {};
 
     if (name != null) {
       name = name.trim();

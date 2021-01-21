@@ -3,7 +3,7 @@ import {
   CreateAnimalBreedPayload,
   CreateHostFamilyPayload,
   CreateUserPayload,
-  DBAnimalBreed,
+  AnimalBreed,
   DBHostFamily,
   HostFamilyFilters,
   PaginatedResponse,
@@ -30,10 +30,10 @@ export type Database = {
 
   getAllAnimalBreeds(
     filters: AnimalBreedFilters
-  ): Promise<PaginatedResponse<DBAnimalBreed>>;
-  getAnimalBreed(id: string): Promise<DBAnimalBreed | null>;
-  createAnimalBreed(payload: CreateAnimalBreedPayload): Promise<DBAnimalBreed>;
-  updateAnimalBreed(payload: UpdateAnimalBreedPayload): Promise<DBAnimalBreed>;
+  ): Promise<PaginatedResponse<AnimalBreed>>;
+  getAnimalBreed(id: string): Promise<AnimalBreed | null>;
+  createAnimalBreed(payload: CreateAnimalBreedPayload): Promise<AnimalBreed>;
+  updateAnimalBreed(payload: UpdateAnimalBreedPayload): Promise<AnimalBreed>;
   deleteAnimalBreed(id: string): Promise<boolean>;
 
   //// Host Family /////////////////////////////////////////////////////////////

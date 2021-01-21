@@ -3,7 +3,6 @@ import {
   AnimalBreedItemPlaceholder,
   PageTitle,
   useAllAnimalBreeds,
-  useCurrentUser,
 } from "@animeaux/app-core";
 import {
   AnimalBreed,
@@ -68,7 +67,6 @@ export default function AnimalBreedListPage() {
   const deleteSucceeded = router.query.deleteSucceeded != null;
   const creationSucceeded = router.query.creationSucceeded != null;
 
-  const { currentUser } = useCurrentUser();
   const [animalBreedsPages, animalBreedsPagesRequest] = useAllAnimalBreeds();
 
   let content: React.ReactNode | null = null;
