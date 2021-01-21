@@ -1,2 +1,2 @@
 // Keep it simple to support all emails format: a@a.a
-export const EMAIL_PATTERN = /.+@.+\..+/;
+export const EMAIL_PATTERN = /^\S+@\S+\.\S+$/;
