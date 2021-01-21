@@ -7,6 +7,7 @@ export enum UserGroup {
   ANIMAL_MANAGER = "ANIMAL_MANAGER",
   BLOGGER = "BLOGGER",
   HEAD_OF_PARTNERSHIPS = "HEAD_OF_PARTNERSHIPS",
+  VETERINARIAN = "VETERINARIAN",
 }
 
 export const UserGroupLabels: {
@@ -16,6 +17,7 @@ export const UserGroupLabels: {
   [UserGroup.ANIMAL_MANAGER]: "Sociables mais de loin",
   [UserGroup.BLOGGER]: "Redacteur",
   [UserGroup.HEAD_OF_PARTNERSHIPS]: "Partenariat",
+  [UserGroup.VETERINARIAN]: "Vétérinaire",
 };
 
 export function sortGroupsByLabel(groups: UserGroup[]) {

@@ -17,6 +17,7 @@ const typeDefs = gql`
     ANIMAL_MANAGER
     BLOGGER
     HEAD_OF_PARTNERSHIPS
+    VETERINARIAN
   }
 
   directive @auth(groups: [UserGroup!]) on FIELD_DEFINITION
