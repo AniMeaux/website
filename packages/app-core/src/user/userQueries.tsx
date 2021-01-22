@@ -103,7 +103,7 @@ export function useCreateUser(onSuccess?: (user: User) => void) {
         throw new Error(ErrorCode.USER_MISSING_DISPLAY_NAME);
       }
 
-      if (!EMAIL_PATTERN.test(payload.email)) {
+      if (!EMAIL_PATTERN.test(payload.email.trim())) {
         throw new Error(ErrorCode.USER_INVALID_EMAIL);
       }
 
