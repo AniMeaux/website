@@ -16,6 +16,7 @@
   "peerDependencies": {
     "firebase": "*",
     "next": "*",
+    "next-pwa": "*",
     "react": "*",
     "react-icons": "*",
     "react-query": "*"

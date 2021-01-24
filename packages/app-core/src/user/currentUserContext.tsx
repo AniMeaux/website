@@ -7,7 +7,7 @@ import firebase from "firebase/app";
 import { gql } from "graphql-request";
 import invariant from "invariant";
 import * as React from "react";
-import { PageTitle } from "../pageTitle";
+import { PageTitle } from "../page";
 import { fetchGraphQL } from "../request";
 import { SignInPage } from "./signInPage";
 import { UserCore } from "./userQueries";

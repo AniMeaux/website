@@ -7,11 +7,6 @@
     "build": "next build",
     "clean": "rm -rf build",
     "clean-build": "run-s clean build",
-    "format": "prettier --write .",
-    "lint": "run-s lint:*",
-    "lint:format": "prettier --list-different .",
-    "lint:js": "eslint --ext .js,.ts,.tsx .",
-    "lint:ts": "tsc --noEmit",
     "start:prod": "next start -p 3002"
   },
   "dependencies": {
