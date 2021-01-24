@@ -123,18 +123,20 @@ export function AnimalBreedFormPlaceholder() {
   return (
     <Form>
       <Section>
-        <Placeholder preset="text" />
+        <SectionTitle>
+          <Placeholder preset="text" />
+        </SectionTitle>
+
+        <Placeholders count={2}>
+          <Field className="px-2">
+            <Label>
+              <Placeholder preset="label" />
+            </Label>
+
+            <Placeholder preset="input" />
+          </Field>
+        </Placeholders>
       </Section>
-
-      <Placeholders count={2}>
-        <Field className="px-2">
-          <Label>
-            <Placeholder preset="label" />
-          </Label>
-
-          <Placeholder preset="input" />
-        </Field>
-      </Placeholders>
     </Form>
   );
 }
