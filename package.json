@@ -5,12 +5,11 @@
   ],
   "license": "MIT",
   "scripts": {
-    "build": "yarn workspace @animeaux/website build",
     "format": "prettier --write .",
     "lint": "run-s lint:*",
     "lint:format": "prettier --list-different .",
     "lint:js": "eslint --ext .js,.ts,.tsx .",
-    "lint:ts": "tsc --noEmit -p packages/website"
+    "lint:ts": "tsc --noEmit -p packages/shared-entities && tsc --noEmit -p packages/ui-library && tsc --noEmit -p packages/app-core && tsc --noEmit -p packages/api  && tsc --noEmit -p packages/app-admin"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^2.0.0",
