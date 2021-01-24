@@ -25,7 +25,7 @@ export function sortGroupsByLabel(groups: UserGroup[]) {
 }
 
 export const USER_GROUPS_ALPHABETICAL_ORDER = sortGroupsByLabel(
-  Object.keys(UserGroup) as UserGroup[]
+  Object.values(UserGroup)
 );
 
 export type User = {
