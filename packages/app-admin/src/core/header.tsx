@@ -4,7 +4,6 @@ import {
   HeaderApplicationName,
   HeaderBackLink,
   HeaderButtonLink,
-  HeaderGroup,
   HeaderIconOnlyLinkPlaceholder,
   HeaderTitle,
   HeaderUserAvatar,
@@ -44,11 +43,9 @@ export function Header({
         <HeaderTitle>{headerTitle}</HeaderTitle>
 
         {action != null ? (
-          <HeaderGroup>
-            <HeaderButtonLink href={action.href} iconOnly>
-              <action.icon />
-            </HeaderButtonLink>
-          </HeaderGroup>
+          <HeaderButtonLink href={action.href} iconOnly>
+            <action.icon />
+          </HeaderButtonLink>
         ) : (
           <HeaderIconOnlyLinkPlaceholder />
         )}
@@ -68,11 +65,9 @@ export function Header({
       <HeaderTitle>{headerTitle}</HeaderTitle>
 
       {action != null && (
-        <HeaderGroup>
-          <HeaderButtonLink href={action.href} color="blue">
-            {action.label}
-          </HeaderButtonLink>
-        </HeaderGroup>
+        <HeaderButtonLink href={action.href} color="blue">
+          {action.label}
+        </HeaderButtonLink>
       )}
 
       <HeaderUserAvatar user={currentUser} />

@@ -6,8 +6,8 @@ import { ScreenSize, useScreenSize } from "../screenSize";
 import { UserAvatar, UserAvatarProps } from "../userAvatar";
 import { useApplicationLayout } from "./applicationLayout";
 
-export function HeaderButtonLink(props: ButtonLinkProps) {
-  return <ButtonLink {...props} />;
+export function HeaderButtonLink({ className, ...rest }: ButtonLinkProps) {
+  return <ButtonLink {...rest} className={cn("mx-4 flex-none", className)} />;
 }
 
 export function HeaderBackLink(props: Omit<ButtonLinkProps, "iconOnly">) {
@@ -66,7 +66,7 @@ export function HeaderTitle({
     <h1
       {...rest}
       className={cn(
-        "flex-1 min-w-0 px-4 truncate text-center md:text-left font-bold font-serif",
+        "mx-4 flex-1 min-w-0 truncate text-center md:text-left font-bold font-serif",
         className
       )}
     />
@@ -81,7 +81,7 @@ export function HeaderUserAvatar({
   const { screenSize } = useScreenSize();
 
   return (
-    <span className={cn("flex-none px-4 flex items-center", className)}>
+    <span className={cn("mx-4 flex-none flex items-center", className)}>
       {screenSize > ScreenSize.SMALL && (
         <span className="mr-2">{user.displayName}</span>
       )}
@@ -92,14 +92,7 @@ export function HeaderUserAvatar({
 }
 
 export function HeaderIconOnlyLinkPlaceholder() {
-  return <span className="flex-none w-10" />;
-}
-
-export function HeaderGroup({
-  className,
-  ...rest
-}: React.HTMLAttributes<HTMLSpanElement>) {
-  return <span {...rest} className={cn("px-4", className)} />;
+  return <span className="mx-4 w-10 flex-none" />;
 }
 
 export function Header({
