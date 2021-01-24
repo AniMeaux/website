@@ -55,21 +55,17 @@ function DetailsPlaceholderSection() {
         <Placeholder preset="text" />
       </SectionTitle>
 
-      <ul>
-        <li>
-          <Item>
-            <ItemIcon>
-              <Placeholder preset="icon" />
-            </ItemIcon>
+      <Item>
+        <ItemIcon>
+          <Placeholder preset="icon" />
+        </ItemIcon>
 
-            <ItemContent>
-              <ItemMainText>
-                <Placeholder preset="label" />
-              </ItemMainText>
-            </ItemContent>
-          </Item>
-        </li>
-      </ul>
+        <ItemContent>
+          <ItemMainText>
+            <Placeholder preset="label" />
+          </ItemMainText>
+        </ItemContent>
+      </Item>
     </Section>
   );
 }
@@ -182,7 +178,7 @@ export default function AnimalBreedPage() {
       <Main>
         {updateSucceeded && (
           <Message type="success" className="mx-4 mb-4">
-            La race à bien été modifié
+            La race a bien été modifiée
           </Message>
         )}
 

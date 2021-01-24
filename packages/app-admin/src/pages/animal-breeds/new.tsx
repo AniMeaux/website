@@ -18,7 +18,7 @@ import { Navigation } from "../../core/navigation";
 export default function CreateAnimalBreedPage() {
   const router = useRouter();
   const [createAnimalBreed, createAnimalBreedRequest] = useCreateAnimalBreed(
-    (animalBreed) => {
+    () => {
       router.push(resolveUrl(router.asPath, "../?creationSucceeded"));
     }
   );

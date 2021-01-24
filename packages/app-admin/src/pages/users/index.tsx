@@ -88,13 +88,13 @@ export default function UserListPage() {
 
         {deleteSucceeded && (
           <Message type="success" className="mx-4 mb-4">
-            L'utilisateur à bien été supprimée
+            L'utilisateur a bien été supprimé
           </Message>
         )}
 
         {creationSucceeded && (
           <Message type="success" className="mx-4 mb-4">
-            L'utilisateur à bien été créé
+            L'utilisateur a bien été créé
           </Message>
         )}
 

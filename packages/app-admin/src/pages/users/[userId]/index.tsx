@@ -285,7 +285,7 @@ export default function UserPage() {
       <Main>
         {updateSucceeded && (
           <Message type="success" className="mx-4 mb-4">
-            L'utilisateur à bien été modifié
+            L'utilisateur a bien été modifié
           </Message>
         )}
 

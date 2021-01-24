@@ -102,13 +102,13 @@ export default function AnimalBreedListPage() {
 
         {deleteSucceeded && (
           <Message type="success" className="mx-4 mb-4">
-            La race à bien été supprimée
+            La race a bien été supprimée
           </Message>
         )}
 
         {creationSucceeded && (
           <Message type="success" className="mx-4 mb-4">
-            La race à bien été créé
+            La race a bien été créée
           </Message>
         )}
 

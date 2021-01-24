@@ -17,7 +17,7 @@ import { Navigation } from "../../core/navigation";
 
 export default function CreateUserPage() {
   const router = useRouter();
-  const [createUser, createUserRequest] = useCreateUser((user) => {
+  const [createUser, createUserRequest] = useCreateUser(() => {
     router.push(resolveUrl(router.asPath, "../?creationSucceeded"));
   });
 
