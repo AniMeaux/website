@@ -4,6 +4,7 @@ import "@animeaux/ui-library/styles.css";
 
 import {
   CurrentUserContextProvider,
+  initializeGraphQlClient,
   RequestContextProvider,
 } from "@animeaux/app-core";
 import { UserGroup } from "@animeaux/shared-entities";
@@ -19,6 +20,7 @@ import { initFirebase } from "../core/initFirebase";
 import { PageComponent } from "../core/pageComponent";
 
 initFirebase();
+initializeGraphQlClient(process.env.NEXT_PUBLIC_API_URL);
 
 export function PageHead() {
   return (
@@ -91,6 +93,7 @@ export default function App({ Component, pageProps }: AppProps) {
           <ApplicationLayout>
             <CurrentUserContextProvider
               logo={Logo}
+              applicationName={process.env.NEXT_PUBLIC_APP_SHORT_NAME}
               authorisedGroups={[UserGroup.ADMIN]}
             >
               {children}

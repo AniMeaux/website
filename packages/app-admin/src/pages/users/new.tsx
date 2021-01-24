@@ -1,9 +1,4 @@
-import {
-  PageTitle,
-  useCreateUser,
-  UserForm,
-  UserFormErrors,
-} from "@animeaux/app-core";
+import { useCreateUser, UserForm, UserFormErrors } from "@animeaux/app-core";
 import {
   ErrorCode,
   getErrorMessage,
@@ -14,6 +9,7 @@ import { useRouter } from "next/router";
 import * as React from "react";
 import { Header } from "../../core/header";
 import { Navigation } from "../../core/navigation";
+import { PageTitle } from "../../core/pageTitle";
 
 export default function CreateUserPage() {
   const router = useRouter();

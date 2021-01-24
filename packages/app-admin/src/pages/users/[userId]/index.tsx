@@ -1,5 +1,4 @@
 import {
-  PageTitle,
   useCurrentUser,
   useDeleteUser,
   useToggleUserBlockedStatus,
@@ -32,6 +31,7 @@ import * as React from "react";
 import { FaEnvelope, FaPen } from "react-icons/fa";
 import { Header } from "../../../core/header";
 import { Navigation } from "../../../core/navigation";
+import { PageTitle } from "../../../core/pageTitle";
 
 function ProfileSection({ user }: { user: User }) {
   return (

@@ -97,11 +97,13 @@ type UserState = {
 export type CurrentUserContextProviderProps = React.PropsWithChildren<{
   authorisedGroups: UserGroup[];
   logo: React.ElementType;
+  applicationName: string;
 }>;
 
 export function CurrentUserContextProvider({
   authorisedGroups,
   logo: Logo,
+  applicationName,
   children,
 }: CurrentUserContextProviderProps) {
   const [{ hasResult, currentUser }, setState] = React.useState<UserState>({
@@ -150,8 +152,8 @@ export function CurrentUserContextProvider({
   if (currentUser == null) {
     return (
       <>
-        <PageTitle title="Connection" />
-        <SignInPage logo={Logo} />
+        <PageTitle title="Connection" applicationName={applicationName} />
+        <SignInPage logo={Logo} applicationName={applicationName} />
       </>
     );
   }

@@ -3,14 +3,13 @@ import * as React from "react";
 
 export type PageTitleProps = {
   title?: string | null;
+  applicationName: string;
 };
 
-export function PageTitle({ title }: PageTitleProps) {
-  const pageTitle = title ?? process.env.NEXT_PUBLIC_APP_NAME;
-
+export function PageTitle({ title, applicationName }: PageTitleProps) {
   return (
     <Head>
-      <title>{pageTitle}</title>
+      <title>{title ?? applicationName}</title>
     </Head>
   );
 }

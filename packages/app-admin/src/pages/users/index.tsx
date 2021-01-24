@@ -1,5 +1,4 @@
 import {
-  PageTitle,
   useAllUsers,
   UserItemPlaceholder,
   UserLinkItem,
@@ -16,6 +15,7 @@ import * as React from "react";
 import { FaPlus } from "react-icons/fa";
 import { Header } from "../../core/header";
 import { Navigation } from "../../core/navigation";
+import { PageTitle } from "../../core/pageTitle";
 
 function LoadingRows() {
   return (

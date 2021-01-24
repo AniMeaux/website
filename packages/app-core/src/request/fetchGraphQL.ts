@@ -1,8 +1,15 @@
 import { ErrorCode } from "@animeaux/shared-entities";
 import firebase from "firebase/app";
 import { GraphQLClient } from "graphql-request";
+import invariant from "invariant";
 
-const graphQlClient = new GraphQLClient(process.env.NEXT_PUBLIC_API_URL);
+let graphQlClient: GraphQLClient | null;
+
+export function initializeGraphQlClient(apiUrl: string) {
+  if (graphQlClient == null) {
+    graphQlClient = new GraphQLClient(apiUrl);
+  }
+}
 
 type fetchGraphQLOptions<Variables> = {
   variables?: Variables;
@@ -13,6 +20,11 @@ export async function fetchGraphQL<DataType = null, Variables = object>(
   { variables }: fetchGraphQLOptions<Variables> = {}
 ): Promise<DataType> {
   async function fetchWithHeaders() {
+    invariant(
+      graphQlClient != null,
+      "initializeGraphQlClient should be called before any call to fetchGraphQL."
+    );
+
     graphQlClient.setHeaders({
       Authorisation: `Bearer ${localStorage.getItem("token")}`,
     });

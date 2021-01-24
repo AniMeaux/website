@@ -1,5 +1,4 @@
 import {
-  PageTitle,
   UserForm,
   UserFormErrors,
   UserFormPlaceholder,
@@ -16,6 +15,7 @@ import { useRouter } from "next/router";
 import * as React from "react";
 import { Header } from "../../../core/header";
 import { Navigation } from "../../../core/navigation";
+import { PageTitle } from "../../../core/pageTitle";
 
 export default function UserEditPage() {
   const router = useRouter();

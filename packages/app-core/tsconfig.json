@@ -16,5 +16,5 @@
     "declaration": true,
     "outDir": "build"
   },
-  "include": ["src", "globals.d.ts"]
+  "include": ["src"]
 }

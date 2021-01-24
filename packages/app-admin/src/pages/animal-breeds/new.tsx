@@ -1,7 +1,6 @@
 import {
   AnimalBreedForm,
   AnimalBreedFormErrors,
-  PageTitle,
   useCreateAnimalBreed,
 } from "@animeaux/app-core";
 import {
@@ -14,6 +13,7 @@ import { useRouter } from "next/router";
 import * as React from "react";
 import { Header } from "../../core/header";
 import { Navigation } from "../../core/navigation";
+import { PageTitle } from "../../core/pageTitle";
 
 export default function CreateAnimalBreedPage() {
   const router = useRouter();
