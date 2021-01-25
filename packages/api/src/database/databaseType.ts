@@ -13,11 +13,11 @@ import {
   User,
 } from "@animeaux/shared-entities";
 
-export type Database = {
+export type DatabaseCore = {
   initialize(): void;
+};
 
-  //// User ////////////////////////////////////////////////////////////////////
-
+export type UserDatabase = {
   getUserForQueryContext(token: string): Promise<User | null>;
   getAllUsers(): Promise<User[]>;
   getUser(id: string): Promise<User | null>;
@@ -25,9 +25,9 @@ export type Database = {
   updateUser(currentUser: User, payload: UpdateUserPayload): Promise<User>;
   deleteUser(currentUser: User, id: string): Promise<boolean>;
   toggleUserBlockedStatus(currentUser: User, id: string): Promise<User>;
+};
 
-  //// Animal Breed ////////////////////////////////////////////////////////////
-
+export type AnimalBreedDatabase = {
   getAllAnimalBreeds(
     filters: AnimalBreedFilters
   ): Promise<PaginatedResponse<AnimalBreed>>;
@@ -35,9 +35,9 @@ export type Database = {
   createAnimalBreed(payload: CreateAnimalBreedPayload): Promise<AnimalBreed>;
   updateAnimalBreed(payload: UpdateAnimalBreedPayload): Promise<AnimalBreed>;
   deleteAnimalBreed(id: string): Promise<boolean>;
+};
 
-  //// Host Family /////////////////////////////////////////////////////////////
-
+export type HostFamilyDatabase = {
   getAllHostFamilies(
     filters: HostFamilyFilters
   ): Promise<PaginatedResponse<DBHostFamily>>;
@@ -46,3 +46,8 @@ export type Database = {
   updateHostFamily(payload: UpdateHostFamilyPayload): Promise<DBHostFamily>;
   deleteHostFamily(id: string): Promise<boolean>;
 };
+
+export type Database = DatabaseCore &
+  UserDatabase &
+  AnimalBreedDatabase &
+  HostFamilyDatabase;

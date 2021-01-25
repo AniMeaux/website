@@ -1,1 +1,1 @@
-export { FirebaseDatabase as database } from "./firebaseDatabase";
+export { firebaseDatabase as database } from "./implementations/firebase";
