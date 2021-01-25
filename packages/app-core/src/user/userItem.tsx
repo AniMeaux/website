@@ -9,9 +9,9 @@ import {
   LinkItem,
   LinkItemProps,
   Placeholder,
-  UserAvatar,
 } from "@animeaux/ui-library";
 import * as React from "react";
+import { UserAvatar } from "./userAvatar";
 
 export function UserItemPlaceholder() {
   return (

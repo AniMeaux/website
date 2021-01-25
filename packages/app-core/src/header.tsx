@@ -5,12 +5,26 @@ import {
   HeaderButtonLink,
   HeaderIconOnlyLinkPlaceholder,
   HeaderTitle,
-  HeaderUserAvatar,
   ScreenSize,
   useScreenSize,
 } from "@animeaux/ui-library";
+import cn from "classnames";
 import * as React from "react";
-import { useCurrentUser } from "./user";
+import { useCurrentUser, UserAvatar, UserAvatarProps } from "./user";
+
+function HeaderUserAvatar({ user, className, ...rest }: UserAvatarProps) {
+  const { screenSize } = useScreenSize();
+
+  return (
+    <span className={cn("mx-4 flex-none flex items-center", className)}>
+      {screenSize > ScreenSize.SMALL && (
+        <span className="mr-2">{user.displayName}</span>
+      )}
+
+      <UserAvatar {...rest} user={user} />
+    </span>
+  );
+}
 
 export type HeaderProps = {
   headerTitle: React.ReactNode;

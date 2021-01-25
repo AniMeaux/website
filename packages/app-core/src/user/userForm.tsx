@@ -22,10 +22,10 @@ import {
   Section,
   SectionTitle,
   Separator,
-  UserGroupIcon,
 } from "@animeaux/ui-library";
 import * as React from "react";
 import { FaEnvelope, FaLock, FaUser } from "react-icons/fa";
+import { UserGroupIcon } from "./userGroupIcon";
 
 export type UserFormErrors = {
   displayName?: string | null;

@@ -1,6 +1,7 @@
 import {
   useCurrentUser,
   useDeleteUser,
+  UserGroupIcon,
   useToggleUserBlockedStatus,
   useUser,
 } from "@animeaux/app-core";
@@ -24,7 +25,6 @@ import {
   Section,
   SectionTitle,
   Separator,
-  UserGroupIcon,
 } from "@animeaux/ui-library";
 import { useRouter } from "next/router";
 import * as React from "react";

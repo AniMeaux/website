@@ -1,6 +1,6 @@
 import { User } from "@animeaux/shared-entities";
+import { Avatar, AvatarProps } from "@animeaux/ui-library";
 import * as React from "react";
-import { Avatar, AvatarProps } from "./avatar";
 
 export type UserAvatarProps = AvatarProps & {
   user: User;

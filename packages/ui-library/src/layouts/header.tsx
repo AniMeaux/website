@@ -2,8 +2,6 @@ import cn from "classnames";
 import * as React from "react";
 import { FaArrowLeft } from "react-icons/fa";
 import { ButtonLink, ButtonLinkProps } from "../button";
-import { ScreenSize, useScreenSize } from "../screenSize";
-import { UserAvatar, UserAvatarProps } from "../userAvatar";
 import { useApplicationLayout } from "./applicationLayout";
 
 export function HeaderButtonLink({ className, ...rest }: ButtonLinkProps) {
@@ -70,24 +68,6 @@ export function HeaderTitle({
         className
       )}
     />
-  );
-}
-
-export function HeaderUserAvatar({
-  user,
-  className,
-  ...rest
-}: UserAvatarProps) {
-  const { screenSize } = useScreenSize();
-
-  return (
-    <span className={cn("mx-4 flex-none flex items-center", className)}>
-      {screenSize > ScreenSize.SMALL && (
-        <span className="mr-2">{user.displayName}</span>
-      )}
-
-      <UserAvatar {...rest} user={user} />
-    </span>
   );
 }
 
