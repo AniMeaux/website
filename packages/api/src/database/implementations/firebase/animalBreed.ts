@@ -13,6 +13,7 @@ import isEmpty from "lodash.isempty";
 import { v4 as uuid } from "uuid";
 import { AlgoliaClient } from "../../algoliaClient";
 import { AnimalBreedDatabase } from "../../databaseType";
+import { SearchFilters } from "../../searchFilters";
 
 const AnimalBreedsIndex = AlgoliaClient.initIndex("animalBreeds");
 
@@ -36,17 +37,19 @@ export const animalBreedDatabase: AnimalBreedDatabase = {
   async getAllAnimalBreeds(
     filters: AnimalBreedFilters
   ): Promise<PaginatedResponse<AnimalBreed>> {
-    const facetFilters: string[] = [];
+    const searchFilters: string[] = [];
 
     if (filters.species != null) {
-      facetFilters.push(`species:${filters.species}`);
+      searchFilters.push(
+        SearchFilters.createFilter("species", filters.species)
+      );
     }
 
     const result = await AnimalBreedsIndex.search<AnimalBreed>(
       filters.search ?? "",
       {
         page: filters.page ?? 0,
-        facetFilters,
+        filters: SearchFilters.and(searchFilters),
       }
     );
 

@@ -123,12 +123,11 @@ export const userDatabase: UserDatabase = {
     groups,
   }: CreateUserPayload): Promise<User> {
     displayName = displayName.trim();
-    email = email.trim();
-
     if (displayName === "") {
       throw new UserInputError(ErrorCode.USER_MISSING_DISPLAY_NAME);
     }
 
+    email = email.trim();
     if (!EMAIL_PATTERN.test(email)) {
       throw new UserInputError(ErrorCode.USER_INVALID_EMAIL);
     }
