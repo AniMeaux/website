@@ -1,15 +1,23 @@
+import { PaginatedResponse } from "@animeaux/shared-entities";
 import { ProgressBar } from "@animeaux/ui-library";
 import invariant from "invariant";
 import * as React from "react";
 import {
+  InfiniteData,
   MutationFunction,
   QueryClient,
   QueryClientProvider,
+  QueryFunction,
+  QueryKey,
+  useInfiniteQuery as useInfiniteQueryReactQuery,
+  UseInfiniteQueryOptions,
+  UseInfiniteQueryResult,
   useIsFetching,
   useMutation as useMutationReactQuery,
   UseMutationOptions,
 } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
+import { Updater } from "react-query/types/core/utils";
 import { NetworkStatus } from "./networkStatus";
 
 export * from "react-query";
@@ -113,4 +121,117 @@ export function useMutation<
   }, [isLoading, setPendingMutationCount]);
 
   return mutation;
+}
+
+export function useInfiniteQuery<
+  TQueryFnData extends PaginatedResponse<any> = PaginatedResponse<unknown>,
+  TError = unknown,
+  TData = TQueryFnData
+>(
+  queryKey: QueryKey,
+  filtersDependecies: React.DependencyList,
+  queryFn: QueryFunction<TQueryFnData>,
+  options?: UseInfiniteQueryOptions<TQueryFnData, TError, TData>
+): UseInfiniteQueryResult<TData, TError> {
+  const isInitialRender = React.useRef(true);
+
+  const query = useInfiniteQueryReactQuery<TQueryFnData, TError, TData>(
+    queryKey,
+    queryFn,
+    {
+      ...options,
+
+      // Return the next page that will be passed as `pageParam` to the
+      // `queryFn` function.
+      getNextPageParam(lastGroup) {
+        if (lastGroup.page < lastGroup.pageCount - 1) {
+          return lastGroup.page + 1;
+        }
+      },
+    }
+  );
+
+  const refetch = query.refetch;
+
+  // We don't add filters to the key to avoid polluting the cache and all the
+  // loading states.
+  React.useEffect(() => {
+    // We don't want to refetch after the inital render because
+    // `useInfiniteQuery` already does it.
+    if (isInitialRender.current) {
+      isInitialRender.current = false;
+    } else {
+      refetch();
+    }
+    // The caller is responsible to set the right `filtersDependecies`.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, filtersDependecies.concat([refetch]));
+
+  return query;
+}
+
+export function updateDataInCache<TData extends { id: string }>(
+  newData: TData
+): Updater<TData[] | null | undefined, TData[] | null> {
+  return (hits) => {
+    if (hits == null) {
+      return null;
+    }
+
+    return hits.map((hit) => (hit.id === newData.id ? newData : hit));
+  };
+}
+
+export function removeDataFromCache<TData extends { id: string }>(
+  id: string
+): Updater<TData[] | null | undefined, TData[] | null> {
+  return (hits) => {
+    if (hits == null) {
+      return null;
+    }
+
+    return hits.filter((hit) => hit.id !== id);
+  };
+}
+
+export function updateDataInInfiniteCache<TData extends { id: string }>(
+  newData: TData
+): Updater<
+  InfiniteData<PaginatedResponse<TData>> | null | undefined,
+  InfiniteData<PaginatedResponse<TData>> | null
+> {
+  return (infiniteData) => {
+    if (infiniteData == null) {
+      return null;
+    }
+
+    return {
+      ...infiniteData,
+      pages: infiniteData.pages.map((page) => ({
+        ...page,
+        hits: page.hits.map((hit) => (hit.id === newData.id ? newData : hit)),
+      })),
+    };
+  };
+}
+
+export function removeDataFromInfiniteCache<TData extends { id: string }>(
+  id: string
+): Updater<
+  InfiniteData<PaginatedResponse<TData>> | null | undefined,
+  InfiniteData<PaginatedResponse<TData>> | null
+> {
+  return (infiniteData) => {
+    if (infiniteData == null) {
+      return null;
+    }
+
+    return {
+      ...infiniteData,
+      pages: infiniteData.pages.map((page) => ({
+        ...page,
+        hits: page.hits.filter((hit) => hit.id !== id),
+      })),
+    };
+  };
 }

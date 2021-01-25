@@ -10,6 +10,8 @@ import {
 import { gql } from "graphql-request";
 import {
   fetchGraphQL,
+  removeDataFromCache,
+  updateDataInCache,
   useMutation,
   useQuery,
   useQueryClient,
@@ -198,14 +200,7 @@ export function useUpdateUser(onSuccess?: (user: User) => void) {
     {
       onSuccess(user) {
         queryClient.setQueryData(["user", user.id], user);
-
-        queryClient.setQueryData<User[] | null>("users", (users) => {
-          if (users == null) {
-            return null;
-          }
-
-          return users.map((u) => (u.id === user.id ? user : u));
-        });
+        queryClient.setQueryData("users", updateDataInCache(user));
 
         if (onSuccess != null) {
           onSuccess(user);
@@ -237,14 +232,7 @@ export function useDeleteUser(onSuccess?: (userId: string) => void) {
     {
       onSuccess(userId) {
         queryClient.removeQueries(["user", userId]);
-
-        queryClient.setQueryData<User[] | null>("users", (users) => {
-          if (users == null) {
-            return null;
-          }
-
-          return users.filter((user) => user.id !== userId);
-        });
+        queryClient.setQueryData("users", removeDataFromCache(userId));
 
         if (onSuccess != null) {
           onSuccess(userId);
@@ -281,14 +269,7 @@ export function useToggleUserBlockedStatus(onSuccess?: (user: User) => void) {
     {
       onSuccess(user) {
         queryClient.setQueryData(["user", user.id], user);
-
-        queryClient.setQueryData<User[] | null>("users", (users) => {
-          if (users == null) {
-            return null;
-          }
-
-          return users.map((u) => (u.id === user.id ? user : u));
-        });
+        queryClient.setQueryData("users", updateDataInCache(user));
 
         if (onSuccess != null) {
           onSuccess(user);

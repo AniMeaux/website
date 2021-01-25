@@ -8,10 +8,10 @@ import {
   UpdateAnimalBreedPayload,
 } from "@animeaux/shared-entities";
 import { gql } from "graphql-request";
-import * as React from "react";
 import {
   fetchGraphQL,
-  InfiniteData,
+  removeDataFromInfiniteCache,
+  updateDataInInfiniteCache,
   useInfiniteQuery,
   useMutation,
   useQuery,
@@ -53,45 +53,19 @@ export function useAllAnimalBreeds({
   search,
   species,
 }: AnimalBreedFilters = {}) {
-  const isInitialRender = React.useRef(true);
-
   const { data, refetch, ...rest } = useInfiniteQuery<
     PaginatedResponse<AnimalBreed>,
     Error
-  >(
-    "animal-breeds",
-    async ({ pageParam = 0 }) => {
-      const { response } = await fetchGraphQL<
-        { response: PaginatedResponse<AnimalBreed> },
-        AnimalBreedFilters
-      >(GetAllAnimalBreedsQuery, {
-        variables: { search, species, page: pageParam },
-      });
+  >("animal-breeds", [search, species], async ({ pageParam = 0 }) => {
+    const { response } = await fetchGraphQL<
+      { response: PaginatedResponse<AnimalBreed> },
+      AnimalBreedFilters
+    >(GetAllAnimalBreedsQuery, {
+      variables: { search, species, page: pageParam },
+    });
 
-      return response;
-    },
-    {
-      // Return the next page that will be passed as `pageParam` to the fetch
-      // function.
-      getNextPageParam(lastGroup) {
-        if (lastGroup.page < lastGroup.pageCount - 1) {
-          return lastGroup.page + 1;
-        }
-      },
-    }
-  );
-
-  // We don't add filters to the key to avoid polluting the cache and all the
-  // loading states.
-  React.useEffect(() => {
-    // We don't want to refetch after the inital render because
-    // `useInfiniteQuery` already does it.
-    if (isInitialRender.current) {
-      isInitialRender.current = false;
-    } else {
-      refetch();
-    }
-  }, [search, species, refetch]);
+    return response;
+  });
 
   return [data, { ...rest, refetch }] as const;
 }
@@ -242,23 +216,10 @@ export function useUpdateAnimalBreed(
       onSuccess(animalBreed) {
         queryClient.setQueryData(["animal-breed", animalBreed.id], animalBreed);
 
-        queryClient.setQueryData<InfiniteData<
-          PaginatedResponse<AnimalBreed>
-        > | null>("animal-breeds", (animalBreedsPages) => {
-          if (animalBreedsPages == null) {
-            return null;
-          }
-
-          return {
-            ...animalBreedsPages,
-            pages: animalBreedsPages.pages.map((page) => ({
-              ...page,
-              hits: page.hits.map((a) =>
-                a.id === animalBreed.id ? animalBreed : a
-              ),
-            })),
-          };
-        });
+        queryClient.setQueryData(
+          "animal-breeds",
+          updateDataInInfiniteCache(animalBreed)
+        );
 
         if (onSuccess != null) {
           onSuccess(animalBreed);
@@ -293,21 +254,13 @@ export function useDeleteAnimalBreed(
       onSuccess(animalBreedId) {
         queryClient.removeQueries(["animal-breed", animalBreedId]);
 
-        queryClient.setQueryData<InfiniteData<
-          PaginatedResponse<AnimalBreed>
-        > | null>("animal-breeds", (animalBreedsPages) => {
-          if (animalBreedsPages == null) {
-            return null;
-          }
+        queryClient.setQueryData(
+          "animal-breeds",
+          removeDataFromInfiniteCache(animalBreedId)
+        );
 
-          return {
-            ...animalBreedsPages,
-            pages: animalBreedsPages.pages.map((page) => ({
-              ...page,
-              hits: page.hits.filter((a) => a.id !== animalBreedId),
-            })),
-          };
-        });
+        // Invalidate it to make sure pagination is up to date.
+        queryClient.invalidateQueries("animal-breeds");
 
         if (onSuccess != null) {
           onSuccess(animalBreedId);
