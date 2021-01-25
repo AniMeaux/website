@@ -1,12 +1,13 @@
 import {
+  AnimalBreed,
   AnimalBreedFilters,
   CreateAnimalBreedPayload,
   CreateHostFamilyPayload,
   CreateUserPayload,
-  AnimalBreed,
-  DBHostFamily,
+  HostFamily,
   HostFamilyFilters,
   PaginatedResponse,
+  SearchableHostFamily,
   UpdateAnimalBreedPayload,
   UpdateHostFamilyPayload,
   UpdateUserPayload,
@@ -40,10 +41,10 @@ export type AnimalBreedDatabase = {
 export type HostFamilyDatabase = {
   getAllHostFamilies(
     filters: HostFamilyFilters
-  ): Promise<PaginatedResponse<DBHostFamily>>;
-  getHostFamily(id: string): Promise<DBHostFamily | null>;
-  createHostFamily(payload: CreateHostFamilyPayload): Promise<DBHostFamily>;
-  updateHostFamily(payload: UpdateHostFamilyPayload): Promise<DBHostFamily>;
+  ): Promise<PaginatedResponse<SearchableHostFamily>>;
+  getHostFamily(id: string): Promise<HostFamily | null>;
+  createHostFamily(payload: CreateHostFamilyPayload): Promise<HostFamily>;
+  updateHostFamily(payload: UpdateHostFamilyPayload): Promise<HostFamily>;
   deleteHostFamily(id: string): Promise<boolean>;
 };
 

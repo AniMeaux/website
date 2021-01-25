@@ -52,6 +52,8 @@ export enum ErrorCode {
   HOST_FAMILY_MISSING_NAME = "host-family/missing-name",
   HOST_FAMILY_MISSING_ADDRESS = "host-family/missing-address",
   HOST_FAMILY_MISSING_PHONE = "host-family/missing-phone",
+  HOST_FAMILY_INVALID_EMAIL = "host-family/invalid-email",
+  HOST_FAMILY_MISSING_HOUSING = "host-family/missing-housing",
   HOST_FAMILY_NAME_ALREADY_USED = "host-family/name-already-used",
   HOST_FAMILY_IS_REFERENCED = "host-family/is-referenced",
 }
@@ -95,6 +97,9 @@ const ErrorCodeLabels: { [key in ErrorCode]?: string } = {
   [ErrorCode.HOST_FAMILY_MISSING_ADDRESS]: "L'adresse est obligatoire",
   [ErrorCode.HOST_FAMILY_MISSING_PHONE]:
     "Le numéro de téléphone est obligatoire",
+  [ErrorCode.HOST_FAMILY_INVALID_EMAIL]: "Le format de l'email est invalide",
+  [ErrorCode.HOST_FAMILY_MISSING_HOUSING]:
+    "Le type de logement est obligatoire",
   [ErrorCode.HOST_FAMILY_NAME_ALREADY_USED]: "Le nom est déjà utilisé",
   [ErrorCode.HOST_FAMILY_IS_REFERENCED]:
     "La famille d'accueil ne peut pas être supprimée parce qu'elle est référencée par au moins un animal",

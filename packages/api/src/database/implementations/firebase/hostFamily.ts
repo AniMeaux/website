@@ -1,17 +1,22 @@
 import {
   CreateHostFamilyPayload,
-  DBHostFamily,
+  EMAIL_PATTERN,
   ErrorCode,
+  HostFamily,
   HostFamilyFilters,
+  minimiseHostFamilyOwnAnimals,
   PaginatedResponse,
+  SearchableHostFamily,
   UpdateHostFamilyPayload,
 } from "@animeaux/shared-entities";
 import { UserInputError } from "apollo-server";
 import * as admin from "firebase-admin";
 import isEmpty from "lodash.isempty";
+import isEqual from "lodash.isequal";
 import { v4 as uuid } from "uuid";
 import { AlgoliaClient } from "../../algoliaClient";
 import { HostFamilyDatabase } from "../../databaseType";
+import { SearchFilters } from "../../searchFilters";
 
 const HostFamiliesIndex = AlgoliaClient.initIndex("hostFamilies");
 
@@ -30,10 +35,39 @@ async function assertHostFamilyNameNotUsed(name: string) {
 export const hostFamilyDatabase: HostFamilyDatabase = {
   async getAllHostFamilies(
     filters: HostFamilyFilters
-  ): Promise<PaginatedResponse<DBHostFamily>> {
-    const result = await HostFamiliesIndex.search<DBHostFamily>(
+  ): Promise<PaginatedResponse<SearchableHostFamily>> {
+    const searchFilters: string[] = [];
+
+    if (filters.hasChild != null) {
+      searchFilters.push(
+        SearchFilters.createFilter("hasChild", filters.hasChild)
+      );
+    }
+
+    if (filters.hasGarden != null) {
+      searchFilters.push(
+        SearchFilters.createFilter("hasGarden", filters.hasGarden)
+      );
+    }
+
+    if (filters.hasVehicle != null) {
+      searchFilters.push(
+        SearchFilters.createFilter("hasVehicle", filters.hasVehicle)
+      );
+    }
+
+    if (filters.housing != null) {
+      searchFilters.push(
+        SearchFilters.createFilter("housing", filters.housing)
+      );
+    }
+
+    const result = await HostFamiliesIndex.search<SearchableHostFamily>(
       filters.search ?? "",
-      { page: filters.page ?? 0 }
+      {
+        page: filters.page ?? 0,
+        filters: SearchFilters.and(searchFilters),
+      }
     );
 
     return {
@@ -44,29 +78,32 @@ export const hostFamilyDatabase: HostFamilyDatabase = {
     };
   },
 
-  async getHostFamily(id: string): Promise<DBHostFamily | null> {
+  async getHostFamily(id: string): Promise<HostFamily | null> {
     const hostFamilySnapshot = await admin
       .firestore()
       .collection("hostFamilies")
       .doc(id)
       .get();
 
-    return (hostFamilySnapshot.data() as DBHostFamily) ?? null;
+    return (hostFamilySnapshot.data() as HostFamily) ?? null;
   },
 
   async createHostFamily({
     name,
-    address,
     phone,
-  }: CreateHostFamilyPayload): Promise<DBHostFamily> {
+    email,
+    address,
+    housing,
+    hasChild,
+    hasGarden,
+    hasVehicle,
+    linkToDrive,
+    linkToFacebook,
+    ownAnimals,
+  }: CreateHostFamilyPayload): Promise<HostFamily> {
     name = name.trim();
     if (name === "") {
       throw new UserInputError(ErrorCode.HOST_FAMILY_MISSING_NAME);
-    }
-
-    address = address.trim();
-    if (address === "") {
-      throw new UserInputError(ErrorCode.HOST_FAMILY_MISSING_ADDRESS);
     }
 
     phone = phone.trim();
@@ -74,14 +111,50 @@ export const hostFamilyDatabase: HostFamilyDatabase = {
       throw new UserInputError(ErrorCode.HOST_FAMILY_MISSING_PHONE);
     }
 
+    email = email.trim();
+    if (!EMAIL_PATTERN.test(email)) {
+      throw new UserInputError(ErrorCode.HOST_FAMILY_INVALID_EMAIL);
+    }
+
+    address = address.trim();
+    if (address === "") {
+      throw new UserInputError(ErrorCode.HOST_FAMILY_MISSING_ADDRESS);
+    }
+
     await assertHostFamilyNameNotUsed(name);
 
-    const hostFamily: DBHostFamily = {
+    const searchableHostFamily: SearchableHostFamily = {
       id: uuid(),
       name,
-      address,
       phone,
+      email,
+      address,
+      housing,
+      hasChild,
+      hasGarden,
+      hasVehicle,
     };
+
+    const hostFamily: HostFamily = {
+      ...searchableHostFamily,
+      ownAnimals: minimiseHostFamilyOwnAnimals(ownAnimals),
+    };
+
+    if (linkToDrive != null) {
+      linkToDrive = linkToDrive.trim();
+
+      if (linkToDrive !== "") {
+        hostFamily.linkToDrive = linkToDrive;
+      }
+    }
+
+    if (linkToFacebook != null) {
+      linkToFacebook = linkToFacebook.trim();
+
+      if (linkToFacebook !== "") {
+        hostFamily.linkToFacebook = linkToFacebook;
+      }
+    }
 
     await admin
       .firestore()
@@ -90,8 +163,8 @@ export const hostFamilyDatabase: HostFamilyDatabase = {
       .set(hostFamily);
 
     await HostFamiliesIndex.saveObject({
-      ...hostFamily,
-      objectID: hostFamily.id,
+      ...searchableHostFamily,
+      objectID: searchableHostFamily.id,
     });
 
     return hostFamily;
@@ -100,15 +173,23 @@ export const hostFamilyDatabase: HostFamilyDatabase = {
   async updateHostFamily({
     id,
     name,
-    address,
     phone,
-  }: UpdateHostFamilyPayload): Promise<DBHostFamily> {
+    email,
+    address,
+    housing,
+    hasChild,
+    hasGarden,
+    hasVehicle,
+    linkToDrive,
+    linkToFacebook,
+    ownAnimals,
+  }: UpdateHostFamilyPayload): Promise<HostFamily> {
     const hostFamily = await hostFamilyDatabase.getHostFamily(id);
     if (hostFamily == null) {
       throw new UserInputError(ErrorCode.HOST_FAMILY_NOT_FOUND);
     }
 
-    const payload: Partial<DBHostFamily> = {};
+    const searchablePayload: Partial<SearchableHostFamily> = {};
 
     if (name != null) {
       name = name.trim();
@@ -119,19 +200,7 @@ export const hostFamilyDatabase: HostFamilyDatabase = {
 
       if (name !== hostFamily.name) {
         await assertHostFamilyNameNotUsed(name);
-        payload.name = name;
-      }
-    }
-
-    if (address != null) {
-      address = address.trim();
-
-      if (address === "") {
-        throw new UserInputError(ErrorCode.HOST_FAMILY_MISSING_ADDRESS);
-      }
-
-      if (address !== hostFamily.address) {
-        payload.address = address;
+        searchablePayload.name = name;
       }
     }
 
@@ -143,7 +212,73 @@ export const hostFamilyDatabase: HostFamilyDatabase = {
       }
 
       if (phone !== hostFamily.phone) {
-        payload.phone = phone;
+        searchablePayload.phone = phone;
+      }
+    }
+
+    if (email != null) {
+      email = email.trim();
+
+      if (!EMAIL_PATTERN.test(email)) {
+        throw new UserInputError(ErrorCode.HOST_FAMILY_INVALID_EMAIL);
+      }
+
+      if (email !== hostFamily.email) {
+        searchablePayload.email = email;
+      }
+    }
+
+    if (address != null) {
+      address = address.trim();
+
+      if (address === "") {
+        throw new UserInputError(ErrorCode.HOST_FAMILY_MISSING_ADDRESS);
+      }
+
+      if (address !== hostFamily.address) {
+        searchablePayload.address = address;
+      }
+    }
+
+    if (housing != null && housing !== hostFamily.housing) {
+      searchablePayload.housing = housing;
+    }
+
+    if (hasChild != null && hasChild !== hostFamily.hasChild) {
+      searchablePayload.hasChild = hasChild;
+    }
+
+    if (hasGarden != null && hasGarden !== hostFamily.hasGarden) {
+      searchablePayload.hasGarden = hasGarden;
+    }
+
+    if (hasVehicle != null && hasVehicle !== hostFamily.hasVehicle) {
+      searchablePayload.hasVehicle = hasVehicle;
+    }
+
+    const payload: Partial<HostFamily> = { ...searchablePayload };
+
+    if (linkToDrive != null) {
+      linkToDrive = linkToDrive.trim();
+
+      if (linkToDrive !== hostFamily.linkToDrive) {
+        payload.linkToDrive = linkToDrive;
+      }
+    }
+
+    if (linkToFacebook != null) {
+      linkToFacebook = linkToFacebook.trim();
+
+      if (linkToFacebook !== hostFamily.linkToFacebook) {
+        payload.linkToFacebook = linkToFacebook;
+      }
+    }
+
+    if (ownAnimals != null) {
+      ownAnimals = minimiseHostFamilyOwnAnimals(ownAnimals);
+
+      if (!isEqual(ownAnimals, hostFamily.ownAnimals)) {
+        payload.ownAnimals = ownAnimals;
       }
     }
 
@@ -153,10 +288,12 @@ export const hostFamilyDatabase: HostFamilyDatabase = {
         .collection("hostFamilies")
         .doc(id)
         .update(payload);
+    }
 
+    if (!isEmpty(searchablePayload)) {
       await HostFamiliesIndex.partialUpdateObject({
-        ...payload,
-        objectID: hostFamily.id,
+        ...searchablePayload,
+        objectID: id,
       });
     }
 

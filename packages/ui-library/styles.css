@@ -236,6 +236,10 @@
     @apply w-3/12;
   }
 
+  .placeholder-selector {
+    @apply w-full h-20;
+  }
+
   .placeholder-text {
     @apply w-9/12;
   }

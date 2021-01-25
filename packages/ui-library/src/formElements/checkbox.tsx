@@ -17,7 +17,7 @@ export function Checkbox({
   ...rest
 }: CheckboxProps) {
   return (
-    <span className={cn("relative flex", className)}>
+    <span className={cn("relative inline-flex", className)}>
       <input
         {...rest}
         type="checkbox"

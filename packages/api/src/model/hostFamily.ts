@@ -7,42 +7,96 @@ import { gql, IResolverObject } from "apollo-server";
 import { database } from "../database";
 
 const typeDefs = gql`
+  enum HousingType {
+    HOUSE
+    APARTMENT
+  }
+
+  # type HostFamilyPublicProfile {
+  #   id: ID!
+  #   name: String!
+  #   phone: String!
+  #   email: String!
+  # }
+
   type HostFamily {
     id: ID!
     name: String!
-    address: String!
     phone: String!
+    email: String!
+    address: String!
+    housing: HousingType!
+    hasChild: Boolean!
+    hasGarden: Boolean!
+    hasVehicle: Trilean!
+    linkToDrive: String
+    linkToFacebook: String
+    ownAnimals: JSONObject!
+  }
+
+  type SearchableHostFamily {
+    id: String!
+    name: String!
+    phone: String!
+    email: String!
+    address: String!
+    housing: HousingType!
+    hasChild: Boolean!
+    hasGarden: Boolean!
+    hasVehicle: Trilean!
   }
 
   type AllHostFamiliesResponse {
-    hits: [HostFamily!]!
+    hits: [SearchableHostFamily!]!
     hitsTotalCount: Int!
     page: Int!
     pageCount: Int!
   }
 
   extend type Query {
-    getAllHostFamilies(search: String, page: Int): AllHostFamiliesResponse!
-      @auth
+    getAllHostFamilies(
+      search: String
+      page: Int
+      housing: HousingType
+      hasChild: Boolean
+      hasGarden: Boolean
+      hasVehicle: Trilean
+    ): AllHostFamiliesResponse! @auth(groups: [ADMIN, ANIMAL_MANAGER])
 
-    getHostFamily(id: ID!): HostFamily @auth
+    getHostFamily(id: ID!): HostFamily @auth(groups: [ADMIN, ANIMAL_MANAGER])
   }
 
   extend type Mutation {
     createHostFamily(
       name: String!
-      address: String!
       phone: String!
-    ): HostFamily! @auth(resourceKey: "host_family")
+      email: String!
+      address: String!
+      housing: HousingType!
+      hasChild: Boolean!
+      hasGarden: Boolean!
+      hasVehicle: Trilean!
+      linkToDrive: String
+      linkToFacebook: String
+      ownAnimals: JSONObject!
+    ): HostFamily! @auth(groups: [ADMIN, ANIMAL_MANAGER])
 
     updateHostFamily(
       id: ID!
       name: String
-      address: String
       phone: String
-    ): HostFamily! @auth(resourceKey: "host_family")
+      email: String
+      address: String
+      housing: HousingType
+      hasChild: Boolean
+      hasGarden: Boolean
+      hasVehicle: Trilean
+      linkToDrive: String
+      linkToFacebook: String
+      ownAnimals: JSONObject
+    ): HostFamily! @auth(groups: [ADMIN, ANIMAL_MANAGER])
 
-    deleteHostFamily(id: ID!): Boolean! @auth(resourceKey: "host_family")
+    deleteHostFamily(id: ID!): Boolean! @auth(groups: [ADMIN, ANIMAL_MANAGER])
   }
 `;
 

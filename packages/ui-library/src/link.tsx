@@ -82,6 +82,13 @@ export type LinkProps = Omit<
  */
 export function Link({ href, refProp, ...rest }: LinkProps) {
   const router = useRouter();
+
+  if (href.startsWith("http")) {
+    // The content is passed as children.
+    // eslint-disable-next-line jsx-a11y/anchor-has-content
+    return <a {...rest} href={href} ref={refProp} />;
+  }
+
   href = resolveUrl(router.asPath, href);
 
   return (

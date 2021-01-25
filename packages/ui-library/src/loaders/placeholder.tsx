@@ -8,6 +8,7 @@ type PlaceholderPreset =
   | "icon"
   | "input"
   | "label"
+  | "selector"
   | "tag"
   | "text";
 
@@ -18,6 +19,7 @@ const PresetClassName: { [key in PlaceholderPreset]: string } = {
   icon: "placeholder-icon",
   input: "placeholder-input",
   label: "placeholder-label",
+  selector: "placeholder-selector",
   tag: "placeholder-tag",
   text: "placeholder-text",
 };

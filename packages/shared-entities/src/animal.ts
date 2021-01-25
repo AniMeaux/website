@@ -18,10 +18,31 @@ export const AnimalSpeciesLabels: {
   RODENT: "Rongeur",
 };
 
+export const AnimalSpeciesLabelsPlural: {
+  [key in AnimalSpecies]: string;
+} = {
+  BIRD: "Oiseaux",
+  CAT: "Chats",
+  DOG: "Chiens",
+  REPTILE: "Reptiles",
+  RODENT: "Rongeurs",
+};
+
 export const ANIMAL_SPECIES_ALPHABETICAL_ORDER = sortByLabels(
-  Object.keys(AnimalSpecies) as AnimalSpecies[],
+  Object.values(AnimalSpecies),
   AnimalSpeciesLabels
 );
+
+export function isAnimalSpeciesFertile(
+  animalSpecies: AnimalSpecies
+): animalSpecies is
+  | AnimalSpecies.CAT
+  | AnimalSpecies.DOG
+  | AnimalSpecies.RODENT {
+  return [AnimalSpecies.CAT, AnimalSpecies.DOG, AnimalSpecies.RODENT].includes(
+    animalSpecies
+  );
+}
 
 export enum AnimalAge {
   JUNIOR = "JUNIOR",

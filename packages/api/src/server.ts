@@ -5,7 +5,7 @@ import { ListenOptions } from "net";
 import { AuthDirective } from "./authDirective";
 import { database } from "./database";
 import { AnimalBreedModel } from "./model/animalBreed";
-// import { HostFamilyModel } from "./model/hostFamily";
+import { HostFamilyModel } from "./model/hostFamily";
 import { AuthContext } from "./model/shared";
 import { UserModel } from "./model/user";
 
@@ -15,6 +15,12 @@ const SERVER_OPTIONS: ListenOptions = {
 
 const rootTypeDefs = gql`
   scalar JSONObject
+
+  enum Trilean {
+    TRUE
+    FALSE
+    UNKNOWN
+  }
 
   type Query
   type Mutation
@@ -37,21 +43,21 @@ const apolloServer = new ApolloServer({
     AuthDirective.typeDefs,
     UserModel.typeDefs,
     AnimalBreedModel.typeDefs,
-    // HostFamilyModel.typeDefs,
+    HostFamilyModel.typeDefs,
   ],
   schemaDirectives: Object.assign({}, AuthDirective.schemaDirectives),
   resolvers: Object.assign({
     Query: Object.assign(
       {},
       UserModel.queries,
-      AnimalBreedModel.queries
-      // HostFamilyModel.queries
+      AnimalBreedModel.queries,
+      HostFamilyModel.queries
     ),
     Mutation: Object.assign(
       {},
       UserModel.mutations,
-      AnimalBreedModel.mutations
-      // HostFamilyModel.mutations
+      AnimalBreedModel.mutations,
+      HostFamilyModel.mutations
     ),
   }),
 });

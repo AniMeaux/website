@@ -155,6 +155,7 @@ module.exports = {
         "screen-3/10": "30vh",
       },
       inset: {
+        "1": "0.25rem",
         "4": "1rem",
         "16": "4rem",
         "20": "5rem",
@@ -192,6 +193,9 @@ module.exports = {
       },
       borderColor: {
         default: "rgba(0, 0, 0, 0.07)",
+      },
+      zIndex: {
+        "-1": "-1",
       },
     },
   },

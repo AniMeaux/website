@@ -73,7 +73,7 @@ function getButtonClassName({
   className,
 }: ButtonPropsForClassName) {
   return cn(
-    "a11y-focus disabled:opacity-75 disabled:cursor-auto h-10 flex items-center justify-center",
+    "a11y-focus disabled:opacity-50 disabled:cursor-auto h-10 flex items-center justify-center",
     ButtonClassName[variant][color].base,
     {
       [ButtonClassName[variant][color].enabled]: !disabled,
