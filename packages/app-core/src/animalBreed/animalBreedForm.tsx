@@ -18,6 +18,7 @@ import {
   SectionTitle,
   Select,
   Separator,
+  Submit,
 } from "@animeaux/ui-library";
 import * as React from "react";
 import { FaDna, FaTag } from "react-icons/fa";
@@ -59,7 +60,7 @@ export function AnimalBreedForm({
       <Section>
         <SectionTitle>Détails</SectionTitle>
 
-        <Field className="px-2">
+        <Field>
           <Label htmlFor="animal-breed-name">Nom</Label>
           <Input
             name="animal-breed-name"
@@ -77,7 +78,7 @@ export function AnimalBreedForm({
           />
         </Field>
 
-        <Field className="px-2">
+        <Field>
           <Label htmlFor="species">Espèce</Label>
           <Select
             name="species"
@@ -104,7 +105,7 @@ export function AnimalBreedForm({
       <Separator />
 
       <Section>
-        <Field className="px-2">
+        <Submit>
           <Button
             type="submit"
             variant="primary"
@@ -113,7 +114,7 @@ export function AnimalBreedForm({
           >
             {animalBreed == null ? "Créer" : "Modifier"}
           </Button>
-        </Field>
+        </Submit>
       </Section>
     </Form>
   );
@@ -128,7 +129,7 @@ export function AnimalBreedFormPlaceholder() {
         </SectionTitle>
 
         <Placeholders count={2}>
-          <Field className="px-2">
+          <Field>
             <Label>
               <Placeholder preset="label" />
             </Label>

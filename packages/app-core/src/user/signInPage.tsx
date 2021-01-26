@@ -9,6 +9,7 @@ import {
   Message,
   PasswordInput,
   ProgressBar,
+  Submit,
 } from "@animeaux/ui-library";
 import firebase from "firebase/app";
 import * as React from "react";
@@ -56,16 +57,16 @@ export function SignInPage({ logo: Logo, applicationName }: SignInPageProps) {
     <main className="pt-screen-3/10 flex flex-col justify-center">
       {pending && <ProgressBar />}
 
-      <div className="relative mx-auto w-full max-w-md px-4 flex flex-col">
+      <div className="relative mx-auto w-full max-w-md px-2 flex flex-col">
         <div className="absolute bottom-1/1 left-1/2 transform -translate-x-1/2 mb-8 flex flex-col items-center">
           <Logo className="text-8xl" />
           <span className="font-serif tracking-wider">{applicationName}</span>
         </div>
 
-        <h1 className="text-3xl font-serif">Bienvenue</h1>
+        <h1 className="px-2 text-3xl font-serif">Bienvenue</h1>
 
         {signInState.error != null && (
-          <Message type="error" className="my-2">
+          <Message type="error" className="m-2">
             {signInState.error.message}
           </Message>
         )}
@@ -105,7 +106,7 @@ export function SignInPage({ logo: Logo, applicationName }: SignInPageProps) {
             />
           </Field>
 
-          <Field>
+          <Submit>
             <Button
               type="submit"
               variant="primary"
@@ -114,7 +115,7 @@ export function SignInPage({ logo: Logo, applicationName }: SignInPageProps) {
             >
               Se connecter
             </Button>
-          </Field>
+          </Submit>
         </Form>
       </div>
     </main>

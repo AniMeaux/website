@@ -22,6 +22,7 @@ import {
   Section,
   SectionTitle,
   Separator,
+  Submit,
 } from "@animeaux/ui-library";
 import * as React from "react";
 import { FaEnvelope, FaLock, FaUser } from "react-icons/fa";
@@ -69,7 +70,7 @@ export function UserForm({
       <Section>
         <SectionTitle>Profile</SectionTitle>
 
-        <Field className="px-2">
+        <Field>
           <Label htmlFor="name">Nom</Label>
           <Input
             name="name"
@@ -88,7 +89,7 @@ export function UserForm({
           />
         </Field>
 
-        <Field className="px-2">
+        <Field>
           <Label htmlFor="email">Email</Label>
           <Input
             name="email"
@@ -114,7 +115,7 @@ export function UserForm({
           />
         </Field>
 
-        <Field className="px-2">
+        <Field>
           <Label htmlFor="password">Mot de passe</Label>
           <PasswordInput
             name="password"
@@ -146,7 +147,7 @@ export function UserForm({
           <Message type="error">{errors?.groups}</Message>
         )}
 
-        <Field className="px-2">
+        <Field>
           <ul>
             {USER_GROUPS_ALPHABETICAL_ORDER.map((group) => (
               <li key={group}>
@@ -181,7 +182,7 @@ export function UserForm({
       <Separator />
 
       <Section>
-        <Field className="px-2">
+        <Submit>
           <Button
             type="submit"
             variant="primary"
@@ -190,7 +191,7 @@ export function UserForm({
           >
             {user == null ? "Créer" : "Modifier"}
           </Button>
-        </Field>
+        </Submit>
       </Section>
     </Form>
   );
@@ -205,7 +206,7 @@ export function UserFormPlaceholder() {
         </SectionTitle>
 
         <Placeholders count={3}>
-          <Field className="px-2">
+          <Field>
             <Label>
               <Placeholder preset="label" />
             </Label>
@@ -222,7 +223,7 @@ export function UserFormPlaceholder() {
           <Placeholder preset="text" />
         </SectionTitle>
 
-        <Field className="px-2">
+        <Field>
           <ul>
             <Placeholders count={USER_GROUPS_ALPHABETICAL_ORDER.length}>
               <li>

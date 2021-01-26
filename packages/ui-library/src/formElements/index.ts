@@ -7,3 +7,4 @@ export * from "./input";
 export * from "./label";
 export * from "./passwordInput";
 export * from "./select";
+export * from "./submit";
