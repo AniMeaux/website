@@ -17,15 +17,3 @@ export function Field({ alignItems, className, ...rest }: FieldProps) {
     />
   );
 }
-
-export function CheckboxField({
-  className,
-  ...rest
-}: React.LabelHTMLAttributes<HTMLLabelElement>) {
-  return (
-    <label
-      {...rest}
-      className={cn("w-full h-10 flex items-center", className)}
-    />
-  );
-}

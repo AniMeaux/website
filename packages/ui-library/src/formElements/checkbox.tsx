@@ -40,3 +40,15 @@ export function Checkbox({
     </span>
   );
 }
+
+export function CheckboxInput({
+  className,
+  ...rest
+}: React.LabelHTMLAttributes<HTMLLabelElement>) {
+  return (
+    <label
+      {...rest}
+      className={cn("cursor-pointer h-10 flex items-center", className)}
+    />
+  );
+}

@@ -9,7 +9,7 @@ import {
   Adornment,
   Button,
   Checkbox,
-  CheckboxField,
+  CheckboxInput,
   Field,
   Form,
   FormProps,
@@ -151,7 +151,7 @@ export function UserForm({
           <ul>
             {USER_GROUPS_ALPHABETICAL_ORDER.map((group) => (
               <li key={group}>
-                <CheckboxField>
+                <CheckboxInput>
                   <Checkbox
                     checked={groups.includes(group)}
                     onChange={(isChecked) => {
@@ -172,7 +172,7 @@ export function UserForm({
                   </Adornment>
 
                   <span>{UserGroupLabels[group]}</span>
-                </CheckboxField>
+                </CheckboxInput>
               </li>
             ))}
           </ul>
@@ -227,7 +227,7 @@ export function UserFormPlaceholder() {
           <ul>
             <Placeholders count={USER_GROUPS_ALPHABETICAL_ORDER.length}>
               <li>
-                <Placeholder preset="checkbox-field" />
+                <Placeholder preset="checkbox-input" />
               </li>
             </Placeholders>
           </ul>

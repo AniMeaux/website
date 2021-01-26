@@ -215,7 +215,7 @@
     @apply h-full;
   }
 
-  .placeholder-checkbox-field {
+  .placeholder-checkbox-input {
     @apply w-1/2 h-10;
   }
 
