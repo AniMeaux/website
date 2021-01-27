@@ -230,7 +230,7 @@ export function HostFamilyForm({
 
         <Selectors>
           {TRILEAN_ORDER.map((value) => (
-            <SelectorItem key={value}>
+            <SelectorItem key={value} itemsCount={TRILEAN_ORDER.length}>
               <Selector>
                 <SelectorRadio
                   checked={hasVehicle === value}
@@ -264,7 +264,10 @@ export function HostFamilyForm({
 
         <Selectors>
           {HOUSING_TYPES_ALPHABETICAL_ORDER.map((housingType) => (
-            <SelectorItem key={housingType}>
+            <SelectorItem
+              key={housingType}
+              itemsCount={HOUSING_TYPES_ALPHABETICAL_ORDER.length}
+            >
               <Selector>
                 <SelectorRadio
                   checked={housing === housingType}
@@ -453,7 +456,7 @@ export function HostFamilyFormPlaceholder() {
 
         <Selectors>
           <Placeholders count={TRILEAN_ORDER.length}>
-            <SelectorItem>
+            <SelectorItem itemsCount={TRILEAN_ORDER.length}>
               <Placeholder preset="selector" />
             </SelectorItem>
           </Placeholders>
@@ -469,7 +472,7 @@ export function HostFamilyFormPlaceholder() {
 
         <Selectors>
           <Placeholders count={2}>
-            <SelectorItem>
+            <SelectorItem itemsCount={2}>
               <Placeholder preset="selector" />
             </SelectorItem>
           </Placeholders>

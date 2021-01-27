@@ -8,8 +8,6 @@ import {
 import {
   Adornment,
   Button,
-  Checkbox,
-  CheckboxInput,
   Field,
   Form,
   FormProps,
@@ -22,6 +20,12 @@ import {
   RequiredStar,
   Section,
   SectionTitle,
+  Selector,
+  SelectorCheckbox,
+  SelectorIcon,
+  SelectorItem,
+  SelectorLabel,
+  Selectors,
   Separator,
   Submit,
 } from "@animeaux/ui-library";
@@ -157,36 +161,36 @@ export function UserForm({
           <Message type="error">{errors?.groups}</Message>
         )}
 
-        <Field>
-          <ul>
-            {USER_GROUPS_ALPHABETICAL_ORDER.map((group) => (
-              <li key={group}>
-                <CheckboxInput>
-                  <Checkbox
-                    checked={groups.includes(group)}
-                    onChange={(isChecked) => {
-                      setGroups((groups) => {
-                        if (isChecked) {
-                          return groups.concat([group]);
-                        }
+        <Selectors>
+          {USER_GROUPS_ALPHABETICAL_ORDER.map((group) => (
+            <SelectorItem
+              key={group}
+              itemsCount={USER_GROUPS_ALPHABETICAL_ORDER.length}
+            >
+              <Selector>
+                <SelectorCheckbox
+                  name="groups"
+                  checked={groups.includes(group)}
+                  onChange={(isChecked) => {
+                    setGroups((groups) => {
+                      if (isChecked) {
+                        return groups.concat([group]);
+                      }
 
-                        return groups.filter((g) => g !== group);
-                      });
-                    }}
-                    name="groups"
-                    className="mr-4"
-                  />
+                      return groups.filter((g) => g !== group);
+                    });
+                  }}
+                />
 
-                  <Adornment>
-                    <UserGroupIcon userGroup={group} />
-                  </Adornment>
+                <SelectorIcon>
+                  <UserGroupIcon userGroup={group} />
+                </SelectorIcon>
 
-                  <span>{UserGroupLabels[group]}</span>
-                </CheckboxInput>
-              </li>
-            ))}
-          </ul>
-        </Field>
+                <SelectorLabel>{UserGroupLabels[group]}</SelectorLabel>
+              </Selector>
+            </SelectorItem>
+          ))}
+        </Selectors>
       </Section>
 
       <Separator />
@@ -233,15 +237,13 @@ export function UserFormPlaceholder() {
           <Placeholder preset="text" />
         </SectionTitle>
 
-        <Field>
-          <ul>
-            <Placeholders count={USER_GROUPS_ALPHABETICAL_ORDER.length}>
-              <li>
-                <Placeholder preset="checkbox-input" />
-              </li>
-            </Placeholders>
-          </ul>
-        </Field>
+        <Selectors>
+          <Placeholders count={USER_GROUPS_ALPHABETICAL_ORDER.length}>
+            <SelectorItem itemsCount={USER_GROUPS_ALPHABETICAL_ORDER.length}>
+              <Placeholder preset="selector" />
+            </SelectorItem>
+          </Placeholders>
+        </Selectors>
       </Section>
     </Form>
   );

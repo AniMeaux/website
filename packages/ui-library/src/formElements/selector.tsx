@@ -1,19 +1,32 @@
 import cn from "classnames";
 import * as React from "react";
+import { Checkbox, CheckboxProps } from "./checkbox";
 import { Radio, RadioProps } from "./radio";
 
 export function Selectors({
   className,
   ...rest
 }: React.HTMLAttributes<HTMLUListElement>) {
-  return <ul {...rest} className={cn("flex", className)} />;
+  return <ul {...rest} className={cn("flex flex-wrap", className)} />;
 }
 
+type SelectorItemProps = React.LiHTMLAttributes<HTMLLIElement> & {
+  itemsCount: number;
+};
+
 export function SelectorItem({
+  itemsCount,
   className,
+  style,
   ...rest
-}: React.LiHTMLAttributes<HTMLLIElement>) {
-  return <li {...rest} className={cn("m-2 flex-1 min-w-0", className)} />;
+}: SelectorItemProps) {
+  return (
+    <li
+      {...rest}
+      className={cn("p-2 flex-none", className)}
+      style={{ ...style, width: `${100 / Math.min(3, itemsCount)}%` }}
+    />
+  );
 }
 
 export function Selector({
@@ -49,6 +62,14 @@ export function SelectorRadio({ className, ...rest }: RadioProps) {
   );
 }
 
+export function SelectorCheckbox({ className, ...rest }: CheckboxProps) {
+  return (
+    <span className={cn("absolute top-1 right-1 flex", className)}>
+      <Checkbox {...rest} size="small" />
+    </span>
+  );
+}
+
 export function SelectorIcon({
   className,
   ...rest
@@ -63,7 +84,7 @@ export function SelectorLabel({
   return (
     <span
       {...rest}
-      className={cn("flex-none max-w-full truncate text-xs", className)}
+      className={cn("flex-none max-w-full text-xs text-center", className)}
     />
   );
 }
