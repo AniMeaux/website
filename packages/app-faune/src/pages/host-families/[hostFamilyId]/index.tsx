@@ -264,7 +264,12 @@ function LinksSection({ hostFamily }: { hostFamily: HostFamily }) {
       <ul>
         {hostFamily.linkToDrive != null && (
           <li>
-            <LinkItem size="large" href={hostFamily.linkToDrive}>
+            <LinkItem
+              size="large"
+              href={hostFamily.linkToDrive}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <ItemIcon>
                 <FaGoogleDrive />
               </ItemIcon>
@@ -279,7 +284,12 @@ function LinksSection({ hostFamily }: { hostFamily: HostFamily }) {
 
         {hostFamily.linkToFacebook != null && (
           <li>
-            <LinkItem size="large" href={hostFamily.linkToFacebook}>
+            <LinkItem
+              size="large"
+              href={hostFamily.linkToFacebook}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <ItemIcon>
                 <FaFacebook />
               </ItemIcon>
