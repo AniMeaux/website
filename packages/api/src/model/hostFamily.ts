@@ -1,9 +1,10 @@
 import {
   CreateHostFamilyPayload,
+  HostFamily,
   HostFamilyFilters,
   UpdateHostFamilyPayload,
 } from "@animeaux/shared-entities";
-import { gql, IResolverObject } from "apollo-server";
+import { gql, IResolverObject, IResolvers } from "apollo-server";
 import { database } from "../database";
 
 const typeDefs = gql`
@@ -100,6 +101,20 @@ const typeDefs = gql`
   }
 `;
 
+const resolvers: IResolvers = {
+  HostFamily: {
+    linkToDrive: (hostFamily: HostFamily) => {
+      return hostFamily.linkToDrive === "" ? null : hostFamily.linkToDrive;
+    },
+
+    linkToFacebook: (hostFamily: HostFamily) => {
+      return hostFamily.linkToFacebook === ""
+        ? null
+        : hostFamily.linkToFacebook;
+    },
+  },
+};
+
 const queries: IResolverObject = {
   getAllHostFamilies: async (parent: any, filters: HostFamilyFilters) => {
     return await database.getAllHostFamilies(filters);
@@ -126,6 +141,7 @@ const mutations: IResolverObject = {
 
 export const HostFamilyModel = {
   typeDefs,
+  resolvers,
   queries,
   mutations,
 };
