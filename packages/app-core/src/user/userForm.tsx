@@ -19,6 +19,7 @@ import {
   PasswordInput,
   Placeholder,
   Placeholders,
+  RequiredStar,
   Section,
   SectionTitle,
   Separator,
@@ -48,6 +49,7 @@ export function UserForm({
   pending,
   ...rest
 }: UserFormProps) {
+  const isEdit = user != null;
   const [displayName, setDisplayName] = React.useState(user?.displayName ?? "");
   const [email, setEmail] = React.useState(user?.email ?? "");
   const [password, setPassword] = React.useState("");
@@ -71,7 +73,9 @@ export function UserForm({
         <SectionTitle>Profile</SectionTitle>
 
         <Field>
-          <Label htmlFor="name">Nom</Label>
+          <Label htmlFor="name">
+            Nom <RequiredStar />
+          </Label>
           <Input
             name="name"
             id="name"
@@ -90,22 +94,24 @@ export function UserForm({
         </Field>
 
         <Field>
-          <Label htmlFor="email">Email</Label>
+          <Label htmlFor="email">
+            Email <RequiredStar />
+          </Label>
           <Input
             name="email"
             id="email"
             type="email"
             autoComplete="new-email"
             // The email cannot be updated.
-            disabled={user != null}
+            disabled={isEdit}
             value={email}
             onChange={setEmail}
             placeholder="jean@mail.fr"
             errorMessage={errors?.email}
             infoMessage={
-              user == null
-                ? "L'email ne pourra pas être changé plus tard"
-                : "L'email ne peut pas être changé"
+              isEdit
+                ? "L'email ne peut pas être changé"
+                : "L'email ne pourra pas être changé plus tard"
             }
             leftAdornment={
               <Adornment>
@@ -116,7 +122,9 @@ export function UserForm({
         </Field>
 
         <Field>
-          <Label htmlFor="password">Mot de passe</Label>
+          <Label htmlFor="password">
+            Mot de passe {!isEdit && <RequiredStar />}
+          </Label>
           <PasswordInput
             name="password"
             id="password"
@@ -125,9 +133,9 @@ export function UserForm({
             onChange={setPassword}
             errorMessage={errors?.password}
             infoMessage={
-              user == null
-                ? "6 caractères minumum"
-                : "6 caractères minumum ; laisser vide pour ne pas changer"
+              isEdit
+                ? "6 caractères minumum ; laisser vide pour ne pas changer"
+                : "6 caractères minumum"
             }
             leftAdornment={
               <Adornment>
@@ -141,7 +149,9 @@ export function UserForm({
       <Separator />
 
       <Section>
-        <SectionTitle>Groupes</SectionTitle>
+        <SectionTitle>
+          Groupes <RequiredStar />
+        </SectionTitle>
 
         {errors?.groups != null && (
           <Message type="error">{errors?.groups}</Message>
@@ -189,7 +199,7 @@ export function UserForm({
             color="blue"
             disabled={pending}
           >
-            {user == null ? "Créer" : "Modifier"}
+            {isEdit ? "Modifier" : "Créer"}
           </Button>
         </Submit>
       </Section>

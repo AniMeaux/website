@@ -25,6 +25,7 @@ import {
   Message,
   Placeholder,
   Placeholders,
+  RequiredStar,
   Section,
   SectionTitle,
   Selector,
@@ -138,7 +139,9 @@ export function HostFamilyForm({
         <SectionTitle>Contact</SectionTitle>
 
         <Field>
-          <Label htmlFor="host-family-name">Nom</Label>
+          <Label htmlFor="host-family-name">
+            Nom <RequiredStar />
+          </Label>
           <Input
             name="host-family-name"
             id="host-family-name"
@@ -156,7 +159,9 @@ export function HostFamilyForm({
         </Field>
 
         <Field>
-          <Label htmlFor="host-family-phone">Téléphone</Label>
+          <Label htmlFor="host-family-phone">
+            Téléphone <RequiredStar />
+          </Label>
           <Input
             name="host-family-phone"
             id="host-family-phone"
@@ -175,7 +180,9 @@ export function HostFamilyForm({
         </Field>
 
         <Field>
-          <Label htmlFor="host-family-email">Email</Label>
+          <Label htmlFor="host-family-email">
+            Email <RequiredStar />
+          </Label>
           <Input
             name="host-family-email"
             id="host-family-email"
@@ -194,7 +201,9 @@ export function HostFamilyForm({
         </Field>
 
         <Field>
-          <Label htmlFor="host-family-address">Adresse</Label>
+          <Label htmlFor="host-family-address">
+            Adresse <RequiredStar />
+          </Label>
           <Input
             name="host-family-address"
             id="host-family-address"
@@ -215,7 +224,9 @@ export function HostFamilyForm({
       <Separator />
 
       <Section>
-        <SectionTitle>Moyen de transport</SectionTitle>
+        <SectionTitle>
+          Moyen de transport <RequiredStar />
+        </SectionTitle>
 
         <Selectors>
           {TRILEAN_ORDER.map((value) => (
@@ -241,7 +252,9 @@ export function HostFamilyForm({
       <Separator />
 
       <Section>
-        <SectionTitle>Habitation</SectionTitle>
+        <SectionTitle>
+          Habitation <RequiredStar />
+        </SectionTitle>
 
         {errors?.housing != null && (
           <Message type="error" className="mx-2 my-4">

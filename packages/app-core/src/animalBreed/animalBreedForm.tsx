@@ -14,6 +14,7 @@ import {
   Label,
   Placeholder,
   Placeholders,
+  RequiredStar,
   Section,
   SectionTitle,
   Select,
@@ -61,7 +62,9 @@ export function AnimalBreedForm({
         <SectionTitle>Détails</SectionTitle>
 
         <Field>
-          <Label htmlFor="animal-breed-name">Nom</Label>
+          <Label htmlFor="animal-breed-name">
+            Nom <RequiredStar />
+          </Label>
           <Input
             name="animal-breed-name"
             id="animal-breed-name"
@@ -79,7 +82,9 @@ export function AnimalBreedForm({
         </Field>
 
         <Field>
-          <Label htmlFor="species">Espèce</Label>
+          <Label htmlFor="species">
+            Espèce <RequiredStar />
+          </Label>
           <Select
             name="species"
             id="species"

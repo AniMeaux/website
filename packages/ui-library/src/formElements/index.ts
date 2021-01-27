@@ -8,6 +8,7 @@ export * from "./integerInput";
 export * from "./label";
 export * from "./passwordInput";
 export * from "./radio";
+export * from "./requiredStar";
 export * from "./select";
 export * from "./selector";
 export * from "./submit";
