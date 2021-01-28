@@ -1,5 +1,6 @@
 import { HousingType } from "@animeaux/shared-entities";
 import * as React from "react";
+import { IconBaseProps } from "react-icons";
 import { FaBuilding, FaHome } from "react-icons/fa";
 
 const HousingTypeIcons: { [key in HousingType]: React.ElementType } = {
@@ -7,7 +8,7 @@ const HousingTypeIcons: { [key in HousingType]: React.ElementType } = {
   [HousingType.HOUSE]: FaHome,
 };
 
-type HousingTypeIconIconProps = React.SVGAttributes<HTMLOrSVGElement> & {
+type HousingTypeIconIconProps = IconBaseProps & {
   housingType: HousingType;
 };
 

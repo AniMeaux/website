@@ -1,5 +1,6 @@
 import { Trilean } from "@animeaux/shared-entities";
 import * as React from "react";
+import { IconBaseProps } from "react-icons";
 import { FaCar, FaQuestion, FaWalking } from "react-icons/fa";
 
 const VehicleTypeIcons: { [key in Trilean]: React.ElementType } = {
@@ -8,7 +9,7 @@ const VehicleTypeIcons: { [key in Trilean]: React.ElementType } = {
   [Trilean.FALSE]: FaWalking,
 };
 
-type VehicleTypeIconProps = React.SVGAttributes<HTMLOrSVGElement> & {
+type VehicleTypeIconProps = IconBaseProps & {
   hasVehicle: Trilean;
 };
 

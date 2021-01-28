@@ -158,7 +158,9 @@ export function UserForm({
         </SectionTitle>
 
         {errors?.groups != null && (
-          <Message type="error">{errors?.groups}</Message>
+          <Message type="error" className="mx-2 my-4">
+            {errors.groups}
+          </Message>
         )}
 
         <Selectors>

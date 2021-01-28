@@ -1,5 +1,6 @@
 import { UserGroup } from "@animeaux/shared-entities";
 import * as React from "react";
+import { IconBaseProps } from "react-icons";
 import {
   FaClinicMedical,
   FaFileAlt,
@@ -16,7 +17,7 @@ const UserGroupIcons: { [key in UserGroup]: React.ElementType } = {
   [UserGroup.VETERINARIAN]: FaClinicMedical,
 };
 
-type UserGroupIconProps = React.SVGAttributes<HTMLOrSVGElement> & {
+type UserGroupIconProps = IconBaseProps & {
   userGroup: UserGroup;
 };
 

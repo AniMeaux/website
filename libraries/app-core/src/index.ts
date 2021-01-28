@@ -1,3 +1,4 @@
+export * from "./animal";
 export * from "./animalBreed";
 export * from "./applicationProviders";
 export * from "./header";

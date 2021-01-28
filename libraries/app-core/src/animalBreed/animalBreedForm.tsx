@@ -12,17 +12,24 @@ import {
   FormProps,
   Input,
   Label,
+  Message,
   Placeholder,
   Placeholders,
   RequiredStar,
   Section,
   SectionTitle,
-  Select,
+  Selector,
+  SelectorIcon,
+  SelectorItem,
+  SelectorLabel,
+  SelectorRadio,
+  Selectors,
   Separator,
   Submit,
 } from "@animeaux/ui-library";
 import * as React from "react";
-import { FaDna, FaTag } from "react-icons/fa";
+import { FaTag } from "react-icons/fa";
+import { AnimalSpeciesIcon } from "../animal/animalSpeciesIcon";
 
 export type AnimalBreedFormErrors = {
   name?: string | null;
@@ -80,31 +87,43 @@ export function AnimalBreedForm({
             }
           />
         </Field>
+      </Section>
 
-        <Field>
-          <Label htmlFor="species">
-            Espèce <RequiredStar />
-          </Label>
-          <Select
-            name="species"
-            id="species"
-            value={species}
-            onChange={setSpecies}
-            placeholder="Choisir une espèce"
-            errorMessage={errors?.species}
-            leftAdornment={
-              <Adornment>
-                <FaDna />
-              </Adornment>
-            }
-          >
-            {ANIMAL_SPECIES_ALPHABETICAL_ORDER.map((species) => (
-              <option key={species} value={species}>
-                {AnimalSpeciesLabels[species]}
-              </option>
-            ))}
-          </Select>
-        </Field>
+      <Separator />
+
+      <Section>
+        <SectionTitle>
+          Espèce <RequiredStar />
+        </SectionTitle>
+
+        {errors?.species != null && (
+          <Message type="error" className="mx-2 my-4">
+            {errors.species}
+          </Message>
+        )}
+
+        <Selectors>
+          {ANIMAL_SPECIES_ALPHABETICAL_ORDER.map((s) => (
+            <SelectorItem
+              key={s}
+              itemsCount={ANIMAL_SPECIES_ALPHABETICAL_ORDER.length}
+            >
+              <Selector>
+                <SelectorRadio
+                  name="species"
+                  checked={species === s}
+                  onChange={() => setSpecies(s)}
+                />
+
+                <SelectorIcon>
+                  <AnimalSpeciesIcon species={s} />
+                </SelectorIcon>
+
+                <SelectorLabel>{AnimalSpeciesLabels[s]}</SelectorLabel>
+              </Selector>
+            </SelectorItem>
+          ))}
+        </Selectors>
       </Section>
 
       <Separator />
@@ -133,15 +152,29 @@ export function AnimalBreedFormPlaceholder() {
           <Placeholder preset="text" />
         </SectionTitle>
 
-        <Placeholders count={2}>
-          <Field>
-            <Label>
-              <Placeholder preset="label" />
-            </Label>
+        <Field>
+          <Label>
+            <Placeholder preset="label" />
+          </Label>
 
-            <Placeholder preset="input" />
-          </Field>
-        </Placeholders>
+          <Placeholder preset="input" />
+        </Field>
+      </Section>
+
+      <Separator />
+
+      <Section>
+        <SectionTitle>
+          <Placeholder preset="text" />
+        </SectionTitle>
+
+        <Selectors>
+          <Placeholders count={ANIMAL_SPECIES_ALPHABETICAL_ORDER.length}>
+            <SelectorItem itemsCount={ANIMAL_SPECIES_ALPHABETICAL_ORDER.length}>
+              <Placeholder preset="selector" />
+            </SelectorItem>
+          </Placeholders>
+        </Selectors>
       </Section>
     </Form>
   );

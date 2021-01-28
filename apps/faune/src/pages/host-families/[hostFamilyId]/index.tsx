@@ -1,4 +1,5 @@
 import {
+  AnimalSpeciesIcon,
   HousingTypeIcon,
   useDeleteHostFamily,
   useHostFamily,
@@ -236,6 +237,10 @@ function HomeCompositionSection({ hostFamily }: { hostFamily: HostFamily }) {
           return (
             <li key={species}>
               <Item>
+                <ItemIcon>
+                  <AnimalSpeciesIcon species={species} />
+                </ItemIcon>
+
                 <ItemContent>
                   <ItemMainText>
                     <strong className="font-semibold">{count}</strong>{" "}

@@ -258,7 +258,7 @@ export function HostFamilyForm({
 
         {errors?.housing != null && (
           <Message type="error" className="mx-2 my-4">
-            {errors?.housing}
+            {errors.housing}
           </Message>
         )}
 

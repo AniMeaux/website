@@ -1,4 +1,8 @@
-import { useAnimalBreed, useDeleteAnimalBreed } from "@animeaux/app-core";
+import {
+  AnimalSpeciesIcon,
+  useAnimalBreed,
+  useDeleteAnimalBreed,
+} from "@animeaux/app-core";
 import {
   AnimalBreed,
   AnimalSpeciesLabels,
@@ -20,7 +24,7 @@ import {
 } from "@animeaux/ui-library";
 import { useRouter } from "next/router";
 import * as React from "react";
-import { FaDna, FaPen } from "react-icons/fa";
+import { FaPen } from "react-icons/fa";
 import { Header } from "../../../core/header";
 import { Navigation } from "../../../core/navigation";
 import { PageTitle } from "../../../core/pageTitle";
@@ -32,7 +36,7 @@ function DetailsSection({ animalBreed }: { animalBreed: AnimalBreed }) {
 
       <Item>
         <ItemIcon>
-          <FaDna />
+          <AnimalSpeciesIcon species={animalBreed.species} />
         </ItemIcon>
 
         <ItemContent>

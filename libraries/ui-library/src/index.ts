@@ -2,6 +2,7 @@ export * from "./avatar";
 export * from "./button";
 export * from "./emptyMessage";
 export * from "./formElements";
+export * from "./icons";
 export * from "./item";
 export * from "./layouts";
 export * from "./link";
