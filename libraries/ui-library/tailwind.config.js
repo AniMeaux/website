@@ -124,6 +124,7 @@ module.exports = {
       },
       spacing: {
         ...base12,
+        18: "4.5rem",
       },
       fontFamily: {
         sans: ["Roboto"].concat(fontFamily.sans),
