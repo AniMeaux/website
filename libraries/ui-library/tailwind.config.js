@@ -39,8 +39,8 @@ module.exports = {
   // Paths relative to the application importing it.
   purge: [
     "./src/**/*.{ts,tsx}",
-    "../ui-library/**/*.{ts,tsx}",
-    "../app-core/**/*.{ts,tsx}",
+    "../../libraries/ui-library/build/**/*.js",
+    "../../libraries/app-core/build/**/*.js",
   ],
   theme: {
     screens: {
