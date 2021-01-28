@@ -36,10 +36,6 @@ const opacities = {
 };
 
 module.exports = {
-  future: {
-    removeDeprecatedGapUtilities: true,
-    purgeLayersByDefault: true,
-  },
   // Paths relative to the application importing it.
   purge: [
     "./src/**/*.{ts,tsx}",
@@ -192,7 +188,7 @@ module.exports = {
         "screen-5/12": "41.666667vh",
       },
       borderColor: {
-        default: "rgba(0, 0, 0, 0.07)",
+        DEFAULT: "rgba(0, 0, 0, 0.07)",
       },
       zIndex: {
         "-1": "-1",

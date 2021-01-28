@@ -13,18 +13,19 @@
     "lint:ts": "tsc --noEmit -p libraries/shared-entities && tsc --noEmit -p libraries/ui-library && tsc --noEmit -p libraries/app-core && tsc --noEmit -p apps/api && tsc --noEmit -p apps/admin && tsc --noEmit -p apps/faune"
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^2.0.0",
-    "@typescript-eslint/parser": "^2.0.0",
-    "babel-eslint": "^10.0.0",
-    "eslint": "^6.0.0",
-    "eslint-config-react-app": "^5.2.1",
-    "eslint-plugin-flowtype": "^4.0.0",
-    "eslint-plugin-import": "^2.0.0",
-    "eslint-plugin-jsx-a11y": "^6.0.0",
-    "eslint-plugin-react": "^7.0.0",
-    "eslint-plugin-react-hooks": "^4.0.0",
+    "@typescript-eslint/eslint-plugin": "^4.14.1",
+    "@typescript-eslint/parser": "^4.14.1",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^7.18.0",
+    "eslint-config-react-app": "^6.0.0",
+    "eslint-plugin-flowtype": "^5.2.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-react": "^7.22.0",
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "eslint-plugin-testing-library": "^3.10.1",
     "npm-run-all": "^4.1.5",
-    "prettier": "^2.0.5",
-    "typescript": "^3.9.3"
+    "prettier": "^2.2.1",
+    "typescript": "^4.1.3"
   }
 }

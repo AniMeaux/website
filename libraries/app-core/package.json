@@ -13,31 +13,29 @@
     "clean-build": "run-s clean build",
     "dev": "run-p -l \"build:* -w\""
   },
-  "peerDependencies": {
-    "firebase": "*",
-    "next": "*",
-    "next-pwa": "*",
-    "react": "*",
-    "react-icons": "*",
-    "react-query": "*"
-  },
   "dependencies": {
     "@animeaux/shared-entities": "*",
     "@animeaux/ui-library": "*",
+    "firebase": "^8.2.4",
     "graphql-request": "^3.4.0",
-    "invariant": "^2.2.4"
+    "next": "^10.0.5",
+    "invariant": "^2.2.4",
+    "react": "^17.0.1",
+    "react-icons": "^4.1.0",
+    "react-query": "^3.6.0",
+    "next-pwa": "^5.0.4"
   },
   "devDependencies": {
-    "@babel/cli": "^7.8.4",
-    "@babel/core": "^7.9.6",
-    "@babel/plugin-proposal-nullish-coalescing-operator": "^7.8.3",
-    "@babel/plugin-proposal-numeric-separator": "^7.8.3",
-    "@babel/plugin-proposal-optional-chaining": "^7.9.0",
-    "@babel/preset-env": "^7.9.6",
-    "@babel/preset-react": "^7.10.4",
-    "@babel/preset-typescript": "^7.9.0",
-    "babel-plugin-macros": "^2.8.0",
+    "@babel/cli": "^7.12.10",
+    "@babel/core": "^7.12.10",
+    "@babel/plugin-proposal-nullish-coalescing-operator": "^7.12.1",
+    "@babel/plugin-proposal-numeric-separator": "^7.12.7",
+    "@babel/plugin-proposal-optional-chaining": "^7.12.7",
+    "@babel/preset-env": "^7.12.11",
+    "@babel/preset-react": "^7.12.10",
+    "@babel/preset-typescript": "^7.12.7",
+    "babel-plugin-macros": "^3.0.1",
     "npm-run-all": "^4.1.5",
-    "typescript": "^3.8.3"
+    "typescript": "^4.1.3"
   }
 }
