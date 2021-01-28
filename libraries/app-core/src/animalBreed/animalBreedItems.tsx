@@ -8,7 +8,7 @@ import {
   ItemSecondaryText,
   LinkItem,
   LinkItemProps,
-  Placeholder,
+  Placeholder
 } from "@animeaux/ui-library";
 import * as React from "react";
 import { FaTag } from "react-icons/fa";

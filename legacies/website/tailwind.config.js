@@ -170,12 +170,12 @@ module.exports = {
         "max-content": "max-content",
       },
       height: {
-        "80": "20rem",
+        80: "20rem",
         "screen-1/2": "50vh",
         "screen-8/12": "66.666667vh",
       },
       backgroundOpacity: {
-        "10": "0.1",
+        10: "0.1",
       },
     },
   },

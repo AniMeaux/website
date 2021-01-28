@@ -16,9 +16,7 @@ export function HeaderBackLink(props: Omit<ButtonLinkProps, "iconOnly">) {
   );
 }
 
-export type HeaderApplicationNameProps = React.HTMLAttributes<
-  HTMLSpanElement
-> & {
+export type HeaderApplicationNameProps = React.HTMLAttributes<HTMLSpanElement> & {
   logo: React.ElementType;
   applicationName: string;
 };
