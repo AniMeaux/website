@@ -6,7 +6,7 @@ import {
   useScreenSize,
 } from "@animeaux/ui-library";
 import * as React from "react";
-import { FaTag, FaUser } from "react-icons/fa";
+import { FaDna, FaUser } from "react-icons/fa";
 
 type NavigationProps = {
   hideOnSmallScreen?: boolean;
@@ -26,7 +26,7 @@ export function Navigation({ hideOnSmallScreen = false }: NavigationProps) {
       </NavItem>
 
       <NavItem>
-        <NavLink label="Races" href="/animal-breeds" icon={<FaTag />} />
+        <NavLink label="Races" href="/animal-breeds" icon={<FaDna />} />
       </NavItem>
     </BaseNavigation>
   );

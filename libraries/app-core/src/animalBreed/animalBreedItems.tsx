@@ -11,7 +11,7 @@ import {
   Placeholder,
 } from "@animeaux/ui-library";
 import * as React from "react";
-import { FaTag } from "react-icons/fa";
+import { FaDna } from "react-icons/fa";
 
 export function AnimalBreedItemPlaceholder() {
   return (
@@ -41,7 +41,7 @@ export function AnimalBreedItem({
     <LinkItem {...rest} size="large" active={active}>
       <ItemIcon>
         <Avatar>
-          <FaTag />
+          <FaDna />
         </Avatar>
       </ItemIcon>
 

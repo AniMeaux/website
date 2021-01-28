@@ -28,7 +28,7 @@ import {
   Submit,
 } from "@animeaux/ui-library";
 import * as React from "react";
-import { FaTag } from "react-icons/fa";
+import { FaDna } from "react-icons/fa";
 import { AnimalSpeciesIcon } from "../animal/animalSpeciesIcon";
 
 export type AnimalBreedFormErrors = {
@@ -82,7 +82,7 @@ export function AnimalBreedForm({
             errorMessage={errors?.name}
             leftAdornment={
               <Adornment>
-                <FaTag />
+                <FaDna />
               </Adornment>
             }
           />
