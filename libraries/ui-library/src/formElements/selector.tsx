@@ -43,10 +43,10 @@ export function Selector({
       {...rest}
       children={children}
       className={cn(
-        "cursor-pointer relative rounded h-20 min-w-0 px-2 flex flex-col items-center justify-center",
+        "cursor-pointer relative rounded h-20 min-w-0 ring-inset px-2 flex flex-col items-center justify-center",
         {
-          "border-2 border-blue-500 text-blue-500": checked,
-          "border border-gray-400": !checked,
+          "ring-2 ring-blue-500 text-blue-500": checked,
+          "ring-1 ring-gray-400": !checked,
         },
         className
       )}
