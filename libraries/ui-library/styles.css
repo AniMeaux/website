@@ -5,25 +5,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-  html {
-    font-size: 16px;
-    background-color: theme("colors.white");
-  }
-
-  body {
-    font-family: theme("fontFamily.sans");
-    -webkit-font-smoothing: antialiased;
-    /* This needs to come after -webkit-font-smoothing */
-    -moz-osx-font-smoothing: grayscale;
-    text-size-adjust: 100%;
-    text-rendering: optimizeLegibility;
-    font-size: inherit;
-    line-height: 1.5;
-    color: theme("textColor.default-color");
-  }
-}
-
 @layer components {
   .a11y-focus:focus {
     @apply outline-none;
@@ -32,68 +13,6 @@
   .a11y-focus:focus-visible,
   .a11y-focus.focus-visible {
     @apply outline;
-  }
-
-  .flat-shadow {
-    @apply border border-b-4;
-  }
-
-  @keyframes loader-spin {
-    from {
-      transform: rotate(0deg);
-    }
-    to {
-      transform: rotate(360deg);
-    }
-  }
-
-  .animation-loader-spin {
-    animation: loader-spin 1.5s linear infinite;
-  }
-
-  @keyframes loader-stroke {
-    0% {
-      stroke-dasharray: 1, 300;
-      stroke-dashoffset: 0;
-    }
-
-    50% {
-      stroke-dasharray: 150, 300;
-      /* Yep, that's right! */
-      /* Computed by: `circle.getTotalLength()`. */
-      stroke-dashoffset: -175.6449737548828 / 4;
-    }
-
-    100% {
-      stroke-dasharray: 150, 300;
-      stroke-dashoffset: -175.6449737548828;
-    }
-  }
-
-  @keyframes loader-colors {
-    0% {
-      @apply text-blue-500;
-    }
-    20% {
-      @apply text-green-500;
-    }
-    40% {
-      @apply text-yellow-500;
-    }
-    60% {
-      @apply text-red-500;
-    }
-    80% {
-      @apply text-cyan-500;
-    }
-    100% {
-      @apply text-blue-500;
-    }
-  }
-
-  .animation-loader-svg {
-    animation: loader-stroke 2s ease-in-out infinite,
-      loader-colors 10s step-start infinite;
   }
 
   .animation-progress-bar {
@@ -205,6 +124,10 @@
 
   .placeholder-avatar::after {
     @apply h-full rounded-full;
+  }
+
+  .placeholder-button {
+    @apply min-w-button h-10;
   }
 
   .placeholder-checkbox {

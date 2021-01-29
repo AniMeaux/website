@@ -131,6 +131,7 @@ module.exports = {
         serif: ['"Open Sans"'].concat(fontFamily.serif),
       },
       fontSize: {
+        html: "16px",
         "2xs": "0.625rem",
         "7xl": "5rem",
         "8xl": "6rem",
