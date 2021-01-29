@@ -10,4 +10,3 @@ export * from "./loaders";
 export * from "./message";
 export * from "./popovers";
 export * from "./screenSize";
-export * from "./separator";

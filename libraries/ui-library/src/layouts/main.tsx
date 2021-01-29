@@ -16,10 +16,9 @@ export function Main({
     <main
       {...rest}
       className={cn(
-        "pt-4 main-pb",
+        "md:px-1/12 pt-4 main-pb",
         {
           "main-pb-with-navigation": hasBottomNavigation,
-          "main-pb main-pb px-1/12": hasLeftNavigation,
           "ml-18": hasLeftNavigation && isNavigationCollapsed,
           "ml-64 ": hasLeftNavigation && !isNavigationCollapsed,
         },

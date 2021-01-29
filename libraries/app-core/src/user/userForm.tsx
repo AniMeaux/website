@@ -6,6 +6,8 @@ import {
   USER_GROUPS_ALPHABETICAL_ORDER,
 } from "@animeaux/shared-entities";
 import {
+  ActionSection,
+  ActionSectionList,
   Adornment,
   Button,
   Field,
@@ -27,7 +29,6 @@ import {
   SelectorLabel,
   Selectors,
   Separator,
-  Submit,
 } from "@animeaux/ui-library";
 import * as React from "react";
 import { FaEnvelope, FaLock, FaUser } from "react-icons/fa";
@@ -197,8 +198,8 @@ export function UserForm({
 
       <Separator />
 
-      <Section>
-        <Submit>
+      <ActionSection>
+        <ActionSectionList>
           <Button
             type="submit"
             variant="primary"
@@ -207,8 +208,8 @@ export function UserForm({
           >
             {isEdit ? "Modifier" : "Créer"}
           </Button>
-        </Submit>
-      </Section>
+        </ActionSectionList>
+      </ActionSection>
     </Form>
   );
 }

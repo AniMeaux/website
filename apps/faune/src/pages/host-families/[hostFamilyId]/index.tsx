@@ -17,6 +17,8 @@ import {
   VehicleTypeLabels,
 } from "@animeaux/shared-entities";
 import {
+  ActionSection,
+  ActionSectionList,
   ButtonWithConfirmation,
   Item,
   ItemContent,
@@ -26,6 +28,7 @@ import {
   LinkItem,
   Main,
   Message,
+  MessageSection,
   Placeholder,
   Placeholders,
   resolveUrl,
@@ -322,42 +325,37 @@ function ActionsSection({ hostFamily }: { hostFamily: HostFamily }) {
   );
 
   return (
-    <Section className="px-4">
+    <ActionSection>
       {deleteHostFamilyRequest.error != null && (
         <Message type="error" className="mb-4">
           {getErrorMessage(deleteHostFamilyRequest.error)}
         </Message>
       )}
 
-      <ul className="space-y-4">
-        <li>
-          <ButtonWithConfirmation
-            confirmationMessage={[
-              `Êtes-vous sûr de vouloir supprimer la famille d'accueil ${hostFamily.name} ?`,
-              "L'action est irréversible.",
-            ].join("\n")}
-            onClick={() => deleteHostFamily(hostFamily.id)}
-            // TODO: Prevent delete if it is referenced by animals.
-            color="red"
-            className="w-full"
-          >
-            Supprimer
-          </ButtonWithConfirmation>
-        </li>
-      </ul>
-    </Section>
+      <ActionSectionList>
+        <ButtonWithConfirmation
+          confirmationMessage={[
+            `Êtes-vous sûr de vouloir supprimer la famille d'accueil ${hostFamily.name} ?`,
+            "L'action est irréversible.",
+          ].join("\n")}
+          onClick={() => deleteHostFamily(hostFamily.id)}
+          // TODO: Prevent delete if it is referenced by animals.
+          color="red"
+        >
+          Supprimer
+        </ButtonWithConfirmation>
+      </ActionSectionList>
+    </ActionSection>
   );
 }
 
 function ActionsPlaceholderSection() {
   return (
-    <Section className="px-4">
-      <ul>
-        <li>
-          <Placeholder preset="input" />
-        </li>
-      </ul>
-    </Section>
+    <ActionSection>
+      <ActionSectionList>
+        <Placeholder preset="button" />
+      </ActionSectionList>
+    </ActionSection>
   );
 }
 
@@ -445,15 +443,19 @@ export default function HostFamilyPage() {
 
       <Main>
         {updateSucceeded && (
-          <Message type="success" className="mx-4 mb-4">
-            La famille d'accueil a bien été modifiée
-          </Message>
+          <MessageSection>
+            <Message type="success">
+              La famille d'accueil a bien été modifiée
+            </Message>
+          </MessageSection>
         )}
 
         {hostFamilyRequest.error != null && (
-          <Message type="error" className="mx-4 mb-4">
-            {getErrorMessage(hostFamilyRequest.error)}
-          </Message>
+          <MessageSection>
+            <Message type="error">
+              {getErrorMessage(hostFamilyRequest.error)}
+            </Message>
+          </MessageSection>
         )}
 
         {content}

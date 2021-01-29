@@ -12,6 +12,8 @@ import {
   UserGroupLabels,
 } from "@animeaux/shared-entities";
 import {
+  ActionSection,
+  ActionSectionList,
   ButtonWithConfirmation,
   Item,
   ItemContent,
@@ -19,6 +21,7 @@ import {
   ItemMainText,
   Main,
   Message,
+  MessageSection,
   Placeholder,
   Placeholders,
   resolveUrl,
@@ -146,7 +149,7 @@ function ActionsSection({ user }: { user: User }) {
   const disabled = currentUser.id === user.id;
 
   return (
-    <Section className="px-4">
+    <ActionSection>
       {toggleUserBlockedStatusRequest.error != null && (
         <Message type="error" className="mb-4">
           {getErrorMessage(toggleUserBlockedStatusRequest.error)}
@@ -159,65 +162,57 @@ function ActionsSection({ user }: { user: User }) {
         </Message>
       )}
 
-      <ul className="space-y-4">
-        <li>
-          <ButtonWithConfirmation
-            confirmationMessage={
-              user.disabled
-                ? `Êtes-vous sûr de vouloir débloquer l'utilisateur ${user.displayName} ?`
-                : `Êtes-vous sûr de vouloir bloquer l'utilisateur ${user.displayName} ?`
-            }
-            onClick={() => toggleUserBlockedStatus(user.id)}
-            color="blue"
-            disabled={disabled}
-            title={
-              disabled
-                ? "Vous ne pouvez pas bloquer votre propre utilisateur"
-                : undefined
-            }
-            className="w-full"
-          >
-            {user.disabled ? "Débloquer" : "Bloquer"}
-          </ButtonWithConfirmation>
-        </li>
+      <ActionSectionList>
+        <ButtonWithConfirmation
+          confirmationMessage={
+            user.disabled
+              ? `Êtes-vous sûr de vouloir débloquer l'utilisateur ${user.displayName} ?`
+              : `Êtes-vous sûr de vouloir bloquer l'utilisateur ${user.displayName} ?`
+          }
+          onClick={() => toggleUserBlockedStatus(user.id)}
+          color="blue"
+          disabled={disabled}
+          title={
+            disabled
+              ? "Vous ne pouvez pas bloquer votre propre utilisateur"
+              : undefined
+          }
+        >
+          {user.disabled ? "Débloquer" : "Bloquer"}
+        </ButtonWithConfirmation>
 
-        <li>
-          <ButtonWithConfirmation
-            confirmationMessage={[
-              `Êtes-vous sûr de vouloir supprimer l'utilisateur ${
-                user!.displayName
-              } ?`,
-              "L'action est irréversible.",
-            ].join("\n")}
-            onClick={() => deleteUser(user.id)}
-            color="red"
-            disabled={disabled}
-            title={
-              disabled
-                ? "Vous ne pouvez pas supprimer votre propre utilisateur"
-                : undefined
-            }
-            className="w-full"
-          >
-            Supprimer
-          </ButtonWithConfirmation>
-        </li>
-      </ul>
-    </Section>
+        <ButtonWithConfirmation
+          confirmationMessage={[
+            `Êtes-vous sûr de vouloir supprimer l'utilisateur ${
+              user!.displayName
+            } ?`,
+            "L'action est irréversible.",
+          ].join("\n")}
+          onClick={() => deleteUser(user.id)}
+          color="red"
+          disabled={disabled}
+          title={
+            disabled
+              ? "Vous ne pouvez pas supprimer votre propre utilisateur"
+              : undefined
+          }
+        >
+          Supprimer
+        </ButtonWithConfirmation>
+      </ActionSectionList>
+    </ActionSection>
   );
 }
 
 function ActionsPlaceholderSection() {
   return (
-    <Section className="px-4">
-      <ul>
+    <ActionSection>
+      <ActionSectionList>
         <Placeholders count={2}>
-          <li>
-            <Placeholder preset="input" />
-          </li>
+          <Placeholder preset="button" />
         </Placeholders>
-      </ul>
-    </Section>
+      </ActionSectionList>
+    </ActionSection>
   );
 }
 
@@ -284,15 +279,15 @@ export default function UserPage() {
 
       <Main>
         {updateSucceeded && (
-          <Message type="success" className="mx-4 mb-4">
-            L'utilisateur a bien été modifié
-          </Message>
+          <MessageSection>
+            <Message type="success">L'utilisateur a bien été modifié</Message>
+          </MessageSection>
         )}
 
         {userRequest.error != null && (
-          <Message type="error" className="mx-4 mb-4">
-            {getErrorMessage(userRequest.error)}
-          </Message>
+          <MessageSection>
+            <Message type="error">{getErrorMessage(userRequest.error)}</Message>
+          </MessageSection>
         )}
 
         {content}

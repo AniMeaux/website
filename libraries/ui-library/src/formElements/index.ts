@@ -11,4 +11,3 @@ export * from "./radio";
 export * from "./requiredStar";
 export * from "./select";
 export * from "./selector";
-export * from "./submit";

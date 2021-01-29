@@ -5,6 +5,8 @@ import {
   ANIMAL_SPECIES_ALPHABETICAL_ORDER,
 } from "@animeaux/shared-entities";
 import {
+  ActionSection,
+  ActionSectionList,
   Adornment,
   Button,
   Field,
@@ -25,7 +27,6 @@ import {
   SelectorRadio,
   Selectors,
   Separator,
-  Submit,
 } from "@animeaux/ui-library";
 import * as React from "react";
 import { FaDna } from "react-icons/fa";
@@ -128,8 +129,8 @@ export function AnimalBreedForm({
 
       <Separator />
 
-      <Section>
-        <Submit>
+      <ActionSection>
+        <ActionSectionList>
           <Button
             type="submit"
             variant="primary"
@@ -138,8 +139,8 @@ export function AnimalBreedForm({
           >
             {animalBreed == null ? "Créer" : "Modifier"}
           </Button>
-        </Submit>
-      </Section>
+        </ActionSectionList>
+      </ActionSection>
     </Form>
   );
 }

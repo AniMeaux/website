@@ -8,7 +8,9 @@ import {
   EmptyMessage,
   Main,
   Message,
+  MessageSection,
   Placeholders,
+  Section,
 } from "@animeaux/ui-library";
 import { useRouter } from "next/router";
 import * as React from "react";
@@ -19,7 +21,7 @@ import { PageTitle } from "../../core/pageTitle";
 
 function LoadingRows() {
   return (
-    <ul className="px-2">
+    <ul>
       <Placeholders count={5}>
         <li>
           <UserItemPlaceholder />
@@ -39,7 +41,7 @@ function UsersRows({ users }: UsersRowsProps) {
   }
 
   return (
-    <ul className="px-2">
+    <ul>
       {users.map((user) => (
         <li key={user.id}>
           <UserLinkItem user={user} href={`./${user.id}`} />
@@ -81,24 +83,26 @@ export default function UserListPage() {
 
       <Main>
         {usersRequest.error != null && (
-          <Message type="error" className="mx-4 mb-4">
-            {getErrorMessage(usersRequest.error)}
-          </Message>
+          <MessageSection>
+            <Message type="error">
+              {getErrorMessage(usersRequest.error)}
+            </Message>
+          </MessageSection>
         )}
 
         {deleteSucceeded && (
-          <Message type="success" className="mx-4 mb-4">
-            L'utilisateur a bien été supprimé
-          </Message>
+          <MessageSection>
+            <Message type="success">L'utilisateur a bien été supprimé</Message>
+          </MessageSection>
         )}
 
         {creationSucceeded && (
-          <Message type="success" className="mx-4 mb-4">
-            L'utilisateur a bien été créé
-          </Message>
+          <MessageSection>
+            <Message type="success">L'utilisateur a bien été créé</Message>
+          </MessageSection>
         )}
 
-        {content}
+        {content != null && <Section>{content}</Section>}
       </Main>
 
       <Navigation />

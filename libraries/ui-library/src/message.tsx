@@ -5,8 +5,8 @@ import { FaCheck, FaTimes } from "react-icons/fa";
 export type MessageType = "error" | "success";
 
 export const MessageTypeClassName: { [key in MessageType]: string } = {
-  error: "bg-red-50 text-red-500",
-  success: "bg-green-50 text-green-500",
+  error: "bg-red-500 text-white",
+  success: "bg-green-500 text-white",
 };
 
 type MessageProps = React.HTMLAttributes<HTMLDivElement> & {
@@ -25,7 +25,7 @@ export function Message({ type, children, className, ...rest }: MessageProps) {
     <div
       {...rest}
       className={cn(
-        "px-4 py-2 rounded-lg text-sm font-medium flex items-start",
+        "px-4 py-4 rounded-lg text-sm font-medium flex items-start",
         MessageTypeClassName[type],
         className
       )}

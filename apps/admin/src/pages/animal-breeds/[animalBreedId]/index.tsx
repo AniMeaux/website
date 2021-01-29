@@ -9,6 +9,8 @@ import {
   getErrorMessage,
 } from "@animeaux/shared-entities";
 import {
+  ActionSection,
+  ActionSectionList,
   ButtonWithConfirmation,
   Item,
   ItemContent,
@@ -16,6 +18,7 @@ import {
   ItemMainText,
   Main,
   Message,
+  MessageSection,
   Placeholder,
   resolveUrl,
   Section,
@@ -80,42 +83,37 @@ function ActionsSection({ animalBreed }: { animalBreed: AnimalBreed }) {
   );
 
   return (
-    <Section className="px-4">
+    <ActionSection>
       {deleteAnimalBreedRequest.error != null && (
         <Message type="error" className="mb-4">
           {getErrorMessage(deleteAnimalBreedRequest.error)}
         </Message>
       )}
 
-      <ul className="space-y-4">
-        <li>
-          <ButtonWithConfirmation
-            confirmationMessage={[
-              `Êtes-vous sûr de vouloir supprimer la race ${animalBreed.name} ?`,
-              "L'action est irréversible.",
-            ].join("\n")}
-            onClick={() => deleteAnimalBreed(animalBreed.id)}
-            // TODO: Prevent delete if it is used by animals.
-            color="red"
-            className="w-full"
-          >
-            Supprimer
-          </ButtonWithConfirmation>
-        </li>
-      </ul>
-    </Section>
+      <ActionSectionList>
+        <ButtonWithConfirmation
+          confirmationMessage={[
+            `Êtes-vous sûr de vouloir supprimer la race ${animalBreed.name} ?`,
+            "L'action est irréversible.",
+          ].join("\n")}
+          onClick={() => deleteAnimalBreed(animalBreed.id)}
+          // TODO: Prevent delete if it is used by animals.
+          color="red"
+        >
+          Supprimer
+        </ButtonWithConfirmation>
+      </ActionSectionList>
+    </ActionSection>
   );
 }
 
 function ActionsPlaceholderSection() {
   return (
-    <Section className="px-4">
-      <ul>
-        <li>
-          <Placeholder preset="input" />
-        </li>
-      </ul>
-    </Section>
+    <ActionSection>
+      <ActionSectionList>
+        <Placeholder preset="button" />
+      </ActionSectionList>
+    </ActionSection>
   );
 }
 
@@ -178,15 +176,17 @@ export default function AnimalBreedPage() {
 
       <Main>
         {updateSucceeded && (
-          <Message type="success" className="mx-4 mb-4">
-            La race a bien été modifiée
-          </Message>
+          <MessageSection>
+            <Message type="success">La race a bien été modifiée</Message>
+          </MessageSection>
         )}
 
         {animalBreedRequest.error != null && (
-          <Message type="error" className="mx-4 mb-4">
-            {getErrorMessage(animalBreedRequest.error)}
-          </Message>
+          <MessageSection>
+            <Message type="error">
+              {getErrorMessage(animalBreedRequest.error)}
+            </Message>
+          </MessageSection>
         )}
 
         {content}

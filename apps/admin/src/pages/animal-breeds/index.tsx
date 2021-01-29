@@ -13,7 +13,9 @@ import {
   EmptyMessage,
   Main,
   Message,
+  MessageSection,
   Placeholders,
+  Section,
 } from "@animeaux/ui-library";
 import { useRouter } from "next/router";
 import * as React from "react";
@@ -24,7 +26,7 @@ import { PageTitle } from "../../core/pageTitle";
 
 function LoadingRows() {
   return (
-    <ul className="px-2">
+    <ul>
       <Placeholders count={5}>
         <li>
           <AnimalBreedItemPlaceholder />
@@ -59,7 +61,7 @@ function AnimalBreedsRows({ animalBreedsPages }: AnimalBreedsRowsProps) {
     });
   });
 
-  return <ul className="px-2">{children}</ul>;
+  return <ul>{children}</ul>;
 }
 
 export default function AnimalBreedListPage() {
@@ -95,24 +97,26 @@ export default function AnimalBreedListPage() {
 
       <Main>
         {animalBreedsPagesRequest.error != null && (
-          <Message type="error" className="mx-4 mb-4">
-            {getErrorMessage(animalBreedsPagesRequest.error)}
-          </Message>
+          <MessageSection>
+            <Message type="error">
+              {getErrorMessage(animalBreedsPagesRequest.error)}
+            </Message>
+          </MessageSection>
         )}
 
         {deleteSucceeded && (
-          <Message type="success" className="mx-4 mb-4">
-            La race a bien été supprimée
-          </Message>
+          <MessageSection>
+            <Message type="success">La race a bien été supprimée</Message>
+          </MessageSection>
         )}
 
         {creationSucceeded && (
-          <Message type="success" className="mx-4 mb-4">
-            La race a bien été créée
-          </Message>
+          <MessageSection>
+            <Message type="success">La race a bien été créée</Message>
+          </MessageSection>
         )}
 
-        {content}
+        {content != null && <Section>{content}</Section>}
 
         {animalBreedsPagesRequest.hasNextPage && (
           <Button

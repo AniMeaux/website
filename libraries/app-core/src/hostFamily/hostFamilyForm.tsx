@@ -12,6 +12,8 @@ import {
   VehicleTypeLabels,
 } from "@animeaux/shared-entities";
 import {
+  ActionSection,
+  ActionSectionList,
   Adornment,
   Button,
   Checkbox,
@@ -35,7 +37,6 @@ import {
   SelectorRadio,
   Selectors,
   Separator,
-  Submit,
 } from "@animeaux/ui-library";
 import * as React from "react";
 import {
@@ -412,8 +413,8 @@ export function HostFamilyForm({
 
       <Separator />
 
-      <Section>
-        <Submit>
+      <ActionSection>
+        <ActionSectionList>
           <Button
             type="submit"
             variant="primary"
@@ -422,8 +423,8 @@ export function HostFamilyForm({
           >
             {hostFamily == null ? "Créer" : "Modifier"}
           </Button>
-        </Submit>
-      </Section>
+        </ActionSectionList>
+      </ActionSection>
     </Form>
   );
 }

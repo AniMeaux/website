@@ -13,7 +13,9 @@ import {
   EmptyMessage,
   Main,
   Message,
+  MessageSection,
   Placeholders,
+  Section,
 } from "@animeaux/ui-library";
 import { useRouter } from "next/router";
 import * as React from "react";
@@ -23,7 +25,7 @@ import { PageTitle } from "../../core/pageTitle";
 
 function LoadingRows() {
   return (
-    <ul className="px-2">
+    <ul>
       <Placeholders count={5}>
         <li>
           <SearchableHostFamilyItemPlaceholder />
@@ -60,7 +62,7 @@ function HostFamiliesRows({ hostFamiliesPages }: HostFamiliesRowsProps) {
     });
   });
 
-  return <ul className="px-2">{children}</ul>;
+  return <ul>{children}</ul>;
 }
 
 export default function HostFamilyListPage() {
@@ -96,24 +98,30 @@ export default function HostFamilyListPage() {
 
       <Main>
         {hostFamiliesPagesRequest.error != null && (
-          <Message type="error" className="mx-4 mb-4">
-            {getErrorMessage(hostFamiliesPagesRequest.error)}
-          </Message>
+          <MessageSection>
+            <Message type="error">
+              {getErrorMessage(hostFamiliesPagesRequest.error)}
+            </Message>
+          </MessageSection>
         )}
 
         {deleteSucceeded && (
-          <Message type="success" className="mx-4 mb-4">
-            La famille d'accueil a bien été supprimée
-          </Message>
+          <MessageSection>
+            <Message type="success">
+              La famille d'accueil a bien été supprimée
+            </Message>
+          </MessageSection>
         )}
 
         {creationSucceeded && (
-          <Message type="success" className="mx-4 mb-4">
-            La famille d'accueil a bien été créé
-          </Message>
+          <MessageSection>
+            <Message type="success">
+              La famille d'accueil a bien été créé
+            </Message>
+          </MessageSection>
         )}
 
-        {content}
+        {content != null && <Section>{content}</Section>}
 
         {hostFamiliesPagesRequest.hasNextPage && (
           <Button

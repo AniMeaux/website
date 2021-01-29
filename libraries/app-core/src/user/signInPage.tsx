@@ -9,7 +9,6 @@ import {
   Message,
   PasswordInput,
   ProgressBar,
-  Submit,
 } from "@animeaux/ui-library";
 import firebase from "firebase/app";
 import * as React from "react";
@@ -106,16 +105,15 @@ export function SignInPage({ logo: Logo, applicationName }: SignInPageProps) {
             />
           </Field>
 
-          <Submit>
-            <Button
-              type="submit"
-              variant="primary"
-              color="blue"
-              disabled={pending}
-            >
-              Se connecter
-            </Button>
-          </Submit>
+          <Button
+            type="submit"
+            variant="primary"
+            color="blue"
+            disabled={pending}
+            className="m-2"
+          >
+            Se connecter
+          </Button>
         </Form>
       </div>
     </main>
