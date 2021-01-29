@@ -132,10 +132,8 @@ module.exports = {
       },
       fontSize: {
         html: "16px",
-        "2xs": "0.625rem",
-        "7xl": "5rem",
+        "2xs": ["0.625rem", "1rem"],
         "8xl": "6rem",
-        "9xl": "7rem",
       },
       textColor: (theme) => ({
         "default-color": theme("colors.gray.800"),
