@@ -1,4 +1,5 @@
 import {
+  Header,
   useCurrentUser,
   useDeleteUser,
   UserGroupIcon,
@@ -32,7 +33,6 @@ import {
 import { useRouter } from "next/router";
 import * as React from "react";
 import { FaEnvelope, FaPen } from "react-icons/fa";
-import { Header } from "../../../core/header";
 import { Navigation } from "../../../core/navigation";
 import { PageTitle } from "../../../core/pageTitle";
 
@@ -292,8 +292,6 @@ export default function UserPage() {
 
         {content}
       </Main>
-
-      <Navigation hideOnSmallScreen />
     </div>
   );
 }

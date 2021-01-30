@@ -110,14 +110,16 @@ function Message({ error = false, className, ...rest }: MessageProps) {
   );
 }
 
-type GetInputClassNameOptions = Omit<BaseInputProps, "infoMessage">;
+type GetInputClassNameOptions = Omit<
+  BaseInputProps,
+  "infoMessage" | "disabled"
+>;
 
 // The index correspond to the number of adornments.
 const PaddingLeftClassNames = ["pl-4", "pl-12", "pl-20"];
 const PaddingRightClassNames = ["pr-4", "pr-12", "pr-20"];
 
 export function getInputClassName({
-  disabled,
   errorMessage,
   leftAdornment,
   rightAdornment,
@@ -133,10 +135,7 @@ export function getInputClassName({
 
   return cn(
     "a11y-focus disabled:pointer-events-none h-10 w-full min-w-0 rounded-md bg-black bg-opacity-5 focus:bg-transparent px-4 text-default-color",
-    {
-      "md:hover:bg-opacity-3": !disabled,
-      "border-2 border-red-500": errorMessage != null,
-    },
+    { "border-2 border-red-500": errorMessage != null },
     paddingLeftClassName,
     paddingRightClassName
   );

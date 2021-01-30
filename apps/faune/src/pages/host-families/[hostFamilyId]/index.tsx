@@ -1,5 +1,6 @@
 import {
   AnimalSpeciesIcon,
+  Header,
   HousingTypeIcon,
   useDeleteHostFamily,
   useHostFamily,
@@ -48,7 +49,6 @@ import {
   FaPhone,
   FaTree,
 } from "react-icons/fa";
-import { Header } from "../../../core/header";
 import { PageTitle } from "../../../core/pageTitle";
 
 function ContactSection({ hostFamily }: { hostFamily: HostFamily }) {

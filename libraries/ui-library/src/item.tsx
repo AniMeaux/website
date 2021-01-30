@@ -53,7 +53,7 @@ export function LinkItem({
     <Link
       {...rest}
       className={cn(
-        "a11y-focus w-full rounded-md px-2 flex items-center md:hover:bg-black md:hover:bg-opacity-4",
+        "a11y-focus w-full rounded-md px-2 flex items-center",
         ItemSizeClasses[size],
         {
           "bg-black bg-opacity-5": active,

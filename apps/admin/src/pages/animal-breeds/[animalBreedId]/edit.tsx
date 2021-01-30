@@ -2,6 +2,7 @@ import {
   AnimalBreedForm,
   AnimalBreedFormErrors,
   AnimalBreedFormPlaceholder,
+  Header,
   useAnimalBreed,
   useUpdateAnimalBreed,
 } from "@animeaux/app-core";
@@ -13,8 +14,6 @@ import {
 import { Main, Message, Placeholder, resolveUrl } from "@animeaux/ui-library";
 import { useRouter } from "next/router";
 import * as React from "react";
-import { Header } from "../../../core/header";
-import { Navigation } from "../../../core/navigation";
 import { PageTitle } from "../../../core/pageTitle";
 
 export default function AnimalBreedEditPage() {
@@ -103,8 +102,6 @@ export default function AnimalBreedEditPage() {
 
         {content}
       </Main>
-
-      <Navigation hideOnSmallScreen />
     </div>
   );
 }

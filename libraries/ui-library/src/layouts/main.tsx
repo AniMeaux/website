@@ -1,27 +1,17 @@
 import cn from "classnames";
 import * as React from "react";
-import { useApplicationLayout } from "./applicationLayout";
 
-export function Main({
-  className,
-  ...rest
-}: React.HTMLAttributes<HTMLElement>) {
-  const {
-    hasBottomNavigation,
-    hasLeftNavigation,
-    isNavigationCollapsed,
-  } = useApplicationLayout();
+type MainProps = React.HTMLAttributes<HTMLElement> & {
+  hasNavigation?: boolean;
+};
 
+export function Main({ hasNavigation = false, className, ...rest }: MainProps) {
   return (
     <main
       {...rest}
       className={cn(
-        "md:px-1/12 pt-4 main-pb",
-        {
-          "main-pb-with-navigation": hasBottomNavigation,
-          "ml-18": hasLeftNavigation && isNavigationCollapsed,
-          "ml-64 ": hasLeftNavigation && !isNavigationCollapsed,
-        },
+        "pt-4 main-pb",
+        { "main-pb-with-navigation": hasNavigation },
         className
       )}
     />

@@ -1,4 +1,5 @@
 import {
+  Header,
   useAllUsers,
   UserItemPlaceholder,
   UserLinkItem,
@@ -15,7 +16,6 @@ import {
 import { useRouter } from "next/router";
 import * as React from "react";
 import { FaPlus } from "react-icons/fa";
-import { Header } from "../../core/header";
 import { Navigation } from "../../core/navigation";
 import { PageTitle } from "../../core/pageTitle";
 
@@ -81,7 +81,7 @@ export default function UserListPage() {
         }}
       />
 
-      <Main>
+      <Main hasNavigation>
         {usersRequest.error != null && (
           <MessageSection>
             <Message type="error">

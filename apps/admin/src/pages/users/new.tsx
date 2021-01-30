@@ -1,4 +1,9 @@
-import { useCreateUser, UserForm, UserFormErrors } from "@animeaux/app-core";
+import {
+  Header,
+  useCreateUser,
+  UserForm,
+  UserFormErrors,
+} from "@animeaux/app-core";
 import {
   ErrorCode,
   getErrorMessage,
@@ -7,8 +12,6 @@ import {
 import { Main, Message, resolveUrl } from "@animeaux/ui-library";
 import { useRouter } from "next/router";
 import * as React from "react";
-import { Header } from "../../core/header";
-import { Navigation } from "../../core/navigation";
 import { PageTitle } from "../../core/pageTitle";
 
 export default function CreateUserPage() {
@@ -65,8 +68,6 @@ export default function CreateUserPage() {
           errors={errors}
         />
       </Main>
-
-      <Navigation hideOnSmallScreen />
     </div>
   );
 }

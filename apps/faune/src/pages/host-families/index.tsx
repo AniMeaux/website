@@ -1,4 +1,5 @@
 import {
+  Header,
   SearchableHostFamilyItem,
   SearchableHostFamilyItemPlaceholder,
   useAllHostFamilies,
@@ -20,7 +21,6 @@ import {
 import { useRouter } from "next/router";
 import * as React from "react";
 import { FaPlus } from "react-icons/fa";
-import { Header } from "../../core/header";
 import { PageTitle } from "../../core/pageTitle";
 
 function LoadingRows() {

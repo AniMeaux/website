@@ -1,5 +1,6 @@
 import {
   AnimalSpeciesIcon,
+  Header,
   useAnimalBreed,
   useDeleteAnimalBreed,
 } from "@animeaux/app-core";
@@ -28,8 +29,6 @@ import {
 import { useRouter } from "next/router";
 import * as React from "react";
 import { FaPen } from "react-icons/fa";
-import { Header } from "../../../core/header";
-import { Navigation } from "../../../core/navigation";
 import { PageTitle } from "../../../core/pageTitle";
 
 function DetailsSection({ animalBreed }: { animalBreed: AnimalBreed }) {
@@ -191,8 +190,6 @@ export default function AnimalBreedPage() {
 
         {content}
       </Main>
-
-      <Navigation hideOnSmallScreen />
     </div>
   );
 }

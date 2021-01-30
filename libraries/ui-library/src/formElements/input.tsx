@@ -42,7 +42,6 @@ export function Input({
         ref={refProp}
         className={cn(
           getInputClassName({
-            disabled,
             errorMessage,
             leftAdornment,
             rightAdornment,

@@ -1,6 +1,7 @@
 import {
   AnimalBreedItem,
   AnimalBreedItemPlaceholder,
+  Header,
   useAllAnimalBreeds,
 } from "@animeaux/app-core";
 import {
@@ -20,7 +21,6 @@ import {
 import { useRouter } from "next/router";
 import * as React from "react";
 import { FaPlus } from "react-icons/fa";
-import { Header } from "../../core/header";
 import { Navigation } from "../../core/navigation";
 import { PageTitle } from "../../core/pageTitle";
 
@@ -95,7 +95,7 @@ export default function AnimalBreedListPage() {
         }}
       />
 
-      <Main>
+      <Main hasNavigation>
         {animalBreedsPagesRequest.error != null && (
           <MessageSection>
             <Message type="error">
