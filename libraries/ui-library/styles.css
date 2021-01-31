@@ -7,6 +7,12 @@
 @tailwind utilities;
 
 @layer components {
+  *,
+  *::before,
+  *::after {
+    -webkit-tap-highlight-color: transparent;
+  }
+
   .a11y-focus:focus {
     @apply outline-none;
   }
