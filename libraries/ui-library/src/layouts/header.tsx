@@ -55,10 +55,10 @@ export function Header({
     <header
       {...rest}
       className={cn(
-        "z-20 sticky top-0 w-full h-12 flex-none flex items-center transition-colors duration-200 ease-in-out",
+        "z-20 fixed top-0 left-0 right-0 ring-1 bg-white w-full h-12 flex-none flex items-center transition-shadow duration-200 ease-in-out",
         {
-          "bg-white": isAtTheTop,
-          "bg-gray-50": !isAtTheTop,
+          "ring-transparent": isAtTheTop,
+          "ring-gray-100": !isAtTheTop,
         },
         className
       )}

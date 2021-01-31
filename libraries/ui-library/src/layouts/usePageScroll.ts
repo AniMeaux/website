@@ -7,7 +7,7 @@ export function usePageScroll() {
 
   React.useEffect(() => {
     function handleScroll() {
-      setIsAtTheTop(window.scrollY === 0);
+      setIsAtTheTop(window.scrollY <= 0);
       setIsAtTheBottom(
         window.scrollY + window.innerHeight >= document.body.offsetHeight
       );

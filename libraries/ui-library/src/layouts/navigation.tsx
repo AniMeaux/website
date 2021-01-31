@@ -57,10 +57,10 @@ export function Navigation({
     <nav
       {...rest}
       className={cn(
-        "z-20 fixed bottom-0 right-0 left-0 navigation-pb transition-colors duration-500 ease-in-out",
+        "z-20 fixed bottom-0 right-0 left-0 ring-1 bg-white navigation-pb transition-shadow duration-500 ease-in-out",
         {
-          "bg-white": isAtTheBottom,
-          "bg-gray-50": !isAtTheBottom,
+          "ring-transparent": isAtTheBottom,
+          "ring-gray-100": !isAtTheBottom,
         },
         className
       )}
