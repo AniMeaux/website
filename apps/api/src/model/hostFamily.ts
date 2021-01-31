@@ -1,68 +1,32 @@
 import {
   CreateHostFamilyPayload,
-  HostFamily,
   HostFamilyFilters,
   UpdateHostFamilyPayload,
 } from "@animeaux/shared-entities";
-import { gql, IResolverObject, IResolvers } from "apollo-server";
+import { gql, IResolverObject } from "apollo-server";
 import { database } from "../database";
 
 const typeDefs = gql`
-  enum HousingType {
-    HOUSE
-    APARTMENT
-  }
-
-  # type HostFamilyPublicProfile {
-  #   id: ID!
-  #   name: String!
-  #   phone: String!
-  #   email: String!
-  # }
-
   type HostFamily {
     id: ID!
     name: String!
     phone: String!
     email: String!
+    zipCode: String!
+    city: String!
     address: String!
-    housing: HousingType!
-    hasChild: Boolean!
-    hasGarden: Boolean!
-    hasVehicle: Trilean!
-    linkToDrive: String
-    linkToFacebook: String
-    ownAnimals: JSONObject!
-  }
-
-  type SearchableHostFamily {
-    id: String!
-    name: String!
-    phone: String!
-    email: String!
-    address: String!
-    housing: HousingType!
-    hasChild: Boolean!
-    hasGarden: Boolean!
-    hasVehicle: Trilean!
   }
 
   type AllHostFamiliesResponse {
-    hits: [SearchableHostFamily!]!
+    hits: [HostFamily!]!
     hitsTotalCount: Int!
     page: Int!
     pageCount: Int!
   }
 
   extend type Query {
-    getAllHostFamilies(
-      search: String
-      page: Int
-      housing: HousingType
-      hasChild: Boolean
-      hasGarden: Boolean
-      hasVehicle: Trilean
-    ): AllHostFamiliesResponse! @auth(groups: [ADMIN, ANIMAL_MANAGER])
+    getAllHostFamilies(search: String, page: Int): AllHostFamiliesResponse!
+      @auth(groups: [ADMIN, ANIMAL_MANAGER])
 
     getHostFamily(id: ID!): HostFamily @auth(groups: [ADMIN, ANIMAL_MANAGER])
   }
@@ -72,14 +36,9 @@ const typeDefs = gql`
       name: String!
       phone: String!
       email: String!
+      zipCode: String!
+      city: String!
       address: String!
-      housing: HousingType!
-      hasChild: Boolean!
-      hasGarden: Boolean!
-      hasVehicle: Trilean!
-      linkToDrive: String
-      linkToFacebook: String
-      ownAnimals: JSONObject!
     ): HostFamily! @auth(groups: [ADMIN, ANIMAL_MANAGER])
 
     updateHostFamily(
@@ -87,33 +46,14 @@ const typeDefs = gql`
       name: String
       phone: String
       email: String
+      zipCode: String
+      city: String
       address: String
-      housing: HousingType
-      hasChild: Boolean
-      hasGarden: Boolean
-      hasVehicle: Trilean
-      linkToDrive: String
-      linkToFacebook: String
-      ownAnimals: JSONObject
     ): HostFamily! @auth(groups: [ADMIN, ANIMAL_MANAGER])
 
     deleteHostFamily(id: ID!): Boolean! @auth(groups: [ADMIN, ANIMAL_MANAGER])
   }
 `;
-
-const resolvers: IResolvers = {
-  HostFamily: {
-    linkToDrive: (hostFamily: HostFamily) => {
-      return hostFamily.linkToDrive === "" ? null : hostFamily.linkToDrive;
-    },
-
-    linkToFacebook: (hostFamily: HostFamily) => {
-      return hostFamily.linkToFacebook === ""
-        ? null
-        : hostFamily.linkToFacebook;
-    },
-  },
-};
 
 const queries: IResolverObject = {
   getAllHostFamilies: async (parent: any, filters: HostFamilyFilters) => {
@@ -141,7 +81,6 @@ const mutations: IResolverObject = {
 
 export const HostFamilyModel = {
   typeDefs,
-  resolvers,
   queries,
   mutations,
 };

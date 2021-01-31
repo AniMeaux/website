@@ -46,7 +46,7 @@ const apolloServer = new ApolloServer({
     HostFamilyModel.typeDefs,
   ],
   schemaDirectives: Object.assign({}, AuthDirective.schemaDirectives),
-  resolvers: Object.assign(HostFamilyModel.resolvers, {
+  resolvers: Object.assign({
     Query: Object.assign(
       {},
       UserModel.queries,

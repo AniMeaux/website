@@ -6,13 +6,10 @@ import {
   HostFamilyFilters,
   HostFamilyFormPayload,
   PaginatedResponse,
-  SearchableHostFamily,
-  toSearchableHostFamily,
   UpdateHostFamilyPayload,
 } from "@animeaux/shared-entities";
 import { showSnackbar, Snackbar } from "@animeaux/ui-library";
 import { gql } from "graphql-request";
-import isEqual from "lodash.isequal";
 import * as React from "react";
 import {
   fetchGraphQL,
@@ -25,56 +22,23 @@ import {
   useQueryClient,
 } from "../request";
 
-const SearchableHostFamilyFragment = gql`
-  fragment SearchableHostFamilyFragment on SearchableHostFamily {
-    id
-    name
-    phone
-    email
-    address
-    housing
-    hasChild
-    hasGarden
-    hasVehicle
-  }
-`;
-
 const HostFamilyDetailsFragment = gql`
   fragment HostFamilyDetailsFragment on HostFamily {
     id
     name
     phone
     email
+    zipCode
+    city
     address
-    housing
-    hasChild
-    hasGarden
-    hasVehicle
-    linkToDrive
-    linkToFacebook
-    ownAnimals
   }
 `;
 
 const GetAllHostFamiliesQuery = gql`
-  query GetAllHostFamiliesQuery(
-    $search: String
-    $page: Int
-    $housing: HousingType
-    $hasChild: Boolean
-    $hasGarden: Boolean
-    $hasVehicle: Trilean
-  ) {
-    response: getAllHostFamilies(
-      search: $search
-      page: $page
-      housing: $housing
-      hasChild: $hasChild
-      hasGarden: $hasGarden
-      hasVehicle: $hasVehicle
-    ) {
+  query GetAllHostFamiliesQuery($search: String, $page: Int) {
+    response: getAllHostFamilies(search: $search, page: $page) {
       hits {
-        ...SearchableHostFamilyFragment
+        ...HostFamilyDetailsFragment
       }
       hitsTotalCount
       page
@@ -82,39 +46,23 @@ const GetAllHostFamiliesQuery = gql`
     }
   }
 
-  ${SearchableHostFamilyFragment}
+  ${HostFamilyDetailsFragment}
 `;
 
-export function useAllHostFamilies({
-  search,
-  hasChild,
-  hasGarden,
-  hasVehicle,
-  housing,
-}: HostFamilyFilters = {}) {
+export function useAllHostFamilies({ search }: HostFamilyFilters = {}) {
   const { data, ...rest } = useInfiniteQuery<
-    PaginatedResponse<SearchableHostFamily>,
+    PaginatedResponse<HostFamily>,
     Error
-  >(
-    ["host-families", search, hasChild, hasGarden, hasVehicle, housing],
-    async ({ pageParam = 0 }) => {
-      const { response } = await fetchGraphQL<
-        { response: PaginatedResponse<SearchableHostFamily> },
-        HostFamilyFilters
-      >(GetAllHostFamiliesQuery, {
-        variables: {
-          page: pageParam,
-          search,
-          hasChild,
-          hasGarden,
-          hasVehicle,
-          housing,
-        },
-      });
+  >(["host-families", search], async ({ pageParam = 0 }) => {
+    const { response } = await fetchGraphQL<
+      { response: PaginatedResponse<HostFamily> },
+      HostFamilyFilters
+    >(GetAllHostFamiliesQuery, {
+      variables: { page: pageParam, search },
+    });
 
-      return response;
-    }
-  );
+    return response;
+  });
 
   return [data, rest] as const;
 }
@@ -154,27 +102,17 @@ const CreateHostFamilyQuery = gql`
     $name: String!
     $phone: String!
     $email: String!
+    $zipCode: String!
+    $city: String!
     $address: String!
-    $housing: HousingType!
-    $hasChild: Boolean!
-    $hasGarden: Boolean!
-    $hasVehicle: Trilean!
-    $linkToDrive: String
-    $linkToFacebook: String
-    $ownAnimals: JSONObject!
   ) {
     hostFamily: createHostFamily(
       name: $name
       phone: $phone
       email: $email
+      zipCode: $zipCode
+      city: $city
       address: $address
-      housing: $housing
-      hasChild: $hasChild
-      hasGarden: $hasGarden
-      hasVehicle: $hasVehicle
-      linkToDrive: $linkToDrive
-      linkToFacebook: $linkToFacebook
-      ownAnimals: $ownAnimals
     ) {
       ...HostFamilyDetailsFragment
     }
@@ -206,19 +144,19 @@ export function useCreateHostFamily(
         throw new Error(ErrorCode.HOST_FAMILY_INVALID_EMAIL);
       }
 
+      if (payload.zipCode.trim() === "") {
+        throw new Error(ErrorCode.HOST_FAMILY_MISSING_ZIP_CODE);
+      }
+
+      if (payload.city.trim() === "") {
+        throw new Error(ErrorCode.HOST_FAMILY_MISSING_CITY);
+      }
+
       if (payload.address.trim() === "") {
         throw new Error(ErrorCode.HOST_FAMILY_MISSING_ADDRESS);
       }
 
-      if (payload.housing == null) {
-        throw new Error(ErrorCode.HOST_FAMILY_MISSING_HOUSING);
-      }
-
-      const createPayload: CreateHostFamilyPayload = {
-        ...payload,
-        // Tells TypeScript `payload.housing` cannot be null.
-        housing: payload.housing,
-      };
+      const createPayload: CreateHostFamilyPayload = payload;
 
       const { hostFamily } = await fetchGraphQL<
         { hostFamily: HostFamily },
@@ -235,8 +173,9 @@ export function useCreateHostFamily(
         ErrorCode.HOST_FAMILY_NAME_ALREADY_USED,
         ErrorCode.HOST_FAMILY_MISSING_PHONE,
         ErrorCode.HOST_FAMILY_INVALID_EMAIL,
+        ErrorCode.HOST_FAMILY_MISSING_ZIP_CODE,
+        ErrorCode.HOST_FAMILY_MISSING_CITY,
         ErrorCode.HOST_FAMILY_MISSING_ADDRESS,
-        ErrorCode.HOST_FAMILY_MISSING_HOUSING,
       ],
 
       onSuccess(hostFamily, ...rest) {
@@ -262,28 +201,18 @@ const UpdateHostFamilyQuery = gql`
     $name: String
     $phone: String
     $email: String
+    $zipCode: String
+    $city: String
     $address: String
-    $housing: HousingType
-    $hasChild: Boolean
-    $hasGarden: Boolean
-    $hasVehicle: Trilean
-    $linkToDrive: String
-    $linkToFacebook: String
-    $ownAnimals: JSONObject
   ) {
     hostFamily: updateHostFamily(
       id: $id
       name: $name
       phone: $phone
       email: $email
+      zipCode: $zipCode
+      city: $city
       address: $address
-      housing: $housing
-      hasChild: $hasChild
-      hasGarden: $hasGarden
-      hasVehicle: $hasVehicle
-      linkToDrive: $linkToDrive
-      linkToFacebook: $linkToFacebook
-      ownAnimals: $ownAnimals
     ) {
       ...HostFamilyDetailsFragment
     }
@@ -311,71 +240,58 @@ export function useUpdateHostFamily(
         id: currentHostFamily.id,
       };
 
-      formPayload.name = formPayload.name.trim();
-      if (formPayload.name !== currentHostFamily.name) {
-        if (formPayload.name === "") {
+      const name = formPayload.name.trim();
+      if (name !== currentHostFamily.name) {
+        if (name === "") {
           throw new Error(ErrorCode.HOST_FAMILY_MISSING_NAME);
         }
 
-        payload.name = formPayload.name;
+        payload.name = name;
       }
 
-      formPayload.phone = formPayload.phone.trim();
-      if (formPayload.phone !== currentHostFamily.phone) {
-        if (formPayload.phone === "") {
+      const phone = formPayload.phone.trim();
+      if (phone !== currentHostFamily.phone) {
+        if (phone === "") {
           throw new Error(ErrorCode.HOST_FAMILY_MISSING_PHONE);
         }
 
-        payload.phone = formPayload.phone;
+        payload.phone = phone;
       }
 
-      formPayload.email = formPayload.email.trim();
-      if (formPayload.email !== currentHostFamily.email) {
-        if (!EMAIL_PATTERN.test(formPayload.email)) {
+      const email = formPayload.email.trim();
+      if (email !== currentHostFamily.email) {
+        if (!EMAIL_PATTERN.test(email)) {
           throw new Error(ErrorCode.HOST_FAMILY_INVALID_EMAIL);
         }
 
-        payload.email = formPayload.email;
+        payload.email = email;
       }
 
-      formPayload.address = formPayload.address.trim();
-      if (formPayload.address !== currentHostFamily.address) {
-        if (formPayload.address === "") {
+      const zipCode = formPayload.zipCode.trim();
+      if (zipCode !== currentHostFamily.zipCode) {
+        if (zipCode === "") {
+          throw new Error(ErrorCode.HOST_FAMILY_MISSING_ZIP_CODE);
+        }
+
+        payload.zipCode = zipCode;
+      }
+
+      const city = formPayload.city.trim();
+      if (city !== currentHostFamily.city) {
+        if (city === "") {
+          throw new Error(ErrorCode.HOST_FAMILY_MISSING_CITY);
+        }
+
+        payload.city = city;
+      }
+
+      const address = formPayload.address.trim();
+      if (address !== currentHostFamily.address) {
+        if (address === "") {
           throw new Error(ErrorCode.HOST_FAMILY_MISSING_ADDRESS);
         }
 
-        payload.address = formPayload.address;
-      }
-
-      if (
-        formPayload.housing != null &&
-        formPayload.housing !== currentHostFamily.housing
-      ) {
-        payload.housing = formPayload.housing;
-      }
-
-      if (formPayload.hasChild !== currentHostFamily.hasChild) {
-        payload.hasChild = formPayload.hasChild;
-      }
-
-      if (formPayload.hasGarden !== currentHostFamily.hasGarden) {
-        payload.hasGarden = formPayload.hasGarden;
-      }
-
-      if (formPayload.hasVehicle !== currentHostFamily.hasVehicle) {
-        payload.hasVehicle = formPayload.hasVehicle;
-      }
-
-      if (formPayload.linkToDrive !== currentHostFamily.linkToDrive) {
-        payload.linkToDrive = formPayload.linkToDrive;
-      }
-
-      if (formPayload.linkToFacebook !== currentHostFamily.linkToFacebook) {
-        payload.linkToFacebook = formPayload.linkToFacebook;
-      }
-
-      if (!isEqual(formPayload.ownAnimals, currentHostFamily.ownAnimals)) {
-        payload.ownAnimals = formPayload.ownAnimals;
+        payload.address = address;
       }
 
       const { hostFamily } = await fetchGraphQL<
@@ -393,8 +309,9 @@ export function useUpdateHostFamily(
         ErrorCode.HOST_FAMILY_NAME_ALREADY_USED,
         ErrorCode.HOST_FAMILY_MISSING_PHONE,
         ErrorCode.HOST_FAMILY_INVALID_EMAIL,
+        ErrorCode.HOST_FAMILY_MISSING_ZIP_CODE,
+        ErrorCode.HOST_FAMILY_MISSING_CITY,
         ErrorCode.HOST_FAMILY_MISSING_ADDRESS,
-        ErrorCode.HOST_FAMILY_MISSING_HOUSING,
       ],
 
       onSuccess(hostFamily, ...rest) {
@@ -402,7 +319,7 @@ export function useUpdateHostFamily(
 
         queryClient.setQueryData(
           "host-families",
-          updateDataInInfiniteCache(toSearchableHostFamily(hostFamily))
+          updateDataInInfiniteCache(hostFamily)
         );
 
         showSnackbar.success(<Snackbar type="success">FA modifiée</Snackbar>);

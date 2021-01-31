@@ -1,21 +1,5 @@
-import {
-  AnimalSpeciesIcon,
-  Header,
-  HousingTypeIcon,
-  useDeleteHostFamily,
-  useHostFamily,
-  VehicleTypeIcon,
-} from "@animeaux/app-core";
-import {
-  AnimalSpeciesLabels,
-  AnimalSpeciesLabelsPlural,
-  ANIMAL_SPECIES_ALPHABETICAL_ORDER,
-  HostFamily,
-  HousingTypeLabels,
-  isAnimalSpeciesFertile,
-  Trilean,
-  VehicleTypeLabels,
-} from "@animeaux/shared-entities";
+import { Header, useDeleteHostFamily, useHostFamily } from "@animeaux/app-core";
+import { HostFamily } from "@animeaux/shared-entities";
 import {
   ActionSection,
   ActionSectionList,
@@ -24,8 +8,6 @@ import {
   ItemContent,
   ItemIcon,
   ItemMainText,
-  ItemSecondaryText,
-  LinkItem,
   Main,
   Placeholder,
   Placeholders,
@@ -36,16 +18,7 @@ import {
 } from "@animeaux/ui-library";
 import { useRouter } from "next/router";
 import * as React from "react";
-import {
-  FaBaby,
-  FaEnvelope,
-  FaFacebook,
-  FaGoogleDrive,
-  FaMapMarker,
-  FaPen,
-  FaPhone,
-  FaTree,
-} from "react-icons/fa";
+import { FaEnvelope, FaMapMarker, FaPen, FaPhone } from "react-icons/fa";
 import { PageTitle } from "../../../core/pageTitle";
 
 function ContactSection({ hostFamily }: { hostFamily: HostFamily }) {
@@ -85,7 +58,9 @@ function ContactSection({ hostFamily }: { hostFamily: HostFamily }) {
             </ItemIcon>
 
             <ItemContent>
-              <ItemMainText>{hostFamily.address}</ItemMainText>
+              <ItemMainText>
+                {hostFamily.address}, {hostFamily.zipCode} {hostFamily.city}
+              </ItemMainText>
             </ItemContent>
           </Item>
         </li>
@@ -117,197 +92,6 @@ function ContactPlaceholderSection() {
             </Item>
           </li>
         </Placeholders>
-      </ul>
-    </Section>
-  );
-}
-
-function HousingAndTransportSection({
-  hostFamily,
-}: {
-  hostFamily: HostFamily;
-}) {
-  return (
-    <Section>
-      <SectionTitle>Transport et habitation</SectionTitle>
-
-      <ul>
-        {hostFamily.hasVehicle !== Trilean.UNKNOWN && (
-          <li>
-            <Item>
-              <ItemIcon>
-                <VehicleTypeIcon hasVehicle={hostFamily.hasVehicle} />
-              </ItemIcon>
-
-              <ItemContent>
-                <ItemMainText>
-                  {VehicleTypeLabels[hostFamily.hasVehicle]}
-                </ItemMainText>
-              </ItemContent>
-            </Item>
-          </li>
-        )}
-
-        <li>
-          <Item>
-            <ItemIcon>
-              <HousingTypeIcon housingType={hostFamily.housing} />
-            </ItemIcon>
-
-            <ItemContent>
-              <ItemMainText>
-                {HousingTypeLabels[hostFamily.housing]}
-              </ItemMainText>
-            </ItemContent>
-          </Item>
-        </li>
-
-        {hostFamily.hasGarden && (
-          <li>
-            <Item>
-              <ItemIcon>
-                <FaTree />
-              </ItemIcon>
-
-              <ItemContent>
-                <ItemMainText>Avec jardin</ItemMainText>
-              </ItemContent>
-            </Item>
-          </li>
-        )}
-      </ul>
-    </Section>
-  );
-}
-
-function HousingAndTransportPlaceholderSection() {
-  return (
-    <Section>
-      <SectionTitle>
-        <Placeholder preset="text" />
-      </SectionTitle>
-
-      <ul>
-        <Placeholders count={2}>
-          <li>
-            <Item>
-              <ItemIcon>
-                <Placeholder preset="icon" />
-              </ItemIcon>
-
-              <ItemContent>
-                <ItemMainText>
-                  <Placeholder preset="label" />
-                </ItemMainText>
-              </ItemContent>
-            </Item>
-          </li>
-        </Placeholders>
-      </ul>
-    </Section>
-  );
-}
-
-function HomeCompositionSection({ hostFamily }: { hostFamily: HostFamily }) {
-  return (
-    <Section>
-      <SectionTitle>Composition du foyer</SectionTitle>
-
-      {hostFamily.hasChild && (
-        <Item>
-          <ItemIcon>
-            <FaBaby />
-          </ItemIcon>
-
-          <ItemContent>
-            <ItemMainText>A des enfants en bas âge</ItemMainText>
-          </ItemContent>
-        </Item>
-      )}
-
-      <ul>
-        {ANIMAL_SPECIES_ALPHABETICAL_ORDER.map((species) => {
-          const count = hostFamily.ownAnimals[species]?.count ?? 0;
-          const multiple = count > 1;
-
-          if (count === 0) {
-            return null;
-          }
-
-          return (
-            <li key={species}>
-              <Item>
-                <ItemIcon>
-                  <AnimalSpeciesIcon species={species} />
-                </ItemIcon>
-
-                <ItemContent>
-                  <ItemMainText>
-                    <strong className="font-semibold">{count}</strong>{" "}
-                    {multiple
-                      ? AnimalSpeciesLabelsPlural[species]
-                      : AnimalSpeciesLabels[species]}
-                    {isAnimalSpeciesFertile(species) &&
-                      hostFamily.ownAnimals[species]!.areAllSterilized &&
-                      ` stérélisé${multiple ? "s" : ""}`}
-                  </ItemMainText>
-                </ItemContent>
-              </Item>
-            </li>
-          );
-        })}
-      </ul>
-    </Section>
-  );
-}
-
-function LinksSection({ hostFamily }: { hostFamily: HostFamily }) {
-  return (
-    <Section>
-      <SectionTitle>Liens</SectionTitle>
-
-      <ul>
-        {hostFamily.linkToDrive != null && (
-          <li>
-            <LinkItem
-              size="large"
-              href={hostFamily.linkToDrive}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <ItemIcon>
-                <FaGoogleDrive />
-              </ItemIcon>
-
-              <ItemContent>
-                <ItemMainText>Dossier drive</ItemMainText>
-                <ItemSecondaryText>{hostFamily.linkToDrive}</ItemSecondaryText>
-              </ItemContent>
-            </LinkItem>
-          </li>
-        )}
-
-        {hostFamily.linkToFacebook != null && (
-          <li>
-            <LinkItem
-              size="large"
-              href={hostFamily.linkToFacebook}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <ItemIcon>
-                <FaFacebook />
-              </ItemIcon>
-
-              <ItemContent>
-                <ItemMainText>Page Facebook</ItemMainText>
-                <ItemSecondaryText>
-                  {hostFamily.linkToFacebook}
-                </ItemSecondaryText>
-              </ItemContent>
-            </LinkItem>
-          </li>
-        )}
       </ul>
     </Section>
   );
@@ -371,32 +155,9 @@ export default function HostFamilyPage() {
   let content: React.ReactNode | null = null;
 
   if (hostFamily != null) {
-    const hasLink =
-      hostFamily.linkToDrive != null || hostFamily.linkToFacebook != null;
-
-    const hasHomeComposition =
-      hostFamily.hasChild || Object.keys(hostFamily.ownAnimals).length > 0;
-
     content = (
       <>
         <ContactSection hostFamily={hostFamily} />
-        <Separator />
-        <HousingAndTransportSection hostFamily={hostFamily} />
-
-        {hasHomeComposition && (
-          <>
-            <Separator />
-            <HomeCompositionSection hostFamily={hostFamily} />
-          </>
-        )}
-
-        {hasLink && (
-          <>
-            <Separator />
-            <LinksSection hostFamily={hostFamily} />
-          </>
-        )}
-
         <Separator />
         <ActionsSection hostFamily={hostFamily} />
       </>
@@ -405,8 +166,6 @@ export default function HostFamilyPage() {
     content = (
       <>
         <ContactPlaceholderSection />
-        <Separator />
-        <HousingAndTransportPlaceholderSection />
         <Separator />
         <ActionsPlaceholderSection />
       </>

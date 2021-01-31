@@ -1,4 +1,4 @@
-import { SearchableHostFamily } from "@animeaux/shared-entities";
+import { HostFamily } from "@animeaux/shared-entities";
 import {
   Avatar,
   Item,
@@ -13,7 +13,7 @@ import {
 import * as React from "react";
 import { FaHome } from "react-icons/fa";
 
-export function SearchableHostFamilyItemPlaceholder() {
+export function HostFamilyItemPlaceholder() {
   return (
     <Item size="large">
       <ItemIcon>
@@ -28,14 +28,11 @@ export function SearchableHostFamilyItemPlaceholder() {
   );
 }
 
-type SearchableHostFamilyItemProps = LinkItemProps & {
-  hostFamily: SearchableHostFamily;
+type HostFamilyItemProps = LinkItemProps & {
+  hostFamily: HostFamily;
 };
 
-export function SearchableHostFamilyItem({
-  hostFamily,
-  ...rest
-}: SearchableHostFamilyItemProps) {
+export function HostFamilyItem({ hostFamily, ...rest }: HostFamilyItemProps) {
   return (
     <LinkItem {...rest} size="large">
       <ItemIcon>

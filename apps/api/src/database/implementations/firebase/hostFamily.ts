@@ -4,19 +4,15 @@ import {
   ErrorCode,
   HostFamily,
   HostFamilyFilters,
-  minimiseHostFamilyOwnAnimals,
   PaginatedResponse,
-  SearchableHostFamily,
   UpdateHostFamilyPayload,
 } from "@animeaux/shared-entities";
 import { UserInputError } from "apollo-server";
 import * as admin from "firebase-admin";
 import isEmpty from "lodash.isempty";
-import isEqual from "lodash.isequal";
 import { v4 as uuid } from "uuid";
 import { AlgoliaClient } from "../../algoliaClient";
 import { HostFamilyDatabase } from "../../databaseType";
-import { SearchFilters } from "../../searchFilters";
 
 const HostFamiliesIndex = AlgoliaClient.initIndex("hostFamilies");
 
@@ -35,39 +31,10 @@ async function assertHostFamilyNameNotUsed(name: string) {
 export const hostFamilyDatabase: HostFamilyDatabase = {
   async getAllHostFamilies(
     filters: HostFamilyFilters
-  ): Promise<PaginatedResponse<SearchableHostFamily>> {
-    const searchFilters: string[] = [];
-
-    if (filters.hasChild != null) {
-      searchFilters.push(
-        SearchFilters.createFilter("hasChild", filters.hasChild)
-      );
-    }
-
-    if (filters.hasGarden != null) {
-      searchFilters.push(
-        SearchFilters.createFilter("hasGarden", filters.hasGarden)
-      );
-    }
-
-    if (filters.hasVehicle != null) {
-      searchFilters.push(
-        SearchFilters.createFilter("hasVehicle", filters.hasVehicle)
-      );
-    }
-
-    if (filters.housing != null) {
-      searchFilters.push(
-        SearchFilters.createFilter("housing", filters.housing)
-      );
-    }
-
-    const result = await HostFamiliesIndex.search<SearchableHostFamily>(
+  ): Promise<PaginatedResponse<HostFamily>> {
+    const result = await HostFamiliesIndex.search<HostFamily>(
       filters.search ?? "",
-      {
-        page: filters.page ?? 0,
-        filters: SearchFilters.and(searchFilters),
-      }
+      { page: filters.page ?? 0 }
     );
 
     return {
@@ -88,73 +55,50 @@ export const hostFamilyDatabase: HostFamilyDatabase = {
     return (hostFamilySnapshot.data() as HostFamily) ?? null;
   },
 
-  async createHostFamily({
-    name,
-    phone,
-    email,
-    address,
-    housing,
-    hasChild,
-    hasGarden,
-    hasVehicle,
-    linkToDrive,
-    linkToFacebook,
-    ownAnimals,
-  }: CreateHostFamilyPayload): Promise<HostFamily> {
-    name = name.trim();
+  async createHostFamily(
+    payload: CreateHostFamilyPayload
+  ): Promise<HostFamily> {
+    const name = payload.name.trim();
     if (name === "") {
       throw new UserInputError(ErrorCode.HOST_FAMILY_MISSING_NAME);
     }
 
-    phone = phone.trim();
+    const phone = payload.phone.trim();
     if (phone === "") {
       throw new UserInputError(ErrorCode.HOST_FAMILY_MISSING_PHONE);
     }
 
-    email = email.trim();
+    const email = payload.email.trim();
     if (!EMAIL_PATTERN.test(email)) {
       throw new UserInputError(ErrorCode.HOST_FAMILY_INVALID_EMAIL);
     }
 
-    address = address.trim();
+    const zipCode = payload.zipCode.trim();
+    if (zipCode === "") {
+      throw new UserInputError(ErrorCode.HOST_FAMILY_MISSING_ZIP_CODE);
+    }
+
+    const city = payload.city.trim();
+    if (city === "") {
+      throw new UserInputError(ErrorCode.HOST_FAMILY_MISSING_CITY);
+    }
+
+    const address = payload.address.trim();
     if (address === "") {
       throw new UserInputError(ErrorCode.HOST_FAMILY_MISSING_ADDRESS);
     }
 
     await assertHostFamilyNameNotUsed(name);
 
-    const searchableHostFamily: SearchableHostFamily = {
+    const hostFamily: HostFamily = {
       id: uuid(),
       name,
       phone,
       email,
+      city,
+      zipCode,
       address,
-      housing,
-      hasChild,
-      hasGarden,
-      hasVehicle,
     };
-
-    const hostFamily: HostFamily = {
-      ...searchableHostFamily,
-      ownAnimals: minimiseHostFamilyOwnAnimals(ownAnimals),
-    };
-
-    if (linkToDrive != null) {
-      linkToDrive = linkToDrive.trim();
-
-      if (linkToDrive !== "") {
-        hostFamily.linkToDrive = linkToDrive;
-      }
-    }
-
-    if (linkToFacebook != null) {
-      linkToFacebook = linkToFacebook.trim();
-
-      if (linkToFacebook !== "") {
-        hostFamily.linkToFacebook = linkToFacebook;
-      }
-    }
 
     await admin
       .firestore()
@@ -163,36 +107,25 @@ export const hostFamilyDatabase: HostFamilyDatabase = {
       .set(hostFamily);
 
     await HostFamiliesIndex.saveObject({
-      ...searchableHostFamily,
-      objectID: searchableHostFamily.id,
+      ...hostFamily,
+      objectID: hostFamily.id,
     });
 
     return hostFamily;
   },
 
-  async updateHostFamily({
-    id,
-    name,
-    phone,
-    email,
-    address,
-    housing,
-    hasChild,
-    hasGarden,
-    hasVehicle,
-    linkToDrive,
-    linkToFacebook,
-    ownAnimals,
-  }: UpdateHostFamilyPayload): Promise<HostFamily> {
-    const hostFamily = await hostFamilyDatabase.getHostFamily(id);
+  async updateHostFamily(
+    payload: UpdateHostFamilyPayload
+  ): Promise<HostFamily> {
+    const hostFamily = await hostFamilyDatabase.getHostFamily(payload.id);
     if (hostFamily == null) {
       throw new UserInputError(ErrorCode.HOST_FAMILY_NOT_FOUND);
     }
 
-    const searchablePayload: Partial<SearchableHostFamily> = {};
+    const hostFamilyUpdate: Partial<HostFamily> = {};
 
-    if (name != null) {
-      name = name.trim();
+    if (payload.name != null) {
+      const name = payload.name.trim();
 
       if (name === "") {
         throw new UserInputError(ErrorCode.HOST_FAMILY_MISSING_NAME);
@@ -200,104 +133,84 @@ export const hostFamilyDatabase: HostFamilyDatabase = {
 
       if (name !== hostFamily.name) {
         await assertHostFamilyNameNotUsed(name);
-        searchablePayload.name = name;
+        hostFamilyUpdate.name = name;
       }
     }
 
-    if (phone != null) {
-      phone = phone.trim();
+    if (payload.phone != null) {
+      const phone = payload.phone.trim();
 
       if (phone === "") {
         throw new UserInputError(ErrorCode.HOST_FAMILY_MISSING_PHONE);
       }
 
       if (phone !== hostFamily.phone) {
-        searchablePayload.phone = phone;
+        hostFamilyUpdate.phone = phone;
       }
     }
 
-    if (email != null) {
-      email = email.trim();
+    if (payload.email != null) {
+      const email = payload.email.trim();
 
       if (!EMAIL_PATTERN.test(email)) {
         throw new UserInputError(ErrorCode.HOST_FAMILY_INVALID_EMAIL);
       }
 
       if (email !== hostFamily.email) {
-        searchablePayload.email = email;
+        hostFamilyUpdate.email = email;
       }
     }
 
-    if (address != null) {
-      address = address.trim();
+    if (payload.zipCode != null) {
+      const zipCode = payload.zipCode.trim();
+
+      if (zipCode === "") {
+        throw new UserInputError(ErrorCode.HOST_FAMILY_MISSING_ZIP_CODE);
+      }
+
+      if (zipCode !== hostFamily.zipCode) {
+        hostFamilyUpdate.zipCode = zipCode;
+      }
+    }
+
+    if (payload.city != null) {
+      const city = payload.city.trim();
+
+      if (city === "") {
+        throw new UserInputError(ErrorCode.HOST_FAMILY_MISSING_CITY);
+      }
+
+      if (city !== hostFamily.city) {
+        hostFamilyUpdate.city = city;
+      }
+    }
+
+    if (payload.address != null) {
+      const address = payload.address.trim();
 
       if (address === "") {
         throw new UserInputError(ErrorCode.HOST_FAMILY_MISSING_ADDRESS);
       }
 
       if (address !== hostFamily.address) {
-        searchablePayload.address = address;
+        hostFamilyUpdate.address = address;
       }
     }
 
-    if (housing != null && housing !== hostFamily.housing) {
-      searchablePayload.housing = housing;
-    }
-
-    if (hasChild != null && hasChild !== hostFamily.hasChild) {
-      searchablePayload.hasChild = hasChild;
-    }
-
-    if (hasGarden != null && hasGarden !== hostFamily.hasGarden) {
-      searchablePayload.hasGarden = hasGarden;
-    }
-
-    if (hasVehicle != null && hasVehicle !== hostFamily.hasVehicle) {
-      searchablePayload.hasVehicle = hasVehicle;
-    }
-
-    const payload: Partial<HostFamily> = { ...searchablePayload };
-
-    if (linkToDrive != null) {
-      linkToDrive = linkToDrive.trim();
-
-      if (linkToDrive !== hostFamily.linkToDrive) {
-        payload.linkToDrive = linkToDrive;
-      }
-    }
-
-    if (linkToFacebook != null) {
-      linkToFacebook = linkToFacebook.trim();
-
-      if (linkToFacebook !== hostFamily.linkToFacebook) {
-        payload.linkToFacebook = linkToFacebook;
-      }
-    }
-
-    if (ownAnimals != null) {
-      ownAnimals = minimiseHostFamilyOwnAnimals(ownAnimals);
-
-      if (!isEqual(ownAnimals, hostFamily.ownAnimals)) {
-        payload.ownAnimals = ownAnimals;
-      }
-    }
-
-    if (!isEmpty(payload)) {
+    if (!isEmpty(hostFamilyUpdate)) {
       await admin
         .firestore()
         .collection("hostFamilies")
-        .doc(id)
-        .update(payload);
-    }
+        .doc(hostFamily.id)
+        .update(hostFamilyUpdate);
 
-    if (!isEmpty(searchablePayload)) {
       await HostFamiliesIndex.partialUpdateObject({
-        ...searchablePayload,
-        objectID: id,
+        ...hostFamilyUpdate,
+        objectID: hostFamily.id,
       });
     }
 
-    return { ...hostFamily, ...payload };
+    return { ...hostFamily, ...hostFamilyUpdate };
   },
 
   async deleteHostFamily(id: string): Promise<boolean> {

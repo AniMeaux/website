@@ -60,13 +60,17 @@ export default function HostFamilyEditPage() {
     ) {
       errors.email = errorMessage;
     } else if (
+      hasErrorCode(mutation.error, ErrorCode.HOST_FAMILY_MISSING_ZIP_CODE)
+    ) {
+      errors.zipCode = errorMessage;
+    } else if (
+      hasErrorCode(mutation.error, ErrorCode.HOST_FAMILY_MISSING_CITY)
+    ) {
+      errors.city = errorMessage;
+    } else if (
       hasErrorCode(mutation.error, ErrorCode.HOST_FAMILY_MISSING_ADDRESS)
     ) {
       errors.address = errorMessage;
-    } else if (
-      hasErrorCode(mutation.error, ErrorCode.HOST_FAMILY_MISSING_HOUSING)
-    ) {
-      errors.housing = errorMessage;
     }
   }
 

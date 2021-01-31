@@ -38,10 +38,12 @@ export default function CreateHostFamilyPage() {
       errors.phone = errorMessage;
     } else if (hasErrorCode(error, ErrorCode.HOST_FAMILY_INVALID_EMAIL)) {
       errors.email = errorMessage;
+    } else if (hasErrorCode(error, ErrorCode.HOST_FAMILY_MISSING_ZIP_CODE)) {
+      errors.zipCode = errorMessage;
+    } else if (hasErrorCode(error, ErrorCode.HOST_FAMILY_MISSING_CITY)) {
+      errors.city = errorMessage;
     } else if (hasErrorCode(error, ErrorCode.HOST_FAMILY_MISSING_ADDRESS)) {
       errors.address = errorMessage;
-    } else if (hasErrorCode(error, ErrorCode.HOST_FAMILY_MISSING_HOUSING)) {
-      errors.housing = errorMessage;
     }
   }
 

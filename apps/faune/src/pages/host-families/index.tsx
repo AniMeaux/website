@@ -1,13 +1,10 @@
 import {
   Header,
-  SearchableHostFamilyItem,
-  SearchableHostFamilyItemPlaceholder,
+  HostFamilyItem,
+  HostFamilyItemPlaceholder,
   useAllHostFamilies,
 } from "@animeaux/app-core";
-import {
-  PaginatedResponse,
-  SearchableHostFamily,
-} from "@animeaux/shared-entities";
+import { HostFamily, PaginatedResponse } from "@animeaux/shared-entities";
 import {
   Button,
   EmptyMessage,
@@ -25,7 +22,7 @@ function LoadingRows() {
       <ul>
         <Placeholders count={5}>
           <li>
-            <SearchableHostFamilyItemPlaceholder />
+            <HostFamilyItemPlaceholder />
           </li>
         </Placeholders>
       </ul>
@@ -34,7 +31,7 @@ function LoadingRows() {
 }
 
 type HostFamiliesRowsProps = {
-  hostFamiliesPages: PaginatedResponse<SearchableHostFamily>[];
+  hostFamiliesPages: PaginatedResponse<HostFamily>[];
 };
 
 function HostFamiliesRows({ hostFamiliesPages }: HostFamiliesRowsProps) {
@@ -51,10 +48,7 @@ function HostFamiliesRows({ hostFamiliesPages }: HostFamiliesRowsProps) {
     page.hits.forEach((hostFamily) => {
       children.push(
         <li key={hostFamily.id}>
-          <SearchableHostFamilyItem
-            hostFamily={hostFamily}
-            href={`./${hostFamily.id}`}
-          />
+          <HostFamilyItem hostFamily={hostFamily} href={`./${hostFamily.id}`} />
         </li>
       );
     });
