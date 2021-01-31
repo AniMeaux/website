@@ -11,8 +11,8 @@ import { UserInputError } from "apollo-server";
 import * as admin from "firebase-admin";
 import isEmpty from "lodash.isempty";
 import { v4 as uuid } from "uuid";
-import { AlgoliaClient } from "../../algoliaClient";
 import { HostFamilyDatabase } from "../../databaseType";
+import { AlgoliaClient } from "./algoliaClient";
 
 const HostFamiliesIndex = AlgoliaClient.initIndex("hostFamilies");
 

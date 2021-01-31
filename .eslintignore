@@ -1,5 +1,6 @@
 .next/
 build/
 node_modules/
+dumps/
 sw.js
 workbox-*.js

@@ -14,5 +14,5 @@
     "module": "ESNext",
     "noEmit": true
   },
-  "include": ["src"]
+  "include": ["src", "globals.d.ts"]
 }
