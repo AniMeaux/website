@@ -7,12 +7,15 @@ import {
   User,
   UserFormPayload,
 } from "@animeaux/shared-entities";
+import { showSnackbar, Snackbar } from "@animeaux/ui-library";
 import { gql } from "graphql-request";
+import * as React from "react";
 import {
   fetchGraphQL,
   removeDataFromCache,
   updateDataInCache,
   useMutation,
+  UseMutationOptions,
   useQuery,
   useQueryClient,
 } from "../request";
@@ -96,7 +99,9 @@ const CreateUserQuery = gql`
   ${UserCore}
 `;
 
-export function useCreateUser(onSuccess?: (user: User) => void) {
+export function useCreateUser(
+  options?: UseMutationOptions<User, Error, UserFormPayload>
+) {
   const queryClient = useQueryClient();
 
   const { mutate, ...rest } = useMutation<User, Error, UserFormPayload>(
@@ -123,16 +128,28 @@ export function useCreateUser(onSuccess?: (user: User) => void) {
       return user;
     },
     {
-      onSuccess(user) {
+      ...options,
+
+      errorCodesToIgnore: [
+        ErrorCode.USER_MISSING_DISPLAY_NAME,
+        ErrorCode.USER_EMAIL_ALREADY_EXISTS,
+        ErrorCode.USER_INVALID_EMAIL,
+        ErrorCode.USER_INVALID_PASSWORD,
+        ErrorCode.USER_MISSING_GROUP,
+      ],
+
+      onSuccess(user, ...rest) {
         queryClient.setQueryData(["user", user.id], user);
 
         // We don't know where the data will be added to the list so we can't
         // manualy update the cache.
         queryClient.invalidateQueries("users");
 
-        if (onSuccess != null) {
-          onSuccess(user);
-        }
+        showSnackbar.success(
+          <Snackbar type="success">Utilisateur créé</Snackbar>
+        );
+
+        options?.onSuccess?.(user, ...rest);
       },
     }
   );
@@ -160,7 +177,13 @@ const UpdateUserQuery = gql`
   ${UserCore}
 `;
 
-export function useUpdateUser(onSuccess?: (user: User) => void) {
+export function useUpdateUser(
+  options?: UseMutationOptions<
+    User,
+    Error,
+    { currentUser: User; formPayload: UserFormPayload }
+  >
+) {
   const queryClient = useQueryClient();
 
   const { mutate, ...rest } = useMutation<
@@ -198,13 +221,24 @@ export function useUpdateUser(onSuccess?: (user: User) => void) {
       return user;
     },
     {
-      onSuccess(user) {
+      ...options,
+
+      errorCodesToIgnore: [
+        ErrorCode.USER_MISSING_DISPLAY_NAME,
+        ErrorCode.USER_INVALID_PASSWORD,
+        ErrorCode.USER_MISSING_GROUP,
+        ErrorCode.USER_IS_ADMIN,
+      ],
+
+      onSuccess(user, ...rest) {
         queryClient.setQueryData(["user", user.id], user);
         queryClient.setQueryData("users", updateDataInCache(user));
 
-        if (onSuccess != null) {
-          onSuccess(user);
-        }
+        showSnackbar.success(
+          <Snackbar type="success">Utilisateur modifié</Snackbar>
+        );
+
+        options?.onSuccess?.(user, ...rest);
       },
     }
   );
@@ -218,7 +252,9 @@ const DeleteUserQuery = gql`
   }
 `;
 
-export function useDeleteUser(onSuccess?: (userId: string) => void) {
+export function useDeleteUser(
+  options?: UseMutationOptions<string, Error, string>
+) {
   const queryClient = useQueryClient();
 
   const { mutate, ...rest } = useMutation<string, Error, string>(
@@ -230,13 +266,17 @@ export function useDeleteUser(onSuccess?: (userId: string) => void) {
       return userId;
     },
     {
-      onSuccess(userId) {
+      ...options,
+
+      onSuccess(userId, ...rest) {
         queryClient.removeQueries(["user", userId]);
         queryClient.setQueryData("users", removeDataFromCache(userId));
 
-        if (onSuccess != null) {
-          onSuccess(userId);
-        }
+        showSnackbar.success(
+          <Snackbar type="success">Utilisateur supprimé</Snackbar>
+        );
+
+        options?.onSuccess?.(userId, ...rest);
       },
     }
   );
@@ -254,7 +294,9 @@ const ToggleUserBlockedStatus = gql`
   ${UserCore}
 `;
 
-export function useToggleUserBlockedStatus(onSuccess?: (user: User) => void) {
+export function useToggleUserBlockedStatus(
+  options?: UseMutationOptions<User, Error, string>
+) {
   const queryClient = useQueryClient();
 
   const { mutate, ...rest } = useMutation<User, Error, string>(
@@ -267,13 +309,17 @@ export function useToggleUserBlockedStatus(onSuccess?: (user: User) => void) {
       return user;
     },
     {
-      onSuccess(user) {
+      ...options,
+
+      onSuccess(user, ...rest) {
         queryClient.setQueryData(["user", user.id], user);
         queryClient.setQueryData("users", updateDataInCache(user));
 
-        if (onSuccess != null) {
-          onSuccess(user);
-        }
+        showSnackbar.success(
+          <Snackbar type="success">Utilisateur modifié</Snackbar>
+        );
+
+        options?.onSuccess?.(user, ...rest);
       },
     }
   );

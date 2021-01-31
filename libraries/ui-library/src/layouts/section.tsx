@@ -22,14 +22,14 @@ export function Section({
   className,
   ...rest
 }: React.HTMLAttributes<HTMLElement>) {
-  return <section {...rest} className={cn("px-2", className)} />;
+  return <section {...rest} className={cn("p-2", className)} />;
 }
 
 export function ActionSection({
   className,
   ...rest
 }: React.HTMLAttributes<HTMLElement>) {
-  return <section {...rest} className={cn("px-4", className)} />;
+  return <section {...rest} className={cn("py-2 px-4", className)} />;
 }
 
 export function ActionSectionList({
@@ -43,5 +43,5 @@ export function MessageSection({
   className,
   ...rest
 }: React.HTMLAttributes<HTMLElement>) {
-  return <section {...rest} className={cn("mb-8 px-4 space-y-4", className)} />;
+  return <section {...rest} className={cn("py-2 px-4 space-y-4", className)} />;
 }

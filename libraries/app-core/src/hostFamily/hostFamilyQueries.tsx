@@ -10,14 +10,17 @@ import {
   toSearchableHostFamily,
   UpdateHostFamilyPayload,
 } from "@animeaux/shared-entities";
+import { showSnackbar, Snackbar } from "@animeaux/ui-library";
 import { gql } from "graphql-request";
 import isEqual from "lodash.isequal";
+import * as React from "react";
 import {
   fetchGraphQL,
   removeDataFromInfiniteCache,
   updateDataInInfiniteCache,
   useInfiniteQuery,
   useMutation,
+  UseMutationOptions,
   useQuery,
   useQueryClient,
 } from "../request";
@@ -89,12 +92,11 @@ export function useAllHostFamilies({
   hasVehicle,
   housing,
 }: HostFamilyFilters = {}) {
-  const { data, refetch, ...rest } = useInfiniteQuery<
+  const { data, ...rest } = useInfiniteQuery<
     PaginatedResponse<SearchableHostFamily>,
     Error
   >(
-    "host-families",
-    [search, hasChild, hasGarden, hasVehicle, housing],
+    ["host-families", search, hasChild, hasGarden, hasVehicle, housing],
     async ({ pageParam = 0 }) => {
       const { response } = await fetchGraphQL<
         { response: PaginatedResponse<SearchableHostFamily> },
@@ -114,7 +116,7 @@ export function useAllHostFamilies({
     }
   );
 
-  return [data, { ...rest, refetch }] as const;
+  return [data, rest] as const;
 }
 
 const GetHostFamilyQuery = gql`
@@ -182,7 +184,7 @@ const CreateHostFamilyQuery = gql`
 `;
 
 export function useCreateHostFamily(
-  onSuccess?: (hostFamily: HostFamily) => void
+  options?: UseMutationOptions<HostFamily, Error, HostFamilyFormPayload>
 ) {
   const queryClient = useQueryClient();
 
@@ -226,16 +228,27 @@ export function useCreateHostFamily(
       return hostFamily;
     },
     {
-      onSuccess(hostFamily) {
+      ...options,
+
+      errorCodesToIgnore: [
+        ErrorCode.HOST_FAMILY_MISSING_NAME,
+        ErrorCode.HOST_FAMILY_NAME_ALREADY_USED,
+        ErrorCode.HOST_FAMILY_MISSING_PHONE,
+        ErrorCode.HOST_FAMILY_INVALID_EMAIL,
+        ErrorCode.HOST_FAMILY_MISSING_ADDRESS,
+        ErrorCode.HOST_FAMILY_MISSING_HOUSING,
+      ],
+
+      onSuccess(hostFamily, ...rest) {
         queryClient.setQueryData(["host-family", hostFamily.id], hostFamily);
 
         // We don't know where the data will be added to the list so we can't
         // manualy update the cache.
         queryClient.invalidateQueries("host-families");
 
-        if (onSuccess != null) {
-          onSuccess(hostFamily);
-        }
+        showSnackbar.success(<Snackbar type="success">FA créée</Snackbar>);
+
+        options?.onSuccess?.(hostFamily, ...rest);
       },
     }
   );
@@ -280,7 +293,11 @@ const UpdateHostFamilyQuery = gql`
 `;
 
 export function useUpdateHostFamily(
-  onSuccess?: (hostFamily: HostFamily) => void
+  options?: UseMutationOptions<
+    HostFamily,
+    Error,
+    { currentHostFamily: HostFamily; formPayload: HostFamilyFormPayload }
+  >
 ) {
   const queryClient = useQueryClient();
 
@@ -369,7 +386,18 @@ export function useUpdateHostFamily(
       return hostFamily;
     },
     {
-      onSuccess(hostFamily) {
+      ...options,
+
+      errorCodesToIgnore: [
+        ErrorCode.HOST_FAMILY_MISSING_NAME,
+        ErrorCode.HOST_FAMILY_NAME_ALREADY_USED,
+        ErrorCode.HOST_FAMILY_MISSING_PHONE,
+        ErrorCode.HOST_FAMILY_INVALID_EMAIL,
+        ErrorCode.HOST_FAMILY_MISSING_ADDRESS,
+        ErrorCode.HOST_FAMILY_MISSING_HOUSING,
+      ],
+
+      onSuccess(hostFamily, ...rest) {
         queryClient.setQueryData(["host-family", hostFamily.id], hostFamily);
 
         queryClient.setQueryData(
@@ -377,9 +405,9 @@ export function useUpdateHostFamily(
           updateDataInInfiniteCache(toSearchableHostFamily(hostFamily))
         );
 
-        if (onSuccess != null) {
-          onSuccess(hostFamily);
-        }
+        showSnackbar.success(<Snackbar type="success">FA modifiée</Snackbar>);
+
+        options?.onSuccess?.(hostFamily, ...rest);
       },
     }
   );
@@ -394,7 +422,7 @@ const DeleteHostFamilyQuery = gql`
 `;
 
 export function useDeleteHostFamily(
-  onSuccess?: (hostFamilyId: string) => void
+  options?: UseMutationOptions<string, Error, string>
 ) {
   const queryClient = useQueryClient();
 
@@ -407,7 +435,9 @@ export function useDeleteHostFamily(
       return hostFamilyId;
     },
     {
-      onSuccess(hostFamilyId) {
+      ...options,
+
+      onSuccess(hostFamilyId, ...rest) {
         queryClient.removeQueries(["host-family", hostFamilyId]);
 
         queryClient.setQueryData(
@@ -418,9 +448,9 @@ export function useDeleteHostFamily(
         // Invalidate it to make sure pagination is up to date.
         queryClient.invalidateQueries("host-families");
 
-        if (onSuccess != null) {
-          onSuccess(hostFamilyId);
-        }
+        showSnackbar.success(<Snackbar type="success">FA supprimée</Snackbar>);
+
+        options?.onSuccess?.(hostFamilyId, ...rest);
       },
     }
   );

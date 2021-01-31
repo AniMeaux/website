@@ -7,13 +7,16 @@ import {
   PaginatedResponse,
   UpdateAnimalBreedPayload,
 } from "@animeaux/shared-entities";
+import { showSnackbar, Snackbar } from "@animeaux/ui-library";
 import { gql } from "graphql-request";
+import * as React from "react";
 import {
   fetchGraphQL,
   removeDataFromInfiniteCache,
   updateDataInInfiniteCache,
   useInfiniteQuery,
   useMutation,
+  UseMutationOptions,
   useQuery,
   useQueryClient,
 } from "../request";
@@ -53,10 +56,10 @@ export function useAllAnimalBreeds({
   search,
   species,
 }: AnimalBreedFilters = {}) {
-  const { data, refetch, ...rest } = useInfiniteQuery<
+  const { data, ...rest } = useInfiniteQuery<
     PaginatedResponse<AnimalBreed>,
     Error
-  >("animal-breeds", [search, species], async ({ pageParam = 0 }) => {
+  >(["animal-breeds", search, species], async ({ pageParam = 0 }) => {
     const { response } = await fetchGraphQL<
       { response: PaginatedResponse<AnimalBreed> },
       AnimalBreedFilters
@@ -67,7 +70,7 @@ export function useAllAnimalBreeds({
     return response;
   });
 
-  return [data, { ...rest, refetch }] as const;
+  return [data, rest] as const;
 }
 
 const GetAnimalBreedQuery = gql`
@@ -111,7 +114,7 @@ const CreateAnimalBreedQuery = gql`
 `;
 
 export function useCreateAnimalBreed(
-  onSuccess?: (animalBreed: AnimalBreed) => void
+  options?: UseMutationOptions<AnimalBreed, Error, AnimalBreedFormPayload>
 ) {
   const queryClient = useQueryClient();
 
@@ -143,16 +146,23 @@ export function useCreateAnimalBreed(
       return animalBreed;
     },
     {
-      onSuccess(animalBreed) {
+      ...options,
+
+      errorCodesToIgnore: [
+        ErrorCode.ANIMAL_BREED_MISSING_NAME,
+        ErrorCode.ANIMAL_BREED_MISSING_SPECIES,
+      ],
+
+      onSuccess(animalBreed, ...rest) {
         queryClient.setQueryData(["animal-breed", animalBreed.id], animalBreed);
 
         // We don't know where the data will be added to the list so we can't
         // manualy update the cache.
         queryClient.invalidateQueries("animal-breeds");
 
-        if (onSuccess != null) {
-          onSuccess(animalBreed);
-        }
+        showSnackbar.success(<Snackbar type="success">Race créée</Snackbar>);
+
+        options?.onSuccess?.(animalBreed, ...rest);
       },
     }
   );
@@ -175,7 +185,11 @@ const UpdateAnimalBreedQuery = gql`
 `;
 
 export function useUpdateAnimalBreed(
-  onSuccess?: (animalBreed: AnimalBreed) => void
+  options?: UseMutationOptions<
+    AnimalBreed,
+    Error,
+    { currentAnimalBreed: AnimalBreed; formPayload: AnimalBreedFormPayload }
+  >
 ) {
   const queryClient = useQueryClient();
 
@@ -213,7 +227,14 @@ export function useUpdateAnimalBreed(
       return animalBreed;
     },
     {
-      onSuccess(animalBreed) {
+      ...options,
+
+      errorCodesToIgnore: [
+        ErrorCode.ANIMAL_BREED_MISSING_NAME,
+        ErrorCode.ANIMAL_BREED_MISSING_SPECIES,
+      ],
+
+      onSuccess(animalBreed, ...rest) {
         queryClient.setQueryData(["animal-breed", animalBreed.id], animalBreed);
 
         queryClient.setQueryData(
@@ -221,9 +242,9 @@ export function useUpdateAnimalBreed(
           updateDataInInfiniteCache(animalBreed)
         );
 
-        if (onSuccess != null) {
-          onSuccess(animalBreed);
-        }
+        showSnackbar.success(<Snackbar type="success">Race modifiée</Snackbar>);
+
+        options?.onSuccess?.(animalBreed, ...rest);
       },
     }
   );
@@ -238,7 +259,7 @@ const DeleteAnimalBreedQuery = gql`
 `;
 
 export function useDeleteAnimalBreed(
-  onSuccess?: (animalBreedId: string) => void
+  options?: UseMutationOptions<string, Error, string>
 ) {
   const queryClient = useQueryClient();
 
@@ -251,7 +272,9 @@ export function useDeleteAnimalBreed(
       return animalBreedId;
     },
     {
-      onSuccess(animalBreedId) {
+      ...options,
+
+      onSuccess(animalBreedId, ...rest) {
         queryClient.removeQueries(["animal-breed", animalBreedId]);
 
         queryClient.setQueryData(
@@ -262,9 +285,11 @@ export function useDeleteAnimalBreed(
         // Invalidate it to make sure pagination is up to date.
         queryClient.invalidateQueries("animal-breeds");
 
-        if (onSuccess != null) {
-          onSuccess(animalBreedId);
-        }
+        showSnackbar.success(
+          <Snackbar type="success">Race supprimée</Snackbar>
+        );
+
+        options?.onSuccess?.(animalBreedId, ...rest);
       },
     }
   );

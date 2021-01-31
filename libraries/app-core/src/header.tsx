@@ -5,17 +5,8 @@ import {
   HeaderIconOnlyLinkPlaceholder,
   HeaderTitle,
 } from "@animeaux/ui-library";
-import cn from "classnames";
 import * as React from "react";
-import { useCurrentUser, UserAvatar, UserAvatarProps } from "./user";
-
-function HeaderUserAvatar({ user, className, ...rest }: UserAvatarProps) {
-  return (
-    <span className={cn("mx-4 flex-none flex items-center", className)}>
-      <UserAvatar {...rest} user={user} />
-    </span>
-  );
-}
+import { useCurrentUser, UserAvatar } from "./user";
 
 export type HeaderProps = {
   headerTitle: React.ReactNode;
@@ -39,13 +30,17 @@ export function Header({
       {canGoBack ? (
         <HeaderBackLink href=".." />
       ) : (
-        <HeaderUserAvatar user={currentUser} />
+        <UserAvatar
+          user={currentUser}
+          size="small"
+          className="mx-4 flex-none flex items-center"
+        />
       )}
 
       <HeaderTitle>{headerTitle}</HeaderTitle>
 
       {action != null ? (
-        <HeaderButtonLink href={action.href} iconOnly>
+        <HeaderButtonLink href={action.href}>
           <action.icon />
         </HeaderButtonLink>
       ) : (

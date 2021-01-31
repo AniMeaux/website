@@ -4,16 +4,13 @@ import {
   UserItemPlaceholder,
   UserLinkItem,
 } from "@animeaux/app-core";
-import { getErrorMessage, User } from "@animeaux/shared-entities";
+import { User } from "@animeaux/shared-entities";
 import {
   EmptyMessage,
   Main,
-  Message,
-  MessageSection,
   Placeholders,
   Section,
 } from "@animeaux/ui-library";
-import { useRouter } from "next/router";
 import * as React from "react";
 import { FaPlus } from "react-icons/fa";
 import { Navigation } from "../../core/navigation";
@@ -21,13 +18,15 @@ import { PageTitle } from "../../core/pageTitle";
 
 function LoadingRows() {
   return (
-    <ul>
-      <Placeholders count={5}>
-        <li>
-          <UserItemPlaceholder />
-        </li>
-      </Placeholders>
-    </ul>
+    <Section>
+      <ul>
+        <Placeholders count={5}>
+          <li>
+            <UserItemPlaceholder />
+          </li>
+        </Placeholders>
+      </ul>
+    </Section>
   );
 }
 
@@ -41,22 +40,20 @@ function UsersRows({ users }: UsersRowsProps) {
   }
 
   return (
-    <ul>
-      {users.map((user) => (
-        <li key={user.id}>
-          <UserLinkItem user={user} href={`./${user.id}`} />
-        </li>
-      ))}
-    </ul>
+    <Section>
+      <ul>
+        {users.map((user) => (
+          <li key={user.id}>
+            <UserLinkItem user={user} href={`./${user.id}`} />
+          </li>
+        ))}
+      </ul>
+    </Section>
   );
 }
 
 export default function UserListPage() {
-  const router = useRouter();
-  const deleteSucceeded = router.query.deleteSucceeded != null;
-  const creationSucceeded = router.query.creationSucceeded != null;
-
-  const [users, usersRequest] = useAllUsers();
+  const [users, query] = useAllUsers();
 
   let content: React.ReactNode | null = null;
   let userCount: string = "";
@@ -64,7 +61,7 @@ export default function UserListPage() {
   if (users != null) {
     userCount = `(${users.length})`;
     content = <UsersRows users={users} />;
-  } else if (usersRequest.isLoading) {
+  } else if (query.isLoading) {
     content = <LoadingRows />;
   }
 
@@ -81,30 +78,7 @@ export default function UserListPage() {
         }}
       />
 
-      <Main hasNavigation>
-        {usersRequest.error != null && (
-          <MessageSection>
-            <Message type="error">
-              {getErrorMessage(usersRequest.error)}
-            </Message>
-          </MessageSection>
-        )}
-
-        {deleteSucceeded && (
-          <MessageSection>
-            <Message type="success">L'utilisateur a bien été supprimé</Message>
-          </MessageSection>
-        )}
-
-        {creationSucceeded && (
-          <MessageSection>
-            <Message type="success">L'utilisateur a bien été créé</Message>
-          </MessageSection>
-        )}
-
-        {content != null && <Section>{content}</Section>}
-      </Main>
-
+      <Main hasNavigation>{content}</Main>
       <Navigation />
     </div>
   );

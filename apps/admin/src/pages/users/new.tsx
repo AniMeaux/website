@@ -9,44 +9,37 @@ import {
   getErrorMessage,
   hasErrorCode,
 } from "@animeaux/shared-entities";
-import { Main, Message, resolveUrl } from "@animeaux/ui-library";
+import { Main, resolveUrl } from "@animeaux/ui-library";
 import { useRouter } from "next/router";
 import * as React from "react";
 import { PageTitle } from "../../core/pageTitle";
 
 export default function CreateUserPage() {
   const router = useRouter();
-  const [createUser, createUserRequest] = useCreateUser(() => {
-    router.push(resolveUrl(router.asPath, "../?creationSucceeded"));
+  const [createUser, { error, isLoading }] = useCreateUser({
+    onSuccess() {
+      router.push(resolveUrl(router.asPath, ".."));
+    },
   });
 
   const errors: UserFormErrors = {};
-  let globalErrorMessgae: string | null = null;
 
-  if (createUserRequest.error != null) {
-    const errorMessage = getErrorMessage(createUserRequest.error);
+  if (error != null) {
+    const errorMessage = getErrorMessage(error);
 
-    if (
-      hasErrorCode(createUserRequest.error, ErrorCode.USER_MISSING_DISPLAY_NAME)
-    ) {
+    if (hasErrorCode(error, ErrorCode.USER_MISSING_DISPLAY_NAME)) {
       errors.displayName = errorMessage;
     } else if (
-      hasErrorCode(createUserRequest.error, [
+      hasErrorCode(error, [
         ErrorCode.USER_EMAIL_ALREADY_EXISTS,
         ErrorCode.USER_INVALID_EMAIL,
       ])
     ) {
       errors.email = errorMessage;
-    } else if (
-      hasErrorCode(createUserRequest.error, ErrorCode.USER_INVALID_PASSWORD)
-    ) {
+    } else if (hasErrorCode(error, ErrorCode.USER_INVALID_PASSWORD)) {
       errors.password = errorMessage;
-    } else if (
-      hasErrorCode(createUserRequest.error, ErrorCode.USER_MISSING_GROUP)
-    ) {
+    } else if (hasErrorCode(error, ErrorCode.USER_MISSING_GROUP)) {
       errors.groups = errorMessage;
-    } else {
-      globalErrorMessgae = errorMessage;
     }
   }
 
@@ -56,17 +49,7 @@ export default function CreateUserPage() {
       <Header headerTitle="Nouvel utilisateur" canGoBack />
 
       <Main>
-        {globalErrorMessgae != null && (
-          <Message type="error" className="mx-4 mb-4">
-            {globalErrorMessgae}
-          </Message>
-        )}
-
-        <UserForm
-          onSubmit={createUser}
-          pending={createUserRequest.isLoading}
-          errors={errors}
-        />
+        <UserForm onSubmit={createUser} pending={isLoading} errors={errors} />
       </Main>
     </div>
   );

@@ -11,7 +11,7 @@ import {
   getErrorMessage,
   hasErrorCode,
 } from "@animeaux/shared-entities";
-import { Main, Message, Placeholder, resolveUrl } from "@animeaux/ui-library";
+import { Main, Placeholder, resolveUrl } from "@animeaux/ui-library";
 import { useRouter } from "next/router";
 import * as React from "react";
 import { PageTitle } from "../../../core/pageTitle";
@@ -19,12 +19,12 @@ import { PageTitle } from "../../../core/pageTitle";
 export default function HostFamilyEditPage() {
   const router = useRouter();
   const hostFamilyId = router.query.hostFamilyId as string;
-  const [hostFamily, hostFamilyRequest] = useHostFamily(hostFamilyId);
-  const [updateHostFamily, updateHostFamilyRequest] = useUpdateHostFamily(
-    () => {
-      router.push(resolveUrl(router.asPath, "..?updateSucceeded"));
-    }
-  );
+  const [hostFamily, query] = useHostFamily(hostFamilyId);
+  const [updateHostFamily, mutation] = useUpdateHostFamily({
+    onSuccess() {
+      router.push(resolveUrl(router.asPath, ".."));
+    },
+  });
 
   let pageTitle: string | null = null;
   let headerTitle: React.ReactNode | null = null;
@@ -32,56 +32,41 @@ export default function HostFamilyEditPage() {
   if (hostFamily != null) {
     pageTitle = `Modifier : ${hostFamily.name}`;
     headerTitle = pageTitle;
-  } else if (hostFamilyRequest.isLoading) {
+  } else if (query.isLoading) {
     headerTitle = <Placeholder preset="text" />;
-  } else if (hostFamilyRequest.error != null) {
+  } else if (query.error != null) {
     headerTitle = "Oups";
     pageTitle = "Oups";
   }
 
   const errors: HostFamilyFormErrors = {};
-  let globalErrorMessgae: string | null = null;
 
-  if (updateHostFamilyRequest.error != null) {
-    const errorMessage = getErrorMessage(updateHostFamilyRequest.error);
+  if (mutation.error != null) {
+    const errorMessage = getErrorMessage(mutation.error);
 
     if (
-      hasErrorCode(updateHostFamilyRequest.error, [
+      hasErrorCode(mutation.error, [
         ErrorCode.HOST_FAMILY_MISSING_NAME,
         ErrorCode.HOST_FAMILY_NAME_ALREADY_USED,
       ])
     ) {
       errors.name = errorMessage;
     } else if (
-      hasErrorCode(
-        updateHostFamilyRequest.error,
-        ErrorCode.HOST_FAMILY_MISSING_PHONE
-      )
+      hasErrorCode(mutation.error, ErrorCode.HOST_FAMILY_MISSING_PHONE)
     ) {
       errors.phone = errorMessage;
     } else if (
-      hasErrorCode(
-        updateHostFamilyRequest.error,
-        ErrorCode.HOST_FAMILY_INVALID_EMAIL
-      )
+      hasErrorCode(mutation.error, ErrorCode.HOST_FAMILY_INVALID_EMAIL)
     ) {
       errors.email = errorMessage;
     } else if (
-      hasErrorCode(
-        updateHostFamilyRequest.error,
-        ErrorCode.HOST_FAMILY_MISSING_ADDRESS
-      )
+      hasErrorCode(mutation.error, ErrorCode.HOST_FAMILY_MISSING_ADDRESS)
     ) {
       errors.address = errorMessage;
     } else if (
-      hasErrorCode(
-        updateHostFamilyRequest.error,
-        ErrorCode.HOST_FAMILY_MISSING_HOUSING
-      )
+      hasErrorCode(mutation.error, ErrorCode.HOST_FAMILY_MISSING_HOUSING)
     ) {
       errors.housing = errorMessage;
-    } else {
-      globalErrorMessgae = errorMessage;
     }
   }
 
@@ -94,11 +79,11 @@ export default function HostFamilyEditPage() {
         onSubmit={(formPayload) =>
           updateHostFamily({ currentHostFamily: hostFamily, formPayload })
         }
-        pending={updateHostFamilyRequest.isLoading}
+        pending={mutation.isLoading}
         errors={errors}
       />
     );
-  } else if (hostFamilyRequest.isLoading) {
+  } else if (query.isLoading) {
     content = <HostFamilyFormPlaceholder />;
   }
 
@@ -106,24 +91,7 @@ export default function HostFamilyEditPage() {
     <div>
       <PageTitle title={pageTitle} />
       <Header headerTitle={headerTitle} canGoBack />
-
-      <Main>
-        {globalErrorMessgae != null && (
-          <Message type="error" className="mx-4 mb-4">
-            {globalErrorMessgae}
-          </Message>
-        )}
-
-        {hostFamilyRequest.error != null && (
-          <Message type="error" className="mx-4 mb-4">
-            {getErrorMessage(hostFamilyRequest.error)}
-          </Message>
-        )}
-
-        {content}
-      </Main>
-
-      {/* <Navigation hideOnSmallScreen /> */}
+      <Main>{content}</Main>
     </div>
   );
 }

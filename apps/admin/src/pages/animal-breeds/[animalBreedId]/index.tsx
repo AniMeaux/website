@@ -4,11 +4,7 @@ import {
   useAnimalBreed,
   useDeleteAnimalBreed,
 } from "@animeaux/app-core";
-import {
-  AnimalBreed,
-  AnimalSpeciesLabels,
-  getErrorMessage,
-} from "@animeaux/shared-entities";
+import { AnimalBreed, AnimalSpeciesLabels } from "@animeaux/shared-entities";
 import {
   ActionSection,
   ActionSectionList,
@@ -18,8 +14,6 @@ import {
   ItemIcon,
   ItemMainText,
   Main,
-  Message,
-  MessageSection,
   Placeholder,
   resolveUrl,
   Section,
@@ -75,20 +69,14 @@ function DetailsPlaceholderSection() {
 
 function ActionsSection({ animalBreed }: { animalBreed: AnimalBreed }) {
   const router = useRouter();
-  const [deleteAnimalBreed, deleteAnimalBreedRequest] = useDeleteAnimalBreed(
-    () => {
-      router.push(resolveUrl(router.asPath, "..?deleteSucceeded"));
-    }
-  );
+  const [deleteAnimalBreed] = useDeleteAnimalBreed({
+    onSuccess() {
+      router.push(resolveUrl(router.asPath, ".."));
+    },
+  });
 
   return (
     <ActionSection>
-      {deleteAnimalBreedRequest.error != null && (
-        <Message type="error" className="mb-4">
-          {getErrorMessage(deleteAnimalBreedRequest.error)}
-        </Message>
-      )}
-
       <ActionSectionList>
         <ButtonWithConfirmation
           confirmationMessage={[
@@ -119,8 +107,7 @@ function ActionsPlaceholderSection() {
 export default function AnimalBreedPage() {
   const router = useRouter();
   const animalBreedId = router.query.animalBreedId as string;
-  const updateSucceeded = router.query.updateSucceeded != null;
-  const [animalBreed, animalBreedRequest] = useAnimalBreed(animalBreedId);
+  const [animalBreed, { error, isLoading }] = useAnimalBreed(animalBreedId);
 
   let pageTitle: string | null = null;
   let headerTitle: React.ReactNode | null = null;
@@ -128,9 +115,9 @@ export default function AnimalBreedPage() {
   if (animalBreed != null) {
     pageTitle = animalBreed.name;
     headerTitle = animalBreed.name;
-  } else if (animalBreedRequest.isLoading) {
+  } else if (isLoading) {
     headerTitle = <Placeholder preset="text" />;
-  } else if (animalBreedRequest.error != null) {
+  } else if (error != null) {
     headerTitle = "Oups";
     pageTitle = "Oups";
   }
@@ -145,7 +132,7 @@ export default function AnimalBreedPage() {
         <ActionsSection animalBreed={animalBreed} />
       </>
     );
-  } else if (animalBreedRequest.isLoading) {
+  } else if (isLoading) {
     content = (
       <>
         <DetailsPlaceholderSection />
@@ -173,23 +160,7 @@ export default function AnimalBreedPage() {
         }
       />
 
-      <Main>
-        {updateSucceeded && (
-          <MessageSection>
-            <Message type="success">La race a bien été modifiée</Message>
-          </MessageSection>
-        )}
-
-        {animalBreedRequest.error != null && (
-          <MessageSection>
-            <Message type="error">
-              {getErrorMessage(animalBreedRequest.error)}
-            </Message>
-          </MessageSection>
-        )}
-
-        {content}
-      </Main>
+      <Main>{content}</Main>
     </div>
   );
 }

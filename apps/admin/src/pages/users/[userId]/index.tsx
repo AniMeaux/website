@@ -7,7 +7,6 @@ import {
   useUser,
 } from "@animeaux/app-core";
 import {
-  getErrorMessage,
   sortGroupsByLabel,
   User,
   UserGroupLabels,
@@ -21,8 +20,6 @@ import {
   ItemIcon,
   ItemMainText,
   Main,
-  Message,
-  MessageSection,
   Placeholder,
   Placeholders,
   resolveUrl,
@@ -33,7 +30,6 @@ import {
 import { useRouter } from "next/router";
 import * as React from "react";
 import { FaEnvelope, FaPen } from "react-icons/fa";
-import { Navigation } from "../../../core/navigation";
 import { PageTitle } from "../../../core/pageTitle";
 
 function ProfileSection({ user }: { user: User }) {
@@ -136,32 +132,19 @@ function ActionsSection({ user }: { user: User }) {
   const { currentUser } = useCurrentUser();
 
   const router = useRouter();
-  const [deleteUser, deleteUserRequest] = useDeleteUser(() => {
-    router.push(resolveUrl(router.asPath, "..?deleteSucceeded"));
+  const [deleteUser] = useDeleteUser({
+    onSuccess() {
+      router.push(resolveUrl(router.asPath, ".."));
+    },
   });
 
-  const [
-    toggleUserBlockedStatus,
-    toggleUserBlockedStatusRequest,
-  ] = useToggleUserBlockedStatus();
+  const [toggleUserBlockedStatus] = useToggleUserBlockedStatus();
 
   // The current user cannot block/delete himself.
   const disabled = currentUser.id === user.id;
 
   return (
     <ActionSection>
-      {toggleUserBlockedStatusRequest.error != null && (
-        <Message type="error" className="mb-4">
-          {getErrorMessage(toggleUserBlockedStatusRequest.error)}
-        </Message>
-      )}
-
-      {deleteUserRequest.error != null && (
-        <Message type="error" className="mb-4">
-          {getErrorMessage(deleteUserRequest.error)}
-        </Message>
-      )}
-
       <ActionSectionList>
         <ButtonWithConfirmation
           confirmationMessage={
@@ -219,8 +202,7 @@ function ActionsPlaceholderSection() {
 export default function UserPage() {
   const router = useRouter();
   const userId = router.query.userId as string;
-  const updateSucceeded = router.query.updateSucceeded != null;
-  const [user, userRequest] = useUser(userId);
+  const [user, { error, isLoading }] = useUser(userId);
 
   let pageTitle: string | null = null;
   let headerTitle: React.ReactNode | null = null;
@@ -228,9 +210,9 @@ export default function UserPage() {
   if (user != null) {
     pageTitle = user.displayName;
     headerTitle = user.displayName;
-  } else if (userRequest.isLoading) {
+  } else if (isLoading) {
     headerTitle = <Placeholder preset="text" />;
-  } else if (userRequest.error != null) {
+  } else if (error != null) {
     headerTitle = "Oups";
     pageTitle = "Oups";
   }
@@ -247,7 +229,7 @@ export default function UserPage() {
         <ActionsSection user={user} />
       </>
     );
-  } else if (userRequest.isLoading) {
+  } else if (isLoading) {
     content = (
       <>
         <ProfilePlaceholderSection />
@@ -277,21 +259,7 @@ export default function UserPage() {
         }
       />
 
-      <Main>
-        {updateSucceeded && (
-          <MessageSection>
-            <Message type="success">L'utilisateur a bien été modifié</Message>
-          </MessageSection>
-        )}
-
-        {userRequest.error != null && (
-          <MessageSection>
-            <Message type="error">{getErrorMessage(userRequest.error)}</Message>
-          </MessageSection>
-        )}
-
-        {content}
-      </Main>
+      <Main>{content}</Main>
     </div>
   );
 }

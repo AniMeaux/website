@@ -1,15 +1,24 @@
 import cn from "classnames";
 import * as React from "react";
 import { FaArrowLeft } from "react-icons/fa";
-import { ButtonLink, ButtonLinkProps } from "../button";
+import { Link, LinkProps } from "../link";
+import { usePageScroll } from "./usePageScroll";
 
-export function HeaderButtonLink({ className, ...rest }: ButtonLinkProps) {
-  return <ButtonLink {...rest} className={cn("mx-4 flex-none", className)} />;
+export function HeaderButtonLink({ className, ...rest }: LinkProps) {
+  return (
+    <Link
+      {...rest}
+      className={cn(
+        "mx-4 a11y-focus w-8 h-8 flex-none flex items-center justify-center text-xl text-gray-800 active:text-opacity-20",
+        className
+      )}
+    />
+  );
 }
 
-export function HeaderBackLink(props: Omit<ButtonLinkProps, "iconOnly">) {
+export function HeaderBackLink(props: LinkProps) {
   return (
-    <HeaderButtonLink {...props} iconOnly>
+    <HeaderButtonLink {...props}>
       <FaArrowLeft />
     </HeaderButtonLink>
   );
@@ -25,7 +34,7 @@ export function HeaderTitle({
     <h1
       {...rest}
       className={cn(
-        "mx-4 flex-1 min-w-0 truncate text-center font-bold font-serif",
+        "mx-4 flex-1 min-w-0 truncate text-gray-800 text-center font-bold font-serif",
         className
       )}
     />
@@ -40,11 +49,17 @@ export function Header({
   className,
   ...rest
 }: React.HTMLAttributes<HTMLElement>) {
+  const { isAtTheTop } = usePageScroll();
+
   return (
     <header
       {...rest}
       className={cn(
-        "z-20 sticky top-0 w-full h-16 flex-none border-b bg-white flex items-center",
+        "z-20 sticky top-0 w-full h-12 flex-none flex items-center transition-colors duration-200 ease-in-out",
+        {
+          "bg-white": isAtTheTop,
+          "bg-gray-50": !isAtTheTop,
+        },
         className
       )}
     />

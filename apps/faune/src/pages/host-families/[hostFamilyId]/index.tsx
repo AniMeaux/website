@@ -10,7 +10,6 @@ import {
   AnimalSpeciesLabels,
   AnimalSpeciesLabelsPlural,
   ANIMAL_SPECIES_ALPHABETICAL_ORDER,
-  getErrorMessage,
   HostFamily,
   HousingTypeLabels,
   isAnimalSpeciesFertile,
@@ -28,8 +27,6 @@ import {
   ItemSecondaryText,
   LinkItem,
   Main,
-  Message,
-  MessageSection,
   Placeholder,
   Placeholders,
   resolveUrl,
@@ -318,20 +315,14 @@ function LinksSection({ hostFamily }: { hostFamily: HostFamily }) {
 
 function ActionsSection({ hostFamily }: { hostFamily: HostFamily }) {
   const router = useRouter();
-  const [deleteHostFamily, deleteHostFamilyRequest] = useDeleteHostFamily(
-    () => {
-      router.push(resolveUrl(router.asPath, "..?deleteSucceeded"));
-    }
-  );
+  const [deleteHostFamily] = useDeleteHostFamily({
+    onSuccess() {
+      router.push(resolveUrl(router.asPath, ".."));
+    },
+  });
 
   return (
     <ActionSection>
-      {deleteHostFamilyRequest.error != null && (
-        <Message type="error" className="mb-4">
-          {getErrorMessage(deleteHostFamilyRequest.error)}
-        </Message>
-      )}
-
       <ActionSectionList>
         <ButtonWithConfirmation
           confirmationMessage={[
@@ -362,8 +353,7 @@ function ActionsPlaceholderSection() {
 export default function HostFamilyPage() {
   const router = useRouter();
   const hostFamilyId = router.query.hostFamilyId as string;
-  const updateSucceeded = router.query.updateSucceeded != null;
-  const [hostFamily, hostFamilyRequest] = useHostFamily(hostFamilyId);
+  const [hostFamily, { error, isLoading }] = useHostFamily(hostFamilyId);
 
   let pageTitle: string | null = null;
   let headerTitle: React.ReactNode | null = null;
@@ -371,9 +361,9 @@ export default function HostFamilyPage() {
   if (hostFamily != null) {
     pageTitle = hostFamily.name;
     headerTitle = hostFamily.name;
-  } else if (hostFamilyRequest.isLoading) {
+  } else if (isLoading) {
     headerTitle = <Placeholder preset="text" />;
-  } else if (hostFamilyRequest.error != null) {
+  } else if (error != null) {
     headerTitle = "Oups";
     pageTitle = "Oups";
   }
@@ -411,7 +401,7 @@ export default function HostFamilyPage() {
         <ActionsSection hostFamily={hostFamily} />
       </>
     );
-  } else if (hostFamilyRequest.isLoading) {
+  } else if (isLoading) {
     content = (
       <>
         <ContactPlaceholderSection />
@@ -441,27 +431,7 @@ export default function HostFamilyPage() {
         }
       />
 
-      <Main>
-        {updateSucceeded && (
-          <MessageSection>
-            <Message type="success">
-              La famille d'accueil a bien été modifiée
-            </Message>
-          </MessageSection>
-        )}
-
-        {hostFamilyRequest.error != null && (
-          <MessageSection>
-            <Message type="error">
-              {getErrorMessage(hostFamilyRequest.error)}
-            </Message>
-          </MessageSection>
-        )}
-
-        {content}
-      </Main>
-
-      {/* <Navigation hideOnSmallScreen /> */}
+      <Main>{content}</Main>
     </div>
   );
 }

@@ -1,5 +1,6 @@
 @import url("https://fonts.googleapis.com/css?family=Roboto:300,400,400i,500,600,700&display=swap");
 @import url("https://fonts.googleapis.com/css?family=Open+Sans:300,400,400i,500,600,700&display=swap");
+@import url("react-toastify/dist/ReactToastify.css");
 
 @tailwind base;
 @tailwind components;
@@ -119,7 +120,7 @@
   }
 
   .placeholder-avatar {
-    @apply w-10 h-10;
+    @apply w-12 h-12;
   }
 
   .placeholder-avatar::after {
@@ -175,19 +176,28 @@
     @apply rounded-full;
   }
 
+  .header-filter {
+    backdrop-filter: blur(2px);
+  }
+
   .navigation-pb {
     padding-bottom: 0;
     padding-bottom: env(safe-area-inset-bottom, 0);
   }
 
+  .snackbar-bottom {
+    bottom: theme("padding.14");
+    bottom: calc(theme("padding.14") + env(safe-area-inset-bottom, 0));
+  }
+
   .main-pb {
-    padding-bottom: 1rem;
-    padding-bottom: calc(1rem + env(safe-area-inset-bottom, 0));
+    padding-bottom: 0;
+    padding-bottom: env(safe-area-inset-bottom, 0);
   }
 
   .main-pb-with-navigation {
-    padding-bottom: 5rem;
-    padding-bottom: calc(5rem + env(safe-area-inset-bottom, 0));
+    padding-bottom: theme("height.14");
+    padding-bottom: calc(theme("height.14") + env(safe-area-inset-bottom, 0));
   }
 }
 

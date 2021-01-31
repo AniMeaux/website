@@ -4,21 +4,14 @@ import {
   Header,
   useAllAnimalBreeds,
 } from "@animeaux/app-core";
-import {
-  AnimalBreed,
-  getErrorMessage,
-  PaginatedResponse,
-} from "@animeaux/shared-entities";
+import { AnimalBreed, PaginatedResponse } from "@animeaux/shared-entities";
 import {
   Button,
   EmptyMessage,
   Main,
-  Message,
-  MessageSection,
   Placeholders,
   Section,
 } from "@animeaux/ui-library";
-import { useRouter } from "next/router";
 import * as React from "react";
 import { FaPlus } from "react-icons/fa";
 import { Navigation } from "../../core/navigation";
@@ -26,13 +19,15 @@ import { PageTitle } from "../../core/pageTitle";
 
 function LoadingRows() {
   return (
-    <ul>
-      <Placeholders count={5}>
-        <li>
-          <AnimalBreedItemPlaceholder />
-        </li>
-      </Placeholders>
-    </ul>
+    <Section>
+      <ul>
+        <Placeholders count={5}>
+          <li>
+            <AnimalBreedItemPlaceholder />
+          </li>
+        </Placeholders>
+      </ul>
+    </Section>
   );
 }
 
@@ -61,15 +56,15 @@ function AnimalBreedsRows({ animalBreedsPages }: AnimalBreedsRowsProps) {
     });
   });
 
-  return <ul>{children}</ul>;
+  return (
+    <Section>
+      <ul>{children}</ul>
+    </Section>
+  );
 }
 
 export default function AnimalBreedListPage() {
-  const router = useRouter();
-  const deleteSucceeded = router.query.deleteSucceeded != null;
-  const creationSucceeded = router.query.creationSucceeded != null;
-
-  const [animalBreedsPages, animalBreedsPagesRequest] = useAllAnimalBreeds();
+  const [animalBreedsPages, query] = useAllAnimalBreeds();
 
   let content: React.ReactNode | null = null;
   let animalBreedsCount: string = "";
@@ -78,7 +73,7 @@ export default function AnimalBreedListPage() {
     // There is allways at least one page.
     animalBreedsCount = `(${animalBreedsPages.pages[0].hitsTotalCount})`;
     content = <AnimalBreedsRows animalBreedsPages={animalBreedsPages.pages} />;
-  } else if (animalBreedsPagesRequest.isLoading) {
+  } else if (query.isLoading) {
     content = <LoadingRows />;
   }
 
@@ -96,36 +91,18 @@ export default function AnimalBreedListPage() {
       />
 
       <Main hasNavigation>
-        {animalBreedsPagesRequest.error != null && (
-          <MessageSection>
-            <Message type="error">
-              {getErrorMessage(animalBreedsPagesRequest.error)}
-            </Message>
-          </MessageSection>
-        )}
+        {content}
 
-        {deleteSucceeded && (
-          <MessageSection>
-            <Message type="success">La race a bien été supprimée</Message>
-          </MessageSection>
-        )}
-
-        {creationSucceeded && (
-          <MessageSection>
-            <Message type="success">La race a bien été créée</Message>
-          </MessageSection>
-        )}
-
-        {content != null && <Section>{content}</Section>}
-
-        {animalBreedsPagesRequest.hasNextPage && (
-          <Button
-            onClick={() => animalBreedsPagesRequest.fetchNextPage()}
-            variant="outlined"
-            className="mx-auto mt-4"
-          >
-            En afficher plus
-          </Button>
+        {query.hasNextPage && (
+          <Section>
+            <Button
+              onClick={() => query.fetchNextPage()}
+              variant="outlined"
+              className="mx-auto"
+            >
+              En afficher plus
+            </Button>
+          </Section>
         )}
       </Main>
 

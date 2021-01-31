@@ -1,5 +1,10 @@
-import { PaginatedResponse } from "@animeaux/shared-entities";
-import { ProgressBar } from "@animeaux/ui-library";
+import {
+  ErrorCode,
+  getErrorMessage,
+  hasErrorCode,
+  PaginatedResponse,
+} from "@animeaux/shared-entities";
+import { ProgressBar, showSnackbar, Snackbar } from "@animeaux/ui-library";
 import invariant from "invariant";
 import * as React from "react";
 import {
@@ -9,12 +14,15 @@ import {
   QueryClientProvider,
   QueryFunction,
   QueryKey,
+  useQuery as useQueryReactQuery,
   useInfiniteQuery as useInfiniteQueryReactQuery,
   UseInfiniteQueryOptions,
   UseInfiniteQueryResult,
   useIsFetching,
   useMutation as useMutationReactQuery,
   UseMutationOptions,
+  UseQueryOptions,
+  UseQueryResult,
 } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 import { Updater } from "react-query/types/core/utils";
@@ -29,6 +37,9 @@ export const queryClient = new QueryClient({
       // avoid refetching data we already have.
       // 1 minute
       staleTime: 1000 * 60,
+
+      // We don't want to span the server with calls.
+      retry: false,
     },
   },
 });
@@ -86,29 +97,69 @@ export function RequestContextProvider({
         <NetworkStatus />
         <RequestProgressBar />
 
-        {process.env.NODE_ENV === "development" && (
-          <ReactQueryDevtools
-            toggleButtonProps={{ style: { bottom: "4rem" } }}
-          />
-        )}
+        {process.env.NODE_ENV === "development" && <ReactQueryDevtools />}
       </RequestContext.Provider>
     </QueryClientProvider>
   );
 }
 
+function maybeShowSnackbarError(error: Error, errorCodesToIgnore: ErrorCode[]) {
+  if (!hasErrorCode(error, errorCodesToIgnore)) {
+    showSnackbar.error(
+      <Snackbar type="error">{getErrorMessage(error)}</Snackbar>,
+      { autoClose: false }
+    );
+  }
+}
+
+type CustomHookOptions = {
+  errorCodesToIgnore?: ErrorCode[];
+};
+
+export function useQuery<
+  TQueryFnData = unknown,
+  TError extends Error = Error,
+  TData = TQueryFnData
+>(
+  queryKey: QueryKey,
+  queryFn: QueryFunction<TQueryFnData>,
+  {
+    errorCodesToIgnore = [],
+    ...options
+  }: UseQueryOptions<TQueryFnData, TError, TData> & CustomHookOptions = {}
+): UseQueryResult<TData, TError> {
+  return useQueryReactQuery(queryKey, queryFn, {
+    ...options,
+    onError(error) {
+      maybeShowSnackbarError(error, errorCodesToIgnore);
+      options?.onError?.(error);
+    },
+  });
+}
+
 export function useMutation<
   TData = unknown,
-  TError = unknown,
+  TError extends Error = Error,
   TVariables = void,
   TContext = unknown
 >(
   mutationFn: MutationFunction<TData, TVariables>,
-  options?: UseMutationOptions<TData, TError, TVariables, TContext>
+  {
+    errorCodesToIgnore = [],
+    ...options
+  }: UseMutationOptions<TData, TError, TVariables, TContext> &
+    CustomHookOptions = {}
 ) {
   const { setPendingMutationCount } = useRequest();
   const mutation = useMutationReactQuery<TData, TError, TVariables, TContext>(
     mutationFn,
-    options
+    {
+      ...options,
+      onError(error, ...rest) {
+        maybeShowSnackbarError(error, errorCodesToIgnore);
+        options?.onError?.(error, ...rest);
+      },
+    }
   );
 
   const { isLoading } = mutation;
@@ -125,21 +176,27 @@ export function useMutation<
 
 export function useInfiniteQuery<
   TQueryFnData extends PaginatedResponse<any> = PaginatedResponse<unknown>,
-  TError = unknown,
+  TError extends Error = Error,
   TData = TQueryFnData
 >(
   queryKey: QueryKey,
-  filtersDependecies: React.DependencyList,
   queryFn: QueryFunction<TQueryFnData>,
-  options?: UseInfiniteQueryOptions<TQueryFnData, TError, TData>
+  {
+    errorCodesToIgnore = [],
+    ...options
+  }: UseInfiniteQueryOptions<TQueryFnData, TError, TData> &
+    CustomHookOptions = {}
 ): UseInfiniteQueryResult<TData, TError> {
-  const isInitialRender = React.useRef(true);
-
-  const query = useInfiniteQueryReactQuery<TQueryFnData, TError, TData>(
+  return useInfiniteQueryReactQuery<TQueryFnData, TError, TData>(
     queryKey,
     queryFn,
     {
       ...options,
+
+      onError(error) {
+        maybeShowSnackbarError(error, errorCodesToIgnore);
+        options?.onError?.(error);
+      },
 
       // Return the next page that will be passed as `pageParam` to the
       // `queryFn` function.
@@ -150,24 +207,6 @@ export function useInfiniteQuery<
       },
     }
   );
-
-  const refetch = query.refetch;
-
-  // We don't add filters to the key to avoid polluting the cache and all the
-  // loading states.
-  React.useEffect(() => {
-    // We don't want to refetch after the inital render because
-    // `useInfiniteQuery` already does it.
-    if (isInitialRender.current) {
-      isInitialRender.current = false;
-    } else {
-      refetch();
-    }
-    // The caller is responsible to set the right `filtersDependecies`.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, filtersDependecies.concat([refetch]));
-
-  return query;
 }
 
 export function updateDataInCache<TData extends { id: string }>(
