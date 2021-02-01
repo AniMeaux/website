@@ -58,7 +58,7 @@ export function Select<ValueType = string>({
             leftAdornment,
             rightAdornment,
           }),
-          "appearance-none truncate cursor-pointer",
+          "truncate cursor-pointer",
           { "text-opacity-70": value == null }
         )}
       >

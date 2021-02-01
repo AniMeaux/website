@@ -134,7 +134,7 @@ export function getInputClassName({
   invariant(paddingRightClassName != null, "Only 2 adornments are supported.");
 
   return cn(
-    "a11y-focus disabled:pointer-events-none h-10 w-full min-w-0 rounded-md bg-black bg-opacity-5 focus:bg-transparent px-4 text-default-color",
+    "appearance-none a11y-focus disabled:pointer-events-none h-10 w-full min-w-0 rounded-md bg-black bg-opacity-5 focus:bg-transparent px-4 text-default-color",
     { "border-2 border-red-500": errorMessage != null },
     paddingLeftClassName,
     paddingRightClassName
