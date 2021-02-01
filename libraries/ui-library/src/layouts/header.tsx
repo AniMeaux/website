@@ -2,7 +2,7 @@ import cn from "classnames";
 import * as React from "react";
 import { FaArrowLeft } from "react-icons/fa";
 import { Link, LinkProps } from "../link";
-import { usePageScroll } from "./usePageScroll";
+import { useIsScrollAtTheTop } from "./usePageScroll";
 
 export function HeaderButtonLink({ className, ...rest }: LinkProps) {
   return (
@@ -49,7 +49,7 @@ export function Header({
   className,
   ...rest
 }: React.HTMLAttributes<HTMLElement>) {
-  const { isAtTheTop } = usePageScroll();
+  const { isAtTheTop } = useIsScrollAtTheTop();
 
   return (
     <header

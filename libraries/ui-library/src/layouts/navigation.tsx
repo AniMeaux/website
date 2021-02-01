@@ -2,7 +2,7 @@ import cn from "classnames";
 import { useRouter } from "next/router";
 import * as React from "react";
 import { Link, LinkProps } from "../link";
-import { usePageScroll } from "./usePageScroll";
+import { useIsScrollAtTheBottom } from "./usePageScroll";
 
 export function NavItem({
   className,
@@ -51,13 +51,13 @@ export function Navigation({
   children,
   ...rest
 }: React.HTMLAttributes<HTMLElement>) {
-  const { isAtTheBottom } = usePageScroll();
+  const { isAtTheBottom } = useIsScrollAtTheBottom();
 
   return (
     <nav
       {...rest}
       className={cn(
-        "z-20 fixed bottom-0 right-0 left-0 ring-1 bg-white navigation-pb transition-shadow duration-500 ease-in-out",
+        "z-20 fixed bottom-0 right-0 left-0 ring-1 bg-white navigation-pb transition-shadow duration-200 ease-in-out",
         {
           "ring-transparent": isAtTheBottom,
           "ring-gray-100": !isAtTheBottom,
