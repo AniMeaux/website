@@ -7,13 +7,28 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer components {
+@layer base {
   *,
   *::before,
   *::after {
     -webkit-tap-highlight-color: transparent;
   }
 
+  /* react-spring-bottom-sheet overrides */
+  /* purgecss start ignore */
+  [data-rsbs-overlay],
+  [data-rsbs-backdrop],
+  [data-rsbs-root]:after {
+    @apply z-20;
+  }
+
+  [data-rsbs-header] {
+    @apply shadow-none px-0 pb-0 text-left;
+  }
+  /* purgecss end ignore */
+}
+
+@layer components {
   .a11y-focus:focus {
     @apply outline-none;
   }
@@ -205,17 +220,6 @@
   .main-pb-with-navigation {
     padding-bottom: theme("height.14");
     padding-bottom: calc(theme("height.14") + env(safe-area-inset-bottom, 0));
-  }
-
-  /* react-spring-bottom-sheet overrides */
-  [data-rsbs-overlay],
-  [data-rsbs-backdrop],
-  [data-rsbs-root]:after {
-    @apply z-20;
-  }
-
-  [data-rsbs-header] {
-    @apply shadow-none px-0 pb-0 text-left;
   }
 }
 
