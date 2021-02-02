@@ -4,7 +4,12 @@ import {
   hasErrorCode,
   PaginatedResponse,
 } from "@animeaux/shared-entities";
-import { ProgressBar, showSnackbar, Snackbar } from "@animeaux/ui-library";
+import {
+  ProgressBar,
+  showSnackbar,
+  Snackbar,
+  useIsScrollAtFetchMore,
+} from "@animeaux/ui-library";
 import invariant from "invariant";
 import * as React from "react";
 import {
@@ -14,13 +19,13 @@ import {
   QueryClientProvider,
   QueryFunction,
   QueryKey,
-  useQuery as useQueryReactQuery,
   useInfiniteQuery as useInfiniteQueryReactQuery,
   UseInfiniteQueryOptions,
   UseInfiniteQueryResult,
   useIsFetching,
   useMutation as useMutationReactQuery,
   UseMutationOptions,
+  useQuery as useQueryReactQuery,
   UseQueryOptions,
   UseQueryResult,
 } from "react-query";
@@ -187,7 +192,7 @@ export function useInfiniteQuery<
   }: UseInfiniteQueryOptions<TQueryFnData, TError, TData> &
     CustomHookOptions = {}
 ): UseInfiniteQueryResult<TData, TError> {
-  return useInfiniteQueryReactQuery<TQueryFnData, TError, TData>(
+  const query = useInfiniteQueryReactQuery<TQueryFnData, TError, TData>(
     queryKey,
     queryFn,
     {
@@ -207,6 +212,14 @@ export function useInfiniteQuery<
       },
     }
   );
+
+  useIsScrollAtFetchMore(() => {
+    if (query.hasNextPage && !query.isFetchingNextPage) {
+      query.fetchNextPage();
+    }
+  });
+
+  return query;
 }
 
 export function updateDataInCache<TData extends { id: string }>(

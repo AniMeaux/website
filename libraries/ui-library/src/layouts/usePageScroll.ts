@@ -46,3 +46,30 @@ export function useIsScrollAtTheTop() {
 
   return { isAtTheTop };
 }
+
+// If this zone, at the bottom of the page, is visible, then we should fetch
+// more.
+const FETCH_ZONE_HEIGHT = 150;
+
+export function useIsScrollAtFetchMore(cb: () => void) {
+  const wasAtFetchMore = React.useRef(false);
+
+  usePageScroll(() => {
+    const isAtFetchMore =
+      // We suppose there is always scroll with pagination.
+      window.scrollY > 0 &&
+      window.scrollY + window.innerHeight + FETCH_ZONE_HEIGHT >=
+        document.body.offsetHeight;
+
+    if (isAtFetchMore) {
+      if (!wasAtFetchMore.current) {
+        wasAtFetchMore.current = true;
+        cb();
+      }
+    } else {
+      if (wasAtFetchMore.current) {
+        wasAtFetchMore.current = false;
+      }
+    }
+  });
+}

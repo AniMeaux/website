@@ -6,7 +6,6 @@ import {
 } from "@animeaux/app-core";
 import { HostFamily, PaginatedResponse } from "@animeaux/shared-entities";
 import {
-  Button,
   EmptyMessage,
   Main,
   Placeholders,
@@ -32,9 +31,13 @@ function LoadingRows() {
 
 type HostFamiliesRowsProps = {
   hostFamiliesPages: PaginatedResponse<HostFamily>[];
+  hasNextPage: boolean;
 };
 
-function HostFamiliesRows({ hostFamiliesPages }: HostFamiliesRowsProps) {
+function HostFamiliesRows({
+  hostFamiliesPages,
+  hasNextPage,
+}: HostFamiliesRowsProps) {
   // There is allways at least one page.
   if (hostFamiliesPages[0].hits.length === 0) {
     return (
@@ -56,7 +59,15 @@ function HostFamiliesRows({ hostFamiliesPages }: HostFamiliesRowsProps) {
 
   return (
     <Section>
-      <ul>{children}</ul>
+      <ul>
+        {children}
+
+        {hasNextPage && (
+          <li>
+            <HostFamilyItemPlaceholder />
+          </li>
+        )}
+      </ul>
     </Section>
   );
 }
@@ -70,7 +81,16 @@ export default function HostFamilyListPage() {
   if (hostFamiliesPages != null) {
     // There is allways at least one page.
     hostFamiliesCount = `(${hostFamiliesPages.pages[0].hitsTotalCount})`;
-    content = <HostFamiliesRows hostFamiliesPages={hostFamiliesPages.pages} />;
+    content = (
+      <HostFamiliesRows
+        hostFamiliesPages={hostFamiliesPages.pages}
+        // Use `hasNextPage` instead of `isFetchingNextPage` to avoid changing
+        // the page height during a scroll when the placeholder is rendered.
+        // This is ok because the placeholder will only be visible when the
+        // scroll is in a fetch more position.
+        hasNextPage={query.hasNextPage ?? false}
+      />
+    );
   } else if (query.isLoading) {
     content = <LoadingRows />;
   }
@@ -88,21 +108,7 @@ export default function HostFamilyListPage() {
         }}
       />
 
-      <Main>
-        {content}
-
-        {query.hasNextPage && (
-          <Section>
-            <Button
-              onClick={() => query.fetchNextPage()}
-              variant="outlined"
-              className="mx-auto"
-            >
-              En afficher plus
-            </Button>
-          </Section>
-        )}
-      </Main>
+      <Main>{content}</Main>
     </div>
   );
 }

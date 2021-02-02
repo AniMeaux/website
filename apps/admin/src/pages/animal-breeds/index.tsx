@@ -6,7 +6,6 @@ import {
 } from "@animeaux/app-core";
 import { AnimalBreed, PaginatedResponse } from "@animeaux/shared-entities";
 import {
-  Button,
   EmptyMessage,
   Main,
   Placeholders,
@@ -33,9 +32,13 @@ function LoadingRows() {
 
 type AnimalBreedsRowsProps = {
   animalBreedsPages: PaginatedResponse<AnimalBreed>[];
+  hasNextPage: boolean;
 };
 
-function AnimalBreedsRows({ animalBreedsPages }: AnimalBreedsRowsProps) {
+function AnimalBreedsRows({
+  animalBreedsPages,
+  hasNextPage,
+}: AnimalBreedsRowsProps) {
   // There is allways at least one page.
   if (animalBreedsPages[0].hits.length === 0) {
     return <EmptyMessage>Il n'y a pas encore de race.</EmptyMessage>;
@@ -58,7 +61,15 @@ function AnimalBreedsRows({ animalBreedsPages }: AnimalBreedsRowsProps) {
 
   return (
     <Section>
-      <ul>{children}</ul>
+      <ul>
+        {children}
+
+        {hasNextPage && (
+          <li>
+            <AnimalBreedItemPlaceholder />
+          </li>
+        )}
+      </ul>
     </Section>
   );
 }
@@ -72,7 +83,16 @@ export default function AnimalBreedListPage() {
   if (animalBreedsPages != null) {
     // There is allways at least one page.
     animalBreedsCount = `(${animalBreedsPages.pages[0].hitsTotalCount})`;
-    content = <AnimalBreedsRows animalBreedsPages={animalBreedsPages.pages} />;
+    content = (
+      <AnimalBreedsRows
+        animalBreedsPages={animalBreedsPages.pages}
+        // Use `hasNextPage` instead of `isFetchingNextPage` to avoid changing
+        // the page height during a scroll when the placeholder is rendered.
+        // This is ok because the placeholder will only be visible when the
+        // scroll is in a fetch more position.
+        hasNextPage={query.hasNextPage ?? false}
+      />
+    );
   } else if (query.isLoading) {
     content = <LoadingRows />;
   }
@@ -90,22 +110,7 @@ export default function AnimalBreedListPage() {
         }}
       />
 
-      <Main hasNavigation>
-        {content}
-
-        {query.hasNextPage && (
-          <Section>
-            <Button
-              onClick={() => query.fetchNextPage()}
-              variant="outlined"
-              className="mx-auto"
-            >
-              En afficher plus
-            </Button>
-          </Section>
-        )}
-      </Main>
-
+      <Main hasNavigation>{content}</Main>
       <Navigation />
     </div>
   );
