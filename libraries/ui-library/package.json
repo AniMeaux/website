@@ -20,6 +20,7 @@
     "react": "^17.0.1",
     "react-behave": "^1.1.1",
     "react-icons": "^4.1.0",
+    "react-spring-bottom-sheet": "^3.2.1",
     "react-toastify": "^7.0.2",
     "tailwindcss": "^2.0.2"
   },

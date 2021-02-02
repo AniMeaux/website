@@ -1,6 +1,7 @@
 @import url("https://fonts.googleapis.com/css?family=Roboto:300,400,400i,500,600,700&display=swap");
 @import url("https://fonts.googleapis.com/css?family=Open+Sans:300,400,400i,500,600,700&display=swap");
 @import url("react-toastify/dist/ReactToastify.css");
+@import url("react-spring-bottom-sheet/dist/style.css");
 
 @tailwind base;
 @tailwind components;
@@ -204,6 +205,17 @@
   .main-pb-with-navigation {
     padding-bottom: theme("height.14");
     padding-bottom: calc(theme("height.14") + env(safe-area-inset-bottom, 0));
+  }
+
+  /* react-spring-bottom-sheet overrides */
+  [data-rsbs-overlay],
+  [data-rsbs-backdrop],
+  [data-rsbs-root]:after {
+    @apply z-20;
+  }
+
+  [data-rsbs-header] {
+    @apply shadow-none px-0 pb-0 text-left;
   }
 }
 

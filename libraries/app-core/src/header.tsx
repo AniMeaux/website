@@ -1,12 +1,35 @@
 import {
   Header as BaseHeader,
   HeaderBackLink,
-  HeaderButtonLink,
   HeaderIconOnlyLinkPlaceholder,
+  HeaderLink,
   HeaderTitle,
 } from "@animeaux/ui-library";
 import * as React from "react";
-import { useCurrentUser, UserAvatar } from "./user";
+import {
+  CurrentUserProfile,
+  CurrentUserProfileHandle,
+  useCurrentUser,
+  UserAvatar,
+} from "./user";
+
+function HeaderUserAvatar() {
+  const { currentUser } = useCurrentUser();
+  const userPanel = React.useRef<CurrentUserProfileHandle>(null!);
+
+  return (
+    <>
+      <button
+        onClick={() => userPanel.current.open()}
+        className="a11y-focus mx-4 flex-none flex items-center"
+      >
+        <UserAvatar user={currentUser} size="small" />
+      </button>
+
+      <CurrentUserProfile refProp={userPanel} />
+    </>
+  );
+}
 
 export type HeaderProps = {
   headerTitle: React.ReactNode;
@@ -23,26 +46,15 @@ export function Header({
   canGoBack = false,
   action,
 }: HeaderProps) {
-  const { currentUser } = useCurrentUser();
-
   return (
     <BaseHeader>
-      {canGoBack ? (
-        <HeaderBackLink href=".." />
-      ) : (
-        <UserAvatar
-          user={currentUser}
-          size="small"
-          className="mx-4 flex-none flex items-center"
-        />
-      )}
-
+      {canGoBack ? <HeaderBackLink href=".." /> : <HeaderUserAvatar />}
       <HeaderTitle>{headerTitle}</HeaderTitle>
 
       {action != null ? (
-        <HeaderButtonLink href={action.href}>
+        <HeaderLink href={action.href}>
           <action.icon />
-        </HeaderButtonLink>
+        </HeaderLink>
       ) : (
         <HeaderIconOnlyLinkPlaceholder />
       )}

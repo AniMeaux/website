@@ -1,5 +1,6 @@
 import {
   doesGroupsIntersect,
+  ErrorCode,
   User,
   UserGroup,
 } from "@animeaux/shared-entities";
@@ -25,7 +26,7 @@ async function updateProfile(displayName: string) {
   displayName = displayName.trim();
 
   if (displayName === "") {
-    throw new Error("Un nom est obligatoire");
+    throw new Error(ErrorCode.USER_MISSING_DISPLAY_NAME);
   }
 
   const currentUser = firebase.auth().currentUser;

@@ -4,23 +4,39 @@ import { FaArrowLeft } from "react-icons/fa";
 import { Link, LinkProps } from "../link";
 import { useIsScrollAtTheTop } from "./usePageScroll";
 
-export function HeaderButtonLink({ className, ...rest }: LinkProps) {
+const HEADER_ACTION_CLASS_NAMES =
+  "mx-4 a11y-focus w-8 h-8 flex-none flex items-center justify-center text-xl text-gray-800 active:text-opacity-20";
+
+export function HeaderLink({ className, ...rest }: LinkProps) {
   return (
-    <Link
-      {...rest}
-      className={cn(
-        "mx-4 a11y-focus w-8 h-8 flex-none flex items-center justify-center text-xl text-gray-800 active:text-opacity-20",
-        className
-      )}
-    />
+    <Link {...rest} className={cn(HEADER_ACTION_CLASS_NAMES, className)} />
   );
 }
 
 export function HeaderBackLink(props: LinkProps) {
   return (
-    <HeaderButtonLink {...props}>
+    <HeaderLink {...props}>
       <FaArrowLeft />
-    </HeaderButtonLink>
+    </HeaderLink>
+  );
+}
+
+export function HeaderButton({
+  className,
+  ...rest
+}: React.ButtonHTMLAttributes<HTMLButtonElement>) {
+  return (
+    <button {...rest} className={cn(HEADER_ACTION_CLASS_NAMES, className)} />
+  );
+}
+
+export function HeaderBackButton(
+  props: React.ButtonHTMLAttributes<HTMLButtonElement>
+) {
+  return (
+    <HeaderButton {...props}>
+      <FaArrowLeft />
+    </HeaderButton>
   );
 }
 
