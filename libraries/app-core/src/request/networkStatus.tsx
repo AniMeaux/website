@@ -1,20 +1,23 @@
-import { StatusBar } from "@animeaux/ui-library";
+import { showSnackbar, Snackbar } from "@animeaux/ui-library";
 import * as React from "react";
 
 export function NetworkStatus() {
-  const [isOnline, setIsOnline] = React.useState(true);
-  const [showReconnectionMessage, setShowReconnectionMessage] = React.useState(
-    false
-  );
-
   React.useEffect(() => {
     function onGoOnline() {
-      setIsOnline(true);
-      setShowReconnectionMessage(true);
+      // This snackbar has the highest priority.
+      showSnackbar.clearWaitingQueue();
+      showSnackbar.dismiss();
+      showSnackbar.success(<Snackbar type="success">En ligne</Snackbar>);
     }
 
     function onGoOffline() {
-      setIsOnline(false);
+      // This snackbar has the highest priority.
+      showSnackbar.clearWaitingQueue();
+      showSnackbar.dismiss();
+
+      showSnackbar.error(<Snackbar type="error">Hors ligne</Snackbar>, {
+        autoClose: false,
+      });
     }
 
     window.addEventListener("online", onGoOnline);
@@ -25,21 +28,6 @@ export function NetworkStatus() {
       window.removeEventListener("offline", onGoOffline);
     };
   }, []);
-
-  React.useEffect(() => {
-    if (showReconnectionMessage) {
-      const timeout = setTimeout(() => setShowReconnectionMessage(false), 5000);
-      return () => clearTimeout(timeout);
-    }
-  }, [showReconnectionMessage]);
-
-  if (!isOnline) {
-    return <StatusBar type="error">Vous êtes hors ligne</StatusBar>;
-  }
-
-  if (showReconnectionMessage) {
-    return <StatusBar type="success">En ligne</StatusBar>;
-  }
 
   return null;
 }
