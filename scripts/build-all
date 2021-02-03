@@ -1,0 +1,34 @@
+#! /bin/bash
+set -euo pipefail
+
+build_all ()
+{
+  cd libraries/shared-entities
+  printf "\n📦 Building shared-entities\n\n"
+  yarn clean-build
+
+  cd ../ui-library
+  printf "\n📦 Building ui-library\n\n"
+  yarn clean-build
+
+  cd ../app-core
+  printf "\n📦 Building app-core\n\n"
+  yarn clean-build
+
+  cd ../../apps/api
+  printf "\n📦 Building api\n\n"
+  yarn clean-build
+
+  cd ../admin
+  printf "\n📦 Building admin\n\n"
+  yarn clean-build
+
+  cd ../faune
+  printf "\n📦 Building faune\n\n"
+  yarn clean-build
+
+  printf "\n✅ Build succeeded\n\n"
+}
+
+
+build_all

@@ -6,6 +6,7 @@
   ],
   "license": "MIT",
   "scripts": {
+    "build:ci": "./scripts/build-all",
     "format": "prettier --write .",
     "lint": "run-s lint:*",
     "lint:format": "prettier --list-different .",
