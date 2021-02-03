@@ -3,6 +3,7 @@ import {
   AnimalBreedFormErrors,
   AnimalBreedFormPlaceholder,
   Header,
+  PageComponent,
   useAnimalBreed,
   useUpdateAnimalBreed,
 } from "@animeaux/app-core";
@@ -16,7 +17,7 @@ import { useRouter } from "next/router";
 import * as React from "react";
 import { PageTitle } from "../../../core/pageTitle";
 
-export default function AnimalBreedEditPage() {
+const AnimalBreedEditPage: PageComponent = () => {
   const router = useRouter();
   const animalBreedId = router.query.animalBreedId as string;
   const [animalBreed, query] = useAnimalBreed(animalBreedId);
@@ -77,4 +78,6 @@ export default function AnimalBreedEditPage() {
       <Main>{content}</Main>
     </div>
   );
-}
+};
+
+export default AnimalBreedEditPage;

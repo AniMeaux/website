@@ -1,5 +1,6 @@
 import {
   Header,
+  PageComponent,
   useCreateUser,
   UserForm,
   UserFormErrors,
@@ -14,7 +15,7 @@ import { useRouter } from "next/router";
 import * as React from "react";
 import { PageTitle } from "../../core/pageTitle";
 
-export default function CreateUserPage() {
+const CreateUserPage: PageComponent = () => {
   const router = useRouter();
   const [createUser, { error, isLoading }] = useCreateUser({
     onSuccess() {
@@ -53,4 +54,6 @@ export default function CreateUserPage() {
       </Main>
     </div>
   );
-}
+};
+
+export default CreateUserPage;

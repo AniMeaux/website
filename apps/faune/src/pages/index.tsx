@@ -1,12 +1,15 @@
+import { PageComponent } from "@animeaux/app-core";
 import { useRouter } from "next/router";
 import * as React from "react";
 
-export default function IndexPage() {
+const IndexPage: PageComponent = () => {
   const router = useRouter();
 
   React.useLayoutEffect(() => {
-    router.replace("/host-families");
+    router.replace("/animals");
   }, [router]);
 
   return null;
-}
+};
+
+export default IndexPage;

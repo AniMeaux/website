@@ -1,5 +1,6 @@
 import {
   Header,
+  PageComponent,
   UserForm,
   UserFormErrors,
   UserFormPlaceholder,
@@ -16,7 +17,7 @@ import { useRouter } from "next/router";
 import * as React from "react";
 import { PageTitle } from "../../../core/pageTitle";
 
-export default function UserEditPage() {
+const UserEditPage: PageComponent = () => {
   const router = useRouter();
   const userId = router.query.userId as string;
   const [user, query] = useUser(userId);
@@ -82,4 +83,6 @@ export default function UserEditPage() {
       <Main>{content}</Main>
     </div>
   );
-}
+};
+
+export default UserEditPage;

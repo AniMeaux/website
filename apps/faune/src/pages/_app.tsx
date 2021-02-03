@@ -21,6 +21,12 @@ type AppProps = Omit<BaseAppProps, "Component"> & {
   Component: PageComponent;
 };
 
+const AUTHORISED_GROUPS = [
+  UserGroup.ADMIN,
+  UserGroup.ANIMAL_MANAGER,
+  UserGroup.VETERINARIAN,
+];
+
 export default function App({ Component, pageProps }: AppProps) {
   let children = <Component {...pageProps} />;
 
@@ -36,7 +42,8 @@ export default function App({ Component, pageProps }: AppProps) {
       <ApplicationProviders
         logo={Logo}
         applicationName={process.env.NEXT_PUBLIC_APP_SHORT_NAME}
-        authorisedGroups={[UserGroup.ADMIN]}
+        authorisedGroupsForApplication={AUTHORISED_GROUPS}
+        authorisedGroupsForPage={Component.authorisedGroups}
       >
         {children}
       </ApplicationProviders>

@@ -1,6 +1,7 @@
 import {
   AnimalSpeciesIcon,
   Header,
+  PageComponent,
   useAnimalBreed,
   useDeleteAnimalBreed,
 } from "@animeaux/app-core";
@@ -104,7 +105,7 @@ function ActionsPlaceholderSection() {
   );
 }
 
-export default function AnimalBreedPage() {
+const AnimalBreedPage: PageComponent = () => {
   const router = useRouter();
   const animalBreedId = router.query.animalBreedId as string;
   const [animalBreed, { error, isLoading }] = useAnimalBreed(animalBreedId);
@@ -163,4 +164,6 @@ export default function AnimalBreedPage() {
       <Main>{content}</Main>
     </div>
   );
-}
+};
+
+export default AnimalBreedPage;

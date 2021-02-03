@@ -2,6 +2,7 @@ import {
   AnimalBreedItem,
   AnimalBreedItemPlaceholder,
   Header,
+  PageComponent,
   useAllAnimalBreeds,
 } from "@animeaux/app-core";
 import { AnimalBreed, PaginatedResponse } from "@animeaux/shared-entities";
@@ -74,7 +75,7 @@ function AnimalBreedsRows({
   );
 }
 
-export default function AnimalBreedListPage() {
+const AnimalBreedListPage: PageComponent = () => {
   const [animalBreedsPages, query] = useAllAnimalBreeds();
 
   let content: React.ReactNode | null = null;
@@ -114,4 +115,6 @@ export default function AnimalBreedListPage() {
       <Navigation />
     </div>
   );
-}
+};
+
+export default AnimalBreedListPage;

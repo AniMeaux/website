@@ -1,7 +1,8 @@
+import { PageComponent } from "@animeaux/app-core";
 import { useRouter } from "next/router";
 import * as React from "react";
 
-export default function IndexPage() {
+const IndexPage: PageComponent = () => {
   const router = useRouter();
 
   React.useLayoutEffect(() => {
@@ -9,4 +10,6 @@ export default function IndexPage() {
   }, [router]);
 
   return null;
-}
+};
+
+export default IndexPage;

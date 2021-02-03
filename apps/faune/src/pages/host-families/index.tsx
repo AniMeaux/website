@@ -2,9 +2,14 @@ import {
   Header,
   HostFamilyItem,
   HostFamilyItemPlaceholder,
+  PageComponent,
   useAllHostFamilies,
 } from "@animeaux/app-core";
-import { HostFamily, PaginatedResponse } from "@animeaux/shared-entities";
+import {
+  HostFamily,
+  PaginatedResponse,
+  UserGroup,
+} from "@animeaux/shared-entities";
 import {
   EmptyMessage,
   Main,
@@ -72,7 +77,7 @@ function HostFamiliesRows({
   );
 }
 
-export default function HostFamilyListPage() {
+const HostFamilyListPage: PageComponent = () => {
   const [hostFamiliesPages, query] = useAllHostFamilies();
 
   let content: React.ReactNode | null = null;
@@ -111,4 +116,11 @@ export default function HostFamilyListPage() {
       <Main>{content}</Main>
     </div>
   );
-}
+};
+
+HostFamilyListPage.authorisedGroups = [
+  UserGroup.ADMIN,
+  UserGroup.ANIMAL_MANAGER,
+];
+
+export default HostFamilyListPage;

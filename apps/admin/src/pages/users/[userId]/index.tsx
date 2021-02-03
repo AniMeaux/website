@@ -1,5 +1,6 @@
 import {
   Header,
+  PageComponent,
   useCurrentUser,
   useDeleteUser,
   UserGroupIcon,
@@ -199,7 +200,7 @@ function ActionsPlaceholderSection() {
   );
 }
 
-export default function UserPage() {
+const UserPage: PageComponent = () => {
   const router = useRouter();
   const userId = router.query.userId as string;
   const [user, { error, isLoading }] = useUser(userId);
@@ -262,4 +263,6 @@ export default function UserPage() {
       <Main>{content}</Main>
     </div>
   );
-}
+};
+
+export default UserPage;

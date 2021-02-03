@@ -3,6 +3,7 @@ import {
   HostFamilyForm,
   HostFamilyFormErrors,
   HostFamilyFormPlaceholder,
+  PageComponent,
   useHostFamily,
   useUpdateHostFamily,
 } from "@animeaux/app-core";
@@ -10,13 +11,14 @@ import {
   ErrorCode,
   getErrorMessage,
   hasErrorCode,
+  UserGroup,
 } from "@animeaux/shared-entities";
 import { Main, Placeholder, resolveUrl } from "@animeaux/ui-library";
 import { useRouter } from "next/router";
 import * as React from "react";
 import { PageTitle } from "../../../core/pageTitle";
 
-export default function HostFamilyEditPage() {
+const HostFamilyEditPage: PageComponent = () => {
   const router = useRouter();
   const hostFamilyId = router.query.hostFamilyId as string;
   const [hostFamily, query] = useHostFamily(hostFamilyId);
@@ -98,4 +100,11 @@ export default function HostFamilyEditPage() {
       <Main>{content}</Main>
     </div>
   );
-}
+};
+
+HostFamilyEditPage.authorisedGroups = [
+  UserGroup.ADMIN,
+  UserGroup.ANIMAL_MANAGER,
+];
+
+export default HostFamilyEditPage;

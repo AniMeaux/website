@@ -2,19 +2,21 @@ import {
   Header,
   HostFamilyForm,
   HostFamilyFormErrors,
+  PageComponent,
   useCreateHostFamily,
 } from "@animeaux/app-core";
 import {
   ErrorCode,
   getErrorMessage,
   hasErrorCode,
+  UserGroup,
 } from "@animeaux/shared-entities";
 import { Main, resolveUrl } from "@animeaux/ui-library";
 import { useRouter } from "next/router";
 import * as React from "react";
 import { PageTitle } from "../../core/pageTitle";
 
-export default function CreateHostFamilyPage() {
+const CreateHostFamilyPage: PageComponent = () => {
   const router = useRouter();
   const [createHostFamily, { error, isLoading }] = useCreateHostFamily({
     onSuccess() {
@@ -61,4 +63,11 @@ export default function CreateHostFamilyPage() {
       </Main>
     </div>
   );
-}
+};
+
+CreateHostFamilyPage.authorisedGroups = [
+  UserGroup.ADMIN,
+  UserGroup.ANIMAL_MANAGER,
+];
+
+export default CreateHostFamilyPage;

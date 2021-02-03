@@ -1,5 +1,10 @@
-import { Header, useDeleteHostFamily, useHostFamily } from "@animeaux/app-core";
-import { HostFamily } from "@animeaux/shared-entities";
+import {
+  Header,
+  PageComponent,
+  useDeleteHostFamily,
+  useHostFamily,
+} from "@animeaux/app-core";
+import { HostFamily, UserGroup } from "@animeaux/shared-entities";
 import {
   ActionSection,
   ActionSectionList,
@@ -134,7 +139,7 @@ function ActionsPlaceholderSection() {
   );
 }
 
-export default function HostFamilyPage() {
+const HostFamilyPage: PageComponent = () => {
   const router = useRouter();
   const hostFamilyId = router.query.hostFamilyId as string;
   const [hostFamily, { error, isLoading }] = useHostFamily(hostFamilyId);
@@ -193,4 +198,8 @@ export default function HostFamilyPage() {
       <Main>{content}</Main>
     </div>
   );
-}
+};
+
+HostFamilyPage.authorisedGroups = [UserGroup.ADMIN, UserGroup.ANIMAL_MANAGER];
+
+export default HostFamilyPage;

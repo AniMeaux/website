@@ -2,6 +2,7 @@ import {
   AnimalBreedForm,
   AnimalBreedFormErrors,
   Header,
+  PageComponent,
   useCreateAnimalBreed,
 } from "@animeaux/app-core";
 import {
@@ -14,7 +15,7 @@ import { useRouter } from "next/router";
 import * as React from "react";
 import { PageTitle } from "../../core/pageTitle";
 
-export default function CreateAnimalBreedPage() {
+const CreateAnimalBreedPage: PageComponent = () => {
   const router = useRouter();
   const [createAnimalBreed, { error, isLoading }] = useCreateAnimalBreed({
     onSuccess() {
@@ -48,4 +49,6 @@ export default function CreateAnimalBreedPage() {
       </Main>
     </div>
   );
-}
+};
+
+export default CreateAnimalBreedPage;

@@ -96,13 +96,15 @@ type UserState = {
 };
 
 export type CurrentUserContextProviderProps = React.PropsWithChildren<{
-  authorisedGroups: UserGroup[];
+  authorisedGroupsForApplication: UserGroup[];
+  authorisedGroupsForPage?: UserGroup[];
   logo: React.ElementType;
   applicationName: string;
 }>;
 
 export function CurrentUserContextProvider({
-  authorisedGroups,
+  authorisedGroupsForApplication,
+  authorisedGroupsForPage,
   logo: Logo,
   applicationName,
   children,
@@ -159,11 +161,25 @@ export function CurrentUserContextProvider({
     );
   }
 
-  if (!doesGroupsIntersect(currentUser.groups, authorisedGroups)) {
+  if (
+    !doesGroupsIntersect(currentUser.groups, authorisedGroupsForApplication)
+  ) {
     return (
       <p>
         Vous n'êtes pas authorisé à accéder à cette application. Si vous pensez
         que c'est une erreur merci de contacter un administrateur.
+      </p>
+    );
+  }
+
+  if (
+    authorisedGroupsForPage != null &&
+    !doesGroupsIntersect(currentUser.groups, authorisedGroupsForPage)
+  ) {
+    return (
+      <p>
+        Vous n'êtes pas authorisé à accéder à cette page. Si vous pensez que
+        c'est une erreur merci de contacter un administrateur.
       </p>
     );
   }

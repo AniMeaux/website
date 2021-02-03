@@ -1,5 +1,6 @@
 import {
   Header,
+  PageComponent,
   useAllUsers,
   UserItemPlaceholder,
   UserLinkItem,
@@ -52,7 +53,7 @@ function UsersRows({ users }: UsersRowsProps) {
   );
 }
 
-export default function UserListPage() {
+const UserListPage: PageComponent = () => {
   const [users, query] = useAllUsers();
 
   let content: React.ReactNode | null = null;
@@ -82,4 +83,6 @@ export default function UserListPage() {
       <Navigation />
     </div>
   );
-}
+};
+
+export default UserListPage;
