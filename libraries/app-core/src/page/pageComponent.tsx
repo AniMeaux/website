@@ -7,4 +7,5 @@ export type PageComponent<Props = {}> = NextComponentType<
   Props
 > & {
   authorisedGroups?: UserGroup[];
+  WrapperComponent?: React.ElementType;
 };
