@@ -30,7 +30,7 @@ export default function App({ Component, pageProps }: AppProps) {
         applicationName={process.env.NEXT_PUBLIC_APP_NAME}
         applicationDescription={process.env.NEXT_PUBLIC_APP_DESCRIPTION}
         msApplicationTileColor="#b91d47"
-        safariPinnedTabColor="#ed2a26"
+        themeColor="#ffffff"
       />
 
       <ApplicationProviders
