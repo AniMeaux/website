@@ -203,8 +203,11 @@
     @apply rounded-full;
   }
 
-  .header-filter {
-    backdrop-filter: blur(2px);
+  .safe-area-px {
+    padding-left: 0;
+    padding-left: env(safe-area-inset-left, 0);
+    padding-right: 0;
+    padding-right: env(safe-area-inset-right, 0);
   }
 
   .navigation-pb {

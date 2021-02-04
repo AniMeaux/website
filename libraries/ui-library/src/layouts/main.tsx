@@ -10,7 +10,7 @@ export function Main({ hasNavigation = false, className, ...rest }: MainProps) {
     <main
       {...rest}
       className={cn(
-        "pt-12 main-pb",
+        "pt-12 safe-area-px main-pb",
         { "main-pb-with-navigation": hasNavigation },
         className
       )}
