@@ -229,6 +229,10 @@
     padding-bottom: theme("height.14");
     padding-bottom: calc(theme("height.14") + env(safe-area-inset-bottom, 0));
   }
+
+  .step-item-line-width {
+    width: calc(theme("width.full") - theme("width.8"));
+  }
 }
 
 @layer utilities {

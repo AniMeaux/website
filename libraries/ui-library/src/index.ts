@@ -9,3 +9,4 @@ export * from "./link";
 export * from "./loaders";
 export * from "./message";
 export * from "./popovers";
+export * from "./stepper";
