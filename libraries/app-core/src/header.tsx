@@ -3,6 +3,7 @@ import {
   HeaderBackLink,
   HeaderIconOnlyLinkPlaceholder,
   HeaderLink,
+  HeaderRow,
   HeaderTitle,
 } from "@animeaux/ui-library";
 import * as React from "react";
@@ -31,7 +32,7 @@ function HeaderUserAvatar() {
   );
 }
 
-export type HeaderProps = {
+export type HeaderProps = React.PropsWithChildren<{
   headerTitle: React.ReactNode;
   canGoBack?: boolean;
   action?: {
@@ -39,25 +40,30 @@ export type HeaderProps = {
     icon: React.ElementType;
     label: React.ReactNode;
   };
-};
+}>;
 
 export function Header({
   headerTitle,
   canGoBack = false,
   action,
+  children,
 }: HeaderProps) {
   return (
     <BaseHeader>
-      {canGoBack ? <HeaderBackLink href=".." /> : <HeaderUserAvatar />}
-      <HeaderTitle>{headerTitle}</HeaderTitle>
+      <HeaderRow>
+        {canGoBack ? <HeaderBackLink href=".." /> : <HeaderUserAvatar />}
+        <HeaderTitle>{headerTitle}</HeaderTitle>
 
-      {action != null ? (
-        <HeaderLink href={action.href}>
-          <action.icon />
-        </HeaderLink>
-      ) : (
-        <HeaderIconOnlyLinkPlaceholder />
-      )}
+        {action != null ? (
+          <HeaderLink href={action.href}>
+            <action.icon />
+          </HeaderLink>
+        ) : (
+          <HeaderIconOnlyLinkPlaceholder />
+        )}
+      </HeaderRow>
+
+      {children != null && <HeaderRow>{children}</HeaderRow>}
     </BaseHeader>
   );
 }
