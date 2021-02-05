@@ -25,6 +25,18 @@ export function Section({
   return <section {...rest} className={cn("p-2", className)} />;
 }
 
+export function ButtonSection({
+  className,
+  ...rest
+}: React.HTMLAttributes<HTMLElement>) {
+  return (
+    <section
+      {...rest}
+      className={cn("p-4 flex flex-col space-y-4", className)}
+    />
+  );
+}
+
 export function ActionSection({
   className,
   ...rest

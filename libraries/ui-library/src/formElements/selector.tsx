@@ -1,32 +1,17 @@
 import cn from "classnames";
 import * as React from "react";
-import { Checkbox, CheckboxProps } from "./checkbox";
-import { Radio, RadioProps } from "./radio";
+import { RawCheckbox, RawCheckboxProps } from "./checkbox";
+import { RawRadio, RawRadioProps } from "./radio";
 
 export function Selectors({
   className,
   ...rest
 }: React.HTMLAttributes<HTMLUListElement>) {
-  return <ul {...rest} className={cn("flex flex-wrap", className)} />;
+  return <ul {...rest} className={cn("selectors-grid", className)} />;
 }
 
-type SelectorItemProps = React.LiHTMLAttributes<HTMLLIElement> & {
-  itemsCount: number;
-};
-
-export function SelectorItem({
-  itemsCount,
-  className,
-  style,
-  ...rest
-}: SelectorItemProps) {
-  return (
-    <li
-      {...rest}
-      className={cn("p-2 flex-none", className)}
-      style={{ ...style, width: `${100 / Math.min(3, itemsCount)}%` }}
-    />
-  );
+export function SelectorItem(props: React.LiHTMLAttributes<HTMLLIElement>) {
+  return <li {...props} />;
 }
 
 export function Selector({
@@ -43,10 +28,10 @@ export function Selector({
       {...rest}
       children={children}
       className={cn(
-        "cursor-pointer relative rounded h-20 min-w-0 ring-inset px-2 flex flex-col items-center justify-center",
+        "cursor-pointer relative rounded-xl border border-opacity-10 h-full w-full flex flex-col items-center justify-center",
         {
-          "ring-2 ring-blue-500 text-blue-500": checked,
-          "ring-1 ring-gray-400": !checked,
+          "border-blue-500 bg-blue-100 text-blue-500": checked,
+          "border-black bg-white": !checked,
         },
         className
       )}
@@ -54,20 +39,15 @@ export function Selector({
   );
 }
 
-export function SelectorRadio({ className, ...rest }: RadioProps) {
-  return (
-    <span className={cn("absolute top-1 right-1 flex", className)}>
-      <Radio {...rest} size="small" />
-    </span>
-  );
+const INPUT_CLASS_NAME =
+  "appearance-none focus:outline-none focus-visible:ring focus-visible:ring-offset-2 focus-visible:ring-blue-500 absolute rounded-xl selector-input";
+
+export function SelectorRadio({ className, ...rest }: RawRadioProps) {
+  return <RawRadio {...rest} className={cn(INPUT_CLASS_NAME, className)} />;
 }
 
-export function SelectorCheckbox({ className, ...rest }: CheckboxProps) {
-  return (
-    <span className={cn("absolute top-1 right-1 flex", className)}>
-      <Checkbox {...rest} size="small" />
-    </span>
-  );
+export function SelectorCheckbox({ className, ...rest }: RawCheckboxProps) {
+  return <RawCheckbox {...rest} className={cn(INPUT_CLASS_NAME, className)} />;
 }
 
 export function SelectorIcon({
@@ -84,7 +64,10 @@ export function SelectorLabel({
   return (
     <span
       {...rest}
-      className={cn("flex-none max-w-full text-xs text-center", className)}
+      className={cn(
+        "mt-1 flex-none max-w-full overflow-ellipsis overflow-hidden px-2 text-xs text-center",
+        className
+      )}
     />
   );
 }

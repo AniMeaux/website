@@ -11,7 +11,7 @@ type ItemCommonProps = {
 
 export type ItemProps = React.HTMLAttributes<HTMLSpanElement> & ItemCommonProps;
 
-const ITEM_BASE_CLASS_NAMES = "w-full rounded-md px-2 flex items-center";
+const ITEM_BASE_CLASS_NAMES = "w-full rounded-xl px-2 flex items-center";
 
 const ItemSizeClasses: { [key in ItemSize]: string } = {
   large: "h-16 space-x-4",
@@ -55,7 +55,7 @@ export function LinkItem({
     <Link
       {...rest}
       className={cn(
-        "a11y-focus",
+        "focus:outline-none focus-visible:ring focus-visible:ring-blue-500",
         ITEM_BASE_CLASS_NAMES,
         ItemSizeClasses[size],
         {
@@ -82,7 +82,7 @@ export function ButtonItem({
       {...rest}
       disabled={disabled}
       className={cn(
-        "a11y-focus text-left",
+        "focus:outline-none focus-visible:ring focus-visible:ring-blue-500 text-left",
         ITEM_BASE_CLASS_NAMES,
         ItemSizeClasses[size],
         className

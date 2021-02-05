@@ -1,19 +1,15 @@
 import { HostFamily, HostFamilyFormPayload } from "@animeaux/shared-entities";
 import {
-  ActionSection,
-  ActionSectionList,
   Adornment,
-  Button,
   Field,
+  FieldMessage,
   Form,
   FormProps,
   Input,
   Label,
   Placeholder,
   Placeholders,
-  RequiredStar,
-  Section,
-  Separator,
+  SubmitButton,
 } from "@animeaux/ui-library";
 import * as React from "react";
 import { FaEnvelope, FaMapMarker, FaPhone, FaUser } from "react-icons/fa";
@@ -71,144 +67,152 @@ export function HostFamilyForm({
 
   return (
     <Form {...rest} pending={pending} onSubmit={handleSubmit}>
-      <Section>
-        <Field>
-          <Label htmlFor="host-family-name">
-            Nom <RequiredStar />
-          </Label>
-          <Input
-            name="host-family-name"
-            id="host-family-name"
-            type="text"
-            autoComplete="host-family-name"
-            value={name}
-            onChange={setName}
-            errorMessage={errors?.name}
-            leftAdornment={
-              <Adornment>
-                <FaUser />
-              </Adornment>
-            }
-          />
-        </Field>
+      <Field>
+        <Label htmlFor="host-family-name" hasError={errors?.name != null}>
+          Nom
+        </Label>
 
-        <Field>
-          <Label htmlFor="host-family-phone">
-            Téléphone <RequiredStar />
-          </Label>
-          <Input
-            name="host-family-phone"
-            id="host-family-phone"
-            type="tel"
-            autoComplete="host-family-phone"
-            placeholder="+33612345678"
-            value={phone}
-            onChange={setPhone}
-            errorMessage={errors?.phone}
-            leftAdornment={
-              <Adornment>
-                <FaPhone />
-              </Adornment>
-            }
-          />
-        </Field>
+        <Input
+          name="host-family-name"
+          id="host-family-name"
+          type="text"
+          autoComplete="host-family-name"
+          value={name}
+          onChange={setName}
+          hasError={errors?.name != null}
+          leftAdornment={
+            <Adornment>
+              <FaUser />
+            </Adornment>
+          }
+        />
 
-        <Field>
-          <Label htmlFor="host-family-email">
-            Email <RequiredStar />
-          </Label>
-          <Input
-            name="host-family-email"
-            id="host-family-email"
-            type="email"
-            autoComplete="host-family-email"
-            placeholder="jean@mail.fr"
-            value={email}
-            onChange={setEmail}
-            errorMessage={errors?.email}
-            leftAdornment={
-              <Adornment>
-                <FaEnvelope />
-              </Adornment>
-            }
-          />
-        </Field>
+        <FieldMessage errorMessage={errors?.name} />
+      </Field>
 
-        <Field>
-          <Label htmlFor="host-family-zip-code">
-            Code postal <RequiredStar />
-          </Label>
-          <Input
-            name="host-family-zip-code"
-            id="host-family-zip-code"
-            type="number"
-            autoComplete="host-family-zip-code"
-            value={zipCode}
-            onChange={setZipCode}
-            errorMessage={errors?.zipCode}
-            leftAdornment={
-              <Adornment>
-                <FaMapMarker />
-              </Adornment>
-            }
-          />
-        </Field>
+      <Field>
+        <Label htmlFor="host-family-phone" hasError={errors?.phone != null}>
+          Téléphone
+        </Label>
 
-        <Field>
-          <Label htmlFor="host-family-city">
-            Ville <RequiredStar />
-          </Label>
-          <Input
-            name="host-family-city"
-            id="host-family-city"
-            type="text"
-            autoComplete="host-family-city"
-            value={city}
-            onChange={setCity}
-            errorMessage={errors?.city}
-            leftAdornment={
-              <Adornment>
-                <FaMapMarker />
-              </Adornment>
-            }
-          />
-        </Field>
+        <Input
+          name="host-family-phone"
+          id="host-family-phone"
+          type="tel"
+          autoComplete="host-family-phone"
+          placeholder="+33612345678"
+          value={phone}
+          onChange={setPhone}
+          hasError={errors?.phone != null}
+          leftAdornment={
+            <Adornment>
+              <FaPhone />
+            </Adornment>
+          }
+        />
 
-        <Field>
-          <Label htmlFor="host-family-address">
-            Adresse <RequiredStar />
-          </Label>
-          <Input
-            name="host-family-address"
-            id="host-family-address"
-            type="text"
-            autoComplete="host-family-address"
-            value={address}
-            onChange={setAddress}
-            errorMessage={errors?.address}
-            leftAdornment={
-              <Adornment>
-                <FaMapMarker />
-              </Adornment>
-            }
-          />
-        </Field>
-      </Section>
+        <FieldMessage errorMessage={errors?.phone} />
+      </Field>
 
-      <Separator />
+      <Field>
+        <Label htmlFor="host-family-email" hasError={errors?.email != null}>
+          Email
+        </Label>
 
-      <ActionSection>
-        <ActionSectionList>
-          <Button
-            type="submit"
-            variant="primary"
-            color="blue"
-            disabled={pending}
-          >
-            {hostFamily == null ? "Créer" : "Modifier"}
-          </Button>
-        </ActionSectionList>
-      </ActionSection>
+        <Input
+          name="host-family-email"
+          id="host-family-email"
+          type="email"
+          autoComplete="host-family-email"
+          placeholder="jean@mail.fr"
+          value={email}
+          onChange={setEmail}
+          hasError={errors?.email != null}
+          leftAdornment={
+            <Adornment>
+              <FaEnvelope />
+            </Adornment>
+          }
+        />
+
+        <FieldMessage errorMessage={errors?.email} />
+      </Field>
+
+      <Field>
+        <Label
+          htmlFor="host-family-zip-code"
+          hasError={errors?.zipCode != null}
+        >
+          Code postal
+        </Label>
+
+        <Input
+          name="host-family-zip-code"
+          id="host-family-zip-code"
+          type="number"
+          autoComplete="host-family-zip-code"
+          value={zipCode}
+          onChange={setZipCode}
+          hasError={errors?.zipCode != null}
+          leftAdornment={
+            <Adornment>
+              <FaMapMarker />
+            </Adornment>
+          }
+        />
+
+        <FieldMessage errorMessage={errors?.zipCode} />
+      </Field>
+
+      <Field>
+        <Label htmlFor="host-family-city" hasError={errors?.city != null}>
+          Ville
+        </Label>
+
+        <Input
+          name="host-family-city"
+          id="host-family-city"
+          type="text"
+          autoComplete="host-family-city"
+          value={city}
+          onChange={setCity}
+          hasError={errors?.city != null}
+          leftAdornment={
+            <Adornment>
+              <FaMapMarker />
+            </Adornment>
+          }
+        />
+
+        <FieldMessage errorMessage={errors?.city} />
+      </Field>
+
+      <Field>
+        <Label htmlFor="host-family-address" hasError={errors?.address != null}>
+          Adresse
+        </Label>
+
+        <Input
+          name="host-family-address"
+          id="host-family-address"
+          type="text"
+          autoComplete="host-family-address"
+          value={address}
+          onChange={setAddress}
+          hasError={errors?.address != null}
+          leftAdornment={
+            <Adornment>
+              <FaMapMarker />
+            </Adornment>
+          }
+        />
+
+        <FieldMessage errorMessage={errors?.address} />
+      </Field>
+
+      <SubmitButton disabled={pending}>
+        {hostFamily == null ? "Créer" : "Modifier"}
+      </SubmitButton>
     </Form>
   );
 }
@@ -216,17 +220,15 @@ export function HostFamilyForm({
 export function HostFamilyFormPlaceholder() {
   return (
     <Form>
-      <Section>
-        <Placeholders count={6}>
-          <Field>
-            <Label>
-              <Placeholder preset="label" />
-            </Label>
+      <Placeholders count={6}>
+        <Field>
+          <Label>
+            <Placeholder preset="label" />
+          </Label>
 
-            <Placeholder preset="input" />
-          </Field>
-        </Placeholders>
-      </Section>
+          <Placeholder preset="input" />
+        </Field>
+      </Placeholders>
     </Form>
   );
 }

@@ -7,8 +7,8 @@ import {
 } from "@animeaux/app-core";
 import { AnimalBreed, AnimalSpeciesLabels } from "@animeaux/shared-entities";
 import {
-  ActionSection,
-  ActionSectionList,
+  ButtonLink,
+  ButtonSection,
   ButtonWithConfirmation,
   Item,
   ItemContent,
@@ -16,10 +16,10 @@ import {
   ItemMainText,
   Main,
   Placeholder,
+  QuickActions,
   resolveUrl,
   Section,
   SectionTitle,
-  Separator,
 } from "@animeaux/ui-library";
 import { useRouter } from "next/router";
 import * as React from "react";
@@ -68,7 +68,11 @@ function DetailsPlaceholderSection() {
   );
 }
 
-function ActionsSection({ animalBreed }: { animalBreed: AnimalBreed }) {
+function DeleteAnimalBreedButton({
+  animalBreed,
+}: {
+  animalBreed: AnimalBreed;
+}) {
   const router = useRouter();
   const [deleteAnimalBreed] = useDeleteAnimalBreed({
     onSuccess() {
@@ -77,31 +81,17 @@ function ActionsSection({ animalBreed }: { animalBreed: AnimalBreed }) {
   });
 
   return (
-    <ActionSection>
-      <ActionSectionList>
-        <ButtonWithConfirmation
-          confirmationMessage={[
-            `Êtes-vous sûr de vouloir supprimer la race ${animalBreed.name} ?`,
-            "L'action est irréversible.",
-          ].join("\n")}
-          onClick={() => deleteAnimalBreed(animalBreed.id)}
-          // TODO: Prevent delete if it is used by animals.
-          color="red"
-        >
-          Supprimer
-        </ButtonWithConfirmation>
-      </ActionSectionList>
-    </ActionSection>
-  );
-}
-
-function ActionsPlaceholderSection() {
-  return (
-    <ActionSection>
-      <ActionSectionList>
-        <Placeholder preset="button" />
-      </ActionSectionList>
-    </ActionSection>
+    <ButtonWithConfirmation
+      confirmationMessage={[
+        `Êtes-vous sûr de vouloir supprimer la race ${animalBreed.name} ?`,
+        "L'action est irréversible.",
+      ].join("\n")}
+      onClick={() => deleteAnimalBreed(animalBreed.id)}
+      // TODO: Prevent delete if it is used by animals.
+      color="red"
+    >
+      Supprimer
+    </ButtonWithConfirmation>
   );
 }
 
@@ -126,42 +116,31 @@ const AnimalBreedPage: PageComponent = () => {
   let content: React.ReactNode | null = null;
 
   if (animalBreed != null) {
-    content = (
-      <>
-        <DetailsSection animalBreed={animalBreed} />
-        <Separator />
-        <ActionsSection animalBreed={animalBreed} />
-      </>
-    );
+    content = <DetailsSection animalBreed={animalBreed} />;
   } else if (isLoading) {
-    content = (
-      <>
-        <DetailsPlaceholderSection />
-        <Separator />
-        <ActionsPlaceholderSection />
-      </>
-    );
+    content = <DetailsPlaceholderSection />;
   }
 
   return (
     <div>
       <PageTitle title={pageTitle} />
+      <Header headerTitle={headerTitle} canGoBack />
 
-      <Header
-        headerTitle={headerTitle}
-        canGoBack
-        action={
-          animalBreed == null
-            ? undefined
-            : {
-                href: "./edit",
-                icon: FaPen,
-                label: "Modifier",
-              }
-        }
-      />
+      <Main>
+        {content}
 
-      <Main>{content}</Main>
+        {animalBreed != null && (
+          <QuickActions icon={FaPen}>
+            <ButtonSection>
+              <ButtonLink href="./edit" variant="outlined">
+                Modifier
+              </ButtonLink>
+
+              <DeleteAnimalBreedButton animalBreed={animalBreed} />
+            </ButtonSection>
+          </QuickActions>
+        )}
+      </Main>
     </div>
   );
 };

@@ -10,7 +10,9 @@ import {
   EmptyMessage,
   Main,
   Placeholders,
+  QuickLinkAction,
   Section,
+  usePageScrollRestoration,
 } from "@animeaux/ui-library";
 import * as React from "react";
 import { FaPlus } from "react-icons/fa";
@@ -54,6 +56,7 @@ function UsersRows({ users }: UsersRowsProps) {
 }
 
 const UserListPage: PageComponent = () => {
+  usePageScrollRestoration();
   const [users, query] = useAllUsers();
 
   let content: React.ReactNode | null = null;
@@ -69,17 +72,15 @@ const UserListPage: PageComponent = () => {
   return (
     <div>
       <PageTitle title="Utilisateurs" />
+      <Header headerTitle={`Utilisateurs ${userCount}`} />
 
-      <Header
-        headerTitle={`Utilisateurs ${userCount}`}
-        action={{
-          href: "./new",
-          icon: FaPlus,
-          label: "Créer un utilisateur",
-        }}
-      />
+      <Main hasNavigation>
+        {content}
 
-      <Main hasNavigation>{content}</Main>
+        <QuickLinkAction href="./new">
+          <FaPlus />
+        </QuickLinkAction>
+      </Main>
       <Navigation />
     </div>
   );

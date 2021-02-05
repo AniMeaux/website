@@ -10,7 +10,9 @@ import {
   EmptyMessage,
   Main,
   Placeholders,
+  QuickLinkAction,
   Section,
+  usePageScrollRestoration,
 } from "@animeaux/ui-library";
 import * as React from "react";
 import { FaPlus } from "react-icons/fa";
@@ -76,6 +78,7 @@ function AnimalBreedsRows({
 }
 
 const AnimalBreedListPage: PageComponent = () => {
+  usePageScrollRestoration();
   const [animalBreedsPages, query] = useAllAnimalBreeds();
 
   let content: React.ReactNode | null = null;
@@ -101,17 +104,15 @@ const AnimalBreedListPage: PageComponent = () => {
   return (
     <div>
       <PageTitle title="Races" />
+      <Header headerTitle={`Races ${animalBreedsCount}`} />
 
-      <Header
-        headerTitle={`Races ${animalBreedsCount}`}
-        action={{
-          href: "./new",
-          icon: FaPlus,
-          label: "Créer une race",
-        }}
-      />
+      <Main hasNavigation>
+        {content}
 
-      <Main hasNavigation>{content}</Main>
+        <QuickLinkAction href="./new">
+          <FaPlus />
+        </QuickLinkAction>
+      </Main>
       <Navigation />
     </div>
   );

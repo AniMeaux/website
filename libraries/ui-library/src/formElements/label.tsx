@@ -1,17 +1,32 @@
 import cn from "classnames";
 import * as React from "react";
 
+type LabelProps = React.LabelHTMLAttributes<HTMLLabelElement> & {
+  isOptional?: boolean;
+  hasError?: boolean;
+};
+
 export function Label({
+  isOptional = false,
+  hasError = false,
+  children,
   className,
   ...rest
-}: React.LabelHTMLAttributes<HTMLLabelElement>) {
+}: LabelProps) {
   return (
     <label
       {...rest}
       className={cn(
-        "pb-1 text-sm text-default-color text-opacity-70",
+        "mb-1 px-4 text-sm",
+        {
+          "text-black text-opacity-60": !hasError,
+          "text-red-500": hasError,
+        },
         className
       )}
-    />
+    >
+      {children}
+      {isOptional && " (Optionnel)"}
+    </label>
   );
 }

@@ -1,6 +1,28 @@
 import cn from "classnames";
 import * as React from "react";
 
+export type RawRadioProps = Omit<
+  React.InputHTMLAttributes<HTMLInputElement>,
+  "onChange"
+> & {
+  onChange?: React.Dispatch<React.SetStateAction<void>>;
+};
+
+export function RawRadio({ onChange, readOnly, ...rest }: RawRadioProps) {
+  return (
+    <input
+      {...rest}
+      type="radio"
+      readOnly={readOnly}
+      onChange={() => {
+        if (onChange != null && !readOnly) {
+          onChange();
+        }
+      }}
+    />
+  );
+}
+
 type RadioSize = "medium" | "small";
 
 const RadioSizeClassName: {
@@ -22,34 +44,21 @@ const RadioSizeClassName: {
   },
 };
 
-export type RadioProps = Omit<
-  React.InputHTMLAttributes<HTMLInputElement>,
-  "onChange" | "size"
-> & {
-  onChange?: React.Dispatch<React.SetStateAction<void>>;
+export type RadioProps = Omit<RawRadioProps, "size"> & {
   size?: RadioSize;
 };
 
 export function Radio({
   checked,
-  onChange,
   size = "medium",
-  readOnly,
   className,
   ...rest
 }: RadioProps) {
   return (
     <span className={cn("relative inline-flex", className)}>
-      <input
+      <RawRadio
         {...rest}
-        type="radio"
         checked={checked}
-        readOnly={readOnly}
-        onChange={() => {
-          if (onChange != null && !readOnly) {
-            onChange();
-          }
-        }}
         className={cn(
           "a11y-focus appearance-none rounded-full",
           RadioSizeClassName[size].input,

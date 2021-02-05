@@ -13,6 +13,7 @@ export type InputProps = Omit<
 
 export function Input({
   errorMessage,
+  hasError,
   infoMessage,
   onChange,
   leftAdornment,
@@ -27,6 +28,7 @@ export function Input({
       disabled={disabled}
       leftAdornment={leftAdornment}
       rightAdornment={rightAdornment}
+      hasError={hasError}
       errorMessage={errorMessage}
       infoMessage={infoMessage}
       className={className}
@@ -42,6 +44,7 @@ export function Input({
         ref={refProp}
         className={cn(
           getInputClassName({
+            hasError,
             errorMessage,
             leftAdornment,
             rightAdornment,

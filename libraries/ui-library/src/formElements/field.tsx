@@ -9,7 +9,7 @@ export function Field({ row = false, className, ...rest }: FieldProps) {
   return (
     <div
       {...rest}
-      className={cn("p-2 flex", { "flex-col": !row }, className)}
+      className={cn("px-4 py-2 flex", { "flex-col": !row }, className)}
     />
   );
 }

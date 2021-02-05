@@ -1,19 +1,17 @@
 import { ErrorCode, getErrorCode } from "@animeaux/shared-entities";
 import {
   Adornment,
-  Button,
   Field,
   Form,
   Input,
   Label,
-  Message,
   PasswordInput,
-  ProgressBar,
+  SubmitButton,
 } from "@animeaux/ui-library";
 import firebase from "firebase/app";
 import * as React from "react";
-import { useAsyncCallback } from "react-behave";
-import { FaEnvelope, FaLock } from "react-icons/fa";
+import { FaCheckCircle, FaEnvelope, FaLock } from "react-icons/fa";
+import { useMutation } from "../request";
 
 function isAuthError(error: Error): boolean {
   return [
@@ -33,10 +31,13 @@ export function SignInPage({ logo: Logo, applicationName }: SignInPageProps) {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
 
-  const [signIn, signInState] = useAsyncCallback<boolean>(async () => {
+  const mutation = useMutation<
+    void,
+    Error,
+    { email: string; password: string }
+  >(async ({ email, password }) => {
     try {
       await firebase.auth().signInWithEmailAndPassword(email, password);
-      return true;
     } catch (error) {
       if (isAuthError(error)) {
         throw new Error("Identifiants invalides, veuillez réessayer");
@@ -46,33 +47,27 @@ export function SignInPage({ logo: Logo, applicationName }: SignInPageProps) {
         );
       }
     }
-  }, [email, password]);
-
-  // We also want to display the loader when the sign in succeed to wait until
-  // the page "redirect".
-  const pending = signInState.value || signInState.pending;
+  });
 
   return (
     <main className="pt-screen-3/10 flex flex-col justify-center">
-      {pending && <ProgressBar />}
-
-      <div className="relative mx-auto w-full max-w-md px-2 flex flex-col">
+      <div className="relative mx-auto w-full max-w-md flex flex-col">
         <div className="absolute bottom-1/1 left-1/2 transform -translate-x-1/2 mb-8 flex flex-col items-center">
           <Logo className="text-8xl" />
           <span className="font-serif tracking-wider">{applicationName}</span>
         </div>
 
-        <h1 className="px-2 text-3xl font-serif">Bienvenue</h1>
+        <h1 className="px-6 text-3xl font-serif text-center">Bienvenue</h1>
 
-        {signInState.error != null && (
-          <Message type="error" className="m-2">
-            {signInState.error.message}
-          </Message>
-        )}
-
-        <Form onSubmit={signIn} pending={pending}>
+        <Form
+          onSubmit={() => mutation.mutate({ email, password })}
+          pending={mutation.isLoading}
+        >
           <Field>
-            <Label htmlFor="email">Email</Label>
+            <Label htmlFor="email" hasError={mutation.isError}>
+              Email
+            </Label>
+
             <Input
               name="email"
               id="email"
@@ -81,6 +76,7 @@ export function SignInPage({ logo: Logo, applicationName }: SignInPageProps) {
               value={email}
               onChange={setEmail}
               placeholder="ex: jean@mail.fr"
+              hasError={mutation.isError}
               leftAdornment={
                 <Adornment>
                   <FaEnvelope />
@@ -90,13 +86,17 @@ export function SignInPage({ logo: Logo, applicationName }: SignInPageProps) {
           </Field>
 
           <Field>
-            <Label htmlFor="password">Mot de passe</Label>
+            <Label htmlFor="password" hasError={mutation.isError}>
+              Mot de passe
+            </Label>
+
             <PasswordInput
               name="password"
               id="password"
               autoComplete="password"
               value={password}
               onChange={setPassword}
+              hasError={mutation.isError}
               leftAdornment={
                 <Adornment>
                   <FaLock />
@@ -105,15 +105,13 @@ export function SignInPage({ logo: Logo, applicationName }: SignInPageProps) {
             />
           </Field>
 
-          <Button
-            type="submit"
-            variant="primary"
-            color="blue"
-            disabled={pending}
-            className="m-2"
-          >
-            Se connecter
-          </Button>
+          {mutation.isSuccess ? (
+            <FaCheckCircle className="mx-auto mt-4 w-10 h-10 text-green-500" />
+          ) : (
+            <SubmitButton disabled={mutation.isLoading}>
+              Se connecter
+            </SubmitButton>
+          )}
         </Form>
       </div>
     </main>

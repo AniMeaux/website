@@ -5,6 +5,7 @@ import { Input, InputProps } from "./input";
 
 export function PasswordInput(props: InputProps) {
   const [showPassword, setShowPassword] = React.useState(false);
+  const previousFocusOwner = React.useRef<HTMLElement | null>(null);
   const inputElement = React.useRef<HTMLInputElement>(null!);
 
   return (
@@ -13,12 +14,18 @@ export function PasswordInput(props: InputProps) {
       type={showPassword ? "text" : "password"}
       rightAdornment={
         <ActionAdornment
+          onFocus={(event) => {
+            // Get the element which just lost the focus.
+            previousFocusOwner.current = event.relatedTarget as HTMLElement;
+          }}
           onClick={() => {
             setShowPassword((s) => !s);
 
-            // Give the focus {back} to the input to avoid loosing the keyboard
+            // Give the focus back to the input to avoid loosing the keyboard
             // on mobile apps
-            inputElement.current.focus();
+            if (previousFocusOwner.current === inputElement.current) {
+              inputElement.current.focus();
+            }
           }}
         >
           {showPassword ? <FaEyeSlash /> : <FaEye />}

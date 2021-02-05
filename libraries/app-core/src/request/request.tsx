@@ -110,11 +110,13 @@ export function RequestContextProvider({
 
 function maybeShowSnackbarError(error: Error, errorCodesToIgnore: ErrorCode[]) {
   if (!hasErrorCode(error, errorCodesToIgnore)) {
-    showSnackbar.error(
+    return showSnackbar.error(
       <Snackbar type="error">{getErrorMessage(error)}</Snackbar>,
       { autoClose: false }
     );
   }
+
+  return null;
 }
 
 type CustomHookOptions = {
@@ -133,35 +135,54 @@ export function useQuery<
     ...options
   }: UseQueryOptions<TQueryFnData, TError, TData> & CustomHookOptions = {}
 ): UseQueryResult<TData, TError> {
-  return useQueryReactQuery(queryKey, queryFn, {
-    ...options,
-    onError(error) {
-      maybeShowSnackbarError(error, errorCodesToIgnore);
-      options?.onError?.(error);
+  const snackbarId = React.useRef<React.ReactText | null>(null);
+
+  return useQueryReactQuery(
+    queryKey,
+    (context) => {
+      if (snackbarId.current != null) {
+        showSnackbar.dismiss(snackbarId.current);
+      }
+
+      return queryFn(context);
     },
-  });
+    {
+      ...options,
+      onError(error) {
+        snackbarId.current = maybeShowSnackbarError(error, errorCodesToIgnore);
+        options?.onError?.(error);
+      },
+    }
+  );
 }
 
 export function useMutation<
   TData = unknown,
   TError extends Error = Error,
-  TVariables = void,
-  TContext = unknown
+  TVariables = void
 >(
   mutationFn: MutationFunction<TData, TVariables>,
   {
     errorCodesToIgnore = [],
     ...options
-  }: UseMutationOptions<TData, TError, TVariables, TContext> &
-    CustomHookOptions = {}
+  }: UseMutationOptions<TData, TError, TVariables> & CustomHookOptions = {}
 ) {
+  const snackbarId = React.useRef<React.ReactText | null>(null);
+
   const { setPendingMutationCount } = useRequest();
-  const mutation = useMutationReactQuery<TData, TError, TVariables, TContext>(
+  const mutation = useMutationReactQuery<TData, TError, TVariables>(
     mutationFn,
     {
       ...options,
+      onMutate(variables) {
+        if (snackbarId.current != null) {
+          showSnackbar.dismiss(snackbarId.current);
+        }
+
+        options?.onMutate?.(variables);
+      },
       onError(error, ...rest) {
-        maybeShowSnackbarError(error, errorCodesToIgnore);
+        snackbarId.current = maybeShowSnackbarError(error, errorCodesToIgnore);
         options?.onError?.(error, ...rest);
       },
     }
@@ -192,14 +213,22 @@ export function useInfiniteQuery<
   }: UseInfiniteQueryOptions<TQueryFnData, TError, TData> &
     CustomHookOptions = {}
 ): UseInfiniteQueryResult<TData, TError> {
+  const snackbarId = React.useRef<React.ReactText | null>(null);
+
   const query = useInfiniteQueryReactQuery<TQueryFnData, TError, TData>(
     queryKey,
-    queryFn,
+    (context) => {
+      if (snackbarId.current != null) {
+        showSnackbar.dismiss(snackbarId.current);
+      }
+
+      return queryFn(context);
+    },
     {
       ...options,
 
       onError(error) {
-        maybeShowSnackbarError(error, errorCodesToIgnore);
+        snackbarId.current = maybeShowSnackbarError(error, errorCodesToIgnore);
         options?.onError?.(error);
       },
 

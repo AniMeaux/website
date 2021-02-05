@@ -14,35 +14,39 @@ export const ButtonClassName: {
 } = {
   secondary: {
     default: {
-      base: "bg-black bg-opacity-0",
+      base: "focus-visible:ring-blue-500 bg-white active:bg-gray-100",
     },
     blue: {
-      base: "bg-blue-500 bg-opacity-5 text-blue-500",
+      base:
+        "focus-visible:ring-blue-500 bg-blue-500 bg-opacity-5 active:bg-opacity-10 text-blue-500",
     },
     red: {
-      base: "bg-red-500 bg-opacity-5 text-red-500",
+      base:
+        "focus-visible:ring-red-500 bg-red-500 bg-opacity-5 active:bg-opacity-10 text-red-500",
     },
   },
   primary: {
     default: {
-      base: "",
+      base: "focus-visible:ring-blue-500",
     },
     blue: {
-      base: "bg-blue-500 text-white",
+      base:
+        "focus-visible:ring-blue-500 bg-blue-500 active:bg-blue-700 text-white",
     },
     red: {
-      base: "",
+      base:
+        "focus-visible:ring-red-500 bg-red-500 active:bg-red-700 text-white",
     },
   },
   outlined: {
     default: {
-      base: "bg-black bg-opacity-0 border",
+      base: "focus-visible:ring-blue-500 bg-white active:bg-gray-100 border",
     },
     blue: {
-      base: "",
+      base: "focus-visible:ring-blue-500",
     },
     red: {
-      base: "",
+      base: "focus-visible:ring-red-500",
     },
   },
 };
@@ -61,11 +65,11 @@ function getButtonClassName({
   className,
 }: ButtonPropsForClassName) {
   return cn(
-    "a11y-focus disabled:opacity-50 disabled:cursor-auto h-10 flex items-center justify-center",
+    "focus:outline-none focus-visible:ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:cursor-auto rounded-full h-10 flex items-center justify-center",
     ButtonClassName[variant][color].base,
     {
-      "w-10 rounded-full": iconOnly,
-      "rounded-md px-4 min-w-button text-sm uppercase tracking-wide font-medium": !iconOnly,
+      "w-10": iconOnly,
+      "px-4 min-w-button text-sm uppercase tracking-wide font-medium": !iconOnly,
     },
     className
   );

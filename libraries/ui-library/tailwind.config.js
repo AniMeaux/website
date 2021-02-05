@@ -201,10 +201,17 @@ module.exports = {
   variants: {
     // Allow to move up elements when focused to make sure the focus ring is
     // entirely visible.
-    zIndex: variants.zIndex.concat(["focus"]),
-    opacity: variants.opacity.concat(["disabled"]),
-    textOpacity: variants.textOpacity.concat(["active"]),
     cursor: variants.cursor.concat(["disabled"]),
+    backgroundColor: variants.backgroundColor.concat(["active"]),
+    backgroundOpacity: variants.backgroundOpacity.concat(["active"]),
+    opacity: variants.opacity.concat(["disabled", "active"]),
+    ringColor: variants.ringColor.concat(["focus-visible"]),
+    ringOffsetColor: variants.ringOffsetColor.concat(["focus-visible"]),
+    ringOffsetWidth: variants.ringOffsetWidth.concat(["focus-visible"]),
+    ringOpacity: variants.ringOpacity.concat(["focus-visible"]),
+    ringWidth: variants.ringWidth.concat(["focus-visible"]),
+    textOpacity: variants.textOpacity.concat(["active"]),
+    zIndex: variants.zIndex.concat(["focus"]),
   },
   plugins: [],
 };

@@ -114,6 +114,10 @@ export function useCreateUser(
         throw new Error(ErrorCode.USER_INVALID_EMAIL);
       }
 
+      if (payload.password.length < 6) {
+        throw new Error(ErrorCode.USER_INVALID_PASSWORD);
+      }
+
       if (payload.groups.length === 0) {
         throw new Error(ErrorCode.USER_MISSING_GROUP);
       }

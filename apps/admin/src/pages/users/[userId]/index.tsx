@@ -13,8 +13,8 @@ import {
   UserGroupLabels,
 } from "@animeaux/shared-entities";
 import {
-  ActionSection,
-  ActionSectionList,
+  ButtonLink,
+  ButtonSection,
   ButtonWithConfirmation,
   Item,
   ItemContent,
@@ -23,6 +23,7 @@ import {
   Main,
   Placeholder,
   Placeholders,
+  QuickActions,
   resolveUrl,
   Section,
   SectionTitle,
@@ -129,7 +130,35 @@ function GroupsPlaceholderSection() {
   );
 }
 
-function ActionsSection({ user }: { user: User }) {
+function BlockUserButton({ user }: { user: User }) {
+  const { currentUser } = useCurrentUser();
+  const [toggleUserBlockedStatus] = useToggleUserBlockedStatus();
+
+  // The current user cannot block himself.
+  const disabled = currentUser.id === user.id;
+
+  return (
+    <ButtonWithConfirmation
+      confirmationMessage={
+        user.disabled
+          ? `Êtes-vous sûr de vouloir débloquer l'utilisateur ${user.displayName} ?`
+          : `Êtes-vous sûr de vouloir bloquer l'utilisateur ${user.displayName} ?`
+      }
+      onClick={() => toggleUserBlockedStatus(user.id)}
+      color="blue"
+      disabled={disabled}
+      title={
+        disabled
+          ? "Vous ne pouvez pas bloquer votre propre utilisateur"
+          : undefined
+      }
+    >
+      {user.disabled ? "Débloquer" : "Bloquer"}
+    </ButtonWithConfirmation>
+  );
+}
+
+function DeleteUserButton({ user }: { user: User }) {
   const { currentUser } = useCurrentUser();
 
   const router = useRouter();
@@ -139,64 +168,28 @@ function ActionsSection({ user }: { user: User }) {
     },
   });
 
-  const [toggleUserBlockedStatus] = useToggleUserBlockedStatus();
-
-  // The current user cannot block/delete himself.
+  // The current user cannot delete himself.
   const disabled = currentUser.id === user.id;
 
   return (
-    <ActionSection>
-      <ActionSectionList>
-        <ButtonWithConfirmation
-          confirmationMessage={
-            user.disabled
-              ? `Êtes-vous sûr de vouloir débloquer l'utilisateur ${user.displayName} ?`
-              : `Êtes-vous sûr de vouloir bloquer l'utilisateur ${user.displayName} ?`
-          }
-          onClick={() => toggleUserBlockedStatus(user.id)}
-          color="blue"
-          disabled={disabled}
-          title={
-            disabled
-              ? "Vous ne pouvez pas bloquer votre propre utilisateur"
-              : undefined
-          }
-        >
-          {user.disabled ? "Débloquer" : "Bloquer"}
-        </ButtonWithConfirmation>
-
-        <ButtonWithConfirmation
-          confirmationMessage={[
-            `Êtes-vous sûr de vouloir supprimer l'utilisateur ${
-              user!.displayName
-            } ?`,
-            "L'action est irréversible.",
-          ].join("\n")}
-          onClick={() => deleteUser(user.id)}
-          color="red"
-          disabled={disabled}
-          title={
-            disabled
-              ? "Vous ne pouvez pas supprimer votre propre utilisateur"
-              : undefined
-          }
-        >
-          Supprimer
-        </ButtonWithConfirmation>
-      </ActionSectionList>
-    </ActionSection>
-  );
-}
-
-function ActionsPlaceholderSection() {
-  return (
-    <ActionSection>
-      <ActionSectionList>
-        <Placeholders count={2}>
-          <Placeholder preset="button" />
-        </Placeholders>
-      </ActionSectionList>
-    </ActionSection>
+    <ButtonWithConfirmation
+      confirmationMessage={[
+        `Êtes-vous sûr de vouloir supprimer l'utilisateur ${
+          user!.displayName
+        } ?`,
+        "L'action est irréversible.",
+      ].join("\n")}
+      onClick={() => deleteUser(user.id)}
+      color="red"
+      disabled={disabled}
+      title={
+        disabled
+          ? "Vous ne pouvez pas supprimer votre propre utilisateur"
+          : undefined
+      }
+    >
+      Supprimer
+    </ButtonWithConfirmation>
   );
 }
 
@@ -226,8 +219,6 @@ const UserPage: PageComponent = () => {
         <ProfileSection user={user} />
         <Separator />
         <GroupsSection user={user} />
-        <Separator />
-        <ActionsSection user={user} />
       </>
     );
   } else if (isLoading) {
@@ -236,8 +227,6 @@ const UserPage: PageComponent = () => {
         <ProfilePlaceholderSection />
         <Separator />
         <GroupsPlaceholderSection />
-        <Separator />
-        <ActionsPlaceholderSection />
       </>
     );
   }
@@ -245,22 +234,24 @@ const UserPage: PageComponent = () => {
   return (
     <div>
       <PageTitle title={pageTitle} />
+      <Header headerTitle={headerTitle} canGoBack />
 
-      <Header
-        headerTitle={headerTitle}
-        canGoBack
-        action={
-          user == null
-            ? undefined
-            : {
-                href: "./edit",
-                icon: FaPen,
-                label: "Modifier",
-              }
-        }
-      />
+      <Main>
+        {content}
 
-      <Main>{content}</Main>
+        {user != null && (
+          <QuickActions icon={FaPen}>
+            <ButtonSection>
+              <ButtonLink href="./edit" variant="outlined">
+                Modifier
+              </ButtonLink>
+
+              <BlockUserButton user={user} />
+              <DeleteUserButton user={user} />
+            </ButtonSection>
+          </QuickActions>
+        )}
+      </Main>
     </div>
   );
 };

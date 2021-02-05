@@ -29,7 +29,7 @@ export function ActionAdornment({
       type="button"
       ref={refProp}
       className={cn(
-        "w-8 h-8 flex items-center justify-center pointer-events-auto",
+        "focus:outline-none focus-visible:ring focus-visible:ring-inset focus-visible:ring-blue-500 rounded-full w-8 h-8 flex items-center justify-center pointer-events-auto text-black text-opacity-70 active:text-opacity-20",
         className
       )}
     />

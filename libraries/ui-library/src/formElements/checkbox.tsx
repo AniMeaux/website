@@ -2,6 +2,34 @@ import cn from "classnames";
 import * as React from "react";
 import { FaCheck } from "react-icons/fa";
 
+export type RawCheckboxProps = Omit<
+  React.InputHTMLAttributes<HTMLInputElement>,
+  "onChange" | "size"
+> & {
+  onChange?: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+export function RawCheckbox({
+  checked,
+  onChange,
+  readOnly,
+  ...rest
+}: RawCheckboxProps) {
+  return (
+    <input
+      {...rest}
+      type="checkbox"
+      checked={checked}
+      readOnly={readOnly}
+      onChange={(event) => {
+        if (onChange != null && !readOnly) {
+          onChange(event.target.checked);
+        }
+      }}
+    />
+  );
+}
+
 type CheckboxSize = "medium" | "small";
 
 const CheckboxSizeClassName: {
@@ -20,17 +48,12 @@ const CheckboxSizeClassName: {
   },
 };
 
-export type CheckboxProps = Omit<
-  React.InputHTMLAttributes<HTMLInputElement>,
-  "onChange" | "size"
-> & {
-  onChange?: React.Dispatch<React.SetStateAction<boolean>>;
+export type CheckboxProps = RawCheckboxProps & {
   size?: CheckboxSize;
 };
 
 export function Checkbox({
   checked,
-  onChange,
   size = "medium",
   readOnly,
   className,
@@ -38,16 +61,10 @@ export function Checkbox({
 }: CheckboxProps) {
   return (
     <span className={cn("relative inline-flex", className)}>
-      <input
+      <RawCheckbox
         {...rest}
-        type="checkbox"
         checked={checked}
         readOnly={readOnly}
-        onChange={(event) => {
-          if (onChange != null && !readOnly) {
-            onChange(event.target.checked);
-          }
-        }}
         className={cn(
           "a11y-focus appearance-none border rounded",
           CheckboxSizeClassName[size].input,

@@ -6,8 +6,8 @@ import {
 } from "@animeaux/app-core";
 import { HostFamily, UserGroup } from "@animeaux/shared-entities";
 import {
-  ActionSection,
-  ActionSectionList,
+  ButtonLink,
+  ButtonSection,
   ButtonWithConfirmation,
   Item,
   ItemContent,
@@ -16,10 +16,10 @@ import {
   Main,
   Placeholder,
   Placeholders,
+  QuickActions,
   resolveUrl,
   Section,
   SectionTitle,
-  Separator,
 } from "@animeaux/ui-library";
 import { useRouter } from "next/router";
 import * as React from "react";
@@ -102,7 +102,7 @@ function ContactPlaceholderSection() {
   );
 }
 
-function ActionsSection({ hostFamily }: { hostFamily: HostFamily }) {
+function DeleteHostFamilyButton({ hostFamily }: { hostFamily: HostFamily }) {
   const router = useRouter();
   const [deleteHostFamily] = useDeleteHostFamily({
     onSuccess() {
@@ -111,31 +111,17 @@ function ActionsSection({ hostFamily }: { hostFamily: HostFamily }) {
   });
 
   return (
-    <ActionSection>
-      <ActionSectionList>
-        <ButtonWithConfirmation
-          confirmationMessage={[
-            `Êtes-vous sûr de vouloir supprimer la famille d'accueil ${hostFamily.name} ?`,
-            "L'action est irréversible.",
-          ].join("\n")}
-          onClick={() => deleteHostFamily(hostFamily.id)}
-          // TODO: Prevent delete if it is referenced by animals.
-          color="red"
-        >
-          Supprimer
-        </ButtonWithConfirmation>
-      </ActionSectionList>
-    </ActionSection>
-  );
-}
-
-function ActionsPlaceholderSection() {
-  return (
-    <ActionSection>
-      <ActionSectionList>
-        <Placeholder preset="button" />
-      </ActionSectionList>
-    </ActionSection>
+    <ButtonWithConfirmation
+      confirmationMessage={[
+        `Êtes-vous sûr de vouloir supprimer la famille d'accueil ${hostFamily.name} ?`,
+        "L'action est irréversible.",
+      ].join("\n")}
+      onClick={() => deleteHostFamily(hostFamily.id)}
+      // TODO: Prevent delete if it is referenced by animals.
+      color="red"
+    >
+      Supprimer
+    </ButtonWithConfirmation>
   );
 }
 
@@ -160,42 +146,31 @@ const HostFamilyPage: PageComponent = () => {
   let content: React.ReactNode | null = null;
 
   if (hostFamily != null) {
-    content = (
-      <>
-        <ContactSection hostFamily={hostFamily} />
-        <Separator />
-        <ActionsSection hostFamily={hostFamily} />
-      </>
-    );
+    content = <ContactSection hostFamily={hostFamily} />;
   } else if (isLoading) {
-    content = (
-      <>
-        <ContactPlaceholderSection />
-        <Separator />
-        <ActionsPlaceholderSection />
-      </>
-    );
+    content = <ContactPlaceholderSection />;
   }
 
   return (
     <div>
       <PageTitle title={pageTitle} />
+      <Header headerTitle={headerTitle} canGoBack />
 
-      <Header
-        headerTitle={headerTitle}
-        canGoBack
-        action={
-          hostFamily == null
-            ? undefined
-            : {
-                href: "./edit",
-                icon: FaPen,
-                label: "Modifier",
-              }
-        }
-      />
+      <Main>
+        {content}
 
-      <Main>{content}</Main>
+        {hostFamily != null && (
+          <QuickActions icon={FaPen}>
+            <ButtonSection>
+              <ButtonLink href="./edit" variant="outlined">
+                Modifier
+              </ButtonLink>
+
+              <DeleteHostFamilyButton hostFamily={hostFamily} />
+            </ButtonSection>
+          </QuickActions>
+        )}
+      </Main>
     </div>
   );
 };

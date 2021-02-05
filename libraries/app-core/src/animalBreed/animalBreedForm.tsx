@@ -5,28 +5,22 @@ import {
   ANIMAL_SPECIES_ALPHABETICAL_ORDER,
 } from "@animeaux/shared-entities";
 import {
-  ActionSection,
-  ActionSectionList,
   Adornment,
-  Button,
   Field,
+  FieldMessage,
   Form,
   FormProps,
   Input,
   Label,
-  Message,
   Placeholder,
   Placeholders,
-  RequiredStar,
-  Section,
-  SectionTitle,
   Selector,
   SelectorIcon,
   SelectorItem,
   SelectorLabel,
   SelectorRadio,
   Selectors,
-  Separator,
+  SubmitButton,
 } from "@animeaux/ui-library";
 import * as React from "react";
 import { FaDna } from "react-icons/fa";
@@ -66,49 +60,35 @@ export function AnimalBreedForm({
       pending={pending}
       onSubmit={() => onSubmit({ name, species })}
     >
-      <Section>
-        <SectionTitle>Détails</SectionTitle>
+      <Field>
+        <Label htmlFor="animal-breed-name" hasError={errors?.name != null}>
+          Nom
+        </Label>
 
-        <Field>
-          <Label htmlFor="animal-breed-name">
-            Nom <RequiredStar />
-          </Label>
-          <Input
-            name="animal-breed-name"
-            id="animal-breed-name"
-            type="text"
-            autoComplete="animal-breed-name"
-            value={name}
-            onChange={setName}
-            errorMessage={errors?.name}
-            leftAdornment={
-              <Adornment>
-                <FaDna />
-              </Adornment>
-            }
-          />
-        </Field>
-      </Section>
+        <Input
+          name="animal-breed-name"
+          id="animal-breed-name"
+          type="text"
+          autoComplete="animal-breed-name"
+          value={name}
+          onChange={setName}
+          hasError={errors?.name != null}
+          leftAdornment={
+            <Adornment>
+              <FaDna />
+            </Adornment>
+          }
+        />
 
-      <Separator />
+        <FieldMessage errorMessage={errors?.name} />
+      </Field>
 
-      <Section>
-        <SectionTitle>
-          Espèce <RequiredStar />
-        </SectionTitle>
-
-        {errors?.species != null && (
-          <Message type="error" className="mx-2 my-4">
-            {errors.species}
-          </Message>
-        )}
+      <Field>
+        <Label hasError={errors?.species != null}>Espèce</Label>
 
         <Selectors>
           {ANIMAL_SPECIES_ALPHABETICAL_ORDER.map((s) => (
-            <SelectorItem
-              key={s}
-              itemsCount={ANIMAL_SPECIES_ALPHABETICAL_ORDER.length}
-            >
+            <SelectorItem key={s}>
               <Selector>
                 <SelectorRadio
                   name="species"
@@ -125,22 +105,13 @@ export function AnimalBreedForm({
             </SelectorItem>
           ))}
         </Selectors>
-      </Section>
 
-      <Separator />
+        <FieldMessage errorMessage={errors?.species} />
+      </Field>
 
-      <ActionSection>
-        <ActionSectionList>
-          <Button
-            type="submit"
-            variant="primary"
-            color="blue"
-            disabled={pending}
-          >
-            {animalBreed == null ? "Créer" : "Modifier"}
-          </Button>
-        </ActionSectionList>
-      </ActionSection>
+      <SubmitButton disabled={pending}>
+        {animalBreed == null ? "Créer" : "Modifier"}
+      </SubmitButton>
     </Form>
   );
 }
@@ -148,35 +119,27 @@ export function AnimalBreedForm({
 export function AnimalBreedFormPlaceholder() {
   return (
     <Form>
-      <Section>
-        <SectionTitle>
-          <Placeholder preset="text" />
-        </SectionTitle>
+      <Field>
+        <Label>
+          <Placeholder preset="label" />
+        </Label>
 
-        <Field>
-          <Label>
-            <Placeholder preset="label" />
-          </Label>
+        <Placeholder preset="input" />
+      </Field>
 
-          <Placeholder preset="input" />
-        </Field>
-      </Section>
-
-      <Separator />
-
-      <Section>
-        <SectionTitle>
-          <Placeholder preset="text" />
-        </SectionTitle>
+      <Field>
+        <Label>
+          <Placeholder preset="label" />
+        </Label>
 
         <Selectors>
           <Placeholders count={ANIMAL_SPECIES_ALPHABETICAL_ORDER.length}>
-            <SelectorItem itemsCount={ANIMAL_SPECIES_ALPHABETICAL_ORDER.length}>
+            <SelectorItem>
               <Placeholder preset="selector" />
             </SelectorItem>
           </Placeholders>
         </Selectors>
-      </Section>
+      </Field>
     </Form>
   );
 }

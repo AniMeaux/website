@@ -1,6 +1,7 @@
 import cn from "classnames";
-import * as React from "react";
 import invariant from "invariant";
+import * as React from "react";
+import { FieldMessage } from "./fieldMessage";
 
 function ensureArray<DataType>(value: DataType[] | DataType | null) {
   if (value == null) {
@@ -15,6 +16,7 @@ export type BaseInputProps = {
   disabled?: boolean;
   leftAdornment?: React.ReactNode | React.ReactNode[];
   rightAdornment?: React.ReactNode | React.ReactNode[];
+  hasError?: boolean | null;
   errorMessage?: string | null;
   infoMessage?: string | null;
 };
@@ -25,6 +27,7 @@ export function BaseInput({
   leftAdornment,
   rightAdornment,
   errorMessage,
+  hasError,
   infoMessage,
   className,
   ...rest
@@ -35,7 +38,7 @@ export function BaseInput({
   return (
     <span
       {...rest}
-      className={cn("relative", { "opacity-75": disabled }, className)}
+      className={cn("relative", { "opacity-50": disabled }, className)}
     >
       {children}
 
@@ -53,11 +56,7 @@ export function BaseInput({
           ...rightAdornments
         )}
 
-      {errorMessage != null && <Message error>{errorMessage}</Message>}
-
-      {infoMessage != null && errorMessage == null && (
-        <Message>{infoMessage}</Message>
-      )}
+      <FieldMessage errorMessage={errorMessage} infoMessage={infoMessage} />
     </span>
   );
 }
@@ -82,34 +81,13 @@ function AdornmentContainer({
     <span
       {...rest}
       className={cn(
-        "pointer-events-none absolute top-0 h-10 px-2 text-gray-700 flex items-center",
+        "pointer-events-none absolute top-0 h-10 px-2 text-black text-opacity-70 flex items-center",
         AdornmentSideClassName[side],
         className
       )}
     />
   );
 }
-
-type MessageProps = React.HTMLAttributes<HTMLParagraphElement> & {
-  error?: boolean;
-};
-
-function Message({ error = false, className, ...rest }: MessageProps) {
-  return (
-    <p
-      {...rest}
-      className={cn(
-        "mt-1 text-sm",
-        {
-          "text-red-500 font-medium": error,
-          "text-opacity-90 text-default-color": !error,
-        },
-        className
-      )}
-    />
-  );
-}
-
 type GetInputClassNameOptions = Omit<
   BaseInputProps,
   "infoMessage" | "disabled"
@@ -121,6 +99,7 @@ const PaddingRightClassNames = ["pr-4", "pr-12", "pr-20"];
 
 export function getInputClassName({
   errorMessage,
+  hasError = errorMessage != null,
   leftAdornment,
   rightAdornment,
 }: GetInputClassNameOptions) {
@@ -134,8 +113,11 @@ export function getInputClassName({
   invariant(paddingRightClassName != null, "Only 2 adornments are supported.");
 
   return cn(
-    "appearance-none a11y-focus disabled:pointer-events-none h-10 w-full min-w-0 rounded-md bg-black bg-opacity-5 focus:bg-transparent px-4 text-default-color",
-    { "border-2 border-red-500": errorMessage != null },
+    "appearance-none disabled:pointer-events-none focus:outline-none focus:ring focus:ring-offset-2 focus:ring-blue-500 h-10 w-full min-w-0 rounded-full border bg-white px-4 text-default-color",
+    {
+      "border-black border-opacity-10": !hasError,
+      "border-red-500": hasError,
+    },
     paddingLeftClassName,
     paddingRightClassName
   );

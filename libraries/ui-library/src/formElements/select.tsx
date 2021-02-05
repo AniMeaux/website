@@ -14,6 +14,7 @@ export type SelectProps<ValueType> = Omit<
   };
 
 export function Select<ValueType = string>({
+  hasError,
   errorMessage,
   infoMessage,
   placeholder,
@@ -39,6 +40,7 @@ export function Select<ValueType = string>({
       disabled={disabled}
       leftAdornment={leftAdornment}
       rightAdornment={rightAdornment}
+      hasError={hasError}
       errorMessage={errorMessage}
       infoMessage={infoMessage}
       className={className}
@@ -54,6 +56,7 @@ export function Select<ValueType = string>({
         disabled={disabled}
         className={cn(
           getInputClassName({
+            hasError,
             errorMessage,
             leftAdornment,
             rightAdornment,

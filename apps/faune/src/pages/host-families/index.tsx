@@ -14,7 +14,9 @@ import {
   EmptyMessage,
   Main,
   Placeholders,
+  QuickLinkAction,
   Section,
+  usePageScrollRestoration,
 } from "@animeaux/ui-library";
 import * as React from "react";
 import { FaPlus } from "react-icons/fa";
@@ -78,6 +80,7 @@ function HostFamiliesRows({
 }
 
 const HostFamilyListPage: PageComponent = () => {
+  usePageScrollRestoration();
   const [hostFamiliesPages, query] = useAllHostFamilies();
 
   let content: React.ReactNode | null = null;
@@ -103,17 +106,15 @@ const HostFamilyListPage: PageComponent = () => {
   return (
     <div>
       <PageTitle title="Familles d'accueil" />
+      <Header headerTitle={`Familles d'accueil ${hostFamiliesCount}`} />
 
-      <Header
-        headerTitle={`Familles d'accueil ${hostFamiliesCount}`}
-        action={{
-          href: "./new",
-          icon: FaPlus,
-          label: "Créer une FA",
-        }}
-      />
+      <Main>
+        {content}
 
-      <Main>{content}</Main>
+        <QuickLinkAction href="./new">
+          <FaPlus />
+        </QuickLinkAction>
+      </Main>
     </div>
   );
 };

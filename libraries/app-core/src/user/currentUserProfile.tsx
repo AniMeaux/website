@@ -4,15 +4,15 @@ import {
   hasErrorCode,
 } from "@animeaux/shared-entities";
 import {
-  ActionSection,
-  ActionSectionList,
   Adornment,
   BottomSheet,
   BottomSheetHeader,
   BottomSheetRef,
   Button,
   ButtonItem,
+  ButtonSection,
   Field,
+  FieldMessage,
   Form,
   HeaderBackButton,
   HeaderIconOnlyLinkPlaceholder,
@@ -24,9 +24,9 @@ import {
   Label,
   PasswordInput,
   Section,
-  Separator,
   showSnackbar,
   Snackbar,
+  SubmitButton,
 } from "@animeaux/ui-library";
 import * as React from "react";
 import { FaAngleRight, FaLock, FaUser } from "react-icons/fa";
@@ -86,54 +86,51 @@ function PasswordForm({ onSuccess }: EditCurrentUserPasswordFormProps) {
       onSubmit={() => mutation.mutate({ currentPassword, newPassword })}
       pending={mutation.isLoading}
     >
-      <Section>
-        <Field>
-          <Label htmlFor="password">Mot de passe actuel</Label>
-          <PasswordInput
-            name="password"
-            id="password"
-            autoComplete="password"
-            value={currentPassword}
-            onChange={setCurrentPassword}
-            errorMessage={currentPasswordError}
-            leftAdornment={
-              <Adornment>
-                <FaLock />
-              </Adornment>
-            }
-          />
-        </Field>
+      <Field>
+        <Label htmlFor="password" hasError={currentPasswordError != null}>
+          Mot de passe actuel
+        </Label>
 
-        <Field>
-          <Label htmlFor="new-password">Nouveau mot de passe</Label>
-          <PasswordInput
-            name="new-password"
-            id="new-password"
-            autoComplete="new-password"
-            value={newPassword}
-            onChange={setNewPassword}
-            errorMessage={newPasswordError}
-            leftAdornment={
-              <Adornment>
-                <FaLock />
-              </Adornment>
-            }
-          />
-        </Field>
-      </Section>
+        <PasswordInput
+          name="password"
+          id="password"
+          autoComplete="password"
+          value={currentPassword}
+          onChange={setCurrentPassword}
+          hasError={currentPasswordError != null}
+          leftAdornment={
+            <Adornment>
+              <FaLock />
+            </Adornment>
+          }
+        />
 
-      <ActionSection>
-        <ActionSectionList>
-          <Button
-            type="submit"
-            variant="primary"
-            color="blue"
-            disabled={mutation.isLoading}
-          >
-            Modifier
-          </Button>
-        </ActionSectionList>
-      </ActionSection>
+        <FieldMessage errorMessage={currentPasswordError} />
+      </Field>
+
+      <Field>
+        <Label htmlFor="new-password" hasError={newPasswordError != null}>
+          Nouveau mot de passe
+        </Label>
+
+        <PasswordInput
+          name="new-password"
+          id="new-password"
+          autoComplete="new-password"
+          value={newPassword}
+          onChange={setNewPassword}
+          hasError={newPasswordError != null}
+          leftAdornment={
+            <Adornment>
+              <FaLock />
+            </Adornment>
+          }
+        />
+
+        <FieldMessage errorMessage={newPasswordError} />
+      </Field>
+
+      <SubmitButton disabled={mutation.isLoading}>Modifier</SubmitButton>
     </Form>
   );
 }
@@ -181,38 +178,30 @@ function ProfileForm({ onSuccess }: EditCurrentUserProfileFormProps) {
       onSubmit={() => mutation.mutate(displayName)}
       pending={mutation.isLoading}
     >
-      <Section>
-        <Field>
-          <Label htmlFor="name">Nom</Label>
-          <Input
-            name="name"
-            id="name"
-            type="text"
-            autoComplete="name"
-            value={displayName}
-            onChange={setDisplayName}
-            errorMessage={errorMessage}
-            leftAdornment={
-              <Adornment>
-                <FaUser />
-              </Adornment>
-            }
-          />
-        </Field>
-      </Section>
+      <Field>
+        <Label htmlFor="name" hasError={errorMessage != null}>
+          Nom
+        </Label>
 
-      <ActionSection>
-        <ActionSectionList>
-          <Button
-            type="submit"
-            variant="primary"
-            color="blue"
-            disabled={mutation.isLoading}
-          >
-            Modifier
-          </Button>
-        </ActionSectionList>
-      </ActionSection>
+        <Input
+          name="name"
+          id="name"
+          type="text"
+          autoComplete="name"
+          value={displayName}
+          onChange={setDisplayName}
+          hasError={errorMessage != null}
+          leftAdornment={
+            <Adornment>
+              <FaUser />
+            </Adornment>
+          }
+        />
+
+        <FieldMessage errorMessage={errorMessage} />
+      </Field>
+
+      <SubmitButton disabled={mutation.isLoading}>Modifier</SubmitButton>
     </Form>
   );
 }
@@ -227,8 +216,11 @@ function Profile({ onEditPassword, onEditProfile }: ProfileProps) {
 
   return (
     <div>
-      <Section>
-        <ButtonItem onClick={() => onEditProfile()}>
+      <Section className="space-y-2">
+        <ButtonItem
+          onClick={() => onEditProfile()}
+          className="bg-gray-50 active:bg-gray-100"
+        >
           <ItemIcon>
             <FaUser />
           </ItemIcon>
@@ -242,7 +234,10 @@ function Profile({ onEditPassword, onEditProfile }: ProfileProps) {
           </ItemIcon>
         </ButtonItem>
 
-        <ButtonItem onClick={() => onEditPassword()}>
+        <ButtonItem
+          onClick={() => onEditPassword()}
+          className="bg-gray-50 active:bg-gray-100"
+        >
           <ItemIcon>
             <FaLock />
           </ItemIcon>
@@ -257,13 +252,11 @@ function Profile({ onEditPassword, onEditProfile }: ProfileProps) {
         </ButtonItem>
       </Section>
 
-      <Separator />
-
-      <Section className="px-4">
-        <Button color="red" className="w-full" onClick={signOut}>
+      <ButtonSection>
+        <Button color="red" onClick={signOut}>
           Se déconnecter
         </Button>
-      </Section>
+      </ButtonSection>
     </div>
   );
 }
@@ -348,8 +341,8 @@ export function CurrentUserProfile({ refProp }: CurrentUserProfileProps) {
     <BottomSheet
       open={visiblePanel != null}
       onDismiss={() => setVisiblePanel(null)}
-      defaultSnap={({ minHeight }) => minHeight}
       snapPoints={({ minHeight, maxHeight }) => [minHeight, maxHeight]}
+      defaultSnap={({ minHeight }) => minHeight}
       ref={bottomSheet}
       header={header}
     >
