@@ -1,7 +1,6 @@
 @import url("https://fonts.googleapis.com/css?family=Roboto:300,400,400i,500,600,700&display=swap");
 @import url("https://fonts.googleapis.com/css?family=Open+Sans:300,400,400i,500,600,700&display=swap");
 @import url("react-toastify/dist/ReactToastify.css");
-@import url("react-spring-bottom-sheet/dist/style.css");
 
 @tailwind base;
 @tailwind components;
@@ -18,22 +17,6 @@
     /* https://medium.com/appscope/designing-native-like-progressive-web-apps-for-ios-1b3cdda1d0e8 */
     -webkit-touch-callout: none;
   }
-
-  /* react-spring-bottom-sheet overrides */
-  /* purgecss start ignore */
-  [data-rsbs-overlay],
-  [data-rsbs-backdrop],
-  [data-rsbs-root]:after {
-    @apply z-20;
-  }
-
-  [data-rsbs-header],
-  [data-rsbs-has-header="false"] [data-rsbs-header] {
-    @apply shadow-none px-0 pb-0 text-left;
-    padding-top: 20px;
-    padding-top: calc(20px + env(safe-area-inset-top, 0));
-  }
-  /* purgecss end ignore */
 }
 
 @layer components {
@@ -269,6 +252,99 @@
     left: -1px;
     width: calc(theme("width.full") + 2px);
     height: calc(theme("height.full") + 2px);
+  }
+
+  .quick-action-bottom {
+    bottom: theme("inset.18");
+    bottom: calc(theme("inset.18") + env(safe-area-inset-bottom, 0));
+  }
+
+  .quick-action-right {
+    right: theme("inset.4");
+    right: calc(theme("inset.4") + env(safe-area-inset-right, 0));
+  }
+
+  .modal-padding {
+    padding-top: theme("padding.2");
+    padding-top: calc(theme("padding.2") + env(safe-area-inset-top, 0));
+    padding-right: theme("padding.2");
+    padding-right: calc(theme("padding.2") + env(safe-area-inset-right, 0));
+    padding-bottom: theme("padding.2");
+    padding-bottom: calc(theme("padding.2") + env(safe-area-inset-bottom, 0));
+    padding-left: theme("padding.2");
+    padding-left: calc(theme("padding.2") + env(safe-area-inset-left, 0));
+  }
+
+  .modal-top-full-screen {
+    top: theme("inset.2");
+    top: calc(theme("inset.2") + env(safe-area-inset-top, 0));
+  }
+
+  .modal-content-padding {
+    padding-top: 0;
+    padding-top: env(safe-area-inset-top, 0);
+    padding-right: 0;
+    padding-right: env(safe-area-inset-right, 0);
+    padding-bottom: 0;
+    padding-bottom: env(safe-area-inset-bottom, 0);
+    padding-left: 0;
+    padding-left: env(safe-area-inset-left, 0);
+  }
+
+  .animate-fade-in {
+    animation: fade-in 200ms cubic-bezier(0, 0, 0.2, 1) forwards;
+  }
+
+  @keyframes fade-in {
+    0% {
+      opacity: 0;
+    }
+
+    100% {
+      opacity: 1;
+    }
+  }
+
+  .animate-fade-out {
+    animation: fade-out 200ms cubic-bezier(0.4, 0, 1, 1) forwards;
+  }
+
+  @keyframes fade-out {
+    0% {
+      opacity: 1;
+    }
+
+    100% {
+      opacity: 0;
+    }
+  }
+
+  .animate-bottom-slide-in {
+    animation: bottom-slide-in 200ms cubic-bezier(0, 0, 0.2, 1) forwards;
+  }
+
+  @keyframes bottom-slide-in {
+    0% {
+      transform: translateY(100%);
+    }
+
+    100% {
+      transform: translateY(0);
+    }
+  }
+
+  .animate-bottom-slide-out {
+    animation: bottom-slide-out 200ms cubic-bezier(0.4, 0, 1, 1) forwards;
+  }
+
+  @keyframes bottom-slide-out {
+    0% {
+      transform: translateY(0);
+    }
+
+    100% {
+      transform: translateY(100%);
+    }
   }
 }
 

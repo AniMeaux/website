@@ -1,2 +1,2 @@
-export * from "./bottomSheet";
+export * from "./modal";
 export * from "./snackbar";

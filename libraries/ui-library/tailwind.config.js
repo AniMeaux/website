@@ -196,6 +196,11 @@ module.exports = {
       zIndex: {
         "-1": "-1",
       },
+      transitionProperty: {
+        height: "height",
+        spacing: "margin, padding",
+        rounded: "border-radius",
+      },
     },
   },
   variants: {

@@ -1,6 +1,6 @@
 import cn from "classnames";
 import * as React from "react";
-import { FaArrowLeft } from "react-icons/fa";
+import { FaArrowLeft, FaTimes } from "react-icons/fa";
 import { Link, LinkProps } from "../link";
 import { useIsScrollAtTheTop } from "./usePageScroll";
 
@@ -36,6 +36,16 @@ export function HeaderBackButton(
   return (
     <HeaderButton {...props}>
       <FaArrowLeft />
+    </HeaderButton>
+  );
+}
+
+export function HeaderCloseButton(
+  props: React.ButtonHTMLAttributes<HTMLButtonElement>
+) {
+  return (
+    <HeaderButton {...props}>
+      <FaTimes />
     </HeaderButton>
   );
 }

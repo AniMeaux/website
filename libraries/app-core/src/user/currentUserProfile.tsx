@@ -5,16 +5,13 @@ import {
 } from "@animeaux/shared-entities";
 import {
   Adornment,
-  BottomSheet,
-  BottomSheetHeader,
-  BottomSheetRef,
   Button,
   ButtonItem,
   ButtonSection,
   Field,
   FieldMessage,
   Form,
-  HeaderBackButton,
+  HeaderCloseButton,
   HeaderIconOnlyLinkPlaceholder,
   HeaderTitle,
   Input,
@@ -22,6 +19,8 @@ import {
   ItemIcon,
   ItemMainText,
   Label,
+  Modal,
+  ModalStickyHeader,
   PasswordInput,
   Section,
   showSnackbar,
@@ -34,11 +33,12 @@ import { useMutation } from "../request";
 import { useCurrentUser } from "./currentUserContext";
 import { UserItem } from "./userItem";
 
-type EditCurrentUserPasswordFormProps = {
+type FormProps = {
   onSuccess: () => void;
+  onClose: () => void;
 };
 
-function PasswordForm({ onSuccess }: EditCurrentUserPasswordFormProps) {
+function PasswordForm({ onClose, onSuccess }: FormProps) {
   const { updatePassword } = useCurrentUser();
   const [currentPassword, setCurrentPassword] = React.useState("");
   const [newPassword, setNewPassword] = React.useState("");
@@ -82,64 +82,68 @@ function PasswordForm({ onSuccess }: EditCurrentUserPasswordFormProps) {
   }
 
   return (
-    <Form
-      onSubmit={() => mutation.mutate({ currentPassword, newPassword })}
-      pending={mutation.isLoading}
-    >
-      <Field>
-        <Label htmlFor="password" hasError={currentPasswordError != null}>
-          Mot de passe actuel
-        </Label>
+    <>
+      <ModalStickyHeader>
+        <HeaderCloseButton onClick={() => onClose()} />
+        <HeaderTitle>Mot de passe</HeaderTitle>
+        <HeaderIconOnlyLinkPlaceholder />
+      </ModalStickyHeader>
 
-        <PasswordInput
-          name="password"
-          id="password"
-          autoComplete="password"
-          value={currentPassword}
-          onChange={setCurrentPassword}
-          hasError={currentPasswordError != null}
-          leftAdornment={
-            <Adornment>
-              <FaLock />
-            </Adornment>
-          }
-        />
+      <Form
+        onSubmit={() => mutation.mutate({ currentPassword, newPassword })}
+        pending={mutation.isLoading}
+      >
+        <Field>
+          <Label htmlFor="password" hasError={currentPasswordError != null}>
+            Mot de passe actuel
+          </Label>
 
-        <FieldMessage errorMessage={currentPasswordError} />
-      </Field>
+          <PasswordInput
+            name="password"
+            id="password"
+            autoComplete="password"
+            value={currentPassword}
+            onChange={setCurrentPassword}
+            hasError={currentPasswordError != null}
+            leftAdornment={
+              <Adornment>
+                <FaLock />
+              </Adornment>
+            }
+          />
 
-      <Field>
-        <Label htmlFor="new-password" hasError={newPasswordError != null}>
-          Nouveau mot de passe
-        </Label>
+          <FieldMessage errorMessage={currentPasswordError} />
+        </Field>
 
-        <PasswordInput
-          name="new-password"
-          id="new-password"
-          autoComplete="new-password"
-          value={newPassword}
-          onChange={setNewPassword}
-          hasError={newPasswordError != null}
-          leftAdornment={
-            <Adornment>
-              <FaLock />
-            </Adornment>
-          }
-        />
+        <Field>
+          <Label htmlFor="new-password" hasError={newPasswordError != null}>
+            Nouveau mot de passe
+          </Label>
 
-        <FieldMessage errorMessage={newPasswordError} />
-      </Field>
+          <PasswordInput
+            name="new-password"
+            id="new-password"
+            autoComplete="new-password"
+            value={newPassword}
+            onChange={setNewPassword}
+            hasError={newPasswordError != null}
+            leftAdornment={
+              <Adornment>
+                <FaLock />
+              </Adornment>
+            }
+          />
 
-      <SubmitButton disabled={mutation.isLoading}>Modifier</SubmitButton>
-    </Form>
+          <FieldMessage errorMessage={newPasswordError} />
+        </Field>
+
+        <SubmitButton disabled={mutation.isLoading}>Modifier</SubmitButton>
+      </Form>
+    </>
   );
 }
 
-type EditCurrentUserProfileFormProps = {
-  onSuccess: () => void;
-};
-
-function ProfileForm({ onSuccess }: EditCurrentUserProfileFormProps) {
+function ProfileForm({ onClose, onSuccess }: FormProps) {
   const { currentUser, updateProfile } = useCurrentUser();
   const [displayName, setDisplayName] = React.useState(currentUser.displayName);
 
@@ -174,35 +178,43 @@ function ProfileForm({ onSuccess }: EditCurrentUserProfileFormProps) {
   }
 
   return (
-    <Form
-      onSubmit={() => mutation.mutate(displayName)}
-      pending={mutation.isLoading}
-    >
-      <Field>
-        <Label htmlFor="name" hasError={errorMessage != null}>
-          Nom
-        </Label>
+    <>
+      <ModalStickyHeader>
+        <HeaderCloseButton onClick={() => onClose()} />
+        <HeaderTitle>Profile</HeaderTitle>
+        <HeaderIconOnlyLinkPlaceholder />
+      </ModalStickyHeader>
 
-        <Input
-          name="name"
-          id="name"
-          type="text"
-          autoComplete="name"
-          value={displayName}
-          onChange={setDisplayName}
-          hasError={errorMessage != null}
-          leftAdornment={
-            <Adornment>
-              <FaUser />
-            </Adornment>
-          }
-        />
+      <Form
+        onSubmit={() => mutation.mutate(displayName)}
+        pending={mutation.isLoading}
+      >
+        <Field>
+          <Label htmlFor="name" hasError={errorMessage != null}>
+            Nom
+          </Label>
 
-        <FieldMessage errorMessage={errorMessage} />
-      </Field>
+          <Input
+            name="name"
+            id="name"
+            type="text"
+            autoComplete="name"
+            value={displayName}
+            onChange={setDisplayName}
+            hasError={errorMessage != null}
+            leftAdornment={
+              <Adornment>
+                <FaUser />
+              </Adornment>
+            }
+          />
 
-      <SubmitButton disabled={mutation.isLoading}>Modifier</SubmitButton>
-    </Form>
+          <FieldMessage errorMessage={errorMessage} />
+        </Field>
+
+        <SubmitButton disabled={mutation.isLoading}>Modifier</SubmitButton>
+      </Form>
+    </>
   );
 }
 
@@ -212,10 +224,12 @@ type ProfileProps = {
 };
 
 function Profile({ onEditPassword, onEditProfile }: ProfileProps) {
-  const { signOut } = useCurrentUser();
+  const { currentUser, signOut } = useCurrentUser();
 
   return (
     <div>
+      <UserItem user={currentUser} className="px-4" />
+
       <Section className="space-y-2">
         <ButtonItem
           onClick={() => onEditProfile()}
@@ -276,7 +290,6 @@ type CurrentUserProfileProps = {
 };
 
 export function CurrentUserProfile({ refProp }: CurrentUserProfileProps) {
-  const { currentUser } = useCurrentUser();
   const [
     visiblePanel,
     setVisiblePanel,
@@ -288,65 +301,44 @@ export function CurrentUserProfile({ refProp }: CurrentUserProfileProps) {
     },
   }));
 
-  const bottomSheet = React.useRef<BottomSheetRef>(null!);
-
   let content: React.ReactNode = null;
   if (visiblePanel === UserProfilePanel.PROFILE) {
     content = (
       <Profile
         onEditProfile={() => {
           setVisiblePanel(UserProfilePanel.EDIT_PROFILE);
-          bottomSheet.current.snapTo(({ maxHeight }) => maxHeight);
         }}
         onEditPassword={() => {
           setVisiblePanel(UserProfilePanel.EDIT_PASSWORD);
-          bottomSheet.current.snapTo(({ maxHeight }) => maxHeight);
         }}
       />
     );
   } else if (visiblePanel === UserProfilePanel.EDIT_PROFILE) {
-    content = <ProfileForm onSuccess={() => setVisiblePanel(null)} />;
+    content = (
+      <ProfileForm
+        onClose={() => setVisiblePanel(UserProfilePanel.PROFILE)}
+        onSuccess={() => setVisiblePanel(null)}
+      />
+    );
   } else if (visiblePanel === UserProfilePanel.EDIT_PASSWORD) {
-    content = <PasswordForm onSuccess={() => setVisiblePanel(null)} />;
-  }
-
-  let header: React.ReactNode = null;
-  if (visiblePanel === UserProfilePanel.PROFILE) {
-    header = <UserItem user={currentUser} className="px-4" />;
-  } else if (
-    visiblePanel === UserProfilePanel.EDIT_PROFILE ||
-    visiblePanel === UserProfilePanel.EDIT_PASSWORD
-  ) {
-    header = (
-      <BottomSheetHeader>
-        <HeaderBackButton
-          onClick={() => {
-            setVisiblePanel(UserProfilePanel.PROFILE);
-            bottomSheet.current.snapTo(({ minHeight }) => minHeight);
-          }}
-        />
-
-        <HeaderTitle>
-          {visiblePanel === UserProfilePanel.EDIT_PROFILE
-            ? "Profile"
-            : "Mot de passe"}
-        </HeaderTitle>
-
-        <HeaderIconOnlyLinkPlaceholder />
-      </BottomSheetHeader>
+    content = (
+      <PasswordForm
+        onClose={() => setVisiblePanel(UserProfilePanel.PROFILE)}
+        onSuccess={() => setVisiblePanel(null)}
+      />
     );
   }
 
   return (
-    <BottomSheet
+    <Modal
       open={visiblePanel != null}
       onDismiss={() => setVisiblePanel(null)}
-      snapPoints={({ minHeight, maxHeight }) => [minHeight, maxHeight]}
-      defaultSnap={({ minHeight }) => minHeight}
-      ref={bottomSheet}
-      header={header}
+      isFullScreen={
+        visiblePanel === UserProfilePanel.EDIT_PASSWORD ||
+        visiblePanel === UserProfilePanel.EDIT_PROFILE
+      }
     >
       {content}
-    </BottomSheet>
+    </Modal>
   );
 }
