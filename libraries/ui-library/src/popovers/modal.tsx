@@ -132,10 +132,10 @@ export function Modal({
         data-focus-trap-ignore="true"
         onClick={handleOverlayClick}
         className={cn(
-          "z-20 transition-colors ease-in-out duration-200 fixed inset-0 overscroll-none cursor-pointer bg-black",
+          "z-20 transition-colors ease-in-out duration-200 fixed inset-0 overscroll-none cursor-pointer bg-black bg-opacity-20",
           {
-            "bg-opacity-80": isFullScreen,
-            "bg-opacity-20": !isFullScreen,
+            // "bg-opacity-80": isFullScreen,
+            // "bg-opacity-20": !isFullScreen,
             "animate-fade-in": open,
             "animate-fade-out": !open,
           }
