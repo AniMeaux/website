@@ -24,6 +24,9 @@ export function AnimateHeight({
     });
   }, []);
 
+  // Use the given height or fallback to the children's one.
+  const height = style?.height ?? childrenHeight ?? undefined;
+
   return (
     <div
       {...rest}
@@ -32,11 +35,7 @@ export function AnimateHeight({
         "overflow-auto transition-height ease-in-out duration-200",
         className
       )}
-      style={{
-        ...style,
-        // Use the given height or fallback to the children's one.
-        height: style?.height ?? childrenHeight ?? undefined,
-      }}
+      style={{ ...style, height }}
     >
       <div ref={childrenContainer}>{children}</div>
     </div>

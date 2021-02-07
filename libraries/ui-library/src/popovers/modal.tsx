@@ -164,7 +164,7 @@ export function Modal({
             "bg-white transition-rounded transition-shadow ease-in-out duration-200",
             {
               "shadow-none rounded-none": isFullScreen,
-              "shadow-md rounded-xl": !isFullScreen,
+              "shadow-md rounded-3xl": !isFullScreen,
             }
           )}
         >
@@ -173,9 +173,10 @@ export function Modal({
             style={{ height: isFullScreen ? windowHeight : undefined }}
           >
             <div
-              className={cn("transition-spacing ease-in-out duration-200", {
+              className={cn({
+                // We don't animate the padding to avoid `AnimateHeight` to go
+                // crazy.
                 "modal-content-padding": isFullScreen,
-                "p-0": !isFullScreen,
               })}
             >
               {childElement}

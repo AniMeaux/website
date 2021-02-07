@@ -292,7 +292,8 @@
   }
 
   .animate-fade-in {
-    animation: fade-in 200ms cubic-bezier(0, 0, 0.2, 1) forwards;
+    animation: fade-in theme("transitionDuration.200")
+      theme("transitionTimingFunction.out") forwards;
   }
 
   @keyframes fade-in {
@@ -306,7 +307,8 @@
   }
 
   .animate-fade-out {
-    animation: fade-out 200ms cubic-bezier(0.4, 0, 1, 1) forwards;
+    animation: fade-out theme("transitionDuration.200")
+      theme("transitionTimingFunction.in") forwards;
   }
 
   @keyframes fade-out {
@@ -320,7 +322,8 @@
   }
 
   .animate-bottom-slide-in {
-    animation: bottom-slide-in 200ms cubic-bezier(0, 0, 0.2, 1) forwards;
+    animation: bottom-slide-in theme("transitionDuration.200")
+      theme("transitionTimingFunction.out") forwards;
   }
 
   @keyframes bottom-slide-in {
@@ -334,7 +337,8 @@
   }
 
   .animate-bottom-slide-out {
-    animation: bottom-slide-out 200ms cubic-bezier(0.4, 0, 1, 1) forwards;
+    animation: bottom-slide-out theme("transitionDuration.200")
+      theme("transitionTimingFunction.in") forwards;
   }
 
   @keyframes bottom-slide-out {

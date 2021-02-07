@@ -201,6 +201,9 @@ module.exports = {
         spacing: "margin, padding",
         rounded: "border-radius",
       },
+      transitionDuration: {
+        debug: "3s",
+      },
     },
   },
   variants: {
