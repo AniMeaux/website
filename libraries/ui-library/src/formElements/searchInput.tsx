@@ -24,7 +24,7 @@ export function useSearchValue(initialSearchValue?: string) {
 export function SearchInput({
   rightAdornment,
   ...props
-}: Omit<InputProps, "leftAdornment">) {
+}: Omit<InputProps, "leftAdornment" | "type" | "role">) {
   const inputElement = React.useRef<HTMLInputElement>(null!);
   const previousFocusOwner = React.useRef<HTMLElement | null>(null);
 
@@ -33,7 +33,7 @@ export function SearchInput({
       {...props}
       type="text"
       role="search"
-      refProp={inputElement}
+      ref={inputElement}
       leftAdornment={
         <Adornment>
           <FaSearch />

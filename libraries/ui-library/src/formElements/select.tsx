@@ -1,23 +1,26 @@
 import cn from "classnames";
 import * as React from "react";
 import { FaCaretDown } from "react-icons/fa";
+import { ChildrenProp, StyleProps } from "../core/types";
+import { ensureArray } from "../ensureArray";
 import { Adornment } from "./adornment";
-import { BaseInput, BaseInputProps, getInputClassName } from "./baseInput";
+import {
+  getInputClassName,
+  InputWrapper,
+  InputWrapperProps,
+} from "./inputWrapper";
 
-export type SelectProps<ValueType> = Omit<
-  React.SelectHTMLAttributes<HTMLSelectElement>,
-  "onChange" | "value" | "size"
-> &
-  BaseInputProps & {
+export type SelectProps<ValueType> = StyleProps &
+  ChildrenProp &
+  InputWrapperProps & {
     value?: ValueType | null;
     onChange?: (value: ValueType) => void;
+    placeholder: string;
   };
 
 export function Select<ValueType = string>({
   size,
   hasError,
-  errorMessage,
-  infoMessage,
   placeholder,
   value,
   onChange,
@@ -26,46 +29,38 @@ export function Select<ValueType = string>({
   children,
   className,
   disabled,
-  ...rest
 }: SelectProps<ValueType>) {
-  if (rightAdornment == null) {
-    rightAdornment = (
-      <Adornment>
-        <FaCaretDown />
-      </Adornment>
-    );
-  }
+  rightAdornment = [
+    ...ensureArray(rightAdornment),
+    <Adornment>
+      <FaCaretDown />
+    </Adornment>,
+  ];
 
   return (
-    <BaseInput
+    <InputWrapper
       size={size}
       disabled={disabled}
       leftAdornment={leftAdornment}
       rightAdornment={rightAdornment}
       hasError={hasError}
-      errorMessage={errorMessage}
-      infoMessage={infoMessage}
       className={className}
     >
       <select
-        {...rest}
         value={value == null ? "" : String(value)}
         onChange={(event) => {
-          if (onChange != null) {
-            onChange((event.target.value as any) as ValueType);
-          }
+          onChange?.((event.target.value as any) as ValueType);
         }}
         disabled={disabled}
         className={cn(
           getInputClassName({
             size,
             hasError,
-            errorMessage,
             leftAdornment,
             rightAdornment,
           }),
           "truncate cursor-pointer",
-          { "text-opacity-70": value == null }
+          { "text-black text-opacity-50": value == null }
         )}
       >
         <option disabled value="">
@@ -74,6 +69,6 @@ export function Select<ValueType = string>({
 
         {children}
       </select>
-    </BaseInput>
+    </InputWrapper>
   );
 }

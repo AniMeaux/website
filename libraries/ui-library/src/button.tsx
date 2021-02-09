@@ -1,5 +1,6 @@
 import cn from "classnames";
 import * as React from "react";
+import { ChildrenProp, StyleProps } from "./core/types";
 import { Link, LinkProps } from "./link";
 
 type ButtonSize = "small" | "medium";
@@ -71,70 +72,53 @@ export const ButtonClassName: {
   },
 };
 
-type ButtonPropsForClassName = {
+type ButtonCommonProps = StyleProps & {
   size?: ButtonSize;
   variant?: ButtonVariant;
   color?: ButtonColor;
   iconOnly?: boolean;
-  className?: string;
+  disabled?: boolean;
 };
 
-function getButtonClassName({
-  size = "medium",
-  variant = "secondary",
-  color = "default",
-  iconOnly = false,
-  className,
-}: ButtonPropsForClassName) {
-  return cn(
-    "focus:outline-none focus-visible:ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:cursor-auto rounded-full flex items-center justify-center",
-    ButtonClassName[variant][color].base,
-    ButtonSizeClassName[size].base,
+export type ButtonProps = ChildrenProp &
+  ButtonCommonProps & {
+    type?: "submit" | "reset" | "button";
+    onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+  };
+
+export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+  function Button(
     {
-      [ButtonSizeClassName[size].iconOnly]: iconOnly,
-      "px-4 uppercase tracking-wide font-medium": !iconOnly,
-      [ButtonSizeClassName[size].notIconOnly]: !iconOnly,
+      size,
+      variant,
+      color,
+      iconOnly,
+      disabled = false,
+      className,
+      children,
+      onClick,
     },
-    className
-  );
-}
-
-type BaseButtonProps = {
-  size?: ButtonSize;
-  variant?: ButtonVariant;
-  color?: ButtonColor;
-  iconOnly?: boolean;
-  refProp?: React.RefObject<HTMLButtonElement>;
-};
-
-export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> &
-  BaseButtonProps;
-
-export function Button({
-  size,
-  variant,
-  color,
-  iconOnly,
-  disabled = false,
-  refProp,
-  className,
-  ...rest
-}: ButtonProps) {
-  return (
-    <button
-      {...rest}
-      ref={refProp}
-      disabled={disabled}
-      className={getButtonClassName({
-        size,
-        className,
-        color,
-        iconOnly,
-        variant,
-      })}
-    />
-  );
-}
+    ref
+  ) {
+    return (
+      <button
+        ref={ref}
+        onClick={onClick}
+        disabled={disabled}
+        className={getButtonClassName({
+          size,
+          variant,
+          color,
+          iconOnly,
+          disabled,
+          className,
+        })}
+      >
+        {children}
+      </button>
+    );
+  }
+);
 
 export type ButtonWithConfirmationProps = ButtonProps & {
   confirmationMessage: string;
@@ -149,7 +133,7 @@ export function ButtonWithConfirmation({
     <Button
       {...rest}
       onClick={(event) => {
-        if (window.confirm(confirmationMessage) && onClick != null) {
+        if (onClick != null && window.confirm(confirmationMessage)) {
           onClick(event);
         }
       }}
@@ -157,26 +141,52 @@ export function ButtonWithConfirmation({
   );
 }
 
-export type ButtonLinkProps = LinkProps & BaseButtonProps;
+export type ButtonLinkProps = LinkProps & ButtonCommonProps;
 
-export function ButtonLink({
-  variant,
-  color,
-  iconOnly,
-  refProp,
+export const ButtonLink = React.forwardRef<HTMLAnchorElement, ButtonLinkProps>(
+  function ButtonLink(
+    { variant, color, iconOnly, className, size, disabled, ...rest },
+    ref
+  ) {
+    return (
+      <Link
+        {...rest}
+        ref={ref}
+        disabled={disabled}
+        className={getButtonClassName({
+          size,
+          className,
+          color,
+          iconOnly,
+          variant,
+          disabled,
+        })}
+      />
+    );
+  }
+);
+
+function getButtonClassName({
+  size = "medium",
+  variant = "secondary",
+  color = "default",
+  iconOnly = false,
+  disabled = false,
   className,
-  ...rest
-}: ButtonLinkProps) {
-  return (
-    <Link
-      {...rest}
-      refProp={refProp}
-      className={getButtonClassName({
-        className,
-        color,
-        iconOnly,
-        variant,
-      })}
-    />
+}: ButtonCommonProps) {
+  return cn(
+    "focus:outline-none focus-visible:ring focus-visible:ring-offset-2 rounded-full flex items-center justify-center",
+    ButtonClassName[variant][color].base,
+    ButtonSizeClassName[size].base,
+    {
+      "opacity-50 cursor-auto": disabled,
+      "cursor-pointer": !disabled,
+    },
+    {
+      [ButtonSizeClassName[size].iconOnly]: iconOnly,
+      "px-4 uppercase tracking-wide font-medium": !iconOnly,
+      [ButtonSizeClassName[size].notIconOnly]: !iconOnly,
+    },
+    className
   );
 }

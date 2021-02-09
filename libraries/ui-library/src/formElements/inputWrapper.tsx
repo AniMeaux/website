@@ -1,8 +1,8 @@
 import cn from "classnames";
 import invariant from "invariant";
 import * as React from "react";
+import { ChildrenProp, StyleProps } from "../core/types";
 import { ensureArray } from "../ensureArray";
-import { FieldMessage } from "./fieldMessage";
 
 export type InputSize = "small" | "medium";
 
@@ -11,36 +11,27 @@ const InputSizeClassName: { [key in InputSize]: string } = {
   medium: "h-10",
 };
 
-export type BaseInputProps = {
+export type InputWrapperProps = {
   disabled?: boolean;
   size?: InputSize;
   leftAdornment?: React.ReactNode | React.ReactNode[];
   rightAdornment?: React.ReactNode | React.ReactNode[];
   hasError?: boolean | null;
-  errorMessage?: string | null;
-  infoMessage?: string | null;
 };
 
-export function BaseInput({
+export function InputWrapper({
   children,
   disabled = false,
   size = "medium",
   leftAdornment,
   rightAdornment,
-  errorMessage,
-  hasError,
-  infoMessage,
   className,
-  ...rest
-}: React.HTMLAttributes<HTMLSpanElement> & BaseInputProps) {
+}: ChildrenProp & StyleProps & InputWrapperProps) {
   const rightAdornments = ensureArray(rightAdornment);
   const leftAdornments = ensureArray(leftAdornment);
 
   return (
-    <span
-      {...rest}
-      className={cn("relative", { "opacity-50": disabled }, className)}
-    >
+    <span className={cn("relative", { "opacity-50": disabled }, className)}>
       {children}
 
       {leftAdornments.length > 0 &&
@@ -56,59 +47,46 @@ export function BaseInput({
           { side: "right", size },
           ...rightAdornments
         )}
-
-      <FieldMessage errorMessage={errorMessage} infoMessage={infoMessage} />
     </span>
   );
 }
 
-type AdornmentContainerProps = React.HTMLAttributes<HTMLSpanElement> & {
+type AdornmentContainerProps = {
   side: "left" | "right";
   size: InputSize;
 };
 
-const AdornmentSideClassName: {
+const AdornmentContainerSideClassName: {
   [key in AdornmentContainerProps["side"]]: string;
 } = {
   left: "left-0",
   right: "right-0",
 };
 
-function AdornmentContainer({
-  side,
-  size,
-  className,
-  ...rest
-}: AdornmentContainerProps) {
+function AdornmentContainer({ side, size }: AdornmentContainerProps) {
   return (
     <span
-      {...rest}
       className={cn(
         "pointer-events-none absolute top-0 px-2 text-black text-opacity-70 flex items-center",
-        AdornmentSideClassName[side],
-        InputSizeClassName[size],
-        className
+        AdornmentContainerSideClassName[side],
+        InputSizeClassName[size]
       )}
     />
   );
 }
 
-type GetInputClassNameOptions = Omit<
-  BaseInputProps,
-  "infoMessage" | "disabled"
->;
-
 // The index correspond to the number of adornments.
+// Default spacing: 4
+// 1 adornment spacing: 8
 const PaddingLeftClassNames = ["pl-4", "pl-12", "pl-20"];
 const PaddingRightClassNames = ["pr-4", "pr-12", "pr-20"];
 
 export function getInputClassName({
-  errorMessage,
-  hasError = errorMessage != null,
+  hasError = false,
   size = "medium",
   leftAdornment,
   rightAdornment,
-}: GetInputClassNameOptions) {
+}: InputWrapperProps) {
   const rightAdornments = ensureArray(rightAdornment);
   const leftAdornments = ensureArray(leftAdornment);
 

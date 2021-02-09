@@ -1,6 +1,7 @@
 import NextLink from "next/link";
 import { useRouter } from "next/router";
 import * as React from "react";
+import { ChildrenProp, StyleProps } from "./core/types";
 
 function segmentize(uri: string): string[] {
   return (
@@ -68,34 +69,37 @@ export function resolveUrl(from: string, to: string): string {
   );
 }
 
-export type LinkProps = Omit<
-  React.AnchorHTMLAttributes<HTMLAnchorElement>,
-  "href"
-> & {
-  // Make it mandatory.
-  href: string;
-  refProp?: React.RefObject<HTMLAnchorElement>;
-};
+export type LinkProps = ChildrenProp &
+  StyleProps & {
+    href: string;
+    disabled?: boolean;
+  };
 
 /**
  * Simple Wrapper around Next/Link component to Automatically add the anchor.
  */
-export function Link({ href, refProp, ...rest }: LinkProps) {
-  const router = useRouter();
+export const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(
+  function Link({ href, disabled = false, ...rest }, ref) {
+    const router = useRouter();
 
-  if (href.startsWith("http")) {
-    // The content is passed as children.
-    // eslint-disable-next-line jsx-a11y/anchor-has-content
-    return <a {...rest} href={href} ref={refProp} />;
+    if (disabled) {
+      return <span {...rest} ref={ref} />;
+    }
+
+    if (href.startsWith("http")) {
+      // The content is passed as children.
+      // eslint-disable-next-line jsx-a11y/anchor-has-content
+      return <a {...rest} href={href} ref={ref} />;
+    }
+
+    href = resolveUrl(router.asPath, href);
+
+    return (
+      <NextLink href={href}>
+        {/* The content is passed as children. */}
+        {/* eslint-disable-next-line jsx-a11y/anchor-has-content */}
+        <a {...rest} ref={ref} />
+      </NextLink>
+    );
   }
-
-  href = resolveUrl(router.asPath, href);
-
-  return (
-    <NextLink href={href}>
-      {/* The content is passed as children. */}
-      {/* eslint-disable-next-line jsx-a11y/anchor-has-content */}
-      <a {...rest} ref={refProp} />
-    </NextLink>
-  );
-}
+);

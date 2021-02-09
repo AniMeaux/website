@@ -1,60 +1,64 @@
 import cn from "classnames";
 import * as React from "react";
-import { BaseInput, BaseInputProps, getInputClassName } from "./baseInput";
+import { StyleProps, HtmlInputProps } from "../core/types";
+import {
+  getInputClassName,
+  InputWrapper,
+  InputWrapperProps,
+} from "./inputWrapper";
 
-export type InputProps = Omit<
-  React.InputHTMLAttributes<HTMLInputElement>,
-  "onChange" | "size"
-> &
-  BaseInputProps & {
-    onChange?: React.Dispatch<React.SetStateAction<string>>;
-    refProp?: React.MutableRefObject<HTMLInputElement>;
+export type InputProps = StyleProps &
+  HtmlInputProps &
+  InputWrapperProps & {
+    value?: string;
+    onChange?: (value: string) => void;
   };
 
-export function Input({
-  size,
-  errorMessage,
-  hasError,
-  infoMessage,
-  leftAdornment,
-  rightAdornment,
-  disabled,
-  onChange,
-  refProp,
-  className,
-  ...rest
-}: InputProps) {
-  return (
-    <BaseInput
-      size={size}
-      disabled={disabled}
-      leftAdornment={leftAdornment}
-      rightAdornment={rightAdornment}
-      hasError={hasError}
-      errorMessage={errorMessage}
-      infoMessage={infoMessage}
-      className={className}
-    >
-      <input
-        {...rest}
+export const Input = React.forwardRef<HTMLInputElement, InputProps>(
+  function Input(
+    {
+      size,
+      hasError,
+      leftAdornment,
+      rightAdornment,
+      disabled,
+      value,
+      onChange,
+      className,
+      placeholder,
+      ...rest
+    },
+    ref
+  ) {
+    return (
+      <InputWrapper
+        size={size}
         disabled={disabled}
-        onChange={(event) => {
-          if (onChange != null) {
-            onChange(event.target.value);
-          }
-        }}
-        ref={refProp}
-        className={cn(
-          getInputClassName({
-            size,
-            hasError,
-            errorMessage,
-            leftAdornment,
-            rightAdornment,
-          }),
-          "placeholder-opacity-50 placeholder-black"
-        )}
-      />
-    </BaseInput>
-  );
-}
+        leftAdornment={leftAdornment}
+        rightAdornment={rightAdornment}
+        hasError={hasError}
+        className={className}
+      >
+        <input
+          {...rest}
+          placeholder={placeholder}
+          disabled={disabled}
+          value={value}
+          onChange={(event) => {
+            onChange?.(event.target.value);
+          }}
+          className={cn(
+            getInputClassName({
+              size,
+              hasError,
+              leftAdornment,
+              rightAdornment,
+            }),
+            "placeholder-black placeholder-opacity-50"
+          )}
+          ref={ref}
+        />
+      </InputWrapper>
+    );
+  }
+);

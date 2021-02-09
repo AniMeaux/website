@@ -1,23 +1,26 @@
 import cn from "classnames";
 import * as React from "react";
 import { FaCaretDown } from "react-icons/fa";
+import { StyleProps } from "../core/types";
 import { ensureArray } from "../ensureArray";
 import { Modal } from "../popovers";
 import { Adornment } from "./adornment";
-import { BaseInput, BaseInputProps, getInputClassName } from "./baseInput";
+import {
+  getInputClassName,
+  InputWrapper,
+  InputWrapperProps,
+} from "./inputWrapper";
 
-type AdvancedInputProps = BaseInputProps & {
-  value?: string | null;
-  className?: string;
-  placeholder?: string;
-  modalContent: React.ReactElement;
-};
+type AdvancedInputProps = InputWrapperProps &
+  StyleProps & {
+    value?: string | null;
+    placeholder?: string;
+    modalContent: React.ReactElement;
+  };
 
 export function AdvancedInput({
   size,
-  errorMessage,
   hasError,
-  infoMessage,
   leftAdornment,
   rightAdornment,
   disabled,
@@ -37,14 +40,12 @@ export function AdvancedInput({
 
   return (
     <>
-      <BaseInput
+      <InputWrapper
         size={size}
         disabled={disabled}
         leftAdornment={leftAdornment}
         rightAdornment={rightAdornment}
         hasError={hasError}
-        errorMessage={errorMessage}
-        infoMessage={infoMessage}
         className={className}
       >
         <button
@@ -53,7 +54,6 @@ export function AdvancedInput({
           onClick={() => setIsOpened(true)}
           className={cn(
             getInputClassName({
-              errorMessage,
               hasError,
               size,
               leftAdornment,
@@ -65,7 +65,7 @@ export function AdvancedInput({
         >
           {value ?? placeholder}
         </button>
-      </BaseInput>
+      </InputWrapper>
 
       <Modal open={isOpened} onDismiss={() => setIsOpened(false)} isFullScreen>
         {modalContent}

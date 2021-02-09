@@ -3,7 +3,9 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { ActionAdornment } from "./adornment";
 import { Input, InputProps } from "./input";
 
-export function PasswordInput(props: InputProps) {
+export function PasswordInput(
+  props: Omit<InputProps, "type" | "rightAdornment">
+) {
   const [showPassword, setShowPassword] = React.useState(false);
   const previousFocusOwner = React.useRef<HTMLElement | null>(null);
   const inputElement = React.useRef<HTMLInputElement>(null!);
@@ -31,7 +33,7 @@ export function PasswordInput(props: InputProps) {
           {showPassword ? <FaEyeSlash /> : <FaEye />}
         </ActionAdornment>
       }
-      refProp={inputElement}
+      ref={inputElement}
     />
   );
 }
