@@ -50,10 +50,24 @@ export function HeaderCloseButton(
   );
 }
 
+type HeaderTitleAlign = "left" | "center";
+
+type HeaderTitleProps = React.HTMLAttributes<HTMLHeadingElement> & {
+  align?: HeaderTitleAlign;
+};
+
+const HeaderTitleAlignClassName: {
+  [key in HeaderTitleAlign]: string;
+} = {
+  center: "text-center",
+  left: "text-left",
+};
+
 export function HeaderTitle({
+  align = "center",
   className,
   ...rest
-}: React.HTMLAttributes<HTMLHeadingElement>) {
+}: HeaderTitleProps) {
   return (
     // The content is passed as children.
     // eslint-disable-next-line jsx-a11y/heading-has-content
@@ -61,6 +75,7 @@ export function HeaderTitle({
       {...rest}
       className={cn(
         "flex-1 min-w-0 truncate text-gray-800 font-bold font-serif",
+        HeaderTitleAlignClassName[align],
         className
       )}
     />
