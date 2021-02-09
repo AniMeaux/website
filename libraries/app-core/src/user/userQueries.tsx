@@ -41,12 +41,10 @@ const GetAllUsersQuery = gql`
 `;
 
 export function useAllUsers() {
-  const { data, ...rest } = useQuery<User[], Error>("users", async () => {
+  return useQuery<User[], Error>("users", async () => {
     const { users } = await fetchGraphQL<{ users: User[] }>(GetAllUsersQuery);
     return users;
   });
-
-  return [data, rest] as const;
 }
 
 const GetUserQuery = gql`

@@ -1,17 +1,14 @@
 import {
   Header,
   PageComponent,
+  renderItemList,
   useAllUsers,
   UserItemPlaceholder,
   UserLinkItem,
 } from "@animeaux/app-core";
-import { User } from "@animeaux/shared-entities";
 import {
-  EmptyMessage,
   Main,
-  Placeholders,
   QuickLinkAction,
-  Section,
   usePageScrollRestoration,
 } from "@animeaux/ui-library";
 import * as React from "react";
@@ -19,60 +16,24 @@ import { FaPlus } from "react-icons/fa";
 import { Navigation } from "../../core/navigation";
 import { PageTitle } from "../../core/pageTitle";
 
-function LoadingRows() {
-  return (
-    <Section>
-      <ul>
-        <Placeholders count={5}>
-          <li>
-            <UserItemPlaceholder />
-          </li>
-        </Placeholders>
-      </ul>
-    </Section>
-  );
-}
-
-type UsersRowsProps = {
-  users: User[];
-};
-
-function UsersRows({ users }: UsersRowsProps) {
-  if (users.length === 0) {
-    return <EmptyMessage>Il n'y a pas encore d'utilisateur.</EmptyMessage>;
-  }
-
-  return (
-    <Section>
-      <ul>
-        {users.map((user) => (
-          <li key={user.id}>
-            <UserLinkItem user={user} href={`./${user.id}`} />
-          </li>
-        ))}
-      </ul>
-    </Section>
-  );
-}
+const TITLE = "Utilisateurs";
 
 const UserListPage: PageComponent = () => {
   usePageScrollRestoration();
-  const [users, query] = useAllUsers();
 
-  let content: React.ReactNode | null = null;
-  let userCount: string = "";
-
-  if (users != null) {
-    userCount = `(${users.length})`;
-    content = <UsersRows users={users} />;
-  } else if (query.isLoading) {
-    content = <LoadingRows />;
-  }
+  const query = useAllUsers();
+  const { content, title } = renderItemList(query, {
+    title: TITLE,
+    getItemKey: (user) => user.id,
+    placeholderElement: UserItemPlaceholder,
+    renderEmptyMessage: () => "Il n'y a pas encore d'utilisateur.",
+    renderItem: (user) => <UserLinkItem user={user} href={`./${user.id}`} />,
+  });
 
   return (
     <div>
-      <PageTitle title="Utilisateurs" />
-      <Header headerTitle={`Utilisateurs ${userCount}`} />
+      <PageTitle title={TITLE} />
+      <Header headerTitle={title} />
 
       <Main hasNavigation>
         {content}

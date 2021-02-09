@@ -56,21 +56,19 @@ export function useAllAnimalBreeds({
   search,
   species,
 }: AnimalBreedFilters = {}) {
-  const { data, ...rest } = useInfiniteQuery<
-    PaginatedResponse<AnimalBreed>,
-    Error
-  >(["animal-breeds", search, species], async ({ pageParam = 0 }) => {
-    const { response } = await fetchGraphQL<
-      { response: PaginatedResponse<AnimalBreed> },
-      AnimalBreedFilters
-    >(GetAllAnimalBreedsQuery, {
-      variables: { search, species, page: pageParam },
-    });
+  return useInfiniteQuery<PaginatedResponse<AnimalBreed>, Error>(
+    ["animal-breeds", search, species],
+    async ({ pageParam = 0 }) => {
+      const { response } = await fetchGraphQL<
+        { response: PaginatedResponse<AnimalBreed> },
+        AnimalBreedFilters
+      >(GetAllAnimalBreedsQuery, {
+        variables: { search, species, page: pageParam },
+      });
 
-    return response;
-  });
-
-  return [data, rest] as const;
+      return response;
+    }
+  );
 }
 
 const GetAnimalBreedQuery = gql`

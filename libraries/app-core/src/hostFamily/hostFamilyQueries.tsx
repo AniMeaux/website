@@ -50,21 +50,19 @@ const GetAllHostFamiliesQuery = gql`
 `;
 
 export function useAllHostFamilies({ search }: HostFamilyFilters = {}) {
-  const { data, ...rest } = useInfiniteQuery<
-    PaginatedResponse<HostFamily>,
-    Error
-  >(["host-families", search], async ({ pageParam = 0 }) => {
-    const { response } = await fetchGraphQL<
-      { response: PaginatedResponse<HostFamily> },
-      HostFamilyFilters
-    >(GetAllHostFamiliesQuery, {
-      variables: { page: pageParam, search },
-    });
+  return useInfiniteQuery<PaginatedResponse<HostFamily>, Error>(
+    ["host-families", search],
+    async ({ pageParam = 0 }) => {
+      const { response } = await fetchGraphQL<
+        { response: PaginatedResponse<HostFamily> },
+        HostFamilyFilters
+      >(GetAllHostFamiliesQuery, {
+        variables: { page: pageParam, search },
+      });
 
-    return response;
-  });
-
-  return [data, rest] as const;
+      return response;
+    }
+  );
 }
 
 const GetHostFamilyQuery = gql`
