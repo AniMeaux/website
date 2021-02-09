@@ -176,9 +176,6 @@ module.exports = {
       maxWidth: {
         ...base12,
       },
-      minHeight: {
-        12: "3rem",
-      },
       maxHeight: {
         ...base12,
       },

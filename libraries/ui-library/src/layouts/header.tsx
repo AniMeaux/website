@@ -86,18 +86,6 @@ export function HeaderIconOnlyLinkPlaceholder() {
   return <span className="w-10 flex-none" />;
 }
 
-export function HeaderRow({
-  className,
-  ...rest
-}: React.HTMLAttributes<HTMLElement>) {
-  return (
-    <div
-      {...rest}
-      className={cn("w-full min-h-12 flex items-center space-x-2", className)}
-    />
-  );
-}
-
 export function Header({
   className,
   ...rest
@@ -108,7 +96,7 @@ export function Header({
     <header
       {...rest}
       className={cn(
-        "transition-shadow duration-200 ease-in-out z-20 fixed top-0 left-0 right-0 ring-1 bg-white w-full header-padding flex-none",
+        "transition-shadow duration-200 ease-in-out z-20 fixed top-0 left-0 right-0 ring-1 bg-white w-full h-12 flex-none header-padding flex items-center space-x-2",
         {
           "ring-transparent": isAtTheTop,
           "ring-gray-100": !isAtTheTop,
