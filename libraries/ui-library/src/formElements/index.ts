@@ -1,4 +1,5 @@
 export * from "./adornment";
+export * from "./advancedInput";
 export * from "./baseInput";
 export * from "./checkbox";
 export * from "./field";
