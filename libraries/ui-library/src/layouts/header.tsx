@@ -1,11 +1,11 @@
 import cn from "classnames";
 import * as React from "react";
-import { FaArrowLeft, FaTimes } from "react-icons/fa";
+import { FaChevronLeft, FaTimes } from "react-icons/fa";
 import { Link, LinkProps } from "../link";
 import { useIsScrollAtTheTop } from "./usePageScroll";
 
 const HEADER_ACTION_CLASS_NAMES =
-  "focus:outline-none focus-visible:ring focus-visible:ring-blue-500 rounded-full mx-4 w-8 h-8 flex-none flex items-center justify-center text-xl text-gray-800 active:text-opacity-20";
+  "focus:outline-none focus-visible:ring focus-visible:ring-blue-500 rounded-full w-8 h-8 flex-none flex items-center justify-center text-xl text-gray-800 active:text-opacity-20";
 
 export function HeaderLink({ className, ...rest }: LinkProps) {
   return (
@@ -16,7 +16,7 @@ export function HeaderLink({ className, ...rest }: LinkProps) {
 export function HeaderBackLink(props: LinkProps) {
   return (
     <HeaderLink {...props}>
-      <FaArrowLeft />
+      <FaChevronLeft />
     </HeaderLink>
   );
 }
@@ -35,7 +35,7 @@ export function HeaderBackButton(
 ) {
   return (
     <HeaderButton {...props}>
-      <FaArrowLeft />
+      <FaChevronLeft />
     </HeaderButton>
   );
 }
@@ -60,7 +60,7 @@ export function HeaderTitle({
     <h1
       {...rest}
       className={cn(
-        "mx-4 flex-1 min-w-0 truncate text-gray-800 text-center font-bold font-serif",
+        "flex-1 min-w-0 truncate text-gray-800 font-bold font-serif",
         className
       )}
     />
@@ -68,7 +68,7 @@ export function HeaderTitle({
 }
 
 export function HeaderIconOnlyLinkPlaceholder() {
-  return <span className="mx-4 w-10 flex-none" />;
+  return <span className="w-10 flex-none" />;
 }
 
 export function HeaderRow({
@@ -78,7 +78,7 @@ export function HeaderRow({
   return (
     <div
       {...rest}
-      className={cn("w-full min-h-12 flex items-center", className)}
+      className={cn("w-full min-h-12 flex items-center space-x-2", className)}
     />
   );
 }
@@ -93,7 +93,7 @@ export function Header({
     <header
       {...rest}
       className={cn(
-        "z-20 fixed top-0 left-0 right-0 ring-1 bg-white w-full safe-area-px flex-none transition-shadow duration-200 ease-in-out",
+        "transition-shadow duration-200 ease-in-out z-20 fixed top-0 left-0 right-0 ring-1 bg-white w-full header-padding flex-none",
         {
           "ring-transparent": isAtTheTop,
           "ring-gray-100": !isAtTheTop,

@@ -211,6 +211,13 @@
     @apply rounded-full;
   }
 
+  .header-padding {
+    padding-left: theme("padding.4");
+    padding-left: calc(theme("padding.4") + env(safe-area-inset-left, 0));
+    padding-right: theme("padding.4");
+    padding-right: calc(theme("padding.4") + env(safe-area-inset-right, 0));
+  }
+
   .safe-area-px {
     padding-left: 0;
     padding-left: env(safe-area-inset-left, 0);
