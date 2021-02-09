@@ -22,7 +22,7 @@ export function PasswordInput(props: InputProps) {
             setShowPassword((s) => !s);
 
             // Give the focus back to the input to avoid loosing the keyboard
-            // on mobile apps
+            // on mobile apps.
             if (previousFocusOwner.current === inputElement.current) {
               inputElement.current.focus();
             }

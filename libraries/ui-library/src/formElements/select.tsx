@@ -6,7 +6,7 @@ import { BaseInput, BaseInputProps, getInputClassName } from "./baseInput";
 
 export type SelectProps<ValueType> = Omit<
   React.SelectHTMLAttributes<HTMLSelectElement>,
-  "onChange" | "value"
+  "onChange" | "value" | "size"
 > &
   BaseInputProps & {
     value?: ValueType | null;
@@ -14,6 +14,7 @@ export type SelectProps<ValueType> = Omit<
   };
 
 export function Select<ValueType = string>({
+  size,
   hasError,
   errorMessage,
   infoMessage,
@@ -37,6 +38,7 @@ export function Select<ValueType = string>({
 
   return (
     <BaseInput
+      size={size}
       disabled={disabled}
       leftAdornment={leftAdornment}
       rightAdornment={rightAdornment}
@@ -56,6 +58,7 @@ export function Select<ValueType = string>({
         disabled={disabled}
         className={cn(
           getInputClassName({
+            size,
             hasError,
             errorMessage,
             leftAdornment,

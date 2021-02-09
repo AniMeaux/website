@@ -4,27 +4,29 @@ import { BaseInput, BaseInputProps, getInputClassName } from "./baseInput";
 
 export type InputProps = Omit<
   React.InputHTMLAttributes<HTMLInputElement>,
-  "onChange"
+  "onChange" | "size"
 > &
   BaseInputProps & {
     onChange?: React.Dispatch<React.SetStateAction<string>>;
-    refProp?: React.RefObject<HTMLInputElement>;
+    refProp?: React.MutableRefObject<HTMLInputElement>;
   };
 
 export function Input({
+  size,
   errorMessage,
   hasError,
   infoMessage,
-  onChange,
   leftAdornment,
   rightAdornment,
   disabled,
+  onChange,
   refProp,
   className,
   ...rest
 }: InputProps) {
   return (
     <BaseInput
+      size={size}
       disabled={disabled}
       leftAdornment={leftAdornment}
       rightAdornment={rightAdornment}
@@ -44,12 +46,13 @@ export function Input({
         ref={refProp}
         className={cn(
           getInputClassName({
+            size,
             hasError,
             errorMessage,
             leftAdornment,
             rightAdornment,
           }),
-          "placeholder-opacity-70 placeholder-default-color"
+          "placeholder-opacity-50 placeholder-black"
         )}
       />
     </BaseInput>

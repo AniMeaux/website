@@ -169,6 +169,10 @@
     @apply w-full h-10;
   }
 
+  .placeholder-input-small {
+    @apply w-full h-8;
+  }
+
   .placeholder-label {
     @apply w-3/12;
   }

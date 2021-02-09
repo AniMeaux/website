@@ -8,6 +8,7 @@ type PlaceholderPreset =
   | "checkbox-input"
   | "icon"
   | "input"
+  | "input-small"
   | "label"
   | "selector"
   | "tag"
@@ -20,6 +21,7 @@ const PresetClassName: { [key in PlaceholderPreset]: string } = {
   "checkbox-input": "placeholder-checkbox-input",
   icon: "placeholder-icon",
   input: "placeholder-input",
+  "input-small": "placeholder-input-small",
   label: "placeholder-label",
   selector: "placeholder-selector",
   tag: "placeholder-tag",
