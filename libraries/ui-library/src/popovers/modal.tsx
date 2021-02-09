@@ -1,20 +1,45 @@
 import cn from "classnames";
+import invariant from "invariant";
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import { AnimateHeight } from "../animateHeight";
+import { PageScrollProvider, useIsScrollAtTheTop } from "../layouts";
 import { useFocusTrap } from "../useFocusTrap";
 import { useLatestDefinedValue } from "../useLatestDefinedValue";
 import { useScrollLock } from "../useScrollLock";
 
-export function ModalStickyHeader({
+type ModalContextValue = {
+  onDismiss: () => void;
+};
+
+const ModalContext = React.createContext<ModalContextValue | null>(null);
+
+export function useModalContext() {
+  const context = React.useContext(ModalContext);
+
+  invariant(
+    context != null,
+    "useModalContext should not be used outside of a Modal"
+  );
+
+  return context;
+}
+
+export function ModalHeader({
   className,
   ...rest
 }: React.HTMLAttributes<HTMLElement>) {
+  const { isAtTheTop } = useIsScrollAtTheTop();
+
   return (
     <header
       {...rest}
       className={cn(
-        "sticky top-0 w-full h-12 flex-none flex items-center",
+        "transition-shadow duration-200 ease-in-out sticky top-0 ring-1 w-full h-12 flex-none px-4 flex items-center space-x-2",
+        {
+          "ring-transparent": isAtTheTop,
+          "ring-gray-100 bg-white": !isAtTheTop,
+        },
         className
       )}
     />
@@ -47,7 +72,7 @@ export function Modal({
   useScrollLock(scrollElement, { disabled: !visible });
   useFocusTrap(modalElement, {
     disabled: !visible,
-    initialFocusRef: modalElement,
+    fallbackFocus: modalElement,
   });
 
   React.useLayoutEffect(() => {
@@ -95,6 +120,15 @@ export function Modal({
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+
+  const handleDismiss = React.useRef(onDismiss);
+  React.useLayoutEffect(() => {
+    handleDismiss.current = onDismiss;
+  });
+  const contextValue = React.useMemo<ModalContextValue>(
+    () => ({ onDismiss: () => handleDismiss.current() }),
+    []
+  );
 
   if (!visible) {
     return null;
@@ -160,13 +194,10 @@ export function Modal({
         )}
       >
         <div
-          className={cn(
-            "bg-white transition-rounded transition-shadow ease-in-out duration-200",
-            {
-              "shadow-none rounded-none": isFullScreen,
-              "shadow-md rounded-3xl": !isFullScreen,
-            }
-          )}
+          className={cn("bg-white transition-all ease-in-out duration-200", {
+            "shadow-none rounded-none": isFullScreen,
+            "shadow-md rounded-3xl py-6": !isFullScreen,
+          })}
         >
           <AnimateHeight
             refProp={scrollElement}
@@ -179,7 +210,11 @@ export function Modal({
                 "modal-content-padding": isFullScreen,
               })}
             >
-              {childElement}
+              <PageScrollProvider containerRef={scrollElement}>
+                <ModalContext.Provider value={contextValue}>
+                  {childElement}
+                </ModalContext.Provider>
+              </PageScrollProvider>
             </div>
           </AnimateHeight>
         </div>

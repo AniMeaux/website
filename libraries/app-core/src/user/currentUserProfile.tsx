@@ -11,7 +11,7 @@ import {
   Field,
   FieldMessage,
   Form,
-  HeaderCloseButton,
+  HeaderBackButton,
   HeaderIconOnlyLinkPlaceholder,
   HeaderTitle,
   Input,
@@ -20,7 +20,7 @@ import {
   ItemMainText,
   Label,
   Modal,
-  ModalStickyHeader,
+  ModalHeader,
   PasswordInput,
   Section,
   showSnackbar,
@@ -83,11 +83,11 @@ function PasswordForm({ onClose, onSuccess }: FormProps) {
 
   return (
     <>
-      <ModalStickyHeader>
-        <HeaderCloseButton onClick={() => onClose()} />
+      <ModalHeader>
+        <HeaderBackButton onClick={() => onClose()} />
         <HeaderTitle>Mot de passe</HeaderTitle>
         <HeaderIconOnlyLinkPlaceholder />
-      </ModalStickyHeader>
+      </ModalHeader>
 
       <Form
         onSubmit={() => mutation.mutate({ currentPassword, newPassword })}
@@ -179,11 +179,11 @@ function ProfileForm({ onClose, onSuccess }: FormProps) {
 
   return (
     <>
-      <ModalStickyHeader>
-        <HeaderCloseButton onClick={() => onClose()} />
+      <ModalHeader>
+        <HeaderBackButton onClick={() => onClose()} />
         <HeaderTitle>Profile</HeaderTitle>
         <HeaderIconOnlyLinkPlaceholder />
-      </ModalStickyHeader>
+      </ModalHeader>
 
       <Form
         onSubmit={() => mutation.mutate(displayName)}

@@ -3,17 +3,17 @@ import * as React from "react";
 
 type UseFocusTrapOptions = {
   disabled?: boolean;
-  initialFocusRef?: React.RefObject<HTMLElement>;
+  fallbackFocus?: React.RefObject<HTMLElement>;
 };
 
 export function useFocusTrap(
   targetRef: React.RefObject<HTMLElement>,
-  { disabled = false, initialFocusRef }: UseFocusTrapOptions
+  { disabled = false, fallbackFocus }: UseFocusTrapOptions
 ) {
   React.useEffect(() => {
     if (!disabled && targetRef.current != null) {
       const trap = createFocusTrap(targetRef.current, {
-        initialFocus: initialFocusRef?.current ?? undefined,
+        fallbackFocus: fallbackFocus?.current ?? undefined,
         escapeDeactivates: false,
         returnFocusOnDeactivate: false,
         allowOutsideClick: (event) => {
@@ -34,5 +34,5 @@ export function useFocusTrap(
         trap.deactivate();
       };
     }
-  }, [disabled, targetRef, initialFocusRef]);
+  }, [disabled, targetRef, fallbackFocus]);
 }

@@ -4,6 +4,37 @@ import { watchResize } from "react-behave";
 
 const pageScrollScrollY: Record<string, number> = {};
 
+const PageScrollContext = React.createContext<React.MutableRefObject<HTMLElement> | null>(
+  null
+);
+
+export function PageScrollProvider({
+  containerRef,
+  children,
+}: React.PropsWithChildren<{
+  containerRef: React.MutableRefObject<HTMLElement>;
+}>) {
+  return (
+    <PageScrollContext.Provider value={containerRef} children={children} />
+  );
+}
+
+export function usePageScrollContainer() {
+  return React.useContext(PageScrollContext);
+}
+
+function getScrollState(
+  scrollContainerRef?: React.MutableRefObject<HTMLElement> | null
+) {
+  const scrollContainer = scrollContainerRef?.current;
+
+  return {
+    scrollTop: scrollContainer?.scrollTop ?? window.scrollY,
+    clientHeight: scrollContainer?.clientHeight ?? window.innerHeight,
+    scrollHeight: scrollContainer?.scrollHeight ?? document.body.offsetHeight,
+  };
+}
+
 export function usePageScrollRestoration() {
   const router = useRouter();
   const { pathname } = router;
@@ -34,6 +65,7 @@ export function usePageScrollRestoration() {
 }
 
 function usePageScroll(cb: () => void) {
+  const scrollContainerRef = usePageScrollContainer();
   const cbRef = React.useRef(cb);
 
   React.useEffect(() => {
@@ -47,33 +79,41 @@ function usePageScroll(cb: () => void) {
 
     handleScroll();
 
-    window.addEventListener("scroll", handleScroll);
-    const stopWatching = watchResize(document.body, handleScroll);
+    const scrollEventTarget = scrollContainerRef?.current ?? window;
+    const resizeEventTarget = scrollContainerRef?.current ?? document.body;
+
+    scrollEventTarget.addEventListener("scroll", handleScroll);
+    const stopWatching = watchResize(resizeEventTarget, handleScroll);
 
     return () => {
-      window.removeEventListener("scroll", handleScroll);
+      scrollEventTarget.removeEventListener("scroll", handleScroll);
       stopWatching();
     };
-  }, []);
+  }, [scrollContainerRef]);
 }
 
 export function useIsScrollAtTheBottom() {
+  const scrollContainerRef = usePageScrollContainer();
   const [isAtTheBottom, setIsAtTheBottom] = React.useState(true);
 
   usePageScroll(() => {
-    setIsAtTheBottom(
-      window.scrollY + window.innerHeight >= document.body.offsetHeight
+    const { scrollTop, clientHeight, scrollHeight } = getScrollState(
+      scrollContainerRef
     );
+
+    setIsAtTheBottom(scrollTop + clientHeight >= scrollHeight);
   });
 
   return { isAtTheBottom };
 }
 
 export function useIsScrollAtTheTop() {
+  const scrollContainerRef = usePageScrollContainer();
   const [isAtTheTop, setIsAtTheTop] = React.useState(true);
 
   usePageScroll(() => {
-    setIsAtTheTop(window.scrollY <= 0);
+    const { scrollTop } = getScrollState(scrollContainerRef);
+    setIsAtTheTop(scrollTop <= 0);
   });
 
   return { isAtTheTop };
@@ -84,14 +124,18 @@ export function useIsScrollAtTheTop() {
 const FETCH_ZONE_HEIGHT = 150;
 
 export function useIsScrollAtFetchMore(cb: () => void) {
+  const scrollContainerRef = usePageScrollContainer();
   const wasAtFetchMore = React.useRef(false);
 
   usePageScroll(() => {
+    const { scrollTop, clientHeight, scrollHeight } = getScrollState(
+      scrollContainerRef
+    );
+
     const isAtFetchMore =
       // We suppose there is always scroll with pagination.
-      window.scrollY > 0 &&
-      window.scrollY + window.innerHeight + FETCH_ZONE_HEIGHT >=
-        document.body.offsetHeight;
+      scrollTop > 0 &&
+      scrollTop + clientHeight + FETCH_ZONE_HEIGHT >= scrollHeight;
 
     if (isAtFetchMore) {
       if (!wasAtFetchMore.current) {
