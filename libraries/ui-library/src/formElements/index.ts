@@ -9,6 +9,7 @@ export * from "./integerInput";
 export * from "./label";
 export * from "./passwordInput";
 export * from "./radio";
+export * from "./searchInput";
 export * from "./select";
 export * from "./selector";
 export * from "./submitButton";
