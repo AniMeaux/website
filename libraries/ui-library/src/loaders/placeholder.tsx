@@ -6,6 +6,7 @@ type PlaceholderPreset =
   | "avatar-small"
   | "avatar-xsmall"
   | "button"
+  | "button-small"
   | "checkbox"
   | "checkbox-input"
   | "icon"
@@ -21,6 +22,7 @@ const PresetClassName: { [key in PlaceholderPreset]: string } = {
   "avatar-small": "placeholder-avatar-small",
   "avatar-xsmall": "placeholder-avatar-xsmall",
   button: "placeholder-button",
+  "button-small": "placeholder-button-small",
   checkbox: "placeholder-checkbox",
   "checkbox-input": "placeholder-checkbox-input",
   icon: "placeholder-icon",

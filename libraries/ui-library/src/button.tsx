@@ -2,8 +2,28 @@ import cn from "classnames";
 import * as React from "react";
 import { Link, LinkProps } from "./link";
 
+type ButtonSize = "small" | "medium";
 type ButtonVariant = "secondary" | "primary" | "outlined";
 type ButtonColor = "default" | "blue" | "red";
+
+const ButtonSizeClassName: {
+  [key in ButtonSize]: {
+    base: string;
+    iconOnly: string;
+    notIconOnly: string;
+  };
+} = {
+  small: {
+    base: "h-8",
+    iconOnly: "w-8",
+    notIconOnly: "text-xs",
+  },
+  medium: {
+    base: "h-10",
+    iconOnly: "w-10",
+    notIconOnly: "min-w-button text-sm",
+  },
+};
 
 export const ButtonClassName: {
   [key in ButtonVariant]: {
@@ -52,6 +72,7 @@ export const ButtonClassName: {
 };
 
 type ButtonPropsForClassName = {
+  size?: ButtonSize;
   variant?: ButtonVariant;
   color?: ButtonColor;
   iconOnly?: boolean;
@@ -59,23 +80,27 @@ type ButtonPropsForClassName = {
 };
 
 function getButtonClassName({
+  size = "medium",
   variant = "secondary",
   color = "default",
   iconOnly = false,
   className,
 }: ButtonPropsForClassName) {
   return cn(
-    "focus:outline-none focus-visible:ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:cursor-auto rounded-full h-10 flex items-center justify-center",
+    "focus:outline-none focus-visible:ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:cursor-auto rounded-full flex items-center justify-center",
     ButtonClassName[variant][color].base,
+    ButtonSizeClassName[size].base,
     {
-      "w-10": iconOnly,
-      "px-4 min-w-button text-sm uppercase tracking-wide font-medium": !iconOnly,
+      [ButtonSizeClassName[size].iconOnly]: iconOnly,
+      "px-4 uppercase tracking-wide font-medium": !iconOnly,
+      [ButtonSizeClassName[size].notIconOnly]: !iconOnly,
     },
     className
   );
 }
 
 type BaseButtonProps = {
+  size?: ButtonSize;
   variant?: ButtonVariant;
   color?: ButtonColor;
   iconOnly?: boolean;
@@ -86,6 +111,7 @@ export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> &
   BaseButtonProps;
 
 export function Button({
+  size,
   variant,
   color,
   iconOnly,
@@ -100,6 +126,7 @@ export function Button({
       ref={refProp}
       disabled={disabled}
       className={getButtonClassName({
+        size,
         className,
         color,
         iconOnly,

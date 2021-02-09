@@ -154,6 +154,10 @@
     @apply min-w-button h-10;
   }
 
+  .placeholder-button-small {
+    @apply min-w-button h-8;
+  }
+
   .placeholder-checkbox {
     @apply w-4 h-4;
   }
