@@ -3,6 +3,8 @@ import * as React from "react";
 
 type PlaceholderPreset =
   | "avatar"
+  | "avatar-small"
+  | "avatar-xsmall"
   | "button"
   | "checkbox"
   | "checkbox-input"
@@ -16,6 +18,8 @@ type PlaceholderPreset =
 
 const PresetClassName: { [key in PlaceholderPreset]: string } = {
   avatar: "placeholder-avatar",
+  "avatar-small": "placeholder-avatar-small",
+  "avatar-xsmall": "placeholder-avatar-xsmall",
   button: "placeholder-button",
   checkbox: "placeholder-checkbox",
   "checkbox-input": "placeholder-checkbox-input",

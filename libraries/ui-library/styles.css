@@ -136,7 +136,17 @@
     @apply w-12 h-12;
   }
 
-  .placeholder-avatar::after {
+  .placeholder-avatar-small {
+    @apply w-10 h-10;
+  }
+
+  .placeholder-avatar-xsmall {
+    @apply w-8 h-8;
+  }
+
+  .placeholder-avatar::after,
+  .placeholder-avatar-small::after,
+  .placeholder-avatar-xsmall::after {
     @apply h-full rounded-full;
   }
 

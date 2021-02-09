@@ -1,12 +1,13 @@
 import cn from "classnames";
 import * as React from "react";
 
-type AvatarSize = "small" | "medium";
+type AvatarSize = "xsmall" | "small" | "medium";
 
 const AvatarSizeClassName: {
   [key in AvatarSize]: string;
 } = {
-  small: "w-8 h-8 text-xl",
+  xsmall: "w-8 h-8 text-xl",
+  small: "w-10 h-10 text-xl",
   medium: "w-12 h-12 text-2xl",
 };
 
