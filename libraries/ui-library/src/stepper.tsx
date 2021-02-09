@@ -39,7 +39,7 @@ export function StepLink({
     <Tag
       {...rest}
       className={cn(
-        "max-w-full flex flex-col items-center text-xs text-center text-default-color text-opacity-70",
+        "max-w-full flex flex-col items-center text-xs text-center text-black text-opacity-50",
         className
       )}
     >

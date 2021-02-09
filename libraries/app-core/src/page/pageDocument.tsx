@@ -7,7 +7,7 @@ export class PageDocument extends Document {
       <Html className="bg-white text-html">
         <Head />
 
-        <body className="font-sans antialiased text-base text-default-color">
+        <body className="font-sans antialiased text-base text-black text-opacity-80">
           <Main />
           <NextScript />
         </body>

@@ -16,13 +16,18 @@ import { FaHome } from "react-icons/fa";
 export function HostFamilyItemPlaceholder() {
   return (
     <Item size="large">
-      <ItemIcon>
-        <Placeholder preset="avatar" />
+      <ItemIcon size="large">
+        <Placeholder preset="avatar-large" />
       </ItemIcon>
 
       <ItemContent>
-        <Placeholder preset="label" />
-        <Placeholder preset="text" className="text-xs" />
+        <ItemMainText>
+          <Placeholder preset="label" />
+        </ItemMainText>
+
+        <ItemSecondaryText>
+          <Placeholder preset="text" />
+        </ItemSecondaryText>
       </ItemContent>
     </Item>
   );
@@ -35,8 +40,8 @@ type HostFamilyItemProps = LinkItemProps & {
 export function HostFamilyItem({ hostFamily, ...rest }: HostFamilyItemProps) {
   return (
     <LinkItem {...rest} size="large">
-      <ItemIcon>
-        <Avatar>
+      <ItemIcon size="large">
+        <Avatar size="large">
           <FaHome />
         </Avatar>
       </ItemIcon>

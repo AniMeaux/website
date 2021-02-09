@@ -16,13 +16,18 @@ import { FaDna } from "react-icons/fa";
 export function AnimalBreedItemPlaceholder() {
   return (
     <Item size="large">
-      <ItemIcon>
-        <Placeholder preset="avatar" />
+      <ItemIcon size="large">
+        <Placeholder preset="avatar-large" />
       </ItemIcon>
 
       <ItemContent>
-        <Placeholder preset="label" />
-        <Placeholder preset="text" className="text-xs" />
+        <ItemMainText>
+          <Placeholder preset="label" />
+        </ItemMainText>
+
+        <ItemSecondaryText>
+          <Placeholder preset="text" />
+        </ItemSecondaryText>
       </ItemContent>
     </Item>
   );
@@ -34,13 +39,12 @@ type AnimalBreedItemProps = LinkItemProps & {
 
 export function AnimalBreedItem({
   animalBreed,
-  active,
   ...rest
 }: AnimalBreedItemProps) {
   return (
-    <LinkItem {...rest} size="large" active={active}>
-      <ItemIcon>
-        <Avatar>
+    <LinkItem {...rest} size="large">
+      <ItemIcon size="large">
+        <Avatar size="large">
           <FaDna />
         </Avatar>
       </ItemIcon>

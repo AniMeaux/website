@@ -132,21 +132,21 @@
     animation-timing-function: linear;
   }
 
-  .placeholder-avatar {
-    @apply w-12 h-12;
-  }
-
   .placeholder-avatar-small {
-    @apply w-10 h-10;
-  }
-
-  .placeholder-avatar-xsmall {
     @apply w-8 h-8;
   }
 
-  .placeholder-avatar::after,
+  .placeholder-avatar-medium {
+    @apply w-10 h-10;
+  }
+
+  .placeholder-avatar-large {
+    @apply w-12 h-12;
+  }
+
   .placeholder-avatar-small::after,
-  .placeholder-avatar-xsmall::after {
+  .placeholder-avatar-medium::after,
+  .placeholder-avatar-large::after {
     @apply h-full rounded-full;
   }
 

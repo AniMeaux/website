@@ -80,9 +80,30 @@ export function ButtonItem({
   );
 }
 
-export function ItemIcon({ className, children }: StyleProps & ChildrenProp) {
+const ItemIconSizeClassName: { [key in ItemSize]: string } = {
+  small: "text-lg",
+  medium: "text-xl",
+  large: "text-2xl",
+};
+
+type ItemIconProps = StyleProps &
+  ChildrenProp & {
+    size?: ItemSize;
+  };
+
+export function ItemIcon({
+  size = "medium",
+  className,
+  children,
+}: ItemIconProps) {
   return (
-    <span className={cn("flex-none text-lg text-gray-700", className)}>
+    <span
+      className={cn(
+        "flex-none text-black text-opacity-70",
+        ItemIconSizeClassName[size],
+        className
+      )}
+    >
       {children}
     </span>
   );
@@ -99,37 +120,12 @@ export function ItemContent({
   );
 }
 
-export function ItemContentRow({
-  className,
-  children,
-}: StyleProps & ChildrenProp) {
-  return (
-    <span className={cn("flex items-center justify-between", className)}>
-      {children}
-    </span>
-  );
-}
-
 export function ItemMainText({
   className,
   children,
 }: StyleProps & ChildrenProp) {
-  return <span className={cn("flex-1 truncate", className)}>{children}</span>;
-}
-
-export function ItemSecondaryAction({
-  className,
-  children,
-}: StyleProps & ChildrenProp) {
   return (
-    <span
-      className={cn(
-        "ml-4 flex-none text-xs opacity-75 flex items-center",
-        className
-      )}
-    >
-      {children}
-    </span>
+    <span className={cn("max-w-full truncate", className)}>{children}</span>
   );
 }
 
@@ -138,7 +134,12 @@ export function ItemSecondaryText({
   children,
 }: StyleProps & ChildrenProp) {
   return (
-    <span className={cn("flex-1 truncate text-sm opacity-75", className)}>
+    <span
+      className={cn(
+        "max-w-full truncate text-sm text-black text-opacity-60",
+        className
+      )}
+    >
       {children}
     </span>
   );

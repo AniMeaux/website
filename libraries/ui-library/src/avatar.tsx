@@ -1,14 +1,14 @@
 import cn from "classnames";
 import * as React from "react";
 
-type AvatarSize = "xsmall" | "small" | "medium";
+type AvatarSize = "small" | "medium" | "large";
 
 const AvatarSizeClassName: {
   [key in AvatarSize]: string;
 } = {
-  xsmall: "w-8 h-8 text-xl",
-  small: "w-10 h-10 text-xl",
-  medium: "w-12 h-12 text-2xl",
+  small: "w-8 h-8 text-lg",
+  medium: "w-10 h-10 text-xl",
+  large: "w-12 h-12 text-2xl",
 };
 
 type AvatarColor = "default" | "blue";
@@ -17,7 +17,7 @@ const AvatarColorClassName: {
   [key in AvatarColor]: string;
 } = {
   blue: "bg-blue-500 bg-opacity-5 text-blue-500",
-  default: "bg-black bg-opacity-5 text-default-color text-opacity-90",
+  default: "bg-black bg-opacity-5 text-black text-opacity-70",
 };
 
 export type AvatarProps = React.HTMLAttributes<HTMLSpanElement> & {

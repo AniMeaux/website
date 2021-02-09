@@ -97,7 +97,7 @@ export function getInputClassName({
   invariant(paddingRightClassName != null, "Only 2 adornments are supported.");
 
   return cn(
-    "appearance-none disabled:pointer-events-none focus:outline-none focus:ring focus:ring-offset-2 focus:ring-blue-500 w-full min-w-0 rounded-full border bg-white px-4 text-default-color",
+    "appearance-none disabled:pointer-events-none focus:outline-none focus:ring focus:ring-offset-2 focus:ring-blue-500 w-full min-w-0 rounded-full border bg-white px-4 text-black text-opacity-80",
     InputSizeClassName[size],
     {
       "border-black border-opacity-10": !hasError,

@@ -135,12 +135,6 @@ module.exports = {
         "2xs": ["0.625rem", "1rem"],
         "8xl": "6rem",
       },
-      textColor: (theme) => ({
-        "default-color": theme("colors.gray.800"),
-      }),
-      placeholderColor: (theme) => ({
-        "default-color": theme("textColor.default-color"),
-      }),
       textOpacity: {
         ...opacities,
       },

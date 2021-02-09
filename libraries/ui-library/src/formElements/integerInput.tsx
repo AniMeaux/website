@@ -37,7 +37,7 @@ export function IntegerInput({
 
       <span
         className={cn(
-          "h-10 w-10 flex items-center justify-center font-semibold text-default-color",
+          "h-10 w-10 flex items-center justify-center font-semibold text-black text-opacity-80",
           { "text-opacity-60": value === 0 }
         )}
       >
