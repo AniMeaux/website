@@ -12,15 +12,18 @@ import {
 export type SelectProps<ValueType> = StyleProps &
   ChildrenProp &
   InputWrapperProps & {
+    hideDefaultOption?: boolean;
     value?: ValueType | null;
     onChange?: (value: ValueType) => void;
     placeholder?: string;
+    id?: string;
   };
 
 export function Select<ValueType = string>({
   size,
   hasError,
   placeholder = "",
+  hideDefaultOption = false,
   value,
   onChange,
   leftAdornment,
@@ -28,6 +31,7 @@ export function Select<ValueType = string>({
   children,
   className,
   disabled,
+  id,
 }: SelectProps<ValueType>) {
   rightAdornment = [
     ...ensureArray(rightAdornment),
@@ -46,6 +50,7 @@ export function Select<ValueType = string>({
       className={className}
     >
       <select
+        id={id}
         value={value == null ? "" : String(value)}
         onChange={(event) => {
           onChange?.((event.target.value as any) as ValueType);
@@ -63,9 +68,11 @@ export function Select<ValueType = string>({
           { "text-black text-opacity-50": value == null }
         )}
       >
-        <option disabled value="">
-          {placeholder}
-        </option>
+        {!hideDefaultOption && (
+          <option disabled value="">
+            {placeholder}
+          </option>
+        )}
 
         {children}
       </select>
