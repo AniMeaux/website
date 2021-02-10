@@ -51,7 +51,7 @@ export function InputWrapper({
   );
 }
 
-type AdornmentContainerProps = {
+type AdornmentContainerProps = ChildrenProp & {
   side: "left" | "right";
   size: InputSize;
 };
@@ -63,7 +63,7 @@ const AdornmentContainerSideClassName: {
   right: "right-0",
 };
 
-function AdornmentContainer({ side, size }: AdornmentContainerProps) {
+function AdornmentContainer({ side, size, children }: AdornmentContainerProps) {
   return (
     <span
       className={cn(
@@ -71,7 +71,9 @@ function AdornmentContainer({ side, size }: AdornmentContainerProps) {
         AdornmentContainerSideClassName[side],
         InputSizeClassName[size]
       )}
-    />
+    >
+      {children}
+    </span>
   );
 }
 
