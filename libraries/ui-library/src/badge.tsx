@@ -1,23 +1,23 @@
 import cn from "classnames";
 import * as React from "react";
+import { ChildrenProp, StyleProps } from "./core/types";
 
-type BadgeProps = React.HTMLAttributes<HTMLSpanElement> & {
-  value?: React.ReactNode;
-};
+type BadgeProps = StyleProps &
+  ChildrenProp & {
+    isVisible?: boolean;
+  };
 
-export function Badge({ value, children, className, ...rest }: BadgeProps) {
+export function Badge({ isVisible, children, className }: BadgeProps) {
   let badge: React.ReactNode = null;
 
-  if (value != null) {
+  if (isVisible) {
     badge = (
-      <span className="absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2 ring-2 ring-white w-4 h-4 rounded-full bg-blue-500 flex items-center justify-center text-2xs text-white font-bold">
-        {value}
-      </span>
+      <span className="absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2 ring-2 ring-white w-2 h-2 rounded-full bg-blue-500" />
     );
   }
 
   return (
-    <span {...rest} className={cn("relative", className)}>
+    <span className={cn("relative", className)}>
       {children}
       {badge}
     </span>
