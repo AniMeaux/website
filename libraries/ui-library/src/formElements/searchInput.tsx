@@ -25,15 +25,11 @@ export function SearchInput({
   rightAdornment,
   ...props
 }: Omit<InputProps, "leftAdornment" | "type" | "role">) {
-  const inputElement = React.useRef<HTMLInputElement>(null!);
-  const previousFocusOwner = React.useRef<HTMLElement | null>(null);
-
   return (
     <Input
       {...props}
       type="text"
       role="search"
-      ref={inputElement}
       leftAdornment={
         <Adornment>
           <FaSearch />
@@ -41,21 +37,7 @@ export function SearchInput({
       }
       rightAdornment={[
         props.value !== "" && (
-          <ActionAdornment
-            onFocus={(event) => {
-              // Get the element which just lost the focus.
-              previousFocusOwner.current = event.relatedTarget as HTMLElement;
-            }}
-            onClick={() => {
-              props.onChange?.("");
-
-              // Give the focus back to the input to avoid loosing the keyboard
-              // on mobile apps.
-              if (previousFocusOwner.current === inputElement.current) {
-                inputElement.current.focus();
-              }
-            }}
-          >
+          <ActionAdornment onClick={() => props.onChange?.("")}>
             <FaTimes />
           </ActionAdornment>
         ),

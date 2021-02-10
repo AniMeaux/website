@@ -7,33 +7,16 @@ export function PasswordInput(
   props: Omit<InputProps, "type" | "rightAdornment">
 ) {
   const [showPassword, setShowPassword] = React.useState(false);
-  const previousFocusOwner = React.useRef<HTMLElement | null>(null);
-  const inputElement = React.useRef<HTMLInputElement>(null!);
 
   return (
     <Input
       {...props}
       type={showPassword ? "text" : "password"}
       rightAdornment={
-        <ActionAdornment
-          onFocus={(event) => {
-            // Get the element which just lost the focus.
-            previousFocusOwner.current = event.relatedTarget as HTMLElement;
-          }}
-          onClick={() => {
-            setShowPassword((s) => !s);
-
-            // Give the focus back to the input to avoid loosing the keyboard
-            // on mobile apps.
-            if (previousFocusOwner.current === inputElement.current) {
-              inputElement.current.focus();
-            }
-          }}
-        >
+        <ActionAdornment onClick={() => setShowPassword((s) => !s)}>
           {showPassword ? <FaEyeSlash /> : <FaEye />}
         </ActionAdornment>
       }
-      ref={inputElement}
     />
   );
 }
