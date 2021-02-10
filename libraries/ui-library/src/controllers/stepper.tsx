@@ -1,18 +1,13 @@
 import cn from "classnames";
-import invariant from "invariant";
 import * as React from "react";
 import { FaCheckCircle, FaCircle, FaDotCircle } from "react-icons/fa";
-import { Link, LinkProps } from "../core";
+import { ChildrenProp, Link, LinkProps, StyleProps } from "../core";
 
 export enum StepStatus {
   PENDING,
   IN_PROGRESS,
   DONE,
 }
-
-type StepLinkProps = LinkProps & {
-  status: StepStatus;
-};
 
 const StepLinkStatusIconClassName: { [key in StepStatus]: string } = {
   [StepStatus.PENDING]: "text-black text-opacity-10",
@@ -26,20 +21,20 @@ const StepLinkStatusIcon: { [key in StepStatus]: React.ElementType } = {
   [StepStatus.DONE]: FaCheckCircle,
 };
 
-export function StepLink({
-  className,
-  status,
-  children,
-  ...rest
-}: StepLinkProps) {
+type StepLinkProps = Omit<LinkProps, "disabled"> &
+  StyleProps & {
+    status: StepStatus;
+  };
+
+export function StepLink({ status, href, children, className }: StepLinkProps) {
   const Icon = StepLinkStatusIcon[status];
-  const Tag = status === StepStatus.PENDING ? "span" : Link;
 
   return (
-    <Tag
-      {...rest}
+    <Link
+      href={href}
+      disabled={status === StepStatus.PENDING}
       className={cn(
-        "max-w-full flex flex-col items-center text-xs text-center text-black text-opacity-50",
+        "focus:outline-none focus-visible:ring focus-visible:ring-blue-500 rounded-xl max-w-full flex flex-col items-center text-xs text-center text-black text-opacity-50 active:opacity-60",
         className
       )}
     >
@@ -48,7 +43,7 @@ export function StepLink({
       />
 
       <span className="px-4 max-w-full truncate">{children}</span>
-    </Tag>
+    </Link>
   );
 }
 
@@ -58,7 +53,8 @@ const StepLineStatusClassName: { [key in StepStatus]: string } = {
   [StepStatus.DONE]: "bg-blue-500",
 };
 
-type StepItemProps = React.LiHTMLAttributes<HTMLLIElement> & {
+type StepItemProps = StyleProps & {
+  children: React.ReactElement<StepLinkProps>;
   isFirst?: boolean;
 };
 
@@ -66,20 +62,11 @@ export function StepItem({
   isFirst = false,
   className,
   children,
-  ...rest
 }: StepItemProps) {
-  const child = React.Children.only(children);
-
-  invariant(
-    React.isValidElement(child),
-    "Only a React Element is allowed as children of StepItem"
-  );
-
-  const status = (child as React.ReactElement<StepLinkProps>).props.status;
+  const status = children.props.status;
 
   return (
     <li
-      {...rest}
       className={cn(
         "relative flex-1 min-w-0 flex flex-col items-center",
         className
@@ -99,13 +86,11 @@ export function StepItem({
   );
 }
 
-export function Stepper({
-  className,
-  children,
-  ...rest
-}: React.HTMLAttributes<HTMLUListElement>) {
+type StepperProps = StyleProps & ChildrenProp;
+
+export function Stepper({ className, children }: StepperProps) {
   return (
-    <ul {...rest} className={cn("w-full h-16 flex items-center", className)}>
+    <ul className={cn("w-full h-16 flex items-center", className)}>
       {React.Children.toArray(children).map((child, index) => {
         if (React.isValidElement(child)) {
           return React.cloneElement(child, { isFirst: index === 0 });
