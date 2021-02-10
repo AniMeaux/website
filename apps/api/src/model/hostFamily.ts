@@ -1,6 +1,6 @@
 import {
   CreateHostFamilyPayload,
-  HostFamilyFilters,
+  PaginatedRequest,
   UpdateHostFamilyPayload,
 } from "@animeaux/shared-entities";
 import { gql, IResolverObject } from "apollo-server";
@@ -56,7 +56,7 @@ const typeDefs = gql`
 `;
 
 const queries: IResolverObject = {
-  getAllHostFamilies: async (parent: any, filters: HostFamilyFilters) => {
+  getAllHostFamilies: async (parent: any, filters: PaginatedRequest) => {
     return await database.getAllHostFamilies(filters);
   },
 

@@ -1,5 +1,3 @@
-import { PaginatedRequest } from "./pagination";
-
 export type HostFamily = {
   id: string;
   name: string;
@@ -37,5 +35,3 @@ export type UpdateHostFamilyPayload = {
   city?: string;
   address?: string;
 };
-
-export type HostFamilyFilters = PaginatedRequest;

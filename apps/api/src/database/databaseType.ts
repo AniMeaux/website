@@ -5,7 +5,7 @@ import {
   CreateHostFamilyPayload,
   CreateUserPayload,
   HostFamily,
-  HostFamilyFilters,
+  PaginatedRequest,
   PaginatedResponse,
   UpdateAnimalBreedPayload,
   UpdateHostFamilyPayload,
@@ -29,7 +29,7 @@ export type UserDatabase = {
 
 export type AnimalBreedDatabase = {
   getAllAnimalBreeds(
-    filters: AnimalBreedFilters
+    filters: PaginatedRequest<AnimalBreedFilters>
   ): Promise<PaginatedResponse<AnimalBreed>>;
   getAnimalBreed(id: string): Promise<AnimalBreed | null>;
   createAnimalBreed(payload: CreateAnimalBreedPayload): Promise<AnimalBreed>;
@@ -39,7 +39,7 @@ export type AnimalBreedDatabase = {
 
 export type HostFamilyDatabase = {
   getAllHostFamilies(
-    filters: HostFamilyFilters
+    filters: PaginatedRequest
   ): Promise<PaginatedResponse<HostFamily>>;
   getHostFamily(id: string): Promise<HostFamily | null>;
   createHostFamily(payload: CreateHostFamilyPayload): Promise<HostFamily>;

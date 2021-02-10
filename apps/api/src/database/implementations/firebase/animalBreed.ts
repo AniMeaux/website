@@ -4,6 +4,7 @@ import {
   AnimalSpecies,
   CreateAnimalBreedPayload,
   ErrorCode,
+  PaginatedRequest,
   PaginatedResponse,
   UpdateAnimalBreedPayload,
 } from "@animeaux/shared-entities";
@@ -35,7 +36,7 @@ async function assertAnimalBreedNameNotUsed(
 
 export const animalBreedDatabase: AnimalBreedDatabase = {
   async getAllAnimalBreeds(
-    filters: AnimalBreedFilters
+    filters: PaginatedRequest<AnimalBreedFilters>
   ): Promise<PaginatedResponse<AnimalBreed>> {
     const searchFilters: string[] = [];
 

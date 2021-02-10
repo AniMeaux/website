@@ -1,5 +1,4 @@
 import { AnimalSpecies } from "./animal";
-import { PaginatedRequest } from "./pagination";
 
 export type AnimalBreed = {
   id: string;
@@ -23,6 +22,6 @@ export type UpdateAnimalBreedPayload = {
   species?: AnimalSpecies;
 };
 
-export type AnimalBreedFilters = PaginatedRequest & {
+export type AnimalBreedFilters = {
   species?: AnimalSpecies | null;
 };

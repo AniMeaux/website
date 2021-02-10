@@ -3,9 +3,10 @@ import {
   EMAIL_PATTERN,
   ErrorCode,
   HostFamily,
-  HostFamilyFilters,
   HostFamilyFormPayload,
+  PaginatedRequest,
   PaginatedResponse,
+  SearchFilter,
   UpdateHostFamilyPayload,
 } from "@animeaux/shared-entities";
 import { showSnackbar, Snackbar } from "@animeaux/ui-library";
@@ -49,13 +50,13 @@ const GetAllHostFamiliesQuery = gql`
   ${HostFamilyDetailsFragment}
 `;
 
-export function useAllHostFamilies({ search }: HostFamilyFilters = {}) {
+export function useAllHostFamilies({ search }: SearchFilter = {}) {
   return useInfiniteQuery<PaginatedResponse<HostFamily>, Error>(
     ["host-families", search],
     async ({ pageParam = 0 }) => {
       const { response } = await fetchGraphQL<
         { response: PaginatedResponse<HostFamily> },
-        HostFamilyFilters
+        PaginatedRequest
       >(GetAllHostFamiliesQuery, {
         variables: { page: pageParam, search },
       });
