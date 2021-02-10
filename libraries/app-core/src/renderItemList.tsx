@@ -4,7 +4,7 @@ import * as React from "react";
 import { UseInfiniteQueryResult, UseQueryResult } from "./request";
 
 type ItemListRenderers<ItemType> = {
-  title: string;
+  title?: string;
   renderEmptyMessage: () => React.ReactNode;
   getItemKey: (item: ItemType) => string;
   renderItem: (item: ItemType) => React.ReactNode;
@@ -60,24 +60,41 @@ export function renderItemList<DataType>(
   return {
     content: renderItemListContent(query, renderers),
     title:
-      query.data == null
+      renderers.title == null || query.data == null
         ? renderers.title
         : `${renderers.title} (${query.data.length})`,
   };
 }
 
+type InfiniteItemListRenderers<ItemType> = ItemListRenderers<ItemType> & {
+  hasSearch?: boolean;
+  renderEmptySearchMessage?: () => React.ReactNode;
+  renderEmptySearchAction?: () => React.ReactNode;
+};
+
 function renderInfiniteItemListContent<ItemType>(
   query: UseInfiniteQueryResult<PaginatedResponse<ItemType>, Error>,
   {
+    hasSearch = false,
     renderEmptyMessage,
+    renderEmptySearchMessage,
+    renderEmptySearchAction,
     getItemKey,
     renderItem,
     placeholderElement: PlaceholderElement,
-  }: ItemListRenderers<ItemType>
+  }: InfiniteItemListRenderers<ItemType>
 ) {
   if (query.data != null) {
     // There is allways at least one page.
     if (query.data.pages[0].hits.length === 0) {
+      if (hasSearch) {
+        return (
+          <EmptyMessage action={renderEmptySearchAction?.()}>
+            {renderEmptySearchMessage?.() ?? renderEmptyMessage()}
+          </EmptyMessage>
+        );
+      }
+
       return <EmptyMessage>{renderEmptyMessage()}</EmptyMessage>;
     }
 
@@ -127,12 +144,12 @@ function renderInfiniteItemListContent<ItemType>(
 
 export function renderInfiniteItemList<ItemType>(
   query: UseInfiniteQueryResult<PaginatedResponse<ItemType>, Error>,
-  renderers: ItemListRenderers<ItemType>
+  renderers: InfiniteItemListRenderers<ItemType>
 ) {
   return {
     content: renderInfiniteItemListContent(query, renderers),
     title:
-      query.data == null
+      renderers.title == null || query.data == null
         ? renderers.title
         : // There is allways at least one page.
           `${renderers.title} (${query.data.pages[0].hitsTotalCount})`,

@@ -1,11 +1,21 @@
 import cn from "classnames";
 import * as React from "react";
+import { ChildrenProp, StyleProps } from "../core";
+
+type EmptyMessageProps = ChildrenProp &
+  StyleProps & {
+    action?: React.ReactNode;
+  };
 
 export function EmptyMessage({
+  children,
+  action,
   className,
-  ...rest
-}: React.HTMLAttributes<HTMLParagraphElement>) {
+}: EmptyMessageProps) {
   return (
-    <p {...rest} className={cn("h-12 px-2 flex items-center", className)} />
+    <div className={cn("flex flex-col items-center justify-center", className)}>
+      <p className="max-w-full py-8 px-4 text-center">{children}</p>
+      {action}
+    </div>
   );
 }
