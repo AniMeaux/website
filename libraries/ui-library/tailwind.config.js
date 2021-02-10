@@ -132,7 +132,7 @@ module.exports = {
       },
       fontSize: {
         html: "16px",
-        "2xs": ["0.625rem", "1rem"],
+        "2xs": ["0.625rem", "0.75rem"],
         "8xl": "6rem",
       },
       textOpacity: {

@@ -49,6 +49,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
           }}
           className={cn(
             getInputClassName({
+              disabled,
               size,
               hasError,
               leftAdornment,

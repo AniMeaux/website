@@ -54,6 +54,7 @@ export function Select<ValueType = string>({
         disabled={disabled}
         className={cn(
           getInputClassName({
+            disabled,
             size,
             hasError,
             leftAdornment,

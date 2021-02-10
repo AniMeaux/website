@@ -54,6 +54,7 @@ export function AdvancedInput({
           onClick={() => setIsOpened(true)}
           className={cn(
             getInputClassName({
+              disabled,
               hasError,
               size,
               leftAdornment,
