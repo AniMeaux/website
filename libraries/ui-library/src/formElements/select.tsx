@@ -1,8 +1,7 @@
 import cn from "classnames";
 import * as React from "react";
 import { FaCaretDown } from "react-icons/fa";
-import { ChildrenProp, StyleProps } from "../core/types";
-import { ensureArray } from "../ensureArray";
+import { ChildrenProp, ensureArray, StyleProps } from "../core";
 import { Adornment } from "./adornment";
 import {
   getInputClassName,

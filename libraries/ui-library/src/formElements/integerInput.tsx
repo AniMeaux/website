@@ -1,7 +1,7 @@
 import cn from "classnames";
 import * as React from "react";
 import { FaMinus, FaPlus } from "react-icons/fa";
-import { Button } from "../button";
+import { Button } from "../actions";
 
 type IntegerInputProps = Omit<
   React.HTMLAttributes<HTMLSpanElement>,

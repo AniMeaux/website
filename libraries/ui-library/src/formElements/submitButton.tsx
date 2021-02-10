@@ -1,6 +1,6 @@
 import cn from "classnames";
 import * as React from "react";
-import { Button, ButtonProps } from "../button";
+import { Button, ButtonProps } from "../actions";
 
 export function SubmitButton({
   type = "submit",

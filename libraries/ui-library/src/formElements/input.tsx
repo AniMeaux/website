@@ -1,6 +1,6 @@
 import cn from "classnames";
 import * as React from "react";
-import { StyleProps, HtmlInputProps } from "../core/types";
+import { StyleProps, HtmlInputProps } from "../core";
 import {
   getInputClassName,
   InputWrapper,

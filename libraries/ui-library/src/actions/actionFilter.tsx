@@ -1,10 +1,10 @@
 import * as React from "react";
 import { FaFilter } from "react-icons/fa";
-import { Badge } from "./badge";
+import { ChildrenProp } from "../core";
+import { Badge } from "../dataDisplay";
+import { HeaderTitle } from "../layouts";
+import { Modal, ModalHeader } from "../popovers";
 import { Button } from "./button";
-import { ChildrenProp } from "./core/types";
-import { HeaderTitle } from "./layouts";
-import { Modal, ModalHeader } from "./popovers";
 
 type ActionFilterProps = ChildrenProp & {
   actionElement: React.ElementType;

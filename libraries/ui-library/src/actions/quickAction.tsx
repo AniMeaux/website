@@ -1,7 +1,7 @@
 import cn from "classnames";
 import * as React from "react";
-import { Link, LinkProps } from "./link";
-import { Modal } from "./popovers";
+import { Link, LinkProps } from "../core";
+import { Modal } from "../popovers";
 
 const COMMON_CLASS_NAME =
   "focus:outline-none focus-visible:ring focus-visible:ring-offset-2 focus-visible:ring-blue-500 bg-blue-500 active:bg-blue-700 text-white z-20 fixed quick-action-bottom quick-action-right rounded-full h-12 w-12 flex items-center justify-center text-2xl";

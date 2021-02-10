@@ -1,7 +1,7 @@
 import cn from "classnames";
 import { useRouter } from "next/router";
 import * as React from "react";
-import { Link, LinkProps } from "../link";
+import { Link, LinkProps } from "../core";
 import { useIsScrollAtTheBottom } from "./usePageScroll";
 
 export function NavItem({

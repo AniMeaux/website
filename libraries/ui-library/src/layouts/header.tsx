@@ -1,7 +1,7 @@
 import cn from "classnames";
 import * as React from "react";
 import { FaChevronLeft, FaTimes } from "react-icons/fa";
-import { Link, LinkProps } from "../link";
+import { Link, LinkProps } from "../core";
 import { useIsScrollAtTheTop } from "./usePageScroll";
 
 const HEADER_ACTION_CLASS_NAMES =

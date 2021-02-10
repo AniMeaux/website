@@ -1,7 +1,7 @@
 import NextLink from "next/link";
 import { useRouter } from "next/router";
 import * as React from "react";
-import { ChildrenProp, StyleProps } from "./core/types";
+import { ChildrenProp, StyleProps } from "./types";
 
 function segmentize(uri: string): string[] {
   return (

@@ -1,6 +1,6 @@
 import cn from "classnames";
 import * as React from "react";
-import { ChildrenProp, StyleProps } from "./core/types";
+import { ChildrenProp, StyleProps } from "../core";
 
 type BadgeProps = StyleProps &
   ChildrenProp & {

@@ -2,11 +2,13 @@ import cn from "classnames";
 import invariant from "invariant";
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import { AnimateHeight } from "../animateHeight";
+import {
+  AnimateHeight,
+  useFocusTrap,
+  useLatestDefinedValue,
+  useScrollLock,
+} from "../core";
 import { PageScrollProvider, useIsScrollAtTheTop } from "../layouts";
-import { useFocusTrap } from "../useFocusTrap";
-import { useLatestDefinedValue } from "../useLatestDefinedValue";
-import { useScrollLock } from "../useScrollLock";
 
 type ModalContextValue = {
   onDismiss: () => void;

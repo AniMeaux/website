@@ -1,6 +1,6 @@
 import cn from "classnames";
 import * as React from "react";
-import { ChildrenProp, StyleProps } from "./core/types";
+import { ChildrenProp, StyleProps } from ".";
 import { Link, LinkProps } from "./link";
 
 type ItemSize = "small" | "medium" | "large";

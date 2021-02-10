@@ -1,7 +1,6 @@
 import cn from "classnames";
 import * as React from "react";
-import { ChildrenProp, StyleProps } from "./core/types";
-import { Link, LinkProps } from "./link";
+import { ChildrenProp, Link, LinkProps, StyleProps } from "../core";
 
 type ButtonSize = "small" | "medium";
 type ButtonVariant = "secondary" | "primary" | "outlined";

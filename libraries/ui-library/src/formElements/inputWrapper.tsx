@@ -1,8 +1,7 @@
 import cn from "classnames";
 import invariant from "invariant";
 import * as React from "react";
-import { ChildrenProp, StyleProps } from "../core/types";
-import { ensureArray } from "../ensureArray";
+import { ChildrenProp, ensureArray, StyleProps } from "../core";
 
 export type InputSize = "small" | "medium";
 

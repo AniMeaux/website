@@ -2,7 +2,7 @@ import cn from "classnames";
 import invariant from "invariant";
 import * as React from "react";
 import { FaCheckCircle, FaCircle, FaDotCircle } from "react-icons/fa";
-import { Link, LinkProps } from "./link";
+import { Link, LinkProps } from "../core";
 
 export enum StepStatus {
   PENDING,
