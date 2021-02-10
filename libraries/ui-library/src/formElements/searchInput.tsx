@@ -15,15 +15,19 @@ function useDebouncedValue<ValueType>(value?: ValueType) {
   return debouncedValue;
 }
 
-export function useSearch<FiltersType = void>(
+export function useSearch(initialSearch: string) {
+  const [rawSearch, setRawSearch] = React.useState(initialSearch);
+  const search = useDebouncedValue(rawSearch);
+  return { search, rawSearch, setRawSearch };
+}
+
+export function useSearchAndFilters<FiltersType>(
   initialSearch: string,
   initialFilters: FiltersType
 ) {
-  const [rawSearch, setRawSearch] = React.useState(initialSearch);
-  const search = useDebouncedValue(rawSearch);
+  const search = useSearch(initialSearch);
   const [filters, setFilters] = React.useState<FiltersType>(initialFilters);
-
-  return { search, rawSearch, setRawSearch, filters, setFilters };
+  return { ...search, filters, setFilters };
 }
 
 export type SearchInputProps = Omit<
