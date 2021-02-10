@@ -6,5 +6,4 @@ export * from "./formElements";
 export * from "./icons";
 export * from "./layouts";
 export * from "./loaders";
-export * from "./message";
 export * from "./popovers";
