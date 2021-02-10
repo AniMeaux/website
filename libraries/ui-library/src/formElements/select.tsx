@@ -14,13 +14,13 @@ export type SelectProps<ValueType> = StyleProps &
   InputWrapperProps & {
     value?: ValueType | null;
     onChange?: (value: ValueType) => void;
-    placeholder: string;
+    placeholder?: string;
   };
 
 export function Select<ValueType = string>({
   size,
   hasError,
-  placeholder,
+  placeholder = "",
   value,
   onChange,
   leftAdornment,
