@@ -60,11 +60,12 @@ export function AdvancedInput({
               leftAdornment,
               rightAdornment,
             }),
-            { "text-black text-opacity-50": value == null },
             "text-left flex items-center"
           )}
         >
-          {value ?? placeholder}
+          {value ?? (
+            <span className="text-black text-opacity-50">{placeholder}</span>
+          )}
         </button>
       </InputWrapper>
 
