@@ -1,7 +1,6 @@
 import {
   AnimalBreed,
   AnimalBreedFormPayload,
-  AnimalSpeciesLabels,
   ANIMAL_SPECIES_ALPHABETICAL_ORDER,
 } from "@animeaux/shared-entities";
 import {
@@ -14,17 +13,13 @@ import {
   Label,
   Placeholder,
   Placeholders,
-  Selector,
-  SelectorIcon,
   SelectorItem,
-  SelectorLabel,
-  SelectorRadio,
   Selectors,
   SubmitButton,
 } from "@animeaux/ui-library";
 import * as React from "react";
 import { FaDna } from "react-icons/fa";
-import { AnimalSpeciesIcon } from "../animal/animalSpeciesIcon";
+import { AnimalSpeciesInput } from "../animalSpeciesInput";
 
 export type AnimalBreedFormErrors = {
   name?: string | null;
@@ -85,27 +80,7 @@ export function AnimalBreedForm({
 
       <Field>
         <Label hasError={errors?.species != null}>Espèce</Label>
-
-        <Selectors>
-          {ANIMAL_SPECIES_ALPHABETICAL_ORDER.map((s) => (
-            <SelectorItem key={s}>
-              <Selector>
-                <SelectorRadio
-                  name="species"
-                  checked={species === s}
-                  onChange={() => setSpecies(s)}
-                />
-
-                <SelectorIcon>
-                  <AnimalSpeciesIcon species={s} />
-                </SelectorIcon>
-
-                <SelectorLabel>{AnimalSpeciesLabels[s]}</SelectorLabel>
-              </Selector>
-            </SelectorItem>
-          ))}
-        </Selectors>
-
+        <AnimalSpeciesInput value={species} onChange={setSpecies} />
         <FieldMessage errorMessage={errors?.species} />
       </Field>
 
