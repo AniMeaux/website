@@ -21,15 +21,16 @@ export function useSearchValue(initialSearchValue?: string) {
   return { search, rawSearch, setRawSearch };
 }
 
-export function SearchInput({
-  rightAdornment,
-  ...props
-}: Omit<InputProps, "leftAdornment" | "type" | "role">) {
+export const SearchInput = React.forwardRef<
+  HTMLInputElement,
+  Omit<InputProps, "leftAdornment" | "type" | "role">
+>(function SearchInput({ rightAdornment, ...props }, ref) {
   return (
     <Input
       {...props}
       type="text"
       role="search"
+      ref={ref}
       leftAdornment={
         <Adornment>
           <FaSearch />
@@ -45,4 +46,4 @@ export function SearchInput({
       ]}
     />
   );
-}
+});
