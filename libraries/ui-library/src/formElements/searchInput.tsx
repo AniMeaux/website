@@ -15,35 +15,44 @@ function useDebouncedValue<ValueType>(value?: ValueType) {
   return debouncedValue;
 }
 
-export function useSearchValue(initialSearchValue?: string) {
-  const [rawSearch, setRawSearch] = React.useState(initialSearchValue ?? "");
+export function useSearch<FiltersType = void>(
+  initialSearch: string,
+  initialFilters: FiltersType
+) {
+  const [rawSearch, setRawSearch] = React.useState(initialSearch);
   const search = useDebouncedValue(rawSearch);
-  return { search, rawSearch, setRawSearch };
+  const [filters, setFilters] = React.useState<FiltersType>(initialFilters);
+
+  return { search, rawSearch, setRawSearch, filters, setFilters };
 }
 
-export const SearchInput = React.forwardRef<
-  HTMLInputElement,
-  Omit<InputProps, "leftAdornment" | "type" | "role">
->(function SearchInput({ rightAdornment, ...props }, ref) {
-  return (
-    <Input
-      {...props}
-      type="text"
-      role="search"
-      ref={ref}
-      leftAdornment={
-        <Adornment>
-          <FaSearch />
-        </Adornment>
-      }
-      rightAdornment={[
-        props.value !== "" && (
-          <ActionAdornment onClick={() => props.onChange?.("")}>
-            <FaTimes />
-          </ActionAdornment>
-        ),
-        ...ensureArray(rightAdornment),
-      ]}
-    />
-  );
-});
+export type SearchInputProps = Omit<
+  InputProps,
+  "leftAdornment" | "type" | "role"
+>;
+
+export const SearchInput = React.forwardRef<HTMLInputElement, SearchInputProps>(
+  function SearchInput({ rightAdornment, ...props }, ref) {
+    return (
+      <Input
+        {...props}
+        type="text"
+        role="search"
+        ref={ref}
+        leftAdornment={
+          <Adornment>
+            <FaSearch />
+          </Adornment>
+        }
+        rightAdornment={[
+          props.value !== "" && (
+            <ActionAdornment onClick={() => props.onChange?.("")}>
+              <FaTimes />
+            </ActionAdornment>
+          ),
+          ...ensureArray(rightAdornment),
+        ]}
+      />
+    );
+  }
+);

@@ -10,7 +10,7 @@ import {
   InputWrapperProps,
 } from "./inputWrapper";
 
-type AdvancedInputProps = InputWrapperProps &
+export type AdvancedInputProps = InputWrapperProps &
   StyleProps & {
     value?: string | null;
     placeholder?: string;
