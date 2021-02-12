@@ -1,4 +1,5 @@
 export * from "./animateHeight";
+export * from "./dragAndDrop";
 export * from "./ensureArray";
 export * from "./item";
 export * from "./link";
