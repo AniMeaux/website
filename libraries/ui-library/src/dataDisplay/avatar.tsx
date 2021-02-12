@@ -1,7 +1,7 @@
 import cn from "classnames";
 import * as React from "react";
 
-type AvatarSize = "small" | "medium" | "large";
+type AvatarSize = "small" | "medium" | "large" | "display";
 
 const AvatarSizeClassName: {
   [key in AvatarSize]: string;
@@ -9,6 +9,7 @@ const AvatarSizeClassName: {
   small: "w-8 h-8 text-lg",
   medium: "w-10 h-10 text-xl",
   large: "w-12 h-12 text-2xl",
+  display: "w-28 h-28 text-7xl",
 };
 
 type AvatarColor = "default" | "blue";
@@ -35,7 +36,7 @@ export function Avatar({
     <span
       {...rest}
       className={cn(
-        "rounded-full font-medium flex items-center justify-center",
+        "overflow-hidden rounded-full font-medium flex items-center justify-center",
         AvatarSizeClassName[size],
         AvatarColorClassName[color],
         className

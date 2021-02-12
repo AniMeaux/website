@@ -144,9 +144,14 @@
     @apply w-12 h-12;
   }
 
+  .placeholder-avatar-display {
+    @apply w-28 h-28;
+  }
+
   .placeholder-avatar-small::after,
   .placeholder-avatar-medium::after,
-  .placeholder-avatar-large::after {
+  .placeholder-avatar-large::after,
+  .placeholder-avatar-display::after {
     @apply h-full rounded-full;
   }
 

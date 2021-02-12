@@ -2,9 +2,10 @@ import cn from "classnames";
 import * as React from "react";
 
 type PlaceholderPreset =
+  | "avatar-small"
   | "avatar"
   | "avatar-large"
-  | "avatar-small"
+  | "avatar-display"
   | "button"
   | "button-small"
   | "checkbox"
@@ -18,9 +19,10 @@ type PlaceholderPreset =
   | "text";
 
 const PresetClassName: { [key in PlaceholderPreset]: string } = {
+  "avatar-small": "placeholder-avatar-small",
   avatar: "placeholder-avatar-medium",
   "avatar-large": "placeholder-avatar-large",
-  "avatar-small": "placeholder-avatar-small",
+  "avatar-display": "placeholder-avatar-display",
   button: "placeholder-button",
   "button-small": "placeholder-button-small",
   checkbox: "placeholder-checkbox",
