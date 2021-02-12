@@ -7,7 +7,7 @@ export function Selectors({
   className,
   ...rest
 }: React.HTMLAttributes<HTMLUListElement>) {
-  return <ul {...rest} className={cn("selectors-grid", className)} />;
+  return <ul {...rest} className={cn("grid-square gap-2", className)} />;
 }
 
 export function SelectorItem(props: React.LiHTMLAttributes<HTMLLIElement>) {
@@ -28,7 +28,7 @@ export function Selector({
       {...rest}
       children={children}
       className={cn(
-        "cursor-pointer relative rounded-xl border border-opacity-10 h-full w-full flex flex-col items-center justify-center",
+        "cursor-pointer rounded-xl border border-opacity-10 flex flex-col items-center justify-center",
         {
           "border-blue-500 bg-blue-100 text-blue-500": checked,
           "border-black bg-white": !checked,

@@ -258,23 +258,28 @@
     width: calc(theme("width.full") - theme("width.8"));
   }
 
-  .selectors-grid {
-    @apply grid gap-2;
+  .grid-square {
+    @apply grid;
     grid-template-columns: repeat(auto-fill, minmax(theme("width.20"), 1fr));
     grid-auto-rows: 1fr;
   }
 
-  .selectors-grid::before {
-    content: "";
-    width: 0;
-    padding-bottom: 100%;
-    grid-row: 1 / 1;
-    grid-column: 1 / 1;
+  .grid-square > * {
+    @apply relative;
   }
 
-  .selectors-grid > *:first-child {
-    grid-row: 1 / 1;
-    grid-column: 1 / 1;
+  /* Square grid "trick" with `padding-top: 100%`. */
+  .grid-square > *::before {
+    @apply block pt-12/12;
+    content: "";
+  }
+
+  /*
+   * Make sure grid item's child is absolute to avoid changing the item size.
+   * We only apply this to the first child to allow multiple children.
+   */
+  .grid-square > * > *:first-child {
+    @apply absolute top-0 left-0 w-full h-full overflow-hidden;
   }
 
   .selector-input {
