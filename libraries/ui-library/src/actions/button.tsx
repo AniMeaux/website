@@ -4,7 +4,7 @@ import { ChildrenProp, Link, LinkProps, StyleProps } from "../core";
 
 type ButtonSize = "small" | "medium";
 type ButtonVariant = "secondary" | "primary" | "outlined";
-type ButtonColor = "default" | "blue" | "red";
+type ButtonColor = "default" | "blue" | "red" | "green";
 
 const ButtonSizeClassName: {
   [key in ButtonSize]: {
@@ -44,6 +44,10 @@ export const ButtonClassName: {
       base:
         "focus-visible:ring-red-500 bg-red-500 bg-opacity-5 active:bg-opacity-10 text-red-500",
     },
+    green: {
+      base:
+        "focus-visible:ring-green-500 bg-green-500 bg-opacity-5 active:bg-opacity-10 text-green-500",
+    },
   },
   primary: {
     default: {
@@ -57,6 +61,10 @@ export const ButtonClassName: {
       base:
         "focus-visible:ring-red-500 bg-red-500 active:bg-red-700 text-white",
     },
+    green: {
+      base:
+        "focus-visible:ring-green-500 bg-green-500 active:bg-green-700 text-white",
+    },
   },
   outlined: {
     default: {
@@ -67,6 +75,10 @@ export const ButtonClassName: {
     },
     red: {
       base: "focus-visible:ring-red-500",
+    },
+    green: {
+      base:
+        "focus-visible:ring-green-500 bg-white active:bg-green-100 border text-green-500",
     },
   },
 };
