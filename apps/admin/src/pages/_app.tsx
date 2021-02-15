@@ -11,7 +11,7 @@ import {
 import { UserGroup } from "@animeaux/shared-entities";
 import * as React from "react";
 import Logo from "../core/appLogo.svg";
-import { initFirebase } from "../core/initFirebase";
+import { initFirebase } from "../core/firebase";
 
 initFirebase();
 initializeGraphQlClient(process.env.NEXT_PUBLIC_API_URL);
