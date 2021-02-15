@@ -89,6 +89,7 @@ type ButtonCommonProps = StyleProps & {
   color?: ButtonColor;
   iconOnly?: boolean;
   disabled?: boolean;
+  title?: string;
 };
 
 export type ButtonProps = ChildrenProp &
@@ -99,22 +100,13 @@ export type ButtonProps = ChildrenProp &
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   function Button(
-    {
-      size,
-      variant,
-      color,
-      iconOnly,
-      disabled = false,
-      className,
-      children,
-      onClick,
-    },
+    { size, variant, color, iconOnly, disabled = false, className, ...rest },
     ref
   ) {
     return (
       <button
+        {...rest}
         ref={ref}
-        onClick={onClick}
         disabled={disabled}
         className={getButtonClassName({
           size,
@@ -124,9 +116,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           disabled,
           className,
         })}
-      >
-        {children}
-      </button>
+      />
     );
   }
 );
