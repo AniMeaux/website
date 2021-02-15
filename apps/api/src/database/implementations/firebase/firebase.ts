@@ -16,6 +16,10 @@ const databaseCore: DatabaseCore = {
         }),
         databaseURL: process.env.FIREBASE_DATABASE_URL,
       });
+
+      admin.firestore().settings({
+        ignoreUndefinedProperties: true,
+      });
     }
   },
 };
