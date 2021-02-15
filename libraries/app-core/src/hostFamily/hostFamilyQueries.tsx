@@ -23,8 +23,8 @@ import {
   useQueryClient,
 } from "../request";
 
-const HostFamilyDetailsFragment = gql`
-  fragment HostFamilyDetailsFragment on HostFamily {
+const HostFamilyFragment = gql`
+  fragment HostFamilyFragment on HostFamily {
     id
     name
     phone
@@ -39,7 +39,7 @@ const GetAllHostFamiliesQuery = gql`
   query GetAllHostFamiliesQuery($search: String, $page: Int) {
     response: getAllHostFamilies(search: $search, page: $page) {
       hits {
-        ...HostFamilyDetailsFragment
+        ...HostFamilyFragment
       }
       hitsTotalCount
       page
@@ -47,7 +47,7 @@ const GetAllHostFamiliesQuery = gql`
     }
   }
 
-  ${HostFamilyDetailsFragment}
+  ${HostFamilyFragment}
 `;
 
 export function useAllHostFamilies({ search }: SearchFilter = {}) {
@@ -69,11 +69,11 @@ export function useAllHostFamilies({ search }: SearchFilter = {}) {
 const GetHostFamilyQuery = gql`
   query GetHostFamilyQuery($id: ID!) {
     hostFamily: getHostFamily(id: $id) {
-      ...HostFamilyDetailsFragment
+      ...HostFamilyFragment
     }
   }
 
-  ${HostFamilyDetailsFragment}
+  ${HostFamilyFragment}
 `;
 
 export function useHostFamily(hostFamilyId: string) {
@@ -113,11 +113,11 @@ const CreateHostFamilyQuery = gql`
       city: $city
       address: $address
     ) {
-      ...HostFamilyDetailsFragment
+      ...HostFamilyFragment
     }
   }
 
-  ${HostFamilyDetailsFragment}
+  ${HostFamilyFragment}
 `;
 
 export function useCreateHostFamily(
@@ -213,11 +213,11 @@ const UpdateHostFamilyQuery = gql`
       city: $city
       address: $address
     ) {
-      ...HostFamilyDetailsFragment
+      ...HostFamilyFragment
     }
   }
 
-  ${HostFamilyDetailsFragment}
+  ${HostFamilyFragment}
 `;
 
 export function useUpdateHostFamily(

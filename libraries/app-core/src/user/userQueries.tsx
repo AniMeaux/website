@@ -20,8 +20,8 @@ import {
   useQueryClient,
 } from "../request";
 
-export const UserCore = gql`
-  fragment UserCore on User {
+export const UserFragment = gql`
+  fragment UserFragment on User {
     id
     displayName
     email
@@ -33,11 +33,11 @@ export const UserCore = gql`
 const GetAllUsersQuery = gql`
   query GetAllUsersQuery {
     users: getAllUsers {
-      ...UserCore
+      ...UserFragment
     }
   }
 
-  ${UserCore}
+  ${UserFragment}
 `;
 
 export function useAllUsers() {
@@ -50,11 +50,11 @@ export function useAllUsers() {
 const GetUserQuery = gql`
   query GetUserQuery($id: ID!) {
     user: getUser(id: $id) {
-      ...UserCore
+      ...UserFragment
     }
   }
 
-  ${UserCore}
+  ${UserFragment}
 `;
 
 export function useUser(userId: string) {
@@ -90,11 +90,11 @@ const CreateUserQuery = gql`
       password: $password
       groups: $groups
     ) {
-      ...UserCore
+      ...UserFragment
     }
   }
 
-  ${UserCore}
+  ${UserFragment}
 `;
 
 export function useCreateUser(
@@ -172,11 +172,11 @@ const UpdateUserQuery = gql`
       password: $password
       groups: $groups
     ) {
-      ...UserCore
+      ...UserFragment
     }
   }
 
-  ${UserCore}
+  ${UserFragment}
 `;
 
 export function useUpdateUser(
@@ -289,11 +289,11 @@ export function useDeleteUser(
 const ToggleUserBlockedStatus = gql`
   mutation ToggleUserBlockedStatus($id: ID!) {
     user: toggleUserBlockedStatus(id: $id) {
-      ...UserCore
+      ...UserFragment
     }
   }
 
-  ${UserCore}
+  ${UserFragment}
 `;
 
 export function useToggleUserBlockedStatus(

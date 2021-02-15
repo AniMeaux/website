@@ -23,8 +23,8 @@ import {
   useQueryClient,
 } from "../request";
 
-const AnimalBreedCore = gql`
-  fragment AnimalBreedCore on AnimalBreed {
+const AnimalBreedFragment = gql`
+  fragment AnimalBreedFragment on AnimalBreed {
     id
     name
     species
@@ -43,7 +43,7 @@ const GetAllAnimalBreedsQuery = gql`
       species: $species
     ) {
       hits {
-        ...AnimalBreedCore
+        ...AnimalBreedFragment
       }
       hitsTotalCount
       page
@@ -51,7 +51,7 @@ const GetAllAnimalBreedsQuery = gql`
     }
   }
 
-  ${AnimalBreedCore}
+  ${AnimalBreedFragment}
 `;
 
 export function useAllAnimalBreeds({
@@ -76,11 +76,11 @@ export function useAllAnimalBreeds({
 const GetAnimalBreedQuery = gql`
   query GetAnimalBreedQuery($id: ID!) {
     animalBreed: getAnimalBreed(id: $id) {
-      ...AnimalBreedCore
+      ...AnimalBreedFragment
     }
   }
 
-  ${AnimalBreedCore}
+  ${AnimalBreedFragment}
 `;
 
 export function useAnimalBreed(animalBreedId: string) {
@@ -106,11 +106,11 @@ export function useAnimalBreed(animalBreedId: string) {
 const CreateAnimalBreedQuery = gql`
   mutation CreateAnimalBreedQuery($name: String!, $species: AnimalSpecies!) {
     animalBreed: createAnimalBreed(name: $name, species: $species) {
-      ...AnimalBreedCore
+      ...AnimalBreedFragment
     }
   }
 
-  ${AnimalBreedCore}
+  ${AnimalBreedFragment}
 `;
 
 export function useCreateAnimalBreed(
@@ -177,11 +177,11 @@ const UpdateAnimalBreedQuery = gql`
     $species: AnimalSpecies
   ) {
     animalBreed: updateAnimalBreed(id: $id, name: $name, species: $species) {
-      ...AnimalBreedCore
+      ...AnimalBreedFragment
     }
   }
 
-  ${AnimalBreedCore}
+  ${AnimalBreedFragment}
 `;
 
 export function useUpdateAnimalBreed(

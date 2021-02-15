@@ -11,7 +11,7 @@ import * as React from "react";
 import { PageTitle } from "../page";
 import { fetchGraphQL } from "../request";
 import { SignInPage } from "./signInPage";
-import { UserCore } from "./userQueries";
+import { UserFragment } from "./userQueries";
 
 type CurrentUserContextValue = {
   currentUser: User;
@@ -70,11 +70,11 @@ async function updateToken(firebaseUser: firebase.User | null) {
 const CurrentUserQuery = gql`
   query CurrentUserQuery {
     user: getCurrentUser {
-      ...UserCore
+      ...UserFragment
     }
   }
 
-  ${UserCore}
+  ${UserFragment}
 `;
 
 async function getCurrentUser(): Promise<User | null> {
