@@ -6,38 +6,37 @@ import {
 import {
   Adornment,
   Button,
-  ButtonItem,
   ButtonSection,
   Field,
   FieldMessage,
   Form,
-  HeaderBackButton,
-  HeaderTitle,
   Input,
   ItemContent,
   ItemIcon,
   ItemMainText,
   Label,
+  LinkItem,
+  Main,
   Modal,
-  ModalHeader,
   PasswordInput,
   Section,
   showSnackbar,
   Snackbar,
   SubmitButton,
 } from "@animeaux/ui-library";
+import { useRouter } from "next/dist/client/router";
 import * as React from "react";
 import { FaAngleRight, FaLock, FaUser } from "react-icons/fa";
+import { Header } from "../header";
+import { PageComponent, PageTitle } from "../page";
 import { useMutation } from "../request";
 import { useCurrentUser } from "./currentUserContext";
 import { UserItem } from "./userItem";
 
-type FormProps = {
-  onSuccess: () => void;
-  onClose: () => void;
-};
+export const CurrentUserPasswordForm: PageComponent = () => {
+  const router = useRouter();
+  const backUrl = (router.query.backUrl as string | null) ?? "/";
 
-function PasswordForm({ onClose, onSuccess }: FormProps) {
   const { updatePassword } = useCurrentUser();
   const [currentPassword, setCurrentPassword] = React.useState("");
   const [newPassword, setNewPassword] = React.useState("");
@@ -62,7 +61,7 @@ function PasswordForm({ onClose, onSuccess }: FormProps) {
           <Snackbar type="success">Mot de passe changé</Snackbar>
         );
 
-        onSuccess();
+        router.push(backUrl);
       },
     }
   );
@@ -81,67 +80,75 @@ function PasswordForm({ onClose, onSuccess }: FormProps) {
   }
 
   return (
-    <>
-      <ModalHeader>
-        <HeaderBackButton onClick={() => onClose()} />
-        <HeaderTitle>Mot de passe</HeaderTitle>
-      </ModalHeader>
+    <div>
+      <PageTitle
+        title="Mot de passe"
+        // `applicationName` is only used as a fallback if `title` is missing.
+        applicationName=""
+      />
 
-      <Form
-        onSubmit={() => mutation.mutate({ currentPassword, newPassword })}
-        pending={mutation.isLoading}
-      >
-        <Field>
-          <Label htmlFor="password" hasError={currentPasswordError != null}>
-            Mot de passe actuel
-          </Label>
+      <Header headerTitle="Mot de passe" canGoBack backHref={backUrl} />
 
-          <PasswordInput
-            name="password"
-            id="password"
-            autoComplete="password"
-            value={currentPassword}
-            onChange={setCurrentPassword}
-            hasError={currentPasswordError != null}
-            leftAdornment={
-              <Adornment>
-                <FaLock />
-              </Adornment>
-            }
-          />
+      <Main>
+        <Form
+          onSubmit={() => mutation.mutate({ currentPassword, newPassword })}
+          pending={mutation.isLoading}
+        >
+          <Field>
+            <Label htmlFor="password" hasError={currentPasswordError != null}>
+              Mot de passe actuel
+            </Label>
 
-          <FieldMessage errorMessage={currentPasswordError} />
-        </Field>
+            <PasswordInput
+              name="password"
+              id="password"
+              autoComplete="password"
+              value={currentPassword}
+              onChange={setCurrentPassword}
+              hasError={currentPasswordError != null}
+              leftAdornment={
+                <Adornment>
+                  <FaLock />
+                </Adornment>
+              }
+            />
 
-        <Field>
-          <Label htmlFor="new-password" hasError={newPasswordError != null}>
-            Nouveau mot de passe
-          </Label>
+            <FieldMessage errorMessage={currentPasswordError} />
+          </Field>
 
-          <PasswordInput
-            name="new-password"
-            id="new-password"
-            autoComplete="new-password"
-            value={newPassword}
-            onChange={setNewPassword}
-            hasError={newPasswordError != null}
-            leftAdornment={
-              <Adornment>
-                <FaLock />
-              </Adornment>
-            }
-          />
+          <Field>
+            <Label htmlFor="new-password" hasError={newPasswordError != null}>
+              Nouveau mot de passe
+            </Label>
 
-          <FieldMessage errorMessage={newPasswordError} />
-        </Field>
+            <PasswordInput
+              name="new-password"
+              id="new-password"
+              autoComplete="new-password"
+              value={newPassword}
+              onChange={setNewPassword}
+              hasError={newPasswordError != null}
+              leftAdornment={
+                <Adornment>
+                  <FaLock />
+                </Adornment>
+              }
+            />
 
-        <SubmitButton disabled={mutation.isLoading}>Modifier</SubmitButton>
-      </Form>
-    </>
+            <FieldMessage errorMessage={newPasswordError} />
+          </Field>
+
+          <SubmitButton disabled={mutation.isLoading}>Modifier</SubmitButton>
+        </Form>
+      </Main>
+    </div>
   );
-}
+};
 
-function ProfileForm({ onClose, onSuccess }: FormProps) {
+export const CurrentUserProfileForm: PageComponent = () => {
+  const router = useRouter();
+  const backUrl = (router.query.backUrl as string | null) ?? "/";
+
   const { currentUser, updateProfile } = useCurrentUser();
   const [displayName, setDisplayName] = React.useState(currentUser.displayName);
 
@@ -161,7 +168,7 @@ function ProfileForm({ onClose, onSuccess }: FormProps) {
           <Snackbar type="success">Profile modifié</Snackbar>
         );
 
-        onSuccess();
+        router.push(backUrl);
       },
     }
   );
@@ -176,51 +183,52 @@ function ProfileForm({ onClose, onSuccess }: FormProps) {
   }
 
   return (
-    <>
-      <ModalHeader>
-        <HeaderBackButton onClick={() => onClose()} />
-        <HeaderTitle>Profile</HeaderTitle>
-      </ModalHeader>
+    <div>
+      <PageTitle
+        title="Profile"
+        // `applicationName` is only used as a fallback if `title` is missing.
+        applicationName=""
+      />
 
-      <Form
-        onSubmit={() => mutation.mutate(displayName)}
-        pending={mutation.isLoading}
-      >
-        <Field>
-          <Label htmlFor="name" hasError={errorMessage != null}>
-            Nom
-          </Label>
+      <Header headerTitle="Profile" canGoBack backHref={backUrl} />
 
-          <Input
-            name="name"
-            id="name"
-            type="text"
-            autoComplete="name"
-            value={displayName}
-            onChange={setDisplayName}
-            hasError={errorMessage != null}
-            leftAdornment={
-              <Adornment>
-                <FaUser />
-              </Adornment>
-            }
-          />
+      <Main>
+        <Form
+          onSubmit={() => mutation.mutate(displayName)}
+          pending={mutation.isLoading}
+        >
+          <Field>
+            <Label htmlFor="name" hasError={errorMessage != null}>
+              Nom
+            </Label>
 
-          <FieldMessage errorMessage={errorMessage} />
-        </Field>
+            <Input
+              name="name"
+              id="name"
+              type="text"
+              autoComplete="name"
+              value={displayName}
+              onChange={setDisplayName}
+              hasError={errorMessage != null}
+              leftAdornment={
+                <Adornment>
+                  <FaUser />
+                </Adornment>
+              }
+            />
 
-        <SubmitButton disabled={mutation.isLoading}>Modifier</SubmitButton>
-      </Form>
-    </>
+            <FieldMessage errorMessage={errorMessage} />
+          </Field>
+
+          <SubmitButton disabled={mutation.isLoading}>Modifier</SubmitButton>
+        </Form>
+      </Main>
+    </div>
   );
-}
-
-type ProfileProps = {
-  onEditProfile: () => void;
-  onEditPassword: () => void;
 };
 
-function Profile({ onEditPassword, onEditProfile }: ProfileProps) {
+function Profile() {
+  const router = useRouter();
   const { currentUser, signOut } = useCurrentUser();
 
   return (
@@ -230,7 +238,9 @@ function Profile({ onEditPassword, onEditProfile }: ProfileProps) {
       </Section>
 
       <Section className="border-t border-b border-gray-100">
-        <ButtonItem onClick={() => onEditProfile()}>
+        <LinkItem
+          href={`/edit-profile?backUrl=${encodeURIComponent(router.asPath)}`}
+        >
           <ItemIcon>
             <FaUser />
           </ItemIcon>
@@ -242,9 +252,11 @@ function Profile({ onEditPassword, onEditProfile }: ProfileProps) {
           <ItemIcon>
             <FaAngleRight />
           </ItemIcon>
-        </ButtonItem>
+        </LinkItem>
 
-        <ButtonItem onClick={() => onEditPassword()}>
+        <LinkItem
+          href={`/edit-password?backUrl=${encodeURIComponent(router.asPath)}`}
+        >
           <ItemIcon>
             <FaLock />
           </ItemIcon>
@@ -256,7 +268,7 @@ function Profile({ onEditPassword, onEditProfile }: ProfileProps) {
           <ItemIcon>
             <FaAngleRight />
           </ItemIcon>
-        </ButtonItem>
+        </LinkItem>
       </Section>
 
       <ButtonSection>
@@ -268,12 +280,6 @@ function Profile({ onEditPassword, onEditProfile }: ProfileProps) {
   );
 }
 
-enum UserProfilePanel {
-  PROFILE,
-  EDIT_PROFILE,
-  EDIT_PASSWORD,
-}
-
 export type CurrentUserProfileHandle = {
   open(): void;
 };
@@ -283,55 +289,15 @@ type CurrentUserProfileProps = {
 };
 
 export function CurrentUserProfile({ refProp }: CurrentUserProfileProps) {
-  const [
-    visiblePanel,
-    setVisiblePanel,
-  ] = React.useState<UserProfilePanel | null>(null);
+  const [isVisible, setIsVisible] = React.useState(false);
 
   React.useImperativeHandle(refProp, () => ({
-    open() {
-      setVisiblePanel(UserProfilePanel.PROFILE);
-    },
+    open: () => setIsVisible(true),
   }));
 
-  let content: React.ReactNode = null;
-  if (visiblePanel === UserProfilePanel.PROFILE) {
-    content = (
-      <Profile
-        onEditProfile={() => {
-          setVisiblePanel(UserProfilePanel.EDIT_PROFILE);
-        }}
-        onEditPassword={() => {
-          setVisiblePanel(UserProfilePanel.EDIT_PASSWORD);
-        }}
-      />
-    );
-  } else if (visiblePanel === UserProfilePanel.EDIT_PROFILE) {
-    content = (
-      <ProfileForm
-        onClose={() => setVisiblePanel(UserProfilePanel.PROFILE)}
-        onSuccess={() => setVisiblePanel(null)}
-      />
-    );
-  } else if (visiblePanel === UserProfilePanel.EDIT_PASSWORD) {
-    content = (
-      <PasswordForm
-        onClose={() => setVisiblePanel(UserProfilePanel.PROFILE)}
-        onSuccess={() => setVisiblePanel(null)}
-      />
-    );
-  }
-
   return (
-    <Modal
-      open={visiblePanel != null}
-      onDismiss={() => setVisiblePanel(null)}
-      isFullScreen={
-        visiblePanel === UserProfilePanel.EDIT_PASSWORD ||
-        visiblePanel === UserProfilePanel.EDIT_PROFILE
-      }
-    >
-      {content}
+    <Modal open={isVisible} onDismiss={() => setIsVisible(false)}>
+      {isVisible && <Profile />}
     </Modal>
   );
 }
