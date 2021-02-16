@@ -198,7 +198,7 @@ export function Modal({
         <div
           className={cn("bg-white transition-all ease-in-out duration-200", {
             "shadow-none rounded-none": isFullScreen,
-            "shadow-md rounded-3xl py-6": !isFullScreen,
+            "shadow-md rounded-3xl": !isFullScreen,
           })}
         >
           <AnimateHeight

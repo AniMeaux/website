@@ -225,7 +225,9 @@ function Profile({ onEditPassword, onEditProfile }: ProfileProps) {
 
   return (
     <div>
-      <UserItem user={currentUser} className="px-4" />
+      <Section>
+        <UserItem user={currentUser} />
+      </Section>
 
       <Section className="space-y-2">
         <ButtonItem
