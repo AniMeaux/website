@@ -279,7 +279,7 @@
    * We only apply this to the first child to allow multiple children.
    */
   .grid-square > * > *:first-child {
-    @apply absolute top-0 left-0 w-full h-full overflow-hidden;
+    @apply absolute top-0 left-0 w-full h-full;
   }
 
   .selector-input {
