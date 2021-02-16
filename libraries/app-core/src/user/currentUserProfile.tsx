@@ -229,11 +229,8 @@ function Profile({ onEditPassword, onEditProfile }: ProfileProps) {
         <UserItem user={currentUser} />
       </Section>
 
-      <Section className="space-y-2">
-        <ButtonItem
-          onClick={() => onEditProfile()}
-          className="bg-gray-50 active:bg-gray-100"
-        >
+      <Section className="border-t border-b border-gray-100">
+        <ButtonItem onClick={() => onEditProfile()}>
           <ItemIcon>
             <FaUser />
           </ItemIcon>
@@ -247,10 +244,7 @@ function Profile({ onEditPassword, onEditProfile }: ProfileProps) {
           </ItemIcon>
         </ButtonItem>
 
-        <ButtonItem
-          onClick={() => onEditPassword()}
-          className="bg-gray-50 active:bg-gray-100"
-        >
+        <ButtonItem onClick={() => onEditPassword()}>
           <ItemIcon>
             <FaLock />
           </ItemIcon>
