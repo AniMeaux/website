@@ -26,7 +26,7 @@ export function ActionAdornment({
       type="button"
       onClick={onClick}
       className={cn(
-        "focus:outline-none focus-visible:ring focus-visible:ring-inset focus-visible:ring-blue-500 rounded-full w-8 h-8 flex items-center justify-center pointer-events-auto text-black text-opacity-70 active:text-opacity-20",
+        "focus:outline-none focus-visible:ring focus-visible:ring-inset focus-visible:ring-blue-500 focus-visible:ring-opacity-50 rounded-full w-8 h-8 flex items-center justify-center pointer-events-auto text-black text-opacity-70 active:text-opacity-20",
         className
       )}
     >

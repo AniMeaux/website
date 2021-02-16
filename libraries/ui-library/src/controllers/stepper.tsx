@@ -34,7 +34,7 @@ export function StepLink({ status, href, children, className }: StepLinkProps) {
       href={href}
       disabled={status === StepStatus.PENDING}
       className={cn(
-        "focus:outline-none focus-visible:ring focus-visible:ring-blue-500 rounded-xl max-w-full flex flex-col items-center text-xs text-center text-black text-opacity-50 active:opacity-60",
+        "focus:outline-none focus-visible:ring focus-visible:ring-blue-500 focus-visible:ring-opacity-50 rounded-xl max-w-full flex flex-col items-center text-xs text-center text-black text-opacity-50 active:opacity-60",
         className
       )}
     >

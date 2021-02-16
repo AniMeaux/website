@@ -20,15 +20,6 @@
 }
 
 @layer components {
-  .a11y-focus:focus {
-    @apply outline-none;
-  }
-
-  .a11y-focus:focus-visible,
-  .a11y-focus.focus-visible {
-    @apply outline;
-  }
-
   .animation-progress-bar {
     @apply text-blue-500;
     height: 2px;

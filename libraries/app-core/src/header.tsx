@@ -20,7 +20,7 @@ function HeaderUserAvatar() {
     <>
       <button
         onClick={() => userPanel.current.open()}
-        className="focus:outline-none focus-visible:ring focus-visible:ring-blue-500 rounded-full flex-none flex items-center active:opacity-50"
+        className="focus:outline-none focus-visible:ring focus-visible:ring-blue-500 focus-visible:ring-opacity-50 rounded-full flex-none flex items-center active:opacity-50"
       >
         <UserAvatar user={currentUser} size="small" />
       </button>

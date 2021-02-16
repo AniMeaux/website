@@ -5,7 +5,7 @@ import { ChildrenProp, Link, LinkProps, StyleProps } from "../core";
 import { useIsScrollAtTheTop } from "./usePageScroll";
 
 const HEADER_ACTION_CLASS_NAMES =
-  "focus:outline-none focus-visible:ring focus-visible:ring-blue-500 rounded-full w-8 h-8 flex-none flex items-center justify-center text-xl text-gray-800 active:text-opacity-20";
+  "focus:outline-none focus-visible:ring focus-visible:ring-blue-500 focus-visible:ring-opacity-50 rounded-full w-8 h-8 flex-none flex items-center justify-center text-xl text-gray-800 active:text-opacity-20";
 
 export function HeaderLink({ className, ...rest }: LinkProps) {
   return (

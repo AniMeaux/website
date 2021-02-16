@@ -60,7 +60,7 @@ export function Radio({
         {...rest}
         checked={checked}
         className={cn(
-          "a11y-focus appearance-none rounded-full",
+          "appearance-none rounded-full",
           RadioSizeClassName[size].input,
           {
             "border-blue-500": checked,

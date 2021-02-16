@@ -66,7 +66,7 @@ export function Checkbox({
         checked={checked}
         readOnly={readOnly}
         className={cn(
-          "a11y-focus appearance-none border rounded",
+          "appearance-none border rounded",
           CheckboxSizeClassName[size].input,
           {
             "bg-blue-500 border-blue-500": checked,

@@ -176,7 +176,7 @@ function getButtonClassName({
   className,
 }: ButtonCommonProps) {
   return cn(
-    "focus:outline-none focus-visible:ring focus-visible:ring-offset-2 rounded-full flex items-center justify-center",
+    "focus:outline-none focus-visible:ring focus-visible:ring-opacity-50 rounded-full flex items-center justify-center",
     ButtonClassName[variant][color].base,
     ButtonSizeClassName[size].base,
     {
