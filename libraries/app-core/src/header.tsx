@@ -33,6 +33,7 @@ function HeaderUserAvatar() {
 export type HeaderProps = {
   headerTitle: React.ReactNode;
   canGoBack?: boolean;
+  backHref?: string;
   action?: {
     href: string;
     icon: React.ElementType;
@@ -43,11 +44,12 @@ export type HeaderProps = {
 export function Header({
   headerTitle,
   canGoBack = false,
+  backHref = "..",
   action,
 }: HeaderProps) {
   return (
     <BaseHeader>
-      {canGoBack ? <HeaderBackLink href=".." /> : <HeaderUserAvatar />}
+      {canGoBack ? <HeaderBackLink href={backHref} /> : <HeaderUserAvatar />}
       <HeaderTitle>{headerTitle}</HeaderTitle>
 
       {action != null && (
