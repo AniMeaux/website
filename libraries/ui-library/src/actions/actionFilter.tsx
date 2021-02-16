@@ -33,9 +33,7 @@ export function ActionFilter({
         onDismiss={() => setAreFiltersOpened(false)}
       >
         <ModalHeader>
-          <HeaderTitle align="left" className="pl-4">
-            Filtres
-          </HeaderTitle>
+          <HeaderTitle>Filtres</HeaderTitle>
 
           <Button
             size="small"

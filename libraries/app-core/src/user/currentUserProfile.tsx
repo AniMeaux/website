@@ -12,7 +12,6 @@ import {
   FieldMessage,
   Form,
   HeaderBackButton,
-  HeaderIconOnlyLinkPlaceholder,
   HeaderTitle,
   Input,
   ItemContent,
@@ -86,7 +85,6 @@ function PasswordForm({ onClose, onSuccess }: FormProps) {
       <ModalHeader>
         <HeaderBackButton onClick={() => onClose()} />
         <HeaderTitle>Mot de passe</HeaderTitle>
-        <HeaderIconOnlyLinkPlaceholder />
       </ModalHeader>
 
       <Form
@@ -182,7 +180,6 @@ function ProfileForm({ onClose, onSuccess }: FormProps) {
       <ModalHeader>
         <HeaderBackButton onClick={() => onClose()} />
         <HeaderTitle>Profile</HeaderTitle>
-        <HeaderIconOnlyLinkPlaceholder />
       </ModalHeader>
 
       <Form

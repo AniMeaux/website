@@ -1,7 +1,6 @@
 import {
   Header as BaseHeader,
   HeaderBackLink,
-  HeaderIconOnlyLinkPlaceholder,
   HeaderLink,
   HeaderTitle,
 } from "@animeaux/ui-library";
@@ -51,12 +50,10 @@ export function Header({
       {canGoBack ? <HeaderBackLink href=".." /> : <HeaderUserAvatar />}
       <HeaderTitle>{headerTitle}</HeaderTitle>
 
-      {action != null ? (
+      {action != null && (
         <HeaderLink href={action.href}>
           <action.icon />
         </HeaderLink>
-      ) : (
-        <HeaderIconOnlyLinkPlaceholder />
       )}
     </BaseHeader>
   );

@@ -1,7 +1,7 @@
 import cn from "classnames";
 import * as React from "react";
 import { FaChevronLeft, FaTimes } from "react-icons/fa";
-import { Link, LinkProps } from "../core";
+import { ChildrenProp, Link, LinkProps, StyleProps } from "../core";
 import { useIsScrollAtTheTop } from "./usePageScroll";
 
 const HEADER_ACTION_CLASS_NAMES =
@@ -50,40 +50,20 @@ export function HeaderCloseButton(
   );
 }
 
-type HeaderTitleAlign = "left" | "center";
-
-type HeaderTitleProps = React.HTMLAttributes<HTMLHeadingElement> & {
-  align?: HeaderTitleAlign;
-};
-
-const HeaderTitleAlignClassName: {
-  [key in HeaderTitleAlign]: string;
-} = {
-  center: "text-center",
-  left: "text-left",
-};
-
 export function HeaderTitle({
-  align = "center",
   className,
-  ...rest
-}: HeaderTitleProps) {
+  children,
+}: ChildrenProp & StyleProps) {
   return (
-    // The content is passed as children.
-    // eslint-disable-next-line jsx-a11y/heading-has-content
     <h1
-      {...rest}
       className={cn(
-        "flex-1 min-w-0 truncate text-gray-800 font-bold font-serif",
-        HeaderTitleAlignClassName[align],
+        "flex-1 min-w-0 truncate px-4 text-gray-800 text-lg font-bold font-serif",
         className
       )}
-    />
+    >
+      {children}
+    </h1>
   );
-}
-
-export function HeaderIconOnlyLinkPlaceholder() {
-  return <span className="w-10 flex-none" />;
 }
 
 export function Header({
