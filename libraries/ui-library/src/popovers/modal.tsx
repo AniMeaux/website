@@ -37,7 +37,7 @@ export function ModalHeader({
     <header
       {...rest}
       className={cn(
-        "transition-shadow duration-200 ease-in-out sticky top-0 ring-1 w-full h-12 flex-none px-4 flex items-center space-x-2",
+        "transition-shadow duration-200 ease-in-out sticky top-0 ring-1 w-full h-12 flex-none px-4 flex items-center",
         {
           "ring-transparent": isAtTheTop,
           "ring-gray-100 bg-white": !isAtTheTop,
