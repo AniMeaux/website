@@ -185,7 +185,7 @@ function getButtonClassName({
     },
     {
       [ButtonSizeClassName[size].iconOnly]: iconOnly,
-      "px-4 uppercase tracking-wide font-medium": !iconOnly,
+      "px-4 uppercase tracking-wider font-bold": !iconOnly,
       [ButtonSizeClassName[size].notIconOnly]: !iconOnly,
     },
     className
