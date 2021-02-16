@@ -31,7 +31,7 @@ const UserEditPage: PageComponent = () => {
   let headerTitle: React.ReactNode | null = null;
 
   if (user != null) {
-    pageTitle = `Modifier : ${user.displayName}`;
+    pageTitle = user.displayName;
     headerTitle = pageTitle;
   } else if (query.isLoading) {
     headerTitle = <Placeholder preset="text" />;

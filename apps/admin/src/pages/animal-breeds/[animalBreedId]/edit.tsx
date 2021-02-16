@@ -31,7 +31,7 @@ const AnimalBreedEditPage: PageComponent = () => {
   let headerTitle: React.ReactNode | null = null;
 
   if (animalBreed != null) {
-    pageTitle = `Modifier : ${animalBreed.name}`;
+    pageTitle = animalBreed.name;
     headerTitle = pageTitle;
   } else if (query.isLoading) {
     headerTitle = <Placeholder preset="text" />;

@@ -32,7 +32,7 @@ const HostFamilyEditPage: PageComponent = () => {
   let headerTitle: React.ReactNode | null = null;
 
   if (hostFamily != null) {
-    pageTitle = `Modifier : ${hostFamily.name}`;
+    pageTitle = hostFamily.name;
     headerTitle = pageTitle;
   } else if (query.isLoading) {
     headerTitle = <Placeholder preset="text" />;
