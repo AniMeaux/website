@@ -38,7 +38,7 @@ export function Selector({
       className={cn(
         "relative cursor-pointer h-10 px-4 rounded-full flex items-center ",
         {
-          "bg-blue-500 bg-opacity-5 text-blue-500 active:bg-opacity-10": checked,
+          "bg-blue-500 bg-opacity-10 text-blue-500 active:bg-opacity-15": checked,
           "bg-black bg-opacity-3 active:bg-opacity-10": !checked,
         },
         className
