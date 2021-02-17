@@ -7,11 +7,16 @@ export function Selectors({
   className,
   ...rest
 }: React.HTMLAttributes<HTMLUListElement>) {
-  return <ul {...rest} className={cn("grid-square gap-2", className)} />;
+  return (
+    <ul {...rest} className={cn("flex flex-wrap -mt-2 -ml-2", className)} />
+  );
 }
 
-export function SelectorItem(props: React.LiHTMLAttributes<HTMLLIElement>) {
-  return <li {...props} />;
+export function SelectorItem({
+  className,
+  ...rest
+}: React.LiHTMLAttributes<HTMLLIElement>) {
+  return <li {...rest} className={cn("pt-2 pl-2 max-w-full", className)} />;
 }
 
 export function Selector({
@@ -28,10 +33,10 @@ export function Selector({
       {...rest}
       children={children}
       className={cn(
-        "cursor-pointer rounded-xl border border-opacity-10 flex flex-col items-center justify-center",
+        "relative cursor-pointer h-10 px-4 rounded-full border flex items-center ",
         {
-          "border-blue-500 bg-blue-100 text-blue-500": checked,
-          "border-black bg-white": !checked,
+          "border-transparent bg-blue-100 text-blue-500": checked,
+          "border-black border-opacity-10 bg-white": !checked,
         },
         className
       )}
@@ -40,7 +45,7 @@ export function Selector({
 }
 
 const INPUT_CLASS_NAME =
-  "appearance-none focus:outline-none focus-visible:ring focus-visible:ring-blue-500 focus-visible:ring-opacity-50 absolute rounded-xl selector-input";
+  "appearance-none focus:outline-none focus-visible:ring focus-visible:ring-blue-500 focus-visible:ring-opacity-50 absolute rounded-full selector-input";
 
 export function SelectorRadio({ className, ...rest }: RawRadioProps) {
   return <RawRadio {...rest} className={cn(INPUT_CLASS_NAME, className)} />;
@@ -54,7 +59,7 @@ export function SelectorIcon({
   className,
   ...rest
 }: React.HTMLAttributes<HTMLSpanElement>) {
-  return <span {...rest} className={cn("flex-none text-3xl", className)} />;
+  return <span {...rest} className={cn("mr-2 flex-none", className)} />;
 }
 
 export function SelectorLabel({
@@ -62,12 +67,6 @@ export function SelectorLabel({
   ...rest
 }: React.HTMLAttributes<HTMLSpanElement>) {
   return (
-    <span
-      {...rest}
-      className={cn(
-        "mt-1 flex-none max-w-full overflow-ellipsis overflow-hidden px-2 text-xs text-center",
-        className
-      )}
-    />
+    <span {...rest} className={cn("flex-1 max-w-full truncate", className)} />
   );
 }
