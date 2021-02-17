@@ -98,11 +98,11 @@ export function getInputClassName({
   invariant(paddingRightClassName != null, "Only 2 adornments are supported.");
 
   return cn(
-    "appearance-none disabled:pointer-events-none focus:outline-none focus-visible:ring focus-visible:ring-blue-500 focus-visible:ring-opacity-50 w-full min-w-0 rounded-full border bg-white px-4 text-black text-opacity-80",
+    "appearance-none disabled:pointer-events-none focus:outline-none focus-visible:ring focus-visible:ring-opacity-50 w-full min-w-0 rounded-full px-4 text-black text-opacity-80",
     InputSizeClassName[size],
     {
-      "border-black border-opacity-10": !hasError,
-      "border-red-500": hasError,
+      "bg-black bg-opacity-3 focus-visible:ring-blue-500": !hasError,
+      "bg-red-500 bg-opacity-10 focus-visible:ring-red-500": hasError,
     },
     paddingLeftClassName,
     paddingRightClassName

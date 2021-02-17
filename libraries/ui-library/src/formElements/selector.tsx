@@ -33,10 +33,10 @@ export function Selector({
       {...rest}
       children={children}
       className={cn(
-        "relative cursor-pointer h-10 px-4 rounded-full border flex items-center ",
+        "relative cursor-pointer h-10 px-4 rounded-full flex items-center ",
         {
-          "border-transparent bg-blue-100 text-blue-500": checked,
-          "border-black border-opacity-10 bg-white": !checked,
+          "bg-blue-100 text-blue-500": checked,
+          "bg-black bg-opacity-3": !checked,
         },
         className
       )}
@@ -45,7 +45,7 @@ export function Selector({
 }
 
 const INPUT_CLASS_NAME =
-  "appearance-none focus:outline-none focus-visible:ring focus-visible:ring-blue-500 focus-visible:ring-opacity-50 absolute rounded-full selector-input";
+  "appearance-none focus:outline-none focus-visible:ring focus-visible:ring-blue-500 focus-visible:ring-opacity-50 absolute inset-0 rounded-full w-full h-full";
 
 export function SelectorRadio({ className, ...rest }: RawRadioProps) {
   return <RawRadio {...rest} className={cn(INPUT_CLASS_NAME, className)} />;

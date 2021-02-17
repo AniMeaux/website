@@ -249,13 +249,6 @@
     width: calc(theme("width.full") - theme("width.8"));
   }
 
-  .selector-input {
-    top: -1px;
-    left: -1px;
-    width: calc(theme("width.full") + 2px);
-    height: calc(theme("height.full") + 2px);
-  }
-
   .quick-action-bottom {
     bottom: theme("inset.18");
     bottom: calc(theme("inset.18") + env(safe-area-inset-bottom, 0));
