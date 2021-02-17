@@ -21,7 +21,7 @@ const ButtonSizeClassName: {
   medium: {
     base: "h-10",
     iconOnly: "w-10",
-    notIconOnly: "min-w-button",
+    notIconOnly: "",
   },
 };
 
@@ -185,7 +185,7 @@ function getButtonClassName({
     },
     {
       [ButtonSizeClassName[size].iconOnly]: iconOnly,
-      "px-4": !iconOnly,
+      "px-12": !iconOnly,
       [ButtonSizeClassName[size].notIconOnly]: !iconOnly,
     },
     className
