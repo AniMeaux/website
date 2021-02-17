@@ -341,6 +341,36 @@
       transform: translateY(100%);
     }
   }
+
+  .animate-scale-in {
+    animation: scale-in theme("transitionDuration.200")
+      theme("transitionTimingFunction.out") forwards;
+  }
+
+  @keyframes scale-in {
+    0% {
+      transform: scale(0.5);
+    }
+
+    100% {
+      transform: scale(1);
+    }
+  }
+
+  .animate-scale-out {
+    animation: scale-out theme("transitionDuration.200")
+      theme("transitionTimingFunction.in") forwards;
+  }
+
+  @keyframes scale-out {
+    0% {
+      transform: scale(1);
+    }
+
+    100% {
+      transform: scale(0.5);
+    }
+  }
 }
 
 @layer utilities {

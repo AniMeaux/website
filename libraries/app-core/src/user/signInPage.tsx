@@ -106,7 +106,7 @@ export function SignInPage({ logo: Logo, applicationName }: SignInPageProps) {
           </Field>
 
           {mutation.isSuccess ? (
-            <FaCheckCircle className="mx-auto mt-4 w-10 h-10 text-green-500" />
+            <FaCheckCircle className="animate-fade-in animate-scale-in mx-auto mt-8 w-10 h-10 text-green-500" />
           ) : (
             <SubmitButton disabled={mutation.isLoading}>
               Se connecter

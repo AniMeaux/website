@@ -15,7 +15,7 @@ export function SubmitButton({
       type={type}
       color={color}
       variant={variant}
-      className={cn("m-4 my-8 self-center", className)}
+      className={cn("mx-4 my-8 self-center", className)}
     />
   );
 }
