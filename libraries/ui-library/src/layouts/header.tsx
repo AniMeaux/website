@@ -76,7 +76,7 @@ export function Header({
     <header
       {...rest}
       className={cn(
-        "transition-shadow duration-200 ease-in-out z-20 fixed top-0 left-0 right-0 ring-1 bg-white w-full h-12 flex-none header-padding flex items-center",
+        "select-none transition-shadow duration-200 ease-in-out z-20 fixed top-0 left-0 right-0 ring-1 bg-white w-full h-12 flex-none header-padding flex items-center",
         {
           "ring-transparent": isAtTheTop,
           "ring-gray-100": !isAtTheTop,

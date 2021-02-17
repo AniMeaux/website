@@ -40,7 +40,7 @@ export function LinkItem({
       {...rest}
       disabled={disabled}
       className={cn(
-        "focus:outline-none focus-visible:ring focus-visible:ring-blue-500 focus-visible:ring-opacity-50",
+        "select-none focus:outline-none focus-visible:ring focus-visible:ring-blue-500 focus-visible:ring-opacity-50",
         ItemBaseClassName,
         ItemSizeClassName[size],
         { "opacity-60": disabled },
@@ -69,7 +69,7 @@ export function ButtonItem({
       disabled={disabled}
       onClick={onClick}
       className={cn(
-        "focus:outline-none focus-visible:ring focus-visible:ring-blue-500 focus-visible:ring-opacity-50 text-left",
+        "select-none focus:outline-none focus-visible:ring focus-visible:ring-blue-500 focus-visible:ring-opacity-50 text-left",
         ItemBaseClassName,
         ItemSizeClassName[size],
         className
