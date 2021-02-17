@@ -16,12 +16,12 @@ const ButtonSizeClassName: {
   small: {
     base: "h-8",
     iconOnly: "w-8",
-    notIconOnly: "text-xs",
+    notIconOnly: "text-sm",
   },
   medium: {
     base: "h-10",
     iconOnly: "w-10",
-    notIconOnly: "min-w-button text-sm",
+    notIconOnly: "min-w-button",
   },
 };
 
@@ -176,7 +176,7 @@ function getButtonClassName({
   className,
 }: ButtonCommonProps) {
   return cn(
-    "focus:outline-none focus-visible:ring focus-visible:ring-opacity-50 rounded-full flex items-center justify-center",
+    "focus:outline-none focus-visible:ring focus-visible:ring-opacity-50 rounded-full flex items-center justify-center font-serif font-bold",
     ButtonClassName[variant][color].base,
     ButtonSizeClassName[size].base,
     {
@@ -185,7 +185,7 @@ function getButtonClassName({
     },
     {
       [ButtonSizeClassName[size].iconOnly]: iconOnly,
-      "px-4 uppercase tracking-wider font-bold": !iconOnly,
+      "px-4": !iconOnly,
       [ButtonSizeClassName[size].notIconOnly]: !iconOnly,
     },
     className
