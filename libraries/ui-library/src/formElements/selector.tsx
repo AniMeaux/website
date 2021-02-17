@@ -38,8 +38,8 @@ export function Selector({
       className={cn(
         "relative cursor-pointer h-10 px-4 rounded-full flex items-center ",
         {
-          "bg-blue-100 text-blue-500": checked,
-          "bg-black bg-opacity-3": !checked,
+          "bg-blue-500 bg-opacity-5 text-blue-500 active:bg-opacity-10": checked,
+          "bg-black bg-opacity-3 active:bg-opacity-10": !checked,
         },
         className
       )}
