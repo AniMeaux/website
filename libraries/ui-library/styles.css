@@ -188,15 +188,11 @@
   }
 
   .placeholder-selector {
-    @apply w-full h-full;
+    @apply w-28 h-10;
   }
 
   .placeholder-selector::after {
-    @apply rounded-xl;
-    /* Same as height to make it square. */
-    width: 70%;
-    /* To center it: (100% - 70%) / 2 = 15% */
-    left: 15%;
+    @apply rounded-full;
   }
 
   .placeholder-text {
