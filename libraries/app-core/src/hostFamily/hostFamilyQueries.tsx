@@ -85,6 +85,10 @@ export function useHostFamily(hostFamilyId: string) {
         { id: string }
       >(GetHostFamilyQuery, { variables: { id: hostFamilyId } });
 
+      if (hostFamily == null) {
+        throw new Error(ErrorCode.HOST_FAMILY_NOT_FOUND);
+      }
+
       return hostFamily;
     }
   );

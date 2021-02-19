@@ -2,14 +2,25 @@ import { PaginatedResponse } from "@animeaux/shared-entities";
 import {
   Button,
   EmptyMessage,
-  ErrorPage,
-  ErrorPageType,
   Placeholder,
   Placeholders,
   Section,
 } from "@animeaux/ui-library";
 import * as React from "react";
+import { ErrorPage } from "./errorPage";
 import { UseInfiniteQueryResult, UseQueryResult } from "./request";
+
+type RetryButtonProps = {
+  query: UseQueryResult<any, any>;
+};
+
+function RetryButton({ query }: RetryButtonProps) {
+  return (
+    <Button variant="primary" color="blue" onClick={() => query.refetch()}>
+      Réessayer
+    </Button>
+  );
+}
 
 type ItemListRenderers<ItemType> = {
   title?: string;
@@ -55,6 +66,12 @@ function renderItemListContent<DataType>(
           </Placeholders>
         </ul>
       </Section>
+    );
+  }
+
+  if (query.isError) {
+    return (
+      <ErrorPage error={query.error} action={<RetryButton query={query} />} />
     );
   }
 
@@ -147,6 +164,12 @@ function renderInfiniteItemListContent<ItemType>(
     );
   }
 
+  if (query.isError) {
+    return (
+      <ErrorPage error={query.error} action={<RetryButton query={query} />} />
+    );
+  }
+
   return null;
 }
 
@@ -168,18 +191,11 @@ type EntityQueryRenderers<EntityType> = {
   getDisplayedText: (entity: EntityType) => string;
   renderEntity: (entity: EntityType) => React.ReactNode;
   renderPlaceholder: () => React.ReactNode;
-  render404Message: () => React.ReactNode;
-  render404Action?: () => React.ReactNode;
 };
 
 function renderQueryEntityContent<EntityType>(
   query: UseQueryResult<EntityType | null, Error>,
-  {
-    renderEntity,
-    renderPlaceholder,
-    render404Message,
-    render404Action,
-  }: EntityQueryRenderers<EntityType>
+  { renderEntity, renderPlaceholder }: EntityQueryRenderers<EntityType>
 ) {
   if (query.data != null) {
     return renderEntity(query.data);
@@ -189,25 +205,13 @@ function renderQueryEntityContent<EntityType>(
     return renderPlaceholder();
   }
 
-  // TODO: Handle error
+  if (query.isError) {
+    return (
+      <ErrorPage error={query.error} action={<RetryButton query={query} />} />
+    );
+  }
 
-  return (
-    <ErrorPage
-      type={ErrorPageType.NOT_FOUND}
-      message={render404Message()}
-      action={
-        render404Action?.() ?? (
-          <Button
-            variant="primary"
-            color="blue"
-            onClick={() => query.refetch()}
-          >
-            Réessayer
-          </Button>
-        )
-      }
-    />
-  );
+  return null;
 }
 
 export function renderQueryEntity<EntityType>(

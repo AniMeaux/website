@@ -205,7 +205,6 @@ const UserPage: PageComponent = () => {
 
   const { pageTitle, headerTitle, content } = renderQueryEntity(query, {
     getDisplayedText: (user) => user.displayName,
-    render404Message: () => "L'utilisateur n'existe pas",
     renderPlaceholder: () => (
       <>
         <ProfilePlaceholderSection />

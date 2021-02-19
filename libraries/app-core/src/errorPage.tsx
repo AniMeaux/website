@@ -1,27 +1,24 @@
-import * as React from "react";
+import { getErrorMessage, isNotFoundError } from "@animeaux/shared-entities";
+import { StyleProps } from "@animeaux/ui-library";
 import cn from "classnames";
-import { StyleProps } from "../core";
+import * as React from "react";
 
 export enum ErrorPageType {
   NOT_FOUND,
+  SERVER_ERROR,
 }
 
 const ErrorPageTypeImage: { [key in ErrorPageType]: string } = {
   [ErrorPageType.NOT_FOUND]: "🤷‍♂️",
+  [ErrorPageType.SERVER_ERROR]: "🤭",
 };
 
 type ErrorPageProps = StyleProps & {
-  type?: ErrorPageType;
-  message: React.ReactNode;
+  error: Error;
   action?: React.ReactNode;
 };
 
-export function ErrorPage({
-  type = ErrorPageType.NOT_FOUND,
-  message,
-  action,
-  className,
-}: ErrorPageProps) {
+export function ErrorPage({ error, action, className }: ErrorPageProps) {
   return (
     <div className={cn("my-8 flex flex-col items-center", className)}>
       <div
@@ -29,11 +26,17 @@ export function ErrorPage({
         aria-label="Oups"
         className="animate-fade-in animate-scale-in text-9xl"
       >
-        {ErrorPageTypeImage[type]}
+        {
+          ErrorPageTypeImage[
+            isNotFoundError(error)
+              ? ErrorPageType.NOT_FOUND
+              : ErrorPageType.SERVER_ERROR
+          ]
+        }
       </div>
 
       <h1 className="mt-16 max-w-full px-8 font-serif text-xl text-center">
-        {message}
+        {getErrorMessage(error)}
       </h1>
 
       <div className="mt-8">{action}</div>

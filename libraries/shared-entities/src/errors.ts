@@ -15,6 +15,10 @@ export function hasErrorCode(
   return expectedCodes.includes(getErrorCode(error));
 }
 
+export function isNotFoundError(error: Error) {
+  return getErrorCode(error).endsWith("/not-found");
+}
+
 export enum ErrorCode {
   //// Authentication //////////////////////////////////////////////////////////
 

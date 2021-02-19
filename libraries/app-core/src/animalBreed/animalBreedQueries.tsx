@@ -92,6 +92,10 @@ export function useAnimalBreed(animalBreedId: string) {
         { id: string }
       >(GetAnimalBreedQuery, { variables: { id: animalBreedId } });
 
+      if (animalBreed == null) {
+        throw new Error(ErrorCode.ANIMAL_BREED_NOT_FOUND);
+      }
+
       return animalBreed;
     }
   );

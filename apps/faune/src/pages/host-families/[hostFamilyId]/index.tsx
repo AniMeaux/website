@@ -137,7 +137,6 @@ const HostFamilyPage: PageComponent = () => {
 
   const { pageTitle, headerTitle, content } = renderQueryEntity(query, {
     getDisplayedText: (hostFamily) => hostFamily.name,
-    render404Message: () => "La FA n'existe pas",
     renderPlaceholder: () => <ContactPlaceholderSection />,
     renderEntity: (hostFamily) => <ContactSection hostFamily={hostFamily} />,
   });

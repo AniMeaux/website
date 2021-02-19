@@ -1,6 +1,6 @@
 import { ErrorCode } from "@animeaux/shared-entities";
 import firebase from "firebase/app";
-import { GraphQLClient } from "graphql-request";
+import { ClientError, GraphQLClient } from "graphql-request";
 import invariant from "invariant";
 
 let graphQlClient: GraphQLClient | null;
@@ -33,8 +33,11 @@ export async function fetchGraphQL<DataType = null, Variables = object>(
       return await graphQlClient.request(query, variables);
     } catch (error) {
       // Unwrap graphql-request's error messages.
-      // See https://github.com/prisma-labs/graphql-request/blob/c75a29a9a2a177b0cddb41718b333fb14c9d9917/src/types.ts#L28
-      throw new Error((error.message as string).replace(/:\s*\{.*\}/, ""));
+      const message = isClientError(error)
+        ? error.response.errors?.[0].message ?? "GraphQL Error"
+        : (error.message as string);
+
+      throw new Error(message);
     }
   }
 
@@ -53,4 +56,8 @@ export async function fetchGraphQL<DataType = null, Variables = object>(
 
     throw error;
   }
+}
+
+function isClientError(error: Error): error is ClientError {
+  return error instanceof ClientError;
 }

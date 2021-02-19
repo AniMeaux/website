@@ -64,6 +64,10 @@ export function useUser(userId: string) {
       { variables: { id: userId } }
     );
 
+    if (user == null) {
+      throw new Error(ErrorCode.USER_NOT_FOUND);
+    }
+
     return user;
   });
 }

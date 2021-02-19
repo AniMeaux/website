@@ -103,7 +103,6 @@ const AnimalBreedPage: PageComponent = () => {
 
   const { pageTitle, headerTitle, content } = renderQueryEntity(query, {
     getDisplayedText: (animalBreed) => animalBreed.name,
-    render404Message: () => "La race n'existe pas",
     renderPlaceholder: () => <DetailsPlaceholderSection />,
     renderEntity: (animalBreed) => <DetailsSection animalBreed={animalBreed} />,
   });

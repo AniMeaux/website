@@ -119,10 +119,6 @@ function maybeShowSnackbarError(error: Error, errorCodesToIgnore: ErrorCode[]) {
   return null;
 }
 
-type CustomHookOptions = {
-  errorCodesToIgnore?: ErrorCode[];
-};
-
 export function useQuery<
   TQueryFnData = unknown,
   TError extends Error = Error,
@@ -130,10 +126,7 @@ export function useQuery<
 >(
   queryKey: QueryKey,
   queryFn: QueryFunction<TQueryFnData>,
-  {
-    errorCodesToIgnore = [],
-    ...options
-  }: UseQueryOptions<TQueryFnData, TError, TData> & CustomHookOptions = {}
+  options: UseQueryOptions<TQueryFnData, TError, TData> = {}
 ): UseQueryResult<TData, TError> {
   const snackbarId = React.useRef<React.ReactText | null>(null);
 
@@ -146,15 +139,55 @@ export function useQuery<
 
       return queryFn(context);
     },
+    options
+  );
+}
+
+export function useInfiniteQuery<
+  TQueryFnData extends PaginatedResponse<any> = PaginatedResponse<unknown>,
+  TError extends Error = Error,
+  TData = TQueryFnData
+>(
+  queryKey: QueryKey,
+  queryFn: QueryFunction<TQueryFnData>,
+  options: UseInfiniteQueryOptions<TQueryFnData, TError, TData> = {}
+): UseInfiniteQueryResult<TData, TError> {
+  const snackbarId = React.useRef<React.ReactText | null>(null);
+
+  const query = useInfiniteQueryReactQuery<TQueryFnData, TError, TData>(
+    queryKey,
+    (context) => {
+      if (snackbarId.current != null) {
+        showSnackbar.dismiss(snackbarId.current);
+      }
+
+      return queryFn(context);
+    },
     {
       ...options,
-      onError(error) {
-        snackbarId.current = maybeShowSnackbarError(error, errorCodesToIgnore);
-        options?.onError?.(error);
+
+      // Return the next page that will be passed as `pageParam` to the
+      // `queryFn` function.
+      getNextPageParam(lastGroup) {
+        if (lastGroup.page < lastGroup.pageCount - 1) {
+          return lastGroup.page + 1;
+        }
       },
     }
   );
+
+  useIsScrollAtFetchMore(() => {
+    if (query.hasNextPage && !query.isFetchingNextPage) {
+      query.fetchNextPage();
+    }
+  });
+
+  return query;
 }
+
+type CustomHookOptions = {
+  errorCodesToIgnore?: ErrorCode[];
+};
 
 export function useMutation<
   TData = unknown,
@@ -198,57 +231,6 @@ export function useMutation<
   }, [isLoading, setPendingMutationCount]);
 
   return mutation;
-}
-
-export function useInfiniteQuery<
-  TQueryFnData extends PaginatedResponse<any> = PaginatedResponse<unknown>,
-  TError extends Error = Error,
-  TData = TQueryFnData
->(
-  queryKey: QueryKey,
-  queryFn: QueryFunction<TQueryFnData>,
-  {
-    errorCodesToIgnore = [],
-    ...options
-  }: UseInfiniteQueryOptions<TQueryFnData, TError, TData> &
-    CustomHookOptions = {}
-): UseInfiniteQueryResult<TData, TError> {
-  const snackbarId = React.useRef<React.ReactText | null>(null);
-
-  const query = useInfiniteQueryReactQuery<TQueryFnData, TError, TData>(
-    queryKey,
-    (context) => {
-      if (snackbarId.current != null) {
-        showSnackbar.dismiss(snackbarId.current);
-      }
-
-      return queryFn(context);
-    },
-    {
-      ...options,
-
-      onError(error) {
-        snackbarId.current = maybeShowSnackbarError(error, errorCodesToIgnore);
-        options?.onError?.(error);
-      },
-
-      // Return the next page that will be passed as `pageParam` to the
-      // `queryFn` function.
-      getNextPageParam(lastGroup) {
-        if (lastGroup.page < lastGroup.pageCount - 1) {
-          return lastGroup.page + 1;
-        }
-      },
-    }
-  );
-
-  useIsScrollAtFetchMore(() => {
-    if (query.hasNextPage && !query.isFetchingNextPage) {
-      query.fetchNextPage();
-    }
-  });
-
-  return query;
 }
 
 export function updateDataInCache<TData extends { id: string }>(
