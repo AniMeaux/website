@@ -1,6 +1,7 @@
 import {
   Header,
   PageComponent,
+  renderQueryEntity,
   useCurrentUser,
   useDeleteUser,
   UserGroupIcon,
@@ -34,7 +35,11 @@ import * as React from "react";
 import { FaEnvelope, FaPen } from "react-icons/fa";
 import { PageTitle } from "../../../core/pageTitle";
 
-function ProfileSection({ user }: { user: User }) {
+type UserProp = {
+  user: User;
+};
+
+function ProfileSection({ user }: UserProp) {
   return (
     <Section>
       <SectionTitle>Profile</SectionTitle>
@@ -78,7 +83,7 @@ function ProfilePlaceholderSection() {
   );
 }
 
-function GroupsSection({ user }: { user: User }) {
+function GroupsSection({ user }: UserProp) {
   return (
     <Section>
       <SectionTitle>Groupes</SectionTitle>
@@ -130,7 +135,7 @@ function GroupsPlaceholderSection() {
   );
 }
 
-function BlockUserButton({ user }: { user: User }) {
+function BlockUserButton({ user }: UserProp) {
   const { currentUser } = useCurrentUser();
   const [toggleUserBlockedStatus] = useToggleUserBlockedStatus();
 
@@ -158,7 +163,7 @@ function BlockUserButton({ user }: { user: User }) {
   );
 }
 
-function DeleteUserButton({ user }: { user: User }) {
+function DeleteUserButton({ user }: UserProp) {
   const { currentUser } = useCurrentUser();
 
   const router = useRouter();
@@ -196,40 +201,26 @@ function DeleteUserButton({ user }: { user: User }) {
 const UserPage: PageComponent = () => {
   const router = useRouter();
   const userId = router.query.userId as string;
-  const [user, { error, isLoading }] = useUser(userId);
+  const query = useUser(userId);
 
-  let pageTitle: string | null = null;
-  let headerTitle: React.ReactNode | null = null;
-
-  if (user != null) {
-    pageTitle = user.displayName;
-    headerTitle = user.displayName;
-  } else if (isLoading) {
-    headerTitle = <Placeholder preset="text" />;
-  } else if (error != null) {
-    headerTitle = "Oups";
-    pageTitle = "Oups";
-  }
-
-  let content: React.ReactNode | null = null;
-
-  if (user != null) {
-    content = (
-      <>
-        <ProfileSection user={user} />
-        <Separator />
-        <GroupsSection user={user} />
-      </>
-    );
-  } else if (isLoading) {
-    content = (
+  const { pageTitle, headerTitle, content } = renderQueryEntity(query, {
+    getDisplayedText: (user) => user.displayName,
+    render404Message: () => "L'utilisateur n'existe pas",
+    renderPlaceholder: () => (
       <>
         <ProfilePlaceholderSection />
         <Separator />
         <GroupsPlaceholderSection />
       </>
-    );
-  }
+    ),
+    renderEntity: (user) => (
+      <>
+        <ProfileSection user={user} />
+        <Separator />
+        <GroupsSection user={user} />
+      </>
+    ),
+  });
 
   return (
     <div>
@@ -239,15 +230,15 @@ const UserPage: PageComponent = () => {
       <Main>
         {content}
 
-        {user != null && (
+        {query.data != null && (
           <QuickActions icon={FaPen}>
             <ButtonSection>
               <ButtonLink href="./edit" variant="outlined">
                 Modifier
               </ButtonLink>
 
-              <BlockUserButton user={user} />
-              <DeleteUserButton user={user} />
+              <BlockUserButton user={query.data} />
+              <DeleteUserButton user={query.data} />
             </ButtonSection>
           </QuickActions>
         )}

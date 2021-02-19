@@ -84,7 +84,7 @@ const GetAnimalBreedQuery = gql`
 `;
 
 export function useAnimalBreed(animalBreedId: string) {
-  const { data, ...rest } = useQuery<AnimalBreed | null, Error>(
+  return useQuery<AnimalBreed | null, Error>(
     ["animal-breed", animalBreedId],
     async () => {
       const { animalBreed } = await fetchGraphQL<
@@ -92,15 +92,9 @@ export function useAnimalBreed(animalBreedId: string) {
         { id: string }
       >(GetAnimalBreedQuery, { variables: { id: animalBreedId } });
 
-      if (animalBreed == null) {
-        throw new Error(ErrorCode.ANIMAL_BREED_NOT_FOUND);
-      }
-
       return animalBreed;
     }
   );
-
-  return [data, rest] as const;
 }
 
 const CreateAnimalBreedQuery = gql`

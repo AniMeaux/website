@@ -1,6 +1,7 @@
 import {
   Header,
   PageComponent,
+  renderQueryEntity,
   useDeleteHostFamily,
   useHostFamily,
 } from "@animeaux/app-core";
@@ -26,7 +27,11 @@ import * as React from "react";
 import { FaEnvelope, FaMapMarker, FaPen, FaPhone } from "react-icons/fa";
 import { PageTitle } from "../../../core/pageTitle";
 
-function ContactSection({ hostFamily }: { hostFamily: HostFamily }) {
+type HostFamilyProps = {
+  hostFamily: HostFamily;
+};
+
+function ContactSection({ hostFamily }: HostFamilyProps) {
   return (
     <Section>
       <SectionTitle>Contact</SectionTitle>
@@ -102,7 +107,7 @@ function ContactPlaceholderSection() {
   );
 }
 
-function DeleteHostFamilyButton({ hostFamily }: { hostFamily: HostFamily }) {
+function DeleteHostFamilyButton({ hostFamily }: HostFamilyProps) {
   const router = useRouter();
   const [deleteHostFamily] = useDeleteHostFamily({
     onSuccess() {
@@ -128,28 +133,14 @@ function DeleteHostFamilyButton({ hostFamily }: { hostFamily: HostFamily }) {
 const HostFamilyPage: PageComponent = () => {
   const router = useRouter();
   const hostFamilyId = router.query.hostFamilyId as string;
-  const [hostFamily, { error, isLoading }] = useHostFamily(hostFamilyId);
+  const query = useHostFamily(hostFamilyId);
 
-  let pageTitle: string | null = null;
-  let headerTitle: React.ReactNode | null = null;
-
-  if (hostFamily != null) {
-    pageTitle = hostFamily.name;
-    headerTitle = hostFamily.name;
-  } else if (isLoading) {
-    headerTitle = <Placeholder preset="text" />;
-  } else if (error != null) {
-    headerTitle = "Oups";
-    pageTitle = "Oups";
-  }
-
-  let content: React.ReactNode | null = null;
-
-  if (hostFamily != null) {
-    content = <ContactSection hostFamily={hostFamily} />;
-  } else if (isLoading) {
-    content = <ContactPlaceholderSection />;
-  }
+  const { pageTitle, headerTitle, content } = renderQueryEntity(query, {
+    getDisplayedText: (hostFamily) => hostFamily.name,
+    render404Message: () => "La FA n'existe pas",
+    renderPlaceholder: () => <ContactPlaceholderSection />,
+    renderEntity: (hostFamily) => <ContactSection hostFamily={hostFamily} />,
+  });
 
   return (
     <div>
@@ -159,14 +150,14 @@ const HostFamilyPage: PageComponent = () => {
       <Main>
         {content}
 
-        {hostFamily != null && (
+        {query.data != null && (
           <QuickActions icon={FaPen}>
             <ButtonSection>
               <ButtonLink href="./edit" variant="outlined">
                 Modifier
               </ButtonLink>
 
-              <DeleteHostFamilyButton hostFamily={hostFamily} />
+              <DeleteHostFamilyButton hostFamily={query.data} />
             </ButtonSection>
           </QuickActions>
         )}

@@ -2,6 +2,7 @@ import {
   AnimalSpeciesIcon,
   Header,
   PageComponent,
+  renderQueryEntity,
   useAnimalBreed,
   useDeleteAnimalBreed,
 } from "@animeaux/app-core";
@@ -26,7 +27,11 @@ import * as React from "react";
 import { FaPen } from "react-icons/fa";
 import { PageTitle } from "../../../core/pageTitle";
 
-function DetailsSection({ animalBreed }: { animalBreed: AnimalBreed }) {
+type AnimalBreedProps = {
+  animalBreed: AnimalBreed;
+};
+
+function DetailsSection({ animalBreed }: AnimalBreedProps) {
   return (
     <Section>
       <SectionTitle>Détails</SectionTitle>
@@ -68,11 +73,7 @@ function DetailsPlaceholderSection() {
   );
 }
 
-function DeleteAnimalBreedButton({
-  animalBreed,
-}: {
-  animalBreed: AnimalBreed;
-}) {
+function DeleteAnimalBreedButton({ animalBreed }: AnimalBreedProps) {
   const router = useRouter();
   const [deleteAnimalBreed] = useDeleteAnimalBreed({
     onSuccess() {
@@ -98,28 +99,14 @@ function DeleteAnimalBreedButton({
 const AnimalBreedPage: PageComponent = () => {
   const router = useRouter();
   const animalBreedId = router.query.animalBreedId as string;
-  const [animalBreed, { error, isLoading }] = useAnimalBreed(animalBreedId);
+  const query = useAnimalBreed(animalBreedId);
 
-  let pageTitle: string | null = null;
-  let headerTitle: React.ReactNode | null = null;
-
-  if (animalBreed != null) {
-    pageTitle = animalBreed.name;
-    headerTitle = animalBreed.name;
-  } else if (isLoading) {
-    headerTitle = <Placeholder preset="text" />;
-  } else if (error != null) {
-    headerTitle = "Oups";
-    pageTitle = "Oups";
-  }
-
-  let content: React.ReactNode | null = null;
-
-  if (animalBreed != null) {
-    content = <DetailsSection animalBreed={animalBreed} />;
-  } else if (isLoading) {
-    content = <DetailsPlaceholderSection />;
-  }
+  const { pageTitle, headerTitle, content } = renderQueryEntity(query, {
+    getDisplayedText: (animalBreed) => animalBreed.name,
+    render404Message: () => "La race n'existe pas",
+    renderPlaceholder: () => <DetailsPlaceholderSection />,
+    renderEntity: (animalBreed) => <DetailsSection animalBreed={animalBreed} />,
+  });
 
   return (
     <div>
@@ -129,14 +116,14 @@ const AnimalBreedPage: PageComponent = () => {
       <Main>
         {content}
 
-        {animalBreed != null && (
+        {query.data != null && (
           <QuickActions icon={FaPen}>
             <ButtonSection>
               <ButtonLink href="./edit" variant="outlined">
                 Modifier
               </ButtonLink>
 
-              <DeleteAnimalBreedButton animalBreed={animalBreed} />
+              <DeleteAnimalBreedButton animalBreed={query.data} />
             </ButtonSection>
           </QuickActions>
         )}

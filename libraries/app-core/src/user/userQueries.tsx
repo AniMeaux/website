@@ -58,23 +58,14 @@ const GetUserQuery = gql`
 `;
 
 export function useUser(userId: string) {
-  const { data, ...rest } = useQuery<User | null, Error>(
-    ["user", userId],
-    async () => {
-      const { user } = await fetchGraphQL<
-        { user: User | null },
-        { id: string }
-      >(GetUserQuery, { variables: { id: userId } });
+  return useQuery<User | null, Error>(["user", userId], async () => {
+    const { user } = await fetchGraphQL<{ user: User | null }, { id: string }>(
+      GetUserQuery,
+      { variables: { id: userId } }
+    );
 
-      if (user == null) {
-        throw new Error(ErrorCode.USER_NOT_FOUND);
-      }
-
-      return user;
-    }
-  );
-
-  return [data, rest] as const;
+    return user;
+  });
 }
 
 const CreateUserQuery = gql`

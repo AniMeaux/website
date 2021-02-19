@@ -1,5 +1,13 @@
 import { PaginatedResponse } from "@animeaux/shared-entities";
-import { EmptyMessage, Placeholders, Section } from "@animeaux/ui-library";
+import {
+  Button,
+  EmptyMessage,
+  ErrorPage,
+  ErrorPageType,
+  Placeholder,
+  Placeholders,
+  Section,
+} from "@animeaux/ui-library";
 import * as React from "react";
 import { UseInfiniteQueryResult, UseQueryResult } from "./request";
 
@@ -153,5 +161,74 @@ export function renderInfiniteItemList<ItemType>(
         ? renderers.title
         : // There is allways at least one page.
           `${renderers.title} (${query.data.pages[0].hitsTotalCount})`,
+  };
+}
+
+type EntityQueryRenderers<EntityType> = {
+  getDisplayedText: (entity: EntityType) => string;
+  renderEntity: (entity: EntityType) => React.ReactNode;
+  renderPlaceholder: () => React.ReactNode;
+  render404Message: () => React.ReactNode;
+  render404Action?: () => React.ReactNode;
+};
+
+function renderQueryEntityContent<EntityType>(
+  query: UseQueryResult<EntityType | null, Error>,
+  {
+    renderEntity,
+    renderPlaceholder,
+    render404Message,
+    render404Action,
+  }: EntityQueryRenderers<EntityType>
+) {
+  if (query.data != null) {
+    return renderEntity(query.data);
+  }
+
+  if (query.isLoading) {
+    return renderPlaceholder();
+  }
+
+  // TODO: Handle error
+
+  return (
+    <ErrorPage
+      type={ErrorPageType.NOT_FOUND}
+      message={render404Message()}
+      action={
+        render404Action?.() ?? (
+          <Button
+            variant="primary"
+            color="blue"
+            onClick={() => query.refetch()}
+          >
+            Réessayer
+          </Button>
+        )
+      }
+    />
+  );
+}
+
+export function renderQueryEntity<EntityType>(
+  query: UseQueryResult<EntityType | null, Error>,
+  renderers: EntityQueryRenderers<EntityType>
+) {
+  let pageTitle: string | null = null;
+  let headerTitle: React.ReactNode | null = null;
+
+  if (query.data != null) {
+    pageTitle = renderers.getDisplayedText(query.data);
+    headerTitle = pageTitle;
+  } else if (query.isLoading) {
+    headerTitle = <Placeholder preset="text" />;
+  } else if (query.isError != null) {
+    pageTitle = "Oups";
+  }
+
+  return {
+    pageTitle,
+    headerTitle,
+    content: renderQueryEntityContent(query, renderers),
   };
 }
