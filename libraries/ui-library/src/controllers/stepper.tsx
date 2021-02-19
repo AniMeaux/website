@@ -90,7 +90,7 @@ type StepperProps = StyleProps & ChildrenProp;
 
 export function Stepper({ className, children }: StepperProps) {
   return (
-    <ul className={cn("select-none w-full h-16 flex items-center", className)}>
+    <ul className={cn("w-full h-16 flex items-center", className)}>
       {React.Children.toArray(children).map((child, index) => {
         if (React.isValidElement(child)) {
           return React.cloneElement(child, { isFirst: index === 0 });

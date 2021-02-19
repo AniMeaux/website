@@ -39,10 +39,7 @@ export function Snackbar({ type, children }: SnackbarProps) {
 
   return (
     <div
-      className={cn(
-        "select-none pr-3 h-8 flex items-center",
-        SnackbarTypeClassName[type]
-      )}
+      className={cn("pr-3 h-8 flex items-center", SnackbarTypeClassName[type])}
     >
       <span className="w-8 h-8 flex items-center justify-center">
         <Icon />

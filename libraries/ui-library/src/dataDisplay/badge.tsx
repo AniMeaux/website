@@ -12,7 +12,7 @@ export function Badge({ isVisible, children, className }: BadgeProps) {
 
   if (isVisible) {
     badge = (
-      <span className="select-none absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2 ring-2 ring-white w-2 h-2 rounded-full bg-blue-500" />
+      <span className="absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2 ring-2 ring-white w-2 h-2 rounded-full bg-blue-500" />
     );
   }
 

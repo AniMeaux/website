@@ -22,10 +22,7 @@ export function IntegerInput({
   ...rest
 }: IntegerInputProps) {
   return (
-    <span
-      {...rest}
-      className={cn("select-none inline-flex items-center", className)}
-    >
+    <span {...rest} className={cn("inline-flex items-center", className)}>
       <Button
         type="button"
         variant="outlined"

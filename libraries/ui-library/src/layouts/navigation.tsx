@@ -57,7 +57,7 @@ export function Navigation({
     <nav
       {...rest}
       className={cn(
-        "select-none z-20 fixed bottom-0 right-0 left-0 ring-1 bg-white safe-area-px navigation-pb transition-shadow duration-200 ease-in-out",
+        "z-20 fixed bottom-0 right-0 left-0 ring-1 bg-white safe-area-px navigation-pb transition-shadow duration-200 ease-in-out",
         {
           "ring-transparent": isAtTheBottom,
           "ring-gray-100": !isAtTheBottom,

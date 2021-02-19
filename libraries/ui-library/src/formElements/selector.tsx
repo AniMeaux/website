@@ -8,10 +8,7 @@ export function Selectors({
   ...rest
 }: React.HTMLAttributes<HTMLUListElement>) {
   return (
-    <ul
-      {...rest}
-      className={cn("select-none flex flex-wrap -mt-2 -ml-2", className)}
-    />
+    <ul {...rest} className={cn("flex flex-wrap -mt-2 -ml-2", className)} />
   );
 }
 

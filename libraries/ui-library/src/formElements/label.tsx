@@ -17,7 +17,7 @@ export function Label({
     <label
       {...rest}
       className={cn(
-        "select-none mb-1 px-4 text-sm",
+        "mb-1 px-4 text-sm",
         {
           "text-black text-opacity-60": !hasError,
           "text-red-500": hasError,

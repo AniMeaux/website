@@ -44,11 +44,7 @@ export function Placeholder({ preset, className, ...rest }: PlaceholderProps) {
   return (
     <span
       {...rest}
-      className={cn(
-        "select-none placeholder",
-        PresetClassName[preset],
-        className
-      )}
+      className={cn("placeholder", PresetClassName[preset], className)}
     />
   );
 }

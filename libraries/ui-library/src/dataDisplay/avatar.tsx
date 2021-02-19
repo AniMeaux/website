@@ -36,7 +36,7 @@ export function Avatar({
     <span
       {...rest}
       className={cn(
-        "select-none overflow-hidden rounded-full font-medium flex items-center justify-center",
+        "overflow-hidden rounded-full font-medium flex items-center justify-center",
         AvatarSizeClassName[size],
         AvatarColorClassName[color],
         className
