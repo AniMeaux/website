@@ -1,6 +1,7 @@
 import {
   Header,
   PageComponent,
+  renderQueryEntity,
   UserForm,
   UserFormErrors,
   UserFormPlaceholder,
@@ -12,7 +13,7 @@ import {
   getErrorMessage,
   hasErrorCode,
 } from "@animeaux/shared-entities";
-import { Main, Placeholder, resolveUrl } from "@animeaux/ui-library";
+import { Main, resolveUrl } from "@animeaux/ui-library";
 import { useRouter } from "next/router";
 import * as React from "react";
 import { PageTitle } from "../../../core/pageTitle";
@@ -20,28 +21,29 @@ import { PageTitle } from "../../../core/pageTitle";
 const UserEditPage: PageComponent = () => {
   const router = useRouter();
   const userId = router.query.userId as string;
-  const [user, query] = useUser(userId);
+  const query = useUser(userId);
   const [updateUser, mutation] = useUpdateUser({
     onSuccess() {
       router.push(resolveUrl(router.asPath, ".."));
     },
   });
 
-  let pageTitle: string | null = null;
-  let headerTitle: React.ReactNode | null = null;
-
-  if (user != null) {
-    pageTitle = user.displayName;
-    headerTitle = pageTitle;
-  } else if (query.isLoading) {
-    headerTitle = <Placeholder preset="text" />;
-  } else if (query.error != null) {
-    headerTitle = "Oups";
-    pageTitle = "Oups";
-  }
+  const { pageTitle, headerTitle, content } = renderQueryEntity(query, {
+    getDisplayedText: (user) => user.displayName,
+    renderPlaceholder: () => <UserFormPlaceholder />,
+    renderEntity: (user) => (
+      <UserForm
+        user={user}
+        onSubmit={(formPayload) =>
+          updateUser({ currentUser: user, formPayload })
+        }
+        pending={mutation.isLoading}
+        errors={errors}
+      />
+    ),
+  });
 
   const errors: UserFormErrors = {};
-
   if (mutation.error != null) {
     const errorMessage = getErrorMessage(mutation.error);
 
@@ -57,23 +59,6 @@ const UserEditPage: PageComponent = () => {
     ) {
       errors.groups = errorMessage;
     }
-  }
-
-  let content: React.ReactNode | null = null;
-
-  if (user != null) {
-    content = (
-      <UserForm
-        user={user}
-        onSubmit={(formPayload) =>
-          updateUser({ currentUser: user, formPayload })
-        }
-        pending={mutation.isLoading}
-        errors={errors}
-      />
-    );
-  } else if (query.isLoading) {
-    content = <UserFormPlaceholder />;
   }
 
   return (

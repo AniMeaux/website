@@ -4,6 +4,7 @@ import {
   AnimalBreedFormPlaceholder,
   Header,
   PageComponent,
+  renderQueryEntity,
   useAnimalBreed,
   useUpdateAnimalBreed,
 } from "@animeaux/app-core";
@@ -12,7 +13,7 @@ import {
   getErrorMessage,
   hasErrorCode,
 } from "@animeaux/shared-entities";
-import { Main, Placeholder, resolveUrl } from "@animeaux/ui-library";
+import { Main, resolveUrl } from "@animeaux/ui-library";
 import { useRouter } from "next/router";
 import * as React from "react";
 import { PageTitle } from "../../../core/pageTitle";
@@ -20,28 +21,29 @@ import { PageTitle } from "../../../core/pageTitle";
 const AnimalBreedEditPage: PageComponent = () => {
   const router = useRouter();
   const animalBreedId = router.query.animalBreedId as string;
-  const [animalBreed, query] = useAnimalBreed(animalBreedId);
+  const query = useAnimalBreed(animalBreedId);
   const [updateAnimalBreed, mutation] = useUpdateAnimalBreed({
     onSuccess() {
       router.push(resolveUrl(router.asPath, ".."));
     },
   });
 
-  let pageTitle: string | null = null;
-  let headerTitle: React.ReactNode | null = null;
-
-  if (animalBreed != null) {
-    pageTitle = animalBreed.name;
-    headerTitle = pageTitle;
-  } else if (query.isLoading) {
-    headerTitle = <Placeholder preset="text" />;
-  } else if (query.error != null) {
-    headerTitle = "Oups";
-    pageTitle = "Oups";
-  }
+  const { pageTitle, headerTitle, content } = renderQueryEntity(query, {
+    getDisplayedText: (animalBreed) => animalBreed.name,
+    renderPlaceholder: () => <AnimalBreedFormPlaceholder />,
+    renderEntity: (animalBreed) => (
+      <AnimalBreedForm
+        animalBreed={animalBreed}
+        onSubmit={(formPayload) =>
+          updateAnimalBreed({ currentAnimalBreed: animalBreed, formPayload })
+        }
+        pending={mutation.isLoading}
+        errors={errors}
+      />
+    ),
+  });
 
   const errors: AnimalBreedFormErrors = {};
-
   if (mutation.error != null) {
     const errorMessage = getErrorMessage(mutation.error);
 
@@ -52,23 +54,6 @@ const AnimalBreedEditPage: PageComponent = () => {
     ) {
       errors.species = errorMessage;
     }
-  }
-
-  let content: React.ReactNode | null = null;
-
-  if (animalBreed != null) {
-    content = (
-      <AnimalBreedForm
-        animalBreed={animalBreed}
-        onSubmit={(formPayload) =>
-          updateAnimalBreed({ currentAnimalBreed: animalBreed, formPayload })
-        }
-        pending={mutation.isLoading}
-        errors={errors}
-      />
-    );
-  } else if (query.isLoading) {
-    content = <AnimalBreedFormPlaceholder />;
   }
 
   return (

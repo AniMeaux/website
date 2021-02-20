@@ -4,6 +4,7 @@ import {
   HostFamilyFormErrors,
   HostFamilyFormPlaceholder,
   PageComponent,
+  renderQueryEntity,
   useHostFamily,
   useUpdateHostFamily,
 } from "@animeaux/app-core";
@@ -13,7 +14,7 @@ import {
   hasErrorCode,
   UserGroup,
 } from "@animeaux/shared-entities";
-import { Main, Placeholder, resolveUrl } from "@animeaux/ui-library";
+import { Main, resolveUrl } from "@animeaux/ui-library";
 import { useRouter } from "next/router";
 import * as React from "react";
 import { PageTitle } from "../../../core/pageTitle";
@@ -21,28 +22,29 @@ import { PageTitle } from "../../../core/pageTitle";
 const HostFamilyEditPage: PageComponent = () => {
   const router = useRouter();
   const hostFamilyId = router.query.hostFamilyId as string;
-  const [hostFamily, query] = useHostFamily(hostFamilyId);
+  const query = useHostFamily(hostFamilyId);
   const [updateHostFamily, mutation] = useUpdateHostFamily({
     onSuccess() {
       router.push(resolveUrl(router.asPath, ".."));
     },
   });
 
-  let pageTitle: string | null = null;
-  let headerTitle: React.ReactNode | null = null;
-
-  if (hostFamily != null) {
-    pageTitle = hostFamily.name;
-    headerTitle = pageTitle;
-  } else if (query.isLoading) {
-    headerTitle = <Placeholder preset="text" />;
-  } else if (query.error != null) {
-    headerTitle = "Oups";
-    pageTitle = "Oups";
-  }
+  const { pageTitle, headerTitle, content } = renderQueryEntity(query, {
+    getDisplayedText: (hostFamily) => hostFamily.name,
+    renderPlaceholder: () => <HostFamilyFormPlaceholder />,
+    renderEntity: (hostFamily) => (
+      <HostFamilyForm
+        hostFamily={hostFamily}
+        onSubmit={(formPayload) =>
+          updateHostFamily({ currentHostFamily: hostFamily, formPayload })
+        }
+        pending={mutation.isLoading}
+        errors={errors}
+      />
+    ),
+  });
 
   const errors: HostFamilyFormErrors = {};
-
   if (mutation.error != null) {
     const errorMessage = getErrorMessage(mutation.error);
 
@@ -74,23 +76,6 @@ const HostFamilyEditPage: PageComponent = () => {
     ) {
       errors.address = errorMessage;
     }
-  }
-
-  let content: React.ReactNode | null = null;
-
-  if (hostFamily != null) {
-    content = (
-      <HostFamilyForm
-        hostFamily={hostFamily}
-        onSubmit={(formPayload) =>
-          updateHostFamily({ currentHostFamily: hostFamily, formPayload })
-        }
-        pending={mutation.isLoading}
-        errors={errors}
-      />
-    );
-  } else if (query.isLoading) {
-    content = <HostFamilyFormPlaceholder />;
   }
 
   return (
