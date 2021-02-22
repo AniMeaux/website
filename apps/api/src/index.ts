@@ -11,6 +11,9 @@ const missingEnvVariables = [
   "FIREBASE_PRIVATE_KEY",
   "ALGOLIA_ID",
   "ALGOLIA_ADMIN_KEY",
+  "CLOUDINARY_CLOUD_NAME",
+  "CLOUDINARY_API_KEY",
+  "CLOUDINARY_API_SECRET",
 ].filter((value) => process.env[value] == null);
 
 if (missingEnvVariables.length > 0) {

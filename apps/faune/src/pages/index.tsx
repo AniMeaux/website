@@ -6,7 +6,7 @@ const IndexPage: PageComponent = () => {
   const router = useRouter();
 
   React.useLayoutEffect(() => {
-    router.replace("/host-families");
+    router.replace("/animals");
   }, [router]);
 
   return null;

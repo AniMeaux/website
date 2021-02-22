@@ -1,12 +1,11 @@
 import {
   Header,
-  HostFamilyItem,
-  HostFamilyItemPlaceholder,
   PageComponent,
   renderInfiniteItemList,
-  useAllHostFamilies,
+  SearchableAnimalItem,
+  SearchableAnimalItemPlaceholder,
+  useAllAnimals,
 } from "@animeaux/app-core";
-import { UserGroup } from "@animeaux/shared-entities";
 import {
   Main,
   QuickLinkAction,
@@ -17,19 +16,19 @@ import { FaPlus } from "react-icons/fa";
 import { Navigation } from "../../core/navigation";
 import { PageTitle } from "../../core/pageTitle";
 
-const TITLE = "Familles d'accueil";
+const TITLE = "Animaux";
 
-const HostFamilyListPage: PageComponent = () => {
+const AnimalListPage: PageComponent = () => {
   usePageScrollRestoration();
 
-  const query = useAllHostFamilies();
+  const query = useAllAnimals();
   const { content, title } = renderInfiniteItemList(query, {
     title: TITLE,
-    getItemKey: (hostFamily) => hostFamily.id,
-    placeholderElement: HostFamilyItemPlaceholder,
-    renderEmptyMessage: () => "Il n'y a pas encore de famille d'accueil.",
-    renderItem: (hostFamily) => (
-      <HostFamilyItem hostFamily={hostFamily} href={`./${hostFamily.id}`} />
+    getItemKey: (animal) => animal.id,
+    placeholderElement: SearchableAnimalItemPlaceholder,
+    renderEmptyMessage: () => "Il n'y a pas encore d'animaux",
+    renderItem: (animal) => (
+      <SearchableAnimalItem animal={animal} href={`./${animal.id}`} />
     ),
   });
 
@@ -41,7 +40,7 @@ const HostFamilyListPage: PageComponent = () => {
       <Main hasNavigation>
         {content}
 
-        <QuickLinkAction href="./new">
+        <QuickLinkAction href="./new/profile">
           <FaPlus />
         </QuickLinkAction>
       </Main>
@@ -51,9 +50,4 @@ const HostFamilyListPage: PageComponent = () => {
   );
 };
 
-HostFamilyListPage.authorisedGroups = [
-  UserGroup.ADMIN,
-  UserGroup.ANIMAL_MANAGER,
-];
-
-export default HostFamilyListPage;
+export default AnimalListPage;

@@ -16,14 +16,15 @@
   "dependencies": {
     "@animeaux/shared-entities": "*",
     "@animeaux/ui-library": "*",
+    "cloudinary-core": "^2.11.3",
     "firebase": "^8.2.4",
     "graphql-request": "^3.4.0",
-    "next": "^10.0.5",
     "invariant": "^2.2.4",
+    "next": "^10.0.5",
+    "next-pwa": "^5.0.4",
     "react": "^17.0.1",
     "react-icons": "^4.1.0",
-    "react-query": "^3.6.0",
-    "next-pwa": "^5.0.4"
+    "react-query": "^3.6.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.12.10",

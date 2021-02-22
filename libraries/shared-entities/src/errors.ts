@@ -61,6 +61,18 @@ export enum ErrorCode {
   HOST_FAMILY_INVALID_EMAIL = "host-family/invalid-email",
   HOST_FAMILY_NAME_ALREADY_USED = "host-family/name-already-used",
   HOST_FAMILY_IS_REFERENCED = "host-family/is-referenced",
+
+  //// Animal //////////////////////////////////////////////////////////////////
+
+  ANIMAL_NOT_FOUND = "animal/not-found",
+  ANIMAL_MISSING_OFFICIAL_NAME = "animal/missing-official-name",
+  ANIMAL_MISSING_GENDER = "animal/missing-gender",
+  ANIMAL_MISSING_SPECIES = "animal/missing-species",
+  ANIMAL_SPECIES_BREED_MISSMATCH = "animal/species-breed-missmatch",
+  ANIMAL_MISSING_AVATAR = "animal/missing-avatar",
+  ANIMAL_INVALID_BIRTHDATE = "animal/invalid-birthdate",
+  ANIMAL_INVALID_PICK_UP_DATE = "animal/invalid-pick-up-date",
+  ANIMAL_IS_ADOPTABLE = "animal/is-adoptable",
 }
 
 const ErrorCodeLabels: { [key in ErrorCode]?: string } = {
@@ -108,6 +120,18 @@ const ErrorCodeLabels: { [key in ErrorCode]?: string } = {
   [ErrorCode.HOST_FAMILY_NAME_ALREADY_USED]: "Le nom est déjà utilisé",
   [ErrorCode.HOST_FAMILY_IS_REFERENCED]:
     "La famille d'accueil ne peut pas être supprimée parce qu'elle est référencée par au moins un animal",
+
+  //// Animal //////////////////////////////////////////////////////////////////
+
+  [ErrorCode.ANIMAL_NOT_FOUND]: "L'animal est introuvable",
+  [ErrorCode.ANIMAL_MISSING_OFFICIAL_NAME]: "Le nom officiel est obligatoire",
+  [ErrorCode.ANIMAL_MISSING_GENDER]: "Le genre est obligatoire",
+  [ErrorCode.ANIMAL_MISSING_SPECIES]: "L'espèce est obligatoire",
+  [ErrorCode.ANIMAL_SPECIES_BREED_MISSMATCH]:
+    "La race n'appartient pas à cette espèce",
+  [ErrorCode.ANIMAL_MISSING_AVATAR]: "L'avatar est obligatoire",
+  [ErrorCode.ANIMAL_INVALID_BIRTHDATE]: "Le format de la date est invalide",
+  [ErrorCode.ANIMAL_INVALID_PICK_UP_DATE]: "Le format de la date est invalide",
 };
 
 export function getErrorMessage(error: Error): string {

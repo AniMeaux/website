@@ -1,15 +1,18 @@
 import cn from "classnames";
 import * as React from "react";
+import { ChildrenProp, StyleProps } from "../core";
 
-export type FormProps = React.FormHTMLAttributes<HTMLFormElement> & {
-  pending?: boolean;
-};
+export type FormProps = StyleProps &
+  ChildrenProp & {
+    onSubmit?: (event: React.FormEvent<HTMLFormElement>) => void;
+    pending?: boolean;
+  };
 
 export function Form({
   onSubmit,
   pending = false,
   className,
-  ...rest
+  children,
 }: FormProps) {
   const formElement = React.useRef<HTMLFormElement>(null!);
 
@@ -21,7 +24,6 @@ export function Form({
 
   return (
     <form
-      {...rest}
       ref={formElement}
       tabIndex={-1}
       onSubmit={(event: React.FormEvent<HTMLFormElement>) => {
@@ -32,6 +34,8 @@ export function Form({
         }
       }}
       className={cn("relative flex flex-col focus:outline-none", className)}
-    />
+    >
+      {children}
+    </form>
   );
 }

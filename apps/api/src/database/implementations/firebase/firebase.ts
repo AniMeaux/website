@@ -1,5 +1,6 @@
 import * as admin from "firebase-admin";
 import { Database, DatabaseCore } from "../../databaseType";
+import { animalDatabase } from "./animal";
 import { animalBreedDatabase } from "./animalBreed";
 import { hostFamilyDatabase } from "./hostFamily";
 import { userDatabase } from "./user";
@@ -29,4 +30,5 @@ export const firebaseDatabase: Database = {
   ...animalBreedDatabase,
   ...hostFamilyDatabase,
   ...userDatabase,
+  ...animalDatabase,
 };

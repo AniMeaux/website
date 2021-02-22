@@ -1,6 +1,8 @@
 import { AnimalBreed, AnimalSpeciesLabels } from "@animeaux/shared-entities";
 import {
   Avatar,
+  ButtonItem,
+  ButtonItemProps,
   Item,
   ItemContent,
   ItemIcon,
@@ -57,5 +59,44 @@ export function AnimalBreedItem({
         </ItemSecondaryText>
       </ItemContent>
     </LinkItem>
+  );
+}
+
+export function AnimalBreedSearchItemPlaceholder() {
+  return (
+    <Item size="medium">
+      <ItemIcon size="medium">
+        <Placeholder preset="avatar" />
+      </ItemIcon>
+
+      <ItemContent>
+        <ItemMainText>
+          <Placeholder preset="label" />
+        </ItemMainText>
+      </ItemContent>
+    </Item>
+  );
+}
+
+type AnimalBreedSearchItemProps = ButtonItemProps & {
+  animalBreed: AnimalBreed;
+};
+
+export function AnimalBreedSearchItem({
+  animalBreed,
+  ...rest
+}: AnimalBreedSearchItemProps) {
+  return (
+    <ButtonItem {...rest} size="medium">
+      <ItemIcon size="medium">
+        <Avatar size="medium">
+          <FaDna />
+        </Avatar>
+      </ItemIcon>
+
+      <ItemContent>
+        <ItemMainText>{animalBreed.name}</ItemMainText>
+      </ItemContent>
+    </ButtonItem>
   );
 }

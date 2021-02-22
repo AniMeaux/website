@@ -5,6 +5,7 @@ import "@animeaux/ui-library/styles.css";
 import {
   ApplicationProps,
   ApplicationProviders,
+  initializeCloudinary,
   initializeGraphQlClient,
   PageHead,
 } from "@animeaux/app-core";
@@ -15,6 +16,10 @@ import { initFirebase } from "../core/firebase";
 
 initFirebase();
 initializeGraphQlClient(process.env.NEXT_PUBLIC_API_URL);
+initializeCloudinary({
+  cloudName: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
+  apiKey: process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY,
+});
 
 const AUTHORISED_GROUPS = [
   UserGroup.ADMIN,

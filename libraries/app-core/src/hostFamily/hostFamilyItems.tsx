@@ -1,6 +1,8 @@
 import { HostFamily } from "@animeaux/shared-entities";
 import {
   Avatar,
+  ButtonItem,
+  ButtonItemProps,
   Item,
   ItemContent,
   ItemIcon,
@@ -51,5 +53,44 @@ export function HostFamilyItem({ hostFamily, ...rest }: HostFamilyItemProps) {
         <ItemSecondaryText>{hostFamily.email}</ItemSecondaryText>
       </ItemContent>
     </LinkItem>
+  );
+}
+
+export function HostFamilySearchItemPlaceholder() {
+  return (
+    <Item size="medium">
+      <ItemIcon size="medium">
+        <Placeholder preset="avatar" />
+      </ItemIcon>
+
+      <ItemContent>
+        <ItemMainText>
+          <Placeholder preset="label" />
+        </ItemMainText>
+      </ItemContent>
+    </Item>
+  );
+}
+
+type HostFamilySearchItemProps = ButtonItemProps & {
+  hostFamily: HostFamily;
+};
+
+export function HostFamilySearchItem({
+  hostFamily,
+  ...rest
+}: HostFamilySearchItemProps) {
+  return (
+    <ButtonItem {...rest} size="medium">
+      <ItemIcon size="medium">
+        <Avatar size="medium">
+          <FaHome />
+        </Avatar>
+      </ItemIcon>
+
+      <ItemContent>
+        <ItemMainText>{hostFamily.name}</ItemMainText>
+      </ItemContent>
+    </ButtonItem>
   );
 }

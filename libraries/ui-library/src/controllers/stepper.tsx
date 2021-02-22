@@ -28,18 +28,20 @@ type StepLinkProps = Omit<LinkProps, "disabled"> &
 
 export function StepLink({ status, href, children, className }: StepLinkProps) {
   const Icon = StepLinkStatusIcon[status];
+  const disabled = status === StepStatus.PENDING;
 
   return (
     <Link
       href={href}
-      disabled={status === StepStatus.PENDING}
+      disabled={disabled}
       className={cn(
-        "focus:outline-none focus-visible:ring focus-visible:ring-blue-500 focus-visible:ring-opacity-50 rounded-xl max-w-full flex flex-col items-center text-xs text-center text-black text-opacity-50 active:opacity-60",
+        "focus:outline-none focus-visible:ring focus-visible:ring-blue-500 focus-visible:ring-opacity-50 rounded-xl max-w-full flex flex-col items-center text-xs text-center text-black text-opacity-50",
+        { "active:opacity-60": !disabled },
         className
       )}
     >
       <Icon
-        className={cn("mb-1 w-5 h-5", StepLinkStatusIconClassName[status])}
+        className={cn("mb-1 w-6 h-6", StepLinkStatusIconClassName[status])}
       />
 
       <span className="px-4 max-w-full truncate">{children}</span>
@@ -75,7 +77,7 @@ export function StepItem({
       {!isFirst && (
         <span
           className={cn(
-            "absolute top-2.5 left-0 transform -translate-x-1/2 -translate-y-1/2 rounded-full step-item-line-width h-1",
+            "absolute top-3 left-0 transform -translate-x-1/2 -translate-y-1/2 rounded-full step-item-line-width h-1",
             StepLineStatusClassName[status]
           )}
         />
@@ -90,7 +92,7 @@ type StepperProps = StyleProps & ChildrenProp;
 
 export function Stepper({ className, children }: StepperProps) {
   return (
-    <ul className={cn("w-full h-16 flex items-center", className)}>
+    <ul className={cn("h-20 flex items-center", className)}>
       {React.Children.toArray(children).map((child, index) => {
         if (React.isValidElement(child)) {
           return React.cloneElement(child, { isFirst: index === 0 });

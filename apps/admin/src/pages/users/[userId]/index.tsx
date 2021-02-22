@@ -42,7 +42,7 @@ type UserProp = {
 function ProfileSection({ user }: UserProp) {
   return (
     <Section>
-      <SectionTitle>Profile</SectionTitle>
+      <SectionTitle>Profil</SectionTitle>
 
       <Item>
         <ItemIcon>

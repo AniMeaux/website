@@ -23,7 +23,7 @@ import {
   useQueryClient,
 } from "../request";
 
-const HostFamilyFragment = gql`
+export const HostFamilyFragment = gql`
   fragment HostFamilyFragment on HostFamily {
     id
     name

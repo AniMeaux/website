@@ -1,5 +1,6 @@
 import cn from "classnames";
 import * as React from "react";
+import { ChildrenProp, StyleProps } from "../core";
 import { RawCheckbox, RawCheckboxProps } from "./checkbox";
 import { RawRadio, RawRadioProps } from "./radio";
 
@@ -12,11 +13,22 @@ export function Selectors({
   );
 }
 
+type SelectorItemProps = ChildrenProp &
+  StyleProps & {
+    isFlex?: boolean;
+  };
+
 export function SelectorItem({
+  isFlex = false,
   className,
   ...rest
-}: React.LiHTMLAttributes<HTMLLIElement>) {
-  return <li {...rest} className={cn("pt-2 pl-2 max-w-full", className)} />;
+}: SelectorItemProps) {
+  return (
+    <li
+      {...rest}
+      className={cn("pt-2 pl-2 max-w-full", { "flex-1": isFlex }, className)}
+    />
+  );
 }
 
 export function Selector({
@@ -33,7 +45,7 @@ export function Selector({
       {...rest}
       children={children}
       className={cn(
-        "relative cursor-pointer h-10 px-4 rounded-full flex items-center ",
+        "relative cursor-pointer h-10 px-4 rounded-full flex items-center justify-center",
         {
           "bg-blue-500 bg-opacity-10 text-blue-500 active:bg-opacity-15": checked,
           "bg-black bg-opacity-3 active:bg-opacity-10": !checked,
@@ -67,6 +79,9 @@ export function SelectorLabel({
   ...rest
 }: React.HTMLAttributes<HTMLSpanElement>) {
   return (
-    <span {...rest} className={cn("flex-1 max-w-full truncate", className)} />
+    <span
+      {...rest}
+      className={cn("flex-initial max-w-full truncate", className)}
+    />
   );
 }

@@ -165,7 +165,7 @@ export const CurrentUserProfileForm: PageComponent = () => {
 
       onSuccess() {
         showSnackbar.success(
-          <Snackbar type="success">Profile modifié</Snackbar>
+          <Snackbar type="success">Profil modifié</Snackbar>
         );
 
         router.push(backUrl);
@@ -185,12 +185,12 @@ export const CurrentUserProfileForm: PageComponent = () => {
   return (
     <div>
       <PageTitle
-        title="Profile"
+        title="Profil"
         // `applicationName` is only used as a fallback if `title` is missing.
         applicationName=""
       />
 
-      <Header headerTitle="Profile" canGoBack backHref={backUrl} />
+      <Header headerTitle="Profil" canGoBack backHref={backUrl} />
 
       <Main>
         <Form

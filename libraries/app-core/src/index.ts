@@ -1,6 +1,7 @@
 export * from "./animal";
 export * from "./animalBreed";
 export * from "./applicationProviders";
+export * from "./cloudinary";
 export * from "./errorPage";
 export * from "./header";
 export * from "./hostFamily";

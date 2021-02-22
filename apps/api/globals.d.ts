@@ -8,5 +8,8 @@ declare namespace NodeJS {
     FIREBASE_PRIVATE_KEY: string;
     ALGOLIA_ID: string;
     ALGOLIA_ADMIN_KEY: string;
+    CLOUDINARY_CLOUD_NAME: string;
+    CLOUDINARY_API_KEY: string;
+    CLOUDINARY_API_SECRET: string;
   }
 }

@@ -4,17 +4,17 @@ import {
   NavLink,
 } from "@animeaux/ui-library";
 import * as React from "react";
-import { FaDna, FaUser } from "react-icons/fa";
+import { FaHome, FaPaw } from "react-icons/fa";
 
 export function Navigation() {
   return (
     <BaseNavigation>
       <NavItem>
-        <NavLink label="Utilisateurs" href="/users" icon={<FaUser />} />
+        <NavLink label="Animaux" href="/animals" icon={<FaPaw />} />
       </NavItem>
 
       <NavItem>
-        <NavLink label="Races" href="/animal-breeds" icon={<FaDna />} />
+        <NavLink label="FA" href="/host-families" icon={<FaHome />} />
       </NavItem>
     </BaseNavigation>
   );

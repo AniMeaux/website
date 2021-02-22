@@ -23,7 +23,7 @@ import {
   useQueryClient,
 } from "../request";
 
-const AnimalBreedFragment = gql`
+export const AnimalBreedFragment = gql`
   fragment AnimalBreedFragment on AnimalBreed {
     id
     name

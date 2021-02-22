@@ -2,8 +2,6 @@ import { useRouter } from "next/router";
 import * as React from "react";
 import { watchResize } from "react-behave";
 
-const pageScrollScrollY: Record<string, number> = {};
-
 const PageScrollContext = React.createContext<React.MutableRefObject<HTMLElement> | null>(
   null
 );
@@ -35,7 +33,11 @@ function getScrollState(
   };
 }
 
-export function usePageScrollRestoration() {
+const pageScrollScrollY: Record<string, number> = {};
+
+export function usePageScrollRestoration({
+  disabled = false,
+}: { disabled?: boolean } = {}) {
   const router = useRouter();
   const { pathname } = router;
 
@@ -43,11 +45,13 @@ export function usePageScrollRestoration() {
   // soon as possible to avoid glitchs.
 
   React.useLayoutEffect(() => {
-    const scrollY = pageScrollScrollY[pathname];
-    if (scrollY != null) {
-      window.scrollTo(0, scrollY);
+    if (!disabled) {
+      const scrollY = pageScrollScrollY[pathname];
+      if (scrollY != null) {
+        window.scrollTo(0, scrollY);
+      }
     }
-  }, [pathname]);
+  }, [disabled, pathname]);
 
   React.useLayoutEffect(() => {
     function handleScroll() {

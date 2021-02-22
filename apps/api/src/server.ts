@@ -4,8 +4,10 @@ import { IncomingMessage } from "http";
 import { ListenOptions } from "net";
 import { AuthDirective } from "./authDirective";
 import { database } from "./database";
+import { AnimalModel } from "./model/animal";
 import { AnimalBreedModel } from "./model/animalBreed";
 import { HostFamilyModel } from "./model/hostFamily";
+import { ImageModel } from "./model/image";
 import { AuthContext } from "./model/shared";
 import { UserModel } from "./model/user";
 
@@ -26,7 +28,15 @@ const rootTypeDefs = gql`
   type Mutation
 `;
 
+const allowedOrigines = [/^https:\/\/.*\.animeaux\.org$/];
+
+if (process.env.NODE_ENV === "development") {
+  allowedOrigines.push(/^http:\/\/localhost/);
+}
+
 const apolloServer = new ApolloServer({
+  cors: { origin: allowedOrigines },
+
   context: async ({ req }: { req: IncomingMessage }): Promise<AuthContext> => {
     const token = (req.headers.authorisation as string)?.replace("Bearer ", "");
 
@@ -44,22 +54,30 @@ const apolloServer = new ApolloServer({
     UserModel.typeDefs,
     AnimalBreedModel.typeDefs,
     HostFamilyModel.typeDefs,
+    AnimalModel.typeDefs,
+    ImageModel.typeDefs,
   ],
   schemaDirectives: Object.assign({}, AuthDirective.schemaDirectives),
-  resolvers: Object.assign({
-    Query: Object.assign(
-      {},
-      UserModel.queries,
-      AnimalBreedModel.queries,
-      HostFamilyModel.queries
-    ),
-    Mutation: Object.assign(
-      {},
-      UserModel.mutations,
-      AnimalBreedModel.mutations,
-      HostFamilyModel.mutations
-    ),
-  }),
+  resolvers: Object.assign(
+    {
+      Query: Object.assign(
+        {},
+        UserModel.queries,
+        AnimalBreedModel.queries,
+        HostFamilyModel.queries,
+        AnimalModel.queries,
+        ImageModel.queries
+      ),
+      Mutation: Object.assign(
+        {},
+        UserModel.mutations,
+        AnimalBreedModel.mutations,
+        HostFamilyModel.mutations,
+        AnimalModel.mutations
+      ),
+    },
+    AnimalModel.resolvers
+  ),
 });
 
 export const Server = {

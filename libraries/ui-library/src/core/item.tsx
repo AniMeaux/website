@@ -12,10 +12,12 @@ const ItemSizeClassName: { [key in ItemSize]: string } = {
 };
 
 type ItemCommonProps = {
+  highlight?: boolean;
   size?: ItemSize;
 };
 
 const ItemBaseClassName = "w-full rounded-xl px-2 flex items-center";
+const HighlightedItemClassName = "bg-blue-500 bg-opacity-10";
 
 export type ItemProps = StyleProps & ChildrenProp & ItemCommonProps;
 
@@ -32,6 +34,7 @@ export type LinkItemProps = LinkProps & ItemCommonProps;
 export function LinkItem({
   size = "medium",
   disabled = false,
+  highlight = false,
   className,
   ...rest
 }: LinkItemProps) {
@@ -60,6 +63,7 @@ export type ButtonItemProps = StyleProps &
 export function ButtonItem({
   size = "medium",
   disabled = false,
+  highlight = false,
   className,
   children,
   onClick,
@@ -69,9 +73,13 @@ export function ButtonItem({
       disabled={disabled}
       onClick={onClick}
       className={cn(
-        "focus:outline-none focus-visible:ring focus-visible:ring-blue-500 focus-visible:ring-opacity-50 active:bg-black active:bg-opacity-5 text-left",
+        "focus:outline-none focus-visible:ring focus-visible:ring-blue-500 focus-visible:ring-opacity-50 text-left",
         ItemBaseClassName,
         ItemSizeClassName[size],
+        {
+          "active:bg-black active:bg-opacity-5": !highlight,
+          [`${HighlightedItemClassName} active:bg-opacity-15`]: highlight,
+        },
         className
       )}
     >

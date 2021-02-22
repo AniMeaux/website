@@ -28,6 +28,39 @@
 }
 
 @layer components {
+  .grid-square {
+    @apply grid;
+    grid-template-columns: repeat(auto-fill, minmax(theme("width.24"), 1fr));
+    grid-auto-rows: 1fr;
+  }
+
+  .grid-square > * {
+    @apply relative;
+  }
+
+  /* Square grid "trick" with `padding-top: 100%`. */
+  .grid-square > *::before {
+    @apply block pt-12/12;
+    content: "";
+  }
+
+  /*
+   * Make sure grid item's child is absolute to avoid changing the item size.
+   * We only apply this to the first child to allow multiple children.
+   */
+  .grid-square > * > *:first-child {
+    @apply absolute top-0 left-0 w-full h-full;
+  }
+
+  .date-input-day,
+  .date-input-month {
+    flex: 1 1 2ch;
+  }
+
+  .date-input-year {
+    flex: 1 1 4ch;
+  }
+
   .animation-progress-bar {
     @apply text-blue-500;
     height: 2px;
@@ -183,6 +216,14 @@
     @apply h-full rounded-full;
   }
 
+  .placeholder-image {
+    @apply overflow-hidden;
+  }
+
+  .placeholder-image::after {
+    @apply h-full;
+  }
+
   .placeholder-input {
     @apply w-full h-10;
   }
@@ -250,7 +291,7 @@
   }
 
   .step-item-line-width {
-    width: calc(theme("width.full") - theme("width.8"));
+    width: calc(theme("width.full") - theme("width.10"));
   }
 
   .quick-action-bottom {
