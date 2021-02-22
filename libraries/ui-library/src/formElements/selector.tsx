@@ -45,7 +45,7 @@ export function Selector({
 }
 
 const INPUT_CLASS_NAME =
-  "appearance-none focus:outline-none focus-visible:ring focus-visible:ring-blue-500 focus-visible:ring-opacity-50 absolute inset-0 rounded-full w-full h-full";
+  "select-auto appearance-none focus:outline-none focus-visible:ring focus-visible:ring-blue-500 focus-visible:ring-opacity-50 absolute inset-0 rounded-full w-full h-full";
 
 export function SelectorRadio({ className, ...rest }: RawRadioProps) {
   return <RawRadio {...rest} className={cn(INPUT_CLASS_NAME, className)} />;
