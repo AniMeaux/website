@@ -110,7 +110,6 @@ const typeDefs = gql`
 
   extend type Mutation {
     createAnimal(
-      id: ID!
       officialName: String!
       commonName: String
       birthdate: String!

@@ -13,7 +13,7 @@ import {
   Placeholder,
 } from "@animeaux/ui-library";
 import * as React from "react";
-import { getAnimalAvatarUrl } from "./animalPictures";
+import { computeAvatarUrl } from "../cloudinary";
 
 export function SearchableAnimalItemPlaceholder() {
   return (
@@ -45,7 +45,7 @@ export function SearchableAnimalItem({
     <LinkItem {...rest} size="large">
       <ItemIcon size="large">
         <Avatar size="large">
-          <img src={getAnimalAvatarUrl(animal)} alt={displayName} />
+          <img src={computeAvatarUrl(animal.avatarId)} alt={displayName} />
         </Avatar>
       </ItemIcon>
 

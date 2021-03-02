@@ -13,12 +13,14 @@ class Cloudinary extends CloudinaryCore {
   apiKey: string;
   uploadUrl: string;
   deleteUrl: string;
+  tagsUrl: string;
 
   constructor({ cloudName, apiKey }: CloudinaryConstructorParams) {
     super({ cloud_name: cloudName, secure: true });
     this.apiKey = apiKey;
     this.uploadUrl = `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`;
     this.deleteUrl = `https://api.cloudinary.com/v1_1/${cloudName}/image/destroy`;
+    this.tagsUrl = `https://api.cloudinary.com/v1_1/${cloudName}/image/tags`;
   }
 }
 
@@ -39,36 +41,42 @@ function getInstance() {
   return cloudinary;
 }
 
-export function computePublicId(folders: string[], imageId: string) {
-  return folders.concat([imageId]).join("/");
-}
-
 const GetCloudinaryApiSignature = gql`
-  query GetCloudinaryApiSignature($publicId: String!) {
-    apiSignature: getCloudinaryApiSignature(publicId: $publicId) {
+  query GetCloudinaryApiSignature($parametersToSign: JSONObject!) {
+    apiSignature: getCloudinaryApiSignature(
+      parametersToSign: $parametersToSign
+    ) {
       timestamp
       signature
     }
   }
 `;
 
-async function getApiSignature(publicId: string) {
+async function getApiSignature(parametersToSign: object) {
   const { apiSignature } = await fetchGraphQL<
     { apiSignature: CloudinaryApiSignature },
-    { publicId: string }
-  >(GetCloudinaryApiSignature, { variables: { publicId } });
+    { parametersToSign: object }
+  >(GetCloudinaryApiSignature, { variables: { parametersToSign } });
 
   return apiSignature;
 }
 
-export async function uploadImageFile(folders: string[], imageFile: ImageFile) {
-  const publicId = computePublicId(folders, imageFile.id);
-  const { signature, timestamp } = await getApiSignature(publicId);
+export async function uploadImageFile(
+  imageFile: ImageFile,
+  { tags = [] }: { tags?: string[] } = {}
+) {
+  const tagsParam = tags.join(",");
+  const { signature, timestamp } = await getApiSignature({
+    public_id: imageFile.id,
+    tags: tagsParam,
+  });
+
   const instance = getInstance();
 
   const formData = new FormData();
   formData.append("file", imageFile.file);
-  formData.append("public_id", publicId);
+  formData.append("public_id", imageFile.id);
+  formData.append("tags", tagsParam);
   formData.append("api_key", instance.apiKey);
   formData.append("timestamp", timestamp);
   formData.append("signature", signature);
@@ -90,9 +98,11 @@ export async function uploadImageFile(folders: string[], imageFile: ImageFile) {
   }
 }
 
-export async function deleteImage(folders: string[], imageId: string) {
-  const publicId = computePublicId(folders, imageId);
-  const { signature, timestamp } = await getApiSignature(publicId);
+export async function deleteImage(imageId: string) {
+  const { signature, timestamp } = await getApiSignature({
+    public_id: imageId,
+  });
+
   const instance = getInstance();
 
   try {
@@ -100,7 +110,7 @@ export async function deleteImage(folders: string[], imageId: string) {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        public_id: publicId,
+        public_id: imageId,
         api_key: instance.apiKey,
         timestamp,
         signature,
@@ -122,14 +132,15 @@ export async function deleteImage(folders: string[], imageId: string) {
 
 export function computeAvatarUrl(publicId: string) {
   return getInstance().url(publicId, {
+    crop: "fill",
     width: 100,
     height: 100,
-    crop: "fill",
   });
 }
 
 export function computePictureUrl(publicId: string) {
   return getInstance().url(publicId, {
+    crop: "fit",
     // Larger than any small screen.
     width: 600,
   });

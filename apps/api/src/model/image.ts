@@ -15,22 +15,23 @@ const typeDefs = gql`
   }
 
   extend type Query {
-    getCloudinaryApiSignature(publicId: String!): CloudinaryApiSignature!
-      @auth(groups: [ADMIN, ANIMAL_MANAGER])
+    getCloudinaryApiSignature(
+      parametersToSign: JSONObject!
+    ): CloudinaryApiSignature! @auth(groups: [ADMIN, ANIMAL_MANAGER])
   }
 `;
 
 const queries: IResolverObject = {
   getCloudinaryApiSignature: async (
     parent: any,
-    { publicId }: { publicId: string }
+    { parametersToSign }: { parametersToSign: object }
   ): Promise<CloudinaryApiSignature> => {
     const timestamp = Date.now();
 
     return {
       timestamp: String(timestamp),
       signature: cloudinary.utils.api_sign_request(
-        { timestamp, public_id: publicId },
+        { timestamp, ...parametersToSign },
         process.env.CLOUDINARY_API_SECRET
       ),
     };

@@ -12,6 +12,7 @@ import {
 import { UserInputError } from "apollo-server";
 import * as admin from "firebase-admin";
 import isEmpty from "lodash.isempty";
+import { v4 as uuid } from "uuid";
 import { AnimalDatabase } from "../../databaseType";
 import { AlgoliaClient } from "./algoliaClient";
 import { animalBreedDatabase } from "./animalBreed";
@@ -68,7 +69,7 @@ export const animalDatabase: AnimalDatabase = {
     }
 
     const searchableAnimal: DBSearchableAnimal = {
-      id: payload.id,
+      id: uuid(),
       officialName,
       birthdate: payload.birthdate,
       birthdateTimestamp: new Date(payload.birthdate).getTime(),

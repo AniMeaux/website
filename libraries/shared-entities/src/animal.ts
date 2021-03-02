@@ -1,4 +1,3 @@
-import { v4 as uuid } from "uuid";
 import { AnimalBreed } from "./animalBreed";
 import { DATE_PATTERN } from "./date";
 import { sortByLabels } from "./enumUtils";
@@ -378,15 +377,12 @@ export type AnimalFormPayload = AnimalProfileFormPayload &
 
 export type CreateAnimalPayload = CreateAnimalProfilePayload &
   CreateAnimalSituationPayload &
-  CreateAnimalPicturesPayload & {
-    id: string;
-  };
+  CreateAnimalPicturesPayload;
 
 export function createAminalCreationApiPayload(
   formPayload: AnimalFormPayload
 ): CreateAnimalPayload {
   return {
-    id: uuid(),
     ...createAnimalProfileCreationApiPayload(formPayload),
     ...createAnimalSituationCreationApiPayload(formPayload),
     ...createAnimalPicturesCreationApiPayload(formPayload),

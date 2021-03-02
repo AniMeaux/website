@@ -1,7 +1,7 @@
 import {
   AnimalGenderIcon,
   AnimalSpeciesIcon,
-  getAnimalPictureUrl,
+  computePictureUrl,
   Header,
   PageComponent,
   renderQueryEntity,
@@ -79,7 +79,7 @@ function PicturesSection({ animal }: AnimalProps) {
             style={{ scrollSnapAlign: "start" }}
           >
             <img
-              src={getAnimalPictureUrl(animal, pictureId)}
+              src={computePictureUrl(pictureId)}
               alt={animal.officialName}
               className="w-full h-60 object-cover rounded-xl"
             />

@@ -28,7 +28,6 @@ import {
   useQuery,
   useQueryClient,
 } from "../request";
-import { getAnimalRootPicturesFolder } from "./animalPictures";
 
 const SearchableAnimalFragment = gql`
   fragment SearchableAnimalFragment on SearchableAnimal {
@@ -168,7 +167,6 @@ export function useCreateAnimalSituation(
 
 const CreateAnimalQuery = gql`
   mutation CreateAnimalQuery(
-    $id: ID!
     $officialName: String!
     $commonName: String
     $birthdate: String!
@@ -187,7 +185,6 @@ const CreateAnimalQuery = gql`
     $isSterilized: Boolean!
   ) {
     animal: createAnimal(
-      id: $id
       officialName: $officialName
       commonName: $commonName
       birthdate: $birthdate
@@ -219,11 +216,12 @@ export function useCreateAnimal(
 
   const { mutate, ...rest } = useMutation<Animal, Error, AnimalFormPayload>(
     async (formPayload) => {
+      // Do this first as it checks the form payload.
       const createPayload = createAminalCreationApiPayload(formPayload);
 
       await Promise.all(
         formPayload.pictures.map((picture) =>
-          uploadImageFile(getAnimalRootPicturesFolder(createPayload), picture)
+          uploadImageFile(picture, { tags: ["animal"] })
         )
       );
 
@@ -308,9 +306,7 @@ export function useDeleteAnimal(
       await Promise.all(
         [animal.avatarId]
           .concat(animal.picturesId)
-          .map((pictureId) =>
-            deleteImage(getAnimalRootPicturesFolder(animal), pictureId)
-          )
+          .map((pictureId) => deleteImage(pictureId))
       );
       return animal;
     },
