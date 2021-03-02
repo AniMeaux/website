@@ -98,7 +98,7 @@ function PicturesSection({ animal }: AnimalProps) {
 
 const StatusBadgeColors: { [key in AnimalStatus]: string } = {
   [AnimalStatus.ADOPTED]: "bg-green-500 text-white",
-  [AnimalStatus.FREE]: "bg-green-500 text-white",
+  [AnimalStatus.FREE]: "bg-gray-800 text-white",
   [AnimalStatus.OPEN_TO_ADOPTION]: "bg-blue-500 text-white",
   [AnimalStatus.OPEN_TO_RESERVATION]: "bg-blue-500 text-white",
   [AnimalStatus.RESERVED]: "bg-yellow-500 text-black",
@@ -407,7 +407,7 @@ function SituationSection({ animal }: AnimalProps) {
                 {animal.isSterilized ? "Est" : "N'est"}{" "}
                 <strong className="font-medium">
                   {animal.isSterilized ? "" : "pas "}
-                  stérélisé{animal.gender === AnimalGender.FEMALE ? "e" : ""}
+                  stérilisé{animal.gender === AnimalGender.FEMALE ? "e" : ""}
                 </strong>
               </ItemMainText>
             </ItemContent>
