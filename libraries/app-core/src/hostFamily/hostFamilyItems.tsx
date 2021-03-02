@@ -50,7 +50,9 @@ export function HostFamilyItem({ hostFamily, ...rest }: HostFamilyItemProps) {
 
       <ItemContent>
         <ItemMainText>{hostFamily.name}</ItemMainText>
-        <ItemSecondaryText>{hostFamily.email}</ItemSecondaryText>
+        <ItemSecondaryText>
+          {hostFamily.city} ({hostFamily.zipCode.substring(0, 2)})
+        </ItemSecondaryText>
       </ItemContent>
     </LinkItem>
   );
