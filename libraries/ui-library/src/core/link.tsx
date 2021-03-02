@@ -72,6 +72,7 @@ export function resolveUrl(from: string, to: string): string {
 export type LinkProps = ChildrenProp &
   StyleProps & {
     href: string;
+    shouldOpenInNewTab?: boolean;
     disabled?: boolean;
   };
 
@@ -79,17 +80,28 @@ export type LinkProps = ChildrenProp &
  * Simple Wrapper around Next/Link component to Automatically add the anchor.
  */
 export const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(
-  function Link({ href, disabled = false, ...rest }, ref) {
+  function Link(
+    { href, disabled = false, shouldOpenInNewTab = false, ...rest },
+    ref
+  ) {
     const router = useRouter();
 
     if (disabled) {
       return <span {...rest} ref={ref} />;
     }
 
-    if (href.startsWith("http")) {
+    const additionalProps: React.AnchorHTMLAttributes<HTMLAnchorElement> = {};
+
+    if (shouldOpenInNewTab) {
+      additionalProps.target = "_blank";
+      additionalProps.rel = "noopener noreferrer";
+    }
+
+    const protocol = href.substring(0, href.indexOf(":"));
+    if (["http", "https", "tel", "mailto"].includes(protocol)) {
       // The content is passed as children.
       // eslint-disable-next-line jsx-a11y/anchor-has-content
-      return <a {...rest} href={href} ref={ref} />;
+      return <a {...rest} {...additionalProps} href={href} ref={ref} />;
     }
 
     href = resolveUrl(router.asPath, href);
@@ -98,7 +110,7 @@ export const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(
       <NextLink href={href}>
         {/* The content is passed as children. */}
         {/* eslint-disable-next-line jsx-a11y/anchor-has-content */}
-        <a {...rest} ref={ref} />
+        <a {...rest} {...additionalProps} ref={ref} />
       </NextLink>
     );
   }

@@ -1,5 +1,6 @@
 import cn from "classnames";
 import * as React from "react";
+import { ChildrenProp, StyleProps } from "../core";
 
 export function SectionTitle({
   className,
@@ -25,35 +26,13 @@ export function Section({
   return <section {...rest} className={cn("p-2", className)} />;
 }
 
-export function ButtonSection({
-  className,
-  ...rest
-}: React.HTMLAttributes<HTMLElement>) {
+type ButtonSectionProps = ChildrenProp & StyleProps;
+
+export function ButtonSection({ className, ...rest }: ButtonSectionProps) {
   return (
     <section
       {...rest}
       className={cn("p-4 flex flex-col space-y-4", className)}
     />
   );
-}
-
-export function ActionSection({
-  className,
-  ...rest
-}: React.HTMLAttributes<HTMLElement>) {
-  return <section {...rest} className={cn("py-2 px-4", className)} />;
-}
-
-export function ActionSectionList({
-  className,
-  ...rest
-}: React.HTMLAttributes<HTMLElement>) {
-  return <div {...rest} className={cn("flex flex-col space-y-4", className)} />;
-}
-
-export function MessageSection({
-  className,
-  ...rest
-}: React.HTMLAttributes<HTMLElement>) {
-  return <section {...rest} className={cn("py-2 px-4 space-y-4", className)} />;
 }

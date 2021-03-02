@@ -90,10 +90,47 @@ export async function uploadImageFile(folders: string[], imageFile: ImageFile) {
   }
 }
 
+export async function deleteImage(folders: string[], imageId: string) {
+  const publicId = computePublicId(folders, imageId);
+  const { signature, timestamp } = await getApiSignature(publicId);
+  const instance = getInstance();
+
+  try {
+    const response = await fetch(instance.deleteUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        public_id: publicId,
+        api_key: instance.apiKey,
+        timestamp,
+        signature,
+      }),
+    });
+
+    const message = await response.json();
+
+    // The API can return a 200 with a "not found" message.
+    // This is not documented.
+    if (message?.result === "not found" || !response.ok) {
+      console.error("Could not upload image:", JSON.stringify(message));
+      throw new Error("L'image n'a pas pu être supprimée");
+    }
+  } catch (error) {
+    throw new Error("L'image n'a pas pu être supprimée");
+  }
+}
+
 export function computeAvatarUrl(publicId: string) {
   return getInstance().url(publicId, {
     width: 100,
     height: 100,
     crop: "fill",
+  });
+}
+
+export function computePictureUrl(publicId: string) {
+  return getInstance().url(publicId, {
+    // Larger than any small screen.
+    width: 600,
   });
 }

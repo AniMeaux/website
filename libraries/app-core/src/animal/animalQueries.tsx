@@ -18,12 +18,14 @@ import { gql } from "graphql-request";
 import * as React from "react";
 import { useInfiniteQuery } from "react-query";
 import { AnimalBreedFragment } from "../animalBreed/animalBreedQueries";
-import { uploadImageFile } from "../cloudinary";
+import { deleteImage, uploadImageFile } from "../cloudinary";
 import { HostFamilyFragment } from "../hostFamily/hostFamilyQueries";
 import {
   fetchGraphQL,
+  removeDataFromInfiniteCache,
   useMutation,
   UseMutationOptions,
+  useQuery,
   useQueryClient,
 } from "../request";
 import { getAnimalRootPicturesFolder } from "./animalPictures";
@@ -166,6 +168,7 @@ export function useCreateAnimalSituation(
 
 const CreateAnimalQuery = gql`
   mutation CreateAnimalQuery(
+    $id: ID!
     $officialName: String!
     $commonName: String
     $birthdate: String!
@@ -184,6 +187,7 @@ const CreateAnimalQuery = gql`
     $isSterilized: Boolean!
   ) {
     animal: createAnimal(
+      id: $id
       officialName: $officialName
       commonName: $commonName
       birthdate: $birthdate
@@ -250,6 +254,83 @@ export function useCreateAnimal(
         queryClient.invalidateQueries("animals");
 
         showSnackbar.success(<Snackbar type="success">Animal créée</Snackbar>);
+
+        options?.onSuccess?.(animal, ...rest);
+      },
+    }
+  );
+
+  return [mutate, rest] as const;
+}
+
+const GetAnimalQuery = gql`
+  query GetAnimalQuery($id: ID!) {
+    animal: getAnimal(id: $id) {
+      ...AnimalFragment
+    }
+  }
+
+  ${AnimalFragment}
+`;
+
+export function useAnimal(animalId: string) {
+  return useQuery<Animal | null, Error>(["animal", animalId], async () => {
+    const { animal } = await fetchGraphQL<
+      { animal: Animal | null },
+      { id: string }
+    >(GetAnimalQuery, { variables: { id: animalId } });
+
+    if (animal == null) {
+      throw new Error(ErrorCode.ANIMAL_NOT_FOUND);
+    }
+
+    return animal;
+  });
+}
+
+const DeleteAnimalQuery = gql`
+  mutation DeleteAnimalQuery($id: ID!) {
+    deleteAnimal(id: $id)
+  }
+`;
+
+export function useDeleteAnimal(
+  options?: UseMutationOptions<Animal, Error, Animal>
+) {
+  const queryClient = useQueryClient();
+
+  const { mutate, ...rest } = useMutation<Animal, Error, Animal>(
+    async (animal) => {
+      await fetchGraphQL<boolean, { id: string }>(DeleteAnimalQuery, {
+        variables: { id: animal.id },
+      });
+
+      await Promise.all(
+        [animal.avatarId]
+          .concat(animal.picturesId)
+          .map((pictureId) =>
+            deleteImage(getAnimalRootPicturesFolder(animal), pictureId)
+          )
+      );
+      return animal;
+    },
+    {
+      ...options,
+
+      onSuccess(animal, ...rest) {
+        queryClient.removeQueries(["animal", animal.id]);
+
+        queryClient.setQueryData(
+          "animals",
+          removeDataFromInfiniteCache(animal.id)
+        );
+
+        // Invalidate it to make sure pagination is up to date.
+        queryClient.invalidateQueries("animals");
+
+        showSnackbar.success(
+          <Snackbar type="success">Animal supprimée</Snackbar>
+        );
 
         options?.onSuccess?.(animal, ...rest);
       },

@@ -35,3 +35,8 @@ export type UpdateHostFamilyPayload = {
   city?: string;
   address?: string;
 };
+
+// The result can be used as Google Maps search.
+export function getHostFamilyFullAddress(hostFamily: HostFamily) {
+  return `${hostFamily.address}, ${hostFamily.zipCode} ${hostFamily.city}`;
+}

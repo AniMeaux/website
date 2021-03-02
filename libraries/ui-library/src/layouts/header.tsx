@@ -66,15 +66,13 @@ export function HeaderTitle({
   );
 }
 
-export function Header({
-  className,
-  ...rest
-}: React.HTMLAttributes<HTMLElement>) {
+export type HeaderProps = StyleProps & ChildrenProp;
+
+export function Header({ className, children }: HeaderProps) {
   const { isAtTheTop } = useIsScrollAtTheTop();
 
   return (
     <header
-      {...rest}
       className={cn(
         "transition-shadow duration-200 ease-in-out z-20 fixed top-0 left-0 right-0 ring-1 bg-white w-full h-12 flex-none header-padding flex items-center",
         {
@@ -83,6 +81,8 @@ export function Header({
         },
         className
       )}
-    />
+    >
+      {children}
+    </header>
   );
 }

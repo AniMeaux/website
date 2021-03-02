@@ -14,6 +14,7 @@
     "dev": "run-p -l \"build:* -w\""
   },
   "dependencies": {
+    "date-fns": "^2.16.1",
     "lodash.intersection": "^4.4.0",
     "uuid": "^8.3.2"
   },

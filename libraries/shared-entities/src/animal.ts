@@ -203,7 +203,7 @@ export type SearchableAnimal = {
   officialName: string;
   commonName?: string | null;
   birthdate: string;
-  pickUpDate: string | null;
+  pickUpDate: string;
   gender: AnimalGender;
   species: AnimalSpecies;
   breed?: AnimalBreed | null;

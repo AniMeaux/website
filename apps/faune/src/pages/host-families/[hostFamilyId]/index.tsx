@@ -5,7 +5,11 @@ import {
   useDeleteHostFamily,
   useHostFamily,
 } from "@animeaux/app-core";
-import { HostFamily, UserGroup } from "@animeaux/shared-entities";
+import {
+  getHostFamilyFullAddress,
+  HostFamily,
+  UserGroup,
+} from "@animeaux/shared-entities";
 import {
   ButtonLink,
   ButtonSection,
@@ -69,7 +73,7 @@ function ContactSection({ hostFamily }: HostFamilyProps) {
 
             <ItemContent>
               <ItemMainText>
-                {hostFamily.address}, {hostFamily.zipCode} {hostFamily.city}
+                {getHostFamilyFullAddress(hostFamily)}
               </ItemMainText>
             </ItemContent>
           </Item>
