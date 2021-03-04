@@ -5,6 +5,7 @@ import {
   PageComponent,
   renderQueryEntity,
   useAnimal,
+  useCurrentUser,
   useDeleteAnimal,
 } from "@animeaux/app-core";
 import {
@@ -15,12 +16,14 @@ import {
   AnimalSpeciesLabels,
   AnimalStatus,
   AnimalStatusLabels,
+  doesGroupsIntersect,
   formatAge,
   formatLongDate,
   getAnimalDisplayName,
   getHostFamilyFullAddress,
   Trilean,
   TrileanLabels,
+  UserGroup,
 } from "@animeaux/shared-entities";
 import {
   Avatar,
@@ -459,6 +462,12 @@ function DeleteAnimalButton({ animal }: AnimalProps) {
 }
 
 const AnimalPage: PageComponent = () => {
+  const { currentUser } = useCurrentUser();
+  const isCurrentUserAdmin = doesGroupsIntersect(currentUser.groups, [
+    UserGroup.ADMIN,
+    UserGroup.ANIMAL_MANAGER,
+  ]);
+
   const router = useRouter();
   const animalId = router.query.animalId as string;
   const query = useAnimal(animalId);
@@ -473,23 +482,25 @@ const AnimalPage: PageComponent = () => {
         <ProfileSection animal={animal} />
         <SituationSection animal={animal} />
 
-        <QuickActions icon={FaPen}>
-          <ButtonSection>
-            <ButtonLink href="./edit/profile" variant="outlined">
-              Modifier le profil
-            </ButtonLink>
+        {isCurrentUserAdmin && (
+          <QuickActions icon={FaPen}>
+            <ButtonSection>
+              <ButtonLink href="./edit/profile" variant="outlined">
+                Modifier le profil
+              </ButtonLink>
 
-            <ButtonLink href="./edit/situation" variant="outlined">
-              Modifier la situation
-            </ButtonLink>
+              <ButtonLink href="./edit/situation" variant="outlined">
+                Modifier la situation
+              </ButtonLink>
 
-            <ButtonLink href="./edit/pictures" variant="outlined">
-              Modifier les photos
-            </ButtonLink>
+              <ButtonLink href="./edit/pictures" variant="outlined">
+                Modifier les photos
+              </ButtonLink>
 
-            <DeleteAnimalButton animal={animal} />
-          </ButtonSection>
-        </QuickActions>
+              <DeleteAnimalButton animal={animal} />
+            </ButtonSection>
+          </QuickActions>
+        )}
       </>
     ),
   });
@@ -498,7 +509,6 @@ const AnimalPage: PageComponent = () => {
     <div>
       <PageTitle title={pageTitle} />
       <Header headerTitle={headerTitle} canGoBack />
-
       <Main>{content}</Main>
     </div>
   );

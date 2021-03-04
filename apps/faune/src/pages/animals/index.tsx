@@ -5,7 +5,9 @@ import {
   SearchableAnimalItem,
   SearchableAnimalItemPlaceholder,
   useAllAnimals,
+  useCurrentUser,
 } from "@animeaux/app-core";
+import { doesGroupsIntersect, UserGroup } from "@animeaux/shared-entities";
 import {
   Main,
   QuickLinkAction,
@@ -19,6 +21,12 @@ import { PageTitle } from "../../core/pageTitle";
 const TITLE = "Animaux";
 
 const AnimalListPage: PageComponent = () => {
+  const { currentUser } = useCurrentUser();
+  const isCurrentUserAdmin = doesGroupsIntersect(currentUser.groups, [
+    UserGroup.ADMIN,
+    UserGroup.ANIMAL_MANAGER,
+  ]);
+
   usePageScrollRestoration();
 
   const query = useAllAnimals();
@@ -37,15 +45,17 @@ const AnimalListPage: PageComponent = () => {
       <PageTitle title={TITLE} />
       <Header headerTitle={title} />
 
-      <Main hasNavigation>
+      <Main hasNavigation={isCurrentUserAdmin}>
         {content}
 
-        <QuickLinkAction href="./new/profile">
-          <FaPlus />
-        </QuickLinkAction>
+        {isCurrentUserAdmin && (
+          <QuickLinkAction href="./new/profile">
+            <FaPlus />
+          </QuickLinkAction>
+        )}
       </Main>
 
-      <Navigation />
+      {isCurrentUserAdmin && <Navigation />}
     </div>
   );
 };

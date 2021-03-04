@@ -4,10 +4,12 @@ import {
   User,
   UserGroup,
 } from "@animeaux/shared-entities";
+import { ButtonLink, Main } from "@animeaux/ui-library";
 import firebase from "firebase/app";
 import { gql } from "graphql-request";
 import invariant from "invariant";
 import * as React from "react";
+import { ErrorPage, ErrorPageType } from "../errorPage";
 import { PageTitle } from "../page";
 import { fetchGraphQL } from "../request";
 import { SignInPage } from "./signInPage";
@@ -165,10 +167,16 @@ export function CurrentUserContextProvider({
     !doesGroupsIntersect(currentUser.groups, authorisedGroupsForApplication)
   ) {
     return (
-      <p>
-        Vous n'êtes pas authorisé à accéder à cette application. Si vous pensez
-        que c'est une erreur merci de contacter un administrateur.
-      </p>
+      <Main>
+        <ErrorPage
+          type={ErrorPageType.UNAUTHORIZED}
+          error={
+            new Error(
+              "Vous n'êtes pas authorisé à accéder à cette application. Si vous pensez que c'est une erreur merci de contacter un administrateur."
+            )
+          }
+        />
+      </Main>
     );
   }
 
@@ -177,10 +185,21 @@ export function CurrentUserContextProvider({
     !doesGroupsIntersect(currentUser.groups, authorisedGroupsForPage)
   ) {
     return (
-      <p>
-        Vous n'êtes pas authorisé à accéder à cette page. Si vous pensez que
-        c'est une erreur merci de contacter un administrateur.
-      </p>
+      <Main>
+        <ErrorPage
+          type={ErrorPageType.UNAUTHORIZED}
+          error={
+            new Error(
+              "Vous n'êtes pas authorisé à accéder à cette page. Si vous pensez que c'est une erreur merci de contacter un administrateur."
+            )
+          }
+          action={
+            <ButtonLink href="/" variant="outlined">
+              Retour
+            </ButtonLink>
+          }
+        />
+      </Main>
     );
   }
 
