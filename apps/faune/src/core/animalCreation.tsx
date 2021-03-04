@@ -1,9 +1,8 @@
 import {
   AnimalFormPayload,
-  AnimalStatus,
   createAnimalProfileCreationApiPayload,
   createAnimalSituationCreationApiPayload,
-  Trilean,
+  createEmptyAnimalFormPayload,
 } from "@animeaux/shared-entities";
 import {
   ChildrenProp,
@@ -18,27 +17,9 @@ import invariant from "invariant";
 import { useRouter } from "next/router";
 import * as React from "react";
 
-const INITIAL_FORM_PAYLOAD: AnimalFormPayload = {
-  officialName: "",
-  commonName: "",
-  birthdate: "",
-  gender: null,
-  species: null,
-  breed: null,
-  color: null,
-  status: AnimalStatus.UNAVAILABLE,
-  pickUpDate: "",
-  hostFamily: null,
-  isOkChildren: Trilean.UNKNOWN,
-  isOkDogs: Trilean.UNKNOWN,
-  isOkCats: Trilean.UNKNOWN,
-  isSterilized: false,
-  pictures: [],
-};
-
 function useAnimalFormPayload() {
-  const [formPayload, setFormPayload] = React.useState<AnimalFormPayload>(
-    INITIAL_FORM_PAYLOAD
+  const [formPayload, setFormPayload] = React.useState<AnimalFormPayload>(() =>
+    createEmptyAnimalFormPayload()
   );
 
   return { formPayload, setFormPayload };

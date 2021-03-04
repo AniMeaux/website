@@ -33,6 +33,8 @@ export default function App(props: ApplicationProps) {
         applicationName={process.env.NEXT_PUBLIC_APP_SHORT_NAME}
         authorisedGroupsForApplication={AUTHORISED_GROUPS}
         applicationProps={props}
+        cloudinaryApiKey={process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY}
+        cloudinaryCloudName={process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}
       />
     </>
   );

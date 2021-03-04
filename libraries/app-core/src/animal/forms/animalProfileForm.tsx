@@ -39,7 +39,7 @@ export type AnimalProfileFormErrors = {
   breed?: string | null;
 };
 
-type AnimalProfileFormProps<PayloadType> = FormProps & {
+export type AnimalProfileFormProps<PayloadType> = FormProps & {
   isEdit?: boolean;
   value: PayloadType;
   onChange: React.Dispatch<React.SetStateAction<PayloadType>>;

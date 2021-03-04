@@ -7,6 +7,7 @@ import {
   FormProps,
   ImageInput,
   SubmitButton,
+  Image,
 } from "@animeaux/ui-library";
 import * as React from "react";
 import { FaPaw } from "react-icons/fa";
@@ -39,9 +40,10 @@ export function AnimalPicturesForm<
           {value.pictures.length === 0 ? (
             <FaPaw />
           ) : (
-            <img
-              src={value.pictures[0].dataUrl}
-              alt={value.pictures[0].file.name}
+            <Image
+              image={value.pictures[0]}
+              preset="avatar"
+              alt="Avatar"
               className="w-full h-full object-cover"
             />
           )}

@@ -4,25 +4,29 @@ import {
   AnimalProfileFormPayload,
   AnimalSituationFormPayload,
   createAminalCreationApiPayload,
+  createAminalProfileUpdateApiPayload,
   CreateAnimalPayload,
   createAnimalProfileCreationApiPayload,
   createAnimalSituationCreationApiPayload,
   ErrorCode,
+  ImageFile,
   PaginatedRequest,
   PaginatedResponse,
   SearchableAnimal,
   SearchFilter,
+  UpdateAnimalPayload,
 } from "@animeaux/shared-entities";
 import { showSnackbar, Snackbar } from "@animeaux/ui-library";
 import { gql } from "graphql-request";
 import * as React from "react";
 import { useInfiniteQuery } from "react-query";
 import { AnimalBreedFragment } from "../animalBreed/animalBreedQueries";
-import { deleteImage, uploadImageFile } from "../cloudinary";
+import { deleteImage, uploadImageFile, useCloudinary } from "../cloudinary";
 import { HostFamilyFragment } from "../hostFamily/hostFamilyQueries";
 import {
   fetchGraphQL,
   removeDataFromInfiniteCache,
+  updateDataInInfiniteCache,
   useMutation,
   UseMutationOptions,
   useQuery,
@@ -213,6 +217,7 @@ export function useCreateAnimal(
   options?: UseMutationOptions<Animal, Error, AnimalFormPayload>
 ) {
   const queryClient = useQueryClient();
+  const { imageProvider } = useCloudinary();
 
   const { mutate, ...rest } = useMutation<Animal, Error, AnimalFormPayload>(
     async (formPayload) => {
@@ -221,7 +226,12 @@ export function useCreateAnimal(
 
       await Promise.all(
         formPayload.pictures.map((picture) =>
-          uploadImageFile(picture, { tags: ["animal"] })
+          uploadImageFile(
+            imageProvider,
+            // It can only be an `ImageFile` when creating a new animal.
+            picture as ImageFile,
+            { tags: ["animal"] }
+          )
         )
       );
 
@@ -296,6 +306,7 @@ export function useDeleteAnimal(
   options?: UseMutationOptions<Animal, Error, Animal>
 ) {
   const queryClient = useQueryClient();
+  const { imageProvider } = useCloudinary();
 
   const { mutate, ...rest } = useMutation<Animal, Error, Animal>(
     async (animal) => {
@@ -306,7 +317,7 @@ export function useDeleteAnimal(
       await Promise.all(
         [animal.avatarId]
           .concat(animal.picturesId)
-          .map((pictureId) => deleteImage(pictureId))
+          .map((pictureId) => deleteImage(imageProvider, pictureId))
       );
       return animal;
     },
@@ -326,6 +337,106 @@ export function useDeleteAnimal(
 
         showSnackbar.success(
           <Snackbar type="success">Animal supprimée</Snackbar>
+        );
+
+        options?.onSuccess?.(animal, ...rest);
+      },
+    }
+  );
+
+  return [mutate, rest] as const;
+}
+
+const UpdateAnimalQuery = gql`
+  mutation UpdateAnimalQuery(
+    $id: ID!
+    $officialName: String
+    $commonName: String
+    $birthdate: String
+    $pickUpDate: String
+    $gender: AnimalGender
+    $species: AnimalSpecies
+    $breedId: ID
+    $color: AnimalColor
+    $status: AnimalStatus
+    $avatarId: String
+    $picturesId: [String!]
+    $hostFamilyId: ID
+    $isOkChildren: Trilean
+    $isOkDogs: Trilean
+    $isOkCats: Trilean
+    $isSterilized: Boolean
+  ) {
+    animal: updateAnimal(
+      id: $id
+      officialName: $officialName
+      commonName: $commonName
+      birthdate: $birthdate
+      pickUpDate: $pickUpDate
+      gender: $gender
+      species: $species
+      breedId: $breedId
+      color: $color
+      status: $status
+      avatarId: $avatarId
+      picturesId: $picturesId
+      hostFamilyId: $hostFamilyId
+      isOkChildren: $isOkChildren
+      isOkDogs: $isOkDogs
+      isOkCats: $isOkCats
+      isSterilized: $isSterilized
+    ) {
+      ...AnimalFragment
+    }
+  }
+
+  ${AnimalFragment}
+`;
+
+export function useUpdateAnimalProfile(
+  options?: UseMutationOptions<
+    Animal,
+    Error,
+    { currentAnimal: Animal; formPayload: AnimalProfileFormPayload }
+  >
+) {
+  const queryClient = useQueryClient();
+
+  const { mutate, ...rest } = useMutation<
+    Animal,
+    Error,
+    { currentAnimal: Animal; formPayload: AnimalProfileFormPayload }
+  >(
+    async ({ currentAnimal, formPayload }) => {
+      const updatePayload = createAminalProfileUpdateApiPayload(
+        currentAnimal,
+        formPayload
+      );
+
+      const { animal } = await fetchGraphQL<
+        { animal: Animal },
+        UpdateAnimalPayload
+      >(UpdateAnimalQuery, { variables: updatePayload });
+
+      return animal;
+    },
+    {
+      ...options,
+      errorCodesToIgnore: [
+        ErrorCode.ANIMAL_MISSING_SPECIES,
+        ErrorCode.ANIMAL_MISSING_OFFICIAL_NAME,
+        ErrorCode.ANIMAL_INVALID_BIRTHDATE,
+        ErrorCode.ANIMAL_MISSING_GENDER,
+        ErrorCode.ANIMAL_SPECIES_BREED_MISSMATCH,
+      ],
+
+      onSuccess(animal, ...rest) {
+        queryClient.setQueryData(["animal", animal.id], animal);
+
+        queryClient.setQueryData("animals", updateDataInInfiniteCache(animal));
+
+        showSnackbar.success(
+          <Snackbar type="success">Animal modifiée</Snackbar>
         );
 
         options?.onSuccess?.(animal, ...rest);

@@ -1,7 +1,13 @@
 import { CloudinaryApiSignature, ImageFile } from "@animeaux/shared-entities";
-import { Cloudinary as CloudinaryCore } from "cloudinary-core";
+import {
+  ChildrenProp,
+  ImagePreset,
+  ImageProviderContextProvider,
+  useImageProvider,
+} from "@animeaux/ui-library";
+import { Cloudinary as CloudinaryCore, Transformation } from "cloudinary-core";
 import { gql } from "graphql-request";
-import invariant from "invariant";
+import * as React from "react";
 import { fetchGraphQL } from "./request";
 
 type CloudinaryConstructorParams = {
@@ -24,21 +30,43 @@ class Cloudinary extends CloudinaryCore {
   }
 }
 
-let cloudinary: Cloudinary | null = null;
+const ImagePresetTransformOptions: {
+  [key in ImagePreset]: Transformation.Options;
+} = {
+  avatar: {
+    crop: "fill",
+    width: 100,
+    height: 100,
+  },
+  none: {
+    crop: "fit",
+    // Larger than any small screen.
+    width: 600,
+  },
+};
 
-export function initializeCloudinary(params: CloudinaryConstructorParams) {
-  if (cloudinary == null) {
-    cloudinary = new Cloudinary(params);
-  }
+type CloudinaryContextProviderProps = ChildrenProp &
+  CloudinaryConstructorParams;
+
+export function CloudinaryContextProvider({
+  apiKey,
+  cloudName,
+  children,
+}: CloudinaryContextProviderProps) {
+  return (
+    <ImageProviderContextProvider
+      createImageProvider={() => new Cloudinary({ apiKey, cloudName })}
+      getImageUrl={(instance, imageId, preset) =>
+        instance.url(imageId, ImagePresetTransformOptions[preset])
+      }
+    >
+      {children}
+    </ImageProviderContextProvider>
+  );
 }
 
-function getInstance() {
-  invariant(
-    cloudinary != null,
-    "initializeCloudinary must be called before calling any related functions."
-  );
-
-  return cloudinary;
+export function useCloudinary() {
+  return useImageProvider<Cloudinary>();
 }
 
 const GetCloudinaryApiSignature = gql`
@@ -62,6 +90,7 @@ async function getApiSignature(parametersToSign: object) {
 }
 
 export async function uploadImageFile(
+  cloudinary: Cloudinary,
   imageFile: ImageFile,
   { tags = [] }: { tags?: string[] } = {}
 ) {
@@ -71,18 +100,16 @@ export async function uploadImageFile(
     tags: tagsParam,
   });
 
-  const instance = getInstance();
-
   const formData = new FormData();
   formData.append("file", imageFile.file);
   formData.append("public_id", imageFile.id);
   formData.append("tags", tagsParam);
-  formData.append("api_key", instance.apiKey);
+  formData.append("api_key", cloudinary.apiKey);
   formData.append("timestamp", timestamp);
   formData.append("signature", signature);
 
   try {
-    const response = await fetch(instance.uploadUrl, {
+    const response = await fetch(cloudinary.uploadUrl, {
       method: "POST",
       body: formData,
     });
@@ -98,20 +125,18 @@ export async function uploadImageFile(
   }
 }
 
-export async function deleteImage(imageId: string) {
+export async function deleteImage(cloudinary: Cloudinary, imageId: string) {
   const { signature, timestamp } = await getApiSignature({
     public_id: imageId,
   });
 
-  const instance = getInstance();
-
   try {
-    const response = await fetch(instance.deleteUrl, {
+    const response = await fetch(cloudinary.deleteUrl, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         public_id: imageId,
-        api_key: instance.apiKey,
+        api_key: cloudinary.apiKey,
         timestamp,
         signature,
       }),
@@ -128,20 +153,4 @@ export async function deleteImage(imageId: string) {
   } catch (error) {
     throw new Error("L'image n'a pas pu être supprimée");
   }
-}
-
-export function computeAvatarUrl(publicId: string) {
-  return getInstance().url(publicId, {
-    crop: "fill",
-    width: 100,
-    height: 100,
-  });
-}
-
-export function computePictureUrl(publicId: string) {
-  return getInstance().url(publicId, {
-    crop: "fit",
-    // Larger than any small screen.
-    width: 600,
-  });
 }

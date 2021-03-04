@@ -29,21 +29,6 @@ const HostFamilyEditPage: PageComponent = () => {
     },
   });
 
-  const { pageTitle, headerTitle, content } = renderQueryEntity(query, {
-    getDisplayedText: (hostFamily) => hostFamily.name,
-    renderPlaceholder: () => <HostFamilyFormPlaceholder />,
-    renderEntity: (hostFamily) => (
-      <HostFamilyForm
-        hostFamily={hostFamily}
-        onSubmit={(formPayload) =>
-          updateHostFamily({ currentHostFamily: hostFamily, formPayload })
-        }
-        pending={mutation.isLoading}
-        errors={errors}
-      />
-    ),
-  });
-
   const errors: HostFamilyFormErrors = {};
   if (mutation.error != null) {
     const errorMessage = getErrorMessage(mutation.error);
@@ -77,6 +62,21 @@ const HostFamilyEditPage: PageComponent = () => {
       errors.address = errorMessage;
     }
   }
+
+  const { pageTitle, headerTitle, content } = renderQueryEntity(query, {
+    getDisplayedText: (hostFamily) => hostFamily.name,
+    renderPlaceholder: () => <HostFamilyFormPlaceholder />,
+    renderEntity: (hostFamily) => (
+      <HostFamilyForm
+        hostFamily={hostFamily}
+        onSubmit={(formPayload) =>
+          updateHostFamily({ currentHostFamily: hostFamily, formPayload })
+        }
+        pending={mutation.isLoading}
+        errors={errors}
+      />
+    ),
+  });
 
   return (
     <div>

@@ -4,11 +4,13 @@ export type ImageFile = {
   dataUrl: string;
 };
 
-export function isImageFile(image: string | ImageFile): image is ImageFile {
+export type ImageFileOrId = string | ImageFile;
+
+export function isImageFile(image: ImageFileOrId): image is ImageFile {
   return typeof image !== "string";
 }
 
-export function getImageId(image: string | ImageFile) {
+export function getImageId(image: ImageFileOrId) {
   return isImageFile(image) ? image.id : image;
 }
 

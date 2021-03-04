@@ -1,6 +1,7 @@
 import { SnackbarContainer } from "@animeaux/ui-library";
 import { AppProps } from "next/app";
 import * as React from "react";
+import { CloudinaryContextProvider } from "./cloudinary";
 import { PageComponent } from "./page";
 import { RequestContextProvider } from "./request";
 import {
@@ -17,10 +18,14 @@ export type ApplicationProvidersProps = Omit<
   "children" | "authorisedGroupsForPage"
 > & {
   applicationProps: ApplicationProps;
+  cloudinaryApiKey: string;
+  cloudinaryCloudName: string;
 };
 
 export function ApplicationProviders({
   applicationProps: { Component, pageProps },
+  cloudinaryApiKey,
+  cloudinaryCloudName,
   ...props
 }: ApplicationProvidersProps) {
   let children = <Component {...pageProps} />;
@@ -38,7 +43,12 @@ export function ApplicationProviders({
           {...props}
           authorisedGroupsForPage={Component.authorisedGroups}
         >
-          {children}
+          <CloudinaryContextProvider
+            apiKey={cloudinaryApiKey}
+            cloudName={cloudinaryCloudName}
+          >
+            {children}
+          </CloudinaryContextProvider>
         </CurrentUserContextProvider>
       </RequestContextProvider>
 

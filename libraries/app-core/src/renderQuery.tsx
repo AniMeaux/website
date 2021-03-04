@@ -38,7 +38,7 @@ function renderItemListContent<DataType>(
     renderItem,
     placeholderElement: PlaceholderElement,
   }: ItemListRenderers<DataType>
-) {
+): React.ReactNode {
   if (query.data != null) {
     if (query.data.length === 0) {
       return <EmptyMessage>{renderEmptyMessage()}</EmptyMessage>;
@@ -115,7 +115,7 @@ function renderInfiniteItemListContent<ItemType>(
       if (hasSearch) {
         return (
           <EmptyMessage action={renderEmptySearchAction?.()}>
-            {renderEmptySearchMessage?.() ?? renderEmptyMessage()}
+            {(renderEmptySearchMessage ?? renderEmptyMessage)()}
           </EmptyMessage>
         );
       }
@@ -191,12 +191,17 @@ type EntityQueryRenderers<EntityType> = {
   getDisplayedText: (entity: EntityType) => string;
   renderEntity: (entity: EntityType) => React.ReactNode;
   renderPlaceholder: () => React.ReactNode;
+  renderError?: (errorPage: React.ReactNode) => React.ReactNode;
 };
 
 function renderQueryEntityContent<EntityType>(
   query: UseQueryResult<EntityType | null, Error>,
-  { renderEntity, renderPlaceholder }: EntityQueryRenderers<EntityType>
-) {
+  {
+    renderEntity,
+    renderPlaceholder,
+    renderError,
+  }: EntityQueryRenderers<EntityType>
+): React.ReactNode {
   if (query.data != null) {
     return renderEntity(query.data);
   }
@@ -206,9 +211,11 @@ function renderQueryEntityContent<EntityType>(
   }
 
   if (query.isError) {
-    return (
+    const errorPage = (
       <ErrorPage error={query.error} action={<RetryButton query={query} />} />
     );
+
+    return renderError == null ? errorPage : renderError(errorPage);
   }
 
   return null;

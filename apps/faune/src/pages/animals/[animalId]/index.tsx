@@ -1,7 +1,6 @@
 import {
   AnimalGenderIcon,
   AnimalSpeciesIcon,
-  computePictureUrl,
   Header,
   PageComponent,
   renderQueryEntity,
@@ -30,6 +29,7 @@ import {
   ButtonLink,
   ButtonSection,
   ButtonWithConfirmation,
+  Image,
   Item,
   ItemContent,
   ItemIcon,
@@ -78,9 +78,9 @@ function PicturesSection({ animal }: AnimalProps) {
             className="relative flex-none px-4 w-full"
             style={{ scrollSnapAlign: "start" }}
           >
-            <img
-              src={computePictureUrl(pictureId)}
+            <Image
               alt={animal.officialName}
+              image={pictureId}
               className="w-full h-60 object-cover rounded-xl"
             />
 
@@ -475,8 +475,8 @@ const AnimalPage: PageComponent = () => {
 
         <QuickActions icon={FaPen}>
           <ButtonSection>
-            <ButtonLink href="./edit/profil" variant="outlined">
-              Modifier le profile
+            <ButtonLink href="./edit/profile" variant="outlined">
+              Modifier le profil
             </ButtonLink>
 
             <ButtonLink href="./edit/situation" variant="outlined">

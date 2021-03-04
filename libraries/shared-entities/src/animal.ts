@@ -1,9 +1,10 @@
+import isEqual from "lodash.isequal";
 import { AnimalBreed } from "./animalBreed";
 import { DATE_PATTERN } from "./date";
 import { sortByLabels } from "./enumUtils";
 import { ErrorCode } from "./errors";
 import { HostFamily } from "./hostFamily";
-import { ImageFile } from "./image";
+import { getImageId, ImageFileOrId } from "./image";
 import { Trilean } from "./trilean";
 
 export enum AnimalSpecies {
@@ -350,7 +351,7 @@ export function createAnimalSituationCreationApiPayload(
 }
 
 export type AnimalPicturesFormPayload = {
-  pictures: ImageFile[];
+  pictures: ImageFileOrId[];
 };
 
 export type CreateAnimalPicturesPayload = {
@@ -366,8 +367,8 @@ export function createAnimalPicturesCreationApiPayload(
   }
 
   return {
-    avatarId: payload.pictures[0].id,
-    picturesId: payload.pictures.slice(1).map((picture) => picture.id),
+    avatarId: getImageId(payload.pictures[0]),
+    picturesId: payload.pictures.slice(1).map(getImageId),
   };
 }
 
@@ -389,6 +390,131 @@ export function createAminalCreationApiPayload(
   };
 }
 
+export function createEmptyAnimalFormPayload(): AnimalFormPayload {
+  return {
+    officialName: "",
+    commonName: "",
+    birthdate: "",
+    gender: null,
+    species: null,
+    breed: null,
+    color: null,
+    status: AnimalStatus.UNAVAILABLE,
+    pickUpDate: "",
+    hostFamily: null,
+    isOkChildren: Trilean.UNKNOWN,
+    isOkDogs: Trilean.UNKNOWN,
+    isOkCats: Trilean.UNKNOWN,
+    isSterilized: false,
+    pictures: [],
+  };
+}
+
 export type UpdateAnimalPayload = Partial<CreateAnimalPayload> & {
   id: string;
 };
+
+export function createAminalProfileUpdateApiPayload(
+  animal: Animal,
+  formPayload: AnimalProfileFormPayload
+): UpdateAnimalPayload {
+  const updatePayload: UpdateAnimalPayload = {
+    id: animal.id,
+  };
+
+  if (formPayload.species != null && formPayload.species !== animal.species) {
+    updatePayload.species = formPayload.species;
+  }
+
+  // Allow null to clear the field.
+  if (formPayload.breed?.id !== animal.breed?.id) {
+    updatePayload.breedId = formPayload.breed?.id ?? null;
+  }
+
+  const officialName = formPayload.officialName.trim();
+  if (officialName !== animal.officialName) {
+    updatePayload.officialName = officialName;
+  }
+
+  const commonName = formPayload.commonName.trim();
+  if (commonName !== animal.commonName ?? "") {
+    updatePayload.commonName = commonName === "" ? null : commonName;
+  }
+
+  if (formPayload.birthdate !== animal.birthdate) {
+    updatePayload.birthdate = formPayload.birthdate;
+  }
+
+  if (formPayload.gender != null && formPayload.gender !== animal.gender) {
+    updatePayload.gender = formPayload.gender;
+  }
+
+  if (formPayload.color !== animal.color) {
+    updatePayload.color = formPayload.color;
+  }
+
+  return updatePayload;
+}
+
+export function createAminalSituationUpdateApiPayload(
+  animal: Animal,
+  formPayload: AnimalSituationFormPayload
+): UpdateAnimalPayload {
+  const updatePayload: UpdateAnimalPayload = {
+    id: animal.id,
+  };
+
+  if (formPayload.status !== animal.status) {
+    updatePayload.status = formPayload.status;
+  }
+
+  if (formPayload.pickUpDate !== animal.pickUpDate) {
+    updatePayload.pickUpDate = formPayload.pickUpDate;
+  }
+
+  if (formPayload.hostFamily?.id !== animal.hostFamily?.id) {
+    updatePayload.hostFamilyId = formPayload.hostFamily?.id ?? null;
+  }
+
+  if (formPayload.isOkCats !== animal.isOkCats) {
+    updatePayload.isOkCats = formPayload.isOkCats;
+  }
+
+  if (formPayload.isOkChildren !== animal.isOkChildren) {
+    updatePayload.isOkChildren = formPayload.isOkChildren;
+  }
+
+  if (formPayload.isOkDogs !== animal.isOkDogs) {
+    updatePayload.isOkDogs = formPayload.isOkDogs;
+  }
+
+  if (formPayload.isSterilized !== animal.isSterilized) {
+    updatePayload.isSterilized = formPayload.isSterilized;
+  }
+
+  return updatePayload;
+}
+
+export function createAminalPicturesUpdateApiPayload(
+  animal: Animal,
+  formPayload: AnimalPicturesFormPayload
+): UpdateAnimalPayload {
+  const updatePayload: UpdateAnimalPayload = {
+    id: animal.id,
+  };
+
+  if (formPayload.pictures.length === 0) {
+    throw new Error(ErrorCode.ANIMAL_MISSING_AVATAR);
+  }
+
+  const [avatarId, ...picturesId] = formPayload.pictures.map(getImageId);
+  if (avatarId !== animal.avatarId) {
+    updatePayload.avatarId = avatarId;
+  }
+
+  if (!isEqual(picturesId, animal.picturesId)) {
+    updatePayload.picturesId = picturesId;
+  }
+
+  return updatePayload;
+}

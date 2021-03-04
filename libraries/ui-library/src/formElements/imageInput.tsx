@@ -1,4 +1,8 @@
-import { ImageFile } from "@animeaux/shared-entities";
+import {
+  getImageId,
+  ImageFile,
+  ImageFileOrId,
+} from "@animeaux/shared-entities";
 import cn from "classnames";
 import * as React from "react";
 import { FaImages, FaTrash } from "react-icons/fa";
@@ -9,20 +13,22 @@ import {
   useDragPreview,
   useDropContainer,
 } from "../core";
+import { Image } from "../dataDisplay";
 import { Placeholder, Placeholders } from "../loaders";
 import { showSnackbar, Snackbar } from "../popovers";
 
 function PictureItemPreview() {
-  const preview = useDragPreview<ImageFile>();
+  const preview = useDragPreview<ImageFileOrId>();
 
   if (!preview.display) {
     return null;
   }
 
   return (
-    <img
-      alt={preview.item.data.file.name}
-      src={preview.item.data.dataUrl}
+    <Image
+      alt="Dragged image"
+      image={preview.item.data}
+      preset="avatar"
       style={preview.style}
       className="shadow object-cover rounded-xl"
     />
@@ -30,8 +36,8 @@ function PictureItemPreview() {
 }
 
 type ImageInputProps = {
-  value: ImageFile[];
-  onChange: React.Dispatch<React.SetStateAction<ImageFile[]>>;
+  value: ImageFileOrId[];
+  onChange: React.Dispatch<React.SetStateAction<ImageFileOrId[]>>;
 };
 
 export function ImageInput({ value, onChange }: ImageInputProps) {
@@ -128,7 +134,7 @@ function ImageInputButton({
 
 type ImageItemProps = {
   index: number;
-  image: ImageFile;
+  image: ImageFileOrId;
   onRemove: () => void;
 };
 
@@ -146,9 +152,10 @@ function ImageItem({ image, index, onRemove }: ImageItemProps) {
       draggable={disabled ? false : true}
       className={cn({ hidden: isDragging })}
     >
-      <img
-        src={image.dataUrl}
-        alt={image.file.name}
+      <Image
+        alt="Image tile"
+        image={image}
+        preset="avatar"
         className="rounded-xl object-cover"
       />
 
@@ -167,9 +174,9 @@ const picturePlaceholderItem = (
 );
 
 type ImageGalleryInputProps = {
-  value: ImageFile[];
-  onChange: React.Dispatch<React.SetStateAction<ImageFile[]>>;
-  onRemoveImage: React.Dispatch<ImageFile>;
+  value: ImageFileOrId[];
+  onChange: React.Dispatch<React.SetStateAction<ImageFileOrId[]>>;
+  onRemoveImage: React.Dispatch<ImageFileOrId>;
 };
 
 function ImageGalleryInput({
@@ -180,14 +187,14 @@ function ImageGalleryInput({
   const [pendingImageCount, setPendingImageCount] = React.useState(0);
 
   const containerElement = React.useRef<HTMLUListElement>(null!);
-  const { pendingDropIndex } = useDropContainer<ImageFile>({
+  const { pendingDropIndex } = useDropContainer<ImageFileOrId>({
     containerRef: containerElement,
     setItems: onChange,
   });
 
   const imagesElement = value.map((image, index) => (
     <ImageItem
-      key={image.id}
+      key={getImageId(image)}
       image={image}
       index={index}
       onRemove={() => onRemoveImage(image)}

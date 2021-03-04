@@ -4,6 +4,7 @@ import {
 } from "@animeaux/shared-entities";
 import {
   Avatar,
+  Image,
   Item,
   ItemContent,
   ItemIcon,
@@ -13,7 +14,6 @@ import {
   Placeholder,
 } from "@animeaux/ui-library";
 import * as React from "react";
-import { computeAvatarUrl } from "../cloudinary";
 
 export function SearchableAnimalItemPlaceholder() {
   return (
@@ -45,7 +45,7 @@ export function SearchableAnimalItem({
     <LinkItem {...rest} size="large">
       <ItemIcon size="large">
         <Avatar size="large">
-          <img src={computeAvatarUrl(animal.avatarId)} alt={displayName} />
+          <Image image={animal.avatarId} preset="avatar" alt={displayName} />
         </Avatar>
       </ItemIcon>
 
