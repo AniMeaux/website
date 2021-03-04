@@ -1,25 +1,31 @@
 import {
   Animal,
   AnimalFormPayload,
+  AnimalPicturesFormPayload,
   AnimalProfileFormPayload,
   AnimalSituationFormPayload,
   createAminalCreationApiPayload,
+  createAminalPicturesUpdateApiPayload,
   createAminalProfileUpdateApiPayload,
+  createAminalSituationUpdateApiPayload,
   CreateAnimalPayload,
   createAnimalProfileCreationApiPayload,
   createAnimalSituationCreationApiPayload,
   ErrorCode,
+  getImageId,
   ImageFile,
+  isImageFile,
   PaginatedRequest,
   PaginatedResponse,
   SearchableAnimal,
   SearchFilter,
   UpdateAnimalPayload,
 } from "@animeaux/shared-entities";
-import { showSnackbar, Snackbar } from "@animeaux/ui-library";
+import { showSnackbar, Snackbar, useImageProvider } from "@animeaux/ui-library";
 import { gql } from "graphql-request";
 import * as React from "react";
 import { useInfiniteQuery } from "react-query";
+import difference from "lodash.difference";
 import { AnimalBreedFragment } from "../animalBreed/animalBreedQueries";
 import { deleteImage, uploadImageFile, useCloudinary } from "../cloudinary";
 import { HostFamilyFragment } from "../hostFamily/hostFamilyQueries";
@@ -429,6 +435,126 @@ export function useUpdateAnimalProfile(
         ErrorCode.ANIMAL_MISSING_GENDER,
         ErrorCode.ANIMAL_SPECIES_BREED_MISSMATCH,
       ],
+
+      onSuccess(animal, ...rest) {
+        queryClient.setQueryData(["animal", animal.id], animal);
+
+        queryClient.setQueryData("animals", updateDataInInfiniteCache(animal));
+
+        showSnackbar.success(
+          <Snackbar type="success">Animal modifiée</Snackbar>
+        );
+
+        options?.onSuccess?.(animal, ...rest);
+      },
+    }
+  );
+
+  return [mutate, rest] as const;
+}
+
+export function useUpdateAnimalSituation(
+  options?: UseMutationOptions<
+    Animal,
+    Error,
+    { currentAnimal: Animal; formPayload: AnimalSituationFormPayload }
+  >
+) {
+  const queryClient = useQueryClient();
+
+  const { mutate, ...rest } = useMutation<
+    Animal,
+    Error,
+    { currentAnimal: Animal; formPayload: AnimalSituationFormPayload }
+  >(
+    async ({ currentAnimal, formPayload }) => {
+      const updatePayload = createAminalSituationUpdateApiPayload(
+        currentAnimal,
+        formPayload
+      );
+
+      const { animal } = await fetchGraphQL<
+        { animal: Animal },
+        UpdateAnimalPayload
+      >(UpdateAnimalQuery, { variables: updatePayload });
+
+      return animal;
+    },
+    {
+      ...options,
+      errorCodesToIgnore: [ErrorCode.ANIMAL_INVALID_PICK_UP_DATE],
+
+      onSuccess(animal, ...rest) {
+        queryClient.setQueryData(["animal", animal.id], animal);
+
+        queryClient.setQueryData("animals", updateDataInInfiniteCache(animal));
+
+        showSnackbar.success(
+          <Snackbar type="success">Animal modifiée</Snackbar>
+        );
+
+        options?.onSuccess?.(animal, ...rest);
+      },
+    }
+  );
+
+  return [mutate, rest] as const;
+}
+
+export function useUpdateAnimalPicture(
+  options?: UseMutationOptions<
+    Animal,
+    Error,
+    { currentAnimal: Animal; formPayload: AnimalPicturesFormPayload }
+  >
+) {
+  const queryClient = useQueryClient();
+  const { imageProvider } = useImageProvider();
+
+  const { mutate, ...rest } = useMutation<
+    Animal,
+    Error,
+    { currentAnimal: Animal; formPayload: AnimalPicturesFormPayload }
+  >(
+    async ({ currentAnimal, formPayload }) => {
+      const updatePayload = createAminalPicturesUpdateApiPayload(
+        currentAnimal,
+        formPayload
+      );
+
+      const picturesToUpload = formPayload.pictures.filter(isImageFile);
+      if (picturesToUpload.length > 0) {
+        await Promise.all(
+          picturesToUpload.map((picture) =>
+            uploadImageFile(imageProvider, picture, { tags: ["animal"] })
+          )
+        );
+      }
+
+      const { animal } = await fetchGraphQL<
+        { animal: Animal },
+        UpdateAnimalPayload
+      >(UpdateAnimalQuery, { variables: updatePayload });
+
+      const picturesToDelete = difference(
+        [currentAnimal.avatarId].concat(currentAnimal.picturesId),
+        formPayload.pictures.map(getImageId)
+      );
+
+      // Only remove images if the animal was successfully updated.
+      if (picturesToDelete.length > 0) {
+        await Promise.all(
+          picturesToDelete.map((pictureId) =>
+            deleteImage(imageProvider, pictureId)
+          )
+        );
+      }
+
+      return animal;
+    },
+    {
+      ...options,
+      errorCodesToIgnore: [ErrorCode.ANIMAL_MISSING_AVATAR],
 
       onSuccess(animal, ...rest) {
         queryClient.setQueryData(["animal", animal.id], animal);

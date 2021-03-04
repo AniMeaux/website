@@ -29,7 +29,7 @@ export type AnimalSituationFormErrors = {
   pickUpDate?: string | null;
 };
 
-type AnimalSituationFormProps<PayloadType> = FormProps & {
+export type AnimalSituationFormProps<PayloadType> = FormProps & {
   isEdit?: boolean;
   value: PayloadType;
   onChange: React.Dispatch<React.SetStateAction<PayloadType>>;

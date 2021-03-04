@@ -34,7 +34,7 @@ function useAnimalFormPayload() {
         isSterilized: animal.isSterilized,
         pickUpDate: animal.pickUpDate,
         status: animal.status,
-        pictures: animal.picturesId,
+        pictures: [animal.avatarId].concat(animal.picturesId),
       });
     }
   }, [animal]);

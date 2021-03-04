@@ -16,7 +16,7 @@ export type AnimalPicturesFormErrors = {
   avatar?: string | null;
 };
 
-type AnimalPicturesFormProps<PayloadType> = FormProps & {
+export type AnimalPicturesFormProps<PayloadType> = FormProps & {
   isEdit?: boolean;
   value: PayloadType;
   onChange: React.Dispatch<React.SetStateAction<PayloadType>>;

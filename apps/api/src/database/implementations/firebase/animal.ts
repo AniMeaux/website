@@ -176,12 +176,15 @@ export const animalDatabase: AnimalDatabase = {
       searchableAnimalUpdate.breedId = payload.breedId;
     }
 
+    // If either one have changed, check that they match.
     if (
-      // If either one have changed, check that they match.
       searchableAnimalUpdate.species != null ||
       searchableAnimalUpdate.breedId != null
     ) {
-      const breedId = searchableAnimalUpdate.breedId ?? animal.breedId;
+      const breedId =
+        searchableAnimalUpdate.breedId !== undefined
+          ? searchableAnimalUpdate.breedId
+          : animal.breedId;
 
       if (breedId != null) {
         const breed = await animalBreedDatabase.getAnimalBreed(breedId);
@@ -235,8 +238,9 @@ export const animalDatabase: AnimalDatabase = {
       ...searchableAnimalUpdate,
     };
 
+    // Allow null to clear the field.
     if (
-      payload.hostFamilyId != null &&
+      payload.hostFamilyId !== undefined &&
       payload.hostFamilyId !== animal.hostFamilyId
     ) {
       animalUpdate.hostFamilyId = payload.hostFamilyId;
