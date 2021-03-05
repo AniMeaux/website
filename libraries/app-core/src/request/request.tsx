@@ -111,8 +111,7 @@ export function RequestContextProvider({
 function maybeShowSnackbarError(error: Error, errorCodesToIgnore: ErrorCode[]) {
   if (!hasErrorCode(error, errorCodesToIgnore)) {
     return showSnackbar.error(
-      <Snackbar type="error">{getErrorMessage(error)}</Snackbar>,
-      { autoClose: false }
+      <Snackbar type="error">{getErrorMessage(error)}</Snackbar>
     );
   }
 

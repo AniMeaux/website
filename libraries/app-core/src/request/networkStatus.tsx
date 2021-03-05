@@ -14,10 +14,7 @@ export function NetworkStatus() {
       // This snackbar has the highest priority.
       showSnackbar.clearWaitingQueue();
       showSnackbar.dismiss();
-
-      showSnackbar.error(<Snackbar type="error">Hors ligne</Snackbar>, {
-        autoClose: false,
-      });
+      showSnackbar.error(<Snackbar type="error">Hors ligne</Snackbar>);
     }
 
     window.addEventListener("online", onGoOnline);
