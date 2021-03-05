@@ -77,7 +77,6 @@ export function UserForm({
           name="name"
           id="name"
           type="text"
-          autoComplete="name"
           value={displayName}
           onChange={setDisplayName}
           placeholder="Jean"
@@ -101,7 +100,6 @@ export function UserForm({
           name="email"
           id="email"
           type="email"
-          autoComplete="new-email"
           // The email cannot be updated.
           disabled={isEdit}
           value={email}
@@ -133,7 +131,6 @@ export function UserForm({
         <PasswordInput
           name="password"
           id="password"
-          autoComplete="password"
           value={password}
           onChange={setPassword}
           hasError={errors?.password != null}

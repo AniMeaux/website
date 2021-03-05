@@ -102,7 +102,7 @@ export const CurrentUserPasswordForm: PageComponent = () => {
             <PasswordInput
               name="password"
               id="password"
-              autoComplete="password"
+              autoComplete="current-password"
               value={currentPassword}
               onChange={setCurrentPassword}
               hasError={currentPasswordError != null}

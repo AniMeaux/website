@@ -93,7 +93,7 @@ export function SignInPage({ logo: Logo, applicationName }: SignInPageProps) {
             <PasswordInput
               name="password"
               id="password"
-              autoComplete="password"
+              autoComplete="current-password"
               value={password}
               onChange={setPassword}
               hasError={mutation.isError}

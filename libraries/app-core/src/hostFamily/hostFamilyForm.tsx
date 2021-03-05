@@ -76,7 +76,6 @@ export function HostFamilyForm({
           name="host-family-name"
           id="host-family-name"
           type="text"
-          autoComplete="host-family-name"
           value={name}
           onChange={setName}
           hasError={errors?.name != null}
@@ -99,7 +98,6 @@ export function HostFamilyForm({
           name="host-family-phone"
           id="host-family-phone"
           type="tel"
-          autoComplete="host-family-phone"
           placeholder="+33612345678"
           value={phone}
           onChange={setPhone}
@@ -123,7 +121,6 @@ export function HostFamilyForm({
           name="host-family-email"
           id="host-family-email"
           type="email"
-          autoComplete="host-family-email"
           placeholder="jean@mail.fr"
           value={email}
           onChange={setEmail}
@@ -150,7 +147,6 @@ export function HostFamilyForm({
           name="host-family-zip-code"
           id="host-family-zip-code"
           type="number"
-          autoComplete="host-family-zip-code"
           value={zipCode}
           onChange={setZipCode}
           hasError={errors?.zipCode != null}
@@ -173,7 +169,6 @@ export function HostFamilyForm({
           name="host-family-city"
           id="host-family-city"
           type="text"
-          autoComplete="host-family-city"
           value={city}
           onChange={setCity}
           hasError={errors?.city != null}
@@ -196,7 +191,6 @@ export function HostFamilyForm({
           name="host-family-address"
           id="host-family-address"
           type="text"
-          autoComplete="host-family-address"
           value={address}
           onChange={setAddress}
           hasError={errors?.address != null}

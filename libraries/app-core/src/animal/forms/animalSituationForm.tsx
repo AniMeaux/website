@@ -75,7 +75,6 @@ export function AnimalSituationForm<
         <DateInput
           name="pick-up-date"
           id="pick-up-date"
-          autoComplete="pick-up-date"
           value={value.pickUpDate}
           onChange={(pickUpDate) =>
             onChange((value) => ({ ...value, pickUpDate }))

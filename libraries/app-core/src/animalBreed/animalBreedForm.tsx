@@ -64,7 +64,6 @@ export function AnimalBreedForm({
           name="animal-breed-name"
           id="animal-breed-name"
           type="text"
-          autoComplete="animal-breed-name"
           value={name}
           onChange={setName}
           hasError={errors?.name != null}

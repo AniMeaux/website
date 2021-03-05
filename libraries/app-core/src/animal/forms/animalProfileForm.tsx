@@ -79,7 +79,6 @@ export function AnimalProfileForm<
           name="animal-official-name"
           id="animal-official-name"
           type="text"
-          autoComplete="animal-official-name"
           value={value.officialName}
           onChange={(officialName) =>
             onChange((value) => ({ ...value, officialName }))
@@ -106,7 +105,6 @@ export function AnimalProfileForm<
           name="animal-common-name"
           id="animal-common-name"
           type="text"
-          autoComplete="animal-common-name"
           value={value.commonName}
           onChange={(commonName) =>
             onChange((value) => ({ ...value, commonName }))
@@ -127,7 +125,6 @@ export function AnimalProfileForm<
         <DateInput
           name="animal-birthdate"
           id="animal-birthdate"
-          autoComplete="animal-birthdate"
           value={value.birthdate}
           onChange={(birthdate) =>
             onChange((value) => ({ ...value, birthdate }))
