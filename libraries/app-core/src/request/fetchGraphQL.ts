@@ -1,7 +1,7 @@
 import { ErrorCode } from "@animeaux/shared-entities";
-import firebase from "firebase/app";
 import { ClientError, GraphQLClient } from "graphql-request";
 import invariant from "invariant";
+import { firebase } from "../firebase";
 
 let graphQlClient: GraphQLClient | null;
 

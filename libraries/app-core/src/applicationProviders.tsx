@@ -2,12 +2,26 @@ import { SnackbarContainer } from "@animeaux/ui-library";
 import { AppProps } from "next/app";
 import * as React from "react";
 import { CloudinaryContextProvider } from "./cloudinary";
+import { FirebaseConfig, initializeFirebase } from "./firebase";
 import { PageComponent } from "./page";
-import { RequestContextProvider } from "./request";
+import { initializeGraphQlClient, RequestContextProvider } from "./request";
 import {
   CurrentUserContextProvider,
   CurrentUserContextProviderProps,
 } from "./user";
+
+type ApplicationConfigs = {
+  firebase: FirebaseConfig;
+  graphQLClient: { apiUrl: string };
+};
+
+export function initializeApplication({
+  firebase,
+  graphQLClient,
+}: ApplicationConfigs) {
+  initializeFirebase(firebase);
+  initializeGraphQlClient(graphQLClient.apiUrl);
+}
 
 export type ApplicationProps = Omit<AppProps, "Component"> & {
   Component: PageComponent;

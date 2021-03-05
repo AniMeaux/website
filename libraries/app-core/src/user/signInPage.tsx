@@ -8,9 +8,9 @@ import {
   PasswordInput,
   SubmitButton,
 } from "@animeaux/ui-library";
-import firebase from "firebase/app";
 import * as React from "react";
 import { FaCheckCircle, FaEnvelope, FaLock } from "react-icons/fa";
+import { firebase } from "../firebase";
 import { useMutation } from "../request";
 
 function isAuthError(error: Error): boolean {

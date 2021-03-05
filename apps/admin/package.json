@@ -14,7 +14,6 @@
     "@animeaux/shared-entities": "*",
     "@animeaux/ui-library": "*",
     "classnames": "^2.2.6",
-    "firebase": "^8.2.4",
     "focus-visible": "^5.2.0",
     "graphql": "^15.5.0",
     "graphql-request": "^3.4.0",

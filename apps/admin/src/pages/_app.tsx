@@ -5,16 +5,24 @@ import "@animeaux/ui-library/styles.css";
 import {
   ApplicationProps,
   ApplicationProviders,
-  initializeGraphQlClient,
+  initializeApplication,
   PageHead,
 } from "@animeaux/app-core";
 import { UserGroup } from "@animeaux/shared-entities";
 import * as React from "react";
 import Logo from "../core/appLogo.svg";
-import { initFirebase } from "../core/firebase";
 
-initFirebase();
-initializeGraphQlClient(process.env.NEXT_PUBLIC_API_URL);
+initializeApplication({
+  firebase: {
+    apiKey: process.env.NEXT_PUBLIC_FIREBASE_PUBLIC_API_KEY,
+    authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+    databaseURL: process.env.NEXT_PUBLIC_FIREBASE_DATABASE_URL,
+    projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+  },
+  graphQLClient: {
+    apiUrl: process.env.NEXT_PUBLIC_API_URL,
+  },
+});
 
 const AUTHORISED_GROUPS = [UserGroup.ADMIN];
 

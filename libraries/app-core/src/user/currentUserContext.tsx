@@ -5,11 +5,11 @@ import {
   UserGroup,
 } from "@animeaux/shared-entities";
 import { ButtonLink, Main } from "@animeaux/ui-library";
-import firebase from "firebase/app";
 import { gql } from "graphql-request";
 import invariant from "invariant";
 import * as React from "react";
 import { ErrorPage, ErrorPageType } from "../errorPage";
+import { firebase } from "../firebase";
 import { PageTitle } from "../page";
 import { fetchGraphQL } from "../request";
 import { SignInPage } from "./signInPage";
