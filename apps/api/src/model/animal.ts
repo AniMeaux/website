@@ -18,6 +18,7 @@ const typeDefs = gql`
 
   enum AnimalStatus {
     ADOPTED
+    DECEASED
     FREE
     OPEN_TO_ADOPTION
     OPEN_TO_RESERVATION

@@ -101,6 +101,7 @@ function PicturesSection({ animal }: AnimalProps) {
 
 const StatusBadgeColors: { [key in AnimalStatus]: string } = {
   [AnimalStatus.ADOPTED]: "bg-green-500 text-white",
+  [AnimalStatus.DECEASED]: "bg-gray-800 text-white",
   [AnimalStatus.FREE]: "bg-gray-800 text-white",
   [AnimalStatus.OPEN_TO_ADOPTION]: "bg-blue-500 text-white",
   [AnimalStatus.OPEN_TO_RESERVATION]: "bg-blue-500 text-white",

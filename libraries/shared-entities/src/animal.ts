@@ -101,6 +101,7 @@ export const AnimalAgeRangeBySpecies: {
 
 export enum AnimalStatus {
   ADOPTED = "ADOPTED",
+  DECEASED = "DECEASED",
   FREE = "FREE",
   OPEN_TO_ADOPTION = "OPEN_TO_ADOPTION",
   OPEN_TO_RESERVATION = "OPEN_TO_RESERVATION",
@@ -112,6 +113,7 @@ export const AnimalStatusLabels: {
   [key in AnimalStatus]: string;
 } = {
   [AnimalStatus.ADOPTED]: "Adopté",
+  [AnimalStatus.DECEASED]: "Décédé",
   [AnimalStatus.FREE]: "Libre",
   [AnimalStatus.OPEN_TO_ADOPTION]: "Adoptable",
   [AnimalStatus.OPEN_TO_RESERVATION]: "Réservable",
