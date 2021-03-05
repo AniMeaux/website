@@ -1,5 +1,4 @@
 import {
-  AnimalStatus,
   CreateAnimalPayload,
   DATE_PATTERN,
   DBAnimal,
