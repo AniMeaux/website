@@ -23,9 +23,8 @@ import {
 } from "@animeaux/shared-entities";
 import { showSnackbar, Snackbar, useImageProvider } from "@animeaux/ui-library";
 import { gql } from "graphql-request";
-import * as React from "react";
-import { useInfiniteQuery } from "react-query";
 import difference from "lodash.difference";
+import * as React from "react";
 import { AnimalBreedFragment } from "../animalBreed/animalBreedQueries";
 import { deleteImage, uploadImageFile, useCloudinary } from "../cloudinary";
 import { HostFamilyFragment } from "../hostFamily/hostFamilyQueries";
@@ -33,6 +32,7 @@ import {
   fetchGraphQL,
   removeDataFromInfiniteCache,
   updateDataInInfiniteCache,
+  useInfiniteQuery,
   useMutation,
   UseMutationOptions,
   useQuery,
