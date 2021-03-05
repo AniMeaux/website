@@ -33,27 +33,28 @@ const typeDefs = gql`
 
   enum AnimalColor {
     BEIGE
-    WHITE
-    BLUE
-    MERLE_BLUE
-    BRINDLE
-    CHOCOLATE
-    CREAM
-    TORTOISE_SHELL
-    FAWN
-    GRAY
-    GRAY_AND_WHITE
-    BROWN
-    BROWN_AND_WHITE
     BLACK
     BLACK_AND_WHITE
+    BLUE
+    BRINDLE
+    BROWN
+    BROWN_AND_WHITE
+    CHOCOLATE
+    CREAM
+    FAWN
     GINGER
-    GINGER_AND_WHITE
-    TABBY
-    WHITE_AND_TABBY
-    GRAY_AND_TABBY
     GINGER_AND_TABBY
+    GINGER_AND_WHITE
+    GRAY
+    GRAY_AND_TABBY
+    GRAY_AND_WHITE
+    MERLE_BLUE
+    SIAMESE_TYPE
+    TABBY
+    TORTOISE_SHELL
     TRICOLOR
+    WHITE
+    WHITE_AND_TABBY
   }
 
   type SearchableAnimal {
