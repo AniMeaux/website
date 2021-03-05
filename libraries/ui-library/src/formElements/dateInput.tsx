@@ -37,7 +37,8 @@ export function DateInput({
     if (day.length <= 2) {
       onChange?.(formatDate(day, month, year));
 
-      if (day.length === 2) {
+      // We only want to focus the next input if it is empty.
+      if (day.length === 2 && month === "") {
         monthRef.current.focus();
       }
     }
@@ -47,7 +48,8 @@ export function DateInput({
     if (month.length <= 2) {
       onChange?.(formatDate(day, month, year));
 
-      if (month.length === 2) {
+      // We only want to focus the next input if it is empty.
+      if (month.length === 2 && year === "") {
         yearRef.current.focus();
       }
     }
