@@ -175,6 +175,7 @@ module.exports = {
         ...base12,
       },
       width: {
+        auto: "auto",
         18: "4.5rem",
       },
       height: {

@@ -11,8 +11,8 @@ export function SnackbarContainer() {
       hideProgressBar
       closeButton={false}
       limit={1}
-      className="z-30 fixed snackbar-bottom left-0 right-0 w-full transform p-2 flex flex-col items-center space-y-2"
-      toastClassName="shadow-md m-0 rounded-full max-w-10/12 min-h-0 p-0 font-sans"
+      className="z-30 fixed snackbar-bottom left-1/2 transform -translate-x-1/2 w-auto max-w-10/12 flex flex-col items-center space-y-2"
+      toastClassName="shadow-md m-0 rounded-full min-h-0 p-0 font-sans"
       bodyClassName="m-0 max-w-full p-0"
     />
   );

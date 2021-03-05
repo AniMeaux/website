@@ -276,8 +276,9 @@
   }
 
   .snackbar-bottom {
-    bottom: theme("padding.14");
-    bottom: calc(theme("padding.14") + env(safe-area-inset-bottom, 0));
+    /* Navigation height + padding.2 */
+    bottom: theme("height.16");
+    bottom: calc(theme("height.16") + env(safe-area-inset-bottom, 0));
   }
 
   .main-pb {
