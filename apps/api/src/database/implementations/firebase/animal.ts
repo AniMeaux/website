@@ -272,15 +272,6 @@ export const animalDatabase: AnimalDatabase = {
     const animal = await animalDatabase.getAnimal(id);
 
     if (animal != null) {
-      if (
-        [
-          AnimalStatus.OPEN_TO_ADOPTION,
-          AnimalStatus.OPEN_TO_RESERVATION,
-        ].includes(animal.status)
-      ) {
-        throw new UserInputError(ErrorCode.ANIMAL_IS_ADOPTABLE);
-      }
-
       await admin.firestore().collection("animals").doc(id).delete();
       await AnimalsIndex.deleteObject(id);
       return true;

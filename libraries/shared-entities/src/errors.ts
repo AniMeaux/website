@@ -72,7 +72,6 @@ export enum ErrorCode {
   ANIMAL_MISSING_AVATAR = "animal/missing-avatar",
   ANIMAL_INVALID_BIRTHDATE = "animal/invalid-birthdate",
   ANIMAL_INVALID_PICK_UP_DATE = "animal/invalid-pick-up-date",
-  ANIMAL_IS_ADOPTABLE = "animal/is-adoptable",
 }
 
 const ErrorCodeLabels: { [key in ErrorCode]?: string } = {
