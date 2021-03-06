@@ -10,6 +10,7 @@ import {
   Snackbar,
   useIsScrollAtFetchMore,
 } from "@animeaux/ui-library";
+import * as Sentry from "@sentry/react";
 import invariant from "invariant";
 import * as React from "react";
 import {
@@ -108,16 +109,6 @@ export function RequestContextProvider({
   );
 }
 
-function maybeShowSnackbarError(error: Error, errorCodesToIgnore: ErrorCode[]) {
-  if (!hasErrorCode(error, errorCodesToIgnore)) {
-    return showSnackbar.error(
-      <Snackbar type="error">{getErrorMessage(error)}</Snackbar>
-    );
-  }
-
-  return null;
-}
-
 export function useQuery<
   TQueryFnData = unknown,
   TError extends Error = Error,
@@ -138,7 +129,16 @@ export function useQuery<
 
       return queryFn(context);
     },
-    options
+    {
+      ...options,
+      onError(error) {
+        Sentry.captureException(error, {
+          extra: { queryKey },
+        });
+
+        options.onError?.(error);
+      },
+    }
   );
 }
 
@@ -171,6 +171,14 @@ export function useInfiniteQuery<
         if (lastGroup.page < lastGroup.pageCount - 1) {
           return lastGroup.page + 1;
         }
+      },
+
+      onError(error) {
+        Sentry.captureException(error, {
+          extra: { queryKey },
+        });
+
+        options.onError?.(error);
       },
     }
   );
@@ -214,7 +222,18 @@ export function useMutation<
         options?.onMutate?.(variables);
       },
       onError(error, ...rest) {
-        snackbarId.current = maybeShowSnackbarError(error, errorCodesToIgnore);
+        snackbarId.current = null;
+
+        if (!hasErrorCode(error, errorCodesToIgnore)) {
+          Sentry.captureException(error, {
+            extra: { errorCodesToIgnore },
+          });
+
+          snackbarId.current = showSnackbar.error(
+            <Snackbar type="error">{getErrorMessage(error)}</Snackbar>
+          );
+        }
+
         options?.onError?.(error, ...rest);
       },
     }

@@ -8,6 +8,7 @@ import {
 import { Cloudinary as CloudinaryCore, Transformation } from "cloudinary-core";
 import { gql } from "graphql-request";
 import * as React from "react";
+import * as Sentry from "@sentry/react";
 import { fetchGraphQL } from "./request";
 
 type CloudinaryConstructorParams = {
@@ -117,10 +118,14 @@ export async function uploadImageFile(
     if (!response.ok) {
       // See https://cloudinary.com/documentation/upload_images#error_handling
       const message = (await response.json())?.error?.message;
-      console.error("Could not upload image:", message);
-      throw new Error("L'image n'a pas pu être envoyé");
+      throw new Error(message);
     }
   } catch (error) {
+    Sentry.captureException(error, {
+      extra: { operation: "Could not upload image" },
+    });
+
+    console.error("Could not upload image", error);
     throw new Error("L'image n'a pas pu être envoyé");
   }
 }
@@ -147,10 +152,14 @@ export async function deleteImage(cloudinary: Cloudinary, imageId: string) {
     // The API can return a 200 with a "not found" message.
     // This is not documented.
     if (message?.result === "not found" || !response.ok) {
-      console.error("Could not upload image:", JSON.stringify(message));
-      throw new Error("L'image n'a pas pu être supprimée");
+      throw new Error(JSON.stringify(message));
     }
   } catch (error) {
+    Sentry.captureException(error, {
+      extra: { operation: "Could not delete image" },
+    });
+
+    console.error("Could not delete image", error);
     throw new Error("L'image n'a pas pu être supprimée");
   }
 }

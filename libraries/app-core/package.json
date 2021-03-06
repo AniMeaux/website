@@ -16,6 +16,7 @@
   "dependencies": {
     "@animeaux/shared-entities": "*",
     "@animeaux/ui-library": "*",
+    "@sentry/react": "^6.2.1",
     "cloudinary-core": "^2.11.3",
     "firebase": "^8.2.4",
     "graphql-request": "^3.4.0",

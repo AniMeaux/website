@@ -5,6 +5,7 @@ import {
   UserGroup,
 } from "@animeaux/shared-entities";
 import { ButtonLink, Main } from "@animeaux/ui-library";
+import * as Sentry from "@sentry/react";
 import { gql } from "graphql-request";
 import invariant from "invariant";
 import * as React from "react";
@@ -52,7 +53,11 @@ async function signOut() {
   try {
     await firebase.auth().signOut();
   } catch (error) {
-    console.error("Could not sign out:", error);
+    Sentry.captureException(error, {
+      extra: { operation: "Could not sign out" },
+    });
+
+    console.error("Could not sign out", error);
   }
 }
 
@@ -64,7 +69,11 @@ async function updateToken(firebaseUser: firebase.User | null) {
       const token = await firebaseUser.getIdToken();
       localStorage.setItem("token", token);
     } catch (error) {
-      console.error("Could not set token in storage:", error);
+      Sentry.captureException(error, {
+        extra: { operation: "Could not set token in storage" },
+      });
+
+      console.error("Could not set token in storage", error);
     }
   }
 }
@@ -87,7 +96,11 @@ async function getCurrentUser(): Promise<User | null> {
 
     return user;
   } catch (error) {
-    console.error("Could not get current user:", error.message);
+    Sentry.captureException(error, {
+      extra: { operation: "Could not get current user" },
+    });
+
+    console.error("Could not get current user", error);
     return null;
   }
 }
@@ -127,6 +140,7 @@ export function CurrentUserContextProvider({
         user = await getCurrentUser();
       }
 
+      Sentry.setUser(user);
       setState({ hasResult: true, currentUser: user });
     });
   }, []);

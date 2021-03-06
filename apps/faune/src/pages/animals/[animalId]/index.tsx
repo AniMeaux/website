@@ -147,11 +147,7 @@ function HighlightsSection({ animal }: AnimalProps) {
           <Button
             variant="outlined"
             onClick={async () => {
-              try {
-                await navigator.clipboard.writeText(document.location.href);
-              } catch (error) {
-                console.error("Could not copy link:", error);
-              }
+              await navigator.clipboard.writeText(document.location.href);
             }}
           >
             <FaLink />
@@ -162,13 +158,11 @@ function HighlightsSection({ animal }: AnimalProps) {
             <Button
               variant="outlined"
               onClick={async () => {
-                try {
-                  await navigator.share({
-                    text: getAnimalDisplayName(animal),
-                    title: getAnimalDisplayName(animal),
-                    url: document.location.href,
-                  });
-                } catch (error) {}
+                await navigator.share({
+                  text: getAnimalDisplayName(animal),
+                  title: getAnimalDisplayName(animal),
+                  url: document.location.href,
+                });
               }}
             >
               <FaShareAlt />

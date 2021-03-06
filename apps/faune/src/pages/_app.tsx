@@ -13,6 +13,10 @@ import * as React from "react";
 import Logo from "../core/appLogo.svg";
 
 initializeApplication({
+  environment: process.env.NODE_ENV,
+  name: process.env.NEXT_PUBLIC_APP_NAME,
+  version: process.env.NEXT_PUBLIC_APP_VERSION,
+  buildId: process.env.NEXT_PUBLIC_APP_BUILD_ID,
   firebase: {
     apiKey: process.env.NEXT_PUBLIC_FIREBASE_PUBLIC_API_KEY,
     authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
@@ -21,6 +25,9 @@ initializeApplication({
   },
   graphQLClient: {
     apiUrl: process.env.NEXT_PUBLIC_API_URL,
+  },
+  sentry: {
+    dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
   },
 });
 

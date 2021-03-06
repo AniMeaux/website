@@ -10,6 +10,8 @@ declare namespace NodeJS {
   interface ProcessEnv {
     NEXT_PUBLIC_API_URL: string;
     NEXT_PUBLIC_APP_NAME: string;
+    NEXT_PUBLIC_APP_VERSION: string;
+    NEXT_PUBLIC_APP_BUILD_ID: string;
     NEXT_PUBLIC_APP_SHORT_NAME: string;
     NEXT_PUBLIC_APP_DESCRIPTION: string;
     NEXT_PUBLIC_FIREBASE_PUBLIC_API_KEY: string;
@@ -18,6 +20,7 @@ declare namespace NodeJS {
     NEXT_PUBLIC_FIREBASE_PROJECT_ID: string;
     NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME: string;
     NEXT_PUBLIC_CLOUDINARY_API_KEY: string;
+    NEXT_PUBLIC_SENTRY_DSN: string;
   }
 }
 
