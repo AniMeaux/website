@@ -9,6 +9,7 @@ import {
   useDrop,
   XYCoord,
 } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 import { TouchBackend } from "react-dnd-touch-backend";
 import { ChildrenProp } from "./types";
 
@@ -71,10 +72,14 @@ export function DragAndDropContextProvider({
 
   const startDrag = React.useCallback<DragAndDropContextValue["startDrag"]>(
     (draggedIndex, draggedElementInitialRect) => {
-      dispatch({
-        pendingDropIndex: draggedIndex,
-        draggedIndex,
-        draggedElementInitialRect,
+      // If we don't dispatch on next tick the drag ends immediately.
+      // Maybe due to fast DOM change during the native event?
+      setTimeout(() => {
+        dispatch({
+          pendingDropIndex: draggedIndex,
+          draggedIndex,
+          draggedElementInitialRect,
+        });
       });
     },
     []
@@ -111,11 +116,18 @@ export function DragAndDropContextProvider({
     [state, startDrag, endDrag, hoverItem, itemType, disabled, direction]
   );
 
+  const hasTouch = !window.matchMedia("(hover: hover)").matches;
+  const backend = hasTouch ? TouchBackend : HTML5Backend;
+
   return (
-    <DndProvider backend={TouchBackend}>
+    <DndProvider backend={backend}>
       <DragAndDropContext.Provider value={value}>
         {children}
-        <PreviewElement />
+
+        {
+          // Only use custom preview for touch screens.
+          hasTouch && <PreviewElement />
+        }
       </DragAndDropContext.Provider>
     </DndProvider>
   );
