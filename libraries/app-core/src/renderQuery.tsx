@@ -41,7 +41,11 @@ function renderItemListContent<DataType>(
 ): React.ReactNode {
   if (query.data != null) {
     if (query.data.length === 0) {
-      return <EmptyMessage>{renderEmptyMessage()}</EmptyMessage>;
+      return (
+        <Section>
+          <EmptyMessage>{renderEmptyMessage()}</EmptyMessage>
+        </Section>
+      );
     }
 
     return (
@@ -93,6 +97,7 @@ export function renderItemList<DataType>(
 
 type InfiniteItemListRenderers<ItemType> = ItemListRenderers<ItemType> & {
   hasSearch?: boolean;
+  renderAdditionalItem?: () => React.ReactNode;
   renderEmptySearchMessage?: () => React.ReactNode;
   renderEmptySearchAction?: () => React.ReactNode;
 };
@@ -106,21 +111,31 @@ function renderInfiniteItemListContent<ItemType>(
     renderEmptySearchAction,
     getItemKey,
     renderItem,
+    renderAdditionalItem,
     placeholderElement: PlaceholderElement,
   }: InfiniteItemListRenderers<ItemType>
 ) {
   if (query.data != null) {
     // There is allways at least one page.
     if (query.data.pages[0].hits.length === 0) {
+      let emptyMessage: React.ReactNode;
+
       if (hasSearch) {
-        return (
+        emptyMessage = (
           <EmptyMessage action={renderEmptySearchAction?.()}>
             {(renderEmptySearchMessage ?? renderEmptyMessage)()}
           </EmptyMessage>
         );
+      } else {
+        emptyMessage = <EmptyMessage>{renderEmptyMessage()}</EmptyMessage>;
       }
 
-      return <EmptyMessage>{renderEmptyMessage()}</EmptyMessage>;
+      return (
+        <Section>
+          {renderAdditionalItem?.()}
+          {emptyMessage}
+        </Section>
+      );
     }
 
     const itemsNode: React.ReactNode[] = [];
@@ -139,6 +154,7 @@ function renderInfiniteItemListContent<ItemType>(
     return (
       <Section>
         <ul>
+          {renderAdditionalItem?.()}
           {itemsNode}
           {renderPlaceholder && (
             <li>
@@ -154,6 +170,7 @@ function renderInfiniteItemListContent<ItemType>(
     return (
       <Section>
         <ul>
+          {renderAdditionalItem?.()}
           <Placeholders count={5}>
             <li>
               <PlaceholderElement />

@@ -12,7 +12,7 @@ const AvatarSizeClassName: {
   display: "w-28 h-28 text-7xl",
 };
 
-type AvatarColor = "default" | "blue";
+type AvatarColor = "blue" | "default";
 
 const AvatarColorClassName: {
   [key in AvatarColor]: string;

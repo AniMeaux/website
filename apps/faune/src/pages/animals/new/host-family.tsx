@@ -7,9 +7,14 @@ import {
 } from "@animeaux/app-core";
 import { UserGroup } from "@animeaux/shared-entities";
 import {
+  Avatar,
   Button,
   Header,
   HeaderBackLink,
+  ItemContent,
+  ItemIcon,
+  ItemMainText,
+  LinkItem,
   Main,
   resolveUrl,
   SearchInput,
@@ -17,6 +22,7 @@ import {
 } from "@animeaux/ui-library";
 import { useRouter } from "next/router";
 import * as React from "react";
+import { FaPlus } from "react-icons/fa";
 import {
   AnimalFormProvider,
   useAnimalForm,
@@ -39,6 +45,23 @@ const CreateAnimalHostFamilyPage: PageComponent = () => {
       <Button variant="outlined" onClick={() => setRawSearch("")}>
         Effacer la recherche
       </Button>
+    ),
+    renderAdditionalItem: () => (
+      <LinkItem
+        href="../new-host-family"
+        size="medium"
+        className="font-medium text-blue-500"
+      >
+        <ItemIcon size="medium">
+          <Avatar size="medium" color="blue">
+            <FaPlus />
+          </Avatar>
+        </ItemIcon>
+
+        <ItemContent>
+          <ItemMainText>Créer une FA</ItemMainText>
+        </ItemContent>
+      </LinkItem>
     ),
     renderItem: (hostFamily) => (
       <HostFamilySearchItem

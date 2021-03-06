@@ -1,4 +1,10 @@
-import { HostFamily, HostFamilyFormPayload } from "@animeaux/shared-entities";
+import {
+  ErrorCode,
+  getErrorMessage,
+  hasErrorCode,
+  HostFamily,
+  HostFamilyFormPayload,
+} from "@animeaux/shared-entities";
 import {
   Adornment,
   Field,
@@ -22,6 +28,37 @@ export type HostFamilyFormErrors = {
   city?: string | null;
   address?: string | null;
 };
+
+export function getHostFamilyFormErrors(
+  error?: Error | null
+): HostFamilyFormErrors {
+  const errors: HostFamilyFormErrors = {};
+
+  if (error != null) {
+    const errorMessage = getErrorMessage(error);
+
+    if (
+      hasErrorCode(error, [
+        ErrorCode.HOST_FAMILY_MISSING_NAME,
+        ErrorCode.HOST_FAMILY_NAME_ALREADY_USED,
+      ])
+    ) {
+      errors.name = errorMessage;
+    } else if (hasErrorCode(error, ErrorCode.HOST_FAMILY_MISSING_PHONE)) {
+      errors.phone = errorMessage;
+    } else if (hasErrorCode(error, ErrorCode.HOST_FAMILY_INVALID_EMAIL)) {
+      errors.email = errorMessage;
+    } else if (hasErrorCode(error, ErrorCode.HOST_FAMILY_MISSING_ZIP_CODE)) {
+      errors.zipCode = errorMessage;
+    } else if (hasErrorCode(error, ErrorCode.HOST_FAMILY_MISSING_CITY)) {
+      errors.city = errorMessage;
+    } else if (hasErrorCode(error, ErrorCode.HOST_FAMILY_MISSING_ADDRESS)) {
+      errors.address = errorMessage;
+    }
+  }
+
+  return errors;
+}
 
 type HostFamilyFormProps = Omit<FormProps, "onSubmit"> & {
   hostFamily?: HostFamily;

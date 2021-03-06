@@ -51,6 +51,13 @@ const StepValidators: Record<
       return false;
     }
   },
+  "new-host-family": (payload) => {
+    try {
+      return createAnimalProfileCreationApiPayload(payload) != null;
+    } catch (error) {
+      return false;
+    }
+  },
   pictures: (payload) => {
     try {
       return (
