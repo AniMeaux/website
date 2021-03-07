@@ -298,11 +298,8 @@ function SituationSection({ animal }: AnimalProps) {
               <Section className="border-t border-gray-100">
                 <ul>
                   <li>
-                    <LinkItem
-                      href={`tel:${animal.hostFamily.phone}`}
-                      size="small"
-                    >
-                      <ItemIcon size="small">
+                    <LinkItem href={`tel:${animal.hostFamily.phone}`}>
+                      <ItemIcon>
                         <FaPhone />
                       </ItemIcon>
 
@@ -313,11 +310,8 @@ function SituationSection({ animal }: AnimalProps) {
                   </li>
 
                   <li>
-                    <LinkItem
-                      href={`mailto:${animal.hostFamily.email}`}
-                      size="small"
-                    >
-                      <ItemIcon size="small">
+                    <LinkItem href={`mailto:${animal.hostFamily.email}`}>
+                      <ItemIcon>
                         <FaEnvelope />
                       </ItemIcon>
 
@@ -333,9 +327,8 @@ function SituationSection({ animal }: AnimalProps) {
                       href={`http://maps.google.com/?q=${getHostFamilyFullAddress(
                         animal.hostFamily
                       )}`}
-                      size="small"
                     >
-                      <ItemIcon size="small">
+                      <ItemIcon>
                         <FaMapMarker />
                       </ItemIcon>
 
