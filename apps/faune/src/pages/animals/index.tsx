@@ -11,18 +11,18 @@ import {
 import {
   AnimalFilters,
   createDefaultAnimalFilters,
-  getActiveAnimalFiltersCount,
   doesGroupsIntersect,
+  getActiveAnimalFiltersCount,
   UserGroup,
 } from "@animeaux/shared-entities";
 import {
   ActionAdornment,
   ActionFilter,
   Button,
+  Field,
   Main,
   QuickLinkAction,
   SearchInput,
-  Section,
   usePageScrollRestoration,
   useSearchAndFilters,
 } from "@animeaux/ui-library";
@@ -82,10 +82,9 @@ const AnimalListPage: PageComponent = () => {
       <Header headerTitle={title} />
 
       <Main hasNavigation={isCurrentUserAdmin}>
-        <Section>
+        <Field>
           <SearchInput
             placeholder="Chercher un animal"
-            className="w-full"
             value={rawSearch}
             onChange={setRawSearch}
             rightAdornment={
@@ -98,7 +97,7 @@ const AnimalListPage: PageComponent = () => {
               </ActionFilter>
             }
           />
-        </Section>
+        </Field>
 
         {content}
 
