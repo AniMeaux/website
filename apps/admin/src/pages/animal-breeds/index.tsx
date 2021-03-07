@@ -26,7 +26,7 @@ const AnimalBreedListPage: PageComponent = () => {
     title: TITLE,
     getItemKey: (animalBreed) => animalBreed.id,
     placeholderElement: AnimalBreedItemPlaceholder,
-    renderEmptyMessage: () => "Il n'y a pas encore de race.",
+    renderEmptyMessage: () => "Il n'y a pas encore de race",
     renderItem: (animalBreed) => (
       <AnimalBreedItem animalBreed={animalBreed} href={`./${animalBreed.id}`} />
     ),

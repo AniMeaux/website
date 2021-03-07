@@ -33,8 +33,8 @@ const CreateAnimalBreedPage: PageComponent = () => {
     hasSearch: search !== "",
     getItemKey: (animalBreed) => animalBreed.id,
     placeholderElement: AnimalBreedSearchItemPlaceholder,
-    renderEmptyMessage: () => "Il n'y a pas encore de race.",
-    renderEmptySearchMessage: () => "Aucune race trouvée.",
+    renderEmptyMessage: () => "Il n'y a pas encore de race",
+    renderEmptySearchMessage: () => "Aucune race trouvée",
     renderEmptySearchAction: () => (
       <Button variant="outlined" onClick={() => setRawSearch("")}>
         Effacer la recherche
