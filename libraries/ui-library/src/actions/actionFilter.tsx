@@ -41,7 +41,7 @@ export function ActionFilter({
             disabled={activeFilterCount === 0}
             onClick={() => clearAllFilters()}
           >
-            Tout effacer
+            Réinitialiser
           </Button>
         </ModalHeader>
 
