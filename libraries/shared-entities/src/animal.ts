@@ -527,24 +527,61 @@ export type AnimalFilters = {
   status?: AnimalStatus[] | null;
 };
 
-export function createDefaultAnimalFilters(): AnimalFilters {
-  return {
-    status: [
-      AnimalStatus.OPEN_TO_ADOPTION,
-      AnimalStatus.OPEN_TO_RESERVATION,
-      AnimalStatus.RESERVED,
-      AnimalStatus.UNAVAILABLE,
-    ],
-  };
+export function createAnimalFilters({
+  status = [
+    AnimalStatus.OPEN_TO_ADOPTION,
+    AnimalStatus.OPEN_TO_RESERVATION,
+    AnimalStatus.RESERVED,
+    AnimalStatus.UNAVAILABLE,
+  ],
+}: AnimalFilters = {}): AnimalFilters {
+  return { status };
+}
+
+export function areDefaultAnimalFilterStatus(status: AnimalFilters["status"]) {
+  return isEqual(new Set(status), new Set(createAnimalFilters().status));
 }
 
 export function getActiveAnimalFiltersCount(filters: AnimalFilters) {
-  const defaultFilter = createDefaultAnimalFilters();
   let activeFiltersCount = 0;
 
-  if (!isEqual(new Set(filters.status), new Set(defaultFilter.status))) {
+  if (!areDefaultAnimalFilterStatus(filters.status)) {
     activeFiltersCount += 1;
   }
 
   return activeFiltersCount;
+}
+
+export function createAnimalFiltersFromQuery(
+  query: Record<string, string | string[] | undefined>
+) {
+  let status: AnimalStatus[] | undefined = undefined;
+
+  // We want `?status=` to give `[]` and `?` to give the default status.
+  if (query.status != null && !Array.isArray(query.status)) {
+    status =
+      query.status === "" ? [] : (query.status.split(",") as AnimalStatus[]);
+  }
+
+  return {
+    search: query.q == null || Array.isArray(query.q) ? "" : query.q,
+    filters: createAnimalFilters({ status }),
+  };
+}
+
+export function createAnimalFiltersQuery(
+  search: string,
+  filters: AnimalFilters
+) {
+  const query: Record<string, string | string[] | undefined> = {};
+
+  if (search !== "") {
+    query.q = search;
+  }
+
+  if (!areDefaultAnimalFilterStatus(filters.status)) {
+    query.status = filters.status?.join(",") ?? "";
+  }
+
+  return query;
 }

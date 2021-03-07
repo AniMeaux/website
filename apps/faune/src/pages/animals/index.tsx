@@ -9,8 +9,9 @@ import {
   useCurrentUser,
 } from "@animeaux/app-core";
 import {
-  AnimalFilters,
-  createDefaultAnimalFilters,
+  createAnimalFilters,
+  createAnimalFiltersFromQuery,
+  createAnimalFiltersQuery,
   doesGroupsIntersect,
   getActiveAnimalFiltersCount,
   UserGroup,
@@ -26,6 +27,8 @@ import {
   usePageScrollRestoration,
   useSearchAndFilters,
 } from "@animeaux/ui-library";
+import isEmpty from "lodash.isempty";
+import { useRouter } from "next/router";
 import * as React from "react";
 import { FaPlus } from "react-icons/fa";
 import { Navigation } from "../../core/navigation";
@@ -34,6 +37,12 @@ import { PageTitle } from "../../core/pageTitle";
 const TITLE = "Animaux";
 
 const AnimalListPage: PageComponent = () => {
+  const router = useRouter();
+  const routerRef = React.useRef(router);
+  React.useEffect(() => {
+    routerRef.current = router;
+  });
+
   const { currentUser } = useCurrentUser();
   const isCurrentUserAdmin = doesGroupsIntersect(currentUser.groups, [
     UserGroup.ADMIN,
@@ -48,7 +57,13 @@ const AnimalListPage: PageComponent = () => {
     setRawSearch,
     filters,
     setFilters,
-  } = useSearchAndFilters<AnimalFilters>("", createDefaultAnimalFilters());
+  } = useSearchAndFilters(() => createAnimalFiltersFromQuery(router.query));
+
+  React.useEffect(() => {
+    routerRef.current.replace({
+      query: createAnimalFiltersQuery(search, filters),
+    });
+  }, [search, filters]);
 
   const activeFilterCount = getActiveAnimalFiltersCount(filters);
 
@@ -60,17 +75,18 @@ const AnimalListPage: PageComponent = () => {
     placeholderElement: SearchableAnimalItemPlaceholder,
     renderEmptyMessage: () => "Il n'y a pas encore d'animaux",
     renderEmptySearchMessage: () => "Aucun animal trouvée",
-    renderEmptySearchAction: () => (
-      <Button
-        variant="outlined"
-        onClick={() => {
-          setFilters(createDefaultAnimalFilters());
-          setRawSearch("");
-        }}
-      >
-        Effacer la recherche
-      </Button>
-    ),
+    renderEmptySearchAction: () => {
+      // Only show the clear filter button if there are filters to clear.
+      if (isEmpty(filters)) {
+        return null;
+      }
+
+      return (
+        <Button variant="outlined" onClick={() => setFilters({})}>
+          Effacer tous les filtres
+        </Button>
+      );
+    },
     renderItem: (animal) => (
       <SearchableAnimalItem animal={animal} href={`./${animal.id}`} />
     ),
@@ -91,7 +107,7 @@ const AnimalListPage: PageComponent = () => {
               <ActionFilter
                 actionElement={ActionAdornment}
                 activeFilterCount={activeFilterCount}
-                clearAllFilters={() => setFilters(createDefaultAnimalFilters())}
+                clearAllFilters={() => setFilters(createAnimalFilters())}
               >
                 <AnimalFiltersForm value={filters} onChange={setFilters} />
               </ActionFilter>
