@@ -1,4 +1,5 @@
 import {
+  AnimalFilters,
   CreateAnimalPayload,
   DBAnimal,
   DBSearchableAnimal,
@@ -102,8 +103,11 @@ const typeDefs = gql`
   }
 
   extend type Query {
-    getAllAnimals(search: String, page: Int): AllAnimalResponse!
-      @auth(groups: [ADMIN, ANIMAL_MANAGER, VETERINARIAN])
+    getAllAnimals(
+      search: String
+      page: Int
+      status: [AnimalStatus!]
+    ): AllAnimalResponse! @auth(groups: [ADMIN, ANIMAL_MANAGER, VETERINARIAN])
 
     getAnimal(id: ID!): Animal
       @auth(groups: [ADMIN, ANIMAL_MANAGER, VETERINARIAN])
@@ -192,7 +196,10 @@ const resolvers: IResolvers = {
 };
 
 const queries: IResolverObject = {
-  getAllAnimals: async (parent: any, filters: PaginatedRequest) => {
+  getAllAnimals: async (
+    parent: any,
+    filters: PaginatedRequest<AnimalFilters>
+  ) => {
     return await database.getAllAnimals(filters);
   },
 

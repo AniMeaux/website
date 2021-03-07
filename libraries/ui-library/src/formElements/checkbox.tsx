@@ -6,7 +6,7 @@ export type RawCheckboxProps = Omit<
   React.InputHTMLAttributes<HTMLInputElement>,
   "onChange" | "size"
 > & {
-  onChange?: React.Dispatch<React.SetStateAction<boolean>>;
+  onChange?: React.Dispatch<boolean>;
 };
 
 export function RawCheckbox({

@@ -1,4 +1,5 @@
 import {
+  AnimalFilters,
   CreateAnimalPayload,
   DATE_PATTERN,
   DBAnimal,
@@ -11,8 +12,10 @@ import {
 import { UserInputError } from "apollo-server";
 import * as admin from "firebase-admin";
 import isEmpty from "lodash.isempty";
+import isEqual from "lodash.isequal";
 import { v4 as uuid } from "uuid";
 import { AnimalDatabase } from "../../databaseType";
+import { SearchFilters } from "../../searchFilters";
 import { AlgoliaClient } from "./algoliaClient";
 import { animalBreedDatabase } from "./animalBreed";
 
@@ -20,11 +23,26 @@ const AnimalsIndex = AlgoliaClient.initIndex("animals");
 
 export const animalDatabase: AnimalDatabase = {
   async getAllAnimals(
-    filters: PaginatedRequest
+    filters: PaginatedRequest<AnimalFilters>
   ): Promise<PaginatedResponse<DBSearchableAnimal>> {
+    const searchFilters: string[] = [];
+
+    if (filters.status != null && filters.status.length > 0) {
+      searchFilters.push(
+        SearchFilters.or(
+          filters.status.map((status) =>
+            SearchFilters.createFilter("status", status)
+          )
+        )
+      );
+    }
+
     const result = await AnimalsIndex.search<DBSearchableAnimal>(
       filters.search ?? "",
-      { page: filters.page ?? 0 }
+      {
+        page: filters.page ?? 0,
+        filters: SearchFilters.and(searchFilters),
+      }
     );
 
     return {
@@ -239,7 +257,10 @@ export const animalDatabase: AnimalDatabase = {
       animalUpdate.hostFamilyId = payload.hostFamilyId;
     }
 
-    if (payload.picturesId != null) {
+    if (
+      payload.picturesId != null &&
+      !isEqual(payload.picturesId, animal.picturesId)
+    ) {
       animalUpdate.picturesId = payload.picturesId;
     }
 

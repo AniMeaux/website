@@ -5,7 +5,7 @@ export type RawRadioProps = Omit<
   React.InputHTMLAttributes<HTMLInputElement>,
   "onChange"
 > & {
-  onChange?: React.Dispatch<React.SetStateAction<void>>;
+  onChange?: React.Dispatch<void>;
 };
 
 export function RawRadio({ onChange, readOnly, ...rest }: RawRadioProps) {

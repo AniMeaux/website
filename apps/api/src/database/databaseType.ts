@@ -1,6 +1,7 @@
 import {
   AnimalBreed,
   AnimalBreedFilters,
+  AnimalFilters,
   CreateAnimalBreedPayload,
   CreateAnimalPayload,
   CreateHostFamilyPayload,
@@ -53,7 +54,7 @@ export type HostFamilyDatabase = {
 
 export type AnimalDatabase = {
   getAllAnimals(
-    filters: PaginatedRequest
+    filters: PaginatedRequest<AnimalFilters>
   ): Promise<PaginatedResponse<DBSearchableAnimal>>;
   getAnimal(id: string): Promise<DBAnimal | null>;
   createAnimal(payload: CreateAnimalPayload): Promise<DBAnimal>;

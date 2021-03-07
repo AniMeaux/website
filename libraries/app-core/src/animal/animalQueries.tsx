@@ -1,5 +1,6 @@
 import {
   Animal,
+  AnimalFilters,
   AnimalFormPayload,
   AnimalPicturesFormPayload,
   AnimalProfileFormPayload,
@@ -93,8 +94,12 @@ const AnimalFragment = gql`
 `;
 
 const GetAllAnimalsQuery = gql`
-  query GetAllAnimalsQuery($search: String, $page: Int) {
-    response: getAllAnimals(search: $search, page: $page) {
+  query GetAllAnimalsQuery(
+    $search: String
+    $page: Int
+    $status: [AnimalStatus!]
+  ) {
+    response: getAllAnimals(search: $search, page: $page, status: $status) {
       hits {
         ...SearchableAnimalFragment
       }
@@ -107,15 +112,18 @@ const GetAllAnimalsQuery = gql`
   ${SearchableAnimalFragment}
 `;
 
-export function useAllAnimals({ search }: SearchFilter = {}) {
+export function useAllAnimals({
+  search,
+  status,
+}: SearchFilter & AnimalFilters = {}) {
   return useInfiniteQuery<PaginatedResponse<SearchableAnimal>, Error>(
-    ["animals", search],
+    ["animals", search, status],
     async ({ pageParam = 0 }) => {
       const { response } = await fetchGraphQL<
         { response: PaginatedResponse<SearchableAnimal> },
-        PaginatedRequest
+        PaginatedRequest<AnimalFilters>
       >(GetAllAnimalsQuery, {
-        variables: { search, page: pageParam },
+        variables: { search, page: pageParam, status },
       });
 
       return response;

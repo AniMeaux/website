@@ -30,7 +30,13 @@ export function InputWrapper({
   const leftAdornments = ensureArray(leftAdornment);
 
   return (
-    <span className={cn("relative", { "opacity-50": disabled }, className)}>
+    <span
+      className={cn(
+        "relative inline-flex",
+        { "opacity-50": disabled },
+        className
+      )}
+    >
       {children}
 
       {leftAdornments.length > 0 &&

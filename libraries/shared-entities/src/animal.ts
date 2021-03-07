@@ -522,3 +522,29 @@ export function createAminalPicturesUpdateApiPayload(
 
   return updatePayload;
 }
+
+export type AnimalFilters = {
+  status?: AnimalStatus[] | null;
+};
+
+export function createDefaultAnimalFilters(): AnimalFilters {
+  return {
+    status: [
+      AnimalStatus.OPEN_TO_ADOPTION,
+      AnimalStatus.OPEN_TO_RESERVATION,
+      AnimalStatus.RESERVED,
+      AnimalStatus.UNAVAILABLE,
+    ],
+  };
+}
+
+export function getActiveAnimalFiltersCount(filters: AnimalFilters) {
+  const defaultFilter = createDefaultAnimalFilters();
+  let activeFiltersCount = 0;
+
+  if (!isEqual(new Set(filters.status), new Set(defaultFilter.status))) {
+    activeFiltersCount += 1;
+  }
+
+  return activeFiltersCount;
+}

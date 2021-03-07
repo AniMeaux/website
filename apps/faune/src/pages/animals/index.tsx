@@ -1,4 +1,5 @@
 import {
+  AnimalFiltersForm,
   Header,
   PageComponent,
   renderInfiniteItemList,
@@ -7,11 +8,23 @@ import {
   useAllAnimals,
   useCurrentUser,
 } from "@animeaux/app-core";
-import { doesGroupsIntersect, UserGroup } from "@animeaux/shared-entities";
 import {
+  AnimalFilters,
+  createDefaultAnimalFilters,
+  getActiveAnimalFiltersCount,
+  doesGroupsIntersect,
+  UserGroup,
+} from "@animeaux/shared-entities";
+import {
+  ActionAdornment,
+  ActionFilter,
+  Button,
   Main,
   QuickLinkAction,
+  SearchInput,
+  Section,
   usePageScrollRestoration,
+  useSearchAndFilters,
 } from "@animeaux/ui-library";
 import * as React from "react";
 import { FaPlus } from "react-icons/fa";
@@ -29,12 +42,34 @@ const AnimalListPage: PageComponent = () => {
 
   usePageScrollRestoration();
 
-  const query = useAllAnimals();
+  const {
+    search,
+    rawSearch,
+    setRawSearch,
+    filters,
+    setFilters,
+  } = useSearchAndFilters<AnimalFilters>("", createDefaultAnimalFilters());
+
+  const activeFilterCount = getActiveAnimalFiltersCount(filters);
+
+  function clearAllFilters() {
+    setFilters(createDefaultAnimalFilters());
+    setRawSearch("");
+  }
+
+  const query = useAllAnimals({ search, ...filters });
   const { content, title } = renderInfiniteItemList(query, {
     title: TITLE,
     getItemKey: (animal) => animal.id,
+    hasSearch: search !== "" || activeFilterCount > 0,
     placeholderElement: SearchableAnimalItemPlaceholder,
     renderEmptyMessage: () => "Il n'y a pas encore d'animaux",
+    renderEmptySearchMessage: () => "Aucun animal trouvée",
+    renderEmptySearchAction: () => (
+      <Button variant="outlined" onClick={clearAllFilters}>
+        Effacer la recherche
+      </Button>
+    ),
     renderItem: (animal) => (
       <SearchableAnimalItem animal={animal} href={`./${animal.id}`} />
     ),
@@ -46,6 +81,24 @@ const AnimalListPage: PageComponent = () => {
       <Header headerTitle={title} />
 
       <Main hasNavigation={isCurrentUserAdmin}>
+        <Section>
+          <SearchInput
+            placeholder="Chercher un animal"
+            className="w-full"
+            value={rawSearch}
+            onChange={setRawSearch}
+            rightAdornment={
+              <ActionFilter
+                actionElement={ActionAdornment}
+                activeFilterCount={activeFilterCount}
+                clearAllFilters={clearAllFilters}
+              >
+                <AnimalFiltersForm value={filters} onChange={setFilters} />
+              </ActionFilter>
+            }
+          />
+        </Section>
+
         {content}
 
         {isCurrentUserAdmin && (

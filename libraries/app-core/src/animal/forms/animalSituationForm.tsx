@@ -1,7 +1,5 @@
 import {
   AnimalSituationFormPayload,
-  AnimalStatusLabels,
-  ANIMAL_STATUSES_ORDER,
   TrileanLabels,
   TRILEAN_ORDER,
 } from "@animeaux/shared-entities";
@@ -24,6 +22,7 @@ import {
 } from "@animeaux/ui-library";
 import * as React from "react";
 import { FaHome, FaTimes } from "react-icons/fa";
+import { AnimalStatusInput } from "../../animalStatusInput";
 
 export type AnimalSituationFormErrors = {
   pickUpDate?: string | null;
@@ -50,21 +49,11 @@ export function AnimalSituationForm<
     <Form {...rest} pending={pending}>
       <Field>
         <Label htmlFor="status">Status</Label>
-        <Selectors>
-          {ANIMAL_STATUSES_ORDER.map((status) => (
-            <SelectorItem key={status}>
-              <Selector>
-                <SelectorRadio
-                  name="status"
-                  checked={value.status === status}
-                  onChange={() => onChange((value) => ({ ...value, status }))}
-                />
 
-                <SelectorLabel>{AnimalStatusLabels[status]}</SelectorLabel>
-              </Selector>
-            </SelectorItem>
-          ))}
-        </Selectors>
+        <AnimalStatusInput
+          value={value.status}
+          onChange={(status) => onChange((value) => ({ ...value, status }))}
+        />
       </Field>
 
       <Field>
