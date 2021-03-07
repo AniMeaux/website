@@ -52,11 +52,6 @@ const AnimalListPage: PageComponent = () => {
 
   const activeFilterCount = getActiveAnimalFiltersCount(filters);
 
-  function clearAllFilters() {
-    setFilters(createDefaultAnimalFilters());
-    setRawSearch("");
-  }
-
   const query = useAllAnimals({ search, ...filters });
   const { content, title } = renderInfiniteItemList(query, {
     title: TITLE,
@@ -66,7 +61,13 @@ const AnimalListPage: PageComponent = () => {
     renderEmptyMessage: () => "Il n'y a pas encore d'animaux",
     renderEmptySearchMessage: () => "Aucun animal trouvée",
     renderEmptySearchAction: () => (
-      <Button variant="outlined" onClick={clearAllFilters}>
+      <Button
+        variant="outlined"
+        onClick={() => {
+          setFilters(createDefaultAnimalFilters());
+          setRawSearch("");
+        }}
+      >
         Effacer la recherche
       </Button>
     ),
@@ -91,7 +92,7 @@ const AnimalListPage: PageComponent = () => {
               <ActionFilter
                 actionElement={ActionAdornment}
                 activeFilterCount={activeFilterCount}
-                clearAllFilters={clearAllFilters}
+                clearAllFilters={() => setFilters(createDefaultAnimalFilters())}
               >
                 <AnimalFiltersForm value={filters} onChange={setFilters} />
               </ActionFilter>
