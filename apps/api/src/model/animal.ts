@@ -1,5 +1,4 @@
 import {
-  Animal,
   CreateAnimalPayload,
   DBAnimal,
   DBSearchableAnimal,
@@ -60,7 +59,7 @@ const typeDefs = gql`
   type SearchableAnimal {
     id: ID!
     officialName: String!
-    commonName: String
+    commonName: String!
     birthdate: String!
     pickUpDate: String!
     gender: AnimalGender!
@@ -78,7 +77,7 @@ const typeDefs = gql`
   type Animal {
     id: ID!
     officialName: String!
-    commonName: String
+    commonName: String!
     birthdate: String!
     pickUpDate: String!
     gender: AnimalGender!
@@ -113,7 +112,7 @@ const typeDefs = gql`
   extend type Mutation {
     createAnimal(
       officialName: String!
-      commonName: String
+      commonName: String!
       birthdate: String!
       pickUpDate: String!
       gender: AnimalGender!
@@ -156,6 +155,10 @@ const typeDefs = gql`
 
 const resolvers: IResolvers = {
   SearchableAnimal: {
+    commonName: (animal: DBSearchableAnimal) => {
+      return animal.commonName ?? "";
+    },
+
     breed: async (animal: DBSearchableAnimal) => {
       if (animal.breedId == null) {
         return null;
@@ -166,6 +169,10 @@ const resolvers: IResolvers = {
   },
 
   Animal: {
+    commonName: (animal: DBSearchableAnimal) => {
+      return animal.commonName ?? "";
+    },
+
     breed: async (animal: DBAnimal) => {
       if (animal.breedId == null) {
         return null;
@@ -198,7 +205,7 @@ const mutations: IResolverObject = {
   createAnimal: async (
     parent: any,
     payload: CreateAnimalPayload
-  ): Promise<Animal> => {
+  ): Promise<DBAnimal> => {
     return await database.createAnimal(payload);
   },
 

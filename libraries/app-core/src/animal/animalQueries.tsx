@@ -178,7 +178,7 @@ export function useCreateAnimalSituation(
 const CreateAnimalQuery = gql`
   mutation CreateAnimalQuery(
     $officialName: String!
-    $commonName: String
+    $commonName: String!
     $birthdate: String!
     $pickUpDate: String!
     $gender: AnimalGender!

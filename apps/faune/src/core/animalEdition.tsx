@@ -21,7 +21,7 @@ function useAnimalFormPayload() {
     if (animal != null) {
       setFormPayload({
         officialName: animal.officialName,
-        commonName: animal.commonName ?? "",
+        commonName: animal.commonName,
         birthdate: animal.birthdate,
         gender: animal.gender,
         species: animal.species,

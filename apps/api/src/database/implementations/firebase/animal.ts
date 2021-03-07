@@ -70,6 +70,7 @@ export const animalDatabase: AnimalDatabase = {
     const searchableAnimal: DBSearchableAnimal = {
       id: uuid(),
       officialName,
+      commonName: payload.commonName.trim(),
       birthdate: payload.birthdate,
       birthdateTimestamp: new Date(payload.birthdate).getTime(),
       gender: payload.gender,
@@ -85,11 +86,6 @@ export const animalDatabase: AnimalDatabase = {
       isOkCats: payload.isOkCats,
       isSterilized: payload.isSterilized,
     };
-
-    const commonName = payload.commonName?.trim() ?? "";
-    if (commonName !== "") {
-      searchableAnimal.commonName = commonName;
-    }
 
     const animal: DBAnimal = {
       ...searchableAnimal,
@@ -127,11 +123,9 @@ export const animalDatabase: AnimalDatabase = {
     }
 
     // Allow null to clear the field.
-    if (payload.commonName !== undefined) {
-      const commonName = payload.commonName?.trim() ?? "";
-      if (commonName === "") {
-        searchableAnimalUpdate.commonName = null;
-      } else if (commonName !== animal.commonName) {
+    if (payload.commonName != null) {
+      const commonName = payload.commonName.trim();
+      if (commonName !== animal.commonName) {
         searchableAnimalUpdate.commonName = commonName;
       }
     }

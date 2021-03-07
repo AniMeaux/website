@@ -205,7 +205,7 @@ export const ANIMAL_COLORS_ORDER = sortByLabels(
 export type SearchableAnimal = {
   id: string;
   officialName: string;
-  commonName?: string | null;
+  commonName: string;
   birthdate: string;
   pickUpDate: string;
   gender: AnimalGender;
@@ -220,10 +220,14 @@ export type SearchableAnimal = {
   isSterilized: boolean;
 };
 
-export type DBSearchableAnimal = Omit<SearchableAnimal, "breed"> & {
+export type DBSearchableAnimal = Omit<
+  SearchableAnimal,
+  "breed" | "commonName"
+> & {
+  commonName?: string | null;
   breedId?: string | null;
   birthdateTimestamp: number;
-  pickUpDateTimestamp?: number | null;
+  pickUpDateTimestamp: number;
 };
 
 export type Animal = SearchableAnimal & {
@@ -237,7 +241,7 @@ export type DBAnimal = DBSearchableAnimal & {
 };
 
 export function getAnimalDisplayName(animal: SearchableAnimal) {
-  if (animal.commonName != null) {
+  if (animal.commonName !== "") {
     return `${animal.officialName} (${animal.commonName})`;
   }
 
@@ -256,7 +260,7 @@ export type AnimalProfileFormPayload = {
 
 export type CreateAnimalProfilePayload = {
   officialName: string;
-  commonName?: string | null;
+  commonName: string;
   birthdate: string;
   gender: AnimalGender;
   species: AnimalSpecies;
@@ -286,15 +290,11 @@ export function createAnimalProfileCreationApiPayload(
 
   const apiPayload: CreateAnimalProfilePayload = {
     officialName,
+    commonName: payload.commonName.trim(),
     birthdate: payload.birthdate,
     gender: payload.gender,
     species: payload.species,
   };
-
-  const commonName = payload.commonName.trim();
-  if (commonName !== "") {
-    apiPayload.commonName = commonName;
-  }
 
   if (payload.breed != null) {
     if (payload.breed.species !== payload.species) {
@@ -441,8 +441,8 @@ export function createAminalProfileUpdateApiPayload(
   }
 
   const commonName = formPayload.commonName.trim();
-  if (commonName !== animal.commonName ?? "") {
-    updatePayload.commonName = commonName === "" ? null : commonName;
+  if (commonName !== animal.commonName) {
+    updatePayload.commonName = commonName;
   }
 
   if (formPayload.birthdate !== animal.birthdate) {
