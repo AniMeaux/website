@@ -11,8 +11,7 @@ import {
   hasErrorCode,
   UserGroup,
 } from "@animeaux/shared-entities";
-import { Main, resolveUrl } from "@animeaux/ui-library";
-import { useRouter } from "next/router";
+import { Main, useRouter } from "@animeaux/ui-library";
 import * as React from "react";
 import {
   AnimalCreationStep,
@@ -28,7 +27,8 @@ const CreateAnimalPicturesPage: PageComponent = () => {
 
   const [createAnimal, { error, isLoading }] = useCreateAnimal({
     onSuccess() {
-      router.push(resolveUrl(router.asPath, "../.."));
+      // 3 is the number of steps to create an animal.
+      router.backIfPossible("../..", 3);
     },
   });
 

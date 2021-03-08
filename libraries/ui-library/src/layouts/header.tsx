@@ -1,6 +1,6 @@
 import cn from "classnames";
 import * as React from "react";
-import { FaChevronLeft, FaTimes } from "react-icons/fa";
+import { FaChevronLeft } from "react-icons/fa";
 import { ChildrenProp, Link, LinkProps, StyleProps } from "../core";
 import { useIsScrollAtTheTop } from "./usePageScroll";
 
@@ -15,38 +15,9 @@ export function HeaderLink({ className, ...rest }: LinkProps) {
 
 export function HeaderBackLink(props: LinkProps) {
   return (
-    <HeaderLink {...props}>
+    <HeaderLink {...props} isBack>
       <FaChevronLeft />
     </HeaderLink>
-  );
-}
-
-export function HeaderButton({
-  className,
-  ...rest
-}: React.ButtonHTMLAttributes<HTMLButtonElement>) {
-  return (
-    <button {...rest} className={cn(HEADER_ACTION_CLASS_NAMES, className)} />
-  );
-}
-
-export function HeaderBackButton(
-  props: React.ButtonHTMLAttributes<HTMLButtonElement>
-) {
-  return (
-    <HeaderButton {...props}>
-      <FaChevronLeft />
-    </HeaderButton>
-  );
-}
-
-export function HeaderCloseButton(
-  props: React.ButtonHTMLAttributes<HTMLButtonElement>
-) {
-  return (
-    <HeaderButton {...props}>
-      <FaTimes />
-    </HeaderButton>
   );
 }
 

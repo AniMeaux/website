@@ -17,12 +17,7 @@ import {
   hasErrorCode,
   UserGroup,
 } from "@animeaux/shared-entities";
-import {
-  Main,
-  resolveUrl,
-  usePageScrollRestoration,
-} from "@animeaux/ui-library";
-import { useRouter } from "next/router";
+import { Main, useRouter } from "@animeaux/ui-library";
 import * as React from "react";
 import {
   AnimalFormProvider,
@@ -61,13 +56,9 @@ const UpdateAnimalSituationPage: PageComponent = () => {
   const animalId = router.query.animalId as string;
   const query = useAnimal(animalId);
 
-  usePageScrollRestoration({
-    disabled: router.query.restoreScroll == null,
-  });
-
   const [updateAnimalSituation, mutation] = useUpdateAnimalSituation({
     onSuccess() {
-      router.push(resolveUrl(router.asPath, "../.."));
+      router.backIfPossible("../..");
     },
   });
 

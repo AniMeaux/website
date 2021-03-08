@@ -11,12 +11,7 @@ import {
   hasErrorCode,
   UserGroup,
 } from "@animeaux/shared-entities";
-import {
-  Main,
-  resolveUrl,
-  usePageScrollRestoration,
-} from "@animeaux/ui-library";
-import { useRouter } from "next/router";
+import { Main, useRouter } from "@animeaux/ui-library";
 import * as React from "react";
 import {
   AnimalCreationStep,
@@ -30,13 +25,9 @@ const CreateAnimalProfilePage: PageComponent = () => {
   const { formPayload, setFormPayload } = useAnimalForm();
   const router = useRouter();
 
-  usePageScrollRestoration({
-    disabled: router.query.restoreScroll == null,
-  });
-
   const [createAnimalProfile, { error, isLoading }] = useCreateAnimalProfile({
     onSuccess() {
-      router.push(resolveUrl(router.asPath, "../situation"));
+      router.push("../situation");
     },
   });
 

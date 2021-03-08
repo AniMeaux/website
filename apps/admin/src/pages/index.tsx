@@ -1,5 +1,5 @@
 import { PageComponent } from "@animeaux/app-core";
-import { useRouter } from "next/router";
+import { useRouter } from "@animeaux/ui-library";
 import * as React from "react";
 
 const IndexPage: PageComponent = () => {

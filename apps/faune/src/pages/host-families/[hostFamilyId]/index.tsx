@@ -22,11 +22,10 @@ import {
   Placeholder,
   Placeholders,
   QuickActions,
-  resolveUrl,
   Section,
   SectionTitle,
+  useRouter,
 } from "@animeaux/ui-library";
-import { useRouter } from "next/router";
 import * as React from "react";
 import { FaEnvelope, FaMapMarker, FaPen, FaPhone } from "react-icons/fa";
 import { PageTitle } from "../../../core/pageTitle";
@@ -115,7 +114,7 @@ function DeleteHostFamilyButton({ hostFamily }: HostFamilyProps) {
   const router = useRouter();
   const [deleteHostFamily] = useDeleteHostFamily({
     onSuccess() {
-      router.push(resolveUrl(router.asPath, ".."));
+      router.backIfPossible("..");
     },
   });
 

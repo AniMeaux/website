@@ -3,8 +3,8 @@ import {
   AnimalFormPayload,
   createEmptyAnimalFormPayload,
 } from "@animeaux/shared-entities";
+import { useRouter } from "@animeaux/ui-library";
 import constate from "constate";
-import { useRouter } from "next/router";
 import * as React from "react";
 
 function useAnimalFormPayload() {

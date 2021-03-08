@@ -13,8 +13,7 @@ import {
   getErrorMessage,
   hasErrorCode,
 } from "@animeaux/shared-entities";
-import { Main, resolveUrl } from "@animeaux/ui-library";
-import { useRouter } from "next/router";
+import { Main, useRouter } from "@animeaux/ui-library";
 import * as React from "react";
 import { PageTitle } from "../../../core/pageTitle";
 
@@ -24,7 +23,7 @@ const UserEditPage: PageComponent = () => {
   const query = useUser(userId);
   const [updateUser, mutation] = useUpdateUser({
     onSuccess() {
-      router.push(resolveUrl(router.asPath, ".."));
+      router.backIfPossible("..");
     },
   });
 

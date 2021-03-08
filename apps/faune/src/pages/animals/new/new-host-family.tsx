@@ -6,8 +6,7 @@ import {
   useCreateHostFamily,
 } from "@animeaux/app-core";
 import { UserGroup } from "@animeaux/shared-entities";
-import { Main, resolveUrl } from "@animeaux/ui-library";
-import { useRouter } from "next/router";
+import { Main, useRouter } from "@animeaux/ui-library";
 import * as React from "react";
 import {
   AnimalFormProvider,
@@ -21,7 +20,7 @@ const CreateHostFamilyPage: PageComponent = () => {
   const [createHostFamily, { error, isLoading }] = useCreateHostFamily({
     onSuccess(hostFamily) {
       setFormPayload((payload) => ({ ...payload, hostFamily }));
-      router.push(resolveUrl(router.asPath, "../situation?restoreScroll"));
+      router.backIfPossible("../situation");
     },
   });
 

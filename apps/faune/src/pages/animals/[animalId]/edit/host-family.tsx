@@ -18,11 +18,10 @@ import {
   ItemMainText,
   LinkItem,
   Main,
-  resolveUrl,
   SearchInput,
+  useRouter,
   useSearch,
 } from "@animeaux/ui-library";
-import { useRouter } from "next/router";
 import * as React from "react";
 import { FaPlus } from "react-icons/fa";
 import {
@@ -71,7 +70,7 @@ function UpdateAnimalHostFamilyForm() {
         highlight={hostFamily.id === formPayload.hostFamily?.id}
         onClick={() => {
           setFormPayload((payload) => ({ ...payload, hostFamily }));
-          router.push(resolveUrl(router.asPath, "../situation?restoreScroll"));
+          router.backIfPossible("../situation");
         }}
       />
     ),
@@ -80,7 +79,7 @@ function UpdateAnimalHostFamilyForm() {
   return (
     <>
       <Header>
-        <HeaderBackLink href="../situation?restoreScroll" />
+        <HeaderBackLink href="../situation" />
 
         <SearchInput
           size="small"
@@ -104,14 +103,14 @@ const CreateAnimalHostFamilyPage: PageComponent = () => {
     getDisplayedText: (animal) => getAnimalDisplayName(animal),
     renderPlaceholder: () => (
       <Header>
-        <HeaderBackLink href="../situation?restoreScroll" />
+        <HeaderBackLink href="../situation" />
       </Header>
     ),
     renderEntity: () => <UpdateAnimalHostFamilyForm />,
     renderError: (errorPage) => (
       <>
         <Header>
-          <HeaderBackLink href="../situation?restoreScroll" />
+          <HeaderBackLink href="../situation" />
         </Header>
 
         <Main>{errorPage}</Main>

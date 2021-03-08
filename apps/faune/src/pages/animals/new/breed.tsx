@@ -11,11 +11,10 @@ import {
   Header,
   HeaderBackLink,
   Main,
-  resolveUrl,
   SearchInput,
+  useRouter,
   useSearch,
 } from "@animeaux/ui-library";
-import { useRouter } from "next/router";
 import * as React from "react";
 import {
   AnimalFormProvider,
@@ -46,7 +45,7 @@ const CreateAnimalBreedPage: PageComponent = () => {
         highlight={animalBreed.id === formPayload.breed?.id}
         onClick={() => {
           setFormPayload((payload) => ({ ...payload, breed: animalBreed }));
-          router.push(resolveUrl(router.asPath, "../profile?restoreScroll"));
+          router.backIfPossible("../profile");
         }}
       />
     ),
@@ -56,7 +55,7 @@ const CreateAnimalBreedPage: PageComponent = () => {
     <div>
       <PageTitle title="Nouvel animal" />
       <Header>
-        <HeaderBackLink href="../profile?restoreScroll" />
+        <HeaderBackLink href="../profile" />
 
         <SearchInput
           size="small"

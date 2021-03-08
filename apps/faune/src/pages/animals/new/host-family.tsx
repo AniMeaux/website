@@ -16,11 +16,10 @@ import {
   ItemMainText,
   LinkItem,
   Main,
-  resolveUrl,
   SearchInput,
+  useRouter,
   useSearch,
 } from "@animeaux/ui-library";
-import { useRouter } from "next/router";
 import * as React from "react";
 import { FaPlus } from "react-icons/fa";
 import {
@@ -69,7 +68,7 @@ const CreateAnimalHostFamilyPage: PageComponent = () => {
         highlight={hostFamily.id === formPayload.hostFamily?.id}
         onClick={() => {
           setFormPayload((payload) => ({ ...payload, hostFamily }));
-          router.push(resolveUrl(router.asPath, "../situation?restoreScroll"));
+          router.backIfPossible("../situation");
         }}
       />
     ),
@@ -79,7 +78,7 @@ const CreateAnimalHostFamilyPage: PageComponent = () => {
     <div>
       <PageTitle title="Nouvel animal" />
       <Header>
-        <HeaderBackLink href="../situation?restoreScroll" />
+        <HeaderBackLink href="../situation" />
 
         <SearchInput
           size="small"

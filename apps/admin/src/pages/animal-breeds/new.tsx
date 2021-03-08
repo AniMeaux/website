@@ -10,8 +10,7 @@ import {
   getErrorMessage,
   hasErrorCode,
 } from "@animeaux/shared-entities";
-import { Main, resolveUrl } from "@animeaux/ui-library";
-import { useRouter } from "next/router";
+import { Main, useRouter } from "@animeaux/ui-library";
 import * as React from "react";
 import { PageTitle } from "../../core/pageTitle";
 
@@ -19,7 +18,7 @@ const CreateAnimalBreedPage: PageComponent = () => {
   const router = useRouter();
   const [createAnimalBreed, { error, isLoading }] = useCreateAnimalBreed({
     onSuccess() {
-      router.push(resolveUrl(router.asPath, ".."));
+      router.backIfPossible("..");
     },
   });
 

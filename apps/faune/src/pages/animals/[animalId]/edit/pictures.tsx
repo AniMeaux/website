@@ -17,8 +17,7 @@ import {
   hasErrorCode,
   UserGroup,
 } from "@animeaux/shared-entities";
-import { Main, resolveUrl } from "@animeaux/ui-library";
-import { useRouter } from "next/router";
+import { Main, useRouter } from "@animeaux/ui-library";
 import * as React from "react";
 import {
   AnimalFormProvider,
@@ -59,7 +58,7 @@ const UpdateAnimalPicturesPage: PageComponent = () => {
 
   const [updateAnimalPictures, mutation] = useUpdateAnimalPicture({
     onSuccess() {
-      router.push(resolveUrl(router.asPath, "../.."));
+      router.backIfPossible("../..");
     },
   });
 

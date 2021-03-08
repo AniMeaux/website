@@ -25,10 +25,11 @@ import {
   QuickLinkAction,
   SearchInput,
   usePageScrollRestoration,
+  useRouter,
   useSearchAndFilters,
 } from "@animeaux/ui-library";
 import isEmpty from "lodash.isempty";
-import { useRouter } from "next/router";
+import isEqual from "lodash.isequal";
 import * as React from "react";
 import { FaPlus } from "react-icons/fa";
 import { Navigation } from "../../core/navigation";
@@ -60,9 +61,10 @@ const AnimalListPage: PageComponent = () => {
   } = useSearchAndFilters(() => createAnimalFiltersFromQuery(router.query));
 
   React.useEffect(() => {
-    routerRef.current.replace({
-      query: createAnimalFiltersQuery(search, filters),
-    });
+    const query = createAnimalFiltersQuery(search, filters);
+    if (!isEqual(query, routerRef.current.query)) {
+      routerRef.current.replace({ query });
+    }
   }, [search, filters]);
 
   const activeFilterCount = getActiveAnimalFiltersCount(filters);

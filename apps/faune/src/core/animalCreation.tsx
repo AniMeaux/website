@@ -6,15 +6,14 @@ import {
 } from "@animeaux/shared-entities";
 import {
   ChildrenProp,
-  resolveUrl,
   StepItem,
   StepLink,
   Stepper,
   StepStatus,
+  useRouter,
 } from "@animeaux/ui-library";
 import constate from "constate";
 import invariant from "invariant";
-import { useRouter } from "next/router";
 import * as React from "react";
 
 function useAnimalFormPayload() {
@@ -86,7 +85,7 @@ function AnimalFormRouting({ children }: ChildrenProp) {
       setCanRenderStep(true);
     } else {
       // Redirect to the first step.
-      router.replace(resolveUrl(router.asPath, "../profile"));
+      router.replace("../profile");
     }
   }, [stepName, router, formPayload]);
 

@@ -23,8 +23,8 @@ import {
   showSnackbar,
   Snackbar,
   SubmitButton,
+  useRouter,
 } from "@animeaux/ui-library";
-import { useRouter } from "next/dist/client/router";
 import * as React from "react";
 import { FaAngleRight, FaLock, FaUser } from "react-icons/fa";
 import { Header } from "../header";
@@ -61,7 +61,7 @@ export const CurrentUserPasswordForm: PageComponent = () => {
           <Snackbar type="success">Mot de passe changé</Snackbar>
         );
 
-        router.push(backUrl);
+        router.backIfPossible(backUrl);
       },
     }
   );
@@ -168,7 +168,7 @@ export const CurrentUserProfileForm: PageComponent = () => {
           <Snackbar type="success">Profil modifié</Snackbar>
         );
 
-        router.push(backUrl);
+        router.backIfPossible(backUrl);
       },
     }
   );

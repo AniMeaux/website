@@ -1,77 +1,20 @@
 import NextLink from "next/link";
-import { useRouter } from "next/router";
 import * as React from "react";
+import {
+  addHistoryIndexToUrl,
+  canGoBackHistory,
+  getHistoryIndex,
+  resolveUrl,
+  useRouter,
+} from "./router";
 import { ChildrenProp, StyleProps } from "./types";
-
-function segmentize(uri: string): string[] {
-  return (
-    uri
-      // Strip starting/ending slashes.
-      .replace(/(^\/+|\/+$)/g, "")
-      .split("/")
-  );
-}
-
-function addQuery(pathname: string, query: string | null): string {
-  if (query == null) {
-    return pathname;
-  }
-
-  return `${pathname}?${query}`;
-}
-
-// Inspired by: https://github.com/reach/router/blob/master/src/lib/utils.js#L143
-export function resolveUrl(from: string, to: string): string {
-  // /baz/qux, /foo/bar => /foo/bar
-  if (to.startsWith("/")) {
-    return to;
-  }
-
-  const [fromPathname] = from.split("?");
-  const [toPathname, toQuery] = to.split("?");
-
-  const fromSegments = segmentize(fromPathname);
-  const toSegments = segmentize(toPathname);
-
-  // /users?b=c, ?a=b => /users?a=b
-  if (toSegments[0] === "") {
-    return addQuery(fromPathname, toQuery);
-  }
-
-  const allSegments = fromSegments.concat(toSegments);
-
-  // /users/789, profile => /users/789/profile
-  if (!toSegments[0].startsWith(".")) {
-    return addQuery(
-      (fromPathname === "/" ? "" : "/") + allSegments.join("/"),
-      toQuery
-    );
-  }
-
-  // /users/123, ./        =>  /users/123
-  // /users/123, ../       =>  /users
-  // /users/123, ../..     =>  /
-  // /a/b/c/d,   ../../one =>  /a/b/one
-  // /a/b/c/d,   .././one  =>  /a/b/c/one
-  const segments: string[] = [];
-
-  allSegments.forEach((segment) => {
-    if (segment === "..") {
-      segments.pop();
-    } else if (segment !== ".") {
-      segments.push(segment);
-    }
-  });
-
-  return addQuery(
-    (fromPathname === "/" ? "" : "/") + segments.join("/"),
-    toQuery
-  );
-}
 
 export type LinkProps = ChildrenProp &
   StyleProps & {
     href: string;
+    as?: string;
+    isBack?: boolean;
+    backOffset?: number;
     shouldOpenInNewTab?: boolean;
     disabled?: boolean;
   };
@@ -81,7 +24,15 @@ export type LinkProps = ChildrenProp &
  */
 export const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(
   function Link(
-    { href, disabled = false, shouldOpenInNewTab = false, ...rest },
+    {
+      href,
+      as,
+      isBack = false,
+      backOffset = 1,
+      disabled = false,
+      shouldOpenInNewTab = false,
+      ...rest
+    },
     ref
   ) {
     const router = useRouter();
@@ -106,11 +57,36 @@ export const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(
 
     href = resolveUrl(router.asPath, href);
 
+    if (as != null) {
+      as = resolveUrl(router.asPath, as);
+    } else {
+      as = href;
+      href = addHistoryIndexToUrl(
+        href,
+        getHistoryIndex(router) +
+          (isBack
+            ? // Don't increment history index to allow multiple back navigations.
+              0
+            : 1)
+      );
+    }
+
     return (
-      <NextLink href={href}>
+      <NextLink href={href} as={as}>
         {/* The content is passed as children. */}
         {/* eslint-disable-next-line jsx-a11y/anchor-has-content */}
-        <a {...rest} {...additionalProps} ref={ref} />
+        <a
+          {...rest}
+          {...additionalProps}
+          ref={ref}
+          onClick={(event) => {
+            // We rather use a real back navigation when it's possible.
+            if (isBack && canGoBackHistory(router, backOffset)) {
+              event.preventDefault();
+              window.history.go(-backOffset);
+            }
+          }}
+        />
       </NextLink>
     );
   }

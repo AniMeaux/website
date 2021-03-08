@@ -25,12 +25,11 @@ import {
   Placeholder,
   Placeholders,
   QuickActions,
-  resolveUrl,
   Section,
   SectionTitle,
   Separator,
+  useRouter,
 } from "@animeaux/ui-library";
-import { useRouter } from "next/router";
 import * as React from "react";
 import { FaEnvelope, FaPen } from "react-icons/fa";
 import { PageTitle } from "../../../core/pageTitle";
@@ -169,7 +168,7 @@ function DeleteUserButton({ user }: UserProp) {
   const router = useRouter();
   const [deleteUser] = useDeleteUser({
     onSuccess() {
-      router.push(resolveUrl(router.asPath, ".."));
+      router.backIfPossible("..");
     },
   });
 

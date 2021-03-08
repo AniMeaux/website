@@ -1,6 +1,6 @@
-import { useRouter } from "next/router";
 import * as React from "react";
 import { watchResize } from "react-behave";
+import { useRouter } from "../core/router";
 
 const PageScrollContext = React.createContext<React.MutableRefObject<HTMLElement> | null>(
   null
@@ -38,8 +38,7 @@ const pageScrollScrollY: Record<string, number> = {};
 export function usePageScrollRestoration({
   disabled = false,
 }: { disabled?: boolean } = {}) {
-  const router = useRouter();
-  const { pathname } = router;
+  const { pathname } = useRouter();
 
   // Both effects must be layout effects to make sure to register/unregister as
   // soon as possible to avoid glitchs.

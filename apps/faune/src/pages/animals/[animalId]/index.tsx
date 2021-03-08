@@ -41,11 +41,10 @@ import {
   Main,
   Modal,
   QuickActions,
-  resolveUrl,
   Section,
+  useRouter,
 } from "@animeaux/ui-library";
 import cn from "classnames";
-import { useRouter } from "next/router";
 import * as React from "react";
 import {
   FaBirthdayCake,
@@ -431,7 +430,7 @@ function DeleteAnimalButton({ animal }: AnimalProps) {
   const router = useRouter();
   const [deleteAnimal] = useDeleteAnimal({
     onSuccess() {
-      router.push(resolveUrl(router.asPath, ".."));
+      router.backIfPossible("..");
     },
   });
 

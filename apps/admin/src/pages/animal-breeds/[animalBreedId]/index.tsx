@@ -18,11 +18,10 @@ import {
   Main,
   Placeholder,
   QuickActions,
-  resolveUrl,
   Section,
   SectionTitle,
+  useRouter,
 } from "@animeaux/ui-library";
-import { useRouter } from "next/router";
 import * as React from "react";
 import { FaPen } from "react-icons/fa";
 import { PageTitle } from "../../../core/pageTitle";
@@ -77,7 +76,7 @@ function DeleteAnimalBreedButton({ animalBreed }: AnimalBreedProps) {
   const router = useRouter();
   const [deleteAnimalBreed] = useDeleteAnimalBreed({
     onSuccess() {
-      router.push(resolveUrl(router.asPath, ".."));
+      router.backIfPossible("..");
     },
   });
 
