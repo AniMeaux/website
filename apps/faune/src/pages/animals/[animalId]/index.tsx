@@ -157,11 +157,22 @@ function HighlightsSection({ animal }: AnimalProps) {
             <Button
               variant="outlined"
               onClick={async () => {
-                await navigator.share({
-                  text: getAnimalDisplayName(animal),
-                  title: getAnimalDisplayName(animal),
-                  url: document.location.href,
-                });
+                try {
+                  await navigator.share({
+                    text: getAnimalDisplayName(animal),
+                    title: getAnimalDisplayName(animal),
+                    url: document.location.href,
+                  });
+                } catch (error) {
+                  // The user cancelled the sharing.
+                  // We don't want to spam the error reporter with this.
+                  if (
+                    !(error instanceof DOMException) ||
+                    error.name !== "AbortError"
+                  ) {
+                    throw error;
+                  }
+                }
               }}
             >
               <FaShareAlt />
