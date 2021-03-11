@@ -14,7 +14,7 @@ import * as React from "react";
 
 type AnimalMultipleStatusInputProps = {
   value?: AnimalStatus[] | null;
-  onChange: React.Dispatch<AnimalStatus[]>;
+  onChange: React.Dispatch<React.SetStateAction<AnimalStatus[]>>;
 };
 
 export function AnimalMultipleStatusInput({
@@ -31,11 +31,11 @@ export function AnimalMultipleStatusInput({
             <SelectorCheckbox
               name={`status-${status}`}
               checked={value.includes(status)}
-              onChange={(checked) =>
-                onChange(
-                  checked
-                    ? value.concat([status])
-                    : value.filter((v) => v !== status)
+              onChange={() =>
+                onChange((selectedStatus) =>
+                  selectedStatus.includes(status)
+                    ? value.filter((v) => v !== status)
+                    : value.concat([status])
                 )
               }
             />

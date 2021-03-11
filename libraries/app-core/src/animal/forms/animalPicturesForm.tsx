@@ -1,13 +1,14 @@
 import { AnimalPicturesFormPayload } from "@animeaux/shared-entities";
 import {
   Avatar,
+  callSetStateAction,
   Field,
   FieldMessage,
   Form,
   FormProps,
+  Image,
   ImageInput,
   SubmitButton,
-  Image,
 } from "@animeaux/ui-library";
 import * as React from "react";
 import { FaPaw } from "react-icons/fa";
@@ -61,8 +62,7 @@ export function AnimalPicturesForm<
           onChange={(change) =>
             onChange((value) => ({
               ...value,
-              pictures:
-                typeof change === "function" ? change(value.pictures) : change,
+              pictures: callSetStateAction(change, value.pictures),
             }))
           }
         />

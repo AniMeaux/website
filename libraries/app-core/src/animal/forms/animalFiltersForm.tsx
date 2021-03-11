@@ -1,5 +1,5 @@
 import { AnimalFilters } from "@animeaux/shared-entities";
-import { Field, Form, Label } from "@animeaux/ui-library";
+import { callSetStateAction, Field, Form, Label } from "@animeaux/ui-library";
 import * as React from "react";
 import { AnimalMultipleStatusInput } from "../../animalMultipleStatusInput";
 
@@ -15,7 +15,12 @@ export function AnimalFiltersForm({ value, onChange }: AnimalFiltersFormProps) {
         <Label>Status</Label>
         <AnimalMultipleStatusInput
           value={value.status}
-          onChange={(status) => onChange((value) => ({ ...value, status }))}
+          onChange={(change) =>
+            onChange((value) => ({
+              ...value,
+              status: callSetStateAction(change, value.status ?? []),
+            }))
+          }
         />
       </Field>
     </Form>
