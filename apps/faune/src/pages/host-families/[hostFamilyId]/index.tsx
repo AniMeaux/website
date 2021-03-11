@@ -18,6 +18,7 @@ import {
   ItemContent,
   ItemIcon,
   ItemMainText,
+  LinkItem,
   Main,
   Placeholder,
   Placeholders,
@@ -41,7 +42,7 @@ function ContactSection({ hostFamily }: HostFamilyProps) {
 
       <ul>
         <li>
-          <Item>
+          <LinkItem href={`tel:${hostFamily.phone}`}>
             <ItemIcon>
               <FaPhone />
             </ItemIcon>
@@ -49,11 +50,11 @@ function ContactSection({ hostFamily }: HostFamilyProps) {
             <ItemContent>
               <ItemMainText>{hostFamily.phone}</ItemMainText>
             </ItemContent>
-          </Item>
+          </LinkItem>
         </li>
 
         <li>
-          <Item>
+          <LinkItem href={`mailto:${hostFamily.email}`}>
             <ItemIcon>
               <FaEnvelope />
             </ItemIcon>
@@ -61,11 +62,16 @@ function ContactSection({ hostFamily }: HostFamilyProps) {
             <ItemContent>
               <ItemMainText>{hostFamily.email}</ItemMainText>
             </ItemContent>
-          </Item>
+          </LinkItem>
         </li>
 
         <li>
-          <Item>
+          <LinkItem
+            shouldOpenInNewTab
+            href={`http://maps.google.com/?q=${getHostFamilyFullAddress(
+              hostFamily
+            )}`}
+          >
             <ItemIcon>
               <FaMapMarker />
             </ItemIcon>
@@ -75,7 +81,7 @@ function ContactSection({ hostFamily }: HostFamilyProps) {
                 {getHostFamilyFullAddress(hostFamily)}
               </ItemMainText>
             </ItemContent>
-          </Item>
+          </LinkItem>
         </li>
       </ul>
     </Section>
