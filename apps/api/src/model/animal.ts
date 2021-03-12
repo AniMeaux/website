@@ -93,6 +93,7 @@ const typeDefs = gql`
     isOkDogs: Trilean!
     isOkCats: Trilean!
     isSterilized: Boolean!
+    comments: String!
   }
 
   type AllAnimalResponse {
@@ -131,6 +132,7 @@ const typeDefs = gql`
       isOkDogs: Trilean!
       isOkCats: Trilean!
       isSterilized: Boolean!
+      comments: String!
     ): Animal! @auth(groups: [ADMIN, ANIMAL_MANAGER])
 
     updateAnimal(
@@ -151,6 +153,7 @@ const typeDefs = gql`
       isOkDogs: Trilean
       isOkCats: Trilean
       isSterilized: Boolean
+      comments: String
     ): Animal! @auth(groups: [ADMIN, ANIMAL_MANAGER])
 
     deleteAnimal(id: ID!): Boolean! @auth(groups: [ADMIN, ANIMAL_MANAGER])
@@ -173,7 +176,7 @@ const resolvers: IResolvers = {
   },
 
   Animal: {
-    commonName: (animal: DBSearchableAnimal) => {
+    commonName: (animal: DBAnimal) => {
       return animal.commonName ?? "";
     },
 
@@ -191,6 +194,10 @@ const resolvers: IResolvers = {
       }
 
       return await database.getHostFamily(animal.hostFamilyId);
+    },
+
+    comments: (animal: DBAnimal) => {
+      return animal.comments ?? "";
     },
   },
 };

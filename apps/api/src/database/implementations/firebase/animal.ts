@@ -109,6 +109,8 @@ export const animalDatabase: AnimalDatabase = {
       ...searchableAnimal,
       hostFamilyId: payload.hostFamilyId,
       picturesId: payload.picturesId,
+      // Preserve whitespaces unless it's all there is in it.
+      comments: payload.comments.trim() === "" ? "" : payload.comments,
     };
 
     await admin.firestore().collection("animals").doc(animal.id).set(animal);
@@ -262,6 +264,12 @@ export const animalDatabase: AnimalDatabase = {
       !isEqual(payload.picturesId, animal.picturesId)
     ) {
       animalUpdate.picturesId = payload.picturesId;
+    }
+
+    if (payload.comments != null && payload.comments !== animal.comments) {
+      animalUpdate.comments =
+        // Preserve whitespaces unless it's all there is in it.
+        payload.comments.trim() === "" ? "" : payload.comments;
     }
 
     if (!isEmpty(searchableAnimalUpdate)) {

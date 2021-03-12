@@ -19,6 +19,7 @@ import {
   SelectorRadio,
   Selectors,
   SubmitButton,
+  Textarea,
 } from "@animeaux/ui-library";
 import * as React from "react";
 import { FaHome, FaTimes } from "react-icons/fa";
@@ -48,7 +49,7 @@ export function AnimalSituationForm<
   return (
     <Form {...rest} pending={pending}>
       <Field>
-        <Label htmlFor="status">Status</Label>
+        <Label>Status</Label>
 
         <AnimalStatusInput
           value={value.status}
@@ -200,6 +201,19 @@ export function AnimalSituationForm<
             </Selector>
           </SelectorItem>
         </Selectors>
+      </Field>
+
+      <Field>
+        <Label htmlFor="comments" isOptional>
+          Commentaires
+        </Label>
+
+        <Textarea
+          name="comments"
+          id="comments"
+          value={value.comments}
+          onChange={(comments) => onChange((value) => ({ ...value, comments }))}
+        />
       </Field>
 
       <SubmitButton disabled={pending}>

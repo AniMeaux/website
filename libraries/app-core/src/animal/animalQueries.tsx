@@ -87,6 +87,7 @@ const AnimalFragment = gql`
     isOkDogs
     isOkCats
     isSterilized
+    comments
   }
 
   ${AnimalBreedFragment}
@@ -201,6 +202,7 @@ const CreateAnimalQuery = gql`
     $isOkDogs: Trilean!
     $isOkCats: Trilean!
     $isSterilized: Boolean!
+    $comments: String!
   ) {
     animal: createAnimal(
       officialName: $officialName
@@ -219,6 +221,7 @@ const CreateAnimalQuery = gql`
       isOkDogs: $isOkDogs
       isOkCats: $isOkCats
       isSterilized: $isSterilized
+      comments: $comments
     ) {
       ...AnimalFragment
     }
@@ -380,6 +383,7 @@ const UpdateAnimalQuery = gql`
     $isOkDogs: Trilean
     $isOkCats: Trilean
     $isSterilized: Boolean
+    $comments: String
   ) {
     animal: updateAnimal(
       id: $id
@@ -399,6 +403,7 @@ const UpdateAnimalQuery = gql`
       isOkDogs: $isOkDogs
       isOkCats: $isOkCats
       isSterilized: $isSterilized
+      comments: $comments
     ) {
       ...AnimalFragment
     }

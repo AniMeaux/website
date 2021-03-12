@@ -3,11 +3,18 @@ import invariant from "invariant";
 import * as React from "react";
 import { ChildrenProp, ensureArray, StyleProps } from "../core";
 
-export type InputSize = "small" | "medium";
+export type InputSize = "small" | "medium" | "dynamic";
 
 const InputSizeClassName: { [key in InputSize]: string } = {
   small: "h-8",
   medium: "h-10",
+  dynamic: "min-h-10",
+};
+
+const InputRadiusClassName: { [key in InputSize]: string } = {
+  small: "rounded-full",
+  medium: "rounded-full",
+  dynamic: "rounded-2xl",
 };
 
 export type InputWrapperProps = {
@@ -25,12 +32,14 @@ export function InputWrapper({
   leftAdornment,
   rightAdornment,
   className,
+  style,
 }: ChildrenProp & StyleProps & InputWrapperProps) {
   const rightAdornments = ensureArray(rightAdornment);
   const leftAdornments = ensureArray(leftAdornment);
 
   return (
     <span
+      style={style}
       className={cn(
         "relative inline-flex",
         { "opacity-50": disabled },
@@ -104,8 +113,9 @@ export function getInputClassName({
   invariant(paddingRightClassName != null, "Only 2 adornments are supported.");
 
   return cn(
-    "select-auto appearance-none disabled:pointer-events-none focus:outline-none focus-visible:ring focus-visible:ring-opacity-50 w-full min-w-0 rounded-full px-4 text-black text-opacity-80",
+    "select-auto appearance-none disabled:pointer-events-none focus:outline-none focus-visible:ring focus-visible:ring-opacity-50 w-full min-w-0 px-4 text-black text-opacity-80",
     InputSizeClassName[size],
+    InputRadiusClassName[size],
     {
       "bg-black bg-opacity-3 focus-visible:ring-blue-500": !hasError,
       "bg-red-500 bg-opacity-10 focus-visible:ring-red-500": hasError,

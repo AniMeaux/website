@@ -25,7 +25,6 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
       value,
       onChange,
       className,
-      placeholder,
       autoComplete = "off",
       ...rest
     },
@@ -42,13 +41,10 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
       >
         <input
           {...rest}
-          placeholder={placeholder}
           autoComplete={autoComplete}
           disabled={disabled}
           value={value}
-          onChange={(event) => {
-            onChange?.(event.target.value);
-          }}
+          onChange={(event) => onChange?.(event.target.value)}
           className={cn(
             getInputClassName({
               disabled,

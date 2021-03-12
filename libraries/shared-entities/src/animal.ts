@@ -233,11 +233,13 @@ export type DBSearchableAnimal = Omit<
 export type Animal = SearchableAnimal & {
   picturesId: string[];
   hostFamily?: HostFamily | null;
+  comments: string;
 };
 
 export type DBAnimal = DBSearchableAnimal & {
   picturesId: string[];
   hostFamilyId?: string | null;
+  comments?: string | null;
 };
 
 export function getAnimalDisplayName(animal: SearchableAnimal) {
@@ -319,6 +321,7 @@ export type AnimalSituationFormPayload = {
   isOkDogs: Trilean;
   isOkCats: Trilean;
   isSterilized: boolean;
+  comments: string;
 };
 
 export type CreateAnimalSituationPayload = {
@@ -329,6 +332,7 @@ export type CreateAnimalSituationPayload = {
   isOkDogs: Trilean;
   isOkCats: Trilean;
   isSterilized: boolean;
+  comments: string;
 };
 
 export function createAnimalSituationCreationApiPayload(
@@ -345,6 +349,7 @@ export function createAnimalSituationCreationApiPayload(
     isOkDogs: payload.isOkDogs,
     isOkCats: payload.isOkCats,
     isSterilized: payload.isSterilized,
+    comments: payload.comments,
   };
 
   if (payload.hostFamily != null) {
@@ -410,6 +415,7 @@ export function createEmptyAnimalFormPayload(): AnimalFormPayload {
     isOkDogs: Trilean.UNKNOWN,
     isOkCats: Trilean.UNKNOWN,
     isSterilized: false,
+    comments: "",
     pictures: [],
   };
 }
@@ -494,6 +500,10 @@ export function createAminalSituationUpdateApiPayload(
 
   if (formPayload.isSterilized !== animal.isSterilized) {
     updatePayload.isSterilized = formPayload.isSterilized;
+  }
+
+  if (formPayload.comments !== animal.comments) {
+    updatePayload.comments = formPayload.comments;
   }
 
   return updatePayload;

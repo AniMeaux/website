@@ -39,6 +39,7 @@ import {
   ItemMainText,
   LinkItem,
   Main,
+  Markdown,
   Modal,
   QuickActions,
   Section,
@@ -48,6 +49,7 @@ import cn from "classnames";
 import * as React from "react";
 import {
   FaBirthdayCake,
+  FaComments,
   FaCut,
   FaEnvelope,
   FaHandHoldingHeart,
@@ -432,6 +434,25 @@ function SituationSection({ animal }: AnimalProps) {
             </ItemContent>
           </Item>
         </li>
+
+        {animal.comments !== "" && (
+          <li>
+            <span className="w-full p-2 flex items-center space-x-2">
+              <ItemIcon
+                size="small"
+                className="h-6 flex items-center justufy-center self-start"
+              >
+                <FaComments />
+              </ItemIcon>
+
+              <ItemContent>
+                <ItemMainText>
+                  <Markdown>{animal.comments}</Markdown>
+                </ItemMainText>
+              </ItemContent>
+            </span>
+          </li>
+        )}
       </ul>
     </Section>
   );

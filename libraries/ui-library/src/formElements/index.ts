@@ -17,3 +17,4 @@ export * from "./searchInput";
 export * from "./select";
 export * from "./selector";
 export * from "./submitButton";
+export * from "./textarea";
