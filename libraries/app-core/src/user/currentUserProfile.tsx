@@ -237,7 +237,7 @@ function Profile() {
         <UserItem user={currentUser} />
       </Section>
 
-      <Section className="border-t border-b border-gray-100">
+      <Section className="border-t border-b border-gray-100 space-y-2">
         <LinkItem
           href={`/edit-profile?backUrl=${encodeURIComponent(router.asPath)}`}
         >

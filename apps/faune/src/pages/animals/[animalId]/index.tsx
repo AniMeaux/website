@@ -43,6 +43,7 @@ import {
   Modal,
   QuickActions,
   Section,
+  SectionTitle,
   useRouter,
 } from "@animeaux/ui-library";
 import cn from "classnames";
@@ -202,29 +203,22 @@ function ProfileSection({ animal }: AnimalProps) {
     <section className="mx-4 bg-black bg-opacity-3 rounded-xl p-2">
       <ul>
         <li>
-          <Item size="small">
-            <ItemIcon size="small">
+          <Item>
+            <ItemIcon>
               <AnimalSpeciesIcon species={animal.species} />
             </ItemIcon>
 
             <ItemContent>
               <ItemMainText className="flex items-center">
-                {speciesLabels.map((label, index) => (
-                  <React.Fragment key={label}>
-                    {index > 0 && (
-                      <span className="mx-2 inline-block h-1 w-1 bg-black bg-opacity-80 rounded-full" />
-                    )}
-                    {label}
-                  </React.Fragment>
-                ))}
+                {speciesLabels.join(" • ")}
               </ItemMainText>
             </ItemContent>
           </Item>
         </li>
 
         <li>
-          <Item size="small">
-            <ItemIcon size="small">
+          <Item>
+            <ItemIcon>
               <AnimalGenderIcon gender={animal.gender} />
             </ItemIcon>
 
@@ -235,8 +229,8 @@ function ProfileSection({ animal }: AnimalProps) {
         </li>
 
         <li>
-          <Item size="small">
-            <ItemIcon size="small">
+          <Item>
+            <ItemIcon>
               <FaBirthdayCake />
             </ItemIcon>
 
@@ -267,9 +261,7 @@ function SituationSection({ animal }: AnimalProps) {
 
   return (
     <Section>
-      <h2 className="my-2 px-2 truncate text-lg font-bold font-serif">
-        Situation
-      </h2>
+      <SectionTitle>Situation</SectionTitle>
 
       <ul className="space-y-2">
         {animal.hostFamily != null && (
@@ -294,8 +286,8 @@ function SituationSection({ animal }: AnimalProps) {
               onDismiss={() => setAreHostFamilyDetailsVisible(false)}
             >
               <Section>
-                <Item size="large">
-                  <ItemIcon size="large">
+                <Item>
+                  <ItemIcon>
                     <Avatar size="large">
                       <FaHome />
                     </Avatar>
@@ -345,9 +337,9 @@ function SituationSection({ animal }: AnimalProps) {
                       </ItemIcon>
 
                       <ItemContent>
-                        <ItemMainText>
+                        <Markdown>
                           {getHostFamilyFullAddress(animal.hostFamily)}
-                        </ItemMainText>
+                        </Markdown>
                       </ItemContent>
                     </LinkItem>
                   </li>
@@ -400,8 +392,8 @@ function SituationSection({ animal }: AnimalProps) {
         </li>
 
         <li>
-          <Item size="small">
-            <ItemIcon size="small">
+          <Item>
+            <ItemIcon>
               <FaCut />
             </ItemIcon>
 
@@ -418,8 +410,8 @@ function SituationSection({ animal }: AnimalProps) {
         </li>
 
         <li>
-          <Item size="small">
-            <ItemIcon size="small">
+          <Item>
+            <ItemIcon>
               <FaHandHoldingHeart />
             </ItemIcon>
 
@@ -437,20 +429,15 @@ function SituationSection({ animal }: AnimalProps) {
 
         {animal.comments !== "" && (
           <li>
-            <span className="w-full p-2 flex items-center space-x-2">
-              <ItemIcon
-                size="small"
-                className="h-6 flex items-center justufy-center self-start"
-              >
+            <Item>
+              <ItemIcon className="h-6 flex items-center justufy-center self-start">
                 <FaComments />
               </ItemIcon>
 
               <ItemContent>
-                <ItemMainText>
-                  <Markdown>{animal.comments}</Markdown>
-                </ItemMainText>
+                <Markdown>{animal.comments}</Markdown>
               </ItemContent>
-            </span>
+            </Item>
           </li>
         )}
       </ul>

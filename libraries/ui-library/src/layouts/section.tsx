@@ -12,7 +12,7 @@ export function SectionTitle({
     <h2
       {...rest}
       className={cn(
-        "mb-2 px-2 text-xs uppercase tracking-wide text-gray-600",
+        "my-2 px-2 truncate text-lg font-bold font-serif",
         className
       )}
     />

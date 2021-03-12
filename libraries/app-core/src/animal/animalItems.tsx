@@ -17,8 +17,8 @@ import * as React from "react";
 
 export function SearchableAnimalItemPlaceholder() {
   return (
-    <Item size="large">
-      <ItemIcon size="large">
+    <Item>
+      <ItemIcon>
         <Placeholder preset="avatar-large" />
       </ItemIcon>
 
@@ -42,8 +42,8 @@ export function SearchableAnimalItem({
   const displayName = getAnimalDisplayName(animal);
 
   return (
-    <LinkItem {...rest} size="large">
-      <ItemIcon size="large">
+    <LinkItem {...rest}>
+      <ItemIcon>
         <Avatar size="large">
           <Image image={animal.avatarId} preset="avatar" alt={displayName} />
         </Avatar>

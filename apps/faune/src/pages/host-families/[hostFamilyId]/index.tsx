@@ -20,6 +20,7 @@ import {
   ItemMainText,
   LinkItem,
   Main,
+  Markdown,
   Placeholder,
   Placeholders,
   QuickActions,
@@ -77,9 +78,7 @@ function ContactSection({ hostFamily }: HostFamilyProps) {
             </ItemIcon>
 
             <ItemContent>
-              <ItemMainText>
-                {getHostFamilyFullAddress(hostFamily)}
-              </ItemMainText>
+              <Markdown>{getHostFamilyFullAddress(hostFamily)}</Markdown>
             </ItemContent>
           </LinkItem>
         </li>

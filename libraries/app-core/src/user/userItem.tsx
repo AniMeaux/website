@@ -15,8 +15,8 @@ import { UserAvatar } from "./userAvatar";
 
 export function UserItemPlaceholder() {
   return (
-    <Item size="large">
-      <ItemIcon size="large">
+    <Item>
+      <ItemIcon>
         <Placeholder preset="avatar-large" />
       </ItemIcon>
 
@@ -38,7 +38,7 @@ type UserItemContentProp = { user: User };
 function UserItemContent({ user }: UserItemContentProp) {
   return (
     <>
-      <ItemIcon size="large">
+      <ItemIcon>
         <UserAvatar user={user} size="large" />
       </ItemIcon>
 
@@ -54,7 +54,7 @@ type UserItemProps = ItemProps & UserItemContentProp;
 
 export function UserItem({ user, ...rest }: UserItemProps) {
   return (
-    <Item {...rest} size="large">
+    <Item {...rest}>
       <UserItemContent user={user} />
     </Item>
   );
@@ -64,7 +64,7 @@ type UserLinkItemProps = LinkItemProps & UserItemContentProp;
 
 export function UserLinkItem({ user, ...rest }: UserLinkItemProps) {
   return (
-    <LinkItem {...rest} size="large">
+    <LinkItem {...rest}>
       <UserItemContent user={user} />
     </LinkItem>
   );

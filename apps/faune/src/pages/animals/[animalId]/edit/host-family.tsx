@@ -48,12 +48,8 @@ function UpdateAnimalHostFamilyForm() {
       </Button>
     ),
     renderAdditionalItem: () => (
-      <LinkItem
-        href="../new-host-family"
-        size="medium"
-        className="font-medium text-blue-500"
-      >
-        <ItemIcon size="medium">
+      <LinkItem href="../new-host-family" className="font-medium text-blue-500">
+        <ItemIcon>
           <Avatar size="medium" color="blue">
             <FaPlus />
           </Avatar>

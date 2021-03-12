@@ -3,27 +3,24 @@ import * as React from "react";
 import { ChildrenProp, StyleProps } from ".";
 import { Link, LinkProps } from "./link";
 
-type ItemSize = "small" | "medium" | "large";
-
-const ItemSizeClassName: { [key in ItemSize]: string } = {
-  small: "h-10 space-x-2",
-  medium: "h-12 space-x-4",
-  large: "h-16 space-x-4",
-};
-
 type ItemCommonProps = {
   highlight?: boolean;
-  size?: ItemSize;
 };
 
-const ItemBaseClassName = "w-full rounded-xl px-2 flex items-center";
+const ItemBaseClassName = "w-full rounded-xl p-2 flex items-center space-x-4";
 const HighlightedItemClassName = "bg-blue-500 bg-opacity-10";
 
 export type ItemProps = StyleProps & ChildrenProp & ItemCommonProps;
 
-export function Item({ size = "medium", className, children }: ItemProps) {
+export function Item({ className, children, highlight = false }: ItemProps) {
   return (
-    <span className={cn(ItemBaseClassName, ItemSizeClassName[size], className)}>
+    <span
+      className={cn(
+        ItemBaseClassName,
+        { [HighlightedItemClassName]: highlight },
+        className
+      )}
+    >
       {children}
     </span>
   );
@@ -32,7 +29,6 @@ export function Item({ size = "medium", className, children }: ItemProps) {
 export type LinkItemProps = LinkProps & ItemCommonProps;
 
 export function LinkItem({
-  size = "medium",
   disabled = false,
   highlight = false,
   className,
@@ -45,8 +41,10 @@ export function LinkItem({
       className={cn(
         "focus:outline-none focus-visible:ring focus-visible:ring-blue-500 focus-visible:ring-opacity-50 active:bg-black active:bg-opacity-5",
         ItemBaseClassName,
-        ItemSizeClassName[size],
-        { "opacity-60": disabled },
+        {
+          "opacity-60": disabled,
+          [HighlightedItemClassName]: highlight,
+        },
         className
       )}
     />
@@ -61,94 +59,64 @@ export type ButtonItemProps = StyleProps &
   };
 
 export function ButtonItem({
-  size = "medium",
-  disabled = false,
   highlight = false,
+  disabled = false,
   className,
-  children,
-  onClick,
+  ...rest
 }: ButtonItemProps) {
   return (
     <button
+      {...rest}
       disabled={disabled}
-      onClick={onClick}
       className={cn(
         "focus:outline-none focus-visible:ring focus-visible:ring-blue-500 focus-visible:ring-opacity-50 text-left",
         ItemBaseClassName,
-        ItemSizeClassName[size],
         {
           "active:bg-black active:bg-opacity-5": !highlight,
           [`${HighlightedItemClassName} active:bg-opacity-15`]: highlight,
+          "opacity-60": disabled,
         },
         className
       )}
-    >
-      {children}
-    </button>
+    />
   );
 }
 
-const ItemIconSizeClassName: { [key in ItemSize]: string } = {
-  small: "text-lg",
-  medium: "text-xl",
-  large: "text-2xl",
-};
+type ItemIconProps = StyleProps & ChildrenProp;
 
-type ItemIconProps = StyleProps &
-  ChildrenProp & {
-    size?: ItemSize;
-  };
-
-export function ItemIcon({
-  size = "medium",
-  className,
-  children,
-}: ItemIconProps) {
+export function ItemIcon({ className, ...rest }: ItemIconProps) {
   return (
     <span
+      {...rest}
       className={cn(
-        "flex-none text-black text-opacity-70",
-        ItemIconSizeClassName[size],
+        "flex-none min-h-6 self-start flex items-center text-black text-opacity-70 text-2xl",
         className
       )}
-    >
-      {children}
-    </span>
+    />
   );
 }
 
-export function ItemContent({
-  className,
-  children,
-}: StyleProps & ChildrenProp) {
+export function ItemContent({ className, ...rest }: StyleProps & ChildrenProp) {
   return (
-    <span className={cn("flex-1 min-w-0 flex flex-col", className)}>
-      {children}
-    </span>
+    <span {...rest} className={cn("flex-1 min-w-0 flex flex-col", className)} />
   );
 }
 
 export function ItemMainText({
   className,
-  children,
+  ...rest
 }: StyleProps & ChildrenProp) {
-  return (
-    <span className={cn("max-w-full truncate", className)}>{children}</span>
-  );
+  return <span {...rest} className={cn("max-w-full", className)} />;
 }
 
 export function ItemSecondaryText({
   className,
-  children,
+  ...rest
 }: StyleProps & ChildrenProp) {
   return (
     <span
-      className={cn(
-        "max-w-full truncate text-sm text-black text-opacity-60",
-        className
-      )}
-    >
-      {children}
-    </span>
+      {...rest}
+      className={cn("max-w-full text-sm text-black text-opacity-60", className)}
+    />
   );
 }

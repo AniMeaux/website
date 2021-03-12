@@ -17,8 +17,8 @@ import { FaHome } from "react-icons/fa";
 
 export function HostFamilyItemPlaceholder() {
   return (
-    <Item size="large">
-      <ItemIcon size="large">
+    <Item>
+      <ItemIcon>
         <Placeholder preset="avatar-large" />
       </ItemIcon>
 
@@ -41,8 +41,8 @@ type HostFamilyItemProps = LinkItemProps & {
 
 export function HostFamilyItem({ hostFamily, ...rest }: HostFamilyItemProps) {
   return (
-    <LinkItem {...rest} size="large">
-      <ItemIcon size="large">
+    <LinkItem {...rest}>
+      <ItemIcon>
         <Avatar size="large">
           <FaHome />
         </Avatar>
@@ -60,8 +60,8 @@ export function HostFamilyItem({ hostFamily, ...rest }: HostFamilyItemProps) {
 
 export function HostFamilySearchItemPlaceholder() {
   return (
-    <Item size="medium">
-      <ItemIcon size="medium">
+    <Item>
+      <ItemIcon>
         <Placeholder preset="avatar" />
       </ItemIcon>
 
@@ -83,8 +83,8 @@ export function HostFamilySearchItem({
   ...rest
 }: HostFamilySearchItemProps) {
   return (
-    <ButtonItem {...rest} size="medium">
-      <ItemIcon size="medium">
+    <ButtonItem {...rest}>
+      <ItemIcon>
         <Avatar size="medium">
           <FaHome />
         </Avatar>
