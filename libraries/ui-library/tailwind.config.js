@@ -2,6 +2,7 @@
 
 const { fontFamily } = require("tailwindcss/defaultTheme");
 const { variants } = require("tailwindcss/defaultConfig");
+const lineClamp = require("@tailwindcss/line-clamp");
 
 const base12 = {
   "1/12": "8.333333%",
@@ -211,8 +212,9 @@ module.exports = {
     ringOffsetWidth: variants.ringOffsetWidth.concat(["focus-visible"]),
     ringOpacity: variants.ringOpacity.concat(["focus-visible"]),
     ringWidth: variants.ringWidth.concat(["focus-visible"]),
+    textColor: variants.textColor.concat(["active"]),
     textOpacity: variants.textOpacity.concat(["active"]),
     zIndex: variants.zIndex.concat(["focus"]),
   },
-  plugins: [],
+  plugins: [lineClamp],
 };

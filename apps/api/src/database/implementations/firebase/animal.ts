@@ -21,6 +21,15 @@ import { animalBreedDatabase } from "./animalBreed";
 
 const AnimalsIndex = AlgoliaClient.initIndex("animals");
 
+function cleanMarkdown(content: string) {
+  // Preserve whitespaces unless it's all there is in it.
+  if (content.trim() === "") {
+    return "";
+  }
+
+  return content;
+}
+
 export const animalDatabase: AnimalDatabase = {
   async getAllAnimals(
     filters: PaginatedRequest<AnimalFilters>
@@ -107,10 +116,10 @@ export const animalDatabase: AnimalDatabase = {
 
     const animal: DBAnimal = {
       ...searchableAnimal,
+      description: cleanMarkdown(payload.description),
       hostFamilyId: payload.hostFamilyId,
       picturesId: payload.picturesId,
-      // Preserve whitespaces unless it's all there is in it.
-      comments: payload.comments.trim() === "" ? "" : payload.comments,
+      comments: cleanMarkdown(payload.comments),
     };
 
     await admin.firestore().collection("animals").doc(animal.id).set(animal);
@@ -251,6 +260,13 @@ export const animalDatabase: AnimalDatabase = {
       ...searchableAnimalUpdate,
     };
 
+    if (
+      payload.description != null &&
+      payload.description !== animal.description
+    ) {
+      animalUpdate.description = cleanMarkdown(payload.description);
+    }
+
     // Allow null to clear the field.
     if (
       payload.hostFamilyId !== undefined &&
@@ -267,9 +283,7 @@ export const animalDatabase: AnimalDatabase = {
     }
 
     if (payload.comments != null && payload.comments !== animal.comments) {
-      animalUpdate.comments =
-        // Preserve whitespaces unless it's all there is in it.
-        payload.comments.trim() === "" ? "" : payload.comments;
+      animalUpdate.comments = cleanMarkdown(payload.comments);
     }
 
     if (!isEmpty(searchableAnimalUpdate)) {

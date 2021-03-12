@@ -32,6 +32,7 @@ import {
   ButtonLink,
   ButtonSection,
   ButtonWithConfirmation,
+  CollapsibleText,
   Image,
   Item,
   ItemContent,
@@ -244,6 +245,20 @@ function ProfileSection({ animal }: AnimalProps) {
         </li>
       </ul>
     </section>
+  );
+}
+
+function DescriptionSection({ animal }: AnimalProps) {
+  if (animal.description === "") {
+    return null;
+  }
+
+  return (
+    <Section className="mt-4 p-4">
+      <CollapsibleText>
+        <Markdown className="space-y-2">{animal.description}</Markdown>
+      </CollapsibleText>
+    </Section>
   );
 }
 
@@ -486,6 +501,7 @@ const AnimalPage: PageComponent = () => {
         <PicturesSection animal={animal} />
         <HighlightsSection animal={animal} />
         <ProfileSection animal={animal} />
+        <DescriptionSection animal={animal} />
         <SituationSection animal={animal} />
 
         {isCurrentUserAdmin && (

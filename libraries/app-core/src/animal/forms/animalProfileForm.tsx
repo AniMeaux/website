@@ -24,6 +24,7 @@ import {
   SelectorRadio,
   Selectors,
   SubmitButton,
+  Textarea,
 } from "@animeaux/ui-library";
 import * as React from "react";
 import { FaComment, FaDna, FaPalette, FaTimes } from "react-icons/fa";
@@ -216,6 +217,21 @@ export function AnimalProfileForm<
             </option>
           ))}
         </Select>
+      </Field>
+
+      <Field>
+        <Label htmlFor="description" isOptional>
+          Description
+        </Label>
+
+        <Textarea
+          name="description"
+          id="description"
+          value={value.description}
+          onChange={(description) =>
+            onChange((value) => ({ ...value, description }))
+          }
+        />
       </Field>
 
       <SubmitButton disabled={pending}>

@@ -77,6 +77,7 @@ const AnimalFragment = gql`
       ...AnimalBreedFragment
     }
     color
+    description
     status
     avatarId
     picturesId
@@ -194,6 +195,7 @@ const CreateAnimalQuery = gql`
     $species: AnimalSpecies!
     $breedId: ID
     $color: AnimalColor
+    $description: String!
     $status: AnimalStatus!
     $avatarId: String!
     $picturesId: [String!]!
@@ -213,6 +215,7 @@ const CreateAnimalQuery = gql`
       species: $species
       breedId: $breedId
       color: $color
+      description: $description
       status: $status
       avatarId: $avatarId
       picturesId: $picturesId
@@ -375,6 +378,7 @@ const UpdateAnimalQuery = gql`
     $species: AnimalSpecies
     $breedId: ID
     $color: AnimalColor
+    $description: String
     $status: AnimalStatus
     $avatarId: String
     $picturesId: [String!]
@@ -395,6 +399,7 @@ const UpdateAnimalQuery = gql`
       species: $species
       breedId: $breedId
       color: $color
+      description: $description
       status: $status
       avatarId: $avatarId
       picturesId: $picturesId

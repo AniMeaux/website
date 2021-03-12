@@ -85,6 +85,7 @@ const typeDefs = gql`
     species: AnimalSpecies!
     breed: AnimalBreed
     color: AnimalColor
+    description: String!
     status: AnimalStatus!
     avatarId: String!
     picturesId: [String!]!
@@ -124,6 +125,7 @@ const typeDefs = gql`
       species: AnimalSpecies!
       breedId: ID
       color: AnimalColor
+      description: String!
       status: AnimalStatus!
       avatarId: String!
       picturesId: [String!]!
@@ -145,6 +147,7 @@ const typeDefs = gql`
       species: AnimalSpecies
       breedId: ID
       color: AnimalColor
+      description: String
       status: AnimalStatus
       avatarId: String
       picturesId: [String!]
@@ -186,6 +189,10 @@ const resolvers: IResolvers = {
       }
 
       return await database.getAnimalBreed(animal.breedId);
+    },
+
+    description: (animal: DBAnimal) => {
+      return animal.description ?? "";
     },
 
     hostFamily: async (animal: DBAnimal) => {

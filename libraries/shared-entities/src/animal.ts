@@ -231,12 +231,14 @@ export type DBSearchableAnimal = Omit<
 };
 
 export type Animal = SearchableAnimal & {
+  description: string;
   picturesId: string[];
   hostFamily?: HostFamily | null;
   comments: string;
 };
 
 export type DBAnimal = DBSearchableAnimal & {
+  description: string | null;
   picturesId: string[];
   hostFamilyId?: string | null;
   comments?: string | null;
@@ -258,6 +260,7 @@ export type AnimalProfileFormPayload = {
   species: AnimalSpecies | null;
   breed: AnimalBreed | null;
   color: AnimalColor | null;
+  description: string;
 };
 
 export type CreateAnimalProfilePayload = {
@@ -268,6 +271,7 @@ export type CreateAnimalProfilePayload = {
   species: AnimalSpecies;
   breedId?: string | null;
   color?: AnimalColor | null;
+  description: string;
 };
 
 export function createAnimalProfileCreationApiPayload(
@@ -296,6 +300,7 @@ export function createAnimalProfileCreationApiPayload(
     birthdate: payload.birthdate,
     gender: payload.gender,
     species: payload.species,
+    description: payload.description,
   };
 
   if (payload.breed != null) {
@@ -408,6 +413,7 @@ export function createEmptyAnimalFormPayload(): AnimalFormPayload {
     species: null,
     breed: null,
     color: null,
+    description: "",
     status: AnimalStatus.UNAVAILABLE,
     pickUpDate: "",
     hostFamily: null,
@@ -461,6 +467,10 @@ export function createAminalProfileUpdateApiPayload(
 
   if (formPayload.color !== animal.color) {
     updatePayload.color = formPayload.color;
+  }
+
+  if (formPayload.description !== animal.description) {
+    updatePayload.description = formPayload.description;
   }
 
   return updatePayload;
