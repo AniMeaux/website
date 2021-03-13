@@ -32,7 +32,6 @@ import {
   ButtonLink,
   ButtonSection,
   ButtonWithConfirmation,
-  CollapsibleText,
   Image,
   Item,
   ItemContent,
@@ -255,20 +254,6 @@ function ProfileSection({ animal }: AnimalProps) {
   );
 }
 
-function DescriptionSection({ animal }: AnimalProps) {
-  if (animal.description === "") {
-    return null;
-  }
-
-  return (
-    <Section className="mt-4 p-4">
-      <CollapsibleText>
-        <Markdown className="space-y-2">{animal.description}</Markdown>
-      </CollapsibleText>
-    </Section>
-  );
-}
-
 const IsOkColors: { [key in Trilean]: string } = {
   [Trilean.FALSE]: "text-red-500",
   [Trilean.TRUE]: "text-green-500",
@@ -467,6 +452,19 @@ function SituationSection({ animal }: AnimalProps) {
   );
 }
 
+function DescriptionSection({ animal }: AnimalProps) {
+  if (animal.description === "") {
+    return null;
+  }
+
+  return (
+    <Section>
+      <SectionTitle>Description</SectionTitle>
+      <Markdown className="px-2 space-y-2">{animal.description}</Markdown>
+    </Section>
+  );
+}
+
 function DeleteAnimalButton({ animal }: AnimalProps) {
   const router = useRouter();
   const [deleteAnimal] = useDeleteAnimal({
@@ -508,8 +506,8 @@ const AnimalPage: PageComponent = () => {
         <PicturesSection animal={animal} />
         <HighlightsSection animal={animal} />
         <ProfileSection animal={animal} />
-        <DescriptionSection animal={animal} />
         <SituationSection animal={animal} />
+        <DescriptionSection animal={animal} />
 
         {isCurrentUserAdmin && (
           <QuickActions icon={FaPen}>
