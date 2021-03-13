@@ -12,7 +12,7 @@ export function AnimalFiltersForm({ value, onChange }: AnimalFiltersFormProps) {
   return (
     <Form>
       <Field>
-        <Label>Status</Label>
+        <Label>Statut</Label>
         <AnimalMultipleStatusInput
           value={value.status}
           onChange={(change) =>

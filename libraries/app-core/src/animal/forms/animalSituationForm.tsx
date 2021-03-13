@@ -49,7 +49,7 @@ export function AnimalSituationForm<
   return (
     <Form {...rest} pending={pending}>
       <Field>
-        <Label>Status</Label>
+        <Label>Statut</Label>
 
         <AnimalStatusInput
           value={value.status}
