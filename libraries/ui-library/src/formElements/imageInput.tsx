@@ -73,6 +73,8 @@ function ImageInputButton({
   onImportImages,
   onImportImagesEnd,
 }: ImageInputButtonProps) {
+  const inputFile = React.useRef<HTMLInputElement>(null!);
+
   async function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     if (event.target.files != null) {
       const imageCount = event.target.files.length;
@@ -101,6 +103,11 @@ function ImageInputButton({
         );
       } finally {
         onImportImagesEnd(imageCount);
+
+        // Clear native input value to make sure the user can select multiple
+        // times the same file.
+        // https://stackoverflow.com/a/9617756
+        inputFile.current.value = "";
       }
     }
   }
@@ -118,6 +125,7 @@ function ImageInputButton({
       </label>
 
       <input
+        ref={inputFile}
         id="pictures"
         type="file"
         multiple
