@@ -1,10 +1,10 @@
 import {
   AnimalFilters,
   CreateAnimalPayload,
-  DATE_PATTERN,
   DBAnimal,
   DBSearchableAnimal,
   ErrorCode,
+  isValidDate,
   PaginatedRequest,
   PaginatedResponse,
   UpdateAnimalPayload,
@@ -78,7 +78,7 @@ export const animalDatabase: AnimalDatabase = {
       throw new UserInputError(ErrorCode.ANIMAL_MISSING_OFFICIAL_NAME);
     }
 
-    if (!DATE_PATTERN.test(payload.birthdate)) {
+    if (!isValidDate(payload.birthdate)) {
       throw new UserInputError(ErrorCode.ANIMAL_INVALID_BIRTHDATE);
     }
 
@@ -90,7 +90,7 @@ export const animalDatabase: AnimalDatabase = {
       }
     }
 
-    if (!DATE_PATTERN.test(payload.pickUpDate)) {
+    if (!isValidDate(payload.pickUpDate)) {
       throw new UserInputError(ErrorCode.ANIMAL_INVALID_PICK_UP_DATE);
     }
 
@@ -160,7 +160,7 @@ export const animalDatabase: AnimalDatabase = {
     }
 
     if (payload.birthdate != null) {
-      if (!DATE_PATTERN.test(payload.birthdate)) {
+      if (!isValidDate(payload.birthdate)) {
         throw new UserInputError(ErrorCode.ANIMAL_INVALID_BIRTHDATE);
       }
 
@@ -173,7 +173,7 @@ export const animalDatabase: AnimalDatabase = {
     }
 
     if (payload.pickUpDate != null) {
-      if (!DATE_PATTERN.test(payload.pickUpDate)) {
+      if (!isValidDate(payload.pickUpDate)) {
         throw new UserInputError(ErrorCode.ANIMAL_INVALID_PICK_UP_DATE);
       }
 

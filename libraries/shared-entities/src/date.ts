@@ -1,4 +1,4 @@
-import { differenceInMonths, format } from "date-fns";
+import { differenceInMonths, format, isValid, parseISO } from "date-fns";
 import fr from "date-fns/locale/fr";
 
 export function startOfUTCDay(date: Date): Date {
@@ -8,7 +8,13 @@ export function startOfUTCDay(date: Date): Date {
 }
 
 // yyyy-mm-dd (2020-12-31)
-export const DATE_PATTERN = /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/;
+const DATE_PATTERN = /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/;
+
+export function isValidDate(dateString: string) {
+  // `parseISO` accepts partial ISO format so we want to check that the year,
+  // month and day are present.
+  return DATE_PATTERN.test(dateString) && isValid(parseISO(dateString));
+}
 
 // "6 mois"
 // "1 an"

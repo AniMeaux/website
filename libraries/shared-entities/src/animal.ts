@@ -1,6 +1,6 @@
 import isEqual from "lodash.isequal";
 import { AnimalBreed } from "./animalBreed";
-import { DATE_PATTERN } from "./date";
+import { isValidDate } from "./date";
 import { sortByLabels } from "./enumUtils";
 import { ErrorCode } from "./errors";
 import { HostFamily } from "./hostFamily";
@@ -286,7 +286,7 @@ export function createAnimalProfileCreationApiPayload(
     throw new Error(ErrorCode.ANIMAL_MISSING_OFFICIAL_NAME);
   }
 
-  if (!DATE_PATTERN.test(payload.birthdate)) {
+  if (!isValidDate(payload.birthdate)) {
     throw new Error(ErrorCode.ANIMAL_INVALID_BIRTHDATE);
   }
 
@@ -343,7 +343,7 @@ export type CreateAnimalSituationPayload = {
 export function createAnimalSituationCreationApiPayload(
   payload: AnimalSituationFormPayload
 ): CreateAnimalSituationPayload {
-  if (!DATE_PATTERN.test(payload.pickUpDate)) {
+  if (!isValidDate(payload.pickUpDate)) {
     throw new Error(ErrorCode.ANIMAL_INVALID_PICK_UP_DATE);
   }
 
