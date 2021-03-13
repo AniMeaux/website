@@ -34,9 +34,11 @@ const typeDefs = gql`
       search: String
       page: Int
       species: AnimalSpecies
-    ): AllAnimalBreedsResponse! @auth(groups: [ADMIN])
+    ): AllAnimalBreedsResponse!
+      @auth(groups: [ADMIN, ANIMAL_MANAGER, VETERINARIAN])
 
-    getAnimalBreed(id: ID!): AnimalBreed @auth(groups: [ADMIN])
+    getAnimalBreed(id: ID!): AnimalBreed
+      @auth(groups: [ADMIN, ANIMAL_MANAGER, VETERINARIAN])
   }
 
   extend type Mutation {
