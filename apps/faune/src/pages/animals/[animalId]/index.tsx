@@ -73,16 +73,23 @@ function PicturesSection({ animal }: AnimalProps) {
   const picturesId = [animal.avatarId].concat(animal.picturesId);
 
   return (
-    <section className="relative flex flex-col items-center">
-      <div
-        className="flex-none flex overflow-auto"
-        style={{ scrollSnapType: "x mandatory" }}
-      >
+    <section
+      className="overflow-auto no-scrollbars"
+      style={{
+        scrollSnapType: "x mandatory",
+        scrollPaddingLeft: "1rem",
+      }}
+    >
+      <div className="flex w-min px-4 space-x-2">
         {picturesId.map((pictureId, pictureIndex) => (
           <div
             key={pictureId}
-            className="relative flex-none px-4 w-full"
-            style={{ scrollSnapAlign: "start" }}
+            className="relative flex-none"
+            style={{
+              scrollSnapAlign: "start",
+              // 100vw might be an issue when vertical scrollbars are visible.
+              width: "calc(100vw - 2rem)",
+            }}
           >
             <Image
               alt={animal.officialName}
@@ -91,7 +98,7 @@ function PicturesSection({ animal }: AnimalProps) {
             />
 
             {picturesId.length > 1 && (
-              <span className="absolute top-1 right-5 px-2 py-1 bg-black bg-opacity-70 text-white rounded-full text-xs font-medium">
+              <span className="absolute top-1 right-1 px-2 py-1 bg-black bg-opacity-70 text-white rounded-full text-xs font-medium">
                 {pictureIndex + 1}/{picturesId.length}
               </span>
             )}

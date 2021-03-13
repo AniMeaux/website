@@ -421,6 +421,16 @@
       transform: scale(0.5);
     }
   }
+
+  .no-scrollbars::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    display: none;
+  }
+
+  .no-scrollbars::-webkit-scrollbar-track-piece {
+    background-color: transparent;
+  }
 }
 
 @layer utilities {
