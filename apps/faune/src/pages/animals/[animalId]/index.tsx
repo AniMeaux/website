@@ -32,6 +32,7 @@ import {
   ButtonLink,
   ButtonSection,
   ButtonWithConfirmation,
+  copyToClipboard,
   Image,
   Item,
   ItemContent,
@@ -156,7 +157,7 @@ function HighlightsSection({ animal }: AnimalProps) {
           <Button
             variant="outlined"
             onClick={async () => {
-              await navigator.clipboard.writeText(document.location.href);
+              await copyToClipboard(document.location.href);
             }}
           >
             <FaLink />
