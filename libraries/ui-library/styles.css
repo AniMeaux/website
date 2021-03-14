@@ -27,9 +27,9 @@
     *::before,
     *::after {
       /*
-     * Text selection has wierd behaviours with touch events (in PWAs) so we
-     * rather disable it entirely.
-     */
+       * Text selection has wierd behaviours with touch events (in PWAs) so we
+       * rather disable it entirely.
+       */
       user-select: none;
     }
   }

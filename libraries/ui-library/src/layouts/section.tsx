@@ -11,10 +11,7 @@ export function SectionTitle({
     // eslint-disable-next-line jsx-a11y/heading-has-content
     <h2
       {...rest}
-      className={cn(
-        "my-2 px-2 truncate text-lg font-bold font-serif",
-        className
-      )}
+      className={cn("my-2 px-2 text-lg font-bold font-serif", className)}
     />
   );
 }
