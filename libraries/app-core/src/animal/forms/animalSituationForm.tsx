@@ -22,7 +22,7 @@ import {
   Textarea,
 } from "@animeaux/ui-library";
 import * as React from "react";
-import { FaHome, FaTimes } from "react-icons/fa";
+import { FaExclamationTriangle, FaHome, FaTimes } from "react-icons/fa";
 import { AnimalStatusInput } from "../../animalStatusInput";
 
 export type AnimalSituationFormErrors = {
@@ -205,7 +205,7 @@ export function AnimalSituationForm<
 
       <Field>
         <Label htmlFor="comments" isOptional>
-          Commentaires
+          Attentions
         </Label>
 
         <Textarea
@@ -213,6 +213,11 @@ export function AnimalSituationForm<
           id="comments"
           value={value.comments}
           onChange={(comments) => onChange((value) => ({ ...value, comments }))}
+          leftAdornment={
+            <Adornment>
+              <FaExclamationTriangle />
+            </Adornment>
+          }
         />
       </Field>
 

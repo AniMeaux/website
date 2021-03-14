@@ -54,10 +54,10 @@ import cn from "classnames";
 import * as React from "react";
 import {
   FaBirthdayCake,
-  FaComments,
   FaCopy,
   FaCut,
   FaEnvelope,
+  FaExclamationTriangle,
   FaHandHoldingHeart,
   FaHome,
   FaLink,
@@ -449,7 +449,7 @@ function SituationSection({ animal }: AnimalProps) {
           <li>
             <Item>
               <ItemIcon className="h-6 flex items-center justufy-center self-start">
-                <FaComments />
+                <FaExclamationTriangle />
               </ItemIcon>
 
               <ItemContent>
