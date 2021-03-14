@@ -46,6 +46,8 @@ import {
   QuickActions,
   Section,
   SectionTitle,
+  useIsTouchScreen,
+  useLongTouch,
   useRouter,
 } from "@animeaux/ui-library";
 import cn from "classnames";
@@ -53,6 +55,7 @@ import * as React from "react";
 import {
   FaBirthdayCake,
   FaComments,
+  FaCopy,
   FaCut,
   FaEnvelope,
   FaHandHoldingHeart,
@@ -461,16 +464,55 @@ function SituationSection({ animal }: AnimalProps) {
 }
 
 function DescriptionSection({ animal }: AnimalProps) {
+  const [isOpen, setIsOpen] = React.useState(false);
+  const longTouchListeners = useLongTouch(() => setIsOpen(true));
+  const { isTouchScreen } = useIsTouchScreen();
+
   if (animal.description === "") {
     return null;
+  }
+
+  let props: React.HTMLAttributes<HTMLDivElement> = {
+    className: "px-2 space-y-2",
+  };
+
+  if (isTouchScreen) {
+    props = {
+      ...longTouchListeners,
+      role: "button",
+      tabIndex: -1,
+      className: cn(
+        props.className,
+        "focus:outline-none active:text-black active:text-opacity-60"
+      ),
+    };
   }
 
   return (
     <Section>
       <SectionTitle>Description</SectionTitle>
-      <div className="px-2 space-y-2">
+
+      <div {...props}>
         <Markdown>{animal.description}</Markdown>
       </div>
+
+      <Modal
+        open={isOpen}
+        onDismiss={() => setIsOpen(false)}
+        onClick={() => setIsOpen(false)}
+      >
+        <ButtonSection>
+          <Button
+            variant="outlined"
+            onClick={async () => {
+              await copyToClipboard(animal.description);
+            }}
+          >
+            <FaCopy />
+            <span className="ml-2">Copier la description</span>
+          </Button>
+        </ButtonSection>
+      </Modal>
     </Section>
   );
 }
