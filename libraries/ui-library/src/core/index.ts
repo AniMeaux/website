@@ -5,6 +5,7 @@ export * from "./ensureArray";
 export * from "./item";
 export * from "./link";
 export * from "./router";
+export * from "./touchScreen";
 export * from "./types";
 export * from "./useFocusTrap";
 export * from "./useLatestDefinedValue";

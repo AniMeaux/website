@@ -11,6 +11,7 @@ import {
 } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { TouchBackend } from "react-dnd-touch-backend";
+import { useIsTouchScreen } from "./touchScreen";
 import { ChildrenProp } from "./types";
 
 export enum DragAndDropDirection {
@@ -116,8 +117,8 @@ export function DragAndDropContextProvider({
     [state, startDrag, endDrag, hoverItem, itemType, disabled, direction]
   );
 
-  const hasTouch = !window.matchMedia("(hover: hover)").matches;
-  const backend = hasTouch ? TouchBackend : HTML5Backend;
+  const { isTouchScreen } = useIsTouchScreen();
+  const backend = isTouchScreen ? TouchBackend : HTML5Backend;
 
   return (
     <DndProvider backend={backend}>
@@ -126,7 +127,7 @@ export function DragAndDropContextProvider({
 
         {
           // Only use custom preview for touch screens.
-          hasTouch && <PreviewElement />
+          isTouchScreen && <PreviewElement />
         }
       </DragAndDropContext.Provider>
     </DndProvider>
