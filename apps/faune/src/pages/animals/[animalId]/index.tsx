@@ -21,6 +21,7 @@ import {
   formatLongDate,
   getAnimalDisplayName,
   getHostFamilyFullAddress,
+  HostFamily,
   Trilean,
   TrileanLabels,
   UserGroup,
@@ -261,6 +262,71 @@ const IsOkColors: { [key in Trilean]: string } = {
   [Trilean.UNKNOWN]: "",
 };
 
+function HostFamilyModal({ hostFamily }: { hostFamily: HostFamily }) {
+  const fullAddress = getHostFamilyFullAddress(hostFamily);
+
+  return (
+    <>
+      <Section>
+        <Item>
+          <ItemIcon>
+            <Avatar size="large">
+              <FaHome />
+            </Avatar>
+          </ItemIcon>
+
+          <ItemContent>
+            <ItemMainText>{hostFamily.name}</ItemMainText>
+          </ItemContent>
+        </Item>
+      </Section>
+
+      <Section className="border-t border-gray-100">
+        <ul>
+          <li>
+            <LinkItem href={`tel:${hostFamily.phone}`}>
+              <ItemIcon>
+                <FaPhone />
+              </ItemIcon>
+
+              <ItemContent>
+                <ItemMainText>{hostFamily.phone}</ItemMainText>
+              </ItemContent>
+            </LinkItem>
+          </li>
+
+          <li>
+            <LinkItem href={`mailto:${hostFamily.email}`}>
+              <ItemIcon>
+                <FaEnvelope />
+              </ItemIcon>
+
+              <ItemContent>
+                <ItemMainText>{hostFamily.email}</ItemMainText>
+              </ItemContent>
+            </LinkItem>
+          </li>
+
+          <li>
+            <LinkItem
+              shouldOpenInNewTab
+              href={`http://maps.google.com/?q=${fullAddress}`}
+            >
+              <ItemIcon>
+                <FaMapMarker />
+              </ItemIcon>
+
+              <ItemContent>
+                <Markdown>{fullAddress}</Markdown>
+              </ItemContent>
+            </LinkItem>
+          </li>
+        </ul>
+      </Section>
+    </>
+  );
+}
+
 function SituationSection({ animal }: AnimalProps) {
   const [
     areHostFamilyDetailsVisible,
@@ -293,66 +359,7 @@ function SituationSection({ animal }: AnimalProps) {
               open={areHostFamilyDetailsVisible}
               onDismiss={() => setAreHostFamilyDetailsVisible(false)}
             >
-              <Section>
-                <Item>
-                  <ItemIcon>
-                    <Avatar size="large">
-                      <FaHome />
-                    </Avatar>
-                  </ItemIcon>
-
-                  <ItemContent>
-                    <ItemMainText>{animal.hostFamily.name}</ItemMainText>
-                  </ItemContent>
-                </Item>
-              </Section>
-
-              <Section className="border-t border-gray-100">
-                <ul>
-                  <li>
-                    <LinkItem href={`tel:${animal.hostFamily.phone}`}>
-                      <ItemIcon>
-                        <FaPhone />
-                      </ItemIcon>
-
-                      <ItemContent>
-                        <ItemMainText>{animal.hostFamily.phone}</ItemMainText>
-                      </ItemContent>
-                    </LinkItem>
-                  </li>
-
-                  <li>
-                    <LinkItem href={`mailto:${animal.hostFamily.email}`}>
-                      <ItemIcon>
-                        <FaEnvelope />
-                      </ItemIcon>
-
-                      <ItemContent>
-                        <ItemMainText>{animal.hostFamily.email}</ItemMainText>
-                      </ItemContent>
-                    </LinkItem>
-                  </li>
-
-                  <li>
-                    <LinkItem
-                      shouldOpenInNewTab
-                      href={`http://maps.google.com/?q=${getHostFamilyFullAddress(
-                        animal.hostFamily
-                      )}`}
-                    >
-                      <ItemIcon>
-                        <FaMapMarker />
-                      </ItemIcon>
-
-                      <ItemContent>
-                        <Markdown>
-                          {getHostFamilyFullAddress(animal.hostFamily)}
-                        </Markdown>
-                      </ItemContent>
-                    </LinkItem>
-                  </li>
-                </ul>
-              </Section>
+              <HostFamilyModal hostFamily={animal.hostFamily} />
             </Modal>
           </li>
         )}
@@ -461,7 +468,9 @@ function DescriptionSection({ animal }: AnimalProps) {
   return (
     <Section>
       <SectionTitle>Description</SectionTitle>
-      <Markdown className="px-2 space-y-2">{animal.description}</Markdown>
+      <div className="px-2 space-y-2">
+        <Markdown>{animal.description}</Markdown>
+      </div>
     </Section>
   );
 }
