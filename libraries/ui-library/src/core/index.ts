@@ -5,6 +5,7 @@ export * from "./dragAndDrop";
 export * from "./ensureArray";
 export * from "./item";
 export * from "./link";
+export * from "./longTouch";
 export * from "./router";
 export * from "./touchScreen";
 export * from "./types";
