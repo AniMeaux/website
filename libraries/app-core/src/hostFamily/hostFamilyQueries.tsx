@@ -141,16 +141,16 @@ export function useCreateHostFamily(
         throw new Error(ErrorCode.HOST_FAMILY_INVALID_EMAIL);
       }
 
+      if (payload.address.trim() === "") {
+        throw new Error(ErrorCode.HOST_FAMILY_MISSING_ADDRESS);
+      }
+
       if (payload.zipCode.trim() === "") {
         throw new Error(ErrorCode.HOST_FAMILY_MISSING_ZIP_CODE);
       }
 
       if (payload.city.trim() === "") {
         throw new Error(ErrorCode.HOST_FAMILY_MISSING_CITY);
-      }
-
-      if (payload.address.trim() === "") {
-        throw new Error(ErrorCode.HOST_FAMILY_MISSING_ADDRESS);
       }
 
       const createPayload: CreateHostFamilyPayload = payload;
@@ -264,6 +264,15 @@ export function useUpdateHostFamily(
         payload.email = email;
       }
 
+      const address = formPayload.address.trim();
+      if (address !== currentHostFamily.address) {
+        if (address === "") {
+          throw new Error(ErrorCode.HOST_FAMILY_MISSING_ADDRESS);
+        }
+
+        payload.address = address;
+      }
+
       const zipCode = formPayload.zipCode.trim();
       if (zipCode !== currentHostFamily.zipCode) {
         if (zipCode === "") {
@@ -280,15 +289,6 @@ export function useUpdateHostFamily(
         }
 
         payload.city = city;
-      }
-
-      const address = formPayload.address.trim();
-      if (address !== currentHostFamily.address) {
-        if (address === "") {
-          throw new Error(ErrorCode.HOST_FAMILY_MISSING_ADDRESS);
-        }
-
-        payload.address = address;
       }
 
       const { hostFamily } = await fetchGraphQL<

@@ -73,6 +73,11 @@ export const hostFamilyDatabase: HostFamilyDatabase = {
       throw new UserInputError(ErrorCode.HOST_FAMILY_INVALID_EMAIL);
     }
 
+    const address = payload.address.trim();
+    if (address === "") {
+      throw new UserInputError(ErrorCode.HOST_FAMILY_MISSING_ADDRESS);
+    }
+
     const zipCode = payload.zipCode.trim();
     if (zipCode === "") {
       throw new UserInputError(ErrorCode.HOST_FAMILY_MISSING_ZIP_CODE);
@@ -81,11 +86,6 @@ export const hostFamilyDatabase: HostFamilyDatabase = {
     const city = payload.city.trim();
     if (city === "") {
       throw new UserInputError(ErrorCode.HOST_FAMILY_MISSING_CITY);
-    }
-
-    const address = payload.address.trim();
-    if (address === "") {
-      throw new UserInputError(ErrorCode.HOST_FAMILY_MISSING_ADDRESS);
     }
 
     await assertHostFamilyNameNotUsed(name);
@@ -161,6 +161,18 @@ export const hostFamilyDatabase: HostFamilyDatabase = {
       }
     }
 
+    if (payload.address != null) {
+      const address = payload.address.trim();
+
+      if (address === "") {
+        throw new UserInputError(ErrorCode.HOST_FAMILY_MISSING_ADDRESS);
+      }
+
+      if (address !== hostFamily.address) {
+        hostFamilyUpdate.address = address;
+      }
+    }
+
     if (payload.zipCode != null) {
       const zipCode = payload.zipCode.trim();
 
@@ -182,18 +194,6 @@ export const hostFamilyDatabase: HostFamilyDatabase = {
 
       if (city !== hostFamily.city) {
         hostFamilyUpdate.city = city;
-      }
-    }
-
-    if (payload.address != null) {
-      const address = payload.address.trim();
-
-      if (address === "") {
-        throw new UserInputError(ErrorCode.HOST_FAMILY_MISSING_ADDRESS);
-      }
-
-      if (address !== hostFamily.address) {
-        hostFamilyUpdate.address = address;
       }
     }
 

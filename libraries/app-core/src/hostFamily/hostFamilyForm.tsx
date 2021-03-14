@@ -48,12 +48,12 @@ export function getHostFamilyFormErrors(
       errors.phone = errorMessage;
     } else if (hasErrorCode(error, ErrorCode.HOST_FAMILY_INVALID_EMAIL)) {
       errors.email = errorMessage;
+    } else if (hasErrorCode(error, ErrorCode.HOST_FAMILY_MISSING_ADDRESS)) {
+      errors.address = errorMessage;
     } else if (hasErrorCode(error, ErrorCode.HOST_FAMILY_MISSING_ZIP_CODE)) {
       errors.zipCode = errorMessage;
     } else if (hasErrorCode(error, ErrorCode.HOST_FAMILY_MISSING_CITY)) {
       errors.city = errorMessage;
-    } else if (hasErrorCode(error, ErrorCode.HOST_FAMILY_MISSING_ADDRESS)) {
-      errors.address = errorMessage;
     }
   }
 
@@ -76,18 +76,18 @@ export function HostFamilyForm({
   const [name, setName] = React.useState(hostFamily?.name ?? "");
   const [phone, setPhone] = React.useState(hostFamily?.phone ?? "");
   const [email, setEmail] = React.useState(hostFamily?.email ?? "");
+  const [address, setAddress] = React.useState(hostFamily?.address ?? "");
   const [zipCode, setZipCode] = React.useState(hostFamily?.zipCode ?? "");
   const [city, setCity] = React.useState(hostFamily?.city ?? "");
-  const [address, setAddress] = React.useState(hostFamily?.address ?? "");
 
   React.useEffect(() => {
     if (hostFamily != null) {
       setName(hostFamily.name);
       setPhone(hostFamily.phone);
       setEmail(hostFamily.email);
+      setAddress(hostFamily.address);
       setZipCode(hostFamily.zipCode);
       setCity(hostFamily.city);
-      setAddress(hostFamily.address);
     }
   }, [hostFamily]);
 
@@ -173,6 +173,28 @@ export function HostFamilyForm({
       </Field>
 
       <Field>
+        <Label htmlFor="host-family-address" hasError={errors?.address != null}>
+          Adresse
+        </Label>
+
+        <Input
+          name="host-family-address"
+          id="host-family-address"
+          type="text"
+          value={address}
+          onChange={setAddress}
+          hasError={errors?.address != null}
+          leftAdornment={
+            <Adornment>
+              <FaMapMarker />
+            </Adornment>
+          }
+        />
+
+        <FieldMessage errorMessage={errors?.address} />
+      </Field>
+
+      <Field>
         <Label
           htmlFor="host-family-zip-code"
           hasError={errors?.zipCode != null}
@@ -217,28 +239,6 @@ export function HostFamilyForm({
         />
 
         <FieldMessage errorMessage={errors?.city} />
-      </Field>
-
-      <Field>
-        <Label htmlFor="host-family-address" hasError={errors?.address != null}>
-          Adresse
-        </Label>
-
-        <Input
-          name="host-family-address"
-          id="host-family-address"
-          type="text"
-          value={address}
-          onChange={setAddress}
-          hasError={errors?.address != null}
-          leftAdornment={
-            <Adornment>
-              <FaMapMarker />
-            </Adornment>
-          }
-        />
-
-        <FieldMessage errorMessage={errors?.address} />
       </Field>
 
       <SubmitButton disabled={pending}>
