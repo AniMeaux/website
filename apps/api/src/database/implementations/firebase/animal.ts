@@ -108,6 +108,7 @@ export const animalDatabase: AnimalDatabase = {
       pickUpDate: payload.pickUpDate,
       pickUpDateTimestamp: new Date(payload.pickUpDate).getTime(),
       avatarId: payload.avatarId,
+      hostFamilyId: payload.hostFamilyId,
       isOkChildren: payload.isOkChildren,
       isOkDogs: payload.isOkDogs,
       isOkCats: payload.isOkCats,
@@ -117,7 +118,6 @@ export const animalDatabase: AnimalDatabase = {
     const animal: DBAnimal = {
       ...searchableAnimal,
       description: cleanMarkdown(payload.description),
-      hostFamilyId: payload.hostFamilyId,
       picturesId: payload.picturesId,
       comments: cleanMarkdown(payload.comments),
     };
@@ -256,6 +256,14 @@ export const animalDatabase: AnimalDatabase = {
       searchableAnimalUpdate.avatarId = payload.avatarId;
     }
 
+    // Allow null to clear the field.
+    if (
+      payload.hostFamilyId !== undefined &&
+      payload.hostFamilyId !== animal.hostFamilyId
+    ) {
+      searchableAnimalUpdate.hostFamilyId = payload.hostFamilyId;
+    }
+
     const animalUpdate: Partial<DBAnimal> = {
       ...searchableAnimalUpdate,
     };
@@ -265,14 +273,6 @@ export const animalDatabase: AnimalDatabase = {
       payload.description !== animal.description
     ) {
       animalUpdate.description = cleanMarkdown(payload.description);
-    }
-
-    // Allow null to clear the field.
-    if (
-      payload.hostFamilyId !== undefined &&
-      payload.hostFamilyId !== animal.hostFamilyId
-    ) {
-      animalUpdate.hostFamilyId = payload.hostFamilyId;
     }
 
     if (

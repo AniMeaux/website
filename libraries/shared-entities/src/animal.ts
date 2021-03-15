@@ -228,6 +228,7 @@ export type DBSearchableAnimal = Omit<
   breedId?: string | null;
   birthdateTimestamp: number;
   pickUpDateTimestamp: number;
+  hostFamilyId?: string | null;
 };
 
 export type Animal = SearchableAnimal & {
@@ -240,7 +241,6 @@ export type Animal = SearchableAnimal & {
 export type DBAnimal = DBSearchableAnimal & {
   description: string | null;
   picturesId: string[];
-  hostFamilyId?: string | null;
   comments?: string | null;
 };
 
