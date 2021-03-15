@@ -51,6 +51,8 @@ const GetAllHostFamiliesQuery = gql`
 `;
 
 export function useAllHostFamilies({ search }: SearchFilter = {}) {
+  const queryClient = useQueryClient();
+
   return useInfiniteQuery<PaginatedResponse<HostFamily>, Error>(
     ["host-families", search],
     async ({ pageParam = 0 }) => {
@@ -62,6 +64,20 @@ export function useAllHostFamilies({ search }: SearchFilter = {}) {
       });
 
       return response;
+    },
+    {
+      onSuccess(data) {
+        // As the objects are the same for the list and the details, we set all
+        // values in the cache to avoid waiting for data we already have.
+        data.pages.forEach((page) => {
+          page.hits.forEach((hostFamily) => {
+            queryClient.setQueryData(
+              ["host-family", hostFamily.id],
+              hostFamily
+            );
+          });
+        });
+      },
     }
   );
 }

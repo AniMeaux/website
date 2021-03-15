@@ -41,10 +41,24 @@ const GetAllUsersQuery = gql`
 `;
 
 export function useAllUsers() {
-  return useQuery<User[], Error>("users", async () => {
-    const { users } = await fetchGraphQL<{ users: User[] }>(GetAllUsersQuery);
-    return users;
-  });
+  const queryClient = useQueryClient();
+
+  return useQuery<User[], Error>(
+    "users",
+    async () => {
+      const { users } = await fetchGraphQL<{ users: User[] }>(GetAllUsersQuery);
+      return users;
+    },
+    {
+      onSuccess(users) {
+        // As the objects are the same for the list and the details, we set all
+        // values in the cache to avoid waiting for data we already have.
+        users.forEach((user) => {
+          queryClient.setQueryData(["user", user.id], user);
+        });
+      },
+    }
+  );
 }
 
 const GetUserQuery = gql`

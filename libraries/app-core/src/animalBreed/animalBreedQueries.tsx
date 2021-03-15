@@ -58,6 +58,8 @@ export function useAllAnimalBreeds({
   search,
   species,
 }: SearchFilter & AnimalBreedFilters = {}) {
+  const queryClient = useQueryClient();
+
   return useInfiniteQuery<PaginatedResponse<AnimalBreed>, Error>(
     ["animal-breeds", search, species],
     async ({ pageParam = 0 }) => {
@@ -69,6 +71,20 @@ export function useAllAnimalBreeds({
       });
 
       return response;
+    },
+    {
+      onSuccess(data) {
+        // As the objects are the same for the list and the details, we set all
+        // values in the cache to avoid waiting for data we already have.
+        data.pages.forEach((page) => {
+          page.hits.forEach((animalBreed) => {
+            queryClient.setQueryData(
+              ["animal-breed", animalBreed.id],
+              animalBreed
+            );
+          });
+        });
+      },
     }
   );
 }
