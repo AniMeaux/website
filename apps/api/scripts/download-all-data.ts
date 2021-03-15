@@ -1,10 +1,10 @@
+import "./shared";
 import { csvFormat } from "d3-dsv";
 import { format } from "date-fns";
 import * as admin from "firebase-admin";
 import { ensureDir, outputFile } from "fs-extra";
 import path from "path";
 import { firebaseDatabase } from "../src/database/implementations/firebase";
-import "./shared";
 
 function relativePath(absolutePath: string) {
   return path.relative(process.cwd(), absolutePath);
