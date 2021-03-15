@@ -69,6 +69,7 @@ const typeDefs = gql`
     color: AnimalColor
     status: AnimalStatus!
     avatarId: String!
+    hostFamily: HostFamily
     isOkChildren: Trilean!
     isOkDogs: Trilean!
     isOkCats: Trilean!
@@ -175,6 +176,14 @@ const resolvers: IResolvers = {
       }
 
       return await database.getAnimalBreed(animal.breedId);
+    },
+
+    hostFamily: async (animal: DBSearchableAnimal) => {
+      if (animal.hostFamilyId == null) {
+        return null;
+      }
+
+      return await database.getHostFamily(animal.hostFamilyId);
     },
   },
 

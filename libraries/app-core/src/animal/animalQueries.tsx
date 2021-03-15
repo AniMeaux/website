@@ -55,6 +55,9 @@ const SearchableAnimalFragment = gql`
     color
     status
     avatarId
+    hostFamily {
+      ...HostFamilyFragment
+    }
     isOkChildren
     isOkDogs
     isOkCats
@@ -62,6 +65,7 @@ const SearchableAnimalFragment = gql`
   }
 
   ${AnimalBreedFragment}
+  ${HostFamilyFragment}
 `;
 
 const AnimalFragment = gql`

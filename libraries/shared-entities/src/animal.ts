@@ -214,6 +214,7 @@ export type SearchableAnimal = {
   color?: AnimalColor | null;
   status: AnimalStatus;
   avatarId: string;
+  hostFamily?: HostFamily | null;
   isOkChildren: Trilean;
   isOkDogs: Trilean;
   isOkCats: Trilean;
@@ -222,7 +223,7 @@ export type SearchableAnimal = {
 
 export type DBSearchableAnimal = Omit<
   SearchableAnimal,
-  "breed" | "commonName"
+  "breed" | "commonName" | "hostFamily"
 > & {
   commonName?: string | null;
   breedId?: string | null;
@@ -234,7 +235,6 @@ export type DBSearchableAnimal = Omit<
 export type Animal = SearchableAnimal & {
   description: string;
   picturesId: string[];
-  hostFamily?: HostFamily | null;
   comments: string;
 };
 
