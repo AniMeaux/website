@@ -27,13 +27,10 @@ import {
   UserGroup,
 } from "@animeaux/shared-entities";
 import {
-  Avatar,
   Button,
   ButtonItem,
-  ButtonLink,
-  ButtonSection,
-  ButtonWithConfirmation,
   copyToClipboard,
+  HeaderTitle,
   Image,
   Item,
   ItemContent,
@@ -43,26 +40,32 @@ import {
   Main,
   Markdown,
   Modal,
+  ModalHeader,
   QuickActions,
   Section,
   SectionTitle,
   useRouter,
+  withConfirmation,
 } from "@animeaux/ui-library";
 import cn from "classnames";
 import * as React from "react";
 import {
+  FaAdjust,
+  FaAngleRight,
   FaBirthdayCake,
   FaCut,
   FaEnvelope,
   FaExclamationTriangle,
   FaHandHoldingHeart,
   FaHome,
+  FaImages,
   FaLink,
   FaMapMarker,
   FaPen,
   FaPhone,
   FaShare,
   FaShareAlt,
+  FaTrash,
 } from "react-icons/fa";
 import { PageTitle } from "../../../core/pageTitle";
 
@@ -149,26 +152,32 @@ function HighlightsSection({ animal }: AnimalProps) {
         <span className="ml-2">Partager</span>
       </Button>
 
-      <Modal
-        open={isSharingOpen}
-        onDismiss={() => setIsSharingOpen(false)}
-        onClick={() => setIsSharingOpen(false)}
-      >
-        <ButtonSection>
-          <Button
-            variant="outlined"
+      <Modal open={isSharingOpen} onDismiss={() => setIsSharingOpen(false)}>
+        <ModalHeader>
+          <HeaderTitle>{getAnimalDisplayName(animal)}</HeaderTitle>
+        </ModalHeader>
+
+        <Section>
+          <ButtonItem
             onClick={async () => {
+              setIsSharingOpen(false);
               await copyToClipboard(document.location.href);
             }}
           >
-            <FaLink />
-            <span className="ml-2">Copier le lien</span>
-          </Button>
+            <ItemIcon>
+              <FaLink />
+            </ItemIcon>
+
+            <ItemContent>
+              <ItemMainText>Copier le lien</ItemMainText>
+            </ItemContent>
+          </ButtonItem>
 
           {"share" in navigator && (
-            <Button
-              variant="outlined"
+            <ButtonItem
               onClick={async () => {
+                setIsSharingOpen(false);
+
                 try {
                   await navigator.share({
                     text: getAnimalDisplayName(animal),
@@ -187,11 +196,20 @@ function HighlightsSection({ animal }: AnimalProps) {
                 }
               }}
             >
-              <FaShareAlt />
-              <span className="ml-2">Partager via...</span>
-            </Button>
+              <ItemIcon>
+                <FaShareAlt />
+              </ItemIcon>
+
+              <ItemContent>
+                <ItemMainText>Partager via...</ItemMainText>
+              </ItemContent>
+
+              <ItemIcon>
+                <FaAngleRight />
+              </ItemIcon>
+            </ButtonItem>
           )}
-        </ButtonSection>
+        </Section>
       </Modal>
     </header>
   );
@@ -267,21 +285,11 @@ function HostFamilyModal({ hostFamily }: { hostFamily: HostFamily }) {
 
   return (
     <>
+      <ModalHeader>
+        <HeaderTitle>{hostFamily.name}</HeaderTitle>
+      </ModalHeader>
+
       <Section>
-        <Item>
-          <ItemIcon>
-            <Avatar size="large">
-              <FaHome />
-            </Avatar>
-          </ItemIcon>
-
-          <ItemContent>
-            <ItemMainText>{hostFamily.name}</ItemMainText>
-          </ItemContent>
-        </Item>
-      </Section>
-
-      <Section className="border-t border-gray-100">
         <ul>
           <li>
             <LinkItem href={`tel:${hostFamily.phone}`}>
@@ -358,6 +366,7 @@ function SituationSection({ animal }: AnimalProps) {
             <Modal
               open={areHostFamilyDetailsVisible}
               onDismiss={() => setAreHostFamilyDetailsVisible(false)}
+              dismissLabel="Fermer"
             >
               <HostFamilyModal hostFamily={animal.hostFamily} />
             </Modal>
@@ -481,17 +490,26 @@ function DeleteAnimalButton({ animal }: AnimalProps) {
     },
   });
 
+  const confirmationMessage = [
+    `Êtes-vous sûr de vouloir supprimer ${animal.officialName} ?`,
+    "L'action est irréversible.",
+  ].join("\n");
+
   return (
-    <ButtonWithConfirmation
-      confirmationMessage={[
-        `Êtes-vous sûr de vouloir supprimer ${animal.officialName} ?`,
-        "L'action est irréversible.",
-      ].join("\n")}
-      onClick={() => deleteAnimal(animal)}
-      color="red"
+    <ButtonItem
+      onClick={withConfirmation(confirmationMessage, () => {
+        deleteAnimal(animal);
+      })}
+      className="text-red-500 font-medium"
     >
-      Supprimer
-    </ButtonWithConfirmation>
+      <ItemIcon>
+        <FaTrash />
+      </ItemIcon>
+
+      <ItemContent>
+        <ItemMainText>Supprimer</ItemMainText>
+      </ItemContent>
+    </ButtonItem>
   );
 }
 
@@ -519,21 +537,59 @@ const AnimalPage: PageComponent = () => {
 
         {isCurrentUserAdmin && (
           <QuickActions icon={FaPen}>
-            <ButtonSection>
-              <ButtonLink href="./edit/profile" variant="outlined">
-                Modifier le profil
-              </ButtonLink>
+            <ModalHeader>
+              <HeaderTitle>{getAnimalDisplayName(animal)}</HeaderTitle>
+            </ModalHeader>
 
-              <ButtonLink href="./edit/situation" variant="outlined">
-                Modifier la situation
-              </ButtonLink>
+            <Section>
+              <LinkItem href="./edit/profile">
+                <ItemIcon>
+                  <AnimalSpeciesIcon species={animal.species} />
+                </ItemIcon>
 
-              <ButtonLink href="./edit/pictures" variant="outlined">
-                Modifier les photos
-              </ButtonLink>
+                <ItemContent>
+                  <ItemMainText>Modifier le profil</ItemMainText>
+                </ItemContent>
 
+                <ItemIcon>
+                  <FaAngleRight />
+                </ItemIcon>
+              </LinkItem>
+
+              <LinkItem href="./edit/situation">
+                <ItemIcon>
+                  <FaAdjust />
+                </ItemIcon>
+
+                <ItemContent>
+                  <ItemMainText>Modifier la situation</ItemMainText>
+                </ItemContent>
+
+                <ItemIcon>
+                  <FaAngleRight />
+                </ItemIcon>
+              </LinkItem>
+
+              <LinkItem href="./edit/pictures">
+                <ItemIcon>
+                  <FaImages />
+                </ItemIcon>
+
+                <ItemContent>
+                  <ItemMainText>Modifier les photos</ItemMainText>
+                </ItemContent>
+
+                <ItemIcon>
+                  <FaAngleRight />
+                </ItemIcon>
+              </LinkItem>
+            </Section>
+
+            <hr className="mx-4 my-1 border-t border-gray-100" />
+
+            <Section>
               <DeleteAnimalButton animal={animal} />
-            </ButtonSection>
+            </Section>
           </QuickActions>
         )}
       </>

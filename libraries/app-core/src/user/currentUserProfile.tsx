@@ -5,8 +5,7 @@ import {
 } from "@animeaux/shared-entities";
 import {
   Adornment,
-  Button,
-  ButtonSection,
+  ButtonItem,
   Field,
   FieldMessage,
   Form,
@@ -26,7 +25,7 @@ import {
   useRouter,
 } from "@animeaux/ui-library";
 import * as React from "react";
-import { FaAngleRight, FaLock, FaUser } from "react-icons/fa";
+import { FaAngleRight, FaLock, FaSignOutAlt, FaUser } from "react-icons/fa";
 import { Header } from "../header";
 import { PageComponent, PageTitle } from "../page";
 import { useMutation } from "../request";
@@ -232,12 +231,12 @@ function Profile() {
   const { currentUser, signOut } = useCurrentUser();
 
   return (
-    <div>
-      <Section>
+    <>
+      <Section className="border-b border-gray-100">
         <UserItem user={currentUser} />
       </Section>
 
-      <Section className="border-t border-b border-gray-100 space-y-2">
+      <Section>
         <LinkItem
           href={`/edit-profile?backUrl=${encodeURIComponent(router.asPath)}`}
         >
@@ -271,12 +270,20 @@ function Profile() {
         </LinkItem>
       </Section>
 
-      <ButtonSection>
-        <Button color="red" onClick={signOut}>
-          Se déconnecter
-        </Button>
-      </ButtonSection>
-    </div>
+      <hr className="mx-4 my-1 border-t border-gray-100" />
+
+      <Section>
+        <ButtonItem onClick={signOut}>
+          <ItemIcon>
+            <FaSignOutAlt />
+          </ItemIcon>
+
+          <ItemContent>
+            <ItemMainText>Se déconnecter</ItemMainText>
+          </ItemContent>
+        </ButtonItem>
+      </Section>
+    </>
   );
 }
 
@@ -296,7 +303,11 @@ export function CurrentUserProfile({ refProp }: CurrentUserProfileProps) {
   }));
 
   return (
-    <Modal open={isVisible} onDismiss={() => setIsVisible(false)}>
+    <Modal
+      open={isVisible}
+      onDismiss={() => setIsVisible(false)}
+      dismissLabel="Fermer"
+    >
       {isVisible && <Profile />}
     </Modal>
   );

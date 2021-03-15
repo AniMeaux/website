@@ -1,6 +1,6 @@
 import {
   Header,
-  HostFamilyItem,
+  HostFamilyLinkItem,
   HostFamilyItemPlaceholder,
   PageComponent,
   renderInfiniteItemList,
@@ -29,7 +29,7 @@ const HostFamilyListPage: PageComponent = () => {
     placeholderElement: HostFamilyItemPlaceholder,
     renderEmptyMessage: () => "Il n'y a pas encore de famille d'accueil",
     renderItem: (hostFamily) => (
-      <HostFamilyItem hostFamily={hostFamily} href={`./${hostFamily.id}`} />
+      <HostFamilyLinkItem hostFamily={hostFamily} href={`./${hostFamily.id}`} />
     ),
   });
 

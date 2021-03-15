@@ -7,6 +7,7 @@ import {
   ItemContent,
   ItemIcon,
   ItemMainText,
+  ItemProps,
   ItemSecondaryText,
   LinkItem,
   LinkItemProps,
@@ -35,13 +36,13 @@ export function HostFamilyItemPlaceholder() {
   );
 }
 
-type HostFamilyItemProps = LinkItemProps & {
+type HostFamilyContentProps = {
   hostFamily: HostFamily;
 };
 
-export function HostFamilyItem({ hostFamily, ...rest }: HostFamilyItemProps) {
+function HostFamilyContent({ hostFamily }: HostFamilyContentProps) {
   return (
-    <LinkItem {...rest}>
+    <>
       <ItemIcon>
         <Avatar size="large">
           <FaHome />
@@ -54,7 +55,30 @@ export function HostFamilyItem({ hostFamily, ...rest }: HostFamilyItemProps) {
           {hostFamily.city} ({hostFamily.zipCode.substring(0, 2)})
         </ItemSecondaryText>
       </ItemContent>
+    </>
+  );
+}
+
+type HostFamilyLinkItemProps = LinkItemProps & HostFamilyContentProps;
+
+export function HostFamilyLinkItem({
+  hostFamily,
+  ...rest
+}: HostFamilyLinkItemProps) {
+  return (
+    <LinkItem {...rest}>
+      <HostFamilyContent hostFamily={hostFamily} />
     </LinkItem>
+  );
+}
+
+type HostFamilyItemProps = ItemProps & HostFamilyContentProps;
+
+export function HostFamilyItem({ hostFamily, ...rest }: HostFamilyItemProps) {
+  return (
+    <Item {...rest}>
+      <HostFamilyContent hostFamily={hostFamily} />
+    </Item>
   );
 }
 

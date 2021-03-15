@@ -294,22 +294,6 @@
   }
 
   .modal-padding {
-    padding-top: theme("padding.2");
-    padding-top: calc(theme("padding.2") + env(safe-area-inset-top, 0));
-    padding-right: theme("padding.2");
-    padding-right: calc(theme("padding.2") + env(safe-area-inset-right, 0));
-    padding-bottom: theme("padding.2");
-    padding-bottom: calc(theme("padding.2") + env(safe-area-inset-bottom, 0));
-    padding-left: theme("padding.2");
-    padding-left: calc(theme("padding.2") + env(safe-area-inset-left, 0));
-  }
-
-  .modal-top-full-screen {
-    top: theme("inset.2");
-    top: calc(theme("inset.2") + env(safe-area-inset-top, 0));
-  }
-
-  .modal-content-padding {
     padding-top: 0;
     padding-top: env(safe-area-inset-top, 0);
     padding-right: 0;

@@ -54,6 +54,7 @@ export function LinkItem({
 export type ButtonItemProps = StyleProps &
   ChildrenProp &
   ItemCommonProps & {
+    title?: string;
     disabled?: boolean;
     onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
   };
@@ -89,7 +90,7 @@ export function ItemIcon({ className, ...rest }: ItemIconProps) {
     <span
       {...rest}
       className={cn(
-        "flex-none min-h-6 self-start flex items-center text-black text-opacity-70 text-2xl",
+        "flex-none min-h-6 self-start flex items-center text-2xl",
         className
       )}
     />

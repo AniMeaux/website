@@ -3,7 +3,7 @@ import {
   Header,
   PageComponent,
   renderInfiniteItemList,
-  SearchableAnimalItem,
+  SearchableAnimalLinkItem,
   SearchableAnimalItemPlaceholder,
   useAllAnimals,
   useCurrentUser,
@@ -90,7 +90,7 @@ const AnimalListPage: PageComponent = () => {
       );
     },
     renderItem: (animal) => (
-      <SearchableAnimalItem animal={animal} href={`./${animal.id}`} />
+      <SearchableAnimalLinkItem animal={animal} href={`./${animal.id}`} />
     ),
   });
 

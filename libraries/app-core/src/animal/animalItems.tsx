@@ -9,6 +9,7 @@ import {
   ItemContent,
   ItemIcon,
   ItemMainText,
+  ItemProps,
   LinkItem,
   LinkItemProps,
   Placeholder,
@@ -31,18 +32,15 @@ export function SearchableAnimalItemPlaceholder() {
   );
 }
 
-type SearchableAnimalItemProps = LinkItemProps & {
+type SearchableAnimalContentProps = {
   animal: SearchableAnimal;
 };
 
-export function SearchableAnimalItem({
-  animal,
-  ...rest
-}: SearchableAnimalItemProps) {
+function SearchableAnimalContent({ animal }: SearchableAnimalContentProps) {
   const displayName = getAnimalDisplayName(animal);
 
   return (
-    <LinkItem {...rest}>
+    <>
       <ItemIcon>
         <Avatar size="large">
           <Image image={animal.avatarId} preset="avatar" alt={displayName} />
@@ -52,6 +50,33 @@ export function SearchableAnimalItem({
       <ItemContent>
         <ItemMainText>{displayName}</ItemMainText>
       </ItemContent>
+    </>
+  );
+}
+
+type SearchableAnimalLinkItemProps = LinkItemProps &
+  SearchableAnimalContentProps;
+
+export function SearchableAnimalLinkItem({
+  animal,
+  ...rest
+}: SearchableAnimalLinkItemProps) {
+  return (
+    <LinkItem {...rest}>
+      <SearchableAnimalContent animal={animal} />
     </LinkItem>
+  );
+}
+
+type SearchableAnimalItemProps = ItemProps & SearchableAnimalContentProps;
+
+export function SearchableAnimalItem({
+  animal,
+  ...rest
+}: SearchableAnimalItemProps) {
+  return (
+    <Item {...rest}>
+      <SearchableAnimalContent animal={animal} />
+    </Item>
   );
 }

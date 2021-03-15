@@ -37,11 +37,7 @@ export function QuickActions({
         <Icon />
       </button>
 
-      <Modal
-        open={isOpened}
-        onDismiss={() => setIsOpened(false)}
-        onClick={() => setIsOpened(false)}
-      >
+      <Modal open={isOpened} onDismiss={() => setIsOpened(false)}>
         {children}
       </Modal>
     </>

@@ -14,24 +14,31 @@ import {
   UserGroupLabels,
 } from "@animeaux/shared-entities";
 import {
-  ButtonLink,
-  ButtonSection,
-  ButtonWithConfirmation,
+  ButtonItem,
+  HeaderTitle,
   Item,
   ItemContent,
   ItemIcon,
   ItemMainText,
+  LinkItem,
   Main,
+  ModalHeader,
   Placeholder,
   Placeholders,
   QuickActions,
   Section,
   SectionTitle,
-  Separator,
   useRouter,
+  withConfirmation,
 } from "@animeaux/ui-library";
 import * as React from "react";
-import { FaEnvelope, FaPen } from "react-icons/fa";
+import {
+  FaAngleRight,
+  FaBan,
+  FaEnvelope,
+  FaPen,
+  FaTrash,
+} from "react-icons/fa";
 import { PageTitle } from "../../../core/pageTitle";
 
 type UserProp = {
@@ -141,15 +148,16 @@ function BlockUserButton({ user }: UserProp) {
   // The current user cannot block himself.
   const disabled = currentUser.id === user.id;
 
+  const confirmationMessage = user.disabled
+    ? `Êtes-vous sûr de vouloir débloquer ${user.displayName} ?`
+    : `Êtes-vous sûr de vouloir bloquer ${user.displayName} ?`;
+
   return (
-    <ButtonWithConfirmation
-      confirmationMessage={
-        user.disabled
-          ? `Êtes-vous sûr de vouloir débloquer l'utilisateur ${user.displayName} ?`
-          : `Êtes-vous sûr de vouloir bloquer l'utilisateur ${user.displayName} ?`
-      }
-      onClick={() => toggleUserBlockedStatus(user.id)}
-      color="blue"
+    <ButtonItem
+      onClick={withConfirmation(confirmationMessage, () => {
+        toggleUserBlockedStatus(user.id);
+      })}
+      className="text-yellow-600 font-medium"
       disabled={disabled}
       title={
         disabled
@@ -157,8 +165,14 @@ function BlockUserButton({ user }: UserProp) {
           : undefined
       }
     >
-      {user.disabled ? "Débloquer" : "Bloquer"}
-    </ButtonWithConfirmation>
+      <ItemIcon>
+        <FaBan />
+      </ItemIcon>
+
+      <ItemContent>
+        <ItemMainText>{user.disabled ? "Débloquer" : "Bloquer"}</ItemMainText>
+      </ItemContent>
+    </ButtonItem>
   );
 }
 
@@ -175,16 +189,17 @@ function DeleteUserButton({ user }: UserProp) {
   // The current user cannot delete himself.
   const disabled = currentUser.id === user.id;
 
+  const confirmationMessage = [
+    `Êtes-vous sûr de vouloir supprimer ${user.displayName} ?`,
+    "L'action est irréversible.",
+  ].join("\n");
+
   return (
-    <ButtonWithConfirmation
-      confirmationMessage={[
-        `Êtes-vous sûr de vouloir supprimer l'utilisateur ${
-          user!.displayName
-        } ?`,
-        "L'action est irréversible.",
-      ].join("\n")}
-      onClick={() => deleteUser(user.id)}
-      color="red"
+    <ButtonItem
+      onClick={withConfirmation(confirmationMessage, () => {
+        deleteUser(user.id);
+      })}
+      className="text-red-500 font-medium"
       disabled={disabled}
       title={
         disabled
@@ -192,8 +207,14 @@ function DeleteUserButton({ user }: UserProp) {
           : undefined
       }
     >
-      Supprimer
-    </ButtonWithConfirmation>
+      <ItemIcon>
+        <FaTrash />
+      </ItemIcon>
+
+      <ItemContent>
+        <ItemMainText>Supprimer</ItemMainText>
+      </ItemContent>
+    </ButtonItem>
   );
 }
 
@@ -207,15 +228,42 @@ const UserPage: PageComponent = () => {
     renderPlaceholder: () => (
       <>
         <ProfilePlaceholderSection />
-        <Separator />
         <GroupsPlaceholderSection />
       </>
     ),
     renderEntity: (user) => (
       <>
         <ProfileSection user={user} />
-        <Separator />
         <GroupsSection user={user} />
+
+        <QuickActions icon={FaPen}>
+          <ModalHeader>
+            <HeaderTitle>{user.displayName}</HeaderTitle>
+          </ModalHeader>
+
+          <Section>
+            <LinkItem href="./edit">
+              <ItemIcon>
+                <FaPen />
+              </ItemIcon>
+
+              <ItemContent>
+                <ItemMainText>Modifier</ItemMainText>
+              </ItemContent>
+
+              <ItemIcon>
+                <FaAngleRight />
+              </ItemIcon>
+            </LinkItem>
+          </Section>
+
+          <hr className="mx-4 my-1 border-t border-gray-100" />
+
+          <Section>
+            <BlockUserButton user={user} />
+            <DeleteUserButton user={user} />
+          </Section>
+        </QuickActions>
       </>
     ),
   });
@@ -224,23 +272,7 @@ const UserPage: PageComponent = () => {
     <div>
       <PageTitle title={pageTitle} />
       <Header headerTitle={headerTitle} canGoBack />
-
-      <Main>
-        {content}
-
-        {query.data != null && (
-          <QuickActions icon={FaPen}>
-            <ButtonSection>
-              <ButtonLink href="./edit" variant="outlined">
-                Modifier
-              </ButtonLink>
-
-              <BlockUserButton user={query.data} />
-              <DeleteUserButton user={query.data} />
-            </ButtonSection>
-          </QuickActions>
-        )}
-      </Main>
+      <Main>{content}</Main>
     </div>
   );
 };

@@ -11,9 +11,8 @@ import {
   UserGroup,
 } from "@animeaux/shared-entities";
 import {
-  ButtonLink,
-  ButtonSection,
-  ButtonWithConfirmation,
+  ButtonItem,
+  HeaderTitle,
   Item,
   ItemContent,
   ItemIcon,
@@ -21,15 +20,24 @@ import {
   LinkItem,
   Main,
   Markdown,
+  ModalHeader,
   Placeholder,
   Placeholders,
   QuickActions,
   Section,
   SectionTitle,
   useRouter,
+  withConfirmation,
 } from "@animeaux/ui-library";
 import * as React from "react";
-import { FaEnvelope, FaMapMarker, FaPen, FaPhone } from "react-icons/fa";
+import {
+  FaAngleRight,
+  FaEnvelope,
+  FaMapMarker,
+  FaPen,
+  FaPhone,
+  FaTrash,
+} from "react-icons/fa";
 import { PageTitle } from "../../../core/pageTitle";
 
 type HostFamilyProps = {
@@ -123,18 +131,27 @@ function DeleteHostFamilyButton({ hostFamily }: HostFamilyProps) {
     },
   });
 
+  const confirmationMessage = [
+    `Êtes-vous sûr de vouloir supprimer ${hostFamily.name} ?`,
+    "L'action est irréversible.",
+  ].join("\n");
+
   return (
-    <ButtonWithConfirmation
-      confirmationMessage={[
-        `Êtes-vous sûr de vouloir supprimer la famille d'accueil ${hostFamily.name} ?`,
-        "L'action est irréversible.",
-      ].join("\n")}
-      onClick={() => deleteHostFamily(hostFamily.id)}
+    <ButtonItem
+      onClick={withConfirmation(confirmationMessage, () => {
+        deleteHostFamily(hostFamily.id);
+      })}
       // TODO: Prevent delete if it is referenced by animals.
-      color="red"
+      className="text-red-500 font-medium"
     >
-      Supprimer
-    </ButtonWithConfirmation>
+      <ItemIcon>
+        <FaTrash />
+      </ItemIcon>
+
+      <ItemContent>
+        <ItemMainText>Supprimer</ItemMainText>
+      </ItemContent>
+    </ButtonItem>
   );
 }
 
@@ -146,7 +163,39 @@ const HostFamilyPage: PageComponent = () => {
   const { pageTitle, headerTitle, content } = renderQueryEntity(query, {
     getDisplayedText: (hostFamily) => hostFamily.name,
     renderPlaceholder: () => <ContactPlaceholderSection />,
-    renderEntity: (hostFamily) => <ContactSection hostFamily={hostFamily} />,
+    renderEntity: (hostFamily) => (
+      <>
+        <ContactSection hostFamily={hostFamily} />
+
+        <QuickActions icon={FaPen}>
+          <ModalHeader>
+            <HeaderTitle>{hostFamily.name}</HeaderTitle>
+          </ModalHeader>
+
+          <Section>
+            <LinkItem href="./edit">
+              <ItemIcon>
+                <FaPen />
+              </ItemIcon>
+
+              <ItemContent>
+                <ItemMainText>Modifier</ItemMainText>
+              </ItemContent>
+
+              <ItemIcon>
+                <FaAngleRight />
+              </ItemIcon>
+            </LinkItem>
+          </Section>
+
+          <hr className="mx-4 my-1 border-t border-gray-100" />
+
+          <Section>
+            <DeleteHostFamilyButton hostFamily={hostFamily} />
+          </Section>
+        </QuickActions>
+      </>
+    ),
   });
 
   return (
@@ -154,21 +203,7 @@ const HostFamilyPage: PageComponent = () => {
       <PageTitle title={pageTitle} />
       <Header headerTitle={headerTitle} canGoBack />
 
-      <Main>
-        {content}
-
-        {query.data != null && (
-          <QuickActions icon={FaPen}>
-            <ButtonSection>
-              <ButtonLink href="./edit" variant="outlined">
-                Modifier
-              </ButtonLink>
-
-              <DeleteHostFamilyButton hostFamily={query.data} />
-            </ButtonSection>
-          </QuickActions>
-        )}
-      </Main>
+      <Main>{content}</Main>
     </div>
   );
 };

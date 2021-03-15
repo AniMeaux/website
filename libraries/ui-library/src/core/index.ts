@@ -12,3 +12,4 @@ export * from "./types";
 export * from "./useFocusTrap";
 export * from "./useLatestDefinedValue";
 export * from "./useScrollLock";
+export * from "./withConfirmation";

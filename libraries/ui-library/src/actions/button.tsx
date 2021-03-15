@@ -121,27 +121,6 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   }
 );
 
-export type ButtonWithConfirmationProps = ButtonProps & {
-  confirmationMessage: string;
-};
-
-export function ButtonWithConfirmation({
-  confirmationMessage,
-  onClick,
-  ...rest
-}: ButtonWithConfirmationProps) {
-  return (
-    <Button
-      {...rest}
-      onClick={(event) => {
-        if (onClick != null && window.confirm(confirmationMessage)) {
-          onClick(event);
-        }
-      }}
-    />
-  );
-}
-
 export type ButtonLinkProps = LinkProps & ButtonCommonProps;
 
 export const ButtonLink = React.forwardRef<HTMLAnchorElement, ButtonLinkProps>(

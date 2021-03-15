@@ -8,22 +8,24 @@ import {
 } from "@animeaux/app-core";
 import { AnimalBreed, AnimalSpeciesLabels } from "@animeaux/shared-entities";
 import {
-  ButtonLink,
-  ButtonSection,
-  ButtonWithConfirmation,
+  ButtonItem,
+  HeaderTitle,
   Item,
   ItemContent,
   ItemIcon,
   ItemMainText,
+  LinkItem,
   Main,
+  ModalHeader,
   Placeholder,
   QuickActions,
   Section,
   SectionTitle,
   useRouter,
+  withConfirmation,
 } from "@animeaux/ui-library";
 import * as React from "react";
-import { FaPen } from "react-icons/fa";
+import { FaAngleRight, FaPen, FaTrash } from "react-icons/fa";
 import { PageTitle } from "../../../core/pageTitle";
 
 type AnimalBreedProps = {
@@ -80,18 +82,27 @@ function DeleteAnimalBreedButton({ animalBreed }: AnimalBreedProps) {
     },
   });
 
+  const confirmationMessage = [
+    `Êtes-vous sûr de vouloir supprimer ${animalBreed.name} ?`,
+    "L'action est irréversible.",
+  ].join("\n");
+
   return (
-    <ButtonWithConfirmation
-      confirmationMessage={[
-        `Êtes-vous sûr de vouloir supprimer la race ${animalBreed.name} ?`,
-        "L'action est irréversible.",
-      ].join("\n")}
-      onClick={() => deleteAnimalBreed(animalBreed.id)}
+    <ButtonItem
+      onClick={withConfirmation(confirmationMessage, () => {
+        deleteAnimalBreed(animalBreed.id);
+      })}
+      className="text-red-500 font-medium"
       // TODO: Prevent delete if it is used by animals.
-      color="red"
     >
-      Supprimer
-    </ButtonWithConfirmation>
+      <ItemIcon>
+        <FaTrash />
+      </ItemIcon>
+
+      <ItemContent>
+        <ItemMainText>Supprimer</ItemMainText>
+      </ItemContent>
+    </ButtonItem>
   );
 }
 
@@ -103,7 +114,39 @@ const AnimalBreedPage: PageComponent = () => {
   const { pageTitle, headerTitle, content } = renderQueryEntity(query, {
     getDisplayedText: (animalBreed) => animalBreed.name,
     renderPlaceholder: () => <DetailsPlaceholderSection />,
-    renderEntity: (animalBreed) => <DetailsSection animalBreed={animalBreed} />,
+    renderEntity: (animalBreed) => (
+      <>
+        <DetailsSection animalBreed={animalBreed} />
+
+        <QuickActions icon={FaPen}>
+          <ModalHeader>
+            <HeaderTitle>{animalBreed.name}</HeaderTitle>
+          </ModalHeader>
+
+          <Section>
+            <LinkItem href="./edit">
+              <ItemIcon>
+                <FaPen />
+              </ItemIcon>
+
+              <ItemContent>
+                <ItemMainText>Modifier</ItemMainText>
+              </ItemContent>
+
+              <ItemIcon>
+                <FaAngleRight />
+              </ItemIcon>
+            </LinkItem>
+          </Section>
+
+          <hr className="mx-4 my-1 border-t border-gray-100" />
+
+          <Section>
+            <DeleteAnimalBreedButton animalBreed={animalBreed} />
+          </Section>
+        </QuickActions>
+      </>
+    ),
   });
 
   return (
@@ -111,21 +154,7 @@ const AnimalBreedPage: PageComponent = () => {
       <PageTitle title={pageTitle} />
       <Header headerTitle={headerTitle} canGoBack />
 
-      <Main>
-        {content}
-
-        {query.data != null && (
-          <QuickActions icon={FaPen}>
-            <ButtonSection>
-              <ButtonLink href="./edit" variant="outlined">
-                Modifier
-              </ButtonLink>
-
-              <DeleteAnimalBreedButton animalBreed={query.data} />
-            </ButtonSection>
-          </QuickActions>
-        )}
-      </Main>
+      <Main>{content}</Main>
     </div>
   );
 };

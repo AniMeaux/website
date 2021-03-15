@@ -1,47 +1,19 @@
 import cn from "classnames";
-import invariant from "invariant";
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import {
-  AnimateHeight,
-  useFocusTrap,
-  useLatestDefinedValue,
-  useScrollLock,
-} from "../core";
-import { PageScrollProvider, useIsScrollAtTheTop } from "../layouts";
-
-type ModalContextValue = {
-  onDismiss: () => void;
-};
-
-const ModalContext = React.createContext<ModalContextValue | null>(null);
-
-export function useModalContext() {
-  const context = React.useContext(ModalContext);
-
-  invariant(
-    context != null,
-    "useModalContext should not be used outside of a Modal"
-  );
-
-  return context;
-}
+import { Button } from "../actions";
+import { useFocusTrap, useLatestDefinedValue, useScrollLock } from "../core";
+import { ButtonSection } from "../layouts";
 
 export function ModalHeader({
   className,
   ...rest
 }: React.HTMLAttributes<HTMLElement>) {
-  const { isAtTheTop } = useIsScrollAtTheTop();
-
   return (
     <header
       {...rest}
       className={cn(
-        "transition-shadow duration-200 ease-in-out sticky top-0 ring-1 w-full h-12 flex-none px-4 flex items-center",
-        {
-          "ring-transparent": isAtTheTop,
-          "ring-gray-100 bg-white": !isAtTheTop,
-        },
+        "sticky top-0 w-full border-b border-gray-100 flex-none px-4 py-2 flex items-center",
         className
       )}
     />
@@ -50,14 +22,14 @@ export function ModalHeader({
 
 type ModalProps = React.HTMLAttributes<HTMLElement> & {
   open: boolean;
-  isFullScreen?: boolean;
   onDismiss: () => void;
+  dismissLabel?: string;
 };
 
 export function Modal({
   open,
   onDismiss,
-  isFullScreen = false,
+  dismissLabel = "Annuler",
   className,
   children,
   ...rest
@@ -67,11 +39,10 @@ export function Modal({
     []
   );
   const modalElement = React.useRef<HTMLDivElement | null>(null);
-  const scrollElement = React.useRef<HTMLDivElement>(null!);
   const elementToReturnFocus = React.useRef<HTMLElement | null>(null);
 
   const [visible, setVisible] = React.useState(false);
-  useScrollLock(scrollElement, { disabled: !visible });
+  useScrollLock(modalElement, { disabled: !visible });
   useFocusTrap(modalElement, {
     disabled: !visible,
     fallbackFocus: modalElement,
@@ -110,27 +81,10 @@ export function Modal({
     open ? children : null
   );
 
-  // Make sure the update the height of the window for full screen.
-  const [windowHeight, setWindowHeight] = React.useState(window.innerHeight);
-  React.useLayoutEffect(() => {
-    function handleResize() {
-      setWindowHeight(window.innerHeight);
-    }
-
-    window.addEventListener("resize", handleResize);
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
-
   const handleDismiss = React.useRef(onDismiss);
   React.useLayoutEffect(() => {
     handleDismiss.current = onDismiss;
   });
-  const contextValue = React.useMemo<ModalContextValue>(
-    () => ({ onDismiss: () => handleDismiss.current() }),
-    []
-  );
 
   if (!visible) {
     return null;
@@ -168,10 +122,8 @@ export function Modal({
         data-focus-trap-ignore="true"
         onClick={handleOverlayClick}
         className={cn(
-          "z-20 transition-colors ease-in-out duration-200 fixed inset-0 overscroll-none cursor-pointer bg-black bg-opacity-20",
+          "z-20 fixed inset-0 overscroll-none cursor-pointer bg-black bg-opacity-20",
           {
-            // "bg-opacity-80": isFullScreen,
-            // "bg-opacity-20": !isFullScreen,
             "animate-fade-in": open,
             "animate-fade-out": !open,
           }
@@ -185,41 +137,25 @@ export function Modal({
         onAnimationEnd={handleAnimationEnd}
         onKeyDown={handleKeyDown}
         className={cn(
-          "z-20 focus:outline-none transition-spacing ease-in-out duration-200 fixed left-0 bottom-0 right-0 overscroll-none max-h-screen",
+          "z-20 focus:outline-none fixed left-0 bottom-0 right-0 overscroll-none shadow-md rounded-t-3xl max-h-screen bg-white modal-padding",
           {
-            "p-0": isFullScreen,
-            "modal-padding": !isFullScreen,
             "animate-bottom-slide-in": open,
             "animate-bottom-slide-out": !open,
           },
           className
         )}
       >
-        <div
-          className={cn("bg-white transition-all ease-in-out duration-200", {
-            "shadow-none rounded-none": isFullScreen,
-            "shadow-md rounded-3xl": !isFullScreen,
-          })}
-        >
-          <AnimateHeight
-            refProp={scrollElement}
-            style={{ height: isFullScreen ? windowHeight : undefined }}
+        {childElement}
+
+        <ButtonSection>
+          <Button
+            variant="outlined"
+            color="default"
+            onClick={() => onDismiss()}
           >
-            <div
-              className={cn({
-                // We don't animate the padding to avoid `AnimateHeight` to go
-                // crazy.
-                "modal-content-padding": isFullScreen,
-              })}
-            >
-              <PageScrollProvider containerRef={scrollElement}>
-                <ModalContext.Provider value={contextValue}>
-                  {childElement}
-                </ModalContext.Provider>
-              </PageScrollProvider>
-            </div>
-          </AnimateHeight>
-        </div>
+            {dismissLabel}
+          </Button>
+        </ButtonSection>
       </div>
     </>,
     moutingPoint
