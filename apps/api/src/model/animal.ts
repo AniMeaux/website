@@ -110,6 +110,7 @@ const typeDefs = gql`
       search: String
       page: Int
       status: [AnimalStatus!]
+      hostFamilyId: ID
     ): AllAnimalResponse! @auth(groups: [ADMIN, ANIMAL_MANAGER, VETERINARIAN])
 
     getAnimal(id: ID!): Animal

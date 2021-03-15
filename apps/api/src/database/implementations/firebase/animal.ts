@@ -46,6 +46,12 @@ export const animalDatabase: AnimalDatabase = {
       );
     }
 
+    if (filters.hostFamilyId != null) {
+      searchFilters.push(
+        SearchFilters.createFilter("hostFamilyId", filters.hostFamilyId)
+      );
+    }
+
     const result = await AnimalsIndex.search<DBSearchableAnimal>(
       filters.search ?? "",
       {

@@ -104,8 +104,14 @@ const GetAllAnimalsQuery = gql`
     $search: String
     $page: Int
     $status: [AnimalStatus!]
+    $hostFamilyId: ID
   ) {
-    response: getAllAnimals(search: $search, page: $page, status: $status) {
+    response: getAllAnimals(
+      search: $search
+      page: $page
+      status: $status
+      hostFamilyId: $hostFamilyId
+    ) {
       hits {
         ...SearchableAnimalFragment
       }
@@ -121,15 +127,16 @@ const GetAllAnimalsQuery = gql`
 export function useAllAnimals({
   search,
   status,
+  hostFamilyId,
 }: SearchFilter & AnimalFilters = {}) {
   return useInfiniteQuery<PaginatedResponse<SearchableAnimal>, Error>(
-    ["animals", search, status],
+    ["animals", search, status, hostFamilyId],
     async ({ pageParam = 0 }) => {
       const { response } = await fetchGraphQL<
         { response: PaginatedResponse<SearchableAnimal> },
         PaginatedRequest<AnimalFilters>
       >(GetAllAnimalsQuery, {
-        variables: { search, page: pageParam, status },
+        variables: { search, page: pageParam, status, hostFamilyId },
       });
 
       return response;

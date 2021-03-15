@@ -1,7 +1,12 @@
 import {
+  ErrorPage,
   Header,
   PageComponent,
+  renderInfiniteItemList,
   renderQueryEntity,
+  SearchableAnimalItemPlaceholder,
+  SearchableAnimalLinkItem,
+  useAllAnimals,
   useDeleteHostFamily,
   useHostFamily,
 } from "@animeaux/app-core";
@@ -11,7 +16,9 @@ import {
   UserGroup,
 } from "@animeaux/shared-entities";
 import {
+  Button,
   ButtonItem,
+  ChildrenProp,
   HeaderTitle,
   Item,
   ItemContent,
@@ -25,6 +32,7 @@ import {
   Placeholders,
   QuickActions,
   Section,
+  SectionBox,
   SectionTitle,
   useRouter,
   withConfirmation,
@@ -46,9 +54,7 @@ type HostFamilyProps = {
 
 function ContactSection({ hostFamily }: HostFamilyProps) {
   return (
-    <Section>
-      <SectionTitle>Contact</SectionTitle>
-
+    <SectionBox>
       <ul>
         <li>
           <LinkItem href={`tel:${hostFamily.phone}`}>
@@ -91,7 +97,7 @@ function ContactSection({ hostFamily }: HostFamilyProps) {
           </LinkItem>
         </li>
       </ul>
-    </Section>
+    </SectionBox>
   );
 }
 
@@ -155,17 +161,55 @@ function DeleteHostFamilyButton({ hostFamily }: HostFamilyProps) {
   );
 }
 
+function HostedAnimalsSection({ children }: ChildrenProp) {
+  return (
+    <Section>
+      <SectionTitle>En accueil</SectionTitle>
+      {children}
+    </Section>
+  );
+}
+
 const HostFamilyPage: PageComponent = () => {
   const router = useRouter();
   const hostFamilyId = router.query.hostFamilyId as string;
-  const query = useHostFamily(hostFamilyId);
 
+  const hostedAnimalsQuery = useAllAnimals({ hostFamilyId });
+  const hostedAnimals = renderInfiniteItemList(hostedAnimalsQuery, {
+    getItemKey: (animal) => animal.id,
+    placeholderElement: SearchableAnimalItemPlaceholder,
+    placeholderCount: 2,
+    emptyMessage: "Aucun animal en accueil",
+    renderEmptyMessage: ({ children }) => (
+      <Item>
+        <ItemContent>
+          <ItemMainText>{children}</ItemMainText>
+        </ItemContent>
+      </Item>
+    ),
+    renderWrapper: ({ children }) => children,
+    renderItem: (animal) => (
+      <SearchableAnimalLinkItem
+        animal={animal}
+        href={`/animals/${animal.id}`}
+      />
+    ),
+    renderError: (props) => <ErrorPage {...props} asItem />,
+    renderRetryButton: ({ retry, children }) => (
+      <Button size="small" variant="outlined" onClick={retry}>
+        {children}
+      </Button>
+    ),
+  });
+
+  const query = useHostFamily(hostFamilyId);
   const { pageTitle, headerTitle, content } = renderQueryEntity(query, {
     getDisplayedText: (hostFamily) => hostFamily.name,
     renderPlaceholder: () => <ContactPlaceholderSection />,
     renderEntity: (hostFamily) => (
       <>
         <ContactSection hostFamily={hostFamily} />
+        <HostedAnimalsSection>{hostedAnimals.content}</HostedAnimalsSection>
 
         <QuickActions icon={FaPen}>
           <ModalHeader>

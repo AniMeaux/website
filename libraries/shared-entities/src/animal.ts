@@ -545,6 +545,7 @@ export function createAminalPicturesUpdateApiPayload(
 
 export type AnimalFilters = {
   status?: AnimalStatus[] | null;
+  hostFamilyId?: string | null;
 };
 
 export function createAnimalFilters({
@@ -554,11 +555,12 @@ export function createAnimalFilters({
     AnimalStatus.RESERVED,
     AnimalStatus.UNAVAILABLE,
   ],
+  ...rest
 }: AnimalFilters = {}): AnimalFilters {
-  return { status };
+  return { status, ...rest };
 }
 
-export function areDefaultAnimalFilterStatus(status: AnimalFilters["status"]) {
+function areDefaultAnimalFilterStatus(status: AnimalFilters["status"]) {
   return isEqual(new Set(status), new Set(createAnimalFilters().status));
 }
 
@@ -566,6 +568,10 @@ export function getActiveAnimalFiltersCount(filters: AnimalFilters) {
   let activeFiltersCount = 0;
 
   if (!areDefaultAnimalFilterStatus(filters.status)) {
+    activeFiltersCount += 1;
+  }
+
+  if (filters.hostFamilyId != null) {
     activeFiltersCount += 1;
   }
 
@@ -583,9 +589,14 @@ export function createAnimalFiltersFromQuery(
       query.status === "" ? [] : (query.status.split(",") as AnimalStatus[]);
   }
 
+  let hostFamilyId: string | undefined = undefined;
+  if (query.hostFamilyId != null && typeof query.hostFamilyId === "string") {
+    hostFamilyId = query.hostFamilyId;
+  }
+
   return {
     search: query.q == null || Array.isArray(query.q) ? "" : query.q,
-    filters: createAnimalFilters({ status }),
+    filters: createAnimalFilters({ status, hostFamilyId }),
   };
 }
 
@@ -601,6 +612,10 @@ export function createAnimalFiltersQuery(
 
   if (!areDefaultAnimalFilterStatus(filters.status)) {
     query.status = filters.status?.join(",") ?? "";
+  }
+
+  if (filters.hostFamilyId != null) {
+    query.hostFamilyId = filters.hostFamilyId;
   }
 
   return query;
