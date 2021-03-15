@@ -4,7 +4,7 @@ import {
   User,
   UserGroup,
 } from "@animeaux/shared-entities";
-import { ButtonLink, Main } from "@animeaux/ui-library";
+import { ButtonLink, ChildrenProp, Main } from "@animeaux/ui-library";
 import * as Sentry from "@sentry/react";
 import { gql } from "graphql-request";
 import invariant from "invariant";
@@ -17,13 +17,15 @@ import { SignInPage } from "./signInPage";
 import { UserFragment } from "./userQueries";
 
 type CurrentUserContextValue = {
-  currentUser: User;
+  currentUser: User | null;
   signOut(): Promise<void>;
   updateProfile(displayName: string): Promise<void>;
   updatePassword(currentPassword: string, newPassword: string): Promise<void>;
 };
 
-const CurrentUserContext = React.createContext<CurrentUserContextValue>(null!);
+const CurrentUserContext = React.createContext<CurrentUserContextValue | null>(
+  null
+);
 
 async function updateProfile(displayName: string) {
   displayName = displayName.trim();
@@ -33,8 +35,13 @@ async function updateProfile(displayName: string) {
   }
 
   const currentUser = firebase.auth().currentUser;
-  await currentUser!.updateProfile({ displayName });
-  await currentUser!.reload();
+  invariant(
+    currentUser != null,
+    "Cannot call updateProfile when there is no user."
+  );
+
+  await currentUser.updateProfile({ displayName });
+  await currentUser.reload();
 }
 
 async function updatePassword(currentPassword: string, newPassword: string) {
@@ -44,9 +51,14 @@ async function updatePassword(currentPassword: string, newPassword: string) {
     currentPassword
   );
 
-  await currentUser!.reauthenticateWithCredential(credential);
-  await currentUser!.updatePassword(newPassword);
-  await currentUser!.reload();
+  invariant(
+    currentUser != null,
+    "Cannot call updatePassword when there is no user."
+  );
+
+  await currentUser.reauthenticateWithCredential(credential);
+  await currentUser.updatePassword(newPassword);
+  await currentUser.reload();
 }
 
 async function signOut() {
@@ -110,12 +122,12 @@ type UserState = {
   currentUser: User | null;
 };
 
-export type CurrentUserContextProviderProps = React.PropsWithChildren<{
+export type CurrentUserContextProviderProps = ChildrenProp & {
   authorisedGroupsForApplication: UserGroup[];
   authorisedGroupsForPage?: UserGroup[];
   logo: React.ElementType;
   applicationName: string;
-}>;
+};
 
 export function CurrentUserContextProvider({
   authorisedGroupsForApplication,
@@ -149,13 +161,15 @@ export function CurrentUserContextProvider({
     CurrentUserContextValue["updateProfile"]
   >(async (profile) => {
     await updateProfile(profile);
+
+    // Keep the provided user object up to date.
     const user = await getCurrentUser();
     setState({ hasResult: true, currentUser: user });
   }, []);
 
   const value = React.useMemo<CurrentUserContextValue>(
     () => ({
-      currentUser: currentUser!,
+      currentUser,
       signOut,
       updateProfile: updateProfileCallback,
       updatePassword,
@@ -164,7 +178,7 @@ export function CurrentUserContextProvider({
   );
 
   if (!hasResult) {
-    // Stale the app untile we know whether a user is signed in or not.
+    // Stale the app until we know whether a user is signed in or not.
     return null;
   }
 
@@ -221,10 +235,17 @@ export function CurrentUserContextProvider({
 }
 
 export function useCurrentUser() {
-  const { currentUser, ...rest } = React.useContext(CurrentUserContext);
+  const context = React.useContext(CurrentUserContext);
+  invariant(
+    context != null,
+    "useCurrentUser should not be used outside of a CurrentUserContextProvider."
+  );
+
+  const { currentUser, ...rest } = context;
   invariant(
     currentUser != null,
-    "useCurrentUser should not be used outside of a UserContextProvider."
+    "useCurrentUser should not be used when there is no user."
   );
+
   return { currentUser, ...rest };
 }
