@@ -265,8 +265,8 @@
 
   .snackbar-bottom {
     /* Navigation height + padding.2 */
-    bottom: theme("height.16");
-    bottom: calc(theme("height.16") + env(safe-area-inset-bottom, 0));
+    bottom: theme("padding.16");
+    bottom: calc(theme("padding.16") + env(safe-area-inset-bottom, 0));
   }
 
   .main-pb {
@@ -275,8 +275,9 @@
   }
 
   .main-pb-with-navigation {
-    padding-bottom: theme("height.14");
-    padding-bottom: calc(theme("height.14") + env(safe-area-inset-bottom, 0));
+    /* Navigation height */
+    padding-bottom: theme("padding.14");
+    padding-bottom: calc(theme("padding.14") + env(safe-area-inset-bottom, 0));
   }
 
   .step-item-line-width {
@@ -284,13 +285,14 @@
   }
 
   .quick-action-bottom {
-    bottom: theme("inset.18");
-    bottom: calc(theme("inset.18") + env(safe-area-inset-bottom, 0));
+    /* Navigation height + padding.4 */
+    bottom: theme("padding.18");
+    bottom: calc(theme("padding.18") + env(safe-area-inset-bottom, 0));
   }
 
   .quick-action-right {
-    right: theme("inset.4");
-    right: calc(theme("inset.4") + env(safe-area-inset-right, 0));
+    right: theme("padding.4");
+    right: calc(theme("padding.4") + env(safe-area-inset-right, 0));
   }
 
   .modal-padding {
