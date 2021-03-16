@@ -55,6 +55,7 @@ import {
   FaAngleRight,
   FaBirthdayCake,
   FaCut,
+  FaEllipsisH,
   FaEnvelope,
   FaExclamationTriangle,
   FaHandHoldingHeart,
@@ -282,6 +283,12 @@ const IsOkColors: { [key in Trilean]: string } = {
 };
 
 function HostFamilyModal({ hostFamily }: { hostFamily: HostFamily }) {
+  const { currentUser } = useCurrentUser();
+  const isCurrentUserAdmin = doesGroupsIntersect(currentUser.groups, [
+    UserGroup.ADMIN,
+    UserGroup.ANIMAL_MANAGER,
+  ]);
+
   const fullAddress = getHostFamilyFullAddress(hostFamily);
 
   return (
@@ -326,10 +333,24 @@ function HostFamilyModal({ hostFamily }: { hostFamily: HostFamily }) {
               </ItemIcon>
 
               <ItemContent>
-                <Markdown>{fullAddress}</Markdown>
+                <ItemMainText>{fullAddress}</ItemMainText>
               </ItemContent>
             </LinkItem>
           </li>
+
+          {isCurrentUserAdmin && (
+            <li>
+              <LinkItem href={`/host-families/${hostFamily.id}`}>
+                <ItemIcon>
+                  <FaEllipsisH />
+                </ItemIcon>
+
+                <ItemContent>
+                  <ItemMainText>Voir plus d'informations</ItemMainText>
+                </ItemContent>
+              </LinkItem>
+            </li>
+          )}
         </ul>
       </Section>
     </>
