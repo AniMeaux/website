@@ -357,6 +357,33 @@ function HostFamilyModal({ hostFamily }: { hostFamily: HostFamily }) {
   );
 }
 
+type OtherAnimalSituationProps = {
+  label: string;
+  value: Trilean;
+};
+
+function OtherAnimalSituation({ label, value }: OtherAnimalSituationProps) {
+  return (
+    <li className="flex-1 bg-black bg-opacity-3 rounded-xl p-2 flex flex-col items-center">
+      <span className="text-sm text-black text-opacity-60">{label}</span>
+
+      <span className={cn("font-bold", IsOkColors[value])}>
+        {TrileanLabels[value]}
+      </span>
+    </li>
+  );
+}
+
+function OtherAnimalsSituations({ animal }: AnimalProps) {
+  return (
+    <ul className="px-2 flex items-center space-x-2">
+      <OtherAnimalSituation label="Ok enfants" value={animal.isOkChildren} />
+      <OtherAnimalSituation label="Ok chiens" value={animal.isOkDogs} />
+      <OtherAnimalSituation label="Ok chats" value={animal.isOkCats} />
+    </ul>
+  );
+}
+
 function SituationSection({ animal }: AnimalProps) {
   const [
     areHostFamilyDetailsVisible,
@@ -367,7 +394,7 @@ function SituationSection({ animal }: AnimalProps) {
     <Section>
       <SectionTitle>Situation</SectionTitle>
 
-      <ul className="space-y-2">
+      <ul className="mb-2">
         {animal.hostFamily != null && (
           <li>
             <ButtonItem onClick={() => setAreHostFamilyDetailsVisible(true)}>
@@ -394,48 +421,6 @@ function SituationSection({ animal }: AnimalProps) {
             </Modal>
           </li>
         )}
-
-        <li>
-          <ul className="px-2 flex items-center space-x-2">
-            <li className="flex-1 border rounded-xl p-2">
-              <div className="flex flex-col items-center">
-                <span className="text-sm text-black text-opacity-60">
-                  Ok enfants
-                </span>
-
-                <span
-                  className={cn("font-bold", IsOkColors[animal.isOkChildren])}
-                >
-                  {TrileanLabels[animal.isOkChildren]}
-                </span>
-              </div>
-            </li>
-
-            <li className="flex-1 border rounded-xl p-2">
-              <div className="flex flex-col items-center">
-                <span className="text-sm text-black text-opacity-60">
-                  Ok chiens
-                </span>
-
-                <span className={cn("font-bold", IsOkColors[animal.isOkDogs])}>
-                  {TrileanLabels[animal.isOkDogs]}
-                </span>
-              </div>
-            </li>
-
-            <li className="flex-1 border rounded-xl p-2">
-              <div className="flex flex-col items-center">
-                <span className="text-sm text-black text-opacity-60">
-                  Ok chats
-                </span>
-
-                <span className={cn("font-bold", IsOkColors[animal.isOkCats])}>
-                  {TrileanLabels[animal.isOkCats]}
-                </span>
-              </div>
-            </li>
-          </ul>
-        </li>
 
         <li>
           <Item>
@@ -487,6 +472,8 @@ function SituationSection({ animal }: AnimalProps) {
           </li>
         )}
       </ul>
+
+      <OtherAnimalsSituations animal={animal} />
     </Section>
   );
 }
