@@ -43,6 +43,7 @@ import {
   ModalHeader,
   QuickActions,
   Section,
+  SectionBox,
   SectionTitle,
   useRouter,
   withConfirmation,
@@ -227,7 +228,7 @@ function ProfileSection({ animal }: AnimalProps) {
   ].filter(isDefined);
 
   return (
-    <section className="mx-4 bg-black bg-opacity-3 rounded-xl p-2">
+    <SectionBox>
       <ul>
         <li>
           <Item>
@@ -270,7 +271,7 @@ function ProfileSection({ animal }: AnimalProps) {
           </Item>
         </li>
       </ul>
-    </section>
+    </SectionBox>
   );
 }
 

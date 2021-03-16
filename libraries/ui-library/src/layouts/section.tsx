@@ -5,7 +5,7 @@ import { ChildrenProp, StyleProps } from "../core";
 export function SectionTitle({
   className,
   ...rest
-}: React.HTMLAttributes<HTMLHeadingElement>) {
+}: StyleProps & ChildrenProp) {
   return (
     // The content is passed as children.
     // eslint-disable-next-line jsx-a11y/heading-has-content
@@ -16,20 +16,26 @@ export function SectionTitle({
   );
 }
 
-export function Section({
-  className,
-  ...rest
-}: React.HTMLAttributes<HTMLElement>) {
+type SectionProps = StyleProps & ChildrenProp;
+
+export function Section({ className, ...rest }: SectionProps) {
   return <section {...rest} className={cn("p-2", className)} />;
 }
 
-type ButtonSectionProps = ChildrenProp & StyleProps;
-
-export function ButtonSection({ className, ...rest }: ButtonSectionProps) {
+export function ButtonSection({ className, ...rest }: SectionProps) {
   return (
     <section
       {...rest}
       className={cn("p-4 flex flex-col space-y-4", className)}
+    />
+  );
+}
+
+export function SectionBox({ className, ...rest }: SectionProps) {
+  return (
+    <Section
+      {...rest}
+      className={cn("mx-4 bg-black bg-opacity-3 rounded-xl", className)}
     />
   );
 }
