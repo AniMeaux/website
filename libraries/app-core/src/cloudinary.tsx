@@ -32,18 +32,18 @@ class Cloudinary extends CloudinaryCore {
 }
 
 const ImagePresetTransformOptions: {
-  [key in ImagePreset]: Transformation.Options;
+  [key in ImagePreset]: (devicePixelRatio: number) => Transformation.Options;
 } = {
-  avatar: {
+  avatar: (devicePixelRatio) => ({
     crop: "fill",
-    width: 100,
-    height: 100,
-  },
-  none: {
+    width: 48 * devicePixelRatio,
+    height: 48 * devicePixelRatio,
+  }),
+  none: (devicePixelRatio) => ({
     crop: "fit",
     // Larger than any small screen.
-    width: 600,
-  },
+    width: 600 * devicePixelRatio,
+  }),
 };
 
 type CloudinaryContextProviderProps = ChildrenProp &
@@ -58,7 +58,10 @@ export function CloudinaryContextProvider({
     <ImageProviderContextProvider
       createImageProvider={() => new Cloudinary({ apiKey, cloudName })}
       getImageUrl={(instance, imageId, preset) =>
-        instance.url(imageId, ImagePresetTransformOptions[preset])
+        instance.url(
+          imageId,
+          ImagePresetTransformOptions[preset](window.devicePixelRatio)
+        )
       }
     >
       {children}
