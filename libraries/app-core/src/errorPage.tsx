@@ -1,5 +1,12 @@
 import { getErrorMessage, isNotFoundError } from "@animeaux/shared-entities";
-import { StyleProps } from "@animeaux/ui-library";
+import {
+  Item,
+  ItemActions,
+  ItemContent,
+  ItemIcon,
+  ItemMainText,
+  StyleProps,
+} from "@animeaux/ui-library";
 import cn from "classnames";
 import * as React from "react";
 
@@ -15,10 +22,11 @@ const ErrorPageTypeImage: { [key in ErrorPageType]: string } = {
   [ErrorPageType.UNAUTHORIZED]: "🙅‍♀️",
 };
 
-type ErrorPageProps = StyleProps & {
+export type ErrorPageProps = StyleProps & {
   error: Error;
   type?: ErrorPageType;
   action?: React.ReactNode;
+  asItem?: boolean;
 };
 
 function getErrorType(error: Error): ErrorPageType {
@@ -31,20 +39,38 @@ export function ErrorPage({
   error,
   type = getErrorType(error),
   action,
+  asItem = false,
   className,
+  ...rest
 }: ErrorPageProps) {
+  const icon = ErrorPageTypeImage[type];
+  const errorMessage = getErrorMessage(error);
+
+  if (asItem) {
+    return (
+      <Item>
+        <ItemIcon>{icon}</ItemIcon>
+
+        <ItemContent>
+          <ItemMainText>{errorMessage}</ItemMainText>
+          {action != null && <ItemActions>{action}</ItemActions>}
+        </ItemContent>
+      </Item>
+    );
+  }
+
   return (
-    <div className={cn("my-8 flex flex-col items-center", className)}>
+    <div {...rest} className={cn("my-8 flex flex-col items-center", className)}>
       <div
         role="img"
         aria-label="Oups"
         className="animate-fade-in animate-scale-in text-9xl"
       >
-        {ErrorPageTypeImage[type]}
+        {icon}
       </div>
 
       <h1 className="mt-16 max-w-full px-8 font-serif text-xl text-center">
-        {getErrorMessage(error)}
+        {errorMessage}
       </h1>
 
       <div className="mt-8">{action}</div>

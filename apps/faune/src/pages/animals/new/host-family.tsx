@@ -38,8 +38,8 @@ const CreateAnimalHostFamilyPage: PageComponent = () => {
     hasSearch: search !== "",
     getItemKey: (hostFamily) => hostFamily.id,
     placeholderElement: HostFamilySearchItemPlaceholder,
-    renderEmptyMessage: () => "Il n'y a pas encore de famille d'accueil",
-    renderEmptySearchMessage: () => "Aucune famille d'accueil trouvée",
+    emptyMessage: "Il n'y a pas encore de famille d'accueil",
+    emptySearchMessage: "Aucune famille d'accueil trouvée",
     renderEmptySearchAction: () => (
       <Button variant="outlined" onClick={() => setRawSearch("")}>
         Effacer la recherche

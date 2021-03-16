@@ -2,7 +2,7 @@ import cn from "classnames";
 import * as React from "react";
 import { ChildrenProp, StyleProps } from "../core";
 
-type EmptyMessageProps = ChildrenProp &
+export type EmptyMessageProps = ChildrenProp &
   StyleProps & {
     action?: React.ReactNode;
   };

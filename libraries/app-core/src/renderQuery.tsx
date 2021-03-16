@@ -1,82 +1,115 @@
 import { PaginatedResponse } from "@animeaux/shared-entities";
 import {
   Button,
+  ChildrenProp,
   EmptyMessage,
+  EmptyMessageProps,
   Placeholder,
   Placeholders,
   Section,
 } from "@animeaux/ui-library";
 import * as React from "react";
-import { ErrorPage } from "./errorPage";
+import { ErrorPage, ErrorPageProps } from "./errorPage";
 import { UseInfiniteQueryResult, UseQueryResult } from "./request";
 
-type RetryButtonProps = {
-  query: UseQueryResult<any, any>;
+type RetryButtonProps = ChildrenProp & {
+  retry: () => void;
 };
 
-function RetryButton({ query }: RetryButtonProps) {
+type EmptyMessageRendererProps = Pick<EmptyMessageProps, "children" | "action">;
+type ErrorRendererProps = Pick<ErrorPageProps, "error" | "action">;
+
+type ItemListRenderers<ItemType> = {
+  title?: string;
+  emptyMessage: string;
+  renderEmptyMessage?: (props: EmptyMessageRendererProps) => React.ReactNode;
+  getItemKey: (item: ItemType) => string;
+  renderItem: (item: ItemType) => React.ReactNode;
+  placeholderElement: React.ElementType;
+  placeholderCount?: number;
+  renderWrapper?: (props: ChildrenProp) => React.ReactNode;
+  renderError?: (props: ErrorRendererProps) => React.ReactNode;
+  retryButtonLabel?: string;
+  renderRetryButton?: (props: RetryButtonProps) => React.ReactNode;
+};
+
+function defaultRenderWrapper({ children }: ChildrenProp) {
+  return <Section>{children}</Section>;
+}
+
+function defaultRenderEmptyMessage(props: EmptyMessageRendererProps) {
+  return <EmptyMessage {...props} />;
+}
+
+function defaultRenderError(props: ErrorRendererProps) {
+  return <ErrorPage {...props} />;
+}
+
+function defaultRenderRetryButton({ retry, children }: RetryButtonProps) {
   return (
-    <Button variant="primary" color="blue" onClick={() => query.refetch()}>
-      Réessayer
+    <Button variant="primary" color="blue" onClick={retry}>
+      {children}
     </Button>
   );
 }
 
-type ItemListRenderers<ItemType> = {
-  title?: string;
-  renderEmptyMessage: () => React.ReactNode;
-  getItemKey: (item: ItemType) => string;
-  renderItem: (item: ItemType) => React.ReactNode;
-  placeholderElement: React.ElementType;
-};
+const DEFAULT_RETRY_LABEL = "Réessayer";
 
 function renderItemListContent<DataType>(
   query: UseQueryResult<DataType[], Error>,
   {
-    renderEmptyMessage,
+    emptyMessage,
+    renderEmptyMessage = defaultRenderEmptyMessage,
     getItemKey,
     renderItem,
     placeholderElement: PlaceholderElement,
+    placeholderCount = 5,
+    renderWrapper = defaultRenderWrapper,
+    renderError = defaultRenderError,
+    retryButtonLabel = DEFAULT_RETRY_LABEL,
+    renderRetryButton = defaultRenderRetryButton,
   }: ItemListRenderers<DataType>
 ): React.ReactNode {
   if (query.data != null) {
     if (query.data.length === 0) {
-      return (
-        <Section>
-          <EmptyMessage>{renderEmptyMessage()}</EmptyMessage>
-        </Section>
-      );
+      return renderWrapper({
+        children: renderEmptyMessage({ children: emptyMessage }),
+      });
     }
 
-    return (
-      <Section>
+    return renderWrapper({
+      children: (
         <ul>
           {query.data.map((item) => (
             <li key={getItemKey(item)}>{renderItem(item)}</li>
           ))}
         </ul>
-      </Section>
-    );
+      ),
+    });
   }
 
   if (query.isLoading) {
-    return (
-      <Section>
+    return renderWrapper({
+      children: (
         <ul>
-          <Placeholders count={5}>
+          <Placeholders count={placeholderCount}>
             <li>
               <PlaceholderElement />
             </li>
           </Placeholders>
         </ul>
-      </Section>
-    );
+      ),
+    });
   }
 
   if (query.isError) {
-    return (
-      <ErrorPage error={query.error} action={<RetryButton query={query} />} />
-    );
+    return renderError({
+      error: query.error,
+      action: renderRetryButton({
+        retry: () => query.refetch(),
+        children: retryButtonLabel,
+      }),
+    });
   }
 
   return null;
@@ -98,7 +131,7 @@ export function renderItemList<DataType>(
 type InfiniteItemListRenderers<ItemType> = ItemListRenderers<ItemType> & {
   hasSearch?: boolean;
   renderAdditionalItem?: () => React.ReactNode;
-  renderEmptySearchMessage?: () => React.ReactNode;
+  emptySearchMessage?: string;
   renderEmptySearchAction?: () => React.ReactNode;
 };
 
@@ -106,36 +139,43 @@ function renderInfiniteItemListContent<ItemType>(
   query: UseInfiniteQueryResult<PaginatedResponse<ItemType>, Error>,
   {
     hasSearch = false,
-    renderEmptyMessage,
-    renderEmptySearchMessage,
+    renderEmptyMessage = defaultRenderEmptyMessage,
+    emptyMessage,
+    emptySearchMessage,
     renderEmptySearchAction,
     getItemKey,
     renderItem,
     renderAdditionalItem,
     placeholderElement: PlaceholderElement,
+    placeholderCount = 5,
+    renderWrapper = defaultRenderWrapper,
+    renderError = defaultRenderError,
+    retryButtonLabel = DEFAULT_RETRY_LABEL,
+    renderRetryButton = defaultRenderRetryButton,
   }: InfiniteItemListRenderers<ItemType>
 ) {
   if (query.data != null) {
     // There is allways at least one page.
     if (query.data.pages[0].hits.length === 0) {
-      let emptyMessage: React.ReactNode;
+      let emptyMessageNode: React.ReactNode;
 
       if (hasSearch) {
-        emptyMessage = (
-          <EmptyMessage action={renderEmptySearchAction?.()}>
-            {(renderEmptySearchMessage ?? renderEmptyMessage)()}
-          </EmptyMessage>
-        );
+        emptyMessageNode = renderEmptyMessage({
+          children: emptySearchMessage ?? emptyMessage,
+          action: renderEmptySearchAction?.(),
+        });
       } else {
-        emptyMessage = <EmptyMessage>{renderEmptyMessage()}</EmptyMessage>;
+        emptyMessageNode = renderEmptyMessage({ children: emptyMessage });
       }
 
-      return (
-        <Section>
-          {renderAdditionalItem?.()}
-          {emptyMessage}
-        </Section>
-      );
+      return renderWrapper({
+        children: (
+          <>
+            {renderAdditionalItem?.()}
+            {emptyMessageNode}
+          </>
+        ),
+      });
     }
 
     const itemsNode: React.ReactNode[] = [];
@@ -151,40 +191,50 @@ function renderInfiniteItemListContent<ItemType>(
     // is in a fetch more position.
     const renderPlaceholder = query.hasNextPage ?? false;
 
-    return (
-      <Section>
-        <ul>
+    return renderWrapper({
+      children: (
+        <>
           {renderAdditionalItem?.()}
-          {itemsNode}
-          {renderPlaceholder && (
-            <li>
-              <PlaceholderElement />
-            </li>
-          )}
-        </ul>
-      </Section>
-    );
+
+          <ul>
+            {itemsNode}
+            {renderPlaceholder && (
+              <li>
+                <PlaceholderElement />
+              </li>
+            )}
+          </ul>
+        </>
+      ),
+    });
   }
 
   if (query.isLoading) {
-    return (
-      <Section>
-        <ul>
+    return renderWrapper({
+      children: (
+        <>
           {renderAdditionalItem?.()}
-          <Placeholders count={5}>
-            <li>
-              <PlaceholderElement />
-            </li>
-          </Placeholders>
-        </ul>
-      </Section>
-    );
+
+          <ul>
+            <Placeholders count={placeholderCount}>
+              <li>
+                <PlaceholderElement />
+              </li>
+            </Placeholders>
+          </ul>
+        </>
+      ),
+    });
   }
 
   if (query.isError) {
-    return (
-      <ErrorPage error={query.error} action={<RetryButton query={query} />} />
-    );
+    return renderError({
+      error: query.error,
+      action: renderRetryButton({
+        retry: () => query.refetch(),
+        children: retryButtonLabel,
+      }),
+    });
   }
 
   return null;
@@ -229,7 +279,13 @@ function renderQueryEntityContent<EntityType>(
 
   if (query.isError) {
     const errorPage = (
-      <ErrorPage error={query.error} action={<RetryButton query={query} />} />
+      <ErrorPage
+        error={query.error}
+        action={defaultRenderRetryButton({
+          retry: () => query.refetch(),
+          children: DEFAULT_RETRY_LABEL,
+        })}
+      />
     );
 
     return renderError == null ? errorPage : renderError(errorPage);

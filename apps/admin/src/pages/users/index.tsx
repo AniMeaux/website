@@ -26,7 +26,7 @@ const UserListPage: PageComponent = () => {
     title: TITLE,
     getItemKey: (user) => user.id,
     placeholderElement: UserItemPlaceholder,
-    renderEmptyMessage: () => "Il n'y a pas encore d'utilisateur",
+    emptyMessage: "Il n'y a pas encore d'utilisateur",
     renderItem: (user) => <UserLinkItem user={user} href={`./${user.id}`} />,
   });
 

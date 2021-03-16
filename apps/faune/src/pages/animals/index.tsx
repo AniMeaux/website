@@ -75,8 +75,8 @@ const AnimalListPage: PageComponent = () => {
     getItemKey: (animal) => animal.id,
     hasSearch: search !== "" || activeFilterCount > 0,
     placeholderElement: SearchableAnimalItemPlaceholder,
-    renderEmptyMessage: () => "Il n'y a pas encore d'animaux",
-    renderEmptySearchMessage: () => "Aucun animal trouvée",
+    emptyMessage: "Il n'y a pas encore d'animaux",
+    emptySearchMessage: "Aucun animal trouvée",
     renderEmptySearchAction: () => {
       // Only show the clear filter button if there are filters to clear.
       if (isEmpty(filters)) {

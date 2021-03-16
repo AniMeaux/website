@@ -27,7 +27,7 @@ const HostFamilyListPage: PageComponent = () => {
     title: TITLE,
     getItemKey: (hostFamily) => hostFamily.id,
     placeholderElement: HostFamilyItemPlaceholder,
-    renderEmptyMessage: () => "Il n'y a pas encore de famille d'accueil",
+    emptyMessage: "Il n'y a pas encore de famille d'accueil",
     renderItem: (hostFamily) => (
       <HostFamilyLinkItem hostFamily={hostFamily} href={`./${hostFamily.id}`} />
     ),

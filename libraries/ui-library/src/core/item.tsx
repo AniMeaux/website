@@ -121,3 +121,7 @@ export function ItemSecondaryText({
     />
   );
 }
+
+export function ItemActions({ className, ...rest }: StyleProps & ChildrenProp) {
+  return <span {...rest} className={cn("mt-1 max-w-full", className)} />;
+}
