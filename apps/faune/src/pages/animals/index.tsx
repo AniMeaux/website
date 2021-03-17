@@ -1,49 +1,37 @@
 import {
-  AnimalFiltersForm,
   Header,
   PageComponent,
   renderInfiniteItemList,
-  SearchableAnimalLinkItem,
   SearchableAnimalItemPlaceholder,
+  SearchableAnimalLinkItem,
   useAllAnimals,
   useCurrentUser,
 } from "@animeaux/app-core";
 import {
-  createAnimalFilters,
-  createAnimalFiltersFromQuery,
-  createAnimalFiltersQuery,
+  AnimalStatus,
   doesGroupsIntersect,
-  getActiveAnimalFiltersCount,
   UserGroup,
 } from "@animeaux/shared-entities";
 import {
-  ActionAdornment,
-  ActionFilter,
-  Button,
-  Field,
   Main,
   QuickLinkAction,
-  SearchInput,
   usePageScrollRestoration,
-  useRouter,
-  useSearchAndFilters,
 } from "@animeaux/ui-library";
-import isEmpty from "lodash.isempty";
-import isEqual from "lodash.isequal";
 import * as React from "react";
-import { FaPlus } from "react-icons/fa";
+import { FaPlus, FaSearch } from "react-icons/fa";
 import { Navigation } from "../../core/navigation";
 import { PageTitle } from "../../core/pageTitle";
 
 const TITLE = "Animaux";
 
-const AnimalListPage: PageComponent = () => {
-  const router = useRouter();
-  const routerRef = React.useRef(router);
-  React.useEffect(() => {
-    routerRef.current = router;
-  });
+const ANIMAL_STATUS_TO_SHOW = [
+  AnimalStatus.OPEN_TO_ADOPTION,
+  AnimalStatus.OPEN_TO_RESERVATION,
+  AnimalStatus.RESERVED,
+  AnimalStatus.UNAVAILABLE,
+];
 
+const AnimalListPage: PageComponent = () => {
   const { currentUser } = useCurrentUser();
   const isCurrentUserAdmin = doesGroupsIntersect(currentUser.groups, [
     UserGroup.ADMIN,
@@ -52,43 +40,12 @@ const AnimalListPage: PageComponent = () => {
 
   usePageScrollRestoration();
 
-  const {
-    search,
-    rawSearch,
-    setRawSearch,
-    filters,
-    setFilters,
-  } = useSearchAndFilters(() => createAnimalFiltersFromQuery(router.query));
-
-  React.useEffect(() => {
-    const query = createAnimalFiltersQuery(search, filters);
-    if (!isEqual(query, routerRef.current.query)) {
-      routerRef.current.replace({ query });
-    }
-  }, [search, filters]);
-
-  const activeFilterCount = getActiveAnimalFiltersCount(filters);
-
-  const query = useAllAnimals({ search, ...filters });
+  const query = useAllAnimals({ status: ANIMAL_STATUS_TO_SHOW });
   const { content, title } = renderInfiniteItemList(query, {
     title: TITLE,
     getItemKey: (animal) => animal.id,
-    hasSearch: search !== "" || activeFilterCount > 0,
     placeholderElement: SearchableAnimalItemPlaceholder,
     emptyMessage: "Il n'y a pas encore d'animaux",
-    emptySearchMessage: "Aucun animal trouvée",
-    renderEmptySearchAction: () => {
-      // Only show the clear filter button if there are filters to clear.
-      if (isEmpty(filters)) {
-        return null;
-      }
-
-      return (
-        <Button variant="outlined" onClick={() => setFilters({})}>
-          Effacer tous les filtres
-        </Button>
-      );
-    },
     renderItem: (animal) => (
       <SearchableAnimalLinkItem animal={animal} href={`./${animal.id}`} />
     ),
@@ -97,26 +54,12 @@ const AnimalListPage: PageComponent = () => {
   return (
     <div>
       <PageTitle title={TITLE} />
-      <Header headerTitle={title} />
+      <Header
+        headerTitle={title}
+        action={{ href: "./search", icon: FaSearch }}
+      />
 
       <Main hasNavigation={isCurrentUserAdmin}>
-        <Field>
-          <SearchInput
-            placeholder="Chercher un animal"
-            value={rawSearch}
-            onChange={setRawSearch}
-            rightAdornment={
-              <ActionFilter
-                actionElement={ActionAdornment}
-                activeFilterCount={activeFilterCount}
-                clearAllFilters={() => setFilters(createAnimalFilters())}
-              >
-                <AnimalFiltersForm value={filters} onChange={setFilters} />
-              </ActionFilter>
-            }
-          />
-        </Field>
-
         {content}
 
         {isCurrentUserAdmin && (

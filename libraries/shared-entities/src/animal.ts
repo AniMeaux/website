@@ -5,6 +5,7 @@ import { sortByLabels } from "./enumUtils";
 import { ErrorCode } from "./errors";
 import { HostFamily } from "./hostFamily";
 import { getImageId, ImageFileOrId } from "./image";
+import { Query } from "./query";
 import { Trilean } from "./trilean";
 
 export enum AnimalSpecies {
@@ -125,6 +126,10 @@ export const ANIMAL_STATUSES_ORDER = sortByLabels(
   Object.values(AnimalStatus),
   AnimalStatusLabels
 );
+
+function isAnimalStatus(value: string): value is AnimalStatus {
+  return Object.values(AnimalStatus).includes(value as AnimalStatus);
+}
 
 export enum AnimalGender {
   FEMALE = "FEMALE",
@@ -548,26 +553,10 @@ export type AnimalFilters = {
   hostFamilyId?: string | null;
 };
 
-export function createAnimalFilters({
-  status = [
-    AnimalStatus.OPEN_TO_ADOPTION,
-    AnimalStatus.OPEN_TO_RESERVATION,
-    AnimalStatus.RESERVED,
-    AnimalStatus.UNAVAILABLE,
-  ],
-  ...rest
-}: AnimalFilters = {}): AnimalFilters {
-  return { status, ...rest };
-}
-
-function areDefaultAnimalFilterStatus(status: AnimalFilters["status"]) {
-  return isEqual(new Set(status), new Set(createAnimalFilters().status));
-}
-
 export function getActiveAnimalFiltersCount(filters: AnimalFilters) {
   let activeFiltersCount = 0;
 
-  if (!areDefaultAnimalFilterStatus(filters.status)) {
+  if (filters.status != null && filters.status.length > 0) {
     activeFiltersCount += 1;
   }
 
@@ -578,15 +567,23 @@ export function getActiveAnimalFiltersCount(filters: AnimalFilters) {
   return activeFiltersCount;
 }
 
-export function createAnimalFiltersFromQuery(
-  query: Record<string, string | string[] | undefined>
-) {
+type AnimalSearch = {
+  search: string;
+  filters: AnimalFilters;
+};
+
+export function hasAnimalSearch({ search, filters }: AnimalSearch) {
+  return search !== "" || getActiveAnimalFiltersCount(filters) > 0;
+}
+
+export function createAnimalSearchFromQuery(query: Query): AnimalSearch {
   let status: AnimalStatus[] | undefined = undefined;
 
-  // We want `?status=` to give `[]` and `?` to give the default status.
-  if (query.status != null && !Array.isArray(query.status)) {
-    status =
-      query.status === "" ? [] : (query.status.split(",") as AnimalStatus[]);
+  if (query.status != null) {
+    status = (Array.isArray(query.status)
+      ? query.status
+      : [query.status]
+    ).filter(isAnimalStatus);
   }
 
   let hostFamilyId: string | undefined = undefined;
@@ -596,22 +593,19 @@ export function createAnimalFiltersFromQuery(
 
   return {
     search: query.q == null || Array.isArray(query.q) ? "" : query.q,
-    filters: createAnimalFilters({ status, hostFamilyId }),
+    filters: { status, hostFamilyId },
   };
 }
 
-export function createAnimalFiltersQuery(
-  search: string,
-  filters: AnimalFilters
-) {
-  const query: Record<string, string | string[] | undefined> = {};
+export function createQueryFromAnimalSearch({ search, filters }: AnimalSearch) {
+  const query: Query = {};
 
   if (search !== "") {
     query.q = search;
   }
 
-  if (!areDefaultAnimalFilterStatus(filters.status)) {
-    query.status = filters.status?.join(",") ?? "";
+  if (filters.status != null && filters.status.length > 0) {
+    query.status = filters.status;
   }
 
   if (filters.hostFamilyId != null) {
