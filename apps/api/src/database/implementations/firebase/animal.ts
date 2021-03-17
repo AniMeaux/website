@@ -1,4 +1,5 @@
 import {
+  ACTIVE_ANIMAL_STATUS,
   AnimalFilters,
   CreateAnimalPayload,
   DBAnimal,
@@ -57,6 +58,29 @@ export const animalDatabase: AnimalDatabase = {
       {
         page: filters.page ?? 0,
         filters: SearchFilters.and(searchFilters),
+      }
+    );
+
+    return {
+      hits: result.hits,
+      hitsTotalCount: result.nbHits,
+      page: result.page,
+      pageCount: result.nbPages,
+    };
+  },
+
+  async getAllActiveAnimals(
+    filters: PaginatedRequest
+  ): Promise<PaginatedResponse<DBSearchableAnimal>> {
+    const result = await AnimalsIndex.search<DBSearchableAnimal>(
+      filters.search ?? "",
+      {
+        page: filters.page ?? 0,
+        filters: SearchFilters.or(
+          ACTIVE_ANIMAL_STATUS.map((status) =>
+            SearchFilters.createFilter("status", status)
+          )
+        ),
       }
     );
 

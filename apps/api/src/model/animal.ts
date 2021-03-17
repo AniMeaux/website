@@ -113,6 +113,9 @@ const typeDefs = gql`
       hostFamilyId: ID
     ): AllAnimalResponse! @auth(groups: [ADMIN, ANIMAL_MANAGER, VETERINARIAN])
 
+    getAllActiveAnimals(search: String, page: Int): AllAnimalResponse!
+      @auth(groups: [ADMIN, ANIMAL_MANAGER, VETERINARIAN])
+
     getAnimal(id: ID!): Animal
       @auth(groups: [ADMIN, ANIMAL_MANAGER, VETERINARIAN])
   }
@@ -225,6 +228,10 @@ const queries: IResolverObject = {
     filters: PaginatedRequest<AnimalFilters>
   ) => {
     return await database.getAllAnimals(filters);
+  },
+
+  getAllActiveAnimals: async (parent: any, filters: PaginatedRequest) => {
+    return await database.getAllActiveAnimals(filters);
   },
 
   getAnimal: async (parent: any, { id }: { id: string }) => {

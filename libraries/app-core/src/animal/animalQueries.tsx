@@ -1,4 +1,5 @@
 import {
+  ACTIVE_ANIMAL_STATUS,
   Animal,
   AnimalFilters,
   AnimalFormPayload,
@@ -137,6 +138,37 @@ export function useAllAnimals({
         PaginatedRequest<AnimalFilters>
       >(GetAllAnimalsQuery, {
         variables: { search, page: pageParam, status, hostFamilyId },
+      });
+
+      return response;
+    }
+  );
+}
+
+const GetAllActiveAnimalsQuery = gql`
+  query GetAllActiveAnimalsQuery($search: String, $page: Int) {
+    response: getAllActiveAnimals(search: $search, page: $page) {
+      hits {
+        ...SearchableAnimalFragment
+      }
+      hitsTotalCount
+      page
+      pageCount
+    }
+  }
+
+  ${SearchableAnimalFragment}
+`;
+
+export function useAllActiveAnimals() {
+  return useInfiniteQuery<PaginatedResponse<SearchableAnimal>, Error>(
+    ["animals", "", ACTIVE_ANIMAL_STATUS, undefined],
+    async ({ pageParam = 0 }) => {
+      const { response } = await fetchGraphQL<
+        { response: PaginatedResponse<SearchableAnimal> },
+        PaginatedRequest<AnimalFilters>
+      >(GetAllActiveAnimalsQuery, {
+        variables: { page: pageParam },
       });
 
       return response;

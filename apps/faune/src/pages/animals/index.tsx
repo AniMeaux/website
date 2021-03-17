@@ -4,14 +4,10 @@ import {
   renderInfiniteItemList,
   SearchableAnimalItemPlaceholder,
   SearchableAnimalLinkItem,
-  useAllAnimals,
+  useAllActiveAnimals,
   useCurrentUser,
 } from "@animeaux/app-core";
-import {
-  AnimalStatus,
-  doesGroupsIntersect,
-  UserGroup,
-} from "@animeaux/shared-entities";
+import { doesGroupsIntersect, UserGroup } from "@animeaux/shared-entities";
 import {
   Main,
   QuickLinkAction,
@@ -22,14 +18,7 @@ import { FaPlus, FaSearch } from "react-icons/fa";
 import { Navigation } from "../../core/navigation";
 import { PageTitle } from "../../core/pageTitle";
 
-const TITLE = "Animaux";
-
-const ANIMAL_STATUS_TO_SHOW = [
-  AnimalStatus.OPEN_TO_ADOPTION,
-  AnimalStatus.OPEN_TO_RESERVATION,
-  AnimalStatus.RESERVED,
-  AnimalStatus.UNAVAILABLE,
-];
+const TITLE = "Animaux en charge";
 
 const AnimalListPage: PageComponent = () => {
   const { currentUser } = useCurrentUser();
@@ -40,7 +29,7 @@ const AnimalListPage: PageComponent = () => {
 
   usePageScrollRestoration();
 
-  const query = useAllAnimals({ status: ANIMAL_STATUS_TO_SHOW });
+  const query = useAllActiveAnimals();
   const { content, title } = renderInfiniteItemList(query, {
     title: TITLE,
     getItemKey: (animal) => animal.id,

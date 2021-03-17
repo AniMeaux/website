@@ -127,6 +127,13 @@ export const ANIMAL_STATUSES_ORDER = sortByLabels(
   AnimalStatusLabels
 );
 
+export const ACTIVE_ANIMAL_STATUS = [
+  AnimalStatus.OPEN_TO_ADOPTION,
+  AnimalStatus.OPEN_TO_RESERVATION,
+  AnimalStatus.RESERVED,
+  AnimalStatus.UNAVAILABLE,
+];
+
 function isAnimalStatus(value: string): value is AnimalStatus {
   return Object.values(AnimalStatus).includes(value as AnimalStatus);
 }

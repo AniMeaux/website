@@ -56,6 +56,9 @@ export type AnimalDatabase = {
   getAllAnimals(
     filters: PaginatedRequest<AnimalFilters>
   ): Promise<PaginatedResponse<DBSearchableAnimal>>;
+  getAllActiveAnimals(
+    filters: PaginatedRequest
+  ): Promise<PaginatedResponse<DBSearchableAnimal>>;
   getAnimal(id: string): Promise<DBAnimal | null>;
   createAnimal(payload: CreateAnimalPayload): Promise<DBAnimal>;
   updateAnimal(payload: UpdateAnimalPayload): Promise<DBAnimal>;
