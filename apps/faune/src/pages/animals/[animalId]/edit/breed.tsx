@@ -14,6 +14,7 @@ import {
   HeaderBackLink,
   Main,
   SearchInput,
+  Section,
   useRouter,
   useSearch,
 } from "@animeaux/ui-library";
@@ -66,7 +67,9 @@ function UpdateAnimalBreedForm() {
         />
       </Header>
 
-      <Main>{content}</Main>
+      <Main>
+        <Section>{content}</Section>
+      </Main>
     </>
   );
 }

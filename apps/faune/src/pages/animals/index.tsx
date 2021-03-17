@@ -11,6 +11,7 @@ import { doesGroupsIntersect, UserGroup } from "@animeaux/shared-entities";
 import {
   Main,
   QuickLinkAction,
+  Section,
   usePageScrollRestoration,
 } from "@animeaux/ui-library";
 import * as React from "react";
@@ -49,7 +50,7 @@ const AnimalListPage: PageComponent = () => {
       />
 
       <Main hasNavigation={isCurrentUserAdmin}>
-        {content}
+        <Section>{content}</Section>
 
         {isCurrentUserAdmin && (
           <QuickLinkAction href="./new/profile">

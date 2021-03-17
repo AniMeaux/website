@@ -20,6 +20,7 @@ import {
   HeaderBackLink,
   Main,
   SearchInput,
+  Section,
   usePageScrollRestoration,
   useRouter,
   useSearchAndFilters,
@@ -105,7 +106,9 @@ const SearchAnimalPage: PageComponent = () => {
         />
       </Header>
 
-      <Main>{content}</Main>
+      <Main>
+        <Section>{content}</Section>
+      </Main>
     </div>
   );
 };

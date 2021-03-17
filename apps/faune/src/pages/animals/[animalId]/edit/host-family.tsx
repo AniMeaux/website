@@ -19,6 +19,7 @@ import {
   LinkItem,
   Main,
   SearchInput,
+  Section,
   useRouter,
   useSearch,
 } from "@animeaux/ui-library";
@@ -85,7 +86,9 @@ function UpdateAnimalHostFamilyForm() {
         />
       </Header>
 
-      <Main>{content}</Main>
+      <Main>
+        <Section>{content}</Section>
+      </Main>
     </>
   );
 }

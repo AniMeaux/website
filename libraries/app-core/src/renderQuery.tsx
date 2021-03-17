@@ -6,7 +6,6 @@ import {
   EmptyMessageProps,
   Placeholder,
   Placeholders,
-  Section,
 } from "@animeaux/ui-library";
 import * as React from "react";
 import { ErrorPage, ErrorPageProps } from "./errorPage";
@@ -27,15 +26,10 @@ type ItemListRenderers<ItemType> = {
   renderItem: (item: ItemType) => React.ReactNode;
   placeholderElement: React.ElementType;
   placeholderCount?: number;
-  renderWrapper?: (props: ChildrenProp) => React.ReactNode;
   renderError?: (props: ErrorRendererProps) => React.ReactNode;
   retryButtonLabel?: string;
   renderRetryButton?: (props: RetryButtonProps) => React.ReactNode;
 };
-
-function defaultRenderWrapper({ children }: ChildrenProp) {
-  return <Section>{children}</Section>;
-}
 
 function defaultRenderEmptyMessage(props: EmptyMessageRendererProps) {
   return <EmptyMessage {...props} />;
@@ -64,7 +58,6 @@ function renderItemListContent<DataType>(
     renderItem,
     placeholderElement: PlaceholderElement,
     placeholderCount = 5,
-    renderWrapper = defaultRenderWrapper,
     renderError = defaultRenderError,
     retryButtonLabel = DEFAULT_RETRY_LABEL,
     renderRetryButton = defaultRenderRetryButton,
@@ -72,34 +65,28 @@ function renderItemListContent<DataType>(
 ): React.ReactNode {
   if (query.data != null) {
     if (query.data.length === 0) {
-      return renderWrapper({
-        children: renderEmptyMessage({ children: emptyMessage }),
-      });
+      return renderEmptyMessage({ children: emptyMessage });
     }
 
-    return renderWrapper({
-      children: (
-        <ul>
-          {query.data.map((item) => (
-            <li key={getItemKey(item)}>{renderItem(item)}</li>
-          ))}
-        </ul>
-      ),
-    });
+    return (
+      <ul>
+        {query.data.map((item) => (
+          <li key={getItemKey(item)}>{renderItem(item)}</li>
+        ))}
+      </ul>
+    );
   }
 
   if (query.isLoading) {
-    return renderWrapper({
-      children: (
-        <ul>
-          <Placeholders count={placeholderCount}>
-            <li>
-              <PlaceholderElement />
-            </li>
-          </Placeholders>
-        </ul>
-      ),
-    });
+    return (
+      <ul>
+        <Placeholders count={placeholderCount}>
+          <li>
+            <PlaceholderElement />
+          </li>
+        </Placeholders>
+      </ul>
+    );
   }
 
   if (query.isError) {
@@ -148,7 +135,6 @@ function renderInfiniteItemListContent<ItemType>(
     renderAdditionalItem,
     placeholderElement: PlaceholderElement,
     placeholderCount = 5,
-    renderWrapper = defaultRenderWrapper,
     renderError = defaultRenderError,
     retryButtonLabel = DEFAULT_RETRY_LABEL,
     renderRetryButton = defaultRenderRetryButton,
@@ -168,14 +154,12 @@ function renderInfiniteItemListContent<ItemType>(
         emptyMessageNode = renderEmptyMessage({ children: emptyMessage });
       }
 
-      return renderWrapper({
-        children: (
-          <>
-            {renderAdditionalItem?.()}
-            {emptyMessageNode}
-          </>
-        ),
-      });
+      return (
+        <>
+          {renderAdditionalItem?.()}
+          {emptyMessageNode}
+        </>
+      );
     }
 
     const itemsNode: React.ReactNode[] = [];
@@ -191,40 +175,36 @@ function renderInfiniteItemListContent<ItemType>(
     // is in a fetch more position.
     const renderPlaceholder = query.hasNextPage ?? false;
 
-    return renderWrapper({
-      children: (
-        <>
-          {renderAdditionalItem?.()}
+    return (
+      <>
+        {renderAdditionalItem?.()}
 
-          <ul>
-            {itemsNode}
-            {renderPlaceholder && (
-              <li>
-                <PlaceholderElement />
-              </li>
-            )}
-          </ul>
-        </>
-      ),
-    });
+        <ul>
+          {itemsNode}
+          {renderPlaceholder && (
+            <li>
+              <PlaceholderElement />
+            </li>
+          )}
+        </ul>
+      </>
+    );
   }
 
   if (query.isLoading) {
-    return renderWrapper({
-      children: (
-        <>
-          {renderAdditionalItem?.()}
+    return (
+      <>
+        {renderAdditionalItem?.()}
 
-          <ul>
-            <Placeholders count={placeholderCount}>
-              <li>
-                <PlaceholderElement />
-              </li>
-            </Placeholders>
-          </ul>
-        </>
-      ),
-    });
+        <ul>
+          <Placeholders count={placeholderCount}>
+            <li>
+              <PlaceholderElement />
+            </li>
+          </Placeholders>
+        </ul>
+      </>
+    );
   }
 
   if (query.isError) {

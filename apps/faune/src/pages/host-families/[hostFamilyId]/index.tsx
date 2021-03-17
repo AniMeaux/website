@@ -187,7 +187,6 @@ const HostFamilyPage: PageComponent = () => {
         </ItemContent>
       </Item>
     ),
-    renderWrapper: ({ children }) => children,
     renderItem: (animal) => (
       <SearchableAnimalLinkItem
         animal={animal}

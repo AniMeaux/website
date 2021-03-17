@@ -9,6 +9,7 @@ import {
 import {
   Main,
   QuickLinkAction,
+  Section,
   usePageScrollRestoration,
 } from "@animeaux/ui-library";
 import * as React from "react";
@@ -36,7 +37,7 @@ const UserListPage: PageComponent = () => {
       <Header headerTitle={title} />
 
       <Main hasNavigation>
-        {content}
+        <Section>{content}</Section>
 
         <QuickLinkAction href="./new">
           <FaPlus />

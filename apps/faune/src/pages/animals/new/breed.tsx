@@ -12,6 +12,7 @@ import {
   HeaderBackLink,
   Main,
   SearchInput,
+  Section,
   useRouter,
   useSearch,
 } from "@animeaux/ui-library";
@@ -65,7 +66,9 @@ const CreateAnimalBreedPage: PageComponent = () => {
         />
       </Header>
 
-      <Main>{content}</Main>
+      <Main>
+        <Section>{content}</Section>
+      </Main>
     </div>
   );
 };

@@ -17,6 +17,7 @@ import {
   LinkItem,
   Main,
   SearchInput,
+  Section,
   useRouter,
   useSearch,
 } from "@animeaux/ui-library";
@@ -84,7 +85,9 @@ const CreateAnimalHostFamilyPage: PageComponent = () => {
         />
       </Header>
 
-      <Main>{content}</Main>
+      <Main>
+        <Section>{content}</Section>
+      </Main>
     </div>
   );
 };
