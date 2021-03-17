@@ -1,6 +1,8 @@
 import { ImageFileOrId, isImageFile } from "@animeaux/shared-entities";
+import cn from "classnames";
 import invariant from "invariant";
 import * as React from "react";
+import { FaImage } from "react-icons/fa";
 import { ChildrenProp, StyleProps } from "../core";
 
 export type ImagePreset = "avatar" | "none";
@@ -65,8 +67,39 @@ export type ImageProps = StyleProps & {
   preset?: ImagePreset;
 };
 
-export function Image({ image, preset = "none", alt, ...rest }: ImageProps) {
+export function Image({
+  image,
+  preset = "none",
+  alt,
+  className,
+  ...rest
+}: ImageProps) {
   const { getImageUrl } = useImageProvider();
   const src = isImageFile(image) ? image.dataUrl : getImageUrl(image, preset);
-  return <img {...rest} src={src} alt={alt} />;
+  const [hasError, setHasError] = React.useState(false);
+
+  if (hasError) {
+    return (
+      <span
+        {...rest}
+        title={alt}
+        className={cn(
+          "bg-gray-100 flex items-center justify-center text-black text-opacity-40",
+          className
+        )}
+      >
+        <FaImage />
+      </span>
+    );
+  }
+
+  return (
+    <img
+      {...rest}
+      className={className}
+      src={src}
+      alt={alt}
+      onError={() => setHasError(true)}
+    />
+  );
 }
