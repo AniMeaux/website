@@ -37,7 +37,6 @@ export type HeaderProps = {
   action?: {
     href: string;
     icon: React.ElementType;
-    label: React.ReactNode;
   };
 };
 
