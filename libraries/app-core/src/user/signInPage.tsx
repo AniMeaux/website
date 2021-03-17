@@ -8,6 +8,7 @@ import {
   PasswordInput,
   SubmitButton,
 } from "@animeaux/ui-library";
+import * as Sentry from "@sentry/react";
 import * as React from "react";
 import { FaCheckCircle, FaEnvelope, FaLock } from "react-icons/fa";
 import { firebase } from "../firebase";
@@ -35,19 +36,27 @@ export function SignInPage({ logo: Logo, applicationName }: SignInPageProps) {
     void,
     Error,
     { email: string; password: string }
-  >(async ({ email, password }) => {
-    try {
-      await firebase.auth().signInWithEmailAndPassword(email, password);
-    } catch (error) {
-      if (isAuthError(error)) {
-        throw new Error("Identifiants invalides, veuillez réessayer");
-      } else {
-        throw new Error(
-          "un problème est survenu, veuillez réessayer ultérieurement"
-        );
+  >(
+    async ({ email, password }) => {
+      try {
+        await firebase.auth().signInWithEmailAndPassword(email, password);
+      } catch (error) {
+        if (isAuthError(error)) {
+          throw new Error("Identifiants invalides, veuillez réessayer");
+        } else {
+          Sentry.captureException(error, { extra: { email } });
+
+          throw new Error(
+            "un problème est survenu, veuillez réessayer ultérieurement"
+          );
+        }
       }
+    },
+    {
+      // Relevant errors are reported here.
+      disableSentry: true,
     }
-  });
+  );
 
   return (
     <main className="pt-screen-3/10 flex flex-col justify-center">

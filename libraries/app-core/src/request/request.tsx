@@ -194,6 +194,7 @@ export function useInfiniteQuery<
 
 type CustomHookOptions = {
   errorCodesToIgnore?: ErrorCode[];
+  disableSentry?: boolean;
 };
 
 export function useMutation<
@@ -204,6 +205,7 @@ export function useMutation<
   mutationFn: MutationFunction<TData, TVariables>,
   {
     errorCodesToIgnore = [],
+    disableSentry = false,
     ...options
   }: UseMutationOptions<TData, TError, TVariables> & CustomHookOptions = {}
 ) {
@@ -225,9 +227,11 @@ export function useMutation<
         snackbarId.current = null;
 
         if (!hasErrorCode(error, errorCodesToIgnore)) {
-          Sentry.captureException(error, {
-            extra: { errorCodesToIgnore },
-          });
+          if (!disableSentry) {
+            Sentry.captureException(error, {
+              extra: { errorCodesToIgnore },
+            });
+          }
 
           snackbarId.current = showSnackbar.error(
             <Snackbar type="error">{getErrorMessage(error)}</Snackbar>
