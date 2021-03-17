@@ -21,6 +21,7 @@ import {
   Main,
   SearchInput,
   Section,
+  SectionTitle,
   usePageScrollRestoration,
   useRouter,
   useSearchAndFilters,
@@ -82,6 +83,20 @@ const SearchAnimalPage: PageComponent = () => {
     ),
   });
 
+  let sectionTitle: React.ReactNode;
+
+  if (query.data != null) {
+    const count = query.data.pages[0].hitsTotalCount;
+
+    if (count > 0) {
+      sectionTitle = (
+        <SectionTitle>
+          {count} {count > 1 ? "animaux" : "animal"}
+        </SectionTitle>
+      );
+    }
+  }
+
   return (
     <div>
       <PageTitle title="Chercher un animal" />
@@ -107,7 +122,10 @@ const SearchAnimalPage: PageComponent = () => {
       </Header>
 
       <Main>
-        <Section>{content}</Section>
+        <Section>
+          {sectionTitle}
+          {content}
+        </Section>
       </Main>
     </div>
   );
