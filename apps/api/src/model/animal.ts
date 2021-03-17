@@ -42,6 +42,7 @@ const typeDefs = gql`
     CHOCOLATE
     CREAM
     FAWN
+    FAWN_AND_BLACK
     GINGER
     GINGER_AND_TABBY
     GINGER_AND_WHITE
