@@ -4,9 +4,9 @@ import {
   ErrorCode,
   HostFamily,
   HostFamilyFormPayload,
-  PaginatedRequest,
+  HostFamilySearch,
+  PaginatedRequestParameters,
   PaginatedResponse,
-  SearchFilter,
   UpdateHostFamilyPayload,
 } from "@animeaux/shared-entities";
 import { showSnackbar, Snackbar } from "@animeaux/ui-library";
@@ -50,7 +50,7 @@ const GetAllHostFamiliesQuery = gql`
   ${HostFamilyFragment}
 `;
 
-export function useAllHostFamilies({ search }: SearchFilter = {}) {
+export function useAllHostFamilies({ search }: HostFamilySearch = {}) {
   const queryClient = useQueryClient();
 
   return useInfiniteQuery<PaginatedResponse<HostFamily>, Error>(
@@ -58,7 +58,7 @@ export function useAllHostFamilies({ search }: SearchFilter = {}) {
     async ({ pageParam = 0 }) => {
       const { response } = await fetchGraphQL<
         { response: PaginatedResponse<HostFamily> },
-        PaginatedRequest
+        PaginatedRequestParameters<HostFamilySearch>
       >(GetAllHostFamiliesQuery, {
         variables: { page: pageParam, search },
       });

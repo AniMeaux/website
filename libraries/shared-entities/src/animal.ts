@@ -5,6 +5,7 @@ import { sortByLabels } from "./enumUtils";
 import { ErrorCode } from "./errors";
 import { HostFamily } from "./hostFamily";
 import { getImageId, ImageFileOrId } from "./image";
+import { SearchFilter } from "./pagination";
 import { Query } from "./query";
 import { Trilean } from "./trilean";
 
@@ -576,49 +577,49 @@ export function getActiveAnimalFiltersCount(filters: AnimalFilters) {
   return activeFiltersCount;
 }
 
-type AnimalSearch = {
-  search: string;
-  filters: AnimalFilters;
-};
+export type AnimalSearch = SearchFilter & AnimalFilters;
 
-export function hasAnimalSearch({ search, filters }: AnimalSearch) {
-  return search !== "" || getActiveAnimalFiltersCount(filters) > 0;
+export function hasAnimalSearch({ search, ...filters }: AnimalSearch) {
+  return (
+    (search != null && search !== "") ||
+    getActiveAnimalFiltersCount(filters) > 0
+  );
 }
 
-export function createAnimalSearchFromQuery(query: Query): AnimalSearch {
-  let status: AnimalStatus[] | undefined = undefined;
+export function createAnimalSearchFromQuery(query: Query) {
+  const animalSearch: AnimalSearch = {};
+
+  if (query.q != null && typeof query.q === "string") {
+    animalSearch.search = query.q;
+  }
 
   if (query.status != null) {
-    status = (Array.isArray(query.status)
+    animalSearch.status = (Array.isArray(query.status)
       ? query.status
       : [query.status]
     ).filter(isAnimalStatus);
   }
 
-  let hostFamilyId: string | undefined = undefined;
   if (query.hostFamilyId != null && typeof query.hostFamilyId === "string") {
-    hostFamilyId = query.hostFamilyId;
+    animalSearch.hostFamilyId = query.hostFamilyId;
   }
 
-  return {
-    search: query.q == null || Array.isArray(query.q) ? "" : query.q,
-    filters: { status, hostFamilyId },
-  };
+  return animalSearch;
 }
 
-export function createQueryFromAnimalSearch({ search, filters }: AnimalSearch) {
+export function createQueryFromAnimalSearch(animalSearch: AnimalSearch) {
   const query: Query = {};
 
-  if (search !== "") {
-    query.q = search;
+  if (animalSearch.search != null && animalSearch.search !== "") {
+    query.q = animalSearch.search;
   }
 
-  if (filters.status != null && filters.status.length > 0) {
-    query.status = filters.status;
+  if (animalSearch.status != null && animalSearch.status.length > 0) {
+    query.status = animalSearch.status;
   }
 
-  if (filters.hostFamilyId != null) {
-    query.hostFamilyId = filters.hostFamilyId;
+  if (animalSearch.hostFamilyId != null) {
+    query.hostFamilyId = animalSearch.hostFamilyId;
   }
 
   return query;

@@ -1,4 +1,5 @@
 import { AnimalSpecies } from "./animal";
+import { SearchFilter } from "./pagination";
 
 export type AnimalBreed = {
   id: string;
@@ -22,6 +23,8 @@ export type UpdateAnimalBreedPayload = {
   species?: AnimalSpecies;
 };
 
-export type AnimalBreedFilters = {
+type AnimalBreedFilters = {
   species?: AnimalSpecies | null;
 };
+
+export type AnimalBreedSearch = SearchFilter & AnimalBreedFilters;

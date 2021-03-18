@@ -1,12 +1,11 @@
 import {
   AnimalBreed,
-  AnimalBreedFilters,
   AnimalBreedFormPayload,
+  AnimalBreedSearch,
   CreateAnimalBreedPayload,
   ErrorCode,
-  PaginatedRequest,
+  PaginatedRequestParameters,
   PaginatedResponse,
-  SearchFilter,
   UpdateAnimalBreedPayload,
 } from "@animeaux/shared-entities";
 import { showSnackbar, Snackbar } from "@animeaux/ui-library";
@@ -57,7 +56,7 @@ const GetAllAnimalBreedsQuery = gql`
 export function useAllAnimalBreeds({
   search,
   species,
-}: SearchFilter & AnimalBreedFilters = {}) {
+}: AnimalBreedSearch = {}) {
   const queryClient = useQueryClient();
 
   return useInfiniteQuery<PaginatedResponse<AnimalBreed>, Error>(
@@ -65,7 +64,7 @@ export function useAllAnimalBreeds({
     async ({ pageParam = 0 }) => {
       const { response } = await fetchGraphQL<
         { response: PaginatedResponse<AnimalBreed> },
-        PaginatedRequest<AnimalBreedFilters>
+        PaginatedRequestParameters<AnimalBreedSearch>
       >(GetAllAnimalBreedsQuery, {
         variables: { search, species, page: pageParam },
       });

@@ -1,3 +1,5 @@
+import { SearchFilter } from "./pagination";
+
 export type HostFamily = {
   id: string;
   name: string;
@@ -35,6 +37,8 @@ export type UpdateHostFamilyPayload = {
   city?: string;
   address?: string;
 };
+
+export type HostFamilySearch = SearchFilter;
 
 // The result can be used as Google Maps search.
 export function getHostFamilyFullAddress(hostFamily: HostFamily) {

@@ -1,10 +1,10 @@
 import {
   ACTIVE_ANIMAL_STATUS,
   Animal,
-  AnimalFilters,
   AnimalFormPayload,
   AnimalPicturesFormPayload,
   AnimalProfileFormPayload,
+  AnimalSearch,
   AnimalSituationFormPayload,
   createAminalCreationApiPayload,
   createAminalPicturesUpdateApiPayload,
@@ -17,10 +17,9 @@ import {
   getImageId,
   ImageFile,
   isImageFile,
-  PaginatedRequest,
+  PaginatedRequestParameters,
   PaginatedResponse,
   SearchableAnimal,
-  SearchFilter,
   UpdateAnimalPayload,
 } from "@animeaux/shared-entities";
 import { showSnackbar, Snackbar, useImageProvider } from "@animeaux/ui-library";
@@ -129,13 +128,13 @@ export function useAllAnimals({
   search,
   status,
   hostFamilyId,
-}: SearchFilter & AnimalFilters = {}) {
+}: AnimalSearch = {}) {
   return useInfiniteQuery<PaginatedResponse<SearchableAnimal>, Error>(
     ["animals", search, status, hostFamilyId],
     async ({ pageParam = 0 }) => {
       const { response } = await fetchGraphQL<
         { response: PaginatedResponse<SearchableAnimal> },
-        PaginatedRequest<AnimalFilters>
+        PaginatedRequestParameters<AnimalSearch>
       >(GetAllAnimalsQuery, {
         variables: { search, page: pageParam, status, hostFamilyId },
       });
@@ -166,7 +165,7 @@ export function useAllActiveAnimals() {
     async ({ pageParam = 0 }) => {
       const { response } = await fetchGraphQL<
         { response: PaginatedResponse<SearchableAnimal> },
-        PaginatedRequest<AnimalFilters>
+        PaginatedRequestParameters<AnimalSearch>
       >(GetAllActiveAnimalsQuery, {
         variables: { page: pageParam },
       });

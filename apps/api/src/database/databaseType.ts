@@ -1,7 +1,7 @@
 import {
   AnimalBreed,
-  AnimalBreedFilters,
-  AnimalFilters,
+  AnimalBreedSearch,
+  AnimalSearch,
   CreateAnimalBreedPayload,
   CreateAnimalPayload,
   CreateHostFamilyPayload,
@@ -9,7 +9,8 @@ import {
   DBAnimal,
   DBSearchableAnimal,
   HostFamily,
-  PaginatedRequest,
+  HostFamilySearch,
+  PaginatedRequestParameters,
   PaginatedResponse,
   UpdateAnimalBreedPayload,
   UpdateAnimalPayload,
@@ -34,7 +35,7 @@ export type UserDatabase = {
 
 export type AnimalBreedDatabase = {
   getAllAnimalBreeds(
-    filters: PaginatedRequest<AnimalBreedFilters>
+    parameters: PaginatedRequestParameters<AnimalBreedSearch>
   ): Promise<PaginatedResponse<AnimalBreed>>;
   getAnimalBreed(id: string): Promise<AnimalBreed | null>;
   createAnimalBreed(payload: CreateAnimalBreedPayload): Promise<AnimalBreed>;
@@ -44,7 +45,7 @@ export type AnimalBreedDatabase = {
 
 export type HostFamilyDatabase = {
   getAllHostFamilies(
-    filters: PaginatedRequest
+    parameters: PaginatedRequestParameters<HostFamilySearch>
   ): Promise<PaginatedResponse<HostFamily>>;
   getHostFamily(id: string): Promise<HostFamily | null>;
   createHostFamily(payload: CreateHostFamilyPayload): Promise<HostFamily>;
@@ -54,10 +55,10 @@ export type HostFamilyDatabase = {
 
 export type AnimalDatabase = {
   getAllAnimals(
-    filters: PaginatedRequest<AnimalFilters>
+    parameters: PaginatedRequestParameters<AnimalSearch>
   ): Promise<PaginatedResponse<DBSearchableAnimal>>;
   getAllActiveAnimals(
-    filters: PaginatedRequest
+    parameters: PaginatedRequestParameters
   ): Promise<PaginatedResponse<DBSearchableAnimal>>;
   getAnimal(id: string): Promise<DBAnimal | null>;
   createAnimal(payload: CreateAnimalPayload): Promise<DBAnimal>;

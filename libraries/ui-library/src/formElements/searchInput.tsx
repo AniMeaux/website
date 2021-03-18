@@ -1,3 +1,4 @@
+import { SearchFilter } from "@animeaux/shared-entities";
 import * as React from "react";
 import { FaSearch, FaTimes } from "react-icons/fa";
 import { ensureArray } from "../core";
@@ -15,28 +16,48 @@ function useDebouncedValue<ValueType>(value: ValueType) {
   return debouncedValue;
 }
 
-export function useSearch(initialSearch: string | (() => string)) {
-  const [rawSearch, setRawSearch] = React.useState(initialSearch);
+type InitialStateFactory<DataType> = DataType | (() => DataType);
+
+function generateInitialState<DataType>(
+  factory: InitialStateFactory<DataType>
+) {
+  if (typeof factory !== "function") {
+    return factory;
+  }
+
+  // Cast `factory` because `DataType` could be a function in which case TS
+  // cannot tell whether `factory` is a unknow function (`DataType`) or a
+  // factory (`() => DataType`).
+  return (factory as () => DataType)();
+}
+
+export function useSearch(
+  initialSearch: InitialStateFactory<string | null | undefined>
+) {
+  const [rawSearch, setRawSearch] = React.useState(
+    () => generateInitialState(initialSearch) ?? ""
+  );
+
   const search = useDebouncedValue(rawSearch);
   return { search, rawSearch, setRawSearch };
 }
 
-export function useSearchAndFilters<FiltersType>(
-  initialSearchFilters:
-    | { search: string; filters: FiltersType }
-    | (() => { search: string; filters: FiltersType })
+export function useSearchAndFilters<FilterType>(
+  initialSearchFilters: InitialStateFactory<SearchFilter & FilterType>
 ) {
   const initialSearchFiltersRef = React.useRef(initialSearchFilters);
+  const initialValues = React.useMemo(
+    () => generateInitialState(initialSearchFiltersRef.current),
+    []
+  );
 
-  const initialValues = React.useMemo(() => {
-    return typeof initialSearchFiltersRef.current === "object"
-      ? initialSearchFiltersRef.current
-      : initialSearchFiltersRef.current();
-  }, []);
+  const { search: initialSearch, ...initialFilters } = initialValues;
 
-  const search = useSearch(initialValues.search);
-  const [filters, setFilters] = React.useState<FiltersType>(
-    initialValues.filters
+  const search = useSearch(initialSearch);
+
+  const [filters, setFilters] = React.useState(
+    // `FilterType` cannot contain a `search` property.
+    initialFilters as FilterType
   );
 
   return { ...search, filters, setFilters };

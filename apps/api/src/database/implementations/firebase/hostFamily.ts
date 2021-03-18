@@ -3,7 +3,8 @@ import {
   EMAIL_PATTERN,
   ErrorCode,
   HostFamily,
-  PaginatedRequest,
+  HostFamilySearch,
+  PaginatedRequestParameters,
   PaginatedResponse,
   UpdateHostFamilyPayload,
 } from "@animeaux/shared-entities";
@@ -30,11 +31,11 @@ async function assertHostFamilyNameNotUsed(name: string) {
 
 export const hostFamilyDatabase: HostFamilyDatabase = {
   async getAllHostFamilies(
-    filters: PaginatedRequest
+    parameters: PaginatedRequestParameters<HostFamilySearch>
   ): Promise<PaginatedResponse<HostFamily>> {
     const result = await HostFamiliesIndex.search<HostFamily>(
-      filters.search ?? "",
-      { page: filters.page ?? 0 }
+      parameters.search ?? "",
+      { page: parameters.page ?? 0 }
     );
 
     return {

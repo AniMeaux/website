@@ -1,9 +1,9 @@
 import {
-  AnimalFilters,
+  AnimalSearch,
   CreateAnimalPayload,
   DBAnimal,
   DBSearchableAnimal,
-  PaginatedRequest,
+  PaginatedRequestParameters,
   UpdateAnimalPayload,
 } from "@animeaux/shared-entities";
 import { gql, IResolverObject, IResolvers } from "apollo-server";
@@ -226,13 +226,16 @@ const resolvers: IResolvers = {
 const queries: IResolverObject = {
   getAllAnimals: async (
     parent: any,
-    filters: PaginatedRequest<AnimalFilters>
+    parameters: PaginatedRequestParameters<AnimalSearch>
   ) => {
-    return await database.getAllAnimals(filters);
+    return await database.getAllAnimals(parameters);
   },
 
-  getAllActiveAnimals: async (parent: any, filters: PaginatedRequest) => {
-    return await database.getAllActiveAnimals(filters);
+  getAllActiveAnimals: async (
+    parent: any,
+    parameters: PaginatedRequestParameters
+  ) => {
+    return await database.getAllActiveAnimals(parameters);
   },
 
   getAnimal: async (parent: any, { id }: { id: string }) => {

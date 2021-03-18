@@ -1,12 +1,12 @@
 import {
   ACTIVE_ANIMAL_STATUS,
-  AnimalFilters,
+  AnimalSearch,
   CreateAnimalPayload,
   DBAnimal,
   DBSearchableAnimal,
   ErrorCode,
   isValidDate,
-  PaginatedRequest,
+  PaginatedRequestParameters,
   PaginatedResponse,
   UpdateAnimalPayload,
 } from "@animeaux/shared-entities";
@@ -33,30 +33,30 @@ function cleanMarkdown(content: string) {
 
 export const animalDatabase: AnimalDatabase = {
   async getAllAnimals(
-    filters: PaginatedRequest<AnimalFilters>
+    parameters: PaginatedRequestParameters<AnimalSearch>
   ): Promise<PaginatedResponse<DBSearchableAnimal>> {
     const searchFilters: string[] = [];
 
-    if (filters.status != null && filters.status.length > 0) {
+    if (parameters.status != null && parameters.status.length > 0) {
       searchFilters.push(
         SearchFilters.or(
-          filters.status.map((status) =>
+          parameters.status.map((status) =>
             SearchFilters.createFilter("status", status)
           )
         )
       );
     }
 
-    if (filters.hostFamilyId != null) {
+    if (parameters.hostFamilyId != null) {
       searchFilters.push(
-        SearchFilters.createFilter("hostFamilyId", filters.hostFamilyId)
+        SearchFilters.createFilter("hostFamilyId", parameters.hostFamilyId)
       );
     }
 
     const result = await AnimalsIndex.search<DBSearchableAnimal>(
-      filters.search ?? "",
+      parameters.search ?? "",
       {
-        page: filters.page ?? 0,
+        page: parameters.page ?? 0,
         filters: SearchFilters.and(searchFilters),
       }
     );
@@ -70,19 +70,16 @@ export const animalDatabase: AnimalDatabase = {
   },
 
   async getAllActiveAnimals(
-    filters: PaginatedRequest
+    parameters: PaginatedRequestParameters
   ): Promise<PaginatedResponse<DBSearchableAnimal>> {
-    const result = await AnimalsIndex.search<DBSearchableAnimal>(
-      filters.search ?? "",
-      {
-        page: filters.page ?? 0,
-        filters: SearchFilters.or(
-          ACTIVE_ANIMAL_STATUS.map((status) =>
-            SearchFilters.createFilter("status", status)
-          )
-        ),
-      }
-    );
+    const result = await AnimalsIndex.search<DBSearchableAnimal>("", {
+      page: parameters.page ?? 0,
+      filters: SearchFilters.or(
+        ACTIVE_ANIMAL_STATUS.map((status) =>
+          SearchFilters.createFilter("status", status)
+        )
+      ),
+    });
 
     return {
       hits: result.hits,

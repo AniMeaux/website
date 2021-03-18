@@ -50,7 +50,7 @@ const SearchAnimalPage: PageComponent = () => {
   } = useSearchAndFilters(() => createAnimalSearchFromQuery(router.query));
 
   React.useEffect(() => {
-    const query = createQueryFromAnimalSearch({ search, filters });
+    const query = createQueryFromAnimalSearch({ search, ...filters });
     if (!isEqual(query, routerRef.current.query)) {
       routerRef.current.replace({ query }, undefined, { scroll: false });
     }
@@ -61,7 +61,7 @@ const SearchAnimalPage: PageComponent = () => {
   const query = useAllAnimals({ search, ...filters });
   const { content } = renderInfiniteItemList(query, {
     title: TITLE,
-    hasSearch: hasAnimalSearch({ search, filters }),
+    hasSearch: hasAnimalSearch({ search, ...filters }),
     getItemKey: (animal) => animal.id,
     placeholderElement: SearchableAnimalItemPlaceholder,
     emptyMessage: "Il n'y a pas encore d'animaux",

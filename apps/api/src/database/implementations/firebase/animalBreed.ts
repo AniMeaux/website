@@ -1,10 +1,10 @@
 import {
   AnimalBreed,
-  AnimalBreedFilters,
+  AnimalBreedSearch,
   AnimalSpecies,
   CreateAnimalBreedPayload,
   ErrorCode,
-  PaginatedRequest,
+  PaginatedRequestParameters,
   PaginatedResponse,
   UpdateAnimalBreedPayload,
 } from "@animeaux/shared-entities";
@@ -36,20 +36,20 @@ async function assertAnimalBreedNameNotUsed(
 
 export const animalBreedDatabase: AnimalBreedDatabase = {
   async getAllAnimalBreeds(
-    filters: PaginatedRequest<AnimalBreedFilters>
+    parameters: PaginatedRequestParameters<AnimalBreedSearch>
   ): Promise<PaginatedResponse<AnimalBreed>> {
     const searchFilters: string[] = [];
 
-    if (filters.species != null) {
+    if (parameters.species != null) {
       searchFilters.push(
-        SearchFilters.createFilter("species", filters.species)
+        SearchFilters.createFilter("species", parameters.species)
       );
     }
 
     const result = await AnimalBreedsIndex.search<AnimalBreed>(
-      filters.search ?? "",
+      parameters.search ?? "",
       {
-        page: filters.page ?? 0,
+        page: parameters.page ?? 0,
         filters: SearchFilters.and(searchFilters),
       }
     );
