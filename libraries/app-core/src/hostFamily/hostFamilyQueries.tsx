@@ -15,6 +15,7 @@ import * as React from "react";
 import {
   fetchGraphQL,
   removeDataFromInfiniteCache,
+  setQueriesData,
   updateDataInInfiniteCache,
   useInfiniteQuery,
   useMutation,
@@ -50,17 +51,17 @@ const GetAllHostFamiliesQuery = gql`
   ${HostFamilyFragment}
 `;
 
-export function useAllHostFamilies({ search }: HostFamilySearch = {}) {
+export function useAllHostFamilies(hostFamilySearch: HostFamilySearch = {}) {
   const queryClient = useQueryClient();
 
   return useInfiniteQuery<PaginatedResponse<HostFamily>, Error>(
-    ["host-families", search],
+    ["host-families", hostFamilySearch],
     async ({ pageParam = 0 }) => {
       const { response } = await fetchGraphQL<
         { response: PaginatedResponse<HostFamily> },
         PaginatedRequestParameters<HostFamilySearch>
       >(GetAllHostFamiliesQuery, {
-        variables: { page: pageParam, search },
+        variables: { page: pageParam, ...hostFamilySearch },
       });
 
       return response;
@@ -330,7 +331,8 @@ export function useUpdateHostFamily(
       onSuccess(hostFamily, ...rest) {
         queryClient.setQueryData(["host-family", hostFamily.id], hostFamily);
 
-        queryClient.setQueryData(
+        setQueriesData(
+          queryClient,
           "host-families",
           updateDataInInfiniteCache(hostFamily)
         );
@@ -370,13 +372,11 @@ export function useDeleteHostFamily(
       onSuccess(hostFamilyId, ...rest) {
         queryClient.removeQueries(["host-family", hostFamilyId]);
 
-        queryClient.setQueryData(
+        setQueriesData(
+          queryClient,
           "host-families",
           removeDataFromInfiniteCache(hostFamilyId)
         );
-
-        // Invalidate it to make sure pagination is up to date.
-        queryClient.invalidateQueries("host-families");
 
         showSnackbar.success(<Snackbar type="success">FA supprimée</Snackbar>);
 

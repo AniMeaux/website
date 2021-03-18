@@ -14,6 +14,7 @@ import * as React from "react";
 import {
   fetchGraphQL,
   removeDataFromInfiniteCache,
+  setQueriesData,
   updateDataInInfiniteCache,
   useInfiniteQuery,
   useMutation,
@@ -53,20 +54,17 @@ const GetAllAnimalBreedsQuery = gql`
   ${AnimalBreedFragment}
 `;
 
-export function useAllAnimalBreeds({
-  search,
-  species,
-}: AnimalBreedSearch = {}) {
+export function useAllAnimalBreeds(animalBreedSearch: AnimalBreedSearch = {}) {
   const queryClient = useQueryClient();
 
   return useInfiniteQuery<PaginatedResponse<AnimalBreed>, Error>(
-    ["animal-breeds", search, species],
+    ["animal-breeds", animalBreedSearch],
     async ({ pageParam = 0 }) => {
       const { response } = await fetchGraphQL<
         { response: PaginatedResponse<AnimalBreed> },
         PaginatedRequestParameters<AnimalBreedSearch>
       >(GetAllAnimalBreedsQuery, {
-        variables: { search, species, page: pageParam },
+        variables: { page: pageParam, ...animalBreedSearch },
       });
 
       return response;
@@ -250,7 +248,8 @@ export function useUpdateAnimalBreed(
       onSuccess(animalBreed, ...rest) {
         queryClient.setQueryData(["animal-breed", animalBreed.id], animalBreed);
 
-        queryClient.setQueryData(
+        setQueriesData(
+          queryClient,
           "animal-breeds",
           updateDataInInfiniteCache(animalBreed)
         );
@@ -290,13 +289,11 @@ export function useDeleteAnimalBreed(
       onSuccess(animalBreedId, ...rest) {
         queryClient.removeQueries(["animal-breed", animalBreedId]);
 
-        queryClient.setQueryData(
+        setQueriesData(
+          queryClient,
           "animal-breeds",
           removeDataFromInfiniteCache(animalBreedId)
         );
-
-        // Invalidate it to make sure pagination is up to date.
-        queryClient.invalidateQueries("animal-breeds");
 
         showSnackbar.success(
           <Snackbar type="success">Race supprimée</Snackbar>

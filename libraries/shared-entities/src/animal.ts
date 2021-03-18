@@ -253,6 +253,15 @@ export type Animal = SearchableAnimal & {
   comments: string;
 };
 
+export function toSearchableAnimal({
+  description,
+  picturesId,
+  comments,
+  ...searchableAnimal
+}: Animal): SearchableAnimal {
+  return searchableAnimal;
+}
+
 export type DBAnimal = DBSearchableAnimal & {
   description: string | null;
   picturesId: string[];

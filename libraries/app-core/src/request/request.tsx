@@ -255,6 +255,24 @@ export function useMutation<
   return mutation;
 }
 
+export function setQueriesData<TData>(
+  queryClient: QueryClient,
+  queryKey: QueryKey,
+  updater: Updater<TData | null | undefined, TData | null>
+) {
+  // Update all potential references to the object.
+  queryClient
+    .getQueryCache()
+    .findAll(queryKey)
+    .forEach((query) => {
+      queryClient.setQueryData(query.queryKey, updater);
+    });
+
+  // Invalidate all queries to make sure searches will be up to date,
+  // i.e. in case the object no longer match a
+  queryClient.invalidateQueries(queryKey);
+}
+
 export function updateDataInCache<TData extends { id: string }>(
   newData: TData
 ): Updater<TData[] | null | undefined, TData[] | null> {

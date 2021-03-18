@@ -20,6 +20,7 @@ import {
   PaginatedRequestParameters,
   PaginatedResponse,
   SearchableAnimal,
+  toSearchableAnimal,
   UpdateAnimalPayload,
 } from "@animeaux/shared-entities";
 import { showSnackbar, Snackbar, useImageProvider } from "@animeaux/ui-library";
@@ -31,7 +32,9 @@ import { deleteImage, uploadImageFile, useCloudinary } from "../cloudinary";
 import { HostFamilyFragment } from "../hostFamily/hostFamilyQueries";
 import {
   fetchGraphQL,
+  QueryClient,
   removeDataFromInfiniteCache,
+  setQueriesData,
   updateDataInInfiniteCache,
   useInfiniteQuery,
   useMutation,
@@ -124,19 +127,15 @@ const GetAllAnimalsQuery = gql`
   ${SearchableAnimalFragment}
 `;
 
-export function useAllAnimals({
-  search,
-  status,
-  hostFamilyId,
-}: AnimalSearch = {}) {
+export function useAllAnimals(animalSearch: AnimalSearch = {}) {
   return useInfiniteQuery<PaginatedResponse<SearchableAnimal>, Error>(
-    ["animals", search, status, hostFamilyId],
+    ["animals", animalSearch],
     async ({ pageParam = 0 }) => {
       const { response } = await fetchGraphQL<
         { response: PaginatedResponse<SearchableAnimal> },
         PaginatedRequestParameters<AnimalSearch>
       >(GetAllAnimalsQuery, {
-        variables: { search, page: pageParam, status, hostFamilyId },
+        variables: { page: pageParam, ...animalSearch },
       });
 
       return response;
@@ -161,7 +160,7 @@ const GetAllActiveAnimalsQuery = gql`
 
 export function useAllActiveAnimals() {
   return useInfiniteQuery<PaginatedResponse<SearchableAnimal>, Error>(
-    ["animals", "", ACTIVE_ANIMAL_STATUS, undefined],
+    ["animals", { status: ACTIVE_ANIMAL_STATUS } as AnimalSearch],
     async ({ pageParam = 0 }) => {
       const { response } = await fetchGraphQL<
         { response: PaginatedResponse<SearchableAnimal> },
@@ -389,13 +388,11 @@ export function useDeleteAnimal(
       onSuccess(animal, ...rest) {
         queryClient.removeQueries(["animal", animal.id]);
 
-        queryClient.setQueryData(
+        setQueriesData(
+          queryClient,
           "animals",
           removeDataFromInfiniteCache(animal.id)
         );
-
-        // Invalidate it to make sure pagination is up to date.
-        queryClient.invalidateQueries("animals");
 
         showSnackbar.success(
           <Snackbar type="success">Animal supprimée</Snackbar>
@@ -459,6 +456,16 @@ const UpdateAnimalQuery = gql`
   ${AnimalFragment}
 `;
 
+function updateAnimalsQueryCache(queryClient: QueryClient, animal: Animal) {
+  queryClient.setQueryData(["animal", animal.id], animal);
+
+  setQueriesData(
+    queryClient,
+    "animals",
+    updateDataInInfiniteCache(toSearchableAnimal(animal))
+  );
+}
+
 export function useUpdateAnimalProfile(
   options?: UseMutationOptions<
     Animal,
@@ -497,9 +504,7 @@ export function useUpdateAnimalProfile(
       ],
 
       onSuccess(animal, ...rest) {
-        queryClient.setQueryData(["animal", animal.id], animal);
-
-        queryClient.setQueryData("animals", updateDataInInfiniteCache(animal));
+        updateAnimalsQueryCache(queryClient, animal);
 
         showSnackbar.success(
           <Snackbar type="success">Animal modifiée</Snackbar>
@@ -545,9 +550,7 @@ export function useUpdateAnimalSituation(
       errorCodesToIgnore: [ErrorCode.ANIMAL_INVALID_PICK_UP_DATE],
 
       onSuccess(animal, ...rest) {
-        queryClient.setQueryData(["animal", animal.id], animal);
-
-        queryClient.setQueryData("animals", updateDataInInfiniteCache(animal));
+        updateAnimalsQueryCache(queryClient, animal);
 
         showSnackbar.success(
           <Snackbar type="success">Animal modifiée</Snackbar>
@@ -617,9 +620,7 @@ export function useUpdateAnimalPicture(
       errorCodesToIgnore: [ErrorCode.ANIMAL_MISSING_AVATAR],
 
       onSuccess(animal, ...rest) {
-        queryClient.setQueryData(["animal", animal.id], animal);
-
-        queryClient.setQueryData("animals", updateDataInInfiniteCache(animal));
+        updateAnimalsQueryCache(queryClient, animal);
 
         showSnackbar.success(
           <Snackbar type="success">Animal modifiée</Snackbar>

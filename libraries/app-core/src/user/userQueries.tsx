@@ -13,6 +13,7 @@ import * as React from "react";
 import {
   fetchGraphQL,
   removeDataFromCache,
+  setQueriesData,
   updateDataInCache,
   useMutation,
   UseMutationOptions,
@@ -243,7 +244,7 @@ export function useUpdateUser(
 
       onSuccess(user, ...rest) {
         queryClient.setQueryData(["user", user.id], user);
-        queryClient.setQueryData("users", updateDataInCache(user));
+        setQueriesData(queryClient, "users", updateDataInCache(user));
 
         showSnackbar.success(
           <Snackbar type="success">Utilisateur modifié</Snackbar>
@@ -281,7 +282,7 @@ export function useDeleteUser(
 
       onSuccess(userId, ...rest) {
         queryClient.removeQueries(["user", userId]);
-        queryClient.setQueryData("users", removeDataFromCache(userId));
+        setQueriesData(queryClient, "users", removeDataFromCache(userId));
 
         showSnackbar.success(
           <Snackbar type="success">Utilisateur supprimé</Snackbar>
@@ -324,7 +325,7 @@ export function useToggleUserBlockedStatus(
 
       onSuccess(user, ...rest) {
         queryClient.setQueryData(["user", user.id], user);
-        queryClient.setQueryData("users", updateDataInCache(user));
+        setQueriesData(queryClient, "users", updateDataInCache(user));
 
         showSnackbar.success(
           <Snackbar type="success">Utilisateur modifié</Snackbar>
