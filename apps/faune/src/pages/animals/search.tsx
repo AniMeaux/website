@@ -79,15 +79,17 @@ const SearchAnimalPage: PageComponent = () => {
       );
     },
     renderItem: (animal) => (
-      <SearchableAnimalLinkItem animal={animal} href={`../${animal.id}`} />
+      <SearchableAnimalLinkItem
+        size="small"
+        animal={animal}
+        href={`../${animal.id}`}
+      />
     ),
   });
 
   let sectionTitle: React.ReactNode;
-
   if (query.data != null) {
     const count = query.data.pages[0].hitsTotalCount;
-
     if (count > 0) {
       sectionTitle = (
         <SectionTitle>

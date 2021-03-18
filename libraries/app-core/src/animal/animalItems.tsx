@@ -4,12 +4,12 @@ import {
 } from "@animeaux/shared-entities";
 import {
   Avatar,
+  AvatarSize,
   Image,
   Item,
   ItemContent,
   ItemIcon,
   ItemMainText,
-  ItemProps,
   LinkItem,
   LinkItemProps,
   Placeholder,
@@ -32,17 +32,22 @@ export function SearchableAnimalItemPlaceholder() {
   );
 }
 
-type SearchableAnimalContentProps = {
+type SearchableAnimalLinkItemProps = LinkItemProps & {
   animal: SearchableAnimal;
+  size?: AvatarSize | undefined;
 };
 
-function SearchableAnimalContent({ animal }: SearchableAnimalContentProps) {
+export function SearchableAnimalLinkItem({
+  animal,
+  size = "large",
+  ...rest
+}: SearchableAnimalLinkItemProps) {
   const displayName = getAnimalDisplayName(animal);
 
   return (
-    <>
+    <LinkItem {...rest}>
       <ItemIcon>
-        <Avatar size="large">
+        <Avatar size={size}>
           <Image image={animal.avatarId} preset="avatar" alt={displayName} />
         </Avatar>
       </ItemIcon>
@@ -50,33 +55,6 @@ function SearchableAnimalContent({ animal }: SearchableAnimalContentProps) {
       <ItemContent>
         <ItemMainText>{displayName}</ItemMainText>
       </ItemContent>
-    </>
-  );
-}
-
-type SearchableAnimalLinkItemProps = LinkItemProps &
-  SearchableAnimalContentProps;
-
-export function SearchableAnimalLinkItem({
-  animal,
-  ...rest
-}: SearchableAnimalLinkItemProps) {
-  return (
-    <LinkItem {...rest}>
-      <SearchableAnimalContent animal={animal} />
     </LinkItem>
-  );
-}
-
-type SearchableAnimalItemProps = ItemProps & SearchableAnimalContentProps;
-
-export function SearchableAnimalItem({
-  animal,
-  ...rest
-}: SearchableAnimalItemProps) {
-  return (
-    <Item {...rest}>
-      <SearchableAnimalContent animal={animal} />
-    </Item>
   );
 }

@@ -1,7 +1,7 @@
 import cn from "classnames";
 import * as React from "react";
 
-type AvatarSize = "small" | "medium" | "large" | "display";
+export type AvatarSize = "small" | "medium" | "large" | "display";
 
 const AvatarSizeClassName: {
   [key in AvatarSize]: string;
