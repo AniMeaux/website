@@ -1,6 +1,9 @@
 "use strict";
 
-const { fontFamily } = require("tailwindcss/defaultTheme");
+const {
+  fontFamily,
+  spacing: defaultSpacing,
+} = require("tailwindcss/defaultTheme");
 const { variants } = require("tailwindcss/defaultConfig");
 const lineClamp = require("@tailwindcss/line-clamp");
 
@@ -17,6 +20,12 @@ const base12 = {
   "10/12": "83.333333%",
   "11/12": "91.666667%",
   "12/12": "100%",
+};
+
+const spacing = {
+  ...defaultSpacing,
+  ...base12,
+  18: "4.5rem",
 };
 
 const opacities = {
@@ -124,10 +133,7 @@ module.exports = {
           900: "#003939",
         },
       },
-      spacing: {
-        ...base12,
-        18: "4.5rem",
-      },
+      spacing,
       fontFamily: {
         sans: ["Roboto"].concat(fontFamily.sans),
         serif: ['"Open Sans"'].concat(fontFamily.serif),
@@ -170,10 +176,13 @@ module.exports = {
         "fit-content": "fit-content",
       },
       maxWidth: {
-        ...base12,
+        ...spacing,
+      },
+      minHeight: {
+        ...spacing,
       },
       maxHeight: {
-        ...base12,
+        ...spacing,
       },
       width: {
         auto: "auto",
@@ -181,7 +190,6 @@ module.exports = {
       },
       height: {
         ...base12,
-        14: "3.5rem",
         "screen-5/12": "41.666667vh",
       },
       borderColor: {
