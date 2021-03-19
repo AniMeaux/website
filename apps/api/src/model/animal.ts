@@ -31,7 +31,7 @@ const typeDefs = gql`
     MALE
   }
 
-  enum AnimalColor {
+  enum AnimalColorEnum {
     BEIGE
     BLACK
     BLACK_AND_WHITE
@@ -67,7 +67,7 @@ const typeDefs = gql`
     gender: AnimalGender!
     species: AnimalSpecies!
     breed: AnimalBreed
-    color: AnimalColor
+    color: AnimalColorEnum
     status: AnimalStatus!
     avatarId: String!
     hostFamily: HostFamily
@@ -86,7 +86,7 @@ const typeDefs = gql`
     gender: AnimalGender!
     species: AnimalSpecies!
     breed: AnimalBreed
-    color: AnimalColor
+    color: AnimalColorEnum
     description: String!
     status: AnimalStatus!
     avatarId: String!
@@ -130,7 +130,7 @@ const typeDefs = gql`
       gender: AnimalGender!
       species: AnimalSpecies!
       breedId: ID
-      color: AnimalColor
+      color: AnimalColorEnum
       description: String!
       status: AnimalStatus!
       avatarId: String!
@@ -152,7 +152,7 @@ const typeDefs = gql`
       gender: AnimalGender
       species: AnimalSpecies
       breedId: ID
-      color: AnimalColor
+      color: AnimalColorEnum
       description: String
       status: AnimalStatus
       avatarId: String

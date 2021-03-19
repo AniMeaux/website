@@ -235,7 +235,7 @@ const CreateAnimalQuery = gql`
     $gender: AnimalGender!
     $species: AnimalSpecies!
     $breedId: ID
-    $color: AnimalColor
+    $color: AnimalColorEnum
     $description: String!
     $status: AnimalStatus!
     $avatarId: String!
@@ -416,7 +416,7 @@ const UpdateAnimalQuery = gql`
     $gender: AnimalGender
     $species: AnimalSpecies
     $breedId: ID
-    $color: AnimalColor
+    $color: AnimalColorEnum
     $description: String
     $status: AnimalStatus
     $avatarId: String

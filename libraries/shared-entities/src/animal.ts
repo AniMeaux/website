@@ -156,7 +156,7 @@ export const ANIMAL_GENDERS_ORDER = sortByLabels(
   AnimalGenderLabels
 );
 
-export enum AnimalColor {
+export enum AnimalColorEnum {
   BEIGE = "BEIGE",
   BLACK = "BLACK",
   BLACK_AND_WHITE = "BLACK_AND_WHITE",
@@ -184,36 +184,36 @@ export enum AnimalColor {
 }
 
 export const AnimalColorLabels: {
-  [key in AnimalColor]: string;
+  [key in AnimalColorEnum]: string;
 } = {
-  [AnimalColor.BEIGE]: "Beige",
-  [AnimalColor.BLACK]: "Noir",
-  [AnimalColor.BLACK_AND_WHITE]: "Noir et blanc",
-  [AnimalColor.BLUE]: "Bleu",
-  [AnimalColor.BRINDLE]: "Bringé",
-  [AnimalColor.BROWN]: "Marron",
-  [AnimalColor.BROWN_AND_WHITE]: "Marron et blanc",
-  [AnimalColor.CHOCOLATE]: "Chocolat",
-  [AnimalColor.CREAM]: "Crème",
-  [AnimalColor.FAWN]: "Fauve",
-  [AnimalColor.FAWN_AND_BLACK]: "Fauve et noir",
-  [AnimalColor.GINGER]: "Roux",
-  [AnimalColor.GINGER_AND_TABBY]: "Tigré et roux",
-  [AnimalColor.GINGER_AND_WHITE]: "Roux et blanc",
-  [AnimalColor.GRAY]: "Gris",
-  [AnimalColor.GRAY_AND_TABBY]: "Tigré et gris",
-  [AnimalColor.GRAY_AND_WHITE]: "Gris et blanc",
-  [AnimalColor.MERLE_BLUE]: "Bleu merle",
-  [AnimalColor.SIAMESE_TYPE]: "Typé siamois",
-  [AnimalColor.TABBY]: "Tigré",
-  [AnimalColor.TORTOISE_SHELL]: "Ecaille de tortue",
-  [AnimalColor.TRICOLOR]: "Tricolore",
-  [AnimalColor.WHITE]: "Blanc",
-  [AnimalColor.WHITE_AND_TABBY]: "Tigré et blanc",
+  [AnimalColorEnum.BEIGE]: "Beige",
+  [AnimalColorEnum.BLACK]: "Noir",
+  [AnimalColorEnum.BLACK_AND_WHITE]: "Noir et blanc",
+  [AnimalColorEnum.BLUE]: "Bleu",
+  [AnimalColorEnum.BRINDLE]: "Bringé",
+  [AnimalColorEnum.BROWN]: "Marron",
+  [AnimalColorEnum.BROWN_AND_WHITE]: "Marron et blanc",
+  [AnimalColorEnum.CHOCOLATE]: "Chocolat",
+  [AnimalColorEnum.CREAM]: "Crème",
+  [AnimalColorEnum.FAWN]: "Fauve",
+  [AnimalColorEnum.FAWN_AND_BLACK]: "Fauve et noir",
+  [AnimalColorEnum.GINGER]: "Roux",
+  [AnimalColorEnum.GINGER_AND_TABBY]: "Tigré et roux",
+  [AnimalColorEnum.GINGER_AND_WHITE]: "Roux et blanc",
+  [AnimalColorEnum.GRAY]: "Gris",
+  [AnimalColorEnum.GRAY_AND_TABBY]: "Tigré et gris",
+  [AnimalColorEnum.GRAY_AND_WHITE]: "Gris et blanc",
+  [AnimalColorEnum.MERLE_BLUE]: "Bleu merle",
+  [AnimalColorEnum.SIAMESE_TYPE]: "Typé siamois",
+  [AnimalColorEnum.TABBY]: "Tigré",
+  [AnimalColorEnum.TORTOISE_SHELL]: "Ecaille de tortue",
+  [AnimalColorEnum.TRICOLOR]: "Tricolore",
+  [AnimalColorEnum.WHITE]: "Blanc",
+  [AnimalColorEnum.WHITE_AND_TABBY]: "Tigré et blanc",
 };
 
 export const ANIMAL_COLORS_ORDER = sortByLabels(
-  Object.values(AnimalColor),
+  Object.values(AnimalColorEnum),
   AnimalColorLabels
 );
 
@@ -226,7 +226,7 @@ export type SearchableAnimal = {
   gender: AnimalGender;
   species: AnimalSpecies;
   breed?: AnimalBreed | null;
-  color?: AnimalColor | null;
+  color?: AnimalColorEnum | null;
   status: AnimalStatus;
   avatarId: string;
   hostFamily?: HostFamily | null;
@@ -283,7 +283,7 @@ export type AnimalProfileFormPayload = {
   gender: AnimalGender | null;
   species: AnimalSpecies | null;
   breed: AnimalBreed | null;
-  color: AnimalColor | null;
+  color: AnimalColorEnum | null;
   description: string;
 };
 
@@ -294,7 +294,7 @@ export type CreateAnimalProfilePayload = {
   gender: AnimalGender;
   species: AnimalSpecies;
   breedId?: string | null;
-  color?: AnimalColor | null;
+  color?: AnimalColorEnum | null;
   description: string;
 };
 
