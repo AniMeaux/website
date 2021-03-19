@@ -1,7 +1,7 @@
 import cn from "classnames";
 import * as React from "react";
 
-type PlaceholderPreset =
+export type PlaceholderPreset =
   | "avatar-small"
   | "avatar"
   | "avatar-large"

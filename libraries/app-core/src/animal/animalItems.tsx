@@ -13,14 +13,30 @@ import {
   LinkItem,
   LinkItemProps,
   Placeholder,
+  PlaceholderPreset,
 } from "@animeaux/ui-library";
 import * as React from "react";
 
-export function SearchableAnimalItemPlaceholder() {
+type SearchableAnimalItemPlaceholderProps = {
+  size?: AvatarSize | undefined;
+};
+
+const SearchableAnimalItemPlaceholderSize: {
+  [key in AvatarSize]: PlaceholderPreset;
+} = {
+  small: "avatar-small",
+  medium: "avatar",
+  large: "avatar-large",
+  display: "avatar-display",
+};
+
+export function SearchableAnimalItemPlaceholder({
+  size = "large",
+}: SearchableAnimalItemPlaceholderProps) {
   return (
     <Item>
       <ItemIcon>
-        <Placeholder preset="avatar-large" />
+        <Placeholder preset={SearchableAnimalItemPlaceholderSize[size]} />
       </ItemIcon>
 
       <ItemContent>
