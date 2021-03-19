@@ -1,5 +1,6 @@
 export * from "./animal";
 export * from "./animalBreed";
+export * from "./animalColor";
 export * from "./applicationProviders";
 export * from "./cloudinary";
 export * from "./errorPage";

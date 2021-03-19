@@ -10,7 +10,6 @@ import {
 } from "@animeaux/app-core";
 import {
   Animal,
-  AnimalColorLabels,
   AnimalGender,
   AnimalGenderLabels,
   AnimalSpeciesLabels,
@@ -225,7 +224,7 @@ function ProfileSection({ animal }: AnimalProps) {
   const speciesLabels = [
     AnimalSpeciesLabels[animal.species],
     animal.breed?.name,
-    animal.color != null ? AnimalColorLabels[animal.color] : null,
+    animal.color?.name,
   ].filter(isDefined);
 
   return (

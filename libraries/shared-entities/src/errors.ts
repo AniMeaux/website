@@ -50,6 +50,13 @@ export enum ErrorCode {
   ANIMAL_BREED_ALREADY_EXIST = "animal-breed/name-already-used",
   ANIMAL_BREED_IS_REFERENCED = "animal-breed/is-referenced",
 
+  //// Animal Color ////////////////////////////////////////////////////////////
+
+  ANIMAL_COLOR_NOT_FOUND = "animal-color/not-found",
+  ANIMAL_COLOR_MISSING_NAME = "animal-color/missing-name",
+  ANIMAL_COLOR_ALREADY_EXIST = "animal-color/name-already-used",
+  ANIMAL_COLOR_IS_REFERENCED = "animal-color/is-referenced",
+
   //// Host Family /////////////////////////////////////////////////////////////
 
   HOST_FAMILY_NOT_FOUND = "host-family/not-found",
@@ -105,6 +112,14 @@ const ErrorCodeLabels: { [key in ErrorCode]?: string } = {
   [ErrorCode.ANIMAL_BREED_MISSING_SPECIES]: "L'espèce est obligatoire",
   [ErrorCode.ANIMAL_BREED_IS_REFERENCED]:
     "La race ne peut pas être supprimée parce qu'elle est référencée par au moins un animal",
+
+  //// Animal Color ////////////////////////////////////////////////////////////
+
+  [ErrorCode.ANIMAL_COLOR_NOT_FOUND]: "La couleur est introuvable",
+  [ErrorCode.ANIMAL_COLOR_MISSING_NAME]: "Le nom est obligatoire",
+  [ErrorCode.ANIMAL_COLOR_ALREADY_EXIST]: "Cette couleur existe déjà",
+  [ErrorCode.ANIMAL_COLOR_IS_REFERENCED]:
+    "La couleur ne peut pas être supprimée parce qu'elle est référencée par au moins un animal",
 
   //// Host Family /////////////////////////////////////////////////////////////
 

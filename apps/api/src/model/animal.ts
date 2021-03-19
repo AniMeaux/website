@@ -1,4 +1,5 @@
 import {
+  AnimalColorIds,
   AnimalSearch,
   CreateAnimalPayload,
   DBAnimal,
@@ -31,33 +32,6 @@ const typeDefs = gql`
     MALE
   }
 
-  enum AnimalColorEnum {
-    BEIGE
-    BLACK
-    BLACK_AND_WHITE
-    BLUE
-    BRINDLE
-    BROWN
-    BROWN_AND_WHITE
-    CHOCOLATE
-    CREAM
-    FAWN
-    FAWN_AND_BLACK
-    GINGER
-    GINGER_AND_TABBY
-    GINGER_AND_WHITE
-    GRAY
-    GRAY_AND_TABBY
-    GRAY_AND_WHITE
-    MERLE_BLUE
-    SIAMESE_TYPE
-    TABBY
-    TORTOISE_SHELL
-    TRICOLOR
-    WHITE
-    WHITE_AND_TABBY
-  }
-
   type SearchableAnimal {
     id: ID!
     officialName: String!
@@ -67,7 +41,7 @@ const typeDefs = gql`
     gender: AnimalGender!
     species: AnimalSpecies!
     breed: AnimalBreed
-    color: AnimalColorEnum
+    color: AnimalColor
     status: AnimalStatus!
     avatarId: String!
     hostFamily: HostFamily
@@ -86,7 +60,7 @@ const typeDefs = gql`
     gender: AnimalGender!
     species: AnimalSpecies!
     breed: AnimalBreed
-    color: AnimalColorEnum
+    color: AnimalColor
     description: String!
     status: AnimalStatus!
     avatarId: String!
@@ -130,7 +104,7 @@ const typeDefs = gql`
       gender: AnimalGender!
       species: AnimalSpecies!
       breedId: ID
-      color: AnimalColorEnum
+      colorId: ID
       description: String!
       status: AnimalStatus!
       avatarId: String!
@@ -152,7 +126,7 @@ const typeDefs = gql`
       gender: AnimalGender
       species: AnimalSpecies
       breedId: ID
-      color: AnimalColorEnum
+      colorId: ID
       description: String
       status: AnimalStatus
       avatarId: String
@@ -183,6 +157,18 @@ const resolvers: IResolvers = {
       return await database.getAnimalBreed(animal.breedId);
     },
 
+    color: async (animal: DBSearchableAnimal) => {
+      if (animal.colorId != null) {
+        return await database.getAnimalColor(animal.colorId);
+      }
+
+      if (animal.color != null) {
+        return await database.getAnimalColor(AnimalColorIds[animal.color]);
+      }
+
+      return null;
+    },
+
     hostFamily: async (animal: DBSearchableAnimal) => {
       if (animal.hostFamilyId == null) {
         return null;
@@ -203,6 +189,18 @@ const resolvers: IResolvers = {
       }
 
       return await database.getAnimalBreed(animal.breedId);
+    },
+
+    color: async (animal: DBAnimal) => {
+      if (animal.colorId != null) {
+        return await database.getAnimalColor(animal.colorId);
+      }
+
+      if (animal.color != null) {
+        return await database.getAnimalColor(AnimalColorIds[animal.color]);
+      }
+
+      return null;
     },
 
     description: (animal: DBAnimal) => {

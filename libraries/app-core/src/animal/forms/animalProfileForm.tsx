@@ -1,8 +1,6 @@
 import {
-  AnimalColorLabels,
   AnimalGenderLabels,
   AnimalProfileFormPayload,
-  ANIMAL_COLORS_ORDER,
   ANIMAL_GENDERS_ORDER,
 } from "@animeaux/shared-entities";
 import {
@@ -16,7 +14,6 @@ import {
   Input,
   Label,
   LinkInput,
-  Select,
   Selector,
   SelectorIcon,
   SelectorItem,
@@ -192,10 +189,9 @@ export function AnimalProfileForm<
           Couleur
         </Label>
 
-        <Select
-          id="animal-color"
-          value={value.color}
-          onChange={(color) => onChange((value) => ({ ...value, color }))}
+        <LinkInput
+          href="../color"
+          value={value.color?.name}
           leftAdornment={
             <Adornment>
               <FaPalette />
@@ -210,13 +206,7 @@ export function AnimalProfileForm<
               </ActionAdornment>
             )
           }
-        >
-          {ANIMAL_COLORS_ORDER.map((color) => (
-            <option key={color} value={color}>
-              {AnimalColorLabels[color]}
-            </option>
-          ))}
-        </Select>
+        />
       </Field>
 
       <Field>

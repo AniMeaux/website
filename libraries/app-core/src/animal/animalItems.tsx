@@ -18,7 +18,7 @@ import {
 import * as React from "react";
 
 type SearchableAnimalItemPlaceholderProps = {
-  size?: AvatarSize | undefined;
+  size?: AvatarSize;
 };
 
 const SearchableAnimalItemPlaceholderSize: {
@@ -50,7 +50,7 @@ export function SearchableAnimalItemPlaceholder({
 
 type SearchableAnimalLinkItemProps = LinkItemProps & {
   animal: SearchableAnimal;
-  size?: AvatarSize | undefined;
+  size?: AvatarSize;
 };
 
 export function SearchableAnimalLinkItem({

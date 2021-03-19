@@ -2,6 +2,7 @@ import * as admin from "firebase-admin";
 import { Database, DatabaseCore } from "../../databaseType";
 import { animalDatabase } from "./animal";
 import { animalBreedDatabase } from "./animalBreed";
+import { animalColorDatabase } from "./animalColor";
 import { hostFamilyDatabase } from "./hostFamily";
 import { userDatabase } from "./user";
 
@@ -28,6 +29,7 @@ const databaseCore: DatabaseCore = {
 export const firebaseDatabase: Database = {
   ...databaseCore,
   ...animalBreedDatabase,
+  ...animalColorDatabase,
   ...hostFamilyDatabase,
   ...userDatabase,
   ...animalDatabase,

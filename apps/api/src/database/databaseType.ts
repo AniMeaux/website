@@ -1,8 +1,11 @@
 import {
   AnimalBreed,
   AnimalBreedSearch,
+  AnimalColor,
+  AnimalColorSearch,
   AnimalSearch,
   CreateAnimalBreedPayload,
+  CreateAnimalColorPayload,
   CreateAnimalPayload,
   CreateHostFamilyPayload,
   CreateUserPayload,
@@ -13,6 +16,7 @@ import {
   PaginatedRequestParameters,
   PaginatedResponse,
   UpdateAnimalBreedPayload,
+  UpdateAnimalColorPayload,
   UpdateAnimalPayload,
   UpdateHostFamilyPayload,
   UpdateUserPayload,
@@ -43,6 +47,16 @@ export type AnimalBreedDatabase = {
   deleteAnimalBreed(id: string): Promise<boolean>;
 };
 
+export type AnimalColorDatabase = {
+  getAllAnimalColors(
+    parameters: PaginatedRequestParameters<AnimalColorSearch>
+  ): Promise<PaginatedResponse<AnimalColor>>;
+  getAnimalColor(id: string): Promise<AnimalColor | null>;
+  createAnimalColor(payload: CreateAnimalColorPayload): Promise<AnimalColor>;
+  updateAnimalColor(payload: UpdateAnimalColorPayload): Promise<AnimalColor>;
+  deleteAnimalColor(id: string): Promise<boolean>;
+};
+
 export type HostFamilyDatabase = {
   getAllHostFamilies(
     parameters: PaginatedRequestParameters<HostFamilySearch>
@@ -69,5 +83,6 @@ export type AnimalDatabase = {
 export type Database = DatabaseCore &
   UserDatabase &
   AnimalBreedDatabase &
+  AnimalColorDatabase &
   HostFamilyDatabase &
   AnimalDatabase;

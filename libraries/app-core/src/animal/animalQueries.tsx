@@ -28,6 +28,7 @@ import { gql } from "graphql-request";
 import difference from "lodash.difference";
 import * as React from "react";
 import { AnimalBreedFragment } from "../animalBreed/animalBreedQueries";
+import { AnimalColorFragment } from "../animalColor";
 import { deleteImage, uploadImageFile, useCloudinary } from "../cloudinary";
 import { HostFamilyFragment } from "../hostFamily/hostFamilyQueries";
 import {
@@ -55,7 +56,9 @@ const SearchableAnimalFragment = gql`
     breed {
       ...AnimalBreedFragment
     }
-    color
+    color {
+      ...AnimalColorFragment
+    }
     status
     avatarId
     hostFamily {
@@ -68,6 +71,7 @@ const SearchableAnimalFragment = gql`
   }
 
   ${AnimalBreedFragment}
+  ${AnimalColorFragment}
   ${HostFamilyFragment}
 `;
 
@@ -83,7 +87,9 @@ const AnimalFragment = gql`
     breed {
       ...AnimalBreedFragment
     }
-    color
+    color {
+      ...AnimalColorFragment
+    }
     description
     status
     avatarId
@@ -99,6 +105,7 @@ const AnimalFragment = gql`
   }
 
   ${AnimalBreedFragment}
+  ${AnimalColorFragment}
   ${HostFamilyFragment}
 `;
 
@@ -235,7 +242,7 @@ const CreateAnimalQuery = gql`
     $gender: AnimalGender!
     $species: AnimalSpecies!
     $breedId: ID
-    $color: AnimalColorEnum
+    $colorId: ID
     $description: String!
     $status: AnimalStatus!
     $avatarId: String!
@@ -255,7 +262,7 @@ const CreateAnimalQuery = gql`
       gender: $gender
       species: $species
       breedId: $breedId
-      color: $color
+      colorId: $colorId
       description: $description
       status: $status
       avatarId: $avatarId
@@ -416,7 +423,7 @@ const UpdateAnimalQuery = gql`
     $gender: AnimalGender
     $species: AnimalSpecies
     $breedId: ID
-    $color: AnimalColorEnum
+    $colorId: ID
     $description: String
     $status: AnimalStatus
     $avatarId: String
@@ -437,7 +444,7 @@ const UpdateAnimalQuery = gql`
       gender: $gender
       species: $species
       breedId: $breedId
-      color: $color
+      colorId: $colorId
       description: $description
       status: $status
       avatarId: $avatarId

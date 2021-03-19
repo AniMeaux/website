@@ -6,6 +6,7 @@ import { AuthDirective } from "./authDirective";
 import { database } from "./database";
 import { AnimalModel } from "./model/animal";
 import { AnimalBreedModel } from "./model/animalBreed";
+import { AnimalColorModel } from "./model/animalColor";
 import { HostFamilyModel } from "./model/hostFamily";
 import { ImageModel } from "./model/image";
 import { AuthContext } from "./model/shared";
@@ -53,6 +54,7 @@ const apolloServer = new ApolloServer({
     AuthDirective.typeDefs,
     UserModel.typeDefs,
     AnimalBreedModel.typeDefs,
+    AnimalColorModel.typeDefs,
     HostFamilyModel.typeDefs,
     AnimalModel.typeDefs,
     ImageModel.typeDefs,
@@ -64,6 +66,7 @@ const apolloServer = new ApolloServer({
         {},
         UserModel.queries,
         AnimalBreedModel.queries,
+        AnimalColorModel.queries,
         HostFamilyModel.queries,
         AnimalModel.queries,
         ImageModel.queries
@@ -72,6 +75,7 @@ const apolloServer = new ApolloServer({
         {},
         UserModel.mutations,
         AnimalBreedModel.mutations,
+        AnimalColorModel.mutations,
         HostFamilyModel.mutations,
         AnimalModel.mutations
       ),

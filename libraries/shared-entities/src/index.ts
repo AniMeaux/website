@@ -1,5 +1,6 @@
 export * from "./animal";
 export * from "./animalBreed";
+export * from "./animalColor";
 export * from "./date";
 export * from "./email";
 export * from "./errors";

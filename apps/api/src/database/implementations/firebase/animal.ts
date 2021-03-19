@@ -1,5 +1,6 @@
 import {
   ACTIVE_ANIMAL_STATUS,
+  AnimalColorIds,
   AnimalSearch,
   CreateAnimalPayload,
   DBAnimal,
@@ -130,7 +131,7 @@ export const animalDatabase: AnimalDatabase = {
       gender: payload.gender,
       species: payload.species,
       breedId: payload.breedId,
-      color: payload.color,
+      colorId: payload.colorId,
       status: payload.status,
       pickUpDate: payload.pickUpDate,
       pickUpDateTimestamp: new Date(payload.pickUpDate).getTime(),
@@ -248,9 +249,13 @@ export const animalDatabase: AnimalDatabase = {
       }
     }
 
+    const animalColorId =
+      animal.color != null ? AnimalColorIds[animal.color] : animal.colorId;
+
     // Allow null to clear the field.
-    if (payload.color !== undefined && payload.color !== animal.color) {
-      searchableAnimalUpdate.color = payload.color;
+    if (payload.colorId !== undefined && payload.colorId !== animalColorId) {
+      searchableAnimalUpdate.color = null;
+      searchableAnimalUpdate.colorId = payload.colorId;
     }
 
     if (payload.status != null && payload.status !== animal.status) {

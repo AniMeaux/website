@@ -36,6 +36,7 @@ const StepValidators: Record<
 > = {
   profile: () => true,
   breed: () => true,
+  color: () => true,
   situation: (payload) => {
     try {
       return createAnimalProfileCreationApiPayload(payload) != null;
