@@ -284,6 +284,11 @@
     width: calc(theme("width.full") - theme("width.10"));
   }
 
+  .submit-button-bottom {
+    bottom: theme("padding.8");
+    bottom: calc(theme("padding.8") + env(safe-area-inset-bottom, 0));
+  }
+
   .quick-action-bottom {
     /* Navigation height + padding.4 */
     bottom: theme("padding.18");

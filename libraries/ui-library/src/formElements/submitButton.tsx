@@ -19,7 +19,7 @@ export function SubmitButton({
       color={color}
       variant={variant}
       className={cn(
-        "sticky bottom-8 mx-4 transition-shadow duration-200 ease-in-out my-8 self-center",
+        "sticky submit-button-bottom mx-4 transition-shadow duration-200 ease-in-out my-8 self-center",
         {
           "shadow-md": !isAtTheBottom,
           "shadow-none": isAtTheBottom,
