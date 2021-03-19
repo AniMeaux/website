@@ -10,7 +10,12 @@ function relativePath(absolutePath: string) {
   return path.relative(process.cwd(), absolutePath);
 }
 
-const COLLECTIONS_NAME = ["animalBreeds", "animals", "hostFamilies"];
+const COLLECTIONS_NAME = [
+  "animalBreeds",
+  "animalColors",
+  "animals",
+  "hostFamilies",
+];
 
 async function outputRows(
   rows: any[],

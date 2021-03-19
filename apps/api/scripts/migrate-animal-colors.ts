@@ -1,27 +1,57 @@
 import "./shared";
-import {
-  AnimalColorEnum,
-  AnimalColorLabels,
-  ANIMAL_COLORS_ORDER,
-} from "@animeaux/shared-entities";
+import { AnimalColorIds, DBAnimal } from "@animeaux/shared-entities";
+import * as admin from "firebase-admin";
 import { firebaseDatabase } from "../src/database/implementations/firebase";
-import { animalColorDatabase } from "../src/database/implementations/firebase/animalColor";
+import { AlgoliaClient } from "../src/database/implementations/firebase/algoliaClient";
 
-async function createAnimalColor(color: AnimalColorEnum) {
-  const animalColor = await animalColorDatabase.createAnimalColor({
-    name: AnimalColorLabels[color],
-  });
+const AnimalsIndex = AlgoliaClient.initIndex("animals");
 
-  console.log(`- 👍 ${animalColor.name} (${animalColor.id})`);
+async function migrateAnimal(animal: DBAnimal) {
+  if (animal.color != null) {
+    const { color, ...cleanedAnimal } = animal;
+    cleanedAnimal.colorId =
+      cleanedAnimal.colorId ?? AnimalColorIds[animal.color];
+
+    await admin
+      .firestore()
+      .collection("animals")
+      .doc(animal.id)
+      .set(cleanedAnimal);
+
+    const {
+      description,
+      picturesId,
+      comments,
+      ...searchableAnimal
+    } = cleanedAnimal;
+
+    await AnimalsIndex.saveObject({ ...searchableAnimal, objectID: animal.id });
+
+    console.log(
+      `- 👍 ${animal.officialName} ${color} → ${cleanedAnimal.colorId}`
+    );
+    return true;
+  }
+
+  return false;
+}
+
+function hasMigrated(value: boolean): value is true {
+  return value;
 }
 
 async function main() {
   firebaseDatabase.initialize();
   console.log(`🚚 Migrating animal colors:`);
 
-  await Promise.all(ANIMAL_COLORS_ORDER.map(createAnimalColor));
+  const collection = await admin.firestore().collection("animals").get();
+  const animals = collection.docs.map((doc) => doc.data() as DBAnimal);
 
-  console.log(`\n🎉 Migrated ${ANIMAL_COLORS_ORDER.length} colors!\n`);
+  const migratedAnimals = (
+    await Promise.all(animals.map(migrateAnimal))
+  ).filter(hasMigrated);
+
+  console.log(`\n🎉 Migrated ${migratedAnimals.length} animals!\n`);
 
   // Firebase has an open handle (setTokenRefreshTimeout) that prevent the
   // script from exiting, so we force exit.
