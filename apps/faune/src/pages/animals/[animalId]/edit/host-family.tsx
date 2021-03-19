@@ -40,7 +40,7 @@ function UpdateAnimalHostFamilyForm() {
   const { content } = renderInfiniteItemList(query, {
     hasSearch: search !== "",
     getItemKey: (hostFamily) => hostFamily.id,
-    placeholderElement: HostFamilySearchItemPlaceholder,
+    renderPlaceholderItem: () => <HostFamilySearchItemPlaceholder />,
     emptyMessage: "Il n'y a pas encore de famille d'accueil",
     emptySearchMessage: "Aucune famille d'accueil trouvée",
     renderEmptySearchAction: () => (

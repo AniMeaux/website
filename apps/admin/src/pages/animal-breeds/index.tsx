@@ -26,7 +26,7 @@ const AnimalBreedListPage: PageComponent = () => {
   const { content, title } = renderInfiniteItemList(query, {
     title: TITLE,
     getItemKey: (animalBreed) => animalBreed.id,
-    placeholderElement: AnimalBreedItemPlaceholder,
+    renderPlaceholderItem: () => <AnimalBreedItemPlaceholder />,
     emptyMessage: "Il n'y a pas encore de race",
     renderItem: (animalBreed) => (
       <AnimalBreedItem animalBreed={animalBreed} href={`./${animalBreed.id}`} />

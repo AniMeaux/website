@@ -177,7 +177,7 @@ const HostFamilyPage: PageComponent = () => {
   const hostedAnimalsQuery = useAllAnimals({ hostFamilyId });
   const hostedAnimals = renderInfiniteItemList(hostedAnimalsQuery, {
     getItemKey: (animal) => animal.id,
-    placeholderElement: SearchableAnimalItemPlaceholder,
+    renderPlaceholderItem: () => <SearchableAnimalItemPlaceholder />,
     placeholderCount: 2,
     emptyMessage: "Aucun animal en accueil",
     renderEmptyMessage: ({ children }) => (

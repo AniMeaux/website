@@ -34,7 +34,7 @@ const AnimalListPage: PageComponent = () => {
   const { content, title } = renderInfiniteItemList(query, {
     title: TITLE,
     getItemKey: (animal) => animal.id,
-    placeholderElement: SearchableAnimalItemPlaceholder,
+    renderPlaceholderItem: () => <SearchableAnimalItemPlaceholder />,
     emptyMessage: "Il n'y a pas encore d'animaux",
     renderItem: (animal) => (
       <SearchableAnimalLinkItem animal={animal} href={`./${animal.id}`} />

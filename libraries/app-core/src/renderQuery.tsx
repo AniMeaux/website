@@ -24,7 +24,7 @@ type ItemListRenderers<ItemType> = {
   renderEmptyMessage?: (props: EmptyMessageRendererProps) => React.ReactNode;
   getItemKey: (item: ItemType) => string;
   renderItem: (item: ItemType) => React.ReactNode;
-  placeholderElement: React.ElementType;
+  renderPlaceholderItem: () => React.ReactNode;
   placeholderCount?: number;
   renderError?: (props: ErrorRendererProps) => React.ReactNode;
   retryButtonLabel?: string;
@@ -56,7 +56,7 @@ function renderItemListContent<DataType>(
     renderEmptyMessage = defaultRenderEmptyMessage,
     getItemKey,
     renderItem,
-    placeholderElement: PlaceholderElement,
+    renderPlaceholderItem,
     placeholderCount = 5,
     renderError = defaultRenderError,
     retryButtonLabel = DEFAULT_RETRY_LABEL,
@@ -81,9 +81,7 @@ function renderItemListContent<DataType>(
     return (
       <ul>
         <Placeholders count={placeholderCount}>
-          <li>
-            <PlaceholderElement />
-          </li>
+          <li>{renderPlaceholderItem()}</li>
         </Placeholders>
       </ul>
     );
@@ -133,7 +131,7 @@ function renderInfiniteItemListContent<ItemType>(
     getItemKey,
     renderItem,
     renderAdditionalItem,
-    placeholderElement: PlaceholderElement,
+    renderPlaceholderItem,
     placeholderCount = 5,
     renderError = defaultRenderError,
     retryButtonLabel = DEFAULT_RETRY_LABEL,
@@ -181,11 +179,7 @@ function renderInfiniteItemListContent<ItemType>(
 
         <ul>
           {itemsNode}
-          {renderPlaceholder && (
-            <li>
-              <PlaceholderElement />
-            </li>
-          )}
+          {renderPlaceholder && <li>{renderPlaceholderItem()}</li>}
         </ul>
       </>
     );
@@ -198,9 +192,7 @@ function renderInfiniteItemListContent<ItemType>(
 
         <ul>
           <Placeholders count={placeholderCount}>
-            <li>
-              <PlaceholderElement />
-            </li>
+            <li>{renderPlaceholderItem()}</li>
           </Placeholders>
         </ul>
       </>

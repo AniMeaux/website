@@ -27,7 +27,7 @@ const HostFamilyListPage: PageComponent = () => {
   const { content, title } = renderInfiniteItemList(query, {
     title: TITLE,
     getItemKey: (hostFamily) => hostFamily.id,
-    placeholderElement: HostFamilyItemPlaceholder,
+    renderPlaceholderItem: () => <HostFamilyItemPlaceholder />,
     emptyMessage: "Il n'y a pas encore de famille d'accueil",
     renderItem: (hostFamily) => (
       <HostFamilyLinkItem hostFamily={hostFamily} href={`./${hostFamily.id}`} />

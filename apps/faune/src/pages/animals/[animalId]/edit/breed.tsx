@@ -34,7 +34,7 @@ function UpdateAnimalBreedForm() {
   const { content } = renderInfiniteItemList(query, {
     hasSearch: search !== "",
     getItemKey: (animalBreed) => animalBreed.id,
-    placeholderElement: AnimalBreedSearchItemPlaceholder,
+    renderPlaceholderItem: () => <AnimalBreedSearchItemPlaceholder />,
     emptyMessage: "Il n'y a pas encore de race",
     emptySearchMessage: "Aucune race trouvée",
     renderEmptySearchAction: () => (

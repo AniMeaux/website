@@ -63,7 +63,7 @@ const SearchAnimalPage: PageComponent = () => {
     title: TITLE,
     hasSearch: hasAnimalSearch({ search, ...filters }),
     getItemKey: (animal) => animal.id,
-    placeholderElement: SearchableAnimalItemPlaceholder,
+    renderPlaceholderItem: () => <SearchableAnimalItemPlaceholder />,
     emptyMessage: "Il n'y a pas encore d'animaux",
     emptySearchMessage: "Aucun animal trouvée",
     renderEmptySearchAction: () => {
