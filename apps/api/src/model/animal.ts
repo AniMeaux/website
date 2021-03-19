@@ -1,5 +1,4 @@
 import {
-  AnimalColorIds,
   AnimalSearch,
   CreateAnimalPayload,
   DBAnimal,
@@ -162,10 +161,6 @@ const resolvers: IResolvers = {
         return await database.getAnimalColor(animal.colorId);
       }
 
-      if (animal.color != null) {
-        return await database.getAnimalColor(AnimalColorIds[animal.color]);
-      }
-
       return null;
     },
 
@@ -194,10 +189,6 @@ const resolvers: IResolvers = {
     color: async (animal: DBAnimal) => {
       if (animal.colorId != null) {
         return await database.getAnimalColor(animal.colorId);
-      }
-
-      if (animal.color != null) {
-        return await database.getAnimalColor(AnimalColorIds[animal.color]);
       }
 
       return null;

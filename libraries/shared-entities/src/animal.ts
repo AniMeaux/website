@@ -157,96 +157,6 @@ export const ANIMAL_GENDERS_ORDER = sortByLabels(
   AnimalGenderLabels
 );
 
-export enum AnimalColorEnum {
-  BEIGE = "BEIGE",
-  BLACK = "BLACK",
-  BLACK_AND_WHITE = "BLACK_AND_WHITE",
-  BLUE = "BLUE",
-  BRINDLE = "BRINDLE",
-  BROWN = "BROWN",
-  BROWN_AND_WHITE = "BROWN_AND_WHITE",
-  CHOCOLATE = "CHOCOLATE",
-  CREAM = "CREAM",
-  FAWN = "FAWN",
-  FAWN_AND_BLACK = "FAWN_AND_BLACK",
-  GINGER = "GINGER",
-  GINGER_AND_TABBY = "GINGER_AND_TABBY",
-  GINGER_AND_WHITE = "GINGER_AND_WHITE",
-  GRAY = "GRAY",
-  GRAY_AND_TABBY = "GRAY_AND_TABBY",
-  GRAY_AND_WHITE = "GRAY_AND_WHITE",
-  MERLE_BLUE = "MERLE_BLUE",
-  SIAMESE_TYPE = "SIAMESE_TYPE",
-  TABBY = "TABBY",
-  TORTOISE_SHELL = "TORTOISE_SHELL",
-  TRICOLOR = "TRICOLOR",
-  WHITE = "WHITE",
-  WHITE_AND_TABBY = "WHITE_AND_TABBY",
-}
-
-export const AnimalColorLabels: {
-  [key in AnimalColorEnum]: string;
-} = {
-  [AnimalColorEnum.BEIGE]: "Beige",
-  [AnimalColorEnum.BLACK]: "Noir",
-  [AnimalColorEnum.BLACK_AND_WHITE]: "Noir et blanc",
-  [AnimalColorEnum.BLUE]: "Bleu",
-  [AnimalColorEnum.BRINDLE]: "Bringé",
-  [AnimalColorEnum.BROWN]: "Marron",
-  [AnimalColorEnum.BROWN_AND_WHITE]: "Marron et blanc",
-  [AnimalColorEnum.CHOCOLATE]: "Chocolat",
-  [AnimalColorEnum.CREAM]: "Crème",
-  [AnimalColorEnum.FAWN]: "Fauve",
-  [AnimalColorEnum.FAWN_AND_BLACK]: "Fauve et noir",
-  [AnimalColorEnum.GINGER]: "Roux",
-  [AnimalColorEnum.GINGER_AND_TABBY]: "Tigré et roux",
-  [AnimalColorEnum.GINGER_AND_WHITE]: "Roux et blanc",
-  [AnimalColorEnum.GRAY]: "Gris",
-  [AnimalColorEnum.GRAY_AND_TABBY]: "Tigré et gris",
-  [AnimalColorEnum.GRAY_AND_WHITE]: "Gris et blanc",
-  [AnimalColorEnum.MERLE_BLUE]: "Bleu merle",
-  [AnimalColorEnum.SIAMESE_TYPE]: "Typé siamois",
-  [AnimalColorEnum.TABBY]: "Tigré",
-  [AnimalColorEnum.TORTOISE_SHELL]: "Ecaille de tortue",
-  [AnimalColorEnum.TRICOLOR]: "Tricolore",
-  [AnimalColorEnum.WHITE]: "Blanc",
-  [AnimalColorEnum.WHITE_AND_TABBY]: "Tigré et blanc",
-};
-
-export const AnimalColorIds: {
-  [key in AnimalColorEnum]: string;
-} = {
-  [AnimalColorEnum.BEIGE]: "4a4cd32b-d75a-4c92-b996-a38ff92e23d7",
-  [AnimalColorEnum.BLACK]: "a0963648-bd50-4c87-bbb9-6cbd25125afd",
-  [AnimalColorEnum.BLACK_AND_WHITE]: "0ea94c47-9f66-4f40-ac63-5f4a2bba86c0",
-  [AnimalColorEnum.BLUE]: "f4124158-c19d-4a4a-a0f4-854283dd2d41",
-  [AnimalColorEnum.BRINDLE]: "81ddeb54-3d5b-4469-81ea-0103e1ba2f41",
-  [AnimalColorEnum.BROWN]: "f2545615-f5dd-4696-8f89-d0d65e9d2bc4",
-  [AnimalColorEnum.BROWN_AND_WHITE]: "ead50554-173f-4285-a098-9047ed72fed7",
-  [AnimalColorEnum.CHOCOLATE]: "4985da86-bd33-4d65-88b0-4854be4283e9",
-  [AnimalColorEnum.CREAM]: "11c1ebd0-b3c4-4ee2-90dc-e60e0a05ceb2",
-  [AnimalColorEnum.FAWN]: "caefe686-606f-4d46-8700-a60ebd07007b",
-  [AnimalColorEnum.FAWN_AND_BLACK]: "8d5c5ff3-2ac8-4e7b-a58c-1a91108e1968",
-  [AnimalColorEnum.GINGER]: "72523f5c-e3ef-433e-b12f-b690662b9fd9",
-  [AnimalColorEnum.GINGER_AND_TABBY]: "9ab7dfab-8f2a-4c26-a419-e7a3ab277d2d",
-  [AnimalColorEnum.GINGER_AND_WHITE]: "ab404ee7-b178-496f-898b-db91cba2f7ad",
-  [AnimalColorEnum.GRAY]: "bae9974a-a139-472f-8e6b-00a3bddee41d",
-  [AnimalColorEnum.GRAY_AND_TABBY]: "0ac49ac1-cf34-43ca-990e-7f559360fb63",
-  [AnimalColorEnum.GRAY_AND_WHITE]: "d87715e8-1c2b-498e-b08b-5f676ad195d5",
-  [AnimalColorEnum.MERLE_BLUE]: "0fb7fb76-160c-41d6-b179-7fcd313e441a",
-  [AnimalColorEnum.SIAMESE_TYPE]: "b2ef240f-1416-4b35-a453-9d2416f8b0c4",
-  [AnimalColorEnum.TABBY]: "4761f37c-cf28-4a0a-9e8e-67d6e8264be6",
-  [AnimalColorEnum.TORTOISE_SHELL]: "a0561e4e-1bd4-44d6-bc3a-3e71936de4a2",
-  [AnimalColorEnum.TRICOLOR]: "605338ca-5c82-4d9c-8a5e-baff022b6f0f",
-  [AnimalColorEnum.WHITE]: "efc89c01-3337-4ca9-ace1-595bb09e68f3",
-  [AnimalColorEnum.WHITE_AND_TABBY]: "98490490-71b8-4707-a896-69dd3d8ec20b",
-};
-
-export const ANIMAL_COLORS_ORDER = sortByLabels(
-  Object.values(AnimalColorEnum),
-  AnimalColorLabels
-);
-
 export type SearchableAnimal = {
   id: string;
   officialName: string;
@@ -270,7 +180,6 @@ export type DBSearchableAnimal = Omit<
   SearchableAnimal,
   "breed" | "commonName" | "hostFamily" | "color"
 > & {
-  color?: AnimalColorEnum | null;
   colorId?: string | null;
   commonName?: string | null;
   breedId?: string | null;

@@ -1,6 +1,5 @@
 import {
   ACTIVE_ANIMAL_STATUS,
-  AnimalColorIds,
   AnimalSearch,
   CreateAnimalPayload,
   DBAnimal,
@@ -249,12 +248,8 @@ export const animalDatabase: AnimalDatabase = {
       }
     }
 
-    const animalColorId =
-      animal.color != null ? AnimalColorIds[animal.color] : animal.colorId;
-
     // Allow null to clear the field.
-    if (payload.colorId !== undefined && payload.colorId !== animalColorId) {
-      searchableAnimalUpdate.color = null;
+    if (payload.colorId !== undefined && payload.colorId !== animal.colorId) {
       searchableAnimalUpdate.colorId = payload.colorId;
     }
 
