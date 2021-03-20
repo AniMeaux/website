@@ -1,4 +1,5 @@
 import { ImageFileOrId, isImageFile } from "@animeaux/shared-entities";
+import * as Sentry from "@sentry/react";
 import cn from "classnames";
 import invariant from "invariant";
 import * as React from "react";
@@ -99,7 +100,13 @@ export function Image({
       className={className}
       src={src}
       alt={alt}
-      onError={() => setHasError(true)}
+      onError={(error) => {
+        Sentry.captureException(error, {
+          extra: { image, preset, src },
+        });
+
+        setHasError(true);
+      }}
     />
   );
 }

@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "@animeaux/shared-entities": "*",
+    "@sentry/react": "^6.2.1",
     "@tailwindcss/line-clamp": "^0.2.0",
     "autosize": "^4.0.2",
     "body-scroll-lock": "^3.1.5",
