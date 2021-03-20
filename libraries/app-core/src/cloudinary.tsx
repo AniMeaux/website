@@ -36,13 +36,13 @@ const ImagePresetTransformOptions: {
 } = {
   avatar: (devicePixelRatio) => ({
     crop: "fill",
-    width: 48 * devicePixelRatio,
-    height: 48 * devicePixelRatio,
+    width: Math.round(48 * devicePixelRatio),
+    height: Math.round(48 * devicePixelRatio),
   }),
   none: (devicePixelRatio) => ({
     crop: "fit",
     // Larger than any small screen.
-    width: 600 * devicePixelRatio,
+    width: Math.round(600 * devicePixelRatio),
   }),
 };
 
