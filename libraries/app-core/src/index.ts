@@ -9,5 +9,4 @@ export * from "./hostFamily";
 export * from "./page";
 export * from "./renderQuery";
 export * from "./request";
-export * from "./storage";
 export * from "./user";

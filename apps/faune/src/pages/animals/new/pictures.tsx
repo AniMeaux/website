@@ -14,10 +14,9 @@ import {
 import { Main, useRouter } from "@animeaux/ui-library";
 import * as React from "react";
 import {
-  AnimalFormDraftStorage,
+  AnimalCreationStep,
+  AnimalCreationStepper,
   AnimalFormProvider,
-  AnimalFormStep,
-  AnimalFormStepper,
   useAnimalForm,
 } from "../../../core/animalCreation";
 import { PageTitle } from "../../../core/pageTitle";
@@ -28,9 +27,6 @@ const CreateAnimalPicturesPage: PageComponent = () => {
 
   const [createAnimal, { error, isLoading }] = useCreateAnimal({
     onSuccess() {
-      // We no longer need the draft.
-      AnimalFormDraftStorage.clear();
-
       // 3 is the number of steps to create an animal.
       router.backIfPossible("../..", 3);
     },
@@ -51,7 +47,7 @@ const CreateAnimalPicturesPage: PageComponent = () => {
       <Header headerTitle="Nouvel animal" canGoBack backHref="../situation" />
 
       <Main>
-        <AnimalFormStepper step={AnimalFormStep.PICTURES} />
+        <AnimalCreationStepper step={AnimalCreationStep.PICTURES} />
         <AnimalPicturesForm
           value={formPayload}
           onChange={setFormPayload}

@@ -9,16 +9,14 @@ import {
   ErrorCode,
   getErrorMessage,
   hasErrorCode,
-  isEmptyAnimalFormPayload,
   UserGroup,
 } from "@animeaux/shared-entities";
 import { Main, useRouter } from "@animeaux/ui-library";
 import * as React from "react";
 import {
-  AnimalFormDraftStorage,
+  AnimalCreationStep,
+  AnimalCreationStepper,
   AnimalFormProvider,
-  AnimalFormStep,
-  AnimalFormStepper,
   useAnimalForm,
 } from "../../../core/animalCreation";
 import { PageTitle } from "../../../core/pageTitle";
@@ -26,18 +24,6 @@ import { PageTitle } from "../../../core/pageTitle";
 const CreateAnimalProfilePage: PageComponent = () => {
   const { formPayload, setFormPayload } = useAnimalForm();
   const router = useRouter();
-
-  React.useEffect(() => {
-    const draft = AnimalFormDraftStorage.load();
-
-    if (
-      draft != null &&
-      !isEmptyAnimalFormPayload(draft) &&
-      window.confirm("Reprendre le brouillon ?")
-    ) {
-      setFormPayload(draft);
-    }
-  }, [setFormPayload]);
 
   const [createAnimalProfile, { error, isLoading }] = useCreateAnimalProfile({
     onSuccess() {
@@ -68,7 +54,7 @@ const CreateAnimalProfilePage: PageComponent = () => {
       <Header headerTitle="Nouvel animal" canGoBack backHref="../.." />
 
       <Main>
-        <AnimalFormStepper step={AnimalFormStep.PROFILE} />
+        <AnimalCreationStepper step={AnimalCreationStep.PROFILE} />
         <AnimalProfileForm
           value={formPayload}
           onChange={setFormPayload}

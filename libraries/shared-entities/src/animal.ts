@@ -369,10 +369,6 @@ export function createAminalCreationApiPayload(
   };
 }
 
-export function isEmptyAnimalFormPayload(payload: AnimalFormPayload) {
-  return isEqual(payload, createEmptyAnimalFormPayload());
-}
-
 export function createEmptyAnimalFormPayload(): AnimalFormPayload {
   return {
     officialName: "",

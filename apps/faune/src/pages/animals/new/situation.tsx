@@ -14,9 +14,9 @@ import {
 import { Main, useRouter } from "@animeaux/ui-library";
 import * as React from "react";
 import {
+  AnimalCreationStep,
+  AnimalCreationStepper,
   AnimalFormProvider,
-  AnimalFormStep,
-  AnimalFormStepper,
   useAnimalForm,
 } from "../../../core/animalCreation";
 import { PageTitle } from "../../../core/pageTitle";
@@ -49,7 +49,7 @@ const CreateAnimalSituationPage: PageComponent = () => {
       <Header headerTitle="Nouvel animal" canGoBack backHref="../profile" />
 
       <Main>
-        <AnimalFormStepper step={AnimalFormStep.SITUATION} />
+        <AnimalCreationStepper step={AnimalCreationStep.SITUATION} />
         <AnimalSituationForm
           value={formPayload}
           onChange={setFormPayload}
