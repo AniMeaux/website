@@ -30,12 +30,12 @@ const CreateAnimalProfilePage: PageComponent = () => {
   React.useEffect(() => {
     const draft = AnimalFormDraftStorage.load();
 
-    if (
-      draft != null &&
-      !isEmptyAnimalFormPayload(draft) &&
-      window.confirm("Reprendre le brouillon ?")
-    ) {
-      setFormPayload(draft);
+    if (draft != null && !isEmptyAnimalFormPayload(draft)) {
+      if (window.confirm("Reprendre le brouillon ?")) {
+        setFormPayload(draft);
+      } else {
+        AnimalFormDraftStorage.clear();
+      }
     }
   }, [setFormPayload]);
 
