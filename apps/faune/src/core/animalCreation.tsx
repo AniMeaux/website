@@ -1,8 +1,10 @@
+import { openStorage } from "@animeaux/app-core";
 import {
   AnimalFormPayload,
   createAnimalProfileCreationApiPayload,
   createAnimalSituationCreationApiPayload,
   createEmptyAnimalFormPayload,
+  isEmptyAnimalFormPayload,
 } from "@animeaux/shared-entities";
 import {
   ChildrenProp,
@@ -16,10 +18,39 @@ import constate from "constate";
 import invariant from "invariant";
 import * as React from "react";
 
+export const AnimalFormDraftStorage = openStorage<AnimalFormPayload>(
+  "animal-creation",
+  1
+);
+
 function useAnimalFormPayload() {
   const [formPayload, setFormPayload] = React.useState<AnimalFormPayload>(() =>
     createEmptyAnimalFormPayload()
   );
+
+  React.useEffect(() => {
+    const draft = AnimalFormDraftStorage.load();
+
+    if (
+      draft != null &&
+      !isEmptyAnimalFormPayload(draft) &&
+      window.confirm("Reprendre le brouillon ?")
+    ) {
+      setFormPayload(draft);
+    }
+  }, []);
+
+  React.useEffect(() => {
+    if (isEmptyAnimalFormPayload(formPayload)) {
+      AnimalFormDraftStorage.clear();
+    } else {
+      AnimalFormDraftStorage.save({
+        ...formPayload,
+        // We don't want to save image files, they're probably not serializable.
+        pictures: [],
+      });
+    }
+  }, [formPayload]);
 
   return { formPayload, setFormPayload };
 }
@@ -105,16 +136,13 @@ export function AnimalFormProvider({ children }: ChildrenProp) {
   );
 }
 
-export enum AnimalCreationStep {
+export enum AnimalFormStep {
   PROFILE,
   SITUATION,
   PICTURES,
 }
 
-function getStepStatus(
-  step: AnimalCreationStep,
-  currentStep: AnimalCreationStep
-) {
+function getStepStatus(step: AnimalFormStep, currentStep: AnimalFormStep) {
   if (step === currentStep) {
     return StepStatus.IN_PROGRESS;
   }
@@ -127,16 +155,16 @@ function getStepStatus(
 }
 
 type AnimalCreationStepperProps = {
-  step: AnimalCreationStep;
+  step: AnimalFormStep;
 };
 
-export function AnimalCreationStepper({ step }: AnimalCreationStepperProps) {
+export function AnimalFormStepper({ step }: AnimalCreationStepperProps) {
   return (
     <Stepper>
       <StepItem>
         <StepLink
           href="../profile"
-          status={getStepStatus(AnimalCreationStep.PROFILE, step)}
+          status={getStepStatus(AnimalFormStep.PROFILE, step)}
         >
           Profil
         </StepLink>
@@ -145,7 +173,7 @@ export function AnimalCreationStepper({ step }: AnimalCreationStepperProps) {
       <StepItem>
         <StepLink
           href="../situation"
-          status={getStepStatus(AnimalCreationStep.SITUATION, step)}
+          status={getStepStatus(AnimalFormStep.SITUATION, step)}
         >
           Situation
         </StepLink>
@@ -154,7 +182,7 @@ export function AnimalCreationStepper({ step }: AnimalCreationStepperProps) {
       <StepItem>
         <StepLink
           href="../pictures"
-          status={getStepStatus(AnimalCreationStep.PICTURES, step)}
+          status={getStepStatus(AnimalFormStep.PICTURES, step)}
         >
           Photos
         </StepLink>
