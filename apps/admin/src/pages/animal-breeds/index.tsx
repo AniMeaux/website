@@ -1,5 +1,5 @@
 import {
-  AnimalBreedItem,
+  AnimalBreedLinkItem,
   AnimalBreedItemPlaceholder,
   Header,
   PageComponent,
@@ -29,7 +29,10 @@ const AnimalBreedListPage: PageComponent = () => {
     renderPlaceholderItem: () => <AnimalBreedItemPlaceholder />,
     emptyMessage: "Il n'y a pas encore de race",
     renderItem: (animalBreed) => (
-      <AnimalBreedItem animalBreed={animalBreed} href={`./${animalBreed.id}`} />
+      <AnimalBreedLinkItem
+        animalBreed={animalBreed}
+        href={`./${animalBreed.id}`}
+      />
     ),
   });
 

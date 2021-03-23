@@ -1,6 +1,6 @@
 import {
-  AnimalBreedSearchItem,
-  AnimalBreedSearchItemPlaceholder,
+  AnimalBreedButtonItem,
+  AnimalBreedItemPlaceholder,
   PageComponent,
   renderInfiniteItemList,
   useAllAnimalBreeds,
@@ -32,7 +32,7 @@ const CreateAnimalBreedPage: PageComponent = () => {
   const { content } = renderInfiniteItemList(query, {
     hasSearch: search !== "",
     getItemKey: (animalBreed) => animalBreed.id,
-    renderPlaceholderItem: () => <AnimalBreedSearchItemPlaceholder />,
+    renderPlaceholderItem: () => <AnimalBreedItemPlaceholder size="medium" />,
     emptyMessage: "Il n'y a pas encore de race",
     emptySearchMessage: "Aucune race trouvée",
     renderEmptySearchAction: () => (
@@ -41,7 +41,8 @@ const CreateAnimalBreedPage: PageComponent = () => {
       </Button>
     ),
     renderItem: (animalBreed) => (
-      <AnimalBreedSearchItem
+      <AnimalBreedButtonItem
+        size="medium"
         animalBreed={animalBreed}
         highlight={animalBreed.id === formPayload.breed?.id}
         onClick={() => {
