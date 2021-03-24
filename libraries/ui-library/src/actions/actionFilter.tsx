@@ -31,6 +31,7 @@ export function ActionFilter({
       <Modal
         open={areFiltersOpened}
         onDismiss={() => setAreFiltersOpened(false)}
+        dismissLabel="Fermer"
       >
         <ModalHeader>
           <HeaderTitle>Filtres</HeaderTitle>

@@ -2,13 +2,16 @@ import cn from "classnames";
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import { Button } from "../actions";
-import { useFocusTrap, useLatestDefinedValue, useScrollLock } from "../core";
+import {
+  ChildrenProp,
+  StyleProps,
+  useFocusTrap,
+  useLatestDefinedValue,
+  useScrollLock,
+} from "../core";
 import { ButtonSection } from "../layouts";
 
-export function ModalHeader({
-  className,
-  ...rest
-}: React.HTMLAttributes<HTMLElement>) {
+export function ModalHeader({ className, ...rest }: StyleProps & ChildrenProp) {
   return (
     <header
       {...rest}
@@ -20,7 +23,7 @@ export function ModalHeader({
   );
 }
 
-type ModalProps = React.HTMLAttributes<HTMLElement> & {
+type ModalProps = ChildrenProp & {
   open: boolean;
   onDismiss: () => void;
   dismissLabel?: string;
@@ -30,9 +33,7 @@ export function Modal({
   open,
   onDismiss,
   dismissLabel = "Annuler",
-  className,
   children,
-  ...rest
 }: ModalProps) {
   const moutingPoint = React.useMemo<HTMLElement>(
     () => document.createElement("div"),
@@ -131,7 +132,6 @@ export function Modal({
       />
 
       <div
-        {...rest}
         tabIndex={0}
         ref={modalElement}
         onAnimationEnd={handleAnimationEnd}
@@ -141,8 +141,7 @@ export function Modal({
           {
             "animate-bottom-slide-in": open,
             "animate-bottom-slide-out": !open,
-          },
-          className
+          }
         )}
       >
         {childElement}
