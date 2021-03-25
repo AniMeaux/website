@@ -27,6 +27,10 @@ build_all ()
   printf "\n📦 Building faune\n\n"
   yarn clean-build
 
+  cd ../website
+  printf "\n📦 Building website\n\n"
+  yarn clean-build
+
   printf "\n✅ Build succeeded\n\n"
 }
 

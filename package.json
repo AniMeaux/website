@@ -11,7 +11,7 @@
     "lint": "run-s lint:*",
     "lint:format": "prettier --list-different .",
     "lint:js": "eslint --ext .js,.ts,.tsx .",
-    "lint:ts": "tsc --noEmit -p libraries/shared-entities && tsc --noEmit -p libraries/ui-library && tsc --noEmit -p libraries/app-core && tsc --noEmit -p apps/api && tsc --noEmit -p apps/admin && tsc --noEmit -p apps/faune"
+    "lint:ts": "tsc --noEmit -p libraries/shared-entities && tsc --noEmit -p libraries/ui-library && tsc --noEmit -p libraries/app-core && tsc --noEmit -p apps/api && tsc --noEmit -p apps/admin && tsc --noEmit -p apps/faune && tsc --noEmit -p apps/website"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^4.14.1",

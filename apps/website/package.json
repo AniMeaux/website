@@ -1,0 +1,48 @@
+{
+  "name": "@animeaux/website",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "BUILD_ID=\"dev\" next dev -p 3004",
+    "build": "BUILD_ID=\"$(git rev-parse --short HEAD)\" next build",
+    "clean": "rm -rf build",
+    "clean-build": "run-s clean build",
+    "start:prod": "next start -p 3004"
+  },
+  "dependencies": {
+    "@animeaux/app-core": "*",
+    "@animeaux/shared-entities": "*",
+    "@animeaux/ui-library": "*",
+    "classnames": "^2.2.6",
+    "focus-visible": "^5.2.0",
+    "graphql": "^15.5.0",
+    "graphql-request": "^3.4.0",
+    "invariant": "^2.2.4",
+    "lodash.isequal": "^4.5.0",
+    "next": "^10.0.5",
+    "normalize.css": "^8.0.1",
+    "react": "^17.0.1",
+    "react-app-polyfill": "^2.0.0",
+    "react-behave": "^1.1.1",
+    "react-dom": "^17.0.1",
+    "react-icons": "^4.1.0",
+    "react-query": "^3.6.0"
+  },
+  "devDependencies": {
+    "@svgr/webpack": "^5.5.0",
+    "@types/classnames": "^2.2.11",
+    "@types/invariant": "^2.2.34",
+    "@types/lodash.isequal": "^4.5.5",
+    "@types/node": "^14.14.22",
+    "@types/react": "^17.0.0",
+    "@types/react-dom": "^17.0.0",
+    "autoprefixer": "^10.2.3",
+    "babel-plugin-macros": "^3.0.1",
+    "npm-run-all": "^4.1.5",
+    "postcss": "^8.2.4",
+    "postcss-flexbugs-fixes": "^5.0.2",
+    "postcss-focus-visible": "^5.0.0",
+    "postcss-preset-env": "^6.7.0",
+    "typescript": "^4.1.3"
+  }
+}
