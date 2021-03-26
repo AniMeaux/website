@@ -14,8 +14,8 @@ export default function HomePage() {
         <HeroSection
           title="Adoptez-moi"
           subTitle="Trouvez le compagnon de vos rêves et donnez-lui une seconde chance."
-          largeImage="/landing-image.jpg"
-          smallImage="/landing-image-small.jpg"
+          largeImage="/landing-image-eFwc8.jpg"
+          smallImage="/landing-image-small-eFwc8.jpg"
           searchForm={<SearchForm />}
         />
       </main>
