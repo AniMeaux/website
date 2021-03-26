@@ -26,7 +26,8 @@
     "react-behave": "^1.1.1",
     "react-dom": "^17.0.1",
     "react-icons": "^4.1.0",
-    "react-query": "^3.6.0"
+    "react-query": "^3.6.0",
+    "wicg-inert": "^3.1.1"
   },
   "devDependencies": {
     "@svgr/webpack": "^5.5.0",

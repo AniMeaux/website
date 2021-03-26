@@ -1,17 +1,57 @@
-@import url("https://fonts.googleapis.com/css?family=Playfair+Display:300,400,400i,600,700&display=swap");
-@import url("https://fonts.googleapis.com/css?family=Open+Sans:300,400,400i,600,700&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Playfair+Display:300,400,400i,500,600,700&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:300,400,400i,500,600,700&display=swap");
 
 :root {
   --font-serif: "Playfair Display";
   --font-sans: "Open Sans";
+  --spacing-unit: 4px;
+
   --text-primary: rgba(0, 0, 0, 0.8);
+  --text-secondary: rgba(0, 0, 0, 0.7);
+
   --bg-primary: white;
+  --bg-secondary: rgba(0, 0, 0, 0.03);
+
+  --blue: #0078bf;
+  --green: #32b54f;
+  --yellow: #ffc31b;
+  --red: #ed2a26;
+  --cyan: #00bfbf;
+  --header-height: 64px;
+
+  /* Radius */
+  --border-radius: 16px;
+  --border-radius-full: 9999px;
+  --border-color: rgba(0, 0, 0, 0.1);
+
+  /* Transitions and animations */
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --ease-exit: var(--ease-in);
+  --ease-enter: var(--ease-out);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --duration-popover: 100ms;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
 }
+
+@import "./reset.css";
+@import "./utils.css";
 
 *,
 *::before,
 *::after {
-  box-sizing: border-box;
+  /* Disable bark background on link/button on tap. */
+  -webkit-tap-highlight-color: transparent;
 }
 
 html {
@@ -29,4 +69,64 @@ body {
   font-size: inherit;
   line-height: 1.5;
   color: var(--text-primary);
+}
+
+@import "../ui/index.css";
+@import "./header/header.css";
+@import "./navigation/navigation.css";
+
+.headSection {
+  position: relative;
+}
+
+.headSection__image {
+  display: block;
+  width: 100%;
+  height: 66vh;
+  object-fit: cover;
+}
+
+@media (min-width: 800px) {
+  .headSection__image {
+    height: 90vh;
+  }
+}
+
+.headSection__text {
+  padding: 0 calc(var(--spacing-unit) * 8);
+}
+
+@media (min-width: 800px) {
+  .headSection__text {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translate3d(0, -50%, 0);
+    width: 50%;
+  }
+}
+
+.headSection__text__title {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: 56px;
+  line-height: 1.2;
+}
+
+@media (min-width: 800px) {
+  .headSection__text__title {
+    font-size: 64px;
+  }
+}
+
+.headSection__text__subTitle {
+  margin: 0;
+  margin-top: calc(var(--spacing-unit) * 4);
+  font-size: 20px;
+}
+
+@media (min-width: 800px) {
+  .headSection__text__subTitle {
+    font-size: 24px;
+  }
 }

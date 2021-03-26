@@ -1,0 +1,17 @@
+.px-4 {
+  padding-left: calc(var(--spacing-unit) * 4);
+  padding-right: calc(var(--spacing-unit) * 4);
+}
+
+.separator {
+  margin-top: calc(var(--spacing-unit) * 4);
+  margin-bottom: calc(var(--spacing-unit) * 4);
+  border: 0;
+}
+
+.separator::after {
+  content: "";
+  display: block;
+  border-bottom: 1px solid var(--bg-secondary);
+  width: 100%;
+}

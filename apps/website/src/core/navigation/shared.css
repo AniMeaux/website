@@ -1,0 +1,11 @@
+.NavigationSubItem {
+  width: 100%;
+  padding: calc(var(--spacing-unit) * 2) calc(var(--spacing-unit) * 4);
+  display: flex;
+  align-items: center;
+}
+
+.NavigationSubItem:hover,
+.NavigationSubItem:active {
+  background: var(--bg-secondary);
+}
