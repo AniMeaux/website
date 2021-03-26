@@ -1,0 +1,63 @@
+.HeroSection {
+  position: relative;
+}
+
+.HeroSectionImage {
+  display: block;
+  width: 100%;
+  height: 66vh;
+  object-fit: cover;
+}
+
+@media (min-width: 800px) {
+  .HeroSectionImage {
+    height: 90vh;
+  }
+}
+
+.HeroSectionText {
+  padding: 0 calc(var(--spacing-unit) * 8);
+}
+
+@media (min-width: 800px) {
+  .HeroSectionText {
+    position: absolute;
+    top: 50%;
+    transform: translate3d(0, -50%, 0);
+    width: 50%;
+  }
+
+  .HeroSectionText--left {
+    left: 0;
+  }
+
+  .HeroSectionText--right {
+    right: 0;
+    text-align: right;
+  }
+}
+
+.HeroSectionTitle {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: 56px;
+  line-height: 1.2;
+}
+
+@media (min-width: 800px) {
+  .HeroSectionTitle {
+    font-size: 64px;
+  }
+}
+
+.HeroSectionSubTitle {
+  margin: 0;
+  margin-top: calc(var(--spacing-unit) * 4);
+  font-size: 20px;
+}
+
+@media (min-width: 800px) {
+  .HeroSectionSubTitle {
+    font-size: 24px;
+  }
+}
