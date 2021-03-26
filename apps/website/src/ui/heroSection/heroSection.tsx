@@ -9,6 +9,7 @@ type HeroProps = {
   title: string;
   subTitle: string;
   textSide?: HeroTextSide;
+  searchForm?: React.ReactNode;
 };
 
 export function HeroSection({
@@ -17,6 +18,7 @@ export function HeroSection({
   title,
   subTitle,
   textSide = "left",
+  searchForm,
 }: HeroProps) {
   return (
     <section className="HeroSection">
@@ -28,6 +30,7 @@ export function HeroSection({
       <header className={cn("HeroSectionText", `HeroSectionText--${textSide}`)}>
         <h1 className="HeroSectionTitle">{title}</h1>
         <p className="HeroSectionSubTitle">{subTitle}</p>
+        {searchForm}
       </header>
     </section>
   );

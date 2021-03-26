@@ -32,3 +32,4 @@ body {
 @import "../ui/index.css";
 @import "./header/header.css";
 @import "./navigation/navigation.css";
+@import "./searchForm/searchForm.css";

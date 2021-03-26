@@ -5,11 +5,17 @@
 
   --text-primary: rgba(0, 0, 0, 0.8);
   --text-secondary: rgba(0, 0, 0, 0.7);
+  --text-label: rgba(0, 0, 0, 0.5);
+  --text-contrast: white;
 
   --bg-primary: white;
   --bg-secondary: rgba(0, 0, 0, 0.03);
 
-  --blue: #0078bf;
+  /* #0078bd */
+  --blue-lighter: hsl(202, 100%, 40%);
+  --blue: hsl(202, 100%, 37%);
+  --blue-darker: hsl(202, 100%, 34%);
+
   --green: #32b54f;
   --yellow: #ffc31b;
   --red: #ed2a26;

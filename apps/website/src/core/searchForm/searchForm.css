@@ -1,0 +1,51 @@
+.SearchForm {
+  margin-top: calc(var(--spacing-unit) * 4);
+  box-shadow: var(--shadow-lg);
+  background: var(--bg-primary);
+  border-radius: var(--border-radius-full);
+  padding: calc(var(--spacing-unit) * 1);
+  display: flex;
+  align-items: stretch;
+}
+
+.SearchForm > *:not(:first-child) {
+  margin-left: calc(var(--spacing-unit) * 1);
+}
+
+.SearchFormSelect {
+  appearance: none;
+  min-width: 0;
+  flex: 1;
+  border-radius: var(--border-radius-full);
+  padding: calc(var(--spacing-unit) * 2) calc(var(--spacing-unit) * 4);
+}
+
+.SearchFormSelect:hover {
+  background: var(--bg-secondary);
+}
+
+.SearchFormSelect--empty {
+  color: var(--text-label);
+}
+
+.SearchFormLink {
+  display: flex;
+  align-items: center;
+  background: var(--blue);
+  color: var(--text-contrast);
+  border-radius: var(--border-radius-full);
+  padding: calc(var(--spacing-unit) * 2) calc(var(--spacing-unit) * 4);
+  font-weight: 600;
+}
+
+.SearchFormLink:hover {
+  background: var(--blue-lighter);
+}
+
+.SearchFormLink:active {
+  background: var(--blue-darker);
+}
+
+.SearchFormLink > *:not(:first-child) {
+  margin-left: calc(var(--spacing-unit) * 2);
+}
