@@ -31,6 +31,21 @@ const typeDefs = gql`
     MALE
   }
 
+  type PublicAnimal {
+    id: ID!
+    officialName: String!
+    birthdate: String!
+    gender: AnimalGender!
+    species: AnimalSpecies!
+    breed: AnimalBreed
+    color: AnimalColor
+    avatarId: String!
+    isOkChildren: Trilean!
+    isOkDogs: Trilean!
+    isOkCats: Trilean!
+    isSterilized: Boolean
+  }
+
   type SearchableAnimal {
     id: ID!
     officialName: String!
@@ -72,6 +87,13 @@ const typeDefs = gql`
     comments: String!
   }
 
+  type AllPublicAnimalsResponse {
+    hits: [PublicAnimal!]!
+    hitsTotalCount: Int!
+    page: Int!
+    pageCount: Int!
+  }
+
   type AllAnimalResponse {
     hits: [SearchableAnimal!]!
     hitsTotalCount: Int!
@@ -80,6 +102,8 @@ const typeDefs = gql`
   }
 
   extend type Query {
+    getAllAdoptableAnimals(page: Int): AllPublicAnimalsResponse!
+
     getAllAnimals(
       search: String
       page: Int
@@ -143,6 +167,24 @@ const typeDefs = gql`
 `;
 
 const resolvers: IResolvers = {
+  PublicAnimal: {
+    breed: async (animal: DBSearchableAnimal) => {
+      if (animal.breedId == null) {
+        return null;
+      }
+
+      return await database.getAnimalBreed(animal.breedId);
+    },
+
+    color: async (animal: DBSearchableAnimal) => {
+      if (animal.colorId != null) {
+        return await database.getAnimalColor(animal.colorId);
+      }
+
+      return null;
+    },
+  },
+
   SearchableAnimal: {
     commonName: (animal: DBSearchableAnimal) => {
       return animal.commonName ?? "";
@@ -213,6 +255,13 @@ const resolvers: IResolvers = {
 };
 
 const queries: IResolverObject = {
+  getAllAdoptableAnimals: async (
+    parent: any,
+    parameters: PaginatedRequestParameters
+  ) => {
+    return await database.getAllAdoptableAnimals(parameters);
+  },
+
   getAllAnimals: async (
     parent: any,
     parameters: PaginatedRequestParameters<AnimalSearch>

@@ -1,5 +1,6 @@
 import {
   ACTIVE_ANIMAL_STATUS,
+  ADOPTABLE_ANIMAL_STATUS,
   AnimalSearch,
   CreateAnimalPayload,
   DBAnimal,
@@ -32,6 +33,26 @@ function cleanMarkdown(content: string) {
 }
 
 export const animalDatabase: AnimalDatabase = {
+  async getAllAdoptableAnimals(
+    parameters: PaginatedRequestParameters
+  ): Promise<PaginatedResponse<DBSearchableAnimal>> {
+    const result = await AnimalsIndex.search<DBSearchableAnimal>("", {
+      page: parameters.page ?? 0,
+      filters: SearchFilters.or(
+        ADOPTABLE_ANIMAL_STATUS.map((status) =>
+          SearchFilters.createFilter("status", status)
+        )
+      ),
+    });
+
+    return {
+      hits: result.hits,
+      hitsTotalCount: result.nbHits,
+      page: result.page,
+      pageCount: result.nbPages,
+    };
+  },
+
   async getAllAnimals(
     parameters: PaginatedRequestParameters<AnimalSearch>
   ): Promise<PaginatedResponse<DBSearchableAnimal>> {

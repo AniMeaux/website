@@ -68,6 +68,9 @@ export type HostFamilyDatabase = {
 };
 
 export type AnimalDatabase = {
+  getAllAdoptableAnimals(
+    parameters: PaginatedRequestParameters
+  ): Promise<PaginatedResponse<DBSearchableAnimal>>;
   getAllAnimals(
     parameters: PaginatedRequestParameters<AnimalSearch>
   ): Promise<PaginatedResponse<DBSearchableAnimal>>;

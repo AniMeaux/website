@@ -3,6 +3,9 @@
   --font-sans: "Open Sans";
   --spacing-unit: 4px;
 
+  --content-max-width: 1024px;
+  --header-height: 64px;
+
   --text-primary: rgba(0, 0, 0, 0.8);
   --text-secondary: rgba(0, 0, 0, 0.7);
   --text-label: rgba(0, 0, 0, 0.5);
@@ -30,7 +33,6 @@
   --yellow: #ffc31b;
   --red: #ed2a26;
   --cyan: #00bfbf;
-  --header-height: 64px;
 
   /* Radius */
   --border-radius: 16px;

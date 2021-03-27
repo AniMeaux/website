@@ -136,6 +136,11 @@ export const ACTIVE_ANIMAL_STATUS = [
   AnimalStatus.UNAVAILABLE,
 ];
 
+export const ADOPTABLE_ANIMAL_STATUS = [
+  AnimalStatus.OPEN_TO_ADOPTION,
+  AnimalStatus.OPEN_TO_RESERVATION,
+];
+
 function isAnimalStatus(value: string): value is AnimalStatus {
   return Object.values(AnimalStatus).includes(value as AnimalStatus);
 }
@@ -157,23 +162,26 @@ export const ANIMAL_GENDERS_ORDER = sortByLabels(
   AnimalGenderLabels
 );
 
-export type SearchableAnimal = {
+export type PublicAnimal = {
   id: string;
   officialName: string;
-  commonName: string;
   birthdate: string;
-  pickUpDate: string;
   gender: AnimalGender;
   species: AnimalSpecies;
   breed?: AnimalBreed | null;
   color?: AnimalColor | null;
-  status: AnimalStatus;
   avatarId: string;
-  hostFamily?: HostFamily | null;
   isOkChildren: Trilean;
   isOkDogs: Trilean;
   isOkCats: Trilean;
   isSterilized: boolean;
+};
+
+export type SearchableAnimal = PublicAnimal & {
+  commonName: string;
+  pickUpDate: string;
+  status: AnimalStatus;
+  hostFamily?: HostFamily | null;
 };
 
 export type DBSearchableAnimal = Omit<

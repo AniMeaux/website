@@ -16,7 +16,7 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   grid-template-rows: auto;
-  grid-gap: calc(var(--spacing-unit) * 8);
+  gap: calc(var(--spacing-unit) * 8);
 }
 
 .StatisticItem {
