@@ -1,39 +1,69 @@
 .HeroSection {
   position: relative;
-}
-
-.HeroSectionImage {
-  display: block;
   width: 100%;
-  height: 66vh;
-  object-fit: cover;
 }
 
 @media (min-width: 800px) {
-  .HeroSectionImage {
+  .HeroSection {
     height: 90vh;
   }
 }
 
-.HeroSectionText {
+.HeroSectionImage {
+  width: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+@media (max-width: 799px) {
+  .HeroSectionImage {
+    height: 66vh;
+  }
+}
+
+@media (min-width: 800px) {
+  .HeroSectionImage {
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    left: 0;
+    height: 100%;
+  }
+}
+
+.HeroSectionContent {
+  margin: 0 auto;
+  max-width: 1024px;
   padding: 0 calc(var(--spacing-unit) * 8);
 }
 
 @media (min-width: 800px) {
-  .HeroSectionText {
-    position: absolute;
-    top: 50%;
-    transform: translate3d(0, -50%, 0);
-    width: 50%;
+  .HeroSectionContent {
+    height: 100%;
+    display: flex;
+    align-items: center;
   }
 
-  .HeroSectionText--left {
-    left: 0;
+  .HeroSectionContent--left {
+    justify-content: flex-start;
   }
 
-  .HeroSectionText--right {
-    right: 0;
+  .HeroSectionContent--right {
+    justify-content: flex-end;
     text-align: right;
+  }
+}
+
+@media (max-width: 799px) {
+  .HeroSectionText {
+    position: relative;
+    padding-top: calc(var(--spacing-unit) * 10);
+  }
+}
+
+@media (min-width: 800px) {
+  .HeroSectionText {
+    width: 50%;
   }
 }
 
@@ -59,5 +89,22 @@
 @media (min-width: 800px) {
   .HeroSectionSubTitle {
     font-size: 24px;
+  }
+}
+
+@media (max-width: 799px) {
+  .HeroSectionSearchForm {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate3d(-50%, -50%, 0);
+    width: 100%;
+    max-width: 512px;
+  }
+}
+
+@media (min-width: 800px) {
+  .HeroSectionSearchForm {
+    margin-top: calc(var(--spacing-unit) * 4);
   }
 }

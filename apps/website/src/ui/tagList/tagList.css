@@ -34,6 +34,5 @@
 .TagIcon {
   display: none;
   color: var(--text-secondary);
-  font-size: 1.2em;
   display: flex;
 }

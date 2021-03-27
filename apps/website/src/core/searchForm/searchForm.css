@@ -1,5 +1,4 @@
 .SearchForm {
-  margin-top: calc(var(--spacing-unit) * 4);
   box-shadow: var(--shadow-lg);
   background: var(--bg-primary);
   border-radius: var(--border-radius-full);
@@ -34,7 +33,6 @@
   background: var(--blue);
   color: var(--text-contrast);
   border-radius: var(--border-radius-full);
-  padding: calc(var(--spacing-unit) * 2) calc(var(--spacing-unit) * 4);
   font-weight: 600;
 }
 
@@ -46,6 +44,30 @@
   background: var(--blue-darker);
 }
 
-.SearchFormLink > *:not(:first-child) {
-  margin-left: calc(var(--spacing-unit) * 2);
+@media (max-width: 399px) {
+  .SearchFormLink {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+@media (min-width: 400px) {
+  .SearchFormLink {
+    padding: calc(var(--spacing-unit) * 2) calc(var(--spacing-unit) * 4);
+  }
+}
+
+@media (max-width: 399px) {
+  .SearchFormLinkLabel {
+    display: none;
+  }
+}
+
+@media (min-width: 400px) {
+  .SearchFormLinkLabel {
+    margin-left: calc(var(--spacing-unit) * 2);
+  }
 }

@@ -61,7 +61,7 @@ export function SearchForm() {
 
       <Link href={link} className="SearchFormLink">
         <FaSearch />
-        <span>Chercher</span>
+        <span className="SearchFormLinkLabel">Chercher</span>
       </Link>
     </div>
   );

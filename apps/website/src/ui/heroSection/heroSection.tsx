@@ -27,11 +27,17 @@ export function HeroSection({
         <img src={smallImage} alt={title} className="HeroSectionImage" />
       </picture>
 
-      <header className={cn("HeroSectionText", `HeroSectionText--${textSide}`)}>
-        <h1 className="HeroSectionTitle">{title}</h1>
-        <p className="HeroSectionSubTitle">{subTitle}</p>
-        {searchForm}
-      </header>
+      <div
+        className={cn("HeroSectionContent", `HeroSectionContent-${textSide}`)}
+      >
+        <header
+          className={cn("HeroSectionText", `HeroSectionText--${textSide}`)}
+        >
+          <h1 className="HeroSectionTitle">{title}</h1>
+          <p className="HeroSectionSubTitle">{subTitle}</p>
+          <div className="HeroSectionSearchForm">{searchForm}</div>
+        </header>
+      </div>
     </section>
   );
 }
