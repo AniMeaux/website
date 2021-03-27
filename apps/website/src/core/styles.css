@@ -33,3 +33,4 @@ body {
 @import "./header/header.css";
 @import "./navigation/navigation.css";
 @import "./searchForm/searchForm.css";
+@import "./footer/footer.css";

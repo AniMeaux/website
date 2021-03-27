@@ -7,10 +7,11 @@ import {
   resolveUrl,
   useRouter,
 } from "./router";
-import { ChildrenProp, StyleProps } from "./types";
+import { A11yProps, ChildrenProp, StyleProps } from "./types";
 
 export type LinkProps = ChildrenProp &
-  StyleProps & {
+  StyleProps &
+  A11yProps & {
     href: string;
     as?: string;
     isBack?: boolean;

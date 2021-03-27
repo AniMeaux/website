@@ -10,6 +10,7 @@
 
   --bg-primary: white;
   --bg-secondary: rgba(0, 0, 0, 0.03);
+  --bg-footer: rgba(0, 0, 0, 0.1);
 
   /* #0078bd */
   --blue-lighter: hsl(202, 100%, 40%);

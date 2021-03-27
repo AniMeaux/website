@@ -1,5 +1,6 @@
 import cn from "classnames";
 import * as React from "react";
+import { CenteredContent } from "../centeredContent";
 
 type HeroTextSide = "left" | "right";
 
@@ -27,17 +28,19 @@ export function HeroSection({
         <img src={smallImage} alt={title} className="HeroSectionImage" />
       </picture>
 
-      <div
-        className={cn("HeroSectionContent", `HeroSectionContent-${textSide}`)}
-      >
-        <header
-          className={cn("HeroSectionText", `HeroSectionText--${textSide}`)}
+      <CenteredContent>
+        <div
+          className={cn("HeroSectionContent", `HeroSectionContent-${textSide}`)}
         >
-          <h1 className="HeroSectionTitle">{title}</h1>
-          <p className="HeroSectionSubTitle">{subTitle}</p>
-          <div className="HeroSectionSearchForm">{searchForm}</div>
-        </header>
-      </div>
+          <header
+            className={cn("HeroSectionText", `HeroSectionText--${textSide}`)}
+          >
+            <h1 className="HeroSectionTitle">{title}</h1>
+            <p className="HeroSectionSubTitle">{subTitle}</p>
+            <div className="HeroSectionSearchForm">{searchForm}</div>
+          </header>
+        </div>
+      </CenteredContent>
     </section>
   );
 }

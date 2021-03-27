@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Footer } from "../core/footer";
 import { Header } from "../core/header";
 import { PageTitle } from "../core/pageTitle";
 import { SearchForm } from "../core/searchForm";
@@ -19,6 +20,8 @@ export default function HomePage() {
           searchForm={<SearchForm />}
         />
       </main>
+
+      <Footer />
     </>
   );
 }

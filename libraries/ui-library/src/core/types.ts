@@ -15,3 +15,7 @@ export type HtmlInputProps = {
   id?: string;
   role?: "search";
 };
+
+export type A11yProps = {
+  title?: string;
+};

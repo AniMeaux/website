@@ -1,0 +1,122 @@
+.Footer {
+  background: var(--bg-footer);
+  font-size: 14px;
+}
+
+.FooterBlock {
+  --footer-notice-spacing: calc(var(--spacing-unit) * 8);
+  padding-top: var(--footer-notice-spacing);
+  padding-bottom: var(--footer-notice-spacing);
+}
+
+.FooterBlock:not(:first-child) {
+  border-top: 1px solid var(--border-color);
+}
+
+.FooterGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-rows: auto;
+  grid-gap: calc(var(--spacing-unit) * 8);
+}
+
+.FooterSection > *:not(:first-child) {
+  margin-top: calc(var(--spacing-unit) * 2);
+}
+
+.FooterSectionTitle {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: 20px;
+}
+
+.FooterLinkList > *:not(:first-child) {
+  margin-top: calc(var(--spacing-unit) * 2);
+}
+
+.FooterLink {
+  display: inline-flex;
+  align-items: center;
+}
+
+.FooterLink:hover,
+.FooterLink:active {
+  text-decoration: underline;
+}
+
+.FooterLink > *:not(:first-child) {
+  margin-left: calc(var(--spacing-unit) * 2);
+}
+
+.NewsletterForm {
+  background: var(--bg-primary);
+  border-radius: var(--border-radius-full);
+  padding: calc(var(--spacing-unit) * 1);
+  display: flex;
+  align-items: stretch;
+}
+
+.NewsletterForm > *:not(:first-child) {
+  margin-left: calc(var(--spacing-unit) * 2);
+}
+
+.NewsletterInput {
+  min-width: 0;
+  flex: 1;
+  border-radius: var(--border-radius-full);
+  padding: calc(var(--spacing-unit) * 2) calc(var(--spacing-unit) * 4);
+}
+
+.NewsletterInput::placeholder {
+  color: var(--text-label);
+}
+
+.NewsletterInput:hover {
+  background: var(--bg-secondary);
+}
+
+.NewsletterSubmitButton {
+  flex: none;
+  width: 37px;
+  height: 37px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--blue);
+  color: var(--text-contrast);
+  border-radius: var(--border-radius-full);
+  font-weight: 600;
+}
+
+.NewsletterSubmitButton:hover {
+  background: var(--blue-lighter);
+}
+
+.NewsletterSubmitButton:active {
+  background: var(--blue-darker);
+}
+
+.FooterNoticeSection {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.FooterSocialLinks {
+  display: flex;
+  align-items: center;
+}
+
+.FooterSocialLinks > *:not(:first-child) {
+  margin-left: calc(var(--spacing-unit) * 6);
+}
+
+.FooterSocialLink {
+  font-size: 1.5em;
+  display: flex;
+}
+
+.FooterSocialLink:hover,
+.FooterSocialLink:active {
+  opacity: 0.8;
+}

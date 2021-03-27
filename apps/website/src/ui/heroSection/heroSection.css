@@ -31,12 +31,6 @@
   }
 }
 
-.HeroSectionContent {
-  margin: 0 auto;
-  max-width: 1024px;
-  padding: 0 calc(var(--spacing-unit) * 8);
-}
-
 @media (min-width: 800px) {
   .HeroSectionContent {
     height: 100%;
@@ -71,6 +65,7 @@
   margin: 0;
   font-family: var(--font-serif);
   font-size: 56px;
+  font-weight: 600;
   line-height: 1.2;
 }
 
