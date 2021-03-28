@@ -9,17 +9,16 @@
 
 .SmallNavigation__nav {
   position: absolute;
-  z-index: -1;
-  top: 0;
+  /* Lower than the header background. */
+  z-index: -2;
+  top: 100%;
   left: 0;
-  transform: translate3d(0, -100%, 0);
-  opacity: 0;
-  transition-property: transform opacity;
+  transform: translate3d(0, calc(-100% - var(--header-height)), 0);
+  transition-property: transform;
   transition-duration: var(--duration-popover);
   transition-timing-function: var(--ease-exit);
   width: 100%;
   background: var(--bg-primary);
-  padding-top: var(--header-height);
   padding-bottom: var(--border-radius);
   border-bottom-left-radius: var(--border-radius);
   border-bottom-right-radius: var(--border-radius);
@@ -31,7 +30,6 @@
 
 .SmallNavigation__nav--open {
   transform: translate3d(0, 0, 0);
-  opacity: 1;
   transition-timing-function: var(--ease-enter);
 }
 

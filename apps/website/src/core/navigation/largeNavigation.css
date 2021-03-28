@@ -1,5 +1,4 @@
 .LargeNavigation {
-  position: relative;
   padding: 0 calc(var(--spacing-unit) * 8);
   display: flex;
   align-items: center;
@@ -27,9 +26,10 @@
 }
 
 .LargeNavigationMenu__content {
-  --menu-content-translate: translate3d(-50%, calc(var(--spacing-unit) * 2), 0);
+  --menu-content-translate: translate3d(-50%, calc(var(--spacing-unit) * 5), 0);
 
   position: absolute;
+  z-index: 1;
   top: 100%;
   left: 50%;
   transform: var(--menu-content-translate) scale3d(0.5, 0.5, 1);

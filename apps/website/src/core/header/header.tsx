@@ -5,8 +5,8 @@ import { Navigation } from "../navigation";
 
 export function Header() {
   return (
-    <header className="header">
-      <Link href="/" className="header__nameAndlogo">
+    <header className="Header">
+      <Link href="/" className="HeaderLogo">
         <NameAndLogo />
       </Link>
 
