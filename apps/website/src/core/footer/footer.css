@@ -71,10 +71,6 @@
   color: var(--text-label);
 }
 
-.NewsletterInput:hover {
-  background: var(--bg-secondary);
-}
-
 .NewsletterSubmitButton {
   flex: none;
   width: 37px;
