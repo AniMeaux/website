@@ -1,5 +1,5 @@
 .SearchForm {
-  box-shadow: var(--shadow-lg);
+  box-shadow: var(--shadow);
   background: var(--bg-primary);
   border-radius: var(--border-radius-full);
   padding: calc(var(--spacing-unit) * 1);
@@ -31,18 +31,18 @@
   flex: none;
   display: flex;
   align-items: center;
-  background: var(--blue);
+  background: var(--blue-600);
   color: var(--text-contrast);
   border-radius: var(--border-radius-full);
   font-weight: 600;
 }
 
 .SearchFormLink:hover {
-  background: var(--blue-lighter);
+  background: var(--blue-500);
 }
 
 .SearchFormLink:active {
-  background: var(--blue-darker);
+  background: var(--blue-700);
 }
 
 @media (max-width: 399px) {

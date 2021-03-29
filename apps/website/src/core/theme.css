@@ -12,10 +12,19 @@
   --bg-secondary: rgba(0, 0, 0, 0.03);
   --bg-footer: rgba(0, 0, 0, 0.1);
 
-  /* #0078bd */
-  --blue-lighter: hsl(202, 100%, 40%);
-  --blue: hsl(202, 100%, 37%);
-  --blue-darker: hsl(202, 100%, 34%);
+  --blue-50: hsl(202, 100%, 90%);
+  --blue-100: hsl(202, 100%, 81%);
+  --blue-200: hsl(202, 100%, 72%);
+  --blue-300: hsl(202, 100%, 63%);
+  --blue-400: hsl(202, 100%, 54%);
+  --blue-500: hsl(202, 100%, 45%);
+
+  /* Closest to #0078bd (hsl(202, 100%, 37%)). */
+  --blue-600: hsl(202, 100%, 36%);
+
+  --blue-700: hsl(202, 100%, 27%);
+  --blue-800: hsl(202, 100%, 18%);
+  --blue-900: hsl(202, 100%, 9%);
 
   --green: #32b54f;
   --yellow: #ffc31b;
@@ -37,13 +46,6 @@
   --duration-popover: 100ms;
 
   /* Shadows */
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
-    0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
-    0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
-    0 10px 10px -5px rgba(0, 0, 0, 0.04);
-  --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  --shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.15);
+  --shadow-lg: 0 4px 12px 0 rgba(0, 0, 0, 0.08);
 }

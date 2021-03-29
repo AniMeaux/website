@@ -1,27 +1,30 @@
 import * as React from "react";
 import { CenteredContent } from "../centeredContent";
+import { Image } from "../image";
 
 type HeroProps = {
-  largeImage: string;
   smallImage: string;
+  largeImage: string;
   title: string;
   subTitle: string;
   searchForm?: React.ReactNode;
 };
 
 export function HeroSection({
-  largeImage,
   smallImage,
+  largeImage,
   title,
   subTitle,
   searchForm,
 }: HeroProps) {
   return (
     <section className="HeroSection">
-      <picture>
-        <source srcSet={largeImage} media="(min-width: 800px)" />
-        <img src={smallImage} alt={title} className="HeroSectionImage" />
-      </picture>
+      <Image
+        smallImage={smallImage}
+        largeImage={largeImage}
+        alt={title}
+        className="HeroSectionImage"
+      />
 
       <CenteredContent>
         <div className="HeroSectionContent">

@@ -1,0 +1,50 @@
+.StatisticsSection {
+  padding-top: calc(var(--spacing-unit) * 8);
+  padding-bottom: calc(var(--spacing-unit) * 8);
+}
+
+.StatisticsTitle {
+  font-family: var(--font-serif);
+  font-size: 50px;
+  font-weight: 600;
+  line-height: 1.2;
+  font-size: 40px;
+}
+
+.StatisticsList {
+  margin-top: calc(var(--spacing-unit) * 4);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-rows: auto;
+  grid-gap: calc(var(--spacing-unit) * 8);
+}
+
+.StatisticItem {
+  box-shadow: var(--shadow-lg);
+  border-radius: var(--border-radius);
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  overflow: hidden;
+}
+
+.StatisticImage {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.StatisticItemContent {
+  padding: calc(var(--spacing-unit) * 8);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.StatisticItemValue {
+  margin-bottom: calc(var(--spacing-unit) * 2);
+  font-family: var(--font-serif);
+  line-height: 1.2;
+  font-weight: 600;
+  font-size: 50px;
+}

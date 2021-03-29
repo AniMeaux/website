@@ -78,18 +78,18 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--blue);
+  background: var(--blue-600);
   color: var(--text-contrast);
   border-radius: var(--border-radius-full);
   font-weight: 600;
 }
 
 .NewsletterSubmitButton:hover {
-  background: var(--blue-lighter);
+  background: var(--blue-500);
 }
 
 .NewsletterSubmitButton:active {
-  background: var(--blue-darker);
+  background: var(--blue-700);
 }
 
 .FooterNoticeSection {
