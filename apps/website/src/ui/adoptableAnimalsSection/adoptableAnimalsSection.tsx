@@ -1,5 +1,5 @@
 import { publicFetchGraphQL } from "@animeaux/app-core/build/request/publicFetchGraphQL";
-import { formatAge } from "@animeaux/shared-entities";
+import { formatAge } from "@animeaux/shared-entities/build/date";
 import { PublicAnimal } from "@animeaux/shared-entities/build/animal";
 import {
   PaginatedRequestParameters,

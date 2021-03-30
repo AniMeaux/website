@@ -1,8 +1,8 @@
 import {
   AnimalSpeciesLabels,
   ANIMAL_SPECIES_ALPHABETICAL_ORDER,
-} from "@animeaux/shared-entities";
-import { Link } from "@animeaux/ui-library/build/core/link";
+} from "@animeaux/shared-entities/build/animal";
+import { Link, LinkProps } from "@animeaux/ui-library/build/core/link";
 import { ChildrenProp } from "@animeaux/ui-library/build/core/types";
 import * as React from "react";
 import {
@@ -26,16 +26,18 @@ export function Footer() {
               <FooterLinkList>
                 {ANIMAL_SPECIES_ALPHABETICAL_ORDER.map((species) => (
                   <li key={species}>
-                    <FooterLink>{AnimalSpeciesLabels[species]}</FooterLink>
+                    <FooterLink href="/">
+                      {AnimalSpeciesLabels[species]}
+                    </FooterLink>
                   </li>
                 ))}
 
                 <li>
-                  <FooterLink>Tous les animeaux</FooterLink>
+                  <FooterLink href="/">Tous les animeaux</FooterLink>
                 </li>
 
                 <li>
-                  <FooterLink>Adoptés</FooterLink>
+                  <FooterLink href="/">Adoptés</FooterLink>
                 </li>
               </FooterLinkList>
             </FooterSection>
@@ -45,15 +47,15 @@ export function Footer() {
 
               <FooterLinkList>
                 <li>
-                  <FooterLink>Devenir famille d'accueil</FooterLink>
+                  <FooterLink href="/">Devenir famille d'accueil</FooterLink>
                 </li>
 
                 <li>
-                  <FooterLink>Devenir bénévole</FooterLink>
+                  <FooterLink href="/">Devenir bénévole</FooterLink>
                 </li>
 
                 <li>
-                  <FooterLink>Faire un don</FooterLink>
+                  <FooterLink href="/">Faire un don</FooterLink>
                 </li>
               </FooterLinkList>
             </FooterSection>
@@ -63,35 +65,37 @@ export function Footer() {
 
               <FooterLinkList>
                 <li>
-                  <FooterLink>Lorem ipsum dolor</FooterLink>
+                  <FooterLink href="/">Lorem ipsum dolor</FooterLink>
                 </li>
 
                 <li>
-                  <FooterLink>Ait amet consectetur adipisicing elit</FooterLink>
+                  <FooterLink href="/">
+                    Ait amet consectetur adipisicing elit
+                  </FooterLink>
                 </li>
 
                 <li>
-                  <FooterLink>
+                  <FooterLink href="/">
                     Rerum distinctio illum itaque quod reprehenderit!
                   </FooterLink>
                 </li>
 
                 <li>
-                  <FooterLink>Incidunt, a suscipit maiores</FooterLink>
+                  <FooterLink href="/">Incidunt, a suscipit maiores</FooterLink>
                 </li>
 
                 <li>
-                  <FooterLink>Ullam distinctio dolore</FooterLink>
+                  <FooterLink href="/">Ullam distinctio dolore</FooterLink>
                 </li>
 
                 <li>
-                  <FooterLink>
+                  <FooterLink href="/">
                     Mollitia dolor obcaecati eos exercitationem, ducimus ratione
                   </FooterLink>
                 </li>
 
                 <li>
-                  <FooterLink>Delectus, quia</FooterLink>
+                  <FooterLink href="/">Delectus, quia</FooterLink>
                 </li>
               </FooterLinkList>
             </FooterSection>
@@ -101,35 +105,37 @@ export function Footer() {
 
               <FooterLinkList>
                 <li>
-                  <FooterLink>Lorem ipsum dolor</FooterLink>
+                  <FooterLink href="/">Lorem ipsum dolor</FooterLink>
                 </li>
 
                 <li>
-                  <FooterLink>Ait amet consectetur adipisicing elit</FooterLink>
+                  <FooterLink href="/">
+                    Ait amet consectetur adipisicing elit
+                  </FooterLink>
                 </li>
 
                 <li>
-                  <FooterLink>
+                  <FooterLink href="/">
                     Rerum distinctio illum itaque quod reprehenderit!
                   </FooterLink>
                 </li>
 
                 <li>
-                  <FooterLink>Incidunt, a suscipit maiores</FooterLink>
+                  <FooterLink href="/">Incidunt, a suscipit maiores</FooterLink>
                 </li>
 
                 <li>
-                  <FooterLink>Ullam distinctio dolore</FooterLink>
+                  <FooterLink href="/">Ullam distinctio dolore</FooterLink>
                 </li>
 
                 <li>
-                  <FooterLink>
+                  <FooterLink href="/">
                     Mollitia dolor obcaecati eos exercitationem, ducimus ratione
                   </FooterLink>
                 </li>
 
                 <li>
-                  <FooterLink>Delectus, quia</FooterLink>
+                  <FooterLink href="/">Delectus, quia</FooterLink>
                 </li>
               </FooterLinkList>
             </FooterSection>
@@ -175,7 +181,7 @@ export function Footer() {
           <section className="FooterBlock FooterNoticeSection">
             <p>
               <span>Ani'Meaux © {new Date().getFullYear()}</span> •{" "}
-              <FooterLink>Mentions légales</FooterLink>
+              <FooterLink href="/">Mentions légales</FooterLink>
             </p>
 
             <ul className="FooterSocialLinks">
@@ -218,12 +224,8 @@ function FooterLinkList(props: ChildrenProp) {
   return <ul {...props} className="FooterLinkList" />;
 }
 
-function FooterLink({ children }: ChildrenProp) {
-  return (
-    <Link href="/" className="FooterLink">
-      {children}
-    </Link>
-  );
+function FooterLink(props: LinkProps) {
+  return <Link {...props} className="FooterLink" />;
 }
 
 function NewsletterForm() {
