@@ -27,7 +27,7 @@ export function HeroSection({
       />
 
       <CenteredContent>
-        <div className="HeroSectionContent">
+        <div>
           <header className="HeroSectionText">
             <h1 className="HeroSectionTitle">{title}</h1>
             <p className="HeroSectionSubTitle">{subTitle}</p>

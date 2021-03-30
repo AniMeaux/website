@@ -1,6 +1,6 @@
 .StatisticsSection {
-  padding-top: calc(var(--spacing-unit) * 8);
-  padding-bottom: calc(var(--spacing-unit) * 8);
+  padding-top: calc(var(--spacing-unit) * 16);
+  padding-bottom: calc(var(--spacing-unit) * 16);
 }
 
 .StatisticsTitle {
@@ -12,7 +12,7 @@
 }
 
 .StatisticsList {
-  margin-top: calc(var(--spacing-unit) * 4);
+  margin-top: calc(var(--spacing-unit) * 8);
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   grid-template-rows: auto;

@@ -102,7 +102,7 @@ export default function HomePage({ animals }: HomePageProps) {
 
         <StatisticsSection>
           <StatisticItem
-            value="2 ans"
+            value="3 ans"
             title="D'existences"
             image={
               <StatisticImage
@@ -114,7 +114,7 @@ export default function HomePage({ animals }: HomePageProps) {
           />
 
           <StatisticItem
-            value="3 450"
+            value="400"
             title="Prises en charge"
             image={
               <StatisticImage
@@ -126,7 +126,7 @@ export default function HomePage({ animals }: HomePageProps) {
           />
 
           <StatisticItem
-            value="46"
+            value="28"
             title="Bénévoles"
             image={
               <StatisticImage
