@@ -3,7 +3,13 @@
   font-size: 50px;
   font-weight: 600;
   line-height: 1.2;
-  font-size: 40px;
+  font-size: 28px;
+}
+
+@media (min-width: 800px) {
+  .StatisticsTitle {
+    font-size: 40px;
+  }
 }
 
 .StatisticsList {
@@ -25,15 +31,29 @@
 
 .StatisticImage {
   width: 100%;
-  height: 200px;
+  height: 150px;
   object-fit: cover;
 }
 
+@media (min-width: 800px) {
+  .StatisticImage {
+    height: 200px;
+  }
+}
+
 .StatisticItemContent {
-  padding: calc(var(--spacing-unit) * 8);
+  padding: calc(var(--spacing-unit) * 2) calc(var(--spacing-unit) * 4)
+    calc(var(--spacing-unit) * 4);
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+@media (min-width: 800px) {
+  .StatisticItemContent {
+    padding: calc(var(--spacing-unit) * 4) calc(var(--spacing-unit) * 8)
+      calc(var(--spacing-unit) * 8);
+  }
 }
 
 .StatisticItemValue {
@@ -41,5 +61,11 @@
   font-family: var(--font-serif);
   line-height: 1.2;
   font-weight: 600;
-  font-size: 50px;
+  font-size: 32px;
+}
+
+@media (min-width: 800px) {
+  .StatisticItemValue {
+    font-size: 50px;
+  }
 }

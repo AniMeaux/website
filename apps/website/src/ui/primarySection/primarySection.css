@@ -16,7 +16,6 @@
     hsl(240, 7%, 91%)
   );
   padding: calc(var(--spacing-unit) * 8);
-
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -28,7 +27,13 @@
   font-family: var(--font-serif);
   line-height: 1.2;
   font-weight: 600;
-  font-size: 40px;
+  font-size: 28px;
+}
+
+@media (min-width: 800px) {
+  .PrimarySectionTitle {
+    font-size: 40px;
+  }
 }
 
 .PrimarySectionImage {

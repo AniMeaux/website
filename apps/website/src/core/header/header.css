@@ -29,20 +29,27 @@
   flex: none;
 }
 
-.HeaderLogo {
+.HeaderLogoLink {
+  padding: 0 calc(var(--spacing-unit) * 4);
   display: flex;
   align-items: center;
   font-size: 48px;
 }
 
+@media (min-width: 800px) {
+  .HeaderLogoLink {
+    padding: 0 calc(var(--spacing-unit) * 8);
+  }
+}
+
 @media (max-width: 799px) {
-  .HeaderLogo {
-    padding: 0 calc(var(--spacing-unit) * 4);
+  .HeaderNameAndLogo {
+    display: none;
   }
 }
 
 @media (min-width: 800px) {
   .HeaderLogo {
-    padding: 0 calc(var(--spacing-unit) * 8);
+    display: none;
   }
 }
