@@ -1,0 +1,4 @@
+.Section {
+  margin-top: calc(var(--spacing-unit) * 16);
+  margin-bottom: calc(var(--spacing-unit) * 16);
+}

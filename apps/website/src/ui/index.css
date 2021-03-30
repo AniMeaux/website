@@ -1,6 +1,8 @@
 @import "./tagList/tagList.css";
 @import "./centeredContent/centeredContent.css";
+@import "./section/section.css";
 @import "./image/image.css";
 @import "./heroSection/heroSection.css";
 @import "./statisticsSection/statisticsSection.css";
 @import "./adoptableAnimalsSection/adoptableAnimalsSection.css";
+@import "./primarySection/primarySection.css";

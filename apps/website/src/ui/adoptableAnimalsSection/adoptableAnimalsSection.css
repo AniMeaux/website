@@ -7,10 +7,7 @@
 
 .AdoptableAnimalsList {
   min-width: min-content;
-  padding: 0
-    calc(
-      var(--spacing-unit) * 8 + max(0px, (100% - var(--content-max-width)) / 2)
-    );
+  padding: 0 var(--content-margin);
 
   display: grid;
   grid-template-columns: repeat(3, minmax(250px, 1fr));

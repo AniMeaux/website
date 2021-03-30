@@ -55,7 +55,7 @@
 
 @media (min-width: 400px) {
   .SearchFormLink {
-    padding: calc(var(--spacing-unit) * 2) calc(var(--spacing-unit) * 4);
+    padding: calc(var(--spacing-unit) * 2) calc(var(--spacing-unit) * 5);
   }
 }
 

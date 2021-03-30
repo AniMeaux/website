@@ -1,7 +1,5 @@
 .CenteredContent {
-  margin-left: auto;
-  margin-right: auto;
+  margin-left: var(--content-margin);
+  margin-right: var(--content-margin);
   max-width: var(--content-max-width);
-  padding-left: calc(var(--spacing-unit) * 8);
-  padding-right: calc(var(--spacing-unit) * 8);
 }

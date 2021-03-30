@@ -5,6 +5,11 @@ import { PageTitle } from "../core/pageTitle";
 import { SearchForm } from "../core/searchForm";
 import { HeroSection } from "../ui/heroSection";
 import {
+  PrimarySection,
+  PrimarySectionAction,
+  PrimarySectionImage,
+} from "../ui/primarySection";
+import {
   StatisticImage,
   StatisticItem,
   StatisticsSection,
@@ -62,6 +67,21 @@ export default function HomePage() {
             }
           />
         </StatisticsSection>
+
+        <PrimarySection
+          title="Devenez famille d'accueil"
+          message="Adiez-nous à les sauver en leur consacrant temps et attention, sans aucune contrainte financière"
+          image={
+            <PrimarySectionImage
+              largeImage="/host-family@2x.jpg"
+              smallImage="/host-family.jpg"
+              alt="Famille d'accueil"
+            />
+          }
+          action={
+            <PrimarySectionAction href="/">En savoir plus</PrimarySectionAction>
+          }
+        />
       </main>
 
       <Footer />

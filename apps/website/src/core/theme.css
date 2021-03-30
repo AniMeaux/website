@@ -4,6 +4,11 @@
   --spacing-unit: 4px;
 
   --content-max-width: 1024px;
+
+  --content-margin: calc(
+    var(--spacing-unit) * 8 + max(0px, (100% - var(--content-max-width)) / 2)
+  );
+
   --header-height: 64px;
 
   --text-primary: rgba(0, 0, 0, 0.8);
@@ -46,6 +51,7 @@
   --ease-enter: var(--ease-out);
   --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
   --duration-popover: 100ms;
+  --duration-controller: 100ms;
 
   /* Shadows */
   --shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.15);

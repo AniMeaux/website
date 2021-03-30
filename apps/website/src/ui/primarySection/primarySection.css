@@ -1,0 +1,69 @@
+.PrimarySection {
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  min-height: 400px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+}
+
+.PrimarySectionHeader {
+  flex: 1;
+  min-width: min-content;
+  background-image: linear-gradient(
+    to bottom,
+    hsl(34, 14%, 90%),
+    hsl(240, 7%, 91%)
+  );
+  padding: calc(var(--spacing-unit) * 8);
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.PrimarySectionTitle {
+  margin-bottom: calc(var(--spacing-unit) * 2);
+  font-family: var(--font-serif);
+  line-height: 1.2;
+  font-weight: 600;
+  font-size: 40px;
+}
+
+.PrimarySectionImage {
+  flex: 2;
+  min-width: 400px;
+  object-fit: cover;
+}
+
+.PrimarySectionAction {
+  margin-top: calc(var(--spacing-unit) * 4);
+  background: var(--blue-600);
+  padding: calc(var(--spacing-unit) * 2) calc(var(--spacing-unit) * 5);
+  border-radius: var(--border-radius-full);
+  display: flex;
+  align-items: center;
+  color: var(--text-contrast);
+  font-weight: 600;
+}
+
+.PrimarySectionAction:hover {
+  background: var(--blue-500);
+}
+
+.PrimarySectionAction:active {
+  background: var(--blue-700);
+}
+
+.PrimarySectionActionIcon {
+  transform: translate3d(0, 0, 0);
+  margin-left: calc(var(--spacing-unit) * 2);
+  transition-property: transform;
+  transition-duration: var(--duration-controller);
+  transition-timing-function: var(--ease-in-out);
+}
+
+.PrimarySectionAction:hover .PrimarySectionActionIcon {
+  transform: translate3d(calc(var(--spacing-unit) * 1), 0, 0);
+}
