@@ -1,5 +1,7 @@
 .Footer {
   background: var(--bg-footer);
+  padding-bottom: 0;
+  padding-bottom: env(safe-area-inset-bottom, 0);
   font-size: 14px;
 }
 
