@@ -37,6 +37,12 @@ export function PageHead() {
         sizes="96x96"
         href="/favicon-96x96.png"
       />
+
+      <meta
+        name="viewport"
+        // Use `maximum-scale=1` to prevent browsers to zoom on form elements.
+        content="width=device-width, minimum-scale=1, initial-scale=1, maximum-scale=1, shrink-to-fit=no, user-scalable=no, viewport-fit=cover"
+      />
     </Head>
   );
 }
