@@ -101,12 +101,19 @@
 }
 
 .FooterSocialLinks {
+  margin-left: calc(var(--spacing-unit) * 8);
   display: flex;
   align-items: center;
 }
 
 .FooterSocialLinks > *:not(:first-child) {
-  margin-left: calc(var(--spacing-unit) * 6);
+  margin-left: calc(var(--spacing-unit) * 4);
+}
+
+@media (min-width: 800px) {
+  .FooterSocialLinks > *:not(:first-child) {
+    margin-left: calc(var(--spacing-unit) * 6);
+  }
 }
 
 .FooterSocialLink {
