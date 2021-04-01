@@ -237,7 +237,12 @@ function NewsletterForm() {
   }
 
   return (
-    <form onSubmit={onSubmit} className="NewsletterForm">
+    <form
+      onSubmit={onSubmit}
+      className="NewsletterForm"
+      // Required to show the Submit keyboard action on iOS.
+      action=""
+    >
       <input
         aria-label="Email"
         name="email"
