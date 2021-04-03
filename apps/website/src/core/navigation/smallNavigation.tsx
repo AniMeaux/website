@@ -51,6 +51,8 @@ export function SmallNavigation() {
         className="SmallNavigation__button"
         onClick={() => {
           setIsNavigationOpen((isNavigationOpen) => !isNavigationOpen);
+          // Safari doesn't focus on click.
+          buttonRef.current.focus();
         }}
       >
         {isNavigationOpen ? <FaTimes /> : <FaBars />}

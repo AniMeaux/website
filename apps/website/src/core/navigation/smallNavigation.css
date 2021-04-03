@@ -13,10 +13,12 @@
   z-index: -2;
   top: 100%;
   left: 0;
+  opacity: 0;
   transform: translate3d(0, calc(-100% - var(--header-height)), 0);
-  transition-property: transform;
+  transition-property: transform, opacity;
   transition-duration: var(--duration-popover);
-  transition-timing-function: var(--ease-exit);
+  transition-timing-function: /* transform */ var(--ease-exit),
+    /* opacity */ step-end;
   width: 100%;
   background: var(--bg-primary);
   padding-bottom: var(--border-radius);
@@ -29,8 +31,10 @@
 }
 
 .SmallNavigation__nav--open {
+  opacity: 1;
   transform: translate3d(0, 0, 0);
-  transition-timing-function: var(--ease-enter);
+  transition-timing-function: /* transform */ var(--ease-enter),
+    /* opacity */ step-start;
 }
 
 .SmallNavigationItem {
