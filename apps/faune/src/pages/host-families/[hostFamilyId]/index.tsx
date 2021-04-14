@@ -34,6 +34,7 @@ import {
   Section,
   SectionBox,
   SectionTitle,
+  useModal,
   useRouter,
   withConfirmation,
 } from "@animeaux/ui-library";
@@ -131,8 +132,10 @@ function ContactPlaceholderSection() {
 
 function DeleteHostFamilyButton({ hostFamily }: HostFamilyProps) {
   const router = useRouter();
+  const { onDismiss } = useModal();
   const [deleteHostFamily] = useDeleteHostFamily({
     onSuccess() {
+      onDismiss();
       router.backIfPossible("..");
     },
   });
@@ -167,6 +170,40 @@ function HostedAnimalsSection({ children }: ChildrenProp) {
       <SectionTitle>En accueil</SectionTitle>
       {children}
     </Section>
+  );
+}
+
+function ActionsSection({ hostFamily }: HostFamilyProps) {
+  const { onDismiss } = useModal();
+
+  return (
+    <>
+      <ModalHeader>
+        <HeaderTitle>{hostFamily.name}</HeaderTitle>
+      </ModalHeader>
+
+      <Section>
+        <LinkItem href="./edit" onClick={onDismiss}>
+          <ItemIcon>
+            <FaPen />
+          </ItemIcon>
+
+          <ItemContent>
+            <ItemMainText>Modifier</ItemMainText>
+          </ItemContent>
+
+          <ItemIcon>
+            <FaAngleRight />
+          </ItemIcon>
+        </LinkItem>
+      </Section>
+
+      <hr className="mx-4 my-1 border-t border-gray-100" />
+
+      <Section>
+        <DeleteHostFamilyButton hostFamily={hostFamily} />
+      </Section>
+    </>
   );
 }
 
@@ -211,31 +248,7 @@ const HostFamilyPage: PageComponent = () => {
         <HostedAnimalsSection>{hostedAnimals.content}</HostedAnimalsSection>
 
         <QuickActions icon={FaPen}>
-          <ModalHeader>
-            <HeaderTitle>{hostFamily.name}</HeaderTitle>
-          </ModalHeader>
-
-          <Section>
-            <LinkItem href="./edit">
-              <ItemIcon>
-                <FaPen />
-              </ItemIcon>
-
-              <ItemContent>
-                <ItemMainText>Modifier</ItemMainText>
-              </ItemContent>
-
-              <ItemIcon>
-                <FaAngleRight />
-              </ItemIcon>
-            </LinkItem>
-          </Section>
-
-          <hr className="mx-4 my-1 border-t border-gray-100" />
-
-          <Section>
-            <DeleteHostFamilyButton hostFamily={hostFamily} />
-          </Section>
+          <ActionsSection hostFamily={hostFamily} />
         </QuickActions>
       </>
     ),

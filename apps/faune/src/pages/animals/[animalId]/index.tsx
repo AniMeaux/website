@@ -44,6 +44,7 @@ import {
   Section,
   SectionBox,
   SectionTitle,
+  useModal,
   useRouter,
   withConfirmation,
 } from "@animeaux/ui-library";
@@ -290,6 +291,8 @@ function HostFamilyModal({ hostFamily }: { hostFamily: HostFamily }) {
 
   const fullAddress = getHostFamilyFullAddress(hostFamily);
 
+  const { onDismiss } = useModal();
+
   return (
     <>
       <ModalHeader>
@@ -339,7 +342,10 @@ function HostFamilyModal({ hostFamily }: { hostFamily: HostFamily }) {
 
           {isCurrentUserAdmin && (
             <li>
-              <LinkItem href={`/host-families/${hostFamily.id}`}>
+              <LinkItem
+                href={`/host-families/${hostFamily.id}`}
+                onClick={onDismiss}
+              >
                 <ItemIcon>
                   <FaEllipsisH />
                 </ItemIcon>
@@ -492,8 +498,10 @@ function DescriptionSection({ animal }: AnimalProps) {
 
 function DeleteAnimalButton({ animal }: AnimalProps) {
   const router = useRouter();
+  const { onDismiss } = useModal();
   const [deleteAnimal] = useDeleteAnimal({
     onSuccess() {
+      onDismiss();
       router.backIfPossible("..");
     },
   });
@@ -521,6 +529,67 @@ function DeleteAnimalButton({ animal }: AnimalProps) {
   );
 }
 
+function ActionsSection({ animal }: AnimalProps) {
+  const { onDismiss } = useModal();
+  return (
+    <>
+      <ModalHeader>
+        <HeaderTitle>{getAnimalDisplayName(animal)}</HeaderTitle>
+      </ModalHeader>
+
+      <Section>
+        <LinkItem href="./edit/profile" onClick={onDismiss}>
+          <ItemIcon>
+            <AnimalSpeciesIcon species={animal.species} />
+          </ItemIcon>
+
+          <ItemContent>
+            <ItemMainText>Modifier le profil</ItemMainText>
+          </ItemContent>
+
+          <ItemIcon>
+            <FaAngleRight />
+          </ItemIcon>
+        </LinkItem>
+
+        <LinkItem href="./edit/situation" onClick={onDismiss}>
+          <ItemIcon>
+            <FaAdjust />
+          </ItemIcon>
+
+          <ItemContent>
+            <ItemMainText>Modifier la situation</ItemMainText>
+          </ItemContent>
+
+          <ItemIcon>
+            <FaAngleRight />
+          </ItemIcon>
+        </LinkItem>
+
+        <LinkItem href="./edit/pictures" onClick={onDismiss}>
+          <ItemIcon>
+            <FaImages />
+          </ItemIcon>
+
+          <ItemContent>
+            <ItemMainText>Modifier les photos</ItemMainText>
+          </ItemContent>
+
+          <ItemIcon>
+            <FaAngleRight />
+          </ItemIcon>
+        </LinkItem>
+      </Section>
+
+      <hr className="mx-4 my-1 border-t border-gray-100" />
+
+      <Section>
+        <DeleteAnimalButton animal={animal} />
+      </Section>
+    </>
+  );
+}
+
 const AnimalPage: PageComponent = () => {
   const { currentUser } = useCurrentUser();
   const isCurrentUserAdmin = doesGroupsIntersect(currentUser.groups, [
@@ -545,59 +614,7 @@ const AnimalPage: PageComponent = () => {
 
         {isCurrentUserAdmin && (
           <QuickActions icon={FaPen}>
-            <ModalHeader>
-              <HeaderTitle>{getAnimalDisplayName(animal)}</HeaderTitle>
-            </ModalHeader>
-
-            <Section>
-              <LinkItem href="./edit/profile">
-                <ItemIcon>
-                  <AnimalSpeciesIcon species={animal.species} />
-                </ItemIcon>
-
-                <ItemContent>
-                  <ItemMainText>Modifier le profil</ItemMainText>
-                </ItemContent>
-
-                <ItemIcon>
-                  <FaAngleRight />
-                </ItemIcon>
-              </LinkItem>
-
-              <LinkItem href="./edit/situation">
-                <ItemIcon>
-                  <FaAdjust />
-                </ItemIcon>
-
-                <ItemContent>
-                  <ItemMainText>Modifier la situation</ItemMainText>
-                </ItemContent>
-
-                <ItemIcon>
-                  <FaAngleRight />
-                </ItemIcon>
-              </LinkItem>
-
-              <LinkItem href="./edit/pictures">
-                <ItemIcon>
-                  <FaImages />
-                </ItemIcon>
-
-                <ItemContent>
-                  <ItemMainText>Modifier les photos</ItemMainText>
-                </ItemContent>
-
-                <ItemIcon>
-                  <FaAngleRight />
-                </ItemIcon>
-              </LinkItem>
-            </Section>
-
-            <hr className="mx-4 my-1 border-t border-gray-100" />
-
-            <Section>
-              <DeleteAnimalButton animal={animal} />
-            </Section>
+            <ActionsSection animal={animal} />
           </QuickActions>
         )}
       </>

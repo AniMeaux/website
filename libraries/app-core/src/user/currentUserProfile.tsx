@@ -22,6 +22,7 @@ import {
   showSnackbar,
   Snackbar,
   SubmitButton,
+  useModal,
   useRouter,
 } from "@animeaux/ui-library";
 import * as React from "react";
@@ -229,6 +230,7 @@ export const CurrentUserProfileForm: PageComponent = () => {
 function Profile() {
   const router = useRouter();
   const { currentUser, signOut } = useCurrentUser();
+  const { onDismiss } = useModal();
 
   return (
     <>
@@ -239,6 +241,7 @@ function Profile() {
       <Section>
         <LinkItem
           href={`/edit-profile?backUrl=${encodeURIComponent(router.asPath)}`}
+          onClick={onDismiss}
         >
           <ItemIcon>
             <FaUser />
@@ -255,6 +258,7 @@ function Profile() {
 
         <LinkItem
           href={`/edit-password?backUrl=${encodeURIComponent(router.asPath)}`}
+          onClick={onDismiss}
         >
           <ItemIcon>
             <FaLock />

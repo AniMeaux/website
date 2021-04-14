@@ -21,6 +21,7 @@ import {
   QuickActions,
   Section,
   SectionTitle,
+  useModal,
   useRouter,
   withConfirmation,
 } from "@animeaux/ui-library";
@@ -76,8 +77,10 @@ function DetailsPlaceholderSection() {
 
 function DeleteAnimalBreedButton({ animalBreed }: AnimalBreedProps) {
   const router = useRouter();
+  const { onDismiss } = useModal();
   const [deleteAnimalBreed] = useDeleteAnimalBreed({
     onSuccess() {
+      onDismiss();
       router.backIfPossible("..");
     },
   });
@@ -106,6 +109,40 @@ function DeleteAnimalBreedButton({ animalBreed }: AnimalBreedProps) {
   );
 }
 
+function ActionsSection({ animalBreed }: AnimalBreedProps) {
+  const { onDismiss } = useModal();
+
+  return (
+    <>
+      <ModalHeader>
+        <HeaderTitle>{animalBreed.name}</HeaderTitle>
+      </ModalHeader>
+
+      <Section>
+        <LinkItem href="./edit" onClick={onDismiss}>
+          <ItemIcon>
+            <FaPen />
+          </ItemIcon>
+
+          <ItemContent>
+            <ItemMainText>Modifier</ItemMainText>
+          </ItemContent>
+
+          <ItemIcon>
+            <FaAngleRight />
+          </ItemIcon>
+        </LinkItem>
+      </Section>
+
+      <hr className="mx-4 my-1 border-t border-gray-100" />
+
+      <Section>
+        <DeleteAnimalBreedButton animalBreed={animalBreed} />
+      </Section>
+    </>
+  );
+}
+
 const AnimalBreedPage: PageComponent = () => {
   const router = useRouter();
   const animalBreedId = router.query.animalBreedId as string;
@@ -119,31 +156,7 @@ const AnimalBreedPage: PageComponent = () => {
         <DetailsSection animalBreed={animalBreed} />
 
         <QuickActions icon={FaPen}>
-          <ModalHeader>
-            <HeaderTitle>{animalBreed.name}</HeaderTitle>
-          </ModalHeader>
-
-          <Section>
-            <LinkItem href="./edit">
-              <ItemIcon>
-                <FaPen />
-              </ItemIcon>
-
-              <ItemContent>
-                <ItemMainText>Modifier</ItemMainText>
-              </ItemContent>
-
-              <ItemIcon>
-                <FaAngleRight />
-              </ItemIcon>
-            </LinkItem>
-          </Section>
-
-          <hr className="mx-4 my-1 border-t border-gray-100" />
-
-          <Section>
-            <DeleteAnimalBreedButton animalBreed={animalBreed} />
-          </Section>
+          <ActionsSection animalBreed={animalBreed} />
         </QuickActions>
       </>
     ),

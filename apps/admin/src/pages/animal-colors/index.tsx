@@ -20,6 +20,7 @@ import {
   ModalHeader,
   QuickLinkAction,
   Section,
+  useModal,
   usePageScrollRestoration,
   withConfirmation,
 } from "@animeaux/ui-library";
@@ -82,6 +83,8 @@ type AnimalColorProps = {
 };
 
 function AnimalColorModalContent({ animalColor }: AnimalColorProps) {
+  const { onDismiss } = useModal();
+
   return (
     <>
       <ModalHeader>
@@ -89,7 +92,7 @@ function AnimalColorModalContent({ animalColor }: AnimalColorProps) {
       </ModalHeader>
 
       <Section>
-        <LinkItem href={`./${animalColor.id}/edit`}>
+        <LinkItem href={`./${animalColor.id}/edit`} onClick={onDismiss}>
           <ItemIcon>
             <FaPen />
           </ItemIcon>
@@ -114,7 +117,12 @@ function AnimalColorModalContent({ animalColor }: AnimalColorProps) {
 }
 
 function DeleteAnimalColorButton({ animalColor }: AnimalColorProps) {
-  const [deleteAnimalColor] = useDeleteAnimalColor();
+  const { onDismiss } = useModal();
+  const [deleteAnimalColor] = useDeleteAnimalColor({
+    onSuccess() {
+      onDismiss();
+    },
+  });
 
   const confirmationMessage = [
     `Êtes-vous sûr de vouloir supprimer ${animalColor.name} ?`,

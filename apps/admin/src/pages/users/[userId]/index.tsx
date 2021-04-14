@@ -28,6 +28,7 @@ import {
   QuickActions,
   Section,
   SectionTitle,
+  useModal,
   useRouter,
   withConfirmation,
 } from "@animeaux/ui-library";
@@ -143,7 +144,12 @@ function GroupsPlaceholderSection() {
 
 function BlockUserButton({ user }: UserProp) {
   const { currentUser } = useCurrentUser();
-  const [toggleUserBlockedStatus] = useToggleUserBlockedStatus();
+  const { onDismiss } = useModal();
+  const [toggleUserBlockedStatus] = useToggleUserBlockedStatus({
+    onSuccess() {
+      onDismiss();
+    },
+  });
 
   // The current user cannot block himself.
   const disabled = currentUser.id === user.id;
@@ -180,8 +186,10 @@ function DeleteUserButton({ user }: UserProp) {
   const { currentUser } = useCurrentUser();
 
   const router = useRouter();
+  const { onDismiss } = useModal();
   const [deleteUser] = useDeleteUser({
     onSuccess() {
+      onDismiss();
       router.backIfPossible("..");
     },
   });
@@ -218,6 +226,41 @@ function DeleteUserButton({ user }: UserProp) {
   );
 }
 
+function ActionsSection({ user }: UserProp) {
+  const { onDismiss } = useModal();
+
+  return (
+    <>
+      <ModalHeader>
+        <HeaderTitle>{user.displayName}</HeaderTitle>
+      </ModalHeader>
+
+      <Section>
+        <LinkItem href="./edit" onClick={onDismiss}>
+          <ItemIcon>
+            <FaPen />
+          </ItemIcon>
+
+          <ItemContent>
+            <ItemMainText>Modifier</ItemMainText>
+          </ItemContent>
+
+          <ItemIcon>
+            <FaAngleRight />
+          </ItemIcon>
+        </LinkItem>
+      </Section>
+
+      <hr className="mx-4 my-1 border-t border-gray-100" />
+
+      <Section>
+        <BlockUserButton user={user} />
+        <DeleteUserButton user={user} />
+      </Section>
+    </>
+  );
+}
+
 const UserPage: PageComponent = () => {
   const router = useRouter();
   const userId = router.query.userId as string;
@@ -237,32 +280,7 @@ const UserPage: PageComponent = () => {
         <GroupsSection user={user} />
 
         <QuickActions icon={FaPen}>
-          <ModalHeader>
-            <HeaderTitle>{user.displayName}</HeaderTitle>
-          </ModalHeader>
-
-          <Section>
-            <LinkItem href="./edit">
-              <ItemIcon>
-                <FaPen />
-              </ItemIcon>
-
-              <ItemContent>
-                <ItemMainText>Modifier</ItemMainText>
-              </ItemContent>
-
-              <ItemIcon>
-                <FaAngleRight />
-              </ItemIcon>
-            </LinkItem>
-          </Section>
-
-          <hr className="mx-4 my-1 border-t border-gray-100" />
-
-          <Section>
-            <BlockUserButton user={user} />
-            <DeleteUserButton user={user} />
-          </Section>
+          <ActionsSection user={user} />
         </QuickActions>
       </>
     ),
