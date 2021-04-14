@@ -38,9 +38,9 @@ export const animalDatabase: AnimalDatabase = {
   ): Promise<PaginatedResponse<DBSearchableAnimal>> {
     const result = await AnimalsIndex.search<DBSearchableAnimal>("", {
       page: parameters.page ?? 0,
-      filters: SearchFilters.or(
+      filters: SearchFilters.createFilter(
         ADOPTABLE_ANIMAL_STATUS.map((status) =>
-          SearchFilters.createFilter("status", status)
+          SearchFilters.createFilterValue("status", status)
         )
       ),
     });
@@ -60,9 +60,19 @@ export const animalDatabase: AnimalDatabase = {
 
     if (parameters.status != null && parameters.status.length > 0) {
       searchFilters.push(
-        SearchFilters.or(
+        SearchFilters.createFilter(
           parameters.status.map((status) =>
-            SearchFilters.createFilter("status", status)
+            SearchFilters.createFilterValue("status", status)
+          )
+        )
+      );
+    }
+
+    if (parameters.species != null && parameters.species.length > 0) {
+      searchFilters.push(
+        SearchFilters.createFilter(
+          parameters.species.map((species) =>
+            SearchFilters.createFilterValue("species", species)
           )
         )
       );
@@ -70,7 +80,7 @@ export const animalDatabase: AnimalDatabase = {
 
     if (parameters.hostFamilyId != null) {
       searchFilters.push(
-        SearchFilters.createFilter("hostFamilyId", parameters.hostFamilyId)
+        SearchFilters.createFilterValue("hostFamilyId", parameters.hostFamilyId)
       );
     }
 
@@ -78,7 +88,7 @@ export const animalDatabase: AnimalDatabase = {
       parameters.search ?? "",
       {
         page: parameters.page ?? 0,
-        filters: SearchFilters.and(searchFilters),
+        filters: SearchFilters.createFilters(searchFilters),
       }
     );
 
@@ -95,9 +105,9 @@ export const animalDatabase: AnimalDatabase = {
   ): Promise<PaginatedResponse<DBSearchableAnimal>> {
     const result = await AnimalsIndex.search<DBSearchableAnimal>("", {
       page: parameters.page ?? 0,
-      filters: SearchFilters.or(
+      filters: SearchFilters.createFilter(
         ACTIVE_ANIMAL_STATUS.map((status) =>
-          SearchFilters.createFilter("status", status)
+          SearchFilters.createFilterValue("status", status)
         )
       ),
     });

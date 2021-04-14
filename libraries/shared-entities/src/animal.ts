@@ -43,6 +43,10 @@ export const ANIMAL_SPECIES_ALPHABETICAL_ORDER = sortByLabels(
   AnimalSpeciesLabels
 );
 
+function isAnimalSpecies(value: string): value is AnimalSpecies {
+  return Object.values(AnimalSpecies).includes(value as AnimalSpecies);
+}
+
 export function isAnimalSpeciesFertile(
   animalSpecies: AnimalSpecies
 ): animalSpecies is
@@ -523,6 +527,7 @@ export function createAminalPicturesUpdateApiPayload(
 
 export type AnimalFilters = {
   status?: AnimalStatus[] | null;
+  species?: AnimalSpecies[] | null;
   hostFamilyId?: string | null;
 };
 
@@ -530,6 +535,10 @@ export function getActiveAnimalFiltersCount(filters: AnimalFilters) {
   let activeFiltersCount = 0;
 
   if (filters.status != null && filters.status.length > 0) {
+    activeFiltersCount += 1;
+  }
+
+  if (filters.species != null && filters.species.length > 0) {
     activeFiltersCount += 1;
   }
 
@@ -563,6 +572,13 @@ export function createAnimalSearchFromQuery(query: Query) {
     ).filter(isAnimalStatus);
   }
 
+  if (query.species != null) {
+    animalSearch.species = (Array.isArray(query.species)
+      ? query.species
+      : [query.species]
+    ).filter(isAnimalSpecies);
+  }
+
   if (query.hostFamilyId != null && typeof query.hostFamilyId === "string") {
     animalSearch.hostFamilyId = query.hostFamilyId;
   }
@@ -579,6 +595,10 @@ export function createQueryFromAnimalSearch(animalSearch: AnimalSearch) {
 
   if (animalSearch.status != null && animalSearch.status.length > 0) {
     query.status = animalSearch.status;
+  }
+
+  if (animalSearch.species != null && animalSearch.species.length > 0) {
+    query.species = animalSearch.species;
   }
 
   if (animalSearch.hostFamilyId != null) {

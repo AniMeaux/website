@@ -21,6 +21,7 @@ export function AnimalMultipleStatusInput({
   value: valueProp,
   onChange,
 }: AnimalMultipleStatusInputProps) {
+  // Default parameter value isn't used for `null`.
   const value = valueProp ?? [];
 
   return (

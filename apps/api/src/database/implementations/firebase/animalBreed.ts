@@ -42,7 +42,7 @@ export const animalBreedDatabase: AnimalBreedDatabase = {
 
     if (parameters.species != null) {
       searchFilters.push(
-        SearchFilters.createFilter("species", parameters.species)
+        SearchFilters.createFilterValue("species", parameters.species)
       );
     }
 
@@ -50,7 +50,7 @@ export const animalBreedDatabase: AnimalBreedDatabase = {
       parameters.search ?? "",
       {
         page: parameters.page ?? 0,
-        filters: SearchFilters.and(searchFilters),
+        filters: SearchFilters.createFilters(searchFilters),
       }
     );
 

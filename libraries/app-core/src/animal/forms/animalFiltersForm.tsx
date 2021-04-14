@@ -1,6 +1,7 @@
 import { AnimalFilters } from "@animeaux/shared-entities";
 import { callSetStateAction, Field, Form, Label } from "@animeaux/ui-library";
 import * as React from "react";
+import { AnimalMultipleSpeciesInput } from "../../animalMultipleSpeciesInput";
 import { AnimalMultipleStatusInput } from "../../animalMultipleStatusInput";
 
 export type AnimalFiltersFormProps = {
@@ -11,6 +12,19 @@ export type AnimalFiltersFormProps = {
 export function AnimalFiltersForm({ value, onChange }: AnimalFiltersFormProps) {
   return (
     <Form>
+      <Field>
+        <Label>Espèce</Label>
+        <AnimalMultipleSpeciesInput
+          value={value.species}
+          onChange={(change) =>
+            onChange((value) => ({
+              ...value,
+              species: callSetStateAction(change, value.species ?? []),
+            }))
+          }
+        />
+      </Field>
+
       <Field>
         <Label>Statut</Label>
         <AnimalMultipleStatusInput

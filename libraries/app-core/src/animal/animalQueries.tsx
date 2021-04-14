@@ -114,12 +114,14 @@ const GetAllAnimalsQuery = gql`
     $search: String
     $page: Int
     $status: [AnimalStatus!]
+    $species: [AnimalSpecies!]
     $hostFamilyId: ID
   ) {
     response: getAllAnimals(
       search: $search
       page: $page
       status: $status
+      species: $species
       hostFamilyId: $hostFamilyId
     ) {
       hits {
