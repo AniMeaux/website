@@ -25,7 +25,11 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
       value,
       onChange,
       className,
-      autoComplete = "off",
+      // Should use `"off"` as default value but it is ingored by Chrome.
+      // See https://bugs.chromium.org/p/chromium/issues/detail
+      // A random value is used to confuse the browser and make sure previous
+      // values are never suggested.
+      autoComplete = String(Math.random()),
       ...rest
     },
     ref
