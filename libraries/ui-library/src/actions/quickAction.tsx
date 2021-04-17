@@ -1,26 +1,27 @@
 import cn from "classnames";
 import * as React from "react";
-import { Link, LinkProps } from "../core";
+import { ChildrenProp, Link, LinkProps, StyleProps } from "../core";
 import { Modal } from "../popovers";
 
-const COMMON_CLASS_NAME =
-  "focus:outline-none focus-visible:ring focus-visible:ring-blue-500 focus-visible:ring-opacity-50 shadow-md bg-blue-500 active:bg-blue-700 text-white z-20 fixed quick-action-bottom quick-action-right rounded-full h-14 w-14 flex items-center justify-center text-2xl";
-
 export function QuickLinkAction({ className, ...rest }: LinkProps) {
-  return <Link {...rest} className={cn(COMMON_CLASS_NAME, className)} />;
+  return <Link {...rest} className={cn("QuickAction", className)} />;
 }
 
-type QuickActionsProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
-  icon: React.ElementType;
-};
+type QuickActionsProps = ChildrenProp &
+  StyleProps & {
+    icon: React.ElementType;
+    onClick?: React.MouseEventHandler<HTMLButtonElement>;
+  };
 
 export function QuickActions({
   className,
   icon: Icon,
   children,
+  onClick,
   ...rest
 }: QuickActionsProps) {
   const [isOpened, setIsOpened] = React.useState(false);
+  const buttonElement = React.useRef<HTMLButtonElement>(null!);
 
   return (
     <>
@@ -29,15 +30,23 @@ export function QuickActions({
         // Use type button to make sure we don't submit a form.
         type="button"
         onClick={(event) => {
-          setIsOpened((isOpened) => !isOpened);
-          rest.onClick?.(event);
+          onClick?.(event);
+          if (!event.isDefaultPrevented()) {
+            setIsOpened((isOpened) => !isOpened);
+          }
         }}
-        className={cn(COMMON_CLASS_NAME, className)}
+        className={cn("QuickAction", className)}
+        ref={buttonElement}
       >
         <Icon />
       </button>
 
-      <Modal open={isOpened} onDismiss={() => setIsOpened(false)}>
+      <Modal
+        open={isOpened}
+        onDismiss={() => setIsOpened(false)}
+        referenceElement={buttonElement}
+        placement="top-end"
+      >
         {children}
       </Modal>
     </>

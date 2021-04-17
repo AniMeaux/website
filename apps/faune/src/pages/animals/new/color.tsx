@@ -7,6 +7,7 @@ import {
 } from "@animeaux/app-core";
 import { UserGroup } from "@animeaux/shared-entities";
 import {
+  ApplicationLayout,
   Button,
   Header,
   HeaderBackLink,
@@ -21,6 +22,7 @@ import {
   AnimalFormProvider,
   useAnimalForm,
 } from "../../../core/animalCreation";
+import { Navigation } from "../../../core/navigation";
 import { PageTitle } from "../../../core/pageTitle";
 
 const CreateAnimalColorPage: PageComponent = () => {
@@ -36,9 +38,7 @@ const CreateAnimalColorPage: PageComponent = () => {
     emptyMessage: "Il n'y a pas encore de couleur",
     emptySearchMessage: "Aucune couleur trouvée",
     renderEmptySearchAction: () => (
-      <Button variant="outlined" onClick={() => setRawSearch("")}>
-        Effacer la recherche
-      </Button>
+      <Button onClick={() => setRawSearch("")}>Effacer la recherche</Button>
     ),
     renderItem: (animalColor) => (
       <AnimalColorButtonItem
@@ -54,7 +54,7 @@ const CreateAnimalColorPage: PageComponent = () => {
   });
 
   return (
-    <div>
+    <ApplicationLayout>
       <PageTitle title="Nouvel animal" />
       <Header>
         <HeaderBackLink href="../profile" />
@@ -70,7 +70,9 @@ const CreateAnimalColorPage: PageComponent = () => {
       <Main>
         <Section>{content}</Section>
       </Main>
-    </div>
+
+      <Navigation onlyLargeEnough />
+    </ApplicationLayout>
   );
 };
 

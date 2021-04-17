@@ -93,14 +93,12 @@ function ImageInputButton({
               ? "1 image trop grande"
               : `${oversizedImageCount} images trop grandes`;
 
-          showSnackbar.error(<Snackbar type="error">{message}</Snackbar>);
+          showSnackbar.error(<Snackbar>{message}</Snackbar>);
         }
 
         onImportImages(images);
       } catch (error) {
-        showSnackbar.error(
-          <Snackbar type="error">Une erreur est survenue</Snackbar>
-        );
+        showSnackbar.error(<Snackbar>Une erreur est survenue</Snackbar>);
       } finally {
         onImportImagesEnd(imageCount);
 

@@ -8,15 +8,14 @@ import {
 } from "@animeaux/app-core";
 import { AnimalBreed, AnimalSpeciesLabels } from "@animeaux/shared-entities";
 import {
+  ApplicationLayout,
   ButtonItem,
-  HeaderTitle,
   Item,
   ItemContent,
   ItemIcon,
   ItemMainText,
   LinkItem,
   Main,
-  ModalHeader,
   Placeholder,
   QuickActions,
   Section,
@@ -27,6 +26,7 @@ import {
 } from "@animeaux/ui-library";
 import * as React from "react";
 import { FaAngleRight, FaPen, FaTrash } from "react-icons/fa";
+import { Navigation } from "../../../core/navigation";
 import { PageTitle } from "../../../core/pageTitle";
 
 type AnimalBreedProps = {
@@ -95,7 +95,7 @@ function DeleteAnimalBreedButton({ animalBreed }: AnimalBreedProps) {
       onClick={withConfirmation(confirmationMessage, () => {
         deleteAnimalBreed(animalBreed.id);
       })}
-      className="text-red-500 font-medium"
+      color="red"
       // TODO: Prevent delete if it is used by animals.
     >
       <ItemIcon>
@@ -114,10 +114,6 @@ function ActionsSection({ animalBreed }: AnimalBreedProps) {
 
   return (
     <>
-      <ModalHeader>
-        <HeaderTitle>{animalBreed.name}</HeaderTitle>
-      </ModalHeader>
-
       <Section>
         <LinkItem href="./edit" onClick={onDismiss}>
           <ItemIcon>
@@ -134,7 +130,7 @@ function ActionsSection({ animalBreed }: AnimalBreedProps) {
         </LinkItem>
       </Section>
 
-      <hr className="mx-4 my-1 border-t border-gray-100" />
+      <hr className="mx-4 border-t border-gray-100" />
 
       <Section>
         <DeleteAnimalBreedButton animalBreed={animalBreed} />
@@ -163,12 +159,12 @@ const AnimalBreedPage: PageComponent = () => {
   });
 
   return (
-    <div>
+    <ApplicationLayout>
       <PageTitle title={pageTitle} />
       <Header headerTitle={headerTitle} canGoBack />
-
       <Main>{content}</Main>
-    </div>
+      <Navigation onlyLargeEnough />
+    </ApplicationLayout>
   );
 };
 

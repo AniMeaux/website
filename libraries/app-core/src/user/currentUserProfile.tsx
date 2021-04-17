@@ -5,6 +5,7 @@ import {
 } from "@animeaux/shared-entities";
 import {
   Adornment,
+  ApplicationLayout,
   ButtonItem,
   Field,
   FieldMessage,
@@ -17,6 +18,8 @@ import {
   LinkItem,
   Main,
   Modal,
+  ModalHeader,
+  ModalProps,
   PasswordInput,
   Section,
   showSnackbar,
@@ -33,7 +36,7 @@ import { useMutation } from "../request";
 import { useCurrentUser } from "./currentUserContext";
 import { UserItem } from "./userItem";
 
-export const CurrentUserPasswordForm: PageComponent = () => {
+export const CurrentUserPasswordForm: PageComponent = ({ children }) => {
   const router = useRouter();
   const backUrl = (router.query.backUrl as string | null) ?? "/";
 
@@ -57,9 +60,7 @@ export const CurrentUserPasswordForm: PageComponent = () => {
       ],
 
       onSuccess() {
-        showSnackbar.success(
-          <Snackbar type="success">Mot de passe changé</Snackbar>
-        );
+        showSnackbar.success(<Snackbar>Mot de passe changé</Snackbar>);
 
         router.backIfPossible(backUrl);
       },
@@ -80,7 +81,7 @@ export const CurrentUserPasswordForm: PageComponent = () => {
   }
 
   return (
-    <div>
+    <ApplicationLayout>
       <PageTitle
         title="Mot de passe"
         // `applicationName` is only used as a fallback if `title` is missing.
@@ -141,11 +142,13 @@ export const CurrentUserPasswordForm: PageComponent = () => {
           <SubmitButton disabled={mutation.isLoading}>Modifier</SubmitButton>
         </Form>
       </Main>
-    </div>
+
+      {children}
+    </ApplicationLayout>
   );
 };
 
-export const CurrentUserProfileForm: PageComponent = () => {
+export const CurrentUserProfileForm: PageComponent = ({ children }) => {
   const router = useRouter();
   const backUrl = (router.query.backUrl as string | null) ?? "/";
 
@@ -164,9 +167,7 @@ export const CurrentUserProfileForm: PageComponent = () => {
       errorCodesToIgnore: [ErrorCode.USER_MISSING_DISPLAY_NAME],
 
       onSuccess() {
-        showSnackbar.success(
-          <Snackbar type="success">Profil modifié</Snackbar>
-        );
+        showSnackbar.success(<Snackbar>Profil modifié</Snackbar>);
 
         router.backIfPossible(backUrl);
       },
@@ -183,7 +184,7 @@ export const CurrentUserProfileForm: PageComponent = () => {
   }
 
   return (
-    <div>
+    <ApplicationLayout>
       <PageTitle
         title="Profil"
         // `applicationName` is only used as a fallback if `title` is missing.
@@ -223,7 +224,9 @@ export const CurrentUserProfileForm: PageComponent = () => {
           <SubmitButton disabled={mutation.isLoading}>Modifier</SubmitButton>
         </Form>
       </Main>
-    </div>
+
+      {children}
+    </ApplicationLayout>
   );
 };
 
@@ -234,9 +237,9 @@ function Profile() {
 
   return (
     <>
-      <Section className="border-b border-gray-100">
+      <ModalHeader dense>
         <UserItem user={currentUser} />
-      </Section>
+      </ModalHeader>
 
       <Section>
         <LinkItem
@@ -274,7 +277,7 @@ function Profile() {
         </LinkItem>
       </Section>
 
-      <hr className="mx-4 my-1 border-t border-gray-100" />
+      <hr className="mx-4 border-t border-gray-100" />
 
       <Section>
         <ButtonItem onClick={signOut}>
@@ -291,28 +294,15 @@ function Profile() {
   );
 }
 
-export type CurrentUserProfileHandle = {
-  open(): void;
-};
+type CurrentUserProfileProps = Pick<
+  ModalProps,
+  "open" | "onDismiss" | "referenceElement" | "placement"
+>;
 
-type CurrentUserProfileProps = {
-  refProp?: React.RefObject<CurrentUserProfileHandle>;
-};
-
-export function CurrentUserProfile({ refProp }: CurrentUserProfileProps) {
-  const [isVisible, setIsVisible] = React.useState(false);
-
-  React.useImperativeHandle(refProp, () => ({
-    open: () => setIsVisible(true),
-  }));
-
+export function CurrentUserProfile(props: CurrentUserProfileProps) {
   return (
-    <Modal
-      open={isVisible}
-      onDismiss={() => setIsVisible(false)}
-      dismissLabel="Fermer"
-    >
-      {isVisible && <Profile />}
+    <Modal {...props} dismissLabel="Fermer">
+      <Profile />
     </Modal>
   );
 }

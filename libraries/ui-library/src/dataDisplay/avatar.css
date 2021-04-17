@@ -1,0 +1,27 @@
+.Avatar {
+  position: relative;
+  overflow: hidden;
+  height: 2em;
+  width: 2em;
+  border-radius: var(--border-radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: var(--font-weight-medium);
+}
+
+/* Use a pseudo element to have a background opacity. */
+.Avatar::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: currentColor;
+  opacity: 0.1;
+}
+
+.UserAvatar {
+  color: var(--primary-500);
+}

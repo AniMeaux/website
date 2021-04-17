@@ -157,9 +157,7 @@ export function useCreateUser(
         // manualy update the cache.
         queryClient.invalidateQueries("users");
 
-        showSnackbar.success(
-          <Snackbar type="success">Utilisateur créé</Snackbar>
-        );
+        showSnackbar.success(<Snackbar>Utilisateur créé</Snackbar>);
 
         options?.onSuccess?.(user, ...rest);
       },
@@ -246,9 +244,7 @@ export function useUpdateUser(
         queryClient.setQueryData(["user", user.id], user);
         setQueriesData(queryClient, "users", updateDataInCache(user));
 
-        showSnackbar.success(
-          <Snackbar type="success">Utilisateur modifié</Snackbar>
-        );
+        showSnackbar.success(<Snackbar>Utilisateur modifié</Snackbar>);
 
         options?.onSuccess?.(user, ...rest);
       },
@@ -284,9 +280,7 @@ export function useDeleteUser(
         queryClient.removeQueries(["user", userId]);
         setQueriesData(queryClient, "users", removeDataFromCache(userId));
 
-        showSnackbar.success(
-          <Snackbar type="success">Utilisateur supprimé</Snackbar>
-        );
+        showSnackbar.success(<Snackbar>Utilisateur supprimé</Snackbar>);
 
         options?.onSuccess?.(userId, ...rest);
       },
@@ -327,9 +321,7 @@ export function useToggleUserBlockedStatus(
         queryClient.setQueryData(["user", user.id], user);
         setQueriesData(queryClient, "users", updateDataInCache(user));
 
-        showSnackbar.success(
-          <Snackbar type="success">Utilisateur modifié</Snackbar>
-        );
+        showSnackbar.success(<Snackbar>Utilisateur modifié</Snackbar>);
 
         options?.onSuccess?.(user, ...rest);
       },

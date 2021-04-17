@@ -136,9 +136,9 @@ export function AnimalProfileForm<
       <Field>
         <Label hasError={errors?.gender != null}>Genre</Label>
 
-        <Selectors>
+        <Selectors isStretched>
           {ANIMAL_GENDERS_ORDER.map((gender) => (
-            <SelectorItem key={gender} isFlex>
+            <SelectorItem key={gender}>
               <Selector>
                 <SelectorRadio
                   name="gender"

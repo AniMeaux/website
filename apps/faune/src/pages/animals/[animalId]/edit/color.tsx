@@ -9,6 +9,7 @@ import {
 } from "@animeaux/app-core";
 import { getAnimalDisplayName, UserGroup } from "@animeaux/shared-entities";
 import {
+  ApplicationLayout,
   Button,
   Header,
   HeaderBackLink,
@@ -23,6 +24,7 @@ import {
   AnimalFormProvider,
   useAnimalForm,
 } from "../../../../core/animalEdition";
+import { Navigation } from "../../../../core/navigation";
 import { PageTitle } from "../../../../core/pageTitle";
 
 function UpdateAnimalColorForm() {
@@ -38,9 +40,7 @@ function UpdateAnimalColorForm() {
     emptyMessage: "Il n'y a pas encore de couleur",
     emptySearchMessage: "Aucune couleur trouvée",
     renderEmptySearchAction: () => (
-      <Button variant="outlined" onClick={() => setRawSearch("")}>
-        Effacer la recherche
-      </Button>
+      <Button onClick={() => setRawSearch("")}>Effacer la recherche</Button>
     ),
     renderItem: (animalColor) => (
       <AnimalColorButtonItem
@@ -100,10 +100,11 @@ const UpdateAnimalColorPage: PageComponent = () => {
   });
 
   return (
-    <div>
+    <ApplicationLayout>
       <PageTitle title={pageTitle} />
       {content}
-    </div>
+      <Navigation onlyLargeEnough />
+    </ApplicationLayout>
   );
 };
 

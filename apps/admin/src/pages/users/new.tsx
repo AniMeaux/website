@@ -10,8 +10,9 @@ import {
   getErrorMessage,
   hasErrorCode,
 } from "@animeaux/shared-entities";
-import { Main, useRouter } from "@animeaux/ui-library";
+import { ApplicationLayout, Main, useRouter } from "@animeaux/ui-library";
 import * as React from "react";
+import { Navigation } from "../../core/navigation";
 import { PageTitle } from "../../core/pageTitle";
 
 const CreateUserPage: PageComponent = () => {
@@ -44,14 +45,16 @@ const CreateUserPage: PageComponent = () => {
   }
 
   return (
-    <div>
+    <ApplicationLayout>
       <PageTitle title="Nouvel utilisateur" />
       <Header headerTitle="Nouvel utilisateur" canGoBack />
 
       <Main>
         <UserForm onSubmit={createUser} pending={isLoading} errors={errors} />
       </Main>
-    </div>
+
+      <Navigation onlyLargeEnough />
+    </ApplicationLayout>
   );
 };
 

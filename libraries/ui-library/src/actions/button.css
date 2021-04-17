@@ -1,0 +1,68 @@
+.Button {
+  border-radius: var(--border-radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-serif);
+  font-weight: var(--font-weight-bold);
+}
+
+.Button--disabled {
+  opacity: var(--opacity-disabled);
+}
+
+.Button--small {
+  height: var(--input-small-height);
+}
+
+.Button--small:not(.Button--isIconOnly) {
+  padding: 0 calc(var(--spacing-unit) * 6);
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-sm);
+}
+
+.Button--small.Button--isIconOnly {
+  width: var(--input-small-height);
+}
+
+.Button--medium {
+  height: var(--input-medium-height);
+}
+
+.Button--medium:not(.Button--isIconOnly) {
+  padding: 0 calc(var(--spacing-unit) * 12);
+}
+
+.Button--medium.Button--isIconOnly {
+  width: var(--input-medium-height);
+}
+
+.Button--outlined {
+  background: var(--light-1000);
+  border: 1px solid var(--dark-100);
+}
+
+@media (hover: hover) {
+  .Button--outlined:not(.Button--disabled):hover {
+    background: var(--dark-30);
+  }
+}
+
+.Button--outlined:not(.Button--disabled):active {
+  background: var(--dark-100);
+}
+
+.Button--primary {
+  background: var(--primary-500);
+  color: var(--text-contrast);
+}
+
+@media (hover: hover) {
+  .Button--primary:not(.Button--disabled):hover {
+    background: var(--primary-400);
+  }
+}
+
+.Button--primary:not(.Button--disabled):active {
+  background: var(--primary-600);
+}

@@ -2,91 +2,27 @@ import cn from "classnames";
 import * as React from "react";
 import { ChildrenProp, Link, LinkProps, StyleProps } from "../core";
 
-type ButtonSize = "small" | "medium";
-type ButtonVariant = "secondary" | "primary" | "outlined";
-type ButtonColor = "default" | "blue" | "red" | "green";
+type ButtonVariant = "primary" | "outlined";
 
-const ButtonSizeClassName: {
-  [key in ButtonSize]: {
-    base: string;
-    iconOnly: string;
-    notIconOnly: string;
-  };
+const ButtonVariantClassName: {
+  [key in ButtonVariant]: string;
 } = {
-  small: {
-    base: "h-8",
-    iconOnly: "w-8",
-    notIconOnly: "px-6 text-sm",
-  },
-  medium: {
-    base: "h-10",
-    iconOnly: "w-10",
-    notIconOnly: "px-12",
-  },
+  outlined: "Button--outlined",
+  primary: "Button--primary",
 };
 
-export const ButtonClassName: {
-  [key in ButtonVariant]: {
-    [key in ButtonColor]: {
-      base: string;
-    };
-  };
+type ButtonSize = "small" | "medium";
+
+const ButtonSizeClassName: {
+  [key in ButtonSize]: string;
 } = {
-  secondary: {
-    default: {
-      base: "focus-visible:ring-blue-500 bg-white active:bg-gray-100",
-    },
-    blue: {
-      base:
-        "focus-visible:ring-blue-500 bg-blue-500 bg-opacity-5 active:bg-opacity-10 text-blue-500",
-    },
-    red: {
-      base:
-        "focus-visible:ring-red-500 bg-red-500 bg-opacity-5 active:bg-opacity-10 text-red-500",
-    },
-    green: {
-      base:
-        "focus-visible:ring-green-500 bg-green-500 bg-opacity-5 active:bg-opacity-10 text-green-500",
-    },
-  },
-  primary: {
-    default: {
-      base: "focus-visible:ring-blue-500",
-    },
-    blue: {
-      base:
-        "focus-visible:ring-blue-500 bg-blue-500 active:bg-blue-700 text-white",
-    },
-    red: {
-      base:
-        "focus-visible:ring-red-500 bg-red-500 active:bg-red-700 text-white",
-    },
-    green: {
-      base:
-        "focus-visible:ring-green-500 bg-green-500 active:bg-green-700 text-white",
-    },
-  },
-  outlined: {
-    default: {
-      base: "focus-visible:ring-blue-500 bg-white active:bg-gray-100 border",
-    },
-    blue: {
-      base: "focus-visible:ring-blue-500",
-    },
-    red: {
-      base: "focus-visible:ring-red-500",
-    },
-    green: {
-      base:
-        "focus-visible:ring-green-500 bg-white active:bg-green-100 border text-green-500",
-    },
-  },
+  small: "Button--small",
+  medium: "Button--medium",
 };
 
 type ButtonCommonProps = StyleProps & {
   size?: ButtonSize;
   variant?: ButtonVariant;
-  color?: ButtonColor;
   iconOnly?: boolean;
   disabled?: boolean;
   title?: string;
@@ -100,7 +36,14 @@ export type ButtonProps = ChildrenProp &
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   function Button(
-    { size, variant, color, iconOnly, disabled = false, className, ...rest },
+    {
+      variant = "outlined",
+      size = "medium",
+      iconOnly = false,
+      disabled = false,
+      className,
+      ...rest
+    },
     ref
   ) {
     return (
@@ -108,14 +51,16 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         {...rest}
         ref={ref}
         disabled={disabled}
-        className={getButtonClassName({
-          size,
-          variant,
-          color,
-          iconOnly,
-          disabled,
-          className,
-        })}
+        className={cn(
+          "Button",
+          ButtonSizeClassName[size],
+          ButtonVariantClassName[variant],
+          {
+            "Button--isIconOnly": iconOnly,
+            "Button--disabled": disabled,
+          },
+          className
+        )}
       />
     );
   }
@@ -125,7 +70,14 @@ export type ButtonLinkProps = LinkProps & ButtonCommonProps;
 
 export const ButtonLink = React.forwardRef<HTMLAnchorElement, ButtonLinkProps>(
   function ButtonLink(
-    { variant, color, iconOnly, className, size, disabled, ...rest },
+    {
+      variant = "outlined",
+      size = "medium",
+      iconOnly = false,
+      disabled = false,
+      className,
+      ...rest
+    },
     ref
   ) {
     return (
@@ -133,39 +85,17 @@ export const ButtonLink = React.forwardRef<HTMLAnchorElement, ButtonLinkProps>(
         {...rest}
         ref={ref}
         disabled={disabled}
-        className={getButtonClassName({
-          size,
-          className,
-          color,
-          iconOnly,
-          variant,
-          disabled,
-        })}
+        className={cn(
+          "Button",
+          ButtonSizeClassName[size],
+          ButtonVariantClassName[variant],
+          {
+            "Button--isIconOnly": iconOnly,
+            "Button--disabled": disabled,
+          },
+          className
+        )}
       />
     );
   }
 );
-
-function getButtonClassName({
-  size = "medium",
-  variant = "secondary",
-  color = "default",
-  iconOnly = false,
-  disabled = false,
-  className,
-}: ButtonCommonProps) {
-  return cn(
-    "focus:outline-none focus-visible:ring focus-visible:ring-opacity-50 rounded-full flex items-center justify-center font-serif font-bold",
-    ButtonClassName[variant][color].base,
-    ButtonSizeClassName[size].base,
-    {
-      "opacity-50 cursor-auto": disabled,
-      "cursor-pointer": !disabled,
-    },
-    {
-      [ButtonSizeClassName[size].iconOnly]: iconOnly,
-      [ButtonSizeClassName[size].notIconOnly]: !iconOnly,
-    },
-    className
-  );
-}

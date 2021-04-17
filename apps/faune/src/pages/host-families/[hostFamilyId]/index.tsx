@@ -16,10 +16,10 @@ import {
   UserGroup,
 } from "@animeaux/shared-entities";
 import {
+  ApplicationLayout,
   Button,
   ButtonItem,
   ChildrenProp,
-  HeaderTitle,
   Item,
   ItemContent,
   ItemIcon,
@@ -27,7 +27,6 @@ import {
   LinkItem,
   Main,
   Markdown,
-  ModalHeader,
   Placeholder,
   Placeholders,
   QuickActions,
@@ -47,6 +46,7 @@ import {
   FaPhone,
   FaTrash,
 } from "react-icons/fa";
+import { Navigation } from "../../../core/navigation";
 import { PageTitle } from "../../../core/pageTitle";
 
 type HostFamilyProps = {
@@ -150,8 +150,7 @@ function DeleteHostFamilyButton({ hostFamily }: HostFamilyProps) {
       onClick={withConfirmation(confirmationMessage, () => {
         deleteHostFamily(hostFamily.id);
       })}
-      // TODO: Prevent delete if it is referenced by animals.
-      className="text-red-500 font-medium"
+      color="red"
     >
       <ItemIcon>
         <FaTrash />
@@ -178,10 +177,6 @@ function ActionsSection({ hostFamily }: HostFamilyProps) {
 
   return (
     <>
-      <ModalHeader>
-        <HeaderTitle>{hostFamily.name}</HeaderTitle>
-      </ModalHeader>
-
       <Section>
         <LinkItem href="./edit" onClick={onDismiss}>
           <ItemIcon>
@@ -198,7 +193,7 @@ function ActionsSection({ hostFamily }: HostFamilyProps) {
         </LinkItem>
       </Section>
 
-      <hr className="mx-4 my-1 border-t border-gray-100" />
+      <hr className="mx-4 border-t border-gray-100" />
 
       <Section>
         <DeleteHostFamilyButton hostFamily={hostFamily} />
@@ -232,7 +227,7 @@ const HostFamilyPage: PageComponent = () => {
     ),
     renderError: (props) => <ErrorPage {...props} asItem />,
     renderRetryButton: ({ retry, children }) => (
-      <Button size="small" variant="outlined" onClick={retry}>
+      <Button size="small" onClick={retry}>
         {children}
       </Button>
     ),
@@ -255,12 +250,12 @@ const HostFamilyPage: PageComponent = () => {
   });
 
   return (
-    <div>
+    <ApplicationLayout>
       <PageTitle title={pageTitle} />
       <Header headerTitle={headerTitle} canGoBack />
-
       <Main>{content}</Main>
-    </div>
+      <Navigation onlyLargeEnough />
+    </ApplicationLayout>
   );
 };
 

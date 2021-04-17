@@ -171,7 +171,7 @@ export function useCreateAnimalBreed(
         // manualy update the cache.
         queryClient.invalidateQueries("animal-breeds");
 
-        showSnackbar.success(<Snackbar type="success">Race créée</Snackbar>);
+        showSnackbar.success(<Snackbar>Race créée</Snackbar>);
 
         options?.onSuccess?.(animalBreed, ...rest);
       },
@@ -254,7 +254,7 @@ export function useUpdateAnimalBreed(
           updateDataInInfiniteCache(animalBreed)
         );
 
-        showSnackbar.success(<Snackbar type="success">Race modifiée</Snackbar>);
+        showSnackbar.success(<Snackbar>Race modifiée</Snackbar>);
 
         options?.onSuccess?.(animalBreed, ...rest);
       },
@@ -295,9 +295,7 @@ export function useDeleteAnimalBreed(
           removeDataFromInfiniteCache(animalBreedId)
         );
 
-        showSnackbar.success(
-          <Snackbar type="success">Race supprimée</Snackbar>
-        );
+        showSnackbar.success(<Snackbar>Race supprimée</Snackbar>);
 
         options?.onSuccess?.(animalBreedId, ...rest);
       },

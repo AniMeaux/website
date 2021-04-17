@@ -13,8 +13,8 @@ import {
   hasAnimalSearch,
 } from "@animeaux/shared-entities";
 import {
-  ActionAdornment,
   ActionFilter,
+  ApplicationLayout,
   Button,
   Header,
   HeaderBackLink,
@@ -28,6 +28,7 @@ import {
 } from "@animeaux/ui-library";
 import isEqual from "lodash.isequal";
 import * as React from "react";
+import { Navigation } from "../../core/navigation";
 import { PageTitle } from "../../core/pageTitle";
 
 const TITLE = "Animaux";
@@ -75,9 +76,7 @@ const SearchAnimalPage: PageComponent = () => {
       }
 
       return (
-        <Button variant="outlined" onClick={() => setFilters({})}>
-          Effacer tous les filtres
-        </Button>
+        <Button onClick={() => setFilters({})}>Effacer tous les filtres</Button>
       );
     },
     renderItem: (animal) => (
@@ -101,8 +100,10 @@ const SearchAnimalPage: PageComponent = () => {
     }
   }
 
+  const searchInputElement = React.useRef<HTMLInputElement>(null!);
+
   return (
-    <div>
+    <ApplicationLayout>
       <PageTitle title="Chercher un animal" />
       <Header>
         <HeaderBackLink href=".." />
@@ -113,11 +114,12 @@ const SearchAnimalPage: PageComponent = () => {
           placeholder="Chercher un animal"
           value={rawSearch}
           onChange={setRawSearch}
+          ref={searchInputElement}
           rightAdornment={
             <ActionFilter
-              actionElement={ActionAdornment}
               activeFilterCount={activeFilterCount}
               clearAllFilters={() => setFilters({})}
+              inputRef={searchInputElement}
             >
               <AnimalFiltersForm value={filters} onChange={setFilters} />
             </ActionFilter>
@@ -131,7 +133,9 @@ const SearchAnimalPage: PageComponent = () => {
           {content}
         </Section>
       </Main>
-    </div>
+
+      <Navigation onlyLargeEnough />
+    </ApplicationLayout>
   );
 };
 

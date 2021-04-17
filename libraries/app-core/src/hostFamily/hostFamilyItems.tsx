@@ -44,7 +44,7 @@ function HostFamilyContent({ hostFamily }: HostFamilyContentProps) {
   return (
     <>
       <ItemIcon>
-        <Avatar size="large">
+        <Avatar>
           <FaHome />
         </Avatar>
       </ItemIcon>
@@ -109,7 +109,7 @@ export function HostFamilySearchItem({
   return (
     <ButtonItem {...rest}>
       <ItemIcon>
-        <Avatar size="medium">
+        <Avatar>
           <FaHome />
         </Avatar>
       </ItemIcon>

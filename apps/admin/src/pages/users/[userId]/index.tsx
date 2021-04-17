@@ -14,15 +14,14 @@ import {
   UserGroupLabels,
 } from "@animeaux/shared-entities";
 import {
+  ApplicationLayout,
   ButtonItem,
-  HeaderTitle,
   Item,
   ItemContent,
   ItemIcon,
   ItemMainText,
   LinkItem,
   Main,
-  ModalHeader,
   Placeholder,
   Placeholders,
   QuickActions,
@@ -40,6 +39,7 @@ import {
   FaPen,
   FaTrash,
 } from "react-icons/fa";
+import { Navigation } from "../../../core/navigation";
 import { PageTitle } from "../../../core/pageTitle";
 
 type UserProp = {
@@ -163,7 +163,7 @@ function BlockUserButton({ user }: UserProp) {
       onClick={withConfirmation(confirmationMessage, () => {
         toggleUserBlockedStatus(user.id);
       })}
-      className="text-yellow-600 font-medium"
+      color="yellow"
       disabled={disabled}
       title={
         disabled
@@ -207,7 +207,7 @@ function DeleteUserButton({ user }: UserProp) {
       onClick={withConfirmation(confirmationMessage, () => {
         deleteUser(user.id);
       })}
-      className="text-red-500 font-medium"
+      color="red"
       disabled={disabled}
       title={
         disabled
@@ -231,10 +231,6 @@ function ActionsSection({ user }: UserProp) {
 
   return (
     <>
-      <ModalHeader>
-        <HeaderTitle>{user.displayName}</HeaderTitle>
-      </ModalHeader>
-
       <Section>
         <LinkItem href="./edit" onClick={onDismiss}>
           <ItemIcon>
@@ -251,7 +247,7 @@ function ActionsSection({ user }: UserProp) {
         </LinkItem>
       </Section>
 
-      <hr className="mx-4 my-1 border-t border-gray-100" />
+      <hr className="mx-4 border-t border-gray-100" />
 
       <Section>
         <BlockUserButton user={user} />
@@ -287,11 +283,12 @@ const UserPage: PageComponent = () => {
   });
 
   return (
-    <div>
+    <ApplicationLayout>
       <PageTitle title={pageTitle} />
       <Header headerTitle={headerTitle} canGoBack />
       <Main>{content}</Main>
-    </div>
+      <Navigation onlyLargeEnough />
+    </ApplicationLayout>
   );
 };
 

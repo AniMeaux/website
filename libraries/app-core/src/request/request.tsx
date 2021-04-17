@@ -234,7 +234,7 @@ export function useMutation<
           }
 
           snackbarId.current = showSnackbar.error(
-            <Snackbar type="error">{getErrorMessage(error)}</Snackbar>
+            <Snackbar>{getErrorMessage(error)}</Snackbar>
           );
         }
 

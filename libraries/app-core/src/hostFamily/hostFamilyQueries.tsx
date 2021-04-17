@@ -199,7 +199,7 @@ export function useCreateHostFamily(
         // manualy update the cache.
         queryClient.invalidateQueries("host-families");
 
-        showSnackbar.success(<Snackbar type="success">FA créée</Snackbar>);
+        showSnackbar.success(<Snackbar>FA créée</Snackbar>);
 
         options?.onSuccess?.(hostFamily, ...rest);
       },
@@ -337,7 +337,7 @@ export function useUpdateHostFamily(
           updateDataInInfiniteCache(hostFamily)
         );
 
-        showSnackbar.success(<Snackbar type="success">FA modifiée</Snackbar>);
+        showSnackbar.success(<Snackbar>FA modifiée</Snackbar>);
 
         options?.onSuccess?.(hostFamily, ...rest);
       },
@@ -378,7 +378,7 @@ export function useDeleteHostFamily(
           removeDataFromInfiniteCache(hostFamilyId)
         );
 
-        showSnackbar.success(<Snackbar type="success">FA supprimée</Snackbar>);
+        showSnackbar.success(<Snackbar>FA supprimée</Snackbar>);
 
         options?.onSuccess?.(hostFamilyId, ...rest);
       },

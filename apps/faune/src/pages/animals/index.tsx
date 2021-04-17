@@ -13,6 +13,7 @@ import {
   UserGroup,
 } from "@animeaux/shared-entities";
 import {
+  ApplicationLayout,
   Avatar,
   Image,
   Item,
@@ -67,7 +68,7 @@ function AnimalLinkItem({ animal }: { animal: SearchableAnimal }) {
   return (
     <LinkItem href={`./${animal.id}`}>
       <ItemIcon className="relative">
-        <Avatar size="large">
+        <Avatar>
           <Image image={animal.avatarId} preset="avatar" alt={displayName} />
         </Avatar>
 
@@ -111,14 +112,14 @@ const AnimalListPage: PageComponent = () => {
   });
 
   return (
-    <div>
+    <ApplicationLayout>
       <PageTitle title={TITLE} />
       <Header
         headerTitle={title}
         action={{ href: "./search", icon: FaSearch }}
       />
 
-      <Main hasNavigation={isCurrentUserAdmin}>
+      <Main hasNavigation>
         <Section>{content}</Section>
 
         {isCurrentUserAdmin && (
@@ -128,8 +129,8 @@ const AnimalListPage: PageComponent = () => {
         )}
       </Main>
 
-      {isCurrentUserAdmin && <Navigation />}
-    </div>
+      <Navigation />
+    </ApplicationLayout>
   );
 };
 

@@ -1,0 +1,41 @@
+.ApplicationLayout {
+  --app-layout-max-width: calc(
+    var(--left-nav-max-width) + var(--main-max-width)
+  );
+
+  width: 100%;
+  max-width: var(--app-layout-max-width);
+  margin-left: max(
+    0px,
+    /* Simulate a right aside (with `var(--left-nav-max-width)`) to center the main. */
+      (100% - calc(var(--left-nav-max-width) + var(--app-layout-max-width))) / 2
+  );
+
+  display: grid;
+  grid-template-areas:
+    "header"
+    "main";
+  grid-template-rows: max-content 1fr;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 500px) {
+  .ApplicationLayout {
+    --app-layout-nav-column-min-width: min-content;
+
+    box-shadow: 1px 0 0 0 var(--border-color);
+    grid-template-areas:
+      "navigation header"
+      "navigation main";
+    grid-template-columns: minmax(var(--app-layout-nav-column-min-width), 1fr) minmax(
+        0,
+        var(--main-max-width)
+      );
+  }
+}
+
+@media (min-width: 750px) {
+  .ApplicationLayout {
+    --app-layout-nav-column-min-width: 0;
+  }
+}

@@ -37,7 +37,7 @@ export function AnimalPicturesForm<
   return (
     <Form {...rest} pending={pending}>
       <div className="py-2 px-4 flex items-center">
-        <Avatar size="display">
+        <Avatar>
           {value.pictures.length === 0 ? (
             <FaPaw />
           ) : (

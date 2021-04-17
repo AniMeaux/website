@@ -11,7 +11,7 @@ import {
   hasErrorCode,
   UserGroup,
 } from "@animeaux/shared-entities";
-import { Main, useRouter } from "@animeaux/ui-library";
+import { ApplicationLayout, Main, useRouter } from "@animeaux/ui-library";
 import * as React from "react";
 import {
   AnimalFormProvider,
@@ -19,6 +19,7 @@ import {
   AnimalFormStepper,
   useAnimalForm,
 } from "../../../core/animalCreation";
+import { Navigation } from "../../../core/navigation";
 import { PageTitle } from "../../../core/pageTitle";
 
 const CreateAnimalSituationPage: PageComponent = () => {
@@ -44,7 +45,7 @@ const CreateAnimalSituationPage: PageComponent = () => {
   }
 
   return (
-    <div>
+    <ApplicationLayout>
       <PageTitle title="Nouvel animal" />
       <Header headerTitle="Nouvel animal" canGoBack backHref="../profile" />
 
@@ -58,7 +59,9 @@ const CreateAnimalSituationPage: PageComponent = () => {
           errors={errors}
         />
       </Main>
-    </div>
+
+      <Navigation onlyLargeEnough />
+    </ApplicationLayout>
   );
 };
 

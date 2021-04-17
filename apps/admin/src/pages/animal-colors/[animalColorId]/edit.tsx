@@ -13,8 +13,9 @@ import {
   getErrorMessage,
   hasErrorCode,
 } from "@animeaux/shared-entities";
-import { Main, useRouter } from "@animeaux/ui-library";
+import { ApplicationLayout, Main, useRouter } from "@animeaux/ui-library";
 import * as React from "react";
+import { Navigation } from "../../../core/navigation";
 import { PageTitle } from "../../../core/pageTitle";
 
 const AnimalColorEditPage: PageComponent = () => {
@@ -52,11 +53,12 @@ const AnimalColorEditPage: PageComponent = () => {
   }
 
   return (
-    <div>
+    <ApplicationLayout>
       <PageTitle title={pageTitle} />
       <Header headerTitle={headerTitle} canGoBack backHref="../.." />
       <Main>{content}</Main>
-    </div>
+      <Navigation onlyLargeEnough />
+    </ApplicationLayout>
   );
 };
 

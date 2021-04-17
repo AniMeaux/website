@@ -7,14 +7,14 @@ export function NetworkStatus() {
       // This snackbar has the highest priority.
       showSnackbar.clearWaitingQueue();
       showSnackbar.dismiss();
-      showSnackbar.success(<Snackbar type="success">En ligne</Snackbar>);
+      showSnackbar.success(<Snackbar>En ligne</Snackbar>);
     }
 
     function onGoOffline() {
       // This snackbar has the highest priority.
       showSnackbar.clearWaitingQueue();
       showSnackbar.dismiss();
-      showSnackbar.error(<Snackbar type="error">Hors ligne</Snackbar>);
+      showSnackbar.error(<Snackbar>Hors ligne</Snackbar>);
     }
 
     window.addEventListener("online", onGoOnline);

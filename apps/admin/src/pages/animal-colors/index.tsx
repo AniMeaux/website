@@ -9,15 +9,14 @@ import {
 } from "@animeaux/app-core";
 import { AnimalColor } from "@animeaux/shared-entities";
 import {
+  ApplicationLayout,
   ButtonItem,
-  HeaderTitle,
   ItemContent,
   ItemIcon,
   ItemMainText,
   LinkItem,
   Main,
   Modal,
-  ModalHeader,
   QuickLinkAction,
   Section,
   useModal,
@@ -53,7 +52,7 @@ const AnimalColorListPage: PageComponent = () => {
   });
 
   return (
-    <div>
+    <ApplicationLayout>
       <PageTitle title={TITLE} />
       <Header headerTitle={title} />
 
@@ -71,8 +70,9 @@ const AnimalColorListPage: PageComponent = () => {
           <AnimalColorModalContent animalColor={selectedColor!} />
         </Modal>
       </Main>
+
       <Navigation />
-    </div>
+    </ApplicationLayout>
   );
 };
 
@@ -87,10 +87,6 @@ function AnimalColorModalContent({ animalColor }: AnimalColorProps) {
 
   return (
     <>
-      <ModalHeader>
-        <HeaderTitle>{animalColor.name}</HeaderTitle>
-      </ModalHeader>
-
       <Section>
         <LinkItem href={`./${animalColor.id}/edit`} onClick={onDismiss}>
           <ItemIcon>
@@ -107,7 +103,7 @@ function AnimalColorModalContent({ animalColor }: AnimalColorProps) {
         </LinkItem>
       </Section>
 
-      <hr className="mx-4 my-1 border-t border-gray-100" />
+      <hr className="mx-4 border-t border-gray-100" />
 
       <Section>
         <DeleteAnimalColorButton animalColor={animalColor} />
@@ -134,7 +130,7 @@ function DeleteAnimalColorButton({ animalColor }: AnimalColorProps) {
       onClick={withConfirmation(confirmationMessage, () => {
         deleteAnimalColor(animalColor.id);
       })}
-      className="text-red-500 font-medium"
+      color="default"
       // TODO: Prevent delete if it is used by animals.
     >
       <ItemIcon>

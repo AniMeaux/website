@@ -1,0 +1,376 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  *,
+  *::before,
+  *::after {
+    /* Disable bark background on link/button on tap. */
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+@layer components {
+  .grid-square {
+    @apply grid;
+    grid-template-columns: repeat(auto-fill, minmax(theme("width.24"), 1fr));
+    grid-auto-rows: 1fr;
+  }
+
+  .grid-square > * {
+    @apply relative;
+  }
+
+  /* Square grid "trick" with `padding-top: 100%`. */
+  .grid-square > *::before {
+    @apply block pt-12/12;
+    content: "";
+  }
+
+  /*
+   * Make sure grid item's child is absolute to avoid changing the item size.
+   * We only apply this to the first child to allow multiple children.
+   */
+  .grid-square > * > *:first-child {
+    @apply absolute top-0 left-0 w-full h-full;
+  }
+
+  .date-input-day,
+  .date-input-month {
+    flex: 1 1 2ch;
+  }
+
+  .date-input-year {
+    flex: 1 1 4ch;
+  }
+
+  .animation-progress-bar {
+    @apply text-blue-500;
+    height: 2px;
+    display: block;
+    background-clip: padding-box;
+    overflow: hidden;
+  }
+
+  @keyframes progress-bar-long {
+    0% {
+      left: -35%;
+      right: 100%;
+    }
+
+    60% {
+      left: 100%;
+      right: -90%;
+    }
+
+    100% {
+      left: 100%;
+      right: -90%;
+    }
+  }
+
+  .animation-progress-bar::before {
+    content: "";
+    background-color: currentColor;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    animation: progress-bar-long 2s cubic-bezier(0.65, 0.815, 0.735, 0.395)
+      infinite;
+  }
+
+  @keyframes progress-bar-short {
+    0% {
+      left: -200%;
+      right: 100%;
+    }
+
+    60% {
+      left: 107%;
+      right: -8%;
+    }
+
+    100% {
+      left: 107%;
+      right: -8%;
+    }
+  }
+
+  .animation-progress-bar::after {
+    content: "";
+    background-color: currentColor;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    animation: progress-bar-short 2s cubic-bezier(0.165, 0.84, 0.44, 1) infinite;
+    animation-delay: 1.15s;
+  }
+
+  @keyframes placeholder-pulse {
+    0% {
+      background-position: -1000px 0;
+    }
+
+    100% {
+      background-position: 1000px 0;
+    }
+  }
+
+  .placeholder {
+    @apply relative inline-flex items-center;
+  }
+
+  .placeholder::before {
+    /* Display some text to make sure to have the correct height when it is
+     * set to "auto". */
+    content: ".";
+    opacity: 0;
+  }
+
+  .placeholder::after {
+    @apply absolute w-full inline-block rounded;
+    content: "";
+    height: 70%;
+    background: linear-gradient(
+      to right,
+      rgba(237, 237, 237, 0.2),
+      rgba(129, 129, 129, 0.2) 50%,
+      rgba(237, 237, 237, 0.2)
+    );
+    background-size: 1000px auto;
+    animation-duration: 3s;
+    animation-fill-mode: forwards;
+    animation-iteration-count: infinite;
+    animation-name: placeholder-pulse;
+    animation-timing-function: linear;
+  }
+
+  .placeholder-avatar-small {
+    @apply w-8 h-8;
+  }
+
+  .placeholder-avatar-medium {
+    @apply w-10 h-10;
+  }
+
+  .placeholder-avatar-large {
+    @apply w-12 h-12;
+  }
+
+  .placeholder-avatar-display {
+    @apply w-28 h-28;
+  }
+
+  .placeholder-avatar-small::after,
+  .placeholder-avatar-medium::after,
+  .placeholder-avatar-large::after,
+  .placeholder-avatar-display::after {
+    @apply h-full rounded-full;
+  }
+
+  .placeholder-button {
+    @apply min-w-button h-10;
+  }
+
+  .placeholder-button-small {
+    @apply min-w-button h-8;
+  }
+
+  .placeholder-checkbox {
+    @apply w-4 h-4;
+  }
+
+  .placeholder-checkbox::after {
+    @apply h-full;
+  }
+
+  .placeholder-checkbox-input {
+    @apply w-1/2 h-10;
+  }
+
+  .placeholder-icon {
+    width: 1em;
+    height: 1em;
+  }
+
+  .placeholder-icon::after {
+    @apply h-full rounded-full;
+  }
+
+  .placeholder-image {
+    @apply overflow-hidden;
+  }
+
+  .placeholder-image::after {
+    @apply h-full;
+  }
+
+  .placeholder-input {
+    @apply w-full h-10;
+  }
+
+  .placeholder-input-small {
+    @apply w-full h-8;
+  }
+
+  .placeholder-label {
+    @apply w-3/12;
+  }
+
+  .placeholder-selector {
+    @apply w-28 h-10;
+  }
+
+  .placeholder-selector::after {
+    @apply rounded-full;
+  }
+
+  .placeholder-text {
+    @apply w-9/12;
+  }
+
+  .placeholder-tag {
+    @apply w-20 h-8;
+  }
+
+  .placeholder-tag::after {
+    @apply rounded-full;
+  }
+
+  .safe-area-px {
+    padding-left: 0;
+    padding-left: env(safe-area-inset-left, 0);
+    padding-right: 0;
+    padding-right: env(safe-area-inset-right, 0);
+  }
+
+  .submit-button-bottom {
+    bottom: theme("padding.8");
+    bottom: calc(theme("padding.8") + env(safe-area-inset-bottom, 0));
+  }
+
+  .modal-padding {
+    padding-top: 0;
+    padding-top: env(safe-area-inset-top, 0);
+    padding-right: 0;
+    padding-right: env(safe-area-inset-right, 0);
+    padding-bottom: 0;
+    padding-bottom: env(safe-area-inset-bottom, 0);
+    padding-left: 0;
+    padding-left: env(safe-area-inset-left, 0);
+  }
+
+  .animate-fade-in {
+    animation: fade-in theme("transitionDuration.200")
+      theme("transitionTimingFunction.out") forwards;
+  }
+
+  @keyframes fade-in {
+    0% {
+      opacity: 0;
+    }
+
+    100% {
+      opacity: 1;
+    }
+  }
+
+  .animate-fade-out {
+    animation: fade-out theme("transitionDuration.200")
+      theme("transitionTimingFunction.in") forwards;
+  }
+
+  @keyframes fade-out {
+    0% {
+      opacity: 1;
+    }
+
+    100% {
+      opacity: 0;
+    }
+  }
+
+  .animate-bottom-slide-in {
+    animation: bottom-slide-in theme("transitionDuration.200")
+      theme("transitionTimingFunction.out") forwards;
+  }
+
+  @keyframes bottom-slide-in {
+    0% {
+      transform: translateY(100%);
+    }
+
+    100% {
+      transform: translateY(0);
+    }
+  }
+
+  .animate-bottom-slide-out {
+    animation: bottom-slide-out theme("transitionDuration.200")
+      theme("transitionTimingFunction.in") forwards;
+  }
+
+  @keyframes bottom-slide-out {
+    0% {
+      transform: translateY(0);
+    }
+
+    100% {
+      transform: translateY(100%);
+    }
+  }
+
+  .animate-scale-in {
+    animation: scale-in theme("transitionDuration.200")
+      theme("transitionTimingFunction.out") forwards;
+  }
+
+  @keyframes scale-in {
+    0% {
+      transform: scale(0.5);
+    }
+
+    100% {
+      transform: scale(1);
+    }
+  }
+
+  .animate-scale-out {
+    animation: scale-out theme("transitionDuration.200")
+      theme("transitionTimingFunction.in") forwards;
+  }
+
+  @keyframes scale-out {
+    0% {
+      transform: scale(1);
+    }
+
+    100% {
+      transform: scale(0.5);
+    }
+  }
+
+  .no-scrollbars::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    display: none;
+  }
+
+  .no-scrollbars::-webkit-scrollbar-track-piece {
+    background-color: transparent;
+  }
+}
+
+@layer utilities {
+  @variants focus-visible {
+    .outline {
+      /* Default tailwind outline */
+      /* See https://github.com/tailwindlabs/tailwindcss/blob/2b0b306a77cc0f34cd25054a0d661a18278786bc/src/plugins/css/preflight.css#L37 */
+      outline: 1px dotted;
+      outline: 5px auto -webkit-focus-ring-color;
+    }
+  }
+}

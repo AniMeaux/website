@@ -153,7 +153,7 @@ export function useCreateAnimalColor(
         // manualy update the cache.
         queryClient.invalidateQueries("animal-colors");
 
-        showSnackbar.success(<Snackbar type="success">Couleur créée</Snackbar>);
+        showSnackbar.success(<Snackbar>Couleur créée</Snackbar>);
 
         options?.onSuccess?.(animalColor, ...rest);
       },
@@ -222,9 +222,7 @@ export function useUpdateAnimalColor(
           updateDataInInfiniteCache(animalColor)
         );
 
-        showSnackbar.success(
-          <Snackbar type="success">Couleur modifiée</Snackbar>
-        );
+        showSnackbar.success(<Snackbar>Couleur modifiée</Snackbar>);
 
         options?.onSuccess?.(animalColor, ...rest);
       },
@@ -265,9 +263,7 @@ export function useDeleteAnimalColor(
           removeDataFromInfiniteCache(animalColorId)
         );
 
-        showSnackbar.success(
-          <Snackbar type="success">Couleur supprimée</Snackbar>
-        );
+        showSnackbar.success(<Snackbar>Couleur supprimée</Snackbar>);
 
         options?.onSuccess?.(animalColorId, ...rest);
       },

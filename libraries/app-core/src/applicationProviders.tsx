@@ -1,4 +1,8 @@
-import { Button, SnackbarContainer } from "@animeaux/ui-library";
+import {
+  Button,
+  ScreenSizeContextProvider,
+  SnackbarContainer,
+} from "@animeaux/ui-library";
 import * as Sentry from "@sentry/react";
 import { AppProps } from "next/app";
 import * as React from "react";
@@ -78,28 +82,28 @@ export function ApplicationProviders({
         <ErrorPage
           error={error}
           action={
-            <Button variant="outlined" onClick={() => window.location.reload()}>
-              Rafraîchir
-            </Button>
+            <Button onClick={() => window.location.reload()}>Rafraîchir</Button>
           }
         />
       )}
     >
-      <RequestContextProvider>
-        <CurrentUserContextProvider
-          {...props}
-          authorisedGroupsForPage={Component.authorisedGroups}
-        >
-          <CloudinaryContextProvider
-            apiKey={cloudinaryApiKey}
-            cloudName={cloudinaryCloudName}
+      <ScreenSizeContextProvider>
+        <RequestContextProvider>
+          <CurrentUserContextProvider
+            {...props}
+            authorisedGroupsForPage={Component.authorisedGroups}
           >
-            {children}
-          </CloudinaryContextProvider>
-        </CurrentUserContextProvider>
-      </RequestContextProvider>
+            <CloudinaryContextProvider
+              apiKey={cloudinaryApiKey}
+              cloudName={cloudinaryCloudName}
+            >
+              {children}
+            </CloudinaryContextProvider>
+          </CurrentUserContextProvider>
+        </RequestContextProvider>
 
-      <SnackbarContainer />
+        <SnackbarContainer />
+      </ScreenSizeContextProvider>
     </Sentry.ErrorBoundary>
   );
 }

@@ -41,7 +41,7 @@ function defaultRenderError(props: ErrorRendererProps) {
 
 function defaultRenderRetryButton({ retry, children }: RetryButtonProps) {
   return (
-    <Button variant="primary" color="blue" onClick={retry}>
+    <Button variant="primary" onClick={retry}>
       {children}
     </Button>
   );

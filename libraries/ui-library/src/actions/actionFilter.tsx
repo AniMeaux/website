@@ -2,18 +2,18 @@ import * as React from "react";
 import { FaFilter } from "react-icons/fa";
 import { ChildrenProp } from "../core";
 import { Badge } from "../dataDisplay";
-import { HeaderTitle } from "../layouts";
-import { Modal, ModalHeader } from "../popovers";
+import { ActionAdornment } from "../formElements";
+import { Modal, ModalHeader, ModalHeaderTitle } from "../popovers";
 import { Button } from "./button";
 
 type ActionFilterProps = ChildrenProp & {
-  actionElement: React.ElementType;
+  inputRef: React.MutableRefObject<HTMLInputElement>;
   activeFilterCount: number;
   clearAllFilters: () => void;
 };
 
 export function ActionFilter({
-  actionElement: Action,
+  inputRef,
   activeFilterCount,
   clearAllFilters,
   children,
@@ -22,23 +22,25 @@ export function ActionFilter({
 
   return (
     <>
-      <Action onClick={() => setAreFiltersOpened(true)}>
+      <ActionAdornment onClick={() => setAreFiltersOpened(true)}>
         <Badge isVisible={activeFilterCount > 0}>
           <FaFilter />
         </Badge>
-      </Action>
+      </ActionAdornment>
 
       <Modal
         open={areFiltersOpened}
         onDismiss={() => setAreFiltersOpened(false)}
         dismissLabel="Fermer"
+        referenceElement={inputRef}
+        matchReferenceWidth
+        placement="bottom"
       >
         <ModalHeader>
-          <HeaderTitle>Filtres</HeaderTitle>
+          <ModalHeaderTitle>Filtres</ModalHeaderTitle>
 
           <Button
             size="small"
-            variant="outlined"
             disabled={activeFilterCount === 0}
             onClick={() => clearAllFilters()}
           >

@@ -8,6 +8,7 @@ import {
 } from "@animeaux/app-core";
 import { UserGroup } from "@animeaux/shared-entities";
 import {
+  ApplicationLayout,
   Main,
   QuickLinkAction,
   Section,
@@ -35,7 +36,7 @@ const HostFamilyListPage: PageComponent = () => {
   });
 
   return (
-    <div>
+    <ApplicationLayout>
       <PageTitle title={TITLE} />
       <Header headerTitle={title} />
 
@@ -48,7 +49,7 @@ const HostFamilyListPage: PageComponent = () => {
       </Main>
 
       <Navigation />
-    </div>
+    </ApplicationLayout>
   );
 };
 

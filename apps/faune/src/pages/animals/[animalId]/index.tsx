@@ -26,11 +26,10 @@ import {
   UserGroup,
 } from "@animeaux/shared-entities";
 import {
+  ApplicationLayout,
   Button,
   ButtonItem,
   copyToClipboard,
-  HeaderTitle,
-  Image,
   Item,
   ItemContent,
   ItemIcon,
@@ -40,6 +39,7 @@ import {
   Markdown,
   Modal,
   ModalHeader,
+  ModalHeaderTitle,
   QuickActions,
   Section,
   SectionBox,
@@ -69,6 +69,8 @@ import {
   FaShareAlt,
   FaTrash,
 } from "react-icons/fa";
+import { ImageSlideshow } from "../../../core/imageSlideshow";
+import { Navigation } from "../../../core/navigation";
 import { PageTitle } from "../../../core/pageTitle";
 
 type AnimalProps = {
@@ -77,42 +79,7 @@ type AnimalProps = {
 
 function PicturesSection({ animal }: AnimalProps) {
   const picturesId = [animal.avatarId].concat(animal.picturesId);
-
-  return (
-    <section
-      className="overflow-auto no-scrollbars"
-      style={{
-        scrollSnapType: "x mandatory",
-        scrollPaddingLeft: "1rem",
-      }}
-    >
-      <div className="flex w-min px-4 space-x-2">
-        {picturesId.map((pictureId, pictureIndex) => (
-          <div
-            key={pictureId}
-            className="relative flex-none"
-            style={{
-              scrollSnapAlign: "start",
-              // 100vw might be an issue when vertical scrollbars are visible.
-              width: "calc(100vw - 2rem)",
-            }}
-          >
-            <Image
-              alt={animal.officialName}
-              image={pictureId}
-              className="w-full h-60 object-cover rounded-xl"
-            />
-
-            {picturesId.length > 1 && (
-              <span className="absolute top-1 right-1 px-2 py-1 bg-black bg-opacity-70 text-white rounded-full text-xs font-medium">
-                {pictureIndex + 1}/{picturesId.length}
-              </span>
-            )}
-          </div>
-        ))}
-      </div>
-    </section>
-  );
+  return <ImageSlideshow images={picturesId} alt={animal.officialName} />;
 }
 
 const StatusBadgeColors: { [key in AnimalStatus]: string } = {
@@ -140,6 +107,7 @@ function StatusBadge({ status }: { status: AnimalStatus }) {
 
 function HighlightsSection({ animal }: AnimalProps) {
   const [isSharingOpen, setIsSharingOpen] = React.useState(false);
+  const buttonElement = React.useRef<HTMLButtonElement>(null!);
 
   return (
     <header className="p-4 flex items-center justify-between">
@@ -147,18 +115,19 @@ function HighlightsSection({ animal }: AnimalProps) {
 
       <Button
         size="small"
-        variant="outlined"
         onClick={() => setIsSharingOpen(true)}
+        ref={buttonElement}
       >
         <FaShare />
         <span className="ml-2">Partager</span>
       </Button>
 
-      <Modal open={isSharingOpen} onDismiss={() => setIsSharingOpen(false)}>
-        <ModalHeader>
-          <HeaderTitle>{getAnimalDisplayName(animal)}</HeaderTitle>
-        </ModalHeader>
-
+      <Modal
+        open={isSharingOpen}
+        onDismiss={() => setIsSharingOpen(false)}
+        referenceElement={buttonElement}
+        placement="bottom-end"
+      >
         <Section>
           <ButtonItem
             onClick={async () => {
@@ -296,7 +265,7 @@ function HostFamilyModal({ hostFamily }: { hostFamily: HostFamily }) {
   return (
     <>
       <ModalHeader>
-        <HeaderTitle>{hostFamily.name}</HeaderTitle>
+        <ModalHeaderTitle>{hostFamily.name}</ModalHeaderTitle>
       </ModalHeader>
 
       <Section>
@@ -394,6 +363,7 @@ function SituationSection({ animal }: AnimalProps) {
     areHostFamilyDetailsVisible,
     setAreHostFamilyDetailsVisible,
   ] = React.useState(false);
+  const referenceElement = React.useRef<HTMLButtonElement>(null!);
 
   return (
     <Section>
@@ -410,7 +380,10 @@ function SituationSection({ animal }: AnimalProps) {
               <ItemContent>
                 <ItemMainText>
                   En FA chez{" "}
-                  <strong className="font-medium text-blue-500">
+                  <strong
+                    ref={referenceElement}
+                    className="font-medium text-blue-500"
+                  >
                     {animal.hostFamily.name}
                   </strong>
                 </ItemMainText>
@@ -420,7 +393,9 @@ function SituationSection({ animal }: AnimalProps) {
             <Modal
               open={areHostFamilyDetailsVisible}
               onDismiss={() => setAreHostFamilyDetailsVisible(false)}
+              referenceElement={referenceElement}
               dismissLabel="Fermer"
+              placement="bottom-start"
             >
               <HostFamilyModal hostFamily={animal.hostFamily} />
             </Modal>
@@ -516,7 +491,7 @@ function DeleteAnimalButton({ animal }: AnimalProps) {
       onClick={withConfirmation(confirmationMessage, () => {
         deleteAnimal(animal);
       })}
-      className="text-red-500 font-medium"
+      color="red"
     >
       <ItemIcon>
         <FaTrash />
@@ -533,10 +508,6 @@ function ActionsSection({ animal }: AnimalProps) {
   const { onDismiss } = useModal();
   return (
     <>
-      <ModalHeader>
-        <HeaderTitle>{getAnimalDisplayName(animal)}</HeaderTitle>
-      </ModalHeader>
-
       <Section>
         <LinkItem href="./edit/profile" onClick={onDismiss}>
           <ItemIcon>
@@ -581,7 +552,7 @@ function ActionsSection({ animal }: AnimalProps) {
         </LinkItem>
       </Section>
 
-      <hr className="mx-4 my-1 border-t border-gray-100" />
+      <hr className="mx-4 border-t border-gray-100" />
 
       <Section>
         <DeleteAnimalButton animal={animal} />
@@ -622,11 +593,12 @@ const AnimalPage: PageComponent = () => {
   });
 
   return (
-    <div>
+    <ApplicationLayout>
       <PageTitle title={pageTitle} />
       <Header headerTitle={headerTitle} canGoBack />
       <Main>{content}</Main>
-    </div>
+      <Navigation onlyLargeEnough />
+    </ApplicationLayout>
   );
 };
 

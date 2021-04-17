@@ -1,52 +1,78 @@
-import cn from "classnames";
 import * as React from "react";
 import { FaCheckCircle, FaTimesCircle } from "react-icons/fa";
-import { Slide, toast, ToastContainer } from "react-toastify";
+import invariant from "invariant";
+import {
+  Slide,
+  Zoom,
+  toast,
+  ToastContainer,
+  ToastContainerProps,
+  ToastContentProps,
+  TypeOptions,
+} from "react-toastify";
+import {
+  ChildrenProp,
+  Item,
+  ItemContent,
+  ItemIcon,
+  ItemMainText,
+  ScreenSize,
+  useScreenSize,
+} from "../core";
 
 export function SnackbarContainer() {
-  return (
-    <ToastContainer
-      position="bottom-center"
-      transition={Slide}
-      hideProgressBar
-      closeButton={false}
-      limit={1}
-      className="z-30 fixed snackbar-bottom left-1/2 transform -translate-x-1/2 w-auto max-w-10/12 flex flex-col items-center space-y-2"
-      toastClassName="shadow-md m-0 rounded-full min-h-0 p-0 font-sans"
-      bodyClassName="m-0 max-w-full p-0"
-    />
-  );
+  const { screenSize } = useScreenSize();
+
+  let props: ToastContainerProps = {};
+
+  if (screenSize <= ScreenSize.SMALL) {
+    props = {
+      position: "bottom-center",
+      limit: 1,
+      transition: Zoom,
+    };
+  } else {
+    props = {
+      position: "bottom-right",
+      limit: 5,
+      transition: Slide,
+    };
+  }
+
+  return <ToastContainer {...props} hideProgressBar closeButton={false} />;
 }
 
-type SnackbarType = "error" | "success";
-
-const SnackbarTypeClassName: { [key in SnackbarType]: string } = {
-  error: "bg-red-500 text-white",
-  success: "bg-green-500 text-white",
-};
-
-const SnackbarTypeIcon: { [key in SnackbarType]: React.ElementType } = {
+const SnackbarTypeIcon: { [key in TypeOptions]?: React.ElementType } = {
   error: FaTimesCircle,
   success: FaCheckCircle,
 };
 
-type SnackbarProps = React.PropsWithChildren<{
-  type: SnackbarType;
-}>;
+type SnackbarProps = ChildrenProp;
 
-export function Snackbar({ type, children }: SnackbarProps) {
-  const Icon = SnackbarTypeIcon[type];
+export function Snackbar({ children, ...toastContentProps }: SnackbarProps) {
+  // Additional props are injected but we don't want them to be part of the
+  // public API.
+  // See https://fkhadra.github.io/react-toastify/render-what-you-want#basic-example
+  const { toastProps } = toastContentProps as ToastContentProps;
+
+  const Icon =
+    toastProps.type == null ? null : SnackbarTypeIcon[toastProps.type];
+
+  invariant(
+    Icon != null,
+    "Only error and success snackbars are supported for now."
+  );
 
   return (
-    <div
-      className={cn("pr-3 h-8 flex items-center", SnackbarTypeClassName[type])}
-    >
-      <span className="w-8 h-8 flex items-center justify-center">
+    <Item className="Snackbar">
+      <ItemIcon>
         <Icon />
-      </span>
+      </ItemIcon>
 
-      <p className="flex-1 min-w-0 truncate font-bold text-xs">{children}</p>
-    </div>
+      <ItemContent>
+        <ItemMainText>{children}</ItemMainText>
+      </ItemContent>
+    </Item>
   );
 }
 

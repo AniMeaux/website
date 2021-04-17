@@ -4,7 +4,6 @@ import {
 } from "@animeaux/shared-entities";
 import {
   Avatar,
-  AvatarSize,
   Image,
   Item,
   ItemContent,
@@ -13,30 +12,14 @@ import {
   LinkItem,
   LinkItemProps,
   Placeholder,
-  PlaceholderPreset,
 } from "@animeaux/ui-library";
 import * as React from "react";
 
-type SearchableAnimalItemPlaceholderProps = {
-  size?: AvatarSize;
-};
-
-const SearchableAnimalItemPlaceholderSize: {
-  [key in AvatarSize]: PlaceholderPreset;
-} = {
-  small: "avatar-small",
-  medium: "avatar",
-  large: "avatar-large",
-  display: "avatar-display",
-};
-
-export function SearchableAnimalItemPlaceholder({
-  size = "large",
-}: SearchableAnimalItemPlaceholderProps) {
+export function SearchableAnimalItemPlaceholder() {
   return (
     <Item>
       <ItemIcon>
-        <Placeholder preset={SearchableAnimalItemPlaceholderSize[size]} />
+        <Placeholder preset="avatar" />
       </ItemIcon>
 
       <ItemContent>
@@ -50,12 +33,10 @@ export function SearchableAnimalItemPlaceholder({
 
 type SearchableAnimalLinkItemProps = LinkItemProps & {
   animal: SearchableAnimal;
-  size?: AvatarSize;
 };
 
 export function SearchableAnimalLinkItem({
   animal,
-  size = "large",
   ...rest
 }: SearchableAnimalLinkItemProps) {
   const displayName = getAnimalDisplayName(animal);
@@ -63,7 +44,7 @@ export function SearchableAnimalLinkItem({
   return (
     <LinkItem {...rest}>
       <ItemIcon>
-        <Avatar size={size}>
+        <Avatar>
           <Image image={animal.avatarId} preset="avatar" alt={displayName} />
         </Avatar>
       </ItemIcon>

@@ -7,6 +7,7 @@ export * from "./item";
 export * from "./link";
 export * from "./longTouch";
 export * from "./router";
+export * from "./screenSize";
 export * from "./touchScreen";
 export * from "./types";
 export * from "./useFocusTrap";

@@ -7,6 +7,7 @@ import {
 } from "@animeaux/app-core";
 import { UserGroup } from "@animeaux/shared-entities";
 import {
+  ApplicationLayout,
   Avatar,
   Button,
   Header,
@@ -27,6 +28,7 @@ import {
   AnimalFormProvider,
   useAnimalForm,
 } from "../../../core/animalCreation";
+import { Navigation } from "../../../core/navigation";
 import { PageTitle } from "../../../core/pageTitle";
 
 const CreateAnimalHostFamilyPage: PageComponent = () => {
@@ -42,14 +44,12 @@ const CreateAnimalHostFamilyPage: PageComponent = () => {
     emptyMessage: "Il n'y a pas encore de famille d'accueil",
     emptySearchMessage: "Aucune famille d'accueil trouvée",
     renderEmptySearchAction: () => (
-      <Button variant="outlined" onClick={() => setRawSearch("")}>
-        Effacer la recherche
-      </Button>
+      <Button onClick={() => setRawSearch("")}>Effacer la recherche</Button>
     ),
     renderAdditionalItem: () => (
       <LinkItem href="../new-host-family" className="font-medium text-blue-500">
         <ItemIcon>
-          <Avatar size="medium" color="blue">
+          <Avatar>
             <FaPlus />
           </Avatar>
         </ItemIcon>
@@ -72,7 +72,7 @@ const CreateAnimalHostFamilyPage: PageComponent = () => {
   });
 
   return (
-    <div>
+    <ApplicationLayout>
       <PageTitle title="Nouvel animal" />
       <Header>
         <HeaderBackLink href="../situation" />
@@ -88,7 +88,9 @@ const CreateAnimalHostFamilyPage: PageComponent = () => {
       <Main>
         <Section>{content}</Section>
       </Main>
-    </div>
+
+      <Navigation onlyLargeEnough />
+    </ApplicationLayout>
   );
 };
 

@@ -1,3 +1,12 @@
-import { CurrentUserProfileForm } from "@animeaux/app-core";
+import { CurrentUserProfileForm, PageComponent } from "@animeaux/app-core";
+import { Navigation } from "../core/navigation";
 
-export default CurrentUserProfileForm;
+const EditProfile: PageComponent = () => {
+  return (
+    <CurrentUserProfileForm>
+      <Navigation onlyLargeEnough />
+    </CurrentUserProfileForm>
+  );
+};
+
+export default EditProfile;

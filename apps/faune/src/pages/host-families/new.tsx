@@ -6,8 +6,9 @@ import {
   useCreateHostFamily,
 } from "@animeaux/app-core";
 import { UserGroup } from "@animeaux/shared-entities";
-import { Main, useRouter } from "@animeaux/ui-library";
+import { ApplicationLayout, Main, useRouter } from "@animeaux/ui-library";
 import * as React from "react";
+import { Navigation } from "../../core/navigation";
 import { PageTitle } from "../../core/pageTitle";
 
 const CreateHostFamilyPage: PageComponent = () => {
@@ -19,7 +20,7 @@ const CreateHostFamilyPage: PageComponent = () => {
   });
 
   return (
-    <div>
+    <ApplicationLayout>
       <PageTitle title="Nouvelle FA" />
       <Header headerTitle="Nouvelle FA" canGoBack />
 
@@ -30,7 +31,9 @@ const CreateHostFamilyPage: PageComponent = () => {
           errors={getHostFamilyFormErrors(error)}
         />
       </Main>
-    </div>
+
+      <Navigation onlyLargeEnough />
+    </ApplicationLayout>
   );
 };
 

@@ -7,6 +7,7 @@ import {
   UserLinkItem,
 } from "@animeaux/app-core";
 import {
+  ApplicationLayout,
   Main,
   QuickLinkAction,
   Section,
@@ -32,7 +33,7 @@ const UserListPage: PageComponent = () => {
   });
 
   return (
-    <div>
+    <ApplicationLayout>
       <PageTitle title={TITLE} />
       <Header headerTitle={title} />
 
@@ -43,8 +44,9 @@ const UserListPage: PageComponent = () => {
           <FaPlus />
         </QuickLinkAction>
       </Main>
+
       <Navigation />
-    </div>
+    </ApplicationLayout>
   );
 };
 

@@ -1,3 +1,12 @@
-import { CurrentUserPasswordForm } from "@animeaux/app-core";
+import { CurrentUserPasswordForm, PageComponent } from "@animeaux/app-core";
+import { Navigation } from "../core/navigation";
 
-export default CurrentUserPasswordForm;
+const EditPassword: PageComponent = () => {
+  return (
+    <CurrentUserPasswordForm>
+      <Navigation onlyLargeEnough />
+    </CurrentUserPasswordForm>
+  );
+};
+
+export default EditPassword;

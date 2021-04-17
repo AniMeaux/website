@@ -7,6 +7,7 @@ import {
 } from "@animeaux/app-core";
 import { UserGroup } from "@animeaux/shared-entities";
 import {
+  ApplicationLayout,
   Button,
   Header,
   HeaderBackLink,
@@ -21,6 +22,7 @@ import {
   AnimalFormProvider,
   useAnimalForm,
 } from "../../../core/animalCreation";
+import { Navigation } from "../../../core/navigation";
 import { PageTitle } from "../../../core/pageTitle";
 
 const CreateAnimalBreedPage: PageComponent = () => {
@@ -36,9 +38,7 @@ const CreateAnimalBreedPage: PageComponent = () => {
     emptyMessage: "Il n'y a pas encore de race",
     emptySearchMessage: "Aucune race trouvée",
     renderEmptySearchAction: () => (
-      <Button variant="outlined" onClick={() => setRawSearch("")}>
-        Effacer la recherche
-      </Button>
+      <Button onClick={() => setRawSearch("")}>Effacer la recherche</Button>
     ),
     renderItem: (animalBreed) => (
       <AnimalBreedButtonItem
@@ -54,7 +54,7 @@ const CreateAnimalBreedPage: PageComponent = () => {
   });
 
   return (
-    <div>
+    <ApplicationLayout>
       <PageTitle title="Nouvel animal" />
       <Header>
         <HeaderBackLink href="../profile" />
@@ -70,7 +70,9 @@ const CreateAnimalBreedPage: PageComponent = () => {
       <Main>
         <Section>{content}</Section>
       </Main>
-    </div>
+
+      <Navigation onlyLargeEnough />
+    </ApplicationLayout>
   );
 };
 

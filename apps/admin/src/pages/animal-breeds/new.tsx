@@ -10,8 +10,9 @@ import {
   getErrorMessage,
   hasErrorCode,
 } from "@animeaux/shared-entities";
-import { Main, useRouter } from "@animeaux/ui-library";
+import { ApplicationLayout, Main, useRouter } from "@animeaux/ui-library";
 import * as React from "react";
+import { Navigation } from "../../core/navigation";
 import { PageTitle } from "../../core/pageTitle";
 
 const CreateAnimalBreedPage: PageComponent = () => {
@@ -35,7 +36,7 @@ const CreateAnimalBreedPage: PageComponent = () => {
   }
 
   return (
-    <div>
+    <ApplicationLayout>
       <PageTitle title="Nouvelle race" />
       <Header headerTitle="Nouvelle race" canGoBack />
 
@@ -46,7 +47,9 @@ const CreateAnimalBreedPage: PageComponent = () => {
           errors={formErrors}
         />
       </Main>
-    </div>
+
+      <Navigation onlyLargeEnough />
+    </ApplicationLayout>
   );
 };
 

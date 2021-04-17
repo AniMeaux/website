@@ -1,6 +1,8 @@
 import "react-app-polyfill/stable";
 import "focus-visible";
+import "@animeaux/ui-library/legacyStyles.css";
 import "@animeaux/ui-library/styles.css";
+import "../core/styles.css";
 
 import {
   ApplicationProps,

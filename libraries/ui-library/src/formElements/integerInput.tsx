@@ -25,7 +25,6 @@ export function IntegerInput({
     <span {...rest} className={cn("inline-flex items-center", className)}>
       <Button
         type="button"
-        variant="outlined"
         iconOnly
         disabled={value <= min}
         onClick={() => {
@@ -46,7 +45,6 @@ export function IntegerInput({
 
       <Button
         type="button"
-        variant="outlined"
         iconOnly
         disabled={value >= max}
         onClick={() => {

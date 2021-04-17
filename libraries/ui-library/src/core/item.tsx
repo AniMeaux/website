@@ -3,125 +3,132 @@ import * as React from "react";
 import { ChildrenProp, StyleProps } from ".";
 import { Link, LinkProps } from "./link";
 
-type ItemCommonProps = {
-  highlight?: boolean;
+type ItemColor = "default" | "red" | "yellow";
+
+const ItemColorClassName: Record<ItemColor, string> = {
+  default: "",
+  red: "Item--red",
+  yellow: "Item--yellow",
 };
 
-const ItemBaseClassName = "w-full rounded-xl p-2 flex items-center space-x-4";
-const HighlightedItemClassName = "bg-blue-500 bg-opacity-10";
-
-export type ItemProps = StyleProps & ChildrenProp & ItemCommonProps;
-
-export function Item({ className, children, highlight = false }: ItemProps) {
-  return (
-    <span
-      className={cn(
-        ItemBaseClassName,
-        { [HighlightedItemClassName]: highlight },
-        className
-      )}
-    >
-      {children}
-    </span>
-  );
-}
-
-export type LinkItemProps = LinkProps & ItemCommonProps;
-
-export function LinkItem({
-  disabled = false,
-  highlight = false,
-  className,
-  ...rest
-}: LinkItemProps) {
-  return (
-    <Link
-      {...rest}
-      disabled={disabled}
-      className={cn(
-        "focus:outline-none focus-visible:ring focus-visible:ring-blue-500 focus-visible:ring-opacity-50 active:bg-black active:bg-opacity-5",
-        ItemBaseClassName,
-        {
-          "opacity-60": disabled,
-          [HighlightedItemClassName]: highlight,
-        },
-        className
-      )}
-    />
-  );
-}
-
-export type ButtonItemProps = StyleProps &
-  ChildrenProp &
-  ItemCommonProps & {
-    title?: string;
-    disabled?: boolean;
-    onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+export type ItemProps = StyleProps &
+  ChildrenProp & {
+    highlight?: boolean;
+    color?: ItemColor;
   };
 
-export function ButtonItem({
-  highlight = false,
-  disabled = false,
+export function Item({
   className,
+  highlight = false,
+  color = "default",
   ...rest
-}: ButtonItemProps) {
-  return (
-    <button
-      {...rest}
-      disabled={disabled}
-      className={cn(
-        "focus:outline-none focus-visible:ring focus-visible:ring-blue-500 focus-visible:ring-opacity-50 text-left",
-        ItemBaseClassName,
-        {
-          "active:bg-black active:bg-opacity-5": !highlight,
-          [`${HighlightedItemClassName} active:bg-opacity-15`]: highlight,
-          "opacity-60": disabled,
-        },
-        className
-      )}
-    />
-  );
-}
-
-type ItemIconProps = StyleProps & ChildrenProp;
-
-export function ItemIcon({ className, ...rest }: ItemIconProps) {
+}: ItemProps) {
   return (
     <span
       {...rest}
       className={cn(
-        "flex-none min-h-6 self-start flex items-center text-2xl",
+        "Item",
+        ItemColorClassName[color],
+        { "Item--isHighlighted": highlight },
         className
       )}
     />
   );
 }
 
-export function ItemContent({ className, ...rest }: StyleProps & ChildrenProp) {
-  return (
-    <span {...rest} className={cn("flex-1 min-w-0 flex flex-col", className)} />
-  );
+export type LinkItemProps = LinkProps & ItemProps;
+export const LinkItem = React.forwardRef<HTMLAnchorElement, LinkItemProps>(
+  function LinkItem(
+    {
+      disabled = false,
+      highlight = false,
+      color = "default",
+      className,
+      ...rest
+    },
+    ref
+  ) {
+    return (
+      <Link
+        {...rest}
+        ref={ref}
+        disabled={disabled}
+        className={cn(
+          "Item Item--action",
+          ItemColorClassName[color],
+          {
+            "Item--disabled": disabled,
+            "Item--isHighlighted": highlight,
+          },
+          className
+        )}
+      />
+    );
+  }
+);
+
+export type ButtonItemProps = ItemProps & {
+  title?: string;
+  disabled?: boolean;
+  onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+};
+
+export const ButtonItem = React.forwardRef<HTMLButtonElement, ButtonItemProps>(
+  function ButtonItem(
+    {
+      highlight = false,
+      disabled = false,
+      color = "default",
+      className,
+      ...rest
+    },
+    ref
+  ) {
+    return (
+      <button
+        {...rest}
+        ref={ref}
+        disabled={disabled}
+        className={cn(
+          "Item Item--action",
+          ItemColorClassName[color],
+          {
+            "Item--disabled": disabled,
+            "Item--isHighlighted": highlight,
+          },
+          className
+        )}
+      />
+    );
+  }
+);
+
+export type ItemIconProps = StyleProps & ChildrenProp;
+export function ItemIcon({ className, ...rest }: ItemIconProps) {
+  return <span {...rest} className={cn("ItemIcon", className)} />;
 }
 
-export function ItemMainText({
-  className,
-  ...rest
-}: StyleProps & ChildrenProp) {
-  return <span {...rest} className={cn("max-w-full", className)} />;
+export type ItemContentProps = StyleProps & ChildrenProp;
+export function ItemContent({ className, ...rest }: ItemContentProps) {
+  return <span {...rest} className={cn("ItemContent", className)} />;
 }
 
+export type ItemMainTextProps = StyleProps & ChildrenProp;
+export function ItemMainText({ className, ...rest }: ItemMainTextProps) {
+  return <span {...rest} className={cn("ItemText", className)} />;
+}
+
+export type ItemSecondaryTextProps = StyleProps & ChildrenProp;
 export function ItemSecondaryText({
   className,
   ...rest
-}: StyleProps & ChildrenProp) {
+}: ItemSecondaryTextProps) {
   return (
-    <span
-      {...rest}
-      className={cn("max-w-full text-sm text-black text-opacity-60", className)}
-    />
+    <span {...rest} className={cn("ItemText ItemText--secondary", className)} />
   );
 }
 
-export function ItemActions({ className, ...rest }: StyleProps & ChildrenProp) {
-  return <span {...rest} className={cn("mt-1 max-w-full", className)} />;
+export type ItemActionsProps = StyleProps & ChildrenProp;
+export function ItemActions({ className, ...rest }: ItemActionsProps) {
+  return <span {...rest} className={cn("ItemActions", className)} />;
 }

@@ -1,0 +1,68 @@
+.Header {
+  grid-area: header;
+  z-index: var(--z-index-header);
+  position: sticky;
+  top: 0;
+  height: var(--header-height);
+  background: var(--bg-primary);
+
+  --padding: calc(var(--spacing-unit) * 4);
+  padding-left: var(--padding);
+  padding-left: calc(var(--padding) + env(safe-area-inset-left, 0));
+  padding-right: var(--padding);
+
+  display: flex;
+  align-items: center;
+  transition-property: box-shadow;
+  transition-duration: var(--duration-fast);
+  transition-timing-function: var(--ease-in-out);
+  box-shadow: none;
+}
+
+@media (max-width: 499px) {
+  .Header {
+    /* The navigation is at the bottom so we need to compensate for safe area. */
+    padding-right: calc(var(--padding) + env(safe-area-inset-right, 0));
+  }
+}
+
+.Header--hasScroll {
+  box-shadow: 0 1px 0 0 var(--border-color);
+}
+
+.Header > *:not(:first-child) {
+  margin-left: calc(var(--spacing-unit) * 4);
+}
+
+.HeaderLink {
+  width: 32px;
+  height: 32px;
+  flex: none;
+  border-radius: var(--border-radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-size-xl);
+}
+
+@media (hover: hover) {
+  .HeaderLink:hover {
+    background: var(--dark-30);
+  }
+}
+
+.HeaderLink:active {
+  background: var(--dark-50);
+}
+
+.HeaderTitle {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: var(--font-size-lg);
+  line-height: var(--line-height-lg);
+  font-weight: var(--font-weight-bold);
+  font-family: var(--font-serif);
+}

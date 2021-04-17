@@ -1,0 +1,75 @@
+.Selectors {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: calc(var(--spacing-unit) * -2);
+  margin-left: calc(var(--spacing-unit) * -2);
+}
+
+.Selectors--isStretched > * {
+  flex: 1;
+}
+
+.SelectorItem {
+  padding-top: calc(var(--spacing-unit) * 2);
+  padding-left: calc(var(--spacing-unit) * 2);
+  max-width: 100%;
+}
+
+.Selector {
+  position: relative;
+  height: var(--input-medium-height);
+  padding: 0 calc(var(--spacing-unit) * 4);
+  border-radius: var(--border-radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+}
+
+@media (hover: hover) {
+  .Selector:hover {
+    background: var(--dark-30);
+    color: inherit;
+  }
+}
+
+.Selector:active {
+  background: var(--dark-50);
+}
+
+.Selector--isChecked {
+  background: var(--dark-50);
+  color: inherit;
+}
+
+@media (hover: hover) {
+  .Selector--isChecked:hover {
+    background: var(--dark-100);
+  }
+}
+
+.Selector--isChecked:active {
+  background: var(--dark-200);
+}
+
+.SelectorInput {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: var(--border-radius-full);
+  appearance: none;
+}
+
+.SelectorIcon {
+  margin-right: calc(var(--spacing-unit) * 2);
+  flex: none;
+}
+
+.SelectorLabel {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

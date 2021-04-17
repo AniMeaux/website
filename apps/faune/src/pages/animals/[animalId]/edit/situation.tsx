@@ -17,12 +17,13 @@ import {
   hasErrorCode,
   UserGroup,
 } from "@animeaux/shared-entities";
-import { Main, useRouter } from "@animeaux/ui-library";
+import { ApplicationLayout, Main, useRouter } from "@animeaux/ui-library";
 import * as React from "react";
 import {
   AnimalFormProvider,
   useAnimalForm,
 } from "../../../../core/animalEdition";
+import { Navigation } from "../../../../core/navigation";
 import { PageTitle } from "../../../../core/pageTitle";
 
 type AnimalEditSituationFormProps = Omit<
@@ -87,11 +88,12 @@ const UpdateAnimalSituationPage: PageComponent = () => {
   });
 
   return (
-    <div>
+    <ApplicationLayout>
       <PageTitle title={pageTitle} />
       <Header headerTitle={headerTitle} canGoBack backHref="../.." />
       <Main>{content}</Main>
-    </div>
+      <Navigation onlyLargeEnough />
+    </ApplicationLayout>
   );
 };
 

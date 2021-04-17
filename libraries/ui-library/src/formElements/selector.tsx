@@ -4,38 +4,35 @@ import { ChildrenProp, StyleProps } from "../core";
 import { RawCheckbox, RawCheckboxProps } from "./checkbox";
 import { RawRadio, RawRadioProps } from "./radio";
 
-export function Selectors({
-  className,
-  ...rest
-}: React.HTMLAttributes<HTMLUListElement>) {
-  return (
-    <ul {...rest} className={cn("flex flex-wrap -mt-2 -ml-2", className)} />
-  );
-}
-
-type SelectorItemProps = ChildrenProp &
+export type SelectorsProps = ChildrenProp &
   StyleProps & {
-    isFlex?: boolean;
+    isStretched?: boolean;
   };
 
-export function SelectorItem({
-  isFlex = false,
+export function Selectors({
+  isStretched = false,
   className,
   ...rest
-}: SelectorItemProps) {
+}: SelectorsProps) {
   return (
-    <li
+    <ul
       {...rest}
-      className={cn("pt-2 pl-2 max-w-full", { "flex-1": isFlex }, className)}
+      className={cn(
+        "Selectors",
+        { "Selectors--isStretched": isStretched },
+        className
+      )}
     />
   );
 }
 
-export function Selector({
-  className,
-  children,
-  ...rest
-}: React.LabelHTMLAttributes<HTMLLabelElement>) {
+export type SelectorItemProps = ChildrenProp & StyleProps;
+export function SelectorItem({ className, ...rest }: SelectorItemProps) {
+  return <li {...rest} className={cn("SelectorItem", className)} />;
+}
+
+export type SelectorProps = ChildrenProp & StyleProps;
+export function Selector({ className, children, ...rest }: SelectorProps) {
   const checked = React.Children.toArray(children).some(
     (child) => React.isValidElement(child) && child.props.checked
   );
@@ -44,44 +41,30 @@ export function Selector({
     <label
       {...rest}
       children={children}
-      className={cn(
-        "relative cursor-pointer h-10 px-4 rounded-full flex items-center justify-center",
-        {
-          "bg-blue-500 bg-opacity-10 text-blue-500 active:bg-opacity-15": checked,
-          "bg-black bg-opacity-3 active:bg-opacity-10": !checked,
-        },
-        className
-      )}
+      className={cn("Selector", { "Selector--isChecked": checked }, className)}
     />
   );
 }
 
-const INPUT_CLASS_NAME =
-  "select-auto appearance-none focus:outline-none focus-visible:ring focus-visible:ring-blue-500 focus-visible:ring-opacity-50 absolute inset-0 rounded-full w-full h-full";
-
-export function SelectorRadio({ className, ...rest }: RawRadioProps) {
-  return <RawRadio {...rest} className={cn(INPUT_CLASS_NAME, className)} />;
+export type SelectorRadioProps = RawRadioProps;
+export function SelectorRadio({ className, ...rest }: SelectorRadioProps) {
+  return <RawRadio {...rest} className={cn("SelectorInput", className)} />;
 }
 
-export function SelectorCheckbox({ className, ...rest }: RawCheckboxProps) {
-  return <RawCheckbox {...rest} className={cn(INPUT_CLASS_NAME, className)} />;
-}
-
-export function SelectorIcon({
+export type SelectorCheckboxProps = RawCheckboxProps;
+export function SelectorCheckbox({
   className,
   ...rest
-}: React.HTMLAttributes<HTMLSpanElement>) {
-  return <span {...rest} className={cn("mr-2 flex-none", className)} />;
+}: SelectorCheckboxProps) {
+  return <RawCheckbox {...rest} className={cn("SelectorInput", className)} />;
 }
 
-export function SelectorLabel({
-  className,
-  ...rest
-}: React.HTMLAttributes<HTMLSpanElement>) {
-  return (
-    <span
-      {...rest}
-      className={cn("flex-initial max-w-full truncate", className)}
-    />
-  );
+export type SelectorIconProps = ChildrenProp & StyleProps;
+export function SelectorIcon({ className, ...rest }: SelectorIconProps) {
+  return <span {...rest} className={cn("SelectorIcon", className)} />;
+}
+
+export type SelectorLabelProps = ChildrenProp & StyleProps;
+export function SelectorLabel({ className, ...rest }: SelectorLabelProps) {
+  return <span {...rest} className={cn("SelectorLabel", className)} />;
 }

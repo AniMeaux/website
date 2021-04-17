@@ -1,7 +1,6 @@
 import { AnimalColor } from "@animeaux/shared-entities";
 import {
   Avatar,
-  AvatarSize,
   ButtonItem,
   ButtonItemProps,
   Item,
@@ -11,31 +10,15 @@ import {
   LinkItem,
   LinkItemProps,
   Placeholder,
-  PlaceholderPreset,
 } from "@animeaux/ui-library";
 import * as React from "react";
 import { FaPalette } from "react-icons/fa";
 
-type AnimalColorItemPlaceholderProps = {
-  size?: AvatarSize;
-};
-
-const AnimalColorItemPlaceholderSize: {
-  [key in AvatarSize]: PlaceholderPreset;
-} = {
-  small: "avatar-small",
-  medium: "avatar",
-  large: "avatar-large",
-  display: "avatar-display",
-};
-
-export function AnimalColorItemPlaceholder({
-  size = "large",
-}: AnimalColorItemPlaceholderProps) {
+export function AnimalColorItemPlaceholder() {
   return (
     <Item>
       <ItemIcon>
-        <Placeholder preset={AnimalColorItemPlaceholderSize[size]} />
+        <Placeholder preset="avatar" />
       </ItemIcon>
 
       <ItemContent>
@@ -49,20 +32,18 @@ export function AnimalColorItemPlaceholder({
 
 type AnimalColorItemProps = {
   animalColor: AnimalColor;
-  size?: AvatarSize;
 };
 
 type AnimalColorLinkItemProps = LinkItemProps & AnimalColorItemProps;
 
 export function AnimalColorLinkItem({
   animalColor,
-  size = "large",
   ...rest
 }: AnimalColorLinkItemProps) {
   return (
     <LinkItem {...rest}>
       <ItemIcon>
-        <Avatar size={size}>
+        <Avatar>
           <FaPalette />
         </Avatar>
       </ItemIcon>
@@ -78,13 +59,12 @@ type AnimalColorCuttonItemProps = ButtonItemProps & AnimalColorItemProps;
 
 export function AnimalColorButtonItem({
   animalColor,
-  size = "large",
   ...rest
 }: AnimalColorCuttonItemProps) {
   return (
     <ButtonItem {...rest}>
       <ItemIcon>
-        <Avatar size={size}>
+        <Avatar>
           <FaPalette />
         </Avatar>
       </ItemIcon>

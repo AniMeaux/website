@@ -10,8 +10,9 @@ import {
   getErrorMessage,
   hasErrorCode,
 } from "@animeaux/shared-entities";
-import { Main, useRouter } from "@animeaux/ui-library";
+import { ApplicationLayout, Main, useRouter } from "@animeaux/ui-library";
 import * as React from "react";
+import { Navigation } from "../../core/navigation";
 import { PageTitle } from "../../core/pageTitle";
 
 const CreateAnimalColorPage: PageComponent = () => {
@@ -33,7 +34,7 @@ const CreateAnimalColorPage: PageComponent = () => {
   }
 
   return (
-    <div>
+    <ApplicationLayout>
       <PageTitle title="Nouvelle couleur" />
       <Header headerTitle="Nouvelle couleur" canGoBack />
 
@@ -44,7 +45,9 @@ const CreateAnimalColorPage: PageComponent = () => {
           errors={formErrors}
         />
       </Main>
-    </div>
+
+      <Navigation onlyLargeEnough />
+    </ApplicationLayout>
   );
 };
 

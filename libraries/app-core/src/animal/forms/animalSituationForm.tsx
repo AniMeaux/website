@@ -103,9 +103,9 @@ export function AnimalSituationForm<
       <Field>
         <Label>Ok enfants</Label>
 
-        <Selectors>
+        <Selectors isStretched>
           {TRILEAN_ORDER.map((trileanValue) => (
-            <SelectorItem key={trileanValue} isFlex>
+            <SelectorItem key={trileanValue}>
               <Selector>
                 <SelectorRadio
                   name="is-ok-children"
@@ -128,9 +128,9 @@ export function AnimalSituationForm<
       <Field>
         <Label>Ok chiens</Label>
 
-        <Selectors>
+        <Selectors isStretched>
           {TRILEAN_ORDER.map((trileanValue) => (
-            <SelectorItem key={trileanValue} isFlex>
+            <SelectorItem key={trileanValue}>
               <Selector>
                 <SelectorRadio
                   name="is-ok-dogs"
@@ -150,9 +150,9 @@ export function AnimalSituationForm<
       <Field>
         <Label>Ok chats</Label>
 
-        <Selectors>
+        <Selectors isStretched>
           {TRILEAN_ORDER.map((trileanValue) => (
-            <SelectorItem key={trileanValue} isFlex>
+            <SelectorItem key={trileanValue}>
               <Selector>
                 <SelectorRadio
                   name="is-ok-cats"
@@ -172,8 +172,8 @@ export function AnimalSituationForm<
       <Field>
         <Label>Stérilisé</Label>
 
-        <Selectors>
-          <SelectorItem isFlex>
+        <Selectors isStretched>
+          <SelectorItem>
             <Selector>
               <SelectorRadio
                 name="is-sterilized"
@@ -187,7 +187,7 @@ export function AnimalSituationForm<
             </Selector>
           </SelectorItem>
 
-          <SelectorItem isFlex>
+          <SelectorItem>
             <Selector>
               <SelectorRadio
                 name="is-sterilized"

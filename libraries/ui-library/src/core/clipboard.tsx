@@ -3,5 +3,5 @@ import { showSnackbar, Snackbar } from "../popovers";
 
 export async function copyToClipboard(data: string) {
   await navigator.clipboard.writeText(data);
-  showSnackbar.success(<Snackbar type="success">Copié</Snackbar>);
+  showSnackbar.success(<Snackbar>Copié</Snackbar>);
 }

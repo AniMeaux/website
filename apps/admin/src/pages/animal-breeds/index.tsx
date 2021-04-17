@@ -7,6 +7,7 @@ import {
   useAllAnimalBreeds,
 } from "@animeaux/app-core";
 import {
+  ApplicationLayout,
   Main,
   QuickLinkAction,
   Section,
@@ -37,7 +38,7 @@ const AnimalBreedListPage: PageComponent = () => {
   });
 
   return (
-    <div>
+    <ApplicationLayout>
       <PageTitle title={TITLE} />
       <Header headerTitle={title} />
 
@@ -48,8 +49,9 @@ const AnimalBreedListPage: PageComponent = () => {
           <FaPlus />
         </QuickLinkAction>
       </Main>
+
       <Navigation />
-    </div>
+    </ApplicationLayout>
   );
 };
 

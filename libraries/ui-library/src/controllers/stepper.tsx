@@ -3,16 +3,44 @@ import * as React from "react";
 import { FaCheckCircle, FaCircle, FaDotCircle } from "react-icons/fa";
 import { ChildrenProp, Link, LinkProps, StyleProps } from "../core";
 
+export type StepperProps = StyleProps & ChildrenProp;
+export function Stepper({ className, ...rest }: StepperProps) {
+  return <ul {...rest} className={cn("Stepper", className)} />;
+}
+
 export enum StepStatus {
   PENDING,
   IN_PROGRESS,
   DONE,
 }
 
+const StepItemStatusClassName: { [key in StepStatus]: string } = {
+  [StepStatus.PENDING]: "StepItem--isPending",
+  [StepStatus.IN_PROGRESS]: "StepItem--isInProgress",
+  [StepStatus.DONE]: "StepItem--isDone",
+};
+
+type StepItemProps = StyleProps & {
+  children: React.ReactElement<StepLinkProps>;
+};
+
+export function StepItem({ className, children, ...rest }: StepItemProps) {
+  const status = children.props.status;
+
+  return (
+    <li
+      {...rest}
+      className={cn("StepItem", StepItemStatusClassName[status], className)}
+    >
+      {children}
+    </li>
+  );
+}
+
 const StepLinkStatusIconClassName: { [key in StepStatus]: string } = {
-  [StepStatus.PENDING]: "text-black text-opacity-10",
-  [StepStatus.IN_PROGRESS]: "text-blue-500",
-  [StepStatus.DONE]: "text-blue-500",
+  [StepStatus.PENDING]: "StepLink__icon--isPending",
+  [StepStatus.IN_PROGRESS]: "StepLink__icon--isInProgress",
+  [StepStatus.DONE]: "StepLink__icon--isDone",
 };
 
 const StepLinkStatusIcon: { [key in StepStatus]: React.ElementType } = {
@@ -26,80 +54,30 @@ type StepLinkProps = Omit<LinkProps, "disabled"> &
     status: StepStatus;
   };
 
-export function StepLink({ status, href, children, className }: StepLinkProps) {
+export function StepLink({
+  status,
+  children,
+  className,
+  ...rest
+}: StepLinkProps) {
   const Icon = StepLinkStatusIcon[status];
   const disabled = status === StepStatus.PENDING;
 
   return (
     <Link
-      href={href}
+      {...rest}
       disabled={disabled}
       className={cn(
-        "focus:outline-none focus-visible:ring focus-visible:ring-blue-500 focus-visible:ring-opacity-50 rounded-xl max-w-full flex flex-col items-center text-xs text-center text-black text-opacity-50",
-        { "active:opacity-60": !disabled },
+        "StepLink",
+        { "StepLink--isDisabled": disabled },
         className
       )}
     >
       <Icon
-        className={cn("mb-1 w-6 h-6", StepLinkStatusIconClassName[status])}
+        className={cn("StepLink__icon", StepLinkStatusIconClassName[status])}
       />
 
-      <span className="px-4 max-w-full truncate">{children}</span>
+      <span className="StepLink__label">{children}</span>
     </Link>
-  );
-}
-
-const StepLineStatusClassName: { [key in StepStatus]: string } = {
-  [StepStatus.PENDING]: "bg-black bg-opacity-10",
-  [StepStatus.IN_PROGRESS]: "bg-blue-500",
-  [StepStatus.DONE]: "bg-blue-500",
-};
-
-type StepItemProps = StyleProps & {
-  children: React.ReactElement<StepLinkProps>;
-  isFirst?: boolean;
-};
-
-export function StepItem({
-  isFirst = false,
-  className,
-  children,
-}: StepItemProps) {
-  const status = children.props.status;
-
-  return (
-    <li
-      className={cn(
-        "relative flex-1 min-w-0 flex flex-col items-center",
-        className
-      )}
-    >
-      {!isFirst && (
-        <span
-          className={cn(
-            "absolute top-3 left-0 transform -translate-x-1/2 -translate-y-1/2 rounded-full step-item-line-width h-1",
-            StepLineStatusClassName[status]
-          )}
-        />
-      )}
-
-      {children}
-    </li>
-  );
-}
-
-type StepperProps = StyleProps & ChildrenProp;
-
-export function Stepper({ className, children }: StepperProps) {
-  return (
-    <ul className={cn("h-20 flex items-center", className)}>
-      {React.Children.toArray(children).map((child, index) => {
-        if (React.isValidElement(child)) {
-          return React.cloneElement(child, { isFirst: index === 0 });
-        }
-
-        return child;
-      })}
-    </ul>
   );
 }

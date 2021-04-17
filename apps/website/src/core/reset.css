@@ -47,24 +47,3 @@ ul {
 address {
   font-style: normal;
 }
-
-a:focus,
-input:focus,
-select:focus,
-button:focus,
-[tabindex]:focus {
-  outline: none;
-}
-
-a.focus-visible,
-a:focus-visible,
-input.focus-visible,
-input:focus-visible,
-select.focus-visible,
-select:focus-visible,
-button.focus-visible,
-button:focus-visible,
-[tabindex].focus-visible,
-[tabindex]:focus-visible {
-  box-shadow: inset 0 0 0 2px var(--blue-500);
-}
