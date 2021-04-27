@@ -45,7 +45,7 @@ export default function App(props: ApplicationProps) {
       <PageHead
         applicationName={process.env.NEXT_PUBLIC_APP_NAME}
         applicationDescription={process.env.NEXT_PUBLIC_APP_DESCRIPTION}
-        msApplicationTileColor="#b91d47"
+        msApplicationTileColor="#2d89ef"
         themeColor="#ffffff"
       />
 

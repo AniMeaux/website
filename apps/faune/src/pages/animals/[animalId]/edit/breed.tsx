@@ -36,7 +36,7 @@ function UpdateAnimalBreedForm() {
   const { content } = renderInfiniteItemList(query, {
     hasSearch: search !== "",
     getItemKey: (animalBreed) => animalBreed.id,
-    renderPlaceholderItem: () => <AnimalBreedItemPlaceholder size="medium" />,
+    renderPlaceholderItem: () => <AnimalBreedItemPlaceholder />,
     emptyMessage: "Il n'y a pas encore de race",
     emptySearchMessage: "Aucune race trouvée",
     renderEmptySearchAction: () => (
@@ -44,7 +44,6 @@ function UpdateAnimalBreedForm() {
     ),
     renderItem: (animalBreed) => (
       <AnimalBreedButtonItem
-        size="medium"
         animalBreed={animalBreed}
         highlight={animalBreed.id === formPayload.breed?.id}
         onClick={() => {

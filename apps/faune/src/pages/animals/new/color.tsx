@@ -34,7 +34,7 @@ const CreateAnimalColorPage: PageComponent = () => {
   const { content } = renderInfiniteItemList(query, {
     hasSearch: search !== "",
     getItemKey: (animalColor) => animalColor.id,
-    renderPlaceholderItem: () => <AnimalColorItemPlaceholder size="medium" />,
+    renderPlaceholderItem: () => <AnimalColorItemPlaceholder />,
     emptyMessage: "Il n'y a pas encore de couleur",
     emptySearchMessage: "Aucune couleur trouvée",
     renderEmptySearchAction: () => (
@@ -42,7 +42,6 @@ const CreateAnimalColorPage: PageComponent = () => {
     ),
     renderItem: (animalColor) => (
       <AnimalColorButtonItem
-        size="medium"
         animalColor={animalColor}
         highlight={animalColor.id === formPayload.color?.id}
         onClick={() => {

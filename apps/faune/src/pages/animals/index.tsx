@@ -119,7 +119,7 @@ const AnimalListPage: PageComponent = () => {
         action={{ href: "./search", icon: FaSearch }}
       />
 
-      <Main hasNavigation>
+      <Main>
         <Section>{content}</Section>
 
         {isCurrentUserAdmin && (
@@ -133,5 +133,11 @@ const AnimalListPage: PageComponent = () => {
     </ApplicationLayout>
   );
 };
+
+AnimalListPage.authorisedGroups = [
+  UserGroup.ADMIN,
+  UserGroup.ANIMAL_MANAGER,
+  UserGroup.VETERINARIAN,
+];
 
 export default AnimalListPage;

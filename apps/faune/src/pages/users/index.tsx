@@ -1,10 +1,10 @@
 import {
   Header,
-  HostFamilyItemPlaceholder,
-  HostFamilyLinkItem,
   PageComponent,
-  renderInfiniteItemList,
-  useAllHostFamilies,
+  renderItemList,
+  useAllUsers,
+  UserItemPlaceholder,
+  UserLinkItem,
 } from "@animeaux/app-core";
 import { UserGroup } from "@animeaux/shared-entities";
 import {
@@ -19,20 +19,18 @@ import { FaPlus } from "react-icons/fa";
 import { Navigation } from "../../core/navigation";
 import { PageTitle } from "../../core/pageTitle";
 
-const TITLE = "Familles d'accueil";
+const TITLE = "Utilisateurs";
 
-const HostFamilyListPage: PageComponent = () => {
+const UserListPage: PageComponent = () => {
   usePageScrollRestoration();
 
-  const query = useAllHostFamilies();
-  const { content, title } = renderInfiniteItemList(query, {
+  const query = useAllUsers();
+  const { content, title } = renderItemList(query, {
     title: TITLE,
-    getItemKey: (hostFamily) => hostFamily.id,
-    renderPlaceholderItem: () => <HostFamilyItemPlaceholder />,
-    emptyMessage: "Il n'y a pas encore de famille d'accueil",
-    renderItem: (hostFamily) => (
-      <HostFamilyLinkItem hostFamily={hostFamily} href={`./${hostFamily.id}`} />
-    ),
+    getItemKey: (user) => user.id,
+    renderPlaceholderItem: () => <UserItemPlaceholder />,
+    emptyMessage: "Il n'y a pas encore d'utilisateur",
+    renderItem: (user) => <UserLinkItem user={user} href={`./${user.id}`} />,
   });
 
   return (
@@ -53,9 +51,6 @@ const HostFamilyListPage: PageComponent = () => {
   );
 };
 
-HostFamilyListPage.authorisedGroups = [
-  UserGroup.ADMIN,
-  UserGroup.ANIMAL_MANAGER,
-];
+UserListPage.authorisedGroups = [UserGroup.ADMIN];
 
-export default HostFamilyListPage;
+export default UserListPage;

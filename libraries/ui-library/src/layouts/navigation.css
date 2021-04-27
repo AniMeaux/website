@@ -33,12 +33,6 @@
 }
 
 @media (max-width: 499px) {
-  .Navigation--onlyLargeEnough {
-    display: none;
-  }
-}
-
-@media (max-width: 499px) {
   .Navigation--hasScroll {
     box-shadow: 0 -1px 0 0 var(--border-color);
   }

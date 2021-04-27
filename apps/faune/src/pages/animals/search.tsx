@@ -11,6 +11,7 @@ import {
   createQueryFromAnimalSearch,
   getActiveAnimalFiltersCount,
   hasAnimalSearch,
+  UserGroup,
 } from "@animeaux/shared-entities";
 import {
   ActionFilter,
@@ -64,9 +65,7 @@ const SearchAnimalPage: PageComponent = () => {
     title: TITLE,
     hasSearch: hasAnimalSearch({ search, ...filters }),
     getItemKey: (animal) => animal.id,
-    renderPlaceholderItem: () => (
-      <SearchableAnimalItemPlaceholder size="medium" />
-    ),
+    renderPlaceholderItem: () => <SearchableAnimalItemPlaceholder />,
     emptyMessage: "Il n'y a pas encore d'animaux",
     emptySearchMessage: "Aucun animal trouvée",
     renderEmptySearchAction: () => {
@@ -80,11 +79,7 @@ const SearchAnimalPage: PageComponent = () => {
       );
     },
     renderItem: (animal) => (
-      <SearchableAnimalLinkItem
-        size="medium"
-        animal={animal}
-        href={`../${animal.id}`}
-      />
+      <SearchableAnimalLinkItem animal={animal} href={`../${animal.id}`} />
     ),
   });
 
@@ -138,5 +133,11 @@ const SearchAnimalPage: PageComponent = () => {
     </ApplicationLayout>
   );
 };
+
+SearchAnimalPage.authorisedGroups = [
+  UserGroup.ADMIN,
+  UserGroup.ANIMAL_MANAGER,
+  UserGroup.VETERINARIAN,
+];
 
 export default SearchAnimalPage;

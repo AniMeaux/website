@@ -56,7 +56,7 @@ const AnimalColorListPage: PageComponent = () => {
       <PageTitle title={TITLE} />
       <Header headerTitle={title} />
 
-      <Main hasNavigation>
+      <Main>
         <Section>{content}</Section>
 
         <QuickLinkAction href="./new">

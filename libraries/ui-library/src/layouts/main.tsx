@@ -1,11 +1,12 @@
 import cn from "classnames";
 import * as React from "react";
+import { ChildrenProp, StyleProps } from "../core";
+import { useApplicationLayout } from "./applicationLayout";
 
-type MainProps = React.HTMLAttributes<HTMLElement> & {
-  hasNavigation?: boolean;
-};
+export type MainProps = ChildrenProp & StyleProps;
+export function Main({ className, ...rest }: MainProps) {
+  const { hasNavigation } = useApplicationLayout();
 
-export function Main({ hasNavigation = false, className, ...rest }: MainProps) {
   return (
     <main
       {...rest}

@@ -1,9 +1,3 @@
-@media (max-width: 499px) {
-  .NavigationLogo {
-    display: none;
-  }
-}
-
 @media (max-width: 799px) {
   .NavigationLogo__item {
     justify-content: center;
@@ -23,12 +17,6 @@
 
 .NavigationUserItem {
   margin-top: auto;
-}
-
-@media (max-width: 499px) {
-  .NavigationUserItem {
-    display: none;
-  }
 }
 
 @media (max-width: 799px) {

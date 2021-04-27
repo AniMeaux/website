@@ -15,15 +15,12 @@
   }
 }
 
-.Main--withNavigation {
-  --padding-bottom: var(--bottom-nav-height);
-  padding-bottom: var(--padding-bottom);
-  padding-bottom: calc(var(--padding-bottom) + env(safe-area-inset-bottom, 0));
-}
-
-@media (min-width: 500px) {
+@media (max-width: 499px) {
   .Main--withNavigation {
-    /* The navigation is on the right so no need to compensate for safe area. */
-    --padding-bottom: 0;
+    --padding-bottom: var(--bottom-nav-height);
+    padding-bottom: var(--padding-bottom);
+    padding-bottom: calc(
+      var(--padding-bottom) + env(safe-area-inset-bottom, 0)
+    );
   }
 }

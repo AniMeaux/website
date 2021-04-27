@@ -602,4 +602,10 @@ const AnimalPage: PageComponent = () => {
   );
 };
 
+AnimalPage.authorisedGroups = [
+  UserGroup.ADMIN,
+  UserGroup.ANIMAL_MANAGER,
+  UserGroup.VETERINARIAN,
+];
+
 export default AnimalPage;

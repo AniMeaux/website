@@ -56,7 +56,6 @@ export function AnimalColorLinkItem({
 }
 
 type AnimalColorCuttonItemProps = ButtonItemProps & AnimalColorItemProps;
-
 export function AnimalColorButtonItem({
   animalColor,
   ...rest

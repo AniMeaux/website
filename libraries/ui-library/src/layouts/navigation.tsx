@@ -1,6 +1,8 @@
 import cn from "classnames";
 import * as React from "react";
 import {
+  ButtonItem,
+  ButtonItemProps,
   ChildrenProp,
   ItemContent,
   ItemContentProps,
@@ -13,30 +15,25 @@ import {
   StyleProps,
 } from "../core";
 import { useRouter } from "../core/router";
+import { useApplicationLayout } from "./applicationLayout";
 import { useIsScrollAtTheBottom } from "./usePageScroll";
 
-export type NavigationProps = ChildrenProp &
-  StyleProps & {
-    onlyLargeEnough?: boolean;
-  };
-
-export function Navigation({
-  onlyLargeEnough = false,
-  className,
-  children,
-  ...rest
-}: NavigationProps) {
+export type NavigationProps = ChildrenProp & StyleProps;
+export function Navigation({ className, children, ...rest }: NavigationProps) {
   const { isAtTheBottom } = useIsScrollAtTheBottom();
+  const { setState } = useApplicationLayout();
+
+  React.useEffect(() => {
+    setState((s) => ({ ...s, hasNavigation: true }));
+    return () => setState((s) => ({ ...s, hasNavigation: false }));
+  }, [setState]);
 
   return (
     <nav
       {...rest}
       className={cn(
         "Navigation",
-        {
-          "Navigation--hasScroll": !isAtTheBottom,
-          "Navigation--onlyLargeEnough": onlyLargeEnough,
-        },
+        { "Navigation--hasScroll": !isAtTheBottom },
         className
       )}
     >
@@ -77,6 +74,15 @@ export function NavLink({ strict = false, className, ...rest }: NavLinkProps) {
     />
   );
 }
+
+export type NavButtonProps = ButtonItemProps;
+export const NavButton = React.forwardRef<HTMLButtonElement, NavButtonProps>(
+  function NavButton({ className, ...rest }, ref) {
+    return (
+      <ButtonItem {...rest} ref={ref} className={cn("NavLink", className)} />
+    );
+  }
+);
 
 export type NavLinkContentProps = ItemContentProps;
 export function NavLinkContent({ className, ...rest }: NavLinkContentProps) {

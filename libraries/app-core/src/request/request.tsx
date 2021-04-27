@@ -96,6 +96,12 @@ export function RequestContextProvider({
     [pendingMutationCount]
   );
 
+  const showDevTools = React.useRef(
+    typeof window !== "undefined" &&
+      process.env.NODE_ENV === "development" &&
+      new URLSearchParams(window.location.search).has("show-cache")
+  );
+
   return (
     <QueryClientProvider client={queryClient}>
       <RequestContext.Provider value={value}>
@@ -103,7 +109,7 @@ export function RequestContextProvider({
         <NetworkStatus />
         <RequestProgressBar />
 
-        {process.env.NODE_ENV === "development" && <ReactQueryDevtools />}
+        {showDevTools.current && <ReactQueryDevtools />}
       </RequestContext.Provider>
     </QueryClientProvider>
   );
