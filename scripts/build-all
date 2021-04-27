@@ -19,10 +19,6 @@ build_all ()
   printf "\n📦 Building api\n\n"
   yarn clean-build
 
-  cd ../admin
-  printf "\n📦 Building admin\n\n"
-  yarn clean-build
-
   cd ../faune
   printf "\n📦 Building faune\n\n"
   yarn clean-build
