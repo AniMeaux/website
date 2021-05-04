@@ -26,7 +26,8 @@ input[type="radio"]:not([disabled]) {
 
 button[disabled],
 select[disabled],
-input[type="checkbox"][disabled] input[type="radio"][disabled] {
+input[type="checkbox"][disabled],
+input[type="radio"][disabled] {
   cursor: default;
 }
 

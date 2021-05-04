@@ -29,15 +29,15 @@ export function SignInPage({ mutation }: SignInPageProps) {
       <PageTitle title="Connection" />
 
       <main className="SignInPage__main">
-        <div className="SignInPage__image">
-          <AppLogo />
-        </div>
+        <div className="SignInPage__image" />
 
         <Form
           onSubmit={() => mutation.mutate({ email, password })}
           pending={mutation.isLoading}
           className="SignInPage__form"
         >
+          <AppLogo className="SignInPage__logo" />
+
           <h1 className="SignInPage__title">Bienvenue</h1>
 
           <Field>

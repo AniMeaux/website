@@ -1,28 +1,32 @@
 .SignInPage__main {
   display: flex;
+  align-items: stretch;
 }
 
 @media (max-width: 799px) {
   .SignInPage__main {
     flex-direction: column;
-    align-items: center;
-  }
-}
-
-@media (min-width: 800px) {
-  .SignInPage__main {
-    align-items: stretch;
   }
 }
 
 .SignInPage__image {
   flex: none;
+  background-image: linear-gradient(0deg, var(--m-blue-500) 0%, transparent 60%),
+    linear-gradient(90deg, var(--m-green-500) 0%, transparent 60%),
+    linear-gradient(135deg, var(--m-yellow-500) 0%, transparent 60%),
+    linear-gradient(225deg, var(--m-red-500) 0%, transparent 60%),
+    linear-gradient(270deg, var(--m-light-blue-500) 0%, transparent 60%);
+  background-size: 200% 200%;
+  animation: animation-SignInPage;
+  animation-timing-function: linear;
+  animation-duration: 20s;
+  animation-iteration-count: infinite;
 }
 
 @media (max-width: 799px) {
   .SignInPage__image {
-    font-size: 100px;
-    margin: calc(var(--spacing-unit) * 10) 0;
+    width: 100%;
+    height: var(--header-height);
   }
 }
 
@@ -30,19 +34,28 @@
   .SignInPage__image {
     width: 50%;
     min-height: 100vh;
-    background-image: linear-gradient(
-        0deg,
-        var(--m-blue-50) 0%,
-        transparent 60%
-      ),
-      linear-gradient(90deg, var(--m-green-50) 0%, transparent 60%),
-      linear-gradient(135deg, var(--m-yellow-50) 0%, transparent 60%),
-      linear-gradient(225deg, var(--m-red-50) 0%, transparent 60%),
-      linear-gradient(270deg, var(--m-light-blue-50) 0%, transparent 60%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: min(20vw, 40vh);
+  }
+}
+
+@keyframes animation-SignInPage {
+  0% {
+    background-position: 0% 100%;
+  }
+
+  25% {
+    background-position: 0% 0%;
+  }
+
+  50% {
+    background-position: 100% 0%;
+  }
+
+  75% {
+    background-position: 100% 100%;
+  }
+
+  100% {
+    background-position: 0% 100%;
   }
 }
 
@@ -66,6 +79,12 @@
   .SignInPage__form {
     width: 50%;
   }
+}
+
+.SignInPage__logo {
+  align-self: center;
+  font-size: 100px;
+  margin: calc(var(--spacing-unit) * 10) auto;
 }
 
 .SignInPage__title {
