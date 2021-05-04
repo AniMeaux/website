@@ -1,6 +1,6 @@
-import { Link, LinkProps } from "@animeaux/ui-library/build/core/link";
 import * as React from "react";
 import { FaArrowRight } from "react-icons/fa";
+import { Link, LinkProps } from "../../core/link";
 import { CenteredContent } from "../centeredContent";
 import { Image, ImageProps } from "../image";
 import { Section } from "../section";

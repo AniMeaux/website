@@ -3,16 +3,14 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "BUILD_ID=\"dev\" next dev -p 3004",
+    "dev": "BUILD_ID=\"dev\" next dev -p 3000",
     "build": "BUILD_ID=\"$(git rev-parse --short HEAD)\" next build",
     "clean": "rm -rf build",
     "clean-build": "run-s clean build",
-    "start:prod": "next start -p 3004"
+    "start:prod": "next start -p 3000"
   },
   "dependencies": {
-    "@animeaux/app-core": "*",
     "@animeaux/shared-entities": "*",
-    "@animeaux/ui-library": "*",
     "classnames": "^2.2.6",
     "focus-visible": "^5.2.0",
     "graphql": "^15.5.0",

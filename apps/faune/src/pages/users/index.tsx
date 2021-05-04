@@ -1,23 +1,18 @@
-import {
-  Header,
-  PageComponent,
-  renderItemList,
-  useAllUsers,
-  UserItemPlaceholder,
-  UserLinkItem,
-} from "@animeaux/app-core";
 import { UserGroup } from "@animeaux/shared-entities";
-import {
-  ApplicationLayout,
-  Main,
-  QuickLinkAction,
-  Section,
-  usePageScrollRestoration,
-} from "@animeaux/ui-library";
+import { Header } from "core/header";
+import { Navigation } from "core/navigation";
+import { PageComponent } from "core/pageComponent";
+import { PageTitle } from "core/pageTitle";
+import { renderItemList } from "core/request";
+import { UserItemPlaceholder, UserLinkItem } from "entities/user/userItem";
+import { useAllUsers } from "entities/user/userQueries";
 import * as React from "react";
 import { FaPlus } from "react-icons/fa";
-import { Navigation } from "../../core/navigation";
-import { PageTitle } from "../../core/pageTitle";
+import { QuickLinkAction } from "ui/actions/quickAction";
+import { ApplicationLayout } from "ui/layouts/applicationLayout";
+import { Main } from "ui/layouts/main";
+import { Section } from "ui/layouts/section";
+import { usePageScrollRestoration } from "ui/layouts/usePageScroll";
 
 const TITLE = "Utilisateurs";
 

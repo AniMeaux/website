@@ -1,27 +1,29 @@
 import {
-  AnimalPicturesForm,
-  AnimalPicturesFormErrors,
-  Header,
-  PageComponent,
-  useCreateAnimal,
-} from "@animeaux/app-core";
-import {
   ErrorCode,
   getErrorMessage,
   hasErrorCode,
   UserGroup,
 } from "@animeaux/shared-entities";
-import { ApplicationLayout, Main, useRouter } from "@animeaux/ui-library";
-import * as React from "react";
+import { Header } from "core/header";
+import { Navigation } from "core/navigation";
+import { PageComponent } from "core/pageComponent";
+import { PageTitle } from "core/pageTitle";
+import { useRouter } from "core/router";
 import {
   AnimalFormDraftStorage,
   AnimalFormProvider,
   AnimalFormStep,
   AnimalFormStepper,
   useAnimalForm,
-} from "../../../core/animalCreation";
-import { Navigation } from "../../../core/navigation";
-import { PageTitle } from "../../../core/pageTitle";
+} from "entities/animal/animalCreation";
+import {
+  AnimalPicturesForm,
+  AnimalPicturesFormErrors,
+} from "entities/animal/formElements/animalPicturesForm";
+import { useCreateAnimal } from "entities/animal/queries";
+import * as React from "react";
+import { ApplicationLayout } from "ui/layouts/applicationLayout";
+import { Main } from "ui/layouts/main";
 
 const CreateAnimalPicturesPage: PageComponent = () => {
   const { formPayload, setFormPayload } = useAnimalForm();

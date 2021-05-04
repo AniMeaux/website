@@ -1,37 +1,34 @@
+import { getAnimalDisplayName, UserGroup } from "@animeaux/shared-entities";
+import { Navigation } from "core/navigation";
+import { PageComponent } from "core/pageComponent";
+import { PageTitle } from "core/pageTitle";
+import { renderInfiniteItemList, renderQueryEntity } from "core/request";
+import { useRouter } from "core/router";
+import {
+  AnimalFormProvider,
+  useAnimalForm,
+} from "entities/animal/animalEdition";
+import { useAnimal } from "entities/animal/queries";
 import {
   HostFamilySearchItem,
   HostFamilySearchItemPlaceholder,
-  PageComponent,
-  renderInfiniteItemList,
-  renderQueryEntity,
-  useAllHostFamilies,
-  useAnimal,
-} from "@animeaux/app-core";
-import { getAnimalDisplayName, UserGroup } from "@animeaux/shared-entities";
+} from "entities/hostFamily/hostFamilyItems";
+import { useAllHostFamilies } from "entities/hostFamily/hostFamilyQueries";
+import * as React from "react";
+import { FaPlus } from "react-icons/fa";
+import { Button } from "ui/actions/button";
+import { Avatar } from "ui/dataDisplay/avatar";
 import {
-  ApplicationLayout,
-  Avatar,
-  Button,
-  Header,
-  HeaderBackLink,
   ItemContent,
   ItemIcon,
   ItemMainText,
   LinkItem,
-  Main,
-  SearchInput,
-  Section,
-  useRouter,
-  useSearch,
-} from "@animeaux/ui-library";
-import * as React from "react";
-import { FaPlus } from "react-icons/fa";
-import {
-  AnimalFormProvider,
-  useAnimalForm,
-} from "../../../../core/animalEdition";
-import { Navigation } from "../../../../core/navigation";
-import { PageTitle } from "../../../../core/pageTitle";
+} from "ui/dataDisplay/item";
+import { SearchInput, useSearch } from "ui/formElements/searchInput";
+import { ApplicationLayout } from "ui/layouts/applicationLayout";
+import { Header, HeaderBackLink } from "ui/layouts/header";
+import { Main } from "ui/layouts/main";
+import { Section } from "ui/layouts/section";
 
 function UpdateAnimalHostFamilyForm() {
   const router = useRouter();

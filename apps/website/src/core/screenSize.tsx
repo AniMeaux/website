@@ -1,6 +1,6 @@
-import { ChildrenProp } from "@animeaux/ui-library/build/core/types";
 import invariant from "invariant";
 import * as React from "react";
+import { ChildrenProp } from "./types";
 
 export enum ScreenSize {
   UNKNOWN = -1,

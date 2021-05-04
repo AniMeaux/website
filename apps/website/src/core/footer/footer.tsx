@@ -2,8 +2,6 @@ import {
   AnimalSpeciesLabels,
   ANIMAL_SPECIES_ALPHABETICAL_ORDER,
 } from "@animeaux/shared-entities/build/animal";
-import { Link, LinkProps } from "@animeaux/ui-library/build/core/link";
-import { ChildrenProp } from "@animeaux/ui-library/build/core/types";
 import * as React from "react";
 import {
   FaEnvelope,
@@ -13,6 +11,8 @@ import {
   FaPhone,
 } from "react-icons/fa";
 import { CenteredContent } from "../../ui/centeredContent";
+import { Link, LinkProps } from "../link";
+import { ChildrenProp } from "../types";
 
 export function Footer() {
   return (

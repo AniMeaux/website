@@ -1,35 +1,11 @@
 import {
-  CurrentUserProfile,
-  useCurrentUser,
-  UserAvatar,
-} from "@animeaux/app-core";
-import {
   doesGroupsIntersect,
   User,
   UserGroup,
 } from "@animeaux/shared-entities";
-import {
-  ButtonItem,
-  ItemContent,
-  ItemIcon,
-  ItemMainText,
-  ItemSecondaryText,
-  LinkItem,
-  Modal,
-  ModalHeader,
-  ModalHeaderTitle,
-  NavButton,
-  Navigation as BaseNavigation,
-  NavigationItemList,
-  NavItem,
-  NavLink,
-  NavLinkContent,
-  NavLinkIcon,
-  NavLinkMainText,
-  ScreenSize,
-  Section,
-  useScreenSize,
-} from "@animeaux/ui-library";
+import { useCurrentUser } from "entities/user/currentUserContext";
+import { CurrentUserProfile } from "entities/user/currentUserProfile";
+import { UserAvatar } from "entities/user/userAvatar";
 import * as React from "react";
 import {
   FaAngleRight,
@@ -40,7 +16,28 @@ import {
   FaPaw,
   FaUser,
 } from "react-icons/fa";
-import AppLogo from "./appLogo.svg";
+import AppLogo from "ui/appLogo.svg";
+import {
+  ButtonItem,
+  ItemContent,
+  ItemIcon,
+  ItemMainText,
+  ItemSecondaryText,
+  LinkItem,
+} from "ui/dataDisplay/item";
+import {
+  NavButton,
+  Navigation as BaseNavigation,
+  NavigationItemList,
+  NavItem,
+  NavLink,
+  NavLinkContent,
+  NavLinkIcon,
+  NavLinkMainText,
+} from "ui/layouts/navigation";
+import { Section } from "ui/layouts/section";
+import { Modal, ModalHeader, ModalHeaderTitle } from "ui/popovers/modal";
+import { ScreenSize, useScreenSize } from "ui/screenSize";
 
 function NavigationUserItem() {
   const { currentUser } = useCurrentUser();

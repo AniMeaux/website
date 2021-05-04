@@ -1,19 +1,21 @@
 import {
-  AnimalColorForm,
-  AnimalColorFormErrors,
-  Header,
-  PageComponent,
-  useCreateAnimalColor,
-} from "@animeaux/app-core";
-import {
   ErrorCode,
   getErrorMessage,
   hasErrorCode,
 } from "@animeaux/shared-entities";
-import { ApplicationLayout, Main, useRouter } from "@animeaux/ui-library";
+import { Header } from "core/header";
+import { Navigation } from "core/navigation";
+import { PageComponent } from "core/pageComponent";
+import { PageTitle } from "core/pageTitle";
+import { useRouter } from "core/router";
+import {
+  AnimalColorForm,
+  AnimalColorFormErrors,
+} from "entities/animalColor/animalColorForm";
+import { useCreateAnimalColor } from "entities/animalColor/animalColorQueries";
 import * as React from "react";
-import { Navigation } from "../../core/navigation";
-import { PageTitle } from "../../core/pageTitle";
+import { ApplicationLayout } from "ui/layouts/applicationLayout";
+import { Main } from "ui/layouts/main";
 
 const CreateAnimalColorPage: PageComponent = () => {
   const router = useRouter();

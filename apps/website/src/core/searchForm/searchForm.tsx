@@ -6,11 +6,11 @@ import {
   ANIMAL_AGES_ORDER,
   ANIMAL_SPECIES_ALPHABETICAL_ORDER,
 } from "@animeaux/shared-entities/build/animal";
-import { Link } from "@animeaux/ui-library/build/core/link";
-import { ChildrenProp } from "@animeaux/ui-library/build/core/types";
 import cn from "classnames";
 import * as React from "react";
 import { FaSearch } from "react-icons/fa";
+import { Link } from "../link";
+import { ChildrenProp } from "../types";
 
 export function SearchForm() {
   const [

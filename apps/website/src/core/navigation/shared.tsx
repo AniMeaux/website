@@ -1,18 +1,11 @@
-import { AnimalSpeciesIcon } from "@animeaux/app-core/build/animal/animalSpeciesIcon";
 import {
   AnimalSpeciesLabels,
   ANIMAL_SPECIES_ALPHABETICAL_ORDER,
 } from "@animeaux/shared-entities/build/animal";
-import { Link } from "@animeaux/ui-library/build/core/link";
-import { ChildrenProp } from "@animeaux/ui-library/build/core/types";
 import * as React from "react";
-import {
-  TagContent,
-  TagIcon,
-  TagLink,
-  TagList,
-  TagListItem,
-} from "../../ui/tagList";
+import { TagContent, TagLink, TagList, TagListItem } from "../../ui/tagList";
+import { Link } from "../link";
+import { ChildrenProp } from "../types";
 
 export function AdoptionMenu() {
   return (
@@ -21,10 +14,6 @@ export function AdoptionMenu() {
         {ANIMAL_SPECIES_ALPHABETICAL_ORDER.map((species) => (
           <TagListItem key={species}>
             <TagLink href="/">
-              <TagIcon>
-                <AnimalSpeciesIcon species={species} />
-              </TagIcon>
-
               <TagContent>{AnimalSpeciesLabels[species]}</TagContent>
             </TagLink>
           </TagListItem>

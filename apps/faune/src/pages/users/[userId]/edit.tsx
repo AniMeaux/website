@@ -1,23 +1,24 @@
 import {
-  Header,
-  PageComponent,
-  renderQueryEntity,
-  UserForm,
-  UserFormErrors,
-  UserFormPlaceholder,
-  useUpdateUser,
-  useUser,
-} from "@animeaux/app-core";
-import {
   ErrorCode,
   getErrorMessage,
   hasErrorCode,
   UserGroup,
 } from "@animeaux/shared-entities";
-import { ApplicationLayout, Main, useRouter } from "@animeaux/ui-library";
+import { Header } from "core/header";
+import { Navigation } from "core/navigation";
+import { PageComponent } from "core/pageComponent";
+import { PageTitle } from "core/pageTitle";
+import { renderQueryEntity } from "core/request";
+import { useRouter } from "core/router";
+import {
+  UserForm,
+  UserFormErrors,
+  UserFormPlaceholder,
+} from "entities/user/userForm";
+import { useUpdateUser, useUser } from "entities/user/userQueries";
 import * as React from "react";
-import { Navigation } from "../../../core/navigation";
-import { PageTitle } from "../../../core/pageTitle";
+import { ApplicationLayout } from "ui/layouts/applicationLayout";
+import { Main } from "ui/layouts/main";
 
 const UserEditPage: PageComponent = () => {
   const router = useRouter();

@@ -1,36 +1,31 @@
 import {
-  AnimalFiltersForm,
-  PageComponent,
-  renderInfiniteItemList,
-  SearchableAnimalItemPlaceholder,
-  SearchableAnimalLinkItem,
-  useAllAnimals,
-} from "@animeaux/app-core";
-import {
   createAnimalSearchFromQuery,
   createQueryFromAnimalSearch,
   getActiveAnimalFiltersCount,
   hasAnimalSearch,
   UserGroup,
 } from "@animeaux/shared-entities";
+import { Navigation } from "core/navigation";
+import { PageComponent } from "core/pageComponent";
+import { PageTitle } from "core/pageTitle";
+import { renderInfiniteItemList } from "core/request";
+import { useRouter } from "core/router";
 import {
-  ActionFilter,
-  ApplicationLayout,
-  Button,
-  Header,
-  HeaderBackLink,
-  Main,
-  SearchInput,
-  Section,
-  SectionTitle,
-  usePageScrollRestoration,
-  useRouter,
-  useSearchAndFilters,
-} from "@animeaux/ui-library";
+  SearchableAnimalItemPlaceholder,
+  SearchableAnimalLinkItem,
+} from "entities/animal/animalItems";
+import { AnimalFiltersForm } from "entities/animal/formElements/animalFiltersForm";
+import { useAllAnimals } from "entities/animal/queries";
 import isEqual from "lodash.isequal";
 import * as React from "react";
-import { Navigation } from "../../core/navigation";
-import { PageTitle } from "../../core/pageTitle";
+import { ActionFilter } from "ui/actions/actionFilter";
+import { Button } from "ui/actions/button";
+import { SearchInput, useSearchAndFilters } from "ui/formElements/searchInput";
+import { ApplicationLayout } from "ui/layouts/applicationLayout";
+import { Header, HeaderBackLink } from "ui/layouts/header";
+import { Main } from "ui/layouts/main";
+import { Section, SectionTitle } from "ui/layouts/section";
+import { usePageScrollRestoration } from "ui/layouts/usePageScroll";
 
 const TITLE = "Animaux";
 

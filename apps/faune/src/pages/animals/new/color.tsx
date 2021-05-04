@@ -1,29 +1,25 @@
-import {
-  AnimalColorButtonItem,
-  AnimalColorItemPlaceholder,
-  PageComponent,
-  renderInfiniteItemList,
-  useAllAnimalColors,
-} from "@animeaux/app-core";
 import { UserGroup } from "@animeaux/shared-entities";
-import {
-  ApplicationLayout,
-  Button,
-  Header,
-  HeaderBackLink,
-  Main,
-  SearchInput,
-  Section,
-  useRouter,
-  useSearch,
-} from "@animeaux/ui-library";
-import * as React from "react";
+import { Navigation } from "core/navigation";
+import { PageComponent } from "core/pageComponent";
+import { PageTitle } from "core/pageTitle";
+import { renderInfiniteItemList } from "core/request";
+import { useRouter } from "core/router";
 import {
   AnimalFormProvider,
   useAnimalForm,
-} from "../../../core/animalCreation";
-import { Navigation } from "../../../core/navigation";
-import { PageTitle } from "../../../core/pageTitle";
+} from "entities/animal/animalCreation";
+import {
+  AnimalColorButtonItem,
+  AnimalColorItemPlaceholder,
+} from "entities/animalColor/animalColorItems";
+import { useAllAnimalColors } from "entities/animalColor/animalColorQueries";
+import * as React from "react";
+import { Button } from "ui/actions/button";
+import { SearchInput, useSearch } from "ui/formElements/searchInput";
+import { ApplicationLayout } from "ui/layouts/applicationLayout";
+import { Header, HeaderBackLink } from "ui/layouts/header";
+import { Main } from "ui/layouts/main";
+import { Section } from "ui/layouts/section";
 
 const CreateAnimalColorPage: PageComponent = () => {
   const { formPayload, setFormPayload } = useAnimalForm();

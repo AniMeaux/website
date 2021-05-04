@@ -1,23 +1,27 @@
 import {
-  AnimalBreedForm,
-  AnimalBreedFormErrors,
-  AnimalBreedFormPlaceholder,
-  Header,
-  PageComponent,
-  renderQueryEntity,
-  useAnimalBreed,
-  useUpdateAnimalBreed,
-} from "@animeaux/app-core";
-import {
   ErrorCode,
   getErrorMessage,
   hasErrorCode,
   UserGroup,
 } from "@animeaux/shared-entities";
-import { ApplicationLayout, Main, useRouter } from "@animeaux/ui-library";
+import { Header } from "core/header";
+import { Navigation } from "core/navigation";
+import { PageComponent } from "core/pageComponent";
+import { PageTitle } from "core/pageTitle";
+import { renderQueryEntity } from "core/request";
+import { useRouter } from "core/router";
+import {
+  AnimalBreedForm,
+  AnimalBreedFormErrors,
+  AnimalBreedFormPlaceholder,
+} from "entities/animalBreed/animalBreedForm";
+import {
+  useAnimalBreed,
+  useUpdateAnimalBreed,
+} from "entities/animalBreed/animalBreedQueries";
 import * as React from "react";
-import { Navigation } from "../../../core/navigation";
-import { PageTitle } from "../../../core/pageTitle";
+import { ApplicationLayout } from "ui/layouts/applicationLayout";
+import { Main } from "ui/layouts/main";
 
 const AnimalBreedEditPage: PageComponent = () => {
   const router = useRouter();

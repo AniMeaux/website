@@ -1,18 +1,16 @@
 import "react-app-polyfill/stable";
 import "focus-visible";
-import "@animeaux/ui-library/legacyStyles.css";
-import "@animeaux/ui-library/styles.css";
-import "../core/styles.css";
+import "ui/index.css";
 
+import { UserGroup } from "@animeaux/shared-entities";
 import {
   ApplicationProps,
   ApplicationProviders,
   initializeApplication,
-  PageHead,
-} from "@animeaux/app-core";
-import { UserGroup } from "@animeaux/shared-entities";
+} from "core/applicationProviders";
+import { PageHead } from "core/pageHead";
 import * as React from "react";
-import Logo from "../core/appLogo.svg";
+import AppLogo from "ui/appLogo.svg";
 
 initializeApplication({
   environment: process.env.NODE_ENV,
@@ -42,15 +40,10 @@ const AUTHORISED_GROUPS = [
 export default function App(props: ApplicationProps) {
   return (
     <>
-      <PageHead
-        applicationName={process.env.NEXT_PUBLIC_APP_NAME}
-        applicationDescription={process.env.NEXT_PUBLIC_APP_DESCRIPTION}
-        msApplicationTileColor="#2d89ef"
-        themeColor="#ffffff"
-      />
+      <PageHead />
 
       <ApplicationProviders
-        logo={Logo}
+        logo={AppLogo}
         applicationName={process.env.NEXT_PUBLIC_APP_SHORT_NAME}
         authorisedGroupsForApplication={AUTHORISED_GROUPS}
         applicationProps={props}

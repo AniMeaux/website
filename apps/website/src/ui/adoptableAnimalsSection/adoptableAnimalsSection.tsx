@@ -1,16 +1,16 @@
-import { publicFetchGraphQL } from "@animeaux/app-core/build/request/publicFetchGraphQL";
-import { formatAge } from "@animeaux/shared-entities/build/date";
 import { PublicAnimal } from "@animeaux/shared-entities/build/animal";
+import { formatAge } from "@animeaux/shared-entities/build/date";
 import {
   PaginatedRequestParameters,
   PaginatedResponse,
 } from "@animeaux/shared-entities/build/pagination";
-import { Link } from "@animeaux/ui-library/build/core/link";
 import * as Sentry from "@sentry/react";
 import { gql } from "graphql-request";
 import { GetServerSideProps } from "next";
 import * as React from "react";
 import { FaArrowRight, FaPaw } from "react-icons/fa";
+import { publicFetchGraphQL } from "../../core/fetchGraphQL";
+import { Link } from "../../core/link";
 import { Image } from "../image";
 
 const PublicAnimalFragment = gql`

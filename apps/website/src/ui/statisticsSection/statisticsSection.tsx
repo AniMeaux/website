@@ -1,5 +1,5 @@
-import { ChildrenProp } from "@animeaux/ui-library/build/core/types";
 import * as React from "react";
+import { ChildrenProp } from "../../core/types";
 import { CenteredContent } from "../centeredContent";
 import { Image, ImageProps } from "../image";
 import { Section } from "../section";

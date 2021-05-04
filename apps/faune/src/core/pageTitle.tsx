@@ -1,11 +1,14 @@
-import { PageTitle as BasePageTitle, PageTitleProps } from "@animeaux/app-core";
+import Head from "next/head";
 import * as React from "react";
 
-export function PageTitle(props: Omit<PageTitleProps, "applicationName">) {
+export type PageTitleProps = {
+  title?: string | null;
+};
+
+export function PageTitle({ title }: PageTitleProps) {
   return (
-    <BasePageTitle
-      {...props}
-      applicationName={process.env.NEXT_PUBLIC_APP_NAME}
-    />
+    <Head>
+      <title>{title ?? process.env.NEXT_PUBLIC_APP_NAME}</title>
+    </Head>
   );
 }

@@ -1,31 +1,26 @@
-import {
-  AnimalBreedButtonItem,
-  AnimalBreedItemPlaceholder,
-  PageComponent,
-  renderInfiniteItemList,
-  renderQueryEntity,
-  useAllAnimalBreeds,
-  useAnimal,
-} from "@animeaux/app-core";
 import { getAnimalDisplayName, UserGroup } from "@animeaux/shared-entities";
-import {
-  ApplicationLayout,
-  Button,
-  Header,
-  HeaderBackLink,
-  Main,
-  SearchInput,
-  Section,
-  useRouter,
-  useSearch,
-} from "@animeaux/ui-library";
-import * as React from "react";
+import { Navigation } from "core/navigation";
+import { PageComponent } from "core/pageComponent";
+import { PageTitle } from "core/pageTitle";
+import { renderInfiniteItemList, renderQueryEntity } from "core/request";
+import { useRouter } from "core/router";
 import {
   AnimalFormProvider,
   useAnimalForm,
-} from "../../../../core/animalEdition";
-import { Navigation } from "../../../../core/navigation";
-import { PageTitle } from "../../../../core/pageTitle";
+} from "entities/animal/animalEdition";
+import { useAnimal } from "entities/animal/queries";
+import {
+  AnimalBreedButtonItem,
+  AnimalBreedItemPlaceholder,
+} from "entities/animalBreed/animalBreedItems";
+import { useAllAnimalBreeds } from "entities/animalBreed/animalBreedQueries";
+import * as React from "react";
+import { Button } from "ui/actions/button";
+import { SearchInput, useSearch } from "ui/formElements/searchInput";
+import { ApplicationLayout } from "ui/layouts/applicationLayout";
+import { Header, HeaderBackLink } from "ui/layouts/header";
+import { Main } from "ui/layouts/main";
+import { Section } from "ui/layouts/section";
 
 function UpdateAnimalBreedForm() {
   const router = useRouter();

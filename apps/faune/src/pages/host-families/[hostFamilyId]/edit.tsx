@@ -1,23 +1,27 @@
 import {
-  Header,
-  HostFamilyForm,
-  HostFamilyFormErrors,
-  HostFamilyFormPlaceholder,
-  PageComponent,
-  renderQueryEntity,
-  useHostFamily,
-  useUpdateHostFamily,
-} from "@animeaux/app-core";
-import {
   ErrorCode,
   getErrorMessage,
   hasErrorCode,
   UserGroup,
 } from "@animeaux/shared-entities";
-import { ApplicationLayout, Main, useRouter } from "@animeaux/ui-library";
+import { Header } from "core/header";
+import { Navigation } from "core/navigation";
+import { PageComponent } from "core/pageComponent";
+import { PageTitle } from "core/pageTitle";
+import { renderQueryEntity } from "core/request";
+import { useRouter } from "core/router";
+import {
+  HostFamilyForm,
+  HostFamilyFormErrors,
+  HostFamilyFormPlaceholder,
+} from "entities/hostFamily/hostFamilyForm";
+import {
+  useHostFamily,
+  useUpdateHostFamily,
+} from "entities/hostFamily/hostFamilyQueries";
 import * as React from "react";
-import { Navigation } from "../../../core/navigation";
-import { PageTitle } from "../../../core/pageTitle";
+import { ApplicationLayout } from "ui/layouts/applicationLayout";
+import { Main } from "ui/layouts/main";
 
 const HostFamilyEditPage: PageComponent = () => {
   const router = useRouter();

@@ -1,38 +1,36 @@
 import {
-  Header,
-  PageComponent,
-  renderInfiniteItemList,
-  useAllActiveAnimals,
-  useCurrentUser,
-} from "@animeaux/app-core";
-import {
   AnimalStatus,
   doesGroupsIntersect,
   getAnimalDisplayName,
   SearchableAnimal,
   UserGroup,
 } from "@animeaux/shared-entities";
+import cn from "classnames";
+import { Header } from "core/header";
+import { Navigation } from "core/navigation";
+import { PageComponent } from "core/pageComponent";
+import { PageTitle } from "core/pageTitle";
+import { renderInfiniteItemList } from "core/request";
+import { useAllActiveAnimals } from "entities/animal/queries";
+import { useCurrentUser } from "entities/user/currentUserContext";
+import * as React from "react";
+import { FaPlus, FaSearch } from "react-icons/fa";
+import { QuickLinkAction } from "ui/actions/quickAction";
+import { Avatar } from "ui/dataDisplay/avatar";
+import { Image } from "ui/dataDisplay/image";
 import {
-  ApplicationLayout,
-  Avatar,
-  Image,
   Item,
   ItemContent,
   ItemIcon,
   ItemMainText,
   ItemSecondaryText,
   LinkItem,
-  Main,
-  Placeholder,
-  QuickLinkAction,
-  Section,
-  usePageScrollRestoration,
-} from "@animeaux/ui-library";
-import cn from "classnames";
-import * as React from "react";
-import { FaPlus, FaSearch } from "react-icons/fa";
-import { Navigation } from "../../core/navigation";
-import { PageTitle } from "../../core/pageTitle";
+} from "ui/dataDisplay/item";
+import { ApplicationLayout } from "ui/layouts/applicationLayout";
+import { Main } from "ui/layouts/main";
+import { Section } from "ui/layouts/section";
+import { usePageScrollRestoration } from "ui/layouts/usePageScroll";
+import { Placeholder } from "ui/loaders/placeholder";
 
 const searchableAnimalItemPlaceholder = (
   <Item>

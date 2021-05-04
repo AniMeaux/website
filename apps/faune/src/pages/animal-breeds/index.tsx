@@ -1,38 +1,18 @@
 import {
-  Header,
-  PageComponent,
-  renderInfiniteItemList,
-  useAllAnimalBreeds,
-  useDeleteAnimalBreed,
-} from "@animeaux/app-core";
-import {
   AnimalBreed,
   AnimalSpeciesLabels,
   UserGroup,
 } from "@animeaux/shared-entities";
+import { Header } from "core/header";
+import { Navigation } from "core/navigation";
+import { PageComponent } from "core/pageComponent";
+import { PageTitle } from "core/pageTitle";
+import { renderInfiniteItemList } from "core/request";
+import { useRouter } from "core/router";
 import {
-  ApplicationLayout,
-  Avatar,
-  Button,
-  ButtonItem,
-  Item,
-  ItemContent,
-  ItemIcon,
-  ItemMainText,
-  ItemSecondaryText,
-  LinkItem,
-  Main,
-  Modal,
-  Placeholder,
-  QuickLinkAction,
-  ScreenSize,
-  Section,
-  useModal,
-  usePageScrollRestoration,
-  useRouter,
-  useScreenSize,
-  withConfirmation,
-} from "@animeaux/ui-library";
+  useAllAnimalBreeds,
+  useDeleteAnimalBreed,
+} from "entities/animalBreed/animalBreedQueries";
 import type { Placement } from "popper.js";
 import * as React from "react";
 import {
@@ -43,8 +23,26 @@ import {
   FaPlus,
   FaTrash,
 } from "react-icons/fa";
-import { Navigation } from "../../core/navigation";
-import { PageTitle } from "../../core/pageTitle";
+import { Button } from "ui/actions/button";
+import { QuickLinkAction } from "ui/actions/quickAction";
+import { Avatar } from "ui/dataDisplay/avatar";
+import {
+  ButtonItem,
+  Item,
+  ItemContent,
+  ItemIcon,
+  ItemMainText,
+  ItemSecondaryText,
+  LinkItem,
+} from "ui/dataDisplay/item";
+import { ApplicationLayout } from "ui/layouts/applicationLayout";
+import { Main } from "ui/layouts/main";
+import { Section } from "ui/layouts/section";
+import { usePageScrollRestoration } from "ui/layouts/usePageScroll";
+import { Placeholder } from "ui/loaders/placeholder";
+import { Modal, useModal } from "ui/popovers/modal";
+import { ScreenSize, useScreenSize } from "ui/screenSize";
+import { withConfirmation } from "ui/withConfirmation";
 
 function AnimalBreedItemPlaceholder() {
   return (

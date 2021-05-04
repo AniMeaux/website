@@ -3,11 +3,11 @@ import "focus-visible";
 import "wicg-inert";
 import "../core/styles.css";
 
-import { initializeGraphQlClient } from "@animeaux/app-core/build/request/publicFetchGraphQL";
 import * as Sentry from "@sentry/react";
 import { AppProps } from "next/app";
 import Error from "next/error";
 import * as React from "react";
+import { initializeGraphQlClient } from "../core/fetchGraphQL";
 import { PageHead } from "../core/pageHead";
 import { ScreenSizeContextProvider } from "../core/screenSize";
 

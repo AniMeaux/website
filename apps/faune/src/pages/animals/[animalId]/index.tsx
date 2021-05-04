@@ -1,14 +1,4 @@
 import {
-  AnimalGenderIcon,
-  AnimalSpeciesIcon,
-  Header,
-  PageComponent,
-  renderQueryEntity,
-  useAnimal,
-  useCurrentUser,
-  useDeleteAnimal,
-} from "@animeaux/app-core";
-import {
   Animal,
   AnimalGender,
   AnimalGenderLabels,
@@ -25,30 +15,18 @@ import {
   TrileanLabels,
   UserGroup,
 } from "@animeaux/shared-entities";
-import {
-  ApplicationLayout,
-  Button,
-  ButtonItem,
-  copyToClipboard,
-  Item,
-  ItemContent,
-  ItemIcon,
-  ItemMainText,
-  LinkItem,
-  Main,
-  Markdown,
-  Modal,
-  ModalHeader,
-  ModalHeaderTitle,
-  QuickActions,
-  Section,
-  SectionBox,
-  SectionTitle,
-  useModal,
-  useRouter,
-  withConfirmation,
-} from "@animeaux/ui-library";
 import cn from "classnames";
+import { copyToClipboard } from "core/clipboard";
+import { Header } from "core/header";
+import { Navigation } from "core/navigation";
+import { PageComponent } from "core/pageComponent";
+import { PageTitle } from "core/pageTitle";
+import { renderQueryEntity } from "core/request";
+import { useRouter } from "core/router";
+import { AnimalGenderIcon } from "entities/animal/animalGenderIcon";
+import { AnimalSpeciesIcon } from "entities/animal/animalSpeciesIcon";
+import { useAnimal, useDeleteAnimal } from "entities/animal/queries";
+import { useCurrentUser } from "entities/user/currentUserContext";
 import * as React from "react";
 import {
   FaAdjust,
@@ -69,9 +47,28 @@ import {
   FaShareAlt,
   FaTrash,
 } from "react-icons/fa";
-import { ImageSlideshow } from "../../../core/imageSlideshow";
-import { Navigation } from "../../../core/navigation";
-import { PageTitle } from "../../../core/pageTitle";
+import { Button } from "ui/actions/button";
+import { QuickActions } from "ui/actions/quickAction";
+import { ImageSlideshow } from "ui/dataDisplay/imageSlideshow";
+import {
+  ButtonItem,
+  Item,
+  ItemContent,
+  ItemIcon,
+  ItemMainText,
+  LinkItem,
+} from "ui/dataDisplay/item";
+import { Markdown } from "ui/dataDisplay/markdown";
+import { ApplicationLayout } from "ui/layouts/applicationLayout";
+import { Main } from "ui/layouts/main";
+import { Section, SectionBox, SectionTitle } from "ui/layouts/section";
+import {
+  Modal,
+  ModalHeader,
+  ModalHeaderTitle,
+  useModal,
+} from "ui/popovers/modal";
+import { withConfirmation } from "ui/withConfirmation";
 
 type AnimalProps = {
   animal: Animal;

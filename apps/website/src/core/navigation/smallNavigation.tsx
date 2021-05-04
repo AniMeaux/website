@@ -1,8 +1,8 @@
-import { Link } from "@animeaux/ui-library/build/core/link";
-import { ChildrenProp } from "@animeaux/ui-library/build/core/types";
 import cn from "classnames";
 import * as React from "react";
 import { FaAngleDown, FaAngleUp, FaBars, FaTimes } from "react-icons/fa";
+import { Link } from "../link";
+import { ChildrenProp } from "../types";
 import { ActMenu, AdoptionMenu } from "./shared";
 
 type MenuType = "none" | "adopt" | "act";

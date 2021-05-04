@@ -1,6 +1,6 @@
-import { Link, LinkProps } from "@animeaux/ui-library/build/core/link";
-import { ChildrenProp } from "@animeaux/ui-library/build/core/types";
 import * as React from "react";
+import { Link, LinkProps } from "../../core/link";
+import { ChildrenProp } from "../../core/types";
 
 export function TagList(props: ChildrenProp) {
   return <ul {...props} className="TagList" />;

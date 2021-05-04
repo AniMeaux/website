@@ -1,6 +1,6 @@
-import { StyleProps } from "@animeaux/ui-library/build/core/types";
 import cn from "classnames";
 import * as React from "react";
+import { StyleProps } from "../../core/types";
 
 type SectionProps = StyleProps & {
   children: React.ReactElement;

@@ -1,23 +1,21 @@
+import { UserGroup } from "@animeaux/shared-entities";
+import { Header } from "core/header";
+import { Navigation } from "core/navigation";
+import { PageComponent } from "core/pageComponent";
+import { PageTitle } from "core/pageTitle";
+import { renderInfiniteItemList } from "core/request";
 import {
-  Header,
   HostFamilyItemPlaceholder,
   HostFamilyLinkItem,
-  PageComponent,
-  renderInfiniteItemList,
-  useAllHostFamilies,
-} from "@animeaux/app-core";
-import { UserGroup } from "@animeaux/shared-entities";
-import {
-  ApplicationLayout,
-  Main,
-  QuickLinkAction,
-  Section,
-  usePageScrollRestoration,
-} from "@animeaux/ui-library";
+} from "entities/hostFamily/hostFamilyItems";
+import { useAllHostFamilies } from "entities/hostFamily/hostFamilyQueries";
 import * as React from "react";
 import { FaPlus } from "react-icons/fa";
-import { Navigation } from "../../core/navigation";
-import { PageTitle } from "../../core/pageTitle";
+import { QuickLinkAction } from "ui/actions/quickAction";
+import { ApplicationLayout } from "ui/layouts/applicationLayout";
+import { Main } from "ui/layouts/main";
+import { Section } from "ui/layouts/section";
+import { usePageScrollRestoration } from "ui/layouts/usePageScroll";
 
 const TITLE = "Familles d'accueil";
 

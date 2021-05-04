@@ -1,14 +1,4 @@
 import {
-  AnimalPicturesForm,
-  AnimalPicturesFormErrors,
-  AnimalPicturesFormProps,
-  Header,
-  PageComponent,
-  renderQueryEntity,
-  useAnimal,
-  useUpdateAnimalPicture,
-} from "@animeaux/app-core";
-import {
   Animal,
   AnimalPicturesFormPayload,
   ErrorCode,
@@ -17,14 +7,25 @@ import {
   hasErrorCode,
   UserGroup,
 } from "@animeaux/shared-entities";
-import { ApplicationLayout, Main, useRouter } from "@animeaux/ui-library";
-import * as React from "react";
+import { Header } from "core/header";
+import { Navigation } from "core/navigation";
+import { PageComponent } from "core/pageComponent";
+import { PageTitle } from "core/pageTitle";
+import { renderQueryEntity } from "core/request";
+import { useRouter } from "core/router";
 import {
   AnimalFormProvider,
   useAnimalForm,
-} from "../../../../core/animalEdition";
-import { Navigation } from "../../../../core/navigation";
-import { PageTitle } from "../../../../core/pageTitle";
+} from "entities/animal/animalEdition";
+import {
+  AnimalPicturesForm,
+  AnimalPicturesFormErrors,
+  AnimalPicturesFormProps,
+} from "entities/animal/formElements/animalPicturesForm";
+import { useAnimal, useUpdateAnimalPicture } from "entities/animal/queries";
+import * as React from "react";
+import { ApplicationLayout } from "ui/layouts/applicationLayout";
+import { Main } from "ui/layouts/main";
 
 type AnimalEditPicturesFormProps = Omit<
   AnimalPicturesFormProps<AnimalPicturesFormPayload>,

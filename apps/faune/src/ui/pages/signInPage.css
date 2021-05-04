@@ -1,0 +1,101 @@
+.SignInPage__main {
+  display: flex;
+}
+
+@media (max-width: 799px) {
+  .SignInPage__main {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+@media (min-width: 800px) {
+  .SignInPage__main {
+    align-items: stretch;
+  }
+}
+
+.SignInPage__image {
+  flex: none;
+}
+
+@media (max-width: 799px) {
+  .SignInPage__image {
+    font-size: 100px;
+    margin: calc(var(--spacing-unit) * 10) 0;
+  }
+}
+
+@media (min-width: 800px) {
+  .SignInPage__image {
+    width: 50%;
+    min-height: 100vh;
+    background-image: linear-gradient(
+        0deg,
+        var(--m-blue-50) 0%,
+        transparent 60%
+      ),
+      linear-gradient(90deg, var(--m-green-50) 0%, transparent 60%),
+      linear-gradient(135deg, var(--m-yellow-50) 0%, transparent 60%),
+      linear-gradient(225deg, var(--m-red-50) 0%, transparent 60%),
+      linear-gradient(270deg, var(--m-light-blue-50) 0%, transparent 60%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: min(20vw, 40vh);
+  }
+}
+
+.SignInPage__form {
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+@media (max-width: 799px) {
+  .SignInPage__form {
+    width: 100%;
+  }
+}
+
+@media (min-width: 800px) {
+  .SignInPage__form {
+    width: 50%;
+  }
+}
+
+.SignInPage__title {
+  margin-bottom: calc(var(--spacing-unit) * 8);
+  padding: 0 calc(var(--spacing-unit) * 6);
+  font-family: var(--font-serif);
+  text-align: center;
+}
+
+@media (max-width: 799px) {
+  .SignInPage__title {
+    font-size: var(--font-size-4xl);
+    line-height: var(--line-height-4xl);
+  }
+}
+
+@media (min-width: 800px) {
+  .SignInPage__title {
+    font-size: var(--font-size-5xl);
+    line-height: var(--line-height-5xl);
+  }
+}
+
+.SignInPage__successIcon {
+  margin: calc(var(--spacing-unit) * 8) 0;
+  font-size: var(--input-medium-height);
+  color: var(--success-500);
+  align-self: center;
+  animation-name: animation-fade-in, animation-scale-in;
+  animation-timing-function: var(--ease-enter);
+  animation-fill-mode: forwards;
+  animation-duration: var(--duration-slow);
+}

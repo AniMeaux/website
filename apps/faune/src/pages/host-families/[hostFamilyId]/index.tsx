@@ -1,42 +1,25 @@
 import {
-  ErrorPage,
-  Header,
-  PageComponent,
-  renderInfiniteItemList,
-  renderQueryEntity,
-  SearchableAnimalItemPlaceholder,
-  SearchableAnimalLinkItem,
-  useAllAnimals,
-  useDeleteHostFamily,
-  useHostFamily,
-} from "@animeaux/app-core";
-import {
   getHostFamilyFullAddress,
   HostFamily,
   UserGroup,
 } from "@animeaux/shared-entities";
+import { ErrorPage } from "core/errorPage";
+import { Header } from "core/header";
+import { Navigation } from "core/navigation";
+import { PageComponent } from "core/pageComponent";
+import { PageTitle } from "core/pageTitle";
+import { renderInfiniteItemList, renderQueryEntity } from "core/request";
+import { useRouter } from "core/router";
+import { ChildrenProp } from "core/types";
 import {
-  ApplicationLayout,
-  Button,
-  ButtonItem,
-  ChildrenProp,
-  Item,
-  ItemContent,
-  ItemIcon,
-  ItemMainText,
-  LinkItem,
-  Main,
-  Markdown,
-  Placeholder,
-  Placeholders,
-  QuickActions,
-  Section,
-  SectionBox,
-  SectionTitle,
-  useModal,
-  useRouter,
-  withConfirmation,
-} from "@animeaux/ui-library";
+  SearchableAnimalItemPlaceholder,
+  SearchableAnimalLinkItem,
+} from "entities/animal/animalItems";
+import { useAllAnimals } from "entities/animal/queries";
+import {
+  useDeleteHostFamily,
+  useHostFamily,
+} from "entities/hostFamily/hostFamilyQueries";
 import * as React from "react";
 import {
   FaAngleRight,
@@ -46,8 +29,23 @@ import {
   FaPhone,
   FaTrash,
 } from "react-icons/fa";
-import { Navigation } from "../../../core/navigation";
-import { PageTitle } from "../../../core/pageTitle";
+import { Button } from "ui/actions/button";
+import { QuickActions } from "ui/actions/quickAction";
+import {
+  ButtonItem,
+  Item,
+  ItemContent,
+  ItemIcon,
+  ItemMainText,
+  LinkItem,
+} from "ui/dataDisplay/item";
+import { Markdown } from "ui/dataDisplay/markdown";
+import { ApplicationLayout } from "ui/layouts/applicationLayout";
+import { Main } from "ui/layouts/main";
+import { Section, SectionBox, SectionTitle } from "ui/layouts/section";
+import { Placeholder, Placeholders } from "ui/loaders/placeholder";
+import { useModal } from "ui/popovers/modal";
+import { withConfirmation } from "ui/withConfirmation";
 
 type HostFamilyProps = {
   hostFamily: HostFamily;

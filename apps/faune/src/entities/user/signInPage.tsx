@@ -1,0 +1,45 @@
+import { ErrorCode, getErrorCode } from "@animeaux/shared-entities";
+import * as Sentry from "@sentry/react";
+import { firebase } from "core/firebase";
+import { useMutation } from "core/request";
+import * as React from "react";
+import { SignInPage as SignInPageUI } from "ui/pages/signInPage";
+
+function isAuthError(error: Error): boolean {
+  return [
+    ErrorCode.AUTH_INVALID_EMAIL,
+    ErrorCode.AUTH_USER_DISABLED,
+    ErrorCode.AUTH_USER_NOT_FOUND,
+    ErrorCode.AUTH_WRONG_PASSWORD,
+  ].includes(getErrorCode(error));
+}
+
+export function SignInPage() {
+  const mutation = useMutation<
+    void,
+    Error,
+    { email: string; password: string }
+  >(
+    async ({ email, password }) => {
+      try {
+        await firebase.auth().signInWithEmailAndPassword(email, password);
+      } catch (error) {
+        if (isAuthError(error)) {
+          throw new Error("Identifiants invalides, veuillez réessayer");
+        } else {
+          Sentry.captureException(error, { extra: { email } });
+
+          throw new Error(
+            "un problème est survenu, veuillez réessayer ultérieurement"
+          );
+        }
+      }
+    },
+    {
+      // Relevant errors are reported here.
+      disableSentry: true,
+    }
+  );
+
+  return <SignInPageUI mutation={mutation} />;
+}
