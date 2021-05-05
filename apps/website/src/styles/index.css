@@ -1,0 +1,25 @@
+@import url("https://fonts.googleapis.com/css?family=Playfair+Display:300,400,400i,500,600,700&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:300,400,400i,500,600,700&display=swap");
+
+@import "./reset.css";
+@import "./theme.css";
+@import "./globals.css";
+@import "./utils.css";
+
+@import "../dataDisplay/image/image.css";
+@import "../dataDisplay/tagList/tagList.css";
+
+@import "../layout/centeredContent/centeredContent.css";
+@import "../layout/footer/footer.css";
+@import "../layout/header/header.css";
+@import "../layout/navigation/largeNavigation.css";
+@import "../layout/navigation/navigation.css";
+@import "../layout/navigation/shared.css";
+@import "../layout/navigation/smallNavigation.css";
+@import "../layout/primarySection/primarySection.css";
+@import "../layout/section/section.css";
+
+@import "../pagesElements/home/adoptableAnimalsSection/adoptableAnimalsSection.css";
+@import "../pagesElements/home/heroSection/heroSection.css";
+@import "../pagesElements/home/searchForm/searchForm.css";
+@import "../pagesElements/home/statisticsSection/statisticsSection.css";

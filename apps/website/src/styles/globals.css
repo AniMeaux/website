@@ -1,0 +1,23 @@
+*,
+*::before,
+*::after {
+  /* Disable bark background on link/button on tap. */
+  -webkit-tap-highlight-color: transparent;
+}
+
+html {
+  font-size: 16px;
+  background-color: var(--bg-primary);
+}
+
+body {
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  /* This needs to come after -webkit-font-smoothing */
+  -moz-osx-font-smoothing: grayscale;
+  text-size-adjust: 100%;
+  text-rendering: optimizeLegibility;
+  font-size: inherit;
+  line-height: 1.5;
+  color: var(--text-primary);
+}

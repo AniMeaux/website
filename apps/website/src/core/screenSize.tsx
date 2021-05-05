@@ -1,6 +1,6 @@
 import invariant from "invariant";
 import * as React from "react";
-import { ChildrenProp } from "./types";
+import { ChildrenProp } from "~/core/types";
 
 export enum ScreenSize {
   UNKNOWN = -1,

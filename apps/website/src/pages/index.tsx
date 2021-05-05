@@ -1,19 +1,19 @@
 import * as React from "react";
-import { Footer } from "../core/footer";
-import { Header } from "../core/header";
-import { PageTitle } from "../core/pageTitle";
-import { SearchForm } from "../core/searchForm";
-import { HeroSection } from "../ui/heroSection";
+import { Footer } from "~/layout/footer";
+import { Header } from "~/layout/header";
 import {
   PrimarySection,
   PrimarySectionAction,
   PrimarySectionImage,
-} from "../ui/primarySection";
+} from "~/layout/primarySection";
+import { PageTitle } from "~/core/pageTitle";
+import { HeroSection } from "~/pagesElements/home/heroSection";
+import { SearchForm } from "~/pagesElements/home/searchForm";
 import {
   StatisticImage,
   StatisticItem,
   StatisticsSection,
-} from "../ui/statisticsSection";
+} from "~/pagesElements/home/statisticsSection";
 
 export default function HomePage() {
   return (

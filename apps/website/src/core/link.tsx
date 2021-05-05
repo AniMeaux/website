@@ -6,8 +6,8 @@ import {
   getHistoryIndex,
   resolveUrl,
   useRouter,
-} from "./router";
-import { A11yProps, ChildrenProp, StyleProps } from "./types";
+} from "~/core/router";
+import { A11yProps, ChildrenProp, StyleProps } from "~/core/types";
 
 export type LinkProps = ChildrenProp &
   StyleProps &
