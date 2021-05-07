@@ -30,7 +30,7 @@
 }
 
 .HeaderLogoLink {
-  padding: 0 calc(var(--spacing-unit) * 4);
+  padding: 0 var(--spacing-l);
   display: flex;
   align-items: center;
   font-size: 48px;
@@ -38,7 +38,7 @@
 
 @media (min-width: 800px) {
   .HeaderLogoLink {
-    padding: 0 calc(var(--spacing-unit) * 8);
+    padding: 0 var(--spacing-3xl);
   }
 }
 

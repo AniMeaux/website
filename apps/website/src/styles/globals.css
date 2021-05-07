@@ -6,18 +6,43 @@
 }
 
 html {
-  font-size: 16px;
-  background-color: var(--bg-primary);
+  font-size: var(--font-size-m);
+  line-height: var(--line-height-m);
+  font-weight: var(--font-weight-normal);
+  background: var(--bg-primary);
 }
 
 body {
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
-  /* This needs to come after -webkit-font-smoothing */
   -moz-osx-font-smoothing: grayscale;
   text-size-adjust: 100%;
   text-rendering: optimizeLegibility;
-  font-size: inherit;
-  line-height: 1.5;
   color: var(--text-primary);
+}
+
+strong {
+  font-weight: var(--font-weight-bold);
+}
+
+a:focus,
+input:focus,
+select:focus,
+button:focus,
+[tabindex]:focus {
+  /* TODO: Remove the `!important` when Tailwind has been removed. */
+  outline: none !important;
+}
+
+a.focus-visible,
+a:focus-visible,
+input.focus-visible,
+input:focus-visible,
+select.focus-visible,
+select:focus-visible,
+button.focus-visible,
+button:focus-visible,
+[tabindex].focus-visible,
+[tabindex]:focus-visible {
+  box-shadow: 0 0 0 2px var(--focus-color);
 }

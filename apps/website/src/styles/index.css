@@ -9,6 +9,7 @@
 @import "../dataDisplay/image/image.css";
 @import "../dataDisplay/tagList/tagList.css";
 
+@import "../layout/callToAction/callToAction.css";
 @import "../layout/centeredContent/centeredContent.css";
 @import "../layout/footer/footer.css";
 @import "../layout/header/header.css";
@@ -18,6 +19,7 @@
 @import "../layout/navigation/smallNavigation.css";
 @import "../layout/primarySection/primarySection.css";
 @import "../layout/section/section.css";
+@import "../layout/fullWidthSection/fullWidthSection.css";
 
 @import "../pagesElements/home/adoptableAnimalsSection/adoptableAnimalsSection.css";
 @import "../pagesElements/home/heroSection/heroSection.css";

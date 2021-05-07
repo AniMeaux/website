@@ -1,19 +1,19 @@
 .LargeNavigation {
-  padding: 0 calc(var(--spacing-unit) * 8);
+  padding: 0 var(--spacing-3xl);
   display: flex;
   align-items: center;
 }
 
 .LargeNavigationItem {
-  padding: calc(var(--spacing-unit) * 2) calc(var(--spacing-unit) * 4);
+  padding: var(--spacing-s) var(--spacing-l);
   border-radius: var(--border-radius-full);
   display: flex;
   align-items: center;
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
 }
 
 .LargeNavigationItem > *:not(:first-child) {
-  margin-left: calc(var(--spacing-unit) * 1);
+  margin-left: var(--spacing-xs);
 }
 
 .LargeNavigationItem:hover,
@@ -26,7 +26,7 @@
 }
 
 .LargeNavigationMenu__content {
-  --menu-content-translate: translate3d(-50%, calc(var(--spacing-unit) * 5), 0);
+  --menu-content-translate: translate3d(-50%, var(--spacing-xl), 0);
 
   position: absolute;
   z-index: 1;

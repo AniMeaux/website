@@ -1,0 +1,32 @@
+.CallToAction {
+  padding: var(--spacing-s) var(--spacing-xl);
+  border-radius: var(--border-radius-full);
+  display: flex;
+  align-items: center;
+  font-weight: var(--font-weight-semibold);
+}
+
+.CallToAction--blue {
+  background: var(--blue-medium);
+  color: var(--text-contrast);
+}
+
+.CallToAction--blue:hover {
+  background: var(--blue-light);
+}
+
+.CallToAction--blue:active {
+  background: var(--blue-dark);
+}
+
+.CallToAction__Icon {
+  transform: translate3d(0, 0, 0);
+  margin-left: var(--spacing-s);
+  transition-property: transform;
+  transition-duration: var(--duration-controller);
+  transition-timing-function: var(--ease-in-out);
+}
+
+.CallToAction:hover .CallToAction__Icon {
+  transform: translate3d(var(--spacing-xs), 0, 0);
+}

@@ -1,0 +1,30 @@
+.FullWidthSection {
+  padding: var(--spacing-3xl) 0;
+  background: var(--bg-secondary);
+}
+
+.FullWidthSection__centeredContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.FullWidthSection__Title {
+  margin-bottom: var(--spacing-l);
+  text-align: center;
+  font-family: var(--font-serif);
+  font-size: var(--font-size-l);
+  line-height: var(--line-height-l);
+  font-weight: var(--font-weight-semibold);
+}
+
+@media (min-width: 800px) {
+  .FullWidthSection__Title {
+    font-size: var(--font-size-xl);
+    line-height: var(--line-height-xl);
+  }
+}
+
+.FullWidthSectionAction {
+  margin-top: var(--spacing-l);
+}

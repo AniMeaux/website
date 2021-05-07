@@ -21,33 +21,36 @@
 
 .HeroSectionText {
   position: relative;
-  padding-top: calc(var(--spacing-unit) * 10);
-  padding-bottom: calc(var(--spacing-unit) * 10);
+  padding-top: var(--spacing-4xl);
+  padding-bottom: var(--spacing-4xl);
 }
 
 .HeroSectionTitle {
   font-family: var(--font-serif);
-  font-size: 40px;
-  font-weight: 600;
-  line-height: 1.2;
+  font-size: var(--font-size-xl);
+  line-height: var(--line-height-xl);
+  font-weight: var(--font-weight-semibold);
   text-align: center;
 }
 
 @media (min-width: 800px) {
   .HeroSectionTitle {
-    font-size: 64px;
+    font-size: var(--font-size-2xl);
+    line-height: var(--line-height-2xl);
   }
 }
 
 .HeroSectionSubTitle {
-  margin-top: calc(var(--spacing-unit) * 4);
+  margin-top: var(--spacing-l);
   text-align: center;
-  font-size: 18px;
+  font-size: var(--font-size-m);
+  line-height: var(--line-height-m);
 }
 
 @media (min-width: 800px) {
   .HeroSectionSubTitle {
-    font-size: 24px;
+    font-size: var(--font-size-l);
+    line-height: var(--line-height-l);
   }
 }
 

@@ -13,12 +13,22 @@ input {
   border: none;
   padding: 0;
   font: inherit;
+  text-align: left;
   color: inherit;
 }
 
-button,
-select {
+button:not([disabled]),
+select:not([disabled]),
+input[type="checkbox"]:not([disabled]),
+input[type="radio"]:not([disabled]) {
   cursor: pointer;
+}
+
+button[disabled],
+select[disabled],
+input[type="checkbox"][disabled],
+input[type="radio"][disabled] {
+  cursor: default;
 }
 
 a {

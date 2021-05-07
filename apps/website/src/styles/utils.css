@@ -1,11 +1,11 @@
 .px-4 {
-  padding-left: calc(var(--spacing-unit) * 4);
-  padding-right: calc(var(--spacing-unit) * 4);
+  padding-left: var(--spacing-l);
+  padding-right: var(--spacing-l);
 }
 
 .separator {
-  margin-top: calc(var(--spacing-unit) * 4);
-  margin-bottom: calc(var(--spacing-unit) * 4);
+  margin-top: var(--spacing-l);
+  margin-bottom: var(--spacing-l);
   border: 0;
 }
 

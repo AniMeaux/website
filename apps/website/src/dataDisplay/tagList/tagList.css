@@ -1,9 +1,9 @@
 .TagList {
-  --list-h-spacing: calc(var(--spacing-unit) * 2);
-  --list-v-spacing: calc(var(--spacing-unit) * 2);
+  --list-h-spacing: var(--spacing-s);
+  --list-v-spacing: var(--spacing-s);
   margin-top: calc(var(--list-v-spacing) * -1);
   margin-left: calc(var(--list-h-spacing) * -1);
-  padding: 0 calc(var(--spacing-unit) * 4);
+  padding: 0 var(--spacing-l);
   display: flex;
   align-items: center;
   flex-wrap: wrap;
@@ -15,7 +15,7 @@
 }
 
 .TagLink {
-  padding: calc(var(--spacing-unit) * 2) calc(var(--spacing-unit) * 4);
+  padding: var(--spacing-s) var(--spacing-l);
   display: flex;
   align-items: center;
   background: var(--bg-secondary);
@@ -28,7 +28,7 @@
 }
 
 .TagLink > *:not(:first-child) {
-  margin-left: calc(var(--spacing-unit) * 2);
+  margin-left: var(--spacing-s);
 }
 
 .TagIcon {

@@ -1,12 +1,16 @@
 import * as React from "react";
+import { PageTitle } from "~/core/pageTitle";
 import { Footer } from "~/layout/footer";
+import {
+  FullWidthSection,
+  FullWidthSectionAction,
+} from "~/layout/fullWidthSection";
 import { Header } from "~/layout/header";
 import {
   PrimarySection,
   PrimarySectionAction,
   PrimarySectionImage,
 } from "~/layout/primarySection";
-import { PageTitle } from "~/core/pageTitle";
 import { HeroSection } from "~/pagesElements/home/heroSection";
 import { SearchForm } from "~/pagesElements/home/searchForm";
 import {
@@ -70,7 +74,7 @@ export default function HomePage() {
 
         <PrimarySection
           title="Devenez famille d'accueil"
-          message="Adiez-nous à les sauver en leur consacrant temps et attention, sans aucune contrainte financière"
+          message="Adez-nous à les sauver en leur consacrant temps et attention, sans aucune contrainte financière"
           image={
             <PrimarySectionImage
               largeImage="/host-family@2x.jpg"
@@ -78,8 +82,44 @@ export default function HomePage() {
               alt="Famille d'accueil"
             />
           }
+          backgroundImage="linear-gradient(to bottom right, hsl(34, 14%, 90%), hsl(240, 7%, 91%))"
           action={
             <PrimarySectionAction href="/">En savoir plus</PrimarySectionAction>
+          }
+        />
+
+        <FullWidthSection
+          title="Faîtes un don !"
+          message={
+            <>
+              Vous souhaitez nous aider mais vous ne pouvez accueillir ou
+              adopter? Vous pouvez nous faire un don ! Ce don servira à financer
+              les <strong>soins vétérinaires</strong>, effectuer plus de{" "}
+              <strong>sauvetages et acheter du matériel</strong> pour les
+              animaux.
+            </>
+          }
+          action={
+            <FullWidthSectionAction href="/">
+              Faire un don
+            </FullWidthSectionAction>
+          }
+        />
+
+        <PrimarySection
+          reversed
+          title="Devenez bénévole"
+          message="Adez-nous à les sauver en leur consacrant temps et attention, sans aucune contrainte financière"
+          image={
+            <PrimarySectionImage
+              largeImage="/volunteers.jpg"
+              smallImage="/volunteers.jpg"
+              alt="Bénévoles"
+            />
+          }
+          backgroundImage="linear-gradient(to bottom right, rgb(243, 232, 205), rgb(255, 245, 221))"
+          action={
+            <PrimarySectionAction href="/">Postuler</PrimarySectionAction>
           }
         />
       </main>

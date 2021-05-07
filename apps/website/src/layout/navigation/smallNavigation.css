@@ -1,10 +1,9 @@
 .SmallNavigation__button {
   border-radius: 50%;
-  padding: calc(var(--spacing-unit) * 4);
+  padding: var(--spacing-l);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 18px;
 }
 
 .SmallNavigation__nav {
@@ -39,11 +38,11 @@
 
 .SmallNavigationItem {
   width: 100%;
-  padding: calc(var(--spacing-unit) * 2) calc(var(--spacing-unit) * 4);
+  padding: var(--spacing-s) var(--spacing-l);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
 }
 
 .SmallNavigationItem:hover,
@@ -57,6 +56,6 @@
 
 .SmallNavigationMenu--open {
   display: block;
-  font-weight: 500;
-  padding-bottom: calc(var(--spacing-unit) * 4);
+  font-weight: var(--font-weight-medium);
+  padding-bottom: var(--spacing-l);
 }

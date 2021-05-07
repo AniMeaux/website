@@ -1,15 +1,17 @@
+import cn from "classnames";
 import * as React from "react";
-import { FaArrowRight } from "react-icons/fa";
 import { Image, ImageProps } from "~/dataDisplay/image";
 import { CenteredContent } from "~/layout/centeredContent";
 import { Section } from "~/layout/section";
-import { Link, LinkProps } from "~/core/link";
+import { CallToAction, CallToActionProps } from "../callToAction";
 
-type PrimarySectionProps = {
+export type PrimarySectionProps = {
   title: string;
   message: string;
   image: React.ReactNode;
   action: React.ReactNode;
+  backgroundImage: string;
+  reversed?: boolean;
 };
 
 export function PrimarySection({
@@ -17,12 +19,18 @@ export function PrimarySection({
   message,
   image,
   action,
+  backgroundImage,
+  reversed = false,
 }: PrimarySectionProps) {
   return (
     <Section>
       <CenteredContent>
-        <section className="PrimarySection">
-          <header className="PrimarySectionHeader">
+        <section
+          className={cn("PrimarySection", {
+            "PrimarySection--reversed": reversed,
+          })}
+        >
+          <header className="PrimarySectionHeader" style={{ backgroundImage }}>
             <h2 className="PrimarySectionTitle">{title}</h2>
             <p className="PrimarySectionMessage">{message}</p>
             {action}
@@ -39,11 +47,9 @@ export function PrimarySectionImage(props: ImageProps) {
   return <Image {...props} className="PrimarySectionImage" />;
 }
 
-export function PrimarySectionAction({ children, ...props }: LinkProps) {
+export type PrimarySectionActionProps = Omit<CallToActionProps, "color">;
+export function PrimarySectionAction(props: PrimarySectionActionProps) {
   return (
-    <Link {...props} className="PrimarySectionAction">
-      <span>{children}</span>
-      <FaArrowRight className="PrimarySectionActionIcon" />
-    </Link>
+    <CallToAction {...props} color="blue" className="PrimarySectionAction" />
   );
 }

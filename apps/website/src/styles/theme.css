@@ -1,12 +1,21 @@
 :root {
   --font-serif: "Playfair Display";
   --font-sans: "Open Sans";
-  --spacing-unit: 4px;
+
+  --spacing-xs: 4px;
+  --spacing-s: 8px; /* x2 */
+  --spacing-m: 12px; /* x3 */
+  --spacing-l: 16px; /* x4 */
+  --spacing-xl: 20px; /* x5 */
+  --spacing-2xl: 24px; /* x6 */
+  --spacing-3xl: 32px; /* x8 */
+  --spacing-4xl: 40px; /* x10 */
+  --spacing-5xl: 48px; /* x12 */
+  --spacing-5xl: 64px; /* x16 */
 
   --content-max-width: 1024px;
-
   --content-margin: calc(
-    var(--spacing-unit) * 8 + max(0px, (100% - var(--content-max-width)) / 2)
+    var(--spacing-3xl) + max(0px, (100% - var(--content-max-width)) / 2)
   );
 
   --header-height: 64px;
@@ -20,31 +29,55 @@
   --bg-secondary: rgba(0, 0, 0, 0.03);
   --bg-footer: rgba(0, 0, 0, 0.1);
 
-  --blue-50: hsl(202, 100%, 90%);
-  --blue-100: hsl(202, 100%, 81%);
-  --blue-200: hsl(202, 100%, 72%);
-  --blue-300: hsl(202, 100%, 63%);
-  --blue-400: hsl(202, 100%, 54%);
-  --blue-500: hsl(202, 100%, 45%);
+  --focus-color: hsl(202, 100%, 62%); /* +25 */
+  --blue-light: hsl(202, 100%, 42%); /* +5 */
+  --blue-medium: hsl(202, 100%, 37%); /* #0078bd */
+  --blue-dark: hsl(202, 100%, 32%); /* -5 */
 
-  /* Closest to #0078bd (hsl(202, 100%, 37%)). */
-  --blue-600: hsl(202, 100%, 36%);
+  --green-xlight: hsl(133, 57%, 55%); /* +10 */
+  --green-light: hsl(133, 57%, 50%); /* +5 */
+  --green-medium: hsl(133, 57%, 45%); /* #32b54f */
+  --green-dark: hsl(133, 57%, 40%); /* -5 */
 
-  --blue-700: hsl(202, 100%, 27%);
-  --blue-800: hsl(202, 100%, 18%);
-  --blue-900: hsl(202, 100%, 9%);
-
-  --green: #32b54f;
   --yellow: #ffc31b;
   --red: #ed2a26;
   --cyan: #00bfbf;
 
+  /* Fonts */
+
+  /* Golden ratio base 16 (https://type-scale.com/) */
+  --font-size-sm: 14px;
+  --font-size-m: 16px;
+  --font-size-l: 25.89px;
+  --font-size-xl: 41.89px;
+  --font-size-2xl: 67.77px;
+  --font-size-3xl: 109.66px;
+
+  --line-height-sm: 1.5;
+  --line-height-m: 1.5;
+  --line-height-l: 1.5;
+  --line-height-xl: 1.2;
+  --line-height-2xl: 1.2;
+  --line-height-3xl: 1.2;
+
+  --font-weight-thin: 100;
+  --font-weight-extralight: 200;
+  --font-weight-light: 300;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-extrabold: 800;
+  --font-weight-black: 900;
+
   /* Radius */
+
   --border-radius: 16px;
   --border-radius-full: 9999px;
   --border-color: rgba(0, 0, 0, 0.1);
 
   /* Transitions and animations */
+
   --ease-in: cubic-bezier(0.4, 0, 1, 1);
   --ease-out: cubic-bezier(0, 0, 0.2, 1);
   --ease-exit: var(--ease-in);
