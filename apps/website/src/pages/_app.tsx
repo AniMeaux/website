@@ -5,22 +5,32 @@ import "~/styles/index.css";
 
 import * as Sentry from "@sentry/react";
 import { AppProps } from "next/app";
-import Error from "next/error";
 import * as React from "react";
 import { initializeGraphQlClient } from "~/core/fetchGraphQL";
+import { PageComponent } from "~/core/pageComponent";
 import { PageHead } from "~/core/pageHead";
 import { ScreenSizeContextProvider } from "~/core/screenSize";
+import { initializeSentry } from "~/core/sentry";
+import ErrorPage from "./_error";
 
-initializeGraphQlClient(process.env.NEXT_PUBLIC_API_URL);
+initializeGraphQlClient();
+initializeSentry();
 
-export default function App({ Component, pageProps }: AppProps) {
+export type ApplicationProps = Omit<AppProps, "Component"> & {
+  Component: PageComponent;
+};
+
+export default function App({ Component, pageProps }: ApplicationProps) {
+  let children: React.ReactNode = <Component {...pageProps} />;
+  if (Component.renderLayout != null) {
+    children = Component.renderLayout(children, pageProps);
+  }
+
   return (
-    <Sentry.ErrorBoundary
-      fallback={({ error }) => <Error statusCode={500} title={error.message} />}
-    >
+    <Sentry.ErrorBoundary fallback={() => <ErrorPage type="serverError" />}>
       <ScreenSizeContextProvider>
         <PageHead />
-        <Component {...pageProps} />
+        {children}
       </ScreenSizeContextProvider>
     </Sentry.ErrorBoundary>
   );

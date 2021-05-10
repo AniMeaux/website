@@ -1,5 +1,13 @@
 import * as React from "react";
+import { SearchForm } from "~/controllers/searchForm";
+import { PageComponent } from "~/core/pageComponent";
 import { PageTitle } from "~/core/pageTitle";
+import { HeroSection } from "~/elements/home/heroSection";
+import {
+  StatisticImage,
+  StatisticItem,
+  StatisticsSection,
+} from "~/elements/home/statisticsSection";
 import { Footer } from "~/layout/footer";
 import {
   FullWidthSection,
@@ -11,120 +19,114 @@ import {
   PrimarySectionAction,
   PrimarySectionImage,
 } from "~/layout/primarySection";
-import { HeroSection } from "~/pagesElements/home/heroSection";
-import { SearchForm } from "~/pagesElements/home/searchForm";
-import {
-  StatisticImage,
-  StatisticItem,
-  StatisticsSection,
-} from "~/pagesElements/home/statisticsSection";
 
-export default function HomePage() {
+const HomePage: PageComponent = () => {
+  return (
+    <main>
+      <PageTitle />
+      <HeroSection
+        title="Adoptez-moi"
+        subTitle="Trouvez le compagnon de vos rêves et donnez-lui une seconde chance"
+        smallImage="/landing-image.jpg"
+        largeImage="/landing-image@2x.jpg"
+        searchForm={<SearchForm />}
+      />
+
+      <StatisticsSection>
+        <StatisticItem
+          value="3 ans"
+          title="D'existences"
+          image={
+            <StatisticImage
+              alt="Anniversaire"
+              smallImage="/birthday.jpg"
+              largeImage="/birthday@2x.jpg"
+            />
+          }
+        />
+
+        <StatisticItem
+          value="400"
+          title="Prises en charge"
+          image={
+            <StatisticImage
+              alt="Prise en charge"
+              smallImage="/pick-up.jpg"
+              largeImage="/pick-up.jpg"
+            />
+          }
+        />
+
+        <StatisticItem
+          value="28"
+          title="Bénévoles"
+          image={
+            <StatisticImage
+              alt="Bénévoles"
+              smallImage="/volunteers.jpg"
+              largeImage="/volunteers.jpg"
+            />
+          }
+        />
+      </StatisticsSection>
+
+      <PrimarySection
+        title="Devenez famille d'accueil"
+        message="Adez-nous à les sauver en leur consacrant temps et attention, sans aucune contrainte financière"
+        image={
+          <PrimarySectionImage
+            largeImage="/host-family@2x.jpg"
+            smallImage="/host-family.jpg"
+            alt="Famille d'accueil"
+          />
+        }
+        backgroundImage="linear-gradient(to bottom right, hsl(34, 14%, 90%), hsl(240, 7%, 91%))"
+        action={
+          <PrimarySectionAction href="/">En savoir plus</PrimarySectionAction>
+        }
+      />
+
+      <FullWidthSection
+        title="Faîtes un don !"
+        message={
+          <>
+            Vous souhaitez nous aider mais vous ne pouvez accueillir ou adopter?
+            Vous pouvez nous faire un don ! Ce don servira à financer les{" "}
+            <strong>soins vétérinaires</strong>, effectuer plus de{" "}
+            <strong>sauvetages et acheter du matériel</strong> pour les animaux.
+          </>
+        }
+        action={
+          <FullWidthSectionAction href="/">Faire un don</FullWidthSectionAction>
+        }
+      />
+
+      <PrimarySection
+        reversed
+        title="Devenez bénévole"
+        message="Adez-nous à les sauver en leur consacrant temps et attention, sans aucune contrainte financière"
+        image={
+          <PrimarySectionImage
+            largeImage="/volunteers.jpg"
+            smallImage="/volunteers.jpg"
+            alt="Bénévoles"
+          />
+        }
+        backgroundImage="linear-gradient(to bottom right, rgb(243, 232, 205), rgb(255, 245, 221))"
+        action={<PrimarySectionAction href="/">Postuler</PrimarySectionAction>}
+      />
+    </main>
+  );
+};
+
+HomePage.renderLayout = (children) => {
   return (
     <>
-      <PageTitle />
       <Header />
-
-      <main>
-        <HeroSection
-          title="Adoptez-moi"
-          subTitle="Trouvez le compagnon de vos rêves et donnez-lui une seconde chance"
-          smallImage="/landing-image.jpg"
-          largeImage="/landing-image@2x.jpg"
-          searchForm={<SearchForm />}
-        />
-
-        <StatisticsSection>
-          <StatisticItem
-            value="3 ans"
-            title="D'existences"
-            image={
-              <StatisticImage
-                alt="Anniversaire"
-                smallImage="/birthday.jpg"
-                largeImage="/birthday@2x.jpg"
-              />
-            }
-          />
-
-          <StatisticItem
-            value="400"
-            title="Prises en charge"
-            image={
-              <StatisticImage
-                alt="Prise en charge"
-                smallImage="/pick-up.jpg"
-                largeImage="/pick-up.jpg"
-              />
-            }
-          />
-
-          <StatisticItem
-            value="28"
-            title="Bénévoles"
-            image={
-              <StatisticImage
-                alt="Bénévoles"
-                smallImage="/volunteers.jpg"
-                largeImage="/volunteers.jpg"
-              />
-            }
-          />
-        </StatisticsSection>
-
-        <PrimarySection
-          title="Devenez famille d'accueil"
-          message="Adez-nous à les sauver en leur consacrant temps et attention, sans aucune contrainte financière"
-          image={
-            <PrimarySectionImage
-              largeImage="/host-family@2x.jpg"
-              smallImage="/host-family.jpg"
-              alt="Famille d'accueil"
-            />
-          }
-          backgroundImage="linear-gradient(to bottom right, hsl(34, 14%, 90%), hsl(240, 7%, 91%))"
-          action={
-            <PrimarySectionAction href="/">En savoir plus</PrimarySectionAction>
-          }
-        />
-
-        <FullWidthSection
-          title="Faîtes un don !"
-          message={
-            <>
-              Vous souhaitez nous aider mais vous ne pouvez accueillir ou
-              adopter? Vous pouvez nous faire un don ! Ce don servira à financer
-              les <strong>soins vétérinaires</strong>, effectuer plus de{" "}
-              <strong>sauvetages et acheter du matériel</strong> pour les
-              animaux.
-            </>
-          }
-          action={
-            <FullWidthSectionAction href="/">
-              Faire un don
-            </FullWidthSectionAction>
-          }
-        />
-
-        <PrimarySection
-          reversed
-          title="Devenez bénévole"
-          message="Adez-nous à les sauver en leur consacrant temps et attention, sans aucune contrainte financière"
-          image={
-            <PrimarySectionImage
-              largeImage="/volunteers.jpg"
-              smallImage="/volunteers.jpg"
-              alt="Bénévoles"
-            />
-          }
-          backgroundImage="linear-gradient(to bottom right, rgb(243, 232, 205), rgb(255, 245, 221))"
-          action={
-            <PrimarySectionAction href="/">Postuler</PrimarySectionAction>
-          }
-        />
-      </main>
-
+      {children}
       <Footer />
     </>
   );
-}
+};
+
+export default HomePage;

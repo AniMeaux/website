@@ -1,6 +1,6 @@
 import { CenteredContent } from "~/layout/centeredContent";
 import { Section } from "~/layout/section";
-import { CallToAction, CallToActionProps } from "../callToAction";
+import { CallToActionLink, CallToActionLinkProps } from "../callToAction";
 
 type FullWidthSectionProps = {
   title: string;
@@ -28,9 +28,13 @@ export function FullWidthSection({
   );
 }
 
-export type FullWidthSectionActionProps = Omit<CallToActionProps, "color">;
+export type FullWidthSectionActionProps = Omit<CallToActionLinkProps, "color">;
 export function FullWidthSectionAction(props: FullWidthSectionActionProps) {
   return (
-    <CallToAction {...props} color="blue" className="FullWidthSectionAction" />
+    <CallToActionLink
+      {...props}
+      color="blue"
+      className="FullWidthSectionAction"
+    />
   );
 }

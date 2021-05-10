@@ -15,6 +15,7 @@ import {
   HostFamilySearch,
   PaginatedRequestParameters,
   PaginatedResponse,
+  PublicAnimalFilters,
   UpdateAnimalBreedPayload,
   UpdateAnimalColorPayload,
   UpdateAnimalPayload,
@@ -69,7 +70,7 @@ export type HostFamilyDatabase = {
 
 export type AnimalDatabase = {
   getAllAdoptableAnimals(
-    parameters: PaginatedRequestParameters
+    parameters: PaginatedRequestParameters<PublicAnimalFilters>
   ): Promise<PaginatedResponse<DBSearchableAnimal>>;
   getAllAnimals(
     parameters: PaginatedRequestParameters<AnimalSearch>

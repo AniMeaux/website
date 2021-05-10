@@ -10,9 +10,10 @@ import {
   FaPaperPlane,
   FaPhone,
 } from "react-icons/fa";
-import { CenteredContent } from "~/layout/centeredContent";
+import { AdoptSearchParams } from "~/core/adoptSearchParams";
 import { Link, LinkProps } from "~/core/link";
 import { ChildrenProp } from "~/core/types";
+import { CenteredContent } from "~/layout/centeredContent";
 
 export function Footer() {
   return (
@@ -24,16 +25,20 @@ export function Footer() {
               <FooterSectionTitle>Adoption</FooterSectionTitle>
 
               <FooterLinkList>
-                {ANIMAL_SPECIES_ALPHABETICAL_ORDER.map((species) => (
-                  <li key={species}>
-                    <FooterLink href="/">
-                      {AnimalSpeciesLabels[species]}
+                {ANIMAL_SPECIES_ALPHABETICAL_ORDER.map((animalSpecies) => (
+                  <li key={animalSpecies}>
+                    <FooterLink
+                      href={new AdoptSearchParams({ animalSpecies }).toUrl()}
+                    >
+                      {AnimalSpeciesLabels[animalSpecies]}
                     </FooterLink>
                   </li>
                 ))}
 
                 <li>
-                  <FooterLink href="/">Tous les animeaux</FooterLink>
+                  <FooterLink href={new AdoptSearchParams().toUrl()}>
+                    Tous les animeaux
+                  </FooterLink>
                 </li>
 
                 <li>

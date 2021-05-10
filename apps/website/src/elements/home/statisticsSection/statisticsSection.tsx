@@ -1,6 +1,6 @@
 import * as React from "react";
 import { ChildrenProp } from "~/core/types";
-import { Image, ImageProps } from "~/dataDisplay/image";
+import { StaticImage, StaticImageProps } from "~/dataDisplay/image";
 import { CenteredContent } from "~/layout/centeredContent";
 import { Section } from "~/layout/section";
 
@@ -17,8 +17,8 @@ export function StatisticsSection({ children }: ChildrenProp) {
   );
 }
 
-export function StatisticImage(props: ImageProps) {
-  return <Image {...props} className="StatisticImage" />;
+export function StatisticImage(props: StaticImageProps) {
+  return <StaticImage {...props} className="StatisticImage" />;
 }
 
 type StatisticItemProps = {

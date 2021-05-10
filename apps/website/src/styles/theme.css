@@ -1,7 +1,4 @@
 :root {
-  --font-serif: "Playfair Display";
-  --font-sans: "Open Sans";
-
   --spacing-xs: 4px;
   --spacing-s: 8px; /* x2 */
   --spacing-m: 12px; /* x3 */
@@ -44,6 +41,9 @@
   --cyan: #00bfbf;
 
   /* Fonts */
+
+  --font-serif: "Playfair Display";
+  --font-sans: "Open Sans";
 
   /* Golden ratio base 16 (https://type-scale.com/) */
   --font-size-sm: 14px;

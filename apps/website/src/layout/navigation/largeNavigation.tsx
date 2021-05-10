@@ -1,7 +1,7 @@
 import cn from "classnames";
 import * as React from "react";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa";
-import { Link } from "~/core/link";
+import { Link, LinkProps } from "~/core/link";
 import { ChildrenProp } from "~/core/types";
 import { ActMenu, AdoptionMenu } from "./shared";
 
@@ -16,14 +16,15 @@ export function LargeNavigation() {
         <ActMenu />
       </NavigationMenu>
 
-      <NavigationLink>Partenaires</NavigationLink>
-      <NavigationLink>Blog</NavigationLink>
+      <NavigationLink href="/">Partenaires</NavigationLink>
+      <NavigationLink href="/">Blog</NavigationLink>
     </nav>
   );
 }
 
-function NavigationLink(props: ChildrenProp) {
-  return <Link {...props} href="/" className="LargeNavigationItem" />;
+type NavigationLinkProps = LinkProps;
+function NavigationLink(props: NavigationLinkProps) {
+  return <Link {...props} className="LargeNavigationItem" />;
 }
 
 type NavigationButtonProps = ChildrenProp & {

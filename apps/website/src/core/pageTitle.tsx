@@ -5,18 +5,16 @@ type PageTitleProps = {
   title?: string;
 };
 
-function isDefined<T>(value: T | null | undefined): value is T {
-  return value != null;
-}
-
 export function PageTitle({ title }: PageTitleProps) {
+  let pageTitle = process.env.NEXT_PUBLIC_APP_NAME;
+
+  if (title != null) {
+    pageTitle = `${title} • ${pageTitle}`;
+  }
+
   return (
     <Head>
-      <title>
-        {[title, process.env.NEXT_PUBLIC_APP_NAME]
-          .filter(isDefined)
-          .join(" • ")}
-      </title>
+      <title>{pageTitle}</title>
     </Head>
   );
 }

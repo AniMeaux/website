@@ -1,6 +1,7 @@
 import cn from "classnames";
 import { FaArrowRight } from "react-icons/fa";
 import { Link, LinkProps } from "~/core/link";
+import { ChildrenProp, StyleProps } from "~/core/types";
 
 export type CallToActionColors = "blue";
 
@@ -8,16 +9,17 @@ const CallToActionColorsClassNames: Record<CallToActionColors, string> = {
   blue: "CallToAction--blue",
 };
 
-export type CallToActionProps = LinkProps & {
+type CallToActionCommonProps = {
   color: CallToActionColors;
 };
 
-export function CallToAction({
+export type CallToActionLinkProps = LinkProps & CallToActionCommonProps;
+export function CallToActionLink({
   color,
   children,
   className,
   ...rest
-}: CallToActionProps) {
+}: CallToActionLinkProps) {
   return (
     <Link
       {...rest}
@@ -30,5 +32,32 @@ export function CallToAction({
       <span>{children}</span>
       <FaArrowRight className="CallToAction__Icon" />
     </Link>
+  );
+}
+
+export type CallToActionButtonProps = CallToActionCommonProps &
+  ChildrenProp &
+  StyleProps & {
+    onClick?: React.EventHandler<React.MouseEvent<HTMLButtonElement>>;
+  };
+
+export function CallToActionButton({
+  color,
+  children,
+  className,
+  ...rest
+}: CallToActionButtonProps) {
+  return (
+    <button
+      {...rest}
+      className={cn(
+        "CallToAction",
+        CallToActionColorsClassNames[color],
+        className
+      )}
+    >
+      <span>{children}</span>
+      <FaArrowRight className="CallToAction__Icon" />
+    </button>
   );
 }

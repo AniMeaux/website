@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Image } from "~/dataDisplay/image";
+import { StaticImage } from "~/dataDisplay/image";
 import { CenteredContent } from "~/layout/centeredContent";
 
 type HeroProps = {
@@ -19,7 +19,7 @@ export function HeroSection({
 }: HeroProps) {
   return (
     <section className="HeroSection">
-      <Image
+      <StaticImage
         smallImage={smallImage}
         largeImage={largeImage}
         alt={title}

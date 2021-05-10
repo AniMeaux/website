@@ -9,9 +9,9 @@ import { gql } from "graphql-request";
 import { GetServerSideProps } from "next";
 import * as React from "react";
 import { FaArrowRight, FaPaw } from "react-icons/fa";
-import { publicFetchGraphQL } from "~/core/fetchGraphQL";
+import { fetchGraphQL } from "~/core/fetchGraphQL";
 import { Link } from "~/core/link";
-import { Image } from "~/dataDisplay/image";
+import { StaticImage } from "~/dataDisplay/image";
 
 const PublicAnimalFragment = gql`
   fragment PublicAnimalFragment on PublicAnimal {
@@ -60,7 +60,7 @@ export const getServerSideProps: GetServerSideProps<AdoptableAnimalsSectionProps
   let animals: PublicAnimal[] = [];
 
   try {
-    const { response } = await publicFetchGraphQL<
+    const { response } = await fetchGraphQL<
       { response: PaginatedResponse<PublicAnimal> },
       PaginatedRequestParameters
     >(GetAllAdoptableAnimalsQuery, {
@@ -92,7 +92,7 @@ export function AdoptableAnimalsSection({
                 href={`/animals/${animal.id}`}
                 className="AdoptableAnimalsLink"
               >
-                <Image
+                <StaticImage
                   alt={animal.officialName}
                   largeImage={largeImage}
                   smallImage={largeImage}

@@ -3,23 +3,23 @@ import {
   ANIMAL_SPECIES_ALPHABETICAL_ORDER,
 } from "@animeaux/shared-entities/build/animal";
 import * as React from "react";
+import { AdoptSearchParams } from "~/core/adoptSearchParams";
+import { Link, LinkProps } from "~/core/link";
 import {
   TagContent,
   TagLink,
   TagList,
   TagListItem,
 } from "~/dataDisplay/tagList";
-import { Link } from "~/core/link";
-import { ChildrenProp } from "~/core/types";
 
 export function AdoptionMenu() {
   return (
     <>
       <TagList>
-        {ANIMAL_SPECIES_ALPHABETICAL_ORDER.map((species) => (
-          <TagListItem key={species}>
-            <TagLink href="/">
-              <TagContent>{AnimalSpeciesLabels[species]}</TagContent>
+        {ANIMAL_SPECIES_ALPHABETICAL_ORDER.map((animalSpecies) => (
+          <TagListItem key={animalSpecies}>
+            <TagLink href={new AdoptSearchParams({ animalSpecies }).toUrl()}>
+              <TagContent>{AnimalSpeciesLabels[animalSpecies]}</TagContent>
             </TagLink>
           </TagListItem>
         ))}
@@ -29,11 +29,13 @@ export function AdoptionMenu() {
 
       <ul>
         <li>
-          <SubNavigationLink>Tous les animaux</SubNavigationLink>
+          <SubNavigationLink href={new AdoptSearchParams().toUrl()}>
+            Tous les animaux
+          </SubNavigationLink>
         </li>
 
         <li>
-          <SubNavigationLink>Adoptés</SubNavigationLink>
+          <SubNavigationLink href="/">Adoptés</SubNavigationLink>
         </li>
       </ul>
     </>
@@ -44,20 +46,23 @@ export function ActMenu() {
   return (
     <ul>
       <li>
-        <SubNavigationLink>Devenir famille d'accueil</SubNavigationLink>
+        <SubNavigationLink href="/">
+          Devenir famille d'accueil
+        </SubNavigationLink>
       </li>
 
       <li>
-        <SubNavigationLink>Devenir bénévole</SubNavigationLink>
+        <SubNavigationLink href="/">Devenir bénévole</SubNavigationLink>
       </li>
 
       <li>
-        <SubNavigationLink>Faire un don</SubNavigationLink>
+        <SubNavigationLink href="/">Faire un don</SubNavigationLink>
       </li>
     </ul>
   );
 }
 
-function SubNavigationLink(props: ChildrenProp) {
-  return <Link {...props} href="/" className="NavigationSubItem" />;
+type SubNavigationLinkProps = LinkProps;
+function SubNavigationLink(props: SubNavigationLinkProps) {
+  return <Link {...props} className="NavigationSubItem" />;
 }

@@ -27,6 +27,7 @@
   flex-direction: column;
   align-items: stretch;
   overflow: hidden;
+  background: var(--bg-primary);
 }
 
 .StatisticImage {

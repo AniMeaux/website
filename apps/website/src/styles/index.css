@@ -6,7 +6,7 @@
 @import "./globals.css";
 @import "./utils.css";
 
-@import "../dataDisplay/image/image.css";
+@import "../dataDisplay/error/error.css";
 @import "../dataDisplay/tagList/tagList.css";
 
 @import "../layout/callToAction/callToAction.css";
@@ -21,7 +21,6 @@
 @import "../layout/section/section.css";
 @import "../layout/fullWidthSection/fullWidthSection.css";
 
-@import "../pagesElements/home/adoptableAnimalsSection/adoptableAnimalsSection.css";
-@import "../pagesElements/home/heroSection/heroSection.css";
-@import "../pagesElements/home/searchForm/searchForm.css";
-@import "../pagesElements/home/statisticsSection/statisticsSection.css";
+@import "../elements/home/adoptableAnimalsSection/adoptableAnimalsSection.css";
+@import "../elements/home/heroSection/heroSection.css";
+@import "../elements/home/statisticsSection/statisticsSection.css";

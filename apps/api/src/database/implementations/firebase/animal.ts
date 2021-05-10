@@ -1,6 +1,7 @@
 import {
   ACTIVE_ANIMAL_STATUS,
   ADOPTABLE_ANIMAL_STATUS,
+  AnimalAgeRangeBySpecies,
   AnimalSearch,
   CreateAnimalPayload,
   DBAnimal,
@@ -9,9 +10,12 @@ import {
   isValidDate,
   PaginatedRequestParameters,
   PaginatedResponse,
+  PublicAnimalFilters,
+  startOfUTCDay,
   UpdateAnimalPayload,
 } from "@animeaux/shared-entities";
 import { UserInputError } from "apollo-server";
+import { addDays, subMonths } from "date-fns";
 import * as admin from "firebase-admin";
 import isEmpty from "lodash.isempty";
 import isEqual from "lodash.isequal";
@@ -34,15 +38,49 @@ function cleanMarkdown(content: string) {
 
 export const animalDatabase: AnimalDatabase = {
   async getAllAdoptableAnimals(
-    parameters: PaginatedRequestParameters
+    parameters: PaginatedRequestParameters<PublicAnimalFilters>
   ): Promise<PaginatedResponse<DBSearchableAnimal>> {
-    const result = await AnimalsIndex.search<DBSearchableAnimal>("", {
-      page: parameters.page ?? 0,
-      filters: SearchFilters.createFilter(
+    const searchFilters: string[] = [];
+
+    searchFilters.push(
+      SearchFilters.createFilter(
         ADOPTABLE_ANIMAL_STATUS.map((status) =>
           SearchFilters.createFilterValue("status", status)
         )
-      ),
+      )
+    );
+
+    if (parameters.species != null) {
+      const species = parameters.species;
+      searchFilters.push(SearchFilters.createFilterValue("species", species));
+
+      const animalSpeciesAgeRanges = AnimalAgeRangeBySpecies[species];
+      if (parameters.age != null && animalSpeciesAgeRanges != null) {
+        const ageRange = animalSpeciesAgeRanges[parameters.age];
+        if (ageRange != null) {
+          const today = startOfUTCDay(new Date());
+
+          // The `maxMonths` has the lowest timestamp value.
+          const minTimestamp = addDays(
+            subMonths(today, ageRange.maxMonths),
+            1
+          ).getTime();
+
+          const maxTimestamp = subMonths(today, ageRange.minMonths).getTime();
+
+          searchFilters.push(
+            SearchFilters.createFilterValue(
+              "birthdateTimestamp",
+              `${minTimestamp} TO ${maxTimestamp}`
+            )
+          );
+        }
+      }
+    }
+
+    const result = await AnimalsIndex.search<DBSearchableAnimal>("", {
+      page: parameters.page ?? 0,
+      filters: SearchFilters.createFilters(searchFilters),
     });
 
     return {

@@ -1,4 +1,4 @@
-.SearchForm {
+.form {
   box-shadow: var(--shadow);
   background: var(--bg-primary);
   border-radius: var(--border-radius-full);
@@ -7,11 +7,11 @@
   align-items: stretch;
 }
 
-.SearchForm > *:not(:first-child) {
+.form > *:not(:first-child) {
   margin-left: var(--spacing-s);
 }
 
-.SearchFormSelect {
+.select {
   appearance: none;
   min-width: 0;
   flex: 1;
@@ -19,15 +19,15 @@
   padding: var(--spacing-s) var(--spacing-l);
 }
 
-.SearchFormSelect:hover {
+.select:hover {
   background: var(--bg-secondary);
 }
 
-.SearchFormSelect--empty {
+.select.empty {
   color: var(--text-label);
 }
 
-.SearchFormLink {
+.link {
   flex: none;
   display: flex;
   align-items: center;
@@ -37,16 +37,16 @@
   font-weight: var(--font-weight-semibold);
 }
 
-.SearchFormLink:hover {
+.link:hover {
   background: var(--blue-light);
 }
 
-.SearchFormLink:active {
+.link:active {
   background: var(--blue-dark);
 }
 
 @media (max-width: 399px) {
-  .SearchFormLink {
+  .link {
     width: 40px;
     height: 40px;
     justify-content: center;
@@ -54,19 +54,19 @@
 }
 
 @media (min-width: 400px) {
-  .SearchFormLink {
+  .link {
     padding: var(--spacing-s) var(--spacing-xl);
   }
 }
 
 @media (max-width: 399px) {
-  .SearchFormLinkLabel {
+  .linkLabel {
     display: none;
   }
 }
 
 @media (min-width: 400px) {
-  .SearchFormLinkLabel {
+  .linkLabel {
     margin-left: var(--spacing-s);
   }
 }

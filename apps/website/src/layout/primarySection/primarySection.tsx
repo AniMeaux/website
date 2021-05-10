@@ -1,9 +1,9 @@
 import cn from "classnames";
 import * as React from "react";
-import { Image, ImageProps } from "~/dataDisplay/image";
+import { StaticImage, StaticImageProps } from "~/dataDisplay/image";
 import { CenteredContent } from "~/layout/centeredContent";
 import { Section } from "~/layout/section";
-import { CallToAction, CallToActionProps } from "../callToAction";
+import { CallToActionLink, CallToActionLinkProps } from "../callToAction";
 
 export type PrimarySectionProps = {
   title: string;
@@ -43,13 +43,17 @@ export function PrimarySection({
   );
 }
 
-export function PrimarySectionImage(props: ImageProps) {
-  return <Image {...props} className="PrimarySectionImage" />;
+export function PrimarySectionImage(props: StaticImageProps) {
+  return <StaticImage {...props} className="PrimarySectionImage" />;
 }
 
-export type PrimarySectionActionProps = Omit<CallToActionProps, "color">;
+export type PrimarySectionActionProps = Omit<CallToActionLinkProps, "color">;
 export function PrimarySectionAction(props: PrimarySectionActionProps) {
   return (
-    <CallToAction {...props} color="blue" className="PrimarySectionAction" />
+    <CallToActionLink
+      {...props}
+      color="blue"
+      className="PrimarySectionAction"
+    />
   );
 }

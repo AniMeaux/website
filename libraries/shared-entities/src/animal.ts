@@ -43,7 +43,7 @@ export const ANIMAL_SPECIES_ALPHABETICAL_ORDER = sortByLabels(
   AnimalSpeciesLabels
 );
 
-function isAnimalSpecies(value: string): value is AnimalSpecies {
+export function isAnimalSpecies(value: any): value is AnimalSpecies {
   return Object.values(AnimalSpecies).includes(value as AnimalSpecies);
 }
 
@@ -80,9 +80,12 @@ export const AnimalAgesLabels: {
 };
 
 export type AgeRange = {
-  minMonths?: number;
-  maxMonths?: number;
+  minMonths: number;
+  maxMonths: number;
 };
+
+// 100 years
+const maxAnimalMonths = 100 * 12;
 
 // `maxMonths` is excluded.
 export const AnimalAgeRangeBySpecies: {
@@ -91,19 +94,40 @@ export const AnimalAgeRangeBySpecies: {
   };
 } = {
   [AnimalSpecies.CAT]: {
-    [AnimalAge.JUNIOR]: { maxMonths: 12 },
+    [AnimalAge.JUNIOR]: { minMonths: 0, maxMonths: 12 },
     [AnimalAge.ADULT]: { minMonths: 12, maxMonths: 9 * 12 },
-    [AnimalAge.SENIOR]: { minMonths: 9 * 12 },
+    [AnimalAge.SENIOR]: { minMonths: 9 * 12, maxMonths: maxAnimalMonths },
   },
   [AnimalSpecies.DOG]: {
-    [AnimalAge.JUNIOR]: { maxMonths: 12 },
+    [AnimalAge.JUNIOR]: { minMonths: 0, maxMonths: 12 },
     [AnimalAge.ADULT]: { minMonths: 12, maxMonths: 9 * 12 },
-    [AnimalAge.SENIOR]: { minMonths: 9 * 12 },
+    [AnimalAge.SENIOR]: { minMonths: 9 * 12, maxMonths: maxAnimalMonths },
   },
   [AnimalSpecies.RODENT]: {
-    [AnimalAge.JUNIOR]: { maxMonths: 12 },
-    [AnimalAge.ADULT]: { minMonths: 12 },
+    [AnimalAge.JUNIOR]: { minMonths: 0, maxMonths: 12 },
+    [AnimalAge.ADULT]: { minMonths: 12, maxMonths: maxAnimalMonths },
   },
+};
+
+export function isAnimalAge(value: any): value is AnimalAge {
+  return Object.values(AnimalAge).includes(value as AnimalAge);
+}
+
+function getAnimalAgesForSpecies(animalSpecies: AnimalSpecies): AnimalAge[] {
+  const agesRanges = AnimalAgeRangeBySpecies[animalSpecies];
+  if (agesRanges == null) {
+    return [];
+  }
+
+  return ANIMAL_AGES_ORDER.filter((age) => agesRanges[age] != null);
+}
+
+export const AnimalAgesBySpecies: Record<AnimalSpecies, AnimalAge[]> = {
+  [AnimalSpecies.BIRD]: getAnimalAgesForSpecies(AnimalSpecies.BIRD),
+  [AnimalSpecies.CAT]: getAnimalAgesForSpecies(AnimalSpecies.CAT),
+  [AnimalSpecies.DOG]: getAnimalAgesForSpecies(AnimalSpecies.DOG),
+  [AnimalSpecies.REPTILE]: getAnimalAgesForSpecies(AnimalSpecies.REPTILE),
+  [AnimalSpecies.RODENT]: getAnimalAgesForSpecies(AnimalSpecies.RODENT),
 };
 
 export enum AnimalStatus {
@@ -607,3 +631,8 @@ export function createQueryFromAnimalSearch(animalSearch: AnimalSearch) {
 
   return query;
 }
+
+export type PublicAnimalFilters = {
+  species?: AnimalSpecies | null;
+  age?: AnimalAge | null;
+};

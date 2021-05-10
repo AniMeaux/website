@@ -4,6 +4,7 @@ import {
   DBAnimal,
   DBSearchableAnimal,
   PaginatedRequestParameters,
+  PublicAnimalFilters,
   UpdateAnimalPayload,
 } from "@animeaux/shared-entities";
 import { gql, IResolverObject, IResolvers } from "apollo-server";
@@ -102,7 +103,11 @@ const typeDefs = gql`
   }
 
   extend type Query {
-    getAllAdoptableAnimals(page: Int): AllPublicAnimalsResponse!
+    getAllAdoptableAnimals(
+      page: Int
+      species: AnimalSpecies
+      age: AnimalAge
+    ): AllPublicAnimalsResponse!
 
     getAllAnimals(
       search: String
@@ -258,7 +263,7 @@ const resolvers: IResolvers = {
 const queries: IResolverObject = {
   getAllAdoptableAnimals: async (
     parent: any,
-    parameters: PaginatedRequestParameters
+    parameters: PaginatedRequestParameters<PublicAnimalFilters>
   ) => {
     return await database.getAllAdoptableAnimals(parameters);
   },
