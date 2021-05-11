@@ -5,7 +5,8 @@
   align-items: center;
 }
 
-.NavigationSubItem:hover,
-.NavigationSubItem:active {
-  background: var(--bg-secondary);
+@media (hover: hover) {
+  .NavigationSubItem:hover {
+    text-decoration: underline;
+  }
 }

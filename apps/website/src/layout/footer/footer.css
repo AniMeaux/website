@@ -2,8 +2,8 @@
   background: var(--bg-footer);
   padding-bottom: 0;
   padding-bottom: env(safe-area-inset-bottom, 0);
-  font-size: var(--font-size-sm);
-  line-height: var(--line-height-sm);
+  font-size: var(--font-size-s);
+  line-height: var(--line-height-s);
 }
 
 .FooterBlock {
@@ -28,7 +28,7 @@
 }
 
 .FooterSectionTitle {
-  font-family: var(--font-serif);
+  font-family: var(--font-family-serif);
   font-weight: var(--font-weight-semibold);
   font-size: var(--font-size-l);
   line-height: var(--line-height-l);
@@ -119,7 +119,7 @@
 }
 
 .FooterSocialLink {
-  font-size: calc(var(--line-height-sm) * 1em);
+  font-size: calc(var(--line-height-s) * 1em);
   display: flex;
 }
 

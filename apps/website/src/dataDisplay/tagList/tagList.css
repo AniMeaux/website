@@ -1,38 +1,33 @@
 .TagList {
-  --list-h-spacing: var(--spacing-s);
-  --list-v-spacing: var(--spacing-s);
-  margin-top: calc(var(--list-v-spacing) * -1);
-  margin-left: calc(var(--list-h-spacing) * -1);
-  padding: 0 var(--spacing-l);
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  grid-auto-rows: 1fr;
 }
 
-.TagListItem {
-  margin-top: var(--list-v-spacing);
-  margin-left: var(--list-h-spacing);
+@media (min-width: 800px) {
+  .TagList {
+    width: 360px;
+  }
 }
 
 .TagLink {
   padding: var(--spacing-s) var(--spacing-l);
   display: flex;
+  flex-direction: column;
   align-items: center;
-  background: var(--bg-secondary);
-  border-radius: var(--border-radius-full);
 }
 
-.TagLink:hover,
-.TagLink:active {
-  background: rgba(0, 0, 0, 0.05);
-}
-
-.TagLink > *:not(:first-child) {
-  margin-left: var(--spacing-s);
+@media (hover: hover) {
+  .TagLink:hover {
+    text-decoration: underline;
+  }
 }
 
 .TagIcon {
-  display: none;
-  color: var(--text-secondary);
   display: flex;
+  font-size: 32px;
+}
+
+.TagContent {
+  margin-top: var(--spacing-xs);
 }

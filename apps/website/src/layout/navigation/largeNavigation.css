@@ -6,7 +6,6 @@
 
 .LargeNavigationItem {
   padding: var(--spacing-s) var(--spacing-l);
-  border-radius: var(--border-radius-full);
   display: flex;
   align-items: center;
   font-weight: var(--font-weight-semibold);
@@ -16,9 +15,10 @@
   margin-left: var(--spacing-xs);
 }
 
-.LargeNavigationItem:hover,
-.LargeNavigationItem:active {
-  background: var(--bg-secondary);
+@media (hover: hover) {
+  .LargeNavigationItem:hover {
+    text-decoration: underline;
+  }
 }
 
 .LargeNavigationMenu {
@@ -41,9 +41,9 @@
   width: max-content;
   max-width: 360px;
   background: var(--bg-primary);
-  padding: var(--border-radius) 0;
-  border-radius: var(--border-radius);
-  box-shadow: var(--shadow-lg);
+  padding: var(--border-radius-m) 0;
+  border-radius: var(--border-radius-m);
+  box-shadow: var(--shadow);
 }
 
 .LargeNavigationMenu__content--open {

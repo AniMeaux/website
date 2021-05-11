@@ -1,5 +1,5 @@
 .PrimarySection {
-  border-radius: var(--border-radius);
+  border-radius: var(--border-radius-m);
   overflow: hidden;
 }
 
@@ -33,7 +33,7 @@
 
 .PrimarySectionTitle {
   margin-bottom: var(--spacing-l);
-  font-family: var(--font-serif);
+  font-family: var(--font-family-serif);
   font-weight: var(--font-weight-semibold);
   font-size: var(--font-size-l);
   line-height: var(--line-height-l);

@@ -6,12 +6,13 @@ import { Header } from "~/layout/header";
 
 export type ErrorPageProps = {
   type: ErrorType;
+  title?: string;
 };
 
-const ErrorPage: PageComponent<ErrorPageProps> = ({ type }) => {
+export const ErrorPage: PageComponent<ErrorPageProps> = ({ title, type }) => {
   return (
     <main>
-      <PageTitle title={ErrorTypeTitle[type]} />
+      <PageTitle title={title ?? ErrorTypeTitle[type]} />
       <Error type={type} />
     </main>
   );

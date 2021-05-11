@@ -1,5 +1,5 @@
 .StatisticsTitle {
-  font-family: var(--font-serif);
+  font-family: var(--font-family-serif);
   font-weight: var(--font-weight-semibold);
   font-size: var(--font-size-l);
   line-height: var(--line-height-l);
@@ -22,7 +22,7 @@
 
 .StatisticItem {
   box-shadow: var(--shadow-lg);
-  border-radius: var(--border-radius);
+  border-radius: var(--border-radius-m);
   display: flex;
   flex-direction: column;
   align-items: stretch;
@@ -57,7 +57,7 @@
 
 .StatisticItemValue {
   margin-bottom: var(--spacing-s);
-  font-family: var(--font-serif);
+  font-family: var(--font-family-serif);
   font-weight: var(--font-weight-semibold);
   font-size: var(--font-size-l);
   line-height: var(--line-height-l);

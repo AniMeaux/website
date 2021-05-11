@@ -1,4 +1,4 @@
-import { PublicAnimal } from "@animeaux/shared-entities/build/animal";
+import { PublicSearchableAnimal } from "@animeaux/shared-entities/build/animal";
 import { formatAge } from "@animeaux/shared-entities/build/date";
 import {
   PaginatedRequestParameters,
@@ -14,7 +14,7 @@ import { Link } from "~/core/link";
 import { StaticImage } from "~/dataDisplay/image";
 
 const PublicAnimalFragment = gql`
-  fragment PublicAnimalFragment on PublicAnimal {
+  fragment PublicAnimalFragment on PublicSearchableAnimal {
     id
     officialName
     birthdate
@@ -53,15 +53,15 @@ const GetAllAdoptableAnimalsQuery = gql`
 `;
 
 type AdoptableAnimalsSectionProps = {
-  animals: PublicAnimal[];
+  animals: PublicSearchableAnimal[];
 };
 
 export const getServerSideProps: GetServerSideProps<AdoptableAnimalsSectionProps> = async () => {
-  let animals: PublicAnimal[] = [];
+  let animals: PublicSearchableAnimal[] = [];
 
   try {
     const { response } = await fetchGraphQL<
-      { response: PaginatedResponse<PublicAnimal> },
+      { response: PaginatedResponse<PublicSearchableAnimal> },
       PaginatedRequestParameters
     >(GetAllAdoptableAnimalsQuery, {
       variables: { page: 0 },

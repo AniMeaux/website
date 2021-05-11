@@ -42,18 +42,18 @@
 
   /* Fonts */
 
-  --font-serif: "Playfair Display";
-  --font-sans: "Open Sans";
+  --font-family-serif: "Playfair Display";
+  --font-family-sans: "Open Sans";
 
   /* Golden ratio base 16 (https://type-scale.com/) */
-  --font-size-sm: 14px;
+  --font-size-s: 14px;
   --font-size-m: 16px;
   --font-size-l: 25.89px;
   --font-size-xl: 41.89px;
   --font-size-2xl: 67.77px;
   --font-size-3xl: 109.66px;
 
-  --line-height-sm: 1.5;
+  --line-height-s: 1.5;
   --line-height-m: 1.5;
   --line-height-l: 1.5;
   --line-height-xl: 1.2;
@@ -72,7 +72,8 @@
 
   /* Radius */
 
-  --border-radius: 16px;
+  --border-radius-s: 8px;
+  --border-radius-m: 16px;
   --border-radius-full: 9999px;
   --border-color: rgba(0, 0, 0, 0.1);
 

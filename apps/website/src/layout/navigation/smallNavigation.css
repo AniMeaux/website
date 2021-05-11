@@ -20,9 +20,9 @@
     /* opacity */ step-end;
   width: 100%;
   background: var(--bg-primary);
-  padding-bottom: var(--border-radius);
-  border-bottom-left-radius: var(--border-radius);
-  border-bottom-right-radius: var(--border-radius);
+  padding-bottom: var(--border-radius-m);
+  border-bottom-left-radius: var(--border-radius-m);
+  border-bottom-right-radius: var(--border-radius-m);
   display: flex;
   flex-direction: column;
   align-items: stretch;
@@ -45,9 +45,10 @@
   font-weight: var(--font-weight-semibold);
 }
 
-.SmallNavigationItem:hover,
-.SmallNavigationItem:active {
-  opacity: 0.8;
+@media (hover: hover) {
+  .SmallNavigationItem:hover {
+    text-decoration: underline;
+  }
 }
 
 .SmallNavigationMenu {

@@ -22,7 +22,7 @@
 
 .animalCard {
   box-shadow: var(--shadow-lg);
-  border-radius: var(--border-radius);
+  border-radius: var(--border-radius-m);
   width: 100%;
   height: 100%;
   display: flex;
@@ -32,8 +32,15 @@
   background: var(--bg-primary);
 }
 
+@media (hover: hover) {
+  .animalCard:hover {
+    text-decoration: underline;
+  }
+}
+
 .avatar {
   height: 200px;
+  width: 100%;
   object-fit: cover;
 }
 
@@ -68,14 +75,14 @@
 
 .infoRow.details {
   margin-top: var(--spacing-xs);
-  font-size: var(--font-size-sm);
-  line-height: var(--line-height-sm);
+  font-size: var(--font-size-s);
+  line-height: var(--line-height-s);
 }
 
 .genderIcon {
-  height: calc(var(--line-height-sm) * var(--font-size-sm));
+  height: calc(var(--line-height-s) * var(--font-size-s));
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: calc(var(--line-height-sm) * 1em);
+  font-size: calc(var(--line-height-s) * 1em);
 }

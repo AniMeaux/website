@@ -168,6 +168,22 @@ export const animalDatabase: AnimalDatabase = {
     return (animalBreedSnapshot.data() as DBAnimal) ?? null;
   },
 
+  async getAdoptableAnimal(id: string): Promise<DBAnimal | null> {
+    const animalBreedSnapshot = await admin
+      .firestore()
+      .collection("animals")
+      .doc(id)
+      .get();
+
+    const animal = (animalBreedSnapshot.data() as DBAnimal) ?? null;
+
+    if (animal != null && ADOPTABLE_ANIMAL_STATUS.includes(animal.status)) {
+      return animal;
+    }
+
+    return null;
+  },
+
   async createAnimal(payload: CreateAnimalPayload): Promise<DBAnimal> {
     const officialName = payload.officialName.trim();
     if (officialName === "") {

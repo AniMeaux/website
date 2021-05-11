@@ -1,8 +1,9 @@
 import { AnimalGender } from "@animeaux/shared-entities/build/animal";
+import { ElementType } from "react";
 import { IconBaseProps } from "react-icons";
 import { FaMars, FaVenus } from "react-icons/fa";
 
-const AnimalGenderIcons: Record<AnimalGender, React.ElementType> = {
+const AnimalGenderIcons: Record<AnimalGender, ElementType> = {
   [AnimalGender.FEMALE]: FaVenus,
   [AnimalGender.MALE]: FaMars,
 };

@@ -32,7 +32,7 @@ const typeDefs = gql`
     MALE
   }
 
-  type PublicAnimal {
+  type PublicSearchableAnimal {
     id: ID!
     officialName: String!
     birthdate: String!
@@ -66,6 +66,23 @@ const typeDefs = gql`
     isSterilized: Boolean
   }
 
+  type PublicAnimal {
+    id: ID!
+    officialName: String!
+    birthdate: String!
+    gender: AnimalGender!
+    species: AnimalSpecies!
+    breed: AnimalBreed
+    color: AnimalColor
+    description: String!
+    avatarId: String!
+    picturesId: [String!]!
+    isOkChildren: Trilean!
+    isOkDogs: Trilean!
+    isOkCats: Trilean!
+    isSterilized: Boolean!
+  }
+
   type Animal {
     id: ID!
     officialName: String!
@@ -89,7 +106,7 @@ const typeDefs = gql`
   }
 
   type AllPublicAnimalsResponse {
-    hits: [PublicAnimal!]!
+    hits: [PublicSearchableAnimal!]!
     hitsTotalCount: Int!
     page: Int!
     pageCount: Int!
@@ -116,6 +133,8 @@ const typeDefs = gql`
       species: [AnimalSpecies!]
       hostFamilyId: ID
     ): AllAnimalResponse! @auth(groups: [ADMIN, ANIMAL_MANAGER, VETERINARIAN])
+
+    getAdoptableAnimal(id: ID!): PublicAnimal
 
     getAllActiveAnimals(search: String, page: Int): AllAnimalResponse!
       @auth(groups: [ADMIN, ANIMAL_MANAGER, VETERINARIAN])
@@ -173,7 +192,7 @@ const typeDefs = gql`
 `;
 
 const resolvers: IResolvers = {
-  PublicAnimal: {
+  PublicSearchableAnimal: {
     breed: async (animal: DBSearchableAnimal) => {
       if (animal.breedId == null) {
         return null;
@@ -218,6 +237,28 @@ const resolvers: IResolvers = {
       }
 
       return await database.getHostFamily(animal.hostFamilyId);
+    },
+  },
+
+  PublicAnimal: {
+    breed: async (animal: DBAnimal) => {
+      if (animal.breedId == null) {
+        return null;
+      }
+
+      return await database.getAnimalBreed(animal.breedId);
+    },
+
+    color: async (animal: DBAnimal) => {
+      if (animal.colorId != null) {
+        return await database.getAnimalColor(animal.colorId);
+      }
+
+      return null;
+    },
+
+    description: (animal: DBAnimal) => {
+      return animal.description ?? "";
     },
   },
 
@@ -280,6 +321,10 @@ const queries: IResolverObject = {
     parameters: PaginatedRequestParameters
   ) => {
     return await database.getAllActiveAnimals(parameters);
+  },
+
+  getAdoptableAnimal: async (parent: any, { id }: { id: string }) => {
+    return await database.getAdoptableAnimal(id);
   },
 
   getAnimal: async (parent: any, { id }: { id: string }) => {

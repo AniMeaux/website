@@ -19,5 +19,5 @@ export function TagIcon(props: ChildrenProp) {
 }
 
 export function TagContent(props: ChildrenProp) {
-  return <span {...props} />;
+  return <span {...props} className="TagContent" />;
 }

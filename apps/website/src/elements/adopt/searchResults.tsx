@@ -2,12 +2,13 @@ import {
   AnimalAgesLabels,
   AnimalSpeciesLabels,
   AnimalSpeciesLabelsPlural,
-  PublicAnimal,
+  PublicSearchableAnimal,
 } from "@animeaux/shared-entities/build/animal";
+import { formatAge } from "@animeaux/shared-entities/build/date";
 import { PaginatedResponse } from "@animeaux/shared-entities/build/pagination";
 import cn from "classnames";
-import { formatAge } from "~/../../../libraries/shared-entities/build/date";
 import { AdoptSearchParams } from "~/core/adoptSearchParams";
+import { isDefined } from "~/core/isDefined";
 import { Link } from "~/core/link";
 import { AnimalGenderIcon } from "~/dataDisplay/animalGenderIcon";
 import { CloudinaryImage } from "~/dataDisplay/image";
@@ -16,7 +17,7 @@ import { Section } from "~/layout/section";
 import styles from "./searchResults.module.css";
 
 export type SearchResultsProps = {
-  response: PaginatedResponse<PublicAnimal>;
+  response: PaginatedResponse<PublicSearchableAnimal>;
   searchParams: AdoptSearchParams;
 };
 
@@ -72,18 +73,14 @@ export function SearchResults({ response, searchParams }: SearchResultsProps) {
   );
 }
 
-function isDefined<T>(value: T | null | undefined): value is T {
-  return value != null;
-}
-
 type AnimalCardProps = {
-  animal: PublicAnimal;
+  animal: PublicSearchableAnimal;
 };
 
 function AnimalCard({ animal }: AnimalCardProps) {
-  const speciesLabels = [animal.breed?.name, animal.color?.name].filter(
-    isDefined
-  );
+  const speciesLabels = [animal.breed?.name, animal.color?.name]
+    .filter(isDefined)
+    .join(" • ");
 
   return (
     <Link href={`/adopt/${animal.id}`} className={styles.animalCard}>
@@ -100,7 +97,7 @@ function AnimalCard({ animal }: AnimalCardProps) {
         </div>
 
         <div className={cn(styles.infoRow, styles.details)}>
-          <p>{speciesLabels.join(" • ")}</p>
+          <p>{speciesLabels}</p>
           <span className={styles.genderIcon}>
             <AnimalGenderIcon gender={animal.gender} />
           </span>

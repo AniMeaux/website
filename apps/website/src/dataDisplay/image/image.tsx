@@ -2,11 +2,12 @@ import * as Sentry from "@sentry/react";
 import cn from "classnames";
 import { Cloudinary } from "cloudinary-core";
 import { useState } from "react";
+import { useAsyncMemo } from "react-behave";
 import { FaImage } from "react-icons/fa";
 import { StyleProps } from "~/core/types";
 import styles from "./image.module.css";
 
-const cloudinary = new Cloudinary({
+const cloudinaryInstance = new Cloudinary({
   cloud_name: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
   secure: true,
 });
@@ -77,5 +78,90 @@ export type CloudinaryImageProps = CommonProps & {
 };
 
 export function CloudinaryImage({ imageId, ...rest }: CloudinaryImageProps) {
-  return <BaseImage {...rest} src={cloudinary.url(imageId)} />;
+  return <BaseImage {...rest} src={cloudinaryInstance.url(imageId)} />;
+}
+
+class Color {
+  readonly r: number;
+  readonly g: number;
+  readonly b: number;
+  readonly a: number;
+
+  constructor(r: number, g: number, b: number, a: number) {
+    this.r = r;
+    this.g = g;
+    this.b = b;
+    this.a = a;
+  }
+
+  withAlpha(a: number) {
+    return new Color(this.r, this.g, this.b, a);
+  }
+
+  toRgba(): string {
+    return `rgba(${this.r}, ${this.g}, ${this.b}, ${this.a})`;
+  }
+}
+
+async function getImageDominantColor(src: string): Promise<Color | null> {
+  return new Promise((resolve) => {
+    const image = new Image();
+
+    // To avoid `SecurityError` being thrown for cross origin images.
+    // See https://developer.mozilla.org/en-US/docs/Web/HTML/CORS_enabled_image
+    image.crossOrigin = "Anonymous";
+
+    image.onload = () => {
+      const canvas = document.createElement("canvas");
+      const canvasContext = canvas.getContext("2d");
+
+      if (canvasContext == null) {
+        resolve(null);
+        return;
+      }
+
+      canvasContext.drawImage(image, 0, 0, 1, 1);
+
+      try {
+        const imageData = canvasContext.getImageData(0, 0, 1, 1);
+        resolve(
+          new Color(
+            imageData.data[0],
+            imageData.data[1],
+            imageData.data[2],
+            imageData.data[3]
+          )
+        );
+      } catch (error) {
+        console.error("getImageDominantColor:", error);
+        Sentry.captureException(error, {
+          extra: { call: "getImageDominantColor", src },
+        });
+
+        resolve(null);
+      }
+    };
+
+    image.onerror = (error) => {
+      console.error("getImageDominantColor:", error);
+      Sentry.captureException(error, {
+        extra: { call: "getImageDominantColor", src },
+      });
+
+      resolve(null);
+    };
+
+    image.src = src;
+  });
+}
+
+export type UseImageDominantColorParams = { imageId: string } | { src: string };
+export function useImageDominantColor(params: UseImageDominantColorParams) {
+  let resolvedSrc =
+    "imageId" in params ? cloudinaryInstance.url(params.imageId) : params.src;
+
+  return useAsyncMemo(
+    async () => getImageDominantColor(resolvedSrc),
+    [resolvedSrc]
+  );
 }

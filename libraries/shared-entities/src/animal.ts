@@ -190,7 +190,7 @@ export const ANIMAL_GENDERS_ORDER = sortByLabels(
   AnimalGenderLabels
 );
 
-export type PublicAnimal = {
+export type PublicSearchableAnimal = {
   id: string;
   officialName: string;
   birthdate: string;
@@ -205,7 +205,7 @@ export type PublicAnimal = {
   isSterilized: boolean;
 };
 
-export type SearchableAnimal = PublicAnimal & {
+export type SearchableAnimal = PublicSearchableAnimal & {
   commonName: string;
   pickUpDate: string;
   status: AnimalStatus;
@@ -222,6 +222,11 @@ export type DBSearchableAnimal = Omit<
   birthdateTimestamp: number;
   pickUpDateTimestamp: number;
   hostFamilyId?: string | null;
+};
+
+export type PublicAnimal = PublicSearchableAnimal & {
+  description: string;
+  picturesId: string[];
 };
 
 export type Animal = SearchableAnimal & {

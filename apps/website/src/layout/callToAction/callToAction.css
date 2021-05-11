@@ -1,7 +1,7 @@
 .CallToAction {
-  padding: var(--spacing-s) var(--spacing-xl);
+  padding: var(--spacing-s) var(--spacing-2xl);
   border-radius: var(--border-radius-full);
-  display: flex;
+  display: inline-flex;
   align-items: center;
   font-weight: var(--font-weight-semibold);
 }

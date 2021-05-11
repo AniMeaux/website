@@ -19,8 +19,10 @@
   padding: var(--spacing-s) var(--spacing-l);
 }
 
-.select:hover {
-  background: var(--bg-secondary);
+@media (hover: hover) {
+  .select:hover {
+    text-decoration: underline;
+  }
 }
 
 .select.empty {
@@ -37,8 +39,10 @@
   font-weight: var(--font-weight-semibold);
 }
 
-.link:hover {
-  background: var(--blue-light);
+@media (hover: hover) {
+  .link:hover {
+    background: var(--blue-light);
+  }
 }
 
 .link:active {

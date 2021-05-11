@@ -7,6 +7,9 @@ module.exports = {
     buildActivity: false,
     autoPrerender: false,
   },
+  experimental: {
+    scrollRestoration: true,
+  },
 
   webpack(config) {
     // Inline SVG.

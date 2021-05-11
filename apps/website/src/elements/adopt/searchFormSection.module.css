@@ -17,7 +17,7 @@
 }
 
 .title {
-  font-family: var(--font-serif);
+  font-family: var(--font-family-serif);
   font-size: var(--font-size-xl);
   line-height: var(--line-height-xl);
   font-weight: var(--font-weight-semibold);

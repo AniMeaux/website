@@ -1,8 +1,8 @@
 import {
   AnimalAgesLabels,
   AnimalSpeciesLabels,
-  PublicAnimal,
   PublicAnimalFilters,
+  PublicSearchableAnimal,
 } from "@animeaux/shared-entities/build/animal";
 import {
   PaginatedRequestParameters,
@@ -15,14 +15,14 @@ import { AdoptSearchParams } from "~/core/adoptSearchParams";
 import { fetchGraphQL } from "~/core/fetchGraphQL";
 import { PageComponent } from "~/core/pageComponent";
 import { PageTitle } from "~/core/pageTitle";
-import { Error } from "~/dataDisplay/error/error";
 import { Footer } from "~/layout/footer";
 import { Header } from "~/layout/header";
+import { ErrorPage } from "~/pages/_error";
 import { SearchFormSection } from "./searchFormSection";
 import { SearchResults } from "./searchResults";
 
-const PublicAnimalFragment = gql`
-  fragment PublicAnimalFragment on PublicAnimal {
+const PublicSearchableAnimalFragment = gql`
+  fragment PublicSearchableAnimalFragment on PublicSearchableAnimal {
     id
     officialName
     birthdate
@@ -57,7 +57,7 @@ const GetAllAdoptableAnimalsQuery = gql`
       age: $age
     ) {
       hits {
-        ...PublicAnimalFragment
+        ...PublicSearchableAnimalFragment
       }
       hitsTotalCount
       page
@@ -65,12 +65,12 @@ const GetAllAdoptableAnimalsQuery = gql`
     }
   }
 
-  ${PublicAnimalFragment}
+  ${PublicSearchableAnimalFragment}
 `;
 
 type AdoptPageProps =
-  | { response: PaginatedResponse<PublicAnimal> }
-  | { hasError: boolean };
+  | { response: PaginatedResponse<PublicSearchableAnimal> }
+  | { hasError: true };
 
 type AdoptPage = {
   getServerSideProps: GetServerSideProps<AdoptPageProps>;
@@ -83,7 +83,7 @@ export function createAdoptPage(searchParams: AdoptSearchParams): AdoptPage {
   }) => {
     try {
       const { response } = await fetchGraphQL<
-        { response: PaginatedResponse<PublicAnimal> },
+        { response: PaginatedResponse<PublicSearchableAnimal> },
         PaginatedRequestParameters<PublicAnimalFilters>
       >(GetAllAdoptableAnimalsQuery, {
         variables: {
@@ -123,25 +123,15 @@ export function createAdoptPage(searchParams: AdoptSearchParams): AdoptPage {
   }
 
   const AdoptPage: PageComponent<AdoptPageProps> = (props) => {
-    let content: React.ReactNode;
     if ("hasError" in props) {
-      content = <Error type="serverError" />;
-    } else {
-      content = (
-        <>
-          <SearchFormSection searchParams={searchParams} />
-          <SearchResults
-            response={props.response}
-            searchParams={searchParams}
-          />
-        </>
-      );
+      return <ErrorPage type="serverError" title={pageTitle} />;
     }
 
     return (
       <main>
         <PageTitle title={pageTitle} />
-        {content}
+        <SearchFormSection searchParams={searchParams} />
+        <SearchResults response={props.response} searchParams={searchParams} />
       </main>
     );
   };

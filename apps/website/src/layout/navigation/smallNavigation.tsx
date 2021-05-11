@@ -2,6 +2,7 @@ import cn from "classnames";
 import * as React from "react";
 import { FaAngleDown, FaAngleUp, FaBars, FaTimes } from "react-icons/fa";
 import { Link, LinkProps } from "~/core/link";
+import { useRouter } from "~/core/router";
 import { ChildrenProp } from "~/core/types";
 import { ActMenu, AdoptionMenu } from "./shared";
 
@@ -23,6 +24,11 @@ export function SmallNavigation() {
       };
     }
   }, [isNavigationOpen]);
+
+  const { asPath } = useRouter();
+  React.useEffect(() => {
+    setIsNavigationOpen(false);
+  }, [asPath]);
 
   const navigationRootRef = React.useRef<HTMLDivElement>(null!);
   const buttonRef = React.useRef<HTMLButtonElement>(null!);

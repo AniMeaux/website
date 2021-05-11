@@ -78,6 +78,7 @@ export type AnimalDatabase = {
   getAllActiveAnimals(
     parameters: PaginatedRequestParameters
   ): Promise<PaginatedResponse<DBSearchableAnimal>>;
+  getAdoptableAnimal(id: string): Promise<DBAnimal | null>;
   getAnimal(id: string): Promise<DBAnimal | null>;
   createAnimal(payload: CreateAnimalPayload): Promise<DBAnimal>;
   updateAnimal(payload: UpdateAnimalPayload): Promise<DBAnimal>;

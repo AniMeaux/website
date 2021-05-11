@@ -5,8 +5,10 @@ import {
 import * as React from "react";
 import { AdoptSearchParams } from "~/core/adoptSearchParams";
 import { Link, LinkProps } from "~/core/link";
+import { AnimalSpeciesIcon } from "~/dataDisplay/animalSpeciesIcon";
 import {
   TagContent,
+  TagIcon,
   TagLink,
   TagList,
   TagListItem,
@@ -19,6 +21,9 @@ export function AdoptionMenu() {
         {ANIMAL_SPECIES_ALPHABETICAL_ORDER.map((animalSpecies) => (
           <TagListItem key={animalSpecies}>
             <TagLink href={new AdoptSearchParams({ animalSpecies }).toUrl()}>
+              <TagIcon>
+                <AnimalSpeciesIcon species={animalSpecies} />
+              </TagIcon>
               <TagContent>{AnimalSpeciesLabels[animalSpecies]}</TagContent>
             </TagLink>
           </TagListItem>
