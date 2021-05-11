@@ -5,7 +5,6 @@ const {
   spacing: defaultSpacing,
 } = require("tailwindcss/defaultTheme");
 const { variants } = require("tailwindcss/defaultConfig");
-const lineClamp = require("@tailwindcss/line-clamp");
 
 const base12 = {
   "1/12": "8.333333%",
@@ -220,5 +219,4 @@ module.exports = {
     textOpacity: variants.textOpacity.concat(["active"]),
     zIndex: variants.zIndex.concat(["focus"]),
   },
-  plugins: [lineClamp],
 };
