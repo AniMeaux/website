@@ -119,14 +119,12 @@ const HomePage: PageComponent = () => {
   );
 };
 
-HomePage.renderLayout = (children) => {
-  return (
-    <>
-      <Header />
-      {children}
-      <Footer />
-    </>
-  );
-};
+HomePage.renderLayout = (children) => (
+  <>
+    <Header />
+    {children}
+    <Footer />
+  </>
+);
 
 export default HomePage;

@@ -62,4 +62,8 @@ export class AdoptSearchParams {
 
     return url;
   }
+
+  toString(): string {
+    return `AdoptSearchParams { species: "${this.animalSpecies}", age: "${this.animalAge}" }`;
+  }
 }
