@@ -1,0 +1,66 @@
+.animalCard {
+  box-shadow: var(--shadow-lg);
+  border-radius: var(--border-radius-m);
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  overflow: hidden;
+  background: var(--bg-primary);
+}
+
+@media (hover: hover) {
+  .animalCard.action:hover {
+    text-decoration: underline;
+  }
+}
+
+.avatar {
+  height: 200px;
+  width: 100%;
+  object-fit: cover;
+}
+
+.info {
+  padding: var(--spacing-l);
+}
+
+.infoRow {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.infoRow > *:not(:first-child) {
+  margin-left: var(--spacing-m);
+}
+
+.name {
+  font-size: var(--font-size-l);
+  line-height: var(--line-height-l);
+  font-weight: var(--font-weight-semibold);
+  min-width: 0;
+  word-break: break-word;
+}
+
+.age {
+  flex: none;
+  height: calc(var(--line-height-l) * var(--font-size-l));
+  display: flex;
+  align-items: center;
+}
+
+.infoRow.details {
+  margin-top: var(--spacing-xs);
+  font-size: var(--font-size-s);
+  line-height: var(--line-height-s);
+}
+
+.genderIcon {
+  height: calc(var(--line-height-s) * var(--font-size-s));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(var(--line-height-s) * 1em);
+}

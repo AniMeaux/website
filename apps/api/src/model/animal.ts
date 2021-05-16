@@ -122,9 +122,12 @@ const typeDefs = gql`
   extend type Query {
     getAllAdoptableAnimals(
       page: Int
+      hitsPerPage: Int
       species: AnimalSpecies
       age: AnimalAge
     ): AllPublicAnimalsResponse!
+
+    getAllSavedAnimals(page: Int, hitsPerPage: Int): AllPublicAnimalsResponse!
 
     getAllAnimals(
       search: String
@@ -307,6 +310,13 @@ const queries: IResolverObject = {
     parameters: PaginatedRequestParameters<PublicAnimalFilters>
   ) => {
     return await database.getAllAdoptableAnimals(parameters);
+  },
+
+  getAllSavedAnimals: async (
+    parent: any,
+    parameters: PaginatedRequestParameters
+  ) => {
+    return await database.getAllSavedAnimals(parameters);
   },
 
   getAllAnimals: async (

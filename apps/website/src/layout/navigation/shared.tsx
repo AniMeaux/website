@@ -40,7 +40,11 @@ export function AdoptionMenu() {
         </li>
 
         <li>
-          <SubNavigationLink href="/">Adoptés</SubNavigationLink>
+          <SubNavigationLink href="/saved">Animaux sauvés</SubNavigationLink>
+        </li>
+
+        <li>
+          <SubNavigationLink href="/">Modalités d'adoption</SubNavigationLink>
         </li>
       </ul>
     </>

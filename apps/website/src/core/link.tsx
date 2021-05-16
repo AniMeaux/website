@@ -41,7 +41,7 @@ export const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(
     const router = useRouter();
 
     if (disabled) {
-      return <span {...rest} ref={ref} />;
+      return <span {...rest} aria-disabled ref={ref} />;
     }
 
     const additionalProps: React.AnchorHTMLAttributes<HTMLAnchorElement> = {};

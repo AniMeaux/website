@@ -169,6 +169,8 @@ export const ADOPTABLE_ANIMAL_STATUS = [
   AnimalStatus.OPEN_TO_RESERVATION,
 ];
 
+export const SAVED_ANIMAL_STATUS = [AnimalStatus.ADOPTED, AnimalStatus.FREE];
+
 function isAnimalStatus(value: string): value is AnimalStatus {
   return Object.values(AnimalStatus).includes(value as AnimalStatus);
 }
@@ -595,16 +597,14 @@ export function createAnimalSearchFromQuery(query: Query) {
   }
 
   if (query.status != null) {
-    animalSearch.status = (Array.isArray(query.status)
-      ? query.status
-      : [query.status]
+    animalSearch.status = (
+      Array.isArray(query.status) ? query.status : [query.status]
     ).filter(isAnimalStatus);
   }
 
   if (query.species != null) {
-    animalSearch.species = (Array.isArray(query.species)
-      ? query.species
-      : [query.species]
+    animalSearch.species = (
+      Array.isArray(query.species) ? query.species : [query.species]
     ).filter(isAnimalSpecies);
   }
 

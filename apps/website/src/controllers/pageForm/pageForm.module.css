@@ -1,0 +1,23 @@
+.list {
+  width: max-content;
+  display: flex;
+  align-items: stretch;
+}
+
+.link {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-s) var(--spacing-m);
+}
+
+@media (hover: hover) {
+  .link:not([aria-disabled]):hover {
+    text-decoration: underline;
+  }
+}
+
+.link.active {
+  font-weight: var(--font-weight-bold);
+}

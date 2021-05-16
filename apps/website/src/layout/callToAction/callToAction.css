@@ -11,8 +11,10 @@
   color: var(--text-contrast);
 }
 
-.CallToAction--blue:hover {
-  background: var(--blue-light);
+@media (hover: hover) {
+  .CallToAction--blue:hover {
+    background: var(--blue-light);
+  }
 }
 
 .CallToAction--blue:active {

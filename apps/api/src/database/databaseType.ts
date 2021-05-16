@@ -72,6 +72,9 @@ export type AnimalDatabase = {
   getAllAdoptableAnimals(
     parameters: PaginatedRequestParameters<PublicAnimalFilters>
   ): Promise<PaginatedResponse<DBSearchableAnimal>>;
+  getAllSavedAnimals(
+    parameters: PaginatedRequestParameters
+  ): Promise<PaginatedResponse<DBSearchableAnimal>>;
   getAllAnimals(
     parameters: PaginatedRequestParameters<AnimalSearch>
   ): Promise<PaginatedResponse<DBSearchableAnimal>>;

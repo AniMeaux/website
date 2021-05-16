@@ -3,6 +3,7 @@ import {
   ADOPTABLE_ANIMAL_STATUS,
   AnimalAgeRangeBySpecies,
   AnimalSearch,
+  AnimalStatus,
   CreateAnimalPayload,
   DBAnimal,
   DBSearchableAnimal,
@@ -11,6 +12,7 @@ import {
   PaginatedRequestParameters,
   PaginatedResponse,
   PublicAnimalFilters,
+  SAVED_ANIMAL_STATUS,
   startOfUTCDay,
   UpdateAnimalPayload,
 } from "@animeaux/shared-entities";
@@ -26,6 +28,7 @@ import { AlgoliaClient } from "./algoliaClient";
 import { animalBreedDatabase } from "./animalBreed";
 
 const AnimalsIndex = AlgoliaClient.initIndex("animals");
+const SavedAnimalsIndex = AlgoliaClient.initIndex("saved_animals");
 
 function cleanMarkdown(content: string) {
   // Preserve whitespaces unless it's all there is in it.
@@ -80,7 +83,29 @@ export const animalDatabase: AnimalDatabase = {
 
     const result = await AnimalsIndex.search<DBSearchableAnimal>("", {
       page: parameters.page ?? 0,
+      hitsPerPage: parameters.hitsPerPage ?? undefined,
       filters: SearchFilters.createFilters(searchFilters),
+    });
+
+    return {
+      hits: result.hits,
+      hitsTotalCount: result.nbHits,
+      page: result.page,
+      pageCount: result.nbPages,
+    };
+  },
+
+  async getAllSavedAnimals(
+    parameters: PaginatedRequestParameters
+  ): Promise<PaginatedResponse<DBSearchableAnimal>> {
+    const result = await SavedAnimalsIndex.search<DBSearchableAnimal>("", {
+      page: parameters.page ?? 0,
+      hitsPerPage: parameters.hitsPerPage ?? undefined,
+      filters: SearchFilters.createFilter(
+        SAVED_ANIMAL_STATUS.map((status) =>
+          SearchFilters.createFilterValue("status", status)
+        )
+      ),
     });
 
     return {

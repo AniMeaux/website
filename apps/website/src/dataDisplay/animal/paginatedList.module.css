@@ -1,0 +1,10 @@
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  grid-auto-rows: auto;
+  gap: var(--spacing-2xl);
+}
+
+.pages {
+  margin: var(--spacing-5xl) auto 0;
+}

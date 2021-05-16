@@ -1,0 +1,32 @@
+.section {
+  background-image: linear-gradient(
+    to right,
+    hsl(13, 34%, 83%),
+    hsl(18, 28%, 83%)
+  );
+}
+
+.content {
+  position: relative;
+  padding-top: var(--spacing-5xl);
+  padding-bottom: var(--spacing-5xl);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.title {
+  font-family: var(--font-family-serif);
+  font-size: var(--font-size-xl);
+  line-height: var(--line-height-xl);
+  font-weight: var(--font-weight-semibold);
+  text-align: center;
+}
+
+@media (min-width: 800px) {
+  .title {
+    font-size: var(--font-size-2xl);
+    line-height: var(--line-height-2xl);
+  }
+}

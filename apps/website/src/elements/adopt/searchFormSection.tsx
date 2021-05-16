@@ -1,6 +1,6 @@
 import { SearchForm } from "~/controllers/searchForm";
 import { AdoptSearchParams } from "~/core/adoptSearchParams";
-import { CenteredContent } from "~/layout/centeredContent";
+import { PageHeader } from "~/layout/pageHeader";
 import styles from "./searchFormSection.module.css";
 
 export type SearchFormSectionProps = {
@@ -9,15 +9,10 @@ export type SearchFormSectionProps = {
 
 export function SearchFormSection({ searchParams }: SearchFormSectionProps) {
   return (
-    <section className={styles.section}>
-      <CenteredContent>
-        <div className={styles.content}>
-          <h1 className={styles.title}>À adopter</h1>
-          <div className={styles.form}>
-            <SearchForm hasAll searchParams={searchParams} />
-          </div>
-        </div>
-      </CenteredContent>
-    </section>
+    <PageHeader title="À adopter">
+      <div className={styles.form}>
+        <SearchForm hasAll searchParams={searchParams} />
+      </div>
+    </PageHeader>
   );
 }

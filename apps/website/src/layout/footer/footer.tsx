@@ -42,7 +42,11 @@ export function Footer() {
                 </li>
 
                 <li>
-                  <FooterLink href="/">Adoptés</FooterLink>
+                  <FooterLink href="/saved">Animaux sauvés</FooterLink>
+                </li>
+
+                <li>
+                  <FooterLink href="/">Modalités d'adoption</FooterLink>
                 </li>
               </FooterLinkList>
             </FooterSection>
