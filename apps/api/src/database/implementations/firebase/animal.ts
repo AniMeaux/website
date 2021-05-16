@@ -338,8 +338,26 @@ export const animalDatabase: AnimalDatabase = {
       searchableAnimalUpdate.colorId = payload.colorId;
     }
 
+    // Allow null to clear the field.
+    if (
+      payload.hostFamilyId !== undefined &&
+      payload.hostFamilyId !== animal.hostFamilyId
+    ) {
+      searchableAnimalUpdate.hostFamilyId = payload.hostFamilyId;
+    }
+
     if (payload.status != null && payload.status !== animal.status) {
       searchableAnimalUpdate.status = payload.status;
+
+      if (
+        [
+          AnimalStatus.ADOPTED,
+          AnimalStatus.DECEASED,
+          AnimalStatus.FREE,
+        ].includes(payload.status)
+      ) {
+        searchableAnimalUpdate.hostFamilyId = null;
+      }
     }
 
     if (
@@ -366,14 +384,6 @@ export const animalDatabase: AnimalDatabase = {
 
     if (payload.avatarId != null && payload.avatarId !== animal.avatarId) {
       searchableAnimalUpdate.avatarId = payload.avatarId;
-    }
-
-    // Allow null to clear the field.
-    if (
-      payload.hostFamilyId !== undefined &&
-      payload.hostFamilyId !== animal.hostFamilyId
-    ) {
-      searchableAnimalUpdate.hostFamilyId = payload.hostFamilyId;
     }
 
     const animalUpdate: Partial<DBAnimal> = {
