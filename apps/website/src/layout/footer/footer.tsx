@@ -190,7 +190,7 @@ export function Footer() {
           <section className="FooterBlock FooterNoticeSection">
             <p>
               <span>Ani'Meaux © {new Date().getFullYear()}</span> •{" "}
-              <FooterLink href="/">Mentions légales</FooterLink>
+              <FooterLink href="/legal">Mentions légales</FooterLink>
             </p>
 
             <ul className="FooterSocialLinks">

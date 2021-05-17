@@ -1,3 +1,60 @@
+.heading {
+  font-family: var(--font-family-serif);
+  font-weight: var(--font-weight-semibold);
+}
+
+.heading.h1 {
+  margin-top: var(--spacing-5xl);
+  margin-bottom: var(--spacing-2xl);
+  font-size: var(--font-size-2xl);
+  line-height: var(--line-height-2xl);
+}
+
+.heading.h2 {
+  margin-top: var(--spacing-4xl);
+  margin-bottom: var(--spacing-xl);
+  font-size: var(--font-size-xl);
+  line-height: var(--line-height-xl);
+}
+
+.heading.h3 {
+  margin-top: var(--spacing-3xl);
+  margin-bottom: var(--spacing-xl);
+  font-size: var(--font-size-l);
+  line-height: var(--line-height-l);
+}
+
+.heading.h4 {
+  margin-top: var(--spacing-2xl);
+  margin-bottom: var(--spacing-xl);
+  font-size: var(--font-size-m);
+  line-height: var(--line-height-m);
+}
+
+.heading.h5,
+.heading.h6 {
+  margin-top: var(--spacing-2xl);
+  margin-bottom: var(--spacing-xl);
+  font-size: var(--font-size-s);
+  line-height: var(--line-height-s);
+}
+
+@media (hover: hover) {
+  .headingLink:hover {
+    text-decoration: underline;
+  }
+}
+
 .p {
-  margin-bottom: var(--spacing-l);
+  margin-bottom: var(--spacing-xl);
+}
+
+.a {
+  color: var(--blue-medium);
+}
+
+@media (hover: hover) {
+  .a:hover {
+    text-decoration: underline;
+  }
 }

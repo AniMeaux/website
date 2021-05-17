@@ -91,7 +91,7 @@ export function AnimalProfile({ animal }: AnimalProfileProps) {
                 )}
               </ul>
 
-              <Markdown className={styles.description}>
+              <Markdown preset="paragraph" className={styles.description}>
                 {animal.description}
               </Markdown>
 

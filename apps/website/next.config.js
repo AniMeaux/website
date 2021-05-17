@@ -21,6 +21,15 @@ module.exports = {
       use: ["@svgr/webpack"],
     });
 
+    // Import Markdown as raw strings.
+    config.module.rules.push({
+      test: /\.md$/,
+      issuer: {
+        test: /\.(js|ts)x?$/,
+      },
+      use: ["raw-loader"],
+    });
+
     return config;
   },
 };

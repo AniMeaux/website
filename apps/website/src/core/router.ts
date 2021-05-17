@@ -130,7 +130,8 @@ function resolveStringUrl(from: string, to: string): string {
     return to;
   }
 
-  const [fromPathname] = from.split("?");
+  // Remove existing hash.
+  const [fromPathname] = from.split("#")[0].split("?");
   const [toPathname, toQuery] = to.split("?");
 
   const fromSegments = segmentize(fromPathname);

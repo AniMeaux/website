@@ -30,15 +30,43 @@
   --blue-light: hsl(202, 100%, 42%); /* +5 */
   --blue-medium: hsl(202, 100%, 37%); /* #0078bd */
   --blue-dark: hsl(202, 100%, 32%); /* -5 */
+  --blue-background: linear-gradient(
+    to right,
+    hsl(202, 48%, 86%),
+    hsl(202, 100%, 96%)
+  );
 
   --green-xlight: hsl(133, 57%, 55%); /* +10 */
   --green-light: hsl(133, 57%, 50%); /* +5 */
   --green-medium: hsl(133, 57%, 45%); /* #32b54f */
   --green-dark: hsl(133, 57%, 40%); /* -5 */
+  --green-background: linear-gradient(
+    to right,
+    hsl(133, 36%, 85%),
+    hsl(133, 38%, 92%)
+  );
 
   --yellow: #ffc31b;
   --red: #ed2a26;
   --cyan: #00bfbf;
+
+  --adopt-color: linear-gradient(
+    to right,
+    hsl(13, 34%, 83%),
+    hsl(18, 28%, 83%)
+  );
+
+  --host-family-color: linear-gradient(
+    to bottom right,
+    hsl(34, 14%, 90%),
+    hsl(240, 7%, 91%)
+  );
+
+  --volunteers-color: linear-gradient(
+    to bottom right,
+    rgb(243, 232, 205),
+    rgb(255, 245, 221)
+  );
 
   /* Fonts */
 

@@ -80,7 +80,7 @@ const HomePage: PageComponent = () => {
             alt="Famille d'accueil"
           />
         }
-        backgroundImage="linear-gradient(to bottom right, hsl(34, 14%, 90%), hsl(240, 7%, 91%))"
+        backgroundImage="var(--host-family-color)"
         action={
           <PrimarySectionAction href="/">En savoir plus</PrimarySectionAction>
         }
@@ -112,7 +112,7 @@ const HomePage: PageComponent = () => {
             alt="Bénévoles"
           />
         }
-        backgroundImage="linear-gradient(to bottom right, rgb(243, 232, 205), rgb(255, 245, 221))"
+        backgroundImage="var(--volunteers-color)"
         action={<PrimarySectionAction href="/">Postuler</PrimarySectionAction>}
       />
     </main>

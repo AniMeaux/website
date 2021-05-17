@@ -1,10 +1,6 @@
 .HeroSection {
   width: 100%;
-  background-image: linear-gradient(
-    to right,
-    hsl(13, 34%, 83%),
-    hsl(18, 28%, 83%)
-  );
+  background-image: var(--adopt-color);
 }
 
 .HeroSectionImage {

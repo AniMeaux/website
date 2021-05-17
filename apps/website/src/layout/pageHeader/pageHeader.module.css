@@ -1,9 +1,13 @@
-.section {
-  background-image: linear-gradient(
-    to right,
-    hsl(13, 34%, 83%),
-    hsl(18, 28%, 83%)
-  );
+.section.adopt {
+  background-image: var(--adopt-color);
+}
+
+.section.blue {
+  background-image: var(--blue-background);
+}
+
+.section.green {
+  background-image: var(--green-background);
 }
 
 .content {
