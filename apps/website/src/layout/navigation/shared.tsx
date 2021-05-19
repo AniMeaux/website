@@ -2,7 +2,6 @@ import {
   AnimalSpeciesLabels,
   ANIMAL_SPECIES_ALPHABETICAL_ORDER,
 } from "@animeaux/shared-entities/build/animal";
-import * as React from "react";
 import { AdoptSearchParams } from "~/core/adoptSearchParams";
 import { Link, LinkProps } from "~/core/link";
 import { AnimalSpeciesIcon } from "~/dataDisplay/animalSpeciesIcon";

@@ -1,4 +1,3 @@
-import * as React from "react";
 import { ChildrenProp } from "~/core/types";
 import { StaticImage, StaticImageProps } from "~/dataDisplay/image";
 import { CenteredContent } from "~/layout/centeredContent";

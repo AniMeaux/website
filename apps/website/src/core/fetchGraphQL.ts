@@ -1,13 +1,6 @@
 import { ClientError, GraphQLClient } from "graphql-request";
-import invariant from "invariant";
 
-let graphQlClient: GraphQLClient | null;
-
-export function initializeGraphQlClient() {
-  if (graphQlClient == null) {
-    graphQlClient = new GraphQLClient(process.env.NEXT_PUBLIC_API_URL);
-  }
-}
+const graphQlClient = new GraphQLClient(process.env.NEXT_PUBLIC_API_URL);
 
 export type FetchGraphQLOptions<Variables> = {
   variables?: Variables;
@@ -18,11 +11,6 @@ export async function fetchGraphQL<DataType = null, Variables = object>(
   query: string,
   { variables, headers }: FetchGraphQLOptions<Variables> = {}
 ): Promise<DataType> {
-  invariant(
-    graphQlClient != null,
-    "initializeGraphQlClient should be called before any call to fetchGraphQL."
-  );
-
   if (headers != null) {
     graphQlClient.setHeaders(headers);
   }

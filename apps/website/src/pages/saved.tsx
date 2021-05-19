@@ -3,7 +3,6 @@ import {
   PaginatedRequestParameters,
   PaginatedResponse,
 } from "@animeaux/shared-entities/build/pagination";
-import * as Sentry from "@sentry/react";
 import { gql } from "graphql-request";
 import { GetServerSideProps } from "next";
 import {
@@ -14,6 +13,7 @@ import { fetchGraphQL } from "~/core/fetchGraphQL";
 import { PageComponent } from "~/core/pageComponent";
 import { PageQueryParam } from "~/core/pageQueryParam";
 import { PageTitle } from "~/core/pageTitle";
+import { captureException } from "~/core/sentry";
 import { AnimalCard } from "~/dataDisplay/animal/card";
 import { AnimalPaginatedList } from "~/dataDisplay/animal/paginatedList";
 import { CenteredContent } from "~/layout/centeredContent";
@@ -53,7 +53,7 @@ async function fetchAllSavedAnimals(page: number): Promise<PageQueryProps> {
 
     return { type: "success", response };
   } catch (error) {
-    Sentry.captureException(error, {
+    captureException(error, {
       extra: { query: "getAllSavedAnimals", page },
     });
 

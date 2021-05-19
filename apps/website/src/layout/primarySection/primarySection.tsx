@@ -1,5 +1,4 @@
 import cn from "classnames";
-import * as React from "react";
 import { StaticImage, StaticImageProps } from "~/dataDisplay/image";
 import { CenteredContent } from "~/layout/centeredContent";
 import { Section } from "~/layout/section";

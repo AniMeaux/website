@@ -21,7 +21,7 @@
 }
 
 .StatisticItem {
-  box-shadow: var(--shadow-lg);
+  box-shadow: var(--shadow-l);
   border-radius: var(--border-radius-m);
   display: flex;
   flex-direction: column;

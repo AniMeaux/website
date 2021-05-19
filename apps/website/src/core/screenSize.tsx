@@ -1,5 +1,5 @@
 import invariant from "invariant";
-import * as React from "react";
+import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { ChildrenProp } from "~/core/types";
 
 export enum ScreenSize {
@@ -13,9 +13,7 @@ type ScreenSizeContextValue = {
   screenSize: ScreenSize;
 };
 
-const ScreenSizeContext = React.createContext<ScreenSizeContextValue | null>(
-  null
-);
+const ScreenSizeContext = createContext<ScreenSizeContextValue | null>(null);
 
 function getScreenSize() {
   if (typeof window === "undefined") {
@@ -34,9 +32,9 @@ function getScreenSize() {
 }
 
 export function ScreenSizeContextProvider({ children }: ChildrenProp) {
-  const [screenSize, setScreenSize] = React.useState(ScreenSize.UNKNOWN);
+  const [screenSize, setScreenSize] = useState(ScreenSize.UNKNOWN);
 
-  React.useEffect(() => {
+  useEffect(() => {
     function onResize() {
       setScreenSize(getScreenSize());
     }
@@ -50,9 +48,10 @@ export function ScreenSizeContextProvider({ children }: ChildrenProp) {
     };
   });
 
-  const value = React.useMemo<ScreenSizeContextValue>(() => ({ screenSize }), [
-    screenSize,
-  ]);
+  const value = useMemo<ScreenSizeContextValue>(
+    () => ({ screenSize }),
+    [screenSize]
+  );
 
   return (
     <ScreenSizeContext.Provider value={value}>
@@ -62,7 +61,7 @@ export function ScreenSizeContextProvider({ children }: ChildrenProp) {
 }
 
 export function useScreenSize() {
-  const context = React.useContext(ScreenSizeContext);
+  const context = useContext(ScreenSizeContext);
 
   invariant(
     context != null,

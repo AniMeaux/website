@@ -1,5 +1,5 @@
 import cn from "classnames";
-import * as React from "react";
+import { cloneElement } from "react";
 import { StyleProps } from "~/core/types";
 
 type CenteredContentProps = StyleProps & {
@@ -7,7 +7,7 @@ type CenteredContentProps = StyleProps & {
 };
 
 export function CenteredContent({ children, className }: CenteredContentProps) {
-  return React.cloneElement(children, {
+  return cloneElement(children, {
     className: cn("CenteredContent", className, children.props.className),
   });
 }

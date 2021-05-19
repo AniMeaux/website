@@ -8,7 +8,6 @@ import {
   PaginatedRequestParameters,
   PaginatedResponse,
 } from "@animeaux/shared-entities/build/pagination";
-import * as Sentry from "@sentry/react";
 import { gql } from "graphql-request";
 import { GetServerSideProps } from "next";
 import { AdoptSearchParams } from "~/core/adoptSearchParams";
@@ -20,6 +19,7 @@ import { fetchGraphQL } from "~/core/fetchGraphQL";
 import { PageComponent } from "~/core/pageComponent";
 import { PageQueryParam } from "~/core/pageQueryParam";
 import { PageTitle } from "~/core/pageTitle";
+import { captureException } from "~/core/sentry";
 import { Footer } from "~/layout/footer";
 import { Header } from "~/layout/header";
 import { ErrorPage } from "~/pages/_error";
@@ -71,7 +71,7 @@ async function fetchAllAdoptableAnimals(
 
     return { type: "success", response };
   } catch (error) {
-    Sentry.captureException(error, {
+    captureException(error, {
       extra: {
         query: "getAllAdoptableAnimals",
         page,

@@ -1,4 +1,3 @@
-import * as React from "react";
 import { Link, LinkProps } from "~/core/link";
 import { ChildrenProp } from "~/core/types";
 

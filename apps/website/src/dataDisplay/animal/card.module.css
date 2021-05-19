@@ -1,5 +1,5 @@
 .animalCard {
-  box-shadow: var(--shadow-lg);
+  box-shadow: var(--shadow-l);
   border-radius: var(--border-radius-m);
   width: 100%;
   height: 100%;

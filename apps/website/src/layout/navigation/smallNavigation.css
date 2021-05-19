@@ -26,7 +26,7 @@
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  box-shadow: var(--shadow-lg);
+  box-shadow: var(--shadow-l);
 }
 
 .SmallNavigation__nav--open {

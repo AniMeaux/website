@@ -1,5 +1,5 @@
 import cn from "classnames";
-import * as React from "react";
+import { useEffect, useRef, useState } from "react";
 import { FaAngleDown, FaAngleUp, FaBars, FaTimes } from "react-icons/fa";
 import { Link, LinkProps } from "~/core/link";
 import { useRouter } from "~/core/router";
@@ -9,11 +9,11 @@ import { ActMenu, AdoptionMenu } from "./shared";
 type MenuType = "none" | "adopt" | "act";
 
 export function SmallNavigation() {
-  const [isNavigationOpen, setIsNavigationOpen] = React.useState(false);
-  const navRef = React.useRef<HTMLElement>(null!);
-  const [openMenu, setOpenMenu] = React.useState<MenuType>("none");
+  const [isNavigationOpen, setIsNavigationOpen] = useState(false);
+  const navRef = useRef<HTMLElement>(null!);
+  const [openMenu, setOpenMenu] = useState<MenuType>("none");
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!isNavigationOpen) {
       const navElement = navRef.current;
       navElement.setAttribute("inert", "");
@@ -26,12 +26,12 @@ export function SmallNavigation() {
   }, [isNavigationOpen]);
 
   const { asPath } = useRouter();
-  React.useEffect(() => {
+  useEffect(() => {
     setIsNavigationOpen(false);
   }, [asPath]);
 
-  const navigationRootRef = React.useRef<HTMLDivElement>(null!);
-  const buttonRef = React.useRef<HTMLButtonElement>(null!);
+  const navigationRootRef = useRef<HTMLDivElement>(null!);
+  const buttonRef = useRef<HTMLButtonElement>(null!);
 
   return (
     <div
@@ -97,7 +97,7 @@ export function SmallNavigation() {
           </li>
 
           <li>
-            <NavigationLink href="/">Blog</NavigationLink>
+            <NavigationLink href="/blog">Blog</NavigationLink>
           </li>
         </ul>
       </nav>

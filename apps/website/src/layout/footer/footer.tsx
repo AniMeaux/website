@@ -2,7 +2,7 @@ import {
   AnimalSpeciesLabels,
   ANIMAL_SPECIES_ALPHABETICAL_ORDER,
 } from "@animeaux/shared-entities/build/animal";
-import * as React from "react";
+import { useState } from "react";
 import {
   FaEnvelope,
   FaFacebook,
@@ -14,8 +14,11 @@ import { AdoptSearchParams } from "~/core/adoptSearchParams";
 import { Link, LinkProps } from "~/core/link";
 import { ChildrenProp } from "~/core/types";
 import { CenteredContent } from "~/layout/centeredContent";
+import { useApplicationLayout } from "../applicationLayout";
 
 export function Footer() {
+  const { latestArticles } = useApplicationLayout();
+
   return (
     <footer className="Footer">
       <CenteredContent>
@@ -113,39 +116,13 @@ export function Footer() {
               <FooterSectionTitle>Blog</FooterSectionTitle>
 
               <FooterLinkList>
-                <li>
-                  <FooterLink href="/">Lorem ipsum dolor</FooterLink>
-                </li>
-
-                <li>
-                  <FooterLink href="/">
-                    Ait amet consectetur adipisicing elit
-                  </FooterLink>
-                </li>
-
-                <li>
-                  <FooterLink href="/">
-                    Rerum distinctio illum itaque quod reprehenderit!
-                  </FooterLink>
-                </li>
-
-                <li>
-                  <FooterLink href="/">Incidunt, a suscipit maiores</FooterLink>
-                </li>
-
-                <li>
-                  <FooterLink href="/">Ullam distinctio dolore</FooterLink>
-                </li>
-
-                <li>
-                  <FooterLink href="/">
-                    Mollitia dolor obcaecati eos exercitationem, ducimus ratione
-                  </FooterLink>
-                </li>
-
-                <li>
-                  <FooterLink href="/">Delectus, quia</FooterLink>
-                </li>
+                {latestArticles.map((article) => (
+                  <li key={article.id}>
+                    <FooterLink href={`/blog/${article.slug}`}>
+                      {article.title}
+                    </FooterLink>
+                  </li>
+                ))}
               </FooterLinkList>
             </FooterSection>
           </div>
@@ -238,7 +215,7 @@ function FooterLink(props: LinkProps) {
 }
 
 function NewsletterForm() {
-  const [email, setEmail] = React.useState("");
+  const [email, setEmail] = useState("");
 
   function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     // TODO

@@ -1,14 +1,13 @@
 import { PublicAnimal } from "@animeaux/shared-entities/build/animal";
-import * as Sentry from "@sentry/react";
 import { gql } from "graphql-request";
 import { GetServerSideProps } from "next";
 import { fetchGraphQL } from "~/core/fetchGraphQL";
 import { PageComponent } from "~/core/pageComponent";
 import { PageTitle } from "~/core/pageTitle";
+import { captureException } from "~/core/sentry";
 import { AnimalProfile } from "~/elements/adopt/animalProfile";
 import { Footer } from "~/layout/footer";
 import { Header } from "~/layout/header";
-import { NotFoundPage } from "~/pages/404";
 import { ErrorPage } from "~/pages/_error";
 
 const PublicAnimalFragment = gql`
@@ -48,9 +47,8 @@ const GetAdoptableAnimalQuery = gql`
 `;
 
 type AnimalPageProps =
-  | { animal: PublicAnimal }
-  | { hasError: true }
-  | { isNotFound: true };
+  | { type: "success"; animal: PublicAnimal }
+  | { type: "error" };
 
 export const getServerSideProps: GetServerSideProps<AnimalPageProps> = async ({
   res,
@@ -67,14 +65,12 @@ export const getServerSideProps: GetServerSideProps<AnimalPageProps> = async ({
     });
 
     if (animal == null) {
-      res.statusCode = 404;
-
-      return { props: { isNotFound: true } };
+      return { notFound: true };
     }
 
-    return { props: { animal } };
+    return { props: { type: "success", animal } };
   } catch (error) {
-    Sentry.captureException(error, {
+    captureException(error, {
       extra: {
         query: "getAdoptableAnimal",
         animalId,
@@ -83,17 +79,13 @@ export const getServerSideProps: GetServerSideProps<AnimalPageProps> = async ({
 
     res.statusCode = 500;
 
-    return { props: { hasError: true } };
+    return { props: { type: "error" } };
   }
 };
 
 const AnimalPage: PageComponent<AnimalPageProps> = (props) => {
-  if ("hasError" in props) {
+  if (props.type === "error") {
     return <ErrorPage type="serverError" />;
-  }
-
-  if ("isNotFound" in props) {
-    return <NotFoundPage />;
   }
 
   return (

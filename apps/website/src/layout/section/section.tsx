@@ -1,5 +1,5 @@
 import cn from "classnames";
-import * as React from "react";
+import { cloneElement } from "react";
 import { StyleProps } from "~/core/types";
 
 type SectionProps = StyleProps & {
@@ -7,7 +7,7 @@ type SectionProps = StyleProps & {
 };
 
 export function Section({ children, className }: SectionProps) {
-  return React.cloneElement(children, {
+  return cloneElement(children, {
     className: cn("Section", className, children.props.className),
   });
 }

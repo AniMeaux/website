@@ -1,5 +1,6 @@
 import cn from "classnames";
 import { ElementType } from "react";
+import { FaQuoteLeft } from "react-icons/fa";
 import ReactMarkdown, { FilterOptions } from "react-markdown";
 import type { HeadingComponent } from "react-markdown/src/ast-to-react";
 import breaks from "remark-breaks";
@@ -7,44 +8,20 @@ import gfm from "remark-gfm";
 import slug from "remark-slug";
 import { Link } from "~/core/link";
 import { StyleProps } from "~/core/types";
+import { UnknownImage } from "~/dataDisplay/image";
 import styles from "./markdown.module.css";
 
-export type MarkdownPreset = "article" | "paragraph";
-
-type HeadingLevel = 1 | 2 | 3 | 4 | 5 | 6;
-const HeadingLevelComponent: Record<HeadingLevel, ElementType> = {
-  "1": "h1",
-  "2": "h2",
-  "3": "h3",
-  "4": "h4",
-  "5": "h5",
-  "6": "h6",
-};
-
-const HeadingLevelClassName: Record<HeadingLevel, string> = {
-  "1": styles.h1,
-  "2": styles.h2,
-  "3": styles.h3,
-  "4": styles.h4,
-  "5": styles.h5,
-  "6": styles.h6,
-};
-
 const Heading: HeadingComponent = ({ id, children, level }) => {
-  const headingLevel = level as HeadingLevel;
-  const Component = HeadingLevelComponent[headingLevel];
+  const Component = `h${level}` as ElementType;
 
   return (
-    <Component
-      id={id}
-      className={cn(styles.heading, HeadingLevelClassName[headingLevel])}
-    >
-      <Link href={`#${id as string}`} className={styles.headingLink}>
-        {children}
-      </Link>
+    <Component id={id}>
+      <Link href={`#${id as string}`}>{children}</Link>
     </Component>
   );
 };
+
+export type MarkdownPreset = "article" | "paragraph";
 
 const PresetOptions: Record<MarkdownPreset, FilterOptions> = {
   article: {},
@@ -71,11 +48,12 @@ type MarkdownProps = StyleProps & {
   children: string;
 };
 
-export function Markdown({ preset, ...props }: MarkdownProps) {
+export function Markdown({ preset, className, ...props }: MarkdownProps) {
   return (
     <ReactMarkdown
       {...props}
       {...PresetOptions[preset]}
+      className={cn(styles.markdown, className)}
       remarkPlugins={[
         // Add anchors headings using GitHub’s algorithm.
         // Required by headings.
@@ -92,15 +70,19 @@ export function Markdown({ preset, ...props }: MarkdownProps) {
         h4: Heading,
         h5: Heading,
         h6: Heading,
-        p: ({ node, className, ...rest }) => {
-          return <p {...rest} className={cn(styles.p, className)} />;
+        img: ({ src, alt }) => {
+          return <UnknownImage src={src as string} alt={alt as string} />;
+        },
+        blockquote: ({ children }) => {
+          return (
+            <blockquote>
+              <FaQuoteLeft />
+              <div>{children}</div>
+            </blockquote>
+          );
         },
         a: ({ children, href }) => {
-          return (
-            <Link href={href as string} className={styles.a}>
-              {children}
-            </Link>
-          );
+          return <Link href={href as string}>{children}</Link>;
         },
       }}
     />

@@ -1,4 +1,3 @@
-import * as React from "react";
 import { ScreenSize, useScreenSize } from "~/core/screenSize";
 import { LargeNavigation } from "./largeNavigation";
 import { SmallNavigation } from "./smallNavigation";

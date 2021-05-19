@@ -43,7 +43,7 @@
   background: var(--bg-primary);
   padding: var(--border-radius-m) 0;
   border-radius: var(--border-radius-m);
-  box-shadow: var(--shadow);
+  box-shadow: var(--shadow-m);
 }
 
 .LargeNavigationMenu__content--open {

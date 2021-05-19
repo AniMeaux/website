@@ -1,5 +1,5 @@
 import cn from "classnames";
-import * as React from "react";
+import { useEffect, useRef, useState } from "react";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa";
 import { Link, LinkProps } from "~/core/link";
 import { useRouter } from "~/core/router";
@@ -18,7 +18,7 @@ export function LargeNavigation() {
       </NavigationMenu>
 
       <NavigationLink href="/">Partenaires</NavigationLink>
-      <NavigationLink href="/">Blog</NavigationLink>
+      <NavigationLink href="/blog">Blog</NavigationLink>
     </nav>
   );
 }
@@ -53,10 +53,10 @@ type NavigationMenuProps = ChildrenProp & {
 };
 
 function NavigationMenu({ label, ...rest }: NavigationMenuProps) {
-  const [isOpen, setIsOpen] = React.useState(false);
-  const navRef = React.useRef<HTMLDivElement>(null!);
+  const [isOpen, setIsOpen] = useState(false);
+  const navRef = useRef<HTMLDivElement>(null!);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!isOpen) {
       const navElement = navRef.current;
       navElement.setAttribute("inert", "");
@@ -68,12 +68,12 @@ function NavigationMenu({ label, ...rest }: NavigationMenuProps) {
   }, [isOpen]);
 
   const { asPath } = useRouter();
-  React.useEffect(() => {
+  useEffect(() => {
     setIsOpen(false);
   }, [asPath]);
 
-  const navigationRootRef = React.useRef<HTMLDivElement>(null!);
-  const buttonRef = React.useRef<HTMLButtonElement>(null!);
+  const navigationRootRef = useRef<HTMLDivElement>(null!);
+  const buttonRef = useRef<HTMLButtonElement>(null!);
 
   return (
     <div

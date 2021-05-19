@@ -3,35 +3,54 @@ import "focus-visible";
 import "wicg-inert";
 import "~/styles/index.css";
 
-import * as Sentry from "@sentry/react";
-import { AppProps } from "next/app";
-import * as React from "react";
-import { initializeGraphQlClient } from "~/core/fetchGraphQL";
+import { Article } from "@animeaux/shared-entities/build/article";
+import NextApp, { AppContext, AppProps } from "next/app";
+import { ReactNode } from "react";
 import { PageComponent } from "~/core/pageComponent";
 import { PageHead } from "~/core/pageHead";
 import { ScreenSizeContextProvider } from "~/core/screenSize";
-import { initializeSentry } from "~/core/sentry";
-import ErrorPage from "./_error";
+import { ErrorBoundary } from "~/core/sentry";
+import { articles } from "~/elements/blog/data";
+import { ApplicationLayout } from "~/layout/applicationLayout";
+import { ErrorPage } from "~/pages/_error";
 
-initializeGraphQlClient();
-initializeSentry();
+function renderWithLayout<P = {}, IP = P>(
+  Component: PageComponent<P, IP>,
+  props: P
+) {
+  let children: ReactNode = <Component {...props} />;
 
-export type ApplicationProps = Omit<AppProps, "Component"> & {
-  Component: PageComponent;
-};
-
-export default function App({ Component, pageProps }: ApplicationProps) {
-  let children: React.ReactNode = <Component {...pageProps} />;
   if (Component.renderLayout != null) {
-    children = Component.renderLayout(children, pageProps);
+    children = Component.renderLayout(children, props);
   }
 
+  return children;
+}
+
+type ApplicationProps = Omit<AppProps, "Component"> & {
+  Component: PageComponent;
+  latestArticles: Article[];
+};
+
+function App({ Component, pageProps, latestArticles }: ApplicationProps) {
   return (
-    <Sentry.ErrorBoundary fallback={() => <ErrorPage type="serverError" />}>
-      <ScreenSizeContextProvider>
-        <PageHead />
-        {children}
-      </ScreenSizeContextProvider>
-    </Sentry.ErrorBoundary>
+    <ScreenSizeContextProvider>
+      <PageHead />
+
+      <ErrorBoundary
+        fallback={() => renderWithLayout(ErrorPage, { type: "serverError" })}
+      >
+        <ApplicationLayout latestArticles={latestArticles}>
+          {renderWithLayout(Component, pageProps)}
+        </ApplicationLayout>
+      </ErrorBoundary>
+    </ScreenSizeContextProvider>
   );
 }
+
+App.getInitialProps = async (appContext: AppContext) => {
+  const appProps = await NextApp.getInitialProps(appContext);
+  return { ...appProps, latestArticles: articles };
+};
+
+export default App;

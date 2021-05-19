@@ -1,4 +1,3 @@
-import * as React from "react";
 import { StaticImage } from "~/dataDisplay/image";
 import { CenteredContent } from "~/layout/centeredContent";
 

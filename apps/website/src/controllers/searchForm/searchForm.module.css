@@ -1,5 +1,5 @@
 .form {
-  box-shadow: var(--shadow);
+  box-shadow: var(--shadow-m);
   background: var(--bg-primary);
   border-radius: var(--border-radius-full);
   padding: var(--spacing-xs);

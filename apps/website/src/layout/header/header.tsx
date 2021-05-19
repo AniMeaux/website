@@ -1,4 +1,3 @@
-import * as React from "react";
 import { Link } from "~/core/link";
 import Logo from "~/core/logo.svg";
 import NameAndLogo from "~/core/nameAndLogo.svg";

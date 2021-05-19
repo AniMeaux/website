@@ -4,13 +4,12 @@ import {
   PaginatedRequestParameters,
   PaginatedResponse,
 } from "@animeaux/shared-entities/build/pagination";
-import * as Sentry from "@sentry/react";
 import { gql } from "graphql-request";
 import { GetServerSideProps } from "next";
-import * as React from "react";
 import { FaArrowRight, FaPaw } from "react-icons/fa";
 import { fetchGraphQL } from "~/core/fetchGraphQL";
 import { Link } from "~/core/link";
+import { captureException } from "~/core/sentry";
 import { StaticImage } from "~/dataDisplay/image";
 
 const PublicAnimalFragment = gql`
@@ -56,26 +55,27 @@ type AdoptableAnimalsSectionProps = {
   animals: PublicSearchableAnimal[];
 };
 
-export const getServerSideProps: GetServerSideProps<AdoptableAnimalsSectionProps> = async () => {
-  let animals: PublicSearchableAnimal[] = [];
+export const getServerSideProps: GetServerSideProps<AdoptableAnimalsSectionProps> =
+  async () => {
+    let animals: PublicSearchableAnimal[] = [];
 
-  try {
-    const { response } = await fetchGraphQL<
-      { response: PaginatedResponse<PublicSearchableAnimal> },
-      PaginatedRequestParameters
-    >(GetAllAdoptableAnimalsQuery, {
-      variables: { page: 0 },
-    });
+    try {
+      const { response } = await fetchGraphQL<
+        { response: PaginatedResponse<PublicSearchableAnimal> },
+        PaginatedRequestParameters
+      >(GetAllAdoptableAnimalsQuery, {
+        variables: { page: 0 },
+      });
 
-    animals = response.hits;
-  } catch (error) {
-    Sentry.captureException(error, {
-      extra: { query: "getAllAdoptableAnimals" },
-    });
-  }
+      animals = response.hits;
+    } catch (error) {
+      captureException(error, {
+        extra: { query: "getAllAdoptableAnimals" },
+      });
+    }
 
-  return { props: { animals } };
-};
+    return { props: { animals } };
+  };
 
 export function AdoptableAnimalsSection({
   animals,

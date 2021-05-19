@@ -1,9 +1,10 @@
-import * as Sentry from "@sentry/react";
 import cn from "classnames";
 import { Cloudinary } from "cloudinary-core";
 import { useState } from "react";
 import { useAsyncMemo } from "react-behave";
 import { FaImage } from "react-icons/fa";
+import { validate as isUuid, version as getUuidVersion } from "uuid";
+import { captureException } from "~/core/sentry";
 import { StyleProps } from "~/core/types";
 import styles from "./image.module.css";
 
@@ -44,7 +45,7 @@ function BaseImage({ alt, className, src, srcSet, ...rest }: BaseImageProps) {
       alt={alt}
       className={cn(styles.image, className)}
       onError={(error) => {
-        Sentry.captureException(error, {
+        captureException(error, {
           extra: { src, srcSet, alt },
         });
 
@@ -79,6 +80,18 @@ export type CloudinaryImageProps = CommonProps & {
 
 export function CloudinaryImage({ imageId, ...rest }: CloudinaryImageProps) {
   return <BaseImage {...rest} src={cloudinaryInstance.url(imageId)} />;
+}
+
+export type UnknownImageProps = CommonProps & {
+  src: string;
+};
+
+export function UnknownImage({ src, ...rest }: UnknownImageProps) {
+  if (isUuid(src) && getUuidVersion(src) === 4) {
+    return <CloudinaryImage {...rest} imageId={src} />;
+  }
+
+  return <StaticImage {...rest} largeImage={src} smallImage={src} />;
 }
 
 class Color {
@@ -134,7 +147,7 @@ async function getImageDominantColor(src: string): Promise<Color | null> {
         );
       } catch (error) {
         console.error("getImageDominantColor:", error);
-        Sentry.captureException(error, {
+        captureException(error, {
           extra: { call: "getImageDominantColor", src },
         });
 
@@ -144,7 +157,7 @@ async function getImageDominantColor(src: string): Promise<Color | null> {
 
     image.onerror = (error) => {
       console.error("getImageDominantColor:", error);
-      Sentry.captureException(error, {
+      captureException(error, {
         extra: { call: "getImageDominantColor", src },
       });
 

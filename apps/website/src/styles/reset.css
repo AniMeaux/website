@@ -43,17 +43,25 @@ h4,
 h5,
 h6,
 p,
-ul {
+ul,
+ol,
+blockquote {
   margin: 0;
   padding: 0;
   font: inherit;
   font-weight: inherit;
 }
 
-ul {
+ul,
+ol {
   list-style: none;
 }
 
 address {
   font-style: normal;
+}
+
+th,
+td {
+  text-align: left;
 }

@@ -50,6 +50,8 @@
   --red: #ed2a26;
   --cyan: #00bfbf;
 
+  --border-color: rgba(0, 0, 0, 0.1);
+
   --adopt-color: linear-gradient(
     to right,
     hsl(13, 34%, 83%),
@@ -83,7 +85,7 @@
 
   --line-height-s: 1.5;
   --line-height-m: 1.5;
-  --line-height-l: 1.5;
+  --line-height-l: 1.35;
   --line-height-xl: 1.2;
   --line-height-2xl: 1.2;
   --line-height-3xl: 1.2;
@@ -103,7 +105,6 @@
   --border-radius-s: 8px;
   --border-radius-m: 16px;
   --border-radius-full: 9999px;
-  --border-color: rgba(0, 0, 0, 0.1);
 
   /* Transitions and animations */
 
@@ -116,6 +117,6 @@
   --duration-controller: 100ms;
 
   /* Shadows */
-  --shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.15);
-  --shadow-lg: 0 4px 12px 0 rgba(0, 0, 0, 0.08);
+  --shadow-m: 0 2px 8px 0 rgba(0, 0, 0, 0.15);
+  --shadow-l: 0 4px 12px 0 rgba(0, 0, 0, 0.08);
 }

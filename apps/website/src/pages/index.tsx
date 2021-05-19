@@ -1,4 +1,3 @@
-import * as React from "react";
 import { SearchForm } from "~/controllers/searchForm";
 import { PageComponent } from "~/core/pageComponent";
 import { PageTitle } from "~/core/pageTitle";
