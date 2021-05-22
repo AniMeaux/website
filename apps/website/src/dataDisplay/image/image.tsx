@@ -145,6 +145,15 @@ async function getImageDominantColor(src: string): Promise<Color | null> {
             imageData.data[3]
           )
         );
+
+        // const c2 = new Color(
+        //   imageData.data[4],
+        //   imageData.data[5],
+        //   imageData.data[6],
+        //   imageData.data[7]
+        // );
+
+        // console.log("c2", c2.toRgba());
       } catch (error) {
         console.error("getImageDominantColor:", error);
         captureException(error, {

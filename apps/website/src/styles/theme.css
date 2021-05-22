@@ -24,7 +24,7 @@
 
   --bg-primary: white;
   --bg-secondary: rgba(0, 0, 0, 0.03);
-  --bg-footer: rgba(0, 0, 0, 0.1);
+  --bg-footer: rgba(0, 0, 0, 0.05);
 
   --focus-color: hsl(202, 100%, 62%); /* +25 */
   --blue-light: hsl(202, 100%, 42%); /* +5 */

@@ -49,7 +49,7 @@ export function Footer() {
                 </li>
 
                 <li>
-                  <FooterLink href="/">Modalités d'adoption</FooterLink>
+                  <FooterLink href="/">Conditions d'adoption</FooterLink>
                 </li>
               </FooterLinkList>
             </FooterSection>

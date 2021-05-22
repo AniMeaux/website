@@ -1,6 +1,5 @@
 .HeroSection {
   width: 100%;
-  background-image: var(--adopt-color);
 }
 
 .HeroSectionImage {
@@ -13,6 +12,11 @@
   .HeroSectionImage {
     height: 320px;
   }
+}
+
+.HeroSectionTextWrapper {
+  background: rgba(139, 134, 103, 255);
+  /* background-image: var(--adopt-color); */
 }
 
 .HeroSectionText {

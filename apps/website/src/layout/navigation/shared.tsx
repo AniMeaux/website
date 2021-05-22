@@ -43,7 +43,7 @@ export function AdoptionMenu() {
         </li>
 
         <li>
-          <SubNavigationLink href="/">Modalités d'adoption</SubNavigationLink>
+          <SubNavigationLink href="/">Conditions d'adoption</SubNavigationLink>
         </li>
       </ul>
     </>
