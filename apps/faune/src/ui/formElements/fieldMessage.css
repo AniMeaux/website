@@ -1,0 +1,18 @@
+.FieldMessage {
+  padding: 0 var(--spacing-l);
+  font-size: var(--font-size-xs);
+  line-height: var(--line-height-xs);
+  color: var(--text-secondary);
+}
+
+.FieldMessage--error {
+  color: var(--alert-500);
+}
+
+.FieldMessage--bottom {
+  margin-top: var(--spacing-xs);
+}
+
+.FieldMessage--top {
+  margin-bottom: var(--spacing-xs);
+}

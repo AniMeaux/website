@@ -1,9 +1,12 @@
 import { PaginatedResponse } from "@animeaux/shared-entities";
-import { ErrorPage, ErrorPageProps } from "core/errorPage";
 import { ChildrenProp } from "core/types";
 import * as React from "react";
-import { Button } from "ui/actions/button";
 import { EmptyMessage, EmptyMessageProps } from "ui/dataDisplay/emptyMessage";
+import {
+  ErrorActionRetry,
+  ErrorMessage,
+  ErrorMessageProps,
+} from "ui/dataDisplay/errorMessage";
 import { Placeholder, Placeholders } from "ui/loaders/placeholder";
 import { UseInfiniteQueryResult, UseQueryResult } from "./request";
 
@@ -12,7 +15,7 @@ type RetryButtonProps = ChildrenProp & {
 };
 
 type EmptyMessageRendererProps = Pick<EmptyMessageProps, "children" | "action">;
-type ErrorRendererProps = Pick<ErrorPageProps, "error" | "action">;
+type ErrorRendererProps = Pick<ErrorMessageProps, "type" | "action">;
 
 type ItemListRenderers<ItemType> = {
   title?: string;
@@ -32,15 +35,11 @@ function defaultRenderEmptyMessage(props: EmptyMessageRendererProps) {
 }
 
 function defaultRenderError(props: ErrorRendererProps) {
-  return <ErrorPage {...props} />;
+  return <ErrorMessage {...props} />;
 }
 
 function defaultRenderRetryButton({ retry, children }: RetryButtonProps) {
-  return (
-    <Button variant="primary" onClick={retry}>
-      {children}
-    </Button>
-  );
+  return <ErrorActionRetry onClick={retry}>{children}</ErrorActionRetry>;
 }
 
 const DEFAULT_RETRY_LABEL = "Réessayer";
@@ -85,7 +84,7 @@ function renderItemListContent<DataType>(
 
   if (query.isError) {
     return renderError({
-      error: query.error,
+      type: "serverError",
       action: renderRetryButton({
         retry: () => query.refetch(),
         children: retryButtonLabel,
@@ -197,7 +196,7 @@ function renderInfiniteItemListContent<ItemType>(
 
   if (query.isError) {
     return renderError({
-      error: query.error,
+      type: "serverError",
       action: renderRetryButton({
         retry: () => query.refetch(),
         children: retryButtonLabel,
@@ -246,9 +245,9 @@ function renderQueryEntityContent<EntityType>(
   }
 
   if (query.isError) {
-    const errorPage = (
-      <ErrorPage
-        error={query.error}
+    const errorMessage = (
+      <ErrorMessage
+        type="serverError"
         action={defaultRenderRetryButton({
           retry: () => query.refetch(),
           children: DEFAULT_RETRY_LABEL,
@@ -256,7 +255,7 @@ function renderQueryEntityContent<EntityType>(
       />
     );
 
-    return renderError == null ? errorPage : renderError(errorPage);
+    return renderError == null ? errorMessage : renderError(errorMessage);
   }
 
   return null;

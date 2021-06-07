@@ -1,8 +1,7 @@
 import { PageTitle } from "core/pageTitle";
 import { UseMutationResult } from "core/request";
-import * as React from "react";
+import { useState } from "react";
 import { FaCheckCircle, FaEnvelope, FaLock } from "react-icons/fa";
-import AppLogo from "ui/appLogo.svg";
 import { Adornment } from "ui/formElements/adornment";
 import { Field } from "ui/formElements/field";
 import { Form } from "ui/formElements/form";
@@ -10,6 +9,7 @@ import { Input } from "ui/formElements/input";
 import { Label } from "ui/formElements/label";
 import { PasswordInput } from "ui/formElements/passwordInput";
 import { SubmitButton } from "ui/formElements/submitButton";
+import { AppIcon } from "ui/icons/appIcon";
 
 type CredentialsPayload = {
   email: string;
@@ -21,8 +21,8 @@ export type SignInPageProps = {
 };
 
 export function SignInPage({ mutation }: SignInPageProps) {
-  const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   return (
     <>
@@ -36,7 +36,7 @@ export function SignInPage({ mutation }: SignInPageProps) {
           pending={mutation.isLoading}
           className="SignInPage__form"
         >
-          <AppLogo className="SignInPage__logo" />
+          <AppIcon className="SignInPage__logo" />
 
           <h1 className="SignInPage__title">Bienvenue</h1>
 

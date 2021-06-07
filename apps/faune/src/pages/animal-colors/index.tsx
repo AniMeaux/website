@@ -1,9 +1,7 @@
 import { AnimalColor } from "@animeaux/shared-entities";
-import { Header } from "core/header";
-import { Navigation } from "core/navigation";
-import { PageComponent } from "core/pageComponent";
 import { PageTitle } from "core/pageTitle";
 import { renderInfiniteItemList } from "core/request";
+import { PageComponent } from "core/types";
 import {
   useAllAnimalColors,
   useDeleteAnimalColor,
@@ -30,8 +28,11 @@ import {
   LinkItem,
 } from "ui/dataDisplay/item";
 import { ApplicationLayout } from "ui/layouts/applicationLayout";
+import { Header, HeaderTitle, HeaderUserAvatar } from "ui/layouts/header";
 import { Main } from "ui/layouts/main";
+import { Navigation } from "ui/layouts/navigation";
 import { Section } from "ui/layouts/section";
+import { Separator } from "ui/layouts/separator";
 import { usePageScrollRestoration } from "ui/layouts/usePageScroll";
 import { Placeholder } from "ui/loaders/placeholder";
 import { Modal, useModal } from "ui/popovers/modal";
@@ -110,7 +111,7 @@ function AnimalColorModalContent({ animalColor }: AnimalColorProps) {
         </LinkItem>
       </Section>
 
-      <hr className="mx-4 border-t border-gray-100" />
+      <Separator />
 
       <Section>
         <DeleteAnimalColorButton animalColor={animalColor} />
@@ -201,7 +202,11 @@ const AnimalColorListPage: PageComponent = () => {
   return (
     <ApplicationLayout>
       <PageTitle title={TITLE} />
-      <Header headerTitle={title} />
+
+      <Header>
+        <HeaderUserAvatar />
+        <HeaderTitle>{title}</HeaderTitle>
+      </Header>
 
       <Main>
         <Section>{content}</Section>

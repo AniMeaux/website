@@ -1,7 +1,6 @@
 import { UserGroup } from "@animeaux/shared-entities";
-import { Header } from "core/header";
-import { Navigation } from "core/navigation";
-import { PageComponent } from "core/pageComponent";
+import { Navigation } from "ui/layouts/navigation";
+import { PageComponent } from "core/types";
 import { PageTitle } from "core/pageTitle";
 import { useRouter } from "core/router";
 import {
@@ -11,6 +10,7 @@ import {
 import { useCreateHostFamily } from "entities/hostFamily/hostFamilyQueries";
 import * as React from "react";
 import { ApplicationLayout } from "ui/layouts/applicationLayout";
+import { Header, HeaderBackLink, HeaderTitle } from "ui/layouts/header";
 import { Main } from "ui/layouts/main";
 
 const CreateHostFamilyPage: PageComponent = () => {
@@ -24,7 +24,11 @@ const CreateHostFamilyPage: PageComponent = () => {
   return (
     <ApplicationLayout>
       <PageTitle title="Nouvelle FA" />
-      <Header headerTitle="Nouvelle FA" canGoBack />
+
+      <Header>
+        <HeaderBackLink />
+        <HeaderTitle>Nouvelle FA</HeaderTitle>
+      </Header>
 
       <Main>
         <HostFamilyForm

@@ -1,6 +1,6 @@
 import { UserGroup } from "@animeaux/shared-entities";
-import { Navigation } from "core/navigation";
-import { PageComponent } from "core/pageComponent";
+import { Navigation } from "ui/layouts/navigation";
+import { PageComponent } from "core/types";
 import { PageTitle } from "core/pageTitle";
 import { renderInfiniteItemList } from "core/request";
 import { useRouter } from "core/router";
@@ -53,13 +53,7 @@ const CreateAnimalBreedPage: PageComponent = () => {
       <PageTitle title="Nouvel animal" />
       <Header>
         <HeaderBackLink href="../profile" />
-
-        <SearchInput
-          size="small"
-          className="flex-1"
-          value={rawSearch}
-          onChange={setRawSearch}
-        />
+        <SearchInput size="small" value={rawSearch} onChange={setRawSearch} />
       </Header>
 
       <Main>

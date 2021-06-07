@@ -1,6 +1,6 @@
 .QuickAction {
   position: fixed;
-  --quick-action-spacing: calc(var(--spacing-unit) * 4);
+  --quick-action-spacing: var(--spacing-l);
   --quick-saction-bottom: calc(
     var(--bottom-nav-height) + var(--quick-action-spacing)
   );
@@ -9,7 +9,7 @@
   right: var(--quick-action-spacing);
   right: calc(var(--quick-action-spacing) + env(safe-area-inset-right, 0));
   z-index: var(--z-index-navigation);
-  box-shadow: var(--shadow);
+  box-shadow: var(--shadow-m);
   border-radius: var(--border-radius-full);
   width: 2em;
   height: 2em;

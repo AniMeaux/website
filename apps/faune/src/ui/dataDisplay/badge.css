@@ -1,0 +1,15 @@
+.Badge__wrapper {
+  position: relative;
+}
+
+.Badge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  transform: translate3d(50%, -50%, 0);
+  width: 12px;
+  height: 12px;
+  border: 2px solid var(--bg-primary);
+  background: var(--primary-500);
+  border-radius: var(--border-radius-full);
+}

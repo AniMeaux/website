@@ -1,0 +1,27 @@
+.StatusBadge {
+  padding: var(--spacing-xs) var(--spacing-xl);
+  font-family: var(--font-family-serif);
+  font-weight: var(--font-weight-bold);
+  border-radius: var(--border-radius-full);
+  display: flex;
+  align-items: center;
+}
+
+.StatusBadge--success {
+  background: var(--success-500);
+  color: var(--text-contrast);
+}
+
+.StatusBadge--warning {
+  background: var(--warning-500);
+}
+
+.StatusBadge--primary {
+  background: var(--primary-500);
+  color: var(--text-contrast);
+}
+
+.StatusBadge--grey {
+  background: var(--dark-700);
+  color: var(--text-contrast);
+}

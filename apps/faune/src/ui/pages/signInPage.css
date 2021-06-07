@@ -13,7 +13,7 @@
   flex: none;
   background-image: linear-gradient(0deg, var(--m-blue-500) 0%, transparent 60%),
     linear-gradient(90deg, var(--m-green-500) 0%, transparent 60%),
-    linear-gradient(135deg, var(--m-yellow-500) 0%, transparent 60%),
+    linear-gradient(135deg, var(--m-amber-500) 0%, transparent 60%),
     linear-gradient(225deg, var(--m-red-500) 0%, transparent 60%),
     linear-gradient(270deg, var(--m-light-blue-500) 0%, transparent 60%);
   background-size: 200% 200%;
@@ -27,6 +27,7 @@
   .SignInPage__image {
     width: 100%;
     height: var(--header-height);
+    background-size: 200% 500vh;
   }
 }
 
@@ -84,14 +85,15 @@
 .SignInPage__logo {
   align-self: center;
   font-size: 100px;
-  margin: calc(var(--spacing-unit) * 10) auto;
+  margin: var(--spacing-3xl) auto;
 }
 
 .SignInPage__title {
-  margin-bottom: calc(var(--spacing-unit) * 8);
-  padding: 0 calc(var(--spacing-unit) * 6);
-  font-family: var(--font-serif);
+  margin-bottom: var(--spacing-2xl);
+  padding: 0 var(--spacing-xl);
+  font-family: var(--font-family-serif);
   text-align: center;
+  font-weight: var(--font-weight-semibold);
 }
 
 @media (max-width: 799px) {
@@ -109,8 +111,9 @@
 }
 
 .SignInPage__successIcon {
-  margin: calc(var(--spacing-unit) * 8) 0;
-  font-size: var(--input-medium-height);
+  margin: var(--spacing-2xl) 0;
+  /* TODO: use button icon. */
+  font-size: 40px;
   color: var(--success-500);
   align-self: center;
   animation-name: animation-fade-in, animation-scale-in;

@@ -1,0 +1,14 @@
+.SubmitButton {
+  position: sticky;
+  bottom: var(--spacing-2xl);
+  bottom: calc(var(--spacing-2xl) + env(safe-area-inset-bottom, 0));
+  margin: var(--spacing-2xl) var(--spacing-l);
+  align-self: center;
+  transition-property: box-shadow;
+  transition-duration: var(--duration-fast);
+  transition-timing-function: var(--ease-in-out);
+}
+
+.SubmitButton--hasScroll {
+  box-shadow: var(--shadow-m);
+}

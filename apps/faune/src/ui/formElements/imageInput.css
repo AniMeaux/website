@@ -1,0 +1,133 @@
+.ImageGalleryInput {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  grid-auto-rows: 1fr;
+  gap: var(--spacing-l);
+}
+
+.ImageGalleryInput > * {
+  position: relative;
+}
+
+/* Square grid "trick" with `padding-top: 100%`. */
+.ImageGalleryInput > *::before {
+  content: "";
+  display: block;
+  padding-top: 100%;
+}
+
+/*
+   * Make sure grid item's child is absolute to avoid changing the item size.
+   * We only apply this to the first child to allow multiple children.
+   */
+.ImageGalleryInput > * > *:first-child {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.ImagePlaceholder {
+  border-radius: var(--border-radius-m);
+}
+
+.PicturePlaceholderItem {
+  background: var(--dark-50);
+}
+
+.ImageItem {
+  overflow: hidden;
+  border-radius: var(--border-radius-m);
+}
+
+@media (hover: hover) {
+  .ImageItem--movable:hover {
+    cursor: move;
+  }
+}
+
+.ImageItem--hidden {
+  display: none;
+}
+
+.ImageItem__image {
+  object-fit: cover;
+}
+
+.ImageItem__button {
+  position: absolute;
+  bottom: var(--spacing-xs);
+  right: var(--spacing-xs);
+  border-radius: var(--border-radius-full);
+  width: 32px;
+  height: 32px;
+  background: var(--dark-200);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-contrast);
+}
+
+@media (hover: hover) {
+  .ImageItem__button:hover {
+    background: var(--dark-300);
+  }
+}
+
+.ImageItem__button:active {
+  background: var(--dark-400);
+}
+
+.PictureItemPreview {
+  border-radius: var(--border-radius-m);
+  box-shadow: var(--shadow-m);
+  object-fit: cover;
+  overflow: hidden;
+}
+
+.ImageInputButton__background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--bg-primary);
+}
+
+.ImageInputButton__label {
+  position: absolute;
+  z-index: 0;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: var(--border-radius-m);
+  background: var(--dark-30);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary-500);
+  font-family: var(--font-family-serif);
+  font-weight: var(--font-weight-bold);
+}
+
+@media (hover: hover) {
+  .ImageInputButton__label:hover {
+    background: var(--dark-50);
+  }
+}
+
+.ImageInputButton__label:active {
+  background: var(--dark-100);
+}
+
+.ImageInputButton__icon {
+  font-size: var(--font-size-2xl);
+}
+
+.ImageInputButton__input {
+  border-radius: var(--border-radius-m);
+}

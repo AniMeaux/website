@@ -1,0 +1,17 @@
+.DateInput {
+  display: flex;
+  align-items: center;
+}
+
+.DateInput > *:not(:first-child) {
+  margin-left: var(--spacing-s);
+}
+
+.DateInput__day,
+.DateInput__month {
+  flex: 1 1 2ch;
+}
+
+.DateInput__year {
+  flex: 1 1 4ch;
+}

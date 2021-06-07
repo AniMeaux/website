@@ -3,11 +3,10 @@ import {
   getErrorMessage,
   hasErrorCode,
 } from "@animeaux/shared-entities";
-import { Header } from "core/header";
-import { PageComponent } from "core/pageComponent";
 import { PageTitle } from "core/pageTitle";
 import { useMutation } from "core/request";
 import { useRouter } from "core/router";
+import { PageComponent } from "core/types";
 import { useCurrentUser } from "entities/user/currentUserContext";
 import { UserItem } from "entities/user/userItem";
 import * as React from "react";
@@ -28,8 +27,10 @@ import { Label } from "ui/formElements/label";
 import { PasswordInput } from "ui/formElements/passwordInput";
 import { SubmitButton } from "ui/formElements/submitButton";
 import { ApplicationLayout } from "ui/layouts/applicationLayout";
+import { Header, HeaderBackLink, HeaderTitle } from "ui/layouts/header";
 import { Main } from "ui/layouts/main";
 import { Section } from "ui/layouts/section";
+import { Separator } from "ui/layouts/separator";
 import { Modal, ModalHeader, ModalProps, useModal } from "ui/popovers/modal";
 import { showSnackbar, Snackbar } from "ui/popovers/snackbar";
 
@@ -81,7 +82,10 @@ export const CurrentUserPasswordForm: PageComponent = ({ children }) => {
     <ApplicationLayout>
       <PageTitle title="Mot de passe" />
 
-      <Header headerTitle="Mot de passe" canGoBack backHref={backUrl} />
+      <Header>
+        <HeaderBackLink href={backUrl} />
+        <HeaderTitle>Mot de passe</HeaderTitle>
+      </Header>
 
       <Main>
         <Form
@@ -179,7 +183,11 @@ export const CurrentUserProfileForm: PageComponent = ({ children }) => {
   return (
     <ApplicationLayout>
       <PageTitle />
-      <Header headerTitle="Profil" canGoBack backHref={backUrl} />
+
+      <Header>
+        <HeaderBackLink href={backUrl} />
+        <HeaderTitle>Profil</HeaderTitle>
+      </Header>
 
       <Main>
         <Form
@@ -265,7 +273,7 @@ function Profile() {
         </LinkItem>
       </Section>
 
-      <hr className="mx-4 border-t border-gray-100" />
+      <Separator />
 
       <Section>
         <ButtonItem onClick={signOut}>

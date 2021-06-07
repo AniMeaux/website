@@ -17,7 +17,7 @@ export function UserItemPlaceholder() {
   return (
     <Item>
       <ItemIcon>
-        <Placeholder preset="avatar-large" />
+        <Placeholder preset="avatar" />
       </ItemIcon>
 
       <ItemContent>

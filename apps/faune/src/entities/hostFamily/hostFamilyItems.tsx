@@ -20,7 +20,7 @@ export function HostFamilyItemPlaceholder() {
   return (
     <Item>
       <ItemIcon>
-        <Placeholder preset="avatar-large" />
+        <Placeholder preset="avatar" />
       </ItemIcon>
 
       <ItemContent>

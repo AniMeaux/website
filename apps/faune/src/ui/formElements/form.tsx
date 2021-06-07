@@ -1,6 +1,6 @@
 import cn from "classnames";
 import { ChildrenProp, StyleProps } from "core/types";
-import * as React from "react";
+import { useLayoutEffect, useRef } from "react";
 
 export type FormProps = StyleProps &
   ChildrenProp & {
@@ -14,9 +14,9 @@ export function Form({
   className,
   children,
 }: FormProps) {
-  const formElement = React.useRef<HTMLFormElement>(null!);
+  const formElement = useRef<HTMLFormElement>(null!);
 
-  React.useLayoutEffect(() => {
+  useLayoutEffect(() => {
     if (pending) {
       formElement.current.focus();
     }
@@ -33,7 +33,7 @@ export function Form({
           onSubmit(event);
         }
       }}
-      className={cn("relative flex flex-col focus:outline-none", className)}
+      className={cn("Form", className)}
     >
       {children}
     </form>

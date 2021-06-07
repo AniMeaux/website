@@ -55,13 +55,10 @@ export function LinkInput({
             size,
             leftAdornment,
             rightAdornment,
-          }),
-          "text-left flex items-center"
+          })
         )}
       >
-        {value ?? (
-          <span className="text-black text-opacity-50">{placeholder}</span>
-        )}
+        {value ?? <span className="LinkInput__placeholder">{placeholder}</span>}
       </Link>
     </InputWrapper>
   );

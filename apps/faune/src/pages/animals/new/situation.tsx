@@ -4,9 +4,8 @@ import {
   hasErrorCode,
   UserGroup,
 } from "@animeaux/shared-entities";
-import { Header } from "core/header";
-import { Navigation } from "core/navigation";
-import { PageComponent } from "core/pageComponent";
+import { Navigation } from "ui/layouts/navigation";
+import { PageComponent } from "core/types";
 import { PageTitle } from "core/pageTitle";
 import { useRouter } from "core/router";
 import {
@@ -22,20 +21,19 @@ import {
 import { useCreateAnimalSituation } from "entities/animal/queries";
 import * as React from "react";
 import { ApplicationLayout } from "ui/layouts/applicationLayout";
+import { Header, HeaderBackLink, HeaderTitle } from "ui/layouts/header";
 import { Main } from "ui/layouts/main";
 
 const CreateAnimalSituationPage: PageComponent = () => {
   const { formPayload, setFormPayload } = useAnimalForm();
   const router = useRouter();
 
-  const [
-    createAnimalSituation,
-    { error, isLoading },
-  ] = useCreateAnimalSituation({
-    onSuccess() {
-      router.push("../pictures");
-    },
-  });
+  const [createAnimalSituation, { error, isLoading }] =
+    useCreateAnimalSituation({
+      onSuccess() {
+        router.push("../pictures");
+      },
+    });
 
   const errors: AnimalSituationFormErrors = {};
   if (error != null) {
@@ -49,7 +47,11 @@ const CreateAnimalSituationPage: PageComponent = () => {
   return (
     <ApplicationLayout>
       <PageTitle title="Nouvel animal" />
-      <Header headerTitle="Nouvel animal" canGoBack backHref="../profile" />
+
+      <Header>
+        <HeaderBackLink href="../profile" />
+        <HeaderTitle>Nouvel animal</HeaderTitle>
+      </Header>
 
       <Main>
         <AnimalFormStepper step={AnimalFormStep.SITUATION} />

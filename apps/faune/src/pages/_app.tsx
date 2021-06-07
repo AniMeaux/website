@@ -10,7 +10,6 @@ import {
 } from "core/applicationProviders";
 import { PageHead } from "core/pageHead";
 import * as React from "react";
-import AppLogo from "ui/appLogo.svg";
 
 initializeApplication({
   environment: process.env.NODE_ENV,
@@ -43,8 +42,6 @@ export default function App(props: ApplicationProps) {
       <PageHead />
 
       <ApplicationProviders
-        logo={AppLogo}
-        applicationName={process.env.NEXT_PUBLIC_APP_SHORT_NAME}
         authorisedGroupsForApplication={AUTHORISED_GROUPS}
         applicationProps={props}
         cloudinaryApiKey={process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY}

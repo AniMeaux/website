@@ -56,8 +56,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
               hasError,
               leftAdornment,
               rightAdornment,
-            }),
-            "placeholder-black placeholder-opacity-50"
+            })
           )}
           ref={ref}
         />

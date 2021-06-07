@@ -1,6 +1,6 @@
 import { getAnimalDisplayName, UserGroup } from "@animeaux/shared-entities";
-import { Navigation } from "core/navigation";
-import { PageComponent } from "core/pageComponent";
+import { Navigation } from "ui/layouts/navigation";
+import { PageComponent } from "core/types";
 import { PageTitle } from "core/pageTitle";
 import { renderInfiniteItemList, renderQueryEntity } from "core/request";
 import { useRouter } from "core/router";
@@ -53,13 +53,7 @@ function UpdateAnimalBreedForm() {
     <>
       <Header>
         <HeaderBackLink href="../profile" />
-
-        <SearchInput
-          size="small"
-          className="flex-1"
-          value={rawSearch}
-          onChange={setRawSearch}
-        />
+        <SearchInput size="small" value={rawSearch} onChange={setRawSearch} />
       </Header>
 
       <Main>
@@ -82,13 +76,13 @@ const UpdateAnimalBreedPage: PageComponent = () => {
       </Header>
     ),
     renderEntity: () => <UpdateAnimalBreedForm />,
-    renderError: (errorPage) => (
+    renderError: (error) => (
       <>
         <Header>
           <HeaderBackLink href="../profile" />
         </Header>
 
-        <Main>{errorPage}</Main>
+        <Main>{error}</Main>
       </>
     ),
   });

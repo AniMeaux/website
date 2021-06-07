@@ -1,5 +1,5 @@
 import { User, UserGroup } from "@animeaux/shared-entities";
-import { PageComponent } from "core/pageComponent";
+import { PageComponent } from "core/types";
 import { useRouter } from "core/router";
 import { useCurrentUser } from "entities/user/currentUserContext";
 import * as React from "react";

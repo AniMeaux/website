@@ -1,0 +1,4 @@
+.Separator {
+  margin: 0 var(--spacing-l);
+  border-top: 1px solid var(--border-color);
+}

@@ -119,7 +119,7 @@ export function Modal({
       // This prop will only work for element in the DOM.
       document.body.appendChild(moutingPoint);
     }
-  }, [open, moutingPoint, referenceElement]);
+  }, [open, moutingPoint]);
 
   React.useEffect(() => {
     if (visible) {

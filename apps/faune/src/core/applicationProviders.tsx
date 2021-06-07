@@ -1,8 +1,7 @@
 import * as Sentry from "@sentry/react";
 import { CloudinaryContextProvider } from "core/cloudinary";
-import { ErrorPage } from "core/errorPage";
 import { FirebaseConfig, initializeFirebase } from "core/firebase";
-import { PageComponent } from "core/pageComponent";
+import { PageComponent } from "core/types";
 import { initializeGraphQlClient, RequestContextProvider } from "core/request";
 import { initializeSentry, SentryConfig } from "core/sentry";
 import {
@@ -11,7 +10,7 @@ import {
 } from "entities/user/currentUserContext";
 import { AppProps } from "next/app";
 import * as React from "react";
-import { Button } from "ui/actions/button";
+import { ErrorActionRefresh, ErrorMessage } from "ui/dataDisplay/errorMessage";
 import { SnackbarContainer } from "ui/popovers/snackbar";
 import { ScreenSizeContextProvider } from "ui/screenSize";
 
@@ -76,13 +75,8 @@ export function ApplicationProviders({
 
   return (
     <Sentry.ErrorBoundary
-      fallback={({ error }) => (
-        <ErrorPage
-          error={error}
-          action={
-            <Button onClick={() => window.location.reload()}>Rafraîchir</Button>
-          }
-        />
+      fallback={() => (
+        <ErrorMessage type="serverError" action={<ErrorActionRefresh />} />
       )}
     >
       <ScreenSizeContextProvider>

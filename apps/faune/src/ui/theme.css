@@ -327,38 +327,44 @@
   --success-a700: var(--m-green-a700);
 
   --bg-primary: var(--light-1000);
-  --bg-secondary: hsl(202, 20%, 95%);
+  --bg-secondary: var(--dark-30);
+
+  --border-color: var(--dark-50);
+
+  --text-primary: var(--dark-800);
+  --text-secondary: var(--dark-600);
+  --text-contrast: var(--light-1000);
 
   /**** Font ******************************************************************/
 
-  --font-serif: "Open Sans", ui-serif, Georgia, Cambria, "Times New Roman",
-    Times, serif;
+  --font-family-serif: "Open Sans", ui-serif, Georgia, Cambria,
+    "Times New Roman", Times, serif;
 
-  --font-sans: "Roboto", ui-sans-serif, system-ui, -apple-system,
+  --font-family-sans: "Roboto", ui-sans-serif, system-ui, -apple-system,
     BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans",
     sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
     "Noto Color Emoji";
 
-  --font-size-2xs: 0.625rem;
-  --font-size-xs: 0.75rem;
-  --font-size-sm: 0.875rem;
-  --font-size-medium: 1rem;
-  --font-size-lg: 1.125rem;
-  --font-size-xl: 1.25rem;
-  --font-size-2xl: 1.5rem;
-  --font-size-3xl: 1.875rem;
-  --font-size-4xl: 2.25rem;
-  --font-size-5xl: 3rem;
-  --font-size-6xl: 3.75rem;
-  --font-size-7xl: 4.5rem;
-  --font-size-8xl: 6rem;
-  --font-size-9xl: 8rem;
+  --font-size-2xs: 10px;
+  --font-size-xs: 12px;
+  --font-size-s: 14px;
+  --font-size-m: 16px;
+  --font-size-l: 18px;
+  --font-size-xl: 20px;
+  --font-size-2xl: 24px;
+  --font-size-3xl: 30px;
+  --font-size-4xl: 36px;
+  --font-size-5xl: 48px;
+  --font-size-6xl: 60px;
+  --font-size-7xl: 72px;
+  --font-size-8xl: 96px;
+  --font-size-9xl: 128px;
 
   --line-height-2xs: 0.75;
   --line-height-xs: 1;
-  --line-height-sm: 1.25;
-  --line-height-medium: 1.5;
-  --line-height-lg: 1.75;
+  --line-height-s: 1.25;
+  --line-height-m: 1.5;
+  --line-height-l: 1.75;
   --line-height-xl: 1.75;
   --line-height-2xl: 2;
   --line-height-3xl: 1;
@@ -379,13 +385,16 @@
   --font-weight-extrabold: 800;
   --font-weight-black: 900;
 
-  --text-primary: var(--dark-800);
-  --text-secondary: var(--dark-600);
-  --text-contrast: var(--light-1000);
-
   /**** Spacings **************************************************************/
 
-  --spacing-unit: 4px;
+  --spacing-xs: 4px;
+  --spacing-s: 8px; /* x2 */
+  --spacing-m: 12px; /* x3 */
+  --spacing-l: 16px; /* x4 */
+  --spacing-xl: 24px; /* x6 */
+  --spacing-2xl: 32px; /* x8 */
+  --spacing-3xl: 40px; /* x10 */
+  --spacing-4xl: 48px; /* x12 */
 
   /**** Components size *******************************************************/
 
@@ -393,15 +402,12 @@
   --header-height: 48px;
   --bottom-nav-height: 56px;
   --left-nav-max-width: 250px;
-  --input-small-height: 32px;
-  --input-medium-height: 40px;
 
   /**** Radius ****************************************************************/
 
-  --border-radius: 12px;
-  --border-radius-lg: 24px;
+  --border-radius-m: 12px;
+  --border-radius-l: 24px;
   --border-radius-full: 9999px;
-  --border-color: var(--dark-50);
 
   /**** Transitions and animations ********************************************/
 
@@ -415,8 +421,8 @@
 
   /**** Shadows ***************************************************************/
 
-  --shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.15);
-  --shadow-lg: 0 4px 12px 0 rgba(0, 0, 0, 0.08);
+  --shadow-m: 0 2px 8px 0 rgba(0, 0, 0, 0.15);
+  --shadow-l: 0 4px 12px 0 rgba(0, 0, 0, 0.08);
 
   /**** Z indexes *************************************************************/
 
@@ -424,8 +430,15 @@
   --z-index-navigation: 20;
   --z-index-modal: 30;
   --z-index-snackbar: 40;
+  --z-index-progress-bar: 40;
 
   /**** Opacities *************************************************************/
 
   --opacity-disabled: 0.6;
+}
+
+@media (min-width: 800px) {
+  :root {
+    --header-height: 56px;
+  }
 }

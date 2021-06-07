@@ -6,7 +6,7 @@
   height: var(--header-height);
   background: var(--bg-primary);
 
-  --padding: calc(var(--spacing-unit) * 4);
+  --padding: var(--spacing-l);
   padding-left: var(--padding);
   padding-left: calc(var(--padding) + env(safe-area-inset-left, 0));
   padding-right: var(--padding);
@@ -31,7 +31,7 @@
 }
 
 .Header > *:not(:first-child) {
-  margin-left: calc(var(--spacing-unit) * 4);
+  margin-left: var(--spacing-l);
 }
 
 .HeaderLink {
@@ -61,8 +61,15 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  font-size: var(--font-size-lg);
-  line-height: var(--line-height-lg);
+  font-size: var(--font-size-l);
+  line-height: var(--line-height-l);
   font-weight: var(--font-weight-bold);
-  font-family: var(--font-serif);
+  font-family: var(--font-family-serif);
+}
+
+.HeaderUserAvatar__button {
+  flex: none;
+  border-radius: var(--border-radius-full);
+  display: flex;
+  align-items: center;
 }

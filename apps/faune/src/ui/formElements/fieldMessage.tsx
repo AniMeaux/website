@@ -1,14 +1,13 @@
 import cn from "classnames";
 import { StyleProps } from "core/types";
-import * as React from "react";
 
 type FieldMessagePlacement = "top" | "bottom";
 
 const FieldMessagePlacementClassName: {
   [key in FieldMessagePlacement]: string;
 } = {
-  bottom: "mt-1",
-  top: "mb-1",
+  bottom: "FieldMessage--bottom",
+  top: "FieldMessage--top",
 };
 
 type FieldMessageProps = StyleProps & {
@@ -16,8 +15,6 @@ type FieldMessageProps = StyleProps & {
   infoMessage?: React.ReactNode;
   errorMessage?: React.ReactNode;
 };
-
-const COMMON_CLASS_NAME = "px-4 text-xs";
 
 export function FieldMessage({
   placement = "bottom",
@@ -29,9 +26,8 @@ export function FieldMessage({
     return (
       <p
         className={cn(
-          COMMON_CLASS_NAME,
           FieldMessagePlacementClassName[placement],
-          "text-red-500",
+          "FieldMessage FieldMessage--error",
           className
         )}
       >
@@ -44,9 +40,8 @@ export function FieldMessage({
     return (
       <p
         className={cn(
-          COMMON_CLASS_NAME,
           FieldMessagePlacementClassName[placement],
-          "text-black text-opacity-60",
+          "FieldMessage",
           className
         )}
       >

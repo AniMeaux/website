@@ -7,7 +7,7 @@
 .Toastify__toast-container {
   z-index: var(--z-index-snackbar);
   position: fixed;
-  padding: calc(var(--spacing-unit) * 2);
+  padding: var(--spacing-s);
 }
 
 @media (max-width: 499px) {
@@ -39,8 +39,8 @@
   margin: 0;
   min-height: initial;
   padding: 0;
-  box-shadow: var(--shadow);
-  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-m);
+  border-radius: var(--border-radius-m);
   font-family: inherit;
   cursor: pointer;
 }
@@ -64,7 +64,7 @@
 }
 
 .Snackbar {
-  padding: calc(var(--spacing-unit) * 3) calc(var(--spacing-unit) * 4);
+  padding: var(--spacing-m) var(--spacing-l);
   font-weight: var(--font-weight-medium);
 }
 

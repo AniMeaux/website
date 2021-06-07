@@ -2,40 +2,22 @@ import cn from "classnames";
 import * as React from "react";
 
 export type PlaceholderPreset =
-  | "avatar-small"
   | "avatar"
-  | "avatar-large"
-  | "avatar-display"
-  | "button"
-  | "button-small"
-  | "checkbox"
-  | "checkbox-input"
   | "icon"
   | "image"
   | "input"
-  | "input-small"
   | "label"
   | "selector"
-  | "tag"
   | "text";
 
-const PresetClassName: { [key in PlaceholderPreset]: string } = {
-  "avatar-small": "placeholder-avatar-small",
-  avatar: "placeholder-avatar-medium",
-  "avatar-large": "placeholder-avatar-large",
-  "avatar-display": "placeholder-avatar-display",
-  button: "placeholder-button",
-  "button-small": "placeholder-button-small",
-  checkbox: "placeholder-checkbox",
-  "checkbox-input": "placeholder-checkbox-input",
-  icon: "placeholder-icon",
-  image: "placeholder-image",
-  input: "placeholder-input",
-  "input-small": "placeholder-input-small",
-  label: "placeholder-label",
-  selector: "placeholder-selector",
-  tag: "placeholder-tag",
-  text: "placeholder-text",
+const PresetClassName: Record<PlaceholderPreset, string> = {
+  avatar: "Placeholder--avatarMedium",
+  icon: "Placeholder--icon",
+  image: "Placeholder--image",
+  input: "Placeholder--input",
+  label: "Placeholder--label",
+  selector: "Placeholder--selector",
+  text: "Placeholder--text",
 };
 
 type PlaceholderProps = React.HTMLAttributes<HTMLSpanElement> & {
@@ -46,7 +28,11 @@ export function Placeholder({ preset, className, ...rest }: PlaceholderProps) {
   return (
     <span
       {...rest}
-      className={cn("placeholder", PresetClassName[preset], className)}
+      className={cn(
+        "placeholder Placeholder",
+        PresetClassName[preset],
+        className
+      )}
     />
   );
 }

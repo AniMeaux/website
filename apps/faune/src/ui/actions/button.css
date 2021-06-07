@@ -3,8 +3,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: var(--font-serif);
+  font-family: var(--font-family-serif);
   font-weight: var(--font-weight-bold);
+
+  --button-padding-y: 0;
+  --button-padding-x: 0;
+  padding: var(--button-padding-y) var(--button-padding-x);
 }
 
 .Button--disabled {
@@ -12,34 +16,34 @@
 }
 
 .Button--small {
-  height: var(--input-small-height);
+  --button-padding-y: var(--spacing-xs);
 }
 
 .Button--small:not(.Button--isIconOnly) {
-  padding: 0 calc(var(--spacing-unit) * 6);
-  font-size: var(--font-size-sm);
-  line-height: var(--line-height-sm);
+  --button-padding-x: var(--spacing-xl);
 }
 
 .Button--small.Button--isIconOnly {
-  width: var(--input-small-height);
+  --button-padding-x: var(--spacing-xs);
 }
 
 .Button--medium {
-  height: var(--input-medium-height);
+  --button-padding-y: var(--spacing-s);
 }
 
 .Button--medium:not(.Button--isIconOnly) {
-  padding: 0 calc(var(--spacing-unit) * 12);
+  --button-padding-x: var(--spacing-4xl);
 }
 
 .Button--medium.Button--isIconOnly {
-  width: var(--input-medium-height);
+  --button-padding-x: var(--spacing-s);
 }
 
 .Button--outlined {
   background: var(--light-1000);
   border: 1px solid var(--dark-100);
+  /* Compensate the border. */
+  padding: calc(var(--button-padding-y) - 1px) var(--button-padding-x);
 }
 
 @media (hover: hover) {
@@ -65,4 +69,8 @@
 
 .Button--primary:not(.Button--disabled):active {
   background: var(--primary-600);
+}
+
+.Button > *:not(:first-child) {
+  margin-left: var(--spacing-s);
 }

@@ -4,9 +4,8 @@ import {
   hasErrorCode,
   UserGroup,
 } from "@animeaux/shared-entities";
-import { Header } from "core/header";
-import { Navigation } from "core/navigation";
-import { PageComponent } from "core/pageComponent";
+import { Navigation } from "ui/layouts/navigation";
+import { PageComponent } from "core/types";
 import { PageTitle } from "core/pageTitle";
 import { renderQueryEntity } from "core/request";
 import { useRouter } from "core/router";
@@ -21,6 +20,7 @@ import {
 } from "entities/hostFamily/hostFamilyQueries";
 import * as React from "react";
 import { ApplicationLayout } from "ui/layouts/applicationLayout";
+import { Header, HeaderBackLink, HeaderTitle } from "ui/layouts/header";
 import { Main } from "ui/layouts/main";
 
 const HostFamilyEditPage: PageComponent = () => {
@@ -85,7 +85,12 @@ const HostFamilyEditPage: PageComponent = () => {
   return (
     <ApplicationLayout>
       <PageTitle title={pageTitle} />
-      <Header headerTitle={headerTitle} canGoBack />
+
+      <Header>
+        <HeaderBackLink />
+        <HeaderTitle>{headerTitle}</HeaderTitle>
+      </Header>
+
       <Main>{content}</Main>
       <Navigation onlyLargeEnough />
     </ApplicationLayout>

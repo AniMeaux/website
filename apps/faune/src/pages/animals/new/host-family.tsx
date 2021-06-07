@@ -1,6 +1,6 @@
 import { UserGroup } from "@animeaux/shared-entities";
-import { Navigation } from "core/navigation";
-import { PageComponent } from "core/pageComponent";
+import { Navigation } from "ui/layouts/navigation";
+import { PageComponent } from "core/types";
 import { PageTitle } from "core/pageTitle";
 import { renderInfiniteItemList } from "core/request";
 import { useRouter } from "core/router";
@@ -45,7 +45,13 @@ const CreateAnimalHostFamilyPage: PageComponent = () => {
       <Button onClick={() => setRawSearch("")}>Effacer la recherche</Button>
     ),
     renderAdditionalItem: () => (
-      <LinkItem href="../new-host-family" className="font-medium text-blue-500">
+      <LinkItem
+        href="../new-host-family"
+        style={{
+          color: "var(--primary-500)",
+          fontWeight: "var(--font-weight-medium)" as any,
+        }}
+      >
         <ItemIcon>
           <Avatar>
             <FaPlus />
@@ -74,13 +80,7 @@ const CreateAnimalHostFamilyPage: PageComponent = () => {
       <PageTitle title="Nouvel animal" />
       <Header>
         <HeaderBackLink href="../situation" />
-
-        <SearchInput
-          size="small"
-          className="flex-1"
-          value={rawSearch}
-          onChange={setRawSearch}
-        />
+        <SearchInput size="small" value={rawSearch} onChange={setRawSearch} />
       </Header>
 
       <Main>

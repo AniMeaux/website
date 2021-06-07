@@ -1,3 +1,11 @@
+import { UserGroup } from "@animeaux/shared-entities";
+import { NextPage } from "next";
+
+export type PageComponent<Props = {}> = NextPage<Props> & {
+  authorisedGroups?: UserGroup[];
+  WrapperComponent?: React.ElementType;
+};
+
 export type ChildrenProp = {
   children?: React.ReactNode;
 };

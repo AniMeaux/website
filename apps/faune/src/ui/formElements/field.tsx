@@ -1,15 +1,7 @@
 import cn from "classnames";
-import * as React from "react";
+import { ChildrenProp, StyleProps } from "core/types";
 
-type FieldProps = React.HTMLAttributes<HTMLDivElement> & {
-  row?: boolean;
-};
-
-export function Field({ row = false, className, ...rest }: FieldProps) {
-  return (
-    <div
-      {...rest}
-      className={cn("px-4 py-2 flex", { "flex-col": !row }, className)}
-    />
-  );
+type FieldProps = ChildrenProp & StyleProps;
+export function Field({ className, ...rest }: FieldProps) {
+  return <div {...rest} className={cn("Field", className)} />;
 }

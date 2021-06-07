@@ -2,21 +2,9 @@ import cn from "classnames";
 import { ensureArray } from "core/ensureArray";
 import { ChildrenProp, StyleProps } from "core/types";
 import invariant from "invariant";
-import * as React from "react";
+import { createElement } from "react";
 
-export type InputSize = "small" | "medium" | "dynamic";
-
-const InputSizeClassName: { [key in InputSize]: string } = {
-  small: "h-8",
-  medium: "h-10",
-  dynamic: "min-h-10",
-};
-
-const InputRadiusClassName: { [key in InputSize]: string } = {
-  small: "rounded-full",
-  medium: "rounded-full",
-  dynamic: "rounded-2xl",
-};
+export type InputSize = "small" | "medium";
 
 export type InputWrapperProps = {
   disabled?: boolean;
@@ -42,22 +30,22 @@ export function InputWrapper({
     <span
       style={style}
       className={cn(
-        "relative inline-flex",
-        { "opacity-50": disabled },
+        "InputWrapper",
+        { "InputWrapper--disabled": disabled },
         className
       )}
     >
       {children}
 
       {leftAdornments.length > 0 &&
-        React.createElement(
+        createElement(
           AdornmentContainer,
           { side: "left", size },
           ...leftAdornments
         )}
 
       {rightAdornments.length > 0 &&
-        React.createElement(
+        createElement(
           AdornmentContainer,
           { side: "right", size },
           ...rightAdornments
@@ -71,20 +59,26 @@ type AdornmentContainerProps = ChildrenProp & {
   size: InputSize;
 };
 
-const AdornmentContainerSideClassName: {
-  [key in AdornmentContainerProps["side"]]: string;
-} = {
-  left: "left-0",
-  right: "right-0",
+const AdornmentContainerSizeClassName: Record<InputSize, string> = {
+  small: "AdornmentContainer--small",
+  medium: "",
+};
+
+const AdornmentContainerSideClassName: Record<
+  AdornmentContainerProps["side"],
+  string
+> = {
+  left: "AdornmentContainer--left",
+  right: "AdornmentContainer--right",
 };
 
 function AdornmentContainer({ side, size, children }: AdornmentContainerProps) {
   return (
     <span
       className={cn(
-        "pointer-events-none absolute top-0 px-2 text-black text-opacity-70 flex items-center",
+        "AdornmentContainer",
         AdornmentContainerSideClassName[side],
-        InputSizeClassName[size]
+        AdornmentContainerSizeClassName[size]
       )}
     >
       {children}
@@ -93,10 +87,22 @@ function AdornmentContainer({ side, size, children }: AdornmentContainerProps) {
 }
 
 // The index correspond to the number of adornments.
-// Default spacing: 4
-// 1 adornment spacing: 8
-const PaddingLeftClassNames = ["pl-4", "pl-12", "pl-20"];
-const PaddingRightClassNames = ["pr-4", "pr-12", "pr-20"];
+const PaddingLeftClassNames = [
+  "",
+  "InputWrapper__input--pl1",
+  "InputWrapper__input--pl2",
+];
+
+const PaddingRightClassNames = [
+  "",
+  "InputWrapper__input--pr1",
+  "InputWrapper__input--pr2",
+];
+
+const InputSizeClassName: Record<InputSize, string> = {
+  small: "InputWrapper__input--small",
+  medium: "InputWrapper__input--medium",
+};
 
 export function getInputClassName({
   hasError = false,
@@ -114,13 +120,9 @@ export function getInputClassName({
   invariant(paddingRightClassName != null, "Only 2 adornments are supported.");
 
   return cn(
-    "select-auto appearance-none disabled:pointer-events-none focus:outline-none focus-visible:ring focus-visible:ring-opacity-50 w-full min-w-0 px-4 text-black text-opacity-80",
+    "InputWrapper__input",
     InputSizeClassName[size],
-    InputRadiusClassName[size],
-    {
-      "bg-black bg-opacity-3 focus-visible:ring-blue-500": !hasError,
-      "bg-red-500 bg-opacity-10 focus-visible:ring-red-500": hasError,
-    },
+    { "InputWrapper__input--error": hasError },
     paddingLeftClassName,
     paddingRightClassName
   );

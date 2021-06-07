@@ -1,7 +1,7 @@
 .Item {
   width: 100%;
-  border-radius: var(--border-radius);
-  padding: calc(var(--spacing-unit) * 2);
+  border-radius: var(--border-radius-m);
+  padding: var(--spacing-s);
   display: flex;
   align-items: center;
 }
@@ -55,13 +55,12 @@
 }
 
 .Item > :not([hidden]) ~ :not([hidden]) {
-  margin-left: calc(var(--spacing-unit) * 4);
+  margin-left: var(--spacing-l);
 }
 
 .ItemIcon {
   flex: none;
-  /* Same as `--line-height-medium`. */
-  min-height: 1.5rem;
+  min-height: calc(var(--line-height-m) * 1rem);
   align-self: flex-start;
   display: flex;
   align-items: center;
@@ -82,8 +81,8 @@
 }
 
 .ItemText--secondary {
-  font-size: var(--font-size-sm);
-  line-height: var(--line-height-sm);
+  font-size: var(--font-size-s);
+  line-height: var(--line-height-s);
   color: var(--text-secondary);
 }
 
@@ -96,6 +95,6 @@
 }
 
 .ItemActions {
-  margin-top: var(--spacing-unit);
+  margin-top: var(--spacing-xs);
   max-width: 100%;
 }

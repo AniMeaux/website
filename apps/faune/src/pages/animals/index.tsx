@@ -5,12 +5,9 @@ import {
   SearchableAnimal,
   UserGroup,
 } from "@animeaux/shared-entities";
-import cn from "classnames";
-import { Header } from "core/header";
-import { Navigation } from "core/navigation";
-import { PageComponent } from "core/pageComponent";
 import { PageTitle } from "core/pageTitle";
 import { renderInfiniteItemList } from "core/request";
+import { PageComponent } from "core/types";
 import { useAllActiveAnimals } from "entities/animal/queries";
 import { useCurrentUser } from "entities/user/currentUserContext";
 import * as React from "react";
@@ -27,7 +24,14 @@ import {
   LinkItem,
 } from "ui/dataDisplay/item";
 import { ApplicationLayout } from "ui/layouts/applicationLayout";
+import {
+  Header,
+  HeaderLink,
+  HeaderTitle,
+  HeaderUserAvatar,
+} from "ui/layouts/header";
 import { Main } from "ui/layouts/main";
+import { Navigation } from "ui/layouts/navigation";
 import { Section } from "ui/layouts/section";
 import { usePageScrollRestoration } from "ui/layouts/usePageScroll";
 import { Placeholder } from "ui/loaders/placeholder";
@@ -35,7 +39,7 @@ import { Placeholder } from "ui/loaders/placeholder";
 const searchableAnimalItemPlaceholder = (
   <Item>
     <ItemIcon>
-      <Placeholder preset="avatar-large" />
+      <Placeholder preset="avatar" />
     </ItemIcon>
 
     <ItemContent>
@@ -51,13 +55,13 @@ const searchableAnimalItemPlaceholder = (
 );
 
 const StatusBadgeColors: { [key in AnimalStatus]: string } = {
-  [AnimalStatus.ADOPTED]: "bg-green-500",
-  [AnimalStatus.DECEASED]: "bg-gray-800",
-  [AnimalStatus.FREE]: "bg-gray-800",
-  [AnimalStatus.OPEN_TO_ADOPTION]: "bg-blue-500",
-  [AnimalStatus.OPEN_TO_RESERVATION]: "bg-blue-500",
-  [AnimalStatus.RESERVED]: "bg-yellow-500",
-  [AnimalStatus.UNAVAILABLE]: "bg-gray-800",
+  [AnimalStatus.ADOPTED]: "var(--success-500)",
+  [AnimalStatus.DECEASED]: "var(--dark-700)",
+  [AnimalStatus.FREE]: "var(--dark-700)",
+  [AnimalStatus.OPEN_TO_ADOPTION]: "var(--primary-500)",
+  [AnimalStatus.OPEN_TO_RESERVATION]: "var(--primary-500)",
+  [AnimalStatus.RESERVED]: "var(--warning-500)",
+  [AnimalStatus.UNAVAILABLE]: "var(--dark-700)",
 };
 
 function AnimalLinkItem({ animal }: { animal: SearchableAnimal }) {
@@ -65,16 +69,23 @@ function AnimalLinkItem({ animal }: { animal: SearchableAnimal }) {
 
   return (
     <LinkItem href={`./${animal.id}`}>
-      <ItemIcon className="relative">
+      <ItemIcon style={{ position: "relative" }}>
         <Avatar>
           <Image image={animal.avatarId} preset="avatar" alt={displayName} />
         </Avatar>
 
         <span
-          className={cn(
-            "absolute bottom-0 right-0 inline-flex h-4 w-4 rounded-full border-2 border-white",
-            StatusBadgeColors[animal.status]
-          )}
+          style={{
+            position: "absolute",
+            bottom: "0",
+            right: "0",
+            display: "inline-flex",
+            height: "16px",
+            width: "16px",
+            borderRadius: "var(--border-radius-full)",
+            border: "2px solid var(--bg-primary)",
+            background: StatusBadgeColors[animal.status],
+          }}
         />
       </ItemIcon>
 
@@ -112,10 +123,14 @@ const AnimalListPage: PageComponent = () => {
   return (
     <ApplicationLayout>
       <PageTitle title={TITLE} />
-      <Header
-        headerTitle={title}
-        action={{ href: "./search", icon: FaSearch }}
-      />
+
+      <Header>
+        <HeaderUserAvatar />
+        <HeaderTitle>{title}</HeaderTitle>
+        <HeaderLink href="./search">
+          <FaSearch />
+        </HeaderLink>
+      </Header>
 
       <Main>
         <Section>{content}</Section>

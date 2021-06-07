@@ -1,5 +1,4 @@
 import cn from "classnames";
-import * as React from "react";
 import { Button, ButtonProps } from "ui/actions/button";
 import { useIsScrollAtTheBottom } from "ui/layouts/usePageScroll";
 
@@ -17,11 +16,8 @@ export function SubmitButton({
       type={type}
       variant={variant}
       className={cn(
-        "sticky submit-button-bottom mx-4 transition-shadow duration-200 ease-in-out my-8 self-center",
-        {
-          "shadow-md": !isAtTheBottom,
-          "shadow-none": isAtTheBottom,
-        },
+        "SubmitButton",
+        { "SubmitButton--hasScroll": !isAtTheBottom },
         className
       )}
     />

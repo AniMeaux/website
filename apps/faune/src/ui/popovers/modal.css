@@ -28,13 +28,13 @@
 .Modal {
   z-index: var(--z-index-modal);
   overscroll-behavior: none;
-  box-shadow: var(--shadow);
+  box-shadow: var(--shadow-m);
   background: var(--bg-primary);
   animation-fill-mode: forwards;
 }
 
 .Modal--dropdown {
-  border-radius: var(--border-radius);
+  border-radius: var(--border-radius-m);
   min-width: 350px;
   animation-duration: var(--duration-fast);
 }
@@ -97,8 +97,8 @@
   max-height: 100vh;
   overflow: auto;
   animation-duration: var(--duration-slow);
-  border-top-left-radius: var(--border-radius-lg);
-  border-top-right-radius: var(--border-radius-lg);
+  border-top-left-radius: var(--border-radius-l);
+  border-top-right-radius: var(--border-radius-l);
   padding-top: 0;
   padding-top: env(safe-area-inset-top, 0);
   padding-right: 0;
@@ -122,20 +122,20 @@
 .ModalHeader {
   width: 100%;
   border-bottom: 1px solid var(--border-color);
-  padding: calc(var(--spacing-unit) * 2) calc(var(--spacing-unit) * 4);
+  padding: var(--spacing-s) var(--spacing-l);
   display: flex;
   align-items: center;
 }
 
 .ModalHeader--dense {
-  padding-left: calc(var(--spacing-unit) * 2);
-  padding-right: calc(var(--spacing-unit) * 2);
+  padding-left: var(--spacing-s);
+  padding-right: var(--spacing-s);
 }
 
 .ModalHeader > *:not(:first-child) {
-  margin-left: calc(var(--spacing-unit) * 4);
+  margin-left: var(--spacing-l);
 }
 
 .ModalHeaderTitle {
-  padding-left: calc(var(--spacing-unit) * 4);
+  padding-left: var(--spacing-l);
 }

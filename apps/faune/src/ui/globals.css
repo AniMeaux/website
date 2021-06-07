@@ -13,7 +13,7 @@ html {
 body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  font-family: var(--font-sans);
+  font-family: var(--font-family-sans);
   font-size: 1rem;
   line-height: 1.5;
   color: var(--text-primary);
@@ -21,6 +21,7 @@ body {
 
 a:focus,
 input:focus,
+textarea:focus,
 select:focus,
 button:focus,
 [tabindex]:focus {
@@ -32,6 +33,8 @@ a.focus-visible,
 a:focus-visible,
 input.focus-visible,
 input:focus-visible,
+textarea.focus-visible,
+textarea:focus-visible,
 select.focus-visible,
 select:focus-visible,
 button.focus-visible,
@@ -39,4 +42,8 @@ button:focus-visible,
 [tabindex].focus-visible,
 [tabindex]:focus-visible {
   box-shadow: 0 0 0 3px var(--primary-a400);
+}
+
+strong {
+  font-weight: var(--font-weight-semibold);
 }

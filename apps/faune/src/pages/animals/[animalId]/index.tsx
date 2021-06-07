@@ -3,8 +3,6 @@ import {
   AnimalGender,
   AnimalGenderLabels,
   AnimalSpeciesLabels,
-  AnimalStatus,
-  AnimalStatusLabels,
   doesGroupsIntersect,
   formatAge,
   formatLongDate,
@@ -15,14 +13,11 @@ import {
   TrileanLabels,
   UserGroup,
 } from "@animeaux/shared-entities";
-import cn from "classnames";
 import { copyToClipboard } from "core/clipboard";
-import { Header } from "core/header";
-import { Navigation } from "core/navigation";
-import { PageComponent } from "core/pageComponent";
 import { PageTitle } from "core/pageTitle";
 import { renderQueryEntity } from "core/request";
 import { useRouter } from "core/router";
+import { PageComponent } from "core/types";
 import { AnimalGenderIcon } from "entities/animal/animalGenderIcon";
 import { AnimalSpeciesIcon } from "entities/animal/animalSpeciesIcon";
 import { useAnimal, useDeleteAnimal } from "entities/animal/queries";
@@ -59,9 +54,13 @@ import {
   LinkItem,
 } from "ui/dataDisplay/item";
 import { Markdown } from "ui/dataDisplay/markdown";
+import { StatusBadge } from "ui/dataDisplay/statusBadge";
 import { ApplicationLayout } from "ui/layouts/applicationLayout";
+import { Header, HeaderBackLink, HeaderTitle } from "ui/layouts/header";
 import { Main } from "ui/layouts/main";
+import { Navigation } from "ui/layouts/navigation";
 import { Section, SectionBox, SectionTitle } from "ui/layouts/section";
+import { Separator } from "ui/layouts/separator";
 import {
   Modal,
   ModalHeader,
@@ -79,35 +78,19 @@ function PicturesSection({ animal }: AnimalProps) {
   return <ImageSlideshow images={picturesId} alt={animal.officialName} />;
 }
 
-const StatusBadgeColors: { [key in AnimalStatus]: string } = {
-  [AnimalStatus.ADOPTED]: "bg-green-500 text-white",
-  [AnimalStatus.DECEASED]: "bg-gray-800 text-white",
-  [AnimalStatus.FREE]: "bg-gray-800 text-white",
-  [AnimalStatus.OPEN_TO_ADOPTION]: "bg-blue-500 text-white",
-  [AnimalStatus.OPEN_TO_RESERVATION]: "bg-blue-500 text-white",
-  [AnimalStatus.RESERVED]: "bg-yellow-500 text-black",
-  [AnimalStatus.UNAVAILABLE]: "bg-gray-800 text-white",
-};
-
-function StatusBadge({ status }: { status: AnimalStatus }) {
-  return (
-    <span
-      className={cn(
-        "px-6 h-8 font-serif font-bold rounded-full flex items-center text-sm",
-        StatusBadgeColors[status]
-      )}
-    >
-      {AnimalStatusLabels[status]}
-    </span>
-  );
-}
-
 function HighlightsSection({ animal }: AnimalProps) {
   const [isSharingOpen, setIsSharingOpen] = React.useState(false);
   const buttonElement = React.useRef<HTMLButtonElement>(null!);
 
   return (
-    <header className="p-4 flex items-center justify-between">
+    <header
+      style={{
+        padding: "var(--spacing-l)",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+      }}
+    >
       <StatusBadge status={animal.status} />
 
       <Button
@@ -116,7 +99,7 @@ function HighlightsSection({ animal }: AnimalProps) {
         ref={buttonElement}
       >
         <FaShare />
-        <span className="ml-2">Partager</span>
+        <span>Partager</span>
       </Button>
 
       <Modal
@@ -204,9 +187,7 @@ function ProfileSection({ animal }: AnimalProps) {
             </ItemIcon>
 
             <ItemContent>
-              <ItemMainText className="flex items-center">
-                {speciesLabels.join(" • ")}
-              </ItemMainText>
+              <ItemMainText>{speciesLabels.join(" • ")}</ItemMainText>
             </ItemContent>
           </Item>
         </li>
@@ -241,12 +222,6 @@ function ProfileSection({ animal }: AnimalProps) {
     </SectionBox>
   );
 }
-
-const IsOkColors: { [key in Trilean]: string } = {
-  [Trilean.FALSE]: "text-red-500",
-  [Trilean.TRUE]: "text-green-500",
-  [Trilean.UNKNOWN]: "",
-};
 
 function HostFamilyModal({ hostFamily }: { hostFamily: HostFamily }) {
   const { currentUser } = useCurrentUser();
@@ -328,6 +303,12 @@ function HostFamilyModal({ hostFamily }: { hostFamily: HostFamily }) {
   );
 }
 
+const IsOkColors: Record<Trilean, string> = {
+  [Trilean.FALSE]: "var(--alert-500)",
+  [Trilean.TRUE]: "var(--success-500)",
+  [Trilean.UNKNOWN]: "inherit",
+};
+
 type OtherAnimalSituationProps = {
   label: string;
   value: Trilean;
@@ -335,10 +316,32 @@ type OtherAnimalSituationProps = {
 
 function OtherAnimalSituation({ label, value }: OtherAnimalSituationProps) {
   return (
-    <li className="flex-1 bg-black bg-opacity-3 rounded-xl p-2 flex flex-col items-center">
-      <span className="text-sm text-black text-opacity-60">{label}</span>
+    <li
+      style={{
+        background: "var(--dark-30)",
+        borderRadius: "var(--border-radius-m)",
+        padding: "var(--spacing-s)",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+      }}
+    >
+      <span
+        style={{
+          fontSize: "var(--font-size-s)",
+          lineHeight: "var(--line-height-s)",
+          color: "var(--text-secondary)",
+        }}
+      >
+        {label}
+      </span>
 
-      <span className={cn("font-bold", IsOkColors[value])}>
+      <span
+        style={{
+          fontWeight: "var(--font-weight-bold)" as any,
+          color: IsOkColors[value],
+        }}
+      >
         {TrileanLabels[value]}
       </span>
     </li>
@@ -347,7 +350,15 @@ function OtherAnimalSituation({ label, value }: OtherAnimalSituationProps) {
 
 function OtherAnimalsSituations({ animal }: AnimalProps) {
   return (
-    <ul className="px-2 flex items-center space-x-2">
+    <ul
+      style={{
+        padding: "0 var(--spacing-s)",
+        display: "grid",
+        gridTemplateColumns: "repeat(3, 1fr)",
+        gridTemplateRows: "auto",
+        gap: "var(--spacing-s)",
+      }}
+    >
       <OtherAnimalSituation label="Ok enfants" value={animal.isOkChildren} />
       <OtherAnimalSituation label="Ok chiens" value={animal.isOkDogs} />
       <OtherAnimalSituation label="Ok chats" value={animal.isOkCats} />
@@ -356,17 +367,15 @@ function OtherAnimalsSituations({ animal }: AnimalProps) {
 }
 
 function SituationSection({ animal }: AnimalProps) {
-  const [
-    areHostFamilyDetailsVisible,
-    setAreHostFamilyDetailsVisible,
-  ] = React.useState(false);
+  const [areHostFamilyDetailsVisible, setAreHostFamilyDetailsVisible] =
+    React.useState(false);
   const referenceElement = React.useRef<HTMLButtonElement>(null!);
 
   return (
     <Section>
       <SectionTitle>Situation</SectionTitle>
 
-      <ul className="mb-2">
+      <ul style={{ marginBottom: "var(--spacing-s)" }}>
         {animal.hostFamily != null && (
           <li>
             <ButtonItem onClick={() => setAreHostFamilyDetailsVisible(true)}>
@@ -379,7 +388,7 @@ function SituationSection({ animal }: AnimalProps) {
                   En FA chez{" "}
                   <strong
                     ref={referenceElement}
-                    className="font-medium text-blue-500"
+                    style={{ color: "var(--primary-500)" }}
                   >
                     {animal.hostFamily.name}
                   </strong>
@@ -408,7 +417,7 @@ function SituationSection({ animal }: AnimalProps) {
             <ItemContent>
               <ItemMainText>
                 {animal.isSterilized ? "Est" : "N'est"}{" "}
-                <strong className="font-medium">
+                <strong>
                   {animal.isSterilized ? "" : "pas "}
                   stérilisé{animal.gender === AnimalGender.FEMALE ? "e" : ""}
                 </strong>
@@ -426,10 +435,7 @@ function SituationSection({ animal }: AnimalProps) {
             <ItemContent>
               <ItemMainText>
                 Pris{animal.gender === AnimalGender.FEMALE ? "e" : ""} en charge
-                le{" "}
-                <strong className="font-medium">
-                  {formatLongDate(animal.pickUpDate)}
-                </strong>
+                le <strong>{formatLongDate(animal.pickUpDate)}</strong>
               </ItemMainText>
             </ItemContent>
           </Item>
@@ -438,7 +444,7 @@ function SituationSection({ animal }: AnimalProps) {
         {animal.comments !== "" && (
           <li>
             <Item>
-              <ItemIcon className="h-6 flex items-center justufy-center self-start">
+              <ItemIcon>
                 <FaExclamationTriangle />
               </ItemIcon>
 
@@ -463,7 +469,9 @@ function DescriptionSection({ animal }: AnimalProps) {
   return (
     <Section>
       <SectionTitle>Description</SectionTitle>
-      <Markdown className="px-2 space-y-2">{animal.description}</Markdown>
+      <Markdown style={{ padding: "0 var(--spacing-s)" }}>
+        {animal.description}
+      </Markdown>
     </Section>
   );
 }
@@ -549,7 +557,7 @@ function ActionsSection({ animal }: AnimalProps) {
         </LinkItem>
       </Section>
 
-      <hr className="mx-4 border-t border-gray-100" />
+      <Separator />
 
       <Section>
         <DeleteAnimalButton animal={animal} />
@@ -592,7 +600,12 @@ const AnimalPage: PageComponent = () => {
   return (
     <ApplicationLayout>
       <PageTitle title={pageTitle} />
-      <Header headerTitle={headerTitle} canGoBack />
+
+      <Header>
+        <HeaderBackLink />
+        <HeaderTitle>{headerTitle}</HeaderTitle>
+      </Header>
+
       <Main>{content}</Main>
       <Navigation onlyLargeEnough />
     </ApplicationLayout>

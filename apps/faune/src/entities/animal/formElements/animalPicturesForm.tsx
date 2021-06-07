@@ -33,21 +33,20 @@ export function AnimalPicturesForm<
 }: AnimalPicturesFormProps<PayloadType>) {
   return (
     <Form {...rest} pending={pending}>
-      <div className="py-2 px-4 flex items-center">
-        <Avatar>
+      <div className="AnimalPictureForm__preview">
+        <Avatar className="AnimalPictureForm__avatar">
           {value.pictures.length === 0 ? (
             <FaPaw />
           ) : (
             <Image
               image={value.pictures[0]}
-              preset="avatar"
               alt="Avatar"
-              className="w-full h-full object-cover"
+              className="AnimalPictureForm__image"
             />
           )}
         </Avatar>
 
-        <p className="ml-4 flex-1 text-black text-opacity-60 text-sm">
+        <p className="AnimalPictureForm__info">
           La première photo sera utilisée comme avatar
         </p>
       </div>

@@ -1,0 +1,8 @@
+.LinkInput__placeholder {
+  color: var(--text-secondary);
+}
+
+.LinkInput__placeholder::after {
+  /* Force a min-height. */
+  content: " ";
+}

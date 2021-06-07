@@ -3,14 +3,10 @@ import {
   HostFamily,
   UserGroup,
 } from "@animeaux/shared-entities";
-import { ErrorPage } from "core/errorPage";
-import { Header } from "core/header";
-import { Navigation } from "core/navigation";
-import { PageComponent } from "core/pageComponent";
 import { PageTitle } from "core/pageTitle";
 import { renderInfiniteItemList, renderQueryEntity } from "core/request";
 import { useRouter } from "core/router";
-import { ChildrenProp } from "core/types";
+import { ChildrenProp, PageComponent } from "core/types";
 import {
   SearchableAnimalItemPlaceholder,
   SearchableAnimalLinkItem,
@@ -31,6 +27,7 @@ import {
 } from "react-icons/fa";
 import { Button } from "ui/actions/button";
 import { QuickActions } from "ui/actions/quickAction";
+import { ErrorItem } from "ui/dataDisplay/errorMessage";
 import {
   ButtonItem,
   Item,
@@ -41,8 +38,11 @@ import {
 } from "ui/dataDisplay/item";
 import { Markdown } from "ui/dataDisplay/markdown";
 import { ApplicationLayout } from "ui/layouts/applicationLayout";
+import { Header, HeaderBackLink, HeaderTitle } from "ui/layouts/header";
 import { Main } from "ui/layouts/main";
+import { Navigation } from "ui/layouts/navigation";
 import { Section, SectionBox, SectionTitle } from "ui/layouts/section";
+import { Separator } from "ui/layouts/separator";
 import { Placeholder, Placeholders } from "ui/loaders/placeholder";
 import { useModal } from "ui/popovers/modal";
 import { withConfirmation } from "ui/withConfirmation";
@@ -191,7 +191,7 @@ function ActionsSection({ hostFamily }: HostFamilyProps) {
         </LinkItem>
       </Section>
 
-      <hr className="mx-4 border-t border-gray-100" />
+      <Separator />
 
       <Section>
         <DeleteHostFamilyButton hostFamily={hostFamily} />
@@ -223,7 +223,7 @@ const HostFamilyPage: PageComponent = () => {
         href={`/animals/${animal.id}`}
       />
     ),
-    renderError: (props) => <ErrorPage {...props} asItem />,
+    renderError: (props) => <ErrorItem {...props} />,
     renderRetryButton: ({ retry, children }) => (
       <Button size="small" onClick={retry}>
         {children}
@@ -250,7 +250,12 @@ const HostFamilyPage: PageComponent = () => {
   return (
     <ApplicationLayout>
       <PageTitle title={pageTitle} />
-      <Header headerTitle={headerTitle} canGoBack />
+
+      <Header>
+        <HeaderBackLink />
+        <HeaderTitle>{headerTitle}</HeaderTitle>
+      </Header>
+
       <Main>{content}</Main>
       <Navigation onlyLargeEnough />
     </ApplicationLayout>

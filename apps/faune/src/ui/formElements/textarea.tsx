@@ -1,7 +1,7 @@
 import autosize from "autosize";
 import cn from "classnames";
 import { HtmlInputProps, StyleProps } from "core/types";
-import * as React from "react";
+import { useLayoutEffect, useRef } from "react";
 import {
   getInputClassName,
   InputWrapper,
@@ -28,9 +28,9 @@ export function Textarea({
   disabled,
   ...rest
 }: TextareaProps) {
-  const textareaElement = React.useRef<HTMLTextAreaElement>(null!);
+  const textareaElement = useRef<HTMLTextAreaElement>(null!);
 
-  React.useLayoutEffect(() => {
+  useLayoutEffect(() => {
     const elt = textareaElement.current;
     autosize(elt);
 
@@ -39,13 +39,12 @@ export function Textarea({
     };
   }, []);
 
-  React.useLayoutEffect(() => {
+  useLayoutEffect(() => {
     autosize.update(textareaElement.current);
   });
 
   return (
     <InputWrapper
-      size="dynamic"
       disabled={disabled}
       leftAdornment={leftAdornment}
       rightAdornment={rightAdornment}
@@ -63,12 +62,10 @@ export function Textarea({
         className={cn(
           getInputClassName({
             disabled,
-            size: "dynamic",
             hasError,
             leftAdornment,
             rightAdornment,
-          }),
-          "py-2 placeholder-black placeholder-opacity-50"
+          })
         )}
       />
     </InputWrapper>

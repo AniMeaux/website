@@ -5,7 +5,6 @@ import {
   UserGroup,
 } from "@animeaux/shared-entities";
 import * as Sentry from "@sentry/react";
-import { ErrorPage, ErrorPageType } from "core/errorPage";
 import { firebase } from "core/firebase";
 import { fetchGraphQL } from "core/request";
 import { ChildrenProp } from "core/types";
@@ -14,8 +13,7 @@ import { UserFragment } from "entities/user/userQueries";
 import { gql } from "graphql-request";
 import invariant from "invariant";
 import * as React from "react";
-import { ButtonLink } from "ui/actions/button";
-import { Main } from "ui/layouts/main";
+import { ErrorActionBack, ErrorMessage } from "ui/dataDisplay/errorMessage";
 
 type CurrentUserContextValue = {
   currentUser: User | null;
@@ -24,9 +22,8 @@ type CurrentUserContextValue = {
   updatePassword(currentPassword: string, newPassword: string): Promise<void>;
 };
 
-const CurrentUserContext = React.createContext<CurrentUserContextValue | null>(
-  null
-);
+const CurrentUserContext =
+  React.createContext<CurrentUserContextValue | null>(null);
 
 async function updateProfile(displayName: string) {
   displayName = displayName.trim();
@@ -126,15 +123,11 @@ type UserState = {
 export type CurrentUserContextProviderProps = ChildrenProp & {
   authorisedGroupsForApplication: UserGroup[];
   authorisedGroupsForPage?: UserGroup[];
-  logo: React.ElementType;
-  applicationName: string;
 };
 
 export function CurrentUserContextProvider({
   authorisedGroupsForApplication,
   authorisedGroupsForPage,
-  logo: Logo,
-  applicationName,
   children,
 }: CurrentUserContextProviderProps) {
   const [{ hasResult, currentUser }, setState] = React.useState<UserState>({
@@ -191,16 +184,10 @@ export function CurrentUserContextProvider({
     !doesGroupsIntersect(currentUser.groups, authorisedGroupsForApplication)
   ) {
     return (
-      <Main>
-        <ErrorPage
-          type={ErrorPageType.UNAUTHORIZED}
-          error={
-            new Error(
-              "Vous n'êtes pas authorisé à accéder à cette application. Si vous pensez que c'est une erreur merci de contacter un administrateur."
-            )
-          }
-        />
-      </Main>
+      <ErrorMessage
+        type="unauthorized"
+        message="Vous n'êtes pas authorisé à accéder à cette application. Si vous pensez que c'est une erreur merci de contacter un administrateur."
+      />
     );
   }
 
@@ -209,21 +196,11 @@ export function CurrentUserContextProvider({
     !doesGroupsIntersect(currentUser.groups, authorisedGroupsForPage)
   ) {
     return (
-      <Main>
-        <ErrorPage
-          type={ErrorPageType.UNAUTHORIZED}
-          error={
-            new Error(
-              "Vous n'êtes pas authorisé à accéder à cette page. Si vous pensez que c'est une erreur merci de contacter un administrateur."
-            )
-          }
-          action={
-            <ButtonLink href="/" variant="outlined">
-              Retour
-            </ButtonLink>
-          }
-        />
-      </Main>
+      <ErrorMessage
+        type="unauthorized"
+        message="Vous n'êtes pas authorisé à accéder à cette page. Si vous pensez que c'est une erreur merci de contacter un administrateur."
+        action={<ErrorActionBack />}
+      />
     );
   }
 

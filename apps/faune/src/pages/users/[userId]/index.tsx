@@ -4,12 +4,10 @@ import {
   UserGroup,
   UserGroupLabels,
 } from "@animeaux/shared-entities";
-import { Header } from "core/header";
-import { Navigation } from "core/navigation";
-import { PageComponent } from "core/pageComponent";
 import { PageTitle } from "core/pageTitle";
 import { renderQueryEntity } from "core/request";
 import { useRouter } from "core/router";
+import { PageComponent } from "core/types";
 import { useCurrentUser } from "entities/user/currentUserContext";
 import { UserGroupIcon } from "entities/user/userGroupIcon";
 import {
@@ -35,8 +33,11 @@ import {
   LinkItem,
 } from "ui/dataDisplay/item";
 import { ApplicationLayout } from "ui/layouts/applicationLayout";
+import { Header, HeaderBackLink, HeaderTitle } from "ui/layouts/header";
 import { Main } from "ui/layouts/main";
+import { Navigation } from "ui/layouts/navigation";
 import { Section, SectionTitle } from "ui/layouts/section";
+import { Separator } from "ui/layouts/separator";
 import { Placeholder, Placeholders } from "ui/loaders/placeholder";
 import { useModal } from "ui/popovers/modal";
 import { withConfirmation } from "ui/withConfirmation";
@@ -246,7 +247,7 @@ function ActionsSection({ user }: UserProp) {
         </LinkItem>
       </Section>
 
-      <hr className="mx-4 border-t border-gray-100" />
+      <Separator />
 
       <Section>
         <BlockUserButton user={user} />
@@ -284,7 +285,12 @@ const UserPage: PageComponent = () => {
   return (
     <ApplicationLayout>
       <PageTitle title={pageTitle} />
-      <Header headerTitle={headerTitle} canGoBack />
+
+      <Header>
+        <HeaderBackLink />
+        <HeaderTitle>{headerTitle}</HeaderTitle>
+      </Header>
+
       <Main>{content}</Main>
       <Navigation onlyLargeEnough />
     </ApplicationLayout>

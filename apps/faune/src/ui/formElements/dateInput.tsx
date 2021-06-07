@@ -1,6 +1,6 @@
 import cn from "classnames";
 import { HtmlInputProps, StyleProps } from "core/types";
-import * as React from "react";
+import { useRef } from "react";
 import { Adornment } from "ui/formElements/adornment";
 import { Input } from "ui/formElements/input";
 import { InputWrapperProps } from "ui/formElements/inputWrapper";
@@ -30,8 +30,8 @@ export function DateInput({
 }: DateInputProps) {
   const [year = "", month = "", day = ""] = (value ?? "").split("-");
 
-  const monthRef = React.useRef<HTMLInputElement>(null!);
-  const yearRef = React.useRef<HTMLInputElement>(null!);
+  const monthRef = useRef<HTMLInputElement>(null!);
+  const yearRef = useRef<HTMLInputElement>(null!);
 
   function setDay(day: string) {
     if (day.length <= 2) {
@@ -62,7 +62,7 @@ export function DateInput({
   }
 
   return (
-    <span className={cn("flex items-center space-x-2", className)}>
+    <span className={cn("DateInput", className)}>
       <Input
         {...rest}
         id={id}
@@ -72,10 +72,8 @@ export function DateInput({
         type="number"
         placeholder="00"
         hasError={hasError}
-        leftAdornment={
-          <Adornment className="font-serif font-bold">J</Adornment>
-        }
-        className="date-input-day"
+        leftAdornment={<Adornment>J</Adornment>}
+        className="DateInput__day"
       />
 
       <Input
@@ -86,11 +84,9 @@ export function DateInput({
         type="number"
         placeholder="00"
         hasError={hasError}
-        leftAdornment={
-          <Adornment className="font-serif font-bold">M</Adornment>
-        }
+        leftAdornment={<Adornment>M</Adornment>}
         ref={monthRef}
-        className="date-input-month"
+        className="DateInput__month"
       />
 
       <Input
@@ -101,11 +97,9 @@ export function DateInput({
         type="number"
         placeholder="0000"
         hasError={hasError}
-        leftAdornment={
-          <Adornment className="font-serif font-bold">A</Adornment>
-        }
+        leftAdornment={<Adornment>A</Adornment>}
         ref={yearRef}
-        className="date-input-year"
+        className="DateInput__year"
       />
     </span>
   );

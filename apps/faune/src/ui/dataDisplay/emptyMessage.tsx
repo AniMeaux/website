@@ -1,6 +1,5 @@
 import cn from "classnames";
 import { ChildrenProp, StyleProps } from "core/types";
-import * as React from "react";
 
 export type EmptyMessageProps = ChildrenProp &
   StyleProps & {
@@ -13,8 +12,8 @@ export function EmptyMessage({
   className,
 }: EmptyMessageProps) {
   return (
-    <div className={cn("flex flex-col items-center justify-center", className)}>
-      <p className="max-w-full py-8 px-4 text-center">{children}</p>
+    <div className={cn("EmptyMessage", className)}>
+      <p className="EmptyMessage__text">{children}</p>
       {action}
     </div>
   );

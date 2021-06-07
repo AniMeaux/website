@@ -5,8 +5,8 @@ import {
   hasAnimalSearch,
   UserGroup,
 } from "@animeaux/shared-entities";
-import { Navigation } from "core/navigation";
-import { PageComponent } from "core/pageComponent";
+import { Navigation } from "ui/layouts/navigation";
+import { PageComponent } from "core/types";
 import { PageTitle } from "core/pageTitle";
 import { renderInfiniteItemList } from "core/request";
 import { useRouter } from "core/router";
@@ -38,13 +38,8 @@ const SearchAnimalPage: PageComponent = () => {
 
   usePageScrollRestoration();
 
-  const {
-    search,
-    rawSearch,
-    setRawSearch,
-    filters,
-    setFilters,
-  } = useSearchAndFilters(() => createAnimalSearchFromQuery(router.query));
+  const { search, rawSearch, setRawSearch, filters, setFilters } =
+    useSearchAndFilters(() => createAnimalSearchFromQuery(router.query));
 
   React.useEffect(() => {
     const query = createQueryFromAnimalSearch({ search, ...filters });
@@ -100,7 +95,6 @@ const SearchAnimalPage: PageComponent = () => {
 
         <SearchInput
           size="small"
-          className="flex-1"
           placeholder="Chercher un animal"
           value={rawSearch}
           onChange={setRawSearch}

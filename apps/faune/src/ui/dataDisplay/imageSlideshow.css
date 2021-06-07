@@ -31,14 +31,14 @@
   width: 100%;
   height: 240px;
   object-fit: cover;
-  border-radius: var(--border-radius);
+  border-radius: var(--border-radius-m);
 }
 
 .ImageSlideshow__counter {
   position: absolute;
-  top: var(--spacing-unit);
-  right: var(--spacing-unit);
-  padding: calc(var(--spacing-unit) * 1) calc(var(--spacing-unit) * 2);
+  top: var(--spacing-xs);
+  right: var(--spacing-xs);
+  padding: var(--spacing-xs) var(--spacing-s);
   background: var(--dark-800);
   color: white;
   border-radius: var(--border-radius-full);

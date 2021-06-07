@@ -1,5 +1,5 @@
+import cn from "classnames";
 import { StyleProps } from "core/types";
-import * as React from "react";
 import ReactMarkdown from "react-markdown";
 import breaks from "remark-breaks";
 
@@ -7,14 +7,17 @@ type MarkdownProps = StyleProps & {
   children: string;
 };
 
-export function Markdown(props: MarkdownProps) {
+export function Markdown({ className, children, ...props }: MarkdownProps) {
   return (
-    <ReactMarkdown
-      {...props}
-      plugins={[
-        // Allow line breaks in paragraphs.
-        breaks,
-      ]}
-    />
+    <div {...props} className={cn("Markdown", className)}>
+      <ReactMarkdown
+        plugins={[
+          // Allow line breaks in paragraphs.
+          breaks,
+        ]}
+      >
+        {children}
+      </ReactMarkdown>
+    </div>
   );
 }

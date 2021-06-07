@@ -10,7 +10,7 @@ import {
   useDragPreview,
   useDropContainer,
 } from "core/dragAndDrop";
-import * as React from "react";
+import { useRef, useState } from "react";
 import { FaImages, FaTrash } from "react-icons/fa";
 import { Image } from "ui/dataDisplay/image";
 import { Placeholder, Placeholders } from "ui/loaders/placeholder";
@@ -30,7 +30,7 @@ function PictureItemPreview() {
       image={preview.item.data}
       preset="avatar"
       style={preview.style}
-      className="shadow object-cover rounded-xl"
+      className="PictureItemPreview"
     />
   );
 }
@@ -73,7 +73,7 @@ function ImageInputButton({
   onImportImages,
   onImportImagesEnd,
 }: ImageInputButtonProps) {
-  const inputFile = React.useRef<HTMLInputElement>(null!);
+  const inputFile = useRef<HTMLInputElement>(null!);
 
   async function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     if (event.target.files != null) {
@@ -111,17 +111,7 @@ function ImageInputButton({
   }
 
   return (
-    <span>
-      <span className="absolute w-full h-full bg-white" />
-
-      <label
-        htmlFor="pictures"
-        className="absolute top-0 left-0 rounded-xl w-full h-full bg-blue-500 bg-opacity-5 active:bg-opacity-10 flex flex-col items-center justify-center text-blue-500 font-serif font-bold"
-      >
-        <FaImages className="text-2xl" />
-        <span>Ajouter</span>
-      </label>
-
+    <li>
       <input
         ref={inputFile}
         id="pictures"
@@ -129,9 +119,16 @@ function ImageInputButton({
         multiple
         accept="image/*"
         onChange={handleChange}
-        className="-z-1 focus:outline-none focus-visible:ring focus-visible:ring-opacity-50 focus-visible:ring-blue-500 absolute top-0 left-0 rounded-xl w-full h-full"
+        className="ImageInputButton__input"
       />
-    </span>
+
+      <span className="ImageInputButton__background" />
+
+      <label htmlFor="pictures" className="ImageInputButton__label">
+        <FaImages className="ImageInputButton__icon" />
+        <span>Ajouter</span>
+      </label>
+    </li>
   );
 }
 
@@ -142,7 +139,7 @@ type ImageItemProps = {
 };
 
 function ImageItem({ image, index, onRemove }: ImageItemProps) {
-  const itemElement = React.useRef<HTMLLIElement>(null!);
+  const itemElement = useRef<HTMLLIElement>(null!);
   const { isDragging, disabled } = useDragItem({
     data: image,
     index,
@@ -153,19 +150,18 @@ function ImageItem({ image, index, onRemove }: ImageItemProps) {
     <li
       ref={itemElement}
       draggable={disabled ? false : true}
-      className={cn({ hidden: isDragging })}
+      className={cn("ImageItem ImageItem--movable", {
+        "ImageItem--hidden": isDragging,
+      })}
     >
       <Image
         alt="Image tile"
         image={image}
         preset="avatar"
-        className="rounded-xl object-cover"
+        className="ImageItem__image"
       />
 
-      <button
-        onClick={() => onRemove()}
-        className="absolute bottom-1 right-1 rounded-full w-8 h-8 bg-black bg-opacity-20 flex items-center justify-center text-white"
-      >
+      <button onClick={() => onRemove()} className="ImageItem__button">
         <FaTrash />
       </button>
     </li>
@@ -173,7 +169,7 @@ function ImageItem({ image, index, onRemove }: ImageItemProps) {
 }
 
 const picturePlaceholderItem = (
-  <li key="placeholder" className="rounded-xl bg-black bg-opacity-5" />
+  <li key="placeholder" className="PicturePlaceholderItem ImagePlaceholder" />
 );
 
 type ImageGalleryInputProps = {
@@ -187,9 +183,9 @@ function ImageGalleryInput({
   onChange,
   onRemoveImage,
 }: ImageGalleryInputProps) {
-  const [pendingImageCount, setPendingImageCount] = React.useState(0);
+  const [pendingImageCount, setPendingImageCount] = useState(0);
 
-  const containerElement = React.useRef<HTMLUListElement>(null!);
+  const containerElement = useRef<HTMLUListElement>(null!);
   const { pendingDropIndex } = useDropContainer<ImageFileOrId>({
     containerRef: containerElement,
     setItems: onChange,
@@ -210,13 +206,13 @@ function ImageGalleryInput({
   }
 
   return (
-    <ul className="grid-square gap-4" ref={containerElement}>
+    <ul className="ImageGalleryInput" ref={containerElement}>
       {imagesElement}
 
       {pendingImageCount > 0 && (
         <Placeholders count={pendingImageCount}>
           <li>
-            <Placeholder preset="image" className="rounded-xl" />
+            <Placeholder preset="image" className="ImagePlaceholder" />
           </li>
         </Placeholders>
       )}

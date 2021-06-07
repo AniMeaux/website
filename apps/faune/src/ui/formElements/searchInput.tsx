@@ -89,6 +89,7 @@ export const SearchInput = React.forwardRef<HTMLInputElement, SearchInputProps>(
           ),
           ...ensureArray(rightAdornment),
         ]}
+        className="SearchInput"
       />
     );
   }

@@ -1,7 +1,6 @@
 import { UserGroup } from "@animeaux/shared-entities";
-import { Header } from "core/header";
-import { Navigation } from "core/navigation";
-import { PageComponent } from "core/pageComponent";
+import { Navigation } from "ui/layouts/navigation";
+import { PageComponent } from "core/types";
 import { PageTitle } from "core/pageTitle";
 import { renderItemList } from "core/request";
 import { UserItemPlaceholder, UserLinkItem } from "entities/user/userItem";
@@ -10,6 +9,7 @@ import * as React from "react";
 import { FaPlus } from "react-icons/fa";
 import { QuickLinkAction } from "ui/actions/quickAction";
 import { ApplicationLayout } from "ui/layouts/applicationLayout";
+import { Header, HeaderTitle, HeaderUserAvatar } from "ui/layouts/header";
 import { Main } from "ui/layouts/main";
 import { Section } from "ui/layouts/section";
 import { usePageScrollRestoration } from "ui/layouts/usePageScroll";
@@ -31,7 +31,11 @@ const UserListPage: PageComponent = () => {
   return (
     <ApplicationLayout>
       <PageTitle title={TITLE} />
-      <Header headerTitle={title} />
+
+      <Header>
+        <HeaderUserAvatar />
+        <HeaderTitle>{title}</HeaderTitle>
+      </Header>
 
       <Main>
         <Section>{content}</Section>

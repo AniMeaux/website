@@ -1,0 +1,21 @@
+.AnimalPictureForm__preview {
+  padding: var(--spacing-s) var(--spacing-l);
+  display: flex;
+  align-items: center;
+}
+
+.AnimalPictureForm__avatar {
+  font-size: var(--font-size-6xl);
+}
+
+.AnimalPictureForm__image {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
+.AnimalPictureForm__info {
+  margin-left: var(--spacing-l);
+  flex: 1;
+  color: var(--text-secondary);
+}

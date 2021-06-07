@@ -1,6 +1,5 @@
 import cn from "classnames";
 import { ChildrenProp, StyleProps } from "core/types";
-import * as React from "react";
 
 type BadgeProps = StyleProps &
   ChildrenProp & {
@@ -11,13 +10,11 @@ export function Badge({ isVisible, children, className }: BadgeProps) {
   let badge: React.ReactNode = null;
 
   if (isVisible) {
-    badge = (
-      <span className="absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2 ring-2 ring-white w-2 h-2 rounded-full bg-blue-500" />
-    );
+    badge = <span className="Badge" />;
   }
 
   return (
-    <span className={cn("relative", className)}>
+    <span className={cn("Badge__wrapper", className)}>
       {children}
       {badge}
     </span>
