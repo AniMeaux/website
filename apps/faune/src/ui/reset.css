@@ -8,13 +8,15 @@
 
 button,
 select,
-input {
+input,
+textarea {
   background: none;
   border: none;
   padding: 0;
   font: inherit;
   text-align: left;
   color: inherit;
+  resize: none;
 }
 
 button:not([disabled]),
