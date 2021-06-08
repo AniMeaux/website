@@ -1,18 +1,18 @@
 import * as Sentry from "@sentry/react";
 import { CloudinaryContextProvider } from "core/cloudinary";
 import { FirebaseConfig, initializeFirebase } from "core/firebase";
-import { PageComponent } from "core/types";
 import { initializeGraphQlClient, RequestContextProvider } from "core/request";
+import { ScreenSizeContextProvider } from "core/screenSize";
 import { initializeSentry, SentryConfig } from "core/sentry";
+import { PageComponent } from "core/types";
+import { ErrorActionRefresh, ErrorMessage } from "dataDisplay/errorMessage";
 import {
   CurrentUserContextProvider,
   CurrentUserContextProviderProps,
 } from "entities/user/currentUserContext";
 import { AppProps } from "next/app";
+import { SnackbarContainer } from "popovers/snackbar";
 import * as React from "react";
-import { ErrorActionRefresh, ErrorMessage } from "ui/dataDisplay/errorMessage";
-import { SnackbarContainer } from "ui/popovers/snackbar";
-import { ScreenSizeContextProvider } from "ui/screenSize";
 
 type ApplicationConfigs = {
   environment: "production" | "development" | "test";

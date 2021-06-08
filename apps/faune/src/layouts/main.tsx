@@ -1,7 +1,7 @@
 import cn from "classnames";
 import { ChildrenProp, StyleProps } from "core/types";
+import { useApplicationLayout } from "layouts/applicationLayout";
 import * as React from "react";
-import { useApplicationLayout } from "ui/layouts/applicationLayout";
 
 export type MainProps = ChildrenProp & StyleProps;
 export function Main({ className, ...rest }: MainProps) {

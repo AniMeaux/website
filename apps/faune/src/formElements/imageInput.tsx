@@ -10,11 +10,11 @@ import {
   useDragPreview,
   useDropContainer,
 } from "core/dragAndDrop";
+import { Image } from "dataDisplay/image";
+import { Placeholder, Placeholders } from "loaders/placeholder";
+import { showSnackbar, Snackbar } from "popovers/snackbar";
 import { useRef, useState } from "react";
 import { FaImages, FaTrash } from "react-icons/fa";
-import { Image } from "ui/dataDisplay/image";
-import { Placeholder, Placeholders } from "ui/loaders/placeholder";
-import { showSnackbar, Snackbar } from "ui/popovers/snackbar";
 import { v4 as uuid } from "uuid";
 
 function PictureItemPreview() {

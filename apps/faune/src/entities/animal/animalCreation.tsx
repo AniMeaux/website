@@ -6,17 +6,12 @@ import {
   isEmptyAnimalFormPayload,
 } from "@animeaux/shared-entities";
 import constate from "constate";
+import { StepItem, StepLink, Stepper, StepStatus } from "controllers/stepper";
 import { useRouter } from "core/router";
 import { openStorage } from "core/storage";
 import { ChildrenProp } from "core/types";
 import invariant from "invariant";
 import * as React from "react";
-import {
-  StepItem,
-  StepLink,
-  Stepper,
-  StepStatus,
-} from "ui/controllers/stepper";
 
 export const AnimalFormDraftStorage = openStorage<AnimalFormPayload>(
   "animal-creation",
@@ -55,51 +50,48 @@ function useAnimalFormPayload() {
   return { formPayload, setFormPayload };
 }
 
-const [AnimalFormContextProvider, useAnimalForm] = constate(
-  useAnimalFormPayload
-);
+const [AnimalFormContextProvider, useAnimalForm] =
+  constate(useAnimalFormPayload);
 
 export { useAnimalForm };
 
-const StepValidators: Record<
-  string,
-  (payload: AnimalFormPayload) => boolean
-> = {
-  profile: () => true,
-  breed: () => true,
-  color: () => true,
-  situation: (payload) => {
-    try {
-      return createAnimalProfileCreationApiPayload(payload) != null;
-    } catch (error) {
-      return false;
-    }
-  },
-  "host-family": (payload) => {
-    try {
-      return createAnimalProfileCreationApiPayload(payload) != null;
-    } catch (error) {
-      return false;
-    }
-  },
-  "new-host-family": (payload) => {
-    try {
-      return createAnimalProfileCreationApiPayload(payload) != null;
-    } catch (error) {
-      return false;
-    }
-  },
-  pictures: (payload) => {
-    try {
-      return (
-        createAnimalProfileCreationApiPayload(payload) != null &&
-        createAnimalSituationCreationApiPayload(payload) != null
-      );
-    } catch (error) {
-      return false;
-    }
-  },
-};
+const StepValidators: Record<string, (payload: AnimalFormPayload) => boolean> =
+  {
+    profile: () => true,
+    breed: () => true,
+    color: () => true,
+    situation: (payload) => {
+      try {
+        return createAnimalProfileCreationApiPayload(payload) != null;
+      } catch (error) {
+        return false;
+      }
+    },
+    "host-family": (payload) => {
+      try {
+        return createAnimalProfileCreationApiPayload(payload) != null;
+      } catch (error) {
+        return false;
+      }
+    },
+    "new-host-family": (payload) => {
+      try {
+        return createAnimalProfileCreationApiPayload(payload) != null;
+      } catch (error) {
+        return false;
+      }
+    },
+    pictures: (payload) => {
+      try {
+        return (
+          createAnimalProfileCreationApiPayload(payload) != null &&
+          createAnimalSituationCreationApiPayload(payload) != null
+        );
+      } catch (error) {
+        return false;
+      }
+    },
+  };
 
 function AnimalFormRouting({ children }: ChildrenProp) {
   const { formPayload } = useAnimalForm();

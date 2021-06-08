@@ -4,17 +4,17 @@ import {
   ANIMAL_SPECIES_ALPHABETICAL_ORDER,
 } from "@animeaux/shared-entities";
 import { AnimalSpeciesInput } from "entities/animal/formElements/animalSpeciesInput";
+import { Adornment } from "formElements/adornment";
+import { Field } from "formElements/field";
+import { FieldMessage } from "formElements/fieldMessage";
+import { Form, FormProps } from "formElements/form";
+import { Input } from "formElements/input";
+import { Label } from "formElements/label";
+import { SelectorItem, Selectors } from "formElements/selector";
+import { SubmitButton } from "formElements/submitButton";
+import { Placeholder, Placeholders } from "loaders/placeholder";
 import * as React from "react";
 import { FaDna } from "react-icons/fa";
-import { Adornment } from "ui/formElements/adornment";
-import { Field } from "ui/formElements/field";
-import { FieldMessage } from "ui/formElements/fieldMessage";
-import { Form, FormProps } from "ui/formElements/form";
-import { Input } from "ui/formElements/input";
-import { Label } from "ui/formElements/label";
-import { SelectorItem, Selectors } from "ui/formElements/selector";
-import { SubmitButton } from "ui/formElements/submitButton";
-import { Placeholder, Placeholders } from "ui/loaders/placeholder";
 
 export type AnimalBreedFormErrors = {
   name?: string | null;

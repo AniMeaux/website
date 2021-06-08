@@ -2,8 +2,8 @@ import { ErrorCode, getErrorCode } from "@animeaux/shared-entities";
 import * as Sentry from "@sentry/react";
 import { firebase } from "core/firebase";
 import { useMutation } from "core/request";
+import { SignInPage as SignInPageUI } from "formElements/signInPage";
 import * as React from "react";
-import { SignInPage as SignInPageUI } from "ui/pages/signInPage";
 
 function isAuthError(error: Error): boolean {
   return [

@@ -1,8 +1,8 @@
 import cn from "classnames";
 import { Link, LinkProps } from "core/link";
 import { ChildrenProp, StyleProps } from "core/types";
+import { Modal } from "popovers/modal";
 import * as React from "react";
-import { Modal } from "ui/popovers/modal";
 
 export function QuickLinkAction({ className, ...rest }: LinkProps) {
   return <Link {...rest} className={cn("QuickAction", className)} />;

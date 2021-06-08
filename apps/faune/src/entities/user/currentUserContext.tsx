@@ -8,12 +8,12 @@ import * as Sentry from "@sentry/react";
 import { firebase } from "core/firebase";
 import { fetchGraphQL } from "core/request";
 import { ChildrenProp } from "core/types";
+import { ErrorActionBack, ErrorMessage } from "dataDisplay/errorMessage";
 import { SignInPage } from "entities/user/signInPage";
 import { UserFragment } from "entities/user/userQueries";
 import { gql } from "graphql-request";
 import invariant from "invariant";
 import * as React from "react";
-import { ErrorActionBack, ErrorMessage } from "ui/dataDisplay/errorMessage";
 
 type CurrentUserContextValue = {
   currentUser: User | null;

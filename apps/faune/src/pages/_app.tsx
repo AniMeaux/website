@@ -1,6 +1,6 @@
 import "react-app-polyfill/stable";
 import "focus-visible";
-import "ui/index.css";
+import "styles/index.css";
 
 import { UserGroup } from "@animeaux/shared-entities";
 import {

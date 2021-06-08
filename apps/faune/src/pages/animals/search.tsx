@@ -5,27 +5,27 @@ import {
   hasAnimalSearch,
   UserGroup,
 } from "@animeaux/shared-entities";
-import { Navigation } from "ui/layouts/navigation";
-import { PageComponent } from "core/types";
+import { ActionFilter } from "actions/actionFilter";
+import { Button } from "actions/button";
 import { PageTitle } from "core/pageTitle";
 import { renderInfiniteItemList } from "core/request";
 import { useRouter } from "core/router";
+import { PageComponent } from "core/types";
 import {
   SearchableAnimalItemPlaceholder,
   SearchableAnimalLinkItem,
 } from "entities/animal/animalItems";
 import { AnimalFiltersForm } from "entities/animal/formElements/animalFiltersForm";
 import { useAllAnimals } from "entities/animal/queries";
+import { SearchInput, useSearchAndFilters } from "formElements/searchInput";
+import { ApplicationLayout } from "layouts/applicationLayout";
+import { Header, HeaderBackLink } from "layouts/header";
+import { Main } from "layouts/main";
+import { Navigation } from "layouts/navigation";
+import { Section, SectionTitle } from "layouts/section";
+import { usePageScrollRestoration } from "layouts/usePageScroll";
 import isEqual from "lodash.isequal";
 import * as React from "react";
-import { ActionFilter } from "ui/actions/actionFilter";
-import { Button } from "ui/actions/button";
-import { SearchInput, useSearchAndFilters } from "ui/formElements/searchInput";
-import { ApplicationLayout } from "ui/layouts/applicationLayout";
-import { Header, HeaderBackLink } from "ui/layouts/header";
-import { Main } from "ui/layouts/main";
-import { Section, SectionTitle } from "ui/layouts/section";
-import { usePageScrollRestoration } from "ui/layouts/usePageScroll";
 
 const TITLE = "Animaux";
 

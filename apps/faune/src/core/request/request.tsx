@@ -6,6 +6,9 @@ import {
 } from "@animeaux/shared-entities";
 import * as Sentry from "@sentry/react";
 import invariant from "invariant";
+import { useIsScrollAtFetchMore } from "layouts/usePageScroll";
+import { ProgressBar } from "loaders/progressBar";
+import { showSnackbar, Snackbar } from "popovers/snackbar";
 import * as React from "react";
 import {
   InfiniteData,
@@ -26,9 +29,6 @@ import {
 } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 import { Updater } from "react-query/types/core/utils";
-import { useIsScrollAtFetchMore } from "ui/layouts/usePageScroll";
-import { ProgressBar } from "ui/loaders/progressBar";
-import { showSnackbar, Snackbar } from "ui/popovers/snackbar";
 import { NetworkStatus } from "./networkStatus";
 
 export * from "react-query";

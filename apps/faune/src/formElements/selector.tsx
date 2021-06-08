@@ -1,8 +1,8 @@
 import cn from "classnames";
 import { ChildrenProp, StyleProps } from "core/types";
+import { RawCheckbox, RawCheckboxProps } from "formElements/checkbox";
+import { RawRadio, RawRadioProps } from "formElements/radio";
 import * as React from "react";
-import { RawCheckbox, RawCheckboxProps } from "ui/formElements/checkbox";
-import { RawRadio, RawRadioProps } from "ui/formElements/radio";
 
 export type SelectorsProps = ChildrenProp &
   StyleProps & {

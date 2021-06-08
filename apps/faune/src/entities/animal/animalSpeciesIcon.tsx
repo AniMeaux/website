@@ -1,11 +1,11 @@
 import { AnimalSpecies } from "@animeaux/shared-entities";
+import { BirdIcon } from "icons/birdIcon";
+import { CatIcon } from "icons/catIcon";
+import { DogIcon } from "icons/dogIcon";
+import { ReptileIcon } from "icons/reptileIcon";
+import { RodentIcon } from "icons/rodentIcon";
 import * as React from "react";
 import { IconBaseProps } from "react-icons";
-import { BirdIcon } from "ui/icons/birdIcon";
-import { CatIcon } from "ui/icons/catIcon";
-import { DogIcon } from "ui/icons/dogIcon";
-import { ReptileIcon } from "ui/icons/reptileIcon";
-import { RodentIcon } from "ui/icons/rodentIcon";
 
 type AnimalSpeciesIconProps = IconBaseProps & {
   species: AnimalSpecies;

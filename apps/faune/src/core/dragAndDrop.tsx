@@ -1,3 +1,4 @@
+import { useIsTouchScreen } from "core/touchScreen";
 import { ChildrenProp } from "core/types";
 import invariant from "invariant";
 import * as React from "react";
@@ -12,7 +13,6 @@ import {
 } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { TouchBackend } from "react-dnd-touch-backend";
-import { useIsTouchScreen } from "ui/touchScreen";
 
 export enum DragAndDropDirection {
   HORIZONTAL,
@@ -34,9 +34,8 @@ export type DragAndDropContextValue = ProviderState & {
   direction: DragAndDropDirection;
 };
 
-const DragAndDropContext = React.createContext<DragAndDropContextValue | null>(
-  null
-);
+const DragAndDropContext =
+  React.createContext<DragAndDropContextValue | null>(null);
 
 export function useDragAndDropContext(functionCallerName: string) {
   const context = React.useContext(DragAndDropContext);
@@ -148,12 +147,8 @@ export function useDropContainer<DataType>({
   containerRef,
   setItems,
 }: UseDropContainerParameters<DataType>) {
-  const {
-    itemType,
-    pendingDropIndex,
-    hoverItem,
-    disabled,
-  } = useDragAndDropContext("useDropContainer");
+  const { itemType, pendingDropIndex, hoverItem, disabled } =
+    useDragAndDropContext("useDropContainer");
 
   const [{ isOver }, drop] = useDrop<
     DragItem<DataType>,

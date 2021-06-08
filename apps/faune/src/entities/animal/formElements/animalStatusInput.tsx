@@ -3,14 +3,14 @@ import {
   AnimalStatusLabels,
   ANIMAL_STATUSES_ORDER,
 } from "@animeaux/shared-entities";
-import * as React from "react";
 import {
   Selector,
   SelectorItem,
   SelectorLabel,
   SelectorRadio,
   Selectors,
-} from "ui/formElements/selector";
+} from "formElements/selector";
+import * as React from "react";
 
 type AnimalStatusInputProps = {
   value?: AnimalStatus | null;

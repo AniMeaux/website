@@ -1,13 +1,13 @@
 import { PaginatedResponse } from "@animeaux/shared-entities";
 import { ChildrenProp } from "core/types";
-import * as React from "react";
-import { EmptyMessage, EmptyMessageProps } from "ui/dataDisplay/emptyMessage";
+import { EmptyMessage, EmptyMessageProps } from "dataDisplay/emptyMessage";
 import {
   ErrorActionRetry,
   ErrorMessage,
   ErrorMessageProps,
-} from "ui/dataDisplay/errorMessage";
-import { Placeholder, Placeholders } from "ui/loaders/placeholder";
+} from "dataDisplay/errorMessage";
+import { Placeholder, Placeholders } from "loaders/placeholder";
+import * as React from "react";
 import { UseInfiniteQueryResult, UseQueryResult } from "./request";
 
 type RetryButtonProps = ChildrenProp & {

@@ -2,14 +2,14 @@ import cn from "classnames";
 import { ensureArray } from "core/ensureArray";
 import { Link, LinkProps } from "core/link";
 import { StyleProps } from "core/types";
-import * as React from "react";
-import { FaCaretDown } from "react-icons/fa";
-import { Adornment } from "ui/formElements/adornment";
+import { Adornment } from "formElements/adornment";
 import {
   getInputClassName,
   InputWrapper,
   InputWrapperProps,
-} from "ui/formElements/inputWrapper";
+} from "formElements/inputWrapper";
+import * as React from "react";
+import { FaCaretDown } from "react-icons/fa";
 
 export type LinkInputProps = InputWrapperProps &
   StyleProps &

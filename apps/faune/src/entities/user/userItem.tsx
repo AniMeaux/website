@@ -1,6 +1,4 @@
 import { User } from "@animeaux/shared-entities";
-import { UserAvatar } from "entities/user/userAvatar";
-import * as React from "react";
 import {
   Item,
   ItemContent,
@@ -8,8 +6,10 @@ import {
   ItemMainText,
   ItemProps,
   ItemSecondaryText,
-} from "ui/dataDisplay/item";
-import { Placeholder } from "ui/loaders/placeholder";
+} from "dataDisplay/item";
+import { UserAvatar } from "entities/user/userAvatar";
+import { Placeholder } from "loaders/placeholder";
+import * as React from "react";
 
 export function UserItemPlaceholder() {
   return (

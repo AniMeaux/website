@@ -1,17 +1,17 @@
+import { Button } from "actions/button";
 import cn from "classnames";
+import { ScreenSize, useScreenSize } from "core/screenSize";
 import { ChildrenProp, StyleProps } from "core/types";
+import { useFocusTrap } from "core/useFocusTrap";
 import { useLatestDefinedValue } from "core/useLatestDefinedValue";
+import { useScrollLock } from "core/useScrollLock";
 import invariant from "invariant";
+import { HeaderTitle, HeaderTitleProps } from "layouts/header";
+import { ButtonSection } from "layouts/section";
 import type { Modifiers, Placement } from "popper.js";
 import * as React from "react";
 import { usePopper } from "react-behave";
 import * as ReactDOM from "react-dom";
-import { Button } from "ui/actions/button";
-import { HeaderTitle, HeaderTitleProps } from "ui/layouts/header";
-import { ButtonSection } from "ui/layouts/section";
-import { ScreenSize, useScreenSize } from "ui/screenSize";
-import { useFocusTrap } from "ui/useFocusTrap";
-import { useScrollLock } from "ui/useScrollLock";
 
 type ModalContextType = {
   onDismiss: () => void;

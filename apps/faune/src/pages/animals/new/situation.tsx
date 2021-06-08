@@ -4,10 +4,9 @@ import {
   hasErrorCode,
   UserGroup,
 } from "@animeaux/shared-entities";
-import { Navigation } from "ui/layouts/navigation";
-import { PageComponent } from "core/types";
 import { PageTitle } from "core/pageTitle";
 import { useRouter } from "core/router";
+import { PageComponent } from "core/types";
 import {
   AnimalFormProvider,
   AnimalFormStep,
@@ -19,10 +18,11 @@ import {
   AnimalSituationFormErrors,
 } from "entities/animal/formElements/animalSituationForm";
 import { useCreateAnimalSituation } from "entities/animal/queries";
+import { ApplicationLayout } from "layouts/applicationLayout";
+import { Header, HeaderBackLink, HeaderTitle } from "layouts/header";
+import { Main } from "layouts/main";
+import { Navigation } from "layouts/navigation";
 import * as React from "react";
-import { ApplicationLayout } from "ui/layouts/applicationLayout";
-import { Header, HeaderBackLink, HeaderTitle } from "ui/layouts/header";
-import { Main } from "ui/layouts/main";
 
 const CreateAnimalSituationPage: PageComponent = () => {
   const { formPayload, setFormPayload } = useAnimalForm();

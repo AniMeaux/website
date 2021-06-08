@@ -36,14 +36,14 @@ import {
   useQuery,
   useQueryClient,
 } from "core/request";
+import { useImageProvider } from "dataDisplay/image";
 import { AnimalBreedFragment } from "entities/animalBreed/animalBreedQueries";
 import { AnimalColorFragment } from "entities/animalColor/animalColorQueries";
 import { HostFamilyFragment } from "entities/hostFamily/hostFamilyQueries";
 import { gql } from "graphql-request";
 import difference from "lodash.difference";
+import { showSnackbar, Snackbar } from "popovers/snackbar";
 import * as React from "react";
-import { useImageProvider } from "ui/dataDisplay/image";
-import { showSnackbar, Snackbar } from "ui/popovers/snackbar";
 
 const SearchableAnimalFragment = gql`
   fragment SearchableAnimalFragment on SearchableAnimal {

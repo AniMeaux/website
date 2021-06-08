@@ -4,24 +4,24 @@ import {
   TRILEAN_ORDER,
 } from "@animeaux/shared-entities";
 import { AnimalStatusInput } from "entities/animal/formElements/animalStatusInput";
-import * as React from "react";
-import { FaExclamationTriangle, FaHome, FaTimes } from "react-icons/fa";
-import { ActionAdornment, Adornment } from "ui/formElements/adornment";
-import { DateInput } from "ui/formElements/dateInput";
-import { Field } from "ui/formElements/field";
-import { FieldMessage } from "ui/formElements/fieldMessage";
-import { Form, FormProps } from "ui/formElements/form";
-import { Label } from "ui/formElements/label";
-import { LinkInput } from "ui/formElements/linkInput";
+import { ActionAdornment, Adornment } from "formElements/adornment";
+import { DateInput } from "formElements/dateInput";
+import { Field } from "formElements/field";
+import { FieldMessage } from "formElements/fieldMessage";
+import { Form, FormProps } from "formElements/form";
+import { Label } from "formElements/label";
+import { LinkInput } from "formElements/linkInput";
 import {
   Selector,
   SelectorItem,
   SelectorLabel,
   SelectorRadio,
   Selectors,
-} from "ui/formElements/selector";
-import { SubmitButton } from "ui/formElements/submitButton";
-import { Textarea } from "ui/formElements/textarea";
+} from "formElements/selector";
+import { SubmitButton } from "formElements/submitButton";
+import { Textarea } from "formElements/textarea";
+import * as React from "react";
+import { FaExclamationTriangle, FaHome, FaTimes } from "react-icons/fa";
 
 export type AnimalSituationFormErrors = {
   pickUpDate?: string | null;

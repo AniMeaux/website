@@ -7,32 +7,32 @@ import { PageTitle } from "core/pageTitle";
 import { useMutation } from "core/request";
 import { useRouter } from "core/router";
 import { PageComponent } from "core/types";
-import { useCurrentUser } from "entities/user/currentUserContext";
-import { UserItem } from "entities/user/userItem";
-import * as React from "react";
-import { FaAngleRight, FaLock, FaSignOutAlt, FaUser } from "react-icons/fa";
 import {
   ButtonItem,
   ItemContent,
   ItemIcon,
   ItemMainText,
   LinkItem,
-} from "ui/dataDisplay/item";
-import { Adornment } from "ui/formElements/adornment";
-import { Field } from "ui/formElements/field";
-import { FieldMessage } from "ui/formElements/fieldMessage";
-import { Form } from "ui/formElements/form";
-import { Input } from "ui/formElements/input";
-import { Label } from "ui/formElements/label";
-import { PasswordInput } from "ui/formElements/passwordInput";
-import { SubmitButton } from "ui/formElements/submitButton";
-import { ApplicationLayout } from "ui/layouts/applicationLayout";
-import { Header, HeaderBackLink, HeaderTitle } from "ui/layouts/header";
-import { Main } from "ui/layouts/main";
-import { Section } from "ui/layouts/section";
-import { Separator } from "ui/layouts/separator";
-import { Modal, ModalHeader, ModalProps, useModal } from "ui/popovers/modal";
-import { showSnackbar, Snackbar } from "ui/popovers/snackbar";
+} from "dataDisplay/item";
+import { useCurrentUser } from "entities/user/currentUserContext";
+import { UserItem } from "entities/user/userItem";
+import { Adornment } from "formElements/adornment";
+import { Field } from "formElements/field";
+import { FieldMessage } from "formElements/fieldMessage";
+import { Form } from "formElements/form";
+import { Input } from "formElements/input";
+import { Label } from "formElements/label";
+import { PasswordInput } from "formElements/passwordInput";
+import { SubmitButton } from "formElements/submitButton";
+import { ApplicationLayout } from "layouts/applicationLayout";
+import { Header, HeaderBackLink, HeaderTitle } from "layouts/header";
+import { Main } from "layouts/main";
+import { Section } from "layouts/section";
+import { Separator } from "layouts/separator";
+import { Modal, ModalHeader, ModalProps, useModal } from "popovers/modal";
+import { showSnackbar, Snackbar } from "popovers/snackbar";
+import * as React from "react";
+import { FaAngleRight, FaLock, FaSignOutAlt, FaUser } from "react-icons/fa";
 
 export const CurrentUserPasswordForm: PageComponent = ({ children }) => {
   const router = useRouter();

@@ -4,7 +4,6 @@ import {
   ANIMAL_SPECIES_ALPHABETICAL_ORDER,
 } from "@animeaux/shared-entities";
 import { AnimalSpeciesIcon } from "entities/animal/animalSpeciesIcon";
-import * as React from "react";
 import {
   Selector,
   SelectorIcon,
@@ -12,7 +11,8 @@ import {
   SelectorLabel,
   SelectorRadio,
   Selectors,
-} from "ui/formElements/selector";
+} from "formElements/selector";
+import * as React from "react";
 
 type AnimalSpeciesInputProps = {
   value?: AnimalSpecies | null;

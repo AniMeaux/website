@@ -1,13 +1,13 @@
 import cn from "classnames";
 import { Link, LinkProps } from "core/link";
+import { ScreenSize, useScreenSize } from "core/screenSize";
 import { ChildrenProp, StyleProps } from "core/types";
 import { useCurrentUser } from "entities/user/currentUserContext";
 import { CurrentUserProfile } from "entities/user/currentUserProfile";
 import { UserAvatar } from "entities/user/userAvatar";
+import { useIsScrollAtTheTop } from "layouts/usePageScroll";
 import * as React from "react";
 import { FaChevronLeft } from "react-icons/fa";
-import { useIsScrollAtTheTop } from "ui/layouts/usePageScroll";
-import { ScreenSize, useScreenSize } from "ui/screenSize";
 
 export function HeaderLink({ className, ...rest }: LinkProps) {
   return <Link {...rest} className={cn("HeaderLink", className)} />;

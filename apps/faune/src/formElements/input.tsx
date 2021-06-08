@@ -1,11 +1,11 @@
 import cn from "classnames";
 import { HtmlInputProps, StyleProps } from "core/types";
-import * as React from "react";
 import {
   getInputClassName,
   InputWrapper,
   InputWrapperProps,
-} from "ui/formElements/inputWrapper";
+} from "formElements/inputWrapper";
+import * as React from "react";
 
 export type InputProps = StyleProps &
   HtmlInputProps &

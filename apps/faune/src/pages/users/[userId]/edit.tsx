@@ -4,21 +4,21 @@ import {
   hasErrorCode,
   UserGroup,
 } from "@animeaux/shared-entities";
-import { Navigation } from "ui/layouts/navigation";
-import { PageComponent } from "core/types";
 import { PageTitle } from "core/pageTitle";
 import { renderQueryEntity } from "core/request";
 import { useRouter } from "core/router";
+import { PageComponent } from "core/types";
 import {
   UserForm,
   UserFormErrors,
   UserFormPlaceholder,
 } from "entities/user/userForm";
 import { useUpdateUser, useUser } from "entities/user/userQueries";
+import { ApplicationLayout } from "layouts/applicationLayout";
+import { Header, HeaderBackLink, HeaderTitle } from "layouts/header";
+import { Main } from "layouts/main";
+import { Navigation } from "layouts/navigation";
 import * as React from "react";
-import { ApplicationLayout } from "ui/layouts/applicationLayout";
-import { Header, HeaderBackLink, HeaderTitle } from "ui/layouts/header";
-import { Main } from "ui/layouts/main";
 
 const UserEditPage: PageComponent = () => {
   const router = useRouter();

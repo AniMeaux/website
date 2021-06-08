@@ -5,16 +5,12 @@ import {
   SearchableAnimal,
   UserGroup,
 } from "@animeaux/shared-entities";
+import { QuickLinkAction } from "actions/quickAction";
 import { PageTitle } from "core/pageTitle";
 import { renderInfiniteItemList } from "core/request";
 import { PageComponent } from "core/types";
-import { useAllActiveAnimals } from "entities/animal/queries";
-import { useCurrentUser } from "entities/user/currentUserContext";
-import * as React from "react";
-import { FaPlus, FaSearch } from "react-icons/fa";
-import { QuickLinkAction } from "ui/actions/quickAction";
-import { Avatar } from "ui/dataDisplay/avatar";
-import { Image } from "ui/dataDisplay/image";
+import { Avatar } from "dataDisplay/avatar";
+import { Image } from "dataDisplay/image";
 import {
   Item,
   ItemContent,
@@ -22,19 +18,23 @@ import {
   ItemMainText,
   ItemSecondaryText,
   LinkItem,
-} from "ui/dataDisplay/item";
-import { ApplicationLayout } from "ui/layouts/applicationLayout";
+} from "dataDisplay/item";
+import { useAllActiveAnimals } from "entities/animal/queries";
+import { useCurrentUser } from "entities/user/currentUserContext";
+import { ApplicationLayout } from "layouts/applicationLayout";
 import {
   Header,
   HeaderLink,
   HeaderTitle,
   HeaderUserAvatar,
-} from "ui/layouts/header";
-import { Main } from "ui/layouts/main";
-import { Navigation } from "ui/layouts/navigation";
-import { Section } from "ui/layouts/section";
-import { usePageScrollRestoration } from "ui/layouts/usePageScroll";
-import { Placeholder } from "ui/loaders/placeholder";
+} from "layouts/header";
+import { Main } from "layouts/main";
+import { Navigation } from "layouts/navigation";
+import { Section } from "layouts/section";
+import { usePageScrollRestoration } from "layouts/usePageScroll";
+import { Placeholder } from "loaders/placeholder";
+import * as React from "react";
+import { FaPlus, FaSearch } from "react-icons/fa";
 
 const searchableAnimalItemPlaceholder = (
   <Item>

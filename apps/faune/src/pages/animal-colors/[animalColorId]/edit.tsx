@@ -3,11 +3,10 @@ import {
   getErrorMessage,
   hasErrorCode,
 } from "@animeaux/shared-entities";
-import { Navigation } from "ui/layouts/navigation";
-import { PageComponent } from "core/types";
 import { PageTitle } from "core/pageTitle";
 import { renderQueryEntity } from "core/request";
 import { useRouter } from "core/router";
+import { PageComponent } from "core/types";
 import {
   AnimalColorForm,
   AnimalColorFormErrors,
@@ -17,10 +16,11 @@ import {
   useAnimalColor,
   useUpdateAnimalColor,
 } from "entities/animalColor/animalColorQueries";
+import { ApplicationLayout } from "layouts/applicationLayout";
+import { Header, HeaderBackLink, HeaderTitle } from "layouts/header";
+import { Main } from "layouts/main";
+import { Navigation } from "layouts/navigation";
 import * as React from "react";
-import { ApplicationLayout } from "ui/layouts/applicationLayout";
-import { Header, HeaderBackLink, HeaderTitle } from "ui/layouts/header";
-import { Main } from "ui/layouts/main";
 
 const AnimalColorEditPage: PageComponent = () => {
   const router = useRouter();

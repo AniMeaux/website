@@ -1,12 +1,12 @@
 import autosize from "autosize";
 import cn from "classnames";
 import { HtmlInputProps, StyleProps } from "core/types";
-import { useLayoutEffect, useRef } from "react";
 import {
   getInputClassName,
   InputWrapper,
   InputWrapperProps,
-} from "ui/formElements/inputWrapper";
+} from "formElements/inputWrapper";
+import { useLayoutEffect, useRef } from "react";
 
 export type TextareaProps = StyleProps &
   Omit<HtmlInputProps, "role" | "type"> &

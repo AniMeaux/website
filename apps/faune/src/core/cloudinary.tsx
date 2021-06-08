@@ -3,13 +3,13 @@ import * as Sentry from "@sentry/react";
 import { Cloudinary as CloudinaryCore, Transformation } from "cloudinary-core";
 import { fetchGraphQL } from "core/request";
 import { ChildrenProp } from "core/types";
-import { gql } from "graphql-request";
-import * as React from "react";
 import {
   ImagePreset,
   ImageProviderContextProvider,
   useImageProvider,
-} from "ui/dataDisplay/image";
+} from "dataDisplay/image";
+import { gql } from "graphql-request";
+import * as React from "react";
 
 type CloudinaryConstructorParams = {
   cloudName: string;

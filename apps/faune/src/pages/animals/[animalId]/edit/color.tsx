@@ -1,9 +1,9 @@
 import { getAnimalDisplayName, UserGroup } from "@animeaux/shared-entities";
-import { Navigation } from "ui/layouts/navigation";
-import { PageComponent } from "core/types";
+import { Button } from "actions/button";
 import { PageTitle } from "core/pageTitle";
 import { renderInfiniteItemList, renderQueryEntity } from "core/request";
 import { useRouter } from "core/router";
+import { PageComponent } from "core/types";
 import {
   AnimalFormProvider,
   useAnimalForm,
@@ -14,13 +14,13 @@ import {
   AnimalColorItemPlaceholder,
 } from "entities/animalColor/animalColorItems";
 import { useAllAnimalColors } from "entities/animalColor/animalColorQueries";
+import { SearchInput, useSearch } from "formElements/searchInput";
+import { ApplicationLayout } from "layouts/applicationLayout";
+import { Header, HeaderBackLink } from "layouts/header";
+import { Main } from "layouts/main";
+import { Navigation } from "layouts/navigation";
+import { Section } from "layouts/section";
 import * as React from "react";
-import { Button } from "ui/actions/button";
-import { SearchInput, useSearch } from "ui/formElements/searchInput";
-import { ApplicationLayout } from "ui/layouts/applicationLayout";
-import { Header, HeaderBackLink } from "ui/layouts/header";
-import { Main } from "ui/layouts/main";
-import { Section } from "ui/layouts/section";
 
 function UpdateAnimalColorForm() {
   const router = useRouter();

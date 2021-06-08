@@ -1,10 +1,10 @@
+import { Button } from "actions/button";
 import { ChildrenProp } from "core/types";
+import { Badge } from "dataDisplay/badge";
+import { ActionAdornment } from "formElements/adornment";
+import { Modal, ModalHeader, ModalHeaderTitle } from "popovers/modal";
 import * as React from "react";
 import { FaFilter } from "react-icons/fa";
-import { Button } from "ui/actions/button";
-import { Badge } from "ui/dataDisplay/badge";
-import { ActionAdornment } from "ui/formElements/adornment";
-import { Modal, ModalHeader, ModalHeaderTitle } from "ui/popovers/modal";
 
 type ActionFilterProps = ChildrenProp & {
   inputRef: React.MutableRefObject<HTMLInputElement>;

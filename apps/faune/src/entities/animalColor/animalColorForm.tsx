@@ -1,14 +1,14 @@
 import { AnimalColor, AnimalColorFormPayload } from "@animeaux/shared-entities";
+import { Adornment } from "formElements/adornment";
+import { Field } from "formElements/field";
+import { FieldMessage } from "formElements/fieldMessage";
+import { Form, FormProps } from "formElements/form";
+import { Input } from "formElements/input";
+import { Label } from "formElements/label";
+import { SubmitButton } from "formElements/submitButton";
+import { Placeholder } from "loaders/placeholder";
 import * as React from "react";
 import { FaPalette } from "react-icons/fa";
-import { Adornment } from "ui/formElements/adornment";
-import { Field } from "ui/formElements/field";
-import { FieldMessage } from "ui/formElements/fieldMessage";
-import { Form, FormProps } from "ui/formElements/form";
-import { Input } from "ui/formElements/input";
-import { Label } from "ui/formElements/label";
-import { SubmitButton } from "ui/formElements/submitButton";
-import { Placeholder } from "ui/loaders/placeholder";
 
 export type AnimalColorFormErrors = {
   name?: string | null;

@@ -3,14 +3,37 @@ import {
   AnimalSpeciesLabels,
   UserGroup,
 } from "@animeaux/shared-entities";
+import { Button } from "actions/button";
+import { QuickLinkAction } from "actions/quickAction";
 import { PageTitle } from "core/pageTitle";
 import { renderInfiniteItemList } from "core/request";
 import { useRouter } from "core/router";
+import { ScreenSize, useScreenSize } from "core/screenSize";
 import { PageComponent } from "core/types";
+import { withConfirmation } from "core/withConfirmation";
+import { Avatar } from "dataDisplay/avatar";
+import {
+  ButtonItem,
+  Item,
+  ItemContent,
+  ItemIcon,
+  ItemMainText,
+  ItemSecondaryText,
+  LinkItem,
+} from "dataDisplay/item";
 import {
   useAllAnimalBreeds,
   useDeleteAnimalBreed,
 } from "entities/animalBreed/animalBreedQueries";
+import { ApplicationLayout } from "layouts/applicationLayout";
+import { Header, HeaderTitle, HeaderUserAvatar } from "layouts/header";
+import { Main } from "layouts/main";
+import { Navigation } from "layouts/navigation";
+import { Section } from "layouts/section";
+import { Separator } from "layouts/separator";
+import { usePageScrollRestoration } from "layouts/usePageScroll";
+import { Placeholder } from "loaders/placeholder";
+import { Modal, useModal } from "popovers/modal";
 import type { Placement } from "popper.js";
 import * as React from "react";
 import {
@@ -21,29 +44,6 @@ import {
   FaPlus,
   FaTrash,
 } from "react-icons/fa";
-import { Button } from "ui/actions/button";
-import { QuickLinkAction } from "ui/actions/quickAction";
-import { Avatar } from "ui/dataDisplay/avatar";
-import {
-  ButtonItem,
-  Item,
-  ItemContent,
-  ItemIcon,
-  ItemMainText,
-  ItemSecondaryText,
-  LinkItem,
-} from "ui/dataDisplay/item";
-import { ApplicationLayout } from "ui/layouts/applicationLayout";
-import { Header, HeaderTitle, HeaderUserAvatar } from "ui/layouts/header";
-import { Main } from "ui/layouts/main";
-import { Navigation } from "ui/layouts/navigation";
-import { Section } from "ui/layouts/section";
-import { Separator } from "ui/layouts/separator";
-import { usePageScrollRestoration } from "ui/layouts/usePageScroll";
-import { Placeholder } from "ui/loaders/placeholder";
-import { Modal, useModal } from "ui/popovers/modal";
-import { ScreenSize, useScreenSize } from "ui/screenSize";
-import { withConfirmation } from "ui/withConfirmation";
 
 function AnimalBreedItemPlaceholder() {
   return (

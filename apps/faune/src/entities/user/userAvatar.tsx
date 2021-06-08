@@ -1,7 +1,7 @@
 import { User } from "@animeaux/shared-entities";
 import cn from "classnames";
+import { Avatar, AvatarProps } from "dataDisplay/avatar";
 import * as React from "react";
-import { Avatar, AvatarProps } from "ui/dataDisplay/avatar";
 
 export type UserAvatarProps = Omit<AvatarProps, "children"> & {
   user: User;

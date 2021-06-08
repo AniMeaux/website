@@ -1,4 +1,6 @@
+import { ScreenSize, useScreenSize } from "core/screenSize";
 import { ChildrenProp } from "core/types";
+import { Item, ItemContent, ItemIcon, ItemMainText } from "dataDisplay/item";
 import invariant from "invariant";
 import * as React from "react";
 import { FaCheckCircle, FaTimesCircle } from "react-icons/fa";
@@ -11,8 +13,6 @@ import {
   TypeOptions,
   Zoom,
 } from "react-toastify";
-import { Item, ItemContent, ItemIcon, ItemMainText } from "ui/dataDisplay/item";
-import { ScreenSize, useScreenSize } from "ui/screenSize";
 
 export function SnackbarContainer() {
   const { screenSize } = useScreenSize();

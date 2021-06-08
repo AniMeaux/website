@@ -18,8 +18,8 @@ import {
   useQueryClient,
 } from "core/request";
 import { gql } from "graphql-request";
+import { showSnackbar, Snackbar } from "popovers/snackbar";
 import * as React from "react";
-import { showSnackbar, Snackbar } from "ui/popovers/snackbar";
 
 export const UserFragment = gql`
   fragment UserFragment on User {

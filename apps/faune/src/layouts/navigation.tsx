@@ -5,20 +5,8 @@ import {
 } from "@animeaux/shared-entities";
 import cn from "classnames";
 import { useRouter } from "core/router";
+import { ScreenSize, useScreenSize } from "core/screenSize";
 import { ChildrenProp, StyleProps } from "core/types";
-import { useCurrentUser } from "entities/user/currentUserContext";
-import { CurrentUserProfile } from "entities/user/currentUserProfile";
-import { UserAvatar } from "entities/user/userAvatar";
-import * as React from "react";
-import {
-  FaAngleRight,
-  FaDna,
-  FaEllipsisH,
-  FaHome,
-  FaPalette,
-  FaPaw,
-  FaUser,
-} from "react-icons/fa";
 import {
   ButtonItem,
   ButtonItemProps,
@@ -31,13 +19,25 @@ import {
   ItemSecondaryText,
   LinkItem,
   LinkItemProps,
-} from "ui/dataDisplay/item";
-import { AppIcon } from "ui/icons/appIcon";
-import { useApplicationLayout } from "ui/layouts/applicationLayout";
-import { Section } from "ui/layouts/section";
-import { useIsScrollAtTheBottom } from "ui/layouts/usePageScroll";
-import { Modal, ModalHeader, ModalHeaderTitle } from "ui/popovers/modal";
-import { ScreenSize, useScreenSize } from "ui/screenSize";
+} from "dataDisplay/item";
+import { useCurrentUser } from "entities/user/currentUserContext";
+import { CurrentUserProfile } from "entities/user/currentUserProfile";
+import { UserAvatar } from "entities/user/userAvatar";
+import { AppIcon } from "icons/appIcon";
+import { useApplicationLayout } from "layouts/applicationLayout";
+import { Section } from "layouts/section";
+import { useIsScrollAtTheBottom } from "layouts/usePageScroll";
+import { Modal, ModalHeader, ModalHeaderTitle } from "popovers/modal";
+import * as React from "react";
+import {
+  FaAngleRight,
+  FaDna,
+  FaEllipsisH,
+  FaHome,
+  FaPalette,
+  FaPaw,
+  FaUser,
+} from "react-icons/fa";
 
 type NavigationMenuProps = {
   navigationItems: NavigationItem[];

@@ -6,16 +6,14 @@ import {
 import { AnimalGenderIcon } from "entities/animal/animalGenderIcon";
 import { AnimalSpeciesIcon } from "entities/animal/animalSpeciesIcon";
 import { AnimalSpeciesInput } from "entities/animal/formElements/animalSpeciesInput";
-import * as React from "react";
-import { FaComment, FaDna, FaPalette, FaTimes } from "react-icons/fa";
-import { ActionAdornment, Adornment } from "ui/formElements/adornment";
-import { DateInput } from "ui/formElements/dateInput";
-import { Field } from "ui/formElements/field";
-import { FieldMessage } from "ui/formElements/fieldMessage";
-import { Form, FormProps } from "ui/formElements/form";
-import { Input } from "ui/formElements/input";
-import { Label } from "ui/formElements/label";
-import { LinkInput } from "ui/formElements/linkInput";
+import { ActionAdornment, Adornment } from "formElements/adornment";
+import { DateInput } from "formElements/dateInput";
+import { Field } from "formElements/field";
+import { FieldMessage } from "formElements/fieldMessage";
+import { Form, FormProps } from "formElements/form";
+import { Input } from "formElements/input";
+import { Label } from "formElements/label";
+import { LinkInput } from "formElements/linkInput";
 import {
   Selector,
   SelectorIcon,
@@ -23,9 +21,11 @@ import {
   SelectorLabel,
   SelectorRadio,
   Selectors,
-} from "ui/formElements/selector";
-import { SubmitButton } from "ui/formElements/submitButton";
-import { Textarea } from "ui/formElements/textarea";
+} from "formElements/selector";
+import { SubmitButton } from "formElements/submitButton";
+import { Textarea } from "formElements/textarea";
+import * as React from "react";
+import { FaComment, FaDna, FaPalette, FaTimes } from "react-icons/fa";
 
 export type AnimalProfileFormErrors = {
   officialName?: string | null;

@@ -1,14 +1,14 @@
 import { AnimalPicturesFormPayload } from "@animeaux/shared-entities";
 import { callSetStateAction } from "core/callSetStateAction";
+import { Avatar } from "dataDisplay/avatar";
+import { Image } from "dataDisplay/image";
+import { Field } from "formElements/field";
+import { FieldMessage } from "formElements/fieldMessage";
+import { Form, FormProps } from "formElements/form";
+import { ImageInput } from "formElements/imageInput";
+import { SubmitButton } from "formElements/submitButton";
 import * as React from "react";
 import { FaPaw } from "react-icons/fa";
-import { Avatar } from "ui/dataDisplay/avatar";
-import { Image } from "ui/dataDisplay/image";
-import { Field } from "ui/formElements/field";
-import { FieldMessage } from "ui/formElements/fieldMessage";
-import { Form, FormProps } from "ui/formElements/form";
-import { ImageInput } from "ui/formElements/imageInput";
-import { SubmitButton } from "ui/formElements/submitButton";
 
 export type AnimalPicturesFormErrors = {
   avatar?: string | null;

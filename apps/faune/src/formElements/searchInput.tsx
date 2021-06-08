@@ -1,9 +1,9 @@
 import { SearchFilter } from "@animeaux/shared-entities";
 import { ensureArray } from "core/ensureArray";
+import { ActionAdornment, Adornment } from "formElements/adornment";
+import { Input, InputProps } from "formElements/input";
 import * as React from "react";
 import { FaSearch, FaTimes } from "react-icons/fa";
-import { ActionAdornment, Adornment } from "ui/formElements/adornment";
-import { Input, InputProps } from "ui/formElements/input";
 
 function useDebouncedValue<ValueType>(value: ValueType) {
   const [debouncedValue, setDebouncedValue] = React.useState(value);

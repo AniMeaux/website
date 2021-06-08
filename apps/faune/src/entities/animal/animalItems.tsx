@@ -2,9 +2,8 @@ import {
   getAnimalDisplayName,
   SearchableAnimal,
 } from "@animeaux/shared-entities";
-import * as React from "react";
-import { Avatar } from "ui/dataDisplay/avatar";
-import { Image } from "ui/dataDisplay/image";
+import { Avatar } from "dataDisplay/avatar";
+import { Image } from "dataDisplay/image";
 import {
   Item,
   ItemContent,
@@ -12,8 +11,9 @@ import {
   ItemMainText,
   LinkItem,
   LinkItemProps,
-} from "ui/dataDisplay/item";
-import { Placeholder } from "ui/loaders/placeholder";
+} from "dataDisplay/item";
+import { Placeholder } from "loaders/placeholder";
+import * as React from "react";
 
 export function SearchableAnimalItemPlaceholder() {
   return (

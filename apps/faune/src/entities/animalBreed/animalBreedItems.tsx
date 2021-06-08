@@ -1,7 +1,5 @@
 import { AnimalBreed, AnimalSpeciesLabels } from "@animeaux/shared-entities";
-import * as React from "react";
-import { FaDna } from "react-icons/fa";
-import { Avatar } from "ui/dataDisplay/avatar";
+import { Avatar } from "dataDisplay/avatar";
 import {
   ButtonItem,
   ButtonItemProps,
@@ -12,8 +10,10 @@ import {
   ItemSecondaryText,
   LinkItem,
   LinkItemProps,
-} from "ui/dataDisplay/item";
-import { Placeholder } from "ui/loaders/placeholder";
+} from "dataDisplay/item";
+import { Placeholder } from "loaders/placeholder";
+import * as React from "react";
+import { FaDna } from "react-icons/fa";
 
 export function AnimalBreedItemPlaceholder() {
   return (

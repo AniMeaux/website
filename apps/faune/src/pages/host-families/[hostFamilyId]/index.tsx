@@ -3,10 +3,23 @@ import {
   HostFamily,
   UserGroup,
 } from "@animeaux/shared-entities";
+import { Button } from "actions/button";
+import { QuickActions } from "actions/quickAction";
 import { PageTitle } from "core/pageTitle";
 import { renderInfiniteItemList, renderQueryEntity } from "core/request";
 import { useRouter } from "core/router";
 import { ChildrenProp, PageComponent } from "core/types";
+import { withConfirmation } from "core/withConfirmation";
+import { ErrorItem } from "dataDisplay/errorMessage";
+import {
+  ButtonItem,
+  Item,
+  ItemContent,
+  ItemIcon,
+  ItemMainText,
+  LinkItem,
+} from "dataDisplay/item";
+import { Markdown } from "dataDisplay/markdown";
 import {
   SearchableAnimalItemPlaceholder,
   SearchableAnimalLinkItem,
@@ -16,6 +29,14 @@ import {
   useDeleteHostFamily,
   useHostFamily,
 } from "entities/hostFamily/hostFamilyQueries";
+import { ApplicationLayout } from "layouts/applicationLayout";
+import { Header, HeaderBackLink, HeaderTitle } from "layouts/header";
+import { Main } from "layouts/main";
+import { Navigation } from "layouts/navigation";
+import { Section, SectionBox, SectionTitle } from "layouts/section";
+import { Separator } from "layouts/separator";
+import { Placeholder, Placeholders } from "loaders/placeholder";
+import { useModal } from "popovers/modal";
 import * as React from "react";
 import {
   FaAngleRight,
@@ -25,27 +46,6 @@ import {
   FaPhone,
   FaTrash,
 } from "react-icons/fa";
-import { Button } from "ui/actions/button";
-import { QuickActions } from "ui/actions/quickAction";
-import { ErrorItem } from "ui/dataDisplay/errorMessage";
-import {
-  ButtonItem,
-  Item,
-  ItemContent,
-  ItemIcon,
-  ItemMainText,
-  LinkItem,
-} from "ui/dataDisplay/item";
-import { Markdown } from "ui/dataDisplay/markdown";
-import { ApplicationLayout } from "ui/layouts/applicationLayout";
-import { Header, HeaderBackLink, HeaderTitle } from "ui/layouts/header";
-import { Main } from "ui/layouts/main";
-import { Navigation } from "ui/layouts/navigation";
-import { Section, SectionBox, SectionTitle } from "ui/layouts/section";
-import { Separator } from "ui/layouts/separator";
-import { Placeholder, Placeholders } from "ui/loaders/placeholder";
-import { useModal } from "ui/popovers/modal";
-import { withConfirmation } from "ui/withConfirmation";
 
 type HostFamilyProps = {
   hostFamily: HostFamily;

@@ -13,15 +13,36 @@ import {
   TrileanLabels,
   UserGroup,
 } from "@animeaux/shared-entities";
+import { Button } from "actions/button";
+import { QuickActions } from "actions/quickAction";
 import { copyToClipboard } from "core/clipboard";
 import { PageTitle } from "core/pageTitle";
 import { renderQueryEntity } from "core/request";
 import { useRouter } from "core/router";
 import { PageComponent } from "core/types";
+import { withConfirmation } from "core/withConfirmation";
+import { ImageSlideshow } from "dataDisplay/imageSlideshow";
+import {
+  ButtonItem,
+  Item,
+  ItemContent,
+  ItemIcon,
+  ItemMainText,
+  LinkItem,
+} from "dataDisplay/item";
+import { Markdown } from "dataDisplay/markdown";
+import { StatusBadge } from "dataDisplay/statusBadge";
 import { AnimalGenderIcon } from "entities/animal/animalGenderIcon";
 import { AnimalSpeciesIcon } from "entities/animal/animalSpeciesIcon";
 import { useAnimal, useDeleteAnimal } from "entities/animal/queries";
 import { useCurrentUser } from "entities/user/currentUserContext";
+import { ApplicationLayout } from "layouts/applicationLayout";
+import { Header, HeaderBackLink, HeaderTitle } from "layouts/header";
+import { Main } from "layouts/main";
+import { Navigation } from "layouts/navigation";
+import { Section, SectionBox, SectionTitle } from "layouts/section";
+import { Separator } from "layouts/separator";
+import { Modal, ModalHeader, ModalHeaderTitle, useModal } from "popovers/modal";
 import * as React from "react";
 import {
   FaAdjust,
@@ -42,32 +63,6 @@ import {
   FaShareAlt,
   FaTrash,
 } from "react-icons/fa";
-import { Button } from "ui/actions/button";
-import { QuickActions } from "ui/actions/quickAction";
-import { ImageSlideshow } from "ui/dataDisplay/imageSlideshow";
-import {
-  ButtonItem,
-  Item,
-  ItemContent,
-  ItemIcon,
-  ItemMainText,
-  LinkItem,
-} from "ui/dataDisplay/item";
-import { Markdown } from "ui/dataDisplay/markdown";
-import { StatusBadge } from "ui/dataDisplay/statusBadge";
-import { ApplicationLayout } from "ui/layouts/applicationLayout";
-import { Header, HeaderBackLink, HeaderTitle } from "ui/layouts/header";
-import { Main } from "ui/layouts/main";
-import { Navigation } from "ui/layouts/navigation";
-import { Section, SectionBox, SectionTitle } from "ui/layouts/section";
-import { Separator } from "ui/layouts/separator";
-import {
-  Modal,
-  ModalHeader,
-  ModalHeaderTitle,
-  useModal,
-} from "ui/popovers/modal";
-import { withConfirmation } from "ui/withConfirmation";
 
 type AnimalProps = {
   animal: Animal;

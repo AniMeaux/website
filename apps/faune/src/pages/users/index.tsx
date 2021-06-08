@@ -1,26 +1,26 @@
 import { User, UserGroup, UserGroupLabels } from "@animeaux/shared-entities";
+import { QuickLinkAction } from "actions/quickAction";
 import { PageTitle } from "core/pageTitle";
 import { renderItemList } from "core/request";
 import { PageComponent } from "core/types";
-import { UserAvatar } from "entities/user/userAvatar";
-import { UserItemPlaceholder } from "entities/user/userItem";
-import { useAllUsers } from "entities/user/userQueries";
-import * as React from "react";
-import { FaPlus } from "react-icons/fa";
-import { QuickLinkAction } from "ui/actions/quickAction";
 import {
   ItemContent,
   ItemIcon,
   ItemMainText,
   ItemSecondaryText,
   LinkItem,
-} from "ui/dataDisplay/item";
-import { ApplicationLayout } from "ui/layouts/applicationLayout";
-import { Header, HeaderTitle, HeaderUserAvatar } from "ui/layouts/header";
-import { Main } from "ui/layouts/main";
-import { Navigation } from "ui/layouts/navigation";
-import { Section } from "ui/layouts/section";
-import { usePageScrollRestoration } from "ui/layouts/usePageScroll";
+} from "dataDisplay/item";
+import { UserAvatar } from "entities/user/userAvatar";
+import { UserItemPlaceholder } from "entities/user/userItem";
+import { useAllUsers } from "entities/user/userQueries";
+import { ApplicationLayout } from "layouts/applicationLayout";
+import { Header, HeaderTitle, HeaderUserAvatar } from "layouts/header";
+import { Main } from "layouts/main";
+import { Navigation } from "layouts/navigation";
+import { Section } from "layouts/section";
+import { usePageScrollRestoration } from "layouts/usePageScroll";
+import * as React from "react";
+import { FaPlus } from "react-icons/fa";
 
 export function UserLinkItem({ user }: { user: User }) {
   return (

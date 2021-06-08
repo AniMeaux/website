@@ -1,5 +1,5 @@
+import { Image } from "dataDisplay/image";
 import * as React from "react";
-import { Image } from "ui/dataDisplay/image";
 
 type ImageSlideshowProps = {
   images: string[];

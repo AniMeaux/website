@@ -4,10 +4,20 @@ import {
   UserGroup,
   UserGroupLabels,
 } from "@animeaux/shared-entities";
+import { QuickActions } from "actions/quickAction";
 import { PageTitle } from "core/pageTitle";
 import { renderQueryEntity } from "core/request";
 import { useRouter } from "core/router";
 import { PageComponent } from "core/types";
+import { withConfirmation } from "core/withConfirmation";
+import {
+  ButtonItem,
+  Item,
+  ItemContent,
+  ItemIcon,
+  ItemMainText,
+  LinkItem,
+} from "dataDisplay/item";
 import { useCurrentUser } from "entities/user/currentUserContext";
 import { UserGroupIcon } from "entities/user/userGroupIcon";
 import {
@@ -15,6 +25,14 @@ import {
   useToggleUserBlockedStatus,
   useUser,
 } from "entities/user/userQueries";
+import { ApplicationLayout } from "layouts/applicationLayout";
+import { Header, HeaderBackLink, HeaderTitle } from "layouts/header";
+import { Main } from "layouts/main";
+import { Navigation } from "layouts/navigation";
+import { Section, SectionTitle } from "layouts/section";
+import { Separator } from "layouts/separator";
+import { Placeholder, Placeholders } from "loaders/placeholder";
+import { useModal } from "popovers/modal";
 import * as React from "react";
 import {
   FaAngleRight,
@@ -23,24 +41,6 @@ import {
   FaPen,
   FaTrash,
 } from "react-icons/fa";
-import { QuickActions } from "ui/actions/quickAction";
-import {
-  ButtonItem,
-  Item,
-  ItemContent,
-  ItemIcon,
-  ItemMainText,
-  LinkItem,
-} from "ui/dataDisplay/item";
-import { ApplicationLayout } from "ui/layouts/applicationLayout";
-import { Header, HeaderBackLink, HeaderTitle } from "ui/layouts/header";
-import { Main } from "ui/layouts/main";
-import { Navigation } from "ui/layouts/navigation";
-import { Section, SectionTitle } from "ui/layouts/section";
-import { Separator } from "ui/layouts/separator";
-import { Placeholder, Placeholders } from "ui/loaders/placeholder";
-import { useModal } from "ui/popovers/modal";
-import { withConfirmation } from "ui/withConfirmation";
 
 type UserProp = {
   user: User;

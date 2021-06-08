@@ -1,15 +1,15 @@
 import { PageTitle } from "core/pageTitle";
 import { UseMutationResult } from "core/request";
+import { Adornment } from "formElements/adornment";
+import { Field } from "formElements/field";
+import { Form } from "formElements/form";
+import { Input } from "formElements/input";
+import { Label } from "formElements/label";
+import { PasswordInput } from "formElements/passwordInput";
+import { SubmitButton } from "formElements/submitButton";
+import { AppIcon } from "icons/appIcon";
 import { useState } from "react";
 import { FaCheckCircle, FaEnvelope, FaLock } from "react-icons/fa";
-import { Adornment } from "ui/formElements/adornment";
-import { Field } from "ui/formElements/field";
-import { Form } from "ui/formElements/form";
-import { Input } from "ui/formElements/input";
-import { Label } from "ui/formElements/label";
-import { PasswordInput } from "ui/formElements/passwordInput";
-import { SubmitButton } from "ui/formElements/submitButton";
-import { AppIcon } from "ui/icons/appIcon";
 
 type CredentialsPayload = {
   email: string;

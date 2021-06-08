@@ -1,6 +1,6 @@
+import { Button, ButtonLink, ButtonProps } from "actions/button";
 import cn from "classnames";
 import { StyleProps } from "core/types";
-import { Button, ButtonLink, ButtonProps } from "ui/actions/button";
 import { Item, ItemActions, ItemContent, ItemIcon, ItemMainText } from "./item";
 
 export type ErrorType = "notFound" | "serverError" | "unauthorized";

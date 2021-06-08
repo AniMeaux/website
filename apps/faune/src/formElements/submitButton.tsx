@@ -1,7 +1,7 @@
+import { Button, ButtonProps } from "actions/button";
 import cn from "classnames";
-import { Button, ButtonProps } from "ui/actions/button";
-import { useIsScrollAtTheBottom } from "ui/layouts/usePageScroll";
-import { Spinner } from "ui/loaders/spinner";
+import { useIsScrollAtTheBottom } from "layouts/usePageScroll";
+import { Spinner } from "loaders/spinner";
 
 type SubmitButtonProps = ButtonProps & {
   loading?: boolean;
