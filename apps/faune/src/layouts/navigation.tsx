@@ -7,6 +7,7 @@ import cn from "classnames";
 import { useRouter } from "core/router";
 import { ScreenSize, useScreenSize } from "core/screenSize";
 import { ChildrenProp, StyleProps } from "core/types";
+import { UserAvatar } from "dataDisplay/avatar";
 import {
   ButtonItem,
   ButtonItemProps,
@@ -22,7 +23,6 @@ import {
 } from "dataDisplay/item";
 import { useCurrentUser } from "entities/user/currentUserContext";
 import { CurrentUserProfile } from "entities/user/currentUserProfile";
-import { UserAvatar } from "entities/user/userAvatar";
 import { AppIcon } from "icons/appIcon";
 import { useApplicationLayout } from "layouts/applicationLayout";
 import { Section } from "layouts/section";

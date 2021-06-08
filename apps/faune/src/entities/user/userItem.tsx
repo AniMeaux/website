@@ -1,4 +1,5 @@
 import { User } from "@animeaux/shared-entities";
+import { UserAvatar } from "dataDisplay/avatar";
 import {
   Item,
   ItemContent,
@@ -7,7 +8,6 @@ import {
   ItemProps,
   ItemSecondaryText,
 } from "dataDisplay/item";
-import { UserAvatar } from "entities/user/userAvatar";
 import { Placeholder } from "loaders/placeholder";
 import * as React from "react";
 

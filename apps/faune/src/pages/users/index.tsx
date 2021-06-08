@@ -3,6 +3,7 @@ import { QuickLinkAction } from "actions/quickAction";
 import { PageTitle } from "core/pageTitle";
 import { renderItemList } from "core/request";
 import { PageComponent } from "core/types";
+import { UserAvatar } from "dataDisplay/avatar";
 import {
   ItemContent,
   ItemIcon,
@@ -10,7 +11,6 @@ import {
   ItemSecondaryText,
   LinkItem,
 } from "dataDisplay/item";
-import { UserAvatar } from "entities/user/userAvatar";
 import { UserItemPlaceholder } from "entities/user/userItem";
 import { useAllUsers } from "entities/user/userQueries";
 import { ApplicationLayout } from "layouts/applicationLayout";
