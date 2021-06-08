@@ -1,5 +1,8 @@
+import { ErrorCode, getErrorCode } from "@animeaux/shared-entities";
+import { firebase } from "core/firebase";
 import { PageTitle } from "core/pageTitle";
-import { UseMutationResult } from "core/request";
+import { useMutation } from "core/request";
+import { Sentry } from "core/sentry";
 import { Adornment } from "formElements/adornment";
 import { Field } from "formElements/field";
 import { Form } from "formElements/form";
@@ -11,16 +14,42 @@ import { AppIcon } from "icons/appIcon";
 import { useState } from "react";
 import { FaCheckCircle, FaEnvelope, FaLock } from "react-icons/fa";
 
-type CredentialsPayload = {
-  email: string;
-  password: string;
-};
+function isAuthError(error: Error): boolean {
+  return [
+    ErrorCode.AUTH_INVALID_EMAIL,
+    ErrorCode.AUTH_USER_DISABLED,
+    ErrorCode.AUTH_USER_NOT_FOUND,
+    ErrorCode.AUTH_WRONG_PASSWORD,
+  ].includes(getErrorCode(error));
+}
 
-export type SignInPageProps = {
-  mutation: UseMutationResult<void, Error, CredentialsPayload, unknown>;
-};
+export function SignInPage() {
+  const mutation = useMutation<
+    void,
+    Error,
+    { email: string; password: string }
+  >(
+    async ({ email, password }) => {
+      try {
+        await firebase.auth().signInWithEmailAndPassword(email, password);
+      } catch (error) {
+        if (isAuthError(error)) {
+          throw new Error("Identifiants invalides, veuillez réessayer");
+        } else {
+          Sentry.captureException(error, { extra: { email } });
 
-export function SignInPage({ mutation }: SignInPageProps) {
+          throw new Error(
+            "un problème est survenu, veuillez réessayer ultérieurement"
+          );
+        }
+      }
+    },
+    {
+      // Relevant errors are reported here.
+      disableSentry: true,
+    }
+  );
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
