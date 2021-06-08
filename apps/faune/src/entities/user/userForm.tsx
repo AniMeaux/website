@@ -183,7 +183,7 @@ export function UserForm({
         <FieldMessage errorMessage={errors?.groups} />
       </Field>
 
-      <SubmitButton disabled={pending}>
+      <SubmitButton loading={pending}>
         {isEdit ? "Modifier" : "Créer"}
       </SubmitButton>
     </Form>

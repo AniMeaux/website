@@ -136,7 +136,7 @@ export const CurrentUserPasswordForm: PageComponent = ({ children }) => {
             <FieldMessage errorMessage={newPasswordError} />
           </Field>
 
-          <SubmitButton disabled={mutation.isLoading}>Modifier</SubmitButton>
+          <SubmitButton loading={mutation.isLoading}>Modifier</SubmitButton>
         </Form>
       </Main>
 
@@ -217,7 +217,7 @@ export const CurrentUserProfileForm: PageComponent = ({ children }) => {
             <FieldMessage errorMessage={errorMessage} />
           </Field>
 
-          <SubmitButton disabled={mutation.isLoading}>Modifier</SubmitButton>
+          <SubmitButton loading={mutation.isLoading}>Modifier</SubmitButton>
         </Form>
       </Main>
 

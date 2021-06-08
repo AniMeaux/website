@@ -237,7 +237,7 @@ export function HostFamilyForm({
         <FieldMessage errorMessage={errors?.city} />
       </Field>
 
-      <SubmitButton disabled={pending}>
+      <SubmitButton loading={pending}>
         {hostFamily == null ? "Créer" : "Modifier"}
       </SubmitButton>
     </Form>

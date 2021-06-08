@@ -64,7 +64,7 @@ export function AnimalPicturesForm<
         />
       </Field>
 
-      <SubmitButton disabled={pending}>
+      <SubmitButton loading={pending}>
         {isEdit ? "Modifier" : "Créer"}
       </SubmitButton>
     </Form>

@@ -12,3 +12,11 @@
 .SubmitButton--hasScroll {
   box-shadow: var(--shadow-m);
 }
+
+.SubmitButton__spinner {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  font-size: calc(var(--line-height-m) * 1em);
+}

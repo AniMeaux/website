@@ -85,7 +85,7 @@ export function SignInPage({ mutation }: SignInPageProps) {
           {mutation.isSuccess ? (
             <FaCheckCircle className="SignInPage__successIcon" />
           ) : (
-            <SubmitButton disabled={mutation.isLoading}>
+            <SubmitButton loading={mutation.isLoading}>
               Se connecter
             </SubmitButton>
           )}

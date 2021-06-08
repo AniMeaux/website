@@ -78,7 +78,7 @@ export function AnimalBreedForm({
         <FieldMessage errorMessage={errors?.species} />
       </Field>
 
-      <SubmitButton disabled={pending}>
+      <SubmitButton loading={pending}>
         {animalBreed == null ? "Créer" : "Modifier"}
       </SubmitButton>
     </Form>

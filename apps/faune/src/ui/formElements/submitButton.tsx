@@ -1,13 +1,20 @@
 import cn from "classnames";
 import { Button, ButtonProps } from "ui/actions/button";
 import { useIsScrollAtTheBottom } from "ui/layouts/usePageScroll";
+import { Spinner } from "ui/loaders/spinner";
+
+type SubmitButtonProps = ButtonProps & {
+  loading?: boolean;
+};
 
 export function SubmitButton({
   type = "submit",
   variant = "primary",
+  loading = false,
   className,
+  children,
   ...rest
-}: ButtonProps) {
+}: SubmitButtonProps) {
   const { isAtTheBottom } = useIsScrollAtTheBottom();
 
   return (
@@ -20,6 +27,14 @@ export function SubmitButton({
         { "SubmitButton--hasScroll": !isAtTheBottom },
         className
       )}
-    />
+    >
+      <span>{children}</span>
+
+      {loading && (
+        <span className="SubmitButton__spinner">
+          <Spinner />
+        </span>
+      )}
+    </Button>
   );
 }

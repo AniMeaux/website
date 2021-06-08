@@ -219,7 +219,7 @@ export function AnimalSituationForm<
         />
       </Field>
 
-      <SubmitButton disabled={pending}>
+      <SubmitButton loading={pending}>
         {isEdit ? "Modifier" : "Suivant"}
       </SubmitButton>
     </Form>

@@ -59,7 +59,7 @@ export function AnimalColorForm({
         <FieldMessage errorMessage={errors?.name} />
       </Field>
 
-      <SubmitButton disabled={pending}>
+      <SubmitButton loading={pending}>
         {animalColor == null ? "Créer" : "Modifier"}
       </SubmitButton>
     </Form>

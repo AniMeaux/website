@@ -37,6 +37,7 @@
 @import "./layouts/separator.css";
 @import "./loaders/placeholder.css";
 @import "./loaders/progressBar.css";
+@import "./loaders/spinner.css";
 @import "./pages/signInPage.css";
 @import "./popovers/modal.css";
 @import "./popovers/snackbar.css";
