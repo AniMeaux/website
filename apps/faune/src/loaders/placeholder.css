@@ -44,10 +44,14 @@
   }
 }
 
-.Placeholder--avatarMedium {
+.Placeholder--avatar {
   --placeholder-background-height: 100%;
   width: 2em;
   height: 2em;
+}
+
+.Placeholder--avatarSmall {
+  font-size: var(--font-size-s);
 }
 
 .Placeholder--icon {

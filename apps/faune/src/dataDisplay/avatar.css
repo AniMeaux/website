@@ -22,6 +22,11 @@
   opacity: 0.1;
 }
 
+.Avatar--small {
+  font-size: var(--font-size-s);
+  line-height: var(--line-height-s);
+}
+
 .UserAvatar {
   color: var(--primary-500);
 }

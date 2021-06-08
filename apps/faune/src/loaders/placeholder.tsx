@@ -3,6 +3,7 @@ import * as React from "react";
 
 export type PlaceholderPreset =
   | "avatar"
+  | "avatar-small"
   | "icon"
   | "image"
   | "input"
@@ -11,7 +12,8 @@ export type PlaceholderPreset =
   | "text";
 
 const PresetClassName: Record<PlaceholderPreset, string> = {
-  avatar: "Placeholder--avatarMedium",
+  avatar: "Placeholder--avatar",
+  "avatar-small": "Placeholder--avatar Placeholder--avatarSmall",
   icon: "Placeholder--icon",
   image: "Placeholder--image",
   input: "Placeholder--input",

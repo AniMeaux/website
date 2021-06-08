@@ -103,9 +103,18 @@ export const ButtonItem = React.forwardRef<HTMLButtonElement, ButtonItemProps>(
   }
 );
 
-export type ItemIconProps = StyleProps & ChildrenProp;
-export function ItemIcon({ className, ...rest }: ItemIconProps) {
-  return <span {...rest} className={cn("ItemIcon", className)} />;
+export type ItemIconProps = StyleProps &
+  ChildrenProp & {
+    small?: boolean;
+  };
+
+export function ItemIcon({ className, small = false, ...rest }: ItemIconProps) {
+  return (
+    <span
+      {...rest}
+      className={cn("ItemIcon", { "ItemIcon--small": small }, className)}
+    />
+  );
 }
 
 export type ItemContentProps = StyleProps & ChildrenProp;

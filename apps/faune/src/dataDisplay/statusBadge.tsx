@@ -11,11 +11,33 @@ const StatusBadgeColors: Record<AnimalStatus, string> = {
   [AnimalStatus.UNAVAILABLE]: "StatusBadge--grey",
 };
 
-type StatusBadgeProps = { status: AnimalStatus };
-export function StatusBadge({ status }: StatusBadgeProps) {
+type StatusBadgeProps = {
+  status: AnimalStatus;
+  small?: boolean;
+};
+
+export function StatusBadge({ status, small = false }: StatusBadgeProps) {
   return (
-    <span className={cn("StatusBadge", StatusBadgeColors[status])}>
+    <span
+      className={cn(
+        "StatusBadge",
+        { "StatusBadge--small": small },
+        StatusBadgeColors[status]
+      )}
+    >
       {AnimalStatusLabels[status]}
+    </span>
+  );
+}
+
+type StatusIconProps = { status: AnimalStatus };
+
+export function StatusIcon({ status }: StatusIconProps) {
+  return (
+    <span className={cn("StatusIcon", StatusBadgeColors[status])}>
+      <span className="StatusIcon__letter">
+        {AnimalStatusLabels[status][0]}
+      </span>
     </span>
   );
 }

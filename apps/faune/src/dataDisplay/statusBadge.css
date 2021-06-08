@@ -7,6 +7,12 @@
   align-items: center;
 }
 
+.StatusBadge--small {
+  padding: var(--spacing-xs) var(--spacing-m);
+  font-size: var(--font-size-xs);
+  line-height: var(--line-height-xs);
+}
+
 .StatusBadge--success {
   background: var(--success-500);
   color: var(--text-contrast);
@@ -24,4 +30,20 @@
 .StatusBadge--grey {
   background: var(--dark-700);
   color: var(--text-contrast);
+}
+
+.StatusIcon {
+  height: 1em;
+  width: 1em;
+  border-radius: var(--border-radius-full);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.StatusIcon__letter {
+  font-size: 0.75em;
+  line-height: 1;
+  font-weight: var(--font-weight-bold);
+  font-family: var(--font-family-serif);
 }

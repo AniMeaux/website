@@ -67,6 +67,10 @@
   font-size: var(--font-size-2xl);
 }
 
+.ItemIcon--small {
+  font-size: inherit;
+}
+
 .ItemContent {
   flex: 1;
   min-width: 0;

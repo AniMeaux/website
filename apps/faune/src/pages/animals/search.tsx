@@ -2,7 +2,9 @@ import {
   createAnimalSearchFromQuery,
   createQueryFromAnimalSearch,
   getActiveAnimalFiltersCount,
+  getAnimalDisplayName,
   hasAnimalSearch,
+  SearchableAnimal,
   UserGroup,
 } from "@animeaux/shared-entities";
 import { ActionFilter } from "actions/actionFilter";
@@ -10,11 +12,17 @@ import { Button } from "actions/button";
 import { PageTitle } from "core/pageTitle";
 import { renderInfiniteItemList } from "core/request";
 import { useRouter } from "core/router";
+import { ScreenSize, useScreenSize } from "core/screenSize";
 import { PageComponent } from "core/types";
+import { Avatar } from "dataDisplay/avatar";
+import { AvatarImage } from "dataDisplay/image";
 import {
-  SearchableAnimalItemPlaceholder,
-  SearchableAnimalLinkItem,
-} from "entities/animal/animalItems";
+  Item,
+  ItemContent,
+  ItemIcon,
+  ItemMainText,
+  LinkItem,
+} from "dataDisplay/item";
 import { AnimalFiltersForm } from "entities/animal/formElements/animalFiltersForm";
 import { useAllAnimals } from "entities/animal/queries";
 import { SearchInput, useSearchAndFilters } from "formElements/searchInput";
@@ -24,8 +32,52 @@ import { Main } from "layouts/main";
 import { Navigation } from "layouts/navigation";
 import { Section, SectionTitle } from "layouts/section";
 import { usePageScrollRestoration } from "layouts/usePageScroll";
+import { Placeholder } from "loaders/placeholder";
 import isEqual from "lodash.isequal";
 import * as React from "react";
+
+export function SearchableAnimalItemPlaceholder() {
+  const { screenSize } = useScreenSize();
+
+  return (
+    <Item>
+      <ItemIcon>
+        <Placeholder
+          preset={screenSize <= ScreenSize.MEDIUM ? "avatar-small" : "avatar"}
+        />
+      </ItemIcon>
+
+      <ItemContent>
+        <ItemMainText>
+          <Placeholder preset="label" />
+        </ItemMainText>
+      </ItemContent>
+    </Item>
+  );
+}
+
+export function SearchableAnimalLinkItem({
+  animal,
+}: {
+  animal: SearchableAnimal;
+}) {
+  const { screenSize } = useScreenSize();
+  const displayName = getAnimalDisplayName(animal);
+
+  return (
+    <LinkItem href={`../${animal.id}`}>
+      <ItemIcon>
+        <Avatar small={screenSize <= ScreenSize.MEDIUM}>
+          <AvatarImage image={animal.avatarId} alt={displayName} />
+        </Avatar>
+      </ItemIcon>
+
+      <ItemContent>
+        <ItemMainText>{displayName}</ItemMainText>
+      </ItemContent>
+    </LinkItem>
+  );
+}
 
 const TITLE = "Animaux";
 
@@ -68,9 +120,7 @@ const SearchAnimalPage: PageComponent = () => {
         <Button onClick={() => setFilters({})}>Effacer tous les filtres</Button>
       );
     },
-    renderItem: (animal) => (
-      <SearchableAnimalLinkItem animal={animal} href={`../${animal.id}`} />
-    ),
+    renderItem: (animal) => <SearchableAnimalLinkItem animal={animal} />,
   });
 
   let sectionTitle: React.ReactNode;
