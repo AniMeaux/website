@@ -4,7 +4,7 @@ import {
   hasErrorCode,
   PaginatedResponse,
 } from "@animeaux/shared-entities";
-import * as Sentry from "@sentry/react";
+import { Sentry } from "core/sentry";
 import invariant from "invariant";
 import { useIsScrollAtFetchMore } from "layouts/usePageScroll";
 import { ProgressBar } from "loaders/progressBar";

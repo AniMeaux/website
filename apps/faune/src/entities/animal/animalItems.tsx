@@ -3,7 +3,7 @@ import {
   SearchableAnimal,
 } from "@animeaux/shared-entities";
 import { Avatar } from "dataDisplay/avatar";
-import { Image } from "dataDisplay/image";
+import { AvatarImage } from "dataDisplay/image";
 import {
   Item,
   ItemContent,
@@ -45,7 +45,7 @@ export function SearchableAnimalLinkItem({
     <LinkItem {...rest}>
       <ItemIcon>
         <Avatar>
-          <Image image={animal.avatarId} preset="avatar" alt={displayName} />
+          <AvatarImage image={animal.avatarId} alt={displayName} />
         </Avatar>
       </ItemIcon>
 

@@ -4,9 +4,9 @@ import {
   User,
   UserGroup,
 } from "@animeaux/shared-entities";
-import * as Sentry from "@sentry/react";
 import { firebase } from "core/firebase";
 import { fetchGraphQL } from "core/request";
+import { Sentry } from "core/sentry";
 import { ChildrenProp } from "core/types";
 import { ErrorActionBack, ErrorMessage } from "dataDisplay/errorMessage";
 import { SignInPage } from "entities/user/signInPage";
@@ -115,18 +115,22 @@ async function getCurrentUser(): Promise<User | null> {
   }
 }
 
+const AUTHORISED_GROUPS = [
+  UserGroup.ADMIN,
+  UserGroup.ANIMAL_MANAGER,
+  UserGroup.VETERINARIAN,
+];
+
 type UserState = {
   hasResult: boolean;
   currentUser: User | null;
 };
 
 export type CurrentUserContextProviderProps = ChildrenProp & {
-  authorisedGroupsForApplication: UserGroup[];
   authorisedGroupsForPage?: UserGroup[];
 };
 
 export function CurrentUserContextProvider({
-  authorisedGroupsForApplication,
   authorisedGroupsForPage,
   children,
 }: CurrentUserContextProviderProps) {
@@ -180,9 +184,7 @@ export function CurrentUserContextProvider({
     return <SignInPage />;
   }
 
-  if (
-    !doesGroupsIntersect(currentUser.groups, authorisedGroupsForApplication)
-  ) {
+  if (!doesGroupsIntersect(currentUser.groups, AUTHORISED_GROUPS)) {
     return (
       <ErrorMessage
         type="unauthorized"

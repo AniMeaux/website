@@ -10,7 +10,7 @@ import { PageTitle } from "core/pageTitle";
 import { renderInfiniteItemList } from "core/request";
 import { PageComponent } from "core/types";
 import { Avatar } from "dataDisplay/avatar";
-import { Image } from "dataDisplay/image";
+import { AvatarImage } from "dataDisplay/image";
 import {
   Item,
   ItemContent,
@@ -71,7 +71,7 @@ function AnimalLinkItem({ animal }: { animal: SearchableAnimal }) {
     <LinkItem href={`./${animal.id}`}>
       <ItemIcon style={{ position: "relative" }}>
         <Avatar>
-          <Image image={animal.avatarId} preset="avatar" alt={displayName} />
+          <AvatarImage image={animal.avatarId} alt={displayName} />
         </Avatar>
 
         <span

@@ -1,77 +1,24 @@
 import { CloudinaryApiSignature, ImageFile } from "@animeaux/shared-entities";
-import * as Sentry from "@sentry/react";
-import { Cloudinary as CloudinaryCore, Transformation } from "cloudinary-core";
+import { Cloudinary as CloudinaryCore } from "cloudinary-core";
 import { fetchGraphQL } from "core/request";
-import { ChildrenProp } from "core/types";
-import {
-  ImagePreset,
-  ImageProviderContextProvider,
-  useImageProvider,
-} from "dataDisplay/image";
+import { Sentry } from "core/sentry";
 import { gql } from "graphql-request";
-import * as React from "react";
-
-type CloudinaryConstructorParams = {
-  cloudName: string;
-  apiKey: string;
-};
 
 class Cloudinary extends CloudinaryCore {
   apiKey: string;
   uploadUrl: string;
   deleteUrl: string;
-  tagsUrl: string;
 
-  constructor({ cloudName, apiKey }: CloudinaryConstructorParams) {
+  constructor() {
+    const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
     super({ cloud_name: cloudName, secure: true });
-    this.apiKey = apiKey;
+    this.apiKey = process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY;
     this.uploadUrl = `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`;
     this.deleteUrl = `https://api.cloudinary.com/v1_1/${cloudName}/image/destroy`;
-    this.tagsUrl = `https://api.cloudinary.com/v1_1/${cloudName}/image/tags`;
   }
 }
 
-const ImagePresetTransformOptions: {
-  [key in ImagePreset]: (devicePixelRatio: number) => Transformation.Options;
-} = {
-  avatar: (devicePixelRatio) => ({
-    crop: "fill",
-    width: Math.round(48 * devicePixelRatio),
-    height: Math.round(48 * devicePixelRatio),
-  }),
-  none: (devicePixelRatio) => ({
-    crop: "fit",
-    // Larger than any small screen.
-    width: Math.round(600 * devicePixelRatio),
-  }),
-};
-
-type CloudinaryContextProviderProps = ChildrenProp &
-  CloudinaryConstructorParams;
-
-export function CloudinaryContextProvider({
-  apiKey,
-  cloudName,
-  children,
-}: CloudinaryContextProviderProps) {
-  return (
-    <ImageProviderContextProvider
-      createImageProvider={() => new Cloudinary({ apiKey, cloudName })}
-      getImageUrl={(instance, imageId, preset) =>
-        instance.url(
-          imageId,
-          ImagePresetTransformOptions[preset](window.devicePixelRatio)
-        )
-      }
-    >
-      {children}
-    </ImageProviderContextProvider>
-  );
-}
-
-export function useCloudinary() {
-  return useImageProvider<Cloudinary>();
-}
+export const cloudinaryInstance = new Cloudinary();
 
 const GetCloudinaryApiSignature = gql`
   query GetCloudinaryApiSignature($parametersToSign: JSONObject!) {
@@ -94,7 +41,6 @@ async function getApiSignature(parametersToSign: object) {
 }
 
 export async function uploadImageFile(
-  cloudinary: Cloudinary,
   imageFile: ImageFile,
   { tags = [] }: { tags?: string[] } = {}
 ) {
@@ -108,12 +54,12 @@ export async function uploadImageFile(
   formData.append("file", imageFile.file);
   formData.append("public_id", imageFile.id);
   formData.append("tags", tagsParam);
-  formData.append("api_key", cloudinary.apiKey);
+  formData.append("api_key", cloudinaryInstance.apiKey);
   formData.append("timestamp", timestamp);
   formData.append("signature", signature);
 
   try {
-    const response = await fetch(cloudinary.uploadUrl, {
+    const response = await fetch(cloudinaryInstance.uploadUrl, {
       method: "POST",
       body: formData,
     });
@@ -133,18 +79,18 @@ export async function uploadImageFile(
   }
 }
 
-export async function deleteImage(cloudinary: Cloudinary, imageId: string) {
+export async function deleteImage(imageId: string) {
   const { signature, timestamp } = await getApiSignature({
     public_id: imageId,
   });
 
   try {
-    const response = await fetch(cloudinary.deleteUrl, {
+    const response = await fetch(cloudinaryInstance.deleteUrl, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         public_id: imageId,
-        api_key: cloudinary.apiKey,
+        api_key: cloudinaryInstance.apiKey,
         timestamp,
         signature,
       }),

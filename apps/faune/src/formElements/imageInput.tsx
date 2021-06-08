@@ -28,7 +28,6 @@ function PictureItemPreview() {
     <Image
       alt="Dragged image"
       image={preview.item.data}
-      preset="avatar"
       style={preview.style}
       className="PictureItemPreview"
     />
@@ -154,12 +153,7 @@ function ImageItem({ image, index, onRemove }: ImageItemProps) {
         "ImageItem--hidden": isDragging,
       })}
     >
-      <Image
-        alt="Image tile"
-        image={image}
-        preset="avatar"
-        className="ImageItem__image"
-      />
+      <Image alt="Image tile" image={image} className="ImageItem__image" />
 
       <button onClick={() => onRemove()} className="ImageItem__button">
         <FaTrash />

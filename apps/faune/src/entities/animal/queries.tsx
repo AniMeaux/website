@@ -23,7 +23,7 @@ import {
   toSearchableAnimal,
   UpdateAnimalPayload,
 } from "@animeaux/shared-entities";
-import { deleteImage, uploadImageFile, useCloudinary } from "core/cloudinary";
+import { deleteImage, uploadImageFile } from "core/cloudinary";
 import {
   fetchGraphQL,
   QueryClient,
@@ -36,7 +36,6 @@ import {
   useQuery,
   useQueryClient,
 } from "core/request";
-import { useImageProvider } from "dataDisplay/image";
 import { AnimalBreedFragment } from "entities/animalBreed/animalBreedQueries";
 import { AnimalColorFragment } from "entities/animalColor/animalColorQueries";
 import { HostFamilyFragment } from "entities/hostFamily/hostFamilyQueries";
@@ -288,7 +287,6 @@ export function useCreateAnimal(
   options?: UseMutationOptions<Animal, Error, AnimalFormPayload>
 ) {
   const queryClient = useQueryClient();
-  const { imageProvider } = useCloudinary();
 
   const { mutate, ...rest } = useMutation<Animal, Error, AnimalFormPayload>(
     async (formPayload) => {
@@ -298,7 +296,6 @@ export function useCreateAnimal(
       await Promise.all(
         formPayload.pictures.map((picture) =>
           uploadImageFile(
-            imageProvider,
             // It can only be an `ImageFile` when creating a new animal.
             picture as ImageFile,
             { tags: ["animal"] }
@@ -377,7 +374,6 @@ export function useDeleteAnimal(
   options?: UseMutationOptions<Animal, Error, Animal>
 ) {
   const queryClient = useQueryClient();
-  const { imageProvider } = useCloudinary();
 
   const { mutate, ...rest } = useMutation<Animal, Error, Animal>(
     async (animal) => {
@@ -388,7 +384,7 @@ export function useDeleteAnimal(
       await Promise.all(
         [animal.avatarId]
           .concat(animal.picturesId)
-          .map((pictureId) => deleteImage(imageProvider, pictureId))
+          .map((pictureId) => deleteImage(pictureId))
       );
       return animal;
     },
@@ -576,7 +572,6 @@ export function useUpdateAnimalPicture(
   >
 ) {
   const queryClient = useQueryClient();
-  const { imageProvider } = useImageProvider();
 
   const { mutate, ...rest } = useMutation<
     Animal,
@@ -593,7 +588,7 @@ export function useUpdateAnimalPicture(
       if (picturesToUpload.length > 0) {
         await Promise.all(
           picturesToUpload.map((picture) =>
-            uploadImageFile(imageProvider, picture, { tags: ["animal"] })
+            uploadImageFile(picture, { tags: ["animal"] })
           )
         );
       }
@@ -611,9 +606,7 @@ export function useUpdateAnimalPicture(
       // Only remove images if the animal was successfully updated.
       if (picturesToDelete.length > 0) {
         await Promise.all(
-          picturesToDelete.map((pictureId) =>
-            deleteImage(imageProvider, pictureId)
-          )
+          picturesToDelete.map((pictureId) => deleteImage(pictureId))
         );
       }
 

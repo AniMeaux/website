@@ -2,51 +2,51 @@ import "react-app-polyfill/stable";
 import "focus-visible";
 import "styles/index.css";
 
-import { UserGroup } from "@animeaux/shared-entities";
-import {
-  ApplicationProps,
-  ApplicationProviders,
-  initializeApplication,
-} from "core/applicationProviders";
 import { PageHead } from "core/pageHead";
+import { RequestContextProvider } from "core/request";
+import { ScreenSizeContextProvider } from "core/screenSize";
+import { Sentry } from "core/sentry";
+import { PageComponent } from "core/types";
+import { ErrorActionRefresh, ErrorMessage } from "dataDisplay/errorMessage";
+import { CurrentUserContextProvider } from "entities/user/currentUserContext";
+import { AppProps } from "next/app";
+import { SnackbarContainer } from "popovers/snackbar";
 import * as React from "react";
 
-initializeApplication({
-  environment: process.env.NODE_ENV,
-  name: process.env.NEXT_PUBLIC_APP_NAME,
-  version: process.env.NEXT_PUBLIC_APP_VERSION,
-  buildId: process.env.NEXT_PUBLIC_APP_BUILD_ID,
-  firebase: {
-    apiKey: process.env.NEXT_PUBLIC_FIREBASE_PUBLIC_API_KEY,
-    authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
-    databaseURL: process.env.NEXT_PUBLIC_FIREBASE_DATABASE_URL,
-    projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
-  },
-  graphQLClient: {
-    apiUrl: process.env.NEXT_PUBLIC_API_URL,
-  },
-  sentry: {
-    dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
-  },
-});
+type ApplicationProps = Omit<AppProps, "Component"> & {
+  Component: PageComponent;
+};
 
-const AUTHORISED_GROUPS = [
-  UserGroup.ADMIN,
-  UserGroup.ANIMAL_MANAGER,
-  UserGroup.VETERINARIAN,
-];
+export default function App({ Component, pageProps }: ApplicationProps) {
+  let children = <Component {...pageProps} />;
 
-export default function App(props: ApplicationProps) {
+  if (Component.WrapperComponent != null) {
+    children = (
+      <Component.WrapperComponent>{children}</Component.WrapperComponent>
+    );
+  }
+
   return (
     <>
       <PageHead />
 
-      <ApplicationProviders
-        authorisedGroupsForApplication={AUTHORISED_GROUPS}
-        applicationProps={props}
-        cloudinaryApiKey={process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY}
-        cloudinaryCloudName={process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}
-      />
+      <Sentry.ErrorBoundary
+        fallback={() => (
+          <ErrorMessage type="serverError" action={<ErrorActionRefresh />} />
+        )}
+      >
+        <ScreenSizeContextProvider>
+          <RequestContextProvider>
+            <CurrentUserContextProvider
+              authorisedGroupsForPage={Component.authorisedGroups}
+            >
+              {children}
+            </CurrentUserContextProvider>
+          </RequestContextProvider>
+
+          <SnackbarContainer />
+        </ScreenSizeContextProvider>
+      </Sentry.ErrorBoundary>
     </>
   );
 }
