@@ -3,6 +3,7 @@ import { Button } from "actions/button";
 import { PageTitle } from "core/pageTitle";
 import { renderInfiniteItemList } from "core/request";
 import { useRouter } from "core/router";
+import { ScreenSize, useScreenSize } from "core/screenSize";
 import { PageComponent } from "core/types";
 import { Avatar } from "dataDisplay/avatar";
 import {
@@ -75,12 +76,18 @@ const CreateAnimalHostFamilyPage: PageComponent = () => {
     ),
   });
 
+  const { screenSize } = useScreenSize();
+
   return (
     <ApplicationLayout>
       <PageTitle title="Nouvel animal" />
       <Header>
         <HeaderBackLink href="../situation" />
-        <SearchInput size="small" value={rawSearch} onChange={setRawSearch} />
+        <SearchInput
+          size={screenSize <= ScreenSize.SMALL ? "small" : "medium"}
+          value={rawSearch}
+          onChange={setRawSearch}
+        />
       </Header>
 
       <Main>

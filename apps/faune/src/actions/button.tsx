@@ -3,13 +3,14 @@ import { Link, LinkProps } from "core/link";
 import { ChildrenProp, StyleProps } from "core/types";
 import * as React from "react";
 
-type ButtonVariant = "primary" | "outlined";
+type ButtonVariant = "primary" | "secondary" | "outlined";
 
 const ButtonVariantClassName: {
   [key in ButtonVariant]: string;
 } = {
-  outlined: "Button--outlined",
   primary: "Button--primary",
+  secondary: "Button--secondary",
+  outlined: "Button--outlined",
 };
 
 type ButtonSize = "small" | "medium";

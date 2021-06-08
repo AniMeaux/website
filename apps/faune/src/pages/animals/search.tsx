@@ -136,6 +136,7 @@ const SearchAnimalPage: PageComponent = () => {
   }
 
   const searchInputElement = React.useRef<HTMLInputElement>(null!);
+  const { screenSize } = useScreenSize();
 
   return (
     <ApplicationLayout>
@@ -144,7 +145,7 @@ const SearchAnimalPage: PageComponent = () => {
         <HeaderBackLink href=".." />
 
         <SearchInput
-          size="small"
+          size={screenSize <= ScreenSize.SMALL ? "small" : "medium"}
           placeholder="Chercher un animal"
           value={rawSearch}
           onChange={setRawSearch}

@@ -39,6 +39,31 @@
   --button-padding-x: var(--spacing-s);
 }
 
+.Button--primary {
+  background: var(--primary-500);
+  color: var(--text-contrast);
+}
+
+@media (hover: hover) {
+  .Button--primary:not(.Button--disabled):hover {
+    background: var(--primary-400);
+  }
+}
+
+.Button--primary:not(.Button--disabled):active {
+  background: var(--primary-600);
+}
+
+@media (hover: hover) {
+  .Button--secondary:not(.Button--disabled):hover {
+    background: var(--dark-30);
+  }
+}
+
+.Button--secondary:not(.Button--disabled):active {
+  background: var(--dark-100);
+}
+
 .Button--outlined {
   background: var(--light-1000);
   border: 1px solid var(--dark-100);
@@ -54,21 +79,6 @@
 
 .Button--outlined:not(.Button--disabled):active {
   background: var(--dark-100);
-}
-
-.Button--primary {
-  background: var(--primary-500);
-  color: var(--text-contrast);
-}
-
-@media (hover: hover) {
-  .Button--primary:not(.Button--disabled):hover {
-    background: var(--primary-400);
-  }
-}
-
-.Button--primary:not(.Button--disabled):active {
-  background: var(--primary-600);
 }
 
 .Button > *:not(:first-child) {

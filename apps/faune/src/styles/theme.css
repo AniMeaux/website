@@ -437,8 +437,14 @@
   --opacity-disabled: 0.6;
 }
 
-@media (min-width: 800px) {
+@media (min-width: 500px) {
   :root {
     --header-height: 56px;
+  }
+}
+
+@media (min-width: 800px) {
+  :root {
+    --header-height: 64px;
   }
 }
