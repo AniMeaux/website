@@ -2,6 +2,7 @@ import {
   ErrorCode,
   getErrorMessage,
   hasErrorCode,
+  UserGroup,
 } from "@animeaux/shared-entities";
 import { PageTitle } from "core/pageTitle";
 import { useRouter } from "core/router";
@@ -56,5 +57,7 @@ const CreateAnimalColorPage: PageComponent = () => {
     </ApplicationLayout>
   );
 };
+
+CreateAnimalColorPage.authorisedGroups = [UserGroup.ADMIN];
 
 export default CreateAnimalColorPage;

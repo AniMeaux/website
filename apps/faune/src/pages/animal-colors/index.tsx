@@ -1,4 +1,4 @@
-import { AnimalColor } from "@animeaux/shared-entities";
+import { AnimalColor, UserGroup } from "@animeaux/shared-entities";
 import { Button } from "actions/button";
 import { QuickLinkAction } from "actions/quickAction";
 import { PageTitle } from "core/pageTitle";
@@ -221,5 +221,7 @@ const AnimalColorListPage: PageComponent = () => {
     </ApplicationLayout>
   );
 };
+
+AnimalColorListPage.authorisedGroups = [UserGroup.ADMIN];
 
 export default AnimalColorListPage;

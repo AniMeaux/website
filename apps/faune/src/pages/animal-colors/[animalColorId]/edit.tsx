@@ -2,6 +2,7 @@ import {
   ErrorCode,
   getErrorMessage,
   hasErrorCode,
+  UserGroup,
 } from "@animeaux/shared-entities";
 import { PageTitle } from "core/pageTitle";
 import { renderQueryEntity } from "core/request";
@@ -70,5 +71,7 @@ const AnimalColorEditPage: PageComponent = () => {
     </ApplicationLayout>
   );
 };
+
+AnimalColorEditPage.authorisedGroups = [UserGroup.ADMIN];
 
 export default AnimalColorEditPage;
