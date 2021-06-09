@@ -186,10 +186,12 @@ export function CurrentUserContextProvider({
 
   if (!doesGroupsIntersect(currentUser.groups, AUTHORISED_GROUPS)) {
     return (
-      <ErrorMessage
-        type="unauthorized"
-        message="Vous n'êtes pas authorisé à accéder à cette application. Si vous pensez que c'est une erreur merci de contacter un administrateur."
-      />
+      <main>
+        <ErrorMessage
+          type="unauthorized"
+          message="Vous n'êtes pas authorisé à accéder à cette application. Si vous pensez que c'est une erreur merci de contacter un administrateur."
+        />
+      </main>
     );
   }
 
@@ -198,11 +200,13 @@ export function CurrentUserContextProvider({
     !doesGroupsIntersect(currentUser.groups, authorisedGroupsForPage)
   ) {
     return (
-      <ErrorMessage
-        type="unauthorized"
-        message="Vous n'êtes pas authorisé à accéder à cette page. Si vous pensez que c'est une erreur merci de contacter un administrateur."
-        action={<ErrorActionBack />}
-      />
+      <main>
+        <ErrorMessage
+          type="unauthorized"
+          message="Vous n'êtes pas authorisé à accéder à cette page. Si vous pensez que c'est une erreur merci de contacter un administrateur."
+          action={<ErrorActionBack />}
+        />
+      </main>
     );
   }
 

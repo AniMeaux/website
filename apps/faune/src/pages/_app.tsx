@@ -32,7 +32,9 @@ export default function App({ Component, pageProps }: ApplicationProps) {
 
       <Sentry.ErrorBoundary
         fallback={() => (
-          <ErrorMessage type="serverError" action={<ErrorActionRefresh />} />
+          <main>
+            <ErrorMessage type="serverError" action={<ErrorActionRefresh />} />
+          </main>
         )}
       >
         <ScreenSizeContextProvider>

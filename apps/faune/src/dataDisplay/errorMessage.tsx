@@ -55,7 +55,7 @@ export function ErrorMessage({
   ...rest
 }: ErrorMessageProps) {
   return (
-    <main {...rest} className={cn("ErrorMessage", className)}>
+    <div {...rest} className={cn("ErrorMessage", className)}>
       <div role="img" aria-label="Oups" className="ErrorMessage__image">
         {ErrorTypeImage[type]}
       </div>
@@ -65,7 +65,7 @@ export function ErrorMessage({
       </h1>
 
       {action != null && <div className="ErrorMessage__action">{action}</div>}
-    </main>
+    </div>
   );
 }
 
