@@ -1,7 +1,7 @@
-import { ChildrenProp } from "~/core/types";
-import { StaticImage, StaticImageProps } from "~/dataDisplay/image";
-import { CenteredContent } from "~/layout/centeredContent";
-import { Section } from "~/layout/section";
+import { ChildrenProp } from "core/types";
+import { StaticImage, StaticImageProps } from "dataDisplay/image";
+import { CenteredContent } from "layout/centeredContent";
+import { Section } from "layout/section";
 
 export function StatisticsSection({ children }: ChildrenProp) {
   return (

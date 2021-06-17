@@ -1,5 +1,5 @@
-import { Link, LinkProps } from "~/core/link";
-import { ChildrenProp } from "~/core/types";
+import { Link, LinkProps } from "core/link";
+import { ChildrenProp } from "core/types";
 
 export function TagList(props: ChildrenProp) {
   return <ul {...props} className="TagList" />;

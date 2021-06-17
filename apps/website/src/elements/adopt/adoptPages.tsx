@@ -8,21 +8,21 @@ import {
   PaginatedRequestParameters,
   PaginatedResponse,
 } from "@animeaux/shared-entities/build/pagination";
-import { gql } from "graphql-request";
-import { GetServerSideProps } from "next";
-import { AdoptSearchParams } from "~/core/adoptSearchParams";
+import { AdoptSearchParams } from "core/adoptSearchParams";
 import {
   PageQueryProps,
   PublicSearchableAnimalFragment,
-} from "~/core/animalQueries";
-import { fetchGraphQL } from "~/core/fetchGraphQL";
-import { PageComponent } from "~/core/pageComponent";
-import { PageQueryParam } from "~/core/pageQueryParam";
-import { PageTitle } from "~/core/pageTitle";
-import { captureException } from "~/core/sentry";
-import { Footer } from "~/layout/footer";
-import { Header } from "~/layout/header";
-import { ErrorPage } from "~/pages/_error";
+} from "core/animalQueries";
+import { fetchGraphQL } from "core/fetchGraphQL";
+import { PageComponent } from "core/pageComponent";
+import { PageQueryParam } from "core/pageQueryParam";
+import { PageTitle } from "core/pageTitle";
+import { captureException } from "core/sentry";
+import { gql } from "graphql-request";
+import { Footer } from "layout/footer";
+import { Header } from "layout/header";
+import { GetServerSideProps } from "next";
+import { ErrorPage } from "pages/_error";
 import { SearchFormSection } from "./searchFormSection";
 import { SearchResults } from "./searchResults";
 

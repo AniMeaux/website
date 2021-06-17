@@ -1,6 +1,6 @@
 import cn from "classnames";
+import { StyleProps } from "core/types";
 import { cloneElement } from "react";
-import { StyleProps } from "~/core/types";
 
 type CenteredContentProps = StyleProps & {
   children: React.ReactElement;

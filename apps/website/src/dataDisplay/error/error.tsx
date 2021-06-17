@@ -1,7 +1,7 @@
-import { StaticImage, StaticImageProps } from "~/dataDisplay/image";
-import { CallToActionButton, CallToActionLink } from "~/layout/callToAction";
-import { CenteredContent } from "~/layout/centeredContent";
-import { Section } from "~/layout/section";
+import { StaticImage, StaticImageProps } from "dataDisplay/image";
+import { CallToActionButton, CallToActionLink } from "layout/callToAction";
+import { CenteredContent } from "layout/centeredContent";
+import { Section } from "layout/section";
 
 export type ErrorType = "notFound" | "serverError";
 

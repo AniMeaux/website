@@ -1,23 +1,23 @@
-import { SearchForm } from "~/controllers/searchForm";
-import { PageComponent } from "~/core/pageComponent";
-import { PageTitle } from "~/core/pageTitle";
-import { HeroSection } from "~/elements/home/heroSection";
+import { SearchForm } from "controllers/searchForm";
+import { PageComponent } from "core/pageComponent";
+import { PageTitle } from "core/pageTitle";
+import { HeroSection } from "elements/home/heroSection";
 import {
   StatisticImage,
   StatisticItem,
   StatisticsSection,
-} from "~/elements/home/statisticsSection";
-import { Footer } from "~/layout/footer";
+} from "elements/home/statisticsSection";
+import { Footer } from "layout/footer";
 import {
   FullWidthSection,
   FullWidthSectionAction,
-} from "~/layout/fullWidthSection";
-import { Header } from "~/layout/header";
+} from "layout/fullWidthSection";
+import { Header } from "layout/header";
 import {
   PrimarySection,
   PrimarySectionAction,
   PrimarySectionImage,
-} from "~/layout/primarySection";
+} from "layout/primarySection";
 
 const HomePage: PageComponent = () => {
   return (

@@ -7,11 +7,11 @@ import {
   ANIMAL_SPECIES_ALPHABETICAL_ORDER,
 } from "@animeaux/shared-entities/build/animal";
 import cn from "classnames";
+import { AdoptSearchParams } from "core/adoptSearchParams";
+import { Link } from "core/link";
+import { ChildrenProp } from "core/types";
 import { useEffect, useState } from "react";
 import { FaSearch } from "react-icons/fa";
-import { AdoptSearchParams } from "~/core/adoptSearchParams";
-import { Link } from "~/core/link";
-import { ChildrenProp } from "~/core/types";
 import styles from "./searchForm.module.css";
 
 type OptionAll = "ALL";

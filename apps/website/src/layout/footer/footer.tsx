@@ -2,6 +2,10 @@ import {
   AnimalSpeciesLabels,
   ANIMAL_SPECIES_ALPHABETICAL_ORDER,
 } from "@animeaux/shared-entities/build/animal";
+import { AdoptSearchParams } from "core/adoptSearchParams";
+import { Link, LinkProps } from "core/link";
+import { ChildrenProp } from "core/types";
+import { CenteredContent } from "layout/centeredContent";
 import { useState } from "react";
 import {
   FaEnvelope,
@@ -10,10 +14,6 @@ import {
   FaPaperPlane,
   FaPhone,
 } from "react-icons/fa";
-import { AdoptSearchParams } from "~/core/adoptSearchParams";
-import { Link, LinkProps } from "~/core/link";
-import { ChildrenProp } from "~/core/types";
-import { CenteredContent } from "~/layout/centeredContent";
 import { useApplicationLayout } from "../applicationLayout";
 
 export function Footer() {

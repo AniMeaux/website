@@ -1,18 +1,18 @@
 import "react-app-polyfill/stable";
 import "focus-visible";
 import "wicg-inert";
-import "~/styles/index.css";
+import "styles/index.css";
 
 import { Article } from "@animeaux/shared-entities/build/article";
+import { PageComponent } from "core/pageComponent";
+import { PageHead } from "core/pageHead";
+import { ScreenSizeContextProvider } from "core/screenSize";
+import { ErrorBoundary } from "core/sentry";
+import { articles } from "elements/blog/data";
+import { ApplicationLayout } from "layout/applicationLayout";
 import NextApp, { AppContext, AppProps } from "next/app";
+import { ErrorPage } from "pages/_error";
 import { ReactNode } from "react";
-import { PageComponent } from "~/core/pageComponent";
-import { PageHead } from "~/core/pageHead";
-import { ScreenSizeContextProvider } from "~/core/screenSize";
-import { ErrorBoundary } from "~/core/sentry";
-import { articles } from "~/elements/blog/data";
-import { ApplicationLayout } from "~/layout/applicationLayout";
-import { ErrorPage } from "~/pages/_error";
 
 function renderWithLayout<P = {}, IP = P>(
   Component: PageComponent<P, IP>,

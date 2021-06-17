@@ -1,9 +1,9 @@
 import cn from "classnames";
+import { Link } from "core/link";
+import { PageQueryParam } from "core/pageQueryParam";
+import { useRouter } from "core/router";
+import { StyleProps } from "core/types";
 import { ReactNode } from "react";
-import { Link } from "~/core/link";
-import { PageQueryParam } from "~/core/pageQueryParam";
-import { useRouter } from "~/core/router";
-import { StyleProps } from "~/core/types";
 import styles from "./pageForm.module.css";
 
 export type PageFormProps = StyleProps & {

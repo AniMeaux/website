@@ -8,11 +8,7 @@ if (!NODE_ENV) {
 }
 
 // https://github.com/bkeepers/dotenv#what-other-env-files-can-i-use
-const dotenvFiles = [
-  `.env.${NODE_ENV}.local`,
-  `.env.${NODE_ENV}`,
-  ".env",
-].filter(Boolean);
+const dotenvFiles = [`.env.${NODE_ENV}.local`, `.env.${NODE_ENV}`, ".env"];
 
 // Load environment variables from .env* files. Suppress warnings using silent
 // if this file is missing. dotenv will never modify any environment variables

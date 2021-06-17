@@ -1,11 +1,11 @@
 import cn from "classnames";
 import { Cloudinary } from "cloudinary-core";
+import { captureException } from "core/sentry";
+import { StyleProps } from "core/types";
 import { useState } from "react";
 import { useAsyncMemo } from "react-behave";
 import { FaImage } from "react-icons/fa";
 import { validate as isUuid, version as getUuidVersion } from "uuid";
-import { captureException } from "~/core/sentry";
-import { StyleProps } from "~/core/types";
 import styles from "./image.module.css";
 
 const cloudinaryInstance = new Cloudinary({
@@ -92,6 +92,14 @@ export function UnknownImage({ src, ...rest }: UnknownImageProps) {
   }
 
   return <StaticImage {...rest} largeImage={src} smallImage={src} />;
+}
+
+export function BluredImage({ className, ...rest }: UnknownImageProps) {
+  return (
+    <div className={cn(styles.bluredWrapper, className)}>
+      <UnknownImage {...rest} className={styles.blured} />
+    </div>
+  );
 }
 
 class Color {

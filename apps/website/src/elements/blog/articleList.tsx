@@ -1,6 +1,6 @@
 import { Article } from "@animeaux/shared-entities/build/article";
-import { Link } from "~/core/link";
-import { StaticImage } from "~/dataDisplay/image";
+import { Link } from "core/link";
+import { StaticImage } from "dataDisplay/image";
 import styles from "./articleList.module.css";
 
 export type ArticleListProps = {

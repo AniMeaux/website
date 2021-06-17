@@ -2,5 +2,19 @@
   display: block;
 }
 
-.image.error {
+.bluredWrapper {
+  z-index: -1;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.image.blured {
+  width: 100%;
+  height: 100%;
+  background-position: bottom;
+  filter: blur(150px);
 }

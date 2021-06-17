@@ -1,7 +1,7 @@
 import { Article } from "@animeaux/shared-entities/build/article";
+import { ChildrenProp } from "core/types";
 import invariant from "invariant";
 import { createContext, useContext, useMemo } from "react";
-import { ChildrenProp } from "~/core/types";
 
 export type ApplicationLayoutContextValue = {
   latestArticles: Article[];

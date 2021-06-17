@@ -1,7 +1,7 @@
 import cn from "classnames";
-import { StaticImage, StaticImageProps } from "~/dataDisplay/image";
-import { CenteredContent } from "~/layout/centeredContent";
-import { Section } from "~/layout/section";
+import { StaticImage, StaticImageProps } from "dataDisplay/image";
+import { CenteredContent } from "layout/centeredContent";
+import { Section } from "layout/section";
 import { CallToActionLink, CallToActionLinkProps } from "../callToAction";
 
 export type PrimarySectionProps = {

@@ -1,5 +1,5 @@
 import cn from "classnames";
-import { ChildrenProp } from "~/core/types";
+import { ChildrenProp } from "core/types";
 import { CenteredContent } from "../centeredContent";
 import styles from "./pageHeader.module.css";
 

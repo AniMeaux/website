@@ -2,16 +2,16 @@ import {
   AnimalSpeciesLabels,
   ANIMAL_SPECIES_ALPHABETICAL_ORDER,
 } from "@animeaux/shared-entities/build/animal";
-import { AdoptSearchParams } from "~/core/adoptSearchParams";
-import { Link, LinkProps } from "~/core/link";
-import { AnimalSpeciesIcon } from "~/dataDisplay/animalSpeciesIcon";
+import { AdoptSearchParams } from "core/adoptSearchParams";
+import { Link, LinkProps } from "core/link";
+import { AnimalSpeciesIcon } from "dataDisplay/animalSpeciesIcon";
 import {
   TagContent,
   TagIcon,
   TagLink,
   TagList,
   TagListItem,
-} from "~/dataDisplay/tagList";
+} from "dataDisplay/tagList";
 
 export function AdoptionMenu() {
   return (

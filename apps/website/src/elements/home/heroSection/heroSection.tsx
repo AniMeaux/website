@@ -1,5 +1,5 @@
-import { StaticImage, useImageDominantColor } from "~/dataDisplay/image";
-import { CenteredContent } from "~/layout/centeredContent";
+import { BluredImage, StaticImage } from "dataDisplay/image";
+import { CenteredContent } from "layout/centeredContent";
 
 type HeroProps = {
   smallImage: string;

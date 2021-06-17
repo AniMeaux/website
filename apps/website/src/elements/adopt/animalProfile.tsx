@@ -8,14 +8,14 @@ import {
   formatLongDate,
 } from "@animeaux/shared-entities/build/date";
 import { Trilean } from "@animeaux/shared-entities/build/trilean";
+import { isDefined } from "core/isDefined";
+import { AnimalGenderIcon } from "dataDisplay/animalGenderIcon";
+import { AnimalSpeciesIcon } from "dataDisplay/animalSpeciesIcon";
+import { Markdown } from "dataDisplay/markdown";
+import { CallToActionLink } from "layout/callToAction";
+import { CenteredContent } from "layout/centeredContent";
+import { Section } from "layout/section";
 import { FaBaby, FaBirthdayCake } from "react-icons/fa";
-import { isDefined } from "~/core/isDefined";
-import { AnimalGenderIcon } from "~/dataDisplay/animalGenderIcon";
-import { AnimalSpeciesIcon } from "~/dataDisplay/animalSpeciesIcon";
-import { Markdown } from "~/dataDisplay/markdown";
-import { CallToActionLink } from "~/layout/callToAction";
-import { CenteredContent } from "~/layout/centeredContent";
-import { Section } from "~/layout/section";
 import { AnimalImageGallery } from "./animalImageGallery";
 import styles from "./animalProfile.module.css";
 

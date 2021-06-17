@@ -1,7 +1,7 @@
 import { Article } from "@animeaux/shared-entities/build/article";
 import { formatLongDate } from "@animeaux/shared-entities/build/date";
-import { StaticImage, useImageDominantColor } from "~/dataDisplay/image";
-import { CenteredContent } from "~/layout/centeredContent";
+import { StaticImage, useImageDominantColor } from "dataDisplay/image";
+import { CenteredContent } from "layout/centeredContent";
 import styles from "./articleHeader.module.css";
 
 export type ArticleHeaderProps = {

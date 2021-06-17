@@ -3,14 +3,14 @@ import {
   AnimalSpeciesLabels,
   AnimalSpeciesLabelsPlural,
 } from "@animeaux/shared-entities/build/animal";
-import { AdoptSearchParams } from "~/core/adoptSearchParams";
-import { AnimalLinkCard } from "~/dataDisplay/animal/card";
+import { AdoptSearchParams } from "core/adoptSearchParams";
+import { AnimalLinkCard } from "dataDisplay/animal/card";
 import {
   AnimalPaginatedList,
   AnimalPaginatedListProps,
-} from "~/dataDisplay/animal/paginatedList";
-import { CenteredContent } from "~/layout/centeredContent";
-import { Section } from "~/layout/section";
+} from "dataDisplay/animal/paginatedList";
+import { CenteredContent } from "layout/centeredContent";
+import { Section } from "layout/section";
 import styles from "./searchResults.module.css";
 
 export type SearchResultsProps = Omit<

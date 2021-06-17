@@ -1,4 +1,7 @@
 import cn from "classnames";
+import { Link } from "core/link";
+import { StyleProps } from "core/types";
+import { UnknownImage } from "dataDisplay/image";
 import { ElementType } from "react";
 import { FaQuoteLeft } from "react-icons/fa";
 import ReactMarkdown, { FilterOptions } from "react-markdown";
@@ -6,9 +9,6 @@ import type { HeadingComponent } from "react-markdown/src/ast-to-react";
 import breaks from "remark-breaks";
 import gfm from "remark-gfm";
 import slug from "remark-slug";
-import { Link } from "~/core/link";
-import { StyleProps } from "~/core/types";
-import { UnknownImage } from "~/dataDisplay/image";
 import styles from "./markdown.module.css";
 
 const Heading: HeadingComponent = ({ id, children, level }) => {

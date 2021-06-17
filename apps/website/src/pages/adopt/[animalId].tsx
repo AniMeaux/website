@@ -1,14 +1,14 @@
 import { PublicAnimal } from "@animeaux/shared-entities/build/animal";
+import { fetchGraphQL } from "core/fetchGraphQL";
+import { PageComponent } from "core/pageComponent";
+import { PageTitle } from "core/pageTitle";
+import { captureException } from "core/sentry";
+import { AnimalProfile } from "elements/adopt/animalProfile";
 import { gql } from "graphql-request";
+import { Footer } from "layout/footer";
+import { Header } from "layout/header";
 import { GetServerSideProps } from "next";
-import { fetchGraphQL } from "~/core/fetchGraphQL";
-import { PageComponent } from "~/core/pageComponent";
-import { PageTitle } from "~/core/pageTitle";
-import { captureException } from "~/core/sentry";
-import { AnimalProfile } from "~/elements/adopt/animalProfile";
-import { Footer } from "~/layout/footer";
-import { Header } from "~/layout/header";
-import { ErrorPage } from "~/pages/_error";
+import { ErrorPage } from "pages/_error";
 
 const PublicAnimalFragment = gql`
   fragment PublicAnimalFragment on PublicAnimal {

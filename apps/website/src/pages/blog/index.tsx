@@ -1,15 +1,15 @@
 import { Article } from "@animeaux/shared-entities/build/article";
+import { PageComponent } from "core/pageComponent";
+import { PageTitle } from "core/pageTitle";
+import { ArticleList } from "elements/blog/articleList";
+import { articles } from "elements/blog/data";
+import { CenteredContent } from "layout/centeredContent";
+import { Footer } from "layout/footer";
+import { Header } from "layout/header";
+import { PageHeader } from "layout/pageHeader";
+import { Section } from "layout/section";
 import { GetServerSideProps } from "next";
-import { PageComponent } from "~/core/pageComponent";
-import { PageTitle } from "~/core/pageTitle";
-import { ArticleList } from "~/elements/blog/articleList";
-import { articles } from "~/elements/blog/data";
-import { CenteredContent } from "~/layout/centeredContent";
-import { Footer } from "~/layout/footer";
-import { Header } from "~/layout/header";
-import { PageHeader } from "~/layout/pageHeader";
-import { Section } from "~/layout/section";
-import { ErrorPage } from "~/pages/_error";
+import { ErrorPage } from "pages/_error";
 
 type BlogPageProps =
   | { type: "success"; articles: Article[] }

@@ -4,13 +4,13 @@ import {
   PaginatedRequestParameters,
   PaginatedResponse,
 } from "@animeaux/shared-entities/build/pagination";
+import { fetchGraphQL } from "core/fetchGraphQL";
+import { Link } from "core/link";
+import { captureException } from "core/sentry";
+import { StaticImage } from "dataDisplay/image";
 import { gql } from "graphql-request";
 import { GetServerSideProps } from "next";
 import { FaArrowRight, FaPaw } from "react-icons/fa";
-import { fetchGraphQL } from "~/core/fetchGraphQL";
-import { Link } from "~/core/link";
-import { captureException } from "~/core/sentry";
-import { StaticImage } from "~/dataDisplay/image";
 
 const PublicAnimalFragment = gql`
   fragment PublicAnimalFragment on PublicSearchableAnimal {

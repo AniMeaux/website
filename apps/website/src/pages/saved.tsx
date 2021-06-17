@@ -3,25 +3,25 @@ import {
   PaginatedRequestParameters,
   PaginatedResponse,
 } from "@animeaux/shared-entities/build/pagination";
-import { gql } from "graphql-request";
-import { GetServerSideProps } from "next";
 import {
   PageQueryProps,
   PublicSearchableAnimalFragment,
-} from "~/core/animalQueries";
-import { fetchGraphQL } from "~/core/fetchGraphQL";
-import { PageComponent } from "~/core/pageComponent";
-import { PageQueryParam } from "~/core/pageQueryParam";
-import { PageTitle } from "~/core/pageTitle";
-import { captureException } from "~/core/sentry";
-import { AnimalCard } from "~/dataDisplay/animal/card";
-import { AnimalPaginatedList } from "~/dataDisplay/animal/paginatedList";
-import { CenteredContent } from "~/layout/centeredContent";
-import { Footer } from "~/layout/footer";
-import { Header } from "~/layout/header";
-import { PageHeader } from "~/layout/pageHeader";
-import { Section } from "~/layout/section";
-import { ErrorPage } from "~/pages/_error";
+} from "core/animalQueries";
+import { fetchGraphQL } from "core/fetchGraphQL";
+import { PageComponent } from "core/pageComponent";
+import { PageQueryParam } from "core/pageQueryParam";
+import { PageTitle } from "core/pageTitle";
+import { captureException } from "core/sentry";
+import { AnimalCard } from "dataDisplay/animal/card";
+import { AnimalPaginatedList } from "dataDisplay/animal/paginatedList";
+import { gql } from "graphql-request";
+import { CenteredContent } from "layout/centeredContent";
+import { Footer } from "layout/footer";
+import { Header } from "layout/header";
+import { PageHeader } from "layout/pageHeader";
+import { Section } from "layout/section";
+import { GetServerSideProps } from "next";
+import { ErrorPage } from "pages/_error";
 
 const GetAllSavedAnimalsQuery = gql`
   query GetAllSavedAnimalsQuery($page: Int, $hitsPerPage: Int) {

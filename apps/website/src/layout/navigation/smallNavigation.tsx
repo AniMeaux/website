@@ -1,9 +1,9 @@
 import cn from "classnames";
+import { Link, LinkProps } from "core/link";
+import { useRouter } from "core/router";
+import { ChildrenProp } from "core/types";
 import { useEffect, useRef, useState } from "react";
 import { FaAngleDown, FaAngleUp, FaBars, FaTimes } from "react-icons/fa";
-import { Link, LinkProps } from "~/core/link";
-import { useRouter } from "~/core/router";
-import { ChildrenProp } from "~/core/types";
 import { ActMenu, AdoptionMenu } from "./shared";
 
 type MenuType = "none" | "adopt" | "act";
