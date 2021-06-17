@@ -1,4 +1,4 @@
-import { BluredImage, StaticImage } from "dataDisplay/image";
+import { StaticImage } from "dataDisplay/image";
 import { CenteredContent } from "layout/centeredContent";
 
 type HeroProps = {
@@ -16,8 +16,6 @@ export function HeroSection({
   subTitle,
   searchForm,
 }: HeroProps) {
-  const [dominantColor] = useImageDominantColor({ src: smallImage });
-
   return (
     <section className="HeroSection">
       <StaticImage
@@ -27,18 +25,13 @@ export function HeroSection({
         className="HeroSectionImage"
       />
 
-      <div
-        className="HeroSectionTextWrapper"
-        style={{ background: dominantColor?.toRgba() }}
-      >
-        <CenteredContent>
-          <header className="HeroSectionText">
-            <h1 className="HeroSectionTitle">{title}</h1>
-            <p className="HeroSectionSubTitle">{subTitle}</p>
-            <div className="HeroSectionSearchForm">{searchForm}</div>
-          </header>
-        </CenteredContent>
-      </div>
+      <CenteredContent>
+        <header className="HeroSectionText">
+          <h1 className="HeroSectionTitle">{title}</h1>
+          <p className="HeroSectionSubTitle">{subTitle}</p>
+          <div className="HeroSectionSearchForm">{searchForm}</div>
+        </header>
+      </CenteredContent>
     </section>
   );
 }

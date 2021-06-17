@@ -1,13 +1,9 @@
 .animalCard {
-  box-shadow: var(--shadow-l);
-  border-radius: var(--border-radius-m);
   width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  overflow: hidden;
-  background: var(--bg-primary);
 }
 
 @media (hover: hover) {
@@ -17,13 +13,14 @@
 }
 
 .avatar {
+  border-radius: var(--border-radius-m);
   height: 200px;
   width: 100%;
   object-fit: cover;
 }
 
 .info {
-  padding: var(--spacing-l);
+  margin-top: var(--spacing-l);
 }
 
 .infoRow {

@@ -2,19 +2,15 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   grid-auto-rows: auto;
-  gap: var(--spacing-2xl);
+  gap: var(--spacing-4xl);
 }
 
 .article {
-  box-shadow: var(--shadow-l);
-  border-radius: var(--border-radius-m);
   width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  overflow: hidden;
-  background: var(--bg-primary);
 }
 
 @media (hover: hover) {
@@ -24,13 +20,14 @@
 }
 
 .image {
+  border-radius: var(--border-radius-m);
   height: 200px;
   width: 100%;
   object-fit: cover;
 }
 
 .info {
-  padding: var(--spacing-l);
+  margin-top: var(--spacing-l);
 }
 
 .name {

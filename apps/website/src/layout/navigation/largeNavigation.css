@@ -2,6 +2,8 @@
   padding: 0 var(--spacing-3xl);
   display: flex;
   align-items: center;
+  font-size: var(--font-size-s);
+  line-height: var(--line-height-s);
 }
 
 .LargeNavigationItem {
@@ -26,7 +28,7 @@
 }
 
 .LargeNavigationMenu__content {
-  --menu-content-translate: translate3d(-50%, var(--spacing-xl), 0);
+  --menu-content-translate: translate3d(-50%, var(--spacing-2xl), 0);
 
   position: absolute;
   z-index: 1;

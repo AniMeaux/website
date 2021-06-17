@@ -33,7 +33,7 @@
 .details {
   margin: var(--spacing-4xl) 0;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: 1fr;
   grid-auto-rows: auto;
   gap: var(--spacing-xl);
 }
@@ -50,5 +50,5 @@
 }
 
 .callToAction {
-  margin-top: var(--spacing-2xl);
+  margin-top: var(--spacing-4xl);
 }

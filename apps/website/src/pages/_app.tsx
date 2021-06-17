@@ -4,11 +4,13 @@ import "wicg-inert";
 import "styles/index.css";
 
 import { Article } from "@animeaux/shared-entities/build/article";
+import { Partner } from "@animeaux/shared-entities/build/partner";
 import { PageComponent } from "core/pageComponent";
 import { PageHead } from "core/pageHead";
 import { ScreenSizeContextProvider } from "core/screenSize";
 import { ErrorBoundary } from "core/sentry";
 import { articles } from "elements/blog/data";
+import { partners } from "elements/partners/data";
 import { ApplicationLayout } from "layout/applicationLayout";
 import NextApp, { AppContext, AppProps } from "next/app";
 import { ErrorPage } from "pages/_error";
@@ -30,9 +32,15 @@ function renderWithLayout<P = {}, IP = P>(
 type ApplicationProps = Omit<AppProps, "Component"> & {
   Component: PageComponent;
   latestArticles: Article[];
+  partners: Partner[];
 };
 
-function App({ Component, pageProps, latestArticles }: ApplicationProps) {
+function App({
+  Component,
+  pageProps,
+  latestArticles,
+  partners,
+}: ApplicationProps) {
   return (
     <ScreenSizeContextProvider>
       <PageHead />
@@ -40,7 +48,7 @@ function App({ Component, pageProps, latestArticles }: ApplicationProps) {
       <ErrorBoundary
         fallback={() => renderWithLayout(ErrorPage, { type: "serverError" })}
       >
-        <ApplicationLayout latestArticles={latestArticles}>
+        <ApplicationLayout latestArticles={latestArticles} partners={partners}>
           {renderWithLayout(Component, pageProps)}
         </ApplicationLayout>
       </ErrorBoundary>
@@ -50,7 +58,11 @@ function App({ Component, pageProps, latestArticles }: ApplicationProps) {
 
 App.getInitialProps = async (appContext: AppContext) => {
   const appProps = await NextApp.getInitialProps(appContext);
-  return { ...appProps, latestArticles: articles };
+  return {
+    ...appProps,
+    latestArticles: articles,
+    partners: partners.slice(0, 5),
+  };
 };
 
 export default App;

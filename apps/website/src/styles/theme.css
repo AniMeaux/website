@@ -8,7 +8,7 @@
   --spacing-3xl: 32px; /* x8 */
   --spacing-4xl: 40px; /* x10 */
   --spacing-5xl: 48px; /* x12 */
-  --spacing-5xl: 64px; /* x16 */
+  --spacing-6xl: 64px; /* x16 */
 
   --content-max-width: 1024px;
   --content-margin: calc(
@@ -75,13 +75,13 @@
   --font-family-serif: "Playfair Display";
   --font-family-sans: "Open Sans";
 
-  /* Golden ratio base 16 (https://type-scale.com/) */
+  /* Perfect fifth base 16 (https://type-scale.com/) */
   --font-size-s: 14px;
   --font-size-m: 16px;
-  --font-size-l: 25.89px;
-  --font-size-xl: 41.89px;
-  --font-size-2xl: 67.77px;
-  --font-size-3xl: 109.66px;
+  --font-size-l: 24px;
+  --font-size-xl: 36px;
+  --font-size-2xl: 54px;
+  --font-size-3xl: 81px;
 
   --line-height-s: 1.5;
   --line-height-m: 1.5;
@@ -119,4 +119,18 @@
   /* Shadows */
   --shadow-m: 0 2px 8px 0 rgba(0, 0, 0, 0.15);
   --shadow-l: 0 4px 12px 0 rgba(0, 0, 0, 0.08);
+}
+
+@media (min-width: 800px) {
+  :root {
+    /* Golden ratio base 18 (https://type-scale.com/) */
+    --font-size-s: 16px;
+    --font-size-m: 18px;
+    --font-size-l: 29.12px;
+    --font-size-xl: 47.12px;
+    --font-size-2xl: 76.24px;
+    --font-size-3xl: 123.36px;
+
+    --header-height: 72px;
+  }
 }

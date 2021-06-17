@@ -85,7 +85,7 @@ const SavedPage: PageComponent<PageQueryProps> = (props) => {
   return (
     <main>
       <PageTitle title={TITLE} />
-      <PageHeader title={TITLE} variant="green" />
+      <PageHeader title={TITLE} variant="adopt" />
       <Section>
         <CenteredContent>
           <section>

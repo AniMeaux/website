@@ -1,8 +1,8 @@
-import { Article } from "@animeaux/shared-entities/build/article";
+import { Partner } from "@animeaux/shared-entities/build/partner";
 import { PageComponent } from "core/pageComponent";
 import { PageTitle } from "core/pageTitle";
-import { ArticleList } from "elements/blog/articleList";
-import { articles } from "elements/blog/data";
+import { partners } from "elements/partners/data";
+import { PartnerList } from "elements/partners/partnerList";
 import { CenteredContent } from "layout/centeredContent";
 import { Footer } from "layout/footer";
 import { Header } from "layout/header";
@@ -11,18 +11,18 @@ import { Section } from "layout/section";
 import { GetServerSideProps } from "next";
 import { ErrorPage } from "pages/_error";
 
-type BlogPageProps =
-  | { type: "success"; articles: Article[] }
+type PartnersPageProps =
+  | { type: "success"; partners: Partner[] }
   | { type: "error" };
 
-export const getServerSideProps: GetServerSideProps<BlogPageProps> =
+export const getServerSideProps: GetServerSideProps<PartnersPageProps> =
   async () => {
-    return { props: { type: "success", articles } };
+    return { props: { type: "success", partners } };
   };
 
-const TITLE = "Blog";
+const TITLE = "Partenaires";
 
-const BlogPage: PageComponent<BlogPageProps> = (props) => {
+const PartnersPage: PageComponent<PartnersPageProps> = (props) => {
   if (props.type === "error") {
     return <ErrorPage type="serverError" title={TITLE} />;
   }
@@ -35,7 +35,7 @@ const BlogPage: PageComponent<BlogPageProps> = (props) => {
       <Section>
         <CenteredContent>
           <section>
-            <ArticleList articles={props.articles} />
+            <PartnerList partners={props.partners} />
           </section>
         </CenteredContent>
       </Section>
@@ -43,7 +43,7 @@ const BlogPage: PageComponent<BlogPageProps> = (props) => {
   );
 };
 
-BlogPage.renderLayout = (children) => (
+PartnersPage.renderLayout = (children) => (
   <>
     <Header />
     {children}
@@ -51,4 +51,4 @@ BlogPage.renderLayout = (children) => (
   </>
 );
 
-export default BlogPage;
+export default PartnersPage;

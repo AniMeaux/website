@@ -42,9 +42,9 @@ export function AdoptionMenu() {
           <SubNavigationLink href="/saved">Animaux sauvés</SubNavigationLink>
         </li>
 
-        <li>
+        {/* <li>
           <SubNavigationLink href="/">Conditions d'adoption</SubNavigationLink>
-        </li>
+        </li> */}
       </ul>
     </>
   );

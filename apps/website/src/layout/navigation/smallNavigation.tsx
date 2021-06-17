@@ -93,7 +93,7 @@ export function SmallNavigation() {
           </li>
 
           <li>
-            <NavigationLink href="/">Partenaires</NavigationLink>
+            <NavigationLink href="/partners">Partenaires</NavigationLink>
           </li>
 
           <li>

@@ -47,12 +47,15 @@ export function PrimarySectionImage(props: StaticImageProps) {
 }
 
 export type PrimarySectionActionProps = Omit<CallToActionLinkProps, "color">;
-export function PrimarySectionAction(props: PrimarySectionActionProps) {
+export function PrimarySectionAction({
+  className,
+  ...rest
+}: PrimarySectionActionProps) {
   return (
     <CallToActionLink
-      {...props}
+      {...rest}
       color="blue"
-      className="PrimarySectionAction"
+      className={cn("PrimarySectionAction", className)}
     />
   );
 }

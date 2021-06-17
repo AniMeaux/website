@@ -1,10 +1,12 @@
 import { Article } from "@animeaux/shared-entities/build/article";
+import { Partner } from "@animeaux/shared-entities/build/partner";
 import { ChildrenProp } from "core/types";
 import invariant from "invariant";
 import { createContext, useContext, useMemo } from "react";
 
 export type ApplicationLayoutContextValue = {
   latestArticles: Article[];
+  partners: Partner[];
 };
 
 export type ApplicationLayoutProps = ChildrenProp &
@@ -26,11 +28,12 @@ export function useApplicationLayout() {
 
 export function ApplicationLayout({
   latestArticles,
+  partners,
   children,
 }: ApplicationLayoutProps) {
   const value = useMemo<ApplicationLayoutContextValue>(
-    () => ({ latestArticles }),
-    [latestArticles]
+    () => ({ latestArticles, partners }),
+    [latestArticles, partners]
   );
 
   return (

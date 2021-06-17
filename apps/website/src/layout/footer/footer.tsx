@@ -17,7 +17,7 @@ import {
 import { useApplicationLayout } from "../applicationLayout";
 
 export function Footer() {
-  const { latestArticles } = useApplicationLayout();
+  const { latestArticles, partners } = useApplicationLayout();
 
   return (
     <footer className="Footer">
@@ -48,9 +48,9 @@ export function Footer() {
                   <FooterLink href="/saved">Animaux sauvés</FooterLink>
                 </li>
 
-                <li>
+                {/* <li>
                   <FooterLink href="/">Conditions d'adoption</FooterLink>
-                </li>
+                </li> */}
               </FooterLinkList>
             </FooterSection>
 
@@ -76,39 +76,13 @@ export function Footer() {
               <FooterSectionTitle>Partenaires</FooterSectionTitle>
 
               <FooterLinkList>
-                <li>
-                  <FooterLink href="/">Lorem ipsum dolor</FooterLink>
-                </li>
-
-                <li>
-                  <FooterLink href="/">
-                    Ait amet consectetur adipisicing elit
-                  </FooterLink>
-                </li>
-
-                <li>
-                  <FooterLink href="/">
-                    Rerum distinctio illum itaque quod reprehenderit!
-                  </FooterLink>
-                </li>
-
-                <li>
-                  <FooterLink href="/">Incidunt, a suscipit maiores</FooterLink>
-                </li>
-
-                <li>
-                  <FooterLink href="/">Ullam distinctio dolore</FooterLink>
-                </li>
-
-                <li>
-                  <FooterLink href="/">
-                    Mollitia dolor obcaecati eos exercitationem, ducimus ratione
-                  </FooterLink>
-                </li>
-
-                <li>
-                  <FooterLink href="/">Delectus, quia</FooterLink>
-                </li>
+                {partners.map((partner) => (
+                  <li key={partner.id}>
+                    <FooterLink href={partner.url} shouldOpenInNewTab>
+                      {partner.name}
+                    </FooterLink>
+                  </li>
+                ))}
               </FooterLinkList>
             </FooterSection>
 

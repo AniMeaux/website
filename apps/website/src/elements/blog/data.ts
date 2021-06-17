@@ -19,7 +19,7 @@ export const articles: Article[] = [
   },
   {
     id: "2",
-    title: "Une grande menace plane sur les abeilles !",
+    title: "Une grande menace plane sur les abeilles !",
     authorName: "Sara",
     publicationDate: "2019-04-05",
     image: "/articles/abeilles.jpg",
@@ -30,7 +30,7 @@ export const articles: Article[] = [
   },
   {
     id: "3",
-    title: "Pourquoi adopter en association ?",
+    title: "Pourquoi adopter en association ?",
     authorName: "Sara",
     publicationDate: "2019-03-20",
     image: "/articles/dog.jpg",
@@ -41,7 +41,7 @@ export const articles: Article[] = [
   },
   {
     id: "4",
-    title: "Comment choisir les bonnes croquettes pour nos amis à 4 pattes ?",
+    title: "Comment choisir les bonnes croquettes pour nos amis à 4 pattes ?",
     authorName: "Sara",
     publicationDate: "2019-03-09",
     image: "/articles/chat-croquettes.jpg",

@@ -8,6 +8,7 @@ export * from "./errors";
 export * from "./hostFamily";
 export * from "./image";
 export * from "./pagination";
+export * from "./partner";
 export * from "./query";
 export * from "./trilean";
 export * from "./user";
