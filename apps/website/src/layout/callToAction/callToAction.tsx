@@ -3,10 +3,11 @@ import { Link, LinkProps } from "core/link";
 import { ChildrenProp, StyleProps } from "core/types";
 import { FaArrowRight } from "react-icons/fa";
 
-export type CallToActionColors = "blue";
+export type CallToActionColors = "blue" | "white";
 
 const CallToActionColorsClassNames: Record<CallToActionColors, string> = {
   blue: "CallToAction--blue",
+  white: "CallToAction--white",
 };
 
 type CallToActionCommonProps = {

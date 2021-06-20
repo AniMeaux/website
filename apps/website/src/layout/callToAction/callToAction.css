@@ -4,29 +4,50 @@
   display: inline-flex;
   align-items: center;
   font-weight: var(--font-weight-semibold);
+  transition-property: box-shadow;
+  transition-duration: var(--duration-controller);
+  transition-timing-function: var(--ease-in-out);
 }
 
 .CallToAction--blue {
-  background: var(--blue-medium);
+  background-image: linear-gradient(
+    to right,
+    var(--blue-light),
+    var(--blue-medium)
+  );
   color: var(--text-contrast);
 }
 
 @media (hover: hover) {
   .CallToAction--blue:hover {
-    background: var(--blue-light);
+    box-shadow: var(--shadow-m);
   }
 }
 
 .CallToAction--blue:active {
-  background: var(--blue-dark);
+  background: var(--blue-light);
+}
+
+.CallToAction--white {
+  background-image: linear-gradient(to right, white, hsl(0, 0%, 95%));
+}
+
+@media (hover: hover) {
+  .CallToAction--white:hover {
+    box-shadow: var(--shadow-m);
+  }
+}
+
+.CallToAction--white:active {
+  background: white;
 }
 
 .CallToAction__Icon {
   transform: translate3d(0, 0, 0);
   margin-left: var(--spacing-s);
   transition-property: transform;
-  transition-duration: var(--duration-controller);
-  transition-timing-function: var(--ease-in-out);
+  transition-duration: var(--duration-complexe);
+  transition-timing-function: var(--ease-bounce-in-out);
 }
 
 .CallToAction:hover .CallToAction__Icon {

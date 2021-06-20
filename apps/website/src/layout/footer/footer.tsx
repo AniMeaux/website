@@ -63,7 +63,7 @@ export function Footer() {
                 </li>
 
                 <li>
-                  <FooterLink href="/">Devenir bénévole</FooterLink>
+                  <FooterLink href="/volunteers">Devenir bénévole</FooterLink>
                 </li>
 
                 <li>

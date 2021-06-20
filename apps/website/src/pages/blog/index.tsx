@@ -30,7 +30,7 @@ const BlogPage: PageComponent<BlogPageProps> = (props) => {
   return (
     <main>
       <PageTitle title={TITLE} />
-      <PageHeader title={TITLE} variant="adopt" />
+      <PageHeader title={TITLE} />
 
       <Section>
         <CenteredContent>

@@ -18,7 +18,7 @@ export function AnimalImageGallery({ animal }: AnimalImageGalleryProps) {
   return (
     <section
       className={styles.imageGallery}
-      style={{ backgroundColor: dominantColor?.withAlpha(0.1).toRgba() }}
+      style={{ backgroundColor: dominantColor?.withAlpha(0.2).toRgba() }}
     >
       <div className={styles.content}>
         <div

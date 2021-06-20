@@ -33,15 +33,22 @@
   flex: none;
   display: flex;
   align-items: center;
-  background: var(--blue-medium);
+  background-image: linear-gradient(
+    to right,
+    var(--blue-light),
+    var(--blue-medium)
+  );
   color: var(--text-contrast);
   border-radius: var(--border-radius-full);
   font-weight: var(--font-weight-semibold);
+  transition-property: box-shadow;
+  transition-duration: var(--duration-controller);
+  transition-timing-function: var(--ease-in-out);
 }
 
 @media (hover: hover) {
   .link:hover {
-    background: var(--blue-light);
+    box-shadow: var(--shadow-m);
   }
 }
 

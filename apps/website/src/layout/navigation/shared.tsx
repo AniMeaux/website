@@ -60,7 +60,9 @@ export function ActMenu() {
       </li>
 
       <li>
-        <SubNavigationLink href="/">Devenir bénévole</SubNavigationLink>
+        <SubNavigationLink href="/volunteers">
+          Devenir bénévole
+        </SubNavigationLink>
       </li>
 
       <li>

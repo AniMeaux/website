@@ -12,7 +12,7 @@ export function ArticleHeader({ article }: ArticleHeaderProps) {
   const [dominantColor] = useImageDominantColor({ src: article.image });
 
   return (
-    <header style={{ backgroundColor: dominantColor?.withAlpha(0.1).toRgba() }}>
+    <header style={{ backgroundColor: dominantColor?.withAlpha(0.2).toRgba() }}>
       <div className={styles.content}>
         <div className={styles.imageWrapper}>
           <StaticImage

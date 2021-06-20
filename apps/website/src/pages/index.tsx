@@ -2,11 +2,12 @@ import { SearchForm } from "controllers/searchForm";
 import { PageComponent } from "core/pageComponent";
 import { PageTitle } from "core/pageTitle";
 import { StaticImage } from "dataDisplay/image";
-import { HeroSection } from "elements/home/heroSection";
+import { CallToActionLink } from "layout/callToAction";
 import { Footer } from "layout/footer";
 import { Header } from "layout/header";
-import { PrimarySectionAction } from "layout/primarySection";
-import styled from "styled-components/macro";
+import { HeroSection } from "layout/heroSection";
+import { FaBirthdayCake, FaHandHoldingHeart, FaUsers } from "react-icons/fa";
+import styled, { css } from "styled-components/macro";
 
 const HomePage: PageComponent = () => {
   return (
@@ -22,7 +23,7 @@ const HomePage: PageComponent = () => {
       />
 
       <PresentationSection>
-        <SectionTitle>Qui nous sommes</SectionTitle>
+        <SectionTitle>Qui sommes-nous ?</SectionTitle>
 
         <SectionParagraph>
           Ani'Meaux est une <strong>association</strong> loi 1901 de protection
@@ -75,18 +76,30 @@ const HomePage: PageComponent = () => {
 
         <PresentationList>
           <li>
+            <StatsIcon>
+              <FaBirthdayCake />
+            </StatsIcon>
+
             <StatsValue>3 ans</StatsValue>
-            <StatsLabel>D'existences</StatsLabel>
+            <p>D'existences</p>
           </li>
 
           <li>
+            <StatsIcon>
+              <FaHandHoldingHeart />
+            </StatsIcon>
+
             <StatsValue>400</StatsValue>
-            <StatsLabel>Prises en charge</StatsLabel>
+            <p>Prises en charge</p>
           </li>
 
           <li>
+            <StatsIcon>
+              <FaUsers />
+            </StatsIcon>
+
             <StatsValue>28</StatsValue>
-            <StatsLabel>Bénévoles</StatsLabel>
+            <p>Bénévoles</p>
           </li>
         </PresentationList>
       </StatsSection>
@@ -100,7 +113,9 @@ const HomePage: PageComponent = () => {
             aucune contrainte financière
           </SectionParagraph>
 
-          <CallToAction href="/">En savoir plus</CallToAction>
+          <CallToActionLink href="/" color="blue">
+            En savoir plus
+          </CallToActionLink>
         </div>
 
         <div>
@@ -116,13 +131,15 @@ const HomePage: PageComponent = () => {
         <SectionTitle>Faîtes un don !</SectionTitle>
 
         <SectionParagraph>
-          Vous souhaitez nous aider mais vous ne pouvez accueillir ou adopter?
-          Vous pouvez nous faire un don ! Ce don servira à financer les{" "}
+          Vous souhaitez nous aider mais vous ne pouvez accueillir ou adopter ?
+          Vous pouvez nous faire un don ! Ce don servira à financer les{" "}
           <strong>soins vétérinaires</strong>, effectuer plus de{" "}
           <strong>sauvetages et acheter du matériel</strong> pour les animaux.
         </SectionParagraph>
 
-        <CallToAction href="/">Faire un don</CallToAction>
+        <CallToActionLink href="/" color="white">
+          Faire un don
+        </CallToActionLink>
       </DonationSection>
 
       <AsideSection>
@@ -142,7 +159,9 @@ const HomePage: PageComponent = () => {
             amenés à prendre sous notre aile
           </SectionParagraph>
 
-          <CallToAction href="/">Postuler</CallToAction>
+          <CallToActionLink href="/volunteers" color="blue">
+            En savoir plus
+          </CallToActionLink>
         </div>
       </AsideSection>
     </main>
@@ -159,8 +178,12 @@ HomePage.renderLayout = (children) => (
 
 export default HomePage;
 
+const sectionPadding = css`
+  padding: var(--spacing-7xl) var(--content-margin);
+`;
+
 const PresentationSection = styled.section`
-  padding: var(--spacing-6xl) var(--content-margin);
+  ${sectionPadding};
   text-align: center;
 `;
 
@@ -193,13 +216,16 @@ const PresentationImage = styled(StaticImage)`
 `;
 
 const StatsSection = styled.section`
-  padding: var(--spacing-6xl) var(--content-margin);
-  background-image: linear-gradient(
-    to bottom right,
-    hsl(34, 14%, 90%),
-    hsl(240, 7%, 91%)
-  );
+  ${sectionPadding};
+  background-image: var(--blue-gradient);
   text-align: center;
+`;
+
+const StatsIcon = styled.span`
+  font-size: var(--font-size-xl);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 const StatsValue = styled.p`
@@ -210,10 +236,8 @@ const StatsValue = styled.p`
   line-height: var(--line-height-xl);
 `;
 
-const StatsLabel = styled.p``;
-
 const AsideSection = styled.section`
-  padding: var(--spacing-6xl) var(--content-margin);
+  ${sectionPadding};
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   grid-auto-rows: auto;
@@ -224,21 +248,17 @@ const AsideSection = styled.section`
 
 const AsideImage = styled(StaticImage)`
   width: 100%;
-  height: 400px;
+  height: 200px;
   object-fit: cover;
   border-radius: var(--border-radius-m);
-`;
 
-const CallToAction = styled(PrimarySectionAction)`
-  margin: 0;
+  @media (min-width: 800px) {
+    height: 400px;
+  }
 `;
 
 const DonationSection = styled.section`
-  padding: var(--spacing-6xl) var(--content-margin);
-  background-image: linear-gradient(
-    to bottom right,
-    rgb(243, 232, 205),
-    rgb(255, 245, 221)
-  );
+  ${sectionPadding}
+  background-image: var(--yellow-gradient);
   text-align: center;
 `;

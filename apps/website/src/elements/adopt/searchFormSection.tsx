@@ -9,7 +9,7 @@ export type SearchFormSectionProps = {
 
 export function SearchFormSection({ searchParams }: SearchFormSectionProps) {
   return (
-    <PageHeader title="À adopter" variant="adopt">
+    <PageHeader title="À adopter">
       <div className={styles.form}>
         <SearchForm hasAll searchParams={searchParams} />
       </div>

@@ -1,5 +1,5 @@
 import Document, { DocumentContext } from "next/document";
-import { ServerStyleSheet } from "styled-components";
+import { ServerStyleSheet } from "styled-components/macro";
 
 export default class MyDocument extends Document {
   static async getInitialProps(context: DocumentContext) {

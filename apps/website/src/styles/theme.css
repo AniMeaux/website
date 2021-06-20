@@ -8,7 +8,8 @@
   --spacing-3xl: 32px; /* x8 */
   --spacing-4xl: 40px; /* x10 */
   --spacing-5xl: 48px; /* x12 */
-  --spacing-6xl: 64px; /* x16 */
+  --spacing-6xl: 56px; /* x14 */
+  --spacing-7xl: 72px; /* x18 */
 
   --content-max-width: 1024px;
   --content-margin: calc(
@@ -24,7 +25,7 @@
 
   --bg-primary: white;
   --bg-secondary: rgba(0, 0, 0, 0.03);
-  --bg-footer: rgba(0, 0, 0, 0.05);
+  --bg-footer: hsl(202, 20%, 95%);
 
   --focus-color: hsl(202, 100%, 62%); /* +25 */
   --blue-light: hsl(202, 100%, 42%); /* +5 */
@@ -46,7 +47,10 @@
     hsl(133, 38%, 92%)
   );
 
-  --yellow: #ffc31b;
+  --yellow-light: hsl(44, 100%, 60%); /* +5 */
+  --yellow-medium: hsl(44, 100%, 55%); /* #ffc31b */
+  --yellow-dark: hsl(44, 100%, 50%); /* -5 */
+
   --red: #ed2a26;
   --cyan: #00bfbf;
 
@@ -68,6 +72,24 @@
     to bottom right,
     rgb(243, 232, 205),
     rgb(255, 245, 221)
+  );
+
+  --blue-gradient: linear-gradient(
+    to bottom right,
+    hsl(202, 20%, 95%),
+    hsl(202, 20%, 85%)
+  );
+
+  --yellow-gradient: linear-gradient(
+    to bottom right,
+    hsl(44, 90%, 80%),
+    hsl(44, 90%, 78%)
+  );
+
+  --green-gradient: linear-gradient(
+    to bottom right,
+    hsl(133deg 30% 85%),
+    hsl(133deg 30% 80%)
   );
 
   /* Fonts */
@@ -113,8 +135,10 @@
   --ease-exit: var(--ease-in);
   --ease-enter: var(--ease-out);
   --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-bounce-in-out: cubic-bezier(0.68, -0.55, 0.27, 1.55);
   --duration-popover: 100ms;
   --duration-controller: 100ms;
+  --duration-complexe: 500ms;
 
   /* Shadows */
   --shadow-m: 0 2px 8px 0 rgba(0, 0, 0, 0.15);
@@ -123,6 +147,9 @@
 
 @media (min-width: 800px) {
   :root {
+    --spacing-6xl: 64px; /* x16 */
+    --spacing-7xl: 128px; /* x32 */
+
     /* Golden ratio base 18 (https://type-scale.com/) */
     --font-size-s: 16px;
     --font-size-m: 18px;

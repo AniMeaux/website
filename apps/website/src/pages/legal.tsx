@@ -14,7 +14,7 @@ const LegalPage: PageComponent = () => {
   return (
     <main>
       <PageTitle title={TITLE} />
-      <PageHeader title={TITLE} variant="blue" />
+      <PageHeader title={TITLE} />
 
       <Section>
         <CenteredContent>

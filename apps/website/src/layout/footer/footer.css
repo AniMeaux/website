@@ -82,14 +82,23 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--blue-medium);
+  background-image: linear-gradient(
+    to right,
+    var(--blue-light),
+    var(--blue-medium)
+  );
   color: var(--text-contrast);
   border-radius: var(--border-radius-full);
   font-weight: var(--font-weight-semibold);
+  transition-property: box-shadow;
+  transition-duration: var(--duration-controller);
+  transition-timing-function: var(--ease-in-out);
 }
 
-.NewsletterSubmitButton:hover {
-  background: var(--blue-light);
+@media (hover: hover) {
+  .NewsletterSubmitButton:hover {
+    box-shadow: var(--shadow-m);
+  }
 }
 
 .NewsletterSubmitButton:active {
