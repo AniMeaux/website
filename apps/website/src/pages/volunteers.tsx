@@ -41,13 +41,6 @@ const VolunteersPage: PageComponent = () => {
               Pour les personnes n'ayant pas la possibilité de beaucoup
               participer mais souhaitant nous soutenir.
             </TypeParagraph>
-
-            <CallToAction
-              href="https://www.helloasso.com/associations/ani-meaux/adhesions/devenir-benevole-de-l-association-ani-meaux"
-              color="blue"
-            >
-              Postuler
-            </CallToAction>
           </TypeItem>
 
           <TypeItem>
@@ -62,15 +55,15 @@ const VolunteersPage: PageComponent = () => {
               Pour les personnes souhaitant s'investir et participer à au moins
               une mission par mois.
             </TypeParagraph>
-
-            <CallToAction
-              href="https://www.helloasso.com/associations/ani-meaux/adhesions/devenir-benevole-de-l-association-ani-meaux"
-              color="blue"
-            >
-              Postuler
-            </CallToAction>
           </TypeItem>
         </TypeList>
+
+        <CallToAction
+          href="https://www.helloasso.com/associations/ani-meaux/adhesions/devenir-benevole-de-l-association-ani-meaux"
+          color="blue"
+        >
+          Postuler sur HelloAsso
+        </CallToAction>
       </TypesSection>
 
       <MissionsSection>
@@ -121,13 +114,13 @@ const VolunteersPage: PageComponent = () => {
 
           <MissionItem>
             <MissionImage
-              alt="Intervention"
+              alt="Sensibilisation"
               largeImage="/intervention@2x.jpg"
               smallImage="/intervention.jpg"
             />
 
             <MissionDescription>
-              <MissionTitle>Intervention</MissionTitle>
+              <MissionTitle>Sensibilisation</MissionTitle>
               <p>
                 Nous réalisons régulièrement des interventions au sein des
                 écoles et les centres aérés afin de sensibiliser les plus jeunes
@@ -246,6 +239,7 @@ const DescriptionSection = styled.section`
 const TypesSection = styled.section`
   ${sectionPadding};
   background-image: var(--blue-gradient);
+  text-align: center;
 `;
 
 const TypeList = styled.ul`
@@ -263,7 +257,7 @@ const TypeItem = styled.li`
   box-shadow: var(--shadow-l);
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
 `;
 
 const TypeTitle = styled.h3`
@@ -296,8 +290,7 @@ const TypeRecurrence = styled.span`
 `;
 
 const CallToAction = styled(CallToActionLink)`
-  margin-top: auto;
-  align-self: center;
+  margin-top: var(--spacing-6xl);
 `;
 
 const MissionsSection = styled.section`

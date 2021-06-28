@@ -109,11 +109,11 @@ const HomePage: PageComponent = () => {
           <SectionTitle>Devenez famille d'accueil</SectionTitle>
 
           <SectionParagraph>
-            Adez-nous à les sauver en leur consacrant temps et attention, sans
+            Aidez-nous à les sauver en leur consacrant temps et attention, sans
             aucune contrainte financière
           </SectionParagraph>
 
-          <CallToActionLink href="/" color="blue">
+          <CallToActionLink href="/host-families" color="blue">
             En savoir plus
           </CallToActionLink>
         </div>

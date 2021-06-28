@@ -59,7 +59,9 @@ export function Footer() {
 
               <FooterLinkList>
                 <li>
-                  <FooterLink href="/">Devenir famille d'accueil</FooterLink>
+                  <FooterLink href="/host-families">
+                    Devenir famille d'accueil
+                  </FooterLink>
                 </li>
 
                 <li>
