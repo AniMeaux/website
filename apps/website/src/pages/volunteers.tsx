@@ -37,10 +37,10 @@ const VolunteersPage: PageComponent = () => {
               <TypeRecurrence>/ par an</TypeRecurrence>
             </TypePrice>
 
-            <TypeParagraph>
+            <p>
               Pour les personnes n'ayant pas la possibilité de beaucoup
               participer mais souhaitant nous soutenir.
-            </TypeParagraph>
+            </p>
           </TypeItem>
 
           <TypeItem>
@@ -51,10 +51,10 @@ const VolunteersPage: PageComponent = () => {
               <TypeRecurrence>/ par an</TypeRecurrence>
             </TypePrice>
 
-            <TypeParagraph>
+            <p>
               Pour les personnes souhaitant s'investir et participer à au moins
               une mission par mois.
-            </TypeParagraph>
+            </p>
           </TypeItem>
         </TypeList>
 
@@ -277,10 +277,6 @@ const TypePrice = styled.p`
   display: inline-flex;
   align-items: flex-end;
   justify-content: flex-start;
-`;
-
-const TypeParagraph = styled.p`
-  margin-bottom: var(--spacing-4xl);
 `;
 
 const TypeRecurrence = styled.span`

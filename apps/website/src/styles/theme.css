@@ -135,10 +135,11 @@
   --ease-exit: var(--ease-in);
   --ease-enter: var(--ease-out);
   --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-bounce-out: cubic-bezier(0.18, 0.89, 0.32, 1.28);
   --ease-bounce-in-out: cubic-bezier(0.68, -0.55, 0.27, 1.55);
   --duration-popover: 100ms;
   --duration-controller: 100ms;
-  --duration-complexe: 500ms;
+  --duration-complexe: 400ms;
 
   /* Shadows */
   --shadow-m: 0 2px 8px 0 rgba(0, 0, 0, 0.15);

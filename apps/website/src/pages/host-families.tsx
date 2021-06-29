@@ -80,10 +80,10 @@ const HostFamiliesPage: PageComponent = () => {
         <div>
           <SectionTitle>Matériel et frais vétérinaires</SectionTitle>
 
-          <SectionParagraph>
+          <p>
             Le matériel et l'alimentation pourront vous être fourni sur demande
             et les frais vétérinaires sont à la charge de l'association
-          </SectionParagraph>
+          </p>
         </div>
 
         <div>
@@ -107,11 +107,11 @@ const HostFamiliesPage: PageComponent = () => {
         <div>
           <SectionTitle>Suivit</SectionTitle>
 
-          <SectionParagraph>
+          <p>
             Vous vous engagez à nous donner régulièrement des nouvelles de
             l'animal et à nous fournir des photos récentes tout au long de
             l'accueil
-          </SectionParagraph>
+          </p>
         </div>
       </AsideSection>
 
@@ -119,11 +119,11 @@ const HostFamiliesPage: PageComponent = () => {
         <div>
           <SectionTitle>Engagement</SectionTitle>
 
-          <SectionParagraph>
+          <p>
             L'accueil de l'animal est convenu pour une durée déterminée ou
             indeterminée, en cas d'imprévus un delais devra nous être accordé
             pour trouver une solution de secours
-          </SectionParagraph>
+          </p>
         </div>
 
         <div>
@@ -171,7 +171,7 @@ const StatsIcon = styled.span`
   justify-content: center;
 `;
 
-const StatsValue = styled.p`
+const StatsValue = styled.h3`
   margin-bottom: var(--spacing-2xl);
   font-family: var(--font-family-serif);
   font-weight: var(--font-weight-semibold);
@@ -180,7 +180,11 @@ const StatsValue = styled.p`
 `;
 
 const CallToAction = styled(CallToActionLink)`
-  margin-top: var(--spacing-6xl);
+  margin-top: var(--spacing-2xl);
+
+  @media (min-width: 800px) {
+    margin-top: var(--spacing-6xl);
+  }
 `;
 
 const AsideSection = styled.section<{ $alternateBackground?: boolean }>`
@@ -201,10 +205,6 @@ const SectionTitle = styled.h2`
   font-weight: var(--font-weight-semibold);
   font-size: var(--font-size-xl);
   line-height: var(--line-height-xl);
-`;
-
-const SectionParagraph = styled.p`
-  margin-bottom: var(--spacing-4xl);
 `;
 
 const AsideImage = styled(StaticImage)`

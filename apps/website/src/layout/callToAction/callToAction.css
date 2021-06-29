@@ -47,7 +47,7 @@
   margin-left: var(--spacing-s);
   transition-property: transform;
   transition-duration: var(--duration-complexe);
-  transition-timing-function: var(--ease-bounce-in-out);
+  transition-timing-function: var(--ease-bounce-out);
 }
 
 .CallToAction:hover .CallToAction__Icon {

@@ -228,7 +228,7 @@ const StatsIcon = styled.span`
   justify-content: center;
 `;
 
-const StatsValue = styled.p`
+const StatsValue = styled.h3`
   margin-bottom: var(--spacing-s);
   font-family: var(--font-family-serif);
   font-weight: var(--font-weight-semibold);

@@ -82,6 +82,10 @@ export function Footer() {
                 </FooterLink>
               </li>
             ))}
+
+            <li>
+              <FooterLink href="/partners">Et bien d'autres...</FooterLink>
+            </li>
           </FooterLinkList>
         </FooterSection>
 
@@ -96,6 +100,10 @@ export function Footer() {
                 </FooterLink>
               </li>
             ))}
+
+            <li>
+              <FooterLink href="/blog">Tous les articles</FooterLink>
+            </li>
           </FooterLinkList>
         </FooterSection>
       </FooterGrid>
