@@ -28,6 +28,7 @@
     width: 100%;
     height: var(--header-height);
     background-size: 200% 500vh;
+    clip-path: ellipse(100% 75% at 50% 25%);
   }
 }
 
@@ -35,6 +36,7 @@
   .SignInPage__image {
     width: 50%;
     min-height: 100vh;
+    clip-path: ellipse(75% 200% at 25% 50%);
   }
 }
 
