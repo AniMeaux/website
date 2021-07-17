@@ -48,9 +48,10 @@ export function ScreenSizeContextProvider({
     };
   });
 
-  const value = React.useMemo<ScreenSizeContextValue>(() => ({ screenSize }), [
-    screenSize,
-  ]);
+  const value = React.useMemo<ScreenSizeContextValue>(
+    () => ({ screenSize }),
+    [screenSize]
+  );
 
   return <ScreenSizeContext.Provider value={value} children={children} />;
 }

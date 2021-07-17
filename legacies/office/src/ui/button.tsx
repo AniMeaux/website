@@ -69,7 +69,8 @@ export function Button({
         {
           [ButtonClassName[variant][color].enabled]: !disabled,
           "w-10 rounded-full": iconOnly,
-          "rounded-md px-4 min-w-button text-sm uppercase tracking-wide font-medium": !iconOnly,
+          "rounded-md px-4 min-w-button text-sm uppercase tracking-wide font-medium":
+            !iconOnly,
         },
         className
       )}

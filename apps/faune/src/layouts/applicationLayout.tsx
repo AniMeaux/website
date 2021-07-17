@@ -11,9 +11,8 @@ export type ApplicationLayoutContextValue = ApplicationLayoutState & {
   setState: React.Dispatch<React.SetStateAction<ApplicationLayoutState>>;
 };
 
-const ApplicationLayoutContext = React.createContext<ApplicationLayoutContextValue | null>(
-  null
-);
+const ApplicationLayoutContext =
+  React.createContext<ApplicationLayoutContextValue | null>(null);
 
 export function useApplicationLayout() {
   const context = React.useContext(ApplicationLayoutContext);

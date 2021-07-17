@@ -27,16 +27,14 @@ export default function EditProfile() {
   const { currentUser, updateProfile } = useCurrentUser();
   const [displayName, setDisplayName] = React.useState(currentUser.displayName);
 
-  const [
-    updateProfileCallback,
-    { pending, value: hasSucceeded, error },
-  ] = useAsyncCallback(async () => {
-    if (currentUser.displayName !== displayName) {
-      await updateProfile(displayName);
-    }
+  const [updateProfileCallback, { pending, value: hasSucceeded, error }] =
+    useAsyncCallback(async () => {
+      if (currentUser.displayName !== displayName) {
+        await updateProfile(displayName);
+      }
 
-    return true;
-  }, [displayName, currentUser, updateProfile]);
+      return true;
+    }, [displayName, currentUser, updateProfile]);
 
   return (
     <PageLayout

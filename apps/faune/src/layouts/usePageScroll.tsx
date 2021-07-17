@@ -2,9 +2,8 @@ import { useRouter } from "core/router";
 import * as React from "react";
 import { watchResize } from "react-behave";
 
-const PageScrollContext = React.createContext<React.MutableRefObject<HTMLElement> | null>(
-  null
-);
+const PageScrollContext =
+  React.createContext<React.MutableRefObject<HTMLElement> | null>(null);
 
 export function PageScrollProvider({
   containerRef,
@@ -100,9 +99,8 @@ export function useIsScrollAtTheBottom() {
   const [isAtTheBottom, setIsAtTheBottom] = React.useState(true);
 
   usePageScroll(() => {
-    const { scrollTop, clientHeight, scrollHeight } = getScrollState(
-      scrollContainerRef
-    );
+    const { scrollTop, clientHeight, scrollHeight } =
+      getScrollState(scrollContainerRef);
 
     setIsAtTheBottom(scrollTop + clientHeight >= scrollHeight);
   });
@@ -131,9 +129,8 @@ export function useIsScrollAtFetchMore(cb: () => void) {
   const wasAtFetchMore = React.useRef(false);
 
   usePageScroll(() => {
-    const { scrollTop, clientHeight, scrollHeight } = getScrollState(
-      scrollContainerRef
-    );
+    const { scrollTop, clientHeight, scrollHeight } =
+      getScrollState(scrollContainerRef);
 
     const isAtFetchMore =
       // We suppose there is always scroll with pagination.

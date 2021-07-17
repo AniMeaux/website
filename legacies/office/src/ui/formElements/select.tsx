@@ -48,7 +48,7 @@ export function Select<ValueType = string>({
         value={value == null ? "" : String(value)}
         onChange={(event) => {
           if (onChange != null) {
-            onChange((event.target.value as any) as ValueType);
+            onChange(event.target.value as any as ValueType);
           }
         }}
         disabled={disabled}

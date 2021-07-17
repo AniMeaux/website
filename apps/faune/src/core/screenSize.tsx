@@ -13,9 +13,8 @@ type ScreenSizeContextValue = {
   screenSize: ScreenSize;
 };
 
-const ScreenSizeContext = React.createContext<ScreenSizeContextValue | null>(
-  null
-);
+const ScreenSizeContext =
+  React.createContext<ScreenSizeContextValue | null>(null);
 
 function getScreenSize() {
   if (typeof window === "undefined") {
@@ -50,9 +49,10 @@ export function ScreenSizeContextProvider({ children }: ChildrenProp) {
     };
   });
 
-  const value = React.useMemo<ScreenSizeContextValue>(() => ({ screenSize }), [
-    screenSize,
-  ]);
+  const value = React.useMemo<ScreenSizeContextValue>(
+    () => ({ screenSize }),
+    [screenSize]
+  );
 
   return (
     <ScreenSizeContext.Provider value={value}>

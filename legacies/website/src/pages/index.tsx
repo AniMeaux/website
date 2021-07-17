@@ -44,7 +44,7 @@ function Select<ValueType = string>({
       {...rest}
       value={value == null ? "" : `${value}`}
       onChange={(e) => {
-        onChange((e.target.value as any) as ValueType);
+        onChange(e.target.value as any as ValueType);
       }}
       className={cn(
         "appearance-none min-w-0 truncate px-4 bg-transparent cursor-pointer a11y-focus",
@@ -65,10 +65,8 @@ function Select<ValueType = string>({
 }
 
 function SearchForm({ className }: React.FormHTMLAttributes<HTMLFormElement>) {
-  const [
-    animalSpecies,
-    setAnimalSpecies,
-  ] = React.useState<AnimalSpecies | null>(null);
+  const [animalSpecies, setAnimalSpecies] =
+    React.useState<AnimalSpecies | null>(null);
   const [animalAge, setAnimalAge] = React.useState<AnimalAge | null>(null);
 
   const queries: string[] = [];

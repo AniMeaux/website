@@ -92,10 +92,8 @@ function ProfilePlaceholderSection() {
 function ActionsSection({ user }: { user: User }) {
   const { currentUser } = useCurrentUser();
   const [deleteUser, deleteUserRequest] = useDeleteUser();
-  const [
-    toggleUserBlockedStatus,
-    toggleUserBlockedStatusRequest,
-  ] = useToggleUserBlockedStatus();
+  const [toggleUserBlockedStatus, toggleUserBlockedStatusRequest] =
+    useToggleUserBlockedStatus();
 
   // The current user cannot block/delete himself.
   const disabled = currentUser.id === user.id;

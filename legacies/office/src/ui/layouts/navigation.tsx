@@ -45,7 +45,8 @@ function NavLink({
         "h-full md:h-12 px-2 flex flex-col md:flex-row items-center justify-center",
         {
           "text-blue-500": active,
-          "text-default-color text-opacity-50 md:text-opacity-80 md:hover:text-opacity-100": !active,
+          "text-default-color text-opacity-50 md:text-opacity-80 md:hover:text-opacity-100":
+            !active,
         }
       )}
     >

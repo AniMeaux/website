@@ -32,15 +32,13 @@ export default function EditPassword() {
   const [currentPassword, setCurrentPassword] = React.useState("");
   const [newPassword, setNewPassword] = React.useState("");
 
-  const [
-    updatePasswordCallback,
-    { pending, value: hasSucceeded, error },
-  ] = useAsyncCallback(async () => {
-    await updatePassword(currentPassword, newPassword);
-    setCurrentPassword("");
-    setNewPassword("");
-    return true;
-  }, [currentPassword, newPassword, updatePassword]);
+  const [updatePasswordCallback, { pending, value: hasSucceeded, error }] =
+    useAsyncCallback(async () => {
+      await updatePassword(currentPassword, newPassword);
+      setCurrentPassword("");
+      setNewPassword("");
+      return true;
+    }, [currentPassword, newPassword, updatePassword]);
 
   let currentPasswordError: string | null = null;
   let newPasswordError: string | null = null;
