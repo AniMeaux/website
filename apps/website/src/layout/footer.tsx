@@ -45,9 +45,11 @@ export function Footer() {
               <FooterLink href="/saved">Animaux sauvés</FooterLink>
             </li>
 
-            {/* <li>
-              <FooterLink href="/">Conditions d'adoption</FooterLink>
-            </li> */}
+            <li>
+              <FooterLink href="/adoption-conditions">
+                Conditions d'adoption
+              </FooterLink>
+            </li>
           </FooterLinkList>
         </FooterSection>
 
@@ -66,7 +68,7 @@ export function Footer() {
             </li>
 
             <li>
-              <FooterLink href="/">Faire un don</FooterLink>
+              <FooterLink href="/donation">Faire un don</FooterLink>
             </li>
           </FooterLinkList>
         </FooterSection>
@@ -128,15 +130,24 @@ export function Footer() {
             </li>
           </FooterLinkList>
 
-          <address>
+          <Address>
             Association Ani'Meaux
             <br />
-            SIRET: 839 627 171
+            SIRET : 83962717100037
+            <br />
+            RNA : W771014759
             <br />
             30 Rue Pierre Brasseur
             <br />
-            77100, MEAUX
-          </address>
+            77100 Meaux
+          </Address>
+
+          <p>
+            <strong>
+              Nous ne disposons pas de structure physique, il s'agit d'une
+              adresse postale uniquement
+            </strong>
+          </p>
         </FooterSection>
 
         <FooterSection>
@@ -202,6 +213,10 @@ const FooterGrid = styled.div`
 `;
 
 const FooterSection = styled.section``;
+
+const Address = styled.address`
+  margin: var(--spacing-s) 0;
+`;
 
 const FooterSectionTitle = styled.h3`
   margin-bottom: var(--spacing-m);

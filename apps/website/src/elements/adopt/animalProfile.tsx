@@ -99,6 +99,7 @@ export function AnimalProfile({ animal }: AnimalProfileProps) {
                 href="https://webquest.fr/?m=96315_formulaire-adoption-ani-meaux"
                 color="blue"
                 className={styles.callToAction}
+                shouldOpenInNewTab
               >
                 Je l'adopte !
               </CallToActionLink>

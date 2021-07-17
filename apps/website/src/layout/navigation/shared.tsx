@@ -42,9 +42,11 @@ export function AdoptionMenu() {
           <SubNavigationLink href="/saved">Animaux sauvés</SubNavigationLink>
         </li>
 
-        {/* <li>
-          <SubNavigationLink href="/">Conditions d'adoption</SubNavigationLink>
-        </li> */}
+        <li>
+          <SubNavigationLink href="/adoption-conditions">
+            Conditions d'adoption
+          </SubNavigationLink>
+        </li>
       </ul>
     </>
   );
@@ -66,7 +68,7 @@ export function ActMenu() {
       </li>
 
       <li>
-        <SubNavigationLink href="/">Faire un don</SubNavigationLink>
+        <SubNavigationLink href="/donation">Faire un don</SubNavigationLink>
       </li>
     </ul>
   );

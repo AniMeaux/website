@@ -81,7 +81,7 @@ const HomePage: PageComponent = () => {
             </StatsIcon>
 
             <StatsValue>3 ans</StatsValue>
-            <p>D'existences</p>
+            <p>D'existence</p>
           </li>
 
           <li>
@@ -137,7 +137,7 @@ const HomePage: PageComponent = () => {
           <strong>sauvetages et acheter du matériel</strong> pour les animaux.
         </SectionParagraph>
 
-        <CallToActionLink href="/" color="white">
+        <CallToActionLink href="/donation" color="white">
           Faire un don
         </CallToActionLink>
       </DonationSection>
@@ -241,7 +241,7 @@ const AsideSection = styled.section`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   grid-auto-rows: auto;
-  gap: var(--spacing-4xl);
+  gap: var(--spacing-6xl);
   align-items: center;
   text-align: center;
 `;

@@ -16,6 +16,11 @@
     var(--spacing-3xl) + max(0px, (100% - var(--content-max-width)) / 2)
   );
 
+  --large-content-max-width: 1366px;
+  --large-content-margin: calc(
+    var(--spacing-3xl) + max(0px, (100% - var(--large-content-max-width)) / 2)
+  );
+
   --header-height: 64px;
 
   --text-primary: rgba(0, 0, 0, 0.8);

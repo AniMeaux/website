@@ -33,7 +33,7 @@ export function SearchResults({
   }
 
   if (searchParams.animalSpecies == null) {
-    title = isPlural ? "animeaux" : "animal";
+    title = isPlural ? "animaux" : "animal";
   } else {
     const speciesTitle = isPlural
       ? AnimalSpeciesLabelsPlural[searchParams.animalSpecies]

@@ -22,7 +22,7 @@ const VolunteersPage: PageComponent = () => {
       <DescriptionSection>
         <p>
           Devenir bénévole vous permettra de contribuer aux{" "}
-          <strong>sauvetages des animaux</strong> en difficultés que nous sommes
+          <strong>sauvetages des animaux</strong> en difficulté que nous sommes
           amenés à prendre sous notre aile
         </p>
       </DescriptionSection>
@@ -30,7 +30,7 @@ const VolunteersPage: PageComponent = () => {
       <TypesSection>
         <TypeList>
           <TypeItem>
-            <TypeTitle>Membre</TypeTitle>
+            <TypeTitle>Adhérent simple</TypeTitle>
 
             <TypePrice>
               <span>30 €</span>
@@ -44,7 +44,7 @@ const VolunteersPage: PageComponent = () => {
           </TypeItem>
 
           <TypeItem>
-            <TypeTitle>Membre actif</TypeTitle>
+            <TypeTitle>Adhérent actif</TypeTitle>
 
             <TypePrice>
               <span>15 €</span>
@@ -246,7 +246,7 @@ const TypeList = styled.ul`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   grid-auto-rows: auto;
-  gap: var(--spacing-4xl);
+  gap: var(--spacing-6xl);
   align-items: stretch;
 `;
 

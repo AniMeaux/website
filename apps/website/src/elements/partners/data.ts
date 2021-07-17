@@ -9,6 +9,20 @@ export const partners: Partner[] = [
     url: "https://www.arche-association.fr/",
   },
   {
+    id: "35",
+    name: "ZooPlus",
+    image:
+      "https://banners-cdn.omt-services.com/generic_300x250_zooplus_fr.jpg",
+    url: "https://marketing.net.zooplus.fr/ts/i3971185/tsc?typ=r&amc=con.zooplus.391263.404652.CRTD9sCr3t7",
+  },
+  {
+    id: "36",
+    name: "Bitiba",
+    image:
+      "https://banners-cdn.omt-services.com/generic_non_nc_250x250_bitiba_fr.jpg",
+    url: "https://www.awin1.com/cread.php?s=2190108&v=13330&q=340481&r=765013",
+  },
+  {
     id: "1",
     name: "MedaillesChien",
     image:

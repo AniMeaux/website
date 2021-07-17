@@ -43,6 +43,7 @@ const HostFamiliesPage: PageComponent = () => {
             </p>
 
             <CallToAction
+              shouldOpenInNewTab
               href="http://webquest.fr/?m=62649_formulaire-famille-d-accueil"
               color="blue"
             >
@@ -105,7 +106,7 @@ const HostFamiliesPage: PageComponent = () => {
         </div>
 
         <div>
-          <SectionTitle>Suivit</SectionTitle>
+          <SectionTitle>Suivi</SectionTitle>
 
           <p>
             Vous vous engagez à nous donner régulièrement des nouvelles de
@@ -180,11 +181,7 @@ const StatsValue = styled.h3`
 `;
 
 const CallToAction = styled(CallToActionLink)`
-  margin-top: var(--spacing-2xl);
-
-  @media (min-width: 800px) {
-    margin-top: var(--spacing-6xl);
-  }
+  margin-top: var(--spacing-4xl);
 `;
 
 const AsideSection = styled.section<{ $alternateBackground?: boolean }>`
@@ -192,7 +189,7 @@ const AsideSection = styled.section<{ $alternateBackground?: boolean }>`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   grid-auto-rows: auto;
-  gap: var(--spacing-4xl);
+  gap: var(--spacing-6xl);
   align-items: center;
   text-align: center;
   background-image: ${(props) =>
@@ -223,5 +220,5 @@ const PresentationList = styled.ul`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   grid-auto-rows: auto;
-  gap: var(--spacing-4xl);
+  gap: var(--spacing-6xl);
 `;
