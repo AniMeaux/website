@@ -57,7 +57,7 @@ const AdoptionConditionsPage: PageComponent = () => {
             </StepIcon>
 
             <StepContent>
-              <StepName>Recontre avec l'animal</StepName>
+              <StepName>Rencontre avec l'animal</StepName>
 
               <p>
                 Si votre dossier est retenu, nous organiserons une visite avec
@@ -129,7 +129,7 @@ const AdoptionConditionsPage: PageComponent = () => {
             </StepIcon>
 
             <StepContent>
-              <StepName>Recontre avec l'animal</StepName>
+              <StepName>Rencontre avec l'animal</StepName>
 
               <p>
                 Si votre dossier est retenu, nous organiserons une visite avec
