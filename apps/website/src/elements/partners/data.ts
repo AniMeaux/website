@@ -12,14 +12,14 @@ export const partners: Partner[] = [
     id: "35",
     name: "ZooPlus",
     image:
-      "https://banners-cdn.omt-services.com/generic_300x250_zooplus_fr.jpg",
+      "https://res.cloudinary.com/do3tcc2ku/image/upload/3635929c-dcd3-42be-9fd8-78e7c0cb5613",
     url: "https://marketing.net.zooplus.fr/ts/i3971185/tsc?typ=r&amc=con.zooplus.391263.404652.CRTD9sCr3t7",
   },
   {
     id: "36",
     name: "Bitiba",
     image:
-      "https://banners-cdn.omt-services.com/generic_non_nc_250x250_bitiba_fr.jpg",
+      "https://res.cloudinary.com/do3tcc2ku/image/upload/25c3af55-a7c7-40d7-a798-6b90dc508e2c",
     url: "https://www.awin1.com/cread.php?s=2190108&v=13330&q=340481&r=765013",
   },
   {
