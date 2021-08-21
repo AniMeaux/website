@@ -127,7 +127,7 @@ const DonationPage: PageComponent = () => {
             <ItemValue>Manuel</ItemValue>
 
             <p>
-              En passant par les autres options vous devrez envoyez par email à{" "}
+              En passant par les autres options vous devrez envoyer par email à{" "}
               <ContactLink href="mailto:contact@animeaux.org">
                 contact@animeaux.org
               </ContactLink>{" "}

@@ -204,7 +204,9 @@ const AdoptionConditionsPage: PageComponent = () => {
               <OptionIncludeItem>Identifié</OptionIncludeItem>
               <OptionIncludeItem>Vacciné (Typhus et Coryza)</OptionIncludeItem>
               <OptionIncludeItem>Déparasité</OptionIncludeItem>
-              <OptionIncludeItem exclude>Dépisté FIV/FELV</OptionIncludeItem>
+              <OptionIncludeItem exclude>
+                Dépistage FIV/FELV à vos frais
+              </OptionIncludeItem>
 
               <OptionIncludeItem exclude>
                 Stérilisation / castration à vos frais
