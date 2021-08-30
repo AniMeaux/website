@@ -192,6 +192,33 @@ export const ANIMAL_GENDERS_ORDER = sortByLabels(
   AnimalGenderLabels
 );
 
+export enum PickUpReason {
+  ABANDONMENT = "ABANDONMENT",
+  DECEASED_MASTER = "DECEASED_MASTER",
+  MISTREATMENT = "MISTREATMENT",
+  STRAY_ANIMAL = "STRAY_ANIMAL",
+  OTHER = "OTHER",
+}
+
+export const PickUpReasonLabels: {
+  [key in PickUpReason]: string;
+} = {
+  [PickUpReason.ABANDONMENT]: "Abandon",
+  [PickUpReason.DECEASED_MASTER]: "Décès du propriétaire",
+  [PickUpReason.MISTREATMENT]: "Maltraitance",
+  [PickUpReason.STRAY_ANIMAL]: "Errance",
+  [PickUpReason.OTHER]: "Autre raison",
+};
+
+// Sorted alphabetically with OTHER at the end.
+export const PICK_UP_REASON_ORDER = [
+  PickUpReason.ABANDONMENT,
+  PickUpReason.STRAY_ANIMAL,
+  PickUpReason.DECEASED_MASTER,
+  PickUpReason.MISTREATMENT,
+  PickUpReason.OTHER,
+];
+
 export type PublicSearchableAnimal = {
   id: string;
   officialName: string;
@@ -211,6 +238,7 @@ export type SearchableAnimal = PublicSearchableAnimal & {
   commonName: string;
   pickUpDate: string;
   pickUpLocation?: string | null;
+  pickUpReason: PickUpReason;
   status: AnimalStatus;
   hostFamily?: HostFamily | null;
 };
@@ -331,6 +359,7 @@ export type AnimalSituationFormPayload = {
   status: AnimalStatus;
   pickUpDate: string;
   pickUpLocation: string | null;
+  pickUpReason: PickUpReason;
   hostFamily: HostFamily | null;
   isOkChildren: Trilean;
   isOkDogs: Trilean;
@@ -343,6 +372,7 @@ export type CreateAnimalSituationPayload = {
   status: AnimalStatus;
   pickUpDate: string;
   pickUpLocation: string;
+  pickUpReason: PickUpReason;
   hostFamilyId?: string | null;
   isOkChildren: Trilean;
   isOkDogs: Trilean;
@@ -366,6 +396,7 @@ export function createAnimalSituationCreationApiPayload(
     status: payload.status,
     pickUpDate: payload.pickUpDate,
     pickUpLocation: payload.pickUpLocation,
+    pickUpReason: payload.pickUpReason,
     isOkChildren: payload.isOkChildren,
     isOkDogs: payload.isOkDogs,
     isOkCats: payload.isOkCats,
@@ -437,6 +468,7 @@ export function createEmptyAnimalFormPayload(): AnimalFormPayload {
     status: AnimalStatus.UNAVAILABLE,
     pickUpDate: "",
     pickUpLocation: null,
+    pickUpReason: PickUpReason.OTHER,
     hostFamily: null,
     isOkChildren: Trilean.UNKNOWN,
     isOkDogs: Trilean.UNKNOWN,
@@ -519,6 +551,10 @@ export function createAminalSituationUpdateApiPayload(
     formPayload.pickUpLocation !== animal.pickUpLocation
   ) {
     updatePayload.pickUpLocation = formPayload.pickUpLocation;
+  }
+
+  if (formPayload.pickUpReason !== animal.pickUpReason) {
+    updatePayload.pickUpReason = formPayload.pickUpReason;
   }
 
   if (formPayload.hostFamily?.id !== animal.hostFamily?.id) {

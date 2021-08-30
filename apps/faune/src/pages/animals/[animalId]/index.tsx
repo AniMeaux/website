@@ -9,6 +9,8 @@ import {
   getAnimalDisplayName,
   getHostFamilyFullAddress,
   HostFamily,
+  PickUpReasonLabels,
+  PICK_UP_REASON_ORDER,
   Trilean,
   TrileanLabels,
   UserGroup,
@@ -433,10 +435,12 @@ function SituationSection({ animal }: AnimalProps) {
                 le <strong>{formatLongDate(animal.pickUpDate)}</strong>
                 {animal.pickUpLocation != null && (
                   <>
-                    {" "}
-                    à <strong>{animal.pickUpLocation}</strong>
+                    <br />à <strong>{animal.pickUpLocation}</strong>
                   </>
                 )}
+                <br />
+                suite à{" "}
+                <strong>{PickUpReasonLabels[animal.pickUpReason]}</strong>
               </ItemMainText>
             </ItemContent>
           </Item>

@@ -268,6 +268,7 @@ export const animalDatabase: AnimalDatabase = {
       pickUpDate: payload.pickUpDate,
       pickUpLocation,
       pickUpDateTimestamp: new Date(payload.pickUpDate).getTime(),
+      pickUpReason: payload.pickUpReason,
       avatarId: payload.avatarId,
       hostFamilyId: payload.hostFamilyId,
       isOkChildren: payload.isOkChildren,
@@ -351,6 +352,13 @@ export const animalDatabase: AnimalDatabase = {
       if (pickUpLocation !== animal.pickUpLocation) {
         searchableAnimalUpdate.pickUpLocation = pickUpLocation;
       }
+    }
+
+    if (
+      payload.pickUpReason != null &&
+      payload.pickUpReason !== animal.pickUpReason
+    ) {
+      searchableAnimalUpdate.pickUpReason = payload.pickUpReason;
     }
 
     if (payload.gender != null && payload.gender !== animal.gender) {

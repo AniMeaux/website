@@ -33,6 +33,14 @@ const typeDefs = gql`
     MALE
   }
 
+  enum PickUpReason {
+    ABANDONMENT
+    DECEASED_MASTER
+    MISTREATMENT
+    STRAY_ANIMAL
+    OTHER
+  }
+
   type PublicSearchableAnimal {
     id: ID!
     officialName: String!
@@ -55,6 +63,7 @@ const typeDefs = gql`
     birthdate: String!
     pickUpDate: String!
     pickUpLocation: String
+    pickUpReason: PickUpReason!
     gender: AnimalGender!
     species: AnimalSpecies!
     breed: AnimalBreed
@@ -92,6 +101,7 @@ const typeDefs = gql`
     birthdate: String!
     pickUpDate: String!
     pickUpLocation: String
+    pickUpReason: PickUpReason!
     gender: AnimalGender!
     species: AnimalSpecies!
     breed: AnimalBreed
@@ -165,6 +175,7 @@ const typeDefs = gql`
       birthdate: String!
       pickUpDate: String!
       pickUpLocation: String!
+      pickUpReason: PickUpReason!
       gender: AnimalGender!
       species: AnimalSpecies!
       breedId: ID
@@ -188,6 +199,7 @@ const typeDefs = gql`
       birthdate: String
       pickUpDate: String
       pickUpLocation: String
+      pickUpReason: PickUpReason
       gender: AnimalGender
       species: AnimalSpecies
       breedId: ID

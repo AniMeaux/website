@@ -54,6 +54,7 @@ const SearchableAnimalFragment = gql`
     birthdate
     pickUpDate
     pickUpLocation
+    pickUpReason
     gender
     species
     breed {
@@ -86,6 +87,7 @@ const AnimalFragment = gql`
     birthdate
     pickUpDate
     pickUpLocation
+    pickUpReason
     gender
     species
     breed {
@@ -249,6 +251,7 @@ const CreateAnimalQuery = gql`
     $birthdate: String!
     $pickUpDate: String!
     $pickUpLocation: String
+    $pickUpReason: PickUpReason!
     $gender: AnimalGender!
     $species: AnimalSpecies!
     $breedId: ID
@@ -270,6 +273,7 @@ const CreateAnimalQuery = gql`
       birthdate: $birthdate
       pickUpDate: $pickUpDate
       pickUpLocation: $pickUpLocation
+      pickUpReason: $pickUpReason
       gender: $gender
       species: $species
       breedId: $breedId
@@ -452,6 +456,7 @@ const UpdateAnimalQuery = gql`
     $birthdate: String
     $pickUpDate: String
     $pickUpLocation: String
+    $pickUpReason: PickUpReason
     $gender: AnimalGender
     $species: AnimalSpecies
     $breedId: ID
@@ -474,6 +479,7 @@ const UpdateAnimalQuery = gql`
       birthdate: $birthdate
       pickUpDate: $pickUpDate
       pickUpLocation: $pickUpLocation
+      pickUpReason: $pickUpReason
       gender: $gender
       species: $species
       breedId: $breedId

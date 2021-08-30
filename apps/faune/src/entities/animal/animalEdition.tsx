@@ -35,6 +35,7 @@ function useAnimalFormPayload() {
         isSterilized: animal.isSterilized,
         pickUpDate: animal.pickUpDate,
         pickUpLocation: animal.pickUpLocation ?? null,
+        pickUpReason: animal.pickUpReason,
         status: animal.status,
         comments: animal.comments,
         pictures: [animal.avatarId].concat(animal.picturesId),

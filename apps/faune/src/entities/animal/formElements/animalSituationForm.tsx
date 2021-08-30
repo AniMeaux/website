@@ -1,5 +1,7 @@
 import {
   AnimalSituationFormPayload,
+  PickUpReasonLabels,
+  PICK_UP_REASON_ORDER,
   TrileanLabels,
   TRILEAN_ORDER,
 } from "@animeaux/shared-entities";
@@ -96,6 +98,28 @@ export function AnimalSituationForm<
         />
 
         <FieldMessage errorMessage={errors?.pickUpLocation} />
+      </Field>
+
+      <Field>
+        <Label>Raison de la prise en charge</Label>
+
+        <Selectors>
+          {PICK_UP_REASON_ORDER.map((reason) => (
+            <SelectorItem key={reason}>
+              <Selector>
+                <SelectorRadio
+                  name="pick-up-reason"
+                  checked={value.pickUpReason === reason}
+                  onChange={() =>
+                    onChange((value) => ({ ...value, pickUpReason: reason }))
+                  }
+                />
+
+                <SelectorLabel>{PickUpReasonLabels[reason]}</SelectorLabel>
+              </Selector>
+            </SelectorItem>
+          ))}
+        </Selectors>
       </Field>
 
       <Field>
