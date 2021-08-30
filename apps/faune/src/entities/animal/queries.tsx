@@ -20,6 +20,8 @@ import {
   PaginatedRequestParameters,
   PaginatedResponse,
   SearchableAnimal,
+  SearchFilter,
+  SearchResponseItem,
   toSearchableAnimal,
   UpdateAnimalPayload,
 } from "@animeaux/shared-entities";
@@ -51,6 +53,7 @@ const SearchableAnimalFragment = gql`
     commonName
     birthdate
     pickUpDate
+    pickUpLocation
     gender
     species
     breed {
@@ -82,6 +85,7 @@ const AnimalFragment = gql`
     commonName
     birthdate
     pickUpDate
+    pickUpLocation
     gender
     species
     breed {
@@ -225,7 +229,10 @@ export function useCreateAnimalSituation(
     },
     {
       ...options,
-      errorCodesToIgnore: [ErrorCode.ANIMAL_INVALID_PICK_UP_DATE],
+      errorCodesToIgnore: [
+        ErrorCode.ANIMAL_INVALID_PICK_UP_DATE,
+        ErrorCode.ANIMAL_MISSING_PICK_UP_LOCATION,
+      ],
       onSuccess(situationPayload, ...rest) {
         options?.onSuccess?.(situationPayload, ...rest);
       },
@@ -241,6 +248,7 @@ const CreateAnimalQuery = gql`
     $commonName: String!
     $birthdate: String!
     $pickUpDate: String!
+    $pickUpLocation: String
     $gender: AnimalGender!
     $species: AnimalSpecies!
     $breedId: ID
@@ -261,6 +269,7 @@ const CreateAnimalQuery = gql`
       commonName: $commonName
       birthdate: $birthdate
       pickUpDate: $pickUpDate
+      pickUpLocation: $pickUpLocation
       gender: $gender
       species: $species
       breedId: $breedId
@@ -319,6 +328,7 @@ export function useCreateAnimal(
         ErrorCode.ANIMAL_MISSING_GENDER,
         ErrorCode.ANIMAL_SPECIES_BREED_MISSMATCH,
         ErrorCode.ANIMAL_INVALID_PICK_UP_DATE,
+        ErrorCode.ANIMAL_MISSING_PICK_UP_LOCATION,
         ErrorCode.ANIMAL_MISSING_AVATAR,
       ],
 
@@ -362,6 +372,30 @@ export function useAnimal(animalId: string) {
 
     return animal;
   });
+}
+
+const SearchLocationQuery = gql`
+  query SearchLocationQuery($search: String) {
+    locations: searchLocation(search: $search) {
+      value
+      highlighted
+      count
+    }
+  }
+`;
+
+export function useSearchLocation(filters: SearchFilter = {}) {
+  return useQuery<SearchResponseItem[], Error>(
+    ["locations", filters.search],
+    async () => {
+      const { locations } = await fetchGraphQL<
+        { locations: SearchResponseItem[] },
+        SearchFilter
+      >(SearchLocationQuery, { variables: filters });
+
+      return locations;
+    }
+  );
 }
 
 const DeleteAnimalQuery = gql`
@@ -417,6 +451,7 @@ const UpdateAnimalQuery = gql`
     $commonName: String
     $birthdate: String
     $pickUpDate: String
+    $pickUpLocation: String
     $gender: AnimalGender
     $species: AnimalSpecies
     $breedId: ID
@@ -438,6 +473,7 @@ const UpdateAnimalQuery = gql`
       commonName: $commonName
       birthdate: $birthdate
       pickUpDate: $pickUpDate
+      pickUpLocation: $pickUpLocation
       gender: $gender
       species: $species
       breedId: $breedId
@@ -549,7 +585,10 @@ export function useUpdateAnimalSituation(
     },
     {
       ...options,
-      errorCodesToIgnore: [ErrorCode.ANIMAL_INVALID_PICK_UP_DATE],
+      errorCodesToIgnore: [
+        ErrorCode.ANIMAL_INVALID_PICK_UP_DATE,
+        ErrorCode.ANIMAL_MISSING_PICK_UP_LOCATION,
+      ],
 
       onSuccess(animal, ...rest) {
         updateAnimalsQueryCache(queryClient, animal);

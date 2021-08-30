@@ -1,10 +1,13 @@
 import {
   getAnimalDisplayName,
   SearchableAnimal,
+  SearchResponseItem,
 } from "@animeaux/shared-entities";
 import { Avatar } from "dataDisplay/avatar";
 import { AvatarImage } from "dataDisplay/image";
 import {
+  ButtonItem,
+  ButtonItemProps,
   Item,
   ItemContent,
   ItemIcon,
@@ -12,8 +15,10 @@ import {
   LinkItem,
   LinkItemProps,
 } from "dataDisplay/item";
+import { MarkdownInline } from "dataDisplay/markdown";
 import { Placeholder } from "loaders/placeholder";
 import * as React from "react";
+import { FaMapMarkerAlt } from "react-icons/fa";
 
 export function SearchableAnimalItemPlaceholder() {
   return (
@@ -53,5 +58,41 @@ export function SearchableAnimalLinkItem({
         <ItemMainText>{displayName}</ItemMainText>
       </ItemContent>
     </LinkItem>
+  );
+}
+
+export function LocationItemPlaceholder() {
+  return (
+    <Item>
+      <ItemIcon>
+        <Placeholder preset="icon" />
+      </ItemIcon>
+
+      <ItemContent>
+        <ItemMainText>
+          <Placeholder preset="label" />
+        </ItemMainText>
+      </ItemContent>
+    </Item>
+  );
+}
+
+type LocationItemProps = ButtonItemProps & {
+  location: SearchResponseItem;
+};
+
+export function LocationItem({ location, ...rest }: LocationItemProps) {
+  return (
+    <ButtonItem {...rest}>
+      <ItemIcon>
+        <FaMapMarkerAlt />
+      </ItemIcon>
+
+      <ItemContent>
+        <ItemMainText>
+          <MarkdownInline>{location.highlighted}</MarkdownInline>
+        </ItemMainText>
+      </ItemContent>
+    </ButtonItem>
   );
 }

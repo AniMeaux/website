@@ -71,6 +71,12 @@ const UpdateAnimalSituationPage: PageComponent = () => {
     if (hasErrorCode(mutation.error, ErrorCode.ANIMAL_INVALID_PICK_UP_DATE)) {
       errors.pickUpDate = errorMessage;
     }
+
+    if (
+      hasErrorCode(mutation.error, ErrorCode.ANIMAL_MISSING_PICK_UP_LOCATION)
+    ) {
+      errors.pickUpLocation = errorMessage;
+    }
   }
 
   const { pageTitle, headerTitle, content } = renderQueryEntity(query, {

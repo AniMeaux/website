@@ -21,10 +21,16 @@ import {
 import { SubmitButton } from "formElements/submitButton";
 import { Textarea } from "formElements/textarea";
 import * as React from "react";
-import { FaExclamationTriangle, FaHome, FaTimes } from "react-icons/fa";
+import {
+  FaExclamationTriangle,
+  FaHome,
+  FaMapMarkerAlt,
+  FaTimes,
+} from "react-icons/fa";
 
 export type AnimalSituationFormErrors = {
   pickUpDate?: string | null;
+  pickUpLocation?: string | null;
 };
 
 export type AnimalSituationFormProps<PayloadType> = FormProps & {
@@ -71,6 +77,25 @@ export function AnimalSituationForm<
         />
 
         <FieldMessage errorMessage={errors?.pickUpDate} />
+      </Field>
+
+      <Field>
+        <Label hasError={errors?.pickUpLocation != null}>
+          Lieux de prise en charge
+        </Label>
+
+        <LinkInput
+          href="../pick-up-location"
+          value={value.pickUpLocation}
+          leftAdornment={
+            <Adornment>
+              <FaMapMarkerAlt />
+            </Adornment>
+          }
+          hasError={errors?.pickUpLocation != null}
+        />
+
+        <FieldMessage errorMessage={errors?.pickUpLocation} />
       </Field>
 
       <Field>

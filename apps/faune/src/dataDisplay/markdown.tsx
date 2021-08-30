@@ -21,3 +21,15 @@ export function Markdown({ className, children, ...props }: MarkdownProps) {
     </div>
   );
 }
+
+type MarkdownInlineProps = StyleProps & {
+  children: string;
+};
+
+export function MarkdownInline({ children, ...rest }: MarkdownInlineProps) {
+  return (
+    <ReactMarkdown {...rest} allowedElements={["strong"]} unwrapDisallowed>
+      {children}
+    </ReactMarkdown>
+  );
+}

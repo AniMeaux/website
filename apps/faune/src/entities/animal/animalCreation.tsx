@@ -81,6 +81,13 @@ const StepValidators: Record<string, (payload: AnimalFormPayload) => boolean> =
         return false;
       }
     },
+    "pick-up-location": (payload) => {
+      try {
+        return createAnimalProfileCreationApiPayload(payload) != null;
+      } catch (error) {
+        return false;
+      }
+    },
     pictures: (payload) => {
       try {
         return (

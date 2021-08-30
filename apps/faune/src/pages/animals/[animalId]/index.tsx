@@ -431,6 +431,12 @@ function SituationSection({ animal }: AnimalProps) {
               <ItemMainText>
                 Pris{animal.gender === AnimalGender.FEMALE ? "e" : ""} en charge
                 le <strong>{formatLongDate(animal.pickUpDate)}</strong>
+                {animal.pickUpLocation != null && (
+                  <>
+                    {" "}
+                    à <strong>{animal.pickUpLocation}</strong>
+                  </>
+                )}
               </ItemMainText>
             </ItemContent>
           </Item>

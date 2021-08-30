@@ -42,6 +42,10 @@ const CreateAnimalSituationPage: PageComponent = () => {
     if (hasErrorCode(error, ErrorCode.ANIMAL_INVALID_PICK_UP_DATE)) {
       errors.pickUpDate = errorMessage;
     }
+
+    if (hasErrorCode(error, ErrorCode.ANIMAL_MISSING_PICK_UP_LOCATION)) {
+      errors.pickUpLocation = errorMessage;
+    }
   }
 
   return (

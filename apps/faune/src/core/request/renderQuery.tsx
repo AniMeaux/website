@@ -28,6 +28,7 @@ type ItemListRenderers<ItemType> = {
   renderError?: (props: ErrorRendererProps) => React.ReactNode;
   retryButtonLabel?: string;
   renderRetryButton?: (props: RetryButtonProps) => React.ReactNode;
+  renderAdditionalItem?: () => React.ReactNode;
 };
 
 function defaultRenderEmptyMessage(props: EmptyMessageRendererProps) {
@@ -56,29 +57,41 @@ function renderItemListContent<DataType>(
     renderError = defaultRenderError,
     retryButtonLabel = DEFAULT_RETRY_LABEL,
     renderRetryButton = defaultRenderRetryButton,
+    renderAdditionalItem,
   }: ItemListRenderers<DataType>
 ): React.ReactNode {
   if (query.data != null) {
     if (query.data.length === 0) {
-      return renderEmptyMessage({ children: emptyMessage });
+      return (
+        <>
+          {renderAdditionalItem?.()}
+          {renderEmptyMessage({ children: emptyMessage })}
+        </>
+      );
     }
 
     return (
-      <ul>
-        {query.data.map((item) => (
-          <li key={getItemKey(item)}>{renderItem(item)}</li>
-        ))}
-      </ul>
+      <>
+        {renderAdditionalItem?.()}
+        <ul>
+          {query.data.map((item) => (
+            <li key={getItemKey(item)}>{renderItem(item)}</li>
+          ))}
+        </ul>
+      </>
     );
   }
 
   if (query.isLoading) {
     return (
-      <ul>
-        <Placeholders count={placeholderCount}>
-          <li>{renderPlaceholderItem()}</li>
-        </Placeholders>
-      </ul>
+      <>
+        {renderAdditionalItem?.()}
+        <ul>
+          <Placeholders count={placeholderCount}>
+            <li>{renderPlaceholderItem()}</li>
+          </Placeholders>
+        </ul>
+      </>
     );
   }
 
@@ -110,7 +123,6 @@ export function renderItemList<DataType>(
 
 type InfiniteItemListRenderers<ItemType> = ItemListRenderers<ItemType> & {
   hasSearch?: boolean;
-  renderAdditionalItem?: () => React.ReactNode;
   emptySearchMessage?: string;
   renderEmptySearchAction?: () => React.ReactNode;
 };

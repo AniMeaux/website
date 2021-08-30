@@ -210,6 +210,7 @@ export type PublicSearchableAnimal = {
 export type SearchableAnimal = PublicSearchableAnimal & {
   commonName: string;
   pickUpDate: string;
+  pickUpLocation?: string | null;
   status: AnimalStatus;
   hostFamily?: HostFamily | null;
 };
@@ -329,6 +330,7 @@ export function createAnimalProfileCreationApiPayload(
 export type AnimalSituationFormPayload = {
   status: AnimalStatus;
   pickUpDate: string;
+  pickUpLocation: string | null;
   hostFamily: HostFamily | null;
   isOkChildren: Trilean;
   isOkDogs: Trilean;
@@ -340,6 +342,7 @@ export type AnimalSituationFormPayload = {
 export type CreateAnimalSituationPayload = {
   status: AnimalStatus;
   pickUpDate: string;
+  pickUpLocation: string;
   hostFamilyId?: string | null;
   isOkChildren: Trilean;
   isOkDogs: Trilean;
@@ -355,9 +358,14 @@ export function createAnimalSituationCreationApiPayload(
     throw new Error(ErrorCode.ANIMAL_INVALID_PICK_UP_DATE);
   }
 
+  if (payload.pickUpLocation == null) {
+    throw new Error(ErrorCode.ANIMAL_MISSING_PICK_UP_LOCATION);
+  }
+
   const apiPayload: CreateAnimalSituationPayload = {
     status: payload.status,
     pickUpDate: payload.pickUpDate,
+    pickUpLocation: payload.pickUpLocation,
     isOkChildren: payload.isOkChildren,
     isOkDogs: payload.isOkDogs,
     isOkCats: payload.isOkCats,
@@ -428,6 +436,7 @@ export function createEmptyAnimalFormPayload(): AnimalFormPayload {
     description: "",
     status: AnimalStatus.UNAVAILABLE,
     pickUpDate: "",
+    pickUpLocation: null,
     hostFamily: null,
     isOkChildren: Trilean.UNKNOWN,
     isOkDogs: Trilean.UNKNOWN,
@@ -503,6 +512,13 @@ export function createAminalSituationUpdateApiPayload(
 
   if (formPayload.pickUpDate !== animal.pickUpDate) {
     updatePayload.pickUpDate = formPayload.pickUpDate;
+  }
+
+  if (
+    formPayload.pickUpLocation != null &&
+    formPayload.pickUpLocation !== animal.pickUpLocation
+  ) {
+    updatePayload.pickUpLocation = formPayload.pickUpLocation;
   }
 
   if (formPayload.hostFamily?.id !== animal.hostFamily?.id) {

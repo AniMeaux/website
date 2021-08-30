@@ -5,6 +5,7 @@ import {
   DBSearchableAnimal,
   PaginatedRequestParameters,
   PublicAnimalFilters,
+  SearchFilter,
   UpdateAnimalPayload,
 } from "@animeaux/shared-entities";
 import { gql, IResolverObject, IResolvers } from "apollo-server";
@@ -53,6 +54,7 @@ const typeDefs = gql`
     commonName: String!
     birthdate: String!
     pickUpDate: String!
+    pickUpLocation: String
     gender: AnimalGender!
     species: AnimalSpecies!
     breed: AnimalBreed
@@ -89,6 +91,7 @@ const typeDefs = gql`
     commonName: String!
     birthdate: String!
     pickUpDate: String!
+    pickUpLocation: String
     gender: AnimalGender!
     species: AnimalSpecies!
     breed: AnimalBreed
@@ -119,6 +122,12 @@ const typeDefs = gql`
     pageCount: Int!
   }
 
+  type SearchResponseItem {
+    value: String!
+    highlighted: String!
+    count: Int!
+  }
+
   extend type Query {
     getAllAdoptableAnimals(
       page: Int
@@ -144,6 +153,9 @@ const typeDefs = gql`
 
     getAnimal(id: ID!): Animal
       @auth(groups: [ADMIN, ANIMAL_MANAGER, VETERINARIAN])
+
+    searchLocation(search: String): [SearchResponseItem!]!
+      @auth(groups: [ADMIN, ANIMAL_MANAGER])
   }
 
   extend type Mutation {
@@ -152,6 +164,7 @@ const typeDefs = gql`
       commonName: String!
       birthdate: String!
       pickUpDate: String!
+      pickUpLocation: String!
       gender: AnimalGender!
       species: AnimalSpecies!
       breedId: ID
@@ -174,6 +187,7 @@ const typeDefs = gql`
       commonName: String
       birthdate: String
       pickUpDate: String
+      pickUpLocation: String
       gender: AnimalGender
       species: AnimalSpecies
       breedId: ID
@@ -339,6 +353,10 @@ const queries: IResolverObject = {
 
   getAnimal: async (parent: any, { id }: { id: string }) => {
     return await database.getAnimal(id);
+  },
+
+  searchLocation: async (parent: any, filters: SearchFilter) => {
+    return await database.searchLocation(filters);
   },
 };
 

@@ -16,6 +16,8 @@ import {
   PaginatedRequestParameters,
   PaginatedResponse,
   PublicAnimalFilters,
+  SearchFilter,
+  SearchResponseItem,
   UpdateAnimalBreedPayload,
   UpdateAnimalColorPayload,
   UpdateAnimalPayload,
@@ -83,6 +85,7 @@ export type AnimalDatabase = {
   ): Promise<PaginatedResponse<DBSearchableAnimal>>;
   getAdoptableAnimal(id: string): Promise<DBAnimal | null>;
   getAnimal(id: string): Promise<DBAnimal | null>;
+  searchLocation(parameters: SearchFilter): Promise<SearchResponseItem[]>;
   createAnimal(payload: CreateAnimalPayload): Promise<DBAnimal>;
   updateAnimal(payload: UpdateAnimalPayload): Promise<DBAnimal>;
   deleteAnimal(id: string): Promise<boolean>;

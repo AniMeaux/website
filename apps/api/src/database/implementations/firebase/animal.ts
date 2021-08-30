@@ -13,6 +13,8 @@ import {
   PaginatedResponse,
   PublicAnimalFilters,
   SAVED_ANIMAL_STATUS,
+  SearchFilter,
+  SearchResponseItem,
   startOfUTCDay,
   UpdateAnimalPayload,
 } from "@animeaux/shared-entities";
@@ -209,6 +211,22 @@ export const animalDatabase: AnimalDatabase = {
     return null;
   },
 
+  async searchLocation(
+    parameters: SearchFilter
+  ): Promise<SearchResponseItem[]> {
+    const response = await AnimalsIndex.searchForFacetValues(
+      "pickUpLocation",
+      parameters.search ?? "",
+      {
+        // Use markdown style bold.
+        highlightPreTag: "**",
+        highlightPostTag: "**",
+      }
+    );
+
+    return response.facetHits;
+  },
+
   async createAnimal(payload: CreateAnimalPayload): Promise<DBAnimal> {
     const officialName = payload.officialName.trim();
     if (officialName === "") {
@@ -231,6 +249,11 @@ export const animalDatabase: AnimalDatabase = {
       throw new UserInputError(ErrorCode.ANIMAL_INVALID_PICK_UP_DATE);
     }
 
+    const pickUpLocation = payload.pickUpLocation.trim();
+    if (pickUpLocation === "") {
+      throw new UserInputError(ErrorCode.ANIMAL_MISSING_PICK_UP_LOCATION);
+    }
+
     const searchableAnimal: DBSearchableAnimal = {
       id: uuid(),
       officialName,
@@ -243,6 +266,7 @@ export const animalDatabase: AnimalDatabase = {
       colorId: payload.colorId,
       status: payload.status,
       pickUpDate: payload.pickUpDate,
+      pickUpLocation,
       pickUpDateTimestamp: new Date(payload.pickUpDate).getTime(),
       avatarId: payload.avatarId,
       hostFamilyId: payload.hostFamilyId,
@@ -319,6 +343,13 @@ export const animalDatabase: AnimalDatabase = {
         searchableAnimalUpdate.pickUpDateTimestamp = new Date(
           payload.pickUpDate
         ).getTime();
+      }
+    }
+
+    if (payload.pickUpLocation != null) {
+      const pickUpLocation = payload.pickUpLocation.trim();
+      if (pickUpLocation !== animal.pickUpLocation) {
+        searchableAnimalUpdate.pickUpLocation = pickUpLocation;
       }
     }
 

@@ -10,5 +10,6 @@ export * from "./image";
 export * from "./pagination";
 export * from "./partner";
 export * from "./query";
+export * from "./search";
 export * from "./trilean";
 export * from "./user";
