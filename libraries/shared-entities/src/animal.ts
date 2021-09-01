@@ -219,6 +219,29 @@ export const PICK_UP_REASON_ORDER = [
   PickUpReason.OTHER,
 ];
 
+export enum AdoptionOption {
+  WITH_STERILIZATION = "WITH_STERILIZATION",
+  WITHOUT_STERILIZATION = "WITHOUT_STERILIZATION",
+  FREE_DONATION = "FREE_DONATION",
+  UNKNOWN = "UNKNOWN",
+}
+
+export const AdoptionOptionLabels: {
+  [key in AdoptionOption]: string;
+} = {
+  [AdoptionOption.WITH_STERILIZATION]: "Avec stérilisation",
+  [AdoptionOption.WITHOUT_STERILIZATION]: "Sans stérilisation",
+  [AdoptionOption.FREE_DONATION]: "Don libre",
+  [AdoptionOption.UNKNOWN]: "Inconnu",
+};
+
+export const ADOPTION_OPTION_ORDER = [
+  AdoptionOption.WITH_STERILIZATION,
+  AdoptionOption.WITHOUT_STERILIZATION,
+  AdoptionOption.FREE_DONATION,
+  AdoptionOption.UNKNOWN,
+];
+
 export type PublicSearchableAnimal = {
   id: string;
   officialName: string;
@@ -240,6 +263,8 @@ export type SearchableAnimal = PublicSearchableAnimal & {
   pickUpLocation?: string | null;
   pickUpReason: PickUpReason;
   status: AnimalStatus;
+  adoptionDate?: string | null;
+  adoptionOption?: AdoptionOption | null;
   hostFamily?: HostFamily | null;
 };
 
@@ -252,6 +277,7 @@ export type DBSearchableAnimal = Omit<
   breedId?: string | null;
   birthdateTimestamp: number;
   pickUpDateTimestamp: number;
+  adoptionDateTimestamp?: number | null;
   hostFamilyId?: string | null;
 };
 
@@ -357,6 +383,8 @@ export function createAnimalProfileCreationApiPayload(
 
 export type AnimalSituationFormPayload = {
   status: AnimalStatus;
+  adoptionDate: string;
+  adoptionOption: AdoptionOption;
   pickUpDate: string;
   pickUpLocation: string | null;
   pickUpReason: PickUpReason;
@@ -370,6 +398,8 @@ export type AnimalSituationFormPayload = {
 
 export type CreateAnimalSituationPayload = {
   status: AnimalStatus;
+  adoptionDate?: string | null;
+  adoptionOption?: AdoptionOption | null;
   pickUpDate: string;
   pickUpLocation: string;
   pickUpReason: PickUpReason;
@@ -392,6 +422,13 @@ export function createAnimalSituationCreationApiPayload(
     throw new Error(ErrorCode.ANIMAL_MISSING_PICK_UP_LOCATION);
   }
 
+  if (
+    payload.status === AnimalStatus.ADOPTED &&
+    !isValidDate(payload.adoptionDate)
+  ) {
+    throw new Error(ErrorCode.ANIMAL_MISSING_ADOPTION_DATE);
+  }
+
   const apiPayload: CreateAnimalSituationPayload = {
     status: payload.status,
     pickUpDate: payload.pickUpDate,
@@ -406,6 +443,14 @@ export function createAnimalSituationCreationApiPayload(
 
   if (payload.hostFamily != null) {
     apiPayload.hostFamilyId = payload.hostFamily.id;
+  }
+
+  if (payload.status === AnimalStatus.ADOPTED) {
+    apiPayload.adoptionDate = payload.adoptionDate;
+
+    if (payload.adoptionOption !== AdoptionOption.UNKNOWN) {
+      apiPayload.adoptionOption = payload.adoptionOption;
+    }
   }
 
   return apiPayload;
@@ -466,6 +511,8 @@ export function createEmptyAnimalFormPayload(): AnimalFormPayload {
     color: null,
     description: "",
     status: AnimalStatus.UNAVAILABLE,
+    adoptionDate: "",
+    adoptionOption: AdoptionOption.UNKNOWN,
     pickUpDate: "",
     pickUpLocation: null,
     pickUpReason: PickUpReason.OTHER,
@@ -540,6 +587,14 @@ export function createAminalSituationUpdateApiPayload(
 
   if (formPayload.status !== animal.status) {
     updatePayload.status = formPayload.status;
+  }
+
+  if (formPayload.adoptionDate !== animal.adoptionDate ?? "") {
+    updatePayload.adoptionDate = formPayload.adoptionDate;
+  }
+
+  if (formPayload.adoptionOption !== animal.adoptionOption) {
+    updatePayload.adoptionOption = formPayload.adoptionOption;
   }
 
   if (formPayload.pickUpDate !== animal.pickUpDate) {

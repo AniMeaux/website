@@ -234,6 +234,7 @@ export function useCreateAnimalSituation(
       errorCodesToIgnore: [
         ErrorCode.ANIMAL_INVALID_PICK_UP_DATE,
         ErrorCode.ANIMAL_MISSING_PICK_UP_LOCATION,
+        ErrorCode.ANIMAL_MISSING_ADOPTION_DATE,
       ],
       onSuccess(situationPayload, ...rest) {
         options?.onSuccess?.(situationPayload, ...rest);
@@ -250,7 +251,7 @@ const CreateAnimalQuery = gql`
     $commonName: String!
     $birthdate: String!
     $pickUpDate: String!
-    $pickUpLocation: String
+    $pickUpLocation: String!
     $pickUpReason: PickUpReason!
     $gender: AnimalGender!
     $species: AnimalSpecies!
@@ -258,6 +259,8 @@ const CreateAnimalQuery = gql`
     $colorId: ID
     $description: String!
     $status: AnimalStatus!
+    $adoptionDate: String
+    $adoptionOption: AdoptionOption
     $avatarId: String!
     $picturesId: [String!]!
     $hostFamilyId: ID
@@ -280,6 +283,8 @@ const CreateAnimalQuery = gql`
       colorId: $colorId
       description: $description
       status: $status
+      adoptionDate: $adoptionDate
+      adoptionOption: $adoptionOption
       avatarId: $avatarId
       picturesId: $picturesId
       hostFamilyId: $hostFamilyId
@@ -333,6 +338,7 @@ export function useCreateAnimal(
         ErrorCode.ANIMAL_SPECIES_BREED_MISSMATCH,
         ErrorCode.ANIMAL_INVALID_PICK_UP_DATE,
         ErrorCode.ANIMAL_MISSING_PICK_UP_LOCATION,
+        ErrorCode.ANIMAL_MISSING_ADOPTION_DATE,
         ErrorCode.ANIMAL_MISSING_AVATAR,
       ],
 
@@ -463,6 +469,8 @@ const UpdateAnimalQuery = gql`
     $colorId: ID
     $description: String
     $status: AnimalStatus
+    $adoptionDate: String
+    $adoptionOption: AdoptionOption
     $avatarId: String
     $picturesId: [String!]
     $hostFamilyId: ID
@@ -486,6 +494,8 @@ const UpdateAnimalQuery = gql`
       colorId: $colorId
       description: $description
       status: $status
+      adoptionDate: $adoptionDate
+      adoptionOption: $adoptionOption
       avatarId: $avatarId
       picturesId: $picturesId
       hostFamilyId: $hostFamilyId
@@ -594,6 +604,7 @@ export function useUpdateAnimalSituation(
       errorCodesToIgnore: [
         ErrorCode.ANIMAL_INVALID_PICK_UP_DATE,
         ErrorCode.ANIMAL_MISSING_PICK_UP_LOCATION,
+        ErrorCode.ANIMAL_MISSING_ADOPTION_DATE,
       ],
 
       onSuccess(animal, ...rest) {

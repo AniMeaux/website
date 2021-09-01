@@ -41,6 +41,13 @@ const typeDefs = gql`
     OTHER
   }
 
+  enum AdoptionOption {
+    WITH_STERILIZATION
+    WITHOUT_STERILIZATION
+    FREE_DONATION
+    UNKNOWN
+  }
+
   type PublicSearchableAnimal {
     id: ID!
     officialName: String!
@@ -69,6 +76,8 @@ const typeDefs = gql`
     breed: AnimalBreed
     color: AnimalColor
     status: AnimalStatus!
+    adoptionDate: String
+    adoptionOption: AdoptionOption
     avatarId: String!
     hostFamily: HostFamily
     isOkChildren: Trilean!
@@ -108,6 +117,8 @@ const typeDefs = gql`
     color: AnimalColor
     description: String!
     status: AnimalStatus!
+    adoptionDate: String
+    adoptionOption: AdoptionOption
     avatarId: String!
     picturesId: [String!]!
     hostFamily: HostFamily
@@ -182,6 +193,8 @@ const typeDefs = gql`
       colorId: ID
       description: String!
       status: AnimalStatus!
+      adoptionDate: String
+      adoptionOption: AdoptionOption
       avatarId: String!
       picturesId: [String!]!
       hostFamilyId: ID
@@ -206,6 +219,8 @@ const typeDefs = gql`
       colorId: ID
       description: String
       status: AnimalStatus
+      adoptionDate: String
+      adoptionOption: AdoptionOption
       avatarId: String
       picturesId: [String!]
       hostFamilyId: ID

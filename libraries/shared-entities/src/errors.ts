@@ -80,6 +80,7 @@ export enum ErrorCode {
   ANIMAL_INVALID_BIRTHDATE = "animal/invalid-birthdate",
   ANIMAL_INVALID_PICK_UP_DATE = "animal/invalid-pick-up-date",
   ANIMAL_MISSING_PICK_UP_LOCATION = "animal/missing-pick-up-location",
+  ANIMAL_MISSING_ADOPTION_DATE = "animal/missing-adoption-date",
 }
 
 const ErrorCodeLabels: { [key in ErrorCode]?: string } = {
@@ -149,6 +150,8 @@ const ErrorCodeLabels: { [key in ErrorCode]?: string } = {
   [ErrorCode.ANIMAL_INVALID_PICK_UP_DATE]: "Le format de la date est invalide",
   [ErrorCode.ANIMAL_MISSING_PICK_UP_LOCATION]:
     "Le lieux de prise en charge est obligatoire",
+  [ErrorCode.ANIMAL_MISSING_ADOPTION_DATE]:
+    "La date d'adoption est obligatoire",
 };
 
 export function getErrorMessage(error: Error): string {

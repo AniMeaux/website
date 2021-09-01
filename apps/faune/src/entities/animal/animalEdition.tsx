@@ -1,4 +1,5 @@
 import {
+  AdoptionOption,
   AnimalFormPayload,
   createEmptyAnimalFormPayload,
 } from "@animeaux/shared-entities";
@@ -37,6 +38,8 @@ function useAnimalFormPayload() {
         pickUpLocation: animal.pickUpLocation ?? null,
         pickUpReason: animal.pickUpReason,
         status: animal.status,
+        adoptionDate: animal.adoptionDate ?? "",
+        adoptionOption: animal.adoptionOption ?? AdoptionOption.UNKNOWN,
         comments: animal.comments,
         pictures: [animal.avatarId].concat(animal.picturesId),
       });

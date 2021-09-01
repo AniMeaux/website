@@ -1,6 +1,7 @@
 import {
   ACTIVE_ANIMAL_STATUS,
   ADOPTABLE_ANIMAL_STATUS,
+  AdoptionOption,
   AnimalAgeRangeBySpecies,
   AnimalSearch,
   AnimalStatus,
@@ -254,6 +255,13 @@ export const animalDatabase: AnimalDatabase = {
       throw new UserInputError(ErrorCode.ANIMAL_MISSING_PICK_UP_LOCATION);
     }
 
+    if (
+      payload.status === AnimalStatus.ADOPTED &&
+      !isValidDate(payload.adoptionDate ?? "")
+    ) {
+      throw new UserInputError(ErrorCode.ANIMAL_MISSING_ADOPTION_DATE);
+    }
+
     const searchableAnimal: DBSearchableAnimal = {
       id: uuid(),
       officialName,
@@ -276,6 +284,24 @@ export const animalDatabase: AnimalDatabase = {
       isOkCats: payload.isOkCats,
       isSterilized: payload.isSterilized,
     };
+
+    if (
+      payload.status === AnimalStatus.ADOPTED &&
+      // Already checked, but just for TS
+      payload.adoptionDate != null
+    ) {
+      searchableAnimal.adoptionDate = payload.adoptionDate;
+      searchableAnimal.adoptionDateTimestamp = new Date(
+        payload.adoptionDate
+      ).getTime();
+
+      if (
+        payload.adoptionOption != null &&
+        payload.adoptionOption !== AdoptionOption.UNKNOWN
+      ) {
+        searchableAnimal.adoptionOption = payload.adoptionOption;
+      }
+    }
 
     const animal: DBAnimal = {
       ...searchableAnimal,
@@ -421,6 +447,35 @@ export const animalDatabase: AnimalDatabase = {
         ].includes(payload.status)
       ) {
         searchableAnimalUpdate.hostFamilyId = null;
+      }
+
+      // The animal is now adopted.
+      if (searchableAnimalUpdate.status === AnimalStatus.ADOPTED) {
+        if (
+          payload.adoptionDate == null ||
+          !isValidDate(payload.adoptionDate)
+        ) {
+          throw new UserInputError(ErrorCode.ANIMAL_MISSING_ADOPTION_DATE);
+        }
+
+        searchableAnimalUpdate.adoptionDate = payload.adoptionDate;
+        searchableAnimalUpdate.adoptionDateTimestamp = new Date(
+          payload.adoptionDate
+        ).getTime();
+
+        if (
+          payload.adoptionOption != null &&
+          payload.adoptionOption !== AdoptionOption.UNKNOWN
+        ) {
+          searchableAnimalUpdate.adoptionOption = payload.adoptionOption;
+        }
+      }
+
+      // The animal is no longer adopted.
+      if (animal.status === AnimalStatus.ADOPTED) {
+        searchableAnimalUpdate.adoptionDate = null;
+        searchableAnimalUpdate.adoptionDateTimestamp = null;
+        searchableAnimalUpdate.adoptionOption = null;
       }
     }
 

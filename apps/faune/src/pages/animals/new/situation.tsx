@@ -46,6 +46,10 @@ const CreateAnimalSituationPage: PageComponent = () => {
     if (hasErrorCode(error, ErrorCode.ANIMAL_MISSING_PICK_UP_LOCATION)) {
       errors.pickUpLocation = errorMessage;
     }
+
+    if (hasErrorCode(error, ErrorCode.ANIMAL_MISSING_ADOPTION_DATE)) {
+      errors.adoptionDate = errorMessage;
+    }
   }
 
   return (

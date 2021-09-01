@@ -1,5 +1,8 @@
 import {
+  AdoptionOptionLabels,
+  ADOPTION_OPTION_ORDER,
   AnimalSituationFormPayload,
+  AnimalStatus,
   PickUpReasonLabels,
   PICK_UP_REASON_ORDER,
   TrileanLabels,
@@ -33,6 +36,7 @@ import {
 export type AnimalSituationFormErrors = {
   pickUpDate?: string | null;
   pickUpLocation?: string | null;
+  adoptionDate?: string | null;
 };
 
 export type AnimalSituationFormProps<PayloadType> = FormProps & {
@@ -62,6 +66,53 @@ export function AnimalSituationForm<
           onChange={(status) => onChange((value) => ({ ...value, status }))}
         />
       </Field>
+
+      {value.status === AnimalStatus.ADOPTED && (
+        <Field>
+          <Label
+            htmlFor="adoption-date"
+            hasError={errors?.adoptionDate != null}
+          >
+            Date d'adoption
+          </Label>
+
+          <DateInput
+            name="adoption-date"
+            id="adoption-date"
+            value={value.adoptionDate}
+            onChange={(adoptionDate) =>
+              onChange((value) => ({ ...value, adoptionDate }))
+            }
+            hasError={errors?.adoptionDate != null}
+          />
+        </Field>
+      )}
+
+      {value.status === AnimalStatus.ADOPTED && (
+        <Field>
+          <Label>Option d'adoption</Label>
+
+          <Selectors>
+            {ADOPTION_OPTION_ORDER.map((adoptionOption) => (
+              <SelectorItem key={adoptionOption}>
+                <Selector>
+                  <SelectorRadio
+                    name="adoption-option"
+                    checked={value.adoptionOption === adoptionOption}
+                    onChange={() =>
+                      onChange((value) => ({ ...value, adoptionOption }))
+                    }
+                  />
+
+                  <SelectorLabel>
+                    {AdoptionOptionLabels[adoptionOption]}
+                  </SelectorLabel>
+                </Selector>
+              </SelectorItem>
+            ))}
+          </Selectors>
+        </Field>
+      )}
 
       <Field>
         <Label htmlFor="pick-up-date" hasError={errors?.pickUpDate != null}>
@@ -104,18 +155,20 @@ export function AnimalSituationForm<
         <Label>Raison de la prise en charge</Label>
 
         <Selectors>
-          {PICK_UP_REASON_ORDER.map((reason) => (
-            <SelectorItem key={reason}>
+          {PICK_UP_REASON_ORDER.map((pickUpReason) => (
+            <SelectorItem key={pickUpReason}>
               <Selector>
                 <SelectorRadio
                   name="pick-up-reason"
-                  checked={value.pickUpReason === reason}
+                  checked={value.pickUpReason === pickUpReason}
                   onChange={() =>
-                    onChange((value) => ({ ...value, pickUpReason: reason }))
+                    onChange((value) => ({ ...value, pickUpReason }))
                   }
                 />
 
-                <SelectorLabel>{PickUpReasonLabels[reason]}</SelectorLabel>
+                <SelectorLabel>
+                  {PickUpReasonLabels[pickUpReason]}
+                </SelectorLabel>
               </Selector>
             </SelectorItem>
           ))}

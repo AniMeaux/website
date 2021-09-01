@@ -77,6 +77,10 @@ const UpdateAnimalSituationPage: PageComponent = () => {
     ) {
       errors.pickUpLocation = errorMessage;
     }
+
+    if (hasErrorCode(mutation.error, ErrorCode.ANIMAL_MISSING_ADOPTION_DATE)) {
+      errors.adoptionDate = errorMessage;
+    }
   }
 
   const { pageTitle, headerTitle, content } = renderQueryEntity(query, {
