@@ -404,6 +404,10 @@ export function useSearchLocation(filters: SearchFilter = {}) {
       >(SearchLocationQuery, { variables: filters });
 
       return locations;
+    },
+    {
+      // Make sure we always get fresh data.
+      staleTime: 0,
     }
   );
 }
