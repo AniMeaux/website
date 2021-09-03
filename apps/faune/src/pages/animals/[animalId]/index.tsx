@@ -274,7 +274,7 @@ function HostFamilyModal({ hostFamily }: { hostFamily: HostFamily }) {
 
           <li>
             <LinkItem
-              shouldOpenInNewTab
+              shouldOpenInNewTarget
               href={`http://maps.google.com/?q=${fullAddress}`}
             >
               <ItemIcon>

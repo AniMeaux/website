@@ -1,4 +1,5 @@
 import cn from "classnames";
+import { BaseLink, BaseLinkProps } from "core/baseLink";
 import { ensureArray } from "core/ensureArray";
 import { Adornment } from "core/formElements/adornment";
 import {
@@ -6,13 +7,12 @@ import {
   InputWrapper,
   InputWrapperProps,
 } from "core/formElements/inputWrapper";
-import { Link, LinkProps } from "core/link";
 import { StyleProps } from "core/types";
 import { FaCaretDown } from "react-icons/fa";
 
 export type LinkInputProps = InputWrapperProps &
   StyleProps &
-  Omit<LinkProps, "children"> & {
+  Omit<BaseLinkProps, "children"> & {
     value?: string | null;
     placeholder?: string;
   };
@@ -44,7 +44,7 @@ export function LinkInput({
       hasError={hasError}
       className={className}
     >
-      <Link
+      <BaseLink
         {...rest}
         disabled={disabled}
         className={cn(
@@ -58,7 +58,7 @@ export function LinkInput({
         )}
       >
         {value ?? <span className="LinkInput__placeholder">{placeholder}</span>}
-      </Link>
+      </BaseLink>
     </InputWrapper>
   );
 }

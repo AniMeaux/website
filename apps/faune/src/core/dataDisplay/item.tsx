@@ -1,5 +1,5 @@
 import cn from "classnames";
-import { Link, LinkProps } from "core/link";
+import { BaseLink, BaseLinkProps } from "core/baseLink";
 import { ChildrenProp, StyleProps } from "core/types";
 import { forwardRef } from "react";
 
@@ -36,7 +36,7 @@ export function Item({
   );
 }
 
-export type LinkItemProps = LinkProps & ItemProps;
+export type LinkItemProps = BaseLinkProps & ItemProps;
 export const LinkItem = forwardRef<HTMLAnchorElement, LinkItemProps>(
   function LinkItem(
     {
@@ -49,7 +49,7 @@ export const LinkItem = forwardRef<HTMLAnchorElement, LinkItemProps>(
     ref
   ) {
     return (
-      <Link
+      <BaseLink
         {...rest}
         ref={ref}
         disabled={disabled}

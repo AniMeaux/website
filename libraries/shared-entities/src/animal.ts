@@ -7,7 +7,6 @@ import { ErrorCode } from "./errors";
 import { HostFamily } from "./hostFamily";
 import { getImageId, ImageFileOrId } from "./image";
 import { SearchFilter } from "./pagination";
-import { Query } from "./query";
 import { Trilean } from "./trilean";
 
 export enum AnimalSpecies {
@@ -171,7 +170,7 @@ export const ADOPTABLE_ANIMAL_STATUS = [
 
 export const SAVED_ANIMAL_STATUS = [AnimalStatus.ADOPTED, AnimalStatus.FREE];
 
-function isAnimalStatus(value: string): value is AnimalStatus {
+export function isAnimalStatus(value: string): value is AnimalStatus {
   return Object.values(AnimalStatus).includes(value as AnimalStatus);
 }
 
@@ -694,54 +693,6 @@ export function hasAnimalSearch({ search, ...filters }: AnimalSearch) {
     (search != null && search !== "") ||
     getActiveAnimalFiltersCount(filters) > 0
   );
-}
-
-export function createAnimalSearchFromQuery(query: Query) {
-  const animalSearch: AnimalSearch = {};
-
-  if (query.q != null && typeof query.q === "string") {
-    animalSearch.search = query.q;
-  }
-
-  if (query.status != null) {
-    animalSearch.status = (
-      Array.isArray(query.status) ? query.status : [query.status]
-    ).filter(isAnimalStatus);
-  }
-
-  if (query.species != null) {
-    animalSearch.species = (
-      Array.isArray(query.species) ? query.species : [query.species]
-    ).filter(isAnimalSpecies);
-  }
-
-  if (query.hostFamilyId != null && typeof query.hostFamilyId === "string") {
-    animalSearch.hostFamilyId = query.hostFamilyId;
-  }
-
-  return animalSearch;
-}
-
-export function createQueryFromAnimalSearch(animalSearch: AnimalSearch) {
-  const query: Query = {};
-
-  if (animalSearch.search != null && animalSearch.search !== "") {
-    query.q = animalSearch.search;
-  }
-
-  if (animalSearch.status != null && animalSearch.status.length > 0) {
-    query.status = animalSearch.status;
-  }
-
-  if (animalSearch.species != null && animalSearch.species.length > 0) {
-    query.species = animalSearch.species;
-  }
-
-  if (animalSearch.hostFamilyId != null) {
-    query.hostFamilyId = animalSearch.hostFamilyId;
-  }
-
-  return query;
 }
 
 export type PublicAnimalFilters = {

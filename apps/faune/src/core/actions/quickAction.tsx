@@ -1,11 +1,11 @@
 import cn from "classnames";
-import { Link, LinkProps } from "core/link";
+import { BaseLink, BaseLinkProps } from "core/baseLink";
 import { Modal } from "core/popovers/modal";
 import { ChildrenProp, StyleProps } from "core/types";
 import { useRef, useState } from "react";
 
-export function QuickLinkAction({ className, ...rest }: LinkProps) {
-  return <Link {...rest} className={cn("QuickAction", className)} />;
+export function QuickLinkAction({ className, ...rest }: BaseLinkProps) {
+  return <BaseLink {...rest} className={cn("QuickAction", className)} />;
 }
 
 type QuickActionsProps = ChildrenProp &

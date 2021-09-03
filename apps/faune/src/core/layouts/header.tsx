@@ -1,20 +1,20 @@
 import { useCurrentUser } from "account/currentUser";
 import { CurrentUserMenu } from "account/currentUserMenu";
 import cn from "classnames";
+import { BaseLink, BaseLinkProps } from "core/baseLink";
 import { UserAvatar } from "core/dataDisplay/avatar";
 import { useIsScrollAtTheTop } from "core/layouts/usePageScroll";
-import { Link, LinkProps } from "core/link";
 import { ScreenSize, useScreenSize } from "core/screenSize";
 import { ChildrenProp, StyleProps } from "core/types";
 import { useRef, useState } from "react";
 import { FaChevronLeft } from "react-icons/fa";
 
-export function HeaderLink({ className, ...rest }: LinkProps) {
-  return <Link {...rest} className={cn("HeaderLink", className)} />;
+export function HeaderLink({ className, ...rest }: BaseLinkProps) {
+  return <BaseLink {...rest} className={cn("HeaderLink", className)} />;
 }
 
-export type HeaderBackLinkProps = Omit<LinkProps, "href"> & {
-  href?: LinkProps["href"];
+export type HeaderBackLinkProps = Omit<BaseLinkProps, "href"> & {
+  href?: BaseLinkProps["href"];
 };
 
 export function HeaderBackLink({ href = "..", ...props }: HeaderBackLinkProps) {

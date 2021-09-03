@@ -1,9 +1,10 @@
 import {
-  createAnimalSearchFromQuery,
-  createQueryFromAnimalSearch,
+  AnimalSearch,
   getActiveAnimalFiltersCount,
   getAnimalDisplayName,
   hasAnimalSearch,
+  isAnimalSpecies,
+  isAnimalStatus,
   SearchableAnimal,
   UserGroup,
 } from "@animeaux/shared-entities";
@@ -82,6 +83,45 @@ export function SearchableAnimalLinkItem({
   );
 }
 
+function createQueryFromAnimalSearch(animalSearch: AnimalSearch) {
+  const query = new URLSearchParams();
+
+  if (animalSearch.search != null && animalSearch.search !== "") {
+    query.set("q", animalSearch.search);
+  }
+
+  if (animalSearch.status != null) {
+    animalSearch.status.forEach((status) => {
+      query.append("status", status);
+    });
+  }
+
+  if (animalSearch.species != null) {
+    animalSearch.species.forEach((species) => {
+      query.append("species", species);
+    });
+  }
+
+  if (animalSearch.hostFamilyId != null) {
+    query.set("hostFamilyId", animalSearch.hostFamilyId);
+  }
+
+  const href = query.toString();
+  return href === "" ? "" : `?${href}`;
+}
+
+function createAnimalSearchFromQuery() {
+  const query = new URLSearchParams(window.location.search);
+  const animalSearch: AnimalSearch = {
+    search: query.get("q"),
+    status: query.getAll("status").filter(isAnimalStatus),
+    species: query.getAll("species").filter(isAnimalSpecies),
+    hostFamilyId: query.get("hostFamilyId"),
+  };
+
+  return animalSearch;
+}
+
 const TITLE = "Animaux";
 
 const SearchAnimalPage: PageComponent = () => {
@@ -94,12 +134,12 @@ const SearchAnimalPage: PageComponent = () => {
   usePageScrollRestoration();
 
   const { search, rawSearch, setRawSearch, filters, setFilters } =
-    useSearchAndFilters(() => createAnimalSearchFromQuery(router.query));
+    useSearchAndFilters(() => createAnimalSearchFromQuery());
 
   useEffect(() => {
     const query = createQueryFromAnimalSearch({ search, ...filters });
     if (!isEqual(query, routerRef.current.query)) {
-      routerRef.current.replace({ query }, undefined, { scroll: false });
+      routerRef.current.replace(query);
     }
   }, [search, filters]);
 

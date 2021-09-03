@@ -80,7 +80,7 @@ function ContactSection({ hostFamily }: HostFamilyProps) {
 
         <li>
           <LinkItem
-            shouldOpenInNewTab
+            shouldOpenInNewTarget
             href={`http://maps.google.com/?q=${getHostFamilyFullAddress(
               hostFamily
             )}`}

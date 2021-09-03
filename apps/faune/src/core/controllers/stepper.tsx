@@ -1,5 +1,5 @@
 import cn from "classnames";
-import { Link, LinkProps } from "core/link";
+import { BaseLink, BaseLinkProps } from "core/baseLink";
 import { ChildrenProp, StyleProps } from "core/types";
 import { FaCheckCircle, FaCircle, FaDotCircle } from "react-icons/fa";
 
@@ -49,7 +49,7 @@ const StepLinkStatusIcon: { [key in StepStatus]: React.ElementType } = {
   [StepStatus.DONE]: FaCheckCircle,
 };
 
-type StepLinkProps = Omit<LinkProps, "disabled"> &
+type StepLinkProps = Omit<BaseLinkProps, "disabled"> &
   StyleProps & {
     status: StepStatus;
   };
@@ -64,7 +64,7 @@ export function StepLink({
   const disabled = status === StepStatus.PENDING;
 
   return (
-    <Link
+    <BaseLink
       {...rest}
       disabled={disabled}
       className={cn(
@@ -78,6 +78,6 @@ export function StepLink({
       />
 
       <span className="StepLink__label">{children}</span>
-    </Link>
+    </BaseLink>
   );
 }
