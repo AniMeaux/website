@@ -4,6 +4,7 @@ import {
   UserGroup,
   UserGroupLabels,
 } from "@animeaux/shared-entities";
+import { useCurrentUser } from "account/currentUser";
 import { QuickActions } from "core/actions/quickAction";
 import {
   ButtonItem,
@@ -33,7 +34,6 @@ import {
   FaPen,
   FaTrash,
 } from "react-icons/fa";
-import { useCurrentUser } from "user/currentUserContext";
 import { UserGroupIcon } from "user/userGroupIcon";
 import {
   useDeleteUser,

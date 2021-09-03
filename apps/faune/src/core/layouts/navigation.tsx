@@ -3,6 +3,8 @@ import {
   User,
   UserGroup,
 } from "@animeaux/shared-entities";
+import { useCurrentUser } from "account/currentUser";
+import { CurrentUserMenu } from "account/currentUserMenu";
 import cn from "classnames";
 import { UserAvatar } from "core/dataDisplay/avatar";
 import {
@@ -36,8 +38,6 @@ import {
   FaPaw,
   FaUser,
 } from "react-icons/fa";
-import { useCurrentUser } from "user/currentUserContext";
-import { CurrentUserProfile } from "user/currentUserProfile";
 
 type NavigationMenuProps = {
   navigationItems: NavigationItem[];
@@ -227,8 +227,7 @@ export function Navigation({ onlyLargeEnough = false }: NavigationProps) {
 
 function NavigationUserItem() {
   const { currentUser } = useCurrentUser();
-  const [isCurrentUserProfileVisible, setIsCurrentUserProfileVisible] =
-    useState(false);
+  const [isMenuVisible, setIsMenuVisible] = useState(false);
   const currentUserButton = useRef<HTMLButtonElement>(null!);
 
   return (
@@ -237,7 +236,7 @@ function NavigationUserItem() {
         <NavItem>
           <ButtonItem
             ref={currentUserButton}
-            onClick={() => setIsCurrentUserProfileVisible(true)}
+            onClick={() => setIsMenuVisible(true)}
             className="NavigationUser"
           >
             <ItemIcon>
@@ -252,9 +251,9 @@ function NavigationUserItem() {
         </NavItem>
       </NavigationItemList>
 
-      <CurrentUserProfile
-        open={isCurrentUserProfileVisible}
-        onDismiss={() => setIsCurrentUserProfileVisible(false)}
+      <CurrentUserMenu
+        open={isMenuVisible}
+        onDismiss={() => setIsMenuVisible(false)}
         referenceElement={currentUserButton}
         placement="top-start"
       />

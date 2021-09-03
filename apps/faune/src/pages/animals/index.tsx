@@ -4,6 +4,7 @@ import {
   SearchableAnimal,
   UserGroup,
 } from "@animeaux/shared-entities";
+import { useCurrentUser } from "account/currentUser";
 import { useAllActiveAnimals } from "animal/queries";
 import { QuickLinkAction } from "core/actions/quickAction";
 import { Avatar } from "core/dataDisplay/avatar";
@@ -34,7 +35,6 @@ import { renderInfiniteItemList } from "core/request";
 import { ScreenSize, useScreenSize } from "core/screenSize";
 import { PageComponent } from "core/types";
 import { FaPlus, FaSearch } from "react-icons/fa";
-import { useCurrentUser } from "user/currentUserContext";
 
 const searchableAnimalItemPlaceholder = (
   <Item>

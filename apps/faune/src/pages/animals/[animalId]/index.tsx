@@ -18,6 +18,7 @@ import {
   TrileanLabels,
   UserGroup,
 } from "@animeaux/shared-entities";
+import { useCurrentUser } from "account/currentUser";
 import { AnimalGenderIcon } from "animal/animalGenderIcon";
 import { AnimalSpeciesIcon } from "animal/animalSpeciesIcon";
 import { useAnimal, useDeleteAnimal } from "animal/queries";
@@ -73,7 +74,6 @@ import {
   FaShareAlt,
   FaTrash,
 } from "react-icons/fa";
-import { useCurrentUser } from "user/currentUserContext";
 
 type AnimalProps = {
   animal: Animal;

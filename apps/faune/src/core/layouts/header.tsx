@@ -1,3 +1,5 @@
+import { useCurrentUser } from "account/currentUser";
+import { CurrentUserMenu } from "account/currentUserMenu";
 import cn from "classnames";
 import { UserAvatar } from "core/dataDisplay/avatar";
 import { useIsScrollAtTheTop } from "core/layouts/usePageScroll";
@@ -6,8 +8,6 @@ import { ScreenSize, useScreenSize } from "core/screenSize";
 import { ChildrenProp, StyleProps } from "core/types";
 import { useRef, useState } from "react";
 import { FaChevronLeft } from "react-icons/fa";
-import { useCurrentUser } from "user/currentUserContext";
-import { CurrentUserProfile } from "user/currentUserProfile";
 
 export function HeaderLink({ className, ...rest }: LinkProps) {
   return <Link {...rest} className={cn("HeaderLink", className)} />;
@@ -46,8 +46,7 @@ export function Header({ className, children }: HeaderProps) {
 export function HeaderUserAvatar() {
   const { screenSize } = useScreenSize();
   const { currentUser } = useCurrentUser();
-  const [isCurrentUserProfileVisible, setIsCurrentUserProfileVisible] =
-    useState(false);
+  const [isMenuVisible, setIsMenuVisible] = useState(false);
   const currentUserButton = useRef<HTMLButtonElement>(null!);
 
   if (screenSize > ScreenSize.SMALL) {
@@ -58,15 +57,15 @@ export function HeaderUserAvatar() {
     <>
       <button
         ref={currentUserButton}
-        onClick={() => setIsCurrentUserProfileVisible(true)}
+        onClick={() => setIsMenuVisible(true)}
         className="HeaderUserAvatar__button"
       >
         <UserAvatar user={currentUser} />
       </button>
 
-      <CurrentUserProfile
-        open={isCurrentUserProfileVisible}
-        onDismiss={() => setIsCurrentUserProfileVisible(false)}
+      <CurrentUserMenu
+        open={isMenuVisible}
+        onDismiss={() => setIsMenuVisible(false)}
         referenceElement={currentUserButton}
       />
     </>

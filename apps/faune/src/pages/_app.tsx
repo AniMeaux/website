@@ -2,6 +2,7 @@ import "react-app-polyfill/stable";
 import "focus-visible";
 import "styles/index.css";
 
+import { CurrentUserContextProvider } from "account/currentUser";
 import {
   ErrorActionRefresh,
   ErrorMessage,
@@ -13,7 +14,6 @@ import { ScreenSizeContextProvider } from "core/screenSize";
 import { Sentry } from "core/sentry";
 import { PageComponent } from "core/types";
 import { AppProps } from "next/app";
-import { CurrentUserContextProvider } from "user/currentUserContext";
 
 type ApplicationProps = Omit<AppProps, "Component"> & {
   Component: PageComponent;
