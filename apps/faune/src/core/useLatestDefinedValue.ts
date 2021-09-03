@@ -1,9 +1,9 @@
-import * as React from "react";
+import { useRef } from "react";
 
 export function useLatestDefinedValue<ValueType>(
   value?: ValueType | null
 ): ValueType | null {
-  const latestDefinedValue = React.useRef<ValueType | null>(null);
+  const latestDefinedValue = useRef<ValueType | null>(null);
 
   if (value != null) {
     latestDefinedValue.current = value;

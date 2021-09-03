@@ -7,7 +7,6 @@ import {
 } from "core/dataDisplay/errorMessage";
 import { Placeholder, Placeholders } from "core/loaders/placeholder";
 import { ChildrenProp } from "core/types";
-import * as React from "react";
 import { UseInfiniteQueryResult, UseQueryResult } from "./request";
 
 type RetryButtonProps = ChildrenProp & {

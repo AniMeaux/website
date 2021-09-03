@@ -4,7 +4,7 @@ import { useIsScrollAtTheTop } from "core/layouts/usePageScroll";
 import { Link, LinkProps } from "core/link";
 import { ScreenSize, useScreenSize } from "core/screenSize";
 import { ChildrenProp, StyleProps } from "core/types";
-import * as React from "react";
+import { useRef, useState } from "react";
 import { FaChevronLeft } from "react-icons/fa";
 import { useCurrentUser } from "user/currentUserContext";
 import { CurrentUserProfile } from "user/currentUserProfile";
@@ -47,8 +47,8 @@ export function HeaderUserAvatar() {
   const { screenSize } = useScreenSize();
   const { currentUser } = useCurrentUser();
   const [isCurrentUserProfileVisible, setIsCurrentUserProfileVisible] =
-    React.useState(false);
-  const currentUserButton = React.useRef<HTMLButtonElement>(null!);
+    useState(false);
+  const currentUserButton = useRef<HTMLButtonElement>(null!);
 
   if (screenSize > ScreenSize.SMALL) {
     return null;

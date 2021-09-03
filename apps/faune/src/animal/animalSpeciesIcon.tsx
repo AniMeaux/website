@@ -4,7 +4,6 @@ import { CatIcon } from "core/icons/catIcon";
 import { DogIcon } from "core/icons/dogIcon";
 import { ReptileIcon } from "core/icons/reptileIcon";
 import { RodentIcon } from "core/icons/rodentIcon";
-import * as React from "react";
 import { IconBaseProps } from "react-icons";
 
 type AnimalSpeciesIconProps = IconBaseProps & {

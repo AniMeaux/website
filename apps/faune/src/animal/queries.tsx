@@ -44,7 +44,6 @@ import {
 import { gql } from "graphql-request";
 import { HostFamilyFragment } from "hostFamily/hostFamilyQueries";
 import difference from "lodash.difference";
-import * as React from "react";
 
 const SearchableAnimalFragment = gql`
   fragment SearchableAnimalFragment on SearchableAnimal {

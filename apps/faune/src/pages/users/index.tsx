@@ -17,7 +17,6 @@ import { usePageScrollRestoration } from "core/layouts/usePageScroll";
 import { PageTitle } from "core/pageTitle";
 import { renderItemList } from "core/request";
 import { PageComponent } from "core/types";
-import * as React from "react";
 import { FaPlus } from "react-icons/fa";
 import { UserItemPlaceholder } from "user/userItem";
 import { useAllUsers } from "user/userQueries";

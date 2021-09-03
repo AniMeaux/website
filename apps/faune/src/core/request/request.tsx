@@ -9,7 +9,14 @@ import { ProgressBar } from "core/loaders/progressBar";
 import { showSnackbar, Snackbar } from "core/popovers/snackbar";
 import { Sentry } from "core/sentry";
 import invariant from "invariant";
-import * as React from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import {
   InfiniteData,
   MutationFunction,
@@ -56,10 +63,10 @@ type RequestContextValue = {
   setPendingMutationCount: React.Dispatch<React.SetStateAction<number>>;
 };
 
-const RequestContext = React.createContext<RequestContextValue | null>(null);
+const RequestContext = createContext<RequestContextValue | null>(null);
 
 function useRequest() {
-  const context = React.useContext(RequestContext);
+  const context = useContext(RequestContext);
   invariant(
     context != null,
     "useRequest should not be used outside of a RequestContextProvider."
@@ -86,14 +93,14 @@ function RequestProgressBar() {
 export function RequestContextProvider({
   children,
 }: React.PropsWithChildren<{}>) {
-  const [pendingMutationCount, setPendingMutationCount] = React.useState(0);
+  const [pendingMutationCount, setPendingMutationCount] = useState(0);
 
-  const value = React.useMemo<RequestContextValue>(
+  const value = useMemo<RequestContextValue>(
     () => ({ pendingMutationCount, setPendingMutationCount }),
     [pendingMutationCount]
   );
 
-  const showDevTools = React.useRef(
+  const showDevTools = useRef(
     typeof window !== "undefined" &&
       process.env.NODE_ENV === "development" &&
       new URLSearchParams(window.location.search).has("show-cache")
@@ -121,7 +128,7 @@ export function useQuery<
   queryFn: QueryFunction<TQueryFnData>,
   options: UseQueryOptions<TQueryFnData, TError, TData> = {}
 ): UseQueryResult<TData, TError> {
-  const snackbarId = React.useRef<React.ReactText | null>(null);
+  const snackbarId = useRef<React.ReactText | null>(null);
 
   return useQueryReactQuery(
     queryKey,
@@ -154,7 +161,7 @@ export function useInfiniteQuery<
   queryFn: QueryFunction<TQueryFnData>,
   options: UseInfiniteQueryOptions<TQueryFnData, TError, TData> = {}
 ): UseInfiniteQueryResult<TData, TError> {
-  const snackbarId = React.useRef<React.ReactText | null>(null);
+  const snackbarId = useRef<React.ReactText | null>(null);
 
   const query = useInfiniteQueryReactQuery<TQueryFnData, TError, TData>(
     queryKey,
@@ -212,7 +219,7 @@ export function useMutation<
     ...options
   }: UseMutationOptions<TData, TError, TVariables> & CustomHookOptions = {}
 ) {
-  const snackbarId = React.useRef<React.ReactText | null>(null);
+  const snackbarId = useRef<React.ReactText | null>(null);
 
   const { setPendingMutationCount } = useRequest();
   const mutation = useMutationReactQuery<TData, TError, TVariables>(
@@ -248,7 +255,7 @@ export function useMutation<
 
   const { isLoading } = mutation;
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (isLoading) {
       setPendingMutationCount((c) => c + 1);
       return () => setPendingMutationCount((c) => c - 1);

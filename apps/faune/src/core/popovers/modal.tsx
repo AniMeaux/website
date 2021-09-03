@@ -9,7 +9,15 @@ import { useLatestDefinedValue } from "core/useLatestDefinedValue";
 import { useScrollLock } from "core/useScrollLock";
 import invariant from "invariant";
 import type { Modifiers, Placement } from "popper.js";
-import * as React from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { usePopper } from "react-behave";
 import * as ReactDOM from "react-dom";
 
@@ -17,10 +25,10 @@ type ModalContextType = {
   onDismiss: () => void;
 };
 
-const ModalContext = React.createContext<ModalContextType | null>(null);
+const ModalContext = createContext<ModalContextType | null>(null);
 
 export function useModal(): ModalContextType {
-  const context = React.useContext(ModalContext);
+  const context = useContext(ModalContext);
   invariant(context != null, "useModal should not be used outside of a Modal.");
   return context;
 }
@@ -95,18 +103,18 @@ export function Modal({
   dismissLabel,
   children,
 }: ModalProps) {
-  const moutingPoint = React.useMemo<HTMLElement>(
+  const moutingPoint = useMemo<HTMLElement>(
     () => document.createElement("div"),
     []
   );
-  const modalElement = React.useRef<HTMLDivElement | null>(null);
-  const elementToReturnFocus = React.useRef<HTMLElement | null>(null);
+  const modalElement = useRef<HTMLDivElement | null>(null);
+  const elementToReturnFocus = useRef<HTMLElement | null>(null);
 
-  const [visible, setVisible] = React.useState(false);
+  const [visible, setVisible] = useState(false);
   useScrollLock(modalElement, { disabled: !visible });
   useFocusTrap(modalElement, { disabled: !visible });
 
-  React.useLayoutEffect(() => {
+  useLayoutEffect(() => {
     if (open) {
       // The modal must be visible immediately.
       setVisible(true);
@@ -121,7 +129,7 @@ export function Modal({
     }
   }, [open, moutingPoint]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (visible) {
       return () => {
         if (elementToReturnFocus.current != null) {
@@ -139,12 +147,12 @@ export function Modal({
     open ? children : null
   );
 
-  const handleDismiss = React.useRef(onDismiss);
-  React.useLayoutEffect(() => {
+  const handleDismiss = useRef(onDismiss);
+  useLayoutEffect(() => {
     handleDismiss.current = onDismiss;
   });
 
-  const contextValue = React.useMemo<ModalContextType>(
+  const contextValue = useMemo<ModalContextType>(
     () => ({ onDismiss: () => handleDismiss.current() }),
     []
   );
@@ -154,7 +162,7 @@ export function Modal({
 
   const isPopperEnabled = visible && !isBottomSheet;
 
-  React.useEffect(() => {
+  useEffect(() => {
     // Make sure the modal has the same width as the reference.
     if (isPopperEnabled && matchReferenceWidth) {
       // `modalElement.current` cannot be null because `isPopperEnabled` is

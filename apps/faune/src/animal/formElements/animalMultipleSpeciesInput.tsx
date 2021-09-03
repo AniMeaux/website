@@ -12,7 +12,6 @@ import {
   SelectorLabel,
   Selectors,
 } from "core/formElements/selector";
-import * as React from "react";
 
 type AnimalMultipleSpeciesInputProps = {
   value?: AnimalSpecies[] | null;

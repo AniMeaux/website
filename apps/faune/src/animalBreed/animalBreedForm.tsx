@@ -13,7 +13,7 @@ import { Label } from "core/formElements/label";
 import { SelectorItem, Selectors } from "core/formElements/selector";
 import { SubmitButton } from "core/formElements/submitButton";
 import { Placeholder, Placeholders } from "core/loaders/placeholder";
-import * as React from "react";
+import { useEffect, useState } from "react";
 import { FaDna } from "react-icons/fa";
 
 export type AnimalBreedFormErrors = {
@@ -34,10 +34,10 @@ export function AnimalBreedForm({
   pending,
   ...rest
 }: AnimalBreedFormProps) {
-  const [name, setName] = React.useState(animalBreed?.name ?? "");
-  const [species, setSpecies] = React.useState(animalBreed?.species ?? null);
+  const [name, setName] = useState(animalBreed?.name ?? "");
+  const [species, setSpecies] = useState(animalBreed?.species ?? null);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (animalBreed != null) {
       setName(animalBreed.name);
       setSpecies(animalBreed.species);

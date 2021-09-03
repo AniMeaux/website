@@ -16,7 +16,6 @@ import { Navigation } from "core/layouts/navigation";
 import { PageTitle } from "core/pageTitle";
 import { useRouter } from "core/router";
 import { PageComponent } from "core/types";
-import * as React from "react";
 
 const CreateAnimalColorPage: PageComponent = () => {
   const router = useRouter();

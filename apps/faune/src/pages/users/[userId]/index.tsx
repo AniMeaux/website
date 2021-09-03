@@ -26,7 +26,6 @@ import { renderQueryEntity } from "core/request";
 import { useRouter } from "core/router";
 import { PageComponent } from "core/types";
 import { withConfirmation } from "core/withConfirmation";
-import * as React from "react";
 import {
   FaAngleRight,
   FaBan,

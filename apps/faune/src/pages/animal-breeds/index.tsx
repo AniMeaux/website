@@ -35,7 +35,7 @@ import { ScreenSize, useScreenSize } from "core/screenSize";
 import { PageComponent } from "core/types";
 import { withConfirmation } from "core/withConfirmation";
 import type { Placement } from "popper.js";
-import * as React from "react";
+import { useRef, useState } from "react";
 import {
   FaAngleRight,
   FaDna,
@@ -134,8 +134,8 @@ function AnimalBreedModalContent({ animalBreed }: AnimalBreedProps) {
 
 export function AnimalBreedItem({ animalBreed }: AnimalBreedProps) {
   const { screenSize } = useScreenSize();
-  const [isMenuVisible, setIsMenuVisible] = React.useState(false);
-  const referenceElement = React.useRef<HTMLButtonElement>(null!);
+  const [isMenuVisible, setIsMenuVisible] = useState(false);
+  const referenceElement = useRef<HTMLButtonElement>(null!);
 
   let item: React.ReactNode;
   let modalPlacement: Placement = "bottom";

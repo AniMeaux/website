@@ -1,11 +1,11 @@
-import * as React from "react";
+import { useEffect, useState } from "react";
 
 export function useIsTouchScreen() {
   // https://developer.mozilla.org/en-US/docs/Web/CSS/@media/hover
   const mediaQuery = window.matchMedia("(hover: none)");
-  const [isTouchScreen, setIsTouchScreen] = React.useState(mediaQuery.matches);
+  const [isTouchScreen, setIsTouchScreen] = useState(mediaQuery.matches);
 
-  React.useEffect(() => {
+  useEffect(() => {
     function handleChange() {
       setIsTouchScreen(mediaQuery.matches);
     }

@@ -37,7 +37,7 @@ import { useRouter } from "core/router";
 import { ScreenSize, useScreenSize } from "core/screenSize";
 import { PageComponent } from "core/types";
 import isEqual from "lodash.isequal";
-import * as React from "react";
+import { useEffect, useRef } from "react";
 
 export function SearchableAnimalItemPlaceholder() {
   const { screenSize } = useScreenSize();
@@ -86,8 +86,8 @@ const TITLE = "Animaux";
 
 const SearchAnimalPage: PageComponent = () => {
   const router = useRouter();
-  const routerRef = React.useRef(router);
-  React.useEffect(() => {
+  const routerRef = useRef(router);
+  useEffect(() => {
     routerRef.current = router;
   });
 
@@ -96,7 +96,7 @@ const SearchAnimalPage: PageComponent = () => {
   const { search, rawSearch, setRawSearch, filters, setFilters } =
     useSearchAndFilters(() => createAnimalSearchFromQuery(router.query));
 
-  React.useEffect(() => {
+  useEffect(() => {
     const query = createQueryFromAnimalSearch({ search, ...filters });
     if (!isEqual(query, routerRef.current.query)) {
       routerRef.current.replace({ query }, undefined, { scroll: false });
@@ -138,7 +138,7 @@ const SearchAnimalPage: PageComponent = () => {
     }
   }
 
-  const searchInputElement = React.useRef<HTMLInputElement>(null!);
+  const searchInputElement = useRef<HTMLInputElement>(null!);
   const { screenSize } = useScreenSize();
 
   return (

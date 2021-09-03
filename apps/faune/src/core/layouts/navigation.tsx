@@ -26,7 +26,7 @@ import { Modal, ModalHeader, ModalHeaderTitle } from "core/popovers/modal";
 import { useRouter } from "core/router";
 import { ScreenSize, useScreenSize } from "core/screenSize";
 import { ChildrenProp, StyleProps } from "core/types";
-import * as React from "react";
+import { forwardRef, useEffect, useRef, useState } from "react";
 import {
   FaAngleRight,
   FaDna,
@@ -44,8 +44,8 @@ type NavigationMenuProps = {
 };
 
 function NavigationMenu({ navigationItems }: NavigationMenuProps) {
-  const [isMenuVisible, setIsMenuVisible] = React.useState(false);
-  const buttonElement = React.useRef<HTMLButtonElement>(null!);
+  const [isMenuVisible, setIsMenuVisible] = useState(false);
+  const buttonElement = useRef<HTMLButtonElement>(null!);
 
   return (
     <>
@@ -228,8 +228,8 @@ export function Navigation({ onlyLargeEnough = false }: NavigationProps) {
 function NavigationUserItem() {
   const { currentUser } = useCurrentUser();
   const [isCurrentUserProfileVisible, setIsCurrentUserProfileVisible] =
-    React.useState(false);
-  const currentUserButton = React.useRef<HTMLButtonElement>(null!);
+    useState(false);
+  const currentUserButton = useRef<HTMLButtonElement>(null!);
 
   return (
     <>
@@ -267,7 +267,7 @@ function BaseNavigation({ className, children, ...rest }: BaseNavigationProps) {
   const { isAtTheBottom } = useIsScrollAtTheBottom();
   const { setState } = useApplicationLayout();
 
-  React.useEffect(() => {
+  useEffect(() => {
     setState((s) => ({ ...s, hasNavigation: true }));
     return () => setState((s) => ({ ...s, hasNavigation: false }));
   }, [setState]);
@@ -317,7 +317,7 @@ function NavLink({ strict = false, className, ...rest }: NavLinkProps) {
 }
 
 type NavButtonProps = ButtonItemProps;
-const NavButton = React.forwardRef<HTMLButtonElement, NavButtonProps>(
+const NavButton = forwardRef<HTMLButtonElement, NavButtonProps>(
   function NavButton({ className, ...rest }, ref) {
     return (
       <ButtonItem {...rest} ref={ref} className={cn("NavLink", className)} />

@@ -13,7 +13,6 @@ import { renderItemList } from "core/request";
 import { useRouter } from "core/router";
 import { ScreenSize, useScreenSize } from "core/screenSize";
 import { PageComponent } from "core/types";
-import * as React from "react";
 
 const CreatePickUpLocationPage: PageComponent = () => {
   const router = useRouter();

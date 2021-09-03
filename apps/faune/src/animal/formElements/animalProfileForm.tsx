@@ -24,7 +24,6 @@ import {
 } from "core/formElements/selector";
 import { SubmitButton } from "core/formElements/submitButton";
 import { Textarea } from "core/formElements/textarea";
-import * as React from "react";
 import { FaComment, FaDna, FaPalette, FaTimes } from "react-icons/fa";
 
 export type AnimalProfileFormErrors = {

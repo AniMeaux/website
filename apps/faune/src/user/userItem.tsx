@@ -9,7 +9,6 @@ import {
   ItemSecondaryText,
 } from "core/dataDisplay/item";
 import { Placeholder } from "core/loaders/placeholder";
-import * as React from "react";
 
 export function UserItemPlaceholder() {
   return (

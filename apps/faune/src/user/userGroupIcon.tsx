@@ -1,5 +1,4 @@
 import { UserGroup } from "@animeaux/shared-entities";
-import * as React from "react";
 import { IconBaseProps } from "react-icons";
 import {
   FaClinicMedical,

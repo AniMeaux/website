@@ -6,7 +6,7 @@ import {
 import { useAnimal } from "animal/queries";
 import constate from "constate";
 import { useRouter } from "core/router";
-import * as React from "react";
+import { useEffect, useState } from "react";
 
 function useAnimalFormPayload() {
   const router = useRouter();
@@ -14,11 +14,11 @@ function useAnimalFormPayload() {
   const query = useAnimal(animalId);
   const animal = query.data;
 
-  const [formPayload, setFormPayload] = React.useState<AnimalFormPayload>(() =>
+  const [formPayload, setFormPayload] = useState<AnimalFormPayload>(() =>
     createEmptyAnimalFormPayload()
   );
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (animal != null) {
       setFormPayload({
         officialName: animal.officialName,

@@ -1,7 +1,7 @@
 import cn from "classnames";
 import { Link, LinkProps } from "core/link";
 import { ChildrenProp, StyleProps } from "core/types";
-import * as React from "react";
+import { forwardRef } from "react";
 
 type ItemColor = "default" | "red" | "yellow";
 
@@ -37,7 +37,7 @@ export function Item({
 }
 
 export type LinkItemProps = LinkProps & ItemProps;
-export const LinkItem = React.forwardRef<HTMLAnchorElement, LinkItemProps>(
+export const LinkItem = forwardRef<HTMLAnchorElement, LinkItemProps>(
   function LinkItem(
     {
       disabled = false,
@@ -73,7 +73,7 @@ export type ButtonItemProps = ItemProps & {
   onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 };
 
-export const ButtonItem = React.forwardRef<HTMLButtonElement, ButtonItemProps>(
+export const ButtonItem = forwardRef<HTMLButtonElement, ButtonItemProps>(
   function ButtonItem(
     {
       highlight = false,

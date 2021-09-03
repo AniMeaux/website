@@ -1,12 +1,12 @@
 import { ActionAdornment } from "core/formElements/adornment";
 import { Input, InputProps } from "core/formElements/input";
-import * as React from "react";
+import { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 export function PasswordInput(
   props: Omit<InputProps, "type" | "rightAdornment">
 ) {
-  const [showPassword, setShowPassword] = React.useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   return (
     <Input

@@ -7,7 +7,6 @@ import { FieldMessage } from "core/formElements/fieldMessage";
 import { Form, FormProps } from "core/formElements/form";
 import { ImageInput } from "core/formElements/imageInput";
 import { SubmitButton } from "core/formElements/submitButton";
-import * as React from "react";
 import { FaPaw } from "react-icons/fa";
 
 export type AnimalPicturesFormErrors = {

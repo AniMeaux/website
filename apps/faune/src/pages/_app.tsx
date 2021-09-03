@@ -13,7 +13,6 @@ import { ScreenSizeContextProvider } from "core/screenSize";
 import { Sentry } from "core/sentry";
 import { PageComponent } from "core/types";
 import { AppProps } from "next/app";
-import * as React from "react";
 import { CurrentUserContextProvider } from "user/currentUserContext";
 
 type ApplicationProps = Omit<AppProps, "Component"> & {

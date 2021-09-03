@@ -16,7 +16,7 @@ import { useRouter } from "core/router";
 import { openStorage } from "core/storage";
 import { ChildrenProp } from "core/types";
 import invariant from "invariant";
-import * as React from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 
 export const AnimalFormDraftStorage = openStorage<AnimalFormPayload>(
   "animal-creation",
@@ -24,11 +24,11 @@ export const AnimalFormDraftStorage = openStorage<AnimalFormPayload>(
 );
 
 function useAnimalFormPayload() {
-  const [formPayload, setFormPayload] = React.useState<AnimalFormPayload>(() =>
+  const [formPayload, setFormPayload] = useState<AnimalFormPayload>(() =>
     createEmptyAnimalFormPayload()
   );
 
-  React.useEffect(() => {
+  useEffect(() => {
     const draft = AnimalFormDraftStorage.load();
 
     if (
@@ -40,7 +40,7 @@ function useAnimalFormPayload() {
     }
   }, []);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (isEmptyAnimalFormPayload(formPayload)) {
       AnimalFormDraftStorage.clear();
     } else {
@@ -107,13 +107,13 @@ const StepValidators: Record<string, (payload: AnimalFormPayload) => boolean> =
 
 function AnimalFormRouting({ children }: ChildrenProp) {
   const { formPayload } = useAnimalForm();
-  const [canRenderStep, setCanRenderStep] = React.useState(false);
+  const [canRenderStep, setCanRenderStep] = useState(false);
 
   const router = useRouter();
   // Only keep the last path segment.
   const stepName = router.pathname.replace(/.*\//, "");
 
-  React.useLayoutEffect(() => {
+  useLayoutEffect(() => {
     const canRenderStep = StepValidators[stepName];
     invariant(canRenderStep != null, `No step validator found for ${stepName}`);
 

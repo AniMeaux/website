@@ -14,7 +14,6 @@ import {
   HostFamilyLinkItem,
 } from "hostFamily/hostFamilyItems";
 import { useAllHostFamilies } from "hostFamily/hostFamilyQueries";
-import * as React from "react";
 import { FaPlus } from "react-icons/fa";
 
 const TITLE = "Familles d'accueil";

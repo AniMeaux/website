@@ -1,5 +1,5 @@
 import { createFocusTrap } from "focus-trap";
-import * as React from "react";
+import { useEffect } from "react";
 
 type UseFocusTrapOptions = {
   disabled?: boolean;
@@ -9,7 +9,7 @@ export function useFocusTrap(
   targetRef: React.RefObject<HTMLElement>,
   { disabled = false }: UseFocusTrapOptions
 ) {
-  React.useEffect(() => {
+  useEffect(() => {
     if (!disabled && targetRef.current != null) {
       const trap = createFocusTrap(targetRef.current, {
         fallbackFocus: targetRef.current,

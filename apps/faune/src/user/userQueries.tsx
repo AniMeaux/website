@@ -19,7 +19,6 @@ import {
   useQueryClient,
 } from "core/request";
 import { gql } from "graphql-request";
-import * as React from "react";
 
 export const UserFragment = gql`
   fragment UserFragment on User {

@@ -1,5 +1,4 @@
 import { Image } from "core/dataDisplay/image";
-import * as React from "react";
 
 type ImageSlideshowProps = {
   images: string[];

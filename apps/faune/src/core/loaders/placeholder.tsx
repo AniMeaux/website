@@ -1,5 +1,5 @@
 import cn from "classnames";
-import * as React from "react";
+import { cloneElement } from "react";
 
 export type PlaceholderPreset =
   | "avatar"
@@ -48,7 +48,7 @@ export function Placeholders({ count = 3, children }: PlaceholdersProps) {
   let placeholders: React.ReactElement[] = [];
 
   for (let index = 0; index < count; index++) {
-    placeholders.push(React.cloneElement(children, { key: index }));
+    placeholders.push(cloneElement(children, { key: index }));
   }
 
   return <>{placeholders}</>;

@@ -33,7 +33,6 @@ import { PageTitle } from "core/pageTitle";
 import { renderInfiniteItemList } from "core/request";
 import { ScreenSize, useScreenSize } from "core/screenSize";
 import { PageComponent } from "core/types";
-import * as React from "react";
 import { FaPlus, FaSearch } from "react-icons/fa";
 import { useCurrentUser } from "user/currentUserContext";
 

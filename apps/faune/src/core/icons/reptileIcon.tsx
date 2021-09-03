@@ -1,4 +1,3 @@
-import * as React from "react";
 import { IconBase, IconBaseProps } from "react-icons";
 
 export function ReptileIcon(props: IconBaseProps) {

@@ -12,7 +12,6 @@ import {
   SelectorRadio,
   Selectors,
 } from "core/formElements/selector";
-import * as React from "react";
 
 type AnimalSpeciesInputProps = {
   value?: AnimalSpecies | null;

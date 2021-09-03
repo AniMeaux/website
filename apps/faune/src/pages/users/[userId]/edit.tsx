@@ -12,7 +12,6 @@ import { PageTitle } from "core/pageTitle";
 import { renderQueryEntity } from "core/request";
 import { useRouter } from "core/router";
 import { PageComponent } from "core/types";
-import * as React from "react";
 import { UserForm, UserFormErrors, UserFormPlaceholder } from "user/userForm";
 import { useUpdateUser, useUser } from "user/userQueries";
 

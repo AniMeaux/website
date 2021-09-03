@@ -1,7 +1,7 @@
 import cn from "classnames";
 import { Link, LinkProps } from "core/link";
 import { ChildrenProp, StyleProps } from "core/types";
-import * as React from "react";
+import { forwardRef } from "react";
 
 type ButtonVariant = "primary" | "secondary" | "outlined";
 
@@ -36,7 +36,7 @@ export type ButtonProps = ChildrenProp &
     onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
   };
 
-export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   function Button(
     {
       variant = "outlined",
@@ -70,7 +70,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
 export type ButtonLinkProps = LinkProps & ButtonCommonProps;
 
-export const ButtonLink = React.forwardRef<HTMLAnchorElement, ButtonLinkProps>(
+export const ButtonLink = forwardRef<HTMLAnchorElement, ButtonLinkProps>(
   function ButtonLink(
     {
       variant = "outlined",

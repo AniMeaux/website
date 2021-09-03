@@ -17,7 +17,6 @@ import {
 } from "core/dataDisplay/item";
 import { MarkdownInline } from "core/dataDisplay/markdown";
 import { Placeholder } from "core/loaders/placeholder";
-import * as React from "react";
 import { FaMapMarkerAlt } from "react-icons/fa";
 
 export function SearchableAnimalItemPlaceholder() {

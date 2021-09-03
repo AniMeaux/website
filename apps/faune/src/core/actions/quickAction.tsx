@@ -2,7 +2,7 @@ import cn from "classnames";
 import { Link, LinkProps } from "core/link";
 import { Modal } from "core/popovers/modal";
 import { ChildrenProp, StyleProps } from "core/types";
-import * as React from "react";
+import { useRef, useState } from "react";
 
 export function QuickLinkAction({ className, ...rest }: LinkProps) {
   return <Link {...rest} className={cn("QuickAction", className)} />;
@@ -21,8 +21,8 @@ export function QuickActions({
   onClick,
   ...rest
 }: QuickActionsProps) {
-  const [isOpened, setIsOpened] = React.useState(false);
-  const buttonElement = React.useRef<HTMLButtonElement>(null!);
+  const [isOpened, setIsOpened] = useState(false);
+  const buttonElement = useRef<HTMLButtonElement>(null!);
 
   return (
     <>

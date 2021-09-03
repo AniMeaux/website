@@ -1,9 +1,16 @@
 import { useRouter } from "core/router";
-import * as React from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 import { watchResize } from "react-behave";
 
 const PageScrollContext =
-  React.createContext<React.MutableRefObject<HTMLElement> | null>(null);
+  createContext<React.MutableRefObject<HTMLElement> | null>(null);
 
 export function PageScrollProvider({
   containerRef,
@@ -17,7 +24,7 @@ export function PageScrollProvider({
 }
 
 export function usePageScrollContainer() {
-  return React.useContext(PageScrollContext);
+  return useContext(PageScrollContext);
 }
 
 function getScrollState(
@@ -42,7 +49,7 @@ export function usePageScrollRestoration({
   // Both effects must be layout effects to make sure to register/unregister as
   // soon as possible to avoid glitchs.
 
-  React.useLayoutEffect(() => {
+  useLayoutEffect(() => {
     if (!disabled) {
       const scrollY = pageScrollScrollY[pathname];
       if (scrollY != null) {
@@ -51,7 +58,7 @@ export function usePageScrollRestoration({
     }
   }, [disabled, pathname]);
 
-  React.useLayoutEffect(() => {
+  useLayoutEffect(() => {
     function handleScroll() {
       pageScrollScrollY[pathname] = window.scrollY;
     }
@@ -68,13 +75,13 @@ export function usePageScrollRestoration({
 
 function usePageScroll(cb: () => void) {
   const scrollContainerRef = usePageScrollContainer();
-  const cbRef = React.useRef(cb);
+  const cbRef = useRef(cb);
 
-  React.useEffect(() => {
+  useEffect(() => {
     cbRef.current = cb;
   });
 
-  React.useEffect(() => {
+  useEffect(() => {
     function handleScroll() {
       cbRef.current();
     }
@@ -96,7 +103,7 @@ function usePageScroll(cb: () => void) {
 
 export function useIsScrollAtTheBottom() {
   const scrollContainerRef = usePageScrollContainer();
-  const [isAtTheBottom, setIsAtTheBottom] = React.useState(true);
+  const [isAtTheBottom, setIsAtTheBottom] = useState(true);
 
   usePageScroll(() => {
     const { scrollTop, clientHeight, scrollHeight } =
@@ -110,7 +117,7 @@ export function useIsScrollAtTheBottom() {
 
 export function useIsScrollAtTheTop() {
   const scrollContainerRef = usePageScrollContainer();
-  const [isAtTheTop, setIsAtTheTop] = React.useState(true);
+  const [isAtTheTop, setIsAtTheTop] = useState(true);
 
   usePageScroll(() => {
     const { scrollTop } = getScrollState(scrollContainerRef);
@@ -126,7 +133,7 @@ const FETCH_ZONE_HEIGHT = 150;
 
 export function useIsScrollAtFetchMore(cb: () => void) {
   const scrollContainerRef = usePageScrollContainer();
-  const wasAtFetchMore = React.useRef(false);
+  const wasAtFetchMore = useRef(false);
 
   usePageScroll(() => {
     const { scrollTop, clientHeight, scrollHeight } =

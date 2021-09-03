@@ -22,7 +22,6 @@ import { PageTitle } from "core/pageTitle";
 import { renderQueryEntity } from "core/request";
 import { useRouter } from "core/router";
 import { PageComponent } from "core/types";
-import * as React from "react";
 
 type AnimalEditProfileFormProps = Omit<
   AnimalProfileFormProps<AnimalProfileFormPayload>,

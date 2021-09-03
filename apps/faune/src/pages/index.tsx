@@ -1,7 +1,7 @@
 import { User, UserGroup } from "@animeaux/shared-entities";
 import { useRouter } from "core/router";
 import { PageComponent } from "core/types";
-import * as React from "react";
+import { useLayoutEffect } from "react";
 import { useCurrentUser } from "user/currentUserContext";
 
 function getUserMainGroup(user: User): UserGroup {
@@ -37,7 +37,7 @@ const IndexPage: PageComponent = () => {
   const { currentUser } = useCurrentUser();
   const path = UserGroupLandingPage[getUserMainGroup(currentUser)];
 
-  React.useLayoutEffect(() => {
+  useLayoutEffect(() => {
     router.replace(path);
   }, [router, path]);
 

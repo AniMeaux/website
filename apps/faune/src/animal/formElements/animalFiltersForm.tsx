@@ -5,7 +5,6 @@ import { callSetStateAction } from "core/callSetStateAction";
 import { Field } from "core/formElements/field";
 import { Form } from "core/formElements/form";
 import { Label } from "core/formElements/label";
-import * as React from "react";
 
 export type AnimalFiltersFormProps = {
   value: AnimalFilters;

@@ -1,14 +1,14 @@
-import * as React from "react";
+import { useEffect, useRef, useState } from "react";
 
 export function useLongTouch(onLongTouch: () => void) {
-  const onLongTouchRef = React.useRef(onLongTouch);
-  React.useEffect(() => {
+  const onLongTouchRef = useRef(onLongTouch);
+  useEffect(() => {
     onLongTouchRef.current = onLongTouch;
   });
 
-  const [isDown, setIsDown] = React.useState(false);
+  const [isDown, setIsDown] = useState(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (isDown) {
       const timeoutId = setTimeout(() => onLongTouchRef.current(), 1000);
       return () => clearTimeout(timeoutId);

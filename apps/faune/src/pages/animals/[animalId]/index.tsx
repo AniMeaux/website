@@ -52,7 +52,7 @@ import { renderQueryEntity } from "core/request";
 import { useRouter } from "core/router";
 import { PageComponent } from "core/types";
 import { withConfirmation } from "core/withConfirmation";
-import * as React from "react";
+import { useRef, useState } from "react";
 import {
   FaAdjust,
   FaAngleRight,
@@ -85,8 +85,8 @@ function PicturesSection({ animal }: AnimalProps) {
 }
 
 function HighlightsSection({ animal }: AnimalProps) {
-  const [isSharingOpen, setIsSharingOpen] = React.useState(false);
-  const buttonElement = React.useRef<HTMLButtonElement>(null!);
+  const [isSharingOpen, setIsSharingOpen] = useState(false);
+  const buttonElement = useRef<HTMLButtonElement>(null!);
 
   return (
     <header
@@ -374,8 +374,8 @@ function OtherAnimalsSituations({ animal }: AnimalProps) {
 
 function SituationSection({ animal }: AnimalProps) {
   const [areHostFamilyDetailsVisible, setAreHostFamilyDetailsVisible] =
-    React.useState(false);
-  const referenceElement = React.useRef<HTMLButtonElement>(null!);
+    useState(false);
+  const referenceElement = useRef<HTMLButtonElement>(null!);
 
   return (
     <Section>

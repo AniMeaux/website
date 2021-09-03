@@ -8,7 +8,6 @@ import {
 } from "core/formElements/inputWrapper";
 import { Link, LinkProps } from "core/link";
 import { StyleProps } from "core/types";
-import * as React from "react";
 import { FaCaretDown } from "react-icons/fa";
 
 export type LinkInputProps = InputWrapperProps &

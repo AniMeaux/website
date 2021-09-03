@@ -2,7 +2,7 @@ import cn from "classnames";
 import { RawCheckbox, RawCheckboxProps } from "core/formElements/checkbox";
 import { RawRadio, RawRadioProps } from "core/formElements/radio";
 import { ChildrenProp, StyleProps } from "core/types";
-import * as React from "react";
+import { Children, isValidElement } from "react";
 
 export type SelectorsProps = ChildrenProp &
   StyleProps & {
@@ -33,8 +33,8 @@ export function SelectorItem({ className, ...rest }: SelectorItemProps) {
 
 export type SelectorProps = ChildrenProp & StyleProps;
 export function Selector({ className, children, ...rest }: SelectorProps) {
-  const checked = React.Children.toArray(children).some(
-    (child) => React.isValidElement(child) && child.props.checked
+  const checked = Children.toArray(children).some(
+    (child) => isValidElement(child) && child.props.checked
   );
 
   return (

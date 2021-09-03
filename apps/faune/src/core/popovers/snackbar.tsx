@@ -7,7 +7,6 @@ import {
 import { ScreenSize, useScreenSize } from "core/screenSize";
 import { ChildrenProp } from "core/types";
 import invariant from "invariant";
-import * as React from "react";
 import { FaCheckCircle, FaTimesCircle } from "react-icons/fa";
 import {
   Slide,

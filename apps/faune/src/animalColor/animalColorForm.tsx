@@ -7,7 +7,7 @@ import { Input } from "core/formElements/input";
 import { Label } from "core/formElements/label";
 import { SubmitButton } from "core/formElements/submitButton";
 import { Placeholder } from "core/loaders/placeholder";
-import * as React from "react";
+import { useEffect, useState } from "react";
 import { FaPalette } from "react-icons/fa";
 
 export type AnimalColorFormErrors = {
@@ -27,9 +27,9 @@ export function AnimalColorForm({
   pending,
   ...rest
 }: AnimalColorFormProps) {
-  const [name, setName] = React.useState(animalColor?.name ?? "");
+  const [name, setName] = useState(animalColor?.name ?? "");
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (animalColor != null) {
       setName(animalColor.name);
     }

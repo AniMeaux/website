@@ -1,7 +1,14 @@
 import { useIsTouchScreen } from "core/touchScreen";
 import { ChildrenProp } from "core/types";
 import invariant from "invariant";
-import * as React from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import {
   DndProvider,
   DragLayerMonitor,
@@ -34,11 +41,10 @@ export type DragAndDropContextValue = ProviderState & {
   direction: DragAndDropDirection;
 };
 
-const DragAndDropContext =
-  React.createContext<DragAndDropContextValue | null>(null);
+const DragAndDropContext = createContext<DragAndDropContextValue | null>(null);
 
 export function useDragAndDropContext(functionCallerName: string) {
-  const context = React.useContext(DragAndDropContext);
+  const context = useContext(DragAndDropContext);
 
   invariant(
     context != null,
@@ -68,9 +74,9 @@ export function DragAndDropContextProvider({
   direction = DragAndDropDirection.HORIZONTAL,
   children,
 }: DragAndDropContextProviderProps) {
-  const [state, dispatch] = React.useState(INITIAL_STATE);
+  const [state, dispatch] = useState(INITIAL_STATE);
 
-  const startDrag = React.useCallback<DragAndDropContextValue["startDrag"]>(
+  const startDrag = useCallback<DragAndDropContextValue["startDrag"]>(
     (draggedIndex, draggedElementInitialRect) => {
       // If we don't dispatch on next tick the drag ends immediately.
       // Maybe due to fast DOM change during the native event?
@@ -85,11 +91,11 @@ export function DragAndDropContextProvider({
     []
   );
 
-  const endDrag = React.useCallback<DragAndDropContextValue["endDrag"]>(() => {
+  const endDrag = useCallback<DragAndDropContextValue["endDrag"]>(() => {
     dispatch(INITIAL_STATE);
   }, []);
 
-  const hoverItem = React.useCallback<DragAndDropContextValue["hoverItem"]>(
+  const hoverItem = useCallback<DragAndDropContextValue["hoverItem"]>(
     (pendingDropIndex) => {
       dispatch((state) => {
         if (state.pendingDropIndex === pendingDropIndex) {
@@ -103,7 +109,7 @@ export function DragAndDropContextProvider({
     []
   );
 
-  const value = React.useMemo<DragAndDropContextValue>(
+  const value = useMemo<DragAndDropContextValue>(
     () => ({
       ...state,
       startDrag,
@@ -188,11 +194,11 @@ export function useDropContainer<DataType>({
     },
   });
 
-  // The `drop` function support passing React.RefObject.
+  // The `drop` function support passing RefObject.
   // https://github.com/react-dnd/react-dnd/blob/master/packages/core/react-dnd/src/common/TargetConnector.ts#L13
   drop(containerRef);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!isOver) {
       hoverItem(null);
     }
@@ -282,7 +288,7 @@ export function useDragItem<DataType>({
     },
   });
 
-  // The `drop` and `drag` functions support passing React.RefObject.
+  // The `drop` and `drag` functions support passing RefObject.
   // https://github.com/react-dnd/react-dnd/blob/main/packages/react-dnd/src/common/TargetConnector.ts#L13
   // https://github.com/react-dnd/react-dnd/blob/main/packages/react-dnd/src/common/SourceConnector.ts#L23
   drag(handleRef ?? itemRef);

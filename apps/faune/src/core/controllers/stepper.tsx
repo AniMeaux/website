@@ -1,7 +1,6 @@
 import cn from "classnames";
 import { Link, LinkProps } from "core/link";
 import { ChildrenProp, StyleProps } from "core/types";
-import * as React from "react";
 import { FaCheckCircle, FaCircle, FaDotCircle } from "react-icons/fa";
 
 export type StepperProps = StyleProps & ChildrenProp;

@@ -1,5 +1,5 @@
 import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
-import * as React from "react";
+import { useEffect } from "react";
 
 type UseScrollLockOptions = {
   disabled?: boolean;
@@ -9,7 +9,7 @@ export function useScrollLock(
   targetRef: React.RefObject<HTMLElement | null>,
   { disabled = false }: UseScrollLockOptions
 ) {
-  React.useEffect(() => {
+  useEffect(() => {
     if (!disabled && targetRef.current != null) {
       const target = targetRef.current;
       disableBodyScroll(target, {

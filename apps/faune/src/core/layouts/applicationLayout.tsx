@@ -1,7 +1,7 @@
 import cn from "classnames";
 import { ChildrenProp, StyleProps } from "core/types";
 import invariant from "invariant";
-import * as React from "react";
+import { createContext, useContext, useMemo, useState } from "react";
 
 type ApplicationLayoutState = {
   hasNavigation: boolean;
@@ -12,10 +12,10 @@ export type ApplicationLayoutContextValue = ApplicationLayoutState & {
 };
 
 const ApplicationLayoutContext =
-  React.createContext<ApplicationLayoutContextValue | null>(null);
+  createContext<ApplicationLayoutContextValue | null>(null);
 
 export function useApplicationLayout() {
-  const context = React.useContext(ApplicationLayoutContext);
+  const context = useContext(ApplicationLayoutContext);
 
   invariant(
     context != null,
@@ -29,11 +29,11 @@ export function ApplicationLayout({
   className,
   ...rest
 }: ChildrenProp & StyleProps) {
-  const [state, setState] = React.useState<ApplicationLayoutState>({
+  const [state, setState] = useState<ApplicationLayoutState>({
     hasNavigation: false,
   });
 
-  const value = React.useMemo<ApplicationLayoutContextValue>(
+  const value = useMemo<ApplicationLayoutContextValue>(
     () => ({ ...state, setState }),
     [state]
   );

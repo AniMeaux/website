@@ -2,13 +2,13 @@ import { SearchFilter } from "@animeaux/shared-entities";
 import { ensureArray } from "core/ensureArray";
 import { ActionAdornment, Adornment } from "core/formElements/adornment";
 import { Input, InputProps } from "core/formElements/input";
-import * as React from "react";
+import { forwardRef, useEffect, useMemo, useRef, useState } from "react";
 import { FaSearch, FaTimes } from "react-icons/fa";
 
 function useDebouncedValue<ValueType>(value: ValueType) {
-  const [debouncedValue, setDebouncedValue] = React.useState(value);
+  const [debouncedValue, setDebouncedValue] = useState(value);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const timeout = setTimeout(() => setDebouncedValue(value), 250);
     return () => clearTimeout(timeout);
   }, [value]);
@@ -34,7 +34,7 @@ function generateInitialState<DataType>(
 export function useSearch(
   initialSearch: InitialStateFactory<string | null | undefined>
 ) {
-  const [rawSearch, setRawSearch] = React.useState(
+  const [rawSearch, setRawSearch] = useState(
     () => generateInitialState(initialSearch) ?? ""
   );
 
@@ -45,8 +45,8 @@ export function useSearch(
 export function useSearchAndFilters<FilterType>(
   initialSearchFilters: InitialStateFactory<SearchFilter & FilterType>
 ) {
-  const initialSearchFiltersRef = React.useRef(initialSearchFilters);
-  const initialValues = React.useMemo(
+  const initialSearchFiltersRef = useRef(initialSearchFilters);
+  const initialValues = useMemo(
     () => generateInitialState(initialSearchFiltersRef.current),
     []
   );
@@ -55,7 +55,7 @@ export function useSearchAndFilters<FilterType>(
 
   const search = useSearch(initialSearch);
 
-  const [filters, setFilters] = React.useState(
+  const [filters, setFilters] = useState(
     // `FilterType` cannot contain a `search` property.
     initialFilters as FilterType
   );
@@ -68,7 +68,7 @@ export type SearchInputProps = Omit<
   "leftAdornment" | "type" | "role"
 >;
 
-export const SearchInput = React.forwardRef<HTMLInputElement, SearchInputProps>(
+export const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
   function SearchInput({ rightAdornment, ...props }, ref) {
     return (
       <Input

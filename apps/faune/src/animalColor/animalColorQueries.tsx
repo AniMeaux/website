@@ -21,7 +21,6 @@ import {
   useQueryClient,
 } from "core/request";
 import { gql } from "graphql-request";
-import * as React from "react";
 
 export const AnimalColorFragment = gql`
   fragment AnimalColorFragment on AnimalColor {

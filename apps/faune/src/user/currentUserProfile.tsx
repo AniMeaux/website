@@ -29,7 +29,7 @@ import { showSnackbar, Snackbar } from "core/popovers/snackbar";
 import { useMutation } from "core/request";
 import { useRouter } from "core/router";
 import { PageComponent } from "core/types";
-import * as React from "react";
+import { useState } from "react";
 import { FaAngleRight, FaLock, FaSignOutAlt, FaUser } from "react-icons/fa";
 import { useCurrentUser } from "user/currentUserContext";
 import { UserItem } from "user/userItem";
@@ -39,8 +39,8 @@ export const CurrentUserPasswordForm: PageComponent = ({ children }) => {
   const backUrl = (router.query.backUrl as string | null) ?? "/";
 
   const { updatePassword } = useCurrentUser();
-  const [currentPassword, setCurrentPassword] = React.useState("");
-  const [newPassword, setNewPassword] = React.useState("");
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
 
   const mutation = useMutation<
     boolean,
@@ -150,7 +150,7 @@ export const CurrentUserProfileForm: PageComponent = ({ children }) => {
   const backUrl = (router.query.backUrl as string | null) ?? "/";
 
   const { currentUser, updateProfile } = useCurrentUser();
-  const [displayName, setDisplayName] = React.useState(currentUser.displayName);
+  const [displayName, setDisplayName] = useState(currentUser.displayName);
 
   const mutation = useMutation<boolean, Error, string>(
     async (displayName) => {

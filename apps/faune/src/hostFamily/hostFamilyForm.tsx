@@ -13,7 +13,7 @@ import { Input } from "core/formElements/input";
 import { Label } from "core/formElements/label";
 import { SubmitButton } from "core/formElements/submitButton";
 import { Placeholder, Placeholders } from "core/loaders/placeholder";
-import * as React from "react";
+import { useEffect, useState } from "react";
 import { FaEnvelope, FaMapMarker, FaPhone, FaUser } from "react-icons/fa";
 
 export type HostFamilyFormErrors = {
@@ -69,14 +69,14 @@ export function HostFamilyForm({
   pending,
   ...rest
 }: HostFamilyFormProps) {
-  const [name, setName] = React.useState(hostFamily?.name ?? "");
-  const [phone, setPhone] = React.useState(hostFamily?.phone ?? "");
-  const [email, setEmail] = React.useState(hostFamily?.email ?? "");
-  const [address, setAddress] = React.useState(hostFamily?.address ?? "");
-  const [zipCode, setZipCode] = React.useState(hostFamily?.zipCode ?? "");
-  const [city, setCity] = React.useState(hostFamily?.city ?? "");
+  const [name, setName] = useState(hostFamily?.name ?? "");
+  const [phone, setPhone] = useState(hostFamily?.phone ?? "");
+  const [email, setEmail] = useState(hostFamily?.email ?? "");
+  const [address, setAddress] = useState(hostFamily?.address ?? "");
+  const [zipCode, setZipCode] = useState(hostFamily?.zipCode ?? "");
+  const [city, setCity] = useState(hostFamily?.city ?? "");
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (hostFamily != null) {
       setName(hostFamily.name);
       setPhone(hostFamily.phone);

@@ -12,7 +12,14 @@ import { Sentry } from "core/sentry";
 import { ChildrenProp } from "core/types";
 import { gql } from "graphql-request";
 import invariant from "invariant";
-import * as React from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { UserFragment } from "user/userQueries";
 
 type CurrentUserContextValue = {
@@ -22,8 +29,7 @@ type CurrentUserContextValue = {
   updatePassword(currentPassword: string, newPassword: string): Promise<void>;
 };
 
-const CurrentUserContext =
-  React.createContext<CurrentUserContextValue | null>(null);
+const CurrentUserContext = createContext<CurrentUserContextValue | null>(null);
 
 async function updateProfile(displayName: string) {
   displayName = displayName.trim();
@@ -134,12 +140,12 @@ export function CurrentUserContextProvider({
   authorisedGroupsForPage,
   children,
 }: CurrentUserContextProviderProps) {
-  const [{ hasResult, currentUser }, setState] = React.useState<UserState>({
+  const [{ hasResult, currentUser }, setState] = useState<UserState>({
     hasResult: false,
     currentUser: null,
   });
 
-  React.useEffect(() => {
+  useEffect(() => {
     // Firebase updates the id token every hour, this makes sure the react
     // state and the cookie are both kept up to date.
     return firebase.auth().onIdTokenChanged(async (firebaseUser) => {
@@ -155,7 +161,7 @@ export function CurrentUserContextProvider({
     });
   }, []);
 
-  const updateProfileCallback = React.useCallback<
+  const updateProfileCallback = useCallback<
     CurrentUserContextValue["updateProfile"]
   >(async (profile) => {
     await updateProfile(profile);
@@ -165,7 +171,7 @@ export function CurrentUserContextProvider({
     setState({ hasResult: true, currentUser: user });
   }, []);
 
-  const value = React.useMemo<CurrentUserContextValue>(
+  const value = useMemo<CurrentUserContextValue>(
     () => ({
       currentUser,
       signOut,
@@ -214,7 +220,7 @@ export function CurrentUserContextProvider({
 }
 
 export function useCurrentUser() {
-  const context = React.useContext(CurrentUserContext);
+  const context = useContext(CurrentUserContext);
   invariant(
     context != null,
     "useCurrentUser should not be used outside of a CurrentUserContextProvider."

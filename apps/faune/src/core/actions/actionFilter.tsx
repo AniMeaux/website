@@ -3,7 +3,7 @@ import { Badge } from "core/dataDisplay/badge";
 import { ActionAdornment } from "core/formElements/adornment";
 import { Modal, ModalHeader, ModalHeaderTitle } from "core/popovers/modal";
 import { ChildrenProp } from "core/types";
-import * as React from "react";
+import { useState } from "react";
 import { FaFilter } from "react-icons/fa";
 
 type ActionFilterProps = ChildrenProp & {
@@ -18,7 +18,7 @@ export function ActionFilter({
   clearAllFilters,
   children,
 }: ActionFilterProps) {
-  const [areFiltersOpened, setAreFiltersOpened] = React.useState(false);
+  const [areFiltersOpened, setAreFiltersOpened] = useState(false);
 
   return (
     <>

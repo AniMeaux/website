@@ -1,8 +1,8 @@
 import { showSnackbar, Snackbar } from "core/popovers/snackbar";
-import * as React from "react";
+import { useEffect } from "react";
 
 export function NetworkStatus() {
-  React.useEffect(() => {
+  useEffect(() => {
     function onGoOnline() {
       // This snackbar has the highest priority.
       showSnackbar.clearWaitingQueue();

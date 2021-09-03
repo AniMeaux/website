@@ -13,7 +13,6 @@ import {
   LinkItemProps,
 } from "core/dataDisplay/item";
 import { Placeholder } from "core/loaders/placeholder";
-import * as React from "react";
 import { FaHome } from "react-icons/fa";
 
 export function HostFamilyItemPlaceholder() {

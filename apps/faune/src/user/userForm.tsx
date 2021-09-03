@@ -22,7 +22,7 @@ import {
 } from "core/formElements/selector";
 import { SubmitButton } from "core/formElements/submitButton";
 import { Placeholder, Placeholders } from "core/loaders/placeholder";
-import * as React from "react";
+import { useEffect, useState } from "react";
 import { FaEnvelope, FaLock, FaUser } from "react-icons/fa";
 import { UserGroupIcon } from "user/userGroupIcon";
 
@@ -47,12 +47,12 @@ export function UserForm({
   ...rest
 }: UserFormProps) {
   const isEdit = user != null;
-  const [displayName, setDisplayName] = React.useState(user?.displayName ?? "");
-  const [email, setEmail] = React.useState(user?.email ?? "");
-  const [password, setPassword] = React.useState("");
-  const [groups, setGroups] = React.useState<UserGroup[]>(user?.groups ?? []);
+  const [displayName, setDisplayName] = useState(user?.displayName ?? "");
+  const [email, setEmail] = useState(user?.email ?? "");
+  const [password, setPassword] = useState("");
+  const [groups, setGroups] = useState<UserGroup[]>(user?.groups ?? []);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (user != null) {
       setDisplayName(user.displayName);
       setEmail(user.email);
