@@ -1,8 +1,12 @@
 import {
+  AdoptionOption,
+  AdoptionOptionLabels,
   Animal,
   AnimalGender,
   AnimalGenderLabels,
   AnimalSpeciesLabels,
+  AnimalStatus,
+  AnimalStatusLabels,
   doesGroupsIntersect,
   formatAge,
   formatLongDate,
@@ -50,6 +54,7 @@ import {
   FaAdjust,
   FaAngleRight,
   FaBirthdayCake,
+  FaCertificate,
   FaCut,
   FaEllipsisH,
   FaEnvelope,
@@ -373,6 +378,40 @@ function SituationSection({ animal }: AnimalProps) {
       <SectionTitle>Situation</SectionTitle>
 
       <ul style={{ marginBottom: "var(--spacing-s)" }}>
+        <li>
+          <Item>
+            <ItemIcon>
+              <FaCertificate />
+            </ItemIcon>
+
+            <ItemContent>
+              <ItemMainText>
+                Est <strong>{AnimalStatusLabels[animal.status]}</strong>
+                {animal.status === AnimalStatus.ADOPTED &&
+                  animal.adoptionDate != null && (
+                    <>
+                      {" "}
+                      depuis le{" "}
+                      <strong>{formatLongDate(animal.adoptionDate)}</strong>
+                    </>
+                  )}
+                {animal.status === AnimalStatus.ADOPTED &&
+                  animal.adoptionOption != null &&
+                  animal.adoptionOption !== AdoptionOption.UNKNOWN && (
+                    <>
+                      {" "}
+                      (
+                      {AdoptionOptionLabels[
+                        animal.adoptionOption
+                      ].toLowerCase()}
+                      )
+                    </>
+                  )}
+              </ItemMainText>
+            </ItemContent>
+          </Item>
+        </li>
+
         {animal.hostFamily != null && (
           <li>
             <ButtonItem onClick={() => setAreHostFamilyDetailsVisible(true)}>

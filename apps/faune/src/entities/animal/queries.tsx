@@ -64,6 +64,8 @@ const SearchableAnimalFragment = gql`
       ...AnimalColorFragment
     }
     status
+    adoptionDate
+    adoptionOption
     avatarId
     hostFamily {
       ...HostFamilyFragment
@@ -98,6 +100,8 @@ const AnimalFragment = gql`
     }
     description
     status
+    adoptionDate
+    adoptionOption
     avatarId
     picturesId
     hostFamily {

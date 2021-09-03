@@ -85,6 +85,8 @@ export function AnimalSituationForm<
             }
             hasError={errors?.adoptionDate != null}
           />
+
+          <FieldMessage errorMessage={errors?.adoptionDate} />
         </Field>
       )}
 

@@ -449,26 +449,13 @@ export const animalDatabase: AnimalDatabase = {
         searchableAnimalUpdate.hostFamilyId = null;
       }
 
-      // The animal is now adopted.
-      if (searchableAnimalUpdate.status === AnimalStatus.ADOPTED) {
-        if (
-          payload.adoptionDate == null ||
-          !isValidDate(payload.adoptionDate)
-        ) {
-          throw new UserInputError(ErrorCode.ANIMAL_MISSING_ADOPTION_DATE);
-        }
-
-        searchableAnimalUpdate.adoptionDate = payload.adoptionDate;
-        searchableAnimalUpdate.adoptionDateTimestamp = new Date(
-          payload.adoptionDate
-        ).getTime();
-
-        if (
-          payload.adoptionOption != null &&
-          payload.adoptionOption !== AdoptionOption.UNKNOWN
-        ) {
-          searchableAnimalUpdate.adoptionOption = payload.adoptionOption;
-        }
+      if (
+        // The animal is now adopted.
+        searchableAnimalUpdate.status === AnimalStatus.ADOPTED &&
+        // The adoptionDate is required (set bellow).
+        payload.adoptionDate == null
+      ) {
+        throw new UserInputError(ErrorCode.ANIMAL_MISSING_ADOPTION_DATE);
       }
 
       // The animal is no longer adopted.
@@ -476,6 +463,28 @@ export const animalDatabase: AnimalDatabase = {
         searchableAnimalUpdate.adoptionDate = null;
         searchableAnimalUpdate.adoptionDateTimestamp = null;
         searchableAnimalUpdate.adoptionOption = null;
+      }
+    }
+
+    const status = searchableAnimalUpdate.status ?? animal.status;
+    if (status === AnimalStatus.ADOPTED) {
+      if (payload.adoptionDate != null) {
+        if (!isValidDate(payload.adoptionDate)) {
+          throw new UserInputError(ErrorCode.ANIMAL_MISSING_ADOPTION_DATE);
+        }
+
+        searchableAnimalUpdate.adoptionDate = payload.adoptionDate;
+        searchableAnimalUpdate.adoptionDateTimestamp = new Date(
+          payload.adoptionDate
+        ).getTime();
+      }
+
+      if (payload.adoptionOption != null) {
+        if (payload.adoptionOption === AdoptionOption.UNKNOWN) {
+          searchableAnimalUpdate.adoptionOption = null;
+        } else {
+          searchableAnimalUpdate.adoptionOption = payload.adoptionOption;
+        }
       }
     }
 
