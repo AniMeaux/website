@@ -4,18 +4,18 @@ import {
   hasErrorCode,
   UserGroup,
 } from "@animeaux/shared-entities";
-import { PageTitle } from "core/pageTitle";
-import { useRouter } from "core/router";
-import { PageComponent } from "core/types";
 import {
   AnimalBreedForm,
   AnimalBreedFormErrors,
-} from "entities/animalBreed/animalBreedForm";
-import { useCreateAnimalBreed } from "entities/animalBreed/animalBreedQueries";
-import { ApplicationLayout } from "layouts/applicationLayout";
-import { Header, HeaderBackLink, HeaderTitle } from "layouts/header";
-import { Main } from "layouts/main";
-import { Navigation } from "layouts/navigation";
+} from "animalBreed/animalBreedForm";
+import { useCreateAnimalBreed } from "animalBreed/animalBreedQueries";
+import { ApplicationLayout } from "core/layouts/applicationLayout";
+import { Header, HeaderBackLink, HeaderTitle } from "core/layouts/header";
+import { Main } from "core/layouts/main";
+import { Navigation } from "core/layouts/navigation";
+import { PageTitle } from "core/pageTitle";
+import { useRouter } from "core/router";
+import { PageComponent } from "core/types";
 import * as React from "react";
 
 const CreateAnimalBreedPage: PageComponent = () => {

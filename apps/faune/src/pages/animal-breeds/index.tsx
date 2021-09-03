@@ -3,15 +3,13 @@ import {
   AnimalSpeciesLabels,
   UserGroup,
 } from "@animeaux/shared-entities";
-import { Button } from "actions/button";
-import { QuickLinkAction } from "actions/quickAction";
-import { PageTitle } from "core/pageTitle";
-import { renderInfiniteItemList } from "core/request";
-import { useRouter } from "core/router";
-import { ScreenSize, useScreenSize } from "core/screenSize";
-import { PageComponent } from "core/types";
-import { withConfirmation } from "core/withConfirmation";
-import { Avatar } from "dataDisplay/avatar";
+import {
+  useAllAnimalBreeds,
+  useDeleteAnimalBreed,
+} from "animalBreed/animalBreedQueries";
+import { Button } from "core/actions/button";
+import { QuickLinkAction } from "core/actions/quickAction";
+import { Avatar } from "core/dataDisplay/avatar";
 import {
   ButtonItem,
   Item,
@@ -20,20 +18,22 @@ import {
   ItemMainText,
   ItemSecondaryText,
   LinkItem,
-} from "dataDisplay/item";
-import {
-  useAllAnimalBreeds,
-  useDeleteAnimalBreed,
-} from "entities/animalBreed/animalBreedQueries";
-import { ApplicationLayout } from "layouts/applicationLayout";
-import { Header, HeaderTitle, HeaderUserAvatar } from "layouts/header";
-import { Main } from "layouts/main";
-import { Navigation } from "layouts/navigation";
-import { Section } from "layouts/section";
-import { Separator } from "layouts/separator";
-import { usePageScrollRestoration } from "layouts/usePageScroll";
-import { Placeholder } from "loaders/placeholder";
-import { Modal, useModal } from "popovers/modal";
+} from "core/dataDisplay/item";
+import { ApplicationLayout } from "core/layouts/applicationLayout";
+import { Header, HeaderTitle, HeaderUserAvatar } from "core/layouts/header";
+import { Main } from "core/layouts/main";
+import { Navigation } from "core/layouts/navigation";
+import { Section } from "core/layouts/section";
+import { Separator } from "core/layouts/separator";
+import { usePageScrollRestoration } from "core/layouts/usePageScroll";
+import { Placeholder } from "core/loaders/placeholder";
+import { PageTitle } from "core/pageTitle";
+import { Modal, useModal } from "core/popovers/modal";
+import { renderInfiniteItemList } from "core/request";
+import { useRouter } from "core/router";
+import { ScreenSize, useScreenSize } from "core/screenSize";
+import { PageComponent } from "core/types";
+import { withConfirmation } from "core/withConfirmation";
 import type { Placement } from "popper.js";
 import * as React from "react";
 import {

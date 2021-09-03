@@ -1,6 +1,6 @@
+import { Navigation } from "core/layouts/navigation";
 import { PageComponent } from "core/types";
-import { CurrentUserProfileForm } from "entities/user/currentUserProfile";
-import { Navigation } from "layouts/navigation";
+import { CurrentUserProfileForm } from "user/currentUserProfile";
 
 const EditProfile: PageComponent = () => {
   return (

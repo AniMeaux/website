@@ -1,26 +1,23 @@
 import { getAnimalDisplayName, UserGroup } from "@animeaux/shared-entities";
-import { Button } from "actions/button";
+import { AnimalFormProvider, useAnimalForm } from "animal/animalEdition";
+import { useAnimal } from "animal/queries";
+import {
+  AnimalBreedButtonItem,
+  AnimalBreedItemPlaceholder,
+} from "animalBreed/animalBreedItems";
+import { useAllAnimalBreeds } from "animalBreed/animalBreedQueries";
+import { Button } from "core/actions/button";
+import { SearchInput, useSearch } from "core/formElements/searchInput";
+import { ApplicationLayout } from "core/layouts/applicationLayout";
+import { Header, HeaderBackLink } from "core/layouts/header";
+import { Main } from "core/layouts/main";
+import { Navigation } from "core/layouts/navigation";
+import { Section } from "core/layouts/section";
 import { PageTitle } from "core/pageTitle";
 import { renderInfiniteItemList, renderQueryEntity } from "core/request";
 import { useRouter } from "core/router";
 import { ScreenSize, useScreenSize } from "core/screenSize";
 import { PageComponent } from "core/types";
-import {
-  AnimalFormProvider,
-  useAnimalForm,
-} from "entities/animal/animalEdition";
-import { useAnimal } from "entities/animal/queries";
-import {
-  AnimalBreedButtonItem,
-  AnimalBreedItemPlaceholder,
-} from "entities/animalBreed/animalBreedItems";
-import { useAllAnimalBreeds } from "entities/animalBreed/animalBreedQueries";
-import { SearchInput, useSearch } from "formElements/searchInput";
-import { ApplicationLayout } from "layouts/applicationLayout";
-import { Header, HeaderBackLink } from "layouts/header";
-import { Main } from "layouts/main";
-import { Navigation } from "layouts/navigation";
-import { Section } from "layouts/section";
 import * as React from "react";
 
 function UpdateAnimalBreedForm() {

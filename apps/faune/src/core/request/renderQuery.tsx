@@ -1,12 +1,12 @@
 import { PaginatedResponse } from "@animeaux/shared-entities";
-import { ChildrenProp } from "core/types";
-import { EmptyMessage, EmptyMessageProps } from "dataDisplay/emptyMessage";
+import { EmptyMessage, EmptyMessageProps } from "core/dataDisplay/emptyMessage";
 import {
   ErrorActionRetry,
   ErrorMessage,
   ErrorMessageProps,
-} from "dataDisplay/errorMessage";
-import { Placeholder, Placeholders } from "loaders/placeholder";
+} from "core/dataDisplay/errorMessage";
+import { Placeholder, Placeholders } from "core/loaders/placeholder";
+import { ChildrenProp } from "core/types";
 import * as React from "react";
 import { UseInfiniteQueryResult, UseQueryResult } from "./request";
 

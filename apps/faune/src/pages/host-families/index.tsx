@@ -1,19 +1,19 @@
 import { UserGroup } from "@animeaux/shared-entities";
-import { QuickLinkAction } from "actions/quickAction";
+import { QuickLinkAction } from "core/actions/quickAction";
+import { ApplicationLayout } from "core/layouts/applicationLayout";
+import { Header, HeaderTitle, HeaderUserAvatar } from "core/layouts/header";
+import { Main } from "core/layouts/main";
+import { Navigation } from "core/layouts/navigation";
+import { Section } from "core/layouts/section";
+import { usePageScrollRestoration } from "core/layouts/usePageScroll";
 import { PageTitle } from "core/pageTitle";
 import { renderInfiniteItemList } from "core/request";
 import { PageComponent } from "core/types";
 import {
   HostFamilyItemPlaceholder,
   HostFamilyLinkItem,
-} from "entities/hostFamily/hostFamilyItems";
-import { useAllHostFamilies } from "entities/hostFamily/hostFamilyQueries";
-import { ApplicationLayout } from "layouts/applicationLayout";
-import { Header, HeaderTitle, HeaderUserAvatar } from "layouts/header";
-import { Main } from "layouts/main";
-import { Navigation } from "layouts/navigation";
-import { Section } from "layouts/section";
-import { usePageScrollRestoration } from "layouts/usePageScroll";
+} from "hostFamily/hostFamilyItems";
+import { useAllHostFamilies } from "hostFamily/hostFamilyQueries";
 import * as React from "react";
 import { FaPlus } from "react-icons/fa";
 

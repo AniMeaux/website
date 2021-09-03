@@ -1,24 +1,18 @@
 import { UserGroup } from "@animeaux/shared-entities";
+import { AnimalFormProvider, useAnimalForm } from "animal/animalCreation";
+import { LocationItem, LocationItemPlaceholder } from "animal/animalItems";
+import { useSearchLocation } from "animal/queries";
+import { SearchInput, useSearch } from "core/formElements/searchInput";
+import { ApplicationLayout } from "core/layouts/applicationLayout";
+import { Header, HeaderBackLink } from "core/layouts/header";
+import { Main } from "core/layouts/main";
+import { Navigation } from "core/layouts/navigation";
+import { Section } from "core/layouts/section";
 import { PageTitle } from "core/pageTitle";
 import { renderItemList } from "core/request";
 import { useRouter } from "core/router";
 import { ScreenSize, useScreenSize } from "core/screenSize";
 import { PageComponent } from "core/types";
-import {
-  AnimalFormProvider,
-  useAnimalForm,
-} from "entities/animal/animalCreation";
-import {
-  LocationItem,
-  LocationItemPlaceholder,
-} from "entities/animal/animalItems";
-import { useSearchLocation } from "entities/animal/queries";
-import { SearchInput, useSearch } from "formElements/searchInput";
-import { ApplicationLayout } from "layouts/applicationLayout";
-import { Header, HeaderBackLink } from "layouts/header";
-import { Main } from "layouts/main";
-import { Navigation } from "layouts/navigation";
-import { Section } from "layouts/section";
 import * as React from "react";
 
 const CreatePickUpLocationPage: PageComponent = () => {

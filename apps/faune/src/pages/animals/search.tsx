@@ -7,32 +7,35 @@ import {
   SearchableAnimal,
   UserGroup,
 } from "@animeaux/shared-entities";
-import { ActionFilter } from "actions/actionFilter";
-import { Button } from "actions/button";
-import { PageTitle } from "core/pageTitle";
-import { renderInfiniteItemList } from "core/request";
-import { useRouter } from "core/router";
-import { ScreenSize, useScreenSize } from "core/screenSize";
-import { PageComponent } from "core/types";
-import { Avatar } from "dataDisplay/avatar";
-import { AvatarImage } from "dataDisplay/image";
+import { AnimalFiltersForm } from "animal/formElements/animalFiltersForm";
+import { useAllAnimals } from "animal/queries";
+import { ActionFilter } from "core/actions/actionFilter";
+import { Button } from "core/actions/button";
+import { Avatar } from "core/dataDisplay/avatar";
+import { AvatarImage } from "core/dataDisplay/image";
 import {
   Item,
   ItemContent,
   ItemIcon,
   ItemMainText,
   LinkItem,
-} from "dataDisplay/item";
-import { AnimalFiltersForm } from "entities/animal/formElements/animalFiltersForm";
-import { useAllAnimals } from "entities/animal/queries";
-import { SearchInput, useSearchAndFilters } from "formElements/searchInput";
-import { ApplicationLayout } from "layouts/applicationLayout";
-import { Header, HeaderBackLink } from "layouts/header";
-import { Main } from "layouts/main";
-import { Navigation } from "layouts/navigation";
-import { Section, SectionTitle } from "layouts/section";
-import { usePageScrollRestoration } from "layouts/usePageScroll";
-import { Placeholder } from "loaders/placeholder";
+} from "core/dataDisplay/item";
+import {
+  SearchInput,
+  useSearchAndFilters,
+} from "core/formElements/searchInput";
+import { ApplicationLayout } from "core/layouts/applicationLayout";
+import { Header, HeaderBackLink } from "core/layouts/header";
+import { Main } from "core/layouts/main";
+import { Navigation } from "core/layouts/navigation";
+import { Section, SectionTitle } from "core/layouts/section";
+import { usePageScrollRestoration } from "core/layouts/usePageScroll";
+import { Placeholder } from "core/loaders/placeholder";
+import { PageTitle } from "core/pageTitle";
+import { renderInfiniteItemList } from "core/request";
+import { useRouter } from "core/router";
+import { ScreenSize, useScreenSize } from "core/screenSize";
+import { PageComponent } from "core/types";
 import isEqual from "lodash.isequal";
 import * as React from "react";
 

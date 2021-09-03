@@ -4,11 +4,11 @@ import {
   hasErrorCode,
   PaginatedResponse,
 } from "@animeaux/shared-entities";
+import { useIsScrollAtFetchMore } from "core/layouts/usePageScroll";
+import { ProgressBar } from "core/loaders/progressBar";
+import { showSnackbar, Snackbar } from "core/popovers/snackbar";
 import { Sentry } from "core/sentry";
 import invariant from "invariant";
-import { useIsScrollAtFetchMore } from "layouts/usePageScroll";
-import { ProgressBar } from "loaders/progressBar";
-import { showSnackbar, Snackbar } from "popovers/snackbar";
 import * as React from "react";
 import {
   InfiniteData,

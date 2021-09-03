@@ -4,25 +4,25 @@ import {
   hasErrorCode,
   UserGroup,
 } from "@animeaux/shared-entities";
-import { PageTitle } from "core/pageTitle";
-import { useRouter } from "core/router";
-import { PageComponent } from "core/types";
 import {
   AnimalFormDraftStorage,
   AnimalFormProvider,
   AnimalFormStep,
   AnimalFormStepper,
   useAnimalForm,
-} from "entities/animal/animalCreation";
+} from "animal/animalCreation";
 import {
   AnimalPicturesForm,
   AnimalPicturesFormErrors,
-} from "entities/animal/formElements/animalPicturesForm";
-import { useCreateAnimal } from "entities/animal/queries";
-import { ApplicationLayout } from "layouts/applicationLayout";
-import { Header, HeaderBackLink, HeaderTitle } from "layouts/header";
-import { Main } from "layouts/main";
-import { Navigation } from "layouts/navigation";
+} from "animal/formElements/animalPicturesForm";
+import { useCreateAnimal } from "animal/queries";
+import { ApplicationLayout } from "core/layouts/applicationLayout";
+import { Header, HeaderBackLink, HeaderTitle } from "core/layouts/header";
+import { Main } from "core/layouts/main";
+import { Navigation } from "core/layouts/navigation";
+import { PageTitle } from "core/pageTitle";
+import { useRouter } from "core/router";
+import { PageComponent } from "core/types";
 import * as React from "react";
 
 const CreateAnimalPicturesPage: PageComponent = () => {

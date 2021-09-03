@@ -4,23 +4,23 @@ import {
   hasErrorCode,
   UserGroup,
 } from "@animeaux/shared-entities";
-import { PageTitle } from "core/pageTitle";
-import { renderQueryEntity } from "core/request";
-import { useRouter } from "core/router";
-import { PageComponent } from "core/types";
 import {
   AnimalColorForm,
   AnimalColorFormErrors,
   AnimalColorFormPlaceholder,
-} from "entities/animalColor/animalColorForm";
+} from "animalColor/animalColorForm";
 import {
   useAnimalColor,
   useUpdateAnimalColor,
-} from "entities/animalColor/animalColorQueries";
-import { ApplicationLayout } from "layouts/applicationLayout";
-import { Header, HeaderBackLink, HeaderTitle } from "layouts/header";
-import { Main } from "layouts/main";
-import { Navigation } from "layouts/navigation";
+} from "animalColor/animalColorQueries";
+import { ApplicationLayout } from "core/layouts/applicationLayout";
+import { Header, HeaderBackLink, HeaderTitle } from "core/layouts/header";
+import { Main } from "core/layouts/main";
+import { Navigation } from "core/layouts/navigation";
+import { PageTitle } from "core/pageTitle";
+import { renderQueryEntity } from "core/request";
+import { useRouter } from "core/router";
+import { PageComponent } from "core/types";
 import * as React from "react";
 
 const AnimalColorEditPage: PageComponent = () => {

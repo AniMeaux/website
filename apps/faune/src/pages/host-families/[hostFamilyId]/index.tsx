@@ -3,14 +3,14 @@ import {
   HostFamily,
   UserGroup,
 } from "@animeaux/shared-entities";
-import { Button } from "actions/button";
-import { QuickActions } from "actions/quickAction";
-import { PageTitle } from "core/pageTitle";
-import { renderInfiniteItemList, renderQueryEntity } from "core/request";
-import { useRouter } from "core/router";
-import { ChildrenProp, PageComponent } from "core/types";
-import { withConfirmation } from "core/withConfirmation";
-import { ErrorItem } from "dataDisplay/errorMessage";
+import {
+  SearchableAnimalItemPlaceholder,
+  SearchableAnimalLinkItem,
+} from "animal/animalItems";
+import { useAllAnimals } from "animal/queries";
+import { Button } from "core/actions/button";
+import { QuickActions } from "core/actions/quickAction";
+import { ErrorItem } from "core/dataDisplay/errorMessage";
 import {
   ButtonItem,
   Item,
@@ -18,25 +18,25 @@ import {
   ItemIcon,
   ItemMainText,
   LinkItem,
-} from "dataDisplay/item";
-import { Markdown } from "dataDisplay/markdown";
-import {
-  SearchableAnimalItemPlaceholder,
-  SearchableAnimalLinkItem,
-} from "entities/animal/animalItems";
-import { useAllAnimals } from "entities/animal/queries";
+} from "core/dataDisplay/item";
+import { Markdown } from "core/dataDisplay/markdown";
+import { ApplicationLayout } from "core/layouts/applicationLayout";
+import { Header, HeaderBackLink, HeaderTitle } from "core/layouts/header";
+import { Main } from "core/layouts/main";
+import { Navigation } from "core/layouts/navigation";
+import { Section, SectionBox, SectionTitle } from "core/layouts/section";
+import { Separator } from "core/layouts/separator";
+import { Placeholder, Placeholders } from "core/loaders/placeholder";
+import { PageTitle } from "core/pageTitle";
+import { useModal } from "core/popovers/modal";
+import { renderInfiniteItemList, renderQueryEntity } from "core/request";
+import { useRouter } from "core/router";
+import { ChildrenProp, PageComponent } from "core/types";
+import { withConfirmation } from "core/withConfirmation";
 import {
   useDeleteHostFamily,
   useHostFamily,
-} from "entities/hostFamily/hostFamilyQueries";
-import { ApplicationLayout } from "layouts/applicationLayout";
-import { Header, HeaderBackLink, HeaderTitle } from "layouts/header";
-import { Main } from "layouts/main";
-import { Navigation } from "layouts/navigation";
-import { Section, SectionBox, SectionTitle } from "layouts/section";
-import { Separator } from "layouts/separator";
-import { Placeholder, Placeholders } from "loaders/placeholder";
-import { useModal } from "popovers/modal";
+} from "hostFamily/hostFamilyQueries";
 import * as React from "react";
 import {
   FaAngleRight,

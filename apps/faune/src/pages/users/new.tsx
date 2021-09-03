@@ -4,16 +4,16 @@ import {
   hasErrorCode,
   UserGroup,
 } from "@animeaux/shared-entities";
+import { ApplicationLayout } from "core/layouts/applicationLayout";
+import { Header, HeaderBackLink, HeaderTitle } from "core/layouts/header";
+import { Main } from "core/layouts/main";
+import { Navigation } from "core/layouts/navigation";
 import { PageTitle } from "core/pageTitle";
 import { useRouter } from "core/router";
 import { PageComponent } from "core/types";
-import { UserForm, UserFormErrors } from "entities/user/userForm";
-import { useCreateUser } from "entities/user/userQueries";
-import { ApplicationLayout } from "layouts/applicationLayout";
-import { Header, HeaderBackLink, HeaderTitle } from "layouts/header";
-import { Main } from "layouts/main";
-import { Navigation } from "layouts/navigation";
 import * as React from "react";
+import { UserForm, UserFormErrors } from "user/userForm";
+import { useCreateUser } from "user/userQueries";
 
 const CreateUserPage: PageComponent = () => {
   const router = useRouter();

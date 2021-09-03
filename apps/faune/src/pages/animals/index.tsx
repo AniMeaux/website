@@ -4,13 +4,10 @@ import {
   SearchableAnimal,
   UserGroup,
 } from "@animeaux/shared-entities";
-import { QuickLinkAction } from "actions/quickAction";
-import { PageTitle } from "core/pageTitle";
-import { renderInfiniteItemList } from "core/request";
-import { ScreenSize, useScreenSize } from "core/screenSize";
-import { PageComponent } from "core/types";
-import { Avatar } from "dataDisplay/avatar";
-import { AvatarImage } from "dataDisplay/image";
+import { useAllActiveAnimals } from "animal/queries";
+import { QuickLinkAction } from "core/actions/quickAction";
+import { Avatar } from "core/dataDisplay/avatar";
+import { AvatarImage } from "core/dataDisplay/image";
 import {
   Item,
   ItemContent,
@@ -18,24 +15,27 @@ import {
   ItemMainText,
   ItemSecondaryText,
   LinkItem,
-} from "dataDisplay/item";
-import { StatusBadge, StatusIcon } from "dataDisplay/statusBadge";
-import { useAllActiveAnimals } from "entities/animal/queries";
-import { useCurrentUser } from "entities/user/currentUserContext";
-import { ApplicationLayout } from "layouts/applicationLayout";
+} from "core/dataDisplay/item";
+import { StatusBadge, StatusIcon } from "core/dataDisplay/statusBadge";
+import { ApplicationLayout } from "core/layouts/applicationLayout";
 import {
   Header,
   HeaderLink,
   HeaderTitle,
   HeaderUserAvatar,
-} from "layouts/header";
-import { Main } from "layouts/main";
-import { Navigation } from "layouts/navigation";
-import { Section } from "layouts/section";
-import { usePageScrollRestoration } from "layouts/usePageScroll";
-import { Placeholder } from "loaders/placeholder";
+} from "core/layouts/header";
+import { Main } from "core/layouts/main";
+import { Navigation } from "core/layouts/navigation";
+import { Section } from "core/layouts/section";
+import { usePageScrollRestoration } from "core/layouts/usePageScroll";
+import { Placeholder } from "core/loaders/placeholder";
+import { PageTitle } from "core/pageTitle";
+import { renderInfiniteItemList } from "core/request";
+import { ScreenSize, useScreenSize } from "core/screenSize";
+import { PageComponent } from "core/types";
 import * as React from "react";
 import { FaPlus, FaSearch } from "react-icons/fa";
+import { useCurrentUser } from "user/currentUserContext";
 
 const searchableAnimalItemPlaceholder = (
   <Item>

@@ -1,6 +1,6 @@
+import { Navigation } from "core/layouts/navigation";
 import { PageComponent } from "core/types";
-import { CurrentUserPasswordForm } from "entities/user/currentUserProfile";
-import { Navigation } from "layouts/navigation";
+import { CurrentUserPasswordForm } from "user/currentUserProfile";
 
 const EditPassword: PageComponent = () => {
   return (

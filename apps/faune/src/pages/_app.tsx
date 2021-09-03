@@ -2,16 +2,19 @@ import "react-app-polyfill/stable";
 import "focus-visible";
 import "styles/index.css";
 
+import {
+  ErrorActionRefresh,
+  ErrorMessage,
+} from "core/dataDisplay/errorMessage";
 import { PageHead } from "core/pageHead";
+import { SnackbarContainer } from "core/popovers/snackbar";
 import { RequestContextProvider } from "core/request";
 import { ScreenSizeContextProvider } from "core/screenSize";
 import { Sentry } from "core/sentry";
 import { PageComponent } from "core/types";
-import { ErrorActionRefresh, ErrorMessage } from "dataDisplay/errorMessage";
-import { CurrentUserContextProvider } from "entities/user/currentUserContext";
 import { AppProps } from "next/app";
-import { SnackbarContainer } from "popovers/snackbar";
 import * as React from "react";
+import { CurrentUserContextProvider } from "user/currentUserContext";
 
 type ApplicationProps = Omit<AppProps, "Component"> & {
   Component: PageComponent;

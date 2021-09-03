@@ -4,24 +4,24 @@ import {
   hasErrorCode,
   UserGroup,
 } from "@animeaux/shared-entities";
-import { PageTitle } from "core/pageTitle";
-import { useRouter } from "core/router";
-import { PageComponent } from "core/types";
 import {
   AnimalFormProvider,
   AnimalFormStep,
   AnimalFormStepper,
   useAnimalForm,
-} from "entities/animal/animalCreation";
+} from "animal/animalCreation";
 import {
   AnimalProfileForm,
   AnimalProfileFormErrors,
-} from "entities/animal/formElements/animalProfileForm";
-import { useCreateAnimalProfile } from "entities/animal/queries";
-import { ApplicationLayout } from "layouts/applicationLayout";
-import { Header, HeaderBackLink, HeaderTitle } from "layouts/header";
-import { Main } from "layouts/main";
-import { Navigation } from "layouts/navigation";
+} from "animal/formElements/animalProfileForm";
+import { useCreateAnimalProfile } from "animal/queries";
+import { ApplicationLayout } from "core/layouts/applicationLayout";
+import { Header, HeaderBackLink, HeaderTitle } from "core/layouts/header";
+import { Main } from "core/layouts/main";
+import { Navigation } from "core/layouts/navigation";
+import { PageTitle } from "core/pageTitle";
+import { useRouter } from "core/router";
+import { PageComponent } from "core/types";
 import * as React from "react";
 
 const CreateAnimalProfilePage: PageComponent = () => {

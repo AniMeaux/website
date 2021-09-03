@@ -1,4 +1,4 @@
-import { showSnackbar, Snackbar } from "popovers/snackbar";
+import { showSnackbar, Snackbar } from "core/popovers/snackbar";
 import * as React from "react";
 
 export async function copyToClipboard(data: string) {

@@ -14,20 +14,17 @@ import {
   getHostFamilyFullAddress,
   HostFamily,
   PickUpReasonLabels,
-  PICK_UP_REASON_ORDER,
   Trilean,
   TrileanLabels,
   UserGroup,
 } from "@animeaux/shared-entities";
-import { Button } from "actions/button";
-import { QuickActions } from "actions/quickAction";
+import { AnimalGenderIcon } from "animal/animalGenderIcon";
+import { AnimalSpeciesIcon } from "animal/animalSpeciesIcon";
+import { useAnimal, useDeleteAnimal } from "animal/queries";
+import { Button } from "core/actions/button";
+import { QuickActions } from "core/actions/quickAction";
 import { copyToClipboard } from "core/clipboard";
-import { PageTitle } from "core/pageTitle";
-import { renderQueryEntity } from "core/request";
-import { useRouter } from "core/router";
-import { PageComponent } from "core/types";
-import { withConfirmation } from "core/withConfirmation";
-import { ImageSlideshow } from "dataDisplay/imageSlideshow";
+import { ImageSlideshow } from "core/dataDisplay/imageSlideshow";
 import {
   ButtonItem,
   Item,
@@ -35,20 +32,26 @@ import {
   ItemIcon,
   ItemMainText,
   LinkItem,
-} from "dataDisplay/item";
-import { Markdown } from "dataDisplay/markdown";
-import { StatusBadge } from "dataDisplay/statusBadge";
-import { AnimalGenderIcon } from "entities/animal/animalGenderIcon";
-import { AnimalSpeciesIcon } from "entities/animal/animalSpeciesIcon";
-import { useAnimal, useDeleteAnimal } from "entities/animal/queries";
-import { useCurrentUser } from "entities/user/currentUserContext";
-import { ApplicationLayout } from "layouts/applicationLayout";
-import { Header, HeaderBackLink, HeaderTitle } from "layouts/header";
-import { Main } from "layouts/main";
-import { Navigation } from "layouts/navigation";
-import { Section, SectionBox, SectionTitle } from "layouts/section";
-import { Separator } from "layouts/separator";
-import { Modal, ModalHeader, ModalHeaderTitle, useModal } from "popovers/modal";
+} from "core/dataDisplay/item";
+import { Markdown } from "core/dataDisplay/markdown";
+import { StatusBadge } from "core/dataDisplay/statusBadge";
+import { ApplicationLayout } from "core/layouts/applicationLayout";
+import { Header, HeaderBackLink, HeaderTitle } from "core/layouts/header";
+import { Main } from "core/layouts/main";
+import { Navigation } from "core/layouts/navigation";
+import { Section, SectionBox, SectionTitle } from "core/layouts/section";
+import { Separator } from "core/layouts/separator";
+import { PageTitle } from "core/pageTitle";
+import {
+  Modal,
+  ModalHeader,
+  ModalHeaderTitle,
+  useModal,
+} from "core/popovers/modal";
+import { renderQueryEntity } from "core/request";
+import { useRouter } from "core/router";
+import { PageComponent } from "core/types";
+import { withConfirmation } from "core/withConfirmation";
 import * as React from "react";
 import {
   FaAdjust,
@@ -70,6 +73,7 @@ import {
   FaShareAlt,
   FaTrash,
 } from "react-icons/fa";
+import { useCurrentUser } from "user/currentUserContext";
 
 type AnimalProps = {
   animal: Animal;
