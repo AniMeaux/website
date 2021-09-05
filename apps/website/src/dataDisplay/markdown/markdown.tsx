@@ -11,11 +11,11 @@ import gfm from "remark-gfm";
 import slug from "remark-slug";
 import styles from "./markdown.module.css";
 
-const Heading: HeadingComponent = ({ id, children, level }) => {
+const Heading: HeadingComponent = ({ id, children, level, key }) => {
   const Component = `h${level}` as ElementType;
 
   return (
-    <Component id={id}>
+    <Component id={id} key={key}>
       <Link href={`#${id as string}`}>{children}</Link>
     </Component>
   );
@@ -70,19 +70,25 @@ export function Markdown({ preset, className, ...props }: MarkdownProps) {
         h4: Heading,
         h5: Heading,
         h6: Heading,
-        img: ({ src, alt }) => {
-          return <UnknownImage src={src as string} alt={alt as string} />;
-        },
-        blockquote: ({ children }) => {
+        img: ({ src, alt, key }) => {
           return (
-            <blockquote>
+            <UnknownImage key={key} src={src as string} alt={alt as string} />
+          );
+        },
+        blockquote: ({ children, key }) => {
+          return (
+            <blockquote key={key}>
               <FaQuoteLeft />
               <div>{children}</div>
             </blockquote>
           );
         },
-        a: ({ children, href }) => {
-          return <Link href={href as string}>{children}</Link>;
+        a: ({ children, href, key }) => {
+          return (
+            <Link key={key} href={href as string}>
+              {children}
+            </Link>
+          );
         },
       }}
     />
