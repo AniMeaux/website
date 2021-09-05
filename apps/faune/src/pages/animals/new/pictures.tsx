@@ -34,7 +34,7 @@ const CreateAnimalPicturesPage: PageComponent = () => {
       AnimalFormDraftStorage.clear();
 
       // 3 is the number of steps to create an animal.
-      router.backIfPossible("../..", 3);
+      router.backIfPossible("../..", { historyOffset: 3 });
     },
   });
 
