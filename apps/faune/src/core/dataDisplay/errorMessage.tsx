@@ -1,5 +1,3 @@
-import cn from "classnames";
-import { Button, ButtonLink, ButtonProps } from "core/actions/button";
 import {
   Item,
   ItemActions,
@@ -8,44 +6,22 @@ import {
   ItemMainText,
 } from "core/dataDisplay/item";
 import { StyleProps } from "core/types";
+import styled from "styled-components/macro";
+import { theme } from "styles/theme";
 
-export type ErrorType = "notFound" | "serverError" | "unauthorized";
+type ErrorType = "notFound" | "serverError" | "unauthorized";
 
-const ErrorTypeImage: Record<ErrorType, string> = {
+const ERROR_TYPE_IMAGE: Record<ErrorType, string> = {
   notFound: "🤷‍♀️",
   serverError: "🤭",
   unauthorized: "🙅‍♀️",
 };
 
-const ErrorTypeMessage: Record<ErrorType, string> = {
+const ERROR_TYPE_MESSAGE: Record<ErrorType, string> = {
   notFound: "Nous n'avons pas trouvé la page que vous chercher",
   serverError: "Une erreur est survenue",
   unauthorized: "Vous n'êtes pas autorisé",
 };
-
-export function ErrorActionRefresh() {
-  return (
-    <Button variant="primary" onClick={() => window.location.reload()}>
-      Rafraîchir
-    </Button>
-  );
-}
-
-export function ErrorActionRetry({ children, ...rest }: ButtonProps) {
-  return (
-    <Button {...rest} variant="primary">
-      {children ?? "Rafraîchir"}
-    </Button>
-  );
-}
-
-export function ErrorActionBack() {
-  return (
-    <ButtonLink href="/" variant="primary">
-      Retour
-    </ButtonLink>
-  );
-}
 
 export type ErrorMessageProps = StyleProps & {
   type: ErrorType;
@@ -57,23 +33,49 @@ export function ErrorMessage({
   type,
   message,
   action,
-  className,
   ...rest
 }: ErrorMessageProps) {
   return (
-    <div {...rest} className={cn("ErrorMessage", className)}>
-      <div role="img" aria-label="Oups" className="ErrorMessage__image">
-        {ErrorTypeImage[type]}
-      </div>
+    <Container {...rest}>
+      <Image role="img" aria-label="Oups">
+        {ERROR_TYPE_IMAGE[type]}
+      </Image>
 
-      <h1 className="ErrorMessage__message">
-        {message ?? ErrorTypeMessage[type]}
-      </h1>
-
-      {action != null && <div className="ErrorMessage__action">{action}</div>}
-    </div>
+      <Message>{message ?? ERROR_TYPE_MESSAGE[type]}</Message>
+      {action != null && <Action>{action}</Action>}
+    </Container>
   );
 }
+
+const Container = styled.div`
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto;
+`;
+
+const Image = styled.div`
+  margin: ${theme.spacing.x8} 0;
+  font-size: 128px;
+  /* We want it to be square */
+  line-height: 1;
+  animation-name: ${theme.animation.fadeIn}, ${theme.animation.scaleIn};
+  animation-duration: ${theme.animation.duration.slow};
+  animation-timing-function: ${theme.animation.ease.enter};
+  animation-fill-mode: forwards;
+`;
+
+const Message = styled.h1`
+  padding: 0 ${theme.spacing.x8};
+  font-family: ${theme.typography.fontFamily.title};
+  font-size: 20px;
+`;
+
+const Action = styled.div`
+  margin: ${theme.spacing.x8} auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
 
 export function ErrorItem({
   type,
@@ -83,10 +85,10 @@ export function ErrorItem({
 }: ErrorMessageProps) {
   return (
     <Item {...rest}>
-      <ItemIcon>{ErrorTypeImage[type]}</ItemIcon>
+      <ItemIcon>{ERROR_TYPE_IMAGE[type]}</ItemIcon>
 
       <ItemContent>
-        <ItemMainText>{message ?? ErrorTypeMessage[type]}</ItemMainText>
+        <ItemMainText>{message ?? ERROR_TYPE_MESSAGE[type]}</ItemMainText>
         {action != null && <ItemActions>{action}</ItemActions>}
       </ItemContent>
     </Item>

@@ -3,21 +3,9 @@
 
 @import "./reset.css";
 @import "./theme.css";
-@import "./globals.css";
 @import "./animations.css";
 
-@import "../core/actions/button.css";
-@import "../core/actions/quickAction.css";
-@import "../core/controllers/stepper.css";
-@import "../core/dataDisplay/avatar.css";
-@import "../core/dataDisplay/badge.css";
-@import "../core/dataDisplay/emptyMessage.css";
-@import "../core/dataDisplay/errorMessage.css";
-@import "../core/dataDisplay/image.css";
-@import "../core/dataDisplay/imageSlideshow.css";
 @import "../core/dataDisplay/item.css";
-@import "../core/dataDisplay/markdown.css";
-@import "../core/dataDisplay/statusBadge.css";
 @import "../core/formElements/adornment.css";
 @import "../core/formElements/dateInput.css";
 @import "../core/formElements/field.css";

@@ -176,7 +176,7 @@ export function AnimalBreedItem({ animalBreed }: AnimalBreedProps) {
 
         <ItemIcon>
           <Button
-            iconOnly
+            isIconOnly
             variant="secondary"
             ref={referenceElement}
             onClick={() => setIsMenuVisible(true)}

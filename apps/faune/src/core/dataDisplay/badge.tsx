@@ -1,22 +1,34 @@
-import cn from "classnames";
-import { ChildrenProp, StyleProps } from "core/types";
+import styled from "styled-components/macro";
+import { theme } from "styles/theme";
 
-type BadgeProps = StyleProps &
-  ChildrenProp & {
-    isVisible?: boolean;
-  };
+type BadgeProps = React.HTMLAttributes<HTMLSpanElement> & {
+  isVisible: boolean;
+};
 
-export function Badge({ isVisible, children, className }: BadgeProps) {
-  let badge: React.ReactNode = null;
-
-  if (isVisible) {
-    badge = <span className="Badge" />;
-  }
-
+export function Badge({ isVisible, children, ...rest }: BadgeProps) {
   return (
-    <span className={cn("Badge__wrapper", className)}>
+    <Container {...rest}>
       {children}
-      {badge}
-    </span>
+      {isVisible && <BadgeElement />}
+    </Container>
   );
 }
+
+const Container = styled.span`
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const BadgeElement = styled.span`
+  position: absolute;
+  top: 0;
+  right: 0;
+  transform: translate3d(50%, -50%, 0);
+  width: 12px;
+  height: 12px;
+  border: 2px solid ${theme.colors.background.primary};
+  background: ${theme.colors.primary[500]};
+  border-radius: ${theme.borderRadius.full};
+`;

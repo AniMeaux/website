@@ -274,7 +274,7 @@ const UserPage: PageComponent = () => {
         <ProfileSection user={user} />
         <GroupsSection user={user} />
 
-        <QuickActions icon={FaPen}>
+        <QuickActions icon={<FaPen />}>
           <ActionsSection user={user} />
         </QuickActions>
       </>

@@ -1,10 +1,7 @@
 import { PaginatedResponse } from "@animeaux/shared-entities";
+import { Button } from "core/actions/button";
 import { EmptyMessage, EmptyMessageProps } from "core/dataDisplay/emptyMessage";
-import {
-  ErrorActionRetry,
-  ErrorMessage,
-  ErrorMessageProps,
-} from "core/dataDisplay/errorMessage";
+import { ErrorMessage, ErrorMessageProps } from "core/dataDisplay/errorMessage";
 import { Placeholder, Placeholders } from "core/loaders/placeholder";
 import { ChildrenProp } from "core/types";
 import { UseInfiniteQueryResult, UseQueryResult } from "./request";
@@ -39,7 +36,11 @@ function defaultRenderError(props: ErrorRendererProps) {
 }
 
 function defaultRenderRetryButton({ retry, children }: RetryButtonProps) {
-  return <ErrorActionRetry onClick={retry}>{children}</ErrorActionRetry>;
+  return (
+    <Button onClick={retry} variant="primary">
+      {children}
+    </Button>
+  );
 }
 
 const DEFAULT_RETRY_LABEL = "Réessayer";

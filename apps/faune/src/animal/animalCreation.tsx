@@ -6,12 +6,7 @@ import {
   isEmptyAnimalFormPayload,
 } from "@animeaux/shared-entities";
 import constate from "constate";
-import {
-  StepItem,
-  StepLink,
-  Stepper,
-  StepStatus,
-} from "core/controllers/stepper";
+import { Step, Stepper, StepStatus } from "core/controllers/stepper";
 import { useRouter } from "core/router";
 import { openStorage } from "core/storage";
 import { ChildrenProp } from "core/types";
@@ -146,16 +141,19 @@ export enum AnimalFormStep {
   PICTURES,
 }
 
-function getStepStatus(step: AnimalFormStep, currentStep: AnimalFormStep) {
+function getStepStatus(
+  step: AnimalFormStep,
+  currentStep: AnimalFormStep
+): StepStatus {
   if (step === currentStep) {
-    return StepStatus.IN_PROGRESS;
+    return "in-progress";
   }
 
   if (step < currentStep) {
-    return StepStatus.DONE;
+    return "done";
   }
 
-  return StepStatus.PENDING;
+  return "pending";
 }
 
 type AnimalCreationStepperProps = {
@@ -165,32 +163,26 @@ type AnimalCreationStepperProps = {
 export function AnimalFormStepper({ step }: AnimalCreationStepperProps) {
   return (
     <Stepper>
-      <StepItem>
-        <StepLink
-          href="../profile"
-          status={getStepStatus(AnimalFormStep.PROFILE, step)}
-        >
-          Profil
-        </StepLink>
-      </StepItem>
+      <Step
+        href="../profile"
+        status={getStepStatus(AnimalFormStep.PROFILE, step)}
+      >
+        Profil
+      </Step>
 
-      <StepItem>
-        <StepLink
-          href="../situation"
-          status={getStepStatus(AnimalFormStep.SITUATION, step)}
-        >
-          Situation
-        </StepLink>
-      </StepItem>
+      <Step
+        href="../situation"
+        status={getStepStatus(AnimalFormStep.SITUATION, step)}
+      >
+        Situation
+      </Step>
 
-      <StepItem>
-        <StepLink
-          href="../pictures"
-          status={getStepStatus(AnimalFormStep.PICTURES, step)}
-        >
-          Photos
-        </StepLink>
-      </StepItem>
+      <Step
+        href="../pictures"
+        status={getStepStatus(AnimalFormStep.PICTURES, step)}
+      >
+        Photos
+      </Step>
     </Stepper>
   );
 }

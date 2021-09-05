@@ -19,7 +19,6 @@ import {
   ItemMainText,
   LinkItem,
 } from "core/dataDisplay/item";
-import { Markdown } from "core/dataDisplay/markdown";
 import { ApplicationLayout } from "core/layouts/applicationLayout";
 import { Header, HeaderBackLink, HeaderTitle } from "core/layouts/header";
 import { Main } from "core/layouts/main";
@@ -90,7 +89,9 @@ function ContactSection({ hostFamily }: HostFamilyProps) {
             </ItemIcon>
 
             <ItemContent>
-              <Markdown>{getHostFamilyFullAddress(hostFamily)}</Markdown>
+              <ItemMainText>
+                {getHostFamilyFullAddress(hostFamily)}
+              </ItemMainText>
             </ItemContent>
           </LinkItem>
         </li>
@@ -239,7 +240,7 @@ const HostFamilyPage: PageComponent = () => {
         <ContactSection hostFamily={hostFamily} />
         <HostedAnimalsSection>{hostedAnimals.content}</HostedAnimalsSection>
 
-        <QuickActions icon={FaPen}>
+        <QuickActions icon={<FaPen />}>
           <ActionsSection hostFamily={hostFamily} />
         </QuickActions>
       </>

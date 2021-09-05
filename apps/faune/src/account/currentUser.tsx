@@ -4,7 +4,8 @@ import {
   User,
   UserGroup,
 } from "@animeaux/shared-entities";
-import { ErrorActionBack, ErrorMessage } from "core/dataDisplay/errorMessage";
+import { Link } from "core/actions/link";
+import { ErrorMessage } from "core/dataDisplay/errorMessage";
 import { firebase } from "core/firebase";
 import { SignInPage } from "core/formElements/signInPage";
 import { fetchGraphQL } from "core/request";
@@ -210,7 +211,11 @@ export function CurrentUserContextProvider({
         <ErrorMessage
           type="unauthorized"
           message="Vous n'êtes pas authorisé à accéder à cette page. Si vous pensez que c'est une erreur merci de contacter un administrateur."
-          action={<ErrorActionBack />}
+          action={
+            <Link href="/" variant="primary">
+              Retour
+            </Link>
+          }
         />
       </main>
     );

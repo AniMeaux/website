@@ -1,20 +1,29 @@
-import cn from "classnames";
 import { ChildrenProp, StyleProps } from "core/types";
+import styled from "styled-components/macro";
+import { theme } from "styles/theme";
 
 export type EmptyMessageProps = ChildrenProp &
   StyleProps & {
     action?: React.ReactNode;
   };
 
-export function EmptyMessage({
-  children,
-  action,
-  className,
-}: EmptyMessageProps) {
+export function EmptyMessage({ children, action, ...rest }: EmptyMessageProps) {
   return (
-    <div className={cn("EmptyMessage", className)}>
-      <p className="EmptyMessage__text">{children}</p>
+    <Container {...rest}>
+      <Text>{children}</Text>
       {action}
-    </div>
+    </Container>
   );
 }
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
+
+const Text = styled.div`
+  max-width: 100%;
+  padding: ${theme.spacing.x8} ${theme.spacing.x4};
+`;

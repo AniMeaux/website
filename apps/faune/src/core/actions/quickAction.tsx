@@ -1,22 +1,42 @@
-import cn from "classnames";
-import { BaseLink, BaseLinkProps } from "core/baseLink";
+import { Button, ButtonProps } from "core/actions/button";
+import { Link } from "core/actions/link";
+import { ActionCommonProps } from "core/actions/shared";
 import { Modal } from "core/popovers/modal";
-import { ChildrenProp, StyleProps } from "core/types";
 import { useRef, useState } from "react";
+import styled, { css } from "styled-components/macro";
+import { theme } from "styles/theme";
 
-export function QuickLinkAction({ className, ...rest }: BaseLinkProps) {
-  return <BaseLink {...rest} className={cn("QuickAction", className)} />;
-}
+const SPACING = theme.spacing.x4;
+const SPACING_BOTTOM = `calc(${theme.components.bottomNavHeight} + ${SPACING})`;
 
-type QuickActionsProps = ChildrenProp &
-  StyleProps & {
-    icon: React.ElementType;
-    onClick?: React.MouseEventHandler<HTMLButtonElement>;
-  };
+const QUICK_ACTION_PROPS: ActionCommonProps = {
+  variant: "primary",
+  isIconOnly: true,
+};
+
+const QUICK_ACTION_STYLES = css`
+  position: fixed;
+  bottom: ${SPACING_BOTTOM};
+  bottom: calc(${SPACING_BOTTOM} + env(safe-area-inset-bottom, 0));
+  right: ${SPACING};
+  right: calc(${SPACING} + env(safe-area-inset-right, 0));
+  z-index: ${theme.zIndex.navigation};
+  box-shadow: ${theme.shadow.m};
+  width: 2em;
+  height: 2em;
+  font-size: 30px;
+`;
+
+export const QuickLinkAction = styled(Link).attrs(QUICK_ACTION_PROPS)`
+  ${QUICK_ACTION_STYLES};
+`;
+
+type QuickActionsProps = Omit<ButtonProps, "type"> & {
+  icon: React.ReactNode;
+};
 
 export function QuickActions({
-  className,
-  icon: Icon,
+  icon,
   children,
   onClick,
   ...rest
@@ -26,7 +46,7 @@ export function QuickActions({
 
   return (
     <>
-      <button
+      <QuickButtonAction
         {...rest}
         // Use type button to make sure we don't submit a form.
         type="button"
@@ -36,11 +56,10 @@ export function QuickActions({
             setIsOpened((isOpened) => !isOpened);
           }
         }}
-        className={cn("QuickAction", className)}
         ref={buttonElement}
       >
-        <Icon />
-      </button>
+        {icon}
+      </QuickButtonAction>
 
       <Modal
         open={isOpened}
@@ -53,3 +72,7 @@ export function QuickActions({
     </>
   );
 }
+
+const QuickButtonAction = styled(Button).attrs(QUICK_ACTION_PROPS)`
+  ${QUICK_ACTION_STYLES};
+`;

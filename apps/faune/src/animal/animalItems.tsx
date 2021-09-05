@@ -15,7 +15,7 @@ import {
   LinkItem,
   LinkItemProps,
 } from "core/dataDisplay/item";
-import { MarkdownInline } from "core/dataDisplay/markdown";
+import { Markdown } from "core/dataDisplay/markdown";
 import { Placeholder } from "core/loaders/placeholder";
 import { FaMapMarkerAlt } from "react-icons/fa";
 
@@ -89,7 +89,7 @@ export function LocationItem({ location, ...rest }: LocationItemProps) {
 
       <ItemContent>
         <ItemMainText>
-          <MarkdownInline>{location.highlighted}</MarkdownInline>
+          <Markdown preset="inline">{location.highlighted}</Markdown>
         </ItemMainText>
       </ItemContent>
     </ButtonItem>

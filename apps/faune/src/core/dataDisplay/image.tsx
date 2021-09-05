@@ -1,11 +1,12 @@
 import { ImageFileOrId, isImageFile } from "@animeaux/shared-entities";
-import cn from "classnames";
 import { Transformation } from "cloudinary-core";
 import { cloudinaryInstance } from "core/cloudinary";
 import { Sentry } from "core/sentry";
 import { StyleProps } from "core/types";
 import { useState } from "react";
 import { FaImage } from "react-icons/fa";
+import styled from "styled-components/macro";
+import { theme } from "styles/theme";
 
 type ImagePreset = "avatar" | "none";
 
@@ -20,19 +21,13 @@ const ImagePresetTransformOptions: Record<
   },
 };
 
-export type ImageProps = StyleProps & {
+type ImageProps = StyleProps & {
   image: ImageFileOrId;
   alt: string;
   preset?: ImagePreset;
 };
 
-export function Image({
-  image,
-  preset = "none",
-  alt,
-  className,
-  ...rest
-}: ImageProps) {
+export function Image({ image, preset = "none", alt, ...rest }: ImageProps) {
   const src = isImageFile(image)
     ? image.dataUrl
     : cloudinaryInstance.url(
@@ -44,16 +39,15 @@ export function Image({
 
   if (hasError) {
     return (
-      <span {...rest} title={alt} className={cn("Image--error", className)}>
+      <Error {...rest} title={alt}>
         <FaImage />
-      </span>
+      </Error>
     );
   }
 
   return (
     <img
       {...rest}
-      className={className}
       src={src}
       alt={alt}
       onError={(error) => {
@@ -64,12 +58,15 @@ export function Image({
   );
 }
 
-export function AvatarImage({
-  preset = "avatar",
-  className,
-  ...rest
-}: ImageProps) {
-  return (
-    <Image {...rest} preset={preset} className={cn("AvatarImage", className)} />
-  );
-}
+const Error = styled.span`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: ${theme.colors.text.secondary};
+`;
+
+export const AvatarImage = styled(Image).attrs({ preset: "avatar" })`
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+`;

@@ -71,7 +71,7 @@ export function SearchableAnimalLinkItem({
   return (
     <LinkItem href={`../${animal.id}`}>
       <ItemIcon>
-        <Avatar small={screenSize <= ScreenSize.MEDIUM}>
+        <Avatar isSmall={screenSize <= ScreenSize.MEDIUM}>
           <AvatarImage image={animal.avatarId} alt={displayName} />
         </Avatar>
       </ItemIcon>

@@ -22,6 +22,7 @@ import { useCurrentUser } from "account/currentUser";
 import { AnimalGenderIcon } from "animal/animalGenderIcon";
 import { AnimalSpeciesIcon } from "animal/animalSpeciesIcon";
 import { useAnimal, useDeleteAnimal } from "animal/queries";
+import { StatusBadge } from "animal/status";
 import { Button } from "core/actions/button";
 import { QuickActions } from "core/actions/quickAction";
 import { copyToClipboard } from "core/clipboard";
@@ -35,7 +36,6 @@ import {
   LinkItem,
 } from "core/dataDisplay/item";
 import { Markdown } from "core/dataDisplay/markdown";
-import { StatusBadge } from "core/dataDisplay/statusBadge";
 import { ApplicationLayout } from "core/layouts/applicationLayout";
 import { Header, HeaderBackLink, HeaderTitle } from "core/layouts/header";
 import { Main } from "core/layouts/main";
@@ -74,6 +74,8 @@ import {
   FaShareAlt,
   FaTrash,
 } from "react-icons/fa";
+import styled from "styled-components/macro";
+import { theme } from "styles/theme";
 
 type AnimalProps = {
   animal: Animal;
@@ -497,7 +499,7 @@ function SituationSection({ animal }: AnimalProps) {
               </ItemIcon>
 
               <ItemContent>
-                <Markdown>{animal.comments}</Markdown>
+                <Markdown preset="paragraph">{animal.comments}</Markdown>
               </ItemContent>
             </Item>
           </li>
@@ -517,12 +519,14 @@ function DescriptionSection({ animal }: AnimalProps) {
   return (
     <Section>
       <SectionTitle>Description</SectionTitle>
-      <Markdown style={{ padding: "0 var(--spacing-s)" }}>
-        {animal.description}
-      </Markdown>
+      <DescriptionText preset="paragraph">{animal.description}</DescriptionText>
     </Section>
   );
 }
+
+const DescriptionText = styled(Markdown)`
+  padding: 0 ${theme.spacing.x2};
+`;
 
 function DeleteAnimalButton({ animal }: AnimalProps) {
   const router = useRouter();
@@ -637,7 +641,7 @@ const AnimalPage: PageComponent = () => {
         <DescriptionSection animal={animal} />
 
         {isCurrentUserAdmin && (
-          <QuickActions icon={FaPen}>
+          <QuickActions icon={<FaPen />}>
             <ActionsSection animal={animal} />
           </QuickActions>
         )}

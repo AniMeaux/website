@@ -1,103 +1,25 @@
-import cn from "classnames";
-import { BaseLink, BaseLinkProps } from "core/baseLink";
-import { ChildrenProp, StyleProps } from "core/types";
+import { ActionCommonProps, ACTION_COMMON_STYLES } from "core/actions/shared";
 import { forwardRef } from "react";
+import styled from "styled-components/macro";
 
-type ButtonVariant = "primary" | "secondary" | "outlined";
-
-const ButtonVariantClassName: {
-  [key in ButtonVariant]: string;
-} = {
-  primary: "Button--primary",
-  secondary: "Button--secondary",
-  outlined: "Button--outlined",
-};
-
-type ButtonSize = "small" | "medium";
-
-const ButtonSizeClassName: {
-  [key in ButtonSize]: string;
-} = {
-  small: "Button--small",
-  medium: "Button--medium",
-};
-
-type ButtonCommonProps = StyleProps & {
-  size?: ButtonSize;
-  variant?: ButtonVariant;
-  iconOnly?: boolean;
-  disabled?: boolean;
-  title?: string;
-};
-
-export type ButtonProps = ChildrenProp &
-  ButtonCommonProps & {
-    type?: "submit" | "reset" | "button";
-    onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
-  };
+export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> &
+  ActionCommonProps;
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  function Button(
-    {
-      variant = "outlined",
-      size = "medium",
-      iconOnly = false,
-      disabled = false,
-      className,
-      ...rest
-    },
-    ref
-  ) {
+  function Button({ isIconOnly, size, variant, disabled, ...rest }, ref) {
     return (
-      <button
+      <ButtonElement
         {...rest}
         ref={ref}
         disabled={disabled}
-        className={cn(
-          "Button",
-          ButtonSizeClassName[size],
-          ButtonVariantClassName[variant],
-          {
-            "Button--isIconOnly": iconOnly,
-            "Button--disabled": disabled,
-          },
-          className
-        )}
+        $isIconOnly={isIconOnly}
+        $size={size}
+        $variant={variant}
       />
     );
   }
 );
 
-export type ButtonLinkProps = BaseLinkProps & ButtonCommonProps;
-
-export const ButtonLink = forwardRef<HTMLAnchorElement, ButtonLinkProps>(
-  function ButtonLink(
-    {
-      variant = "outlined",
-      size = "medium",
-      iconOnly = false,
-      disabled = false,
-      className,
-      ...rest
-    },
-    ref
-  ) {
-    return (
-      <BaseLink
-        {...rest}
-        ref={ref}
-        disabled={disabled}
-        className={cn(
-          "Button",
-          ButtonSizeClassName[size],
-          ButtonVariantClassName[variant],
-          {
-            "Button--isIconOnly": iconOnly,
-            "Button--disabled": disabled,
-          },
-          className
-        )}
-      />
-    );
-  }
-);
+const ButtonElement = styled.button`
+  ${ACTION_COMMON_STYLES};
+`;

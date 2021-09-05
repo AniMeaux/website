@@ -6,6 +6,7 @@ import {
 } from "@animeaux/shared-entities";
 import { useCurrentUser } from "account/currentUser";
 import { useAllActiveAnimals } from "animal/queries";
+import { StatusBadge, StatusIcon } from "animal/status";
 import { QuickLinkAction } from "core/actions/quickAction";
 import { Avatar } from "core/dataDisplay/avatar";
 import { AvatarImage } from "core/dataDisplay/image";
@@ -17,7 +18,6 @@ import {
   ItemSecondaryText,
   LinkItem,
 } from "core/dataDisplay/item";
-import { StatusBadge, StatusIcon } from "core/dataDisplay/statusBadge";
 import { ApplicationLayout } from "core/layouts/applicationLayout";
 import {
   Header,
@@ -78,7 +78,7 @@ function AnimalItem({ animal }: { animal: SearchableAnimal }) {
         {screenSize <= ScreenSize.SMALL ? (
           <StatusIcon status={animal.status} />
         ) : (
-          <StatusBadge small status={animal.status} />
+          <StatusBadge isSmall status={animal.status} />
         )}
       </ItemIcon>
     </LinkItem>

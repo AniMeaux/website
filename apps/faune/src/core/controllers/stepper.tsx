@@ -1,83 +1,130 @@
-import cn from "classnames";
 import { BaseLink, BaseLinkProps } from "core/baseLink";
-import { ChildrenProp, StyleProps } from "core/types";
 import { FaCheckCircle, FaCircle, FaDotCircle } from "react-icons/fa";
+import styled, { css } from "styled-components/macro";
+import { ELLIPSIS_STYLES, Styles, theme } from "styles/theme";
 
-export type StepperProps = StyleProps & ChildrenProp;
-export function Stepper({ className, ...rest }: StepperProps) {
-  return <ul {...rest} className={cn("Stepper", className)} />;
-}
+export type StepStatus = "pending" | "in-progress" | "done";
 
-export enum StepStatus {
-  PENDING,
-  IN_PROGRESS,
-  DONE,
-}
+export const Stepper = styled.ul`
+  padding: ${theme.spacing.x4} 0;
+  display: flex;
+  align-items: center;
+`;
 
-const StepItemStatusClassName: { [key in StepStatus]: string } = {
-  [StepStatus.PENDING]: "StepItem--isPending",
-  [StepStatus.IN_PROGRESS]: "StepItem--isInProgress",
-  [StepStatus.DONE]: "StepItem--isDone",
+const STATUS_ICONS: Record<StepStatus, React.ReactNode> = {
+  pending: <FaCircle />,
+  "in-progress": <FaDotCircle />,
+  done: <FaCheckCircle />,
 };
 
-type StepItemProps = StyleProps & {
-  children: React.ReactElement<StepLinkProps>;
+type StepProps = Omit<BaseLinkProps, "disabled"> & {
+  status: StepStatus;
 };
 
-export function StepItem({ className, children, ...rest }: StepItemProps) {
-  const status = children.props.status;
-
-  return (
-    <li
-      {...rest}
-      className={cn("StepItem", StepItemStatusClassName[status], className)}
-    >
-      {children}
-    </li>
-  );
-}
-
-const StepLinkStatusIconClassName: { [key in StepStatus]: string } = {
-  [StepStatus.PENDING]: "StepLink__icon--isPending",
-  [StepStatus.IN_PROGRESS]: "StepLink__icon--isInProgress",
-  [StepStatus.DONE]: "StepLink__icon--isDone",
-};
-
-const StepLinkStatusIcon: { [key in StepStatus]: React.ElementType } = {
-  [StepStatus.PENDING]: FaCircle,
-  [StepStatus.IN_PROGRESS]: FaDotCircle,
-  [StepStatus.DONE]: FaCheckCircle,
-};
-
-type StepLinkProps = Omit<BaseLinkProps, "disabled"> &
-  StyleProps & {
-    status: StepStatus;
-  };
-
-export function StepLink({
+export function Step({
   status,
   children,
   className,
+  style,
   ...rest
-}: StepLinkProps) {
-  const Icon = StepLinkStatusIcon[status];
-  const disabled = status === StepStatus.PENDING;
-
+}: StepProps) {
   return (
-    <BaseLink
-      {...rest}
-      disabled={disabled}
-      className={cn(
-        "StepLink",
-        { "StepLink--isDisabled": disabled },
-        className
-      )}
-    >
-      <Icon
-        className={cn("StepLink__icon", StepLinkStatusIconClassName[status])}
-      />
-
-      <span className="StepLink__label">{children}</span>
-    </BaseLink>
+    <Item className={className} style={style} $status={status}>
+      <Link {...rest} $status={status} disabled={status === "pending"}>
+        <Icon $status={status}>{STATUS_ICONS[status]}</Icon>
+        <Label>{children}</Label>
+      </Link>
+    </Item>
   );
 }
+
+const ICON_SIZE = "24px";
+const LINK_PADDING = theme.spacing.x2;
+
+const ITEM_STATUS_STYLES: Record<StepStatus, Styles> = {
+  done: css`
+    background: ${theme.colors.primary[500]};
+  `,
+  "in-progress": css`
+    background: ${theme.colors.primary[500]};
+  `,
+  pending: css`
+    background: ${theme.colors.dark[100]};
+  `,
+};
+
+const Item = styled.li<{ $status: StepStatus }>`
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  &:not(:first-child)::before {
+    ${(props) => ITEM_STATUS_STYLES[props.$status]};
+    content: "";
+    position: absolute;
+    top: calc(${ICON_SIZE} / 2 + ${LINK_PADDING});
+    left: 0;
+    transform: translate3d(-50%, -50%, 0);
+    width: calc(100% - (${ICON_SIZE} + 2 * ${LINK_PADDING}));
+    height: 4px;
+    border-radius: ${theme.borderRadius.full};
+  }
+`;
+
+const Link = styled(BaseLink)<{ $status: StepStatus }>`
+  max-width: 100%;
+  padding: ${LINK_PADDING};
+  border-radius: ${theme.borderRadius.m};
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+`;
+
+const ICON_STATUS_STYLES: Record<StepStatus, Styles> = {
+  done: css`
+    color: ${theme.colors.primary[500]};
+  `,
+  "in-progress": css`
+    color: ${theme.colors.primary[500]};
+  `,
+  pending: css`
+    color: ${theme.colors.dark[100]};
+  `,
+};
+
+const ICON_STATUS_HOVER_STYLES: Record<StepStatus, Styles> = {
+  done: css`
+    color: ${theme.colors.primary[400]};
+  `,
+  "in-progress": css`
+    color: ${theme.colors.primary[400]};
+  `,
+  pending: css``,
+};
+
+const Icon = styled.span<{ $status: StepStatus }>`
+  ${(props) => ICON_STATUS_STYLES[props.$status]};
+  margin-bottom: ${theme.spacing.x1};
+  font-size: ${ICON_SIZE};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  @media (hover: hover) {
+    ${Link}:not([aria-disabled]):hover & {
+      ${(props) => ICON_STATUS_HOVER_STYLES[props.$status]};
+    }
+  }
+`;
+
+const Label = styled.span`
+  ${ELLIPSIS_STYLES};
+  max-width: 100%;
+  font-size: 12px;
+  line-height: ${theme.typography.lineHeight.monoLine};
+  color: ${theme.colors.text.secondary};
+`;

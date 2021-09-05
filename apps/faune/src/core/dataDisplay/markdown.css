@@ -1,3 +1,0 @@
-.Markdown p:not(:first-child) {
-  margin-top: var(--spacing-s);
-}

@@ -158,7 +158,7 @@ function AnimalColorItem({ animalColor }: AnimalColorProps) {
 
         <ItemIcon>
           <Button
-            iconOnly
+            isIconOnly
             variant="secondary"
             ref={referenceElement}
             onClick={() => setIsMenuVisible(true)}
