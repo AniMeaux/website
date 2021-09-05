@@ -16,7 +16,6 @@ import { Header, HeaderBackLink, HeaderTitle } from "core/layouts/header";
 import { Main } from "core/layouts/main";
 import { Navigation } from "core/layouts/navigation";
 import { PageTitle } from "core/pageTitle";
-import { showSnackbar, Snackbar } from "core/popovers/snackbar";
 import { useMutation } from "core/request";
 import { useRouter } from "core/router";
 import { PageComponent } from "core/types";
@@ -42,8 +41,6 @@ const EditProfile: PageComponent = () => {
       errorCodesToIgnore: [ErrorCode.USER_MISSING_DISPLAY_NAME],
 
       onSuccess() {
-        showSnackbar.success(<Snackbar>Profil modifié</Snackbar>);
-
         router.backIfPossible(backUrl);
       },
     }

@@ -8,7 +8,6 @@ import {
   PaginatedResponse,
   UpdateAnimalBreedPayload,
 } from "@animeaux/shared-entities";
-import { showSnackbar, Snackbar } from "core/popovers/snackbar";
 import {
   fetchGraphQL,
   removeDataFromInfiniteCache,
@@ -170,8 +169,6 @@ export function useCreateAnimalBreed(
         // manualy update the cache.
         queryClient.invalidateQueries("animal-breeds");
 
-        showSnackbar.success(<Snackbar>Race créée</Snackbar>);
-
         options?.onSuccess?.(animalBreed, ...rest);
       },
     }
@@ -253,8 +250,6 @@ export function useUpdateAnimalBreed(
           updateDataInInfiniteCache(animalBreed)
         );
 
-        showSnackbar.success(<Snackbar>Race modifiée</Snackbar>);
-
         options?.onSuccess?.(animalBreed, ...rest);
       },
     }
@@ -293,8 +288,6 @@ export function useDeleteAnimalBreed(
           "animal-breeds",
           removeDataFromInfiniteCache(animalBreedId)
         );
-
-        showSnackbar.success(<Snackbar>Race supprimée</Snackbar>);
 
         options?.onSuccess?.(animalBreedId, ...rest);
       },

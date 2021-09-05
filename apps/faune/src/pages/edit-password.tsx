@@ -16,7 +16,6 @@ import { Header, HeaderBackLink, HeaderTitle } from "core/layouts/header";
 import { Main } from "core/layouts/main";
 import { Navigation } from "core/layouts/navigation";
 import { PageTitle } from "core/pageTitle";
-import { showSnackbar, Snackbar } from "core/popovers/snackbar";
 import { useMutation } from "core/request";
 import { useRouter } from "core/router";
 import { PageComponent } from "core/types";
@@ -47,8 +46,6 @@ const EditPassword: PageComponent = () => {
       ],
 
       onSuccess() {
-        showSnackbar.success(<Snackbar>Mot de passe changé</Snackbar>);
-
         router.backIfPossible(backUrl);
       },
     }

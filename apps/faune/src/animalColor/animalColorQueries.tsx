@@ -8,7 +8,6 @@ import {
   PaginatedResponse,
   UpdateAnimalColorPayload,
 } from "@animeaux/shared-entities";
-import { showSnackbar, Snackbar } from "core/popovers/snackbar";
 import {
   fetchGraphQL,
   removeDataFromInfiniteCache,
@@ -152,8 +151,6 @@ export function useCreateAnimalColor(
         // manualy update the cache.
         queryClient.invalidateQueries("animal-colors");
 
-        showSnackbar.success(<Snackbar>Couleur créée</Snackbar>);
-
         options?.onSuccess?.(animalColor, ...rest);
       },
     }
@@ -221,8 +218,6 @@ export function useUpdateAnimalColor(
           updateDataInInfiniteCache(animalColor)
         );
 
-        showSnackbar.success(<Snackbar>Couleur modifiée</Snackbar>);
-
         options?.onSuccess?.(animalColor, ...rest);
       },
     }
@@ -261,8 +256,6 @@ export function useDeleteAnimalColor(
           "animal-colors",
           removeDataFromInfiniteCache(animalColorId)
         );
-
-        showSnackbar.success(<Snackbar>Couleur supprimée</Snackbar>);
 
         options?.onSuccess?.(animalColorId, ...rest);
       },

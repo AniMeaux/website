@@ -9,7 +9,6 @@ import {
   PaginatedResponse,
   UpdateHostFamilyPayload,
 } from "@animeaux/shared-entities";
-import { showSnackbar, Snackbar } from "core/popovers/snackbar";
 import {
   fetchGraphQL,
   removeDataFromInfiniteCache,
@@ -198,8 +197,6 @@ export function useCreateHostFamily(
         // manualy update the cache.
         queryClient.invalidateQueries("host-families");
 
-        showSnackbar.success(<Snackbar>FA créée</Snackbar>);
-
         options?.onSuccess?.(hostFamily, ...rest);
       },
     }
@@ -336,8 +333,6 @@ export function useUpdateHostFamily(
           updateDataInInfiniteCache(hostFamily)
         );
 
-        showSnackbar.success(<Snackbar>FA modifiée</Snackbar>);
-
         options?.onSuccess?.(hostFamily, ...rest);
       },
     }
@@ -376,8 +371,6 @@ export function useDeleteHostFamily(
           "host-families",
           removeDataFromInfiniteCache(hostFamilyId)
         );
-
-        showSnackbar.success(<Snackbar>FA supprimée</Snackbar>);
 
         options?.onSuccess?.(hostFamilyId, ...rest);
       },

@@ -28,7 +28,6 @@ import {
 import { AnimalBreedFragment } from "animalBreed/animalBreedQueries";
 import { AnimalColorFragment } from "animalColor/animalColorQueries";
 import { deleteImage, uploadImageFile } from "core/cloudinary";
-import { showSnackbar, Snackbar } from "core/popovers/snackbar";
 import {
   fetchGraphQL,
   QueryClient,
@@ -212,9 +211,6 @@ export function useCreateAnimalProfile(
         ErrorCode.ANIMAL_MISSING_SPECIES,
         ErrorCode.ANIMAL_SPECIES_BREED_MISSMATCH,
       ],
-      onSuccess(profilePayload, ...rest) {
-        options?.onSuccess?.(profilePayload, ...rest);
-      },
     }
   );
 
@@ -239,9 +235,6 @@ export function useCreateAnimalSituation(
         ErrorCode.ANIMAL_MISSING_PICK_UP_LOCATION,
         ErrorCode.ANIMAL_MISSING_ADOPTION_DATE,
       ],
-      onSuccess(situationPayload, ...rest) {
-        options?.onSuccess?.(situationPayload, ...rest);
-      },
     }
   );
 
@@ -352,8 +345,6 @@ export function useCreateAnimal(
         // manualy update the cache.
         queryClient.invalidateQueries("animals");
 
-        showSnackbar.success(<Snackbar>Animal créée</Snackbar>);
-
         options?.onSuccess?.(animal, ...rest);
       },
     }
@@ -450,8 +441,6 @@ export function useDeleteAnimal(
           "animals",
           removeDataFromInfiniteCache(animal.id)
         );
-
-        showSnackbar.success(<Snackbar>Animal supprimée</Snackbar>);
 
         options?.onSuccess?.(animal, ...rest);
       },
@@ -568,9 +557,6 @@ export function useUpdateAnimalProfile(
 
       onSuccess(animal, ...rest) {
         updateAnimalsQueryCache(queryClient, animal);
-
-        showSnackbar.success(<Snackbar>Animal modifiée</Snackbar>);
-
         options?.onSuccess?.(animal, ...rest);
       },
     }
@@ -616,9 +602,6 @@ export function useUpdateAnimalSituation(
 
       onSuccess(animal, ...rest) {
         updateAnimalsQueryCache(queryClient, animal);
-
-        showSnackbar.success(<Snackbar>Animal modifiée</Snackbar>);
-
         options?.onSuccess?.(animal, ...rest);
       },
     }
@@ -681,9 +664,6 @@ export function useUpdateAnimalPicture(
 
       onSuccess(animal, ...rest) {
         updateAnimalsQueryCache(queryClient, animal);
-
-        showSnackbar.success(<Snackbar>Animal modifiée</Snackbar>);
-
         options?.onSuccess?.(animal, ...rest);
       },
     }
