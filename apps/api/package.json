@@ -10,7 +10,7 @@
     "dev": "yarn build && run-p \"build -w\" start:dev",
     "start:dev": "NODE_ENV=\"development\" nodemon --watch build .",
     "start:prod": "NODE_ENV=\"production\" node .",
-    "script": "NODE_ENV=\"production\" ts-node --files --project tsconfig.scripts.json"
+    "script": "NODE_ENV=\"production\" ts-node --files --project scripts/tsconfig.json"
   },
   "dependencies": {
     "@animeaux/shared-entities": "*",
