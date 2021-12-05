@@ -29,6 +29,7 @@ function useAnimalFormPayload() {
         breed: animal.breed ?? null,
         color: animal.color ?? null,
         description: animal.description,
+        iCadNumber: animal.iCadNumber ?? "",
         hostFamily: animal.hostFamily ?? null,
         isOkCats: animal.isOkCats,
         isOkChildren: animal.isOkChildren,

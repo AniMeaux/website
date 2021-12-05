@@ -97,6 +97,7 @@ const AnimalFragment = gql`
       ...AnimalColorFragment
     }
     description
+    iCadNumber
     status
     adoptionDate
     adoptionOption
@@ -254,6 +255,7 @@ const CreateAnimalQuery = gql`
     $breedId: ID
     $colorId: ID
     $description: String!
+    $iCadNumber: String
     $status: AnimalStatus!
     $adoptionDate: String
     $adoptionOption: AdoptionOption
@@ -278,6 +280,7 @@ const CreateAnimalQuery = gql`
       breedId: $breedId
       colorId: $colorId
       description: $description
+      iCadNumber: $iCadNumber
       status: $status
       adoptionDate: $adoptionDate
       adoptionOption: $adoptionOption
@@ -464,6 +467,7 @@ const UpdateAnimalQuery = gql`
     $breedId: ID
     $colorId: ID
     $description: String
+    $iCadNumber: String
     $status: AnimalStatus
     $adoptionDate: String
     $adoptionOption: AdoptionOption
@@ -489,6 +493,7 @@ const UpdateAnimalQuery = gql`
       breedId: $breedId
       colorId: $colorId
       description: $description
+      iCadNumber: $iCadNumber
       status: $status
       adoptionDate: $adoptionDate
       adoptionOption: $adoptionOption

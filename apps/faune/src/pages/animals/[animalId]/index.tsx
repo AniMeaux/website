@@ -63,6 +63,7 @@ import {
   FaEllipsisH,
   FaEnvelope,
   FaExclamationTriangle,
+  FaFingerprint,
   FaHandHoldingHeart,
   FaHome,
   FaImages,
@@ -226,6 +227,20 @@ function ProfileSection({ animal }: AnimalProps) {
             </ItemContent>
           </Item>
         </li>
+
+        {animal.iCadNumber != null && (
+          <li>
+            <Item>
+              <ItemIcon>
+                <FaFingerprint />
+              </ItemIcon>
+
+              <ItemContent>
+                <ItemMainText>I-CAD : {animal.iCadNumber}</ItemMainText>
+              </ItemContent>
+            </Item>
+          </li>
+        )}
       </ul>
     </SectionBox>
   );

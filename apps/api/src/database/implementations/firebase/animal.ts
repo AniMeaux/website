@@ -310,6 +310,13 @@ export const animalDatabase: AnimalDatabase = {
       comments: cleanMarkdown(payload.comments),
     };
 
+    if (payload.iCadNumber != null) {
+      const iCadNumber = payload.iCadNumber.trim();
+      if (iCadNumber !== "") {
+        animal.iCadNumber = iCadNumber;
+      }
+    }
+
     await admin.firestore().collection("animals").doc(animal.id).set(animal);
 
     await AnimalsIndex.saveObject({
@@ -523,6 +530,18 @@ export const animalDatabase: AnimalDatabase = {
       payload.description !== animal.description
     ) {
       animalUpdate.description = cleanMarkdown(payload.description);
+    }
+
+    // Allow null to clear the field.
+    if (payload.iCadNumber !== undefined) {
+      if (payload.iCadNumber === null) {
+        animalUpdate.iCadNumber = null;
+      } else {
+        const iCadNumber = payload.iCadNumber.trim();
+        if (iCadNumber !== animal.iCadNumber) {
+          animalUpdate.iCadNumber = iCadNumber;
+        }
+      }
     }
 
     if (

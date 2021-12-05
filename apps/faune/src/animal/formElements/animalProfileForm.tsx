@@ -24,7 +24,14 @@ import {
 } from "core/formElements/selector";
 import { SubmitButton } from "core/formElements/submitButton";
 import { Textarea } from "core/formElements/textarea";
-import { FaComment, FaDna, FaPalette, FaTimes } from "react-icons/fa";
+import {
+  FaBarcode,
+  FaComment,
+  FaDna,
+  FaFingerprint,
+  FaPalette,
+  FaTimes,
+} from "react-icons/fa";
 
 export type AnimalProfileFormErrors = {
   officialName?: string | null;
@@ -202,6 +209,27 @@ export function AnimalProfileForm<
                 <FaTimes />
               </ActionAdornment>
             )
+          }
+        />
+      </Field>
+
+      <Field>
+        <Label htmlFor="animal-i-cad-number" isOptional>
+          Numéro I-CAD
+        </Label>
+
+        <Input
+          name="animal-i-cad-number"
+          id="animal-i-cad-number"
+          type="text"
+          value={value.iCadNumber}
+          onChange={(iCadNumber) =>
+            onChange((value) => ({ ...value, iCadNumber }))
+          }
+          leftAdornment={
+            <Adornment>
+              <FaFingerprint />
+            </Adornment>
           }
         />
       </Field>

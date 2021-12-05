@@ -116,6 +116,7 @@ const typeDefs = gql`
     breed: AnimalBreed
     color: AnimalColor
     description: String!
+    iCadNumber: String
     status: AnimalStatus!
     adoptionDate: String
     adoptionOption: AdoptionOption
@@ -192,6 +193,7 @@ const typeDefs = gql`
       breedId: ID
       colorId: ID
       description: String!
+      iCadNumber: String
       status: AnimalStatus!
       adoptionDate: String
       adoptionOption: AdoptionOption
@@ -218,6 +220,7 @@ const typeDefs = gql`
       breedId: ID
       colorId: ID
       description: String
+      iCadNumber: String
       status: AnimalStatus
       adoptionDate: String
       adoptionOption: AdoptionOption

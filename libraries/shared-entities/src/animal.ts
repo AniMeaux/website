@@ -288,12 +288,14 @@ export type PublicAnimal = PublicSearchableAnimal & {
 export type Animal = SearchableAnimal & {
   description: string;
   picturesId: string[];
+  iCadNumber?: string;
   comments: string;
 };
 
 export function toSearchableAnimal({
   description,
   picturesId,
+  iCadNumber,
   comments,
   ...searchableAnimal
 }: Animal): SearchableAnimal {
@@ -303,6 +305,7 @@ export function toSearchableAnimal({
 export type DBAnimal = DBSearchableAnimal & {
   description: string | null;
   picturesId: string[];
+  iCadNumber?: string | null;
   comments?: string | null;
 };
 
@@ -323,6 +326,7 @@ export type AnimalProfileFormPayload = {
   breed: AnimalBreed | null;
   color: AnimalColor | null;
   description: string;
+  iCadNumber: string;
 };
 
 export type CreateAnimalProfilePayload = {
@@ -334,6 +338,7 @@ export type CreateAnimalProfilePayload = {
   breedId?: string | null;
   colorId?: string | null;
   description: string;
+  iCadNumber?: string | null;
 };
 
 export function createAnimalProfileCreationApiPayload(
@@ -364,6 +369,11 @@ export function createAnimalProfileCreationApiPayload(
     species: payload.species,
     description: payload.description,
   };
+
+  const iCadNumber = payload.iCadNumber.trim();
+  if (iCadNumber !== "") {
+    apiPayload.iCadNumber = iCadNumber;
+  }
 
   if (payload.breed != null) {
     if (payload.breed.species !== payload.species) {
@@ -508,6 +518,7 @@ export function createEmptyAnimalFormPayload(): AnimalFormPayload {
     species: null,
     breed: null,
     color: null,
+    iCadNumber: "",
     description: "",
     status: AnimalStatus.UNAVAILABLE,
     adoptionDate: "",
@@ -567,6 +578,10 @@ export function createAminalProfileUpdateApiPayload(
   // Allow null to clear the field.
   if (formPayload.color?.id !== animal.color?.id) {
     updatePayload.colorId = formPayload.color?.id ?? null;
+  }
+
+  if (formPayload.iCadNumber !== animal.iCadNumber) {
+    updatePayload.iCadNumber = formPayload.iCadNumber;
   }
 
   if (formPayload.description !== animal.description) {
