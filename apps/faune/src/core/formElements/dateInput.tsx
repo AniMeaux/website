@@ -1,9 +1,10 @@
-import cn from "classnames";
 import { Adornment } from "core/formElements/adornment";
-import { Input } from "core/formElements/input";
+import { Input as BaseInput } from "core/formElements/input";
 import { InputWrapperProps } from "core/formElements/inputWrapper";
 import { HtmlInputProps, StyleProps } from "core/types";
 import { useRef } from "react";
+import styled from "styled-components/macro";
+import { theme } from "styles/theme";
 
 function formatDate(day: string, month: string, year: string) {
   return [year, month, day].join("-");
@@ -62,8 +63,8 @@ export function DateInput({
   }
 
   return (
-    <span className={cn("DateInput", className)}>
-      <Input
+    <Container>
+      <SmallInput
         {...rest}
         id={id}
         name={`${name}-day`}
@@ -73,10 +74,9 @@ export function DateInput({
         placeholder="00"
         hasError={hasError}
         leftAdornment={<Adornment>J</Adornment>}
-        className="DateInput__day"
       />
 
-      <Input
+      <SmallInput
         {...rest}
         name={`${name}-month`}
         value={month}
@@ -86,10 +86,9 @@ export function DateInput({
         hasError={hasError}
         leftAdornment={<Adornment>M</Adornment>}
         ref={monthRef}
-        className="DateInput__month"
       />
 
-      <Input
+      <LargeInput
         {...rest}
         name={`${name}-year`}
         value={year}
@@ -99,8 +98,21 @@ export function DateInput({
         hasError={hasError}
         leftAdornment={<Adornment>A</Adornment>}
         ref={yearRef}
-        className="DateInput__year"
       />
-    </span>
+    </Container>
   );
 }
+
+const Container = styled.span`
+  display: flex;
+  align-items: center;
+  gap: ${theme.spacing.x2};
+`;
+
+const SmallInput = styled(BaseInput)`
+  flex: 1 1 2ch;
+`;
+
+const LargeInput = styled(BaseInput)`
+  flex: 1 1 4ch;
+`;

@@ -1,29 +1,36 @@
-import cn from "classnames";
-import { ChildrenProp, StyleProps } from "core/types";
-import { forwardRef } from "react";
+import styled, { css } from "styled-components/macro";
+import { theme } from "styles/theme";
 
-export function Adornment({ className, children }: StyleProps & ChildrenProp) {
-  return <span className={cn("Adornment", className)}>{children}</span>;
-}
+export const ADORNMENT_SIZE = 32;
 
-type ActionAdornmentProps = ChildrenProp &
-  StyleProps & {
-    onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
-  };
+const COMMON_STYLES = css`
+  width: ${ADORNMENT_SIZE}px;
+  height: ${ADORNMENT_SIZE}px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+`;
 
-export const ActionAdornment = forwardRef<
-  HTMLButtonElement,
-  ActionAdornmentProps
->(function ActionAdornment({ onClick, children, className }, ref) {
-  return (
-    <button
-      // Use type button to make sure we don't submit a form.
-      type="button"
-      onClick={onClick}
-      className={cn("Adornment Adornment--action", className)}
-      ref={ref}
-    >
-      {children}
-    </button>
-  );
-});
+export const Adornment = styled.span`
+  ${COMMON_STYLES};
+`;
+
+export const ActionAdornment = styled.button.attrs({
+  // Use type button to make sure we don't submit a form.
+  type: "button",
+})`
+  ${COMMON_STYLES}
+  border-radius: ${theme.borderRadius.full};
+  pointer-events: auto;
+
+  @media (hover: hover) {
+    &:hover {
+      background: ${theme.colors.dark[30]};
+    }
+  }
+
+  &:active {
+    background: ${theme.colors.dark[50]};
+  }
+`;

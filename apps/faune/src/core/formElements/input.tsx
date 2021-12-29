@@ -1,11 +1,11 @@
-import cn from "classnames";
 import {
-  getInputClassName,
   InputWrapper,
   InputWrapperProps,
+  INPUT_STYLES,
 } from "core/formElements/inputWrapper";
 import { HtmlInputProps, StyleProps } from "core/types";
 import { forwardRef } from "react";
+import styled from "styled-components/macro";
 
 export type InputProps = StyleProps &
   HtmlInputProps &
@@ -16,8 +16,8 @@ export type InputProps = StyleProps &
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
   {
-    size,
-    hasError,
+    size = "medium",
+    hasError = false,
     leftAdornment,
     rightAdornment,
     disabled,
@@ -42,23 +42,22 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
       hasError={hasError}
       className={className}
     >
-      <input
+      <InputNative
         {...rest}
         autoComplete={autoComplete}
         disabled={disabled}
         value={value}
         onChange={(event) => onChange?.(event.target.value)}
-        className={cn(
-          getInputClassName({
-            disabled,
-            size,
-            hasError,
-            leftAdornment,
-            rightAdornment,
-          })
-        )}
+        $hasError={hasError}
+        $size={size}
+        $leftAdornment={leftAdornment}
+        $rightAdornment={rightAdornment}
         ref={ref}
       />
     </InputWrapper>
   );
 });
+
+const InputNative = styled.input`
+  ${INPUT_STYLES};
+`;

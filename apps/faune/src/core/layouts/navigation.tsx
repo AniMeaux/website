@@ -5,17 +5,12 @@ import {
 } from "@animeaux/shared-entities";
 import { useCurrentUser } from "account/currentUser";
 import { CurrentUserMenu } from "account/currentUserMenu";
-import cn from "classnames";
 import { UserAvatar } from "core/dataDisplay/avatar";
 import {
   ButtonItem,
-  ButtonItemProps,
   ItemContent,
-  ItemContentProps,
   ItemIcon,
-  ItemIconProps,
   ItemMainText,
-  ItemMainTextProps,
   ItemSecondaryText,
   LinkItem,
   LinkItemProps,
@@ -28,7 +23,7 @@ import { Modal, ModalHeader, ModalHeaderTitle } from "core/popovers/modal";
 import { useRouter } from "core/router";
 import { ScreenSize, useScreenSize } from "core/screenSize";
 import { ChildrenProp, StyleProps } from "core/types";
-import { forwardRef, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   FaAngleRight,
   FaDna,
@@ -38,6 +33,8 @@ import {
   FaPaw,
   FaUser,
 } from "react-icons/fa";
+import styled from "styled-components/macro";
+import { theme } from "styles/theme";
 
 type NavigationMenuProps = {
   navigationItems: NavigationItem[];
@@ -186,17 +183,15 @@ export function Navigation({ onlyLargeEnough = false }: NavigationProps) {
     <BaseNavigation>
       {screenSize >= ScreenSize.MEDIUM && (
         <NavigationItemList>
-          <LinkItem href="/" className="NavigationLogo__item">
-            <ItemIcon className="NavigationLogo__icon">
+          <NavigationLogoItem href="/">
+            <NavigationLogoIcon>
               <AppIcon />
-            </ItemIcon>
+            </NavigationLogoIcon>
 
             <NavLinkContent>
-              <ItemMainText className="NavigationLogo__label">
-                Faune
-              </ItemMainText>
+              <NavigationLogoLabel>Faune</NavigationLogoLabel>
             </NavLinkContent>
-          </LinkItem>
+          </NavigationLogoItem>
         </NavigationItemList>
       )}
 
@@ -225,6 +220,22 @@ export function Navigation({ onlyLargeEnough = false }: NavigationProps) {
   );
 }
 
+const NavigationLogoItem = styled(LinkItem)`
+  @media (max-width: 799px) {
+    justify-content: center;
+  }
+`;
+
+const NavigationLogoIcon = styled(ItemIcon)`
+  font-size: 48px;
+`;
+
+const NavigationLogoLabel = styled(ItemMainText)`
+  font-family: ${theme.typography.fontFamily.title};
+  font-size: 30px;
+  font-weight: 600;
+`;
+
 function NavigationUserItem() {
   const { currentUser } = useCurrentUser();
   const [isMenuVisible, setIsMenuVisible] = useState(false);
@@ -232,12 +243,11 @@ function NavigationUserItem() {
 
   return (
     <>
-      <NavigationItemList className="NavigationUserItem">
+      <NavigationUserItemList>
         <NavItem>
-          <ButtonItem
+          <NavigationUserButtonItem
             ref={currentUserButton}
             onClick={() => setIsMenuVisible(true)}
-            className="NavigationUser"
           >
             <ItemIcon>
               <UserAvatar user={currentUser} />
@@ -247,9 +257,9 @@ function NavigationUserItem() {
               <ItemMainText>{currentUser.displayName}</ItemMainText>
               <ItemSecondaryText>{currentUser.email}</ItemSecondaryText>
             </NavLinkContent>
-          </ButtonItem>
+          </NavigationUserButtonItem>
         </NavItem>
-      </NavigationItemList>
+      </NavigationUserItemList>
 
       <CurrentUserMenu
         open={isMenuVisible}
@@ -261,8 +271,14 @@ function NavigationUserItem() {
   );
 }
 
+const NavigationUserButtonItem = styled(ButtonItem)`
+  @media (max-width: 799px) {
+    justify-content: center;
+  }
+`;
+
 type BaseNavigationProps = ChildrenProp & StyleProps;
-function BaseNavigation({ className, children, ...rest }: BaseNavigationProps) {
+function BaseNavigation({ children, ...rest }: BaseNavigationProps) {
   const { isAtTheBottom } = useIsScrollAtTheBottom();
   const { setState } = useApplicationLayout();
 
@@ -272,23 +288,80 @@ function BaseNavigation({ className, children, ...rest }: BaseNavigationProps) {
   }, [setState]);
 
   return (
-    <nav
-      {...rest}
-      className={cn(
-        "Navigation",
-        { "Navigation--hasScroll": !isAtTheBottom },
-        className
-      )}
-    >
-      <div className="Navigation__content">{children}</div>
-    </nav>
+    <BaseNavigationElement {...rest} $hasScroll={!isAtTheBottom}>
+      <BaseNavigationElementContent>{children}</BaseNavigationElementContent>
+    </BaseNavigationElement>
   );
 }
 
-type NavigationItemListProps = ChildrenProp & StyleProps;
-function NavigationItemList({ className, ...rest }: NavigationItemListProps) {
-  return <ul {...rest} className={cn("NavigationItemList", className)} />;
-}
+const BaseNavigationElement = styled.nav<{ $hasScroll: boolean }>`
+  z-index: ${theme.zIndex.navigation};
+  min-width: 0;
+
+  padding-right: 0;
+  padding-right: env(safe-area-inset-right, 0);
+  padding-bottom: 0;
+  padding-bottom: env(safe-area-inset-bottom, 0);
+
+  transition-property: box-shadow;
+  transition-duration: ${theme.animation.duration.fast};
+  transition-timing-function: ${theme.animation.ease.move};
+
+  @media (max-width: 499px) {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding-left: 0;
+    padding-left: env(safe-area-inset-left, 0);
+    background: ${theme.colors.background.primary};
+    box-shadow: ${(props) =>
+      props.$hasScroll ? `0 -1px 0 0 ${theme.colors.dark[50]}` : "none"};
+  }
+
+  @media (min-width: 500px) {
+    grid-area: navigation;
+    box-shadow: inset -1px 0 0 0 ${theme.colors.dark[50]};
+  }
+`;
+
+const BaseNavigationElementContent = styled.div`
+  @media (max-width: 499px) {
+    width: 100%;
+  }
+
+  @media (min-width: 500px) {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+`;
+
+const NavigationItemList = styled.ul`
+  padding: ${theme.spacing.x2};
+  display: flex;
+  align-items: stretch;
+  gap: ${theme.spacing.x2};
+
+  @media (max-width: 499px) {
+    width: 100%;
+    height: ${theme.components.bottomNavHeight};
+  }
+
+  @media (min-width: 500px) {
+    flex-direction: column;
+  }
+
+  & > * {
+    flex: 1;
+  }
+`;
+
+const NavigationUserItemList = styled(NavigationItemList)`
+  margin-top: auto;
+`;
 
 type NavItemProps = ChildrenProp;
 function NavItem(props: NavItemProps) {
@@ -299,44 +372,47 @@ type NavLinkProps = LinkItemProps & {
   strict?: boolean;
 };
 
-function NavLink({ strict = false, className, ...rest }: NavLinkProps) {
+function NavLink({ strict = false, ...rest }: NavLinkProps) {
   const router = useRouter();
   const currentPath = router.asPath.split("?")[0];
 
-  const active = strict
+  const isActive = strict
     ? currentPath === rest.href
     : currentPath.startsWith(rest.href);
 
-  return (
-    <LinkItem
-      {...rest}
-      className={cn("NavLink", { "NavLink--active": active }, className)}
-    />
-  );
+  return <NavLinkItem {...rest} $isActive={isActive} />;
 }
 
-type NavButtonProps = ButtonItemProps;
-const NavButton = forwardRef<HTMLButtonElement, NavButtonProps>(
-  function NavButton({ className, ...rest }, ref) {
-    return (
-      <ButtonItem {...rest} ref={ref} className={cn("NavLink", className)} />
-    );
+const NavLinkItem = styled(LinkItem)<{ $isActive: boolean }>`
+  color: ${(props) => (props.$isActive ? "inherit" : theme.colors.dark[300])};
+
+  @media (max-width: 799px) {
+    justify-content: center;
   }
-);
 
-type NavLinkContentProps = ItemContentProps;
-function NavLinkContent({ className, ...rest }: NavLinkContentProps) {
-  return <ItemContent {...rest} className={cn("NavLinkContent", className)} />;
-}
+  :active {
+    color: ${(props) => (props.$isActive ? "inherit" : theme.colors.dark[500])};
+  }
+`;
 
-type NavLinkIconProps = ItemIconProps;
-function NavLinkIcon({ className, ...rest }: NavLinkIconProps) {
-  return <ItemIcon {...rest} className={cn("NavLinkIcon", className)} />;
-}
+const NavButton = styled(ButtonItem)`
+  @media (max-width: 799px) {
+    justify-content: center;
+  }
+`;
 
-type NavLinkMainTextProps = ItemMainTextProps;
-function NavLinkMainText({ className, ...rest }: NavLinkMainTextProps) {
-  return (
-    <ItemMainText {...rest} className={cn("NavLinkMainText", className)} />
-  );
-}
+const NavLinkContent = styled(ItemContent)`
+  @media (max-width: 799px) {
+    display: none;
+  }
+`;
+
+const NavLinkIcon = styled(ItemIcon)`
+  @media (min-width: 500px) {
+    font-size: 30px;
+  }
+`;
+
+const NavLinkMainText = styled(ItemMainText)`
+  font-size: 20px;
+`;

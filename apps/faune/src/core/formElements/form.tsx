@@ -1,5 +1,5 @@
-import cn from "classnames";
 import { ChildrenProp, StyleProps } from "core/types";
+import styled from "styled-components/macro";
 
 export type FormProps = StyleProps &
   ChildrenProp & {
@@ -7,14 +7,9 @@ export type FormProps = StyleProps &
     pending?: boolean;
   };
 
-export function Form({
-  onSubmit,
-  pending = false,
-  className,
-  ...rest
-}: FormProps) {
+export function Form({ onSubmit, pending = false, ...rest }: FormProps) {
   return (
-    <form
+    <FormElement
       {...rest}
       onSubmit={(event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -23,7 +18,12 @@ export function Form({
           onSubmit(event);
         }
       }}
-      className={cn("Form", className)}
     />
   );
 }
+
+const FormElement = styled.form`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+`;

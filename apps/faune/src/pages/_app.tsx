@@ -12,7 +12,7 @@ import { ScreenSizeContextProvider } from "core/screenSize";
 import { Sentry } from "core/sentry";
 import { PageComponent } from "core/types";
 import { AppProps } from "next/app";
-import { GlobalStyles } from "styles/theme";
+import { GlobalStyles, ResetStyles } from "styles/theme";
 
 type ApplicationProps = Omit<AppProps, "Component"> & {
   Component: PageComponent;
@@ -30,6 +30,7 @@ export default function App({ Component, pageProps }: ApplicationProps) {
   return (
     <>
       <PageHead />
+      <ResetStyles />
       <GlobalStyles />
 
       <Sentry.ErrorBoundary

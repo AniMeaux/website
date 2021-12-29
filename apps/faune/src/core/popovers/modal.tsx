@@ -1,6 +1,6 @@
 import cn from "classnames";
 import { Button } from "core/actions/button";
-import { HeaderTitle, HeaderTitleProps } from "core/layouts/header";
+import { HeaderTitle } from "core/layouts/header";
 import { ButtonSection } from "core/layouts/section";
 import { ScreenSize, useScreenSize } from "core/screenSize";
 import { ChildrenProp, StyleProps } from "core/types";
@@ -18,8 +18,10 @@ import {
   useRef,
   useState,
 } from "react";
-import { usePopper } from "react-behave";
+import { usePopper, UsePopperOptions } from "react-behave";
 import * as ReactDOM from "react-dom";
+import styled, { css } from "styled-components/macro";
+import { theme } from "styles/theme";
 
 type ModalContextType = {
   onDismiss: () => void;
@@ -33,34 +35,30 @@ export function useModal(): ModalContextType {
   return context;
 }
 
-export type ModalHeaderProps = StyleProps &
+type ModalHeaderProps = StyleProps &
   ChildrenProp & {
     dense?: boolean;
   };
 
-export function ModalHeader({
-  className,
-  dense = false,
-  ...rest
-}: ModalHeaderProps) {
-  return (
-    <header
-      {...rest}
-      className={cn("ModalHeader", { "ModalHeader--dense": dense }, className)}
-    />
-  );
+export function ModalHeader({ dense = false, ...rest }: ModalHeaderProps) {
+  return <ModalHeaderElement {...rest} $isDense={dense} />;
 }
 
-export type ModalHeaderTitleProps = HeaderTitleProps;
+const ModalHeaderElement = styled.header<{ $isDense: boolean }>`
+  width: 100%;
+  border-bottom: 1px solid ${theme.colors.dark[50]};
+  padding: ${(props) =>
+    props.$isDense
+      ? theme.spacing.x2
+      : `${theme.spacing.x2} ${theme.spacing.x4}`};
+  display: flex;
+  align-items: center;
+  gap: ${theme.spacing.x4};
+`;
 
-export function ModalHeaderTitle({
-  className,
-  ...rest
-}: ModalHeaderTitleProps) {
-  return (
-    <HeaderTitle {...rest} className={cn("ModalHeaderTitle", className)} />
-  );
-}
+export const ModalHeaderTitle = styled(HeaderTitle)`
+  padding-left: ${theme.spacing.x4};
+`;
 
 type ModalCloseButtonProps = {
   dismissLabel?: string;
@@ -214,43 +212,143 @@ export function Modal({
 
   return ReactDOM.createPortal(
     <ModalContext.Provider value={contextValue}>
-      <div
+      <Overlay
         // Allow click
         data-focus-trap-ignore="true"
         onClick={handleOverlayClick}
-        className={cn(
-          "ModalOverlay",
-          { "ModalOverlay--bottomSheet": isBottomSheet },
-          {
-            "ModalOverlay--isOpened": open,
-            "ModalOverlay--isClosed": !open,
-          }
-        )}
+        $isBottomSheet={isBottomSheet}
+        $isOpened={open}
       />
 
-      <div
+      <ModalElement
         tabIndex={0}
         ref={modalElement}
         onAnimationEnd={handleAnimationEnd}
         onKeyDown={handleKeyDown}
-        className={cn(
-          "Modal",
-          {
-            "Modal--dropdown": !isBottomSheet,
-            "Modal--bottomSheet": isBottomSheet,
-          },
-          {
-            "Modal--isOpened": open,
-            "Modal--isClosed": !open,
-          }
-        )}
-        data-placement={popper.placement}
+        $isBottomSheet={isBottomSheet}
+        $placement={popper.placement}
+        $isOpened={open}
         style={style}
       >
         {childElement}
         {isBottomSheet && <ModalCloseButton dismissLabel={dismissLabel} />}
-      </div>
+      </ModalElement>
     </ModalContext.Provider>,
     moutingPoint
   );
 }
+
+type IsOpenedProp = { $isOpened: boolean };
+type IsBottomSheetProp = { $isBottomSheet: boolean };
+type PlacementProp = { $placement: UsePopperOptions["placement"] | null };
+
+const BOTTOM_SHEET_OVERLAY = css<IsOpenedProp>`
+  animation-name: ${(props) =>
+    props.$isOpened ? theme.animation.fadeIn : theme.animation.fadeOut};
+  animation-timing-function: ${(props) =>
+    props.$isOpened ? theme.animation.ease.enter : theme.animation.ease.exit};
+  animation-timing-function: ${theme.animation.ease.enter};
+  animation-fill-mode: forwards;
+  animation-duration: ${theme.animation.duration.slow};
+  background: ${theme.colors.dark[200]};
+`;
+
+const Overlay = styled.div<IsOpenedProp & IsBottomSheetProp>`
+  z-index: ${theme.zIndex.modal};
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overscroll-behavior: none;
+  cursor: pointer;
+
+  ${(props) => (props.$isBottomSheet ? BOTTOM_SHEET_OVERLAY : null)};
+`;
+
+const PLACEMENT_TRANSFORM_ORIGIN: Partial<
+  Record<NonNullable<UsePopperOptions["placement"]>, string>
+> = {
+  "top-start": "bottom left",
+  top: "bottom center",
+  "top-end": "bottom right",
+  "bottom-start": "top left",
+  bottom: "top center",
+  "bottom-end": "top right",
+};
+
+const DROPDOWN_MODAL = css<IsOpenedProp & PlacementProp>`
+  border-radius: ${theme.borderRadius.m};
+  min-width: 350px;
+  animation-duration: ${theme.animation.duration.fast};
+  transform-origin: ${(props) =>
+    props.$placement == null
+      ? null
+      : PLACEMENT_TRANSFORM_ORIGIN[props.$placement]};
+
+  /*
+   * Don't start the animation if there are no data-placement, because it means
+   * the dropdown is not yet positioned.
+   */
+
+  animation-timing-function: ${(props) =>
+    props.$placement == null
+      ? null
+      : props.$isOpened
+      ? theme.animation.ease.enter
+      : theme.animation.ease.exit};
+
+  animation-name: ${(props) =>
+      props.$placement == null
+        ? null
+        : props.$isOpened
+        ? theme.animation.fadeIn
+        : theme.animation.fadeOut},
+    ${(props) =>
+      props.$placement == null
+        ? null
+        : props.$placement === "bottom" || props.$placement === "top"
+        ? props.$isOpened
+          ? theme.animation.scaleInY
+          : theme.animation.scaleOutY
+        : props.$isOpened
+        ? theme.animation.scaleIn
+        : theme.animation.scaleOut};
+`;
+
+const BOTTOM_SHEET_MODAL = css<IsOpenedProp>`
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  max-height: 100vh;
+  overflow: auto;
+  animation-name: ${(props) =>
+    props.$isOpened
+      ? theme.animation.bottomSlideIn
+      : theme.animation.bottomSlideOut};
+  animation-timing-function: ${(props) =>
+    props.$isOpened ? theme.animation.ease.enter : theme.animation.ease.exit};
+  animation-duration: ${theme.animation.duration.slow};
+  border-top-left-radius: ${theme.borderRadius.l};
+  border-top-right-radius: ${theme.borderRadius.l};
+  padding-top: 0;
+  padding-top: env(safe-area-inset-top, 0);
+  padding-right: 0;
+  padding-right: env(safe-area-inset-right, 0);
+  padding-bottom: 0;
+  padding-bottom: env(safe-area-inset-bottom, 0);
+  padding-left: 0;
+  padding-left: env(safe-area-inset-left, 0);
+`;
+
+const ModalElement = styled.div<
+  IsBottomSheetProp & IsOpenedProp & PlacementProp
+>`
+  z-index: ${theme.zIndex.modal};
+  overscroll-behavior: none;
+  box-shadow: ${theme.shadow.m};
+  background: ${theme.colors.background.primary};
+  animation-fill-mode: forwards;
+  ${(props) => (props.$isBottomSheet ? BOTTOM_SHEET_MODAL : DROPDOWN_MODAL)};
+`;

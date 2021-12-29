@@ -174,6 +174,15 @@ export const theme = {
         opacity: 1;
       }
     `,
+    fadeOut: keyframes`
+      0% {
+        opacity: 1;
+      }
+
+      100% {
+        opacity: 0;
+      }
+    `,
     scaleIn: keyframes`
       0% {
         transform: scale3d(0.5, 0.5, 1);
@@ -181,6 +190,69 @@ export const theme = {
 
       100% {
         transform: scale3d(1, 1, 1);
+      }
+    `,
+    scaleOut: keyframes`
+      0% {
+        transform: scale3d(1, 1, 1);
+      }
+      
+      100% {
+        transform: scale3d(0.5, 0.5, 1);
+      }
+    `,
+    scaleInY: keyframes`
+      0% {
+        transform: scale3d(1, 0.5, 1);
+      }
+
+      100% {
+        transform: scale3d(1, 1, 1);
+      }
+    `,
+    scaleOutY: keyframes`
+      0% {
+        transform: scale3d(1, 1, 1);
+      }
+      
+      100% {
+        transform: scale3d(1, 0.5, 1);
+      }
+    `,
+    bottomSlideIn: keyframes`
+      0% {
+        transform: translate3d(0, 100%, 0);
+      }
+
+      100% {
+        transform: translate3d(0, 0, 0);
+      }
+    `,
+    bottomSlideOut: keyframes`
+      0% {
+        transform: translate3d(0, 0, 0);
+      }
+
+      100% {
+        transform: translate3d(0, 100%, 0);
+      }
+    `,
+    rightSlideIn: keyframes`
+      0% {
+        transform: translate3d(100%, 0, 0);
+      }
+
+      100% {
+        transform: translate3d(0, 0, 0);
+      }
+    `,
+    rightSlideOut: keyframes`
+      0% {
+        transform: translate3d(0, 0, 0);
+      }
+
+      100% {
+        transform: translate3d(100%, 0, 0);
       }
     `,
   },
@@ -198,6 +270,12 @@ export const theme = {
     disabled: "0.6",
   },
 };
+
+export const ELLIPSIS_STYLES = css`
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+`;
 
 export const GlobalStyles = createGlobalStyle`
   *,
@@ -250,8 +328,64 @@ export const GlobalStyles = createGlobalStyle`
   }
 `;
 
-export const ELLIPSIS_STYLES = css`
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+export const ResetStyles = createGlobalStyle`
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  button,
+  select,
+  input,
+  textarea {
+    background: none;
+    border: none;
+    padding: 0;
+    font: inherit;
+    text-align: left;
+    color: inherit;
+    resize: none;
+  }
+
+  button:not([disabled]),
+  select:not([disabled]),
+  input[type="checkbox"]:not([disabled]),
+  input[type="radio"]:not([disabled]) {
+    cursor: pointer;
+  }
+
+  button[disabled],
+  select[disabled],
+  input[type="checkbox"][disabled],
+  input[type="radio"][disabled] {
+    cursor: default;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p,
+  ul {
+    margin: 0;
+    padding: 0;
+    font: inherit;
+    font-weight: inherit;
+  }
+
+  ul {
+    list-style: none;
+  }
+
+  address {
+    font-style: normal;
+  }
 `;

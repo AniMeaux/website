@@ -1,14 +1,15 @@
-import cn from "classnames";
 import { BaseLink, BaseLinkProps } from "core/baseLink";
 import { ensureArray } from "core/ensureArray";
 import { Adornment } from "core/formElements/adornment";
 import {
-  getInputClassName,
   InputWrapper,
   InputWrapperProps,
+  INPUT_STYLES,
 } from "core/formElements/inputWrapper";
 import { StyleProps } from "core/types";
 import { FaCaretDown } from "react-icons/fa";
+import styled from "styled-components/macro";
+import { theme } from "styles/theme";
 
 export type LinkInputProps = InputWrapperProps &
   StyleProps &
@@ -18,8 +19,8 @@ export type LinkInputProps = InputWrapperProps &
   };
 
 export function LinkInput({
-  size,
-  hasError,
+  size = "medium",
+  hasError = false,
   leftAdornment,
   rightAdornment,
   disabled,
@@ -44,21 +45,29 @@ export function LinkInput({
       hasError={hasError}
       className={className}
     >
-      <BaseLink
+      <InputElement
         {...rest}
         disabled={disabled}
-        className={cn(
-          getInputClassName({
-            disabled,
-            hasError,
-            size,
-            leftAdornment,
-            rightAdornment,
-          })
-        )}
+        $hasError={hasError}
+        $size={size}
+        $leftAdornment={leftAdornment}
+        $rightAdornment={rightAdornment}
       >
-        {value ?? <span className="LinkInput__placeholder">{placeholder}</span>}
-      </BaseLink>
+        {value ?? <Placeholder>{placeholder}</Placeholder>}
+      </InputElement>
     </InputWrapper>
   );
 }
+
+const InputElement = styled(BaseLink)`
+  ${INPUT_STYLES};
+`;
+
+const Placeholder = styled.span`
+  color: ${theme.colors.text.secondary};
+
+  &::after {
+    /* Force a min-height. */
+    content: " ";
+  }
+`;

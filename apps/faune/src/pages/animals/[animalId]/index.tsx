@@ -94,7 +94,7 @@ function HighlightsSection({ animal }: AnimalProps) {
   return (
     <header
       style={{
-        padding: "var(--spacing-l)",
+        padding: theme.spacing.x4,
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between",
@@ -327,8 +327,8 @@ function HostFamilyModal({ hostFamily }: { hostFamily: HostFamily }) {
 }
 
 const IsOkColors: Record<Trilean, string> = {
-  [Trilean.FALSE]: "var(--alert-500)",
-  [Trilean.TRUE]: "var(--success-500)",
+  [Trilean.FALSE]: theme.colors.alert[500],
+  [Trilean.TRUE]: theme.colors.success[500],
   [Trilean.UNKNOWN]: "inherit",
 };
 
@@ -341,9 +341,9 @@ function OtherAnimalSituation({ label, value }: OtherAnimalSituationProps) {
   return (
     <li
       style={{
-        background: "var(--dark-30)",
-        borderRadius: "var(--border-radius-m)",
-        padding: "var(--spacing-s)",
+        background: theme.colors.dark[30],
+        borderRadius: theme.borderRadius.m,
+        padding: theme.spacing.x2,
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
@@ -351,9 +351,9 @@ function OtherAnimalSituation({ label, value }: OtherAnimalSituationProps) {
     >
       <span
         style={{
-          fontSize: "var(--font-size-s)",
-          lineHeight: "var(--line-height-s)",
-          color: "var(--text-secondary)",
+          fontSize: "14px",
+          lineHeight: theme.typography.lineHeight.monoLine,
+          color: theme.colors.text.secondary,
         }}
       >
         {label}
@@ -361,7 +361,7 @@ function OtherAnimalSituation({ label, value }: OtherAnimalSituationProps) {
 
       <span
         style={{
-          fontWeight: "var(--font-weight-bold)" as any,
+          fontWeight: 700,
           color: IsOkColors[value],
         }}
       >
@@ -375,11 +375,11 @@ function OtherAnimalsSituations({ animal }: AnimalProps) {
   return (
     <ul
       style={{
-        padding: "0 var(--spacing-s)",
+        padding: `0 ${theme.spacing.x2}`,
         display: "grid",
         gridTemplateColumns: "repeat(3, 1fr)",
         gridTemplateRows: "auto",
-        gap: "var(--spacing-s)",
+        gap: theme.spacing.x2,
       }}
     >
       <OtherAnimalSituation label="Ok enfants" value={animal.isOkChildren} />
@@ -398,7 +398,7 @@ function SituationSection({ animal }: AnimalProps) {
     <Section>
       <SectionTitle>Situation</SectionTitle>
 
-      <ul style={{ marginBottom: "var(--spacing-s)" }}>
+      <ul style={{ marginBottom: theme.spacing.x2 }}>
         <li>
           <Item>
             <ItemIcon>
@@ -445,7 +445,7 @@ function SituationSection({ animal }: AnimalProps) {
                   En FA chez{" "}
                   <strong
                     ref={referenceElement}
-                    style={{ color: "var(--primary-500)" }}
+                    style={{ color: theme.colors.primary[500] }}
                   >
                     {animal.hostFamily.name}
                   </strong>

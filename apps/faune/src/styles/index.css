@@ -1,33 +1,21 @@
+/*
+ * /!\ ATTENTION /!\
+ * 
+ * The imports are not resolved in order!
+ * Do not rely on it.
+ *
+ * Move global styles to ./theme.ts instead.
+ *
+ * See https://github.com/webpack/webpack/issues/7094
+ *     https://github.com/webpack/webpack/issues/215
+ */
+
 @import url("https://fonts.googleapis.com/css?family=Roboto:300,400,400i,500,600,700&display=swap");
 @import url("https://fonts.googleapis.com/css?family=Open+Sans:300,400,400i,500,600,700&display=swap");
+@import "~normalize.css/normalize.css";
 
-@import "./reset.css";
-@import "./theme.css";
-@import "./animations.css";
-
-@import "../core/dataDisplay/item.css";
-@import "../core/formElements/adornment.css";
-@import "../core/formElements/dateInput.css";
-@import "../core/formElements/field.css";
-@import "../core/formElements/fieldMessage.css";
-@import "../core/formElements/form.css";
-@import "../core/formElements/imageInput.css";
-@import "../core/formElements/inputWrapper.css";
-@import "../core/formElements/label.css";
-@import "../core/formElements/linkInput.css";
-@import "../core/formElements/searchInput.css";
-@import "../core/formElements/selector.css";
-@import "../core/formElements/signInPage.css";
-@import "../core/formElements/submitButton.css";
-@import "../core/layouts/applicationLayout.css";
-@import "../core/layouts/header.css";
-@import "../core/layouts/main.css";
-@import "../core/layouts/navigation.css";
-@import "../core/layouts/section.css";
-@import "../core/layouts/separator.css";
-@import "../core/loaders/placeholder.css";
-@import "../core/loaders/progressBar.css";
-@import "../core/loaders/spinner.css";
-@import "../core/popovers/modal.css";
-@import "../core/popovers/snackbar.css";
-@import "../animal/formElements/animalPicturesForm.css";
+/*
+ * We only import the minimal styles and use our own.
+ * See https://fkhadra.github.io/react-toastify/how-to-style#styling-from-scratch
+ */
+@import url("react-toastify/dist/ReactToastify.minimal.css");

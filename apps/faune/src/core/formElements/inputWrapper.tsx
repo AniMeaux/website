@@ -1,8 +1,12 @@
-import cn from "classnames";
 import { ensureArray } from "core/ensureArray";
 import { ChildrenProp, StyleProps } from "core/types";
-import invariant from "invariant";
 import { createElement } from "react";
+import styled, {
+  css,
+  FlattenSimpleInterpolation,
+} from "styled-components/macro";
+import { theme } from "styles/theme";
+import { ADORNMENT_SIZE } from "core/formElements/adornment";
 
 export type InputSize = "small" | "medium";
 
@@ -11,7 +15,7 @@ export type InputWrapperProps = {
   size?: InputSize;
   leftAdornment?: React.ReactNode | React.ReactNode[];
   rightAdornment?: React.ReactNode | React.ReactNode[];
-  hasError?: boolean | null;
+  hasError?: boolean;
 };
 
 export function InputWrapper({
@@ -20,21 +24,13 @@ export function InputWrapper({
   size = "medium",
   leftAdornment,
   rightAdornment,
-  className,
-  style,
+  ...rest
 }: ChildrenProp & StyleProps & InputWrapperProps) {
   const rightAdornments = ensureArray(rightAdornment);
   const leftAdornments = ensureArray(leftAdornment);
 
   return (
-    <span
-      style={style}
-      className={cn(
-        "InputWrapper",
-        { "InputWrapper--disabled": disabled },
-        className
-      )}
-    >
+    <InputWrapperElement {...rest} $isDisabled={disabled}>
       {children}
 
       {leftAdornments.length > 0 &&
@@ -50,80 +46,91 @@ export function InputWrapper({
           { side: "right", size },
           ...rightAdornments
         )}
-    </span>
+    </InputWrapperElement>
   );
 }
+
+const InputWrapperElement = styled.span<{ $isDisabled: boolean }>`
+  position: relative;
+  display: inline-flex;
+  opacity: ${(props) => (props.$isDisabled ? theme.opacity.disabled : 1)};
+`;
 
 type AdornmentContainerProps = ChildrenProp & {
   side: "left" | "right";
   size: InputSize;
 };
 
-const AdornmentContainerSizeClassName: Record<InputSize, string> = {
-  small: "AdornmentContainer--small",
-  medium: "",
-};
-
-const AdornmentContainerSideClassName: Record<
+const ADORNMENT_CONTAINER_SIDE_STYLES: Record<
   AdornmentContainerProps["side"],
-  string
+  FlattenSimpleInterpolation
 > = {
-  left: "AdornmentContainer--left",
-  right: "AdornmentContainer--right",
+  left: css`
+    left: 0;
+  `,
+  right: css`
+    right: 0;
+  `,
 };
 
 function AdornmentContainer({ side, size, children }: AdornmentContainerProps) {
   return (
-    <span
-      className={cn(
-        "AdornmentContainer",
-        AdornmentContainerSideClassName[side],
-        AdornmentContainerSizeClassName[size]
-      )}
-    >
+    <AdornmentContainerElement $isSmall={size === "small"} $side={side}>
       {children}
-    </span>
+    </AdornmentContainerElement>
   );
 }
 
-// The index correspond to the number of adornments.
-const PaddingLeftClassNames = [
-  "",
-  "InputWrapper__input--pl1",
-  "InputWrapper__input--pl2",
-];
-
-const PaddingRightClassNames = [
-  "",
-  "InputWrapper__input--pr1",
-  "InputWrapper__input--pr2",
-];
-
-const InputSizeClassName: Record<InputSize, string> = {
-  small: "InputWrapper__input--small",
-  medium: "InputWrapper__input--medium",
+type AdornmentContainerElementProps = {
+  $isSmall: boolean;
+  $side: AdornmentContainerProps["side"];
 };
 
-export function getInputClassName({
-  hasError = false,
-  size = "medium",
-  leftAdornment,
-  rightAdornment,
-}: InputWrapperProps) {
-  const rightAdornments = ensureArray(rightAdornment);
-  const leftAdornments = ensureArray(leftAdornment);
+const AdornmentContainerElement = styled.span<AdornmentContainerElementProps>`
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  ${(props) => ADORNMENT_CONTAINER_SIDE_STYLES[props.$side]};
+  display: flex;
+  align-items: center;
+  padding: ${(props) =>
+    props.$isSmall
+      ? `0 ${theme.spacing.x2}`
+      : `${theme.spacing.x1} ${theme.spacing.x2}`};
+`;
 
-  const paddingLeftClassName = PaddingLeftClassNames[leftAdornments.length];
-  invariant(paddingLeftClassName != null, "Only 2 adornments are supported.");
+type InputStylesProps = {
+  $hasError: boolean;
+  $size: InputSize;
+  $leftAdornment?: React.ReactNode | React.ReactNode[];
+  $rightAdornment?: React.ReactNode | React.ReactNode[];
+};
 
-  const paddingRightClassName = PaddingRightClassNames[rightAdornments.length];
-  invariant(paddingRightClassName != null, "Only 2 adornments are supported.");
+export const INPUT_STYLES = css<InputStylesProps>`
+  appearance: none;
+  width: 100%;
+  min-width: 0;
+  border-radius: ${theme.borderRadius.l};
+  background: ${(props) =>
+    props.$hasError ? theme.colors.alert[50] : theme.colors.dark[30]};
 
-  return cn(
-    "InputWrapper__input",
-    InputSizeClassName[size],
-    { "InputWrapper__input--error": hasError },
-    paddingLeftClassName,
-    paddingRightClassName
+  padding-top: ${(props) =>
+    props.$size === "small" ? theme.spacing.x1 : theme.spacing.x2};
+
+  padding-bottom: ${(props) =>
+    props.$size === "small" ? theme.spacing.x1 : theme.spacing.x2};
+
+  padding-left: calc(
+    ${theme.spacing.x4} +
+      ${(props) => ensureArray(props.$leftAdornment).length * ADORNMENT_SIZE}px
   );
-}
+
+  padding-right: calc(
+    ${theme.spacing.x4} +
+      ${(props) => ensureArray(props.$rightAdornment).length * ADORNMENT_SIZE}px
+  );
+
+  &::placeholder {
+    color: ${theme.colors.text.secondary};
+  }
+`;

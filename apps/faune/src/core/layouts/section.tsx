@@ -1,24 +1,27 @@
-import cn from "classnames";
-import { ChildrenProp, StyleProps } from "core/types";
+import styled from "styled-components/macro";
+import { theme } from "styles/theme";
 
-type SectionTitleProps = StyleProps & ChildrenProp;
-export function SectionTitle({ className, ...rest }: SectionTitleProps) {
-  return (
-    // The content is passed as children.
-    // eslint-disable-next-line jsx-a11y/heading-has-content
-    <h2 {...rest} className={cn("SectionTitle", className)} />
-  );
-}
+export const SectionTitle = styled.h2`
+  margin: ${theme.spacing.x2} 0;
+  padding: 0 ${theme.spacing.x2};
+  font-family: ${theme.typography.fontFamily.title};
+  font-size: 18px;
+  font-weight: 700;
+`;
 
-type SectionProps = StyleProps & ChildrenProp;
-export function Section({ className, ...rest }: SectionProps) {
-  return <section {...rest} className={cn("Section", className)} />;
-}
+export const Section = styled.section`
+  padding: ${theme.spacing.x2};
+`;
 
-export function ButtonSection({ className, ...rest }: SectionProps) {
-  return <section {...rest} className={cn("ButtonSection", className)} />;
-}
+export const ButtonSection = styled.section`
+  padding: ${theme.spacing.x4};
+  display: flex;
+  flex-direction: column;
+  gap: ${theme.spacing.x4};
+`;
 
-export function SectionBox({ className, ...rest }: SectionProps) {
-  return <Section {...rest} className={cn("SectionBox", className)} />;
-}
+export const SectionBox = styled(Section)`
+  margin: 0 ${theme.spacing.x4};
+  background: ${theme.colors.background.secondary};
+  border-radius: ${theme.borderRadius.m};
+`;

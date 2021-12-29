@@ -1,14 +1,11 @@
-import cn from "classnames";
 import { StyleProps } from "core/types";
+import styled, {
+  css,
+  FlattenSimpleInterpolation,
+} from "styled-components/macro";
+import { theme } from "styles/theme";
 
 type FieldMessagePlacement = "top" | "bottom";
-
-const FieldMessagePlacementClassName: {
-  [key in FieldMessagePlacement]: string;
-} = {
-  bottom: "FieldMessage--bottom",
-  top: "FieldMessage--top",
-};
 
 type FieldMessageProps = StyleProps & {
   placement?: FieldMessagePlacement;
@@ -20,35 +17,43 @@ export function FieldMessage({
   placement = "bottom",
   infoMessage,
   errorMessage,
-  className,
+  ...rest
 }: FieldMessageProps) {
-  if (errorMessage != null) {
+  if (infoMessage != null || errorMessage != null) {
     return (
-      <p
-        className={cn(
-          FieldMessagePlacementClassName[placement],
-          "FieldMessage FieldMessage--error",
-          className
-        )}
+      <FieldMessageElement
+        {...rest}
+        $isError={errorMessage != null}
+        $placement={placement}
       >
-        {errorMessage}
-      </p>
-    );
-  }
-
-  if (infoMessage != null) {
-    return (
-      <p
-        className={cn(
-          FieldMessagePlacementClassName[placement],
-          "FieldMessage",
-          className
-        )}
-      >
-        {infoMessage}
-      </p>
+        {errorMessage ?? infoMessage}
+      </FieldMessageElement>
     );
   }
 
   return null;
 }
+
+const PLACEMENT_STYLES: Record<
+  FieldMessagePlacement,
+  FlattenSimpleInterpolation
+> = {
+  bottom: css`
+    margin-top: ${theme.spacing.x1};
+  `,
+  top: css`
+    margin-bottom: ${theme.spacing.x1};
+  `,
+};
+
+const FieldMessageElement = styled.p<{
+  $isError: boolean;
+  $placement: FieldMessagePlacement;
+}>`
+  ${(props) => PLACEMENT_STYLES[props.$placement]};
+  padding: 0 ${theme.spacing.x4};
+  font-size: 12px;
+  line-height: ${theme.typography.lineHeight.monoLine};
+  color: ${(props) =>
+    props.$isError ? theme.colors.alert[500] : theme.colors.text.secondary};
+`;

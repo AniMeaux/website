@@ -1,7 +1,8 @@
-import cn from "classnames";
-import { ChildrenProp, StyleProps } from "core/types";
+import styled from "styled-components/macro";
+import { theme } from "styles/theme";
 
-type FieldProps = ChildrenProp & StyleProps;
-export function Field({ className, ...rest }: FieldProps) {
-  return <div {...rest} className={cn("Field", className)} />;
-}
+export const Field = styled.div`
+  padding: ${theme.spacing.x3} ${theme.spacing.x4};
+  display: flex;
+  flex-direction: column;
+`;

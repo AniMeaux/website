@@ -1,6 +1,5 @@
 import { useCurrentUser } from "account/currentUser";
 import { CurrentUserMenu } from "account/currentUserMenu";
-import cn from "classnames";
 import { BaseLink, BaseLinkProps } from "core/baseLink";
 import { UserAvatar } from "core/dataDisplay/avatar";
 import { useIsScrollAtTheTop } from "core/layouts/usePageScroll";
@@ -8,10 +7,33 @@ import { ScreenSize, useScreenSize } from "core/screenSize";
 import { ChildrenProp, StyleProps } from "core/types";
 import { useRef, useState } from "react";
 import { FaChevronLeft } from "react-icons/fa";
+import styled from "styled-components/macro";
+import { theme } from "styles/theme";
 
-export function HeaderLink({ className, ...rest }: BaseLinkProps) {
-  return <BaseLink {...rest} className={cn("HeaderLink", className)} />;
+export function HeaderLink(props: BaseLinkProps) {
+  return <HeaderLinkElement {...props} />;
 }
+
+const HeaderLinkElement = styled(BaseLink)`
+  width: 32px;
+  height: 32px;
+  flex: none;
+  border-radius: ${theme.borderRadius.full};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+
+  @media (hover: hover) {
+    &:hover {
+      background: ${theme.colors.dark[30]};
+    }
+  }
+
+  &:active {
+    background: ${theme.colors.dark[50]};
+  }
+`;
 
 export type HeaderBackLinkProps = Omit<BaseLinkProps, "href"> & {
   href?: BaseLinkProps["href"];
@@ -26,22 +48,62 @@ export function HeaderBackLink({ href = "..", ...props }: HeaderBackLinkProps) {
 }
 
 export type HeaderTitleProps = ChildrenProp & StyleProps;
-export function HeaderTitle({ className, children }: HeaderTitleProps) {
-  return <h1 className={cn("HeaderTitle", className)}>{children}</h1>;
+export function HeaderTitle(props: HeaderTitleProps) {
+  return <HeaderTitleElement {...props} />;
 }
+
+const HeaderTitleElement = styled.h1`
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 18px;
+  font-weight: 700;
+  font-family: ${theme.typography.fontFamily.title};
+`;
 
 export type HeaderProps = StyleProps & ChildrenProp;
-export function Header({ className, children }: HeaderProps) {
+export function Header(props: HeaderProps) {
   const { isAtTheTop } = useIsScrollAtTheTop();
-
-  return (
-    <header
-      className={cn("Header", { "Header--hasScroll": !isAtTheTop }, className)}
-    >
-      {children}
-    </header>
-  );
+  return <HeaderElement {...props} $hasScroll={!isAtTheTop} />;
 }
+
+const HeaderElement = styled.header<{ $hasScroll: boolean }>`
+  grid-area: header;
+  z-index: ${theme.zIndex.header};
+  position: sticky;
+  top: 0;
+  min-width: 0;
+  height: 48px;
+  background: ${theme.colors.background.primary};
+
+  padding-left: ${theme.spacing.x4};
+  padding-left: calc(${theme.spacing.x4} + env(safe-area-inset-left, 0));
+
+  padding-right: ${theme.spacing.x4};
+  /* The navigation is at the bottom so we need to compensate for safe area. */
+  padding-right: calc(${theme.spacing.x4} + env(safe-area-inset-right, 0));
+
+  display: flex;
+  align-items: center;
+  gap: ${theme.spacing.x4};
+
+  transition-property: box-shadow;
+  transition-duration: ${theme.animation.duration.fast};
+  transition-timing-function: ${theme.animation.ease.move};
+  box-shadow: ${(props) =>
+    props.$hasScroll ? `0 1px 0 0 ${theme.colors.dark[50]}` : "none"};
+
+  @media (min-width: 500px) {
+    height: 56px;
+    padding-right: ${theme.spacing.x4};
+  }
+
+  @media (min-width: 800px) {
+    height: 64px;
+  }
+`;
 
 export function HeaderUserAvatar() {
   const { screenSize } = useScreenSize();
@@ -55,13 +117,12 @@ export function HeaderUserAvatar() {
 
   return (
     <>
-      <button
+      <HeaderUserAvatarButton
         ref={currentUserButton}
         onClick={() => setIsMenuVisible(true)}
-        className="HeaderUserAvatar__button"
       >
         <UserAvatar user={currentUser} />
-      </button>
+      </HeaderUserAvatarButton>
 
       <CurrentUserMenu
         open={isMenuVisible}
@@ -71,3 +132,10 @@ export function HeaderUserAvatar() {
     </>
   );
 }
+
+const HeaderUserAvatarButton = styled.button`
+  flex: none;
+  border-radius: ${theme.borderRadius.full};
+  display: flex;
+  align-items: center;
+`;

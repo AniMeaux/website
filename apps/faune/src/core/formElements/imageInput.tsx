@@ -15,6 +15,8 @@ import { Placeholder, Placeholders } from "core/loaders/placeholder";
 import { showSnackbar, Snackbar } from "core/popovers/snackbar";
 import { useRef, useState } from "react";
 import { FaImages, FaTrash } from "react-icons/fa";
+import styled from "styled-components/macro";
+import { theme } from "styles/theme";
 import { v4 as uuid } from "uuid";
 
 function PictureItemPreview() {
@@ -25,14 +27,20 @@ function PictureItemPreview() {
   }
 
   return (
-    <Image
+    <PictureItemPreviewElement
       alt="Dragged image"
       image={preview.item.data}
       style={preview.style}
-      className="PictureItemPreview"
     />
   );
 }
+
+const PictureItemPreviewElement = styled(Image)`
+  border-radius: ${theme.borderRadius.m};
+  box-shadow: ${theme.shadow.m};
+  object-fit: cover;
+  overflow: hidden;
+`;
 
 type ImageInputProps = {
   value: ImageFileOrId[];
@@ -111,25 +119,70 @@ function ImageInputButton({
 
   return (
     <li>
-      <input
+      <ImageInputButtonNativeInput
         ref={inputFile}
         id="pictures"
         type="file"
         multiple
         accept="image/*"
         onChange={handleChange}
-        className="ImageInputButton__input"
       />
 
-      <span className="ImageInputButton__background" />
+      <ImageInputButtonBackground />
 
-      <label htmlFor="pictures" className="ImageInputButton__label">
-        <FaImages className="ImageInputButton__icon" />
+      <ImageInputButtonLabel htmlFor="pictures">
+        <ImageInputButtonIcon />
         <span>Ajouter</span>
-      </label>
+      </ImageInputButtonLabel>
     </li>
   );
 }
+
+const ImageInputButtonNativeInput = styled.input`
+  border-radius: ${theme.borderRadius.m};
+`;
+
+const ImageInputButtonBackground = styled.span`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: ${theme.colors.background.primary};
+`;
+
+const ImageInputButtonLabel = styled.label`
+  position: absolute;
+  z-index: 0;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: ${theme.borderRadius.m};
+  background: ${theme.colors.dark[30]};
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: ${theme.colors.primary[500]};
+  font-family: ${theme.typography.fontFamily.title};
+  font-weight: 700;
+
+  @media (hover: hover) {
+    &:hover {
+      background: ${theme.colors.dark[50]};
+    }
+  }
+
+  &:active {
+    background: ${theme.colors.dark[100]};
+  }
+`;
+
+const ImageInputButtonIcon = styled(FaImages)`
+  font-size: 24px;
+`;
 
 type ImageItemProps = {
   index: number;
@@ -146,25 +199,64 @@ function ImageItem({ image, index, onRemove }: ImageItemProps) {
   });
 
   return (
-    <li
+    <ImageItemElement
       ref={itemElement}
       draggable={disabled ? false : true}
-      className={cn("ImageItem ImageItem--movable", {
-        "ImageItem--hidden": isDragging,
-      })}
+      $isDragging={isDragging}
     >
-      <Image alt="Image tile" image={image} className="ImageItem__image" />
+      <ImageItemImage alt="Image tile" image={image} />
 
-      <button onClick={() => onRemove()} className="ImageItem__button">
+      <ImageItemButton onClick={() => onRemove()}>
         <FaTrash />
-      </button>
-    </li>
+      </ImageItemButton>
+    </ImageItemElement>
   );
 }
 
-const picturePlaceholderItem = (
-  <li key="placeholder" className="PicturePlaceholderItem ImagePlaceholder" />
-);
+const ImageItemElement = styled.li<{ $isDragging: boolean }>`
+  overflow: hidden;
+  border-radius: ${theme.borderRadius.m};
+  display: ${(props) => (props.$isDragging ? "none" : "initial")};
+
+  @media (hover: hover) {
+    &:hover {
+      cursor: move;
+    }
+  }
+`;
+
+const ImageItemImage = styled(Image)`
+  object-fit: cover;
+`;
+
+const ImageItemButton = styled.button`
+  position: absolute;
+  bottom: ${theme.spacing.x1};
+  right: ${theme.spacing.x1};
+  border-radius: ${theme.borderRadius.full};
+  width: 32px;
+  height: 32px;
+  background: ${theme.colors.dark[200]};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: ${theme.colors.text.contrast};
+
+  @media (hover: hover) {
+    &:hover {
+      background: ${theme.colors.dark[300]};
+    }
+  }
+
+  &:active {
+    background: ${theme.colors.dark[400]};
+  }
+`;
+
+const PicturePlaceholderItem = styled.li`
+  border-radius: ${theme.borderRadius.m};
+  background: ${theme.colors.dark[50]};
+`;
 
 type ImageGalleryInputProps = {
   value: ImageFileOrId[];
@@ -196,17 +288,21 @@ function ImageGalleryInput({
 
   // Display a placeholder at the drop index.
   if (pendingDropIndex != null) {
-    imagesElement.splice(pendingDropIndex, 0, picturePlaceholderItem);
+    imagesElement.splice(
+      pendingDropIndex,
+      0,
+      <PicturePlaceholderItem key="placeholder" />
+    );
   }
 
   return (
-    <ul className="ImageGalleryInput" ref={containerElement}>
+    <ImageGalleryInputList ref={containerElement}>
       {imagesElement}
 
       {pendingImageCount > 0 && (
         <Placeholders count={pendingImageCount}>
           <li>
-            <Placeholder preset="image" className="ImagePlaceholder" />
+            <ImagePlaceholder preset="image" />
           </li>
         </Placeholders>
       )}
@@ -222,9 +318,43 @@ function ImageGalleryInput({
           onChange((images) => images.concat(newImages))
         }
       />
-    </ul>
+    </ImageGalleryInputList>
   );
 }
+
+const ImageGalleryInputList = styled.ul`
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  grid-auto-rows: 1fr;
+  gap: ${theme.spacing.x4};
+
+  & > * {
+    position: relative;
+  }
+
+  /* Square grid "trick" with \`padding-top: 100%\`. */
+  & > *::before {
+    content: "";
+    display: block;
+    padding-top: 100%;
+  }
+
+  /*
+   * Make sure grid item's child is absolute to avoid changing the item size.
+   * We only apply this to the first child to allow multiple children.
+   */
+  & > * > *:first-child {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+`;
+
+const ImagePlaceholder = styled(Placeholder)`
+  border-radius: ${theme.borderRadius.m};
+`;
 
 async function getFiles(fileList: FileList): Promise<ImageFile[]> {
   const files: Promise<ImageFile>[] = [];

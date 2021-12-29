@@ -8,6 +8,8 @@ import { Form, FormProps } from "core/formElements/form";
 import { ImageInput } from "core/formElements/imageInput";
 import { SubmitButton } from "core/formElements/submitButton";
 import { FaPaw } from "react-icons/fa";
+import styled from "styled-components/macro";
+import { theme } from "styles/theme";
 
 export type AnimalPicturesFormErrors = {
   avatar?: string | null;
@@ -32,23 +34,17 @@ export function AnimalPicturesForm<
 }: AnimalPicturesFormProps<PayloadType>) {
   return (
     <Form {...rest} pending={pending}>
-      <div className="AnimalPictureForm__preview">
-        <Avatar className="AnimalPictureForm__avatar">
+      <Preview>
+        <AnimalAvatar>
           {value.pictures.length === 0 ? (
             <FaPaw />
           ) : (
-            <Image
-              image={value.pictures[0]}
-              alt="Avatar"
-              className="AnimalPictureForm__image"
-            />
+            <AnimalImage image={value.pictures[0]} alt="Avatar" />
           )}
-        </Avatar>
+        </AnimalAvatar>
 
-        <p className="AnimalPictureForm__info">
-          La première photo sera utilisée comme avatar
-        </p>
-      </div>
+        <Info>La première photo sera utilisée comme avatar</Info>
+      </Preview>
 
       <Field>
         <FieldMessage placement="top" errorMessage={errors?.avatar} />
@@ -69,3 +65,25 @@ export function AnimalPicturesForm<
     </Form>
   );
 }
+
+const Preview = styled.div`
+  padding: ${theme.spacing.x2} ${theme.spacing.x4};
+  display: flex;
+  align-items: center;
+`;
+
+const AnimalAvatar = styled(Avatar)`
+  font-size: 60px;
+`;
+
+const AnimalImage = styled(Image)`
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+`;
+
+const Info = styled.p`
+  margin-left: ${theme.spacing.x4};
+  flex: 1;
+  color: ${theme.colors.text.secondary};
+`;

@@ -1,12 +1,12 @@
 import autosize from "autosize";
-import cn from "classnames";
 import {
-  getInputClassName,
   InputWrapper,
   InputWrapperProps,
+  INPUT_STYLES,
 } from "core/formElements/inputWrapper";
 import { HtmlInputProps, StyleProps } from "core/types";
 import { useLayoutEffect, useRef } from "react";
+import styled from "styled-components/macro";
 
 export type TextareaProps = StyleProps &
   Omit<HtmlInputProps, "role" | "type"> &
@@ -17,7 +17,7 @@ export type TextareaProps = StyleProps &
   };
 
 export function Textarea({
-  hasError,
+  hasError = false,
   leftAdornment,
   rightAdornment,
   className,
@@ -52,22 +52,22 @@ export function Textarea({
       className={className}
       style={style}
     >
-      <textarea
+      <TextareaElement
         {...rest}
         ref={textareaElement}
         disabled={disabled}
         value={value}
         rows={rows}
         onChange={(event) => onChange?.(event.target.value)}
-        className={cn(
-          getInputClassName({
-            disabled,
-            hasError,
-            leftAdornment,
-            rightAdornment,
-          })
-        )}
+        $hasError={hasError}
+        $size="medium"
+        $leftAdornment={leftAdornment}
+        $rightAdornment={rightAdornment}
       />
     </InputWrapper>
   );
 }
+
+const TextareaElement = styled.textarea`
+  ${INPUT_STYLES};
+`;

@@ -56,14 +56,16 @@ type StylesProps = {
 
 const ACTION_SIZES_STYLES: Record<ActionSize, Styles<StylesProps>> = {
   small: css<StylesProps>`
-    --button-padding-y: ${theme.spacing.x1};
-    --button-padding-x: ${(props) =>
-      props.$isIconOnly ? theme.spacing.x1 : theme.spacing.x6};
+    padding: ${(props) =>
+      props.$isIconOnly
+        ? theme.spacing.x1
+        : `${theme.spacing.x1} ${theme.spacing.x6}`};
   `,
   medium: css<StylesProps>`
-    --button-padding-y: ${theme.spacing.x2};
-    --button-padding-x: ${(props) =>
-      props.$isIconOnly ? theme.spacing.x2 : theme.spacing.x12};
+    padding: ${(props) =>
+      props.$isIconOnly
+        ? theme.spacing.x2
+        : `${theme.spacing.x2} ${theme.spacing.x12}`};
   `,
 };
 
@@ -93,8 +95,7 @@ export const ACTION_COMMON_STYLES = css<StylesProps>`
   ${(props) => ACTION_SIZES_STYLES[props.$size ?? "medium"]};
   ${(props) => (props.disabled ? DISABLED_STYLES : null)};
 
-  border-radius: var(--border-radius-full);
-  padding: var(--button-padding-y) var(--button-padding-x);
+  border-radius: ${theme.borderRadius.full};
   display: flex;
   align-items: center;
   justify-content: center;

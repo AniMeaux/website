@@ -1,4 +1,5 @@
-import cn from "classnames";
+import styled from "styled-components/macro";
+import { theme } from "styles/theme";
 
 type LabelProps = React.LabelHTMLAttributes<HTMLLabelElement> & {
   isOptional?: boolean;
@@ -9,16 +10,21 @@ export function Label({
   isOptional = false,
   hasError = false,
   children,
-  className,
   ...rest
 }: LabelProps) {
   return (
-    <label
-      {...rest}
-      className={cn("Label", { "Label--hasError": hasError }, className)}
-    >
+    <Container {...rest} $hasError={hasError}>
       {children}
       {isOptional && " (Optionnel)"}
-    </label>
+    </Container>
   );
 }
+
+const Container = styled.label<{ $hasError: boolean }>`
+  margin-bottom: ${theme.spacing.x2};
+  padding: 0 ${theme.spacing.x4};
+  font-size: 14px;
+  line-height: ${theme.typography.lineHeight.monoLine};
+  color: ${(props) =>
+    props.$hasError ? theme.colors.alert[500] : theme.colors.text.secondary};
+`;

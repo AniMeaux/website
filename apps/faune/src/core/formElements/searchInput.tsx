@@ -4,6 +4,7 @@ import { ActionAdornment, Adornment } from "core/formElements/adornment";
 import { Input, InputProps } from "core/formElements/input";
 import { forwardRef, useEffect, useMemo, useRef, useState } from "react";
 import { FaSearch, FaTimes } from "react-icons/fa";
+import styled from "styled-components/macro";
 
 function useDebouncedValue<ValueType>(value: ValueType) {
   const [debouncedValue, setDebouncedValue] = useState(value);
@@ -71,7 +72,7 @@ export type SearchInputProps = Omit<
 export const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
   function SearchInput({ rightAdornment, ...props }, ref) {
     return (
-      <Input
+      <InputElement
         {...props}
         type="text"
         role="search"
@@ -89,8 +90,11 @@ export const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
           ),
           ...ensureArray(rightAdornment),
         ]}
-        className="SearchInput"
       />
     );
   }
 );
+
+const InputElement = styled(Input)`
+  flex: 1;
+`;

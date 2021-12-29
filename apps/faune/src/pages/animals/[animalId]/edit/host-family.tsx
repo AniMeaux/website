@@ -26,6 +26,7 @@ import {
 } from "hostFamily/hostFamilyItems";
 import { useAllHostFamilies } from "hostFamily/hostFamilyQueries";
 import { FaPlus } from "react-icons/fa";
+import { theme } from "styles/theme";
 
 function UpdateAnimalHostFamilyForm() {
   const router = useRouter();
@@ -46,8 +47,8 @@ function UpdateAnimalHostFamilyForm() {
       <LinkItem
         href="../new-host-family"
         style={{
-          color: "var(--primary-500)",
-          fontWeight: "var(--font-weight-medium)" as any,
+          color: theme.colors.primary[500],
+          fontWeight: 500,
         }}
       >
         <ItemIcon>

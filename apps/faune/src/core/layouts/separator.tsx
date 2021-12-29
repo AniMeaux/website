@@ -1,7 +1,8 @@
-import { StyleProps } from "core/types";
-import cn from "classnames";
+import styled from "styled-components/macro";
+import { theme } from "styles/theme";
 
-type SeparatorProps = StyleProps;
-export function Separator({ className, ...rest }: SeparatorProps) {
-  return <hr {...rest} className={cn("Separator", className)} />;
-}
+export const Separator = styled.hr`
+  margin: 0 ${theme.spacing.x4};
+  border: none;
+  border-top: 1px solid ${theme.colors.dark[50]};
+`;
