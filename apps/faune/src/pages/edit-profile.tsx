@@ -5,7 +5,7 @@ import {
 } from "@animeaux/shared-entities";
 import { useCurrentUser } from "account/currentUser";
 import { Adornment } from "core/formElements/adornment";
-import { Field } from "core/formElements/field";
+import { Field, Fields } from "core/formElements/field";
 import { FieldMessage } from "core/formElements/fieldMessage";
 import { Form } from "core/formElements/form";
 import { Input } from "core/formElements/input";
@@ -69,28 +69,30 @@ const EditProfile: PageComponent = () => {
           onSubmit={() => mutation.mutate(displayName)}
           pending={mutation.isLoading}
         >
-          <Field>
-            <Label htmlFor="name" hasError={errorMessage != null}>
-              Nom
-            </Label>
+          <Fields>
+            <Field>
+              <Label htmlFor="name" hasError={errorMessage != null}>
+                Nom
+              </Label>
 
-            <Input
-              name="name"
-              id="name"
-              type="text"
-              autoComplete="name"
-              value={displayName}
-              onChange={setDisplayName}
-              hasError={errorMessage != null}
-              leftAdornment={
-                <Adornment>
-                  <FaUser />
-                </Adornment>
-              }
-            />
+              <Input
+                name="name"
+                id="name"
+                type="text"
+                autoComplete="name"
+                value={displayName}
+                onChange={setDisplayName}
+                hasError={errorMessage != null}
+                leftAdornment={
+                  <Adornment>
+                    <FaUser />
+                  </Adornment>
+                }
+              />
 
-            <FieldMessage errorMessage={errorMessage} />
-          </Field>
+              <FieldMessage errorMessage={errorMessage} />
+            </Field>
+          </Fields>
 
           <SubmitButton loading={mutation.isLoading}>Modifier</SubmitButton>
         </Form>

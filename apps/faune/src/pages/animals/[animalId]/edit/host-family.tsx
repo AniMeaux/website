@@ -26,7 +26,6 @@ import {
 } from "hostFamily/hostFamilyItems";
 import { useAllHostFamilies } from "hostFamily/hostFamilyQueries";
 import { FaPlus } from "react-icons/fa";
-import { theme } from "styles/theme";
 
 function UpdateAnimalHostFamilyForm() {
   const router = useRouter();
@@ -44,13 +43,7 @@ function UpdateAnimalHostFamilyForm() {
       <Button onClick={() => setRawSearch("")}>Effacer la recherche</Button>
     ),
     renderAdditionalItem: () => (
-      <LinkItem
-        href="../new-host-family"
-        style={{
-          color: theme.colors.primary[500],
-          fontWeight: 500,
-        }}
-      >
+      <LinkItem href="../new-host-family" color="blue">
         <ItemIcon>
           <Avatar>
             <FaPlus />

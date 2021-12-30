@@ -67,19 +67,19 @@ function ProfilePlaceholderSection() {
   return (
     <Section>
       <SectionTitle>
-        <Placeholder preset="text" />
+        <Placeholder $preset="text" />
       </SectionTitle>
 
       <ul>
         <li>
           <Item>
             <ItemIcon>
-              <Placeholder preset="icon" />
+              <Placeholder $preset="icon" />
             </ItemIcon>
 
             <ItemContent>
               <ItemMainText>
-                <Placeholder preset="label" />
+                <Placeholder $preset="label" />
               </ItemMainText>
             </ItemContent>
           </Item>
@@ -117,7 +117,7 @@ function GroupsPlaceholderSection() {
   return (
     <Section>
       <SectionTitle>
-        <Placeholder preset="text" />
+        <Placeholder $preset="text" />
       </SectionTitle>
 
       <ul>
@@ -125,12 +125,12 @@ function GroupsPlaceholderSection() {
           <li>
             <Item>
               <ItemIcon>
-                <Placeholder preset="icon" />
+                <Placeholder $preset="icon" />
               </ItemIcon>
 
               <ItemContent>
                 <ItemMainText>
-                  <Placeholder preset="label" />
+                  <Placeholder $preset="label" />
                 </ItemMainText>
               </ItemContent>
             </Item>

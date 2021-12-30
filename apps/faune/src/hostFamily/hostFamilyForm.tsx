@@ -6,7 +6,7 @@ import {
   HostFamilyFormPayload,
 } from "@animeaux/shared-entities";
 import { Adornment } from "core/formElements/adornment";
-import { Field } from "core/formElements/field";
+import { Field, Fields } from "core/formElements/field";
 import { FieldMessage } from "core/formElements/fieldMessage";
 import { Form, FormProps } from "core/formElements/form";
 import { Input } from "core/formElements/input";
@@ -100,142 +100,147 @@ export function HostFamilyForm({
 
   return (
     <Form {...rest} pending={pending} onSubmit={handleSubmit}>
-      <Field>
-        <Label htmlFor="host-family-name" hasError={errors?.name != null}>
-          Nom
-        </Label>
+      <Fields>
+        <Field>
+          <Label htmlFor="host-family-name" hasError={errors?.name != null}>
+            Nom
+          </Label>
 
-        <Input
-          name="host-family-name"
-          id="host-family-name"
-          type="text"
-          value={name}
-          onChange={setName}
-          hasError={errors?.name != null}
-          leftAdornment={
-            <Adornment>
-              <FaUser />
-            </Adornment>
-          }
-        />
+          <Input
+            name="host-family-name"
+            id="host-family-name"
+            type="text"
+            value={name}
+            onChange={setName}
+            hasError={errors?.name != null}
+            leftAdornment={
+              <Adornment>
+                <FaUser />
+              </Adornment>
+            }
+          />
 
-        <FieldMessage errorMessage={errors?.name} />
-      </Field>
+          <FieldMessage errorMessage={errors?.name} />
+        </Field>
 
-      <Field>
-        <Label htmlFor="host-family-phone" hasError={errors?.phone != null}>
-          Téléphone
-        </Label>
+        <Field>
+          <Label htmlFor="host-family-phone" hasError={errors?.phone != null}>
+            Téléphone
+          </Label>
 
-        <Input
-          name="host-family-phone"
-          id="host-family-phone"
-          type="tel"
-          placeholder="+33612345678"
-          value={phone}
-          onChange={setPhone}
-          hasError={errors?.phone != null}
-          leftAdornment={
-            <Adornment>
-              <FaPhone />
-            </Adornment>
-          }
-        />
+          <Input
+            name="host-family-phone"
+            id="host-family-phone"
+            type="tel"
+            placeholder="+33612345678"
+            value={phone}
+            onChange={setPhone}
+            hasError={errors?.phone != null}
+            leftAdornment={
+              <Adornment>
+                <FaPhone />
+              </Adornment>
+            }
+          />
 
-        <FieldMessage errorMessage={errors?.phone} />
-      </Field>
+          <FieldMessage errorMessage={errors?.phone} />
+        </Field>
 
-      <Field>
-        <Label htmlFor="host-family-email" hasError={errors?.email != null}>
-          Email
-        </Label>
+        <Field>
+          <Label htmlFor="host-family-email" hasError={errors?.email != null}>
+            Email
+          </Label>
 
-        <Input
-          name="host-family-email"
-          id="host-family-email"
-          type="email"
-          placeholder="jean@mail.fr"
-          value={email}
-          onChange={setEmail}
-          hasError={errors?.email != null}
-          leftAdornment={
-            <Adornment>
-              <FaEnvelope />
-            </Adornment>
-          }
-        />
+          <Input
+            name="host-family-email"
+            id="host-family-email"
+            type="email"
+            placeholder="jean@mail.fr"
+            value={email}
+            onChange={setEmail}
+            hasError={errors?.email != null}
+            leftAdornment={
+              <Adornment>
+                <FaEnvelope />
+              </Adornment>
+            }
+          />
 
-        <FieldMessage errorMessage={errors?.email} />
-      </Field>
+          <FieldMessage errorMessage={errors?.email} />
+        </Field>
 
-      <Field>
-        <Label htmlFor="host-family-address" hasError={errors?.address != null}>
-          Adresse
-        </Label>
+        <Field>
+          <Label
+            htmlFor="host-family-address"
+            hasError={errors?.address != null}
+          >
+            Adresse
+          </Label>
 
-        <Input
-          name="host-family-address"
-          id="host-family-address"
-          type="text"
-          value={address}
-          onChange={setAddress}
-          hasError={errors?.address != null}
-          leftAdornment={
-            <Adornment>
-              <FaMapMarker />
-            </Adornment>
-          }
-        />
+          <Input
+            name="host-family-address"
+            id="host-family-address"
+            type="text"
+            value={address}
+            onChange={setAddress}
+            hasError={errors?.address != null}
+            leftAdornment={
+              <Adornment>
+                <FaMapMarker />
+              </Adornment>
+            }
+          />
 
-        <FieldMessage errorMessage={errors?.address} />
-      </Field>
+          <FieldMessage errorMessage={errors?.address} />
+        </Field>
 
-      <Field>
-        <Label
-          htmlFor="host-family-zip-code"
-          hasError={errors?.zipCode != null}
-        >
-          Code postal
-        </Label>
+        <Field>
+          <Label
+            htmlFor="host-family-zip-code"
+            hasError={errors?.zipCode != null}
+          >
+            Code postal
+          </Label>
 
-        <Input
-          name="host-family-zip-code"
-          id="host-family-zip-code"
-          type="number"
-          value={zipCode}
-          onChange={setZipCode}
-          hasError={errors?.zipCode != null}
-          leftAdornment={
-            <Adornment>
-              <FaMapMarker />
-            </Adornment>
-          }
-        />
+          <Input
+            name="host-family-zip-code"
+            id="host-family-zip-code"
+            type="number"
+            value={zipCode}
+            onChange={setZipCode}
+            hasError={errors?.zipCode != null}
+            leftAdornment={
+              <Adornment>
+                <FaMapMarker />
+              </Adornment>
+            }
+          />
 
-        <FieldMessage errorMessage={errors?.zipCode} />
-      </Field>
+          <FieldMessage errorMessage={errors?.zipCode} />
+        </Field>
 
-      <Field>
-        <Label htmlFor="host-family-city" hasError={errors?.city != null}>
-          Ville
-        </Label>
+        <Field>
+          <Label htmlFor="host-family-city" hasError={errors?.city != null}>
+            Ville
+          </Label>
 
-        <Input
-          name="host-family-city"
-          id="host-family-city"
-          type="text"
-          value={city}
-          onChange={setCity}
-          hasError={errors?.city != null}
-          leftAdornment={
-            <Adornment>
-              <FaMapMarker />
-            </Adornment>
-          }
-        />
+          <Input
+            name="host-family-city"
+            id="host-family-city"
+            type="text"
+            value={city}
+            onChange={setCity}
+            hasError={errors?.city != null}
+            leftAdornment={
+              <Adornment>
+                <FaMapMarker />
+              </Adornment>
+            }
+          />
 
-        <FieldMessage errorMessage={errors?.city} />
-      </Field>
+          <FieldMessage errorMessage={errors?.city} />
+        </Field>
+      </Fields>
 
       <SubmitButton loading={pending}>
         {hostFamily == null ? "Créer" : "Modifier"}
@@ -247,15 +252,17 @@ export function HostFamilyForm({
 export function HostFamilyFormPlaceholder() {
   return (
     <Form>
-      <Placeholders count={6}>
-        <Field>
-          <Label>
-            <Placeholder preset="label" />
-          </Label>
+      <Fields>
+        <Placeholders count={6}>
+          <Field>
+            <Label>
+              <Placeholder $preset="label" />
+            </Label>
 
-          <Placeholder preset="input" />
-        </Field>
-      </Placeholders>
+            <Placeholder $preset="input" />
+          </Field>
+        </Placeholders>
+      </Fields>
     </Form>
   );
 }

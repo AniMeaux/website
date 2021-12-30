@@ -104,7 +104,7 @@ function ContactPlaceholderSection() {
   return (
     <Section>
       <SectionTitle>
-        <Placeholder preset="text" />
+        <Placeholder $preset="text" />
       </SectionTitle>
 
       <ul>
@@ -112,12 +112,12 @@ function ContactPlaceholderSection() {
           <li>
             <Item>
               <ItemIcon>
-                <Placeholder preset="icon" />
+                <Placeholder $preset="icon" />
               </ItemIcon>
 
               <ItemContent>
                 <ItemMainText>
-                  <Placeholder preset="label" />
+                  <Placeholder $preset="label" />
                 </ItemMainText>
               </ItemContent>
             </Item>

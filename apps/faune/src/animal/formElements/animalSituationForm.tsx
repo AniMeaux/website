@@ -11,7 +11,7 @@ import {
 import { AnimalStatusInput } from "animal/formElements/animalStatusInput";
 import { ActionAdornment, Adornment } from "core/formElements/adornment";
 import { DateInput } from "core/formElements/dateInput";
-import { Field } from "core/formElements/field";
+import { Field, Fields } from "core/formElements/field";
 import { FieldMessage } from "core/formElements/fieldMessage";
 import { Form, FormProps } from "core/formElements/form";
 import { Label } from "core/formElements/label";
@@ -57,270 +57,280 @@ export function AnimalSituationForm<
 }: AnimalSituationFormProps<PayloadType>) {
   return (
     <Form {...rest} pending={pending}>
-      <Field>
-        <Label>Statut</Label>
-
-        <AnimalStatusInput
-          value={value.status}
-          onChange={(status) => onChange((value) => ({ ...value, status }))}
-        />
-      </Field>
-
-      {value.status === AnimalStatus.ADOPTED && (
+      <Fields>
         <Field>
-          <Label
-            htmlFor="adoption-date"
-            hasError={errors?.adoptionDate != null}
-          >
-            Date d'adoption
+          <Label>Statut</Label>
+
+          <AnimalStatusInput
+            value={value.status}
+            onChange={(status) => onChange((value) => ({ ...value, status }))}
+          />
+        </Field>
+
+        {value.status === AnimalStatus.ADOPTED && (
+          <Field>
+            <Label
+              htmlFor="adoption-date"
+              hasError={errors?.adoptionDate != null}
+            >
+              Date d'adoption
+            </Label>
+
+            <DateInput
+              name="adoption-date"
+              id="adoption-date"
+              value={value.adoptionDate}
+              onChange={(adoptionDate) =>
+                onChange((value) => ({ ...value, adoptionDate }))
+              }
+              hasError={errors?.adoptionDate != null}
+            />
+
+            <FieldMessage errorMessage={errors?.adoptionDate} />
+          </Field>
+        )}
+
+        {value.status === AnimalStatus.ADOPTED && (
+          <Field>
+            <Label>Option d'adoption</Label>
+
+            <Selectors>
+              {ADOPTION_OPTION_ORDER.map((adoptionOption) => (
+                <SelectorItem key={adoptionOption}>
+                  <Selector>
+                    <SelectorRadio
+                      name="adoption-option"
+                      checked={value.adoptionOption === adoptionOption}
+                      onChange={() =>
+                        onChange((value) => ({ ...value, adoptionOption }))
+                      }
+                    />
+
+                    <SelectorLabel>
+                      {AdoptionOptionLabels[adoptionOption]}
+                    </SelectorLabel>
+                  </Selector>
+                </SelectorItem>
+              ))}
+            </Selectors>
+          </Field>
+        )}
+
+        <Field>
+          <Label htmlFor="pick-up-date" hasError={errors?.pickUpDate != null}>
+            Date de prise en charge
           </Label>
 
           <DateInput
-            name="adoption-date"
-            id="adoption-date"
-            value={value.adoptionDate}
-            onChange={(adoptionDate) =>
-              onChange((value) => ({ ...value, adoptionDate }))
+            name="pick-up-date"
+            id="pick-up-date"
+            value={value.pickUpDate}
+            onChange={(pickUpDate) =>
+              onChange((value) => ({ ...value, pickUpDate }))
             }
-            hasError={errors?.adoptionDate != null}
+            hasError={errors?.pickUpDate != null}
           />
 
-          <FieldMessage errorMessage={errors?.adoptionDate} />
+          <FieldMessage errorMessage={errors?.pickUpDate} />
         </Field>
-      )}
 
-      {value.status === AnimalStatus.ADOPTED && (
         <Field>
-          <Label>Option d'adoption</Label>
+          <Label hasError={errors?.pickUpLocation != null}>
+            Lieux de prise en charge
+          </Label>
+
+          <LinkInput
+            href="../pick-up-location"
+            value={value.pickUpLocation}
+            leftAdornment={
+              <Adornment>
+                <FaMapMarkerAlt />
+              </Adornment>
+            }
+            hasError={errors?.pickUpLocation != null}
+          />
+
+          <FieldMessage errorMessage={errors?.pickUpLocation} />
+        </Field>
+
+        <Field>
+          <Label>Raison de la prise en charge</Label>
 
           <Selectors>
-            {ADOPTION_OPTION_ORDER.map((adoptionOption) => (
-              <SelectorItem key={adoptionOption}>
+            {PICK_UP_REASON_ORDER.map((pickUpReason) => (
+              <SelectorItem key={pickUpReason}>
                 <Selector>
                   <SelectorRadio
-                    name="adoption-option"
-                    checked={value.adoptionOption === adoptionOption}
+                    name="pick-up-reason"
+                    checked={value.pickUpReason === pickUpReason}
                     onChange={() =>
-                      onChange((value) => ({ ...value, adoptionOption }))
+                      onChange((value) => ({ ...value, pickUpReason }))
                     }
                   />
 
                   <SelectorLabel>
-                    {AdoptionOptionLabels[adoptionOption]}
+                    {PickUpReasonLabels[pickUpReason]}
                   </SelectorLabel>
                 </Selector>
               </SelectorItem>
             ))}
           </Selectors>
         </Field>
-      )}
 
-      <Field>
-        <Label htmlFor="pick-up-date" hasError={errors?.pickUpDate != null}>
-          Date de prise en charge
-        </Label>
+        <Field>
+          <Label isOptional>Famille d'accueil</Label>
 
-        <DateInput
-          name="pick-up-date"
-          id="pick-up-date"
-          value={value.pickUpDate}
-          onChange={(pickUpDate) =>
-            onChange((value) => ({ ...value, pickUpDate }))
-          }
-          hasError={errors?.pickUpDate != null}
-        />
+          <LinkInput
+            href="../host-family"
+            value={value.hostFamily?.name}
+            leftAdornment={
+              <Adornment>
+                <FaHome />
+              </Adornment>
+            }
+            rightAdornment={
+              value.hostFamily != null && (
+                <ActionAdornment
+                  onClick={() =>
+                    onChange((value) => ({ ...value, hostFamily: null }))
+                  }
+                >
+                  <FaTimes />
+                </ActionAdornment>
+              )
+            }
+          />
+        </Field>
 
-        <FieldMessage errorMessage={errors?.pickUpDate} />
-      </Field>
+        <Field>
+          <Label>Ok enfants</Label>
 
-      <Field>
-        <Label hasError={errors?.pickUpLocation != null}>
-          Lieux de prise en charge
-        </Label>
+          <Selectors isStretched>
+            {TRILEAN_ORDER.map((trileanValue) => (
+              <SelectorItem key={trileanValue}>
+                <Selector>
+                  <SelectorRadio
+                    name="is-ok-children"
+                    checked={value.isOkChildren === trileanValue}
+                    onChange={() =>
+                      onChange((value) => ({
+                        ...value,
+                        isOkChildren: trileanValue,
+                      }))
+                    }
+                  />
 
-        <LinkInput
-          href="../pick-up-location"
-          value={value.pickUpLocation}
-          leftAdornment={
-            <Adornment>
-              <FaMapMarkerAlt />
-            </Adornment>
-          }
-          hasError={errors?.pickUpLocation != null}
-        />
+                  <SelectorLabel>{TrileanLabels[trileanValue]}</SelectorLabel>
+                </Selector>
+              </SelectorItem>
+            ))}
+          </Selectors>
+        </Field>
 
-        <FieldMessage errorMessage={errors?.pickUpLocation} />
-      </Field>
+        <Field>
+          <Label>Ok chiens</Label>
 
-      <Field>
-        <Label>Raison de la prise en charge</Label>
+          <Selectors isStretched>
+            {TRILEAN_ORDER.map((trileanValue) => (
+              <SelectorItem key={trileanValue}>
+                <Selector>
+                  <SelectorRadio
+                    name="is-ok-dogs"
+                    checked={value.isOkDogs === trileanValue}
+                    onChange={() =>
+                      onChange((value) => ({
+                        ...value,
+                        isOkDogs: trileanValue,
+                      }))
+                    }
+                  />
 
-        <Selectors>
-          {PICK_UP_REASON_ORDER.map((pickUpReason) => (
-            <SelectorItem key={pickUpReason}>
+                  <SelectorLabel>{TrileanLabels[trileanValue]}</SelectorLabel>
+                </Selector>
+              </SelectorItem>
+            ))}
+          </Selectors>
+        </Field>
+
+        <Field>
+          <Label>Ok chats</Label>
+
+          <Selectors isStretched>
+            {TRILEAN_ORDER.map((trileanValue) => (
+              <SelectorItem key={trileanValue}>
+                <Selector>
+                  <SelectorRadio
+                    name="is-ok-cats"
+                    checked={value.isOkCats === trileanValue}
+                    onChange={() =>
+                      onChange((value) => ({
+                        ...value,
+                        isOkCats: trileanValue,
+                      }))
+                    }
+                  />
+
+                  <SelectorLabel>{TrileanLabels[trileanValue]}</SelectorLabel>
+                </Selector>
+              </SelectorItem>
+            ))}
+          </Selectors>
+        </Field>
+
+        <Field>
+          <Label>Stérilisé</Label>
+
+          <Selectors isStretched>
+            <SelectorItem>
               <Selector>
                 <SelectorRadio
-                  name="pick-up-reason"
-                  checked={value.pickUpReason === pickUpReason}
+                  name="is-sterilized"
+                  checked={value.isSterilized}
                   onChange={() =>
-                    onChange((value) => ({ ...value, pickUpReason }))
+                    onChange((value) => ({ ...value, isSterilized: true }))
                   }
                 />
 
-                <SelectorLabel>
-                  {PickUpReasonLabels[pickUpReason]}
-                </SelectorLabel>
+                <SelectorLabel>Oui</SelectorLabel>
               </Selector>
             </SelectorItem>
-          ))}
-        </Selectors>
-      </Field>
 
-      <Field>
-        <Label isOptional>Famille d'accueil</Label>
-
-        <LinkInput
-          href="../host-family"
-          value={value.hostFamily?.name}
-          leftAdornment={
-            <Adornment>
-              <FaHome />
-            </Adornment>
-          }
-          rightAdornment={
-            value.hostFamily != null && (
-              <ActionAdornment
-                onClick={() =>
-                  onChange((value) => ({ ...value, hostFamily: null }))
-                }
-              >
-                <FaTimes />
-              </ActionAdornment>
-            )
-          }
-        />
-      </Field>
-
-      <Field>
-        <Label>Ok enfants</Label>
-
-        <Selectors isStretched>
-          {TRILEAN_ORDER.map((trileanValue) => (
-            <SelectorItem key={trileanValue}>
+            <SelectorItem>
               <Selector>
                 <SelectorRadio
-                  name="is-ok-children"
-                  checked={value.isOkChildren === trileanValue}
+                  name="is-sterilized"
+                  checked={!value.isSterilized}
                   onChange={() =>
-                    onChange((value) => ({
-                      ...value,
-                      isOkChildren: trileanValue,
-                    }))
+                    onChange((value) => ({ ...value, isSterilized: false }))
                   }
                 />
 
-                <SelectorLabel>{TrileanLabels[trileanValue]}</SelectorLabel>
+                <SelectorLabel>Non</SelectorLabel>
               </Selector>
             </SelectorItem>
-          ))}
-        </Selectors>
-      </Field>
+          </Selectors>
+        </Field>
 
-      <Field>
-        <Label>Ok chiens</Label>
+        <Field>
+          <Label htmlFor="comments" isOptional>
+            Attentions
+          </Label>
 
-        <Selectors isStretched>
-          {TRILEAN_ORDER.map((trileanValue) => (
-            <SelectorItem key={trileanValue}>
-              <Selector>
-                <SelectorRadio
-                  name="is-ok-dogs"
-                  checked={value.isOkDogs === trileanValue}
-                  onChange={() =>
-                    onChange((value) => ({ ...value, isOkDogs: trileanValue }))
-                  }
-                />
-
-                <SelectorLabel>{TrileanLabels[trileanValue]}</SelectorLabel>
-              </Selector>
-            </SelectorItem>
-          ))}
-        </Selectors>
-      </Field>
-
-      <Field>
-        <Label>Ok chats</Label>
-
-        <Selectors isStretched>
-          {TRILEAN_ORDER.map((trileanValue) => (
-            <SelectorItem key={trileanValue}>
-              <Selector>
-                <SelectorRadio
-                  name="is-ok-cats"
-                  checked={value.isOkCats === trileanValue}
-                  onChange={() =>
-                    onChange((value) => ({ ...value, isOkCats: trileanValue }))
-                  }
-                />
-
-                <SelectorLabel>{TrileanLabels[trileanValue]}</SelectorLabel>
-              </Selector>
-            </SelectorItem>
-          ))}
-        </Selectors>
-      </Field>
-
-      <Field>
-        <Label>Stérilisé</Label>
-
-        <Selectors isStretched>
-          <SelectorItem>
-            <Selector>
-              <SelectorRadio
-                name="is-sterilized"
-                checked={value.isSterilized}
-                onChange={() =>
-                  onChange((value) => ({ ...value, isSterilized: true }))
-                }
-              />
-
-              <SelectorLabel>Oui</SelectorLabel>
-            </Selector>
-          </SelectorItem>
-
-          <SelectorItem>
-            <Selector>
-              <SelectorRadio
-                name="is-sterilized"
-                checked={!value.isSterilized}
-                onChange={() =>
-                  onChange((value) => ({ ...value, isSterilized: false }))
-                }
-              />
-
-              <SelectorLabel>Non</SelectorLabel>
-            </Selector>
-          </SelectorItem>
-        </Selectors>
-      </Field>
-
-      <Field>
-        <Label htmlFor="comments" isOptional>
-          Attentions
-        </Label>
-
-        <Textarea
-          name="comments"
-          id="comments"
-          value={value.comments}
-          onChange={(comments) => onChange((value) => ({ ...value, comments }))}
-          leftAdornment={
-            <Adornment>
-              <FaExclamationTriangle />
-            </Adornment>
-          }
-        />
-      </Field>
+          <Textarea
+            name="comments"
+            id="comments"
+            value={value.comments}
+            onChange={(comments) =>
+              onChange((value) => ({ ...value, comments }))
+            }
+            leftAdornment={
+              <Adornment>
+                <FaExclamationTriangle />
+              </Adornment>
+            }
+          />
+        </Field>
+      </Fields>
 
       <SubmitButton loading={pending}>
         {isEdit ? "Modifier" : "Suivant"}

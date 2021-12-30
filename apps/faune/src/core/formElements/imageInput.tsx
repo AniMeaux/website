@@ -3,7 +3,6 @@ import {
   ImageFile,
   ImageFileOrId,
 } from "@animeaux/shared-entities";
-import cn from "classnames";
 import { Image } from "core/dataDisplay/image";
 import {
   DragAndDropContextProvider,
@@ -302,7 +301,7 @@ function ImageGalleryInput({
       {pendingImageCount > 0 && (
         <Placeholders count={pendingImageCount}>
           <li>
-            <ImagePlaceholder preset="image" />
+            <ImagePlaceholder $preset="image" />
           </li>
         </Placeholders>
       )}

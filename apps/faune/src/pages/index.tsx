@@ -24,7 +24,7 @@ function getUserMainGroup(user: User): UserGroup {
   return UserGroup.HEAD_OF_PARTNERSHIPS;
 }
 
-const UserGroupLandingPage: { [key in UserGroup]: string } = {
+const UserGroupLandingPage: Record<UserGroup, string> = {
   [UserGroup.ADMIN]: "/animals",
   [UserGroup.ANIMAL_MANAGER]: "/animals",
   [UserGroup.BLOGGER]: "/articles",

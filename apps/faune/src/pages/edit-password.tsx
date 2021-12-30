@@ -5,7 +5,7 @@ import {
 } from "@animeaux/shared-entities";
 import { useCurrentUser } from "account/currentUser";
 import { Adornment } from "core/formElements/adornment";
-import { Field } from "core/formElements/field";
+import { Field, Fields } from "core/formElements/field";
 import { FieldMessage } from "core/formElements/fieldMessage";
 import { Form } from "core/formElements/form";
 import { Label } from "core/formElements/label";
@@ -78,49 +78,51 @@ const EditPassword: PageComponent = () => {
           onSubmit={() => mutation.mutate({ currentPassword, newPassword })}
           pending={mutation.isLoading}
         >
-          <Field>
-            <Label htmlFor="password" hasError={currentPasswordError != null}>
-              Mot de passe actuel
-            </Label>
+          <Fields>
+            <Field>
+              <Label htmlFor="password" hasError={currentPasswordError != null}>
+                Mot de passe actuel
+              </Label>
 
-            <PasswordInput
-              name="password"
-              id="password"
-              autoComplete="current-password"
-              value={currentPassword}
-              onChange={setCurrentPassword}
-              hasError={currentPasswordError != null}
-              leftAdornment={
-                <Adornment>
-                  <FaLock />
-                </Adornment>
-              }
-            />
+              <PasswordInput
+                name="password"
+                id="password"
+                autoComplete="current-password"
+                value={currentPassword}
+                onChange={setCurrentPassword}
+                hasError={currentPasswordError != null}
+                leftAdornment={
+                  <Adornment>
+                    <FaLock />
+                  </Adornment>
+                }
+              />
 
-            <FieldMessage errorMessage={currentPasswordError} />
-          </Field>
+              <FieldMessage errorMessage={currentPasswordError} />
+            </Field>
 
-          <Field>
-            <Label htmlFor="new-password" hasError={newPasswordError != null}>
-              Nouveau mot de passe
-            </Label>
+            <Field>
+              <Label htmlFor="new-password" hasError={newPasswordError != null}>
+                Nouveau mot de passe
+              </Label>
 
-            <PasswordInput
-              name="new-password"
-              id="new-password"
-              autoComplete="new-password"
-              value={newPassword}
-              onChange={setNewPassword}
-              hasError={newPasswordError != null}
-              leftAdornment={
-                <Adornment>
-                  <FaLock />
-                </Adornment>
-              }
-            />
+              <PasswordInput
+                name="new-password"
+                id="new-password"
+                autoComplete="new-password"
+                value={newPassword}
+                onChange={setNewPassword}
+                hasError={newPasswordError != null}
+                leftAdornment={
+                  <Adornment>
+                    <FaLock />
+                  </Adornment>
+                }
+              />
 
-            <FieldMessage errorMessage={newPasswordError} />
-          </Field>
+              <FieldMessage errorMessage={newPasswordError} />
+            </Field>
+          </Fields>
 
           <SubmitButton loading={mutation.isLoading}>Modifier</SubmitButton>
         </Form>

@@ -1,5 +1,5 @@
 import { AnimalBreed, AnimalSpeciesLabels } from "@animeaux/shared-entities";
-import { Avatar } from "core/dataDisplay/avatar";
+import { Avatar, AvatarPlaceholder } from "core/dataDisplay/avatar";
 import {
   ButtonItem,
   ButtonItemProps,
@@ -18,16 +18,16 @@ export function AnimalBreedItemPlaceholder() {
   return (
     <Item>
       <ItemIcon>
-        <Placeholder preset="avatar" />
+        <AvatarPlaceholder />
       </ItemIcon>
 
       <ItemContent>
         <ItemMainText>
-          <Placeholder preset="label" />
+          <Placeholder $preset="label" />
         </ItemMainText>
 
         <ItemSecondaryText>
-          <Placeholder preset="text" />
+          <Placeholder $preset="text" />
         </ItemSecondaryText>
       </ItemContent>
     </Item>

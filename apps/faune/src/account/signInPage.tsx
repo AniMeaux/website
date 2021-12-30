@@ -1,7 +1,7 @@
 import { ErrorCode, getErrorCode } from "@animeaux/shared-entities";
 import { firebase } from "core/firebase";
 import { Adornment } from "core/formElements/adornment";
-import { Field } from "core/formElements/field";
+import { Field, Fields } from "core/formElements/field";
 import { Form as BaseForm } from "core/formElements/form";
 import { Input } from "core/formElements/input";
 import { Label } from "core/formElements/label";
@@ -65,80 +65,84 @@ export function SignInPage() {
     <>
       <PageTitle title="Connection" />
 
-      <Main>
-        {screenSize >= ScreenSize.MEDIUM && <Image />}
+      <Container>
+        {screenSize >= ScreenSize.LARGE && <Image />}
 
-        <Form
-          onSubmit={() => mutation.mutate({ email, password })}
-          pending={mutation.isLoading}
-        >
-          <Logo />
+        <Main>
+          <Form
+            onSubmit={() => mutation.mutate({ email, password })}
+            pending={mutation.isLoading}
+          >
+            <Logo />
 
-          <Title>Bienvenue</Title>
+            <Title>Bienvenue</Title>
 
-          <Field>
-            <Label htmlFor="email" hasError={mutation.isError}>
-              Email
-            </Label>
+            <Fields>
+              <Field>
+                <Label htmlFor="email" hasError={mutation.isError}>
+                  Email
+                </Label>
 
-            <Input
-              name="email"
-              id="email"
-              type="email"
-              autoComplete="email"
-              value={email}
-              onChange={setEmail}
-              placeholder="ex: jean@mail.fr"
-              hasError={mutation.isError}
-              leftAdornment={
-                <Adornment>
-                  <FaEnvelope />
-                </Adornment>
-              }
-            />
-          </Field>
+                <Input
+                  name="email"
+                  id="email"
+                  type="email"
+                  autoComplete="email"
+                  value={email}
+                  onChange={setEmail}
+                  placeholder="ex: jean@mail.fr"
+                  hasError={mutation.isError}
+                  leftAdornment={
+                    <Adornment>
+                      <FaEnvelope />
+                    </Adornment>
+                  }
+                />
+              </Field>
 
-          <Field>
-            <Label htmlFor="password" hasError={mutation.isError}>
-              Mot de passe
-            </Label>
+              <Field>
+                <Label htmlFor="password" hasError={mutation.isError}>
+                  Mot de passe
+                </Label>
 
-            <PasswordInput
-              name="password"
-              id="password"
-              autoComplete="current-password"
-              value={password}
-              onChange={setPassword}
-              hasError={mutation.isError}
-              leftAdornment={
-                <Adornment>
-                  <FaLock />
-                </Adornment>
-              }
-            />
-          </Field>
+                <PasswordInput
+                  name="password"
+                  id="password"
+                  autoComplete="current-password"
+                  value={password}
+                  onChange={setPassword}
+                  hasError={mutation.isError}
+                  leftAdornment={
+                    <Adornment>
+                      <FaLock />
+                    </Adornment>
+                  }
+                />
+              </Field>
+            </Fields>
 
-          {mutation.isSuccess ? (
-            <SuccessIcon>
-              <FaCheckCircle />
-            </SuccessIcon>
-          ) : (
-            <SubmitButton loading={mutation.isLoading}>
-              Se connecter
-            </SubmitButton>
-          )}
-        </Form>
-      </Main>
+            {mutation.isSuccess ? (
+              <SuccessIcon>
+                <FaCheckCircle />
+              </SuccessIcon>
+            ) : (
+              <SubmitButton loading={mutation.isLoading}>
+                Se connecter
+              </SubmitButton>
+            )}
+          </Form>
+        </Main>
+      </Container>
     </>
   );
 }
 
-const Main = styled.main`
+const Container = styled.div`
   display: flex;
-  align-items: stretch;
+  flex-direction: column;
 
-  @media (max-width: 799px) {
-    flex-direction: column;
+  @media (min-width: ${theme.screenSizes.large.start}) {
+    flex-direction: row;
   }
 `;
 
@@ -165,10 +169,9 @@ const ImageAnimation = keyframes`
 `;
 
 const Image = styled.div`
-  width: 50%;
   min-height: 100vh;
+  flex: 1;
   clip-path: ellipse(75% 200% at 25% 50%);
-  flex: none;
   background-image: linear-gradient(
       0deg,
       ${theme.colors.blue[500]} 0%,
@@ -185,51 +188,58 @@ const Image = styled.div`
   animation-iteration-count: infinite;
 `;
 
-const Form = styled(BaseForm)`
-  width: 100%;
-  flex: none;
+const Main = styled.main`
+  flex: 1;
   display: flex;
-  flex-direction: column;
+  justify-content: center;
+  padding-top: ${theme.spacing.x8};
+
+  @media (min-width: ${theme.screenSizes.large.start}) {
+    padding-top: 0;
+  }
+`;
+
+const Form = styled(BaseForm)`
+  flex: 1;
   justify-content: center;
   align-items: stretch;
   max-width: 500px;
-  margin: 0 auto;
 
-  @media (min-width: 800px) {
-    width: 50%;
+  @media (min-width: ${theme.screenSizes.large.start}) {
+    min-width: 500px;
+    width: 500px;
   }
 `;
 
 const Logo = styled(AppIcon)`
   align-self: center;
   font-size: 100px;
-  margin: ${theme.spacing.x10} auto;
 `;
 
 const Title = styled.h1`
-  margin-bottom: ${theme.spacing.x8};
-  padding: 0 ${theme.spacing.x6};
   font-family: ${theme.typography.fontFamily.title};
   text-align: center;
   font-weight: 600;
   font-size: 36px;
-  line-height: ${theme.typography.lineHeight.monoLine};
 
-  @media (min-width: 800px) {
+  @media (min-width: ${theme.screenSizes.large.start}) {
     font-size: 48px;
   }
 `;
 
 const SuccessIcon = styled.span`
+  /* Same as SubmitButton. */
+  position: sticky;
+  bottom: ${theme.spacing.x8};
+  bottom: calc(${theme.spacing.x8} + env(safe-area-inset-bottom, 0));
+  margin-bottom: ${theme.spacing.x8};
+  align-self: center;
+
   display: flex;
   align-items: center;
   justify-content: center;
-
-  margin: ${theme.spacing.x8} 0;
-  /* TODO: use button icon. */
   font-size: 40px;
   color: ${theme.colors.success[500]};
-  align-self: center;
   animation-name: ${theme.animation.fadeIn}, ${theme.animation.scaleIn};
   animation-timing-function: ${theme.animation.ease.enter};
   animation-fill-mode: forwards;

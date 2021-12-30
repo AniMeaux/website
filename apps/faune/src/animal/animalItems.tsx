@@ -3,7 +3,7 @@ import {
   SearchableAnimal,
   SearchResponseItem,
 } from "@animeaux/shared-entities";
-import { Avatar } from "core/dataDisplay/avatar";
+import { Avatar, AvatarPlaceholder } from "core/dataDisplay/avatar";
 import { AvatarImage } from "core/dataDisplay/image";
 import {
   ButtonItem,
@@ -23,12 +23,12 @@ export function SearchableAnimalItemPlaceholder() {
   return (
     <Item>
       <ItemIcon>
-        <Placeholder preset="avatar" />
+        <AvatarPlaceholder />
       </ItemIcon>
 
       <ItemContent>
         <ItemMainText>
-          <Placeholder preset="label" />
+          <Placeholder $preset="label" />
         </ItemMainText>
       </ItemContent>
     </Item>
@@ -64,12 +64,12 @@ export function LocationItemPlaceholder() {
   return (
     <Item>
       <ItemIcon>
-        <Placeholder preset="icon" />
+        <Placeholder $preset="icon" />
       </ItemIcon>
 
       <ItemContent>
         <ItemMainText>
-          <Placeholder preset="label" />
+          <Placeholder $preset="label" />
         </ItemMainText>
       </ItemContent>
     </Item>

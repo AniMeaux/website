@@ -1,5 +1,5 @@
 import { User } from "@animeaux/shared-entities";
-import { UserAvatar } from "core/dataDisplay/avatar";
+import { AvatarPlaceholder } from "core/dataDisplay/avatar";
 import {
   Item,
   ItemContent,
@@ -9,21 +9,22 @@ import {
   ItemSecondaryText,
 } from "core/dataDisplay/item";
 import { Placeholder } from "core/loaders/placeholder";
+import { UserAvatar } from "user/avatar";
 
 export function UserItemPlaceholder() {
   return (
     <Item>
       <ItemIcon>
-        <Placeholder preset="avatar" />
+        <AvatarPlaceholder />
       </ItemIcon>
 
       <ItemContent>
         <ItemMainText>
-          <Placeholder preset="label" />
+          <Placeholder $preset="label" />
         </ItemMainText>
 
         <ItemSecondaryText>
-          <Placeholder preset="text" />
+          <Placeholder $preset="text" />
         </ItemSecondaryText>
       </ItemContent>
     </Item>

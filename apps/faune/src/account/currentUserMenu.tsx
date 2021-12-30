@@ -13,6 +13,19 @@ import { useRouter } from "core/router";
 import { FaAngleRight, FaLock, FaSignOutAlt, FaUser } from "react-icons/fa";
 import { UserItem } from "user/userItem";
 
+type CurrentUserMenuProps = Pick<
+  ModalProps,
+  "open" | "onDismiss" | "referenceElement" | "placement"
+>;
+
+export function CurrentUserMenu(props: CurrentUserMenuProps) {
+  return (
+    <Modal {...props} dismissLabel="Fermer">
+      <Menu />
+    </Modal>
+  );
+}
+
 function Menu() {
   const router = useRouter();
   const { currentUser, signOut } = useCurrentUser();
@@ -74,18 +87,5 @@ function Menu() {
         </ButtonItem>
       </Section>
     </>
-  );
-}
-
-type CurrentUserMenuProps = Pick<
-  ModalProps,
-  "open" | "onDismiss" | "referenceElement" | "placement"
->;
-
-export function CurrentUserMenu(props: CurrentUserMenuProps) {
-  return (
-    <Modal {...props} dismissLabel="Fermer">
-      <Menu />
-    </Modal>
   );
 }

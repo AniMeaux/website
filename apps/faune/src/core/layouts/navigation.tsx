@@ -5,7 +5,6 @@ import {
 } from "@animeaux/shared-entities";
 import { useCurrentUser } from "account/currentUser";
 import { CurrentUserMenu } from "account/currentUserMenu";
-import { UserAvatar } from "core/dataDisplay/avatar";
 import {
   ButtonItem,
   ItemContent,
@@ -35,6 +34,7 @@ import {
 } from "react-icons/fa";
 import styled from "styled-components/macro";
 import { theme } from "styles/theme";
+import { UserAvatar } from "user/avatar";
 
 type NavigationMenuProps = {
   navigationItems: NavigationItem[];
@@ -46,13 +46,13 @@ function NavigationMenu({ navigationItems }: NavigationMenuProps) {
 
   return (
     <>
-      <NavItem>
+      <li>
         <NavButton onClick={() => setIsMenuVisible(true)} ref={buttonElement}>
           <NavLinkIcon>
             <FaEllipsisH />
           </NavLinkIcon>
         </NavButton>
-      </NavItem>
+      </li>
 
       <Modal
         open={isMenuVisible}
@@ -97,12 +97,13 @@ type NavigationItem = {
   authorizedGroups: UserGroup[];
 };
 
-const maxVisibleNavigationItemSmallMedia = 5;
+const MAX_VISIBLE_NAVIGATION_ITEM_SMALL_MEDIA = 5;
 
 // The "menu" button takes one spot.
-const lastVisibleNavigationItemIndex = maxVisibleNavigationItemSmallMedia - 1;
+const LAST_VISIBLE_NAVIGATION_ITEM_INDEX =
+  MAX_VISIBLE_NAVIGATION_ITEM_SMALL_MEDIA - 1;
 
-const navigationItems: NavigationItem[] = [
+const NAVIGATION_ITEMS: NavigationItem[] = [
   {
     href: "/animals",
     icon: FaPaw,
@@ -155,7 +156,7 @@ export function Navigation({ onlyLargeEnough = false }: NavigationProps) {
     return null;
   }
 
-  const currentUserNavigationItems = navigationItems.filter((item) =>
+  const currentUserNavigationItems = NAVIGATION_ITEMS.filter((item) =>
     showNavigationItem(item, currentUser)
   );
 
@@ -164,14 +165,15 @@ export function Navigation({ onlyLargeEnough = false }: NavigationProps) {
 
   if (
     screenSize <= ScreenSize.SMALL &&
-    visibleNavigationItems.length > maxVisibleNavigationItemSmallMedia
+    visibleNavigationItems.length > MAX_VISIBLE_NAVIGATION_ITEM_SMALL_MEDIA
   ) {
     visibleNavigationItems = currentUserNavigationItems.slice(
       0,
-      lastVisibleNavigationItemIndex
+      LAST_VISIBLE_NAVIGATION_ITEM_INDEX
     );
+
     menuNavigationItems = currentUserNavigationItems.slice(
-      lastVisibleNavigationItemIndex
+      LAST_VISIBLE_NAVIGATION_ITEM_INDEX
     );
   }
 
@@ -197,7 +199,7 @@ export function Navigation({ onlyLargeEnough = false }: NavigationProps) {
 
       <NavigationItemList>
         {visibleNavigationItems.map((item) => (
-          <NavItem key={item.href}>
+          <li key={item.href}>
             <NavLink href={item.href}>
               <NavLinkIcon>
                 <item.icon />
@@ -207,7 +209,7 @@ export function Navigation({ onlyLargeEnough = false }: NavigationProps) {
                 <NavLinkMainText>{item.label}</NavLinkMainText>
               </NavLinkContent>
             </NavLink>
-          </NavItem>
+          </li>
         ))}
 
         {menuNavigationItems.length > 0 && (
@@ -221,9 +223,7 @@ export function Navigation({ onlyLargeEnough = false }: NavigationProps) {
 }
 
 const NavigationLogoItem = styled(LinkItem)`
-  @media (max-width: 799px) {
-    justify-content: center;
-  }
+  justify-content: center;
 `;
 
 const NavigationLogoIcon = styled(ItemIcon)`
@@ -244,7 +244,7 @@ function NavigationUserItem() {
   return (
     <>
       <NavigationUserItemList>
-        <NavItem>
+        <li>
           <NavigationUserButtonItem
             ref={currentUserButton}
             onClick={() => setIsMenuVisible(true)}
@@ -258,7 +258,7 @@ function NavigationUserItem() {
               <ItemSecondaryText>{currentUser.email}</ItemSecondaryText>
             </NavLinkContent>
           </NavigationUserButtonItem>
-        </NavItem>
+        </li>
       </NavigationUserItemList>
 
       <CurrentUserMenu
@@ -272,12 +272,11 @@ function NavigationUserItem() {
 }
 
 const NavigationUserButtonItem = styled(ButtonItem)`
-  @media (max-width: 799px) {
-    justify-content: center;
-  }
+  justify-content: center;
 `;
 
 type BaseNavigationProps = ChildrenProp & StyleProps;
+
 function BaseNavigation({ children, ...rest }: BaseNavigationProps) {
   const { isAtTheBottom } = useIsScrollAtTheBottom();
   const { setState } = useApplicationLayout();
@@ -307,7 +306,7 @@ const BaseNavigationElement = styled.nav<{ $hasScroll: boolean }>`
   transition-duration: ${theme.animation.duration.fast};
   transition-timing-function: ${theme.animation.ease.move};
 
-  @media (max-width: 499px) {
+  @media (max-width: ${theme.screenSizes.small.end}) {
     position: fixed;
     bottom: 0;
     left: 0;
@@ -319,18 +318,18 @@ const BaseNavigationElement = styled.nav<{ $hasScroll: boolean }>`
       props.$hasScroll ? `0 -1px 0 0 ${theme.colors.dark[50]}` : "none"};
   }
 
-  @media (min-width: 500px) {
+  @media (min-width: ${theme.screenSizes.medium.start}) {
     grid-area: navigation;
     box-shadow: inset -1px 0 0 0 ${theme.colors.dark[50]};
   }
 `;
 
 const BaseNavigationElementContent = styled.div`
-  @media (max-width: 499px) {
+  @media (max-width: ${theme.screenSizes.small.end}) {
     width: 100%;
   }
 
-  @media (min-width: 500px) {
+  @media (min-width: ${theme.screenSizes.medium.start}) {
     position: sticky;
     top: 0;
     height: 100vh;
@@ -345,28 +344,23 @@ const NavigationItemList = styled.ul`
   align-items: stretch;
   gap: ${theme.spacing.x2};
 
-  @media (max-width: 499px) {
+  @media (max-width: ${theme.screenSizes.small.end}) {
     width: 100%;
     height: ${theme.components.bottomNavHeight};
+
+    & > * {
+      flex: 1;
+    }
   }
 
-  @media (min-width: 500px) {
+  @media (min-width: ${theme.screenSizes.medium.start}) {
     flex-direction: column;
-  }
-
-  & > * {
-    flex: 1;
   }
 `;
 
 const NavigationUserItemList = styled(NavigationItemList)`
   margin-top: auto;
 `;
-
-type NavItemProps = ChildrenProp;
-function NavItem(props: NavItemProps) {
-  return <li {...props} />;
-}
 
 type NavLinkProps = LinkItemProps & {
   strict?: boolean;
@@ -385,10 +379,7 @@ function NavLink({ strict = false, ...rest }: NavLinkProps) {
 
 const NavLinkItem = styled(LinkItem)<{ $isActive: boolean }>`
   color: ${(props) => (props.$isActive ? "inherit" : theme.colors.dark[300])};
-
-  @media (max-width: 799px) {
-    justify-content: center;
-  }
+  justify-content: center;
 
   :active {
     color: ${(props) => (props.$isActive ? "inherit" : theme.colors.dark[500])};
@@ -402,13 +393,13 @@ const NavButton = styled(ButtonItem)`
 `;
 
 const NavLinkContent = styled(ItemContent)`
-  @media (max-width: 799px) {
+  @media (max-width: ${theme.screenSizes.medium.end}) {
     display: none;
   }
 `;
 
 const NavLinkIcon = styled(ItemIcon)`
-  @media (min-width: 500px) {
+  @media (min-width: ${theme.screenSizes.medium.start}) {
     font-size: 30px;
   }
 `;

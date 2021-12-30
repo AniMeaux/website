@@ -1,9 +1,10 @@
 import { ChildrenProp, StyleProps } from "core/types";
 import styled from "styled-components/macro";
+import { theme } from "styles/theme";
 
 export type FormProps = StyleProps &
   ChildrenProp & {
-    onSubmit?: (event: React.FormEvent<HTMLFormElement>) => void;
+    onSubmit?: React.FormEventHandler<HTMLFormElement>;
     pending?: boolean;
   };
 
@@ -24,6 +25,8 @@ export function Form({ onSubmit, pending = false, ...rest }: FormProps) {
 
 const FormElement = styled.form`
   position: relative;
+  padding: ${theme.spacing.x3} ${theme.spacing.x4};
   display: flex;
   flex-direction: column;
+  gap: ${theme.spacing.x8};
 `;

@@ -1,5 +1,5 @@
 import { HostFamily } from "@animeaux/shared-entities";
-import { Avatar } from "core/dataDisplay/avatar";
+import { Avatar, AvatarPlaceholder } from "core/dataDisplay/avatar";
 import {
   ButtonItem,
   ButtonItemProps,
@@ -19,16 +19,16 @@ export function HostFamilyItemPlaceholder() {
   return (
     <Item>
       <ItemIcon>
-        <Placeholder preset="avatar" />
+        <AvatarPlaceholder />
       </ItemIcon>
 
       <ItemContent>
         <ItemMainText>
-          <Placeholder preset="label" />
+          <Placeholder $preset="label" />
         </ItemMainText>
 
         <ItemSecondaryText>
-          <Placeholder preset="text" />
+          <Placeholder $preset="text" />
         </ItemSecondaryText>
       </ItemContent>
     </Item>
@@ -85,12 +85,12 @@ export function HostFamilySearchItemPlaceholder() {
   return (
     <Item>
       <ItemIcon>
-        <Placeholder preset="avatar" />
+        <AvatarPlaceholder />
       </ItemIcon>
 
       <ItemContent>
         <ItemMainText>
-          <Placeholder preset="label" />
+          <Placeholder $preset="label" />
         </ItemMainText>
       </ItemContent>
     </Item>

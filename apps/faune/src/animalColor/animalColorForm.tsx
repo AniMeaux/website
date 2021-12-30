@@ -1,6 +1,6 @@
 import { AnimalColor, AnimalColorFormPayload } from "@animeaux/shared-entities";
 import { Adornment } from "core/formElements/adornment";
-import { Field } from "core/formElements/field";
+import { Field, Fields } from "core/formElements/field";
 import { FieldMessage } from "core/formElements/fieldMessage";
 import { Form, FormProps } from "core/formElements/form";
 import { Input } from "core/formElements/input";
@@ -37,27 +37,29 @@ export function AnimalColorForm({
 
   return (
     <Form {...rest} pending={pending} onSubmit={() => onSubmit({ name })}>
-      <Field>
-        <Label htmlFor="animal-color-name" hasError={errors?.name != null}>
-          Nom
-        </Label>
+      <Fields>
+        <Field>
+          <Label htmlFor="animal-color-name" hasError={errors?.name != null}>
+            Nom
+          </Label>
 
-        <Input
-          name="animal-color-name"
-          id="animal-color-name"
-          type="text"
-          value={name}
-          onChange={setName}
-          hasError={errors?.name != null}
-          leftAdornment={
-            <Adornment>
-              <FaPalette />
-            </Adornment>
-          }
-        />
+          <Input
+            name="animal-color-name"
+            id="animal-color-name"
+            type="text"
+            value={name}
+            onChange={setName}
+            hasError={errors?.name != null}
+            leftAdornment={
+              <Adornment>
+                <FaPalette />
+              </Adornment>
+            }
+          />
 
-        <FieldMessage errorMessage={errors?.name} />
-      </Field>
+          <FieldMessage errorMessage={errors?.name} />
+        </Field>
+      </Fields>
 
       <SubmitButton loading={pending}>
         {animalColor == null ? "Créer" : "Modifier"}
@@ -69,13 +71,15 @@ export function AnimalColorForm({
 export function AnimalColorFormPlaceholder() {
   return (
     <Form>
-      <Field>
-        <Label>
-          <Placeholder preset="label" />
-        </Label>
+      <Fields>
+        <Field>
+          <Label>
+            <Placeholder $preset="label" />
+          </Label>
 
-        <Placeholder preset="input" />
-      </Field>
+          <Placeholder $preset="input" />
+        </Field>
+      </Fields>
     </Form>
   );
 }

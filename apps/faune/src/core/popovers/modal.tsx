@@ -1,6 +1,4 @@
-import cn from "classnames";
 import { Button } from "core/actions/button";
-import { HeaderTitle } from "core/layouts/header";
 import { ButtonSection } from "core/layouts/section";
 import { ScreenSize, useScreenSize } from "core/screenSize";
 import { ChildrenProp, StyleProps } from "core/types";
@@ -56,8 +54,16 @@ const ModalHeaderElement = styled.header<{ $isDense: boolean }>`
   gap: ${theme.spacing.x4};
 `;
 
-export const ModalHeaderTitle = styled(HeaderTitle)`
+export const ModalHeaderTitle = styled.h2`
+  flex: 1;
+  min-width: 0;
   padding-left: ${theme.spacing.x4};
+  font-size: 18px;
+  font-weight: 700;
+  font-family: ${theme.typography.fontFamily.title};
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 `;
 
 type ModalCloseButtonProps = {

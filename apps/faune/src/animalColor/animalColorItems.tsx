@@ -1,5 +1,5 @@
 import { AnimalColor } from "@animeaux/shared-entities";
-import { Avatar } from "core/dataDisplay/avatar";
+import { Avatar, AvatarPlaceholder } from "core/dataDisplay/avatar";
 import {
   ButtonItem,
   ButtonItemProps,
@@ -17,12 +17,12 @@ export function AnimalColorItemPlaceholder() {
   return (
     <Item>
       <ItemIcon>
-        <Placeholder preset="avatar" />
+        <AvatarPlaceholder />
       </ItemIcon>
 
       <ItemContent>
         <ItemMainText>
-          <Placeholder preset="label" />
+          <Placeholder $preset="label" />
         </ItemMainText>
       </ItemContent>
     </Item>

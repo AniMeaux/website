@@ -7,7 +7,7 @@ import styled, {
 } from "styled-components/macro";
 import { theme } from "styles/theme";
 
-type ItemColor = "default" | "red" | "yellow";
+type ItemColor = "default" | "red" | "yellow" | "blue";
 
 const ITEM_COLOR_STYLES: Record<ItemColor, FlattenSimpleInterpolation> = {
   default: css``,
@@ -17,6 +17,10 @@ const ITEM_COLOR_STYLES: Record<ItemColor, FlattenSimpleInterpolation> = {
   `,
   yellow: css`
     color: ${theme.colors.warning[500]};
+    font-weight: 500;
+  `,
+  blue: css`
+    color: ${theme.colors.primary[500]};
     font-weight: 500;
   `,
 };
@@ -80,6 +84,7 @@ const ITEM_ACTION_COMMON_PROPS = css`
 `;
 
 export type LinkItemProps = BaseLinkProps & ItemProps;
+
 export const LinkItem = forwardRef<HTMLAnchorElement, LinkItemProps>(
   function LinkItem({ highlight = false, color = "default", ...rest }, ref) {
     return (
@@ -120,7 +125,7 @@ const ButtonItemElement = styled.button`
   ${ITEM_ACTION_COMMON_PROPS};
 `;
 
-export type ItemIconProps = StyleProps &
+type ItemIconProps = StyleProps &
   ChildrenProp & {
     small?: boolean;
   };
@@ -131,53 +136,36 @@ export function ItemIcon({ small = false, ...rest }: ItemIconProps) {
 
 const ItemIconElement = styled.span<{ $isSmall: boolean }>`
   flex: none;
-  min-height: calc(${theme.typography.lineHeight.multiLine} * 1rem);
+  min-height: calc(${theme.typography.lineHeight.monoLine} * 1rem);
   align-self: flex-start;
   display: flex;
   align-items: center;
   font-size: ${(props) => (props.$isSmall ? "inherit" : "24px")};
 `;
 
-export type ItemContentProps = StyleProps & ChildrenProp;
-export function ItemContent(props: ItemContentProps) {
-  return <ItemContentElement {...props} />;
-}
-
-const ItemContentElement = styled.span`
+export const ItemContent = styled.span`
   flex: 1;
   min-width: 0;
   display: flex;
   flex-direction: column;
 `;
 
-export type ItemMainTextProps = StyleProps & ChildrenProp;
-export function ItemMainText(props: ItemMainTextProps) {
-  return <ItemMainTextElement {...props} />;
-}
-
-const ItemMainTextElement = styled.span`
+export const ItemMainText = styled.span`
   max-width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
+  line-height: ${theme.typography.lineHeight.multiLine};
 `;
 
-export type ItemSecondaryTextProps = StyleProps & ChildrenProp;
-export function ItemSecondaryText(props: ItemSecondaryTextProps) {
-  return <ItemSecondaryTextElement {...props} />;
-}
-
-const ItemSecondaryTextElement = styled(ItemMainTextElement)`
+export const ItemSecondaryText = styled.span`
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
   font-size: 14px;
-  line-height: ${theme.typography.lineHeight.monoLine};
   color: ${theme.colors.text.secondary};
 `;
 
-export type ItemActionsProps = StyleProps & ChildrenProp;
-export function ItemActions(props: ItemActionsProps) {
-  return <ItemActionsElement {...props} />;
-}
-
-const ItemActionsElement = styled.span`
+export const ItemActions = styled.span`
   margin-top: ${theme.spacing.x1};
   max-width: 100%;
 `;

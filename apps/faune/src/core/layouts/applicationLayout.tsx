@@ -1,4 +1,3 @@
-import cn from "classnames";
 import { ChildrenProp, StyleProps } from "core/types";
 import invariant from "invariant";
 import { createContext, useContext, useMemo, useState } from "react";
@@ -66,7 +65,7 @@ const Layout = styled.div`
   grid-template-rows: max-content 1fr;
   grid-template-columns: 1fr;
 
-  @media (min-width: 500px) {
+  @media (min-width: ${theme.screenSizes.medium.start}) {
     box-shadow: 1px 0 0 0 ${theme.colors.dark[50]};
     grid-template-areas:
       "navigation header"
@@ -78,7 +77,8 @@ const Layout = styled.div`
       );
   }
 
-  @media (min-width: 750px) {
+  /* Make sure navigation labels can be truncated. */
+  @media (min-width: ${theme.screenSizes.large.start}) {
     grid-template-columns: minmax(0, 1fr) minmax(0, ${MAIN_MAX_WIDTH}px);
   }
 `;

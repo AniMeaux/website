@@ -6,12 +6,18 @@ import {
   isEmptyAnimalFormPayload,
 } from "@animeaux/shared-entities";
 import constate from "constate";
-import { Step, Stepper, StepStatus } from "core/controllers/stepper";
+import {
+  Step,
+  Stepper as BaseStepper,
+  StepStatus,
+} from "core/controllers/stepper";
 import { useRouter } from "core/router";
 import { openStorage } from "core/storage";
 import { ChildrenProp } from "core/types";
 import invariant from "invariant";
 import { useEffect, useLayoutEffect, useState } from "react";
+import styled from "styled-components/macro";
+import { theme } from "styles/theme";
 
 export const AnimalFormDraftStorage = openStorage<AnimalFormPayload>(
   "animal-creation",
@@ -186,3 +192,7 @@ export function AnimalFormStepper({ step }: AnimalCreationStepperProps) {
     </Stepper>
   );
 }
+
+const Stepper = styled(BaseStepper)`
+  margin-bottom: ${theme.spacing.x3};
+`;

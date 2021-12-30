@@ -92,14 +92,7 @@ function HighlightsSection({ animal }: AnimalProps) {
   const buttonElement = useRef<HTMLButtonElement>(null!);
 
   return (
-    <header
-      style={{
-        padding: theme.spacing.x4,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-      }}
-    >
+    <HighlightsSectionElement>
       <StatusBadge status={animal.status} />
 
       <Button
@@ -171,9 +164,16 @@ function HighlightsSection({ animal }: AnimalProps) {
           )}
         </Section>
       </Modal>
-    </header>
+    </HighlightsSectionElement>
   );
 }
+
+const HighlightsSectionElement = styled.header`
+  padding: ${theme.spacing.x4};
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
 
 function isDefined<T>(value: T | null | undefined): value is T {
   return value != null;
@@ -339,55 +339,54 @@ type OtherAnimalSituationProps = {
 
 function OtherAnimalSituation({ label, value }: OtherAnimalSituationProps) {
   return (
-    <li
-      style={{
-        background: theme.colors.dark[30],
-        borderRadius: theme.borderRadius.m,
-        padding: theme.spacing.x2,
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-      }}
-    >
-      <span
-        style={{
-          fontSize: "14px",
-          lineHeight: theme.typography.lineHeight.monoLine,
-          color: theme.colors.text.secondary,
-        }}
-      >
+    <OtherAnimalSituationListItem>
+      <OtherAnimalSituationListItemLabel>
         {label}
-      </span>
+      </OtherAnimalSituationListItemLabel>
 
-      <span
-        style={{
-          fontWeight: 700,
-          color: IsOkColors[value],
-        }}
-      >
+      <OtherAnimalSituationListItemValue $value={value}>
         {TrileanLabels[value]}
-      </span>
-    </li>
+      </OtherAnimalSituationListItemValue>
+    </OtherAnimalSituationListItem>
   );
 }
+
+const OtherAnimalSituationListItem = styled.li`
+  flex: 1;
+  background: ${theme.colors.dark[30]};
+  border-radius: ${theme.borderRadius.m};
+  padding: ${theme.spacing.x2};
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const OtherAnimalSituationListItemLabel = styled.span`
+  font-size: 14px;
+  color: ${theme.colors.text.secondary};
+`;
+
+const OtherAnimalSituationListItemValue = styled.span<{ $value: Trilean }>`
+  font-weight: 700;
+  color: ${(props) => IsOkColors[props.$value]};
+`;
 
 function OtherAnimalsSituations({ animal }: AnimalProps) {
   return (
-    <ul
-      style={{
-        padding: `0 ${theme.spacing.x2}`,
-        display: "grid",
-        gridTemplateColumns: "repeat(3, 1fr)",
-        gridTemplateRows: "auto",
-        gap: theme.spacing.x2,
-      }}
-    >
+    <OtherAnimalsSituationsList>
       <OtherAnimalSituation label="Ok enfants" value={animal.isOkChildren} />
       <OtherAnimalSituation label="Ok chiens" value={animal.isOkDogs} />
       <OtherAnimalSituation label="Ok chats" value={animal.isOkCats} />
-    </ul>
+    </OtherAnimalsSituationsList>
   );
 }
+
+const OtherAnimalsSituationsList = styled.ul`
+  margin-top: ${theme.spacing.x2};
+  padding: 0 ${theme.spacing.x2};
+  display: flex;
+  gap: ${theme.spacing.x2};
+`;
 
 function SituationSection({ animal }: AnimalProps) {
   const [areHostFamilyDetailsVisible, setAreHostFamilyDetailsVisible] =
@@ -398,7 +397,7 @@ function SituationSection({ animal }: AnimalProps) {
     <Section>
       <SectionTitle>Situation</SectionTitle>
 
-      <ul style={{ marginBottom: theme.spacing.x2 }}>
+      <ul>
         <li>
           <Item>
             <ItemIcon>
@@ -443,12 +442,9 @@ function SituationSection({ animal }: AnimalProps) {
               <ItemContent>
                 <ItemMainText>
                   En FA chez{" "}
-                  <strong
-                    ref={referenceElement}
-                    style={{ color: theme.colors.primary[500] }}
-                  >
+                  <HostFamilyName ref={referenceElement}>
                     {animal.hostFamily.name}
-                  </strong>
+                  </HostFamilyName>
                 </ItemMainText>
               </ItemContent>
             </ButtonItem>
@@ -525,6 +521,10 @@ function SituationSection({ animal }: AnimalProps) {
     </Section>
   );
 }
+
+const HostFamilyName = styled.strong`
+  color: ${theme.colors.primary[500]};
+`;
 
 function DescriptionSection({ animal }: AnimalProps) {
   if (animal.description === "") {

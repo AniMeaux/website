@@ -5,7 +5,7 @@ import {
 } from "@animeaux/shared-entities";
 import { AnimalSpeciesInput } from "animal/formElements/animalSpeciesInput";
 import { Adornment } from "core/formElements/adornment";
-import { Field } from "core/formElements/field";
+import { Field, Fields } from "core/formElements/field";
 import { FieldMessage } from "core/formElements/fieldMessage";
 import { Form, FormProps } from "core/formElements/form";
 import { Input } from "core/formElements/input";
@@ -50,33 +50,35 @@ export function AnimalBreedForm({
       pending={pending}
       onSubmit={() => onSubmit({ name, species })}
     >
-      <Field>
-        <Label htmlFor="animal-breed-name" hasError={errors?.name != null}>
-          Nom
-        </Label>
+      <Fields>
+        <Field>
+          <Label htmlFor="animal-breed-name" hasError={errors?.name != null}>
+            Nom
+          </Label>
 
-        <Input
-          name="animal-breed-name"
-          id="animal-breed-name"
-          type="text"
-          value={name}
-          onChange={setName}
-          hasError={errors?.name != null}
-          leftAdornment={
-            <Adornment>
-              <FaDna />
-            </Adornment>
-          }
-        />
+          <Input
+            name="animal-breed-name"
+            id="animal-breed-name"
+            type="text"
+            value={name}
+            onChange={setName}
+            hasError={errors?.name != null}
+            leftAdornment={
+              <Adornment>
+                <FaDna />
+              </Adornment>
+            }
+          />
 
-        <FieldMessage errorMessage={errors?.name} />
-      </Field>
+          <FieldMessage errorMessage={errors?.name} />
+        </Field>
 
-      <Field>
-        <Label hasError={errors?.species != null}>Espèce</Label>
-        <AnimalSpeciesInput value={species} onChange={setSpecies} />
-        <FieldMessage errorMessage={errors?.species} />
-      </Field>
+        <Field>
+          <Label hasError={errors?.species != null}>Espèce</Label>
+          <AnimalSpeciesInput value={species} onChange={setSpecies} />
+          <FieldMessage errorMessage={errors?.species} />
+        </Field>
+      </Fields>
 
       <SubmitButton loading={pending}>
         {animalBreed == null ? "Créer" : "Modifier"}
@@ -88,27 +90,29 @@ export function AnimalBreedForm({
 export function AnimalBreedFormPlaceholder() {
   return (
     <Form>
-      <Field>
-        <Label>
-          <Placeholder preset="label" />
-        </Label>
+      <Fields>
+        <Field>
+          <Label>
+            <Placeholder $preset="label" />
+          </Label>
 
-        <Placeholder preset="input" />
-      </Field>
+          <Placeholder $preset="input" />
+        </Field>
 
-      <Field>
-        <Label>
-          <Placeholder preset="label" />
-        </Label>
+        <Field>
+          <Label>
+            <Placeholder $preset="label" />
+          </Label>
 
-        <Selectors>
-          <Placeholders count={ANIMAL_SPECIES_ALPHABETICAL_ORDER.length}>
-            <SelectorItem>
-              <Placeholder preset="selector" />
-            </SelectorItem>
-          </Placeholders>
-        </Selectors>
-      </Field>
+          <Selectors>
+            <Placeholders count={ANIMAL_SPECIES_ALPHABETICAL_ORDER.length}>
+              <SelectorItem>
+                <Placeholder $preset="selector" />
+              </SelectorItem>
+            </Placeholders>
+          </Selectors>
+        </Field>
+      </Fields>
     </Form>
   );
 }

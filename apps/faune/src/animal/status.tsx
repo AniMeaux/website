@@ -23,11 +23,11 @@ export function StatusBadge({
 const SMALL_SIZE_BADGE_ELEMENT_STYLES = css`
   padding: ${theme.spacing.x1} ${theme.spacing.x3};
   font-size: 12px;
-  line-height: ${theme.typography.lineHeight.monoLine};
 `;
 
 const NORMAL_SIZE_BADGE_ELEMENT_STYLES = css`
   padding: ${theme.spacing.x1} ${theme.spacing.x6};
+  line-height: ${theme.typography.lineHeight.multiLine};
 `;
 
 const BADGE_ELEMENT_STATUS_STYLES: Record<AnimalStatus, Styles> = {

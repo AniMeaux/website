@@ -21,10 +21,8 @@ export function Label({
 }
 
 const Container = styled.label<{ $hasError: boolean }>`
-  margin-bottom: ${theme.spacing.x2};
   padding: 0 ${theme.spacing.x4};
   font-size: 14px;
-  line-height: ${theme.typography.lineHeight.monoLine};
   color: ${(props) =>
     props.$hasError ? theme.colors.alert[500] : theme.colors.text.secondary};
 `;

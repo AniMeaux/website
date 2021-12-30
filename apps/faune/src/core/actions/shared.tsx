@@ -100,6 +100,7 @@ export const ACTION_COMMON_STYLES = css<StylesProps>`
   align-items: center;
   justify-content: center;
   font-family: ${theme.typography.fontFamily.title};
+  line-height: ${theme.typography.lineHeight.multiLine};
   font-weight: 700;
   gap: ${theme.spacing.x2};
 `;

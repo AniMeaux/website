@@ -5,7 +5,7 @@ import {
 } from "animalColor/animalColorQueries";
 import { Button } from "core/actions/button";
 import { QuickLinkAction } from "core/actions/quickAction";
-import { Avatar } from "core/dataDisplay/avatar";
+import { Avatar, AvatarPlaceholder } from "core/dataDisplay/avatar";
 import {
   ButtonItem,
   Item,
@@ -43,12 +43,12 @@ function AnimalColorItemPlaceholder() {
   return (
     <Item>
       <ItemIcon>
-        <Placeholder preset="avatar" />
+        <AvatarPlaceholder />
       </ItemIcon>
 
       <ItemContent>
         <ItemMainText>
-          <Placeholder preset="label" />
+          <Placeholder $preset="label" />
         </ItemMainText>
       </ItemContent>
     </Item>

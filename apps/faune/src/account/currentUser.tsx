@@ -4,10 +4,10 @@ import {
   User,
   UserGroup,
 } from "@animeaux/shared-entities";
+import { SignInPage } from "account/signInPage";
 import { Link } from "core/actions/link";
 import { ErrorMessage } from "core/dataDisplay/errorMessage";
 import { firebase } from "core/firebase";
-import { SignInPage } from "core/formElements/signInPage";
 import { fetchGraphQL } from "core/request";
 import { Sentry } from "core/sentry";
 import { ChildrenProp } from "core/types";

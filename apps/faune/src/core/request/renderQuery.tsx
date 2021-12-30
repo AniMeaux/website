@@ -284,7 +284,7 @@ export function renderQueryEntity<EntityType>(
     pageTitle = renderers.getDisplayedText(query.data);
     headerTitle = pageTitle;
   } else if (query.isLoading) {
-    headerTitle = <Placeholder preset="text" />;
+    headerTitle = <Placeholder $preset="text" />;
   } else if (query.isError != null) {
     pageTitle = "Oups";
   }

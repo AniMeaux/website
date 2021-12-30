@@ -1,6 +1,5 @@
 import { User, UserGroup, UserGroupLabels } from "@animeaux/shared-entities";
 import { QuickLinkAction } from "core/actions/quickAction";
-import { UserAvatar } from "core/dataDisplay/avatar";
 import {
   ItemContent,
   ItemIcon,
@@ -18,6 +17,7 @@ import { PageTitle } from "core/pageTitle";
 import { renderItemList } from "core/request";
 import { PageComponent } from "core/types";
 import { FaPlus } from "react-icons/fa";
+import { UserAvatar } from "user/avatar";
 import { UserItemPlaceholder } from "user/userItem";
 import { useAllUsers } from "user/userQueries";
 

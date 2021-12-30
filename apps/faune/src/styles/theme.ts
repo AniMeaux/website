@@ -1,3 +1,4 @@
+import { ScreenSize } from "core/screenSize";
 import {
   createGlobalStyle,
   css,
@@ -269,6 +270,23 @@ export const theme = {
   opacity: {
     disabled: "0.6",
   },
+  // Use inclusive ranges to support both min-width and max-width syntax:
+  // @media (max-width: ${theme.screenSizes.s.end}) {}
+  // @media (min-width: ${theme.screenSizes.m.start}) {}
+  screenSizes: {
+    small: {
+      start: "0px",
+      end: `${ScreenSize.MEDIUM - 1}px`,
+    },
+    medium: {
+      start: `${ScreenSize.MEDIUM}px`,
+      end: `${ScreenSize.LARGE - 1}px`,
+    },
+    large: {
+      start: `${ScreenSize.LARGE}px`,
+      end: `${Number.MAX_SAFE_INTEGER}px`,
+    },
+  },
 };
 
 export const ELLIPSIS_STYLES = css`
@@ -295,7 +313,7 @@ export const GlobalStyles = createGlobalStyle`
     -moz-osx-font-smoothing: grayscale;
     font-family: ${theme.typography.fontFamily.body};
     font-size: 1rem;
-    line-height: ${theme.typography.lineHeight.multiLine};
+    line-height: ${theme.typography.lineHeight.monoLine};
     color: ${theme.colors.text.primary};
   }
 

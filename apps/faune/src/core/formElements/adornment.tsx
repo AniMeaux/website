@@ -20,7 +20,7 @@ export const ActionAdornment = styled.button.attrs({
   // Use type button to make sure we don't submit a form.
   type: "button",
 })`
-  ${COMMON_STYLES}
+  ${COMMON_STYLES};
   border-radius: ${theme.borderRadius.full};
   pointer-events: auto;
 

@@ -8,7 +8,7 @@ import { useCurrentUser } from "account/currentUser";
 import { useAllActiveAnimals } from "animal/queries";
 import { StatusBadge, StatusIcon } from "animal/status";
 import { QuickLinkAction } from "core/actions/quickAction";
-import { Avatar } from "core/dataDisplay/avatar";
+import { Avatar, AvatarPlaceholder } from "core/dataDisplay/avatar";
 import { AvatarImage } from "core/dataDisplay/image";
 import {
   Item,
@@ -36,56 +36,25 @@ import { ScreenSize, useScreenSize } from "core/screenSize";
 import { PageComponent } from "core/types";
 import { FaPlus, FaSearch } from "react-icons/fa";
 
-const searchableAnimalItemPlaceholder = (
+const TITLE = "Animaux en charge";
+
+const PLACEHOLDER = (
   <Item>
     <ItemIcon>
-      <Placeholder preset="avatar" />
+      <AvatarPlaceholder />
     </ItemIcon>
 
     <ItemContent>
       <ItemMainText>
-        <Placeholder preset="label" />
+        <Placeholder $preset="label" />
       </ItemMainText>
 
       <ItemSecondaryText>
-        <Placeholder preset="text" />
+        <Placeholder $preset="text" />
       </ItemSecondaryText>
     </ItemContent>
   </Item>
 );
-
-function AnimalItem({ animal }: { animal: SearchableAnimal }) {
-  const { screenSize } = useScreenSize();
-  const displayName = getAnimalDisplayName(animal);
-
-  return (
-    <LinkItem href={`./${animal.id}`}>
-      <ItemIcon>
-        <Avatar>
-          <AvatarImage image={animal.avatarId} alt={displayName} />
-        </Avatar>
-      </ItemIcon>
-
-      <ItemContent>
-        <ItemMainText>{displayName}</ItemMainText>
-
-        {animal.hostFamily != null && (
-          <ItemSecondaryText>{animal.hostFamily.name}</ItemSecondaryText>
-        )}
-      </ItemContent>
-
-      <ItemIcon small>
-        {screenSize <= ScreenSize.SMALL ? (
-          <StatusIcon status={animal.status} />
-        ) : (
-          <StatusBadge isSmall status={animal.status} />
-        )}
-      </ItemIcon>
-    </LinkItem>
-  );
-}
-
-const TITLE = "Animaux en charge";
 
 const AnimalListPage: PageComponent = () => {
   const { currentUser } = useCurrentUser();
@@ -100,7 +69,7 @@ const AnimalListPage: PageComponent = () => {
   const { content, title } = renderInfiniteItemList(query, {
     title: TITLE,
     getItemKey: (animal) => animal.id,
-    renderPlaceholderItem: () => searchableAnimalItemPlaceholder,
+    renderPlaceholderItem: () => PLACEHOLDER,
     emptyMessage: "Il n'y a pas encore d'animaux",
     renderItem: (animal) => <AnimalItem animal={animal} />,
   });
@@ -139,3 +108,34 @@ AnimalListPage.authorisedGroups = [
 ];
 
 export default AnimalListPage;
+
+function AnimalItem({ animal }: { animal: SearchableAnimal }) {
+  const { screenSize } = useScreenSize();
+  const displayName = getAnimalDisplayName(animal);
+
+  return (
+    <LinkItem href={`./${animal.id}`}>
+      <ItemIcon>
+        <Avatar>
+          <AvatarImage image={animal.avatarId} alt={displayName} />
+        </Avatar>
+      </ItemIcon>
+
+      <ItemContent>
+        <ItemMainText>{displayName}</ItemMainText>
+
+        {animal.hostFamily != null && (
+          <ItemSecondaryText>{animal.hostFamily.name}</ItemSecondaryText>
+        )}
+      </ItemContent>
+
+      <ItemIcon small>
+        {screenSize <= ScreenSize.SMALL ? (
+          <StatusIcon status={animal.status} />
+        ) : (
+          <StatusBadge isSmall status={animal.status} />
+        )}
+      </ItemIcon>
+    </LinkItem>
+  );
+}

@@ -130,6 +130,8 @@ export const INPUT_STYLES = css<InputStylesProps>`
       ${(props) => ensureArray(props.$rightAdornment).length * ADORNMENT_SIZE}px
   );
 
+  line-height: ${theme.typography.lineHeight.multiLine};
+
   &::placeholder {
     color: ${theme.colors.text.secondary};
   }

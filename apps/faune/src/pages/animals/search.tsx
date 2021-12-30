@@ -12,7 +12,7 @@ import { AnimalFiltersForm } from "animal/formElements/animalFiltersForm";
 import { useAllAnimals } from "animal/queries";
 import { ActionFilter } from "core/actions/actionFilter";
 import { Button } from "core/actions/button";
-import { Avatar } from "core/dataDisplay/avatar";
+import { Avatar, AvatarPlaceholder } from "core/dataDisplay/avatar";
 import { AvatarImage } from "core/dataDisplay/image";
 import {
   Item,
@@ -39,21 +39,20 @@ import { ScreenSize, useScreenSize } from "core/screenSize";
 import { PageComponent } from "core/types";
 import isEqual from "lodash.isequal";
 import { useEffect, useRef } from "react";
+import styled from "styled-components/macro";
 
 export function SearchableAnimalItemPlaceholder() {
   const { screenSize } = useScreenSize();
 
   return (
     <Item>
-      <ItemIcon>
-        <Placeholder
-          preset={screenSize <= ScreenSize.MEDIUM ? "avatar-small" : "avatar"}
-        />
-      </ItemIcon>
+      <SearchableItemIcon $isSmall={screenSize <= ScreenSize.MEDIUM}>
+        <AvatarPlaceholder />
+      </SearchableItemIcon>
 
       <ItemContent>
         <ItemMainText>
-          <Placeholder preset="label" />
+          <Placeholder $preset="label" />
         </ItemMainText>
       </ItemContent>
     </Item>
@@ -70,11 +69,11 @@ export function SearchableAnimalLinkItem({
 
   return (
     <LinkItem href={`../${animal.id}`}>
-      <ItemIcon>
-        <Avatar isSmall={screenSize <= ScreenSize.MEDIUM}>
+      <SearchableItemIcon $isSmall={screenSize <= ScreenSize.MEDIUM}>
+        <Avatar>
           <AvatarImage image={animal.avatarId} alt={displayName} />
         </Avatar>
-      </ItemIcon>
+      </SearchableItemIcon>
 
       <ItemContent>
         <ItemMainText>{displayName}</ItemMainText>
@@ -82,6 +81,10 @@ export function SearchableAnimalLinkItem({
     </LinkItem>
   );
 }
+
+const SearchableItemIcon = styled(ItemIcon)<{ $isSmall: boolean }>`
+  font-size: ${(props) => (props.$isSmall ? "14px" : "16px")};
+`;
 
 function createQueryFromAnimalSearch(animalSearch: AnimalSearch) {
   const query = new URLSearchParams();
@@ -179,16 +182,15 @@ const SearchAnimalPage: PageComponent = () => {
   }
 
   const searchInputElement = useRef<HTMLInputElement>(null!);
-  const { screenSize } = useScreenSize();
 
   return (
     <ApplicationLayout>
       <PageTitle title="Chercher un animal" />
+
       <Header>
-        <HeaderBackLink href=".." />
+        <HeaderBackLink />
 
         <SearchInput
-          size={screenSize <= ScreenSize.SMALL ? "small" : "medium"}
           placeholder="Chercher un animal"
           value={rawSearch}
           onChange={setRawSearch}

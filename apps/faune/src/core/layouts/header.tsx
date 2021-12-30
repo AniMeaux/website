@@ -1,7 +1,6 @@
 import { useCurrentUser } from "account/currentUser";
 import { CurrentUserMenu } from "account/currentUserMenu";
 import { BaseLink, BaseLinkProps } from "core/baseLink";
-import { UserAvatar } from "core/dataDisplay/avatar";
 import { useIsScrollAtTheTop } from "core/layouts/usePageScroll";
 import { ScreenSize, useScreenSize } from "core/screenSize";
 import { ChildrenProp, StyleProps } from "core/types";
@@ -9,12 +8,9 @@ import { useRef, useState } from "react";
 import { FaChevronLeft } from "react-icons/fa";
 import styled from "styled-components/macro";
 import { theme } from "styles/theme";
+import { UserAvatar } from "user/avatar";
 
-export function HeaderLink(props: BaseLinkProps) {
-  return <HeaderLinkElement {...props} />;
-}
-
-const HeaderLinkElement = styled(BaseLink)`
+export const HeaderLink = styled(BaseLink)`
   width: 32px;
   height: 32px;
   flex: none;
@@ -35,7 +31,7 @@ const HeaderLinkElement = styled(BaseLink)`
   }
 `;
 
-export type HeaderBackLinkProps = Omit<BaseLinkProps, "href"> & {
+type HeaderBackLinkProps = Omit<BaseLinkProps, "href"> & {
   href?: BaseLinkProps["href"];
 };
 
@@ -47,12 +43,7 @@ export function HeaderBackLink({ href = "..", ...props }: HeaderBackLinkProps) {
   );
 }
 
-export type HeaderTitleProps = ChildrenProp & StyleProps;
-export function HeaderTitle(props: HeaderTitleProps) {
-  return <HeaderTitleElement {...props} />;
-}
-
-const HeaderTitleElement = styled.h1`
+export const HeaderTitle = styled.h1`
   flex: 1;
   min-width: 0;
   overflow: hidden;
@@ -79,10 +70,10 @@ const HeaderElement = styled.header<{ $hasScroll: boolean }>`
   background: ${theme.colors.background.primary};
 
   padding-left: ${theme.spacing.x4};
+  /* The navigation is at the bottom so we need to compensate for safe area. */
   padding-left: calc(${theme.spacing.x4} + env(safe-area-inset-left, 0));
 
   padding-right: ${theme.spacing.x4};
-  /* The navigation is at the bottom so we need to compensate for safe area. */
   padding-right: calc(${theme.spacing.x4} + env(safe-area-inset-right, 0));
 
   display: flex;
@@ -95,12 +86,12 @@ const HeaderElement = styled.header<{ $hasScroll: boolean }>`
   box-shadow: ${(props) =>
     props.$hasScroll ? `0 1px 0 0 ${theme.colors.dark[50]}` : "none"};
 
-  @media (min-width: 500px) {
+  @media (min-width: ${theme.screenSizes.medium.start}) {
     height: 56px;
-    padding-right: ${theme.spacing.x4};
+    padding-left: ${theme.spacing.x4};
   }
 
-  @media (min-width: 800px) {
+  @media (min-width: ${theme.screenSizes.large.start}) {
     height: 64px;
   }
 `;

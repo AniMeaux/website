@@ -1,22 +1,8 @@
-import { User } from "@animeaux/shared-entities";
-import styled, { css } from "styled-components/macro";
+import { Placeholder } from "core/loaders/placeholder";
+import styled from "styled-components/macro";
 import { theme } from "styles/theme";
 
-type AvatarProps = React.HTMLAttributes<HTMLSpanElement> & {
-  isSmall?: boolean;
-};
-
-export function Avatar({ isSmall = false, ...rest }: AvatarProps) {
-  return <AvatarElement {...rest} $isSmall={isSmall} />;
-}
-
-const SMALL_AVATAR_STYLES = css`
-  font-size: 14px;
-  line-height: ${theme.typography.lineHeight.monoLine};
-`;
-
-const AvatarElement = styled.span<{ $isSmall: boolean }>`
-  ${(props) => (props.$isSmall ? SMALL_AVATAR_STYLES : null)};
+export const Avatar = styled.span`
   position: relative;
   overflow: hidden;
   height: 2em;
@@ -40,18 +26,11 @@ const AvatarElement = styled.span<{ $isSmall: boolean }>`
   }
 `;
 
-type UserAvatarProps = AvatarProps & {
-  user: User;
-};
+export const AvatarPlaceholder = styled(Placeholder)`
+  width: 2em;
+  height: 2em;
 
-export function UserAvatar({ user, ...rest }: UserAvatarProps) {
-  return (
-    <UserAvatarElement {...rest}>
-      {user.displayName[0].toUpperCase()}
-    </UserAvatarElement>
-  );
-}
-
-const UserAvatarElement = styled(Avatar)`
-  color: ${theme.colors.primary[500]};
+  &::after {
+    height: 100%;
+  }
 `;
