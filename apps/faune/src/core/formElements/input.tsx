@@ -16,7 +16,6 @@ export type InputProps = StyleProps &
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
   {
-    size = "medium",
     hasError = false,
     leftAdornment,
     rightAdornment,
@@ -35,7 +34,6 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
 ) {
   return (
     <InputWrapper
-      size={size}
       disabled={disabled}
       leftAdornment={leftAdornment}
       rightAdornment={rightAdornment}
@@ -49,7 +47,6 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
         value={value}
         onChange={(event) => onChange?.(event.target.value)}
         $hasError={hasError}
-        $size={size}
         $leftAdornment={leftAdornment}
         $rightAdornment={rightAdornment}
         ref={ref}

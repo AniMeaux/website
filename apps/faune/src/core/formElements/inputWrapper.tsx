@@ -8,11 +8,8 @@ import styled, {
 import { theme } from "styles/theme";
 import { ADORNMENT_SIZE } from "core/formElements/adornment";
 
-export type InputSize = "small" | "medium";
-
 export type InputWrapperProps = {
   disabled?: boolean;
-  size?: InputSize;
   leftAdornment?: React.ReactNode | React.ReactNode[];
   rightAdornment?: React.ReactNode | React.ReactNode[];
   hasError?: boolean;
@@ -21,7 +18,6 @@ export type InputWrapperProps = {
 export function InputWrapper({
   children,
   disabled = false,
-  size = "medium",
   leftAdornment,
   rightAdornment,
   ...rest
@@ -34,16 +30,12 @@ export function InputWrapper({
       {children}
 
       {leftAdornments.length > 0 &&
-        createElement(
-          AdornmentContainer,
-          { side: "left", size },
-          ...leftAdornments
-        )}
+        createElement(AdornmentContainer, { side: "left" }, ...leftAdornments)}
 
       {rightAdornments.length > 0 &&
         createElement(
           AdornmentContainer,
-          { side: "right", size },
+          { side: "right" },
           ...rightAdornments
         )}
     </InputWrapperElement>
@@ -58,7 +50,6 @@ const InputWrapperElement = styled.span<{ $isDisabled: boolean }>`
 
 type AdornmentContainerProps = ChildrenProp & {
   side: "left" | "right";
-  size: InputSize;
 };
 
 const ADORNMENT_CONTAINER_SIDE_STYLES: Record<
@@ -73,16 +64,15 @@ const ADORNMENT_CONTAINER_SIDE_STYLES: Record<
   `,
 };
 
-function AdornmentContainer({ side, size, children }: AdornmentContainerProps) {
+function AdornmentContainer({ side, children }: AdornmentContainerProps) {
   return (
-    <AdornmentContainerElement $isSmall={size === "small"} $side={side}>
+    <AdornmentContainerElement $side={side}>
       {children}
     </AdornmentContainerElement>
   );
 }
 
 type AdornmentContainerElementProps = {
-  $isSmall: boolean;
   $side: AdornmentContainerProps["side"];
 };
 
@@ -93,15 +83,11 @@ const AdornmentContainerElement = styled.span<AdornmentContainerElementProps>`
   ${(props) => ADORNMENT_CONTAINER_SIDE_STYLES[props.$side]};
   display: flex;
   align-items: center;
-  padding: ${(props) =>
-    props.$isSmall
-      ? `0 ${theme.spacing.x2}`
-      : `${theme.spacing.x1} ${theme.spacing.x2}`};
+  padding: ${theme.spacing.x1} ${theme.spacing.x2};
 `;
 
 type InputStylesProps = {
   $hasError: boolean;
-  $size: InputSize;
   $leftAdornment?: React.ReactNode | React.ReactNode[];
   $rightAdornment?: React.ReactNode | React.ReactNode[];
 };
@@ -114,11 +100,8 @@ export const INPUT_STYLES = css<InputStylesProps>`
   border: 1px solid ${theme.colors.dark[100]};
   background: ${(props) => (props.$hasError ? theme.colors.alert[50] : null)};
 
-  padding-top: ${(props) =>
-    props.$size === "small" ? theme.spacing.x1 : theme.spacing.x2};
-
-  padding-bottom: ${(props) =>
-    props.$size === "small" ? theme.spacing.x1 : theme.spacing.x2};
+  padding-top: ${theme.spacing.x2};
+  padding-bottom: ${theme.spacing.x2};
 
   padding-left: calc(
     ${theme.spacing.x4} +

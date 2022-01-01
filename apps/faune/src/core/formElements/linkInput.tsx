@@ -19,7 +19,6 @@ export type LinkInputProps = InputWrapperProps &
   };
 
 export function LinkInput({
-  size = "medium",
   hasError = false,
   leftAdornment,
   rightAdornment,
@@ -38,7 +37,6 @@ export function LinkInput({
 
   return (
     <InputWrapper
-      size={size}
       disabled={disabled}
       leftAdornment={leftAdornment}
       rightAdornment={rightAdornment}
@@ -49,7 +47,6 @@ export function LinkInput({
         {...rest}
         disabled={disabled}
         $hasError={hasError}
-        $size={size}
         $leftAdornment={leftAdornment}
         $rightAdornment={rightAdornment}
       >

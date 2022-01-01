@@ -60,7 +60,6 @@ export function Textarea({
         rows={rows}
         onChange={(event) => onChange?.(event.target.value)}
         $hasError={hasError}
-        $size="medium"
         $leftAdornment={leftAdornment}
         $rightAdornment={rightAdornment}
       />
