@@ -40,7 +40,6 @@ export function ActionFilter({
           <ModalHeaderTitle>Filtres</ModalHeaderTitle>
 
           <Button
-            size="small"
             disabled={activeFilterCount === 0}
             onClick={() => clearAllFilters()}
           >

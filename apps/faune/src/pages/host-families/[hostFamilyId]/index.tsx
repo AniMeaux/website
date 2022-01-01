@@ -225,9 +225,7 @@ const HostFamilyPage: PageComponent = () => {
     ),
     renderError: (props) => <ErrorItem {...props} />,
     renderRetryButton: ({ retry, children }) => (
-      <Button size="small" onClick={retry}>
-        {children}
-      </Button>
+      <Button onClick={retry}>{children}</Button>
     ),
   });
 

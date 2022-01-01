@@ -6,18 +6,11 @@ import styled from "styled-components/macro";
 export type LinkProps = BaseLinkProps & ActionCommonProps;
 
 export const Link = forwardRef<HTMLAnchorElement, LinkProps>(function Link(
-  { isIconOnly, size, variant, disabled, ...rest },
+  { variant, disabled, ...rest },
   ref
 ) {
   return (
-    <LinkElement
-      {...rest}
-      ref={ref}
-      disabled={disabled}
-      $isIconOnly={isIconOnly}
-      $size={size}
-      $variant={variant}
-    />
+    <LinkElement {...rest} ref={ref} disabled={disabled} $variant={variant} />
   );
 });
 

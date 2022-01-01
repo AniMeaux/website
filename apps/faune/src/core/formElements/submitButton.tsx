@@ -1,26 +1,20 @@
-import { Button, ButtonProps } from "core/actions/button";
+import { Button } from "core/actions/button";
 import { useIsScrollAtTheBottom } from "core/layouts/usePageScroll";
+import { ChildrenProp } from "core/types";
 import styled, { css, keyframes } from "styled-components/macro";
 import { theme } from "styles/theme";
 
-type SubmitButtonProps = ButtonProps & {
+type SubmitButtonProps = ChildrenProp & {
   loading?: boolean;
 };
 
-export function SubmitButton({
-  type = "submit",
-  variant = "primary",
-  loading = false,
-  children,
-  ...rest
-}: SubmitButtonProps) {
+export function SubmitButton({ loading = false, children }: SubmitButtonProps) {
   const { isAtTheBottom } = useIsScrollAtTheBottom();
 
   return (
     <SubmitButtonElement
-      {...rest}
-      type={type}
-      variant={variant}
+      type="submit"
+      variant="primary"
       $hasScroll={!isAtTheBottom}
       $isLoading={loading}
     >

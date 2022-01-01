@@ -11,7 +11,6 @@ const SPACING_BOTTOM = `calc(${theme.components.bottomNavHeight} + ${SPACING})`;
 
 const QUICK_ACTION_PROPS: ActionCommonProps = {
   variant: "primary",
-  isIconOnly: true,
 };
 
 const QUICK_ACTION_STYLES = css`
@@ -24,6 +23,7 @@ const QUICK_ACTION_STYLES = css`
   box-shadow: ${theme.shadow.m};
   width: 2em;
   height: 2em;
+  padding: ${theme.spacing.x2};
   font-size: 30px;
 `;
 

@@ -7,7 +7,6 @@ import {
   useAllAnimalBreeds,
   useDeleteAnimalBreed,
 } from "animalBreed/animalBreedQueries";
-import { Button } from "core/actions/button";
 import { QuickLinkAction } from "core/actions/quickAction";
 import { Avatar, AvatarPlaceholder } from "core/dataDisplay/avatar";
 import {
@@ -31,19 +30,10 @@ import { PageTitle } from "core/pageTitle";
 import { Modal, useModal } from "core/popovers/modal";
 import { renderInfiniteItemList } from "core/request";
 import { useRouter } from "core/router";
-import { ScreenSize, useScreenSize } from "core/screenSize";
 import { PageComponent } from "core/types";
 import { withConfirmation } from "core/withConfirmation";
-import type { Placement } from "popper.js";
 import { useRef, useState } from "react";
-import {
-  FaAngleRight,
-  FaDna,
-  FaEllipsisH,
-  FaPen,
-  FaPlus,
-  FaTrash,
-} from "react-icons/fa";
+import { FaAngleRight, FaDna, FaPen, FaPlus, FaTrash } from "react-icons/fa";
 
 function AnimalBreedItemPlaceholder() {
   return (
@@ -133,15 +123,11 @@ function AnimalBreedModalContent({ animalBreed }: AnimalBreedProps) {
 }
 
 export function AnimalBreedItem({ animalBreed }: AnimalBreedProps) {
-  const { screenSize } = useScreenSize();
   const [isMenuVisible, setIsMenuVisible] = useState(false);
   const referenceElement = useRef<HTMLButtonElement>(null!);
 
-  let item: React.ReactNode;
-  let modalPlacement: Placement = "bottom";
-
-  if (screenSize <= ScreenSize.SMALL) {
-    item = (
+  return (
+    <>
       <ButtonItem ref={referenceElement} onClick={() => setIsMenuVisible(true)}>
         <ItemIcon>
           <Avatar>
@@ -156,47 +142,12 @@ export function AnimalBreedItem({ animalBreed }: AnimalBreedProps) {
           </ItemSecondaryText>
         </ItemContent>
       </ButtonItem>
-    );
-  } else {
-    modalPlacement = "bottom-end";
-    item = (
-      <Item>
-        <ItemIcon>
-          <Avatar>
-            <FaDna />
-          </Avatar>
-        </ItemIcon>
-
-        <ItemContent>
-          <ItemMainText>{animalBreed.name}</ItemMainText>
-          <ItemSecondaryText>
-            {AnimalSpeciesLabels[animalBreed.species]}
-          </ItemSecondaryText>
-        </ItemContent>
-
-        <ItemIcon>
-          <Button
-            isIconOnly
-            variant="secondary"
-            ref={referenceElement}
-            onClick={() => setIsMenuVisible(true)}
-          >
-            <FaEllipsisH />
-          </Button>
-        </ItemIcon>
-      </Item>
-    );
-  }
-
-  return (
-    <>
-      {item}
 
       <Modal
         open={isMenuVisible}
         onDismiss={() => setIsMenuVisible(false)}
         referenceElement={referenceElement}
-        placement={modalPlacement}
+        placement="bottom-start"
       >
         <AnimalBreedModalContent animalBreed={animalBreed} />
       </Modal>

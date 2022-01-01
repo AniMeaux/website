@@ -3,7 +3,6 @@ import {
   useAllAnimalColors,
   useDeleteAnimalColor,
 } from "animalColor/animalColorQueries";
-import { Button } from "core/actions/button";
 import { QuickLinkAction } from "core/actions/quickAction";
 import { Avatar, AvatarPlaceholder } from "core/dataDisplay/avatar";
 import {
@@ -25,14 +24,11 @@ import { Placeholder } from "core/loaders/placeholder";
 import { PageTitle } from "core/pageTitle";
 import { Modal, useModal } from "core/popovers/modal";
 import { renderInfiniteItemList } from "core/request";
-import { ScreenSize, useScreenSize } from "core/screenSize";
 import { PageComponent } from "core/types";
 import { withConfirmation } from "core/withConfirmation";
-import type { Placement } from "popper.js";
 import { useRef, useState } from "react";
 import {
   FaAngleRight,
-  FaEllipsisH,
   FaPalette,
   FaPen,
   FaPlus,
@@ -121,15 +117,11 @@ function AnimalColorModalContent({ animalColor }: AnimalColorProps) {
 }
 
 function AnimalColorItem({ animalColor }: AnimalColorProps) {
-  const { screenSize } = useScreenSize();
   const [isMenuVisible, setIsMenuVisible] = useState(false);
   const referenceElement = useRef<HTMLButtonElement>(null!);
 
-  let item: React.ReactNode;
-  let modalPlacement: Placement = "bottom";
-
-  if (screenSize <= ScreenSize.SMALL) {
-    item = (
+  return (
+    <>
       <ButtonItem ref={referenceElement} onClick={() => setIsMenuVisible(true)}>
         <ItemIcon>
           <Avatar>
@@ -141,44 +133,12 @@ function AnimalColorItem({ animalColor }: AnimalColorProps) {
           <ItemMainText>{animalColor.name}</ItemMainText>
         </ItemContent>
       </ButtonItem>
-    );
-  } else {
-    modalPlacement = "bottom-end";
-    item = (
-      <Item>
-        <ItemIcon>
-          <Avatar>
-            <FaPalette />
-          </Avatar>
-        </ItemIcon>
-
-        <ItemContent>
-          <ItemMainText>{animalColor.name}</ItemMainText>
-        </ItemContent>
-
-        <ItemIcon>
-          <Button
-            isIconOnly
-            variant="secondary"
-            ref={referenceElement}
-            onClick={() => setIsMenuVisible(true)}
-          >
-            <FaEllipsisH />
-          </Button>
-        </ItemIcon>
-      </Item>
-    );
-  }
-
-  return (
-    <>
-      {item}
 
       <Modal
         open={isMenuVisible}
         onDismiss={() => setIsMenuVisible(false)}
         referenceElement={referenceElement}
-        placement={modalPlacement}
+        placement="bottom-start"
       >
         <AnimalColorModalContent animalColor={animalColor} />
       </Modal>

@@ -6,14 +6,12 @@ export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> &
   ActionCommonProps;
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  function Button({ isIconOnly, size, variant, disabled, ...rest }, ref) {
+  function Button({ variant, disabled, ...rest }, ref) {
     return (
       <ButtonElement
         {...rest}
         ref={ref}
         disabled={disabled}
-        $isIconOnly={isIconOnly}
-        $size={size}
         $variant={variant}
       />
     );
