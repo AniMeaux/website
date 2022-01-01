@@ -12,6 +12,7 @@ import { Form, FormProps } from "core/formElements/form";
 import { Input } from "core/formElements/input";
 import { Label } from "core/formElements/label";
 import { SubmitButton } from "core/formElements/submitButton";
+import { Separator } from "core/layouts/separator";
 import { Placeholder, Placeholders } from "core/loaders/placeholder";
 import { useEffect, useState } from "react";
 import { FaEnvelope, FaMapMarker, FaPhone, FaUser } from "react-icons/fa";
@@ -169,6 +170,8 @@ export function HostFamilyForm({
           <FieldMessage errorMessage={errors?.email} />
         </Field>
 
+        <Separator />
+
         <Field>
           <Label
             htmlFor="host-family-address"
@@ -205,7 +208,8 @@ export function HostFamilyForm({
           <Input
             name="host-family-zip-code"
             id="host-family-zip-code"
-            type="number"
+            type="text"
+            inputMode="numeric"
             value={zipCode}
             onChange={setZipCode}
             hasError={errors?.zipCode != null}

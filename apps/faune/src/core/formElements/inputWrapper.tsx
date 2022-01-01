@@ -111,8 +111,8 @@ export const INPUT_STYLES = css<InputStylesProps>`
   width: 100%;
   min-width: 0;
   border-radius: ${theme.borderRadius.l};
-  background: ${(props) =>
-    props.$hasError ? theme.colors.alert[50] : theme.colors.dark[30]};
+  border: 1px solid ${theme.colors.dark[100]};
+  background: ${(props) => (props.$hasError ? theme.colors.alert[50] : null)};
 
   padding-top: ${(props) =>
     props.$size === "small" ? theme.spacing.x1 : theme.spacing.x2};

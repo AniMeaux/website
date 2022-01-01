@@ -1,8 +1,8 @@
 import { UserGroup } from "@animeaux/shared-entities";
 import { AnimalFormProvider, useAnimalForm } from "animal/animalCreation";
 import {
-  AnimalBreedButtonItem,
-  AnimalBreedItemPlaceholder,
+  AnimalBreedSearchItem,
+  AnimalBreedSearchItemPlaceholder,
 } from "animalBreed/animalBreedItems";
 import { useAllAnimalBreeds } from "animalBreed/animalBreedQueries";
 import { Button } from "core/actions/button";
@@ -15,7 +15,6 @@ import { Section } from "core/layouts/section";
 import { PageTitle } from "core/pageTitle";
 import { renderInfiniteItemList } from "core/request";
 import { useRouter } from "core/router";
-import { ScreenSize, useScreenSize } from "core/screenSize";
 import { PageComponent } from "core/types";
 
 const CreateAnimalBreedPage: PageComponent = () => {
@@ -27,14 +26,14 @@ const CreateAnimalBreedPage: PageComponent = () => {
   const { content } = renderInfiniteItemList(query, {
     hasSearch: search !== "",
     getItemKey: (animalBreed) => animalBreed.id,
-    renderPlaceholderItem: () => <AnimalBreedItemPlaceholder />,
+    renderPlaceholderItem: () => <AnimalBreedSearchItemPlaceholder />,
     emptyMessage: "Il n'y a pas encore de race",
     emptySearchMessage: "Aucune race trouvée",
     renderEmptySearchAction: () => (
       <Button onClick={() => setRawSearch("")}>Effacer la recherche</Button>
     ),
     renderItem: (animalBreed) => (
-      <AnimalBreedButtonItem
+      <AnimalBreedSearchItem
         animalBreed={animalBreed}
         highlight={animalBreed.id === formPayload.breed?.id}
         onClick={() => {
@@ -45,18 +44,12 @@ const CreateAnimalBreedPage: PageComponent = () => {
     ),
   });
 
-  const { screenSize } = useScreenSize();
-
   return (
     <ApplicationLayout>
       <PageTitle title="Nouvel animal" />
       <Header>
         <HeaderBackLink href="../profile" />
-        <SearchInput
-          size={screenSize <= ScreenSize.SMALL ? "small" : "medium"}
-          value={rawSearch}
-          onChange={setRawSearch}
-        />
+        <SearchInput value={rawSearch} onChange={setRawSearch} />
       </Header>
 
       <Main>

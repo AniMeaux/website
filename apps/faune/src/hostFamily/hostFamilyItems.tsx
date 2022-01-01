@@ -85,7 +85,7 @@ export function HostFamilySearchItemPlaceholder() {
   return (
     <Item>
       <ItemIcon>
-        <AvatarPlaceholder />
+        <Placeholder $preset="icon" />
       </ItemIcon>
 
       <ItemContent>
@@ -108,9 +108,7 @@ export function HostFamilySearchItem({
   return (
     <ButtonItem {...rest}>
       <ItemIcon>
-        <Avatar>
-          <FaHome />
-        </Avatar>
+        <FaHome />
       </ItemIcon>
 
       <ItemContent>

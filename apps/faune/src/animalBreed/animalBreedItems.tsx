@@ -63,27 +63,37 @@ export function AnimalBreedLinkItem({
   );
 }
 
-type AnimalBreedButtonItemProps = ButtonItemProps & AnimalBreedItemProps;
+type AnimalBreedSearchItemProps = ButtonItemProps & AnimalBreedItemProps;
 
-export function AnimalBreedButtonItem({
+export function AnimalBreedSearchItem({
   animalBreed,
   ...rest
-}: AnimalBreedButtonItemProps) {
+}: AnimalBreedSearchItemProps) {
   return (
     <ButtonItem {...rest}>
       <ItemIcon>
-        <Avatar>
-          <FaDna />
-        </Avatar>
+        <FaDna />
       </ItemIcon>
 
       <ItemContent>
         <ItemMainText>{animalBreed.name}</ItemMainText>
-
-        <ItemSecondaryText>
-          {AnimalSpeciesLabels[animalBreed.species]}
-        </ItemSecondaryText>
       </ItemContent>
     </ButtonItem>
+  );
+}
+
+export function AnimalBreedSearchItemPlaceholder() {
+  return (
+    <Item>
+      <ItemIcon>
+        <Placeholder $preset="icon" />
+      </ItemIcon>
+
+      <ItemContent>
+        <ItemMainText>
+          <Placeholder $preset="label" />
+        </ItemMainText>
+      </ItemContent>
+    </Item>
   );
 }

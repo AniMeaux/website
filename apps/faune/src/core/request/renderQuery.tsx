@@ -4,6 +4,7 @@ import { EmptyMessage, EmptyMessageProps } from "core/dataDisplay/emptyMessage";
 import { ErrorMessage, ErrorMessageProps } from "core/dataDisplay/errorMessage";
 import { Placeholder, Placeholders } from "core/loaders/placeholder";
 import { ChildrenProp } from "core/types";
+import styled from "styled-components";
 import { UseInfiniteQueryResult, UseQueryResult } from "./request";
 
 type RetryButtonProps = ChildrenProp & {
@@ -186,7 +187,11 @@ function renderInfiniteItemListContent<ItemType>(
 
         <ul>
           {itemsNode}
-          {renderPlaceholder && <li>{renderPlaceholderItem()}</li>}
+          {renderPlaceholder && (
+            <PlaceholderListItem $isVisible={query.isFetchingNextPage}>
+              {renderPlaceholderItem()}
+            </PlaceholderListItem>
+          )}
         </ul>
       </>
     );
@@ -218,6 +223,10 @@ function renderInfiniteItemListContent<ItemType>(
 
   return null;
 }
+
+const PlaceholderListItem = styled.li<{ $isVisible: boolean }>`
+  opacity: ${(props) => (props.$isVisible ? "1" : "0")};
+`;
 
 export function renderInfiniteItemList<ItemType>(
   query: UseInfiniteQueryResult<PaginatedResponse<ItemType>, Error>,

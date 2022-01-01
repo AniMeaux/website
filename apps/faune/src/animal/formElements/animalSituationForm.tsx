@@ -25,6 +25,7 @@ import {
 } from "core/formElements/selector";
 import { SubmitButton } from "core/formElements/submitButton";
 import { Textarea } from "core/formElements/textarea";
+import { Separator } from "core/layouts/separator";
 import {
   FaExclamationTriangle,
   FaHome,
@@ -116,6 +117,8 @@ export function AnimalSituationForm<
           </Field>
         )}
 
+        <Separator />
+
         <Field>
           <Label htmlFor="pick-up-date" hasError={errors?.pickUpDate != null}>
             Date de prise en charge
@@ -177,6 +180,8 @@ export function AnimalSituationForm<
           </Selectors>
         </Field>
 
+        <Separator />
+
         <Field>
           <Label isOptional>Famille d'accueil</Label>
 
@@ -202,10 +207,12 @@ export function AnimalSituationForm<
           />
         </Field>
 
+        <Separator />
+
         <Field>
           <Label>Ok enfants</Label>
 
-          <Selectors isStretched>
+          <Selectors>
             {TRILEAN_ORDER.map((trileanValue) => (
               <SelectorItem key={trileanValue}>
                 <Selector>
@@ -230,7 +237,7 @@ export function AnimalSituationForm<
         <Field>
           <Label>Ok chiens</Label>
 
-          <Selectors isStretched>
+          <Selectors>
             {TRILEAN_ORDER.map((trileanValue) => (
               <SelectorItem key={trileanValue}>
                 <Selector>
@@ -255,7 +262,7 @@ export function AnimalSituationForm<
         <Field>
           <Label>Ok chats</Label>
 
-          <Selectors isStretched>
+          <Selectors>
             {TRILEAN_ORDER.map((trileanValue) => (
               <SelectorItem key={trileanValue}>
                 <Selector>
@@ -280,7 +287,7 @@ export function AnimalSituationForm<
         <Field>
           <Label>Stérilisé</Label>
 
-          <Selectors isStretched>
+          <Selectors>
             <SelectorItem>
               <Selector>
                 <SelectorRadio

@@ -150,7 +150,7 @@ export const theme = {
   },
   borderRadius: {
     m: "12px",
-    l: "24px",
+    l: "20px",
     full: "9999px",
   },
   components: {
@@ -405,5 +405,11 @@ export const ResetStyles = createGlobalStyle`
 
   address {
     font-style: normal;
+  }
+
+  hr {
+    margin: 0;
+    border: 0;
+    box-sizing: inherit;
   }
 `;

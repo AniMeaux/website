@@ -70,7 +70,8 @@ export function DateInput({
         name={`${name}-day`}
         value={day}
         onChange={setDay}
-        type="number"
+        type="text"
+        inputMode="numeric"
         placeholder="00"
         hasError={hasError}
         leftAdornment={<Adornment>J</Adornment>}
@@ -81,7 +82,8 @@ export function DateInput({
         name={`${name}-month`}
         value={month}
         onChange={setMonth}
-        type="number"
+        type="text"
+        inputMode="numeric"
         placeholder="00"
         hasError={hasError}
         leftAdornment={<Adornment>M</Adornment>}
@@ -93,7 +95,8 @@ export function DateInput({
         name={`${name}-year`}
         value={year}
         onChange={setYear}
-        type="number"
+        type="text"
+        inputMode="numeric"
         placeholder="0000"
         hasError={hasError}
         leftAdornment={<Adornment>A</Adornment>}

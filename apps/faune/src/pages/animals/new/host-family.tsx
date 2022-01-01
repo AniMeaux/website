@@ -1,7 +1,6 @@
 import { UserGroup } from "@animeaux/shared-entities";
 import { AnimalFormProvider, useAnimalForm } from "animal/animalCreation";
 import { Button } from "core/actions/button";
-import { Avatar } from "core/dataDisplay/avatar";
 import {
   ItemContent,
   ItemIcon,
@@ -17,7 +16,6 @@ import { Section } from "core/layouts/section";
 import { PageTitle } from "core/pageTitle";
 import { renderInfiniteItemList } from "core/request";
 import { useRouter } from "core/router";
-import { ScreenSize, useScreenSize } from "core/screenSize";
 import { PageComponent } from "core/types";
 import {
   HostFamilySearchItem,
@@ -44,9 +42,7 @@ const CreateAnimalHostFamilyPage: PageComponent = () => {
     renderAdditionalItem: () => (
       <LinkItem href="../new-host-family" color="blue">
         <ItemIcon>
-          <Avatar>
-            <FaPlus />
-          </Avatar>
+          <FaPlus />
         </ItemIcon>
 
         <ItemContent>
@@ -66,18 +62,12 @@ const CreateAnimalHostFamilyPage: PageComponent = () => {
     ),
   });
 
-  const { screenSize } = useScreenSize();
-
   return (
     <ApplicationLayout>
       <PageTitle title="Nouvel animal" />
       <Header>
         <HeaderBackLink href="../situation" />
-        <SearchInput
-          size={screenSize <= ScreenSize.SMALL ? "small" : "medium"}
-          value={rawSearch}
-          onChange={setRawSearch}
-        />
+        <SearchInput value={rawSearch} onChange={setRawSearch} />
       </Header>
 
       <Main>

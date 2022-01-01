@@ -11,7 +11,6 @@ import { Section } from "core/layouts/section";
 import { PageTitle } from "core/pageTitle";
 import { renderItemList } from "core/request";
 import { useRouter } from "core/router";
-import { ScreenSize, useScreenSize } from "core/screenSize";
 import { PageComponent } from "core/types";
 
 const CreatePickUpLocationPage: PageComponent = () => {
@@ -70,18 +69,12 @@ const CreatePickUpLocationPage: PageComponent = () => {
     ),
   });
 
-  const { screenSize } = useScreenSize();
-
   return (
     <ApplicationLayout>
       <PageTitle title="Nouvel animal" />
       <Header>
         <HeaderBackLink href="../situation" />
-        <SearchInput
-          size={screenSize <= ScreenSize.SMALL ? "small" : "medium"}
-          value={rawSearch}
-          onChange={setRawSearch}
-        />
+        <SearchInput value={rawSearch} onChange={setRawSearch} />
       </Header>
 
       <Main>

@@ -21,6 +21,7 @@ import {
   Selectors,
 } from "core/formElements/selector";
 import { SubmitButton } from "core/formElements/submitButton";
+import { Separator } from "core/layouts/separator";
 import { Placeholder, Placeholders } from "core/loaders/placeholder";
 import { useEffect, useState } from "react";
 import { FaEnvelope, FaLock, FaUser } from "react-icons/fa";
@@ -149,6 +150,8 @@ export function UserForm({
             }
           />
         </Field>
+
+        <Separator />
 
         <Field>
           <Label hasError={errors?.groups != null}>Groupes</Label>

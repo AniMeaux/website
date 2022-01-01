@@ -54,22 +54,37 @@ export function AnimalColorLinkItem({
   );
 }
 
-type AnimalColorCuttonItemProps = ButtonItemProps & AnimalColorItemProps;
-export function AnimalColorButtonItem({
+type AnimalColorSearchItemProps = ButtonItemProps & AnimalColorItemProps;
+
+export function AnimalColorSearchItem({
   animalColor,
   ...rest
-}: AnimalColorCuttonItemProps) {
+}: AnimalColorSearchItemProps) {
   return (
     <ButtonItem {...rest}>
       <ItemIcon>
-        <Avatar>
-          <FaPalette />
-        </Avatar>
+        <FaPalette />
       </ItemIcon>
 
       <ItemContent>
         <ItemMainText>{animalColor.name}</ItemMainText>
       </ItemContent>
     </ButtonItem>
+  );
+}
+
+export function AnimalColorSearchItemPlaceholder() {
+  return (
+    <Item>
+      <ItemIcon>
+        <Placeholder $preset="icon" />
+      </ItemIcon>
+
+      <ItemContent>
+        <ItemMainText>
+          <Placeholder $preset="label" />
+        </ItemMainText>
+      </ItemContent>
+    </Item>
   );
 }
