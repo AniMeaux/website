@@ -23,9 +23,7 @@ import { AnimalGenderIcon } from "animal/animalGenderIcon";
 import { AnimalSpeciesIcon } from "animal/animalSpeciesIcon";
 import { useAnimal, useDeleteAnimal } from "animal/queries";
 import { StatusBadge } from "animal/status";
-import { Button } from "core/actions/button";
 import { QuickActions } from "core/actions/quickAction";
-import { copyToClipboard } from "core/clipboard";
 import { ImageSlideshow } from "core/dataDisplay/imageSlideshow";
 import {
   ButtonItem,
@@ -67,12 +65,9 @@ import {
   FaHandHoldingHeart,
   FaHome,
   FaImages,
-  FaLink,
   FaMapMarker,
   FaPen,
   FaPhone,
-  FaShare,
-  FaShareAlt,
   FaTrash,
 } from "react-icons/fa";
 import styled from "styled-components/macro";
@@ -88,82 +83,9 @@ function PicturesSection({ animal }: AnimalProps) {
 }
 
 function HighlightsSection({ animal }: AnimalProps) {
-  const [isSharingOpen, setIsSharingOpen] = useState(false);
-  const buttonElement = useRef<HTMLButtonElement>(null!);
-
   return (
     <HighlightsSectionElement>
       <StatusBadge status={animal.status} />
-
-      <Button
-        size="small"
-        onClick={() => setIsSharingOpen(true)}
-        ref={buttonElement}
-      >
-        <FaShare />
-        <span>Partager</span>
-      </Button>
-
-      <Modal
-        open={isSharingOpen}
-        onDismiss={() => setIsSharingOpen(false)}
-        referenceElement={buttonElement}
-        placement="bottom-end"
-      >
-        <Section>
-          <ButtonItem
-            onClick={async () => {
-              setIsSharingOpen(false);
-              await copyToClipboard(document.location.href);
-            }}
-          >
-            <ItemIcon>
-              <FaLink />
-            </ItemIcon>
-
-            <ItemContent>
-              <ItemMainText>Copier le lien</ItemMainText>
-            </ItemContent>
-          </ButtonItem>
-
-          {"share" in navigator && (
-            <ButtonItem
-              onClick={async () => {
-                setIsSharingOpen(false);
-
-                try {
-                  await navigator.share({
-                    text: getAnimalDisplayName(animal),
-                    title: getAnimalDisplayName(animal),
-                    url: document.location.href,
-                  });
-                } catch (error) {
-                  // The user cancelled the sharing.
-                  // We don't want to spam the error reporter with this.
-                  if (
-                    !(error instanceof DOMException) ||
-                    error.name !== "AbortError"
-                  ) {
-                    throw error;
-                  }
-                }
-              }}
-            >
-              <ItemIcon>
-                <FaShareAlt />
-              </ItemIcon>
-
-              <ItemContent>
-                <ItemMainText>Partager via...</ItemMainText>
-              </ItemContent>
-
-              <ItemIcon>
-                <FaAngleRight />
-              </ItemIcon>
-            </ButtonItem>
-          )}
-        </Section>
-      </Modal>
     </HighlightsSectionElement>
   );
 }
