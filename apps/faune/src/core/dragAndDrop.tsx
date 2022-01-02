@@ -12,7 +12,6 @@ import {
 import {
   DndProvider,
   DragLayerMonitor,
-  DragObjectWithType,
   useDrag,
   useDragLayer,
   useDrop,
@@ -124,6 +123,7 @@ export function DragAndDropContextProvider({
 
   const { isTouchScreen } = useIsTouchScreen();
   const backend = isTouchScreen ? TouchBackend : HTML5Backend;
+  console.log("Using", isTouchScreen ? "TouchBackend" : "HTML5Backend");
 
   return (
     <DndProvider backend={backend}>
@@ -139,7 +139,7 @@ export function DragAndDropContextProvider({
   );
 }
 
-type DragItem<DataType> = DragObjectWithType & {
+type DragItem<DataType> = {
   index: number;
   data: DataType;
 };
@@ -232,9 +232,12 @@ export function useDragItem<DataType>({
   } = useDragAndDropContext("useDragItem");
 
   const [, drag] = useDrag<DragItem<DataType>, void, void>({
-    item: { type: itemType, index, data },
+    type: itemType,
+    item: () => {
+      startDrag(index, itemRef.current.getBoundingClientRect());
+      return { index, data };
+    },
     canDrag: () => !disabled,
-    begin: () => startDrag(index, itemRef.current.getBoundingClientRect()),
 
     // Reset the drag and drop when either a drop was done or not.
     end: () => endDrag(),

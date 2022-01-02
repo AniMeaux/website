@@ -2,7 +2,7 @@ import { RawCheckbox } from "core/formElements/checkbox";
 import { RawRadio } from "core/formElements/radio";
 import { ChildrenProp, StyleProps } from "core/types";
 import { Children, isValidElement } from "react";
-import styled, { css } from "styled-components/macro";
+import styled, { css } from "styled-components";
 import { theme } from "styles/theme";
 
 export const Selectors = styled.ul`

@@ -1,31 +1,5 @@
 /// <reference types="next" />
-/// <reference types="next/types/global" />
+/// <reference types="next/image-types/global" />
 
-declare namespace NodeJS {
-  interface ProcessEnv {
-    NEXT_PUBLIC_API_URL: string;
-    NEXT_PUBLIC_APP_NAME: string;
-    NEXT_PUBLIC_APP_VERSION: string;
-    NEXT_PUBLIC_APP_BUILD_ID: string;
-    NEXT_PUBLIC_APP_SHORT_NAME: string;
-    NEXT_PUBLIC_APP_DESCRIPTION: string;
-    NEXT_PUBLIC_FIREBASE_PUBLIC_API_KEY: string;
-    NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN: string;
-    NEXT_PUBLIC_FIREBASE_DATABASE_URL: string;
-    NEXT_PUBLIC_FIREBASE_PROJECT_ID: string;
-    NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME: string;
-    NEXT_PUBLIC_CLOUDINARY_API_KEY: string;
-    NEXT_PUBLIC_SENTRY_DSN: string;
-  }
-}
-
-// Allow SVG imports as React components.
-declare module "*.svg" {
-  import * as React from "react";
-
-  const ReactComponent: React.FunctionComponent<
-    React.SVGProps<SVGSVGElement> & { title?: string }
-  >;
-
-  export default ReactComponent;
-}
+// NOTE: This file should not be edited
+// see https://nextjs.org/docs/basic-features/typescript for more information.

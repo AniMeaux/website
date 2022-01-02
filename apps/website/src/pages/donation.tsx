@@ -7,7 +7,7 @@ import { Footer } from "layout/footer";
 import { Header } from "layout/header";
 import { PageHeader } from "layout/pageHeader";
 import { FaEnvelope } from "react-icons/fa";
-import styled, { css } from "styled-components/macro";
+import styled, { css } from "styled-components";
 
 const TITLE = "Faire un don";
 

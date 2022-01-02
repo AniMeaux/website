@@ -14,7 +14,7 @@ import { ScreenSize, useScreenSize } from "core/screenSize";
 import { Sentry } from "core/sentry";
 import { useState } from "react";
 import { FaCheckCircle, FaEnvelope, FaLock } from "react-icons/fa";
-import styled, { keyframes } from "styled-components/macro";
+import styled, { keyframes } from "styled-components";
 import { theme } from "styles/theme";
 
 function isAuthError(error: unknown): boolean {

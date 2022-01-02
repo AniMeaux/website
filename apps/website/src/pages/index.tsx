@@ -7,7 +7,7 @@ import { Footer } from "layout/footer";
 import { Header } from "layout/header";
 import { HeroSection } from "layout/heroSection";
 import { FaBirthdayCake, FaHandHoldingHeart, FaUsers } from "react-icons/fa";
-import styled, { css } from "styled-components/macro";
+import styled, { css } from "styled-components";
 
 const HomePage: PageComponent = () => {
   return (

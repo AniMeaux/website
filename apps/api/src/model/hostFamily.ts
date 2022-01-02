@@ -4,7 +4,7 @@ import {
   PaginatedRequestParameters,
   UpdateHostFamilyPayload,
 } from "@animeaux/shared-entities";
-import { gql, IResolverObject } from "apollo-server";
+import { gql } from "apollo-server";
 import { database } from "../database";
 
 const typeDefs = gql`
@@ -56,7 +56,7 @@ const typeDefs = gql`
   }
 `;
 
-const queries: IResolverObject = {
+const queries = {
   getAllHostFamilies: async (
     parent: any,
     parameters: PaginatedRequestParameters<HostFamilySearch>
@@ -69,7 +69,7 @@ const queries: IResolverObject = {
   },
 };
 
-const mutations: IResolverObject = {
+const mutations = {
   createHostFamily: async (parent: any, payload: CreateHostFamilyPayload) => {
     return await database.createHostFamily(payload);
   },

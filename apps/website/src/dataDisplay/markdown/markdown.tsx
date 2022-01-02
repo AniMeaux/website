@@ -4,14 +4,18 @@ import { StyleProps } from "core/types";
 import { UnknownImage } from "dataDisplay/image";
 import { ElementType } from "react";
 import { FaQuoteLeft } from "react-icons/fa";
-import ReactMarkdown, { FilterOptions } from "react-markdown";
-import type { HeadingComponent } from "react-markdown/src/ast-to-react";
+import ReactMarkdown, { Options as ReactMarkdownOptions } from "react-markdown";
 import breaks from "remark-breaks";
 import gfm from "remark-gfm";
 import slug from "remark-slug";
 import styles from "./markdown.module.css";
 
-const Heading: HeadingComponent = ({ id, children, level, key }) => {
+const Heading: NonNullable<ReactMarkdownOptions["components"]>["h1"] = ({
+  id,
+  children,
+  level,
+  key,
+}) => {
   const Component = `h${level}` as ElementType;
 
   return (
@@ -23,7 +27,7 @@ const Heading: HeadingComponent = ({ id, children, level, key }) => {
 
 export type MarkdownPreset = "article" | "paragraph";
 
-const PresetOptions: Record<MarkdownPreset, FilterOptions> = {
+const PresetOptions: Record<MarkdownPreset, Partial<ReactMarkdownOptions>> = {
   article: {},
   paragraph: {
     allowedElements: [

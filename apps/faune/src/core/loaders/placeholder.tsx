@@ -3,7 +3,7 @@ import styled, {
   css,
   FlattenSimpleInterpolation,
   keyframes,
-} from "styled-components/macro";
+} from "styled-components";
 import { theme } from "styles/theme";
 
 export type PlaceholderPreset =

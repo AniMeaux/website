@@ -1,5 +1,5 @@
 import { CloudinaryApiSignature } from "@animeaux/shared-entities";
-import { gql, IResolverObject } from "apollo-server";
+import { gql } from "apollo-server";
 import { v2 as cloudinary } from "cloudinary";
 
 cloudinary.config({
@@ -21,7 +21,7 @@ const typeDefs = gql`
   }
 `;
 
-const queries: IResolverObject = {
+const queries = {
   getCloudinaryApiSignature: async (
     parent: any,
     { parametersToSign }: { parametersToSign: object }

@@ -15,10 +15,11 @@ type PartnersPageProps =
   | { type: "success"; partners: Partner[] }
   | { type: "error" };
 
-export const getServerSideProps: GetServerSideProps<PartnersPageProps> =
-  async () => {
-    return { props: { type: "success", partners } };
-  };
+export const getServerSideProps: GetServerSideProps<
+  PartnersPageProps
+> = async () => {
+  return { props: { type: "success", partners } };
+};
 
 const TITLE = "Partenaires";
 

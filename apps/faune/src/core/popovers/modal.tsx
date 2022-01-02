@@ -18,7 +18,7 @@ import {
 } from "react";
 import { usePopper, UsePopperOptions } from "react-behave";
 import * as ReactDOM from "react-dom";
-import styled, { css } from "styled-components/macro";
+import styled, { css } from "styled-components";
 import { theme } from "styles/theme";
 
 type ModalContextType = {

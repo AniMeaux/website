@@ -26,7 +26,7 @@ function renderWithLayout<P = {}, IP = P>(
     children = Component.renderLayout(children, props);
   }
 
-  return children;
+  return <>{children}</>;
 }
 
 type ApplicationProps = Omit<AppProps, "Component"> & {

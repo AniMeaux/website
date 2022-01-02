@@ -6,7 +6,7 @@ import {
   ItemMainText,
 } from "core/dataDisplay/item";
 import { StyleProps } from "core/types";
-import styled from "styled-components/macro";
+import styled from "styled-components";
 import { theme } from "styles/theme";
 
 type ErrorType = "notFound" | "serverError" | "unauthorized";

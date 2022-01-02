@@ -8,7 +8,7 @@ import {
   SearchFilter,
   UpdateAnimalPayload,
 } from "@animeaux/shared-entities";
-import { gql, IResolverObject, IResolvers } from "apollo-server";
+import { gql } from "apollo-server";
 import { database } from "../database";
 
 const typeDefs = gql`
@@ -238,7 +238,7 @@ const typeDefs = gql`
   }
 `;
 
-const resolvers: IResolvers = {
+const resolvers = {
   PublicSearchableAnimal: {
     breed: async (animal: DBSearchableAnimal) => {
       if (animal.breedId == null) {
@@ -348,7 +348,7 @@ const resolvers: IResolvers = {
   },
 };
 
-const queries: IResolverObject = {
+const queries = {
   getAllAdoptableAnimals: async (
     parent: any,
     parameters: PaginatedRequestParameters<PublicAnimalFilters>
@@ -390,7 +390,7 @@ const queries: IResolverObject = {
   },
 };
 
-const mutations: IResolverObject = {
+const mutations = {
   createAnimal: async (
     parent: any,
     payload: CreateAnimalPayload

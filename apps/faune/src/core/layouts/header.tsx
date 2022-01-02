@@ -6,7 +6,7 @@ import { ScreenSize, useScreenSize } from "core/screenSize";
 import { ChildrenProp, StyleProps } from "core/types";
 import { useRef, useState } from "react";
 import { FaChevronLeft } from "react-icons/fa";
-import styled from "styled-components/macro";
+import styled from "styled-components";
 import { theme } from "styles/theme";
 import { UserAvatar } from "user/avatar";
 

@@ -1,10 +1,7 @@
 import { ensureArray } from "core/ensureArray";
 import { ChildrenProp, StyleProps } from "core/types";
 import { createElement } from "react";
-import styled, {
-  css,
-  FlattenSimpleInterpolation,
-} from "styled-components/macro";
+import styled, { css, FlattenSimpleInterpolation } from "styled-components";
 import { theme } from "styles/theme";
 import { ADORNMENT_SIZE } from "core/formElements/adornment";
 

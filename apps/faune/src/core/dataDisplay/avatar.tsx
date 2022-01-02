@@ -1,5 +1,5 @@
 import { Placeholder } from "core/loaders/placeholder";
-import styled from "styled-components/macro";
+import styled from "styled-components";
 import { theme } from "styles/theme";
 
 export const Avatar = styled.span`

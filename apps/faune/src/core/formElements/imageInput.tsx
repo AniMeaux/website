@@ -14,7 +14,7 @@ import { Placeholder, Placeholders } from "core/loaders/placeholder";
 import { showSnackbar, Snackbar } from "core/popovers/snackbar";
 import { useRef, useState } from "react";
 import { FaImages, FaTrash } from "react-icons/fa";
-import styled from "styled-components/macro";
+import styled from "styled-components";
 import { theme } from "styles/theme";
 import { v4 as uuid } from "uuid";
 

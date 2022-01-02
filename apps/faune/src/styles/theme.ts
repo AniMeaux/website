@@ -5,7 +5,7 @@ import {
   FlattenInterpolation,
   keyframes,
   ThemedStyledProps,
-} from "styled-components/macro";
+} from "styled-components";
 
 export type Styles<PropType = {}> = FlattenInterpolation<
   ThemedStyledProps<PropType, any>

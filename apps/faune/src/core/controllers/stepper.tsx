@@ -1,6 +1,6 @@
 import { BaseLink, BaseLinkProps } from "core/baseLink";
 import { FaCheckCircle, FaCircle, FaDotCircle } from "react-icons/fa";
-import styled, { css } from "styled-components/macro";
+import styled, { css } from "styled-components";
 import { ELLIPSIS_STYLES, Styles, theme } from "styles/theme";
 
 export type StepStatus = "pending" | "in-progress" | "done";

@@ -3,7 +3,7 @@ import {
   UpdateUserPayload,
   User,
 } from "@animeaux/shared-entities";
-import { gql, IResolverObject } from "apollo-server";
+import { gql } from "apollo-server";
 import { database } from "../database";
 import { QueryContext } from "./shared";
 
@@ -42,7 +42,7 @@ const typeDefs = gql`
   }
 `;
 
-const queries: IResolverObject = {
+const queries = {
   getCurrentUser: async (
     parent: any,
     args: any,
@@ -63,7 +63,7 @@ const queries: IResolverObject = {
   },
 };
 
-const mutations: IResolverObject = {
+const mutations = {
   createUser: async (parent: any, payload: CreateUserPayload) => {
     return await database.createUser(payload);
   },

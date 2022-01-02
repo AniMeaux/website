@@ -12,7 +12,7 @@ import {
   FaPaperPlane,
   FaPhone,
 } from "react-icons/fa";
-import styled, { css } from "styled-components/macro";
+import styled, { css } from "styled-components";
 import { useApplicationLayout } from "./applicationLayout";
 
 export function Footer() {

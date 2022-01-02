@@ -106,7 +106,7 @@ export const userDatabase: UserDatabase = {
       }
 
       return { ...mapFirebaseUser(userRecord), groups };
-    } catch (error) {
+    } catch (error: any) {
       // See https://firebase.google.com/docs/auth/admin/errors
       if (hasErrorCode(error, ErrorCode.AUTH_USER_NOT_FOUND)) {
         return null;
@@ -160,7 +160,7 @@ export const userDatabase: UserDatabase = {
         ...userFromAuth,
         ...userFromStore,
       };
-    } catch (error) {
+    } catch (error: any) {
       // Make sure the error code is in the `message` attribute and not in
       // `code` so it can be correctly serialized.
       if (
@@ -208,7 +208,7 @@ export const userDatabase: UserDatabase = {
     if (!isEmpty(userFromAuthPayloadRequest)) {
       try {
         await admin.auth().updateUser(id, userFromAuthPayloadRequest);
-      } catch (error) {
+      } catch (error: any) {
         // Make sure the error code is in the `message` attribute and not in
         // `code` so it can be correctly serialized.
         if (hasErrorCode(error, ErrorCode.USER_INVALID_PASSWORD)) {

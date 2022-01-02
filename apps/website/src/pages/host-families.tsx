@@ -6,7 +6,7 @@ import { CallToActionLink } from "layout/callToAction";
 import { Footer } from "layout/footer";
 import { Header } from "layout/header";
 import { PageHeader } from "layout/pageHeader";
-import styled, { css } from "styled-components/macro";
+import styled, { css } from "styled-components";
 
 const TITLE = "Devenir famille d'accueil";
 

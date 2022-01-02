@@ -3,7 +3,7 @@ import { Link } from "core/actions/link";
 import { ActionCommonProps } from "core/actions/shared";
 import { Modal } from "core/popovers/modal";
 import { useRef, useState } from "react";
-import styled, { css } from "styled-components/macro";
+import styled, { css } from "styled-components";
 import { theme } from "styles/theme";
 
 const SPACING = theme.spacing.x4;

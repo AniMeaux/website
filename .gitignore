@@ -15,3 +15,4 @@ node_modules/
 dumps/
 sw.js
 workbox-*
+*.tsbuildinfo

@@ -17,7 +17,7 @@ import {
   TypeOptions,
   Zoom,
 } from "react-toastify";
-import styled, { createGlobalStyle } from "styled-components/macro";
+import styled, { createGlobalStyle } from "styled-components";
 import { theme } from "styles/theme";
 
 export function SnackbarContainer() {
@@ -42,7 +42,12 @@ export function SnackbarContainer() {
   return (
     <>
       <GlobalToastStyles />
-      <ToastContainer {...props} hideProgressBar closeButton={false} />
+      <ToastContainer
+        {...props}
+        hideProgressBar
+        closeButton={false}
+        icon={false}
+      />
     </>
   );
 }
@@ -132,7 +137,6 @@ const GlobalToastStyles = createGlobalStyle`
 
   .Toastify__toast--success {
     background: ${theme.colors.success[500]};
-    color: ${theme.colors.text.contrast};
     color: ${theme.colors.text.contrast};
   }
 

@@ -1,4 +1,5 @@
 import { User } from "@animeaux/shared-entities";
+import { makeExecutableSchema } from "@graphql-tools/schema";
 import { ApolloServer, gql } from "apollo-server";
 import { IncomingMessage } from "http";
 import { ListenOptions } from "net";
@@ -35,20 +36,7 @@ if (process.env.NODE_ENV === "development") {
   allowedOrigines.push(/^http:\/\/localhost/);
 }
 
-const apolloServer = new ApolloServer({
-  cors: { origin: allowedOrigines },
-
-  context: async ({ req }: { req: IncomingMessage }): Promise<AuthContext> => {
-    const token = (req.headers.authorisation as string)?.replace("Bearer ", "");
-
-    let user: User | null = null;
-
-    if (token != null) {
-      user = await database.getUserForQueryContext(token);
-    }
-
-    return { user };
-  },
+let schema = makeExecutableSchema({
   typeDefs: [
     rootTypeDefs,
     AuthDirective.typeDefs,
@@ -59,7 +47,6 @@ const apolloServer = new ApolloServer({
     AnimalModel.typeDefs,
     ImageModel.typeDefs,
   ],
-  schemaDirectives: Object.assign({}, AuthDirective.schemaDirectives),
   resolvers: Object.assign(
     {
       Query: Object.assign(
@@ -82,6 +69,25 @@ const apolloServer = new ApolloServer({
     },
     AnimalModel.resolvers
   ),
+});
+
+schema = AuthDirective.schemaTransformer(schema);
+
+const apolloServer = new ApolloServer({
+  cors: { origin: allowedOrigines },
+
+  context: async ({ req }: { req: IncomingMessage }): Promise<AuthContext> => {
+    const token = (req.headers.authorisation as string)?.replace("Bearer ", "");
+
+    let user: User | null = null;
+
+    if (token != null) {
+      user = await database.getUserForQueryContext(token);
+    }
+
+    return { user };
+  },
+  schema,
 });
 
 export const Server = {

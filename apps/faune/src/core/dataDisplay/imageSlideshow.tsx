@@ -1,5 +1,5 @@
 import { Image as BaseImage } from "core/dataDisplay/image";
-import styled from "styled-components/macro";
+import styled from "styled-components";
 import { theme } from "styles/theme";
 
 type ImageSlideshowProps = {

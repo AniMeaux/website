@@ -1,24 +1,12 @@
 import { CloudinaryApiSignature, ImageFile } from "@animeaux/shared-entities";
-import { Cloudinary as CloudinaryCore } from "cloudinary-core";
 import { fetchGraphQL } from "core/request";
 import { Sentry } from "core/sentry";
 import { gql } from "graphql-request";
 
-class Cloudinary extends CloudinaryCore {
-  apiKey: string;
-  uploadUrl: string;
-  deleteUrl: string;
-
-  constructor() {
-    const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
-    super({ cloud_name: cloudName, secure: true });
-    this.apiKey = process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY;
-    this.uploadUrl = `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`;
-    this.deleteUrl = `https://api.cloudinary.com/v1_1/${cloudName}/image/destroy`;
-  }
-}
-
-export const cloudinaryInstance = new Cloudinary();
+const CLOUD_NAME = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
+const API_KEY = process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY;
+const UPLOAD_URL = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`;
+const DELETE_URL = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/destroy`;
 
 const GetCloudinaryApiSignature = gql`
   query GetCloudinaryApiSignature($parametersToSign: JSONObject!) {
@@ -54,12 +42,12 @@ export async function uploadImageFile(
   formData.append("file", imageFile.file);
   formData.append("public_id", imageFile.id);
   formData.append("tags", tagsParam);
-  formData.append("api_key", cloudinaryInstance.apiKey);
+  formData.append("api_key", API_KEY);
   formData.append("timestamp", timestamp);
   formData.append("signature", signature);
 
   try {
-    const response = await fetch(cloudinaryInstance.uploadUrl, {
+    const response = await fetch(UPLOAD_URL, {
       method: "POST",
       body: formData,
     });
@@ -85,12 +73,12 @@ export async function deleteImage(imageId: string) {
   });
 
   try {
-    const response = await fetch(cloudinaryInstance.deleteUrl, {
+    const response = await fetch(DELETE_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         public_id: imageId,
-        api_key: cloudinaryInstance.apiKey,
+        api_key: API_KEY,
         timestamp,
         signature,
       }),

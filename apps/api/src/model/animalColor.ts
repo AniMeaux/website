@@ -4,7 +4,7 @@ import {
   PaginatedRequestParameters,
   UpdateAnimalColorPayload,
 } from "@animeaux/shared-entities";
-import { gql, IResolverObject } from "apollo-server";
+import { gql } from "apollo-server";
 import { database } from "../database";
 
 const typeDefs = gql`
@@ -38,7 +38,7 @@ const typeDefs = gql`
   }
 `;
 
-const queries: IResolverObject = {
+const queries = {
   getAllAnimalColors: async (
     parent: any,
     parameters: PaginatedRequestParameters<AnimalColorSearch>
@@ -51,7 +51,7 @@ const queries: IResolverObject = {
   },
 };
 
-const mutations: IResolverObject = {
+const mutations = {
   createAnimalColor: async (parent: any, payload: CreateAnimalColorPayload) => {
     return await database.createAnimalColor(payload);
   },

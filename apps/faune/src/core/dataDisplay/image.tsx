@@ -1,25 +1,27 @@
 import { ImageFileOrId, isImageFile } from "@animeaux/shared-entities";
-import { Transformation } from "cloudinary-core";
-import { cloudinaryInstance } from "core/cloudinary";
 import { Sentry } from "core/sentry";
 import { StyleProps } from "core/types";
 import { useState } from "react";
 import { FaImage } from "react-icons/fa";
-import styled from "styled-components/macro";
+import styled from "styled-components";
 import { theme } from "styles/theme";
 
 type ImagePreset = "avatar" | "none";
 
 const ImagePresetTransformOptions: Record<
   ImagePreset,
-  (devicePixelRatio: number) => Transformation.Options | undefined
+  (devicePixelRatio: number) => string
 > = {
-  none: () => undefined,
+  none: () => "",
   avatar: (devicePixelRatio) => {
     const size = Math.round(48 * devicePixelRatio);
-    return { crop: "fill", width: size, height: size };
+    return `c_fill,h_${size},w_${size}/`;
   },
 };
+
+// https://res.cloudinary.com/do3tcc2ku/image/upload/c_fill,h_96,w_96/8eb85a85-90f5-498f-a0ee-051cf66b22a7
+
+// https://res.cloudinary.com/do3tcc2ku/image/upload/8eb85a85-90f5-498f-a0ee-051cf66b22a7
 
 type ImageProps = StyleProps & {
   image: ImageFileOrId;
@@ -30,10 +32,11 @@ type ImageProps = StyleProps & {
 export function Image({ image, preset = "none", alt, ...rest }: ImageProps) {
   const src = isImageFile(image)
     ? image.dataUrl
-    : cloudinaryInstance.url(
-        image,
-        ImagePresetTransformOptions[preset](window.devicePixelRatio)
-      );
+    : `https://res.cloudinary.com/${
+        process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME
+      }/image/upload/${ImagePresetTransformOptions[preset](
+        window.devicePixelRatio
+      )}${image}`;
 
   const [hasError, setHasError] = useState(false);
 

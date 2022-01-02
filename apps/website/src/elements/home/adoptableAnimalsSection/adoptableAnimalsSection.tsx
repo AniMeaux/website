@@ -55,27 +55,28 @@ type AdoptableAnimalsSectionProps = {
   animals: PublicSearchableAnimal[];
 };
 
-export const getServerSideProps: GetServerSideProps<AdoptableAnimalsSectionProps> =
-  async () => {
-    let animals: PublicSearchableAnimal[] = [];
+export const getServerSideProps: GetServerSideProps<
+  AdoptableAnimalsSectionProps
+> = async () => {
+  let animals: PublicSearchableAnimal[] = [];
 
-    try {
-      const { response } = await fetchGraphQL<
-        { response: PaginatedResponse<PublicSearchableAnimal> },
-        PaginatedRequestParameters
-      >(GetAllAdoptableAnimalsQuery, {
-        variables: { page: 0 },
-      });
+  try {
+    const { response } = await fetchGraphQL<
+      { response: PaginatedResponse<PublicSearchableAnimal> },
+      PaginatedRequestParameters
+    >(GetAllAdoptableAnimalsQuery, {
+      variables: { page: 0 },
+    });
 
-      animals = response.hits;
-    } catch (error) {
-      captureException(error, {
-        extra: { query: "getAllAdoptableAnimals" },
-      });
-    }
+    animals = response.hits;
+  } catch (error) {
+    captureException(error, {
+      extra: { query: "getAllAdoptableAnimals" },
+    });
+  }
 
-    return { props: { animals } };
-  };
+  return { props: { animals } };
+};
 
 export function AdoptableAnimalsSection({
   animals,

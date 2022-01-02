@@ -3,12 +3,9 @@ import {
   ErrorCode,
   UserGroup,
 } from "@animeaux/shared-entities";
-import {
-  AuthenticationError,
-  gql,
-  SchemaDirectiveVisitor,
-} from "apollo-server";
-import { defaultFieldResolver, GraphQLField } from "graphql";
+import { getDirective, MapperKind, mapSchema } from "@graphql-tools/utils";
+import { AuthenticationError, gql } from "apollo-server";
+import { defaultFieldResolver, GraphQLSchema } from "graphql";
 import { AuthContext } from "./model/shared";
 
 const typeDefs = gql`
@@ -23,35 +20,46 @@ const typeDefs = gql`
   directive @auth(groups: [UserGroup!]) on FIELD_DEFINITION
 `;
 
-class AuthDirectiveVisitor extends SchemaDirectiveVisitor {
-  visitFieldDefinition(field: GraphQLField<any, any>) {
-    const authorisedGroups: UserGroup[] | null = this.args.groups;
-    const originalResolve = field.resolve || defaultFieldResolver;
+function schemaTransformer(schema: GraphQLSchema): GraphQLSchema {
+  return mapSchema(schema, {
+    [MapperKind.OBJECT_FIELD]: (fieldConfig, fieldName, typeName) => {
+      if (typeName === "Query" || typeName === "Mutation") {
+        const { resolve = defaultFieldResolver } = fieldConfig;
+        const directive = getDirective(schema, fieldConfig, "auth")?.[0];
 
-    field.resolve = function (...args) {
-      const { user }: AuthContext = args[2];
+        if (directive == null) {
+          return fieldConfig;
+        }
 
-      if (user == null) {
-        throw new AuthenticationError(ErrorCode.AUTH_NOT_AUTHENTICATED);
+        const authorisedGroups: UserGroup[] | null = directive["groups"];
+
+        fieldConfig.resolve = async (
+          root,
+          args,
+          context: AuthContext,
+          info
+        ) => {
+          if (context.user == null) {
+            throw new AuthenticationError(ErrorCode.AUTH_NOT_AUTHENTICATED);
+          }
+
+          if (
+            authorisedGroups != null &&
+            !doesGroupsIntersect(context.user.groups, authorisedGroups)
+          ) {
+            throw new AuthenticationError(ErrorCode.AUTH_NOT_AUTHORIZED);
+          }
+
+          return resolve.apply(resolve, [root, args, context, info]);
+        };
       }
 
-      if (
-        authorisedGroups != null &&
-        !doesGroupsIntersect(user.groups, authorisedGroups)
-      ) {
-        throw new AuthenticationError(ErrorCode.AUTH_NOT_AUTHORIZED);
-      }
-
-      return originalResolve.apply(this, args);
-    };
-  }
+      return fieldConfig;
+    },
+  });
 }
-
-const schemaDirectives = {
-  auth: AuthDirectiveVisitor,
-};
 
 export const AuthDirective = {
   typeDefs,
-  schemaDirectives,
+  schemaTransformer,
 };

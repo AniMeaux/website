@@ -8,7 +8,7 @@ import { Form, FormProps } from "core/formElements/form";
 import { ImageInput } from "core/formElements/imageInput";
 import { SubmitButton } from "core/formElements/submitButton";
 import { FaPaw } from "react-icons/fa";
-import styled from "styled-components/macro";
+import styled from "styled-components";
 import { theme } from "styles/theme";
 
 export type AnimalPicturesFormErrors = {

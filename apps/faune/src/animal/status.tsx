@@ -1,6 +1,6 @@
 import { AnimalStatus, AnimalStatusLabels } from "@animeaux/shared-entities";
 import { StyleProps } from "core/types";
-import styled, { css } from "styled-components/macro";
+import styled, { css } from "styled-components";
 import { Styles, theme } from "styles/theme";
 
 type StatusBadgeProps = StyleProps & {

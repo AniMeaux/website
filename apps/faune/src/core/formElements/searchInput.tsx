@@ -4,7 +4,7 @@ import { ActionAdornment, Adornment } from "core/formElements/adornment";
 import { Input, InputProps } from "core/formElements/input";
 import { forwardRef, useEffect, useMemo, useRef, useState } from "react";
 import { FaSearch, FaTimes } from "react-icons/fa";
-import styled from "styled-components/macro";
+import styled from "styled-components";
 
 function useDebouncedValue<ValueType>(value: ValueType) {
   const [debouncedValue, setDebouncedValue] = useState(value);

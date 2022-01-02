@@ -23,7 +23,7 @@ async function baseFetchGraphQL<DataType = null, Variables = object>(
 
   try {
     return await graphQlClient.request(query, variables);
-  } catch (error) {
+  } catch (error: any) {
     // Unwrap graphql-request's error messages.
     const message = isClientError(error)
       ? error.response.errors?.[0].message ?? "GraphQL Error"
@@ -44,7 +44,7 @@ export async function fetchGraphQL<DataType = null, Variables = object>(
         Authorisation: `Bearer ${localStorage.getItem("token")}`,
       },
     });
-  } catch (error) {
+  } catch (error: any) {
     if (error.message === ErrorCode.AUTH_NOT_AUTHENTICATED) {
       const currentUser = firebase.auth().currentUser;
 

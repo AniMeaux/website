@@ -15,7 +15,7 @@ import {
   FaReceipt,
   FaTimes,
 } from "react-icons/fa";
-import styled, { css } from "styled-components/macro";
+import styled, { css } from "styled-components";
 
 const TITLE = "Conditions d'adoption";
 

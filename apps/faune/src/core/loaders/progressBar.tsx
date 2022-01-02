@@ -1,4 +1,4 @@
-import styled, { keyframes } from "styled-components/macro";
+import styled, { keyframes } from "styled-components";
 import { theme } from "styles/theme";
 
 const AnimationLong = keyframes`

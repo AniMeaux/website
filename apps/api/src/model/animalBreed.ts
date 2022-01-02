@@ -4,7 +4,7 @@ import {
   PaginatedRequestParameters,
   UpdateAnimalBreedPayload,
 } from "@animeaux/shared-entities";
-import { gql, IResolverObject } from "apollo-server";
+import { gql } from "apollo-server";
 import { database } from "../database";
 
 const typeDefs = gql`
@@ -55,7 +55,7 @@ const typeDefs = gql`
   }
 `;
 
-const queries: IResolverObject = {
+const queries = {
   getAllAnimalBreeds: async (
     parent: any,
     parameters: PaginatedRequestParameters<AnimalBreedSearch>
@@ -68,7 +68,7 @@ const queries: IResolverObject = {
   },
 };
 
-const mutations: IResolverObject = {
+const mutations = {
   createAnimalBreed: async (parent: any, payload: CreateAnimalBreedPayload) => {
     return await database.createAnimalBreed(payload);
   },

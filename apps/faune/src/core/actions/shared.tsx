@@ -1,4 +1,4 @@
-import { css } from "styled-components/macro";
+import { css } from "styled-components";
 import { Styles, theme } from "styles/theme";
 
 type ActionVariant = "primary" | "outlined";

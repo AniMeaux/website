@@ -16,7 +16,7 @@ import { openStorage } from "core/storage";
 import { ChildrenProp } from "core/types";
 import invariant from "invariant";
 import { useEffect, useLayoutEffect, useState } from "react";
-import styled from "styled-components/macro";
+import styled from "styled-components";
 import { theme } from "styles/theme";
 
 export const AnimalFormDraftStorage = openStorage<AnimalFormPayload>(

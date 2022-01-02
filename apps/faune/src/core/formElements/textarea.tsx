@@ -6,7 +6,7 @@ import {
 } from "core/formElements/inputWrapper";
 import { HtmlInputProps, StyleProps } from "core/types";
 import { useLayoutEffect, useRef } from "react";
-import styled from "styled-components/macro";
+import styled from "styled-components";
 
 export type TextareaProps = StyleProps &
   Omit<HtmlInputProps, "role" | "type"> &

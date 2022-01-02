@@ -1,17 +1,14 @@
 import cn from "classnames";
-import { Cloudinary } from "cloudinary-core";
 import { captureException } from "core/sentry";
 import { StyleProps } from "core/types";
 import { useState } from "react";
 import { useAsyncMemo } from "react-behave";
 import { FaImage } from "react-icons/fa";
-import { validate as isUuid, version as getUuidVersion } from "uuid";
 import styles from "./image.module.css";
 
-const cloudinaryInstance = new Cloudinary({
-  cloud_name: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
-  secure: true,
-});
+function getImageUrl(image: string) {
+  return `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/${image}`;
+}
 
 type CommonProps = StyleProps & {
   alt: string;
@@ -79,7 +76,7 @@ export type CloudinaryImageProps = CommonProps & {
 };
 
 export function CloudinaryImage({ imageId, ...rest }: CloudinaryImageProps) {
-  return <BaseImage {...rest} src={cloudinaryInstance.url(imageId)} />;
+  return <BaseImage {...rest} src={getImageUrl(imageId)} />;
 }
 
 export type UnknownImageProps = CommonProps & {
@@ -179,7 +176,7 @@ async function getImageDominantColor(src: string): Promise<Color | null> {
 export type UseImageDominantColorParams = { imageId: string } | { src: string };
 export function useImageDominantColor(params: UseImageDominantColorParams) {
   let resolvedSrc =
-    "imageId" in params ? cloudinaryInstance.url(params.imageId) : params.src;
+    "imageId" in params ? getImageUrl(params.imageId) : params.src;
 
   return useAsyncMemo(
     async () => getImageDominantColor(resolvedSrc),

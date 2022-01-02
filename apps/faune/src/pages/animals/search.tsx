@@ -39,7 +39,7 @@ import { ScreenSize, useScreenSize } from "core/screenSize";
 import { PageComponent } from "core/types";
 import isEqual from "lodash.isequal";
 import { useEffect, useRef } from "react";
-import styled from "styled-components/macro";
+import styled from "styled-components";
 
 export function SearchableAnimalItemPlaceholder() {
   const { screenSize } = useScreenSize();

@@ -15,10 +15,11 @@ type BlogPageProps =
   | { type: "success"; articles: Article[] }
   | { type: "error" };
 
-export const getServerSideProps: GetServerSideProps<BlogPageProps> =
-  async () => {
-    return { props: { type: "success", articles } };
-  };
+export const getServerSideProps: GetServerSideProps<
+  BlogPageProps
+> = async () => {
+  return { props: { type: "success", articles } };
+};
 
 const TITLE = "Blog";
 

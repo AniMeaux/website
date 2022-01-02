@@ -1,7 +1,7 @@
 import { Button } from "core/actions/button";
 import { useIsScrollAtTheBottom } from "core/layouts/usePageScroll";
 import { ChildrenProp } from "core/types";
-import styled, { css, keyframes } from "styled-components/macro";
+import styled, { css, keyframes } from "styled-components";
 import { theme } from "styles/theme";
 
 type SubmitButtonProps = ChildrenProp & {

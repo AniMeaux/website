@@ -3,7 +3,7 @@ import { Input as BaseInput } from "core/formElements/input";
 import { InputWrapperProps } from "core/formElements/inputWrapper";
 import { HtmlInputProps, StyleProps } from "core/types";
 import { useRef } from "react";
-import styled from "styled-components/macro";
+import styled from "styled-components";
 import { theme } from "styles/theme";
 
 function formatDate(day: string, month: string, year: string) {

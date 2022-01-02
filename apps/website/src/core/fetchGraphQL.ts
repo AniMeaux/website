@@ -17,7 +17,7 @@ export async function fetchGraphQL<DataType = null, Variables = object>(
 
   try {
     return await graphQlClient.request(query, variables);
-  } catch (error) {
+  } catch (error: any) {
     // Unwrap graphql-request's error messages.
     const message = isClientError(error)
       ? error.response.errors?.[0].message ?? "GraphQL Error"
