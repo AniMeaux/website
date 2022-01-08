@@ -1,8 +1,9 @@
 {
   "private": true,
   "workspaces": [
-    "apps/*",
-    "libraries/*"
+    "api",
+    "shared",
+    "apps/*"
   ],
   "license": "MIT",
   "scripts": {
@@ -18,7 +19,7 @@
     "lint": "run-s lint:*",
     "lint:format": "prettier --list-different .",
     "lint:js": "eslint --ext .js,.ts,.tsx .",
-    "lint:ts": "tsc --noEmit -p libraries/shared-entities && tsc --noEmit -p apps/api && tsc --noEmit -p apps/faune && tsc --noEmit -p apps/website"
+    "lint:ts": "tsc --noEmit -p shared && tsc --noEmit -p apps/faune && tsc --noEmit -p apps/website"
   },
   "devDependencies": {
     "babel-eslint": "^10.1.0",

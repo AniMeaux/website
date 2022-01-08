@@ -1,4 +1,4 @@
-import { Article } from "@animeaux/shared-entities/build/article";
+import { Article } from "@animeaux/shared";
 import { PageComponent } from "core/pageComponent";
 import { PageTitle } from "core/pageTitle";
 import { Markdown } from "dataDisplay/markdown";

@@ -1,4 +1,4 @@
-import { Article } from "@animeaux/shared-entities/build/article";
+import { Article } from "@animeaux/shared";
 import commentChoisirLesBonnesCroquettesPourNosAmisA4Pattes from "./articles/commentChoisirLesBonnesCroquettesPourNosAmisA4Pattes.md";
 import lesParasites from "./articles/lesParasites.md";
 import nosPerlesNoires from "./articles/nosPerlesNoires.md";

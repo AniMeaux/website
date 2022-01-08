@@ -1,21 +1,18 @@
-import { Button } from "core/actions/button";
 import { Badge } from "core/dataDisplay/badge";
 import { ActionAdornment } from "core/formElements/adornment";
-import { Modal, ModalHeader, ModalHeaderTitle } from "core/popovers/modal";
+import { Modal } from "core/popovers/modal";
 import { ChildrenProp } from "core/types";
 import { useState } from "react";
 import { FaFilter } from "react-icons/fa";
 
 type ActionFilterProps = ChildrenProp & {
   inputRef: React.MutableRefObject<HTMLInputElement>;
-  activeFilterCount: number;
-  clearAllFilters: () => void;
+  hasFilters: boolean;
 };
 
 export function ActionFilter({
   inputRef,
-  activeFilterCount,
-  clearAllFilters,
+  hasFilters,
   children,
 }: ActionFilterProps) {
   const [areFiltersOpened, setAreFiltersOpened] = useState(false);
@@ -23,7 +20,7 @@ export function ActionFilter({
   return (
     <>
       <ActionAdornment onClick={() => setAreFiltersOpened(true)}>
-        <Badge isVisible={activeFilterCount > 0}>
+        <Badge isVisible={hasFilters}>
           <FaFilter />
         </Badge>
       </ActionAdornment>
@@ -36,17 +33,6 @@ export function ActionFilter({
         matchReferenceWidth
         placement="bottom"
       >
-        <ModalHeader>
-          <ModalHeaderTitle>Filtres</ModalHeaderTitle>
-
-          <Button
-            disabled={activeFilterCount === 0}
-            onClick={() => clearAllFilters()}
-          >
-            Tout effacer
-          </Button>
-        </ModalHeader>
-
         {children}
       </Modal>
     </>

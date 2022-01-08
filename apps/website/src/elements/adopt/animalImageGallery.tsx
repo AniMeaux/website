@@ -1,4 +1,4 @@
-import { PublicAnimal } from "@animeaux/shared-entities/build/animal";
+import { PublicAnimal } from "@animeaux/shared";
 import cn from "classnames";
 import {
   CloudinaryImage,
@@ -48,7 +48,7 @@ export function AnimalImageGallery({ animal }: AnimalImageGalleryProps) {
 
               <CloudinaryImage
                 imageId={imageId}
-                alt={animal.officialName}
+                alt={animal.displayName}
                 className={styles.image}
                 size={{ width: 800, height: 800 }}
               />
@@ -72,7 +72,7 @@ export function AnimalImageGallery({ animal }: AnimalImageGalleryProps) {
               >
                 <CloudinaryImage
                   imageId={imageId}
-                  alt={animal.officialName}
+                  alt={animal.displayName}
                   className={styles.thubnailImage}
                   size={{ width: 50, height: 50 }}
                 />

@@ -1,5 +1,4 @@
-import { PublicSearchableAnimal } from "@animeaux/shared-entities/build/animal";
-import { formatAge } from "@animeaux/shared-entities/build/date";
+import { formatAge, PublicAnimalSearchHit } from "@animeaux/shared";
 import cn from "classnames";
 import { isDefined } from "core/isDefined";
 import { Link, LinkProps } from "core/link";
@@ -9,11 +8,11 @@ import { CloudinaryImage } from "dataDisplay/image";
 import styles from "./card.module.css";
 
 type AnimalCardContentProps = {
-  animal: PublicSearchableAnimal;
+  animal: PublicAnimalSearchHit;
 };
 
 function AnimalCardContent({ animal }: AnimalCardContentProps) {
-  const speciesLabels = [animal.breed?.name, animal.color?.name]
+  const speciesLabels = [animal.breedName, animal.colorName]
     .filter(isDefined)
     .join(" • ");
 
@@ -21,14 +20,14 @@ function AnimalCardContent({ animal }: AnimalCardContentProps) {
     <>
       <CloudinaryImage
         imageId={animal.avatarId}
-        alt={animal.officialName}
+        alt={animal.displayName}
         className={styles.avatar}
         size={{ width: 400, height: 200 }}
       />
 
       <div className={styles.info}>
         <div className={styles.infoRow}>
-          <h2 className={styles.name}>{animal.officialName}</h2>
+          <h2 className={styles.name}>{animal.displayName}</h2>
           <p className={styles.age}>{formatAge(animal.birthdate)}</p>
         </div>
 

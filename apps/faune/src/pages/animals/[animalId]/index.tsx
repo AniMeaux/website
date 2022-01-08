@@ -1,30 +1,28 @@
 import {
   AdoptionOption,
-  AdoptionOptionLabels,
   Animal,
   AnimalGender,
-  AnimalGenderLabels,
-  AnimalSpeciesLabels,
   AnimalStatus,
-  AnimalStatusLabels,
   doesGroupsIntersect,
   formatAge,
-  formatLongDate,
-  getAnimalDisplayName,
-  getHostFamilyFullAddress,
-  HostFamily,
-  PickUpReasonLabels,
   Trilean,
-  TrileanLabels,
   UserGroup,
-} from "@animeaux/shared-entities";
+} from "@animeaux/shared";
 import { useCurrentUser } from "account/currentUser";
 import { AnimalGenderIcon } from "animal/animalGenderIcon";
-import { AnimalSpeciesIcon } from "animal/animalSpeciesIcon";
-import { useAnimal, useDeleteAnimal } from "animal/queries";
-import { StatusBadge } from "animal/status";
+import {
+  ANIMAL_GENDER_LABELS,
+  PICK_UP_REASON_LABELS,
+} from "animal/gender/labels";
+import { ADOPTION_OPTION_LABELS } from "animal/labels";
+import { AnimalSpeciesIcon } from "animal/species/icon";
+import { ANIMAL_SPECIES_LABELS } from "animal/species/labels";
+import { StatusBadge } from "animal/status/badge";
+import { ANIMAL_STATUS_LABELS } from "animal/status/labels";
 import { QuickActions } from "core/actions/quickAction";
+import { deleteImage } from "core/cloudinary";
 import { ImageSlideshow } from "core/dataDisplay/imageSlideshow";
+import { Info } from "core/dataDisplay/info";
 import {
   ButtonItem,
   Item,
@@ -35,11 +33,14 @@ import {
 } from "core/dataDisplay/item";
 import { Markdown } from "core/dataDisplay/markdown";
 import { ApplicationLayout } from "core/layouts/applicationLayout";
+import { ErrorPage } from "core/layouts/errorPage";
 import { Header, HeaderBackLink, HeaderTitle } from "core/layouts/header";
 import { Main } from "core/layouts/main";
 import { Navigation } from "core/layouts/navigation";
 import { Section, SectionBox, SectionTitle } from "core/layouts/section";
 import { Separator } from "core/layouts/separator";
+import { Placeholder } from "core/loaders/placeholder";
+import { useOperationMutation, useOperationQuery } from "core/operations";
 import { PageTitle } from "core/pageTitle";
 import {
   Modal,
@@ -47,10 +48,10 @@ import {
   ModalHeaderTitle,
   useModal,
 } from "core/popovers/modal";
-import { renderQueryEntity } from "core/request";
 import { useRouter } from "core/router";
 import { PageComponent } from "core/types";
-import { withConfirmation } from "core/withConfirmation";
+import invariant from "invariant";
+import { DateTime } from "luxon";
 import { useRef, useState } from "react";
 import {
   FaAdjust,
@@ -68,21 +69,128 @@ import {
   FaMapMarker,
   FaPen,
   FaPhone,
+  FaTimesCircle,
   FaTrash,
 } from "react-icons/fa";
+import { useMutation, UseMutationResult } from "react-query";
 import styled from "styled-components";
 import { theme } from "styles/theme";
+import { TRILEAN_LABELS } from "trilean/labels";
 
-type AnimalProps = {
-  animal: Animal;
+const AnimalPage: PageComponent = () => {
+  const { currentUser } = useCurrentUser();
+  const currentUserCanEdit = doesGroupsIntersect(currentUser.groups, [
+    UserGroup.ADMIN,
+    UserGroup.ANIMAL_MANAGER,
+  ]);
+
+  const router = useRouter();
+
+  invariant(
+    typeof router.query.animalId === "string",
+    `The animalId path should be a string. Got '${typeof router.query
+      .animalId}'`
+  );
+
+  const getAnimal = useOperationQuery({
+    name: "getAnimal",
+    params: { id: router.query.animalId },
+  });
+
+  const deleteAnimal = useOperationMutation("deleteAnimal", {
+    onSuccess: (response, cache) => {
+      cache.remove({
+        name: "getAnimal",
+        params: { id: response.body.params.id },
+      });
+
+      cache.invalidate({ name: "getAllActiveAnimals" });
+      cache.invalidate({ name: "searchAnimals" });
+      router.backIfPossible("..");
+    },
+  });
+
+  const deleteImages = useMutation<void, Error, Animal>(async (animal) => {
+    await Promise.all(
+      [animal.avatarId]
+        .concat(animal.picturesId)
+        .map((pictureId) => deleteImage(pictureId))
+    );
+
+    deleteAnimal.mutate({ id: animal.id });
+  });
+
+  if (getAnimal.state === "error") {
+    return <ErrorPage status={getAnimal.status} />;
+  }
+
+  let content: React.ReactNode = null;
+
+  if (getAnimal.state === "success") {
+    content = (
+      <>
+        {(deleteAnimal.state === "error" || deleteImages.isError) && (
+          <Section>
+            <Info variant="error" icon={<FaTimesCircle />}>
+              {getAnimal.result.displayName} n'a pas pu être supprimé.
+            </Info>
+          </Section>
+        )}
+
+        <PicturesSection animal={getAnimal.result} />
+        <HighlightsSection animal={getAnimal.result} />
+        <ProfileSection animal={getAnimal.result} />
+        <SituationSection animal={getAnimal.result} />
+        <DescriptionSection animal={getAnimal.result} />
+
+        {currentUserCanEdit && (
+          <QuickActions icon={<FaPen />}>
+            <ActionsSection
+              animal={getAnimal.result}
+              deleteAnimal={deleteImages}
+            />
+          </QuickActions>
+        )}
+      </>
+    );
+  }
+
+  const displayName =
+    getAnimal.state === "success" ? getAnimal.result.displayName : null;
+
+  return (
+    <ApplicationLayout>
+      <PageTitle title={displayName} />
+
+      <Header>
+        <HeaderBackLink />
+        <HeaderTitle>
+          {displayName ?? <Placeholder $preset="text" />}
+        </HeaderTitle>
+      </Header>
+
+      <Main>{content}</Main>
+      <Navigation onlyLargeEnough />
+    </ApplicationLayout>
+  );
 };
 
-function PicturesSection({ animal }: AnimalProps) {
+AnimalPage.authorisedGroups = [
+  UserGroup.ADMIN,
+  UserGroup.ANIMAL_MANAGER,
+  UserGroup.VETERINARIAN,
+];
+
+export default AnimalPage;
+
+type AnimalProp = { animal: Animal };
+
+function PicturesSection({ animal }: AnimalProp) {
   const picturesId = [animal.avatarId].concat(animal.picturesId);
   return <ImageSlideshow images={picturesId} alt={animal.officialName} />;
 }
 
-function HighlightsSection({ animal }: AnimalProps) {
+function HighlightsSection({ animal }: AnimalProp) {
   return (
     <HighlightsSectionElement>
       <StatusBadge status={animal.status} />
@@ -101,9 +209,9 @@ function isDefined<T>(value: T | null | undefined): value is T {
   return value != null;
 }
 
-function ProfileSection({ animal }: AnimalProps) {
+function ProfileSection({ animal }: AnimalProp) {
   const speciesLabels = [
-    AnimalSpeciesLabels[animal.species],
+    ANIMAL_SPECIES_LABELS[animal.species],
     animal.breed?.name,
     animal.color?.name,
   ].filter(isDefined);
@@ -130,7 +238,7 @@ function ProfileSection({ animal }: AnimalProps) {
             </ItemIcon>
 
             <ItemContent>
-              <ItemMainText>{AnimalGenderLabels[animal.gender]}</ItemMainText>
+              <ItemMainText>{ANIMAL_GENDER_LABELS[animal.gender]}</ItemMainText>
             </ItemContent>
           </Item>
         </li>
@@ -143,8 +251,10 @@ function ProfileSection({ animal }: AnimalProps) {
 
             <ItemContent>
               <ItemMainText>
-                {formatLongDate(animal.birthdate)} (
-                {formatAge(animal.birthdate)})
+                {DateTime.fromISO(animal.birthdate).toLocaleString(
+                  DateTime.DATE_FULL
+                )}{" "}
+                ({formatAge(animal.birthdate)})
               </ItemMainText>
             </ItemContent>
           </Item>
@@ -168,149 +278,7 @@ function ProfileSection({ animal }: AnimalProps) {
   );
 }
 
-function HostFamilyModal({ hostFamily }: { hostFamily: HostFamily }) {
-  const { currentUser } = useCurrentUser();
-  const isCurrentUserAdmin = doesGroupsIntersect(currentUser.groups, [
-    UserGroup.ADMIN,
-    UserGroup.ANIMAL_MANAGER,
-  ]);
-
-  const fullAddress = getHostFamilyFullAddress(hostFamily);
-
-  const { onDismiss } = useModal();
-
-  return (
-    <>
-      <ModalHeader>
-        <ModalHeaderTitle>{hostFamily.name}</ModalHeaderTitle>
-      </ModalHeader>
-
-      <Section>
-        <ul>
-          <li>
-            <LinkItem href={`tel:${hostFamily.phone}`}>
-              <ItemIcon>
-                <FaPhone />
-              </ItemIcon>
-
-              <ItemContent>
-                <ItemMainText>{hostFamily.phone}</ItemMainText>
-              </ItemContent>
-            </LinkItem>
-          </li>
-
-          <li>
-            <LinkItem href={`mailto:${hostFamily.email}`}>
-              <ItemIcon>
-                <FaEnvelope />
-              </ItemIcon>
-
-              <ItemContent>
-                <ItemMainText>{hostFamily.email}</ItemMainText>
-              </ItemContent>
-            </LinkItem>
-          </li>
-
-          <li>
-            <LinkItem
-              shouldOpenInNewTarget
-              href={`http://maps.google.com/?q=${fullAddress}`}
-            >
-              <ItemIcon>
-                <FaMapMarker />
-              </ItemIcon>
-
-              <ItemContent>
-                <ItemMainText>{fullAddress}</ItemMainText>
-              </ItemContent>
-            </LinkItem>
-          </li>
-
-          {isCurrentUserAdmin && (
-            <li>
-              <LinkItem
-                href={`/host-families/${hostFamily.id}`}
-                onClick={onDismiss}
-              >
-                <ItemIcon>
-                  <FaEllipsisH />
-                </ItemIcon>
-
-                <ItemContent>
-                  <ItemMainText>Voir plus d'informations</ItemMainText>
-                </ItemContent>
-              </LinkItem>
-            </li>
-          )}
-        </ul>
-      </Section>
-    </>
-  );
-}
-
-const IsOkColors: Record<Trilean, string> = {
-  [Trilean.FALSE]: theme.colors.alert[500],
-  [Trilean.TRUE]: theme.colors.success[500],
-  [Trilean.UNKNOWN]: "inherit",
-};
-
-type OtherAnimalSituationProps = {
-  label: string;
-  value: Trilean;
-};
-
-function OtherAnimalSituation({ label, value }: OtherAnimalSituationProps) {
-  return (
-    <OtherAnimalSituationListItem>
-      <OtherAnimalSituationListItemLabel>
-        {label}
-      </OtherAnimalSituationListItemLabel>
-
-      <OtherAnimalSituationListItemValue $value={value}>
-        {TrileanLabels[value]}
-      </OtherAnimalSituationListItemValue>
-    </OtherAnimalSituationListItem>
-  );
-}
-
-const OtherAnimalSituationListItem = styled.li`
-  flex: 1;
-  background: ${theme.colors.dark[30]};
-  border-radius: ${theme.borderRadius.m};
-  padding: ${theme.spacing.x2};
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-
-const OtherAnimalSituationListItemLabel = styled.span`
-  font-size: 14px;
-  color: ${theme.colors.text.secondary};
-`;
-
-const OtherAnimalSituationListItemValue = styled.span<{ $value: Trilean }>`
-  font-weight: 700;
-  color: ${(props) => IsOkColors[props.$value]};
-`;
-
-function OtherAnimalsSituations({ animal }: AnimalProps) {
-  return (
-    <OtherAnimalsSituationsList>
-      <OtherAnimalSituation label="Ok enfants" value={animal.isOkChildren} />
-      <OtherAnimalSituation label="Ok chiens" value={animal.isOkDogs} />
-      <OtherAnimalSituation label="Ok chats" value={animal.isOkCats} />
-    </OtherAnimalsSituationsList>
-  );
-}
-
-const OtherAnimalsSituationsList = styled.ul`
-  margin-top: ${theme.spacing.x2};
-  padding: 0 ${theme.spacing.x2};
-  display: flex;
-  gap: ${theme.spacing.x2};
-`;
-
-function SituationSection({ animal }: AnimalProps) {
+function SituationSection({ animal }: AnimalProp) {
   const [areHostFamilyDetailsVisible, setAreHostFamilyDetailsVisible] =
     useState(false);
   const referenceElement = useRef<HTMLButtonElement>(null!);
@@ -328,13 +296,17 @@ function SituationSection({ animal }: AnimalProps) {
 
             <ItemContent>
               <ItemMainText>
-                Est <strong>{AnimalStatusLabels[animal.status]}</strong>
+                Est <strong>{ANIMAL_STATUS_LABELS[animal.status]}</strong>
                 {animal.status === AnimalStatus.ADOPTED &&
                   animal.adoptionDate != null && (
                     <>
                       {" "}
                       depuis le{" "}
-                      <strong>{formatLongDate(animal.adoptionDate)}</strong>
+                      <strong>
+                        {DateTime.fromISO(animal.adoptionDate).toLocaleString(
+                          DateTime.DATE_FULL
+                        )}
+                      </strong>
                     </>
                   )}
                 {animal.status === AnimalStatus.ADOPTED &&
@@ -343,7 +315,7 @@ function SituationSection({ animal }: AnimalProps) {
                     <>
                       {" "}
                       (
-                      {AdoptionOptionLabels[
+                      {ADOPTION_OPTION_LABELS[
                         animal.adoptionOption
                       ].toLowerCase()}
                       )
@@ -410,7 +382,12 @@ function SituationSection({ animal }: AnimalProps) {
             <ItemContent>
               <ItemMainText>
                 Pris{animal.gender === AnimalGender.FEMALE ? "e" : ""} en charge
-                le <strong>{formatLongDate(animal.pickUpDate)}</strong>
+                le{" "}
+                <strong>
+                  {DateTime.fromISO(animal.pickUpDate).toLocaleString(
+                    DateTime.DATE_FULL
+                  )}
+                </strong>
                 {animal.pickUpLocation != null && (
                   <>
                     <br />à <strong>{animal.pickUpLocation}</strong>
@@ -418,13 +395,13 @@ function SituationSection({ animal }: AnimalProps) {
                 )}
                 <br />
                 suite à{" "}
-                <strong>{PickUpReasonLabels[animal.pickUpReason]}</strong>
+                <strong>{PICK_UP_REASON_LABELS[animal.pickUpReason]}</strong>
               </ItemMainText>
             </ItemContent>
           </Item>
         </li>
 
-        {animal.comments !== "" && (
+        {animal.comments != null && (
           <li>
             <Item>
               <ItemIcon>
@@ -444,12 +421,158 @@ function SituationSection({ animal }: AnimalProps) {
   );
 }
 
+function HostFamilyModal({
+  hostFamily,
+}: {
+  hostFamily: NonNullable<Animal["hostFamily"]>;
+}) {
+  const { currentUser } = useCurrentUser();
+  const isCurrentUserAdmin = doesGroupsIntersect(currentUser.groups, [
+    UserGroup.ADMIN,
+    UserGroup.ANIMAL_MANAGER,
+  ]);
+
+  const { onDismiss } = useModal();
+
+  return (
+    <>
+      <ModalHeader>
+        <ModalHeaderTitle>{hostFamily.name}</ModalHeaderTitle>
+      </ModalHeader>
+
+      <Section>
+        <ul>
+          <li>
+            <LinkItem href={`tel:${hostFamily.phone}`}>
+              <ItemIcon>
+                <FaPhone />
+              </ItemIcon>
+
+              <ItemContent>
+                <ItemMainText>{hostFamily.phone}</ItemMainText>
+              </ItemContent>
+            </LinkItem>
+          </li>
+
+          <li>
+            <LinkItem href={`mailto:${hostFamily.email}`}>
+              <ItemIcon>
+                <FaEnvelope />
+              </ItemIcon>
+
+              <ItemContent>
+                <ItemMainText>{hostFamily.email}</ItemMainText>
+              </ItemContent>
+            </LinkItem>
+          </li>
+
+          <li>
+            <LinkItem
+              shouldOpenInNewTarget
+              href={`http://maps.google.com/?q=${encodeURIComponent(
+                hostFamily.formattedAddress
+              )}`}
+            >
+              <ItemIcon>
+                <FaMapMarker />
+              </ItemIcon>
+
+              <ItemContent>
+                <ItemMainText>{hostFamily.formattedAddress}</ItemMainText>
+              </ItemContent>
+            </LinkItem>
+          </li>
+
+          {isCurrentUserAdmin && (
+            <li>
+              <LinkItem
+                href={`/host-families/${hostFamily.id}`}
+                onClick={onDismiss}
+              >
+                <ItemIcon>
+                  <FaEllipsisH />
+                </ItemIcon>
+
+                <ItemContent>
+                  <ItemMainText>Voir plus d'informations</ItemMainText>
+                </ItemContent>
+              </LinkItem>
+            </li>
+          )}
+        </ul>
+      </Section>
+    </>
+  );
+}
+
+const IsOkColors: Record<Trilean, string> = {
+  [Trilean.FALSE]: theme.colors.alert[500],
+  [Trilean.TRUE]: theme.colors.success[500],
+  [Trilean.UNKNOWN]: "inherit",
+};
+
+type OtherAnimalSituationProps = {
+  label: string;
+  value: Trilean;
+};
+
+function OtherAnimalSituation({ label, value }: OtherAnimalSituationProps) {
+  return (
+    <OtherAnimalSituationListItem>
+      <OtherAnimalSituationListItemLabel>
+        {label}
+      </OtherAnimalSituationListItemLabel>
+
+      <OtherAnimalSituationListItemValue $value={value}>
+        {TRILEAN_LABELS[value]}
+      </OtherAnimalSituationListItemValue>
+    </OtherAnimalSituationListItem>
+  );
+}
+
+const OtherAnimalSituationListItem = styled.li`
+  flex: 1;
+  background: ${theme.colors.dark[30]};
+  border-radius: ${theme.borderRadius.m};
+  padding: ${theme.spacing.x2};
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const OtherAnimalSituationListItemLabel = styled.span`
+  font-size: 14px;
+  color: ${theme.colors.text.secondary};
+`;
+
+const OtherAnimalSituationListItemValue = styled.span<{ $value: Trilean }>`
+  font-weight: 700;
+  color: ${(props) => IsOkColors[props.$value]};
+`;
+
+function OtherAnimalsSituations({ animal }: AnimalProp) {
+  return (
+    <OtherAnimalsSituationsList>
+      <OtherAnimalSituation label="Ok enfants" value={animal.isOkChildren} />
+      <OtherAnimalSituation label="Ok chiens" value={animal.isOkDogs} />
+      <OtherAnimalSituation label="Ok chats" value={animal.isOkCats} />
+    </OtherAnimalsSituationsList>
+  );
+}
+
+const OtherAnimalsSituationsList = styled.ul`
+  margin-top: ${theme.spacing.x2};
+  padding: 0 ${theme.spacing.x2};
+  display: flex;
+  gap: ${theme.spacing.x2};
+`;
+
 const HostFamilyName = styled.strong`
   color: ${theme.colors.primary[500]};
 `;
 
-function DescriptionSection({ animal }: AnimalProps) {
-  if (animal.description === "") {
+function DescriptionSection({ animal }: AnimalProp) {
+  if (animal.description == null) {
     return null;
   }
 
@@ -465,40 +588,14 @@ const DescriptionText = styled(Markdown)`
   padding: 0 ${theme.spacing.x2};
 `;
 
-function DeleteAnimalButton({ animal }: AnimalProps) {
-  const router = useRouter();
-  const { onDismiss } = useModal();
-  const [deleteAnimal] = useDeleteAnimal({
-    onSuccess() {
-      onDismiss();
-      router.backIfPossible("..");
-    },
-  });
+type DeleteAnimalProp = {
+  deleteAnimal: UseMutationResult<void, Error, Animal, unknown>;
+};
 
-  const confirmationMessage = [
-    `Êtes-vous sûr de vouloir supprimer ${animal.officialName} ?`,
-    "L'action est irréversible.",
-  ].join("\n");
-
-  return (
-    <ButtonItem
-      onClick={withConfirmation(confirmationMessage, () => {
-        deleteAnimal(animal);
-      })}
-      color="red"
-    >
-      <ItemIcon>
-        <FaTrash />
-      </ItemIcon>
-
-      <ItemContent>
-        <ItemMainText>Supprimer</ItemMainText>
-      </ItemContent>
-    </ButtonItem>
-  );
-}
-
-function ActionsSection({ animal }: AnimalProps) {
+function ActionsSection({
+  animal,
+  deleteAnimal,
+}: AnimalProp & DeleteAnimalProp) {
   const { onDismiss } = useModal();
   return (
     <>
@@ -549,62 +646,42 @@ function ActionsSection({ animal }: AnimalProps) {
       <Separator />
 
       <Section>
-        <DeleteAnimalButton animal={animal} />
+        <DeleteAnimalButton animal={animal} deleteAnimal={deleteAnimal} />
       </Section>
     </>
   );
 }
 
-const AnimalPage: PageComponent = () => {
-  const { currentUser } = useCurrentUser();
-  const isCurrentUserAdmin = doesGroupsIntersect(currentUser.groups, [
-    UserGroup.ADMIN,
-    UserGroup.ANIMAL_MANAGER,
-  ]);
-
-  const router = useRouter();
-  const animalId = router.query.animalId as string;
-  const query = useAnimal(animalId);
-
-  const { pageTitle, headerTitle, content } = renderQueryEntity(query, {
-    getDisplayedText: (animal) => getAnimalDisplayName(animal),
-    renderPlaceholder: () => null,
-    renderEntity: (animal) => (
-      <>
-        <PicturesSection animal={animal} />
-        <HighlightsSection animal={animal} />
-        <ProfileSection animal={animal} />
-        <SituationSection animal={animal} />
-        <DescriptionSection animal={animal} />
-
-        {isCurrentUserAdmin && (
-          <QuickActions icon={<FaPen />}>
-            <ActionsSection animal={animal} />
-          </QuickActions>
-        )}
-      </>
-    ),
-  });
+function DeleteAnimalButton({
+  animal,
+  deleteAnimal,
+}: AnimalProp & DeleteAnimalProp) {
+  const { onDismiss } = useModal();
 
   return (
-    <ApplicationLayout>
-      <PageTitle title={pageTitle} />
+    <ButtonItem
+      onClick={() => {
+        if (!deleteAnimal.isLoading) {
+          const confirmationMessage = [
+            `Êtes-vous sûr de vouloir supprimer ${animal.displayName} ?`,
+            "L'action est irréversible.",
+          ].join("\n");
 
-      <Header>
-        <HeaderBackLink />
-        <HeaderTitle>{headerTitle}</HeaderTitle>
-      </Header>
+          if (window.confirm(confirmationMessage)) {
+            onDismiss();
+            deleteAnimal.mutate(animal);
+          }
+        }
+      }}
+      color="red"
+    >
+      <ItemIcon>
+        <FaTrash />
+      </ItemIcon>
 
-      <Main>{content}</Main>
-      <Navigation onlyLargeEnough />
-    </ApplicationLayout>
+      <ItemContent>
+        <ItemMainText>Supprimer</ItemMainText>
+      </ItemContent>
+    </ButtonItem>
   );
-};
-
-AnimalPage.authorisedGroups = [
-  UserGroup.ADMIN,
-  UserGroup.ANIMAL_MANAGER,
-  UserGroup.VETERINARIAN,
-];
-
-export default AnimalPage;
+}

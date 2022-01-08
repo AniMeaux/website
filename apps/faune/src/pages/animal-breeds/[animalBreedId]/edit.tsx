@@ -1,72 +1,81 @@
-import {
-  ErrorCode,
-  getErrorMessage,
-  hasErrorCode,
-  UserGroup,
-} from "@animeaux/shared-entities";
-import {
-  AnimalBreedForm,
-  AnimalBreedFormErrors,
-  AnimalBreedFormPlaceholder,
-} from "animalBreed/animalBreedForm";
-import {
-  useAnimalBreed,
-  useUpdateAnimalBreed,
-} from "animalBreed/animalBreedQueries";
+import { UserGroup } from "@animeaux/shared";
+import { AnimalBreedForm, AnimalBreedFormPlaceholder } from "animal/breed/form";
 import { ApplicationLayout } from "core/layouts/applicationLayout";
+import { ErrorPage } from "core/layouts/errorPage";
 import { Header, HeaderBackLink, HeaderTitle } from "core/layouts/header";
 import { Main } from "core/layouts/main";
 import { Navigation } from "core/layouts/navigation";
+import { Placeholder } from "core/loaders/placeholder";
+import { useOperationMutation, useOperationQuery } from "core/operations";
 import { PageTitle } from "core/pageTitle";
-import { renderQueryEntity } from "core/request";
 import { useRouter } from "core/router";
 import { PageComponent } from "core/types";
+import invariant from "invariant";
 
 const AnimalBreedEditPage: PageComponent = () => {
   const router = useRouter();
-  const animalBreedId = router.query.animalBreedId as string;
-  const query = useAnimalBreed(animalBreedId);
-  const [updateAnimalBreed, mutation] = useUpdateAnimalBreed({
-    onSuccess() {
-      router.backIfPossible("..");
+
+  invariant(
+    typeof router.query.animalBreedId === "string",
+    `The animalBreedId path should be a string. Got '${typeof router.query
+      .animalBreedId}'`
+  );
+
+  const getAnimalBreed = useOperationQuery({
+    name: "getAnimalBreed",
+    params: { id: router.query.animalBreedId },
+  });
+
+  const updateAnimalBreed = useOperationMutation("updateAnimalBreed", {
+    onSuccess: (response, cache) => {
+      cache.set(
+        { name: "getAnimalBreed", params: { id: response.result.id } },
+        response.result
+      );
+
+      cache.invalidate({ name: "getAllAnimalBreeds" });
+      router.backIfPossible("../..");
     },
   });
 
-  const { pageTitle, headerTitle, content } = renderQueryEntity(query, {
-    getDisplayedText: (animalBreed) => animalBreed.name,
-    renderPlaceholder: () => <AnimalBreedFormPlaceholder />,
-    renderEntity: (animalBreed) => (
-      <AnimalBreedForm
-        animalBreed={animalBreed}
-        onSubmit={(formPayload) =>
-          updateAnimalBreed({ currentAnimalBreed: animalBreed, formPayload })
-        }
-        pending={mutation.isLoading}
-        errors={errors}
-      />
-    ),
-  });
-
-  const errors: AnimalBreedFormErrors = {};
-  if (mutation.error != null) {
-    const errorMessage = getErrorMessage(mutation.error);
-
-    if (hasErrorCode(mutation.error, ErrorCode.ANIMAL_BREED_MISSING_NAME)) {
-      errors.name = errorMessage;
-    } else if (
-      hasErrorCode(mutation.error, ErrorCode.ANIMAL_BREED_MISSING_SPECIES)
-    ) {
-      errors.species = errorMessage;
-    }
+  if (getAnimalBreed.state === "error") {
+    return <ErrorPage status={getAnimalBreed.status} />;
   }
+
+  let content: React.ReactNode = null;
+
+  if (getAnimalBreed.state === "success") {
+    content = (
+      <AnimalBreedForm
+        initialAnimalBreed={getAnimalBreed.result}
+        onSubmit={(animalBreed) =>
+          updateAnimalBreed.mutate({
+            ...animalBreed,
+            id: getAnimalBreed.result.id,
+          })
+        }
+        pending={updateAnimalBreed.state === "loading"}
+        serverErrors={
+          updateAnimalBreed.state === "error"
+            ? [updateAnimalBreed.errorResult?.code ?? "server-error"]
+            : []
+        }
+      />
+    );
+  } else {
+    content = <AnimalBreedFormPlaceholder />;
+  }
+
+  const name =
+    getAnimalBreed.state === "success" ? getAnimalBreed.result.name : null;
 
   return (
     <ApplicationLayout>
-      <PageTitle title={pageTitle} />
+      <PageTitle title={name} />
 
       <Header>
         <HeaderBackLink />
-        <HeaderTitle>{headerTitle}</HeaderTitle>
+        <HeaderTitle>{name ?? <Placeholder $preset="text" />}</HeaderTitle>
       </Header>
 
       <Main>{content}</Main>

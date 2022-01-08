@@ -1,14 +1,8 @@
-import {
-  AnimalBreed,
-  AnimalSpeciesLabels,
-  UserGroup,
-} from "@animeaux/shared-entities";
-import {
-  useAllAnimalBreeds,
-  useDeleteAnimalBreed,
-} from "animalBreed/animalBreedQueries";
+import { AnimalBreed, UserGroup } from "@animeaux/shared";
+import { ANIMAL_SPECIES_LABELS } from "animal/species/labels";
 import { QuickLinkAction } from "core/actions/quickAction";
 import { Avatar, AvatarPlaceholder } from "core/dataDisplay/avatar";
+import { EmptyMessage } from "core/dataDisplay/emptyMessage";
 import {
   ButtonItem,
   Item,
@@ -19,21 +13,102 @@ import {
   LinkItem,
 } from "core/dataDisplay/item";
 import { ApplicationLayout } from "core/layouts/applicationLayout";
+import { ErrorPage } from "core/layouts/errorPage";
 import { Header, HeaderTitle, HeaderUserAvatar } from "core/layouts/header";
 import { Main } from "core/layouts/main";
 import { Navigation } from "core/layouts/navigation";
 import { Section } from "core/layouts/section";
 import { Separator } from "core/layouts/separator";
 import { usePageScrollRestoration } from "core/layouts/usePageScroll";
-import { Placeholder } from "core/loaders/placeholder";
+import { Placeholder, Placeholders } from "core/loaders/placeholder";
+import { useOperationMutation, useOperationQuery } from "core/operations";
 import { PageTitle } from "core/pageTitle";
 import { Modal, useModal } from "core/popovers/modal";
-import { renderInfiniteItemList } from "core/request";
-import { useRouter } from "core/router";
+import { showSnackbar, Snackbar } from "core/popovers/snackbar";
 import { PageComponent } from "core/types";
-import { withConfirmation } from "core/withConfirmation";
 import { useRef, useState } from "react";
 import { FaAngleRight, FaDna, FaPen, FaPlus, FaTrash } from "react-icons/fa";
+
+const TITLE = "Races";
+
+const AnimalBreedListPage: PageComponent = () => {
+  usePageScrollRestoration();
+
+  const getAllAnimalBreeds = useOperationQuery(
+    { name: "getAllAnimalBreeds" },
+    {
+      onSuccess: (response, cache) => {
+        response.result.forEach((animalBreed) => {
+          cache.set(
+            { name: "getAnimalBreed", params: { id: animalBreed.id } },
+            animalBreed
+          );
+        });
+      },
+    }
+  );
+
+  if (getAllAnimalBreeds.state === "error") {
+    return <ErrorPage status={getAllAnimalBreeds.status} />;
+  }
+
+  let content: React.ReactNode = null;
+
+  if (getAllAnimalBreeds.state === "success") {
+    if (getAllAnimalBreeds.result.length === 0) {
+      content = <EmptyMessage>Il n'y a pas encore de race</EmptyMessage>;
+    } else {
+      content = (
+        <ul>
+          {getAllAnimalBreeds.result.map((animalBreed) => (
+            <li key={animalBreed.id}>
+              <AnimalBreedItem animalBreed={animalBreed} />
+            </li>
+          ))}
+        </ul>
+      );
+    }
+  } else {
+    content = (
+      <ul>
+        <Placeholders count={5}>
+          <li>
+            <AnimalBreedItemPlaceholder />
+          </li>
+        </Placeholders>
+      </ul>
+    );
+  }
+
+  return (
+    <ApplicationLayout>
+      <PageTitle title={TITLE} />
+
+      <Header>
+        <HeaderUserAvatar />
+        <HeaderTitle>
+          {TITLE}{" "}
+          {getAllAnimalBreeds.state === "success" &&
+            `(${getAllAnimalBreeds.result.length})`}
+        </HeaderTitle>
+      </Header>
+
+      <Main>
+        <Section>{content}</Section>
+
+        <QuickLinkAction href="./new">
+          <FaPlus />
+        </QuickLinkAction>
+      </Main>
+
+      <Navigation />
+    </ApplicationLayout>
+  );
+};
+
+AnimalBreedListPage.authorisedGroups = [UserGroup.ADMIN];
+
+export default AnimalBreedListPage;
 
 function AnimalBreedItemPlaceholder() {
   return (
@@ -59,36 +134,36 @@ type AnimalBreedProps = {
   animalBreed: AnimalBreed;
 };
 
-function DeleteAnimalBreedButton({ animalBreed }: AnimalBreedProps) {
-  const router = useRouter();
-  const { onDismiss } = useModal();
-  const [deleteAnimalBreed] = useDeleteAnimalBreed({
-    onSuccess() {
-      onDismiss();
-      router.backIfPossible("..");
-    },
-  });
-
-  const confirmationMessage = [
-    `Êtes-vous sûr de vouloir supprimer ${animalBreed.name} ?`,
-    "L'action est irréversible.",
-  ].join("\n");
+export function AnimalBreedItem({ animalBreed }: AnimalBreedProps) {
+  const [isMenuVisible, setIsMenuVisible] = useState(false);
+  const referenceElement = useRef<HTMLButtonElement>(null!);
 
   return (
-    <ButtonItem
-      onClick={withConfirmation(confirmationMessage, () => {
-        deleteAnimalBreed(animalBreed.id);
-      })}
-      color="red"
-    >
-      <ItemIcon>
-        <FaTrash />
-      </ItemIcon>
+    <>
+      <ButtonItem ref={referenceElement} onClick={() => setIsMenuVisible(true)}>
+        <ItemIcon>
+          <Avatar>
+            <FaDna />
+          </Avatar>
+        </ItemIcon>
 
-      <ItemContent>
-        <ItemMainText>Supprimer</ItemMainText>
-      </ItemContent>
-    </ButtonItem>
+        <ItemContent>
+          <ItemMainText>{animalBreed.name}</ItemMainText>
+          <ItemSecondaryText>
+            {ANIMAL_SPECIES_LABELS[animalBreed.species]}
+          </ItemSecondaryText>
+        </ItemContent>
+      </ButtonItem>
+
+      <Modal
+        open={isMenuVisible}
+        onDismiss={() => setIsMenuVisible(false)}
+        referenceElement={referenceElement}
+        placement="bottom-start"
+      >
+        <AnimalBreedModalContent animalBreed={animalBreed} />
+      </Modal>
+    </>
   );
 }
 
@@ -122,75 +197,52 @@ function AnimalBreedModalContent({ animalBreed }: AnimalBreedProps) {
   );
 }
 
-export function AnimalBreedItem({ animalBreed }: AnimalBreedProps) {
-  const [isMenuVisible, setIsMenuVisible] = useState(false);
-  const referenceElement = useRef<HTMLButtonElement>(null!);
+function DeleteAnimalBreedButton({ animalBreed }: AnimalBreedProps) {
+  const { onDismiss } = useModal();
 
-  return (
-    <>
-      <ButtonItem ref={referenceElement} onClick={() => setIsMenuVisible(true)}>
-        <ItemIcon>
-          <Avatar>
-            <FaDna />
-          </Avatar>
-        </ItemIcon>
+  const deleteAnimalBreed = useOperationMutation("deleteAnimalBreed", {
+    onSuccess: (response, cache) => {
+      cache.remove({
+        name: "getAnimalBreed",
+        params: { id: response.body.params.id },
+      });
 
-        <ItemContent>
-          <ItemMainText>{animalBreed.name}</ItemMainText>
-          <ItemSecondaryText>
-            {AnimalSpeciesLabels[animalBreed.species]}
-          </ItemSecondaryText>
-        </ItemContent>
-      </ButtonItem>
-
-      <Modal
-        open={isMenuVisible}
-        onDismiss={() => setIsMenuVisible(false)}
-        referenceElement={referenceElement}
-        placement="bottom-start"
-      >
-        <AnimalBreedModalContent animalBreed={animalBreed} />
-      </Modal>
-    </>
-  );
-}
-
-const TITLE = "Races";
-
-const AnimalBreedListPage: PageComponent = () => {
-  usePageScrollRestoration();
-
-  const query = useAllAnimalBreeds();
-  const { content, title } = renderInfiniteItemList(query, {
-    title: TITLE,
-    getItemKey: (animalBreed) => animalBreed.id,
-    renderPlaceholderItem: () => <AnimalBreedItemPlaceholder />,
-    emptyMessage: "Il n'y a pas encore de race",
-    renderItem: (animalBreed) => <AnimalBreedItem animalBreed={animalBreed} />,
+      cache.invalidate({ name: "getAllAnimalBreeds" });
+      onDismiss();
+    },
+    onError: () => {
+      showSnackbar.error(
+        <Snackbar>
+          La couleur {animalBreed.name} n'a pas pu être supprimée
+        </Snackbar>
+      );
+    },
   });
 
   return (
-    <ApplicationLayout>
-      <PageTitle title={TITLE} />
+    <ButtonItem
+      onClick={() => {
+        if (deleteAnimalBreed.state !== "loading") {
+          const confirmationMessage = [
+            `Êtes-vous sûr de vouloir supprimer ${animalBreed.name} ?`,
+            "L'action est irréversible.",
+          ].join("\n");
 
-      <Header>
-        <HeaderUserAvatar />
-        <HeaderTitle>{title}</HeaderTitle>
-      </Header>
+          if (window.confirm(confirmationMessage)) {
+            onDismiss();
+            deleteAnimalBreed.mutate({ id: animalBreed.id });
+          }
+        }
+      }}
+      color="red"
+    >
+      <ItemIcon>
+        <FaTrash />
+      </ItemIcon>
 
-      <Main>
-        <Section>{content}</Section>
-
-        <QuickLinkAction href="./new">
-          <FaPlus />
-        </QuickLinkAction>
-      </Main>
-
-      <Navigation />
-    </ApplicationLayout>
+      <ItemContent>
+        <ItemMainText>Supprimer</ItemMainText>
+      </ItemContent>
+    </ButtonItem>
   );
-};
-
-AnimalBreedListPage.authorisedGroups = [UserGroup.ADMIN];
-
-export default AnimalBreedListPage;
+}

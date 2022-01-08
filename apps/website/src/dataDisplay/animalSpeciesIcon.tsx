@@ -1,4 +1,4 @@
-import { AnimalSpecies } from "@animeaux/shared-entities/build/animal";
+import { AnimalSpecies } from "@animeaux/shared";
 import { BirdIcon } from "icons/birdIcon";
 import { CatIcon } from "icons/catIcon";
 import { DogIcon } from "icons/dogIcon";

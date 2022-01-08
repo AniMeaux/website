@@ -133,10 +133,7 @@ export function ItemIcon({ small = false, ...rest }: ItemIconProps) {
 
 const ItemIconElement = styled.span<{ $isSmall: boolean }>`
   flex: none;
-  min-height: calc(${theme.typography.lineHeight.monoLine} * 1rem);
-  align-self: flex-start;
   display: flex;
-  align-items: center;
   font-size: ${(props) => (props.$isSmall ? "inherit" : "24px")};
 `;
 

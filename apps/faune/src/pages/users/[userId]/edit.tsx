@@ -1,70 +1,86 @@
-import {
-  ErrorCode,
-  getErrorMessage,
-  hasErrorCode,
-  UserGroup,
-} from "@animeaux/shared-entities";
+import { UserGroup } from "@animeaux/shared";
+import { useCurrentUser } from "account/currentUser";
 import { ApplicationLayout } from "core/layouts/applicationLayout";
+import { ErrorPage } from "core/layouts/errorPage";
 import { Header, HeaderBackLink, HeaderTitle } from "core/layouts/header";
 import { Main } from "core/layouts/main";
 import { Navigation } from "core/layouts/navigation";
+import { Placeholder } from "core/loaders/placeholder";
+import { useOperationMutation, useOperationQuery } from "core/operations";
 import { PageTitle } from "core/pageTitle";
-import { renderQueryEntity } from "core/request";
 import { useRouter } from "core/router";
 import { PageComponent } from "core/types";
-import { UserForm, UserFormErrors, UserFormPlaceholder } from "user/userForm";
-import { useUpdateUser, useUser } from "user/userQueries";
+import invariant from "invariant";
+import { UserForm, UserFormPlaceholder } from "user/form";
 
 const UserEditPage: PageComponent = () => {
   const router = useRouter();
-  const userId = router.query.userId as string;
-  const query = useUser(userId);
-  const [updateUser, mutation] = useUpdateUser({
-    onSuccess() {
+
+  invariant(
+    typeof router.query.userId === "string",
+    `The userId path should be a string. Got '${typeof router.query.userId}'`
+  );
+
+  const { currentUser } = useCurrentUser();
+
+  const getUser = useOperationQuery({
+    name: "getUser",
+    params: { id: router.query.userId },
+  });
+
+  const updateUser = useOperationMutation("updateUser", {
+    onSuccess: (response, cache) => {
+      cache.set(
+        { name: "getUser", params: { id: response.result.id } },
+        response.result
+      );
+
+      if (currentUser.id === response.result.id) {
+        cache.set({ name: "getCurrentUser" }, response.result);
+      }
+
+      cache.invalidate({ name: "getAllUsers" });
       router.backIfPossible("..");
     },
   });
 
-  const { pageTitle, headerTitle, content } = renderQueryEntity(query, {
-    getDisplayedText: (user) => user.displayName,
-    renderPlaceholder: () => <UserFormPlaceholder />,
-    renderEntity: (user) => (
-      <UserForm
-        user={user}
-        onSubmit={(formPayload) =>
-          updateUser({ currentUser: user, formPayload })
-        }
-        pending={mutation.isLoading}
-        errors={errors}
-      />
-    ),
-  });
-
-  const errors: UserFormErrors = {};
-  if (mutation.error != null) {
-    const errorMessage = getErrorMessage(mutation.error);
-
-    if (hasErrorCode(mutation.error, ErrorCode.USER_MISSING_DISPLAY_NAME)) {
-      errors.displayName = errorMessage;
-    } else if (hasErrorCode(mutation.error, ErrorCode.USER_INVALID_PASSWORD)) {
-      errors.password = errorMessage;
-    } else if (
-      hasErrorCode(mutation.error, [
-        ErrorCode.USER_MISSING_GROUP,
-        ErrorCode.USER_IS_ADMIN,
-      ])
-    ) {
-      errors.groups = errorMessage;
-    }
+  if (getUser.state === "error") {
+    return <ErrorPage status={getUser.status} />;
   }
+
+  let content: React.ReactNode = null;
+
+  if (getUser.state === "success") {
+    content = (
+      <UserForm
+        initialUser={getUser.result}
+        onSubmit={({ email, ...user }) =>
+          updateUser.mutate({ ...user, id: getUser.result.id })
+        }
+        pending={updateUser.state === "loading"}
+        serverErrors={
+          updateUser.state === "error"
+            ? [updateUser.errorResult?.code ?? "server-error"]
+            : []
+        }
+      />
+    );
+  } else {
+    content = <UserFormPlaceholder />;
+  }
+
+  const displayName =
+    getUser.state === "success" ? getUser.result.displayName : null;
 
   return (
     <ApplicationLayout>
-      <PageTitle title={pageTitle} />
+      <PageTitle title={displayName} />
 
       <Header>
         <HeaderBackLink />
-        <HeaderTitle>{headerTitle}</HeaderTitle>
+        <HeaderTitle>
+          {displayName ?? <Placeholder $preset="text" />}
+        </HeaderTitle>
       </Header>
 
       <Main>{content}</Main>

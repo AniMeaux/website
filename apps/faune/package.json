@@ -8,7 +8,7 @@
     "clean-build": "run-s clean build"
   },
   "dependencies": {
-    "@animeaux/shared-entities": "*",
+    "@animeaux/shared": "*",
     "@sentry/react": "^6.16.1",
     "autosize": "^5.0.1",
     "body-scroll-lock": "^3.1.5",
@@ -16,11 +16,12 @@
     "firebase": "^8.2.4",
     "focus-trap": "^6.7.1",
     "focus-visible": "^5.2.0",
-    "graphql": "^16.2.0",
-    "graphql-request": "^3.7.0",
     "invariant": "^2.2.4",
     "lodash.difference": "^4.5.0",
     "lodash.isequal": "^4.5.0",
+    "lodash.uniq": "^4.5.0",
+    "lodash.without": "^4.4.0",
+    "luxon": "^2.3.0",
     "next": "^12.0.7",
     "react": "^17.0.1",
     "react-app-polyfill": "^3.0.0",
@@ -35,7 +36,8 @@
     "react-toastify": "^8.1.0",
     "remark-breaks": "^3.0.2",
     "styled-components": "^5.3.3",
-    "uuid": "^8.3.2"
+    "uuid": "^8.3.2",
+    "yup": "^0.32.11"
   },
   "devDependencies": {
     "@svgr/webpack": "^6.1.2",
@@ -44,6 +46,9 @@
     "@types/invariant": "^2.2.35",
     "@types/lodash.difference": "^4.5.6",
     "@types/lodash.isequal": "^4.5.5",
+    "@types/lodash.uniq": "^4.5.6",
+    "@types/lodash.without": "^4.4.6",
+    "@types/luxon": "^2.0.9",
     "@types/node": "^17.0.6",
     "@types/react": "^17.0.38",
     "@types/react-dom": "^17.0.11",

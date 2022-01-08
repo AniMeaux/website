@@ -1,22 +1,22 @@
 module.exports = {
   apps: [
     createApp({
-      name: "shared-entities",
-      cwd: "libraries/shared-entities",
+      name: "shared",
+      cwd: "shared",
       script: "yarn build",
       watch: ["src", "babel.config.js", "tsconfig.json"],
     }),
 
     createApp({
       name: "build-api",
-      cwd: "apps/api",
+      cwd: "api",
       script: "yarn build",
       watch: ["src", "babel.config.js", "tsconfig.json", "globals.d.ts"],
     }),
 
     createApp({
       name: "api",
-      cwd: "apps/api",
+      cwd: "api",
       script: "node .",
       watch: ["build", ".env*"],
       env: { NODE_ENV: "development" },

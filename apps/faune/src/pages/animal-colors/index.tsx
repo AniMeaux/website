@@ -1,10 +1,6 @@
-import { AnimalColor, UserGroup } from "@animeaux/shared-entities";
-import {
-  useAllAnimalColors,
-  useDeleteAnimalColor,
-} from "animalColor/animalColorQueries";
+import { AnimalColor, UserGroup } from "@animeaux/shared";
 import { QuickLinkAction } from "core/actions/quickAction";
-import { Avatar, AvatarPlaceholder } from "core/dataDisplay/avatar";
+import { EmptyMessage } from "core/dataDisplay/emptyMessage";
 import {
   ButtonItem,
   Item,
@@ -14,18 +10,19 @@ import {
   LinkItem,
 } from "core/dataDisplay/item";
 import { ApplicationLayout } from "core/layouts/applicationLayout";
+import { ErrorPage } from "core/layouts/errorPage";
 import { Header, HeaderTitle, HeaderUserAvatar } from "core/layouts/header";
 import { Main } from "core/layouts/main";
 import { Navigation } from "core/layouts/navigation";
 import { Section } from "core/layouts/section";
 import { Separator } from "core/layouts/separator";
 import { usePageScrollRestoration } from "core/layouts/usePageScroll";
-import { Placeholder } from "core/loaders/placeholder";
+import { Placeholder, Placeholders } from "core/loaders/placeholder";
+import { useOperationMutation, useOperationQuery } from "core/operations";
 import { PageTitle } from "core/pageTitle";
 import { Modal, useModal } from "core/popovers/modal";
-import { renderInfiniteItemList } from "core/request";
+import { showSnackbar, Snackbar } from "core/popovers/snackbar";
 import { PageComponent } from "core/types";
-import { withConfirmation } from "core/withConfirmation";
 import { useRef, useState } from "react";
 import {
   FaAngleRight,
@@ -35,11 +32,92 @@ import {
   FaTrash,
 } from "react-icons/fa";
 
+const TITLE = "Couleurs";
+
+const AnimalColorListPage: PageComponent = () => {
+  usePageScrollRestoration();
+
+  const getAllAnimalColors = useOperationQuery(
+    { name: "getAllAnimalColors" },
+    {
+      onSuccess: (response, cache) => {
+        response.result.forEach((animalColor) => {
+          cache.set(
+            { name: "getAnimalColor", params: { id: animalColor.id } },
+            animalColor
+          );
+        });
+      },
+    }
+  );
+
+  if (getAllAnimalColors.state === "error") {
+    return <ErrorPage status={getAllAnimalColors.status} />;
+  }
+
+  let content: React.ReactNode = null;
+
+  if (getAllAnimalColors.state === "success") {
+    if (getAllAnimalColors.result.length === 0) {
+      content = <EmptyMessage>Il n'y a pas encore de couleur</EmptyMessage>;
+    } else {
+      content = (
+        <ul>
+          {getAllAnimalColors.result.map((animalColor) => (
+            <li key={animalColor.id}>
+              <AnimalColorItem animalColor={animalColor} />
+            </li>
+          ))}
+        </ul>
+      );
+    }
+  } else {
+    content = (
+      <ul>
+        <Placeholders count={5}>
+          <li>
+            <AnimalColorItemPlaceholder />
+          </li>
+        </Placeholders>
+      </ul>
+    );
+  }
+
+  return (
+    <ApplicationLayout>
+      <PageTitle title={TITLE} />
+
+      <Header>
+        <HeaderUserAvatar />
+        <HeaderTitle>
+          {TITLE}{" "}
+          {getAllAnimalColors.state === "success" &&
+            `(${getAllAnimalColors.result.length})`}
+        </HeaderTitle>
+      </Header>
+
+      <Main>
+        <Section>{content}</Section>
+
+        <QuickLinkAction href="./new">
+          <FaPlus />
+        </QuickLinkAction>
+      </Main>
+
+      <Navigation />
+    </ApplicationLayout>
+  );
+};
+
+AnimalColorListPage.authorisedGroups = [UserGroup.ADMIN];
+
+export default AnimalColorListPage;
+
 function AnimalColorItemPlaceholder() {
   return (
     <Item>
       <ItemIcon>
-        <AvatarPlaceholder />
+        <Placeholder $preset="icon" />
       </ItemIcon>
 
       <ItemContent>
@@ -55,34 +133,31 @@ type AnimalColorProps = {
   animalColor: AnimalColor;
 };
 
-function DeleteAnimalColorButton({ animalColor }: AnimalColorProps) {
-  const { onDismiss } = useModal();
-  const [deleteAnimalColor] = useDeleteAnimalColor({
-    onSuccess() {
-      onDismiss();
-    },
-  });
-
-  const confirmationMessage = [
-    `Êtes-vous sûr de vouloir supprimer ${animalColor.name} ?`,
-    "L'action est irréversible.",
-  ].join("\n");
+function AnimalColorItem({ animalColor }: AnimalColorProps) {
+  const [isMenuVisible, setIsMenuVisible] = useState(false);
+  const referenceElement = useRef<HTMLButtonElement>(null!);
 
   return (
-    <ButtonItem
-      onClick={withConfirmation(confirmationMessage, () => {
-        deleteAnimalColor(animalColor.id);
-      })}
-      color="red"
-    >
-      <ItemIcon>
-        <FaTrash />
-      </ItemIcon>
+    <>
+      <ButtonItem ref={referenceElement} onClick={() => setIsMenuVisible(true)}>
+        <ItemIcon>
+          <FaPalette />
+        </ItemIcon>
 
-      <ItemContent>
-        <ItemMainText>Supprimer</ItemMainText>
-      </ItemContent>
-    </ButtonItem>
+        <ItemContent>
+          <ItemMainText>{animalColor.name}</ItemMainText>
+        </ItemContent>
+      </ButtonItem>
+
+      <Modal
+        open={isMenuVisible}
+        onDismiss={() => setIsMenuVisible(false)}
+        referenceElement={referenceElement}
+        placement="bottom-start"
+      >
+        <AnimalColorModalContent animalColor={animalColor} />
+      </Modal>
+    </>
   );
 }
 
@@ -116,72 +191,52 @@ function AnimalColorModalContent({ animalColor }: AnimalColorProps) {
   );
 }
 
-function AnimalColorItem({ animalColor }: AnimalColorProps) {
-  const [isMenuVisible, setIsMenuVisible] = useState(false);
-  const referenceElement = useRef<HTMLButtonElement>(null!);
+function DeleteAnimalColorButton({ animalColor }: AnimalColorProps) {
+  const { onDismiss } = useModal();
 
-  return (
-    <>
-      <ButtonItem ref={referenceElement} onClick={() => setIsMenuVisible(true)}>
-        <ItemIcon>
-          <Avatar>
-            <FaPalette />
-          </Avatar>
-        </ItemIcon>
+  const deleteAnimalColor = useOperationMutation("deleteAnimalColor", {
+    onSuccess: (response, cache) => {
+      cache.remove({
+        name: "getAnimalColor",
+        params: { id: response.body.params.id },
+      });
 
-        <ItemContent>
-          <ItemMainText>{animalColor.name}</ItemMainText>
-        </ItemContent>
-      </ButtonItem>
-
-      <Modal
-        open={isMenuVisible}
-        onDismiss={() => setIsMenuVisible(false)}
-        referenceElement={referenceElement}
-        placement="bottom-start"
-      >
-        <AnimalColorModalContent animalColor={animalColor} />
-      </Modal>
-    </>
-  );
-}
-
-const TITLE = "Couleurs";
-
-const AnimalColorListPage: PageComponent = () => {
-  usePageScrollRestoration();
-
-  const query = useAllAnimalColors();
-  const { content, title } = renderInfiniteItemList(query, {
-    title: TITLE,
-    getItemKey: (animalColor) => animalColor.id,
-    renderPlaceholderItem: () => <AnimalColorItemPlaceholder />,
-    emptyMessage: "Il n'y a pas encore de couleur",
-    renderItem: (animalColor) => <AnimalColorItem animalColor={animalColor} />,
+      cache.invalidate({ name: "getAllAnimalColors" });
+      onDismiss();
+    },
+    onError: () => {
+      showSnackbar.error(
+        <Snackbar>
+          La couleur {animalColor.name} n'a pas pu être supprimée
+        </Snackbar>
+      );
+    },
   });
 
   return (
-    <ApplicationLayout>
-      <PageTitle title={TITLE} />
+    <ButtonItem
+      onClick={() => {
+        if (deleteAnimalColor.state !== "loading") {
+          const confirmationMessage = [
+            `Êtes-vous sûr de vouloir supprimer ${animalColor.name} ?`,
+            "L'action est irréversible.",
+          ].join("\n");
 
-      <Header>
-        <HeaderUserAvatar />
-        <HeaderTitle>{title}</HeaderTitle>
-      </Header>
+          if (window.confirm(confirmationMessage)) {
+            onDismiss();
+            deleteAnimalColor.mutate({ id: animalColor.id });
+          }
+        }
+      }}
+      color="red"
+    >
+      <ItemIcon>
+        <FaTrash />
+      </ItemIcon>
 
-      <Main>
-        <Section>{content}</Section>
-
-        <QuickLinkAction href="./new">
-          <FaPlus />
-        </QuickLinkAction>
-      </Main>
-
-      <Navigation />
-    </ApplicationLayout>
+      <ItemContent>
+        <ItemMainText>Supprimer</ItemMainText>
+      </ItemContent>
+    </ButtonItem>
   );
-};
-
-AnimalColorListPage.authorisedGroups = [UserGroup.ADMIN];
-
-export default AnimalColorListPage;
+}

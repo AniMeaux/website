@@ -1,4 +1,4 @@
-import { Partner } from "@animeaux/shared-entities/build/partner";
+import { Partner } from "@animeaux/shared";
 
 export const partners: Partner[] = [
   {

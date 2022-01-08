@@ -1,97 +1,45 @@
-import { PublicAnimal } from "@animeaux/shared-entities/build/animal";
-import { fetchGraphQL } from "core/fetchGraphQL";
+import { OperationResponse, runOperation } from "core/operations";
 import { PageComponent } from "core/pageComponent";
 import { PageTitle } from "core/pageTitle";
-import { captureException } from "core/sentry";
 import { AnimalProfile } from "elements/adopt/animalProfile";
-import { gql } from "graphql-request";
 import { Footer } from "layout/footer";
 import { Header } from "layout/header";
 import { GetServerSideProps } from "next";
 import { ErrorPage } from "pages/_error";
 
-const PublicAnimalFragment = gql`
-  fragment PublicAnimalFragment on PublicAnimal {
-    id
-    officialName
-    birthdate
-    gender
-    species
-    breed {
-      id
-      name
-      species
-    }
-    color {
-      id
-      name
-    }
-    description
-    avatarId
-    picturesId
-    isOkChildren
-    isOkDogs
-    isOkCats
-    isSterilized
-  }
-`;
-
-const GetAdoptableAnimalQuery = gql`
-  query GetAdoptableAnimal($id: ID!) {
-    animal: getAdoptableAnimal(id: $id) {
-      ...PublicAnimalFragment
-    }
-  }
-
-  ${PublicAnimalFragment}
-`;
-
-type AnimalPageProps =
-  | { type: "success"; animal: PublicAnimal }
-  | { type: "error" };
-
-export const getServerSideProps: GetServerSideProps<AnimalPageProps> = async ({
-  res,
-  query,
-}) => {
+export const getServerSideProps: GetServerSideProps<
+  OperationResponse<"getAdoptableAnimal">
+> = async ({ res, query }) => {
   const animalId = query.animalId as string;
 
-  try {
-    const { animal } = await fetchGraphQL<
-      { animal: PublicAnimal | null },
-      { id: string }
-    >(GetAdoptableAnimalQuery, {
-      variables: { id: animalId },
-    });
+  const getAdoptableAnimal = await runOperation({
+    name: "getAdoptableAnimal",
+    params: { id: animalId },
+  });
 
-    if (animal == null) {
-      return { notFound: true };
-    }
-
-    return { props: { type: "success", animal } };
-  } catch (error) {
-    captureException(error, {
-      extra: {
-        query: "getAdoptableAnimal",
-        animalId,
-      },
-    });
-
-    res.statusCode = 500;
-
-    return { props: { type: "error" } };
+  if (getAdoptableAnimal.status === 404) {
+    res.statusCode = 404;
+    return { notFound: true };
   }
+
+  if (getAdoptableAnimal.state === "error") {
+    res.statusCode = 500;
+  }
+
+  return { props: getAdoptableAnimal };
 };
 
-const AnimalPage: PageComponent<AnimalPageProps> = (props) => {
-  if (props.type === "error") {
+const AnimalPage: PageComponent<OperationResponse<"getAdoptableAnimal">> = (
+  props
+) => {
+  if (props.state === "error") {
     return <ErrorPage type="serverError" />;
   }
 
   return (
     <main>
-      <PageTitle title={`Adopter ${props.animal.officialName}`} />
-      <AnimalProfile animal={props.animal} />
+      <PageTitle title={`Adopter ${props.result.displayName}`} />
+      <AnimalProfile animal={props.result} />
     </main>
   );
 };

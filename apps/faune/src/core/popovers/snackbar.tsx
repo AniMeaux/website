@@ -7,6 +7,7 @@ import {
 import { ScreenSize, useScreenSize } from "core/screenSize";
 import { ChildrenProp } from "core/types";
 import invariant from "invariant";
+import { useEffect, useState } from "react";
 import { FaCheckCircle, FaTimesCircle } from "react-icons/fa";
 import {
   Slide,
@@ -21,6 +22,19 @@ import styled, { createGlobalStyle } from "styled-components";
 import { theme } from "styles/theme";
 
 export function SnackbarContainer() {
+  const [isInBrowser, setIsInBrowser] = useState(false);
+  useEffect(() => {
+    setIsInBrowser(true);
+  }, []);
+
+  if (!isInBrowser) {
+    return null;
+  }
+
+  return <BrowserSnackbarContainer />;
+}
+
+function BrowserSnackbarContainer() {
   const { screenSize } = useScreenSize();
 
   let props: ToastContainerProps = {};

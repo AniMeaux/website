@@ -1,10 +1,25 @@
-import { ImageFileOrId, isImageFile } from "@animeaux/shared-entities";
 import { Sentry } from "core/sentry";
 import { StyleProps } from "core/types";
 import { useState } from "react";
 import { FaImage } from "react-icons/fa";
 import styled from "styled-components";
 import { theme } from "styles/theme";
+
+export type ImageFile = {
+  id: string;
+  file: File;
+  dataUrl: string;
+};
+
+export type ImageFileOrId = string | ImageFile;
+
+export function isImageFile(image: ImageFileOrId): image is ImageFile {
+  return typeof image !== "string";
+}
+
+export function getImageId(image: ImageFileOrId) {
+  return isImageFile(image) ? image.id : image;
+}
 
 type ImagePreset = "avatar" | "none";
 

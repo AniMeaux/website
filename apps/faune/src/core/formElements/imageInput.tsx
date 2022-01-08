@@ -1,9 +1,9 @@
 import {
   getImageId,
+  Image,
   ImageFile,
   ImageFileOrId,
-} from "@animeaux/shared-entities";
-import { Image } from "core/dataDisplay/image";
+} from "core/dataDisplay/image";
 import {
   DragAndDropContextProvider,
   useDragItem,
@@ -12,6 +12,7 @@ import {
 } from "core/dragAndDrop";
 import { Placeholder, Placeholders } from "core/loaders/placeholder";
 import { showSnackbar, Snackbar } from "core/popovers/snackbar";
+import { SetStateAction } from "core/types";
 import { useRef, useState } from "react";
 import { FaImages, FaTrash } from "react-icons/fa";
 import styled from "styled-components";
@@ -43,7 +44,7 @@ const PictureItemPreviewElement = styled(Image)`
 
 type ImageInputProps = {
   value: ImageFileOrId[];
-  onChange: React.Dispatch<React.SetStateAction<ImageFileOrId[]>>;
+  onChange: React.Dispatch<SetStateAction<ImageFileOrId[]>>;
 };
 
 export function ImageInput({ value, onChange }: ImageInputProps) {
@@ -259,7 +260,7 @@ const PicturePlaceholderItem = styled.li`
 
 type ImageGalleryInputProps = {
   value: ImageFileOrId[];
-  onChange: React.Dispatch<React.SetStateAction<ImageFileOrId[]>>;
+  onChange: React.Dispatch<SetStateAction<ImageFileOrId[]>>;
   onRemoveImage: React.Dispatch<ImageFileOrId>;
 };
 

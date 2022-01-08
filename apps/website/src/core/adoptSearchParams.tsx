@@ -1,9 +1,4 @@
-import {
-  AnimalAge,
-  AnimalSpecies,
-  isAnimalAge,
-  isAnimalSpecies,
-} from "@animeaux/shared-entities/build/animal";
+import { AnimalAge, AnimalSpecies } from "@animeaux/shared";
 
 type AdoptSearchParamsConstructorParams = {
   animalSpecies?: AnimalSpecies | null;
@@ -66,4 +61,12 @@ export class AdoptSearchParams {
   toString(): string {
     return `AdoptSearchParams { species: "${this.animalSpecies}", age: "${this.animalAge}" }`;
   }
+}
+
+function isAnimalSpecies(value: any): value is AnimalSpecies {
+  return Object.values(AnimalSpecies).includes(value as AnimalSpecies);
+}
+
+function isAnimalAge(value: any): value is AnimalAge {
+  return Object.values(AnimalAge).includes(value as AnimalAge);
 }

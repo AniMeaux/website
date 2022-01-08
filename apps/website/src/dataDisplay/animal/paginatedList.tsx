@@ -1,27 +1,29 @@
-import { PublicSearchableAnimal } from "@animeaux/shared-entities/build/animal";
-import { PaginatedResponse } from "@animeaux/shared-entities/build/pagination";
+import {
+  OperationPaginationResult,
+  PublicAnimalSearchHit,
+} from "@animeaux/shared";
 import { PageForm } from "controllers/pageForm";
 import { ReactNode } from "react";
 import styles from "./paginatedList.module.css";
 
 export type AnimalPaginatedListProps = {
-  response: PaginatedResponse<PublicSearchableAnimal>;
-  renderCard: (animal: PublicSearchableAnimal) => ReactNode;
+  result: OperationPaginationResult<PublicAnimalSearchHit>;
+  renderCard: (animal: PublicAnimalSearchHit) => ReactNode;
 };
 
 export function AnimalPaginatedList({
-  response,
+  result,
   renderCard,
 }: AnimalPaginatedListProps) {
   return (
     <div>
       <ul className={styles.cards}>
-        {response.hits.map((animal) => (
+        {result.hits.map((animal) => (
           <li key={animal.id}>{renderCard(animal)}</li>
         ))}
       </ul>
 
-      <PageForm pageCount={response.pageCount} className={styles.pages} />
+      <PageForm pageCount={result.pageCount} className={styles.pages} />
     </div>
   );
 }

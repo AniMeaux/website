@@ -1,8 +1,6 @@
-import {
-  AnimalSpeciesLabels,
-  ANIMAL_SPECIES_ALPHABETICAL_ORDER,
-} from "@animeaux/shared-entities/build/animal";
+import { AnimalSpecies } from "@animeaux/shared";
 import { AdoptSearchParams } from "core/adoptSearchParams";
+import { ANIMAL_SPECIES_LABELS } from "core/labels";
 import { Link, LinkProps } from "core/link";
 import { AnimalSpeciesIcon } from "dataDisplay/animalSpeciesIcon";
 import {
@@ -17,13 +15,13 @@ export function AdoptionMenu() {
   return (
     <>
       <TagList>
-        {ANIMAL_SPECIES_ALPHABETICAL_ORDER.map((animalSpecies) => (
+        {Object.values(AnimalSpecies).map((animalSpecies) => (
           <TagListItem key={animalSpecies}>
             <TagLink href={new AdoptSearchParams({ animalSpecies }).toUrl()}>
               <TagIcon>
                 <AnimalSpeciesIcon species={animalSpecies} />
               </TagIcon>
-              <TagContent>{AnimalSpeciesLabels[animalSpecies]}</TagContent>
+              <TagContent>{ANIMAL_SPECIES_LABELS[animalSpecies]}</TagContent>
             </TagLink>
           </TagListItem>
         ))}

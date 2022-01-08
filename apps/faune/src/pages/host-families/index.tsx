@@ -1,36 +1,68 @@
-import { UserGroup } from "@animeaux/shared-entities";
+import { HostFamilyBrief, UserGroup } from "@animeaux/shared";
 import { QuickLinkAction } from "core/actions/quickAction";
+import { Avatar, AvatarPlaceholder } from "core/dataDisplay/avatar";
+import { EmptyMessage } from "core/dataDisplay/emptyMessage";
+import {
+  Item,
+  ItemContent,
+  ItemIcon,
+  ItemMainText,
+  ItemSecondaryText,
+  LinkItem,
+} from "core/dataDisplay/item";
 import { ApplicationLayout } from "core/layouts/applicationLayout";
+import { ErrorPage } from "core/layouts/errorPage";
 import { Header, HeaderTitle, HeaderUserAvatar } from "core/layouts/header";
 import { Main } from "core/layouts/main";
 import { Navigation } from "core/layouts/navigation";
 import { Section } from "core/layouts/section";
 import { usePageScrollRestoration } from "core/layouts/usePageScroll";
+import { Placeholder, Placeholders } from "core/loaders/placeholder";
+import { useOperationQuery } from "core/operations";
 import { PageTitle } from "core/pageTitle";
-import { renderInfiniteItemList } from "core/request";
 import { PageComponent } from "core/types";
-import {
-  HostFamilyItemPlaceholder,
-  HostFamilyLinkItem,
-} from "hostFamily/hostFamilyItems";
-import { useAllHostFamilies } from "hostFamily/hostFamilyQueries";
-import { FaPlus } from "react-icons/fa";
+import { FaHome, FaPlus } from "react-icons/fa";
 
 const TITLE = "Familles d'accueil";
 
 const HostFamilyListPage: PageComponent = () => {
   usePageScrollRestoration();
 
-  const query = useAllHostFamilies();
-  const { content, title } = renderInfiniteItemList(query, {
-    title: TITLE,
-    getItemKey: (hostFamily) => hostFamily.id,
-    renderPlaceholderItem: () => <HostFamilyItemPlaceholder />,
-    emptyMessage: "Il n'y a pas encore de famille d'accueil",
-    renderItem: (hostFamily) => (
-      <HostFamilyLinkItem hostFamily={hostFamily} href={`./${hostFamily.id}`} />
-    ),
-  });
+  const getAllHostFamilies = useOperationQuery({ name: "getAllHostFamilies" });
+
+  if (getAllHostFamilies.state === "error") {
+    return <ErrorPage status={getAllHostFamilies.status} />;
+  }
+
+  let content: React.ReactNode = null;
+
+  if (getAllHostFamilies.state === "success") {
+    if (getAllHostFamilies.result.length === 0) {
+      content = (
+        <EmptyMessage>Il n'y a pas encore de famille d'accueil</EmptyMessage>
+      );
+    } else {
+      content = (
+        <ul>
+          {getAllHostFamilies.result.map((hostFamily) => (
+            <li key={hostFamily.id}>
+              <HostFamilyLinkItem hostFamily={hostFamily} />
+            </li>
+          ))}
+        </ul>
+      );
+    }
+  } else {
+    content = (
+      <ul>
+        <Placeholders count={5}>
+          <li>
+            <HostFamilyItemPlaceholder />
+          </li>
+        </Placeholders>
+      </ul>
+    );
+  }
 
   return (
     <ApplicationLayout>
@@ -38,7 +70,11 @@ const HostFamilyListPage: PageComponent = () => {
 
       <Header>
         <HeaderUserAvatar />
-        <HeaderTitle>{title}</HeaderTitle>
+        <HeaderTitle>
+          {TITLE}{" "}
+          {getAllHostFamilies.state === "success" &&
+            `(${getAllHostFamilies.result.length})`}
+        </HeaderTitle>
       </Header>
 
       <Main>
@@ -60,3 +96,40 @@ HostFamilyListPage.authorisedGroups = [
 ];
 
 export default HostFamilyListPage;
+
+function HostFamilyLinkItem({ hostFamily }: { hostFamily: HostFamilyBrief }) {
+  return (
+    <LinkItem href={`./${hostFamily.id}`}>
+      <ItemIcon>
+        <Avatar>
+          <FaHome />
+        </Avatar>
+      </ItemIcon>
+
+      <ItemContent>
+        <ItemMainText>{hostFamily.name}</ItemMainText>
+        <ItemSecondaryText>{hostFamily.location}</ItemSecondaryText>
+      </ItemContent>
+    </LinkItem>
+  );
+}
+
+function HostFamilyItemPlaceholder() {
+  return (
+    <Item>
+      <ItemIcon>
+        <AvatarPlaceholder />
+      </ItemIcon>
+
+      <ItemContent>
+        <ItemMainText>
+          <Placeholder $preset="label" />
+        </ItemMainText>
+
+        <ItemSecondaryText>
+          <Placeholder $preset="text" />
+        </ItemSecondaryText>
+      </ItemContent>
+    </Item>
+  );
+}

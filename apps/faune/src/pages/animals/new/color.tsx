@@ -1,55 +1,85 @@
-import { UserGroup } from "@animeaux/shared-entities";
-import { AnimalFormProvider, useAnimalForm } from "animal/animalCreation";
+import { UserGroup } from "@animeaux/shared";
 import {
+  AnimalColorItemPlaceholder,
   AnimalColorSearchItem,
-  AnimalColorSearchItemPlaceholder,
-} from "animalColor/animalColorItems";
-import { useAllAnimalColors } from "animalColor/animalColorQueries";
-import { Button } from "core/actions/button";
-import { SearchInput, useSearch } from "core/formElements/searchInput";
+} from "animal/color/searchItems";
+import { AnimalFormProvider, useAnimalForm } from "animal/creation";
+import { useSearchParams } from "core/baseSearchParams";
+import { EmptyMessage } from "core/dataDisplay/emptyMessage";
+import {
+  QSearchParams,
+  SearchParamsInput,
+} from "core/formElements/searchParamsInput";
 import { ApplicationLayout } from "core/layouts/applicationLayout";
+import { ErrorPage } from "core/layouts/errorPage";
 import { Header, HeaderBackLink } from "core/layouts/header";
 import { Main } from "core/layouts/main";
 import { Navigation } from "core/layouts/navigation";
 import { Section } from "core/layouts/section";
+import { Placeholders } from "core/loaders/placeholder";
+import { useOperationQuery } from "core/operations";
 import { PageTitle } from "core/pageTitle";
-import { renderInfiniteItemList } from "core/request";
 import { useRouter } from "core/router";
 import { PageComponent } from "core/types";
 
 const CreateAnimalColorPage: PageComponent = () => {
-  const { formPayload, setFormPayload } = useAnimalForm();
+  const { profileState, setProfileState } = useAnimalForm();
   const router = useRouter();
-  const { search, rawSearch, setRawSearch } = useSearch("");
 
-  const query = useAllAnimalColors({ search });
-  const { content } = renderInfiniteItemList(query, {
-    hasSearch: search !== "",
-    getItemKey: (animalColor) => animalColor.id,
-    renderPlaceholderItem: () => <AnimalColorSearchItemPlaceholder />,
-    emptyMessage: "Il n'y a pas encore de couleur",
-    emptySearchMessage: "Aucune couleur trouvée",
-    renderEmptySearchAction: () => (
-      <Button onClick={() => setRawSearch("")}>Effacer la recherche</Button>
-    ),
-    renderItem: (animalColor) => (
-      <AnimalColorSearchItem
-        animalColor={animalColor}
-        highlight={animalColor.id === formPayload.color?.id}
-        onClick={() => {
-          setFormPayload((payload) => ({ ...payload, color: animalColor }));
-          router.backIfPossible("../profile");
-        }}
-      />
-    ),
+  const searchParams = useSearchParams(() => new QSearchParams());
+  const searchAnimalColors = useOperationQuery({
+    name: "searchAnimalColors",
+    params: { search: searchParams.getQ() },
   });
+
+  if (searchAnimalColors.state === "error") {
+    return <ErrorPage status={searchAnimalColors.status} />;
+  }
+
+  let content: React.ReactNode;
+
+  if (searchAnimalColors.state === "success") {
+    if (searchAnimalColors.result.length === 0) {
+      content = <EmptyMessage>Aucune couleur trouvée</EmptyMessage>;
+    } else {
+      content = (
+        <ul>
+          {searchAnimalColors.result.map((animalColor) => (
+            <li key={animalColor.id}>
+              <AnimalColorSearchItem
+                animalColor={animalColor}
+                highlight={animalColor.id === profileState.color?.id}
+                onClick={() => {
+                  setProfileState((prevState) => ({
+                    ...prevState,
+                    color: animalColor,
+                  }));
+                  router.backIfPossible("../profile");
+                }}
+              />
+            </li>
+          ))}
+        </ul>
+      );
+    }
+  } else {
+    content = (
+      <ul>
+        <Placeholders count={5}>
+          <li>
+            <AnimalColorItemPlaceholder />
+          </li>
+        </Placeholders>
+      </ul>
+    );
+  }
 
   return (
     <ApplicationLayout>
       <PageTitle title="Nouvel animal" />
       <Header>
         <HeaderBackLink href="../profile" />
-        <SearchInput value={rawSearch} onChange={setRawSearch} />
+        <SearchParamsInput placeholder="Chercher une couleur" />
       </Header>
 
       <Main>
@@ -61,7 +91,9 @@ const CreateAnimalColorPage: PageComponent = () => {
   );
 };
 
-CreateAnimalColorPage.WrapperComponent = AnimalFormProvider;
+CreateAnimalColorPage.renderLayout = ({ children }) => {
+  return <AnimalFormProvider>{children}</AnimalFormProvider>;
+};
 
 CreateAnimalColorPage.authorisedGroups = [
   UserGroup.ADMIN,

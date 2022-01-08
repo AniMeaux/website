@@ -18,6 +18,7 @@ type DateInputProps = Omit<
   StyleProps & {
     value?: string;
     onChange?: (value: string) => void;
+    hasError?: boolean;
   };
 
 export function DateInput({

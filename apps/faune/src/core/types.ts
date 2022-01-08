@@ -1,9 +1,9 @@
-import { UserGroup } from "@animeaux/shared-entities";
+import { UserGroup } from "@animeaux/shared";
 import { NextPage } from "next";
 
-export type PageComponent<Props = {}> = NextPage<Props> & {
+export type PageComponent<TProps = {}> = NextPage<TProps> & {
   authorisedGroups?: UserGroup[];
-  WrapperComponent?: React.ElementType;
+  renderLayout?: (props: TProps & Required<ChildrenProp>) => React.ReactElement;
 };
 
 export type ChildrenProp = {
@@ -41,3 +41,5 @@ export type HtmlInputProps = {
 export type A11yProps = {
   title?: string;
 };
+
+export type SetStateAction<StateType> = (prevState: StateType) => StateType;

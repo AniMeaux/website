@@ -1,4 +1,4 @@
-import { User, UserGroup } from "@animeaux/shared-entities";
+import { User, UserGroup } from "@animeaux/shared";
 import { useCurrentUser } from "account/currentUser";
 import { useRouter } from "core/router";
 import { PageComponent } from "core/types";

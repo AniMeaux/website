@@ -1,4 +1,4 @@
-import { AnimalGender } from "@animeaux/shared-entities";
+import { AnimalGender } from "@animeaux/shared";
 import { IconBaseProps } from "react-icons";
 import { FaMars, FaVenus } from "react-icons/fa";
 

@@ -4,15 +4,19 @@ import "styles/index.css";
 
 import { CurrentUserContextProvider } from "account/currentUser";
 import { Button } from "core/actions/button";
-import { ErrorMessage } from "core/dataDisplay/errorMessage";
+import { ErrorPage } from "core/layouts/errorPage";
 import { PageHead } from "core/pageHead";
 import { SnackbarContainer } from "core/popovers/snackbar";
 import { RequestContextProvider } from "core/request";
 import { ScreenSizeContextProvider } from "core/screenSize";
 import { Sentry } from "core/sentry";
 import { PageComponent } from "core/types";
+import "core/yup";
+import { Settings } from "luxon";
 import { AppProps } from "next/app";
 import { GlobalStyles, ResetStyles } from "styles/theme";
+
+Settings.defaultLocale = "fr";
 
 type ApplicationProps = Omit<AppProps, "Component"> & {
   Component: PageComponent;
@@ -20,11 +24,8 @@ type ApplicationProps = Omit<AppProps, "Component"> & {
 
 export default function App({ Component, pageProps }: ApplicationProps) {
   let children = <Component {...pageProps} />;
-
-  if (Component.WrapperComponent != null) {
-    children = (
-      <Component.WrapperComponent>{children}</Component.WrapperComponent>
-    );
+  if (Component.renderLayout != null) {
+    children = Component.renderLayout({ ...pageProps, children });
   }
 
   return (
@@ -35,19 +36,17 @@ export default function App({ Component, pageProps }: ApplicationProps) {
 
       <Sentry.ErrorBoundary
         fallback={() => (
-          <main>
-            <ErrorMessage
-              type="serverError"
-              action={
-                <Button
-                  variant="primary"
-                  onClick={() => window.location.reload()}
-                >
-                  Rafraîchir
-                </Button>
-              }
-            />
-          </main>
+          <ErrorPage
+            status={500}
+            action={
+              <Button
+                variant="primary"
+                onClick={() => window.location.reload()}
+              >
+                Rafraîchir
+              </Button>
+            }
+          />
         )}
       >
         <ScreenSizeContextProvider>

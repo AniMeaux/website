@@ -1,11 +1,7 @@
-import {
-  sortGroupsByLabel,
-  User,
-  UserGroup,
-  UserGroupLabels,
-} from "@animeaux/shared-entities";
+import { User, UserGroup } from "@animeaux/shared";
 import { useCurrentUser } from "account/currentUser";
 import { QuickActions } from "core/actions/quickAction";
+import { Info } from "core/dataDisplay/info";
 import {
   ButtonItem,
   Item,
@@ -15,35 +11,154 @@ import {
   LinkItem,
 } from "core/dataDisplay/item";
 import { ApplicationLayout } from "core/layouts/applicationLayout";
+import { ErrorPage } from "core/layouts/errorPage";
 import { Header, HeaderBackLink, HeaderTitle } from "core/layouts/header";
 import { Main } from "core/layouts/main";
 import { Navigation } from "core/layouts/navigation";
 import { Section, SectionTitle } from "core/layouts/section";
 import { Separator } from "core/layouts/separator";
 import { Placeholder, Placeholders } from "core/loaders/placeholder";
+import {
+  OperationMutationResponse,
+  useOperationMutation,
+  useOperationQuery,
+} from "core/operations";
 import { PageTitle } from "core/pageTitle";
 import { useModal } from "core/popovers/modal";
-import { renderQueryEntity } from "core/request";
 import { useRouter } from "core/router";
 import { PageComponent } from "core/types";
-import { withConfirmation } from "core/withConfirmation";
+import invariant from "invariant";
 import {
   FaAngleRight,
   FaBan,
   FaEnvelope,
+  FaExclamationTriangle,
   FaPen,
+  FaTimesCircle,
   FaTrash,
 } from "react-icons/fa";
-import { UserGroupIcon } from "user/userGroupIcon";
-import {
-  useDeleteUser,
-  useToggleUserBlockedStatus,
-  useUser,
-} from "user/userQueries";
+import { UserGroupIcon } from "user/group/icon";
+import { USER_GROUP_LABELS } from "user/group/labels";
 
-type UserProp = {
-  user: User;
+const UserPage: PageComponent = () => {
+  const router = useRouter();
+
+  invariant(
+    typeof router.query.userId === "string",
+    `The userId path should be a string. Got '${typeof router.query.userId}'`
+  );
+
+  const getUser = useOperationQuery({
+    name: "getUser",
+    params: { id: router.query.userId },
+  });
+
+  const toggleUserBlockedStatus = useOperationMutation(
+    "toggleUserBlockedStatus",
+    {
+      onSuccess: (response, cache) => {
+        cache.set(
+          { name: "getUser", params: { id: response.result.id } },
+          response.result
+        );
+
+        cache.invalidate({ name: "getAllUsers" });
+      },
+    }
+  );
+
+  const deleteUser = useOperationMutation("deleteUser", {
+    onSuccess: (response, cache) => {
+      cache.remove({
+        name: "getUser",
+        params: { id: response.body.params.id },
+      });
+
+      cache.invalidate({ name: "getAllUsers" });
+      router.backIfPossible("..");
+    },
+  });
+
+  if (getUser.state === "error") {
+    return <ErrorPage status={getUser.status} />;
+  }
+
+  let content: React.ReactNode = null;
+
+  if (getUser.state === "success") {
+    content = (
+      <>
+        {toggleUserBlockedStatus.state === "error" && (
+          <Section>
+            <Info variant="error" icon={<FaTimesCircle />}>
+              {getUser.result.displayName} n'a pas pu être{" "}
+              {getUser.result.disabled ? "débloqué" : "bloqué"}.
+            </Info>
+          </Section>
+        )}
+
+        {deleteUser.state === "error" && (
+          <Section>
+            <Info variant="error" icon={<FaTimesCircle />}>
+              {getUser.result.displayName} n'a pas pu être supprimé.
+            </Info>
+          </Section>
+        )}
+
+        {getUser.result.disabled && (
+          <Section>
+            <Info variant="warning" icon={<FaExclamationTriangle />}>
+              {getUser.result.displayName} est actuellement bloqué.
+            </Info>
+          </Section>
+        )}
+
+        <ProfileSection user={getUser.result} />
+        <GroupsSection user={getUser.result} />
+
+        <QuickActions icon={<FaPen />}>
+          <ActionsSection
+            user={getUser.result}
+            toggleUserBlockedStatus={toggleUserBlockedStatus}
+            deleteUser={deleteUser}
+          />
+        </QuickActions>
+      </>
+    );
+  } else {
+    content = (
+      <>
+        <ProfilePlaceholderSection />
+        <GroupsPlaceholderSection />
+      </>
+    );
+  }
+
+  const displayName =
+    getUser.state === "success" ? getUser.result.displayName : null;
+
+  return (
+    <ApplicationLayout>
+      <PageTitle title={displayName} />
+
+      <Header>
+        <HeaderBackLink />
+        <HeaderTitle>
+          {displayName ?? <Placeholder $preset="text" />}
+        </HeaderTitle>
+      </Header>
+
+      <Main>{content}</Main>
+      <Navigation onlyLargeEnough />
+    </ApplicationLayout>
+  );
 };
+
+UserPage.authorisedGroups = [UserGroup.ADMIN];
+
+export default UserPage;
+
+type UserProp = { user: User };
 
 function ProfileSection({ user }: UserProp) {
   return (
@@ -95,7 +210,7 @@ function GroupsSection({ user }: UserProp) {
       <SectionTitle>Groupes</SectionTitle>
 
       <ul>
-        {sortGroupsByLabel(user.groups).map((group) => (
+        {user.groups.map((group) => (
           <li key={group}>
             <Item>
               <ItemIcon>
@@ -103,7 +218,7 @@ function GroupsSection({ user }: UserProp) {
               </ItemIcon>
 
               <ItemContent>
-                <ItemMainText>{UserGroupLabels[group]}</ItemMainText>
+                <ItemMainText>{USER_GROUP_LABELS[group]}</ItemMainText>
               </ItemContent>
             </Item>
           </li>
@@ -141,27 +256,34 @@ function GroupsPlaceholderSection() {
   );
 }
 
-function BlockUserButton({ user }: UserProp) {
+type BlockUserButtonProps = UserProp & {
+  toggleUserBlockedStatus: OperationMutationResponse<"toggleUserBlockedStatus">;
+};
+
+function BlockUserButton({
+  user,
+  toggleUserBlockedStatus,
+}: BlockUserButtonProps) {
   const { currentUser } = useCurrentUser();
   const { onDismiss } = useModal();
-  const [toggleUserBlockedStatus] = useToggleUserBlockedStatus({
-    onSuccess() {
-      onDismiss();
-    },
-  });
 
   // The current user cannot block himself.
   const disabled = currentUser.id === user.id;
 
-  const confirmationMessage = user.disabled
-    ? `Êtes-vous sûr de vouloir débloquer ${user.displayName} ?`
-    : `Êtes-vous sûr de vouloir bloquer ${user.displayName} ?`;
-
   return (
     <ButtonItem
-      onClick={withConfirmation(confirmationMessage, () => {
-        toggleUserBlockedStatus(user.id);
-      })}
+      onClick={() => {
+        if (toggleUserBlockedStatus.state !== "loading") {
+          const confirmationMessage = user.disabled
+            ? `Êtes-vous sûr de vouloir débloquer ${user.displayName} ?`
+            : `Êtes-vous sûr de vouloir bloquer ${user.displayName} ?`;
+
+          if (window.confirm(confirmationMessage)) {
+            onDismiss();
+            toggleUserBlockedStatus.mutate({ id: user.id });
+          }
+        }
+      }}
       color="yellow"
       disabled={disabled}
       title={
@@ -181,51 +303,16 @@ function BlockUserButton({ user }: UserProp) {
   );
 }
 
-function DeleteUserButton({ user }: UserProp) {
-  const { currentUser } = useCurrentUser();
+type ActionsSectionProps = UserProp & {
+  toggleUserBlockedStatus: OperationMutationResponse<"toggleUserBlockedStatus">;
+  deleteUser: OperationMutationResponse<"deleteUser">;
+};
 
-  const router = useRouter();
-  const { onDismiss } = useModal();
-  const [deleteUser] = useDeleteUser({
-    onSuccess() {
-      onDismiss();
-      router.backIfPossible("..");
-    },
-  });
-
-  // The current user cannot delete himself.
-  const disabled = currentUser.id === user.id;
-
-  const confirmationMessage = [
-    `Êtes-vous sûr de vouloir supprimer ${user.displayName} ?`,
-    "L'action est irréversible.",
-  ].join("\n");
-
-  return (
-    <ButtonItem
-      onClick={withConfirmation(confirmationMessage, () => {
-        deleteUser(user.id);
-      })}
-      color="red"
-      disabled={disabled}
-      title={
-        disabled
-          ? "Vous ne pouvez pas supprimer votre propre utilisateur"
-          : undefined
-      }
-    >
-      <ItemIcon>
-        <FaTrash />
-      </ItemIcon>
-
-      <ItemContent>
-        <ItemMainText>Supprimer</ItemMainText>
-      </ItemContent>
-    </ButtonItem>
-  );
-}
-
-function ActionsSection({ user }: UserProp) {
+function ActionsSection({
+  user,
+  toggleUserBlockedStatus,
+  deleteUser,
+}: ActionsSectionProps) {
   const { onDismiss } = useModal();
 
   return (
@@ -249,53 +336,58 @@ function ActionsSection({ user }: UserProp) {
       <Separator />
 
       <Section>
-        <BlockUserButton user={user} />
-        <DeleteUserButton user={user} />
+        <BlockUserButton
+          user={user}
+          toggleUserBlockedStatus={toggleUserBlockedStatus}
+        />
+
+        <DeleteUserButton user={user} deleteUser={deleteUser} />
       </Section>
     </>
   );
 }
 
-const UserPage: PageComponent = () => {
-  const router = useRouter();
-  const userId = router.query.userId as string;
-  const query = useUser(userId);
-
-  const { pageTitle, headerTitle, content } = renderQueryEntity(query, {
-    getDisplayedText: (user) => user.displayName,
-    renderPlaceholder: () => (
-      <>
-        <ProfilePlaceholderSection />
-        <GroupsPlaceholderSection />
-      </>
-    ),
-    renderEntity: (user) => (
-      <>
-        <ProfileSection user={user} />
-        <GroupsSection user={user} />
-
-        <QuickActions icon={<FaPen />}>
-          <ActionsSection user={user} />
-        </QuickActions>
-      </>
-    ),
-  });
-
-  return (
-    <ApplicationLayout>
-      <PageTitle title={pageTitle} />
-
-      <Header>
-        <HeaderBackLink />
-        <HeaderTitle>{headerTitle}</HeaderTitle>
-      </Header>
-
-      <Main>{content}</Main>
-      <Navigation onlyLargeEnough />
-    </ApplicationLayout>
-  );
+type DeleteUserButtonProps = UserProp & {
+  deleteUser: OperationMutationResponse<"deleteUser">;
 };
 
-UserPage.authorisedGroups = [UserGroup.ADMIN];
+function DeleteUserButton({ user, deleteUser }: DeleteUserButtonProps) {
+  const { currentUser } = useCurrentUser();
+  const { onDismiss } = useModal();
 
-export default UserPage;
+  // The current user cannot delete himself.
+  const disabled = currentUser.id === user.id;
+
+  return (
+    <ButtonItem
+      onClick={() => {
+        if (deleteUser.state !== "loading") {
+          const confirmationMessage = [
+            `Êtes-vous sûr de vouloir supprimer ${user.displayName} ?`,
+            "L'action est irréversible.",
+          ].join("\n");
+
+          if (window.confirm(confirmationMessage)) {
+            onDismiss();
+            deleteUser.mutate({ id: user.id });
+          }
+        }
+      }}
+      color="red"
+      disabled={disabled}
+      title={
+        disabled
+          ? "Vous ne pouvez pas supprimer votre propre utilisateur"
+          : undefined
+      }
+    >
+      <ItemIcon>
+        <FaTrash />
+      </ItemIcon>
+
+      <ItemContent>
+        <ItemMainText>Supprimer</ItemMainText>
+      </ItemContent>
+    </ButtonItem>
+  );
+}

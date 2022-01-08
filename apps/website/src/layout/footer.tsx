@@ -1,8 +1,6 @@
-import {
-  AnimalSpeciesLabels,
-  ANIMAL_SPECIES_ALPHABETICAL_ORDER,
-} from "@animeaux/shared-entities/build/animal";
+import { AnimalSpecies } from "@animeaux/shared";
 import { AdoptSearchParams } from "core/adoptSearchParams";
+import { ANIMAL_SPECIES_LABELS } from "core/labels";
 import { Link } from "core/link";
 import { useState } from "react";
 import {
@@ -25,12 +23,12 @@ export function Footer() {
           <FooterSectionTitle>Adoption</FooterSectionTitle>
 
           <FooterLinkList>
-            {ANIMAL_SPECIES_ALPHABETICAL_ORDER.map((animalSpecies) => (
+            {Object.values(AnimalSpecies).map((animalSpecies) => (
               <li key={animalSpecies}>
                 <FooterLink
                   href={new AdoptSearchParams({ animalSpecies }).toUrl()}
                 >
-                  {AnimalSpeciesLabels[animalSpecies]}
+                  {ANIMAL_SPECIES_LABELS[animalSpecies]}
                 </FooterLink>
               </li>
             ))}

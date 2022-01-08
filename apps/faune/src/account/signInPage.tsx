@@ -1,5 +1,5 @@
-import { ErrorCode, getErrorCode } from "@animeaux/shared-entities";
-import { firebase } from "core/firebase";
+import { Info } from "core/dataDisplay/info";
+import { firebase, isFirebaseError } from "core/firebase";
 import { Adornment } from "core/formElements/adornment";
 import { Field, Fields } from "core/formElements/field";
 import { Form as BaseForm } from "core/formElements/form";
@@ -7,59 +7,92 @@ import { Input } from "core/formElements/input";
 import { Label } from "core/formElements/label";
 import { PasswordInput } from "core/formElements/passwordInput";
 import { SubmitButton } from "core/formElements/submitButton";
+import { BaseValidationError } from "core/formValidation";
 import { AppIcon } from "core/icons/appIcon";
+import { includes } from "core/includes";
+import { joinReactNodes } from "core/joinReactNodes";
 import { PageTitle } from "core/pageTitle";
-import { useMutation } from "core/request";
 import { ScreenSize, useScreenSize } from "core/screenSize";
-import { Sentry } from "core/sentry";
+import { SetStateAction } from "core/types";
+import invariant from "invariant";
+import uniq from "lodash.uniq";
+import without from "lodash.without";
 import { useState } from "react";
 import { FaCheckCircle, FaEnvelope, FaLock } from "react-icons/fa";
+import { useMutation } from "react-query";
 import styled, { keyframes } from "styled-components";
 import { theme } from "styles/theme";
+import { string } from "yup";
 
-function isAuthError(error: unknown): boolean {
-  if (error instanceof Error) {
-    return [
-      ErrorCode.AUTH_INVALID_EMAIL,
-      ErrorCode.AUTH_USER_DISABLED,
-      ErrorCode.AUTH_USER_NOT_FOUND,
-      ErrorCode.AUTH_WRONG_PASSWORD,
-    ].includes(getErrorCode(error));
-  }
+type ErrorCode = "server-error" | "invalid-credentials";
 
-  return false;
-}
+class ValidationError extends BaseValidationError<ErrorCode> {}
+
+const ERROR_CODE_LABEL: Record<ErrorCode, string> = {
+  "server-error": "Une erreur est survenue, veuillez réessayer ultérieurement.",
+  "invalid-credentials": "Identifiants invalides.",
+};
+
+type FormState = {
+  email: string;
+  password: string;
+  errors: ErrorCode[];
+};
+
+const INITIAL_STATE: FormState = {
+  email: "",
+  password: "",
+  errors: [],
+};
+
+type FormValue = Omit<FormState, "errors">;
+
+const INVALID_CREDENTIALS_ERROR_CODES = [
+  "auth/invalid-email",
+  "auth/user-disabled",
+  "auth/user-not-found",
+  "auth/wrong-password",
+];
 
 export function SignInPage() {
-  const mutation = useMutation<
-    void,
-    Error,
-    { email: string; password: string }
-  >(
-    async ({ email, password }) => {
-      try {
-        await firebase.auth().signInWithEmailAndPassword(email, password);
-      } catch (error) {
-        if (isAuthError(error)) {
-          throw new Error("Identifiants invalides, veuillez réessayer");
-        } else {
-          Sentry.captureException(error, { extra: { email } });
+  const [state, setState] = useState(INITIAL_STATE);
 
-          throw new Error(
-            "un problème est survenu, veuillez réessayer ultérieurement"
-          );
-        }
-      }
-    },
-    {
-      // Relevant errors are reported here.
-      disableSentry: true,
+  const signIn = useMutation<void, Error, FormValue>(
+    async ({ email, password }) => {
+      await firebase.auth().signInWithEmailAndPassword(email, password);
     }
   );
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  async function handleSubmit() {
+    if (!signIn.isLoading) {
+      try {
+        signIn.mutate(validate(state));
+      } catch (error) {
+        invariant(
+          error instanceof ValidationError,
+          "The error is expected to be a ValidationError error"
+        );
+
+        setState(setErrors(error.codes));
+      }
+    }
+  }
+
   const { screenSize } = useScreenSize();
+
+  let errors = [...state.errors];
+  if (signIn.status === "error") {
+    if (
+      isFirebaseError(signIn.error) &&
+      INVALID_CREDENTIALS_ERROR_CODES.includes(signIn.error.code)
+    ) {
+      errors.push("invalid-credentials");
+    } else {
+      errors.push("server-error");
+    }
+  }
+
+  errors = uniq(errors);
 
   return (
     <>
@@ -69,17 +102,26 @@ export function SignInPage() {
         {screenSize >= ScreenSize.LARGE && <Image />}
 
         <Main>
-          <Form
-            onSubmit={() => mutation.mutate({ email, password })}
-            pending={mutation.isLoading}
-          >
+          <Form onSubmit={handleSubmit}>
             <Logo />
 
             <Title>Bienvenue</Title>
 
+            {errors.length > 0 && (
+              <Info variant="error">
+                {joinReactNodes(
+                  errors.map((error) => ERROR_CODE_LABEL[error]),
+                  <br />
+                )}
+              </Info>
+            )}
+
             <Fields>
               <Field>
-                <Label htmlFor="email" hasError={mutation.isError}>
+                <Label
+                  htmlFor="email"
+                  hasError={includes(errors, "invalid-credentials")}
+                >
                   Email
                 </Label>
 
@@ -88,10 +130,9 @@ export function SignInPage() {
                   id="email"
                   type="email"
                   autoComplete="email"
-                  value={email}
-                  onChange={setEmail}
-                  placeholder="ex: jean@mail.fr"
-                  hasError={mutation.isError}
+                  value={state.email}
+                  onChange={(email) => setState(setEmail(email))}
+                  hasError={includes(errors, "invalid-credentials")}
                   leftAdornment={
                     <Adornment>
                       <FaEnvelope />
@@ -101,7 +142,10 @@ export function SignInPage() {
               </Field>
 
               <Field>
-                <Label htmlFor="password" hasError={mutation.isError}>
+                <Label
+                  htmlFor="password"
+                  hasError={includes(errors, "invalid-credentials")}
+                >
                   Mot de passe
                 </Label>
 
@@ -109,9 +153,9 @@ export function SignInPage() {
                   name="password"
                   id="password"
                   autoComplete="current-password"
-                  value={password}
-                  onChange={setPassword}
-                  hasError={mutation.isError}
+                  value={state.password}
+                  onChange={(password) => setState(setPassword(password))}
+                  hasError={includes(errors, "invalid-credentials")}
                   leftAdornment={
                     <Adornment>
                       <FaLock />
@@ -121,12 +165,12 @@ export function SignInPage() {
               </Field>
             </Fields>
 
-            {mutation.isSuccess ? (
+            {signIn.status === "success" ? (
               <SuccessIcon>
                 <FaCheckCircle />
               </SuccessIcon>
             ) : (
-              <SubmitButton loading={mutation.isLoading}>
+              <SubmitButton loading={signIn.status === "loading"}>
                 Se connecter
               </SubmitButton>
             )}
@@ -135,6 +179,42 @@ export function SignInPage() {
       </Container>
     </>
   );
+}
+
+function setEmail(email: string): SetStateAction<FormState> {
+  return (prevState) => ({
+    ...prevState,
+    email,
+    errors: without(prevState.errors, "invalid-credentials"),
+  });
+}
+
+function setPassword(password: string): SetStateAction<FormState> {
+  return (prevState) => ({
+    ...prevState,
+    password,
+    errors: without(prevState.errors, "invalid-credentials"),
+  });
+}
+
+function setErrors(errors: ErrorCode[]): SetStateAction<FormState> {
+  return (prevState) => ({ ...prevState, errors });
+}
+
+function validate(state: FormState): FormValue {
+  const errorCodes: ErrorCode[] = [];
+
+  if (!string().trim().email().required().isValidSync(state.email)) {
+    errorCodes.push("invalid-credentials");
+  } else if (!string().min(6).required().isValidSync(state.password)) {
+    errorCodes.push("invalid-credentials");
+  }
+
+  if (errorCodes.length > 0) {
+    throw new ValidationError(errorCodes);
+  }
+
+  return { email: state.email, password: state.password };
 }
 
 const Container = styled.div`

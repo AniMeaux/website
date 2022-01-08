@@ -1,7 +1,4 @@
-import {
-  AnimalAge,
-  AnimalSpecies,
-} from "@animeaux/shared-entities/build/animal";
+import { AnimalAge, AnimalSpecies } from "@animeaux/shared";
 import { AdoptSearchParams } from "core/adoptSearchParams";
 import { createAdoptPage } from "elements/adopt/adoptPages";
 

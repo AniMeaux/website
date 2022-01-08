@@ -72,5 +72,10 @@ export function useScreenSize() {
     "useScreenSize should not be used outside of a ScreenSizeContextProvider."
   );
 
+  invariant(
+    context.screenSize !== ScreenSize.UNKNOWN,
+    "useScreenSize should not be used durring SSR as we cannot know the screen size of the user's browser."
+  );
+
   return context;
 }

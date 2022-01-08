@@ -14,6 +14,7 @@ export type TextareaProps = StyleProps &
     value?: string;
     onChange?: (value: string) => void;
     rows?: number;
+    hasError?: boolean;
   };
 
 export function Textarea({
@@ -48,7 +49,6 @@ export function Textarea({
       disabled={disabled}
       leftAdornment={leftAdornment}
       rightAdornment={rightAdornment}
-      hasError={hasError}
       className={className}
       style={style}
     >

@@ -1,21 +1,25 @@
-import { UserGroup } from "@animeaux/shared-entities";
+import { UserGroup } from "@animeaux/shared";
 import { ApplicationLayout } from "core/layouts/applicationLayout";
 import { Header, HeaderBackLink, HeaderTitle } from "core/layouts/header";
 import { Main } from "core/layouts/main";
 import { Navigation } from "core/layouts/navigation";
+import { useOperationMutation } from "core/operations";
 import { PageTitle } from "core/pageTitle";
 import { useRouter } from "core/router";
 import { PageComponent } from "core/types";
-import {
-  getHostFamilyFormErrors,
-  HostFamilyForm,
-} from "hostFamily/hostFamilyForm";
-import { useCreateHostFamily } from "hostFamily/hostFamilyQueries";
+import { HostFamilyForm } from "hostFamily/form";
 
 const CreateHostFamilyPage: PageComponent = () => {
   const router = useRouter();
-  const [createHostFamily, { error, isLoading }] = useCreateHostFamily({
-    onSuccess() {
+
+  const createHostFamily = useOperationMutation("createHostFamily", {
+    onSuccess: (response, cache) => {
+      cache.set(
+        { name: "getHostFamily", params: { id: response.result.id } },
+        response.result
+      );
+
+      cache.invalidate({ name: "getAllHostFamilies" });
       router.backIfPossible("..");
     },
   });
@@ -31,9 +35,13 @@ const CreateHostFamilyPage: PageComponent = () => {
 
       <Main>
         <HostFamilyForm
-          onSubmit={createHostFamily}
-          pending={isLoading}
-          errors={getHostFamilyFormErrors(error)}
+          onSubmit={(hostFamily) => createHostFamily.mutate(hostFamily)}
+          pending={createHostFamily.state === "loading"}
+          serverErrors={
+            createHostFamily.state === "error"
+              ? [createHostFamily.errorResult?.code ?? "server-error"]
+              : []
+          }
         />
       </Main>
 

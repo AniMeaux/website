@@ -1,4 +1,4 @@
-import { User } from "@animeaux/shared-entities";
+import { User } from "@animeaux/shared";
 import { Avatar } from "core/dataDisplay/avatar";
 import styled from "styled-components";
 import { theme } from "styles/theme";

@@ -1,16 +1,8 @@
-import {
-  getHostFamilyFullAddress,
-  HostFamily,
-  UserGroup,
-} from "@animeaux/shared-entities";
-import {
-  SearchableAnimalItemPlaceholder,
-  SearchableAnimalLinkItem,
-} from "animal/animalItems";
-import { useAllAnimals } from "animal/queries";
-import { Button } from "core/actions/button";
+import { OperationResult, UserGroup } from "@animeaux/shared";
 import { QuickActions } from "core/actions/quickAction";
-import { ErrorItem } from "core/dataDisplay/errorMessage";
+import { Avatar, AvatarPlaceholder } from "core/dataDisplay/avatar";
+import { AvatarImage } from "core/dataDisplay/image";
+import { Info } from "core/dataDisplay/info";
 import {
   ButtonItem,
   Item,
@@ -20,33 +12,120 @@ import {
   LinkItem,
 } from "core/dataDisplay/item";
 import { ApplicationLayout } from "core/layouts/applicationLayout";
+import { ErrorPage } from "core/layouts/errorPage";
 import { Header, HeaderBackLink, HeaderTitle } from "core/layouts/header";
 import { Main } from "core/layouts/main";
 import { Navigation } from "core/layouts/navigation";
 import { Section, SectionBox, SectionTitle } from "core/layouts/section";
 import { Separator } from "core/layouts/separator";
 import { Placeholder, Placeholders } from "core/loaders/placeholder";
+import {
+  OperationMutationResponse,
+  useOperationMutation,
+  useOperationQuery,
+} from "core/operations";
 import { PageTitle } from "core/pageTitle";
 import { useModal } from "core/popovers/modal";
-import { renderInfiniteItemList, renderQueryEntity } from "core/request";
 import { useRouter } from "core/router";
-import { ChildrenProp, PageComponent } from "core/types";
-import { withConfirmation } from "core/withConfirmation";
-import {
-  useDeleteHostFamily,
-  useHostFamily,
-} from "hostFamily/hostFamilyQueries";
+import { PageComponent } from "core/types";
+import invariant from "invariant";
 import {
   FaAngleRight,
   FaEnvelope,
   FaMapMarker,
   FaPen,
   FaPhone,
+  FaTimesCircle,
   FaTrash,
 } from "react-icons/fa";
 
+const HostFamilyPage: PageComponent = () => {
+  const router = useRouter();
+
+  invariant(
+    typeof router.query.hostFamilyId === "string",
+    `The hostFamilyId path should be a string. Got '${typeof router.query
+      .hostFamilyId}'`
+  );
+
+  const getHostFamily = useOperationQuery({
+    name: "getHostFamily",
+    params: { id: router.query.hostFamilyId },
+  });
+
+  const deleteHostFamily = useOperationMutation("deleteHostFamily", {
+    onSuccess: (response, cache) => {
+      cache.remove({
+        name: "getHostFamily",
+        params: { id: response.body.params.id },
+      });
+
+      cache.invalidate({ name: "getAllHostFamilies" });
+      router.backIfPossible("..");
+    },
+  });
+
+  if (getHostFamily.state === "error") {
+    return <ErrorPage status={getHostFamily.status} />;
+  }
+
+  let content: React.ReactNode = null;
+
+  if (getHostFamily.state === "success") {
+    content = (
+      <>
+        {deleteHostFamily.state === "error" && (
+          <Section>
+            <Info variant="error" icon={<FaTimesCircle />}>
+              {getHostFamily.result.name} n'a pas pu être supprimé.
+            </Info>
+          </Section>
+        )}
+
+        <ContactSection hostFamily={getHostFamily.result} />
+        <HostedAnimalsSection hostFamily={getHostFamily.result} />
+
+        <QuickActions icon={<FaPen />}>
+          <ActionsSection
+            hostFamily={getHostFamily.result}
+            deleteHostFamily={deleteHostFamily}
+          />
+        </QuickActions>
+      </>
+    );
+  } else {
+    content = (
+      <>
+        <ContactPlaceholderSection />
+        <HostedAnimalsPlaceholderSection />
+      </>
+    );
+  }
+
+  const name =
+    getHostFamily.state === "success" ? getHostFamily.result.name : null;
+
+  return (
+    <ApplicationLayout>
+      <PageTitle title={name} />
+
+      <Header>
+        <HeaderBackLink />
+        <HeaderTitle>{name ?? <Placeholder $preset="text" />}</HeaderTitle>
+      </Header>
+
+      <Main>{content}</Main>
+      <Navigation onlyLargeEnough />
+    </ApplicationLayout>
+  );
+};
+
+HostFamilyPage.authorisedGroups = [UserGroup.ADMIN, UserGroup.ANIMAL_MANAGER];
+
+export default HostFamilyPage;
+
 type HostFamilyProps = {
-  hostFamily: HostFamily;
+  hostFamily: OperationResult<"getHostFamily">;
 };
 
 function ContactSection({ hostFamily }: HostFamilyProps) {
@@ -80,8 +159,8 @@ function ContactSection({ hostFamily }: HostFamilyProps) {
         <li>
           <LinkItem
             shouldOpenInNewTarget
-            href={`http://maps.google.com/?q=${getHostFamilyFullAddress(
-              hostFamily
+            href={`http://maps.google.com/?q=${encodeURIComponent(
+              hostFamily.formattedAddress
             )}`}
           >
             <ItemIcon>
@@ -89,9 +168,7 @@ function ContactSection({ hostFamily }: HostFamilyProps) {
             </ItemIcon>
 
             <ItemContent>
-              <ItemMainText>
-                {getHostFamilyFullAddress(hostFamily)}
-              </ItemMainText>
+              <ItemMainText>{hostFamily.formattedAddress}</ItemMainText>
             </ItemContent>
           </LinkItem>
         </li>
@@ -102,11 +179,7 @@ function ContactSection({ hostFamily }: HostFamilyProps) {
 
 function ContactPlaceholderSection() {
   return (
-    <Section>
-      <SectionTitle>
-        <Placeholder $preset="text" />
-      </SectionTitle>
-
+    <SectionBox>
       <ul>
         <Placeholders count={3}>
           <li>
@@ -124,53 +197,84 @@ function ContactPlaceholderSection() {
           </li>
         </Placeholders>
       </ul>
-    </Section>
+    </SectionBox>
   );
 }
 
-function DeleteHostFamilyButton({ hostFamily }: HostFamilyProps) {
-  const router = useRouter();
-  const { onDismiss } = useModal();
-  const [deleteHostFamily] = useDeleteHostFamily({
-    onSuccess() {
-      onDismiss();
-      router.backIfPossible("..");
-    },
-  });
+function HostedAnimalsSection({ hostFamily }: HostFamilyProps) {
+  let content: React.ReactNode = null;
 
-  const confirmationMessage = [
-    `Êtes-vous sûr de vouloir supprimer ${hostFamily.name} ?`,
-    "L'action est irréversible.",
-  ].join("\n");
+  if (hostFamily.hostedAnimals.length === 0) {
+    content = <Info variant="info">Aucun animal en accueil.</Info>;
+  } else {
+    content = (
+      <ul>
+        {hostFamily.hostedAnimals.map((animal) => (
+          <li key={animal.id}>
+            <LinkItem href={`/animals/${animal.id}`}>
+              <ItemIcon>
+                <Avatar>
+                  <AvatarImage image={animal.avatarId} alt={animal.name} />
+                </Avatar>
+              </ItemIcon>
 
-  return (
-    <ButtonItem
-      onClick={withConfirmation(confirmationMessage, () => {
-        deleteHostFamily(hostFamily.id);
-      })}
-      color="red"
-    >
-      <ItemIcon>
-        <FaTrash />
-      </ItemIcon>
+              <ItemContent>
+                <ItemMainText>{animal.name}</ItemMainText>
+              </ItemContent>
+            </LinkItem>
+          </li>
+        ))}
+      </ul>
+    );
+  }
 
-      <ItemContent>
-        <ItemMainText>Supprimer</ItemMainText>
-      </ItemContent>
-    </ButtonItem>
-  );
-}
-
-function HostedAnimalsSection({ children }: ChildrenProp) {
   return (
     <Section>
-      <SectionTitle>En accueil</SectionTitle>
-      {children}
+      <SectionTitle>
+        En accueil
+        {hostFamily.hostedAnimals.length > 0
+          ? ` (${hostFamily.hostedAnimals.length})`
+          : null}
+      </SectionTitle>
+      {content}
     </Section>
   );
 }
 
-function ActionsSection({ hostFamily }: HostFamilyProps) {
+function HostedAnimalsPlaceholderSection() {
+  return (
+    <Section>
+      <SectionTitle>
+        <Placeholder $preset="label" />
+      </SectionTitle>
+
+      <ul>
+        <Placeholders count={1}>
+          <li>
+            <Item>
+              <ItemIcon>
+                <AvatarPlaceholder />
+              </ItemIcon>
+
+              <ItemContent>
+                <ItemMainText>
+                  <Placeholder $preset="label" />
+                </ItemMainText>
+              </ItemContent>
+            </Item>
+          </li>
+        </Placeholders>
+      </ul>
+    </Section>
+  );
+}
+
+function ActionsSection({
+  hostFamily,
+  deleteHostFamily,
+}: HostFamilyProps & {
+  deleteHostFamily: OperationMutationResponse<"deleteHostFamily">;
+}) {
   const { onDismiss } = useModal();
 
   return (
@@ -194,72 +298,47 @@ function ActionsSection({ hostFamily }: HostFamilyProps) {
       <Separator />
 
       <Section>
-        <DeleteHostFamilyButton hostFamily={hostFamily} />
+        <DeleteHostFamilyButton
+          hostFamily={hostFamily}
+          deleteHostFamily={deleteHostFamily}
+        />
       </Section>
     </>
   );
 }
 
-const HostFamilyPage: PageComponent = () => {
-  const router = useRouter();
-  const hostFamilyId = router.query.hostFamilyId as string;
-
-  const hostedAnimalsQuery = useAllAnimals({ hostFamilyId });
-  const hostedAnimals = renderInfiniteItemList(hostedAnimalsQuery, {
-    getItemKey: (animal) => animal.id,
-    renderPlaceholderItem: () => <SearchableAnimalItemPlaceholder />,
-    placeholderCount: 2,
-    emptyMessage: "Aucun animal en accueil",
-    renderEmptyMessage: ({ children }) => (
-      <Item>
-        <ItemContent>
-          <ItemMainText>{children}</ItemMainText>
-        </ItemContent>
-      </Item>
-    ),
-    renderItem: (animal) => (
-      <SearchableAnimalLinkItem
-        animal={animal}
-        href={`/animals/${animal.id}`}
-      />
-    ),
-    renderError: (props) => <ErrorItem {...props} />,
-    renderRetryButton: ({ retry, children }) => (
-      <Button onClick={retry}>{children}</Button>
-    ),
-  });
-
-  const query = useHostFamily(hostFamilyId);
-  const { pageTitle, headerTitle, content } = renderQueryEntity(query, {
-    getDisplayedText: (hostFamily) => hostFamily.name,
-    renderPlaceholder: () => <ContactPlaceholderSection />,
-    renderEntity: (hostFamily) => (
-      <>
-        <ContactSection hostFamily={hostFamily} />
-        <HostedAnimalsSection>{hostedAnimals.content}</HostedAnimalsSection>
-
-        <QuickActions icon={<FaPen />}>
-          <ActionsSection hostFamily={hostFamily} />
-        </QuickActions>
-      </>
-    ),
-  });
+function DeleteHostFamilyButton({
+  hostFamily,
+  deleteHostFamily,
+}: HostFamilyProps & {
+  deleteHostFamily: OperationMutationResponse<"deleteHostFamily">;
+}) {
+  const { onDismiss } = useModal();
 
   return (
-    <ApplicationLayout>
-      <PageTitle title={pageTitle} />
+    <ButtonItem
+      onClick={() => {
+        if (deleteHostFamily.state !== "loading") {
+          const confirmationMessage = [
+            `Êtes-vous sûr de vouloir supprimer ${hostFamily.name} ?`,
+            "L'action est irréversible.",
+          ].join("\n");
 
-      <Header>
-        <HeaderBackLink />
-        <HeaderTitle>{headerTitle}</HeaderTitle>
-      </Header>
+          if (window.confirm(confirmationMessage)) {
+            onDismiss();
+            deleteHostFamily.mutate({ id: hostFamily.id });
+          }
+        }
+      }}
+      color="red"
+    >
+      <ItemIcon>
+        <FaTrash />
+      </ItemIcon>
 
-      <Main>{content}</Main>
-      <Navigation onlyLargeEnough />
-    </ApplicationLayout>
+      <ItemContent>
+        <ItemMainText>Supprimer</ItemMainText>
+      </ItemContent>
+    </ButtonItem>
   );
-};
-
-HostFamilyPage.authorisedGroups = [UserGroup.ADMIN, UserGroup.ANIMAL_MANAGER];
-
-export default HostFamilyPage;
+}

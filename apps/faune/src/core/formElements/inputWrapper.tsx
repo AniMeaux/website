@@ -2,14 +2,13 @@ import { ensureArray } from "core/ensureArray";
 import { ChildrenProp, StyleProps } from "core/types";
 import { createElement } from "react";
 import styled, { css, FlattenSimpleInterpolation } from "styled-components";
-import { theme } from "styles/theme";
+import { setFocusColor, theme } from "styles/theme";
 import { ADORNMENT_SIZE } from "core/formElements/adornment";
 
 export type InputWrapperProps = {
   disabled?: boolean;
   leftAdornment?: React.ReactNode | React.ReactNode[];
   rightAdornment?: React.ReactNode | React.ReactNode[];
-  hasError?: boolean;
 };
 
 export function InputWrapper({
@@ -89,13 +88,20 @@ type InputStylesProps = {
   $rightAdornment?: React.ReactNode | React.ReactNode[];
 };
 
+const INPUT_ERROR_STYLES = css`
+  ${setFocusColor(theme.colors.alert[500])};
+  border-color: ${theme.colors.alert[500]};
+`;
+
 export const INPUT_STYLES = css<InputStylesProps>`
   appearance: none;
   width: 100%;
   min-width: 0;
+
+  border-width: 1px;
   border-radius: ${theme.borderRadius.l};
-  border: 1px solid ${theme.colors.dark[100]};
-  background: ${(props) => (props.$hasError ? theme.colors.alert[50] : null)};
+  border-style: solid;
+  border-color: ${theme.colors.dark[100]};
 
   padding-top: ${theme.spacing.x2};
   padding-bottom: ${theme.spacing.x2};
@@ -111,6 +117,8 @@ export const INPUT_STYLES = css<InputStylesProps>`
   );
 
   line-height: ${theme.typography.lineHeight.multiLine};
+
+  ${(props) => (props.$hasError ? INPUT_ERROR_STYLES : null)};
 
   &::placeholder {
     color: ${theme.colors.text.secondary};

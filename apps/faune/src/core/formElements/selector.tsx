@@ -3,7 +3,7 @@ import { RawRadio } from "core/formElements/radio";
 import { ChildrenProp, StyleProps } from "core/types";
 import { Children, isValidElement } from "react";
 import styled, { css } from "styled-components";
-import { theme } from "styles/theme";
+import { setFocusColor, theme } from "styles/theme";
 
 export const Selectors = styled.ul`
   display: flex;
@@ -15,18 +15,32 @@ export const SelectorItem = styled.li`
   max-width: 100%;
 `;
 
-type SelectorProps = ChildrenProp & StyleProps;
+type SelectorProps = ChildrenProp &
+  StyleProps & {
+    hasError?: boolean;
+  };
 
-export function Selector({ children, ...rest }: SelectorProps) {
+export function Selector({
+  hasError = false,
+  children,
+  ...rest
+}: SelectorProps) {
   const checked = Children.toArray(children).some(
     (child) => isValidElement(child) && child.props.checked
   );
 
-  return <SelectorElement {...rest} children={children} $isChecked={checked} />;
+  return (
+    <SelectorElement
+      {...rest}
+      children={children}
+      $isChecked={checked}
+      $hasError={hasError}
+    />
+  );
 }
 
 const SELECTOR_CHECKED_STYLES = css`
-  border: 1px solid ${theme.colors.primary[50]};
+  border-color: ${theme.colors.primary[50]};
   background: ${theme.colors.primary[50]};
 
   @media (hover: hover) {
@@ -42,7 +56,25 @@ const SELECTOR_CHECKED_STYLES = css`
   }
 `;
 
-const SelectorElement = styled.label<{ $isChecked: boolean }>`
+const SELECTOR_ERROR_STYLES = css`
+  ${setFocusColor(theme.colors.alert[500])};
+  border-color: ${theme.colors.alert[500]};
+
+  @media (hover: hover) {
+    &:hover {
+      border-color: ${theme.colors.alert[500]};
+    }
+  }
+
+  &:active {
+    border-color: ${theme.colors.alert[500]};
+  }
+`;
+
+const SelectorElement = styled.label<{
+  $isChecked: boolean;
+  $hasError: boolean;
+}>`
   position: relative;
   padding: ${theme.spacing.x2} ${theme.spacing.x4};
   border-radius: ${theme.borderRadius.l};
@@ -63,6 +95,7 @@ const SelectorElement = styled.label<{ $isChecked: boolean }>`
   }
 
   ${(props) => (props.$isChecked ? SELECTOR_CHECKED_STYLES : null)};
+  ${(props) => (props.$hasError ? SELECTOR_ERROR_STYLES : null)};
 `;
 
 const SELECTOR_INPUT_STYLES = css`

@@ -12,6 +12,7 @@ export type InputProps = StyleProps &
   InputWrapperProps & {
     value?: string;
     onChange?: (value: string) => void;
+    hasError?: boolean;
   };
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
@@ -24,7 +25,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
     onChange,
     className,
     // Should use `"off"` as default value but it is ingored by Chrome.
-    // See https://bugs.chromium.org/p/chromium/issues/detail
+    // See https://bugs.chromium.org/p/chromium/issues/detail?id=587466
     // A random value is used to confuse the browser and make sure previous
     // values are never suggested.
     autoComplete = String(Math.random()),
@@ -37,7 +38,6 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
       disabled={disabled}
       leftAdornment={leftAdornment}
       rightAdornment={rightAdornment}
-      hasError={hasError}
       className={className}
     >
       <InputNative

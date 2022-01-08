@@ -16,6 +16,7 @@ export type LinkInputProps = InputWrapperProps &
   Omit<BaseLinkProps, "children"> & {
     value?: string | null;
     placeholder?: string;
+    hasError?: boolean;
   };
 
 export function LinkInput({
@@ -40,7 +41,6 @@ export function LinkInput({
       disabled={disabled}
       leftAdornment={leftAdornment}
       rightAdornment={rightAdornment}
-      hasError={hasError}
       className={className}
     >
       <InputElement

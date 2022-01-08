@@ -1,5 +1,5 @@
 import { useIsTouchScreen } from "core/touchScreen";
-import { ChildrenProp } from "core/types";
+import { ChildrenProp, SetStateAction } from "core/types";
 import invariant from "invariant";
 import {
   createContext,
@@ -146,7 +146,7 @@ type DragItem<DataType> = {
 
 type UseDropContainerParameters<DataType> = {
   containerRef: React.MutableRefObject<HTMLElement>;
-  setItems: React.Dispatch<React.SetStateAction<DataType[]>>;
+  setItems: React.Dispatch<SetStateAction<DataType[]>>;
 };
 
 export function useDropContainer<DataType>({

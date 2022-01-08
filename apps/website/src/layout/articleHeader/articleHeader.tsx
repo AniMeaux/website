@@ -1,7 +1,7 @@
-import { Article } from "@animeaux/shared-entities/build/article";
-import { formatLongDate } from "@animeaux/shared-entities/build/date";
+import { Article } from "@animeaux/shared";
 import { StaticImage, useImageDominantColor } from "dataDisplay/image";
 import { CenteredContent } from "layout/centeredContent";
+import { DateTime } from "luxon";
 import styles from "./articleHeader.module.css";
 
 export type ArticleHeaderProps = {
@@ -28,7 +28,10 @@ export function ArticleHeader({ article }: ArticleHeaderProps) {
             <h1 className={styles.title}>{article.title}</h1>
 
             <p>
-              {formatLongDate(article.publicationDate)} par {article.authorName}
+              {DateTime.fromISO(article.publicationDate).toLocaleString(
+                DateTime.DATE_FULL
+              )}{" "}
+              par {article.authorName}
             </p>
           </div>
         </CenteredContent>

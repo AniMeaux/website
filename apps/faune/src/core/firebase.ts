@@ -12,3 +12,14 @@ if (firebase.apps.length === 0) {
 }
 
 export { firebase };
+type FirebaseError = firebase.FirebaseError;
+
+// `FirebaseError` is an interface and not a class so we cannot use the runtime
+// check `instanceof`.
+// Check required fields should be enough.
+export function isFirebaseError(error: unknown): error is FirebaseError {
+  return (
+    typeof (error as any).code === "string" &&
+    typeof (error as any).message === "string"
+  );
+}

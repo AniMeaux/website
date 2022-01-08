@@ -1,8 +1,4 @@
-import {
-  doesGroupsIntersect,
-  User,
-  UserGroup,
-} from "@animeaux/shared-entities";
+import { doesGroupsIntersect, User, UserGroup } from "@animeaux/shared";
 import { useCurrentUser } from "account/currentUser";
 import { CurrentUserMenu } from "account/currentUserMenu";
 import {

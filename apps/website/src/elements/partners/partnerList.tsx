@@ -1,4 +1,4 @@
-import { Partner } from "@animeaux/shared-entities/build/partner";
+import { Partner } from "@animeaux/shared";
 import { Link } from "core/link";
 import { StaticImage } from "dataDisplay/image";
 import styles from "./partnerList.module.css";

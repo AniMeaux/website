@@ -1,108 +1,84 @@
-import {
-  Animal,
-  AnimalProfileFormPayload,
-  ErrorCode,
-  getAnimalDisplayName,
-  getErrorMessage,
-  hasErrorCode,
-  UserGroup,
-} from "@animeaux/shared-entities";
-import { AnimalFormProvider, useAnimalForm } from "animal/animalEdition";
+import { UserGroup } from "@animeaux/shared";
+import { AnimalFormProvider, useAnimalForm } from "animal/edition";
 import {
   AnimalProfileForm,
-  AnimalProfileFormErrors,
-  AnimalProfileFormProps,
-} from "animal/formElements/animalProfileForm";
-import { useAnimal, useUpdateAnimalProfile } from "animal/queries";
+  AnimalProfileFormPlaceholder,
+} from "animal/profileForm";
 import { ApplicationLayout } from "core/layouts/applicationLayout";
+import { ErrorPage } from "core/layouts/errorPage";
 import { Header, HeaderBackLink, HeaderTitle } from "core/layouts/header";
 import { Main } from "core/layouts/main";
 import { Navigation } from "core/layouts/navigation";
+import { Placeholder } from "core/loaders/placeholder";
+import { useOperationMutation, useOperationQuery } from "core/operations";
 import { PageTitle } from "core/pageTitle";
-import { renderQueryEntity } from "core/request";
 import { useRouter } from "core/router";
 import { PageComponent } from "core/types";
-
-type AnimalEditProfileFormProps = Omit<
-  AnimalProfileFormProps<AnimalProfileFormPayload>,
-  "value" | "onChange" | "onSubmit"
-> & {
-  animal: Animal;
-  onSubmit: (payload: AnimalProfileFormPayload) => any;
-};
-
-function AnimalEditProfileForm({
-  animal,
-  onSubmit,
-  ...rest
-}: AnimalEditProfileFormProps) {
-  const { formPayload, setFormPayload } = useAnimalForm();
-
-  return (
-    <AnimalProfileForm
-      {...rest}
-      isEdit
-      value={formPayload}
-      onChange={setFormPayload}
-      onSubmit={() => onSubmit(formPayload)}
-    />
-  );
-}
+import invariant from "invariant";
 
 const UpdateAnimalProfilePage: PageComponent = () => {
   const router = useRouter();
-  const animalId = router.query.animalId as string;
-  const query = useAnimal(animalId);
 
-  const [updateAnimalProfile, mutation] = useUpdateAnimalProfile({
-    onSuccess() {
+  invariant(
+    typeof router.query.animalId === "string",
+    `The animalId path should be a string. Got '${typeof router.query
+      .animalId}'`
+  );
+
+  const getAnimal = useOperationQuery({
+    name: "getAnimal",
+    params: { id: router.query.animalId },
+  });
+
+  const updateAnimalProfile = useOperationMutation("updateAnimalProfile", {
+    onSuccess: (response, cache) => {
+      cache.set(
+        { name: "getAnimal", params: { id: response.result.id } },
+        response.result
+      );
+
+      cache.invalidate({ name: "getAllActiveAnimals" });
+      cache.invalidate({ name: "searchAnimals" });
       router.backIfPossible("../..");
     },
   });
 
-  const errors: AnimalProfileFormErrors = {};
-  if (mutation.error != null) {
-    const errorMessage = getErrorMessage(mutation.error);
+  const { profileState, setProfileState } = useAnimalForm();
 
-    if (hasErrorCode(mutation.error, ErrorCode.ANIMAL_MISSING_OFFICIAL_NAME)) {
-      errors.officialName = errorMessage;
-    } else if (
-      hasErrorCode(mutation.error, ErrorCode.ANIMAL_INVALID_BIRTHDATE)
-    ) {
-      errors.birthdate = errorMessage;
-    } else if (hasErrorCode(mutation.error, ErrorCode.ANIMAL_MISSING_GENDER)) {
-      errors.gender = errorMessage;
-    } else if (hasErrorCode(mutation.error, ErrorCode.ANIMAL_MISSING_SPECIES)) {
-      errors.species = errorMessage;
-    } else if (
-      hasErrorCode(mutation.error, ErrorCode.ANIMAL_SPECIES_BREED_MISSMATCH)
-    ) {
-      errors.breed = errorMessage;
-    }
+  if (getAnimal.state === "error") {
+    return <ErrorPage status={getAnimal.status} />;
   }
 
-  const { pageTitle, headerTitle, content } = renderQueryEntity(query, {
-    getDisplayedText: (animal) => getAnimalDisplayName(animal),
-    renderPlaceholder: () => null,
-    renderEntity: (animal) => (
-      <AnimalEditProfileForm
-        animal={animal}
-        onSubmit={(formPayload) =>
-          updateAnimalProfile({ currentAnimal: animal, formPayload })
+  let content: React.ReactNode = null;
+
+  if (getAnimal.state === "success") {
+    content = (
+      <AnimalProfileForm
+        state={profileState}
+        setState={setProfileState}
+        onSubmit={(value) =>
+          updateAnimalProfile.mutate({ ...value, id: getAnimal.result.id })
         }
-        pending={mutation.isLoading}
-        errors={errors}
+        pending={updateAnimalProfile.state === "loading"}
+        serverErrors={
+          updateAnimalProfile.state === "error" ? ["server-error"] : []
+        }
       />
-    ),
-  });
+    );
+  } else {
+    content = <AnimalProfileFormPlaceholder />;
+  }
+
+  const name =
+    getAnimal.state === "success" ? getAnimal.result.officialName : null;
 
   return (
     <ApplicationLayout>
-      <PageTitle title={pageTitle} />
+      <PageTitle title={name} />
 
       <Header>
         <HeaderBackLink href="../.." />
-        <HeaderTitle>{headerTitle}</HeaderTitle>
+        <HeaderTitle>{name ?? <Placeholder $preset="text" />}</HeaderTitle>
       </Header>
 
       <Main>{content}</Main>
@@ -111,7 +87,9 @@ const UpdateAnimalProfilePage: PageComponent = () => {
   );
 };
 
-UpdateAnimalProfilePage.WrapperComponent = AnimalFormProvider;
+UpdateAnimalProfilePage.renderLayout = ({ children }) => {
+  return <AnimalFormProvider>{children}</AnimalFormProvider>;
+};
 
 UpdateAnimalProfilePage.authorisedGroups = [
   UserGroup.ADMIN,

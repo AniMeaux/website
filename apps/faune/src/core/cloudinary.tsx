@@ -1,31 +1,26 @@
-import { CloudinaryApiSignature, ImageFile } from "@animeaux/shared-entities";
-import { fetchGraphQL } from "core/request";
+import { OperationParams } from "@animeaux/shared";
+import { ImageFile } from "core/dataDisplay/image";
 import { Sentry } from "core/sentry";
-import { gql } from "graphql-request";
+import { runOperation } from "./operations";
 
 const CLOUD_NAME = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
 const API_KEY = process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY;
 const UPLOAD_URL = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`;
 const DELETE_URL = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/destroy`;
 
-const GetCloudinaryApiSignature = gql`
-  query GetCloudinaryApiSignature($parametersToSign: JSONObject!) {
-    apiSignature: getCloudinaryApiSignature(
-      parametersToSign: $parametersToSign
-    ) {
-      timestamp
-      signature
-    }
+async function getApiSignature(
+  parametersToSign: OperationParams<"getCloudinaryApiSignature">["parametersToSign"]
+) {
+  const response = await runOperation<"getCloudinaryApiSignature">({
+    name: "getCloudinaryApiSignature",
+    params: { parametersToSign },
+  });
+
+  if (response.state === "error") {
+    throw new Error(`Could not get api signature ${response.status}`);
   }
-`;
 
-async function getApiSignature(parametersToSign: object) {
-  const { apiSignature } = await fetchGraphQL<
-    { apiSignature: CloudinaryApiSignature },
-    { parametersToSign: object }
-  >(GetCloudinaryApiSignature, { variables: { parametersToSign } });
-
-  return apiSignature;
+  return response.result;
 }
 
 export async function uploadImageFile(
@@ -34,7 +29,7 @@ export async function uploadImageFile(
 ) {
   const tagsParam = tags.join(",");
   const { signature, timestamp } = await getApiSignature({
-    public_id: imageFile.id,
+    id: imageFile.id,
     tags: tagsParam,
   });
 
@@ -58,19 +53,13 @@ export async function uploadImageFile(
       throw new Error(message);
     }
   } catch (error) {
-    Sentry.captureException(error, {
-      extra: { operation: "Could not upload image" },
-    });
-
     console.error("Could not upload image", error);
-    throw new Error("L'image n'a pas pu être envoyé");
+    throw error;
   }
 }
 
 export async function deleteImage(imageId: string) {
-  const { signature, timestamp } = await getApiSignature({
-    public_id: imageId,
-  });
+  const { signature, timestamp } = await getApiSignature({ id: imageId });
 
   try {
     const response = await fetch(DELETE_URL, {

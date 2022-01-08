@@ -1,47 +1,28 @@
-import {
-  ErrorCode,
-  getErrorMessage,
-  hasErrorCode,
-  UserGroup,
-} from "@animeaux/shared-entities";
+import { UserGroup } from "@animeaux/shared";
 import { ApplicationLayout } from "core/layouts/applicationLayout";
 import { Header, HeaderBackLink, HeaderTitle } from "core/layouts/header";
 import { Main } from "core/layouts/main";
 import { Navigation } from "core/layouts/navigation";
+import { useOperationMutation } from "core/operations";
 import { PageTitle } from "core/pageTitle";
 import { useRouter } from "core/router";
 import { PageComponent } from "core/types";
-import { UserForm, UserFormErrors } from "user/userForm";
-import { useCreateUser } from "user/userQueries";
+import { UserForm } from "user/form";
 
 const CreateUserPage: PageComponent = () => {
   const router = useRouter();
-  const [createUser, { error, isLoading }] = useCreateUser({
-    onSuccess() {
+
+  const createUser = useOperationMutation("createUser", {
+    onSuccess: (response, cache) => {
+      cache.set(
+        { name: "getUser", params: { id: response.result.id } },
+        response.result
+      );
+
+      cache.invalidate({ name: "getAllUsers" });
       router.backIfPossible("..");
     },
   });
-
-  const errors: UserFormErrors = {};
-
-  if (error != null) {
-    const errorMessage = getErrorMessage(error);
-
-    if (hasErrorCode(error, ErrorCode.USER_MISSING_DISPLAY_NAME)) {
-      errors.displayName = errorMessage;
-    } else if (
-      hasErrorCode(error, [
-        ErrorCode.USER_EMAIL_ALREADY_EXISTS,
-        ErrorCode.USER_INVALID_EMAIL,
-      ])
-    ) {
-      errors.email = errorMessage;
-    } else if (hasErrorCode(error, ErrorCode.USER_INVALID_PASSWORD)) {
-      errors.password = errorMessage;
-    } else if (hasErrorCode(error, ErrorCode.USER_MISSING_GROUP)) {
-      errors.groups = errorMessage;
-    }
-  }
 
   return (
     <ApplicationLayout>
@@ -53,7 +34,15 @@ const CreateUserPage: PageComponent = () => {
       </Header>
 
       <Main>
-        <UserForm onSubmit={createUser} pending={isLoading} errors={errors} />
+        <UserForm
+          onSubmit={(user) => createUser.mutate(user)}
+          pending={createUser.state === "loading"}
+          serverErrors={
+            createUser.state === "error"
+              ? [createUser.errorResult?.code ?? "server-error"]
+              : []
+          }
+        />
       </Main>
 
       <Navigation onlyLargeEnough />

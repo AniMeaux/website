@@ -1,4 +1,4 @@
-import { AnimalSpecies } from "@animeaux/shared-entities/build/animal";
+import { AnimalSpecies } from "@animeaux/shared";
 import { AdoptSearchParams } from "core/adoptSearchParams";
 import { createAdoptPage } from "elements/adopt/adoptPages";
 

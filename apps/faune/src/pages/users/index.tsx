@@ -1,56 +1,79 @@
-import { User, UserGroup, UserGroupLabels } from "@animeaux/shared-entities";
+import { User, UserGroup } from "@animeaux/shared";
 import { QuickLinkAction } from "core/actions/quickAction";
+import { AvatarPlaceholder } from "core/dataDisplay/avatar";
+import { EmptyMessage } from "core/dataDisplay/emptyMessage";
 import {
+  Item,
   ItemContent,
   ItemIcon,
   ItemMainText,
   ItemSecondaryText,
-  LinkItem,
+  LinkItem as BaseLinkItem,
 } from "core/dataDisplay/item";
 import { ApplicationLayout } from "core/layouts/applicationLayout";
+import { ErrorPage } from "core/layouts/errorPage";
 import { Header, HeaderTitle, HeaderUserAvatar } from "core/layouts/header";
 import { Main } from "core/layouts/main";
 import { Navigation } from "core/layouts/navigation";
 import { Section } from "core/layouts/section";
 import { usePageScrollRestoration } from "core/layouts/usePageScroll";
+import { Placeholder, Placeholders } from "core/loaders/placeholder";
+import { useOperationQuery } from "core/operations";
 import { PageTitle } from "core/pageTitle";
-import { renderItemList } from "core/request";
 import { PageComponent } from "core/types";
 import { FaPlus } from "react-icons/fa";
+import styled from "styled-components";
+import { theme } from "styles/theme";
 import { UserAvatar } from "user/avatar";
-import { UserItemPlaceholder } from "user/userItem";
-import { useAllUsers } from "user/userQueries";
-
-export function UserLinkItem({ user }: { user: User }) {
-  return (
-    <LinkItem href={`./${user.id}`}>
-      <ItemIcon>
-        <UserAvatar user={user} />
-      </ItemIcon>
-
-      <ItemContent>
-        <ItemMainText>{user.displayName}</ItemMainText>
-        <ItemSecondaryText>
-          {user.groups.map((group) => UserGroupLabels[group]).join(" • ")}
-        </ItemSecondaryText>
-      </ItemContent>
-    </LinkItem>
-  );
-}
+import { USER_GROUP_LABELS } from "user/group/labels";
 
 const TITLE = "Utilisateurs";
 
 const UserListPage: PageComponent = () => {
   usePageScrollRestoration();
 
-  const query = useAllUsers();
-  const { content, title } = renderItemList(query, {
-    title: TITLE,
-    getItemKey: (user) => user.id,
-    renderPlaceholderItem: () => <UserItemPlaceholder />,
-    emptyMessage: "Il n'y a pas encore d'utilisateur",
-    renderItem: (user) => <UserLinkItem user={user} />,
-  });
+  const getAllUsers = useOperationQuery(
+    { name: "getAllUsers" },
+    {
+      onSuccess: (response, cache) => {
+        response.result.forEach((user) => {
+          cache.set({ name: "getUser", params: { id: user.id } }, user);
+        });
+      },
+    }
+  );
+
+  if (getAllUsers.state === "error") {
+    return <ErrorPage status={getAllUsers.status} />;
+  }
+
+  let content: React.ReactNode = null;
+
+  if (getAllUsers.state === "success") {
+    if (getAllUsers.result.length === 0) {
+      content = <EmptyMessage>Il n'y a pas encore d'utilisateur</EmptyMessage>;
+    } else {
+      content = (
+        <ul>
+          {getAllUsers.result.map((user) => (
+            <li key={user.id}>
+              <UserLinkItem user={user} />
+            </li>
+          ))}
+        </ul>
+      );
+    }
+  } else {
+    content = (
+      <ul>
+        <Placeholders count={5}>
+          <li>
+            <UserItemPlaceholder />
+          </li>
+        </Placeholders>
+      </ul>
+    );
+  }
 
   return (
     <ApplicationLayout>
@@ -58,7 +81,10 @@ const UserListPage: PageComponent = () => {
 
       <Header>
         <HeaderUserAvatar />
-        <HeaderTitle>{title}</HeaderTitle>
+        <HeaderTitle>
+          {TITLE}{" "}
+          {getAllUsers.state === "success" && `(${getAllUsers.result.length})`}
+        </HeaderTitle>
       </Header>
 
       <Main>
@@ -77,3 +103,44 @@ const UserListPage: PageComponent = () => {
 UserListPage.authorisedGroups = [UserGroup.ADMIN];
 
 export default UserListPage;
+
+function UserItemPlaceholder() {
+  return (
+    <Item>
+      <ItemIcon>
+        <AvatarPlaceholder />
+      </ItemIcon>
+
+      <ItemContent>
+        <ItemMainText>
+          <Placeholder $preset="label" />
+        </ItemMainText>
+
+        <ItemSecondaryText>
+          <Placeholder $preset="text" />
+        </ItemSecondaryText>
+      </ItemContent>
+    </Item>
+  );
+}
+
+function UserLinkItem({ user }: { user: User }) {
+  return (
+    <LinkItem href={`./${user.id}`} $isDisabled={user.disabled}>
+      <ItemIcon>
+        <UserAvatar user={user} />
+      </ItemIcon>
+
+      <ItemContent>
+        <ItemMainText>{user.displayName}</ItemMainText>
+        <ItemSecondaryText>
+          {user.groups.map((group) => USER_GROUP_LABELS[group]).join(" • ")}
+        </ItemSecondaryText>
+      </ItemContent>
+    </LinkItem>
+  );
+}
+
+const LinkItem = styled(BaseLinkItem)<{ $isDisabled: boolean }>`
+  opacity: ${(props) => (props.$isDisabled ? theme.opacity.disabled : 1)};
+`;

@@ -1,13 +1,11 @@
 import {
   AnimalAge,
-  AnimalAgesBySpecies,
-  AnimalAgesLabels,
   AnimalSpecies,
-  AnimalSpeciesLabels,
-  ANIMAL_SPECIES_ALPHABETICAL_ORDER,
-} from "@animeaux/shared-entities/build/animal";
+  ANIMAL_AGE_RANGE_BY_SPECIES,
+} from "@animeaux/shared";
 import cn from "classnames";
 import { AdoptSearchParams } from "core/adoptSearchParams";
+import { ANIMAL_AGES_LABELS, ANIMAL_SPECIES_LABELS } from "core/labels";
 import { Link } from "core/link";
 import { ChildrenProp } from "core/types";
 import { useEffect, useState } from "react";
@@ -17,6 +15,14 @@ import styles from "./searchForm.module.css";
 type OptionAll = "ALL";
 type AnimalSpeciesOption = OptionAll | AnimalSpecies;
 type AnimalAgeOption = OptionAll | AnimalAge;
+
+export const ANIMAL_AGES_BY_SPECIES: Record<AnimalSpecies, AnimalAge[]> = {
+  [AnimalSpecies.BIRD]: getAnimalAgesForSpecies(AnimalSpecies.BIRD),
+  [AnimalSpecies.CAT]: getAnimalAgesForSpecies(AnimalSpecies.CAT),
+  [AnimalSpecies.DOG]: getAnimalAgesForSpecies(AnimalSpecies.DOG),
+  [AnimalSpecies.REPTILE]: getAnimalAgesForSpecies(AnimalSpecies.REPTILE),
+  [AnimalSpecies.RODENT]: getAnimalAgesForSpecies(AnimalSpecies.RODENT),
+};
 
 export type SearchFormProps = {
   searchParams?: AdoptSearchParams;
@@ -37,7 +43,7 @@ export function SearchForm({ hasAll = false, searchParams }: SearchFormProps) {
   const agesOptions =
     params.animalSpecies == null
       ? []
-      : AnimalAgesBySpecies[params.animalSpecies];
+      : ANIMAL_AGES_BY_SPECIES[params.animalSpecies];
 
   const defaultValue: OptionAll | null = hasAll ? "ALL" : null;
 
@@ -54,9 +60,9 @@ export function SearchForm({ hasAll = false, searchParams }: SearchFormProps) {
       >
         {hasAll && <option value="ALL">Toutes les espèces</option>}
 
-        {ANIMAL_SPECIES_ALPHABETICAL_ORDER.map((species) => (
+        {Object.values(AnimalSpecies).map((species) => (
           <option key={species} value={species}>
-            {AnimalSpeciesLabels[species]}
+            {ANIMAL_SPECIES_LABELS[species]}
           </option>
         ))}
       </Select>
@@ -75,7 +81,7 @@ export function SearchForm({ hasAll = false, searchParams }: SearchFormProps) {
 
           {agesOptions.map((age) => (
             <option key={age} value={age}>
-              {AnimalAgesLabels[age]}
+              {ANIMAL_AGES_LABELS[age]}
             </option>
           ))}
         </Select>
@@ -116,4 +122,13 @@ function Select<ValueType extends string>({
       {children}
     </select>
   );
+}
+
+function getAnimalAgesForSpecies(animalSpecies: AnimalSpecies): AnimalAge[] {
+  const agesRanges = ANIMAL_AGE_RANGE_BY_SPECIES[animalSpecies];
+  if (agesRanges == null) {
+    return [];
+  }
+
+  return Object.values(AnimalAge).filter((age) => agesRanges[age] != null);
 }

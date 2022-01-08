@@ -3,8 +3,7 @@ import "focus-visible";
 import "wicg-inert";
 import "styles/index.css";
 
-import { Article } from "@animeaux/shared-entities/build/article";
-import { Partner } from "@animeaux/shared-entities/build/partner";
+import { Article, Partner } from "@animeaux/shared";
 import { PageComponent } from "core/pageComponent";
 import { PageHead } from "core/pageHead";
 import { ScreenSizeContextProvider } from "core/screenSize";
@@ -12,9 +11,12 @@ import { ErrorBoundary } from "core/sentry";
 import { articles } from "elements/blog/data";
 import { partners } from "elements/partners/data";
 import { ApplicationLayout } from "layout/applicationLayout";
+import { Settings } from "luxon";
 import NextApp, { AppContext, AppProps } from "next/app";
 import { ErrorPage } from "pages/_error";
 import { ReactNode } from "react";
+
+Settings.defaultLocale = "fr";
 
 function renderWithLayout<P = {}, IP = P>(
   Component: PageComponent<P, IP>,

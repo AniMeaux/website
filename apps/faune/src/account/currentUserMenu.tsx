@@ -1,9 +1,12 @@
+import { User } from "@animeaux/shared";
 import { useCurrentUser } from "account/currentUser";
 import {
   ButtonItem,
+  Item,
   ItemContent,
   ItemIcon,
   ItemMainText,
+  ItemSecondaryText,
   LinkItem,
 } from "core/dataDisplay/item";
 import { Section } from "core/layouts/section";
@@ -11,7 +14,7 @@ import { Separator } from "core/layouts/separator";
 import { Modal, ModalHeader, ModalProps, useModal } from "core/popovers/modal";
 import { useRouter } from "core/router";
 import { FaAngleRight, FaLock, FaSignOutAlt, FaUser } from "react-icons/fa";
-import { UserItem } from "user/userItem";
+import { UserAvatar } from "user/avatar";
 
 type CurrentUserMenuProps = Pick<
   ModalProps,
@@ -87,5 +90,20 @@ function Menu() {
         </ButtonItem>
       </Section>
     </>
+  );
+}
+
+function UserItem({ user }: { user: User }) {
+  return (
+    <Item>
+      <ItemIcon>
+        <UserAvatar user={user} />
+      </ItemIcon>
+
+      <ItemContent>
+        <ItemMainText>{user.displayName}</ItemMainText>
+        <ItemSecondaryText>{user.email}</ItemSecondaryText>
+      </ItemContent>
+    </Item>
   );
 }

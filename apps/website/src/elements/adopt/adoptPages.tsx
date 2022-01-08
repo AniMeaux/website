@@ -1,127 +1,67 @@
-import {
-  AnimalAgesLabels,
-  AnimalSpeciesLabels,
-  PublicAnimalFilters,
-  PublicSearchableAnimal,
-} from "@animeaux/shared-entities/build/animal";
-import {
-  PaginatedRequestParameters,
-  PaginatedResponse,
-} from "@animeaux/shared-entities/build/pagination";
 import { AdoptSearchParams } from "core/adoptSearchParams";
-import {
-  PageQueryProps,
-  PublicSearchableAnimalFragment,
-} from "core/animalQueries";
-import { fetchGraphQL } from "core/fetchGraphQL";
+import { ANIMAL_AGES_LABELS, ANIMAL_SPECIES_LABELS } from "core/labels";
+import { OperationResponse, runOperation } from "core/operations";
 import { PageComponent } from "core/pageComponent";
 import { PageQueryParam } from "core/pageQueryParam";
 import { PageTitle } from "core/pageTitle";
-import { captureException } from "core/sentry";
-import { gql } from "graphql-request";
+import { SearchFormSection } from "elements/adopt/searchFormSection";
+import { SearchResults } from "elements/adopt/searchResults";
 import { Footer } from "layout/footer";
 import { Header } from "layout/header";
 import { GetServerSideProps } from "next";
 import { ErrorPage } from "pages/_error";
-import { SearchFormSection } from "./searchFormSection";
-import { SearchResults } from "./searchResults";
-
-const GetAllAdoptableAnimalsQuery = gql`
-  query GetAllAdoptableAnimals(
-    $page: Int
-    $hitsPerPage: Int
-    $species: AnimalSpecies
-    $age: AnimalAge
-  ) {
-    response: getAllAdoptableAnimals(
-      page: $page
-      hitsPerPage: $hitsPerPage
-      species: $species
-      age: $age
-    ) {
-      hits {
-        ...PublicSearchableAnimalFragment
-      }
-      hitsTotalCount
-      page
-      pageCount
-    }
-  }
-
-  ${PublicSearchableAnimalFragment}
-`;
-
-async function fetchAllAdoptableAnimals(
-  searchParams: AdoptSearchParams,
-  page: number
-): Promise<PageQueryProps> {
-  try {
-    const { response } = await fetchGraphQL<
-      { response: PaginatedResponse<PublicSearchableAnimal> },
-      PaginatedRequestParameters<PublicAnimalFilters>
-    >(GetAllAdoptableAnimalsQuery, {
-      variables: {
-        page,
-        // Multiple of 2 and 3 to be nicely displayed.
-        hitsPerPage: 18,
-        species: searchParams.animalSpecies,
-        age: searchParams.animalAge,
-      },
-    });
-
-    return { type: "success", response };
-  } catch (error) {
-    captureException(error, {
-      extra: {
-        query: "getAllAdoptableAnimals",
-        page,
-        searchParams: searchParams.toString(),
-      },
-    });
-
-    return { type: "error" };
-  }
-}
 
 type AdoptPage = {
-  getServerSideProps: GetServerSideProps<PageQueryProps>;
-  AdoptPage: PageComponent<PageQueryProps>;
+  getServerSideProps: GetServerSideProps<
+    OperationResponse<"getAllAdoptableAnimals">
+  >;
+  AdoptPage: PageComponent<OperationResponse<"getAllAdoptableAnimals">>;
 };
 
 export function createAdoptPage(searchParams: AdoptSearchParams): AdoptPage {
-  const getServerSideProps: GetServerSideProps<PageQueryProps> = async ({
-    query,
-    res,
-  }) => {
+  const getServerSideProps: GetServerSideProps<
+    OperationResponse<"getAllAdoptableAnimals">
+  > = async ({ query, res }) => {
     const queryParams = PageQueryParam.fromQuery(query);
-    const props = await fetchAllAdoptableAnimals(
-      searchParams,
-      queryParams.page
-    );
 
-    if (props.type === "error") {
+    const getAllAdoptableAnimals = await runOperation({
+      name: "getAllAdoptableAnimals",
+      params: {
+        page: queryParams.page,
+        species: searchParams.animalSpecies ?? undefined,
+        age: searchParams.animalAge ?? undefined,
+      },
+    });
+
+    if (getAllAdoptableAnimals.state === "error") {
       res.statusCode = 500;
     }
 
-    return { props };
+    return { props: getAllAdoptableAnimals };
   };
 
   let pageTitle = "À l'adoption";
 
-  if (searchParams.animalAge != null) {
-    pageTitle = `${
-      AnimalAgesLabels[searchParams.animalAge]
-    } ${pageTitle}`.toLowerCase();
-  }
-
   if (searchParams.animalSpecies != null) {
-    pageTitle = `${
-      AnimalSpeciesLabels[searchParams.animalSpecies]
-    } ${pageTitle}`;
+    pageTitle = pageTitle.toLowerCase();
+
+    if (searchParams.animalAge != null) {
+      pageTitle = [
+        ANIMAL_AGES_LABELS[searchParams.animalAge].toLowerCase(),
+        pageTitle,
+      ].join(" ");
+    }
+
+    pageTitle = [
+      ANIMAL_SPECIES_LABELS[searchParams.animalSpecies],
+      pageTitle,
+    ].join(" ");
   }
 
-  const AdoptPage: PageComponent<PageQueryProps> = (props) => {
-    if (props.type === "error") {
+  const AdoptPage: PageComponent<
+    OperationResponse<"getAllAdoptableAnimals">
+  > = (props) => {
+    if (props.state === "error") {
       return <ErrorPage type="serverError" title={pageTitle} />;
     }
 
@@ -129,7 +69,7 @@ export function createAdoptPage(searchParams: AdoptSearchParams): AdoptPage {
       <main>
         <PageTitle title={pageTitle} />
         <SearchFormSection searchParams={searchParams} />
-        <SearchResults response={props.response} searchParams={searchParams} />
+        <SearchResults result={props.result} searchParams={searchParams} />
       </main>
     );
   };

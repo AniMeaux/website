@@ -1,96 +1,146 @@
-import {
-  Animal,
-  AnimalPicturesFormPayload,
-  ErrorCode,
-  getAnimalDisplayName,
-  getErrorMessage,
-  hasErrorCode,
-  UserGroup,
-} from "@animeaux/shared-entities";
-import { AnimalFormProvider, useAnimalForm } from "animal/animalEdition";
-import {
-  AnimalPicturesForm,
-  AnimalPicturesFormErrors,
-  AnimalPicturesFormProps,
-} from "animal/formElements/animalPicturesForm";
-import { useAnimal, useUpdateAnimalPicture } from "animal/queries";
+import { OperationParams, UserGroup } from "@animeaux/shared";
+import { AnimalFormProvider, useAnimalForm } from "animal/edition";
+import { AnimalPicturesForm, FormValue } from "animal/picturesForm";
+import { deleteImage, uploadImageFile } from "core/cloudinary";
+import { getImageId, isImageFile } from "core/dataDisplay/image";
 import { ApplicationLayout } from "core/layouts/applicationLayout";
+import { ErrorPage } from "core/layouts/errorPage";
 import { Header, HeaderBackLink, HeaderTitle } from "core/layouts/header";
 import { Main } from "core/layouts/main";
 import { Navigation } from "core/layouts/navigation";
+import { Placeholder } from "core/loaders/placeholder";
+import { useOperationMutation, useOperationQuery } from "core/operations";
 import { PageTitle } from "core/pageTitle";
-import { renderQueryEntity } from "core/request";
 import { useRouter } from "core/router";
 import { PageComponent } from "core/types";
-
-type AnimalEditPicturesFormProps = Omit<
-  AnimalPicturesFormProps<AnimalPicturesFormPayload>,
-  "value" | "onChange" | "onSubmit"
-> & {
-  animal: Animal;
-  onSubmit: (payload: AnimalPicturesFormPayload) => any;
-};
-
-function AnimalEditPicturesForm({
-  animal,
-  onSubmit,
-  ...rest
-}: AnimalEditPicturesFormProps) {
-  const { formPayload, setFormPayload } = useAnimalForm();
-
-  return (
-    <AnimalPicturesForm
-      {...rest}
-      isEdit
-      value={formPayload}
-      onChange={setFormPayload}
-      onSubmit={() => onSubmit(formPayload)}
-    />
-  );
-}
+import invariant from "invariant";
+import difference from "lodash.difference";
+import { useMutation } from "react-query";
 
 const UpdateAnimalPicturesPage: PageComponent = () => {
   const router = useRouter();
-  const animalId = router.query.animalId as string;
-  const query = useAnimal(animalId);
 
-  const [updateAnimalPictures, mutation] = useUpdateAnimalPicture({
-    onSuccess() {
-      router.backIfPossible("../..");
+  invariant(
+    typeof router.query.animalId === "string",
+    `The animalId path should be a string. Got '${typeof router.query
+      .animalId}'`
+  );
+
+  const getAnimal = useOperationQuery({
+    name: "getAnimal",
+    params: { id: router.query.animalId },
+  });
+
+  const deleteImages = useMutation<
+    void,
+    Error,
+    OperationParams<"updateAnimalPictures">
+  >(
+    async (params) => {
+      invariant(
+        getAnimal.state === "success",
+        "Can upload images only if an animal was found."
+      );
+
+      const picturesToDelete = difference(
+        [getAnimal.result.avatarId].concat(getAnimal.result.picturesId),
+        [params.avatarId].concat(params.picturesId)
+      );
+
+      if (picturesToDelete.length > 0) {
+        await Promise.all(
+          picturesToDelete.map((pictureId) => deleteImage(pictureId))
+        );
+      }
+    },
+    { onSettled: () => router.backIfPossible("../..") }
+  );
+
+  const updateAnimalPictures = useOperationMutation("updateAnimalPictures", {
+    onSuccess: (response, cache) => {
+      deleteImages.mutate(response.body.params);
+
+      cache.set(
+        { name: "getAnimal", params: { id: response.result.id } },
+        response.result
+      );
+
+      cache.invalidate({ name: "getAllActiveAnimals" });
+      cache.invalidate({ name: "searchAnimals" });
     },
   });
 
-  const errors: AnimalPicturesFormErrors = {};
-  if (mutation.error != null) {
-    const errorMessage = getErrorMessage(mutation.error);
+  const uploadImages = useMutation<void, Error, FormValue>(
+    async (picturesValue) => {
+      invariant(
+        getAnimal.state === "success",
+        "Can upload images only if an animal was found."
+      );
 
-    if (hasErrorCode(mutation.error, ErrorCode.ANIMAL_MISSING_AVATAR)) {
-      errors.avatar = errorMessage;
+      const picturesToUpload = [picturesValue.avatar]
+        .concat(picturesValue.pictures)
+        .filter(isImageFile);
+
+      if (picturesToUpload.length > 0) {
+        await Promise.all(
+          picturesToUpload.map((picture) =>
+            uploadImageFile(picture, { tags: ["animal"] })
+          )
+        );
+      }
+
+      updateAnimalPictures.mutate({
+        id: getAnimal.result.id,
+        avatarId: getImageId(picturesValue.avatar),
+        picturesId: picturesValue.pictures.map(getImageId),
+      });
     }
+  );
+
+  const { picturesState, setPicturesState } = useAnimalForm();
+
+  if (getAnimal.state === "error") {
+    return <ErrorPage status={getAnimal.status} />;
   }
 
-  const { pageTitle, headerTitle, content } = renderQueryEntity(query, {
-    getDisplayedText: (animal) => getAnimalDisplayName(animal),
-    renderPlaceholder: () => null,
-    renderEntity: (animal) => (
-      <AnimalEditPicturesForm
-        animal={animal}
-        onSubmit={(formPayload) =>
-          updateAnimalPictures({ currentAnimal: animal, formPayload })
+  let content: React.ReactNode = null;
+
+  if (getAnimal.state === "success") {
+    content = (
+      <AnimalPicturesForm
+        state={picturesState}
+        setState={setPicturesState}
+        onSubmit={(value) => uploadImages.mutate(value)}
+        pending={
+          uploadImages.isLoading ||
+          updateAnimalPictures.state === "loading" ||
+          deleteImages.isLoading
         }
-        pending={mutation.isLoading}
-        errors={errors}
+        serverErrors={
+          // Don't check `deleteImages.isError` because it's not critical if it
+          // fails.
+          uploadImages.isError
+            ? ["image-upload-error"]
+            : updateAnimalPictures.state === "error"
+            ? ["server-error"]
+            : []
+        }
       />
-    ),
-  });
+    );
+  } else {
+    // TODO: Add placeholder
+  }
+
+  const name =
+    getAnimal.state === "success" ? getAnimal.result.officialName : null;
 
   return (
     <ApplicationLayout>
-      <PageTitle title={pageTitle} />
+      <PageTitle title={name} />
 
       <Header>
         <HeaderBackLink href="../.." />
-        <HeaderTitle>{headerTitle}</HeaderTitle>
+        <HeaderTitle>{name ?? <Placeholder $preset="text" />}</HeaderTitle>
       </Header>
 
       <Main>{content}</Main>
@@ -99,7 +149,9 @@ const UpdateAnimalPicturesPage: PageComponent = () => {
   );
 };
 
-UpdateAnimalPicturesPage.WrapperComponent = AnimalFormProvider;
+UpdateAnimalPicturesPage.renderLayout = ({ children }) => {
+  return <AnimalFormProvider>{children}</AnimalFormProvider>;
+};
 
 UpdateAnimalPicturesPage.authorisedGroups = [
   UserGroup.ADMIN,

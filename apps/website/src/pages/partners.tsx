@@ -1,4 +1,4 @@
-import { Partner } from "@animeaux/shared-entities/build/partner";
+import { Partner } from "@animeaux/shared";
 import { PageComponent } from "core/pageComponent";
 import { PageTitle } from "core/pageTitle";
 import { partners } from "elements/partners/data";

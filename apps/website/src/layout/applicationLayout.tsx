@@ -1,5 +1,4 @@
-import { Article } from "@animeaux/shared-entities/build/article";
-import { Partner } from "@animeaux/shared-entities/build/partner";
+import { Article, Partner } from "@animeaux/shared";
 import { ChildrenProp } from "core/types";
 import invariant from "invariant";
 import { createContext, useContext, useMemo } from "react";

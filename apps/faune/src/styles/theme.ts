@@ -11,6 +11,10 @@ export type Styles<PropType = {}> = FlattenInterpolation<
   ThemedStyledProps<PropType, any>
 >;
 
+export function setFocusColor(color: string) {
+  return `--focus-color: ${color};`;
+}
+
 const colors = {
   red: {
     "50": "#ffebee",
@@ -326,19 +330,21 @@ export const GlobalStyles = createGlobalStyle`
     outline: none;
   }
 
-  a.focus-visible,
-  a:focus-visible,
-  input.focus-visible,
-  input:focus-visible,
-  textarea.focus-visible,
-  textarea:focus-visible,
-  select.focus-visible,
-  select:focus-visible,
-  button.focus-visible,
-  button:focus-visible,
-  [tabindex].focus-visible,
-  [tabindex]:focus-visible {
-    box-shadow: 0 0 0 2px ${theme.colors.primary.a400};
+  @media (hover: hover) {
+    a.focus-visible,
+    a:focus-visible,
+    input.focus-visible,
+    input:focus-visible,
+    textarea.focus-visible,
+    textarea:focus-visible,
+    select.focus-visible,
+    select:focus-visible,
+    button.focus-visible,
+    button:focus-visible,
+    [tabindex].focus-visible,
+    [tabindex]:focus-visible {
+      box-shadow: 0 0 0 2px var(--focus-color, ${theme.colors.primary.a400});
+    }
   }
 
   strong {

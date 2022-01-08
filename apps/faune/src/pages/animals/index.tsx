@@ -1,14 +1,14 @@
 import {
+  AnimalActiveBrief,
   doesGroupsIntersect,
-  getAnimalDisplayName,
-  SearchableAnimal,
   UserGroup,
-} from "@animeaux/shared-entities";
+} from "@animeaux/shared";
 import { useCurrentUser } from "account/currentUser";
-import { useAllActiveAnimals } from "animal/queries";
-import { StatusBadge, StatusIcon } from "animal/status";
+import { StatusBadge } from "animal/status/badge";
+import { StatusIcon } from "animal/status/icon";
 import { QuickLinkAction } from "core/actions/quickAction";
 import { Avatar, AvatarPlaceholder } from "core/dataDisplay/avatar";
+import { EmptyMessage } from "core/dataDisplay/emptyMessage";
 import { AvatarImage } from "core/dataDisplay/image";
 import {
   Item,
@@ -19,6 +19,7 @@ import {
   LinkItem,
 } from "core/dataDisplay/item";
 import { ApplicationLayout } from "core/layouts/applicationLayout";
+import { ErrorPage } from "core/layouts/errorPage";
 import {
   Header,
   HeaderLink,
@@ -29,32 +30,14 @@ import { Main } from "core/layouts/main";
 import { Navigation } from "core/layouts/navigation";
 import { Section } from "core/layouts/section";
 import { usePageScrollRestoration } from "core/layouts/usePageScroll";
-import { Placeholder } from "core/loaders/placeholder";
+import { Placeholder, Placeholders } from "core/loaders/placeholder";
+import { useOperationQuery } from "core/operations";
 import { PageTitle } from "core/pageTitle";
-import { renderInfiniteItemList } from "core/request";
 import { ScreenSize, useScreenSize } from "core/screenSize";
 import { PageComponent } from "core/types";
 import { FaPlus, FaSearch } from "react-icons/fa";
 
 const TITLE = "Animaux en charge";
-
-const PLACEHOLDER = (
-  <Item>
-    <ItemIcon>
-      <AvatarPlaceholder />
-    </ItemIcon>
-
-    <ItemContent>
-      <ItemMainText>
-        <Placeholder $preset="label" />
-      </ItemMainText>
-
-      <ItemSecondaryText>
-        <Placeholder $preset="text" />
-      </ItemSecondaryText>
-    </ItemContent>
-  </Item>
-);
 
 const AnimalListPage: PageComponent = () => {
   const { currentUser } = useCurrentUser();
@@ -65,14 +48,41 @@ const AnimalListPage: PageComponent = () => {
 
   usePageScrollRestoration();
 
-  const query = useAllActiveAnimals();
-  const { content, title } = renderInfiniteItemList(query, {
-    title: TITLE,
-    getItemKey: (animal) => animal.id,
-    renderPlaceholderItem: () => PLACEHOLDER,
-    emptyMessage: "Il n'y a pas encore d'animaux",
-    renderItem: (animal) => <AnimalItem animal={animal} />,
+  const getAllActiveAnimals = useOperationQuery({
+    name: "getAllActiveAnimals",
   });
+
+  if (getAllActiveAnimals.state === "error") {
+    return <ErrorPage status={getAllActiveAnimals.status} />;
+  }
+
+  let content: React.ReactNode = null;
+
+  if (getAllActiveAnimals.state === "success") {
+    if (getAllActiveAnimals.result.length === 0) {
+      content = <EmptyMessage>Il n'y a pas encore d'animaux</EmptyMessage>;
+    } else {
+      content = (
+        <ul>
+          {getAllActiveAnimals.result.map((animal) => (
+            <li key={animal.id}>
+              <AnimalItem animal={animal} />
+            </li>
+          ))}
+        </ul>
+      );
+    }
+  } else {
+    content = (
+      <ul>
+        <Placeholders count={5}>
+          <li>
+            <AnimalItemPlaceholder />
+          </li>
+        </Placeholders>
+      </ul>
+    );
+  }
 
   return (
     <ApplicationLayout>
@@ -80,7 +90,11 @@ const AnimalListPage: PageComponent = () => {
 
       <Header>
         <HeaderUserAvatar />
-        <HeaderTitle>{title}</HeaderTitle>
+        <HeaderTitle>
+          {TITLE}{" "}
+          {getAllActiveAnimals.state === "success" &&
+            `(${getAllActiveAnimals.result.length})`}
+        </HeaderTitle>
         <HeaderLink href="./search">
           <FaSearch />
         </HeaderLink>
@@ -109,23 +123,22 @@ AnimalListPage.authorisedGroups = [
 
 export default AnimalListPage;
 
-function AnimalItem({ animal }: { animal: SearchableAnimal }) {
+function AnimalItem({ animal }: { animal: AnimalActiveBrief }) {
   const { screenSize } = useScreenSize();
-  const displayName = getAnimalDisplayName(animal);
 
   return (
     <LinkItem href={`./${animal.id}`}>
       <ItemIcon>
         <Avatar>
-          <AvatarImage image={animal.avatarId} alt={displayName} />
+          <AvatarImage image={animal.avatarId} alt={animal.displayName} />
         </Avatar>
       </ItemIcon>
 
       <ItemContent>
-        <ItemMainText>{displayName}</ItemMainText>
+        <ItemMainText>{animal.displayName}</ItemMainText>
 
-        {animal.hostFamily != null && (
-          <ItemSecondaryText>{animal.hostFamily.name}</ItemSecondaryText>
+        {animal.hostFamilyName != null && (
+          <ItemSecondaryText>{animal.hostFamilyName}</ItemSecondaryText>
         )}
       </ItemContent>
 
@@ -137,5 +150,25 @@ function AnimalItem({ animal }: { animal: SearchableAnimal }) {
         )}
       </ItemIcon>
     </LinkItem>
+  );
+}
+
+function AnimalItemPlaceholder() {
+  return (
+    <Item>
+      <ItemIcon>
+        <AvatarPlaceholder />
+      </ItemIcon>
+
+      <ItemContent>
+        <ItemMainText>
+          <Placeholder $preset="label" />
+        </ItemMainText>
+
+        <ItemSecondaryText>
+          <Placeholder $preset="text" />
+        </ItemSecondaryText>
+      </ItemContent>
+    </Item>
   );
 }

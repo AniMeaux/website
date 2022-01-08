@@ -1,93 +1,81 @@
-import {
-  ErrorCode,
-  getErrorMessage,
-  hasErrorCode,
-  UserGroup,
-} from "@animeaux/shared-entities";
+import { UserGroup } from "@animeaux/shared";
 import { ApplicationLayout } from "core/layouts/applicationLayout";
+import { ErrorPage } from "core/layouts/errorPage";
 import { Header, HeaderBackLink, HeaderTitle } from "core/layouts/header";
 import { Main } from "core/layouts/main";
 import { Navigation } from "core/layouts/navigation";
+import { Placeholder } from "core/loaders/placeholder";
+import { useOperationMutation, useOperationQuery } from "core/operations";
 import { PageTitle } from "core/pageTitle";
-import { renderQueryEntity } from "core/request";
 import { useRouter } from "core/router";
 import { PageComponent } from "core/types";
-import {
-  HostFamilyForm,
-  HostFamilyFormErrors,
-  HostFamilyFormPlaceholder,
-} from "hostFamily/hostFamilyForm";
-import {
-  useHostFamily,
-  useUpdateHostFamily,
-} from "hostFamily/hostFamilyQueries";
+import { HostFamilyForm, HostFamilyFormPlaceholder } from "hostFamily/form";
+import invariant from "invariant";
 
 const HostFamilyEditPage: PageComponent = () => {
   const router = useRouter();
-  const hostFamilyId = router.query.hostFamilyId as string;
-  const query = useHostFamily(hostFamilyId);
-  const [updateHostFamily, mutation] = useUpdateHostFamily({
-    onSuccess() {
+
+  invariant(
+    typeof router.query.hostFamilyId === "string",
+    `The hostFamilyId path should be a string. Got '${typeof router.query
+      .hostFamilyId}'`
+  );
+
+  const getHostFamily = useOperationQuery({
+    name: "getHostFamily",
+    params: { id: router.query.hostFamilyId },
+  });
+
+  const updateHostFamily = useOperationMutation("updateHostFamily", {
+    onSuccess: (response, cache) => {
+      cache.set(
+        { name: "getHostFamily", params: { id: response.result.id } },
+        response.result
+      );
+
+      cache.invalidate({ name: "getAllHostFamilies" });
       router.backIfPossible("..");
     },
   });
 
-  const errors: HostFamilyFormErrors = {};
-  if (mutation.error != null) {
-    const errorMessage = getErrorMessage(mutation.error);
-
-    if (
-      hasErrorCode(mutation.error, [
-        ErrorCode.HOST_FAMILY_MISSING_NAME,
-        ErrorCode.HOST_FAMILY_NAME_ALREADY_USED,
-      ])
-    ) {
-      errors.name = errorMessage;
-    } else if (
-      hasErrorCode(mutation.error, ErrorCode.HOST_FAMILY_MISSING_PHONE)
-    ) {
-      errors.phone = errorMessage;
-    } else if (
-      hasErrorCode(mutation.error, ErrorCode.HOST_FAMILY_INVALID_EMAIL)
-    ) {
-      errors.email = errorMessage;
-    } else if (
-      hasErrorCode(mutation.error, ErrorCode.HOST_FAMILY_MISSING_ZIP_CODE)
-    ) {
-      errors.zipCode = errorMessage;
-    } else if (
-      hasErrorCode(mutation.error, ErrorCode.HOST_FAMILY_MISSING_CITY)
-    ) {
-      errors.city = errorMessage;
-    } else if (
-      hasErrorCode(mutation.error, ErrorCode.HOST_FAMILY_MISSING_ADDRESS)
-    ) {
-      errors.address = errorMessage;
-    }
+  if (getHostFamily.state === "error") {
+    return <ErrorPage status={getHostFamily.status} />;
   }
 
-  const { pageTitle, headerTitle, content } = renderQueryEntity(query, {
-    getDisplayedText: (hostFamily) => hostFamily.name,
-    renderPlaceholder: () => <HostFamilyFormPlaceholder />,
-    renderEntity: (hostFamily) => (
+  let content: React.ReactNode = null;
+
+  if (getHostFamily.state === "success") {
+    content = (
       <HostFamilyForm
-        hostFamily={hostFamily}
-        onSubmit={(formPayload) =>
-          updateHostFamily({ currentHostFamily: hostFamily, formPayload })
+        initialHostFamily={getHostFamily.result}
+        onSubmit={(hostFamily) =>
+          updateHostFamily.mutate({
+            ...hostFamily,
+            id: getHostFamily.result.id,
+          })
         }
-        pending={mutation.isLoading}
-        errors={errors}
+        pending={updateHostFamily.state === "loading"}
+        serverErrors={
+          updateHostFamily.state === "error"
+            ? [updateHostFamily.errorResult?.code ?? "server-error"]
+            : []
+        }
       />
-    ),
-  });
+    );
+  } else {
+    content = <HostFamilyFormPlaceholder />;
+  }
+
+  const name =
+    getHostFamily.state === "success" ? getHostFamily.result.name : null;
 
   return (
     <ApplicationLayout>
-      <PageTitle title={pageTitle} />
+      <PageTitle title={name} />
 
       <Header>
         <HeaderBackLink />
-        <HeaderTitle>{headerTitle}</HeaderTitle>
+        <HeaderTitle>{name ?? <Placeholder $preset="text" />}</HeaderTitle>
       </Header>
 
       <Main>{content}</Main>

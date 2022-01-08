@@ -2,7 +2,7 @@ module.exports = {
   apps: [
     createApp({
       name: "api",
-      cwd: "apps/api",
+      cwd: "api",
       script: "node .",
       env: { NODE_ENV: "production" },
     }),

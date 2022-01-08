@@ -1,68 +1,81 @@
-import {
-  ErrorCode,
-  getErrorMessage,
-  hasErrorCode,
-  UserGroup,
-} from "@animeaux/shared-entities";
-import {
-  AnimalColorForm,
-  AnimalColorFormErrors,
-  AnimalColorFormPlaceholder,
-} from "animalColor/animalColorForm";
-import {
-  useAnimalColor,
-  useUpdateAnimalColor,
-} from "animalColor/animalColorQueries";
+import { UserGroup } from "@animeaux/shared";
+import { AnimalColorForm, AnimalColorFormPlaceholder } from "animal/color/form";
 import { ApplicationLayout } from "core/layouts/applicationLayout";
+import { ErrorPage } from "core/layouts/errorPage";
 import { Header, HeaderBackLink, HeaderTitle } from "core/layouts/header";
 import { Main } from "core/layouts/main";
 import { Navigation } from "core/layouts/navigation";
+import { Placeholder } from "core/loaders/placeholder";
+import { useOperationMutation, useOperationQuery } from "core/operations";
 import { PageTitle } from "core/pageTitle";
-import { renderQueryEntity } from "core/request";
 import { useRouter } from "core/router";
 import { PageComponent } from "core/types";
+import invariant from "invariant";
 
 const AnimalColorEditPage: PageComponent = () => {
   const router = useRouter();
-  const animalColorId = router.query.animalColorId as string;
-  const query = useAnimalColor(animalColorId);
-  const [updateAnimalColor, mutation] = useUpdateAnimalColor({
-    onSuccess() {
+
+  invariant(
+    typeof router.query.animalColorId === "string",
+    `The animalColorId path should be a string. Got '${typeof router.query
+      .animalColorId}'`
+  );
+
+  const getAnimalColor = useOperationQuery({
+    name: "getAnimalColor",
+    params: { id: router.query.animalColorId },
+  });
+
+  const updateAnimalColor = useOperationMutation("updateAnimalColor", {
+    onSuccess: (response, cache) => {
+      cache.set(
+        { name: "getAnimalColor", params: { id: response.result.id } },
+        response.result
+      );
+
+      cache.invalidate({ name: "getAllAnimalColors" });
       router.backIfPossible("../..");
     },
   });
 
-  const { pageTitle, headerTitle, content } = renderQueryEntity(query, {
-    getDisplayedText: (animalColor) => animalColor.name,
-    renderPlaceholder: () => <AnimalColorFormPlaceholder />,
-    renderEntity: (animalColor) => (
-      <AnimalColorForm
-        animalColor={animalColor}
-        onSubmit={(formPayload) =>
-          updateAnimalColor({ currentAnimalColor: animalColor, formPayload })
-        }
-        pending={mutation.isLoading}
-        errors={errors}
-      />
-    ),
-  });
-
-  const errors: AnimalColorFormErrors = {};
-  if (mutation.error != null) {
-    const errorMessage = getErrorMessage(mutation.error);
-
-    if (hasErrorCode(mutation.error, ErrorCode.ANIMAL_COLOR_MISSING_NAME)) {
-      errors.name = errorMessage;
-    }
+  if (getAnimalColor.state === "error") {
+    return <ErrorPage status={getAnimalColor.status} />;
   }
+
+  let content: React.ReactNode = null;
+
+  if (getAnimalColor.state === "success") {
+    content = (
+      <AnimalColorForm
+        initialAnimalColor={getAnimalColor.result}
+        onSubmit={(animalColor) =>
+          updateAnimalColor.mutate({
+            ...animalColor,
+            id: getAnimalColor.result.id,
+          })
+        }
+        pending={updateAnimalColor.state === "loading"}
+        serverErrors={
+          updateAnimalColor.state === "error"
+            ? [updateAnimalColor.errorResult?.code ?? "server-error"]
+            : []
+        }
+      />
+    );
+  } else {
+    content = <AnimalColorFormPlaceholder />;
+  }
+
+  const name =
+    getAnimalColor.state === "success" ? getAnimalColor.result.name : null;
 
   return (
     <ApplicationLayout>
-      <PageTitle title={pageTitle} />
+      <PageTitle title={name} />
 
       <Header>
         <HeaderBackLink href="../.." />
-        <HeaderTitle>{headerTitle}</HeaderTitle>
+        <HeaderTitle>{name ?? <Placeholder $preset="text" />}</HeaderTitle>
       </Header>
 
       <Main>{content}</Main>
