@@ -54,23 +54,47 @@ export function AdoptionMenu() {
 
 export function ActMenu() {
   return (
-    <ul>
-      <li>
-        <SubNavigationLink href="/host-families">
-          Devenir famille d'accueil
-        </SubNavigationLink>
-      </li>
+    <>
+      <ul>
+        <li>
+          <SubNavigationLink href="/host-families">
+            Devenir famille d'accueil
+          </SubNavigationLink>
+        </li>
 
-      <li>
-        <SubNavigationLink href="/volunteers">
-          Devenir bénévole
-        </SubNavigationLink>
-      </li>
+        <li>
+          <SubNavigationLink href="/volunteers">
+            Devenir bénévole
+          </SubNavigationLink>
+        </li>
 
-      <li>
-        <SubNavigationLink href="/donation">Faire un don</SubNavigationLink>
-      </li>
-    </ul>
+        <li>
+          <SubNavigationLink href="/donation">Faire un don</SubNavigationLink>
+        </li>
+      </ul>
+
+      <hr className="separator px-4" />
+
+      <ul>
+        <li>
+          <SubNavigationLink href="/support/found">
+            Signaler un animal errant
+          </SubNavigationLink>
+        </li>
+
+        <li>
+          <SubNavigationLink href="/support/abuse">
+            Informer d'un acte de maltraitance
+          </SubNavigationLink>
+        </li>
+
+        <li>
+          <SubNavigationLink href="/support/abandon">
+            Abandonner votre animal
+          </SubNavigationLink>
+        </li>
+      </ul>
+    </>
   );
 }
 
