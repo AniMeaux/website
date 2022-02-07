@@ -1,5 +1,3 @@
-"use strict";
-
 const withPwa = require("next-pwa");
 
 module.exports = withPwa({

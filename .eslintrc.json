@@ -4,7 +4,7 @@
     {
       "files": ["*.js"],
       "parserOptions": {
-        "sourceType": "script"
+        "sourceType": "module"
       },
       "rules": {
         "strict": ["warn", "global"]

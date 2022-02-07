@@ -10,8 +10,7 @@
     "build:js": "babel src -d build --extensions \".ts,.tsx\"",
     "build:types": "tsc --emitDeclarationOnly",
     "clean": "rm -rf build",
-    "clean-build": "run-s clean build",
-    "dev": "run-p -l \"build:* -w\""
+    "clean-build": "run-s clean build"
   },
   "dependencies": {
     "date-fns": "^2.28.0",

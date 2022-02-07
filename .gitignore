@@ -11,6 +11,7 @@ yarn-error.log*
 .next/
 build/
 out/
+logs/
 node_modules/
 dumps/
 sw.js
