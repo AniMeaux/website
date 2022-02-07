@@ -25,17 +25,17 @@ module.exports = {
     createApp({
       name: "faune",
       cwd: "apps/faune",
-      script: "yarn dev",
+      script: "node node_modules/.bin/next dev -p 3001",
       watch: ["next.config.js", "tsconfig.json", ".env*", "next-env.d.ts"],
-      env: { NODE_ENV: "development" },
+      env: { BUILD_ID: "dev" },
     }),
 
     createApp({
       name: "website",
       cwd: "apps/website",
-      script: "yarn dev",
+      script: "node node_modules/.bin/next dev -p 3000",
       watch: ["next.config.js", "tsconfig.json", ".env*", "next-env.d.ts"],
-      env: { NODE_ENV: "development" },
+      env: { BUILD_ID: "dev" },
     }),
   ],
 };

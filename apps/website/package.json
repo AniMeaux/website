@@ -3,11 +3,9 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 3000",
     "build": "BUILD_ID=\"$(git rev-parse --short HEAD)\" next build",
     "clean": "rm -rf build",
-    "clean-build": "run-s clean build",
-    "start:prod": "next start -p 3000"
+    "clean-build": "run-s clean build"
   },
   "dependencies": {
     "@animeaux/shared-entities": "*",
