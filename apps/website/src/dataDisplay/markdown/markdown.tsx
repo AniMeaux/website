@@ -1,7 +1,7 @@
 import cn from "classnames";
 import { Link } from "core/link";
 import { StyleProps } from "core/types";
-import { UnknownImage } from "dataDisplay/image";
+import { StaticImage } from "dataDisplay/image";
 import { ElementType } from "react";
 import { FaQuoteLeft } from "react-icons/fa";
 import ReactMarkdown, { Options as ReactMarkdownOptions } from "react-markdown";
@@ -76,7 +76,12 @@ export function Markdown({ preset, className, ...props }: MarkdownProps) {
         h6: Heading,
         img: ({ src, alt, key }) => {
           return (
-            <UnknownImage key={key} src={src as string} alt={alt as string} />
+            <StaticImage
+              key={key}
+              largeImage={src as string}
+              smallImage={src as string}
+              alt={alt as string}
+            />
           );
         },
         blockquote: ({ children, key }) => {

@@ -23,6 +23,7 @@ function AnimalCardContent({ animal }: AnimalCardContentProps) {
         imageId={animal.avatarId}
         alt={animal.officialName}
         className={styles.avatar}
+        size={{ width: 400, height: 200 }}
       />
 
       <div className={styles.info}>

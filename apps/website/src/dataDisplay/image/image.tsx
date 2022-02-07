@@ -6,8 +6,13 @@ import { useAsyncMemo } from "react-behave";
 import { FaImage } from "react-icons/fa";
 import styles from "./image.module.css";
 
-function getImageUrl(image: string) {
-  return `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/${image}`;
+type GetImageUrlSize = {
+  width: number;
+  height: number;
+};
+
+export function getImageUrl(image: string, { width, height }: GetImageUrlSize) {
+  return `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/c_fill,w_${width},h_${height}/${image}`;
 }
 
 type CommonProps = StyleProps & {
@@ -73,30 +78,15 @@ export function StaticImage({
 
 export type CloudinaryImageProps = CommonProps & {
   imageId: string;
+  size: GetImageUrlSize;
 };
 
-export function CloudinaryImage({ imageId, ...rest }: CloudinaryImageProps) {
-  return <BaseImage {...rest} src={getImageUrl(imageId)} />;
-}
-
-export type UnknownImageProps = CommonProps & {
-  src: string;
-};
-
-export function UnknownImage({ src, ...rest }: UnknownImageProps) {
-  if (isUuid(src) && getUuidVersion(src) === 4) {
-    return <CloudinaryImage {...rest} imageId={src} />;
-  }
-
-  return <StaticImage {...rest} largeImage={src} smallImage={src} />;
-}
-
-export function BluredImage({ className, ...rest }: UnknownImageProps) {
-  return (
-    <div className={cn(styles.bluredWrapper, className)}>
-      <UnknownImage {...rest} className={styles.blured} />
-    </div>
-  );
+export function CloudinaryImage({
+  imageId,
+  size,
+  ...rest
+}: CloudinaryImageProps) {
+  return <BaseImage {...rest} src={getImageUrl(imageId, size)} />;
 }
 
 class Color {
@@ -176,7 +166,9 @@ async function getImageDominantColor(src: string): Promise<Color | null> {
 export type UseImageDominantColorParams = { imageId: string } | { src: string };
 export function useImageDominantColor(params: UseImageDominantColorParams) {
   let resolvedSrc =
-    "imageId" in params ? getImageUrl(params.imageId) : params.src;
+    "imageId" in params
+      ? getImageUrl(params.imageId, { width: 10, height: 10 })
+      : params.src;
 
   return useAsyncMemo(
     async () => getImageDominantColor(resolvedSrc),

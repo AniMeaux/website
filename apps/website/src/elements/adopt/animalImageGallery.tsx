@@ -1,6 +1,10 @@
 import { PublicAnimal } from "@animeaux/shared-entities/build/animal";
 import cn from "classnames";
-import { CloudinaryImage, useImageDominantColor } from "dataDisplay/image";
+import {
+  CloudinaryImage,
+  getImageUrl,
+  useImageDominantColor,
+} from "dataDisplay/image";
 import { useRef, useState } from "react";
 import styles from "./animalImageGallery.module.css";
 
@@ -36,12 +40,19 @@ export function AnimalImageGallery({ animal }: AnimalImageGalleryProps) {
           }}
         >
           {imagesId.map((imageId) => (
-            <CloudinaryImage
-              key={imageId}
-              imageId={imageId}
-              alt={animal.officialName}
-              className={styles.image}
-            />
+            <picture key={imageId} className={styles.picture}>
+              <source
+                srcSet={getImageUrl(imageId, { width: 400, height: 400 })}
+                media="(max-width: 399px)"
+              />
+
+              <CloudinaryImage
+                imageId={imageId}
+                alt={animal.officialName}
+                className={styles.image}
+                size={{ width: 800, height: 800 }}
+              />
+            </picture>
           ))}
         </div>
 
@@ -63,6 +74,7 @@ export function AnimalImageGallery({ animal }: AnimalImageGalleryProps) {
                   imageId={imageId}
                   alt={animal.officialName}
                   className={styles.thubnailImage}
+                  size={{ width: 50, height: 50 }}
                 />
               </button>
             </li>
