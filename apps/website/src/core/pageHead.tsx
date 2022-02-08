@@ -42,6 +42,16 @@ export function PageHead() {
         // Use `maximum-scale=1` to prevent browsers to zoom on form elements.
         content="width=device-width, minimum-scale=1, initial-scale=1, maximum-scale=1, shrink-to-fit=no, user-scalable=no, viewport-fit=cover"
       />
+
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Playfair+Display:300,400,400i,500,600,700&display=swap"
+      />
+
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,400i,500,600,700&display=swap"
+      />
     </Head>
   );
 }

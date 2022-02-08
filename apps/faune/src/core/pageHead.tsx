@@ -80,6 +80,16 @@ export function PageHead() {
         sizes="180x180"
         href="/apple-touch-icon-180x180.png"
       />
+
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,400i,500,600,700&display=swap"
+      />
+
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,500,600,700&display=swap"
+      />
     </Head>
   );
 }
