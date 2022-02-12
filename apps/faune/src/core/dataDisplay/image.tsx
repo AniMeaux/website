@@ -36,7 +36,7 @@ export function Image({ image, preset = "none", alt, ...rest }: ImageProps) {
         process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME
       }/image/upload/${ImagePresetTransformOptions[preset](
         window.devicePixelRatio
-      )}${image}`;
+      )}f_auto/${image}`;
 
   const [hasError, setHasError] = useState(false);
 
