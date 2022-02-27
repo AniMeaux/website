@@ -10,6 +10,12 @@ module.exports = {
     scrollRestoration: true,
   },
 
+  publicRuntimeConfig: {
+    apiUrl: process.env.API_URL,
+    cloudinaryCloudName: process.env.CLOUDINARY_CLOUD_NAME,
+    sentryDsn: process.env.SENTRY_DSN,
+  },
+
   webpack(config) {
     // Inline SVG.
     config.module.rules.push({

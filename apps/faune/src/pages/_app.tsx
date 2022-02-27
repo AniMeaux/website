@@ -13,7 +13,7 @@ import { Sentry } from "core/sentry";
 import { PageComponent } from "core/types";
 import "core/yup";
 import { Settings } from "luxon";
-import { AppProps } from "next/app";
+import NextApp, { AppContext, AppProps } from "next/app";
 import { GlobalStyles, ResetStyles } from "styles/theme";
 
 Settings.defaultLocale = "fr";
@@ -64,3 +64,10 @@ export default function App({ Component, pageProps }: ApplicationProps) {
     </>
   );
 }
+
+// Just to make sure runtime config can be used (incompatible with Automatic
+// Static Optimization).
+// https://nextjs.org/docs/api-reference/next.config.js/runtime-configuration
+App.getInitialProps = async (appContext: AppContext) => {
+  return await NextApp.getInitialProps(appContext);
+};

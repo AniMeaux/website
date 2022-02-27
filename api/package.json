@@ -4,10 +4,12 @@
   "private": true,
   "main": "build/app.js",
   "scripts": {
+    "dev": "yarn start",
     "build": "babel src -d build --extensions \".ts\" --copy-files",
+    "start": "node -r dotenv-flow/config .",
     "clean": "rm -rf build",
-    "clean-build": "run-s clean build",
-    "script": "NODE_ENV=\"production\" ts-node --files --project scripts/tsconfig.json"
+    "clean-build": "yarn clean && yarn build",
+    "script": "NODE_OPTIONS=\"-r dotenv-flow/config\" NODE_ENV=\"production\" ts-node --files --project scripts/tsconfig.json"
   },
   "dependencies": {
     "@algolia/client-search": "^4.12.0",
@@ -15,8 +17,7 @@
     "@koa/cors": "^3.1.0",
     "algoliasearch": "^4.12.0",
     "cloudinary": "^1.28.0",
-    "dotenv": "^10.0.0",
-    "dotenv-expand": "^5.1.0",
+    "dotenv-flow": "^3.2.0",
     "firebase-admin": "^10.0.1",
     "koa": "^2.13.4",
     "koa-bodyparser": "^4.3.0",
@@ -25,6 +26,7 @@
     "koa-router": "^10.1.1",
     "lodash.orderby": "^4.6.0",
     "luxon": "^2.3.0",
+    "tiny-invariant": "^1.2.0",
     "type-fest": "^2.8.0",
     "uuid": "^8.3.2",
     "yup": "^0.32.11"
@@ -47,8 +49,6 @@
     "@types/node": "^17.0.6",
     "@types/uuid": "^8.3.4",
     "fs-extra": "^10.0.0",
-    "nodemon": "^2.0.15",
-    "npm-run-all": "^4.1.5",
     "ts-node": "^10.4.0",
     "typescript": "^4.5.4"
   }

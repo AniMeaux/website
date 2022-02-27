@@ -3,17 +3,14 @@ import Head from "next/head";
 export function PageHead() {
   return (
     <Head>
-      <title>{process.env.NEXT_PUBLIC_APP_NAME}</title>
+      <title>Ani'Meaux</title>
       <meta charSet="utf-8" />
 
-      <meta
-        name="application-name"
-        content={process.env.NEXT_PUBLIC_APP_NAME}
-      />
+      <meta name="application-name" content="Ani'Meaux" />
 
       <meta
         name="description"
-        content={process.env.NEXT_PUBLIC_APP_DESCRIPTION}
+        content="Site internet de l'association Ani'Meaux"
       />
 
       <link

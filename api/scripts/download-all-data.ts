@@ -1,4 +1,3 @@
-import "./shared";
 import * as admin from "firebase-admin";
 import { ensureDir, outputFile } from "fs-extra";
 import { DateTime } from "luxon";
@@ -9,6 +8,10 @@ import { ANIMAL_BREED_COLLECTION } from "../src/entities/animalBreed.entity";
 import { ANIMAL_COLOR_COLLECTION } from "../src/entities/animalColor.entity";
 import { HOST_FAMILY_COLLECTION } from "../src/entities/hostFamily.entity";
 import { getAllUsers } from "../src/operations/user.operation";
+
+process.on("unhandledRejection", (err) => {
+  throw err;
+});
 
 const COLLECTIONS_NAME = [
   ANIMAL_BREED_COLLECTION,

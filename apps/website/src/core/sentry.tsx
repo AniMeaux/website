@@ -1,17 +1,13 @@
 import { init, setContext, setTag } from "@sentry/react";
+import { getConfig } from "core/config";
 
 if (process.env.NODE_ENV === "production") {
-  init({
-    dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
-  });
+  init({ dsn: getConfig().sentryDsn });
 
   // Use tag to allow issues to be filtered.
-  setTag("application", process.env.NEXT_PUBLIC_APP_NAME);
+  setTag("application", "website");
 
-  setContext("Application", {
-    name: process.env.NEXT_PUBLIC_APP_NAME,
-    version: `${process.env.NEXT_PUBLIC_APP_VERSION}-${process.env.NEXT_PUBLIC_APP_BUILD_ID}`,
-  });
+  setContext("Application", { name: "Website", version: "latest" });
 }
 
 export * from "@sentry/react";

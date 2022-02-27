@@ -7,7 +7,7 @@ export type PageTitleProps = {
 export function PageTitle({ title }: PageTitleProps) {
   return (
     <Head>
-      <title>{title ?? process.env.NEXT_PUBLIC_APP_NAME}</title>
+      <title>{title ?? "Faune Ani'Meaux"}</title>
     </Head>
   );
 }

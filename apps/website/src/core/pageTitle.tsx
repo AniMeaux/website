@@ -5,7 +5,7 @@ type PageTitleProps = {
 };
 
 export function PageTitle({ title }: PageTitleProps) {
-  let pageTitle = process.env.NEXT_PUBLIC_APP_NAME;
+  let pageTitle = "Ani'Meaux";
 
   if (title != null) {
     pageTitle = `${title} • ${pageTitle}`;

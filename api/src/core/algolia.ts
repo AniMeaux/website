@@ -1,5 +1,13 @@
 import { SearchOptions } from "@algolia/client-search";
 import algoliasearch from "algoliasearch";
+import invariant from "tiny-invariant";
+
+invariant(process.env.ALGOLIA_ID != null, "ALGOLIA_ID must be defined.");
+
+invariant(
+  process.env.ALGOLIA_ADMIN_KEY != null,
+  "ALGOLIA_ADMIN_KEY must be defined."
+);
 
 export const AlgoliaClient = algoliasearch(
   process.env.ALGOLIA_ID,

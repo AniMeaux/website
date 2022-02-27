@@ -5,6 +5,7 @@ import {
   OperationResult,
   PickOperationErrorResult,
 } from "@animeaux/shared";
+import { getConfig } from "core/config";
 import invariant from "invariant";
 
 type OperationSuccessResult<TName extends AllOperationName> =
@@ -50,14 +51,11 @@ export async function runOperation<TName extends AllOperationName>(
       "Content-Type": "application/json",
     };
 
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_V2_URL}/operation`,
-      {
-        method: "POST",
-        body: JSON.stringify(body),
-        headers,
-      }
-    );
+    const response = await fetch(`${getConfig().apiUrl}/operation`, {
+      method: "POST",
+      body: JSON.stringify(body),
+      headers,
+    });
 
     const contentType = response.headers.get("content-type");
 

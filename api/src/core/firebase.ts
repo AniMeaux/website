@@ -1,7 +1,28 @@
 import { cert, FirebaseError, initializeApp } from "firebase-admin/app";
 import { getFirestore } from "firebase-admin/firestore";
+import invariant from "tiny-invariant";
 
 export function initializeFirebase() {
+  invariant(
+    process.env.FIREBASE_DATABASE_URL != null,
+    "FIREBASE_DATABASE_URL must be defined."
+  );
+
+  invariant(
+    process.env.FIREBASE_PROJECT_ID != null,
+    "FIREBASE_PROJECT_ID must be defined."
+  );
+
+  invariant(
+    process.env.FIREBASE_CLIENT_EMAIL != null,
+    "FIREBASE_CLIENT_EMAIL must be defined."
+  );
+
+  invariant(
+    process.env.FIREBASE_PRIVATE_KEY != null,
+    "FIREBASE_PRIVATE_KEY must be defined."
+  );
+
   initializeApp({
     databaseURL: process.env.FIREBASE_DATABASE_URL,
     credential: cert({

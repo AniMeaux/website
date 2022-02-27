@@ -1,15 +1,13 @@
 import * as Sentry from "@sentry/react";
+import { getConfig } from "core/config";
 
 if (process.env.NODE_ENV === "production") {
-  Sentry.init({ dsn: process.env.NEXT_PUBLIC_SENTRY_DSN });
+  Sentry.init({ dsn: getConfig().sentryDsn });
 
   // Use tag to allow issues to be filtered.
-  Sentry.setTag("application", process.env.NEXT_PUBLIC_APP_NAME);
+  Sentry.setTag("application", "faune");
 
-  Sentry.setContext("Application", {
-    name: process.env.NEXT_PUBLIC_APP_NAME,
-    version: `${process.env.NEXT_PUBLIC_APP_VERSION}-${process.env.NEXT_PUBLIC_APP_BUILD_ID}`,
-  });
+  Sentry.setContext("Application", { name: "Faune", version: "latest" });
 }
 
 export { Sentry };

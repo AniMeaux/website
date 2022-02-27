@@ -1,3 +1,4 @@
+import { getConfig } from "core/config";
 import { Sentry } from "core/sentry";
 import { StyleProps } from "core/types";
 import { useState } from "react";
@@ -48,7 +49,7 @@ export function Image({ image, preset = "none", alt, ...rest }: ImageProps) {
   const src = isImageFile(image)
     ? image.dataUrl
     : `https://res.cloudinary.com/${
-        process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME
+        getConfig().cloudinaryCloudName
       }/image/upload/${ImagePresetTransformOptions[preset](
         window.devicePixelRatio
       )}f_auto/${image}`;

@@ -1,4 +1,5 @@
 import cn from "classnames";
+import { getConfig } from "core/config";
 import { captureException } from "core/sentry";
 import { StyleProps } from "core/types";
 import { useState } from "react";
@@ -12,7 +13,9 @@ type GetImageUrlSize = {
 };
 
 export function getImageUrl(image: string, { width, height }: GetImageUrlSize) {
-  return `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/c_fill,w_${width},h_${height}/f_auto/${image}`;
+  return `https://res.cloudinary.com/${
+    getConfig().cloudinaryCloudName
+  }/image/upload/c_fill,w_${width},h_${height}/f_auto/${image}`;
 }
 
 type CommonProps = StyleProps & {

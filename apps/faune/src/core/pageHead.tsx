@@ -5,14 +5,8 @@ export function PageHead() {
     <Head>
       <meta charSet="utf-8" />
       <link rel="manifest" href="/manifest.webmanifest" />
-      <meta
-        name="application-name"
-        content={process.env.NEXT_PUBLIC_APP_NAME}
-      />
-      <meta
-        name="description"
-        content={process.env.NEXT_PUBLIC_APP_DESCRIPTION}
-      />
+      <meta name="application-name" content="Faune Ani'Meaux" />
+      <meta name="description" content="Application de gestion d'Ani'Meaux" />
       <meta name="mobile-web-app-capable" content="yes" />
       <meta name="theme-color" content="#ffffff" />
 
@@ -51,10 +45,7 @@ export function PageHead() {
         https://developer.apple.com/library/archive/documentation/AppleApplications/Reference/SafariWebContent/ConfiguringWebApplications/ConfiguringWebApplications.html
       */}
 
-      <meta
-        name="apple-mobile-web-app-title"
-        content={process.env.NEXT_PUBLIC_APP_NAME}
-      />
+      <meta name="apple-mobile-web-app-title" content="Faune Ani'Meaux" />
 
       {/* 
         Sets whether a web application runs in full-screen mode.

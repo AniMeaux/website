@@ -1,22 +1,28 @@
+const API_PORT = "4000";
+const WEBSITE_PORT = "3000";
+const FAUNE_PORT = "3001";
+
 module.exports = {
   apps: [
     createApp({
       name: "api",
       cwd: "api",
-      script: "node .",
-      env: { NODE_ENV: "production" },
-    }),
-
-    createApp({
-      name: "faune",
-      cwd: "apps/faune",
-      script: "node node_modules/.bin/next start -p 3001",
+      script: "yarn start",
+      env: { NODE_ENV: "production", PORT: API_PORT },
     }),
 
     createApp({
       name: "website",
       cwd: "apps/website",
-      script: "node node_modules/.bin/next start -p 3000",
+      script: `yarn start -p ${WEBSITE_PORT}`,
+      env: { API_URL: `http://localhost:${API_PORT}` },
+    }),
+
+    createApp({
+      name: "faune",
+      cwd: "apps/faune",
+      script: `yarn start -p ${FAUNE_PORT}`,
+      env: { API_URL: `http://localhost:${API_PORT}` },
     }),
   ],
 };
