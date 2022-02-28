@@ -1,7 +1,7 @@
 import { AnimalSpecies } from "@animeaux/shared";
-import { AdoptSearchParams } from "core/adoptSearchParams";
-import { ANIMAL_SPECIES_LABELS } from "core/labels";
-import { Link } from "core/link";
+import { AdoptSearchParams } from "~/core/adoptSearchParams";
+import { ANIMAL_SPECIES_LABELS } from "~/core/labels";
+import { Link } from "~/core/link";
 import { useState } from "react";
 import {
   FaEnvelope,

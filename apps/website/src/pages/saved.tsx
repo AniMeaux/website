@@ -1,16 +1,16 @@
-import { OperationResponse, runOperation } from "core/operations";
-import { PageComponent } from "core/pageComponent";
-import { PageQueryParam } from "core/pageQueryParam";
-import { PageTitle } from "core/pageTitle";
-import { AnimalCard } from "dataDisplay/animal/card";
-import { AnimalPaginatedList } from "dataDisplay/animal/paginatedList";
-import { CenteredContent } from "layout/centeredContent";
-import { Footer } from "layout/footer";
-import { Header } from "layout/header";
-import { PageHeader } from "layout/pageHeader";
-import { Section } from "layout/section";
+import { OperationResponse, runOperation } from "~/core/operations";
+import { PageComponent } from "~/core/pageComponent";
+import { PageQueryParam } from "~/core/pageQueryParam";
+import { PageTitle } from "~/core/pageTitle";
+import { AnimalCard } from "~/dataDisplay/animal/card";
+import { AnimalPaginatedList } from "~/dataDisplay/animal/paginatedList";
+import { CenteredContent } from "~/layout/centeredContent";
+import { Footer } from "~/layout/footer";
+import { Header } from "~/layout/header";
+import { PageHeader } from "~/layout/pageHeader";
+import { Section } from "~/layout/section";
 import { GetServerSideProps } from "next";
-import { ErrorPage } from "pages/_error";
+import { ErrorPage } from "~/pages/_error";
 
 export const getServerSideProps: GetServerSideProps<
   OperationResponse<"getAllSavedAnimals">

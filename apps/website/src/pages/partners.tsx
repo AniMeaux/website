@@ -1,15 +1,15 @@
 import { Partner } from "@animeaux/shared";
-import { PageComponent } from "core/pageComponent";
-import { PageTitle } from "core/pageTitle";
-import { partners } from "elements/partners/data";
-import { PartnerList } from "elements/partners/partnerList";
-import { CenteredContent } from "layout/centeredContent";
-import { Footer } from "layout/footer";
-import { Header } from "layout/header";
-import { PageHeader } from "layout/pageHeader";
-import { Section } from "layout/section";
+import { PageComponent } from "~/core/pageComponent";
+import { PageTitle } from "~/core/pageTitle";
+import { partners } from "~/elements/partners/data";
+import { PartnerList } from "~/elements/partners/partnerList";
+import { CenteredContent } from "~/layout/centeredContent";
+import { Footer } from "~/layout/footer";
+import { Header } from "~/layout/header";
+import { PageHeader } from "~/layout/pageHeader";
+import { Section } from "~/layout/section";
 import { GetServerSideProps } from "next";
-import { ErrorPage } from "pages/_error";
+import { ErrorPage } from "~/pages/_error";
 
 type PartnersPageProps =
   | { type: "success"; partners: Partner[] }

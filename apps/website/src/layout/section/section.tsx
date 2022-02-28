@@ -1,5 +1,5 @@
 import cn from "classnames";
-import { StyleProps } from "core/types";
+import { StyleProps } from "~/core/types";
 import { cloneElement } from "react";
 
 type SectionProps = StyleProps & {

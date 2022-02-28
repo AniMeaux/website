@@ -1,7 +1,7 @@
 import cn from "classnames";
-import { getConfig } from "core/config";
-import { captureException } from "core/sentry";
-import { StyleProps } from "core/types";
+import { getConfig } from "~/core/config";
+import { captureException } from "~/core/sentry";
+import { StyleProps } from "~/core/types";
 import { useState } from "react";
 import { useAsyncMemo } from "react-behave";
 import { FaImage } from "react-icons/fa";

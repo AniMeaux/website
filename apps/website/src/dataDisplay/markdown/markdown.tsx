@@ -1,7 +1,7 @@
 import cn from "classnames";
-import { Link } from "core/link";
-import { StyleProps } from "core/types";
-import { StaticImage } from "dataDisplay/image";
+import { Link } from "~/core/link";
+import { StyleProps } from "~/core/types";
+import { StaticImage } from "~/dataDisplay/image";
 import { ElementType } from "react";
 import { FaQuoteLeft } from "react-icons/fa";
 import ReactMarkdown, { Options as ReactMarkdownOptions } from "react-markdown";

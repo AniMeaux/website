@@ -1,4 +1,4 @@
-import { ScreenSize, useScreenSize } from "core/screenSize";
+import { ScreenSize, useScreenSize } from "~/core/screenSize";
 import { LargeNavigation } from "./largeNavigation";
 import { SmallNavigation } from "./smallNavigation";
 

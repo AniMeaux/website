@@ -1,10 +1,10 @@
 import { formatAge, PublicAnimalSearchHit } from "@animeaux/shared";
 import cn from "classnames";
-import { isDefined } from "core/isDefined";
-import { Link, LinkProps } from "core/link";
-import { StyleProps } from "core/types";
-import { AnimalGenderIcon } from "dataDisplay/animalGenderIcon";
-import { CloudinaryImage } from "dataDisplay/image";
+import { isDefined } from "~/core/isDefined";
+import { Link, LinkProps } from "~/core/link";
+import { StyleProps } from "~/core/types";
+import { AnimalGenderIcon } from "~/dataDisplay/animalGenderIcon";
+import { CloudinaryImage } from "~/dataDisplay/image";
 import styles from "./card.module.css";
 
 type AnimalCardContentProps = {

@@ -2,7 +2,7 @@ import {
   OperationPaginationResult,
   PublicAnimalSearchHit,
 } from "@animeaux/shared";
-import { PageForm } from "controllers/pageForm";
+import { PageForm } from "~/controllers/pageForm";
 import { ReactNode } from "react";
 import styles from "./paginatedList.module.css";
 

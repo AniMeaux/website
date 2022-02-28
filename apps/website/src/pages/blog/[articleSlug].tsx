@@ -1,15 +1,15 @@
 import { Article } from "@animeaux/shared";
-import { PageComponent } from "core/pageComponent";
-import { PageTitle } from "core/pageTitle";
-import { Markdown } from "dataDisplay/markdown";
-import { articles } from "elements/blog/data";
-import { ArticleHeader } from "layout/articleHeader";
-import { CenteredContent } from "layout/centeredContent";
-import { Footer } from "layout/footer";
-import { Header } from "layout/header";
-import { Section } from "layout/section";
+import { PageComponent } from "~/core/pageComponent";
+import { PageTitle } from "~/core/pageTitle";
+import { Markdown } from "~/dataDisplay/markdown";
+import { articles } from "~/elements/blog/data";
+import { ArticleHeader } from "~/layout/articleHeader";
+import { CenteredContent } from "~/layout/centeredContent";
+import { Footer } from "~/layout/footer";
+import { Header } from "~/layout/header";
+import { Section } from "~/layout/section";
 import { GetServerSideProps } from "next";
-import { ErrorPage } from "pages/_error";
+import { ErrorPage } from "~/pages/_error";
 
 type ArticlePageProps =
   | { type: "success"; article: Article }

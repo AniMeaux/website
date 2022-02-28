@@ -1,6 +1,6 @@
 import { Article } from "@animeaux/shared";
-import { StaticImage, useImageDominantColor } from "dataDisplay/image";
-import { CenteredContent } from "layout/centeredContent";
+import { StaticImage, useImageDominantColor } from "~/dataDisplay/image";
+import { CenteredContent } from "~/layout/centeredContent";
 import { DateTime } from "luxon";
 import styles from "./articleHeader.module.css";
 

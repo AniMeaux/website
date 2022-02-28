@@ -1,16 +1,16 @@
-import { AdoptSearchParams } from "core/adoptSearchParams";
+import { AdoptSearchParams } from "~/core/adoptSearchParams";
 import {
   ANIMAL_AGES_LABELS,
   ANIMAL_SPECIES_LABELS,
   ANIMAL_SPECIES_LABELS_PLURAL,
-} from "core/labels";
-import { AnimalLinkCard } from "dataDisplay/animal/card";
+} from "~/core/labels";
+import { AnimalLinkCard } from "~/dataDisplay/animal/card";
 import {
   AnimalPaginatedList,
   AnimalPaginatedListProps,
-} from "dataDisplay/animal/paginatedList";
-import { CenteredContent } from "layout/centeredContent";
-import { Section } from "layout/section";
+} from "~/dataDisplay/animal/paginatedList";
+import { CenteredContent } from "~/layout/centeredContent";
+import { Section } from "~/layout/section";
 import styles from "./searchResults.module.css";
 
 export type SearchResultsProps = Omit<

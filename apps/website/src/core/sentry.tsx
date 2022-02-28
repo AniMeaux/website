@@ -1,5 +1,5 @@
 import { init, setContext, setTag } from "@sentry/react";
-import { getConfig } from "core/config";
+import { getConfig } from "~/core/config";
 
 if (process.env.NODE_ENV === "production") {
   init({ dsn: getConfig().sentryDsn });

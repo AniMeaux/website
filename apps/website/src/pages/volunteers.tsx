@@ -1,10 +1,10 @@
-import { PageComponent } from "core/pageComponent";
-import { PageTitle } from "core/pageTitle";
-import { StaticImage } from "dataDisplay/image";
-import { CallToActionLink } from "layout/callToAction";
-import { Footer } from "layout/footer";
-import { Header } from "layout/header";
-import { PageHeader } from "layout/pageHeader";
+import { PageComponent } from "~/core/pageComponent";
+import { PageTitle } from "~/core/pageTitle";
+import { StaticImage } from "~/dataDisplay/image";
+import { CallToActionLink } from "~/layout/callToAction";
+import { Footer } from "~/layout/footer";
+import { Header } from "~/layout/header";
+import { PageHeader } from "~/layout/pageHeader";
 import styled, { css } from "styled-components";
 
 const TITLE = "Devenir bénévole";

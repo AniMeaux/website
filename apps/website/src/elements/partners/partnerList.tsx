@@ -1,6 +1,6 @@
 import { Partner } from "@animeaux/shared";
-import { Link } from "core/link";
-import { StaticImage } from "dataDisplay/image";
+import { Link } from "~/core/link";
+import { StaticImage } from "~/dataDisplay/image";
 import styles from "./partnerList.module.css";
 
 export type PartnerListProps = {

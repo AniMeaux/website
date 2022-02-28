@@ -1,8 +1,8 @@
 import cn from "classnames";
-import { Link } from "core/link";
-import { PageQueryParam } from "core/pageQueryParam";
-import { useRouter } from "core/router";
-import { StyleProps } from "core/types";
+import { Link } from "~/core/link";
+import { PageQueryParam } from "~/core/pageQueryParam";
+import { useRouter } from "~/core/router";
+import { StyleProps } from "~/core/types";
 import { ReactNode } from "react";
 import styles from "./pageForm.module.css";
 

@@ -1,11 +1,11 @@
-import { PageComponent } from "core/pageComponent";
-import { PageTitle } from "core/pageTitle";
-import { StaticImage } from "dataDisplay/image";
+import { PageComponent } from "~/core/pageComponent";
+import { PageTitle } from "~/core/pageTitle";
+import { StaticImage } from "~/dataDisplay/image";
 import { FaFileAlt, FaHome, FaClipboardCheck } from "react-icons/fa";
-import { CallToActionLink } from "layout/callToAction";
-import { Footer } from "layout/footer";
-import { Header } from "layout/header";
-import { PageHeader } from "layout/pageHeader";
+import { CallToActionLink } from "~/layout/callToAction";
+import { Footer } from "~/layout/footer";
+import { Header } from "~/layout/header";
+import { PageHeader } from "~/layout/pageHeader";
 import styled, { css } from "styled-components";
 
 const TITLE = "Devenir famille d'accueil";

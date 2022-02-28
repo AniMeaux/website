@@ -4,10 +4,10 @@ import {
   ANIMAL_AGE_RANGE_BY_SPECIES,
 } from "@animeaux/shared";
 import cn from "classnames";
-import { AdoptSearchParams } from "core/adoptSearchParams";
-import { ANIMAL_AGES_LABELS, ANIMAL_SPECIES_LABELS } from "core/labels";
-import { Link } from "core/link";
-import { ChildrenProp } from "core/types";
+import { AdoptSearchParams } from "~/core/adoptSearchParams";
+import { ANIMAL_AGES_LABELS, ANIMAL_SPECIES_LABELS } from "~/core/labels";
+import { Link } from "~/core/link";
+import { ChildrenProp } from "~/core/types";
 import { useEffect, useState } from "react";
 import { FaSearch } from "react-icons/fa";
 import styles from "./searchForm.module.css";

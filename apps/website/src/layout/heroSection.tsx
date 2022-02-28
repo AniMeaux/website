@@ -1,4 +1,4 @@
-import { StaticImage } from "dataDisplay/image";
+import { StaticImage } from "~/dataDisplay/image";
 import styled from "styled-components";
 
 type HeroProps = {

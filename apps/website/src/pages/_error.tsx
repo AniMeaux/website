@@ -1,8 +1,8 @@
-import { PageComponent } from "core/pageComponent";
-import { PageTitle } from "core/pageTitle";
-import { Error, ErrorType, ErrorTypeTitle } from "dataDisplay/error/error";
-import { Footer } from "layout/footer";
-import { Header } from "layout/header";
+import { PageComponent } from "~/core/pageComponent";
+import { PageTitle } from "~/core/pageTitle";
+import { Error, ErrorType, ErrorTypeTitle } from "~/dataDisplay/error/error";
+import { Footer } from "~/layout/footer";
+import { Header } from "~/layout/header";
 
 export type ErrorPageProps = {
   type: ErrorType;

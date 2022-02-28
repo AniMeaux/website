@@ -1,15 +1,15 @@
 import { AnimalSpecies } from "@animeaux/shared";
-import { AdoptSearchParams } from "core/adoptSearchParams";
-import { ANIMAL_SPECIES_LABELS } from "core/labels";
-import { Link, LinkProps } from "core/link";
-import { AnimalSpeciesIcon } from "dataDisplay/animalSpeciesIcon";
+import { AdoptSearchParams } from "~/core/adoptSearchParams";
+import { ANIMAL_SPECIES_LABELS } from "~/core/labels";
+import { Link, LinkProps } from "~/core/link";
+import { AnimalSpeciesIcon } from "~/dataDisplay/animalSpeciesIcon";
 import {
   TagContent,
   TagIcon,
   TagLink,
   TagList,
   TagListItem,
-} from "dataDisplay/tagList";
+} from "~/dataDisplay/tagList";
 
 export function AdoptionMenu() {
   return (

@@ -1,5 +1,5 @@
-import { ChildrenProp } from "core/types";
-import { StaticImage, useImageDominantColor } from "dataDisplay/image";
+import { ChildrenProp } from "~/core/types";
+import { StaticImage, useImageDominantColor } from "~/dataDisplay/image";
 import styled from "styled-components";
 
 type ImageProps = {

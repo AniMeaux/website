@@ -1,11 +1,11 @@
-import { SearchForm } from "controllers/searchForm";
-import { PageComponent } from "core/pageComponent";
-import { PageTitle } from "core/pageTitle";
-import { StaticImage } from "dataDisplay/image";
-import { CallToActionLink } from "layout/callToAction";
-import { Footer } from "layout/footer";
-import { Header } from "layout/header";
-import { HeroSection } from "layout/heroSection";
+import { SearchForm } from "~/controllers/searchForm";
+import { PageComponent } from "~/core/pageComponent";
+import { PageTitle } from "~/core/pageTitle";
+import { StaticImage } from "~/dataDisplay/image";
+import { CallToActionLink } from "~/layout/callToAction";
+import { Footer } from "~/layout/footer";
+import { Header } from "~/layout/header";
+import { HeroSection } from "~/layout/heroSection";
 import { FaBirthdayCake, FaHandHoldingHeart, FaUsers } from "react-icons/fa";
 import styled, { css } from "styled-components";
 

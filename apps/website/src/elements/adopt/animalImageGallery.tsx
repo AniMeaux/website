@@ -4,7 +4,7 @@ import {
   CloudinaryImage,
   getImageUrl,
   useImageDominantColor,
-} from "dataDisplay/image";
+} from "~/dataDisplay/image";
 import { useRef, useState } from "react";
 import styles from "./animalImageGallery.module.css";
 

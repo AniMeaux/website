@@ -1,5 +1,5 @@
 import { Article, Partner } from "@animeaux/shared";
-import { ChildrenProp } from "core/types";
+import { ChildrenProp } from "~/core/types";
 import invariant from "invariant";
 import { createContext, useContext, useMemo } from "react";
 

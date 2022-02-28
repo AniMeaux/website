@@ -4,8 +4,8 @@ import {
   getHistoryIndex,
   resolveUrl,
   useRouter,
-} from "core/router";
-import { A11yProps, ChildrenProp, StyleProps } from "core/types";
+} from "~/core/router";
+import { A11yProps, ChildrenProp, StyleProps } from "~/core/types";
 import NextLink from "next/link";
 import { forwardRef } from "react";
 

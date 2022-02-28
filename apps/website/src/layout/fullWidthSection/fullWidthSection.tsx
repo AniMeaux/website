@@ -1,5 +1,5 @@
-import { CenteredContent } from "layout/centeredContent";
-import { Section } from "layout/section";
+import { CenteredContent } from "~/layout/centeredContent";
+import { Section } from "~/layout/section";
 import { CallToActionLink, CallToActionLinkProps } from "../callToAction";
 
 type FullWidthSectionProps = {
