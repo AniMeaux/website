@@ -21,6 +21,7 @@ import { ChildrenProp, StyleProps } from "core/types";
 import { useEffect, useRef, useState } from "react";
 import {
   FaAngleRight,
+  FaCalendarAlt,
   FaDna,
   FaEllipsisH,
   FaHome,
@@ -115,6 +116,12 @@ const NAVIGATION_ITEMS: NavigationItem[] = [
     icon: FaHome,
     label: "FA",
     authorizedGroups: [UserGroup.ADMIN, UserGroup.ANIMAL_MANAGER],
+  },
+  {
+    href: "/events",
+    icon: FaCalendarAlt,
+    label: "Événements",
+    authorizedGroups: [UserGroup.ADMIN],
   },
   {
     href: "/users",

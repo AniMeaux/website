@@ -63,7 +63,7 @@ const Layout = styled.div`
     "main";
 
   grid-template-rows: max-content 1fr;
-  grid-template-columns: 1fr;
+  grid-template-columns: minmax(0, 1fr);
 
   @media (min-width: ${theme.screenSizes.medium.start}) {
     box-shadow: 1px 0 0 0 ${theme.colors.dark[50]};

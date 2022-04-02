@@ -123,7 +123,6 @@ export function DragAndDropContextProvider({
 
   const { isTouchScreen } = useIsTouchScreen();
   const backend = isTouchScreen ? TouchBackend : HTML5Backend;
-  console.log("Using", isTouchScreen ? "TouchBackend" : "HTML5Backend");
 
   return (
     <DndProvider backend={backend}>

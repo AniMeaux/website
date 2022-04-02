@@ -19,9 +19,10 @@ export type HtmlInputProps = {
   placeholder?: string;
   autoComplete?: string;
   name?: string;
-  type?: "text" | "email" | "password" | "tel" | "number";
+  type?: "text" | "email" | "password" | "tel" | "number" | "date" | "time";
   id?: string;
   role?: "search";
+  pattern?: string;
   /**
    * Hints at the type of data that might be entered by the user while editing
    * the element or its contents

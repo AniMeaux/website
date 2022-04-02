@@ -8,6 +8,16 @@ type ImageSlideshowProps = {
 };
 
 export function ImageSlideshow({ images, alt }: ImageSlideshowProps) {
+  if (images.length === 0) {
+    return (
+      <Section>
+        <Item>
+          <Image alt={alt} />
+        </Item>
+      </Section>
+    );
+  }
+
   return (
     <Section>
       {images.map((pictureId, pictureIndex) => (
@@ -59,6 +69,11 @@ const Image = styled(BaseImage)`
   height: 240px;
   object-fit: cover;
   border-radius: ${theme.borderRadius.m};
+
+  &[data-fallback] {
+    background: ${theme.colors.dark[30]};
+    font-size: 60px;
+  }
 `;
 
 const Counter = styled.span`

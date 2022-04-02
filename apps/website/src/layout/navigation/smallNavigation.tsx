@@ -93,6 +93,10 @@ export function SmallNavigation() {
           </li>
 
           <li>
+            <NavigationLink href="/event">Événements</NavigationLink>
+          </li>
+
+          <li>
             <NavigationLink href="/partners">Partenaires</NavigationLink>
           </li>
 

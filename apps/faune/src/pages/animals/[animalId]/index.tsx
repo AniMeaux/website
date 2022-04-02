@@ -32,6 +32,7 @@ import {
   LinkItem,
 } from "core/dataDisplay/item";
 import { Markdown } from "core/dataDisplay/markdown";
+import { isDefined } from "core/isDefined";
 import { ApplicationLayout } from "core/layouts/applicationLayout";
 import { ErrorPage } from "core/layouts/errorPage";
 import { Header, HeaderBackLink, HeaderTitle } from "core/layouts/header";
@@ -204,10 +205,6 @@ const HighlightsSectionElement = styled.header`
   align-items: center;
   justify-content: space-between;
 `;
-
-function isDefined<T>(value: T | null | undefined): value is T {
-  return value != null;
-}
 
 function ProfileSection({ animal }: AnimalProp) {
   const speciesLabels = [

@@ -6,6 +6,7 @@ import {
 import { HtmlInputProps, StyleProps } from "core/types";
 import { forwardRef } from "react";
 import styled from "styled-components";
+import { theme } from "styles/theme";
 
 export type InputProps = StyleProps &
   HtmlInputProps &
@@ -57,4 +58,31 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
 
 const InputNative = styled.input`
   ${INPUT_STYLES};
+
+  &[type="date"] {
+    gap: ${theme.spacing.x2};
+  }
+
+  /* Safari >= 15, Chrome >= 99 */
+  &::-webkit-datetime-edit,
+  &::-webkit-datetime-edit-fields-wrapper,
+  &::-webkit-datetime-edit-year-field,
+  &::-webkit-datetime-edit-month-field,
+  &::-webkit-datetime-edit-day-field,
+  &::-webkit-datetime-edit-hour-field,
+  &::-webkit-datetime-edit-minute-field,
+  &::-webkit-datetime-edit-second-field,
+  &::-webkit-datetime-edit-millisecond-field,
+  &::-webkit-datetime-edit-meridiem-field {
+    padding: 0;
+  }
+
+  &::-webkit-calendar-picker-indicator {
+    margin: 0;
+  }
+
+  /* iOS >= 15 */
+  &::-webkit-date-and-time-value {
+    text-align: left;
+  }
 `;

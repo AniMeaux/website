@@ -39,7 +39,7 @@ const UpdateAnimalPicturesPage: PageComponent = () => {
     async (params) => {
       invariant(
         getAnimal.state === "success",
-        "Can upload images only if an animal was found."
+        "Can delete images only if an animal was found."
       );
 
       const picturesToDelete = difference(

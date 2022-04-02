@@ -2,6 +2,7 @@ import { AnimalOperations } from "./animal";
 import { AnimalBreedOperations } from "./animalBreed";
 import { AnimalColorOperations } from "./animalColor";
 import { CurrentUserOperations } from "./currentUser";
+import { EventOperations } from "./event";
 import { HostFamilyOperations } from "./hostFamily";
 import { ImageOperations } from "./image";
 import { OperationPaginationResult } from "./operationPagination";
@@ -13,7 +14,8 @@ export type AllOperations = CurrentUserOperations &
   AnimalBreedOperations &
   HostFamilyOperations &
   AnimalOperations &
-  ImageOperations;
+  ImageOperations &
+  EventOperations;
 
 export type AllOperationName = keyof AllOperations;
 

@@ -1,4 +1,4 @@
-import { cloneElement } from "react";
+import { cloneElement, isValidElement } from "react";
 
 /**
  * Create and return a new React Node by concatenating all of the given `nodes`
@@ -10,11 +10,17 @@ import { cloneElement } from "react";
  */
 export function joinReactNodes(
   nodes: React.ReactNode[],
-  separator: React.ReactElement
+  separator: React.ReactElement | string
 ): React.ReactNode[] {
+  const separatorElement = isValidElement(separator) ? (
+    separator
+  ) : (
+    <>{separator}</>
+  );
+
   return nodes.reduce<React.ReactNode[]>((nodes, node, index) => {
     if (nodes.length > 0) {
-      nodes.push(cloneElement(separator, { key: index }));
+      nodes.push(cloneElement(separatorElement, { key: index }));
     }
 
     nodes.push(node);

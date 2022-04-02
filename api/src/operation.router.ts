@@ -12,6 +12,7 @@ import { animalOperations } from "./operations/animal.operation";
 import { animalBreedOperations } from "./operations/animalBreed.operation";
 import { animalColorOperations } from "./operations/animalColor.operation";
 import { currentUserOperations } from "./operations/currentUser.operation";
+import { eventOperations } from "./operations/event.operation";
 import { hostFamilyOperations } from "./operations/hostFamily.operation";
 import { imageOperations } from "./operations/image.operation";
 import { userOperations } from "./operations/user.operation";
@@ -24,6 +25,7 @@ const allOperations: OperationsImpl<AllOperations> = {
   ...hostFamilyOperations,
   ...animalOperations,
   ...imageOperations,
+  ...eventOperations,
 };
 
 export const operationRouter = new Router<DefaultState, Context>();

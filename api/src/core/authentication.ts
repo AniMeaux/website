@@ -9,6 +9,17 @@ export function assertHasUser(
   }
 }
 
+export function userHasGroups(
+  user: User | null | undefined,
+  groups: UserGroup[]
+): user is User {
+  if (user == null) {
+    return false;
+  }
+
+  return doesGroupsIntersect(user.groups, groups);
+}
+
 export function assertUserHasGroups(
   user: User | null | undefined,
   groups: UserGroup[]

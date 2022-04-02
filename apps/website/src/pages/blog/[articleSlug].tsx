@@ -1,14 +1,15 @@
 import { Article } from "@animeaux/shared";
+import { DateTime } from "luxon";
+import { GetServerSideProps } from "next";
 import { PageComponent } from "~/core/pageComponent";
 import { PageTitle } from "~/core/pageTitle";
 import { Markdown } from "~/dataDisplay/markdown";
 import { articles } from "~/elements/blog/data";
-import { ArticleHeader } from "~/layout/articleHeader";
 import { CenteredContent } from "~/layout/centeredContent";
 import { Footer } from "~/layout/footer";
 import { Header } from "~/layout/header";
+import { SecondaryHeader } from "~/layout/secondaryHeader";
 import { Section } from "~/layout/section";
-import { GetServerSideProps } from "next";
 import { ErrorPage } from "~/pages/_error";
 
 type ArticlePageProps =
@@ -33,10 +34,18 @@ const ArticlePage: PageComponent<ArticlePageProps> = (props) => {
     return <ErrorPage type="serverError" />;
   }
 
+  const date = DateTime.fromISO(props.article.publicationDate).toLocaleString(
+    DateTime.DATE_FULL
+  );
+
   return (
     <main>
       <PageTitle title={props.article.title} />
-      <ArticleHeader article={props.article} />
+      <SecondaryHeader
+        image={props.article.image}
+        title={props.article.title}
+        subTitle={`${date} par ${props.article.authorName}`}
+      />
 
       <Section>
         <CenteredContent>

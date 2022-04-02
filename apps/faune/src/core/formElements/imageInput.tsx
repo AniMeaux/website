@@ -1,8 +1,10 @@
 import {
+  getFiles,
   getImageId,
   Image,
   ImageFile,
   ImageFileOrId,
+  IMAGE_SIZE_LIMIT,
 } from "core/dataDisplay/image";
 import {
   DragAndDropContextProvider,
@@ -17,7 +19,6 @@ import { useRef, useState } from "react";
 import { FaImages, FaTrash } from "react-icons/fa";
 import styled from "styled-components";
 import { theme } from "styles/theme";
-import { v4 as uuid } from "uuid";
 
 function PictureItemPreview() {
   const preview = useDragPreview<ImageFileOrId>();
@@ -65,9 +66,6 @@ export function ImageInput({ value, onChange }: ImageInputProps) {
     </DragAndDropContextProvider>
   );
 }
-
-// 10 MiB = 10 * 1024 * 1024 B
-const IMAGE_SIZE_LIMIT = 10485760;
 
 type ImageInputButtonProps = {
   onImportImages: React.Dispatch<ImageFile[]>;
@@ -355,30 +353,3 @@ const ImageGalleryInputList = styled.ul`
 const ImagePlaceholder = styled(Placeholder)`
   border-radius: ${theme.borderRadius.m};
 `;
-
-async function getFiles(fileList: FileList): Promise<ImageFile[]> {
-  const files: Promise<ImageFile>[] = [];
-
-  for (let index = 0; index < fileList.length; index++) {
-    files.push(readFile(fileList[index]));
-  }
-
-  return await Promise.all(files);
-}
-
-async function readFile(file: File): Promise<ImageFile> {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-
-    reader.onload = (loadEvent) => {
-      return resolve({
-        id: uuid(),
-        file,
-        dataUrl: loadEvent.target!.result as string,
-      });
-    };
-
-    reader.onerror = (error) => reject(error);
-    reader.readAsDataURL(file);
-  });
-}

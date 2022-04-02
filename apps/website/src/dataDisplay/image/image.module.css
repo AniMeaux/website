@@ -18,3 +18,10 @@
   background-position: bottom;
   filter: blur(150px);
 }
+
+.image.error {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-secondary);
+}

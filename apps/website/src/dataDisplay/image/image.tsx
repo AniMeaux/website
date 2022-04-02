@@ -12,10 +12,16 @@ type GetImageUrlSize = {
   height: number;
 };
 
-export function getImageUrl(image: string, { width, height }: GetImageUrlSize) {
+export function getImageUrl(image: string, size?: GetImageUrlSize) {
+  if (size != null) {
+    return `https://res.cloudinary.com/${
+      getConfig().cloudinaryCloudName
+    }/image/upload/c_fill,w_${size.width},h_${size.height}/${image}.jpg`;
+  }
+
   return `https://res.cloudinary.com/${
     getConfig().cloudinaryCloudName
-  }/image/upload/c_fill,w_${width},h_${height}/f_auto/${image}`;
+  }/image/upload/${image}.jpg`;
 }
 
 type CommonProps = StyleProps & {
@@ -23,14 +29,14 @@ type CommonProps = StyleProps & {
 };
 
 type BaseImageProps = CommonProps & {
-  src: string;
+  src?: string;
   srcSet?: string;
 };
 
 function BaseImage({ alt, className, src, srcSet, ...rest }: BaseImageProps) {
   const [hasError, setHasError] = useState(false);
 
-  if (hasError) {
+  if ((src == null && srcSet == null) || hasError) {
     return (
       <span
         {...rest}
@@ -80,8 +86,8 @@ export function StaticImage({
 }
 
 export type CloudinaryImageProps = CommonProps & {
-  imageId: string;
-  size: GetImageUrlSize;
+  imageId?: string;
+  size?: GetImageUrlSize;
 };
 
 export function CloudinaryImage({
@@ -89,7 +95,12 @@ export function CloudinaryImage({
   size,
   ...rest
 }: CloudinaryImageProps) {
-  return <BaseImage {...rest} src={getImageUrl(imageId, size)} />;
+  return (
+    <BaseImage
+      {...rest}
+      src={imageId == null ? undefined : getImageUrl(imageId, size)}
+    />
+  );
 }
 
 class Color {
@@ -166,15 +177,22 @@ async function getImageDominantColor(src: string): Promise<Color | null> {
   });
 }
 
-export type UseImageDominantColorParams = { imageId: string } | { src: string };
-export function useImageDominantColor(params: UseImageDominantColorParams) {
+export type UseImageDominantColorParams =
+  | { imageId: string }
+  | { src: string }
+  | null;
+
+export function useImageDominantColor(params?: UseImageDominantColorParams) {
   let resolvedSrc =
-    "imageId" in params
+    params == null
+      ? null
+      : "imageId" in params
       ? getImageUrl(params.imageId, { width: 10, height: 10 })
       : params.src;
 
   return useAsyncMemo(
-    async () => getImageDominantColor(resolvedSrc),
+    async () =>
+      resolvedSrc == null ? null : getImageDominantColor(resolvedSrc),
     [resolvedSrc]
   );
 }

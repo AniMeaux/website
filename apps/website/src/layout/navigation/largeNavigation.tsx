@@ -17,6 +17,7 @@ export function LargeNavigation() {
         <ActMenu />
       </NavigationMenu>
 
+      <NavigationLink href="/event">Événements</NavigationLink>
       <NavigationLink href="/partners">Partenaires</NavigationLink>
       <NavigationLink href="/blog">Blog</NavigationLink>
     </nav>

@@ -35,11 +35,31 @@ const PRESET_OPTIONS: Record<
     unwrapDisallowed: true,
     components: {
       p: (props) => <Paragraph {...props} />,
+      ul: (props) => <UnorderedList {...props} />,
+      ol: (props) => <OrderedList {...props} />,
     },
   },
 };
 
 const Paragraph = styled.p`
+  &:not(:first-child) {
+    margin-top: ${theme.spacing.x2};
+  }
+`;
+
+const UnorderedList = styled.ul`
+  list-style: disc;
+  padding-left: ${theme.spacing.x6};
+
+  &:not(:first-child) {
+    margin-top: ${theme.spacing.x2};
+  }
+`;
+
+const OrderedList = styled.ul`
+  list-style: decimal;
+  padding-left: ${theme.spacing.x6};
+
   &:not(:first-child) {
     margin-top: ${theme.spacing.x2};
   }

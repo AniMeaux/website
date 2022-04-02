@@ -4,6 +4,7 @@ export * from "./animalColor";
 export * from "./article";
 export * from "./currentUser";
 export * from "./date";
+export * from "./event";
 export * from "./hostFamily";
 export * from "./image";
 export * from "./operationError";

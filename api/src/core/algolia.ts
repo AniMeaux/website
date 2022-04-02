@@ -15,7 +15,7 @@ export const AlgoliaClient = algoliasearch(
 );
 
 export function createSearchFilters(
-  params: Record<string, string | string[] | undefined | null>
+  params: Record<string, boolean | string | string[] | undefined | null>
 ): string | undefined {
   let filters: string[] = [];
 

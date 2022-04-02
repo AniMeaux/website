@@ -5,6 +5,10 @@ import { useState } from "react";
 import { FaImage } from "react-icons/fa";
 import styled from "styled-components";
 import { theme } from "styles/theme";
+import { v4 as uuid } from "uuid";
+
+// 10 MiB = 10 * 1024 * 1024 B
+export const IMAGE_SIZE_LIMIT = 10485760;
 
 export type ImageFile = {
   id: string;
@@ -40,25 +44,28 @@ const ImagePresetTransformOptions: Record<
 // https://res.cloudinary.com/do3tcc2ku/image/upload/8eb85a85-90f5-498f-a0ee-051cf66b22a7
 
 type ImageProps = StyleProps & {
-  image: ImageFileOrId;
+  image?: ImageFileOrId | null;
   alt: string;
   preset?: ImagePreset;
 };
 
 export function Image({ image, preset = "none", alt, ...rest }: ImageProps) {
-  const src = isImageFile(image)
-    ? image.dataUrl
-    : `https://res.cloudinary.com/${
-        getConfig().cloudinaryCloudName
-      }/image/upload/${ImagePresetTransformOptions[preset](
-        window.devicePixelRatio
-      )}${image}.jpg`;
+  const src =
+    image == null
+      ? null
+      : isImageFile(image)
+      ? image.dataUrl
+      : `https://res.cloudinary.com/${
+          getConfig().cloudinaryCloudName
+        }/image/upload/${ImagePresetTransformOptions[preset](
+          window.devicePixelRatio
+        )}${image}.jpg`;
 
   const [hasError, setHasError] = useState(false);
 
-  if (hasError) {
+  if (src == null || hasError) {
     return (
-      <Error {...rest} title={alt}>
+      <Error {...rest} title={alt} data-fallback>
         <FaImage />
       </Error>
     );
@@ -89,3 +96,30 @@ export const AvatarImage = styled(Image).attrs({ preset: "avatar" })`
   width: 100%;
   height: 100%;
 `;
+
+export async function getFiles(fileList: FileList): Promise<ImageFile[]> {
+  const files: Promise<ImageFile>[] = [];
+
+  for (let index = 0; index < fileList.length; index++) {
+    files.push(readFile(fileList[index]));
+  }
+
+  return await Promise.all(files);
+}
+
+async function readFile(file: File): Promise<ImageFile> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+
+    reader.onload = (loadEvent) => {
+      return resolve({
+        id: uuid(),
+        file,
+        dataUrl: loadEvent.target!.result as string,
+      });
+    };
+
+    reader.onerror = (error) => reject(error);
+    reader.readAsDataURL(file);
+  });
+}

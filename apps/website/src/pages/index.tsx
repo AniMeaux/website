@@ -1,15 +1,32 @@
+import { GetServerSideProps } from "next";
+import { FaBirthdayCake, FaHandHoldingHeart, FaUsers } from "react-icons/fa";
+import styled, { css } from "styled-components";
 import { SearchForm } from "~/controllers/searchForm";
+import { OperationResponse, runOperation } from "~/core/operations";
 import { PageComponent } from "~/core/pageComponent";
 import { PageTitle } from "~/core/pageTitle";
 import { StaticImage } from "~/dataDisplay/image";
+import { EventCardLink } from "~/elements/event/card";
 import { CallToActionLink } from "~/layout/callToAction";
 import { Footer } from "~/layout/footer";
 import { Header } from "~/layout/header";
 import { HeroSection } from "~/layout/heroSection";
-import { FaBirthdayCake, FaHandHoldingHeart, FaUsers } from "react-icons/fa";
-import styled, { css } from "styled-components";
 
-const HomePage: PageComponent = () => {
+type HomePageProps = {
+  upCommingEvents: OperationResponse<"getVisibleUpCommingEvents">;
+};
+
+export const getServerSideProps: GetServerSideProps<
+  HomePageProps
+> = async () => {
+  const getVisibleUpCommingEvents = await runOperation({
+    name: "getVisibleUpCommingEvents",
+  });
+
+  return { props: { upCommingEvents: getVisibleUpCommingEvents } };
+};
+
+const HomePage: PageComponent<HomePageProps> = ({ upCommingEvents }) => {
   return (
     <main>
       <PageTitle />
@@ -103,6 +120,25 @@ const HomePage: PageComponent = () => {
           </li>
         </PresentationList>
       </StatsSection>
+
+      {upCommingEvents.state === "success" &&
+        upCommingEvents.result.length > 0 && (
+          <UpCommingEventsSection>
+            <SectionTitle>Prochains événements</SectionTitle>
+
+            <UpCommingEventList>
+              {upCommingEvents.result.map((event) => (
+                <UpCommingEventItem key={event.id}>
+                  <EventCardLink event={event} />
+                </UpCommingEventItem>
+              ))}
+            </UpCommingEventList>
+
+            <EventCallToActionLink href="/event" color="blue">
+              Tout voir
+            </EventCallToActionLink>
+          </UpCommingEventsSection>
+        )}
 
       <AsideSection>
         <div>
@@ -261,4 +297,35 @@ const DonationSection = styled.section`
   ${sectionPadding}
   background-image: var(--yellow-gradient);
   text-align: center;
+`;
+
+const UpCommingEventsSection = styled.section`
+  ${sectionPadding};
+  background: var(--bg-secondary);
+  text-align: center;
+`;
+
+const UpCommingEventList = styled.ul`
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-auto-rows: auto;
+  gap: var(--spacing-6xl);
+  align-items: stretch;
+  justify-content: center;
+  text-align: left;
+`;
+
+const UpCommingEventItem = styled.li`
+  background: white;
+  padding: var(--spacing-3xl);
+  border-radius: var(--border-radius-m);
+  box-shadow: var(--shadow-l);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const EventCallToActionLink = styled(CallToActionLink)`
+  margin-top: var(--spacing-6xl);
 `;
