@@ -1,9 +1,17 @@
 import { ImageOperations, UserGroup } from "@animeaux/shared";
+import invariant from "tiny-invariant";
 import { object, string } from "yup";
 import { assertUserHasGroups } from "../core/authentication";
 import { cloudinary } from "../core/cloudinary";
 import { OperationsImpl } from "../core/operations";
 import { validateParams } from "../core/validation";
+
+invariant(
+  process.env.CLOUDINARY_API_SECRET != null,
+  "CLOUDINARY_API_SECRET must be defined."
+);
+
+const secret = process.env.CLOUDINARY_API_SECRET;
 
 export const imageOperations: OperationsImpl<ImageOperations> = {
   async getCloudinaryApiSignature(rawParams, context) {
@@ -27,8 +35,12 @@ export const imageOperations: OperationsImpl<ImageOperations> = {
     return {
       timestamp: String(timestamp),
       signature: cloudinary.utils.api_sign_request(
-        { timestamp, ...params.parametersToSign },
-        process.env.CLOUDINARY_API_SECRET
+        {
+          timestamp,
+          public_id: params.parametersToSign.id,
+          tags: params.parametersToSign.tags,
+        },
+        secret
       ),
     };
   },
