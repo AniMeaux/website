@@ -52,7 +52,7 @@ export function Image({ image, preset = "none", alt, ...rest }: ImageProps) {
         getConfig().cloudinaryCloudName
       }/image/upload/${ImagePresetTransformOptions[preset](
         window.devicePixelRatio
-      )}f_auto/${image}`;
+      )}${image}.jpg`;
 
   const [hasError, setHasError] = useState(false);
 
