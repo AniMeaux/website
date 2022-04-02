@@ -233,7 +233,7 @@ async function assertIsValid(
       .get();
 
     if (!snapshot.empty) {
-      throw new OperationError<"createHostFamily" | "updateHostFamily">(404, {
+      throw new OperationError<"createHostFamily" | "updateHostFamily">(400, {
         code: "name-already-used",
       });
     }

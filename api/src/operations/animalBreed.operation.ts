@@ -201,7 +201,7 @@ async function assertIsValid(
       .get();
 
     if (!snapshot.empty) {
-      throw new OperationError<"createAnimalBreed" | "updateAnimalBreed">(404, {
+      throw new OperationError<"createAnimalBreed" | "updateAnimalBreed">(400, {
         code: "already-exists",
       });
     }
