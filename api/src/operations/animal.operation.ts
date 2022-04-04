@@ -46,6 +46,7 @@ import {
 const AnimalIndex = AlgoliaClient.initIndex(ANIMAL_COLLECTION);
 const SavedAnimalIndex = AlgoliaClient.initIndex(ANIMAL_SAVED_COLLECTION);
 
+/** OPEN_TO_ADOPTION, OPEN_TO_RESERVATION, RESERVED, UNAVAILABLE */
 const ACTIVE_ANIMAL_STATUS = [
   AnimalStatus.OPEN_TO_ADOPTION,
   AnimalStatus.OPEN_TO_RESERVATION,
@@ -53,14 +54,17 @@ const ACTIVE_ANIMAL_STATUS = [
   AnimalStatus.UNAVAILABLE,
 ];
 
+/** ADOPTED, FREE */
 const SAVED_ANIMAL_STATUS = [AnimalStatus.ADOPTED, AnimalStatus.FREE];
 
+/** ADOPTED, DECEASED, FREE */
 const NON_ACTIVE_ANIMAL_STATUS = [
   AnimalStatus.ADOPTED,
   AnimalStatus.DECEASED,
   AnimalStatus.FREE,
 ];
 
+/** OPEN_TO_ADOPTION, OPEN_TO_RESERVATION */
 const ADOPTABLE_ANIMAL_STATUS = [
   AnimalStatus.OPEN_TO_ADOPTION,
   AnimalStatus.OPEN_TO_RESERVATION,
@@ -378,9 +382,17 @@ export const animalOperations: OperationsImpl<AnimalOperations> = {
       rawParams
     );
 
-    const animal = addTimestamps({ id: uuid(), ...params });
+    const animal = setTimestamps(
+      await validate({
+        ...params,
+        id: uuid(),
 
-    await assertIsValid(animal);
+        // Will be overidden in `setTimestamps`.
+        // We passed them just for type checks.
+        birthdateTimestamp: 0,
+        pickUpDateTimestamp: 0,
+      })
+    );
 
     await getFirestore()
       .collection(ANIMAL_COLLECTION)
@@ -416,9 +428,9 @@ export const animalOperations: OperationsImpl<AnimalOperations> = {
     );
 
     const currentAnimal = await getAnimal(params.id);
-    const newAnimal = addTimestamps({ ...currentAnimal, ...params });
-
-    await assertIsValid(newAnimal);
+    const newAnimal = setTimestamps(
+      await validate({ ...currentAnimal, ...params })
+    );
 
     await getFirestore()
       .collection(ANIMAL_COLLECTION)
@@ -462,9 +474,9 @@ export const animalOperations: OperationsImpl<AnimalOperations> = {
     );
 
     const currentAnimal = await getAnimal(params.id);
-    const newAnimal = addTimestamps({ ...currentAnimal, ...params });
-
-    await assertIsValid(newAnimal);
+    const newAnimal = setTimestamps(
+      await validate({ ...currentAnimal, ...params })
+    );
 
     await getFirestore()
       .collection(ANIMAL_COLLECTION)
@@ -495,9 +507,9 @@ export const animalOperations: OperationsImpl<AnimalOperations> = {
     );
 
     const currentAnimal = await getAnimal(params.id);
-    const newAnimal = addTimestamps({ ...currentAnimal, ...params });
-
-    await assertIsValid(newAnimal);
+    const newAnimal = setTimestamps(
+      await validate({ ...currentAnimal, ...params })
+    );
 
     await getFirestore()
       .collection(ANIMAL_COLLECTION)
@@ -573,12 +585,7 @@ function ignoreEmptyString(value: string | null | undefined) {
   return undefined;
 }
 
-function addTimestamps(
-  animal: Omit<
-    AnimalFromStore,
-    "birthdateTimestamp" | "pickUpDateTimestamp" | "adoptionDateTimestamp"
-  >
-): AnimalFromStore {
+function setTimestamps(animal: AnimalFromStore): AnimalFromStore {
   return {
     ...animal,
     birthdateTimestamp: new Date(animal.birthdate).getTime(),
@@ -590,7 +597,7 @@ function addTimestamps(
   };
 }
 
-async function assertIsValid(animal: AnimalFromStore) {
+async function validate(animal: AnimalFromStore): Promise<AnimalFromStore> {
   if (animal.breedId != null) {
     const breed = await getAnimalBreedFromStore(animal.breedId);
     if (breed.species !== animal.species) {
@@ -602,19 +609,17 @@ async function assertIsValid(animal: AnimalFromStore) {
     throw new OperationError(400);
   }
 
-  if (
-    NON_ACTIVE_ANIMAL_STATUS.includes(animal.status) &&
-    animal.hostFamilyId != null
-  ) {
-    throw new OperationError(400);
+  // Only active animals can be in a host family.
+  if (NON_ACTIVE_ANIMAL_STATUS.includes(animal.status)) {
+    animal = { ...animal, hostFamilyId: null };
   }
 
-  if (
-    animal.status !== AnimalStatus.ADOPTED &&
-    (animal.adoptionDate != null || animal.adoptionOption != null)
-  ) {
-    throw new OperationError(400);
+  // Only adopted animals can have adoption info.
+  if (animal.status !== AnimalStatus.ADOPTED) {
+    animal = { ...animal, adoptionDate: null, adoptionOption: null };
   }
+
+  return animal;
 }
 
 async function mapHitToPublicAnimal(hit: Hit<AnimalFromStore>) {
