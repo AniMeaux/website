@@ -15,14 +15,12 @@ module.exports = {
       name: "website",
       cwd: "apps/website",
       script: `yarn start -p ${WEBSITE_PORT}`,
-      env: { API_URL: `http://localhost:${API_PORT}` },
     }),
 
     createApp({
       name: "faune",
       cwd: "apps/faune",
       script: `yarn start -p ${FAUNE_PORT}`,
-      env: { API_URL: `http://localhost:${API_PORT}` },
     }),
   ],
 };
