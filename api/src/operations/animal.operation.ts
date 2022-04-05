@@ -360,12 +360,7 @@ export const animalOperations: OperationsImpl<AnimalOperations> = {
         status: mixed().oneOf(Object.values(AnimalStatus)).required(),
         adoptionDate: string().dateISO().nullable().defined(),
         adoptionOption: mixed()
-          .oneOf(
-            (Object.values(AdoptionOption) as (AdoptionOption | null)[]).concat(
-              null
-            )
-          )
-          .nullable()
+          .oneOf([...Object.values(AdoptionOption), null])
           .defined(),
         pickUpDate: string().dateISO().required(),
         pickUpLocation: string().trim().nullable().defined(),
@@ -457,8 +452,7 @@ export const animalOperations: OperationsImpl<AnimalOperations> = {
         status: mixed().oneOf(Object.values(AnimalStatus)).required(),
         adoptionDate: string().dateISO().nullable().defined(),
         adoptionOption: mixed()
-          .oneOf(Object.values(AdoptionOption))
-          .nullable()
+          .oneOf([...Object.values(AdoptionOption), null])
           .defined(),
         pickUpDate: string().dateISO().required(),
         pickUpLocation: string().trim().nullable().defined(),
