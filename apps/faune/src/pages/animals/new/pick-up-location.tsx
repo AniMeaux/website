@@ -7,7 +7,6 @@ import {
   LocationItemPlaceholder,
 } from "animal/locationItem";
 import { useSearchParams } from "core/baseSearchParams";
-import { EmptyMessage } from "core/dataDisplay/emptyMessage";
 import {
   QSearchParams,
   SearchParamsInput,
@@ -42,50 +41,46 @@ const CreatePickUpLocationPage: PageComponent = () => {
   let content: React.ReactNode;
 
   if (searchLocation.state === "success") {
-    if (searchLocation.result.length === 0) {
-      content = <EmptyMessage>Aucun lieux trouvé</EmptyMessage>;
-    } else {
-      const cleanedSearch = searchParams.getQ().trim();
-      const normalizedSearch = cleanedSearch.toLowerCase();
-      let additionalItem: React.ReactNode;
-      if (
-        cleanedSearch !== "" &&
-        searchLocation.result.every(
-          (location) => location.value.toLowerCase() !== normalizedSearch
-        )
-      ) {
-        additionalItem = (
-          <li>
-            <AddLocationItem
-              search={cleanedSearch}
-              highlight={cleanedSearch === situationState.pickUpLocation}
+    const cleanedSearch = searchParams.getQ().trim();
+    const normalizedSearch = cleanedSearch.toLowerCase();
+    let additionalItem: React.ReactNode;
+    if (
+      cleanedSearch !== "" &&
+      searchLocation.result.every(
+        (location) => location.value.toLowerCase() !== normalizedSearch
+      )
+    ) {
+      additionalItem = (
+        <li>
+          <AddLocationItem
+            search={cleanedSearch}
+            highlight={cleanedSearch === situationState.pickUpLocation}
+            onClick={() => {
+              setSituationState(setPickUpLocation(cleanedSearch));
+              router.backIfPossible("../situation");
+            }}
+          />
+        </li>
+      );
+    }
+
+    content = (
+      <ul>
+        {additionalItem}
+        {searchLocation.result.map((location) => (
+          <li key={location.value}>
+            <LocationItem
+              location={location}
+              highlight={location.value === situationState.pickUpLocation}
               onClick={() => {
-                setSituationState(setPickUpLocation(cleanedSearch));
+                setSituationState(setPickUpLocation(location.value));
                 router.backIfPossible("../situation");
               }}
             />
           </li>
-        );
-      }
-
-      content = (
-        <ul>
-          {additionalItem}
-          {searchLocation.result.map((location) => (
-            <li key={location.value}>
-              <LocationItem
-                location={location}
-                highlight={location.value === situationState.pickUpLocation}
-                onClick={() => {
-                  setSituationState(setPickUpLocation(location.value));
-                  router.backIfPossible("../situation");
-                }}
-              />
-            </li>
-          ))}
-        </ul>
-      );
-    }
+        ))}
+      </ul>
+    );
   } else {
     content = (
       <ul>
