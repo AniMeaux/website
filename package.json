@@ -20,7 +20,7 @@
     "log": "yarn pm2 log",
     "build:ci": "./scripts/build-all",
     "format": "prettier --write .",
-    "lint": "run-s lint:*",
+    "lint": "run-p --aggregate-output --continue-on-error lint:*",
     "lint:format": "prettier --list-different .",
     "lint:js": "eslint --ext .js,.ts,.tsx .",
     "lint:ts": "tsc --noEmit -p shared && tsc --noEmit -p apps/faune && tsc --noEmit -p apps/website"
