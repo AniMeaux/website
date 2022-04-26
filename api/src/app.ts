@@ -8,6 +8,7 @@ import { currentUserMiddleware } from "./core/currentUser";
 import { initializeFirebase } from "./core/firebase";
 import { applyJsonMiddleware } from "./core/json";
 import "./core/yup";
+import { healthRouter } from "./health.router";
 import { operationRouter } from "./operation.router";
 
 invariant(process.env.NODE_ENV != null, "NODE_ENV must be defined.");
@@ -22,6 +23,7 @@ app.use(bodyParser());
 app.use(helmet());
 app.use(corsMiddleware());
 app.use(currentUserMiddleware());
+app.use(healthRouter.routes());
 app.use(operationRouter.routes());
 
 app.on("error", (error) => {

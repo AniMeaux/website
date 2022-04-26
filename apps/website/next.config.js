@@ -16,6 +16,8 @@ module.exports = {
     sentryDsn: process.env.SENTRY_DSN,
   },
 
+  rewrites: () => [{ source: "/healthcheck", destination: "/api/healthcheck" }],
+
   webpack(config) {
     // Inline SVG.
     config.module.rules.push({
