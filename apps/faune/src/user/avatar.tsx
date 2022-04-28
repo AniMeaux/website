@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { theme } from "styles/theme";
 
 type UserAvatarProps = {
-  user: User;
+  user: Pick<User, "displayName">;
 };
 
 export function UserAvatar({ user }: UserAvatarProps) {

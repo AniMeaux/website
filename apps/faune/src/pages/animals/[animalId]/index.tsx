@@ -72,6 +72,7 @@ import {
   FaPhone,
   FaTimesCircle,
   FaTrash,
+  FaUser,
 } from "react-icons/fa";
 import { useMutation, UseMutationResult } from "react-query";
 import styled from "styled-components";
@@ -285,6 +286,8 @@ function SituationSection({ animal }: AnimalProp) {
       <SectionTitle>Situation</SectionTitle>
 
       <ul>
+        {animal.manager != null && <ManagerItem manager={animal.manager} />}
+
         <li>
           <Item>
             <ItemIcon>
@@ -333,9 +336,9 @@ function SituationSection({ animal }: AnimalProp) {
               <ItemContent>
                 <ItemMainText>
                   En FA chez{" "}
-                  <HostFamilyName ref={referenceElement}>
+                  <TriggerText ref={referenceElement}>
                     {animal.hostFamily.name}
-                  </HostFamilyName>
+                  </TriggerText>
                 </ItemMainText>
               </ItemContent>
             </ButtonItem>
@@ -415,6 +418,40 @@ function SituationSection({ animal }: AnimalProp) {
 
       <OtherAnimalsSituations animal={animal} />
     </Section>
+  );
+}
+
+function ManagerItem({ manager }: { manager: NonNullable<Animal["manager"]> }) {
+  const { currentUser } = useCurrentUser();
+
+  if (doesGroupsIntersect(currentUser.groups, [UserGroup.ADMIN])) {
+    return (
+      <LinkItem href={`/users/${manager.id}`}>
+        <ItemIcon>
+          <FaUser />
+        </ItemIcon>
+
+        <ItemContent>
+          <ItemMainText>
+            Est géré par <TriggerText>{manager.displayName}</TriggerText>
+          </ItemMainText>
+        </ItemContent>
+      </LinkItem>
+    );
+  }
+
+  return (
+    <Item>
+      <ItemIcon>
+        <FaUser />
+      </ItemIcon>
+
+      <ItemContent>
+        <ItemMainText>
+          Est géré par <strong>{manager.displayName}</strong>
+        </ItemMainText>
+      </ItemContent>
+    </Item>
   );
 }
 
@@ -564,7 +601,7 @@ const OtherAnimalsSituationsList = styled.ul`
   gap: ${theme.spacing.x2};
 `;
 
-const HostFamilyName = styled.strong`
+const TriggerText = styled.strong`
   color: ${theme.colors.primary[500]};
 `;
 

@@ -1,5 +1,4 @@
 import { Hit } from "@algolia/client-search";
-import { DateTime } from "luxon";
 import {
   AdoptionOption,
   Animal,
@@ -12,6 +11,7 @@ import {
   AnimalStatus,
   ANIMAL_AGE_RANGE_BY_SPECIES,
   LocationSearchHit,
+  ManagerSearchHit,
   PickUpReason,
   PublicAnimal,
   PublicAnimalSearchHit,
@@ -20,6 +20,7 @@ import {
 } from "@animeaux/shared";
 import { getFirestore } from "firebase-admin/firestore";
 import orderBy from "lodash.orderby";
+import { DateTime } from "luxon";
 import { v4 as uuid } from "uuid";
 import { array, boolean, mixed, number, object, string } from "yup";
 import {
@@ -42,6 +43,11 @@ import {
   getFormattedAddress,
   getHostFamilyFromStore,
 } from "../entities/hostFamily.entity";
+import {
+  getUserFromAuth,
+  UserFromAlgolia,
+  UserIndex,
+} from "../entities/user.entity";
 
 const AnimalIndex = AlgoliaClient.initIndex(ANIMAL_COLLECTION);
 const SavedAnimalIndex = AlgoliaClient.initIndex(ANIMAL_SAVED_COLLECTION);
@@ -183,17 +189,14 @@ export const animalOperations: OperationsImpl<AnimalOperations> = {
       rawParams
     );
 
-    const result = await AnimalIndex.search<AnimalFromStore>(
-      params.search ?? "",
-      {
-        ...DEFAULT_SEARCH_OPTIONS,
-        page: params.page ?? 0,
-        filters: createSearchFilters({
-          species: params.species,
-          status: params.status,
-        }),
-      }
-    );
+    const result = await AnimalIndex.search<AnimalFromStore>(params.search, {
+      ...DEFAULT_SEARCH_OPTIONS,
+      page: params.page ?? 0,
+      filters: createSearchFilters({
+        species: params.species,
+        status: params.status,
+      }),
+    });
 
     const hits = result.hits.map<AnimalSearchHit>((hit) => ({
       id: hit.id,
@@ -269,6 +272,19 @@ export const animalOperations: OperationsImpl<AnimalOperations> = {
       };
     }
 
+    let manager: Animal["manager"] = undefined;
+    if (animalFromStore.managerId != null) {
+      const user = await getUserFromAuth(animalFromStore.managerId);
+      if (user == null) {
+        throw new OperationError(404);
+      }
+
+      manager = {
+        id: user.id,
+        displayName: user.displayName,
+      };
+    }
+
     const animal: Animal = {
       id: animalFromStore.id,
       officialName: animalFromStore.officialName,
@@ -282,6 +298,7 @@ export const animalOperations: OperationsImpl<AnimalOperations> = {
       description: ignoreEmptyString(animalFromStore.description),
       avatarId: animalFromStore.avatarId,
       picturesId: animalFromStore.picturesId,
+      manager,
       pickUpDate: animalFromStore.pickUpDate,
       pickUpLocation: ignoreEmptyString(animalFromStore.pickUpLocation),
       pickUpReason: animalFromStore.pickUpReason,
@@ -358,6 +375,7 @@ export const animalOperations: OperationsImpl<AnimalOperations> = {
         description: string().trim().nullable().defined(),
         iCadNumber: string().trim().nullable().defined(),
         status: mixed().oneOf(Object.values(AnimalStatus)).required(),
+        managerId: string().required(),
         adoptionDate: string().dateISO().nullable().defined(),
         adoptionOption: mixed()
           .oneOf([...Object.values(AdoptionOption), null])
@@ -450,6 +468,7 @@ export const animalOperations: OperationsImpl<AnimalOperations> = {
       object({
         id: string().uuid().required(),
         status: mixed().oneOf(Object.values(AnimalStatus)).required(),
+        managerId: string().required(),
         adoptionDate: string().dateISO().nullable().defined(),
         adoptionOption: mixed()
           .oneOf([...Object.values(AdoptionOption), null])
@@ -554,6 +573,35 @@ export const animalOperations: OperationsImpl<AnimalOperations> = {
     return result.facetHits.map<LocationSearchHit>((hit) => ({
       value: hit.value,
       highlightedValue: hit.highlighted,
+    }));
+  },
+
+  async searchManager(rawParams, context) {
+    assertUserHasGroups(context.currentUser, [
+      UserGroup.ADMIN,
+      UserGroup.ANIMAL_MANAGER,
+    ]);
+
+    const params = validateParams<"searchManager">(
+      object({ search: string().strict(true).defined() }),
+      rawParams
+    );
+
+    const result = await UserIndex.search<UserFromAlgolia>(params.search, {
+      ...DEFAULT_SEARCH_OPTIONS,
+      filters: createSearchFilters({
+        disabled: false,
+        groups: UserGroup.ANIMAL_MANAGER,
+      }),
+    });
+
+    return result.hits.map<ManagerSearchHit>((hit) => ({
+      id: hit.id,
+      email: hit.email,
+      highlightedEmail: hit._highlightResult?.email?.value ?? hit.email,
+      displayName: hit.displayName,
+      highlightedDisplayName:
+        hit._highlightResult?.displayName?.value ?? hit.displayName,
     }));
   },
 };

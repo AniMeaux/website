@@ -7,6 +7,13 @@ import { isFirebaseError } from "../core/firebase";
 export const USER_COLLECTION = "users";
 export const UserIndex = AlgoliaClient.initIndex(USER_COLLECTION);
 
+export type UserFromAuth = {
+  id: string;
+  email: string;
+  displayName: string;
+  disabled: boolean;
+};
+
 export type UserFromStore = {
   id: string;
   groups: UserGroup[];
@@ -20,26 +27,17 @@ export type UserFromAlgolia = {
   disabled: boolean;
 };
 
-export async function getUser(userId: string): Promise<User | null> {
-  const userSnapshot = await getFirestore()
-    .collection(USER_COLLECTION)
-    .doc(userId)
-    .get();
-
-  const groups = (userSnapshot.data() as UserFromStore)?.groups ?? null;
-  if (groups == null) {
-    return null;
-  }
-
+export async function getUserFromAuth(
+  userId: string
+): Promise<UserFromAuth | null> {
   try {
     const userRecord = await getAuth().getUser(userId);
 
     return {
-      id: userRecord.uid,
+      id: userId,
       displayName: userRecord.displayName!,
       email: userRecord.email!,
       disabled: userRecord.disabled,
-      groups,
     };
   } catch (error) {
     // Catch auth/user-not-found as we _expect_ this error, other errors are
@@ -51,6 +49,29 @@ export async function getUser(userId: string): Promise<User | null> {
 
     throw error;
   }
+}
+
+export async function getUser(userId: string): Promise<User | null> {
+  const [userFromStore, userFromAuth] = await Promise.all([
+    getFirestore()
+      .collection(USER_COLLECTION)
+      .doc(userId)
+      .get()
+      .then((snapshot) => snapshot.data() as UserFromStore | null),
+    getUserFromAuth(userId),
+  ]);
+
+  if (userFromStore == null || userFromAuth == null) {
+    return null;
+  }
+
+  return {
+    id: userId,
+    displayName: userFromAuth.displayName,
+    email: userFromAuth.email,
+    disabled: userFromAuth.disabled,
+    groups: userFromStore.groups,
+  };
 }
 
 export async function getAllUsers() {

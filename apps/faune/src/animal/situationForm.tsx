@@ -33,12 +33,13 @@ import { SetStateAction } from "core/types";
 import invariant from "invariant";
 import uniq from "lodash.uniq";
 import without from "lodash.without";
-import { FaHome, FaMapMarkerAlt, FaTimes } from "react-icons/fa";
+import { FaHome, FaMapMarkerAlt, FaTimes, FaUser } from "react-icons/fa";
 import { TRILEAN_LABELS } from "trilean/labels";
 import { string } from "yup";
 
 type ErrorCode =
   | "server-error"
+  | "empty-manager"
   | "empty-pick-up-date"
   | "invalid-pick-up-date"
   | "empty-pick-up-location"
@@ -49,6 +50,7 @@ class ValidationError extends BaseValidationError<ErrorCode> {}
 
 const ERROR_CODE_LABEL: Record<ErrorCode, string> = {
   "server-error": "Une erreur est survenue.",
+  "empty-manager": "Le responsable est obligatoire.",
   "empty-adoption-date": "La date d'adoption est obligatoire.",
   "invalid-adoption-date": "Le format de la date est invalide.",
   "empty-pick-up-date": "La date de prise en charge est obligatoire.",
@@ -58,6 +60,7 @@ const ERROR_CODE_LABEL: Record<ErrorCode, string> = {
 
 export type FormState = {
   status: AnimalStatus;
+  manager: { id: string; displayName: string } | null;
   adoptionDate: string;
   adoptionOption: AdoptionOption;
   pickUpDate: string;
@@ -74,6 +77,7 @@ export type FormState = {
 
 export type FormValue = {
   status: AnimalStatus;
+  managerId: string;
   adoptionDate: string | null;
   adoptionOption: AdoptionOption | null;
   pickUpDate: string;
@@ -139,60 +143,81 @@ export function AnimalSituationForm({
           />
         </Field>
 
-        {state.status === AnimalStatus.ADOPTED && (
-          <Field>
-            <Label
-              htmlFor="adoption-date"
-              hasError={includes(
-                state.errors,
-                "empty-adoption-date",
-                "invalid-adoption-date"
-              )}
-            >
-              Date d'adoption
-            </Label>
+        <Separator />
 
-            <Input
-              name="adoption-date"
-              id="adoption-date"
-              type="date"
-              value={state.adoptionDate}
-              onChange={(adoptionDate) =>
-                setState(setAdoptionDate(adoptionDate))
-              }
-              hasError={includes(
-                state.errors,
-                "empty-adoption-date",
-                "invalid-adoption-date"
-              )}
-            />
-          </Field>
-        )}
+        <Field>
+          <Label hasError={includes(state.errors, "empty-manager")}>
+            Responsable
+          </Label>
+
+          <LinkInput
+            href="../manager"
+            value={state.manager?.displayName}
+            hasError={includes(state.errors, "empty-manager")}
+            leftAdornment={
+              <Adornment>
+                <FaUser />
+              </Adornment>
+            }
+          />
+        </Field>
 
         {state.status === AnimalStatus.ADOPTED && (
-          <Field>
-            <Label>Option d'adoption</Label>
+          <>
+            <Separator />
 
-            <Selectors>
-              {Object.values(AdoptionOption).map((adoptionOption) => (
-                <SelectorItem key={adoptionOption}>
-                  <Selector>
-                    <SelectorRadio
-                      name="adoption-option"
-                      checked={state.adoptionOption === adoptionOption}
-                      onChange={() =>
-                        setState(setAdoptionOption(adoptionOption))
-                      }
-                    />
+            <Field>
+              <Label
+                htmlFor="adoption-date"
+                hasError={includes(
+                  state.errors,
+                  "empty-adoption-date",
+                  "invalid-adoption-date"
+                )}
+              >
+                Date d'adoption
+              </Label>
 
-                    <SelectorLabel>
-                      {ADOPTION_OPTION_LABELS[adoptionOption]}
-                    </SelectorLabel>
-                  </Selector>
-                </SelectorItem>
-              ))}
-            </Selectors>
-          </Field>
+              <Input
+                name="adoption-date"
+                id="adoption-date"
+                type="date"
+                value={state.adoptionDate}
+                onChange={(adoptionDate) =>
+                  setState(setAdoptionDate(adoptionDate))
+                }
+                hasError={includes(
+                  state.errors,
+                  "empty-adoption-date",
+                  "invalid-adoption-date"
+                )}
+              />
+            </Field>
+
+            <Field>
+              <Label>Option d'adoption</Label>
+
+              <Selectors>
+                {Object.values(AdoptionOption).map((adoptionOption) => (
+                  <SelectorItem key={adoptionOption}>
+                    <Selector>
+                      <SelectorRadio
+                        name="adoption-option"
+                        checked={state.adoptionOption === adoptionOption}
+                        onChange={() =>
+                          setState(setAdoptionOption(adoptionOption))
+                        }
+                      />
+
+                      <SelectorLabel>
+                        {ADOPTION_OPTION_LABELS[adoptionOption]}
+                      </SelectorLabel>
+                    </Selector>
+                  </SelectorItem>
+                ))}
+              </Selectors>
+            </Field>
+          </>
         )}
 
         <Separator />
@@ -406,6 +431,13 @@ export function AnimalSituationForm({
 
 export function initializeState(initialAnimal?: Animal) {
   return (): FormState => ({
+    manager:
+      initialAnimal?.manager == null
+        ? null
+        : {
+            id: initialAnimal.manager.id,
+            displayName: initialAnimal.manager.displayName,
+          },
     adoptionDate: initialAnimal?.adoptionDate ?? "",
     adoptionOption: initialAnimal?.adoptionOption ?? AdoptionOption.UNKNOWN,
     comments: initialAnimal?.comments ?? "",
@@ -499,6 +531,10 @@ function setErrors(errors: ErrorCode[]): SetStateAction<FormState> {
 export function validate(state: FormState): FormValue {
   const errorCodes: ErrorCode[] = [];
 
+  if (state.manager == null) {
+    errorCodes.push("empty-manager");
+  }
+
   if (state.status === AnimalStatus.ADOPTED) {
     if (!string().trim().required().isValidSync(state.adoptionDate)) {
       errorCodes.push("empty-adoption-date");
@@ -522,6 +558,7 @@ export function validate(state: FormState): FormValue {
   }
 
   return {
+    managerId: state.manager!.id,
     adoptionDate:
       state.status === AnimalStatus.ADOPTED ? state.adoptionDate : null,
     adoptionOption:
@@ -558,6 +595,16 @@ export function AnimalSituationFormPlaceholder() {
               </SelectorItem>
             </Placeholders>
           </Selectors>
+        </Field>
+
+        <Separator />
+
+        <Field>
+          <Label>
+            <Placeholder $preset="label" />
+          </Label>
+
+          <Placeholder $preset="input" />
         </Field>
 
         <Separator />

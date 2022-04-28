@@ -116,6 +116,10 @@ export type Animal = {
   status: AnimalStatus;
   adoptionDate?: string;
   adoptionOption?: AdoptionOption;
+  manager?: {
+    id: string;
+    displayName: string;
+  };
   hostFamily?: {
     id: string;
     name: string;
@@ -151,6 +155,7 @@ export type AnimalSituationInput = {
   pickUpLocation: string | null;
   pickUpReason: PickUpReason;
   hostFamilyId: string | null;
+  managerId: string;
   isOkChildren: Trilean;
   isOkDogs: Trilean;
   isOkCats: Trilean;
@@ -170,6 +175,14 @@ export type AnimalInput = AnimalProfileInput &
 export type LocationSearchHit = {
   value: string;
   highlightedValue: string;
+};
+
+export type ManagerSearchHit = {
+  id: string;
+  email: string;
+  highlightedEmail: string;
+  displayName: string;
+  highlightedDisplayName: string;
 };
 
 export type AnimalOperations = {
@@ -207,6 +220,7 @@ export type AnimalOperations = {
   ) => Animal;
   deleteAnimal: (params: { id: string }) => boolean;
   searchLocation: (params: { search: string }) => LocationSearchHit[];
+  searchManager: (params: { search: string }) => ManagerSearchHit[];
 };
 
 type AgeRange = {

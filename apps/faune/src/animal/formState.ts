@@ -28,6 +28,7 @@ export const INITIAL_FORM_STATE: FormState = {
     errors: [],
   },
   situationState: {
+    manager: null,
     adoptionDate: "",
     adoptionOption: AdoptionOption.UNKNOWN,
     comments: "",
