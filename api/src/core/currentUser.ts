@@ -1,6 +1,6 @@
 import { getAuth } from "firebase-admin/auth";
 import { DefaultState, Middleware } from "koa";
-import { getUser } from "../operations/user.operation";
+import { getUser } from "../entities/user.entity";
 import { Context } from "./contex";
 import { isFirebaseError } from "./firebase";
 

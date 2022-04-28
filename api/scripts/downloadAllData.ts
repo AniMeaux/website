@@ -7,7 +7,7 @@ import { ANIMAL_COLLECTION } from "../src/entities/animal.entity";
 import { ANIMAL_BREED_COLLECTION } from "../src/entities/animalBreed.entity";
 import { ANIMAL_COLOR_COLLECTION } from "../src/entities/animalColor.entity";
 import { HOST_FAMILY_COLLECTION } from "../src/entities/hostFamily.entity";
-import { getAllUsers } from "../src/operations/user.operation";
+import { getAllUsers } from "../src/entities/user.entity";
 
 process.on("unhandledRejection", (err) => {
   throw err;
