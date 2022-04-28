@@ -11,7 +11,6 @@ import { AnimalSpeciesIcon } from "animal/species/icon";
 import { AnimalSpeciesInput } from "animal/species/input";
 import { Info } from "core/dataDisplay/info";
 import { ActionAdornment, Adornment } from "core/formElements/adornment";
-import { DateInput } from "core/formElements/dateInput";
 import { Field, Fields } from "core/formElements/field";
 import { Form } from "core/formElements/form";
 import { Input } from "core/formElements/input";
@@ -201,9 +200,10 @@ export function AnimalProfileForm({
             Date de naissance
           </Label>
 
-          <DateInput
+          <Input
             name="animal-birthdate"
             id="animal-birthdate"
+            type="date"
             value={state.birthdate}
             onChange={(birthdate) => setState(setBirthdate(birthdate))}
             hasError={includes(

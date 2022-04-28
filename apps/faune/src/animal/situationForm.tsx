@@ -10,9 +10,9 @@ import { ADOPTION_OPTION_LABELS } from "animal/labels";
 import { AnimalStatusInput } from "animal/status/input";
 import { Info } from "core/dataDisplay/info";
 import { ActionAdornment, Adornment } from "core/formElements/adornment";
-import { DateInput } from "core/formElements/dateInput";
 import { Field, Fields } from "core/formElements/field";
 import { Form } from "core/formElements/form";
+import { Input } from "core/formElements/input";
 import { Label } from "core/formElements/label";
 import { LinkInput } from "core/formElements/linkInput";
 import {
@@ -152,9 +152,10 @@ export function AnimalSituationForm({
               Date d'adoption
             </Label>
 
-            <DateInput
+            <Input
               name="adoption-date"
               id="adoption-date"
+              type="date"
               value={state.adoptionDate}
               onChange={(adoptionDate) =>
                 setState(setAdoptionDate(adoptionDate))
@@ -208,9 +209,10 @@ export function AnimalSituationForm({
             Date de prise en charge
           </Label>
 
-          <DateInput
+          <Input
             name="pick-up-date"
             id="pick-up-date"
+            type="date"
             value={state.pickUpDate}
             onChange={(pickUpDate) => setState(setPickUpDate(pickUpDate))}
             hasError={includes(
