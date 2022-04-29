@@ -1,4 +1,10 @@
-import { User, UserGroup, UserOperations } from "@animeaux/shared";
+import {
+  ManagedAnimal,
+  User,
+  UserBrief,
+  UserGroup,
+  UserOperations,
+} from "@animeaux/shared";
 import { getAuth, UpdateRequest } from "firebase-admin/auth";
 import { getFirestore } from "firebase-admin/firestore";
 import orderBy from "lodash.orderby";
@@ -7,13 +13,20 @@ import { assertUserHasGroups } from "../core/authentication";
 import { isFirebaseError } from "../core/firebase";
 import { OperationError, OperationsImpl } from "../core/operations";
 import { validateParams } from "../core/validation";
-
-const USER_COLLECTION = "users";
-
-type UserFromStore = {
-  id: string;
-  groups: UserGroup[];
-};
+import {
+  AnimalFromStore,
+  ANIMAL_COLLECTION,
+  getDisplayName,
+} from "../entities/animal.entity";
+import {
+  getAllUsers,
+  getUserFromAuth,
+  getUserFromStore,
+  UserFromAlgolia,
+  UserFromStore,
+  UserIndex,
+  USER_COLLECTION,
+} from "../entities/user.entity";
 
 export const userOperations: OperationsImpl<UserOperations> = {
   async getUser(rawParams, context) {
@@ -24,19 +37,38 @@ export const userOperations: OperationsImpl<UserOperations> = {
       rawParams
     );
 
-    const user = await getUser(params.id);
-    if (user == null) {
+    const [userFromStore, userFromAuth] = await Promise.all([
+      getUserFromStore(params.id),
+      getUserFromAuth(params.id),
+    ]);
+
+    if (userFromStore == null || userFromAuth == null) {
       throw new OperationError(404);
     }
 
-    return user;
+    return {
+      id: params.id,
+      displayName: userFromAuth.displayName,
+      email: userFromAuth.email,
+      disabled: userFromAuth.disabled,
+      groups: userFromStore.groups,
+      managedAnimals: await getManagedAnimals(params.id),
+    };
   },
 
   async getAllUsers(rawParams, context) {
     assertUserHasGroups(context.currentUser, [UserGroup.ADMIN]);
 
+    const users = await getAllUsers();
+    const userBriefs = users.map<UserBrief>((user) => ({
+      id: user.id,
+      displayName: user.displayName,
+      disabled: user.disabled,
+      groups: user.groups,
+    }));
+
     return orderBy(
-      await getAllUsers(),
+      userBriefs,
       [(user) => user.disabled, (user) => user.displayName],
       ["asc", "asc"]
     );
@@ -71,12 +103,26 @@ export const userOperations: OperationsImpl<UserOperations> = {
         .doc(userFromStore.id)
         .set(userFromStore);
 
+      const userFromAlgolia: UserFromAlgolia = {
+        id: userRecord.uid,
+        email: userRecord.email!,
+        displayName: userRecord.displayName!,
+        disabled: userRecord.disabled,
+        groups: userFromStore.groups,
+      };
+
+      await UserIndex.saveObject({
+        ...userFromAlgolia,
+        objectID: userFromAlgolia.id,
+      });
+
       return {
         id: userRecord.uid,
         displayName: userRecord.displayName!,
         email: userRecord.email!,
         disabled: userRecord.disabled,
         groups: userFromStore.groups,
+        managedAnimals: [],
       };
     } catch (error) {
       if (isFirebaseError(error)) {
@@ -104,7 +150,7 @@ export const userOperations: OperationsImpl<UserOperations> = {
       object({
         id: string().required(),
         displayName: string().trim().required(),
-        password: string().required(),
+        password: string().defined(),
         groups: array()
           .of(mixed().oneOf(Object.values(UserGroup)).required())
           .required()
@@ -113,10 +159,7 @@ export const userOperations: OperationsImpl<UserOperations> = {
       rawParams
     );
 
-    const user = await getUser(params.id);
-    if (user == null) {
-      throw new OperationError(404);
-    }
+    const user = await userOperations.getUser({ id: params.id }, context);
 
     // Don't allow an admin (only admins can access users) to lock himself out.
     if (
@@ -144,6 +187,16 @@ export const userOperations: OperationsImpl<UserOperations> = {
         .doc(userFromStore.id)
         .update(userFromStore);
 
+      const userFromAlgolia: Partial<UserFromAlgolia> = {
+        displayName: params.displayName,
+        groups: params.groups,
+      };
+
+      await UserIndex.partialUpdateObject({
+        ...userFromAlgolia,
+        objectID: params.id,
+      });
+
       return {
         ...user,
         displayName: params.displayName,
@@ -168,14 +221,26 @@ export const userOperations: OperationsImpl<UserOperations> = {
       rawParams
     );
 
+    const user = await userOperations.getUser({ id: params.id }, context);
+
     // Don't allow a use to block himself.
     if (context.currentUser.id === params.id) {
       throw new OperationError(400);
     }
 
-    const user = await userOperations.getUser({ id: params.id }, context);
-    await getAuth().updateUser(params.id, { disabled: !user.disabled });
-    return { ...user, disabled: !user.disabled };
+    const newDisabled = !user.disabled;
+    await getAuth().updateUser(params.id, { disabled: newDisabled });
+
+    const userFromAlgolia: Partial<UserFromAlgolia> = {
+      disabled: newDisabled,
+    };
+
+    await UserIndex.partialUpdateObject({
+      ...userFromAlgolia,
+      objectID: params.id,
+    });
+
+    return { ...user, disabled: newDisabled };
   },
 
   async deleteUser(rawParams, context) {
@@ -186,74 +251,38 @@ export const userOperations: OperationsImpl<UserOperations> = {
       rawParams
     );
 
+    await userOperations.getUser({ id: params.id }, context);
+
     // Don't allow a user to delete himself.
     if (context.currentUser.id === params.id) {
       throw new OperationError(400);
     }
 
+    // TODO: Check that the user is not referenced by an animal.
     await getFirestore().collection(USER_COLLECTION).doc(params.id).delete();
     await getAuth().deleteUser(params.id);
+    await UserIndex.deleteObject(params.id);
+
     return true;
   },
 };
 
-export async function getUser(userId: string): Promise<User | null> {
-  const userSnapshot = await getFirestore()
-    .collection(USER_COLLECTION)
-    .doc(userId)
+async function getManagedAnimals(userId: User["id"]) {
+  const snapshots = await getFirestore()
+    .collection(ANIMAL_COLLECTION)
+    .where("managerId", "==", userId)
     .get();
 
-  const groups = (userSnapshot.data() as UserFromStore)?.groups ?? null;
-  if (groups == null) {
-    return null;
-  }
-
-  try {
-    const userRecord = await getAuth().getUser(userId);
+  const animals = snapshots.docs.map<ManagedAnimal>((doc) => {
+    const animal = doc.data() as AnimalFromStore;
 
     return {
-      id: userRecord.uid,
-      displayName: userRecord.displayName!,
-      email: userRecord.email!,
-      disabled: userRecord.disabled,
-      groups,
+      id: animal.id,
+      avatarId: animal.avatarId,
+      name: getDisplayName(animal),
     };
-  } catch (error) {
-    // Catch auth/user-not-found as we _expect_ this error, other errors are
-    // not expected.
-    // See https://firebase.google.com/docs/auth/admin/errors
-    if (isFirebaseError(error) && error.code === "auth/user-not-found") {
-      return null;
-    }
-
-    throw error;
-  }
-}
-
-export async function getAllUsers() {
-  const [usersSnapshot, usersFromAuth] = await Promise.all([
-    getFirestore().collection(USER_COLLECTION).get(),
-    getAuth().listUsers(),
-  ]);
-
-  const users: User[] = [];
-
-  usersSnapshot.docs.forEach((doc) => {
-    const userFromStore = doc.data() as UserFromStore;
-    const userRecord = usersFromAuth.users.find(
-      (userFromAuth) => userFromStore.id === userFromAuth.uid
-    );
-
-    if (userRecord != null) {
-      users.push({
-        id: userRecord.uid,
-        displayName: userRecord.displayName!,
-        email: userRecord.email!,
-        disabled: userRecord.disabled,
-        groups: userFromStore.groups,
-      });
-    }
   });
 
-  return users;
+  // A specific index is required to order by a field not in the filters.
+  return orderBy(animals, (animal) => animal.name);
 }

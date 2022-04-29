@@ -60,7 +60,7 @@ export const animalBreedOperations: OperationsImpl<AnimalBreedOperations> = {
     );
 
     const result = await AnimalBreedIndex.search<AnimalBreedFromStore>(
-      params.search ?? "",
+      params.search,
       {
         ...DEFAULT_SEARCH_OPTIONS,
         filters: createSearchFilters({ species: params.species }),

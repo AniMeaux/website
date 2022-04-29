@@ -1,4 +1,4 @@
-import { doesGroupsIntersect, User, UserGroup } from "@animeaux/shared";
+import { CurrentUser, doesGroupsIntersect, UserGroup } from "@animeaux/shared";
 import { SignInPage } from "account/signInPage";
 import { Link } from "core/actions/link";
 import { firebase } from "core/firebase";
@@ -10,7 +10,7 @@ import invariant from "invariant";
 import { createContext, useContext, useEffect, useMemo, useRef } from "react";
 
 type CurrentUserContextValue = {
-  currentUser: User | null;
+  currentUser: CurrentUser | null;
   signOut(): Promise<void>;
 };
 

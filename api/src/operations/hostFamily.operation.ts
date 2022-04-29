@@ -62,7 +62,7 @@ export const hostFamilyOperations: OperationsImpl<HostFamilyOperations> = {
     );
 
     const result = await HostFamilyIndex.search<HostFamilyFromStore>(
-      params.search ?? "",
+      params.search,
       DEFAULT_SEARCH_OPTIONS
     );
 

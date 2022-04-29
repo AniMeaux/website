@@ -68,6 +68,7 @@ function useAnimalFormPayload() {
           errors: [],
         },
         situationState: {
+          manager: animal.manager ?? null,
           adoptionDate: animal.adoptionDate ?? "",
           adoptionOption: animal.adoptionOption ?? AdoptionOption.UNKNOWN,
           comments: animal.comments ?? "",

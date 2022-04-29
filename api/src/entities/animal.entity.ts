@@ -23,6 +23,7 @@ export type AnimalFromStore = {
   description?: string | null;
   avatarId: string;
   picturesId: string[];
+  managerId?: string | null;
   pickUpDate: string;
   pickUpDateTimestamp: number;
   pickUpLocation?: string | null;

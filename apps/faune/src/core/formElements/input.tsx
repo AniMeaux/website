@@ -24,6 +24,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
     disabled,
     value,
     onChange,
+    type,
     className,
     // Should use `"off"` as default value but it is ingored by Chrome.
     // See https://bugs.chromium.org/p/chromium/issues/detail?id=587466
@@ -43,6 +44,8 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
     >
       <InputNative
         {...rest}
+        type={type}
+        pattern={getTypeFallbackPattern(type)}
         autoComplete={autoComplete}
         disabled={disabled}
         value={value}
@@ -86,3 +89,19 @@ const InputNative = styled.input`
     text-align: left;
   }
 `;
+
+function getTypeFallbackPattern(type: HtmlInputProps["type"]) {
+  switch (type) {
+    case "date": {
+      return "\\d{4}-\\d{2}-\\d{2}";
+    }
+
+    case "time": {
+      return "\\d{2}:\\d{2}";
+    }
+
+    default: {
+      return undefined;
+    }
+  }
+}

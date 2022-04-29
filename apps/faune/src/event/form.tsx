@@ -331,7 +331,6 @@ export function EventForm({
               name="event-start-date"
               id="event-start-date"
               type="date"
-              pattern="\d{4}-\d{2}-\d{2}"
               value={state.startDate}
               onChange={(startDate) => setState(setStartDate(startDate))}
               hasError={includes(
@@ -360,7 +359,6 @@ export function EventForm({
               name="event-end-date"
               id="event-end-date"
               type="date"
-              pattern="\d{4}-\d{2}-\d{2}"
               value={state.endDate}
               onChange={(endDate) => setState(setEndDate(endDate))}
               hasError={includes(
@@ -399,7 +397,6 @@ export function EventForm({
                   name="event-start-time"
                   id="event-start-time"
                   type="time"
-                  pattern="\d{2}:\d{2}"
                   value={state.startTime}
                   onChange={(startTime) => setState(setStartTime(startTime))}
                   hasError={includes(
@@ -428,7 +425,6 @@ export function EventForm({
                   name="event-end-time"
                   id="event-end-time"
                   type="time"
-                  pattern="\d{2}:\d{2}"
                   value={state.endTime}
                   onChange={(endTime) => setState(setEndTime(endTime))}
                   hasError={includes(

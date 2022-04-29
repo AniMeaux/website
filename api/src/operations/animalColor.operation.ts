@@ -51,7 +51,7 @@ export const animalColorOperations: OperationsImpl<AnimalColorOperations> = {
     );
 
     const result = await AnimalColorIndex.search<AnimalColorFromStore>(
-      params.search ?? "",
+      params.search,
       DEFAULT_SEARCH_OPTIONS
     );
 

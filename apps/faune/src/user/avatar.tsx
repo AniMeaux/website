@@ -3,11 +3,7 @@ import { Avatar } from "core/dataDisplay/avatar";
 import styled from "styled-components";
 import { theme } from "styles/theme";
 
-type UserAvatarProps = {
-  user: User;
-};
-
-export function UserAvatar({ user }: UserAvatarProps) {
+export function UserAvatar({ user }: { user: Pick<User, "displayName"> }) {
   return (
     <UserAvatarElement>{user.displayName[0].toUpperCase()}</UserAvatarElement>
   );

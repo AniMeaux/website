@@ -1,3 +1,5 @@
+import { CurrentUser, doesGroupsIntersect, UserGroup } from "@animeaux/shared";
+import { useCurrentUser } from "account/currentUser";
 import { FormState, INITIAL_FORM_STATE } from "animal/formState";
 import { validate as validateProfile } from "animal/profileForm";
 import { validate as validateSituation } from "animal/situationForm";
@@ -29,7 +31,9 @@ export const AnimalFormDraftStorage = new Storage<FormState>(
 );
 
 const [AnimalFormContextProvider, useAnimalForm] = constate(() => {
-  const [state, setState] = useState<FormState>(INITIAL_FORM_STATE);
+  const { currentUser } = useCurrentUser();
+  const initialState = useRef(getInitialState(currentUser));
+  const [state, setState] = useState(initialState.current);
 
   const setProfileState = useCallback<
     React.Dispatch<SetStateAction<FormState["profileState"]>>
@@ -63,7 +67,7 @@ const [AnimalFormContextProvider, useAnimalForm] = constate(() => {
 
     if (
       draft != null &&
-      !isEqual(draft, INITIAL_FORM_STATE) &&
+      !isEqual(draft, initialState.current) &&
       window.confirm("Reprendre le brouillon ?")
     ) {
       setState(draft);
@@ -71,7 +75,7 @@ const [AnimalFormContextProvider, useAnimalForm] = constate(() => {
   }, []);
 
   useEffect(() => {
-    if (isEqual(state, INITIAL_FORM_STATE)) {
+    if (isEqual(state, initialState.current)) {
       AnimalFormDraftStorage.clear();
     } else {
       AnimalFormDraftStorage.save({
@@ -91,6 +95,23 @@ const [AnimalFormContextProvider, useAnimalForm] = constate(() => {
   };
 });
 
+function getInitialState(currentUser: CurrentUser): FormState {
+  if (doesGroupsIntersect(currentUser.groups, [UserGroup.ANIMAL_MANAGER])) {
+    return {
+      ...INITIAL_FORM_STATE,
+      situationState: {
+        ...INITIAL_FORM_STATE.situationState,
+        manager: {
+          id: currentUser.id,
+          displayName: currentUser.displayName,
+        },
+      },
+    };
+  }
+
+  return INITIAL_FORM_STATE;
+}
+
 export { useAnimalForm };
 
 export function AnimalFormProvider({ children }: ChildrenProp) {
@@ -107,6 +128,7 @@ const STEPS_VALIDATOR: Record<string, (state: FormState) => void> = {
   color: () => {},
   situation: ({ profileState }) => validateProfile(profileState),
   "host-family": ({ profileState }) => validateProfile(profileState),
+  manager: ({ profileState }) => validateProfile(profileState),
   "new-host-family": ({ profileState }) => validateProfile(profileState),
   "pick-up-location": ({ profileState }) => validateProfile(profileState),
   pictures: ({ profileState, situationState }) => {
