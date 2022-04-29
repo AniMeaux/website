@@ -59,7 +59,7 @@ export type AnimalActiveBrief = {
   displayName: string;
   avatarId: string;
   status: AnimalStatus;
-  hostFamilyName?: string;
+  managerName?: string;
 };
 
 export type PublicAnimalSearchHit = {

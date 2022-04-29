@@ -21,6 +21,7 @@ import {
 import { getFirestore } from "firebase-admin/firestore";
 import orderBy from "lodash.orderby";
 import { DateTime } from "luxon";
+import invariant from "tiny-invariant";
 import { v4 as uuid } from "uuid";
 import { array, boolean, mixed, number, object, string } from "yup";
 import {
@@ -93,10 +94,15 @@ export const animalOperations: OperationsImpl<AnimalOperations> = {
       snapshots.docs.map<Promise<AnimalActiveBrief>>(async (doc) => {
         const animal = doc.data() as AnimalFromStore;
 
-        let hostFamilyName: AnimalActiveBrief["hostFamilyName"] = undefined;
-        if (animal.hostFamilyId != null) {
-          const hostFamily = await getHostFamilyFromStore(animal.hostFamilyId);
-          hostFamilyName = hostFamily.name;
+        let managerName: AnimalActiveBrief["managerName"] = undefined;
+        if (animal.managerId != null) {
+          const user = await getUserFromAuth(animal.managerId);
+          invariant(
+            user != null,
+            `Manager "${animal.managerId}" should exist for animal "${animal.id}"`
+          );
+
+          managerName = user.displayName;
         }
 
         return {
@@ -104,7 +110,7 @@ export const animalOperations: OperationsImpl<AnimalOperations> = {
           avatarId: animal.avatarId,
           displayName: getDisplayName(animal),
           status: animal.status,
-          hostFamilyName,
+          managerName,
         };
       })
     );
@@ -275,9 +281,10 @@ export const animalOperations: OperationsImpl<AnimalOperations> = {
     let manager: Animal["manager"] = undefined;
     if (animalFromStore.managerId != null) {
       const user = await getUserFromAuth(animalFromStore.managerId);
-      if (user == null) {
-        throw new OperationError(404);
-      }
+      invariant(
+        user != null,
+        `Manager "${animalFromStore.managerId}" should exist for animal "${params.id}"`
+      );
 
       manager = {
         id: user.id,

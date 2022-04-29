@@ -137,8 +137,8 @@ function AnimalItem({ animal }: { animal: AnimalActiveBrief }) {
       <ItemContent>
         <ItemMainText>{animal.displayName}</ItemMainText>
 
-        {animal.hostFamilyName != null && (
-          <ItemSecondaryText>{animal.hostFamilyName}</ItemSecondaryText>
+        {animal.managerName != null && (
+          <ItemSecondaryText>{animal.managerName}</ItemSecondaryText>
         )}
       </ItemContent>
 
