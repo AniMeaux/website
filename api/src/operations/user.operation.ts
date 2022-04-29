@@ -104,7 +104,7 @@ export const userOperations: OperationsImpl<UserOperations> = {
       object({
         id: string().required(),
         displayName: string().trim().required(),
-        password: string().required(),
+        password: string().defined(),
         groups: array()
           .of(mixed().oneOf(Object.values(UserGroup)).required())
           .required()
