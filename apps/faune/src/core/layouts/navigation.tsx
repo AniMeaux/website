@@ -1,4 +1,4 @@
-import { doesGroupsIntersect, User, UserGroup } from "@animeaux/shared";
+import { CurrentUser, doesGroupsIntersect, UserGroup } from "@animeaux/shared";
 import { useCurrentUser } from "account/currentUser";
 import { CurrentUserMenu } from "account/currentUserMenu";
 import {
@@ -143,7 +143,10 @@ const NAVIGATION_ITEMS: NavigationItem[] = [
   },
 ];
 
-function showNavigationItem(item: NavigationItem, currentUser: User): boolean {
+function showNavigationItem(
+  item: NavigationItem,
+  currentUser: CurrentUser
+): boolean {
   return doesGroupsIntersect(currentUser.groups, item.authorizedGroups);
 }
 

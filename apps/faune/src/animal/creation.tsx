@@ -1,4 +1,4 @@
-import { doesGroupsIntersect, User, UserGroup } from "@animeaux/shared";
+import { CurrentUser, doesGroupsIntersect, UserGroup } from "@animeaux/shared";
 import { useCurrentUser } from "account/currentUser";
 import { FormState, INITIAL_FORM_STATE } from "animal/formState";
 import { validate as validateProfile } from "animal/profileForm";
@@ -95,7 +95,7 @@ const [AnimalFormContextProvider, useAnimalForm] = constate(() => {
   };
 });
 
-function getInitialState(currentUser: User): FormState {
+function getInitialState(currentUser: CurrentUser): FormState {
   if (doesGroupsIntersect(currentUser.groups, [UserGroup.ANIMAL_MANAGER])) {
     return {
       ...INITIAL_FORM_STATE,

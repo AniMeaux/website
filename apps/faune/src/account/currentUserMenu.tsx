@@ -1,4 +1,4 @@
-import { User } from "@animeaux/shared";
+import { CurrentUser } from "@animeaux/shared";
 import { useCurrentUser } from "account/currentUser";
 import {
   ButtonItem,
@@ -93,7 +93,11 @@ function Menu() {
   );
 }
 
-function UserItem({ user }: { user: User }) {
+function UserItem({
+  user,
+}: {
+  user: Pick<CurrentUser, "displayName" | "email">;
+}) {
   return (
     <Item>
       <ItemIcon>

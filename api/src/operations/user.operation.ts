@@ -1,4 +1,4 @@
-import { UserGroup, UserOperations } from "@animeaux/shared";
+import { User, UserGroup, UserOperations } from "@animeaux/shared";
 import { getAuth, UpdateRequest } from "firebase-admin/auth";
 import { getFirestore } from "firebase-admin/firestore";
 import orderBy from "lodash.orderby";
@@ -9,7 +9,8 @@ import { OperationError, OperationsImpl } from "../core/operations";
 import { validateParams } from "../core/validation";
 import {
   getAllUsers,
-  getUser,
+  getUserFromAuth,
+  getUserFromStore,
   UserFromAlgolia,
   UserFromStore,
   UserIndex,
@@ -25,19 +26,38 @@ export const userOperations: OperationsImpl<UserOperations> = {
       rawParams
     );
 
-    const user = await getUser(params.id);
-    if (user == null) {
+    const [userFromStore, userFromAuth] = await Promise.all([
+      getUserFromStore(params.id),
+      getUserFromAuth(params.id),
+    ]);
+
+    if (userFromStore == null || userFromAuth == null) {
       throw new OperationError(404);
     }
 
-    return user;
+    return {
+      id: params.id,
+      displayName: userFromAuth.displayName,
+      email: userFromAuth.email,
+      disabled: userFromAuth.disabled,
+      groups: userFromStore.groups,
+    };
   },
 
   async getAllUsers(rawParams, context) {
     assertUserHasGroups(context.currentUser, [UserGroup.ADMIN]);
 
+    const users = await getAllUsers();
+    const userBriefs = users.map<User>((user) => ({
+      id: user.id,
+      displayName: user.displayName,
+      email: user.email,
+      disabled: user.disabled,
+      groups: user.groups,
+    }));
+
     return orderBy(
-      await getAllUsers(),
+      userBriefs,
       [(user) => user.disabled, (user) => user.displayName],
       ["asc", "asc"]
     );

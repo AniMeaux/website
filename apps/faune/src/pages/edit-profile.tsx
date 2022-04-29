@@ -1,4 +1,4 @@
-import { User } from "@animeaux/shared";
+import { CurrentUser } from "@animeaux/shared";
 import { useCurrentUser } from "account/currentUser";
 import { Info } from "core/dataDisplay/info";
 import { Adornment } from "core/formElements/adornment";
@@ -154,7 +154,7 @@ const EditProfile: PageComponent = () => {
 
 export default EditProfile;
 
-function initializeState(currentUser: User) {
+function initializeState(currentUser: CurrentUser) {
   return (): FormState => ({
     displayName: currentUser.displayName,
     errors: [],

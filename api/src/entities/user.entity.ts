@@ -1,4 +1,4 @@
-import { User, UserGroup } from "@animeaux/shared";
+import { UserGroup } from "@animeaux/shared";
 import { getAuth } from "firebase-admin/auth";
 import { getFirestore } from "firebase-admin/firestore";
 import { AlgoliaClient } from "../core/algolia";
@@ -28,7 +28,7 @@ export type UserFromAlgolia = {
 };
 
 export async function getUserFromAuth(
-  userId: string
+  userId: UserFromAuth["id"]
 ): Promise<UserFromAuth | null> {
   try {
     const userRecord = await getAuth().getUser(userId);
@@ -51,27 +51,20 @@ export async function getUserFromAuth(
   }
 }
 
-export async function getUser(userId: string): Promise<User | null> {
-  const [userFromStore, userFromAuth] = await Promise.all([
-    getFirestore()
-      .collection(USER_COLLECTION)
-      .doc(userId)
-      .get()
-      .then((snapshot) => snapshot.data() as UserFromStore | null),
-    getUserFromAuth(userId),
-  ]);
+export async function getUserFromStore(
+  userId: UserFromStore["id"]
+): Promise<UserFromStore | null> {
+  const userSnapshot = await getFirestore()
+    .collection(USER_COLLECTION)
+    .doc(userId)
+    .get();
 
-  if (userFromStore == null || userFromAuth == null) {
+  const userFromStore = userSnapshot.data() as UserFromStore | null;
+  if (userFromStore == null) {
     return null;
   }
 
-  return {
-    id: userId,
-    displayName: userFromAuth.displayName,
-    email: userFromAuth.email,
-    disabled: userFromAuth.disabled,
-    groups: userFromStore.groups,
-  };
+  return { id: userId, groups: userFromStore.groups };
 }
 
 export async function getAllUsers() {
@@ -80,7 +73,7 @@ export async function getAllUsers() {
     getAuth().listUsers(),
   ]);
 
-  const users: User[] = [];
+  const users: (UserFromStore & UserFromAuth)[] = [];
 
   usersSnapshot.docs.forEach((doc) => {
     const userFromStore = doc.data() as UserFromStore;

@@ -1,6 +1,6 @@
 import { getAuth } from "firebase-admin/auth";
 import { DefaultState, Middleware } from "koa";
-import { getUser } from "../entities/user.entity";
+import { getUserFromAuth, getUserFromStore } from "../entities/user.entity";
 import { Context } from "./contex";
 import { isFirebaseError } from "./firebase";
 
@@ -20,10 +20,23 @@ export function currentUserMiddleware(): Middleware<DefaultState, Context> {
 
       try {
         const decodedToken = await getAuth().verifyIdToken(token, true);
-        const currentUser = await getUser(decodedToken.uid);
+        const [userFromStore, userFromAuth] = await Promise.all([
+          getUserFromStore(decodedToken.uid),
+          getUserFromAuth(decodedToken.uid),
+        ]);
 
-        if (currentUser != null) {
-          context.currentUser = currentUser;
+        if (
+          userFromStore != null &&
+          userFromAuth != null &&
+          !userFromAuth.disabled
+        ) {
+          context.currentUser = {
+            id: decodedToken.uid,
+            displayName: userFromAuth.displayName,
+            email: userFromAuth.email,
+            disabled: userFromAuth.disabled,
+            groups: userFromStore.groups,
+          };
         }
       } catch (error) {
         if (
