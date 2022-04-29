@@ -1,4 +1,4 @@
-import { User, UserGroup } from "@animeaux/shared";
+import { UserBrief, UserGroup } from "@animeaux/shared";
 import { QuickLinkAction } from "core/actions/quickAction";
 import { AvatarPlaceholder } from "core/dataDisplay/avatar";
 import { EmptyMessage } from "core/dataDisplay/emptyMessage";
@@ -32,16 +32,7 @@ const TITLE = "Utilisateurs";
 const UserListPage: PageComponent = () => {
   usePageScrollRestoration();
 
-  const getAllUsers = useOperationQuery(
-    { name: "getAllUsers" },
-    {
-      onSuccess: (response, cache) => {
-        response.result.forEach((user) => {
-          cache.set({ name: "getUser", params: { id: user.id } }, user);
-        });
-      },
-    }
-  );
+  const getAllUsers = useOperationQuery({ name: "getAllUsers" });
 
   if (getAllUsers.state === "error") {
     return <ErrorPage status={getAllUsers.status} />;
@@ -124,7 +115,7 @@ function UserItemPlaceholder() {
   );
 }
 
-function UserLinkItem({ user }: { user: User }) {
+function UserLinkItem({ user }: { user: UserBrief }) {
   return (
     <LinkItem href={`./${user.id}`} $isDisabled={user.disabled}>
       <ItemIcon>

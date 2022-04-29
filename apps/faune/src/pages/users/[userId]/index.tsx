@@ -1,6 +1,8 @@
 import { User, UserGroup } from "@animeaux/shared";
 import { useCurrentUser } from "account/currentUser";
 import { QuickActions } from "core/actions/quickAction";
+import { Avatar, AvatarPlaceholder } from "core/dataDisplay/avatar";
+import { AvatarImage } from "core/dataDisplay/image";
 import { Info } from "core/dataDisplay/info";
 import {
   ButtonItem,
@@ -115,6 +117,7 @@ const UserPage: PageComponent = () => {
 
         <ProfileSection user={getUser.result} />
         <GroupsSection user={getUser.result} />
+        <ManagedAnimalsSection user={getUser.result} />
 
         <QuickActions icon={<FaPen />}>
           <ActionsSection
@@ -130,6 +133,7 @@ const UserPage: PageComponent = () => {
       <>
         <ProfilePlaceholderSection />
         <GroupsPlaceholderSection />
+        <ManagedAnimalsPlaceholderSection />
       </>
     );
   }
@@ -241,6 +245,67 @@ function GroupsPlaceholderSection() {
             <Item>
               <ItemIcon>
                 <Placeholder $preset="icon" />
+              </ItemIcon>
+
+              <ItemContent>
+                <ItemMainText>
+                  <Placeholder $preset="label" />
+                </ItemMainText>
+              </ItemContent>
+            </Item>
+          </li>
+        </Placeholders>
+      </ul>
+    </Section>
+  );
+}
+
+function ManagedAnimalsSection({ user }: UserProp) {
+  if (user.managedAnimals.length === 0) {
+    return null;
+  }
+
+  return (
+    <Section>
+      <SectionTitle>
+        Animaux en charges{" "}
+        {user.managedAnimals.length > 0 && ` (${user.managedAnimals.length})`}
+      </SectionTitle>
+
+      <ul>
+        {user.managedAnimals.map((animal) => (
+          <li key={animal.id}>
+            <LinkItem href={`/animals/${animal.id}`}>
+              <ItemIcon>
+                <Avatar>
+                  <AvatarImage image={animal.avatarId} alt={animal.name} />
+                </Avatar>
+              </ItemIcon>
+
+              <ItemContent>
+                <ItemMainText>{animal.name}</ItemMainText>
+              </ItemContent>
+            </LinkItem>
+          </li>
+        ))}
+      </ul>
+    </Section>
+  );
+}
+
+function ManagedAnimalsPlaceholderSection() {
+  return (
+    <Section>
+      <SectionTitle>
+        <Placeholder $preset="label" />
+      </SectionTitle>
+
+      <ul>
+        <Placeholders count={3}>
+          <li>
+            <Item>
+              <ItemIcon>
+                <AvatarPlaceholder />
               </ItemIcon>
 
               <ItemContent>

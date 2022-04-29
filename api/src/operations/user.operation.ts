@@ -1,4 +1,10 @@
-import { User, UserGroup, UserOperations } from "@animeaux/shared";
+import {
+  ManagedAnimal,
+  User,
+  UserBrief,
+  UserGroup,
+  UserOperations,
+} from "@animeaux/shared";
 import { getAuth, UpdateRequest } from "firebase-admin/auth";
 import { getFirestore } from "firebase-admin/firestore";
 import orderBy from "lodash.orderby";
@@ -7,6 +13,11 @@ import { assertUserHasGroups } from "../core/authentication";
 import { isFirebaseError } from "../core/firebase";
 import { OperationError, OperationsImpl } from "../core/operations";
 import { validateParams } from "../core/validation";
+import {
+  AnimalFromStore,
+  ANIMAL_COLLECTION,
+  getDisplayName,
+} from "../entities/animal.entity";
 import {
   getAllUsers,
   getUserFromAuth,
@@ -41,6 +52,7 @@ export const userOperations: OperationsImpl<UserOperations> = {
       email: userFromAuth.email,
       disabled: userFromAuth.disabled,
       groups: userFromStore.groups,
+      managedAnimals: await getManagedAnimals(params.id),
     };
   },
 
@@ -48,10 +60,9 @@ export const userOperations: OperationsImpl<UserOperations> = {
     assertUserHasGroups(context.currentUser, [UserGroup.ADMIN]);
 
     const users = await getAllUsers();
-    const userBriefs = users.map<User>((user) => ({
+    const userBriefs = users.map<UserBrief>((user) => ({
       id: user.id,
       displayName: user.displayName,
-      email: user.email,
       disabled: user.disabled,
       groups: user.groups,
     }));
@@ -111,6 +122,7 @@ export const userOperations: OperationsImpl<UserOperations> = {
         email: userRecord.email!,
         disabled: userRecord.disabled,
         groups: userFromStore.groups,
+        managedAnimals: [],
       };
     } catch (error) {
       if (isFirebaseError(error)) {
@@ -246,6 +258,7 @@ export const userOperations: OperationsImpl<UserOperations> = {
       throw new OperationError(400);
     }
 
+    // TODO: Check that the user is not referenced by an animal.
     await getFirestore().collection(USER_COLLECTION).doc(params.id).delete();
     await getAuth().deleteUser(params.id);
     await UserIndex.deleteObject(params.id);
@@ -253,3 +266,23 @@ export const userOperations: OperationsImpl<UserOperations> = {
     return true;
   },
 };
+
+async function getManagedAnimals(userId: User["id"]) {
+  const snapshots = await getFirestore()
+    .collection(ANIMAL_COLLECTION)
+    .where("managerId", "==", userId)
+    .get();
+
+  const animals = snapshots.docs.map<ManagedAnimal>((doc) => {
+    const animal = doc.data() as AnimalFromStore;
+
+    return {
+      id: animal.id,
+      avatarId: animal.avatarId,
+      name: getDisplayName(animal),
+    };
+  });
+
+  // A specific index is required to order by a field not in the filters.
+  return orderBy(animals, (animal) => animal.name);
+}

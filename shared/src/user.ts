@@ -9,17 +9,31 @@ export enum UserGroup {
   VETERINARIAN = "VETERINARIAN",
 }
 
+export type UserBrief = {
+  id: string;
+  displayName: string;
+  groups: UserGroup[];
+  disabled: boolean;
+};
+
 export type User = {
   id: string;
   email: string;
   displayName: string;
   groups: UserGroup[];
   disabled: boolean;
+  managedAnimals: ManagedAnimal[];
+};
+
+export type ManagedAnimal = {
+  id: string;
+  avatarId: string;
+  name: string;
 };
 
 export type UserOperations = {
   getUser: (params: { id: string }) => User;
-  getAllUsers: () => User[];
+  getAllUsers: () => UserBrief[];
   createUser: (params: {
     email: string;
     displayName: string;
