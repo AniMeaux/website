@@ -34,6 +34,7 @@ import { Placeholder, Placeholders } from "core/loaders/placeholder";
 import { SetStateAction } from "core/types";
 import invariant from "invariant";
 import without from "lodash.without";
+import { DateTime } from "luxon";
 import {
   FaComment,
   FaDna,
@@ -332,10 +333,10 @@ export function AnimalProfileForm({
   );
 }
 
-export function initializeState(initialAnimal?: Animal) {
-  return (): FormState => ({
+export function getInitialState(initialAnimal?: Animal): FormState {
+  return {
     alias: initialAnimal?.commonName ?? "",
-    birthdate: initialAnimal?.birthdate ?? "",
+    birthdate: initialAnimal?.birthdate ?? DateTime.now().toISODate(),
     breed: initialAnimal?.breed ?? null,
     color: initialAnimal?.color ?? null,
     description: initialAnimal?.description ?? "",
@@ -344,7 +345,7 @@ export function initializeState(initialAnimal?: Animal) {
     name: initialAnimal?.officialName ?? "",
     species: initialAnimal?.species ?? null,
     errors: [],
-  });
+  };
 }
 
 function setSpecies(species: AnimalSpecies): SetStateAction<FormState> {
