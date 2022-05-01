@@ -1,6 +1,6 @@
 import { CurrentUser, doesGroupsIntersect, UserGroup } from "@animeaux/shared";
 import { useCurrentUser } from "account/currentUser";
-import { FormState, INITIAL_FORM_STATE } from "animal/formState";
+import { FormState, getInitialState } from "animal/formState";
 import { validate as validateProfile } from "animal/profileForm";
 import { validate as validateSituation } from "animal/situationForm";
 import constate from "constate";
@@ -14,6 +14,7 @@ import { Storage } from "core/storage";
 import { ChildrenProp, SetStateAction } from "core/types";
 import invariant from "invariant";
 import isEqual from "lodash.isequal";
+import merge from "lodash.merge";
 import {
   useCallback,
   useEffect,
@@ -23,6 +24,7 @@ import {
 } from "react";
 import styled from "styled-components";
 import { theme } from "styles/theme";
+import { PartialDeep } from "type-fest";
 
 export const AnimalFormDraftStorage = new Storage<FormState>(
   "animal-creation",
@@ -32,7 +34,7 @@ export const AnimalFormDraftStorage = new Storage<FormState>(
 
 const [AnimalFormContextProvider, useAnimalForm] = constate(() => {
   const { currentUser } = useCurrentUser();
-  const initialState = useRef(getInitialState(currentUser));
+  const initialState = useRef(getInitialCreationState(currentUser));
   const [state, setState] = useState(initialState.current);
 
   const setProfileState = useCallback<
@@ -82,7 +84,7 @@ const [AnimalFormContextProvider, useAnimalForm] = constate(() => {
         profileState: { ...state.profileState, errors: [] },
         situationState: { ...state.situationState, errors: [] },
         // We don't want to save image files, they're probably not serializable.
-        picturesState: INITIAL_FORM_STATE.picturesState,
+        picturesState: getInitialState().picturesState,
       });
     }
   }, [state]);
@@ -95,21 +97,20 @@ const [AnimalFormContextProvider, useAnimalForm] = constate(() => {
   };
 });
 
-function getInitialState(currentUser: CurrentUser): FormState {
+function getInitialCreationState(currentUser: CurrentUser): FormState {
+  const state = getInitialState();
   if (doesGroupsIntersect(currentUser.groups, [UserGroup.ANIMAL_MANAGER])) {
-    return {
-      ...INITIAL_FORM_STATE,
+    return merge<FormState, PartialDeep<FormState>>(state, {
       situationState: {
-        ...INITIAL_FORM_STATE.situationState,
         manager: {
           id: currentUser.id,
           displayName: currentUser.displayName,
         },
       },
-    };
+    });
   }
 
-  return INITIAL_FORM_STATE;
+  return state;
 }
 
 export { useAnimalForm };

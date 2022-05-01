@@ -125,14 +125,14 @@ const Helper = styled.p`
   color: ${theme.colors.text.secondary};
 `;
 
-export function initializeState(initialAnimal?: Animal) {
-  return (): FormState => ({
+export function getInitialState(initialAnimal?: Animal): FormState {
+  return {
     pictures:
       initialAnimal == null
         ? []
         : [initialAnimal.avatarId, ...initialAnimal.picturesId],
     errors: [],
-  });
+  };
 }
 
 function setPictures(
