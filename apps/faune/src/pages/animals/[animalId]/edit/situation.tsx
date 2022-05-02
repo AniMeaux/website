@@ -54,6 +54,7 @@ const UpdateAnimalSituationPage: PageComponent = () => {
   if (getAnimal.state === "success") {
     content = (
       <AnimalSituationForm
+        isEdit
         state={situationState}
         setState={setSituationState}
         onSubmit={(value) =>

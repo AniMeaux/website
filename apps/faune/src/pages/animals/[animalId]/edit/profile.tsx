@@ -54,6 +54,7 @@ const UpdateAnimalProfilePage: PageComponent = () => {
   if (getAnimal.state === "success") {
     content = (
       <AnimalProfileForm
+        isEdit
         state={profileState}
         setState={setProfileState}
         onSubmit={(value) =>
