@@ -186,7 +186,9 @@ export type ManagerSearchHit = {
 };
 
 export type AnimalOperations = {
-  getAllActiveAnimals: () => AnimalActiveBrief[];
+  getAllActiveAnimals: (params: {
+    onlyManagedByCurrentUser?: boolean;
+  }) => AnimalActiveBrief[];
 
   getAllSavedAnimals: (
     params: OperationPaginationParams

@@ -7,6 +7,7 @@ import { useCurrentUser } from "account/currentUser";
 import { StatusBadge } from "animal/status/badge";
 import { StatusIcon } from "animal/status/icon";
 import { QuickLinkAction } from "core/actions/quickAction";
+import { BaseLink } from "core/baseLink";
 import { Avatar, AvatarPlaceholder } from "core/dataDisplay/avatar";
 import { EmptyMessage } from "core/dataDisplay/emptyMessage";
 import { AvatarImage } from "core/dataDisplay/image";
@@ -33,9 +34,12 @@ import { usePageScrollRestoration } from "core/layouts/usePageScroll";
 import { Placeholder, Placeholders } from "core/loaders/placeholder";
 import { useOperationQuery } from "core/operations";
 import { PageTitle } from "core/pageTitle";
+import { useRouter } from "core/router";
 import { ScreenSize, useScreenSize } from "core/screenSize";
 import { PageComponent } from "core/types";
 import { FaPlus, FaSearch } from "react-icons/fa";
+import styled from "styled-components";
+import { theme } from "styles/theme";
 
 const TITLE = "Animaux en charge";
 
@@ -46,10 +50,21 @@ const AnimalListPage: PageComponent = () => {
     UserGroup.ANIMAL_MANAGER,
   ]);
 
+  const haveManagedAnimals = doesGroupsIntersect(currentUser.groups, [
+    UserGroup.ANIMAL_MANAGER,
+  ]);
+
   usePageScrollRestoration();
+
+  const router = useRouter();
+  const searchParams = new URLSearchParams(router.asPath.split("?")[1]);
+
+  const onlyManagedByCurrentUser =
+    haveManagedAnimals && searchParams.get("tab") === "mine";
 
   const getAllActiveAnimals = useOperationQuery({
     name: "getAllActiveAnimals",
+    params: { onlyManagedByCurrentUser },
   });
 
   if (getAllActiveAnimals.state === "error") {
@@ -60,7 +75,13 @@ const AnimalListPage: PageComponent = () => {
 
   if (getAllActiveAnimals.state === "success") {
     if (getAllActiveAnimals.result.length === 0) {
-      content = <EmptyMessage>Il n'y a pas encore d'animaux</EmptyMessage>;
+      content = (
+        <EmptyMessage>
+          {onlyManagedByCurrentUser
+            ? "Vous n'avez aucun animal à votre charge"
+            : "Il n'y a pas encore d'animaux"}
+        </EmptyMessage>
+      );
     } else {
       content = (
         <ul>
@@ -101,6 +122,19 @@ const AnimalListPage: PageComponent = () => {
       </Header>
 
       <Main>
+        {haveManagedAnimals && (
+          <Section>
+            <Tabs>
+              <Tab href="" disabled={!onlyManagedByCurrentUser}>
+                Tous
+              </Tab>
+              <Tab href="?tab=mine" disabled={onlyManagedByCurrentUser}>
+                À ma charge
+              </Tab>
+            </Tabs>
+          </Section>
+        )}
+
         <Section>{content}</Section>
 
         {currentUserCanEdit && (
@@ -122,6 +156,34 @@ AnimalListPage.authorisedGroups = [
 ];
 
 export default AnimalListPage;
+
+const Tabs = styled.nav`
+  border-radius: ${theme.borderRadius.l};
+  background: ${theme.colors.dark[50]};
+  padding: ${theme.spacing.x1};
+  display: flex;
+  gap: ${theme.spacing.x2};
+`;
+
+const Tab = styled(BaseLink)`
+  flex: 1;
+  border-radius: ${theme.borderRadius.l};
+  background: ${(props) => (props.disabled ? theme.colors.light[1000] : null)};
+  padding: ${theme.spacing.x2} ${theme.spacing.x4};
+  text-align: center;
+
+  &:not([aria-disabled]) {
+    @media (hover: hover) {
+      &:hover {
+        background: ${theme.colors.light[400]};
+      }
+    }
+
+    &:active {
+      background: ${theme.colors.light[800]};
+    }
+  }
+`;
 
 function AnimalItem({ animal }: { animal: AnimalActiveBrief }) {
   const { screenSize } = useScreenSize();

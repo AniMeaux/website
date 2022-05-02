@@ -10,6 +10,7 @@ import {
   AnimalSpecies,
   AnimalStatus,
   ANIMAL_AGE_RANGE_BY_SPECIES,
+  doesGroupsIntersect,
   LocationSearchHit,
   ManagerSearchHit,
   PickUpReason,
@@ -85,10 +86,31 @@ export const animalOperations: OperationsImpl<AnimalOperations> = {
       UserGroup.VETERINARIAN,
     ]);
 
-    const snapshots = await getFirestore()
+    // Just for type safety.
+    const currentUser = context.currentUser;
+
+    const params = validateParams<"getAllActiveAnimals">(
+      object({ onlyManagedByCurrentUser: boolean() }),
+      rawParams
+    );
+
+    let query = getFirestore()
       .collection(ANIMAL_COLLECTION)
-      .where("status", "in", ACTIVE_ANIMAL_STATUS)
-      .get();
+      .where("status", "in", ACTIVE_ANIMAL_STATUS);
+
+    if (params.onlyManagedByCurrentUser) {
+      if (
+        !doesGroupsIntersect(context.currentUser.groups, [
+          UserGroup.ANIMAL_MANAGER,
+        ])
+      ) {
+        throw new OperationError(400);
+      }
+
+      query = query.where("managerId", "==", context.currentUser.id);
+    }
+
+    const snapshots = await query.get();
 
     const animals = await Promise.all(
       snapshots.docs.map<Promise<AnimalActiveBrief>>(async (doc) => {
@@ -96,13 +118,17 @@ export const animalOperations: OperationsImpl<AnimalOperations> = {
 
         let managerName: AnimalActiveBrief["managerName"] = undefined;
         if (animal.managerId != null) {
-          const user = await getUserFromAuth(animal.managerId);
-          invariant(
-            user != null,
-            `Manager "${animal.managerId}" should exist for animal "${animal.id}"`
-          );
+          if (params.onlyManagedByCurrentUser) {
+            managerName = currentUser.displayName;
+          } else {
+            const user = await getUserFromAuth(animal.managerId);
+            invariant(
+              user != null,
+              `Manager "${animal.managerId}" should exist for animal "${animal.id}"`
+            );
 
-          managerName = user.displayName;
+            managerName = user.displayName;
+          }
         }
 
         return {
