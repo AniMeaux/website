@@ -108,6 +108,7 @@ const UpdateAnimalPicturesPage: PageComponent = () => {
   if (getAnimal.state === "success") {
     content = (
       <AnimalPicturesForm
+        isEdit
         state={picturesState}
         setState={setPicturesState}
         onSubmit={(value) => uploadImages.mutate(value)}
