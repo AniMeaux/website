@@ -3,8 +3,7 @@ import { ChildrenProp, StyleProps } from "core/types";
 import styled from "styled-components";
 import { theme } from "styles/theme";
 
-export type MainProps = ChildrenProp & StyleProps;
-export function Main(props: MainProps) {
+export function Main(props: ChildrenProp & StyleProps) {
   const { hasNavigation } = useApplicationLayout();
   return <MainElement {...props} $hasNavigation={hasNavigation} />;
 }
@@ -15,20 +14,23 @@ const MainElement = styled.main<{ $hasNavigation: boolean }>`
   padding-left: env(safe-area-inset-left, 0);
 
   padding-right: 0;
-  /* The navigation is at the bottom so we need to compensate for safe area. */
   padding-right: env(safe-area-inset-right, 0);
 
   padding-bottom: ${(props) =>
     props.$hasNavigation ? theme.components.bottomNavHeight : "0"};
+
+  /* px suffix is required in a calc in iOS Safari. */
   padding-bottom: calc(
     ${(props) =>
-        props.$hasNavigation ? theme.components.bottomNavHeight : "0"} +
+        props.$hasNavigation ? theme.components.bottomNavHeight : "0px"} +
       env(safe-area-inset-bottom, 0)
   );
 
   background: ${theme.colors.background.primary};
 
   @media (min-width: 500px) {
-    padding-right: 0;
+    padding-left: 0;
+    padding-bottom: 0;
+    padding-bottom: env(safe-area-inset-bottom, 0);
   }
 `;

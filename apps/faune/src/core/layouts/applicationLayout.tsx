@@ -43,7 +43,7 @@ export function ApplicationLayout(props: ChildrenProp & StyleProps) {
   );
 }
 
-const LEFT_NAV_MAX_WIDTH = 250;
+const LEFT_NAV_MAX_WIDTH = 300;
 const MAIN_MAX_WIDTH = 600;
 const APP_LAYOUT_MAX_WIDTH = LEFT_NAV_MAX_WIDTH + MAIN_MAX_WIDTH;
 

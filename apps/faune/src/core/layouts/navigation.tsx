@@ -305,6 +305,8 @@ const BaseNavigationElement = styled.nav<{ $hasScroll: boolean }>`
 
   padding-right: 0;
   padding-right: env(safe-area-inset-right, 0);
+  padding-left: 0;
+  padding-left: env(safe-area-inset-left, 0);
   padding-bottom: 0;
   padding-bottom: env(safe-area-inset-bottom, 0);
 
@@ -317,8 +319,6 @@ const BaseNavigationElement = styled.nav<{ $hasScroll: boolean }>`
     bottom: 0;
     left: 0;
     right: 0;
-    padding-left: 0;
-    padding-left: env(safe-area-inset-left, 0);
     background: ${theme.colors.background.primary};
     box-shadow: ${(props) =>
       props.$hasScroll ? `0 -1px 0 0 ${theme.colors.dark[50]}` : "none"};
@@ -399,7 +399,7 @@ const NavButton = styled(ButtonItem)`
 `;
 
 const NavLinkContent = styled(ItemContent)`
-  @media (max-width: ${theme.screenSizes.medium.end}) {
+  @media (max-width: 899px) {
     display: none;
   }
 `;
