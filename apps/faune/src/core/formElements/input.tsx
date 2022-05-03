@@ -1,4 +1,5 @@
 import {
+  InputStylesProps,
   InputWrapper,
   InputWrapperProps,
   INPUT_STYLES,
@@ -53,14 +54,20 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
         $hasError={hasError}
         $leftAdornment={leftAdornment}
         $rightAdornment={rightAdornment}
+        $isHidden={(type === "date" || type === "time") && value === ""}
         ref={ref}
       />
     </InputWrapper>
   );
 });
 
-const InputNative = styled.input`
+const InputNative = styled.input<InputStylesProps & { $isHidden: boolean }>`
   ${INPUT_STYLES};
+  color: ${(props) => (props.$isHidden ? "transparent" : null)};
+
+  &:focus {
+    color: ${(props) => (props.$isHidden ? "inherit" : null)};
+  }
 
   &[type="date"] {
     gap: ${theme.spacing.x2};

@@ -33,7 +33,6 @@ import { SetStateAction } from "core/types";
 import invariant from "invariant";
 import uniq from "lodash.uniq";
 import without from "lodash.without";
-import { DateTime } from "luxon";
 import { FaHome, FaMapMarkerAlt, FaTimes, FaUser } from "react-icons/fa";
 import { TRILEAN_LABELS } from "trilean/labels";
 import { string } from "yup";
@@ -431,11 +430,9 @@ export function AnimalSituationForm({
 }
 
 export function getInitialState(initialAnimal?: Animal): FormState {
-  const today = DateTime.now().toISODate();
-
   return {
     manager: initialAnimal?.manager ?? null,
-    adoptionDate: initialAnimal?.adoptionDate ?? today,
+    adoptionDate: initialAnimal?.adoptionDate ?? "",
     adoptionOption: initialAnimal?.adoptionOption ?? AdoptionOption.UNKNOWN,
     comments: initialAnimal?.comments ?? "",
     hostFamily: initialAnimal?.hostFamily ?? null,
@@ -443,7 +440,7 @@ export function getInitialState(initialAnimal?: Animal): FormState {
     isOkChildren: initialAnimal?.isOkChildren ?? Trilean.UNKNOWN,
     isOkDogs: initialAnimal?.isOkDogs ?? Trilean.UNKNOWN,
     isSterilized: initialAnimal?.isSterilized ?? false,
-    pickUpDate: initialAnimal?.pickUpDate ?? today,
+    pickUpDate: initialAnimal?.pickUpDate ?? "",
     pickUpLocation: initialAnimal?.pickUpLocation ?? null,
     pickUpReason: initialAnimal?.pickUpReason ?? PickUpReason.OTHER,
     status: initialAnimal?.status ?? AnimalStatus.UNAVAILABLE,
