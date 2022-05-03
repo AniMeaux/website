@@ -34,7 +34,6 @@ import { Placeholder, Placeholders } from "core/loaders/placeholder";
 import { SetStateAction } from "core/types";
 import invariant from "invariant";
 import without from "lodash.without";
-import { DateTime } from "luxon";
 import {
   FaComment,
   FaDna,
@@ -336,7 +335,7 @@ export function AnimalProfileForm({
 export function getInitialState(initialAnimal?: Animal): FormState {
   return {
     alias: initialAnimal?.commonName ?? "",
-    birthdate: initialAnimal?.birthdate ?? DateTime.now().toISODate(),
+    birthdate: initialAnimal?.birthdate ?? "",
     breed: initialAnimal?.breed ?? null,
     color: initialAnimal?.color ?? null,
     description: initialAnimal?.description ?? "",

@@ -82,7 +82,7 @@ const AdornmentContainerElement = styled.span<AdornmentContainerElementProps>`
   padding: ${theme.spacing.x1} ${theme.spacing.x2};
 `;
 
-type InputStylesProps = {
+export type InputStylesProps = {
   $hasError: boolean;
   $leftAdornment?: React.ReactNode | React.ReactNode[];
   $rightAdornment?: React.ReactNode | React.ReactNode[];
@@ -93,10 +93,13 @@ const INPUT_ERROR_STYLES = css`
   border-color: ${theme.colors.alert[500]};
 `;
 
+const MIN_HEIGHT = `calc(${theme.typography.lineHeight.multiLine} * 1em + 2 * ${theme.spacing.x2} + 2px)`;
+
 export const INPUT_STYLES = css<InputStylesProps>`
   appearance: none;
   width: 100%;
   min-width: 0;
+  min-height: ${MIN_HEIGHT};
 
   border-width: 1px;
   border-radius: ${theme.borderRadius.l};
