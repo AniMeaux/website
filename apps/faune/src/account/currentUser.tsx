@@ -1,13 +1,13 @@
 import { CurrentUser, doesGroupsIntersect, UserGroup } from "@animeaux/shared";
-import { SignInPage } from "account/signInPage";
-import { Link } from "core/actions/link";
-import { firebase } from "core/firebase";
-import { ErrorPage } from "core/layouts/errorPage";
-import { useOperationQuery } from "core/operations";
-import { Sentry } from "core/sentry";
-import { ChildrenProp } from "core/types";
 import invariant from "invariant";
 import { createContext, useContext, useEffect, useMemo, useRef } from "react";
+import { SignInPage } from "~/account/signInPage";
+import { Link } from "~/core/actions/link";
+import { firebase } from "~/core/firebase";
+import { ErrorPage } from "~/core/layouts/errorPage";
+import { useOperationQuery } from "~/core/operations";
+import { Sentry } from "~/core/sentry";
+import { ChildrenProp } from "~/core/types";
 
 type CurrentUserContextValue = {
   currentUser: CurrentUser | null;

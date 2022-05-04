@@ -1,9 +1,9 @@
-import { RawCheckbox } from "core/formElements/checkbox";
-import { RawRadio } from "core/formElements/radio";
-import { ChildrenProp, StyleProps } from "core/types";
 import { Children, isValidElement } from "react";
 import styled, { css } from "styled-components";
-import { setFocusColor, theme } from "styles/theme";
+import { RawCheckbox } from "~/core/formElements/checkbox";
+import { RawRadio } from "~/core/formElements/radio";
+import { ChildrenProp, StyleProps } from "~/core/types";
+import { setFocusColor, theme } from "~/styles/theme";
 
 export const Selectors = styled.ul`
   display: flex;

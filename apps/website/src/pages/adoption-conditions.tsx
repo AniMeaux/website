@@ -1,11 +1,3 @@
-import { Link } from "~/core/link";
-import { PageComponent } from "~/core/pageComponent";
-import { PageTitle } from "~/core/pageTitle";
-import { ChildrenProp } from "~/core/types";
-import { StaticImage } from "~/dataDisplay/image";
-import { Footer } from "~/layout/footer";
-import { Header } from "~/layout/header";
-import { PageHeader } from "~/layout/pageHeader";
 import {
   FaCheck,
   FaClipboardCheck,
@@ -16,6 +8,14 @@ import {
   FaTimes,
 } from "react-icons/fa";
 import styled, { css } from "styled-components";
+import { Link } from "~/core/link";
+import { PageComponent } from "~/core/pageComponent";
+import { PageTitle } from "~/core/pageTitle";
+import { ChildrenProp } from "~/core/types";
+import { StaticImage } from "~/dataDisplay/image";
+import { Footer } from "~/layout/footer";
+import { Header } from "~/layout/header";
+import { PageHeader } from "~/layout/pageHeader";
 
 const TITLE = "Conditions d'adoption";
 

@@ -1,6 +1,6 @@
-import { Label } from "core/formElements/label";
 import styled, { css } from "styled-components";
-import { theme } from "styles/theme";
+import { Label } from "~/core/formElements/label";
+import { theme } from "~/styles/theme";
 
 type ToggleInputProps = Omit<
   React.InputHTMLAttributes<HTMLInputElement>,

@@ -1,40 +1,40 @@
 import { Event, EventCategory, EVENT_CATEGORY_LABELS } from "@animeaux/shared";
-import { Button } from "core/actions/button";
-import {
-  getFiles,
-  Image,
-  ImageFileOrId,
-  IMAGE_SIZE_LIMIT,
-} from "core/dataDisplay/image";
-import { Info } from "core/dataDisplay/info";
-import { AsideFields, Field, Fields } from "core/formElements/field";
-import { Form } from "core/formElements/form";
-import { Input } from "core/formElements/input";
-import { Label } from "core/formElements/label";
-import {
-  Selector,
-  SelectorItem,
-  SelectorLabel,
-  SelectorRadio,
-  Selectors,
-} from "core/formElements/selector";
-import { SubmitButton } from "core/formElements/submitButton";
-import { Textarea } from "core/formElements/textarea";
-import { ToggleInput } from "core/formElements/toggleInput";
-import { BaseValidationError } from "core/formValidation";
-import { includes } from "core/includes";
-import { joinReactNodes } from "core/joinReactNodes";
-import { Separator } from "core/layouts/separator";
-import { showSnackbar, Snackbar } from "core/popovers/snackbar";
-import { SetStateAction } from "core/types";
 import invariant from "invariant";
 import without from "lodash.without";
 import { DateTime } from "luxon";
 import { useRef, useState } from "react";
 import { FaTrash, FaUpload } from "react-icons/fa";
 import styled from "styled-components";
-import { theme } from "styles/theme";
 import { string } from "yup";
+import { Button } from "~/core/actions/button";
+import {
+  getFiles,
+  Image,
+  ImageFileOrId,
+  IMAGE_SIZE_LIMIT,
+} from "~/core/dataDisplay/image";
+import { Info } from "~/core/dataDisplay/info";
+import { AsideFields, Field, Fields } from "~/core/formElements/field";
+import { Form } from "~/core/formElements/form";
+import { Input } from "~/core/formElements/input";
+import { Label } from "~/core/formElements/label";
+import {
+  Selector,
+  SelectorItem,
+  SelectorLabel,
+  SelectorRadio,
+  Selectors,
+} from "~/core/formElements/selector";
+import { SubmitButton } from "~/core/formElements/submitButton";
+import { Textarea } from "~/core/formElements/textarea";
+import { ToggleInput } from "~/core/formElements/toggleInput";
+import { BaseValidationError } from "~/core/formValidation";
+import { includes } from "~/core/includes";
+import { joinReactNodes } from "~/core/joinReactNodes";
+import { Separator } from "~/core/layouts/separator";
+import { showSnackbar, Snackbar } from "~/core/popovers/snackbar";
+import { SetStateAction } from "~/core/types";
+import { theme } from "~/styles/theme";
 
 type ErrorCode =
   | "server-error"

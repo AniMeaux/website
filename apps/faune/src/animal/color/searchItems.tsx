@@ -1,4 +1,5 @@
 import { AnimalColorSearchHit } from "@animeaux/shared";
+import { FaPalette } from "react-icons/fa";
 import {
   ButtonItem,
   ButtonItemProps,
@@ -6,9 +7,8 @@ import {
   ItemContent,
   ItemIcon,
   ItemMainText,
-} from "core/dataDisplay/item";
-import { Placeholder } from "core/loaders/placeholder";
-import { FaPalette } from "react-icons/fa";
+} from "~/core/dataDisplay/item";
+import { Placeholder } from "~/core/loaders/placeholder";
 
 type AnimalColorItemProps = ButtonItemProps & {
   animalColor: AnimalColorSearchHit;

@@ -1,7 +1,7 @@
 import {
   AnimalColor,
-  AnimalColorSearchHit,
   AnimalColorOperations,
+  AnimalColorSearchHit,
   UserGroup,
 } from "@animeaux/shared";
 import { getFirestore } from "firebase-admin/firestore";

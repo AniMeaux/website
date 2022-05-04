@@ -1,16 +1,16 @@
 import { UserGroup } from "@animeaux/shared";
-import { uploadImageFile } from "core/cloudinary";
-import { getImageId, isImageFile } from "core/dataDisplay/image";
-import { ApplicationLayout } from "core/layouts/applicationLayout";
-import { Header, HeaderBackLink, HeaderTitle } from "core/layouts/header";
-import { Main } from "core/layouts/main";
-import { Navigation } from "core/layouts/navigation";
-import { useOperationMutation } from "core/operations";
-import { PageTitle } from "core/pageTitle";
-import { useRouter } from "core/router";
-import { PageComponent } from "core/types";
-import { EventForm, FormValue } from "event/form";
 import { useMutation } from "react-query";
+import { uploadImageFile } from "~/core/cloudinary";
+import { getImageId, isImageFile } from "~/core/dataDisplay/image";
+import { ApplicationLayout } from "~/core/layouts/applicationLayout";
+import { Header, HeaderBackLink, HeaderTitle } from "~/core/layouts/header";
+import { Main } from "~/core/layouts/main";
+import { Navigation } from "~/core/layouts/navigation";
+import { useOperationMutation } from "~/core/operations";
+import { PageTitle } from "~/core/pageTitle";
+import { useRouter } from "~/core/router";
+import { PageComponent } from "~/core/types";
+import { EventForm, FormValue } from "~/event/form";
 
 const CreateEventPage: PageComponent = () => {
   const router = useRouter();

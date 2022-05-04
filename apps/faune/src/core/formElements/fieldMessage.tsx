@@ -1,6 +1,6 @@
-import { StyleProps } from "core/types";
 import styled, { css, FlattenSimpleInterpolation } from "styled-components";
-import { theme } from "styles/theme";
+import { StyleProps } from "~/core/types";
+import { theme } from "~/styles/theme";
 
 type FieldMessagePlacement = "top" | "bottom";
 

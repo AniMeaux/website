@@ -1,8 +1,8 @@
 import { OperationParams } from "@animeaux/shared";
-import { getConfig } from "core/config";
-import { ImageFile } from "core/dataDisplay/image";
-import { runOperation } from "core/operations";
-import { Sentry } from "core/sentry";
+import { getConfig } from "~/core/config";
+import { ImageFile } from "~/core/dataDisplay/image";
+import { runOperation } from "~/core/operations";
+import { Sentry } from "~/core/sentry";
 
 const CLOUD_NAME = getConfig().cloudinaryCloudName;
 const API_KEY = getConfig().cloudinaryApiKey;

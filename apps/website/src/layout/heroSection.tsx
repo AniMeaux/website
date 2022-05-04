@@ -1,5 +1,5 @@
-import { StaticImage } from "~/dataDisplay/image";
 import styled from "styled-components";
+import { StaticImage } from "~/dataDisplay/image";
 
 type HeroProps = {
   smallImage: string;

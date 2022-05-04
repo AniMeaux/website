@@ -1,23 +1,4 @@
 import { CurrentUser, doesGroupsIntersect, UserGroup } from "@animeaux/shared";
-import { useCurrentUser } from "account/currentUser";
-import { CurrentUserMenu } from "account/currentUserMenu";
-import {
-  ButtonItem,
-  ItemContent,
-  ItemIcon,
-  ItemMainText,
-  ItemSecondaryText,
-  LinkItem,
-  LinkItemProps,
-} from "core/dataDisplay/item";
-import { AppIcon } from "core/icons/appIcon";
-import { useApplicationLayout } from "core/layouts/applicationLayout";
-import { Section } from "core/layouts/section";
-import { useIsScrollAtTheBottom } from "core/layouts/usePageScroll";
-import { Modal, ModalHeader, ModalHeaderTitle } from "core/popovers/modal";
-import { useRouter } from "core/router";
-import { ScreenSize, useScreenSize } from "core/screenSize";
-import { ChildrenProp, StyleProps } from "core/types";
 import { useEffect, useRef, useState } from "react";
 import {
   FaAngleRight,
@@ -30,8 +11,27 @@ import {
   FaUser,
 } from "react-icons/fa";
 import styled from "styled-components";
-import { theme } from "styles/theme";
-import { UserAvatar } from "user/avatar";
+import { useCurrentUser } from "~/account/currentUser";
+import { CurrentUserMenu } from "~/account/currentUserMenu";
+import {
+  ButtonItem,
+  ItemContent,
+  ItemIcon,
+  ItemMainText,
+  ItemSecondaryText,
+  LinkItem,
+  LinkItemProps,
+} from "~/core/dataDisplay/item";
+import { AppIcon } from "~/core/icons/appIcon";
+import { useApplicationLayout } from "~/core/layouts/applicationLayout";
+import { Section } from "~/core/layouts/section";
+import { useIsScrollAtTheBottom } from "~/core/layouts/usePageScroll";
+import { Modal, ModalHeader, ModalHeaderTitle } from "~/core/popovers/modal";
+import { useRouter } from "~/core/router";
+import { ScreenSize, useScreenSize } from "~/core/screenSize";
+import { ChildrenProp, StyleProps } from "~/core/types";
+import { theme } from "~/styles/theme";
+import { UserAvatar } from "~/user/avatar";
 
 type NavigationMenuProps = {
   navigationItems: NavigationItem[];

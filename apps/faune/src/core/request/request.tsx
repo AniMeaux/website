@@ -1,9 +1,9 @@
-import { ProgressBar } from "core/loaders/progressBar";
-import { NetworkStatus } from "core/request/networkStatus";
 import invariant from "invariant";
 import { createContext, useContext, useMemo, useRef, useState } from "react";
 import { QueryClient, QueryClientProvider, useIsFetching } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
+import { ProgressBar } from "~/core/loaders/progressBar";
+import { NetworkStatus } from "~/core/request/networkStatus";
 
 const queryClient = new QueryClient({
   defaultOptions: {

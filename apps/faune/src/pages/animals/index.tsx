@@ -3,14 +3,16 @@ import {
   doesGroupsIntersect,
   UserGroup,
 } from "@animeaux/shared";
-import { useCurrentUser } from "account/currentUser";
-import { StatusBadge } from "animal/status/badge";
-import { StatusIcon } from "animal/status/icon";
-import { QuickLinkAction } from "core/actions/quickAction";
-import { BaseLink } from "core/baseLink";
-import { Avatar, AvatarPlaceholder } from "core/dataDisplay/avatar";
-import { EmptyMessage } from "core/dataDisplay/emptyMessage";
-import { AvatarImage } from "core/dataDisplay/image";
+import { FaPlus, FaSearch } from "react-icons/fa";
+import styled from "styled-components";
+import { useCurrentUser } from "~/account/currentUser";
+import { StatusBadge } from "~/animal/status/badge";
+import { StatusIcon } from "~/animal/status/icon";
+import { QuickLinkAction } from "~/core/actions/quickAction";
+import { BaseLink } from "~/core/baseLink";
+import { Avatar, AvatarPlaceholder } from "~/core/dataDisplay/avatar";
+import { EmptyMessage } from "~/core/dataDisplay/emptyMessage";
+import { AvatarImage } from "~/core/dataDisplay/image";
 import {
   Item,
   ItemContent,
@@ -18,28 +20,26 @@ import {
   ItemMainText,
   ItemSecondaryText,
   LinkItem,
-} from "core/dataDisplay/item";
-import { ApplicationLayout } from "core/layouts/applicationLayout";
-import { ErrorPage } from "core/layouts/errorPage";
+} from "~/core/dataDisplay/item";
+import { ApplicationLayout } from "~/core/layouts/applicationLayout";
+import { ErrorPage } from "~/core/layouts/errorPage";
 import {
   Header,
   HeaderLink,
   HeaderTitle,
   HeaderUserAvatar,
-} from "core/layouts/header";
-import { Main } from "core/layouts/main";
-import { Navigation } from "core/layouts/navigation";
-import { Section } from "core/layouts/section";
-import { usePageScrollRestoration } from "core/layouts/usePageScroll";
-import { Placeholder, Placeholders } from "core/loaders/placeholder";
-import { useOperationQuery } from "core/operations";
-import { PageTitle } from "core/pageTitle";
-import { useRouter } from "core/router";
-import { ScreenSize, useScreenSize } from "core/screenSize";
-import { PageComponent } from "core/types";
-import { FaPlus, FaSearch } from "react-icons/fa";
-import styled from "styled-components";
-import { theme } from "styles/theme";
+} from "~/core/layouts/header";
+import { Main } from "~/core/layouts/main";
+import { Navigation } from "~/core/layouts/navigation";
+import { Section } from "~/core/layouts/section";
+import { usePageScrollRestoration } from "~/core/layouts/usePageScroll";
+import { Placeholder, Placeholders } from "~/core/loaders/placeholder";
+import { useOperationQuery } from "~/core/operations";
+import { PageTitle } from "~/core/pageTitle";
+import { useRouter } from "~/core/router";
+import { ScreenSize, useScreenSize } from "~/core/screenSize";
+import { PageComponent } from "~/core/types";
+import { theme } from "~/styles/theme";
 
 const TITLE = "Animaux en charge";
 

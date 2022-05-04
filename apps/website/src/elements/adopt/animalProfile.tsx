@@ -4,6 +4,8 @@ import {
   PublicAnimal,
   Trilean,
 } from "@animeaux/shared";
+import { DateTime } from "luxon";
+import { FaBaby, FaBirthdayCake } from "react-icons/fa";
 import { isDefined } from "~/core/isDefined";
 import { ANIMAL_GENDER_LABELS } from "~/core/labels";
 import { AnimalGenderIcon } from "~/dataDisplay/animalGenderIcon";
@@ -12,8 +14,6 @@ import { Markdown } from "~/dataDisplay/markdown";
 import { CallToActionLink } from "~/layout/callToAction";
 import { CenteredContent } from "~/layout/centeredContent";
 import { Section } from "~/layout/section";
-import { DateTime } from "luxon";
-import { FaBaby, FaBirthdayCake } from "react-icons/fa";
 import { AnimalImageGallery } from "./animalImageGallery";
 import styles from "./animalProfile.module.css";
 

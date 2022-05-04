@@ -7,10 +7,6 @@ import {
   OperationResult,
   PickOperationErrorResult,
 } from "@animeaux/shared";
-import { getConfig } from "core/config";
-import { firebase } from "core/firebase";
-import { useIsScrollAtFetchMore } from "core/layouts/usePageScroll";
-import { useRequest } from "core/request";
 import invariant from "invariant";
 import { useEffect } from "react";
 import {
@@ -20,6 +16,10 @@ import {
   useQuery,
   useQueryClient,
 } from "react-query";
+import { getConfig } from "~/core/config";
+import { firebase } from "~/core/firebase";
+import { useIsScrollAtFetchMore } from "~/core/layouts/usePageScroll";
+import { useRequest } from "~/core/request";
 
 type OperationSuccessResult<TName extends AllOperationName> =
   OmitOperationErrorResult<OperationResult<TName>>;

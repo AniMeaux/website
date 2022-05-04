@@ -1,4 +1,4 @@
-import { StyleProps } from "core/types";
+import { StyleProps } from "~/core/types";
 
 export type RawRadioProps = StyleProps & {
   checked: boolean;

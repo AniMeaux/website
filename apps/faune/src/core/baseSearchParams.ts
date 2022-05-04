@@ -1,5 +1,5 @@
-import { useRouter } from "core/router";
 import { useEffect, useRef, useState } from "react";
+import { useRouter } from "~/core/router";
 
 type ChangeListener = () => void;
 

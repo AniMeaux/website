@@ -1,8 +1,8 @@
-import { BaseLink, BaseLinkProps } from "core/baseLink";
-import { ChildrenProp, StyleProps } from "core/types";
 import { forwardRef } from "react";
 import styled, { css, FlattenSimpleInterpolation } from "styled-components";
-import { theme } from "styles/theme";
+import { BaseLink, BaseLinkProps } from "~/core/baseLink";
+import { ChildrenProp, StyleProps } from "~/core/types";
+import { theme } from "~/styles/theme";
 
 type ItemColor = "default" | "red" | "yellow" | "blue";
 

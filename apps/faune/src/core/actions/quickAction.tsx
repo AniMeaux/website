@@ -1,10 +1,10 @@
-import { Button, ButtonProps } from "core/actions/button";
-import { Link } from "core/actions/link";
-import { ActionCommonProps } from "core/actions/shared";
-import { Modal } from "core/popovers/modal";
 import { useRef, useState } from "react";
 import styled, { css } from "styled-components";
-import { theme } from "styles/theme";
+import { Button, ButtonProps } from "~/core/actions/button";
+import { Link } from "~/core/actions/link";
+import { ActionCommonProps } from "~/core/actions/shared";
+import { Modal } from "~/core/popovers/modal";
+import { theme } from "~/styles/theme";
 
 const SPACING = theme.spacing.x4;
 const SPACING_BOTTOM = `calc(${theme.components.bottomNavHeight} + ${SPACING})`;

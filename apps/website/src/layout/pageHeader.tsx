@@ -1,6 +1,6 @@
+import styled from "styled-components";
 import { ChildrenProp } from "~/core/types";
 import { StaticImage, useImageDominantColor } from "~/dataDisplay/image";
-import styled from "styled-components";
 
 type ImageProps = {
   smallImage: string;

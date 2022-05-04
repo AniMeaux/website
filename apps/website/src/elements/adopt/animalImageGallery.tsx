@@ -1,11 +1,11 @@
 import { PublicAnimal } from "@animeaux/shared";
 import cn from "classnames";
+import { useRef, useState } from "react";
 import {
   CloudinaryImage,
   getImageUrl,
   useImageDominantColor,
 } from "~/dataDisplay/image";
-import { useRef, useState } from "react";
 import styles from "./animalImageGallery.module.css";
 
 export type AnimalImageGalleryProps = {

@@ -1,19 +1,19 @@
 import { OperationParams, UserGroup } from "@animeaux/shared";
-import { deleteImage, uploadImageFile } from "core/cloudinary";
-import { getImageId, isImageFile } from "core/dataDisplay/image";
-import { ApplicationLayout } from "core/layouts/applicationLayout";
-import { ErrorPage } from "core/layouts/errorPage";
-import { Header, HeaderBackLink, HeaderTitle } from "core/layouts/header";
-import { Main } from "core/layouts/main";
-import { Navigation } from "core/layouts/navigation";
-import { Placeholder } from "core/loaders/placeholder";
-import { useOperationMutation, useOperationQuery } from "core/operations";
-import { PageTitle } from "core/pageTitle";
-import { useRouter } from "core/router";
-import { PageComponent } from "core/types";
-import { EventForm, FormValue } from "event/form";
 import invariant from "invariant";
 import { useMutation } from "react-query";
+import { deleteImage, uploadImageFile } from "~/core/cloudinary";
+import { getImageId, isImageFile } from "~/core/dataDisplay/image";
+import { ApplicationLayout } from "~/core/layouts/applicationLayout";
+import { ErrorPage } from "~/core/layouts/errorPage";
+import { Header, HeaderBackLink, HeaderTitle } from "~/core/layouts/header";
+import { Main } from "~/core/layouts/main";
+import { Navigation } from "~/core/layouts/navigation";
+import { Placeholder } from "~/core/loaders/placeholder";
+import { useOperationMutation, useOperationQuery } from "~/core/operations";
+import { PageTitle } from "~/core/pageTitle";
+import { useRouter } from "~/core/router";
+import { PageComponent } from "~/core/types";
+import { EventForm, FormValue } from "~/event/form";
 
 const EventEditPage: PageComponent = () => {
   const router = useRouter();

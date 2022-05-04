@@ -4,7 +4,7 @@ import styled, {
   FlattenSimpleInterpolation,
   keyframes,
 } from "styled-components";
-import { theme } from "styles/theme";
+import { theme } from "~/styles/theme";
 
 export type PlaceholderPreset =
   | "none"

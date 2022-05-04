@@ -1,10 +1,3 @@
-import { Button } from "core/actions/button";
-import { ButtonSection } from "core/layouts/section";
-import { ScreenSize, useScreenSize } from "core/screenSize";
-import { ChildrenProp, StyleProps } from "core/types";
-import { useFocusTrap } from "core/useFocusTrap";
-import { useLatestDefinedValue } from "core/useLatestDefinedValue";
-import { useScrollLock } from "core/useScrollLock";
 import invariant from "invariant";
 import type { Modifiers, Placement } from "popper.js";
 import {
@@ -19,7 +12,14 @@ import {
 import { usePopper, UsePopperOptions } from "react-behave";
 import * as ReactDOM from "react-dom";
 import styled, { css } from "styled-components";
-import { theme } from "styles/theme";
+import { Button } from "~/core/actions/button";
+import { ButtonSection } from "~/core/layouts/section";
+import { ScreenSize, useScreenSize } from "~/core/screenSize";
+import { ChildrenProp, StyleProps } from "~/core/types";
+import { useFocusTrap } from "~/core/useFocusTrap";
+import { useLatestDefinedValue } from "~/core/useLatestDefinedValue";
+import { useScrollLock } from "~/core/useScrollLock";
+import { theme } from "~/styles/theme";
 
 type ModalContextType = {
   onDismiss: () => void;

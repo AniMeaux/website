@@ -1,19 +1,19 @@
 import { Animal } from "@animeaux/shared";
-import { Avatar } from "core/dataDisplay/avatar";
-import { Image, ImageFileOrId } from "core/dataDisplay/image";
-import { Info } from "core/dataDisplay/info";
-import { Field } from "core/formElements/field";
-import { Form } from "core/formElements/form";
-import { ImageInput } from "core/formElements/imageInput";
-import { SubmitButton } from "core/formElements/submitButton";
-import { BaseValidationError } from "core/formValidation";
-import { joinReactNodes } from "core/joinReactNodes";
-import { SetStateAction } from "core/types";
 import invariant from "invariant";
 import without from "lodash.without";
 import { FaPaw } from "react-icons/fa";
 import styled from "styled-components";
-import { theme } from "styles/theme";
+import { Avatar } from "~/core/dataDisplay/avatar";
+import { Image, ImageFileOrId } from "~/core/dataDisplay/image";
+import { Info } from "~/core/dataDisplay/info";
+import { Field } from "~/core/formElements/field";
+import { Form } from "~/core/formElements/form";
+import { ImageInput } from "~/core/formElements/imageInput";
+import { SubmitButton } from "~/core/formElements/submitButton";
+import { BaseValidationError } from "~/core/formValidation";
+import { joinReactNodes } from "~/core/joinReactNodes";
+import { SetStateAction } from "~/core/types";
+import { theme } from "~/styles/theme";
 
 type ErrorCode = "server-error" | "image-upload-error" | "missing-avatar";
 

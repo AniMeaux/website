@@ -1,10 +1,10 @@
-import { BaseSearchParams, useSearchParams } from "core/baseSearchParams";
-import { ensureArray } from "core/ensureArray";
-import { ActionAdornment, Adornment } from "core/formElements/adornment";
-import { Input, InputProps } from "core/formElements/input";
 import { forwardRef, useEffect, useState } from "react";
 import { FaSearch, FaTimes } from "react-icons/fa";
 import styled from "styled-components";
+import { BaseSearchParams, useSearchParams } from "~/core/baseSearchParams";
+import { ensureArray } from "~/core/ensureArray";
+import { ActionAdornment, Adornment } from "~/core/formElements/adornment";
+import { Input, InputProps } from "~/core/formElements/input";
 
 export type SearchParamsInputProps = Omit<
   InputProps,

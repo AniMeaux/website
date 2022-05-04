@@ -1,3 +1,6 @@
+import { useRef, useState } from "react";
+import { FaImages, FaTrash } from "react-icons/fa";
+import styled from "styled-components";
 import {
   getFiles,
   getImageId,
@@ -5,20 +8,17 @@ import {
   ImageFile,
   ImageFileOrId,
   IMAGE_SIZE_LIMIT,
-} from "core/dataDisplay/image";
+} from "~/core/dataDisplay/image";
 import {
   DragAndDropContextProvider,
   useDragItem,
   useDragPreview,
   useDropContainer,
-} from "core/dragAndDrop";
-import { Placeholder, Placeholders } from "core/loaders/placeholder";
-import { showSnackbar, Snackbar } from "core/popovers/snackbar";
-import { SetStateAction } from "core/types";
-import { useRef, useState } from "react";
-import { FaImages, FaTrash } from "react-icons/fa";
-import styled from "styled-components";
-import { theme } from "styles/theme";
+} from "~/core/dragAndDrop";
+import { Placeholder, Placeholders } from "~/core/loaders/placeholder";
+import { showSnackbar, Snackbar } from "~/core/popovers/snackbar";
+import { SetStateAction } from "~/core/types";
+import { theme } from "~/styles/theme";
 
 function PictureItemPreview() {
   const preview = useDragPreview<ImageFileOrId>();
