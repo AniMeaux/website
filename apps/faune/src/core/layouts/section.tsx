@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { theme } from "styles/theme";
+import { theme } from "~/styles/theme";
 
 export const SectionTitle = styled.h2`
   margin: ${theme.spacing.x2} 0;

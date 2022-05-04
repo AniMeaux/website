@@ -1,17 +1,5 @@
 import { CurrentUser, doesGroupsIntersect, UserGroup } from "@animeaux/shared";
-import { useCurrentUser } from "account/currentUser";
-import { FormState, getInitialState } from "animal/formState";
-import { validate as validateProfile } from "animal/profileForm";
-import { validate as validateSituation } from "animal/situationForm";
 import constate from "constate";
-import {
-  Step,
-  Stepper as BaseStepper,
-  StepStatus,
-} from "core/controllers/stepper";
-import { useRouter } from "core/router";
-import { Storage } from "core/storage";
-import { ChildrenProp, SetStateAction } from "core/types";
 import invariant from "invariant";
 import isEqual from "lodash.isequal";
 import merge from "lodash.merge";
@@ -23,8 +11,20 @@ import {
   useState,
 } from "react";
 import styled from "styled-components";
-import { theme } from "styles/theme";
 import { PartialDeep } from "type-fest";
+import { useCurrentUser } from "~/account/currentUser";
+import { FormState, getInitialState } from "~/animal/formState";
+import { validate as validateProfile } from "~/animal/profileForm";
+import { validate as validateSituation } from "~/animal/situationForm";
+import {
+  Step,
+  Stepper as BaseStepper,
+  StepStatus,
+} from "~/core/controllers/stepper";
+import { useRouter } from "~/core/router";
+import { Storage } from "~/core/storage";
+import { ChildrenProp, SetStateAction } from "~/core/types";
+import { theme } from "~/styles/theme";
 
 export const AnimalFormDraftStorage = new Storage<FormState>(
   "animal-creation",

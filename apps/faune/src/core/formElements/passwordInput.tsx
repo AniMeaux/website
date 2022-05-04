@@ -1,7 +1,7 @@
-import { ActionAdornment } from "core/formElements/adornment";
-import { Input, InputProps } from "core/formElements/input";
 import { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { ActionAdornment } from "~/core/formElements/adornment";
+import { Input, InputProps } from "~/core/formElements/input";
 
 export function PasswordInput(
   props: Omit<InputProps, "type" | "rightAdornment">

@@ -1,15 +1,15 @@
-import { BaseLink, BaseLinkProps } from "core/baseLink";
-import { ensureArray } from "core/ensureArray";
-import { Adornment } from "core/formElements/adornment";
+import { FaCaretDown } from "react-icons/fa";
+import styled from "styled-components";
+import { BaseLink, BaseLinkProps } from "~/core/baseLink";
+import { ensureArray } from "~/core/ensureArray";
+import { Adornment } from "~/core/formElements/adornment";
 import {
   InputWrapper,
   InputWrapperProps,
   INPUT_STYLES,
-} from "core/formElements/inputWrapper";
-import { StyleProps } from "core/types";
-import { FaCaretDown } from "react-icons/fa";
-import styled from "styled-components";
-import { theme } from "styles/theme";
+} from "~/core/formElements/inputWrapper";
+import { StyleProps } from "~/core/types";
+import { theme } from "~/styles/theme";
 
 export type LinkInputProps = InputWrapperProps &
   StyleProps &

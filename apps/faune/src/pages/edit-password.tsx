@@ -1,27 +1,27 @@
 import { OperationResult, PickOperationErrorResult } from "@animeaux/shared";
-import { Info } from "core/dataDisplay/info";
-import { Adornment } from "core/formElements/adornment";
-import { Field, Fields } from "core/formElements/field";
-import { Form } from "core/formElements/form";
-import { Label } from "core/formElements/label";
-import { PasswordInput } from "core/formElements/passwordInput";
-import { SubmitButton } from "core/formElements/submitButton";
-import { BaseValidationError } from "core/formValidation";
-import { includes } from "core/includes";
-import { joinReactNodes } from "core/joinReactNodes";
-import { ApplicationLayout } from "core/layouts/applicationLayout";
-import { Header, HeaderBackLink, HeaderTitle } from "core/layouts/header";
-import { Main } from "core/layouts/main";
-import { Navigation } from "core/layouts/navigation";
-import { useOperationMutation } from "core/operations";
-import { PageTitle } from "core/pageTitle";
-import { useRouter } from "core/router";
-import { PageComponent, SetStateAction } from "core/types";
 import invariant from "invariant";
 import without from "lodash.without";
 import { useState } from "react";
 import { FaLock } from "react-icons/fa";
 import { string } from "yup";
+import { Info } from "~/core/dataDisplay/info";
+import { Adornment } from "~/core/formElements/adornment";
+import { Field, Fields } from "~/core/formElements/field";
+import { Form } from "~/core/formElements/form";
+import { Label } from "~/core/formElements/label";
+import { PasswordInput } from "~/core/formElements/passwordInput";
+import { SubmitButton } from "~/core/formElements/submitButton";
+import { BaseValidationError } from "~/core/formValidation";
+import { includes } from "~/core/includes";
+import { joinReactNodes } from "~/core/joinReactNodes";
+import { ApplicationLayout } from "~/core/layouts/applicationLayout";
+import { Header, HeaderBackLink, HeaderTitle } from "~/core/layouts/header";
+import { Main } from "~/core/layouts/main";
+import { Navigation } from "~/core/layouts/navigation";
+import { useOperationMutation } from "~/core/operations";
+import { PageTitle } from "~/core/pageTitle";
+import { useRouter } from "~/core/router";
+import { PageComponent, SetStateAction } from "~/core/types";
 
 type ErrorCode =
   | PickOperationErrorResult<

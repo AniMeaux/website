@@ -1,13 +1,13 @@
+import styled from "styled-components";
 import {
   Item,
   ItemActions,
   ItemContent,
   ItemIcon,
   ItemMainText,
-} from "core/dataDisplay/item";
-import { StyleProps } from "core/types";
-import styled from "styled-components";
-import { theme } from "styles/theme";
+} from "~/core/dataDisplay/item";
+import { StyleProps } from "~/core/types";
+import { theme } from "~/styles/theme";
 
 type ErrorType = "notFound" | "serverError" | "unauthorized";
 

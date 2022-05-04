@@ -1,7 +1,9 @@
 import { UserBrief, UserGroup } from "@animeaux/shared";
-import { QuickLinkAction } from "core/actions/quickAction";
-import { AvatarPlaceholder } from "core/dataDisplay/avatar";
-import { EmptyMessage } from "core/dataDisplay/emptyMessage";
+import { FaPlus } from "react-icons/fa";
+import styled from "styled-components";
+import { QuickLinkAction } from "~/core/actions/quickAction";
+import { AvatarPlaceholder } from "~/core/dataDisplay/avatar";
+import { EmptyMessage } from "~/core/dataDisplay/emptyMessage";
 import {
   Item,
   ItemContent,
@@ -9,23 +11,21 @@ import {
   ItemMainText,
   ItemSecondaryText,
   LinkItem as BaseLinkItem,
-} from "core/dataDisplay/item";
-import { ApplicationLayout } from "core/layouts/applicationLayout";
-import { ErrorPage } from "core/layouts/errorPage";
-import { Header, HeaderTitle, HeaderUserAvatar } from "core/layouts/header";
-import { Main } from "core/layouts/main";
-import { Navigation } from "core/layouts/navigation";
-import { Section } from "core/layouts/section";
-import { usePageScrollRestoration } from "core/layouts/usePageScroll";
-import { Placeholder, Placeholders } from "core/loaders/placeholder";
-import { useOperationQuery } from "core/operations";
-import { PageTitle } from "core/pageTitle";
-import { PageComponent } from "core/types";
-import { FaPlus } from "react-icons/fa";
-import styled from "styled-components";
-import { theme } from "styles/theme";
-import { UserAvatar } from "user/avatar";
-import { USER_GROUP_LABELS } from "user/group/labels";
+} from "~/core/dataDisplay/item";
+import { ApplicationLayout } from "~/core/layouts/applicationLayout";
+import { ErrorPage } from "~/core/layouts/errorPage";
+import { Header, HeaderTitle, HeaderUserAvatar } from "~/core/layouts/header";
+import { Main } from "~/core/layouts/main";
+import { Navigation } from "~/core/layouts/navigation";
+import { Section } from "~/core/layouts/section";
+import { usePageScrollRestoration } from "~/core/layouts/usePageScroll";
+import { Placeholder, Placeholders } from "~/core/loaders/placeholder";
+import { useOperationQuery } from "~/core/operations";
+import { PageTitle } from "~/core/pageTitle";
+import { PageComponent } from "~/core/types";
+import { theme } from "~/styles/theme";
+import { UserAvatar } from "~/user/avatar";
+import { USER_GROUP_LABELS } from "~/user/group/labels";
 
 const TITLE = "Utilisateurs";
 

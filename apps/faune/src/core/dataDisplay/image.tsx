@@ -1,11 +1,11 @@
-import { getConfig } from "core/config";
-import { Sentry } from "core/sentry";
-import { StyleProps } from "core/types";
 import { useState } from "react";
 import { FaImage } from "react-icons/fa";
 import styled from "styled-components";
-import { theme } from "styles/theme";
 import { v4 as uuid } from "uuid";
+import { getConfig } from "~/core/config";
+import { Sentry } from "~/core/sentry";
+import { StyleProps } from "~/core/types";
+import { theme } from "~/styles/theme";
 
 // 10 MiB = 10 * 1024 * 1024 B
 export const IMAGE_SIZE_LIMIT = 10485760;

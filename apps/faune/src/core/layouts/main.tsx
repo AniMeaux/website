@@ -1,7 +1,7 @@
-import { useApplicationLayout } from "core/layouts/applicationLayout";
-import { ChildrenProp, StyleProps } from "core/types";
 import styled from "styled-components";
-import { theme } from "styles/theme";
+import { useApplicationLayout } from "~/core/layouts/applicationLayout";
+import { ChildrenProp, StyleProps } from "~/core/types";
+import { theme } from "~/styles/theme";
 
 export function Main(props: ChildrenProp & StyleProps) {
   const { hasNavigation } = useApplicationLayout();

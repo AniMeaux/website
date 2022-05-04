@@ -1,13 +1,13 @@
+import NextLink from "next/link";
+import { forwardRef } from "react";
 import {
   addHistoryIndexToUrl,
   canGoBackHistory,
   getHistoryIndex,
   resolveUrl,
   useRouter,
-} from "core/router";
-import { A11yProps, ChildrenProp, StyleProps } from "core/types";
-import NextLink from "next/link";
-import { forwardRef } from "react";
+} from "~/core/router";
+import { A11yProps, ChildrenProp, StyleProps } from "~/core/types";
 
 export type BaseLinkProps = ChildrenProp &
   StyleProps &

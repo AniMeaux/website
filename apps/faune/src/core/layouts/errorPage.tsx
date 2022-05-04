@@ -1,8 +1,8 @@
-import { Button } from "core/actions/button";
-import { Link } from "core/actions/link";
-import { StyleProps } from "core/types";
 import styled from "styled-components";
-import { theme } from "styles/theme";
+import { Button } from "~/core/actions/button";
+import { Link } from "~/core/actions/link";
+import { StyleProps } from "~/core/types";
+import { theme } from "~/styles/theme";
 
 const STATUS_IMAGE: Record<number, string> = {
   400: "🤭",

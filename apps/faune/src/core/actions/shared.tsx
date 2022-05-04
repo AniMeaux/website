@@ -1,5 +1,5 @@
 import { css } from "styled-components";
-import { Styles, theme } from "styles/theme";
+import { Styles, theme } from "~/styles/theme";
 
 type ActionVariant = "primary" | "outlined";
 

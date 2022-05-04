@@ -1,5 +1,5 @@
 import { AnimalStatus } from "@animeaux/shared";
-import { ANIMAL_STATUS_LABELS } from "animal/status/labels";
+import { ANIMAL_STATUS_LABELS } from "~/animal/status/labels";
 import {
   Selector,
   SelectorCheckbox,
@@ -7,8 +7,8 @@ import {
   SelectorLabel,
   SelectorRadio,
   Selectors,
-} from "core/formElements/selector";
-import { SetStateAction } from "core/types";
+} from "~/core/formElements/selector";
+import { SetStateAction } from "~/core/types";
 
 type AnimalStatusInputProps = {
   value?: AnimalStatus | null;

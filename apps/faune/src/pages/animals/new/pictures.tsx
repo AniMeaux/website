@@ -1,25 +1,25 @@
 import { UserGroup } from "@animeaux/shared";
+import { useMutation } from "react-query";
 import {
   AnimalFormDraftStorage,
   AnimalFormProvider,
   AnimalFormStep,
   AnimalFormStepper,
   useAnimalForm,
-} from "animal/creation";
-import { AnimalPicturesForm, FormValue } from "animal/picturesForm";
-import { validate as validateProfile } from "animal/profileForm";
-import { validate as validateSituation } from "animal/situationForm";
-import { uploadImageFile } from "core/cloudinary";
-import { getImageId, isImageFile } from "core/dataDisplay/image";
-import { ApplicationLayout } from "core/layouts/applicationLayout";
-import { Header, HeaderBackLink, HeaderTitle } from "core/layouts/header";
-import { Main } from "core/layouts/main";
-import { Navigation } from "core/layouts/navigation";
-import { useOperationMutation } from "core/operations";
-import { PageTitle } from "core/pageTitle";
-import { useRouter } from "core/router";
-import { PageComponent } from "core/types";
-import { useMutation } from "react-query";
+} from "~/animal/creation";
+import { AnimalPicturesForm, FormValue } from "~/animal/picturesForm";
+import { validate as validateProfile } from "~/animal/profileForm";
+import { validate as validateSituation } from "~/animal/situationForm";
+import { uploadImageFile } from "~/core/cloudinary";
+import { getImageId, isImageFile } from "~/core/dataDisplay/image";
+import { ApplicationLayout } from "~/core/layouts/applicationLayout";
+import { Header, HeaderBackLink, HeaderTitle } from "~/core/layouts/header";
+import { Main } from "~/core/layouts/main";
+import { Navigation } from "~/core/layouts/navigation";
+import { useOperationMutation } from "~/core/operations";
+import { PageTitle } from "~/core/pageTitle";
+import { useRouter } from "~/core/router";
+import { PageComponent } from "~/core/types";
 
 const CreateAnimalPicturesPage: PageComponent = () => {
   const { profileState, situationState, picturesState, setPicturesState } =

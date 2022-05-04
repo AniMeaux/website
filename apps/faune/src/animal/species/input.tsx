@@ -1,6 +1,6 @@
 import { AnimalSpecies } from "@animeaux/shared";
-import { AnimalSpeciesIcon } from "animal/species/icon";
-import { ANIMAL_SPECIES_LABELS } from "animal/species/labels";
+import { AnimalSpeciesIcon } from "~/animal/species/icon";
+import { ANIMAL_SPECIES_LABELS } from "~/animal/species/labels";
 import {
   Selector,
   SelectorCheckbox,
@@ -9,8 +9,8 @@ import {
   SelectorLabel,
   SelectorRadio,
   Selectors,
-} from "core/formElements/selector";
-import { SetStateAction } from "core/types";
+} from "~/core/formElements/selector";
+import { SetStateAction } from "~/core/types";
 
 type AnimalSpeciesInputProps = {
   value?: AnimalSpecies | null;

@@ -1,6 +1,6 @@
-import { useRouter } from "core/router";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { watchResize } from "react-behave";
+import { useRouter } from "~/core/router";
 
 const PAGE_SCROLL_SCROLL_Y: Record<string, number> = {};
 

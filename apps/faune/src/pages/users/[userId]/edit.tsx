@@ -1,17 +1,17 @@
 import { UserGroup } from "@animeaux/shared";
-import { useCurrentUser } from "account/currentUser";
-import { ApplicationLayout } from "core/layouts/applicationLayout";
-import { ErrorPage } from "core/layouts/errorPage";
-import { Header, HeaderBackLink, HeaderTitle } from "core/layouts/header";
-import { Main } from "core/layouts/main";
-import { Navigation } from "core/layouts/navigation";
-import { Placeholder } from "core/loaders/placeholder";
-import { useOperationMutation, useOperationQuery } from "core/operations";
-import { PageTitle } from "core/pageTitle";
-import { useRouter } from "core/router";
-import { PageComponent } from "core/types";
 import invariant from "invariant";
-import { UserForm, UserFormPlaceholder } from "user/form";
+import { useCurrentUser } from "~/account/currentUser";
+import { ApplicationLayout } from "~/core/layouts/applicationLayout";
+import { ErrorPage } from "~/core/layouts/errorPage";
+import { Header, HeaderBackLink, HeaderTitle } from "~/core/layouts/header";
+import { Main } from "~/core/layouts/main";
+import { Navigation } from "~/core/layouts/navigation";
+import { Placeholder } from "~/core/loaders/placeholder";
+import { useOperationMutation, useOperationQuery } from "~/core/operations";
+import { PageTitle } from "~/core/pageTitle";
+import { useRouter } from "~/core/router";
+import { PageComponent } from "~/core/types";
+import { UserForm, UserFormPlaceholder } from "~/user/form";
 
 const UserEditPage: PageComponent = () => {
   const router = useRouter();

@@ -1,8 +1,8 @@
 import { CurrentUser, UserGroup } from "@animeaux/shared";
-import { useCurrentUser } from "account/currentUser";
-import { useRouter } from "core/router";
-import { PageComponent } from "core/types";
 import { useLayoutEffect } from "react";
+import { useCurrentUser } from "~/account/currentUser";
+import { useRouter } from "~/core/router";
+import { PageComponent } from "~/core/types";
 
 function getUserMainGroup(user: CurrentUser): UserGroup {
   if (user.groups.includes(UserGroup.ADMIN)) {

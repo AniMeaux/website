@@ -1,36 +1,36 @@
 import { AnimalSearchHit, UserGroup } from "@animeaux/shared";
-import { AnimalFiltersModal } from "animal/filtersModal";
-import { AnimalSearchParams } from "animal/searchParams";
-import { StatusBadge } from "animal/status/badge";
-import { StatusIcon } from "animal/status/icon";
-import { ActionFilter } from "core/actions/actionFilter";
-import { Button } from "core/actions/button";
-import { useSearchParams } from "core/baseSearchParams";
-import { Avatar, AvatarPlaceholder } from "core/dataDisplay/avatar";
-import { EmptyMessage } from "core/dataDisplay/emptyMessage";
-import { AvatarImage } from "core/dataDisplay/image";
+import { useRef } from "react";
+import { AnimalFiltersModal } from "~/animal/filtersModal";
+import { AnimalSearchParams } from "~/animal/searchParams";
+import { StatusBadge } from "~/animal/status/badge";
+import { StatusIcon } from "~/animal/status/icon";
+import { ActionFilter } from "~/core/actions/actionFilter";
+import { Button } from "~/core/actions/button";
+import { useSearchParams } from "~/core/baseSearchParams";
+import { Avatar, AvatarPlaceholder } from "~/core/dataDisplay/avatar";
+import { EmptyMessage } from "~/core/dataDisplay/emptyMessage";
+import { AvatarImage } from "~/core/dataDisplay/image";
 import {
   Item,
   ItemContent,
   ItemIcon,
   ItemMainText,
   LinkItem,
-} from "core/dataDisplay/item";
-import { Markdown } from "core/dataDisplay/markdown";
-import { SearchParamsInput } from "core/formElements/searchParamsInput";
-import { ApplicationLayout } from "core/layouts/applicationLayout";
-import { ErrorPage } from "core/layouts/errorPage";
-import { Header, HeaderBackLink } from "core/layouts/header";
-import { Main } from "core/layouts/main";
-import { Navigation } from "core/layouts/navigation";
-import { Section, SectionTitle } from "core/layouts/section";
-import { usePageScrollRestoration } from "core/layouts/usePageScroll";
-import { Placeholder, Placeholders } from "core/loaders/placeholder";
-import { usePaginatedOperationQuery } from "core/operations";
-import { PageTitle } from "core/pageTitle";
-import { ScreenSize, useScreenSize } from "core/screenSize";
-import { PageComponent } from "core/types";
-import { useRef } from "react";
+} from "~/core/dataDisplay/item";
+import { Markdown } from "~/core/dataDisplay/markdown";
+import { SearchParamsInput } from "~/core/formElements/searchParamsInput";
+import { ApplicationLayout } from "~/core/layouts/applicationLayout";
+import { ErrorPage } from "~/core/layouts/errorPage";
+import { Header, HeaderBackLink } from "~/core/layouts/header";
+import { Main } from "~/core/layouts/main";
+import { Navigation } from "~/core/layouts/navigation";
+import { Section, SectionTitle } from "~/core/layouts/section";
+import { usePageScrollRestoration } from "~/core/layouts/usePageScroll";
+import { Placeholder, Placeholders } from "~/core/loaders/placeholder";
+import { usePaginatedOperationQuery } from "~/core/operations";
+import { PageTitle } from "~/core/pageTitle";
+import { ScreenSize, useScreenSize } from "~/core/screenSize";
+import { PageComponent } from "~/core/types";
 
 const TITLE = "Chercher un animal";
 

@@ -1,10 +1,10 @@
-import { FormState, getInitialState } from "animal/formState";
 import constate from "constate";
-import { useOperationQuery } from "core/operations";
-import { useRouter } from "core/router";
-import { SetStateAction } from "core/types";
 import invariant from "invariant";
 import { useCallback, useEffect, useState } from "react";
+import { FormState, getInitialState } from "~/animal/formState";
+import { useOperationQuery } from "~/core/operations";
+import { useRouter } from "~/core/router";
+import { SetStateAction } from "~/core/types";
 
 function useAnimalFormPayload() {
   const router = useRouter();

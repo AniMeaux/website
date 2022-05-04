@@ -1,5 +1,5 @@
 import * as Sentry from "@sentry/react";
-import { getConfig } from "core/config";
+import { getConfig } from "~/core/config";
 
 if (process.env.NODE_ENV === "production") {
   Sentry.init({ dsn: getConfig().sentryDsn });

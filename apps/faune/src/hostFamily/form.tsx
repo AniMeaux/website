@@ -3,24 +3,24 @@ import {
   OperationResult,
   PickOperationErrorResult,
 } from "@animeaux/shared";
-import { Info } from "core/dataDisplay/info";
-import { Adornment } from "core/formElements/adornment";
-import { Field, Fields } from "core/formElements/field";
-import { Form } from "core/formElements/form";
-import { Input } from "core/formElements/input";
-import { Label } from "core/formElements/label";
-import { SubmitButton } from "core/formElements/submitButton";
-import { BaseValidationError } from "core/formValidation";
-import { includes } from "core/includes";
-import { joinReactNodes } from "core/joinReactNodes";
-import { Separator } from "core/layouts/separator";
-import { Placeholder, Placeholders } from "core/loaders/placeholder";
-import { SetStateAction } from "core/types";
 import invariant from "invariant";
 import without from "lodash.without";
 import { useState } from "react";
 import { FaEnvelope, FaMapMarker, FaPhone, FaUser } from "react-icons/fa";
 import { string } from "yup";
+import { Info } from "~/core/dataDisplay/info";
+import { Adornment } from "~/core/formElements/adornment";
+import { Field, Fields } from "~/core/formElements/field";
+import { Form } from "~/core/formElements/form";
+import { Input } from "~/core/formElements/input";
+import { Label } from "~/core/formElements/label";
+import { SubmitButton } from "~/core/formElements/submitButton";
+import { BaseValidationError } from "~/core/formValidation";
+import { includes } from "~/core/includes";
+import { joinReactNodes } from "~/core/joinReactNodes";
+import { Separator } from "~/core/layouts/separator";
+import { Placeholder, Placeholders } from "~/core/loaders/placeholder";
+import { SetStateAction } from "~/core/types";
 
 type ErrorCode =
   | PickOperationErrorResult<

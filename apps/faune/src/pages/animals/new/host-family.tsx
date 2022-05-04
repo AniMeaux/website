@@ -1,28 +1,28 @@
 import { UserGroup } from "@animeaux/shared";
-import { AnimalFormProvider, useAnimalForm } from "animal/creation";
-import { Link } from "core/actions/link";
-import { useSearchParams } from "core/baseSearchParams";
-import { EmptyMessage } from "core/dataDisplay/emptyMessage";
+import { AnimalFormProvider, useAnimalForm } from "~/animal/creation";
+import { Link } from "~/core/actions/link";
+import { useSearchParams } from "~/core/baseSearchParams";
+import { EmptyMessage } from "~/core/dataDisplay/emptyMessage";
 import {
   QSearchParams,
   SearchParamsInput,
-} from "core/formElements/searchParamsInput";
-import { ApplicationLayout } from "core/layouts/applicationLayout";
-import { ErrorPage } from "core/layouts/errorPage";
-import { Header, HeaderBackLink } from "core/layouts/header";
-import { Main } from "core/layouts/main";
-import { Navigation } from "core/layouts/navigation";
-import { Section } from "core/layouts/section";
-import { Placeholders } from "core/loaders/placeholder";
-import { useOperationQuery } from "core/operations";
-import { PageTitle } from "core/pageTitle";
-import { useRouter } from "core/router";
-import { PageComponent } from "core/types";
+} from "~/core/formElements/searchParamsInput";
+import { ApplicationLayout } from "~/core/layouts/applicationLayout";
+import { ErrorPage } from "~/core/layouts/errorPage";
+import { Header, HeaderBackLink } from "~/core/layouts/header";
+import { Main } from "~/core/layouts/main";
+import { Navigation } from "~/core/layouts/navigation";
+import { Section } from "~/core/layouts/section";
+import { Placeholders } from "~/core/loaders/placeholder";
+import { useOperationQuery } from "~/core/operations";
+import { PageTitle } from "~/core/pageTitle";
+import { useRouter } from "~/core/router";
+import { PageComponent } from "~/core/types";
 import {
   CreateHostFamilyItem,
   HostFamilyItem,
   HostFamilyItemPlaceholder,
-} from "hostFamily/items";
+} from "~/hostFamily/items";
 
 const AnimalHostFamilyPage: PageComponent = () => {
   const { situationState, setSituationState } = useAnimalForm();

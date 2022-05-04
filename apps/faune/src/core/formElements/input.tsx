@@ -1,13 +1,13 @@
+import { forwardRef } from "react";
+import styled from "styled-components";
 import {
   InputStylesProps,
   InputWrapper,
   InputWrapperProps,
   INPUT_STYLES,
-} from "core/formElements/inputWrapper";
-import { HtmlInputProps, StyleProps } from "core/types";
-import { forwardRef } from "react";
-import styled from "styled-components";
-import { theme } from "styles/theme";
+} from "~/core/formElements/inputWrapper";
+import { HtmlInputProps, StyleProps } from "~/core/types";
+import { theme } from "~/styles/theme";
 
 export type InputProps = StyleProps &
   HtmlInputProps &

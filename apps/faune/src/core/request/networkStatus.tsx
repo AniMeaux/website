@@ -1,5 +1,5 @@
-import { showSnackbar, Snackbar } from "core/popovers/snackbar";
 import { useEffect } from "react";
+import { showSnackbar, Snackbar } from "~/core/popovers/snackbar";
 
 export function NetworkStatus() {
   useEffect(() => {

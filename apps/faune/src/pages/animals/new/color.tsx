@@ -2,25 +2,25 @@ import { UserGroup } from "@animeaux/shared";
 import {
   AnimalColorItemPlaceholder,
   AnimalColorSearchItem,
-} from "animal/color/searchItems";
-import { AnimalFormProvider, useAnimalForm } from "animal/creation";
-import { useSearchParams } from "core/baseSearchParams";
-import { EmptyMessage } from "core/dataDisplay/emptyMessage";
+} from "~/animal/color/searchItems";
+import { AnimalFormProvider, useAnimalForm } from "~/animal/creation";
+import { useSearchParams } from "~/core/baseSearchParams";
+import { EmptyMessage } from "~/core/dataDisplay/emptyMessage";
 import {
   QSearchParams,
   SearchParamsInput,
-} from "core/formElements/searchParamsInput";
-import { ApplicationLayout } from "core/layouts/applicationLayout";
-import { ErrorPage } from "core/layouts/errorPage";
-import { Header, HeaderBackLink } from "core/layouts/header";
-import { Main } from "core/layouts/main";
-import { Navigation } from "core/layouts/navigation";
-import { Section } from "core/layouts/section";
-import { Placeholders } from "core/loaders/placeholder";
-import { useOperationQuery } from "core/operations";
-import { PageTitle } from "core/pageTitle";
-import { useRouter } from "core/router";
-import { PageComponent } from "core/types";
+} from "~/core/formElements/searchParamsInput";
+import { ApplicationLayout } from "~/core/layouts/applicationLayout";
+import { ErrorPage } from "~/core/layouts/errorPage";
+import { Header, HeaderBackLink } from "~/core/layouts/header";
+import { Main } from "~/core/layouts/main";
+import { Navigation } from "~/core/layouts/navigation";
+import { Section } from "~/core/layouts/section";
+import { Placeholders } from "~/core/loaders/placeholder";
+import { useOperationQuery } from "~/core/operations";
+import { PageTitle } from "~/core/pageTitle";
+import { useRouter } from "~/core/router";
+import { PageComponent } from "~/core/types";
 
 const CreateAnimalColorPage: PageComponent = () => {
   const { profileState, setProfileState } = useAnimalForm();

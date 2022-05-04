@@ -1,12 +1,12 @@
-import { AnimalSearchParams } from "animal/searchParams";
-import { AnimalMultipleSpeciesInput } from "animal/species/input";
-import { AnimalMultipleStatusInput } from "animal/status/input";
-import { Button } from "core/actions/button";
-import { useSearchParams } from "core/baseSearchParams";
-import { Field, Fields } from "core/formElements/field";
-import { Form } from "core/formElements/form";
-import { Label } from "core/formElements/label";
-import { ModalHeader, ModalHeaderTitle } from "core/popovers/modal";
+import { AnimalSearchParams } from "~/animal/searchParams";
+import { AnimalMultipleSpeciesInput } from "~/animal/species/input";
+import { AnimalMultipleStatusInput } from "~/animal/status/input";
+import { Button } from "~/core/actions/button";
+import { useSearchParams } from "~/core/baseSearchParams";
+import { Field, Fields } from "~/core/formElements/field";
+import { Form } from "~/core/formElements/form";
+import { Label } from "~/core/formElements/label";
+import { ModalHeader, ModalHeaderTitle } from "~/core/popovers/modal";
 
 export function AnimalFiltersModal() {
   const searchParams = useSearchParams(() => new AnimalSearchParams());

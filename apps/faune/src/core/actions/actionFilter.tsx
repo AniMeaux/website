@@ -1,9 +1,9 @@
-import { Badge } from "core/dataDisplay/badge";
-import { ActionAdornment } from "core/formElements/adornment";
-import { Modal } from "core/popovers/modal";
-import { ChildrenProp } from "core/types";
 import { useState } from "react";
 import { FaFilter } from "react-icons/fa";
+import { Badge } from "~/core/dataDisplay/badge";
+import { ActionAdornment } from "~/core/formElements/adornment";
+import { Modal } from "~/core/popovers/modal";
+import { ChildrenProp } from "~/core/types";
 
 type ActionFilterProps = ChildrenProp & {
   inputRef: React.MutableRefObject<HTMLInputElement>;

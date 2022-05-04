@@ -1,6 +1,6 @@
-import { ChildrenProp } from "core/types";
 import invariant from "invariant";
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
+import { ChildrenProp } from "~/core/types";
 
 /**
  * The enum values are the screen widths in px of the range start of each size.

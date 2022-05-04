@@ -4,7 +4,7 @@ import {
   AnimalSpecies,
   AnimalStatus,
 } from "@animeaux/shared";
-import { QSearchParams } from "core/formElements/searchParamsInput";
+import { QSearchParams } from "~/core/formElements/searchParamsInput";
 
 export class AnimalSearchParams extends QSearchParams {
   getStatus() {
