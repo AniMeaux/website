@@ -1,3 +1,4 @@
+import { GetServerSideProps } from "next";
 import { AdoptSearchParams } from "~/core/adoptSearchParams";
 import { ANIMAL_AGES_LABELS, ANIMAL_SPECIES_LABELS } from "~/core/labels";
 import { OperationResponse, runOperation } from "~/core/operations";
@@ -8,7 +9,6 @@ import { SearchFormSection } from "~/elements/adopt/searchFormSection";
 import { SearchResults } from "~/elements/adopt/searchResults";
 import { Footer } from "~/layout/footer";
 import { Header } from "~/layout/header";
-import { GetServerSideProps } from "next";
 import { ErrorPage } from "~/pages/_error";
 
 type AdoptPage = {

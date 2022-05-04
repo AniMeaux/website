@@ -5,8 +5,8 @@ import {
   OperationResult,
   PickOperationErrorResult,
 } from "@animeaux/shared";
-import { getConfig } from "~/core/config";
 import invariant from "invariant";
+import { getConfig } from "~/core/config";
 
 type OperationSuccessResult<TName extends AllOperationName> =
   OmitOperationErrorResult<OperationResult<TName>>;

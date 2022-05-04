@@ -1,4 +1,4 @@
-import { getInitialState, FormState } from "animal/formState";
+import { FormState, getInitialState } from "animal/formState";
 import constate from "constate";
 import { useOperationQuery } from "core/operations";
 import { useRouter } from "core/router";

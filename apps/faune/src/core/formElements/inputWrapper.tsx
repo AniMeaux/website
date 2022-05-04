@@ -1,9 +1,9 @@
 import { ensureArray } from "core/ensureArray";
+import { ADORNMENT_SIZE } from "core/formElements/adornment";
 import { ChildrenProp, StyleProps } from "core/types";
 import { createElement } from "react";
 import styled, { css, FlattenSimpleInterpolation } from "styled-components";
 import { setFocusColor, theme } from "styles/theme";
-import { ADORNMENT_SIZE } from "core/formElements/adornment";
 
 export type InputWrapperProps = {
   disabled?: boolean;

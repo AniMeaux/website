@@ -1,3 +1,5 @@
+import { FaEnvelope } from "react-icons/fa";
+import styled, { css } from "styled-components";
 import { Link } from "~/core/link";
 import { PageComponent } from "~/core/pageComponent";
 import { PageTitle } from "~/core/pageTitle";
@@ -6,8 +8,6 @@ import { CallToActionLink } from "~/layout/callToAction";
 import { Footer } from "~/layout/footer";
 import { Header } from "~/layout/header";
 import { PageHeader } from "~/layout/pageHeader";
-import { FaEnvelope } from "react-icons/fa";
-import styled, { css } from "styled-components";
 
 const TITLE = "Faire un don";
 

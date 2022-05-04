@@ -1,9 +1,9 @@
 import cn from "classnames";
+import { useEffect, useRef, useState } from "react";
+import { FaAngleDown, FaAngleUp } from "react-icons/fa";
 import { Link, LinkProps } from "~/core/link";
 import { useRouter } from "~/core/router";
 import { ChildrenProp } from "~/core/types";
-import { useEffect, useRef, useState } from "react";
-import { FaAngleDown, FaAngleUp } from "react-icons/fa";
 import { ActMenu, AdoptionMenu } from "./shared";
 
 export function LargeNavigation() {
