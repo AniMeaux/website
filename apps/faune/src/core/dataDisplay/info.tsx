@@ -1,6 +1,6 @@
-import { ChildrenProp, StyleProps } from "core/types";
 import styled, { css, FlattenSimpleInterpolation } from "styled-components";
-import { theme } from "styles/theme";
+import { ChildrenProp, StyleProps } from "~/core/types";
+import { theme } from "~/styles/theme";
 
 type InfoVariant = "info" | "warning" | "error";
 

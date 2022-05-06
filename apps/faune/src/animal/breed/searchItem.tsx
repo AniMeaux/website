@@ -1,4 +1,5 @@
 import { AnimalBreedSearchHit } from "@animeaux/shared";
+import { FaDna } from "react-icons/fa";
 import {
   ButtonItem,
   ButtonItemProps,
@@ -6,10 +7,9 @@ import {
   ItemContent,
   ItemIcon,
   ItemMainText,
-} from "core/dataDisplay/item";
-import { Markdown } from "core/dataDisplay/markdown";
-import { Placeholder } from "core/loaders/placeholder";
-import { FaDna } from "react-icons/fa";
+} from "~/core/dataDisplay/item";
+import { Markdown } from "~/core/dataDisplay/markdown";
+import { Placeholder } from "~/core/loaders/placeholder";
 
 type AnimalBreedItemProps = ButtonItemProps & {
   animalBreed: AnimalBreedSearchHit;

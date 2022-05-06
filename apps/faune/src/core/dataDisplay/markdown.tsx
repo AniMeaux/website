@@ -1,8 +1,8 @@
-import { StyleProps } from "core/types";
 import ReactMarkdown, { Options as ReactMarkdownOptions } from "react-markdown";
 import breaks from "remark-breaks";
 import styled from "styled-components";
-import { theme } from "styles/theme";
+import { StyleProps } from "~/core/types";
+import { theme } from "~/styles/theme";
 
 type MarkdownPreset = "inline" | "paragraph";
 

@@ -1,8 +1,10 @@
 import { AnimalBreed, UserGroup } from "@animeaux/shared";
-import { ANIMAL_SPECIES_LABELS } from "animal/species/labels";
-import { QuickLinkAction } from "core/actions/quickAction";
-import { Avatar, AvatarPlaceholder } from "core/dataDisplay/avatar";
-import { EmptyMessage } from "core/dataDisplay/emptyMessage";
+import { useRef, useState } from "react";
+import { FaAngleRight, FaDna, FaPen, FaPlus, FaTrash } from "react-icons/fa";
+import { ANIMAL_SPECIES_LABELS } from "~/animal/species/labels";
+import { QuickLinkAction } from "~/core/actions/quickAction";
+import { Avatar, AvatarPlaceholder } from "~/core/dataDisplay/avatar";
+import { EmptyMessage } from "~/core/dataDisplay/emptyMessage";
 import {
   ButtonItem,
   Item,
@@ -11,23 +13,21 @@ import {
   ItemMainText,
   ItemSecondaryText,
   LinkItem,
-} from "core/dataDisplay/item";
-import { ApplicationLayout } from "core/layouts/applicationLayout";
-import { ErrorPage } from "core/layouts/errorPage";
-import { Header, HeaderTitle, HeaderUserAvatar } from "core/layouts/header";
-import { Main } from "core/layouts/main";
-import { Navigation } from "core/layouts/navigation";
-import { Section } from "core/layouts/section";
-import { Separator } from "core/layouts/separator";
-import { usePageScrollRestoration } from "core/layouts/usePageScroll";
-import { Placeholder, Placeholders } from "core/loaders/placeholder";
-import { useOperationMutation, useOperationQuery } from "core/operations";
-import { PageTitle } from "core/pageTitle";
-import { Modal, useModal } from "core/popovers/modal";
-import { showSnackbar, Snackbar } from "core/popovers/snackbar";
-import { PageComponent } from "core/types";
-import { useRef, useState } from "react";
-import { FaAngleRight, FaDna, FaPen, FaPlus, FaTrash } from "react-icons/fa";
+} from "~/core/dataDisplay/item";
+import { ApplicationLayout } from "~/core/layouts/applicationLayout";
+import { ErrorPage } from "~/core/layouts/errorPage";
+import { Header, HeaderTitle, HeaderUserAvatar } from "~/core/layouts/header";
+import { Main } from "~/core/layouts/main";
+import { Navigation } from "~/core/layouts/navigation";
+import { Section } from "~/core/layouts/section";
+import { Separator } from "~/core/layouts/separator";
+import { usePageScrollRestoration } from "~/core/layouts/usePageScroll";
+import { Placeholder, Placeholders } from "~/core/loaders/placeholder";
+import { useOperationMutation, useOperationQuery } from "~/core/operations";
+import { PageTitle } from "~/core/pageTitle";
+import { Modal, useModal } from "~/core/popovers/modal";
+import { showSnackbar, Snackbar } from "~/core/popovers/snackbar";
+import { PageComponent } from "~/core/types";
 
 const TITLE = "Races";
 

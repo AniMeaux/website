@@ -4,15 +4,20 @@ import {
   User,
   UserGroup,
 } from "@animeaux/shared";
-import { useCurrentUser } from "account/currentUser";
-import { Info } from "core/dataDisplay/info";
-import { Adornment } from "core/formElements/adornment";
-import { Field, Fields } from "core/formElements/field";
-import { FieldMessage } from "core/formElements/fieldMessage";
-import { Form } from "core/formElements/form";
-import { Input } from "core/formElements/input";
-import { Label } from "core/formElements/label";
-import { PasswordInput } from "core/formElements/passwordInput";
+import invariant from "invariant";
+import without from "lodash.without";
+import { useState } from "react";
+import { FaEnvelope, FaLock, FaUser } from "react-icons/fa";
+import { string } from "yup";
+import { useCurrentUser } from "~/account/currentUser";
+import { Info } from "~/core/dataDisplay/info";
+import { Adornment } from "~/core/formElements/adornment";
+import { Field, Fields } from "~/core/formElements/field";
+import { FieldMessage } from "~/core/formElements/fieldMessage";
+import { Form } from "~/core/formElements/form";
+import { Input } from "~/core/formElements/input";
+import { Label } from "~/core/formElements/label";
+import { PasswordInput } from "~/core/formElements/passwordInput";
 import {
   Selector,
   SelectorCheckbox,
@@ -20,21 +25,16 @@ import {
   SelectorItem,
   SelectorLabel,
   Selectors,
-} from "core/formElements/selector";
-import { SubmitButton } from "core/formElements/submitButton";
-import { BaseValidationError } from "core/formValidation";
-import { includes } from "core/includes";
-import { joinReactNodes } from "core/joinReactNodes";
-import { Separator } from "core/layouts/separator";
-import { Placeholder, Placeholders } from "core/loaders/placeholder";
-import { SetStateAction } from "core/types";
-import invariant from "invariant";
-import without from "lodash.without";
-import { useState } from "react";
-import { FaEnvelope, FaLock, FaUser } from "react-icons/fa";
-import { UserGroupIcon } from "user/group/icon";
-import { USER_GROUP_LABELS } from "user/group/labels";
-import { string } from "yup";
+} from "~/core/formElements/selector";
+import { SubmitButton } from "~/core/formElements/submitButton";
+import { BaseValidationError } from "~/core/formValidation";
+import { includes } from "~/core/includes";
+import { joinReactNodes } from "~/core/joinReactNodes";
+import { Separator } from "~/core/layouts/separator";
+import { Placeholder, Placeholders } from "~/core/loaders/placeholder";
+import { SetStateAction } from "~/core/types";
+import { UserGroupIcon } from "~/user/group/icon";
+import { USER_GROUP_LABELS } from "~/user/group/labels";
 
 type ErrorCode =
   | PickOperationErrorResult<

@@ -5,36 +5,8 @@ import {
   AnimalGender,
   AnimalSpecies,
 } from "@animeaux/shared";
-import { AnimalGenderIcon } from "animal/animalGenderIcon";
-import { ANIMAL_GENDER_LABELS } from "animal/gender/labels";
-import { AnimalSpeciesIcon } from "animal/species/icon";
-import { AnimalSpeciesInput } from "animal/species/input";
-import { Info } from "core/dataDisplay/info";
-import { ActionAdornment, Adornment } from "core/formElements/adornment";
-import { Field, Fields } from "core/formElements/field";
-import { Form } from "core/formElements/form";
-import { Input } from "core/formElements/input";
-import { Label } from "core/formElements/label";
-import { LinkInput } from "core/formElements/linkInput";
-import {
-  Selector,
-  SelectorIcon,
-  SelectorItem,
-  SelectorLabel,
-  SelectorRadio,
-  Selectors,
-} from "core/formElements/selector";
-import { SubmitButton } from "core/formElements/submitButton";
-import { Textarea } from "core/formElements/textarea";
-import { BaseValidationError } from "core/formValidation";
-import { includes } from "core/includes";
-import { joinReactNodes } from "core/joinReactNodes";
-import { Separator } from "core/layouts/separator";
-import { Placeholder, Placeholders } from "core/loaders/placeholder";
-import { SetStateAction } from "core/types";
 import invariant from "invariant";
 import without from "lodash.without";
-import { DateTime } from "luxon";
 import {
   FaComment,
   FaDna,
@@ -43,6 +15,33 @@ import {
   FaTimes,
 } from "react-icons/fa";
 import { string } from "yup";
+import { AnimalGenderIcon } from "~/animal/animalGenderIcon";
+import { ANIMAL_GENDER_LABELS } from "~/animal/gender/labels";
+import { AnimalSpeciesIcon } from "~/animal/species/icon";
+import { AnimalSpeciesInput } from "~/animal/species/input";
+import { Info } from "~/core/dataDisplay/info";
+import { ActionAdornment, Adornment } from "~/core/formElements/adornment";
+import { Field, Fields } from "~/core/formElements/field";
+import { Form } from "~/core/formElements/form";
+import { Input } from "~/core/formElements/input";
+import { Label } from "~/core/formElements/label";
+import { LinkInput } from "~/core/formElements/linkInput";
+import {
+  Selector,
+  SelectorIcon,
+  SelectorItem,
+  SelectorLabel,
+  SelectorRadio,
+  Selectors,
+} from "~/core/formElements/selector";
+import { SubmitButton } from "~/core/formElements/submitButton";
+import { Textarea } from "~/core/formElements/textarea";
+import { BaseValidationError } from "~/core/formValidation";
+import { includes } from "~/core/includes";
+import { joinReactNodes } from "~/core/joinReactNodes";
+import { Separator } from "~/core/layouts/separator";
+import { Placeholder, Placeholders } from "~/core/loaders/placeholder";
+import { SetStateAction } from "~/core/types";
 
 type ErrorCode =
   | "server-error"
@@ -336,7 +335,7 @@ export function AnimalProfileForm({
 export function getInitialState(initialAnimal?: Animal): FormState {
   return {
     alias: initialAnimal?.commonName ?? "",
-    birthdate: initialAnimal?.birthdate ?? DateTime.now().toISODate(),
+    birthdate: initialAnimal?.birthdate ?? "",
     breed: initialAnimal?.breed ?? null,
     color: initialAnimal?.color ?? null,
     description: initialAnimal?.description ?? "",

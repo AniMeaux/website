@@ -1,9 +1,9 @@
-import { ensureArray } from "core/ensureArray";
-import { ChildrenProp, StyleProps } from "core/types";
 import { createElement } from "react";
 import styled, { css, FlattenSimpleInterpolation } from "styled-components";
-import { setFocusColor, theme } from "styles/theme";
-import { ADORNMENT_SIZE } from "core/formElements/adornment";
+import { ensureArray } from "~/core/ensureArray";
+import { ADORNMENT_SIZE } from "~/core/formElements/adornment";
+import { ChildrenProp, StyleProps } from "~/core/types";
+import { setFocusColor, theme } from "~/styles/theme";
 
 export type InputWrapperProps = {
   disabled?: boolean;
@@ -82,7 +82,7 @@ const AdornmentContainerElement = styled.span<AdornmentContainerElementProps>`
   padding: ${theme.spacing.x1} ${theme.spacing.x2};
 `;
 
-type InputStylesProps = {
+export type InputStylesProps = {
   $hasError: boolean;
   $leftAdornment?: React.ReactNode | React.ReactNode[];
   $rightAdornment?: React.ReactNode | React.ReactNode[];
@@ -93,10 +93,13 @@ const INPUT_ERROR_STYLES = css`
   border-color: ${theme.colors.alert[500]};
 `;
 
+const MIN_HEIGHT = `calc(${theme.typography.lineHeight.multiLine} * 1em + 2 * ${theme.spacing.x2} + 2px)`;
+
 export const INPUT_STYLES = css<InputStylesProps>`
   appearance: none;
   width: 100%;
   min-width: 0;
+  min-height: ${MIN_HEIGHT};
 
   border-width: 1px;
   border-radius: ${theme.borderRadius.l};

@@ -1,8 +1,8 @@
 import { AnimalStatus } from "@animeaux/shared";
-import { BadgeElement } from "animal/status/badge";
-import { ANIMAL_STATUS_LABELS } from "animal/status/labels";
-import { StyleProps } from "core/types";
 import styled from "styled-components";
+import { BadgeElement } from "~/animal/status/badge";
+import { ANIMAL_STATUS_LABELS } from "~/animal/status/labels";
+import { StyleProps } from "~/core/types";
 
 type StatusIconProps = StyleProps & {
   status: AnimalStatus;

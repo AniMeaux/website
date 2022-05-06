@@ -1,5 +1,5 @@
 import { IconBase, IconBaseProps } from "react-icons";
-import { theme } from "styles/theme";
+import { theme } from "~/styles/theme";
 
 export function AppIcon(props: IconBaseProps) {
   return (

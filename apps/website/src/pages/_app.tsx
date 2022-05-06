@@ -1,9 +1,11 @@
+// organize-imports-ignore
 import "react-app-polyfill/stable";
-import "focus-visible";
-import "wicg-inert";
-import "~/styles/index.css";
-
 import { Article, Partner } from "@animeaux/shared";
+import "focus-visible";
+import { Settings } from "luxon";
+import NextApp, { AppContext, AppProps } from "next/app";
+import { ReactNode } from "react";
+import "wicg-inert";
 import { PageComponent } from "~/core/pageComponent";
 import { PageHead } from "~/core/pageHead";
 import { ScreenSizeContextProvider } from "~/core/screenSize";
@@ -11,10 +13,8 @@ import { ErrorBoundary } from "~/core/sentry";
 import { articles } from "~/elements/blog/data";
 import { partners } from "~/elements/partners/data";
 import { ApplicationLayout } from "~/layout/applicationLayout";
-import { Settings } from "luxon";
-import NextApp, { AppContext, AppProps } from "next/app";
 import { ErrorPage } from "~/pages/_error";
-import { ReactNode } from "react";
+import "~/styles/index.css";
 
 Settings.defaultLocale = "fr";
 

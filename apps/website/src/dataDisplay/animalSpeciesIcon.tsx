@@ -1,11 +1,11 @@
 import { AnimalSpecies } from "@animeaux/shared";
+import { ElementType } from "react";
+import { IconBaseProps } from "react-icons";
 import { BirdIcon } from "~/icons/birdIcon";
 import { CatIcon } from "~/icons/catIcon";
 import { DogIcon } from "~/icons/dogIcon";
 import { ReptileIcon } from "~/icons/reptileIcon";
 import { RodentIcon } from "~/icons/rodentIcon";
-import { ElementType } from "react";
-import { IconBaseProps } from "react-icons";
 
 const AnimalSpeciesIcons: Record<AnimalSpecies, ElementType> = {
   [AnimalSpecies.BIRD]: BirdIcon,

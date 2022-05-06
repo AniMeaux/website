@@ -1,4 +1,3 @@
-import { ScreenSize } from "core/screenSize";
 import {
   createGlobalStyle,
   css,
@@ -6,6 +5,7 @@ import {
   keyframes,
   ThemedStyledProps,
 } from "styled-components";
+import { ScreenSize } from "~/core/screenSize";
 
 export type Styles<PropType = {}> = FlattenInterpolation<
   ThemedStyledProps<PropType, any>

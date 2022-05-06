@@ -1,7 +1,7 @@
 import cn from "classnames";
+import { FaArrowRight } from "react-icons/fa";
 import { Link, LinkProps } from "~/core/link";
 import { ChildrenProp, StyleProps } from "~/core/types";
-import { FaArrowRight } from "react-icons/fa";
 
 export type CallToActionColors = "blue" | "white";
 

@@ -1,13 +1,13 @@
 import cn from "classnames";
-import { Link } from "~/core/link";
-import { StyleProps } from "~/core/types";
-import { StaticImage } from "~/dataDisplay/image";
 import { ElementType } from "react";
 import { FaQuoteLeft } from "react-icons/fa";
 import ReactMarkdown, { Options as ReactMarkdownOptions } from "react-markdown";
 import breaks from "remark-breaks";
 import gfm from "remark-gfm";
 import slug from "remark-slug";
+import { Link } from "~/core/link";
+import { StyleProps } from "~/core/types";
+import { StaticImage } from "~/dataDisplay/image";
 import styles from "./markdown.module.css";
 
 const Heading: NonNullable<ReactMarkdownOptions["components"]>["h1"] = ({

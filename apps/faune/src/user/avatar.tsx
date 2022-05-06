@@ -1,7 +1,7 @@
 import { User } from "@animeaux/shared";
-import { Avatar } from "core/dataDisplay/avatar";
 import styled from "styled-components";
-import { theme } from "styles/theme";
+import { Avatar } from "~/core/dataDisplay/avatar";
+import { theme } from "~/styles/theme";
 
 export function UserAvatar({ user }: { user: Pick<User, "displayName"> }) {
   return (

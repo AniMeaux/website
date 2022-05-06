@@ -1,3 +1,5 @@
+import NextLink from "next/link";
+import { forwardRef } from "react";
 import {
   addHistoryIndexToUrl,
   canGoBackHistory,
@@ -6,8 +8,6 @@ import {
   useRouter,
 } from "~/core/router";
 import { A11yProps, ChildrenProp, StyleProps } from "~/core/types";
-import NextLink from "next/link";
-import { forwardRef } from "react";
 
 export type LinkProps = ChildrenProp &
   StyleProps &

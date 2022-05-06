@@ -1,8 +1,8 @@
-import { ChildrenProp, StyleProps } from "core/types";
 import invariant from "invariant";
 import { createContext, useContext, useMemo, useState } from "react";
 import styled from "styled-components";
-import { theme } from "styles/theme";
+import { ChildrenProp, StyleProps } from "~/core/types";
+import { theme } from "~/styles/theme";
 
 type ApplicationLayoutState = {
   hasNavigation: boolean;
@@ -43,7 +43,7 @@ export function ApplicationLayout(props: ChildrenProp & StyleProps) {
   );
 }
 
-const LEFT_NAV_MAX_WIDTH = 250;
+const LEFT_NAV_MAX_WIDTH = 300;
 const MAIN_MAX_WIDTH = 600;
 const APP_LAYOUT_MAX_WIDTH = LEFT_NAV_MAX_WIDTH + MAIN_MAX_WIDTH;
 

@@ -8,49 +8,6 @@ import {
   Trilean,
   UserGroup,
 } from "@animeaux/shared";
-import { useCurrentUser } from "account/currentUser";
-import { AnimalGenderIcon } from "animal/animalGenderIcon";
-import {
-  ANIMAL_GENDER_LABELS,
-  PICK_UP_REASON_LABELS,
-} from "animal/gender/labels";
-import { ADOPTION_OPTION_LABELS } from "animal/labels";
-import { AnimalSpeciesIcon } from "animal/species/icon";
-import { ANIMAL_SPECIES_LABELS } from "animal/species/labels";
-import { StatusBadge } from "animal/status/badge";
-import { ANIMAL_STATUS_LABELS } from "animal/status/labels";
-import { QuickActions } from "core/actions/quickAction";
-import { deleteImage } from "core/cloudinary";
-import { ImageSlideshow } from "core/dataDisplay/imageSlideshow";
-import { Info } from "core/dataDisplay/info";
-import {
-  ButtonItem,
-  Item,
-  ItemContent,
-  ItemIcon,
-  ItemMainText,
-  LinkItem,
-} from "core/dataDisplay/item";
-import { Markdown } from "core/dataDisplay/markdown";
-import { isDefined } from "core/isDefined";
-import { ApplicationLayout } from "core/layouts/applicationLayout";
-import { ErrorPage } from "core/layouts/errorPage";
-import { Header, HeaderBackLink, HeaderTitle } from "core/layouts/header";
-import { Main } from "core/layouts/main";
-import { Navigation } from "core/layouts/navigation";
-import { Section, SectionBox, SectionTitle } from "core/layouts/section";
-import { Separator } from "core/layouts/separator";
-import { Placeholder } from "core/loaders/placeholder";
-import { useOperationMutation, useOperationQuery } from "core/operations";
-import { PageTitle } from "core/pageTitle";
-import {
-  Modal,
-  ModalHeader,
-  ModalHeaderTitle,
-  useModal,
-} from "core/popovers/modal";
-import { useRouter } from "core/router";
-import { PageComponent } from "core/types";
 import invariant from "invariant";
 import { DateTime } from "luxon";
 import { useRef, useState } from "react";
@@ -76,8 +33,51 @@ import {
 } from "react-icons/fa";
 import { useMutation, UseMutationResult } from "react-query";
 import styled from "styled-components";
-import { theme } from "styles/theme";
-import { TRILEAN_LABELS } from "trilean/labels";
+import { useCurrentUser } from "~/account/currentUser";
+import { AnimalGenderIcon } from "~/animal/animalGenderIcon";
+import {
+  ANIMAL_GENDER_LABELS,
+  PICK_UP_REASON_LABELS,
+} from "~/animal/gender/labels";
+import { ADOPTION_OPTION_LABELS } from "~/animal/labels";
+import { AnimalSpeciesIcon } from "~/animal/species/icon";
+import { ANIMAL_SPECIES_LABELS } from "~/animal/species/labels";
+import { StatusBadge } from "~/animal/status/badge";
+import { ANIMAL_STATUS_LABELS } from "~/animal/status/labels";
+import { QuickActions } from "~/core/actions/quickAction";
+import { deleteImage } from "~/core/cloudinary";
+import { ImageSlideshow } from "~/core/dataDisplay/imageSlideshow";
+import { Info } from "~/core/dataDisplay/info";
+import {
+  ButtonItem,
+  Item,
+  ItemContent,
+  ItemIcon,
+  ItemMainText,
+  LinkItem,
+} from "~/core/dataDisplay/item";
+import { Markdown } from "~/core/dataDisplay/markdown";
+import { isDefined } from "~/core/isDefined";
+import { ApplicationLayout } from "~/core/layouts/applicationLayout";
+import { ErrorPage } from "~/core/layouts/errorPage";
+import { Header, HeaderBackLink, HeaderTitle } from "~/core/layouts/header";
+import { Main } from "~/core/layouts/main";
+import { Navigation } from "~/core/layouts/navigation";
+import { Section, SectionBox, SectionTitle } from "~/core/layouts/section";
+import { Separator } from "~/core/layouts/separator";
+import { Placeholder } from "~/core/loaders/placeholder";
+import { useOperationMutation, useOperationQuery } from "~/core/operations";
+import { PageTitle } from "~/core/pageTitle";
+import {
+  Modal,
+  ModalHeader,
+  ModalHeaderTitle,
+  useModal,
+} from "~/core/popovers/modal";
+import { useRouter } from "~/core/router";
+import { PageComponent } from "~/core/types";
+import { theme } from "~/styles/theme";
+import { TRILEAN_LABELS } from "~/trilean/labels";
 
 const AnimalPage: PageComponent = () => {
   const { currentUser } = useCurrentUser();

@@ -1,7 +1,7 @@
-import { ActionCommonProps, ACTION_COMMON_STYLES } from "core/actions/shared";
-import { BaseLink, BaseLinkProps } from "core/baseLink";
 import { forwardRef } from "react";
 import styled from "styled-components";
+import { ActionCommonProps, ACTION_COMMON_STYLES } from "~/core/actions/shared";
+import { BaseLink, BaseLinkProps } from "~/core/baseLink";
 
 export type LinkProps = BaseLinkProps & ActionCommonProps;
 

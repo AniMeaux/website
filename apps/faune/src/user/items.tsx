@@ -1,4 +1,5 @@
 import { ManagerSearchHit } from "@animeaux/shared";
+import { FaUser } from "react-icons/fa";
 import {
   ButtonItem,
   ButtonItemProps,
@@ -6,10 +7,9 @@ import {
   ItemContent,
   ItemIcon,
   ItemMainText,
-} from "core/dataDisplay/item";
-import { Markdown } from "core/dataDisplay/markdown";
-import { Placeholder } from "core/loaders/placeholder";
-import { FaUser } from "react-icons/fa";
+} from "~/core/dataDisplay/item";
+import { Markdown } from "~/core/dataDisplay/markdown";
+import { Placeholder } from "~/core/loaders/placeholder";
 
 type UserItemProps = ButtonItemProps & {
   manager: Pick<ManagerSearchHit, "highlightedDisplayName">;

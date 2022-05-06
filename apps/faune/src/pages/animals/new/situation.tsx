@@ -4,15 +4,15 @@ import {
   AnimalFormStep,
   AnimalFormStepper,
   useAnimalForm,
-} from "animal/creation";
-import { AnimalSituationForm } from "animal/situationForm";
-import { ApplicationLayout } from "core/layouts/applicationLayout";
-import { Header, HeaderBackLink, HeaderTitle } from "core/layouts/header";
-import { Main } from "core/layouts/main";
-import { Navigation } from "core/layouts/navigation";
-import { PageTitle } from "core/pageTitle";
-import { useRouter } from "core/router";
-import { PageComponent } from "core/types";
+} from "~/animal/creation";
+import { AnimalSituationForm } from "~/animal/situationForm";
+import { ApplicationLayout } from "~/core/layouts/applicationLayout";
+import { Header, HeaderBackLink, HeaderTitle } from "~/core/layouts/header";
+import { Main } from "~/core/layouts/main";
+import { Navigation } from "~/core/layouts/navigation";
+import { PageTitle } from "~/core/pageTitle";
+import { useRouter } from "~/core/router";
+import { PageComponent } from "~/core/types";
 
 const CreateAnimalSituationPage: PageComponent = () => {
   const { situationState, setSituationState } = useAnimalForm();

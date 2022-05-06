@@ -1,6 +1,6 @@
-import { ChildrenProp, StyleProps } from "core/types";
 import styled from "styled-components";
-import { theme } from "styles/theme";
+import { ChildrenProp, StyleProps } from "~/core/types";
+import { theme } from "~/styles/theme";
 
 export type EmptyMessageProps = ChildrenProp &
   StyleProps & {

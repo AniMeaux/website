@@ -1,3 +1,4 @@
+import { GetServerSideProps } from "next";
 import { OperationResponse, runOperation } from "~/core/operations";
 import { PageComponent } from "~/core/pageComponent";
 import { PageQueryParam } from "~/core/pageQueryParam";
@@ -9,7 +10,6 @@ import { Footer } from "~/layout/footer";
 import { Header } from "~/layout/header";
 import { PageHeader } from "~/layout/pageHeader";
 import { Section } from "~/layout/section";
-import { GetServerSideProps } from "next";
 import { ErrorPage } from "~/pages/_error";
 
 export const getServerSideProps: GetServerSideProps<

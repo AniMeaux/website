@@ -5,38 +5,37 @@ import {
   PickUpReason,
   Trilean,
 } from "@animeaux/shared";
-import { PICK_UP_REASON_LABELS } from "animal/gender/labels";
-import { ADOPTION_OPTION_LABELS } from "animal/labels";
-import { AnimalStatusInput } from "animal/status/input";
-import { Info } from "core/dataDisplay/info";
-import { ActionAdornment, Adornment } from "core/formElements/adornment";
-import { Field, Fields } from "core/formElements/field";
-import { Form } from "core/formElements/form";
-import { Input } from "core/formElements/input";
-import { Label } from "core/formElements/label";
-import { LinkInput } from "core/formElements/linkInput";
+import invariant from "invariant";
+import uniq from "lodash.uniq";
+import without from "lodash.without";
+import { FaHome, FaMapMarkerAlt, FaTimes, FaUser } from "react-icons/fa";
+import { string } from "yup";
+import { PICK_UP_REASON_LABELS } from "~/animal/gender/labels";
+import { ADOPTION_OPTION_LABELS } from "~/animal/labels";
+import { AnimalStatusInput } from "~/animal/status/input";
+import { Info } from "~/core/dataDisplay/info";
+import { ActionAdornment, Adornment } from "~/core/formElements/adornment";
+import { Field, Fields } from "~/core/formElements/field";
+import { Form } from "~/core/formElements/form";
+import { Input } from "~/core/formElements/input";
+import { Label } from "~/core/formElements/label";
+import { LinkInput } from "~/core/formElements/linkInput";
 import {
   Selector,
   SelectorItem,
   SelectorLabel,
   SelectorRadio,
   Selectors,
-} from "core/formElements/selector";
-import { SubmitButton } from "core/formElements/submitButton";
-import { Textarea } from "core/formElements/textarea";
-import { BaseValidationError } from "core/formValidation";
-import { includes } from "core/includes";
-import { joinReactNodes } from "core/joinReactNodes";
-import { Separator } from "core/layouts/separator";
-import { Placeholder, Placeholders } from "core/loaders/placeholder";
-import { SetStateAction } from "core/types";
-import invariant from "invariant";
-import uniq from "lodash.uniq";
-import without from "lodash.without";
-import { DateTime } from "luxon";
-import { FaHome, FaMapMarkerAlt, FaTimes, FaUser } from "react-icons/fa";
-import { TRILEAN_LABELS } from "trilean/labels";
-import { string } from "yup";
+} from "~/core/formElements/selector";
+import { SubmitButton } from "~/core/formElements/submitButton";
+import { Textarea } from "~/core/formElements/textarea";
+import { BaseValidationError } from "~/core/formValidation";
+import { includes } from "~/core/includes";
+import { joinReactNodes } from "~/core/joinReactNodes";
+import { Separator } from "~/core/layouts/separator";
+import { Placeholder, Placeholders } from "~/core/loaders/placeholder";
+import { SetStateAction } from "~/core/types";
+import { TRILEAN_LABELS } from "~/trilean/labels";
 
 type ErrorCode =
   | "server-error"
@@ -431,11 +430,9 @@ export function AnimalSituationForm({
 }
 
 export function getInitialState(initialAnimal?: Animal): FormState {
-  const today = DateTime.now().toISODate();
-
   return {
     manager: initialAnimal?.manager ?? null,
-    adoptionDate: initialAnimal?.adoptionDate ?? today,
+    adoptionDate: initialAnimal?.adoptionDate ?? "",
     adoptionOption: initialAnimal?.adoptionOption ?? AdoptionOption.UNKNOWN,
     comments: initialAnimal?.comments ?? "",
     hostFamily: initialAnimal?.hostFamily ?? null,
@@ -443,7 +440,7 @@ export function getInitialState(initialAnimal?: Animal): FormState {
     isOkChildren: initialAnimal?.isOkChildren ?? Trilean.UNKNOWN,
     isOkDogs: initialAnimal?.isOkDogs ?? Trilean.UNKNOWN,
     isSterilized: initialAnimal?.isSterilized ?? false,
-    pickUpDate: initialAnimal?.pickUpDate ?? today,
+    pickUpDate: initialAnimal?.pickUpDate ?? "",
     pickUpLocation: initialAnimal?.pickUpLocation ?? null,
     pickUpReason: initialAnimal?.pickUpReason ?? PickUpReason.OTHER,
     status: initialAnimal?.status ?? AnimalStatus.UNAVAILABLE,

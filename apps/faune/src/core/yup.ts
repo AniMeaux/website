@@ -1,5 +1,5 @@
-import { addMethod, string } from "yup";
 import { DateTime } from "luxon";
+import { addMethod, string } from "yup";
 
 declare module "yup" {
   interface StringSchema {

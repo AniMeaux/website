@@ -1,10 +1,10 @@
+import { GetServerSideProps } from "next";
 import { OperationResponse, runOperation } from "~/core/operations";
 import { PageComponent } from "~/core/pageComponent";
 import { PageTitle } from "~/core/pageTitle";
 import { AnimalProfile } from "~/elements/adopt/animalProfile";
 import { Footer } from "~/layout/footer";
 import { Header } from "~/layout/header";
-import { GetServerSideProps } from "next";
 import { ErrorPage } from "~/pages/_error";
 
 export const getServerSideProps: GetServerSideProps<

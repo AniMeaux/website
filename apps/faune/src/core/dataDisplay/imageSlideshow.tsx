@@ -1,6 +1,6 @@
-import { Image as BaseImage } from "core/dataDisplay/image";
 import styled from "styled-components";
-import { theme } from "styles/theme";
+import { Image as BaseImage } from "~/core/dataDisplay/image";
+import { theme } from "~/styles/theme";
 
 type ImageSlideshowProps = {
   images: string[];

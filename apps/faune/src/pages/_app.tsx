@@ -1,20 +1,20 @@
+// organize-imports-ignore
 import "react-app-polyfill/stable";
 import "focus-visible";
-import "styles/index.css";
-
-import { CurrentUserContextProvider } from "account/currentUser";
-import { Button } from "core/actions/button";
-import { ErrorPage } from "core/layouts/errorPage";
-import { PageHead } from "core/pageHead";
-import { SnackbarContainer } from "core/popovers/snackbar";
-import { RequestContextProvider } from "core/request";
-import { ScreenSizeContextProvider } from "core/screenSize";
-import { Sentry } from "core/sentry";
-import { PageComponent } from "core/types";
-import "core/yup";
 import { Settings } from "luxon";
 import NextApp, { AppContext, AppProps } from "next/app";
-import { GlobalStyles, ResetStyles } from "styles/theme";
+import { CurrentUserContextProvider } from "~/account/currentUser";
+import { Button } from "~/core/actions/button";
+import { ErrorPage } from "~/core/layouts/errorPage";
+import { PageHead } from "~/core/pageHead";
+import { SnackbarContainer } from "~/core/popovers/snackbar";
+import { RequestContextProvider } from "~/core/request";
+import { ScreenSizeContextProvider } from "~/core/screenSize";
+import { Sentry } from "~/core/sentry";
+import { PageComponent } from "~/core/types";
+import "~/core/yup";
+import "~/styles/index.css";
+import { GlobalStyles, ResetStyles } from "~/styles/theme";
 
 Settings.defaultLocale = "fr";
 
