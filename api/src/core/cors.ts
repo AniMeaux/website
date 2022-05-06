@@ -5,7 +5,7 @@ import { Context } from "./contex";
 const ALLOWED_ORIGINS = [/^https:\/\/.*\.animeaux\.org$/];
 
 if (process.env.NODE_ENV === "development") {
-  ALLOWED_ORIGINS.push(/^http:\/\/localhost/);
+  ALLOWED_ORIGINS.push(/^http:\/\/.*\.animeaux\.localhost/);
 }
 
 export function corsMiddleware(): Middleware<DefaultState, Context> {

@@ -11,10 +11,12 @@
     "yarn": "^1.22.0"
   },
   "scripts": {
-    "up": "run-s up:ecosystem",
+    "up": "run-s up:docker up:ecosystem",
     "up:ecosystem": "pm2 start ecosystem.config.js",
-    "down": "run-s down:ecosystem",
+    "up:docker": "docker-compose up -d",
+    "down": "run-s down:ecosystem down:docker",
     "down:ecosystem": "pm2 delete ecosystem.config.js && rm -rf ./logs",
+    "down:docker": "docker-compose down",
     "restart:ecosystem": "run-s down:ecosystem up:ecosystem",
     "log": "yarn pm2 log",
     "format": "prettier --write .",

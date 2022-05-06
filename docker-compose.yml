@@ -1,0 +1,18 @@
+services:
+  traefik:
+    container_name: animeaux-traefik
+    image: traefik:montdor
+    command:
+      - --entrypoints.web.address=:80
+      - --providers.file.filename=/dynamic_conf.yml
+      - --api.insecure
+    ports:
+      - 80:80
+      - 443:443
+      # - 8090:8080 ## uncomment to expose traefik dashboard
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./traefik.yml:/dynamic_conf.yml:ro
+    ## For linux docker internal network
+    extra_hosts:
+      - host.docker.internal:172.17.0.1 ## to get the value -> ip -4 addr show docker0 | grep -Po 'inet \K[\d.]+'
