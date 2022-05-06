@@ -1,19 +1,20 @@
-import { initializeFirebase } from "../src/core/firebase";
+import { cleanUpFirebase, initializeFirebase } from "../src/core/firebase";
 import {
   getAllUsers,
   UserFromAlgolia,
   UserIndex,
 } from "../src/entities/user.entity";
 
-process.on("unhandledRejection", (err) => {
-  throw err;
-});
+initializeFirebase();
 
-indexUsers();
+indexUsers()
+  .catch((error) => {
+    console.error(error);
+    process.exit(1);
+  })
+  .finally(() => cleanUpFirebase());
 
 async function indexUsers() {
-  initializeFirebase();
-
   console.log("📇 Indexing users...");
 
   const users = await getAllUsers();
@@ -38,8 +39,4 @@ async function indexUsers() {
   );
 
   console.log(`\n🎉 Indexed ${users.length} user(s)\n`);
-
-  // Firebase has an open handle (setTokenRefreshTimeout) that prevent the
-  // script from exiting, so we force exit.
-  process.exit(0);
 }

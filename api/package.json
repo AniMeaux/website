@@ -9,7 +9,7 @@
     "start": "node .",
     "clean": "rm -rf build",
     "clean-build": "yarn clean && yarn build",
-    "script": "NODE_OPTIONS=\"-r dotenv-flow/config\" NODE_ENV=\"production\" ts-node --files"
+    "script": "NODE_OPTIONS=\"-r dotenv-flow/config\" ts-node --files"
   },
   "dependencies": {
     "@algolia/client-search": "^4.12.0",

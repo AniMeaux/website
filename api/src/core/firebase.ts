@@ -1,6 +1,14 @@
-import { cert, FirebaseError, initializeApp } from "firebase-admin/app";
+import {
+  App,
+  cert,
+  deleteApp,
+  FirebaseError,
+  initializeApp,
+} from "firebase-admin/app";
 import { getFirestore } from "firebase-admin/firestore";
 import invariant from "tiny-invariant";
+
+let app: App | null = null;
 
 export function initializeFirebase() {
   invariant(
@@ -23,19 +31,28 @@ export function initializeFirebase() {
     "FIREBASE_PRIVATE_KEY must be defined."
   );
 
-  initializeApp({
-    databaseURL: process.env.FIREBASE_DATABASE_URL,
-    credential: cert({
-      projectId: process.env.FIREBASE_PROJECT_ID,
-      clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
-      // https://stackoverflow.com/a/41044630/1332513
-      privateKey: process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, "\n"),
-    }),
-  });
+  if (app == null) {
+    app = initializeApp({
+      databaseURL: process.env.FIREBASE_DATABASE_URL,
+      credential: cert({
+        projectId: process.env.FIREBASE_PROJECT_ID,
+        clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+        // https://stackoverflow.com/a/41044630/1332513
+        privateKey: process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, "\n"),
+      }),
+    });
 
-  getFirestore().settings({
-    ignoreUndefinedProperties: true,
-  });
+    getFirestore().settings({
+      ignoreUndefinedProperties: true,
+    });
+  }
+}
+
+export function cleanUpFirebase() {
+  if (app != null) {
+    deleteApp(app);
+    app = null;
+  }
 }
 
 // `FirebaseError` is an interface and not a class so we cannot use the runtime
