@@ -1,4 +1,5 @@
 {
+  "include": ["**/*.ts"],
   "compilerOptions": {
     "target": "ES5",
     "lib": ["ESNext"],
@@ -11,8 +12,7 @@
     "resolveJsonModule": true,
     "moduleResolution": "Node",
     "isolatedModules": true,
-    "module": "ESNext",
+    "module": "CommonJS",
     "noEmit": true
-  },
-  "include": ["src", "globals.d.ts"]
+  }
 }

@@ -15,26 +15,9 @@ import {
 import { assertUserHasGroups, userHasGroups } from "../core/authentication";
 import { OperationError, OperationsImpl } from "../core/operations";
 import { validateParams } from "../core/validation";
-
-const EVENT_COLLECTION = "events";
+import { EventFromStore, EVENT_COLLECTION } from "../entities/event.entity";
 
 const EventIndex = AlgoliaClient.initIndex(EVENT_COLLECTION);
-
-type EventFromStore = {
-  id: string;
-  title: string;
-  shortDescription: string;
-  description: string;
-  image?: string | null;
-  startDate: string;
-  startDateTimestamp: number;
-  endDate: string;
-  endDateTimestamp: number;
-  isFullDay: boolean;
-  location: string;
-  category: EventCategory;
-  isVisible: boolean;
-};
 
 export const eventOperations: OperationsImpl<EventOperations> = {
   async getAllEvents(rawParams, context) {

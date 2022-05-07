@@ -4,12 +4,12 @@
   "private": true,
   "main": "build/app.js",
   "scripts": {
-    "dev": "yarn start",
+    "dev": "node -r dotenv-flow/config .",
     "build": "babel src -d build --extensions \".ts\" --copy-files",
-    "start": "node -r dotenv-flow/config .",
+    "start": "node .",
     "clean": "rm -rf build",
     "clean-build": "yarn clean && yarn build",
-    "script": "NODE_OPTIONS=\"-r dotenv-flow/config\" NODE_ENV=\"production\" ts-node --files --project scripts/tsconfig.json"
+    "script": "NODE_OPTIONS=\"-r dotenv-flow/config\" ts-node --files"
   },
   "dependencies": {
     "@algolia/client-search": "^4.12.0",
