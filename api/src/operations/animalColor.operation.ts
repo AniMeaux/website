@@ -8,7 +8,7 @@ import { getFirestore } from "firebase-admin/firestore";
 import { v4 as uuid } from "uuid";
 import { object, string } from "yup";
 import { AlgoliaClient, DEFAULT_SEARCH_OPTIONS } from "../core/algolia";
-import { assertUserHasGroups } from "../core/authentication";
+import { assertUserHasGroups, getCurrentUser } from "../core/authentication";
 import { OperationError, OperationsImpl } from "../core/operations";
 import { validateParams } from "../core/validation";
 import {
@@ -21,7 +21,8 @@ const AnimalColorIndex = AlgoliaClient.initIndex(ANIMAL_COLOR_COLLECTION);
 
 export const animalColorOperations: OperationsImpl<AnimalColorOperations> = {
   async getAllAnimalColors(rawParams, context) {
-    assertUserHasGroups(context.currentUser, [UserGroup.ADMIN]);
+    const currentUser = await getCurrentUser(context);
+    assertUserHasGroups(currentUser, [UserGroup.ADMIN]);
 
     const snapshots = await getFirestore()
       .collection(ANIMAL_COLOR_COLLECTION)
@@ -39,7 +40,8 @@ export const animalColorOperations: OperationsImpl<AnimalColorOperations> = {
   },
 
   async searchAnimalColors(rawParams, context) {
-    assertUserHasGroups(context.currentUser, [
+    const currentUser = await getCurrentUser(context);
+    assertUserHasGroups(currentUser, [
       UserGroup.ADMIN,
       UserGroup.ANIMAL_MANAGER,
       UserGroup.VETERINARIAN,
@@ -63,7 +65,8 @@ export const animalColorOperations: OperationsImpl<AnimalColorOperations> = {
   },
 
   async getAnimalColor(rawParams, context) {
-    assertUserHasGroups(context.currentUser, [UserGroup.ADMIN]);
+    const currentUser = await getCurrentUser(context);
+    assertUserHasGroups(currentUser, [UserGroup.ADMIN]);
 
     const params = validateParams<"getAnimalColor">(
       object({ id: string().uuid().required() }),
@@ -79,7 +82,8 @@ export const animalColorOperations: OperationsImpl<AnimalColorOperations> = {
   },
 
   async createAnimalColor(rawParams, context) {
-    assertUserHasGroups(context.currentUser, [UserGroup.ADMIN]);
+    const currentUser = await getCurrentUser(context);
+    assertUserHasGroups(currentUser, [UserGroup.ADMIN]);
 
     const params = validateParams<"createAnimalColor">(
       object({ name: string().trim().required() }),
@@ -107,7 +111,8 @@ export const animalColorOperations: OperationsImpl<AnimalColorOperations> = {
   },
 
   async updateAnimalColor(rawParams, context) {
-    assertUserHasGroups(context.currentUser, [UserGroup.ADMIN]);
+    const currentUser = await getCurrentUser(context);
+    assertUserHasGroups(currentUser, [UserGroup.ADMIN]);
 
     const params = validateParams<"updateAnimalColor">(
       object({
@@ -142,7 +147,8 @@ export const animalColorOperations: OperationsImpl<AnimalColorOperations> = {
   },
 
   async deleteAnimalColor(rawParams, context) {
-    assertUserHasGroups(context.currentUser, [UserGroup.ADMIN]);
+    const currentUser = await getCurrentUser(context);
+    assertUserHasGroups(currentUser, [UserGroup.ADMIN]);
 
     const params = validateParams<"deleteAnimalColor">(
       object({ id: string().uuid().required() }),

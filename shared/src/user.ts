@@ -50,9 +50,6 @@ export type UserOperations = {
   deleteUser: (params: { id: string }) => boolean;
 };
 
-export function doesGroupsIntersect(
-  groupsA: UserGroup[],
-  groupsB: UserGroup[]
-) {
-  return intersection(groupsA, groupsB).length > 0;
+export function hasGroups(user: { groups: UserGroup[] }, groups: UserGroup[]) {
+  return intersection(user.groups, groups).length > 0;
 }

@@ -1,4 +1,4 @@
-import { CurrentUser, doesGroupsIntersect, UserGroup } from "@animeaux/shared";
+import { CurrentUser, hasGroups, UserGroup } from "@animeaux/shared";
 import { useEffect, useRef, useState } from "react";
 import {
   FaAngleRight,
@@ -147,7 +147,7 @@ function showNavigationItem(
   item: NavigationItem,
   currentUser: CurrentUser
 ): boolean {
-  return doesGroupsIntersect(currentUser.groups, item.authorizedGroups);
+  return hasGroups(currentUser, item.authorizedGroups);
 }
 
 type NavigationProps = {

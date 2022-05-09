@@ -1,7 +1,7 @@
 import { ImageOperations, UserGroup } from "@animeaux/shared";
 import invariant from "tiny-invariant";
 import { object, string } from "yup";
-import { assertUserHasGroups } from "../core/authentication";
+import { assertUserHasGroups, getCurrentUser } from "../core/authentication";
 import { cloudinary } from "../core/cloudinary";
 import { OperationsImpl } from "../core/operations";
 import { validateParams } from "../core/validation";
@@ -15,7 +15,8 @@ const secret = process.env.CLOUDINARY_API_SECRET;
 
 export const imageOperations: OperationsImpl<ImageOperations> = {
   async getCloudinaryApiSignature(rawParams, context) {
-    assertUserHasGroups(context.currentUser, [
+    const currentUser = await getCurrentUser(context);
+    assertUserHasGroups(currentUser, [
       UserGroup.ADMIN,
       UserGroup.ANIMAL_MANAGER,
     ]);

@@ -1,4 +1,4 @@
-import { CurrentUser, doesGroupsIntersect, UserGroup } from "@animeaux/shared";
+import { CurrentUser, hasGroups, UserGroup } from "@animeaux/shared";
 import constate from "constate";
 import invariant from "invariant";
 import isEqual from "lodash.isequal";
@@ -99,7 +99,7 @@ const [AnimalFormContextProvider, useAnimalForm] = constate(() => {
 
 function getInitialCreationState(currentUser: CurrentUser): FormState {
   const state = getInitialState();
-  if (doesGroupsIntersect(currentUser.groups, [UserGroup.ANIMAL_MANAGER])) {
+  if (hasGroups(currentUser, [UserGroup.ANIMAL_MANAGER])) {
     return merge<FormState, PartialDeep<FormState>>(state, {
       situationState: {
         manager: {

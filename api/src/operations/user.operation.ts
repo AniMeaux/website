@@ -9,7 +9,7 @@ import { getAuth, UpdateRequest } from "firebase-admin/auth";
 import { getFirestore } from "firebase-admin/firestore";
 import orderBy from "lodash.orderby";
 import { array, mixed, object, string } from "yup";
-import { assertUserHasGroups } from "../core/authentication";
+import { assertUserHasGroups, getCurrentUser } from "../core/authentication";
 import { isFirebaseError } from "../core/firebase";
 import { OperationError, OperationsImpl } from "../core/operations";
 import { validateParams } from "../core/validation";
@@ -30,7 +30,8 @@ import {
 
 export const userOperations: OperationsImpl<UserOperations> = {
   async getUser(rawParams, context) {
-    assertUserHasGroups(context.currentUser, [UserGroup.ADMIN]);
+    const currentUser = await getCurrentUser(context);
+    assertUserHasGroups(currentUser, [UserGroup.ADMIN]);
 
     const params = validateParams<"getUser">(
       object({ id: string().required() }),
@@ -57,7 +58,8 @@ export const userOperations: OperationsImpl<UserOperations> = {
   },
 
   async getAllUsers(rawParams, context) {
-    assertUserHasGroups(context.currentUser, [UserGroup.ADMIN]);
+    const currentUser = await getCurrentUser(context);
+    assertUserHasGroups(currentUser, [UserGroup.ADMIN]);
 
     const users = await getAllUsers();
     const userBriefs = users.map<UserBrief>((user) => ({
@@ -75,7 +77,8 @@ export const userOperations: OperationsImpl<UserOperations> = {
   },
 
   async createUser(rawParams, context) {
-    assertUserHasGroups(context.currentUser, [UserGroup.ADMIN]);
+    const currentUser = await getCurrentUser(context);
+    assertUserHasGroups(currentUser, [UserGroup.ADMIN]);
 
     const params = validateParams<"createUser">(
       object({
@@ -144,7 +147,8 @@ export const userOperations: OperationsImpl<UserOperations> = {
   },
 
   async updateUser(rawParams, context) {
-    assertUserHasGroups(context.currentUser, [UserGroup.ADMIN]);
+    const currentUser = await getCurrentUser(context);
+    assertUserHasGroups(currentUser, [UserGroup.ADMIN]);
 
     const params = validateParams<"updateUser">(
       object({
@@ -163,7 +167,7 @@ export const userOperations: OperationsImpl<UserOperations> = {
 
     // Don't allow an admin (only admins can access users) to lock himself out.
     if (
-      context.currentUser.id === params.id &&
+      currentUser.id === params.id &&
       !params.groups.includes(UserGroup.ADMIN)
     ) {
       throw new OperationError(400);
@@ -214,7 +218,8 @@ export const userOperations: OperationsImpl<UserOperations> = {
   },
 
   async toggleUserBlockedStatus(rawParams, context) {
-    assertUserHasGroups(context.currentUser, [UserGroup.ADMIN]);
+    const currentUser = await getCurrentUser(context);
+    assertUserHasGroups(currentUser, [UserGroup.ADMIN]);
 
     const params = validateParams<"toggleUserBlockedStatus">(
       object({ id: string().required() }),
@@ -224,7 +229,7 @@ export const userOperations: OperationsImpl<UserOperations> = {
     const user = await userOperations.getUser({ id: params.id }, context);
 
     // Don't allow a use to block himself.
-    if (context.currentUser.id === params.id) {
+    if (currentUser.id === params.id) {
       throw new OperationError(400);
     }
 
@@ -244,7 +249,8 @@ export const userOperations: OperationsImpl<UserOperations> = {
   },
 
   async deleteUser(rawParams, context) {
-    assertUserHasGroups(context.currentUser, [UserGroup.ADMIN]);
+    const currentUser = await getCurrentUser(context);
+    assertUserHasGroups(currentUser, [UserGroup.ADMIN]);
 
     const params = validateParams<"deleteUser">(
       object({ id: string().required() }),
@@ -254,7 +260,7 @@ export const userOperations: OperationsImpl<UserOperations> = {
     await userOperations.getUser({ id: params.id }, context);
 
     // Don't allow a user to delete himself.
-    if (context.currentUser.id === params.id) {
+    if (currentUser.id === params.id) {
       throw new OperationError(400);
     }
 

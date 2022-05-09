@@ -12,7 +12,11 @@ import {
   createSearchFilters,
   DEFAULT_SEARCH_OPTIONS,
 } from "../core/algolia";
-import { assertUserHasGroups, userHasGroups } from "../core/authentication";
+import {
+  assertUserHasGroups,
+  getCurrentUser,
+  userHasGroups,
+} from "../core/authentication";
 import { OperationError, OperationsImpl } from "../core/operations";
 import { validateParams } from "../core/validation";
 import { EventFromStore, EVENT_COLLECTION } from "../entities/event.entity";
@@ -21,7 +25,8 @@ const EventIndex = AlgoliaClient.initIndex(EVENT_COLLECTION);
 
 export const eventOperations: OperationsImpl<EventOperations> = {
   async getAllEvents(rawParams, context) {
-    assertUserHasGroups(context.currentUser, [UserGroup.ADMIN]);
+    const currentUser = await getCurrentUser(context);
+    assertUserHasGroups(currentUser, [UserGroup.ADMIN]);
 
     const params = validateParams<"getAllEvents">(
       object({ page: number().min(0) }),
@@ -124,7 +129,8 @@ export const eventOperations: OperationsImpl<EventOperations> = {
   },
 
   async getEvent(rawParams, context) {
-    const allowHidden = userHasGroups(context.currentUser, [UserGroup.ADMIN]);
+    const currentUser = await getCurrentUser(context);
+    const allowHidden = userHasGroups(currentUser, [UserGroup.ADMIN]);
 
     const params = validateParams<"getEvent">(
       object({ id: string().uuid().required() }),
@@ -153,7 +159,8 @@ export const eventOperations: OperationsImpl<EventOperations> = {
   },
 
   async createEvent(rawParams, context) {
-    assertUserHasGroups(context.currentUser, [UserGroup.ADMIN]);
+    const currentUser = await getCurrentUser(context);
+    assertUserHasGroups(currentUser, [UserGroup.ADMIN]);
 
     const params = validateParams<"createEvent">(
       object({
@@ -198,7 +205,8 @@ export const eventOperations: OperationsImpl<EventOperations> = {
   },
 
   async updateEvent(rawParams, context) {
-    assertUserHasGroups(context.currentUser, [UserGroup.ADMIN]);
+    const currentUser = await getCurrentUser(context);
+    assertUserHasGroups(currentUser, [UserGroup.ADMIN]);
 
     const params = validateParams<"updateEvent">(
       object({
@@ -248,7 +256,8 @@ export const eventOperations: OperationsImpl<EventOperations> = {
   },
 
   async deleteEvent(rawParams, context) {
-    assertUserHasGroups(context.currentUser, [UserGroup.ADMIN]);
+    const currentUser = await getCurrentUser(context);
+    assertUserHasGroups(currentUser, [UserGroup.ADMIN]);
 
     const params = validateParams<"deleteEvent">(
       object({ id: string().uuid().required() }),

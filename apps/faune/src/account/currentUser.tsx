@@ -1,4 +1,4 @@
-import { CurrentUser, doesGroupsIntersect, UserGroup } from "@animeaux/shared";
+import { CurrentUser, hasGroups, UserGroup } from "@animeaux/shared";
 import invariant from "invariant";
 import { createContext, useContext, useEffect, useMemo, useRef } from "react";
 import { SignInPage } from "~/account/signInPage";
@@ -76,7 +76,7 @@ export function CurrentUserContextProvider({
 
   if (
     authorisedGroupsForPage != null &&
-    !doesGroupsIntersect(currentUser.groups, authorisedGroupsForPage)
+    !hasGroups(currentUser, authorisedGroupsForPage)
   ) {
     return (
       <ErrorPage

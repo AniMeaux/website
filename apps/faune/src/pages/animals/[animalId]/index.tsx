@@ -3,8 +3,8 @@ import {
   Animal,
   AnimalGender,
   AnimalStatus,
-  doesGroupsIntersect,
   formatAge,
+  hasGroups,
   Trilean,
   UserGroup,
 } from "@animeaux/shared";
@@ -81,7 +81,7 @@ import { TRILEAN_LABELS } from "~/trilean/labels";
 
 const AnimalPage: PageComponent = () => {
   const { currentUser } = useCurrentUser();
-  const currentUserCanEdit = doesGroupsIntersect(currentUser.groups, [
+  const currentUserCanEdit = hasGroups(currentUser, [
     UserGroup.ADMIN,
     UserGroup.ANIMAL_MANAGER,
   ]);
@@ -424,7 +424,7 @@ function SituationSection({ animal }: AnimalProp) {
 function ManagerItem({ manager }: { manager: NonNullable<Animal["manager"]> }) {
   const { currentUser } = useCurrentUser();
 
-  if (doesGroupsIntersect(currentUser.groups, [UserGroup.ADMIN])) {
+  if (hasGroups(currentUser, [UserGroup.ADMIN])) {
     return (
       <LinkItem href={`/users/${manager.id}`}>
         <ItemIcon>
@@ -461,7 +461,7 @@ function HostFamilyModal({
   hostFamily: NonNullable<Animal["hostFamily"]>;
 }) {
   const { currentUser } = useCurrentUser();
-  const isCurrentUserAdmin = doesGroupsIntersect(currentUser.groups, [
+  const isCurrentUserAdmin = hasGroups(currentUser, [
     UserGroup.ADMIN,
     UserGroup.ANIMAL_MANAGER,
   ]);
