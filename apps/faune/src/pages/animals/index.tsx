@@ -1,8 +1,4 @@
-import {
-  AnimalActiveBrief,
-  doesGroupsIntersect,
-  UserGroup,
-} from "@animeaux/shared";
+import { AnimalActiveBrief, hasGroups, UserGroup } from "@animeaux/shared";
 import { FaPlus, FaSearch } from "react-icons/fa";
 import styled from "styled-components";
 import { useCurrentUser } from "~/account/currentUser";
@@ -45,14 +41,12 @@ const TITLE = "Animaux en charge";
 
 const AnimalListPage: PageComponent = () => {
   const { currentUser } = useCurrentUser();
-  const currentUserCanEdit = doesGroupsIntersect(currentUser.groups, [
+  const currentUserCanEdit = hasGroups(currentUser, [
     UserGroup.ADMIN,
     UserGroup.ANIMAL_MANAGER,
   ]);
 
-  const haveManagedAnimals = doesGroupsIntersect(currentUser.groups, [
-    UserGroup.ANIMAL_MANAGER,
-  ]);
+  const haveManagedAnimals = hasGroups(currentUser, [UserGroup.ANIMAL_MANAGER]);
 
   usePageScrollRestoration();
 

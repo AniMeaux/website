@@ -1,4 +1,4 @@
-import { CurrentUser, doesGroupsIntersect, UserGroup } from "@animeaux/shared";
+import { CurrentUser, hasGroups, UserGroup } from "@animeaux/shared";
 import { OperationError } from "./operations";
 
 export function assertHasUser(
@@ -17,7 +17,7 @@ export function userHasGroups(
     return false;
   }
 
-  return doesGroupsIntersect(user.groups, groups);
+  return hasGroups(user, groups);
 }
 
 export function assertUserHasGroups(
@@ -26,7 +26,7 @@ export function assertUserHasGroups(
 ): asserts user is CurrentUser {
   assertHasUser(user);
 
-  if (!doesGroupsIntersect(user.groups, groups)) {
+  if (!hasGroups(user, groups)) {
     throw new OperationError(403);
   }
 }

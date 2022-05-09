@@ -10,7 +10,7 @@ import {
   AnimalSpecies,
   AnimalStatus,
   ANIMAL_AGE_RANGE_BY_SPECIES,
-  doesGroupsIntersect,
+  hasGroups,
   LocationSearchHit,
   ManagerSearchHit,
   PickUpReason,
@@ -99,11 +99,7 @@ export const animalOperations: OperationsImpl<AnimalOperations> = {
       .where("status", "in", ACTIVE_ANIMAL_STATUS);
 
     if (params.onlyManagedByCurrentUser) {
-      if (
-        !doesGroupsIntersect(context.currentUser.groups, [
-          UserGroup.ANIMAL_MANAGER,
-        ])
-      ) {
+      if (!hasGroups(currentUser, [UserGroup.ANIMAL_MANAGER])) {
         throw new OperationError(400);
       }
 
