@@ -1,33 +1,35 @@
 import { CurrentUserOperations } from "@animeaux/shared";
 import { getAuth } from "firebase-admin/auth";
 import { object, string } from "yup";
-import { assertHasUser } from "../core/authentication";
+import { assertHasUser, getCurrentUser } from "../core/authentication";
 import { isFirebaseError } from "../core/firebase";
 import { OperationError, OperationsImpl } from "../core/operations";
 import { validateParams } from "../core/validation";
 
 export const currentUserOperations: OperationsImpl<CurrentUserOperations> = {
   async getCurrentUser(rawParams, context) {
-    return context.currentUser ?? null;
+    return await getCurrentUser(context);
   },
 
   async updateCurrentUserProfile(rawParams, context) {
-    assertHasUser(context.currentUser);
+    const currentUser = await getCurrentUser(context);
+    assertHasUser(currentUser);
 
     const params = validateParams<"updateCurrentUserProfile">(
       object({ displayName: string().trim().required() }),
       rawParams
     );
 
-    await getAuth().updateUser(context.currentUser.id, {
+    await getAuth().updateUser(currentUser.id, {
       displayName: params.displayName,
     });
 
-    return { ...context.currentUser, displayName: params.displayName };
+    return { ...currentUser, displayName: params.displayName };
   },
 
   async updateCurrentUserPassword(rawParams, context) {
-    assertHasUser(context.currentUser);
+    const currentUser = await getCurrentUser(context);
+    assertHasUser(currentUser);
 
     const params = validateParams<"updateCurrentUserPassword">(
       object({ password: string().required() }),
@@ -35,7 +37,7 @@ export const currentUserOperations: OperationsImpl<CurrentUserOperations> = {
     );
 
     try {
-      await getAuth().updateUser(context.currentUser.id, {
+      await getAuth().updateUser(currentUser.id, {
         password: params.password,
       });
     } catch (error) {

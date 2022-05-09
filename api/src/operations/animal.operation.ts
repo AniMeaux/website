@@ -30,7 +30,7 @@ import {
   createSearchFilters,
   DEFAULT_SEARCH_OPTIONS,
 } from "../core/algolia";
-import { assertUserHasGroups } from "../core/authentication";
+import { assertUserHasGroups, getCurrentUser } from "../core/authentication";
 import { OperationError, OperationsImpl } from "../core/operations";
 import { validateParams } from "../core/validation";
 import {
@@ -80,14 +80,12 @@ const ADOPTABLE_ANIMAL_STATUS = [
 
 export const animalOperations: OperationsImpl<AnimalOperations> = {
   async getAllActiveAnimals(rawParams, context) {
-    assertUserHasGroups(context.currentUser, [
+    const currentUser = await getCurrentUser(context);
+    assertUserHasGroups(currentUser, [
       UserGroup.ADMIN,
       UserGroup.ANIMAL_MANAGER,
       UserGroup.VETERINARIAN,
     ]);
-
-    // Just for type safety.
-    const currentUser = context.currentUser;
 
     const params = validateParams<"getAllActiveAnimals">(
       object({ onlyManagedByCurrentUser: boolean() }),
@@ -103,7 +101,7 @@ export const animalOperations: OperationsImpl<AnimalOperations> = {
         throw new OperationError(400);
       }
 
-      query = query.where("managerId", "==", context.currentUser.id);
+      query = query.where("managerId", "==", currentUser.id);
     }
 
     const snapshots = await query.get();
@@ -197,7 +195,8 @@ export const animalOperations: OperationsImpl<AnimalOperations> = {
   },
 
   async searchAnimals(rawParams, context) {
-    assertUserHasGroups(context.currentUser, [
+    const currentUser = await getCurrentUser(context);
+    assertUserHasGroups(currentUser, [
       UserGroup.ADMIN,
       UserGroup.ANIMAL_MANAGER,
       UserGroup.VETERINARIAN,
@@ -247,7 +246,8 @@ export const animalOperations: OperationsImpl<AnimalOperations> = {
   },
 
   async getAnimal(rawParams, context) {
-    assertUserHasGroups(context.currentUser, [
+    const currentUser = await getCurrentUser(context);
+    assertUserHasGroups(currentUser, [
       UserGroup.ADMIN,
       UserGroup.ANIMAL_MANAGER,
       UserGroup.VETERINARIAN,
@@ -387,7 +387,8 @@ export const animalOperations: OperationsImpl<AnimalOperations> = {
   },
 
   async createAnimal(rawParams, context) {
-    assertUserHasGroups(context.currentUser, [
+    const currentUser = await getCurrentUser(context);
+    assertUserHasGroups(currentUser, [
       UserGroup.ADMIN,
       UserGroup.ANIMAL_MANAGER,
     ]);
@@ -448,7 +449,8 @@ export const animalOperations: OperationsImpl<AnimalOperations> = {
   },
 
   async updateAnimalProfile(rawParams, context) {
-    assertUserHasGroups(context.currentUser, [
+    const currentUser = await getCurrentUser(context);
+    assertUserHasGroups(currentUser, [
       UserGroup.ADMIN,
       UserGroup.ANIMAL_MANAGER,
     ]);
@@ -488,7 +490,8 @@ export const animalOperations: OperationsImpl<AnimalOperations> = {
   },
 
   async updateAnimalSituation(rawParams, context) {
-    assertUserHasGroups(context.currentUser, [
+    const currentUser = await getCurrentUser(context);
+    assertUserHasGroups(currentUser, [
       UserGroup.ADMIN,
       UserGroup.ANIMAL_MANAGER,
     ]);
@@ -534,7 +537,8 @@ export const animalOperations: OperationsImpl<AnimalOperations> = {
   },
 
   async updateAnimalPictures(rawParams, context) {
-    assertUserHasGroups(context.currentUser, [
+    const currentUser = await getCurrentUser(context);
+    assertUserHasGroups(currentUser, [
       UserGroup.ADMIN,
       UserGroup.ANIMAL_MANAGER,
     ]);
@@ -567,7 +571,8 @@ export const animalOperations: OperationsImpl<AnimalOperations> = {
   },
 
   async deleteAnimal(rawParams, context) {
-    assertUserHasGroups(context.currentUser, [
+    const currentUser = await getCurrentUser(context);
+    assertUserHasGroups(currentUser, [
       UserGroup.ADMIN,
       UserGroup.ANIMAL_MANAGER,
     ]);
@@ -583,7 +588,8 @@ export const animalOperations: OperationsImpl<AnimalOperations> = {
   },
 
   async searchLocation(rawParams, context) {
-    assertUserHasGroups(context.currentUser, [
+    const currentUser = await getCurrentUser(context);
+    assertUserHasGroups(currentUser, [
       UserGroup.ADMIN,
       UserGroup.ANIMAL_MANAGER,
     ]);
@@ -606,7 +612,8 @@ export const animalOperations: OperationsImpl<AnimalOperations> = {
   },
 
   async searchManager(rawParams, context) {
-    assertUserHasGroups(context.currentUser, [
+    const currentUser = await getCurrentUser(context);
+    assertUserHasGroups(currentUser, [
       UserGroup.ADMIN,
       UserGroup.ANIMAL_MANAGER,
     ]);

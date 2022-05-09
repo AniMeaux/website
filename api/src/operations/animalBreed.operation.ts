@@ -13,7 +13,7 @@ import {
   createSearchFilters,
   DEFAULT_SEARCH_OPTIONS,
 } from "../core/algolia";
-import { assertUserHasGroups } from "../core/authentication";
+import { assertUserHasGroups, getCurrentUser } from "../core/authentication";
 import { OperationError, OperationsImpl } from "../core/operations";
 import { validateParams } from "../core/validation";
 import {
@@ -26,7 +26,8 @@ const AnimalBreedIndex = AlgoliaClient.initIndex(ANIMAL_BREED_COLLECTION);
 
 export const animalBreedOperations: OperationsImpl<AnimalBreedOperations> = {
   async getAllAnimalBreeds(rawParams, context) {
-    assertUserHasGroups(context.currentUser, [UserGroup.ADMIN]);
+    const currentUser = await getCurrentUser(context);
+    assertUserHasGroups(currentUser, [UserGroup.ADMIN]);
 
     const snapshots = await getFirestore()
       .collection(ANIMAL_BREED_COLLECTION)
@@ -45,7 +46,8 @@ export const animalBreedOperations: OperationsImpl<AnimalBreedOperations> = {
   },
 
   async searchAnimalBreeds(rawParams, context) {
-    assertUserHasGroups(context.currentUser, [
+    const currentUser = await getCurrentUser(context);
+    assertUserHasGroups(currentUser, [
       UserGroup.ADMIN,
       UserGroup.ANIMAL_MANAGER,
       UserGroup.VETERINARIAN,
@@ -76,7 +78,8 @@ export const animalBreedOperations: OperationsImpl<AnimalBreedOperations> = {
   },
 
   async getAnimalBreed(rawParams, context) {
-    assertUserHasGroups(context.currentUser, [UserGroup.ADMIN]);
+    const currentUser = await getCurrentUser(context);
+    assertUserHasGroups(currentUser, [UserGroup.ADMIN]);
 
     const params = validateParams<"getAnimalBreed">(
       object({ id: string().uuid().required() }),
@@ -93,7 +96,8 @@ export const animalBreedOperations: OperationsImpl<AnimalBreedOperations> = {
   },
 
   async createAnimalBreed(rawParams, context) {
-    assertUserHasGroups(context.currentUser, [UserGroup.ADMIN]);
+    const currentUser = await getCurrentUser(context);
+    assertUserHasGroups(currentUser, [UserGroup.ADMIN]);
 
     const params = validateParams<"createAnimalBreed">(
       object({
@@ -128,7 +132,8 @@ export const animalBreedOperations: OperationsImpl<AnimalBreedOperations> = {
   },
 
   async updateAnimalBreed(rawParams, context) {
-    assertUserHasGroups(context.currentUser, [UserGroup.ADMIN]);
+    const currentUser = await getCurrentUser(context);
+    assertUserHasGroups(currentUser, [UserGroup.ADMIN]);
 
     const params = validateParams<"updateAnimalBreed">(
       object({
@@ -167,7 +172,8 @@ export const animalBreedOperations: OperationsImpl<AnimalBreedOperations> = {
   },
 
   async deleteAnimalBreed(rawParams, context) {
-    assertUserHasGroups(context.currentUser, [UserGroup.ADMIN]);
+    const currentUser = await getCurrentUser(context);
+    assertUserHasGroups(currentUser, [UserGroup.ADMIN]);
 
     const params = validateParams<"deleteAnimalBreed">(
       object({ id: string().uuid().required() }),

@@ -4,14 +4,14 @@ import {
   OperationResult,
   PickOperationErrorResult,
 } from "@animeaux/shared";
+import { ParameterizedContext } from "koa";
 import { PartialDeep } from "type-fest";
-import { Context } from "./contex";
 
 export type OperationImpl<
   TOperation extends (...args: any) => any = (...args: any) => any
 > = (
   params: PartialDeep<Parameters<TOperation>[0]>,
-  context: Context
+  context: ParameterizedContext
 ) => Promise<OmitOperationErrorResult<ReturnType<TOperation>>>;
 
 export type OperationsImpl<

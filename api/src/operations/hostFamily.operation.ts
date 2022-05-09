@@ -10,7 +10,7 @@ import orderBy from "lodash.orderby";
 import { v4 as uuid } from "uuid";
 import { object, string } from "yup";
 import { AlgoliaClient, DEFAULT_SEARCH_OPTIONS } from "../core/algolia";
-import { assertUserHasGroups } from "../core/authentication";
+import { assertUserHasGroups, getCurrentUser } from "../core/authentication";
 import { OperationError, OperationsImpl } from "../core/operations";
 import { validateParams } from "../core/validation";
 import {
@@ -29,7 +29,8 @@ const HostFamilyIndex = AlgoliaClient.initIndex(HOST_FAMILY_COLLECTION);
 
 export const hostFamilyOperations: OperationsImpl<HostFamilyOperations> = {
   async getAllHostFamilies(rawParams, context) {
-    assertUserHasGroups(context.currentUser, [
+    const currentUser = await getCurrentUser(context);
+    assertUserHasGroups(currentUser, [
       UserGroup.ADMIN,
       UserGroup.ANIMAL_MANAGER,
     ]);
@@ -51,7 +52,8 @@ export const hostFamilyOperations: OperationsImpl<HostFamilyOperations> = {
   },
 
   async searchHostFamilies(rawParams, context) {
-    assertUserHasGroups(context.currentUser, [
+    const currentUser = await getCurrentUser(context);
+    assertUserHasGroups(currentUser, [
       UserGroup.ADMIN,
       UserGroup.ANIMAL_MANAGER,
     ]);
@@ -74,7 +76,8 @@ export const hostFamilyOperations: OperationsImpl<HostFamilyOperations> = {
   },
 
   async getHostFamily(rawParams, context) {
-    assertUserHasGroups(context.currentUser, [
+    const currentUser = await getCurrentUser(context);
+    assertUserHasGroups(currentUser, [
       UserGroup.ADMIN,
       UserGroup.ANIMAL_MANAGER,
     ]);
@@ -100,7 +103,8 @@ export const hostFamilyOperations: OperationsImpl<HostFamilyOperations> = {
   },
 
   async createHostFamily(rawParams, context) {
-    assertUserHasGroups(context.currentUser, [
+    const currentUser = await getCurrentUser(context);
+    assertUserHasGroups(currentUser, [
       UserGroup.ADMIN,
       UserGroup.ANIMAL_MANAGER,
     ]);
@@ -148,7 +152,8 @@ export const hostFamilyOperations: OperationsImpl<HostFamilyOperations> = {
   },
 
   async updateHostFamily(rawParams, context) {
-    assertUserHasGroups(context.currentUser, [
+    const currentUser = await getCurrentUser(context);
+    assertUserHasGroups(currentUser, [
       UserGroup.ADMIN,
       UserGroup.ANIMAL_MANAGER,
     ]);
@@ -201,7 +206,8 @@ export const hostFamilyOperations: OperationsImpl<HostFamilyOperations> = {
   },
 
   async deleteHostFamily(rawParams, context) {
-    assertUserHasGroups(context.currentUser, [
+    const currentUser = await getCurrentUser(context);
+    assertUserHasGroups(currentUser, [
       UserGroup.ADMIN,
       UserGroup.ANIMAL_MANAGER,
     ]);

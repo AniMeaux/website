@@ -1,13 +1,12 @@
-import Koa, { DefaultState, Middleware } from "koa";
+import Koa, { Middleware } from "koa";
 import json from "koa-json";
-import { Context } from "./contex";
 
-export function applyJsonMiddleware(app: Koa<DefaultState, Context>) {
+export function applyJsonMiddleware(app: Koa) {
   app.use(nullBodyMiddleware());
   app.use(json());
 }
 
-function nullBodyMiddleware(): Middleware<DefaultState, Context> {
+function nullBodyMiddleware(): Middleware {
   return async function nullBodyMiddleware(context, next) {
     await next();
 

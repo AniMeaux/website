@@ -1,8 +1,6 @@
-import { DefaultState } from "koa";
 import Router from "koa-router";
-import { Context } from "./core/contex";
 
-export const healthRouter = new Router<DefaultState, Context>();
+export const healthRouter = new Router();
 
 healthRouter.get("/healthcheck", async (context, next) => {
   context.body = "OK";

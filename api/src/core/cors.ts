@@ -1,6 +1,5 @@
 import cors from "@koa/cors";
-import { DefaultState, Middleware } from "koa";
-import { Context } from "./contex";
+import { Middleware } from "koa";
 
 const ALLOWED_ORIGINS = [/^https:\/\/.*\.animeaux\.org$/];
 
@@ -8,7 +7,7 @@ if (process.env.NODE_ENV === "development") {
   ALLOWED_ORIGINS.push(/^http:\/\/.*\.animeaux\.localhost/);
 }
 
-export function corsMiddleware(): Middleware<DefaultState, Context> {
+export function corsMiddleware(): Middleware {
   return cors({
     origin: (context) => {
       const requestOrigin = context.get("Origin");

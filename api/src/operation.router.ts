@@ -1,8 +1,6 @@
 import { AllOperationName, AllOperations } from "@animeaux/shared";
-import { DefaultState } from "koa";
 import Router from "koa-router";
 import { mixed, object, ValidationError } from "yup";
-import { Context } from "./core/contex";
 import {
   OperationError,
   OperationImpl,
@@ -28,7 +26,7 @@ const allOperations: OperationsImpl<AllOperations> = {
   ...eventOperations,
 };
 
-export const operationRouter = new Router<DefaultState, Context>();
+export const operationRouter = new Router();
 
 operationRouter.post("/operation", async (context, next) => {
   try {
