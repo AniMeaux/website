@@ -1,3 +1,4 @@
+import { DateTime } from "luxon";
 import { GetServerSideProps } from "next";
 import { FaBirthdayCake, FaHandHoldingHeart, FaUsers } from "react-icons/fa";
 import styled, { css } from "styled-components";
@@ -16,6 +17,8 @@ type HomePageProps = {
   upCommingEvents: OperationResponse<"getVisibleUpCommingEvents">;
 };
 
+const CREATION_DATE = DateTime.fromISO("2018-04-10");
+
 export const getServerSideProps: GetServerSideProps<
   HomePageProps
 > = async () => {
@@ -27,6 +30,10 @@ export const getServerSideProps: GetServerSideProps<
 };
 
 const HomePage: PageComponent<HomePageProps> = ({ upCommingEvents }) => {
+  const years = Math.floor(
+    DateTime.now().diff(CREATION_DATE, "months").months / 12
+  );
+
   return (
     <main>
       <PageTitle />
@@ -97,7 +104,7 @@ const HomePage: PageComponent<HomePageProps> = ({ upCommingEvents }) => {
               <FaBirthdayCake />
             </StatsIcon>
 
-            <StatsValue>3 ans</StatsValue>
+            <StatsValue>{years} ans</StatsValue>
             <p>D'existence</p>
           </li>
 
@@ -106,7 +113,7 @@ const HomePage: PageComponent<HomePageProps> = ({ upCommingEvents }) => {
               <FaHandHoldingHeart />
             </StatsIcon>
 
-            <StatsValue>400</StatsValue>
+            <StatsValue>500</StatsValue>
             <p>Prises en charge</p>
           </li>
 
@@ -115,7 +122,7 @@ const HomePage: PageComponent<HomePageProps> = ({ upCommingEvents }) => {
               <FaUsers />
             </StatsIcon>
 
-            <StatsValue>28</StatsValue>
+            <StatsValue>50</StatsValue>
             <p>Bénévoles</p>
           </li>
         </PresentationList>
