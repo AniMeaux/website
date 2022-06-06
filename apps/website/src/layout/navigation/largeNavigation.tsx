@@ -9,7 +9,7 @@ import { ActMenu, AdoptionMenu } from "./shared";
 export function LargeNavigation() {
   return (
     <nav className="LargeNavigation">
-      <NavigationMenu label="Adoption">
+      <NavigationMenu label="Adopter">
         <AdoptionMenu />
       </NavigationMenu>
 

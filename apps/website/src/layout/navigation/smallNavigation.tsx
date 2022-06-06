@@ -74,7 +74,7 @@ export function SmallNavigation() {
         <ul>
           <li>
             <NavigationMenu
-              label="Adoption"
+              label="Adopter"
               isOpen={openMenu === "adopt"}
               onToggleOpen={(isOpen) => setOpenMenu(isOpen ? "adopt" : "none")}
             >
