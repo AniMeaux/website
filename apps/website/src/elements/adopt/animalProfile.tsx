@@ -5,7 +5,7 @@ import {
   Trilean,
 } from "@animeaux/shared";
 import { DateTime } from "luxon";
-import { FaBaby, FaBirthdayCake } from "react-icons/fa";
+import { FaBaby, FaBirthdayCake, FaMapMarkerAlt } from "react-icons/fa";
 import { isDefined } from "~/core/isDefined";
 import { ANIMAL_GENDER_LABELS } from "~/core/labels";
 import { AnimalGenderIcon } from "~/dataDisplay/animalGenderIcon";
@@ -87,6 +87,13 @@ export function AnimalProfile({ animal }: AnimalProfileProps) {
                       className={styles.detailIcon}
                     />
                     <span>S'entend avec les chiens</span>
+                  </li>
+                )}
+
+                {animal.location != null && (
+                  <li className={styles.detailItem}>
+                    <FaMapMarkerAlt className={styles.detailIcon} />
+                    <span>En famille d'accueil à {animal.location}</span>
                   </li>
                 )}
               </ul>

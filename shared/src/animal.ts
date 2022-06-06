@@ -95,6 +95,7 @@ export type PublicAnimal = {
   isOkCats: Trilean;
   isSterilized: boolean;
   description?: string;
+  location?: string;
 };
 
 export type Animal = {

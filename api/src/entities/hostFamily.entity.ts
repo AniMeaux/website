@@ -29,3 +29,9 @@ export async function getHostFamilyFromStore(id: string) {
 export function getFormattedAddress(hostFamily: HostFamilyFromStore) {
   return `${hostFamily.address}, ${hostFamily.zipCode} ${hostFamily.city}`;
 }
+
+export function getShortLocation(
+  hostFamily: Pick<HostFamilyFromStore, "city" | "zipCode">
+) {
+  return `${hostFamily.city} (${hostFamily.zipCode.substring(0, 2)})`;
+}

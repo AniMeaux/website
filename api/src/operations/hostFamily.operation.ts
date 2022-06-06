@@ -21,6 +21,7 @@ import {
 import {
   getFormattedAddress,
   getHostFamilyFromStore,
+  getShortLocation,
   HostFamilyFromStore,
   HOST_FAMILY_COLLECTION,
 } from "../entities/hostFamily.entity";
@@ -46,7 +47,7 @@ export const hostFamilyOperations: OperationsImpl<HostFamilyOperations> = {
       return {
         id: hostFamily.id,
         name: hostFamily.name,
-        location: `${hostFamily.city} (${hostFamily.zipCode.substring(0, 2)})`,
+        location: getShortLocation(hostFamily),
       };
     });
   },
