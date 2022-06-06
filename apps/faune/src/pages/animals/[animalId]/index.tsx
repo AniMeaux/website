@@ -24,7 +24,7 @@ import {
   FaHandHoldingHeart,
   FaHome,
   FaImages,
-  FaMapMarker,
+  FaMapMarkerAlt,
   FaPen,
   FaPhone,
   FaTimesCircle,
@@ -508,7 +508,7 @@ function HostFamilyModal({
               )}`}
             >
               <ItemIcon>
-                <FaMapMarker />
+                <FaMapMarkerAlt />
               </ItemIcon>
 
               <ItemContent>

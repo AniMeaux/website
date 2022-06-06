@@ -6,7 +6,7 @@ import {
 import invariant from "invariant";
 import without from "lodash.without";
 import { useState } from "react";
-import { FaEnvelope, FaMapMarker, FaPhone, FaUser } from "react-icons/fa";
+import { FaEnvelope, FaMapMarkerAlt, FaPhone, FaUser } from "react-icons/fa";
 import { string } from "yup";
 import { Info } from "~/core/dataDisplay/info";
 import { Adornment } from "~/core/formElements/adornment";
@@ -198,7 +198,7 @@ export function HostFamilyForm({
             hasError={includes(errors, "empty-zip-code", "invalid-zip-code")}
             leftAdornment={
               <Adornment>
-                <FaMapMarker />
+                <FaMapMarkerAlt />
               </Adornment>
             }
           />
@@ -221,7 +221,7 @@ export function HostFamilyForm({
             hasError={includes(errors, "empty-city")}
             leftAdornment={
               <Adornment>
-                <FaMapMarker />
+                <FaMapMarkerAlt />
               </Adornment>
             }
           />
@@ -244,7 +244,7 @@ export function HostFamilyForm({
             hasError={includes(errors, "empty-address")}
             leftAdornment={
               <Adornment>
-                <FaMapMarker />
+                <FaMapMarkerAlt />
               </Adornment>
             }
           />

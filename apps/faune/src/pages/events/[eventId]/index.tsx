@@ -11,7 +11,7 @@ import {
   FaCertificate,
   FaEye,
   FaEyeSlash,
-  FaMapMarker,
+  FaMapMarkerAlt,
   FaPen,
   FaTimesCircle,
   FaTrash,
@@ -184,7 +184,7 @@ function MetaSection({ event }: EventProp) {
             )}`}
           >
             <ItemIcon>
-              <FaMapMarker />
+              <FaMapMarkerAlt />
             </ItemIcon>
 
             <ItemContent>

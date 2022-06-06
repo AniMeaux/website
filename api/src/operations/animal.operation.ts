@@ -44,6 +44,7 @@ import { getAnimalColorFromStore } from "../entities/animalColor.entity";
 import {
   getFormattedAddress,
   getHostFamilyFromStore,
+  getShortLocation,
 } from "../entities/hostFamily.entity";
 import {
   getUserFromAuth,
@@ -366,6 +367,15 @@ export const animalOperations: OperationsImpl<AnimalOperations> = {
       colorName = color.name;
     }
 
+    let location: PublicAnimal["location"] = undefined;
+    if (animalFromStore.hostFamilyId != null) {
+      const hostFamilyFromStore = await getHostFamilyFromStore(
+        animalFromStore.hostFamilyId
+      );
+
+      location = getShortLocation(hostFamilyFromStore);
+    }
+
     const animal: PublicAnimal = {
       id: animalFromStore.id,
       avatarId: animalFromStore.avatarId,
@@ -381,6 +391,7 @@ export const animalOperations: OperationsImpl<AnimalOperations> = {
       breedName,
       colorName,
       description: ignoreEmptyString(animalFromStore.description),
+      location,
     };
 
     return animal;
