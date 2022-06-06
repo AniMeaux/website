@@ -133,7 +133,7 @@ export function AnimalBreedForm({
       </Fields>
 
       <SubmitButton loading={pending}>
-        {state == null ? "Créer" : "Modifier"}
+        {initialAnimalBreed == null ? "Créer" : "Modifier"}
       </SubmitButton>
     </Form>
   );
