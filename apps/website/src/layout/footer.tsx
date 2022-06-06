@@ -20,7 +20,7 @@ export function Footer() {
     <FooterElement>
       <FooterGrid>
         <FooterSection>
-          <FooterSectionTitle>Adoption</FooterSectionTitle>
+          <FooterSectionTitle>Adopter</FooterSectionTitle>
 
           <FooterLinkList>
             {Object.values(AnimalSpecies).map((animalSpecies) => (
