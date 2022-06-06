@@ -3,7 +3,7 @@ import invariant from "invariant";
 import {
   FaAngleRight,
   FaEnvelope,
-  FaMapMarker,
+  FaMapMarkerAlt,
   FaPen,
   FaPhone,
   FaTimesCircle,
@@ -164,7 +164,7 @@ function ContactSection({ hostFamily }: HostFamilyProps) {
             )}`}
           >
             <ItemIcon>
-              <FaMapMarker />
+              <FaMapMarkerAlt />
             </ItemIcon>
 
             <ItemContent>
