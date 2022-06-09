@@ -1,6 +1,5 @@
 import { CurrentUser } from "@animeaux/shared";
 import { FaAngleRight, FaLock, FaSignOutAlt, FaUser } from "react-icons/fa";
-import { useCurrentUser } from "~/account/currentUser";
 import {
   ButtonItem,
   Item,
@@ -12,6 +11,7 @@ import {
 } from "~/core/dataDisplay/item";
 import { Section } from "~/core/layouts/section";
 import { Separator } from "~/core/layouts/separator";
+import { useOperationMutation } from "~/core/operations";
 import {
   Modal,
   ModalHeader,
@@ -19,6 +19,7 @@ import {
   useModal,
 } from "~/core/popovers/modal";
 import { useRouter } from "~/core/router";
+import { useCurrentUser } from "~/currentUser/currentUser";
 import { UserAvatar } from "~/user/avatar";
 
 type CurrentUserMenuProps = Pick<
@@ -36,8 +37,14 @@ export function CurrentUserMenu(props: CurrentUserMenuProps) {
 
 function Menu() {
   const router = useRouter();
-  const { currentUser, signOut } = useCurrentUser();
+  const { currentUser } = useCurrentUser();
   const { onDismiss } = useModal();
+
+  const logOut = useOperationMutation("logOut", {
+    onSuccess: (result, cache) => {
+      cache.set({ name: "getCurrentUser" }, null);
+    },
+  });
 
   return (
     <>
@@ -84,7 +91,7 @@ function Menu() {
       <Separator />
 
       <Section>
-        <ButtonItem onClick={signOut}>
+        <ButtonItem onClick={() => logOut.mutate()}>
           <ItemIcon>
             <FaSignOutAlt />
           </ItemIcon>

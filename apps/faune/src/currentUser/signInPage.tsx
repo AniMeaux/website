@@ -7,7 +7,6 @@ import { useMutation } from "react-query";
 import styled, { keyframes } from "styled-components";
 import { string } from "yup";
 import { Info } from "~/core/dataDisplay/info";
-import { firebase, isFirebaseError } from "~/core/firebase";
 import { Adornment } from "~/core/formElements/adornment";
 import { Field, Fields } from "~/core/formElements/field";
 import { Form as BaseForm } from "~/core/formElements/form";
@@ -19,6 +18,7 @@ import { BaseValidationError } from "~/core/formValidation";
 import { AppIcon } from "~/core/icons/appIcon";
 import { includes } from "~/core/includes";
 import { joinReactNodes } from "~/core/joinReactNodes";
+import { useOperationMutation } from "~/core/operations";
 import { PageTitle } from "~/core/pageTitle";
 import { ScreenSize, useScreenSize } from "~/core/screenSize";
 import { SetStateAction } from "~/core/types";
@@ -47,26 +47,47 @@ const INITIAL_STATE: FormState = {
 
 type FormValue = Omit<FormState, "errors">;
 
-const INVALID_CREDENTIALS_ERROR_CODES = [
-  "auth/invalid-email",
-  "auth/user-disabled",
-  "auth/user-not-found",
-  "auth/wrong-password",
-];
-
 export function SignInPage() {
   const [state, setState] = useState(INITIAL_STATE);
 
-  const signIn = useMutation<void, Error, FormValue>(
+  const migratePassword = useOperationMutation("migratePassword", {
+    onSuccess: (response, cache) => {
+      cache.set({ name: "getCurrentUser" }, response.result);
+    },
+  });
+
+  const legacyLogIn = useMutation<void, Error, FormValue>(
     async ({ email, password }) => {
-      await firebase.auth().signInWithEmailAndPassword(email, password);
+      const { firebase } = await import("~/core/firebase");
+      const userCredentials = await firebase
+        .auth()
+        .signInWithEmailAndPassword(email, password);
+
+      if (userCredentials.user != null) {
+        const token = await userCredentials.user.getIdToken();
+        migratePassword.mutate({ password, token });
+      }
     }
   );
 
+  const logIn = useOperationMutation("logIn", {
+    onSuccess: (response, cache) => {
+      cache.set({ name: "getCurrentUser" }, response.result);
+    },
+    onError: (response) => {
+      legacyLogIn.mutate(response.body.params);
+    },
+  });
+
+  const isLoading =
+    logIn.state === "loading" ||
+    legacyLogIn.status === "loading" ||
+    migratePassword.state === "loading";
+
   async function handleSubmit() {
-    if (!signIn.isLoading) {
+    if (!isLoading) {
       try {
-        signIn.mutate(validate(state));
+        logIn.mutate(validate(state));
       } catch (error) {
         invariant(
           error instanceof ValidationError,
@@ -81,15 +102,8 @@ export function SignInPage() {
   const { screenSize } = useScreenSize();
 
   let errors = [...state.errors];
-  if (signIn.status === "error") {
-    if (
-      isFirebaseError(signIn.error) &&
-      INVALID_CREDENTIALS_ERROR_CODES.includes(signIn.error.code)
-    ) {
-      errors.push("invalid-credentials");
-    } else {
-      errors.push("server-error");
-    }
+  if (logIn.state === "error" && legacyLogIn.status === "error") {
+    errors.push("invalid-credentials");
   }
 
   errors = uniq(errors);
@@ -165,14 +179,13 @@ export function SignInPage() {
               </Field>
             </Fields>
 
-            {signIn.status === "success" ? (
+            {logIn.state === "success" ||
+            migratePassword.state === "success" ? (
               <SuccessIcon>
                 <FaCheckCircle />
               </SuccessIcon>
             ) : (
-              <SubmitButton loading={signIn.status === "loading"}>
-                Se connecter
-              </SubmitButton>
+              <SubmitButton loading={isLoading}>Se connecter</SubmitButton>
             )}
           </Form>
         </Main>

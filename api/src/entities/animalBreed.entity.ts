@@ -1,24 +1,8 @@
-import { AnimalSpecies } from "@animeaux/shared";
-import { getFirestore } from "firebase-admin/firestore";
-import { OperationError } from "../core/operations";
+import { Breed } from "@prisma/client";
+import { AlgoliaClient } from "../core/algolia";
 
-export const ANIMAL_BREED_COLLECTION = "animalBreeds";
+export const BREED_INDEX_NAME = "breeds";
 
-export type AnimalBreedFromStore = {
-  id: string;
-  name: string;
-  species: AnimalSpecies;
-};
+export const BreedIndex = AlgoliaClient.initIndex(BREED_INDEX_NAME);
 
-export async function getAnimalBreedFromStore(id: string) {
-  const snapshot = await getFirestore()
-    .collection(ANIMAL_BREED_COLLECTION)
-    .doc(id)
-    .get();
-
-  if (!snapshot.exists) {
-    throw new OperationError(404);
-  }
-
-  return snapshot.data() as AnimalBreedFromStore;
-}
+export type BreedFromAlgolia = Pick<Breed, "name" | "species">;

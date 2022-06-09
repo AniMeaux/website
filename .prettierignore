@@ -4,3 +4,4 @@ node_modules/
 dumps/
 sw.js
 workbox-*
+mockServiceWorker.js

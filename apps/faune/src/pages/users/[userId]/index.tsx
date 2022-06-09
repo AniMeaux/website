@@ -9,7 +9,6 @@ import {
   FaTimesCircle,
   FaTrash,
 } from "react-icons/fa";
-import { useCurrentUser } from "~/account/currentUser";
 import { QuickActions } from "~/core/actions/quickAction";
 import { Avatar, AvatarPlaceholder } from "~/core/dataDisplay/avatar";
 import { AvatarImage } from "~/core/dataDisplay/image";
@@ -39,6 +38,7 @@ import { PageTitle } from "~/core/pageTitle";
 import { useModal } from "~/core/popovers/modal";
 import { useRouter } from "~/core/router";
 import { PageComponent } from "~/core/types";
+import { useCurrentUser } from "~/currentUser/currentUser";
 import { UserGroupIcon } from "~/user/group/icon";
 import { USER_GROUP_LABELS } from "~/user/group/labels";
 

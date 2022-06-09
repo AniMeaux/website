@@ -33,7 +33,6 @@ import {
 } from "react-icons/fa";
 import { useMutation, UseMutationResult } from "react-query";
 import styled from "styled-components";
-import { useCurrentUser } from "~/account/currentUser";
 import { AnimalGenderIcon } from "~/animal/animalGenderIcon";
 import {
   ANIMAL_GENDER_LABELS,
@@ -76,6 +75,7 @@ import {
 } from "~/core/popovers/modal";
 import { useRouter } from "~/core/router";
 import { PageComponent } from "~/core/types";
+import { useCurrentUser } from "~/currentUser/currentUser";
 import { theme } from "~/styles/theme";
 import { TRILEAN_LABELS } from "~/trilean/labels";
 

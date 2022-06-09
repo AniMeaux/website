@@ -1,4 +1,21 @@
+volumes:
+  pgdata:
+
 services:
+  postgres:
+    container_name: animeaux-postgres
+    image: postgres:latest
+    restart: unless-stopped
+    environment:
+      PGDATA: /data
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/data:delegated
+
   traefik:
     container_name: animeaux-traefik
     image: traefik:montdor

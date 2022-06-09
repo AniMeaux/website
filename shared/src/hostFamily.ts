@@ -41,7 +41,7 @@ export type HostFamilyOperations = {
     zipCode: string;
     city: string;
     address: string;
-  }) => HostFamily | OperationErrorResult<"name-already-used">;
+  }) => HostFamily | OperationErrorResult<"already-exists">;
   updateHostFamily: (params: {
     id: string;
     name: string;
@@ -50,6 +50,6 @@ export type HostFamilyOperations = {
     zipCode: string;
     city: string;
     address: string;
-  }) => HostFamily | OperationErrorResult<"name-already-used">;
+  }) => HostFamily | OperationErrorResult<"already-exists">;
   deleteHostFamily: (params: { id: string }) => boolean;
 };

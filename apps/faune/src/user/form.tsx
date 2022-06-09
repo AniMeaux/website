@@ -9,7 +9,6 @@ import without from "lodash.without";
 import { useState } from "react";
 import { FaEnvelope, FaLock, FaUser } from "react-icons/fa";
 import { string } from "yup";
-import { useCurrentUser } from "~/account/currentUser";
 import { Info } from "~/core/dataDisplay/info";
 import { Adornment } from "~/core/formElements/adornment";
 import { Field, Fields } from "~/core/formElements/field";
@@ -33,6 +32,7 @@ import { joinReactNodes } from "~/core/joinReactNodes";
 import { Separator } from "~/core/layouts/separator";
 import { Placeholder, Placeholders } from "~/core/loaders/placeholder";
 import { SetStateAction } from "~/core/types";
+import { useCurrentUser } from "~/currentUser/currentUser";
 import { UserGroupIcon } from "~/user/group/icon";
 import { USER_GROUP_LABELS } from "~/user/group/labels";
 
@@ -45,7 +45,6 @@ type ErrorCode =
   | "empty-email"
   | "invalid-email"
   | "empty-password"
-  | "week-password"
   | "empty-groups"
   | "cannot-remove-admin-group";
 
@@ -56,9 +55,8 @@ const ERROR_CODE_LABEL: Record<ErrorCode, string> = {
   "empty-display-name": "Le nom est obligatoire.",
   "empty-email": "L'email est obligatoire.",
   "invalid-email": "Le format de l'email est invalide.",
-  "email-already-exists": "L'email est déjà utilisé.",
+  "already-exists": "L'email est déjà utilisé.",
   "empty-password": "Le mot de passe doit avoir au moins 6 caractères.",
-  "week-password": "Le mot de passe doit avoir au moins 6 caractères.",
   "empty-groups": "L'utilisateur doit avoir au moins 1 groupe.",
   "cannot-remove-admin-group":
     "Vous ne pouvez pas vous retirer du group Administrateur.",
@@ -199,7 +197,7 @@ export function UserForm({
         <Field>
           <Label
             htmlFor="password"
-            hasError={includes(errors, "empty-password", "week-password")}
+            hasError={includes(errors, "empty-password")}
           >
             Mot de passe
           </Label>
@@ -209,7 +207,7 @@ export function UserForm({
             id="password"
             value={state.password}
             onChange={(password) => setState(setPassword(password))}
-            hasError={includes(errors, "empty-password", "week-password")}
+            hasError={includes(errors, "empty-password")}
             leftAdornment={
               <Adornment>
                 <FaLock />
@@ -304,7 +302,7 @@ function setPassword(password: string): SetStateAction<FormState> {
   return (prevState) => ({
     ...prevState,
     password,
-    errors: without(prevState.errors, "empty-password", "week-password"),
+    errors: without(prevState.errors, "empty-password"),
   });
 }
 
@@ -344,12 +342,8 @@ function validate(
     errorCodes.push("invalid-email");
   }
 
-  if (!isEdit) {
-    if (!string().required().isValidSync(state.password)) {
-      errorCodes.push("empty-password");
-    } else if (!string().min(6).isValidSync(state.password)) {
-      errorCodes.push("week-password");
-    }
+  if (!isEdit && !string().required().isValidSync(state.password)) {
+    errorCodes.push("empty-password");
   }
 
   if (state.groups.length === 0) {

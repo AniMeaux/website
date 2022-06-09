@@ -17,7 +17,6 @@ import {
   useQueryClient,
 } from "react-query";
 import { getConfig } from "~/core/config";
-import { firebase } from "~/core/firebase";
 import { useIsScrollAtFetchMore } from "~/core/layouts/usePageScroll";
 import { useRequest } from "~/core/request";
 
@@ -61,24 +60,6 @@ type OperationBody<TName extends AllOperationName> = [
 export async function runOperation<TName extends AllOperationName>(
   body: OperationBody<TName>
 ): Promise<OperationResponse<TName>> {
-  const response = await baseRunOperation(body);
-
-  if (response.state === "error" && response.status === 401) {
-    const currentUser = firebase.auth().currentUser;
-
-    // Re-try the call after refreshing the token.
-    if (currentUser != null) {
-      await currentUser.reload();
-      return await baseRunOperation(body);
-    }
-  }
-
-  return response;
-}
-
-async function baseRunOperation<TName extends AllOperationName>(
-  body: OperationBody<TName>
-): Promise<OperationResponse<TName>> {
   try {
     const headers: HeadersInit = {
       "Content-Type": "application/json",
@@ -91,6 +72,7 @@ async function baseRunOperation<TName extends AllOperationName>(
 
     const response = await fetch(`${getConfig().apiUrl}/operation`, {
       method: "POST",
+      credentials: "include",
       body: JSON.stringify(body),
       headers,
     });
