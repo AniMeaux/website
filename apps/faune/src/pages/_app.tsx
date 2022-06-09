@@ -18,6 +18,11 @@ import { GlobalStyles, ResetStyles } from "~/styles/theme";
 
 Settings.defaultLocale = "fr";
 
+if (typeof document !== "undefined" && process.env.NODE_ENV === "development") {
+  const { startWorker } = require("../mocks");
+  startWorker();
+}
+
 type ApplicationProps = Omit<AppProps, "Component"> & {
   Component: PageComponent;
 };
