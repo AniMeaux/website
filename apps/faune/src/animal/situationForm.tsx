@@ -66,7 +66,7 @@ export type FormState = {
   pickUpDate: string;
   pickUpLocation: string | null;
   pickUpReason: PickUpReason;
-  hostFamily: { id: string; name: string } | null;
+  fosterFamily: { id: string; name: string } | null;
   isOkChildren: Trilean;
   isOkDogs: Trilean;
   isOkCats: Trilean;
@@ -83,7 +83,7 @@ export type FormValue = {
   pickUpDate: string;
   pickUpLocation: string | null;
   pickUpReason: PickUpReason;
-  hostFamilyId: string | null;
+  fosterFamilyId: string | null;
   isOkChildren: Trilean;
   isOkDogs: Trilean;
   isOkCats: Trilean;
@@ -295,17 +295,17 @@ export function AnimalSituationForm({
               <Label isOptional>Famille d'accueil</Label>
 
               <LinkInput
-                href="../host-family"
-                value={state.hostFamily?.name}
+                href="../foster-family"
+                value={state.fosterFamily?.name}
                 leftAdornment={
                   <Adornment>
                     <FaHome />
                   </Adornment>
                 }
                 rightAdornment={
-                  state.hostFamily != null && (
+                  state.fosterFamily != null && (
                     <ActionAdornment
-                      onClick={() => setState(clearHostFamily())}
+                      onClick={() => setState(clearFosterFamily())}
                     >
                       <FaTimes />
                     </ActionAdornment>
@@ -435,7 +435,7 @@ export function getInitialState(initialAnimal?: Animal): FormState {
     adoptionDate: initialAnimal?.adoptionDate ?? "",
     adoptionOption: initialAnimal?.adoptionOption ?? AdoptionOption.UNKNOWN,
     comments: initialAnimal?.comments ?? "",
-    hostFamily: initialAnimal?.hostFamily ?? null,
+    fosterFamily: initialAnimal?.fosterFamily ?? null,
     isOkCats: initialAnimal?.isOkCats ?? Trilean.UNKNOWN,
     isOkChildren: initialAnimal?.isOkChildren ?? Trilean.UNKNOWN,
     isOkDogs: initialAnimal?.isOkDogs ?? Trilean.UNKNOWN,
@@ -488,8 +488,8 @@ function setPickUpReason(
   return (prevState) => ({ ...prevState, pickUpReason });
 }
 
-function clearHostFamily(): SetStateAction<FormState> {
-  return (prevState) => ({ ...prevState, hostFamily: null });
+function clearFosterFamily(): SetStateAction<FormState> {
+  return (prevState) => ({ ...prevState, fosterFamily: null });
 }
 
 function setIsOkChildren(isOkChildren: Trilean): SetStateAction<FormState> {
@@ -552,10 +552,10 @@ export function validate(state: FormState): FormValue {
     adoptionOption:
       state.status === AnimalStatus.ADOPTED ? state.adoptionOption : null,
     comments: state.comments.trim() || null,
-    hostFamilyId:
+    fosterFamilyId:
       state.status === AnimalStatus.ADOPTED
         ? null
-        : state.hostFamily?.id ?? null,
+        : state.fosterFamily?.id ?? null,
     isOkCats: state.isOkCats,
     isOkChildren: state.isOkChildren,
     isOkDogs: state.isOkDogs,

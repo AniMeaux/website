@@ -10,64 +10,67 @@ import { useOperationMutation, useOperationQuery } from "~/core/operations";
 import { PageTitle } from "~/core/pageTitle";
 import { useRouter } from "~/core/router";
 import { PageComponent } from "~/core/types";
-import { HostFamilyForm, HostFamilyFormPlaceholder } from "~/hostFamily/form";
+import {
+  FosterFamilyForm,
+  FosterFamilyFormPlaceholder,
+} from "~/fosterFamily/form";
 
-const HostFamilyEditPage: PageComponent = () => {
+const FosterFamilyEditPage: PageComponent = () => {
   const router = useRouter();
 
   invariant(
-    typeof router.query.hostFamilyId === "string",
-    `The hostFamilyId path should be a string. Got '${typeof router.query
-      .hostFamilyId}'`
+    typeof router.query.fosterFamilyId === "string",
+    `The fosterFamilyId path should be a string. Got '${typeof router.query
+      .fosterFamilyId}'`
   );
 
-  const getHostFamily = useOperationQuery({
-    name: "getHostFamily",
-    params: { id: router.query.hostFamilyId },
+  const getFosterFamily = useOperationQuery({
+    name: "getFosterFamily",
+    params: { id: router.query.fosterFamilyId },
   });
 
-  const updateHostFamily = useOperationMutation("updateHostFamily", {
+  const updateFosterFamily = useOperationMutation("updateFosterFamily", {
     onSuccess: (response, cache) => {
       cache.set(
-        { name: "getHostFamily", params: { id: response.result.id } },
+        { name: "getFosterFamily", params: { id: response.result.id } },
         response.result
       );
 
-      cache.invalidate({ name: "getAllHostFamilies" });
+      cache.invalidate({ name: "getAllFosterFamilies" });
       router.backIfPossible("..");
     },
   });
 
-  if (getHostFamily.state === "error") {
-    return <ErrorPage status={getHostFamily.status} />;
+  if (getFosterFamily.state === "error") {
+    return <ErrorPage status={getFosterFamily.status} />;
   }
 
   let content: React.ReactNode = null;
 
-  if (getHostFamily.state === "success") {
+  if (getFosterFamily.state === "success") {
     content = (
-      <HostFamilyForm
-        initialHostFamily={getHostFamily.result}
-        onSubmit={(hostFamily) =>
-          updateHostFamily.mutate({
-            ...hostFamily,
-            id: getHostFamily.result.id,
+      <FosterFamilyForm
+        initialFosterFamily={getFosterFamily.result}
+        onSubmit={(fosterFamily) =>
+          updateFosterFamily.mutate({
+            ...fosterFamily,
+            id: getFosterFamily.result.id,
           })
         }
-        pending={updateHostFamily.state === "loading"}
+        pending={updateFosterFamily.state === "loading"}
         serverErrors={
-          updateHostFamily.state === "error"
-            ? [updateHostFamily.errorResult?.code ?? "server-error"]
+          updateFosterFamily.state === "error"
+            ? [updateFosterFamily.errorResult?.code ?? "server-error"]
             : []
         }
       />
     );
   } else {
-    content = <HostFamilyFormPlaceholder />;
+    content = <FosterFamilyFormPlaceholder />;
   }
 
   const name =
-    getHostFamily.state === "success" ? getHostFamily.result.name : null;
+    getFosterFamily.state === "success" ? getFosterFamily.result.name : null;
 
   return (
     <ApplicationLayout>
@@ -84,9 +87,9 @@ const HostFamilyEditPage: PageComponent = () => {
   );
 };
 
-HostFamilyEditPage.authorisedGroups = [
+FosterFamilyEditPage.authorisedGroups = [
   UserGroup.ADMIN,
   UserGroup.ANIMAL_MANAGER,
 ];
 
-export default HostFamilyEditPage;
+export default FosterFamilyEditPage;

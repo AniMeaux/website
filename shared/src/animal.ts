@@ -95,7 +95,7 @@ export type Animal = {
     id: string;
     displayName: string;
   };
-  hostFamily?: {
+  fosterFamily?: {
     id: string;
     name: string;
     phone: string;
@@ -129,7 +129,7 @@ export type AnimalSituationInput = {
   pickUpDate: string;
   pickUpLocation: string | null;
   pickUpReason: PickUpReason;
-  hostFamilyId: string | null;
+  fosterFamilyId: string | null;
   managerId: string;
   isOkChildren: Trilean;
   isOkDogs: Trilean;

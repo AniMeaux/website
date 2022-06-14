@@ -1,5 +1,5 @@
 import {
-  HostFamily,
+  FosterFamily,
   OperationResult,
   PickOperationErrorResult,
 } from "@animeaux/shared";
@@ -24,7 +24,7 @@ import { SetStateAction } from "~/core/types";
 
 type ErrorCode =
   | PickOperationErrorResult<
-      OperationResult<"createHostFamily" | "updateHostFamily">
+      OperationResult<"createFosterFamily" | "updateFosterFamily">
     >["code"]
   | "server-error"
   | "empty-name"
@@ -63,20 +63,20 @@ type FormState = {
 
 type FormValue = Omit<FormState, "errors">;
 
-type HostFamilyFormProps = {
-  initialHostFamily?: HostFamily;
+type FosterFamilyFormProps = {
+  initialFosterFamily?: FosterFamily;
   pending: boolean;
   onSubmit: (value: FormValue) => void;
   serverErrors: ErrorCode[];
 };
 
-export function HostFamilyForm({
-  initialHostFamily,
+export function FosterFamilyForm({
+  initialFosterFamily,
   onSubmit,
   pending,
   serverErrors,
-}: HostFamilyFormProps) {
-  const [state, setState] = useState(initializeState(initialHostFamily));
+}: FosterFamilyFormProps) {
+  const [state, setState] = useState(initializeState(initialFosterFamily));
 
   async function handleSubmit() {
     if (!pending) {
@@ -109,15 +109,15 @@ export function HostFamilyForm({
       <Fields>
         <Field>
           <Label
-            htmlFor="host-family-name"
+            htmlFor="foster-family-name"
             hasError={includes(errors, "empty-name", "name-already-used")}
           >
             Nom
           </Label>
 
           <Input
-            name="host-family-name"
-            id="host-family-name"
+            name="foster-family-name"
+            id="foster-family-name"
             type="text"
             value={state.name}
             onChange={(name) => setState(setName(name))}
@@ -132,15 +132,15 @@ export function HostFamilyForm({
 
         <Field>
           <Label
-            htmlFor="host-family-phone"
+            htmlFor="foster-family-phone"
             hasError={includes(errors, "empty-phone")}
           >
             Téléphone
           </Label>
 
           <Input
-            name="host-family-phone"
-            id="host-family-phone"
+            name="foster-family-phone"
+            id="foster-family-phone"
             type="tel"
             placeholder="+33612345678"
             value={state.phone}
@@ -156,15 +156,15 @@ export function HostFamilyForm({
 
         <Field>
           <Label
-            htmlFor="host-family-email"
+            htmlFor="foster-family-email"
             hasError={includes(errors, "empty-email", "invalid-email")}
           >
             Email
           </Label>
 
           <Input
-            name="host-family-email"
-            id="host-family-email"
+            name="foster-family-email"
+            id="foster-family-email"
             type="email"
             placeholder="jean@mail.fr"
             value={state.email}
@@ -182,15 +182,15 @@ export function HostFamilyForm({
 
         <Field>
           <Label
-            htmlFor="host-family-zip-code"
+            htmlFor="foster-family-zip-code"
             hasError={includes(errors, "empty-zip-code", "invalid-zip-code")}
           >
             Code postal
           </Label>
 
           <Input
-            name="host-family-zip-code"
-            id="host-family-zip-code"
+            name="foster-family-zip-code"
+            id="foster-family-zip-code"
             type="text"
             inputMode="numeric"
             value={state.zipCode}
@@ -206,15 +206,15 @@ export function HostFamilyForm({
 
         <Field>
           <Label
-            htmlFor="host-family-city"
+            htmlFor="foster-family-city"
             hasError={includes(errors, "empty-city")}
           >
             Ville
           </Label>
 
           <Input
-            name="host-family-city"
-            id="host-family-city"
+            name="foster-family-city"
+            id="foster-family-city"
             type="text"
             value={state.city}
             onChange={(city) => setState(setCity(city))}
@@ -229,15 +229,15 @@ export function HostFamilyForm({
 
         <Field>
           <Label
-            htmlFor="host-family-address"
+            htmlFor="foster-family-address"
             hasError={includes(errors, "empty-address")}
           >
             Adresse
           </Label>
 
           <Input
-            name="host-family-address"
-            id="host-family-address"
+            name="foster-family-address"
+            id="foster-family-address"
             type="text"
             value={state.address}
             onChange={(address) => setState(setAddress(address))}
@@ -252,20 +252,20 @@ export function HostFamilyForm({
       </Fields>
 
       <SubmitButton loading={pending}>
-        {initialHostFamily == null ? "Créer" : "Modifier"}
+        {initialFosterFamily == null ? "Créer" : "Modifier"}
       </SubmitButton>
     </Form>
   );
 }
 
-function initializeState(initialHostFamily?: HostFamily) {
+function initializeState(initialFosterFamily?: FosterFamily) {
   return (): FormState => ({
-    name: initialHostFamily?.name ?? "",
-    email: initialHostFamily?.email ?? "",
-    phone: initialHostFamily?.phone ?? "",
-    zipCode: initialHostFamily?.zipCode ?? "",
-    city: initialHostFamily?.city ?? "",
-    address: initialHostFamily?.address ?? "",
+    name: initialFosterFamily?.name ?? "",
+    email: initialFosterFamily?.email ?? "",
+    phone: initialFosterFamily?.phone ?? "",
+    zipCode: initialFosterFamily?.zipCode ?? "",
+    city: initialFosterFamily?.city ?? "",
+    address: initialFosterFamily?.address ?? "",
     errors: [],
   });
 }
@@ -372,7 +372,7 @@ function validate(state: FormState): FormValue {
   };
 }
 
-export function HostFamilyFormPlaceholder() {
+export function FosterFamilyFormPlaceholder() {
   return (
     <Form>
       <Fields>

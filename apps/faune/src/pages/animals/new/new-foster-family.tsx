@@ -8,24 +8,24 @@ import { useOperationMutation } from "~/core/operations";
 import { PageTitle } from "~/core/pageTitle";
 import { useRouter } from "~/core/router";
 import { PageComponent } from "~/core/types";
-import { HostFamilyForm } from "~/hostFamily/form";
+import { FosterFamilyForm } from "~/fosterFamily/form";
 
-const CreateHostFamilyPage: PageComponent = () => {
+const CreateFosterFamilyPage: PageComponent = () => {
   const { setSituationState } = useAnimalForm();
   const router = useRouter();
 
-  const createHostFamily = useOperationMutation("createHostFamily", {
+  const createFosterFamily = useOperationMutation("createFosterFamily", {
     onSuccess: (response, cache) => {
       cache.set(
-        { name: "getHostFamily", params: { id: response.result.id } },
+        { name: "getFosterFamily", params: { id: response.result.id } },
         response.result
       );
 
-      cache.invalidate({ name: "getAllHostFamilies" });
+      cache.invalidate({ name: "getAllFosterFamilies" });
 
       setSituationState((prevState) => ({
         ...prevState,
-        hostFamily: { id: response.result.id, name: response.result.name },
+        fosterFamily: { id: response.result.id, name: response.result.name },
       }));
 
       router.backIfPossible("../situation", { historyOffset: 2 });
@@ -37,17 +37,17 @@ const CreateHostFamilyPage: PageComponent = () => {
       <PageTitle title="Nouvelle FA" />
 
       <Header>
-        <HeaderBackLink href="../host-family" />
+        <HeaderBackLink href="../foster-family" />
         <HeaderTitle>Nouvelle FA</HeaderTitle>
       </Header>
 
       <Main>
-        <HostFamilyForm
-          onSubmit={(hostFamily) => createHostFamily.mutate(hostFamily)}
-          pending={createHostFamily.state === "loading"}
+        <FosterFamilyForm
+          onSubmit={(fosterFamily) => createFosterFamily.mutate(fosterFamily)}
+          pending={createFosterFamily.state === "loading"}
           serverErrors={
-            createHostFamily.state === "error"
-              ? [createHostFamily.errorResult?.code ?? "server-error"]
+            createFosterFamily.state === "error"
+              ? [createFosterFamily.errorResult?.code ?? "server-error"]
               : []
           }
         />
@@ -58,13 +58,13 @@ const CreateHostFamilyPage: PageComponent = () => {
   );
 };
 
-CreateHostFamilyPage.renderLayout = ({ children }) => {
+CreateFosterFamilyPage.renderLayout = ({ children }) => {
   return <AnimalFormProvider>{children}</AnimalFormProvider>;
 };
 
-CreateHostFamilyPage.authorisedGroups = [
+CreateFosterFamilyPage.authorisedGroups = [
   UserGroup.ADMIN,
   UserGroup.ANIMAL_MANAGER,
 ];
 
-export default CreateHostFamilyPage;
+export default CreateFosterFamilyPage;
