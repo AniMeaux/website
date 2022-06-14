@@ -1,79 +1,71 @@
 import {
   ManagedAnimal,
-  User,
+  User as PublicUser,
   UserBrief,
   UserGroup,
   UserOperations,
 } from "@animeaux/shared";
-import { getAuth, UpdateRequest } from "firebase-admin/auth";
-import { getFirestore } from "firebase-admin/firestore";
-import orderBy from "lodash.orderby";
+import { Prisma } from "@prisma/client";
 import { array, mixed, object, string } from "yup";
 import { assertUserHasGroups, getCurrentUser } from "../core/authentication";
-import { isFirebaseError } from "../core/firebase";
+import { prisma } from "../core/db";
 import { OperationError, OperationsImpl } from "../core/operations";
+import { generatePasswordHash } from "../core/password";
 import { validateParams } from "../core/validation";
-import {
-  AnimalFromStore,
-  ANIMAL_COLLECTION,
-  getDisplayName,
-} from "../entities/animal.entity";
-import {
-  getAllUsers,
-  getUserFromAuth,
-  getUserFromStore,
-  UserFromAlgolia,
-  UserFromStore,
-  UserIndex,
-  USER_COLLECTION,
-} from "../entities/user.entity";
+import { getDisplayName } from "../entities/animal.entity";
+import { UserFromAlgolia, UserIndex } from "../entities/user.entity";
+
+const userWithIncludes = Prisma.validator<Prisma.UserArgs>()({
+  include: {
+    managedAnimals: {
+      orderBy: { name: "asc" },
+      select: {
+        id: true,
+        avatar: true,
+        name: true,
+        alias: true,
+      },
+    },
+  },
+});
 
 export const userOperations: OperationsImpl<UserOperations> = {
+  async getAllUsers(rawParams, context) {
+    const currentUser = await getCurrentUser(context);
+    assertUserHasGroups(currentUser, [UserGroup.ADMIN]);
+
+    const users = await prisma.user.findMany({
+      select: { id: true, displayName: true, isDisabled: true, groups: true },
+      orderBy: [{ isDisabled: "asc" }, { displayName: "asc" }],
+    });
+
+    return users.map<UserBrief>((user) => ({
+      id: user.id,
+      displayName: user.displayName,
+      disabled: user.isDisabled,
+      groups: user.groups,
+    }));
+  },
+
   async getUser(rawParams, context) {
     const currentUser = await getCurrentUser(context);
     assertUserHasGroups(currentUser, [UserGroup.ADMIN]);
 
     const params = validateParams<"getUser">(
-      object({ id: string().required() }),
+      object({ id: string().uuid().required() }),
       rawParams
     );
 
-    const [userFromStore, userFromAuth] = await Promise.all([
-      getUserFromStore(params.id),
-      getUserFromAuth(params.id),
-    ]);
+    const user = await prisma.user.findUnique({
+      ...userWithIncludes,
+      where: { id: params.id },
+    });
 
-    if (userFromStore == null || userFromAuth == null) {
+    if (user == null) {
       throw new OperationError(404);
     }
 
-    return {
-      id: params.id,
-      displayName: userFromAuth.displayName,
-      email: userFromAuth.email,
-      disabled: userFromAuth.disabled,
-      groups: userFromStore.groups,
-      managedAnimals: await getManagedAnimals(params.id),
-    };
-  },
-
-  async getAllUsers(rawParams, context) {
-    const currentUser = await getCurrentUser(context);
-    assertUserHasGroups(currentUser, [UserGroup.ADMIN]);
-
-    const users = await getAllUsers();
-    const userBriefs = users.map<UserBrief>((user) => ({
-      id: user.id,
-      displayName: user.displayName,
-      disabled: user.disabled,
-      groups: user.groups,
-    }));
-
-    return orderBy(
-      userBriefs,
-      [(user) => user.disabled, (user) => user.displayName],
-      ["asc", "asc"]
-    );
+    return mapToPublicUser(user);
   },
 
   async createUser(rawParams, context) {
@@ -93,53 +85,42 @@ export const userOperations: OperationsImpl<UserOperations> = {
       rawParams
     );
 
+    const passwordHash = await generatePasswordHash(params.password);
+
     try {
-      const userRecord = await getAuth().createUser(params);
-
-      const userFromStore: UserFromStore = {
-        id: userRecord.uid,
-        groups: params.groups,
-      };
-
-      await getFirestore()
-        .collection(USER_COLLECTION)
-        .doc(userFromStore.id)
-        .set(userFromStore);
+      const user = await prisma.user.create({
+        ...userWithIncludes,
+        data: {
+          email: params.email,
+          displayName: params.displayName,
+          groups: params.groups,
+          password: { create: { hash: passwordHash } },
+        },
+      });
 
       const userFromAlgolia: UserFromAlgolia = {
-        id: userRecord.uid,
-        email: userRecord.email!,
-        displayName: userRecord.displayName!,
-        disabled: userRecord.disabled,
-        groups: userFromStore.groups,
+        displayName: user.displayName,
+        email: user.email,
+        groups: user.groups,
+        isDisabled: user.isDisabled,
       };
 
       await UserIndex.saveObject({
         ...userFromAlgolia,
-        objectID: userFromAlgolia.id,
+        objectID: user.id,
       });
 
-      return {
-        id: userRecord.uid,
-        displayName: userRecord.displayName!,
-        email: userRecord.email!,
-        disabled: userRecord.disabled,
-        groups: userFromStore.groups,
-        managedAnimals: [],
-      };
+      return mapToPublicUser(user);
     } catch (error) {
-      if (isFirebaseError(error)) {
-        if (error.code === "auth/invalid-password") {
-          throw new OperationError<"createUser">(400, {
-            code: "week-password",
-          });
-        }
-
-        if (error.code === "auth/email-already-exists") {
-          throw new OperationError<"createUser">(400, {
-            code: "email-already-exists",
-          });
-        }
+      // Unique constraint failed.
+      // https://www.prisma.io/docs/reference/api-reference/error-reference#p2002
+      if (
+        error instanceof Prisma.PrismaClientKnownRequestError &&
+        error.code === "P2002"
+      ) {
+        throw new OperationError<"createUser">(400, {
+          code: "already-exists",
+        });
       }
 
       throw error;
@@ -152,7 +133,7 @@ export const userOperations: OperationsImpl<UserOperations> = {
 
     const params = validateParams<"updateUser">(
       object({
-        id: string().required(),
+        id: string().uuid().required(),
         displayName: string().trim().required(),
         password: string().defined(),
         groups: array()
@@ -163,7 +144,11 @@ export const userOperations: OperationsImpl<UserOperations> = {
       rawParams
     );
 
-    const user = await userOperations.getUser({ id: params.id }, context);
+    const where: Prisma.UserWhereUniqueInput = { id: params.id };
+
+    if ((await prisma.user.count({ where })) === 0) {
+      throw new OperationError(404);
+    }
 
     // Don't allow an admin (only admins can access users) to lock himself out.
     if (
@@ -173,27 +158,35 @@ export const userOperations: OperationsImpl<UserOperations> = {
       throw new OperationError(400);
     }
 
+    const passwordHash =
+      params.password === ""
+        ? null
+        : await generatePasswordHash(params.password);
+
     try {
-      const userUpdate: UpdateRequest = { displayName: params.displayName };
-      if (params.password !== "") {
-        userUpdate.password = params.password;
-      }
+      const user = await prisma.user.update({
+        ...userWithIncludes,
+        where,
+        data: {
+          displayName: params.displayName,
+          groups: params.groups,
+          password:
+            passwordHash == null
+              ? undefined
+              : {
+                  upsert: {
+                    update: { hash: passwordHash },
+                    create: { hash: passwordHash },
+                  },
+                },
+        },
+      });
 
-      await getAuth().updateUser(params.id, userUpdate);
-
-      const userFromStore: UserFromStore = {
-        id: params.id,
-        groups: params.groups,
-      };
-
-      await getFirestore()
-        .collection(USER_COLLECTION)
-        .doc(userFromStore.id)
-        .update(userFromStore);
-
-      const userFromAlgolia: Partial<UserFromAlgolia> = {
-        displayName: params.displayName,
-        groups: params.groups,
+      const userFromAlgolia: UserFromAlgolia = {
+        displayName: user.displayName,
+        email: user.email,
+        groups: user.groups,
+        isDisabled: user.isDisabled,
       };
 
       await UserIndex.partialUpdateObject({
@@ -201,16 +194,14 @@ export const userOperations: OperationsImpl<UserOperations> = {
         objectID: params.id,
       });
 
-      return {
-        ...user,
-        displayName: params.displayName,
-        groups: params.groups,
-      };
+      return mapToPublicUser(user);
     } catch (error) {
-      if (isFirebaseError(error) && error.code === "auth/invalid-password") {
-        throw new OperationError<"updateUser">(400, {
-          code: "week-password",
-        });
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        // Not found.
+        // https://www.prisma.io/docs/reference/api-reference/error-reference#p2025
+        if (error.code === "P2025") {
+          throw new OperationError(404);
+        }
       }
 
       throw error;
@@ -222,22 +213,36 @@ export const userOperations: OperationsImpl<UserOperations> = {
     assertUserHasGroups(currentUser, [UserGroup.ADMIN]);
 
     const params = validateParams<"toggleUserBlockedStatus">(
-      object({ id: string().required() }),
+      object({ id: string().uuid().required() }),
       rawParams
     );
-
-    const user = await userOperations.getUser({ id: params.id }, context);
 
     // Don't allow a use to block himself.
     if (currentUser.id === params.id) {
       throw new OperationError(400);
     }
 
-    const newDisabled = !user.disabled;
-    await getAuth().updateUser(params.id, { disabled: newDisabled });
+    const user = await prisma.$transaction(async (prisma) => {
+      const where: Prisma.UserWhereUniqueInput = { id: params.id };
+
+      const user = await prisma.user.findUnique({
+        where,
+        select: { isDisabled: true },
+      });
+
+      if (user == null) {
+        throw new OperationError(404);
+      }
+
+      return await prisma.user.update({
+        ...userWithIncludes,
+        where,
+        data: { isDisabled: !user.isDisabled },
+      });
+    });
 
     const userFromAlgolia: Partial<UserFromAlgolia> = {
-      disabled: newDisabled,
+      isDisabled: user.isDisabled,
     };
 
     await UserIndex.partialUpdateObject({
@@ -245,7 +250,7 @@ export const userOperations: OperationsImpl<UserOperations> = {
       objectID: params.id,
     });
 
-    return { ...user, disabled: newDisabled };
+    return mapToPublicUser(user);
   },
 
   async deleteUser(rawParams, context) {
@@ -253,42 +258,49 @@ export const userOperations: OperationsImpl<UserOperations> = {
     assertUserHasGroups(currentUser, [UserGroup.ADMIN]);
 
     const params = validateParams<"deleteUser">(
-      object({ id: string().required() }),
+      object({ id: string().uuid().required() }),
       rawParams
     );
-
-    await userOperations.getUser({ id: params.id }, context);
 
     // Don't allow a user to delete himself.
     if (currentUser.id === params.id) {
       throw new OperationError(400);
     }
 
-    // TODO: Check that the user is not referenced by an animal.
-    await getFirestore().collection(USER_COLLECTION).doc(params.id).delete();
-    await getAuth().deleteUser(params.id);
+    try {
+      await prisma.user.delete({ where: { id: params.id } });
+    } catch (error) {
+      // Not found.
+      // https://www.prisma.io/docs/reference/api-reference/error-reference#p2025
+      if (
+        error instanceof Prisma.PrismaClientKnownRequestError &&
+        error.code === "P2025"
+      ) {
+        throw new OperationError(404);
+      }
+
+      throw error;
+    }
+
     await UserIndex.deleteObject(params.id);
 
     return true;
   },
 };
 
-async function getManagedAnimals(userId: User["id"]) {
-  const snapshots = await getFirestore()
-    .collection(ANIMAL_COLLECTION)
-    .where("managerId", "==", userId)
-    .get();
-
-  const animals = snapshots.docs.map<ManagedAnimal>((doc) => {
-    const animal = doc.data() as AnimalFromStore;
-
-    return {
+function mapToPublicUser(
+  user: Prisma.UserGetPayload<typeof userWithIncludes>
+): PublicUser {
+  return {
+    id: user.id,
+    displayName: user.displayName,
+    email: user.email,
+    disabled: user.isDisabled,
+    groups: user.groups,
+    managedAnimals: user.managedAnimals.map<ManagedAnimal>((animal) => ({
       id: animal.id,
-      avatarId: animal.avatarId,
+      avatarId: animal.avatar,
       name: getDisplayName(animal),
-    };
-  });
-
-  // A specific index is required to order by a field not in the filters.
-  return orderBy(animals, (animal) => animal.name);
+    })),
+  };
 }

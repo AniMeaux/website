@@ -55,7 +55,7 @@ export function ActMenu() {
     <>
       <ul>
         <li>
-          <SubNavigationLink href="/host-families">
+          <SubNavigationLink href="/foster-families">
             Devenir famille d'accueil
           </SubNavigationLink>
         </li>

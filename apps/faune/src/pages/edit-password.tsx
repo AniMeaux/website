@@ -1,4 +1,3 @@
-import { OperationResult, PickOperationErrorResult } from "@animeaux/shared";
 import invariant from "invariant";
 import without from "lodash.without";
 import { useState } from "react";
@@ -23,20 +22,13 @@ import { PageTitle } from "~/core/pageTitle";
 import { useRouter } from "~/core/router";
 import { PageComponent, SetStateAction } from "~/core/types";
 
-type ErrorCode =
-  | PickOperationErrorResult<
-      OperationResult<"updateCurrentUserPassword">
-    >["code"]
-  | "server-error"
-  | "empty-password"
-  | "week-password";
+type ErrorCode = "server-error" | "empty-password";
 
 class ValidationError extends BaseValidationError<ErrorCode> {}
 
 const ERROR_CODE_LABEL: Record<ErrorCode, string> = {
   "server-error": "Une erreur est survenue.",
   "empty-password": "Le mot de passe doit avoir au moins 6 caractères.",
-  "week-password": "Le mot de passe doit avoir au moins 6 caractères.",
 };
 
 type FormState = {
@@ -86,7 +78,7 @@ const EditPassword: PageComponent = () => {
 
   const errors = [...state.errors];
   if (updateCurrentUserPassword.state === "error") {
-    errors.push(updateCurrentUserPassword.errorResult?.code ?? "server-error");
+    errors.push("server-error");
   }
 
   return (
@@ -113,7 +105,7 @@ const EditPassword: PageComponent = () => {
             <Field>
               <Label
                 htmlFor="new-password"
-                hasError={includes(errors, "empty-password", "week-password")}
+                hasError={includes(errors, "empty-password")}
               >
                 Nouveau mot de passe
               </Label>
@@ -124,7 +116,7 @@ const EditPassword: PageComponent = () => {
                 autoComplete="new-password"
                 value={state.password}
                 onChange={(password) => setState(setPassword(password))}
-                hasError={includes(errors, "empty-password", "week-password")}
+                hasError={includes(errors, "empty-password")}
                 leftAdornment={
                   <Adornment>
                     <FaLock />
@@ -151,7 +143,7 @@ function setPassword(password: string): SetStateAction<FormState> {
   return (prevState) => ({
     ...prevState,
     password,
-    errors: without(prevState.errors, "empty-password", "week-password"),
+    errors: without(prevState.errors, "empty-password"),
   });
 }
 
@@ -164,8 +156,6 @@ function validate(state: FormState): FormValue {
 
   if (!string().required().isValidSync(state.password)) {
     errorCodes.push("empty-password");
-  } else if (!string().min(6).isValidSync(state.password)) {
-    errorCodes.push("week-password");
   }
 
   if (errorCodes.length > 0) {

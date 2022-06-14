@@ -33,7 +33,7 @@ class ValidationError extends BaseValidationError<ErrorCode> {}
 const ERROR_CODE_LABEL: Record<ErrorCode, string> = {
   "server-error": "Une erreur est survenue.",
   "empty-name": "Le nom est obligatoire.",
-  "name-already-used": "Le nom est déjà utilisé.",
+  "already-exists": "Le nom est déjà utilisé.",
 };
 
 type FormState = {

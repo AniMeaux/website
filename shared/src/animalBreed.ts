@@ -1,10 +1,10 @@
-import { AnimalSpecies } from "./animal";
+import { Species } from "@prisma/client";
 import { OperationErrorResult } from "./operationError";
 
 export type AnimalBreed = {
   id: string;
   name: string;
-  species: AnimalSpecies;
+  species: Species;
 };
 
 export type AnimalBreedSearchHit = AnimalBreed & {
@@ -15,17 +15,17 @@ export type AnimalBreedOperations = {
   getAllAnimalBreeds: () => AnimalBreed[];
   searchAnimalBreeds: (params: {
     search: string;
-    species?: AnimalSpecies;
+    species?: Species;
   }) => AnimalBreedSearchHit[];
   getAnimalBreed: (params: { id: string }) => AnimalBreed;
   createAnimalBreed: (params: {
     name: string;
-    species: AnimalSpecies;
+    species: Species;
   }) => AnimalBreed | OperationErrorResult<"already-exists">;
   updateAnimalBreed: (params: {
     id: string;
     name: string;
-    species: AnimalSpecies;
+    species: Species;
   }) => AnimalBreed | OperationErrorResult<"already-exists">;
   deleteAnimalBreed: (params: { id: string }) => boolean;
 };

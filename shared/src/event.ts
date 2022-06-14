@@ -1,16 +1,10 @@
+import { EventCategory } from "@prisma/client";
 import {
   OperationPaginationParams,
   OperationPaginationResult,
 } from "./operationPagination";
 
-export enum EventCategory {
-  COLLECTION = "COLLECTION",
-  SHOW = "SHOW",
-  FORUM = "FORUM",
-  SENSITIZATION = "SENSITIZATION",
-  BIRTHDAY = "BIRTHDAY",
-  ATHLETIC = "ATHLETIC",
-}
+export { EventCategory };
 
 export const EVENT_CATEGORY_LABELS: Record<EventCategory, string> = {
   [EventCategory.ATHLETIC]: "Sportif",

@@ -13,6 +13,7 @@
     "clean-build": "run-s clean build"
   },
   "dependencies": {
+    "@prisma/client": "^3.11.1",
     "lodash.intersection": "^4.4.0",
     "luxon": "^2.3.0"
   },

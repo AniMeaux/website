@@ -1,13 +1,8 @@
+import { UserGroup } from "@prisma/client";
 import intersection from "lodash.intersection";
 import { OperationErrorResult } from "./operationError";
 
-export enum UserGroup {
-  ADMIN = "ADMIN",
-  ANIMAL_MANAGER = "ANIMAL_MANAGER",
-  BLOGGER = "BLOGGER",
-  HEAD_OF_PARTNERSHIPS = "HEAD_OF_PARTNERSHIPS",
-  VETERINARIAN = "VETERINARIAN",
-}
+export { UserGroup };
 
 export type UserBrief = {
   id: string;
@@ -39,13 +34,13 @@ export type UserOperations = {
     displayName: string;
     password: string;
     groups: UserGroup[];
-  }) => User | OperationErrorResult<"week-password" | "email-already-exists">;
+  }) => User | OperationErrorResult<"already-exists">;
   updateUser: (params: {
     id: string;
     displayName: string;
     password: string;
     groups: UserGroup[];
-  }) => User | OperationErrorResult<"week-password">;
+  }) => User;
   toggleUserBlockedStatus: (params: { id: string }) => User;
   deleteUser: (params: { id: string }) => boolean;
 };

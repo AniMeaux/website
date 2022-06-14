@@ -1,47 +1,26 @@
 import {
-  AnimalBreed,
   AnimalBreedOperations,
   AnimalBreedSearchHit,
   AnimalSpecies,
   UserGroup,
 } from "@animeaux/shared";
-import { getFirestore } from "firebase-admin/firestore";
-import { v4 as uuid } from "uuid";
+import { Prisma } from "@prisma/client";
 import { mixed, object, string } from "yup";
-import {
-  AlgoliaClient,
-  createSearchFilters,
-  DEFAULT_SEARCH_OPTIONS,
-} from "../core/algolia";
+import { createSearchFilters, DEFAULT_SEARCH_OPTIONS } from "../core/algolia";
 import { assertUserHasGroups, getCurrentUser } from "../core/authentication";
+import { prisma } from "../core/db";
 import { OperationError, OperationsImpl } from "../core/operations";
 import { validateParams } from "../core/validation";
-import {
-  AnimalBreedFromStore,
-  ANIMAL_BREED_COLLECTION,
-  getAnimalBreedFromStore,
-} from "../entities/animalBreed.entity";
-
-const AnimalBreedIndex = AlgoliaClient.initIndex(ANIMAL_BREED_COLLECTION);
+import { BreedFromAlgolia, BreedIndex } from "../entities/animalBreed.entity";
 
 export const animalBreedOperations: OperationsImpl<AnimalBreedOperations> = {
   async getAllAnimalBreeds(rawParams, context) {
     const currentUser = await getCurrentUser(context);
     assertUserHasGroups(currentUser, [UserGroup.ADMIN]);
 
-    const snapshots = await getFirestore()
-      .collection(ANIMAL_BREED_COLLECTION)
-      .orderBy("name")
-      .get();
-
-    return snapshots.docs.map<AnimalBreed>((doc) => {
-      const animalBreed = doc.data() as AnimalBreedFromStore;
-
-      return {
-        id: animalBreed.id,
-        name: animalBreed.name,
-        species: animalBreed.species,
-      };
+    return await prisma.breed.findMany({
+      orderBy: { name: "asc" },
+      select: { id: true, name: true, species: true },
     });
   },
 
@@ -61,16 +40,13 @@ export const animalBreedOperations: OperationsImpl<AnimalBreedOperations> = {
       rawParams
     );
 
-    const result = await AnimalBreedIndex.search<AnimalBreedFromStore>(
-      params.search,
-      {
-        ...DEFAULT_SEARCH_OPTIONS,
-        filters: createSearchFilters({ species: params.species }),
-      }
-    );
+    const result = await BreedIndex.search<BreedFromAlgolia>(params.search, {
+      ...DEFAULT_SEARCH_OPTIONS,
+      filters: createSearchFilters({ species: params.species }),
+    });
 
     return result.hits.map<AnimalBreedSearchHit>((hit) => ({
-      id: hit.id,
+      id: hit.objectID,
       name: hit.name,
       species: hit.species,
       highlightedName: hit._highlightResult?.name?.value ?? hit.name,
@@ -86,13 +62,16 @@ export const animalBreedOperations: OperationsImpl<AnimalBreedOperations> = {
       rawParams
     );
 
-    const animalBreed = await getAnimalBreedFromStore(params.id);
+    const breed = await prisma.breed.findUnique({
+      where: { id: params.id },
+      select: { id: true, name: true, species: true },
+    });
 
-    return {
-      id: animalBreed.id,
-      name: animalBreed.name,
-      species: animalBreed.species,
-    };
+    if (breed == null) {
+      throw new OperationError(404);
+    }
+
+    return breed;
   },
 
   async createAnimalBreed(rawParams, context) {
@@ -109,26 +88,37 @@ export const animalBreedOperations: OperationsImpl<AnimalBreedOperations> = {
       rawParams
     );
 
-    const animalBreed: AnimalBreedFromStore = { id: uuid(), ...params };
+    try {
+      const breed = await prisma.breed.create({
+        select: { id: true, name: true, species: true },
+        data: { name: params.name, species: params.species },
+      });
 
-    await assertIsValid(animalBreed);
+      const breedFromAlgolia: BreedFromAlgolia = {
+        name: breed.name,
+        species: breed.species,
+      };
 
-    await getFirestore()
-      .collection(ANIMAL_BREED_COLLECTION)
-      .doc(animalBreed.id)
-      .set(animalBreed);
+      await BreedIndex.saveObject({
+        ...breedFromAlgolia,
+        objectID: breed.id,
+      });
 
-    // TODO: Check if fields all fields are required.
-    await AnimalBreedIndex.saveObject({
-      ...animalBreed,
-      objectID: animalBreed.id,
-    });
+      return breed;
+    } catch (error) {
+      // Unique constraint failed.
+      // https://www.prisma.io/docs/reference/api-reference/error-reference#p2002
+      if (
+        error instanceof Prisma.PrismaClientKnownRequestError &&
+        error.code === "P2002"
+      ) {
+        throw new OperationError<"createAnimalBreed">(400, {
+          code: "already-exists",
+        });
+      }
 
-    return {
-      id: animalBreed.id,
-      name: animalBreed.name,
-      species: animalBreed.species,
-    };
+      throw error;
+    }
   },
 
   async updateAnimalBreed(rawParams, context) {
@@ -146,29 +136,43 @@ export const animalBreedOperations: OperationsImpl<AnimalBreedOperations> = {
       rawParams
     );
 
-    const currentAnimalBreed = await getAnimalBreedFromStore(params.id);
-    const newAnimalBreed: AnimalBreedFromStore = {
-      ...currentAnimalBreed,
-      ...params,
-    };
+    try {
+      const breed = await prisma.breed.update({
+        where: { id: params.id },
+        select: { id: true, name: true, species: true },
+        data: { name: params.name, species: params.species },
+      });
 
-    await assertIsValid(newAnimalBreed, currentAnimalBreed);
+      const breedFromAlgolia: BreedFromAlgolia = {
+        name: breed.name,
+        species: breed.species,
+      };
 
-    await getFirestore()
-      .collection(ANIMAL_BREED_COLLECTION)
-      .doc(newAnimalBreed.id)
-      .update(newAnimalBreed);
+      await BreedIndex.partialUpdateObject({
+        ...breedFromAlgolia,
+        objectID: params.id,
+      });
 
-    await AnimalBreedIndex.partialUpdateObject({
-      ...newAnimalBreed,
-      objectID: newAnimalBreed.id,
-    });
+      return breed;
+    } catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        // Not found.
+        // https://www.prisma.io/docs/reference/api-reference/error-reference#p2025
+        if (error.code === "P2025") {
+          throw new OperationError(404);
+        }
 
-    return {
-      id: newAnimalBreed.id,
-      name: newAnimalBreed.name,
-      species: newAnimalBreed.species,
-    };
+        // Unique constraint failed.
+        // https://www.prisma.io/docs/reference/api-reference/error-reference#p2002
+        if (error.code === "P2002") {
+          throw new OperationError<"updateAnimalBreed">(400, {
+            code: "already-exists",
+          });
+        }
+      }
+
+      throw error;
+    }
   },
 
   async deleteAnimalBreed(rawParams, context) {
@@ -180,36 +184,23 @@ export const animalBreedOperations: OperationsImpl<AnimalBreedOperations> = {
       rawParams
     );
 
-    // TODO: Check that the breed is not referenced by an animal.
-    await getFirestore()
-      .collection(ANIMAL_BREED_COLLECTION)
-      .doc(params.id)
-      .delete();
+    try {
+      await prisma.breed.delete({ where: { id: params.id } });
+    } catch (error) {
+      // Not found.
+      // https://www.prisma.io/docs/reference/api-reference/error-reference#p2025
+      if (
+        error instanceof Prisma.PrismaClientKnownRequestError &&
+        error.code === "P2025"
+      ) {
+        throw new OperationError(404);
+      }
 
-    await AnimalBreedIndex.deleteObject(params.id);
+      throw error;
+    }
+
+    await BreedIndex.deleteObject(params.id);
+
     return true;
   },
 };
-
-async function assertIsValid(
-  update: AnimalBreedFromStore,
-  current?: AnimalBreedFromStore
-) {
-  if (
-    current == null ||
-    update.name !== current.name ||
-    update.species !== current.species
-  ) {
-    const snapshot = await getFirestore()
-      .collection(ANIMAL_BREED_COLLECTION)
-      .where("name", "==", update.name)
-      .where("species", "==", update.species)
-      .get();
-
-    if (!snapshot.empty) {
-      throw new OperationError<"createAnimalBreed" | "updateAnimalBreed">(400, {
-        code: "already-exists",
-      });
-    }
-  }
-}

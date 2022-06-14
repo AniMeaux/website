@@ -12,7 +12,6 @@ import {
 } from "react";
 import styled from "styled-components";
 import { PartialDeep } from "type-fest";
-import { useCurrentUser } from "~/account/currentUser";
 import { FormState, getInitialState } from "~/animal/formState";
 import { validate as validateProfile } from "~/animal/profileForm";
 import { validate as validateSituation } from "~/animal/situationForm";
@@ -24,6 +23,7 @@ import {
 import { useRouter } from "~/core/router";
 import { Storage } from "~/core/storage";
 import { ChildrenProp, SetStateAction } from "~/core/types";
+import { useCurrentUser } from "~/currentUser/currentUser";
 import { theme } from "~/styles/theme";
 
 export const AnimalFormDraftStorage = new Storage<FormState>(
@@ -128,9 +128,9 @@ const STEPS_VALIDATOR: Record<string, (state: FormState) => void> = {
   breed: () => {},
   color: () => {},
   situation: ({ profileState }) => validateProfile(profileState),
-  "host-family": ({ profileState }) => validateProfile(profileState),
+  "foster-family": ({ profileState }) => validateProfile(profileState),
   manager: ({ profileState }) => validateProfile(profileState),
-  "new-host-family": ({ profileState }) => validateProfile(profileState),
+  "new-foster-family": ({ profileState }) => validateProfile(profileState),
   "pick-up-location": ({ profileState }) => validateProfile(profileState),
   pictures: ({ profileState, situationState }) => {
     validateProfile(profileState);

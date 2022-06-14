@@ -4,6 +4,9 @@ FROM node:16-bullseye-slim as base
 # set for base and all layer that inherit from it
 ENV NODE_ENV production
 
+# Install openssl for Prisma
+RUN apt-get update && apt-get install -y openssl
+
 # Install all node_modules, including dev dependencies
 FROM base as deps
 
@@ -27,23 +30,21 @@ ADD shared/package.json shared/
 ADD api/package.json api/
 RUN yarn --frozen-lockfile
 
-# Build shared
-FROM base as shared-build
+# Build
+FROM base as build
 
 WORKDIR /workspace
 
 COPY --from=deps /workspace/node_modules /workspace/node_modules
 COPY --from=deps /workspace/shared/node_modules /workspace/shared/node_modules
+COPY --from=deps /workspace/api/node_modules /workspace/api/node_modules
+
+ADD api/package.json api/
+ADD api/prisma api/
+RUN yarn --cwd api build:prisma
 
 ADD shared shared
 RUN yarn --cwd shared build
-
-# Build API
-FROM shared-build as api-build
-
-WORKDIR /workspace
-
-COPY --from=deps /workspace/api/node_modules /workspace/api/node_modules
 
 ADD api api
 RUN yarn --cwd api build
@@ -56,9 +57,10 @@ WORKDIR /workspace
 COPY --from=production-deps /workspace/node_modules /workspace/node_modules
 COPY --from=production-deps /workspace/shared/node_modules /workspace/shared/node_modules
 COPY --from=production-deps /workspace/api/node_modules /workspace/api/node_modules
+COPY --from=build /workspace/node_modules/.prisma /workspace/node_modules/.prisma
 
-COPY --from=api-build /workspace/shared/build /workspace/shared/build
-COPY --from=api-build /workspace/api/build /workspace/api/build
+COPY --from=build /workspace/shared/build /workspace/shared/build
+COPY --from=build /workspace/api/build /workspace/api/build
 ADD . .
 
 WORKDIR /workspace/api

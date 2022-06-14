@@ -1,12 +1,12 @@
 import { useRef, useState } from "react";
 import { FaChevronLeft } from "react-icons/fa";
 import styled from "styled-components";
-import { useCurrentUser } from "~/account/currentUser";
-import { CurrentUserMenu } from "~/account/currentUserMenu";
 import { BaseLink, BaseLinkProps } from "~/core/baseLink";
 import { useIsScrollAtTheTop } from "~/core/layouts/usePageScroll";
 import { ScreenSize, useScreenSize } from "~/core/screenSize";
 import { ChildrenProp, StyleProps } from "~/core/types";
+import { useCurrentUser } from "~/currentUser/currentUser";
+import { CurrentUserMenu } from "~/currentUser/currentUserMenu";
 import { theme } from "~/styles/theme";
 import { UserAvatar } from "~/user/avatar";
 

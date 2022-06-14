@@ -1,4 +1,3 @@
-import { Hit } from "@algolia/client-search";
 import {
   AdoptionOption,
   Animal,
@@ -8,76 +7,50 @@ import {
   AnimalOperations,
   AnimalSearchHit,
   AnimalSpecies,
-  AnimalStatus,
   ANIMAL_AGE_RANGE_BY_SPECIES,
   hasGroups,
   LocationSearchHit,
   ManagerSearchHit,
   PickUpReason,
-  PublicAnimal,
   PublicAnimalSearchHit,
   Trilean,
-  UserGroup,
 } from "@animeaux/shared";
-import { getFirestore } from "firebase-admin/firestore";
-import orderBy from "lodash.orderby";
+import { Prisma, Status, UserGroup } from "@prisma/client";
 import { DateTime } from "luxon";
 import invariant from "tiny-invariant";
-import { v4 as uuid } from "uuid";
 import { array, boolean, mixed, number, object, string } from "yup";
-import {
-  AlgoliaClient,
-  createSearchFilters,
-  DEFAULT_SEARCH_OPTIONS,
-} from "../core/algolia";
+import { createSearchFilters, DEFAULT_SEARCH_OPTIONS } from "../core/algolia";
 import { assertUserHasGroups, getCurrentUser } from "../core/authentication";
+import { prisma } from "../core/db";
 import { OperationError, OperationsImpl } from "../core/operations";
+import { booleanToTrilean, trileanToBoolean } from "../core/trilean";
 import { validateParams } from "../core/validation";
 import {
-  AnimalFromStore,
-  ANIMAL_COLLECTION,
-  ANIMAL_SAVED_COLLECTION,
+  ACTIVE_ANIMAL_STATUS,
+  ADOPTABLE_ANIMAL_STATUS,
+  AnimalFromAlgolia,
+  AnimalIndex,
   getDisplayName,
+  NON_ACTIVE_ANIMAL_STATUS,
+  SAVED_ANIMAL_STATUS,
 } from "../entities/animal.entity";
-import { getAnimalBreedFromStore } from "../entities/animalBreed.entity";
-import { getAnimalColorFromStore } from "../entities/animalColor.entity";
 import {
   getFormattedAddress,
-  getHostFamilyFromStore,
   getShortLocation,
-} from "../entities/hostFamily.entity";
-import {
-  getUserFromAuth,
-  UserFromAlgolia,
-  UserIndex,
-} from "../entities/user.entity";
+} from "../entities/fosterFamily.entity";
+import { UserFromAlgolia, UserIndex } from "../entities/user.entity";
 
-const AnimalIndex = AlgoliaClient.initIndex(ANIMAL_COLLECTION);
-const SavedAnimalIndex = AlgoliaClient.initIndex(ANIMAL_SAVED_COLLECTION);
+// Multiple of 2 and 3 to be nicely displayed.
+const ANIMAL_COUNT_PER_PAGE = 18;
 
-/** OPEN_TO_ADOPTION, OPEN_TO_RESERVATION, RESERVED, UNAVAILABLE */
-const ACTIVE_ANIMAL_STATUS = [
-  AnimalStatus.OPEN_TO_ADOPTION,
-  AnimalStatus.OPEN_TO_RESERVATION,
-  AnimalStatus.RESERVED,
-  AnimalStatus.UNAVAILABLE,
-];
-
-/** ADOPTED, FREE */
-const SAVED_ANIMAL_STATUS = [AnimalStatus.ADOPTED, AnimalStatus.FREE];
-
-/** ADOPTED, DECEASED, FREE */
-const NON_ACTIVE_ANIMAL_STATUS = [
-  AnimalStatus.ADOPTED,
-  AnimalStatus.DECEASED,
-  AnimalStatus.FREE,
-];
-
-/** OPEN_TO_ADOPTION, OPEN_TO_RESERVATION */
-const ADOPTABLE_ANIMAL_STATUS = [
-  AnimalStatus.OPEN_TO_ADOPTION,
-  AnimalStatus.OPEN_TO_RESERVATION,
-];
+const animalWithIncludes = Prisma.validator<Prisma.AnimalArgs>()({
+  include: {
+    breed: true,
+    color: true,
+    manager: true,
+    fosterFamily: true,
+  },
+});
 
 export const animalOperations: OperationsImpl<AnimalOperations> = {
   async getAllActiveAnimals(rawParams, context) {
@@ -93,50 +66,38 @@ export const animalOperations: OperationsImpl<AnimalOperations> = {
       rawParams
     );
 
-    let query = getFirestore()
-      .collection(ANIMAL_COLLECTION)
-      .where("status", "in", ACTIVE_ANIMAL_STATUS);
+    const where: Prisma.AnimalWhereInput = {
+      status: { in: ACTIVE_ANIMAL_STATUS },
+    };
 
     if (params.onlyManagedByCurrentUser) {
       if (!hasGroups(currentUser, [UserGroup.ANIMAL_MANAGER])) {
         throw new OperationError(400);
       }
 
-      query = query.where("managerId", "==", currentUser.id);
+      where.managerId = currentUser.id;
     }
 
-    const snapshots = await query.get();
+    const animals = await prisma.animal.findMany({
+      where,
+      orderBy: { name: "asc" },
+      select: {
+        id: true,
+        avatar: true,
+        name: true,
+        alias: true,
+        status: true,
+        manager: true,
+      },
+    });
 
-    const animals = await Promise.all(
-      snapshots.docs.map<Promise<AnimalActiveBrief>>(async (doc) => {
-        const animal = doc.data() as AnimalFromStore;
-
-        let managerName: AnimalActiveBrief["managerName"] = undefined;
-        if (animal.managerId != null) {
-          if (params.onlyManagedByCurrentUser) {
-            managerName = currentUser.displayName;
-          } else {
-            const user = await getUserFromAuth(animal.managerId);
-            invariant(
-              user != null,
-              `Manager "${animal.managerId}" should exist for animal "${animal.id}"`
-            );
-
-            managerName = user.displayName;
-          }
-        }
-
-        return {
-          id: animal.id,
-          avatarId: animal.avatarId,
-          displayName: getDisplayName(animal),
-          status: animal.status,
-          managerName,
-        };
-      })
-    );
-
-    return orderBy(animals, (animal) => animal.displayName);
+    return animals.map<AnimalActiveBrief>((animal) => ({
+      id: animal.id,
+      avatarId: animal.avatar,
+      displayName: getDisplayName(animal),
+      status: animal.status,
+      managerName: animal.manager?.displayName,
+    }));
   },
 
   async getAllSavedAnimals(rawParams) {
@@ -145,21 +106,44 @@ export const animalOperations: OperationsImpl<AnimalOperations> = {
       rawParams
     );
 
-    const result = await SavedAnimalIndex.search<AnimalFromStore>("", {
-      ...DEFAULT_SEARCH_OPTIONS,
-      page: params.page ?? 0,
+    const page = params.page ?? 0;
 
-      // Multiple of 2 and 3 to be nicely displayed.
-      hitsPerPage: 18,
+    const where: Prisma.AnimalWhereInput = {
+      status: { in: SAVED_ANIMAL_STATUS },
+    };
 
-      filters: createSearchFilters({ status: SAVED_ANIMAL_STATUS }),
-    });
+    const [count, animals] = await Promise.all([
+      prisma.animal.count({ where }),
+      prisma.animal.findMany({
+        where,
+        skip: page * ANIMAL_COUNT_PER_PAGE,
+        take: ANIMAL_COUNT_PER_PAGE,
+        orderBy: { pickUpDate: "desc" },
+        select: {
+          id: true,
+          name: true,
+          avatar: true,
+          birthdate: true,
+          gender: true,
+          breed: { select: { name: true } },
+          color: { select: { name: true } },
+        },
+      }),
+    ]);
 
     return {
-      hits: await Promise.all(result.hits.map(mapHitToPublicAnimal)),
-      hitsTotalCount: result.nbHits,
-      page: result.page,
-      pageCount: result.nbPages,
+      hitsTotalCount: count,
+      page,
+      pageCount: Math.ceil(count / ANIMAL_COUNT_PER_PAGE),
+      hits: animals.map<PublicAnimalSearchHit>((animal) => ({
+        id: animal.id,
+        displayName: animal.name,
+        avatarId: animal.avatar,
+        birthdate: DateTime.fromJSDate(animal.birthdate).toISO(),
+        gender: animal.gender,
+        breedName: animal.breed?.name,
+        colorName: animal.color?.name,
+      })),
     };
   },
 
@@ -173,25 +157,46 @@ export const animalOperations: OperationsImpl<AnimalOperations> = {
       rawParams
     );
 
-    const result = await AnimalIndex.search<AnimalFromStore>("", {
-      ...DEFAULT_SEARCH_OPTIONS,
-      page: params.page ?? 0,
+    const page = params.page ?? 0;
 
-      // Multiple of 2 and 3 to be nicely displayed.
-      hitsPerPage: 18,
+    const where: Prisma.AnimalWhereInput = {
+      status: { in: ADOPTABLE_ANIMAL_STATUS },
+      species: params.species,
+      birthdate: getAgeRangeSearchFilter(params.species, params.age),
+    };
 
-      filters: createSearchFilters({
-        status: ADOPTABLE_ANIMAL_STATUS,
-        species: params.species,
-        birthdateTimestamp: getAgeRangeSearchFilter(params.species, params.age),
+    const [count, animals] = await Promise.all([
+      prisma.animal.count({ where }),
+      prisma.animal.findMany({
+        where,
+        skip: page * ANIMAL_COUNT_PER_PAGE,
+        take: ANIMAL_COUNT_PER_PAGE,
+        orderBy: { name: "asc" },
+        select: {
+          id: true,
+          name: true,
+          avatar: true,
+          birthdate: true,
+          gender: true,
+          breed: { select: { name: true } },
+          color: { select: { name: true } },
+        },
       }),
-    });
+    ]);
 
     return {
-      hits: await Promise.all(result.hits.map(mapHitToPublicAnimal)),
-      hitsTotalCount: result.nbHits,
-      page: result.page,
-      pageCount: result.nbPages,
+      hitsTotalCount: count,
+      page,
+      pageCount: Math.ceil(count / ANIMAL_COUNT_PER_PAGE),
+      hits: animals.map<PublicAnimalSearchHit>((animal) => ({
+        id: animal.id,
+        displayName: animal.name,
+        avatarId: animal.avatar,
+        birthdate: DateTime.fromJSDate(animal.birthdate).toISO(),
+        gender: animal.gender,
+        breedName: animal.breed?.name,
+        colorName: animal.color?.name,
+      })),
     };
   },
 
@@ -210,39 +215,59 @@ export const animalOperations: OperationsImpl<AnimalOperations> = {
         species: array().of(
           mixed().oneOf(Object.values(AnimalSpecies)).required()
         ),
-        status: array().of(
-          mixed().oneOf(Object.values(AnimalStatus)).required()
-        ),
+        status: array().of(mixed().oneOf(Object.values(Status)).required()),
       }),
       rawParams
     );
 
-    const result = await AnimalIndex.search<AnimalFromStore>(params.search, {
-      ...DEFAULT_SEARCH_OPTIONS,
-      page: params.page ?? 0,
-      filters: createSearchFilters({
-        species: params.species,
-        status: params.status,
-      }),
+    const page = params.page ?? 0;
+
+    const response = await AnimalIndex.search<AnimalFromAlgolia>(
+      params.search,
+      {
+        ...DEFAULT_SEARCH_OPTIONS,
+        attributesToRetrieve: [],
+        page,
+        hitsPerPage: ANIMAL_COUNT_PER_PAGE,
+        filters: createSearchFilters({
+          species: params.species,
+          status: params.status,
+        }),
+      }
+    );
+
+    const ids = response.hits.map((hit) => hit.objectID);
+    const animals = await prisma.animal.findMany({
+      where: { id: { in: ids } },
+      select: {
+        id: true,
+        name: true,
+        alias: true,
+        avatar: true,
+        status: true,
+      },
     });
 
-    const hits = result.hits.map<AnimalSearchHit>((hit) => ({
-      id: hit.id,
-      displayName: getDisplayName(hit),
-      highlightedDisplayName: getDisplayName({
-        officialName:
-          hit._highlightResult?.officialName?.value ?? hit.officialName,
-        commonName: hit._highlightResult?.commonName?.value ?? hit.commonName,
-      }),
-      avatarId: hit.avatarId,
-      status: hit.status,
-    }));
-
     return {
-      hits,
-      hitsTotalCount: result.nbHits,
-      page: result.page,
-      pageCount: result.nbPages,
+      hitsTotalCount: response.nbHits,
+      page,
+      pageCount: response.nbPages,
+      // Map on algolia's response to preserve search order.
+      hits: response.hits.map<AnimalSearchHit>((hit) => {
+        const animal = animals.find((animal) => animal.id === hit.objectID);
+        invariant(animal != null, "Animal not found");
+
+        return {
+          id: animal.id,
+          displayName: getDisplayName(animal),
+          highlightedDisplayName: getDisplayName({
+            name: hit._highlightResult?.name?.value ?? animal.name,
+            alias: hit._highlightResult?.alias?.value ?? animal.alias,
+          }),
+          avatarId: animal.avatar,
+          status: animal.status,
+        };
+      }),
     };
   },
 
@@ -255,146 +280,61 @@ export const animalOperations: OperationsImpl<AnimalOperations> = {
     ]);
 
     const params = validateParams<"getAnimal">(
-      object({ id: string().required() }),
+      object({ id: string().uuid().required() }),
       rawParams
     );
 
-    const animalFromStore = await getAnimal(params.id);
+    const animal = await prisma.animal.findUnique({
+      ...animalWithIncludes,
+      where: { id: params.id },
+    });
 
-    let breed: Animal["breed"] = undefined;
-    if (animalFromStore.breedId != null) {
-      const breedFromStore = await getAnimalBreedFromStore(
-        animalFromStore.breedId
-      );
-
-      breed = {
-        id: breedFromStore.id,
-        name: breedFromStore.name,
-        species: breedFromStore.species,
-      };
+    if (animal == null) {
+      throw new OperationError(404);
     }
 
-    let color: Animal["color"] = undefined;
-    if (animalFromStore.colorId != null) {
-      const colorFromStore = await getAnimalColorFromStore(
-        animalFromStore.colorId
-      );
-
-      color = {
-        id: colorFromStore.id,
-        name: colorFromStore.name,
-      };
-    }
-
-    let hostFamily: Animal["hostFamily"] = undefined;
-    if (animalFromStore.hostFamilyId != null) {
-      const hostFamilyFromStore = await getHostFamilyFromStore(
-        animalFromStore.hostFamilyId
-      );
-
-      hostFamily = {
-        id: hostFamilyFromStore.id,
-        name: hostFamilyFromStore.name,
-        email: hostFamilyFromStore.email,
-        phone: hostFamilyFromStore.phone,
-        formattedAddress: getFormattedAddress(hostFamilyFromStore),
-      };
-    }
-
-    let manager: Animal["manager"] = undefined;
-    if (animalFromStore.managerId != null) {
-      const user = await getUserFromAuth(animalFromStore.managerId);
-      invariant(
-        user != null,
-        `Manager "${animalFromStore.managerId}" should exist for animal "${params.id}"`
-      );
-
-      manager = {
-        id: user.id,
-        displayName: user.displayName,
-      };
-    }
-
-    const animal: Animal = {
-      id: animalFromStore.id,
-      officialName: animalFromStore.officialName,
-      commonName: ignoreEmptyString(animalFromStore.commonName),
-      displayName: getDisplayName(animalFromStore),
-      birthdate: animalFromStore.birthdate,
-      gender: animalFromStore.gender,
-      species: animalFromStore.species,
-      breed,
-      color,
-      description: ignoreEmptyString(animalFromStore.description),
-      avatarId: animalFromStore.avatarId,
-      picturesId: animalFromStore.picturesId,
-      manager,
-      pickUpDate: animalFromStore.pickUpDate,
-      pickUpLocation: ignoreEmptyString(animalFromStore.pickUpLocation),
-      pickUpReason: animalFromStore.pickUpReason,
-      status: animalFromStore.status,
-      adoptionDate: animalFromStore.adoptionDate ?? undefined,
-      adoptionOption: animalFromStore.adoptionOption ?? undefined,
-      hostFamily,
-      iCadNumber: ignoreEmptyString(animalFromStore.iCadNumber),
-      comments: ignoreEmptyString(animalFromStore.comments),
-      isOkChildren: animalFromStore.isOkChildren,
-      isOkDogs: animalFromStore.isOkDogs,
-      isOkCats: animalFromStore.isOkCats,
-      isSterilized: animalFromStore.isSterilized,
-    };
-
-    return animal;
+    return mapToAnimal(animal);
   },
 
   async getAdoptableAnimal(rawParams) {
-    const params = validateParams<"getAnimal">(
-      object({ id: string().required() }),
+    const params = validateParams<"getAdoptableAnimal">(
+      object({ id: string().uuid().required() }),
       rawParams
     );
 
-    const animalFromStore = await getAnimal(params.id);
+    const animal = await prisma.animal.findUnique({
+      where: { id: params.id },
+      include: {
+        breed: { select: { name: true } },
+        color: { select: { name: true } },
+        fosterFamily: { select: { city: true, zipCode: true } },
+      },
+    });
 
-    let breedName: PublicAnimal["breedName"] = undefined;
-    if (animalFromStore.breedId != null) {
-      const breed = await getAnimalBreedFromStore(animalFromStore.breedId);
-      breedName = breed.name;
+    if (animal == null) {
+      throw new OperationError(404);
     }
 
-    let colorName: PublicAnimal["colorName"] = undefined;
-    if (animalFromStore.colorId != null) {
-      const color = await getAnimalColorFromStore(animalFromStore.colorId);
-      colorName = color.name;
-    }
-
-    let location: PublicAnimal["location"] = undefined;
-    if (animalFromStore.hostFamilyId != null) {
-      const hostFamilyFromStore = await getHostFamilyFromStore(
-        animalFromStore.hostFamilyId
-      );
-
-      location = getShortLocation(hostFamilyFromStore);
-    }
-
-    const animal: PublicAnimal = {
-      id: animalFromStore.id,
-      avatarId: animalFromStore.avatarId,
-      birthdate: animalFromStore.birthdate,
-      displayName: animalFromStore.officialName,
-      gender: animalFromStore.gender,
-      isOkCats: animalFromStore.isOkCats,
-      isOkChildren: animalFromStore.isOkChildren,
-      isOkDogs: animalFromStore.isOkDogs,
-      isSterilized: animalFromStore.isSterilized,
-      picturesId: animalFromStore.picturesId,
-      species: animalFromStore.species,
-      breedName,
-      colorName,
-      description: ignoreEmptyString(animalFromStore.description),
-      location,
+    return {
+      id: animal.id,
+      avatarId: animal.avatar,
+      birthdate: DateTime.fromJSDate(animal.birthdate).toISO(),
+      displayName: animal.name,
+      gender: animal.gender,
+      isOkCats: booleanToTrilean(animal.isOkCats),
+      isOkChildren: booleanToTrilean(animal.isOkChildren),
+      isOkDogs: booleanToTrilean(animal.isOkDogs),
+      isSterilized: animal.isSterilized,
+      picturesId: animal.pictures,
+      species: animal.species,
+      breedName: animal.breed?.name ?? undefined,
+      colorName: animal.color?.name ?? undefined,
+      description: animal.description || undefined,
+      location:
+        animal.fosterFamily == null
+          ? undefined
+          : getShortLocation(animal.fosterFamily),
     };
-
-    return animal;
   },
 
   async createAnimal(rawParams, context) {
@@ -415,8 +355,8 @@ export const animalOperations: OperationsImpl<AnimalOperations> = {
         colorId: string().uuid().nullable().defined(),
         description: string().trim().nullable().defined(),
         iCadNumber: string().trim().nullable().defined(),
-        status: mixed().oneOf(Object.values(AnimalStatus)).required(),
-        managerId: string().required(),
+        status: mixed().oneOf(Object.values(Status)).required(),
+        managerId: string().uuid().required(),
         adoptionDate: string().dateISO().nullable().defined(),
         adoptionOption: mixed()
           .oneOf([...Object.values(AdoptionOption), null])
@@ -424,7 +364,7 @@ export const animalOperations: OperationsImpl<AnimalOperations> = {
         pickUpDate: string().dateISO().required(),
         pickUpLocation: string().trim().nullable().defined(),
         pickUpReason: mixed().oneOf(Object.values(PickUpReason)).required(),
-        hostFamilyId: string().uuid().nullable().defined(),
+        fosterFamilyId: string().uuid().nullable().defined(),
         isOkChildren: mixed().oneOf(Object.values(Trilean)).required(),
         isOkDogs: mixed().oneOf(Object.values(Trilean)).required(),
         isOkCats: mixed().oneOf(Object.values(Trilean)).required(),
@@ -436,27 +376,66 @@ export const animalOperations: OperationsImpl<AnimalOperations> = {
       rawParams
     );
 
-    const animal = setTimestamps(
-      await validate({
-        ...params,
-        id: uuid(),
+    if (params.breedId != null) {
+      const breed = await prisma.breed.findUnique({
+        where: { id: params.breedId },
+        select: { species: true },
+      });
 
-        // Will be overidden in `setTimestamps`.
-        // We passed them just for type checks.
-        birthdateTimestamp: 0,
-        pickUpDateTimestamp: 0,
-      })
-    );
+      if (breed == null || breed.species !== params.species) {
+        throw new OperationError(400);
+      }
+    }
 
-    await getFirestore()
-      .collection(ANIMAL_COLLECTION)
-      .doc(animal.id)
-      .set(animal);
+    if (params.status === Status.ADOPTED && params.adoptionDate == null) {
+      throw new OperationError(400);
+    }
 
-    // TODO: Don't save the entire object.
-    await AnimalIndex.saveObject({ ...animal, objectID: animal.id });
+    const animal = await prisma.animal.create({
+      ...animalWithIncludes,
+      data: {
+        name: params.officialName,
+        alias: params.commonName,
+        birthdate: params.birthdate,
+        gender: params.gender,
+        species: params.species,
+        breedId: params.breedId,
+        colorId: params.colorId,
+        description: params.description,
+        iCadNumber: params.iCadNumber,
+        status: params.status,
+        managerId: params.managerId,
+        adoptionDate:
+          params.status === Status.ADOPTED ? params.adoptionDate : null,
+        adoptionOption:
+          params.status === Status.ADOPTED ? params.adoptionOption : null,
+        pickUpDate: params.pickUpDate,
+        pickUpLocation: params.pickUpLocation,
+        pickUpReason: params.pickUpReason,
+        fosterFamilyId: NON_ACTIVE_ANIMAL_STATUS.includes(params.status)
+          ? null
+          : params.fosterFamilyId,
+        isOkChildren: trileanToBoolean(params.isOkChildren),
+        isOkDogs: trileanToBoolean(params.isOkDogs),
+        isOkCats: trileanToBoolean(params.isOkCats),
+        isSterilized: params.isSterilized,
+        comments: params.comments,
+        avatar: params.avatarId,
+        pictures: params.picturesId,
+      },
+    });
 
-    return await animalOperations.getAnimal({ id: animal.id }, context);
+    const animalFromAlgolia: AnimalFromAlgolia = {
+      name: animal.name,
+      alias: animal.alias,
+      species: animal.species,
+      status: animal.status,
+      pickUpLocation: animal.pickUpLocation,
+    };
+
+    await AnimalIndex.saveObject({ ...animalFromAlgolia, objectID: animal.id });
+
+    return mapToAnimal(animal);
   },
 
   async updateAnimalProfile(rawParams, context) {
@@ -482,22 +461,58 @@ export const animalOperations: OperationsImpl<AnimalOperations> = {
       rawParams
     );
 
-    const currentAnimal = await getAnimal(params.id);
-    const newAnimal = setTimestamps(
-      await validate({ ...currentAnimal, ...params })
-    );
+    if (params.breedId != null) {
+      const breed = await prisma.breed.findUnique({
+        where: { id: params.breedId },
+        select: { species: true },
+      });
 
-    await getFirestore()
-      .collection(ANIMAL_COLLECTION)
-      .doc(newAnimal.id)
-      .update(newAnimal);
+      if (breed == null || breed.species !== params.species) {
+        throw new OperationError(400);
+      }
+    }
 
-    await AnimalIndex.partialUpdateObject({
-      ...newAnimal,
-      objectID: newAnimal.id,
-    });
+    try {
+      const animal = await prisma.animal.update({
+        ...animalWithIncludes,
+        where: { id: params.id },
+        data: {
+          name: params.officialName,
+          alias: params.commonName,
+          birthdate: params.birthdate,
+          gender: params.gender,
+          species: params.species,
+          breedId: params.breedId,
+          colorId: params.colorId,
+          description: params.description,
+          iCadNumber: params.iCadNumber,
+        },
+      });
 
-    return await animalOperations.getAnimal({ id: newAnimal.id }, context);
+      const animalFromAlgolia: Partial<AnimalFromAlgolia> = {
+        name: animal.name,
+        alias: animal.alias,
+        species: animal.species,
+      };
+
+      await AnimalIndex.partialUpdateObject({
+        ...animalFromAlgolia,
+        objectID: params.id,
+      });
+
+      return mapToAnimal(animal);
+    } catch (error) {
+      // Not found.
+      // https://www.prisma.io/docs/reference/api-reference/error-reference#p2025
+      if (
+        error instanceof Prisma.PrismaClientKnownRequestError &&
+        error.code === "P2025"
+      ) {
+        throw new OperationError(404);
+      }
+
+      throw error;
+    }
   },
 
   async updateAnimalSituation(rawParams, context) {
@@ -510,7 +525,7 @@ export const animalOperations: OperationsImpl<AnimalOperations> = {
     const params = validateParams<"updateAnimalSituation">(
       object({
         id: string().uuid().required(),
-        status: mixed().oneOf(Object.values(AnimalStatus)).required(),
+        status: mixed().oneOf(Object.values(Status)).required(),
         managerId: string().required(),
         adoptionDate: string().dateISO().nullable().defined(),
         adoptionOption: mixed()
@@ -519,7 +534,7 @@ export const animalOperations: OperationsImpl<AnimalOperations> = {
         pickUpDate: string().dateISO().required(),
         pickUpLocation: string().trim().nullable().defined(),
         pickUpReason: mixed().oneOf(Object.values(PickUpReason)).required(),
-        hostFamilyId: string().uuid().nullable().defined(),
+        fosterFamilyId: string().uuid().nullable().defined(),
         isOkChildren: mixed().oneOf(Object.values(Trilean)).required(),
         isOkDogs: mixed().oneOf(Object.values(Trilean)).required(),
         isOkCats: mixed().oneOf(Object.values(Trilean)).required(),
@@ -529,22 +544,58 @@ export const animalOperations: OperationsImpl<AnimalOperations> = {
       rawParams
     );
 
-    const currentAnimal = await getAnimal(params.id);
-    const newAnimal = setTimestamps(
-      await validate({ ...currentAnimal, ...params })
-    );
+    if (params.status === Status.ADOPTED && params.adoptionDate == null) {
+      throw new OperationError(400);
+    }
 
-    await getFirestore()
-      .collection(ANIMAL_COLLECTION)
-      .doc(newAnimal.id)
-      .update(newAnimal);
+    try {
+      const animal = await prisma.animal.update({
+        ...animalWithIncludes,
+        where: { id: params.id },
+        data: {
+          status: params.status,
+          managerId: params.managerId,
+          adoptionDate:
+            params.status === Status.ADOPTED ? params.adoptionDate : null,
+          adoptionOption:
+            params.status === Status.ADOPTED ? params.adoptionOption : null,
+          pickUpDate: params.pickUpDate,
+          pickUpLocation: params.pickUpLocation,
+          pickUpReason: params.pickUpReason,
+          fosterFamilyId: NON_ACTIVE_ANIMAL_STATUS.includes(params.status)
+            ? null
+            : params.fosterFamilyId,
+          isOkChildren: trileanToBoolean(params.isOkChildren),
+          isOkDogs: trileanToBoolean(params.isOkDogs),
+          isOkCats: trileanToBoolean(params.isOkCats),
+          isSterilized: params.isSterilized,
+          comments: params.comments,
+        },
+      });
 
-    await AnimalIndex.partialUpdateObject({
-      ...newAnimal,
-      objectID: newAnimal.id,
-    });
+      const animalFromAlgolia: Partial<AnimalFromAlgolia> = {
+        status: animal.status,
+        pickUpLocation: animal.pickUpLocation,
+      };
 
-    return await animalOperations.getAnimal({ id: newAnimal.id }, context);
+      await AnimalIndex.partialUpdateObject({
+        ...animalFromAlgolia,
+        objectID: params.id,
+      });
+
+      return mapToAnimal(animal);
+    } catch (error) {
+      // Not found.
+      // https://www.prisma.io/docs/reference/api-reference/error-reference#p2025
+      if (
+        error instanceof Prisma.PrismaClientKnownRequestError &&
+        error.code === "P2025"
+      ) {
+        throw new OperationError(404);
+      }
+
+      throw error;
+    }
   },
 
   async updateAnimalPictures(rawParams, context) {
@@ -563,22 +614,29 @@ export const animalOperations: OperationsImpl<AnimalOperations> = {
       rawParams
     );
 
-    const currentAnimal = await getAnimal(params.id);
-    const newAnimal = setTimestamps(
-      await validate({ ...currentAnimal, ...params })
-    );
+    try {
+      const animal = await prisma.animal.update({
+        ...animalWithIncludes,
+        where: { id: params.id },
+        data: {
+          avatar: params.avatarId,
+          pictures: params.picturesId,
+        },
+      });
 
-    await getFirestore()
-      .collection(ANIMAL_COLLECTION)
-      .doc(newAnimal.id)
-      .update(newAnimal);
+      return mapToAnimal(animal);
+    } catch (error) {
+      // Not found.
+      // https://www.prisma.io/docs/reference/api-reference/error-reference#p2025
+      if (
+        error instanceof Prisma.PrismaClientKnownRequestError &&
+        error.code === "P2025"
+      ) {
+        throw new OperationError(404);
+      }
 
-    await AnimalIndex.partialUpdateObject({
-      ...newAnimal,
-      objectID: newAnimal.id,
-    });
-
-    return await animalOperations.getAnimal({ id: newAnimal.id }, context);
+      throw error;
+    }
   },
 
   async deleteAnimal(rawParams, context) {
@@ -589,12 +647,27 @@ export const animalOperations: OperationsImpl<AnimalOperations> = {
     ]);
 
     const params = validateParams<"deleteAnimal">(
-      object({ id: string().required() }),
+      object({ id: string().uuid().required() }),
       rawParams
     );
 
-    await getFirestore().collection(ANIMAL_COLLECTION).doc(params.id).delete();
+    try {
+      await prisma.animal.delete({ where: { id: params.id } });
+    } catch (error) {
+      // Not found.
+      // https://www.prisma.io/docs/reference/api-reference/error-reference#p2025
+      if (
+        error instanceof Prisma.PrismaClientKnownRequestError &&
+        error.code === "P2025"
+      ) {
+        throw new OperationError(404);
+      }
+
+      throw error;
+    }
+
     await AnimalIndex.deleteObject(params.id);
+
     return true;
   },
 
@@ -643,7 +716,7 @@ export const animalOperations: OperationsImpl<AnimalOperations> = {
     });
 
     return result.hits.map<ManagerSearchHit>((hit) => ({
-      id: hit.id,
+      id: hit.objectID,
       email: hit.email,
       highlightedEmail: hit._highlightResult?.email?.value ?? hit.email,
       displayName: hit.displayName,
@@ -653,119 +726,89 @@ export const animalOperations: OperationsImpl<AnimalOperations> = {
   },
 };
 
-async function getAnimal(id: string) {
-  const snapshot = await getFirestore()
-    .collection(ANIMAL_COLLECTION)
-    .doc(id)
-    .get();
-
-  if (!snapshot.exists) {
-    throw new OperationError(404);
-  }
-
-  return snapshot.data() as AnimalFromStore;
-}
-
-function ignoreEmptyString(value: string | null | undefined) {
-  if (value != null && value !== "") {
-    return value;
-  }
-
-  return undefined;
-}
-
-function setTimestamps(animal: AnimalFromStore): AnimalFromStore {
+function mapToAnimal(
+  animal: Prisma.AnimalGetPayload<typeof animalWithIncludes>
+): Animal {
   return {
-    ...animal,
-    birthdateTimestamp: new Date(animal.birthdate).getTime(),
-    pickUpDateTimestamp: new Date(animal.pickUpDate).getTime(),
-    adoptionDateTimestamp:
+    id: animal.id,
+    officialName: animal.name,
+    commonName: animal.alias || undefined,
+    displayName: getDisplayName(animal),
+    birthdate: DateTime.fromJSDate(animal.birthdate).toISO(),
+    gender: animal.gender,
+    species: animal.species,
+    breed:
+      animal.breed == null
+        ? undefined
+        : {
+            id: animal.breed.id,
+            name: animal.breed.name,
+            species: animal.breed.species,
+          },
+    color:
+      animal.color == null
+        ? undefined
+        : { id: animal.color.id, name: animal.color.name },
+    description: animal.description || undefined,
+    avatarId: animal.avatar,
+    picturesId: animal.pictures,
+    manager:
+      animal.manager == null
+        ? undefined
+        : {
+            id: animal.manager.id,
+            displayName: animal.manager.displayName,
+          },
+    pickUpDate: DateTime.fromJSDate(animal.pickUpDate).toISO(),
+    pickUpLocation: animal.pickUpLocation || undefined,
+    pickUpReason: animal.pickUpReason,
+    status: animal.status,
+    adoptionDate:
       animal.adoptionDate == null
         ? undefined
-        : new Date(animal.adoptionDate).getTime(),
+        : DateTime.fromJSDate(animal.adoptionDate).toISO(),
+    adoptionOption: animal.adoptionOption ?? undefined,
+    fosterFamily:
+      animal.fosterFamily == null
+        ? undefined
+        : {
+            id: animal.fosterFamily.id,
+            email: animal.fosterFamily.email,
+            name: animal.fosterFamily.displayName,
+            formattedAddress: getFormattedAddress(animal.fosterFamily),
+            phone: animal.fosterFamily.phone,
+          },
+    iCadNumber: animal.iCadNumber || undefined,
+    comments: animal.comments || undefined,
+    isOkChildren: booleanToTrilean(animal.isOkChildren),
+    isOkDogs: booleanToTrilean(animal.isOkDogs),
+    isOkCats: booleanToTrilean(animal.isOkCats),
+    isSterilized: animal.isSterilized,
   };
 }
 
-async function validate(animal: AnimalFromStore): Promise<AnimalFromStore> {
-  if (animal.breedId != null) {
-    const breed = await getAnimalBreedFromStore(animal.breedId);
-    if (breed.species !== animal.species) {
-      throw new OperationError(400);
-    }
-  }
-
-  if (animal.status === AnimalStatus.ADOPTED && animal.adoptionDate == null) {
-    throw new OperationError(400);
-  }
-
-  // Only active animals can be in a host family.
-  if (NON_ACTIVE_ANIMAL_STATUS.includes(animal.status)) {
-    animal = { ...animal, hostFamilyId: null };
-  }
-
-  // Only adopted animals can have adoption info.
-  if (animal.status !== AnimalStatus.ADOPTED) {
-    animal = { ...animal, adoptionDate: null, adoptionOption: null };
-  }
-
-  return animal;
-}
-
-async function mapHitToPublicAnimal(hit: Hit<AnimalFromStore>) {
-  const animal: PublicAnimalSearchHit = {
-    id: hit.id,
-    displayName: hit.officialName,
-    avatarId: hit.avatarId,
-    birthdate: hit.birthdate,
-    gender: hit.gender,
-  };
-
-  const [breed, color] = await Promise.all([
-    hit.breedId == null
-      ? Promise.resolve(null)
-      : await getAnimalBreedFromStore(hit.breedId),
-
-    hit.colorId == null
-      ? Promise.resolve(null)
-      : await getAnimalColorFromStore(hit.colorId),
-  ]);
-
-  if (breed != null) {
-    animal.breedName = breed.name;
-  }
-
-  if (color != null) {
-    animal.colorName = color.name;
-  }
-
-  return animal;
-}
-
-function getAgeRangeSearchFilter(species?: AnimalSpecies, age?: AnimalAge) {
+function getAgeRangeSearchFilter(
+  species?: AnimalSpecies,
+  age?: AnimalAge
+): NonNullable<Prisma.AnimalWhereInput["birthdate"]> | undefined {
   if (species == null || age == null) {
-    return null;
+    return undefined;
   }
 
   const speciesAgeRanges = ANIMAL_AGE_RANGE_BY_SPECIES[species];
   if (speciesAgeRanges == null) {
-    return null;
+    return undefined;
   }
 
   const ageRange = speciesAgeRanges[age];
   if (ageRange == null) {
-    return null;
+    return undefined;
   }
 
-  const today = DateTime.now().setZone("utc").startOf("day");
+  const now = DateTime.now();
 
-  // The `maxMonths` has the lowest timestamp value.
-  const minTimestamp = today
-    .minus({ months: ageRange.maxMonths })
-    // Add one day because `maxMonths` is excluded.
-    .plus({ days: 1 })
-    .toMillis();
-
-  const maxTimestamp = today.minus({ months: ageRange.minMonths }).toMillis();
-
-  return `${minTimestamp} TO ${maxTimestamp}`;
+  return {
+    gt: now.minus({ months: ageRange.maxMonths }).toJSDate(),
+    lte: now.minus({ months: ageRange.minMonths }).toJSDate(),
+  };
 }

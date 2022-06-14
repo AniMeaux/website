@@ -1,27 +1,23 @@
 import {
-  Event,
+  Event as PublicEvent,
   EventCategory,
   EventOperations,
   UserGroup,
 } from "@animeaux/shared";
-import { getFirestore } from "firebase-admin/firestore";
-import { v4 as uuid } from "uuid";
+import { Event, Prisma } from "@prisma/client";
+import { DateTime } from "luxon";
 import { boolean, mixed, number, object, string } from "yup";
-import {
-  AlgoliaClient,
-  createSearchFilters,
-  DEFAULT_SEARCH_OPTIONS,
-} from "../core/algolia";
 import {
   assertUserHasGroups,
   getCurrentUser,
   userHasGroups,
 } from "../core/authentication";
+import { prisma } from "../core/db";
 import { OperationError, OperationsImpl } from "../core/operations";
 import { validateParams } from "../core/validation";
-import { EventFromStore, EVENT_COLLECTION } from "../entities/event.entity";
 
-const EventIndex = AlgoliaClient.initIndex(EVENT_COLLECTION);
+// Multiple of 2 and 3 to be nicely displayed.
+const EVENT_COUNT_PER_PAGE = 18;
 
 export const eventOperations: OperationsImpl<EventOperations> = {
   async getAllEvents(rawParams, context) {
@@ -33,58 +29,32 @@ export const eventOperations: OperationsImpl<EventOperations> = {
       rawParams
     );
 
-    const result = await EventIndex.search<EventFromStore>("", {
-      ...DEFAULT_SEARCH_OPTIONS,
-      page: params.page ?? 0,
-    });
+    const page = params.page ?? 0;
 
-    const hits = result.hits.map<Event>((hit) => ({
-      id: hit.id,
-      title: hit.title,
-      shortDescription: hit.shortDescription,
-      description: hit.description,
-      image: hit.image ?? undefined,
-      startDate: hit.startDate,
-      endDate: hit.endDate,
-      isFullDay: hit.isFullDay,
-      location: hit.location,
-      category: hit.category,
-      isVisible: hit.isVisible,
-    }));
+    const [count, events] = await Promise.all([
+      prisma.event.count(),
+      prisma.event.findMany({
+        skip: page * EVENT_COUNT_PER_PAGE,
+        take: EVENT_COUNT_PER_PAGE,
+        orderBy: { startDate: "desc" },
+      }),
+    ]);
 
     return {
-      hits,
-      hitsTotalCount: result.nbHits,
-      page: result.page,
-      pageCount: result.nbPages,
+      hitsTotalCount: count,
+      page,
+      pageCount: Math.ceil(count / EVENT_COUNT_PER_PAGE),
+      hits: events.map(mapToPublicEvent),
     };
   },
 
   async getVisibleUpCommingEvents() {
-    const snapshots = await getFirestore()
-      .collection(EVENT_COLLECTION)
-      .where("isVisible", "==", true)
-      .where("endDateTimestamp", ">=", Date.now())
-      .orderBy("endDateTimestamp")
-      .get();
-
-    return snapshots.docs.map<Event>((doc) => {
-      const event = doc.data() as EventFromStore;
-
-      return {
-        id: event.id,
-        title: event.title,
-        shortDescription: event.shortDescription,
-        description: event.description,
-        image: event.image ?? undefined,
-        startDate: event.startDate,
-        endDate: event.endDate,
-        isFullDay: event.isFullDay,
-        location: event.location,
-        category: event.category,
-        isVisible: event.isVisible,
-      };
+    const events = await prisma.event.findMany({
+      where: { isVisible: true, endDate: { gte: new Date() } },
+      orderBy: { endDate: "asc" },
     });
+
+    return events.map(mapToPublicEvent);
   },
 
   async getVisiblePastEvents(rawParams) {
@@ -93,38 +63,28 @@ export const eventOperations: OperationsImpl<EventOperations> = {
       rawParams
     );
 
-    const result = await EventIndex.search<EventFromStore>("", {
-      ...DEFAULT_SEARCH_OPTIONS,
-      page: params.page ?? 0,
+    const page = params.page ?? 0;
 
-      // Multiple of 2 and 3 to be nicely displayed.
-      hitsPerPage: 18,
+    const where: Prisma.EventWhereInput = {
+      isVisible: true,
+      endDate: { lt: new Date() },
+    };
 
-      filters: createSearchFilters({
-        isVisible: true,
-        endDateTimestamp: `0 TO ${Date.now()}`,
+    const [count, events] = await Promise.all([
+      prisma.event.count({ where }),
+      prisma.event.findMany({
+        where,
+        skip: page * EVENT_COUNT_PER_PAGE,
+        take: EVENT_COUNT_PER_PAGE,
+        orderBy: { endDate: "desc" },
       }),
-    });
-
-    const hits = result.hits.map<Event>((hit) => ({
-      id: hit.id,
-      title: hit.title,
-      shortDescription: hit.shortDescription,
-      description: hit.description,
-      image: hit.image ?? undefined,
-      startDate: hit.startDate,
-      endDate: hit.endDate,
-      isFullDay: hit.isFullDay,
-      location: hit.location,
-      category: hit.category,
-      isVisible: hit.isVisible,
-    }));
+    ]);
 
     return {
-      hits,
-      hitsTotalCount: result.nbHits,
-      page: result.page,
-      pageCount: result.nbPages,
+      hitsTotalCount: count,
+      page,
+      pageCount: Math.ceil(count / EVENT_COUNT_PER_PAGE),
+      hits: events.map(mapToPublicEvent),
     };
   },
 
@@ -137,25 +97,15 @@ export const eventOperations: OperationsImpl<EventOperations> = {
       rawParams
     );
 
-    const event = await getEventFromStore(params.id);
+    const event = await prisma.event.findUnique({
+      where: { id: params.id },
+    });
 
-    if (!allowHidden && !event.isVisible) {
+    if (event == null || (!allowHidden && !event.isVisible)) {
       throw new OperationError(404);
     }
 
-    return {
-      id: event.id,
-      title: event.title,
-      shortDescription: event.shortDescription,
-      description: event.description,
-      image: event.image ?? undefined,
-      startDate: event.startDate,
-      endDate: event.endDate,
-      isFullDay: event.isFullDay,
-      location: event.location,
-      category: event.category,
-      isVisible: event.isVisible,
-    };
+    return mapToPublicEvent(event);
   },
 
   async createEvent(rawParams, context) {
@@ -178,30 +128,28 @@ export const eventOperations: OperationsImpl<EventOperations> = {
       rawParams
     );
 
-    const event = addTimestamps({ id: uuid(), ...params });
+    if (
+      DateTime.fromISO(params.startDate) >= DateTime.fromISO(params.endDate)
+    ) {
+      throw new OperationError(400);
+    }
 
-    assertIsValid(event);
-
-    await getFirestore().collection(EVENT_COLLECTION).doc(event.id).set(event);
-
-    await EventIndex.saveObject({
-      ...event,
-      objectID: event.id,
+    const event = await prisma.event.create({
+      data: {
+        title: params.title,
+        shortDescription: params.shortDescription,
+        description: params.description,
+        image: params.image,
+        startDate: params.startDate,
+        endDate: params.endDate,
+        isFullDay: params.isFullDay,
+        location: params.location,
+        category: params.category,
+        isVisible: params.isVisible,
+      },
     });
 
-    return {
-      id: event.id,
-      title: event.title,
-      shortDescription: event.shortDescription,
-      description: event.description,
-      image: event.image ?? undefined,
-      startDate: event.startDate,
-      endDate: event.endDate,
-      isFullDay: event.isFullDay,
-      location: event.location,
-      category: event.category,
-      isVisible: event.isVisible,
-    };
+    return mapToPublicEvent(event);
   },
 
   async updateEvent(rawParams, context) {
@@ -225,34 +173,29 @@ export const eventOperations: OperationsImpl<EventOperations> = {
       rawParams
     );
 
-    const currentEvent = await getEventFromStore(params.id);
-    const newEvent = addTimestamps({ ...currentEvent, ...params });
+    const where: Prisma.EventWhereUniqueInput = { id: params.id };
 
-    assertIsValid(newEvent);
+    if ((await prisma.event.count({ where })) === 0) {
+      throw new OperationError(404);
+    }
 
-    await getFirestore()
-      .collection(EVENT_COLLECTION)
-      .doc(newEvent.id)
-      .update(newEvent);
-
-    await EventIndex.partialUpdateObject({
-      ...newEvent,
-      objectID: newEvent.id,
+    const event = await prisma.event.update({
+      where,
+      data: {
+        title: params.title,
+        shortDescription: params.shortDescription,
+        description: params.description,
+        image: params.image,
+        startDate: params.startDate,
+        endDate: params.endDate,
+        isFullDay: params.isFullDay,
+        location: params.location,
+        category: params.category,
+        isVisible: params.isVisible,
+      },
     });
 
-    return {
-      id: newEvent.id,
-      title: newEvent.title,
-      shortDescription: newEvent.shortDescription,
-      description: newEvent.description,
-      image: newEvent.image ?? undefined,
-      startDate: newEvent.startDate,
-      endDate: newEvent.endDate,
-      isFullDay: newEvent.isFullDay,
-      location: newEvent.location,
-      category: newEvent.category,
-      isVisible: newEvent.isVisible,
-    };
+    return mapToPublicEvent(event);
   },
 
   async deleteEvent(rawParams, context) {
@@ -264,38 +207,30 @@ export const eventOperations: OperationsImpl<EventOperations> = {
       rawParams
     );
 
-    await getFirestore().collection(EVENT_COLLECTION).doc(params.id).delete();
+    const where: Prisma.EventWhereUniqueInput = { id: params.id };
 
-    await EventIndex.deleteObject(params.id);
+    if ((await prisma.event.count({ where })) === 0) {
+      throw new OperationError(404);
+    }
+
+    await prisma.event.delete({ where });
+
     return true;
   },
 };
 
-function assertIsValid(event: EventFromStore) {
-  if (event.startDateTimestamp >= event.endDateTimestamp) {
-    throw new OperationError(400);
-  }
-}
-
-function addTimestamps(
-  event: Omit<EventFromStore, "startDateTimestamp" | "endDateTimestamp">
-): EventFromStore {
+function mapToPublicEvent(event: Event): PublicEvent {
   return {
-    ...event,
-    startDateTimestamp: new Date(event.startDate).getTime(),
-    endDateTimestamp: new Date(event.endDate).getTime(),
+    id: event.id,
+    title: event.title,
+    shortDescription: event.shortDescription,
+    description: event.description,
+    image: event.image ?? undefined,
+    startDate: DateTime.fromJSDate(event.startDate).toISO(),
+    endDate: DateTime.fromJSDate(event.endDate).toISO(),
+    isFullDay: event.isFullDay,
+    location: event.location,
+    category: event.category,
+    isVisible: event.isVisible,
   };
-}
-
-async function getEventFromStore(id: string) {
-  const snapshot = await getFirestore()
-    .collection(EVENT_COLLECTION)
-    .doc(id)
-    .get();
-
-  if (!snapshot.exists) {
-    throw new OperationError(404);
-  }
-
-  return snapshot.data() as EventFromStore;
 }

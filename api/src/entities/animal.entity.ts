@@ -1,52 +1,43 @@
-import {
-  AdoptionOption,
-  AnimalGender,
-  AnimalSpecies,
-  AnimalStatus,
-  PickUpReason,
-  Trilean,
-} from "@animeaux/shared";
+import { Animal, Status } from "@prisma/client";
+import { AlgoliaClient } from "../core/algolia";
 
-export const ANIMAL_COLLECTION = "animals";
-export const ANIMAL_SAVED_COLLECTION = "saved_animals";
+export const ANIMAL_INDEX_NAME = "animals";
 
-export type AnimalFromStore = {
-  id: string;
-  officialName: string;
-  commonName?: string | null;
-  birthdate: string;
-  birthdateTimestamp: number;
-  gender: AnimalGender;
-  species: AnimalSpecies;
-  breedId?: string | null;
-  colorId?: string | null;
-  description?: string | null;
-  avatarId: string;
-  picturesId: string[];
-  managerId?: string | null;
-  pickUpDate: string;
-  pickUpDateTimestamp: number;
-  pickUpLocation?: string | null;
-  pickUpReason: PickUpReason;
-  status: AnimalStatus;
-  adoptionDate?: string | null;
-  adoptionDateTimestamp?: number | null;
-  adoptionOption?: AdoptionOption | null;
-  hostFamilyId?: string | null;
-  iCadNumber?: string | null;
-  comments?: string | null;
-  isOkChildren: Trilean;
-  isOkDogs: Trilean;
-  isOkCats: Trilean;
-  isSterilized: boolean;
-};
+export const AnimalIndex = AlgoliaClient.initIndex(ANIMAL_INDEX_NAME);
 
-export function getDisplayName(
-  animal: Pick<AnimalFromStore, "officialName" | "commonName">
-) {
-  if (animal.commonName != null && animal.commonName !== "") {
-    return `${animal.officialName} (${animal.commonName})`;
+export type AnimalFromAlgolia = Pick<
+  Animal,
+  "name" | "alias" | "species" | "status" | "pickUpLocation"
+>;
+
+export function getDisplayName(animal: Pick<Animal, "name" | "alias">) {
+  if (animal.alias != null && animal.alias !== "") {
+    return `${animal.name} (${animal.alias})`;
   }
 
-  return animal.officialName;
+  return animal.name;
 }
+
+/** OPEN_TO_ADOPTION, OPEN_TO_RESERVATION, RESERVED, UNAVAILABLE */
+export const ACTIVE_ANIMAL_STATUS: Status[] = [
+  Status.OPEN_TO_ADOPTION,
+  Status.OPEN_TO_RESERVATION,
+  Status.RESERVED,
+  Status.UNAVAILABLE,
+];
+
+/** ADOPTED, FREE */
+export const SAVED_ANIMAL_STATUS: Status[] = [Status.ADOPTED, Status.FREE];
+
+/** ADOPTED, DECEASED, FREE */
+export const NON_ACTIVE_ANIMAL_STATUS: Status[] = [
+  Status.ADOPTED,
+  Status.DECEASED,
+  Status.FREE,
+];
+
+/** OPEN_TO_ADOPTION, OPEN_TO_RESERVATION */
+export const ADOPTABLE_ANIMAL_STATUS: Status[] = [
+  Status.OPEN_TO_ADOPTION,
+  Status.OPEN_TO_RESERVATION,
+];

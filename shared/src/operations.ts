@@ -3,7 +3,7 @@ import { AnimalBreedOperations } from "./animalBreed";
 import { AnimalColorOperations } from "./animalColor";
 import { CurrentUserOperations } from "./currentUser";
 import { EventOperations } from "./event";
-import { HostFamilyOperations } from "./hostFamily";
+import { FosterFamilyOperations } from "./fosterFamily";
 import { ImageOperations } from "./image";
 import { OperationPaginationResult } from "./operationPagination";
 import { UserOperations } from "./user";
@@ -12,7 +12,7 @@ export type AllOperations = CurrentUserOperations &
   UserOperations &
   AnimalColorOperations &
   AnimalBreedOperations &
-  HostFamilyOperations &
+  FosterFamilyOperations &
   AnimalOperations &
   ImageOperations &
   EventOperations;

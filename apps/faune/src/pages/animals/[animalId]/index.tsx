@@ -33,7 +33,6 @@ import {
 } from "react-icons/fa";
 import { useMutation, UseMutationResult } from "react-query";
 import styled from "styled-components";
-import { useCurrentUser } from "~/account/currentUser";
 import { AnimalGenderIcon } from "~/animal/animalGenderIcon";
 import {
   ANIMAL_GENDER_LABELS,
@@ -76,6 +75,7 @@ import {
 } from "~/core/popovers/modal";
 import { useRouter } from "~/core/router";
 import { PageComponent } from "~/core/types";
+import { useCurrentUser } from "~/currentUser/currentUser";
 import { theme } from "~/styles/theme";
 import { TRILEAN_LABELS } from "~/trilean/labels";
 
@@ -277,7 +277,7 @@ function ProfileSection({ animal }: AnimalProp) {
 }
 
 function SituationSection({ animal }: AnimalProp) {
-  const [areHostFamilyDetailsVisible, setAreHostFamilyDetailsVisible] =
+  const [areFosterFamilyDetailsVisible, setAreFosterFamilyDetailsVisible] =
     useState(false);
   const referenceElement = useRef<HTMLButtonElement>(null!);
 
@@ -326,9 +326,9 @@ function SituationSection({ animal }: AnimalProp) {
           </Item>
         </li>
 
-        {animal.hostFamily != null && (
+        {animal.fosterFamily != null && (
           <li>
-            <ButtonItem onClick={() => setAreHostFamilyDetailsVisible(true)}>
+            <ButtonItem onClick={() => setAreFosterFamilyDetailsVisible(true)}>
               <ItemIcon>
                 <FaHome />
               </ItemIcon>
@@ -337,20 +337,20 @@ function SituationSection({ animal }: AnimalProp) {
                 <ItemMainText>
                   En FA chez{" "}
                   <TriggerText ref={referenceElement}>
-                    {animal.hostFamily.name}
+                    {animal.fosterFamily.name}
                   </TriggerText>
                 </ItemMainText>
               </ItemContent>
             </ButtonItem>
 
             <Modal
-              open={areHostFamilyDetailsVisible}
-              onDismiss={() => setAreHostFamilyDetailsVisible(false)}
+              open={areFosterFamilyDetailsVisible}
+              onDismiss={() => setAreFosterFamilyDetailsVisible(false)}
               referenceElement={referenceElement}
               dismissLabel="Fermer"
               placement="bottom-start"
             >
-              <HostFamilyModal hostFamily={animal.hostFamily} />
+              <FosterFamilyModal fosterFamily={animal.fosterFamily} />
             </Modal>
           </li>
         )}
@@ -455,10 +455,10 @@ function ManagerItem({ manager }: { manager: NonNullable<Animal["manager"]> }) {
   );
 }
 
-function HostFamilyModal({
-  hostFamily,
+function FosterFamilyModal({
+  fosterFamily,
 }: {
-  hostFamily: NonNullable<Animal["hostFamily"]>;
+  fosterFamily: NonNullable<Animal["fosterFamily"]>;
 }) {
   const { currentUser } = useCurrentUser();
   const isCurrentUserAdmin = hasGroups(currentUser, [
@@ -471,31 +471,31 @@ function HostFamilyModal({
   return (
     <>
       <ModalHeader>
-        <ModalHeaderTitle>{hostFamily.name}</ModalHeaderTitle>
+        <ModalHeaderTitle>{fosterFamily.name}</ModalHeaderTitle>
       </ModalHeader>
 
       <Section>
         <ul>
           <li>
-            <LinkItem href={`tel:${hostFamily.phone}`}>
+            <LinkItem href={`tel:${fosterFamily.phone}`}>
               <ItemIcon>
                 <FaPhone />
               </ItemIcon>
 
               <ItemContent>
-                <ItemMainText>{hostFamily.phone}</ItemMainText>
+                <ItemMainText>{fosterFamily.phone}</ItemMainText>
               </ItemContent>
             </LinkItem>
           </li>
 
           <li>
-            <LinkItem href={`mailto:${hostFamily.email}`}>
+            <LinkItem href={`mailto:${fosterFamily.email}`}>
               <ItemIcon>
                 <FaEnvelope />
               </ItemIcon>
 
               <ItemContent>
-                <ItemMainText>{hostFamily.email}</ItemMainText>
+                <ItemMainText>{fosterFamily.email}</ItemMainText>
               </ItemContent>
             </LinkItem>
           </li>
@@ -504,7 +504,7 @@ function HostFamilyModal({
             <LinkItem
               shouldOpenInNewTarget
               href={`http://maps.google.com/?q=${encodeURIComponent(
-                hostFamily.formattedAddress
+                fosterFamily.formattedAddress
               )}`}
             >
               <ItemIcon>
@@ -512,7 +512,7 @@ function HostFamilyModal({
               </ItemIcon>
 
               <ItemContent>
-                <ItemMainText>{hostFamily.formattedAddress}</ItemMainText>
+                <ItemMainText>{fosterFamily.formattedAddress}</ItemMainText>
               </ItemContent>
             </LinkItem>
           </li>
@@ -520,7 +520,7 @@ function HostFamilyModal({
           {isCurrentUserAdmin && (
             <li>
               <LinkItem
-                href={`/host-families/${hostFamily.id}`}
+                href={`/foster-families/${fosterFamily.id}`}
                 onClick={onDismiss}
               >
                 <ItemIcon>

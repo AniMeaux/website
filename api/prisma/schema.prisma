@@ -1,0 +1,184 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["interactiveTransactions"]
+}
+
+enum UserGroup {
+  ADMIN
+  ANIMAL_MANAGER
+  BLOGGER
+  HEAD_OF_PARTNERSHIPS
+  VETERINARIAN
+}
+
+model User {
+  id        String   @id @default(uuid()) @db.VarChar(255)
+  legacyId  String?  @unique @db.VarChar(255)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  email          String      @unique @db.VarChar(255)
+  displayName    String      @db.VarChar(255)
+  groups         UserGroup[]
+  isDisabled     Boolean     @default(false)
+  managedAnimals Animal[]
+  password       Password?
+}
+
+model Password {
+  hash   String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId String @unique
+}
+
+model FosterFamily {
+  id        String   @id @default(uuid()) @db.VarChar(255)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  email         String   @unique @db.VarChar(255)
+  displayName   String   @db.VarChar(255)
+  phone         String   @db.VarChar(255)
+  zipCode       String   @db.VarChar(255)
+  city          String   @db.VarChar(255)
+  address       String   @db.VarChar(255)
+  fosterAnimals Animal[]
+}
+
+enum Species {
+  BIRD
+  CAT
+  DOG
+  REPTILE
+  RODENT
+}
+
+model Breed {
+  id        String   @id @default(uuid()) @db.VarChar(255)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  name    String   @db.VarChar(255)
+  species Species
+  animals Animal[]
+
+  @@unique([name, species])
+  @@index([species])
+}
+
+model Color {
+  id        String   @id @default(uuid()) @db.VarChar(255)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  name    String   @unique @db.VarChar(255)
+  animals Animal[]
+}
+
+enum Gender {
+  FEMALE
+  MALE
+}
+
+enum PickUpReason {
+  ABANDONMENT
+  DECEASED_MASTER
+  MISTREATMENT
+  STRAY_ANIMAL
+  OTHER
+}
+
+enum Status {
+  ADOPTED
+  DECEASED
+  FREE
+  OPEN_TO_ADOPTION
+  OPEN_TO_RESERVATION
+  RESERVED
+  UNAVAILABLE
+}
+
+enum AdoptionOption {
+  FREE_DONATION
+  UNKNOWN
+  WITH_STERILIZATION
+  WITHOUT_STERILIZATION
+}
+
+enum AnimalAge {
+  ADULT
+  JUNIOR
+  SENIOR
+}
+
+model Animal {
+  id        String   @id @default(uuid()) @db.VarChar(255)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  name           String          @db.VarChar(255)
+  alias          String?         @db.VarChar(255)
+  birthdate      DateTime
+  gender         Gender
+  species        Species
+  breed          Breed?          @relation(fields: [breedId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+  breedId        String?
+  color          Color?          @relation(fields: [colorId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+  colorId        String?
+  description    String?
+  avatar         String
+  pictures       String[]
+  pickUpDate     DateTime
+  pickUpLocation String?
+  pickUpReason   PickUpReason    @default(OTHER)
+  status         Status
+  adoptionDate   DateTime?
+  adoptionOption AdoptionOption?
+  manager        User?           @relation(fields: [managerId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+  managerId      String?
+  fosterFamily   FosterFamily?   @relation(fields: [fosterFamilyId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+  fosterFamilyId String?
+  iCadNumber     String?
+  comments       String?
+  isOkChildren   Boolean?
+  isOkDogs       Boolean?
+  isOkCats       Boolean?
+  isSterilized   Boolean
+
+  @@index([species])
+  @@index([status])
+  @@index([managerId])
+  @@index([status, species])
+  @@index([status, managerId])
+}
+
+enum EventCategory {
+  COLLECTION
+  SHOW
+  FORUM
+  SENSITIZATION
+  BIRTHDAY
+  ATHLETIC
+}
+
+model Event {
+  id        String   @id @default(uuid()) @db.VarChar(255)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  title            String        @db.VarChar(255)
+  shortDescription String
+  description      String
+  image            String?
+  startDate        DateTime
+  endDate          DateTime
+  isFullDay        Boolean       @default(false)
+  location         String
+  category         EventCategory
+  isVisible        Boolean       @default(false)
+}

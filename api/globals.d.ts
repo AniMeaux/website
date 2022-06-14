@@ -2,6 +2,8 @@ declare namespace NodeJS {
   interface ProcessEnv {
     NODE_ENV?: "production" | "development";
     PORT?: string;
+    SESSION_SECRET?: string;
+    SESSION_COOKIE_DOMAIN?: string;
 
     FIREBASE_PROJECT_ID?: string;
     FIREBASE_CLIENT_EMAIL?: string;
