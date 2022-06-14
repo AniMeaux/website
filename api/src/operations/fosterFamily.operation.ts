@@ -1,9 +1,9 @@
 import {
-  HostFamily,
-  HostFamilyBrief,
-  HostFamilyHostedAnimal,
-  HostFamilyOperations,
-  HostFamilySearchHit,
+  FosterFamily,
+  FosterFamilyBrief,
+  FosterFamilyHostedAnimal,
+  FosterFamilyOperations,
+  FosterFamilySearchHit,
   UserGroup,
 } from "@animeaux/shared";
 import { Prisma } from "@prisma/client";
@@ -35,8 +35,8 @@ const fosterFamilyWithIncludes = Prisma.validator<Prisma.FosterFamilyArgs>()({
   },
 });
 
-export const fosterFamilyOperations: OperationsImpl<HostFamilyOperations> = {
-  async getAllHostFamilies(rawParams, context) {
+export const fosterFamilyOperations: OperationsImpl<FosterFamilyOperations> = {
+  async getAllFosterFamilies(rawParams, context) {
     const currentUser = await getCurrentUser(context);
     assertUserHasGroups(currentUser, [
       UserGroup.ADMIN,
@@ -48,21 +48,21 @@ export const fosterFamilyOperations: OperationsImpl<HostFamilyOperations> = {
       orderBy: { displayName: "asc" },
     });
 
-    return fosterFamilies.map<HostFamilyBrief>((fosterFamily) => ({
+    return fosterFamilies.map<FosterFamilyBrief>((fosterFamily) => ({
       id: fosterFamily.id,
       name: fosterFamily.displayName,
       location: getShortLocation(fosterFamily),
     }));
   },
 
-  async searchHostFamilies(rawParams, context) {
+  async searchFosterFamilies(rawParams, context) {
     const currentUser = await getCurrentUser(context);
     assertUserHasGroups(currentUser, [
       UserGroup.ADMIN,
       UserGroup.ANIMAL_MANAGER,
     ]);
 
-    const params = validateParams<"searchHostFamilies">(
+    const params = validateParams<"searchFosterFamilies">(
       object({ search: string().strict(true).defined() }),
       rawParams
     );
@@ -72,7 +72,7 @@ export const fosterFamilyOperations: OperationsImpl<HostFamilyOperations> = {
       DEFAULT_SEARCH_OPTIONS
     );
 
-    return result.hits.map<HostFamilySearchHit>((hit) => ({
+    return result.hits.map<FosterFamilySearchHit>((hit) => ({
       id: hit.objectID,
       name: hit.displayName,
       highlightedName:
@@ -80,14 +80,14 @@ export const fosterFamilyOperations: OperationsImpl<HostFamilyOperations> = {
     }));
   },
 
-  async getHostFamily(rawParams, context) {
+  async getFosterFamily(rawParams, context) {
     const currentUser = await getCurrentUser(context);
     assertUserHasGroups(currentUser, [
       UserGroup.ADMIN,
       UserGroup.ANIMAL_MANAGER,
     ]);
 
-    const params = validateParams<"getHostFamily">(
+    const params = validateParams<"getFosterFamily">(
       object({ id: string().uuid().required() }),
       rawParams
     );
@@ -101,17 +101,17 @@ export const fosterFamilyOperations: OperationsImpl<HostFamilyOperations> = {
       throw new OperationError(404);
     }
 
-    return mapToHostFamily(fosterFamily);
+    return mapToFosterFamily(fosterFamily);
   },
 
-  async createHostFamily(rawParams, context) {
+  async createFosterFamily(rawParams, context) {
     const currentUser = await getCurrentUser(context);
     assertUserHasGroups(currentUser, [
       UserGroup.ADMIN,
       UserGroup.ANIMAL_MANAGER,
     ]);
 
-    const params = validateParams<"createHostFamily">(
+    const params = validateParams<"createFosterFamily">(
       object({
         name: string().trim().required(),
         phone: string().trim().required(),
@@ -148,7 +148,7 @@ export const fosterFamilyOperations: OperationsImpl<HostFamilyOperations> = {
         objectID: fosterFamily.id,
       });
 
-      return mapToHostFamily(fosterFamily);
+      return mapToFosterFamily(fosterFamily);
     } catch (error) {
       // Unique constraint failed.
       // https://www.prisma.io/docs/reference/api-reference/error-reference#p2002
@@ -156,7 +156,7 @@ export const fosterFamilyOperations: OperationsImpl<HostFamilyOperations> = {
         error instanceof Prisma.PrismaClientKnownRequestError &&
         error.code === "P2002"
       ) {
-        throw new OperationError<"createHostFamily">(400, {
+        throw new OperationError<"createFosterFamily">(400, {
           code: "already-exists",
         });
       }
@@ -165,14 +165,14 @@ export const fosterFamilyOperations: OperationsImpl<HostFamilyOperations> = {
     }
   },
 
-  async updateHostFamily(rawParams, context) {
+  async updateFosterFamily(rawParams, context) {
     const currentUser = await getCurrentUser(context);
     assertUserHasGroups(currentUser, [
       UserGroup.ADMIN,
       UserGroup.ANIMAL_MANAGER,
     ]);
 
-    const params = validateParams<"updateHostFamily">(
+    const params = validateParams<"updateFosterFamily">(
       object({
         id: string().uuid().required(),
         name: string().trim().required(),
@@ -217,7 +217,7 @@ export const fosterFamilyOperations: OperationsImpl<HostFamilyOperations> = {
         objectID: fosterFamily.id,
       });
 
-      return mapToHostFamily(fosterFamily);
+      return mapToFosterFamily(fosterFamily);
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         // Not found.
@@ -229,7 +229,7 @@ export const fosterFamilyOperations: OperationsImpl<HostFamilyOperations> = {
         // Unique constraint failed.
         // https://www.prisma.io/docs/reference/api-reference/error-reference#p2002
         if (error.code === "P2002") {
-          throw new OperationError<"updateHostFamily">(400, {
+          throw new OperationError<"updateFosterFamily">(400, {
             code: "already-exists",
           });
         }
@@ -239,14 +239,14 @@ export const fosterFamilyOperations: OperationsImpl<HostFamilyOperations> = {
     }
   },
 
-  async deleteHostFamily(rawParams, context) {
+  async deleteFosterFamily(rawParams, context) {
     const currentUser = await getCurrentUser(context);
     assertUserHasGroups(currentUser, [
       UserGroup.ADMIN,
       UserGroup.ANIMAL_MANAGER,
     ]);
 
-    const params = validateParams<"deleteHostFamily">(
+    const params = validateParams<"deleteFosterFamily">(
       object({ id: string().uuid().required() }),
       rawParams
     );
@@ -272,9 +272,9 @@ export const fosterFamilyOperations: OperationsImpl<HostFamilyOperations> = {
   },
 };
 
-function mapToHostFamily(
+function mapToFosterFamily(
   fosterFamily: Prisma.FosterFamilyGetPayload<typeof fosterFamilyWithIncludes>
-): HostFamily {
+): FosterFamily {
   return {
     id: fosterFamily.id,
     name: fosterFamily.displayName,
@@ -284,7 +284,7 @@ function mapToHostFamily(
     city: fosterFamily.city,
     address: fosterFamily.address,
     formattedAddress: getFormattedAddress(fosterFamily),
-    hostedAnimals: fosterFamily.fosterAnimals.map<HostFamilyHostedAnimal>(
+    hostedAnimals: fosterFamily.fosterAnimals.map<FosterFamilyHostedAnimal>(
       (animal) => ({
         id: animal.id,
         avatarId: animal.avatar,

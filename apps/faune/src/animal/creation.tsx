@@ -128,9 +128,9 @@ const STEPS_VALIDATOR: Record<string, (state: FormState) => void> = {
   breed: () => {},
   color: () => {},
   situation: ({ profileState }) => validateProfile(profileState),
-  "host-family": ({ profileState }) => validateProfile(profileState),
+  "foster-family": ({ profileState }) => validateProfile(profileState),
   manager: ({ profileState }) => validateProfile(profileState),
-  "new-host-family": ({ profileState }) => validateProfile(profileState),
+  "new-foster-family": ({ profileState }) => validateProfile(profileState),
   "pick-up-location": ({ profileState }) => validateProfile(profileState),
   pictures: ({ profileState, situationState }) => {
     validateProfile(profileState);

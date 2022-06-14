@@ -1,4 +1,4 @@
-import { HostFamilyBrief, UserGroup } from "@animeaux/shared";
+import { FosterFamilyBrief, UserGroup } from "@animeaux/shared";
 import { FaHome, FaPlus } from "react-icons/fa";
 import { QuickLinkAction } from "~/core/actions/quickAction";
 import { Avatar, AvatarPlaceholder } from "~/core/dataDisplay/avatar";
@@ -25,28 +25,30 @@ import { PageComponent } from "~/core/types";
 
 const TITLE = "Familles d'accueil";
 
-const HostFamilyListPage: PageComponent = () => {
+const FosterFamilyListPage: PageComponent = () => {
   usePageScrollRestoration();
 
-  const getAllHostFamilies = useOperationQuery({ name: "getAllHostFamilies" });
+  const getAllFosterFamilies = useOperationQuery({
+    name: "getAllFosterFamilies",
+  });
 
-  if (getAllHostFamilies.state === "error") {
-    return <ErrorPage status={getAllHostFamilies.status} />;
+  if (getAllFosterFamilies.state === "error") {
+    return <ErrorPage status={getAllFosterFamilies.status} />;
   }
 
   let content: React.ReactNode = null;
 
-  if (getAllHostFamilies.state === "success") {
-    if (getAllHostFamilies.result.length === 0) {
+  if (getAllFosterFamilies.state === "success") {
+    if (getAllFosterFamilies.result.length === 0) {
       content = (
         <EmptyMessage>Il n'y a pas encore de famille d'accueil</EmptyMessage>
       );
     } else {
       content = (
         <ul>
-          {getAllHostFamilies.result.map((hostFamily) => (
-            <li key={hostFamily.id}>
-              <HostFamilyLinkItem hostFamily={hostFamily} />
+          {getAllFosterFamilies.result.map((fosterFamily) => (
+            <li key={fosterFamily.id}>
+              <FosterFamilyLinkItem fosterFamily={fosterFamily} />
             </li>
           ))}
         </ul>
@@ -57,7 +59,7 @@ const HostFamilyListPage: PageComponent = () => {
       <ul>
         <Placeholders count={5}>
           <li>
-            <HostFamilyItemPlaceholder />
+            <FosterFamilyItemPlaceholder />
           </li>
         </Placeholders>
       </ul>
@@ -72,8 +74,8 @@ const HostFamilyListPage: PageComponent = () => {
         <HeaderUserAvatar />
         <HeaderTitle>
           {TITLE}{" "}
-          {getAllHostFamilies.state === "success" &&
-            `(${getAllHostFamilies.result.length})`}
+          {getAllFosterFamilies.state === "success" &&
+            `(${getAllFosterFamilies.result.length})`}
         </HeaderTitle>
       </Header>
 
@@ -90,16 +92,20 @@ const HostFamilyListPage: PageComponent = () => {
   );
 };
 
-HostFamilyListPage.authorisedGroups = [
+FosterFamilyListPage.authorisedGroups = [
   UserGroup.ADMIN,
   UserGroup.ANIMAL_MANAGER,
 ];
 
-export default HostFamilyListPage;
+export default FosterFamilyListPage;
 
-function HostFamilyLinkItem({ hostFamily }: { hostFamily: HostFamilyBrief }) {
+function FosterFamilyLinkItem({
+  fosterFamily,
+}: {
+  fosterFamily: FosterFamilyBrief;
+}) {
   return (
-    <LinkItem href={`./${hostFamily.id}`}>
+    <LinkItem href={`./${fosterFamily.id}`}>
       <ItemIcon>
         <Avatar>
           <FaHome />
@@ -107,14 +113,14 @@ function HostFamilyLinkItem({ hostFamily }: { hostFamily: HostFamilyBrief }) {
       </ItemIcon>
 
       <ItemContent>
-        <ItemMainText>{hostFamily.name}</ItemMainText>
-        <ItemSecondaryText>{hostFamily.location}</ItemSecondaryText>
+        <ItemMainText>{fosterFamily.name}</ItemMainText>
+        <ItemSecondaryText>{fosterFamily.location}</ItemSecondaryText>
       </ItemContent>
     </LinkItem>
   );
 }
 
-function HostFamilyItemPlaceholder() {
+function FosterFamilyItemPlaceholder() {
   return (
     <Item>
       <ItemIcon>

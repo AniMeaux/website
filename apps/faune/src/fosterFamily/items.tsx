@@ -1,4 +1,4 @@
-import { HostFamilySearchHit } from "@animeaux/shared";
+import { FosterFamilySearchHit } from "@animeaux/shared";
 import { FaHome, FaPlus } from "react-icons/fa";
 import {
   ButtonItem,
@@ -12,11 +12,14 @@ import {
 import { Markdown } from "~/core/dataDisplay/markdown";
 import { Placeholder } from "~/core/loaders/placeholder";
 
-type HostFamilyItemProps = ButtonItemProps & {
-  hostFamily: HostFamilySearchHit;
+type FosterFamilyItemProps = ButtonItemProps & {
+  fosterFamily: FosterFamilySearchHit;
 };
 
-export function HostFamilyItem({ hostFamily, ...rest }: HostFamilyItemProps) {
+export function FosterFamilyItem({
+  fosterFamily,
+  ...rest
+}: FosterFamilyItemProps) {
   return (
     <ButtonItem {...rest}>
       <ItemIcon>
@@ -25,16 +28,16 @@ export function HostFamilyItem({ hostFamily, ...rest }: HostFamilyItemProps) {
 
       <ItemContent>
         <ItemMainText>
-          <Markdown preset="inline">{hostFamily.highlightedName}</Markdown>
+          <Markdown preset="inline">{fosterFamily.highlightedName}</Markdown>
         </ItemMainText>
       </ItemContent>
     </ButtonItem>
   );
 }
 
-export function CreateHostFamilyItem() {
+export function CreateFosterFamilyItem() {
   return (
-    <LinkItem href="../new-host-family" color="blue">
+    <LinkItem href="../new-foster-family" color="blue">
       <ItemIcon>
         <FaPlus />
       </ItemIcon>
@@ -46,7 +49,7 @@ export function CreateHostFamilyItem() {
   );
 }
 
-export function HostFamilyItemPlaceholder() {
+export function FosterFamilyItemPlaceholder() {
   return (
     <Item>
       <ItemIcon>

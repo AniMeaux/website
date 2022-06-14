@@ -364,7 +364,7 @@ export const animalOperations: OperationsImpl<AnimalOperations> = {
         pickUpDate: string().dateISO().required(),
         pickUpLocation: string().trim().nullable().defined(),
         pickUpReason: mixed().oneOf(Object.values(PickUpReason)).required(),
-        hostFamilyId: string().uuid().nullable().defined(),
+        fosterFamilyId: string().uuid().nullable().defined(),
         isOkChildren: mixed().oneOf(Object.values(Trilean)).required(),
         isOkDogs: mixed().oneOf(Object.values(Trilean)).required(),
         isOkCats: mixed().oneOf(Object.values(Trilean)).required(),
@@ -414,7 +414,7 @@ export const animalOperations: OperationsImpl<AnimalOperations> = {
         pickUpReason: params.pickUpReason,
         fosterFamilyId: NON_ACTIVE_ANIMAL_STATUS.includes(params.status)
           ? null
-          : params.hostFamilyId,
+          : params.fosterFamilyId,
         isOkChildren: trileanToBoolean(params.isOkChildren),
         isOkDogs: trileanToBoolean(params.isOkDogs),
         isOkCats: trileanToBoolean(params.isOkCats),
@@ -534,7 +534,7 @@ export const animalOperations: OperationsImpl<AnimalOperations> = {
         pickUpDate: string().dateISO().required(),
         pickUpLocation: string().trim().nullable().defined(),
         pickUpReason: mixed().oneOf(Object.values(PickUpReason)).required(),
-        hostFamilyId: string().uuid().nullable().defined(),
+        fosterFamilyId: string().uuid().nullable().defined(),
         isOkChildren: mixed().oneOf(Object.values(Trilean)).required(),
         isOkDogs: mixed().oneOf(Object.values(Trilean)).required(),
         isOkCats: mixed().oneOf(Object.values(Trilean)).required(),
@@ -564,7 +564,7 @@ export const animalOperations: OperationsImpl<AnimalOperations> = {
           pickUpReason: params.pickUpReason,
           fosterFamilyId: NON_ACTIVE_ANIMAL_STATUS.includes(params.status)
             ? null
-            : params.hostFamilyId,
+            : params.fosterFamilyId,
           isOkChildren: trileanToBoolean(params.isOkChildren),
           isOkDogs: trileanToBoolean(params.isOkDogs),
           isOkCats: trileanToBoolean(params.isOkCats),
@@ -768,7 +768,7 @@ function mapToAnimal(
         ? undefined
         : DateTime.fromJSDate(animal.adoptionDate).toISO(),
     adoptionOption: animal.adoptionOption ?? undefined,
-    hostFamily:
+    fosterFamily:
       animal.fosterFamily == null
         ? undefined
         : {

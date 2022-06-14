@@ -39,56 +39,56 @@ import { useModal } from "~/core/popovers/modal";
 import { useRouter } from "~/core/router";
 import { PageComponent } from "~/core/types";
 
-const HostFamilyPage: PageComponent = () => {
+const FosterFamilyPage: PageComponent = () => {
   const router = useRouter();
 
   invariant(
-    typeof router.query.hostFamilyId === "string",
-    `The hostFamilyId path should be a string. Got '${typeof router.query
-      .hostFamilyId}'`
+    typeof router.query.fosterFamilyId === "string",
+    `The fosterFamilyId path should be a string. Got '${typeof router.query
+      .fosterFamilyId}'`
   );
 
-  const getHostFamily = useOperationQuery({
-    name: "getHostFamily",
-    params: { id: router.query.hostFamilyId },
+  const getFosterFamily = useOperationQuery({
+    name: "getFosterFamily",
+    params: { id: router.query.fosterFamilyId },
   });
 
-  const deleteHostFamily = useOperationMutation("deleteHostFamily", {
+  const deleteFosterFamily = useOperationMutation("deleteFosterFamily", {
     onSuccess: (response, cache) => {
       cache.remove({
-        name: "getHostFamily",
+        name: "getFosterFamily",
         params: { id: response.body.params.id },
       });
 
-      cache.invalidate({ name: "getAllHostFamilies" });
+      cache.invalidate({ name: "getAllFosterFamilies" });
       router.backIfPossible("..");
     },
   });
 
-  if (getHostFamily.state === "error") {
-    return <ErrorPage status={getHostFamily.status} />;
+  if (getFosterFamily.state === "error") {
+    return <ErrorPage status={getFosterFamily.status} />;
   }
 
   let content: React.ReactNode = null;
 
-  if (getHostFamily.state === "success") {
+  if (getFosterFamily.state === "success") {
     content = (
       <>
-        {deleteHostFamily.state === "error" && (
+        {deleteFosterFamily.state === "error" && (
           <Section>
             <Info variant="error" icon={<FaTimesCircle />}>
-              {getHostFamily.result.name} n'a pas pu être supprimé.
+              {getFosterFamily.result.name} n'a pas pu être supprimé.
             </Info>
           </Section>
         )}
 
-        <ContactSection hostFamily={getHostFamily.result} />
-        <HostedAnimalsSection hostFamily={getHostFamily.result} />
+        <ContactSection fosterFamily={getFosterFamily.result} />
+        <HostedAnimalsSection fosterFamily={getFosterFamily.result} />
 
         <QuickActions icon={<FaPen />}>
           <ActionsSection
-            hostFamily={getHostFamily.result}
-            deleteHostFamily={deleteHostFamily}
+            fosterFamily={getFosterFamily.result}
+            deleteFosterFamily={deleteFosterFamily}
           />
         </QuickActions>
       </>
@@ -103,7 +103,7 @@ const HostFamilyPage: PageComponent = () => {
   }
 
   const name =
-    getHostFamily.state === "success" ? getHostFamily.result.name : null;
+    getFosterFamily.state === "success" ? getFosterFamily.result.name : null;
 
   return (
     <ApplicationLayout>
@@ -120,38 +120,38 @@ const HostFamilyPage: PageComponent = () => {
   );
 };
 
-HostFamilyPage.authorisedGroups = [UserGroup.ADMIN, UserGroup.ANIMAL_MANAGER];
+FosterFamilyPage.authorisedGroups = [UserGroup.ADMIN, UserGroup.ANIMAL_MANAGER];
 
-export default HostFamilyPage;
+export default FosterFamilyPage;
 
-type HostFamilyProps = {
-  hostFamily: OperationResult<"getHostFamily">;
+type FosterFamilyProps = {
+  fosterFamily: OperationResult<"getFosterFamily">;
 };
 
-function ContactSection({ hostFamily }: HostFamilyProps) {
+function ContactSection({ fosterFamily }: FosterFamilyProps) {
   return (
     <SectionBox>
       <ul>
         <li>
-          <LinkItem href={`tel:${hostFamily.phone}`}>
+          <LinkItem href={`tel:${fosterFamily.phone}`}>
             <ItemIcon>
               <FaPhone />
             </ItemIcon>
 
             <ItemContent>
-              <ItemMainText>{hostFamily.phone}</ItemMainText>
+              <ItemMainText>{fosterFamily.phone}</ItemMainText>
             </ItemContent>
           </LinkItem>
         </li>
 
         <li>
-          <LinkItem href={`mailto:${hostFamily.email}`}>
+          <LinkItem href={`mailto:${fosterFamily.email}`}>
             <ItemIcon>
               <FaEnvelope />
             </ItemIcon>
 
             <ItemContent>
-              <ItemMainText>{hostFamily.email}</ItemMainText>
+              <ItemMainText>{fosterFamily.email}</ItemMainText>
             </ItemContent>
           </LinkItem>
         </li>
@@ -160,7 +160,7 @@ function ContactSection({ hostFamily }: HostFamilyProps) {
           <LinkItem
             shouldOpenInNewTarget
             href={`http://maps.google.com/?q=${encodeURIComponent(
-              hostFamily.formattedAddress
+              fosterFamily.formattedAddress
             )}`}
           >
             <ItemIcon>
@@ -168,7 +168,7 @@ function ContactSection({ hostFamily }: HostFamilyProps) {
             </ItemIcon>
 
             <ItemContent>
-              <ItemMainText>{hostFamily.formattedAddress}</ItemMainText>
+              <ItemMainText>{fosterFamily.formattedAddress}</ItemMainText>
             </ItemContent>
           </LinkItem>
         </li>
@@ -201,15 +201,15 @@ function ContactPlaceholderSection() {
   );
 }
 
-function HostedAnimalsSection({ hostFamily }: HostFamilyProps) {
+function HostedAnimalsSection({ fosterFamily }: FosterFamilyProps) {
   let content: React.ReactNode = null;
 
-  if (hostFamily.hostedAnimals.length === 0) {
+  if (fosterFamily.hostedAnimals.length === 0) {
     content = <Info variant="info">Aucun animal en accueil.</Info>;
   } else {
     content = (
       <ul>
-        {hostFamily.hostedAnimals.map((animal) => (
+        {fosterFamily.hostedAnimals.map((animal) => (
           <li key={animal.id}>
             <LinkItem href={`/animals/${animal.id}`}>
               <ItemIcon>
@@ -232,8 +232,8 @@ function HostedAnimalsSection({ hostFamily }: HostFamilyProps) {
     <Section>
       <SectionTitle>
         En accueil
-        {hostFamily.hostedAnimals.length > 0
-          ? ` (${hostFamily.hostedAnimals.length})`
+        {fosterFamily.hostedAnimals.length > 0
+          ? ` (${fosterFamily.hostedAnimals.length})`
           : null}
       </SectionTitle>
       {content}
@@ -270,10 +270,10 @@ function HostedAnimalsPlaceholderSection() {
 }
 
 function ActionsSection({
-  hostFamily,
-  deleteHostFamily,
-}: HostFamilyProps & {
-  deleteHostFamily: OperationMutationResponse<"deleteHostFamily">;
+  fosterFamily,
+  deleteFosterFamily,
+}: FosterFamilyProps & {
+  deleteFosterFamily: OperationMutationResponse<"deleteFosterFamily">;
 }) {
   const { onDismiss } = useModal();
 
@@ -298,35 +298,35 @@ function ActionsSection({
       <Separator />
 
       <Section>
-        <DeleteHostFamilyButton
-          hostFamily={hostFamily}
-          deleteHostFamily={deleteHostFamily}
+        <DeleteFosterFamilyButton
+          fosterFamily={fosterFamily}
+          deleteFosterFamily={deleteFosterFamily}
         />
       </Section>
     </>
   );
 }
 
-function DeleteHostFamilyButton({
-  hostFamily,
-  deleteHostFamily,
-}: HostFamilyProps & {
-  deleteHostFamily: OperationMutationResponse<"deleteHostFamily">;
+function DeleteFosterFamilyButton({
+  fosterFamily,
+  deleteFosterFamily,
+}: FosterFamilyProps & {
+  deleteFosterFamily: OperationMutationResponse<"deleteFosterFamily">;
 }) {
   const { onDismiss } = useModal();
 
   return (
     <ButtonItem
       onClick={() => {
-        if (deleteHostFamily.state !== "loading") {
+        if (deleteFosterFamily.state !== "loading") {
           const confirmationMessage = [
-            `Êtes-vous sûr de vouloir supprimer ${hostFamily.name} ?`,
+            `Êtes-vous sûr de vouloir supprimer ${fosterFamily.name} ?`,
             "L'action est irréversible.",
           ].join("\n");
 
           if (window.confirm(confirmationMessage)) {
             onDismiss();
-            deleteHostFamily.mutate({ id: hostFamily.id });
+            deleteFosterFamily.mutate({ id: fosterFamily.id });
           }
         }
       }}

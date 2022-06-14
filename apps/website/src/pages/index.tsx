@@ -72,8 +72,8 @@ const HomePage: PageComponent<HomePageProps> = ({ upCommingEvents }) => {
           <li>
             <PresentationImage
               alt="Famille d'accueil"
-              largeImage="/host-family@2x.jpg"
-              smallImage="/host-family.jpg"
+              largeImage="/foster-family@2x.jpg"
+              smallImage="/foster-family.jpg"
             />
 
             <p>
@@ -156,15 +156,15 @@ const HomePage: PageComponent<HomePageProps> = ({ upCommingEvents }) => {
             aucune contrainte financière
           </SectionParagraph>
 
-          <CallToActionLink href="/host-families" color="blue">
+          <CallToActionLink href="/foster-families" color="blue">
             En savoir plus
           </CallToActionLink>
         </div>
 
         <div>
           <AsideImage
-            largeImage="/host-family@2x.jpg"
-            smallImage="/host-family.jpg"
+            largeImage="/foster-family@2x.jpg"
+            smallImage="/foster-family.jpg"
             alt="Famille d'accueil"
           />
         </div>

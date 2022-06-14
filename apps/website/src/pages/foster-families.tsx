@@ -10,14 +10,14 @@ import { PageHeader } from "~/layout/pageHeader";
 
 const TITLE = "Devenir famille d'accueil";
 
-const HostFamiliesPage: PageComponent = () => {
+const FosterFamiliesPage: PageComponent = () => {
   return (
     <main>
       <PageTitle title={TITLE} />
       <PageHeader
         title={TITLE}
-        largeImage="/host-family@2x.jpg"
-        smallImage="/host-family.jpg"
+        largeImage="/foster-family@2x.jpg"
+        smallImage="/foster-family.jpg"
       />
 
       <DescriptionSection>
@@ -139,7 +139,7 @@ const HostFamiliesPage: PageComponent = () => {
   );
 };
 
-HostFamiliesPage.renderLayout = (children) => (
+FosterFamiliesPage.renderLayout = (children) => (
   <>
     <Header />
     {children}
@@ -147,7 +147,7 @@ HostFamiliesPage.renderLayout = (children) => (
   </>
 );
 
-export default HostFamiliesPage;
+export default FosterFamiliesPage;
 
 const sectionPadding = css`
   padding: var(--spacing-7xl) var(--content-margin);

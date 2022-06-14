@@ -112,7 +112,7 @@ const NAVIGATION_ITEMS: NavigationItem[] = [
     ],
   },
   {
-    href: "/host-families",
+    href: "/foster-families",
     icon: FaHome,
     label: "FA",
     authorizedGroups: [UserGroup.ADMIN, UserGroup.ANIMAL_MANAGER],
