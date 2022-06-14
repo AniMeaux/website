@@ -3,6 +3,7 @@ on:
   push:
     branches-ignore:
       - main
+      - dev
 
 jobs:
   build-prisma:
