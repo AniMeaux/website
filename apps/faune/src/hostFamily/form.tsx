@@ -48,7 +48,7 @@ const ERROR_CODE_LABEL: Record<ErrorCode, string> = {
   "empty-phone": "Le numéro de téléphone est obligatoire.",
   "empty-zip-code": "Le code postal est obligatoire.",
   "invalid-zip-code": "Le format du code postal est invalide.",
-  "name-already-used": "Le nom est déjà utilisé",
+  "already-exists": "Le nom est déjà utilisé",
 };
 
 type FormState = {
@@ -274,7 +274,7 @@ function setName(name: string): SetStateAction<FormState> {
   return (prevState) => ({
     ...prevState,
     name,
-    errors: without(prevState.errors, "empty-name", "name-already-used"),
+    errors: without(prevState.errors, "empty-name", "already-exists"),
   });
 }
 

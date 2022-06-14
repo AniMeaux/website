@@ -1,53 +1,33 @@
-import { CurrentUser, hasGroups, UserGroup } from "@animeaux/shared";
-import { getAuth } from "firebase-admin/auth";
+import { CurrentUser, hasGroups } from "@animeaux/shared";
+import { UserGroup } from "@prisma/client";
 import { ParameterizedContext } from "koa";
-import { getUserFromAuth, getUserFromStore } from "../entities/user.entity";
-import { isFirebaseError } from "./firebase";
+import { mapCurrentUser } from "../entities/currentUser.entity";
+import { prisma } from "./db";
 import { OperationError } from "./operations";
-
-const ERROR_CODES_TO_IGNORE = [
-  "auth/user-disabled",
-  "auth/id-token-expired",
-  "auth/id-token-revoked",
-];
+import { getUserIdFromSession } from "./session";
 
 export async function getCurrentUser(
   context: ParameterizedContext
 ): Promise<CurrentUser | null> {
-  if (typeof context.request.headers.authorization === "string") {
-    const token = context.request.headers.authorization.replace("Bearer ", "");
-
-    try {
-      const decodedToken = await getAuth().verifyIdToken(token, true);
-      const [userFromStore, userFromAuth] = await Promise.all([
-        getUserFromStore(decodedToken.uid),
-        getUserFromAuth(decodedToken.uid),
-      ]);
-
-      if (
-        userFromStore != null &&
-        userFromAuth != null &&
-        !userFromAuth.disabled
-      ) {
-        return {
-          id: decodedToken.uid,
-          displayName: userFromAuth.displayName,
-          email: userFromAuth.email,
-          disabled: userFromAuth.disabled,
-          groups: userFromStore.groups,
-        };
-      }
-    } catch (error) {
-      if (
-        !isFirebaseError(error) ||
-        !ERROR_CODES_TO_IGNORE.includes(error.code)
-      ) {
-        throw error;
-      }
-    }
+  const userId = await getUserIdFromSession(context);
+  if (userId == null) {
+    return null;
   }
 
-  return null;
+  const user = await prisma.user.findUnique({ where: { id: userId } });
+  if (user == null || user.isDisabled) {
+    return null;
+  }
+
+  return mapCurrentUser(user);
+}
+
+export function assertDontHaveUser(
+  user: CurrentUser | null | undefined
+): asserts user is null | undefined {
+  if (user != null) {
+    throw new OperationError(400);
+  }
 }
 
 export function assertHasUser(

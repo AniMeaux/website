@@ -4,19 +4,28 @@
   "private": true,
   "main": "build/app.js",
   "scripts": {
-    "dev": "node -r dotenv-flow/config .",
+    "dev": "node -r dotenv-flow/config -r ./build/mocks .",
+    "dev:prisma": "prisma generate",
     "build": "babel src -d build --extensions \".ts\" --copy-files",
     "start": "node .",
     "clean": "rm -rf build",
     "clean-build": "yarn clean && yarn build",
-    "script": "NODE_OPTIONS=\"-r dotenv-flow/config\" ts-node --files"
+    "script": "NODE_OPTIONS=\"-r dotenv-flow/config\" ts-node --files",
+    "prisma-env": "node -r dotenv-flow/config ./node_modules/.bin/prisma",
+    "db:setup": "run-s db:reset",
+    "db:migrate": "yarn prisma-env migrate dev",
+    "db:reset": "yarn prisma-env migrate reset -f"
   },
   "dependencies": {
     "@algolia/client-search": "^4.12.0",
     "@animeaux/shared": "*",
     "@koa/cors": "^3.1.0",
+    "@prisma/client": "^3.11.1",
     "algoliasearch": "^4.12.0",
+    "bcryptjs": "^2.4.3",
     "cloudinary": "^1.28.0",
+    "cookie-signature": "^1.2.0",
+    "d3-dsv": "^2.0.0",
     "dotenv-flow": "^3.2.0",
     "firebase-admin": "^10.0.1",
     "koa": "^2.13.4",
@@ -39,6 +48,10 @@
     "@babel/plugin-proposal-optional-chaining": "^7.16.7",
     "@babel/preset-env": "^7.16.7",
     "@babel/preset-typescript": "^7.16.7",
+    "@faker-js/faker": "^6.1.1",
+    "@types/bcryptjs": "^2.4.2",
+    "@types/cookie-signature": "^1.0.4",
+    "@types/d3-dsv": "^3.0.0",
     "@types/fs-extra": "^9.0.13",
     "@types/koa": "^2.13.4",
     "@types/koa-bodyparser": "^4.3.5",
@@ -50,7 +63,13 @@
     "@types/node": "^17.0.6",
     "@types/uuid": "^8.3.4",
     "fs-extra": "^10.0.0",
+    "msw": "^0.41.0",
+    "npm-run-all": "^4.1.5",
+    "prisma": "^3.11.1",
     "ts-node": "^10.4.0",
     "typescript": "^4.5.4"
+  },
+  "prisma": {
+    "seed": "ts-node --files ./scripts/seedData.ts"
   }
 }

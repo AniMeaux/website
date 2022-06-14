@@ -1,6 +1,5 @@
 import { UserGroup } from "@animeaux/shared";
 import invariant from "invariant";
-import { useCurrentUser } from "~/account/currentUser";
 import { ApplicationLayout } from "~/core/layouts/applicationLayout";
 import { ErrorPage } from "~/core/layouts/errorPage";
 import { Header, HeaderBackLink, HeaderTitle } from "~/core/layouts/header";
@@ -11,6 +10,7 @@ import { useOperationMutation, useOperationQuery } from "~/core/operations";
 import { PageTitle } from "~/core/pageTitle";
 import { useRouter } from "~/core/router";
 import { PageComponent } from "~/core/types";
+import { useCurrentUser } from "~/currentUser/currentUser";
 import { UserForm, UserFormPlaceholder } from "~/user/form";
 
 const UserEditPage: PageComponent = () => {
@@ -58,11 +58,7 @@ const UserEditPage: PageComponent = () => {
           updateUser.mutate({ ...user, id: getUser.result.id })
         }
         pending={updateUser.state === "loading"}
-        serverErrors={
-          updateUser.state === "error"
-            ? [updateUser.errorResult?.code ?? "server-error"]
-            : []
-        }
+        serverErrors={updateUser.state === "error" ? ["server-error"] : []}
       />
     );
   } else {

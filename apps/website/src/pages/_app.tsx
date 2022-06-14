@@ -18,6 +18,11 @@ import "~/styles/index.css";
 
 Settings.defaultLocale = "fr";
 
+if (typeof document !== "undefined" && process.env.NODE_ENV === "development") {
+  const { startWorker } = require("../mocks");
+  startWorker();
+}
+
 function renderWithLayout<P = {}, IP = P>(
   Component: PageComponent<P, IP>,
   props: P

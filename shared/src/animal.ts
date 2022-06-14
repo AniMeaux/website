@@ -1,3 +1,10 @@
+import {
+  AdoptionOption,
+  Gender,
+  PickUpReason,
+  Species,
+  Status,
+} from "@prisma/client";
 import { AnimalBreed } from "./animalBreed";
 import { AnimalColor } from "./animalColor";
 import {
@@ -6,47 +13,14 @@ import {
 } from "./operationPagination";
 import { Trilean } from "./trilean";
 
-export enum AnimalSpecies {
-  BIRD = "BIRD",
-  CAT = "CAT",
-  DOG = "DOG",
-  REPTILE = "REPTILE",
-  RODENT = "RODENT",
-}
+export { Species as AnimalSpecies };
+export { Gender as AnimalGender };
+export { Status as AnimalStatus };
+export { AdoptionOption };
+export { PickUpReason };
 
-export const ALL_ANIMAL_SPECIES = Object.values(AnimalSpecies);
-
-export enum AnimalGender {
-  FEMALE = "FEMALE",
-  MALE = "MALE",
-}
-
-export enum PickUpReason {
-  ABANDONMENT = "ABANDONMENT",
-  DECEASED_MASTER = "DECEASED_MASTER",
-  MISTREATMENT = "MISTREATMENT",
-  STRAY_ANIMAL = "STRAY_ANIMAL",
-  OTHER = "OTHER",
-}
-
-export enum AnimalStatus {
-  ADOPTED = "ADOPTED",
-  DECEASED = "DECEASED",
-  FREE = "FREE",
-  OPEN_TO_ADOPTION = "OPEN_TO_ADOPTION",
-  OPEN_TO_RESERVATION = "OPEN_TO_RESERVATION",
-  RESERVED = "RESERVED",
-  UNAVAILABLE = "UNAVAILABLE",
-}
-
-export const ALL_ANIMAL_STATUSES = Object.values(AnimalStatus);
-
-export enum AdoptionOption {
-  WITH_STERILIZATION = "WITH_STERILIZATION",
-  WITHOUT_STERILIZATION = "WITHOUT_STERILIZATION",
-  FREE_DONATION = "FREE_DONATION",
-  UNKNOWN = "UNKNOWN",
-}
+export const ALL_ANIMAL_SPECIES = Object.values(Species);
+export const ALL_ANIMAL_STATUSES = Object.values(Status);
 
 export enum AnimalAge {
   JUNIOR = "JUNIOR",
@@ -58,7 +32,7 @@ export type AnimalActiveBrief = {
   id: string;
   displayName: string;
   avatarId: string;
-  status: AnimalStatus;
+  status: Status;
   managerName?: string;
 };
 
@@ -67,7 +41,7 @@ export type PublicAnimalSearchHit = {
   displayName: string;
   avatarId: string;
   birthdate: string;
-  gender: AnimalGender;
+  gender: Gender;
   breedName?: string;
   colorName?: string;
 };
@@ -77,7 +51,7 @@ export type AnimalSearchHit = {
   displayName: string;
   highlightedDisplayName: string;
   avatarId: string;
-  status: AnimalStatus;
+  status: Status;
 };
 
 export type PublicAnimal = {
@@ -86,8 +60,8 @@ export type PublicAnimal = {
   avatarId: string;
   picturesId: string[];
   birthdate: string;
-  gender: AnimalGender;
-  species: AnimalSpecies;
+  gender: Gender;
+  species: Species;
   breedName?: string;
   colorName?: string;
   isOkChildren: Trilean;
@@ -104,8 +78,8 @@ export type Animal = {
   commonName?: string;
   displayName: string;
   birthdate: string;
-  gender: AnimalGender;
-  species: AnimalSpecies;
+  gender: Gender;
+  species: Species;
   breed?: AnimalBreed;
   color?: AnimalColor;
   description?: string;
@@ -114,7 +88,7 @@ export type Animal = {
   pickUpDate: string;
   pickUpLocation?: string;
   pickUpReason: PickUpReason;
-  status: AnimalStatus;
+  status: Status;
   adoptionDate?: string;
   adoptionOption?: AdoptionOption;
   manager?: {
@@ -140,8 +114,8 @@ export type AnimalProfileInput = {
   officialName: string;
   commonName: string | null;
   birthdate: string;
-  gender: AnimalGender;
-  species: AnimalSpecies;
+  gender: Gender;
+  species: Species;
   breedId: string | null;
   colorId: string | null;
   description: string | null;
@@ -149,7 +123,7 @@ export type AnimalProfileInput = {
 };
 
 export type AnimalSituationInput = {
-  status: AnimalStatus;
+  status: Status;
   adoptionDate: string | null;
   adoptionOption: AdoptionOption | null;
   pickUpDate: string;
@@ -197,7 +171,7 @@ export type AnimalOperations = {
 
   getAllAdoptableAnimals(
     params: OperationPaginationParams & {
-      species?: AnimalSpecies;
+      species?: Species;
       age?: AnimalAge;
     }
   ): OperationPaginationResult<PublicAnimalSearchHit>;
@@ -205,8 +179,8 @@ export type AnimalOperations = {
   searchAnimals: (
     params: OperationPaginationParams & {
       search: string;
-      species?: AnimalSpecies[];
-      status?: AnimalStatus[];
+      species?: Species[];
+      status?: Status[];
     }
   ) => OperationPaginationResult<AnimalSearchHit>;
 
@@ -236,19 +210,19 @@ const MAX_ANIMAL_MONTHS = 100 * 12;
 
 // `maxMonths` is excluded.
 export const ANIMAL_AGE_RANGE_BY_SPECIES: Partial<
-  Record<AnimalSpecies, Partial<Record<AnimalAge, AgeRange>>>
+  Record<Species, Partial<Record<AnimalAge, AgeRange>>>
 > = {
-  [AnimalSpecies.CAT]: {
+  [Species.CAT]: {
     [AnimalAge.JUNIOR]: { minMonths: 0, maxMonths: 12 },
     [AnimalAge.ADULT]: { minMonths: 12, maxMonths: 9 * 12 },
     [AnimalAge.SENIOR]: { minMonths: 9 * 12, maxMonths: MAX_ANIMAL_MONTHS },
   },
-  [AnimalSpecies.DOG]: {
+  [Species.DOG]: {
     [AnimalAge.JUNIOR]: { minMonths: 0, maxMonths: 12 },
     [AnimalAge.ADULT]: { minMonths: 12, maxMonths: 9 * 12 },
     [AnimalAge.SENIOR]: { minMonths: 9 * 12, maxMonths: MAX_ANIMAL_MONTHS },
   },
-  [AnimalSpecies.RODENT]: {
+  [Species.RODENT]: {
     [AnimalAge.JUNIOR]: { minMonths: 0, maxMonths: 12 },
     [AnimalAge.ADULT]: { minMonths: 12, maxMonths: MAX_ANIMAL_MONTHS },
   },

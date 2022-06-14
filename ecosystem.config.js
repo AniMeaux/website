@@ -22,6 +22,13 @@ module.exports = {
     }),
 
     createApp({
+      name: "prisma",
+      cwd: "api",
+      script: "yarn dev:prisma",
+      watch: ["prisma/schema.prisma"],
+    }),
+
+    createApp({
       name: "website",
       cwd: "apps/website",
       script: "yarn dev",

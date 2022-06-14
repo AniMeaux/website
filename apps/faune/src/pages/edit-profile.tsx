@@ -4,7 +4,6 @@ import without from "lodash.without";
 import { useState } from "react";
 import { FaUser } from "react-icons/fa";
 import { string } from "yup";
-import { useCurrentUser } from "~/account/currentUser";
 import { Info } from "~/core/dataDisplay/info";
 import { Adornment } from "~/core/formElements/adornment";
 import { Field, Fields } from "~/core/formElements/field";
@@ -23,6 +22,7 @@ import { useOperationMutation } from "~/core/operations";
 import { PageTitle } from "~/core/pageTitle";
 import { useRouter } from "~/core/router";
 import { PageComponent, SetStateAction } from "~/core/types";
+import { useCurrentUser } from "~/currentUser/currentUser";
 
 type ErrorCode = "server-error" | "empty-display-name";
 

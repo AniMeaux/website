@@ -42,9 +42,7 @@ export function initializeFirebase() {
       }),
     });
 
-    getFirestore().settings({
-      ignoreUndefinedProperties: true,
-    });
+    getFirestore().settings({ ignoreUndefinedProperties: true });
   }
 }
 

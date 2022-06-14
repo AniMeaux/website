@@ -15,10 +15,10 @@ export type AnimalColorOperations = {
   getAnimalColor: (params: { id: string }) => AnimalColor;
   createAnimalColor: (params: {
     name: string;
-  }) => AnimalColor | OperationErrorResult<"name-already-used">;
+  }) => AnimalColor | OperationErrorResult<"already-exists">;
   updateAnimalColor: (params: {
     id: string;
     name: string;
-  }) => AnimalColor | OperationErrorResult<"name-already-used">;
+  }) => AnimalColor | OperationErrorResult<"already-exists">;
   deleteAnimalColor: (params: { id: string }) => boolean;
 };

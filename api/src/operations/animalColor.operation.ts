@@ -1,41 +1,25 @@
 import {
-  AnimalColor,
   AnimalColorOperations,
   AnimalColorSearchHit,
   UserGroup,
 } from "@animeaux/shared";
-import { getFirestore } from "firebase-admin/firestore";
-import { v4 as uuid } from "uuid";
+import { Prisma } from "@prisma/client";
 import { object, string } from "yup";
-import { AlgoliaClient, DEFAULT_SEARCH_OPTIONS } from "../core/algolia";
+import { DEFAULT_SEARCH_OPTIONS } from "../core/algolia";
 import { assertUserHasGroups, getCurrentUser } from "../core/authentication";
+import { prisma } from "../core/db";
 import { OperationError, OperationsImpl } from "../core/operations";
 import { validateParams } from "../core/validation";
-import {
-  AnimalColorFromStore,
-  ANIMAL_COLOR_COLLECTION,
-  getAnimalColorFromStore,
-} from "../entities/animalColor.entity";
-
-const AnimalColorIndex = AlgoliaClient.initIndex(ANIMAL_COLOR_COLLECTION);
+import { ColorFromAlgolia, ColorIndex } from "../entities/animalColor.entity";
 
 export const animalColorOperations: OperationsImpl<AnimalColorOperations> = {
   async getAllAnimalColors(rawParams, context) {
     const currentUser = await getCurrentUser(context);
     assertUserHasGroups(currentUser, [UserGroup.ADMIN]);
 
-    const snapshots = await getFirestore()
-      .collection(ANIMAL_COLOR_COLLECTION)
-      .orderBy("name")
-      .get();
-
-    return snapshots.docs.map<AnimalColor>((doc) => {
-      const animalColor = doc.data() as AnimalColorFromStore;
-
-      return {
-        id: animalColor.id,
-        name: animalColor.name,
-      };
+    return await prisma.color.findMany({
+      select: { id: true, name: true },
+      orderBy: { name: "asc" },
     });
   },
 
@@ -52,13 +36,13 @@ export const animalColorOperations: OperationsImpl<AnimalColorOperations> = {
       rawParams
     );
 
-    const result = await AnimalColorIndex.search<AnimalColorFromStore>(
+    const result = await ColorIndex.search<ColorFromAlgolia>(
       params.search,
       DEFAULT_SEARCH_OPTIONS
     );
 
     return result.hits.map<AnimalColorSearchHit>((hit) => ({
-      id: hit.id,
+      id: hit.objectID,
       name: hit.name,
       highlightedName: hit._highlightResult?.name?.value ?? hit.name,
     }));
@@ -73,12 +57,16 @@ export const animalColorOperations: OperationsImpl<AnimalColorOperations> = {
       rawParams
     );
 
-    const animalColor = await getAnimalColorFromStore(params.id);
+    const color = await prisma.color.findUnique({
+      where: { id: params.id },
+      select: { id: true, name: true },
+    });
 
-    return {
-      id: animalColor.id,
-      name: animalColor.name,
-    };
+    if (color == null) {
+      throw new OperationError(404);
+    }
+
+    return color;
   },
 
   async createAnimalColor(rawParams, context) {
@@ -90,24 +78,36 @@ export const animalColorOperations: OperationsImpl<AnimalColorOperations> = {
       rawParams
     );
 
-    const animalColor: AnimalColorFromStore = { id: uuid(), ...params };
+    try {
+      const color = await prisma.color.create({
+        select: { id: true, name: true },
+        data: { name: params.name },
+      });
 
-    await assertIsValid(animalColor);
+      const colorFromAlgolia: ColorFromAlgolia = {
+        name: color.name,
+      };
 
-    await getFirestore()
-      .collection(ANIMAL_COLOR_COLLECTION)
-      .doc(animalColor.id)
-      .set(animalColor);
+      await ColorIndex.saveObject({
+        ...colorFromAlgolia,
+        objectID: color.id,
+      });
 
-    await AnimalColorIndex.saveObject({
-      ...animalColor,
-      objectID: animalColor.id,
-    });
+      return color;
+    } catch (error) {
+      // Unique constraint failed.
+      // https://www.prisma.io/docs/reference/api-reference/error-reference#p2002
+      if (
+        error instanceof Prisma.PrismaClientKnownRequestError &&
+        error.code === "P2002"
+      ) {
+        throw new OperationError<"createAnimalColor">(400, {
+          code: "already-exists",
+        });
+      }
 
-    return {
-      id: animalColor.id,
-      name: animalColor.name,
-    };
+      throw error;
+    }
   },
 
   async updateAnimalColor(rawParams, context) {
@@ -122,28 +122,48 @@ export const animalColorOperations: OperationsImpl<AnimalColorOperations> = {
       rawParams
     );
 
-    const currentAnimalColor = await getAnimalColorFromStore(params.id);
-    const newAnimalColor: AnimalColorFromStore = {
-      ...currentAnimalColor,
-      ...params,
-    };
+    const where: Prisma.ColorWhereUniqueInput = { id: params.id };
 
-    await assertIsValid(newAnimalColor, currentAnimalColor);
+    if ((await prisma.color.count({ where })) === 0) {
+      throw new OperationError(404);
+    }
 
-    await getFirestore()
-      .collection(ANIMAL_COLOR_COLLECTION)
-      .doc(newAnimalColor.id)
-      .update(newAnimalColor);
+    try {
+      const color = await prisma.color.update({
+        where,
+        select: { id: true, name: true },
+        data: { name: params.name },
+      });
 
-    await AnimalColorIndex.partialUpdateObject({
-      ...newAnimalColor,
-      objectID: newAnimalColor.id,
-    });
+      const colorFromAlgolia: ColorFromAlgolia = {
+        name: color.name,
+      };
 
-    return {
-      id: newAnimalColor.id,
-      name: newAnimalColor.name,
-    };
+      await ColorIndex.partialUpdateObject({
+        ...colorFromAlgolia,
+        objectID: color.id,
+      });
+
+      return color;
+    } catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        // Not found.
+        // https://www.prisma.io/docs/reference/api-reference/error-reference#p2025
+        if (error.code === "P2025") {
+          throw new OperationError(404);
+        }
+
+        // Unique constraint failed.
+        // https://www.prisma.io/docs/reference/api-reference/error-reference#p2002
+        if (error.code === "P2002") {
+          throw new OperationError<"updateAnimalColor">(400, {
+            code: "already-exists",
+          });
+        }
+      }
+
+      throw error;
+    }
   },
 
   async deleteAnimalColor(rawParams, context) {
@@ -155,31 +175,23 @@ export const animalColorOperations: OperationsImpl<AnimalColorOperations> = {
       rawParams
     );
 
-    // TODO: Check that the color is not referenced by an animal.
-    await getFirestore()
-      .collection(ANIMAL_COLOR_COLLECTION)
-      .doc(params.id)
-      .delete();
+    try {
+      await prisma.color.delete({ where: { id: params.id } });
+    } catch (error) {
+      // Not found.
+      // https://www.prisma.io/docs/reference/api-reference/error-reference#p2025
+      if (
+        error instanceof Prisma.PrismaClientKnownRequestError &&
+        error.code === "P2025"
+      ) {
+        throw new OperationError(404);
+      }
 
-    await AnimalColorIndex.deleteObject(params.id);
+      throw error;
+    }
+
+    await ColorIndex.deleteObject(params.id);
+
     return true;
   },
 };
-
-async function assertIsValid(
-  update: AnimalColorFromStore,
-  current?: AnimalColorFromStore
-) {
-  if (current == null || update.name !== current.name) {
-    const snapshot = await getFirestore()
-      .collection(ANIMAL_COLOR_COLLECTION)
-      .where("name", "==", update.name)
-      .get();
-
-    if (!snapshot.empty) {
-      throw new OperationError<"createAnimalColor" | "updateAnimalColor">(404, {
-        code: "name-already-used",
-      });
-    }
-  }
-}

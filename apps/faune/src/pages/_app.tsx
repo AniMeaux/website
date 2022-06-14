@@ -3,7 +3,6 @@ import "react-app-polyfill/stable";
 import "focus-visible";
 import { Settings } from "luxon";
 import NextApp, { AppContext, AppProps } from "next/app";
-import { CurrentUserContextProvider } from "~/account/currentUser";
 import { Button } from "~/core/actions/button";
 import { ErrorPage } from "~/core/layouts/errorPage";
 import { PageHead } from "~/core/pageHead";
@@ -13,10 +12,16 @@ import { ScreenSizeContextProvider } from "~/core/screenSize";
 import { Sentry } from "~/core/sentry";
 import { PageComponent } from "~/core/types";
 import "~/core/yup";
+import { CurrentUserContextProvider } from "~/currentUser/currentUser";
 import "~/styles/index.css";
 import { GlobalStyles, ResetStyles } from "~/styles/theme";
 
 Settings.defaultLocale = "fr";
+
+if (typeof document !== "undefined" && process.env.NODE_ENV === "development") {
+  const { startWorker } = require("../mocks");
+  startWorker();
+}
 
 type ApplicationProps = Omit<AppProps, "Component"> & {
   Component: PageComponent;

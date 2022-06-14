@@ -1,7 +1,6 @@
 import { AnimalActiveBrief, hasGroups, UserGroup } from "@animeaux/shared";
 import { FaPlus, FaSearch } from "react-icons/fa";
 import styled from "styled-components";
-import { useCurrentUser } from "~/account/currentUser";
 import { StatusBadge } from "~/animal/status/badge";
 import { StatusIcon } from "~/animal/status/icon";
 import { QuickLinkAction } from "~/core/actions/quickAction";
@@ -35,6 +34,7 @@ import { PageTitle } from "~/core/pageTitle";
 import { useRouter } from "~/core/router";
 import { ScreenSize, useScreenSize } from "~/core/screenSize";
 import { PageComponent } from "~/core/types";
+import { useCurrentUser } from "~/currentUser/currentUser";
 import { theme } from "~/styles/theme";
 
 const TITLE = "Animaux en charge";

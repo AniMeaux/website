@@ -1,22 +1,8 @@
-import { getFirestore } from "firebase-admin/firestore";
-import { OperationError } from "../core/operations";
+import { Color } from "@prisma/client";
+import { AlgoliaClient } from "../core/algolia";
 
-export const ANIMAL_COLOR_COLLECTION = "animalColors";
+export const COLOR_INDEX_NAME = "colors";
 
-export type AnimalColorFromStore = {
-  id: string;
-  name: string;
-};
+export const ColorIndex = AlgoliaClient.initIndex(COLOR_INDEX_NAME);
 
-export async function getAnimalColorFromStore(id: string) {
-  const snapshot = await getFirestore()
-    .collection(ANIMAL_COLOR_COLLECTION)
-    .doc(id)
-    .get();
-
-  if (!snapshot.exists) {
-    throw new OperationError(404);
-  }
-
-  return snapshot.data() as AnimalColorFromStore;
-}
+export type ColorFromAlgolia = Pick<Color, "name">;

@@ -9,6 +9,7 @@ if (process.env.NODE_ENV === "development") {
 
 export function corsMiddleware(): Middleware {
   return cors({
+    credentials: true,
     origin: (context) => {
       const requestOrigin = context.get("Origin");
 

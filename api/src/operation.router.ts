@@ -11,7 +11,7 @@ import { animalBreedOperations } from "./operations/animalBreed.operation";
 import { animalColorOperations } from "./operations/animalColor.operation";
 import { currentUserOperations } from "./operations/currentUser.operation";
 import { eventOperations } from "./operations/event.operation";
-import { hostFamilyOperations } from "./operations/hostFamily.operation";
+import { fosterFamilyOperations } from "./operations/fosterFamily.operation";
 import { imageOperations } from "./operations/image.operation";
 import { userOperations } from "./operations/user.operation";
 
@@ -20,7 +20,7 @@ const allOperations: OperationsImpl<AllOperations> = {
   ...userOperations,
   ...animalColorOperations,
   ...animalBreedOperations,
-  ...hostFamilyOperations,
+  ...fosterFamilyOperations,
   ...animalOperations,
   ...imageOperations,
   ...eventOperations,
