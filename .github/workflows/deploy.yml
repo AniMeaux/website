@@ -23,6 +23,9 @@ jobs:
       - name: 📥 Download deps
         uses: bahmutov/npm-install@v1
 
+      - name: 📦 Build prisma
+        run: yarn --cwd api build:prisma
+
       - name: 📦 Build shared
         run: yarn --cwd shared clean-build
 
