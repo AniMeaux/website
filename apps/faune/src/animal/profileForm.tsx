@@ -7,6 +7,7 @@ import {
 } from "@animeaux/shared";
 import invariant from "invariant";
 import without from "lodash.without";
+import { DateTime } from "luxon";
 import {
   FaComment,
   FaDna,
@@ -445,7 +446,8 @@ export function validate(state: FormState): FormValue {
   }
 
   return {
-    birthdate: state.birthdate,
+    // Make sure the local time is set.
+    birthdate: DateTime.fromISO(state.birthdate).toISO(),
     breedId: state.breed?.id ?? null,
     colorId: state.color?.id ?? null,
     commonName: state.alias.trim() || null,
