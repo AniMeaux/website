@@ -8,6 +8,7 @@ import {
 import invariant from "invariant";
 import uniq from "lodash.uniq";
 import without from "lodash.without";
+import { DateTime } from "luxon";
 import { FaHome, FaMapMarkerAlt, FaTimes, FaUser } from "react-icons/fa";
 import { string } from "yup";
 import { PICK_UP_REASON_LABELS } from "~/animal/gender/labels";
@@ -548,7 +549,10 @@ export function validate(state: FormState): FormValue {
   return {
     managerId: state.manager!.id,
     adoptionDate:
-      state.status === AnimalStatus.ADOPTED ? state.adoptionDate : null,
+      state.status === AnimalStatus.ADOPTED
+        ? // Make sure the local time is set.
+          DateTime.fromISO(state.adoptionDate).toISO()
+        : null,
     adoptionOption:
       state.status === AnimalStatus.ADOPTED ? state.adoptionOption : null,
     comments: state.comments.trim() || null,
@@ -560,7 +564,8 @@ export function validate(state: FormState): FormValue {
     isOkChildren: state.isOkChildren,
     isOkDogs: state.isOkDogs,
     isSterilized: state.isSterilized,
-    pickUpDate: state.pickUpDate,
+    // Make sure the local time is set.
+    pickUpDate: DateTime.fromISO(state.pickUpDate).toISO(),
     pickUpLocation: state.pickUpLocation,
     pickUpReason: state.pickUpReason,
     status: state.status,
