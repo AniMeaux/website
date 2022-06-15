@@ -710,7 +710,7 @@ export const animalOperations: OperationsImpl<AnimalOperations> = {
     const result = await UserIndex.search<UserFromAlgolia>(params.search, {
       ...DEFAULT_SEARCH_OPTIONS,
       filters: createSearchFilters({
-        disabled: false,
+        isDisabled: false,
         groups: UserGroup.ANIMAL_MANAGER,
       }),
     });
