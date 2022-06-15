@@ -21,7 +21,7 @@ import { useRouter } from "~/core/router";
 import { PageComponent } from "~/core/types";
 import {
   CreateFosterFamilyItem,
-  FosterFamilyItem,
+  FosterFamilyButtonItem,
   FosterFamilyItemPlaceholder,
 } from "~/fosterFamily/items";
 
@@ -78,7 +78,7 @@ const AnimalFosterFamilyPage: PageComponent = () => {
 
           {searchFosterFamilies.result.map((fosterFamily) => (
             <li key={fosterFamily.id}>
-              <FosterFamilyItem
+              <FosterFamilyButtonItem
                 fosterFamily={fosterFamily}
                 highlight={fosterFamily.id === situationState.fosterFamily?.id}
                 onClick={() => {

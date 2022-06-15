@@ -1,5 +1,5 @@
 import { FosterFamilyBrief, UserGroup } from "@animeaux/shared";
-import { FaHome, FaPlus } from "react-icons/fa";
+import { FaHome, FaPlus, FaSearch } from "react-icons/fa";
 import { QuickLinkAction } from "~/core/actions/quickAction";
 import { Avatar, AvatarPlaceholder } from "~/core/dataDisplay/avatar";
 import { EmptyMessage } from "~/core/dataDisplay/emptyMessage";
@@ -13,7 +13,12 @@ import {
 } from "~/core/dataDisplay/item";
 import { ApplicationLayout } from "~/core/layouts/applicationLayout";
 import { ErrorPage } from "~/core/layouts/errorPage";
-import { Header, HeaderTitle, HeaderUserAvatar } from "~/core/layouts/header";
+import {
+  Header,
+  HeaderLink,
+  HeaderTitle,
+  HeaderUserAvatar,
+} from "~/core/layouts/header";
 import { Main } from "~/core/layouts/main";
 import { Navigation } from "~/core/layouts/navigation";
 import { Section } from "~/core/layouts/section";
@@ -77,6 +82,9 @@ const FosterFamilyListPage: PageComponent = () => {
           {getAllFosterFamilies.state === "success" &&
             `(${getAllFosterFamilies.result.length})`}
         </HeaderTitle>
+        <HeaderLink href="./search">
+          <FaSearch />
+        </HeaderLink>
       </Header>
 
       <Main>
