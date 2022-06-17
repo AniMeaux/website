@@ -4,8 +4,10 @@ import { Article, Partner } from "@animeaux/shared";
 import "focus-visible";
 import { Settings } from "luxon";
 import NextApp, { AppContext, AppProps } from "next/app";
+import Head from "next/head";
 import { ReactNode } from "react";
 import "wicg-inert";
+import { getConfig } from "~/core/config";
 import { PageComponent } from "~/core/pageComponent";
 import { PageHead } from "~/core/pageHead";
 import { ScreenSizeContextProvider } from "~/core/screenSize";
@@ -49,17 +51,25 @@ function App({
   partners,
 }: ApplicationProps) {
   return (
-    <ScreenSizeContextProvider>
-      <PageHead />
+    <>
+      <GoogleTagManagerScript />
+      <GoogleTagManagerIframe />
 
-      <ErrorBoundary
-        fallback={() => renderWithLayout(ErrorPage, { type: "serverError" })}
-      >
-        <ApplicationLayout latestArticles={latestArticles} partners={partners}>
-          {renderWithLayout(Component, pageProps)}
-        </ApplicationLayout>
-      </ErrorBoundary>
-    </ScreenSizeContextProvider>
+      <ScreenSizeContextProvider>
+        <PageHead />
+
+        <ErrorBoundary
+          fallback={() => renderWithLayout(ErrorPage, { type: "serverError" })}
+        >
+          <ApplicationLayout
+            latestArticles={latestArticles}
+            partners={partners}
+          >
+            {renderWithLayout(Component, pageProps)}
+          </ApplicationLayout>
+        </ErrorBoundary>
+      </ScreenSizeContextProvider>
+    </>
   );
 }
 
@@ -73,3 +83,43 @@ App.getInitialProps = async (appContext: AppContext) => {
 };
 
 export default App;
+
+function GoogleTagManagerScript() {
+  if (getConfig().googleTagManagerId == null) {
+    return null;
+  }
+
+  return (
+    <Head>
+      <script
+        dangerouslySetInnerHTML={{
+          __html: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','${getConfig().googleTagManagerId}');`,
+        }}
+      />
+    </Head>
+  );
+}
+
+function GoogleTagManagerIframe() {
+  if (getConfig().googleTagManagerId == null) {
+    return null;
+  }
+
+  return (
+    <noscript>
+      <iframe
+        title="Google Tag Manager"
+        src={`https://www.googletagmanager.com/ns.html?id=${
+          getConfig().googleTagManagerId
+        }`}
+        height="0"
+        width="0"
+        style={{ display: "none", visibility: "hidden" }}
+      ></iframe>
+    </noscript>
+  );
+}
