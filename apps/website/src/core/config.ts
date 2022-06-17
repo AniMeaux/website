@@ -4,6 +4,7 @@ export type Config = {
   apiUrl: string;
   cloudinaryCloudName: string;
   sentryDsn: string;
+  googleTagManagerId?: string;
 };
 
 // `getNextConfig` is only typed with `any`.
