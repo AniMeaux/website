@@ -8,18 +8,19 @@ import {
   ItemIcon,
   ItemMainText,
   LinkItem,
+  LinkItemProps,
 } from "~/core/dataDisplay/item";
 import { Markdown } from "~/core/dataDisplay/markdown";
 import { Placeholder } from "~/core/loaders/placeholder";
 
-type FosterFamilyItemProps = ButtonItemProps & {
+type FosterFamilyButtonItemProps = ButtonItemProps & {
   fosterFamily: FosterFamilySearchHit;
 };
 
-export function FosterFamilyItem({
+export function FosterFamilyButtonItem({
   fosterFamily,
   ...rest
-}: FosterFamilyItemProps) {
+}: FosterFamilyButtonItemProps) {
   return (
     <ButtonItem {...rest}>
       <ItemIcon>
@@ -32,6 +33,29 @@ export function FosterFamilyItem({
         </ItemMainText>
       </ItemContent>
     </ButtonItem>
+  );
+}
+
+type FosterFamilyLinkItemProps = LinkItemProps & {
+  fosterFamily: FosterFamilySearchHit;
+};
+
+export function FosterFamilyLinkItem({
+  fosterFamily,
+  ...rest
+}: FosterFamilyLinkItemProps) {
+  return (
+    <LinkItem {...rest}>
+      <ItemIcon>
+        <FaHome />
+      </ItemIcon>
+
+      <ItemContent>
+        <ItemMainText>
+          <Markdown preset="inline">{fosterFamily.highlightedName}</Markdown>
+        </ItemMainText>
+      </ItemContent>
+    </LinkItem>
   );
 }
 

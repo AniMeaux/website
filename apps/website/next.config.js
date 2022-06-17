@@ -14,6 +14,7 @@ module.exports = {
     apiUrl: process.env.API_URL,
     cloudinaryCloudName: process.env.CLOUDINARY_CLOUD_NAME,
     sentryDsn: process.env.SENTRY_DSN,
+    googleTagManagerId: process.env.GOOGLE_TAG_MANAGER_ID,
   },
 
   rewrites: () => [{ source: "/healthcheck", destination: "/api/healthcheck" }],
