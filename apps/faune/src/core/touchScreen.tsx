@@ -10,6 +10,15 @@ export function useIsTouchScreen() {
       setIsTouchScreen(mediaQuery.matches);
     }
 
+    // Safari before version 14 don't have `addEventListener`.
+    // See https://developer.mozilla.org/en-US/docs/Web/API/MediaQueryList#browser_compatibility
+    if (typeof mediaQuery.addEventListener === "undefined") {
+      mediaQuery.addListener(handleChange);
+      return () => {
+        mediaQuery.removeListener(handleChange);
+      };
+    }
+
     mediaQuery.addEventListener("change", handleChange);
     return () => {
       mediaQuery.removeEventListener("change", handleChange);

@@ -336,7 +336,10 @@ export function AnimalProfileForm({
 export function getInitialState(initialAnimal?: Animal): FormState {
   return {
     alias: initialAnimal?.commonName ?? "",
-    birthdate: initialAnimal?.birthdate ?? "",
+    birthdate:
+      initialAnimal?.birthdate == null
+        ? ""
+        : DateTime.fromISO(initialAnimal.birthdate).toISODate(),
     breed: initialAnimal?.breed ?? null,
     color: initialAnimal?.color ?? null,
     description: initialAnimal?.description ?? "",

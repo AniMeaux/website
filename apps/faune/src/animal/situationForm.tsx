@@ -433,7 +433,10 @@ export function AnimalSituationForm({
 export function getInitialState(initialAnimal?: Animal): FormState {
   return {
     manager: initialAnimal?.manager ?? null,
-    adoptionDate: initialAnimal?.adoptionDate ?? "",
+    adoptionDate:
+      initialAnimal?.adoptionDate == null
+        ? ""
+        : DateTime.fromISO(initialAnimal.adoptionDate).toISODate(),
     adoptionOption: initialAnimal?.adoptionOption ?? AdoptionOption.UNKNOWN,
     comments: initialAnimal?.comments ?? "",
     fosterFamily: initialAnimal?.fosterFamily ?? null,
@@ -441,7 +444,10 @@ export function getInitialState(initialAnimal?: Animal): FormState {
     isOkChildren: initialAnimal?.isOkChildren ?? Trilean.UNKNOWN,
     isOkDogs: initialAnimal?.isOkDogs ?? Trilean.UNKNOWN,
     isSterilized: initialAnimal?.isSterilized ?? false,
-    pickUpDate: initialAnimal?.pickUpDate ?? "",
+    pickUpDate:
+      initialAnimal?.pickUpDate == null
+        ? ""
+        : DateTime.fromISO(initialAnimal.pickUpDate).toISODate(),
     pickUpLocation: initialAnimal?.pickUpLocation ?? null,
     pickUpReason: initialAnimal?.pickUpReason ?? PickUpReason.OTHER,
     status: initialAnimal?.status ?? AnimalStatus.UNAVAILABLE,
