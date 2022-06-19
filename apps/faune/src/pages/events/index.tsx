@@ -41,6 +41,7 @@ const EventListPage: PageComponent = () => {
 
   const getAllEvents = usePaginatedOperationQuery({
     name: "getAllEvents",
+    // TODO: Handle pagination.
     params: {},
   });
 

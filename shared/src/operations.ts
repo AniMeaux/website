@@ -1,6 +1,7 @@
 import { AnimalOperations } from "./animal";
 import { AnimalBreedOperations } from "./animalBreed";
 import { AnimalColorOperations } from "./animalColor";
+import { AnimalFamilyOperations } from "./animalFamilies";
 import { CurrentUserOperations } from "./currentUser";
 import { EventOperations } from "./event";
 import { FosterFamilyOperations } from "./fosterFamily";
@@ -14,6 +15,7 @@ export type AllOperations = CurrentUserOperations &
   AnimalBreedOperations &
   FosterFamilyOperations &
   AnimalOperations &
+  AnimalFamilyOperations &
   ImageOperations &
   EventOperations;
 

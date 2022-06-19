@@ -2,11 +2,11 @@ import styled from "styled-components";
 import { Placeholder } from "~/core/loaders/placeholder";
 import { theme } from "~/styles/theme";
 
-export const Avatar = styled.span`
+export const Avatar = styled.span<{ $isSmall?: boolean }>`
   position: relative;
   overflow: hidden;
-  height: 2em;
-  width: 2em;
+  height: ${(props) => (props.$isSmall ? "1em" : "2em")};
+  width: ${(props) => (props.$isSmall ? "1em" : "2em")};
   border-radius: ${theme.borderRadius.full};
   display: flex;
   align-items: center;

@@ -42,6 +42,7 @@ async function seedData() {
   ]);
 
   await seedAnimals();
+  await seedAnimalFamilies();
 
   console.log(`🎉 Data is seeded`);
 }
@@ -320,6 +321,33 @@ function createAnimalInput({
     isOkDogs: nullableBoolean(),
     isSterilized: faker.datatype.boolean(),
   };
+}
+
+async function seedAnimalFamilies() {
+  const animals = await prisma.animal.findMany({
+    select: { id: true },
+  });
+
+  await Promise.all(
+    repeate({ min: 10, max: 30 }, async () => {
+      await prisma.animalFamily.create({
+        data: {
+          parents: {
+            connect: faker.helpers.arrayElements(
+              animals,
+              faker.datatype.number({ min: 0, max: 2 })
+            ),
+          },
+          children: {
+            connect: faker.helpers.arrayElements(
+              animals,
+              faker.datatype.number({ min: 1, max: 5 })
+            ),
+          },
+        },
+      });
+    })
+  );
 }
 
 function nullableBoolean() {

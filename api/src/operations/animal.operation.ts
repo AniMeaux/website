@@ -49,6 +49,46 @@ const animalWithIncludes = Prisma.validator<Prisma.AnimalArgs>()({
     color: true,
     manager: true,
     fosterFamily: true,
+    familiesAsParent: {
+      include: {
+        parents: {
+          select: {
+            id: true,
+            avatar: true,
+            name: true,
+            alias: true,
+          },
+        },
+        children: {
+          select: {
+            id: true,
+            avatar: true,
+            name: true,
+            alias: true,
+          },
+        },
+      },
+    },
+    familyAsChildren: {
+      include: {
+        parents: {
+          select: {
+            id: true,
+            avatar: true,
+            name: true,
+            alias: true,
+          },
+        },
+        children: {
+          select: {
+            id: true,
+            avatar: true,
+            name: true,
+            alias: true,
+          },
+        },
+      },
+    },
   },
 });
 
@@ -302,12 +342,23 @@ export const animalOperations: OperationsImpl<AnimalOperations> = {
       rawParams
     );
 
-    const animal = await prisma.animal.findUnique({
-      where: { id: params.id },
+    const animal = await prisma.animal.findFirst({
+      where: {
+        id: params.id,
+        status: { in: ADOPTABLE_ANIMAL_STATUS },
+      },
       include: {
         breed: { select: { name: true } },
         color: { select: { name: true } },
         fosterFamily: { select: { city: true, zipCode: true } },
+        familyAsChildren: {
+          select: {
+            children: {
+              select: { id: true, name: true, status: true, gender: true },
+              orderBy: { name: "asc" },
+            },
+          },
+        },
       },
     });
 
@@ -334,6 +385,17 @@ export const animalOperations: OperationsImpl<AnimalOperations> = {
         animal.fosterFamily == null
           ? undefined
           : getShortLocation(animal.fosterFamily),
+      siblings:
+        animal.familyAsChildren == null
+          ? []
+          : animal.familyAsChildren.children
+              .filter((child) => child.id !== animal.id)
+              .map((child) => ({
+                id: child.id,
+                displayName: child.name,
+                gender: child.gender,
+                isAdoptable: ADOPTABLE_ANIMAL_STATUS.includes(child.status),
+              })),
     };
   },
 
@@ -778,6 +840,21 @@ function mapToAnimal(
             formattedAddress: getFormattedAddress(animal.fosterFamily),
             phone: animal.fosterFamily.phone,
           },
+    families: (animal.familyAsChildren == null ? [] : [animal.familyAsChildren])
+      .concat(animal.familiesAsParent)
+      .map((family) => ({
+        id: family.id,
+        parents: family.parents.map((parent) => ({
+          id: parent.id,
+          avatarId: parent.avatar,
+          name: getDisplayName(parent),
+        })),
+        children: family.children.map((child) => ({
+          id: child.id,
+          avatarId: child.avatar,
+          name: getDisplayName(child),
+        })),
+      })),
     iCadNumber: animal.iCadNumber || undefined,
     comments: animal.comments || undefined,
     isOkChildren: booleanToTrilean(animal.isOkChildren),

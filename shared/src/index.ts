@@ -1,6 +1,7 @@
 export * from "./animal";
 export * from "./animalBreed";
 export * from "./animalColor";
+export * from "./animalFamilies";
 export * from "./article";
 export * from "./currentUser";
 export * from "./date";

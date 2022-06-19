@@ -8,6 +8,7 @@ import {
   FaHome,
   FaPalette,
   FaPaw,
+  FaSitemap,
   FaUser,
 } from "react-icons/fa";
 import styled from "styled-components";
@@ -128,6 +129,16 @@ const NAVIGATION_ITEMS: NavigationItem[] = [
     icon: FaUser,
     label: "Utilisateurs",
     authorizedGroups: [UserGroup.ADMIN],
+  },
+  {
+    href: "/animal-families",
+    icon: FaSitemap,
+    label: "Relations",
+    authorizedGroups: [
+      UserGroup.ADMIN,
+      UserGroup.ANIMAL_MANAGER,
+      UserGroup.VETERINARIAN,
+    ],
   },
   {
     href: "/animal-breeds",

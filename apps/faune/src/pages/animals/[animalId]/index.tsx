@@ -34,6 +34,7 @@ import {
 import { useMutation, UseMutationResult } from "react-query";
 import styled from "styled-components";
 import { AnimalGenderIcon } from "~/animal/animalGenderIcon";
+import { AnimalFamilyItem } from "~/animal/families/item";
 import {
   ANIMAL_GENDER_LABELS,
   PICK_UP_REASON_LABELS,
@@ -144,6 +145,7 @@ const AnimalPage: PageComponent = () => {
         <ProfileSection animal={getAnimal.result} />
         <SituationSection animal={getAnimal.result} />
         <DescriptionSection animal={getAnimal.result} />
+        <RelationsSection animal={getAnimal.result} />
 
         {currentUserCanEdit && (
           <QuickActions icon={<FaPen />}>
@@ -420,6 +422,30 @@ function SituationSection({ animal }: AnimalProp) {
     </Section>
   );
 }
+
+function RelationsSection({ animal }: AnimalProp) {
+  if (animal.families.length === 0) {
+    return null;
+  }
+
+  return (
+    <Section>
+      <SectionTitle>Relations</SectionTitle>
+
+      <FamilyList>
+        {animal.families.map((family) => (
+          <AnimalFamilyItem family={family} hightlightAnimalId={animal.id} />
+        ))}
+      </FamilyList>
+    </Section>
+  );
+}
+
+const FamilyList = styled.ul`
+  display: flex;
+  flex-direction: column;
+  gap: ${theme.spacing.x4};
+`;
 
 function ManagerItem({ manager }: { manager: NonNullable<Animal["manager"]> }) {
   const { currentUser } = useCurrentUser();

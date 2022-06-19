@@ -150,11 +150,24 @@ model Animal {
   isOkCats       Boolean?
   isSterilized   Boolean
 
+  familiesAsParent   AnimalFamily[] @relation("AnimalFamilyParent")
+  familyAsChildren   AnimalFamily?  @relation("AnimalFamilyChildren", fields: [familyAsChildrenId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+  familyAsChildrenId String?
+
   @@index([species])
   @@index([status])
   @@index([managerId])
   @@index([status, species])
   @@index([status, managerId])
+}
+
+model AnimalFamily {
+  id        String   @id @default(uuid()) @db.VarChar(255)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  parents  Animal[] @relation("AnimalFamilyParent")
+  children Animal[] @relation("AnimalFamilyChildren")
 }
 
 enum EventCategory {

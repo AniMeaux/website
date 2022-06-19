@@ -52,3 +52,16 @@
 .callToAction {
   margin-top: var(--spacing-4xl);
 }
+
+.siblingName {
+  display: inline-flex;
+  align-items: baseline;
+}
+
+a.siblingName {
+  color: var(--blue-medium);
+}
+
+.siblingGenderIcon {
+  align-self: center;
+}

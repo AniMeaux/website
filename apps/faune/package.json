@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@animeaux/shared": "*",
+    "@prisma/client": "^3.11.1",
     "@sentry/react": "^6.16.1",
     "autosize": "^5.0.1",
     "body-scroll-lock": "^3.1.5",

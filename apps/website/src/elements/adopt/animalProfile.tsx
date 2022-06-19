@@ -1,13 +1,20 @@
 import {
+  AnimalGender,
   AnimalSpecies,
   formatAge,
   PublicAnimal,
   Trilean,
 } from "@animeaux/shared";
 import { DateTime } from "luxon";
-import { FaBaby, FaBirthdayCake, FaMapMarkerAlt } from "react-icons/fa";
+import {
+  FaBaby,
+  FaBirthdayCake,
+  FaMapMarkerAlt,
+  FaSitemap,
+} from "react-icons/fa";
 import { isDefined } from "~/core/isDefined";
-import { ANIMAL_GENDER_LABELS } from "~/core/labels";
+import { ANIMAL_GENDER_LABELS, ANIMAL_SPECIES_LABELS } from "~/core/labels";
+import { Link } from "~/core/link";
 import { AnimalGenderIcon } from "~/dataDisplay/animalGenderIcon";
 import { AnimalSpeciesIcon } from "~/dataDisplay/animalSpeciesIcon";
 import { Markdown } from "~/dataDisplay/markdown";
@@ -39,7 +46,11 @@ export function AnimalProfile({ animal }: AnimalProfileProps) {
                     className={styles.detailIcon}
                   />
                   <span>
-                    {[animal.breedName, animal.colorName]
+                    {[
+                      ANIMAL_SPECIES_LABELS[animal.species],
+                      animal.breedName,
+                      animal.colorName,
+                    ]
                       .filter(isDefined)
                       .join(" • ")}
                   </span>
@@ -94,6 +105,67 @@ export function AnimalProfile({ animal }: AnimalProfileProps) {
                   <li className={styles.detailItem}>
                     <FaMapMarkerAlt className={styles.detailIcon} />
                     <span>En famille d'accueil à {animal.location}</span>
+                  </li>
+                )}
+
+                {animal.siblings.length > 0 && (
+                  <li className={styles.detailItem}>
+                    <FaSitemap className={styles.detailIcon} />
+                    <span>
+                      {animal.displayName} est{" "}
+                      {animal.gender === AnimalGender.FEMALE
+                        ? "la sœur"
+                        : "le frère"}{" "}
+                      de :{" "}
+                      {animal.siblings.map((sibling, index) => {
+                        const separator =
+                          index === 0
+                            ? null
+                            : index === animal.siblings.length - 1
+                            ? " et "
+                            : ", ";
+
+                        const content = (
+                          <>
+                            <AnimalGenderIcon
+                              gender={sibling.gender}
+                              className={styles.siblingGenderIcon}
+                            />
+
+                            {sibling.displayName}
+                          </>
+                        );
+
+                        if (sibling.isAdoptable) {
+                          return (
+                            <>
+                              {separator}
+
+                              <Link
+                                key={sibling.id}
+                                href={`/adopt/${sibling.id}`}
+                                className={styles.siblingName}
+                              >
+                                {content}
+                              </Link>
+                            </>
+                          );
+                        }
+
+                        return (
+                          <>
+                            {separator}
+
+                            <span
+                              key={sibling.id}
+                              className={styles.siblingName}
+                            >
+                              {content}
+                            </span>
+                          </>
+                        );
+                      })}
+                    </span>
                   </li>
                 )}
               </ul>

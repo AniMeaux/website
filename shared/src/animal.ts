@@ -7,6 +7,7 @@ import {
 } from "@prisma/client";
 import { AnimalBreed } from "./animalBreed";
 import { AnimalColor } from "./animalColor";
+import { AnimalFamily } from "./animalFamilies";
 import {
   OperationPaginationParams,
   OperationPaginationResult,
@@ -70,6 +71,12 @@ export type PublicAnimal = {
   isSterilized: boolean;
   description?: string;
   location?: string;
+  siblings: {
+    id: string;
+    displayName: string;
+    gender: Gender;
+    isAdoptable: boolean;
+  }[];
 };
 
 export type Animal = {
@@ -102,6 +109,7 @@ export type Animal = {
     email: string;
     formattedAddress: string;
   };
+  families: AnimalFamily[];
   iCadNumber?: string;
   comments?: string;
   isOkChildren: Trilean;
