@@ -198,6 +198,8 @@ export type AnimalOperations = {
   deleteAnimal: (params: { id: string }) => boolean;
   searchLocation: (params: { search: string }) => LocationSearchHit[];
   searchManager: (params: { search: string }) => ManagerSearchHit[];
+
+  listAvailableNames: (params: { firstLetter?: string }) => String[];
 };
 
 type AgeRange = {
