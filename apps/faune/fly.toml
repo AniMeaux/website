@@ -32,9 +32,9 @@ protocol = "tcp"
   timeout = "2s"
 
   [[services.http_checks]]
-  interval = 10_000
+  interval = "10s"
   grace_period = "5s"
   method = "get"
   path = "/healthcheck"
   protocol = "http"
-  timeout = 2_000
+  timeout = "2s"
