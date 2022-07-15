@@ -10,3 +10,59 @@
     @apply outline-none;
   }
 }
+
+@layer utilities {
+  .text-body-default {
+    @apply font-sans;
+    font-size: 16px;
+    line-height: 150%;
+  }
+
+  .text-body-emphasis {
+    @apply font-sans;
+    font-size: 16px;
+    line-height: 150%;
+    font-weight: 600;
+  }
+
+  .text-caption-default {
+    @apply font-sans;
+    font-size: 14px;
+    line-height: 171.43%;
+  }
+
+  .text-title-item {
+    @apply font-serif;
+    font-size: 16px;
+    line-height: 150%;
+    font-weight: 700;
+  }
+
+  .text-title-hero-large {
+    @apply font-serif;
+    font-size: 60px;
+    line-height: 120%;
+    font-weight: 600;
+  }
+
+  .text-title-hero-small {
+    @apply font-serif;
+    font-size: 40px;
+    line-height: 120%;
+    font-weight: 600;
+  }
+
+  .text-title-section-large {
+    @apply font-serif;
+    font-size: 40px;
+    line-height: 120%;
+    font-weight: 600;
+  }
+
+  .text-title-section-small {
+    @apply font-serif;
+    font-size: 20px;
+    line-height: 120%;
+    font-weight: 700;
+  }
+}

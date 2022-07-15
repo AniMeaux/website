@@ -12,6 +12,19 @@ module.exports = {
         serif: ['"Open Sans"', ...defaultTheme.fontFamily.serif],
         sans: ["Roboto", ...defaultTheme.fontFamily.sans],
       },
+      colors: {
+        white: "#ffffff",
+        black: "#000000",
+        blue: { base: "#0078bf" },
+        green: { base: "#32b54f" },
+        yellow: { base: "#ffc31b", darker: "#fab800" },
+        red: { base: "#ed2a26" },
+        cyan: { base: "#00bfbf" },
+        pink: { base: "#ed266e" },
+      },
+      dropShadow: {
+        base: "0px 8px 20px rgba(0, 0, 0, 0.06)",
+      },
     },
   },
   plugins: [
