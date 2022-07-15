@@ -13,6 +13,7 @@ import { ErrorPage } from "~/dataDisplay/errorPage";
 import sprite from "~/generated/sprite.svg";
 import stylesheet from "~/generated/tailwind.css";
 import appleTouchIcon from "~/images/appleTouchIcon.png";
+import background from "~/images/background.svg";
 import favicon from "~/images/favicon.svg";
 import maskIcon from "~/images/maskIcon.svg";
 
@@ -81,7 +82,11 @@ export function ErrorBoundary({ error }: { error: Error }) {
 
 function Document({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="fr" className="bg-gray-50">
+    <html
+      lang="fr"
+      className="bg-gray-50 bg-repeat"
+      style={{ backgroundImage: `url("${background}"` }}
+    >
       <head>
         <Meta />
         <Links />
