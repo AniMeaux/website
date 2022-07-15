@@ -1,4 +1,4 @@
-app = "animeaux-faune-3ac2"
+app = "animeaux-website-remix-3ac2-staging"
 
 [env]
 PORT = "8080"

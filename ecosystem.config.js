@@ -36,6 +36,21 @@ module.exports = {
     }),
 
     createApp({
+      name: "website-remix",
+      cwd: "apps/website-remix",
+      script: "yarn dev",
+      watch: ["./remix.config.js", "tsconfig.json", "./.env*"],
+    }),
+
+    createApp({
+      name: "website-remix-css",
+      cwd: "apps/website-remix",
+      script: "yarn build:css",
+      watch: ["./tailwind.config.js", "./styles", "./src"],
+      ignore_watch: ["generated"],
+    }),
+
+    createApp({
       name: "faune",
       cwd: "apps/faune",
       script: "yarn dev",
@@ -55,9 +70,9 @@ function createApp(config) {
     error_file: logFile,
     out_file: logFile,
 
-    // Allow dot files (env) to be watched.
-    ignore_watch: ["node_modules"],
-
     ...config,
+
+    // Allow dot files (env) to be watched.
+    ignore_watch: ["node_modules", ...(config.ignore_watch ?? [])],
   };
 }
