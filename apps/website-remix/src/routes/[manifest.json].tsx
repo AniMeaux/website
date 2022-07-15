@@ -1,5 +1,12 @@
-import { json, LoaderFunction } from "@remix-run/node";
+import { json, LinksFunction, LoaderFunction } from "@remix-run/node";
 import googleTouchIcon from "~/images/googleTouchIcon.png";
+
+// Make sure `googleTouchIcon.png` is added to the build assets.
+// It looks like an asset only used on the server won't be included in the
+// assets build folder.
+export const links: LinksFunction = () => {
+  return [{ rel: "preconnect", href: googleTouchIcon }];
+};
 
 export const loader: LoaderFunction = () => {
   return json({
