@@ -92,7 +92,7 @@ function Document({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
 
-      <body className="min-h-screen text-gray-800">
+      <body className="min-h-screen antialiased text-gray-800 text-body-default">
         {children}
 
         <ScrollRestoration />

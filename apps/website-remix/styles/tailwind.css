@@ -9,6 +9,11 @@
   :focus:not(:is(:focus-visible, .focus-visible)) {
     @apply outline-none;
   }
+
+  body {
+    text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+  }
 }
 
 @layer utilities {
