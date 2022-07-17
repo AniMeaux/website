@@ -51,6 +51,13 @@ module.exports = {
     }),
 
     createApp({
+      name: "website-remix-icons",
+      cwd: "apps/website-remix",
+      script: "yarn build:icons",
+      watch: ["./icons"],
+    }),
+
+    createApp({
       name: "faune",
       cwd: "apps/faune",
       script: "yarn dev",
