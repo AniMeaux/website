@@ -4,14 +4,14 @@ import invariant from "tiny-invariant";
 import { cn } from "~/core/classNames";
 import { Icon, IconProps } from "~/generated/icon";
 import nameAndLogo from "~/images/nameAndLogo.svg";
-import { LineShape } from "~/layout/lineShape";
+import { LineShapeHorizontal } from "~/layout/lineShape";
 import { ActionData } from "~/routes/subscribe";
 
 export function Footer() {
   return (
     <footer className="px-page pt-[72px] pb-12 flex flex-col items-center gap-12 md:py-0">
       <div className="w-full px-2 flex md:px-6">
-        <LineShape className="w-full h-4 stroke-gray-300 md:h-6" />
+        <LineShapeHorizontal className="w-full h-4 stroke-gray-300 md:h-6" />
       </div>
 
       <div className="w-full flex flex-col items-center gap-12 md:flex-row">
