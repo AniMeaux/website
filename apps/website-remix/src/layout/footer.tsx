@@ -9,30 +9,66 @@ import { ActionData } from "~/routes/subscribe";
 
 export function Footer() {
   return (
-    <footer className="px-page pt-[72px] pb-12 flex flex-col items-center gap-12 md:py-0">
-      <div className="w-full px-2 flex md:px-6">
-        <LineShapeHorizontal className="w-full h-4 stroke-gray-300 md:h-6" />
+    <footer
+      className={cn(
+        "px-page w-full pt-[72px] pb-12 flex flex-col items-center gap-12",
+        "md:py-12"
+      )}
+    >
+      <div className={cn("w-full px-2 flex", "md:px-6")}>
+        <LineShapeHorizontal
+          className={cn("w-full h-4 stroke-gray-300", "md:h-6")}
+        />
       </div>
 
-      <div className="w-full flex flex-col items-center gap-12 md:flex-row">
-        <section className="max-w-md flex flex-col gap-6 md:min-w-0 md:max-w-none md:flex-1 md:px-6">
-          <div className="px-4 flex flex-col gap-6 md:px-0">
-            <h2 className="text-title-section-small text-center md:text-title-section-large md:text-left">
+      <div
+        className={cn(
+          "w-full flex flex-col items-center gap-12",
+          "md:flex-row"
+        )}
+      >
+        <section
+          className={cn(
+            "max-w-md flex flex-col gap-6",
+            "md:min-w-0 md:max-w-none md:flex-1 md:px-6"
+          )}
+        >
+          <div className={cn("px-4 flex flex-col gap-6", "md:px-0")}>
+            <h2
+              className={cn(
+                "text-title-section-small text-center",
+                "md:text-title-section-large md:text-left"
+              )}
+            >
               Newsletter
             </h2>
-            <p className="text-center md:text-left">
+            <p className={cn("text-center", "md:text-left")}>
               Abonnez-vous à la newsletter pour ne rien rater des dernières
               nouveautés
             </p>
           </div>
 
-          <div className="w-full px-2 flex flex-col items-center md:px-0 md:items-start">
+          <div
+            className={cn(
+              "w-full px-2 flex flex-col items-center",
+              "md:px-0 md:items-start"
+            )}
+          >
             <NewletterForm />
           </div>
         </section>
 
-        <section className="max-w-md px-4 flex flex-col items-start gap-6 md:max-w-none md:flex-1 md:min-w-0 md:px-6">
-          <img src={nameAndLogo} alt="Ani'Meaux" className="h-[60px] md:h-20" />
+        <section
+          className={cn(
+            "max-w-md px-4 flex flex-col items-start gap-6",
+            "md:max-w-none md:flex-1 md:min-w-0 md:px-6"
+          )}
+        >
+          <img
+            src={nameAndLogo}
+            alt="Ani'Meaux"
+            className={cn("h-[60px]", "md:h-20")}
+          />
 
           <ul className="flex flex-col">
             <ContactItem icon="phone">06 12 19 43 92</ContactItem>
@@ -51,7 +87,12 @@ export function Footer() {
         </section>
       </div>
 
-      <section className="max-w-md px-4 py-6 flex flex-col gap-6 text-gray-500 text-center md:max-w-none md:w-full md:p-6 md:flex-row md:items-center md:justify-between md:gap-12 md:text-left">
+      <section
+        className={cn(
+          "max-w-md px-4 py-6 flex flex-col gap-6 text-gray-500 text-center",
+          "md:max-w-none md:w-full md:p-6 md:flex-row md:items-center md:justify-between md:gap-12 md:text-left"
+        )}
+      >
         <p className="text-caption-default">
           Mentions légales • SIRET : 83962717100037 • RNA : W771014759
         </p>
@@ -113,7 +154,12 @@ function NewletterForm() {
   const isError = fetcher.data?.type === "error";
 
   return (
-    <div className="w-full max-w-sm flex flex-col items-start gap-3 md:max-w-none">
+    <div
+      className={cn(
+        "w-full max-w-sm flex flex-col items-start gap-3",
+        "md:max-w-none"
+      )}
+    >
       <fetcher.Form
         ref={formRef}
         method="post"
