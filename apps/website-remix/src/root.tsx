@@ -8,13 +8,17 @@ import {
   ScrollRestoration,
   useCatch,
 } from "@remix-run/react";
+import { cn } from "~/core/classNames";
 import { getPageTitle } from "~/core/pageTitle";
 import { ErrorPage } from "~/dataDisplay/errorPage";
 import sprite from "~/generated/sprite.svg";
 import stylesheet from "~/generated/tailwind.css";
 import appleTouchIcon from "~/images/appleTouchIcon.png";
+import background from "~/images/background.svg";
 import favicon from "~/images/favicon.svg";
 import maskIcon from "~/images/maskIcon.svg";
+import { Footer } from "~/layout/footer";
+import { Header } from "~/layout/header";
 
 export const links: LinksFunction = () => {
   return [
@@ -36,7 +40,7 @@ export const links: LinksFunction = () => {
     },
     {
       rel: "stylesheet",
-      href: "https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap",
+      href: "https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap",
     },
   ];
 };
@@ -81,14 +85,25 @@ export function ErrorBoundary({ error }: { error: Error }) {
 
 function Document({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="fr" className="bg-gray-50">
+    <html
+      lang="fr"
+      className="bg-gray-50 bg-repeat"
+      style={{ backgroundImage: `url("${background}"` }}
+    >
       <head>
         <Meta />
         <Links />
       </head>
 
-      <body className="min-h-screen text-gray-800">
+      <body
+        className={cn(
+          "min-h-screen antialiased text-gray-800 text-body-default flex flex-col items-center gap-6",
+          "md:gap-12"
+        )}
+      >
+        <Header />
         {children}
+        <Footer />
 
         <ScrollRestoration />
         <Scripts />
