@@ -54,8 +54,8 @@ export function SmallNav() {
   }, [state.isOpened]);
 
   const headerRef = useRef<HTMLElement>(null);
-  const dropdownRef = useRef<HTMLDivElement>(null);
-  useScrollLock(dropdownRef, { disabled: !state.isOpened });
+  const navRef = useRef<HTMLDivElement>(null);
+  useScrollLock(navRef, { disabled: !state.isOpened });
   useFocusTrap(headerRef, { disabled: !state.isOpened });
 
   return (
@@ -95,7 +95,6 @@ export function SmallNav() {
 
           return (
             <div
-              ref={dropdownRef}
               className={cn(
                 "absolute -z-10 top-0 left-0 w-full h-screen bg-white pt-[64px] px-2 pb-2 flex",
                 {
@@ -108,7 +107,10 @@ export function SmallNav() {
                 }
               )}
             >
-              <nav className="w-full h-full min-h-0 overflow-auto flex flex-col">
+              <nav
+                ref={navRef}
+                className="w-full h-full min-h-0 overflow-auto flex flex-col"
+              >
                 <NavGroupButton
                   isActive={state.openedGroup === "adopt"}
                   onClick={() => setState(toggleGroup("adopt"))}
