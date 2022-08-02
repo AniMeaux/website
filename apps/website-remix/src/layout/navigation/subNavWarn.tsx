@@ -1,18 +1,9 @@
 import { SubNavItem } from "~/layout/navigation/shared";
 
-export function SubNavWarn({
-  elementToFocusRef,
-}: {
-  elementToFocusRef: React.RefObject<HTMLAnchorElement>;
-}) {
+export function SubNavWarn() {
   return (
     <div className="flex flex-col">
-      <SubNavItem
-        ref={elementToFocusRef}
-        color="green"
-        icon="catTree"
-        to="/signaler-un-animal-errant"
-      >
+      <SubNavItem color="green" icon="catTree" to="/signaler-un-animal-errant">
         Signaler un animal errant
       </SubNavItem>
 

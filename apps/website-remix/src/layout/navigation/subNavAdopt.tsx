@@ -2,11 +2,7 @@ import { cn } from "~/core/classNames";
 import { LineShapeHorizontal, LineShapeVertical } from "~/layout/lineShape";
 import { SubNavItem } from "~/layout/navigation/shared";
 
-export function SubNavAdopt({
-  elementToFocusRef,
-}: {
-  elementToFocusRef: React.RefObject<HTMLAnchorElement>;
-}) {
+export function SubNavAdopt() {
   return (
     <div
       className={cn(
@@ -15,13 +11,7 @@ export function SubNavAdopt({
       )}
     >
       <div className={cn("grid grid-cols-3", "md:flex-1")}>
-        <SubNavItem
-          ref={elementToFocusRef}
-          isMultiline
-          color="red"
-          icon="cat"
-          to="/adoption/chat"
-        >
+        <SubNavItem isMultiline color="red" icon="cat" to="/adoption/chat">
           Chat
         </SubNavItem>
 
