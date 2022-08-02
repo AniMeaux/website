@@ -1,76 +1,9 @@
-import { forwardRef, useEffect, useState } from "react";
-import { Transition } from "react-transition-group";
-import invariant from "tiny-invariant";
+import { forwardRef } from "react";
 import { BaseLink, BaseLinkProps } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
 import { Icon, IconProps } from "~/generated/icon";
-import { LineShapeHorizontal } from "~/layout/lineShape";
 
 export type NavGroup = "act" | "adopt" | "discover" | "warn";
-
-export const NavGroupButton = forwardRef<
-  HTMLButtonElement,
-  React.ButtonHTMLAttributes<HTMLButtonElement> & {
-    isActive: boolean;
-  }
->(function NavGroupButton({ children, isActive, ...rest }, ref) {
-  // Use a large number instead of 0 to make sure the line is not visible by
-  // default.
-  const [width, setWidth] = useState(Number.MAX_SAFE_INTEGER);
-
-  useEffect(() => {
-    // We reuse the forward ref to avoid having to "merge" it with a local one.
-    invariant(typeof ref === "object" && ref != null, "ref must be an object");
-    invariant(ref.current != null, "ref must be set");
-    setWidth(ref.current?.clientWidth);
-  }, [ref]);
-
-  return (
-    <button
-      ref={ref}
-      {...rest}
-      className={cn(
-        "group relative px-3 py-2 flex items-center justify-between gap-1 hover:text-black",
-        {
-          "text-black": isActive,
-          "text-gray-700": !isActive,
-        }
-      )}
-    >
-      <span>{children}</span>
-
-      <Icon
-        id={isActive ? "caretUp" : "caretDown"}
-        className={cn("group-hover:text-black", "md:hidden", {
-          "text-gray-500": !isActive,
-        })}
-      />
-
-      <Transition mountOnEnter unmountOnExit in={isActive} timeout={150}>
-        {(transitionState) => (
-          <LineShapeHorizontal
-            className={cn(
-              "hidden",
-              "md:absolute md:bottom-0 md:left-0 md:w-full md:h-1 md:block md:stroke-blue-base",
-              {
-                "md:transition-[stroke-dashoffset] md:duration-150 md:ease-in-out":
-                  transitionState === "entering" ||
-                  transitionState === "exiting",
-              }
-            )}
-            style={{
-              strokeDasharray: width,
-              strokeDashoffset:
-                transitionState === "entering" || transitionState === "entered"
-                  ? 0
-                  : width,
-            }}
-          />
-        )}
-      </Transition>
-    </button>
-  );
-});
 
 export const NavLink = forwardRef<HTMLAnchorElement, BaseLinkProps>(
   function NavLink({ className, ...rest }, ref) {
@@ -159,28 +92,6 @@ export const SubNavItem = forwardRef<
     </BaseLink>
   );
 });
-
-// Global var (`window.__DEBUG_NAV__`) to debug navigation.
-declare global {
-  var __DEBUG_NAV__: any;
-}
-
-export function handleBlur(callback: () => void) {
-  return (event: React.FocusEvent<HTMLDivElement, Element>) => {
-    // Don't handle blur events when we want to debug.
-    if (typeof window !== "undefined" && Boolean(window.__DEBUG_NAV__)) {
-      return;
-    }
-
-    if (
-      event.relatedTarget == null ||
-      !event.currentTarget.contains(event.relatedTarget as Node)
-    ) {
-      // Let pending events run before invoking the callback (mouseup, click).
-      setTimeout(callback);
-    }
-  };
-}
 
 export function handleEscape(callback: () => void) {
   return (event: React.KeyboardEvent<HTMLDivElement>) => {

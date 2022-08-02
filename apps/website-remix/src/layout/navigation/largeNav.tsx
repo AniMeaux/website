@@ -1,162 +1,183 @@
 import { useLocation } from "@remix-run/react";
-import { useEffect, useRef, useState } from "react";
+import { forwardRef, useEffect, useRef, useState } from "react";
 import { Transition } from "react-transition-group";
 import invariant from "tiny-invariant";
+import { BaseLink } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
-import {
-  handleBlur,
-  handleEscape,
-  NavGroup,
-  NavGroupButton,
-  NavLink,
-} from "~/layout/navigation/shared";
+import { getFocusTrapIgnoreAttribute, useFocusTrap } from "~/core/focusTrap";
+import { useScrollLock } from "~/core/scrollLock";
+import nameAndLogo from "~/images/nameAndLogo.svg";
+import { LineShapeHorizontal } from "~/layout/lineShape";
+import { handleEscape, NavGroup, NavLink } from "~/layout/navigation/shared";
 import { SocialLinks } from "~/layout/navigation/socialLinks";
 import { SubNavAct } from "~/layout/navigation/subNavAct";
 import { SubNavAdopt } from "~/layout/navigation/subNavAdopt";
 import { SubNavDiscover } from "~/layout/navigation/subNavDiscover";
 import { SubNavWarn } from "~/layout/navigation/subNavWarn";
 
+type State = NavGroup | null;
+
 export function LargeNav() {
   const location = useLocation();
-  const [openedGroup, setOpenedGroup] = useState<NavGroup | null>(null);
+  const [openedGroup, setOpenedGroup] = useState<State>(null);
 
   // Force close on navigation change.
   useEffect(() => {
     setOpenedGroup(null);
   }, [location.key]);
 
-  const adoptButtonRef = useRef<HTMLButtonElement>(null);
-  const catLinkRef = useRef<HTMLAnchorElement>(null);
-  const actButtonRef = useRef<HTMLButtonElement>(null);
-  const fosterFamilyLinkRef = useRef<HTMLAnchorElement>(null);
-  const warnButtonRef = useRef<HTMLButtonElement>(null);
-  const strayCatLinkRef = useRef<HTMLAnchorElement>(null);
-  const discoverButtonRef = useRef<HTMLButtonElement>(null);
-  const partnersLinkRef = useRef<HTMLAnchorElement>(null);
-  const eventLinkRef = useRef<HTMLAnchorElement>(null);
-
-  // Focus first link when a group is opened.
+  // If the page has scrolled just a bit, the header is no longer entirely
+  // visible.
+  // So we scroll to top to make sure the header is entirely visible.
+  // Do it before locking scroll so we don't restore the scroll position.
   useEffect(() => {
     if (openedGroup != null) {
-      let linkFocusTargetRef =
-        openedGroup === "adopt"
-          ? catLinkRef
-          : openedGroup === "act"
-          ? fosterFamilyLinkRef
-          : openedGroup === "warn"
-          ? strayCatLinkRef
-          : openedGroup === "discover"
-          ? partnersLinkRef
-          : null;
-
-      invariant(
-        linkFocusTargetRef?.current != null,
-        "linkFocusTargetRef must be set"
-      );
-
-      linkFocusTargetRef.current.focus();
+      window.scrollTo({ top: 0 });
     }
   }, [openedGroup]);
 
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  useScrollLock(dropdownRef, { disabled: openedGroup == null });
+  useFocusTrap(dropdownRef, {
+    shouldFocusFirstChild: true,
+    disabled: openedGroup == null,
+  });
+
   return (
-    <>
-      <nav className="hidden md:flex lg:gap-2">
+    <header
+      {...getFocusTrapIgnoreAttribute()}
+      className={cn(
+        "z-[0] w-full px-page py-2 hidden items-center justify-between",
+        "md:flex"
+      )}
+    >
+      <BaseLink to="/" className="flex">
+        <img src={nameAndLogo} alt="Ani'Meaux" className="h-[40px]" />
+      </BaseLink>
+
+      <nav className="flex lg:gap-2">
         <NavGroupButton
-          ref={adoptButtonRef}
           isActive={openedGroup === "adopt"}
-          onClick={() => setOpenedGroup("adopt")}
+          onClick={() => setOpenedGroup(toggleGroup("adopt"))}
         >
           Adopter
         </NavGroupButton>
 
         <NavGroupButton
-          ref={actButtonRef}
           isActive={openedGroup === "act"}
-          onClick={() => setOpenedGroup("act")}
+          onClick={() => setOpenedGroup(toggleGroup("act"))}
         >
           Agir
         </NavGroupButton>
 
         <NavGroupButton
-          ref={warnButtonRef}
           isActive={openedGroup === "warn"}
-          onClick={() => setOpenedGroup("warn")}
+          onClick={() => setOpenedGroup(toggleGroup("warn"))}
         >
           Avertir
         </NavGroupButton>
 
         <NavGroupButton
-          ref={discoverButtonRef}
           isActive={openedGroup === "discover"}
-          onClick={() => setOpenedGroup("discover")}
+          onClick={() => setOpenedGroup(toggleGroup("discover"))}
         >
           Découvrir
         </NavGroupButton>
 
-        <NavLink ref={eventLinkRef} to="/evenements">
-          Événements
-        </NavLink>
+        <NavLink to="/evenements">Événements</NavLink>
 
         <Dropdown
+          ref={dropdownRef}
           isOpened={openedGroup != null}
-          prevFocusTargetRef={
-            openedGroup === "adopt"
-              ? adoptButtonRef
-              : openedGroup === "act"
-              ? actButtonRef
-              : openedGroup === "warn"
-              ? warnButtonRef
-              : discoverButtonRef
-          }
-          nextFocusTargetRef={
-            openedGroup === "adopt"
-              ? actButtonRef
-              : openedGroup === "act"
-              ? warnButtonRef
-              : openedGroup === "warn"
-              ? discoverButtonRef
-              : eventLinkRef
-          }
-          onBlur={handleBlur(() => {
-            setOpenedGroup((prevOpenedGroup) =>
-              prevOpenedGroup === openedGroup ? null : prevOpenedGroup
-            );
-          })}
+          onClose={() => setOpenedGroup(null)}
         >
-          {openedGroup === "adopt" && (
-            <SubNavAdopt elementToFocusRef={catLinkRef} />
-          )}
-          {openedGroup === "act" && (
-            <SubNavAct elementToFocusRef={fosterFamilyLinkRef} />
-          )}
-          {openedGroup === "warn" && (
-            <SubNavWarn elementToFocusRef={strayCatLinkRef} />
-          )}
-          {openedGroup === "discover" && (
-            <SubNavDiscover elementToFocusRef={partnersLinkRef} />
-          )}
+          {openedGroup === "adopt" && <SubNavAdopt />}
+          {openedGroup === "act" && <SubNavAct />}
+          {openedGroup === "warn" && <SubNavWarn />}
+          {openedGroup === "discover" && <SubNavDiscover />}
         </Dropdown>
       </nav>
 
-      <div className="hidden md:flex">
+      <div className="flex">
         <SocialLinks />
       </div>
-    </>
+    </header>
   );
 }
 
-function Dropdown({
-  isOpened,
-  onBlur,
+function toggleGroup(group: NavGroup) {
+  return (prevState: State): State | null => {
+    return prevState === group ? null : group;
+  };
+}
+
+function NavGroupButton({
   children,
-  prevFocusTargetRef,
-  nextFocusTargetRef,
-}: Pick<React.HTMLAttributes<HTMLDivElement>, "onBlur"> & {
-  isOpened: boolean;
-  children?: React.ReactNode;
-  prevFocusTargetRef: React.RefObject<HTMLElement>;
-  nextFocusTargetRef: React.RefObject<HTMLElement>;
+  isActive,
+  className,
+  ...rest
+}: React.ButtonHTMLAttributes<HTMLButtonElement> & {
+  isActive: boolean;
 }) {
+  const buttonRef = useRef<HTMLButtonElement>(null);
+
+  // Use a large number instead of 0 to make sure the line is not visible by
+  // default.
+  const [width, setWidth] = useState(Number.MAX_SAFE_INTEGER);
+
+  useEffect(() => {
+    invariant(buttonRef.current != null, "buttonRef must be set");
+    setWidth(buttonRef.current?.clientWidth);
+  }, []);
+
+  return (
+    <button
+      ref={buttonRef}
+      {...rest}
+      className={cn(
+        className,
+        "group relative px-3 py-2 flex items-center justify-between gap-1 hover:text-black",
+        {
+          "text-black": isActive,
+          "text-gray-700": !isActive,
+        }
+      )}
+    >
+      <span>{children}</span>
+
+      <Transition mountOnEnter unmountOnExit in={isActive} timeout={150}>
+        {(transitionState) => (
+          <LineShapeHorizontal
+            className={cn(
+              "absolute bottom-0 left-0 w-full h-1 block stroke-blue-base",
+              {
+                "transition-[stroke-dashoffset] duration-150 ease-in-out":
+                  transitionState === "entering" ||
+                  transitionState === "exiting",
+              }
+            )}
+            style={{
+              strokeDasharray: width,
+              strokeDashoffset:
+                transitionState === "entering" || transitionState === "entered"
+                  ? 0
+                  : width,
+            }}
+          />
+        )}
+      </Transition>
+    </button>
+  );
+}
+
+const Dropdown = forwardRef<
+  HTMLDivElement,
+  {
+    isOpened: boolean;
+    onClose: () => void;
+    children?: React.ReactNode;
+  }
+>(function Dropdown({ isOpened, onClose, children }, ref) {
   const childrenRef = useRef<HTMLDivElement>(null);
   const [childrenHeight, setChildrenHeight] = useState(0);
   useEffect(() => {
@@ -166,67 +187,49 @@ function Dropdown({
   }, [children]);
 
   return (
-    <Transition mountOnEnter unmountOnExit in={isOpened} timeout={100}>
-      {(transitionState) => (
-        <div
-          className={cn(
-            "md:absolute md:-z-10 md:top-0 md:left-0 md:w-full md:bg-white md:shadow-base md:rounded-br-[40px] md:rounded-bl-3xl md:flex md:flex-col md:items-center md:overflow-hidden",
-            {
-              // Use `ease-in-out` to make sure animation is symetrical between
-              // entering and exiting to avoid a weird progress missmatch.
-              "transition-[height] duration-100 ease-in-out":
-                transitionState === "entering" ||
-                transitionState === "exiting" ||
-                // Keep it the transition when visible child changes.
-                transitionState === "entered",
-            }
-          )}
-          style={{ height: childrenHeight }}
-        >
+    <>
+      <Transition mountOnEnter unmountOnExit in={isOpened} timeout={100}>
+        {(transitionState) => (
           <div
-            ref={childrenRef}
+            ref={ref}
             className={cn(
-              "md:w-[600px] md:flex md:flex-col",
-              // 104px = 56px (header height) + 48px (padding)
-              "md:pt-[104px] md:pb-12"
+              "absolute -z-10 top-0 left-0 w-full bg-white shadow-base rounded-br-[40px] rounded-bl-3xl flex flex-col items-center overflow-hidden",
+              {
+                // Use `ease-in-out` to make sure animation is symetrical between
+                // entering and exiting to avoid a weird progress missmatch.
+                "transition-[height] duration-100 ease-in-out":
+                  transitionState === "entering" ||
+                  transitionState === "exiting" ||
+                  // Keep it the transition when visible child changes.
+                  transitionState === "entered",
+              }
             )}
-            onBlur={onBlur}
-            onKeyDown={handleEscape(() => {
-              invariant(
-                prevFocusTargetRef.current != null,
-                "prevFocusTargetRef must be set"
-              );
-              prevFocusTargetRef.current.focus();
-            })}
+            style={{ height: childrenHeight }}
           >
             <div
-              aria-hidden
-              tabIndex={0}
-              onFocus={() => {
-                invariant(
-                  prevFocusTargetRef.current != null,
-                  "prevFocusTargetRef must be set"
-                );
-                prevFocusTargetRef.current.focus();
-              }}
-            />
-
-            {children}
-
-            <div
-              aria-hidden
-              tabIndex={0}
-              onFocus={() => {
-                invariant(
-                  nextFocusTargetRef.current != null,
-                  "nextFocusTargetRef must be set"
-                );
-                nextFocusTargetRef.current.focus();
-              }}
-            />
+              ref={childrenRef}
+              className={cn(
+                "w-[600px] flex flex-col",
+                // 104px = 56px (header height) + 48px (padding)
+                "pt-[104px] pb-12"
+              )}
+              onKeyDown={handleEscape(onClose)}
+            >
+              {children}
+            </div>
           </div>
-        </div>
+        )}
+      </Transition>
+
+      {isOpened && (
+        <div
+          {...getFocusTrapIgnoreAttribute()}
+          aria-hidden
+          tabIndex={-1}
+          onClick={() => onClose()}
+          className="absolute -z-20 top-0 left-0 w-full h-full cursor-pointer"
+        />
       )}
-    </Transition>
+    </>
   );
-}
+});

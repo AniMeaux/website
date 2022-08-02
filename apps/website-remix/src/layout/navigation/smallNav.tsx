@@ -1,16 +1,14 @@
 import { useLocation } from "@remix-run/react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Transition } from "react-transition-group";
 import invariant from "tiny-invariant";
+import { BaseLink } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
+import { useFocusTrap } from "~/core/focusTrap";
+import { useScrollLock } from "~/core/scrollLock";
 import { Icon } from "~/generated/icon";
-import {
-  handleBlur,
-  handleEscape,
-  NavGroup,
-  NavGroupButton,
-  NavLink,
-} from "~/layout/navigation/shared";
+import logo from "~/images/logo.svg";
+import { handleEscape, NavGroup, NavLink } from "~/layout/navigation/shared";
 import { SocialLinks } from "~/layout/navigation/socialLinks";
 import { SubNavAct } from "~/layout/navigation/subNavAct";
 import { SubNavAdopt } from "~/layout/navigation/subNavAdopt";
@@ -30,177 +28,140 @@ export function SmallNav() {
     setState({ isOpened: false });
   }, [location.key]);
 
-  const menuButtonRef = useRef<HTMLButtonElement>(null);
-  const adoptButtonRef = useRef<HTMLButtonElement>(null);
-  const catLinkRef = useRef<HTMLAnchorElement>(null);
-  const actButtonRef = useRef<HTMLButtonElement>(null);
-  const fosterFamilyLinkRef = useRef<HTMLAnchorElement>(null);
-  const warnButtonRef = useRef<HTMLButtonElement>(null);
-  const strayCatLinkRef = useRef<HTMLAnchorElement>(null);
-  const discoverButtonRef = useRef<HTMLButtonElement>(null);
-  const partnersLinkRef = useRef<HTMLAnchorElement>(null);
+  const dropdownMountingPoint = useMemo(() => {
+    return typeof document !== "undefined"
+      ? document.createElement("div")
+      : null;
+  }, []);
 
-  // Focus first group button when the menu is opened.
+  useEffect(() => {
+    if (dropdownMountingPoint != null) {
+      document.body.appendChild(dropdownMountingPoint);
+      return () => {
+        document.body.removeChild(dropdownMountingPoint);
+      };
+    }
+  }, [dropdownMountingPoint]);
+
+  // If the page has scrolled just a bit, the header is no longer entirely
+  // visible.
+  // So we scroll to top to make sure the header is entirely visible.
+  // Do it before locking scroll so we don't restore the scroll position.
   useEffect(() => {
     if (state.isOpened) {
-      invariant(adoptButtonRef.current != null, "adoptButtonRef must be set");
-      adoptButtonRef.current.focus();
+      window.scrollTo({ top: 0 });
     }
   }, [state.isOpened]);
 
-  // Focus first link when a group is opened.
-  useEffect(() => {
-    if (state.openedGroup != null) {
-      let linkFocusTargetRef =
-        state.openedGroup === "adopt"
-          ? catLinkRef
-          : state.openedGroup === "act"
-          ? fosterFamilyLinkRef
-          : state.openedGroup === "warn"
-          ? strayCatLinkRef
-          : state.openedGroup === "discover"
-          ? partnersLinkRef
-          : null;
-
-      invariant(
-        linkFocusTargetRef?.current != null,
-        "linkFocusTargetRef must be set"
-      );
-
-      linkFocusTargetRef.current.focus();
-    }
-  }, [state.openedGroup]);
+  const headerRef = useRef<HTMLElement>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  useScrollLock(dropdownRef, { disabled: !state.isOpened });
+  useFocusTrap(headerRef, { disabled: !state.isOpened });
 
   return (
-    <>
+    <header
+      ref={headerRef}
+      className={cn(
+        "relative z-[0] w-full px-page py-2 flex items-center justify-between",
+        "md:hidden"
+      )}
+      onKeyDown={handleEscape(() => {
+        setState((prevState) =>
+          state.isOpened ? { isOpened: false } : prevState
+        );
+      })}
+    >
+      <BaseLink to="/" className="flex">
+        <img src={logo} alt="Ani'Meaux" className="h-[40px]" />
+      </BaseLink>
+
       <button
-        ref={menuButtonRef}
-        className="flex p-2 md:hidden"
-        onClick={() => setState(open())}
+        className="flex p-2"
+        onClick={() =>
+          setState((prevState) =>
+            prevState.isOpened ? { isOpened: false } : { isOpened: true }
+          )
+        }
       >
         <Icon id={state.isOpened ? "xMark" : "bars"} className="text-[20px]" />
       </button>
 
       <Transition mountOnEnter unmountOnExit in={state.isOpened} timeout={100}>
-        {(transitionState) => (
-          <div
-            onBlur={handleBlur(() => setState(close()))}
-            onKeyDown={handleEscape(() => {
-              invariant(
-                menuButtonRef.current != null,
-                "menuButtonRef must be set"
-              );
-              menuButtonRef.current.focus();
-            })}
-            className={cn(
-              "absolute -z-10 top-0 left-0 w-full shadow-base rounded-br-[40px] rounded-bl-3xl bg-white pt-[56px] flex",
-              {
-                "opacity-100 translate-y-0 transition-[opacity,transform] duration-100 ease-out":
-                  transitionState === "entering",
-                "opacity-100 translate-y-0": transitionState === "entered",
-                "opacity-0 -translate-y-4 transition-[opacity,transform] duration-100 ease-in":
-                  transitionState === "exiting",
-                "opacity-0 -translate-y-4": transitionState === "exited",
-              }
-            )}
-          >
-            <nav className="w-full px-2 pt-2 pb-4 flex flex-col">
-              <NavGroupButton
-                ref={adoptButtonRef}
-                isActive={state.openedGroup === "adopt"}
-                onClick={() => setState(openGroup("adopt"))}
-              >
-                Adopter
-              </NavGroupButton>
+        {(transitionState) => {
+          invariant(
+            dropdownMountingPoint != null,
+            "dropdownMountingPoint should exists."
+          );
 
-              <SubNav
-                isOpened={state.openedGroup === "adopt"}
-                onBlur={handleBlur(() => setState(closeGroup("adopt")))}
-                onKeyDown={handleEscape(() => {
-                  invariant(
-                    adoptButtonRef.current != null,
-                    "adoptButtonRef must be set"
-                  );
+          return (
+            <div
+              ref={dropdownRef}
+              className={cn(
+                "absolute -z-10 top-0 left-0 w-full h-screen bg-white pt-[64px] px-2 pb-2 flex",
+                {
+                  "opacity-100 translate-y-0 transition-[opacity,transform] duration-100 ease-out":
+                    transitionState === "entering",
+                  "opacity-100 translate-y-0": transitionState === "entered",
+                  "opacity-0 -translate-y-4 transition-[opacity,transform] duration-100 ease-in":
+                    transitionState === "exiting",
+                  "opacity-0 -translate-y-4": transitionState === "exited",
+                }
+              )}
+            >
+              <nav className="w-full h-full min-h-0 overflow-auto flex flex-col">
+                <NavGroupButton
+                  isActive={state.openedGroup === "adopt"}
+                  onClick={() => setState(toggleGroup("adopt"))}
+                  className="flex-none"
+                >
+                  Adopter
+                </NavGroupButton>
 
-                  adoptButtonRef.current.focus();
-                })}
-              >
-                <SubNavAdopt elementToFocusRef={catLinkRef} />
-              </SubNav>
+                <SubNav isOpened={state.openedGroup === "adopt"}>
+                  <SubNavAdopt />
+                </SubNav>
 
-              <NavGroupButton
-                ref={actButtonRef}
-                isActive={state.openedGroup === "act"}
-                onClick={() => setState(openGroup("act"))}
-              >
-                Agir
-              </NavGroupButton>
+                <NavGroupButton
+                  isActive={state.openedGroup === "act"}
+                  onClick={() => setState(toggleGroup("act"))}
+                  className="flex-none"
+                >
+                  Agir
+                </NavGroupButton>
 
-              <SubNav
-                isOpened={state.openedGroup === "act"}
-                onBlur={handleBlur(() => setState(closeGroup("act")))}
-                onKeyDown={handleEscape(() => {
-                  invariant(
-                    actButtonRef.current != null,
-                    "actButtonRef must be set"
-                  );
+                <SubNav isOpened={state.openedGroup === "act"}>
+                  <SubNavAct />
+                </SubNav>
 
-                  actButtonRef.current.focus();
-                })}
-              >
-                <SubNavAct elementToFocusRef={fosterFamilyLinkRef} />
-              </SubNav>
+                <NavGroupButton
+                  isActive={state.openedGroup === "warn"}
+                  onClick={() => setState(toggleGroup("warn"))}
+                  className="flex-none"
+                >
+                  Avertir
+                </NavGroupButton>
 
-              <NavGroupButton
-                ref={warnButtonRef}
-                isActive={state.openedGroup === "warn"}
-                onClick={() => setState(openGroup("warn"))}
-              >
-                Avertir
-              </NavGroupButton>
+                <SubNav isOpened={state.openedGroup === "warn"}>
+                  <SubNavWarn />
+                </SubNav>
 
-              <SubNav
-                isOpened={state.openedGroup === "warn"}
-                onBlur={handleBlur(() => setState(closeGroup("warn")))}
-                onKeyDown={handleEscape(() => {
-                  invariant(
-                    warnButtonRef.current != null,
-                    "warnButtonRef must be set"
-                  );
+                <NavGroupButton
+                  isActive={state.openedGroup === "discover"}
+                  onClick={() => setState(toggleGroup("discover"))}
+                  className="flex-none"
+                >
+                  Découvrir
+                </NavGroupButton>
 
-                  warnButtonRef.current.focus();
-                })}
-              >
-                <SubNavWarn elementToFocusRef={strayCatLinkRef} />
-              </SubNav>
+                <SubNav isOpened={state.openedGroup === "discover"}>
+                  <SubNavDiscover />
+                </SubNav>
 
-              <NavGroupButton
-                ref={discoverButtonRef}
-                isActive={state.openedGroup === "discover"}
-                onClick={() => setState(openGroup("discover"))}
-              >
-                Découvrir
-              </NavGroupButton>
-
-              <SubNav
-                isOpened={state.openedGroup === "discover"}
-                onBlur={handleBlur(() => setState(closeGroup("discover")))}
-                onKeyDown={handleEscape(() => {
-                  invariant(
-                    discoverButtonRef.current != null,
-                    "discoverButtonRef must be set"
-                  );
-
-                  discoverButtonRef.current.focus();
-                })}
-              >
-                <SubNavDiscover elementToFocusRef={partnersLinkRef} />
-              </SubNav>
-
-              <NavLink to="/evenements">Événements</NavLink>
-            </nav>
-          </div>
-        )}
+                <NavLink to="/evenements">Événements</NavLink>
+              </nav>
+            </div>
+          );
+        }}
       </Transition>
 
       <Transition mountOnEnter unmountOnExit in={state.isOpened} timeout={100}>
@@ -217,56 +178,55 @@ export function SmallNav() {
           />
         )}
       </Transition>
-    </>
+    </header>
   );
 }
 
-function open() {
+function toggleGroup(group: NavGroup) {
   return (prevState: State): State => {
-    if (prevState.isOpened) {
-      return prevState;
-    }
-
-    return { isOpened: true };
+    return {
+      isOpened: true,
+      openedGroup: prevState.openedGroup === group ? null : group,
+    };
   };
 }
 
-function close() {
-  return (prevState: State): State => {
-    if (!prevState.isOpened) {
-      return prevState;
-    }
+function NavGroupButton({
+  children,
+  isActive,
+  className,
+  ...rest
+}: React.ButtonHTMLAttributes<HTMLButtonElement> & {
+  isActive: boolean;
+}) {
+  return (
+    <button
+      {...rest}
+      className={cn(
+        className,
+        "group relative px-3 py-2 flex items-center justify-between gap-1 hover:text-black",
+        {
+          "text-black": isActive,
+          "text-gray-700": !isActive,
+        }
+      )}
+    >
+      <span>{children}</span>
 
-    return { isOpened: false };
-  };
-}
-
-function openGroup(group: NavGroup) {
-  return (prevState: State): State => {
-    if (prevState.isOpened && prevState.openedGroup === group) {
-      return prevState;
-    }
-
-    return { isOpened: true, openedGroup: group };
-  };
-}
-
-function closeGroup(group: NavGroup) {
-  return (prevState: State): State => {
-    if (!prevState.isOpened || prevState.openedGroup !== group) {
-      return prevState;
-    }
-
-    return { isOpened: true, openedGroup: null };
-  };
+      <Icon
+        id={isActive ? "caretUp" : "caretDown"}
+        className={cn("group-hover:text-black", {
+          "text-gray-500": !isActive,
+        })}
+      />
+    </button>
+  );
 }
 
 function SubNav({
   isOpened,
-  onBlur,
-  onKeyDown,
   children,
-}: Pick<React.HTMLAttributes<HTMLDivElement>, "onKeyDown" | "onBlur"> & {
+}: {
   isOpened: boolean;
   children?: React.ReactNode;
 }) {
@@ -300,7 +260,7 @@ function SubNav({
         return (
           <div
             ref={containerRef}
-            className={cn("flex flex-col overflow-hidden", {
+            className={cn("flex-none flex flex-col overflow-hidden", {
               // Use `ease-in-out` to make sure animation is symetrical between
               // entering and exiting to avoid a weird progress missmatch.
               "transition-[height] duration-100 ease-in-out":
@@ -311,8 +271,6 @@ function SubNav({
             <div
               ref={childrenRef}
               className="bg-gray-50 rounded-tl-xl rounded-tr-lg rounded-br-xl rounded-bl-lg px-2 py-3 flex flex-col"
-              onBlur={onBlur}
-              onKeyDown={onKeyDown}
             >
               {children}
             </div>

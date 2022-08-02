@@ -1,18 +1,9 @@
 import { SubNavItem } from "~/layout/navigation/shared";
 
-export function SubNavDiscover({
-  elementToFocusRef,
-}: {
-  elementToFocusRef: React.RefObject<HTMLAnchorElement>;
-}) {
+export function SubNavDiscover() {
   return (
     <div className="flex flex-col">
-      <SubNavItem
-        ref={elementToFocusRef}
-        color="blue"
-        icon="handshake"
-        to="/partenaires"
-      >
+      <SubNavItem color="blue" icon="handshake" to="/partenaires">
         Partenaires
       </SubNavItem>
 
