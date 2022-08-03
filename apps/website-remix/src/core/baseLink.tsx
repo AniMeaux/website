@@ -9,7 +9,17 @@ export type BaseLinkProps = Omit<LinkProps, "to"> & {
 };
 
 export const BaseLink = forwardRef<HTMLAnchorElement, BaseLinkProps>(
-  function BaseLink({ to, disabled, shouldOpenInNewTarget, ...rest }, ref) {
+  function BaseLink(
+    {
+      to,
+      disabled,
+      shouldOpenInNewTarget,
+      // Prefetch on hover by default.
+      prefetch = "intent",
+      ...rest
+    },
+    ref
+  ) {
     const commonProps: React.AnchorHTMLAttributes<HTMLAnchorElement> &
       React.RefAttributes<HTMLAnchorElement> = {
       ...rest,
@@ -36,6 +46,6 @@ export const BaseLink = forwardRef<HTMLAnchorElement, BaseLinkProps>(
 
     // Content is passed in `commonProps`.
     // eslint-disable-next-line jsx-a11y/anchor-has-content
-    return <Link {...commonProps} to={to} />;
+    return <Link {...commonProps} prefetch={prefetch} to={to} />;
   }
 );
