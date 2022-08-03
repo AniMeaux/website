@@ -11,7 +11,6 @@ import {
 import { cn } from "~/core/classNames";
 import { getPageTitle } from "~/core/pageTitle";
 import { ErrorPage } from "~/dataDisplay/errorPage";
-import sprite from "~/generated/sprite.svg";
 import stylesheet from "~/generated/tailwind.css";
 import appleTouchIcon from "~/images/appleTouchIcon.png";
 import background from "~/images/background.svg";
@@ -27,7 +26,6 @@ export const links: LinksFunction = () => {
     { rel: "icon", href: favicon },
     { rel: "mask-icon", href: maskIcon, color: "#0078bf" },
     { rel: "apple-touch-icon", href: appleTouchIcon },
-    { rel: "preload", as: "image", href: sprite },
     { rel: "preconnect", href: "https://fonts.googleapis.com" },
     {
       rel: "preconnect",
