@@ -47,7 +47,7 @@ export function LargeNav() {
     <header
       {...getFocusTrapIgnoreAttribute()}
       className={cn(
-        "z-[0] w-full px-page py-2 hidden items-center justify-between",
+        "z-[0] w-full pt-safe-2 px-page pb-2 hidden items-center justify-between",
         "md:flex"
       )}
     >
@@ -211,7 +211,7 @@ const Dropdown = forwardRef<
               className={cn(
                 "w-[600px] flex flex-col",
                 // 104px = 56px (header height) + 48px (padding)
-                "pt-[104px] pb-12"
+                "pt-safe-[104px] pb-12"
               )}
               onKeyDown={handleEscape(onClose)}
             >

@@ -54,15 +54,15 @@ export function SmallNav() {
   }, [state.isOpened]);
 
   const headerRef = useRef<HTMLElement>(null);
-  const dropdownRef = useRef<HTMLDivElement>(null);
-  useScrollLock(dropdownRef, { disabled: !state.isOpened });
+  const navRef = useRef<HTMLDivElement>(null);
+  useScrollLock(navRef, { disabled: !state.isOpened });
   useFocusTrap(headerRef, { disabled: !state.isOpened });
 
   return (
     <header
       ref={headerRef}
       className={cn(
-        "relative z-[0] w-full px-page py-2 flex items-center justify-between",
+        "relative z-[0] w-full pt-safe-2 px-page pb-2 flex items-center justify-between",
         "md:hidden"
       )}
       onKeyDown={handleEscape(() => {
@@ -95,9 +95,12 @@ export function SmallNav() {
 
           return (
             <div
-              ref={dropdownRef}
               className={cn(
-                "absolute -z-10 top-0 left-0 w-full h-screen bg-white pt-[64px] px-2 pb-2 flex",
+                "absolute -z-10 top-0 left-0 w-full h-screen bg-white",
+                // We need to handle safe areas because this element has
+                // absolute positioning.
+                "pt-safe-[64px] px-safe-2 pb-safe-2",
+                "flex",
                 {
                   "opacity-100 translate-y-0 transition-[opacity,transform] duration-100 ease-out":
                     transitionState === "entering",
@@ -108,7 +111,10 @@ export function SmallNav() {
                 }
               )}
             >
-              <nav className="w-full h-full min-h-0 overflow-auto flex flex-col">
+              <nav
+                ref={navRef}
+                className="w-full h-full min-h-0 overflow-auto flex flex-col"
+              >
                 <NavGroupButton
                   isActive={state.openedGroup === "adopt"}
                   onClick={() => setState(toggleGroup("adopt"))}
@@ -167,7 +173,7 @@ export function SmallNav() {
       <Transition mountOnEnter unmountOnExit in={state.isOpened} timeout={100}>
         {(transitionState) => (
           <SocialLinks
-            className={cn("absolute top-1/2 -translate-y-1/2 left-1/2", {
+            className={cn("absolute bottom-3 left-1/2", {
               "opacity-100 -translate-x-1/2 transition-[opacity,transform] duration-100 ease-out":
                 transitionState === "entering",
               "opacity-100 -translate-x-1/2": transitionState === "entered",

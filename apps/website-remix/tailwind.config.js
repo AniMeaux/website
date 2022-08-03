@@ -6,6 +6,7 @@ const plugin = require("tailwindcss/plugin");
  */
 module.exports = {
   content: ["./src/**/*.{ts,tsx,jsx,js}"],
+
   theme: {
     extend: {
       fontFamily: {
@@ -37,6 +38,7 @@ module.exports = {
       },
     },
   },
+
   plugins: [
     plugin(({ addVariant }) => {
       // Override focus-visible to make sure it supports the `.focus-visible`
@@ -44,5 +46,59 @@ module.exports = {
       // https://tailwindcss.com/docs/plugins#adding-variants
       addVariant("focus-visible", "&:is(:focus-visible, .focus-visible)");
     }),
+
+    plugin(({ matchUtilities, theme }) => {
+      matchUtilities(
+        {
+          "p-safe": (value) => ({
+            ...createSafePadding("top", value),
+            ...createSafePadding("right", value),
+            ...createSafePadding("bottom", value),
+            ...createSafePadding("left", value),
+          }),
+          "px-safe": (value) => ({
+            ...createSafePadding("right", value),
+            ...createSafePadding("left", value),
+          }),
+          "py-safe": (value) => ({
+            ...createSafePadding("top", value),
+            ...createSafePadding("bottom", value),
+          }),
+          "pt-safe": (value) => createSafePadding("top", value),
+          "pr-safe": (value) => createSafePadding("right", value),
+          "pb-safe": (value) => createSafePadding("bottom", value),
+          "pl-safe": (value) => createSafePadding("left", value),
+        },
+        { values: theme("spacing") }
+      );
+    }),
   ],
 };
+
+/**
+ * @param {"top" | "right" | "bottom" | "left"} side
+ * @param {string} value
+ */
+function createSafePadding(side, value) {
+  const name = {
+    top: "paddingTop",
+    right: "paddingRight",
+    bottom: "paddingBottom",
+    left: "paddingLeft",
+  }[side];
+
+  const envVariable = {
+    top: "safe-area-inset-top",
+    right: "safe-area-inset-right",
+    bottom: "safe-area-inset-bottom",
+    left: "safe-area-inset-left",
+  }[side];
+
+  return {
+    [name]: [
+      // Fallback value for browsers that don't support `env`.
+      `${value}`,
+      `calc(${value} + env(${envVariable}, 0))`,
+    ],
+  };
+}
