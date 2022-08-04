@@ -1,5 +1,5 @@
 import { useLocation } from "@remix-run/react";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Transition } from "react-transition-group";
 import invariant from "tiny-invariant";
 import { BaseLink } from "~/core/baseLink";
@@ -27,21 +27,6 @@ export function SmallNav() {
   useEffect(() => {
     setState({ isOpened: false });
   }, [location.key]);
-
-  const dropdownMountingPoint = useMemo(() => {
-    return typeof document !== "undefined"
-      ? document.createElement("div")
-      : null;
-  }, []);
-
-  useEffect(() => {
-    if (dropdownMountingPoint != null) {
-      document.body.appendChild(dropdownMountingPoint);
-      return () => {
-        document.body.removeChild(dropdownMountingPoint);
-      };
-    }
-  }, [dropdownMountingPoint]);
 
   // If the page has scrolled just a bit, the header is no longer entirely
   // visible.
@@ -89,11 +74,6 @@ export function SmallNav() {
 
       <Transition mountOnEnter unmountOnExit in={state.isOpened} timeout={100}>
         {(transitionState) => {
-          invariant(
-            dropdownMountingPoint != null,
-            "dropdownMountingPoint should exists."
-          );
-
           return (
             <div
               className={cn(
