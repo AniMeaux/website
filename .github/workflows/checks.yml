@@ -28,6 +28,7 @@ jobs:
         run: |
           yarn --cwd apps/website-remix build:css --minify
           yarn --cwd apps/website-remix build:icons --minify
+          yarn --cwd apps/website-remix build:theme
 
       - name: ⬆️ Upload artifact
         uses: actions/upload-artifact@master
