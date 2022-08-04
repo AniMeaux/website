@@ -49,7 +49,7 @@ export function ErrorPage({ status }: { status: number }) {
         alt={meta.title}
         className={cn("w-full min-w-0 aspect-square", "md:w-auto md:flex-1")}
         image={errorImages}
-        sizes="(max-width: 767px) 100vw, (min-width: 768px) and (max-width: 1023px) 50vw, 512px"
+        sizes={{ lg: "512px", md: "50vw", default: "100vw" }}
       />
 
       <div className={cn("flex flex-col gap-6", "md:flex-1")}>

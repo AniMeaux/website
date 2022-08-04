@@ -12,6 +12,7 @@ import { cn } from "~/core/classNames";
 import { getPageTitle } from "~/core/pageTitle";
 import { ErrorPage } from "~/dataDisplay/errorPage";
 import stylesheet from "~/generated/tailwind.css";
+import { theme } from "~/generated/theme";
 import appleTouchIcon from "~/images/appleTouchIcon.png";
 import background from "~/images/background.svg";
 import favicon from "~/images/favicon.svg";
@@ -24,7 +25,7 @@ export const links: LinksFunction = () => {
     { rel: "stylesheet", href: stylesheet },
     { rel: "manifest", href: "/manifest.json" },
     { rel: "icon", href: favicon },
-    { rel: "mask-icon", href: maskIcon, color: "#0078bf" },
+    { rel: "mask-icon", href: maskIcon, color: theme.colors.blue.base },
     { rel: "apple-touch-icon", href: appleTouchIcon },
     { rel: "preconnect", href: "https://fonts.googleapis.com" },
     {
@@ -46,7 +47,7 @@ export const links: LinksFunction = () => {
 export const meta: MetaFunction = () => ({
   charset: "utf-8",
   title: getPageTitle(),
-  "theme-color": "#f9fafb",
+  "theme-color": theme.colors.gray[50],
 
   // Use `maximum-scale=1` to prevent browsers to zoom on form elements.
   viewport:

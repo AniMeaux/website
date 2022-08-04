@@ -1,4 +1,5 @@
 import { json, LinksFunction, LoaderFunction } from "@remix-run/node";
+import { theme } from "~/generated/theme";
 import googleTouchIcon from "~/images/googleTouchIcon.png";
 
 // Make sure `googleTouchIcon.png` is added to the build assets.
@@ -12,8 +13,8 @@ export const loader: LoaderFunction = () => {
   return json({
     name: "Ani'Meaux",
     short_name: "Ani'Meaux",
-    background_color: "#f9fafb",
-    theme_color: "#0078bf",
+    background_color: theme.colors.gray[50],
+    theme_color: theme.colors.blue.base,
     display: "standalone",
     scope: "/",
     start_url: "/?source=pwa",

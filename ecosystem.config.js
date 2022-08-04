@@ -54,7 +54,14 @@ module.exports = {
       name: "website-remix-icons",
       cwd: "apps/website-remix",
       script: "yarn build:icons",
-      watch: ["./icons"],
+      watch: ["./icons", "./scripts/generateIconSprite.ts"],
+    }),
+
+    createApp({
+      name: "website-remix-theme",
+      cwd: "apps/website-remix",
+      script: "yarn build:theme",
+      watch: ["./tailwind.config.js", "./scripts/generateTheme.ts"],
     }),
 
     createApp({
