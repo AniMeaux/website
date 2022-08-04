@@ -45,13 +45,14 @@ export function SmallNav() {
 
   // If the page has scrolled just a bit, the header is no longer entirely
   // visible.
-  // So we scroll to top to make sure the header is entirely visible.
+  // So we keep the scroll at the top to make sure the header is entirely
+  // visible while the nav is opened.
   // Do it before locking scroll so we don't restore the scroll position.
   useEffect(() => {
     if (state.isOpened) {
       window.scrollTo({ top: 0 });
     }
-  }, [state.isOpened]);
+  });
 
   const headerRef = useRef<HTMLElement>(null);
   const navRef = useRef<HTMLDivElement>(null);
