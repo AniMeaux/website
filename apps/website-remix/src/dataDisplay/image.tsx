@@ -23,11 +23,7 @@ const SCREEN_SIZES = orderBy(
   .map((entry) => entry[0])
   .concat("default");
 
-export function StaticImage({
-  image,
-  sizes: sizesProp,
-  ...rest
-}: Omit<
+export type StaticImageProps = Omit<
   React.ImgHTMLAttributes<HTMLImageElement>,
   "src" | "srcSet" | "sizes"
 > & {
@@ -36,7 +32,13 @@ export function StaticImage({
     // `default` is mandatory.
     default: string;
   };
-}) {
+};
+
+export function StaticImage({
+  image,
+  sizes: sizesProp,
+  ...rest
+}: StaticImageProps) {
   return (
     // Alt text is in the rest props.
     // eslint-disable-next-line jsx-a11y/alt-text
