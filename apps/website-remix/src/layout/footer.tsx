@@ -178,7 +178,7 @@ function NewletterForm() {
           name="email"
           aria-label="Email"
           placeholder="jean@email.com"
-          className="min-w-0 flex-1 rounded-tl-xl rounded-tr-lg rounded-br-xl rounded-bl-lg bg-transparent px-6 py-2"
+          className="min-w-0 flex-1 rounded-tl-xl rounded-tr-lg rounded-br-xl rounded-bl-lg bg-transparent px-6 py-2 placeholder-gray-500"
         />
 
         <button
