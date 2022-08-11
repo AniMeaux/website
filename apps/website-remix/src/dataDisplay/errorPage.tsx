@@ -1,7 +1,6 @@
 import { BaseLink } from "~/core/baseLink";
-import { cn } from "~/core/classNames";
-import { StaticImage } from "~/dataDisplay/image";
 import { errorImages } from "~/images/error";
+import { SplitSection } from "~/layout/splitSection";
 
 type ErrorMetaData = {
   title: string;
@@ -38,40 +37,15 @@ export function ErrorPage({ status }: { status: number }) {
     STATUS_CODE_ERROR_META_DATA[status] ?? STATUS_CODE_ERROR_META_DATA[500];
 
   return (
-    <main
-      className={cn(
-        "px-page flex flex-col items-center gap-6",
-        "md:flex-row md:gap-12"
-      )}
-    >
-      <StaticImage
-        loading="lazy"
-        alt={meta.title}
-        className={cn("w-full min-w-0 aspect-square", "md:w-auto md:flex-1")}
+    <main className="px-page flex flex-col">
+      <SplitSection
+        title={meta.title}
+        message={meta.message}
+        action={meta.action}
+        imageAlt={meta.title}
         image={errorImages}
-        sizes={{ lg: "512px", md: "50vw", default: "100vw" }}
+        hasLargeTitle
       />
-
-      <div className={cn("flex flex-col gap-6", "md:flex-1")}>
-        <div className={cn("px-4 flex flex-col gap-6", "md:px-6")}>
-          <h1
-            className={cn(
-              "text-title-hero-small text-center",
-              "md:text-title-hero-large md:text-left"
-            )}
-          >
-            {meta.title}
-          </h1>
-
-          <p className={cn("text-center", "md:text-left")}>{meta.message}</p>
-        </div>
-
-        <div
-          className={cn("px-2 flex justify-center", "md:px-6 md:justify-start")}
-        >
-          {meta.action}
-        </div>
-      </div>
     </main>
   );
 }
