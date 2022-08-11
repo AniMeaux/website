@@ -42,7 +42,6 @@ export function ErrorPage({ status }: { status: number }) {
         title={meta.title}
         message={meta.message}
         action={meta.action}
-        imageAlt={meta.title}
         image={errorImages}
         hasLargeTitle
       />

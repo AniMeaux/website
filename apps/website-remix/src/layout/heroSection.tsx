@@ -5,7 +5,6 @@ export function HeroSection({
   title,
   message,
   action,
-  imageAlt,
   image,
   isReversed = false,
   hasLargeTitle = false,
@@ -13,7 +12,6 @@ export function HeroSection({
   title: string;
   message: string;
   action: React.ReactNode;
-  imageAlt: StaticImageProps["alt"];
   image: StaticImageProps["image"];
   isReversed?: boolean;
   hasLargeTitle?: boolean;
@@ -30,7 +28,6 @@ export function HeroSection({
       )}
     >
       <StaticImage
-        alt={imageAlt}
         className={cn("min-w-0 aspect-square", "md:flex-1")}
         image={image}
         sizes={{ lg: "512px", md: "50vw", default: "100vw" }}

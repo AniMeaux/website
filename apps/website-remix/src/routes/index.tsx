@@ -14,7 +14,6 @@ export default function HomePage() {
         title="Adoptez !"
         message="Trouvez le compagnon de vos rêves et donnez-lui une seconde chance"
         action={<SearchForm className="w-full max-w-sm" />}
-        imageAlt="Chien alongé dans l'herbe, tirant la langue"
         image={heroImages}
         hasLargeTitle
         isReversed
@@ -56,19 +55,16 @@ function WhoWeAreSection() {
         <WhoWeAreItem
           text="Nous recueillons les animaux abandonnés, maltraités ou errants"
           image={pickUpImages}
-          alt="Chat qui regarde à travers une grille"
         />
 
         <WhoWeAreItem
           text="Nous les plaçons dans une famille d'accueil adaptée à l'animal afin de lui prodiguer tous les soins nécessaires à son rétablissement"
           image={fosterFamilySmallImages}
-          alt="Homme portant un chat dans les bras"
         />
 
         <WhoWeAreItem
           text="Nous leur trouvons une nouvelle famille pour la vie"
           image={adoptionImages}
-          alt="Chat escaladant une petite grille"
         />
       </ul>
     </section>
@@ -78,17 +74,14 @@ function WhoWeAreSection() {
 function WhoWeAreItem({
   text,
   image,
-  alt,
 }: {
   text: string;
   image: StaticImageProps["image"];
-  alt: StaticImageProps["alt"];
 }) {
   return (
     <li className="w-[200px] flex flex-col gap-6 text-center">
       <StaticImage
         image={image}
-        alt={alt}
         sizes={{ default: "200px" }}
         className="w-full aspect-square"
       />
