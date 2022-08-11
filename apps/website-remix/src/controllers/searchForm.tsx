@@ -135,7 +135,7 @@ function Select<ValueType extends string>({
         onChange(event.target.value as ValueType);
       }}
       className={cn(
-        "appearance-none min-w-0 flex-1 rounded-tl-xl rounded-tr-lg rounded-br-xl rounded-bl-lg px-6 py-2 cursor-pointer",
+        "appearance-none min-w-0 flex-1 rounded-tl-xl rounded-tr-lg rounded-br-xl rounded-bl-lg bg-transparent px-6 py-2 cursor-pointer transition-colors duration-100 ease-in-out hover:bg-gray-50",
         { "text-gray-500": value == null }
       )}
     >
