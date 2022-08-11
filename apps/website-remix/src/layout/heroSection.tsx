@@ -1,11 +1,10 @@
 import { cn } from "~/core/classNames";
 import { StaticImage, StaticImageProps } from "~/dataDisplay/image";
 
-export function SplitSection({
+export function HeroSection({
   title,
   message,
   action,
-  imageAlt,
   image,
   isReversed = false,
   hasLargeTitle = false,
@@ -13,7 +12,6 @@ export function SplitSection({
   title: string;
   message: string;
   action: React.ReactNode;
-  imageAlt: StaticImageProps["alt"];
   image: StaticImageProps["image"];
   isReversed?: boolean;
   hasLargeTitle?: boolean;
@@ -21,23 +19,24 @@ export function SplitSection({
   return (
     <section
       className={cn(
-        "flex flex-col gap-6",
+        "flex flex-col items-center gap-6",
         {
           "md:flex-row-reverse": isReversed,
           "md:flex-row": !isReversed,
         },
-        "md:gap-12 md:items-center"
+        "md:gap-12"
       )}
     >
       <StaticImage
-        loading="lazy"
-        alt={imageAlt}
-        className={cn("min-w-0 aspect-square", "md:flex-1")}
+        className={cn(
+          "min-w-0 w-[512px] max-w-full aspect-square",
+          "md:flex-1"
+        )}
         image={image}
         sizes={{ lg: "512px", md: "50vw", default: "100vw" }}
       />
 
-      <div className={cn("flex flex-col gap-6", "md:flex-1")}>
+      <div className={cn("w-full flex flex-col gap-6", "md:flex-1")}>
         <div
           className={cn(
             "px-4 flex flex-col gap-6 text-center",
