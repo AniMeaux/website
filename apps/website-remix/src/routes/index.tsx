@@ -1,5 +1,10 @@
 import { SearchForm } from "~/controllers/searchForm";
+import { cn } from "~/core/classNames";
+import { StaticImage, StaticImageProps } from "~/dataDisplay/image";
+import { adoptionImages } from "~/images/adoption";
+import { fosterFamilySmallImages } from "~/images/fosterFamilySmall";
 import { heroImages } from "~/images/hero";
+import { pickUpImages } from "~/images/pickUp";
 import { HeroSection } from "~/layout/heroSection";
 
 export default function HomePage() {
@@ -14,6 +19,81 @@ export default function HomePage() {
         hasLargeTitle
         isReversed
       />
+
+      <WhoWeAreSection />
     </main>
+  );
+}
+
+function WhoWeAreSection() {
+  return (
+    <section className="flex flex-col gap-12">
+      <div className="self-center max-w-2xl px-4 flex flex-col gap-6 text-center">
+        <h2
+          className={cn(
+            "text-title-section-small",
+            "md:text-title-section-large"
+          )}
+        >
+          Qui sommes-nous ?
+        </h2>
+
+        <p>
+          Ani'Meaux est une{" "}
+          <strong className="text-body-emphasis">association</strong> loi 1901
+          de protection animale, reconnue d'intérêt général, qui a pour but de{" "}
+          <strong className="text-body-emphasis">sauver des animaux</strong>{" "}
+          domestiques et sensibiliser à la cause animale en général
+        </p>
+      </div>
+
+      <ul
+        className={cn(
+          "flex flex-col items-center gap-12",
+          "md:flex-row md:items-start md:justify-evenly"
+        )}
+      >
+        <WhoWeAreItem
+          text="Nous recueillons les animaux abandonnés, maltraités ou errants"
+          image={pickUpImages}
+          alt="Chat qui regarde à travers une grille"
+        />
+
+        <WhoWeAreItem
+          text="Nous les plaçons dans une famille d'accueil adaptée à l'animal afin de lui prodiguer tous les soins nécessaires à son rétablissement"
+          image={fosterFamilySmallImages}
+          alt="Homme portant un chat dans les bras"
+        />
+
+        <WhoWeAreItem
+          text="Nous leur trouvons une nouvelle famille pour la vie"
+          image={adoptionImages}
+          alt="Chat escaladant une petite grille"
+        />
+      </ul>
+    </section>
+  );
+}
+
+function WhoWeAreItem({
+  text,
+  image,
+  alt,
+}: {
+  text: string;
+  image: StaticImageProps["image"];
+  alt: StaticImageProps["alt"];
+}) {
+  return (
+    <li className="w-[200px] flex flex-col gap-6 text-center">
+      <StaticImage
+        image={image}
+        alt={alt}
+        sizes={{ default: "200px" }}
+        className="w-full aspect-square"
+      />
+
+      <p>{text}</p>
+    </li>
   );
 }
