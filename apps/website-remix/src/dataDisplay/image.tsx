@@ -1,12 +1,12 @@
 import orderBy from "lodash.orderby";
+import invariant from "tiny-invariant";
 import { ScreenSize, theme } from "~/generated/theme";
 
-export type ImageResolutions = {
-  512: string;
-  1024: string;
-  1536: string;
-  2048: string;
-};
+// Ordered by decreasing size.
+const imageSizes = ["2048", "1536", "1024", "512"] as const;
+type ImageSize = typeof imageSizes[number];
+
+export type ImageResolutions = Partial<Record<ImageSize, string>>;
 
 // Larger to smaller.
 const SCREEN_SIZES = orderBy(
@@ -39,18 +39,19 @@ export function StaticImage({
   sizes: sizesProp,
   ...rest
 }: StaticImageProps) {
+  const largestImageSize = imageSizes.find((size) => image[size] != null);
+  invariant(largestImageSize != null, "At least one size should be provided.");
+
   return (
     // Alt text is in the rest props.
     // eslint-disable-next-line jsx-a11y/alt-text
     <img
       {...rest}
-      src={image[2048]}
-      srcSet={[
-        `${image[512]} 512w`,
-        `${image[1024]} 1024w`,
-        `${image[1536]} 1536w`,
-        `${image[2048]} 2048w`,
-      ].join(",")}
+      loading="lazy"
+      src={image[largestImageSize]}
+      srcSet={Object.entries(image)
+        .map(([size, image]) => `${image} ${size}w`)
+        .join(",")}
       sizes={SCREEN_SIZES.reduce<string[]>((sizes, screen) => {
         const width = sizesProp[screen];
 

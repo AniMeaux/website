@@ -30,7 +30,6 @@ export function HeroSection({
       )}
     >
       <StaticImage
-        loading="lazy"
         alt={imageAlt}
         className={cn("min-w-0 aspect-square", "md:flex-1")}
         image={image}
