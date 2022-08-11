@@ -1,7 +1,7 @@
 import { cn } from "~/core/classNames";
 import { StaticImage, StaticImageProps } from "~/dataDisplay/image";
 
-export function SplitSection({
+export function HeroSection({
   title,
   message,
   action,

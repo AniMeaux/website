@@ -1,6 +1,6 @@
 import { BaseLink } from "~/core/baseLink";
 import { errorImages } from "~/images/error";
-import { SplitSection } from "~/layout/splitSection";
+import { HeroSection } from "~/layout/heroSection";
 
 type ErrorMetaData = {
   title: string;
@@ -38,7 +38,7 @@ export function ErrorPage({ status }: { status: number }) {
 
   return (
     <main className="px-page flex flex-col">
-      <SplitSection
+      <HeroSection
         title={meta.title}
         message={meta.message}
         action={meta.action}
