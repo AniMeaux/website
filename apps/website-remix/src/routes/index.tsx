@@ -46,12 +46,7 @@ function WhoWeAreSection() {
         </p>
       </div>
 
-      <ul
-        className={cn(
-          "flex flex-col items-center gap-12",
-          "md:flex-row md:items-start md:justify-evenly"
-        )}
-      >
+      <ul className="flex items-start flex-wrap gap-12 justify-evenly">
         <WhoWeAreItem
           text="Nous recueillons les animaux abandonnés, maltraités ou errants"
           image={pickUpImages}

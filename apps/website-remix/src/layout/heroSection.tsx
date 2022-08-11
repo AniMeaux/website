@@ -19,21 +19,24 @@ export function HeroSection({
   return (
     <section
       className={cn(
-        "flex flex-col gap-6",
+        "flex flex-col items-center gap-6",
         {
           "md:flex-row-reverse": isReversed,
           "md:flex-row": !isReversed,
         },
-        "md:gap-12 md:items-center"
+        "md:gap-12"
       )}
     >
       <StaticImage
-        className={cn("min-w-0 aspect-square", "md:flex-1")}
+        className={cn(
+          "min-w-0 w-[512px] max-w-full aspect-square",
+          "md:flex-1"
+        )}
         image={image}
         sizes={{ lg: "512px", md: "50vw", default: "100vw" }}
       />
 
-      <div className={cn("flex flex-col gap-6", "md:flex-1")}>
+      <div className={cn("w-full flex flex-col gap-6", "md:flex-1")}>
         <div
           className={cn(
             "px-4 flex flex-col gap-6 text-center",
