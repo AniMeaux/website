@@ -16,6 +16,12 @@
   }
 }
 
+/*
+ * In order to preserve a nice vertical rhythm, all text must have a size
+ * multiple of 24px:
+ *
+ *   font-size * line-height = X * 24px
+ */
 @layer utilities {
   .text-body-default {
     @apply font-sans;
@@ -24,10 +30,9 @@
   }
 
   .text-body-emphasis {
-    @apply font-sans;
+    @apply font-sans font-medium;
     font-size: 16px;
     line-height: 150%;
-    font-weight: 500;
   }
 
   .text-caption-default {
@@ -37,37 +42,32 @@
   }
 
   .text-title-item {
-    @apply font-serif;
+    @apply font-serif font-bold;
     font-size: 16px;
     line-height: 150%;
-    font-weight: 700;
   }
 
   .text-title-hero-large {
-    @apply font-serif;
+    @apply font-serif font-semibold;
     font-size: 60px;
     line-height: 120%;
-    font-weight: 600;
   }
 
   .text-title-hero-small {
-    @apply font-serif;
+    @apply font-serif font-semibold;
     font-size: 40px;
     line-height: 120%;
-    font-weight: 600;
   }
 
   .text-title-section-large {
-    @apply font-serif;
+    @apply font-serif font-semibold;
     font-size: 40px;
     line-height: 120%;
-    font-weight: 600;
   }
 
   .text-title-section-small {
-    @apply font-serif;
+    @apply font-serif font-bold;
     font-size: 20px;
     line-height: 120%;
-    font-weight: 700;
   }
 }
