@@ -1,4 +1,9 @@
-import type { LinksFunction, MetaFunction } from "@remix-run/node";
+import {
+  json,
+  LinksFunction,
+  LoaderFunction,
+  MetaFunction,
+} from "@remix-run/node";
 import {
   Links,
   LiveReload,
@@ -10,6 +15,8 @@ import {
 } from "@remix-run/react";
 import { Settings } from "luxon";
 import { cn } from "~/core/classNames";
+import { Config } from "~/core/config";
+import { createConfig } from "~/core/config.server";
 import { getPageTitle } from "~/core/pageTitle";
 import { ErrorPage } from "~/dataDisplay/errorPage";
 import stylesheet from "~/generated/tailwind.css";
@@ -56,6 +63,14 @@ export const meta: MetaFunction = () => ({
   viewport:
     "width=device-width, minimum-scale=1, initial-scale=1, maximum-scale=1, shrink-to-fit=no, user-scalable=no, viewport-fit=cover",
 });
+
+export type LoaderData = {
+  config: Config;
+};
+
+export const loader: LoaderFunction = async () => {
+  return json<LoaderData>({ config: createConfig() });
+};
 
 export default function App() {
   return (
