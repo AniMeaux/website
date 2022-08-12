@@ -204,6 +204,7 @@ async function seedEvents() {
         ),
         isFullDay: faker.datatype.boolean(),
         image: faker.helpers.maybe(() => faker.datatype.uuid()),
+        isVisible: faker.datatype.boolean(),
       };
     }),
   });
