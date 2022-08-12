@@ -6,8 +6,8 @@ on:
       - dev
 
 jobs:
-  website-remix-codegen:
-    name: 📦 Website Remix Codegen
+  lint:
+    name: 🔬 Lint
     runs-on: ubuntu-latest
     steps:
       - name: 🛑 Cancel Previous Runs
@@ -24,137 +24,40 @@ jobs:
       - name: 📥 Download deps
         uses: bahmutov/npm-install@v1
 
-      - name: 📦 Build
+      - name: 📦 Build prisma
+        run: yarn --cwd api build:prisma
+
+      - name: 📦 Build shared
+        run: yarn --cwd shared clean-build
+
+      - name: 📦 Build website remix codegen
         run: |
           yarn --cwd apps/website-remix build:css --minify
           yarn --cwd apps/website-remix build:icons --minify
           yarn --cwd apps/website-remix build:theme
 
-      - name: ⬆️ Upload artifact
-        uses: actions/upload-artifact@master
-        with:
-          name: website-remix-codegen
-          path: apps/website-remix/src/generated
-
-  build-prisma:
-    name: 📦 Build prisma
-    runs-on: ubuntu-latest
-    steps:
-      - name: 🛑 Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@0.9.1
-
-      - name: ⬇️ Checkout repo
-        uses: actions/checkout@v3
-
-      - name: ⎔ Setup node
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16
-
-      - name: 📥 Download deps
-        uses: bahmutov/npm-install@v1
-
-      - name: 📦 Build
-        run: yarn --cwd api build:prisma
-
-      - name: ⬆️ Upload artifact
-        uses: actions/upload-artifact@master
-        with:
-          name: prisma-build
-          path: node_modules/.prisma
-
-  build-shared:
-    name: 📦 Build shared
-    runs-on: ubuntu-latest
-    needs: build-prisma
-    steps:
-      - name: 🛑 Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@0.9.1
-
-      - name: ⬇️ Checkout repo
-        uses: actions/checkout@v3
-
-      - name: ⎔ Setup node
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16
-
-      - name: 📥 Download deps
-        uses: bahmutov/npm-install@v1
-
-      - name: ⬇️ Download artifact
-        uses: actions/download-artifact@master
-        with:
-          name: prisma-build
-          path: node_modules/.prisma
-
-      - name: 📦 Build
-        run: yarn --cwd shared clean-build
-
-      - name: ⬆️ Upload artifact
-        uses: actions/upload-artifact@master
-        with:
-          name: shared-build
-          path: shared/build
-
-  lint:
-    name: 🔬 Lint
-    runs-on: ubuntu-latest
-    needs:
-      - build-shared
-      - website-remix-codegen
-    steps:
-      - name: 🛑 Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@0.9.1
-
-      - name: ⬇️ Checkout repo
-        uses: actions/checkout@v3
-
-      - name: ⬇️ Download artifact
-        uses: actions/download-artifact@master
-        with:
-          name: shared-build
-          path: shared/build
-
-      - name: ⬇️ Download artifact
-        uses: actions/download-artifact@master
-        with:
-          name: website-remix-codegen
-          path: apps/website-remix/src/generated
-
-      - name: ⎔ Setup node
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16
-
-      - name: 📥 Download deps
-        uses: bahmutov/npm-install@v1
-
-      - name: ⬇️ Download artifact
-        uses: actions/download-artifact@master
-        with:
-          name: prisma-build
-          path: node_modules/.prisma
-
       - name: 🔬 Lint
         run: yarn lint
+
+      - name: ⬆️ Upload artifact
+        uses: actions/upload-artifact@master
+        with:
+          name: shared-build
+          path: |
+            node_modules/.prisma
+            apps/website-remix/src/generated
+            shared/build
 
   build-api:
     name: 📦 Build API
     runs-on: ubuntu-latest
-    needs: build-shared
+    needs: lint
     steps:
       - name: 🛑 Cancel Previous Runs
         uses: styfle/cancel-workflow-action@0.9.1
 
       - name: ⬇️ Checkout repo
         uses: actions/checkout@v3
-
-      - name: ⬇️ Download artifact
-        uses: actions/download-artifact@master
-        with:
-          name: shared-build
-          path: shared/build
 
       - name: ⎔ Setup node
         uses: actions/setup-node@v3
@@ -167,8 +70,7 @@ jobs:
       - name: ⬇️ Download artifact
         uses: actions/download-artifact@master
         with:
-          name: prisma-build
-          path: node_modules/.prisma
+          name: shared-build
 
       - name: 📦 build
         run: yarn --cwd api clean-build
@@ -176,19 +78,13 @@ jobs:
   build-website:
     name: 📦 Build Website
     runs-on: ubuntu-latest
-    needs: build-shared
+    needs: lint
     steps:
       - name: 🛑 Cancel Previous Runs
         uses: styfle/cancel-workflow-action@0.9.1
 
       - name: ⬇️ Checkout repo
         uses: actions/checkout@v3
-
-      - name: ⬇️ Download artifact
-        uses: actions/download-artifact@master
-        with:
-          name: shared-build
-          path: shared/build
 
       - name: ⎔ Setup node
         uses: actions/setup-node@v3
@@ -201,8 +97,7 @@ jobs:
       - name: ⬇️ Download artifact
         uses: actions/download-artifact@master
         with:
-          name: prisma-build
-          path: node_modules/.prisma
+          name: shared-build
 
       - name: 📦 Build
         run: yarn --cwd apps/website clean-build
@@ -210,19 +105,13 @@ jobs:
   build-website-remix:
     name: 📦 Build Website Remix
     runs-on: ubuntu-latest
-    needs: build-shared
+    needs: lint
     steps:
       - name: 🛑 Cancel Previous Runs
         uses: styfle/cancel-workflow-action@0.9.1
 
       - name: ⬇️ Checkout repo
         uses: actions/checkout@v3
-
-      - name: ⬇️ Download artifact
-        uses: actions/download-artifact@master
-        with:
-          name: shared-build
-          path: shared/build
 
       - name: ⎔ Setup node
         uses: actions/setup-node@v3
@@ -235,8 +124,7 @@ jobs:
       - name: ⬇️ Download artifact
         uses: actions/download-artifact@master
         with:
-          name: prisma-build
-          path: node_modules/.prisma
+          name: shared-build
 
       - name: 📦 Build
         run: yarn --cwd apps/website-remix clean-build
@@ -244,19 +132,13 @@ jobs:
   build-faune:
     name: 📦 Build Faune
     runs-on: ubuntu-latest
-    needs: build-shared
+    needs: lint
     steps:
       - name: 🛑 Cancel Previous Runs
         uses: styfle/cancel-workflow-action@0.9.1
 
       - name: ⬇️ Checkout repo
         uses: actions/checkout@v3
-
-      - name: ⬇️ Download artifact
-        uses: actions/download-artifact@master
-        with:
-          name: shared-build
-          path: shared/build
 
       - name: ⎔ Setup node
         uses: actions/setup-node@v3
@@ -269,8 +151,7 @@ jobs:
       - name: ⬇️ Download artifact
         uses: actions/download-artifact@master
         with:
-          name: prisma-build
-          path: node_modules/.prisma
+          name: shared-build
 
       - name: 📦 Build
         run: yarn --cwd apps/faune clean-build
