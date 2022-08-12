@@ -1,5 +1,9 @@
+import { json, LoaderFunction } from "@remix-run/node";
+import { useLoaderData } from "@remix-run/react";
+import { DateTime } from "luxon";
 import { SearchForm } from "~/controllers/searchForm";
 import { cn } from "~/core/classNames";
+import { prisma } from "~/core/db.server";
 import { StaticImage, StaticImageProps } from "~/dataDisplay/image";
 import { Icon, IconProps } from "~/generated/icon";
 import { adoptionImages } from "~/images/adoption";
@@ -9,7 +13,22 @@ import { pickUpImages } from "~/images/pickUp";
 import { BubbleShape } from "~/layout/bubbleShape";
 import { HeroSection } from "~/layout/heroSection";
 
+type LoaderData = {
+  pickUpCount: number;
+};
+
+export const loader: LoaderFunction = async ({ request }) => {
+  const pickUpCount = await prisma.animal.count();
+
+  return json<LoaderData>({
+    // Round to nearest lower 50 multiple.
+    pickUpCount: Math.floor(pickUpCount / 50) * 50,
+  });
+};
+
 export default function HomePage() {
+  const { pickUpCount } = useLoaderData<LoaderData>();
+
   return (
     <main className="px-page flex flex-col gap-24">
       <HeroSection
@@ -22,7 +41,7 @@ export default function HomePage() {
       />
 
       <WhoWeAreSection />
-      <NumbersSection />
+      <NumbersSection pickUpCount={pickUpCount} />
     </main>
   );
 }
@@ -89,7 +108,11 @@ function WhoWeAreItem({
   );
 }
 
-function NumbersSection() {
+function NumbersSection({ pickUpCount }: { pickUpCount: number }) {
+  const years = DateTime.now()
+    .diff(DateTime.fromISO("2018-04-10"), "years")
+    .toHuman({ maximumFractionDigits: 0 });
+
   return (
     <section className="relative flex">
       {/* Wrap the shape because it looks like SVG can only be sized with width
@@ -112,13 +135,13 @@ function NumbersSection() {
       >
         <NumberItem
           icon="cakeCandles"
-          value="4 ans"
+          value={years}
           label="D'existence"
           color="green"
         />
         <NumberItem
           icon="handHoldingHeart"
-          value="500"
+          value={pickUpCount}
           label="Prises en charge"
           color="yellow"
         />

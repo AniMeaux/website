@@ -8,6 +8,7 @@ import {
   ScrollRestoration,
   useCatch,
 } from "@remix-run/react";
+import { Settings } from "luxon";
 import { cn } from "~/core/classNames";
 import { getPageTitle } from "~/core/pageTitle";
 import { ErrorPage } from "~/dataDisplay/errorPage";
@@ -19,6 +20,8 @@ import favicon from "~/images/favicon.svg";
 import maskIcon from "~/images/maskIcon.svg";
 import { Footer } from "~/layout/footer";
 import { Header } from "~/layout/header";
+
+Settings.defaultLocale = "fr";
 
 export const links: LinksFunction = () => {
   return [
