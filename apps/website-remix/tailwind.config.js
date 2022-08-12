@@ -36,6 +36,9 @@ module.exports = {
           "sm-page": `calc(max(${minSpacing}, (100% - ${smallPageMaxWidth}) / 2))`,
         };
       },
+      aspectRatio: {
+        "4/3": "4 / 3",
+      },
     },
   },
 
