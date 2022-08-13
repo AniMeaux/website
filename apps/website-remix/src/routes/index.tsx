@@ -4,7 +4,7 @@ import { json, LoaderFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { DateTime } from "luxon";
 import { SearchForm } from "~/controllers/searchForm";
-import { actionClassNames } from "~/core/actions";
+import { getActionClassNames } from "~/core/actions";
 import { BaseLink } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
 import { MapDateToString } from "~/core/dates";
@@ -17,9 +17,11 @@ import {
 } from "~/dataDisplay/image";
 import { Icon, IconProps } from "~/generated/icon";
 import { adoptionImages } from "~/images/adoption";
+import { fosterFamilyLargeImages } from "~/images/fosterFamilyLarge";
 import { fosterFamilySmallImages } from "~/images/fosterFamilySmall";
 import { heroImages } from "~/images/hero";
 import { pickUpImages } from "~/images/pickUp";
+import { volunteerImages } from "~/images/volunteer";
 import { BubbleShape } from "~/layout/bubbleShape";
 import { HeroSection } from "~/layout/heroSection";
 
@@ -79,6 +81,50 @@ export default function HomePage() {
       <WhoWeAreSection />
       <NumbersSection pickUpCount={pickUpCount} />
       <UpcomingEventsSection upcomingEvents={upcomingEvents} />
+
+      <HeroSection
+        title="Devenez famille d'accueil"
+        message={
+          <>
+            Aidez-nous à{" "}
+            <strong className="text-body-emphasis">sauver les animaux</strong>{" "}
+            en leur consacrant{" "}
+            <strong className="text-body-emphasis">temps et attention</strong>,
+            sans aucune contrainte financière
+          </>
+        }
+        action={
+          <BaseLink
+            to="/devenir-famille-d-accueil"
+            className={getActionClassNames()}
+          >
+            En savoir plus
+          </BaseLink>
+        }
+        image={fosterFamilyLargeImages}
+      />
+
+      <DonateSection />
+
+      <HeroSection
+        title="Devenez bénévole"
+        message={
+          <>
+            Contribuez aux{" "}
+            <strong className="text-body-emphasis">
+              sauvetages des animaux
+            </strong>{" "}
+            en difficultés que nous sommes amenés à prendre sous notre aile
+          </>
+        }
+        action={
+          <BaseLink to="/devenir-benevole" className={getActionClassNames()}>
+            En savoir plus
+          </BaseLink>
+        }
+        image={volunteerImages}
+        isReversed
+      />
     </main>
   );
 }
@@ -255,7 +301,7 @@ function UpcomingEventsSection({
         ))}
       </ul>
 
-      <BaseLink to="/evenements" className={actionClassNames}>
+      <BaseLink to="/evenements" className={getActionClassNames()}>
         Voir plus
       </BaseLink>
     </section>
@@ -340,5 +386,55 @@ function EventItemDetailsItem({
 
       <span className="flex-1">{children}</span>
     </li>
+  );
+}
+
+function DonateSection() {
+  return (
+    <section className="relative flex">
+      {/* Wrap the shape because it looks like SVG can only be sized with width
+  and height. But we don't want the width class to be a complexe arbitrary
+  value with hard coded size in px: `w-[calc(100%_-_16px)]` */}
+      <span
+        className={cn(
+          "absolute -z-10 top-0 left-2 bottom-0 right-2",
+          "md:left-4 md:right-4"
+        )}
+      >
+        <BubbleShape isDouble className="w-full h-full" />
+      </span>
+
+      <div
+        className={cn(
+          "w-full px-10 py-12 flex flex-col items-center gap-6",
+          "md:px-24 md:py-[60px]"
+        )}
+      >
+        <div className="w-full max-w-3xl flex flex-col gap-6 text-center">
+          <h2
+            className={cn(
+              "text-title-section-small",
+              "md:text-title-section-large"
+            )}
+          >
+            Faîtes un don !
+          </h2>
+
+          <p>
+            Vous souhaitez nous aider mais vous ne pouvez accueillir ou
+            adopter ? Vous pouvez nous faire un don ! Ce don servira à financer
+            les soins vétérinaires, effectuer plus de sauvetages et acheter du
+            matériel pour les animaux.
+          </p>
+        </div>
+
+        <BaseLink
+          to="/faire-un-don"
+          className={getActionClassNames({ color: "yellow" })}
+        >
+          Faire un don
+        </BaseLink>
+      </div>
+    </section>
   );
 }

@@ -10,12 +10,14 @@ export function HeroSection({
   hasLargeTitle = false,
 }: {
   title: string;
-  message: string;
+  message: React.ReactNode;
   action: React.ReactNode;
   image: StaticImageProps["image"];
   isReversed?: boolean;
   hasLargeTitle?: boolean;
 }) {
+  const TitleComponent = hasLargeTitle ? "h1" : "h2";
+
   return (
     <section
       className={cn(
@@ -28,7 +30,7 @@ export function HeroSection({
       )}
     >
       <StaticImage
-        className={cn("w-full aspect-square", "md:flex-1")}
+        className={cn("w-full aspect-square", "md:w-auto md:min-w-0 md:flex-1")}
         image={image}
         sizes={{ lg: "512px", md: "50vw", default: "100vw" }}
       />
@@ -40,7 +42,7 @@ export function HeroSection({
             "md:px-6 md:text-left"
           )}
         >
-          <h1
+          <TitleComponent
             className={cn({
               "text-title-hero-small md:text-title-hero-large": hasLargeTitle,
               "text-title-section-small md:text-title-section-large":
@@ -48,7 +50,7 @@ export function HeroSection({
             })}
           >
             {title}
-          </h1>
+          </TitleComponent>
 
           <p>{message}</p>
         </div>
