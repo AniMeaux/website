@@ -1,3 +1,4 @@
+import { actionClassNames } from "~/core/actions";
 import { BaseLink } from "~/core/baseLink";
 import { errorImages } from "~/images/error";
 import { HeroSection } from "~/layout/heroSection";
@@ -7,9 +8,6 @@ type ErrorMetaData = {
   message: string;
   action: React.ReactNode;
 };
-
-const actionClassNames =
-  "px-6 py-2 bg-blue-base rounded-tl-xl rounded-tr-lg rounded-br-xl rounded-bl-lg flex items-center text-white text-body-emphasis transition-[background-color,transform] duration-100 ease-in-out hover:bg-blue-light active:scale-95";
 
 const STATUS_CODE_ERROR_META_DATA: Record<number, ErrorMetaData> = {
   404: {

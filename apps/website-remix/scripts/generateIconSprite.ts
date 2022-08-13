@@ -66,14 +66,21 @@ export type IconProps = React.SVGAttributes<SVGElement> & {
   id: IconId;
 };
   
-export function Icon({ id, ...rest }: IconProps) {
+export function Icon({
+  id,
+  width = "1em",
+  height = "1em",
+  stroke = "none",
+  fill = "currentColor",
+  ...rest
+}: IconProps) {
   return (
     <svg
       {...rest}
-      width="1em"
-      height="1em"
-      stroke="none"
-      fill="currentColor"
+      width={width}
+      height={height}
+      stroke={stroke}
+      fill={fill}
     >
       <use href={\`\${sprite}#\${id}\`} />
     </svg>

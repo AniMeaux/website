@@ -1,10 +1,20 @@
+import { formatDateRange } from "@animeaux/shared";
+import { Prisma } from "@prisma/client";
 import { json, LoaderFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { DateTime } from "luxon";
 import { SearchForm } from "~/controllers/searchForm";
+import { actionClassNames } from "~/core/actions";
+import { BaseLink } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
+import { MapDateToString } from "~/core/dates";
 import { prisma } from "~/core/db.server";
-import { StaticImage, StaticImageProps } from "~/dataDisplay/image";
+import {
+  DynamicImage,
+  PlaceholderImage,
+  StaticImage,
+  StaticImageProps,
+} from "~/dataDisplay/image";
 import { Icon, IconProps } from "~/generated/icon";
 import { adoptionImages } from "~/images/adoption";
 import { fosterFamilySmallImages } from "~/images/fosterFamilySmall";
@@ -13,21 +23,47 @@ import { pickUpImages } from "~/images/pickUp";
 import { BubbleShape } from "~/layout/bubbleShape";
 import { HeroSection } from "~/layout/heroSection";
 
-type LoaderData = {
+const eventSelect = Prisma.validator<Prisma.EventArgs>()({
+  select: {
+    id: true,
+    image: true,
+    title: true,
+    shortDescription: true,
+    startDate: true,
+    endDate: true,
+    isFullDay: true,
+    location: true,
+  },
+});
+
+type Event = Prisma.EventGetPayload<typeof eventSelect>;
+
+type LoaderDataServer = {
   pickUpCount: number;
+  upcomingEvents: Event[];
 };
 
-export const loader: LoaderFunction = async ({ request }) => {
-  const pickUpCount = await prisma.animal.count();
+export const loader: LoaderFunction = async () => {
+  const [pickUpCount, upcomingEvents] = await Promise.all([
+    prisma.animal.count(),
+    prisma.event.findMany({
+      where: { isVisible: true, endDate: { gte: new Date() } },
+      orderBy: { endDate: "asc" },
+      ...eventSelect,
+    }),
+  ]);
 
-  return json<LoaderData>({
+  return json<LoaderDataServer>({
     // Round to nearest lower 50 multiple.
     pickUpCount: Math.floor(pickUpCount / 50) * 50,
+    upcomingEvents,
   });
 };
 
+type LoaderDataClient = MapDateToString<LoaderDataServer>;
+
 export default function HomePage() {
-  const { pickUpCount } = useLoaderData<LoaderData>();
+  const { pickUpCount, upcomingEvents } = useLoaderData<LoaderDataClient>();
 
   return (
     <main className="px-page flex flex-col gap-24">
@@ -42,6 +78,7 @@ export default function HomePage() {
 
       <WhoWeAreSection />
       <NumbersSection pickUpCount={pickUpCount} />
+      <UpcomingEventsSection upcomingEvents={upcomingEvents} />
     </main>
   );
 }
@@ -108,7 +145,11 @@ function WhoWeAreItem({
   );
 }
 
-function NumbersSection({ pickUpCount }: { pickUpCount: number }) {
+function NumbersSection({
+  pickUpCount,
+}: {
+  pickUpCount: LoaderDataClient["pickUpCount"];
+}) {
   const years = DateTime.now()
     .diff(DateTime.fromISO("2018-04-10"), "years")
     .toHuman({ maximumFractionDigits: 0 });
@@ -184,6 +225,120 @@ function NumberItem({
 
         <p>{label}</p>
       </div>
+    </li>
+  );
+}
+
+function UpcomingEventsSection({
+  upcomingEvents,
+}: {
+  upcomingEvents: LoaderDataClient["upcomingEvents"];
+}) {
+  if (upcomingEvents.length === 0) {
+    return null;
+  }
+
+  return (
+    <section className="flex flex-col items-center gap-6">
+      <h2
+        className={cn(
+          "text-title-section-small text-center",
+          "md:text-title-section-large"
+        )}
+      >
+        Événements à venir
+      </h2>
+
+      <ul className="max-w-3xl flex flex-col gap-6">
+        {upcomingEvents.map((event) => (
+          <EventItem key={event.id} event={event} />
+        ))}
+      </ul>
+
+      <BaseLink to="/evenements" className={actionClassNames}>
+        Voir plus
+      </BaseLink>
+    </section>
+  );
+}
+
+function EventItem({
+  event,
+}: {
+  event: LoaderDataClient["upcomingEvents"][number];
+}) {
+  return (
+    <li className="flex">
+      <BaseLink
+        to={`/evenements/${event.id}`}
+        className={cn(
+          "group px-4 py-3 shadow-none rounded-tl-[40px] rounded-tr-3xl rounded-br-[40px] rounded-bl-3xl bg-transparent flex flex-col gap-4 transition-[background-color,transform] duration-100 ease-in-out hover:bg-white hover:shadow-base",
+          "sm:pl-6 sm:pr-12 sm:py-6 sm:flex-row sm:gap-6 sm:items-center"
+        )}
+      >
+        {event.image == null ? (
+          <PlaceholderImage
+            icon="calendarDay"
+            className={cn(
+              "w-full aspect-4/3 flex-none rounded-tl-[16%] rounded-tr-[8%] rounded-br-[16%] rounded-bl-[8%]",
+              "sm:w-[150px]"
+            )}
+          />
+        ) : (
+          <DynamicImage
+            imageId={event.image}
+            alt={event.title}
+            sizes={{ sm: "150px", default: "100vw" }}
+            largestImageSize="512"
+            className={cn(
+              "w-full aspect-4/3 flex-none rounded-tl-[16%] rounded-tr-[8%] rounded-br-[16%] rounded-bl-[8%]",
+              "sm:w-[150px]"
+            )}
+          />
+        )}
+
+        <div className="flex-1 flex flex-col">
+          <p className="text-title-item">{event.title}</p>
+          <p>{event.shortDescription}</p>
+          <ul className="flex flex-col">
+            <EventItemDetailsItem icon="calendarDay">
+              {formatDateRange(event.startDate, event.endDate, {
+                showTime: !event.isFullDay,
+              })}
+            </EventItemDetailsItem>
+
+            <EventItemDetailsItem icon="locationDot">
+              {event.location}
+            </EventItemDetailsItem>
+          </ul>
+        </div>
+
+        <Icon
+          id="arrowRight"
+          className={cn(
+            "hidden text-[32px] text-gray-500 transition-transform duration-100 ease-in-out group-hover:scale-110",
+            "sm:block"
+          )}
+        />
+      </BaseLink>
+    </li>
+  );
+}
+
+function EventItemDetailsItem({
+  icon,
+  children,
+}: {
+  icon: IconProps["id"];
+  children: React.ReactNode;
+}) {
+  return (
+    <li className="flex items-start gap-2 text-gray-500">
+      <span className="flex-none flex h-6 items-center">
+        <Icon id={icon} className="text-[14px]" />
+      </span>
+
+      <span className="flex-1">{children}</span>
     </li>
   );
 }
