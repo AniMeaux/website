@@ -30,7 +30,7 @@ export function HeroSection({
       )}
     >
       <StaticImage
-        className={cn("w-full aspect-square", "md:flex-1")}
+        className={cn("w-full aspect-square", "md:w-auto md:min-w-0 md:flex-1")}
         image={image}
         sizes={{ lg: "512px", md: "50vw", default: "100vw" }}
       />
