@@ -21,6 +21,7 @@ import { fosterFamilyLargeImages } from "~/images/fosterFamilyLarge";
 import { fosterFamilySmallImages } from "~/images/fosterFamilySmall";
 import { heroImages } from "~/images/hero";
 import { pickUpImages } from "~/images/pickUp";
+import { volunteerImages } from "~/images/volunteer";
 import { BubbleShape } from "~/layout/bubbleShape";
 import { HeroSection } from "~/layout/heroSection";
 
@@ -104,6 +105,26 @@ export default function HomePage() {
       />
 
       <DonateSection />
+
+      <HeroSection
+        title="Devenez bénévole"
+        message={
+          <>
+            Contribuez aux{" "}
+            <strong className="text-body-emphasis">
+              sauvetages des animaux
+            </strong>{" "}
+            en difficultés que nous sommes amenés à prendre sous notre aile
+          </>
+        }
+        action={
+          <BaseLink to="/devenir-benevole" className={getActionClassNames()}>
+            En savoir plus
+          </BaseLink>
+        }
+        image={volunteerImages}
+        isReversed
+      />
     </main>
   );
 }
