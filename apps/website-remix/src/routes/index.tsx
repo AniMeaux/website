@@ -17,6 +17,7 @@ import {
 } from "~/dataDisplay/image";
 import { Icon, IconProps } from "~/generated/icon";
 import { adoptionImages } from "~/images/adoption";
+import { fosterFamilyLargeImages } from "~/images/fosterFamilyLarge";
 import { fosterFamilySmallImages } from "~/images/fosterFamilySmall";
 import { heroImages } from "~/images/hero";
 import { pickUpImages } from "~/images/pickUp";
@@ -79,6 +80,28 @@ export default function HomePage() {
       <WhoWeAreSection />
       <NumbersSection pickUpCount={pickUpCount} />
       <UpcomingEventsSection upcomingEvents={upcomingEvents} />
+
+      <HeroSection
+        title="Devenez famille d'accueil"
+        message={
+          <>
+            Aidez-nous à{" "}
+            <strong className="text-body-emphasis">sauver les animaux</strong>{" "}
+            en leur consacrant{" "}
+            <strong className="text-body-emphasis">temps et attention</strong>,
+            sans aucune contrainte financière
+          </>
+        }
+        action={
+          <BaseLink
+            to="/devenir-famille-d-accueil"
+            className={actionClassNames}
+          >
+            En savoir plus
+          </BaseLink>
+        }
+        image={fosterFamilyLargeImages}
+      />
     </main>
   );
 }

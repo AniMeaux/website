@@ -10,7 +10,7 @@ export function HeroSection({
   hasLargeTitle = false,
 }: {
   title: string;
-  message: string;
+  message: React.ReactNode;
   action: React.ReactNode;
   image: StaticImageProps["image"];
   isReversed?: boolean;
