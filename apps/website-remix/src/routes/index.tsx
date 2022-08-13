@@ -102,6 +102,8 @@ export default function HomePage() {
         }
         image={fosterFamilyLargeImages}
       />
+
+      <DonateSection />
     </main>
   );
 }
@@ -363,5 +365,55 @@ function EventItemDetailsItem({
 
       <span className="flex-1">{children}</span>
     </li>
+  );
+}
+
+function DonateSection() {
+  return (
+    <section className="relative flex">
+      {/* Wrap the shape because it looks like SVG can only be sized with width
+  and height. But we don't want the width class to be a complexe arbitrary
+  value with hard coded size in px: `w-[calc(100%_-_16px)]` */}
+      <span
+        className={cn(
+          "absolute -z-10 top-0 left-2 bottom-0 right-2",
+          "md:left-4 md:right-4"
+        )}
+      >
+        <BubbleShape isDouble className="w-full h-full" />
+      </span>
+
+      <div
+        className={cn(
+          "w-full px-10 py-12 flex flex-col items-center gap-6",
+          "md:px-24 md:py-[60px]"
+        )}
+      >
+        <div className="w-full max-w-3xl flex flex-col gap-6 text-center">
+          <h2
+            className={cn(
+              "text-title-section-small",
+              "md:text-title-section-large"
+            )}
+          >
+            Faîtes un don !
+          </h2>
+
+          <p>
+            Vous souhaitez nous aider mais vous ne pouvez accueillir ou
+            adopter ? Vous pouvez nous faire un don ! Ce don servira à financer
+            les soins vétérinaires, effectuer plus de sauvetages et acheter du
+            matériel pour les animaux.
+          </p>
+        </div>
+
+        <BaseLink
+          to="/faire-un-don"
+          className={getActionClassNames({ color: "yellow" })}
+        >
+          Faire un don
+        </BaseLink>
+      </div>
+    </section>
   );
 }
