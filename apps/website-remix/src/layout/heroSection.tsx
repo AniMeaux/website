@@ -16,6 +16,8 @@ export function HeroSection({
   isReversed?: boolean;
   hasLargeTitle?: boolean;
 }) {
+  const TitleComponent = hasLargeTitle ? "h1" : "h2";
+
   return (
     <section
       className={cn(
@@ -40,7 +42,7 @@ export function HeroSection({
             "md:px-6 md:text-left"
           )}
         >
-          <h1
+          <TitleComponent
             className={cn({
               "text-title-hero-small md:text-title-hero-large": hasLargeTitle,
               "text-title-section-small md:text-title-section-large":
@@ -48,7 +50,7 @@ export function HeroSection({
             })}
           >
             {title}
-          </h1>
+          </TitleComponent>
 
           <p>{message}</p>
         </div>
