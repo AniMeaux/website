@@ -1,4 +1,4 @@
-import { actionClassNames } from "~/core/actions";
+import { getActionClassNames } from "~/core/actions";
 import { BaseLink } from "~/core/baseLink";
 import { errorImages } from "~/images/error";
 import { HeroSection } from "~/layout/heroSection";
@@ -14,7 +14,7 @@ const STATUS_CODE_ERROR_META_DATA: Record<number, ErrorMetaData> = {
     title: "Page introuvable",
     message: "Nous n'avons pas trouvé la page que vous chercher.",
     action: (
-      <BaseLink to="/" className={actionClassNames}>
+      <BaseLink to="/" className={getActionClassNames()}>
         Page d'accueil
       </BaseLink>
     ),
@@ -23,7 +23,7 @@ const STATUS_CODE_ERROR_META_DATA: Record<number, ErrorMetaData> = {
     title: "Oups",
     message: "Une erreur est survenue.",
     action: (
-      <BaseLink to="/" reloadDocument className={actionClassNames}>
+      <BaseLink to="/" reloadDocument className={getActionClassNames()}>
         Rafraichir
       </BaseLink>
     ),

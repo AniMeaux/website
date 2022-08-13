@@ -4,7 +4,7 @@ import { json, LoaderFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { DateTime } from "luxon";
 import { SearchForm } from "~/controllers/searchForm";
-import { actionClassNames } from "~/core/actions";
+import { getActionClassNames } from "~/core/actions";
 import { BaseLink } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
 import { MapDateToString } from "~/core/dates";
@@ -95,7 +95,7 @@ export default function HomePage() {
         action={
           <BaseLink
             to="/devenir-famille-d-accueil"
-            className={actionClassNames}
+            className={getActionClassNames()}
           >
             En savoir plus
           </BaseLink>
@@ -278,7 +278,7 @@ function UpcomingEventsSection({
         ))}
       </ul>
 
-      <BaseLink to="/evenements" className={actionClassNames}>
+      <BaseLink to="/evenements" className={getActionClassNames()}>
         Voir plus
       </BaseLink>
     </section>
