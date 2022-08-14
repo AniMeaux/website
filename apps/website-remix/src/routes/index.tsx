@@ -51,7 +51,7 @@ export const loader: LoaderFunction = async () => {
     prisma.event.findMany({
       where: { isVisible: true, endDate: { gte: new Date() } },
       orderBy: { endDate: "asc" },
-      ...eventSelect,
+      select: eventSelect.select,
     }),
   ]);
 
@@ -295,7 +295,13 @@ function UpcomingEventsSection({
         Événements à venir
       </h2>
 
-      <ul className="max-w-3xl flex flex-col gap-6">
+      <ul
+        className={cn(
+          "max-w-3xl grid grid-cols-1 gap-6",
+          "xs:grid-cols-2",
+          "sm:grid-cols-1"
+        )}
+      >
         {upcomingEvents.map((event) => (
           <EventItem key={event.id} event={event} />
         ))}
@@ -318,7 +324,7 @@ function EventItem({
       <BaseLink
         to={`/evenements/${event.id}`}
         className={cn(
-          "group px-4 py-3 shadow-none rounded-tl-[40px] rounded-tr-3xl rounded-br-[40px] rounded-bl-3xl bg-transparent flex flex-col gap-4 transition-[background-color,transform] duration-100 ease-in-out hover:bg-white hover:shadow-base",
+          "group w-full px-4 py-3 shadow-none rounded-tl-[40px] rounded-tr-3xl rounded-br-[40px] rounded-bl-3xl bg-transparent flex flex-col gap-4 transition-[background-color,transform] duration-100 ease-in-out hover:bg-white hover:shadow-base",
           "sm:pl-6 sm:pr-12 sm:py-6 sm:flex-row sm:gap-6 sm:items-center"
         )}
       >
@@ -335,7 +341,7 @@ function EventItem({
             imageId={event.image}
             alt={event.title}
             sizes={{ sm: "150px", default: "100vw" }}
-            largestImageSize="512"
+            fallbackSize="512"
             className={cn(
               "w-full aspect-4/3 flex-none rounded-tl-[16%] rounded-tr-[8%] rounded-br-[16%] rounded-bl-[8%]",
               "sm:w-[150px]"

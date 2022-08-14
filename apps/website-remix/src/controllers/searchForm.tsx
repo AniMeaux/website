@@ -1,35 +1,22 @@
 import { AnimalAge, ANIMAL_AGE_RANGE_BY_SPECIES } from "@animeaux/shared";
 import { Species } from "@prisma/client";
 import orderBy from "lodash.orderby";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { BaseLink } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
+import { AGE_TRANSLATION, SPECIES_TRANSLATION } from "~/core/translations";
 import { Icon } from "~/generated/icon";
 
-const speciesTranslation: Record<Species, string> = {
-  [Species.BIRD]: "Oiseau",
-  [Species.CAT]: "Chat",
-  [Species.DOG]: "Chien",
-  [Species.REPTILE]: "Reptile",
-  [Species.RODENT]: "Rongeur",
-};
-
-const ageTranslation: Record<AnimalAge, string> = {
-  [AnimalAge.JUNIOR]: "Junior",
-  [AnimalAge.ADULT]: "Adulte",
-  [AnimalAge.SENIOR]: "Sénior",
-};
-
-const sortedSpecies = orderBy(
+const SORTED_SPECIES = orderBy(
   Object.values(Species),
-  (species) => speciesTranslation[species]
+  (species) => SPECIES_TRANSLATION[species]
 );
 
-const sortedAges = orderBy(Object.values(AnimalAge), (age) =>
+const SORTED_AGES = orderBy(Object.values(AnimalAge), (age) =>
   age === AnimalAge.JUNIOR ? 0 : age === AnimalAge.ADULT ? 1 : 2
 );
 
-const animalAgesBySpecies: Record<Species, AnimalAge[]> = {
+export const ANIMAL_AGES_BY_SPECIES: Record<Species, AnimalAge[]> = {
   [Species.BIRD]: getAnimalAgesForSpecies(Species.BIRD),
   [Species.CAT]: getAnimalAgesForSpecies(Species.CAT),
   [Species.DOG]: getAnimalAgesForSpecies(Species.DOG),
@@ -43,31 +30,53 @@ function getAnimalAgesForSpecies(species: Species): AnimalAge[] {
     return [];
   }
 
-  return sortedAges.filter((age) => agesRanges[age] != null);
+  return SORTED_AGES.filter((age) => agesRanges[age] != null);
 }
 
 const AllOption = "ALL";
 type AnimalSpeciesOption = typeof AllOption | Species;
 type AnimalAgeOption = typeof AllOption | AnimalAge;
 
-type State = {
+type SearchFormState = {
   species: AnimalSpeciesOption | null;
   age: AnimalAgeOption | null;
 };
 
 export function SearchForm({
-  hasAll = false,
+  defaultSpecies,
+  defaultAge,
+  hasAllSpeciesByDefault = false,
   className,
 }: {
-  hasAll?: boolean;
+  defaultSpecies?: Species;
+  defaultAge?: AnimalAge;
+  hasAllSpeciesByDefault?: boolean;
   className?: string;
 }) {
-  const [state, setState] = useState<State>({ species: null, age: null });
+  const setDefaults = useCallback(() => {
+    let age: SearchFormState["age"] = defaultAge ?? null;
+    if (defaultSpecies != null && defaultAge == null) {
+      age = AllOption;
+    }
+
+    let species: SearchFormState["species"] = defaultSpecies ?? null;
+    if (hasAllSpeciesByDefault && species == null) {
+      species = AllOption;
+    }
+
+    return { species, age };
+  }, [defaultSpecies, defaultAge, hasAllSpeciesByDefault]);
+
+  const [state, setState] = useState<SearchFormState>(setDefaults);
+
+  useEffect(() => {
+    setState(setDefaults());
+  }, [setDefaults]);
 
   const ageOptions =
     state.species == null || state.species === AllOption
       ? []
-      : animalAgesBySpecies[state.species];
+      : ANIMAL_AGES_BY_SPECIES[state.species];
 
   return (
     <div
@@ -79,13 +88,23 @@ export function SearchForm({
       <Select<AnimalSpeciesOption>
         placeholder="Espèce"
         value={state.species}
-        onChange={(species) => setState({ species, age: null })}
-      >
-        {hasAll && <option value={AllOption}>Toutes les espèces</option>}
+        onChange={(species) => {
+          let age: SearchFormState["age"] = null;
+          if (
+            species !== AllOption &&
+            ANIMAL_AGES_BY_SPECIES[species].length > 0
+          ) {
+            age = AllOption;
+          }
 
-        {sortedSpecies.map((species) => (
+          return setState({ species, age });
+        }}
+      >
+        <option value={AllOption}>Toutes les espèces</option>
+
+        {SORTED_SPECIES.map((species) => (
           <option key={species} value={species}>
-            {speciesTranslation[species]}
+            {SPECIES_TRANSLATION[species]}
           </option>
         ))}
       </Select>
@@ -96,11 +115,11 @@ export function SearchForm({
           value={state.age}
           onChange={(age) => setState((prevState) => ({ ...prevState, age }))}
         >
-          {hasAll && <option value={AllOption}>Tout âge</option>}
+          <option value={AllOption}>Tout âge</option>
 
           {ageOptions.map((age) => (
             <option key={age} value={age}>
-              {ageTranslation[age]}
+              {AGE_TRANSLATION[age]}
             </option>
           ))}
         </Select>
@@ -148,7 +167,7 @@ function Select<ValueType extends string>({
   );
 }
 
-const speciesPath: Record<Species, string> = {
+export const SPECIES_TO_PATH: Record<Species, string> = {
   [Species.BIRD]: "oiseau",
   [Species.CAT]: "chat",
   [Species.DOG]: "chien",
@@ -156,21 +175,21 @@ const speciesPath: Record<Species, string> = {
   [Species.RODENT]: "rongeur",
 };
 
-const agesPath: Record<AnimalAge, string> = {
+export const AGES_TO_PATH: Record<AnimalAge, string> = {
   [AnimalAge.JUNIOR]: "junior",
   [AnimalAge.ADULT]: "adulte",
   [AnimalAge.SENIOR]: "senior",
 };
 
-function getPath(state: State): string {
+function getPath(state: SearchFormState): string {
   let path = "/adoption";
 
   if (state.species != null && state.species !== AllOption) {
-    path += `/${speciesPath[state.species]}`;
+    path += `/${SPECIES_TO_PATH[state.species]}`;
   }
 
   if (state.age != null && state.age !== AllOption) {
-    path += `/${agesPath[state.age]}`;
+    path += `/${AGES_TO_PATH[state.age]}`;
   }
 
   return path;

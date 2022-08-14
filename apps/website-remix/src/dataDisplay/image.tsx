@@ -38,19 +38,17 @@ export type StaticImageProps = Omit<
     // `default` is mandatory.
     default: string;
   };
-  largestImageSize?: ImageSize;
+  fallbackSize?: ImageSize;
 };
 
 export function StaticImage({
   image,
   sizes: sizesProp,
-  largestImageSize = IMAGE_SIZES.find(
-    (size) => image.imagesBySize[size] != null
-  ),
+  fallbackSize = IMAGE_SIZES.find((size) => image.imagesBySize[size] != null),
   className,
   ...rest
 }: StaticImageProps) {
-  invariant(largestImageSize != null, "At least one size should be provided.");
+  invariant(fallbackSize != null, "At least one size should be provided.");
 
   const sizes = SCREEN_SIZES.reduce<string[]>((sizes, screen) => {
     const width = sizesProp[screen];
@@ -73,7 +71,7 @@ export function StaticImage({
       {...rest}
       alt={image.alt}
       loading="lazy"
-      src={image.imagesBySize[largestImageSize]}
+      src={image.imagesBySize[fallbackSize]}
       srcSet={Object.entries(image.imagesBySize)
         .map(([size, image]) => `${image} ${size}w`)
         .join(",")}
@@ -92,6 +90,11 @@ const BASE_TRANSFORMATIONS = [
   "b_auto",
   // https://cloudinary.com/documentation/image_optimization#automatic_quality_selection_q_auto
   "q_auto",
+  // When using devtools to emulate different browsers, Cloudinary may return a
+  // format that is unsupported by the main browser, so images may not display
+  // as expected. For example, if using Chrome dev tools to emulate an iPhone
+  // Safari browser, a JPEG-2000 may be returned, which Chrome does not support.
+  // See: https://cloudinary.com/documentation/image_optimization#tips_and_considerations_for_using_f_auto
   // https://cloudinary.com/documentation/image_transformations#f_auto
   "f_auto",
 ];
@@ -101,11 +104,11 @@ export function DynamicImage({
   alt,
   className,
   ...rest
-}: Omit<StaticImageProps, "image" | "largestImageSize"> & {
+}: Omit<StaticImageProps, "image" | "fallbackSize"> & {
   imageId: string;
   alt: string;
   // Make it mandatory.
-  largestImageSize: NonNullable<StaticImageProps["largestImageSize"]>;
+  fallbackSize: NonNullable<StaticImageProps["fallbackSize"]>;
 }) {
   const config = useConfig();
   const image: StaticImageProps["image"] = {

@@ -8,6 +8,10 @@ module.exports = {
   content: ["./src/**/*.{ts,tsx,jsx,js}"],
 
   theme: {
+    screens: {
+      xs: "475px",
+      ...defaultTheme.screens,
+    },
     extend: {
       fontFamily: {
         serif: ['"Open Sans"', ...defaultTheme.fontFamily.serif],
