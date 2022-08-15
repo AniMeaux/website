@@ -80,7 +80,7 @@ export function SmallNav() {
                 "absolute -z-10 top-0 left-0 w-full h-screen bg-white",
                 // We need to handle safe areas because this element has
                 // absolute positioning.
-                "pt-safe-[64px] px-safe-2 pb-safe-2",
+                "pt-safe-[64px] px-safe-page pb-safe-2",
                 "flex",
                 {
                   "opacity-100 translate-y-0 transition-[opacity,transform] duration-100 ease-out":
