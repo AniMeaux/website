@@ -30,16 +30,16 @@ module.exports = {
       boxShadow: {
         base: "0px 8px 20px rgba(0, 0, 0, 0.06)",
       },
-      padding: ({ theme }) => {
-        const minSpacing = theme("spacing.2");
-        const pageMaxWidth = theme("screens.lg");
-        const smallPageMaxWidth = "800px";
+      spacing: () => ({
+        // We cannot use the `theme` parameter because referencing the `spacing`
+        // values ends in a infinite recursion: `theme("spacing.4")`.
 
-        return {
-          page: `calc(max(${minSpacing}, (100% - ${pageMaxWidth}) / 2))`,
-          "sm-page": `calc(max(${minSpacing}, (100% - ${smallPageMaxWidth}) / 2))`,
-        };
-      },
+        // The values in the formula are defined by:
+        // - A page takes 90% of the width, 5% spacing on each side.
+        // - Left and right spacing cannot go under spacing 4 (16px).
+        // - The page should not exceed LG (1024px).
+        page: `max(${defaultTheme.spacing[4]}, 5%, (100% - ${defaultTheme.screens.lg}) / 2)`,
+      }),
       aspectRatio: {
         "4/3": "4 / 3",
       },
