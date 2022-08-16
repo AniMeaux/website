@@ -24,6 +24,7 @@ import { theme } from "~/generated/theme";
 import appleTouchIcon from "~/images/appleTouchIcon.png";
 import background from "~/images/background.svg";
 import favicon from "~/images/favicon.svg";
+import googleTouchIcon from "~/images/googleTouchIcon.png";
 import maskIcon from "~/images/maskIcon.svg";
 import { Footer } from "~/layout/footer";
 import { Header } from "~/layout/header";
@@ -54,22 +55,47 @@ export const links: LinksFunction = () => {
   ];
 };
 
-export const meta: MetaFunction = () => ({
-  charset: "utf-8",
-  title: getPageTitle(),
-  "theme-color": theme.colors.gray[50],
-
-  // Use `maximum-scale=1` to prevent browsers to zoom on form elements.
-  viewport:
-    "width=device-width, minimum-scale=1, initial-scale=1, maximum-scale=1, shrink-to-fit=no, user-scalable=no, viewport-fit=cover",
-});
-
 export type LoaderData = {
   config: Config;
 };
 
 export const loader: LoaderFunction = async () => {
   return json<LoaderData>({ config: createConfig() });
+};
+
+export const meta: MetaFunction = ({ data, location }) => {
+  const config = (data as LoaderData).config;
+  const title = getPageTitle();
+
+  let ogUrl = config.publicHost;
+  if (location.pathname !== "/") {
+    ogUrl = `${ogUrl}${location.pathname}`;
+  }
+
+  return {
+    charset: "utf-8",
+    title,
+    description:
+      "Trouvez le compagnon de vos rêves et donnez-lui une seconde chance",
+    "theme-color": theme.colors.gray[50],
+
+    // Use `maximum-scale=1` to prevent browsers to zoom on form elements.
+    viewport:
+      "width=device-width, minimum-scale=1, initial-scale=1, maximum-scale=1, shrink-to-fit=no, user-scalable=no, viewport-fit=cover",
+
+    // Default Open Graph tags.
+    // See: https://ogp.me/
+    "og:site_name": title,
+    "og:locale": "fr_FR",
+    "og:title": title,
+    "og:type": "website",
+    "og:image:url": `${config.publicHost}${googleTouchIcon}`,
+    "og:image:width": "512",
+    "og:image:height": "512",
+    "og:image:type": "image/png",
+    "og:image:alt": "Ani'Meaux logo",
+    "og:url": ogUrl,
+  };
 };
 
 export default function App() {
