@@ -1,5 +1,6 @@
 import { LoaderFunction } from "@remix-run/node";
 import { renderToStaticMarkup } from "react-dom/server";
+import { createConfig } from "~/core/config.server";
 
 type SitemapAttribute = {
   key?: React.Key;
@@ -43,13 +44,13 @@ const urlDefinitions: UrlDefinition[] = [
 ];
 
 export const loader: LoaderFunction = () => {
-  const host = process.env.PUBLIC_HOST ?? "";
+  const config = createConfig();
 
   const markup = renderToStaticMarkup(
     <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
       {urlDefinitions.map((url) => (
         <url key={url.path}>
-          <loc>{`${host}${url.path}`}</loc>
+          <loc>{`${config.publicHost}${url.path}`}</loc>
           <changefreq>{url.changeFrequency}</changefreq>
           <priority>{url.priority}</priority>
         </url>

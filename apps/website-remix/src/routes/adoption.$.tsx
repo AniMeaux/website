@@ -159,8 +159,11 @@ export const meta: MetaFunction = ({ params }) => {
     isPlural: true,
   });
 
+  const title = getPageTitle(`${pageParamsTranslation} à l'adoption`);
+
   return {
-    title: getPageTitle(`${pageParamsTranslation} à l'adoption`),
+    title,
+    "og:title": title,
   };
 };
 
