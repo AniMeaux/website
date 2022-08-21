@@ -20,6 +20,7 @@ export default function HomePage() {
       <HeroSection />
       <ComeWithYourDogSection />
       <PresentationSection />
+      <OriginSection />
     </main>
   );
 }
@@ -276,5 +277,63 @@ function PresentationItem({
 
       <p>{text}</p>
     </li>
+  );
+}
+
+function OriginSection() {
+  return (
+    <section className="relative flex">
+      {/* Wrap the shape because it looks like SVG can only be sized with width
+      and height. But we don't want the width class to be a complexe arbitrary
+      value with hard coded size in px: `w-[calc(100%_-_16px)]` */}
+      <span
+        className={cn(
+          "absolute -z-10 top-0 left-2 bottom-0 right-2",
+          "md:left-4 md:right-4"
+        )}
+      >
+        <BubbleShape className="w-full h-full" />
+      </span>
+
+      <div
+        className={cn(
+          "w-full px-10 py-18 flex flex-col items-center gap-6 text-center",
+          "md:px-24 md:py-[60px]"
+        )}
+      >
+        <h2
+          className={cn(
+            "text-title-section-small",
+            "md:text-title-section-large"
+          )}
+        >
+          L'origine
+        </h2>
+
+        <p>
+          A l'initiative de l'association Ani'Meaux et organisé en collaboration
+          avec la municipalité de Meaux, le salon des Ani'Meaux a vu naître sa
+          première édition le 15 mai 2022.
+        </p>
+
+        <p>
+          Mis en œuvre en seulement deux mois, grâce au travail de bénévoles
+          dévoués, cette première édition a connu un franc succès puisqu'elle a
+          rassemblé une{" "}
+          <strong className="text-body-emphasis">
+            cinquantaine d'exposants
+          </strong>
+          , professionnels et associations confondus, et a reçu plus de{" "}
+          <strong className="text-body-emphasis">1 200 visiteurs</strong> sur
+          une seule journée.
+        </p>
+
+        <p>
+          En 2023, le Salon des Ani'Meaux voit plus grand et attend 60 exposants
+          et ouvrira ses portes aux visiteurs durant deux journées : les 10 et
+          11 juin 2023.
+        </p>
+      </div>
+    </section>
   );
 }
