@@ -6,8 +6,11 @@ import { cn } from "~/core/classNames";
 import { StaticImage, StaticImageProps } from "~/dataDisplay/image";
 import { adoptionImages } from "~/images/adoption";
 import { animationImages } from "~/images/animation";
+import { associationImages } from "~/images/association";
 import { exhibitorsImages } from "~/images/exhibitors";
+import { foodImages } from "~/images/food";
 import meaux from "~/images/meaux.png";
+import { medicalImages } from "~/images/medical";
 import nameAndLogo from "~/images/nameAndLogo.svg";
 import poullain from "~/images/poullain.png";
 import { showImages } from "~/images/show";
@@ -24,6 +27,7 @@ export default function HomePage() {
       <PresentationSection />
       <OriginSection />
       <PartnersSection />
+      <ExhibitorsSection />
     </main>
   );
 }
@@ -405,5 +409,44 @@ function PartnerItem({
         className={cn("w-full aspect-video object-contain", "md:w-[320px]")}
       />
     </BaseLink>
+  );
+}
+
+function ExhibitorsSection() {
+  return (
+    <section className="flex flex-col gap-12">
+      <div className={cn("px-4 flex flex-col gap-6 text-center", "md:px-30")}>
+        <h2
+          className={cn(
+            "text-title-section-small",
+            "md:text-title-section-large"
+          )}
+        >
+          Exposants
+        </h2>
+
+        <p>
+          Cette année,{" "}
+          <strong className="text-body-emphasis">100 exposants</strong> vous
+          attendent répartis dans 3 grandes catégories.
+        </p>
+      </div>
+
+      <ul className="px-4 flex items-start flex-wrap gap-12 justify-evenly">
+        <PresentationItem text="Associations" image={associationImages} />
+        <PresentationItem text="Soins et activités" image={medicalImages} />
+        <PresentationItem
+          text="Alimentation et accessoires"
+          image={foodImages}
+        />
+      </ul>
+
+      <BaseLink
+        to="/exposants"
+        className={cn(getActionClassNames(), "self-center")}
+      >
+        Voir tous les exposants
+      </BaseLink>
+    </section>
   );
 }
