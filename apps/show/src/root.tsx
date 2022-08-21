@@ -26,6 +26,7 @@ import background from "~/images/background.svg";
 import favicon from "~/images/favicon.svg";
 import googleTouchIcon from "~/images/googleTouchIcon.png";
 import maskIcon from "~/images/maskIcon.svg";
+import { Footer } from "~/layout/footer";
 import { Header } from "~/layout/header";
 
 Settings.defaultLocale = "fr";
@@ -149,6 +150,7 @@ function Document({ children }: { children: React.ReactNode }) {
       >
         <Header />
         {children}
+        <Footer />
 
         <ScrollRestoration />
         <Scripts />
