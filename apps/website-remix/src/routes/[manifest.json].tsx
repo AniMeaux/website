@@ -1,4 +1,5 @@
 import { json, LinksFunction, LoaderFunction } from "@remix-run/node";
+import { getPageTitle } from "~/core/pageTitle";
 import { theme } from "~/generated/theme";
 import googleTouchIcon from "~/images/googleTouchIcon.png";
 
@@ -11,8 +12,8 @@ export const links: LinksFunction = () => {
 
 export const loader: LoaderFunction = () => {
   return json({
-    name: "Ani'Meaux",
-    short_name: "Ani'Meaux",
+    name: getPageTitle(),
+    short_name: getPageTitle(),
     background_color: theme.colors.gray[50],
     theme_color: theme.colors.blue.base,
     display: "standalone",
