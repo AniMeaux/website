@@ -399,8 +399,8 @@ function DonateSection() {
   return (
     <section className="relative flex">
       {/* Wrap the shape because it looks like SVG can only be sized with width
-  and height. But we don't want the width class to be a complexe arbitrary
-  value with hard coded size in px: `w-[calc(100%_-_16px)]` */}
+      and height. But we don't want the width class to be a complexe arbitrary
+      value with hard coded size in px: `w-[calc(100%_-_16px)]` */}
       <span
         className={cn(
           "absolute -z-10 top-0 left-2 bottom-0 right-2",
