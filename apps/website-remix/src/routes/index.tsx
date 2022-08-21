@@ -324,7 +324,7 @@ function EventItem({
       <BaseLink
         to={`/evenements/${event.id}`}
         className={cn(
-          "group w-full px-4 py-3 shadow-none rounded-tl-[40px] rounded-tr-3xl rounded-br-[40px] rounded-bl-3xl bg-transparent flex flex-col gap-4 transition-[background-color,transform] duration-100 ease-in-out hover:bg-white hover:shadow-base",
+          "group w-full px-4 py-3 shadow-none rounded-tl-[40px] rounded-tr-3xl rounded-br-[40px] rounded-bl-3xl bg-transparent flex flex-col gap-4 transition-[background-color,box-shadow] duration-100 ease-in-out hover:bg-white hover:shadow-base",
           "sm:pl-6 sm:pr-12 sm:py-6 sm:flex-row sm:gap-6 sm:items-center"
         )}
       >
