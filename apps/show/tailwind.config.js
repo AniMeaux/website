@@ -39,6 +39,9 @@ module.exports = {
         // - Left and right spacing cannot go under spacing 4 (16px).
         // - The page should not exceed LG (1024px).
         page: `max(${defaultTheme.spacing[4]}, 5%, (100% - ${defaultTheme.screens.lg}) / 2)`,
+
+        // 72px
+        18: "4.5rem",
       }),
       aspectRatio: {
         "4/3": "4 / 3",

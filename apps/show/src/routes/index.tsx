@@ -6,6 +6,7 @@ import { cn } from "~/core/classNames";
 import { StaticImage } from "~/dataDisplay/image";
 import nameAndLogo from "~/images/nameAndLogo.svg";
 import { showImages } from "~/images/show";
+import { BubbleShape } from "~/layout/bubbleShape";
 
 const OPENING_TIME = DateTime.fromISO("2023-06-10T10:00:00.000+02:00");
 const ONE_MINUTE_IN_MS = 60 * 1000;
@@ -14,6 +15,7 @@ export default function HomePage() {
   return (
     <main className="px-page flex flex-col gap-24">
       <HeroSection />
+      <ComeWithYourDogSection />
     </main>
   );
 }
@@ -121,5 +123,61 @@ function CountDownItem({ label, value }: { label: string; value: number }) {
 
       <span>{label}</span>
     </div>
+  );
+}
+
+function ComeWithYourDogSection() {
+  return (
+    <section className="relative flex">
+      {/* Wrap the shape because it looks like SVG can only be sized with width
+      and height. But we don't want the width class to be a complexe arbitrary
+      value with hard coded size in px: `w-[calc(100%_-_16px)]` */}
+      <span
+        className={cn(
+          "absolute -z-10 top-0 left-2 bottom-0 right-2",
+          "md:left-4 md:right-4"
+        )}
+      >
+        <BubbleShape isDouble className="w-full h-full" />
+      </span>
+
+      <div
+        className={cn(
+          "w-full px-10 py-18 flex flex-col items-center gap-6",
+          "md:px-24 md:py-[60px]"
+        )}
+      >
+        <div className="w-full max-w-3xl flex flex-col gap-6 text-center">
+          <h2
+            className={cn(
+              "text-title-section-small",
+              "md:text-title-section-large"
+            )}
+          >
+            Venir avec son chien
+          </h2>
+
+          <p>
+            Votre chien est le bienvenu durant le salon. Cependant,{" "}
+            <strong className="text-body-emphasis">
+              un contrôle vétérinaire sera effectué l'entrée
+            </strong>
+            . Le carnet de santé et les papiers d'identification des animaux
+            seront obligatoire lors de ce contrôle. Pour les chiens de
+            catégorie, veillez à prévoir votre autorisation de détention.
+          </p>
+
+          <p>
+            Pour le bien-être de votre chien et celui des autres présents durant
+            le salon, veillez à ne{" "}
+            <strong className="text-body-emphasis">
+              l'amener que s'il est sociable avec les autres animaux et à l'aise
+              en présence de nombreuses personnes
+            </strong>
+            .
+          </p>
+        </div>
+      </div>
+    </section>
   );
 }
