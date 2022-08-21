@@ -42,6 +42,8 @@ module.exports = {
 
         // 72px
         18: "4.5rem",
+        // 120px
+        30: "7.5rem",
       }),
       aspectRatio: {
         "4/3": "4 / 3",

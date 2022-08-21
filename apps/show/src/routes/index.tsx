@@ -149,7 +149,7 @@ function ComeWithYourDogSection() {
       <div
         className={cn(
           "w-full px-10 py-18 flex flex-col items-center gap-6 text-center",
-          "md:px-24 md:py-[60px]"
+          "md:px-30 md:py-[60px]"
         )}
       >
         <h2
@@ -188,7 +188,7 @@ function ComeWithYourDogSection() {
 function PresentationSection() {
   return (
     <section className="flex flex-col gap-12">
-      <div className={cn("px-4 flex flex-col gap-6 text-center", "md:px-24")}>
+      <div className={cn("px-4 flex flex-col gap-6 text-center", "md:px-30")}>
         <h2
           className={cn(
             "text-title-section-small",
@@ -298,7 +298,7 @@ function OriginSection() {
       <div
         className={cn(
           "w-full px-10 py-18 flex flex-col items-center gap-6 text-center",
-          "md:px-24 md:py-[60px]"
+          "md:px-30 md:py-[60px]"
         )}
       >
         <h2
