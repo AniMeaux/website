@@ -3,7 +3,10 @@ import { useEffect, useState } from "react";
 import { getActionClassNames } from "~/core/actions";
 import { BaseLink } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
-import { StaticImage } from "~/dataDisplay/image";
+import { StaticImage, StaticImageProps } from "~/dataDisplay/image";
+import { adoptionImages } from "~/images/adoption";
+import { animationImages } from "~/images/animation";
+import { exhibitorsImages } from "~/images/exhibitors";
 import nameAndLogo from "~/images/nameAndLogo.svg";
 import { showImages } from "~/images/show";
 import { BubbleShape } from "~/layout/bubbleShape";
@@ -16,6 +19,7 @@ export default function HomePage() {
     <main className="px-page flex flex-col gap-24">
       <HeroSection />
       <ComeWithYourDogSection />
+      <PresentationSection />
     </main>
   );
 }
@@ -143,41 +147,134 @@ function ComeWithYourDogSection() {
 
       <div
         className={cn(
-          "w-full px-10 py-18 flex flex-col items-center gap-6",
+          "w-full px-10 py-18 flex flex-col items-center gap-6 text-center",
           "md:px-24 md:py-[60px]"
         )}
       >
-        <div className="w-full max-w-3xl flex flex-col gap-6 text-center">
-          <h2
-            className={cn(
-              "text-title-section-small",
-              "md:text-title-section-large"
-            )}
-          >
-            Venir avec son chien
-          </h2>
+        <h2
+          className={cn(
+            "text-title-section-small",
+            "md:text-title-section-large"
+          )}
+        >
+          Venir avec son chien
+        </h2>
 
-          <p>
-            Votre chien est le bienvenu durant le salon. Cependant,{" "}
-            <strong className="text-body-emphasis">
-              un contrôle vétérinaire sera effectué l'entrée
-            </strong>
-            . Le carnet de santé et les papiers d'identification des animaux
-            seront obligatoire lors de ce contrôle. Pour les chiens de
-            catégorie, veillez à prévoir votre autorisation de détention.
-          </p>
+        <p>
+          Votre chien est le bienvenu durant le salon. Cependant,{" "}
+          <strong className="text-body-emphasis">
+            un contrôle vétérinaire sera effectué l'entrée
+          </strong>
+          . Le carnet de santé et les papiers d'identification des animaux
+          seront obligatoire lors de ce contrôle. Pour les chiens de catégorie,
+          veillez à prévoir votre autorisation de détention.
+        </p>
 
-          <p>
-            Pour le bien-être de votre chien et celui des autres présents durant
-            le salon, veillez à ne{" "}
-            <strong className="text-body-emphasis">
-              l'amener que s'il est sociable avec les autres animaux et à l'aise
-              en présence de nombreuses personnes
-            </strong>
-            .
-          </p>
-        </div>
+        <p>
+          Pour le bien-être de votre chien et celui des autres présents durant
+          le salon, veillez à ne{" "}
+          <strong className="text-body-emphasis">
+            l'amener que s'il est sociable avec les autres animaux et à l'aise
+            en présence de nombreuses personnes
+          </strong>
+          .
+        </p>
       </div>
     </section>
+  );
+}
+
+function PresentationSection() {
+  return (
+    <section className="flex flex-col gap-12">
+      <div className={cn("px-4 flex flex-col gap-6 text-center", "md:px-24")}>
+        <h2
+          className={cn(
+            "text-title-section-small",
+            "md:text-title-section-large"
+          )}
+        >
+          Présentation
+        </h2>
+
+        <p>
+          Le salon des Ani'Meaux a pour vocation de{" "}
+          <strong className="text-body-emphasis">
+            sensibiliser les petits et les grands
+          </strong>{" "}
+          au bien-être de nos amis les animaux.
+        </p>
+
+        <p>
+          Ouvert à tous, il permet de rencontrer des{" "}
+          <strong className="text-body-emphasis">
+            professionnels et des associations
+          </strong>
+          , tout en profitant d'activités et animations riches et de moments de
+          convivialité.
+        </p>
+
+        <p>
+          Les visiteurs pourront retrouver des acteurs agissant en faveur du
+          bien-être des animaux de compagnie mais également des animaux de la
+          ferme, des animaux sauvages ainsi que des insectes.
+        </p>
+      </div>
+
+      <ul className="px-4 flex items-start flex-wrap gap-12 justify-evenly">
+        <PresentationItem
+          text={
+            <>
+              <strong className="text-body-emphasis">60 exposants</strong>{" "}
+              dévoués au bien-être des animaux
+            </>
+          }
+          image={exhibitorsImages}
+        />
+
+        <PresentationItem
+          text={
+            <>
+              Des <strong className="text-body-emphasis">animations</strong>{" "}
+              pour vous divertir et enrichir vos connaissances
+            </>
+          }
+          image={animationImages}
+        />
+
+        <PresentationItem
+          text={
+            <>
+              Des{" "}
+              <strong className="text-body-emphasis">
+                chiens à l'adoption
+              </strong>{" "}
+              qui feront chavirer votre coeur
+            </>
+          }
+          image={adoptionImages}
+        />
+      </ul>
+    </section>
+  );
+}
+
+function PresentationItem({
+  text,
+  image,
+}: {
+  text: React.ReactNode;
+  image: StaticImageProps["image"];
+}) {
+  return (
+    <li className="w-[200px] flex flex-col gap-6 text-center">
+      <StaticImage
+        image={image}
+        sizes={{ default: "200px" }}
+        className="w-full aspect-square"
+      />
+
+      <p>{text}</p>
+    </li>
   );
 }
