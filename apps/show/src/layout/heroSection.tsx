@@ -11,7 +11,7 @@ export function HeroSection({
 }: {
   title: string;
   message: React.ReactNode;
-  action: React.ReactNode;
+  action?: React.ReactNode;
   image: StaticImageProps["image"];
   isReversed?: boolean;
   hasLargeTitle?: boolean;
@@ -55,11 +55,16 @@ export function HeroSection({
           <p>{message}</p>
         </div>
 
-        <div
-          className={cn("px-2 flex justify-center", "md:px-6 md:justify-start")}
-        >
-          {action}
-        </div>
+        {action != null && (
+          <div
+            className={cn(
+              "px-2 flex justify-center",
+              "md:px-6 md:justify-start"
+            )}
+          >
+            {action}
+          </div>
+        )}
       </div>
     </section>
   );

@@ -9,12 +9,14 @@ import { animationImages } from "~/images/animation";
 import { associationImages } from "~/images/association";
 import { exhibitorsImages } from "~/images/exhibitors";
 import { foodImages } from "~/images/food";
+import { mapImages } from "~/images/map";
 import meaux from "~/images/meaux.png";
 import { medicalImages } from "~/images/medical";
 import nameAndLogo from "~/images/nameAndLogo.svg";
 import poullain from "~/images/poullain.png";
 import { showImages } from "~/images/show";
 import { BubbleShape } from "~/layout/bubbleShape";
+import { HeroSection as BaseHeroSection } from "~/layout/heroSection";
 
 const OPENING_TIME = DateTime.fromISO("2023-06-10T10:00:00.000+02:00");
 const ONE_MINUTE_IN_MS = 60 * 1000;
@@ -28,6 +30,32 @@ export default function HomePage() {
       <OriginSection />
       <PartnersSection />
       <ExhibitorsSection />
+
+      <BaseHeroSection
+        title="Accéder au salon"
+        image={mapImages}
+        message={
+          <>
+            <strong className="text-body-emphasis">Adresse</strong>
+            <br />
+            Colisée de Meaux, 73 Av. Henri Dunant, 77100 Meaux
+            <br />
+            <br />
+            <strong className="text-body-emphasis">Horaires</strong>
+            <br />
+            Samedi 10 juin 2023 de 10h à 18h
+            <br />
+            Dimanche 11 juin 2023 de 10h à 18h
+            <br />
+            <br />
+            <strong className="text-body-emphasis">Accès</strong>
+            <br />
+            Bus ligne D, arrêt : Colisée de Meaux
+            <br />
+            Parking gratuit sur place
+          </>
+        }
+      />
     </main>
   );
 }
