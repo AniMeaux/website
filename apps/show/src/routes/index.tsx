@@ -6,12 +6,17 @@ import { cn } from "~/core/classNames";
 import { StaticImage, StaticImageProps } from "~/dataDisplay/image";
 import { adoptionImages } from "~/images/adoption";
 import { animationImages } from "~/images/animation";
+import { associationImages } from "~/images/association";
 import { exhibitorsImages } from "~/images/exhibitors";
+import { foodImages } from "~/images/food";
+import { mapImages } from "~/images/map";
 import meaux from "~/images/meaux.png";
+import { medicalImages } from "~/images/medical";
 import nameAndLogo from "~/images/nameAndLogo.svg";
 import poullain from "~/images/poullain.png";
 import { showImages } from "~/images/show";
 import { BubbleShape } from "~/layout/bubbleShape";
+import { HeroSection as BaseHeroSection } from "~/layout/heroSection";
 
 const OPENING_TIME = DateTime.fromISO("2023-06-10T10:00:00.000+02:00");
 const ONE_MINUTE_IN_MS = 60 * 1000;
@@ -24,6 +29,33 @@ export default function HomePage() {
       <PresentationSection />
       <OriginSection />
       <PartnersSection />
+      <ExhibitorsSection />
+
+      <BaseHeroSection
+        title="Accéder au salon"
+        image={mapImages}
+        message={
+          <>
+            <strong className="text-body-emphasis">Adresse</strong>
+            <br />
+            Colisée de Meaux, 73 Av. Henri Dunant, 77100 Meaux
+            <br />
+            <br />
+            <strong className="text-body-emphasis">Horaires</strong>
+            <br />
+            Samedi 10 juin 2023 de 10h à 18h
+            <br />
+            Dimanche 11 juin 2023 de 10h à 18h
+            <br />
+            <br />
+            <strong className="text-body-emphasis">Accès</strong>
+            <br />
+            Bus ligne D, arrêt : Colisée de Meaux
+            <br />
+            Parking gratuit sur place
+          </>
+        }
+      />
     </main>
   );
 }
@@ -405,5 +437,44 @@ function PartnerItem({
         className={cn("w-full aspect-video object-contain", "md:w-[320px]")}
       />
     </BaseLink>
+  );
+}
+
+function ExhibitorsSection() {
+  return (
+    <section className="flex flex-col gap-12">
+      <div className={cn("px-4 flex flex-col gap-6 text-center", "md:px-30")}>
+        <h2
+          className={cn(
+            "text-title-section-small",
+            "md:text-title-section-large"
+          )}
+        >
+          Exposants
+        </h2>
+
+        <p>
+          Cette année,{" "}
+          <strong className="text-body-emphasis">100 exposants</strong> vous
+          attendent répartis dans 3 grandes catégories.
+        </p>
+      </div>
+
+      <ul className="px-4 flex items-start flex-wrap gap-12 justify-evenly">
+        <PresentationItem text="Associations" image={associationImages} />
+        <PresentationItem text="Soins et activités" image={medicalImages} />
+        <PresentationItem
+          text="Alimentation et accessoires"
+          image={foodImages}
+        />
+      </ul>
+
+      <BaseLink
+        to="/exposants"
+        className={cn(getActionClassNames(), "self-center")}
+      >
+        Voir tous les exposants
+      </BaseLink>
+    </section>
   );
 }
