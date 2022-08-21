@@ -1,13 +1,15 @@
 import { DateTime } from "luxon";
 import { useEffect, useState } from "react";
 import { getActionClassNames } from "~/core/actions";
-import { BaseLink } from "~/core/baseLink";
+import { BaseLink, BaseLinkProps } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
 import { StaticImage, StaticImageProps } from "~/dataDisplay/image";
 import { adoptionImages } from "~/images/adoption";
 import { animationImages } from "~/images/animation";
 import { exhibitorsImages } from "~/images/exhibitors";
+import meaux from "~/images/meaux.png";
 import nameAndLogo from "~/images/nameAndLogo.svg";
+import poullain from "~/images/poullain.png";
 import { showImages } from "~/images/show";
 import { BubbleShape } from "~/layout/bubbleShape";
 
@@ -21,6 +23,7 @@ export default function HomePage() {
       <ComeWithYourDogSection />
       <PresentationSection />
       <OriginSection />
+      <PartnersSection />
     </main>
   );
 }
@@ -335,5 +338,72 @@ function OriginSection() {
         </p>
       </div>
     </section>
+  );
+}
+
+function PartnersSection() {
+  return (
+    <section className="flex flex-col gap-12">
+      <div className={cn("px-4 flex flex-col gap-6 text-center", "md:px-30")}>
+        <h2
+          className={cn(
+            "text-title-section-small",
+            "md:text-title-section-large"
+          )}
+        >
+          Nos partenaires
+        </h2>
+
+        <p>
+          Le salon des Ani'Meaux est imaginé et mis en place par des bénévoles,
+          mais il n'aurait pas pu voir le jour sans leur participation.
+        </p>
+      </div>
+
+      <div
+        className={cn(
+          "px-4 flex flex-col gap-12",
+          "md:flex-row md:items-center md:justify-center"
+        )}
+      >
+        <PartnerItem
+          image={meaux}
+          alt="Ville de Meaux"
+          to="https://www.ville-meaux.fr"
+        />
+
+        <PartnerItem
+          image={poullain}
+          alt="Jardinerie Poullain"
+          to="https://jardineriepoullain.fr"
+        />
+      </div>
+    </section>
+  );
+}
+
+function PartnerItem({
+  image,
+  alt,
+  to,
+}: {
+  image: string;
+  alt: string;
+  to: BaseLinkProps["to"];
+}) {
+  return (
+    <BaseLink
+      to={to}
+      className={cn(
+        "rounded-tl-[48px] rounded-tr-3xl rounded-br-[48px] rounded-bl-3xl bg-transparent px-4 py-3 flex transition-[background-color,box-shadow] duration-100 ease-in-out hover:bg-white hover:shadow-base",
+        "md:p-6"
+      )}
+    >
+      <img
+        src={image}
+        alt={alt}
+        className={cn("w-full aspect-video object-contain", "md:w-[320px]")}
+      />
+    </BaseLink>
   );
 }
