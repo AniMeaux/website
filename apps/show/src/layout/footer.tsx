@@ -34,9 +34,12 @@ export function Footer() {
           )}
         >
           <img src={meaux} alt="Ville de Meaux" />
-          <img src={villeAnimaux2Pattes} alt="Ville de Meaux" />
-          <img src={paysDeMeaux} alt="Ville de Meaux" />
-          <img src={poullain} alt="Ville de Meaux" />
+          <img
+            src={villeAnimaux2Pattes}
+            alt="Ville amie des animaux, 2 pattes"
+          />
+          <img src={paysDeMeaux} alt="Pays de Meaux" />
+          <img src={poullain} alt="Jardinerie Poullain" />
         </section>
 
         <section
