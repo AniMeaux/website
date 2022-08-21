@@ -11,7 +11,7 @@
       }
     },
     {
-      "files": ["./apps/website-remix/"],
+      "files": ["./apps/website-remix/", "./apps/show/"],
       "extends": [
         "@remix-run/eslint-config",
         "@remix-run/eslint-config/node",

@@ -65,6 +65,35 @@ module.exports = {
     }),
 
     createApp({
+      name: "show",
+      cwd: "apps/show",
+      script: "yarn dev",
+      watch: ["./remix.config.js", "tsconfig.json", "./.env*"],
+    }),
+
+    createApp({
+      name: "show-css",
+      cwd: "apps/show",
+      script: "yarn build:css",
+      watch: ["./tailwind.config.js", "./styles", "./src"],
+      ignore_watch: ["generated"],
+    }),
+
+    createApp({
+      name: "show-icons",
+      cwd: "apps/show",
+      script: "yarn build:icons",
+      watch: ["./icons", "./scripts/generateIconSprite.ts"],
+    }),
+
+    createApp({
+      name: "show-theme",
+      cwd: "apps/show",
+      script: "yarn build:theme",
+      watch: ["./tailwind.config.js", "./scripts/generateTheme.ts"],
+    }),
+
+    createApp({
       name: "faune",
       cwd: "apps/faune",
       script: "yarn dev",
