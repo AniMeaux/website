@@ -4,6 +4,7 @@ import { getActionClassNames } from "~/core/actions";
 import { BaseLink, BaseLinkProps } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
 import { StaticImage, StaticImageProps } from "~/dataDisplay/image";
+import { Icon } from "~/generated/icon";
 import { adoptionImages } from "~/images/adoption";
 import { animationImages } from "~/images/animation";
 import { associationImages } from "~/images/association";
@@ -16,7 +17,14 @@ import nameAndLogo from "~/images/nameAndLogo.svg";
 import poullain from "~/images/poullain.png";
 import { showImages } from "~/images/show";
 import { BubbleShape } from "~/layout/bubbleShape";
-import { HeroSection as BaseHeroSection } from "~/layout/heroSection";
+import {
+  HeroSection,
+  HeroSectionAction,
+  HeroSectionAside,
+  HeroSectionImage,
+  HeroSectionParagraph,
+  HeroSectionTitle,
+} from "~/layout/heroSection";
 
 const OPENING_TIME = DateTime.fromISO("2023-06-10T10:00:00.000+02:00");
 const ONE_MINUTE_IN_MS = 60 * 1000;
@@ -24,43 +32,96 @@ const ONE_MINUTE_IN_MS = 60 * 1000;
 export default function HomePage() {
   return (
     <main className="px-page flex flex-col gap-24">
-      <HeroSection />
+      <HeroSection isReversed>
+        <HeroSectionAside>
+          <HeroSectionImage image={showImages} />
+        </HeroSectionAside>
+
+        <HeroSectionAside>
+          <div className={cn("px-4 flex", "md:px-6")}>
+            <img
+              src={nameAndLogo}
+              alt="Salon des Ani'Meaux"
+              className="w-full aspect-[440_/_126]"
+            />
+          </div>
+
+          <HeroSectionParagraph>
+            Premier salon dédié au bien-être animal à Meaux.
+            <br />
+            <strong className="text-body-emphasis">
+              <time dateTime={OPENING_TIME.toISO()}>
+                10 et 11 juin 2023 - 10h à  8h
+              </time>{" "}
+              - Colisée de Meaux
+            </strong>
+          </HeroSectionParagraph>
+
+          <Countdown />
+
+          <HeroSectionAction>
+            <BaseLink
+              to="https://www.helloasso.com/associations/ani-meaux/evenements/salon-des-ani-meaux-2023"
+              className={getActionClassNames()}
+            >
+              Achetez votre billet
+            </BaseLink>
+          </HeroSectionAction>
+        </HeroSectionAside>
+      </HeroSection>
+
       <ComeWithYourDogSection />
       <PresentationSection />
       <OriginSection />
       <PartnersSection />
       <ExhibitorsSection />
 
-      <BaseHeroSection
-        title="Accéder au salon"
-        image={mapImages}
-        message={
-          <>
+      <HeroSection id="acces">
+        <HeroSectionAside>
+          <BaseLink
+            to="https://goo.gl/maps/bix61Gb2vAUdpgtq5"
+            className="group relative w-full flex"
+          >
+            <HeroSectionImage
+              image={mapImages}
+              className="transition-[filter] duration-100 ease-in-out group-hover:brightness-50"
+            />
+
+            <p className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-0 min-w-max flex items-center gap-2 text-white text-body-emphasis transition-opacity duration-100 ease-in-out group-hover:opacity-100">
+              <Icon id="arrowUpRightFromSquare" />
+              Voir le plan
+            </p>
+          </BaseLink>
+        </HeroSectionAside>
+
+        <HeroSectionAside>
+          <HeroSectionTitle>Accéder au salon</HeroSectionTitle>
+          <HeroSectionParagraph>
             <strong className="text-body-emphasis">Adresse</strong>
             <br />
             Colisée de Meaux, 73 Av. Henri Dunant, 77100 Meaux
-            <br />
-            <br />
+          </HeroSectionParagraph>
+          <HeroSectionParagraph>
             <strong className="text-body-emphasis">Horaires</strong>
             <br />
             Samedi 10 juin 2023 de 10h à 18h
             <br />
             Dimanche 11 juin 2023 de 10h à 18h
-            <br />
-            <br />
+          </HeroSectionParagraph>
+          <HeroSectionParagraph>
             <strong className="text-body-emphasis">Accès</strong>
             <br />
             Bus ligne D, arrêt : Colisée de Meaux
             <br />
             Parking gratuit sur place
-          </>
-        }
-      />
+          </HeroSectionParagraph>
+        </HeroSectionAside>
+      </HeroSection>
     </main>
   );
 }
 
-function HeroSection() {
+function Countdown() {
   const [, forceUpdate] = useState(true);
 
   const now = DateTime.now();
@@ -78,79 +139,30 @@ function HeroSection() {
     };
   }, []);
 
+  if (diff.toMillis() <= 0) {
+    return null;
+  }
+
   return (
-    <section
-      className={cn(
-        "flex flex-col items-center gap-6",
-        "md:flex-row-reverse md:gap-12"
-      )}
-    >
-      <StaticImage
-        className={cn("w-full aspect-square", "md:w-auto md:min-w-0 md:flex-1")}
-        image={showImages}
-        sizes={{ lg: "512px", md: "50vw", default: "100vw" }}
-      />
+    <HeroSectionAction>
+      <div className="flex items-center gap-3">
+        <CountDownItem
+          label={diff.days > 1 ? "Jours" : "Jour"}
+          value={diff.days}
+        />
+        <CountDownItem
+          label={diff.hours > 1 ? "Heures" : "Heure"}
+          value={diff.hours}
+        />
 
-      <div className={cn("w-full flex flex-col gap-6", "md:flex-1")}>
-        <div
-          className={cn(
-            "px-4 flex flex-col gap-6 text-center",
-            "md:px-6 md:text-left"
-          )}
-        >
-          <img
-            src={nameAndLogo}
-            alt="Salon des Ani'Meaux"
-            className="w-full aspect-[440_/_126]"
-          />
-
-          <p>
-            Premier salon dédié au bien-être animal à Meaux.
-            <br />
-            <strong className="text-body-emphasis">
-              <time dateTime={OPENING_TIME.toISO()}>
-                10 et 11 juin 2023 - 10h à 18h
-              </time>{" "}
-              - Colisée de Meaux
-            </strong>
-          </p>
-        </div>
-
-        <div
-          className={cn(
-            "px-2 flex flex-col gap-6 items-center",
-            "md:px-6 md:items-start"
-          )}
-        >
-          {diff.toMillis() > 0 && (
-            <div className="flex items-center gap-3">
-              <CountDownItem
-                label={diff.days > 1 ? "Jours" : "Jour"}
-                value={diff.days}
-              />
-              <CountDownItem
-                label={diff.hours > 1 ? "Heures" : "Heure"}
-                value={diff.hours}
-              />
-
-              <CountDownItem
-                // `minutes` can have decimals because it's the smallest unit
-                // asked in the diff
-                label={Math.floor(diff.minutes) > 1 ? "Minutes" : "Minute"}
-                value={Math.floor(diff.minutes)}
-              />
-            </div>
-          )}
-
-          <BaseLink
-            to="https://www.helloasso.com/associations/ani-meaux/evenements/salon-des-ani-meaux-2023"
-            className={getActionClassNames()}
-          >
-            Achetez votre billet
-          </BaseLink>
-        </div>
+        <CountDownItem
+          // `minutes` can have decimals because it's the smallest unit
+          // asked in the diff
+          label={Math.floor(diff.minutes) > 1 ? "Minutes" : "Minute"}
+          value={Math.floor(diff.minutes)}
+        />
       </div>
-    </section>
+    </HeroSectionAction>
   );
 }
 
@@ -199,7 +211,7 @@ function ComeWithYourDogSection() {
         <p>
           Votre chien est le bienvenu durant le salon. Cependant,{" "}
           <strong className="text-body-emphasis">
-            un contrôle vétérinaire sera effectué l'entrée
+            un contrôle vétérinaire sera effectué à l'entrée
           </strong>
           . Le carnet de santé et les papiers d'identification des animaux
           seront obligatoire lors de ce contrôle. Pour les chiens de catégorie,

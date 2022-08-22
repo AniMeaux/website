@@ -253,7 +253,7 @@ export default function AdoptionPage() {
           </ul>
         </section>
       ) : (
-        <p className={cn("px-4 py-12 text-center text-gray-500", "py-40")}>
+        <p className={cn("px-4 py-12 text-center text-gray-500", "md:py-40")}>
           Aucun {getPageParamsTranslation(pageParams).toLowerCase()} à
           l'adoption pour l'instant
         </p>

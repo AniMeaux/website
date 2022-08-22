@@ -1,7 +1,14 @@
 import { getActionClassNames } from "~/core/actions";
 import { BaseLink } from "~/core/baseLink";
 import { errorImages } from "~/images/error";
-import { HeroSection } from "~/layout/heroSection";
+import {
+  HeroSection,
+  HeroSectionAction,
+  HeroSectionAside,
+  HeroSectionImage,
+  HeroSectionParagraph,
+  HeroSectionTitle,
+} from "~/layout/heroSection";
 
 type ErrorMetaData = {
   title: string;
@@ -36,13 +43,16 @@ export function ErrorPage({ status }: { status: number }) {
 
   return (
     <main className="px-page flex flex-col">
-      <HeroSection
-        title={meta.title}
-        message={meta.message}
-        action={meta.action}
-        image={errorImages}
-        hasLargeTitle
-      />
+      <HeroSection>
+        <HeroSectionAside>
+          <HeroSectionImage image={errorImages} />
+        </HeroSectionAside>
+        <HeroSectionAside>
+          <HeroSectionTitle isLarge>{meta.title}</HeroSectionTitle>
+          <HeroSectionParagraph>{meta.message}</HeroSectionParagraph>
+          <HeroSectionAction>{meta.action}</HeroSectionAction>
+        </HeroSectionAside>
+      </HeroSection>
     </main>
   );
 }
