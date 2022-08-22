@@ -76,7 +76,7 @@ export default function HomePage() {
       <PartnersSection />
       <ExhibitorsSection />
 
-      <HeroSection>
+      <HeroSection id="acces">
         <HeroSectionAside>
           <BaseLink
             to="https://goo.gl/maps/bix61Gb2vAUdpgtq5"
