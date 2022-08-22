@@ -5,6 +5,7 @@ import {
   MetaFunction,
 } from "@remix-run/node";
 import {
+  HtmlMetaDescriptor,
   Links,
   LiveReload,
   Meta,
@@ -64,15 +65,11 @@ export const loader: LoaderFunction = async () => {
 };
 
 export const meta: MetaFunction = ({ data, location }) => {
-  const config = (data as LoaderData).config;
+  // The data can be null in case of error.
+  const config = (data as LoaderData | null)?.config;
   const title = getPageTitle();
 
-  let ogUrl = config.publicHost;
-  if (location.pathname !== "/") {
-    ogUrl = `${ogUrl}${location.pathname}`;
-  }
-
-  return {
+  let metaDescriptor: HtmlMetaDescriptor = {
     charset: "utf-8",
     title,
     description: "Premier salon dédié au bien-être animal à Meaux",
@@ -81,20 +78,33 @@ export const meta: MetaFunction = ({ data, location }) => {
     // Use `maximum-scale=1` to prevent browsers to zoom on form elements.
     viewport:
       "width=device-width, minimum-scale=1, initial-scale=1, maximum-scale=1, shrink-to-fit=no, user-scalable=no, viewport-fit=cover",
-
-    // Default Open Graph tags.
-    // See: https://ogp.me/
-    "og:site_name": title,
-    "og:locale": "fr_FR",
-    "og:title": title,
-    "og:type": "website",
-    "og:image:url": `${config.publicHost}${googleTouchIcon}`,
-    "og:image:width": "512",
-    "og:image:height": "512",
-    "og:image:type": "image/png",
-    "og:image:alt": "Salon des Ani'Meaux logo",
-    "og:url": ogUrl,
   };
+
+  if (config != null) {
+    let ogUrl = config.publicHost;
+    if (location.pathname !== "/") {
+      ogUrl = `${ogUrl}${location.pathname}`;
+    }
+
+    metaDescriptor = {
+      ...metaDescriptor,
+
+      // Default Open Graph tags.
+      // See: https://ogp.me/
+      "og:site_name": title,
+      "og:locale": "fr_FR",
+      "og:title": title,
+      "og:type": "website",
+      "og:image:url": `${config.publicHost}${googleTouchIcon}`,
+      "og:image:width": "512",
+      "og:image:height": "512",
+      "og:image:type": "image/png",
+      "og:image:alt": "Salon des Ani'Meaux logo",
+      "og:url": ogUrl,
+    };
+  }
+
+  return metaDescriptor;
 };
 
 export default function App() {
