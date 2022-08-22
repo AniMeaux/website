@@ -4,6 +4,8 @@ import { errorImages } from "~/images/error";
 import {
   HeroSection,
   HeroSectionAction,
+  HeroSectionAside,
+  HeroSectionImage,
   HeroSectionParagraph,
   HeroSectionTitle,
 } from "~/layout/heroSection";
@@ -41,10 +43,15 @@ export function ErrorPage({ status }: { status: number }) {
 
   return (
     <main className="px-page flex flex-col">
-      <HeroSection image={errorImages}>
-        <HeroSectionTitle isLarge>{meta.title}</HeroSectionTitle>
-        <HeroSectionParagraph>{meta.message}</HeroSectionParagraph>
-        <HeroSectionAction>{meta.action}</HeroSectionAction>
+      <HeroSection>
+        <HeroSectionAside>
+          <HeroSectionImage image={errorImages} />
+        </HeroSectionAside>
+        <HeroSectionAside>
+          <HeroSectionTitle isLarge>{meta.title}</HeroSectionTitle>
+          <HeroSectionParagraph>{meta.message}</HeroSectionParagraph>
+          <HeroSectionAction>{meta.action}</HeroSectionAction>
+        </HeroSectionAside>
       </HeroSection>
     </main>
   );

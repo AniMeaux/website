@@ -2,11 +2,9 @@ import { cn } from "~/core/classNames";
 import { StaticImage, StaticImageProps } from "~/dataDisplay/image";
 
 export function HeroSection({
-  image,
   isReversed = false,
   children,
 }: {
-  image: StaticImageProps["image"];
   isReversed?: boolean;
   children: React.ReactNode;
 }) {
@@ -21,16 +19,32 @@ export function HeroSection({
         "md:gap-12"
       )}
     >
-      <StaticImage
-        className={cn("w-full aspect-square", "md:w-auto md:min-w-0 md:flex-1")}
-        image={image}
-        sizes={{ lg: "512px", md: "50vw", default: "100vw" }}
-      />
-
-      <div className={cn("w-full flex flex-col gap-6", "md:flex-1")}>
-        {children}
-      </div>
+      {children}
     </section>
+  );
+}
+
+export function HeroSectionAside({ children }: { children: React.ReactNode }) {
+  return (
+    <div className={cn("w-full flex flex-col gap-6", "md:flex-1")}>
+      {children}
+    </div>
+  );
+}
+
+export function HeroSectionImage({
+  image,
+  className,
+}: {
+  image: StaticImageProps["image"];
+  className?: string;
+}) {
+  return (
+    <StaticImage
+      className={cn(className, "w-full aspect-square")}
+      image={image}
+      sizes={{ lg: "512px", md: "50vw", default: "100vw" }}
+    />
   );
 }
 

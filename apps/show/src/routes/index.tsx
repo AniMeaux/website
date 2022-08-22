@@ -4,6 +4,7 @@ import { getActionClassNames } from "~/core/actions";
 import { BaseLink, BaseLinkProps } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
 import { StaticImage, StaticImageProps } from "~/dataDisplay/image";
+import { Icon } from "~/generated/icon";
 import { adoptionImages } from "~/images/adoption";
 import { animationImages } from "~/images/animation";
 import { associationImages } from "~/images/association";
@@ -19,6 +20,8 @@ import { BubbleShape } from "~/layout/bubbleShape";
 import {
   HeroSection,
   HeroSectionAction,
+  HeroSectionAside,
+  HeroSectionImage,
   HeroSectionParagraph,
   HeroSectionTitle,
 } from "~/layout/heroSection";
@@ -29,36 +32,42 @@ const ONE_MINUTE_IN_MS = 60 * 1000;
 export default function HomePage() {
   return (
     <main className="px-page flex flex-col gap-24">
-      <HeroSection isReversed image={showImages}>
-        <div className={cn("px-4 flex", "md:px-6")}>
-          <img
-            src={nameAndLogo}
-            alt="Salon des Ani'Meaux"
-            className="w-full aspect-[440_/_126]"
-          />
-        </div>
+      <HeroSection isReversed>
+        <HeroSectionAside>
+          <HeroSectionImage image={showImages} />
+        </HeroSectionAside>
 
-        <HeroSectionParagraph>
-          Premier salon dédié au bien-être animal à Meaux.
-          <br />
-          <strong className="text-body-emphasis">
-            <time dateTime={OPENING_TIME.toISO()}>
-              10 et 11 juin 2023 - 10h à  8h
-            </time>{" "}
-            - Colisée de Meaux
-          </strong>
-        </HeroSectionParagraph>
+        <HeroSectionAside>
+          <div className={cn("px-4 flex", "md:px-6")}>
+            <img
+              src={nameAndLogo}
+              alt="Salon des Ani'Meaux"
+              className="w-full aspect-[440_/_126]"
+            />
+          </div>
 
-        <Countdown />
+          <HeroSectionParagraph>
+            Premier salon dédié au bien-être animal à Meaux.
+            <br />
+            <strong className="text-body-emphasis">
+              <time dateTime={OPENING_TIME.toISO()}>
+                10 et 11 juin 2023 - 10h à  8h
+              </time>{" "}
+              - Colisée de Meaux
+            </strong>
+          </HeroSectionParagraph>
 
-        <HeroSectionAction>
-          <BaseLink
-            to="https://www.helloasso.com/associations/ani-meaux/evenements/salon-des-ani-meaux-2023"
-            className={getActionClassNames()}
-          >
-            Achetez votre billet
-          </BaseLink>
-        </HeroSectionAction>
+          <Countdown />
+
+          <HeroSectionAction>
+            <BaseLink
+              to="https://www.helloasso.com/associations/ani-meaux/evenements/salon-des-ani-meaux-2023"
+              className={getActionClassNames()}
+            >
+              Achetez votre billet
+            </BaseLink>
+          </HeroSectionAction>
+        </HeroSectionAside>
       </HeroSection>
 
       <ComeWithYourDogSection />
@@ -67,27 +76,46 @@ export default function HomePage() {
       <PartnersSection />
       <ExhibitorsSection />
 
-      <HeroSection image={mapImages}>
-        <HeroSectionTitle>Accéder au salon</HeroSectionTitle>
-        <HeroSectionParagraph>
-          <strong className="text-body-emphasis">Adresse</strong>
-          <br />
-          Colisée de Meaux, 73 Av. Henri Dunant, 77100 Meaux
-        </HeroSectionParagraph>
-        <HeroSectionParagraph>
-          <strong className="text-body-emphasis">Horaires</strong>
-          <br />
-          Samedi 10 juin 2023 de 10h à 18h
-          <br />
-          Dimanche 11 juin 2023 de 10h à 18h
-        </HeroSectionParagraph>
-        <HeroSectionParagraph>
-          <strong className="text-body-emphasis">Accès</strong>
-          <br />
-          Bus ligne D, arrêt : Colisée de Meaux
-          <br />
-          Parking gratuit sur place
-        </HeroSectionParagraph>
+      <HeroSection>
+        <HeroSectionAside>
+          <BaseLink
+            to="https://goo.gl/maps/bix61Gb2vAUdpgtq5"
+            className="group relative w-full flex"
+          >
+            <HeroSectionImage
+              image={mapImages}
+              className="transition-[filter] duration-100 ease-in-out group-hover:brightness-50"
+            />
+
+            <p className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-0 min-w-max flex items-center gap-2 text-white text-body-emphasis transition-opacity duration-100 ease-in-out group-hover:opacity-100">
+              <Icon id="arrowUpRightFromSquare" />
+              Voir le plan
+            </p>
+          </BaseLink>
+        </HeroSectionAside>
+
+        <HeroSectionAside>
+          <HeroSectionTitle>Accéder au salon</HeroSectionTitle>
+          <HeroSectionParagraph>
+            <strong className="text-body-emphasis">Adresse</strong>
+            <br />
+            Colisée de Meaux, 73 Av. Henri Dunant, 77100 Meaux
+          </HeroSectionParagraph>
+          <HeroSectionParagraph>
+            <strong className="text-body-emphasis">Horaires</strong>
+            <br />
+            Samedi 10 juin 2023 de 10h à 18h
+            <br />
+            Dimanche 11 juin 2023 de 10h à 18h
+          </HeroSectionParagraph>
+          <HeroSectionParagraph>
+            <strong className="text-body-emphasis">Accès</strong>
+            <br />
+            Bus ligne D, arrêt : Colisée de Meaux
+            <br />
+            Parking gratuit sur place
+          </HeroSectionParagraph>
+        </HeroSectionAside>
       </HeroSection>
     </main>
   );
