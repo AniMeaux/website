@@ -51,7 +51,7 @@ export default function HomePage() {
             <br />
             <strong className="text-body-emphasis">
               <time dateTime={OPENING_TIME.toISO()}>
-                10 et 11 juin 2023 - 10h à  8h
+                10 et 11 juin 2023 - 10h à 18h
               </time>{" "}
               - Colisée de Meaux
             </strong>
@@ -467,7 +467,7 @@ function ExhibitorsSection() {
 
         <p>
           Cette année,{" "}
-          <strong className="text-body-emphasis">100 exposants</strong> vous
+          <strong className="text-body-emphasis">60 exposants</strong> vous
           attendent répartis dans 3 grandes catégories.
         </p>
       </div>
