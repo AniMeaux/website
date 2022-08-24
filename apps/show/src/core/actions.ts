@@ -9,4 +9,6 @@ export const actionClassNames = {
         "bg-yellow-base text-black hover:bg-yellow-darker": color === "yellow",
       }
     ),
+  proseInline: () =>
+    "border-b text-body-emphasis border-b-blue-base hover:border-b-2",
 };
