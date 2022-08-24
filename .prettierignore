@@ -1,5 +1,6 @@
 .next/
 build/
+generated/
 node_modules/
 dumps/
 sw.js

@@ -36,6 +36,64 @@ module.exports = {
     }),
 
     createApp({
+      name: "website-remix",
+      cwd: "apps/website-remix",
+      script: "yarn dev",
+      watch: ["./remix.config.js", "tsconfig.json", "./.env*"],
+    }),
+
+    createApp({
+      name: "website-remix-css",
+      cwd: "apps/website-remix",
+      script: "yarn build:css",
+      watch: ["./tailwind.config.js", "./styles", "./src"],
+      ignore_watch: ["generated"],
+    }),
+
+    createApp({
+      name: "website-remix-icons",
+      cwd: "apps/website-remix",
+      script: "yarn build:icons",
+      watch: ["./icons", "./scripts/generateIconSprite.ts"],
+    }),
+
+    createApp({
+      name: "website-remix-theme",
+      cwd: "apps/website-remix",
+      script: "yarn build:theme",
+      watch: ["./tailwind.config.js", "./scripts/generateTheme.ts"],
+    }),
+
+    createApp({
+      name: "show",
+      cwd: "apps/show",
+      script: "yarn dev",
+      watch: ["./remix.config.js", "tsconfig.json", "./.env*"],
+    }),
+
+    createApp({
+      name: "show-css",
+      cwd: "apps/show",
+      script: "yarn build:css",
+      watch: ["./tailwind.config.js", "./styles", "./src"],
+      ignore_watch: ["generated"],
+    }),
+
+    createApp({
+      name: "show-icons",
+      cwd: "apps/show",
+      script: "yarn build:icons",
+      watch: ["./icons", "./scripts/generateIconSprite.ts"],
+    }),
+
+    createApp({
+      name: "show-theme",
+      cwd: "apps/show",
+      script: "yarn build:theme",
+      watch: ["./tailwind.config.js", "./scripts/generateTheme.ts"],
+    }),
+
+    createApp({
       name: "faune",
       cwd: "apps/faune",
       script: "yarn dev",
@@ -55,9 +113,9 @@ function createApp(config) {
     error_file: logFile,
     out_file: logFile,
 
-    // Allow dot files (env) to be watched.
-    ignore_watch: ["node_modules"],
-
     ...config,
+
+    // Allow dot files (env) to be watched.
+    ignore_watch: ["node_modules", ...(config.ignore_watch ?? [])],
   };
 }
