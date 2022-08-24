@@ -7,6 +7,10 @@ export function createConfig(): Config {
   invariant(process.env.TICKETING_URL, "TICKETING_URL should be defined");
   invariant(process.env.FACEBOOK_URL, "FACEBOOK_URL should be defined");
   invariant(process.env.INSTAGRAM_URL, "INSTAGRAM_URL should be defined");
+  invariant(
+    process.env.EXHIBITORS_FORM_URL,
+    "EXHIBITORS_FORM_URL should be defined"
+  );
 
   return {
     publicHost: process.env.PUBLIC_HOST,
@@ -14,5 +18,6 @@ export function createConfig(): Config {
     ticketingUrl: process.env.TICKETING_URL,
     facebookUrl: process.env.FACEBOOK_URL,
     instagramUrl: process.env.INSTAGRAM_URL,
+    exhibitorsFormUrl: process.env.EXHIBITORS_FORM_URL,
   };
 }
