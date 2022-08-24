@@ -1,6 +1,6 @@
 import { DateTime } from "luxon";
 import { useEffect, useState } from "react";
-import { getActionClassNames } from "~/core/actions";
+import { actionClassNames } from "~/core/actions";
 import { BaseLink, BaseLinkProps } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
 import { StaticImage, StaticImageProps } from "~/dataDisplay/image";
@@ -62,7 +62,7 @@ export default function HomePage() {
           <HeroSectionAction>
             <BaseLink
               to="https://www.helloasso.com/associations/ani-meaux/evenements/salon-des-ani-meaux-2023"
-              className={getActionClassNames()}
+              className={actionClassNames.standalone()}
             >
               Achetez votre billet
             </BaseLink>
@@ -483,7 +483,7 @@ function ExhibitorsSection() {
 
       <BaseLink
         to="/exposants"
-        className={cn(getActionClassNames(), "self-center")}
+        className={cn(actionClassNames.standalone(), "self-center")}
       >
         Voir tous les exposants
       </BaseLink>
