@@ -110,7 +110,9 @@ export const meta: MetaFunction = ({ data, location }) => {
 export default function App() {
   return (
     <Document>
+      <Header />
       <Outlet />
+      <Footer />
     </Document>
   );
 }
@@ -120,7 +122,7 @@ export function CatchBoundary() {
 
   return (
     <Document>
-      <ErrorPage status={caught.status} />
+      <ErrorPage isStandAlone status={caught.status} />
     </Document>
   );
 }
@@ -130,7 +132,7 @@ export function ErrorBoundary({ error }: { error: Error }) {
 
   return (
     <Document>
-      <ErrorPage status={500} />
+      <ErrorPage isStandAlone status={500} />
     </Document>
   );
 }
@@ -158,9 +160,7 @@ function Document({ children }: { children: React.ReactNode }) {
           "md:gap-12"
         )}
       >
-        <Header />
         {children}
-        <Footer />
 
         <ScrollRestoration />
         <Scripts />

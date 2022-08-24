@@ -249,7 +249,7 @@ function PresentationSection() {
         </h2>
 
         <p>
-          Le salon des Ani'Meaux a pour vocation de{" "}
+          Le Salon des Ani'Meaux a pour vocation de{" "}
           <strong className="text-body-emphasis">
             sensibiliser les petits et les grands
           </strong>{" "}
@@ -331,6 +331,8 @@ function PresentationItem({
 }
 
 function OriginSection() {
+  const { animeauxUrl } = useConfig();
+
   return (
     <section className="relative flex">
       {/* Wrap the shape because it looks like SVG can only be sized with width
@@ -361,9 +363,12 @@ function OriginSection() {
         </h2>
 
         <p>
-          A l'initiative de l'association Ani'Meaux et organisé en collaboration
-          avec la municipalité de Meaux, le salon des Ani'Meaux a vu naître sa
-          première édition le 15 mai 2022.
+          A l'initiative de l'association{" "}
+          <BaseLink to={animeauxUrl} className={actionClassNames.proseInline()}>
+            Ani'Meaux
+          </BaseLink>{" "}
+          et organisé en collaboration avec la municipalité de Meaux, le Salon
+          des Ani'Meaux a vu naître sa première édition le 15 mai 2022.
         </p>
 
         <p>
@@ -402,7 +407,7 @@ function PartnersSection() {
         </h2>
 
         <p>
-          Le salon des Ani'Meaux est imaginé et mis en place par des bénévoles,
+          Le Salon des Ani'Meaux est imaginé et mis en place par des bénévoles,
           mais il n'aurait pas pu voir le jour sans leur participation.
         </p>
       </div>

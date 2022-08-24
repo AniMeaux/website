@@ -1,19 +1,22 @@
 import { BaseLink, BaseLinkProps } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
+import { useConfig } from "~/core/config";
 import { Icon, IconProps } from "~/generated/icon";
 
 export function SocialLinks({ className }: { className?: string }) {
+  const { facebookUrl, instagramUrl } = useConfig();
+
   return (
     <div className={cn(className, "flex gap-1")}>
       <SocialLink
-        to="https://www.facebook.com/salondesanimeaux"
+        to={facebookUrl}
         icon="facebook"
         title="Page Facebook"
         className="hover:bg-[#3774dc] hover:text-[#3774dc]"
       />
 
       <SocialLink
-        to="https://www.instagram.com/salondesanimeaux"
+        to={instagramUrl}
         icon="instagram"
         title="Compte Instagram"
         className="hover:bg-[#ad3d7a] hover:text-[#ad3d7a]"
