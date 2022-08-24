@@ -1,8 +1,9 @@
 import { DateTime } from "luxon";
 import { useEffect, useState } from "react";
-import { getActionClassNames } from "~/core/actions";
+import { actionClassNames } from "~/core/actions";
 import { BaseLink, BaseLinkProps } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
+import { useConfig } from "~/core/config";
 import { StaticImage, StaticImageProps } from "~/dataDisplay/image";
 import { Icon } from "~/generated/icon";
 import { adoptionImages } from "~/images/adoption";
@@ -30,6 +31,8 @@ const OPENING_TIME = DateTime.fromISO("2023-06-10T10:00:00.000+02:00");
 const ONE_MINUTE_IN_MS = 60 * 1000;
 
 export default function HomePage() {
+  const { ticketingUrl } = useConfig();
+
   return (
     <main className="px-page flex flex-col gap-24">
       <HeroSection isReversed>
@@ -51,7 +54,7 @@ export default function HomePage() {
             <br />
             <strong className="text-body-emphasis">
               <time dateTime={OPENING_TIME.toISO()}>
-                10 et 11 juin 2023 - 10h à  8h
+                10 et 11 juin 2023 - 10h à 18h
               </time>{" "}
               - Colisée de Meaux
             </strong>
@@ -61,8 +64,8 @@ export default function HomePage() {
 
           <HeroSectionAction>
             <BaseLink
-              to="https://www.helloasso.com/associations/ani-meaux/evenements/salon-des-ani-meaux-2023"
-              className={getActionClassNames()}
+              to={ticketingUrl}
+              className={actionClassNames.standalone()}
             >
               Achetez votre billet
             </BaseLink>
@@ -467,7 +470,7 @@ function ExhibitorsSection() {
 
         <p>
           Cette année,{" "}
-          <strong className="text-body-emphasis">100 exposants</strong> vous
+          <strong className="text-body-emphasis">60 exposants</strong> vous
           attendent répartis dans 3 grandes catégories.
         </p>
       </div>
@@ -483,7 +486,7 @@ function ExhibitorsSection() {
 
       <BaseLink
         to="/exposants"
-        className={cn(getActionClassNames(), "self-center")}
+        className={cn(actionClassNames.standalone(), "self-center")}
       >
         Voir tous les exposants
       </BaseLink>
