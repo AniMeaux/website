@@ -1,6 +1,7 @@
 import { actionClassNames } from "~/core/actions";
 import { BaseLink } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
+import { Config, useConfig } from "~/core/config";
 import { Icon, IconProps } from "~/generated/icon";
 import { questionsImages } from "~/images/questions";
 import {
@@ -12,6 +13,8 @@ import {
 } from "~/layout/heroSection";
 
 export default function FaqPage() {
+  const config = useConfig();
+
   return (
     <main className="w-full px-page flex flex-col gap-12">
       <HeroSection>
@@ -51,7 +54,7 @@ export default function FaqPage() {
               </span>
 
               <h2 className="text-title-item">{faq.question}</h2>
-              <p>{faq.answer}</p>
+              <p>{faq.answer(config)}</p>
             </li>
           ))}
         </ul>
@@ -64,7 +67,7 @@ type Faq = {
   icon: IconProps["id"];
   color: "blue" | "green" | "yellow" | "red" | "cyan";
   question: string;
-  answer: React.ReactNode;
+  answer: (config: Config) => React.ReactNode;
 };
 
 const ICON_COLOR_CLASS_NAME: Record<Faq["color"], string> = {
@@ -80,17 +83,14 @@ const FAQ: Faq[] = [
     icon: "handHoldingEuro",
     color: "yellow",
     question: "L'entrée est-elle payante ?",
-    answer: (
+    answer: ({ ticketingUrl }) => (
       <>
         Montant de l'entrée : don libre d'un minimum de 2€, gratuit pour les
         moins de 12 ans.
         <br />
         <br />
         Une billetterie en ligne est{" "}
-        <BaseLink
-          to="https://www.helloasso.com/associations/ani-meaux/evenements/salon-des-ani-meaux-2023"
-          className={actionClassNames.proseInline()}
-        >
+        <BaseLink to={ticketingUrl} className={actionClassNames.proseInline()}>
           accessible ici
         </BaseLink>
         .
@@ -105,7 +105,7 @@ const FAQ: Faq[] = [
     icon: "paw",
     color: "blue",
     question: "Puis-je amener mon animal ?",
-    answer: (
+    answer: () => (
       <>
         Seuls les chiens sont les bienvenus. Cependant il vous faudra présenter
         le carnet de santé et les papiers d'identification à l'entrée du salon.
@@ -120,7 +120,7 @@ const FAQ: Faq[] = [
     icon: "utensils",
     color: "green",
     question: "Est-il possible de se restaurer sur place ?",
-    answer: (
+    answer: () => (
       <>
         L'espace restauration du FoodTruck se trouve à l'extérieur du bâtiment,
         sur le parvis.
@@ -131,7 +131,7 @@ const FAQ: Faq[] = [
     icon: "car",
     color: "red",
     question: "Puis-je me garer facilement ?",
-    answer: (
+    answer: () => (
       <>
         Vous trouverez un parking gratuit en arrivant devant le Colisée de
         Meaux.
@@ -146,7 +146,7 @@ const FAQ: Faq[] = [
     icon: "accessibleIcon",
     color: "green",
     question: "Le salon est-il accessible aux personnes à mobilité réduite ?",
-    answer: (
+    answer: () => (
       <>
         Bien sûr, l'implantation du salon a été conçue afin qu'il soit
         accessible à tous.
@@ -157,7 +157,7 @@ const FAQ: Faq[] = [
     icon: "houseChimneyPaw",
     color: "cyan",
     question: "Y aura-t-il des animaux à l'adoption ?",
-    answer: (
+    answer: () => (
       <>
         Les associations présentes durant le salon auront la possibilité d'être
         accompagnées de chiens à l'adoption.

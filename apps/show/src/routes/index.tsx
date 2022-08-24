@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { actionClassNames } from "~/core/actions";
 import { BaseLink, BaseLinkProps } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
+import { useConfig } from "~/core/config";
 import { StaticImage, StaticImageProps } from "~/dataDisplay/image";
 import { Icon } from "~/generated/icon";
 import { adoptionImages } from "~/images/adoption";
@@ -30,6 +31,8 @@ const OPENING_TIME = DateTime.fromISO("2023-06-10T10:00:00.000+02:00");
 const ONE_MINUTE_IN_MS = 60 * 1000;
 
 export default function HomePage() {
+  const { ticketingUrl } = useConfig();
+
   return (
     <main className="px-page flex flex-col gap-24">
       <HeroSection isReversed>
@@ -61,7 +64,7 @@ export default function HomePage() {
 
           <HeroSectionAction>
             <BaseLink
-              to="https://www.helloasso.com/associations/ani-meaux/evenements/salon-des-ani-meaux-2023"
+              to={ticketingUrl}
               className={actionClassNames.standalone()}
             >
               Achetez votre billet

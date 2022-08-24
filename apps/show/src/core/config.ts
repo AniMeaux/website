@@ -4,6 +4,7 @@ import { LoaderData } from "~/root";
 
 export type Config = {
   publicHost: string;
+  ticketingUrl: string;
 };
 
 export function useConfig(): Config {
