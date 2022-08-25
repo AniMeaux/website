@@ -39,7 +39,7 @@ export function SmallNav() {
     <header
       ref={headerRef}
       className={cn(
-        "relative z-[0] w-full pt-safe-2 px-page pb-2 flex items-center justify-between",
+        "relative z-10 w-full pt-safe-2 px-page pb-2 flex items-center justify-between",
         "md:hidden"
       )}
       onKeyDown={handleEscape(() => setIsOpened(false))}
@@ -100,7 +100,7 @@ export function SmallNav() {
               >
                 <NavLink to="/exposants">Exposants</NavLink>
                 <NavLink to="/programme">Programme</NavLink>
-                <NavLink to="/#acces">Accès</NavLink>
+                <NavLink to="/acces">Accès</NavLink>
                 <NavLink to="/faq">FAQ</NavLink>
               </nav>
             </div>

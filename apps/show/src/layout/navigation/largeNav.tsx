@@ -19,7 +19,7 @@ export function LargeNav() {
       <nav className="flex lg:gap-2">
         <NavLink to="/exposants">Exposants</NavLink>
         <NavLink to="/programme">Programme</NavLink>
-        <NavLink to="/#acces">Accès</NavLink>
+        <NavLink to="/acces">Accès</NavLink>
         <NavLink to="/faq">FAQ</NavLink>
       </nav>
 

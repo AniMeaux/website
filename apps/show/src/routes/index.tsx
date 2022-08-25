@@ -79,7 +79,7 @@ export default function HomePage() {
       <PartnersSection />
       <ExhibitorsSection />
 
-      <HeroSection id="acces">
+      <HeroSection>
         <HeroSectionAside>
           <BaseLink
             to="https://goo.gl/maps/bix61Gb2vAUdpgtq5"
@@ -98,26 +98,17 @@ export default function HomePage() {
         </HeroSectionAside>
 
         <HeroSectionAside>
-          <HeroSectionTitle>Accéder au salon</HeroSectionTitle>
+          <HeroSectionTitle>Accès au Salon</HeroSectionTitle>
           <HeroSectionParagraph>
-            <strong className="text-body-emphasis">Adresse</strong>
-            <br />
-            Colisée de Meaux, 73 Av. Henri Dunant, 77100 Meaux
+            Voiture, bus, vélo ou à pied, tous les moyens sont bon pour venir au
+            Salon des Ani'Meaux !
           </HeroSectionParagraph>
-          <HeroSectionParagraph>
-            <strong className="text-body-emphasis">Horaires</strong>
-            <br />
-            Samedi 10 juin 2023 de 10h à 18h
-            <br />
-            Dimanche 11 juin 2023 de 10h à 18h
-          </HeroSectionParagraph>
-          <HeroSectionParagraph>
-            <strong className="text-body-emphasis">Accès</strong>
-            <br />
-            Bus ligne D, arrêt : Colisée de Meaux
-            <br />
-            Parking gratuit sur place
-          </HeroSectionParagraph>
+
+          <HeroSectionAction>
+            <BaseLink to="/acces" className={actionClassNames.standalone()}>
+              S'y rendre
+            </BaseLink>
+          </HeroSectionAction>
         </HeroSectionAside>
       </HeroSection>
     </main>
