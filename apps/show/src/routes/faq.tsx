@@ -85,7 +85,7 @@ const FAQ: Faq[] = [
     question: "L'entrée est-elle payante ?",
     answer: ({ ticketingUrl }) => (
       <>
-        Montant de l'entrée : don libre d'un minimum de 2€, gratuit pour les
+        Montant de l'entrée : don libre d'un minimum de 2 €, gratuit pour les
         moins de 12 ans.
         <br />
         <br />
@@ -161,6 +161,93 @@ const FAQ: Faq[] = [
       <>
         Les associations présentes durant le salon auront la possibilité d'être
         accompagnées de chiens à l'adoption.
+        <br />
+        Attention néanmoins, aucune adoption ne sera possible durant le salon.
+        La finalisation de l'adoption se fera avec l'association que vous avez
+        choisi, en dehors du salon.
+      </>
+    ),
+  },
+  {
+    icon: "personWalking",
+    color: "yellow",
+    question: "Puis-je entrer et sortir comme je le souhaite ?",
+    answer: () => <>Non, toute sortie est définitive.</>,
+  },
+  {
+    icon: "restroom",
+    color: "blue",
+    question: "Y a-t-il des toilettes ?",
+    answer: () => <>Oui, des toilettes sont mises à disposition du public.</>,
+  },
+  {
+    icon: "clothesHanger",
+    color: "green",
+    question: "Y a-t-il des vestiaires ?",
+    answer: () => <>Aucun vestiaire n’est présent sur place.</>,
+  },
+  {
+    icon: "bagShopping",
+    color: "red",
+    question: "Pourrais-je acheter des produits sur place ?",
+    answer: () => (
+      <>
+        Oui, les produits présentés sur les stands des professionnels et
+        association peuvent être achetés.
+        <br />
+        Certains exposants sont équipés d'un terminal de paiement, mais nous
+        vous conseillons de prévoir des espèces !
+      </>
+    ),
+  },
+  {
+    icon: "moneyBills",
+    color: "yellow",
+    question: "Puis-je retirer de l'argent ?",
+    answer: () => (
+      <>
+        Il n'y a pas de distributeur de billets au sein de la salle. Néanmoins,
+        de nombreuses banques sont à votre disposition en centre ville de Meaux.
+      </>
+    ),
+  },
+  {
+    icon: "magnifyingGlass",
+    color: "cyan",
+    question: "Comment trouver l'exposant qui m'intéresse ?",
+    answer: () => (
+      <>
+        La liste des exposants est disponible dans la page{" "}
+        <BaseLink to="/exposants" className={actionClassNames.proseInline()}>
+          Exposants
+        </BaseLink>
+        .
+      </>
+    ),
+  },
+  {
+    icon: "shieldPaw",
+    color: "blue",
+    question: "Y a-t-il une garderie animale ?",
+    answer: () => (
+      <>
+        Non, aucune garderie n'est prévue sur le salon. Merci d'anticiper votre
+        visite et de ne surtout pas laisser votre compagnon dans votre voiture !
+      </>
+    ),
+  },
+  {
+    icon: "personChalkboard",
+    color: "green",
+    question: "Y a-t-il des animations sur le salon ?",
+    answer: () => (
+      <>
+        Oui, le programme des animations est disponible dans la page{" "}
+        <BaseLink to="/programme" className={actionClassNames.proseInline()}>
+          Programme
+        </BaseLink>
+        . Nous vous réservons des animations variées et ludiques destinées aux
+        familles.
       </>
     ),
   },
