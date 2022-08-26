@@ -29,7 +29,10 @@ function SocialLink({
   icon,
   className,
   ...rest
-}: BaseLinkProps & { icon: IconProps["id"] }) {
+}: Omit<BaseLinkProps, "className"> & {
+  icon: IconProps["id"];
+  className: string;
+}) {
   return (
     <BaseLink
       {...rest}
