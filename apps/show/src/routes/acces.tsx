@@ -37,8 +37,8 @@ export default function AccessPage() {
           <HeroSectionTitle isLarge>Accès au Salon</HeroSectionTitle>
 
           <HeroSectionParagraph>
-            Voiture, bus, vélo ou à pied, tous les moyens sont bon pour venir au
-            Salon des Ani'Meaux !
+            Voiture, bus, vélo ou à pied, tous les moyens sont bons pour visiter
+            le Salon des Ani'Meaux !
           </HeroSectionParagraph>
         </HeroSectionAside>
       </HeroSection>
@@ -104,13 +104,14 @@ function WarnSection() {
             "md:text-title-section-large"
           )}
         >
-          Privilégiez les transports en commun
+          Privilégiez les moyens de transports écologiques
         </h2>
 
         <p>
-          Compte tenu du nombre limité de places de parking, nous vous
-          conseillons de privilégiez les transports en commun pour vous rendre
-          au salon.
+          Pensez à la planète et déplacez vous à pied, en vélo ou en transports
+          en commun. La salle du Colisée de Meaux est très bien desservie par
+          les bus, et proche du parc du pâtis pour une balade agréable avant ou
+          après votre visite.
         </p>
       </div>
     </section>
@@ -179,6 +180,12 @@ const INFOS: Info[] = [
     icon: "car",
     color: "yellow",
     title: "Venir en voiture",
-    text: <>Parking gratuit sur place. Le nombre de places est limité...</>,
+    text: (
+      <>
+        Parking gratuit sur place.
+        <br />
+        Ne laissez pas vos animaux dans votre véhicule !
+      </>
+    ),
   },
 ];
