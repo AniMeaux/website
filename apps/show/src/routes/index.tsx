@@ -100,8 +100,8 @@ export default function HomePage() {
         <HeroSectionAside>
           <HeroSectionTitle>Accès au Salon</HeroSectionTitle>
           <HeroSectionParagraph>
-            Voiture, bus, vélo ou à pied, tous les moyens sont bon pour venir au
-            Salon des Ani'Meaux !
+            Voiture, bus, vélo ou à pied, tous les moyens sont bons pour visiter
+            le Salon des Ani'Meaux !
           </HeroSectionParagraph>
 
           <HeroSectionAction>
