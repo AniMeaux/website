@@ -1,5 +1,5 @@
-import invariant from "invariant";
 import { rest } from "msw";
+import invariant from "tiny-invariant";
 
 const SVGS = [
   // Cat

@@ -1,6 +1,6 @@
-import invariant from "invariant";
 import { useEffect, useRef, useState } from "react";
 import { Transition } from "react-transition-group";
+import invariant from "tiny-invariant";
 import { BaseLink, BaseLinkProps } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
 import nameAndLogo from "~/images/nameAndLogo.svg";
