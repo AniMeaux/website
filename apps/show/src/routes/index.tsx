@@ -364,9 +364,9 @@ function OriginSection() {
         </p>
 
         <p>
-          En 2023, le Salon des Ani'Meaux voit plus grand et attend 60 exposants
-          et ouvrira ses portes aux visiteurs durant deux journées : les 10 et
-          11 juin 2023.
+          En 2023, le Salon des Ani'Meaux voit plus grand en conviant 60
+          exposants et ouvrira ses portes aux visiteurs durant deux journées :
+          les 10 et 11 juin 2023.
         </p>
       </div>
     </section>
