@@ -1,5 +1,6 @@
-import { getActionClassNames } from "~/core/actions";
+import { actionClassNames } from "~/core/actions";
 import { BaseLink } from "~/core/baseLink";
+import { cn } from "~/core/classNames";
 import { errorImages } from "~/images/error";
 import {
   HeroSection,
@@ -21,7 +22,7 @@ const STATUS_CODE_ERROR_META_DATA: Record<number, ErrorMetaData> = {
     title: "Page introuvable",
     message: "Nous n'avons pas trouvé la page que vous chercher.",
     action: (
-      <BaseLink to="/" className={getActionClassNames()}>
+      <BaseLink to="/" className={actionClassNames.standalone()}>
         Page d'accueil
       </BaseLink>
     ),
@@ -30,19 +31,29 @@ const STATUS_CODE_ERROR_META_DATA: Record<number, ErrorMetaData> = {
     title: "Oups",
     message: "Une erreur est survenue.",
     action: (
-      <BaseLink to="/" reloadDocument className={getActionClassNames()}>
+      <BaseLink to="/" reloadDocument className={actionClassNames.standalone()}>
         Rafraichir
       </BaseLink>
     ),
   },
 };
 
-export function ErrorPage({ status }: { status: number }) {
+export function ErrorPage({
+  status,
+  isStandAlone = false,
+}: {
+  status: number;
+  isStandAlone?: boolean;
+}) {
   const meta =
     STATUS_CODE_ERROR_META_DATA[status] ?? STATUS_CODE_ERROR_META_DATA[500];
 
   return (
-    <main className="px-page flex flex-col">
+    <main
+      className={cn("w-full px-page flex flex-col", {
+        "min-h-screen py-12 justify-center": isStandAlone,
+      })}
+    >
       <HeroSection>
         <HeroSectionAside>
           <HeroSectionImage image={errorImages} />

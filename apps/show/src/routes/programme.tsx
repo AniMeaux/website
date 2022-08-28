@@ -1,4 +1,12 @@
+import { MetaFunction } from "@remix-run/node";
 import { cn } from "~/core/classNames";
+import { getPageTitle } from "~/core/pageTitle";
+
+export const meta: MetaFunction = () => {
+  return {
+    title: getPageTitle("Programme"),
+  };
+};
 
 export default function ProgramPage() {
   return (

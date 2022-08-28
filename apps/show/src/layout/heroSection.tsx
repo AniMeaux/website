@@ -3,16 +3,13 @@ import { StaticImage, StaticImageProps } from "~/dataDisplay/image";
 
 export function HeroSection({
   isReversed = false,
-  id,
   children,
 }: {
   isReversed?: boolean;
-  id?: string;
   children: React.ReactNode;
 }) {
   return (
     <section
-      id={id}
       className={cn(
         "flex flex-col items-center gap-6",
         {

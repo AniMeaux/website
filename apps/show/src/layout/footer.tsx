@@ -1,4 +1,7 @@
+import { actionClassNames } from "~/core/actions";
+import { BaseLink } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
+import { useConfig } from "~/core/config";
 import { Icon, IconProps } from "~/generated/icon";
 import meaux from "~/images/meaux.png";
 import nameAndLogo from "~/images/nameAndLogo.svg";
@@ -8,6 +11,8 @@ import villeAnimaux2Pattes from "~/images/villeAnimaux2Pattes.png";
 import { LineShapeHorizontal } from "~/layout/lineShape";
 
 export function Footer() {
+  const { animeauxUrl } = useConfig();
+
   return (
     <footer
       className={cn(
@@ -61,8 +66,14 @@ export function Footer() {
           </ul>
 
           <p>
-            Le Salon des Ani'Meaux au Colisée de Meaux, les 10 et 11 juin 2023
-            de 10h à 18h.
+            Le Salon des Ani'Meaux est organisé par{" "}
+            <BaseLink
+              to={animeauxUrl}
+              className={actionClassNames.proseInline()}
+            >
+              l'association Ani'Meaux
+            </BaseLink>{" "}
+            au Colisée de Meaux, les 10 et 11 juin 2023 de 10h à 18h.
           </p>
         </section>
       </div>

@@ -1,7 +1,11 @@
-import { BaseLink } from "~/core/baseLink";
+import { useEffect, useRef, useState } from "react";
+import { Transition } from "react-transition-group";
+import invariant from "tiny-invariant";
+import { BaseLink, BaseLinkProps } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
 import nameAndLogo from "~/images/nameAndLogo.svg";
-import { NavLink } from "~/layout/navigation/shared";
+import { LineShapeHorizontal } from "~/layout/lineShape";
+import { navLinkClassName } from "~/layout/navigation/shared";
 import { SocialLinks } from "~/layout/navigation/socialLinks";
 
 export function LargeNav() {
@@ -16,10 +20,10 @@ export function LargeNav() {
         <img src={nameAndLogo} alt="Salon des Ani'Meaux" className="h-[40px]" />
       </BaseLink>
 
-      <nav className="flex lg:gap-2">
+      <nav className={cn("flex", "lg:gap-2")}>
         <NavLink to="/exposants">Exposants</NavLink>
         <NavLink to="/programme">Programme</NavLink>
-        <NavLink to="/#acces">Accès</NavLink>
+        <NavLink to="/acces">Accès</NavLink>
         <NavLink to="/faq">FAQ</NavLink>
       </nav>
 
@@ -27,5 +31,58 @@ export function LargeNav() {
         <SocialLinks />
       </div>
     </header>
+  );
+}
+
+function NavLink({ children, ...rest }: Omit<BaseLinkProps, "className">) {
+  const linkRef = useRef<HTMLAnchorElement>(null);
+
+  // Use a large number instead of 0 to make sure the line is not visible by
+  // default.
+  const [width, setWidth] = useState(Number.MAX_SAFE_INTEGER);
+
+  useEffect(() => {
+    invariant(linkRef.current != null, "linkRef must be set");
+    setWidth(linkRef.current?.clientWidth);
+  }, []);
+
+  return (
+    <BaseLink
+      {...rest}
+      ref={linkRef}
+      isNavLink
+      className={({ isActive }) =>
+        cn(navLinkClassName({ isActive }), "relative")
+      }
+    >
+      {({ isActive }) => (
+        <>
+          {children}
+
+          <Transition in={isActive} timeout={150}>
+            {(transitionState) => (
+              <LineShapeHorizontal
+                className={cn(
+                  "absolute bottom-0 left-0 w-full h-1 block stroke-blue-base",
+                  {
+                    "transition-[stroke-dashoffset] duration-150 ease-in-out":
+                      transitionState === "entering" ||
+                      transitionState === "exiting",
+                  }
+                )}
+                style={{
+                  strokeDasharray: width,
+                  strokeDashoffset:
+                    transitionState === "entering" ||
+                    transitionState === "entered"
+                      ? 0
+                      : width,
+                }}
+              />
+            )}
+          </Transition>
+        </>
+      )}
+    </BaseLink>
   );
 }
