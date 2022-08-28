@@ -1,7 +1,9 @@
+import { MetaFunction } from "@remix-run/node";
 import { actionClassNames } from "~/core/actions";
 import { BaseLink } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
 import { Config, useConfig } from "~/core/config";
+import { getPageTitle } from "~/core/pageTitle";
 import { Icon, IconProps } from "~/generated/icon";
 import { questionsImages } from "~/images/questions";
 import {
@@ -11,6 +13,12 @@ import {
   HeroSectionParagraph,
   HeroSectionTitle,
 } from "~/layout/heroSection";
+
+export const meta: MetaFunction = () => {
+  return {
+    title: getPageTitle("Foire aux questions"),
+  };
+};
 
 export default function FaqPage() {
   const config = useConfig();
