@@ -1,7 +1,15 @@
+import { MetaFunction } from "@remix-run/node";
 import { actionClassNames } from "~/core/actions";
 import { BaseLink } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
 import { useConfig } from "~/core/config";
+import { getPageTitle } from "~/core/pageTitle";
+
+export const meta: MetaFunction = () => {
+  return {
+    title: getPageTitle("Exposants"),
+  };
+};
 
 export default function ExhibitorsPage() {
   return (
