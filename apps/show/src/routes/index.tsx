@@ -5,7 +5,6 @@ import { BaseLink, BaseLinkProps } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
 import { useConfig } from "~/core/config";
 import { StaticImage, StaticImageProps } from "~/dataDisplay/image";
-import { Icon } from "~/generated/icon";
 import { adoptionImages } from "~/images/adoption";
 import { animationImages } from "~/images/animation";
 import { associationImages } from "~/images/association";
@@ -81,20 +80,10 @@ export default function HomePage() {
 
       <HeroSection>
         <HeroSectionAside>
-          <BaseLink
-            to="https://goo.gl/maps/bix61Gb2vAUdpgtq5"
-            className="group relative w-full flex"
-          >
-            <HeroSectionImage
-              image={mapImages}
-              className="transition-[filter] duration-100 ease-in-out group-hover:brightness-50"
-            />
-
-            <p className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-0 min-w-max flex items-center gap-2 text-white text-body-emphasis transition-opacity duration-100 ease-in-out group-hover:opacity-100">
-              <Icon id="arrowUpRightFromSquare" />
-              Voir le plan
-            </p>
-          </BaseLink>
+          <HeroSectionImage
+            image={mapImages}
+            className="transition-[filter] duration-100 ease-in-out group-hover:brightness-50"
+          />
         </HeroSectionAside>
 
         <HeroSectionAside>

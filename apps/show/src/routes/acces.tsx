@@ -6,6 +6,7 @@ import { mapImages } from "~/images/map";
 import { BubbleShape } from "~/layout/bubbleShape";
 import {
   HeroSection,
+  HeroSectionAction,
   HeroSectionAside,
   HeroSectionImage,
   HeroSectionParagraph,
@@ -17,20 +18,10 @@ export default function AccessPage() {
     <main className="w-full px-page flex flex-col gap-12">
       <HeroSection>
         <HeroSectionAside>
-          <BaseLink
-            to="https://goo.gl/maps/bix61Gb2vAUdpgtq5"
-            className="group relative w-full flex"
-          >
-            <HeroSectionImage
-              image={mapImages}
-              className="transition-[filter] duration-100 ease-in-out group-hover:brightness-50"
-            />
-
-            <p className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-0 min-w-max flex items-center gap-2 text-white text-body-emphasis transition-opacity duration-100 ease-in-out group-hover:opacity-100">
-              <Icon id="arrowUpRightFromSquare" />
-              Voir le plan
-            </p>
-          </BaseLink>
+          <HeroSectionImage
+            image={mapImages}
+            className="transition-[filter] duration-100 ease-in-out group-hover:brightness-50"
+          />
         </HeroSectionAside>
 
         <HeroSectionAside>
@@ -40,6 +31,15 @@ export default function AccessPage() {
             Voiture, bus, vélo ou à pied, tous les moyens sont bons pour visiter
             le Salon des Ani'Meaux !
           </HeroSectionParagraph>
+
+          <HeroSectionAction>
+            <BaseLink
+              to="https://goo.gl/maps/bix61Gb2vAUdpgtq5"
+              className={actionClassNames.standalone()}
+            >
+              Voir le plan
+            </BaseLink>
+          </HeroSectionAction>
         </HeroSectionAside>
       </HeroSection>
 
