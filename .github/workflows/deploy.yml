@@ -329,14 +329,12 @@ jobs:
     name: 🚀 Deploy API
     runs-on: ubuntu-latest
     needs:
-      [
-        lint,
-        build-api,
-        build-website,
-        build-website-remix,
-        build-show,
-        build-faune,
-      ]
+      - lint
+      - build-api
+      - build-website
+      - build-website-remix
+      - build-show
+      - build-faune
     steps:
       - name: 🛑 Cancel Previous Runs
         uses: styfle/cancel-workflow-action@0.9.1
@@ -371,14 +369,12 @@ jobs:
     name: 🚀 Deploy Website
     runs-on: ubuntu-latest
     needs:
-      [
-        lint,
-        build-api,
-        build-website,
-        build-website-remix,
-        build-show,
-        build-faune,
-      ]
+      - lint
+      - build-api
+      - build-website
+      - build-website-remix
+      - build-show
+      - build-faune
     steps:
       - name: 🛑 Cancel Previous Runs
         uses: styfle/cancel-workflow-action@0.9.1
@@ -415,14 +411,12 @@ jobs:
     if: ${{ github.ref == 'refs/heads/dev' }}
     runs-on: ubuntu-latest
     needs:
-      [
-        lint,
-        build-api,
-        build-website,
-        build-website-remix,
-        build-show,
-        build-faune,
-      ]
+      - lint
+      - build-api
+      - build-website
+      - build-website-remix
+      - build-show
+      - build-faune
     steps:
       - name: 🛑 Cancel Previous Runs
         uses: styfle/cancel-workflow-action@0.9.1
@@ -450,14 +444,12 @@ jobs:
     if: ${{ github.ref == 'refs/heads/dev' }}
     runs-on: ubuntu-latest
     needs:
-      [
-        lint,
-        build-api,
-        build-website,
-        build-website-remix,
-        build-show,
-        build-faune,
-      ]
+      - lint
+      - build-api
+      - build-website
+      - build-website-remix
+      - build-show
+      - build-faune
     steps:
       - name: 🛑 Cancel Previous Runs
         uses: styfle/cancel-workflow-action@0.9.1
@@ -483,14 +475,12 @@ jobs:
     name: 🚀 Deploy Faune
     runs-on: ubuntu-latest
     needs:
-      [
-        lint,
-        build-api,
-        build-website,
-        build-website-remix,
-        build-show,
-        build-faune,
-      ]
+      - lint
+      - build-api
+      - build-website
+      - build-website-remix
+      - build-show
+      - build-faune
     steps:
       - name: 🛑 Cancel Previous Runs
         uses: styfle/cancel-workflow-action@0.9.1
