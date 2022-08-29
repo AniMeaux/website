@@ -7,6 +7,7 @@ import util from "util";
 import tailwindConfig from "../tailwind.config";
 
 const writeFile = util.promisify(fs.writeFile);
+const mkdir = util.promisify(fs.mkdir);
 
 const FOLDER_DEST = path.resolve(__dirname, "../src/generated");
 const THEME_DEST = path.resolve(FOLDER_DEST, "theme.ts");
@@ -37,6 +38,7 @@ async function generateTheme() {
     }
   );
 
+  await mkdir(FOLDER_DEST, { recursive: true });
   await writeFile(THEME_DEST, content);
   console.info(`🎉 Theme file wrote: ${relativeToCwd(THEME_DEST)}`);
 }

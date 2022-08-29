@@ -46,10 +46,7 @@ function BecomeExhibitor() {
   const { exhibitorsFormUrl } = useConfig();
 
   return (
-    <BaseLink
-      to={exhibitorsFormUrl}
-      className={actionClassNames.standalone({ color: "gray" })}
-    >
+    <BaseLink to={exhibitorsFormUrl} className={actionClassNames.standalone()}>
       Devenir exposant
     </BaseLink>
   );

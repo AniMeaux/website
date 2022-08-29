@@ -1,5 +1,5 @@
 import { actionClassNames } from "~/core/actions";
-import { BaseLink } from "~/core/baseLink";
+import { BaseLink, BaseLinkProps } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
 import { useConfig } from "~/core/config";
 import { Icon, IconProps } from "~/generated/icon";
@@ -11,7 +11,7 @@ import villeAnimaux2Pattes from "~/images/villeAnimaux2Pattes.png";
 import { LineShapeHorizontal } from "~/layout/lineShape";
 
 export function Footer() {
-  const { animeauxUrl } = useConfig();
+  const { animeauxUrl, pressReleaseUrl } = useConfig();
 
   return (
     <footer
@@ -60,9 +60,17 @@ export function Footer() {
           />
 
           <ul className="flex flex-col">
-            <ContactItem icon="phone">06 12 19 43 92</ContactItem>
-            <ContactItem icon="envelope">salon@animeaux.org</ContactItem>
-            <ContactItem icon="newspaper">Communiqué de presse</ContactItem>
+            <ContactItem icon="phone" to="tel:+33612194392">
+              06 12 19 43 92
+            </ContactItem>
+
+            <ContactItem icon="envelope" to="mailto:salon@animeaux.org">
+              salon@animeaux.org
+            </ContactItem>
+
+            <ContactItem icon="newspaper" to={pressReleaseUrl}>
+              Communiqué de presse
+            </ContactItem>
           </ul>
 
           <p>
@@ -94,17 +102,28 @@ export function Footer() {
 
 function ContactItem({
   icon,
+  to,
   children,
 }: {
   icon: IconProps["id"];
+  to: NonNullable<BaseLinkProps["to"]>;
   children: string;
 }) {
   return (
-    <li className="flex items-start gap-2">
-      <span className="h-6 flex items-center">
-        <Icon id={icon} className="text-gray-500 text-[14px]" />
-      </span>
-      <span>{children}</span>
+    <li className="flex">
+      <BaseLink
+        to={to}
+        className="group flex items-start gap-2 hover:text-black"
+      >
+        <span className="h-6 flex items-center">
+          <Icon
+            id={icon}
+            className="text-gray-500 text-[14px] group-hover:text-gray-800"
+          />
+        </span>
+
+        <span>{children}</span>
+      </BaseLink>
     </li>
   );
 }
