@@ -2,11 +2,16 @@ import { Link, NavLink, NavLinkProps } from "@remix-run/react";
 import { createPath, parsePath } from "history";
 import { forwardRef } from "react";
 
-export type BaseLinkProps = Omit<NavLinkProps, "to"> & {
+export type BaseLinkProps = {
   to?: NavLinkProps["to"] | null;
   isNavLink?: boolean;
   disabled?: boolean;
   shouldOpenInNewTarget?: boolean;
+  reloadDocument?: NavLinkProps["reloadDocument"];
+  className?: NavLinkProps["className"];
+  style?: NavLinkProps["style"];
+  children?: NavLinkProps["children"];
+  title?: string;
 };
 
 export const BaseLink = forwardRef<HTMLAnchorElement, BaseLinkProps>(
@@ -16,19 +21,18 @@ export const BaseLink = forwardRef<HTMLAnchorElement, BaseLinkProps>(
       isNavLink = false,
       disabled,
       shouldOpenInNewTarget,
+      reloadDocument,
       className,
       style,
       children,
-      // Prefetch on hover by default.
-      prefetch = "intent",
-      ...rest
+      title,
     },
     ref
   ) {
     const commonProps: React.AnchorHTMLAttributes<HTMLAnchorElement> &
       React.RefAttributes<HTMLAnchorElement> = {
-      ...rest,
       ref,
+      title,
     };
 
     if (disabled || to == null) {
@@ -70,7 +74,8 @@ export const BaseLink = forwardRef<HTMLAnchorElement, BaseLinkProps>(
         <NavLink
           {...commonProps}
           to={to}
-          prefetch={prefetch}
+          prefetch="intent"
+          reloadDocument={reloadDocument}
           className={className}
           style={style}
           children={children}
@@ -82,7 +87,8 @@ export const BaseLink = forwardRef<HTMLAnchorElement, BaseLinkProps>(
       <Link
         {...commonProps}
         to={to}
-        prefetch={prefetch}
+        prefetch="intent"
+        reloadDocument={reloadDocument}
         className={defaultCallProp(className)}
         style={defaultCallProp(style)}
         children={defaultCallProp(children)}

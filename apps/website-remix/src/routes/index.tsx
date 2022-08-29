@@ -4,7 +4,7 @@ import { json, LoaderFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { DateTime } from "luxon";
 import { SearchForm } from "~/controllers/searchForm";
-import { getActionClassNames } from "~/core/actions";
+import { actionClassNames } from "~/core/actions";
 import { BaseLink } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
 import { MapDateToString } from "~/core/dates";
@@ -23,7 +23,14 @@ import { heroImages } from "~/images/hero";
 import { pickUpImages } from "~/images/pickUp";
 import { volunteerImages } from "~/images/volunteer";
 import { BubbleShape } from "~/layout/bubbleShape";
-import { HeroSection } from "~/layout/heroSection";
+import {
+  HeroSection,
+  HeroSectionAction,
+  HeroSectionAside,
+  HeroSectionImage,
+  HeroSectionParagraph,
+  HeroSectionTitle,
+} from "~/layout/heroSection";
 
 const eventSelect = Prisma.validator<Prisma.EventArgs>()({
   select: {
@@ -69,62 +76,80 @@ export default function HomePage() {
 
   return (
     <main className="px-page flex flex-col gap-24">
-      <HeroSection
-        title="Adoptez !"
-        message="Trouvez le compagnon de vos rêves et donnez-lui une seconde chance"
-        action={<SearchForm className="w-full max-w-sm" />}
-        image={heroImages}
-        hasLargeTitle
-        isReversed
-      />
+      <HeroSection isReversed>
+        <HeroSectionAside>
+          <HeroSectionImage image={heroImages} />
+        </HeroSectionAside>
+
+        <HeroSectionAside>
+          <HeroSectionTitle isLarge>Adoptez !</HeroSectionTitle>
+          <HeroSectionParagraph>
+            Trouvez le compagnon de vos rêves et donnez-lui une seconde chance
+          </HeroSectionParagraph>
+
+          <HeroSectionAction>
+            <SearchForm className="w-full max-w-sm" />
+          </HeroSectionAction>
+        </HeroSectionAside>
+      </HeroSection>
 
       <WhoWeAreSection />
       <NumbersSection pickUpCount={pickUpCount} />
       <UpcomingEventsSection upcomingEvents={upcomingEvents} />
 
-      <HeroSection
-        title="Devenez famille d'accueil"
-        message={
-          <>
+      <HeroSection>
+        <HeroSectionAside>
+          <HeroSectionImage image={fosterFamilyLargeImages} />
+        </HeroSectionAside>
+
+        <HeroSectionAside>
+          <HeroSectionTitle>Devenez famille d'accueil</HeroSectionTitle>
+          <HeroSectionParagraph>
             Aidez-nous à{" "}
             <strong className="text-body-emphasis">sauver les animaux</strong>{" "}
             en leur consacrant{" "}
             <strong className="text-body-emphasis">temps et attention</strong>,
             sans aucune contrainte financière
-          </>
-        }
-        action={
-          <BaseLink
-            to="/devenir-famille-d-accueil"
-            className={getActionClassNames()}
-          >
-            En savoir plus
-          </BaseLink>
-        }
-        image={fosterFamilyLargeImages}
-      />
+          </HeroSectionParagraph>
+
+          <HeroSectionAction>
+            <BaseLink
+              to="/devenir-famille-d-accueil"
+              className={actionClassNames.standalone()}
+            >
+              En savoir plus
+            </BaseLink>
+          </HeroSectionAction>
+        </HeroSectionAside>
+      </HeroSection>
 
       <DonateSection />
 
-      <HeroSection
-        title="Devenez bénévole"
-        message={
-          <>
+      <HeroSection isReversed>
+        <HeroSectionAside>
+          <HeroSectionImage image={volunteerImages} />
+        </HeroSectionAside>
+
+        <HeroSectionAside>
+          <HeroSectionTitle>Devenez bénévole</HeroSectionTitle>
+          <HeroSectionParagraph>
             Contribuez aux{" "}
             <strong className="text-body-emphasis">
               sauvetages des animaux
             </strong>{" "}
             en difficultés que nous sommes amenés à prendre sous notre aile
-          </>
-        }
-        action={
-          <BaseLink to="/devenir-benevole" className={getActionClassNames()}>
-            En savoir plus
-          </BaseLink>
-        }
-        image={volunteerImages}
-        isReversed
-      />
+          </HeroSectionParagraph>
+
+          <HeroSectionAction>
+            <BaseLink
+              to="/devenir-benevole"
+              className={actionClassNames.standalone()}
+            >
+              En savoir plus
+            </BaseLink>
+          </HeroSectionAction>
+        </HeroSectionAside>
+      </HeroSection>
     </main>
   );
 }
@@ -307,7 +332,7 @@ function UpcomingEventsSection({
         ))}
       </ul>
 
-      <BaseLink to="/evenements" className={getActionClassNames()}>
+      <BaseLink to="/evenements" className={actionClassNames.standalone()}>
         Voir plus
       </BaseLink>
     </section>
@@ -436,7 +461,7 @@ function DonateSection() {
 
         <BaseLink
           to="/faire-un-don"
-          className={getActionClassNames({ color: "yellow" })}
+          className={actionClassNames.standalone({ color: "yellow" })}
         >
           Faire un don
         </BaseLink>

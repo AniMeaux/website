@@ -18,15 +18,15 @@ import { Settings } from "luxon";
 import { cn } from "~/core/classNames";
 import { Config } from "~/core/config";
 import { createConfig } from "~/core/config.server";
-import { getPageTitle } from "~/core/pageTitle";
+import { getPageTitle, pageDescription } from "~/core/pageTitle";
 import { ErrorPage } from "~/dataDisplay/errorPage";
 import stylesheet from "~/generated/tailwind.css";
 import { theme } from "~/generated/theme";
 import appleTouchIcon from "~/images/appleTouchIcon.png";
 import background from "~/images/background.svg";
 import favicon from "~/images/favicon.svg";
-import googleTouchIcon from "~/images/googleTouchIcon.png";
 import maskIcon from "~/images/maskIcon.svg";
+import { socialImages } from "~/images/social";
 import { Footer } from "~/layout/footer";
 import { Header } from "~/layout/header";
 
@@ -64,15 +64,16 @@ export const loader: LoaderFunction = async () => {
   return json<LoaderData>({ config: createConfig() });
 };
 
+/** @see https://metatags.io/ */
 export const meta: MetaFunction = ({ data, location }) => {
-  const config = (data as LoaderData).config;
+  // The data can be null in case of error.
+  const config = (data as LoaderData | null)?.config;
   const title = getPageTitle();
 
   let metaDescriptor: HtmlMetaDescriptor = {
     charset: "utf-8",
     title,
-    description:
-      "Trouvez le compagnon de vos rêves et donnez-lui une seconde chance",
+    description: pageDescription,
     "theme-color": theme.colors.gray[50],
 
     // Use `maximum-scale=1` to prevent browsers to zoom on form elements.
@@ -91,16 +92,20 @@ export const meta: MetaFunction = ({ data, location }) => {
 
       // Default Open Graph tags.
       // See: https://ogp.me/
+      "og:type": "website",
+      "og:url": ogUrl,
+      "og:title": title,
       "og:site_name": title,
       "og:locale": "fr_FR",
-      "og:title": title,
-      "og:type": "website",
-      "og:image:url": `${config.publicHost}${googleTouchIcon}`,
-      "og:image:width": "512",
-      "og:image:height": "512",
-      "og:image:type": "image/png",
-      "og:image:alt": "Ani'Meaux logo",
-      "og:url": ogUrl,
+      "og:image": `${config.publicHost}${socialImages.imagesBySize[2048]}`,
+
+      // Default twitter tags
+      // See: https://developer.twitter.com/en/docs/twitter-for-websites/cards/overview/abouts-cards
+      "twitter:card": "summary_large_image",
+      "twitter:url": ogUrl,
+      "twitter:title": title,
+      "twitter:description": pageDescription,
+      "twitter:image": `${config.publicHost}${socialImages.imagesBySize[2048]}`,
     };
   }
 
@@ -110,7 +115,9 @@ export const meta: MetaFunction = ({ data, location }) => {
 export default function App() {
   return (
     <Document>
+      <Header />
       <Outlet />
+      <Footer />
     </Document>
   );
 }
@@ -120,7 +127,7 @@ export function CatchBoundary() {
 
   return (
     <Document>
-      <ErrorPage status={caught.status} />
+      <ErrorPage isStandAlone status={caught.status} />
     </Document>
   );
 }
@@ -130,7 +137,7 @@ export function ErrorBoundary({ error }: { error: Error }) {
 
   return (
     <Document>
-      <ErrorPage status={500} />
+      <ErrorPage isStandAlone status={500} />
     </Document>
   );
 }
@@ -158,10 +165,7 @@ function Document({ children }: { children: React.ReactNode }) {
           "md:gap-12"
         )}
       >
-        <Header />
         {children}
-        <Footer />
-
         <ScrollRestoration />
         <Scripts />
         <LiveReload />

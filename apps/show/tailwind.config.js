@@ -5,7 +5,7 @@ const plugin = require("tailwindcss/plugin");
  * @type {import('tailwindcss').Config}
  */
 module.exports = {
-  content: ["./src/**/*.{ts,tsx,jsx,js}"],
+  content: ["./src/**/*.{ts,tsx}"],
 
   theme: {
     screens: {
@@ -26,6 +26,10 @@ module.exports = {
         red: { light: "#fef4f4", base: "#ed2a26" },
         cyan: { base: "#00bfbf" },
         pink: { base: "#ed266e" },
+        facebook: "#3774dc",
+        instagram: "#ad3d7a",
+        linkedin: "#2c66bc",
+        twitter: "#499be9",
       },
       boxShadow: {
         base: "0px 8px 20px rgba(0, 0, 0, 0.06)",

@@ -1,3 +1,4 @@
+import { Location } from "history";
 import { forwardRef } from "react";
 import { BaseLink, BaseLinkProps } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
@@ -5,20 +6,19 @@ import { Icon, IconProps } from "~/generated/icon";
 
 export type NavGroup = "act" | "adopt" | "discover" | "warn";
 
-export const NavLink = forwardRef<HTMLAnchorElement, BaseLinkProps>(
-  function NavLink({ className, ...rest }, ref) {
-    return (
-      <BaseLink
-        {...rest}
-        ref={ref}
-        className={cn(
-          className,
-          "px-3 py-2 flex items-center justify-between gap-1 text-gray-700 hover:text-black"
-        )}
-      />
-    );
-  }
-);
+export const navLinkClassName = ({
+  isActive = false,
+}: {
+  isActive?: boolean;
+} = {}) =>
+  cn("px-3 py-2 flex items-center justify-between gap-1", {
+    "text-black": isActive,
+    "text-gray-700 hover:text-black": !isActive,
+  });
+
+export type SubNavComponent = React.FC & {
+  isActive(location: Location): boolean;
+};
 
 type SubNavItemColor = "blue" | "cyan" | "green" | "red" | "yellow";
 
@@ -40,22 +40,19 @@ const subNavItemTextColorClassName: Record<SubNavItemColor, string> = {
 
 export const SubNavItem = forwardRef<
   HTMLAnchorElement,
-  BaseLinkProps & {
+  {
+    to: BaseLinkProps["to"];
     icon: IconProps["id"];
     children: string;
     isMultiline?: boolean;
     color: SubNavItemColor;
   }
->(function SubNavItem(
-  { icon, children, color, isMultiline = false, className, ...rest },
-  ref
-) {
+>(function SubNavItem({ to, icon, children, color, isMultiline = false }, ref) {
   return (
     <BaseLink
       ref={ref}
-      {...rest}
+      to={to}
       className={cn(
-        className,
         "group bg-opacity-0 px-3 py-2 flex items-center hover:bg-opacity-10 rounded-tl-2xl rounded-tr-xl rounded-br-2xl rounded-bl-xl transition-colors duration-100 ease-in-out",
         subNavItemBgColorClassName[color],
         {
