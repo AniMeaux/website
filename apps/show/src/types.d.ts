@@ -7,5 +7,6 @@ declare namespace NodeJS {
     FACEBOOK_URL?: string;
     INSTAGRAM_URL?: string;
     EXHIBITORS_FORM_URL?: string;
+    PRESS_RELEASE_URL?: string;
   }
 }

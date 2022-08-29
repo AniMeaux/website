@@ -9,6 +9,7 @@ export type Config = {
   instagramUrl: string;
   ticketingUrl: string;
   exhibitorsFormUrl: string;
+  pressReleaseUrl: string;
 };
 
 export function useConfig(): Config {
