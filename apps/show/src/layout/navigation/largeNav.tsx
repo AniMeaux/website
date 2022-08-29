@@ -43,7 +43,17 @@ function NavLink({ children, ...rest }: Omit<BaseLinkProps, "className">) {
 
   useEffect(() => {
     invariant(linkRef.current != null, "linkRef must be set");
-    setWidth(linkRef.current?.clientWidth);
+    const linkElement = linkRef.current;
+
+    const observer = new ResizeObserver(() => {
+      setWidth(linkElement.clientWidth);
+    });
+
+    observer.observe(linkElement);
+
+    return () => {
+      observer.disconnect();
+    };
   }, []);
 
   return (
