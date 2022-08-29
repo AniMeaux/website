@@ -117,7 +117,7 @@ const FAQ: Faq[] = [
       <>
         Seuls les chiens sont les bienvenus. Cependant il vous faudra présenter
         le carnet de santé et les papiers d'identification à l'entrée du salon.
-        Ces derniers doivent à jour.
+        Ces derniers doivent être à jour.
         <br />
         Ceci permettra d'assurer la sécurité de tous les animaux présents durant
         le salon.
