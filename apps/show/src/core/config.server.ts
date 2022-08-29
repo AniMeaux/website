@@ -11,6 +11,10 @@ export function createConfig(): Config {
     process.env.EXHIBITORS_FORM_URL,
     "EXHIBITORS_FORM_URL should be defined"
   );
+  invariant(
+    process.env.PRESS_RELEASE_URL,
+    "PRESS_RELEASE_URL should be defined"
+  );
 
   return {
     publicHost: process.env.PUBLIC_HOST,
@@ -19,5 +23,6 @@ export function createConfig(): Config {
     facebookUrl: process.env.FACEBOOK_URL,
     instagramUrl: process.env.INSTAGRAM_URL,
     exhibitorsFormUrl: process.env.EXHIBITORS_FORM_URL,
+    pressReleaseUrl: process.env.PRESS_RELEASE_URL,
   };
 }
