@@ -5,6 +5,7 @@ import util from "util";
 const readdir = util.promisify(fs.readdir);
 const readFile = util.promisify(fs.readFile);
 const writeFile = util.promisify(fs.writeFile);
+const mkdir = util.promisify(fs.mkdir);
 
 const ICON_SRC = path.resolve(__dirname, "../icons");
 const ICON_DEST = path.resolve(__dirname, "../src/generated");
@@ -45,6 +46,8 @@ ${contents.map((symbol) => `    ${symbol}`).join("\n")}
   if (shouldMinify) {
     sprite = sprite.replace(/\n\s*/g, "");
   }
+
+  await mkdir(ICON_DEST, { recursive: true });
 
   await writeFile(ICON_SPRITE_DEST, sprite);
   console.info(`🎉 Sprite file wrote: ${relativeToCwd(ICON_SPRITE_DEST)}`);
