@@ -3,8 +3,12 @@ import { cn } from "~/core/classNames";
 import { getPageTitle } from "~/core/pageTitle";
 
 export const meta: MetaFunction = () => {
+  const title = getPageTitle("Programme");
+
   return {
-    title: getPageTitle("Programme"),
+    title,
+    "og:title": title,
+    "twitter:title": title,
   };
 };
 
