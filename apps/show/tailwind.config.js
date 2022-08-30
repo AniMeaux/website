@@ -88,6 +88,31 @@ module.exports = {
         { values: theme("spacing") }
       );
     }),
+
+    plugin(({ matchUtilities, theme }) => {
+      matchUtilities(
+        {
+          "rounded-bubble": (value) => ({
+            borderTopLeftRadius: value[0],
+            borderTopRightRadius: value[1],
+            borderBottomRightRadius: value[0],
+            borderBottomLeftRadius: value[1],
+          }),
+          "rounded-bubble-b": (value) => ({
+            borderBottomRightRadius: value[0],
+            borderBottomLeftRadius: value[1],
+          }),
+        },
+        {
+          values: {
+            sm: [theme("spacing.3"), theme("spacing.2")],
+            md: [theme("spacing.4"), theme("spacing.3")],
+            lg: [theme("spacing.12"), theme("spacing.6")],
+            ratio: ["16%", "8%"],
+          },
+        }
+      );
+    }),
   ],
 };
 

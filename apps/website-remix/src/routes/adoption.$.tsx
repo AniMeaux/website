@@ -283,7 +283,7 @@ function AnimalItem({
       <BaseLink
         to={`/animal/${animal.id}`}
         className={cn(
-          "group w-full px-4 py-3 shadow-none rounded-tl-[40px] rounded-tr-3xl rounded-br-[40px] rounded-bl-3xl bg-transparent flex flex-col gap-3 transition-[background-color,transform] duration-100 ease-in-out hover:bg-white hover:shadow-base",
+          "group w-full px-4 py-3 shadow-none rounded-bubble-lg bg-transparent flex flex-col gap-3 transition-[background-color,transform] duration-100 ease-in-out hover:bg-white hover:shadow-base",
           "md:p-6"
         )}
       >
@@ -292,7 +292,7 @@ function AnimalItem({
           alt={animal.name}
           sizes={{ lg: "300px", md: "50vw", default: "100vw" }}
           fallbackSize="512"
-          className="w-full aspect-4/3 flex-none rounded-tl-[16%] rounded-tr-[8%] rounded-br-[16%] rounded-bl-[8%]"
+          className="w-full aspect-4/3 flex-none rounded-bubble-ratio"
         />
 
         <div className="flex flex-col">

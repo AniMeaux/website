@@ -72,7 +72,7 @@ export default function AccessPage() {
             >
               <span
                 className={cn(
-                  "rounded-tl-xl rounded-tr-lg rounded-br-xl rounded-bl-lg p-3 bg-opacity-5 flex items-center justify-center text-[40px]",
+                  "rounded-bubble-sm p-3 bg-opacity-5 flex items-center justify-center text-[40px]",
                   ICON_COLOR_CLASS_NAME[info.color]
                 )}
               >

@@ -275,7 +275,7 @@ const Dropdown = forwardRef<
           <div
             ref={ref}
             className={cn(
-              "absolute -z-10 top-0 left-0 w-full bg-white shadow-base rounded-br-[40px] rounded-bl-3xl flex flex-col items-center overflow-hidden",
+              "absolute -z-10 top-0 left-0 w-full bg-white shadow-base rounded-bubble-b-lg flex flex-col items-center overflow-hidden",
               {
                 // Use `ease-in-out` to make sure animation is symetrical between
                 // entering and exiting to avoid a weird progress missmatch.

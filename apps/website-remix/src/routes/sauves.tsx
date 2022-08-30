@@ -145,7 +145,7 @@ function AnimalItem({
         alt={animal.name}
         sizes={{ lg: "300px", md: "50vw", default: "100vw" }}
         fallbackSize="512"
-        className="w-full aspect-4/3 flex-none rounded-tl-[16%] rounded-tr-[8%] rounded-br-[16%] rounded-bl-[8%]"
+        className="w-full aspect-4/3 flex-none rounded-bubble-ratio"
       />
 
       <div className="flex flex-col">

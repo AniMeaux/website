@@ -74,8 +74,7 @@ function PaginatorItem({
         className={cn(
           "h-[40px]",
           {
-            "w-[40px] rounded-tl-xl rounded-tr-lg rounded-br-xl rounded-bl-lg":
-              !isEllipsis,
+            "w-[40px] rounded-bubble-sm": !isEllipsis,
           },
           "flex items-center justify-center text-body-emphasis transition-colors duration-100 ease-in-out",
           {

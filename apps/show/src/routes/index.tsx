@@ -151,7 +151,7 @@ function Countdown() {
 
 function CountDownItem({ label, value }: { label: string; value: number }) {
   return (
-    <div className="rounded-tl-xl rounded-tr-lg rounded-br-xl rounded-bl-lg bg-gray-100 px-3 py-2 flex flex-col items-center">
+    <div className="rounded-bubble-sm bg-gray-100 px-3 py-2 flex flex-col items-center">
       <span className="font-serif text-[32px] font-bold leading-normal text-blue-base">
         {value.toLocaleString("fr-FR", { minimumIntegerDigits: 2 })}
       </span>
@@ -427,7 +427,7 @@ function PartnerItem({
     <BaseLink
       to={to}
       className={cn(
-        "rounded-tl-[48px] rounded-tr-3xl rounded-br-[48px] rounded-bl-3xl bg-transparent px-4 py-3 flex transition-[background-color,box-shadow] duration-100 ease-in-out hover:bg-white hover:shadow-base",
+        "rounded-bubble-lg bg-transparent px-4 py-3 flex transition-[background-color,box-shadow] duration-100 ease-in-out hover:bg-white hover:shadow-base",
         "md:p-6"
       )}
     >

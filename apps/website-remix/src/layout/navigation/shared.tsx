@@ -53,7 +53,7 @@ export const SubNavItem = forwardRef<
       ref={ref}
       to={to}
       className={cn(
-        "group bg-opacity-0 px-3 py-2 flex items-center hover:bg-opacity-10 rounded-tl-2xl rounded-tr-xl rounded-br-2xl rounded-bl-xl transition-colors duration-100 ease-in-out",
+        "group bg-opacity-0 px-3 py-2 flex items-center hover:bg-opacity-10 rounded-bubble-md transition-colors duration-100 ease-in-out",
         subNavItemBgColorClassName[color],
         {
           "flex-col gap-1": isMultiline,
@@ -63,7 +63,7 @@ export const SubNavItem = forwardRef<
     >
       <span
         className={cn(
-          "rounded-tl-xl rounded-tr-lg rounded-br-xl rounded-bl-lg bg-opacity-5 flex group-hover:bg-opacity-0 transition-colors duration-100 ease-in-out",
+          "rounded-bubble-sm bg-opacity-5 flex group-hover:bg-opacity-0 transition-colors duration-100 ease-in-out",
           {
             "p-3 text-[32px]": isMultiline,
             "p-2 text-[20px]": !isMultiline,
