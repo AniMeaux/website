@@ -41,9 +41,10 @@ type UrlDefinition = {
 
 const urlDefinitions: UrlDefinition[] = [
   { path: "/", changeFrequency: "weekly" },
+  { path: "/acces", changeFrequency: "weekly" },
   { path: "/exposants", changeFrequency: "weekly" },
-  { path: "/programme", changeFrequency: "weekly" },
   { path: "/faq", changeFrequency: "weekly" },
+  { path: "/programme", changeFrequency: "weekly" },
 ];
 
 export const loader: LoaderFunction = () => {

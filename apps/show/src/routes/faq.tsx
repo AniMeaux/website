@@ -15,8 +15,12 @@ import {
 } from "~/layout/heroSection";
 
 export const meta: MetaFunction = () => {
+  const title = getPageTitle("Foire aux questions");
+
   return {
-    title: getPageTitle("Foire aux questions"),
+    title,
+    "og:title": title,
+    "twitter:title": title,
   };
 };
 

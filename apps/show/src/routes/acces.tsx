@@ -16,8 +16,12 @@ import {
 } from "~/layout/heroSection";
 
 export const meta: MetaFunction = () => {
+  const title = getPageTitle("Accès au Salon");
+
   return {
-    title: getPageTitle("Accès au Salon"),
+    title,
+    "og:title": title,
+    "twitter:title": title,
   };
 };
 
