@@ -41,7 +41,15 @@ type UrlDefinition = {
 
 const urlDefinitions: UrlDefinition[] = [
   { path: "/", changeFrequency: "weekly" },
+  { path: "/adoption", changeFrequency: "weekly" },
 ];
+
+Object.values(Species).forEach((species) => {
+  urlDefinitions.push({
+    path: `/adoption/${SPECIES_TO_PATH[species]}`,
+    changeFrequency: "weekly",
+  });
+});
 
 export const loader: LoaderFunction = () => {
   const config = createConfig();
