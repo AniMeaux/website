@@ -1,7 +1,13 @@
-node_modules
-*.log
 .DS_Store
 .env*
-/.cache
-build
-/logs
+*.log
+build/
+dumps/
+generated/
+logs/
+node_modules/
+
+# Next.js
+tsconfig.tsbuildinfo
+sw.js
+workbox-*

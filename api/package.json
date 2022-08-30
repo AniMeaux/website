@@ -2,15 +2,18 @@
   "name": "@animeaux/api",
   "version": "1.0.0",
   "private": true,
-  "main": "build/app.js",
+  "main": "./build/app.js",
+  "prisma": {
+    "seed": "ts-node --files ./scripts/seedData.ts"
+  },
   "scripts": {
     "dev": "node -r dotenv-flow/config -r ./build/mocks .",
     "dev:prisma": "prisma generate",
-    "build": "babel src -d build --extensions \".ts\" --copy-files",
+    "build": "babel src -d ./build --extensions \".ts\" --copy-files",
     "build:prisma": "prisma generate",
     "start": "node .",
-    "clean": "rm -rf build",
-    "clean-build": "yarn clean && yarn build",
+    "clean": "rm -rf ./build",
+    "clean-build": "run-s clean build",
     "script": "NODE_OPTIONS=\"-r dotenv-flow/config\" ts-node --files",
     "prisma-env": "node -r dotenv-flow/config ./node_modules/.bin/prisma",
     "db:setup": "run-s db:reset",
@@ -73,8 +76,5 @@
     "prisma": "^3.11.1",
     "ts-node": "^10.4.0",
     "typescript": "^4.5.4"
-  },
-  "prisma": {
-    "seed": "ts-node --files ./scripts/seedData.ts"
   }
 }

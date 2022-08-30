@@ -1,5 +1,5 @@
 module.exports = {
-  distDir: "build",
+  distDir: "./build",
   reactStrictMode: true,
   devIndicators: {
     buildActivity: false,
