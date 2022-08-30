@@ -34,32 +34,44 @@ export function LargeNav() {
   );
 }
 
-function NavLink({ children, ...rest }: Omit<BaseLinkProps, "className">) {
-  const linkRef = useRef<HTMLAnchorElement>(null);
+function useWidth<TElement extends HTMLElement>() {
+  const ref = useRef<TElement>(null);
 
   // Use a large number instead of 0 to make sure the line is not visible by
   // default.
   const [width, setWidth] = useState(Number.MAX_SAFE_INTEGER);
 
   useEffect(() => {
-    invariant(linkRef.current != null, "linkRef must be set");
-    const linkElement = linkRef.current;
+    invariant(ref.current != null, "ref must be set");
+    const buttonElement = ref.current;
 
     const observer = new ResizeObserver(() => {
-      setWidth(linkElement.clientWidth);
+      setWidth(buttonElement.clientWidth);
     });
 
-    observer.observe(linkElement);
+    observer.observe(buttonElement);
 
     return () => {
       observer.disconnect();
     };
   }, []);
 
+  return { ref, width };
+}
+
+function NavLink({
+  to,
+  children,
+}: {
+  to: BaseLinkProps["to"];
+  children: BaseLinkProps["children"];
+}) {
+  const { ref, width } = useWidth<HTMLAnchorElement>();
+
   return (
     <BaseLink
-      {...rest}
-      ref={linkRef}
+      to={to}
+      ref={ref}
       isNavLink
       className={({ isActive }) =>
         cn(navLinkClassName({ isActive }), "relative")

@@ -5,23 +5,23 @@ import {
 } from "@animeaux/shared";
 import { Gender, Prisma, Species, Status } from "@prisma/client";
 import { json, LoaderFunction, MetaFunction } from "@remix-run/node";
-import { useLoaderData, useParams, useSearchParams } from "@remix-run/react";
+import { useLoaderData, useParams } from "@remix-run/react";
 import { DateTime } from "luxon";
-import { ReactNode } from "react";
 import invariant from "tiny-invariant";
+import { Paginator } from "~/controllers/paginator";
 import {
   AGES_TO_PATH,
   ANIMAL_AGES_BY_SPECIES,
   SearchForm,
   SPECIES_TO_PATH,
 } from "~/controllers/searchForm";
-import { BaseLink, BaseLinkProps } from "~/core/baseLink";
+import { BaseLink } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
 import { MapDateToString } from "~/core/dates";
 import { prisma } from "~/core/db.server";
 import { isDefined } from "~/core/isDefined";
 import { getPageTitle } from "~/core/pageTitle";
-import { getPage, setPage } from "~/core/searchParams";
+import { getPage } from "~/core/searchParams";
 import {
   AGE_PLURAL_TRANSLATION,
   AGE_TRANSLATION,
@@ -164,6 +164,7 @@ export const meta: MetaFunction = ({ params }) => {
   return {
     title,
     "og:title": title,
+    "twitter:title": title,
   };
 };
 
@@ -315,89 +316,6 @@ function AnimalItem({
           </p>
         </div>
       </BaseLink>
-    </li>
-  );
-}
-
-function Paginator({
-  pageCount,
-  className,
-}: {
-  pageCount: number;
-  className: string;
-}) {
-  const [searchParams] = useSearchParams();
-  if (pageCount < 2) {
-    return null;
-  }
-
-  const page = getPage(searchParams);
-
-  const items: ReactNode[] = [];
-
-  for (let index = 0; index < pageCount; index++) {
-    items.push(
-      <PaginatorItem
-        key={index}
-        isActive={page === index}
-        to={{ search: setPage(new URLSearchParams(), index).toString() }}
-      >
-        {index + 1}
-      </PaginatorItem>
-    );
-  }
-
-  if (pageCount - page >= 4) {
-    items.splice(
-      page + 2,
-      pageCount - page - 3,
-      <PaginatorItem key={pageCount - 2} isEllipsis>
-        ...
-      </PaginatorItem>
-    );
-  }
-
-  if (page >= 3) {
-    items.splice(
-      1,
-      page - 2,
-      <PaginatorItem key={1} isEllipsis>
-        ...
-      </PaginatorItem>
-    );
-  }
-
-  return <ul className={cn(className, "flex gap-1 text-gray-500")}>{items}</ul>;
-}
-
-function PaginatorItem({
-  isActive = false,
-  isEllipsis = false,
-  to,
-  ...rest
-}: Omit<BaseLinkProps, "disabled"> & {
-  isActive?: boolean;
-  isEllipsis?: boolean;
-}) {
-  return (
-    <li className="flex-none flex">
-      <BaseLink
-        {...rest}
-        to={to}
-        disabled={isActive}
-        className={cn(
-          "h-[40px]",
-          {
-            "w-[40px] rounded-tl-xl rounded-tr-lg rounded-br-xl rounded-bl-lg":
-              !isEllipsis,
-          },
-          "flex items-center justify-center text-body-emphasis transition-colors duration-100 ease-in-out",
-          {
-            "bg-blue-base text-white": isActive,
-            "hover:bg-gray-200": !isActive && to != null,
-          }
-        )}
-      />
     </li>
   );
 }

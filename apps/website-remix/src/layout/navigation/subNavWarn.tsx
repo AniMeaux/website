@@ -1,6 +1,6 @@
-import { SubNavItem } from "~/layout/navigation/shared";
+import { SubNavComponent, SubNavItem } from "~/layout/navigation/shared";
 
-export function SubNavWarn() {
+export const SubNavWarn: SubNavComponent = () => {
   return (
     <div className="flex flex-col">
       <SubNavItem color="green" icon="catTree" to="/signaler-un-animal-errant">
@@ -24,4 +24,14 @@ export function SubNavWarn() {
       </SubNavItem>
     </div>
   );
-}
+};
+
+SubNavWarn.isActive = (location) => {
+  const pathname = location.pathname.toLowerCase();
+
+  return [
+    "/signaler-un-animal-errant",
+    "/informer-d-un-acte-de-maltraitance",
+    "/abandonner-votre-animal",
+  ].some((path) => pathname.startsWith(path));
+};

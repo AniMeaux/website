@@ -1,5 +1,7 @@
+import { Species } from "@prisma/client";
 import { LoaderFunction } from "@remix-run/node";
 import { renderToStaticMarkup } from "react-dom/server";
+import { SPECIES_TO_PATH } from "~/controllers/searchForm";
 import { createConfig } from "~/core/config.server";
 
 type SitemapAttribute = {
@@ -36,12 +38,21 @@ type UrlDefinition = {
     | "never";
 
   /** Number in range [0, 1] */
-  priority: number;
+  priority?: number;
 };
 
 const urlDefinitions: UrlDefinition[] = [
-  { path: "/", changeFrequency: "daily", priority: 0.8 },
+  { path: "/", changeFrequency: "weekly" },
+  { path: "/adoption", changeFrequency: "weekly" },
+  { path: "/sauves", changeFrequency: "weekly" },
 ];
+
+Object.values(Species).forEach((species) => {
+  urlDefinitions.push({
+    path: `/adoption/${SPECIES_TO_PATH[species]}`,
+    changeFrequency: "weekly",
+  });
+});
 
 export const loader: LoaderFunction = () => {
   const config = createConfig();
@@ -52,7 +63,7 @@ export const loader: LoaderFunction = () => {
         <url key={url.path}>
           <loc>{`${config.publicHost}${url.path}`}</loc>
           <changefreq>{url.changeFrequency}</changefreq>
-          <priority>{url.priority}</priority>
+          {url.priority != null && <priority>{url.priority}</priority>}
         </url>
       ))}
     </urlset>

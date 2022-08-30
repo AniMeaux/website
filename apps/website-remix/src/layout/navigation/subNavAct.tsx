@@ -1,6 +1,6 @@
-import { SubNavItem } from "~/layout/navigation/shared";
+import { SubNavComponent, SubNavItem } from "~/layout/navigation/shared";
 
-export function SubNavAct() {
+export const SubNavAct: SubNavComponent = () => {
   return (
     <div className="flex flex-col">
       <SubNavItem
@@ -20,4 +20,14 @@ export function SubNavAct() {
       </SubNavItem>
     </div>
   );
-}
+};
+
+SubNavAct.isActive = (location) => {
+  const pathname = location.pathname.toLowerCase();
+
+  return [
+    "/devenir-famille-d-accueil",
+    "/devenir-benevole",
+    "/faire-un-don",
+  ].some((path) => pathname.startsWith(path));
+};

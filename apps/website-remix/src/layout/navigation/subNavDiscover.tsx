@@ -1,6 +1,6 @@
-import { SubNavItem } from "~/layout/navigation/shared";
+import { SubNavComponent, SubNavItem } from "~/layout/navigation/shared";
 
-export function SubNavDiscover() {
+export const SubNavDiscover: SubNavComponent = () => {
   return (
     <div className="flex flex-col">
       <SubNavItem color="blue" icon="handshake" to="/partenaires">
@@ -16,4 +16,12 @@ export function SubNavDiscover() {
       </SubNavItem>
     </div>
   );
-}
+};
+
+SubNavDiscover.isActive = (location) => {
+  const pathname = location.pathname.toLowerCase();
+
+  return ["/partenaires", "/blog", "/faq"].some((path) =>
+    pathname.startsWith(path)
+  );
+};

@@ -25,22 +25,22 @@ jobs:
         uses: bahmutov/npm-install@v1
 
       - name: 📦 Build prisma
-        run: yarn --cwd api build:prisma
+        run: yarn --cwd ./api build:prisma
 
       - name: 📦 Build shared
-        run: yarn --cwd shared clean-build
+        run: yarn --cwd ./shared clean-build
 
       - name: 📦 Build website remix codegen
         run: |
-          yarn --cwd apps/website-remix build:css --minify
-          yarn --cwd apps/website-remix build:icons --minify
-          yarn --cwd apps/website-remix build:theme
+          yarn --cwd ./apps/website-remix build:css --minify
+          yarn --cwd ./apps/website-remix build:icons --minify
+          yarn --cwd ./apps/website-remix build:theme
 
       - name: 📦 Build show codegen
         run: |
-          yarn --cwd apps/show build:css --minify
-          yarn --cwd apps/show build:icons --minify
-          yarn --cwd apps/show build:theme
+          yarn --cwd ./apps/show build:css --minify
+          yarn --cwd ./apps/show build:icons --minify
+          yarn --cwd ./apps/show build:theme
 
       - name: 🔬 Lint
         run: yarn lint
@@ -59,8 +59,8 @@ jobs:
         uses: SebRollen/toml-action@v1.0.0
         id: app_name
         with:
-          file: "api/fly.toml"
-          field: "app"
+          file: ./api/fly.toml
+          field: app
 
       - name: 🐳 Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
@@ -71,8 +71,7 @@ jobs:
         with:
           path: /tmp/.buildx-api-cache
           key: ${{ runner.os }}-buildx-${{ github.sha }}
-          restore-keys: |
-            ${{ runner.os }}-buildx-
+          restore-keys: ${{ runner.os }}-buildx-
 
       - name: 🔑 Fly Registry Auth
         uses: docker/login-action@v1
@@ -85,7 +84,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: .
-          file: api/Dockerfile
+          file: ./api/Dockerfile
           push: true
           tags: registry.fly.io/${{ steps.app_name.outputs.value }}:${{ github.ref_name }}-${{ github.sha }}
           cache-from: type=local,src=/tmp/.buildx-api-cache
@@ -115,8 +114,8 @@ jobs:
         uses: SebRollen/toml-action@v1.0.0
         id: app_name
         with:
-          file: "apps/website/fly.toml"
-          field: "app"
+          file: ./apps/website/fly.toml
+          field: app
 
       - name: 🐳 Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
@@ -127,8 +126,7 @@ jobs:
         with:
           path: /tmp/.buildx-website-cache
           key: ${{ runner.os }}-buildx-${{ github.sha }}
-          restore-keys: |
-            ${{ runner.os }}-buildx-
+          restore-keys: ${{ runner.os }}-buildx-
 
       - name: 🔑 Fly Registry Auth
         uses: docker/login-action@v1
@@ -141,7 +139,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: .
-          file: apps/website/Dockerfile
+          file: ./apps/website/Dockerfile
           push: true
           tags: registry.fly.io/${{ steps.app_name.outputs.value }}:${{ github.ref_name }}-${{ github.sha }}
           cache-from: type=local,src=/tmp/.buildx-website-cache
@@ -171,8 +169,8 @@ jobs:
         uses: SebRollen/toml-action@v1.0.0
         id: app_name
         with:
-          file: "apps/website-remix/fly.toml"
-          field: "app"
+          file: ./apps/website-remix/fly.toml
+          field: app
 
       - name: 🐳 Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
@@ -183,8 +181,7 @@ jobs:
         with:
           path: /tmp/.buildx-website-remix-cache
           key: ${{ runner.os }}-buildx-${{ github.sha }}
-          restore-keys: |
-            ${{ runner.os }}-buildx-
+          restore-keys: ${{ runner.os }}-buildx-
 
       - name: 🔑 Fly Registry Auth
         uses: docker/login-action@v1
@@ -197,7 +194,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: .
-          file: apps/website-remix/Dockerfile
+          file: ./apps/website-remix/Dockerfile
           push: true
           tags: registry.fly.io/${{ steps.app_name.outputs.value }}:${{ github.ref_name }}-${{ github.sha }}
           cache-from: type=local,src=/tmp/.buildx-website-remix-cache
@@ -227,8 +224,8 @@ jobs:
         uses: SebRollen/toml-action@v1.0.0
         id: app_name
         with:
-          file: "apps/show/fly.toml"
-          field: "app"
+          file: ./apps/show/fly.toml
+          field: app
 
       - name: 🐳 Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
@@ -239,8 +236,7 @@ jobs:
         with:
           path: /tmp/.buildx-show-cache
           key: ${{ runner.os }}-buildx-${{ github.sha }}
-          restore-keys: |
-            ${{ runner.os }}-buildx-
+          restore-keys: ${{ runner.os }}-buildx-
 
       - name: 🔑 Fly Registry Auth
         uses: docker/login-action@v1
@@ -253,7 +249,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: .
-          file: apps/show/Dockerfile
+          file: ./apps/show/Dockerfile
           push: true
           tags: registry.fly.io/${{ steps.app_name.outputs.value }}:${{ github.ref_name }}-${{ github.sha }}
           cache-from: type=local,src=/tmp/.buildx-show-cache
@@ -283,8 +279,8 @@ jobs:
         uses: SebRollen/toml-action@v1.0.0
         id: app_name
         with:
-          file: "apps/faune/fly.toml"
-          field: "app"
+          file: ./apps/faune/fly.toml
+          field: app
 
       - name: 🐳 Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
@@ -295,8 +291,7 @@ jobs:
         with:
           path: /tmp/.buildx-faune-cache
           key: ${{ runner.os }}-buildx-${{ github.sha }}
-          restore-keys: |
-            ${{ runner.os }}-buildx-
+          restore-keys: ${{ runner.os }}-buildx-
 
       - name: 🔑 Fly Registry Auth
         uses: docker/login-action@v1
@@ -309,7 +304,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: .
-          file: apps/faune/Dockerfile
+          file: ./apps/faune/Dockerfile
           push: true
           tags: registry.fly.io/${{ steps.app_name.outputs.value }}:${{ github.ref_name }}-${{ github.sha }}
           cache-from: type=local,src=/tmp/.buildx-faune-cache
@@ -346,14 +341,14 @@ jobs:
         uses: SebRollen/toml-action@v1.0.0
         id: app_name
         with:
-          file: "api/fly.toml"
-          field: "app"
+          file: ./api/fly.toml
+          field: app
 
       - name: 🚀 Deploy Production
         if: ${{ github.ref == 'refs/heads/main' }}
         uses: superfly/flyctl-actions@1.3
         with:
-          args: "deploy --config api/fly.toml --image registry.fly.io/${{ steps.app_name.outputs.value }}:${{ github.ref_name }}-${{ github.sha }}"
+          args: deploy --config ./api/fly.toml --image registry.fly.io/${{ steps.app_name.outputs.value }}:${{ github.ref_name }}-${{ github.sha }}
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
 
@@ -361,7 +356,7 @@ jobs:
         if: ${{ github.ref == 'refs/heads/dev' }}
         uses: superfly/flyctl-actions@1.3
         with:
-          args: "deploy --config api/fly.toml --app ${{ steps.app_name.outputs.value }}-staging --image registry.fly.io/${{ steps.app_name.outputs.value }}:${{ github.ref_name }}-${{ github.sha }}"
+          args: deploy --config ./api/fly.toml --app ${{ steps.app_name.outputs.value }}-staging --image registry.fly.io/${{ steps.app_name.outputs.value }}:${{ github.ref_name }}-${{ github.sha }}
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
 
@@ -386,14 +381,14 @@ jobs:
         uses: SebRollen/toml-action@v1.0.0
         id: app_name
         with:
-          file: "apps/website/fly.toml"
-          field: "app"
+          file: ./apps/website/fly.toml
+          field: app
 
       - name: 🚀 Deploy Production
         if: ${{ github.ref == 'refs/heads/main' }}
         uses: superfly/flyctl-actions@1.3
         with:
-          args: "deploy --config apps/website/fly.toml --image registry.fly.io/${{ steps.app_name.outputs.value }}:${{ github.ref_name }}-${{ github.sha }}"
+          args: deploy --config ./apps/website/fly.toml --image registry.fly.io/${{ steps.app_name.outputs.value }}:${{ github.ref_name }}-${{ github.sha }}
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
 
@@ -401,7 +396,7 @@ jobs:
         if: ${{ github.ref == 'refs/heads/dev' }}
         uses: superfly/flyctl-actions@1.3
         with:
-          args: "deploy --config apps/website/fly.toml --app ${{ steps.app_name.outputs.value }}-staging --image registry.fly.io/${{ steps.app_name.outputs.value }}:${{ github.ref_name }}-${{ github.sha }}"
+          args: deploy --config ./apps/website/fly.toml --app ${{ steps.app_name.outputs.value }}-staging --image registry.fly.io/${{ steps.app_name.outputs.value }}:${{ github.ref_name }}-${{ github.sha }}
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
 
@@ -428,13 +423,13 @@ jobs:
         uses: SebRollen/toml-action@v1.0.0
         id: app_name
         with:
-          file: "apps/website-remix/fly.toml"
-          field: "app"
+          file: ./apps/website-remix/fly.toml
+          field: app
 
       - name: 🚀 Deploy Staging
         uses: superfly/flyctl-actions@1.3
         with:
-          args: "deploy --config apps/website-remix/fly.toml --image registry.fly.io/${{ steps.app_name.outputs.value }}:${{ github.ref_name }}-${{ github.sha }}"
+          args: deploy --config ./apps/website-remix/fly.toml --image registry.fly.io/${{ steps.app_name.outputs.value }}:${{ github.ref_name }}-${{ github.sha }}
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
 
@@ -459,14 +454,14 @@ jobs:
         uses: SebRollen/toml-action@v1.0.0
         id: app_name
         with:
-          file: "apps/show/fly.toml"
-          field: "app"
+          file: ./apps/show/fly.toml
+          field: app
 
       - name: 🚀 Deploy Production
         if: ${{ github.ref == 'refs/heads/main' }}
         uses: superfly/flyctl-actions@1.3
         with:
-          args: "deploy --config apps/show/fly.toml --image registry.fly.io/${{ steps.app_name.outputs.value }}:${{ github.ref_name }}-${{ github.sha }}"
+          args: deploy --config ./apps/show/fly.toml --image registry.fly.io/${{ steps.app_name.outputs.value }}:${{ github.ref_name }}-${{ github.sha }}
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
 
@@ -474,7 +469,7 @@ jobs:
         if: ${{ github.ref == 'refs/heads/dev' }}
         uses: superfly/flyctl-actions@1.3
         with:
-          args: "deploy --config apps/show/fly.toml --app ${{ steps.app_name.outputs.value }}-staging --image registry.fly.io/${{ steps.app_name.outputs.value }}:${{ github.ref_name }}-${{ github.sha }}"
+          args: deploy --config ./apps/show/fly.toml --app ${{ steps.app_name.outputs.value }}-staging --image registry.fly.io/${{ steps.app_name.outputs.value }}:${{ github.ref_name }}-${{ github.sha }}
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
 
@@ -499,14 +494,14 @@ jobs:
         uses: SebRollen/toml-action@v1.0.0
         id: app_name
         with:
-          file: "apps/faune/fly.toml"
-          field: "app"
+          file: ./apps/faune/fly.toml
+          field: app
 
       - name: 🚀 Deploy Production
         if: ${{ github.ref == 'refs/heads/main' }}
         uses: superfly/flyctl-actions@1.3
         with:
-          args: "deploy --config apps/faune/fly.toml --image registry.fly.io/${{ steps.app_name.outputs.value }}:${{ github.ref_name }}-${{ github.sha }}"
+          args: deploy --config ./apps/faune/fly.toml --image registry.fly.io/${{ steps.app_name.outputs.value }}:${{ github.ref_name }}-${{ github.sha }}
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
 
@@ -514,6 +509,6 @@ jobs:
         if: ${{ github.ref == 'refs/heads/dev' }}
         uses: superfly/flyctl-actions@1.3
         with:
-          args: "deploy --config apps/faune/fly.toml --app ${{ steps.app_name.outputs.value }}-staging --image registry.fly.io/${{ steps.app_name.outputs.value }}:${{ github.ref_name }}-${{ github.sha }}"
+          args: deploy --config ./apps/faune/fly.toml --app ${{ steps.app_name.outputs.value }}-staging --image registry.fly.io/${{ steps.app_name.outputs.value }}:${{ github.ref_name }}-${{ github.sha }}
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}

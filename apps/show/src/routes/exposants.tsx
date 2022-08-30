@@ -6,8 +6,12 @@ import { useConfig } from "~/core/config";
 import { getPageTitle } from "~/core/pageTitle";
 
 export const meta: MetaFunction = () => {
+  const title = getPageTitle("Exposants");
+
   return {
-    title: getPageTitle("Exposants"),
+    title,
+    "og:title": title,
+    "twitter:title": title,
   };
 };
 
