@@ -97,6 +97,7 @@ export const meta: MetaFunction = ({ data, location }) => {
       "og:title": title,
       "og:site_name": title,
       "og:locale": "fr_FR",
+      "og:description": pageDescription,
       "og:image": `${config.publicHost}${socialImages.imagesBySize[2048]}`,
 
       // Default twitter tags
