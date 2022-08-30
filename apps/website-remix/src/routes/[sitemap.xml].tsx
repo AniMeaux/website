@@ -1,5 +1,7 @@
+import { Species } from "@prisma/client";
 import { LoaderFunction } from "@remix-run/node";
 import { renderToStaticMarkup } from "react-dom/server";
+import { SPECIES_TO_PATH } from "~/controllers/searchForm";
 import { createConfig } from "~/core/config.server";
 
 type SitemapAttribute = {
@@ -42,6 +44,7 @@ type UrlDefinition = {
 const urlDefinitions: UrlDefinition[] = [
   { path: "/", changeFrequency: "weekly" },
   { path: "/adoption", changeFrequency: "weekly" },
+  { path: "/sauves", changeFrequency: "weekly" },
 ];
 
 Object.values(Species).forEach((species) => {
