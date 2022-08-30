@@ -2,7 +2,7 @@
   "extends": "react-app",
   "overrides": [
     {
-      "files": ["*.js"],
+      "files": ["./**/*.js"],
       "parserOptions": {
         "sourceType": "module"
       },

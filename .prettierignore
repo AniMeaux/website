@@ -1,8 +1,8 @@
-.next/
 build/
 generated/
+mockServiceWorker.js
 node_modules/
-dumps/
+
+# Next.js
 sw.js
 workbox-*
-mockServiceWorker.js

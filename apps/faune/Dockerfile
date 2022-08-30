@@ -12,10 +12,10 @@ FROM base as deps
 
 WORKDIR /workspace
 
-ADD package.json yarn.lock ./
-ADD shared/package.json shared/
-ADD api/package.json api/
-ADD apps/faune/package.json apps/faune/
+ADD ./package.json ./yarn.lock ./
+ADD ./shared/package.json ./shared/
+ADD ./api/package.json ./api/
+ADD ./apps/faune/package.json ./apps/faune/
 RUN yarn --frozen-lockfile --production=false
 
 # Setup production node_modules
@@ -27,10 +27,10 @@ COPY --from=deps /workspace/node_modules /workspace/node_modules
 COPY --from=deps /workspace/shared/node_modules /workspace/shared/node_modules
 COPY --from=deps /workspace/api/node_modules /workspace/api/node_modules
 COPY --from=deps /workspace/apps/faune/node_modules /workspace/apps/faune/node_modules
-ADD package.json yarn.lock ./
-ADD shared/package.json shared/
-ADD api/package.json api/
-ADD apps/faune/package.json apps/faune/
+ADD ./package.json ./yarn.lock ./
+ADD ./shared/package.json ./shared/
+ADD ./api/package.json ./api/
+ADD ./apps/faune/package.json ./apps/faune/
 RUN yarn --frozen-lockfile
 
 # Build
@@ -43,15 +43,15 @@ COPY --from=deps /workspace/shared/node_modules /workspace/shared/node_modules
 COPY --from=deps /workspace/api/node_modules /workspace/api/node_modules
 COPY --from=deps /workspace/apps/faune/node_modules /workspace/apps/faune/node_modules
 
-ADD api/package.json api/
-ADD api/prisma api/
-RUN yarn --cwd api build:prisma
+ADD ./api/package.json ./api/
+ADD ./api/prisma ./api/
+RUN yarn --cwd ./api build:prisma
 
-ADD shared shared
-RUN yarn --cwd shared build
+ADD ./shared ./shared
+RUN yarn --cwd ./shared build
 
-ADD apps/faune apps/faune
-RUN yarn --cwd apps/faune build
+ADD ./apps/faune ./apps/faune
+RUN yarn --cwd ./apps/faune build
 
 # Finally, build the production image with minimal footprint
 FROM base

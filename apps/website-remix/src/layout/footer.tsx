@@ -1,6 +1,7 @@
 import { useFetcher } from "@remix-run/react";
 import { useEffect, useRef } from "react";
 import invariant from "tiny-invariant";
+import { BaseLink, BaseLinkProps } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
 import { Icon, IconProps } from "~/generated/icon";
 import nameAndLogo from "~/images/nameAndLogo.svg";
@@ -71,9 +72,18 @@ export function Footer() {
           />
 
           <ul className="flex flex-col">
-            <ContactItem icon="phone">06 12 19 43 92</ContactItem>
-            <ContactItem icon="envelope">contact@animeaux.org</ContactItem>
-            <ContactItem icon="locationDot">
+            <ContactItem icon="phone" to="tel:+33612194392">
+              06 12 19 43 92
+            </ContactItem>
+
+            <ContactItem icon="envelope" to="mailto:contact@animeaux.org">
+              contact@animeaux.org
+            </ContactItem>
+
+            <ContactItem
+              icon="locationDot"
+              to="https://goo.gl/maps/X9869FvsTewM4XDz6"
+            >
               30 Rue Pierre Brasseur, 77100 Meaux
             </ContactItem>
           </ul>
@@ -94,7 +104,10 @@ export function Footer() {
         )}
       >
         <p className="text-caption-default">
-          Mentions légales • SIRET : 83962717100037 • RNA : W771014759
+          <BaseLink to="/mentions-legales" className="hover:text-gray-800">
+            Mentions légales
+          </BaseLink>{" "}
+          • SIRET : 83962717100037 • RNA : W771014759
         </p>
 
         <p className="text-caption-default">
@@ -107,17 +120,28 @@ export function Footer() {
 
 function ContactItem({
   icon,
+  to,
   children,
 }: {
   icon: IconProps["id"];
+  to: NonNullable<BaseLinkProps["to"]>;
   children: string;
 }) {
   return (
-    <li className="flex items-start gap-2">
-      <span className="h-6 flex items-center">
-        <Icon id={icon} className="text-gray-500 text-[14px]" />
-      </span>
-      <span>{children}</span>
+    <li className="flex">
+      <BaseLink
+        to={to}
+        className="group flex items-start gap-2 hover:text-black"
+      >
+        <span className="h-6 flex items-center">
+          <Icon
+            id={icon}
+            className="text-gray-500 text-[14px] group-hover:text-gray-800"
+          />
+        </span>
+
+        <span>{children}</span>
+      </BaseLink>
     </li>
   );
 }

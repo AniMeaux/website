@@ -2,13 +2,17 @@ import { useLocation } from "@remix-run/react";
 import { forwardRef, useEffect, useRef, useState } from "react";
 import { Transition } from "react-transition-group";
 import invariant from "tiny-invariant";
-import { BaseLink } from "~/core/baseLink";
+import { BaseLink, BaseLinkProps } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
 import { getFocusTrapIgnoreAttribute, useFocusTrap } from "~/core/focusTrap";
 import { useScrollLock } from "~/core/scrollLock";
 import nameAndLogo from "~/images/nameAndLogo.svg";
 import { LineShapeHorizontal } from "~/layout/lineShape";
-import { handleEscape, NavGroup, NavLink } from "~/layout/navigation/shared";
+import {
+  handleEscape,
+  NavGroup,
+  navLinkClassName,
+} from "~/layout/navigation/shared";
 import { SocialLinks } from "~/layout/navigation/socialLinks";
 import { SubNavAct } from "~/layout/navigation/subNavAct";
 import { SubNavAdopt } from "~/layout/navigation/subNavAdopt";
@@ -57,34 +61,48 @@ export function LargeNav() {
 
       <nav className="flex lg:gap-2">
         <NavGroupButton
-          isActive={openedGroup === "adopt"}
+          isActive={
+            openedGroup === "adopt" ||
+            (SubNavAdopt.isActive(location) && openedGroup == null)
+          }
           onClick={() => setOpenedGroup(toggleGroup("adopt"))}
         >
           Adopter
         </NavGroupButton>
 
         <NavGroupButton
-          isActive={openedGroup === "act"}
+          isActive={
+            openedGroup === "act" ||
+            (SubNavAct.isActive(location) && openedGroup == null)
+          }
           onClick={() => setOpenedGroup(toggleGroup("act"))}
         >
           Agir
         </NavGroupButton>
 
         <NavGroupButton
-          isActive={openedGroup === "warn"}
+          isActive={
+            openedGroup === "warn" ||
+            (SubNavWarn.isActive(location) && openedGroup == null)
+          }
           onClick={() => setOpenedGroup(toggleGroup("warn"))}
         >
           Avertir
         </NavGroupButton>
 
         <NavGroupButton
-          isActive={openedGroup === "discover"}
+          isActive={
+            openedGroup === "discover" ||
+            (SubNavDiscover.isActive(location) && openedGroup == null)
+          }
           onClick={() => setOpenedGroup(toggleGroup("discover"))}
         >
           Découvrir
         </NavGroupButton>
 
-        <NavLink to="/evenements">Événements</NavLink>
+        <NavLink to="/evenements" forceNotActive={openedGroup != null}>
+          Événements
+        </NavLink>
 
         <Dropdown
           ref={dropdownRef}
@@ -111,6 +129,31 @@ function toggleGroup(group: NavGroup) {
   };
 }
 
+function useWidth<TElement extends HTMLElement>() {
+  const ref = useRef<TElement>(null);
+
+  // Use a large number instead of 0 to make sure the line is not visible by
+  // default.
+  const [width, setWidth] = useState(Number.MAX_SAFE_INTEGER);
+
+  useEffect(() => {
+    invariant(ref.current != null, "ref must be set");
+    const buttonElement = ref.current;
+
+    const observer = new ResizeObserver(() => {
+      setWidth(buttonElement.clientWidth);
+    });
+
+    observer.observe(buttonElement);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+
+  return { ref, width };
+}
+
 function NavGroupButton({
   children,
   isActive,
@@ -119,33 +162,17 @@ function NavGroupButton({
 }: React.ButtonHTMLAttributes<HTMLButtonElement> & {
   isActive: boolean;
 }) {
-  const buttonRef = useRef<HTMLButtonElement>(null);
-
-  // Use a large number instead of 0 to make sure the line is not visible by
-  // default.
-  const [width, setWidth] = useState(Number.MAX_SAFE_INTEGER);
-
-  useEffect(() => {
-    invariant(buttonRef.current != null, "buttonRef must be set");
-    setWidth(buttonRef.current?.clientWidth);
-  }, []);
+  const { ref, width } = useWidth<HTMLButtonElement>();
 
   return (
     <button
-      ref={buttonRef}
+      ref={ref}
       {...rest}
-      className={cn(
-        className,
-        "group relative px-3 py-2 flex items-center justify-between gap-1 hover:text-black",
-        {
-          "text-black": isActive,
-          "text-gray-700": !isActive,
-        }
-      )}
+      className={cn(className, navLinkClassName({ isActive }), "relative")}
     >
       <span>{children}</span>
 
-      <Transition mountOnEnter unmountOnExit in={isActive} timeout={150}>
+      <Transition in={isActive} timeout={150}>
         {(transitionState) => (
           <LineShapeHorizontal
             className={cn(
@@ -167,6 +194,61 @@ function NavGroupButton({
         )}
       </Transition>
     </button>
+  );
+}
+
+function NavLink({
+  to,
+  children,
+  forceNotActive = false,
+}: {
+  to: BaseLinkProps["to"];
+  children: BaseLinkProps["children"];
+  forceNotActive: boolean;
+}) {
+  const { ref, width } = useWidth<HTMLAnchorElement>();
+
+  return (
+    <BaseLink
+      to={to}
+      ref={ref}
+      isNavLink
+      className={({ isActive }) =>
+        cn(
+          navLinkClassName({ isActive: isActive && !forceNotActive }),
+          "relative"
+        )
+      }
+    >
+      {({ isActive }) => (
+        <>
+          {children}
+
+          <Transition in={isActive && !forceNotActive} timeout={150}>
+            {(transitionState) => (
+              <LineShapeHorizontal
+                className={cn(
+                  "absolute bottom-0 left-0 w-full h-1 block stroke-blue-base",
+                  {
+                    "transition-[stroke-dashoffset] duration-150 ease-in-out":
+                      transitionState === "entering" ||
+                      transitionState === "exiting",
+                  }
+                )}
+                style={{
+                  strokeDasharray: width,
+                  strokeDashoffset:
+                    transitionState === "entering" ||
+                    transitionState === "entered"
+                      ? 0
+                      : width,
+                }}
+              />
+            )}
+          </Transition>
+        </>
+      )}
+    </BaseLink>
   );
 }
 

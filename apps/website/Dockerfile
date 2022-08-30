@@ -12,10 +12,10 @@ FROM base as deps
 
 WORKDIR /workspace
 
-ADD package.json yarn.lock ./
-ADD shared/package.json shared/
-ADD api/package.json api/
-ADD apps/website/package.json apps/website/
+ADD ./package.json ./yarn.lock ./
+ADD ./shared/package.json ./shared/
+ADD ./api/package.json ./api/
+ADD ./apps/website/package.json ./apps/website/
 RUN yarn --frozen-lockfile --production=false
 
 # Setup production node_modules
@@ -27,10 +27,10 @@ COPY --from=deps /workspace/node_modules /workspace/node_modules
 COPY --from=deps /workspace/shared/node_modules /workspace/shared/node_modules
 COPY --from=deps /workspace/api/node_modules /workspace/api/node_modules
 COPY --from=deps /workspace/apps/website/node_modules /workspace/apps/website/node_modules
-ADD package.json yarn.lock ./
-ADD shared/package.json shared/
-ADD api/package.json api/
-ADD apps/website/package.json apps/website/
+ADD ./package.json ./yarn.lock ./
+ADD ./shared/package.json ./shared/
+ADD ./api/package.json ./api/
+ADD ./apps/website/package.json ./apps/website/
 RUN yarn --frozen-lockfile
 
 # Build
@@ -43,15 +43,15 @@ COPY --from=deps /workspace/shared/node_modules /workspace/shared/node_modules
 COPY --from=deps /workspace/api/node_modules /workspace/api/node_modules
 COPY --from=deps /workspace/apps/website/node_modules /workspace/apps/website/node_modules
 
-ADD api/package.json api/
-ADD api/prisma api/
-RUN yarn --cwd api build:prisma
+ADD ./api/package.json ./api/
+ADD ./api/prisma ./api/
+RUN yarn --cwd ./api build:prisma
 
-ADD shared shared
-RUN yarn --cwd shared build
+ADD ./shared ./shared
+RUN yarn --cwd ./shared build
 
-ADD apps/website apps/website
-RUN yarn --cwd apps/website build
+ADD ./apps/website ./apps/website
+RUN yarn --cwd ./apps/website build
 
 # Finally, build the production image with minimal footprint
 FROM base

@@ -7,8 +7,12 @@ import { cn } from "~/core/classNames";
 import { useFocusTrap } from "~/core/focusTrap";
 import { useScrollLock } from "~/core/scrollLock";
 import { Icon } from "~/generated/icon";
-import logo from "~/images/logo.svg";
-import { handleEscape, NavGroup, NavLink } from "~/layout/navigation/shared";
+import nameAndLogo from "~/images/nameAndLogo.svg";
+import {
+  handleEscape,
+  NavGroup,
+  navLinkClassName,
+} from "~/layout/navigation/shared";
 import { SocialLinks } from "~/layout/navigation/socialLinks";
 import { SubNavAct } from "~/layout/navigation/subNavAct";
 import { SubNavAdopt } from "~/layout/navigation/subNavAdopt";
@@ -57,8 +61,27 @@ export function SmallNav() {
         );
       })}
     >
-      <BaseLink to="/" className="flex">
-        <img src={logo} alt="Ani'Meaux" className="h-[40px]" />
+      <BaseLink to="/" className="overflow-hidden flex">
+        <Transition in={!state.isOpened} timeout={100}>
+          {(transitionState) => {
+            return (
+              <img
+                src={nameAndLogo}
+                alt="Ani'Meaux"
+                className={cn("h-[40px]", {
+                  // 100px is enough to hide the text.
+                  // TODO: Find a better way to do this.
+                  "-translate-x-[100px] transition-transform duration-100 ease-out":
+                    transitionState === "exiting",
+                  "-translate-x-[100px]": transitionState === "exited",
+                  "translate-x-0 transition-transform duration-100 ease-in":
+                    transitionState === "entering",
+                  " translate-x-0": transitionState === "entered",
+                })}
+              />
+            );
+          }}
+        </Transition>
       </BaseLink>
 
       <button
@@ -144,7 +167,13 @@ export function SmallNav() {
                   <SubNavDiscover />
                 </SubNav>
 
-                <NavLink to="/evenements">Événements</NavLink>
+                <BaseLink
+                  to="/evenements"
+                  isNavLink
+                  className={({ isActive }) => navLinkClassName({ isActive })}
+                >
+                  Événements
+                </BaseLink>
               </nav>
             </div>
           );
@@ -189,22 +218,13 @@ function NavGroupButton({
   return (
     <button
       {...rest}
-      className={cn(
-        className,
-        "group relative px-3 py-2 flex items-center justify-between gap-1 hover:text-black",
-        {
-          "text-black": isActive,
-          "text-gray-700": !isActive,
-        }
-      )}
+      className={cn(className, navLinkClassName({ isActive }), "group")}
     >
       <span>{children}</span>
 
       <Icon
         id={isActive ? "caretUp" : "caretDown"}
-        className={cn("group-hover:text-black", {
-          "text-gray-500": !isActive,
-        })}
+        className={cn({ "text-gray-500 group-hover:text-black": !isActive })}
       />
     </button>
   );

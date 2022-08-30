@@ -167,7 +167,6 @@ function Document({ children }: { children: React.ReactNode }) {
         )}
       >
         {children}
-
         <ScrollRestoration />
         <Scripts />
         <LiveReload />

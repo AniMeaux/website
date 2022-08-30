@@ -4,5 +4,9 @@ declare namespace NodeJS {
     PUBLIC_HOST?: string;
     DATABASE_URL?: string;
     CLOUDINARY_CLOUD_NAME?: string;
+    FACEBOOK_URL?: string;
+    INSTAGRAM_URL?: string;
+    LINKEDIN_URL?: string;
+    TWITTER_URL?: string;
   }
 }

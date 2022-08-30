@@ -1,8 +1,8 @@
 import { cn } from "~/core/classNames";
 import { LineShapeHorizontal, LineShapeVertical } from "~/layout/lineShape";
-import { SubNavItem } from "~/layout/navigation/shared";
+import { SubNavComponent, SubNavItem } from "~/layout/navigation/shared";
 
-export function SubNavAdopt() {
+export const SubNavAdopt: SubNavComponent = () => {
   return (
     <div
       className={cn(
@@ -72,4 +72,12 @@ export function SubNavAdopt() {
       </div>
     </div>
   );
-}
+};
+
+SubNavAdopt.isActive = (location) => {
+  const pathname = location.pathname.toLowerCase();
+
+  return ["/adoption", "/sauves", "/conditions-d-adoption"].some((path) =>
+    pathname.startsWith(path)
+  );
+};

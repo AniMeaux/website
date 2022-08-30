@@ -29,16 +29,14 @@ const SCREEN_SIZES = orderBy(
   .map(([name]) => name)
   .concat("default");
 
-export type StaticImageProps = Omit<
-  React.ImgHTMLAttributes<HTMLImageElement>,
-  "alt" | "loading" | "src" | "srcSet" | "sizes"
-> & {
+export type StaticImageProps = {
   image: ImageDescriptor;
   sizes: Partial<Record<ScreenSize, string>> & {
     // `default` is mandatory.
     default: string;
   };
   fallbackSize?: ImageSize;
+  className?: string;
 };
 
 export function StaticImage({
@@ -46,7 +44,6 @@ export function StaticImage({
   sizes: sizesProp,
   fallbackSize = IMAGE_SIZES.find((size) => image.imagesBySize[size] != null),
   className,
-  ...rest
 }: StaticImageProps) {
   invariant(fallbackSize != null, "At least one size should be provided.");
 
@@ -68,7 +65,6 @@ export function StaticImage({
     // Alt text is in the rest props.
     // eslint-disable-next-line jsx-a11y/alt-text
     <img
-      {...rest}
       alt={image.alt}
       loading="lazy"
       src={image.imagesBySize[fallbackSize]}
@@ -102,13 +98,15 @@ const BASE_TRANSFORMATIONS = [
 export function DynamicImage({
   imageId,
   alt,
+  sizes,
+  fallbackSize,
   className,
-  ...rest
-}: Omit<StaticImageProps, "image" | "fallbackSize"> & {
+}: {
   imageId: string;
   alt: string;
-  // Make it mandatory.
+  sizes: StaticImageProps["sizes"];
   fallbackSize: NonNullable<StaticImageProps["fallbackSize"]>;
+  className?: string;
 }) {
   const config = useConfig();
   const image: StaticImageProps["image"] = {
@@ -126,8 +124,9 @@ export function DynamicImage({
 
   return (
     <StaticImage
-      {...rest}
       image={image}
+      fallbackSize={fallbackSize}
+      sizes={sizes}
       className={cn(className, "bg-gray-100")}
     />
   );

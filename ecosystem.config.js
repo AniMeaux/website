@@ -2,102 +2,107 @@ module.exports = {
   apps: [
     createApp({
       name: "shared",
-      cwd: "shared",
+      cwd: "./shared",
       script: "yarn build",
-      watch: ["src", "babel.config.js", "tsconfig.json"],
+      watch: ["./src", "./babel.config.js", "./tsconfig.json"],
     }),
 
     createApp({
       name: "build-api",
-      cwd: "api",
+      cwd: "./api",
       script: "yarn build",
-      watch: ["src", "babel.config.js", "tsconfig.json", "globals.d.ts"],
+      watch: [
+        "./src",
+        "./babel.config.js",
+        "./tsconfig.json",
+        "./globals.d.ts",
+      ],
     }),
 
     createApp({
       name: "api",
-      cwd: "api",
+      cwd: "./api",
       script: "yarn dev",
-      watch: ["build", ".env*"],
+      watch: ["./build", "./.env*"],
     }),
 
     createApp({
       name: "prisma",
-      cwd: "api",
+      cwd: "./api",
       script: "yarn dev:prisma",
-      watch: ["prisma/schema.prisma"],
+      watch: ["./prisma/schema.prisma"],
     }),
 
     createApp({
       name: "website",
-      cwd: "apps/website",
+      cwd: "./apps/website",
       script: "yarn dev",
-      watch: ["next.config.js", "tsconfig.json", ".env*"],
+      watch: ["./next.config.js", "./tsconfig.json", "./.env*"],
     }),
 
     createApp({
       name: "website-remix",
-      cwd: "apps/website-remix",
+      cwd: "./apps/website-remix",
       script: "yarn dev",
-      watch: ["./remix.config.js", "tsconfig.json", "./.env*"],
+      watch: ["./remix.config.js", "./tsconfig.json", "./.env*"],
     }),
 
     createApp({
       name: "website-remix-css",
-      cwd: "apps/website-remix",
+      cwd: "./apps/website-remix",
       script: "yarn build:css",
       watch: ["./tailwind.config.js", "./styles", "./src"],
-      ignore_watch: ["generated"],
+      ignore_watch: ["./src/generated"],
     }),
 
     createApp({
       name: "website-remix-icons",
-      cwd: "apps/website-remix",
+      cwd: "./apps/website-remix",
       script: "yarn build:icons",
       watch: ["./icons", "./scripts/generateIconSprite.ts"],
     }),
 
     createApp({
       name: "website-remix-theme",
-      cwd: "apps/website-remix",
+      cwd: "./apps/website-remix",
       script: "yarn build:theme",
       watch: ["./tailwind.config.js", "./scripts/generateTheme.ts"],
     }),
 
     createApp({
       name: "show",
-      cwd: "apps/show",
+      cwd: "./apps/show",
       script: "yarn dev",
       watch: ["./remix.config.js", "tsconfig.json", "./.env*"],
     }),
 
     createApp({
       name: "show-css",
-      cwd: "apps/show",
+      cwd: "./apps/show",
       script: "yarn build:css",
       watch: ["./tailwind.config.js", "./styles", "./src"],
-      ignore_watch: ["generated"],
+      ignore_watch: ["./src/generated"],
     }),
 
     createApp({
       name: "show-icons",
-      cwd: "apps/show",
+      cwd: "./apps/show",
       script: "yarn build:icons",
       watch: ["./icons", "./scripts/generateIconSprite.ts"],
     }),
 
     createApp({
       name: "show-theme",
-      cwd: "apps/show",
+      cwd: "./apps/show",
       script: "yarn build:theme",
       watch: ["./tailwind.config.js", "./scripts/generateTheme.ts"],
     }),
 
     createApp({
       name: "faune",
-      cwd: "apps/faune",
+      cwd: "./apps/faune",
       script: "yarn dev",
-      watch: ["next.config.js", "tsconfig.json", ".env*"],
+      watch: ["./next.config.js", "./tsconfig.json", "./.env*"],
     }),
   ],
 };
@@ -116,6 +121,6 @@ function createApp(config) {
     ...config,
 
     // Allow dot files (env) to be watched.
-    ignore_watch: ["node_modules", ...(config.ignore_watch ?? [])],
+    ignore_watch: ["node_modules/", ...(config.ignore_watch ?? [])],
   };
 }
