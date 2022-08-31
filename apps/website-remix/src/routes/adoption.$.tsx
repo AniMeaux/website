@@ -23,6 +23,7 @@ import { isDefined } from "~/core/isDefined";
 import { createSocialMeta } from "~/core/meta";
 import { getPageTitle } from "~/core/pageTitle";
 import { getPage } from "~/core/searchParams";
+import { toSlug } from "~/core/slugs";
 import {
   AGE_PLURAL_TRANSLATION,
   AGE_TRANSLATION,
@@ -282,7 +283,7 @@ function AnimalItem({
   return (
     <li className="flex">
       <BaseLink
-        to={`/animal/${animal.id}`}
+        to={`/animal/${toSlug(animal.name)}-${animal.id}`}
         className={cn(
           "group w-full px-4 py-3 shadow-none rounded-bubble-lg bg-transparent flex flex-col gap-3 transition-[background-color,transform] duration-100 ease-in-out hover:bg-white hover:shadow-base",
           "md:p-6"

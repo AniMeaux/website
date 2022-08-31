@@ -9,6 +9,7 @@ import { BaseLink } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
 import { MapDateToString } from "~/core/dates";
 import { prisma } from "~/core/db.server";
+import { toSlug } from "~/core/slugs";
 import {
   DynamicImage,
   PlaceholderImage,
@@ -347,7 +348,7 @@ function EventItem({
   return (
     <li className="flex">
       <BaseLink
-        to={`/evenements/${event.id}`}
+        to={`/evenements/${toSlug(event.title)}-${event.id}`}
         className={cn(
           "group w-full px-4 py-3 shadow-none rounded-bubble-lg bg-transparent flex flex-col gap-4 transition-[background-color,box-shadow] duration-100 ease-in-out hover:bg-white hover:shadow-base",
           "sm:pl-6 sm:pr-12 sm:py-6 sm:flex-row sm:gap-6 sm:items-center"
