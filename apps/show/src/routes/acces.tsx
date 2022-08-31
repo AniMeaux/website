@@ -27,6 +27,7 @@ export default function AccessPage() {
         <HeroSectionAside>
           <HeroSectionImage
             image={mapImages}
+            loading="eager"
             className="transition-[filter] duration-100 ease-in-out group-hover:brightness-50"
           />
         </HeroSectionAside>

@@ -26,7 +26,7 @@ export default function FaqPage() {
     <main className="w-full px-page flex flex-col gap-12">
       <HeroSection>
         <HeroSectionAside>
-          <HeroSectionImage image={questionsImages} />
+          <HeroSectionImage image={questionsImages} loading="eager" />
         </HeroSectionAside>
 
         <HeroSectionAside>

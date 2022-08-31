@@ -78,7 +78,7 @@ export default function HomePage() {
     <main className="px-page flex flex-col gap-24">
       <HeroSection isReversed>
         <HeroSectionAside>
-          <HeroSectionImage image={heroImages} />
+          <HeroSectionImage image={heroImages} loading="eager" />
         </HeroSectionAside>
 
         <HeroSectionAside>

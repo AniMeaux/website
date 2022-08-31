@@ -36,6 +36,7 @@ export type StaticImageProps = {
     default: string;
   };
   fallbackSize?: ImageSize;
+  loading?: "lazy" | "eager";
   className?: string;
 };
 
@@ -43,6 +44,7 @@ export function StaticImage({
   image,
   sizes: sizesProp,
   fallbackSize = IMAGE_SIZES.find((size) => image.imagesBySize[size] != null),
+  loading = "lazy",
   className,
 }: StaticImageProps) {
   invariant(fallbackSize != null, "At least one size should be provided.");
@@ -66,7 +68,7 @@ export function StaticImage({
     // eslint-disable-next-line jsx-a11y/alt-text
     <img
       alt={image.alt}
-      loading="lazy"
+      loading={loading}
       src={image.imagesBySize[fallbackSize]}
       srcSet={Object.entries(image.imagesBySize)
         .map(([size, image]) => `${image} ${size}w`)
@@ -100,12 +102,14 @@ export function DynamicImage({
   alt,
   sizes,
   fallbackSize,
+  loading,
   className,
 }: {
   imageId: string;
   alt: string;
   sizes: StaticImageProps["sizes"];
   fallbackSize: NonNullable<StaticImageProps["fallbackSize"]>;
+  loading?: StaticImageProps["loading"];
   className?: string;
 }) {
   const config = useConfig();
@@ -127,6 +131,7 @@ export function DynamicImage({
       image={image}
       fallbackSize={fallbackSize}
       sizes={sizes}
+      loading={loading}
       className={cn(className, "bg-gray-100")}
     />
   );
