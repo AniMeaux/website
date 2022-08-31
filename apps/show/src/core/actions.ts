@@ -11,7 +11,7 @@ const STANDALONE_ACTION_COLOR_CLASS_NAME: Record<ActionColor, string> = {
 export const actionClassNames = {
   standalone: ({ color = "blue" }: { color?: ActionColor } = {}) =>
     cn(
-      "px-6 py-2 rounded-bubble-sm flex items-center text-body-emphasis transition-[background-color,transform] duration-100 ease-in-out active:scale-95",
+      "min-w-max flex-none px-6 py-2 rounded-bubble-sm flex items-center text-body-emphasis transition-[background-color,transform] duration-100 ease-in-out active:scale-95",
       STANDALONE_ACTION_COLOR_CLASS_NAME[color]
     ),
   proseInline: () =>
