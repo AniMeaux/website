@@ -5,7 +5,7 @@ import {
 } from "@animeaux/shared";
 import { Gender, Prisma, Species, Status } from "@prisma/client";
 import { json, LoaderFunction, MetaFunction } from "@remix-run/node";
-import { useLoaderData, useParams } from "@remix-run/react";
+import { useCatch, useLoaderData, useParams } from "@remix-run/react";
 import { DateTime } from "luxon";
 import invariant from "tiny-invariant";
 import { Paginator } from "~/controllers/paginator";
@@ -30,7 +30,7 @@ import {
   SPECIES_PLURAL_TRANSLATION,
   SPECIES_TRANSLATION,
 } from "~/core/translations";
-import { getErrorTitle } from "~/dataDisplay/errorPage";
+import { ErrorPage, getErrorTitle } from "~/dataDisplay/errorPage";
 import { DynamicImage } from "~/dataDisplay/image";
 import { Icon } from "~/generated/icon";
 
@@ -185,6 +185,11 @@ function getPageParamsTranslation(
   }
 
   return translation;
+}
+
+export function CatchBoundary() {
+  const caught = useCatch();
+  return <ErrorPage status={caught.status} />;
 }
 
 type LoaderDataClient = MapDateToString<LoaderDataServer>;
