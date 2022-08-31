@@ -1,7 +1,8 @@
 import { formatAge } from "@animeaux/shared";
-import { Gender, Prisma, Status } from "@prisma/client";
+import { Gender, Prisma } from "@prisma/client";
 import { json, LoaderFunction, MetaFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
+import { SAVED_ANIMAL_STATUS } from "~/animals/status";
 import { Paginator } from "~/controllers/paginator";
 import { cn } from "~/core/classNames";
 import { MapDateToString } from "~/core/dates";
@@ -13,8 +14,6 @@ import { getPage } from "~/core/searchParams";
 import { GENDER_TRANSLATION, SPECIES_TRANSLATION } from "~/core/translations";
 import { DynamicImage } from "~/dataDisplay/image";
 import { Icon } from "~/generated/icon";
-
-const SAVED_ANIMAL_STATUS: Status[] = [Status.ADOPTED, Status.FREE];
 
 // Multiple of 2 and 3 to be nicely displayed.
 const ANIMAL_COUNT_PER_PAGE = 18;

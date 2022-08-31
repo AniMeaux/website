@@ -3,11 +3,12 @@ import {
   ANIMAL_AGE_RANGE_BY_SPECIES,
   formatAge,
 } from "@animeaux/shared";
-import { Gender, Prisma, Species, Status } from "@prisma/client";
+import { Gender, Prisma, Species } from "@prisma/client";
 import { json, LoaderFunction, MetaFunction } from "@remix-run/node";
 import { useCatch, useLoaderData, useParams } from "@remix-run/react";
 import { DateTime } from "luxon";
 import invariant from "tiny-invariant";
+import { ADOPTABLE_ANIMAL_STATUS } from "~/animals/status";
 import { Paginator } from "~/controllers/paginator";
 import {
   AGES_TO_PATH,
@@ -34,11 +35,6 @@ import {
 import { ErrorPage, getErrorTitle } from "~/dataDisplay/errorPage";
 import { DynamicImage } from "~/dataDisplay/image";
 import { Icon } from "~/generated/icon";
-
-const ADOPTABLE_ANIMAL_STATUS: Status[] = [
-  Status.OPEN_TO_ADOPTION,
-  Status.OPEN_TO_RESERVATION,
-];
 
 type PageParams = {
   species?: Species;
