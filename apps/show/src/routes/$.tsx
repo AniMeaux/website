@@ -1,15 +1,14 @@
 import { LoaderFunction, MetaFunction } from "@remix-run/node";
+import { createSocialMeta } from "~/core/meta";
 import { getPageTitle } from "~/core/pageTitle";
-import { ErrorPage } from "~/dataDisplay/errorPage";
+import { ErrorPage, getErrorTitle } from "~/dataDisplay/errorPage";
 
 export const loader: LoaderFunction = async () => {
   return new Response("Not found", { status: 404 });
 };
 
 export const meta: MetaFunction = () => {
-  return {
-    title: getPageTitle("Page introuvable"),
-  };
+  return createSocialMeta({ title: getPageTitle(getErrorTitle(404)) });
 };
 
 /**

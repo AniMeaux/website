@@ -5,7 +5,6 @@ import {
   MetaFunction,
 } from "@remix-run/node";
 import {
-  HtmlMetaDescriptor,
   Links,
   LiveReload,
   Meta,
@@ -18,6 +17,7 @@ import { Settings } from "luxon";
 import { cn } from "~/core/classNames";
 import { Config } from "~/core/config";
 import { createConfig } from "~/core/config.server";
+import { createSocialMeta } from "~/core/meta";
 import { getPageTitle, pageDescription } from "~/core/pageTitle";
 import { ErrorPage } from "~/dataDisplay/errorPage";
 import stylesheet from "~/generated/tailwind.css";
@@ -64,53 +64,41 @@ export const loader: LoaderFunction = async () => {
   return json<LoaderData>({ config: createConfig() });
 };
 
-/** @see https://metatags.io/ */
 export const meta: MetaFunction = ({ data, location }) => {
   // The data can be null in case of error.
   const config = (data as LoaderData | null)?.config;
   const title = getPageTitle();
 
-  let metaDescriptor: HtmlMetaDescriptor = {
+  let url: string | undefined = undefined;
+  let imageUrl: string | undefined = undefined;
+
+  if (config != null) {
+    url = config.publicHost;
+    if (location.pathname !== "/") {
+      url = `${url}${location.pathname}`;
+    }
+
+    imageUrl = `${config.publicHost}${socialImages.imagesBySize[2048]}`;
+  }
+
+  return {
     charset: "utf-8",
-    title,
-    description: pageDescription,
     "theme-color": theme.colors.gray[50],
 
     // Use `maximum-scale=1` to prevent browsers to zoom on form elements.
     viewport:
       "width=device-width, minimum-scale=1, initial-scale=1, maximum-scale=1, shrink-to-fit=no, user-scalable=no, viewport-fit=cover",
+
+    ...createSocialMeta({ title, description: pageDescription, imageUrl }),
+
+    // Meta tags that shouldn't be overridden by route meta.
+    "og:type": "website",
+    "og:site_name": title,
+    "og:locale": "fr_FR",
+    "og:url": url,
+    "twitter:card": "summary_large_image",
+    "twitter:url": url,
   };
-
-  if (config != null) {
-    let ogUrl = config.publicHost;
-    if (location.pathname !== "/") {
-      ogUrl = `${ogUrl}${location.pathname}`;
-    }
-
-    metaDescriptor = {
-      ...metaDescriptor,
-
-      // Default Open Graph tags.
-      // See: https://ogp.me/
-      "og:type": "website",
-      "og:url": ogUrl,
-      "og:title": title,
-      "og:site_name": title,
-      "og:locale": "fr_FR",
-      "og:description": pageDescription,
-      "og:image": `${config.publicHost}${socialImages.imagesBySize[2048]}`,
-
-      // Default twitter tags
-      // See: https://developer.twitter.com/en/docs/twitter-for-websites/cards/overview/abouts-cards
-      "twitter:card": "summary_large_image",
-      "twitter:url": ogUrl,
-      "twitter:title": title,
-      "twitter:description": pageDescription,
-      "twitter:image": `${config.publicHost}${socialImages.imagesBySize[2048]}`,
-    };
-  }
-
-  return metaDescriptor;
 };
 
 export default function App() {

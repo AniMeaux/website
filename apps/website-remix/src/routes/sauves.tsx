@@ -7,6 +7,7 @@ import { cn } from "~/core/classNames";
 import { MapDateToString } from "~/core/dates";
 import { prisma } from "~/core/db.server";
 import { isDefined } from "~/core/isDefined";
+import { createSocialMeta } from "~/core/meta";
 import { getPageTitle } from "~/core/pageTitle";
 import { getPage } from "~/core/searchParams";
 import { GENDER_TRANSLATION, SPECIES_TRANSLATION } from "~/core/translations";
@@ -64,13 +65,7 @@ export const loader: LoaderFunction = async ({ params, request }) => {
 };
 
 export const meta: MetaFunction = () => {
-  const title = getPageTitle("Animaux sauvés");
-
-  return {
-    title,
-    "og:title": title,
-    "twitter:title": title,
-  };
+  return createSocialMeta({ title: getPageTitle("Animaux sauvés") });
 };
 
 type LoaderDataClient = MapDateToString<LoaderDataServer>;

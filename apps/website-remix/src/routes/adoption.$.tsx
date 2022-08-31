@@ -20,6 +20,7 @@ import { cn } from "~/core/classNames";
 import { MapDateToString } from "~/core/dates";
 import { prisma } from "~/core/db.server";
 import { isDefined } from "~/core/isDefined";
+import { createSocialMeta } from "~/core/meta";
 import { getPageTitle } from "~/core/pageTitle";
 import { getPage } from "~/core/searchParams";
 import {
@@ -29,6 +30,7 @@ import {
   SPECIES_PLURAL_TRANSLATION,
   SPECIES_TRANSLATION,
 } from "~/core/translations";
+import { getErrorTitle } from "~/dataDisplay/errorPage";
 import { DynamicImage } from "~/dataDisplay/image";
 import { Icon } from "~/generated/icon";
 
@@ -149,23 +151,17 @@ function getAgeRangeSearchFilter(
 
 export const meta: MetaFunction = ({ params }) => {
   const pageParams = PATH_TO_PAGE_PARAMS.get(params["*"] ?? "");
-
-  // Don't change the title in case of 404.
   if (pageParams == null) {
-    return {};
+    return createSocialMeta({ title: getPageTitle(getErrorTitle(404)) });
   }
 
   const pageParamsTranslation = getPageParamsTranslation(pageParams, {
     isPlural: true,
   });
 
-  const title = getPageTitle(`${pageParamsTranslation} à l'adoption`);
-
-  return {
-    title,
-    "og:title": title,
-    "twitter:title": title,
-  };
+  return createSocialMeta({
+    title: getPageTitle(`${pageParamsTranslation} à l'adoption`),
+  });
 };
 
 function getPageParamsTranslation(

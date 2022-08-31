@@ -3,6 +3,7 @@ import { actionClassNames } from "~/core/actions";
 import { BaseLink } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
 import { Config, useConfig } from "~/core/config";
+import { createSocialMeta } from "~/core/meta";
 import { getPageTitle } from "~/core/pageTitle";
 import { Icon, IconProps } from "~/generated/icon";
 import { questionsImages } from "~/images/questions";
@@ -15,13 +16,7 @@ import {
 } from "~/layout/heroSection";
 
 export const meta: MetaFunction = () => {
-  const title = getPageTitle("Foire aux questions");
-
-  return {
-    title,
-    "og:title": title,
-    "twitter:title": title,
-  };
+  return createSocialMeta({ title: getPageTitle("Foire aux questions") });
 };
 
 export default function FaqPage() {

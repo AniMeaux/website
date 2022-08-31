@@ -3,16 +3,11 @@ import { actionClassNames } from "~/core/actions";
 import { BaseLink } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
 import { useConfig } from "~/core/config";
+import { createSocialMeta } from "~/core/meta";
 import { getPageTitle } from "~/core/pageTitle";
 
 export const meta: MetaFunction = () => {
-  const title = getPageTitle("Exposants");
-
-  return {
-    title,
-    "og:title": title,
-    "twitter:title": title,
-  };
+  return createSocialMeta({ title: getPageTitle("Exposants") });
 };
 
 export default function ExhibitorsPage() {

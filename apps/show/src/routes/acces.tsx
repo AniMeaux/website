@@ -2,6 +2,7 @@ import { MetaFunction } from "@remix-run/node";
 import { actionClassNames } from "~/core/actions";
 import { BaseLink } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
+import { createSocialMeta } from "~/core/meta";
 import { getPageTitle } from "~/core/pageTitle";
 import { Icon, IconProps } from "~/generated/icon";
 import { mapImages } from "~/images/map";
@@ -16,13 +17,7 @@ import {
 } from "~/layout/heroSection";
 
 export const meta: MetaFunction = () => {
-  const title = getPageTitle("Accès au Salon");
-
-  return {
-    title,
-    "og:title": title,
-    "twitter:title": title,
-  };
+  return createSocialMeta({ title: getPageTitle("Accès au Salon") });
 };
 
 export default function AccessPage() {
