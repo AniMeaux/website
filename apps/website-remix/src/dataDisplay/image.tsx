@@ -79,24 +79,6 @@ export function StaticImage({
   );
 }
 
-const BASE_TRANSFORMATIONS = [
-  // https://cloudinary.com/documentation/transformation_reference#ar_aspect_ratio
-  "ar_4:3",
-  // https://cloudinary.com/documentation/transformation_reference#c_pad
-  "c_pad",
-  // https://cloudinary.com/documentation/transformation_reference#b_auto
-  "b_auto",
-  // https://cloudinary.com/documentation/image_optimization#automatic_quality_selection_q_auto
-  "q_auto",
-  // When using devtools to emulate different browsers, Cloudinary may return a
-  // format that is unsupported by the main browser, so images may not display
-  // as expected. For example, if using Chrome dev tools to emulate an iPhone
-  // Safari browser, a JPEG-2000 may be returned, which Chrome does not support.
-  // See: https://cloudinary.com/documentation/image_optimization#tips_and_considerations_for_using_f_auto
-  // https://cloudinary.com/documentation/image_transformations#f_auto
-  "f_auto",
-];
-
 export function DynamicImage({
   imageId,
   alt,
@@ -118,10 +100,9 @@ export function DynamicImage({
     imagesBySize: Object.fromEntries(
       IMAGE_SIZES.map((size) => [
         size,
-        createCloundinaryUrl(config.cloudinary.cloudName, imageId, [
-          `w_${size}`,
-          ...BASE_TRANSFORMATIONS,
-        ]),
+        createCloudinaryUrl(config.cloudinary.cloudName, imageId, {
+          size: size,
+        }),
       ])
     ),
   };
@@ -137,12 +118,36 @@ export function DynamicImage({
   );
 }
 
-function createCloundinaryUrl(
+function createCloudinaryUrl(
   cloudName: string,
   imageId: string,
-  transformations: string[]
+  {
+    size,
+    aspectRatio = "4:3",
+  }: {
+    size: ImageSize;
+    aspectRatio?: "4:3" | "16:9";
+  }
 ) {
-  const transformationsStr = transformations.join(",");
+  const transformationsStr = [
+    `w_${size}`,
+    // https://cloudinary.com/documentation/transformation_reference#ar_aspect_ratio
+    `ar_${aspectRatio}`,
+    // https://cloudinary.com/documentation/transformation_reference#c_pad
+    "c_pad",
+    // https://cloudinary.com/documentation/transformation_reference#b_auto
+    "b_auto",
+    // https://cloudinary.com/documentation/image_optimization#automatic_quality_selection_q_auto
+    "q_auto",
+    // When using devtools to emulate different browsers, Cloudinary may return a
+    // format that is unsupported by the main browser, so images may not display
+    // as expected. For example, if using Chrome dev tools to emulate an iPhone
+    // Safari browser, a JPEG-2000 may be returned, which Chrome does not support.
+    // See: https://cloudinary.com/documentation/image_optimization#tips_and_considerations_for_using_f_auto
+    // https://cloudinary.com/documentation/image_transformations#f_auto
+    "f_auto",
+  ].join(",");
+
   return `https://res.cloudinary.com/${cloudName}/image/upload/${transformationsStr}/${imageId}`;
 }
 
