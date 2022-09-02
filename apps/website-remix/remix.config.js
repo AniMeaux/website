@@ -12,6 +12,7 @@ module.exports = {
     /^character-entities$/,
     /^decode-named-character-reference$/,
     /^hast-util-whitespace$/,
+    /^is-plain-obj$/,
     /^mdast-*/,
     /^micromark*/,
     /^property-information$/,
