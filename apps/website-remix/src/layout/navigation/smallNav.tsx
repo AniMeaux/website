@@ -52,7 +52,7 @@ export function SmallNav() {
     <header
       ref={headerRef}
       className={cn(
-        "relative z-[0] w-full pt-safe-2 px-page pb-2 flex items-center justify-between",
+        "relative z-10 w-full pt-safe-2 px-page pb-2 flex items-center justify-between",
         "md:hidden"
       )}
       onKeyDown={handleEscape(() => {
