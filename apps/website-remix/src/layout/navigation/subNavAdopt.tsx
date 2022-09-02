@@ -89,7 +89,7 @@ export const SubNavAdopt: SubNavComponent = () => {
 SubNavAdopt.isActive = (location) => {
   const pathname = location.pathname.toLowerCase();
 
-  return ["/adoption", "/sauves", "/conditions-d-adoption"].some((path) =>
-    pathname.startsWith(path)
+  return ["/animal", "/adoption", "/sauves", "/conditions-d-adoption"].some(
+    (path) => pathname.startsWith(path)
   );
 };

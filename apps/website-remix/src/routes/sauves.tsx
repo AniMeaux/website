@@ -98,7 +98,7 @@ export default function SavedPage() {
 
           <ul
             className={cn(
-              "grid grid-cols-1 grid-rows-[auto] gap-6",
+              "grid grid-cols-1 grid-rows-[auto] gap-6 items-start",
               "xs:grid-cols-2",
               "sm:grid-cols-3"
             )}

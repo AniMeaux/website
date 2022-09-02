@@ -118,7 +118,7 @@ export function DynamicImage({
   );
 }
 
-function createCloudinaryUrl(
+export function createCloudinaryUrl(
   cloudName: string,
   imageId: string,
   {

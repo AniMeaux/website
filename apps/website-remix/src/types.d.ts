@@ -8,5 +8,6 @@ declare namespace NodeJS {
     INSTAGRAM_URL?: string;
     LINKEDIN_URL?: string;
     TWITTER_URL?: string;
+    ADOPTION_FORM_URL?: string;
   }
 }

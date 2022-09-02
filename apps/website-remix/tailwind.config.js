@@ -203,6 +203,24 @@ module.exports = {
         }
       );
     }),
+
+    plugin(({ matchUtilities }) => {
+      matchUtilities(
+        {
+          scrollbars: () => ({
+            "&::-webkit-scrollbar": {
+              width: 0,
+              height: 0,
+              display: "none",
+            },
+            "&::-webkit-scrollbar-track-piece": {
+              "background-color": "transparent",
+            },
+          }),
+        },
+        { values: { none: "none" } }
+      );
+    }),
   ],
 };
 
