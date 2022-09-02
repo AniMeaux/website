@@ -176,7 +176,7 @@ function NavGroupButton({
         {(transitionState) => (
           <LineShapeHorizontal
             className={cn(
-              "absolute bottom-0 left-0 w-full h-1 block stroke-blue-base",
+              "absolute bottom-0 left-0 w-full h-1 block stroke-brandBlue",
               {
                 "transition-[stroke-dashoffset] duration-150 ease-in-out":
                   transitionState === "entering" ||
@@ -228,7 +228,7 @@ function NavLink({
             {(transitionState) => (
               <LineShapeHorizontal
                 className={cn(
-                  "absolute bottom-0 left-0 w-full h-1 block stroke-blue-base",
+                  "absolute bottom-0 left-0 w-full h-1 block stroke-brandBlue",
                   {
                     "transition-[stroke-dashoffset] duration-150 ease-in-out":
                       transitionState === "entering" ||

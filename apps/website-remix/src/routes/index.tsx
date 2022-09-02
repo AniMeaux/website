@@ -287,9 +287,9 @@ function NumberItem({
       <div className="w-full flex flex-col">
         <h3
           className={cn("font-serif text-[32px] font-bold leading-normal", {
-            "text-green-base": color === "green",
-            "text-yellow-darker": color === "yellow",
-            "text-red-base": color === "red",
+            "text-brandGreen": color === "green",
+            "text-brandYellow-darker": color === "yellow",
+            "text-brandRed": color === "red",
           })}
         >
           {value}

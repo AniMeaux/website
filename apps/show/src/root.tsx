@@ -37,7 +37,7 @@ export const links: LinksFunction = () => {
     { rel: "stylesheet", href: stylesheet },
     { rel: "manifest", href: "/manifest.json" },
     { rel: "icon", href: favicon },
-    { rel: "mask-icon", href: maskIcon, color: theme.colors.blue.base },
+    { rel: "mask-icon", href: maskIcon, color: theme.colors.brandBlue.DEFAULT },
     { rel: "apple-touch-icon", href: appleTouchIcon },
     { rel: "preconnect", href: "https://fonts.googleapis.com" },
     {

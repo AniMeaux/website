@@ -3,8 +3,8 @@ import { cn } from "~/core/classNames";
 type ActionColor = "blue" | "yellow" | "gray";
 
 const STANDALONE_ACTION_COLOR_CLASS_NAME: Record<ActionColor, string> = {
-  blue: "bg-blue-base text-white hover:bg-blue-light",
-  yellow: "bg-yellow-base text-black hover:bg-yellow-darker",
+  blue: "bg-brandBlue text-white hover:bg-brandBlue-lighter",
+  yellow: "bg-brandYellow text-black hover:bg-brandYellow-darker",
   gray: "bg-gray-100 hover:bg-gray-200",
 };
 
@@ -15,5 +15,5 @@ export const actionClassNames = {
       STANDALONE_ACTION_COLOR_CLASS_NAME[color]
     ),
   proseInline: () =>
-    "border-b text-body-emphasis border-b-blue-base hover:border-b-2",
+    "border-b text-body-emphasis border-b-brandBlue hover:border-b-2",
 };

@@ -189,7 +189,7 @@ function NewletterForm() {
         method="post"
         action="/subscribe"
         className={cn("w-full rounded-bubble-md shadow-base p-1 flex gap-2", {
-          "bg-red-light": isError,
+          "bg-brandRed-lightest": isError,
           "bg-white": !isError,
         })}
       >
@@ -206,8 +206,9 @@ function NewletterForm() {
           className={cn(
             "flex p-3 rounded-bubble-sm text-white transition-[background-color,transform] duration-100 ease-in-out",
             {
-              "bg-green-base": isSuccess,
-              "bg-blue-base hover:bg-blue-light active:scale-95": !isSuccess,
+              "bg-brandGreen": isSuccess,
+              "bg-brandBlue hover:bg-brandBlue-lighter active:scale-95":
+                !isSuccess,
             }
           )}
         >
@@ -216,7 +217,7 @@ function NewletterForm() {
       </fetcher.Form>
 
       {fetcher.data?.type === "error" && (
-        <p className="flex items-center gap-2 text-red-base">
+        <p className="flex items-center gap-2 text-brandRed">
           <Icon id="circleExclamation" className="text-[14px]" />
           <span className="text-caption-default">
             {fetcher.data.errors.formErrors.join(". ") ||

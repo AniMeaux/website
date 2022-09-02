@@ -297,8 +297,8 @@ function AnimalItem({
           <p className="flex items-start gap-1">
             <span
               className={cn("h-6 flex-none flex items-center text-[20px]", {
-                "text-pink-base": animal.gender === Gender.FEMALE,
-                "text-blue-base": animal.gender === Gender.MALE,
+                "text-pink-500": animal.gender === Gender.FEMALE,
+                "text-brandBlue": animal.gender === Gender.MALE,
               })}
               title={GENDER_TRANSLATION[animal.gender]}
             >

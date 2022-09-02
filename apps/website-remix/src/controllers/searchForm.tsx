@@ -128,7 +128,7 @@ export function SearchForm({
       <BaseLink
         to={getPath(state)}
         title="Rechercher"
-        className="flex-none rounded-bubble-sm flex p-3 bg-blue-base text-white transition-[background-color,transform] duration-100 ease-in-out hover:bg-blue-light active:scale-95"
+        className="flex-none rounded-bubble-sm flex p-3 bg-brandBlue text-white transition-[background-color,transform] duration-100 ease-in-out hover:bg-brandBlue-lighter active:scale-95"
       >
         <Icon id="magnifyingGlass" />
       </BaseLink>

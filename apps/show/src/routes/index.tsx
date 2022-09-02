@@ -152,7 +152,7 @@ function Countdown() {
 function CountDownItem({ label, value }: { label: string; value: number }) {
   return (
     <div className="rounded-bubble-sm bg-gray-100 px-3 py-2 flex flex-col items-center">
-      <span className="font-serif text-[32px] font-bold leading-normal text-blue-base">
+      <span className="font-serif text-[32px] font-bold leading-normal text-brandBlue">
         {value.toLocaleString("fr-FR", { minimumIntegerDigits: 2 })}
       </span>
 

@@ -17,7 +17,7 @@ export function BubbleShape({
       preserveAspectRatio="none"
       xmlns="http://www.w3.org/2000/svg"
       className={cn(className, "overflow-visible", {
-        "stroke-yellow-base": isDouble,
+        "stroke-brandYellow": isDouble,
         "stroke-gray-300": !isDouble,
       })}
       style={style}

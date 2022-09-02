@@ -53,7 +53,7 @@ export default function FaqPage() {
             >
               <span
                 className={cn(
-                  "rounded-bubble-sm p-3 bg-opacity-5 flex items-center justify-center text-[40px]",
+                  "rounded-bubble-sm p-3 flex items-center justify-center text-[40px]",
                   ICON_COLOR_CLASS_NAME[faq.color]
                 )}
               >
@@ -78,11 +78,11 @@ type Faq = {
 };
 
 const ICON_COLOR_CLASS_NAME: Record<Faq["color"], string> = {
-  blue: "bg-blue-base text-blue-base",
-  cyan: "bg-cyan-base text-cyan-base",
-  green: "bg-green-base text-green-base",
-  red: "bg-red-base text-red-base",
-  yellow: "bg-yellow-base text-yellow-darker",
+  blue: "bg-brandBlue-lightest text-brandBlue",
+  cyan: "bg-brandCyan-lightest text-brandCyan",
+  green: "bg-brandGreen-lightest text-brandGreen",
+  red: "bg-brandRed-lightest text-brandRed",
+  yellow: "bg-brandYellow-lightest text-brandYellow-darker",
 };
 
 const FAQ: Faq[] = [

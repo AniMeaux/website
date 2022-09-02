@@ -78,7 +78,7 @@ function PaginatorItem({
           },
           "flex items-center justify-center text-body-emphasis transition-colors duration-100 ease-in-out",
           {
-            "bg-blue-base text-white": isActive,
+            "bg-brandBlue text-white": isActive,
             "hover:bg-gray-200": !isActive && to != null,
           }
         )}

@@ -23,19 +23,19 @@ export type SubNavComponent = React.FC & {
 type SubNavItemColor = "blue" | "cyan" | "green" | "red" | "yellow";
 
 const subNavItemBgColorClassName: Record<SubNavItemColor, string> = {
-  blue: "bg-blue-base",
-  cyan: "bg-cyan-base",
-  green: "bg-green-base",
-  red: "bg-red-base",
-  yellow: "bg-yellow-base",
+  blue: "bg-brandBlue-lightest",
+  cyan: "bg-brandCyan-lightest",
+  green: "bg-brandGreen-lightest",
+  red: "bg-brandRed-lightest",
+  yellow: "bg-brandYellow-lightest",
 };
 
 const subNavItemTextColorClassName: Record<SubNavItemColor, string> = {
-  blue: "text-blue-base",
-  cyan: "text-cyan-base",
-  green: "text-green-base",
-  red: "text-red-base",
-  yellow: "text-yellow-darker",
+  blue: "text-brandBlue",
+  cyan: "text-brandCyan",
+  green: "text-brandGreen",
+  red: "text-brandRed",
+  yellow: "text-brandYellow-darker",
 };
 
 export const SubNavItem = forwardRef<
@@ -53,7 +53,7 @@ export const SubNavItem = forwardRef<
       ref={ref}
       to={to}
       className={cn(
-        "group bg-opacity-0 px-3 py-2 flex items-center hover:bg-opacity-10 rounded-bubble-md transition-colors duration-100 ease-in-out",
+        "group bg-opacity-0 px-3 py-2 flex items-center hover:bg-opacity-100 rounded-bubble-md transition-colors duration-100 ease-in-out",
         subNavItemBgColorClassName[color],
         {
           "flex-col gap-1": isMultiline,
@@ -63,7 +63,7 @@ export const SubNavItem = forwardRef<
     >
       <span
         className={cn(
-          "rounded-bubble-sm bg-opacity-5 flex group-hover:bg-opacity-0 transition-colors duration-100 ease-in-out",
+          "rounded-bubble-sm flex transition-colors duration-100 ease-in-out",
           {
             "p-3 text-[32px]": isMultiline,
             "p-2 text-[20px]": !isMultiline,

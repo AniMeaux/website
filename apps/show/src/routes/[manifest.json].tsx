@@ -15,7 +15,7 @@ export const loader: LoaderFunction = () => {
     name: getPageTitle(),
     short_name: getPageTitle(),
     background_color: theme.colors.gray[50],
-    theme_color: theme.colors.blue.base,
+    theme_color: theme.colors.brandBlue.DEFAULT,
     display: "standalone",
     scope: "/",
     start_url: "/?source=pwa",
