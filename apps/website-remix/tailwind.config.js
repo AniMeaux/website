@@ -1,6 +1,79 @@
 const defaultTheme = require("tailwindcss/defaultTheme");
 const plugin = require("tailwindcss/plugin");
 
+// Color gradiants generated from Material Design.
+// https://material.io/design/color/the-color-system.html#tools-for-picking-colors
+
+const brandBlue = {
+  50: "#e1f5fe",
+  100: "#b3e6fc",
+  200: "#81d5fb",
+  300: "#4fc5f8",
+  400: "#29b8f8",
+  500: "#01abf6",
+  600: "#019de7",
+  700: "#008ad3",
+  // Closest to primary #0078bf.
+  800: "#0079bf",
+  900: "#00599d",
+};
+
+const brandGreen = {
+  50: "#e7f6e9",
+  100: "#c5e8c9",
+  200: "#9fdaa7",
+  300: "#76cc84",
+  400: "#56c069",
+  // Closest to primary #32b54f.
+  500: "#32b54e",
+  600: "#28a645",
+  700: "#1b933a",
+  800: "#0c822f",
+  900: "#00631a",
+};
+
+const brandYellow = {
+  50: "#fff8e2",
+  100: "#ffecb5",
+  200: "#ffe185",
+  300: "#ffd654",
+  400: "#ffcb31",
+  // Closest to primary #ffc31b.
+  500: "#ffc21b",
+  600: "#ffb415",
+  700: "#fea213",
+  800: "#fe9112",
+  900: "#fd720f",
+};
+
+const brandRed = {
+  50: "#ffeaed",
+  100: "#ffcbcf",
+  200: "#f59794",
+  300: "#ed6d6b",
+  400: "#f74a44",
+  500: "#fb3625",
+  // Closest to primary #ed2a26.
+  600: "#ed2926",
+  700: "#db1c20",
+  800: "#ce1019",
+  900: "#c00008",
+};
+
+const brandCyan = {
+  50: "#def4f5",
+  100: "#abe3e4",
+  200: "#6fd2d2",
+  // Closest to primary #00bfbf.
+  300: "#00bfbf",
+  400: "#00b0af",
+  500: "#00a19d",
+  600: "#00948f",
+  700: "#00837d",
+  800: "#00736d",
+  900: "#00574e",
+};
+
 /**
  * @type {import('tailwindcss').Config}
  */
@@ -17,15 +90,32 @@ module.exports = {
         serif: ['"Open Sans"', ...defaultTheme.fontFamily.serif],
         sans: ["Roboto", ...defaultTheme.fontFamily.sans],
       },
+
       colors: {
         white: "#ffffff",
         black: "#000000",
-        blue: { light: "#008bdb", base: "#0078bf" },
-        green: { base: "#32b54f" },
-        yellow: { base: "#ffc31b", darker: "#fab800" },
-        red: { light: "#fef4f4", base: "#ed2a26" },
-        cyan: { base: "#00bfbf" },
-        pink: { base: "#ed266e" },
+        brandBlue: {
+          lightest: brandBlue[50],
+          lighter: brandBlue[700],
+          DEFAULT: brandBlue[800],
+        },
+        brandGreen: {
+          lightest: brandGreen[50],
+          DEFAULT: brandGreen[500],
+        },
+        brandYellow: {
+          lightest: brandYellow[50],
+          DEFAULT: brandYellow[500],
+          darker: brandYellow[700],
+        },
+        brandRed: {
+          lightest: brandRed[50],
+          DEFAULT: brandRed[600],
+        },
+        brandCyan: {
+          lightest: brandCyan[50],
+          DEFAULT: brandCyan[300],
+        },
         facebook: "#3774dc",
         instagram: "#ad3d7a",
         linkedin: "#2c66bc",
@@ -86,6 +176,49 @@ module.exports = {
           "pl-safe": (value) => createSafePadding("left", value),
         },
         { values: theme("spacing") }
+      );
+    }),
+
+    plugin(({ matchUtilities, theme }) => {
+      matchUtilities(
+        {
+          "rounded-bubble": (value) => ({
+            borderTopLeftRadius: value[0],
+            borderTopRightRadius: value[1],
+            borderBottomRightRadius: value[0],
+            borderBottomLeftRadius: value[1],
+          }),
+          "rounded-bubble-b": (value) => ({
+            borderBottomRightRadius: value[0],
+            borderBottomLeftRadius: value[1],
+          }),
+        },
+        {
+          values: {
+            sm: [theme("spacing.3"), theme("spacing.2")],
+            md: [theme("spacing.4"), theme("spacing.3")],
+            lg: [theme("spacing.12"), theme("spacing.6")],
+            ratio: ["16%", "8%"],
+          },
+        }
+      );
+    }),
+
+    plugin(({ matchUtilities }) => {
+      matchUtilities(
+        {
+          scrollbars: () => ({
+            "&::-webkit-scrollbar": {
+              width: 0,
+              height: 0,
+              display: "none",
+            },
+            "&::-webkit-scrollbar-track-piece": {
+              "background-color": "transparent",
+            },
+          }),
+        },
+        { values: { none: "none" } }
       );
     }),
   ],

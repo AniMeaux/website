@@ -36,6 +36,7 @@ export type StaticImageProps = {
     default: string;
   };
   fallbackSize?: ImageSize;
+  loading?: "lazy" | "eager";
   className?: string;
 };
 
@@ -43,6 +44,7 @@ export function StaticImage({
   image,
   sizes: sizesProp,
   fallbackSize = IMAGE_SIZES.find((size) => image.imagesBySize[size] != null),
+  loading = "lazy",
   className,
 }: StaticImageProps) {
   invariant(fallbackSize != null, "At least one size should be provided.");
@@ -66,7 +68,7 @@ export function StaticImage({
     // eslint-disable-next-line jsx-a11y/alt-text
     <img
       alt={image.alt}
-      loading="lazy"
+      loading={loading}
       src={image.imagesBySize[fallbackSize]}
       srcSet={Object.entries(image.imagesBySize)
         .map(([size, image]) => `${image} ${size}w`)
@@ -77,35 +79,19 @@ export function StaticImage({
   );
 }
 
-const BASE_TRANSFORMATIONS = [
-  // https://cloudinary.com/documentation/transformation_reference#ar_aspect_ratio
-  "ar_4:3",
-  // https://cloudinary.com/documentation/transformation_reference#c_pad
-  "c_pad",
-  // https://cloudinary.com/documentation/transformation_reference#b_auto
-  "b_auto",
-  // https://cloudinary.com/documentation/image_optimization#automatic_quality_selection_q_auto
-  "q_auto",
-  // When using devtools to emulate different browsers, Cloudinary may return a
-  // format that is unsupported by the main browser, so images may not display
-  // as expected. For example, if using Chrome dev tools to emulate an iPhone
-  // Safari browser, a JPEG-2000 may be returned, which Chrome does not support.
-  // See: https://cloudinary.com/documentation/image_optimization#tips_and_considerations_for_using_f_auto
-  // https://cloudinary.com/documentation/image_transformations#f_auto
-  "f_auto",
-];
-
 export function DynamicImage({
   imageId,
   alt,
   sizes,
   fallbackSize,
+  loading,
   className,
 }: {
   imageId: string;
   alt: string;
   sizes: StaticImageProps["sizes"];
   fallbackSize: NonNullable<StaticImageProps["fallbackSize"]>;
+  loading?: StaticImageProps["loading"];
   className?: string;
 }) {
   const config = useConfig();
@@ -114,10 +100,9 @@ export function DynamicImage({
     imagesBySize: Object.fromEntries(
       IMAGE_SIZES.map((size) => [
         size,
-        createCloundinaryUrl(config.cloudinary.cloudName, imageId, [
-          `w_${size}`,
-          ...BASE_TRANSFORMATIONS,
-        ]),
+        createCloudinaryUrl(config.cloudinary.cloudName, imageId, {
+          size: size,
+        }),
       ])
     ),
   };
@@ -127,17 +112,42 @@ export function DynamicImage({
       image={image}
       fallbackSize={fallbackSize}
       sizes={sizes}
+      loading={loading}
       className={cn(className, "bg-gray-100")}
     />
   );
 }
 
-function createCloundinaryUrl(
+export function createCloudinaryUrl(
   cloudName: string,
   imageId: string,
-  transformations: string[]
+  {
+    size,
+    aspectRatio = "4:3",
+  }: {
+    size: ImageSize;
+    aspectRatio?: "4:3" | "16:9";
+  }
 ) {
-  const transformationsStr = transformations.join(",");
+  const transformationsStr = [
+    `w_${size}`,
+    // https://cloudinary.com/documentation/transformation_reference#ar_aspect_ratio
+    `ar_${aspectRatio}`,
+    // https://cloudinary.com/documentation/transformation_reference#c_pad
+    "c_pad",
+    // https://cloudinary.com/documentation/transformation_reference#b_auto
+    "b_auto",
+    // https://cloudinary.com/documentation/image_optimization#automatic_quality_selection_q_auto
+    "q_auto",
+    // When using devtools to emulate different browsers, Cloudinary may return a
+    // format that is unsupported by the main browser, so images may not display
+    // as expected. For example, if using Chrome dev tools to emulate an iPhone
+    // Safari browser, a JPEG-2000 may be returned, which Chrome does not support.
+    // See: https://cloudinary.com/documentation/image_optimization#tips_and_considerations_for_using_f_auto
+    // https://cloudinary.com/documentation/image_transformations#f_auto
+    "f_auto",
+  ].join(",");
+
   return `https://res.cloudinary.com/${cloudName}/image/upload/${transformationsStr}/${imageId}`;
 }
 

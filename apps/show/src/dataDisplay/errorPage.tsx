@@ -38,6 +38,12 @@ const STATUS_CODE_ERROR_META_DATA: Record<number, ErrorMetaData> = {
   },
 };
 
+export function getErrorTitle(status: number): string {
+  return (
+    STATUS_CODE_ERROR_META_DATA[status] ?? STATUS_CODE_ERROR_META_DATA[500]
+  ).title;
+}
+
 export function ErrorPage({
   status,
   isStandAlone = false,

@@ -1,9 +1,9 @@
 {
   "private": true,
   "workspaces": [
-    "./api",
-    "./shared",
-    "./apps/*"
+    "api",
+    "shared",
+    "apps/*"
   ],
   "license": "MIT",
   "engines": {

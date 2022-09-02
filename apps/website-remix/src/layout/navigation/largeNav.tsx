@@ -176,7 +176,7 @@ function NavGroupButton({
         {(transitionState) => (
           <LineShapeHorizontal
             className={cn(
-              "absolute bottom-0 left-0 w-full h-1 block stroke-blue-base",
+              "absolute bottom-0 left-0 w-full h-1 block stroke-brandBlue",
               {
                 "transition-[stroke-dashoffset] duration-150 ease-in-out":
                   transitionState === "entering" ||
@@ -228,7 +228,7 @@ function NavLink({
             {(transitionState) => (
               <LineShapeHorizontal
                 className={cn(
-                  "absolute bottom-0 left-0 w-full h-1 block stroke-blue-base",
+                  "absolute bottom-0 left-0 w-full h-1 block stroke-brandBlue",
                   {
                     "transition-[stroke-dashoffset] duration-150 ease-in-out":
                       transitionState === "entering" ||
@@ -275,7 +275,7 @@ const Dropdown = forwardRef<
           <div
             ref={ref}
             className={cn(
-              "absolute -z-10 top-0 left-0 w-full bg-white shadow-base rounded-br-[40px] rounded-bl-3xl flex flex-col items-center overflow-hidden",
+              "absolute -z-10 top-0 left-0 w-full bg-white shadow-base rounded-bubble-b-lg flex flex-col items-center overflow-hidden",
               {
                 // Use `ease-in-out` to make sure animation is symetrical between
                 // entering and exiting to avoid a weird progress missmatch.

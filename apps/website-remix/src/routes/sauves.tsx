@@ -1,19 +1,19 @@
 import { formatAge } from "@animeaux/shared";
-import { Gender, Prisma, Status } from "@prisma/client";
+import { Gender, Prisma } from "@prisma/client";
 import { json, LoaderFunction, MetaFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
+import { SAVED_ANIMAL_STATUS } from "~/animals/status";
 import { Paginator } from "~/controllers/paginator";
 import { cn } from "~/core/classNames";
 import { MapDateToString } from "~/core/dates";
 import { prisma } from "~/core/db.server";
 import { isDefined } from "~/core/isDefined";
+import { createSocialMeta } from "~/core/meta";
 import { getPageTitle } from "~/core/pageTitle";
 import { getPage } from "~/core/searchParams";
 import { GENDER_TRANSLATION, SPECIES_TRANSLATION } from "~/core/translations";
 import { DynamicImage } from "~/dataDisplay/image";
 import { Icon } from "~/generated/icon";
-
-const SAVED_ANIMAL_STATUS: Status[] = [Status.ADOPTED, Status.FREE];
 
 // Multiple of 2 and 3 to be nicely displayed.
 const ANIMAL_COUNT_PER_PAGE = 18;
@@ -64,13 +64,7 @@ export const loader: LoaderFunction = async ({ params, request }) => {
 };
 
 export const meta: MetaFunction = () => {
-  const title = getPageTitle("Animaux sauvés");
-
-  return {
-    title,
-    "og:title": title,
-    "twitter:title": title,
-  };
+  return createSocialMeta({ title: getPageTitle("Animaux sauvés") });
 };
 
 type LoaderDataClient = MapDateToString<LoaderDataServer>;
@@ -104,7 +98,7 @@ export default function SavedPage() {
 
           <ul
             className={cn(
-              "grid grid-cols-1 grid-rows-[auto] gap-6",
+              "grid grid-cols-1 grid-rows-[auto] gap-6 items-start",
               "xs:grid-cols-2",
               "sm:grid-cols-3"
             )}
@@ -145,15 +139,15 @@ function AnimalItem({
         alt={animal.name}
         sizes={{ lg: "300px", md: "50vw", default: "100vw" }}
         fallbackSize="512"
-        className="w-full aspect-4/3 flex-none rounded-tl-[16%] rounded-tr-[8%] rounded-br-[16%] rounded-bl-[8%]"
+        className="w-full aspect-4/3 flex-none rounded-bubble-ratio"
       />
 
       <div className="flex flex-col">
         <p className="flex items-start gap-1">
           <span
             className={cn("h-6 flex-none flex items-center text-[20px]", {
-              "text-pink-base": animal.gender === Gender.FEMALE,
-              "text-blue-base": animal.gender === Gender.MALE,
+              "text-pink-500": animal.gender === Gender.FEMALE,
+              "text-brandBlue": animal.gender === Gender.MALE,
             })}
             title={GENDER_TRANSLATION[animal.gender]}
           >

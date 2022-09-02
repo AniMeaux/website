@@ -11,6 +11,10 @@ export function createConfig(): Config {
   invariant(process.env.INSTAGRAM_URL, "INSTAGRAM_URL should be defined");
   invariant(process.env.LINKEDIN_URL, "LINKEDIN_URL should be defined");
   invariant(process.env.TWITTER_URL, "TWITTER_URL should be defined");
+  invariant(
+    process.env.ADOPTION_FORM_URL,
+    "ADOPTION_FORM_URL should be defined"
+  );
 
   return {
     cloudinary: { cloudName: process.env.CLOUDINARY_CLOUD_NAME },
@@ -19,5 +23,6 @@ export function createConfig(): Config {
     instagramUrl: process.env.INSTAGRAM_URL,
     linkedInUrl: process.env.LINKEDIN_URL,
     twitterUrl: process.env.TWITTER_URL,
+    adoptionFormUrl: process.env.ADOPTION_FORM_URL,
   };
 }

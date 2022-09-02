@@ -1,3 +1,5 @@
+import { Species } from "@prisma/client";
+import { SPECIES_ICON } from "~/animals/species";
 import { cn } from "~/core/classNames";
 import { LineShapeHorizontal, LineShapeVertical } from "~/layout/lineShape";
 import { SubNavComponent, SubNavItem } from "~/layout/navigation/shared";
@@ -11,18 +13,28 @@ export const SubNavAdopt: SubNavComponent = () => {
       )}
     >
       <div className={cn("grid grid-cols-3", "md:flex-1")}>
-        <SubNavItem isMultiline color="red" icon="cat" to="/adoption/chat">
+        <SubNavItem
+          isMultiline
+          color="red"
+          icon={SPECIES_ICON[Species.CAT]}
+          to="/adoption/chat"
+        >
           Chat
         </SubNavItem>
 
-        <SubNavItem isMultiline color="blue" icon="dog" to="/adoption/chien">
+        <SubNavItem
+          isMultiline
+          color="blue"
+          icon={SPECIES_ICON[Species.DOG]}
+          to="/adoption/chien"
+        >
           Chien
         </SubNavItem>
 
         <SubNavItem
           isMultiline
           color="yellow"
-          icon="bird"
+          icon={SPECIES_ICON[Species.BIRD]}
           to="/adoption/oiseau"
         >
           Oiseau
@@ -31,7 +43,7 @@ export const SubNavAdopt: SubNavComponent = () => {
         <SubNavItem
           isMultiline
           color="green"
-          icon="turtle"
+          icon={SPECIES_ICON[Species.REPTILE]}
           to="/adoption/reptile"
         >
           Reptile
@@ -40,7 +52,7 @@ export const SubNavAdopt: SubNavComponent = () => {
         <SubNavItem
           isMultiline
           color="cyan"
-          icon="rabbit"
+          icon={SPECIES_ICON[Species.RODENT]}
           to="/adoption/rongeur"
         >
           Rongeur
@@ -77,7 +89,7 @@ export const SubNavAdopt: SubNavComponent = () => {
 SubNavAdopt.isActive = (location) => {
   const pathname = location.pathname.toLowerCase();
 
-  return ["/adoption", "/sauves", "/conditions-d-adoption"].some((path) =>
-    pathname.startsWith(path)
+  return ["/animal", "/adoption", "/sauves", "/conditions-d-adoption"].some(
+    (path) => pathname.startsWith(path)
   );
 };

@@ -2,6 +2,7 @@ import { MetaFunction } from "@remix-run/node";
 import { actionClassNames } from "~/core/actions";
 import { BaseLink } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
+import { createSocialMeta } from "~/core/meta";
 import { getPageTitle } from "~/core/pageTitle";
 import { Icon, IconProps } from "~/generated/icon";
 import { mapImages } from "~/images/map";
@@ -16,13 +17,7 @@ import {
 } from "~/layout/heroSection";
 
 export const meta: MetaFunction = () => {
-  const title = getPageTitle("Accès au Salon");
-
-  return {
-    title,
-    "og:title": title,
-    "twitter:title": title,
-  };
+  return createSocialMeta({ title: getPageTitle("Accès au Salon") });
 };
 
 export default function AccessPage() {
@@ -32,6 +27,7 @@ export default function AccessPage() {
         <HeroSectionAside>
           <HeroSectionImage
             image={mapImages}
+            loading="eager"
             className="transition-[filter] duration-100 ease-in-out group-hover:brightness-50"
           />
         </HeroSectionAside>
@@ -72,7 +68,7 @@ export default function AccessPage() {
             >
               <span
                 className={cn(
-                  "rounded-tl-xl rounded-tr-lg rounded-br-xl rounded-bl-lg p-3 bg-opacity-5 flex items-center justify-center text-[40px]",
+                  "rounded-bubble-sm p-3 flex items-center justify-center text-[40px]",
                   ICON_COLOR_CLASS_NAME[info.color]
                 )}
               >
@@ -138,11 +134,11 @@ type Info = {
 };
 
 const ICON_COLOR_CLASS_NAME: Record<Info["color"], string> = {
-  blue: "bg-blue-base text-blue-base",
-  cyan: "bg-cyan-base text-cyan-base",
-  green: "bg-green-base text-green-base",
-  red: "bg-red-base text-red-base",
-  yellow: "bg-yellow-base text-yellow-darker",
+  blue: "bg-brandBlue-lightest text-brandBlue",
+  cyan: "bg-brandCyan-lightest text-brandCyan",
+  green: "bg-brandGreen-lightest text-brandGreen",
+  red: "bg-brandRed-lightest text-brandRed",
+  yellow: "bg-brandYellow-lightest text-brandYellow-darker",
 };
 
 const INFOS: Info[] = [

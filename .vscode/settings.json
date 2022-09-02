@@ -3,5 +3,9 @@
   "editor.formatOnSave": true,
   "search.exclude": {
     "**/build": true
+  },
+  "tailwindCSS.experimental.configFile": {
+    "apps/website-remix/tailwind.config.js": "apps/website-remix/**",
+    "apps/show/tailwind.config.js": "apps/show/**"
   }
 }

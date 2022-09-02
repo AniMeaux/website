@@ -277,7 +277,7 @@ function SubNav({
           >
             <div
               ref={childrenRef}
-              className="bg-gray-50 rounded-tl-xl rounded-tr-lg rounded-br-xl rounded-bl-lg px-2 py-3 flex flex-col"
+              className="bg-gray-50 rounded-bubble-md px-2 py-3 flex flex-col"
             >
               {children}
             </div>
