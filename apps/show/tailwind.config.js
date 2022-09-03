@@ -151,6 +151,10 @@ module.exports = {
       // class.
       // https://tailwindcss.com/docs/plugins#adding-variants
       addVariant("focus-visible", "&:is(:focus-visible, .focus-visible)");
+
+      // Override hover to make sure it's only applied on supported devices.
+      // https://tailwindcss.com/docs/hover-focus-and-other-states#using-arbitrary-variants
+      addVariant("hover", "@media(any-hover:hover){&:hover}");
     }),
 
     plugin(({ matchUtilities, theme }) => {
