@@ -1,10 +1,10 @@
 import { useLocation } from "@remix-run/react";
 import { forwardRef, useEffect, useRef, useState } from "react";
 import { Transition } from "react-transition-group";
-import invariant from "tiny-invariant";
 import { BaseLink, BaseLinkProps } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
 import { getFocusTrapIgnoreAttribute, useFocusTrap } from "~/core/focusTrap";
+import { useWidth } from "~/core/hooks";
 import { useScrollLock } from "~/core/scrollLock";
 import nameAndLogo from "~/images/nameAndLogo.svg";
 import { LineShapeHorizontal } from "~/layout/lineShape";
@@ -127,31 +127,6 @@ function toggleGroup(group: NavGroup) {
   return (prevState: State): State | null => {
     return prevState === group ? null : group;
   };
-}
-
-function useWidth<TElement extends HTMLElement>() {
-  const ref = useRef<TElement>(null);
-
-  // Use a large number instead of 0 to make sure the line is not visible by
-  // default.
-  const [width, setWidth] = useState(Number.MAX_SAFE_INTEGER);
-
-  useEffect(() => {
-    invariant(ref.current != null, "ref must be set");
-    const buttonElement = ref.current;
-
-    const observer = new ResizeObserver(() => {
-      setWidth(buttonElement.clientWidth);
-    });
-
-    observer.observe(buttonElement);
-
-    return () => {
-      observer.disconnect();
-    };
-  }, []);
-
-  return { ref, width };
 }
 
 function NavGroupButton({
