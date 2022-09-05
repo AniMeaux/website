@@ -188,13 +188,10 @@ function NewletterForm() {
         ref={formRef}
         method="post"
         action="/subscribe"
-        className={cn(
-          "w-full rounded-tl-2xl rounded-tr-xl rounded-br-2xl rounded-bl-xl shadow-base p-1 flex gap-2",
-          {
-            "bg-red-light": isError,
-            "bg-white": !isError,
-          }
-        )}
+        className={cn("w-full rounded-bubble-md shadow-base p-1 flex gap-2", {
+          "bg-brandRed-lightest": isError,
+          "bg-white": !isError,
+        })}
       >
         <input
           ref={inputRef}
@@ -202,15 +199,16 @@ function NewletterForm() {
           name="email"
           aria-label="Email"
           placeholder="jean@email.com"
-          className="min-w-0 flex-1 rounded-tl-xl rounded-tr-lg rounded-br-xl rounded-bl-lg bg-transparent px-6 py-2 placeholder-gray-500"
+          className="min-w-0 flex-1 rounded-bubble-sm bg-transparent px-6 py-2 placeholder-gray-500"
         />
 
         <button
           className={cn(
-            "flex p-3 rounded-tl-xl rounded-tr-lg rounded-br-xl rounded-bl-lg text-white transition-[background-color,transform] duration-100 ease-in-out",
+            "flex p-3 rounded-bubble-sm text-white transition-[background-color,transform] duration-100 ease-in-out",
             {
-              "bg-green-base": isSuccess,
-              "bg-blue-base hover:bg-blue-light active:scale-95": !isSuccess,
+              "bg-brandGreen": isSuccess,
+              "bg-brandBlue hover:bg-brandBlue-lighter active:scale-95":
+                !isSuccess,
             }
           )}
         >
@@ -219,7 +217,7 @@ function NewletterForm() {
       </fetcher.Form>
 
       {fetcher.data?.type === "error" && (
-        <p className="flex items-center gap-2 text-red-base">
+        <p className="flex items-center gap-2 text-brandRed">
           <Icon id="circleExclamation" className="text-[14px]" />
           <span className="text-caption-default">
             {fetcher.data.errors.formErrors.join(". ") ||

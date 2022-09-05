@@ -34,9 +34,11 @@ export function HeroSectionAside({ children }: { children: React.ReactNode }) {
 
 export function HeroSectionImage({
   image,
+  loading,
   className,
 }: {
   image: StaticImageProps["image"];
+  loading?: StaticImageProps["loading"];
   className?: string;
 }) {
   return (
@@ -44,6 +46,7 @@ export function HeroSectionImage({
       className={cn(className, "w-full aspect-square")}
       image={image}
       sizes={{ lg: "512px", md: "50vw", default: "100vw" }}
+      loading={loading}
     />
   );
 }

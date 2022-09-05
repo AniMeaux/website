@@ -56,7 +56,7 @@ function SocialLink({
       title={title}
       className={cn(
         className,
-        "rounded-tl-xl rounded-tr-lg rounded-br-xl rounded-bl-lg bg-opacity-0 p-2 flex items-center text-gray-700 hover:bg-opacity-10 transition-colors duration-100 ease-in-out"
+        "rounded-bubble-sm bg-opacity-0 p-2 flex items-center text-gray-700 hover:bg-opacity-10 transition-colors duration-100 ease-in-out"
       )}
     >
       <Icon id={icon} />

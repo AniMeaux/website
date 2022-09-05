@@ -44,7 +44,7 @@ export function SmallNav() {
       )}
       onKeyDown={handleEscape(() => setIsOpened(false))}
     >
-      <BaseLink to="/" className="overflow-hidden flex">
+      <BaseLink to="/" className="z-10 overflow-hidden flex">
         <Transition in={!isOpened} timeout={100}>
           {(transitionState) => {
             return (
@@ -68,7 +68,7 @@ export function SmallNav() {
       </BaseLink>
 
       <button
-        className="flex p-2"
+        className="z-10 flex p-2"
         onClick={() => setIsOpened((isOpened) => !isOpened)}
       >
         <Icon id={isOpened ? "xMark" : "bars"} className="text-[20px]" />
@@ -79,7 +79,7 @@ export function SmallNav() {
           return (
             <div
               className={cn(
-                "absolute -z-10 top-0 left-0 w-full h-screen bg-white",
+                "absolute top-0 left-0 w-full h-screen bg-white",
                 // We need to handle safe areas because this element has
                 // absolute positioning.
                 "pt-safe-[64px] px-safe-page pb-safe-2",
@@ -111,7 +111,7 @@ export function SmallNav() {
       <Transition mountOnEnter unmountOnExit in={isOpened} timeout={100}>
         {(transitionState) => (
           <SocialLinks
-            className={cn("absolute bottom-3 left-1/2", {
+            className={cn("absolute z-10 bottom-3 left-1/2", {
               "opacity-100 -translate-x-1/2 transition-[opacity,transform] duration-100 ease-out":
                 transitionState === "entering",
               "opacity-100 -translate-x-1/2": transitionState === "entered",

@@ -3,6 +3,7 @@ import { actionClassNames } from "~/core/actions";
 import { BaseLink } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
 import { Config, useConfig } from "~/core/config";
+import { createSocialMeta } from "~/core/meta";
 import { getPageTitle } from "~/core/pageTitle";
 import { Icon, IconProps } from "~/generated/icon";
 import { questionsImages } from "~/images/questions";
@@ -15,13 +16,7 @@ import {
 } from "~/layout/heroSection";
 
 export const meta: MetaFunction = () => {
-  const title = getPageTitle("Foire aux questions");
-
-  return {
-    title,
-    "og:title": title,
-    "twitter:title": title,
-  };
+  return createSocialMeta({ title: getPageTitle("Foire aux questions") });
 };
 
 export default function FaqPage() {
@@ -31,7 +26,7 @@ export default function FaqPage() {
     <main className="w-full px-page flex flex-col gap-12">
       <HeroSection>
         <HeroSectionAside>
-          <HeroSectionImage image={questionsImages} />
+          <HeroSectionImage image={questionsImages} loading="eager" />
         </HeroSectionAside>
 
         <HeroSectionAside>
@@ -58,7 +53,7 @@ export default function FaqPage() {
             >
               <span
                 className={cn(
-                  "rounded-tl-xl rounded-tr-lg rounded-br-xl rounded-bl-lg p-3 bg-opacity-5 flex items-center justify-center text-[40px]",
+                  "rounded-bubble-sm p-3 flex items-center justify-center text-[40px]",
                   ICON_COLOR_CLASS_NAME[faq.color]
                 )}
               >
@@ -83,11 +78,11 @@ type Faq = {
 };
 
 const ICON_COLOR_CLASS_NAME: Record<Faq["color"], string> = {
-  blue: "bg-blue-base text-blue-base",
-  cyan: "bg-cyan-base text-cyan-base",
-  green: "bg-green-base text-green-base",
-  red: "bg-red-base text-red-base",
-  yellow: "bg-yellow-base text-yellow-darker",
+  blue: "bg-brandBlue-lightest text-brandBlue",
+  cyan: "bg-brandCyan-lightest text-brandCyan",
+  green: "bg-brandGreen-lightest text-brandGreen",
+  red: "bg-brandRed-lightest text-brandRed",
+  yellow: "bg-brandYellow-lightest text-brandYellow-darker",
 };
 
 const FAQ: Faq[] = [

@@ -3,11 +3,12 @@ import {
   ANIMAL_AGE_RANGE_BY_SPECIES,
   formatAge,
 } from "@animeaux/shared";
-import { Gender, Prisma, Species, Status } from "@prisma/client";
+import { Gender, Prisma, Species } from "@prisma/client";
 import { json, LoaderFunction, MetaFunction } from "@remix-run/node";
-import { useLoaderData, useParams } from "@remix-run/react";
+import { useCatch, useLoaderData, useParams } from "@remix-run/react";
 import { DateTime } from "luxon";
 import invariant from "tiny-invariant";
+import { ADOPTABLE_ANIMAL_STATUS } from "~/animals/status";
 import { Paginator } from "~/controllers/paginator";
 import {
   AGES_TO_PATH,
@@ -20,8 +21,10 @@ import { cn } from "~/core/classNames";
 import { MapDateToString } from "~/core/dates";
 import { prisma } from "~/core/db.server";
 import { isDefined } from "~/core/isDefined";
+import { createSocialMeta } from "~/core/meta";
 import { getPageTitle } from "~/core/pageTitle";
 import { getPage } from "~/core/searchParams";
+import { toSlug } from "~/core/slugs";
 import {
   AGE_PLURAL_TRANSLATION,
   AGE_TRANSLATION,
@@ -29,13 +32,9 @@ import {
   SPECIES_PLURAL_TRANSLATION,
   SPECIES_TRANSLATION,
 } from "~/core/translations";
+import { ErrorPage, getErrorTitle } from "~/dataDisplay/errorPage";
 import { DynamicImage } from "~/dataDisplay/image";
 import { Icon } from "~/generated/icon";
-
-const ADOPTABLE_ANIMAL_STATUS: Status[] = [
-  Status.OPEN_TO_ADOPTION,
-  Status.OPEN_TO_RESERVATION,
-];
 
 type PageParams = {
   species?: Species;
@@ -149,23 +148,17 @@ function getAgeRangeSearchFilter(
 
 export const meta: MetaFunction = ({ params }) => {
   const pageParams = PATH_TO_PAGE_PARAMS.get(params["*"] ?? "");
-
-  // Don't change the title in case of 404.
   if (pageParams == null) {
-    return {};
+    return createSocialMeta({ title: getPageTitle(getErrorTitle(404)) });
   }
 
   const pageParamsTranslation = getPageParamsTranslation(pageParams, {
     isPlural: true,
   });
 
-  const title = getPageTitle(`${pageParamsTranslation} à l'adoption`);
-
-  return {
-    title,
-    "og:title": title,
-    "twitter:title": title,
-  };
+  return createSocialMeta({
+    title: getPageTitle(`${pageParamsTranslation} à l'adoption`),
+  });
 };
 
 function getPageParamsTranslation(
@@ -189,6 +182,11 @@ function getPageParamsTranslation(
   }
 
   return translation;
+}
+
+export function CatchBoundary() {
+  const caught = useCatch();
+  return <ErrorPage status={caught.status} />;
 }
 
 type LoaderDataClient = MapDateToString<LoaderDataServer>;
@@ -243,7 +241,7 @@ export default function AdoptionPage() {
 
           <ul
             className={cn(
-              "grid grid-cols-1 grid-rows-[auto] gap-6",
+              "grid grid-cols-1 grid-rows-[auto] gap-6 items-start",
               "xs:grid-cols-2",
               "sm:grid-cols-3"
             )}
@@ -281,9 +279,9 @@ function AnimalItem({
   return (
     <li className="flex">
       <BaseLink
-        to={`/animal/${animal.id}`}
+        to={`/animal/${toSlug(animal.name)}-${animal.id}`}
         className={cn(
-          "group w-full px-4 py-3 shadow-none rounded-tl-[40px] rounded-tr-3xl rounded-br-[40px] rounded-bl-3xl bg-transparent flex flex-col gap-3 transition-[background-color,transform] duration-100 ease-in-out hover:bg-white hover:shadow-base",
+          "group w-full px-4 py-3 shadow-none rounded-bubble-lg bg-transparent flex flex-col gap-3 transition-[background-color,transform] duration-100 ease-in-out hover:bg-white hover:shadow-base",
           "md:p-6"
         )}
       >
@@ -292,15 +290,15 @@ function AnimalItem({
           alt={animal.name}
           sizes={{ lg: "300px", md: "50vw", default: "100vw" }}
           fallbackSize="512"
-          className="w-full aspect-4/3 flex-none rounded-tl-[16%] rounded-tr-[8%] rounded-br-[16%] rounded-bl-[8%]"
+          className="w-full aspect-4/3 flex-none rounded-bubble-ratio"
         />
 
         <div className="flex flex-col">
           <p className="flex items-start gap-1">
             <span
               className={cn("h-6 flex-none flex items-center text-[20px]", {
-                "text-pink-base": animal.gender === Gender.FEMALE,
-                "text-blue-base": animal.gender === Gender.MALE,
+                "text-pink-500": animal.gender === Gender.FEMALE,
+                "text-brandBlue": animal.gender === Gender.MALE,
               })}
               title={GENDER_TRANSLATION[animal.gender]}
             >

@@ -9,6 +9,7 @@ import { BaseLink } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
 import { MapDateToString } from "~/core/dates";
 import { prisma } from "~/core/db.server";
+import { toSlug } from "~/core/slugs";
 import {
   DynamicImage,
   PlaceholderImage,
@@ -78,7 +79,7 @@ export default function HomePage() {
     <main className="px-page flex flex-col gap-24">
       <HeroSection isReversed>
         <HeroSectionAside>
-          <HeroSectionImage image={heroImages} />
+          <HeroSectionImage image={heroImages} loading="eager" />
         </HeroSectionAside>
 
         <HeroSectionAside>
@@ -286,9 +287,9 @@ function NumberItem({
       <div className="w-full flex flex-col">
         <h3
           className={cn("font-serif text-[32px] font-bold leading-normal", {
-            "text-green-base": color === "green",
-            "text-yellow-darker": color === "yellow",
-            "text-red-base": color === "red",
+            "text-brandGreen": color === "green",
+            "text-brandYellow-darker": color === "yellow",
+            "text-brandRed": color === "red",
           })}
         >
           {value}
@@ -347,9 +348,9 @@ function EventItem({
   return (
     <li className="flex">
       <BaseLink
-        to={`/evenements/${event.id}`}
+        to={`/evenements/${toSlug(event.title)}-${event.id}`}
         className={cn(
-          "group w-full px-4 py-3 shadow-none rounded-tl-[40px] rounded-tr-3xl rounded-br-[40px] rounded-bl-3xl bg-transparent flex flex-col gap-4 transition-[background-color,box-shadow] duration-100 ease-in-out hover:bg-white hover:shadow-base",
+          "group w-full px-4 py-3 shadow-none rounded-bubble-lg bg-transparent flex flex-col gap-4 transition-[background-color,box-shadow] duration-100 ease-in-out hover:bg-white hover:shadow-base",
           "sm:pl-6 sm:pr-12 sm:py-6 sm:flex-row sm:gap-6 sm:items-center"
         )}
       >
@@ -357,7 +358,7 @@ function EventItem({
           <PlaceholderImage
             icon="calendarDay"
             className={cn(
-              "w-full aspect-4/3 flex-none rounded-tl-[16%] rounded-tr-[8%] rounded-br-[16%] rounded-bl-[8%]",
+              "w-full aspect-4/3 flex-none rounded-bubble-ratio",
               "sm:w-[150px]"
             )}
           />
@@ -368,7 +369,7 @@ function EventItem({
             sizes={{ sm: "150px", default: "100vw" }}
             fallbackSize="512"
             className={cn(
-              "w-full aspect-4/3 flex-none rounded-tl-[16%] rounded-tr-[8%] rounded-br-[16%] rounded-bl-[8%]",
+              "w-full aspect-4/3 flex-none rounded-bubble-ratio",
               "sm:w-[150px]"
             )}
           />

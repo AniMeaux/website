@@ -31,7 +31,9 @@
     "luxon": "^2.3.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
+    "react-markdown": "^7.1.2",
     "react-transition-group": "^4.4.2",
+    "remark-breaks": "^3.0.2",
     "tiny-invariant": "^1.2.0",
     "zod": "^3.17.3"
   },
