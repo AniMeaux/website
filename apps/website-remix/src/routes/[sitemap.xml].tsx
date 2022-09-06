@@ -45,6 +45,7 @@ const urlDefinitions: UrlDefinition[] = [
   { path: "/", changeFrequency: "weekly" },
   { path: "/adoption", changeFrequency: "weekly" },
   { path: "/sauves", changeFrequency: "weekly" },
+  { path: "/conditions-d-adoption", changeFrequency: "monthly" },
 ];
 
 Object.values(Species).forEach((species) => {
