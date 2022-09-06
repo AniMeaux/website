@@ -11,6 +11,7 @@ export type Config = {
   linkedInUrl: string;
   twitterUrl: string;
   adoptionFormUrl: string;
+  fosterFamilyFormUrl: string;
 };
 
 export function useConfig(): Config {
