@@ -33,7 +33,7 @@ export default function HomePage() {
   const { ticketingUrl } = useConfig();
 
   return (
-    <main className="px-page flex flex-col gap-24">
+    <main className="w-full px-page flex flex-col gap-24">
       <HeroSection isReversed>
         <HeroSectionAside>
           <HeroSectionImage image={showImages} loading="eager" />

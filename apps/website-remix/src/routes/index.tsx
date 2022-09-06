@@ -76,7 +76,7 @@ export default function HomePage() {
   const { pickUpCount, upcomingEvents } = useLoaderData<LoaderDataClient>();
 
   return (
-    <main className="px-page flex flex-col gap-24">
+    <main className="w-full px-page flex flex-col gap-24">
       <HeroSection isReversed>
         <HeroSectionAside>
           <HeroSectionImage image={heroImages} loading="eager" />
