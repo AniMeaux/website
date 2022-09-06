@@ -1,11 +1,19 @@
 import { cn } from "~/core/classNames";
 
+export const bubbleSectionClassNames = {
+  root: () => "relative flex",
+  // Wrap the shape because it looks like SVG can only be sized with width and
+  // height. But we don't want the width class to be a complexe arbitrary value
+  // with hard coded size in px: `w-[calc(100%_-_16px)]`.
+  bubbleContainer: () =>
+    cn("absolute -z-10 top-0 left-2 bottom-0 right-2", "md:left-4 md:right-4"),
+  content: () => "w-full",
+};
+
 export function BubbleShape({
-  className,
   style,
   isDouble = false,
 }: {
-  className?: string;
   style?: React.CSSProperties;
   isDouble?: boolean;
 }) {
@@ -16,7 +24,7 @@ export function BubbleShape({
       // Allow the shape to stretch.
       preserveAspectRatio="none"
       xmlns="http://www.w3.org/2000/svg"
-      className={cn(className, "overflow-visible", {
+      className={cn("overflow-visible w-full h-full", {
         "stroke-brandYellow": isDouble,
         "stroke-gray-300": !isDouble,
       })}

@@ -6,7 +6,7 @@ import { createSocialMeta } from "~/core/meta";
 import { getPageTitle } from "~/core/pageTitle";
 import { Icon, IconProps } from "~/generated/icon";
 import { mapImages } from "~/images/map";
-import { BubbleShape } from "~/layout/bubbleShape";
+import { bubbleSectionClassNames, BubbleShape } from "~/layout/bubbleSection";
 import {
   HeroSection,
   HeroSectionAction,
@@ -87,22 +87,15 @@ export default function AccessPage() {
 
 function WarnSection() {
   return (
-    <section className="relative flex">
-      {/* Wrap the shape because it looks like SVG can only be sized with width
-      and height. But we don't want the width class to be a complexe arbitrary
-      value with hard coded size in px: `w-[calc(100%_-_16px)]` */}
-      <span
-        className={cn(
-          "absolute -z-10 top-0 left-2 bottom-0 right-2",
-          "md:left-4 md:right-4"
-        )}
-      >
-        <BubbleShape className="w-full h-full" />
+    <section className={bubbleSectionClassNames.root()}>
+      <span className={bubbleSectionClassNames.bubbleContainer()}>
+        <BubbleShape />
       </span>
 
       <div
         className={cn(
-          "w-full px-10 py-18 flex flex-col items-center gap-6 text-center",
+          bubbleSectionClassNames.content(),
+          "px-10 py-18 flex flex-col items-center gap-6 text-center",
           "md:px-30 md:py-[60px]"
         )}
       >
