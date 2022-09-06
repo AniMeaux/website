@@ -124,7 +124,7 @@ module.exports = {
       boxShadow: {
         base: "0px 8px 20px rgba(0, 0, 0, 0.06)",
       },
-      spacing: () => ({
+      spacing: {
         // We cannot use the `theme` parameter because referencing the `spacing`
         // values ends in a infinite recursion: `theme("spacing.4")`.
 
@@ -132,13 +132,14 @@ module.exports = {
         // - A page takes 90% of the width, 5% spacing on each side.
         // - Left and right spacing cannot go under spacing 4 (16px).
         // - The page should not exceed LG (1024px).
-        page: `max(${defaultTheme.spacing[4]}, 5%, (100% - ${defaultTheme.screens.lg}) / 2)`,
+        // Wrap the value in a `calc` so tailwind can negate it.
+        page: `calc(max(${defaultTheme.spacing[4]}, 5vw, (100% - ${defaultTheme.screens.lg}) / 2))`,
 
         // 72px
         18: "4.5rem",
         // 120px
         30: "7.5rem",
-      }),
+      },
       aspectRatio: {
         "4/3": "4 / 3",
       },
