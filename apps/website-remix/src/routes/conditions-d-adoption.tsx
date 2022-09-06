@@ -51,7 +51,7 @@ export default function AdoptionConditionsPage() {
 
       <HeroSection isReversed>
         <HeroSectionAside>
-          <HeroSectionImage image={questionsImages} loading="eager" />
+          <HeroSectionImage image={questionsImages} />
         </HeroSectionAside>
 
         <HeroSectionAside>
