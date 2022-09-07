@@ -13,6 +13,9 @@ export type Config = {
   adoptionFormUrl: string;
   fosterFamilyFormUrl: string;
   volunteerFormUrl: string;
+  donationUrl: string;
+  paypalUrl: string;
+  teamingUrl: string;
 };
 
 export function useConfig(): Config {

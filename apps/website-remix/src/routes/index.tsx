@@ -439,10 +439,14 @@ function DonateSection() {
           </h2>
 
           <p>
-            Vous souhaitez nous aider mais vous ne pouvez accueillir ou
-            adopter ? Vous pouvez nous faire un don ! Ce don servira à financer
-            les soins vétérinaires, effectuer plus de sauvetages et acheter du
-            matériel pour les animaux.
+            Vous souhaitez nous aider mais vous ne pouvez accueillir ou adopter
+             ? Vous pouvez nous faire un don ! Ce don servira à financer les{" "}
+            <strong className="text-body-emphasis">soins vétérinaires</strong>,
+            effectuer plus de{" "}
+            <strong className="text-body-emphasis">
+              sauvetages et acheter du matériel
+            </strong>{" "}
+            pour les animaux.
           </p>
         </div>
 

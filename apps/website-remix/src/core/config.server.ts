@@ -23,6 +23,9 @@ export function createConfig(): Config {
     process.env.VOLUNTEER_FORM_URL,
     "VOLUNTEER_FORM_URL should be defined"
   );
+  invariant(process.env.DONATION_URL, "DONATION_URL should be defined");
+  invariant(process.env.PAYPAL_URL, "PAYPAL_URL should be defined");
+  invariant(process.env.TEAMING_URL, "TEAMING_URL should be defined");
 
   return {
     cloudinary: { cloudName: process.env.CLOUDINARY_CLOUD_NAME },
@@ -34,5 +37,8 @@ export function createConfig(): Config {
     adoptionFormUrl: process.env.ADOPTION_FORM_URL,
     fosterFamilyFormUrl: process.env.FOSTER_FAMILY_FORM_URL,
     volunteerFormUrl: process.env.VOLUNTEER_FORM_URL,
+    donationUrl: process.env.DONATION_URL,
+    paypalUrl: process.env.PAYPAL_URL,
+    teamingUrl: process.env.TEAMING_URL,
   };
 }

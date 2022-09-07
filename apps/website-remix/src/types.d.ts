@@ -11,5 +11,8 @@ declare namespace NodeJS {
     ADOPTION_FORM_URL?: string;
     FOSTER_FAMILY_FORM_URL?: string;
     VOLUNTEER_FORM_URL?: string;
+    DONATION_URL?: string;
+    PAYPAL_URL?: string;
+    TEAMING_URL?: string;
   }
 }
