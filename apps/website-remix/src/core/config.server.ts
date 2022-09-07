@@ -19,6 +19,10 @@ export function createConfig(): Config {
     process.env.FOSTER_FAMILY_FORM_URL,
     "FOSTER_FAMILY_FORM_URL should be defined"
   );
+  invariant(
+    process.env.VOLUNTEER_FORM_URL,
+    "VOLUNTEER_FORM_URL should be defined"
+  );
 
   return {
     cloudinary: { cloudName: process.env.CLOUDINARY_CLOUD_NAME },
@@ -29,5 +33,6 @@ export function createConfig(): Config {
     twitterUrl: process.env.TWITTER_URL,
     adoptionFormUrl: process.env.ADOPTION_FORM_URL,
     fosterFamilyFormUrl: process.env.FOSTER_FAMILY_FORM_URL,
+    volunteerFormUrl: process.env.VOLUNTEER_FORM_URL,
   };
 }

@@ -12,6 +12,7 @@ export type Config = {
   twitterUrl: string;
   adoptionFormUrl: string;
   fosterFamilyFormUrl: string;
+  volunteerFormUrl: string;
 };
 
 export function useConfig(): Config {
