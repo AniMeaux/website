@@ -51,15 +51,25 @@ export function OptionDescription({ children }: { children: React.ReactNode }) {
   return <p>{children}</p>;
 }
 
-export function OptionPrice({ children }: { children: React.ReactNode }) {
+export function OptionPrice({
+  children,
+  suffix,
+}: {
+  children: React.ReactNode;
+  suffix?: string;
+}) {
   return (
-    <p
-      className={cn(
-        "font-serif font-bold text-[32px] leading-normal",
-        "md:text-[40px] md:leading-[1.2]"
-      )}
-    >
-      {children}
+    <p>
+      <span
+        className={cn(
+          "font-serif font-bold text-[32px] leading-normal",
+          "md:text-[40px] md:leading-[1.2]"
+        )}
+      >
+        {children}
+      </span>
+
+      {suffix != null && <span> {suffix}</span>}
     </p>
   );
 }
