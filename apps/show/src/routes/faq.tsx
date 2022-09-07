@@ -23,7 +23,7 @@ export default function FaqPage() {
   const config = useConfig();
 
   return (
-    <main className="w-full px-page flex flex-col gap-12">
+    <main className="w-full px-page flex flex-col gap-24">
       <HeroSection>
         <HeroSectionAside>
           <HeroSectionImage image={questionsImages} loading="eager" />

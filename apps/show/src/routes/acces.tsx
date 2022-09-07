@@ -22,7 +22,7 @@ export const meta: MetaFunction = () => {
 
 export default function AccessPage() {
   return (
-    <main className="w-full px-page flex flex-col gap-12">
+    <main className="w-full px-page flex flex-col gap-24">
       <HeroSection>
         <HeroSectionAside>
           <HeroSectionImage
