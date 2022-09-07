@@ -139,7 +139,7 @@ const INFOS: Info[] = [
     icon: "locationDot",
     color: "red",
     title: "Adresse",
-    text: <>Colisée de Meaux, 73 Av. Henri Dunant, 77100 Meaux</>,
+    text: <>Colisée de Meaux, 73 Av. Henri Dunant, 77100 Meaux.</>,
   },
   {
     icon: "clock",
@@ -147,9 +147,9 @@ const INFOS: Info[] = [
     title: "Horaires d'ouverture",
     text: (
       <>
-        Samedi 10 juin 2023 de 10h à 18h
+        Samedi 10 juin 2023 de 10h à 18h.
         <br />
-        Dimanche 11 juin 2023 de 10h à 18h
+        Dimanche 11 juin 2023 de 10h à 18h.
       </>
     ),
   },
@@ -173,7 +173,7 @@ const INFOS: Info[] = [
         >
           I
         </BaseLink>
-        , arrêt Colisée de Meaux ou Roland Garros
+        , arrêt Colisée de Meaux ou Roland Garros.
       </>
     ),
   },

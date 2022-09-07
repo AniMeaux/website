@@ -41,7 +41,7 @@ export default function AdoptionConditionsPage() {
             L'adoption est un{" "}
             <strong className="text-body-emphasis">acte responsable</strong> et
             un <strong className="text-body-emphasis">engagement</strong> pour
-            toute la vie de l'animal
+            toute la vie de l'animal.
           </HeroSectionParagraph>
         </HeroSectionAside>
       </HeroSection>

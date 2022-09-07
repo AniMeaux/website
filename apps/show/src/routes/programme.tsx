@@ -22,7 +22,7 @@ export default function ProgramPage() {
       </header>
 
       <p className={cn("px-4 py-12 text-center text-gray-500", "md:py-40")}>
-        Le programme sera transmis ultérieurement
+        Le programme sera transmis ultérieurement.
       </p>
     </main>
   );

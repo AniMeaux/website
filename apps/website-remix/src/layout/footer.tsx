@@ -45,7 +45,7 @@ export function Footer() {
             </h2>
             <p className={cn("text-center", "md:text-left")}>
               Abonnez-vous à la newsletter pour ne rien rater des dernières
-              nouveautés
+              nouveautés.
             </p>
           </div>
 
@@ -91,7 +91,7 @@ export function Footer() {
           <p>
             <strong className="text-body-emphasis">
               Nous ne disposons pas de structure physique, il s'agit d'une
-              adresse postale uniquement
+              adresse postale uniquement.
             </strong>
           </p>
         </section>

@@ -55,7 +55,7 @@ export default function HomePage() {
               <time dateTime={OPENING_TIME.toISO()}>
                 10 et 11 juin 2023 - 10h à 18h
               </time>{" "}
-              - Colisée de Meaux
+              - Colisée de Meaux.
             </strong>
           </HeroSectionParagraph>
 
@@ -250,7 +250,7 @@ function PresentationSection() {
           text={
             <>
               <strong className="text-body-emphasis">60 exposants</strong>{" "}
-              dévoués au bien-être des animaux
+              dévoués au bien-être des animaux.
             </>
           }
           image={exhibitorsImages}
@@ -260,7 +260,7 @@ function PresentationSection() {
           text={
             <>
               Des <strong className="text-body-emphasis">animations</strong>{" "}
-              pour vous divertir et enrichir vos connaissances
+              pour vous divertir et enrichir vos connaissances.
             </>
           }
           image={animationImages}
@@ -273,7 +273,7 @@ function PresentationSection() {
               <strong className="text-body-emphasis">
                 chiens à l'adoption
               </strong>{" "}
-              qui feront chavirer votre coeur
+              qui feront chavirer votre coeur.
             </>
           }
           image={adoptionImages}

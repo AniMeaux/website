@@ -32,7 +32,7 @@ export default function FosterFamilyPage() {
             <strong className="text-body-emphasis">sauver les animaux</strong>{" "}
             en leur consacrant{" "}
             <strong className="text-body-emphasis">temps et attention</strong>,
-            sans aucune contrainte financière
+            sans aucune contrainte financière.
           </HeroSectionParagraph>
         </HeroSectionAside>
       </HeroSection>

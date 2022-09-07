@@ -85,7 +85,7 @@ export default function HomePage() {
         <HeroSectionAside>
           <HeroSectionTitle isLarge>Adoptez !</HeroSectionTitle>
           <HeroSectionParagraph>
-            Trouvez le compagnon de vos rêves et donnez-lui une seconde chance
+            Trouvez le compagnon de vos rêves et donnez-lui une seconde chance.
           </HeroSectionParagraph>
 
           <HeroSectionAction>
@@ -110,7 +110,7 @@ export default function HomePage() {
             <strong className="text-body-emphasis">sauver les animaux</strong>{" "}
             en leur consacrant{" "}
             <strong className="text-body-emphasis">temps et attention</strong>,
-            sans aucune contrainte financière
+            sans aucune contrainte financière.
           </HeroSectionParagraph>
 
           <HeroSectionAction>
@@ -138,7 +138,7 @@ export default function HomePage() {
             <strong className="text-body-emphasis">
               sauvetages des animaux
             </strong>{" "}
-            en difficultés que nous sommes amenés à prendre sous notre aile
+            en difficultés que nous sommes amenés à prendre sous notre aile.
           </HeroSectionParagraph>
 
           <HeroSectionAction>
@@ -173,23 +173,23 @@ function WhoWeAreSection() {
           <strong className="text-body-emphasis">association</strong> loi 1901
           de protection animale, reconnue d'intérêt général, qui a pour but de{" "}
           <strong className="text-body-emphasis">sauver des animaux</strong>{" "}
-          domestiques et sensibiliser à la cause animale en général
+          domestiques et sensibiliser à la cause animale en général.
         </p>
       </div>
 
       <ul className="px-6 flex items-start flex-wrap gap-12 justify-evenly">
         <WhoWeAreItem
-          text="Nous recueillons les animaux abandonnés, maltraités ou errants"
+          text="Nous recueillons les animaux abandonnés, maltraités ou errants."
           image={pickUpImages}
         />
 
         <WhoWeAreItem
-          text="Nous les plaçons dans une famille d'accueil adaptée à l'animal afin de lui prodiguer tous les soins nécessaires à son rétablissement"
+          text="Nous les plaçons dans une famille d'accueil adaptée à l'animal afin de lui prodiguer tous les soins nécessaires à son rétablissement."
           image={fosterFamilySmallImages}
         />
 
         <WhoWeAreItem
-          text="Nous leur trouvons une nouvelle famille pour la vie"
+          text="Nous leur trouvons une nouvelle famille pour la vie."
           image={adoptionImages}
         />
       </ul>
