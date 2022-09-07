@@ -158,7 +158,7 @@ export default function HomePage() {
 function WhoWeAreSection() {
   return (
     <section className="flex flex-col gap-12">
-      <div className="self-center max-w-2xl px-4 flex flex-col gap-6 text-center">
+      <div className={cn("px-4 flex flex-col gap-6 text-center", "md:px-30")}>
         <h2
           className={cn(
             "text-title-section-small",
@@ -236,7 +236,7 @@ function NumbersSection({
         className={cn(
           bubbleSectionClassNames.content(),
           "px-10 py-12 flex items-start flex-wrap justify-evenly gap-12",
-          "md:px-24 md:py-10"
+          "md:px-30 md:py-10"
         )}
       >
         <NumberItem
@@ -425,7 +425,7 @@ function DonateSection() {
         className={cn(
           bubbleSectionClassNames.content(),
           "px-10 py-12 flex flex-col items-center gap-6",
-          "md:px-24 md:py-[60px]"
+          "md:px-30 md:py-[60px]"
         )}
       >
         <div className="w-full max-w-3xl flex flex-col gap-6 text-center">
