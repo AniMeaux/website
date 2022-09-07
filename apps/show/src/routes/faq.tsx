@@ -33,7 +33,7 @@ export default function FaqPage() {
           <HeroSectionTitle isLarge>Foire aux questions</HeroSectionTitle>
 
           <HeroSectionParagraph>
-            Retrouvez ici les réponses aux questions fréquemment posées
+            Retrouvez ici les réponses aux questions fréquemment posées.
           </HeroSectionParagraph>
         </HeroSectionAside>
       </HeroSection>

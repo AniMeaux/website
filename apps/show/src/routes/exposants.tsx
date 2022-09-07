@@ -31,7 +31,7 @@ export default function ExhibitorsPage() {
       </header>
 
       <p className={cn("px-4 py-12 text-center text-gray-500", "md:py-40")}>
-        La liste des exposants sera transmise ultérieurement
+        La liste des exposants sera transmise ultérieurement.
       </p>
 
       <div className={cn("flex justify-center", "md:hidden")}>
