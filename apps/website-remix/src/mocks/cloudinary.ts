@@ -13,9 +13,9 @@ const SVGS = [
 ];
 
 const resolver: Parameters<typeof rest.get>[1] = async (req, res, ctx) => {
-  invariant(typeof req.params.path === "string", "path is required");
+  invariant(typeof req.params.id === "string", "id is required");
   // path is an UUID, so we take the first 8 hexa characters.
-  const hash = Number(`0x${req.params.path.substring(0, 8)}`);
+  const hash = Number(`0x${req.params.id.substring(0, 8)}`);
   const svg = SVGS[hash % SVGS.length];
 
   return res(
@@ -27,11 +27,15 @@ const resolver: Parameters<typeof rest.get>[1] = async (req, res, ctx) => {
 
 export const cloudinaryHandlers = [
   rest.get(
-    "https://res.cloudinary.com/mock-cloud-name/image/upload/:filters/:path",
+    "https://res.cloudinary.com/mock-cloud-name/image/upload/:filters/:id",
     resolver
   ),
   rest.get(
-    "https://res.cloudinary.com/mock-cloud-name/image/upload/:path",
+    "https://res.cloudinary.com/mock-cloud-name/image/upload/:filters/:folder/:id",
+    resolver
+  ),
+  rest.get(
+    "https://res.cloudinary.com/mock-cloud-name/image/upload/:id",
     resolver
   ),
 ];
