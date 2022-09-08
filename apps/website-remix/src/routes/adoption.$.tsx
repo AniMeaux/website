@@ -281,14 +281,14 @@ function AnimalItem({
       <BaseLink
         to={`/animal/${toSlug(animal.name)}-${animal.id}`}
         className={cn(
-          "group w-full px-4 py-3 shadow-none rounded-bubble-lg bg-transparent flex flex-col gap-3 transition-[background-color,transform] duration-100 ease-in-out hover:bg-white hover:shadow-base",
+          "w-full px-4 py-3 shadow-none rounded-bubble-lg bg-transparent flex flex-col gap-3 transition-[background-color,transform] duration-100 ease-in-out hover:bg-white hover:shadow-base",
           "md:p-6"
         )}
       >
         <DynamicImage
           imageId={animal.avatar}
           alt={animal.name}
-          sizes={{ lg: "300px", md: "50vw", default: "100vw" }}
+          sizes={{ lg: "300px", sm: "30vw", xs: "50vw", default: "100vw" }}
           fallbackSize="512"
           className="w-full aspect-4/3 flex-none rounded-bubble-ratio"
         />
