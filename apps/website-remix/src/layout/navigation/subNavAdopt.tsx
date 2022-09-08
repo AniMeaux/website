@@ -61,7 +61,7 @@ export const SubNavAdopt: SubNavComponent = () => {
 
       <div
         className={cn(
-          "w-full px-2 flex stroke-gray-100",
+          "w-full px-2 flex text-gray-100",
           "md:w-auto md:h-full md:px-0 md:py-2"
         )}
       >

@@ -9,10 +9,12 @@ module.exports = {
     // See https://remix.run/docs/en/v1/api/conventions#serverdependenciestobundle
     /^(comma|space)-separated-tokens/,
     /^bail$/,
+    /^ccount$/,
     /^character-entities$/,
     /^decode-named-character-reference$/,
     /^hast-util-whitespace$/,
     /^is-plain-obj$/,
+    /^markdown-table$/,
     /^mdast-*/,
     /^micromark*/,
     /^property-information$/,

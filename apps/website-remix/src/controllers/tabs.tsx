@@ -32,14 +32,10 @@ export function Tab({
       <Transition in={isActive} timeout={150}>
         {(transitionState) => (
           <LineShapeHorizontal
-            className={cn(
-              "absolute bottom-0 left-0 w-full h-1 block stroke-brandBlue",
-              {
-                "transition-[stroke-dashoffset] duration-150 ease-in-out":
-                  transitionState === "entering" ||
-                  transitionState === "exiting",
-              }
-            )}
+            className={cn("absolute bottom-0 left-0 w-full h-1 block", {
+              "transition-[stroke-dashoffset] duration-150 ease-in-out":
+                transitionState === "entering" || transitionState === "exiting",
+            })}
             style={{
               strokeDasharray: width,
               strokeDashoffset:
