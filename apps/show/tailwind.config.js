@@ -131,9 +131,10 @@ module.exports = {
         // The values in the formula are defined by:
         // - A page takes 90% of the width, 5% spacing on each side.
         // - Left and right spacing cannot go under spacing 4 (16px).
-        // - The page should not exceed LG (1024px).
+        // - The page should not exceed LG or MD (1024px or 768px).
         // Wrap the value in a `calc` so tailwind can negate it.
         page: `calc(max(${defaultTheme.spacing[4]}, 5vw, (100% - ${defaultTheme.screens.lg}) / 2))`,
+        article: `calc(max(${defaultTheme.spacing[4]}, 5vw, (100% - ${defaultTheme.screens.md}) / 2))`,
 
         // 72px
         18: "4.5rem",
