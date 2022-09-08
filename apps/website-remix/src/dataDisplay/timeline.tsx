@@ -25,21 +25,21 @@ export function TimelineItem({
     >
       <TopLine
         className={cn(
-          "hidden absolute -z-10 -top-2 left-4 w-6 h-12 stroke-gray-300 group-first:block",
+          "hidden absolute -z-10 -top-2 left-4 w-6 h-12 text-gray-300 group-first:block",
           "md:-top-0.5 md:left-1/2 md:-translate-x-1/2 md:h-20"
         )}
       />
 
       <BottomLine
         className={cn(
-          "absolute -z-10 top-10 left-4 w-6 h-full stroke-gray-300 group-even:scale-x-[-1] group-last:hidden",
+          "absolute -z-10 top-10 left-4 w-6 h-full text-gray-300 group-even:scale-x-[-1] group-last:hidden",
           "md:top-[78px] md:left-1/2 md:-translate-x-1/2"
         )}
       />
 
       <TopLine
         className={cn(
-          "hidden absolute -z-10 top-10 left-4 w-6 h-12 stroke-gray-300 scale-y-[-1] group-last:block group-odd:scale-x-[-1]",
+          "hidden absolute -z-10 top-10 left-4 w-6 h-12 text-gray-300 scale-y-[-1] group-last:block group-odd:scale-x-[-1]",
           "md:top-[78px] md:left-1/2 md:-translate-x-1/2 md:h-20"
         )}
       />
@@ -85,6 +85,7 @@ function TopLine({ className }: { className: string }) {
     >
       <path
         d="m12 0c20 7.3846 12 30 0 48"
+        stroke="currentColor"
         strokeWidth="6"
         strokeLinecap="round"
         // We don't want the stroke to scale, keep it at 3px.
@@ -106,6 +107,7 @@ function BottomLine({ className }: { className: string }) {
     >
       <path
         d="m12 0c-24 63-24 105 0 168"
+        stroke="currentColor"
         strokeWidth="6"
         strokeLinecap="round"
         // We don't want the stroke to scale, keep it at 3px.

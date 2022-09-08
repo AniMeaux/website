@@ -22,7 +22,7 @@ export function Footer() {
     >
       <div className={cn("w-full px-2 flex", "md:px-6")}>
         <LineShapeHorizontal
-          className={cn("w-full h-4 stroke-gray-300", "md:h-6")}
+          className={cn("w-full h-4 text-gray-300", "md:h-6")}
         />
       </div>
 
