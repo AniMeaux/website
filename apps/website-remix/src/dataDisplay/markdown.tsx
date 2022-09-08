@@ -1,9 +1,12 @@
 import ReactMarkdown, { Options as ReactMarkdownOptions } from "react-markdown";
 import breaks from "remark-breaks";
+import gfm from "remark-gfm";
 
 const REMARK_PLUGINS: ReactMarkdownOptions["plugins"] = [
   // Allow line breaks in paragraphs.
   breaks,
+  // Allow autolink literals, strikethrough, table and task list.
+  gfm,
 ];
 
 export type MarkdownProps = {
