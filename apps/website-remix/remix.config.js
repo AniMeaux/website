@@ -12,6 +12,7 @@ module.exports = {
     /^ccount$/,
     /^character-entities$/,
     /^decode-named-character-reference$/,
+    /^escape-string-regexp$/,
     /^hast-util-whitespace$/,
     /^is-plain-obj$/,
     /^markdown-table$/,
