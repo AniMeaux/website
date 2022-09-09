@@ -119,8 +119,8 @@ export default function BlogPage() {
         <div className="w-full flex flex-col gap-6">
           <h2
             className={cn(
-              "text-title-section-small",
-              "md:text-title-section-large"
+              "text-title-section-small text-center",
+              "md:text-title-section-large md:text-left"
             )}
           >
             Continuer à lire

@@ -77,7 +77,7 @@ export const ARTICLE_COMPONENTS: MarkdownProps["components"] = {
         alt={alt}
         sizes={{ lg: "1024px", default: "100vw" }}
         fallbackSize="1024"
-        className="my-12 w-full aspect-4/3 flex-none rounded-bubble-ratio  first:mt-0 last:mb-0"
+        className="my-12 w-full aspect-4/3 flex-none rounded-bubble-ratio"
       />
     );
   },

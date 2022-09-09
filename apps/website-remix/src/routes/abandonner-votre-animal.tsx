@@ -5,29 +5,50 @@ import {
   Markdown,
   MarkdownLink,
 } from "~/dataDisplay/markdown";
+import { RelatedSection, WarnItem } from "~/warn/relatedSection";
 
 export default function AbandonPage() {
   return (
-    <main className="w-full px-article flex flex-col gap-12">
-      <header className={cn("px-4 flex flex-col", "md:px-0")}>
-        <h1 className={cn("text-title-hero-small", "md:text-title-hero-large")}>
-          Abandonner votre animal
-        </h1>
-      </header>
+    <>
+      <main className="w-full px-article flex flex-col gap-12">
+        <header className={cn("px-4 flex flex-col", "md:px-0")}>
+          <h1
+            className={cn("text-title-hero-small", "md:text-title-hero-large")}
+          >
+            Abandonner votre animal
+          </h1>
+        </header>
 
-      <DynamicImage
-        shouldFill
-        imageId="blog/2bf99fd0-da8b-4326-b7fa-d2a0eaa8ecc6"
-        alt="Abandonner votre animal"
-        sizes={{ lg: "1024px", default: "100vw" }}
-        fallbackSize="1024"
-        className="w-full aspect-4/3 flex-none rounded-bubble-ratio"
-      />
+        <DynamicImage
+          shouldFill
+          imageId="blog/2bf99fd0-da8b-4326-b7fa-d2a0eaa8ecc6"
+          alt="Abandonner votre animal"
+          sizes={{ lg: "1024px", default: "100vw" }}
+          fallbackSize="1024"
+          className="w-full aspect-4/3 flex-none rounded-bubble-ratio"
+        />
 
-      <article>
-        <Markdown components={ARTICLE_COMPONENTS}>{CONTENT}</Markdown>
-      </article>
-    </main>
+        <article>
+          <Markdown components={ARTICLE_COMPONENTS}>{CONTENT}</Markdown>
+        </article>
+      </main>
+
+      <RelatedSection>
+        <WarnItem
+          to="/signaler-un-animal-errant"
+          image="blog/a2bf3ad2-a475-4c63-8f30-fd29928c8fa3"
+          title="Signaler un animal errant"
+          description="Vous avez trouvé un animal dans la rue et vous ne savez pas comment agir ?"
+        />
+
+        <WarnItem
+          to="/informer-d-un-acte-de-maltraitance"
+          image="blog/bd9dec91-45da-4064-9053-536b5a9b61c3"
+          title="Informer d’un acte de maltraitance"
+          description="Si vous êtes témoin d'un acte de mauvais traitement ou de cruauté envers un animal, il vous faut agir."
+        />
+      </RelatedSection>
+    </>
   );
 }
 
