@@ -77,12 +77,14 @@ export const ARTICLE_COMPONENTS: MarkdownProps["components"] = {
         alt={alt}
         sizes={{ lg: "1024px", default: "100vw" }}
         fallbackSize="1024"
-        className="my-12 w-full aspect-4/3 flex-none rounded-bubble-ratio"
+        className="my-12 w-full aspect-4/3 flex-none rounded-bubble-ratio  first:mt-0 last:mb-0"
       />
     );
   },
   blockquote: ({ children }) => (
-    <blockquote className={cn("my-6 flex italic", "md:gap-6")}>
+    <blockquote
+      className={cn("my-6 flex italic first:mt-0 last:mb-0", "md:gap-6")}
+    >
       <LineShapeVertical className="w-2 flex-none text-brandBlue" />
       <div className="flex-1">{children}</div>
     </blockquote>
@@ -103,7 +105,7 @@ export const ARTICLE_COMPONENTS: MarkdownProps["components"] = {
   h2: ({ children }) => (
     <h2
       className={cn(
-        "mt-12 mb-6 px-4 text-title-section-small",
+        "mt-12 mb-6 px-4 text-title-section-small first:mt-0 last:mb-0",
         "md:px-0 md:text-title-section-large"
       )}
     >
@@ -111,14 +113,22 @@ export const ARTICLE_COMPONENTS: MarkdownProps["components"] = {
     </h2>
   ),
   ul: ({ children }) => (
-    <ul className={cn("my-6 pl-8 list-disc", "md:pl-4")}>{children}</ul>
+    <ul className={cn("my-6 pl-8 list-disc first:mt-0 last:mb-0", "md:pl-4")}>
+      {children}
+    </ul>
   ),
   ol: ({ children }) => (
-    <ol className={cn("my-6 pl-8 list-decimal", "md:pl-4")}>{children}</ol>
+    <ol
+      className={cn("my-6 pl-8 list-decimal first:mt-0 last:mb-0", "md:pl-4")}
+    >
+      {children}
+    </ol>
   ),
   li: ({ children }) => <li>{children}</li>,
   table: ({ children }) => (
-    <table className="block w-full my-6 overflow-auto">{children}</table>
+    <table className="block w-full my-6 overflow-auto first:mt-0 last:mb-0">
+      {children}
+    </table>
   ),
   thead: ({ children }) => <thead>{children}</thead>,
   tbody: ({ children }) => <tbody>{children}</tbody>,
