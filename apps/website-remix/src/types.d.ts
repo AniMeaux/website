@@ -14,5 +14,6 @@ declare namespace NodeJS {
     DONATION_URL?: string;
     PAYPAL_URL?: string;
     TEAMING_URL?: string;
+    PICK_UP_FORM_URL?: string;
   }
 }

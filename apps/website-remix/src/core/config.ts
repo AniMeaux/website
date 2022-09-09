@@ -16,6 +16,7 @@ export type Config = {
   donationUrl: string;
   paypalUrl: string;
   teamingUrl: string;
+  pickUpFormUrl: string;
 };
 
 export function useConfig(): Config {

@@ -26,6 +26,7 @@ export function createConfig(): Config {
   invariant(process.env.DONATION_URL, "DONATION_URL should be defined");
   invariant(process.env.PAYPAL_URL, "PAYPAL_URL should be defined");
   invariant(process.env.TEAMING_URL, "TEAMING_URL should be defined");
+  invariant(process.env.PICK_UP_FORM_URL, "PICK_UP_FORM_URL should be defined");
 
   return {
     cloudinaryName: process.env.CLOUDINARY_CLOUD_NAME,
@@ -40,5 +41,6 @@ export function createConfig(): Config {
     donationUrl: process.env.DONATION_URL,
     paypalUrl: process.env.PAYPAL_URL,
     teamingUrl: process.env.TEAMING_URL,
+    pickUpFormUrl: process.env.PICK_UP_FORM_URL,
   };
 }
