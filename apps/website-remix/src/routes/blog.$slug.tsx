@@ -142,7 +142,7 @@ const CONTENT_COMPONENTS: MarkdownProps["components"] = {
   ),
   li: ({ children }) => <li>{children}</li>,
   table: ({ children }) => (
-    <table className="w-full my-6 overflow-auto">{children}</table>
+    <table className="block w-full my-6 overflow-auto">{children}</table>
   ),
   thead: ({ children }) => <thead>{children}</thead>,
   tbody: ({ children }) => <tbody>{children}</tbody>,
