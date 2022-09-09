@@ -5,7 +5,7 @@ import volunteer2048 from "~/images/volunteer-2048w.png";
 import volunteer512 from "~/images/volunteer-512w.png";
 
 export const volunteerImages: ImageDescriptor = {
-  alt: "Deux volontaires de dos avec des t-shirts Ani'Meaux",
+  alt: "Deux volontaires de dos avec des t-shirts Ani’Meaux.",
   imagesBySize: {
     "512": volunteer512,
     "1024": volunteer1024,

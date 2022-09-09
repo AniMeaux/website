@@ -5,7 +5,7 @@ import adopt2048 from "~/images/adopt-2048w.png";
 import adopt512 from "~/images/adopt-512w.png";
 
 export const adoptImages: ImageDescriptor = {
-  alt: "Chat escaladant une petite grille",
+  alt: "Chat escaladant une petite grille.",
   imagesBySize: {
     "512": adopt512,
     "1024": adopt1024,

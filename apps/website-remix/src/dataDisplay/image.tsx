@@ -103,7 +103,7 @@ export function DynamicImage({
     imagesBySize: Object.fromEntries(
       IMAGE_SIZES.map((size) => [
         size,
-        createCloudinaryUrl(config.cloudinary.cloudName, imageId, {
+        createCloudinaryUrl(config.cloudinaryName, imageId, {
           size,
           shouldFill,
         }),

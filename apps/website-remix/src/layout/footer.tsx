@@ -67,7 +67,7 @@ export function Footer() {
         >
           <img
             src={nameAndLogo}
-            alt="Ani'Meaux"
+            alt="Ani’Meaux"
             className={cn("h-[60px]", "md:h-20")}
           />
 
@@ -90,7 +90,7 @@ export function Footer() {
 
           <p>
             <strong className="text-body-emphasis">
-              Nous ne disposons pas de structure physique, il s'agit d'une
+              Nous ne disposons pas de structure physique, il s’agit d’une
               adresse postale uniquement.
             </strong>
           </p>
@@ -111,7 +111,7 @@ export function Footer() {
         </p>
 
         <p className="text-caption-default">
-          Copyright © {new Date().getFullYear()} Ani'Meaux
+          Copyright © {new Date().getFullYear()} Ani’Meaux
         </p>
       </section>
     </footer>

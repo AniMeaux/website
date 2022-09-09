@@ -8,7 +8,7 @@ export const SubNavAct: SubNavComponent = () => {
         icon="houseChimneyPaw"
         to="/devenir-famille-d-accueil"
       >
-        Devenir famille d'accueil
+        Devenir famille d’accueil
       </SubNavItem>
 
       <SubNavItem color="green" icon="peopleGroup" to="/devenir-benevole">

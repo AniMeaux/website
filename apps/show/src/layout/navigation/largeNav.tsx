@@ -16,7 +16,7 @@ export function LargeNav() {
       )}
     >
       <BaseLink to="/" className="flex">
-        <img src={nameAndLogo} alt="Salon des Ani'Meaux" className="h-[40px]" />
+        <img src={nameAndLogo} alt="Salon des Ani’Meaux" className="h-[40px]" />
       </BaseLink>
 
       <nav className={cn("flex", "lg:gap-2")}>

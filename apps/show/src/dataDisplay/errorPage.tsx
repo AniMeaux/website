@@ -20,10 +20,10 @@ type ErrorMetaData = {
 const STATUS_CODE_ERROR_META_DATA: Record<number, ErrorMetaData> = {
   404: {
     title: "Page introuvable",
-    message: "Nous n'avons pas trouvé la page que vous chercher.",
+    message: "Nous n’avons pas trouvé la page que vous chercher.",
     action: (
       <BaseLink to="/" className={actionClassNames.standalone()}>
-        Page d'accueil
+        Page d’accueil
       </BaseLink>
     ),
   },

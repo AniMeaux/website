@@ -43,7 +43,7 @@ export default function HomePage() {
           <div className={cn("px-4 flex", "md:px-6")}>
             <img
               src={nameAndLogo}
-              alt="Salon des Ani'Meaux"
+              alt="Salon des Ani’Meaux"
               className="w-full aspect-[440_/_126]"
             />
           </div>
@@ -90,12 +90,12 @@ export default function HomePage() {
           <HeroSectionTitle>Accès au Salon</HeroSectionTitle>
           <HeroSectionParagraph>
             Voiture, bus, vélo ou à pied, tous les moyens sont bons pour visiter
-            le Salon des Ani'Meaux !
+            le Salon des Ani’Meaux !
           </HeroSectionParagraph>
 
           <HeroSectionAction>
             <BaseLink to="/acces" className={actionClassNames.standalone()}>
-              S'y rendre
+              S’y rendre
             </BaseLink>
           </HeroSectionAction>
         </HeroSectionAside>
@@ -133,6 +133,7 @@ function Countdown() {
           label={diff.days > 1 ? "Jours" : "Jour"}
           value={diff.days}
         />
+
         <CountDownItem
           label={diff.hours > 1 ? "Heures" : "Heure"}
           value={diff.hours}
@@ -187,9 +188,9 @@ function ComeWithYourDogSection() {
         <p>
           Votre chien est le bienvenu durant le salon. Cependant,{" "}
           <strong className="text-body-emphasis">
-            un contrôle vétérinaire sera effectué à l'entrée
+            un contrôle vétérinaire sera effectué à l’entrée
           </strong>
-          . Le carnet de santé et les papiers d'identification des animaux
+          . Le carnet de santé et les papiers d’identification des animaux
           seront obligatoire lors de ce contrôle. Pour les chiens de catégorie,
           veillez à prévoir votre autorisation de détention.
         </p>
@@ -198,7 +199,7 @@ function ComeWithYourDogSection() {
           Pour le bien-être de votre chien et celui des autres présents durant
           le salon, veillez à ne{" "}
           <strong className="text-body-emphasis">
-            l'amener que s'il est sociable avec les autres animaux et à l'aise
+            l’amener que s’il est sociable avec les autres animaux et à l’aise
             en présence de nombreuses personnes
           </strong>
           .
@@ -222,7 +223,7 @@ function PresentationSection() {
         </h2>
 
         <p>
-          Le Salon des Ani'Meaux a pour vocation de{" "}
+          Le Salon des Ani’Meaux a pour vocation de{" "}
           <strong className="text-body-emphasis">
             sensibiliser les petits et les grands
           </strong>{" "}
@@ -234,7 +235,7 @@ function PresentationSection() {
           <strong className="text-body-emphasis">
             professionnels et des associations
           </strong>
-          , tout en profitant d'activités et animations riches et de moments de
+          , tout en profitant d’activités et animations riches et de moments de
           convivialité.
         </p>
 
@@ -271,7 +272,7 @@ function PresentationSection() {
             <>
               Des{" "}
               <strong className="text-body-emphasis">
-                chiens à l'adoption
+                chiens à l’adoption
               </strong>{" "}
               qui feront chavirer votre coeur.
             </>
@@ -325,24 +326,24 @@ function OriginSection() {
             "md:text-title-section-large"
           )}
         >
-          L'origine
+          L’origine
         </h2>
 
         <p>
-          A l'initiative de l'association{" "}
+          A l’initiative de l’association{" "}
           <BaseLink to={animeauxUrl} className={actionClassNames.proseInline()}>
-            Ani'Meaux
+            Ani’Meaux
           </BaseLink>{" "}
           et organisé en collaboration avec la municipalité de Meaux, le Salon
-          des Ani'Meaux a vu naître sa première édition le 15 mai 2022.
+          des Ani’Meaux a vu naître sa première édition le 15 mai 2022.
         </p>
 
         <p>
           Mis en œuvre en seulement deux mois, grâce au travail de bénévoles
-          dévoués, cette première édition a connu un franc succès puisqu'elle a
+          dévoués, cette première édition a connu un franc succès puisqu’elle a
           rassemblé une{" "}
           <strong className="text-body-emphasis">
-            cinquantaine d'exposants
+            cinquantaine d’exposants
           </strong>
           , professionnels et associations confondus, et a reçu plus de{" "}
           <strong className="text-body-emphasis">1 200 visiteurs</strong> sur
@@ -350,7 +351,7 @@ function OriginSection() {
         </p>
 
         <p>
-          En 2023, le Salon des Ani'Meaux voit plus grand en conviant 60
+          En 2023, le Salon des Ani’Meaux voit plus grand en conviant 60
           exposants et ouvrira ses portes aux visiteurs durant deux journées :
           les 10 et 11 juin 2023.
         </p>
@@ -373,8 +374,8 @@ function PartnersSection() {
         </h2>
 
         <p>
-          Le Salon des Ani'Meaux est imaginé et mis en place par des bénévoles,
-          mais il n'aurait pas pu voir le jour sans leur participation.
+          Le Salon des Ani’Meaux est imaginé et mis en place par des bénévoles,
+          mais il n’aurait pas pu voir le jour sans leur participation.
         </p>
       </div>
 

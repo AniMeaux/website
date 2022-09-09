@@ -79,7 +79,7 @@ export const SubNavAdopt: SubNavComponent = () => {
         </SubNavItem>
 
         <SubNavItem color="yellow" icon="bookHeart" to="/conditions-d-adoption">
-          Conditions d'adoption
+          Conditions d’adoption
         </SubNavItem>
       </div>
     </div>

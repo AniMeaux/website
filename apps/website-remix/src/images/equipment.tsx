@@ -5,7 +5,7 @@ import equipment2048 from "~/images/equipment-2048w.png";
 import equipment512 from "~/images/equipment-512w.png";
 
 export const equipmentImages: ImageDescriptor = {
-  alt: "Deux cochons d'indes mangeant de la carotte",
+  alt: "Deux cochons d’indes mangeant de la carotte.",
   imagesBySize: {
     "512": equipment512,
     "1024": equipment1024,

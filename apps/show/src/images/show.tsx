@@ -5,7 +5,7 @@ import show2048 from "~/images/show-2048w.png";
 import show512 from "~/images/show-512w.png";
 
 export const showImages: ImageDescriptor = {
-  alt: "Chat allongé touchant la truffe d'un chien avec sa patte",
+  alt: "Chat allongé touchant la truffe d’un chien avec sa patte.",
   imagesBySize: {
     "512": show512,
     "1024": show1024,

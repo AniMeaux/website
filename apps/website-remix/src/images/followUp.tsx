@@ -5,7 +5,7 @@ import followUp2048 from "~/images/followUp-2048w.png";
 import followUp512 from "~/images/followUp-512w.png";
 
 export const followUpImages: ImageDescriptor = {
-  alt: "Chien portant des lunettes derrière un écran d'ordinateur",
+  alt: "Chien portant des lunettes derrière un écran d’ordinateur.",
   imagesBySize: {
     "512": followUp512,
     "1024": followUp1024,

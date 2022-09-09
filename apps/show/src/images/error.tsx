@@ -5,7 +5,7 @@ import error2048 from "~/images/error-2048w.png";
 import error512 from "~/images/error-512w.png";
 
 export const errorImages: ImageDescriptor = {
-  alt: "Chien qui se cache dans l'herbe",
+  alt: "Chien qui se cache dans l’herbe.",
   imagesBySize: {
     "512": error512,
     "1024": error1024,
