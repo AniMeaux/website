@@ -104,7 +104,7 @@ export default function HomePage() {
         </HeroSectionAside>
 
         <HeroSectionAside>
-          <HeroSectionTitle>Devenez famille d'accueil</HeroSectionTitle>
+          <HeroSectionTitle>Devenez famille d’accueil</HeroSectionTitle>
           <HeroSectionParagraph>
             Aidez-nous à{" "}
             <strong className="text-body-emphasis">sauver les animaux</strong>{" "}
@@ -169,9 +169,9 @@ function WhoWeAreSection() {
         </h2>
 
         <p>
-          Ani'Meaux est une{" "}
+          Ani’Meaux est une{" "}
           <strong className="text-body-emphasis">association</strong> loi 1901
-          de protection animale, reconnue d'intérêt général, qui a pour but de{" "}
+          de protection animale, reconnue d’intérêt général, qui a pour but de{" "}
           <strong className="text-body-emphasis">sauver des animaux</strong>{" "}
           domestiques et sensibiliser à la cause animale en général.
         </p>
@@ -184,7 +184,7 @@ function WhoWeAreSection() {
         />
 
         <WhoWeAreItem
-          text="Nous les plaçons dans une famille d'accueil adaptée à l'animal afin de lui prodiguer tous les soins nécessaires à son rétablissement."
+          text="Nous les plaçons dans une famille d’accueil adaptée à l’animal afin de lui prodiguer tous les soins nécessaires à son rétablissement."
           image={fosterFamilySmallImages}
         />
 
@@ -242,7 +242,7 @@ function NumbersSection({
         <NumberItem
           icon="cakeCandles"
           value={years}
-          label="D'existence"
+          label="D’existence"
           color="green"
         />
         <NumberItem

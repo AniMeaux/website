@@ -26,7 +26,7 @@ export default function FosterFamilyPage() {
         </HeroSectionAside>
 
         <HeroSectionAside>
-          <HeroSectionTitle isLarge>Devenez famille d'accueil</HeroSectionTitle>
+          <HeroSectionTitle isLarge>Devenez famille d’accueil</HeroSectionTitle>
           <HeroSectionParagraph>
             Aidez-nous à{" "}
             <strong className="text-body-emphasis">sauver les animaux</strong>{" "}
@@ -60,17 +60,17 @@ export default function FosterFamilyPage() {
               </BaseLink>
             }
           >
-            Remplir le formulaire de famille d'accueil afin que nous puissions
+            Remplir le formulaire de famille d’accueil afin que nous puissions
             mieux vous connaître.
           </TimelineItem>
 
           <TimelineItem title="Pré-visite" icon="clipboardCheck">
             Un bénévole effectuera une pré-visite chez vous afin de préparer au
-            mieux l'accueil de votre futur colocataire.
+            mieux l’accueil de votre futur colocataire.
           </TimelineItem>
 
-          <TimelineItem title="Arrivée de l'animal" icon="houseChimneyPaw">
-            Si votre dossier est validé, nous organiserons l'arrivée de l'animal
+          <TimelineItem title="Arrivée de l’animal" icon="houseChimneyPaw">
+            Si votre dossier est validé, nous organiserons l’arrivée de l’animal
             chez vous.
           </TimelineItem>
         </Timeline>
@@ -84,8 +84,8 @@ export default function FosterFamilyPage() {
         <HeroSectionAside>
           <HeroSectionTitle>Matériel et frais vétérinaires</HeroSectionTitle>
           <HeroSectionParagraph>
-            Le matériel et l'alimentation pourront vous être fournis sur demande
-            et les frais vétérinaires sont à la charge de l'association.
+            Le matériel et l’alimentation pourront vous être fournis sur demande
+            et les frais vétérinaires sont à la charge de l’association.
           </HeroSectionParagraph>
         </HeroSectionAside>
       </HeroSection>
@@ -99,8 +99,8 @@ export default function FosterFamilyPage() {
           <HeroSectionTitle>Suivi</HeroSectionTitle>
           <HeroSectionParagraph>
             Vous vous engagez à nous donner régulièrement des nouvelles de
-            l'animal et à nous fournir des photos récentes tout au long de
-            l'accueil.
+            l’animal et à nous fournir des photos récentes tout au long de
+            l’accueil.
           </HeroSectionParagraph>
         </HeroSectionAside>
       </HeroSection>
@@ -113,8 +113,8 @@ export default function FosterFamilyPage() {
         <HeroSectionAside>
           <HeroSectionTitle>Engagement</HeroSectionTitle>
           <HeroSectionParagraph>
-            L'accueil de l'animal est convenu pour une durée déterminée ou
-            indeterminée, en cas d'imprévus un delai devra nous être accordé
+            L’accueil de l’animal est convenu pour une durée déterminée ou
+            indeterminée, en cas d’imprévus un delai devra nous être accordé
             pour trouver une solution de secours.
           </HeroSectionParagraph>
         </HeroSectionAside>

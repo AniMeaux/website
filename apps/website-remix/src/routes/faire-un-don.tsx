@@ -111,12 +111,12 @@ function OtherOptionsSection() {
             </BaseLink>
           }
         >
-          Faire don d'1 € par mois.
+          Faire don d’1 € par mois.
         </OtherOption>
 
         <OtherOption image="envelope">
-          Envoyez un chèque à l'ordre d'
-          <strong className="text-body-emphasis">Ani'Meaux</strong> au{" "}
+          Envoyez un chèque à l’ordre d’
+          <strong className="text-body-emphasis">Ani’Meaux</strong> au{" "}
           <strong className="text-body-emphasis">
             30 Rue Pierre Brasseur 77100 Meaux
           </strong>
@@ -180,7 +180,7 @@ function TaxationSection() {
         </h2>
 
         <p>
-          Le don à Ani'Meaux ouvre droit à une{" "}
+          Le don à Ani’Meaux ouvre droit à une{" "}
           <strong className="text-body-emphasis">déduction fiscale</strong> car
           il remplit les conditions générales prévues aux articles 200 et
           238 bis du code général des impôts.

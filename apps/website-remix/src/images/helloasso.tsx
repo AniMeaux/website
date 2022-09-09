@@ -5,7 +5,7 @@ import helloasso2048 from "~/images/helloasso-2048w.png";
 import helloasso512 from "~/images/helloasso-512w.png";
 
 export const helloassoImages: ImageDescriptor = {
-  alt: "Logo d'Helloasso",
+  alt: "Logo d’Helloasso.",
   imagesBySize: {
     "512": helloasso512,
     "1024": helloasso1024,

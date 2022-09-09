@@ -70,7 +70,7 @@ function OptionsSection() {
         <OptionCard>
           <OptionTitle>Adhérent actif</OptionTitle>
           <OptionDescription>
-            Pour les personnes souhaitant s'investir et participer à au moins
+            Pour les personnes souhaitant s’investir et participer à au moins
             une mission par mois.
           </OptionDescription>
           <OptionPrice suffix="/ an">15 €</OptionPrice>
@@ -79,7 +79,7 @@ function OptionsSection() {
         <OptionCard>
           <OptionTitle>Adhérent simple</OptionTitle>
           <OptionDescription>
-            Pour les personnes n'ayant pas la possibilité de beaucoup participer
+            Pour les personnes n’ayant pas la possibilité de beaucoup participer
             mais souhaitant nous soutenir.
           </OptionDescription>
           <OptionPrice suffix="/ an">30 €</OptionPrice>
@@ -120,31 +120,31 @@ function VolunteerSection() {
           image={missionFoodCollectionImages}
         >
           Nous réalisons plusieurs fois par an des collectes dans les
-          animaleries proches de Meaux. Il s'agit de collecter des denrées
+          animaleries proches de Meaux. Il s’agit de collecter des denrées
           alimentaires ainsi que du matériel pour nos protégés en famille
-          d'accueil.
+          d’accueil.
         </MissionItem>
 
         <MissionItem title="Covoiturages" image={missionCarpoolImages}>
-          Pour le transfert d'un animal vers sa famille d'accueil, pour une
+          Pour le transfert d’un animal vers sa famille d’accueil, pour une
           consultation vétérinaire ou bien simplement pour récupérer du matériel
-          et de l'alimentation chez nos partenaires, les covoiturages sont
+          et de l’alimentation chez nos partenaires, les covoiturages sont
           parfois essentiels.
         </MissionItem>
 
         <MissionItem title="Sensibilisation" image={missionInterventionImages}>
-          Lorsque l'occasion se présente, nous organisons une intervention de
+          Lorsque l’occasion se présente, nous organisons une intervention de
           sensibilisation dans les établissements publiques afin de sensibiliser
           les personnes de tous les âges au bien-être des animaux.
         </MissionItem>
 
         <MissionItem
-          title="Organisation d'événements"
+          title="Organisation d’événements"
           image={missionEventImages}
         >
           Dans un but de sensibiliser et nous retrouver autour de la cause
-          animale, une équipe de bénévoles est dédiée à l'organisation
-          d'évènements comme le Salon des Ani'Meaux.
+          animale, une équipe de bénévoles est dédiée à l’organisation
+          d’évènements comme le Salon des Ani’Meaux.
         </MissionItem>
 
         <MissionItem title="Missions de terrain" image={missionFieldImages}>
@@ -157,13 +157,13 @@ function VolunteerSection() {
 
         <MissionItem title="Communication" image={missionCommunicationImages}>
           La communication est primordiale pour sensibiliser toute personne sur
-          nos actions et sur le bien-être des animaux. Rédaction d'articles,
+          nos actions et sur le bien-être des animaux. Rédaction d’articles,
           gestion des réseaux sociaux, création de supports de communication...
           Les possibilités sont nombreuses.
         </MissionItem>
 
         <MissionItem title="Administratif" image={missionAccountingImages}>
-          La gestion d'une association représente beaucoup de démarches
+          La gestion d’une association représente beaucoup de démarches
           administratives comme la gestion des contrats, le classement de
           document, le suivi de dossiers avec les administrations... Les
           bénévoles les plus éloignés peuvent parfaitement aider dans ces

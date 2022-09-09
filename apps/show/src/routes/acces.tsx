@@ -37,7 +37,7 @@ export default function AccessPage() {
 
           <HeroSectionParagraph>
             Voiture, bus, vélo ou à pied, tous les moyens sont bons pour visiter
-            le Salon des Ani'Meaux !
+            le Salon des Ani’Meaux !
           </HeroSectionParagraph>
 
           <HeroSectionAction>
@@ -144,7 +144,7 @@ const INFOS: Info[] = [
   {
     icon: "clock",
     color: "blue",
-    title: "Horaires d'ouverture",
+    title: "Horaires d’ouverture",
     text: (
       <>
         Samedi 10 juin 2023 de 10h à 18h.

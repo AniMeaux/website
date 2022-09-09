@@ -153,11 +153,11 @@ function Actions() {
         to="/conditions-d-adoption"
         className={actionClassNames.standalone({ color: "gray" })}
       >
-        Voir les conditions d'adoption
+        Voir les conditions d’adoption
       </BaseLink>
 
       <BaseLink to={adoptionFormUrl} className={actionClassNames.standalone()}>
-        Je l'adopte
+        Je l’adopte
       </BaseLink>
     </>
   );
@@ -279,7 +279,7 @@ function InfoList({ animal }: { animal: LoaderDataClient["animal"] }) {
 
       {animal.fosterFamily != null && (
         <Item icon="locationDot">
-          En famille d'accueil à {animal.fosterFamily.city} (
+          En famille d’accueil à {animal.fosterFamily.city} (
           {animal.fosterFamily.zipCode.slice(0, 2)})
         </Item>
       )}

@@ -50,7 +50,7 @@ export function SmallNav() {
             return (
               <img
                 src={nameAndLogo}
-                alt="Salon des Ani'Meaux"
+                alt="Salon des Ani’Meaux"
                 className={cn("h-[40px]", {
                   // 100px is enough to hide the text.
                   // TODO: Find a better way to do this.

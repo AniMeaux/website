@@ -89,10 +89,10 @@ const FAQ: Faq[] = [
   {
     icon: "handHoldingEuro",
     color: "yellow",
-    question: "L'entrée est-elle payante ?",
+    question: "L’entrée est-elle payante ?",
     answer: ({ ticketingUrl }) => (
       <>
-        Montant de l'entrée : don libre d'un minimum de 2 €, gratuit pour les
+        Montant de l’entrée : don libre d’un minimum de 2 €, gratuit pour les
         moins de 12 ans.
         <br />
         <br />
@@ -103,7 +103,7 @@ const FAQ: Faq[] = [
         .
         <br />
         <br />
-        Les bénéfices générés par les billets d'entrée seront reversés aux
+        Les bénéfices générés par les billets d’entrée seront reversés aux
         associations exposantes du salon.
       </>
     ),
@@ -115,10 +115,10 @@ const FAQ: Faq[] = [
     answer: () => (
       <>
         Seuls les chiens sont les bienvenus. Cependant il vous faudra présenter
-        le carnet de santé et les papiers d'identification à l'entrée du salon.
+        le carnet de santé et les papiers d’identification à l’entrée du salon.
         Ces derniers doivent être à jour.
         <br />
-        Ceci permettra d'assurer la sécurité de tous les animaux présents durant
+        Ceci permettra d’assurer la sécurité de tous les animaux présents durant
         le salon.
       </>
     ),
@@ -129,7 +129,7 @@ const FAQ: Faq[] = [
     question: "Est-il possible de se restaurer sur place ?",
     answer: () => (
       <>
-        L'espace restauration du FoodTruck se trouve à l'extérieur du bâtiment,
+        L’espace restauration du FoodTruck se trouve à l’extérieur du bâtiment,
         sur le parvis.
       </>
     ),
@@ -155,7 +155,7 @@ const FAQ: Faq[] = [
     question: "Le salon est-il accessible aux personnes à mobilité réduite ?",
     answer: () => (
       <>
-        Bien sûr, l'implantation du salon a été conçue afin qu'il soit
+        Bien sûr, l’implantation du salon a été conçue afin qu’il soit
         accessible à tous.
       </>
     ),
@@ -163,14 +163,14 @@ const FAQ: Faq[] = [
   {
     icon: "houseChimneyPaw",
     color: "cyan",
-    question: "Y aura-t-il des animaux à l'adoption ?",
+    question: "Y aura-t-il des animaux à l’adoption ?",
     answer: () => (
       <>
-        Les associations présentes durant le salon auront la possibilité d'être
-        accompagnées de chiens à l'adoption.
+        Les associations présentes durant le salon auront la possibilité d’être
+        accompagnées de chiens à l’adoption.
         <br />
         Attention néanmoins, aucune adoption ne sera possible durant le salon.
-        La finalisation de l'adoption se fera avec l'association que vous avez
+        La finalisation de l’adoption se fera avec l’association que vous avez
         choisi, en dehors du salon.
       </>
     ),
@@ -202,7 +202,7 @@ const FAQ: Faq[] = [
         Oui, les produits présentés sur les stands des professionnels et
         association peuvent être achetés.
         <br />
-        Certains exposants sont équipés d'un terminal de paiement, mais nous
+        Certains exposants sont équipés d’un terminal de paiement, mais nous
         vous conseillons de prévoir des espèces !
       </>
     ),
@@ -210,10 +210,10 @@ const FAQ: Faq[] = [
   {
     icon: "moneyBills",
     color: "yellow",
-    question: "Puis-je retirer de l'argent ?",
+    question: "Puis-je retirer de l’argent ?",
     answer: () => (
       <>
-        Il n'y a pas de distributeur de billets au sein de la salle. Néanmoins,
+        Il n’y a pas de distributeur de billets au sein de la salle. Néanmoins,
         de nombreuses banques sont à votre disposition en centre ville de Meaux.
       </>
     ),
@@ -221,7 +221,7 @@ const FAQ: Faq[] = [
   {
     icon: "magnifyingGlass",
     color: "cyan",
-    question: "Comment trouver l'exposant qui m'intéresse ?",
+    question: "Comment trouver l’exposant qui m’intéresse ?",
     answer: () => (
       <>
         La liste des exposants est disponible dans la page{" "}
@@ -238,7 +238,7 @@ const FAQ: Faq[] = [
     question: "Y a-t-il une garderie animale ?",
     answer: () => (
       <>
-        Non, aucune garderie n'est prévue sur le salon. Merci d'anticiper votre
+        Non, aucune garderie n’est prévue sur le salon. Merci d’anticiper votre
         visite et de ne surtout pas laisser votre compagnon dans votre voiture !
       </>
     ),

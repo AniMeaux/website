@@ -36,12 +36,12 @@ export default function AdoptionConditionsPage() {
         </HeroSectionAside>
 
         <HeroSectionAside>
-          <HeroSectionTitle isLarge>Conditions d'adoption</HeroSectionTitle>
+          <HeroSectionTitle isLarge>Conditions d’adoption</HeroSectionTitle>
           <HeroSectionParagraph>
-            L'adoption est un{" "}
+            L’adoption est un{" "}
             <strong className="text-body-emphasis">acte responsable</strong> et
             un <strong className="text-body-emphasis">engagement</strong> pour
-            toute la vie de l'animal.
+            toute la vie de l’animal.
           </HeroSectionParagraph>
         </HeroSectionAside>
       </HeroSection>
@@ -58,7 +58,7 @@ export default function AdoptionConditionsPage() {
           <HeroSectionTitle>Encore des questions ?</HeroSectionTitle>
           <HeroSectionParagraph>
             Pour toutes questions relatives à une adoption ou une réservation,
-            vous pouvez nous contacter via email à l'adresse{" "}
+            vous pouvez nous contacter via email à l’adresse{" "}
             <BaseLink
               to="mailto:adoption@animeaux.org"
               className={actionClassNames.proseInline()}
@@ -111,9 +111,9 @@ function StepsSection() {
             )}
           >
             <p>
-              Si un animal est à la réservation c'est qu'il{" "}
+              Si un animal est à la réservation c’est qu’il{" "}
               <strong className="text-body-emphasis">
-                n'est pas encore en mesure d'être adopté
+                n’est pas encore en mesure d’être adopté
               </strong>{" "}
               mais que vous pouvez le réserver.
             </p>
@@ -123,32 +123,32 @@ function StepsSection() {
 
       <Timeline>
         <TimelineItem title="Formulaire" icon="fileLines">
-          Un formulaire d'adoption sera à remplir afin que nous puissions mieux
+          Un formulaire d’adoption sera à remplir afin que nous puissions mieux
           vous connaître.
         </TimelineItem>
 
-        <TimelineItem title="Rencontre avec l'animal" icon="heart">
+        <TimelineItem title="Rencontre avec l’animal" icon="heart">
           Si votre dossier est retenu, nous organiserons une visite avec la
-          famille d'accueil où se trouve l'élu de votre cœur.
+          famille d’accueil où se trouve l’élu de votre cœur.
         </TimelineItem>
 
         <TimelineItem title="Pré-visite" icon="clipboardCheck">
           Un bénévole effectuera une pré-visite chez vous afin de vous
-          conseiller au mieux pour l'arrivée de votre futur compagnon et de nous
+          conseiller au mieux pour l’arrivée de votre futur compagnon et de nous
           assurer de son futur bien-être et de sa sécurité.
         </TimelineItem>
 
         {tab === "booking" && (
           <TimelineItem title="Réservation" icon="ticketSimple">
             Pour officialiser la réservation il vous faudra verser la moitié des
-            frais d'adoption demandés pour l'animal.
+            frais d’adoption demandés pour l’animal.
           </TimelineItem>
         )}
 
-        <TimelineItem title="Arrivée de l'animal" icon="houseChimneyPaw">
+        <TimelineItem title="Arrivée de l’animal" icon="houseChimneyPaw">
           {tab === "adoption"
-            ? "Si votre dossier est validé, nous organiserons l'arrivée de l'animal chez vous."
-            : "Si votre dossier est validé, nous organiserons l'arrivée de l'animal chez vous lorsqu'il sera en mesure d'être adopté après le versement du solde restant dû pour l'adoption."}
+            ? "Si votre dossier est validé, nous organiserons l’arrivée de l’animal chez vous."
+            : "Si votre dossier est validé, nous organiserons l’arrivée de l’animal chez vous lorsqu’il sera en mesure d’être adopté après le versement du solde restant dû pour l’adoption."}
         </TimelineItem>
       </Timeline>
     </section>
@@ -166,7 +166,7 @@ function CostsSection() {
           "md:px-6 md:text-title-section-large"
         )}
       >
-        Frais d'adoption
+        Frais d’adoption
       </h2>
 
       <div className={cn("px-4 flex gap-3 justify-center", "md:gap-6")}>
@@ -194,7 +194,7 @@ function CostsSection() {
               <strong className="text-body-emphasis">
                 Exclusivement pour un chat de plus de 9 ans
               </strong>
-              , un don libre d'un minimum de 50 € sera demandé.
+              , un don libre d’un minimum de 50 € sera demandé.
             </OptionDescription>
             <OptionPrice>≥ 50 €</OptionPrice>
             <OptionFeatureList>
@@ -211,7 +211,7 @@ function CostsSection() {
           <OptionCard>
             <OptionTitle>Sans stérilisation / castration</OptionTitle>
             <OptionDescription>
-              La stérilisation / castration est obligatoire à l'âge de 6 mois,
+              La stérilisation / castration est obligatoire à l’âge de 6 mois,
               un chèque de caution de 150 € vous sera demandé et rendu ou
               détruit, une fois la stérilisation / castration faite.
             </OptionDescription>
@@ -230,8 +230,8 @@ function CostsSection() {
           <OptionCard>
             <OptionTitle>Avec stérilisation / castration</OptionTitle>
             <OptionDescription>
-              Stérilisée / castré comprise en passant par l'un de nos
-              vétérinaires partenaires, à faire à l'âge de 6 mois pour les
+              Stérilisée / castré comprise en passant par l’un de nos
+              vétérinaires partenaires, à faire à l’âge de 6 mois pour les
               chatons ou déjà faite pour les adultes.
             </OptionDescription>
             <OptionPrice>250 €</OptionPrice>
@@ -256,7 +256,7 @@ function CostsSection() {
               <strong className="text-body-emphasis">
                 Exclusivement pour un chien de plus de 9 ans
               </strong>
-              , un don libre d'un minimum de 50 € sera demandé.
+              , un don libre d’un minimum de 50 € sera demandé.
             </OptionDescription>
             <OptionPrice>≥ 50 €</OptionPrice>
             <OptionFeatureList>
@@ -270,7 +270,7 @@ function CostsSection() {
           <OptionCard>
             <OptionTitle>Sans stérilisation / castration</OptionTitle>
             <OptionDescription>
-              La stérilisation / castration est obligatoire à l'âge de 6 mois,
+              La stérilisation / castration est obligatoire à l’âge de 6 mois,
               un chèque de caution de 150 € vous sera demandé et rendu ou
               détruit, une fois la stérilisation / castration faite.
             </OptionDescription>
@@ -287,8 +287,8 @@ function CostsSection() {
             <OptionTitle>Avec castration</OptionTitle>
             <OptionDescription>
               <strong className="text-body-emphasis">Pour un mâle</strong>, la
-              castration est comprise en passant par l'un de nos vétérinaires
-              partenaires, à faire à l'âge de 6 mois pour les chiots ou déjà
+              castration est comprise en passant par l’un de nos vétérinaires
+              partenaires, à faire à l’âge de 6 mois pour les chiots ou déjà
               faite pour les adultes.
             </OptionDescription>
             <OptionPrice>300 €</OptionPrice>
@@ -304,8 +304,8 @@ function CostsSection() {
             <OptionTitle>Avec stérilisation</OptionTitle>
             <OptionDescription>
               <strong className="text-body-emphasis">Pour un femelle</strong>,
-              la stérilisation est comprise en passant par l'un de nos
-              vétérinaires partenaires, à faire à l'âge de 6 mois pour les
+              la stérilisation est comprise en passant par l’un de nos
+              vétérinaires partenaires, à faire à l’âge de 6 mois pour les
               chiots ou déjà faite pour les adultes.
             </OptionDescription>
             <OptionPrice>350 €</OptionPrice>
@@ -324,7 +324,7 @@ function CostsSection() {
           <OptionCard>
             <OptionTitle>Don libre</OptionTitle>
             <OptionDescription>
-              Pour les nouveaux animaux de compagnie, un don libre d'un minimum
+              Pour les nouveaux animaux de compagnie, un don libre d’un minimum
               de 10 € sera demandé. Stérilisation et vaccination possible à
               votre demande et à votre charge.
             </OptionDescription>

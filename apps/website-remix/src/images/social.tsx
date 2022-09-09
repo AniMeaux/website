@@ -2,7 +2,7 @@ import { ImageDescriptor } from "~/dataDisplay/image";
 import social2048 from "~/images/social-2048w.jpg";
 
 export const socialImages: ImageDescriptor = {
-  alt: "Ani'Meaux",
+  alt: "Ani’Meaux.",
   imagesBySize: {
     "2048": social2048,
   },

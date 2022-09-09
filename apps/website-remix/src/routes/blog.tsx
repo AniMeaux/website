@@ -55,7 +55,7 @@ export default function BlogPage() {
         </section>
       ) : (
         <p className={cn("px-4 py-12 text-center text-gray-500", "md:py-40")}>
-          Aucun article pour l'instant.
+          Aucun article pour l’instant.
         </p>
       )}
     </main>

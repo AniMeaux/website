@@ -157,7 +157,7 @@ export const meta: MetaFunction = ({ params }) => {
   });
 
   return createSocialMeta({
-    title: getPageTitle(`${pageParamsTranslation} à l'adoption`),
+    title: getPageTitle(`${pageParamsTranslation} à l’adoption`),
   });
 };
 
@@ -254,7 +254,7 @@ export default function AdoptionPage() {
       ) : (
         <p className={cn("px-4 py-12 text-center text-gray-500", "md:py-40")}>
           Aucun {getPageParamsTranslation(pageParams).toLowerCase()} à
-          l'adoption pour l'instant.
+          l’adoption pour l’instant.
         </p>
       )}
 

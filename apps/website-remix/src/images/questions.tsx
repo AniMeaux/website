@@ -5,7 +5,7 @@ import questions2048 from "~/images/questions-2048w.png";
 import questions512 from "~/images/questions-512w.png";
 
 export const questionsImages: ImageDescriptor = {
-  alt: "Chien qui lève la patte",
+  alt: "Chien qui lève la patte.",
   imagesBySize: {
     "512": questions512,
     "1024": questions1024,
