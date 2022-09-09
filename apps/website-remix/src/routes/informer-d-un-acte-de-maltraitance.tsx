@@ -5,29 +5,50 @@ import {
   Markdown,
   MarkdownLink,
 } from "~/dataDisplay/markdown";
+import { RelatedSection, WarnItem } from "~/warn/relatedSection";
 
 export default function AbusePage() {
   return (
-    <main className="w-full px-article flex flex-col gap-12">
-      <header className={cn("px-4 flex flex-col", "md:px-0")}>
-        <h1 className={cn("text-title-hero-small", "md:text-title-hero-large")}>
-          Informer d’un acte de maltraitance
-        </h1>
-      </header>
+    <>
+      <main className="w-full px-article flex flex-col gap-12">
+        <header className={cn("px-4 flex flex-col", "md:px-0")}>
+          <h1
+            className={cn("text-title-hero-small", "md:text-title-hero-large")}
+          >
+            Informer d’un acte de maltraitance
+          </h1>
+        </header>
 
-      <DynamicImage
-        shouldFill
-        imageId="blog/bd9dec91-45da-4064-9053-536b5a9b61c3"
-        alt="Informer d’un acte de maltraitance"
-        sizes={{ lg: "1024px", default: "100vw" }}
-        fallbackSize="1024"
-        className="w-full aspect-4/3 flex-none rounded-bubble-ratio"
-      />
+        <DynamicImage
+          shouldFill
+          imageId="blog/bd9dec91-45da-4064-9053-536b5a9b61c3"
+          alt="Informer d’un acte de maltraitance"
+          sizes={{ lg: "1024px", default: "100vw" }}
+          fallbackSize="1024"
+          className="w-full aspect-4/3 flex-none rounded-bubble-ratio"
+        />
 
-      <article>
-        <Markdown components={ARTICLE_COMPONENTS}>{CONTENT}</Markdown>
-      </article>
-    </main>
+        <article>
+          <Markdown components={ARTICLE_COMPONENTS}>{CONTENT}</Markdown>
+        </article>
+      </main>
+
+      <RelatedSection>
+        <WarnItem
+          to="/signaler-un-animal-errant"
+          image="blog/a2bf3ad2-a475-4c63-8f30-fd29928c8fa3"
+          title="Signaler un animal errant"
+          description="Vous avez trouvé un animal dans la rue et vous ne savez pas comment agir ?"
+        />
+
+        <WarnItem
+          to="/abandonner-votre-animal"
+          image="blog/2bf99fd0-da8b-4326-b7fa-d2a0eaa8ecc6"
+          title="Abandonner votre animal"
+          description="En êtes-vous certain ? Pour se faire, il nous faut toutes les informations le concernant, et ce, de façon la plus précise possible."
+        />
+      </RelatedSection>
+    </>
   );
 }
 
