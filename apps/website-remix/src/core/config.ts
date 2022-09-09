@@ -4,7 +4,7 @@ import invariant from "tiny-invariant";
 import { LoaderData } from "~/root";
 
 export type Config = {
-  cloudinary: { cloudName: string };
+  cloudinaryName: string;
   publicHost: string;
   facebookUrl: string;
   instagramUrl: string;

@@ -28,7 +28,7 @@ export function createConfig(): Config {
   invariant(process.env.TEAMING_URL, "TEAMING_URL should be defined");
 
   return {
-    cloudinary: { cloudName: process.env.CLOUDINARY_CLOUD_NAME },
+    cloudinaryName: process.env.CLOUDINARY_CLOUD_NAME,
     publicHost: process.env.PUBLIC_HOST,
     facebookUrl: process.env.FACEBOOK_URL,
     instagramUrl: process.env.INSTAGRAM_URL,

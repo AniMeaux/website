@@ -38,7 +38,7 @@ export const meta: MetaFunction = ({ data, parentsData }) => {
   return createSocialMeta({
     title: getPageTitle(article.title),
     description: article.description,
-    imageUrl: createCloudinaryUrl(config.cloudinary.cloudName, article.image, {
+    imageUrl: createCloudinaryUrl(config.cloudinaryName, article.image, {
       shouldFill: true,
       size: "1024",
       aspectRatio: "16:9",

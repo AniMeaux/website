@@ -84,7 +84,7 @@ export const meta: MetaFunction = ({ data, parentsData }) => {
   const config = getConfig(parentsData);
   return createSocialMeta({
     title: getPageTitle(`Adopter ${animal.name}`),
-    imageUrl: createCloudinaryUrl(config.cloudinary.cloudName, animal.avatar, {
+    imageUrl: createCloudinaryUrl(config.cloudinaryName, animal.avatar, {
       size: "1024",
       aspectRatio: "16:9",
     }),
