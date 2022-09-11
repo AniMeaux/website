@@ -17,6 +17,7 @@ export type Config = {
   paypalUrl: string;
   teamingUrl: string;
   pickUpFormUrl: string;
+  googleTagManagerId?: string;
 };
 
 export function useConfig(): Config {

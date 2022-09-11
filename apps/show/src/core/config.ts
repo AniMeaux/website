@@ -10,6 +10,7 @@ export type Config = {
   ticketingUrl: string;
   exhibitorsFormUrl: string;
   pressReleaseUrl: string;
+  googleTagManagerId?: string;
 };
 
 export function useConfig(): Config {

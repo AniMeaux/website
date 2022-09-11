@@ -8,5 +8,6 @@ declare namespace NodeJS {
     INSTAGRAM_URL?: string;
     EXHIBITORS_FORM_URL?: string;
     PRESS_RELEASE_URL?: string;
+    GOOGLE_TAG_MANAGER_ID?: string;
   }
 }

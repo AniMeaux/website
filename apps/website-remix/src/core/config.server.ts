@@ -42,5 +42,6 @@ export function createConfig(): Config {
     paypalUrl: process.env.PAYPAL_URL,
     teamingUrl: process.env.TEAMING_URL,
     pickUpFormUrl: process.env.PICK_UP_FORM_URL,
+    googleTagManagerId: process.env.GOOGLE_TAG_MANAGER_ID,
   };
 }

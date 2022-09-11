@@ -15,5 +15,6 @@ declare namespace NodeJS {
     PAYPAL_URL?: string;
     TEAMING_URL?: string;
     PICK_UP_FORM_URL?: string;
+    GOOGLE_TAG_MANAGER_ID?: string;
   }
 }

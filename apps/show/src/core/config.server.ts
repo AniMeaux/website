@@ -24,5 +24,6 @@ export function createConfig(): Config {
     instagramUrl: process.env.INSTAGRAM_URL,
     exhibitorsFormUrl: process.env.EXHIBITORS_FORM_URL,
     pressReleaseUrl: process.env.PRESS_RELEASE_URL,
+    googleTagManagerId: process.env.GOOGLE_TAG_MANAGER_ID,
   };
 }
