@@ -25,7 +25,6 @@ export function ArticleItem({
         )}
       >
         <DynamicImage
-          shouldFill
           imageId={article.image}
           alt={article.title}
           sizes={{ lg: "300px", md: "30vw", xs: "50vw", default: "100vw" }}

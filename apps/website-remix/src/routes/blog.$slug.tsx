@@ -59,7 +59,6 @@ export const meta: MetaFunction = ({ data, parentsData }) => {
     title: getPageTitle(article.title),
     description: article.description,
     imageUrl: createCloudinaryUrl(config.cloudinaryName, article.image, {
-      shouldFill: true,
       size: "1024",
       aspectRatio: "16:9",
     }),
@@ -95,7 +94,6 @@ export default function BlogPage() {
         </header>
 
         <DynamicImage
-          shouldFill
           imageId={article.image}
           alt={article.title}
           sizes={{ lg: "1024px", default: "100vw" }}

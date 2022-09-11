@@ -25,7 +25,6 @@ export default function AbandonPage() {
         </header>
 
         <DynamicImage
-          shouldFill
           imageId="blog/2bf99fd0-da8b-4326-b7fa-d2a0eaa8ecc6"
           alt="Abandonner votre animal"
           sizes={{ lg: "1024px", default: "100vw" }}
