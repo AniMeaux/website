@@ -1,4 +1,3 @@
-import { formatDateRange } from "@animeaux/shared";
 import { Prisma } from "@prisma/client";
 import { json, LoaderFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
@@ -9,13 +8,8 @@ import { BaseLink } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
 import { MapDateToString } from "~/core/dates";
 import { prisma } from "~/core/db.server";
-import { toSlug } from "~/core/slugs";
-import {
-  DynamicImage,
-  PlaceholderImage,
-  StaticImage,
-  StaticImageProps,
-} from "~/dataDisplay/image";
+import { StaticImage, StaticImageProps } from "~/dataDisplay/image";
+import { EventItem } from "~/events/item";
 import { Icon, IconProps } from "~/generated/icon";
 import { adoptionImages } from "~/images/adoption";
 import { fosterFamilyLargeImages } from "~/images/fosterFamilyLarge";
@@ -317,12 +311,12 @@ function UpcomingEventsSection({
       <ul
         className={cn(
           "max-w-3xl grid grid-cols-1 gap-6",
-          "xs:grid-cols-2",
+          { "xs:grid-cols-2": upcomingEvents.length > 1 },
           "sm:grid-cols-1"
         )}
       >
         {upcomingEvents.map((event) => (
-          <EventItem key={event.id} event={event} />
+          <EventItem key={event.id} isInlined event={event} />
         ))}
       </ul>
 
@@ -330,87 +324,6 @@ function UpcomingEventsSection({
         Voir plus
       </BaseLink>
     </section>
-  );
-}
-
-function EventItem({
-  event,
-}: {
-  event: LoaderDataClient["upcomingEvents"][number];
-}) {
-  return (
-    <li className="flex">
-      <BaseLink
-        to={`/evenements/${toSlug(event.title)}-${event.id}`}
-        className={cn(
-          "group w-full px-4 py-3 shadow-none rounded-bubble-lg bg-transparent flex flex-col gap-4 transition-[background-color,box-shadow] duration-100 ease-in-out hover:bg-white hover:shadow-base",
-          "sm:pl-6 sm:pr-12 sm:py-6 sm:flex-row sm:gap-6 sm:items-center"
-        )}
-      >
-        {event.image == null ? (
-          <PlaceholderImage
-            icon="calendarDay"
-            className={cn(
-              "w-full aspect-4/3 flex-none rounded-bubble-ratio",
-              "sm:w-[150px]"
-            )}
-          />
-        ) : (
-          <DynamicImage
-            imageId={event.image}
-            alt={event.title}
-            sizes={{ sm: "150px", default: "100vw" }}
-            fallbackSize="512"
-            className={cn(
-              "w-full aspect-4/3 flex-none rounded-bubble-ratio",
-              "sm:w-[150px]"
-            )}
-          />
-        )}
-
-        <div className="flex-1 flex flex-col">
-          <p className="text-title-item">{event.title}</p>
-          <p>{event.shortDescription}</p>
-          <ul className="flex flex-col">
-            <EventItemDetailsItem icon="calendarDay">
-              {formatDateRange(event.startDate, event.endDate, {
-                showTime: !event.isFullDay,
-              })}
-            </EventItemDetailsItem>
-
-            <EventItemDetailsItem icon="locationDot">
-              {event.location}
-            </EventItemDetailsItem>
-          </ul>
-        </div>
-
-        <Icon
-          id="arrowRight"
-          className={cn(
-            "hidden text-[32px] text-gray-500 transition-transform duration-100 ease-in-out group-hover:scale-110",
-            "sm:block"
-          )}
-        />
-      </BaseLink>
-    </li>
-  );
-}
-
-function EventItemDetailsItem({
-  icon,
-  children,
-}: {
-  icon: IconProps["id"];
-  children: React.ReactNode;
-}) {
-  return (
-    <li className="flex items-start gap-2 text-gray-500">
-      <span className="flex-none flex h-6 items-center">
-        <Icon id={icon} className="text-[14px]" />
-      </span>
-
-      <span className="flex-1">{children}</span>
-    </li>
   );
 }
 

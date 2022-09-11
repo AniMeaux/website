@@ -77,7 +77,7 @@ function StepsSection() {
   const [tab, setTab] = useState<"adoption" | "booking">("adoption");
 
   return (
-    <section className="flex flex-col gap-6">
+    <section className="flex flex-col gap-12">
       <h2
         className={cn(
           "px-4 text-title-section-small text-center",
@@ -159,7 +159,7 @@ function CostsSection() {
   const [tab, setTab] = useState<"cats" | "dogs" | "newPets">("cats");
 
   return (
-    <section className="flex flex-col gap-6">
+    <section className="flex flex-col gap-12">
       <h2
         className={cn(
           "px-4 text-title-section-small text-center",

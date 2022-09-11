@@ -5,7 +5,12 @@ import {
   Markdown,
   MarkdownLink,
 } from "~/dataDisplay/markdown";
-import { RelatedSection, WarnItem } from "~/warn/relatedSection";
+import {
+  RelatedSection,
+  RelatedSectionList,
+  RelatedSectionTitle,
+} from "~/layout/relatedSection";
+import { WarnItem } from "~/warn/relatedSection";
 
 export default function AbusePage() {
   return (
@@ -34,19 +39,23 @@ export default function AbusePage() {
       </main>
 
       <RelatedSection>
-        <WarnItem
-          to="/signaler-un-animal-errant"
-          image="blog/a2bf3ad2-a475-4c63-8f30-fd29928c8fa3"
-          title="Signaler un animal errant"
-          description="Vous avez trouvé un animal dans la rue et vous ne savez pas comment agir ?"
-        />
+        <RelatedSectionTitle>Voir aussi</RelatedSectionTitle>
 
-        <WarnItem
-          to="/abandonner-votre-animal"
-          image="blog/2bf99fd0-da8b-4326-b7fa-d2a0eaa8ecc6"
-          title="Abandonner votre animal"
-          description="En êtes-vous certain ? Pour se faire, il nous faut toutes les informations le concernant, et ce, de façon la plus précise possible."
-        />
+        <RelatedSectionList>
+          <WarnItem
+            to="/signaler-un-animal-errant"
+            image="blog/a2bf3ad2-a475-4c63-8f30-fd29928c8fa3"
+            title="Signaler un animal errant"
+            description="Vous avez trouvé un animal dans la rue et vous ne savez pas comment agir ?"
+          />
+
+          <WarnItem
+            to="/abandonner-votre-animal"
+            image="blog/2bf99fd0-da8b-4326-b7fa-d2a0eaa8ecc6"
+            title="Abandonner votre animal"
+            description="En êtes-vous certain ? Pour se faire, il nous faut toutes les informations le concernant, et ce, de façon la plus précise possible."
+          />
+        </RelatedSectionList>
       </RelatedSection>
     </>
   );

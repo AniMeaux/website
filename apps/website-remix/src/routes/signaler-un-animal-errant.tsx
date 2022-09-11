@@ -5,7 +5,12 @@ import {
   Markdown,
   MarkdownLink,
 } from "~/dataDisplay/markdown";
-import { RelatedSection, WarnItem } from "~/warn/relatedSection";
+import {
+  RelatedSection,
+  RelatedSectionList,
+  RelatedSectionTitle,
+} from "~/layout/relatedSection";
+import { WarnItem } from "~/warn/relatedSection";
 
 export default function StrayAnimalPage() {
   return (
@@ -34,19 +39,23 @@ export default function StrayAnimalPage() {
       </main>
 
       <RelatedSection>
-        <WarnItem
-          to="/informer-d-un-acte-de-maltraitance"
-          image="blog/bd9dec91-45da-4064-9053-536b5a9b61c3"
-          title="Informer d’un acte de maltraitance"
-          description="Si vous êtes témoin d'un acte de mauvais traitement ou de cruauté envers un animal, il vous faut agir."
-        />
+        <RelatedSectionTitle>Voir aussi</RelatedSectionTitle>
 
-        <WarnItem
-          to="/abandonner-votre-animal"
-          image="blog/2bf99fd0-da8b-4326-b7fa-d2a0eaa8ecc6"
-          title="Abandonner votre animal"
-          description="En êtes-vous certain ? Pour se faire, il nous faut toutes les informations le concernant, et ce, de façon la plus précise possible."
-        />
+        <RelatedSectionList>
+          <WarnItem
+            to="/informer-d-un-acte-de-maltraitance"
+            image="blog/bd9dec91-45da-4064-9053-536b5a9b61c3"
+            title="Informer d’un acte de maltraitance"
+            description="Si vous êtes témoin d'un acte de mauvais traitement ou de cruauté envers un animal, il vous faut agir."
+          />
+
+          <WarnItem
+            to="/abandonner-votre-animal"
+            image="blog/2bf99fd0-da8b-4326-b7fa-d2a0eaa8ecc6"
+            title="Abandonner votre animal"
+            description="En êtes-vous certain ? Pour se faire, il nous faut toutes les informations le concernant, et ce, de façon la plus précise possible."
+          />
+        </RelatedSectionList>
       </RelatedSection>
     </>
   );

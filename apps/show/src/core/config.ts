@@ -3,13 +3,14 @@ import invariant from "tiny-invariant";
 import { LoaderData } from "~/root";
 
 export type Config = {
-  publicHost: string;
   animeauxUrl: string;
-  facebookUrl: string;
-  instagramUrl: string;
-  ticketingUrl: string;
   exhibitorsFormUrl: string;
+  facebookUrl: string;
+  googleTagManagerId?: string;
+  instagramUrl: string;
   pressReleaseUrl: string;
+  publicHost: string;
+  ticketingUrl: string;
 };
 
 export function useConfig(): Config {
