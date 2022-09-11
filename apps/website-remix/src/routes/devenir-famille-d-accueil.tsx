@@ -37,7 +37,7 @@ export default function FosterFamilyPage() {
         </HeroSectionAside>
       </HeroSection>
 
-      <section className="flex flex-col gap-6">
+      <section className="flex flex-col gap-12">
         <h2
           className={cn(
             "px-4 text-title-section-small text-center",

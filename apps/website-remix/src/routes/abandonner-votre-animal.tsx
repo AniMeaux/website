@@ -5,7 +5,12 @@ import {
   Markdown,
   MarkdownLink,
 } from "~/dataDisplay/markdown";
-import { RelatedSection, WarnItem } from "~/warn/relatedSection";
+import {
+  RelatedSection,
+  RelatedSectionList,
+  RelatedSectionTitle,
+} from "~/layout/relatedSection";
+import { WarnItem } from "~/warn/relatedSection";
 
 export default function AbandonPage() {
   return (
@@ -34,19 +39,23 @@ export default function AbandonPage() {
       </main>
 
       <RelatedSection>
-        <WarnItem
-          to="/signaler-un-animal-errant"
-          image="blog/a2bf3ad2-a475-4c63-8f30-fd29928c8fa3"
-          title="Signaler un animal errant"
-          description="Vous avez trouvé un animal dans la rue et vous ne savez pas comment agir ?"
-        />
+        <RelatedSectionTitle>Voir aussi</RelatedSectionTitle>
 
-        <WarnItem
-          to="/informer-d-un-acte-de-maltraitance"
-          image="blog/bd9dec91-45da-4064-9053-536b5a9b61c3"
-          title="Informer d’un acte de maltraitance"
-          description="Si vous êtes témoin d'un acte de mauvais traitement ou de cruauté envers un animal, il vous faut agir."
-        />
+        <RelatedSectionList>
+          <WarnItem
+            to="/signaler-un-animal-errant"
+            image="blog/a2bf3ad2-a475-4c63-8f30-fd29928c8fa3"
+            title="Signaler un animal errant"
+            description="Vous avez trouvé un animal dans la rue et vous ne savez pas comment agir ?"
+          />
+
+          <WarnItem
+            to="/informer-d-un-acte-de-maltraitance"
+            image="blog/bd9dec91-45da-4064-9053-536b5a9b61c3"
+            title="Informer d’un acte de maltraitance"
+            description="Si vous êtes témoin d'un acte de mauvais traitement ou de cruauté envers un animal, il vous faut agir."
+          />
+        </RelatedSectionList>
       </RelatedSection>
     </>
   );

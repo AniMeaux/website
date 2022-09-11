@@ -11,7 +11,11 @@ import { getPageTitle } from "~/core/pageTitle";
 import { ErrorPage, getErrorTitle } from "~/dataDisplay/errorPage";
 import { createCloudinaryUrl, DynamicImage } from "~/dataDisplay/image";
 import { ARTICLE_COMPONENTS, Markdown } from "~/dataDisplay/markdown";
-import { LineShapeHorizontal } from "~/layout/lineShape";
+import {
+  RelatedSection,
+  RelatedSectionList,
+  RelatedSectionTitle,
+} from "~/layout/relatedSection";
 
 type LoaderDataServer = {
   article: Article;
@@ -104,41 +108,15 @@ export default function BlogPage() {
         </article>
       </main>
 
-      <aside
-        className={cn(
-          "w-full pt-[72px] px-page pb-12 flex flex-col items-center gap-12",
-          "md:py-12"
-        )}
-      >
-        <div className={cn("w-full px-2 flex", "md:px-6")}>
-          <LineShapeHorizontal
-            className={cn("w-full h-4 text-gray-300", "md:h-6")}
-          />
-        </div>
+      <RelatedSection>
+        <RelatedSectionTitle>Continuer à lire</RelatedSectionTitle>
 
-        <div className="w-full flex flex-col gap-6">
-          <h2
-            className={cn(
-              "text-title-section-small text-center",
-              "md:text-title-section-large md:text-left"
-            )}
-          >
-            Continuer à lire
-          </h2>
-
-          <ul
-            className={cn(
-              "grid grid-cols-1 grid-rows-[auto] gap-6 items-start",
-              "xs:grid-cols-2",
-              "md:grid-cols-3"
-            )}
-          >
-            {otherArticles.map((article) => (
-              <ArticleItem key={article.id} article={article} />
-            ))}
-          </ul>
-        </div>
-      </aside>
+        <RelatedSectionList>
+          {otherArticles.map((article) => (
+            <ArticleItem key={article.id} article={article} />
+          ))}
+        </RelatedSectionList>
+      </RelatedSection>
     </>
   );
 }

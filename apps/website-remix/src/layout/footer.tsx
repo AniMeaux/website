@@ -12,8 +12,8 @@ export function Footer() {
   return (
     <footer
       className={cn(
-        "w-full pt-[72px] px-page pb-12 flex flex-col items-center gap-12",
-        "md:py-12"
+        "w-full pt-18 px-page pb-12 flex flex-col items-center gap-24",
+        "md:pt-12"
       )}
     >
       <div className={cn("w-full px-2 flex", "md:px-6")}>
