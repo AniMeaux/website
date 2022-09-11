@@ -298,7 +298,7 @@ function UpcomingEventsSection({
   }
 
   return (
-    <section className="flex flex-col items-center gap-6">
+    <section className="flex flex-col items-center gap-12">
       <h2
         className={cn(
           "text-title-section-small text-center",
