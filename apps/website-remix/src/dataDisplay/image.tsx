@@ -2,6 +2,7 @@ import orderBy from "lodash.orderby";
 import invariant from "tiny-invariant";
 import { cn } from "~/core/classNames";
 import { useConfig } from "~/core/config";
+import { isDefined } from "~/core/isDefined";
 import { Icon, IconProps } from "~/generated/icon";
 import { ScreenSize, theme } from "~/generated/theme";
 
@@ -85,6 +86,7 @@ export function DynamicImage({
   sizes,
   fallbackSize,
   loading,
+  shouldFill,
   className,
 }: {
   imageId: string;
@@ -92,6 +94,7 @@ export function DynamicImage({
   sizes: StaticImageProps["sizes"];
   fallbackSize: NonNullable<StaticImageProps["fallbackSize"]>;
   loading?: StaticImageProps["loading"];
+  shouldFill?: boolean;
   className?: string;
 }) {
   const config = useConfig();
@@ -100,8 +103,9 @@ export function DynamicImage({
     imagesBySize: Object.fromEntries(
       IMAGE_SIZES.map((size) => [
         size,
-        createCloudinaryUrl(config.cloudinary.cloudName, imageId, {
-          size: size,
+        createCloudinaryUrl(config.cloudinaryName, imageId, {
+          size,
+          shouldFill,
         }),
       ])
     ),
@@ -124,19 +128,22 @@ export function createCloudinaryUrl(
   {
     size,
     aspectRatio = "4:3",
+    shouldFill = false,
   }: {
     size: ImageSize;
     aspectRatio?: "4:3" | "16:9";
+    shouldFill?: boolean;
   }
 ) {
   const transformationsStr = [
     `w_${size}`,
     // https://cloudinary.com/documentation/transformation_reference#ar_aspect_ratio
     `ar_${aspectRatio}`,
+    // https://cloudinary.com/documentation/transformation_reference#c_fill
     // https://cloudinary.com/documentation/transformation_reference#c_pad
-    "c_pad",
+    shouldFill ? "c_fill" : "c_pad",
     // https://cloudinary.com/documentation/transformation_reference#b_auto
-    "b_auto",
+    shouldFill ? null : "b_auto",
     // https://cloudinary.com/documentation/image_optimization#automatic_quality_selection_q_auto
     "q_auto",
     // When using devtools to emulate different browsers, Cloudinary may return a
@@ -146,7 +153,9 @@ export function createCloudinaryUrl(
     // See: https://cloudinary.com/documentation/image_optimization#tips_and_considerations_for_using_f_auto
     // https://cloudinary.com/documentation/image_transformations#f_auto
     "f_auto",
-  ].join(",");
+  ]
+    .filter(isDefined)
+    .join(",");
 
   return `https://res.cloudinary.com/${cloudName}/image/upload/${transformationsStr}/${imageId}`;
 }

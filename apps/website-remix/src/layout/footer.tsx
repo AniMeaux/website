@@ -12,13 +12,13 @@ export function Footer() {
   return (
     <footer
       className={cn(
-        "w-full pt-[72px] px-page pb-12 flex flex-col items-center gap-12",
-        "md:py-12"
+        "w-full pt-18 px-page pb-12 flex flex-col items-center gap-24",
+        "md:pt-12"
       )}
     >
       <div className={cn("w-full px-2 flex", "md:px-6")}>
         <LineShapeHorizontal
-          className={cn("w-full h-4 stroke-gray-300", "md:h-6")}
+          className={cn("w-full h-4 text-gray-300", "md:h-6")}
         />
       </div>
 
@@ -45,7 +45,7 @@ export function Footer() {
             </h2>
             <p className={cn("text-center", "md:text-left")}>
               Abonnez-vous à la newsletter pour ne rien rater des dernières
-              nouveautés
+              nouveautés.
             </p>
           </div>
 
@@ -67,7 +67,7 @@ export function Footer() {
         >
           <img
             src={nameAndLogo}
-            alt="Ani'Meaux"
+            alt="Ani’Meaux"
             className={cn("h-[60px]", "md:h-20")}
           />
 
@@ -90,8 +90,8 @@ export function Footer() {
 
           <p>
             <strong className="text-body-emphasis">
-              Nous ne disposons pas de structure physique, il s'agit d'une
-              adresse postale uniquement
+              Nous ne disposons pas de structure physique, il s’agit d’une
+              adresse postale uniquement.
             </strong>
           </p>
         </section>
@@ -111,7 +111,7 @@ export function Footer() {
         </p>
 
         <p className="text-caption-default">
-          Copyright © {new Date().getFullYear()} Ani'Meaux
+          Copyright © {new Date().getFullYear()} Ani’Meaux
         </p>
       </section>
     </footer>

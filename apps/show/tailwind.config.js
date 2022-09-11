@@ -124,21 +124,23 @@ module.exports = {
       boxShadow: {
         base: "0px 8px 20px rgba(0, 0, 0, 0.06)",
       },
-      spacing: () => ({
+      spacing: {
         // We cannot use the `theme` parameter because referencing the `spacing`
         // values ends in a infinite recursion: `theme("spacing.4")`.
 
         // The values in the formula are defined by:
         // - A page takes 90% of the width, 5% spacing on each side.
         // - Left and right spacing cannot go under spacing 4 (16px).
-        // - The page should not exceed LG (1024px).
-        page: `max(${defaultTheme.spacing[4]}, 5%, (100% - ${defaultTheme.screens.lg}) / 2)`,
+        // - The page should not exceed LG or MD (1024px or 768px).
+        // Wrap the value in a `calc` so tailwind can negate it.
+        page: `calc(max(${defaultTheme.spacing[4]}, 5vw, (100% - ${defaultTheme.screens.lg}) / 2))`,
+        article: `calc(max(${defaultTheme.spacing[4]}, 5vw, (100% - ${defaultTheme.screens.md}) / 2))`,
 
         // 72px
         18: "4.5rem",
         // 120px
         30: "7.5rem",
-      }),
+      },
       aspectRatio: {
         "4/3": "4 / 3",
       },
@@ -151,10 +153,69 @@ module.exports = {
       // class.
       // https://tailwindcss.com/docs/plugins#adding-variants
       addVariant("focus-visible", "&:is(:focus-visible, .focus-visible)");
+    }),
 
+    plugin(({ addVariant }) => {
       // Override hover to make sure it's only applied on supported devices.
       // https://tailwindcss.com/docs/hover-focus-and-other-states#using-arbitrary-variants
       addVariant("hover", "@media(any-hover:hover){&:hover}");
+    }),
+
+    /*
+     * In order to preserve a nice vertical rhythm, all text must have a size
+     * multiple of 24px:
+     *
+     *   font-size * line-height = X * 24px
+     */
+    plugin(({ addUtilities, theme }) => {
+      addUtilities({
+        ".text-body-default": {
+          "font-family": theme("fontFamily.sans"),
+          "font-size": "16px",
+          "line-height": 1.5,
+        },
+        ".text-body-emphasis": {
+          "font-family": theme("fontFamily.sans"),
+          "font-weight": theme("fontWeight.medium"),
+          "font-size": "16px",
+          "line-height": 1.5,
+        },
+        ".text-caption-default": {
+          "font-family": theme("fontFamily.sans"),
+          "font-size": "14px",
+          "line-height": 1.7143,
+        },
+        ".text-title-item": {
+          "font-family": theme("fontFamily.serif"),
+          "font-weight": theme("fontWeight.bold"),
+          "font-size": "16px",
+          "line-height": 1.5,
+        },
+        ".text-title-hero-large": {
+          "font-family": theme("fontFamily.serif"),
+          "font-weight": theme("fontWeight.semibold"),
+          "font-size": "60px",
+          "line-height": 1.2,
+        },
+        ".text-title-hero-small": {
+          "font-family": theme("fontFamily.serif"),
+          "font-weight": theme("fontWeight.semibold"),
+          "font-size": "40px",
+          "line-height": 1.2,
+        },
+        ".text-title-section-large": {
+          "font-family": theme("fontFamily.serif"),
+          "font-weight": theme("fontWeight.semibold"),
+          "font-size": "40px",
+          "line-height": 1.2,
+        },
+        ".text-title-section-small": {
+          "font-family": theme("fontFamily.serif"),
+          "font-weight": theme("fontWeight.bold"),
+          "font-size": "20px",
+          "line-height": 1.2,
+        },
+      });
     }),
 
     plugin(({ matchUtilities, theme }) => {

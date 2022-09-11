@@ -5,7 +5,7 @@ import hero2048 from "~/images/hero-2048w.png";
 import hero512 from "~/images/hero-512w.png";
 
 export const heroImages: ImageDescriptor = {
-  alt: "Chien alongé dans l'herbe, tirant la langue",
+  alt: "Chien alongé dans l’herbe, tirant la langue.",
   imagesBySize: {
     "512": hero512,
     "1024": hero1024,

@@ -4,13 +4,20 @@ import invariant from "tiny-invariant";
 import { LoaderData } from "~/root";
 
 export type Config = {
-  cloudinary: { cloudName: string };
-  publicHost: string;
+  adoptionFormUrl: string;
+  cloudinaryName: string;
+  donationUrl: string;
   facebookUrl: string;
+  fosterFamilyFormUrl: string;
+  googleTagManagerId?: string;
   instagramUrl: string;
   linkedInUrl: string;
+  paypalUrl: string;
+  pickUpFormUrl: string;
+  publicHost: string;
+  teamingUrl: string;
   twitterUrl: string;
-  adoptionFormUrl: string;
+  volunteerFormUrl: string;
 };
 
 export function useConfig(): Config {

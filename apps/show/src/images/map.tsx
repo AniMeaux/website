@@ -5,7 +5,7 @@ import map2048 from "~/images/map-2048w.png";
 import map512 from "~/images/map-512w.png";
 
 export const mapImages: ImageDescriptor = {
-  alt: "Carte de Meaux",
+  alt: "Carte de Meaux.",
   imagesBySize: {
     "512": map512,
     "1024": map1024,

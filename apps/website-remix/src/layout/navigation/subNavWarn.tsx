@@ -12,7 +12,7 @@ export const SubNavWarn: SubNavComponent = () => {
         icon="sirenOn"
         to="/informer-d-un-acte-de-maltraitance"
       >
-        Informer d'un acte de maltraitance
+        Informer d’un acte de maltraitance
       </SubNavItem>
 
       <SubNavItem

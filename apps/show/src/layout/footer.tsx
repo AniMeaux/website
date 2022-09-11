@@ -16,13 +16,13 @@ export function Footer() {
   return (
     <footer
       className={cn(
-        "w-full pt-[72px] px-page pb-12 flex flex-col items-center gap-12",
-        "md:py-12"
+        "w-full pt-18 px-page pb-12 flex flex-col items-center gap-24",
+        "md:pt-12"
       )}
     >
       <div className={cn("w-full px-2 flex", "md:px-6")}>
         <LineShapeHorizontal
-          className={cn("w-full h-4 stroke-gray-300", "md:h-6")}
+          className={cn("w-full h-4 text-gray-300", "md:h-6")}
         />
       </div>
 
@@ -55,7 +55,7 @@ export function Footer() {
         >
           <img
             src={nameAndLogo}
-            alt="Salon des Ani'Meaux"
+            alt="Salon des Ani’Meaux"
             className={cn("h-[60px]", "md:h-20")}
           />
 
@@ -74,12 +74,12 @@ export function Footer() {
           </ul>
 
           <p>
-            Le Salon des Ani'Meaux est organisé par{" "}
+            Le Salon des Ani’Meaux est organisé par{" "}
             <BaseLink
               to={animeauxUrl}
               className={actionClassNames.proseInline()}
             >
-              l'association Ani'Meaux
+              l'association Ani’Meaux
             </BaseLink>{" "}
             au Colisée de Meaux, les 10 et 11 juin 2023 de 10h à 18h.
           </p>
@@ -93,7 +93,7 @@ export function Footer() {
         )}
       >
         <p className="text-caption-default">
-          Copyright © {new Date().getFullYear()} Ani'Meaux
+          Copyright © {new Date().getFullYear()} Ani’Meaux
         </p>
       </section>
     </footer>

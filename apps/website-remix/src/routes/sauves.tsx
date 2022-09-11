@@ -110,7 +110,7 @@ export default function SavedPage() {
         </section>
       ) : (
         <p className={cn("px-4 py-12 text-center text-gray-500", "md:py-40")}>
-          Aucun animal à sauvé pour l'instant
+          Aucun animal à sauvé pour l’instant
         </p>
       )}
 

@@ -61,7 +61,7 @@ export const SubNavAdopt: SubNavComponent = () => {
 
       <div
         className={cn(
-          "w-full px-2 flex stroke-gray-100",
+          "w-full px-2 flex text-gray-100",
           "md:w-auto md:h-full md:px-0 md:py-2"
         )}
       >
@@ -79,7 +79,7 @@ export const SubNavAdopt: SubNavComponent = () => {
         </SubNavItem>
 
         <SubNavItem color="yellow" icon="bookHeart" to="/conditions-d-adoption">
-          Conditions d'adoption
+          Conditions d’adoption
         </SubNavItem>
       </div>
     </div>

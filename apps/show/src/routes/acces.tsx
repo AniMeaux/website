@@ -6,7 +6,7 @@ import { createSocialMeta } from "~/core/meta";
 import { getPageTitle } from "~/core/pageTitle";
 import { Icon, IconProps } from "~/generated/icon";
 import { mapImages } from "~/images/map";
-import { BubbleShape } from "~/layout/bubbleShape";
+import { bubbleSectionClassNames, BubbleShape } from "~/layout/bubbleSection";
 import {
   HeroSection,
   HeroSectionAction,
@@ -22,7 +22,7 @@ export const meta: MetaFunction = () => {
 
 export default function AccessPage() {
   return (
-    <main className="w-full px-page flex flex-col gap-12">
+    <main className="w-full px-page flex flex-col gap-24">
       <HeroSection>
         <HeroSectionAside>
           <HeroSectionImage
@@ -37,7 +37,7 @@ export default function AccessPage() {
 
           <HeroSectionParagraph>
             Voiture, bus, vélo ou à pied, tous les moyens sont bons pour visiter
-            le Salon des Ani'Meaux !
+            le Salon des Ani’Meaux !
           </HeroSectionParagraph>
 
           <HeroSectionAction>
@@ -87,22 +87,15 @@ export default function AccessPage() {
 
 function WarnSection() {
   return (
-    <section className="relative flex">
-      {/* Wrap the shape because it looks like SVG can only be sized with width
-      and height. But we don't want the width class to be a complexe arbitrary
-      value with hard coded size in px: `w-[calc(100%_-_16px)]` */}
-      <span
-        className={cn(
-          "absolute -z-10 top-0 left-2 bottom-0 right-2",
-          "md:left-4 md:right-4"
-        )}
-      >
-        <BubbleShape className="w-full h-full" />
+    <section className={bubbleSectionClassNames.root()}>
+      <span className={bubbleSectionClassNames.bubbleContainer()}>
+        <BubbleShape />
       </span>
 
       <div
         className={cn(
-          "w-full px-10 py-18 flex flex-col items-center gap-6 text-center",
+          bubbleSectionClassNames.content(),
+          "px-10 py-18 flex flex-col items-center gap-6 text-center",
           "md:px-30 md:py-[60px]"
         )}
       >
@@ -146,17 +139,17 @@ const INFOS: Info[] = [
     icon: "locationDot",
     color: "red",
     title: "Adresse",
-    text: <>Colisée de Meaux, 73 Av. Henri Dunant, 77100 Meaux</>,
+    text: <>Colisée de Meaux, 73 Av. Henri Dunant, 77100 Meaux.</>,
   },
   {
     icon: "clock",
     color: "blue",
-    title: "Horaires d'ouverture",
+    title: "Horaires d’ouverture",
     text: (
       <>
-        Samedi 10 juin 2023 de 10h à 18h
+        Samedi 10 juin 2023 de 10h à 18h.
         <br />
-        Dimanche 11 juin 2023 de 10h à 18h
+        Dimanche 11 juin 2023 de 10h à 18h.
       </>
     ),
   },
@@ -180,7 +173,7 @@ const INFOS: Info[] = [
         >
           I
         </BaseLink>
-        , arrêt Colisée de Meaux ou Roland Garros
+        , arrêt Colisée de Meaux ou Roland Garros.
       </>
     ),
   },

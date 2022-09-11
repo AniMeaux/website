@@ -12,7 +12,7 @@ export const loader: LoaderFunction = async () => {
 };
 
 const ActionDataSchema = z.object({
-  email: z.string().email({ message: "L'adresse email est invalide" }),
+  email: z.string().email({ message: "L’adresse email est invalide" }),
 });
 
 export type ActionData =

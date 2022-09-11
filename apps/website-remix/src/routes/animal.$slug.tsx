@@ -84,7 +84,7 @@ export const meta: MetaFunction = ({ data, parentsData }) => {
   const config = getConfig(parentsData);
   return createSocialMeta({
     title: getPageTitle(`Adopter ${animal.name}`),
-    imageUrl: createCloudinaryUrl(config.cloudinary.cloudName, animal.avatar, {
+    imageUrl: createCloudinaryUrl(config.cloudinaryName, animal.avatar, {
       size: "1024",
       aspectRatio: "16:9",
     }),
@@ -128,14 +128,28 @@ export default function AnimalPage() {
         </div>
       </header>
 
-      <section
+      <div
         className={cn("flex flex-col gap-12", "md:flex-row md:items-center")}
       >
-        <ImageAside animal={animal} className="md:flex-[1_1_66%]" />
-        <InfoAside animal={animal} className="md:flex-[1_1_34%] md:max-w-xs" />
-      </section>
+        <ImageSection animal={animal} className="md:flex-[1_1_66%]" />
+        <InfoSection
+          animal={animal}
+          className="md:flex-[1_1_34%] md:max-w-xs"
+        />
+      </div>
 
-      <DescriptionSection animal={animal} />
+      <div
+        className={cn(
+          "flex flex-col gap-12",
+          "md:flex-row-reverse md:items-start"
+        )}
+      >
+        <AggrementsSection
+          animal={animal}
+          className="md:flex-[1_1_34%] md:max-w-xs"
+        />
+        <DescriptionSection animal={animal} className="md:flex-[1_1_66%]" />
+      </div>
 
       <div className={cn("flex flex-col items-center gap-3", "md:hidden")}>
         <Actions />
@@ -153,17 +167,17 @@ function Actions() {
         to="/conditions-d-adoption"
         className={actionClassNames.standalone({ color: "gray" })}
       >
-        Voir les conditions d'adoption
+        Voir les conditions d’adoption
       </BaseLink>
 
       <BaseLink to={adoptionFormUrl} className={actionClassNames.standalone()}>
-        Je l'adopte
+        Je l’adopte
       </BaseLink>
     </>
   );
 }
 
-function ImageAside({
+function ImageSection({
   animal,
   className,
 }: {
@@ -175,7 +189,7 @@ function ImageAside({
   const [visibleIndex, setVisibleIndex] = useState(0);
 
   return (
-    <aside className={cn(className, "flex flex-col gap-6")}>
+    <section className={cn(className, "flex flex-col gap-6")}>
       <div
         ref={scrollContainerRef}
         onScroll={(event) => {
@@ -233,26 +247,17 @@ function ImageAside({
           </button>
         ))}
       </div>
-    </aside>
+    </section>
   );
 }
 
-function InfoAside({
+function InfoSection({
   animal,
   className,
 }: {
   animal: LoaderDataClient["animal"];
   className: string;
 }) {
-  return (
-    <aside className={cn(className, "px-4 flex flex-col gap-6")}>
-      <InfoList animal={animal} />
-      <Aggrements animal={animal} />
-    </aside>
-  );
-}
-
-function InfoList({ animal }: { animal: LoaderDataClient["animal"] }) {
   const speciesLabels = [
     SPECIES_TRANSLATION[animal.species],
     animal.breed?.name,
@@ -262,28 +267,32 @@ function InfoList({ animal }: { animal: LoaderDataClient["animal"] }) {
     .join(" • ");
 
   return (
-    <ul className="flex flex-col gap-3">
-      <Item
-        icon={animal.gender === Gender.FEMALE ? "venus" : "mars"}
-        color={animal.gender === Gender.FEMALE ? "pink" : "blue"}
-      >
-        {GENDER_TRANSLATION[animal.gender]}
-      </Item>
-
-      <Item icon={SPECIES_ICON[animal.species]}>{speciesLabels}</Item>
-
-      <Item icon="cakeCandles">
-        {DateTime.fromISO(animal.birthdate).toLocaleString(DateTime.DATE_FULL)}{" "}
-        ({formatAge(animal.birthdate)})
-      </Item>
-
-      {animal.fosterFamily != null && (
-        <Item icon="locationDot">
-          En famille d'accueil à {animal.fosterFamily.city} (
-          {animal.fosterFamily.zipCode.slice(0, 2)})
+    <section className={cn(className, "px-4 flex flex-col")}>
+      <ul className="flex flex-col gap-3">
+        <Item
+          icon={animal.gender === Gender.FEMALE ? "venus" : "mars"}
+          color={animal.gender === Gender.FEMALE ? "pink" : "blue"}
+        >
+          {GENDER_TRANSLATION[animal.gender]}
         </Item>
-      )}
-    </ul>
+
+        <Item icon={SPECIES_ICON[animal.species]}>{speciesLabels}</Item>
+
+        <Item icon="cakeCandles">
+          {DateTime.fromISO(animal.birthdate).toLocaleString(
+            DateTime.DATE_FULL
+          )}{" "}
+          ({formatAge(animal.birthdate)})
+        </Item>
+
+        {animal.fosterFamily != null && (
+          <Item icon="locationDot">
+            En famille d’accueil à {animal.fosterFamily.city} (
+            {animal.fosterFamily.zipCode.slice(0, 2)})
+          </Item>
+        )}
+      </ul>
+    </section>
   );
 }
 
@@ -311,10 +320,24 @@ function Item({
   );
 }
 
-function Aggrements({ animal }: { animal: LoaderDataClient["animal"] }) {
+function AggrementsSection({
+  animal,
+  className,
+}: {
+  animal: LoaderDataClient["animal"];
+  className: string;
+}) {
   return (
-    <div className="flex flex-col gap-3">
-      <h2 className="text-caption-default text-gray-600">Ses ententes</h2>
+    <div className={cn(className, "px-4 flex flex-col gap-6", "md:px-6")}>
+      <h2
+        className={cn(
+          "text-title-section-small",
+          "md:text-title-section-large"
+        )}
+      >
+        Ses ententes
+      </h2>
+
       <ul className={cn("flex gap-3", "md:gap-6")}>
         <Agreement entity="babies" value={animal.isOkChildren} />
         <Agreement entity="cats" value={animal.isOkCats} />
@@ -376,42 +399,31 @@ const DESCRIPTION_COMPONENTS: MarkdownProps["components"] = {
 
 function DescriptionSection({
   animal,
+  className,
 }: {
   animal: LoaderDataClient["animal"];
+  className: string;
 }) {
-  if (animal.description == null) {
-    return null;
-  }
-
   return (
-    <section
-      className={cn(
-        "px-4 flex flex-col",
-        "md:px-0 md:py-6 md:flex-row md:gap-6"
-      )}
-    >
-      <Icon
-        id="quoteLeft"
+    <section className={cn(className, "px-4 flex flex-col gap-6", "md:px-6")}>
+      <h2
         className={cn(
-          "flex-none self-start text-[60px] text-gray-300",
-          "md:text-[96px]"
+          "text-title-section-small",
+          "md:text-title-section-large"
         )}
-      />
-
-      <Markdown
-        components={DESCRIPTION_COMPONENTS}
-        className="flex flex-col gap-6"
       >
-        {animal.description}
-      </Markdown>
+        Son histoire
+      </h2>
 
-      <Icon
-        id="quoteRight"
-        className={cn(
-          "flex-none self-end text-[60px] text-gray-300",
-          "md:text-[96px]"
+      <div className="flex flex-col gap-6">
+        {animal.description == null ? (
+          <p>À venir…</p>
+        ) : (
+          <Markdown components={DESCRIPTION_COMPONENTS}>
+            {animal.description}
+          </Markdown>
         )}
-      />
+      </div>
     </section>
   );
 }

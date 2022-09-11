@@ -16,6 +16,7 @@ import {
   SearchForm,
   SPECIES_TO_PATH,
 } from "~/controllers/searchForm";
+import { actionClassNames } from "~/core/actions";
 import { BaseLink } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
 import { MapDateToString } from "~/core/dates";
@@ -157,7 +158,7 @@ export const meta: MetaFunction = ({ params }) => {
   });
 
   return createSocialMeta({
-    title: getPageTitle(`${pageParamsTranslation} à l'adoption`),
+    title: getPageTitle(`${pageParamsTranslation} à l’adoption`),
   });
 };
 
@@ -252,10 +253,21 @@ export default function AdoptionPage() {
           </ul>
         </section>
       ) : (
-        <p className={cn("px-4 py-12 text-center text-gray-500", "md:py-40")}>
-          Aucun {getPageParamsTranslation(pageParams).toLowerCase()} à
-          l'adoption pour l'instant
-        </p>
+        <section
+          className={cn(
+            "px-4 py-12 flex flex-col gap-6 items-center text-center text-gray-500",
+            "md:px-30 md:py-40"
+          )}
+        >
+          <p className="w-full">
+            Aucun {getPageParamsTranslation(pageParams).toLowerCase()} à
+            l’adoption pour l’instant.
+          </p>
+
+          <BaseLink to="/adoption" className={actionClassNames.standalone()}>
+            Voir toutes les espèces
+          </BaseLink>
+        </section>
       )}
 
       <Paginator pageCount={pageCount} className="self-center" />
@@ -281,14 +293,14 @@ function AnimalItem({
       <BaseLink
         to={`/animal/${toSlug(animal.name)}-${animal.id}`}
         className={cn(
-          "group w-full px-4 py-3 shadow-none rounded-bubble-lg bg-transparent flex flex-col gap-3 transition-[background-color,transform] duration-100 ease-in-out hover:bg-white hover:shadow-base",
+          "w-full px-4 py-3 shadow-none rounded-bubble-lg bg-transparent flex flex-col gap-3 transition-[background-color,transform] duration-100 ease-in-out hover:bg-white hover:shadow-base",
           "md:p-6"
         )}
       >
         <DynamicImage
           imageId={animal.avatar}
           alt={animal.name}
-          sizes={{ lg: "300px", md: "50vw", default: "100vw" }}
+          sizes={{ lg: "300px", sm: "30vw", xs: "50vw", default: "100vw" }}
           fallbackSize="512"
           className="w-full aspect-4/3 flex-none rounded-bubble-ratio"
         />
