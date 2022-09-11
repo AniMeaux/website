@@ -1,13 +1,13 @@
 declare namespace NodeJS {
   interface ProcessEnv {
-    RUNTIME_ENV?: "staging" | "production";
-    PUBLIC_HOST?: string;
     ANIMEAUX_URL?: string;
-    TICKETING_URL?: string;
-    FACEBOOK_URL?: string;
-    INSTAGRAM_URL?: string;
     EXHIBITORS_FORM_URL?: string;
-    PRESS_RELEASE_URL?: string;
+    FACEBOOK_URL?: string;
     GOOGLE_TAG_MANAGER_ID?: string;
+    INSTAGRAM_URL?: string;
+    PRESS_RELEASE_URL?: string;
+    PUBLIC_HOST?: string;
+    RUNTIME_ENV?: "staging" | "production";
+    TICKETING_URL?: string;
   }
 }
