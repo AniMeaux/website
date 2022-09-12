@@ -86,7 +86,6 @@ export function DynamicImage({
   sizes,
   fallbackSize,
   loading,
-  shouldFill,
   className,
 }: {
   imageId: string;
@@ -94,7 +93,6 @@ export function DynamicImage({
   sizes: StaticImageProps["sizes"];
   fallbackSize: NonNullable<StaticImageProps["fallbackSize"]>;
   loading?: StaticImageProps["loading"];
-  shouldFill?: boolean;
   className?: string;
 }) {
   const config = useConfig();
@@ -105,7 +103,6 @@ export function DynamicImage({
         size,
         createCloudinaryUrl(config.cloudinaryName, imageId, {
           size,
-          shouldFill,
         }),
       ])
     ),
@@ -128,22 +125,21 @@ export function createCloudinaryUrl(
   {
     size,
     aspectRatio = "4:3",
-    shouldFill = false,
   }: {
     size: ImageSize;
     aspectRatio?: "4:3" | "16:9";
-    shouldFill?: boolean;
   }
 ) {
   const transformationsStr = [
     `w_${size}`,
     // https://cloudinary.com/documentation/transformation_reference#ar_aspect_ratio
     `ar_${aspectRatio}`,
-    // https://cloudinary.com/documentation/transformation_reference#c_fill
-    // https://cloudinary.com/documentation/transformation_reference#c_pad
-    shouldFill ? "c_fill" : "c_pad",
+    // https://cloudinary.com/documentation/transformation_reference#c_fill_pad
+    "c_fill_pad",
+    // https://cloudinary.com/documentation/transformation_reference#g_auto
+    "g_auto",
     // https://cloudinary.com/documentation/transformation_reference#b_auto
-    shouldFill ? null : "b_auto",
+    "b_auto",
     // https://cloudinary.com/documentation/image_optimization#automatic_quality_selection_q_auto
     "q_auto",
     // When using devtools to emulate different browsers, Cloudinary may return a

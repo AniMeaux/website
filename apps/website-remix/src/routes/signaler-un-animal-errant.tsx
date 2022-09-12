@@ -25,7 +25,6 @@ export default function StrayAnimalPage() {
         </header>
 
         <DynamicImage
-          shouldFill
           imageId="blog/a2bf3ad2-a475-4c63-8f30-fd29928c8fa3"
           alt="Signaler un animal errant"
           sizes={{ lg: "1024px", default: "100vw" }}

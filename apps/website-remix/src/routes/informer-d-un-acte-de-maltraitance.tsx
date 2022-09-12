@@ -25,7 +25,6 @@ export default function AbusePage() {
         </header>
 
         <DynamicImage
-          shouldFill
           imageId="blog/bd9dec91-45da-4064-9053-536b5a9b61c3"
           alt="Informer d’un acte de maltraitance"
           sizes={{ lg: "1024px", default: "100vw" }}

@@ -23,7 +23,6 @@ export function WarnItem({
         )}
       >
         <DynamicImage
-          shouldFill
           imageId={image}
           alt={title}
           sizes={{ lg: "300px", md: "30vw", xs: "50vw", default: "100vw" }}

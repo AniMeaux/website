@@ -72,7 +72,6 @@ export const ARTICLE_COMPONENTS: MarkdownProps["components"] = {
 
     return (
       <DynamicImage
-        shouldFill
         imageId={src}
         alt={alt}
         sizes={{ lg: "1024px", default: "100vw" }}
