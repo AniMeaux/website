@@ -1,6 +1,7 @@
 import { formatDateRange } from "@animeaux/shared";
 import { BaseLink } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
+import { focusRingClassNames } from "~/core/focusRing";
 import { toSlug } from "~/core/slugs";
 import { DynamicImage, PlaceholderImage } from "~/dataDisplay/image";
 import { Icon, IconProps } from "~/generated/icon";
@@ -29,22 +30,15 @@ export function EventItem({
         disabled={isDisabled}
         to={`/evenements/${toSlug(event.title)}-${event.id}`}
         className={cn(
-          "group w-full px-4 py-3 shadow-none rounded-bubble-lg bg-transparent flex flex-col gap-3",
-          {
-            "transition-[background-color,box-shadow] duration-100 ease-in-out hover:bg-white hover:shadow-base":
-              !isDisabled,
-          },
-          {
-            "sm:pl-6 sm:pr-12 sm:py-6 sm:flex-row sm:gap-6 sm:items-center":
-              isInlined,
-            "md:p-6": !isInlined,
-          }
+          "group rounded-bubble-md w-full flex flex-col gap-3",
+          { "sm:flex-row sm:gap-6 sm:items-center": isInlined },
+          { [focusRingClassNames()]: !isDisabled }
         )}
       >
         {event.image == null ? (
           <PlaceholderImage
             icon="calendarDay"
-            className={cn("w-full aspect-4/3 flex-none rounded-bubble-ratio", {
+            className={cn("w-full aspect-4/3 flex-none rounded-bubble-md", {
               "sm:w-[150px]": isInlined,
             })}
           />
@@ -54,7 +48,7 @@ export function EventItem({
             alt={event.title}
             sizes={{ sm: "150px", default: "100vw" }}
             fallbackSize="512"
-            className={cn("w-full aspect-4/3 flex-none rounded-bubble-ratio", {
+            className={cn("w-full aspect-4/3 flex-none rounded-bubble-md", {
               "sm:w-[150px]": isInlined,
             })}
           />

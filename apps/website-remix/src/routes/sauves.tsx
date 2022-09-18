@@ -1,19 +1,15 @@
-import { formatAge } from "@animeaux/shared";
-import { Gender, Prisma } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 import { json, LoaderFunction, MetaFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
+import { AnimalItem } from "~/animals/item";
 import { SAVED_ANIMAL_STATUS } from "~/animals/status";
 import { Paginator } from "~/controllers/paginator";
 import { cn } from "~/core/classNames";
 import { MapDateToString } from "~/core/dates";
 import { prisma } from "~/core/db.server";
-import { isDefined } from "~/core/isDefined";
 import { createSocialMeta } from "~/core/meta";
 import { getPageTitle } from "~/core/pageTitle";
 import { getPage } from "~/core/searchParams";
-import { GENDER_TRANSLATION, SPECIES_TRANSLATION } from "~/core/translations";
-import { DynamicImage } from "~/dataDisplay/image";
-import { Icon } from "~/generated/icon";
 
 // Multiple of 2 and 3 to be nicely displayed.
 const ANIMAL_COUNT_PER_PAGE = 18;
@@ -82,8 +78,8 @@ export default function SavedPage() {
       >
         <h1
           className={cn(
-            "px-4 text-title-hero-small text-center",
-            "md:flex-1 md:px-0 md:text-title-hero-large md:text-left"
+            "text-title-hero-small text-center",
+            "md:flex-1 md:text-title-hero-large md:text-left"
           )}
         >
           Animaux sauvés
@@ -91,77 +87,34 @@ export default function SavedPage() {
       </header>
 
       {totalCount > 0 ? (
-        <section className="flex flex-col gap-6">
+        <>
           <h2 className={cn("text-gray-500 text-center", "md:text-left")}>
             {totalCount} {totalCount > 1 ? "animaux" : "animal"}
           </h2>
 
-          <ul
-            className={cn(
-              "grid grid-cols-1 grid-rows-[auto] gap-6 items-start",
-              "xs:grid-cols-2",
-              "sm:grid-cols-3"
-            )}
-          >
-            {animals.map((animal) => (
-              <AnimalItem key={animal.id} animal={animal} />
-            ))}
-          </ul>
-        </section>
+          <section className="flex">
+            <ul
+              className={cn(
+                "w-full grid grid-cols-1 grid-rows-[auto] gap-12 items-start",
+                "xs:grid-cols-2",
+                "sm:grid-cols-3"
+              )}
+            >
+              {animals.map((animal) => (
+                <AnimalItem isDisabled key={animal.id} animal={animal} />
+              ))}
+            </ul>
+          </section>
+        </>
       ) : (
-        <p className={cn("px-4 py-12 text-center text-gray-500", "md:py-40")}>
+        <p
+          className={cn("py-12 text-center text-gray-500", "md:px-30 md:py-40")}
+        >
           Aucun animal à sauvé pour l’instant
         </p>
       )}
 
       <Paginator pageCount={pageCount} className="self-center" />
     </main>
-  );
-}
-
-function AnimalItem({
-  animal,
-}: {
-  animal: LoaderDataClient["animals"][number];
-}) {
-  const speciesLabels = [
-    SPECIES_TRANSLATION[animal.species],
-    animal.breed?.name,
-    animal.color?.name,
-  ]
-    .filter(isDefined)
-    .join(" • ");
-
-  return (
-    <li className={cn("group w-full px-4 py-3 flex flex-col gap-3", "md:p-6")}>
-      <DynamicImage
-        imageId={animal.avatar}
-        alt={animal.name}
-        sizes={{ lg: "300px", md: "50vw", default: "100vw" }}
-        fallbackSize="512"
-        className="w-full aspect-4/3 flex-none rounded-bubble-ratio"
-      />
-
-      <div className="flex flex-col">
-        <p className="flex items-start gap-1">
-          <span
-            className={cn("h-6 flex-none flex items-center text-[20px]", {
-              "text-pink-500": animal.gender === Gender.FEMALE,
-              "text-brandBlue": animal.gender === Gender.MALE,
-            })}
-            title={GENDER_TRANSLATION[animal.gender]}
-          >
-            <Icon id={animal.gender === Gender.FEMALE ? "venus" : "mars"} />
-          </span>
-
-          <span className="flex-1 test-title-item">{animal.name}</span>
-        </p>
-
-        <p className="flex items-start gap-6 text-caption-default text-gray-500">
-          <span className="flex-1">{speciesLabels}</span>
-          <span className="flex-none">{formatAge(animal.birthdate)}</span>
-        </p>
-      </div>
-    </li>
   );
 }

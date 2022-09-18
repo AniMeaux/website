@@ -20,22 +20,20 @@ export function Footer() {
         "md:pt-12"
       )}
     >
-      <div className={cn("w-full px-2 flex", "md:px-6")}>
-        <LineShapeHorizontal
-          className={cn("w-full h-4 text-gray-300", "md:h-6")}
-        />
-      </div>
+      <LineShapeHorizontal
+        className={cn("w-full h-4 text-gray-300", "md:h-6")}
+      />
 
       <div
         className={cn(
-          "w-full flex flex-col items-center gap-12",
+          "w-full flex flex-col items-center gap-24",
           "md:flex-row"
         )}
       >
         <section
           className={cn(
-            "max-w-md px-6 grid grid-cols-2 grid-rows-[auto] gap-x-12 gap-y-6 items-center",
-            "md:min-w-0 md:max-w-none md:flex-1"
+            "grid grid-cols-2 grid-rows-[auto] gap-x-12 gap-y-6 items-center",
+            "md:flex-1"
           )}
         >
           <img src={meaux} alt="Ville de Meaux" />
@@ -47,12 +45,7 @@ export function Footer() {
           <img src={poullain} alt="Jardinerie Poullain" />
         </section>
 
-        <section
-          className={cn(
-            "max-w-md px-4 flex flex-col items-start gap-6",
-            "md:max-w-none md:flex-1 md:min-w-0 md:px-6"
-          )}
-        >
+        <section className={cn("flex flex-col items-start gap-6", "md:flex-1")}>
           <img
             src={nameAndLogo}
             alt="Salon des Ani’Meaux"
@@ -88,8 +81,8 @@ export function Footer() {
 
       <section
         className={cn(
-          "max-w-md px-4 py-6 flex flex-col text-gray-500 text-center",
-          "md:max-w-none md:w-full md:p-6"
+          "py-6 flex flex-col text-gray-500 text-center",
+          "md:w-full"
         )}
       >
         <p className="text-caption-default">

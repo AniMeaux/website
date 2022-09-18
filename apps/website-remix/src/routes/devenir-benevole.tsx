@@ -59,8 +59,8 @@ function OptionsSection() {
     <section className="flex flex-col gap-12">
       <h2
         className={cn(
-          "px-4 text-title-section-small text-center",
-          "md:px-6 md:text-title-section-large"
+          "text-title-section-small text-center",
+          "md:text-title-section-large"
         )}
       >
         Options
@@ -101,8 +101,8 @@ function VolunteerSection() {
     <section className="flex flex-col gap-12">
       <h2
         className={cn(
-          "px-4 text-title-section-small text-center",
-          "md:px-6 md:text-title-section-large"
+          "text-title-section-small text-center",
+          "md:text-title-section-large"
         )}
       >
         Missions des bénévoles
@@ -110,7 +110,7 @@ function VolunteerSection() {
 
       <ul
         className={cn(
-          "grid grid-cols-1 grid-rows-[auto] gap-6 items-start",
+          "grid grid-cols-1 grid-rows-[auto] gap-12 items-start",
           "xs:grid-cols-2",
           "md:grid-cols-3"
         )}
@@ -184,7 +184,7 @@ function MissionItem({
   children: React.ReactNode;
 }) {
   return (
-    <li className={cn("px-4 py-3 flex flex-col gap-6", "md:p-6")}>
+    <li className="flex flex-col gap-6">
       <StaticImage
         image={image}
         sizes={{ default: "128px" }}

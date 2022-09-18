@@ -20,7 +20,7 @@ export function TimelineItem({
     <li
       className={cn(
         "group relative py-3 flex items-center gap-6",
-        "md:px-6 md:py-6 md:gap-12 md:odd:flex-row-reverse"
+        "md:p-6 md:gap-12 md:odd:flex-row-reverse"
       )}
     >
       <TopLine

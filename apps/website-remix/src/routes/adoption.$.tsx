@@ -1,13 +1,10 @@
-import {
-  AnimalAge,
-  ANIMAL_AGE_RANGE_BY_SPECIES,
-  formatAge,
-} from "@animeaux/shared";
-import { Gender, Prisma, Species } from "@prisma/client";
+import { AnimalAge, ANIMAL_AGE_RANGE_BY_SPECIES } from "@animeaux/shared";
+import { Prisma, Species } from "@prisma/client";
 import { json, LoaderFunction, MetaFunction } from "@remix-run/node";
 import { useCatch, useLoaderData, useParams } from "@remix-run/react";
 import { DateTime } from "luxon";
 import invariant from "tiny-invariant";
+import { AnimalItem } from "~/animals/item";
 import { ADOPTABLE_ANIMAL_STATUS } from "~/animals/status";
 import { Paginator } from "~/controllers/paginator";
 import {
@@ -21,21 +18,16 @@ import { BaseLink } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
 import { MapDateToString } from "~/core/dates";
 import { prisma } from "~/core/db.server";
-import { isDefined } from "~/core/isDefined";
 import { createSocialMeta } from "~/core/meta";
 import { getPageTitle } from "~/core/pageTitle";
 import { getPage } from "~/core/searchParams";
-import { toSlug } from "~/core/slugs";
 import {
   AGE_PLURAL_TRANSLATION,
   AGE_TRANSLATION,
-  GENDER_TRANSLATION,
   SPECIES_PLURAL_TRANSLATION,
   SPECIES_TRANSLATION,
 } from "~/core/translations";
 import { ErrorPage, getErrorTitle } from "~/dataDisplay/errorPage";
-import { DynamicImage } from "~/dataDisplay/image";
-import { Icon } from "~/generated/icon";
 
 type PageParams = {
   species?: Species;
@@ -209,8 +201,8 @@ export default function AdoptionPage() {
       >
         <h1
           className={cn(
-            "px-4 text-title-hero-small text-center",
-            "md:flex-1 md:px-0 md:text-title-hero-large md:text-left"
+            "text-title-hero-small text-center",
+            "md:flex-1 md:text-title-hero-large md:text-left"
           )}
         >
           À adopter
@@ -218,8 +210,8 @@ export default function AdoptionPage() {
 
         <div
           className={cn(
-            "flex-none px-2 flex justify-center",
-            "md:px-0 md:flex-1 md:max-w-sm"
+            "flex-none flex justify-center",
+            "md:flex-1 md:max-w-sm"
           )}
         >
           <SearchForm
@@ -232,7 +224,7 @@ export default function AdoptionPage() {
       </header>
 
       {totalCount > 0 ? (
-        <section className="flex flex-col gap-6">
+        <>
           <h2 className={cn("text-gray-500 text-center", "md:text-left")}>
             {totalCount}{" "}
             {getPageParamsTranslation(pageParams, {
@@ -240,22 +232,24 @@ export default function AdoptionPage() {
             }).toLowerCase()}
           </h2>
 
-          <ul
-            className={cn(
-              "grid grid-cols-1 grid-rows-[auto] gap-6 items-start",
-              "xs:grid-cols-2",
-              "sm:grid-cols-3"
-            )}
-          >
-            {animals.map((animal) => (
-              <AnimalItem key={animal.id} animal={animal} />
-            ))}
-          </ul>
-        </section>
+          <section className="flex">
+            <ul
+              className={cn(
+                "w-full grid grid-cols-1 grid-rows-[auto] gap-12 items-start",
+                "xs:grid-cols-2",
+                "sm:grid-cols-3"
+              )}
+            >
+              {animals.map((animal) => (
+                <AnimalItem key={animal.id} animal={animal} />
+              ))}
+            </ul>
+          </section>
+        </>
       ) : (
         <section
           className={cn(
-            "px-4 py-12 flex flex-col gap-6 items-center text-center text-gray-500",
+            "py-12 flex flex-col gap-6 items-center text-center text-gray-500",
             "md:px-30 md:py-40"
           )}
         >
@@ -272,60 +266,5 @@ export default function AdoptionPage() {
 
       <Paginator pageCount={pageCount} className="self-center" />
     </main>
-  );
-}
-
-function AnimalItem({
-  animal,
-}: {
-  animal: LoaderDataClient["animals"][number];
-}) {
-  const speciesLabels = [
-    SPECIES_TRANSLATION[animal.species],
-    animal.breed?.name,
-    animal.color?.name,
-  ]
-    .filter(isDefined)
-    .join(" • ");
-
-  return (
-    <li className="flex">
-      <BaseLink
-        to={`/animal/${toSlug(animal.name)}-${animal.id}`}
-        className={cn(
-          "w-full px-4 py-3 shadow-none rounded-bubble-lg bg-transparent flex flex-col gap-3 transition-[background-color,transform] duration-100 ease-in-out hover:bg-white hover:shadow-base",
-          "md:p-6"
-        )}
-      >
-        <DynamicImage
-          imageId={animal.avatar}
-          alt={animal.name}
-          sizes={{ lg: "300px", sm: "30vw", xs: "50vw", default: "100vw" }}
-          fallbackSize="512"
-          className="w-full aspect-4/3 flex-none rounded-bubble-ratio"
-        />
-
-        <div className="flex flex-col">
-          <p className="flex items-start gap-1">
-            <span
-              className={cn("h-6 flex-none flex items-center text-[20px]", {
-                "text-pink-500": animal.gender === Gender.FEMALE,
-                "text-brandBlue": animal.gender === Gender.MALE,
-              })}
-              title={GENDER_TRANSLATION[animal.gender]}
-            >
-              <Icon id={animal.gender === Gender.FEMALE ? "venus" : "mars"} />
-            </span>
-
-            <span className="flex-1 test-title-item">{animal.name}</span>
-          </p>
-
-          <p className="flex items-start gap-6 text-caption-default text-gray-500">
-            <span className="flex-1">{speciesLabels}</span>
-            <span className="flex-none">{formatAge(animal.birthdate)}</span>
-          </p>
-        </div>
-      </BaseLink>
-    </li>
   );
 }

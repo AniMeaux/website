@@ -1,6 +1,7 @@
 import { DateTime } from "luxon";
 import { BaseLink } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
+import { focusRingClassNames } from "~/core/focusRing";
 import { DynamicImage } from "~/dataDisplay/image";
 
 export function ArticleItem({
@@ -20,8 +21,8 @@ export function ArticleItem({
       <BaseLink
         to={`/blog/${article.slug}`}
         className={cn(
-          "w-full px-4 py-3 shadow-none rounded-bubble-lg bg-transparent flex flex-col gap-3 transition-[background-color,transform] duration-100 ease-in-out hover:bg-white hover:shadow-base",
-          "md:p-6"
+          "w-full rounded-bubble-md flex flex-col gap-3",
+          focusRingClassNames()
         )}
       >
         <DynamicImage
@@ -29,7 +30,7 @@ export function ArticleItem({
           alt={article.title}
           sizes={{ lg: "300px", md: "30vw", xs: "50vw", default: "100vw" }}
           fallbackSize="512"
-          className="w-full aspect-4/3 flex-none rounded-bubble-ratio"
+          className="w-full aspect-4/3 flex-none rounded-bubble-md"
         />
 
         <div className="flex flex-col">
