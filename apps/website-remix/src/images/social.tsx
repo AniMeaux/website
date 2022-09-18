@@ -2,6 +2,7 @@ import { ImageDescriptor } from "~/dataDisplay/image";
 import socialAdoptionConditions1024 from "~/images/socialAdoptionConditions-1024w.jpg";
 import socialDefault1024 from "~/images/socialDefault-1024w.jpg";
 import socialDonation1024 from "~/images/socialDonation-1024w.jpg";
+import socialFaq1024 from "~/images/socialFaq-1024w.jpg";
 import socialFosterFamily1024 from "~/images/socialFosterFamily-1024w.jpg";
 import socialVolunteer1024 from "~/images/socialVolunteer-1024w.jpg";
 
@@ -20,6 +21,11 @@ const donation: ImageDescriptor = {
   imagesBySize: { "1024": socialDonation1024 },
 };
 
+const faq: ImageDescriptor = {
+  alt: "Chien qui lève la patte.",
+  imagesBySize: { "1024": socialFaq1024 },
+};
+
 const fosterFamily: ImageDescriptor = {
   alt: "Homme portant un chat dans les bras.",
   imagesBySize: { "1024": socialFosterFamily1024 },
@@ -34,7 +40,7 @@ export const socialImages = {
   adoptionConditions,
   default: socialDefault,
   donation,
-
+  faq,
   fosterFamily,
   volunteer,
 };
