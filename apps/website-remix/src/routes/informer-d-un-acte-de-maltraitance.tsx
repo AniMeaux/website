@@ -1,5 +1,9 @@
+import { MetaFunction } from "@remix-run/node";
 import { cn } from "~/core/classNames";
-import { DynamicImage } from "~/dataDisplay/image";
+import { getConfig } from "~/core/config";
+import { createSocialMeta } from "~/core/meta";
+import { getPageTitle } from "~/core/pageTitle";
+import { createCloudinaryUrl, DynamicImage } from "~/dataDisplay/image";
 import {
   ARTICLE_COMPONENTS,
   Markdown,
@@ -11,6 +15,19 @@ import {
   RelatedSectionTitle,
 } from "~/layout/relatedSection";
 import { WarnItem } from "~/warn/item";
+
+const IMAGE_ID = "blog/bd9dec91-45da-4064-9053-536b5a9b61c3";
+
+export const meta: MetaFunction = ({ parentsData }) => {
+  const config = getConfig(parentsData);
+  return createSocialMeta({
+    title: getPageTitle("Informer d’un acte de maltraitance"),
+    imageUrl: createCloudinaryUrl(config.cloudinaryName, IMAGE_ID, {
+      size: "1024",
+      aspectRatio: "16:9",
+    }),
+  });
+};
 
 export default function AbusePage() {
   return (
@@ -25,7 +42,7 @@ export default function AbusePage() {
         </header>
 
         <DynamicImage
-          imageId="blog/bd9dec91-45da-4064-9053-536b5a9b61c3"
+          imageId={IMAGE_ID}
           alt="Informer d’un acte de maltraitance"
           sizes={{ lg: "1024px", default: "100vw" }}
           fallbackSize="1024"

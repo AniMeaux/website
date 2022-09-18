@@ -1,10 +1,14 @@
 import { Species } from "@prisma/client";
+import { MetaFunction } from "@remix-run/node";
 import { useState } from "react";
 import { SPECIES_ICON } from "~/animals/species";
 import { Tab } from "~/controllers/tabs";
 import { actionClassNames } from "~/core/actions";
 import { BaseLink } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
+import { getConfig } from "~/core/config";
+import { createSocialMeta } from "~/core/meta";
+import { getPageTitle } from "~/core/pageTitle";
 import {
   OptionCard,
   OptionDescription,
@@ -18,6 +22,7 @@ import { Timeline, TimelineItem } from "~/dataDisplay/timeline";
 import { Icon } from "~/generated/icon";
 import { adoptImages } from "~/images/adopt";
 import { questionsImages } from "~/images/questions";
+import { socialImages } from "~/images/social";
 import { bubbleSectionClassNames, BubbleShape } from "~/layout/bubbleSection";
 import {
   HeroSection,
@@ -26,6 +31,14 @@ import {
   HeroSectionParagraph,
   HeroSectionTitle,
 } from "~/layout/heroSection";
+
+export const meta: MetaFunction = ({ parentsData }) => {
+  const config = getConfig(parentsData);
+  return createSocialMeta({
+    title: getPageTitle("Conditions d’adoption"),
+    imageUrl: `${config.publicHost}${socialImages.adoptionConditions.imagesBySize[1024]}`,
+  });
+};
 
 export default function AdoptionConditionsPage() {
   return (

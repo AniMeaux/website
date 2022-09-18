@@ -82,7 +82,7 @@ export const meta: MetaFunction = ({ data, location }) => {
       url = `${url}${location.pathname}`;
     }
 
-    imageUrl = `${config.publicHost}${socialImages.imagesBySize[2048]}`;
+    imageUrl = `${config.publicHost}${socialImages.default.imagesBySize[1024]}`;
   }
 
   return {

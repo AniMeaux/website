@@ -1,11 +1,15 @@
+import { MetaFunction } from "@remix-run/node";
 import { actionClassNames } from "~/core/actions";
 import { BaseLink } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
-import { useConfig } from "~/core/config";
+import { getConfig, useConfig } from "~/core/config";
+import { createSocialMeta } from "~/core/meta";
+import { getPageTitle } from "~/core/pageTitle";
 import { Icon, IconProps } from "~/generated/icon";
 import { donationImages } from "~/images/donation";
 import { helloassoImages } from "~/images/helloasso";
 import paypalImage from "~/images/paypal.png";
+import { socialImages } from "~/images/social";
 import teamingImage from "~/images/teaming.png";
 import { bubbleSectionClassNames, BubbleShape } from "~/layout/bubbleSection";
 import {
@@ -16,6 +20,14 @@ import {
   HeroSectionParagraph,
   HeroSectionTitle,
 } from "~/layout/heroSection";
+
+export const meta: MetaFunction = ({ parentsData }) => {
+  const config = getConfig(parentsData);
+  return createSocialMeta({
+    title: getPageTitle("Faire un don"),
+    imageUrl: `${config.publicHost}${socialImages.donation.imagesBySize[1024]}`,
+  });
+};
 
 export default function DonationPage() {
   const { donationUrl } = useConfig();
