@@ -192,11 +192,8 @@ async function seedEvents() {
         category: faker.helpers.arrayElement(Object.values(EventCategory)),
         title: faker.commerce.productName(),
         location: faker.address.streetAddress(true),
-        shortDescription: faker.commerce.productDescription(),
-        description: faker.lorem.paragraphs(
-          faker.datatype.number({ min: 1, max: 5 }),
-          "\n\n"
-        ),
+        url: faker.internet.url(),
+        description: faker.commerce.productDescription(),
         startDate,
         endDate: faker.date.between(
           startDate,

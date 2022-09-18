@@ -1,6 +1,4 @@
 import { Event, formatDateRange } from "@animeaux/shared";
-import { paramCase } from "change-case";
-import diacritics from "diacritics";
 import styled from "styled-components";
 import { Link } from "~/core/link";
 import { CloudinaryImage } from "~/dataDisplay/image";
@@ -11,9 +9,7 @@ type EventCardLinkProps = {
 
 export function EventCardLink({ event }: EventCardLinkProps) {
   return (
-    <EventCard
-      href={`/event/${paramCase(diacritics.remove(event.title))}-${event.id}`}
-    >
+    <EventCard href={event.url}>
       <EventImage imageId={event.image} alt={event.title} />
 
       <EventInfo>
@@ -26,7 +22,7 @@ export function EventCardLink({ event }: EventCardLinkProps) {
           })}
         </EventDate>
 
-        <EventDescription>{event.shortDescription}</EventDescription>
+        <EventDescription>{event.description}</EventDescription>
       </EventInfo>
     </EventCard>
   );

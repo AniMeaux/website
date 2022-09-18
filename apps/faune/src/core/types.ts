@@ -19,7 +19,15 @@ export type HtmlInputProps = {
   placeholder?: string;
   autoComplete?: string;
   name?: string;
-  type?: "text" | "email" | "password" | "tel" | "number" | "date" | "time";
+  type?:
+    | "text"
+    | "url"
+    | "email"
+    | "password"
+    | "tel"
+    | "number"
+    | "date"
+    | "time";
   id?: string;
   role?: "search";
   pattern?: string;

@@ -20,7 +20,7 @@ const eventSelect = Prisma.validator<Prisma.EventArgs>()({
     id: true,
     image: true,
     title: true,
-    shortDescription: true,
+    description: true,
     startDate: true,
     endDate: true,
     isFullDay: true,
