@@ -1,12 +1,16 @@
+import { MetaFunction } from "@remix-run/node";
 import { actionClassNames } from "~/core/actions";
 import { BaseLink } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
-import { useConfig } from "~/core/config";
+import { getConfig, useConfig } from "~/core/config";
+import { createSocialMeta } from "~/core/meta";
+import { getPageTitle } from "~/core/pageTitle";
 import { Timeline, TimelineItem } from "~/dataDisplay/timeline";
 import { engagementImages } from "~/images/engagement";
 import { equipmentImages } from "~/images/equipment";
 import { followUpImages } from "~/images/followUp";
 import { fosterFamilyLargeImages } from "~/images/fosterFamilyLarge";
+import { socialImages } from "~/images/social";
 import {
   HeroSection,
   HeroSectionAside,
@@ -14,6 +18,14 @@ import {
   HeroSectionParagraph,
   HeroSectionTitle,
 } from "~/layout/heroSection";
+
+export const meta: MetaFunction = ({ parentsData }) => {
+  const config = getConfig(parentsData);
+  return createSocialMeta({
+    title: getPageTitle("Devenez famille d’accueil"),
+    imageUrl: `${config.publicHost}${socialImages.fosterFamily.imagesBySize[1024]}`,
+  });
+};
 
 export default function FosterFamilyPage() {
   const { fosterFamilyFormUrl } = useConfig();

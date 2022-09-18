@@ -1,7 +1,10 @@
+import { MetaFunction } from "@remix-run/node";
 import { actionClassNames } from "~/core/actions";
 import { BaseLink } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
-import { useConfig } from "~/core/config";
+import { getConfig, useConfig } from "~/core/config";
+import { createSocialMeta } from "~/core/meta";
+import { getPageTitle } from "~/core/pageTitle";
 import { StaticImage, StaticImageProps } from "~/dataDisplay/image";
 import {
   OptionCard,
@@ -17,6 +20,7 @@ import { missionEventImages } from "~/images/missionEvent";
 import { missionFieldImages } from "~/images/missionField";
 import { missionFoodCollectionImages } from "~/images/missionFoodCollection";
 import { missionInterventionImages } from "~/images/missionIntervention";
+import { socialImages } from "~/images/social";
 import { volunteerImages } from "~/images/volunteer";
 import {
   HeroSection,
@@ -25,6 +29,14 @@ import {
   HeroSectionParagraph,
   HeroSectionTitle,
 } from "~/layout/heroSection";
+
+export const meta: MetaFunction = ({ parentsData }) => {
+  const config = getConfig(parentsData);
+  return createSocialMeta({
+    title: getPageTitle("Devenez bénévole"),
+    imageUrl: `${config.publicHost}${socialImages.volunteer.imagesBySize[1024]}`,
+  });
+};
 
 export default function VolunteerPage() {
   return (

@@ -1,5 +1,9 @@
+import { MetaFunction } from "@remix-run/node";
 import { cn } from "~/core/classNames";
-import { DynamicImage } from "~/dataDisplay/image";
+import { getConfig } from "~/core/config";
+import { createSocialMeta } from "~/core/meta";
+import { getPageTitle } from "~/core/pageTitle";
+import { createCloudinaryUrl, DynamicImage } from "~/dataDisplay/image";
 import {
   ARTICLE_COMPONENTS,
   Markdown,
@@ -11,6 +15,19 @@ import {
   RelatedSectionTitle,
 } from "~/layout/relatedSection";
 import { WarnItem } from "~/warn/item";
+
+const IMAGE_ID = "blog/2bf99fd0-da8b-4326-b7fa-d2a0eaa8ecc6";
+
+export const meta: MetaFunction = ({ parentsData }) => {
+  const config = getConfig(parentsData);
+  return createSocialMeta({
+    title: getPageTitle("Abandonner votre animal"),
+    imageUrl: createCloudinaryUrl(config.cloudinaryName, IMAGE_ID, {
+      size: "1024",
+      aspectRatio: "16:9",
+    }),
+  });
+};
 
 export default function AbandonPage() {
   return (
@@ -25,7 +42,7 @@ export default function AbandonPage() {
         </header>
 
         <DynamicImage
-          imageId="blog/2bf99fd0-da8b-4326-b7fa-d2a0eaa8ecc6"
+          imageId={IMAGE_ID}
           alt="Abandonner votre animal"
           sizes={{ lg: "1024px", default: "100vw" }}
           fallbackSize="1024"

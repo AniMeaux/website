@@ -1,5 +1,9 @@
+import { MetaFunction } from "@remix-run/node";
 import { cn } from "~/core/classNames";
-import { DynamicImage } from "~/dataDisplay/image";
+import { getConfig } from "~/core/config";
+import { createSocialMeta } from "~/core/meta";
+import { getPageTitle } from "~/core/pageTitle";
+import { createCloudinaryUrl, DynamicImage } from "~/dataDisplay/image";
 import {
   ARTICLE_COMPONENTS,
   Markdown,
@@ -11,6 +15,19 @@ import {
   RelatedSectionTitle,
 } from "~/layout/relatedSection";
 import { WarnItem } from "~/warn/item";
+
+const IMAGE_ID = "blog/a2bf3ad2-a475-4c63-8f30-fd29928c8fa3";
+
+export const meta: MetaFunction = ({ parentsData }) => {
+  const config = getConfig(parentsData);
+  return createSocialMeta({
+    title: getPageTitle("Signaler un animal errant"),
+    imageUrl: createCloudinaryUrl(config.cloudinaryName, IMAGE_ID, {
+      size: "1024",
+      aspectRatio: "16:9",
+    }),
+  });
+};
 
 export default function StrayAnimalPage() {
   return (
@@ -25,7 +42,7 @@ export default function StrayAnimalPage() {
         </header>
 
         <DynamicImage
-          imageId="blog/a2bf3ad2-a475-4c63-8f30-fd29928c8fa3"
+          imageId={IMAGE_ID}
           alt="Signaler un animal errant"
           sizes={{ lg: "1024px", default: "100vw" }}
           fallbackSize="1024"
