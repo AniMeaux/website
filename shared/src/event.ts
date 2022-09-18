@@ -18,7 +18,7 @@ export const EVENT_CATEGORY_LABELS: Record<EventCategory, string> = {
 export type Event = {
   id: string;
   title: string;
-  shortDescription: string;
+  url?: string;
   description: string;
   image?: string;
   startDate: string;
@@ -40,7 +40,7 @@ export type EventOperations = {
   getEvent: (params: { id: string }) => Event;
   createEvent: (params: {
     title: string;
-    shortDescription: string;
+    url: string | null;
     description: string;
     image: string | null;
     startDate: string;
@@ -53,7 +53,7 @@ export type EventOperations = {
   updateEvent: (params: {
     id: string;
     title: string;
-    shortDescription: string;
+    url: string | null;
     description: string;
     image: string | null;
     startDate: string;

@@ -10,13 +10,13 @@ import {
   RelatedSectionList,
   RelatedSectionTitle,
 } from "~/layout/relatedSection";
-import { WarnItem } from "~/warn/relatedSection";
+import { WarnItem } from "~/warn/item";
 
 export default function AbandonPage() {
   return (
     <>
       <main className="w-full px-article flex flex-col gap-12">
-        <header className={cn("px-4 flex flex-col", "md:px-0")}>
+        <header className="flex flex-col">
           <h1
             className={cn("text-title-hero-small", "md:text-title-hero-large")}
           >
@@ -25,12 +25,15 @@ export default function AbandonPage() {
         </header>
 
         <DynamicImage
-          shouldFill
           imageId="blog/2bf99fd0-da8b-4326-b7fa-d2a0eaa8ecc6"
           alt="Abandonner votre animal"
           sizes={{ lg: "1024px", default: "100vw" }}
           fallbackSize="1024"
-          className="w-full aspect-4/3 flex-none rounded-bubble-ratio"
+          className={cn(
+            "w-full aspect-4/3 flex-none rounded-bubble-md",
+            "sm:rounded-bubble-lg",
+            "md:rounded-bubble-xl"
+          )}
         />
 
         <article>

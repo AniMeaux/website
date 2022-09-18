@@ -82,7 +82,7 @@ export function SearchForm({
     <div
       className={cn(
         className,
-        "rounded-bubble-md bg-white shadow-base p-1 flex gap-2"
+        "rounded-tl-[16px] rounded-tr-[10px] rounded-br-[16px] rounded-bl-[10px] bg-white shadow-base p-1 flex gap-2"
       )}
     >
       <Select<AnimalSpeciesOption>

@@ -115,7 +115,7 @@ export const eventOperations: OperationsImpl<EventOperations> = {
     const params = validateParams<"createEvent">(
       object({
         title: string().trim().required(),
-        shortDescription: string().trim().required(),
+        url: string().trim().nullable().defined(),
         description: string().trim().required(),
         image: string().nullable().defined(),
         startDate: string().dateISO().required(),
@@ -134,10 +134,14 @@ export const eventOperations: OperationsImpl<EventOperations> = {
       throw new OperationError(400);
     }
 
+    if (params.isVisible && params.url == null) {
+      throw new OperationError(400);
+    }
+
     const event = await prisma.event.create({
       data: {
         title: params.title,
-        shortDescription: params.shortDescription,
+        url: params.url,
         description: params.description,
         image: params.image,
         startDate: params.startDate,
@@ -160,7 +164,7 @@ export const eventOperations: OperationsImpl<EventOperations> = {
       object({
         id: string().uuid().required(),
         title: string().trim().required(),
-        shortDescription: string().trim().required(),
+        url: string().trim().nullable().defined(),
         description: string().trim().required(),
         image: string().nullable().defined(),
         startDate: string().dateISO().required(),
@@ -179,11 +183,15 @@ export const eventOperations: OperationsImpl<EventOperations> = {
       throw new OperationError(404);
     }
 
+    if (params.isVisible && params.url == null) {
+      throw new OperationError(400);
+    }
+
     const event = await prisma.event.update({
       where,
       data: {
         title: params.title,
-        shortDescription: params.shortDescription,
+        url: params.url,
         description: params.description,
         image: params.image,
         startDate: params.startDate,
@@ -223,7 +231,7 @@ function mapToPublicEvent(event: Event): PublicEvent {
   return {
     id: event.id,
     title: event.title,
-    shortDescription: event.shortDescription,
+    url: event.url || undefined,
     description: event.description,
     image: event.image ?? undefined,
     startDate: DateTime.fromJSDate(event.startDate).toISO(),

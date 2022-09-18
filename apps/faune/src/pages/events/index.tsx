@@ -143,7 +143,7 @@ function EventItem({ event }: { event: Event }) {
                 showTime: !event.isFullDay,
               }),
               EVENT_CATEGORY_LABELS[event.category],
-              event.isVisible ? <strong key="isVisible">Publié</strong> : null,
+              event.isVisible ? null : <strong key="isDraft">Brouillon</strong>,
             ].filter(isDefined),
             " • "
           )}

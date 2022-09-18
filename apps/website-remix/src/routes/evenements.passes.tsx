@@ -20,7 +20,7 @@ const eventSelect = Prisma.validator<Prisma.EventArgs>()({
     id: true,
     image: true,
     title: true,
-    shortDescription: true,
+    description: true,
     startDate: true,
     endDate: true,
     isFullDay: true,
@@ -80,8 +80,8 @@ export default function PastEventsPage() {
       >
         <h1
           className={cn(
-            "px-4 text-title-hero-small text-center",
-            "md:flex-1 md:px-0 md:text-title-hero-large md:text-left"
+            "text-title-hero-small text-center",
+            "md:flex-1 md:text-title-hero-large md:text-left"
           )}
         >
           Événements passés
@@ -103,7 +103,7 @@ export default function PastEventsPage() {
         <section className="flex flex-col gap-6">
           <ul
             className={cn(
-              "grid grid-cols-1 grid-rows-[auto] gap-6 items-start",
+              "grid grid-cols-1 grid-rows-[auto] gap-12 items-start",
               "xs:grid-cols-2",
               "md:grid-cols-3"
             )}
@@ -116,7 +116,7 @@ export default function PastEventsPage() {
       ) : (
         <section
           className={cn(
-            "px-4 py-12 flex flex-col gap-6 items-center text-center text-gray-500",
+            "py-12 flex flex-col gap-6 items-center text-center text-gray-500",
             "md:px-30 md:py-40"
           )}
         >

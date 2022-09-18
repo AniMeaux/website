@@ -56,16 +56,13 @@ export default function AccessPage() {
       <section className="flex">
         <ul
           className={cn(
-            "w-full grid grid-cols-1 grid-rows-[auto] gap-6",
+            "w-full grid grid-cols-1 grid-rows-[auto] gap-12",
             "sm:grid-cols-2",
             "md:grid-cols-3"
           )}
         >
           {INFOS.map((info) => (
-            <li
-              key={info.title}
-              className="px-4 py-3 flex flex-col items-start gap-6"
-            >
+            <li key={info.title} className="flex flex-col items-start gap-6">
               <span
                 className={cn(
                   "rounded-bubble-sm p-3 flex items-center justify-center text-[40px]",
@@ -95,7 +92,7 @@ function WarnSection() {
       <div
         className={cn(
           bubbleSectionClassNames.content(),
-          "px-10 py-18 flex flex-col items-center gap-6 text-center",
+          "px-10 py-12 flex flex-col items-center gap-6 text-center",
           "md:px-30 md:py-[60px]"
         )}
       >

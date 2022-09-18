@@ -10,13 +10,13 @@ import {
   RelatedSectionList,
   RelatedSectionTitle,
 } from "~/layout/relatedSection";
-import { WarnItem } from "~/warn/relatedSection";
+import { WarnItem } from "~/warn/item";
 
 export default function StrayAnimalPage() {
   return (
     <>
       <main className="w-full px-article flex flex-col gap-12">
-        <header className={cn("px-4 flex flex-col", "md:px-0")}>
+        <header className="flex flex-col">
           <h1
             className={cn("text-title-hero-small", "md:text-title-hero-large")}
           >
@@ -25,12 +25,15 @@ export default function StrayAnimalPage() {
         </header>
 
         <DynamicImage
-          shouldFill
           imageId="blog/a2bf3ad2-a475-4c63-8f30-fd29928c8fa3"
           alt="Signaler un animal errant"
           sizes={{ lg: "1024px", default: "100vw" }}
           fallbackSize="1024"
-          className="w-full aspect-4/3 flex-none rounded-bubble-ratio"
+          className={cn(
+            "w-full aspect-4/3 flex-none rounded-bubble-md",
+            "sm:rounded-bubble-lg",
+            "md:rounded-bubble-xl"
+          )}
         />
 
         <article>

@@ -80,14 +80,14 @@ function StepsSection() {
     <section className="flex flex-col gap-12">
       <h2
         className={cn(
-          "px-4 text-title-section-small text-center",
-          "md:px-6 md:text-title-section-large"
+          "text-title-section-small text-center",
+          "md:text-title-section-large"
         )}
       >
         Les étapes
       </h2>
 
-      <div className={cn("px-4 flex gap-3 justify-center", "md:gap-6")}>
+      <div className={cn("flex gap-3 justify-center", "md:gap-6")}>
         <Tab isActive={tab === "adoption"} onSelect={() => setTab("adoption")}>
           Adoption
         </Tab>
@@ -162,14 +162,14 @@ function CostsSection() {
     <section className="flex flex-col gap-12">
       <h2
         className={cn(
-          "px-4 text-title-section-small text-center",
-          "md:px-6 md:text-title-section-large"
+          "text-title-section-small text-center",
+          "md:text-title-section-large"
         )}
       >
         Frais d’adoption
       </h2>
 
-      <div className={cn("px-4 flex gap-3 justify-center", "md:gap-6")}>
+      <div className={cn("flex gap-3 justify-center", "md:gap-6")}>
         <Tab isActive={tab === "cats"} onSelect={() => setTab("cats")}>
           <Icon id={SPECIES_ICON[Species.CAT]} />
           Chat

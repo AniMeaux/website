@@ -39,7 +39,8 @@ import { theme } from "~/styles/theme";
 type ErrorCode =
   | "server-error"
   | "empty-title"
-  | "empty-short-description"
+  | "empty-url"
+  | "invalid-url"
   | "empty-description"
   | "empty-start-date"
   | "invalid-start-date"
@@ -59,7 +60,8 @@ class ValidationError extends BaseValidationError<ErrorCode> {}
 const ERROR_CODE_LABEL: Record<ErrorCode, string> = {
   "server-error": "Une erreur est survenue.",
   "empty-title": "Le titre est obligatoire.",
-  "empty-short-description": "La description courte est obligatoire.",
+  "empty-url": "L'URL est obligatoire pour un événement visible.",
+  "invalid-url": "Le format de l'URL est invalide.",
   "empty-description": "La description est obligatoire.",
   "empty-start-date": "La date de début est obligatoire.",
   "invalid-start-date": "Le format de la date de début est invalide.",
@@ -78,7 +80,7 @@ const ERROR_CODE_LABEL: Record<ErrorCode, string> = {
 
 type FormState = {
   title: string;
-  shortDescription: string;
+  url: string;
   description: string;
   image: ImageFileOrId | null;
   startDate: string;
@@ -88,13 +90,13 @@ type FormState = {
   isFullDay: boolean;
   location: string;
   category: EventCategory | null;
-  isVisible: boolean;
+  isDraft: boolean;
   errors: ErrorCode[];
 };
 
 export type FormValue = {
   title: string;
-  shortDescription: string;
+  url: string;
   description: string;
   image: ImageFileOrId | null;
   startDate: string;
@@ -246,9 +248,9 @@ export function EventForm({
         </Field>
 
         <ToggleInput
-          label="Afficher sur le site internet"
-          checked={state.isVisible}
-          onChange={(event) => setState(setIsVisible(event.target.checked))}
+          label="Brouillon"
+          checked={state.isDraft}
+          onChange={(event) => setState(setIsDraft(event.target.checked))}
         />
 
         <Field>
@@ -292,22 +294,18 @@ export function EventForm({
         </Field>
 
         <Field>
-          <Label
-            htmlFor="short-description"
-            hasError={includes(errors, "empty-short-description")}
-          >
-            Courte description
+          <Label htmlFor="url" hasError={includes(errors, "invalid-url")}>
+            Lien de l'événement Facebook
           </Label>
 
           <Input
-            name="short-description"
-            id="short-description"
-            type="text"
-            value={state.shortDescription}
-            onChange={(shortDescription) =>
-              setState(setShortDescription(shortDescription))
-            }
-            hasError={includes(errors, "empty-short-description")}
+            name="url"
+            id="url"
+            type="url"
+            inputMode="url"
+            value={state.url}
+            onChange={(url) => setState(setUrl(url))}
+            hasError={includes(errors, "invalid-url")}
           />
         </Field>
 
@@ -501,7 +499,7 @@ function initializeState(initialEvent?: Event) {
 
     return {
       title: initialEvent?.title ?? "",
-      shortDescription: initialEvent?.shortDescription ?? "",
+      url: initialEvent?.url ?? "",
       description: initialEvent?.description ?? "",
       image: initialEvent?.image ?? null,
       startDate: initialStartDate?.toISODate() ?? "",
@@ -511,7 +509,7 @@ function initializeState(initialEvent?: Event) {
       isFullDay: initialEvent?.isFullDay ?? true,
       location: initialEvent?.location ?? "",
       category: initialEvent?.category ?? null,
-      isVisible: initialEvent?.isVisible ?? false,
+      isDraft: !initialEvent?.isVisible,
       errors: [],
     };
   };
@@ -539,10 +537,8 @@ function setLocation(
   });
 }
 
-function setIsVisible(
-  isVisible: FormState["isVisible"]
-): SetStateAction<FormState> {
-  return (prevState) => ({ ...prevState, isVisible });
+function setIsDraft(isDraft: FormState["isDraft"]): SetStateAction<FormState> {
+  return (prevState) => ({ ...prevState, isDraft });
 }
 
 function setCategory(
@@ -555,13 +551,11 @@ function setCategory(
   });
 }
 
-function setShortDescription(
-  shortDescription: FormState["shortDescription"]
-): SetStateAction<FormState> {
+function setUrl(url: FormState["url"]): SetStateAction<FormState> {
   return (prevState) => ({
     ...prevState,
-    shortDescription,
-    errors: without(prevState.errors, "empty-short-description"),
+    url,
+    errors: without(prevState.errors, "invalid-url"),
   });
 }
 
@@ -659,8 +653,13 @@ function validate(state: FormState): FormValue {
     errorCodes.push("empty-title");
   }
 
-  if (!string().trim().required().isValidSync(state.shortDescription)) {
-    errorCodes.push("empty-short-description");
+  if (!state.isDraft && state.url === "") {
+    errorCodes.push("empty-url");
+  } else if (
+    state.url !== "" &&
+    !string().trim().nullable().defined().isValidSync(state.url)
+  ) {
+    errorCodes.push("invalid-url");
   }
 
   if (!string().trim().required().isValidSync(state.description)) {
@@ -734,7 +733,7 @@ function validate(state: FormState): FormValue {
 
   return {
     title: state.title.trim(),
-    shortDescription: state.shortDescription.trim(),
+    url: state.url.trim(),
     description: state.description.trim(),
     image: state.image,
     startDate: startDateTime.toISO(),
@@ -742,6 +741,6 @@ function validate(state: FormState): FormValue {
     isFullDay: state.isFullDay,
     location: state.location.trim(),
     category: state.category!,
-    isVisible: state.isVisible,
+    isVisible: !state.isDraft,
   };
 }

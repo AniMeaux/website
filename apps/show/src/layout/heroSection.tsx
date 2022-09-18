@@ -16,7 +16,7 @@ export function HeroSection({
           "md:flex-row-reverse": isReversed,
           "md:flex-row": !isReversed,
         },
-        "md:gap-12"
+        "md:gap-24"
       )}
     >
       {children}
@@ -62,7 +62,7 @@ export function HeroSectionTitle({
 
   return (
     <TitleComponent
-      className={cn("px-4 text-center", "md:px-6 md:text-left", {
+      className={cn("text-center", "md:text-left", {
         "text-title-hero-small md:text-title-hero-large": isLarge,
         "text-title-section-small md:text-title-section-large": !isLarge,
       })}
@@ -77,14 +77,12 @@ export function HeroSectionParagraph({
 }: {
   children: React.ReactNode;
 }) {
-  return (
-    <p className={cn("px-4 text-center", "md:px-6 md:text-left")}>{children}</p>
-  );
+  return <p className={cn("text-center", "md:text-left")}>{children}</p>;
 }
 
 export function HeroSectionAction({ children }: { children: React.ReactNode }) {
   return (
-    <div className={cn("px-2 flex justify-center", "md:px-6 md:justify-start")}>
+    <div className={cn("flex justify-center", "md:justify-start")}>
       {children}
     </div>
   );
