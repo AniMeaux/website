@@ -12,7 +12,7 @@ import { A11yProps, ChildrenProp, StyleProps } from "~/core/types";
 export type LinkProps = ChildrenProp &
   StyleProps &
   A11yProps & {
-    href: string;
+    href?: string;
     as?: string;
     isBack?: boolean;
     backOffset?: number;
@@ -39,7 +39,7 @@ export const Link = forwardRef<HTMLAnchorElement, LinkProps>(function Link(
 ) {
   const router = useRouter();
 
-  if (disabled) {
+  if (disabled || href == null) {
     return <span {...rest} aria-disabled ref={ref} />;
   }
 

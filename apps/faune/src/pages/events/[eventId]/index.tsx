@@ -11,6 +11,7 @@ import {
   FaCertificate,
   FaEye,
   FaEyeSlash,
+  FaFacebook,
   FaMapMarkerAlt,
   FaPen,
   FaTimesCircle,
@@ -100,14 +101,6 @@ const EventPage: PageComponent = () => {
         <MetaSection event={getEvent.result} />
 
         <Section>
-          <SectionTitle>Courte description</SectionTitle>
-
-          <DescriptionText preset="paragraph">
-            {getEvent.result.shortDescription}
-          </DescriptionText>
-        </Section>
-
-        <Section>
           <SectionTitle>Description</SectionTitle>
 
           <DescriptionText preset="paragraph">
@@ -170,7 +163,7 @@ function MetaSection({ event }: EventProp) {
 
             <ItemContent>
               <ItemMainText>
-                {event.isVisible ? "Publié sur le site internet" : "Invisible"}
+                {event.isVisible ? "Publié sur le site internet" : "Brouillon"}
               </ItemMainText>
             </ItemContent>
           </Item>
@@ -222,6 +215,20 @@ function MetaSection({ event }: EventProp) {
             </ItemContent>
           </Item>
         </li>
+
+        {event.url != null && (
+          <li>
+            <LinkItem shouldOpenInNewTarget href={event.url}>
+              <ItemIcon>
+                <FaFacebook />
+              </ItemIcon>
+
+              <ItemContent>
+                <ItemMainText>{event.url}</ItemMainText>
+              </ItemContent>
+            </LinkItem>
+          </li>
+        )}
       </ul>
     </Section>
   );

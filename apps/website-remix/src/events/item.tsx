@@ -2,13 +2,12 @@ import { formatDateRange } from "@animeaux/shared";
 import { BaseLink } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
 import { focusRingClassNames } from "~/core/focusRing";
-import { toSlug } from "~/core/slugs";
 import { DynamicImage, PlaceholderImage } from "~/dataDisplay/image";
 import { Icon, IconProps } from "~/generated/icon";
 
 export function EventItem({
   isInlined = false,
-  isDisabled = false,
+  isDisabled: isDisabledProp = false,
   event,
 }: {
   isInlined?: boolean;
@@ -17,18 +16,21 @@ export function EventItem({
     title: string;
     image: string | null;
     id: string;
-    shortDescription: string;
+    url?: string | null;
+    description: string;
     startDate: string;
     endDate: string;
     isFullDay: boolean;
     location: string;
   };
 }) {
+  const isDisabled = isDisabledProp || event.url == null;
+
   return (
     <li className="flex">
       <BaseLink
         disabled={isDisabled}
-        to={`/evenements/${toSlug(event.title)}-${event.id}`}
+        to={event.url}
         className={cn(
           "group rounded-bubble-md w-full flex flex-col gap-3",
           { "sm:flex-row sm:gap-6 sm:items-center": isInlined },
@@ -56,7 +58,7 @@ export function EventItem({
 
         <div className="flex-1 flex flex-col">
           <p className="text-title-item">{event.title}</p>
-          <p>{event.shortDescription}</p>
+          <p>{event.description}</p>
           <ul className="flex flex-col">
             <DetailsItem icon="calendarDay">
               {formatDateRange(event.startDate, event.endDate, {
