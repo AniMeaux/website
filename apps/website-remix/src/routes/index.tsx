@@ -152,7 +152,7 @@ export default function HomePage() {
 function WhoWeAreSection() {
   return (
     <section className="flex flex-col gap-12">
-      <div className={cn("px-4 flex flex-col gap-6 text-center", "md:px-30")}>
+      <div className={cn("flex flex-col gap-6 text-center", "md:px-30")}>
         <h2
           className={cn(
             "text-title-section-small",
@@ -171,7 +171,7 @@ function WhoWeAreSection() {
         </p>
       </div>
 
-      <ul className="px-6 flex items-start flex-wrap gap-12 justify-evenly">
+      <ul className="flex items-start flex-wrap gap-12 justify-evenly">
         <WhoWeAreItem
           text="Nous recueillons les animaux abandonnés, maltraités ou errants."
           image={pickUpImages}
@@ -301,8 +301,8 @@ function UpcomingEventsSection({
     <section className="flex flex-col items-center gap-12">
       <h2
         className={cn(
-          "text-title-section-small text-center",
-          "md:text-title-section-large"
+          "w-full text-title-section-small text-center",
+          "md:px-30 md:text-title-section-large"
         )}
       >
         Événements à venir
@@ -310,9 +310,10 @@ function UpcomingEventsSection({
 
       <ul
         className={cn(
-          "max-w-3xl grid grid-cols-1 gap-6",
+          "grid grid-cols-1 gap-12",
           { "xs:grid-cols-2": upcomingEvents.length > 1 },
-          "sm:grid-cols-1"
+          "sm:grid-cols-1",
+          "md:px-30"
         )}
       >
         {upcomingEvents.map((event) => (
@@ -341,7 +342,7 @@ function DonateSection() {
           "md:px-30 md:py-[60px]"
         )}
       >
-        <div className="w-full max-w-3xl flex flex-col gap-6 text-center">
+        <div className="w-full flex flex-col gap-6 text-center">
           <h2
             className={cn(
               "text-title-section-small",

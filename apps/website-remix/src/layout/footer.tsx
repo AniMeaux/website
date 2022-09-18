@@ -16,25 +16,18 @@ export function Footer() {
         "md:pt-12"
       )}
     >
-      <div className={cn("w-full px-2 flex", "md:px-6")}>
-        <LineShapeHorizontal
-          className={cn("w-full h-4 text-gray-300", "md:h-6")}
-        />
-      </div>
+      <LineShapeHorizontal
+        className={cn("w-full h-4 text-gray-300", "md:h-6")}
+      />
 
       <div
         className={cn(
-          "w-full flex flex-col items-center gap-12",
+          "w-full flex flex-col items-center gap-24",
           "md:flex-row"
         )}
       >
-        <section
-          className={cn(
-            "max-w-md flex flex-col gap-6",
-            "md:min-w-0 md:max-w-none md:flex-1 md:px-6"
-          )}
-        >
-          <div className={cn("px-4 flex flex-col gap-6", "md:px-0")}>
+        <section className={cn("flex flex-col gap-6", "md:flex-1")}>
+          <div className="flex flex-col gap-6">
             <h2
               className={cn(
                 "text-title-section-small text-center",
@@ -43,6 +36,7 @@ export function Footer() {
             >
               Newsletter
             </h2>
+
             <p className={cn("text-center", "md:text-left")}>
               Abonnez-vous à la newsletter pour ne rien rater des dernières
               nouveautés.
@@ -51,20 +45,15 @@ export function Footer() {
 
           <div
             className={cn(
-              "w-full px-2 flex flex-col items-center",
-              "md:px-0 md:items-start"
+              "w-full flex flex-col items-center",
+              "md:items-start"
             )}
           >
             <NewletterForm />
           </div>
         </section>
 
-        <section
-          className={cn(
-            "max-w-md px-4 flex flex-col items-start gap-6",
-            "md:max-w-none md:flex-1 md:min-w-0 md:px-6"
-          )}
-        >
+        <section className={cn("flex flex-col items-start gap-6", "md:flex-1")}>
           <img
             src={nameAndLogo}
             alt="Ani’Meaux"
@@ -99,8 +88,8 @@ export function Footer() {
 
       <section
         className={cn(
-          "max-w-md px-4 py-6 flex flex-col gap-6 text-gray-500 text-center",
-          "md:max-w-none md:w-full md:p-6 md:flex-row md:items-center md:justify-between md:gap-12 md:text-left"
+          "py-6 flex flex-col gap-6 text-gray-500 text-center",
+          "md:w-full md:flex-row md:items-center md:justify-between md:gap-12 md:text-left"
         )}
       >
         <p className="text-caption-default">
@@ -188,10 +177,13 @@ function NewletterForm() {
         ref={formRef}
         method="post"
         action="/subscribe"
-        className={cn("w-full rounded-bubble-md shadow-base p-1 flex gap-2", {
-          "bg-brandRed-lightest": isError,
-          "bg-white": !isError,
-        })}
+        className={cn(
+          "w-full rounded-tl-[16px] rounded-tr-[10px] rounded-br-[16px] rounded-bl-[10px] shadow-base p-1 flex gap-2",
+          {
+            "bg-brandRed-lightest": isError,
+            "bg-white": !isError,
+          }
+        )}
       >
         <input
           ref={inputRef}

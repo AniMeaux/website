@@ -29,8 +29,8 @@ export default function BlogPage() {
       <header className="flex">
         <h1
           className={cn(
-            "px-4 text-title-hero-small text-center",
-            "md:px-0 md:text-title-hero-large md:text-left"
+            "text-title-hero-small text-center",
+            "md:text-title-hero-large md:text-left"
           )}
         >
           Blog
@@ -41,7 +41,7 @@ export default function BlogPage() {
         <section className="flex flex-col">
           <ul
             className={cn(
-              "grid grid-cols-1 grid-rows-[auto] gap-6 items-start",
+              "grid grid-cols-1 grid-rows-[auto] gap-12 items-start",
               "xs:grid-cols-2",
               "md:grid-cols-3"
             )}
@@ -52,7 +52,9 @@ export default function BlogPage() {
           </ul>
         </section>
       ) : (
-        <p className={cn("px-4 py-12 text-center text-gray-500", "md:py-40")}>
+        <p
+          className={cn("py-12 text-center text-gray-500", "md:px-30 md:py-40")}
+        >
           Aucun article pour l’instant.
         </p>
       )}

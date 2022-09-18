@@ -53,7 +53,7 @@ export const SubNavItem = forwardRef<
       ref={ref}
       to={to}
       className={cn(
-        "group bg-opacity-0 px-3 py-2 flex items-center hover:bg-opacity-100 rounded-bubble-md transition-colors duration-100 ease-in-out",
+        "group bg-opacity-0 px-3 py-2 flex items-center hover:bg-opacity-100 rounded-bubble-sm transition-colors duration-100 ease-in-out",
         subNavItemBgColorClassName[color],
         {
           "flex-col gap-1": isMultiline,

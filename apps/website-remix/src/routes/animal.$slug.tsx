@@ -111,8 +111,8 @@ export default function AnimalPage() {
       >
         <h1
           className={cn(
-            "px-4 text-title-hero-small text-center break-words",
-            "md:px-0 md:text-title-hero-large md:text-left"
+            "text-title-hero-small text-center break-words",
+            "md:text-title-hero-large md:text-left"
           )}
         >
           {animal.name}
@@ -129,7 +129,10 @@ export default function AnimalPage() {
       </header>
 
       <div
-        className={cn("flex flex-col gap-12", "md:flex-row md:items-center")}
+        className={cn(
+          "flex flex-col gap-12",
+          "md:flex-row md:items-center md:gap-24"
+        )}
       >
         <ImageSection animal={animal} className="md:flex-[1_1_66%]" />
         <InfoSection
@@ -141,7 +144,7 @@ export default function AnimalPage() {
       <div
         className={cn(
           "flex flex-col gap-12",
-          "md:flex-row-reverse md:items-start"
+          "md:flex-row-reverse md:items-start md:gap-24"
         )}
       >
         <AggrementsSection
@@ -199,7 +202,11 @@ function ImageSection({
             )
           );
         }}
-        className="overflow-auto snap-x snap-mandatory scrollbars-none scroll-smooth min-w-0 rounded-bubble-ratio flex"
+        className={cn(
+          "overflow-auto snap-x snap-mandatory scrollbars-none scroll-smooth min-w-0 rounded-bubble-md flex",
+          "sm:rounded-bubble-lg",
+          "lg:rounded-bubble-xl"
+        )}
       >
         {allPictures.map((pictureId, index) => (
           <DynamicImage
@@ -237,7 +244,7 @@ function ImageSection({
               fallbackSize="512"
               loading="eager"
               className={cn(
-                "w-16 aspect-4/3 rounded-bubble-ratio transition-opacity duration-100 ease-in-out",
+                "w-16 aspect-4/3 rounded-bubble-sm transition-opacity duration-100 ease-in-out",
                 {
                   "opacity-50": visibleIndex !== index,
                   "opacity-100": visibleIndex === index,
@@ -267,7 +274,7 @@ function InfoSection({
     .join(" • ");
 
   return (
-    <section className={cn(className, "px-4 flex flex-col")}>
+    <section className={cn(className, "flex flex-col")}>
       <ul className="flex flex-col gap-3">
         <Item
           icon={animal.gender === Gender.FEMALE ? "venus" : "mars"}
@@ -328,7 +335,7 @@ function AggrementsSection({
   className: string;
 }) {
   return (
-    <div className={cn(className, "px-4 flex flex-col gap-6", "md:px-6")}>
+    <div className={cn(className, "flex flex-col gap-6")}>
       <h2
         className={cn(
           "text-title-section-small",
@@ -338,7 +345,7 @@ function AggrementsSection({
         Ses ententes
       </h2>
 
-      <ul className={cn("flex gap-3", "md:gap-6")}>
+      <ul className={cn("flex gap-3", "xs:gap-6", "md:gap-3")}>
         <Agreement entity="babies" value={animal.isOkChildren} />
         <Agreement entity="cats" value={animal.isOkCats} />
         <Agreement entity="dogs" value={animal.isOkDogs} />
@@ -405,7 +412,7 @@ function DescriptionSection({
   className: string;
 }) {
   return (
-    <section className={cn(className, "px-4 flex flex-col gap-6", "md:px-6")}>
+    <section className={cn(className, "flex flex-col gap-6")}>
       <h2
         className={cn(
           "text-title-section-small",

@@ -10,13 +10,13 @@ import {
   RelatedSectionList,
   RelatedSectionTitle,
 } from "~/layout/relatedSection";
-import { WarnItem } from "~/warn/relatedSection";
+import { WarnItem } from "~/warn/item";
 
 export default function AbusePage() {
   return (
     <>
       <main className="w-full px-article flex flex-col gap-12">
-        <header className={cn("px-4 flex flex-col", "md:px-0")}>
+        <header className="flex flex-col">
           <h1
             className={cn("text-title-hero-small", "md:text-title-hero-large")}
           >
@@ -29,7 +29,11 @@ export default function AbusePage() {
           alt="Informer d’un acte de maltraitance"
           sizes={{ lg: "1024px", default: "100vw" }}
           fallbackSize="1024"
-          className="w-full aspect-4/3 flex-none rounded-bubble-ratio"
+          className={cn(
+            "w-full aspect-4/3 flex-none rounded-bubble-md",
+            "sm:rounded-bubble-lg",
+            "md:rounded-bubble-xl"
+          )}
         />
 
         <article>

@@ -4,6 +4,7 @@ import { actionClassNames } from "~/core/actions";
 import { BaseLink, BaseLinkProps } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
 import { useConfig } from "~/core/config";
+import { focusRingClassNames } from "~/core/focusRing";
 import { StaticImage, StaticImageProps } from "~/dataDisplay/image";
 import { adoptionImages } from "~/images/adoption";
 import { animationImages } from "~/images/animation";
@@ -40,13 +41,11 @@ export default function HomePage() {
         </HeroSectionAside>
 
         <HeroSectionAside>
-          <div className={cn("px-4 flex", "md:px-6")}>
-            <img
-              src={nameAndLogo}
-              alt="Salon des Ani’Meaux"
-              className="w-full aspect-[440_/_126]"
-            />
-          </div>
+          <img
+            src={nameAndLogo}
+            alt="Salon des Ani’Meaux"
+            className="w-full aspect-[440_/_126]"
+          />
 
           <HeroSectionParagraph>
             Premier salon dédié au bien-être animal à Meaux.
@@ -80,10 +79,7 @@ export default function HomePage() {
 
       <HeroSection>
         <HeroSectionAside>
-          <HeroSectionImage
-            image={mapImages}
-            className="transition-[filter] duration-100 ease-in-out group-hover:brightness-50"
-          />
+          <HeroSectionImage image={mapImages} />
         </HeroSectionAside>
 
         <HeroSectionAside>
@@ -212,7 +208,7 @@ function ComeWithYourDogSection() {
 function PresentationSection() {
   return (
     <section className="flex flex-col gap-12">
-      <div className={cn("px-4 flex flex-col gap-6 text-center", "md:px-30")}>
+      <div className={cn("flex flex-col gap-6 text-center", "md:px-30")}>
         <h2
           className={cn(
             "text-title-section-small",
@@ -246,7 +242,7 @@ function PresentationSection() {
         </p>
       </div>
 
-      <ul className="px-4 flex items-start flex-wrap gap-12 justify-evenly">
+      <ul className="flex items-start flex-wrap gap-12 justify-evenly">
         <PresentationItem
           text={
             <>
@@ -316,7 +312,7 @@ function OriginSection() {
       <div
         className={cn(
           bubbleSectionClassNames.content(),
-          "px-10 py-18 flex flex-col items-center gap-6 text-center",
+          "px-10 py-12 flex flex-col items-center gap-6 text-center",
           "md:px-30 md:py-[60px]"
         )}
       >
@@ -363,7 +359,7 @@ function OriginSection() {
 function PartnersSection() {
   return (
     <section className="flex flex-col gap-12">
-      <div className={cn("px-4 flex flex-col gap-6 text-center", "md:px-30")}>
+      <div className={cn("flex flex-col gap-6 text-center", "md:px-30")}>
         <h2
           className={cn(
             "text-title-section-small",
@@ -381,7 +377,7 @@ function PartnersSection() {
 
       <div
         className={cn(
-          "px-4 flex flex-col gap-12",
+          "flex flex-col gap-12",
           "md:flex-row md:items-center md:justify-center"
         )}
       >
@@ -413,15 +409,12 @@ function PartnerItem({
   return (
     <BaseLink
       to={to}
-      className={cn(
-        "rounded-bubble-lg bg-transparent px-4 py-3 flex transition-[background-color,box-shadow] duration-100 ease-in-out hover:bg-white hover:shadow-base",
-        "md:p-6"
-      )}
+      className={cn("rounded-bubble-md flex", focusRingClassNames())}
     >
       <img
         src={image}
         alt={alt}
-        className={cn("w-full aspect-video object-contain", "md:w-[320px]")}
+        className={cn("w-full aspect-[2/1] object-contain", "md:w-[320px]")}
       />
     </BaseLink>
   );
@@ -430,7 +423,7 @@ function PartnerItem({
 function ExhibitorsSection() {
   return (
     <section className="flex flex-col gap-12">
-      <div className={cn("px-4 flex flex-col gap-6 text-center", "md:px-30")}>
+      <div className={cn("flex flex-col gap-6 text-center", "md:px-30")}>
         <h2
           className={cn(
             "text-title-section-small",
@@ -447,7 +440,7 @@ function ExhibitorsSection() {
         </p>
       </div>
 
-      <ul className="px-4 flex items-start flex-wrap gap-12 justify-evenly">
+      <ul className="flex items-start flex-wrap gap-12 justify-evenly">
         <PresentationItem text="Associations" image={associationImages} />
         <PresentationItem text="Soins et activités" image={medicalImages} />
         <PresentationItem

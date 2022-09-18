@@ -40,8 +40,8 @@ export default function FosterFamilyPage() {
       <section className="flex flex-col gap-12">
         <h2
           className={cn(
-            "px-4 text-title-section-small text-center",
-            "md:px-6 md:text-title-section-large"
+            "text-title-section-small text-center",
+            "md:text-title-section-large"
           )}
         >
           En 3 étapes

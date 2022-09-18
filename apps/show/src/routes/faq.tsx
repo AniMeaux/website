@@ -41,16 +41,13 @@ export default function FaqPage() {
       <section className="flex">
         <ul
           className={cn(
-            "w-full grid grid-cols-1 grid-rows-[auto] gap-6",
+            "w-full grid grid-cols-1 grid-rows-[auto] gap-12",
             "sm:grid-cols-2",
             "md:grid-cols-3"
           )}
         >
           {FAQ.map((faq) => (
-            <li
-              key={faq.question}
-              className="px-4 py-3 flex flex-col items-start gap-6"
-            >
+            <li key={faq.question} className="flex flex-col items-start gap-6">
               <span
                 className={cn(
                   "rounded-bubble-sm p-3 flex items-center justify-center text-[40px]",

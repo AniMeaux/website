@@ -78,14 +78,14 @@ function OtherOptionsSection() {
     <section className="flex flex-col gap-12">
       <h2
         className={cn(
-          "px-4 text-title-section-small text-center",
-          "md:px-6 md:text-title-section-large"
+          "text-title-section-small text-center",
+          "md:text-title-section-large"
         )}
       >
         Autres options
       </h2>
 
-      <ul className="px-6 flex items-start flex-wrap gap-12 justify-evenly">
+      <ul className="flex items-start flex-wrap gap-12 justify-evenly">
         <OtherOption
           image={{ src: paypalImage, alt: "PayPal" }}
           action={

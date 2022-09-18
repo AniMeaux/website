@@ -85,6 +85,7 @@ module.exports = {
       xs: "475px",
       ...defaultTheme.screens,
     },
+
     extend: {
       fontFamily: {
         serif: ['"Open Sans"', ...defaultTheme.fontFamily.serif],
@@ -121,9 +122,11 @@ module.exports = {
         linkedin: "#2c66bc",
         twitter: "#499be9",
       },
+
       boxShadow: {
         base: "0px 8px 20px rgba(0, 0, 0, 0.06)",
       },
+
       spacing: {
         // We cannot use the `theme` parameter because referencing the `spacing`
         // values ends in a infinite recursion: `theme("spacing.4")`.
@@ -141,8 +144,13 @@ module.exports = {
         // 120px
         30: "7.5rem",
       },
+
       aspectRatio: {
         "4/3": "4 / 3",
+      },
+
+      ringOffsetWidth: {
+        12: "12px",
       },
     },
   },
@@ -260,10 +268,10 @@ module.exports = {
         },
         {
           values: {
-            sm: [theme("spacing.3"), theme("spacing.2")],
-            md: [theme("spacing.4"), theme("spacing.3")],
+            sm: [theme("spacing.3"), theme("spacing[1.5]")],
+            md: [theme("spacing.6"), theme("spacing.3")],
             lg: [theme("spacing.12"), theme("spacing.6")],
-            ratio: ["16%", "8%"],
+            xl: [theme("spacing.24"), theme("spacing.12")],
           },
         }
       );

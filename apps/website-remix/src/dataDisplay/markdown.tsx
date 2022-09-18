@@ -61,11 +61,7 @@ export const ARTICLE_COMPONENTS: MarkdownProps["components"] = {
   strong: ({ children }) => (
     <strong className="text-body-emphasis">{children}</strong>
   ),
-  p: ({ children }) => (
-    <p className={cn("my-6 px-4 first:mt-0 last:mb-0", "md:px-0")}>
-      {children}
-    </p>
-  ),
+  p: ({ children }) => <p className="my-6 first:mt-0 last:mb-0">{children}</p>,
   img: ({ src, alt }) => {
     invariant(src != null, "src should be defined");
     invariant(alt != null, "alt should be defined");
@@ -76,13 +72,17 @@ export const ARTICLE_COMPONENTS: MarkdownProps["components"] = {
         alt={alt}
         sizes={{ lg: "1024px", default: "100vw" }}
         fallbackSize="1024"
-        className="my-12 w-full aspect-4/3 flex-none rounded-bubble-ratio"
+        className={cn(
+          "my-12 w-full aspect-4/3 flex-none rounded-bubble-md",
+          "sm:rounded-bubble-lg",
+          "md:rounded-bubble-xl"
+        )}
       />
     );
   },
   blockquote: ({ children }) => (
     <blockquote
-      className={cn("my-6 flex italic first:mt-0 last:mb-0", "md:gap-6")}
+      className={cn("my-6 flex gap-3 italic first:mt-0 last:mb-0", "md:gap-6")}
     >
       <LineShapeVertical className="w-2 flex-none text-brandBlue" />
       <div className="flex-1">{children}</div>
@@ -104,24 +104,18 @@ export const ARTICLE_COMPONENTS: MarkdownProps["components"] = {
   h2: ({ children }) => (
     <h2
       className={cn(
-        "mt-12 mb-6 px-4 text-title-section-small first:mt-0 last:mb-0",
-        "md:px-0 md:text-title-section-large"
+        "mt-12 mb-6 text-title-section-small first:mt-0 last:mb-0",
+        "md:text-title-section-large"
       )}
     >
       {children}
     </h2>
   ),
   ul: ({ children }) => (
-    <ul className={cn("my-6 pl-8 list-disc first:mt-0 last:mb-0", "md:pl-4")}>
-      {children}
-    </ul>
+    <ul className="my-6 pl-4 list-disc first:mt-0 last:mb-0">{children}</ul>
   ),
   ol: ({ children }) => (
-    <ol
-      className={cn("my-6 pl-8 list-decimal first:mt-0 last:mb-0", "md:pl-4")}
-    >
-      {children}
-    </ol>
+    <ol className="my-6 pl-4 list-decimal first:mt-0 last:mb-0">{children}</ol>
   ),
   li: ({ children }) => <li>{children}</li>,
   table: ({ children }) => (

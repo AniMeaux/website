@@ -18,8 +18,8 @@ export default function ExhibitorsPage() {
       >
         <h1
           className={cn(
-            "px-4 text-title-hero-small text-center",
-            "md:flex-1 md:px-0 md:text-title-hero-large md:text-left"
+            "text-title-hero-small text-center",
+            "md:flex-1 md:text-title-hero-large md:text-left"
           )}
         >
           Exposants
@@ -30,7 +30,7 @@ export default function ExhibitorsPage() {
         </div>
       </header>
 
-      <p className={cn("px-4 py-12 text-center text-gray-500", "md:py-40")}>
+      <p className={cn("py-12 text-center text-gray-500", "md:px-30 md:py-40")}>
         La liste des exposants sera transmise ultérieurement.
       </p>
 
