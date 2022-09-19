@@ -181,7 +181,7 @@ export const AGES_TO_PATH: Record<AnimalAge, string> = {
   [AnimalAge.SENIOR]: "senior",
 };
 
-function getPath(state: SearchFormState): string {
+export function getPath(state: Partial<SearchFormState>): string {
   let path = "/adoption";
 
   if (state.species != null && state.species !== AllOption) {
