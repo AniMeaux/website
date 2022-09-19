@@ -1,13 +1,13 @@
 import { Partner } from "@animeaux/shared";
 
 export const partners: Partner[] = [
-  {
-    id: "32",
-    name: "L'Arche des Associations",
-    image:
-      "https://res.cloudinary.com/hryjanpur/image/upload/v1588176519/otggaasdzfp3drp1biay",
-    url: "https://www.arche-association.fr/",
-  },
+  // {
+  //   id: "32",
+  //   name: "L'Arche des Associations",
+  //   image:
+  //     "https://res.cloudinary.com/hryjanpur/image/upload/v1588176519/otggaasdzfp3drp1biay",
+  //   url: "https://www.arche-association.fr/",
+  // },
   {
     id: "35",
     name: "ZooPlus",
@@ -15,13 +15,13 @@ export const partners: Partner[] = [
       "https://res.cloudinary.com/do3tcc2ku/image/upload/3635929c-dcd3-42be-9fd8-78e7c0cb5613",
     url: "https://marketing.net.zooplus.fr/ts/i3971185/tsc?typ=r&amc=con.zooplus.391263.404652.CRTD9sCr3t7",
   },
-  {
-    id: "36",
-    name: "Bitiba",
-    image:
-      "https://res.cloudinary.com/do3tcc2ku/image/upload/25c3af55-a7c7-40d7-a798-6b90dc508e2c",
-    url: "https://www.awin1.com/cread.php?s=2190108&v=13330&q=340481&r=765013",
-  },
+  // {
+  //   id: "36",
+  //   name: "Bitiba",
+  //   image:
+  //     "https://res.cloudinary.com/do3tcc2ku/image/upload/25c3af55-a7c7-40d7-a798-6b90dc508e2c",
+  //   url: "https://www.awin1.com/cread.php?s=2190108&v=13330&q=340481&r=765013",
+  // },
   {
     id: "1",
     name: "MedaillesChien",
@@ -127,13 +127,13 @@ export const partners: Partner[] = [
   //     "https://res.cloudinary.com/hryjanpur/image/upload/v1588173655/erfofgwsnwlycenr1zym",
   //   url: "http://www.lateliercreature.com",
   // },
-  // {
-  //   id: "16",
-  //   name: "La vie de nos animaux",
-  //   image:
-  //     "https://res.cloudinary.com/hryjanpur/image/upload/v1588173673/g4ho4u1ywtpedvzhk9q5",
-  //   url: "http://www.la-vie-de-nos-animaux.fr",
-  // },
+  {
+    id: "16",
+    name: "La vie de nos animaux",
+    image:
+      "https://res.cloudinary.com/hryjanpur/image/upload/v1588173673/g4ho4u1ywtpedvzhk9q5",
+    url: "http://www.la-vie-de-nos-animaux.fr",
+  },
   // {
   //   id: "17",
   //   name: "Entoma Petfood",
@@ -176,13 +176,13 @@ export const partners: Partner[] = [
   //     "https://res.cloudinary.com/hryjanpur/image/upload/v1588173800/bi2hitdop0yfufqpdfgu",
   //   url: "https://petlink.fr",
   // },
-  {
-    id: "23",
-    name: "Lilo",
-    image:
-      "https://res.cloudinary.com/hryjanpur/image/upload/v1588176301/jbb1mnxzb1oshiseym7s",
-    url: "https://www.lilo.org/fr",
-  },
+  // {
+  //   id: "23",
+  //   name: "Lilo",
+  //   image:
+  //     "https://res.cloudinary.com/hryjanpur/image/upload/v1588176301/jbb1mnxzb1oshiseym7s",
+  //   url: "https://www.lilo.org/fr",
+  // },
   // {
   //   id: "24",
   //   name: "Prizle",
@@ -213,7 +213,7 @@ export const partners: Partner[] = [
   // },
   // {
   //   id: "28",
-  //   name: "Cœur  K9 Mantrailing",
+  //   name: "Cœur K9 Mantrailing",
   //   image:
   //     "https://res.cloudinary.com/hryjanpur/image/upload/v1588176434/inkw2pkosygubzbrlpfz",
   //   url: "https://www.facebook.com/coeurk9mantrailing",
@@ -225,13 +225,13 @@ export const partners: Partner[] = [
   //     "https://res.cloudinary.com/hryjanpur/image/upload/v1588176573/dbuenlvkpbgfh3cea5u0",
   //   url: "https://www.ultrapremiumdirect.com/",
   // },
-  {
-    id: "30",
-    name: "Almo Nature",
-    image:
-      "https://res.cloudinary.com/hryjanpur/image/upload/v1588176556/v6tfvmm5s1xythjsaq72",
-    url: "https://www.almonature.com/fr/",
-  },
+  // {
+  //   id: "30",
+  //   name: "Almo Nature",
+  //   image:
+  //     "https://res.cloudinary.com/hryjanpur/image/upload/v1588176556/v6tfvmm5s1xythjsaq72",
+  //   url: "https://www.almonature.com/fr/",
+  // },
   {
     id: "31",
     name: "Pixie and Friends",

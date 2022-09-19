@@ -43,10 +43,21 @@ type UrlDefinition = {
 
 const urlDefinitions: UrlDefinition[] = [
   { path: "/", changeFrequency: "weekly" },
+  { path: "/abandonner-votre-animal", changeFrequency: "monthly" },
   { path: "/adoption", changeFrequency: "weekly" },
-  { path: "/sauves", changeFrequency: "weekly" },
+  { path: "/blog", changeFrequency: "monthly" },
   { path: "/conditions-d-adoption", changeFrequency: "monthly" },
+  { path: "/devenir-benevole", changeFrequency: "monthly" },
   { path: "/devenir-famille-d-accueil", changeFrequency: "monthly" },
+  { path: "/evenements", changeFrequency: "weekly" },
+  { path: "/evenements/passes", changeFrequency: "weekly" },
+  { path: "/faire-un-don", changeFrequency: "monthly" },
+  { path: "/faq", changeFrequency: "monthly" },
+  { path: "/informer-d-un-acte-de-maltraitance", changeFrequency: "monthly" },
+  { path: "/mentions-legales", changeFrequency: "monthly" },
+  { path: "/partenaires", changeFrequency: "monthly" },
+  { path: "/sauves", changeFrequency: "weekly" },
+  { path: "/signaler-un-animal-errant", changeFrequency: "monthly" },
 ];
 
 Object.values(Species).forEach((species) => {
