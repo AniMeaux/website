@@ -1,6 +1,4 @@
 import { BaseLink, BaseLinkProps } from "~/core/baseLink";
-import { cn } from "~/core/classNames";
-import { focusRingClassNames } from "~/core/focusRing";
 import { DynamicImage } from "~/dataDisplay/image";
 
 export function WarnItem({
@@ -18,10 +16,7 @@ export function WarnItem({
     <li className="flex">
       <BaseLink
         to={to}
-        className={cn(
-          "rounded-bubble-md w-full flex flex-col gap-3",
-          focusRingClassNames()
-        )}
+        className="group rounded-bubble-md w-full flex flex-col gap-3"
       >
         <DynamicImage
           imageId={image}
@@ -32,7 +27,9 @@ export function WarnItem({
         />
 
         <div className="flex flex-col">
-          <p className="text-title-item">{title}</p>
+          <p className="text-title-item transition-colors duration-100 ease-in-out group-hover:text-brandBlue">
+            {title}
+          </p>
           <p>{description}</p>
         </div>
       </BaseLink>
