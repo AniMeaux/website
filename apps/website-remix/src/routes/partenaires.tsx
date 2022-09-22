@@ -2,7 +2,6 @@ import { json, LoaderFunction, MetaFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { BaseLink } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
-import { focusRingClassNames } from "~/core/focusRing";
 import { createSocialMeta } from "~/core/meta";
 import { getPageTitle } from "~/core/pageTitle";
 import { DynamicImage } from "~/dataDisplay/image";
@@ -73,10 +72,7 @@ function PartnerItem({ partner }: { partner: LoaderData["partners"][number] }) {
     <li className="flex">
       <BaseLink
         to={partner.url}
-        className={cn(
-          "w-full rounded-bubble-md flex flex-col gap-3",
-          focusRingClassNames()
-        )}
+        className="group w-full rounded-bubble-md flex flex-col gap-3"
       >
         <DynamicImage
           imageId={partner.image}
@@ -87,7 +83,9 @@ function PartnerItem({ partner }: { partner: LoaderData["partners"][number] }) {
         />
 
         <div className="flex flex-col">
-          <p className="text-title-item">{partner.name}</p>
+          <p className="text-title-item transition-colors duration-100 ease-in-out group-hover:text-brandBlue">
+            {partner.name}
+          </p>
           <p>
             <Markdown components={COMPONENTS}>{partner.description}</Markdown>
           </p>

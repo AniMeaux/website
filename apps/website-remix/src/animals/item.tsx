@@ -2,7 +2,6 @@ import { formatAge } from "@animeaux/shared";
 import { Gender, Species } from "@prisma/client";
 import { BaseLink } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
-import { focusRingClassNames } from "~/core/focusRing";
 import { isDefined } from "~/core/isDefined";
 import { toSlug } from "~/core/slugs";
 import { GENDER_TRANSLATION, SPECIES_TRANSLATION } from "~/core/translations";
@@ -38,9 +37,7 @@ export function AnimalItem({
       <BaseLink
         to={`/animal/${toSlug(animal.name)}-${animal.id}`}
         disabled={isDisabled}
-        className={cn("w-full rounded-bubble-md flex flex-col gap-3", {
-          [focusRingClassNames()]: !isDisabled,
-        })}
+        className="group w-full rounded-bubble-md flex flex-col gap-3"
       >
         <DynamicImage
           imageId={animal.avatar}
@@ -62,7 +59,19 @@ export function AnimalItem({
               <Icon id={animal.gender === Gender.FEMALE ? "venus" : "mars"} />
             </span>
 
-            <span className="flex-1 test-title-item">{animal.name}</span>
+            <span
+              className={cn(
+                "flex-1 text-title-item transition-colors duration-100 ease-in-out",
+                {
+                  "group-hover:text-brandBlue":
+                    !isDisabled && animal.gender === Gender.MALE,
+                  "group-hover:text-pink-500":
+                    !isDisabled && animal.gender === Gender.FEMALE,
+                }
+              )}
+            >
+              {animal.name}
+            </span>
           </p>
 
           <p className="flex items-start gap-6 text-caption-default text-gray-500">

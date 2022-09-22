@@ -1,7 +1,5 @@
 import { DateTime } from "luxon";
 import { BaseLink } from "~/core/baseLink";
-import { cn } from "~/core/classNames";
-import { focusRingClassNames } from "~/core/focusRing";
 import { DynamicImage } from "~/dataDisplay/image";
 
 export function ArticleItem({
@@ -20,10 +18,7 @@ export function ArticleItem({
     <li className="flex">
       <BaseLink
         to={`/blog/${article.slug}`}
-        className={cn(
-          "w-full rounded-bubble-md flex flex-col gap-3",
-          focusRingClassNames()
-        )}
+        className="group w-full rounded-bubble-md flex flex-col gap-3"
       >
         <DynamicImage
           imageId={article.image}
@@ -41,7 +36,9 @@ export function ArticleItem({
             par {article.authorName}
           </p>
 
-          <p className="text-title-item">{article.title}</p>
+          <p className="text-title-item transition-colors duration-100 ease-in-out group-hover:text-brandBlue">
+            {article.title}
+          </p>
           <p>{article.description}</p>
         </div>
       </BaseLink>

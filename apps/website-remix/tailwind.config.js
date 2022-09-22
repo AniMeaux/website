@@ -148,10 +148,6 @@ module.exports = {
       aspectRatio: {
         "4/3": "4 / 3",
       },
-
-      ringOffsetWidth: {
-        12: "12px",
-      },
     },
   },
 

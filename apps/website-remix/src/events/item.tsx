@@ -1,7 +1,6 @@
 import { formatDateRange } from "@animeaux/shared";
 import { BaseLink } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
-import { focusRingClassNames } from "~/core/focusRing";
 import { DynamicImage, PlaceholderImage } from "~/dataDisplay/image";
 import { Icon, IconProps } from "~/generated/icon";
 
@@ -31,11 +30,9 @@ export function EventItem({
       <BaseLink
         disabled={isDisabled}
         to={event.url}
-        className={cn(
-          "group rounded-bubble-md w-full flex flex-col gap-3",
-          { "sm:flex-row sm:gap-6 sm:items-center": isInlined },
-          { [focusRingClassNames()]: !isDisabled }
-        )}
+        className={cn("group rounded-bubble-md w-full flex flex-col gap-3", {
+          "sm:flex-row sm:gap-6 sm:items-center": isInlined,
+        })}
       >
         {event.image == null ? (
           <PlaceholderImage
@@ -57,7 +54,14 @@ export function EventItem({
         )}
 
         <div className="flex-1 flex flex-col">
-          <p className="text-title-item">{event.title}</p>
+          <p
+            className={cn(
+              "text-title-item transition-colors duration-100 ease-in-out",
+              { "group-hover:text-brandBlue": !isDisabled }
+            )}
+          >
+            {event.title}
+          </p>
           <p>{event.description}</p>
           <ul className="flex flex-col">
             <DetailsItem icon="calendarDay">
