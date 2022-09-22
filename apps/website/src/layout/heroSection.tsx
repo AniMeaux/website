@@ -1,79 +1,89 @@
-import styled from "styled-components";
-import { StaticImage } from "~/dataDisplay/image";
-
-type HeroProps = {
-  smallImage: string;
-  largeImage: string;
-  title: string;
-  subTitle: string;
-  searchForm?: React.ReactNode;
-};
+import { cn } from "~/core/classNames";
+import { StaticImage, StaticImageProps } from "~/dataDisplay/image";
 
 export function HeroSection({
-  smallImage,
-  largeImage,
-  title,
-  subTitle,
-  searchForm,
-}: HeroProps) {
+  isReversed = false,
+  children,
+}: {
+  isReversed?: boolean;
+  children: React.ReactNode;
+}) {
   return (
-    <Section>
-      <Image smallImage={smallImage} largeImage={largeImage} alt={title} />
-
-      <Content>
-        <Title>{title}</Title>
-        <Catch>{subTitle}</Catch>
-        <CallToAction>{searchForm}</CallToAction>
-      </Content>
-    </Section>
+    <section
+      className={cn(
+        "flex flex-col items-center gap-6",
+        {
+          "md:flex-row-reverse": isReversed,
+          "md:flex-row": !isReversed,
+        },
+        "md:gap-24"
+      )}
+    >
+      {children}
+    </section>
   );
 }
 
-const Section = styled.section`
-  width: 100%;
-  background-image: var(--adopt-color);
-`;
+export function HeroSectionAside({ children }: { children: React.ReactNode }) {
+  return (
+    <div className={cn("w-full flex flex-col gap-6", "md:flex-1")}>
+      {children}
+    </div>
+  );
+}
 
-const Image = styled(StaticImage)`
-  width: 100%;
-  height: 60vh;
-  object-fit: cover;
+export function HeroSectionImage({
+  image,
+  loading,
+  className,
+}: {
+  image: StaticImageProps["image"];
+  loading?: StaticImageProps["loading"];
+  className?: string;
+}) {
+  return (
+    <StaticImage
+      className={cn(className, "w-full aspect-square")}
+      image={image}
+      sizes={{ lg: "512px", md: "50vw", default: "100vw" }}
+      loading={loading}
+    />
+  );
+}
 
-  @media (max-width: 800px) {
-    height: 320px;
-  }
-`;
+export function HeroSectionTitle({
+  isLarge = false,
+  children,
+}: {
+  isLarge?: boolean;
+  children: React.ReactNode;
+}) {
+  const TitleComponent = isLarge ? "h1" : "h2";
 
-const Content = styled.header`
-  padding: var(--spacing-6xl) 0;
+  return (
+    <TitleComponent
+      className={cn("text-center", "md:text-left", {
+        "text-title-hero-small md:text-title-hero-large": isLarge,
+        "text-title-section-small md:text-title-section-large": !isLarge,
+      })}
+    >
+      {children}
+    </TitleComponent>
+  );
+}
 
-  /* Use margin instead of padding to automatically apply spacing to the search
-  form. */
-  margin: 0 var(--content-margin);
+export function HeroSectionParagraph({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return <p className={cn("text-center", "md:text-left")}>{children}</p>;
+}
 
-  position: relative;
-`;
-
-const Title = styled.h1`
-  font-family: var(--font-family-serif);
-  font-size: var(--font-size-2xl);
-  line-height: var(--line-height-2xl);
-  font-weight: var(--font-weight-semibold);
-  text-align: center;
-`;
-
-const Catch = styled.p`
-  margin-top: var(--spacing-l);
-  text-align: center;
-  font-size: var(--font-size-l);
-  line-height: var(--line-height-l);
-`;
-
-const CallToAction = styled.div`
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translate3d(-50%, -50%, 0);
-  width: 100%;
-  max-width: 512px;
-`;
+export function HeroSectionAction({ children }: { children: React.ReactNode }) {
+  return (
+    <div className={cn("flex justify-center", "md:justify-start")}>
+      {children}
+    </div>
+  );
+}

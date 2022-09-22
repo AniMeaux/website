@@ -1,361 +1,222 @@
-import { AnimalSpecies } from "@animeaux/shared";
-import { useState } from "react";
-import {
-  FaEnvelope,
-  FaFacebook,
-  FaInstagram,
-  FaPaperPlane,
-  FaPhone,
-} from "react-icons/fa";
-import styled, { css } from "styled-components";
-import { AdoptSearchParams } from "~/core/adoptSearchParams";
-import { ANIMAL_SPECIES_LABELS } from "~/core/labels";
-import { Link } from "~/core/link";
-import { useApplicationLayout } from "./applicationLayout";
+import { useFetcher } from "@remix-run/react";
+import { useEffect, useRef } from "react";
+import invariant from "tiny-invariant";
+import { BaseLink, BaseLinkProps } from "~/core/baseLink";
+import { cn } from "~/core/classNames";
+import { Icon, IconProps } from "~/generated/icon";
+import nameAndLogo from "~/images/nameAndLogo.svg";
+import { LineShapeHorizontal } from "~/layout/lineShape";
+import { ActionData } from "~/routes/subscribe";
 
 export function Footer() {
-  const { latestArticles, partners } = useApplicationLayout();
-
   return (
-    <FooterElement>
-      <FooterGrid>
-        <FooterSection>
-          <FooterSectionTitle>Adopter</FooterSectionTitle>
-
-          <FooterLinkList>
-            {Object.values(AnimalSpecies).map((animalSpecies) => (
-              <li key={animalSpecies}>
-                <FooterLink
-                  href={new AdoptSearchParams({ animalSpecies }).toUrl()}
-                >
-                  {ANIMAL_SPECIES_LABELS[animalSpecies]}
-                </FooterLink>
-              </li>
-            ))}
-
-            <li>
-              <FooterLink href={new AdoptSearchParams().toUrl()}>
-                Tous les animeaux
-              </FooterLink>
-            </li>
-
-            <li>
-              <FooterLink href="/saved">Animaux sauvés</FooterLink>
-            </li>
-
-            <li>
-              <FooterLink href="/adoption-conditions">
-                Conditions d'adoption
-              </FooterLink>
-            </li>
-          </FooterLinkList>
-        </FooterSection>
-
-        <FooterSection>
-          <FooterSectionTitle>Agir</FooterSectionTitle>
-
-          <FooterLinkList>
-            <li>
-              <FooterLink href="/foster-families">
-                Devenir famille d'accueil
-              </FooterLink>
-            </li>
-
-            <li>
-              <FooterLink href="/volunteers">Devenir bénévole</FooterLink>
-            </li>
-
-            <li>
-              <FooterLink href="/donation">Faire un don</FooterLink>
-            </li>
-          </FooterLinkList>
-        </FooterSection>
-
-        <FooterSection>
-          <FooterSectionTitle>Partenaires</FooterSectionTitle>
-
-          <FooterLinkList>
-            {partners.map((partner) => (
-              <li key={partner.id}>
-                <FooterLink href={partner.url} shouldOpenInNewTab>
-                  {partner.name}
-                </FooterLink>
-              </li>
-            ))}
-
-            <li>
-              <FooterLink href="/partners">Et bien d'autres...</FooterLink>
-            </li>
-          </FooterLinkList>
-        </FooterSection>
-
-        <FooterSection>
-          <FooterSectionTitle>Blog</FooterSectionTitle>
-
-          <FooterLinkList>
-            {latestArticles.map((article) => (
-              <li key={article.id}>
-                <FooterLink href={`/blog/${article.slug}`}>
-                  {article.title}
-                </FooterLink>
-              </li>
-            ))}
-
-            <li>
-              <FooterLink href="/blog">Tous les articles</FooterLink>
-            </li>
-          </FooterLinkList>
-        </FooterSection>
-      </FooterGrid>
-
-      <FooterGrid>
-        <FooterSection>
-          <FooterSectionTitle>Contactez-nous</FooterSectionTitle>
-
-          <FooterLinkList>
-            <li>
-              <FooterLink href="tel:+330612194392">
-                <FaPhone />
-                <span>06 12 19 43 92</span>
-              </FooterLink>
-            </li>
-
-            <li>
-              <FooterLink href="mailto:contact@animeaux.org">
-                <FaEnvelope />
-                <span>contact@animeaux.org</span>
-              </FooterLink>
-            </li>
-          </FooterLinkList>
-
-          <Address>
-            Association Ani'Meaux
-            <br />
-            SIRET : 83962717100037
-            <br />
-            RNA : W771014759
-            <br />
-            30 Rue Pierre Brasseur
-            <br />
-            77100 Meaux
-          </Address>
-
-          <p>
-            <strong>
-              Nous ne disposons pas de structure physique, il s'agit d'une
-              adresse postale uniquement
-            </strong>
-          </p>
-        </FooterSection>
-
-        <FooterSection>
-          <FooterSectionTitle>Abonnez-vous</FooterSectionTitle>
-          <NewsletterForm />
-        </FooterSection>
-      </FooterGrid>
-
-      <FooterNoticeSection>
-        <p>
-          <span>Ani'Meaux © {new Date().getFullYear()}</span> •{" "}
-          <FooterLink href="/legal">Mentions légales</FooterLink>
-        </p>
-
-        <FooterSocialLinks>
-          <li>
-            <FooterSocialLink
-              title="Aller sur la page Facebook"
-              href="https://www.facebook.com/animeaux.protectionanimale"
-            >
-              <FaFacebook role="img" />
-            </FooterSocialLink>
-          </li>
-
-          <li>
-            <FooterSocialLink
-              title="Aller sur la page Instagram"
-              href="https://www.instagram.com/associationanimeaux"
-            >
-              <FaInstagram role="img" />
-            </FooterSocialLink>
-          </li>
-        </FooterSocialLinks>
-      </FooterNoticeSection>
-    </FooterElement>
-  );
-}
-
-const FooterElement = styled.footer`
-  background: var(--bg-footer);
-  padding-left: var(--content-margin);
-  padding-right: var(--content-margin);
-  padding-bottom: 0;
-  padding-bottom: env(safe-area-inset-bottom, 0);
-  font-size: var(--font-size-s);
-  line-height: var(--line-height-s);
-`;
-
-const footerBlock = css`
-  padding: var(--spacing-3xl) 0;
-
-  &:not(:first-child) {
-    border-top: 1px solid var(--border-color);
-  }
-`;
-
-const FooterGrid = styled.div`
-  ${footerBlock};
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  grid-template-rows: auto;
-  gap: var(--spacing-3xl);
-`;
-
-const FooterSection = styled.section``;
-
-const Address = styled.address`
-  margin: var(--spacing-s) 0;
-`;
-
-const FooterSectionTitle = styled.h3`
-  margin-bottom: var(--spacing-m);
-  font-family: var(--font-family-serif);
-  font-weight: var(--font-weight-semibold);
-  font-size: var(--font-size-l);
-  line-height: var(--line-height-l);
-`;
-
-const FooterLinkList = styled.ul`
-  & > *:not(:first-child) {
-    margin-top: var(--spacing-s);
-  }
-`;
-
-const FooterLink = styled(Link)`
-  display: inline-flex;
-  align-items: center;
-
-  &:hover,
-  &:active {
-    text-decoration: underline;
-  }
-
-  & > *:not(:first-child) {
-    margin-left: var(--spacing-s);
-  }
-`;
-
-const FooterNoticeSection = styled.section`
-  ${footerBlock};
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-`;
-
-const FooterSocialLinks = styled.ul`
-  margin-left: var(--spacing-3xl);
-  display: flex;
-  align-items: center;
-
-  & > *:not(:first-child) {
-    margin-left: var(--spacing-l);
-  }
-
-  @media (min-width: 800px) {
-    & > *:not(:first-child) {
-      margin-left: var(--spacing-2xl);
-    }
-  }
-`;
-
-const FooterSocialLink = styled(Link)`
-  font-size: calc(var(--line-height-s) * 1em);
-  display: flex;
-
-  &:hover,
-  &:active {
-    opacity: 0.8;
-  }
-`;
-
-function NewsletterForm() {
-  const [email, setEmail] = useState("");
-
-  function onSubmit(event: React.FormEvent<HTMLFormElement>) {
-    // TODO
-    event.preventDefault();
-  }
-
-  return (
-    <Form
-      onSubmit={onSubmit}
-      // Required to show the Submit keyboard action on iOS.
-      action=""
+    <footer
+      className={cn(
+        "w-full pt-18 px-page pb-12 flex flex-col items-center gap-24",
+        "md:pt-12"
+      )}
     >
-      <NewsletterInput
-        aria-label="Email"
-        name="email"
-        type="email"
-        value={email}
-        onChange={(event) => setEmail(event.target.value)}
-        placeholder="jean@mail.fr"
+      <LineShapeHorizontal
+        className={cn("w-full h-4 text-gray-300", "md:h-6")}
       />
 
-      <NewsletterSubmitButton type="submit">
-        <FaPaperPlane />
-      </NewsletterSubmitButton>
-    </Form>
+      <div
+        className={cn(
+          "w-full flex flex-col items-center gap-24",
+          "md:flex-row"
+        )}
+      >
+        <section className={cn("flex flex-col gap-6", "md:flex-1")}>
+          <div className="flex flex-col gap-6">
+            <h2
+              className={cn(
+                "text-title-section-small text-center",
+                "md:text-title-section-large md:text-left"
+              )}
+            >
+              Newsletter
+            </h2>
+
+            <p className={cn("text-center", "md:text-left")}>
+              Abonnez-vous à la newsletter pour ne rien rater des dernières
+              nouveautés.
+            </p>
+          </div>
+
+          <div
+            className={cn(
+              "w-full flex flex-col items-center",
+              "md:items-start"
+            )}
+          >
+            <NewletterForm />
+          </div>
+        </section>
+
+        <section className={cn("flex flex-col items-start gap-6", "md:flex-1")}>
+          <img
+            src={nameAndLogo}
+            alt="Ani’Meaux"
+            className={cn("h-[60px]", "md:h-20")}
+          />
+
+          <ul className="flex flex-col">
+            <ContactItem icon="phone" to="tel:+33612194392">
+              06 12 19 43 92
+            </ContactItem>
+
+            <ContactItem icon="envelope" to="mailto:contact@animeaux.org">
+              contact@animeaux.org
+            </ContactItem>
+
+            <ContactItem
+              icon="locationDot"
+              to="https://goo.gl/maps/X9869FvsTewM4XDz6"
+            >
+              30 Rue Pierre Brasseur, 77100 Meaux
+            </ContactItem>
+          </ul>
+
+          <p>
+            <strong className="text-body-emphasis">
+              Nous ne disposons pas de structure physique, il s’agit d’une
+              adresse postale uniquement.
+            </strong>
+          </p>
+        </section>
+      </div>
+
+      <section
+        className={cn(
+          "py-6 flex flex-col gap-6 text-gray-500 text-center",
+          "md:w-full md:flex-row md:items-center md:justify-between md:gap-12 md:text-left"
+        )}
+      >
+        <p className="text-caption-default">
+          <BaseLink to="/mentions-legales" className="hover:text-gray-800">
+            Mentions légales
+          </BaseLink>{" "}
+          • SIRET : 83962717100037 • RNA : W771014759
+        </p>
+
+        <p className="text-caption-default">
+          Copyright © {new Date().getFullYear()} Ani’Meaux
+        </p>
+      </section>
+    </footer>
   );
 }
 
-const Form = styled.form`
-  background: var(--bg-primary);
-  border-radius: var(--border-radius-full);
-  padding: var(--spacing-xs);
-  display: flex;
-  align-items: stretch;
+function ContactItem({
+  icon,
+  to,
+  children,
+}: {
+  icon: IconProps["id"];
+  to: NonNullable<BaseLinkProps["to"]>;
+  children: string;
+}) {
+  return (
+    <li className="flex">
+      <BaseLink
+        to={to}
+        className="group flex items-start gap-2 hover:text-black"
+      >
+        <span className="h-6 flex items-center">
+          <Icon
+            id={icon}
+            className="text-gray-500 text-[14px] group-hover:text-gray-800"
+          />
+        </span>
 
-  & > *:not(:first-child) {
-    margin-left: var(--spacing-s);
-  }
-`;
-
-const NewsletterInput = styled.input`
-  min-width: 0;
-  flex: 1;
-  border-radius: var(--border-radius-full);
-  padding: var(--spacing-s) var(--spacing-l);
-
-  &::placeholder {
-    color: var(--text-label);
-  }
-`;
-
-const NewsletterSubmitButton = styled.button`
-  flex: none;
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-image: linear-gradient(
-    to right,
-    var(--blue-light),
-    var(--blue-medium)
+        <span>{children}</span>
+      </BaseLink>
+    </li>
   );
-  color: var(--text-contrast);
-  border-radius: var(--border-radius-full);
-  font-weight: var(--font-weight-semibold);
-  transition-property: box-shadow;
-  transition-duration: var(--duration-controller);
-  transition-timing-function: var(--ease-in-out);
+}
 
-  @media (hover: hover) {
-    &:hover {
-      box-shadow: var(--shadow-m);
-    }
-  }
+function NewletterForm() {
+  const fetcher = useFetcher<ActionData>();
+  const formRef = useRef<HTMLFormElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
-  &:active {
-    background: var(--blue-dark);
-  }
-`;
+  useEffect(
+    () => {
+      if (fetcher.data?.type === "success") {
+        invariant(formRef.current != null, "formRef must be set");
+        formRef.current.reset();
+      }
+    },
+    // Use `fetcher.data` instead of `isSuccess` to distinguish 2 successive
+    // success.
+    [fetcher.data]
+  );
+
+  useEffect(
+    () => {
+      if (fetcher.data?.type === "error") {
+        invariant(inputRef.current != null, "inputRef must be set");
+        inputRef.current.focus();
+      }
+    },
+    // Use `fetcher.data` instead of `isError` to distinguish 2 successive errors.
+    [fetcher.data]
+  );
+
+  const isSuccess = fetcher.data?.type === "success";
+  const isError = fetcher.data?.type === "error";
+
+  return (
+    <div
+      className={cn(
+        "w-full max-w-sm flex flex-col items-start gap-3",
+        "md:max-w-none"
+      )}
+    >
+      <fetcher.Form
+        ref={formRef}
+        method="post"
+        action="/subscribe"
+        className={cn(
+          "w-full rounded-tl-[16px] rounded-tr-[10px] rounded-br-[16px] rounded-bl-[10px] shadow-base p-1 flex gap-2",
+          {
+            "bg-brandRed-lightest": isError,
+            "bg-white": !isError,
+          }
+        )}
+      >
+        <input
+          ref={inputRef}
+          type="email"
+          name="email"
+          aria-label="Email"
+          placeholder="jean@email.com"
+          className="min-w-0 flex-1 rounded-bubble-sm bg-transparent px-6 py-2 placeholder-gray-500"
+        />
+
+        <button
+          className={cn(
+            "flex p-3 rounded-bubble-sm text-white transition-[background-color,transform] duration-100 ease-in-out",
+            {
+              "bg-brandGreen": isSuccess,
+              "bg-brandBlue hover:bg-brandBlue-lighter active:scale-95":
+                !isSuccess,
+            }
+          )}
+        >
+          <Icon id={isSuccess ? "check" : "paperPlane"} />
+        </button>
+      </fetcher.Form>
+
+      {fetcher.data?.type === "error" && (
+        <p className="flex items-center gap-2 text-brandRed">
+          <Icon id="circleExclamation" className="text-[14px]" />
+          <span className="text-caption-default">
+            {fetcher.data.errors.formErrors.join(". ") ||
+              fetcher.data.errors.fieldErrors.email}
+          </span>
+        </p>
+      )}
+    </div>
+  );
+}

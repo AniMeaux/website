@@ -37,34 +37,27 @@ module.exports = {
       name: "website",
       cwd: "./apps/website",
       script: "yarn dev",
-      watch: ["./next.config.js", "./tsconfig.json", "./.env*"],
-    }),
-
-    createApp({
-      name: "website-remix",
-      cwd: "./apps/website-remix",
-      script: "yarn dev",
       watch: ["./remix.config.js", "./tsconfig.json", "./.env*"],
     }),
 
     createApp({
-      name: "website-remix-css",
-      cwd: "./apps/website-remix",
+      name: "website-css",
+      cwd: "./apps/website",
       script: "yarn build:css",
       watch: ["./tailwind.config.js", "./styles", "./src"],
       ignore_watch: ["./src/generated"],
     }),
 
     createApp({
-      name: "website-remix-icons",
-      cwd: "./apps/website-remix",
+      name: "website-icons",
+      cwd: "./apps/website",
       script: "yarn build:icons",
       watch: ["./icons", "./scripts/generateIconSprite.ts"],
     }),
 
     createApp({
-      name: "website-remix-theme",
-      cwd: "./apps/website-remix",
+      name: "website-theme",
+      cwd: "./apps/website",
       script: "yarn build:theme",
       watch: ["./tailwind.config.js", "./scripts/generateTheme.ts"],
     }),
