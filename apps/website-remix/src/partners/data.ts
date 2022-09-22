@@ -8,19 +8,11 @@ export type Partner = {
 
 export const partners: Partner[] = [
   {
-    id: "fd51a90a-25d0-44b1-a7ba-09931dab9b01",
-    image: "partners/dde60137-9ea7-4ac0-9a03-82a49a6f784f",
-    name: "HelloAsso",
-    description:
-      "Vous cherchez une activité sportive ? Un projet associatif ? Une sortie culturelle ? Découvrez LE moteur de recherche de HelloAsso !",
-    url: "https://www.helloasso.com/associations/ani-meaux",
-  },
-  {
     id: "019028a1-33f3-4717-9629-2c9c211bcb75",
     image: "partners/c4dbb22d-3131-4ebc-8373-6d050b38edf8",
     name: "Homycat",
     description:
-      "Concept innovant 100 % Made in France d’accessoires et de mobilier design pour le bonheur des chats et l’harmonie de votre intérieur. Griffoirs pour chats, arbres à chat, maisons de toilette, jouets, poufs et coussins, catnip, herbe à chat à planter…",
+      "Griffoirs pour chats, arbres à chat, maisons de toilette, jouets, poufs et coussins, catnip, herbe à chat à planter 100 % Made in France.",
     url: "https://www.homycat.com",
   },
   {
@@ -28,7 +20,7 @@ export const partners: Partner[] = [
     image: "partners/00c8e356-ed74-46a3-9d67-22d68f8cf407",
     name: "HugoDogs",
     description:
-      "Educateur canin comportementaliste, je vous accompagne dans l’éducation ou la ré-education de votre chien. Je suis également artisan fabriquant de sellerie canine.",
+      "Educateur canin comportementaliste, HugoDogs vous accompagne dans l’éducation ou la ré-éducation de votre chien. Il est également artisan fabriquant de sellerie canine.",
     url: "https://www.hugodogs.fr",
   },
   {
@@ -68,7 +60,7 @@ export const partners: Partner[] = [
     image: "partners/0bc4ccc9-587e-4ade-b75a-9c260565efaf",
     name: "Pixie and Friends",
     description:
-      "Sélection de friandises et alimentation naturelle pour votre chien.Accessoires fait main et jouets eco-responsables. En partenariat avec des associations.",
+      "Sélection de friandises et alimentation naturelle pour votre chien. Accessoires fait main et jouets eco-responsables.",
     url: "https://pixieandfriends.com",
   },
   {
@@ -84,7 +76,7 @@ export const partners: Partner[] = [
     image: "partners/48dd1169-443a-4cc5-a42f-4ae832d6c88e",
     name: "Zooplus",
     description:
-      "Zooplus Animalerie en ligne N°1 en France. Large Choix : +9000 articles pour animaux, prix choc, livraison rapide.",
+      "Zooplus Animalerie en ligne N°1 en France. Large Choix : +9000 articles pour animaux, prix choc, livraison rapide. 4 % du montant de votre commande reversé à l’association en passant par **ce lien**.",
     url: "https://marketing.net.zooplus.fr/ts/i3971185/tsc?typ=r&amc=con.zooplus.391263.404652.CRTD9sCr3t7",
   },
 ];
