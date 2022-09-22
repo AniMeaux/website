@@ -4,7 +4,6 @@ import { actionClassNames } from "~/core/actions";
 import { BaseLink, BaseLinkProps } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
 import { useConfig } from "~/core/config";
-import { focusRingClassNames } from "~/core/focusRing";
 import { StaticImage, StaticImageProps } from "~/dataDisplay/image";
 import { adoptionImages } from "~/images/adoption";
 import { animationImages } from "~/images/animation";
@@ -409,7 +408,7 @@ function PartnerItem({
   return (
     <BaseLink
       to={to}
-      className={cn("rounded-bubble-md flex", focusRingClassNames())}
+      className="rounded-bubble-md flex transition-transform duration-100 ease-in-out hover:scale-105"
     >
       <img
         src={image}

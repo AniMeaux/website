@@ -30,11 +30,11 @@ jobs:
       - name: 📦 Build shared
         run: yarn --cwd ./shared clean-build
 
-      - name: 📦 Build website remix codegen
+      - name: 📦 Build website codegen
         run: |
-          yarn --cwd ./apps/website-remix build:css --minify
-          yarn --cwd ./apps/website-remix build:icons --minify
-          yarn --cwd ./apps/website-remix build:theme
+          yarn --cwd ./apps/website build:css --minify
+          yarn --cwd ./apps/website build:icons --minify
+          yarn --cwd ./apps/website build:theme
 
       - name: 📦 Build show codegen
         run: |
@@ -51,7 +51,7 @@ jobs:
           name: shared-build
           path: |
             ./node_modules/.prisma
-            ./apps/website-remix/src/generated
+            ./apps/website/src/generated
             ./apps/show/src/generated
             ./shared/build
 
@@ -108,33 +108,6 @@ jobs:
 
       - name: 📦 Build
         run: yarn --cwd ./apps/website clean-build
-
-  build-website-remix:
-    name: 📦 Build Website Remix
-    runs-on: ubuntu-latest
-    needs: lint
-    steps:
-      - name: 🛑 Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@0.9.1
-
-      - name: ⬇️ Checkout repo
-        uses: actions/checkout@v3
-
-      - name: ⎔ Setup node
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16
-
-      - name: 📥 Download deps
-        uses: bahmutov/npm-install@v1
-
-      - name: ⬇️ Download artifact
-        uses: actions/download-artifact@master
-        with:
-          name: shared-build
-
-      - name: 📦 Build
-        run: yarn --cwd ./apps/website-remix clean-build
 
   build-show:
     name: 📦 Build Show

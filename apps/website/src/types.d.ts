@@ -1,20 +1,20 @@
-// Allow SVG imports as React components.
-declare module "*.svg" {
-  const ReactComponent: React.FunctionComponent<
-    React.SVGProps<SVGSVGElement> & { title?: string }
-  >;
-
-  export default ReactComponent;
-}
-
-// Allow Markdown imports as string.
-declare module "*.md" {
-  const Content: string;
-  export default Content;
-}
-
-// This package doesn't have typings because we only pass it to react-markdown.
-declare module "remark-slug" {
-  const pluggin: any;
-  export default pluggin;
+declare namespace NodeJS {
+  interface ProcessEnv {
+    ADOPTION_FORM_URL?: string;
+    CLOUDINARY_CLOUD_NAME?: string;
+    DATABASE_URL?: string;
+    DONATION_URL?: string;
+    FACEBOOK_URL?: string;
+    FOSTER_FAMILY_FORM_URL?: string;
+    GOOGLE_TAG_MANAGER_ID?: string;
+    INSTAGRAM_URL?: string;
+    LINKEDIN_URL?: string;
+    PAYPAL_URL?: string;
+    PICK_UP_FORM_URL?: string;
+    PUBLIC_HOST?: string;
+    RUNTIME_ENV?: "staging" | "production";
+    TEAMING_URL?: string;
+    TWITTER_URL?: string;
+    VOLUNTEER_FORM_URL?: string;
+  }
 }

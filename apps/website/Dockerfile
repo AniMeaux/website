@@ -65,6 +65,7 @@ COPY --from=build /workspace/node_modules/.prisma /workspace/node_modules/.prism
 
 COPY --from=build /workspace/shared/build /workspace/shared/build
 COPY --from=build /workspace/apps/website/build /workspace/apps/website/build
+COPY --from=build /workspace/apps/website/public /workspace/apps/website/public
 ADD . .
 
 WORKDIR /workspace/apps/website
