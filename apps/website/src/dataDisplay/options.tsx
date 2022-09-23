@@ -8,7 +8,7 @@ export function OptionList({ children }: { children: React.ReactNode }) {
         // Ensure the list takes the entire viewport width for better overflow
         // indicators.
         "-mx-page w-screen min-w-0",
-        "snap-x snap-mandatory scrollbars-none scroll-smooth overflow-x-auto flex items-start gap-2",
+        "snap-x snap-mandatory scrollbars-none scroll-smooth overflow-x-auto flex items-start gap-3",
         // Because of `overflow-x-auto`, we need to ensure card shadows are
         // visible.
         "-my-6 py-6",
@@ -32,7 +32,7 @@ export function OptionCard({ children }: { children: React.ReactNode }) {
         // item.
         // https://github.com/w3c/csswg-drafts/issues/129#issuecomment-417525242
         "-mx-page px-page first:ml-0 last:mr-0",
-        "snap-center w-full flex-none flex",
+        "snap-center w-11/12 first:last:w-full flex-none flex",
         "md:m-0 md:p-0 md:w-auto md:flex-1 md:max-w-sm"
       )}
     >
