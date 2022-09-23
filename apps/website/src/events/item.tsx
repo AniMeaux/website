@@ -45,7 +45,11 @@ export function EventItem({
           <DynamicImage
             imageId={event.image}
             alt={event.title}
-            sizes={{ sm: "150px", default: "100vw" }}
+            sizes={
+              isInlined
+                ? { sm: "150px", default: "100vw" }
+                : { lg: "300px", md: "30vw", xs: "50vw", default: "100vw" }
+            }
             fallbackSize="512"
             className={cn("w-full aspect-4/3 flex-none rounded-bubble-md", {
               "sm:w-[150px]": isInlined,
