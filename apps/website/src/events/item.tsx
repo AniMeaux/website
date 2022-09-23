@@ -31,7 +31,7 @@ export function EventItem({
         disabled={isDisabled}
         to={event.url}
         className={cn("group rounded-bubble-md w-full flex flex-col gap-3", {
-          "sm:flex-row sm:gap-6 sm:items-center": isInlined,
+          "sm:flex-row sm:gap-6 sm:items-start": isInlined,
         })}
       >
         {event.image == null ? (
@@ -78,7 +78,7 @@ export function EventItem({
           <Icon
             id="arrowRight"
             className={cn(
-              "hidden text-[32px] text-gray-500",
+              "hidden self-center text-[32px] text-gray-500",
               {
                 "transition-transform duration-100 ease-in-out group-hover:scale-110":
                   !isDisabled,
