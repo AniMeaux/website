@@ -160,7 +160,7 @@ export function SmallNav() {
                   onClick={() => setState(toggleGroup("discover"))}
                   className="flex-none"
                 >
-                  Découvrir
+                  S’informer
                 </NavGroupButton>
 
                 <SubNav isOpened={state.openedGroup === "discover"}>
