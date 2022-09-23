@@ -51,6 +51,7 @@ export function EventItem({
                 : { lg: "300px", md: "30vw", xs: "50vw", default: "100vw" }
             }
             fallbackSize="512"
+            allowBadCrop
             className={cn("w-full aspect-4/3 flex-none rounded-bubble-md", {
               "sm:w-[150px]": isInlined,
             })}
