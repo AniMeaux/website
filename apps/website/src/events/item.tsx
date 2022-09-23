@@ -31,7 +31,7 @@ export function EventItem({
         disabled={isDisabled}
         to={event.url}
         className={cn("group rounded-bubble-md w-full flex flex-col gap-3", {
-          "sm:flex-row sm:gap-6 sm:items-center": isInlined,
+          "sm:flex-row sm:gap-6 sm:items-start": isInlined,
         })}
       >
         {event.image == null ? (
@@ -45,8 +45,13 @@ export function EventItem({
           <DynamicImage
             imageId={event.image}
             alt={event.title}
-            sizes={{ sm: "150px", default: "100vw" }}
+            sizes={
+              isInlined
+                ? { sm: "150px", default: "100vw" }
+                : { lg: "300px", md: "30vw", xs: "50vw", default: "100vw" }
+            }
             fallbackSize="512"
+            allowBadCrop
             className={cn("w-full aspect-4/3 flex-none rounded-bubble-md", {
               "sm:w-[150px]": isInlined,
             })}
@@ -78,7 +83,7 @@ export function EventItem({
           <Icon
             id="arrowRight"
             className={cn(
-              "hidden text-[32px] text-gray-500",
+              "hidden self-center text-[32px] text-gray-500",
               {
                 "transition-transform duration-100 ease-in-out group-hover:scale-110":
                   !isDisabled,

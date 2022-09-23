@@ -2,7 +2,6 @@ import orderBy from "lodash.orderby";
 import invariant from "tiny-invariant";
 import { cn } from "~/core/classNames";
 import { useConfig } from "~/core/config";
-import { isDefined } from "~/core/isDefined";
 import { Icon, IconProps } from "~/generated/icon";
 import { ScreenSize, theme } from "~/generated/theme";
 
@@ -86,6 +85,7 @@ export function DynamicImage({
   sizes,
   fallbackSize,
   loading,
+  allowBadCrop,
   className,
 }: {
   imageId: string;
@@ -93,6 +93,7 @@ export function DynamicImage({
   sizes: StaticImageProps["sizes"];
   fallbackSize: NonNullable<StaticImageProps["fallbackSize"]>;
   loading?: StaticImageProps["loading"];
+  allowBadCrop?: boolean;
   className?: string;
 }) {
   const config = useConfig();
@@ -103,6 +104,7 @@ export function DynamicImage({
         size,
         createCloudinaryUrl(config.cloudinaryName, imageId, {
           size,
+          allowBadCrop,
         }),
       ])
     ),
@@ -125,19 +127,17 @@ export function createCloudinaryUrl(
   {
     size,
     aspectRatio = "4:3",
+    allowBadCrop = false,
   }: {
     size: ImageSize;
     aspectRatio?: "4:3" | "16:9";
+    allowBadCrop?: boolean;
   }
 ) {
-  const transformationsStr = [
+  const transformations = [
     `w_${size}`,
     // https://cloudinary.com/documentation/transformation_reference#ar_aspect_ratio
     `ar_${aspectRatio}`,
-    // https://cloudinary.com/documentation/transformation_reference#c_fill_pad
-    "c_fill_pad",
-    // https://cloudinary.com/documentation/transformation_reference#g_auto
-    "g_auto",
     // https://cloudinary.com/documentation/transformation_reference#b_auto
     "b_auto",
     // https://cloudinary.com/documentation/image_optimization#automatic_quality_selection_q_auto
@@ -149,9 +149,21 @@ export function createCloudinaryUrl(
     // See: https://cloudinary.com/documentation/image_optimization#tips_and_considerations_for_using_f_auto
     // https://cloudinary.com/documentation/image_transformations#f_auto
     "f_auto",
-  ]
-    .filter(isDefined)
-    .join(",");
+  ];
+
+  if (allowBadCrop) {
+    // https://cloudinary.com/documentation/transformation_reference#c_pad
+    transformations.push("c_pad");
+  } else {
+    transformations.push(
+      // https://cloudinary.com/documentation/transformation_reference#c_fill_pad
+      "c_fill_pad",
+      // https://cloudinary.com/documentation/transformation_reference#g_auto
+      "g_auto"
+    );
+  }
+
+  const transformationsStr = transformations.join(",");
 
   return `https://res.cloudinary.com/${cloudName}/image/upload/${transformationsStr}/${imageId}`;
 }

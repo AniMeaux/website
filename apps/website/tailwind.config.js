@@ -163,6 +163,7 @@ module.exports = {
       // Override hover to make sure it's only applied on supported devices.
       // https://tailwindcss.com/docs/hover-focus-and-other-states#using-arbitrary-variants
       addVariant("hover", "@media(any-hover:hover){&:hover}");
+      addVariant("group-hover", "@media(any-hover:hover){.group:hover &}");
     }),
 
     /*
