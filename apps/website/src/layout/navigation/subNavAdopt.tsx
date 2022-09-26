@@ -81,6 +81,10 @@ export const SubNavAdopt: SubNavComponent = () => {
         <SubNavItem color="yellow" icon="bookHeart" to="/conditions-d-adoption">
           Conditions d’adoption
         </SubNavItem>
+
+        <SubNavItem color="cyan" icon="tag" to="/nommez-votre-animal">
+          Nommer votre animal
+        </SubNavItem>
       </div>
     </div>
   );
@@ -89,7 +93,11 @@ export const SubNavAdopt: SubNavComponent = () => {
 SubNavAdopt.isActive = (location) => {
   const pathname = location.pathname.toLowerCase();
 
-  return ["/animal", "/adoption", "/sauves", "/conditions-d-adoption"].some(
-    (path) => pathname.startsWith(path)
-  );
+  return [
+    "/animal",
+    "/adoption",
+    "/sauves",
+    "/conditions-d-adoption",
+    "/nommez-votre-animal",
+  ].some((path) => pathname.startsWith(path));
 };

@@ -54,6 +54,7 @@ const urlDefinitions: UrlDefinition[] = [
   { path: "/faq", changeFrequency: "monthly" },
   { path: "/informer-d-un-acte-de-maltraitance", changeFrequency: "monthly" },
   { path: "/mentions-legales", changeFrequency: "monthly" },
+  { path: "/nommez-votre-animal", changeFrequency: "weekly" },
   { path: "/partenaires", changeFrequency: "monthly" },
   { path: "/sauves", changeFrequency: "weekly" },
   { path: "/signaler-un-animal-errant", changeFrequency: "monthly" },
