@@ -12,6 +12,10 @@ http:
       rule: "Host(`faune.animeaux.localhost`)"
       service: service-faune
 
+    faune-remix:
+      rule: "Host(`faune-remix.animeaux.localhost`)"
+      service: service-faune-remix
+
     api:
       rule: "Host(`api.animeaux.localhost`)"
       service: service-api
@@ -26,6 +30,11 @@ http:
       loadBalancer:
         servers:
           - url: "http://host.docker.internal:3003"
+
+    service-faune-remix:
+      loadBalancer:
+        servers:
+          - url: "http://host.docker.internal:3002"
 
     service-faune:
       loadBalancer:
