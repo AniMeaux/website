@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  /*
+   * Make sure focused elements without focus-visible don't have an outline.
+   */
+  :focus:not(:is(:focus-visible, .focus-visible)) {
+    @apply outline-none;
+  }
+
+  body {
+    text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+  }
+}

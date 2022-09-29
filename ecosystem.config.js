@@ -34,6 +34,35 @@ module.exports = {
     }),
 
     createApp({
+      name: "faune-remix",
+      cwd: "./apps/faune-remix",
+      script: "yarn dev",
+      watch: ["./remix.config.js", "./tsconfig.json", "./.env*"],
+    }),
+
+    createApp({
+      name: "faune-remix-css",
+      cwd: "./apps/faune-remix",
+      script: "yarn build:css",
+      watch: ["./tailwind.config.js", "./styles", "./src"],
+      ignore_watch: ["./src/generated"],
+    }),
+
+    createApp({
+      name: "faune-remix-icons",
+      cwd: "./apps/faune-remix",
+      script: "yarn build:icons",
+      watch: ["./icons", "./scripts/generateIconSprite.ts"],
+    }),
+
+    createApp({
+      name: "faune-remix-theme",
+      cwd: "./apps/faune-remix",
+      script: "yarn build:theme",
+      watch: ["./tailwind.config.js", "./scripts/generateTheme.ts"],
+    }),
+
+    createApp({
       name: "website",
       cwd: "./apps/website",
       script: "yarn dev",

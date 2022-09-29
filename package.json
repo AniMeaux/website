@@ -23,7 +23,7 @@
     "lint": "run-p --aggregate-output --continue-on-error lint:*",
     "lint:format": "prettier --list-different .",
     "lint:js": "eslint --cache --cache-location ./node_modules/.cache/eslint .",
-    "lint:ts": "tsc --noEmit -p ./shared && tsc --noEmit -p ./apps/faune && tsc --noEmit -p ./apps/website && tsc --noEmit -p ./apps/show"
+    "lint:ts": "tsc --noEmit -p ./shared && tsc --noEmit -p ./apps/faune && tsc --noEmit -p ./apps/faune-remix && tsc --noEmit -p ./apps/website && tsc --noEmit -p ./apps/show"
   },
   "devDependencies": {
     "@remix-run/eslint-config": "^1.6.4",
