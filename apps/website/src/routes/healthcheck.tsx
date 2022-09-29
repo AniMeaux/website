@@ -3,7 +3,7 @@ import { LoaderFunction } from "@remix-run/node";
 import { createConfig } from "~/core/config.server";
 import { prisma } from "~/core/db.server";
 
-export const loader: LoaderFunction = async ({ request }) => {
+export const loader: LoaderFunction = async () => {
   const config = createConfig();
 
   try {
