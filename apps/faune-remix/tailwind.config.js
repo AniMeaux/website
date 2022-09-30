@@ -146,6 +146,18 @@ module.exports = {
         { values: { none: "none" } }
       );
     }),
+
+    /*
+     * Tailwind allows to set `inset` with `ring-inset`, this allow us to unset
+     * it.
+     */
+    plugin(({ addUtilities }) => {
+      addUtilities({
+        ".ring-outset": {
+          "--tw-ring-inset": "",
+        },
+      });
+    }),
   ],
 };
 
