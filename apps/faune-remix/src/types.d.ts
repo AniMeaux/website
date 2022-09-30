@@ -4,5 +4,6 @@ declare namespace NodeJS {
     DATABASE_URL?: string;
     PUBLIC_HOST?: string;
     RUNTIME_ENV?: "staging" | "production";
+    SESSION_SECRET?: string;
   }
 }

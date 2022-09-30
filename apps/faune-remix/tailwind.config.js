@@ -21,6 +21,13 @@ module.exports = {
       4: "40px",
     },
 
+    borderRadius: {
+      none: "0px",
+      0.5: "5px",
+      1: "10px",
+      full: "9999px",
+    },
+
     extend: {
       fontFamily: {
         serif: ['"Open Sans"', ...defaultTheme.fontFamily.serif],
@@ -63,6 +70,35 @@ module.exports = {
           "font-family": theme("fontFamily.sans"),
           "font-size": "14px",
           "line-height": "20px",
+        },
+        ".text-body-emphasis": {
+          "font-family": theme("fontFamily.sans"),
+          "font-size": "14px",
+          "font-weight": theme("fontWeight.semibold"),
+          "line-height": "20px",
+        },
+        ".text-caption-default": {
+          "font-family": theme("fontFamily.sans"),
+          "font-size": "12px",
+          "line-height": "20px",
+        },
+        ".text-caption-emphasis": {
+          "font-family": theme("fontFamily.sans"),
+          "font-size": "12px",
+          "font-weight": theme("fontWeight.semibold"),
+          "line-height": "20px",
+        },
+        ".text-title-hero-small": {
+          "font-family": theme("fontFamily.serif"),
+          "font-size": "26px",
+          "font-weight": theme("fontWeight.bold"),
+          "line-height": "40px",
+        },
+        ".text-title-hero-large": {
+          "font-family": theme("fontFamily.serif"),
+          "font-size": "32px",
+          "font-weight": theme("fontWeight.bold"),
+          "line-height": "40px",
         },
       });
     }),
