@@ -1,6 +1,6 @@
 import { LoaderFunction, MetaFunction } from "@remix-run/node";
+import { ErrorPage, getErrorTitle } from "~/core/dataDisplay/errorPage";
 import { getPageTitle } from "~/core/pageTitle";
-import { ErrorPage, getErrorTitle } from "~/dataDisplay/errorPage";
 
 export const loader: LoaderFunction = async () => {
   return new Response("Not found", { status: 404 });

@@ -16,8 +16,8 @@ import {
 import { cn } from "~/core/classNames";
 import { Config } from "~/core/config";
 import { createConfig } from "~/core/config.server";
+import { ErrorPage } from "~/core/dataDisplay/errorPage";
 import { getPageTitle } from "~/core/pageTitle";
-import { ErrorPage } from "~/dataDisplay/errorPage";
 import stylesheet from "~/generated/tailwind.css";
 import { theme } from "~/generated/theme";
 import appleTouchIcon from "~/images/appleTouchIcon.png";
@@ -107,7 +107,7 @@ export function ErrorBoundary({ error }: { error: Error }) {
 
 function Document({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="fr" className="bg-gray-50">
+    <html lang="fr" className="bg-white">
       <head>
         <Meta />
         <Links />
