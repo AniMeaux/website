@@ -28,7 +28,7 @@ export function TabBarItem({
           "flex-none p-1 flex items-center justify-center text-[20px] transition-colors duration-100 ease-in-out",
           {
             "text-blue-500": isActive,
-            "text-gray-400": !isActive,
+            "text-gray-500": !isActive,
           }
         )
       }
@@ -54,7 +54,7 @@ export function TabBarMenu({
           "flex-none p-1 flex items-center justify-center text-[20px] transition-colors duration-100 ease-in-out",
           {
             "text-blue-500": isOpened,
-            "text-gray-400": !isOpened,
+            "text-gray-500": !isOpened,
           }
         )}
       >
@@ -91,7 +91,7 @@ export function TabBarMenuItem({
           <span
             className={cn(
               "pr-1 flex items-center transition-colors duration-100 ease-in-out",
-              isActive ? "text-blue-500" : "text-gray-400"
+              isActive ? "text-blue-500" : "text-gray-500"
             )}
           >
             <span className="w-4 h-4 flex-none flex items-center justify-center text-[20px]">
