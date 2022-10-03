@@ -8,13 +8,21 @@ import { BaseLink, BaseLinkProps } from "~/core/baseLink";
 import { getCurrentUserId } from "~/core/currentUser.server";
 import { prisma } from "~/core/db.server";
 import {
+  SideBar,
+  SideBarContent,
+  SideBarItem,
+  SideBarRootItem,
+} from "~/core/layout/sideBar";
+import {
   TabBar,
   TabBarItem,
   TabBarMenu,
   TabBarMenuItem,
 } from "~/core/layout/tabBar";
+import { getPageTitle } from "~/core/pageTitle";
 import { NextParamInput } from "~/core/params";
 import { IconProps } from "~/generated/icon";
+import nameAndLogo from "~/images/nameAndLogo.svg";
 
 const currentUserSelect = Prisma.validator<Prisma.UserArgs>()({
   select: {
@@ -47,7 +55,10 @@ export default function Layout() {
   const { currentUser } = useLoaderData<LoaderData>();
 
   return (
-    <>
+    <div className="flex flex-col md:h-screen md:flex-row md:gap-1">
+      <CurrentUserTabBar currentUser={currentUser} />
+      <CurrentUserSideBar currentUser={currentUser} />
+
       <header>
         <BaseLink to="/">Go home</BaseLink>
 
@@ -58,9 +69,7 @@ export default function Layout() {
       </header>
 
       <Outlet />
-
-      <CurrentUserTabBar currentUser={currentUser} />
-    </>
+    </div>
   );
 }
 
@@ -108,6 +117,30 @@ function CurrentUserTabBar({
         </TabBarMenu>
       )}
     </TabBar>
+  );
+}
+
+function CurrentUserSideBar({
+  currentUser,
+}: {
+  currentUser: LoaderData["currentUser"];
+}) {
+  const navigationItems = ALL_NAVIGATION_ITEMS.filter((item) =>
+    hasGroups(currentUser, item.authorizedGroups)
+  );
+
+  return (
+    <SideBar>
+      <SideBarRootItem logo={nameAndLogo} to="/" alt={getPageTitle()} />
+
+      <SideBarContent>
+        {navigationItems.map((item) => (
+          <SideBarItem key={item.label} icon={item.icon} to={item.to}>
+            {item.label}
+          </SideBarItem>
+        ))}
+      </SideBarContent>
+    </SideBar>
   );
 }
 
