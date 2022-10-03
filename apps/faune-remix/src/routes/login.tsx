@@ -137,7 +137,7 @@ export default function LoginPage() {
   const isLoading = useIsLoading(transition.state === "submitting");
 
   return (
-    <main className="w-full grid grid-cols-[minmax(0px,500px)] auto-rows-auto justify-center justify-items-center md:grid-cols-[1fr_minmax(500px,1fr)]">
+    <main className="w-full min-h-screen grid grid-cols-[minmax(0px,500px)] auto-rows-auto justify-center justify-items-center md:grid-cols-[1fr_minmax(500px,1fr)]">
       <section className="hidden w-full bg-blue-500 md:flex" />
 
       <section className="w-full max-w-[500px] p-safe-2 flex flex-col gap-4 md:pl-4 md:pr-safe-4 md:py-safe-4">

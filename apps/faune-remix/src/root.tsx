@@ -117,8 +117,7 @@ function Document({ children }: { children: React.ReactNode }) {
         className={cn(
           // Make sure children with absolute positionning are correctly placed.
           "relative",
-          "min-h-screen",
-          "antialiased text-gray-800 text-body-default flex"
+          "antialiased text-gray-800 text-body-default flex flex-col"
         )}
       >
         {children}
