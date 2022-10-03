@@ -1,5 +1,6 @@
 const defaultTheme = require("tailwindcss/defaultTheme");
 const plugin = require("tailwindcss/plugin");
+
 /**
  * @type {import('tailwindcss').Config}
  */
@@ -41,17 +42,6 @@ module.exports = {
 
       aspectRatio: {
         "4/3": "4 / 3",
-      },
-
-      animation: {
-        "loader-pulse": `loader-pulse ${defaultTheme.transitionTimingFunction["in-out"]} 1s infinite`,
-      },
-
-      keyframes: {
-        "loader-pulse": {
-          "0%, 100%": { transform: "scale(1)" },
-          "50%": { transform: "scale(2)" },
-        },
       },
     },
   },
@@ -168,17 +158,6 @@ module.exports = {
           "--tw-ring-inset": "",
         },
       });
-    }),
-
-    plugin(({ matchUtilities, theme }) => {
-      matchUtilities(
-        {
-          "animation-delay": (value) => ({
-            animationDelay: value,
-          }),
-        },
-        { values: theme("transitionDelay") }
-      );
     }),
   ],
 };

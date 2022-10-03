@@ -4,12 +4,7 @@ import {
   LoaderFunction,
   redirect,
 } from "@remix-run/node";
-import {
-  Form,
-  useActionData,
-  useSearchParams,
-  useTransition,
-} from "@remix-run/react";
+import { Form, useActionData, useSearchParams } from "@remix-run/react";
 import { useEffect, useRef } from "react";
 import { z } from "zod";
 import { actionClassName } from "~/core/action";
@@ -21,7 +16,6 @@ import { formClassNames } from "~/core/formElements/form";
 import { Input } from "~/core/formElements/input";
 import { PasswordInput } from "~/core/formElements/passwordInput";
 import { joinReactNodes } from "~/core/joinReactNodes";
-import { Loader, useIsLoading } from "~/core/loader";
 import { getPageTitle } from "~/core/pageTitle";
 import { getNext, NextParamInput } from "~/core/params";
 import { isSamePassword } from "~/core/password.server";
@@ -133,9 +127,6 @@ export default function LoginPage() {
     }
   }, [actionData]);
 
-  const transition = useTransition();
-  const isLoading = useIsLoading(transition.state === "submitting");
-
   return (
     <main className="w-full min-h-screen grid grid-cols-[minmax(0px,500px)] auto-rows-auto justify-center justify-items-center md:grid-cols-[1fr_minmax(500px,1fr)]">
       <section className="hidden w-full bg-blue-500 md:flex" />
@@ -230,7 +221,7 @@ export default function LoginPage() {
           <NextParamInput value={getNext(searchParams)} />
 
           <button type="submit" className={actionClassName()}>
-            {isLoading ? <Loader /> : "Se connecter"}
+            Se connecter
           </button>
         </Form>
       </section>
