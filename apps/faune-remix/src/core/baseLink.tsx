@@ -26,11 +26,19 @@ export const BaseLink = forwardRef<HTMLAnchorElement, BaseLinkProps>(
       style,
       children,
       title,
+
+      // Because `BaseLink` can be used as a menu item, it might receive other
+      // props from @radix-ui/react-dropdown-menu that need to be passed down to
+      // the HTML element.
+      // We don't type them because they're specific to the lib and they're
+      //  implementation details.
+      ...rest
     },
     ref
   ) {
     const commonProps: React.AnchorHTMLAttributes<HTMLAnchorElement> &
       React.RefAttributes<HTMLAnchorElement> = {
+      ...rest,
       ref,
       title,
     };

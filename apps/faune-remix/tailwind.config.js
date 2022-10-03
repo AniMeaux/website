@@ -1,5 +1,6 @@
 const defaultTheme = require("tailwindcss/defaultTheme");
 const plugin = require("tailwindcss/plugin");
+
 /**
  * @type {import('tailwindcss').Config}
  */
@@ -145,6 +146,18 @@ module.exports = {
         },
         { values: { none: "none" } }
       );
+    }),
+
+    /*
+     * Tailwind allows to set `inset` with `ring-inset`, this allow us to unset
+     * it.
+     */
+    plugin(({ addUtilities }) => {
+      addUtilities({
+        ".ring-outset": {
+          "--tw-ring-inset": "",
+        },
+      });
     }),
   ],
 };

@@ -10,6 +10,16 @@
     @apply outline-none;
   }
 
+  /*
+   * Disable bark background on tap.
+   * See https://developer.mozilla.org/en-US/docs/Web/CSS/-webkit-tap-highlight-color
+   */
+  *,
+  *::before,
+  *::after {
+    -webkit-tap-highlight-color: transparent;
+  }
+
   body {
     text-size-adjust: 100%;
     text-rendering: optimizeLegibility;
