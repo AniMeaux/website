@@ -63,7 +63,7 @@ export const loader: LoaderFunction = async () => {
 export const meta: MetaFunction = () => {
   return {
     charset: "utf-8",
-    "theme-color": theme.colors.gray[50],
+    "theme-color": theme.colors.white,
 
     // Use `maximum-scale=1` to prevent browsers to zoom on form elements.
     viewport:
@@ -107,7 +107,7 @@ export function ErrorBoundary({ error }: { error: Error }) {
 
 function Document({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="fr" className="bg-white">
+    <html lang="fr" className="bg-gray-50">
       <head>
         <Meta />
         <Links />

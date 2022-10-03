@@ -14,7 +14,7 @@ export const loader: LoaderFunction = () => {
   return json({
     name: getPageTitle(),
     short_name: getPageTitle(),
-    background_color: theme.colors.gray[50],
+    background_color: theme.colors.white,
     theme_color: theme.colors.blue[500],
     display: "standalone",
     scope: "/",
