@@ -95,16 +95,18 @@ function CurrentUserTabBar({
         <TabBarItem key={item.icon} icon={item.icon} to={item.to} />
       ))}
 
-      <TabBarMenu icon="ellipsis">
-        {menuNavigationItems.map((item) => (
-          <TabBarMenuItem
-            key={item.icon}
-            icon={item.icon}
-            to={item.to}
-            label={item.label}
-          />
-        ))}
-      </TabBarMenu>
+      {menuNavigationItems.length > 0 && (
+        <TabBarMenu icon="ellipsis">
+          {menuNavigationItems.map((item) => (
+            <TabBarMenuItem
+              key={item.icon}
+              icon={item.icon}
+              to={item.to}
+              label={item.label}
+            />
+          ))}
+        </TabBarMenu>
+      )}
     </TabBar>
   );
 }
@@ -152,7 +154,7 @@ const ALL_NAVIGATION_ITEMS: NavigationItem[] = [
     authorizedGroups: [UserGroup.ADMIN],
   },
   {
-    to: "/coleurs",
+    to: "/couleurs",
     icon: "palette",
     label: "Couleurs",
     authorizedGroups: [UserGroup.ADMIN],

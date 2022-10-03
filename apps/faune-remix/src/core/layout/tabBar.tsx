@@ -25,7 +25,7 @@ export function TabBarItem({
       to={to}
       className={({ isActive }) =>
         cn(
-          "flex-none p-1 flex items-center justify-center text-[20px] transition-colors duration-100 ease-in-out",
+          "rounded-0.5 flex-none p-1 flex items-center justify-center text-[20px] transition-colors duration-100 ease-in-out hover:bg-gray-100 active:bg-gray-100 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400",
           {
             "text-blue-500": isActive,
             "text-gray-500": !isActive,
@@ -51,11 +51,8 @@ export function TabBarMenu({
     <DropdownMenu.Root open={isOpened} onOpenChange={setIsOpened}>
       <DropdownMenu.Trigger
         className={cn(
-          "flex-none p-1 flex items-center justify-center text-[20px] transition-colors duration-100 ease-in-out",
-          {
-            "text-blue-500": isOpened,
-            "text-gray-500": !isOpened,
-          }
+          "rounded-0.5 flex-none p-1 flex items-center justify-center text-[20px] text-gray-500 transition-colors duration-100 ease-in-out hover:bg-gray-100 active:bg-gray-100 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400",
+          { "bg-gray-100": isOpened }
         )}
       >
         <Icon id={icon} />
@@ -86,7 +83,11 @@ export function TabBarMenuItem({
 }) {
   return (
     <DropdownMenu.Item asChild>
-      <BaseLink isNavLink to={to} className="flex">
+      <BaseLink
+        isNavLink
+        to={to}
+        className="rounded-0.5 flex transition-colors duration-100 ease-in-out hover:bg-gray-100 active:bg-gray-100 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400"
+      >
         {({ isActive }) => (
           <span
             className={cn(
