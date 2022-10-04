@@ -1,18 +1,11 @@
 import { UserGroup } from "@prisma/client";
 import { LoaderFunction, redirect } from "@remix-run/node";
-import invariant from "tiny-invariant";
-import { getCurrentUserId } from "~/core/currentUser.server";
-import { prisma } from "~/core/db.server";
+import { getCurrentUser } from "~/core/currentUser.server";
 
 export const loader: LoaderFunction = async ({ request }) => {
-  const userId = await getCurrentUserId(request);
-
-  const currentUser = await prisma.user.findUnique({
-    where: { id: userId },
+  const currentUser = await getCurrentUser(request, {
     select: { groups: true },
   });
-
-  invariant(currentUser != null, "User should exists");
 
   return redirect(
     USER_GROUP_LANDING_PAGE[getUserMainGroup(currentUser.groups)]

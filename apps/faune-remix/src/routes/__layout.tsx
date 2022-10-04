@@ -11,11 +11,9 @@ import {
 } from "@remix-run/react";
 import { createPath } from "history";
 import { useRef } from "react";
-import invariant from "tiny-invariant";
 import { BaseLinkProps } from "~/core/baseLink";
-import { getCurrentUserId } from "~/core/currentUser.server";
+import { getCurrentUser } from "~/core/currentUser.server";
 import { Avatar, inferAvatarColor } from "~/core/dataDisplay/avatar";
-import { prisma } from "~/core/db.server";
 import { Adornment } from "~/core/formElements/adornment";
 import {
   SideBar,
@@ -49,14 +47,9 @@ type LoaderData = {
 };
 
 export const loader: LoaderFunction = async ({ request }) => {
-  const userId = await getCurrentUserId(request);
-
-  const currentUser = await prisma.user.findUnique({
-    where: { id: userId },
+  const currentUser = await getCurrentUser(request, {
     select: currentUserSelect.select,
   });
-
-  invariant(currentUser != null, "User should exists");
 
   return json<LoaderData>({ currentUser });
 };

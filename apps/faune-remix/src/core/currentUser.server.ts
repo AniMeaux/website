@@ -1,4 +1,4 @@
-import { User } from "@prisma/client";
+import { Prisma, User } from "@prisma/client";
 import { redirect } from "@remix-run/node";
 import { createPath } from "history";
 import { prisma } from "~/core/db.server";
@@ -11,7 +11,10 @@ import {
 
 const USER_SESSION_KEY = "userId";
 
-export async function getCurrentUserId(request: Request) {
+export async function getCurrentUser<T extends Prisma.UserFindFirstArgs>(
+  request: Request,
+  args: Prisma.SelectSubset<T, Prisma.UserFindFirstArgs>
+) {
   const session = await getSession(request);
 
   const userId = session.get(USER_SESSION_KEY);
@@ -19,15 +22,15 @@ export async function getCurrentUserId(request: Request) {
     throw await redirectToLogin(request);
   }
 
-  const user = await prisma.user.findFirst({
+  const user = await prisma.user.findFirst<T>({
+    ...args,
     where: { id: userId, isDisabled: false },
   });
-
   if (user == null) {
     throw await redirectToLogin(request);
   }
 
-  return userId;
+  return user;
 }
 
 async function redirectToLogin(request: Request) {

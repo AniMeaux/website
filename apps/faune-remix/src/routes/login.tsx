@@ -8,7 +8,7 @@ import { Form, useActionData, useSearchParams } from "@remix-run/react";
 import { useEffect, useRef } from "react";
 import { z } from "zod";
 import { actionClassName } from "~/core/action";
-import { createUserSession, getCurrentUserId } from "~/core/currentUser.server";
+import { createUserSession, getCurrentUser } from "~/core/currentUser.server";
 import { Helper } from "~/core/dataDisplay/helper";
 import { prisma } from "~/core/db.server";
 import { Adornment } from "~/core/formElements/adornment";
@@ -25,7 +25,7 @@ import nameAndLogo from "~/images/nameAndLogo.svg";
 export const loader: LoaderFunction = async ({ request }) => {
   let hasCurrentUser: boolean;
   try {
-    await getCurrentUserId(request);
+    await getCurrentUser(request, { select: {} });
     hasCurrentUser = true;
   } catch (error) {
     hasCurrentUser = false;
