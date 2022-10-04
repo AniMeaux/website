@@ -101,6 +101,18 @@ module.exports = {
           "font-weight": theme("fontWeight.bold"),
           "line-height": "40px",
         },
+        ".text-title-section-small": {
+          "font-family": theme("fontFamily.serif"),
+          "font-size": "16px",
+          "font-weight": theme("fontWeight.bold"),
+          "line-height": "20px",
+        },
+        ".text-title-section-large": {
+          "font-family": theme("fontFamily.serif"),
+          "font-size": "18px",
+          "font-weight": theme("fontWeight.bold"),
+          "line-height": "20px",
+        },
       });
     }),
 
