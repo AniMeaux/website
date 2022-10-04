@@ -13,11 +13,11 @@ export const loader: LoaderFunction = async ({ request }) => {
 };
 
 const USER_GROUP_LANDING_PAGE: Record<UserGroup, string> = {
-  [UserGroup.ADMIN]: "/animaux",
-  [UserGroup.ANIMAL_MANAGER]: "/animaux",
+  [UserGroup.ADMIN]: "/animals",
+  [UserGroup.ANIMAL_MANAGER]: "/animals",
   [UserGroup.BLOGGER]: "/articles",
-  [UserGroup.HEAD_OF_PARTNERSHIPS]: "/partenaires",
-  [UserGroup.VETERINARIAN]: "/animaux",
+  [UserGroup.HEAD_OF_PARTNERSHIPS]: "/partners",
+  [UserGroup.VETERINARIAN]: "/animals",
 };
 
 function getUserMainGroup(groups: UserGroup[]): UserGroup {

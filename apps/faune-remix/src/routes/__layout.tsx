@@ -154,7 +154,7 @@ type NavigationItem = {
 
 const ALL_NAVIGATION_ITEMS: NavigationItem[] = [
   {
-    to: "/animaux",
+    to: "/animals",
     icon: "paw",
     label: "Animaux",
     authorizedGroups: [
@@ -164,31 +164,31 @@ const ALL_NAVIGATION_ITEMS: NavigationItem[] = [
     ],
   },
   {
-    to: "/fa",
+    to: "/foster-families",
     icon: "house",
     label: "FA",
     authorizedGroups: [UserGroup.ADMIN, UserGroup.ANIMAL_MANAGER],
   },
   {
-    to: "/evenements",
+    to: "/events",
     icon: "calendarDays",
     label: "Événements",
     authorizedGroups: [UserGroup.ADMIN],
   },
   {
-    to: "/utilisateurs",
+    to: "/users",
     icon: "user",
     label: "Utilisateurs",
     authorizedGroups: [UserGroup.ADMIN],
   },
   {
-    to: "/races",
+    to: "/breeds",
     icon: "dna",
     label: "Races",
     authorizedGroups: [UserGroup.ADMIN],
   },
   {
-    to: "/couleurs",
+    to: "/colors",
     icon: "palette",
     label: "Couleurs",
     authorizedGroups: [UserGroup.ADMIN],
