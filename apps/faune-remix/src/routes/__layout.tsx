@@ -66,17 +66,16 @@ export default function Layout() {
 
   return (
     <div className="flex flex-col md:h-screen md:flex-row md:gap-1">
-      <CurrentUserTabBar currentUser={currentUser} />
       <CurrentUserSideBar currentUser={currentUser} />
 
-      <div className="flex flex-col gap-1 md:flex-1">
-        <header className="bg-white px-1 py-1 flex items-center justify-between gap-1 md:px-4 md:gap-4">
+      <div className="relative flex flex-col gap-1 md:flex-1">
+        <header className="sticky top-0 flex-none bg-white px-1 py-1 flex items-center justify-between gap-1 md:px-4 md:gap-4">
           <SearchInput />
-
           <CurrentUserMenu currentUser={currentUser} />
         </header>
 
         <Outlet />
+        <CurrentUserTabBar currentUser={currentUser} />
       </div>
     </div>
   );
