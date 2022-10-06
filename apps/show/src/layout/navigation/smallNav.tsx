@@ -54,10 +54,10 @@ export function SmallNav() {
                 className={cn("h-[40px]", {
                   // 100px is enough to hide the text.
                   // TODO: Find a better way to do this.
-                  "-translate-x-[100px] transition-transform duration-100 ease-out":
+                  "-translate-x-[100px] transition-transform duration-100 ease-in-out":
                     transitionState === "exiting",
                   "-translate-x-[100px]": transitionState === "exited",
-                  "translate-x-0 transition-transform duration-100 ease-in":
+                  "translate-x-0 transition-transform duration-100 ease-in-out":
                     transitionState === "entering",
                   " translate-x-0": transitionState === "entered",
                 })}

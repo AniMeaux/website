@@ -1,0 +1,54 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  /*
+   * Make sure focused elements without focus-visible don't have an outline.
+   */
+  :focus:not(:is(:focus-visible, .focus-visible)) {
+    @apply outline-none;
+  }
+
+  /*
+   * Disable bark background on tap.
+   * See https://developer.mozilla.org/en-US/docs/Web/CSS/-webkit-tap-highlight-color
+   */
+  *,
+  *::before,
+  *::after {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+  }
+
+  input[type="date"] {
+    @apply gap-0.5;
+  }
+
+  /* Safari >= 15, Chrome >= 99 */
+  input::-webkit-datetime-edit,
+  input::-webkit-datetime-edit-fields-wrapper,
+  input::-webkit-datetime-edit-year-field,
+  input::-webkit-datetime-edit-month-field,
+  input::-webkit-datetime-edit-day-field,
+  input::-webkit-datetime-edit-hour-field,
+  input::-webkit-datetime-edit-minute-field,
+  input::-webkit-datetime-edit-second-field,
+  input::-webkit-datetime-edit-millisecond-field,
+  input::-webkit-datetime-edit-meridiem-field {
+    padding: 0;
+  }
+
+  input::-webkit-calendar-picker-indicator {
+    margin: 0;
+  }
+
+  /* iOS >= 15 */
+  input::-webkit-date-and-time-value {
+    text-align: left;
+  }
+}
