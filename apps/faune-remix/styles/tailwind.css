@@ -11,6 +11,17 @@
   }
 
   /*
+   * Don't show focus outline on touch screens devices.
+   * They usally don't have input mechanism that can hover over elements so we
+   * check that.
+   */
+  @media (any-hover: none) {
+    :focus {
+      @apply outline-none;
+    }
+  }
+
+  /*
    * Disable bark background on tap.
    * See https://developer.mozilla.org/en-US/docs/Web/CSS/-webkit-tap-highlight-color
    */
