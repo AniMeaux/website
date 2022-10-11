@@ -58,11 +58,11 @@ export default function Layout() {
   const { currentUser } = useLoaderData<LoaderData>();
 
   return (
-    <div className="flex flex-col md:h-screen md:flex-row md:gap-1">
+    <div className="grid grid-cols-1 auto-rows-auto md:h-screen md:grid-cols-[auto,minmax(0px,1fr)] md:gap-1">
       <CurrentUserSideBar currentUser={currentUser} />
 
-      <div className="relative flex flex-col gap-1 md:flex-1">
-        <header className="sticky top-0 flex-none bg-white px-1 py-1 flex items-center justify-between gap-1 md:px-4 md:gap-4">
+      <div className="grid grid-cols-1 auto-rows-auto gap-1 md:min-h-min md:grid-rows-[auto,minmax(0px,1fr)]">
+        <header className="bg-white px-safe-1 py-1 grid grid-cols-[minmax(0px,1fr)_auto] items-center justify-between gap-1 md:px-1 md:grid-cols-[minmax(0px,66%)_auto] md:gap-4">
           <SearchInput />
           <CurrentUserMenu currentUser={currentUser} />
         </header>
@@ -197,7 +197,7 @@ const ALL_NAVIGATION_ITEMS: NavigationItem[] = [
 
 function SearchInput() {
   return (
-    <button className="min-w-0 flex-1 rounded-0.5 bg-gray-100 p-1 flex items-center gap-0.5 transition-colors duration-100 ease-in-out hover:bg-gray-200 md:w-2/3 md:max-w-[500px] md:flex-none md:px-2">
+    <button className="rounded-0.5 bg-gray-100 p-1 flex items-center gap-0.5 transition-colors duration-100 ease-in-out hover:bg-gray-200 md:px-2">
       <Adornment>
         <Icon id="magnifyingGlass" />
       </Adornment>
@@ -221,7 +221,7 @@ function CurrentUserMenu({
 
   return (
     <DropdownMenu.Root>
-      <DropdownMenu.Trigger className="flex-none flex items-center gap-1">
+      <DropdownMenu.Trigger className="flex items-center gap-1">
         <span className="hidden md:inline">{currentUser.displayName}</span>
 
         <Avatar

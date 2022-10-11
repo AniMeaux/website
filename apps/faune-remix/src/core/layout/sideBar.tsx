@@ -12,7 +12,7 @@ export function SideBar({ children }: { children?: React.ReactNode }) {
       {(transitionStatus) => (
         <nav
           className={cn(
-            "hidden flex-none bg-white pl-safe-1 py-safe-1 pr-1 flex-col gap-2 transition-[width] duration-200 ease-in-out md:flex",
+            "hidden min-h-min flex-none bg-white pl-safe-1 py-safe-1 pr-1 flex-col gap-2 transition-[width] duration-200 ease-in-out md:flex",
             {
               "w-[60px]":
                 transitionStatus === "exited" || transitionStatus === "exiting",
