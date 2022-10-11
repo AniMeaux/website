@@ -62,8 +62,6 @@ export function StaticImage({
   }, []).join(",");
 
   return (
-    // Alt text is in the rest props.
-    // eslint-disable-next-line jsx-a11y/alt-text
     <img
       alt={image.alt}
       loading={loading}
