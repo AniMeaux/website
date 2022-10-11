@@ -12,6 +12,7 @@ import {
   Scripts,
   ScrollRestoration,
   useCatch,
+  useMatches,
 } from "@remix-run/react";
 import { cn } from "~/core/classNames";
 import { Config } from "~/core/config";
@@ -23,6 +24,7 @@ import { theme } from "~/generated/theme";
 import appleTouchIcon from "~/images/appleTouchIcon.png";
 import favicon from "~/images/favicon.svg";
 import maskIcon from "~/images/maskIcon.svg";
+import { asRouteHandle } from "./core/handles";
 
 export const links: LinksFunction = () => {
   return [
@@ -106,8 +108,13 @@ export function ErrorBoundary({ error }: { error: Error }) {
 }
 
 function Document({ children }: { children: React.ReactNode }) {
+  const matches = useMatches();
+  const htmlBackgroundColor = matches
+    .map((match) => asRouteHandle(match.handle).htmlBackgroundColor)
+    .find((color) => color != null);
+
   return (
-    <html lang="fr" className="bg-gray-50">
+    <html lang="fr" className={htmlBackgroundColor ?? "bg-gray-50"}>
       <head>
         <Meta />
         <Links />

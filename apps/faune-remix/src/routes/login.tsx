@@ -15,12 +15,17 @@ import { Adornment } from "~/core/formElements/adornment";
 import { formClassNames } from "~/core/formElements/form";
 import { Input } from "~/core/formElements/input";
 import { PasswordInput } from "~/core/formElements/passwordInput";
+import { RouteHandle } from "~/core/handles";
 import { joinReactNodes } from "~/core/joinReactNodes";
 import { getPageTitle } from "~/core/pageTitle";
 import { getNext, NextParamInput } from "~/core/params";
 import { isSamePassword } from "~/core/password.server";
 import { Icon } from "~/generated/icon";
 import nameAndLogo from "~/images/nameAndLogo.svg";
+
+export const handle: RouteHandle = {
+  htmlBackgroundColor: "bg-white",
+};
 
 export const loader: LoaderFunction = async ({ request }) => {
   let hasCurrentUser: boolean;
@@ -129,20 +134,24 @@ export default function LoginPage() {
 
   return (
     <main className="w-full grid grid-cols-[minmax(0px,500px)] auto-rows-auto justify-center justify-items-center md:min-h-screen md:grid-cols-[1fr_minmax(500px,1fr)]">
-      <section className="hidden w-full bg-blue-500 md:flex" />
+      <section className="hidden w-full bg-blue-500 md:block" />
 
-      <section className="w-full max-w-[500px] p-safe-2 flex flex-col gap-4 md:pl-4 md:pr-safe-4 md:py-safe-4">
+      <section className="w-full max-w-[500px] p-safe-2 grid grid-cols-1 auto-rows-auto content-start gap-4 md:pl-4 md:pr-safe-4 md:py-safe-4">
         <img
           src={nameAndLogo}
           alt={getPageTitle()}
-          className="self-start h-3"
+          className="self-start h-3 md:h-4"
         />
 
         <h1 className="text-title-hero-small md:mt-[10vh] md:text-title-hero-large">
           Bienvenue
         </h1>
 
-        <Form method="post" noValidate className={formClassNames.root()}>
+        <Form
+          method="post"
+          noValidate
+          className="grid grid-cols-1 auto-rows-auto gap-3"
+        >
           {formErrors.length > 0 && (
             <Helper id="form-errors">
               {joinReactNodes(formErrors, <br />)}
