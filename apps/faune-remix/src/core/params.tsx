@@ -13,6 +13,8 @@ export function getNext(from: URLSearchParams | FormData) {
 export function addNext(searchParams: URLSearchParams, next: string) {
   if (next !== DEFAULT_NEXT) {
     searchParams.set(NEXT_KEY, next);
+  } else if (searchParams.has(NEXT_KEY)) {
+    searchParams.delete(NEXT_KEY);
   }
 
   return searchParams;

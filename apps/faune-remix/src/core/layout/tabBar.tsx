@@ -6,9 +6,20 @@ import { Icon, IconProps } from "~/generated/icon";
 
 export function TabBar({ children }: { children?: React.ReactNode }) {
   return (
-    <nav className="fixed z-10 bottom-0 left-0 right-0 bg-white px-safe-1 pt-0.5 pb-safe-0.5 flex justify-evenly gap-1 md:hidden">
-      {children}
-    </nav>
+    <>
+      {/*
+       * Reserve some space in the main layout to make sure the fixed tab bar
+       * doesn't hide anything.
+       */}
+      <div
+        aria-hidden
+        className="flex px-safe-1 pt-0.5 pb-safe-0.5 before:h-4 before:w-1 md:hidden"
+      />
+
+      <nav className="fixed z-10 bottom-0 left-0 right-0 bg-white px-safe-1 pt-0.5 pb-safe-0.5 flex justify-evenly gap-1 md:hidden">
+        {children}
+      </nav>
+    </>
   );
 }
 

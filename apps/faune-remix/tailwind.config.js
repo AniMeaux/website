@@ -50,8 +50,14 @@ module.exports = {
     plugin(({ addVariant }) => {
       // Override focus-visible to make sure it supports the `.focus-visible`
       // class.
+      // We also don't want touch screens devices to have visible focus.
+      // They usally don't have input mechanism that can hover over elements so
+      // we check that.
       // https://tailwindcss.com/docs/plugins#adding-variants
-      addVariant("focus-visible", "&:is(:focus-visible, .focus-visible)");
+      addVariant(
+        "focus-visible",
+        "@media(any-hover:hover){&:is(:focus-visible, .focus-visible)}"
+      );
     }),
 
     plugin(({ addVariant }) => {
@@ -100,6 +106,18 @@ module.exports = {
           "font-size": "32px",
           "font-weight": theme("fontWeight.bold"),
           "line-height": "40px",
+        },
+        ".text-title-section-small": {
+          "font-family": theme("fontFamily.serif"),
+          "font-size": "16px",
+          "font-weight": theme("fontWeight.bold"),
+          "line-height": "20px",
+        },
+        ".text-title-section-large": {
+          "font-family": theme("fontFamily.serif"),
+          "font-size": "18px",
+          "font-weight": theme("fontWeight.bold"),
+          "line-height": "20px",
         },
       });
     }),
