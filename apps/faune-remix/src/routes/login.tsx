@@ -45,8 +45,8 @@ export const loader: LoaderFunction = async ({ request }) => {
 };
 
 const ActionDataSchema = z.object({
-  email: z.string().email({ message: "Email invalide" }),
-  password: z.string().min(1, { message: "Mot de passe obligatoire" }),
+  email: z.string().email({ message: "Veuillez entrer un email valide" }),
+  password: z.string().min(1, { message: "Veuillez entrer un mot de passe" }),
 });
 
 type ActionData = {

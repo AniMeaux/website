@@ -48,8 +48,8 @@ export const loader: LoaderFunction = async ({ request }) => {
 };
 
 const ActionDataSchema = z.object({
-  name: z.string().min(1, { message: "Nom obligatoire" }),
-  email: z.string().email({ message: "Email invalide" }),
+  name: z.string().min(1, { message: "Veuillez entrer un nom" }),
+  email: z.string().email({ message: "Veuillez entrer un email valide" }),
 });
 
 type ActionData = {
