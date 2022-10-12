@@ -1,5 +1,17 @@
-export function Card({ children }: { children?: React.ReactNode }) {
-  return <section className="bg-white flex flex-col">{children}</section>;
+import { cn } from "~/core/classNames";
+
+export function Card({
+  children,
+  className,
+}: {
+  children?: React.ReactNode;
+  className?: string;
+}) {
+  return (
+    <section className={cn(className, "bg-white flex flex-col")}>
+      {children}
+    </section>
+  );
 }
 
 export function CardHeader({ children }: { children?: React.ReactNode }) {

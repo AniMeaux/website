@@ -43,7 +43,7 @@ export default function CurrentUserPage() {
     <main className="w-full flex flex-col gap-1 md:max-w-[920px] md:gap-2">
       <EditSuccessHelper />
 
-      <Card>
+      <Card className="sticky top-0">
         <div
           className={cn(
             "h-6 flex md:h-10",
