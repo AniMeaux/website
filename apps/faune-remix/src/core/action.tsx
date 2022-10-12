@@ -1,7 +1,7 @@
 import { cn } from "~/core/classNames";
 
 type ActionVariant = "primary" | "secondary" | "text";
-type ActionColor = "blue" | "gray" | "amber" | "red" | "green";
+export type ActionColor = "blue" | "gray" | "amber" | "red" | "green";
 
 export function actionClassName({
   variant = "primary",

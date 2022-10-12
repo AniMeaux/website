@@ -149,7 +149,7 @@ export default function LoginPage() {
 
         <Form method="post" noValidate className="grid grid-cols-1 gap-3">
           {formErrors.length > 0 && (
-            <Helper id="form-errors">
+            <Helper isCompact variant="error">
               {joinReactNodes(formErrors, <br />)}
             </Helper>
           )}
