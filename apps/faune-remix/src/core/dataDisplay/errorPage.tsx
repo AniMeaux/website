@@ -7,17 +7,17 @@ export function ErrorPage({ status }: { status: number }) {
     STATUS_CODE_ERROR_META_DATA[status] ?? STATUS_CODE_ERROR_META_DATA[500];
 
   return (
-    <section className="w-full p-2 flex flex-col items-center gap-2">
+    <section className="w-full p-2 grid grid-cols-1 justify-items-center content-start gap-2">
       <div
         role="img"
         aria-label={meta.title}
         title={meta.title}
-        className="text-[128px] leading-none"
+        className="text-[80px] leading-none md:text-[128px]"
       >
         {meta.icon}
       </div>
 
-      <div className="flex flex-col gap-1 text-center">
+      <div className="max-w-[400px] grid grid-cols-1 gap-1 text-center">
         <h1 className="text-title-section-small md:text-title-section-large">
           {meta.title}
         </h1>

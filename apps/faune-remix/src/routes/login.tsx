@@ -133,10 +133,10 @@ export default function LoginPage() {
   }, [actionData]);
 
   return (
-    <main className="w-full grid grid-cols-[minmax(0px,500px)] auto-rows-auto justify-center justify-items-center md:min-h-screen md:grid-cols-[1fr_minmax(500px,1fr)]">
+    <main className="w-full grid grid-cols-[minmax(0px,500px)] justify-center justify-items-center md:min-h-screen md:grid-cols-[1fr_minmax(500px,1fr)]">
       <section className="hidden w-full bg-blue-500 md:block" />
 
-      <section className="w-full max-w-[500px] p-safe-2 grid grid-cols-1 auto-rows-auto content-start gap-4 md:pl-4 md:pr-safe-4 md:py-safe-4">
+      <section className="w-full max-w-[500px] p-safe-2 grid grid-cols-1 content-start gap-4 md:pl-4 md:pr-safe-4 md:py-safe-4">
         <img
           src={nameAndLogo}
           alt={getPageTitle()}
@@ -147,11 +147,7 @@ export default function LoginPage() {
           Bienvenue
         </h1>
 
-        <Form
-          method="post"
-          noValidate
-          className="grid grid-cols-1 auto-rows-auto gap-3"
-        >
+        <Form method="post" noValidate className="grid grid-cols-1 gap-3">
           {formErrors.length > 0 && (
             <Helper id="form-errors">
               {joinReactNodes(formErrors, <br />)}

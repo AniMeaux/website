@@ -22,11 +22,9 @@ export function InputWrapper({
 
   return (
     <span
-      className={cn(
-        className,
-        "relative inline-grid grid-cols-1 auto-rows-auto",
-        { "opacity-60": isDisabled }
-      )}
+      className={cn(className, "relative inline-grid grid-cols-1", {
+        "opacity-60": isDisabled,
+      })}
     >
       {children}
 
@@ -53,7 +51,7 @@ function AdornmentContainer({
   return (
     <span
       className={cn(
-        "absolute top-1 grid auto-cols-auto auto-rows-auto items-center gap-0.5 pointer-events-none",
+        "absolute top-1 grid grid-rows-[auto] grid-flow-col items-center gap-0.5 pointer-events-none",
         {
           "left-1": side === "left",
           "right-1": side === "right",

@@ -12,9 +12,9 @@ export function SideBar({ children }: { children?: React.ReactNode }) {
       {(transitionStatus) => (
         <nav
           className={cn(
-            "hidden min-h-min flex-none bg-white pl-safe-1 py-safe-1 pr-1 flex-col gap-2 transition-[width] duration-200 ease-in-out md:flex",
+            "hidden min-h-min bg-white pl-safe-2 pt-safe-1 pb-safe-2 pr-2 grid-cols-1 grid-rows-[auto_minmax(0px,1fr)_auto] gap-4 transition-[width] duration-200 ease-in-out md:grid",
             {
-              "w-[60px]":
+              "w-[80px]":
                 transitionStatus === "exited" || transitionStatus === "exiting",
               "w-[250px]":
                 transitionStatus === "entered" ||
@@ -50,19 +50,15 @@ export function SideBarRootItem({
   return (
     <BaseLink
       to={to}
-      className="overflow-hidden flex-none rounded-0.5 p-0.5 flex transition-colors duration-100 ease-in-out hover:bg-gray-100 active:bg-gray-100 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400"
+      className="overflow-hidden rounded-0.5 p-0.5 grid transition-colors duration-100 ease-in-out hover:bg-gray-100 active:bg-gray-100 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400"
     >
-      <img
-        src={logo}
-        alt={alt}
-        className="h-3 flex-none object-cover object-left"
-      />
+      <img src={logo} alt={alt} className="h-3 object-cover object-left" />
     </BaseLink>
   );
 }
 
 export function SideBarContent({ children }: { children?: React.ReactNode }) {
-  return <div className="flex-1 flex flex-col gap-1">{children}</div>;
+  return <div className="grid grid-cols-1 content-start gap-1">{children}</div>;
 }
 
 export function SideBarItem({
@@ -87,10 +83,10 @@ export function SideBarItem({
 
 function itemClassName({ isActive = false }: { isActive?: boolean } = {}) {
   return cn(
-    "overflow-hidden flex-none rounded-0.5 flex items-center transition-colors duration-100 ease-in-out hover:bg-gray-100 active:bg-gray-100 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400",
+    "overflow-hidden rounded-0.5 grid grid-cols-[auto_minmax(0px,1fr)] items-center text-left transition-colors duration-100 ease-in-out focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400",
     {
-      "text-blue-500": isActive,
-      "text-gray-500": !isActive,
+      "bg-blue-50 text-blue-500": isActive,
+      "text-gray-500 hover:bg-gray-100 active:bg-gray-100": !isActive,
     }
   );
 }
@@ -104,13 +100,11 @@ function BaseSideBarItem({
 }) {
   return (
     <>
-      <span className="w-4 h-4 flex-none flex items-center justify-center text-[20px]">
+      <span className="w-4 h-4 flex items-center justify-center text-[20px]">
         <Icon id={icon} />
       </span>
 
-      <span className="pr-1 flex-1 text-body-emphasis text-left">
-        {children}
-      </span>
+      <span className="pr-1 text-body-emphasis">{children}</span>
     </>
   );
 }
