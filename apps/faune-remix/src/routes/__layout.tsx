@@ -1,4 +1,3 @@
-import { hasGroups } from "@animeaux/shared";
 import { Prisma, UserGroup } from "@prisma/client";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { json, LoaderFunction } from "@remix-run/node";
@@ -30,7 +29,8 @@ import { getPageTitle } from "~/core/pageTitle";
 import { NextParamInput } from "~/core/params";
 import { Icon, IconProps } from "~/generated/icon";
 import nameAndLogo from "~/images/nameAndLogo.svg";
-import { UserAvatar } from "~/user/avatar";
+import { UserAvatar } from "~/users/avatar";
+import { hasGroups } from "~/users/groups";
 
 const currentUserSelect = Prisma.validator<Prisma.UserArgs>()({
   select: {
