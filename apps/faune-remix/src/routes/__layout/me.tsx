@@ -1,6 +1,7 @@
 import { Prisma, UserGroup } from "@prisma/client";
 import { json, LoaderFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
+import { AnimalItem } from "~/animals/item";
 import { actionClassName } from "~/core/action";
 import { BaseLink } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
@@ -8,6 +9,7 @@ import { getCurrentUser } from "~/core/currentUser.server";
 import { AvatarColor, inferAvatarColor } from "~/core/dataDisplay/avatar";
 import { Empty } from "~/core/dataDisplay/empty";
 import { Helper } from "~/core/dataDisplay/helper";
+import { prisma } from "~/core/db.server";
 import { Card, CardContent, CardHeader, CardTitle } from "~/core/layout/card";
 import { ActionConfirmationType, useActionConfirmation } from "~/core/params";
 import { Icon } from "~/generated/icon";
@@ -23,8 +25,20 @@ const currentUserSelect = Prisma.validator<Prisma.UserArgs>()({
   },
 });
 
+const animalSelect = Prisma.validator<Prisma.AnimalArgs>()({
+  select: {
+    id: true,
+    avatar: true,
+    name: true,
+    alias: true,
+    gender: true,
+    status: true,
+  },
+});
+
 type LoaderData = {
   currentUser: Prisma.UserGetPayload<typeof currentUserSelect>;
+  managedAnimals: Prisma.AnimalGetPayload<typeof animalSelect>[];
 };
 
 export const loader: LoaderFunction = async ({ request }) => {
@@ -32,11 +46,18 @@ export const loader: LoaderFunction = async ({ request }) => {
     select: currentUserSelect.select,
   });
 
-  return json<LoaderData>({ currentUser });
+  const managedAnimals = await prisma.animal.findMany({
+    take: 5,
+    orderBy: { pickUpDate: "desc" },
+    where: { managerId: currentUser.id },
+    select: animalSelect.select,
+  });
+
+  return json<LoaderData>({ currentUser, managedAnimals });
 };
 
 export default function CurrentUserPage() {
-  const { currentUser } = useLoaderData<LoaderData>();
+  const { currentUser, managedAnimals } = useLoaderData<LoaderData>();
   const isManager = hasGroups(currentUser, [UserGroup.ANIMAL_MANAGER]);
 
   return (
@@ -79,7 +100,7 @@ export default function CurrentUserPage() {
         </CardContent>
       </Card>
 
-      <section className="grid grid-cols-1 gap-1 md:grid-cols-[minmax(250px,1fr)_2fr] md:items-start md:gap-2">
+      <section className="grid grid-cols-1 gap-1 md:grid-cols-[minmax(250px,1fr)_minmax(0px,2fr)] md:items-start md:gap-2">
         <section className="flex flex-col gap-1 md:gap-2">
           <Card>
             <CardHeader>
@@ -138,27 +159,40 @@ export default function CurrentUserPage() {
               )}
             </CardHeader>
 
-            <CardContent>
-              <Empty
-                isCompact
-                icon="🦤"
-                iconAlt="Dodo bird"
-                title="Aucun animal à votre charge"
-                titleElementType="h3"
-                message={
-                  isManager ? (
-                    "Pour l’instant ;)"
-                  ) : (
-                    <>
-                      Seuls les membres du group{" "}
-                      <strong className="text-body-emphasis">
-                        {GROUP_TRANSLATION[UserGroup.ANIMAL_MANAGER]}
-                      </strong>{" "}
-                      peuvent avoir des animaux à leur charge.
-                    </>
-                  )
-                }
-              />
+            <CardContent hasHorizontalScroll>
+              {managedAnimals.length === 0 ? (
+                <Empty
+                  isCompact
+                  icon="🦤"
+                  iconAlt="Dodo bird"
+                  title="Aucun animal à votre charge"
+                  titleElementType="h3"
+                  message={
+                    isManager ? (
+                      "Pour l’instant ;)"
+                    ) : (
+                      <>
+                        Seuls les membres du group{" "}
+                        <strong className="text-body-emphasis">
+                          {GROUP_TRANSLATION[UserGroup.ANIMAL_MANAGER]}
+                        </strong>{" "}
+                        peuvent avoir des animaux à leur charge.
+                      </>
+                    )
+                  }
+                />
+              ) : (
+                <ul className="flex gap-1">
+                  {managedAnimals.map((animal) => (
+                    <li
+                      key={animal.id}
+                      className="flex-none flex flex-col first:pl-1 last:pr-1 md:first:pl-2 md:last:pr-2"
+                    >
+                      <AnimalItem animal={animal} className="w-[150px]" />
+                    </li>
+                  ))}
+                </ul>
+              )}
             </CardContent>
           </Card>
         </section>
