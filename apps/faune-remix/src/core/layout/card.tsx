@@ -26,9 +26,20 @@ export function CardTitle({ children }: { children?: React.ReactNode }) {
   );
 }
 
-export function CardContent({ children }: { children?: React.ReactNode }) {
+export function CardContent({
+  children,
+  hasHorizontalScroll = false,
+}: {
+  children?: React.ReactNode;
+  hasHorizontalScroll?: boolean;
+}) {
   return (
-    <div className="px-1 flex flex-col first:pt-1 last:pb-1 md:px-2 md:first:pt-2 md:last:pb-2">
+    <div
+      className={cn(
+        "flex flex-col first:pt-1 last:pb-1 md:first:pt-2 md:last:pb-2",
+        hasHorizontalScroll ? "overflow-x-auto" : "px-1 md:px-2"
+      )}
+    >
       {children}
     </div>
   );
