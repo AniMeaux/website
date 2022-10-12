@@ -21,3 +21,11 @@ export function CardContent({ children }: { children?: React.ReactNode }) {
     </div>
   );
 }
+
+export function CardFooter({ children }: { children?: React.ReactNode }) {
+  return (
+    <footer className="p-1 flex justify-end gap-1 md:p-2 md:gap-2">
+      {children}
+    </footer>
+  );
+}

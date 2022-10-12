@@ -7,7 +7,9 @@ import { cn } from "~/core/classNames";
 import { getCurrentUser } from "~/core/currentUser.server";
 import { AvatarColor, inferAvatarColor } from "~/core/dataDisplay/avatar";
 import { Empty } from "~/core/dataDisplay/empty";
+import { Helper } from "~/core/dataDisplay/helper";
 import { Card, CardContent, CardHeader, CardTitle } from "~/core/layout/card";
+import { ActionConfirmationType, useActionConfirmation } from "~/core/params";
 import { Icon } from "~/generated/icon";
 import { UserAvatar } from "~/users/avatar";
 import { GROUP_ICON, GROUP_TRANSLATION, hasGroups } from "~/users/groups";
@@ -21,10 +23,8 @@ const currentUserSelect = Prisma.validator<Prisma.UserArgs>()({
   },
 });
 
-type CurrentUser = Prisma.UserGetPayload<typeof currentUserSelect>;
-
 type LoaderData = {
-  currentUser: CurrentUser;
+  currentUser: Prisma.UserGetPayload<typeof currentUserSelect>;
 };
 
 export const loader: LoaderFunction = async ({ request }) => {
@@ -41,6 +41,8 @@ export default function CurrentUserPage() {
 
   return (
     <main className="w-full flex flex-col gap-1 md:max-w-[920px] md:gap-2">
+      <EditSuccessHelper />
+
       <Card>
         <div
           className={cn(
@@ -171,3 +173,19 @@ const USER_BG_COLOR: Record<AvatarColor, string> = {
   red: "bg-red-50",
   yellow: "bg-yellow-50",
 };
+
+function EditSuccessHelper() {
+  const { isVisible, clear } = useActionConfirmation(
+    ActionConfirmationType.EDIT
+  );
+
+  if (!isVisible) {
+    return null;
+  }
+
+  return (
+    <Helper variant="success" action={<button onClick={clear}>Fermer</button>}>
+      Votre profile à bien été mis à jour.
+    </Helper>
+  );
+}

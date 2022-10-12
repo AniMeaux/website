@@ -1,3 +1,6 @@
+import { useSearchParams } from "@remix-run/react";
+import { useState } from "react";
+
 const NEXT_KEY = "next";
 const DEFAULT_NEXT = "/";
 
@@ -22,4 +25,39 @@ export function setNext(searchParams: URLSearchParams, next: string) {
 
 export function NextParamInput({ value }: { value: string }) {
   return <input type="hidden" name={NEXT_KEY} value={value} />;
+}
+
+const ACTION_CONFIRMATION_KEY = "success";
+
+export enum ActionConfirmationType {
+  EDIT,
+}
+
+export function hasActionConfirmation(
+  searchParams: URLSearchParams,
+  action: ActionConfirmationType
+) {
+  return searchParams.get(ACTION_CONFIRMATION_KEY) === String(action);
+}
+
+export function setActionConfirmation(
+  searchParams: URLSearchParams,
+  action: ActionConfirmationType | null
+) {
+  if (action === null) {
+    searchParams.delete(ACTION_CONFIRMATION_KEY);
+  } else {
+    searchParams.set(ACTION_CONFIRMATION_KEY, String(action));
+  }
+
+  return searchParams;
+}
+
+export function useActionConfirmation(action: ActionConfirmationType) {
+  const [searchParams] = useSearchParams();
+  const [isVisible, setIsVisible] = useState(
+    hasActionConfirmation(searchParams, action)
+  );
+
+  return { isVisible, clear: () => setIsVisible(false) };
 }
