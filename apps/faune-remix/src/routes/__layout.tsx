@@ -59,11 +59,11 @@ export default function Layout() {
   const { currentUser } = useLoaderData<LoaderData>();
 
   return (
-    <div className="grid grid-cols-1 md:h-screen md:grid-cols-[auto,minmax(0px,1fr)] md:gap-2">
+    <div className="grid grid-cols-1 md:grid-cols-[auto,minmax(0px,1fr)] items-start md:gap-2">
       <CurrentUserSideBar currentUser={currentUser} />
 
-      <div className="grid grid-cols-1 gap-1 md:min-h-min md:grid-rows-[auto,minmax(0px,1fr)] md:gap-2">
-        <header className="bg-white px-safe-1 py-0.5 grid grid-cols-[minmax(0px,1fr)_auto] items-center justify-between gap-1 md:px-2 md:py-1 md:grid-cols-[minmax(0px,66%)_auto] md:gap-4">
+      <div className="flex flex-col items-center gap-1 md:pb-2 md:gap-2">
+        <header className="w-full bg-white px-safe-1 py-0.5 grid grid-cols-[minmax(0px,1fr)_auto] items-center justify-between gap-1 md:sticky md:top-0 md:px-2 md:py-1 md:grid-cols-[minmax(0px,66%)_auto] md:gap-4">
           <SearchInput />
           <CurrentUserMenu currentUser={currentUser} />
         </header>
