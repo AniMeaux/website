@@ -42,6 +42,7 @@ export default function CurrentUserPage() {
   return (
     <main className="w-full flex flex-col gap-1 md:max-w-[920px] md:gap-2">
       <EditSuccessHelper />
+      <EditPasswordSuccessHelper />
 
       <Card className="sticky top-0">
         <div
@@ -186,6 +187,22 @@ function EditSuccessHelper() {
   return (
     <Helper variant="success" action={<button onClick={clear}>Fermer</button>}>
       Votre profile à bien été mis à jour.
+    </Helper>
+  );
+}
+
+function EditPasswordSuccessHelper() {
+  const { isVisible, clear } = useActionConfirmation(
+    ActionConfirmationType.EDIT_PASSWORD
+  );
+
+  if (!isVisible) {
+    return null;
+  }
+
+  return (
+    <Helper variant="success" action={<button onClick={clear}>Fermer</button>}>
+      Votre mot de passe à bien été changé.
     </Helper>
   );
 }

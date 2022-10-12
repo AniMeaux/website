@@ -31,6 +31,7 @@ const ACTION_CONFIRMATION_KEY = "success";
 
 export enum ActionConfirmationType {
   EDIT,
+  EDIT_PASSWORD,
 }
 
 export function hasActionConfirmation(

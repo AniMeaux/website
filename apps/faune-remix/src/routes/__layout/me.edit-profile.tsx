@@ -142,13 +142,13 @@ export default function EditCurrentUserProfilePage() {
             noValidate
             className={formClassNames.root()}
           >
-            <div className={formClassNames.fields.root()}>
-              {formErrors.length > 0 && (
-                <Helper variant="error">
-                  {joinReactNodes(formErrors, <br />)}
-                </Helper>
-              )}
+            {formErrors.length > 0 && (
+              <Helper variant="error">
+                {joinReactNodes(formErrors, <br />)}
+              </Helper>
+            )}
 
+            <div className={formClassNames.fields.root()}>
               <div className={formClassNames.fields.field.root()}>
                 <label
                   htmlFor="name"
