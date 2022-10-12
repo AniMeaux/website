@@ -1,7 +1,7 @@
 import { ActionFunction, LoaderFunction, redirect } from "@remix-run/node";
 import { createPath } from "history";
 import { destroyUserSession } from "~/core/currentUser.server";
-import { addNext, getNext } from "~/core/params";
+import { getNext, setNext } from "~/core/params";
 
 export const loader: LoaderFunction = async () => {
   // Nothing to render here.
@@ -14,7 +14,7 @@ export const action: ActionFunction = async ({ request }) => {
   return redirect(
     createPath({
       pathname: "/login",
-      search: addNext(new URLSearchParams(), getNext(formData)).toString(),
+      search: setNext(new URLSearchParams(), getNext(formData)).toString(),
     }),
     { headers: { "Set-Cookie": await destroyUserSession() } }
   );
