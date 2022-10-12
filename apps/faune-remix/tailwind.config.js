@@ -20,7 +20,10 @@ module.exports = {
       2: "20px",
       3: "30px",
       4: "40px",
+      6: "60px",
       8: "80px",
+      9: "90px",
+      10: "100px",
     },
 
     borderRadius: {
@@ -43,6 +46,10 @@ module.exports = {
 
       aspectRatio: {
         "4/3": "4 / 3",
+      },
+
+      ringWidth: {
+        5: "5px",
       },
     },
   },

@@ -1,9 +1,9 @@
 export const formClassNames = {
-  root: () => "w-full py-1 grid grid-cols-1 gap-2",
+  root: () => "pt-1 pb-2 flex flex-col gap-2 md:py-1",
   fields: {
-    root: () => "grid grid-cols-1 gap-1",
+    root: () => "flex flex-col gap-1",
     field: {
-      root: () => "grid grid-cols-1",
+      root: () => "flex flex-col",
       label: () => "text-caption-default text-gray-500",
       errorMessage: () => "text-caption-default text-red-500",
     },

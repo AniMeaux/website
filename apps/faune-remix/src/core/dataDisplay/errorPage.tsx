@@ -1,31 +1,20 @@
 import { useLocation } from "@remix-run/react";
 import { actionClassName } from "~/core/action";
 import { BaseLink } from "~/core/baseLink";
+import { Empty } from "~/core/dataDisplay/empty";
 
 export function ErrorPage({ status }: { status: number }) {
   const meta =
     STATUS_CODE_ERROR_META_DATA[status] ?? STATUS_CODE_ERROR_META_DATA[500];
 
   return (
-    <section className="w-full p-2 grid grid-cols-1 justify-items-center content-start gap-2">
-      <div
-        role="img"
-        aria-label={meta.title}
-        title={meta.title}
-        className="text-[80px] leading-none md:text-[128px]"
-      >
-        {meta.icon}
-      </div>
-
-      <div className="max-w-[400px] grid grid-cols-1 gap-1 text-center">
-        <h1 className="text-title-section-small md:text-title-section-large">
-          {meta.title}
-        </h1>
-        <p>{meta.message}</p>
-      </div>
-
-      <meta.action />
-    </section>
+    <Empty
+      icon={meta.icon}
+      iconAlt={meta.title}
+      title={meta.title}
+      message={meta.message}
+      action={<meta.action />}
+    />
   );
 }
 

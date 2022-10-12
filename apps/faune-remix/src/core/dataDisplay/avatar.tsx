@@ -2,7 +2,7 @@ import { cn } from "~/core/classNames";
 import { Icon, IconProps } from "~/generated/icon";
 
 const AVATAR_COLORS = ["blue", "gray", "green", "red", "yellow"] as const;
-type AvatarColor = typeof AVATAR_COLORS[number];
+export type AvatarColor = typeof AVATAR_COLORS[number];
 type AvatarSize = "sm" | "lg" | "xl";
 
 export type AvatarProps = {
@@ -10,6 +10,7 @@ export type AvatarProps = {
   letter?: string;
   color?: AvatarColor;
   size?: AvatarSize;
+  className?: string;
 };
 
 export function Avatar({
@@ -17,10 +18,12 @@ export function Avatar({
   letter,
   color = "gray",
   size = "sm",
+  className,
 }: AvatarProps) {
   return (
     <span
       className={cn(
+        className,
         "inline-flex items-center justify-center",
         {
           "rounded-0.5 w-2 h-2": size === "sm",

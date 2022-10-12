@@ -1,0 +1,48 @@
+import { cn } from "~/core/classNames";
+
+export function Empty({
+  icon,
+  iconAlt,
+  title,
+  message,
+  action,
+  isCompact = false,
+  titleElementType: TitleElementType = "h1",
+}: {
+  icon: string;
+  iconAlt: string;
+  title: string;
+  message: React.ReactNode;
+  action?: React.ReactNode;
+  isCompact?: boolean;
+  titleElementType?: React.ElementType;
+}) {
+  return (
+    <section className="w-full p-2 grid grid-cols-1 justify-items-center content-start gap-2">
+      <div
+        role="img"
+        aria-label={iconAlt}
+        title={iconAlt}
+        className={cn("text-[80px] leading-none", {
+          "md:text-[128px]": !isCompact,
+        })}
+      >
+        {icon}
+      </div>
+
+      <div className="max-w-[400px] grid grid-cols-1 gap-1 text-center">
+        <TitleElementType
+          className={cn("text-title-section-small", {
+            "md:text-title-section-large": !isCompact,
+          })}
+        >
+          {title}
+        </TitleElementType>
+
+        <p>{message}</p>
+      </div>
+
+      {action}
+    </section>
+  );
+}

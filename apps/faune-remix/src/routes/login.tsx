@@ -45,8 +45,8 @@ export const loader: LoaderFunction = async ({ request }) => {
 };
 
 const ActionDataSchema = z.object({
-  email: z.string().email({ message: "Email invalide" }),
-  password: z.string().min(1, { message: "Mot de passe obligatoire" }),
+  email: z.string().email({ message: "Veuillez entrer un email valide" }),
+  password: z.string().min(1, { message: "Veuillez entrer un mot de passe" }),
 });
 
 type ActionData = {
@@ -147,9 +147,9 @@ export default function LoginPage() {
           Bienvenue
         </h1>
 
-        <Form method="post" noValidate className="grid grid-cols-1 gap-3">
+        <Form method="post" noValidate className="flex flex-col gap-3">
           {formErrors.length > 0 && (
-            <Helper id="form-errors">
+            <Helper isCompact variant="error">
               {joinReactNodes(formErrors, <br />)}
             </Helper>
           )}

@@ -12,7 +12,7 @@ export function SideBar({ children }: { children?: React.ReactNode }) {
       {(transitionStatus) => (
         <nav
           className={cn(
-            "hidden min-h-min bg-white pl-safe-2 pt-safe-1 pb-safe-2 pr-2 grid-cols-1 grid-rows-[auto_minmax(0px,1fr)_auto] gap-4 transition-[width] duration-200 ease-in-out md:grid",
+            "hidden sticky top-0 h-screen bg-white pl-safe-2 pt-safe-1 pb-safe-2 pr-2 grid-cols-1 grid-rows-[auto_minmax(0px,1fr)_auto] gap-4 transition-[width] duration-200 ease-in-out md:grid",
             {
               "w-[80px]":
                 transitionStatus === "exited" || transitionStatus === "exiting",
