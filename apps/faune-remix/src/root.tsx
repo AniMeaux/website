@@ -1,8 +1,8 @@
 import {
   json,
   LinksFunction,
-  LoaderFunction,
   MetaFunction,
+  SerializeFrom,
 } from "@remix-run/node";
 import {
   Links,
@@ -15,7 +15,6 @@ import {
   useMatches,
 } from "@remix-run/react";
 import { cn } from "~/core/classNames";
-import { Config } from "~/core/config";
 import { createConfig } from "~/core/config.server";
 import { ErrorPage } from "~/core/dataDisplay/errorPage";
 import { getPageTitle } from "~/core/pageTitle";
@@ -54,13 +53,11 @@ export const links: LinksFunction = () => {
   ];
 };
 
-export type LoaderData = {
-  config: Config;
-};
+export async function loader() {
+  return json({ config: createConfig() });
+}
 
-export const loader: LoaderFunction = async () => {
-  return json<LoaderData>({ config: createConfig() });
-};
+export type LoaderData = SerializeFrom<typeof loader>;
 
 export const meta: MetaFunction = () => {
   return {

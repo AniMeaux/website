@@ -1,6 +1,6 @@
-import { Prisma, UserGroup } from "@prisma/client";
+import { UserGroup } from "@prisma/client";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
-import { json, LoaderFunction } from "@remix-run/node";
+import { json, LoaderArgs, SerializeFrom } from "@remix-run/node";
 import {
   Form,
   Outlet,
@@ -32,31 +32,21 @@ import nameAndLogo from "~/images/nameAndLogo.svg";
 import { UserAvatar } from "~/users/avatar";
 import { hasGroups } from "~/users/groups";
 
-const currentUserSelect = Prisma.validator<Prisma.UserArgs>()({
-  select: {
-    id: true,
-    displayName: true,
-    email: true,
-    groups: true,
-  },
-});
-
-type CurrentUser = Prisma.UserGetPayload<typeof currentUserSelect>;
-
-type LoaderData = {
-  currentUser: CurrentUser;
-};
-
-export const loader: LoaderFunction = async ({ request }) => {
+export async function loader({ request }: LoaderArgs) {
   const currentUser = await getCurrentUser(request, {
-    select: currentUserSelect.select,
+    select: {
+      id: true,
+      displayName: true,
+      email: true,
+      groups: true,
+    },
   });
 
-  return json<LoaderData>({ currentUser });
-};
+  return json({ currentUser });
+}
 
 export default function Layout() {
-  const { currentUser } = useLoaderData<LoaderData>();
+  const { currentUser } = useLoaderData<typeof loader>();
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-[auto,minmax(0px,1fr)] items-start md:gap-2">
@@ -80,7 +70,7 @@ const MAX_VISIBLE_TAB_BAR_ITEM_COUNT = 5;
 function CurrentUserTabBar({
   currentUser,
 }: {
-  currentUser: LoaderData["currentUser"];
+  currentUser: SerializeFrom<typeof loader>["currentUser"];
 }) {
   const navigationItems = ALL_NAVIGATION_ITEMS.filter((item) =>
     hasGroups(currentUser, item.authorizedGroups)
@@ -125,7 +115,7 @@ function CurrentUserTabBar({
 function CurrentUserSideBar({
   currentUser,
 }: {
-  currentUser: LoaderData["currentUser"];
+  currentUser: SerializeFrom<typeof loader>["currentUser"];
 }) {
   const navigationItems = ALL_NAVIGATION_ITEMS.filter((item) =>
     hasGroups(currentUser, item.authorizedGroups)
@@ -214,7 +204,7 @@ function SearchInput() {
 function CurrentUserMenu({
   currentUser,
 }: {
-  currentUser: LoaderData["currentUser"];
+  currentUser: SerializeFrom<typeof loader>["currentUser"];
 }) {
   const formRef = useRef<HTMLFormElement>(null);
   const submit = useSubmit();

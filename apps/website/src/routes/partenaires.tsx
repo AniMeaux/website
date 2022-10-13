@@ -1,4 +1,4 @@
-import { json, LoaderFunction, MetaFunction } from "@remix-run/node";
+import { json, MetaFunction, SerializeFrom } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { BaseLink } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
@@ -6,22 +6,18 @@ import { createSocialMeta } from "~/core/meta";
 import { getPageTitle } from "~/core/pageTitle";
 import { DynamicImage } from "~/dataDisplay/image";
 import { Markdown, MarkdownProps } from "~/dataDisplay/markdown";
-import { Partner, partners } from "~/partners/data";
+import { partners } from "~/partners/data";
 
-type LoaderData = {
-  partners: Partner[];
-};
-
-export const loader: LoaderFunction = async () => {
-  return json<LoaderData>({ partners });
-};
+export async function loader() {
+  return json({ partners });
+}
 
 export const meta: MetaFunction = () => {
   return createSocialMeta({ title: getPageTitle("Partenaires") });
 };
 
 export default function PartnersPage() {
-  const { partners } = useLoaderData<LoaderData>();
+  const { partners } = useLoaderData<typeof loader>();
 
   return (
     <main className="w-full px-page flex flex-col gap-12">
@@ -67,7 +63,11 @@ export const COMPONENTS: MarkdownProps["components"] = {
   ),
 };
 
-function PartnerItem({ partner }: { partner: LoaderData["partners"][number] }) {
+function PartnerItem({
+  partner,
+}: {
+  partner: SerializeFrom<typeof loader>["partners"][number];
+}) {
   return (
     <li className="flex">
       <BaseLink

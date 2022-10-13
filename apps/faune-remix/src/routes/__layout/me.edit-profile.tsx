@@ -1,10 +1,5 @@
 import { Prisma } from "@prisma/client";
-import {
-  ActionFunction,
-  json,
-  LoaderFunction,
-  redirect,
-} from "@remix-run/node";
+import { ActionArgs, json, LoaderArgs, redirect } from "@remix-run/node";
 import { Form, useActionData, useLoaderData } from "@remix-run/react";
 import { createPath } from "history";
 import { useEffect, useRef } from "react";
@@ -28,24 +23,16 @@ import {
 import { ActionConfirmationType, setActionConfirmation } from "~/core/params";
 import { Icon } from "~/generated/icon";
 
-const currentUserSelect = Prisma.validator<Prisma.UserArgs>()({
-  select: {
-    displayName: true,
-    email: true,
-  },
-});
-
-type LoaderData = {
-  currentUser: Prisma.UserGetPayload<typeof currentUserSelect>;
-};
-
-export const loader: LoaderFunction = async ({ request }) => {
+export async function loader({ request }: LoaderArgs) {
   const currentUser = await getCurrentUser(request, {
-    select: currentUserSelect.select,
+    select: {
+      displayName: true,
+      email: true,
+    },
   });
 
-  return json<LoaderData>({ currentUser });
-};
+  return json({ currentUser });
+}
 
 const ActionDataSchema = z.object({
   name: z.string().min(1, { message: "Veuillez entrer un nom" }),
@@ -56,7 +43,7 @@ type ActionData = {
   errors?: z.inferFlattenedErrors<typeof ActionDataSchema>;
 };
 
-export const action: ActionFunction = async ({ request }) => {
+export async function action({ request }: ActionArgs) {
   const currentUser = await getCurrentUser(request, { select: { id: true } });
 
   const rawFormData = await request.formData();
@@ -105,13 +92,13 @@ export const action: ActionFunction = async ({ request }) => {
       ).toString(),
     })
   );
-};
+}
 
 const FORM_ID = "edit-profile-form";
 
 export default function EditCurrentUserProfilePage() {
-  const { currentUser } = useLoaderData<LoaderData>();
-  const actionData = useActionData<ActionData>();
+  const { currentUser } = useLoaderData<typeof loader>();
+  const actionData = useActionData() as ActionData;
   const { formErrors = [], fieldErrors = {} } = actionData?.errors ?? {};
 
   const nameRef = useRef<HTMLInputElement>(null);

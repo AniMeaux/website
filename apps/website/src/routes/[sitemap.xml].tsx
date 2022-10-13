@@ -1,5 +1,4 @@
 import { Species } from "@prisma/client";
-import { LoaderFunction } from "@remix-run/node";
 import { renderToStaticMarkup } from "react-dom/server";
 import { SPECIES_TO_PATH } from "~/controllers/searchForm";
 import { createConfig } from "~/core/config.server";
@@ -67,7 +66,7 @@ Object.values(Species).forEach((species) => {
   });
 });
 
-export const loader: LoaderFunction = () => {
+export async function loader() {
   const config = createConfig();
 
   const markup = renderToStaticMarkup(
@@ -87,4 +86,4 @@ export const loader: LoaderFunction = () => {
       "Content-Type": "application/xml",
     },
   });
-};
+}

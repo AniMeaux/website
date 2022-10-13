@@ -1,8 +1,8 @@
 import {
   json,
   LinksFunction,
-  LoaderFunction,
   MetaFunction,
+  SerializeFrom,
 } from "@remix-run/node";
 import {
   Links,
@@ -15,7 +15,7 @@ import {
 } from "@remix-run/react";
 import { Settings } from "luxon";
 import { cn } from "~/core/classNames";
-import { Config, useConfig } from "~/core/config";
+import { useConfig } from "~/core/config";
 import { createConfig } from "~/core/config.server";
 import { createSocialMeta } from "~/core/meta";
 import { getPageTitle, pageDescription } from "~/core/pageTitle";
@@ -60,17 +60,15 @@ export const links: LinksFunction = () => {
   ];
 };
 
-export type LoaderData = {
-  config: Config;
-};
+export async function loader() {
+  return json({ config: createConfig() });
+}
 
-export const loader: LoaderFunction = async () => {
-  return json<LoaderData>({ config: createConfig() });
-};
+export type LoaderData = SerializeFrom<typeof loader>;
 
-export const meta: MetaFunction = ({ data, location }) => {
+export const meta: MetaFunction<typeof loader> = ({ data, location }) => {
   // The data can be null in case of error.
-  const config = (data as LoaderData | null)?.config;
+  const config = data?.config;
   const title = getPageTitle();
 
   let url: string | undefined = undefined;

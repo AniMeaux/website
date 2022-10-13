@@ -1,11 +1,11 @@
-import { LoaderFunction, MetaFunction } from "@remix-run/node";
+import { MetaFunction } from "@remix-run/node";
 import { createSocialMeta } from "~/core/meta";
 import { getPageTitle } from "~/core/pageTitle";
 import { ErrorPage, getErrorTitle } from "~/dataDisplay/errorPage";
 
-export const loader: LoaderFunction = async () => {
+export async function loader() {
   return new Response("Not found", { status: 404 });
-};
+}
 
 export const meta: MetaFunction = () => {
   return createSocialMeta({ title: getPageTitle(getErrorTitle(404)) });

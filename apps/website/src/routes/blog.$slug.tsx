@@ -1,11 +1,10 @@
-import { json, LoaderFunction, MetaFunction } from "@remix-run/node";
+import { json, LoaderArgs, MetaFunction } from "@remix-run/node";
 import { useCatch, useLoaderData } from "@remix-run/react";
 import { DateTime } from "luxon";
-import { Article, articles } from "~/blog/data";
+import { articles } from "~/blog/data";
 import { ArticleItem } from "~/blog/item";
 import { cn } from "~/core/classNames";
 import { getConfig } from "~/core/config";
-import { MapDateToString } from "~/core/dates";
 import { createSocialMeta } from "~/core/meta";
 import { getPageTitle } from "~/core/pageTitle";
 import { ErrorPage, getErrorTitle } from "~/dataDisplay/errorPage";
@@ -17,14 +16,9 @@ import {
   RelatedSectionTitle,
 } from "~/layout/relatedSection";
 
-type LoaderDataServer = {
-  article: Article;
-  otherArticles: Article[];
-};
-
 const OTHER_ARTICLE_COUNT = 3;
 
-export const loader: LoaderFunction = async ({ params }) => {
+export async function loader({ params }: LoaderArgs) {
   const article = articles.find((article) => article.slug === params["slug"]);
   if (article == null) {
     throw new Response("Not found", { status: 404 });
@@ -45,11 +39,11 @@ export const loader: LoaderFunction = async ({ params }) => {
     );
   }
 
-  return json<LoaderDataServer>({ article, otherArticles });
-};
+  return json({ article, otherArticles });
+}
 
-export const meta: MetaFunction = ({ data, parentsData }) => {
-  const article = (data as LoaderDataServer | null)?.article;
+export const meta: MetaFunction<typeof loader> = ({ data, parentsData }) => {
+  const article = data?.article;
   if (article == null) {
     return createSocialMeta({ title: getPageTitle(getErrorTitle(404)) });
   }
@@ -70,10 +64,8 @@ export function CatchBoundary() {
   return <ErrorPage status={caught.status} />;
 }
 
-type LoaderDataClient = MapDateToString<LoaderDataServer>;
-
 export default function BlogPage() {
-  const { article, otherArticles } = useLoaderData<LoaderDataClient>();
+  const { article, otherArticles } = useLoaderData<typeof loader>();
 
   return (
     <>

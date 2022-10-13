@@ -1,5 +1,5 @@
-import { Prisma, UserGroup } from "@prisma/client";
-import { json, LoaderFunction } from "@remix-run/node";
+import { UserGroup } from "@prisma/client";
+import { json, LoaderArgs } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { AnimalItem } from "~/animals/item";
 import { actionClassName } from "~/core/action";
@@ -16,48 +16,35 @@ import { Icon } from "~/generated/icon";
 import { UserAvatar } from "~/users/avatar";
 import { GROUP_ICON, GROUP_TRANSLATION, hasGroups } from "~/users/groups";
 
-const currentUserSelect = Prisma.validator<Prisma.UserArgs>()({
-  select: {
-    id: true,
-    displayName: true,
-    email: true,
-    groups: true,
-  },
-});
-
-const animalSelect = Prisma.validator<Prisma.AnimalArgs>()({
-  select: {
-    id: true,
-    avatar: true,
-    name: true,
-    alias: true,
-    gender: true,
-    status: true,
-  },
-});
-
-type LoaderData = {
-  currentUser: Prisma.UserGetPayload<typeof currentUserSelect>;
-  managedAnimals: Prisma.AnimalGetPayload<typeof animalSelect>[];
-};
-
-export const loader: LoaderFunction = async ({ request }) => {
+export async function loader({ request }: LoaderArgs) {
   const currentUser = await getCurrentUser(request, {
-    select: currentUserSelect.select,
+    select: {
+      id: true,
+      displayName: true,
+      email: true,
+      groups: true,
+    },
   });
 
   const managedAnimals = await prisma.animal.findMany({
     take: 5,
     orderBy: { pickUpDate: "desc" },
     where: { managerId: currentUser.id },
-    select: animalSelect.select,
+    select: {
+      id: true,
+      avatar: true,
+      name: true,
+      alias: true,
+      gender: true,
+      status: true,
+    },
   });
 
-  return json<LoaderData>({ currentUser, managedAnimals });
-};
+  return json({ currentUser, managedAnimals });
+}
 
 export default function CurrentUserPage() {
-  const { currentUser, managedAnimals } = useLoaderData<LoaderData>();
+  const { currentUser, managedAnimals } = useLoaderData<typeof loader>();
   const isManager = hasGroups(currentUser, [UserGroup.ANIMAL_MANAGER]);
 
   return (

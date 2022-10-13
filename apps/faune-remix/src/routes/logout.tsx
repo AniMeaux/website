@@ -1,14 +1,14 @@
-import { ActionFunction, LoaderFunction, redirect } from "@remix-run/node";
+import { ActionArgs, redirect } from "@remix-run/node";
 import { createPath } from "history";
 import { destroyUserSession } from "~/core/currentUser.server";
 import { getNext, setNext } from "~/core/params";
 
-export const loader: LoaderFunction = async () => {
+export async function loader() {
   // Nothing to render here.
   return redirect("/");
-};
+}
 
-export const action: ActionFunction = async ({ request }) => {
+export async function action({ request }: ActionArgs) {
   const formData = await request.formData();
 
   return redirect(
@@ -18,4 +18,4 @@ export const action: ActionFunction = async ({ request }) => {
     }),
     { headers: { "Set-Cookie": await destroyUserSession() } }
   );
-};
+}

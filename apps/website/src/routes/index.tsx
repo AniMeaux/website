@@ -1,12 +1,10 @@
-import { Prisma } from "@prisma/client";
-import { json, LoaderFunction } from "@remix-run/node";
+import { json, SerializeFrom } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { DateTime } from "luxon";
 import { SearchForm } from "~/controllers/searchForm";
 import { actionClassNames } from "~/core/actions";
 import { BaseLink } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
-import { MapDateToString } from "~/core/dates";
 import { prisma } from "~/core/db.server";
 import { StaticImage, StaticImageProps } from "~/dataDisplay/image";
 import { EventItem } from "~/events/item";
@@ -27,48 +25,35 @@ import {
   HeroSectionTitle,
 } from "~/layout/heroSection";
 
-const eventSelect = Prisma.validator<Prisma.EventArgs>()({
-  select: {
-    id: true,
-    image: true,
-    title: true,
-    url: true,
-    description: true,
-    startDate: true,
-    endDate: true,
-    isFullDay: true,
-    location: true,
-  },
-});
-
-type Event = Prisma.EventGetPayload<typeof eventSelect>;
-
-type LoaderDataServer = {
-  pickUpCount: number;
-  upcomingEvents: Event[];
-};
-
-export const loader: LoaderFunction = async () => {
+export async function loader() {
   const [pickUpCount, upcomingEvents] = await Promise.all([
     prisma.animal.count(),
     prisma.event.findMany({
       where: { isVisible: true, endDate: { gte: new Date() } },
       orderBy: { endDate: "asc" },
-      select: eventSelect.select,
+      select: {
+        id: true,
+        image: true,
+        title: true,
+        url: true,
+        description: true,
+        startDate: true,
+        endDate: true,
+        isFullDay: true,
+        location: true,
+      },
     }),
   ]);
 
-  return json<LoaderDataServer>({
+  return json({
     // Round to nearest lower 50 multiple.
     pickUpCount: Math.floor(pickUpCount / 50) * 50,
     upcomingEvents,
   });
-};
-
-type LoaderDataClient = MapDateToString<LoaderDataServer>;
+}
 
 export default function HomePage() {
-  const { pickUpCount, upcomingEvents } = useLoaderData<LoaderDataClient>();
+  const { pickUpCount, upcomingEvents } = useLoaderData<typeof loader>();
 
   return (
     <main className="w-full px-page flex flex-col gap-24">
@@ -215,7 +200,7 @@ function WhoWeAreItem({
 function NumbersSection({
   pickUpCount,
 }: {
-  pickUpCount: LoaderDataClient["pickUpCount"];
+  pickUpCount: SerializeFrom<typeof loader>["pickUpCount"];
 }) {
   const years = DateTime.now()
     .diff(DateTime.fromISO("2018-04-10"), "years")
@@ -292,7 +277,7 @@ function NumberItem({
 function UpcomingEventsSection({
   upcomingEvents,
 }: {
-  upcomingEvents: LoaderDataClient["upcomingEvents"];
+  upcomingEvents: SerializeFrom<typeof loader>["upcomingEvents"];
 }) {
   if (upcomingEvents.length === 0) {
     return null;
