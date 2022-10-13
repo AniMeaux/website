@@ -1,7 +1,6 @@
-import { LoaderFunction } from "@remix-run/node";
 import { createConfig } from "~/core/config.server";
 
-export const loader: LoaderFunction = () => {
+export async function loader() {
   const config = createConfig();
   return new Response(`Sitemap: ${config.publicHost}/sitemap.xml`);
-};
+}

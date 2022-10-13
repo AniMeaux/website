@@ -1,8 +1,7 @@
 // learn more: https://fly.io/docs/reference/configuration/#services-http_checks
-import { LoaderFunction } from "@remix-run/node";
 import { createConfig } from "~/core/config.server";
 
-export const loader: LoaderFunction = async () => {
+export async function loader() {
   const config = createConfig();
 
   try {
@@ -21,4 +20,4 @@ export const loader: LoaderFunction = async () => {
     console.log("healthcheck ❌", { error });
     return new Response("ERROR", { status: 500 });
   }
-};
+}
