@@ -1,8 +1,8 @@
 import { UserGroup } from "@prisma/client";
-import { LoaderFunction, redirect } from "@remix-run/node";
+import { LoaderArgs, redirect } from "@remix-run/node";
 import { getCurrentUser } from "~/core/currentUser.server";
 
-export const loader: LoaderFunction = async ({ request }) => {
+export async function loader({ request }: LoaderArgs) {
   const currentUser = await getCurrentUser(request, {
     select: { groups: true },
   });
@@ -10,7 +10,7 @@ export const loader: LoaderFunction = async ({ request }) => {
   return redirect(
     USER_GROUP_LANDING_PAGE[getUserMainGroup(currentUser.groups)]
   );
-};
+}
 
 const USER_GROUP_LANDING_PAGE: Record<UserGroup, string> = {
   [UserGroup.ADMIN]: "/animals",

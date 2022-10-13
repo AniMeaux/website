@@ -1,4 +1,4 @@
-import { ActionFunction, json, redirect } from "@remix-run/node";
+import { ActionArgs, json, redirect } from "@remix-run/node";
 import { Form, useActionData } from "@remix-run/react";
 import { createPath } from "history";
 import { useEffect, useRef } from "react";
@@ -31,7 +31,7 @@ type ActionData = {
   errors?: z.inferFlattenedErrors<typeof ActionDataSchema>;
 };
 
-export const action: ActionFunction = async ({ request }) => {
+export async function action({ request }: ActionArgs) {
   const currentUser = await getCurrentUser(request, { select: { id: true } });
 
   const rawFormData = await request.formData();
@@ -62,7 +62,7 @@ export const action: ActionFunction = async ({ request }) => {
       ).toString(),
     })
   );
-};
+}
 
 const FORM_ID = "edit-password-form";
 

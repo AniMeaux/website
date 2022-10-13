@@ -1,9 +1,4 @@
-import {
-  ActionFunction,
-  json,
-  LoaderFunction,
-  redirect,
-} from "@remix-run/node";
+import { ActionArgs, json, LoaderArgs, redirect } from "@remix-run/node";
 import { Form, useActionData, useSearchParams } from "@remix-run/react";
 import { useEffect, useRef } from "react";
 import { z } from "zod";
@@ -27,7 +22,7 @@ export const handle: RouteHandle = {
   htmlBackgroundColor: "bg-white",
 };
 
-export const loader: LoaderFunction = async ({ request }) => {
+export async function loader({ request }: LoaderArgs) {
   let hasCurrentUser: boolean;
   try {
     await getCurrentUser(request, { select: {} });
@@ -42,7 +37,7 @@ export const loader: LoaderFunction = async ({ request }) => {
   }
 
   return null;
-};
+}
 
 const ActionDataSchema = z.object({
   email: z.string().email({ message: "Veuillez entrer un email valide" }),
@@ -53,7 +48,7 @@ type ActionData = {
   errors?: z.inferFlattenedErrors<typeof ActionDataSchema>;
 };
 
-export const action: ActionFunction = async ({ request }) => {
+export async function action({ request }: ActionArgs) {
   const rawFormData = await request.formData();
   const formData = ActionDataSchema.safeParse(
     Object.fromEntries(rawFormData.entries())
@@ -82,7 +77,7 @@ export const action: ActionFunction = async ({ request }) => {
   return redirect(getNext(rawFormData), {
     headers: { "Set-Cookie": await createUserSession(userId) },
   });
-};
+}
 
 async function verifyLogin({
   email,
@@ -115,7 +110,7 @@ async function verifyLogin({
 
 export default function LoginPage() {
   const [searchParams] = useSearchParams();
-  const actionData = useActionData<ActionData>();
+  const actionData = useActionData() as ActionData;
   const { formErrors = [], fieldErrors = {} } = actionData?.errors ?? {};
 
   const emailRef = useRef<HTMLInputElement>(null);
