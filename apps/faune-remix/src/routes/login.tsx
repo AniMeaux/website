@@ -1,5 +1,5 @@
 import { ActionArgs, json, LoaderArgs, redirect } from "@remix-run/node";
-import { Form, useActionData, useSearchParams } from "@remix-run/react";
+import { Form, useActionData } from "@remix-run/react";
 import { useEffect, useRef } from "react";
 import { z } from "zod";
 import { actionClassName } from "~/core/action";
@@ -13,7 +13,7 @@ import { PasswordInput } from "~/core/formElements/passwordInput";
 import { RouteHandle } from "~/core/handles";
 import { joinReactNodes } from "~/core/joinReactNodes";
 import { getPageTitle } from "~/core/pageTitle";
-import { getNext, NextParamInput } from "~/core/params";
+import { NextSearchParams } from "~/core/params";
 import { isSamePassword } from "~/core/password.server";
 import { Icon } from "~/generated/icon";
 import nameAndLogo from "~/images/nameAndLogo.svg";
@@ -25,15 +25,16 @@ export const handle: RouteHandle = {
 export async function loader({ request }: LoaderArgs) {
   let hasCurrentUser: boolean;
   try {
-    await getCurrentUser(request, { select: {} });
+    await getCurrentUser(request, { select: { id: true } });
     hasCurrentUser = true;
   } catch (error) {
     hasCurrentUser = false;
   }
 
   if (hasCurrentUser) {
-    const next = getNext(new URL(request.url).searchParams);
-    throw redirect(next);
+    const url = new URL(request.url);
+    const searchParams = new NextSearchParams(url.searchParams);
+    throw redirect(searchParams.getNext());
   }
 
   return null;
@@ -74,7 +75,9 @@ export async function action({ request }: ActionArgs) {
     );
   }
 
-  return redirect(getNext(rawFormData), {
+  const url = new URL(request.url);
+  const searchParams = new NextSearchParams(url.searchParams);
+  return redirect(searchParams.getNext(), {
     headers: { "Set-Cookie": await createUserSession(userId) },
   });
 }
@@ -109,7 +112,6 @@ async function verifyLogin({
 }
 
 export default function LoginPage() {
-  const [searchParams] = useSearchParams();
   const actionData = useActionData() as ActionData;
   const { formErrors = [], fieldErrors = {} } = actionData?.errors ?? {};
 
@@ -217,8 +219,6 @@ export default function LoginPage() {
               )}
             </div>
           </div>
-
-          <NextParamInput value={getNext(searchParams)} />
 
           <button type="submit" className={actionClassName()}>
             Se connecter

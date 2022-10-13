@@ -2,7 +2,7 @@ import { Prisma, User } from "@prisma/client";
 import { redirect } from "@remix-run/node";
 import { createPath } from "history";
 import { prisma } from "~/core/db.server";
-import { setNext } from "~/core/params";
+import { NextSearchParams } from "~/core/params";
 import {
   commitSession,
   destroySession,
@@ -36,10 +36,10 @@ export async function getCurrentUser<T extends Prisma.UserFindFirstArgs>(
 async function redirectToLogin(request: Request) {
   // Remove host from URL.
   const redirectTo = createPath(new URL(request.url));
-  const search = setNext(new URLSearchParams(), redirectTo);
+  const searchParams = new NextSearchParams().setNext(redirectTo);
 
   return redirect(
-    createPath({ pathname: "/login", search: search.toString() }),
+    createPath({ pathname: "/login", search: searchParams.toString() }),
     { headers: { "Set-Cookie": await destroyUserSession() } }
   );
 }

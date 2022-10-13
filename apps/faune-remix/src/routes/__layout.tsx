@@ -2,14 +2,12 @@ import { UserGroup } from "@prisma/client";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { json, LoaderArgs, SerializeFrom } from "@remix-run/node";
 import {
-  Form,
   Outlet,
+  useFetcher,
   useLoaderData,
   useLocation,
-  useSubmit,
 } from "@remix-run/react";
 import { createPath } from "history";
-import { useRef } from "react";
 import { BaseLink, BaseLinkProps } from "~/core/baseLink";
 import { getCurrentUser } from "~/core/currentUser.server";
 import { Adornment } from "~/core/formElements/adornment";
@@ -26,7 +24,7 @@ import {
   TabBarMenuItem,
 } from "~/core/layout/tabBar";
 import { getPageTitle } from "~/core/pageTitle";
-import { NextParamInput } from "~/core/params";
+import { NextSearchParams } from "~/core/params";
 import { Icon, IconProps } from "~/generated/icon";
 import nameAndLogo from "~/images/nameAndLogo.svg";
 import { UserAvatar } from "~/users/avatar";
@@ -53,7 +51,7 @@ export default function Layout() {
       <CurrentUserSideBar currentUser={currentUser} />
 
       <div className="flex flex-col items-center gap-1 md:pb-2 md:gap-2">
-        <header className="w-full bg-white px-safe-1 py-0.5 grid grid-cols-[minmax(0px,1fr)_auto] items-center justify-between gap-1 md:sticky md:top-0 md:px-2 md:py-1 md:grid-cols-[minmax(0px,66%)_auto] md:gap-4">
+        <header className="w-full bg-white px-safe-1 py-0.5 grid grid-cols-[minmax(0px,1fr)_auto] items-center justify-between gap-1 md:sticky md:top-0 md:z-20 md:px-2 md:py-1 md:grid-cols-[minmax(0px,66%)_auto] md:gap-4">
           <SearchInput />
           <CurrentUserMenu currentUser={currentUser} />
         </header>
@@ -206,8 +204,7 @@ function CurrentUserMenu({
 }: {
   currentUser: SerializeFrom<typeof loader>["currentUser"];
 }) {
-  const formRef = useRef<HTMLFormElement>(null);
-  const submit = useSubmit();
+  const fetcher = useFetcher();
   const location = useLocation();
 
   return (
@@ -262,12 +259,18 @@ function CurrentUserMenu({
 
           <DropdownMenu.Separator className="border-t border-gray-100" />
 
-          <Form ref={formRef} method="post" action="/logout" className="hidden">
-            <NextParamInput value={createPath(location)} />
-          </Form>
-
           <DropdownMenu.Item
-            onSelect={() => submit(formRef.current)}
+            onSelect={() =>
+              fetcher.submit(null, {
+                method: "post",
+                action: createPath({
+                  pathname: "/logout",
+                  search: new NextSearchParams()
+                    .setNext(createPath(location))
+                    .toString(),
+                }),
+              })
+            }
             className="rounded-0.5 pr-1 grid grid-cols-[auto,minmax(0px,1fr)] items-center text-gray-500 text-left cursor-pointer transition-colors duration-100 ease-in-out hover:bg-gray-100 active:bg-gray-100 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400"
           >
             <span className="w-4 h-4 flex items-center justify-center text-[20px]">
