@@ -1,19 +1,19 @@
 import { AnimalAge } from "@animeaux/shared";
 import { Species } from "@prisma/client";
-import { LoaderFunction, MetaFunction, redirect } from "@remix-run/node";
+import { LoaderArgs, MetaFunction, redirect } from "@remix-run/node";
 import { getPath } from "~/controllers/searchForm";
 import { createSocialMeta } from "~/core/meta";
 import { getPageTitle } from "~/core/pageTitle";
 import { ErrorPage, getErrorTitle } from "~/dataDisplay/errorPage";
 
-export const loader: LoaderFunction = async ({ params }) => {
+export async function loader({ params }: LoaderArgs) {
   const redirectTo = REDIRECTIONS[`/${params["*"]}`];
   if (redirectTo != null) {
     return redirect(redirectTo, 301);
   }
 
   return new Response("Not found", { status: 404 });
-};
+}
 
 export const meta: MetaFunction = () => {
   return createSocialMeta({ title: getPageTitle(getErrorTitle(404)) });

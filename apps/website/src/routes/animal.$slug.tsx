@@ -1,6 +1,6 @@
 import { formatAge } from "@animeaux/shared";
-import { Gender, Prisma } from "@prisma/client";
-import { json, LoaderFunction, MetaFunction } from "@remix-run/node";
+import { Gender } from "@prisma/client";
+import { json, LoaderArgs, MetaFunction, SerializeFrom } from "@remix-run/node";
 import { useCatch, useLoaderData } from "@remix-run/react";
 import { DateTime } from "luxon";
 import { useRef, useState } from "react";
@@ -12,7 +12,6 @@ import { actionClassNames } from "~/core/actions";
 import { BaseLink } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
 import { getConfig, useConfig } from "~/core/config";
-import { MapDateToString } from "~/core/dates";
 import { prisma } from "~/core/db.server";
 import { isDefined } from "~/core/isDefined";
 import { createSocialMeta } from "~/core/meta";
@@ -23,41 +22,11 @@ import { createCloudinaryUrl, DynamicImage } from "~/dataDisplay/image";
 import { Markdown, MarkdownProps } from "~/dataDisplay/markdown";
 import { Icon, IconProps } from "~/generated/icon";
 
-const animalSelect = Prisma.validator<Prisma.AnimalArgs>()({
-  select: {
-    id: true,
-    avatar: true,
-    pictures: true,
-    name: true,
-    gender: true,
-    birthdate: true,
-    description: true,
-    species: true,
-    breed: { select: { name: true } },
-    color: { select: { name: true } },
-    isOkChildren: true,
-    isOkDogs: true,
-    isOkCats: true,
-    fosterFamily: {
-      select: {
-        zipCode: true,
-        city: true,
-      },
-    },
-  },
-});
-
-type Animal = Prisma.AnimalGetPayload<typeof animalSelect>;
-
-type LoaderDataServer = {
-  animal: Animal;
-};
-
 const UuidSchema = z.string().uuid();
 
 const UUID_LENGTH = 36;
 
-export const loader: LoaderFunction = async ({ params }) => {
+export async function loader({ params }: LoaderArgs) {
   const result = UuidSchema.safeParse(params["slug"]?.slice(-UUID_LENGTH));
   if (!result.success) {
     throw new Response("Not found", { status: 404 });
@@ -65,18 +34,38 @@ export const loader: LoaderFunction = async ({ params }) => {
 
   const animal = await prisma.animal.findFirst({
     where: { id: result.data, status: { in: ADOPTABLE_ANIMAL_STATUS } },
-    select: animalSelect.select,
+    select: {
+      id: true,
+      avatar: true,
+      pictures: true,
+      name: true,
+      gender: true,
+      birthdate: true,
+      description: true,
+      species: true,
+      breed: { select: { name: true } },
+      color: { select: { name: true } },
+      isOkChildren: true,
+      isOkDogs: true,
+      isOkCats: true,
+      fosterFamily: {
+        select: {
+          zipCode: true,
+          city: true,
+        },
+      },
+    },
   });
 
   if (animal == null) {
     throw new Response("Not found", { status: 404 });
   }
 
-  return json<LoaderDataServer>({ animal });
-};
+  return json({ animal });
+}
 
-export const meta: MetaFunction = ({ data, parentsData }) => {
-  const animal = (data as LoaderDataServer | null)?.animal;
+export const meta: MetaFunction<typeof loader> = ({ data, parentsData }) => {
+  const animal = data?.animal;
   if (animal == null) {
     return createSocialMeta({ title: getPageTitle(getErrorTitle(404)) });
   }
@@ -96,10 +85,8 @@ export function CatchBoundary() {
   return <ErrorPage status={caught.status} />;
 }
 
-type LoaderDataClient = MapDateToString<LoaderDataServer>;
-
 export default function AnimalPage() {
-  const { animal } = useLoaderData<LoaderDataClient>();
+  const { animal } = useLoaderData<typeof loader>();
 
   return (
     <main className="w-full px-page flex flex-col gap-12">
@@ -184,7 +171,7 @@ function ImageSection({
   animal,
   className,
 }: {
-  animal: LoaderDataClient["animal"];
+  animal: SerializeFrom<typeof loader>["animal"];
   className: string;
 }) {
   const allPictures = [animal.avatar].concat(animal.pictures);
@@ -262,7 +249,7 @@ function InfoSection({
   animal,
   className,
 }: {
-  animal: LoaderDataClient["animal"];
+  animal: SerializeFrom<typeof loader>["animal"];
   className: string;
 }) {
   const speciesLabels = [
@@ -331,7 +318,7 @@ function AggrementsSection({
   animal,
   className,
 }: {
-  animal: LoaderDataClient["animal"];
+  animal: SerializeFrom<typeof loader>["animal"];
   className: string;
 }) {
   return (
@@ -408,7 +395,7 @@ function DescriptionSection({
   animal,
   className,
 }: {
-  animal: LoaderDataClient["animal"];
+  animal: SerializeFrom<typeof loader>["animal"];
   className: string;
 }) {
   return (

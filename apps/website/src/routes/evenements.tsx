@@ -1,10 +1,9 @@
 import { Prisma } from "@prisma/client";
-import { json, LoaderFunction, MetaFunction } from "@remix-run/node";
+import { json, MetaFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { actionClassNames } from "~/core/actions";
 import { BaseLink } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
-import { MapDateToString } from "~/core/dates";
 import { prisma } from "~/core/db.server";
 import { createSocialMeta } from "~/core/meta";
 import { getPageTitle } from "~/core/pageTitle";
@@ -29,16 +28,9 @@ const eventSelect = Prisma.validator<Prisma.EventArgs>()({
   },
 });
 
-type Event = Prisma.EventGetPayload<typeof eventSelect>;
-
-type LoaderDataServer = {
-  events: Event[];
-  pastEvents: Event[];
-};
-
 const PAST_EVENT_COUNT = 3;
 
-export const loader: LoaderFunction = async () => {
+export async function loader() {
   const [events, pastEvents] = await Promise.all([
     prisma.event.findMany({
       where: { isVisible: true, endDate: { gte: new Date() } },
@@ -53,17 +45,15 @@ export const loader: LoaderFunction = async () => {
     }),
   ]);
 
-  return json<LoaderDataServer>({ events, pastEvents });
-};
+  return json({ events, pastEvents });
+}
 
 export const meta: MetaFunction = () => {
   return createSocialMeta({ title: getPageTitle("Événements à venir") });
 };
 
-type LoaderDataClient = MapDateToString<LoaderDataServer>;
-
 export default function EventsPage() {
-  const { events, pastEvents } = useLoaderData<LoaderDataClient>();
+  const { events, pastEvents } = useLoaderData<typeof loader>();
 
   return (
     <>
