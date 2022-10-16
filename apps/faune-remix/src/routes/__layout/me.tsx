@@ -194,7 +194,6 @@ export default function CurrentUserPage() {
 
 const USER_BG_COLOR: Record<AvatarColor, string> = {
   blue: "bg-blue-50",
-  gray: "bg-gray-50",
   green: "bg-green-50",
   red: "bg-red-50",
   yellow: "bg-yellow-50",
