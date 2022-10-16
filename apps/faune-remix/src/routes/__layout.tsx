@@ -8,6 +8,7 @@ import {
   useLocation,
 } from "@remix-run/react";
 import { createPath } from "history";
+import { useEffect, useState } from "react";
 import { BaseLink, BaseLinkProps } from "~/core/baseLink";
 import { getCurrentUser } from "~/core/currentUser.server";
 import { Adornment } from "~/core/formElements/adornment";
@@ -115,12 +116,26 @@ function CurrentUserSideBar({
 }: {
   currentUser: SerializeFrom<typeof loader>["currentUser"];
 }) {
+  const [isOpened, setIsOpened] = useState(true);
+
+  useEffect(() => {
+    setIsOpened(!Boolean(localStorage.getItem("isSideBarCollapsed")));
+  }, []);
+
+  useEffect(() => {
+    if (isOpened) {
+      localStorage.removeItem("isSideBarCollapsed");
+    } else {
+      localStorage.setItem("isSideBarCollapsed", "true");
+    }
+  }, [isOpened]);
+
   const navigationItems = ALL_NAVIGATION_ITEMS.filter((item) =>
     hasGroups(currentUser, item.authorizedGroups)
   );
 
   return (
-    <SideBar>
+    <SideBar isOpened={isOpened} setIsOpened={setIsOpened}>
       <SideBarRootItem logo={nameAndLogo} to="/" alt={getPageTitle()} />
 
       <SideBarContent>

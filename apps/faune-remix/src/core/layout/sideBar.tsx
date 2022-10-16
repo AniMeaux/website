@@ -1,12 +1,15 @@
-import { useState } from "react";
 import { Transition } from "react-transition-group";
 import { BaseLink, BaseLinkProps } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
 import { Icon, IconProps } from "~/generated/icon";
 
-export function SideBar({ children }: { children?: React.ReactNode }) {
-  const [isOpened, setIsOpened] = useState(true);
+export type SideBarProps = {
+  isOpened: boolean;
+  setIsOpened: React.Dispatch<React.SetStateAction<boolean>>;
+  children?: React.ReactNode;
+};
 
+export function SideBar({ isOpened, setIsOpened, children }: SideBarProps) {
   return (
     <nav className="hidden sticky top-0 h-screen bg-white pl-safe-2 pt-safe-1 pb-safe-2 pr-2 md:flex">
       <Transition in={isOpened} timeout={200}>
