@@ -1,6 +1,7 @@
 import { useSearchParams } from "@remix-run/react";
 import { useState } from "react";
 import { z } from "zod";
+import { parseOrDefault } from "~/core/schemas";
 
 export class PageSearchParams extends URLSearchParams {
   static readonly KEY = "page";
@@ -76,16 +77,4 @@ export function useActionConfirmation(action: ActionConfirmationType) {
   );
 
   return { isVisible, clear: () => setIsVisible(false) };
-}
-
-function parseOrDefault<TSchema extends z.ZodType<any, any, any>>(
-  schema: TSchema,
-  value: unknown
-): z.infer<TSchema> {
-  const result = schema.safeParse(value);
-  if (result.success) {
-    return result.data;
-  }
-
-  return schema.parse(undefined);
 }

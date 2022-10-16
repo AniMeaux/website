@@ -35,7 +35,15 @@ module.exports = {
       full: "9999px",
     },
 
+    boxShadow: {
+      ambient: "0px 8px 20px rgba(0, 0, 0, 0.06)",
+    },
+
     extend: {
+      flex: {
+        2: "2 2 0%",
+      },
+
       fontFamily: {
         serif: ['"Open Sans"', ...defaultTheme.fontFamily.serif],
         sans: ["Roboto", ...defaultTheme.fontFamily.sans],
@@ -158,21 +166,40 @@ module.exports = {
       );
     }),
 
-    plugin(({ matchUtilities }) => {
+    plugin(({ matchUtilities, theme }) => {
       matchUtilities(
         {
-          scrollbars: () => ({
-            "&::-webkit-scrollbar": {
-              width: 0,
-              height: 0,
-              display: "none",
-            },
-            "&::-webkit-scrollbar-track-piece": {
-              "background-color": "transparent",
-            },
-          }),
+          scrollbars: (value) => {
+            if (value === "none") {
+              return {
+                "&::-webkit-scrollbar": {
+                  width: 0,
+                  height: 0,
+                  display: "none",
+                },
+                "&::-webkit-scrollbar-track-piece": {
+                  "background-color": "transparent",
+                },
+              };
+            }
+
+            return {
+              "&::-webkit-scrollbar": {
+                width: "5px",
+                height: "5px",
+              },
+              "&::-webkit-scrollbar-thumb": {
+                "background-color": theme("colors.gray.200"),
+              },
+            };
+          },
         },
-        { values: { none: "none" } }
+        {
+          values: {
+            none: "none",
+            custom: "custom",
+          },
+        }
       );
     }),
 

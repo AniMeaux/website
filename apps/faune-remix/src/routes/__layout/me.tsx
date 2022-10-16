@@ -175,7 +175,11 @@ export default function CurrentUserPage() {
                       key={animal.id}
                       className="flex-none flex flex-col first:pl-1 last:pr-1 md:first:pl-2 md:last:pr-2"
                     >
-                      <AnimalItem animal={animal} className="w-[150px]" />
+                      <AnimalItem
+                        animal={animal}
+                        imageSizes={{ default: "300px" }}
+                        className="w-[150px]"
+                      />
                     </li>
                   ))}
                 </ul>
