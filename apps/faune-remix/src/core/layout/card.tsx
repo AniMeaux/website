@@ -70,17 +70,18 @@ export function CardContent({
 
 export function CardFooter({
   children,
+  isTransparent = false,
   className,
 }: {
   children?: React.ReactNode;
+  isTransparent?: boolean;
   className?: string;
 }) {
   return (
     <footer
-      className={cn(
-        className,
-        "flex-none bg-white p-1 flex gap-1 md:p-2 md:gap-2"
-      )}
+      className={cn(className, "flex-none p-1 flex gap-1 md:p-2 md:gap-2", {
+        "bg-white": !isTransparent,
+      })}
     >
       {children}
     </footer>
