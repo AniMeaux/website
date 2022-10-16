@@ -14,8 +14,23 @@ export function Card({
   );
 }
 
-export function CardHeader({ children }: { children?: React.ReactNode }) {
-  return <header className="p-1 flex gap-1 md:p-2 md:gap-2">{children}</header>;
+export function CardHeader({
+  children,
+  className,
+}: {
+  children?: React.ReactNode;
+  className?: string;
+}) {
+  return (
+    <header
+      className={cn(
+        className,
+        "flex-none bg-white p-1 flex gap-1 md:p-2 md:gap-2"
+      )}
+    >
+      {children}
+    </header>
+  );
 }
 
 export function CardTitle({ children }: { children?: React.ReactNode }) {
@@ -29,15 +44,23 @@ export function CardTitle({ children }: { children?: React.ReactNode }) {
 export function CardContent({
   children,
   hasHorizontalScroll = false,
+  hasVerticalScroll = false,
 }: {
   children?: React.ReactNode;
   hasHorizontalScroll?: boolean;
+  hasVerticalScroll?: boolean;
 }) {
   return (
     <div
       className={cn(
         "flex flex-col first:pt-1 last:pb-1 md:first:pt-2 md:last:pb-2",
-        hasHorizontalScroll ? "overflow-x-auto" : "px-1 md:px-2"
+        hasHorizontalScroll
+          ? "scrollbars-none overflow-x-auto"
+          : "px-1 md:px-2",
+        {
+          "flex-1 overflow-y-auto scrollbars-custom overscroll-contain":
+            hasVerticalScroll,
+        }
       )}
     >
       {children}
@@ -45,9 +68,20 @@ export function CardContent({
   );
 }
 
-export function CardFooter({ children }: { children?: React.ReactNode }) {
+export function CardFooter({
+  children,
+  className,
+}: {
+  children?: React.ReactNode;
+  className?: string;
+}) {
   return (
-    <footer className="p-1 flex justify-end gap-1 md:p-2 md:gap-2">
+    <footer
+      className={cn(
+        className,
+        "flex-none bg-white p-1 flex gap-1 md:p-2 md:gap-2"
+      )}
+    >
       {children}
     </footer>
   );

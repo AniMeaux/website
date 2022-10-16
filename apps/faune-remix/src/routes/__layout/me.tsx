@@ -52,7 +52,7 @@ export default function CurrentUserPage() {
       <EditSuccessHelper />
       <EditPasswordSuccessHelper />
 
-      <Card className="sticky top-0">
+      <Card>
         <div
           className={cn(
             "h-6 flex md:h-10",
@@ -146,7 +146,7 @@ export default function CurrentUserPage() {
               )}
             </CardHeader>
 
-            <CardContent hasHorizontalScroll>
+            <CardContent hasHorizontalScroll={managedAnimals.length > 0}>
               {managedAnimals.length === 0 ? (
                 <Empty
                   isCompact

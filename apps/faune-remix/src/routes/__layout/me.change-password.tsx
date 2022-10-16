@@ -138,7 +138,7 @@ export default function EditCurrentUserPasswordPage() {
           </Form>
         </CardContent>
 
-        <CardFooter>
+        <CardFooter className="justify-end">
           <button
             form={FORM_ID}
             className={cn(actionClassName(), "w-full md:w-auto")}
