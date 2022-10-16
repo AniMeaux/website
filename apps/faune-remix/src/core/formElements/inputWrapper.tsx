@@ -76,7 +76,7 @@ export function inputClassName({
   const rightAdornmentCount = ensureArray(rightAdornment).length;
 
   return cn(
-    "appearance-none w-full min-w-0 rounded-0.5 ring-inset ring-1 py-1 placeholder:text-gray-500 focus-visible:outline-none focus-visible:ring-outset focus-visible:ring",
+    "appearance-none w-full min-w-0 min-h-[40px] rounded-0.5 ring-inset ring-1 bg-transparent py-1 placeholder:text-gray-500 focus-visible:outline-none focus-visible:ring-outset focus-visible:ring",
     {
       "ring-red-500 focus-visible:ring-red-400": hasError,
       "ring-gray-200 focus-visible:ring-blue-400": !hasError,

@@ -35,11 +35,11 @@ module.exports = {
       full: "9999px",
     },
 
-    boxShadow: {
-      ambient: "0px 8px 20px rgba(0, 0, 0, 0.06)",
-    },
-
     extend: {
+      boxShadow: {
+        ambient: "0px 8px 20px rgba(0, 0, 0, 0.06)",
+      },
+
       flex: {
         2: "2 2 0%",
       },
@@ -169,6 +169,18 @@ module.exports = {
     plugin(({ matchUtilities, theme }) => {
       matchUtilities(
         {
+          "top-safe": (value) => createSafePosition("top", value),
+          "right-safe": (value) => createSafePosition("right", value),
+          "bottom-safe": (value) => createSafePosition("bottom", value),
+          "left-safe": (value) => createSafePosition("left", value),
+        },
+        { values: theme("spacing") }
+      );
+    }),
+
+    plugin(({ matchUtilities, theme }) => {
+      matchUtilities(
+        {
           scrollbars: (value) => {
             if (value === "none") {
               return {
@@ -238,6 +250,27 @@ function createSafePadding(side, value) {
 
   return {
     [name]: [
+      // Fallback value for browsers that don't support `env`.
+      `${value}`,
+      `calc(${value} + env(${envVariable}, 0))`,
+    ],
+  };
+}
+
+/**
+ * @param {"top" | "right" | "bottom" | "left"} side
+ * @param {string} value
+ */
+function createSafePosition(side, value) {
+  const envVariable = {
+    top: "safe-area-inset-top",
+    right: "safe-area-inset-right",
+    bottom: "safe-area-inset-bottom",
+    left: "safe-area-inset-left",
+  }[side];
+
+  return {
+    [side]: [
       // Fallback value for browsers that don't support `env`.
       `${value}`,
       `calc(${value} + env(${envVariable}, 0))`,
