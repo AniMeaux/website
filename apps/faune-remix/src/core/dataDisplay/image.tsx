@@ -22,14 +22,7 @@ const SCREEN_SIZES = orderBy(
   .map(([name]) => name)
   .concat("default");
 
-export function DynamicImage({
-  imageId,
-  alt,
-  sizes: sizesProp,
-  fallbackSize,
-  loading = "lazy",
-  className,
-}: {
+export type DynamicImageProps = {
   imageId: string;
   alt: string;
   sizes: Partial<Record<ScreenSize, string>> & {
@@ -39,7 +32,16 @@ export function DynamicImage({
   fallbackSize: ImageSize;
   loading?: "lazy" | "eager";
   className?: string;
-}) {
+};
+
+export function DynamicImage({
+  imageId,
+  alt,
+  sizes: sizesProp,
+  fallbackSize,
+  loading = "lazy",
+  className,
+}: DynamicImageProps) {
   const config = useConfig();
 
   const srcSet = IMAGE_SIZES.map((size) => {

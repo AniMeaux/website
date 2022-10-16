@@ -19,7 +19,10 @@ import {
   CardHeader,
   CardTitle,
 } from "~/core/layout/card";
-import { ActionConfirmationType, setActionConfirmation } from "~/core/params";
+import {
+  ActionConfirmationSearchParams,
+  ActionConfirmationType,
+} from "~/core/params";
 import { generatePasswordHash } from "~/core/password.server";
 import { Icon } from "~/generated/icon";
 
@@ -56,10 +59,9 @@ export async function action({ request }: ActionArgs) {
   return redirect(
     createPath({
       pathname: "/me",
-      search: setActionConfirmation(
-        new URLSearchParams(),
-        ActionConfirmationType.EDIT_PASSWORD
-      ).toString(),
+      search: new ActionConfirmationSearchParams()
+        .setConfirmation(ActionConfirmationType.EDIT_PASSWORD)
+        .toString(),
     })
   );
 }
@@ -136,7 +138,7 @@ export default function EditCurrentUserPasswordPage() {
           </Form>
         </CardContent>
 
-        <CardFooter>
+        <CardFooter className="justify-end">
           <button
             form={FORM_ID}
             className={cn(actionClassName(), "w-full md:w-auto")}

@@ -1,8 +1,9 @@
-import { Prisma, User } from "@prisma/client";
+import { hasGroups } from "@animeaux/shared";
+import { Prisma, User, UserGroup } from "@prisma/client";
 import { redirect } from "@remix-run/node";
 import { createPath } from "history";
 import { prisma } from "~/core/db.server";
-import { setNext } from "~/core/params";
+import { NextSearchParams } from "~/core/params";
 import {
   commitSession,
   destroySession,
@@ -36,10 +37,10 @@ export async function getCurrentUser<T extends Prisma.UserFindFirstArgs>(
 async function redirectToLogin(request: Request) {
   // Remove host from URL.
   const redirectTo = createPath(new URL(request.url));
-  const search = setNext(new URLSearchParams(), redirectTo);
+  const searchParams = new NextSearchParams().setNext(redirectTo);
 
   return redirect(
-    createPath({ pathname: "/login", search: search.toString() }),
+    createPath({ pathname: "/login", search: searchParams.toString() }),
     { headers: { "Set-Cookie": await destroyUserSession() } }
   );
 }
@@ -53,4 +54,13 @@ export async function createUserSession(userId: User["id"]) {
 export async function destroyUserSession() {
   const session = await getSession();
   return await destroySession(session);
+}
+
+export function assertCurrentUserHasGroups(
+  user: Pick<User, "groups">,
+  groups: UserGroup[]
+) {
+  if (!hasGroups(user, groups)) {
+    throw new Response("Forbidden", { status: 403 });
+  }
 }

@@ -52,7 +52,7 @@ export default function CurrentUserPage() {
       <EditSuccessHelper />
       <EditPasswordSuccessHelper />
 
-      <Card className="sticky top-0">
+      <Card>
         <div
           className={cn(
             "h-6 flex md:h-10",
@@ -146,7 +146,7 @@ export default function CurrentUserPage() {
               )}
             </CardHeader>
 
-            <CardContent hasHorizontalScroll>
+            <CardContent hasHorizontalScroll={managedAnimals.length > 0}>
               {managedAnimals.length === 0 ? (
                 <Empty
                   isCompact
@@ -175,7 +175,11 @@ export default function CurrentUserPage() {
                       key={animal.id}
                       className="flex-none flex flex-col first:pl-1 last:pr-1 md:first:pl-2 md:last:pr-2"
                     >
-                      <AnimalItem animal={animal} className="w-[150px]" />
+                      <AnimalItem
+                        animal={animal}
+                        imageSizes={{ default: "300px" }}
+                        className="w-[150px]"
+                      />
                     </li>
                   ))}
                 </ul>
@@ -190,7 +194,6 @@ export default function CurrentUserPage() {
 
 const USER_BG_COLOR: Record<AvatarColor, string> = {
   blue: "bg-blue-50",
-  gray: "bg-gray-50",
   green: "bg-green-50",
   red: "bg-red-50",
   yellow: "bg-yellow-50",

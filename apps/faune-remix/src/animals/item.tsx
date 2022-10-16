@@ -3,11 +3,13 @@ import { GENDER_ICON, GENDER_TRANSLATION } from "~/animals/gender";
 import { StatusBadge } from "~/animals/status";
 import { BaseLink } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
-import { DynamicImage } from "~/core/dataDisplay/image";
+import { DynamicImage, DynamicImageProps } from "~/core/dataDisplay/image";
 import { Icon } from "~/generated/icon";
 
 export function AnimalItem({
   animal,
+  imageSizes,
+  imageLoading,
   className,
 }: {
   animal: Pick<
@@ -16,6 +18,8 @@ export function AnimalItem({
   > & {
     manager?: Pick<User, "displayName"> | null;
   };
+  imageSizes: DynamicImageProps["sizes"];
+  imageLoading?: DynamicImageProps["loading"];
   className?: string;
 }) {
   return (
@@ -25,10 +29,11 @@ export function AnimalItem({
     >
       <span className="relative flex flex-col">
         <DynamicImage
+          loading={imageLoading}
           imageId={animal.avatar}
           alt={animal.name}
           fallbackSize="512"
-          sizes={{ default: "300px" }}
+          sizes={imageSizes}
           className="w-full aspect-4/3 flex-none rounded-1"
         />
 
@@ -52,7 +57,7 @@ export function AnimalItem({
 
           <span
             className={cn(
-              "flex-1 text-body-default transition-colors duration-100 ease-in-out",
+              "flex-1 text-body-emphasis transition-colors duration-100 ease-in-out",
               {
                 "group-hover:text-blue-500": animal.gender === Gender.MALE,
                 "group-hover:text-pink-500": animal.gender === Gender.FEMALE,

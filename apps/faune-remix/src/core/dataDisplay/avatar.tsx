@@ -1,7 +1,7 @@
 import { cn } from "~/core/classNames";
 import { Icon, IconProps } from "~/generated/icon";
 
-const AVATAR_COLORS = ["blue", "gray", "green", "red", "yellow"] as const;
+const AVATAR_COLORS = ["blue", "green", "red", "yellow"] as const;
 export type AvatarColor = typeof AVATAR_COLORS[number];
 type AvatarSize = "sm" | "lg" | "xl";
 
@@ -16,7 +16,7 @@ export type AvatarProps = {
 export function Avatar({
   icon,
   letter,
-  color = "gray",
+  color = "blue",
   size = "sm",
   className,
 }: AvatarProps) {
@@ -32,7 +32,6 @@ export function Avatar({
         },
         {
           "bg-blue-100 text-blue-600": color === "blue",
-          "bg-gray-200 text-gray-700": color === "gray",
           "bg-green-100 text-green-700": color === "green",
           "bg-yellow-100 text-yellow-600": color === "yellow",
           "bg-red-100 text-red-600": color === "red",

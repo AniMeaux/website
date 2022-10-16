@@ -1,6 +1,6 @@
 import { cn } from "~/core/classNames";
 
-type ActionVariant = "primary" | "secondary" | "text";
+type ActionVariant = "primary" | "secondary" | "text" | "floating";
 export type ActionColor = "blue" | "gray" | "amber" | "red" | "green";
 
 export function actionClassName({
@@ -8,19 +8,30 @@ export function actionClassName({
   color = "blue",
 }: { variant?: ActionVariant; color?: ActionColor } = {}) {
   return cn(
-    "flex-none rounded-0.5 flex items-center justify-center gap-0.5 text-body-emphasis duration-100 ease-in-out active:scale-95 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white",
+    "flex-none flex items-center justify-center gap-0.5 text-body-emphasis duration-100 ease-in-out active:scale-95 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white",
     VARIANT_CLASS_NAME[variant],
     COLOR_CLASS_NAMES[variant][color]
   );
 }
 
 const VARIANT_CLASS_NAME: Record<ActionVariant, string> = {
-  primary: "min-w-[40px] h-4 px-2 transition-[background-color,transform]",
-  secondary: "min-w-[40px] h-4 px-2 transition-[background-color,transform]",
-  text: "min-w-[20px] h-2 transition-[color,transform]",
+  floating:
+    "shadow-ambient w-4 h-4 rounded-full justify-center transition-[background-color,transform]",
+  primary:
+    "rounded-0.5 min-w-[40px] h-4 px-2 transition-[background-color,transform]",
+  secondary:
+    "rounded-0.5 min-w-[40px] h-4 px-2 transition-[background-color,transform]",
+  text: "rounded-0.5 min-w-[20px] h-2 transition-[color,transform]",
 };
 
 const COLOR_CLASS_NAMES: Record<ActionVariant, Record<ActionColor, string>> = {
+  floating: {
+    amber: "",
+    blue: "bg-blue-500 text-white hover:bg-blue-400",
+    gray: "",
+    green: "",
+    red: "",
+  },
   primary: {
     amber: "",
     blue: "bg-blue-500 text-white hover:bg-blue-400",

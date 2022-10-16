@@ -1,5 +1,13 @@
 import { Status } from "@prisma/client";
+import orderBy from "lodash.orderby";
 import { cn } from "~/core/classNames";
+
+export const ACTIVE_ANIMAL_STATUS: Status[] = [
+  Status.OPEN_TO_ADOPTION,
+  Status.OPEN_TO_RESERVATION,
+  Status.RESERVED,
+  Status.UNAVAILABLE,
+];
 
 export function StatusBadge({
   status,
@@ -13,15 +21,34 @@ export function StatusBadge({
       className={cn(
         className,
         "rounded-0.5 px-0.5 inline-flex text-white text-caption-emphasis",
-        ANIMAL_STATUS_CLASS_NAMES[status]
+        STATUS_CLASS_NAMES[status]
       )}
     >
-      {ANIMAL_STATUS_TRANSLATION[status]}
+      {STATUS_TRANSLATION[status]}
     </span>
   );
 }
 
-const ANIMAL_STATUS_CLASS_NAMES: Record<Status, string> = {
+export function StatusIcon({
+  status,
+  className,
+}: {
+  status: Status;
+  className?: string;
+}) {
+  return (
+    <span
+      title={STATUS_TRANSLATION[status]}
+      className={cn(
+        className,
+        "rounded-0.5 w-[1em] aspect-square inline-flex",
+        STATUS_CLASS_NAMES[status]
+      )}
+    />
+  );
+}
+
+const STATUS_CLASS_NAMES: Record<Status, string> = {
   [Status.ADOPTED]: "bg-green-600",
   [Status.DECEASED]: "bg-gray-800",
   [Status.FREE]: "bg-gray-800",
@@ -31,7 +58,7 @@ const ANIMAL_STATUS_CLASS_NAMES: Record<Status, string> = {
   [Status.UNAVAILABLE]: "bg-gray-800",
 };
 
-const ANIMAL_STATUS_TRANSLATION: Record<Status, string> = {
+export const STATUS_TRANSLATION: Record<Status, string> = {
   [Status.ADOPTED]: "Adopté",
   [Status.DECEASED]: "Décédé",
   [Status.FREE]: "Libre",
@@ -40,3 +67,8 @@ const ANIMAL_STATUS_TRANSLATION: Record<Status, string> = {
   [Status.RESERVED]: "Réservé",
   [Status.UNAVAILABLE]: "Indisponible",
 };
+
+export const SORTED_STATUS = orderBy(
+  Object.values(Status),
+  (status) => STATUS_TRANSLATION[status]
+);
