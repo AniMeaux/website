@@ -1,7 +1,12 @@
-import { scrypt, timingSafeEqual } from "crypto";
+import { randomBytes, scrypt, timingSafeEqual } from "crypto";
 import invariant from "tiny-invariant";
 
 const SEPARATOR = ".";
+
+export async function generatePasswordHash(password: string) {
+  const salt = randomBytes(16).toString("hex");
+  return `${await hashPassword(password, salt)}${SEPARATOR}${salt}`;
+}
 
 export async function isSamePassword(password: string, hash: string) {
   const [hashedPassword, salt] = hash.split(SEPARATOR);

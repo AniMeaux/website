@@ -1,6 +1,7 @@
 import orderBy from "lodash.orderby";
 import invariant from "tiny-invariant";
 import { cn } from "~/core/classNames";
+import { useConfig } from "~/core/config";
 import { ScreenSize, theme } from "~/generated/theme";
 
 // Ordered by decreasing size.
@@ -62,8 +63,6 @@ export function StaticImage({
   }, []).join(",");
 
   return (
-    // Alt text is in the rest props.
-    // eslint-disable-next-line jsx-a11y/alt-text
     <img
       alt={image.alt}
       loading={loading}
@@ -75,4 +74,78 @@ export function StaticImage({
       className={cn(className, "object-cover")}
     />
   );
+}
+
+export function DynamicImage({
+  imageId,
+  alt,
+  sizes,
+  fallbackSize,
+  loading,
+  className,
+}: {
+  imageId: string;
+  alt: string;
+  sizes: StaticImageProps["sizes"];
+  fallbackSize: NonNullable<StaticImageProps["fallbackSize"]>;
+  loading?: StaticImageProps["loading"];
+  className?: string;
+}) {
+  const config = useConfig();
+  const image: StaticImageProps["image"] = {
+    alt,
+    imagesBySize: Object.fromEntries(
+      IMAGE_SIZES.map((size) => [
+        size,
+        createCloudinaryUrl(config.cloudinaryName, imageId, {
+          size,
+        }),
+      ])
+    ),
+  };
+
+  return (
+    <StaticImage
+      image={image}
+      fallbackSize={fallbackSize}
+      sizes={sizes}
+      loading={loading}
+      className={cn(className, "bg-gray-100")}
+    />
+  );
+}
+
+function createCloudinaryUrl(
+  cloudName: string,
+  imageId: string,
+  {
+    size,
+    aspectRatio = "4:3",
+  }: {
+    size: ImageSize;
+    aspectRatio?: "4:3" | "16:9";
+  }
+) {
+  const transformations = [
+    `w_${size}`,
+    // https://cloudinary.com/documentation/transformation_reference#ar_aspect_ratio
+    `ar_${aspectRatio}`,
+    // https://cloudinary.com/documentation/transformation_reference#c_pad
+    "c_pad",
+    // https://cloudinary.com/documentation/transformation_reference#b_auto
+    "b_auto",
+    // https://cloudinary.com/documentation/image_optimization#automatic_quality_selection_q_auto
+    "q_auto",
+    // When using devtools to emulate different browsers, Cloudinary may return a
+    // format that is unsupported by the main browser, so images may not display
+    // as expected. For example, if using Chrome dev tools to emulate an iPhone
+    // Safari browser, a JPEG-2000 may be returned, which Chrome does not support.
+    // See: https://cloudinary.com/documentation/image_optimization#tips_and_considerations_for_using_f_auto
+    // https://cloudinary.com/documentation/image_transformations#f_auto
+    "f_auto",
+  ];
+
+  const transformationsStr = transformations.join(",");
+
+  return `https://res.cloudinary.com/${cloudName}/image/upload/${transformationsStr}/${imageId}`;
 }

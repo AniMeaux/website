@@ -22,7 +22,7 @@ export function InputWrapper({
 
   return (
     <span
-      className={cn(className, "relative inline-flex", {
+      className={cn(className, "relative inline-grid grid-cols-1", {
         "opacity-60": isDisabled,
       })}
     >
@@ -51,7 +51,7 @@ function AdornmentContainer({
   return (
     <span
       className={cn(
-        "absolute top-1 flex items-center gap-0.5 pointer-events-none",
+        "absolute top-1 grid grid-flow-col items-center gap-0.5 pointer-events-none",
         {
           "left-1": side === "left",
           "right-1": side === "right",
@@ -76,7 +76,7 @@ export function inputClassName({
   const rightAdornmentCount = ensureArray(rightAdornment).length;
 
   return cn(
-    "appearance-none w-full min-w-0 rounded-0.5 ring-inset ring-1 py-1 placeholder:text-gray-500 focus-visible:outline-none focus-visible:ring-outset focus-visible:ring",
+    "appearance-none w-full min-w-0 min-h-[40px] rounded-0.5 ring-inset ring-1 bg-transparent py-1 placeholder:text-gray-500 focus-visible:outline-none focus-visible:ring-outset focus-visible:ring",
     {
       "ring-red-500 focus-visible:ring-red-400": hasError,
       "ring-gray-200 focus-visible:ring-blue-400": !hasError,

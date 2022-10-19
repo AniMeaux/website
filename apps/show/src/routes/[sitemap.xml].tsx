@@ -1,4 +1,3 @@
-import { LoaderFunction } from "@remix-run/node";
 import { renderToStaticMarkup } from "react-dom/server";
 import { createConfig } from "~/core/config.server";
 
@@ -47,7 +46,7 @@ const urlDefinitions: UrlDefinition[] = [
   { path: "/programme", changeFrequency: "weekly" },
 ];
 
-export const loader: LoaderFunction = () => {
+export async function loader() {
   const config = createConfig();
 
   const markup = renderToStaticMarkup(
@@ -67,4 +66,4 @@ export const loader: LoaderFunction = () => {
       "Content-Type": "application/xml",
     },
   });
-};
+}

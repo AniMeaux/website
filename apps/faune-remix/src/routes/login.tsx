@@ -1,54 +1,55 @@
-import {
-  ActionFunction,
-  json,
-  LoaderFunction,
-  redirect,
-} from "@remix-run/node";
-import { Form, useActionData, useSearchParams } from "@remix-run/react";
+import { ActionArgs, json, LoaderArgs, redirect } from "@remix-run/node";
+import { Form, useActionData } from "@remix-run/react";
 import { useEffect, useRef } from "react";
 import { z } from "zod";
 import { actionClassName } from "~/core/action";
-import { createUserSession, getCurrentUserId } from "~/core/currentUser.server";
+import { createUserSession, getCurrentUser } from "~/core/currentUser.server";
 import { Helper } from "~/core/dataDisplay/helper";
 import { prisma } from "~/core/db.server";
 import { Adornment } from "~/core/formElements/adornment";
 import { formClassNames } from "~/core/formElements/form";
 import { Input } from "~/core/formElements/input";
 import { PasswordInput } from "~/core/formElements/passwordInput";
+import { RouteHandle } from "~/core/handles";
 import { joinReactNodes } from "~/core/joinReactNodes";
 import { getPageTitle } from "~/core/pageTitle";
-import { getNext, NextParamInput } from "~/core/params";
+import { NextSearchParams } from "~/core/params";
 import { isSamePassword } from "~/core/password.server";
 import { Icon } from "~/generated/icon";
 import nameAndLogo from "~/images/nameAndLogo.svg";
 
-export const loader: LoaderFunction = async ({ request }) => {
+export const handle: RouteHandle = {
+  htmlBackgroundColor: "bg-white",
+};
+
+export async function loader({ request }: LoaderArgs) {
   let hasCurrentUser: boolean;
   try {
-    await getCurrentUserId(request);
+    await getCurrentUser(request, { select: { id: true } });
     hasCurrentUser = true;
   } catch (error) {
     hasCurrentUser = false;
   }
 
   if (hasCurrentUser) {
-    const next = getNext(new URL(request.url).searchParams);
-    throw redirect(next);
+    const url = new URL(request.url);
+    const searchParams = new NextSearchParams(url.searchParams);
+    throw redirect(searchParams.getNext());
   }
 
   return null;
-};
+}
 
 const ActionDataSchema = z.object({
-  email: z.string().email({ message: "Email invalide" }),
-  password: z.string().min(1, { message: "Mot de passe obligatoire" }),
+  email: z.string().email({ message: "Veuillez entrer un email valide" }),
+  password: z.string().min(1, { message: "Veuillez entrer un mot de passe" }),
 });
 
 type ActionData = {
   errors?: z.inferFlattenedErrors<typeof ActionDataSchema>;
 };
 
-export const action: ActionFunction = async ({ request }) => {
+export async function action({ request }: ActionArgs) {
   const rawFormData = await request.formData();
   const formData = ActionDataSchema.safeParse(
     Object.fromEntries(rawFormData.entries())
@@ -74,10 +75,12 @@ export const action: ActionFunction = async ({ request }) => {
     );
   }
 
-  return redirect(getNext(rawFormData), {
+  const url = new URL(request.url);
+  const searchParams = new NextSearchParams(url.searchParams);
+  return redirect(searchParams.getNext(), {
     headers: { "Set-Cookie": await createUserSession(userId) },
   });
-};
+}
 
 async function verifyLogin({
   email,
@@ -109,8 +112,7 @@ async function verifyLogin({
 }
 
 export default function LoginPage() {
-  const [searchParams] = useSearchParams();
-  const actionData = useActionData<ActionData>();
+  const actionData = useActionData() as ActionData;
   const { formErrors = [], fieldErrors = {} } = actionData?.errors ?? {};
 
   const emailRef = useRef<HTMLInputElement>(null);
@@ -128,23 +130,23 @@ export default function LoginPage() {
   }, [actionData]);
 
   return (
-    <main className="w-full grid grid-cols-[minmax(0px,500px)] auto-rows-auto justify-center justify-items-center md:min-h-screen md:grid-cols-[1fr_minmax(500px,1fr)]">
-      <section className="hidden w-full bg-blue-500 md:flex" />
+    <main className="w-full grid grid-cols-[minmax(0px,500px)] justify-center justify-items-center md:min-h-screen md:grid-cols-[1fr_minmax(500px,1fr)]">
+      <section className="hidden w-full bg-blue-500 md:block" />
 
-      <section className="w-full max-w-[500px] p-safe-2 flex flex-col gap-4 md:pl-4 md:pr-safe-4 md:py-safe-4">
+      <section className="w-full max-w-[500px] p-safe-2 grid grid-cols-1 content-start gap-4 md:pl-4 md:pr-safe-4 md:py-safe-4">
         <img
           src={nameAndLogo}
           alt={getPageTitle()}
-          className="self-start h-3"
+          className="self-start h-3 md:h-4"
         />
 
         <h1 className="text-title-hero-small md:mt-[10vh] md:text-title-hero-large">
           Bienvenue
         </h1>
 
-        <Form method="post" noValidate className={formClassNames.root()}>
+        <Form method="post" noValidate className="flex flex-col gap-3">
           {formErrors.length > 0 && (
-            <Helper id="form-errors">
+            <Helper isCompact variant="error">
               {joinReactNodes(formErrors, <br />)}
             </Helper>
           )}
@@ -217,8 +219,6 @@ export default function LoginPage() {
               )}
             </div>
           </div>
-
-          <NextParamInput value={getNext(searchParams)} />
 
           <button type="submit" className={actionClassName()}>
             Se connecter

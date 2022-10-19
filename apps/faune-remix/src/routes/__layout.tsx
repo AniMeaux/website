@@ -1,12 +1,17 @@
-import { hasGroups } from "@animeaux/shared";
-import { Prisma, UserGroup } from "@prisma/client";
-import { json, LoaderFunction } from "@remix-run/node";
-import { Form, Outlet, useLoaderData, useLocation } from "@remix-run/react";
+import { UserGroup } from "@prisma/client";
+import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
+import { json, LoaderArgs, SerializeFrom } from "@remix-run/node";
+import {
+  Outlet,
+  useFetcher,
+  useLoaderData,
+  useLocation,
+} from "@remix-run/react";
 import { createPath } from "history";
-import invariant from "tiny-invariant";
+import { useEffect, useState } from "react";
 import { BaseLink, BaseLinkProps } from "~/core/baseLink";
-import { getCurrentUserId } from "~/core/currentUser.server";
-import { prisma } from "~/core/db.server";
+import { getCurrentUser } from "~/core/currentUser.server";
+import { Adornment } from "~/core/formElements/adornment";
 import {
   SideBar,
   SideBarContent,
@@ -20,55 +25,41 @@ import {
   TabBarMenuItem,
 } from "~/core/layout/tabBar";
 import { getPageTitle } from "~/core/pageTitle";
-import { NextParamInput } from "~/core/params";
-import { IconProps } from "~/generated/icon";
+import { NextSearchParams } from "~/core/params";
+import { Icon, IconProps } from "~/generated/icon";
 import nameAndLogo from "~/images/nameAndLogo.svg";
+import { UserAvatar } from "~/users/avatar";
+import { hasGroups } from "~/users/groups";
 
-const currentUserSelect = Prisma.validator<Prisma.UserArgs>()({
-  select: {
-    displayName: true,
-    groups: true,
-  },
-});
-
-type CurrentUser = Prisma.UserGetPayload<typeof currentUserSelect>;
-
-type LoaderData = {
-  currentUser: CurrentUser;
-};
-
-export const loader: LoaderFunction = async ({ request }) => {
-  const userId = await getCurrentUserId(request);
-
-  const currentUser = await prisma.user.findUnique({
-    where: { id: userId },
-    select: currentUserSelect.select,
+export async function loader({ request }: LoaderArgs) {
+  const currentUser = await getCurrentUser(request, {
+    select: {
+      id: true,
+      displayName: true,
+      email: true,
+      groups: true,
+    },
   });
 
-  invariant(currentUser != null, "User should exists");
-
-  return json<LoaderData>({ currentUser });
-};
+  return json({ currentUser });
+}
 
 export default function Layout() {
-  const location = useLocation();
-  const { currentUser } = useLoaderData<LoaderData>();
+  const { currentUser } = useLoaderData<typeof loader>();
 
   return (
-    <div className="flex flex-col md:h-screen md:flex-row md:gap-1">
-      <CurrentUserTabBar currentUser={currentUser} />
+    <div className="grid grid-cols-1 md:grid-cols-[auto,minmax(0px,1fr)] items-start md:gap-2">
       <CurrentUserSideBar currentUser={currentUser} />
 
-      <header>
-        <BaseLink to="/">Go home</BaseLink>
+      <div className="flex flex-col items-center gap-1 md:pb-2 md:gap-2">
+        <header className="w-full bg-white px-safe-1 pt-safe-0.5 pb-0.5 grid grid-cols-[minmax(0px,1fr)_auto] items-center justify-between gap-1 md:sticky md:top-0 md:z-20 md:pt-safe-1 md:pr-safe-2 md:pb-1 md:pl-2 md:grid-cols-[minmax(0px,66%)_auto] md:gap-4">
+          <SearchInput />
+          <CurrentUserMenu currentUser={currentUser} />
+        </header>
 
-        <Form method="post" action="/logout">
-          <NextParamInput value={createPath(location)} />
-          <button type="submit">Logout</button>
-        </Form>
-      </header>
-
-      <Outlet />
+        <Outlet />
+        <CurrentUserTabBar currentUser={currentUser} />
+      </div>
     </div>
   );
 }
@@ -78,7 +69,7 @@ const MAX_VISIBLE_TAB_BAR_ITEM_COUNT = 5;
 function CurrentUserTabBar({
   currentUser,
 }: {
-  currentUser: LoaderData["currentUser"];
+  currentUser: SerializeFrom<typeof loader>["currentUser"];
 }) {
   const navigationItems = ALL_NAVIGATION_ITEMS.filter((item) =>
     hasGroups(currentUser, item.authorizedGroups)
@@ -123,14 +114,28 @@ function CurrentUserTabBar({
 function CurrentUserSideBar({
   currentUser,
 }: {
-  currentUser: LoaderData["currentUser"];
+  currentUser: SerializeFrom<typeof loader>["currentUser"];
 }) {
+  const [isOpened, setIsOpened] = useState(true);
+
+  useEffect(() => {
+    setIsOpened(!Boolean(localStorage.getItem("isSideBarCollapsed")));
+  }, []);
+
+  useEffect(() => {
+    if (isOpened) {
+      localStorage.removeItem("isSideBarCollapsed");
+    } else {
+      localStorage.setItem("isSideBarCollapsed", "true");
+    }
+  }, [isOpened]);
+
   const navigationItems = ALL_NAVIGATION_ITEMS.filter((item) =>
     hasGroups(currentUser, item.authorizedGroups)
   );
 
   return (
-    <SideBar>
+    <SideBar isOpened={isOpened} setIsOpened={setIsOpened}>
       <SideBarRootItem logo={nameAndLogo} to="/" alt={getPageTitle()} />
 
       <SideBarContent>
@@ -153,7 +158,7 @@ type NavigationItem = {
 
 const ALL_NAVIGATION_ITEMS: NavigationItem[] = [
   {
-    to: "/animaux",
+    to: "/animals",
     icon: "paw",
     label: "Animaux",
     authorizedGroups: [
@@ -163,33 +168,134 @@ const ALL_NAVIGATION_ITEMS: NavigationItem[] = [
     ],
   },
   {
-    to: "/fa",
+    to: "/foster-families",
     icon: "house",
     label: "FA",
     authorizedGroups: [UserGroup.ADMIN, UserGroup.ANIMAL_MANAGER],
   },
   {
-    to: "/evenements",
+    to: "/events",
     icon: "calendarDays",
     label: "Événements",
     authorizedGroups: [UserGroup.ADMIN],
   },
   {
-    to: "/utilisateurs",
+    to: "/users",
     icon: "user",
     label: "Utilisateurs",
     authorizedGroups: [UserGroup.ADMIN],
   },
   {
-    to: "/races",
+    to: "/breeds",
     icon: "dna",
     label: "Races",
     authorizedGroups: [UserGroup.ADMIN],
   },
   {
-    to: "/couleurs",
+    to: "/colors",
     icon: "palette",
     label: "Couleurs",
     authorizedGroups: [UserGroup.ADMIN],
   },
 ];
+
+function SearchInput() {
+  return (
+    <button className="rounded-0.5 bg-gray-100 p-1 grid grid-cols-[auto_minmax(0px,1fr)] items-center gap-0.5 text-left transition-colors duration-100 ease-in-out hover:bg-gray-200 md:px-2">
+      <Adornment>
+        <Icon id="magnifyingGlass" />
+      </Adornment>
+
+      <span className="text-gray-500">
+        Recherche globale{" "}
+        <span className="hidden md:inline">(appuyer sur ”/”)</span>
+      </span>
+    </button>
+  );
+}
+
+function CurrentUserMenu({
+  currentUser,
+}: {
+  currentUser: SerializeFrom<typeof loader>["currentUser"];
+}) {
+  const fetcher = useFetcher();
+  const location = useLocation();
+
+  return (
+    <DropdownMenu.Root>
+      <DropdownMenu.Trigger className="flex items-center gap-1">
+        <span className="hidden md:inline-flex">{currentUser.displayName}</span>
+
+        <span className="hidden md:inline-flex">
+          <UserAvatar size="sm" user={currentUser} />
+        </span>
+
+        <span className="inline-flex md:hidden">
+          <UserAvatar size="lg" user={currentUser} />
+        </span>
+
+        <span className="hidden text-gray-600 md:inline-flex">
+          <Icon id="caretDown" />
+        </span>
+      </DropdownMenu.Trigger>
+
+      <DropdownMenu.Portal>
+        <DropdownMenu.Content
+          side="bottom"
+          sideOffset={20}
+          collisionPadding={10}
+          className="z-20 shadow-xl rounded-1 w-[300px] bg-white p-1 grid grid-cols-1 gap-1"
+        >
+          <div className="grid grid-cols-[auto,minmax(0px,1fr)] items-center gap-1">
+            <UserAvatar size="lg" user={currentUser} />
+            <div className="grid grid-cols-1">
+              <span>{currentUser.displayName}</span>
+              <span className="text-caption-default text-gray-500">
+                {currentUser.email}
+              </span>
+            </div>
+          </div>
+
+          <DropdownMenu.Separator className="border-t border-gray-100" />
+
+          <DropdownMenu.Item asChild>
+            <BaseLink
+              to="/me"
+              className="rounded-0.5 pr-1 grid grid-cols-[auto,minmax(0px,1fr)] items-center text-gray-500 text-left cursor-pointer transition-colors duration-100 ease-in-out hover:bg-gray-100 active:bg-gray-100 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400"
+            >
+              <span className="w-4 h-4 flex items-center justify-center text-[20px]">
+                <Icon id="user" />
+              </span>
+
+              <span className="text-body-emphasis">Votre profile</span>
+            </BaseLink>
+          </DropdownMenu.Item>
+
+          <DropdownMenu.Separator className="border-t border-gray-100" />
+
+          <DropdownMenu.Item
+            onSelect={() =>
+              fetcher.submit(null, {
+                method: "post",
+                action: createPath({
+                  pathname: "/logout",
+                  search: new NextSearchParams()
+                    .setNext(createPath(location))
+                    .toString(),
+                }),
+              })
+            }
+            className="rounded-0.5 pr-1 grid grid-cols-[auto,minmax(0px,1fr)] items-center text-gray-500 text-left cursor-pointer transition-colors duration-100 ease-in-out hover:bg-gray-100 active:bg-gray-100 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400"
+          >
+            <span className="w-4 h-4 flex items-center justify-center text-[20px]">
+              <Icon id="rightFromBracket" />
+            </span>
+
+            <span className="text-body-emphasis">Se déconnecter</span>
+          </DropdownMenu.Item>
+        </DropdownMenu.Content>
+      </DropdownMenu.Portal>
+    </DropdownMenu.Root>
+  );
+}

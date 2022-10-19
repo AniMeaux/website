@@ -20,6 +20,12 @@ module.exports = {
       2: "20px",
       3: "30px",
       4: "40px",
+      5: "50px",
+      6: "60px",
+      7: "70px",
+      8: "80px",
+      9: "90px",
+      10: "100px",
     },
 
     borderRadius: {
@@ -30,6 +36,14 @@ module.exports = {
     },
 
     extend: {
+      boxShadow: {
+        ambient: "0px 8px 20px rgba(0, 0, 0, 0.06)",
+      },
+
+      flex: {
+        2: "2 2 0%",
+      },
+
       fontFamily: {
         serif: ['"Open Sans"', ...defaultTheme.fontFamily.serif],
         sans: ["Roboto", ...defaultTheme.fontFamily.sans],
@@ -43,6 +57,10 @@ module.exports = {
       aspectRatio: {
         "4/3": "4 / 3",
       },
+
+      ringWidth: {
+        5: "5px",
+      },
     },
   },
 
@@ -50,8 +68,14 @@ module.exports = {
     plugin(({ addVariant }) => {
       // Override focus-visible to make sure it supports the `.focus-visible`
       // class.
+      // We also don't want touch screens devices to have visible focus.
+      // They usally don't have input mechanism that can hover over elements so
+      // we check that.
       // https://tailwindcss.com/docs/plugins#adding-variants
-      addVariant("focus-visible", "&:is(:focus-visible, .focus-visible)");
+      addVariant(
+        "focus-visible",
+        "@media(any-hover:hover){&:is(:focus-visible, .focus-visible)}"
+      );
     }),
 
     plugin(({ addVariant }) => {
@@ -101,6 +125,18 @@ module.exports = {
           "font-weight": theme("fontWeight.bold"),
           "line-height": "40px",
         },
+        ".text-title-section-small": {
+          "font-family": theme("fontFamily.serif"),
+          "font-size": "16px",
+          "font-weight": theme("fontWeight.bold"),
+          "line-height": "20px",
+        },
+        ".text-title-section-large": {
+          "font-family": theme("fontFamily.serif"),
+          "font-size": "18px",
+          "font-weight": theme("fontWeight.bold"),
+          "line-height": "20px",
+        },
       });
     }),
 
@@ -130,21 +166,52 @@ module.exports = {
       );
     }),
 
-    plugin(({ matchUtilities }) => {
+    plugin(({ matchUtilities, theme }) => {
       matchUtilities(
         {
-          scrollbars: () => ({
-            "&::-webkit-scrollbar": {
-              width: 0,
-              height: 0,
-              display: "none",
-            },
-            "&::-webkit-scrollbar-track-piece": {
-              "background-color": "transparent",
-            },
-          }),
+          "top-safe": (value) => createSafePosition("top", value),
+          "right-safe": (value) => createSafePosition("right", value),
+          "bottom-safe": (value) => createSafePosition("bottom", value),
+          "left-safe": (value) => createSafePosition("left", value),
         },
-        { values: { none: "none" } }
+        { values: theme("spacing") }
+      );
+    }),
+
+    plugin(({ matchUtilities, theme }) => {
+      matchUtilities(
+        {
+          scrollbars: (value) => {
+            if (value === "none") {
+              return {
+                "&::-webkit-scrollbar": {
+                  width: 0,
+                  height: 0,
+                  display: "none",
+                },
+                "&::-webkit-scrollbar-track-piece": {
+                  "background-color": "transparent",
+                },
+              };
+            }
+
+            return {
+              "&::-webkit-scrollbar": {
+                width: "5px",
+                height: "5px",
+              },
+              "&::-webkit-scrollbar-thumb": {
+                "background-color": theme("colors.gray.200"),
+              },
+            };
+          },
+        },
+        {
+          values: {
+            none: "none",
+            custom: "custom",
+          },
+        }
       );
     }),
 
@@ -183,6 +250,27 @@ function createSafePadding(side, value) {
 
   return {
     [name]: [
+      // Fallback value for browsers that don't support `env`.
+      `${value}`,
+      `calc(${value} + env(${envVariable}, 0))`,
+    ],
+  };
+}
+
+/**
+ * @param {"top" | "right" | "bottom" | "left"} side
+ * @param {string} value
+ */
+function createSafePosition(side, value) {
+  const envVariable = {
+    top: "safe-area-inset-top",
+    right: "safe-area-inset-right",
+    bottom: "safe-area-inset-bottom",
+    left: "safe-area-inset-left",
+  }[side];
+
+  return {
+    [side]: [
       // Fallback value for browsers that don't support `env`.
       `${value}`,
       `calc(${value} + env(${envVariable}, 0))`,

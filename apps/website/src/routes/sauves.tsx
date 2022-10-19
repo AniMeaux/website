@@ -1,11 +1,10 @@
 import { Prisma } from "@prisma/client";
-import { json, LoaderFunction, MetaFunction } from "@remix-run/node";
+import { json, LoaderArgs, MetaFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { AnimalItem } from "~/animals/item";
 import { SAVED_ANIMAL_STATUS } from "~/animals/status";
 import { Paginator } from "~/controllers/paginator";
 import { cn } from "~/core/classNames";
-import { MapDateToString } from "~/core/dates";
 import { prisma } from "~/core/db.server";
 import { createSocialMeta } from "~/core/meta";
 import { getPageTitle } from "~/core/pageTitle";
@@ -14,28 +13,7 @@ import { getPage } from "~/core/searchParams";
 // Multiple of 2 and 3 to be nicely displayed.
 const ANIMAL_COUNT_PER_PAGE = 18;
 
-const animalSelect = Prisma.validator<Prisma.AnimalArgs>()({
-  select: {
-    id: true,
-    avatar: true,
-    name: true,
-    gender: true,
-    birthdate: true,
-    species: true,
-    breed: { select: { name: true } },
-    color: { select: { name: true } },
-  },
-});
-
-type Animal = Prisma.AnimalGetPayload<typeof animalSelect>;
-
-type LoaderDataServer = {
-  totalCount: number;
-  pageCount: number;
-  animals: Animal[];
-};
-
-export const loader: LoaderFunction = async ({ params, request }) => {
+export async function loader({ request }: LoaderArgs) {
   const where: Prisma.AnimalWhereInput = {
     status: { in: SAVED_ANIMAL_STATUS },
   };
@@ -50,23 +28,30 @@ export const loader: LoaderFunction = async ({ params, request }) => {
       skip: page * ANIMAL_COUNT_PER_PAGE,
       take: ANIMAL_COUNT_PER_PAGE,
       orderBy: { pickUpDate: "desc" },
-      select: animalSelect.select,
+      select: {
+        id: true,
+        avatar: true,
+        name: true,
+        gender: true,
+        birthdate: true,
+        species: true,
+        breed: { select: { name: true } },
+        color: { select: { name: true } },
+      },
     }),
   ]);
 
   const pageCount = Math.ceil(totalCount / ANIMAL_COUNT_PER_PAGE);
 
-  return json<LoaderDataServer>({ totalCount, pageCount, animals });
-};
+  return json({ totalCount, pageCount, animals });
+}
 
 export const meta: MetaFunction = () => {
   return createSocialMeta({ title: getPageTitle("Animaux sauvés") });
 };
 
-type LoaderDataClient = MapDateToString<LoaderDataServer>;
-
 export default function SavedPage() {
-  const { totalCount, pageCount, animals } = useLoaderData<LoaderDataClient>();
+  const { totalCount, pageCount, animals } = useLoaderData<typeof loader>();
 
   return (
     <main className="w-full px-page flex flex-col gap-12">
@@ -95,7 +80,7 @@ export default function SavedPage() {
           <section className="flex">
             <ul
               className={cn(
-                "w-full grid grid-cols-1 grid-rows-[auto] gap-12 items-start",
+                "w-full grid grid-cols-1 gap-12 items-start",
                 "xs:grid-cols-2",
                 "sm:grid-cols-3"
               )}

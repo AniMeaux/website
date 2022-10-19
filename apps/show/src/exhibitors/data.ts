@@ -1,0 +1,196 @@
+export enum ExhibitorCategory {
+  ACCESSOIRES = "ACCESSOIRES",
+  ALIMENTATION_CHIEN = "ALIMENTATION_CHIEN",
+  ALIMENTATION_ET_ACCESSOIRES = "ALIMENTATION_ET_ACCESSOIRES",
+  ALIMENTATION_ET_HYGIENE = "ALIMENTATION_ET_HYGIENE",
+  ASSOCIATION_ANIMAUX_DE_COMPAGNIE = "ASSOCIATION_ANIMAUX_DE_COMPAGNIE",
+  ASSOCIATION_FAUNE_SAUVAGE = "ASSOCIATION_FAUNE_SAUVAGE",
+  COMPORTEMENT_FELIN = "COMPORTEMENT_FELIN",
+  EDUCATION_CANINE = "EDUCATION_CANINE",
+  HYGIENE = "HYGIENE",
+  JEUX_CHATS = "JEUX_CHATS",
+  MEDECINE_DOUCE = "MEDECINE_DOUCE",
+  PLATEFORME_EN_LIGNE = "PLATEFORME_EN_LIGNE",
+  PRESTATION_DE_SERVICES = "PRESTATION_DE_SERVICES",
+  SENSIBILISATION = "SENSIBILISATION",
+}
+
+export type Exhibitor = {
+  id: string;
+  name: string;
+  url: string;
+  category: ExhibitorCategory;
+  image: string;
+};
+
+export const exhibitors: Exhibitor[] = [
+  {
+    id: "7713940d-1575-43d7-910b-6f4f3a389559",
+    name: "2 Mains Pour 4 Pattes",
+    category: ExhibitorCategory.MEDECINE_DOUCE,
+    image: "show-exhibitors/e6cecd31-ff07-4d05-b3fe-8b35f7b40b4b",
+    url: "https://www.facebook.com/2mainspour4pattes",
+  },
+  {
+    id: "f258b52b-f536-4c6d-9b3e-502b5707c59a",
+    name: "Anideo",
+    category: ExhibitorCategory.PRESTATION_DE_SERVICES,
+    image: "show-exhibitors/0a787843-b02a-4b6d-8827-5572302be2d9",
+    url: "https://www.anideo.fr",
+  },
+  {
+    id: "02a8ea99-1358-438a-a065-eab67b111d44",
+    name: "Association Bamanach",
+    category: ExhibitorCategory.ASSOCIATION_ANIMAUX_DE_COMPAGNIE,
+    image: "show-exhibitors/39bbae84-91e0-4937-8def-9d3c1864219e",
+    url: "https://www.facebook.com/Bamanach",
+  },
+  {
+    id: "a20f4da4-f6ed-4104-b9cb-6496bed0cdcd",
+    name: "Association Cat & Co",
+    category: ExhibitorCategory.ASSOCIATION_ANIMAUX_DE_COMPAGNIE,
+    image: "show-exhibitors/db0af837-4a1a-4f27-9a11-cff708d549f1",
+    url: "https://www.facebook.com/catandco77",
+  },
+  {
+    id: "10412294-571a-42ed-ac07-9751d3d530d0",
+    name: "Association Chihuahua En Detresse",
+    category: ExhibitorCategory.ASSOCIATION_ANIMAUX_DE_COMPAGNIE,
+    image: "show-exhibitors/eb61ec9f-2938-4da5-ac3e-fc4a5877bca4",
+    url: "https://www.chihuahuaendetresse.fr",
+  },
+  {
+    id: "42306e93-738d-4070-a5f4-00554b502264",
+    name: "Association Happyculteurs 77",
+    category: ExhibitorCategory.ASSOCIATION_FAUNE_SAUVAGE,
+    image: "show-exhibitors/910474e0-d01d-411c-be25-647d067888b8",
+    url: "https://www.facebook.com/profile.php?id=100079462512363",
+  },
+  {
+    id: "0bd1b512-a53f-495a-b287-a64236fd5e1f",
+    name: "Association Hop Hop Hop On Adopte",
+    category: ExhibitorCategory.ASSOCIATION_ANIMAUX_DE_COMPAGNIE,
+    image: "show-exhibitors/e2d9fc93-49b2-4338-a367-69ff18e4c05f",
+    url: "https://www.facebook.com/Hop-hop-hop-on-adopte-103402841170712",
+  },
+  {
+    id: "fd45e87f-a139-4d57-b382-cae29f545fe0",
+    name: "Association Oups And Co",
+    category: ExhibitorCategory.ASSOCIATION_ANIMAUX_DE_COMPAGNIE,
+    image: "show-exhibitors/a45641f7-5a54-44d0-9939-d8c83525c12c",
+    url: "https://www.instagram.com/association_oupsnco",
+  },
+  {
+    id: "1bfb93b6-afc8-454f-a2c7-246c594b501f",
+    name: "B Wild Shop",
+    category: ExhibitorCategory.ACCESSOIRES,
+    image: "show-exhibitors/3e6854b4-3dfd-4fab-a6b9-5d2e98e094e7",
+    url: "http://bwildshop.fr",
+  },
+  {
+    id: "b3aa543b-373c-4d39-b962-f09a2449a18d",
+    name: "Creanimaux",
+    category: ExhibitorCategory.ACCESSOIRES,
+    image: "show-exhibitors/b566d194-4eac-4c4d-a475-74f472e06bf9",
+    url: "https://www.instagram.com/_creanimaux_",
+  },
+  {
+    id: "89de9e8b-8d94-4cbc-9ceb-82520f722d84",
+    name: "Goya Et Dali",
+    category: ExhibitorCategory.SENSIBILISATION,
+    image: "show-exhibitors/60c33747-4baf-47ec-8ac0-68f1d37b9dbd",
+    url: "https://www.instagram.com/goya_et_dali",
+  },
+  {
+    id: "38a15b37-ce51-4f57-b9e4-e92962ef8745",
+    name: "Harmonichat",
+    category: ExhibitorCategory.COMPORTEMENT_FELIN,
+    image: "show-exhibitors/eb6c43f3-4825-4a55-8921-94209cb4257f",
+    url: "https://harmonichat.fr",
+  },
+  {
+    id: "1f3dfeee-37c5-44c6-8bfe-933a73cbab49",
+    name: "Ice-Crime The Amstaff - Changeons Les Regards",
+    category: ExhibitorCategory.SENSIBILISATION,
+    image: "show-exhibitors/51a42704-a6e5-40ef-8c69-27a5b7fc75db",
+    url: "https://www.facebook.com/icecrimetheamstaff",
+  },
+  {
+    id: "636a8ef7-5913-4276-a8cf-dd30fe304e44",
+    name: "Kikazh",
+    category: ExhibitorCategory.ALIMENTATION_ET_HYGIENE,
+    image: "show-exhibitors/9f4caf97-1208-4c73-a8e4-6b62995884df",
+    url: "https://www.ki-kazh.com",
+  },
+  {
+    id: "1ad8e49b-c242-4be7-a791-32ea2055b9e5",
+    name: "L’Atelier Du Coon",
+    category: ExhibitorCategory.ACCESSOIRES,
+    image: "show-exhibitors/9a93e557-9bbc-4124-8deb-791d4d8c22ba",
+    url: "https://latelierducoon.com",
+  },
+  {
+    id: "efd8089d-e06e-4ab6-9872-939bb17366ce",
+    name: "L’Univers De Djuna",
+    category: ExhibitorCategory.ACCESSOIRES,
+    image: "show-exhibitors/10ebc75d-7de9-4210-aa4f-e2fab131fd5b",
+    url: "https://luniversdedjuna.com",
+  },
+  {
+    id: "bd20ea22-e2d0-4d3c-840a-5ba2a8531f79",
+    name: "La Boutique Pheline",
+    category: ExhibitorCategory.JEUX_CHATS,
+    image: "show-exhibitors/8ca886fa-94a2-4e4b-921c-0cb85a0014ea",
+    url: "https://www.laboutiquepheline.com",
+  },
+  {
+    id: "85ee717c-4932-4bb1-aa96-446b9eddcf9e",
+    name: "Matoobox X Patoobox",
+    category: ExhibitorCategory.ALIMENTATION_ET_ACCESSOIRES,
+    image: "show-exhibitors/fc5f0e8a-bd4b-4651-9842-0b157cf132dc",
+    url: "https://matoobox.fr",
+  },
+  // TODO: Find a better image.
+  // {
+  //   id: "f26eb8cf-1cee-4ef9-a436-9eb518d47198",
+  //   name: "Mousse Toutou",
+  //   category: ExhibitorCategory.HYGIENE,
+  //   image: "show-exhibitors/05af128d-f1e6-4259-96d4-d38d92607888",
+  //   url: "https://www.facebook.com/people/mousse-toutou/100038918307131",
+  // },
+  {
+    id: "3dae41b3-b606-435c-88e3-e9ed5ce21981",
+    name: "Paradis Animalier",
+    category: ExhibitorCategory.PLATEFORME_EN_LIGNE,
+    image: "show-exhibitors/9fb5830f-11c0-474d-bebe-4e4bc305b3f9",
+    url: "https://paradis-animalier.fr/temoignages/?gclid=CjwKCAjwwL6aBhBlEiwADycBIOHc44gkxVXEX2Me-s5YfI7i5hhRlup8dsDgm-rvzZfF9BEfrYyM-xoCtfUQAvD_BwE",
+  },
+  {
+    id: "78e7db71-fdd3-4a19-9d60-1a0c8df7b276",
+    name: "Petits Fripons",
+    category: ExhibitorCategory.JEUX_CHATS,
+    image: "show-exhibitors/c5630308-cad9-4751-b96a-56f544241e19",
+    url: "https://www.petitsfripons.fr",
+  },
+  {
+    id: "9f1ae94e-7a55-4cbb-b6d3-43c96aaa49f4",
+    name: "Refuge De L’Ecureuil Roux",
+    category: ExhibitorCategory.ASSOCIATION_FAUNE_SAUVAGE,
+    image: "show-exhibitors/ffd3914e-1dc2-4c12-8439-cda1846e2bb4",
+    url: "https://www.refugeecureuilroux.fr",
+  },
+  {
+    id: "e4b8c7cf-3762-46d9-91bb-26bb41e4cc60",
+    name: "Rubyshop",
+    category: ExhibitorCategory.ALIMENTATION_CHIEN,
+    image: "show-exhibitors/5c2f53f3-007c-4723-b1aa-620ebf5e9b7e",
+    url: "https://www.rubyshop.fr",
+  },
+  {
+    id: "7be51d28-33db-4284-ac01-495823892c00",
+    name: "Woof Education",
+    category: ExhibitorCategory.EDUCATION_CANINE,
+    image: "show-exhibitors/3101f4c2-69a1-48bf-a846-1a940ccec2fb",
+    url: "https://www.woof-education.fr",
+  },
+];

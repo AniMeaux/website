@@ -1,15 +1,10 @@
-import {
-  ActionFunction,
-  json,
-  LoaderFunction,
-  redirect,
-} from "@remix-run/node";
+import { ActionArgs, json, redirect } from "@remix-run/node";
 import { z } from "zod";
 
-export const loader: LoaderFunction = async () => {
+export async function loader() {
   // Nothing to render here.
   return redirect("/");
-};
+}
 
 const ActionDataSchema = z.object({
   email: z.string().email({ message: "L’adresse email est invalide" }),
@@ -19,7 +14,7 @@ export type ActionData =
   | { type: "success" }
   | { type: "error"; errors: z.inferFlattenedErrors<typeof ActionDataSchema> };
 
-export const action: ActionFunction = async ({ request }) => {
+export async function action({ request }: ActionArgs) {
   const rawFormData = await request.formData();
   const formData = ActionDataSchema.safeParse(
     Object.fromEntries(rawFormData.entries())
@@ -35,4 +30,4 @@ export const action: ActionFunction = async ({ request }) => {
   // TODO: Register email
 
   return json<ActionData>({ type: "success" });
-};
+}

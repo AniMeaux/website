@@ -1,8 +1,8 @@
 import {
   json,
   LinksFunction,
-  LoaderFunction,
   MetaFunction,
+  SerializeFrom,
 } from "@remix-run/node";
 import {
   Links,
@@ -12,17 +12,21 @@ import {
   Scripts,
   ScrollRestoration,
   useCatch,
+  useMatches,
 } from "@remix-run/react";
+import { Settings } from "luxon";
 import { cn } from "~/core/classNames";
-import { Config } from "~/core/config";
 import { createConfig } from "~/core/config.server";
 import { ErrorPage } from "~/core/dataDisplay/errorPage";
+import { asRouteHandle } from "~/core/handles";
 import { getPageTitle } from "~/core/pageTitle";
 import stylesheet from "~/generated/tailwind.css";
 import { theme } from "~/generated/theme";
 import appleTouchIcon from "~/images/appleTouchIcon.png";
 import favicon from "~/images/favicon.svg";
 import maskIcon from "~/images/maskIcon.svg";
+
+Settings.defaultLocale = "fr";
 
 export const links: LinksFunction = () => {
   return [
@@ -52,13 +56,11 @@ export const links: LinksFunction = () => {
   ];
 };
 
-export type LoaderData = {
-  config: Config;
-};
+export async function loader() {
+  return json({ config: createConfig() });
+}
 
-export const loader: LoaderFunction = async () => {
-  return json<LoaderData>({ config: createConfig() });
-};
+export type LoaderData = SerializeFrom<typeof loader>;
 
 export const meta: MetaFunction = () => {
   return {
@@ -106,8 +108,13 @@ export function ErrorBoundary({ error }: { error: Error }) {
 }
 
 function Document({ children }: { children: React.ReactNode }) {
+  const matches = useMatches();
+  const htmlBackgroundColor = matches
+    .map((match) => asRouteHandle(match.handle).htmlBackgroundColor)
+    .find((color) => color != null);
+
   return (
-    <html lang="fr" className="bg-gray-50">
+    <html lang="fr" className={htmlBackgroundColor ?? "bg-gray-50"}>
       <head>
         <Meta />
         <Links />
@@ -117,7 +124,7 @@ function Document({ children }: { children: React.ReactNode }) {
         className={cn(
           // Make sure children with absolute positionning are correctly placed.
           "relative",
-          "antialiased text-gray-800 text-body-default flex flex-col"
+          "antialiased text-gray-800 text-body-default grid grid-cols-1"
         )}
       >
         {children}

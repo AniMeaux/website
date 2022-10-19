@@ -1,11 +1,10 @@
 import { Prisma } from "@prisma/client";
-import { json, LoaderFunction, MetaFunction } from "@remix-run/node";
+import { json, LoaderArgs, MetaFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { Paginator } from "~/controllers/paginator";
 import { actionClassNames } from "~/core/actions";
 import { BaseLink } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
-import { MapDateToString } from "~/core/dates";
 import { prisma } from "~/core/db.server";
 import { createSocialMeta } from "~/core/meta";
 import { getPageTitle } from "~/core/pageTitle";
@@ -15,28 +14,7 @@ import { EventItem } from "~/events/item";
 // Multiple of 2 and 3 to be nicely displayed.
 const EVENT_COUNT_PER_PAGE = 18;
 
-const eventSelect = Prisma.validator<Prisma.EventArgs>()({
-  select: {
-    id: true,
-    image: true,
-    title: true,
-    description: true,
-    startDate: true,
-    endDate: true,
-    isFullDay: true,
-    location: true,
-  },
-});
-
-type Event = Prisma.EventGetPayload<typeof eventSelect>;
-
-type LoaderDataServer = {
-  totalCount: number;
-  pageCount: number;
-  events: Event[];
-};
-
-export const loader: LoaderFunction = async ({ params, request }) => {
+export async function loader({ request }: LoaderArgs) {
   const where: Prisma.EventWhereInput = {
     isVisible: true,
     endDate: { lt: new Date() },
@@ -52,23 +30,30 @@ export const loader: LoaderFunction = async ({ params, request }) => {
       skip: page * EVENT_COUNT_PER_PAGE,
       take: EVENT_COUNT_PER_PAGE,
       orderBy: { endDate: "desc" },
-      select: eventSelect.select,
+      select: {
+        id: true,
+        image: true,
+        title: true,
+        description: true,
+        startDate: true,
+        endDate: true,
+        isFullDay: true,
+        location: true,
+      },
     }),
   ]);
 
   const pageCount = Math.ceil(totalCount / EVENT_COUNT_PER_PAGE);
 
-  return json<LoaderDataServer>({ totalCount, pageCount, events });
-};
+  return json({ totalCount, pageCount, events });
+}
 
 export const meta: MetaFunction = () => {
   return createSocialMeta({ title: getPageTitle("Événements passés") });
 };
 
-type LoaderDataClient = MapDateToString<LoaderDataServer>;
-
 export default function PastEventsPage() {
-  const { totalCount, pageCount, events } = useLoaderData<LoaderDataClient>();
+  const { totalCount, pageCount, events } = useLoaderData<typeof loader>();
 
   return (
     <main className="w-full px-page flex flex-col gap-12">
@@ -103,7 +88,7 @@ export default function PastEventsPage() {
         <section className="flex flex-col gap-6">
           <ul
             className={cn(
-              "grid grid-cols-1 grid-rows-[auto] gap-12 items-start",
+              "grid grid-cols-1 gap-12 items-start",
               "xs:grid-cols-2",
               "md:grid-cols-3"
             )}

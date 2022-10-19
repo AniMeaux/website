@@ -1,28 +1,21 @@
-import { json, LoaderFunction, MetaFunction } from "@remix-run/node";
+import { json, MetaFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
-import { Article, articles } from "~/blog/data";
+import { articles } from "~/blog/data";
 import { ArticleItem } from "~/blog/item";
 import { cn } from "~/core/classNames";
-import { MapDateToString } from "~/core/dates";
 import { createSocialMeta } from "~/core/meta";
 import { getPageTitle } from "~/core/pageTitle";
 
-type LoaderDataServer = {
-  articles: Article[];
-};
-
-export const loader: LoaderFunction = async () => {
-  return json<LoaderDataServer>({ articles });
-};
+export async function loader() {
+  return json({ articles });
+}
 
 export const meta: MetaFunction = () => {
   return createSocialMeta({ title: getPageTitle("Blog") });
 };
 
-type LoaderDataClient = MapDateToString<LoaderDataServer>;
-
 export default function BlogPage() {
-  const { articles } = useLoaderData<LoaderDataClient>();
+  const { articles } = useLoaderData<typeof loader>();
 
   return (
     <main className="w-full px-page flex flex-col gap-12">
@@ -41,7 +34,7 @@ export default function BlogPage() {
         <section className="flex flex-col">
           <ul
             className={cn(
-              "grid grid-cols-1 grid-rows-[auto] gap-12 items-start",
+              "grid grid-cols-1 gap-12 items-start",
               "xs:grid-cols-2",
               "md:grid-cols-3"
             )}

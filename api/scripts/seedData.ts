@@ -75,6 +75,24 @@ async function seedUsers() {
         })
     )
   );
+
+  await Promise.all(
+    repeate(
+      { min: 5, max: 10 },
+      async () =>
+        await prisma.user.create({
+          data: {
+            email: faker.internet.email(),
+            displayName: faker.name.firstName(),
+            groups: [UserGroup.ANIMAL_MANAGER],
+            isDisabled: faker.datatype.boolean(),
+            password: {
+              create: { hash: await generatePasswordHash(DEFAULT_PASSWORD) },
+            },
+          },
+        })
+    )
+  );
 }
 
 async function seedFosterFamilies() {
@@ -210,7 +228,7 @@ async function seedEvents() {
 async function seedAnimals() {
   const [managers, breeds, colors, fosterFamilies] = await Promise.all([
     prisma.user.findMany({
-      where: { groups: { has: UserGroup.ANIMAL_MANAGER } },
+      where: { isDisabled: false, groups: { has: UserGroup.ANIMAL_MANAGER } },
       select: { id: true },
     }),
     prisma.breed.findMany({ select: { id: true, species: true } }),

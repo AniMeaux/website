@@ -1,18 +1,57 @@
-import { Icon } from "~/generated/icon";
+import { cloneElement } from "react";
+import { actionClassName, ActionColor } from "~/core/action";
+import { cn } from "~/core/classNames";
+import { Icon, IconProps } from "~/generated/icon";
+
+type HelperVariant = "error" | "warning" | "success";
 
 export function Helper({
   children,
-  ...rest
-}: Pick<React.HTMLAttributes<HTMLElement>, "id"> & {
+  variant,
+  action,
+  isCompact = false,
+}: {
+  variant: HelperVariant;
   children?: React.ReactNode;
+  action?: React.ReactElement;
+  isCompact?: boolean;
 }) {
   return (
     <section
-      {...rest}
-      className="rounded-0.5 p-1 bg-red-50 flex items-start gap-1 text-red-500"
+      className={cn(
+        "rounded-0.5 p-1 grid grid-cols-[auto_1fr] grid-flow-col items-start gap-1",
+        { "md:p-2": !isCompact },
+        VARIANT_CLASS_NAME[variant]
+      )}
     >
-      <Icon id="circleExclamation" className="flex-none text-[20px]" />
-      <p className="flex-1 text-body-emphasis">{children}</p>
+      <Icon id={VARIANT_ICON[variant]} className="text-[20px]" />
+      <p className="text-body-emphasis">{children}</p>
+
+      {action != null &&
+        cloneElement(action, {
+          className: actionClassName({
+            variant: "text",
+            color: VARIANT_ACTION_COLOR[variant],
+          }),
+        })}
     </section>
   );
 }
+
+const VARIANT_CLASS_NAME: Record<HelperVariant, string> = {
+  error: "bg-red-50 text-red-500",
+  success: "bg-green-50 text-green-600",
+  warning: "bg-amber-50 text-amber-600",
+};
+
+const VARIANT_ICON: Record<HelperVariant, IconProps["id"]> = {
+  error: "circleExclamation",
+  success: "circleCheck",
+  warning: "triangleExclamation",
+};
+
+const VARIANT_ACTION_COLOR: Record<HelperVariant, ActionColor> = {
+  error: "red",
+  success: "green",
+  warning: "amber",
+};
