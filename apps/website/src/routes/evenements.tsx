@@ -73,7 +73,7 @@ export default function EventsPage() {
           <section className="flex flex-col gap-6">
             <ul
               className={cn(
-                "grid grid-cols-1 grid-rows-[auto] gap-12 items-start",
+                "grid grid-cols-1 gap-12 items-start",
                 "xs:grid-cols-2",
                 "md:grid-cols-3"
               )}

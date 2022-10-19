@@ -93,7 +93,7 @@ export default function AnimalPage() {
       <header
         className={cn(
           "flex flex-col",
-          "md:grid md:grid-rows-[auto] md:grid-cols-[1fr,auto] md:items-center md:gap-6"
+          "md:grid md:grid-cols-[1fr,auto] md:items-center md:gap-6"
         )}
       >
         <h1
@@ -208,7 +208,7 @@ function ImageSection({
         ))}
       </div>
 
-      <div className="grid grid-cols-[repeat(auto-fit,64px)] grid-rows-[auto] gap-3 justify-center">
+      <div className="grid grid-cols-[repeat(auto-fit,64px)] gap-3 justify-center">
         {allPictures.map((pictureId, index) => (
           <button
             key={pictureId}
