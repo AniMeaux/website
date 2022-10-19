@@ -4,6 +4,10 @@ import { Config } from "~/core/config";
 export function createConfig(): Config {
   invariant(process.env.ANIMEAUX_URL, "ANIMEAUX_URL should be defined");
   invariant(
+    process.env.CLOUDINARY_CLOUD_NAME,
+    "CLOUDINARY_CLOUD_NAME should be defined"
+  );
+  invariant(
     process.env.EXHIBITORS_FORM_URL,
     "EXHIBITORS_FORM_URL should be defined"
   );
@@ -18,6 +22,7 @@ export function createConfig(): Config {
 
   return {
     animeauxUrl: process.env.ANIMEAUX_URL,
+    cloudinaryName: process.env.CLOUDINARY_CLOUD_NAME,
     exhibitorsFormUrl: process.env.EXHIBITORS_FORM_URL,
     facebookUrl: process.env.FACEBOOK_URL,
     googleTagManagerId: process.env.GOOGLE_TAG_MANAGER_ID,
