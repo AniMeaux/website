@@ -3,10 +3,10 @@ import { BaseLink, BaseLinkProps } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
 import { useConfig } from "~/core/config";
 import { Icon, IconProps } from "~/generated/icon";
+import citronad from "~/images/citronad.png";
 import meaux from "~/images/meaux.png";
 import nameAndLogo from "~/images/nameAndLogo.svg";
 import paysDeMeaux from "~/images/paysDeMeaux.png";
-import poullain from "~/images/poullain.png";
 import villeAnimaux2Pattes from "~/images/villeAnimaux2Pattes.png";
 import { LineShapeHorizontal } from "~/layout/lineShape";
 
@@ -42,7 +42,7 @@ export function Footer() {
             alt="Ville amie des animaux, 2 pattes"
           />
           <img src={paysDeMeaux} alt="Pays de Meaux" />
-          <img src={poullain} alt="Jardinerie Poullain" />
+          <img src={citronad} alt="Citron’ad" />
         </section>
 
         <section className={cn("flex flex-col items-start gap-6", "md:flex-1")}>
