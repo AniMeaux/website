@@ -51,7 +51,7 @@ function AdornmentContainer({
   return (
     <span
       className={cn(
-        "absolute top-1 grid grid-rows-[auto] grid-flow-col items-center gap-0.5 pointer-events-none",
+        "absolute top-1 grid grid-flow-col items-center gap-0.5 pointer-events-none",
         {
           "left-1": side === "left",
           "right-1": side === "right",

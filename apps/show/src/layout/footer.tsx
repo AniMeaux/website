@@ -32,7 +32,7 @@ export function Footer() {
       >
         <section
           className={cn(
-            "grid grid-cols-2 grid-rows-[auto] gap-x-12 gap-y-6 items-center",
+            "grid grid-cols-2 gap-x-12 gap-y-6 items-center",
             "md:flex-1"
           )}
         >

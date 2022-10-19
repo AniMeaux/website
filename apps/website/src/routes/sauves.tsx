@@ -80,7 +80,7 @@ export default function SavedPage() {
           <section className="flex">
             <ul
               className={cn(
-                "w-full grid grid-cols-1 grid-rows-[auto] gap-12 items-start",
+                "w-full grid grid-cols-1 gap-12 items-start",
                 "xs:grid-cols-2",
                 "sm:grid-cols-3"
               )}

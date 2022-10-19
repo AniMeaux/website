@@ -56,7 +56,7 @@ export default function AccessPage() {
       <section className="flex">
         <ul
           className={cn(
-            "w-full grid grid-cols-1 grid-rows-[auto] gap-12",
+            "w-full grid grid-cols-1 gap-12",
             "sm:grid-cols-2",
             "md:grid-cols-3"
           )}
