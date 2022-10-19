@@ -8,13 +8,13 @@ import { StaticImage, StaticImageProps } from "~/dataDisplay/image";
 import { adoptionImages } from "~/images/adoption";
 import { animationImages } from "~/images/animation";
 import { associationImages } from "~/images/association";
+import citronad from "~/images/citronad.png";
 import { exhibitorsImages } from "~/images/exhibitors";
 import { foodImages } from "~/images/food";
 import { mapImages } from "~/images/map";
 import meaux from "~/images/meaux.png";
 import { medicalImages } from "~/images/medical";
 import nameAndLogo from "~/images/nameAndLogo.svg";
-import poullain from "~/images/poullain.png";
 import { showImages } from "~/images/show";
 import { bubbleSectionClassNames, BubbleShape } from "~/layout/bubbleSection";
 import {
@@ -387,9 +387,9 @@ function PartnersSection() {
         />
 
         <PartnerItem
-          image={poullain}
-          alt="Jardinerie Poullain"
-          to="https://jardineriepoullain.fr"
+          image={citronad}
+          alt="Citron’ad"
+          to="https://www.citron-ad.fr"
         />
       </div>
     </section>
