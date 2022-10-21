@@ -8,7 +8,7 @@ export const EXHIBITOR_CATEGORY_TRANSLATIONS: Record<
   [ExhibitorCategory.ALIMENTATION_CHIEN]: "Alimentation chien",
   [ExhibitorCategory.ALIMENTATION_ET_ACCESSOIRES]:
     "Alimentation et accessoires",
-  [ExhibitorCategory.ALIMENTATION_ET_HYGIENE]: "Alimentation et hygiene",
+  [ExhibitorCategory.ALIMENTATION_ET_HYGIENE]: "Alimentation et hygiène",
   [ExhibitorCategory.ASSOCIATION_ANIMAUX_DE_COMPAGNIE]:
     "Association animaux de compagnie",
   [ExhibitorCategory.ASSOCIATION_FAUNE_SAUVAGE]: "Association faune sauvage",
