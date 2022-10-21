@@ -20,7 +20,7 @@ export function StatusBadge({
     <span
       className={cn(
         className,
-        "rounded-0.5 px-0.5 inline-flex text-white text-caption-emphasis",
+        "rounded-0.5 px-0.5 inline-flex text-caption-emphasis",
         STATUS_CLASS_NAMES[status]
       )}
     >
@@ -49,13 +49,13 @@ export function StatusIcon({
 }
 
 const STATUS_CLASS_NAMES: Record<Status, string> = {
-  [Status.ADOPTED]: "bg-green-600",
-  [Status.DECEASED]: "bg-gray-800",
-  [Status.FREE]: "bg-gray-800",
-  [Status.OPEN_TO_ADOPTION]: "bg-blue-500",
-  [Status.OPEN_TO_RESERVATION]: "bg-blue-500",
-  [Status.RESERVED]: "bg-amber-600",
-  [Status.UNAVAILABLE]: "bg-gray-800",
+  [Status.ADOPTED]: "bg-green-600 text-white",
+  [Status.DECEASED]: "bg-gray-800 text-white",
+  [Status.FREE]: "bg-gray-800 text-white",
+  [Status.OPEN_TO_ADOPTION]: "bg-blue-500 text-white",
+  [Status.OPEN_TO_RESERVATION]: "bg-blue-500 text-white",
+  [Status.RESERVED]: "bg-yellow-400 text-black",
+  [Status.UNAVAILABLE]: "bg-gray-800 text-white",
 };
 
 export const STATUS_TRANSLATION: Record<Status, string> = {

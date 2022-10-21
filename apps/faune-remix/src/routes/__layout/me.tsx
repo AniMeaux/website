@@ -48,7 +48,7 @@ export default function CurrentUserPage() {
   const isManager = hasGroups(currentUser, [UserGroup.ANIMAL_MANAGER]);
 
   return (
-    <main className="w-full flex flex-col gap-1 md:max-w-[920px] md:gap-2">
+    <main className="w-full flex flex-col gap-1 md:gap-2">
       <EditSuccessHelper />
       <EditPasswordSuccessHelper />
 
@@ -68,7 +68,7 @@ export default function CurrentUserPage() {
               className="absolute bottom-0 left-0 ring-5 ring-white"
             />
 
-            <div className="grid grid-cols-1 gap-0.5">
+            <div className="flex flex-col gap-0.5">
               <h1 className="text-title-section-small md:text-title-section-large">
                 {currentUser.displayName}
               </h1>
@@ -99,13 +99,13 @@ export default function CurrentUserPage() {
                 {currentUser.groups.map((group) => (
                   <li
                     key={group}
-                    className="p-0.5 grid grid-cols-[auto_minmax(0px,1fr)] items-start gap-1"
+                    className="grid grid-cols-[auto_minmax(0px,1fr)] items-start"
                   >
-                    <span className="w-2 h-2 flex items-center justify-center text-gray-600">
+                    <span className="w-4 h-4 flex items-center justify-center text-gray-600">
                       <Icon id={GROUP_ICON[group]} />
                     </span>
 
-                    <span>{GROUP_TRANSLATION[group]}</span>
+                    <span className="py-1">{GROUP_TRANSLATION[group]}</span>
                   </li>
                 ))}
               </ul>

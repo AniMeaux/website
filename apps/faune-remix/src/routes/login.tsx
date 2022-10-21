@@ -133,97 +133,99 @@ export default function LoginPage() {
     <main className="w-full grid grid-cols-[minmax(0px,500px)] justify-center justify-items-center md:min-h-screen md:grid-cols-[1fr_minmax(500px,1fr)]">
       <section className="hidden w-full bg-blue-500 md:block" />
 
-      <section className="w-full max-w-[500px] p-safe-2 grid grid-cols-1 content-start gap-4 md:pl-4 md:pr-safe-4 md:py-safe-4">
+      <section className="w-full max-w-[500px] p-safe-2 flex flex-col justify-start md:pl-4 md:pr-safe-4 md:py-safe-4">
         <img
           src={nameAndLogo}
           alt={getPageTitle()}
           className="self-start h-3 md:h-4"
         />
 
-        <h1 className="text-title-hero-small md:mt-[10vh] md:text-title-hero-large">
-          Bienvenue
-        </h1>
+        <section className="mt-4 md:mt-[10vh] flex flex-col gap-2">
+          <h1 className="text-title-hero-small md:text-title-hero-large">
+            Bienvenue
+          </h1>
 
-        <Form method="post" noValidate className="flex flex-col gap-3">
-          {formErrors.length > 0 && (
-            <Helper isCompact variant="error">
-              {joinReactNodes(formErrors, <br />)}
-            </Helper>
-          )}
-
-          <div className={formClassNames.fields.root()}>
-            <div className={formClassNames.fields.field.root()}>
-              <label
-                htmlFor="email"
-                className={formClassNames.fields.field.label()}
-              >
-                Email
-              </label>
-
-              <Input
-                autoFocus
-                ref={emailRef}
-                id="email"
-                type="email"
-                name="email"
-                autoComplete="email"
-                hasError={fieldErrors.email != null}
-                aria-describedby="email-error"
-                placeholder="jean@mail.com"
-                leftAdornment={
-                  <Adornment>
-                    <Icon id="envelope" />
-                  </Adornment>
-                }
-              />
-
-              {fieldErrors.email != null && (
-                <p
-                  id="email-error"
-                  className={formClassNames.fields.field.errorMessage()}
-                >
-                  {fieldErrors.email}
-                </p>
+          <Form method="post" noValidate className="flex flex-col gap-4">
+            <div className={formClassNames.fields.root()}>
+              {formErrors.length > 0 && (
+                <Helper isCompact variant="error">
+                  {joinReactNodes(formErrors, <br />)}
+                </Helper>
               )}
+
+              <div className={formClassNames.fields.field.root()}>
+                <label
+                  htmlFor="email"
+                  className={formClassNames.fields.field.label()}
+                >
+                  Email
+                </label>
+
+                <Input
+                  autoFocus
+                  ref={emailRef}
+                  id="email"
+                  type="email"
+                  name="email"
+                  autoComplete="email"
+                  hasError={fieldErrors.email != null}
+                  aria-describedby="email-error"
+                  placeholder="jean@mail.com"
+                  leftAdornment={
+                    <Adornment>
+                      <Icon id="envelope" />
+                    </Adornment>
+                  }
+                />
+
+                {fieldErrors.email != null && (
+                  <p
+                    id="email-error"
+                    className={formClassNames.fields.field.errorMessage()}
+                  >
+                    {fieldErrors.email}
+                  </p>
+                )}
+              </div>
+
+              <div className={formClassNames.fields.field.root()}>
+                <label
+                  htmlFor="password"
+                  className={formClassNames.fields.field.label()}
+                >
+                  Mot de passe
+                </label>
+
+                <PasswordInput
+                  ref={passwordRef}
+                  id="password"
+                  name="password"
+                  autoComplete="current-password"
+                  hasError={fieldErrors.password != null}
+                  aria-describedby="password-error"
+                  leftAdornment={
+                    <Adornment>
+                      <Icon id="lock" />
+                    </Adornment>
+                  }
+                />
+
+                {fieldErrors.password != null && (
+                  <p
+                    id="password-error"
+                    className={formClassNames.fields.field.errorMessage()}
+                  >
+                    {fieldErrors.password}
+                  </p>
+                )}
+              </div>
             </div>
 
-            <div className={formClassNames.fields.field.root()}>
-              <label
-                htmlFor="password"
-                className={formClassNames.fields.field.label()}
-              >
-                Mot de passe
-              </label>
-
-              <PasswordInput
-                ref={passwordRef}
-                id="password"
-                name="password"
-                autoComplete="current-password"
-                hasError={fieldErrors.password != null}
-                aria-describedby="password-error"
-                leftAdornment={
-                  <Adornment>
-                    <Icon id="lock" />
-                  </Adornment>
-                }
-              />
-
-              {fieldErrors.password != null && (
-                <p
-                  id="password-error"
-                  className={formClassNames.fields.field.errorMessage()}
-                >
-                  {fieldErrors.password}
-                </p>
-              )}
-            </div>
-          </div>
-
-          <button type="submit" className={actionClassName()}>
-            Se connecter
-          </button>
-        </Form>
+            <button type="submit" className={actionClassName()}>
+              Se connecter
+            </button>
+          </Form>
+        </section>
       </section>
     </main>
   );

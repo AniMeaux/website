@@ -65,9 +65,7 @@ export function SideBarRootItem({
 
 export function SideBarContent({ children }: { children?: React.ReactNode }) {
   return (
-    <div className="overflow-y-auto scrollbars-custom min-h-0 flex-1 flex flex-col justify-start gap-1">
-      {children}
-    </div>
+    <div className="flex-1 flex flex-col justify-start gap-1">{children}</div>
   );
 }
 

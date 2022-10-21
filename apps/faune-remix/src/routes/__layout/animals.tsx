@@ -176,9 +176,9 @@ export default function AnimalsPage() {
 
             <CardContent>
               {animals.length > 0 ? (
-                <ul className="grid grid-cols-[repeat(auto-fill,minmax(150px,1fr))] gap-1 auto-rows-auto md:gap-2">
+                <ul className="grid grid-cols-[repeat(auto-fill,minmax(150px,1fr))] gap-1 md:gap-2">
                   {animals.map((animal, index) => (
-                    <li key={animal.id}>
+                    <li key={animal.id} className="flex">
                       <AnimalItem
                         animal={animal}
                         imageSizes={{ default: "300px" }}
@@ -262,21 +262,17 @@ function SortAndFiltersFloatingAction({
             </Dialog.Close>
           </header>
 
-          <div className="pb-safe-6 flex flex-col gap-1">
-            <Card>
-              <CardContent>
-                <SortAndFilters />
-              </CardContent>
+          <Card>
+            <CardContent>
+              <SortAndFilters />
+            </CardContent>
+          </Card>
 
-              <CardFooter isTransparent className="sticky bottom-safe-0 z-20">
-                <Dialog.Close
-                  className={cn(actionClassName(), "shadow-xl w-full")}
-                >
-                  Voir les résultats ({totalCount})
-                </Dialog.Close>
-              </CardFooter>
-            </Card>
-          </div>
+          <footer className="sticky bottom-0 z-20 px-safe-1 pt-1 pb-safe-1 flex-none bg-white flex">
+            <Dialog.Close className={cn(actionClassName(), "w-full")}>
+              Voir les résultats ({totalCount})
+            </Dialog.Close>
+          </footer>
         </Dialog.Content>
       </Dialog.Portal>
     </Dialog.Root>
@@ -304,49 +300,53 @@ function SortAndFilters() {
       className={formClassNames.root()}
     >
       <div className={formClassNames.fields.root()}>
-        <BaseLink
-          to={{ search: "" }}
-          className={actionClassName({ variant: "secondary", color: "gray" })}
-        >
-          Tout effacer
-        </BaseLink>
+        <div className={formClassNames.actions()}>
+          <BaseLink
+            to={{ search: "" }}
+            className={actionClassName({ variant: "secondary", color: "gray" })}
+          >
+            Tout effacer
+          </BaseLink>
 
-        <ActiveFilterLink />
-      </div>
+          <ActiveFilterLink />
+        </div>
 
-      <Separator />
+        <Separator />
 
-      <div className={formClassNames.fields.root()}>
         <div className={formClassNames.fields.field.root()}>
           <span className={formClassNames.fields.field.label()}>Trier</span>
 
-          <Suggestion>
-            <SuggestionInput
-              type="radio"
-              name={AnimalSearchParams.Keys.SORT}
-              value={AnimalSearchParams.Sort.PICK_UP}
-              checked={visibleFilters.sort === AnimalSearchParams.Sort.PICK_UP}
-              onChange={() => {}}
-            />
+          <Suggestions>
+            <Suggestion>
+              <SuggestionInput
+                type="radio"
+                name={AnimalSearchParams.Keys.SORT}
+                value={AnimalSearchParams.Sort.PICK_UP}
+                checked={
+                  visibleFilters.sort === AnimalSearchParams.Sort.PICK_UP
+                }
+                onChange={() => {}}
+              />
 
-            <SuggestionLabel icon={<Icon id="calendarDays" />}>
-              Date de prise en charge
-            </SuggestionLabel>
-          </Suggestion>
+              <SuggestionLabel icon={<Icon id="calendarDays" />}>
+                Date de prise en charge
+              </SuggestionLabel>
+            </Suggestion>
 
-          <Suggestion>
-            <SuggestionInput
-              type="radio"
-              name={AnimalSearchParams.Keys.SORT}
-              value={AnimalSearchParams.Sort.NAME}
-              checked={visibleFilters.sort === AnimalSearchParams.Sort.NAME}
-              onChange={() => {}}
-            />
+            <Suggestion>
+              <SuggestionInput
+                type="radio"
+                name={AnimalSearchParams.Keys.SORT}
+                value={AnimalSearchParams.Sort.NAME}
+                checked={visibleFilters.sort === AnimalSearchParams.Sort.NAME}
+                onChange={() => {}}
+              />
 
-            <SuggestionLabel icon={<Icon id="arrowDownAZ" />}>
-              Alphabétique
-            </SuggestionLabel>
-          </Suggestion>
+              <SuggestionLabel icon={<Icon id="arrowDownAZ" />}>
+                Alphabétique
+              </SuggestionLabel>
+            </Suggestion>
+          </Suggestions>
         </div>
 
         <Separator />
@@ -354,41 +354,45 @@ function SortAndFilters() {
         <div className={formClassNames.fields.field.root()}>
           <span className={formClassNames.fields.field.label()}>Espèces</span>
 
-          {SORTED_SPECIES.map((species) => (
-            <Suggestion key={species}>
-              <SuggestionInput
-                type="checkbox"
-                name={AnimalSearchParams.Keys.SPECIES}
-                value={species}
-                checked={visibleFilters.species.includes(species)}
-                onChange={() => {}}
-              />
+          <Suggestions>
+            {SORTED_SPECIES.map((species) => (
+              <Suggestion key={species}>
+                <SuggestionInput
+                  type="checkbox"
+                  name={AnimalSearchParams.Keys.SPECIES}
+                  value={species}
+                  checked={visibleFilters.species.includes(species)}
+                  onChange={() => {}}
+                />
 
-              <SuggestionLabel icon={<Icon id={SPECIES_ICON[species]} />}>
-                {SPECIES_TRANSLATION[species]}
-              </SuggestionLabel>
-            </Suggestion>
-          ))}
+                <SuggestionLabel icon={<Icon id={SPECIES_ICON[species]} />}>
+                  {SPECIES_TRANSLATION[species]}
+                </SuggestionLabel>
+              </Suggestion>
+            ))}
+          </Suggestions>
         </div>
 
         <div className={formClassNames.fields.field.root()}>
           <span className={formClassNames.fields.field.label()}>Status</span>
 
-          {SORTED_STATUS.map((status) => (
-            <Suggestion key={status}>
-              <SuggestionInput
-                type="checkbox"
-                name={AnimalSearchParams.Keys.STATUS}
-                value={status}
-                checked={visibleFilters.statuses.includes(status)}
-                onChange={() => {}}
-              />
+          <Suggestions>
+            {SORTED_STATUS.map((status) => (
+              <Suggestion key={status}>
+                <SuggestionInput
+                  type="checkbox"
+                  name={AnimalSearchParams.Keys.STATUS}
+                  value={status}
+                  checked={visibleFilters.statuses.includes(status)}
+                  onChange={() => {}}
+                />
 
-              <SuggestionLabel icon={<StatusIcon status={status} />}>
-                {STATUS_TRANSLATION[status]}
-              </SuggestionLabel>
-            </Suggestion>
-          ))}
+                <SuggestionLabel icon={<StatusIcon status={status} />}>
+                  {STATUS_TRANSLATION[status]}
+                </SuggestionLabel>
+              </Suggestion>
+            ))}
+          </Suggestions>
         </div>
 
         <div className={formClassNames.fields.field.root()}>
@@ -396,21 +400,23 @@ function SortAndFilters() {
             Responsable
           </span>
 
-          {managers.map((manager) => (
-            <Suggestion key={manager.id}>
-              <SuggestionInput
-                type="checkbox"
-                name={AnimalSearchParams.Keys.MANAGERS_ID}
-                value={manager.id}
-                checked={visibleFilters.managersId.includes(manager.id)}
-                onChange={() => {}}
-              />
+          <Suggestions>
+            {managers.map((manager) => (
+              <Suggestion key={manager.id}>
+                <SuggestionInput
+                  type="checkbox"
+                  name={AnimalSearchParams.Keys.MANAGERS_ID}
+                  value={manager.id}
+                  checked={visibleFilters.managersId.includes(manager.id)}
+                  onChange={() => {}}
+                />
 
-              <SuggestionLabel icon={<UserAvatar user={manager} size="sm" />}>
-                {manager.displayName}
-              </SuggestionLabel>
-            </Suggestion>
-          ))}
+                <SuggestionLabel icon={<UserAvatar user={manager} size="sm" />}>
+                  {manager.displayName}
+                </SuggestionLabel>
+              </Suggestion>
+            ))}
+          </Suggestions>
         </div>
 
         <div className={formClassNames.fields.field.root()}>
@@ -531,9 +537,13 @@ function useVisibleSearchParams() {
   ] as const;
 }
 
+function Suggestions({ children }: { children?: React.ReactNode }) {
+  return <div className="flex flex-col">{children}</div>;
+}
+
 function Suggestion({ children }: { children?: React.ReactNode }) {
   return (
-    <label className="group relative z-0 rounded-0.5 p-0.5 flex items-start gap-1 cursor-pointer focus-within:z-10">
+    <label className="group relative z-0 rounded-0.5 grid grid-cols-[auto_minmax(0px,1fr)_auto] items-start cursor-pointer focus-within:z-10">
       {children}
     </label>
   );
@@ -557,15 +567,15 @@ function SuggestionLabel({
 }) {
   return (
     <>
-      <span className="h-2 w-2 flex-none flex items-center justify-center text-gray-600">
+      <span className="h-4 w-4 flex items-center justify-center text-gray-600">
         {icon}
       </span>
 
-      <span className="flex-1 text-body-default peer-checked:text-body-emphasis">
+      <span className="py-1 text-body-default peer-checked:text-body-emphasis">
         {children}
       </span>
 
-      <span className="opacity-0 h-2 w-2 flex-none flex items-center justify-center text-green-600 peer-checked:opacity-100">
+      <span className="opacity-0 h-4 w-4 flex items-center justify-center text-green-600 peer-checked:opacity-100">
         <Icon id="check" />
       </span>
     </>

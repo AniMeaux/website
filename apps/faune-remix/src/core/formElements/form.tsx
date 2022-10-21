@@ -1,7 +1,11 @@
+import { cn } from "~/core/classNames";
+
 export const formClassNames = {
-  root: () => "pt-1 pb-2 flex flex-col gap-2 md:py-1",
+  root: ({ hasHeader = false }: { hasHeader?: boolean } = {}) =>
+    cn("flex flex-col items-end gap-4", { "pt-1 md:pt-0": hasHeader }),
+  actions: () => "w-full flex flex-col gap-1",
   fields: {
-    root: () => "flex flex-col gap-1",
+    root: () => "w-full flex flex-col gap-2",
     field: {
       root: () => "flex flex-col",
       label: () => "text-caption-default text-gray-500",

@@ -16,7 +16,7 @@ export function actionClassName({
 
 const VARIANT_CLASS_NAME: Record<ActionVariant, string> = {
   floating:
-    "shadow-xl w-4 h-4 rounded-full justify-center transition-[background-color,transform]",
+    "shadow-xl rounded-full w-5 h-5 justify-center text-[20px] transition-[background-color,transform]",
   primary:
     "rounded-0.5 min-w-[40px] h-4 px-2 transition-[background-color,transform]",
   secondary:
