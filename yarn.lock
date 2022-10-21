@@ -14261,6 +14261,11 @@ yup@^0.32.11:
     property-expr "^2.0.4"
     toposort "^2.0.2"
 
+zod-form-data@^1.2.2:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/zod-form-data/-/zod-form-data-1.2.2.tgz#f2f3c362f16a8dd7118567b02db6aa05f07e8833"
+  integrity sha512-Z74PiUqRos2Lov70s9jb6/VE1oLmk4891VhJ78/ckyRiYsuaUBf1qq4q0/EwoWCezCyn9UX+aCR8zRL7ugTtZQ==
+
 zod@^3.17.3:
   version "3.17.3"
   resolved "https://registry.yarnpkg.com/zod/-/zod-3.17.3.tgz#86abbc670ff0063a4588d85a4dcc917d6e4af2ba"

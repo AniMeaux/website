@@ -1,6 +1,7 @@
 import { forwardRef } from "react";
 import { asBooleanAttribute } from "~/core/attributes";
 import { cn } from "~/core/classNames";
+import { ensureArray } from "~/core/ensureArray";
 import {
   inputClassName,
   InputWrapper,
@@ -50,7 +51,11 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
         disabled={disabled}
         aria-invalid={asBooleanAttribute(hasError)}
         className={cn(
-          inputClassName({ hasError, leftAdornment, rightAdornment }),
+          inputClassName({
+            hasError,
+            leftAdornmentCount: ensureArray(leftAdornment).length,
+            rightAdornmentCount: ensureArray(rightAdornment).length,
+          }),
           { "text-transparent focus:text-inherit": isHidden },
           { "gap-0.5": type === "date" }
         )}

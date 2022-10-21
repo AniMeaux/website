@@ -36,7 +36,8 @@
     "react-dom": "^17.0.1",
     "react-transition-group": "^4.4.2",
     "tiny-invariant": "^1.2.0",
-    "zod": "^3.17.3"
+    "zod": "^3.17.3",
+    "zod-form-data": "^1.2.2"
   },
   "devDependencies": {
     "@remix-run/dev": "^1.7.2",

@@ -36,10 +36,6 @@
     text-rendering: optimizeLegibility;
   }
 
-  input[type="date"] {
-    @apply gap-0.5;
-  }
-
   /* Safari >= 15, Chrome >= 99 */
   input::-webkit-datetime-edit,
   input::-webkit-datetime-edit-fields-wrapper,
