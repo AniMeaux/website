@@ -50,13 +50,16 @@ export default function Layout() {
     <div className="grid grid-cols-1 md:grid-cols-[auto,minmax(0px,1fr)] items-start md:gap-2">
       <CurrentUserSideBar currentUser={currentUser} />
 
-      <div className="flex flex-col items-center gap-1 md:pb-2 md:gap-2">
+      <div className="flex flex-col gap-1 md:pb-2 md:gap-2">
         <header className="w-full bg-white px-safe-1 pt-safe-0.5 pb-0.5 grid grid-cols-[minmax(0px,1fr)_auto] items-center justify-between gap-1 md:sticky md:top-0 md:z-20 md:pt-safe-1 md:pr-safe-2 md:pb-1 md:pl-2 md:grid-cols-[minmax(0px,66%)_auto] md:gap-4">
           <SearchInput />
           <CurrentUserMenu currentUser={currentUser} />
         </header>
 
-        <Outlet />
+        <div className="flex flex-col items-center gap-1 md:pr-2 md:gap-2">
+          <Outlet />
+        </div>
+
         <CurrentUserTabBar currentUser={currentUser} />
       </div>
     </div>
@@ -269,7 +272,7 @@ function CurrentUserMenu({
                 <Icon id="user" />
               </span>
 
-              <span className="text-body-emphasis">Votre profile</span>
+              <span className="text-body-emphasis">Votre profil</span>
             </BaseLink>
           </DropdownMenu.Item>
 

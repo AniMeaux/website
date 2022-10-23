@@ -113,7 +113,7 @@ export default function EditCurrentUserProfilePage() {
     <main className="w-full flex flex-col md:max-w-[600px]">
       <Card>
         <CardHeader>
-          <CardTitle>Modifier votre profile</CardTitle>
+          <CardTitle>Modifier votre profil</CardTitle>
         </CardHeader>
 
         <CardContent>
