@@ -58,7 +58,7 @@ export function CardContent({
           ? "scrollbars-none overflow-x-auto"
           : "px-1 md:px-2",
         {
-          "flex-1 overflow-y-auto scrollbars-custom overscroll-contain":
+          "flex-1 overflow-y-scroll scrollbars-custom overscroll-contain":
             hasVerticalScroll,
         }
       )}
