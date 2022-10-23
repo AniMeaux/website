@@ -1,17 +1,35 @@
-import { Children, useState } from "react";
+import { Children, createContext, useContext, useMemo, useState } from "react";
 import { cn } from "~/core/classNames";
 import { Chip } from "~/core/dataDisplay/chip";
 import { joinReactNodes } from "~/core/joinReactNodes";
 import { Separator } from "~/core/layout/separator";
 import { Icon } from "~/generated/icon";
 
+type FiltersContextValue = {
+  openedFilter: string | null;
+  setOpenedFilter: React.Dispatch<React.SetStateAction<string | null>>;
+};
+
+const FiltersContext = createContext<FiltersContextValue>({
+  openedFilter: null,
+  setOpenedFilter: () => {},
+});
+
 export function Filters({ children }: { children?: React.ReactNode }) {
+  const [openedFilter, setOpenedFilter] = useState<string | null>(null);
   const childrenArray = Children.toArray(children);
 
   return (
-    <div className="flex flex-col gap-0.5">
-      {joinReactNodes(childrenArray, <Separator />)}
-    </div>
+    <FiltersContext.Provider
+      value={useMemo<FiltersContextValue>(
+        () => ({ openedFilter, setOpenedFilter }),
+        [openedFilter, setOpenedFilter]
+      )}
+    >
+      <div className="flex flex-col gap-0.5">
+        {joinReactNodes(childrenArray, <Separator />)}
+      </div>
+    </FiltersContext.Provider>
   );
 }
 
@@ -28,7 +46,8 @@ export function Filter({
   children?: React.ReactNode;
   hiddenContent?: React.ReactNode;
 }) {
-  const [isOpened, setIsOpened] = useState(false);
+  const { openedFilter, setOpenedFilter } = useContext(FiltersContext);
+  const isOpened = openedFilter === value;
 
   return (
     <div className="flex flex-col">
@@ -37,7 +56,11 @@ export function Filter({
         id={`filter-${value}-trigger`}
         aria-controls={`filter-${value}-content`}
         data-state={isOpened ? "open" : "closed"}
-        onClick={() => setIsOpened((isOpened) => !isOpened)}
+        onClick={() =>
+          setOpenedFilter((openedFilter) =>
+            openedFilter === value ? null : value
+          )
+        }
         className="group w-full rounded-0.5 grid grid-cols-1 grid-flow-col items-start text-left focus:z-10 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
       >
         <span
