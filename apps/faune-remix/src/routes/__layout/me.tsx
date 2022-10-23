@@ -210,7 +210,7 @@ function EditSuccessHelper() {
 
   return (
     <Helper variant="success" action={<button onClick={clear}>Fermer</button>}>
-      Votre profile à bien été mis à jour.
+      Votre profil à bien été mis à jour.
     </Helper>
   );
 }

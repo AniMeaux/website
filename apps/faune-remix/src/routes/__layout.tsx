@@ -272,7 +272,7 @@ function CurrentUserMenu({
                 <Icon id="user" />
               </span>
 
-              <span className="text-body-emphasis">Votre profile</span>
+              <span className="text-body-emphasis">Votre profil</span>
             </BaseLink>
           </DropdownMenu.Item>
 
