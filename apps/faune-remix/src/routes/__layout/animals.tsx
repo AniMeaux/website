@@ -25,6 +25,7 @@ import {
 import { actionClassName } from "~/core/action";
 import { BaseLink } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
+import { Filter, Filters } from "~/core/controllers/filters";
 import { Paginator } from "~/core/controllers/paginator";
 import {
   assertCurrentUserHasGroups,
@@ -42,7 +43,6 @@ import {
   CardHeader,
   CardTitle,
 } from "~/core/layout/card";
-import { Separator } from "~/core/layout/separator";
 import { PageSearchParams } from "~/core/params";
 import { Icon } from "~/generated/icon";
 import { UserAvatar } from "~/users/avatar";
@@ -148,7 +148,7 @@ export default function AnimalsPage() {
 
       <section className="flex flex-col gap-1 md:flex-row md:gap-2">
         <aside className="hidden flex-col min-w-[250px] max-w-[300px] flex-1 md:flex">
-          <Card className="sticky top-8 h-[calc(100vh-100px)]">
+          <Card className="sticky top-8 max-h-[calc(100vh-100px)]">
             <CardHeader>
               <CardTitle>Trier et filtrer</CardTitle>
             </CardHeader>
@@ -297,25 +297,31 @@ function SortAndFilters() {
     <Form
       method="get"
       onChange={(event) => submit(event.currentTarget)}
-      className={formClassNames.root()}
+      className="flex flex-col gap-2"
     >
-      <div className={formClassNames.fields.root()}>
-        <div className={formClassNames.actions()}>
-          <BaseLink
-            to={{ search: "" }}
-            className={actionClassName({ variant: "secondary", color: "gray" })}
-          >
-            Tout effacer
-          </BaseLink>
+      <div className="flex flex-col gap-1">
+        <BaseLink
+          to={{ search: "" }}
+          className={actionClassName({ variant: "secondary", color: "gray" })}
+        >
+          Tout effacer
+        </BaseLink>
 
-          <ActiveFilterLink />
-        </div>
+        <ActiveFilterLink />
+      </div>
 
-        <Separator />
-
-        <div className={formClassNames.fields.field.root()}>
-          <span className={formClassNames.fields.field.label()}>Trier</span>
-
+      <Filters>
+        <Filter
+          value="sort"
+          label="Trier"
+          hiddenContent={
+            <input
+              type="hidden"
+              name={AnimalSearchParams.Keys.SORT}
+              value={visibleFilters.sort}
+            />
+          }
+        >
           <Suggestions>
             <Suggestion>
               <SuggestionInput
@@ -347,13 +353,21 @@ function SortAndFilters() {
               </SuggestionLabel>
             </Suggestion>
           </Suggestions>
-        </div>
+        </Filter>
 
-        <Separator />
-
-        <div className={formClassNames.fields.field.root()}>
-          <span className={formClassNames.fields.field.label()}>Espèces</span>
-
+        <Filter
+          value="species"
+          label="Espèces"
+          count={visibleFilters.species.length}
+          hiddenContent={visibleFilters.species.map((species) => (
+            <input
+              key={species}
+              type="hidden"
+              name={AnimalSearchParams.Keys.SPECIES}
+              value={species}
+            />
+          ))}
+        >
           <Suggestions>
             {SORTED_SPECIES.map((species) => (
               <Suggestion key={species}>
@@ -371,11 +385,21 @@ function SortAndFilters() {
               </Suggestion>
             ))}
           </Suggestions>
-        </div>
+        </Filter>
 
-        <div className={formClassNames.fields.field.root()}>
-          <span className={formClassNames.fields.field.label()}>Status</span>
-
+        <Filter
+          value="status"
+          label="Status"
+          count={visibleFilters.statuses.length}
+          hiddenContent={visibleFilters.statuses.map((status) => (
+            <input
+              key={status}
+              type="hidden"
+              name={AnimalSearchParams.Keys.STATUS}
+              value={status}
+            />
+          ))}
+        >
           <Suggestions>
             {SORTED_STATUS.map((status) => (
               <Suggestion key={status}>
@@ -393,13 +417,21 @@ function SortAndFilters() {
               </Suggestion>
             ))}
           </Suggestions>
-        </div>
+        </Filter>
 
-        <div className={formClassNames.fields.field.root()}>
-          <span className={formClassNames.fields.field.label()}>
-            Responsable
-          </span>
-
+        <Filter
+          value="manager"
+          label="Responsable"
+          count={visibleFilters.managersId.length}
+          hiddenContent={visibleFilters.managersId.map((managerId) => (
+            <input
+              key={managerId}
+              type="hidden"
+              name={AnimalSearchParams.Keys.MANAGERS_ID}
+              value={managerId}
+            />
+          ))}
+        >
           <Suggestions>
             {managers.map((manager) => (
               <Suggestion key={manager.id}>
@@ -417,74 +449,115 @@ function SortAndFilters() {
               </Suggestion>
             ))}
           </Suggestions>
-        </div>
+        </Filter>
 
-        <div className={formClassNames.fields.field.root()}>
-          <span className={formClassNames.fields.field.label()}>
-            Pris en charge après le
-          </span>
+        <Filter
+          value="pick-up"
+          label="Prise en charge"
+          count={
+            (visibleFilters.minPickUpDate == null ? 0 : 1) +
+            (visibleFilters.maxPickUpDate == null ? 0 : 1)
+          }
+          hiddenContent={
+            <>
+              <input
+                type="hidden"
+                name={AnimalSearchParams.Keys.MIN_PICK_UP_DATE}
+                value={
+                  visibleFilters.minPickUpDate == null
+                    ? ""
+                    : DateTime.fromJSDate(
+                        visibleFilters.minPickUpDate
+                      ).toISODate()
+                }
+              />
+              <input
+                type="hidden"
+                name={AnimalSearchParams.Keys.MAX_PICK_UP_DATE}
+                value={
+                  visibleFilters.maxPickUpDate == null
+                    ? ""
+                    : DateTime.fromJSDate(
+                        visibleFilters.maxPickUpDate
+                      ).toISODate()
+                }
+              />
+            </>
+          }
+        >
+          <div className={formClassNames.fields.root()}>
+            <div className={formClassNames.fields.field.root()}>
+              <span className={formClassNames.fields.field.label()}>
+                Après le
+              </span>
 
-          <Input
-            type="date"
-            name={AnimalSearchParams.Keys.MIN_PICK_UP_DATE}
-            value={
-              visibleFilters.minPickUpDate == null
-                ? ""
-                : DateTime.fromJSDate(visibleFilters.minPickUpDate).toISODate()
-            }
-            onChange={() => {}}
-            leftAdornment={
-              <Adornment>
-                <Icon id="calendarDays" />
-              </Adornment>
-            }
-            rightAdornment={
-              visibleFilters.minPickUpDate != null && (
-                <ActionAdornment
-                  onClick={() =>
-                    setSearchParams(searchParams.deleteMinPickUpDate())
-                  }
-                >
-                  <Icon id="xMark" />
-                </ActionAdornment>
-              )
-            }
-          />
-        </div>
+              <Input
+                type="date"
+                name={AnimalSearchParams.Keys.MIN_PICK_UP_DATE}
+                value={
+                  visibleFilters.minPickUpDate == null
+                    ? ""
+                    : DateTime.fromJSDate(
+                        visibleFilters.minPickUpDate
+                      ).toISODate()
+                }
+                onChange={() => {}}
+                leftAdornment={
+                  <Adornment>
+                    <Icon id="calendarDays" />
+                  </Adornment>
+                }
+                rightAdornment={
+                  visibleFilters.minPickUpDate != null && (
+                    <ActionAdornment
+                      onClick={() =>
+                        setSearchParams(searchParams.deleteMinPickUpDate())
+                      }
+                    >
+                      <Icon id="xMark" />
+                    </ActionAdornment>
+                  )
+                }
+              />
+            </div>
 
-        <div className={formClassNames.fields.field.root()}>
-          <span className={formClassNames.fields.field.label()}>
-            Pris en charge avant le
-          </span>
+            <div className={formClassNames.fields.field.root()}>
+              <span className={formClassNames.fields.field.label()}>
+                Avant le
+              </span>
 
-          <Input
-            type="date"
-            name={AnimalSearchParams.Keys.MAX_PICK_UP_DATE}
-            value={
-              visibleFilters.maxPickUpDate == null
-                ? ""
-                : DateTime.fromJSDate(visibleFilters.maxPickUpDate).toISODate()
-            }
-            onChange={() => {}}
-            leftAdornment={
-              <Adornment>
-                <Icon id="calendarDays" />
-              </Adornment>
-            }
-            rightAdornment={
-              visibleFilters.maxPickUpDate != null && (
-                <ActionAdornment
-                  onClick={() =>
-                    setSearchParams(searchParams.deleteMaxPickUpDate())
-                  }
-                >
-                  <Icon id="xMark" />
-                </ActionAdornment>
-              )
-            }
-          />
-        </div>
-      </div>
+              <Input
+                type="date"
+                name={AnimalSearchParams.Keys.MAX_PICK_UP_DATE}
+                value={
+                  visibleFilters.maxPickUpDate == null
+                    ? ""
+                    : DateTime.fromJSDate(
+                        visibleFilters.maxPickUpDate
+                      ).toISODate()
+                }
+                onChange={() => {}}
+                leftAdornment={
+                  <Adornment>
+                    <Icon id="calendarDays" />
+                  </Adornment>
+                }
+                rightAdornment={
+                  visibleFilters.maxPickUpDate != null && (
+                    <ActionAdornment
+                      onClick={() =>
+                        setSearchParams(searchParams.deleteMaxPickUpDate())
+                      }
+                    >
+                      <Icon id="xMark" />
+                    </ActionAdornment>
+                  )
+                }
+              />
+            </div>
+          </div>
+        </Filter>
+      </Filters>
     </Form>
   );
 }
