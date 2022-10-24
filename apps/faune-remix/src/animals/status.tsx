@@ -1,6 +1,7 @@
 import { Status } from "@prisma/client";
 import orderBy from "lodash.orderby";
 import { cn } from "~/core/classNames";
+import { Icon } from "~/generated/icon";
 
 export const ACTIVE_ANIMAL_STATUS: Status[] = [
   Status.OPEN_TO_ADOPTION,
@@ -21,13 +22,23 @@ export function StatusBadge({
       className={cn(
         className,
         "rounded-0.5 px-0.5 inline-flex text-caption-emphasis",
-        STATUS_CLASS_NAMES[status]
+        STATUS_BADGE_CLASS_NAMES[status]
       )}
     >
       {STATUS_TRANSLATION[status]}
     </span>
   );
 }
+
+const STATUS_BADGE_CLASS_NAMES: Record<Status, string> = {
+  [Status.ADOPTED]: "bg-green-600 text-white",
+  [Status.DECEASED]: "bg-gray-800 text-white",
+  [Status.FREE]: "bg-gray-800 text-white",
+  [Status.OPEN_TO_ADOPTION]: "bg-blue-500 text-white",
+  [Status.OPEN_TO_RESERVATION]: "bg-blue-500 text-white",
+  [Status.RESERVED]: "bg-yellow-400 text-black",
+  [Status.UNAVAILABLE]: "bg-gray-800 text-white",
+};
 
 export function StatusIcon({
   status,
@@ -37,25 +48,21 @@ export function StatusIcon({
   className?: string;
 }) {
   return (
-    <span
-      title={STATUS_TRANSLATION[status]}
-      className={cn(
-        className,
-        "rounded-0.5 w-[1em] aspect-square inline-flex",
-        STATUS_CLASS_NAMES[status]
-      )}
+    <Icon
+      id="status"
+      className={cn(className, STATUS_ICON_CLASS_NAMES[status])}
     />
   );
 }
 
-const STATUS_CLASS_NAMES: Record<Status, string> = {
-  [Status.ADOPTED]: "bg-green-600 text-white",
-  [Status.DECEASED]: "bg-gray-800 text-white",
-  [Status.FREE]: "bg-gray-800 text-white",
-  [Status.OPEN_TO_ADOPTION]: "bg-blue-500 text-white",
-  [Status.OPEN_TO_RESERVATION]: "bg-blue-500 text-white",
-  [Status.RESERVED]: "bg-yellow-400 text-black",
-  [Status.UNAVAILABLE]: "bg-gray-800 text-white",
+const STATUS_ICON_CLASS_NAMES: Record<Status, string> = {
+  [Status.ADOPTED]: "text-green-600",
+  [Status.DECEASED]: "text-gray-800",
+  [Status.FREE]: "text-gray-800",
+  [Status.OPEN_TO_ADOPTION]: "text-blue-500",
+  [Status.OPEN_TO_RESERVATION]: "text-blue-500",
+  [Status.RESERVED]: "text-yellow-400",
+  [Status.UNAVAILABLE]: "text-gray-800",
 };
 
 export const STATUS_TRANSLATION: Record<Status, string> = {

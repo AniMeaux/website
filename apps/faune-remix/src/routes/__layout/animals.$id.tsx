@@ -8,7 +8,7 @@ import invariant from "tiny-invariant";
 import { z } from "zod";
 import { GENDER_ICON } from "~/animals/gender";
 import { SPECIES_ICON, SPECIES_TRANSLATION } from "~/animals/species";
-import { StatusBadge, STATUS_TRANSLATION } from "~/animals/status";
+import { StatusBadge, StatusIcon, STATUS_TRANSLATION } from "~/animals/status";
 import {
   ADOPTION_OPTION_TRANSLATION,
   PICK_UP_REASON_TRANSLATION,
@@ -264,7 +264,7 @@ function SituationCard() {
             </Item>
           )}
 
-          <Item icon={<Icon id="certificate" />}>
+          <Item icon={<StatusIcon status={animal.status} />}>
             Est{" "}
             <strong className="text-body-emphasis">
               {STATUS_TRANSLATION[animal.status]}
@@ -507,7 +507,10 @@ function Item({
 }) {
   return (
     <li className="w-full rounded-0.5 grid grid-cols-[auto_minmax(0px,1fr)] grid-flow-col">
-      <span className="w-4 h-4 flex items-center justify-center">{icon}</span>
+      <span className="w-4 h-4 flex items-center justify-center text-gray-600 text-[20px]">
+        {icon}
+      </span>
+
       <div className="py-1">{children}</div>
     </li>
   );
