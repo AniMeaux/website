@@ -16,12 +16,13 @@ import {
 import { actionClassName } from "~/core/action";
 import { BaseLink } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
+import { useConfig } from "~/core/config";
 import {
   assertCurrentUserHasGroups,
   getCurrentUser,
 } from "~/core/currentUser.server";
 import { Empty } from "~/core/dataDisplay/empty";
-import { DynamicImage } from "~/core/dataDisplay/image";
+import { createCloudinaryUrl, DynamicImage } from "~/core/dataDisplay/image";
 import {
   ARTICLE_COMPONENTS,
   Markdown,
@@ -118,11 +119,23 @@ export default function AnimalProfilePage() {
 }
 
 function HeaderCard() {
+  const { cloudinaryName } = useConfig();
   const { canEdit, animal } = useLoaderData<typeof loader>();
 
   return (
     <Card>
-      <div className="h-6 flex bg-gray-200 md:h-10" />
+      <div className="relative h-6 flex md:h-10">
+        <span className="absolute top-0 left-0 w-full h-full backdrop-blur-3xl" />
+
+        <img
+          src={createCloudinaryUrl(cloudinaryName, animal.avatar, {
+            size: "128",
+            aspectRatio: "1:1",
+          })}
+          alt={animal.name}
+          className="w-full h-full object-cover object-top"
+        />
+      </div>
 
       <CardContent>
         <div className="relative pt-1 pl-9 grid grid-cols-1 grid-flow-col gap-1 md:pt-2 md:pl-10 md:gap-2">

@@ -86,7 +86,7 @@ export function DynamicImage({
 
 type AspectRatio = "1:1" | "4:3";
 
-function createCloudinaryUrl(
+export function createCloudinaryUrl(
   cloudName: string,
   imageId: string,
   {
