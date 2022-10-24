@@ -12,10 +12,6 @@ export function FosterFamilyAvatar({
   fosterFamily: Pick<FosterFamily, "id">;
 }) {
   return (
-    <Avatar
-      {...props}
-      color={inferAvatarColor(fosterFamily.id)}
-      icon="houseChimneyPaw"
-    />
+    <Avatar {...props} color={inferAvatarColor(fosterFamily.id)} icon="house" />
   );
 }
