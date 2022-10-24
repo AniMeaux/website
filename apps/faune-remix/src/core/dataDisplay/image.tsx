@@ -29,6 +29,7 @@ export type DynamicImageProps = {
     // `default` is mandatory.
     default: string;
   };
+  aspectRatio?: AspectRatio;
   fallbackSize: ImageSize;
   loading?: "lazy" | "eager";
   className?: string;
@@ -38,6 +39,7 @@ export function DynamicImage({
   imageId,
   alt,
   sizes: sizesProp,
+  aspectRatio,
   fallbackSize,
   loading = "lazy",
   className,
@@ -47,6 +49,7 @@ export function DynamicImage({
   const srcSet = IMAGE_SIZES.map((size) => {
     const url = createCloudinaryUrl(config.cloudinaryName, imageId, {
       size,
+      aspectRatio,
     });
 
     return `${url} ${size}w`;
@@ -72,6 +75,7 @@ export function DynamicImage({
       loading={loading}
       src={createCloudinaryUrl(config.cloudinaryName, imageId, {
         size: fallbackSize,
+        aspectRatio,
       })}
       srcSet={srcSet}
       sizes={sizes}
@@ -79,6 +83,8 @@ export function DynamicImage({
     />
   );
 }
+
+type AspectRatio = "1:1" | "4:3";
 
 function createCloudinaryUrl(
   cloudName: string,
@@ -88,7 +94,7 @@ function createCloudinaryUrl(
     aspectRatio = "4:3",
   }: {
     size: ImageSize;
-    aspectRatio?: "4:3" | "16:9";
+    aspectRatio?: AspectRatio;
   }
 ) {
   const transformations = [

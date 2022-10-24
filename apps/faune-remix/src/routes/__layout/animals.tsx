@@ -136,7 +136,7 @@ export default function AnimalsPage() {
           </Card>
         </aside>
 
-        <main className="min-w-0 flex-2 flex flex-col">
+        <main className="flex flex-col md:min-w-0 md:flex-2">
           <Card>
             <CardHeader>
               <CardTitle>

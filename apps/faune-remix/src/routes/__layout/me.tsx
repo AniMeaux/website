@@ -61,7 +61,7 @@ export default function CurrentUserPage() {
         />
 
         <CardContent>
-          <div className="relative pt-1 pl-9 grid grid-cols-[minmax(0px,1fr)_auto] items-start gap-1 md:pt-2 md:pl-10 md:gap-2">
+          <div className="relative pt-1 pl-9 grid grid-cols-1 grid-flow-col gap-1 md:pt-2 md:pl-10 md:gap-2">
             <UserAvatar
               user={currentUser}
               size="xl"
