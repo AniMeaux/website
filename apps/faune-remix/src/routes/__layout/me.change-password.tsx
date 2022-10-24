@@ -12,13 +12,7 @@ import { Adornment } from "~/core/formElements/adornment";
 import { formClassNames } from "~/core/formElements/form";
 import { PasswordInput } from "~/core/formElements/passwordInput";
 import { joinReactNodes } from "~/core/joinReactNodes";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "~/core/layout/card";
+import { Card, CardContent, CardHeader, CardTitle } from "~/core/layout/card";
 import {
   ActionConfirmationSearchParams,
   ActionConfirmationType,
@@ -66,8 +60,6 @@ export async function action({ request }: ActionArgs) {
   );
 }
 
-const FORM_ID = "edit-password-form";
-
 export default function EditCurrentUserPasswordPage() {
   const actionData = useActionData<ActionData>();
   const { formErrors = [], fieldErrors = {} } = actionData?.errors ?? {};
@@ -82,7 +74,7 @@ export default function EditCurrentUserPasswordPage() {
   }, [actionData]);
 
   return (
-    <main className="w-full flex flex-col gap-1 md:max-w-[600px] md:gap-2">
+    <main className="w-full flex flex-col md:max-w-[600px]">
       <Card>
         <CardHeader>
           <CardTitle>Changer de mot de passe</CardTitle>
@@ -90,18 +82,17 @@ export default function EditCurrentUserPasswordPage() {
 
         <CardContent>
           <Form
-            id={FORM_ID}
             method="post"
             noValidate
-            className={formClassNames.root()}
+            className={formClassNames.root({ hasHeader: true })}
           >
-            {formErrors.length > 0 && (
-              <Helper variant="error">
-                {joinReactNodes(formErrors, <br />)}
-              </Helper>
-            )}
-
             <div className={formClassNames.fields.root()}>
+              {formErrors.length > 0 && (
+                <Helper variant="error">
+                  {joinReactNodes(formErrors, <br />)}
+                </Helper>
+              )}
+
               <div className={formClassNames.fields.field.root()}>
                 <label
                   htmlFor="password"
@@ -135,17 +126,15 @@ export default function EditCurrentUserPasswordPage() {
                 )}
               </div>
             </div>
+
+            <button
+              type="submit"
+              className={cn(actionClassName(), "w-full md:w-auto")}
+            >
+              Enregistrer
+            </button>
           </Form>
         </CardContent>
-
-        <CardFooter className="justify-end">
-          <button
-            form={FORM_ID}
-            className={cn(actionClassName(), "w-full md:w-auto")}
-          >
-            Enregistrer
-          </button>
-        </CardFooter>
       </Card>
     </main>
   );

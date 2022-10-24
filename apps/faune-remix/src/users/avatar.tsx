@@ -8,7 +8,7 @@ import {
 export function UserAvatar({
   user,
   ...props
-}: Omit<AvatarProps, "color" | "letter"> & {
+}: Omit<AvatarProps, "color" | "icon" | "letter"> & {
   user: Pick<User, "id" | "displayName">;
 }) {
   return (

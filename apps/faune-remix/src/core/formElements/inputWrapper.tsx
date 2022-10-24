@@ -1,6 +1,7 @@
 import { createElement } from "react";
 import { cn } from "~/core/classNames";
 import { ensureArray } from "~/core/ensureArray";
+import { AdornmentContainer } from "~/core/formElements/adornment";
 
 export type InputWrapperProps = {
   isDisabled?: boolean;
@@ -22,7 +23,7 @@ export function InputWrapper({
 
   return (
     <span
-      className={cn(className, "relative inline-grid grid-cols-1", {
+      className={cn(className, "relative inline-flex", {
         "opacity-60": isDisabled,
       })}
     >
@@ -41,54 +42,29 @@ export function InputWrapper({
   );
 }
 
-function AdornmentContainer({
-  side,
-  children,
-}: {
-  side: "left" | "right";
-  children?: React.ReactNode;
-}) {
-  return (
-    <span
-      className={cn(
-        "absolute top-1 grid grid-flow-col items-center gap-0.5 pointer-events-none",
-        {
-          "left-1": side === "left",
-          "right-1": side === "right",
-        }
-      )}
-    >
-      {children}
-    </span>
-  );
-}
-
 export function inputClassName({
   hasError = false,
-  leftAdornment,
-  rightAdornment,
+  leftAdornmentCount = 0,
+  rightAdornmentCount = 0,
 }: {
   hasError?: boolean;
-  leftAdornment?: React.ReactNode | React.ReactNode[];
-  rightAdornment?: React.ReactNode | React.ReactNode[];
+  leftAdornmentCount?: number;
+  rightAdornmentCount?: number;
 } = {}) {
-  const leftAdornmentCount = ensureArray(leftAdornment).length;
-  const rightAdornmentCount = ensureArray(rightAdornment).length;
-
   return cn(
-    "appearance-none w-full min-w-0 min-h-[40px] rounded-0.5 ring-inset ring-1 bg-transparent py-1 placeholder:text-gray-500 focus-visible:outline-none focus-visible:ring-outset focus-visible:ring",
+    "appearance-none w-full min-w-0 min-h-[40px] rounded-0.5 ring-inset ring-1 bg-transparent py-1 text-left transition-colors duration-100 ease-in-out placeholder:text-gray-500 focus-visible:outline-none focus-visible:ring-outset focus-visible:ring",
     {
       "ring-red-500 focus-visible:ring-red-400": hasError,
       "ring-gray-200 focus-visible:ring-blue-400": !hasError,
     },
     {
       "pl-1": leftAdornmentCount === 0,
-      "pl-[35px]": leftAdornmentCount === 1,
+      "pl-4": leftAdornmentCount === 1,
     },
     {
       "pr-1": rightAdornmentCount === 0,
-      "pr-[35px]": rightAdornmentCount === 1,
-      "pr-[60px]": rightAdornmentCount === 2,
+      "pr-4": rightAdornmentCount === 1,
+      "pr-7": rightAdornmentCount === 2,
     }
   );
 }

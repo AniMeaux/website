@@ -48,7 +48,7 @@ export default function CurrentUserPage() {
   const isManager = hasGroups(currentUser, [UserGroup.ANIMAL_MANAGER]);
 
   return (
-    <main className="w-full flex flex-col gap-1 md:max-w-[920px] md:gap-2">
+    <section className="w-full flex flex-col gap-1 md:gap-2">
       <EditSuccessHelper />
       <EditPasswordSuccessHelper />
 
@@ -61,14 +61,14 @@ export default function CurrentUserPage() {
         />
 
         <CardContent>
-          <div className="relative pt-1 pl-9 grid grid-cols-[minmax(0px,1fr)_auto] items-start gap-1 md:pt-2 md:pl-10 md:gap-2">
+          <div className="relative pt-1 pl-9 grid grid-cols-1 grid-flow-col gap-1 md:pt-2 md:pl-10 md:gap-2">
             <UserAvatar
               user={currentUser}
               size="xl"
               className="absolute bottom-0 left-0 ring-5 ring-white"
             />
 
-            <div className="grid grid-cols-1 gap-0.5">
+            <div className="flex flex-col gap-0.5">
               <h1 className="text-title-section-small md:text-title-section-large">
                 {currentUser.displayName}
               </h1>
@@ -88,7 +88,7 @@ export default function CurrentUserPage() {
       </Card>
 
       <section className="grid grid-cols-1 gap-1 md:grid-cols-[minmax(250px,1fr)_minmax(0px,2fr)] md:items-start md:gap-2">
-        <section className="flex flex-col gap-1 md:gap-2">
+        <aside className="flex flex-col gap-1 md:gap-2">
           <Card>
             <CardHeader>
               <CardTitle>Groupes</CardTitle>
@@ -99,13 +99,13 @@ export default function CurrentUserPage() {
                 {currentUser.groups.map((group) => (
                   <li
                     key={group}
-                    className="p-0.5 grid grid-cols-[auto_minmax(0px,1fr)] items-start gap-1"
+                    className="grid grid-cols-[auto_minmax(0px,1fr)] items-start"
                   >
-                    <span className="w-2 h-2 flex items-center justify-center text-gray-600">
+                    <span className="w-4 h-4 flex items-center justify-center text-gray-600">
                       <Icon id={GROUP_ICON[group]} />
                     </span>
 
-                    <span>{GROUP_TRANSLATION[group]}</span>
+                    <span className="py-1">{GROUP_TRANSLATION[group]}</span>
                   </li>
                 ))}
               </ul>
@@ -129,9 +129,9 @@ export default function CurrentUserPage() {
               </BaseLink>
             </CardContent>
           </Card>
-        </section>
+        </aside>
 
-        <section className="flex flex-col gap-1 md:gap-2">
+        <main className="flex flex-col gap-1 md:gap-2">
           <Card>
             <CardHeader>
               <CardTitle>À votre charge</CardTitle>
@@ -186,9 +186,9 @@ export default function CurrentUserPage() {
               )}
             </CardContent>
           </Card>
-        </section>
+        </main>
       </section>
-    </main>
+    </section>
   );
 }
 
@@ -210,7 +210,7 @@ function EditSuccessHelper() {
 
   return (
     <Helper variant="success" action={<button onClick={clear}>Fermer</button>}>
-      Votre profile à bien été mis à jour.
+      Votre profil à bien été mis à jour.
     </Helper>
   );
 }

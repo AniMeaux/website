@@ -53,12 +53,12 @@ export function CardContent({
   return (
     <div
       className={cn(
-        "flex flex-col first:pt-1 last:pb-1 md:first:pt-2 md:last:pb-2",
+        "flex flex-col gap-1 first:pt-1 last:pb-1 md:gap-2 md:first:pt-2 md:last:pb-2",
         hasHorizontalScroll
           ? "scrollbars-none overflow-x-auto"
           : "px-1 md:px-2",
         {
-          "flex-1 overflow-y-auto scrollbars-custom overscroll-contain":
+          "flex-1 overflow-y-scroll scrollbars-custom overscroll-contain":
             hasVerticalScroll,
         }
       )}
@@ -70,18 +70,17 @@ export function CardContent({
 
 export function CardFooter({
   children,
-  isTransparent = false,
   className,
 }: {
   children?: React.ReactNode;
-  isTransparent?: boolean;
   className?: string;
 }) {
   return (
     <footer
-      className={cn(className, "flex-none p-1 flex gap-1 md:p-2 md:gap-2", {
-        "bg-white": !isTransparent,
-      })}
+      className={cn(
+        className,
+        "flex-none bg-white p-1 flex gap-1 md:p-2 md:gap-2"
+      )}
     >
       {children}
     </footer>

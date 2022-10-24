@@ -13,13 +13,7 @@ import { Adornment } from "~/core/formElements/adornment";
 import { formClassNames } from "~/core/formElements/form";
 import { Input } from "~/core/formElements/input";
 import { joinReactNodes } from "~/core/joinReactNodes";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "~/core/layout/card";
+import { Card, CardContent, CardHeader, CardTitle } from "~/core/layout/card";
 import {
   ActionConfirmationSearchParams,
   ActionConfirmationType,
@@ -96,8 +90,6 @@ export async function action({ request }: ActionArgs) {
   );
 }
 
-const FORM_ID = "edit-profile-form";
-
 export default function EditCurrentUserProfilePage() {
   const { currentUser } = useLoaderData<typeof loader>();
   const actionData = useActionData() as ActionData;
@@ -118,26 +110,25 @@ export default function EditCurrentUserProfilePage() {
   }, [actionData]);
 
   return (
-    <main className="w-full flex flex-col gap-1 md:max-w-[600px] md:gap-2">
+    <main className="w-full flex flex-col md:max-w-[600px]">
       <Card>
         <CardHeader>
-          <CardTitle>Modifier votre profile</CardTitle>
+          <CardTitle>Modifier votre profil</CardTitle>
         </CardHeader>
 
         <CardContent>
           <Form
-            id={FORM_ID}
             method="post"
             noValidate
-            className={formClassNames.root()}
+            className={formClassNames.root({ hasHeader: true })}
           >
-            {formErrors.length > 0 && (
-              <Helper variant="error">
-                {joinReactNodes(formErrors, <br />)}
-              </Helper>
-            )}
-
             <div className={formClassNames.fields.root()}>
+              {formErrors.length > 0 && (
+                <Helper variant="error">
+                  {joinReactNodes(formErrors, <br />)}
+                </Helper>
+              )}
+
               <div className={formClassNames.fields.field.root()}>
                 <label
                   htmlFor="name"
@@ -208,17 +199,15 @@ export default function EditCurrentUserProfilePage() {
                 )}
               </div>
             </div>
+
+            <button
+              type="submit"
+              className={cn(actionClassName(), "w-full md:w-auto")}
+            >
+              Enregistrer
+            </button>
           </Form>
         </CardContent>
-
-        <CardFooter className="justify-end">
-          <button
-            form={FORM_ID}
-            className={cn(actionClassName(), "w-full md:w-auto")}
-          >
-            Enregistrer
-          </button>
-        </CardFooter>
       </Card>
     </main>
   );

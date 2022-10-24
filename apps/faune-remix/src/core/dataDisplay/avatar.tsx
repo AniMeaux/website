@@ -25,35 +25,15 @@ export function Avatar({
       className={cn(
         className,
         "inline-flex items-center justify-center",
-        {
-          "rounded-0.5 w-2 h-2": size === "sm",
-          "rounded-0.5 w-4 h-4": size === "lg",
-          "rounded-1 w-8 h-8": size === "xl",
-        },
-        {
-          "bg-blue-100 text-blue-600": color === "blue",
-          "bg-green-100 text-green-700": color === "green",
-          "bg-yellow-100 text-yellow-600": color === "yellow",
-          "bg-red-100 text-red-600": color === "red",
-        }
+        SIZE_CLASS_NAME[size],
+        COLOR_CLASS_NAME[color]
       )}
     >
       {icon != null ? (
-        <Icon
-          id={icon}
-          className={cn({
-            "text-[10px]": size === "sm",
-            "text-[20px]": size === "lg",
-            "text-[40px]": size === "xl",
-          })}
-        />
+        <Icon id={icon} className={ICON_CLASS_NAME[size]} />
       ) : (
         <span
-          className={cn("font-semibold leading-none", {
-            "text-[12px]": size === "sm",
-            "text-[20px]": size === "lg",
-            "text-[40px]": size === "xl",
-          })}
+          className={cn("font-semibold leading-none", LETTER_CLASS_NAME[size])}
         >
           {letter}
         </span>
@@ -61,6 +41,31 @@ export function Avatar({
     </span>
   );
 }
+
+const SIZE_CLASS_NAME: Record<AvatarSize, string> = {
+  sm: "rounded-0.5 w-2 h-2",
+  lg: "rounded-0.5 w-4 h-4",
+  xl: "rounded-1 w-8 h-8",
+};
+
+const COLOR_CLASS_NAME: Record<AvatarColor, string> = {
+  blue: "bg-blue-100 text-blue-600",
+  green: "bg-green-100 text-green-700",
+  red: "bg-red-100 text-red-600",
+  yellow: "bg-yellow-100 text-yellow-600",
+};
+
+const ICON_CLASS_NAME: Record<AvatarSize, string> = {
+  sm: "text-[12px]",
+  lg: "text-[20px]",
+  xl: "text-[40px]",
+};
+
+const LETTER_CLASS_NAME: Record<AvatarSize, string> = {
+  sm: "text-[14px]",
+  lg: "text-[22px]",
+  xl: "text-[44px]",
+};
 
 export function inferAvatarColor(uuid: string): AvatarColor {
   // We take the first 8 hexa characters.

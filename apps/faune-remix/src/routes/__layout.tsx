@@ -11,7 +11,6 @@ import { createPath } from "history";
 import { useEffect, useState } from "react";
 import { BaseLink, BaseLinkProps } from "~/core/baseLink";
 import { getCurrentUser } from "~/core/currentUser.server";
-import { Adornment } from "~/core/formElements/adornment";
 import {
   SideBar,
   SideBarContent,
@@ -51,13 +50,16 @@ export default function Layout() {
     <div className="grid grid-cols-1 md:grid-cols-[auto,minmax(0px,1fr)] items-start md:gap-2">
       <CurrentUserSideBar currentUser={currentUser} />
 
-      <div className="flex flex-col items-center gap-1 md:pb-2 md:gap-2">
+      <div className="flex flex-col gap-1 md:pb-2 md:gap-2">
         <header className="w-full bg-white px-safe-1 pt-safe-0.5 pb-0.5 grid grid-cols-[minmax(0px,1fr)_auto] items-center justify-between gap-1 md:sticky md:top-0 md:z-20 md:pt-safe-1 md:pr-safe-2 md:pb-1 md:pl-2 md:grid-cols-[minmax(0px,66%)_auto] md:gap-4">
           <SearchInput />
           <CurrentUserMenu currentUser={currentUser} />
         </header>
 
-        <Outlet />
+        <div className="flex flex-col items-center gap-1 md:pr-2 md:gap-2">
+          <Outlet />
+        </div>
+
         <CurrentUserTabBar currentUser={currentUser} />
       </div>
     </div>
@@ -201,12 +203,14 @@ const ALL_NAVIGATION_ITEMS: NavigationItem[] = [
 
 function SearchInput() {
   return (
-    <button className="rounded-0.5 bg-gray-100 p-1 grid grid-cols-[auto_minmax(0px,1fr)] items-center gap-0.5 text-left transition-colors duration-100 ease-in-out hover:bg-gray-200 md:px-2">
-      <Adornment>
-        <Icon id="magnifyingGlass" />
-      </Adornment>
+    <button className="rounded-0.5 bg-gray-100 pr-1 inline-grid grid-cols-[auto_minmax(0px,1fr)] text-left hover:bg-gray-200 md:text-body-default">
+      <span className="p-0.5 flex">
+        <span className="w-3 h-3 flex items-center justify-center text-gray-600">
+          <Icon id="magnifyingGlass" />
+        </span>
+      </span>
 
-      <span className="text-gray-500">
+      <span className="py-1 text-gray-500">
         Recherche globale{" "}
         <span className="hidden md:inline">(appuyer sur ”/”)</span>
       </span>
@@ -245,11 +249,11 @@ function CurrentUserMenu({
           side="bottom"
           sideOffset={20}
           collisionPadding={10}
-          className="z-20 shadow-xl rounded-1 w-[300px] bg-white p-1 grid grid-cols-1 gap-1"
+          className="z-20 shadow-xl rounded-1 w-[300px] bg-white p-1 flex flex-col gap-1"
         >
           <div className="grid grid-cols-[auto,minmax(0px,1fr)] items-center gap-1">
             <UserAvatar size="lg" user={currentUser} />
-            <div className="grid grid-cols-1">
+            <div className="flex flex-col">
               <span>{currentUser.displayName}</span>
               <span className="text-caption-default text-gray-500">
                 {currentUser.email}
@@ -268,7 +272,7 @@ function CurrentUserMenu({
                 <Icon id="user" />
               </span>
 
-              <span className="text-body-emphasis">Votre profile</span>
+              <span className="text-body-emphasis">Votre profil</span>
             </BaseLink>
           </DropdownMenu.Item>
 

@@ -1,6 +1,7 @@
 import { useSearchParams } from "@remix-run/react";
 import { useState } from "react";
 import { z } from "zod";
+import { zfd } from "zod-form-data";
 import { parseOrDefault } from "~/core/schemas";
 
 export class PageSearchParams extends URLSearchParams {
@@ -9,7 +10,7 @@ export class PageSearchParams extends URLSearchParams {
 
   getPage() {
     return parseOrDefault(
-      z.number().default(0),
+      zfd.numeric(z.number().default(0)),
       this.get(PageSearchParams.KEY)
     );
   }

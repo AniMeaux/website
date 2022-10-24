@@ -74,7 +74,7 @@ export function TabBarMenu({
           side="top"
           sideOffset={15}
           collisionPadding={10}
-          className="z-20 shadow-xl rounded-1 w-[200px] bg-white p-1 grid grid-cols-1 gap-1"
+          className="z-20 shadow-xl rounded-1 w-[200px] bg-white p-1 flex flex-col gap-1"
         >
           {children}
         </DropdownMenu.Content>

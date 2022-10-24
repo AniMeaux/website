@@ -18,19 +18,19 @@ export function Empty({
   titleElementType?: React.ElementType;
 }) {
   return (
-    <section className="w-full p-2 grid grid-cols-1 justify-items-center content-start gap-2">
+    <section className="w-full p-2 flex flex-col items-center justify-start gap-4">
       <div
         role="img"
         aria-label={iconAlt}
         title={iconAlt}
         className={cn("text-[80px] leading-none", {
-          "md:text-[128px]": !isCompact,
+          "md:text-[120px]": !isCompact,
         })}
       >
         {icon}
       </div>
 
-      <div className="max-w-[400px] grid grid-cols-1 gap-1 text-center">
+      <div className="max-w-[400px] flex flex-col gap-2 text-center">
         <TitleElementType
           className={cn("text-title-section-small", {
             "md:text-title-section-large": !isCompact,
