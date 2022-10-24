@@ -40,6 +40,7 @@ export function AnimalFilters({
   const [searchParams, setSearchParams] = useVisibleSearchParams();
   const visibleFilters = {
     sort: searchParams.getSort(),
+    nameOrAlias: searchParams.getNameOrAlias(),
     species: searchParams.getSpecies(),
     statuses: searchParams.getStatuses(),
     managersId: searchParams.getManagersId(),
@@ -107,6 +108,36 @@ export function AnimalFilters({
               </SuggestionLabel>
             </Suggestion>
           </Suggestions>
+        </Filter>
+
+        <Filter
+          value="nameOrAlias"
+          label="Nom ou alias"
+          count={visibleFilters.nameOrAlias == null ? 0 : 1}
+          hiddenContent={
+            <input
+              type="hidden"
+              name={AnimalSearchParams.Keys.NAME_OR_ALIAS}
+              value={visibleFilters.nameOrAlias ?? ""}
+            />
+          }
+        >
+          <Input
+            name={AnimalSearchParams.Keys.NAME_OR_ALIAS}
+            value={visibleFilters.nameOrAlias ?? ""}
+            onChange={() => {}}
+            rightAdornment={
+              visibleFilters.nameOrAlias != null && (
+                <ActionAdornment
+                  onClick={() =>
+                    setSearchParams(searchParams.deleteNameOrAlias())
+                  }
+                >
+                  <Icon id="xMark" />
+                </ActionAdornment>
+              )
+            }
+          />
         </Filter>
 
         <Filter

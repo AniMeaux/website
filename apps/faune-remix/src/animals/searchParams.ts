@@ -12,6 +12,7 @@ enum Sort {
 
 enum Keys {
   SORT = "sort",
+  NAME_OR_ALIAS = "q",
   SPECIES = "species",
   STATUS = "status",
   MANAGERS_ID = "manager",
@@ -30,6 +31,7 @@ export class AnimalSearchParams extends URLSearchParams {
   areFiltersEqual(other: AnimalSearchParams) {
     return (
       isEqual(orderBy(this.getSpecies()), orderBy(other.getSpecies())) &&
+      isEqual(this.getNameOrAlias(), other.getNameOrAlias()) &&
       isEqual(orderBy(this.getStatuses()), orderBy(other.getStatuses())) &&
       isEqual(orderBy(this.getManagersId()), orderBy(other.getManagersId())) &&
       isEqual(this.getMinPickUpDate(), other.getMinPickUpDate()) &&
@@ -42,6 +44,16 @@ export class AnimalSearchParams extends URLSearchParams {
       z.nativeEnum(Sort).default(Sort.PICK_UP),
       this.get(Keys.SORT)
     );
+  }
+
+  getNameOrAlias() {
+    return this.get(Keys.NAME_OR_ALIAS) || null;
+  }
+
+  deleteNameOrAlias() {
+    const copy = new AnimalSearchParams(this);
+    copy.delete(Keys.NAME_OR_ALIAS);
+    return copy;
   }
 
   getSpecies() {

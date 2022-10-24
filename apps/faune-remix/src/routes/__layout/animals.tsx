@@ -49,6 +49,14 @@ export async function loader({ request }: LoaderArgs) {
     where.species = { in: species };
   }
 
+  const nameOrAlias = animalSearchParams.getNameOrAlias();
+  if (nameOrAlias != null) {
+    where.OR = [
+      { name: { contains: nameOrAlias, mode: "insensitive" } },
+      { alias: { contains: nameOrAlias, mode: "insensitive" } },
+    ];
+  }
+
   const statuses = animalSearchParams.getStatuses();
   if (statuses.length > 0) {
     where.status = { in: statuses };
