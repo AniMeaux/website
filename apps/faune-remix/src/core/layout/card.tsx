@@ -53,7 +53,7 @@ export function CardContent({
   return (
     <div
       className={cn(
-        "flex flex-col first:pt-1 last:pb-1 md:first:pt-2 md:last:pb-2",
+        "flex flex-col gap-1 first:pt-1 last:pb-1 md:gap-2 md:first:pt-2 md:last:pb-2",
         hasHorizontalScroll
           ? "scrollbars-none overflow-x-auto"
           : "px-1 md:px-2",
