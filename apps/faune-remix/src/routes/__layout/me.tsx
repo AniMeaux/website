@@ -48,7 +48,7 @@ export default function CurrentUserPage() {
   const isManager = hasGroups(currentUser, [UserGroup.ANIMAL_MANAGER]);
 
   return (
-    <main className="w-full flex flex-col gap-1 md:gap-2">
+    <section className="w-full flex flex-col gap-1 md:gap-2">
       <EditSuccessHelper />
       <EditPasswordSuccessHelper />
 
@@ -88,7 +88,7 @@ export default function CurrentUserPage() {
       </Card>
 
       <section className="grid grid-cols-1 gap-1 md:grid-cols-[minmax(250px,1fr)_minmax(0px,2fr)] md:items-start md:gap-2">
-        <section className="flex flex-col gap-1 md:gap-2">
+        <aside className="flex flex-col gap-1 md:gap-2">
           <Card>
             <CardHeader>
               <CardTitle>Groupes</CardTitle>
@@ -129,9 +129,9 @@ export default function CurrentUserPage() {
               </BaseLink>
             </CardContent>
           </Card>
-        </section>
+        </aside>
 
-        <section className="flex flex-col gap-1 md:gap-2">
+        <main className="flex flex-col gap-1 md:gap-2">
           <Card>
             <CardHeader>
               <CardTitle>À votre charge</CardTitle>
@@ -186,9 +186,9 @@ export default function CurrentUserPage() {
               )}
             </CardContent>
           </Card>
-        </section>
+        </main>
       </section>
-    </main>
+    </section>
   );
 }
 

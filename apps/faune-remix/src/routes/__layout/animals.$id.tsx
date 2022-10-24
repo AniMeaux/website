@@ -104,8 +104,8 @@ export default function AnimalProfilePage() {
 
       <HeaderCard />
 
-      <section className="flex flex-col gap-1 md:flex-row md:gap-2">
-        <aside className="flex flex-col gap-1 md:min-w-[250px] md:max-w-[300px] md:flex-1 md:gap-2">
+      <section className="grid grid-cols-1 gap-1 md:grid-cols-[minmax(250px,1fr)_minmax(0px,2fr)] md:items-start md:gap-2">
+        <aside className="flex flex-col gap-1 md:gap-2">
           <ProfileCard />
           <SituationCard />
 
@@ -116,7 +116,7 @@ export default function AnimalProfilePage() {
           )}
         </aside>
 
-        <main className="flex flex-col gap-1 md:min-w-0 md:flex-2 md:gap-2">
+        <main className="flex flex-col gap-1 md:gap-2">
           <DescriptionCard />
           <PicturesCard />
         </main>
