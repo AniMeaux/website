@@ -1,6 +1,6 @@
 import { Prisma, UserGroup } from "@prisma/client";
 import * as Dialog from "@radix-ui/react-dialog";
-import { json, LoaderArgs, SerializeFrom } from "@remix-run/node";
+import { json, LoaderArgs, MetaFunction, SerializeFrom } from "@remix-run/node";
 import { useLoaderData, useSearchParams } from "@remix-run/react";
 import { AnimalFilters } from "~/animals/filterForm";
 import { AnimalItem } from "~/animals/item";
@@ -22,6 +22,7 @@ import {
   CardHeader,
   CardTitle,
 } from "~/core/layout/card";
+import { getPageTitle } from "~/core/pageTitle";
 import { PageSearchParams } from "~/core/params";
 import { Icon } from "~/generated/icon";
 
@@ -121,6 +122,10 @@ export async function loader({ request }: LoaderArgs) {
     currentUser,
   });
 }
+
+export const meta: MetaFunction = () => {
+  return { title: getPageTitle("Animaux") };
+};
 
 export default function AnimalsPage() {
   const { totalCount, pageCount, animals } = useLoaderData<typeof loader>();

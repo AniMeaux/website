@@ -1,5 +1,5 @@
 import { UserGroup } from "@prisma/client";
-import { json, LoaderArgs } from "@remix-run/node";
+import { json, LoaderArgs, MetaFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { AnimalItem } from "~/animals/item";
 import { actionClassName } from "~/core/action";
@@ -11,6 +11,7 @@ import { Empty } from "~/core/dataDisplay/empty";
 import { Helper } from "~/core/dataDisplay/helper";
 import { prisma } from "~/core/db.server";
 import { Card, CardContent, CardHeader, CardTitle } from "~/core/layout/card";
+import { getPageTitle } from "~/core/pageTitle";
 import { ActionConfirmationType, useActionConfirmation } from "~/core/params";
 import { Icon } from "~/generated/icon";
 import { UserAvatar } from "~/users/avatar";
@@ -42,6 +43,10 @@ export async function loader({ request }: LoaderArgs) {
 
   return json({ currentUser, managedAnimals });
 }
+
+export const meta: MetaFunction = () => {
+  return { title: getPageTitle("Mon profil") };
+};
 
 export default function CurrentUserPage() {
   const { currentUser, managedAnimals } = useLoaderData<typeof loader>();

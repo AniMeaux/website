@@ -1,5 +1,11 @@
 import { Prisma } from "@prisma/client";
-import { ActionArgs, json, LoaderArgs, redirect } from "@remix-run/node";
+import {
+  ActionArgs,
+  json,
+  LoaderArgs,
+  MetaFunction,
+  redirect,
+} from "@remix-run/node";
 import { Form, useActionData, useLoaderData } from "@remix-run/react";
 import { createPath } from "history";
 import { useEffect, useRef } from "react";
@@ -14,6 +20,7 @@ import { formClassNames } from "~/core/formElements/form";
 import { Input } from "~/core/formElements/input";
 import { joinReactNodes } from "~/core/joinReactNodes";
 import { Card, CardContent, CardHeader, CardTitle } from "~/core/layout/card";
+import { getPageTitle } from "~/core/pageTitle";
 import {
   ActionConfirmationSearchParams,
   ActionConfirmationType,
@@ -30,6 +37,10 @@ export async function loader({ request }: LoaderArgs) {
 
   return json({ currentUser });
 }
+
+export const meta: MetaFunction = () => {
+  return { title: getPageTitle("Modifier votre profil") };
+};
 
 const ActionDataSchema = z.object({
   name: z.string().min(1, { message: "Veuillez entrer un nom" }),
