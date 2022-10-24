@@ -381,7 +381,7 @@ function SuggestionLabel({
 }) {
   return (
     <>
-      <span className="h-4 w-4 flex items-center justify-center text-gray-600">
+      <span className="h-4 w-4 flex items-center justify-center text-gray-600 text-[20px]">
         {icon}
       </span>
 

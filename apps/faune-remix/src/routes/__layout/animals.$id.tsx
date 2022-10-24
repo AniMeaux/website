@@ -8,7 +8,7 @@ import invariant from "tiny-invariant";
 import { z } from "zod";
 import { GENDER_ICON } from "~/animals/gender";
 import { SPECIES_ICON, SPECIES_TRANSLATION } from "~/animals/species";
-import { StatusBadge, STATUS_TRANSLATION } from "~/animals/status";
+import { StatusBadge, StatusIcon, STATUS_TRANSLATION } from "~/animals/status";
 import {
   ADOPTION_OPTION_TRANSLATION,
   PICK_UP_REASON_TRANSLATION,
@@ -16,12 +16,13 @@ import {
 import { actionClassName } from "~/core/action";
 import { BaseLink } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
+import { useConfig } from "~/core/config";
 import {
   assertCurrentUserHasGroups,
   getCurrentUser,
 } from "~/core/currentUser.server";
 import { Empty } from "~/core/dataDisplay/empty";
-import { DynamicImage } from "~/core/dataDisplay/image";
+import { createCloudinaryUrl, DynamicImage } from "~/core/dataDisplay/image";
 import {
   ARTICLE_COMPONENTS,
   Markdown,
@@ -95,34 +96,59 @@ export async function loader({ request, params }: LoaderArgs) {
 }
 
 export default function AnimalProfilePage() {
+  const { canEdit } = useLoaderData<typeof loader>();
+
   return (
     <section className="w-full flex flex-col gap-1 md:gap-2">
       {/* Helpers */}
 
       <HeaderCard />
 
-      <section className="flex flex-col gap-1 md:flex-row md:gap-2">
-        <aside className="flex flex-col gap-1 md:min-w-[250px] md:max-w-[300px] md:flex-1 md:gap-2">
+      <section className="grid grid-cols-1 gap-1 md:grid-cols-[minmax(250px,1fr)_minmax(0px,2fr)] md:items-start md:gap-2">
+        <aside className="flex flex-col gap-1 md:gap-2">
           <ProfileCard />
           <SituationCard />
-          <ActionCard />
+
+          {canEdit && (
+            <div className="hidden md:flex md:flex-col">
+              <ActionCard />
+            </div>
+          )}
         </aside>
 
-        <main className="flex flex-col gap-1 md:min-w-0 md:flex-2 md:gap-2">
+        <main className="flex flex-col gap-1 md:gap-2">
           <DescriptionCard />
           <PicturesCard />
         </main>
+
+        {canEdit && (
+          <aside className="flex flex-col md:hidden">
+            <ActionCard />
+          </aside>
+        )}
       </section>
     </section>
   );
 }
 
 function HeaderCard() {
+  const { cloudinaryName } = useConfig();
   const { canEdit, animal } = useLoaderData<typeof loader>();
 
   return (
     <Card>
-      <div className="h-6 flex bg-gray-200 md:h-10" />
+      <div className="relative h-6 flex md:h-10">
+        <span className="absolute top-0 left-0 w-full h-full backdrop-blur-3xl" />
+
+        <img
+          src={createCloudinaryUrl(cloudinaryName, animal.avatar, {
+            size: "128",
+            aspectRatio: "1:1",
+          })}
+          alt={animal.name}
+          className="w-full h-full object-cover object-top"
+        />
+      </div>
 
       <CardContent>
         <div className="relative pt-1 pl-9 grid grid-cols-1 grid-flow-col gap-1 md:pt-2 md:pl-10 md:gap-2">
@@ -264,7 +290,7 @@ function SituationCard() {
             </Item>
           )}
 
-          <Item icon={<Icon id="certificate" />}>
+          <Item icon={<StatusIcon status={animal.status} />}>
             Est{" "}
             <strong className="text-body-emphasis">
               {STATUS_TRANSLATION[animal.status]}
@@ -343,12 +369,6 @@ function SituationCard() {
 }
 
 function ActionCard() {
-  const { canEdit } = useLoaderData<typeof loader>();
-
-  if (!canEdit) {
-    return null;
-  }
-
   return (
     <Card>
       <CardHeader>
@@ -507,7 +527,10 @@ function Item({
 }) {
   return (
     <li className="w-full rounded-0.5 grid grid-cols-[auto_minmax(0px,1fr)] grid-flow-col">
-      <span className="w-4 h-4 flex items-center justify-center">{icon}</span>
+      <span className="w-4 h-4 flex items-center justify-center text-gray-600 text-[20px]">
+        {icon}
+      </span>
+
       <div className="py-1">{children}</div>
     </li>
   );
