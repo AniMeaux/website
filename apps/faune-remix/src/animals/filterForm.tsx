@@ -40,6 +40,7 @@ export function AnimalFilters({
   const [searchParams, setSearchParams] = useVisibleSearchParams();
   const visibleFilters = {
     sort: searchParams.getSort(),
+    nameOrAlias: searchParams.getNameOrAlias(),
     species: searchParams.getSpecies(),
     statuses: searchParams.getStatuses(),
     managersId: searchParams.getManagersId(),
@@ -107,6 +108,36 @@ export function AnimalFilters({
               </SuggestionLabel>
             </Suggestion>
           </Suggestions>
+        </Filter>
+
+        <Filter
+          value="nameOrAlias"
+          label="Nom ou alias"
+          count={visibleFilters.nameOrAlias == null ? 0 : 1}
+          hiddenContent={
+            <input
+              type="hidden"
+              name={AnimalSearchParams.Keys.NAME_OR_ALIAS}
+              value={visibleFilters.nameOrAlias ?? ""}
+            />
+          }
+        >
+          <Input
+            name={AnimalSearchParams.Keys.NAME_OR_ALIAS}
+            value={visibleFilters.nameOrAlias ?? ""}
+            onChange={() => {}}
+            rightAdornment={
+              visibleFilters.nameOrAlias != null && (
+                <ActionAdornment
+                  onClick={() =>
+                    setSearchParams(searchParams.deleteNameOrAlias())
+                  }
+                >
+                  <Icon id="xMark" />
+                </ActionAdornment>
+              )
+            }
+          />
         </Filter>
 
         <Filter
@@ -367,7 +398,7 @@ function SuggestionInput(props: React.InputHTMLAttributes<HTMLInputElement>) {
   return (
     <input
       {...props}
-      className="peer appearance-none absolute -z-10 top-0 left-0 w-full h-full rounded-0.5 cursor-pointer group-hover:bg-gray-50 checked:bg-gray-100 group-hover:checked:bg-gray-100 focus-visible:outline-none focus-visible:ring-outset focus-visible:ring focus-visible:ring-blue-400"
+      className="peer appearance-none absolute -z-10 top-0 left-0 w-full h-full rounded-0.5 cursor-pointer transition-colors duration-100 ease-in-out group-hover:bg-gray-50 checked:bg-gray-100 group-hover:checked:bg-gray-100 focus-visible:outline-none focus-visible:ring-outset focus-visible:ring focus-visible:ring-blue-400"
     />
   );
 }
@@ -389,7 +420,7 @@ function SuggestionLabel({
         {children}
       </span>
 
-      <span className="opacity-0 h-4 w-4 flex items-center justify-center text-green-600 peer-checked:opacity-100">
+      <span className="opacity-0 h-4 w-4 flex items-center justify-center text-green-600 transition-opacity duration-100 ease-in-out peer-checked:opacity-100">
         <Icon id="check" />
       </span>
     </>

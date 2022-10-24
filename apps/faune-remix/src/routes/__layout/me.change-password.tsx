@@ -1,4 +1,4 @@
-import { ActionArgs, json, redirect } from "@remix-run/node";
+import { ActionArgs, json, MetaFunction, redirect } from "@remix-run/node";
 import { Form, useActionData } from "@remix-run/react";
 import { createPath } from "history";
 import { useEffect, useRef } from "react";
@@ -13,12 +13,17 @@ import { formClassNames } from "~/core/formElements/form";
 import { PasswordInput } from "~/core/formElements/passwordInput";
 import { joinReactNodes } from "~/core/joinReactNodes";
 import { Card, CardContent, CardHeader, CardTitle } from "~/core/layout/card";
+import { getPageTitle } from "~/core/pageTitle";
 import {
   ActionConfirmationSearchParams,
   ActionConfirmationType,
 } from "~/core/params";
 import { generatePasswordHash } from "~/core/password.server";
 import { Icon } from "~/generated/icon";
+
+export const meta: MetaFunction = () => {
+  return { title: getPageTitle("Changer de mot de passe") };
+};
 
 const ActionDataSchema = z.object({
   password: z.string().min(1, { message: "Veuillez entrer un mot de passe" }),

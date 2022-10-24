@@ -1,6 +1,6 @@
 import { formatAge } from "@animeaux/shared";
 import { AdoptionOption, Gender, Status, UserGroup } from "@prisma/client";
-import { json, LoaderArgs } from "@remix-run/node";
+import { json, LoaderArgs, MetaFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { DateTime } from "luxon";
 import { useRef, useState } from "react";
@@ -31,6 +31,7 @@ import {
 import { prisma } from "~/core/db.server";
 import { isDefined } from "~/core/isDefined";
 import { Card, CardContent, CardHeader, CardTitle } from "~/core/layout/card";
+import { getPageTitle } from "~/core/pageTitle";
 import { FosterFamilyAvatar } from "~/fosterFamilies/avatar";
 import { Icon, IconProps } from "~/generated/icon";
 import { UserAvatar } from "~/users/avatar";
@@ -94,6 +95,15 @@ export async function loader({ request, params }: LoaderArgs) {
 
   return json({ canEdit, animal });
 }
+
+export const meta: MetaFunction<typeof loader> = ({ data: { animal } }) => {
+  let displayName = animal.name;
+  if (animal.alias != null) {
+    displayName += ` (${animal.alias})`;
+  }
+
+  return { title: getPageTitle(displayName) };
+};
 
 export default function AnimalProfilePage() {
   const { canEdit } = useLoaderData<typeof loader>();
