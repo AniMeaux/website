@@ -117,10 +117,10 @@ export const exhibitors: Exhibitor[] = [
   },
   {
     id: "636a8ef7-5913-4276-a8cf-dd30fe304e44",
-    name: "Ki-Kazh",
+    name: "KiKazh®",
     category: ExhibitorCategory.ALIMENTATION_ET_HYGIENE,
-    image: "show-exhibitors/9f4caf97-1208-4c73-a8e4-6b62995884df",
-    url: "https://www.ki-kazh.com",
+    image: "show-exhibitors/a4ff07ec-30e4-4b87-b16c-9d9e0da4cd2d",
+    url: "https://www.lhv-bonapp.com",
   },
   {
     id: "1ad8e49b-c242-4be7-a791-32ea2055b9e5",
