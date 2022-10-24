@@ -96,6 +96,8 @@ export async function loader({ request, params }: LoaderArgs) {
 }
 
 export default function AnimalProfilePage() {
+  const { canEdit } = useLoaderData<typeof loader>();
+
   return (
     <section className="w-full flex flex-col gap-1 md:gap-2">
       {/* Helpers */}
@@ -106,13 +108,24 @@ export default function AnimalProfilePage() {
         <aside className="flex flex-col gap-1 md:min-w-[250px] md:max-w-[300px] md:flex-1 md:gap-2">
           <ProfileCard />
           <SituationCard />
-          <ActionCard />
+
+          {canEdit && (
+            <div className="hidden md:flex md:flex-col">
+              <ActionCard />
+            </div>
+          )}
         </aside>
 
         <main className="flex flex-col gap-1 md:min-w-0 md:flex-2 md:gap-2">
           <DescriptionCard />
           <PicturesCard />
         </main>
+
+        {canEdit && (
+          <aside className="flex flex-col md:hidden">
+            <ActionCard />
+          </aside>
+        )}
       </section>
     </section>
   );
@@ -356,12 +369,6 @@ function SituationCard() {
 }
 
 function ActionCard() {
-  const { canEdit } = useLoaderData<typeof loader>();
-
-  if (!canEdit) {
-    return null;
-  }
-
   return (
     <Card>
       <CardHeader>
