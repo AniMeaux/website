@@ -20,6 +20,7 @@ enum Keys {
   MANAGERS_ID = "manager",
   MIN_PICK_UP_DATE = "min",
   MAX_PICK_UP_DATE = "max",
+  PICK_UP_LOCATION = "pickUp",
 }
 
 export class AnimalSearchParams extends URLSearchParams {
@@ -142,6 +143,13 @@ export class AnimalSearchParams extends URLSearchParams {
     const copy = new AnimalSearchParams(this);
     copy.delete(Keys.MAX_PICK_UP_DATE);
     return copy;
+  }
+
+  getPickUpLocations() {
+    return parseOrDefault(
+      z.string().array().default([]),
+      this.getAll(Keys.PICK_UP_LOCATION)
+    );
   }
 }
 

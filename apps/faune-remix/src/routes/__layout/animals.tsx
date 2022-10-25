@@ -4,6 +4,7 @@ import * as Dialog from "@radix-ui/react-dialog";
 import { json, LoaderArgs, MetaFunction, SerializeFrom } from "@remix-run/node";
 import { useLoaderData, useSearchParams } from "@remix-run/react";
 import { DateTime } from "luxon";
+import invariant from "tiny-invariant";
 import { AnimalFilters } from "~/animals/filterForm";
 import { AnimalItem } from "~/animals/item";
 import { AnimalSearchParams } from "~/animals/searchParams";
@@ -112,35 +113,47 @@ export async function loader({ request }: LoaderArgs) {
     where.push({ pickUpDate });
   }
 
-  const [managers, totalCount, animals] = await Promise.all([
-    prisma.user.findMany({
-      where: {
-        isDisabled: false,
-        groups: { has: UserGroup.ANIMAL_MANAGER },
-      },
-      select: { id: true, displayName: true },
-      orderBy: { displayName: "asc" },
-    }),
-    prisma.animal.count({ where: { AND: where } }),
-    prisma.animal.findMany({
-      skip: pageSearchParams.getPage() * ANIMAL_COUNT_PER_PAGE,
-      take: ANIMAL_COUNT_PER_PAGE,
-      orderBy:
-        animalSearchParams.getSort() === AnimalSearchParams.Sort.NAME
-          ? { name: "asc" }
-          : { pickUpDate: "desc" },
-      where: { AND: where },
-      select: {
-        id: true,
-        avatar: true,
-        name: true,
-        alias: true,
-        gender: true,
-        status: true,
-        manager: { select: { displayName: true } },
-      },
-    }),
-  ]);
+  const pickUpLocations = animalSearchParams.getPickUpLocations();
+  if (pickUpLocations.length > 0) {
+    where.push({ pickUpLocation: { in: pickUpLocations } });
+  }
+
+  const [managers, possiblePickUpLocations, totalCount, animals] =
+    await Promise.all([
+      prisma.user.findMany({
+        where: {
+          isDisabled: false,
+          groups: { has: UserGroup.ANIMAL_MANAGER },
+        },
+        select: { id: true, displayName: true },
+        orderBy: { displayName: "asc" },
+      }),
+      prisma.animal.groupBy({
+        by: ["pickUpLocation"],
+        where: { pickUpLocation: { not: null } },
+        _count: { pickUpLocation: true },
+        orderBy: { pickUpLocation: "asc" },
+      }),
+      prisma.animal.count({ where: { AND: where } }),
+      prisma.animal.findMany({
+        skip: pageSearchParams.getPage() * ANIMAL_COUNT_PER_PAGE,
+        take: ANIMAL_COUNT_PER_PAGE,
+        orderBy:
+          animalSearchParams.getSort() === AnimalSearchParams.Sort.NAME
+            ? { name: "asc" }
+            : { pickUpDate: "desc" },
+        where: { AND: where },
+        select: {
+          id: true,
+          avatar: true,
+          name: true,
+          alias: true,
+          gender: true,
+          status: true,
+          manager: { select: { displayName: true } },
+        },
+      }),
+    ]);
 
   const pageCount = Math.ceil(totalCount / ANIMAL_COUNT_PER_PAGE);
 
@@ -149,6 +162,14 @@ export async function loader({ request }: LoaderArgs) {
     pageCount,
     animals,
     managers,
+    possiblePickUpLocations: possiblePickUpLocations.map((location) => {
+      invariant(
+        location.pickUpLocation != null,
+        "pickUpLocation should exists"
+      );
+
+      return location.pickUpLocation;
+    }),
     currentUser,
   });
 }
@@ -300,6 +321,14 @@ function SortAndFiltersFloatingAction({
 }
 
 function SortAndFilters() {
-  const { currentUser, managers } = useLoaderData<typeof loader>();
-  return <AnimalFilters currentUser={currentUser} managers={managers} />;
+  const { currentUser, managers, possiblePickUpLocations } =
+    useLoaderData<typeof loader>();
+
+  return (
+    <AnimalFilters
+      currentUser={currentUser}
+      managers={managers}
+      possiblePickUpLocations={possiblePickUpLocations}
+    />
+  );
 }

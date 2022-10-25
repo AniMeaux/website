@@ -32,9 +32,11 @@ import { hasGroups } from "~/users/groups";
 export function AnimalFilters({
   currentUser,
   managers,
+  possiblePickUpLocations,
 }: {
   currentUser: ActiveFilterLinkProps["currentUser"];
   managers: { displayName: string; id: string }[];
+  possiblePickUpLocations: string[];
 }) {
   const submit = useSubmit();
 
@@ -48,6 +50,7 @@ export function AnimalFilters({
     managersId: searchParams.getManagersId(),
     minPickUpDate: searchParams.getMinPickUpDate(),
     maxPickUpDate: searchParams.getMaxPickUpDate(),
+    pickUpLocations: searchParams.getPickUpLocations(),
   };
 
   return (
@@ -275,7 +278,8 @@ export function AnimalFilters({
           label="Prise en charge"
           count={
             (visibleFilters.minPickUpDate == null ? 0 : 1) +
-            (visibleFilters.maxPickUpDate == null ? 0 : 1)
+            (visibleFilters.maxPickUpDate == null ? 0 : 1) +
+            visibleFilters.pickUpLocations.length
           }
           hiddenContent={
             <>
@@ -289,6 +293,13 @@ export function AnimalFilters({
                 name={AnimalSearchParams.Keys.MAX_PICK_UP_DATE}
                 value={toIsoDate(visibleFilters.maxPickUpDate)}
               />
+              {visibleFilters.pickUpLocations.map((location) => (
+                <input
+                  type="hidden"
+                  name={AnimalSearchParams.Keys.PICK_UP_LOCATION}
+                  value={location}
+                />
+              ))}
             </>
           }
         >
@@ -349,6 +360,30 @@ export function AnimalFilters({
                   )
                 }
               />
+            </div>
+
+            <div className={formClassNames.fields.field.root()}>
+              <span className={formClassNames.fields.field.label()}>Lieu</span>
+
+              <Suggestions>
+                {possiblePickUpLocations.map((location) => (
+                  <Suggestion key={location}>
+                    <SuggestionInput
+                      type="checkbox"
+                      name={AnimalSearchParams.Keys.PICK_UP_LOCATION}
+                      value={location}
+                      checked={visibleFilters.pickUpLocations.includes(
+                        location
+                      )}
+                      onChange={() => {}}
+                    />
+
+                    <SuggestionLabel icon={<Icon id="locationDot" />}>
+                      {location}
+                    </SuggestionLabel>
+                  </Suggestion>
+                ))}
+              </Suggestions>
             </div>
           </div>
         </Filter>
