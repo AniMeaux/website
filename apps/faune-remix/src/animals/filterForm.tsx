@@ -6,6 +6,7 @@ import {
   useTransition,
 } from "@remix-run/react";
 import { DateTime } from "luxon";
+import { AGE_ICON, AGE_TRANSLATION, SORTED_AGES } from "~/animals/age";
 import { AnimalSearchParams } from "~/animals/searchParams";
 import {
   SORTED_SPECIES,
@@ -42,6 +43,7 @@ export function AnimalFilters({
     sort: searchParams.getSort(),
     nameOrAlias: searchParams.getNameOrAlias(),
     species: searchParams.getSpecies(),
+    ages: searchParams.getAges(),
     statuses: searchParams.getStatuses(),
     managersId: searchParams.getManagersId(),
     minPickUpDate: searchParams.getMinPickUpDate(),
@@ -173,6 +175,38 @@ export function AnimalFilters({
         </Filter>
 
         <Filter
+          value="ages"
+          label="Âges"
+          count={visibleFilters.ages.length}
+          hiddenContent={visibleFilters.ages.map((age) => (
+            <input
+              key={age}
+              type="hidden"
+              name={AnimalSearchParams.Keys.AGE}
+              value={age}
+            />
+          ))}
+        >
+          <Suggestions>
+            {SORTED_AGES.map((age) => (
+              <Suggestion key={age}>
+                <SuggestionInput
+                  type="checkbox"
+                  name={AnimalSearchParams.Keys.AGE}
+                  value={age}
+                  checked={visibleFilters.ages.includes(age)}
+                  onChange={() => {}}
+                />
+
+                <SuggestionLabel icon={<Icon id={AGE_ICON[age]} />}>
+                  {AGE_TRANSLATION[age]}
+                </SuggestionLabel>
+              </Suggestion>
+            ))}
+          </Suggestions>
+        </Filter>
+
+        <Filter
           value="status"
           label="Status"
           count={visibleFilters.statuses.length}
@@ -206,7 +240,7 @@ export function AnimalFilters({
 
         <Filter
           value="manager"
-          label="Responsable"
+          label="Responsables"
           count={visibleFilters.managersId.length}
           hiddenContent={visibleFilters.managersId.map((managerId) => (
             <input

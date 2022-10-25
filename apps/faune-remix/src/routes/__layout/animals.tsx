@@ -1,10 +1,13 @@
+import { ANIMAL_AGE_RANGE_BY_SPECIES } from "@animeaux/shared";
 import { Prisma, UserGroup } from "@prisma/client";
 import * as Dialog from "@radix-ui/react-dialog";
 import { json, LoaderArgs, MetaFunction, SerializeFrom } from "@remix-run/node";
 import { useLoaderData, useSearchParams } from "@remix-run/react";
+import { DateTime } from "luxon";
 import { AnimalFilters } from "~/animals/filterForm";
 import { AnimalItem } from "~/animals/item";
 import { AnimalSearchParams } from "~/animals/searchParams";
+import { SORTED_SPECIES } from "~/animals/species";
 import { actionClassName } from "~/core/action";
 import { BaseLink } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
@@ -44,42 +47,69 @@ export async function loader({ request }: LoaderArgs) {
   const pageSearchParams = new PageSearchParams(searchParams);
   const animalSearchParams = new AnimalSearchParams(searchParams);
 
-  const where: Prisma.AnimalWhereInput = {};
+  const where: Prisma.AnimalWhereInput[] = [];
   const species = animalSearchParams.getSpecies();
   if (species.length > 0) {
-    where.species = { in: species };
+    where.push({ species: { in: species } });
+  }
+
+  const ages = animalSearchParams.getAges();
+  if (ages.length > 0) {
+    const now = DateTime.now();
+
+    const conditions: Prisma.AnimalWhereInput[] = [];
+    SORTED_SPECIES.forEach((species) => {
+      ages.forEach((age) => {
+        const ageRange = ANIMAL_AGE_RANGE_BY_SPECIES[species]?.[age];
+        if (ageRange != null) {
+          conditions.push({
+            species,
+            birthdate: {
+              gt: now.minus({ months: ageRange.maxMonths }).toJSDate(),
+              lte: now.minus({ months: ageRange.minMonths }).toJSDate(),
+            },
+          });
+        }
+      });
+    });
+
+    where.push({ OR: conditions });
   }
 
   const nameOrAlias = animalSearchParams.getNameOrAlias();
   if (nameOrAlias != null) {
-    where.OR = [
-      { name: { contains: nameOrAlias, mode: "insensitive" } },
-      { alias: { contains: nameOrAlias, mode: "insensitive" } },
-    ];
+    where.push({
+      OR: [
+        { name: { contains: nameOrAlias, mode: "insensitive" } },
+        { alias: { contains: nameOrAlias, mode: "insensitive" } },
+      ],
+    });
   }
 
   const statuses = animalSearchParams.getStatuses();
   if (statuses.length > 0) {
-    where.status = { in: statuses };
+    where.push({ status: { in: statuses } });
   }
 
   const managersId = animalSearchParams.getManagersId();
   if (managersId.length > 0) {
-    where.managerId = { in: managersId };
+    where.push({ managerId: { in: managersId } });
   }
 
   const minPickUpDate = animalSearchParams.getMinPickUpDate();
   const maxPickUpDate = animalSearchParams.getMaxPickUpDate();
   if (minPickUpDate != null || maxPickUpDate != null) {
-    where.pickUpDate = {};
+    const pickUpDate: Prisma.DateTimeFilter = {};
 
     if (minPickUpDate != null) {
-      where.pickUpDate.gte = minPickUpDate;
+      pickUpDate.gte = minPickUpDate;
     }
 
     if (maxPickUpDate != null) {
-      where.pickUpDate.lte = maxPickUpDate;
+      pickUpDate.lte = maxPickUpDate;
     }
+
+    where.push({ pickUpDate });
   }
 
   const [managers, totalCount, animals] = await Promise.all([
@@ -91,7 +121,7 @@ export async function loader({ request }: LoaderArgs) {
       select: { id: true, displayName: true },
       orderBy: { displayName: "asc" },
     }),
-    prisma.animal.count({ where }),
+    prisma.animal.count({ where: { AND: where } }),
     prisma.animal.findMany({
       skip: pageSearchParams.getPage() * ANIMAL_COUNT_PER_PAGE,
       take: ANIMAL_COUNT_PER_PAGE,
@@ -99,7 +129,7 @@ export async function loader({ request }: LoaderArgs) {
         animalSearchParams.getSort() === AnimalSearchParams.Sort.NAME
           ? { name: "asc" }
           : { pickUpDate: "desc" },
-      where,
+      where: { AND: where },
       select: {
         id: true,
         avatar: true,
