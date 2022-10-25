@@ -7,12 +7,14 @@ import { useRef, useState } from "react";
 import invariant from "tiny-invariant";
 import { z } from "zod";
 import { GENDER_ICON } from "~/animals/gender";
+import { PICK_UP_REASON_TRANSLATION } from "~/animals/pickUp";
 import { SPECIES_ICON, SPECIES_TRANSLATION } from "~/animals/species";
-import { StatusBadge, StatusIcon, STATUS_TRANSLATION } from "~/animals/status";
 import {
   ADOPTION_OPTION_TRANSLATION,
-  PICK_UP_REASON_TRANSLATION,
-} from "~/animals/translations";
+  StatusBadge,
+  StatusIcon,
+  STATUS_TRANSLATION,
+} from "~/animals/status";
 import { actionClassName } from "~/core/action";
 import { BaseLink } from "~/core/baseLink";
 import { cn } from "~/core/classNames";

@@ -1,3 +1,4 @@
+import { AnimalAge } from "@animeaux/shared";
 import { Species, Status } from "@prisma/client";
 import isEqual from "lodash.isequal";
 import orderBy from "lodash.orderby";
@@ -14,10 +15,12 @@ enum Keys {
   SORT = "sort",
   NAME_OR_ALIAS = "q",
   SPECIES = "species",
+  AGE = "age",
   STATUS = "status",
   MANAGERS_ID = "manager",
   MIN_PICK_UP_DATE = "min",
   MAX_PICK_UP_DATE = "max",
+  PICK_UP_LOCATION = "pickUp",
 }
 
 export class AnimalSearchParams extends URLSearchParams {
@@ -60,6 +63,13 @@ export class AnimalSearchParams extends URLSearchParams {
     return parseOrDefault(
       z.nativeEnum(Species).array().default([]),
       this.getAll(Keys.SPECIES)
+    );
+  }
+
+  getAges() {
+    return parseOrDefault(
+      z.nativeEnum(AnimalAge).array().default([]),
+      this.getAll(Keys.AGE)
     );
   }
 
@@ -133,6 +143,13 @@ export class AnimalSearchParams extends URLSearchParams {
     const copy = new AnimalSearchParams(this);
     copy.delete(Keys.MAX_PICK_UP_DATE);
     return copy;
+  }
+
+  getPickUpLocations() {
+    return parseOrDefault(
+      z.string().array().default([]),
+      this.getAll(Keys.PICK_UP_LOCATION)
+    );
   }
 }
 
