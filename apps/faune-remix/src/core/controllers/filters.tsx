@@ -66,7 +66,10 @@ export function Filter({
         <span
           className={cn(
             "py-1 text-body-emphasis transition-colors duration-100 ease-in-out",
-            { "text-gray-500 group-hover:text-inherit": !isOpened }
+            {
+              "text-gray-500 group-hover:text-inherit":
+                !isOpened && count === 0,
+            }
           )}
         >
           {label}
