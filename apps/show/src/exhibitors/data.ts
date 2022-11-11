@@ -7,6 +7,7 @@ export enum ExhibitorCategory {
   ASSOCIATION_FAUNE_SAUVAGE = "ASSOCIATION_FAUNE_SAUVAGE",
   COMPORTEMENT_FELIN = "COMPORTEMENT_FELIN",
   EDUCATION_CANINE = "EDUCATION_CANINE",
+  FORMATION = "FORMATION",
   HYGIENE = "HYGIENE",
   JEUX_CHATS = "JEUX_CHATS",
   MEDECINE_DOUCE = "MEDECINE_DOUCE",
@@ -32,11 +33,32 @@ export const exhibitors: Exhibitor[] = [
     url: "https://www.facebook.com/2mainspour4pattes",
   },
   {
+    id: "7373bcb8-030c-4247-857f-39d77fdc82cb",
+    name: "Alforme",
+    category: ExhibitorCategory.FORMATION,
+    image: "show-exhibitors/f171ad0b-aa87-4101-91de-394091b85411",
+    url: "https://www.alforme.fr",
+  },
+  {
+    id: "96c1f509-e06e-4686-b8d8-fc6d5c747219",
+    name: "Ani’Meaux",
+    category: ExhibitorCategory.ASSOCIATION_ANIMAUX_DE_COMPAGNIE,
+    image: "show-exhibitors/6bb20ff0-77cb-49a6-9125-1c2bd997679f",
+    url: "https://animeaux.org",
+  },
+  {
     id: "f258b52b-f536-4c6d-9b3e-502b5707c59a",
     name: "Anidéo",
     category: ExhibitorCategory.PRESTATION_DE_SERVICES,
     image: "show-exhibitors/0a787843-b02a-4b6d-8827-5572302be2d9",
     url: "https://www.anideo.fr",
+  },
+  {
+    id: "abdc98c8-dc09-44b9-91a8-c03cb6dfc016",
+    name: "ASPAS",
+    category: ExhibitorCategory.ASSOCIATION_FAUNE_SAUVAGE,
+    image: "show-exhibitors/4762db03-f308-4d68-a9d2-109a31547e20",
+    url: "https://www.aspas-nature.org",
   },
   {
     id: "02a8ea99-1358-438a-a065-eab67b111d44",
@@ -109,6 +131,13 @@ export const exhibitors: Exhibitor[] = [
     url: "https://harmonichat.fr",
   },
   {
+    id: "7a5e1bde-533a-470c-bc10-358bd7e30f44",
+    name: "Humanimal",
+    category: ExhibitorCategory.PRESTATION_DE_SERVICES,
+    image: "show-exhibitors/33d0b845-f534-4007-8671-9f39f4b99cd2",
+    url: "https://www.premiers-secours-canin-felin-humanimal.com",
+  },
+  {
     id: "1f3dfeee-37c5-44c6-8bfe-933a73cbab49",
     name: "Ice-Crime the Amstaff - Changeons les regards",
     category: ExhibitorCategory.SENSIBILISATION,
@@ -116,11 +145,25 @@ export const exhibitors: Exhibitor[] = [
     url: "https://www.facebook.com/icecrimetheamstaff",
   },
   {
+    id: "77c6fa36-64c1-4ea8-b947-c3c9b3f77a5c",
+    name: "Jardinerie Poullain",
+    category: ExhibitorCategory.ALIMENTATION_ET_ACCESSOIRES,
+    image: "show-exhibitors/047ed88e-4f13-4300-821e-667a932a862b",
+    url: "https://jardineriepoullain.fr",
+  },
+  {
     id: "636a8ef7-5913-4276-a8cf-dd30fe304e44",
     name: "KiKazh®",
     category: ExhibitorCategory.ALIMENTATION_ET_HYGIENE,
     image: "show-exhibitors/a4ff07ec-30e4-4b87-b16c-9d9e0da4cd2d",
     url: "https://www.lhv-bonapp.com",
+  },
+  {
+    id: "3a01f001-1374-4b31-9ee1-90df57b4b488",
+    name: "Kaliska Shop",
+    category: ExhibitorCategory.ACCESSOIRES,
+    image: "show-exhibitors/ad50f081-c914-46bf-b915-bb793037da4e",
+    url: "https://www.kaliska-shop.com",
   },
   {
     id: "1ad8e49b-c242-4be7-a791-32ea2055b9e5",
@@ -137,6 +180,13 @@ export const exhibitors: Exhibitor[] = [
     url: "https://luniversdedjuna.com",
   },
   {
+    id: "90d3fbee-b5d1-480d-9b99-e9fb8ef2b370",
+    name: "L&A Médiation Animale",
+    category: ExhibitorCategory.SENSIBILISATION,
+    image: "show-exhibitors/b8686336-c499-4550-b66c-a81ac3f8e71e",
+    url: "https://la-mediationanimale.com",
+  },
+  {
     id: "bd20ea22-e2d0-4d3c-840a-5ba2a8531f79",
     name: "La Boutique Phéline",
     category: ExhibitorCategory.JEUX_CHATS,
@@ -144,11 +194,25 @@ export const exhibitors: Exhibitor[] = [
     url: "https://www.laboutiquepheline.com",
   },
   {
+    id: "6bf921c5-199f-4481-9308-6035b044f44b",
+    name: "Madnesis",
+    category: ExhibitorCategory.ACCESSOIRES,
+    image: "show-exhibitors/c390d4b9-b89b-42e2-9961-ae537bb2a919",
+    url: "https://madnesis.com",
+  },
+  {
     id: "85ee717c-4932-4bb1-aa96-446b9eddcf9e",
     name: "Matoobox et Patoobox",
     category: ExhibitorCategory.ALIMENTATION_ET_ACCESSOIRES,
     image: "show-exhibitors/fc5f0e8a-bd4b-4651-9842-0b157cf132dc",
     url: "https://matoobox.fr",
+  },
+  {
+    id: "d0cd6090-060b-4b98-9058-32056acf8553",
+    name: "NeoVoice",
+    category: ExhibitorCategory.SENSIBILISATION,
+    image: "show-exhibitors/a7a87861-0df4-40f8-933c-e362e5cced3c",
+    url: "https://www.neovoice.fr",
   },
   // TODO: Find a better image.
   // {
