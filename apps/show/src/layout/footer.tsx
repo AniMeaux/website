@@ -31,18 +31,31 @@ export function Footer() {
         )}
       >
         <section
-          className={cn(
-            "grid grid-cols-2 gap-x-12 gap-y-6 items-center",
-            "md:flex-1"
-          )}
+          className={cn("grid grid-cols-2 gap-x-12 gap-y-6", "md:flex-1")}
         >
-          <img src={meaux} alt="Ville de Meaux" />
-          <img
-            src={villeAnimaux2Pattes}
-            alt="Ville amie des animaux, 2 pattes"
+          <LogoItem
+            image={meaux}
+            alt="Ville de Meaux"
+            to="https://www.ville-meaux.fr"
           />
-          <img src={paysDeMeaux} alt="Pays de Meaux" />
-          <img src={citronad} alt="Citron’ad" />
+
+          <LogoItem
+            image={villeAnimaux2Pattes}
+            alt="Ville amie des animaux, 2 pattes"
+            to="https://www.iledefrance.fr/sites/default/files/medias/2020/09/label%20ville%20amie%20des%20animaux.pdf"
+          />
+
+          <LogoItem
+            image={paysDeMeaux}
+            alt="Pays de Meaux"
+            to="https://www.agglo-paysdemeaux.fr"
+          />
+
+          <LogoItem
+            image={citronad}
+            alt="Citron’ad"
+            to="https://www.citron-ad.fr"
+          />
         </section>
 
         <section className={cn("flex flex-col items-start gap-6", "md:flex-1")}>
@@ -90,6 +103,25 @@ export function Footer() {
         </p>
       </section>
     </footer>
+  );
+}
+
+function LogoItem({
+  image,
+  alt,
+  to,
+}: {
+  image: string;
+  alt: string;
+  to: BaseLinkProps["to"];
+}) {
+  return (
+    <BaseLink
+      to={to}
+      className="rounded-bubble-md flex items-center transition-transform duration-100 ease-in-out hover:scale-105"
+    >
+      <img src={image} alt={alt} />
+    </BaseLink>
   );
 }
 
