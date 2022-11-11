@@ -65,8 +65,11 @@ export function Filter({
       >
         <span
           className={cn(
-            "py-1 text-body-emphasis text-gray-500 group-hover:text-inherit",
-            { "text-inherit": isOpened }
+            "py-1 text-body-emphasis transition-colors duration-100 ease-in-out",
+            {
+              "text-gray-500 group-hover:text-inherit":
+                !isOpened && count === 0,
+            }
           )}
         >
           {label}
@@ -80,11 +83,13 @@ export function Filter({
 
         <span
           className={cn(
-            "w-4 h-4 flex items-center justify-center text-gray-500 group-hover:text-gray-600",
-            { "text-gray-600": isOpened }
+            "w-4 h-4 flex items-center justify-center transition-[color,transform] duration-100 ease-in-out ",
+            isOpened
+              ? "text-gray-600 -rotate-90"
+              : "text-gray-500 group-hover:text-gray-600"
           )}
         >
-          <Icon id={isOpened ? "angleUp" : "angleRight"} />
+          <Icon id="angleRight" />
         </span>
       </button>
 

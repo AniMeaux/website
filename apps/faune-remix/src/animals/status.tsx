@@ -1,4 +1,4 @@
-import { Status } from "@prisma/client";
+import { AdoptionOption, Status } from "@prisma/client";
 import orderBy from "lodash.orderby";
 import { cn } from "~/core/classNames";
 import { Icon } from "~/generated/icon";
@@ -79,3 +79,10 @@ export const SORTED_STATUS = orderBy(
   Object.values(Status),
   (status) => STATUS_TRANSLATION[status]
 );
+
+export const ADOPTION_OPTION_TRANSLATION: Record<AdoptionOption, string> = {
+  [AdoptionOption.WITH_STERILIZATION]: "Avec stérilisation",
+  [AdoptionOption.WITHOUT_STERILIZATION]: "Sans stérilisation",
+  [AdoptionOption.FREE_DONATION]: "Don libre",
+  [AdoptionOption.UNKNOWN]: "Inconnu",
+};

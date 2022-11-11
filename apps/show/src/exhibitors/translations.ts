@@ -14,6 +14,7 @@ export const EXHIBITOR_CATEGORY_TRANSLATIONS: Record<
   [ExhibitorCategory.ASSOCIATION_FAUNE_SAUVAGE]: "Association faune sauvage",
   [ExhibitorCategory.COMPORTEMENT_FELIN]: "Comportement félin",
   [ExhibitorCategory.EDUCATION_CANINE]: "Éducation canine",
+  [ExhibitorCategory.FORMATION]: "Formation",
   [ExhibitorCategory.HYGIENE]: "Hygiène",
   [ExhibitorCategory.JEUX_CHATS]: "Jeux chats",
   [ExhibitorCategory.MEDECINE_DOUCE]: "Médecine douce",

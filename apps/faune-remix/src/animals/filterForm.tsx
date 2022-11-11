@@ -6,6 +6,7 @@ import {
   useTransition,
 } from "@remix-run/react";
 import { DateTime } from "luxon";
+import { AGE_ICON, AGE_TRANSLATION, SORTED_AGES } from "~/animals/age";
 import { AnimalSearchParams } from "~/animals/searchParams";
 import {
   SORTED_SPECIES,
@@ -31,20 +32,25 @@ import { hasGroups } from "~/users/groups";
 export function AnimalFilters({
   currentUser,
   managers,
+  possiblePickUpLocations,
 }: {
   currentUser: ActiveFilterLinkProps["currentUser"];
   managers: { displayName: string; id: string }[];
+  possiblePickUpLocations: string[];
 }) {
   const submit = useSubmit();
 
   const [searchParams, setSearchParams] = useVisibleSearchParams();
   const visibleFilters = {
     sort: searchParams.getSort(),
+    nameOrAlias: searchParams.getNameOrAlias(),
     species: searchParams.getSpecies(),
+    ages: searchParams.getAges(),
     statuses: searchParams.getStatuses(),
     managersId: searchParams.getManagersId(),
     minPickUpDate: searchParams.getMinPickUpDate(),
     maxPickUpDate: searchParams.getMaxPickUpDate(),
+    pickUpLocations: searchParams.getPickUpLocations(),
   };
 
   return (
@@ -110,6 +116,36 @@ export function AnimalFilters({
         </Filter>
 
         <Filter
+          value="nameOrAlias"
+          label="Nom ou alias"
+          count={visibleFilters.nameOrAlias == null ? 0 : 1}
+          hiddenContent={
+            <input
+              type="hidden"
+              name={AnimalSearchParams.Keys.NAME_OR_ALIAS}
+              value={visibleFilters.nameOrAlias ?? ""}
+            />
+          }
+        >
+          <Input
+            name={AnimalSearchParams.Keys.NAME_OR_ALIAS}
+            value={visibleFilters.nameOrAlias ?? ""}
+            onChange={() => {}}
+            rightAdornment={
+              visibleFilters.nameOrAlias != null && (
+                <ActionAdornment
+                  onClick={() =>
+                    setSearchParams(searchParams.deleteNameOrAlias())
+                  }
+                >
+                  <Icon id="xMark" />
+                </ActionAdornment>
+              )
+            }
+          />
+        </Filter>
+
+        <Filter
           value="species"
           label="Espèces"
           count={visibleFilters.species.length}
@@ -135,6 +171,38 @@ export function AnimalFilters({
 
                 <SuggestionLabel icon={<Icon id={SPECIES_ICON[species]} />}>
                   {SPECIES_TRANSLATION[species]}
+                </SuggestionLabel>
+              </Suggestion>
+            ))}
+          </Suggestions>
+        </Filter>
+
+        <Filter
+          value="ages"
+          label="Âges"
+          count={visibleFilters.ages.length}
+          hiddenContent={visibleFilters.ages.map((age) => (
+            <input
+              key={age}
+              type="hidden"
+              name={AnimalSearchParams.Keys.AGE}
+              value={age}
+            />
+          ))}
+        >
+          <Suggestions>
+            {SORTED_AGES.map((age) => (
+              <Suggestion key={age}>
+                <SuggestionInput
+                  type="checkbox"
+                  name={AnimalSearchParams.Keys.AGE}
+                  value={age}
+                  checked={visibleFilters.ages.includes(age)}
+                  onChange={() => {}}
+                />
+
+                <SuggestionLabel icon={<Icon id={AGE_ICON[age]} />}>
+                  {AGE_TRANSLATION[age]}
                 </SuggestionLabel>
               </Suggestion>
             ))}
@@ -175,7 +243,7 @@ export function AnimalFilters({
 
         <Filter
           value="manager"
-          label="Responsable"
+          label="Responsables"
           count={visibleFilters.managersId.length}
           hiddenContent={visibleFilters.managersId.map((managerId) => (
             <input
@@ -210,7 +278,8 @@ export function AnimalFilters({
           label="Prise en charge"
           count={
             (visibleFilters.minPickUpDate == null ? 0 : 1) +
-            (visibleFilters.maxPickUpDate == null ? 0 : 1)
+            (visibleFilters.maxPickUpDate == null ? 0 : 1) +
+            visibleFilters.pickUpLocations.length
           }
           hiddenContent={
             <>
@@ -224,6 +293,13 @@ export function AnimalFilters({
                 name={AnimalSearchParams.Keys.MAX_PICK_UP_DATE}
                 value={toIsoDate(visibleFilters.maxPickUpDate)}
               />
+              {visibleFilters.pickUpLocations.map((location) => (
+                <input
+                  type="hidden"
+                  name={AnimalSearchParams.Keys.PICK_UP_LOCATION}
+                  value={location}
+                />
+              ))}
             </>
           }
         >
@@ -284,6 +360,30 @@ export function AnimalFilters({
                   )
                 }
               />
+            </div>
+
+            <div className={formClassNames.fields.field.root()}>
+              <span className={formClassNames.fields.field.label()}>Lieu</span>
+
+              <Suggestions>
+                {possiblePickUpLocations.map((location) => (
+                  <Suggestion key={location}>
+                    <SuggestionInput
+                      type="checkbox"
+                      name={AnimalSearchParams.Keys.PICK_UP_LOCATION}
+                      value={location}
+                      checked={visibleFilters.pickUpLocations.includes(
+                        location
+                      )}
+                      onChange={() => {}}
+                    />
+
+                    <SuggestionLabel icon={<Icon id="locationDot" />}>
+                      {location}
+                    </SuggestionLabel>
+                  </Suggestion>
+                ))}
+              </Suggestions>
             </div>
           </div>
         </Filter>
@@ -367,7 +467,7 @@ function SuggestionInput(props: React.InputHTMLAttributes<HTMLInputElement>) {
   return (
     <input
       {...props}
-      className="peer appearance-none absolute -z-10 top-0 left-0 w-full h-full rounded-0.5 cursor-pointer group-hover:bg-gray-50 checked:bg-gray-100 group-hover:checked:bg-gray-100 focus-visible:outline-none focus-visible:ring-outset focus-visible:ring focus-visible:ring-blue-400"
+      className="peer appearance-none absolute -z-10 top-0 left-0 w-full h-full rounded-0.5 cursor-pointer transition-colors duration-100 ease-in-out group-hover:bg-gray-50 checked:bg-gray-100 group-hover:checked:bg-gray-100 focus-visible:outline-none focus-visible:ring-outset focus-visible:ring focus-visible:ring-blue-400"
     />
   );
 }
@@ -389,7 +489,7 @@ function SuggestionLabel({
         {children}
       </span>
 
-      <span className="opacity-0 h-4 w-4 flex items-center justify-center text-green-600 peer-checked:opacity-100">
+      <span className="opacity-0 h-4 w-4 flex items-center justify-center text-green-600 transition-opacity duration-100 ease-in-out peer-checked:opacity-100">
         <Icon id="check" />
       </span>
     </>

@@ -1,4 +1,10 @@
-import { ActionArgs, json, LoaderArgs, redirect } from "@remix-run/node";
+import {
+  ActionArgs,
+  json,
+  LoaderArgs,
+  MetaFunction,
+  redirect,
+} from "@remix-run/node";
 import { Form, useActionData } from "@remix-run/react";
 import { useEffect, useRef } from "react";
 import { z } from "zod";
@@ -39,6 +45,10 @@ export async function loader({ request }: LoaderArgs) {
 
   return null;
 }
+
+export const meta: MetaFunction = () => {
+  return { title: getPageTitle("Connexion") };
+};
 
 const ActionDataSchema = z.object({
   email: z.string().email({ message: "Veuillez entrer un email valide" }),
