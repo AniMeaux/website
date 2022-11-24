@@ -16,6 +16,7 @@ import meaux from "~/images/meaux.png";
 import { medicalImages } from "~/images/medical";
 import nameAndLogo from "~/images/nameAndLogo.svg";
 import { showImages } from "~/images/show";
+import superlogo from "~/images/superlogo.png";
 import { bubbleSectionClassNames, BubbleShape } from "~/layout/bubbleSection";
 import {
   HeroSection,
@@ -377,7 +378,7 @@ function PartnersSection() {
       <div
         className={cn(
           "flex flex-col gap-12",
-          "md:flex-row md:items-center md:justify-center"
+          "md:flex-row md:items-center md:flex-wrap md:justify-center"
         )}
       >
         <PartnerItem
@@ -390,6 +391,12 @@ function PartnersSection() {
           image={citronad}
           alt="Citron’ad"
           to="https://www.citron-ad.fr"
+        />
+
+        <PartnerItem
+          image={superlogo}
+          alt="Super Logo"
+          to="https://www.super-logo.com"
         />
       </div>
     </section>
