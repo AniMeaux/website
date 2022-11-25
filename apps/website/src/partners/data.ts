@@ -64,6 +64,14 @@ export const partners: Partner[] = [
     url: "https://pixieandfriends.com",
   },
   {
+    id: "ce96c1c2-687b-4725-8ea7-4b50b6e76cd5",
+    image: "partners/b12bb2c3-fcef-4197-981b-55c98d61b99a",
+    name: "Super Logo",
+    description:
+      "En tant que graphiste professionnelle spécialisée dans la **création de logo d’entreprise**, Super Logo vous propose ses services pour la réalisation de votre identité visuelle. Passionnée par le monde du graphisme et à l’écoute de ses clients, Super Logo met ses compétences à profit pour les particuliers, les petites et les grandes entreprises.",
+    url: "https://www.super-logo.com",
+  },
+  {
     id: "d712924a-007f-42fd-bfc8-a9312c0bcff1",
     image: "partners/a58690ad-984b-4e91-b9bb-ea103ab2894b",
     name: "Zolux",
