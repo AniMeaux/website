@@ -33,6 +33,13 @@ export const exhibitors: Exhibitor[] = [
     url: "https://www.facebook.com/2mainspour4pattes",
   },
   {
+    id: "17739195-3328-47ac-ab56-b4d292e65616",
+    name: "Action Protection Animale",
+    category: ExhibitorCategory.ASSOCIATION_ANIMAUX_DE_COMPAGNIE,
+    image: "show-exhibitors/18339723-c004-4f4c-bc63-31c4beb240eb",
+    url: "https://www.actionprotectionanimale.com",
+  },
+  {
     id: "7373bcb8-030c-4247-857f-39d77fdc82cb",
     name: "Alforme",
     category: ExhibitorCategory.FORMATION,
@@ -110,6 +117,20 @@ export const exhibitors: Exhibitor[] = [
     url: "http://bwildshop.fr",
   },
   {
+    id: "76ee6dd7-118c-4aba-92f8-2a02fa2b60d8",
+    name: "Brigade Animale Bénévole",
+    category: ExhibitorCategory.ASSOCIATION_ANIMAUX_DE_COMPAGNIE,
+    image: "show-exhibitors/2c94ae7b-44f1-4dd5-98af-6011e431555d",
+    url: "https://www.assobab.fr",
+  },
+  {
+    id: "c9523081-c3e3-4688-a5bf-ba8877a203cd",
+    name: "Chat’rcours muraux",
+    category: ExhibitorCategory.ACCESSOIRES,
+    image: "show-exhibitors/e2f0a63d-b6e3-4473-97b2-f748ad40e7ca",
+    url: "https://www.chatrcoursmuraux.com",
+  },
+  {
     id: "b3aa543b-373c-4d39-b962-f09a2449a18d",
     name: "Créanimaux",
     category: ExhibitorCategory.ACCESSOIRES,
@@ -155,7 +176,7 @@ export const exhibitors: Exhibitor[] = [
     id: "636a8ef7-5913-4276-a8cf-dd30fe304e44",
     name: "KiKazh®",
     category: ExhibitorCategory.ALIMENTATION_ET_HYGIENE,
-    image: "show-exhibitors/a4ff07ec-30e4-4b87-b16c-9d9e0da4cd2d",
+    image: "show-exhibitors/f3f77934-09ba-40e0-a82e-bc4a13ac9aa4",
     url: "https://www.lhv-bonapp.com",
   },
   {
@@ -235,6 +256,13 @@ export const exhibitors: Exhibitor[] = [
     category: ExhibitorCategory.JEUX_CHATS,
     image: "show-exhibitors/c5630308-cad9-4751-b96a-56f544241e19",
     url: "https://www.petitsfripons.fr",
+  },
+  {
+    id: "3c734c5a-b7da-41aa-9825-2b40f26ddc52",
+    name: "Pet’s Alliance",
+    category: ExhibitorCategory.MEDECINE_DOUCE,
+    image: "show-exhibitors/ac80d8bc-95d2-486e-86b0-afd6c4449a57",
+    url: "https://www.facebook.com/profile.php?id=100077582495761",
   },
   {
     id: "9f1ae94e-7a55-4cbb-b6d3-43c96aaa49f4",
