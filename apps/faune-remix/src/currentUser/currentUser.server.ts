@@ -3,13 +3,13 @@ import { Prisma, User, UserGroup } from "@prisma/client";
 import { redirect } from "@remix-run/node";
 import { createPath } from "history";
 import { prisma } from "~/core/db.server";
-import { generatePasswordHash, isSamePassword } from "~/core/password.server";
 import { NextSearchParams } from "~/core/searchParams";
 import {
   commitSession,
   destroySession,
   getSession,
 } from "~/currentUser/session.server";
+import { generatePasswordHash, isSamePassword } from "~/users/password.server";
 
 const USER_SESSION_KEY = "userId";
 
