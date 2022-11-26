@@ -4,11 +4,13 @@ import { cn } from "~/core/classNames";
 import { ensureArray } from "~/core/ensureArray";
 import {
   inputClassName,
+  InputVariant,
   InputWrapper,
   InputWrapperProps,
 } from "~/core/formElements/inputWrapper";
 
 export type InputProps = React.InputHTMLAttributes<HTMLInputElement> & {
+  variant?: InputVariant;
   leftAdornment?: InputWrapperProps["leftAdornment"];
   rightAdornment?: InputWrapperProps["rightAdornment"];
   hasError?: boolean;
@@ -16,6 +18,7 @@ export type InputProps = React.InputHTMLAttributes<HTMLInputElement> & {
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
   {
+    variant,
     hasError = false,
     leftAdornment,
     rightAdornment,
@@ -52,7 +55,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
         aria-invalid={asBooleanAttribute(hasError)}
         className={cn(
           inputClassName({
-            hasError,
+            variant,
             leftAdornmentCount: ensureArray(leftAdornment).length,
             rightAdornmentCount: ensureArray(rightAdornment).length,
           }),

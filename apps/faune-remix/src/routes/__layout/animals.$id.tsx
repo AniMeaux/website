@@ -6,9 +6,10 @@ import { DateTime } from "luxon";
 import { useRef, useState } from "react";
 import invariant from "tiny-invariant";
 import { z } from "zod";
-import { AgreementItem, animalWithAgreements } from "~/animals/agreements";
+import { AgreementItem } from "~/animals/agreements";
 import { GENDER_ICON } from "~/animals/gender";
 import { PICK_UP_REASON_TRANSLATION } from "~/animals/pickUp";
+import { ActionFormData } from "~/animals/profileForm";
 import { SPECIES_ICON, SPECIES_TRANSLATION } from "~/animals/species";
 import {
   ADOPTION_OPTION_TRANSLATION,
@@ -17,10 +18,11 @@ import {
   STATUS_TRANSLATION,
 } from "~/animals/status";
 import { actionClassName } from "~/core/action";
-import { BaseLink } from "~/core/baseLink";
+import { BaseLink, BaseLinkProps } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
 import { useConfig } from "~/core/config";
 import { Empty } from "~/core/dataDisplay/empty";
+import { Helper } from "~/core/dataDisplay/helper";
 import { createCloudinaryUrl, DynamicImage } from "~/core/dataDisplay/image";
 import {
   ARTICLE_COMPONENTS,
@@ -31,6 +33,10 @@ import { prisma } from "~/core/db.server";
 import { isDefined } from "~/core/isDefined";
 import { Card, CardContent, CardHeader, CardTitle } from "~/core/layout/card";
 import { getPageTitle } from "~/core/pageTitle";
+import {
+  ActionConfirmationType,
+  useActionConfirmation,
+} from "~/core/searchParams";
 import {
   assertCurrentUserHasGroups,
   getCurrentUser,
@@ -96,7 +102,7 @@ export async function loader({ request, params }: LoaderArgs) {
     UserGroup.ANIMAL_MANAGER,
   ]);
 
-  return json({ canEdit, animal: animalWithAgreements(animal) });
+  return json({ canEdit, animal });
 }
 
 export const meta: MetaFunction<typeof loader> = ({ data: { animal } }) => {
@@ -113,7 +119,7 @@ export default function AnimalProfilePage() {
 
   return (
     <section className="w-full flex flex-col gap-1 md:gap-2">
-      {/* Helpers */}
+      <EditSuccessHelper />
 
       <HeaderCard />
 
@@ -141,6 +147,23 @@ export default function AnimalProfilePage() {
         )}
       </section>
     </section>
+  );
+}
+
+function EditSuccessHelper() {
+  const { animal } = useLoaderData<typeof loader>();
+  const { isVisible, clear } = useActionConfirmation(
+    ActionConfirmationType.EDIT
+  );
+
+  if (!isVisible) {
+    return null;
+  }
+
+  return (
+    <Helper variant="success" action={<button onClick={clear}>Fermer</button>}>
+      {animal.name} à bien été modifié.
+    </Helper>
   );
 }
 
@@ -200,7 +223,7 @@ function HeaderCard() {
 
           {canEdit && (
             <BaseLink
-              to="./edit"
+              to="./edit-profile"
               className={actionClassName({ variant: "text" })}
             >
               Modifier
@@ -228,7 +251,7 @@ function ProfileCard() {
 
         {canEdit && (
           <BaseLink
-            to="./edit"
+            to="./edit-profile"
             className={actionClassName({ variant: "text" })}
           >
             Modifier
@@ -403,6 +426,11 @@ function ActionCard() {
 function DescriptionCard() {
   const { canEdit, animal } = useLoaderData<typeof loader>();
 
+  const editLink: BaseLinkProps["to"] = {
+    pathname: "./edit-profile",
+    hash: ActionFormData.keys.description,
+  };
+
   return (
     <Card>
       <CardHeader>
@@ -410,7 +438,7 @@ function DescriptionCard() {
 
         {canEdit && animal.description != null && (
           <BaseLink
-            to="./edit"
+            to={editLink}
             className={actionClassName({ variant: "text" })}
           >
             Modifier
@@ -430,7 +458,7 @@ function DescriptionCard() {
             action={
               canEdit ? (
                 <BaseLink
-                  to="./edit"
+                  to={editLink}
                   className={actionClassName({ variant: "secondary" })}
                 >
                   Ajouter

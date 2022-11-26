@@ -1,18 +1,23 @@
-import { Animal } from "@prisma/client";
 import { cn } from "~/core/classNames";
 import { Icon, IconProps } from "~/generated/icon";
 
-enum AgreementValue {
+export enum AgreementValue {
   TRUE = "TRUE",
   FALSE = "FALSE",
   UNKNOWN = "UNKNOWN",
 }
 
-const AGREEMENT_TRANSLATION: Record<AgreementValue, string> = {
+export const AGREEMENT_TRANSLATION: Record<AgreementValue, string> = {
   [AgreementValue.TRUE]: "Oui",
   [AgreementValue.FALSE]: "Non",
   [AgreementValue.UNKNOWN]: "Inconnu",
 };
+
+export const SORTED_AGREEMENTS = [
+  AgreementValue.TRUE,
+  AgreementValue.FALSE,
+  AgreementValue.UNKNOWN,
+];
 
 type Entity = "babies" | "cats" | "dogs";
 
@@ -21,17 +26,21 @@ export function AgreementItem({
   value,
 }: {
   entity: Entity;
-  value: AgreementValue;
+  value: boolean | null;
 }) {
+  const agreement = agreementFromBoolean(value);
+
   return (
     <li
       className={cn(
         "rounded-0.5 p-1 flex flex-col items-center justify-center gap-0.5",
-        AGREEMENT_CLASS_NAMES[value]
+        AGREEMENT_CLASS_NAMES[agreement]
       )}
     >
-      <Icon id={ICONS[entity][value]} className="text-[30px]" />
-      <span className="text-body-emphasis">{AGREEMENT_TRANSLATION[value]}</span>
+      <Icon id={ICONS[entity][agreement]} className="text-[30px]" />
+      <span className="text-body-emphasis">
+        {AGREEMENT_TRANSLATION[agreement]}
+      </span>
     </li>
   );
 }
@@ -60,18 +69,17 @@ const ICONS: Record<Entity, Record<AgreementValue, IconProps["id"]>> = {
   },
 };
 
-export function animalWithAgreements<
-  T extends Pick<Animal, "isOkCats" | "isOkChildren" | "isOkDogs">
->({ isOkCats, isOkChildren, isOkDogs, ...rest }: T) {
-  return {
-    ...rest,
-    isOkCats: agreementFromBoolean(isOkCats),
-    isOkChildren: agreementFromBoolean(isOkChildren),
-    isOkDogs: agreementFromBoolean(isOkDogs),
+export function agreementToBoolean(value: AgreementValue) {
+  const values: Record<AgreementValue, boolean | null> = {
+    [AgreementValue.TRUE]: true,
+    [AgreementValue.FALSE]: false,
+    [AgreementValue.UNKNOWN]: null,
   };
+
+  return values[value];
 }
 
-function agreementFromBoolean(value: boolean | null) {
+export function agreementFromBoolean(value: boolean | null) {
   return value == null
     ? AgreementValue.UNKNOWN
     : value

@@ -47,3 +47,9 @@ export const ARTICLE_COMPONENTS: MarkdownProps["components"] = {
   br: () => <br />,
   p: ({ children }) => <p>{children}</p>,
 };
+
+export const HIGHLIGHT_COMPONENTS: MarkdownProps["components"] = {
+  strong: ({ children }) => (
+    <strong className="text-body-emphasis">{children}</strong>
+  ),
+};

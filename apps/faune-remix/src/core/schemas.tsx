@@ -36,3 +36,14 @@ export function ensureDate(value: unknown) {
 
   return value;
 }
+
+export function ensureBoolean(value: unknown) {
+  if (
+    typeof value === "string" &&
+    [String(true), String(false)].includes(value)
+  ) {
+    return value === String(true);
+  }
+
+  return value;
+}
