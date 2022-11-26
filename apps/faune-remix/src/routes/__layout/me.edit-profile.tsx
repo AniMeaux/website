@@ -1,4 +1,3 @@
-import { Prisma } from "@prisma/client";
 import {
   ActionArgs,
   json,
@@ -12,9 +11,7 @@ import { useEffect, useRef } from "react";
 import { z } from "zod";
 import { actionClassName } from "~/core/action";
 import { cn } from "~/core/classNames";
-import { getCurrentUser } from "~/core/currentUser.server";
 import { Helper } from "~/core/dataDisplay/helper";
-import { prisma } from "~/core/db.server";
 import { Adornment } from "~/core/formElements/adornment";
 import { formClassNames } from "~/core/formElements/form";
 import { Input } from "~/core/formElements/input";
@@ -26,6 +23,11 @@ import {
   ActionConfirmationSearchParams,
   ActionConfirmationType,
 } from "~/core/searchParams";
+import {
+  EmailAlreadyUsedError,
+  getCurrentUser,
+  updateCurrentUserProfile,
+} from "~/currentUser/currentUser.server";
 import { Icon } from "~/generated/icon";
 
 export async function loader({ request }: LoaderArgs) {
@@ -70,25 +72,21 @@ export async function action({ request }: ActionArgs) {
   }
 
   try {
-    await prisma.user.update({
-      where: { id: currentUser.id },
-      data: { displayName: formData.data.name, email: formData.data.email },
+    await updateCurrentUserProfile(currentUser.id, {
+      displayName: formData.data.name,
+      email: formData.data.email,
     });
   } catch (error) {
-    if (error instanceof Prisma.PrismaClientKnownRequestError) {
-      // Email already used.
-      // https://www.prisma.io/docs/reference/api-reference/error-reference#p2025
-      if (error.code === "P2002") {
-        return json<ActionData>(
-          {
-            errors: {
-              formErrors: [],
-              fieldErrors: { email: ["L’email est déjà utilisé."] },
-            },
+    if (error instanceof EmailAlreadyUsedError) {
+      return json<ActionData>(
+        {
+          errors: {
+            formErrors: [],
+            fieldErrors: { email: ["L’email est déjà utilisé."] },
           },
-          { status: 400 }
-        );
-      }
+        },
+        { status: 400 }
+      );
     }
 
     throw error;

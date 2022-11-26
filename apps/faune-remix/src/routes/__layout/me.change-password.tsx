@@ -5,21 +5,22 @@ import { useEffect, useRef } from "react";
 import { z } from "zod";
 import { actionClassName } from "~/core/action";
 import { cn } from "~/core/classNames";
-import { getCurrentUser } from "~/core/currentUser.server";
 import { Helper } from "~/core/dataDisplay/helper";
-import { prisma } from "~/core/db.server";
 import { Adornment } from "~/core/formElements/adornment";
 import { formClassNames } from "~/core/formElements/form";
 import { PasswordInput } from "~/core/formElements/passwordInput";
 import { joinReactNodes } from "~/core/joinReactNodes";
 import { Card, CardContent, CardHeader, CardTitle } from "~/core/layout/card";
 import { getPageTitle } from "~/core/pageTitle";
-import { generatePasswordHash } from "~/core/password.server";
 import { createActionData } from "~/core/schemas";
 import {
   ActionConfirmationSearchParams,
   ActionConfirmationType,
 } from "~/core/searchParams";
+import {
+  getCurrentUser,
+  updateCurrentUserPassword,
+} from "~/currentUser/currentUser.server";
 import { Icon } from "~/generated/icon";
 
 export const meta: MetaFunction = () => {
@@ -44,12 +45,7 @@ export async function action({ request }: ActionArgs) {
     return json({ errors: formData.error.flatten() }, { status: 400 });
   }
 
-  const passwordHash = await generatePasswordHash(formData.data.password);
-
-  await prisma.password.update({
-    where: { userId: currentUser.id },
-    data: { hash: passwordHash },
-  });
+  await updateCurrentUserPassword(currentUser.id, formData.data.password);
 
   throw redirect(
     createPath({

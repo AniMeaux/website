@@ -9,9 +9,7 @@ import { Form, useActionData } from "@remix-run/react";
 import { useEffect, useRef } from "react";
 import { z } from "zod";
 import { actionClassName } from "~/core/action";
-import { createUserSession, getCurrentUser } from "~/core/currentUser.server";
 import { Helper } from "~/core/dataDisplay/helper";
-import { prisma } from "~/core/db.server";
 import { Adornment } from "~/core/formElements/adornment";
 import { formClassNames } from "~/core/formElements/form";
 import { Input } from "~/core/formElements/input";
@@ -19,9 +17,13 @@ import { PasswordInput } from "~/core/formElements/passwordInput";
 import { RouteHandle } from "~/core/handles";
 import { joinReactNodes } from "~/core/joinReactNodes";
 import { getPageTitle } from "~/core/pageTitle";
-import { isSamePassword } from "~/core/password.server";
 import { createActionData } from "~/core/schemas";
 import { NextSearchParams } from "~/core/searchParams";
+import {
+  createUserSession,
+  getCurrentUser,
+  verifyLogin,
+} from "~/currentUser/currentUser.server";
 import { Icon } from "~/generated/icon";
 import nameAndLogo from "~/images/nameAndLogo.svg";
 
@@ -93,35 +95,6 @@ export async function action({ request }: ActionArgs) {
   throw redirect(searchParams.getNext(), {
     headers: { "Set-Cookie": await createUserSession(userId) },
   });
-}
-
-async function verifyLogin({
-  email,
-  password,
-}: z.infer<typeof ActionFormData.schema>) {
-  const user = await prisma.user.findFirst({
-    where: { email, isDisabled: false },
-    select: { id: true, password: true },
-  });
-
-  if (user?.password == null) {
-    // Prevent finding out which emails exists through a timing attack.
-    // We want to take approximately the same time to respond so we fake a
-    // password comparison.
-    await isSamePassword(
-      "Hello there",
-      // "Obiwan Kenobi?"
-      "879d5935bab9b03280188c1806cf5ae751579b3342c51e788c43be14e0109ab8b98da03f5fa2cc96c85ca192eda9aaf892cba7ba1fc3b7d1a4a1eb8956a65c53.6a71cc1003ad30a5c6abf0d53baa2c5d"
-    );
-
-    return null;
-  }
-
-  if (!(await isSamePassword(password, user.password.hash))) {
-    return null;
-  }
-
-  return user.id;
 }
 
 export default function LoginPage() {

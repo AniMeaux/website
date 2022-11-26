@@ -1,6 +1,6 @@
 import { UserGroup } from "@prisma/client";
 import { LoaderArgs, redirect } from "@remix-run/node";
-import { getCurrentUser } from "~/core/currentUser.server";
+import { getCurrentUser } from "~/currentUser/currentUser.server";
 
 export async function loader({ request }: LoaderArgs) {
   const currentUser = await getCurrentUser(request, {
