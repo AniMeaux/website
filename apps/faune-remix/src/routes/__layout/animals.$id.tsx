@@ -6,6 +6,7 @@ import { DateTime } from "luxon";
 import { useRef, useState } from "react";
 import invariant from "tiny-invariant";
 import { z } from "zod";
+import { AgreementItem, animalWithAgreements } from "~/animals/agreements";
 import { GENDER_ICON } from "~/animals/gender";
 import { PICK_UP_REASON_TRANSLATION } from "~/animals/pickUp";
 import { SPECIES_ICON, SPECIES_TRANSLATION } from "~/animals/species";
@@ -35,7 +36,7 @@ import {
   getCurrentUser,
 } from "~/currentUser/currentUser.server";
 import { FosterFamilyAvatar } from "~/fosterFamilies/avatar";
-import { Icon, IconProps } from "~/generated/icon";
+import { Icon } from "~/generated/icon";
 import { UserAvatar } from "~/users/avatar";
 import { hasGroups } from "~/users/groups";
 
@@ -95,7 +96,7 @@ export async function loader({ request, params }: LoaderArgs) {
     UserGroup.ANIMAL_MANAGER,
   ]);
 
-  return json({ canEdit, animal });
+  return json({ canEdit, animal: animalWithAgreements(animal) });
 }
 
 export const meta: MetaFunction<typeof loader> = ({ data: { animal } }) => {
@@ -264,9 +265,9 @@ function ProfileCard() {
         </ul>
 
         <ul className="grid grid-cols-3 gap-1">
-          <Agreement entity="babies" value={animal.isOkChildren} />
-          <Agreement entity="cats" value={animal.isOkCats} />
-          <Agreement entity="dogs" value={animal.isOkDogs} />
+          <AgreementItem entity="cats" value={animal.isOkCats} />
+          <AgreementItem entity="dogs" value={animal.isOkDogs} />
+          <AgreementItem entity="babies" value={animal.isOkChildren} />
         </ul>
       </CardContent>
     </Card>
@@ -544,51 +545,6 @@ function Item({
       </span>
 
       <div className="py-1">{children}</div>
-    </li>
-  );
-}
-
-function Agreement({
-  entity,
-  value,
-}: {
-  entity: "babies" | "cats" | "dogs";
-  value: boolean | null;
-}) {
-  let icon: IconProps["id"] =
-    entity === "babies"
-      ? value == null
-        ? "babyCircleQuestion"
-        : value
-        ? "babyCircleCheck"
-        : "babyCircleXMark"
-      : entity === "cats"
-      ? value == null
-        ? "catCircleQuestion"
-        : value
-        ? "catCircleCheck"
-        : "catCircleXMark"
-      : value == null
-      ? "dogCircleQuestion"
-      : value
-      ? "dogCircleCheck"
-      : "dogCircleXMark";
-
-  return (
-    <li
-      className={cn(
-        "rounded-0.5 p-1 flex flex-col items-center justify-center gap-0.5",
-        {
-          "bg-gray-100 text-gray-700": value == null,
-          "bg-green-50 text-green-600": value === true,
-          "bg-red-50 text-red-500": value === false,
-        }
-      )}
-    >
-      <Icon id={icon} className="text-[30px]" />
-      <span className="text-body-emphasis">
-        {value == null ? "Inconnu" : value ? "Oui" : "Non"}
-      </span>
     </li>
   );
 }
