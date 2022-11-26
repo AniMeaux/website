@@ -24,7 +24,7 @@ import { getPageTitle } from "~/core/pageTitle";
 import {
   ActionConfirmationSearchParams,
   ActionConfirmationType,
-} from "~/core/params";
+} from "~/core/searchParams";
 import { Icon } from "~/generated/icon";
 
 export async function loader({ request }: LoaderArgs) {

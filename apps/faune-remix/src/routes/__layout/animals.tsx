@@ -27,7 +27,7 @@ import {
   CardTitle,
 } from "~/core/layout/card";
 import { getPageTitle } from "~/core/pageTitle";
-import { PageSearchParams } from "~/core/params";
+import { PageSearchParams } from "~/core/searchParams";
 import { Icon } from "~/generated/icon";
 
 // Multiple of 6, 5, 4 and 3 to be nicely displayed.

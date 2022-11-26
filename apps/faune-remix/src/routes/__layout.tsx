@@ -24,7 +24,7 @@ import {
   TabBarMenuItem,
 } from "~/core/layout/tabBar";
 import { getPageTitle } from "~/core/pageTitle";
-import { NextSearchParams } from "~/core/params";
+import { NextSearchParams } from "~/core/searchParams";
 import { Icon, IconProps } from "~/generated/icon";
 import nameAndLogo from "~/images/nameAndLogo.svg";
 import { UserAvatar } from "~/users/avatar";

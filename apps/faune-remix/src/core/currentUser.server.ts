@@ -3,7 +3,7 @@ import { Prisma, User, UserGroup } from "@prisma/client";
 import { redirect } from "@remix-run/node";
 import { createPath } from "history";
 import { prisma } from "~/core/db.server";
-import { NextSearchParams } from "~/core/params";
+import { NextSearchParams } from "~/core/searchParams";
 import {
   commitSession,
   destroySession,

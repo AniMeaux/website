@@ -19,8 +19,8 @@ import { PasswordInput } from "~/core/formElements/passwordInput";
 import { RouteHandle } from "~/core/handles";
 import { joinReactNodes } from "~/core/joinReactNodes";
 import { getPageTitle } from "~/core/pageTitle";
-import { NextSearchParams } from "~/core/params";
 import { isSamePassword } from "~/core/password.server";
+import { NextSearchParams } from "~/core/searchParams";
 import { Icon } from "~/generated/icon";
 import nameAndLogo from "~/images/nameAndLogo.svg";
 

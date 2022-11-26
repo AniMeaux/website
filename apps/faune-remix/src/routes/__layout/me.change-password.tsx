@@ -14,11 +14,11 @@ import { PasswordInput } from "~/core/formElements/passwordInput";
 import { joinReactNodes } from "~/core/joinReactNodes";
 import { Card, CardContent, CardHeader, CardTitle } from "~/core/layout/card";
 import { getPageTitle } from "~/core/pageTitle";
+import { generatePasswordHash } from "~/core/password.server";
 import {
   ActionConfirmationSearchParams,
   ActionConfirmationType,
-} from "~/core/params";
-import { generatePasswordHash } from "~/core/password.server";
+} from "~/core/searchParams";
 import { Icon } from "~/generated/icon";
 
 export const meta: MetaFunction = () => {
