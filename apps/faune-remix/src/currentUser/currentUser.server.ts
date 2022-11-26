@@ -2,6 +2,7 @@ import { hasGroups } from "@animeaux/shared";
 import { Prisma, User, UserGroup } from "@prisma/client";
 import { redirect } from "@remix-run/node";
 import { createPath } from "history";
+import { algolia } from "~/core/algolia/algolia.server";
 import { prisma } from "~/core/db.server";
 import { NextSearchParams } from "~/core/searchParams";
 import {
@@ -118,6 +119,7 @@ export async function updateCurrentUserProfile(
 ) {
   try {
     await prisma.user.update({ where: { id: userId }, data });
+    await algolia.user.update(userId, data);
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       // Email already used.
