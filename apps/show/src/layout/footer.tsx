@@ -7,6 +7,7 @@ import citronad from "~/images/citronad.png";
 import meaux from "~/images/meaux.png";
 import nameAndLogo from "~/images/nameAndLogo.svg";
 import paysDeMeaux from "~/images/paysDeMeaux.png";
+import superlogo from "~/images/superlogo.png";
 import villeAnimaux2Pattes from "~/images/villeAnimaux2Pattes.png";
 import { LineShapeHorizontal } from "~/layout/lineShape";
 
@@ -55,6 +56,12 @@ export function Footer() {
             image={citronad}
             alt="Citron’ad"
             to="https://www.citron-ad.fr"
+          />
+
+          <LogoItem
+            image={superlogo}
+            alt="Super Logo"
+            to="https://www.super-logo.com"
           />
         </section>
 
