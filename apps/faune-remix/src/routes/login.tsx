@@ -20,6 +20,7 @@ import { RouteHandle } from "~/core/handles";
 import { joinReactNodes } from "~/core/joinReactNodes";
 import { getPageTitle } from "~/core/pageTitle";
 import { isSamePassword } from "~/core/password.server";
+import { createActionData } from "~/core/schemas";
 import { NextSearchParams } from "~/core/searchParams";
 import { Icon } from "~/generated/icon";
 import nameAndLogo from "~/images/nameAndLogo.svg";
@@ -50,18 +51,20 @@ export const meta: MetaFunction = () => {
   return { title: getPageTitle("Connexion") };
 };
 
-const ActionDataSchema = z.object({
-  email: z.string().email({ message: "Veuillez entrer un email valide" }),
-  password: z.string().min(1, { message: "Veuillez entrer un mot de passe" }),
-});
+const ActionFormData = createActionData(
+  z.object({
+    email: z.string().email("Veuillez entrer un email valide"),
+    password: z.string().min(1, "Veuillez entrer un mot de passe"),
+  })
+);
 
 type ActionData = {
-  errors?: z.inferFlattenedErrors<typeof ActionDataSchema>;
+  errors?: z.inferFlattenedErrors<typeof ActionFormData.schema>;
 };
 
 export async function action({ request }: ActionArgs) {
   const rawFormData = await request.formData();
-  const formData = ActionDataSchema.safeParse(
+  const formData = ActionFormData.schema.safeParse(
     Object.fromEntries(rawFormData.entries())
   );
 
@@ -87,7 +90,7 @@ export async function action({ request }: ActionArgs) {
 
   const url = new URL(request.url);
   const searchParams = new NextSearchParams(url.searchParams);
-  return redirect(searchParams.getNext(), {
+  throw redirect(searchParams.getNext(), {
     headers: { "Set-Cookie": await createUserSession(userId) },
   });
 }
@@ -95,7 +98,7 @@ export async function action({ request }: ActionArgs) {
 async function verifyLogin({
   email,
   password,
-}: z.infer<typeof ActionDataSchema>) {
+}: z.infer<typeof ActionFormData.schema>) {
   const user = await prisma.user.findFirst({
     where: { email, isDisabled: false },
     select: { id: true, password: true },
@@ -122,7 +125,7 @@ async function verifyLogin({
 }
 
 export default function LoginPage() {
-  const actionData = useActionData() as ActionData;
+  const actionData = useActionData<typeof action>();
   const { formErrors = [], fieldErrors = {} } = actionData?.errors ?? {};
 
   const emailRef = useRef<HTMLInputElement>(null);
@@ -165,7 +168,7 @@ export default function LoginPage() {
 
               <div className={formClassNames.fields.field.root()}>
                 <label
-                  htmlFor="email"
+                  htmlFor={ActionFormData.keys.email}
                   className={formClassNames.fields.field.label()}
                 >
                   Email
@@ -174,9 +177,9 @@ export default function LoginPage() {
                 <Input
                   autoFocus
                   ref={emailRef}
-                  id="email"
+                  id={ActionFormData.keys.email}
                   type="email"
-                  name="email"
+                  name={ActionFormData.keys.email}
                   autoComplete="email"
                   hasError={fieldErrors.email != null}
                   aria-describedby="email-error"
@@ -200,7 +203,7 @@ export default function LoginPage() {
 
               <div className={formClassNames.fields.field.root()}>
                 <label
-                  htmlFor="password"
+                  htmlFor={ActionFormData.keys.password}
                   className={formClassNames.fields.field.label()}
                 >
                   Mot de passe
@@ -208,8 +211,8 @@ export default function LoginPage() {
 
                 <PasswordInput
                   ref={passwordRef}
-                  id="password"
-                  name="password"
+                  id={ActionFormData.keys.password}
+                  name={ActionFormData.keys.password}
                   autoComplete="current-password"
                   hasError={fieldErrors.password != null}
                   aria-describedby="password-error"

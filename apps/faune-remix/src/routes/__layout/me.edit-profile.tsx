@@ -21,6 +21,7 @@ import { Input } from "~/core/formElements/input";
 import { joinReactNodes } from "~/core/joinReactNodes";
 import { Card, CardContent, CardHeader, CardTitle } from "~/core/layout/card";
 import { getPageTitle } from "~/core/pageTitle";
+import { createActionData } from "~/core/schemas";
 import {
   ActionConfirmationSearchParams,
   ActionConfirmationType,
@@ -42,20 +43,22 @@ export const meta: MetaFunction = () => {
   return { title: getPageTitle("Modifier votre profil") };
 };
 
-const ActionDataSchema = z.object({
-  name: z.string().min(1, { message: "Veuillez entrer un nom" }),
-  email: z.string().email({ message: "Veuillez entrer un email valide" }),
-});
+const ActionFormData = createActionData(
+  z.object({
+    name: z.string().min(1, "Veuillez entrer un nom"),
+    email: z.string().email("Veuillez entrer un email valide"),
+  })
+);
 
 type ActionData = {
-  errors?: z.inferFlattenedErrors<typeof ActionDataSchema>;
+  errors?: z.inferFlattenedErrors<typeof ActionFormData.schema>;
 };
 
 export async function action({ request }: ActionArgs) {
   const currentUser = await getCurrentUser(request, { select: { id: true } });
 
   const rawFormData = await request.formData();
-  const formData = ActionDataSchema.safeParse(
+  const formData = ActionFormData.schema.safeParse(
     Object.fromEntries(rawFormData.entries())
   );
 
@@ -91,7 +94,7 @@ export async function action({ request }: ActionArgs) {
     throw error;
   }
 
-  return redirect(
+  throw redirect(
     createPath({
       pathname: "/me",
       search: new ActionConfirmationSearchParams()
@@ -103,7 +106,7 @@ export async function action({ request }: ActionArgs) {
 
 export default function EditCurrentUserProfilePage() {
   const { currentUser } = useLoaderData<typeof loader>();
-  const actionData = useActionData() as ActionData;
+  const actionData = useActionData<typeof action>();
   const { formErrors = [], fieldErrors = {} } = actionData?.errors ?? {};
 
   const nameRef = useRef<HTMLInputElement>(null);
@@ -142,7 +145,7 @@ export default function EditCurrentUserProfilePage() {
 
               <div className={formClassNames.fields.field.root()}>
                 <label
-                  htmlFor="name"
+                  htmlFor={ActionFormData.keys.name}
                   className={formClassNames.fields.field.label()}
                 >
                   Nom
@@ -151,9 +154,9 @@ export default function EditCurrentUserProfilePage() {
                 <Input
                   autoFocus
                   ref={nameRef}
-                  id="name"
+                  id={ActionFormData.keys.name}
                   type="text"
-                  name="name"
+                  name={ActionFormData.keys.name}
                   autoComplete="name"
                   defaultValue={currentUser.displayName}
                   hasError={fieldErrors.name != null}
@@ -177,7 +180,7 @@ export default function EditCurrentUserProfilePage() {
 
               <div className={formClassNames.fields.field.root()}>
                 <label
-                  htmlFor="email"
+                  htmlFor={ActionFormData.keys.email}
                   className={formClassNames.fields.field.label()}
                 >
                   Email
@@ -185,9 +188,9 @@ export default function EditCurrentUserProfilePage() {
 
                 <Input
                   ref={emailRef}
-                  id="email"
+                  id={ActionFormData.keys.email}
                   type="email"
-                  name="email"
+                  name={ActionFormData.keys.email}
                   autoComplete="email"
                   defaultValue={currentUser.email}
                   hasError={fieldErrors.email != null}
