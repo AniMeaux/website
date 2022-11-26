@@ -19,10 +19,6 @@ import { actionClassName } from "~/core/action";
 import { BaseLink } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
 import { useConfig } from "~/core/config";
-import {
-  assertCurrentUserHasGroups,
-  getCurrentUser,
-} from "~/core/currentUser.server";
 import { Empty } from "~/core/dataDisplay/empty";
 import { createCloudinaryUrl, DynamicImage } from "~/core/dataDisplay/image";
 import {
@@ -34,6 +30,10 @@ import { prisma } from "~/core/db.server";
 import { isDefined } from "~/core/isDefined";
 import { Card, CardContent, CardHeader, CardTitle } from "~/core/layout/card";
 import { getPageTitle } from "~/core/pageTitle";
+import {
+  assertCurrentUserHasGroups,
+  getCurrentUser,
+} from "~/currentUser/currentUser.server";
 import { FosterFamilyAvatar } from "~/fosterFamilies/avatar";
 import { Icon, IconProps } from "~/generated/icon";
 import { UserAvatar } from "~/users/avatar";

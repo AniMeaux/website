@@ -5,57 +5,49 @@ import { useEffect, useRef } from "react";
 import { z } from "zod";
 import { actionClassName } from "~/core/action";
 import { cn } from "~/core/classNames";
-import { getCurrentUser } from "~/core/currentUser.server";
 import { Helper } from "~/core/dataDisplay/helper";
-import { prisma } from "~/core/db.server";
 import { Adornment } from "~/core/formElements/adornment";
 import { formClassNames } from "~/core/formElements/form";
 import { PasswordInput } from "~/core/formElements/passwordInput";
 import { joinReactNodes } from "~/core/joinReactNodes";
 import { Card, CardContent, CardHeader, CardTitle } from "~/core/layout/card";
 import { getPageTitle } from "~/core/pageTitle";
+import { createActionData } from "~/core/schemas";
 import {
   ActionConfirmationSearchParams,
   ActionConfirmationType,
-} from "~/core/params";
-import { generatePasswordHash } from "~/core/password.server";
+} from "~/core/searchParams";
+import {
+  getCurrentUser,
+  updateCurrentUserPassword,
+} from "~/currentUser/currentUser.server";
 import { Icon } from "~/generated/icon";
 
 export const meta: MetaFunction = () => {
   return { title: getPageTitle("Changer de mot de passe") };
 };
 
-const ActionDataSchema = z.object({
-  password: z.string().min(1, { message: "Veuillez entrer un mot de passe" }),
-});
-
-type ActionData = {
-  errors?: z.inferFlattenedErrors<typeof ActionDataSchema>;
-};
+const ActionFormData = createActionData(
+  z.object({
+    password: z.string().min(1, "Veuillez entrer un mot de passe"),
+  })
+);
 
 export async function action({ request }: ActionArgs) {
   const currentUser = await getCurrentUser(request, { select: { id: true } });
 
   const rawFormData = await request.formData();
-  const formData = ActionDataSchema.safeParse(
+  const formData = ActionFormData.schema.safeParse(
     Object.fromEntries(rawFormData.entries())
   );
 
   if (!formData.success) {
-    return json<ActionData>(
-      { errors: formData.error.flatten() },
-      { status: 400 }
-    );
+    return json({ errors: formData.error.flatten() }, { status: 400 });
   }
 
-  const passwordHash = await generatePasswordHash(formData.data.password);
+  await updateCurrentUserPassword(currentUser.id, formData.data.password);
 
-  await prisma.password.update({
-    where: { userId: currentUser.id },
-    data: { hash: passwordHash },
-  });
-
-  return redirect(
+  throw redirect(
     createPath({
       pathname: "/me",
       search: new ActionConfirmationSearchParams()
@@ -66,7 +58,7 @@ export async function action({ request }: ActionArgs) {
 }
 
 export default function EditCurrentUserPasswordPage() {
-  const actionData = useActionData<ActionData>();
+  const actionData = useActionData<typeof action>();
   const { formErrors = [], fieldErrors = {} } = actionData?.errors ?? {};
 
   const passwordRef = useRef<HTMLInputElement>(null);
@@ -100,7 +92,7 @@ export default function EditCurrentUserPasswordPage() {
 
               <div className={formClassNames.fields.field.root()}>
                 <label
-                  htmlFor="password"
+                  htmlFor={ActionFormData.keys.password}
                   className={formClassNames.fields.field.label()}
                 >
                   Nouveau mot de passe
@@ -109,8 +101,8 @@ export default function EditCurrentUserPasswordPage() {
                 <PasswordInput
                   autoFocus
                   ref={passwordRef}
-                  id="password"
-                  name="password"
+                  id={ActionFormData.keys.password}
+                  name={ActionFormData.keys.password}
                   autoComplete="new-password"
                   hasError={fieldErrors.password != null}
                   aria-describedby="password-error"
