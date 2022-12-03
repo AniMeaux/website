@@ -19,11 +19,8 @@ import { joinReactNodes } from "~/core/joinReactNodes";
 import { getPageTitle } from "~/core/pageTitle";
 import { createActionData } from "~/core/schemas";
 import { NextSearchParams } from "~/core/searchParams";
-import {
-  createUserSession,
-  getCurrentUser,
-  verifyLogin,
-} from "~/currentUser/currentUser.server";
+import { getCurrentUser, verifyLogin } from "~/currentUser/db.server";
+import { createUserSession } from "~/currentUser/session.server";
 import { Icon } from "~/generated/icon";
 import nameAndLogo from "~/images/nameAndLogo.svg";
 

@@ -20,7 +20,7 @@ import {
 import {
   getCurrentUser,
   updateCurrentUserPassword,
-} from "~/currentUser/currentUser.server";
+} from "~/currentUser/db.server";
 import { Icon } from "~/generated/icon";
 
 export const meta: MetaFunction = () => {

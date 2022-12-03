@@ -1,3 +1,4 @@
+import { forwardRef } from "react";
 import { cn } from "~/core/classNames";
 
 export function Adornment({ children }: { children: React.ReactNode }) {
@@ -8,22 +9,19 @@ export function Adornment({ children }: { children: React.ReactNode }) {
   );
 }
 
-export function ActionAdornment({
-  onClick,
-  children,
-}: Pick<React.ButtonHTMLAttributes<HTMLButtonElement>, "onClick"> & {
-  children: React.ReactNode;
-}) {
+export const ActionAdornment = forwardRef<
+  HTMLButtonElement,
+  React.ButtonHTMLAttributes<HTMLButtonElement>
+>(function ActionAdornment({ ...props }, ref) {
   return (
     <button
+      {...props}
+      ref={ref}
       type="button"
-      onClick={onClick}
       className="rounded-full w-3 h-3 flex-none flex items-center justify-center text-gray-600 pointer-events-auto cursor-pointer transition-colors duration-100 ease-in-out hover:bg-gray-100 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400"
-    >
-      {children}
-    </button>
+    />
   );
-}
+});
 
 export function AdornmentContainer({
   side,

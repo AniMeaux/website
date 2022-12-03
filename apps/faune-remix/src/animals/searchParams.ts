@@ -4,7 +4,7 @@ import isEqual from "lodash.isequal";
 import orderBy from "lodash.orderby";
 import { DateTime } from "luxon";
 import { z } from "zod";
-import { parseOrDefault } from "~/core/schemas";
+import { ensureDate, parseOrDefault } from "~/core/schemas";
 
 enum Sort {
   PICK_UP = "PICK_UP",
@@ -151,12 +151,4 @@ export class AnimalSearchParams extends URLSearchParams {
       this.getAll(Keys.PICK_UP_LOCATION)
     );
   }
-}
-
-function ensureDate(value: unknown) {
-  if (typeof value === "string") {
-    return DateTime.fromISO(value).toJSDate();
-  }
-
-  return value;
 }

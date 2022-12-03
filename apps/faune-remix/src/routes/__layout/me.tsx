@@ -15,7 +15,7 @@ import {
   ActionConfirmationType,
   useActionConfirmation,
 } from "~/core/searchParams";
-import { getCurrentUser } from "~/currentUser/currentUser.server";
+import { getCurrentUser } from "~/currentUser/db.server";
 import { Icon } from "~/generated/icon";
 import { UserAvatar } from "~/users/avatar";
 import { GROUP_ICON, GROUP_TRANSLATION, hasGroups } from "~/users/groups";

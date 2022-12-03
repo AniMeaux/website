@@ -12,8 +12,8 @@ export function createUserDelegate(client: SearchClient) {
   return {
     indexName: index.indexName,
 
-    async update(useId: User["id"], data: Partial<UserFromAlgolia>) {
-      await index.partialUpdateObject({ ...data, objectID: useId });
+    async update(userId: User["id"], data: Partial<UserFromAlgolia>) {
+      await index.partialUpdateObject({ ...data, objectID: userId });
     },
   };
 }
