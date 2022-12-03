@@ -1,0 +1,17 @@
+name: 🚧 Sandbox
+on: push
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  debug:
+    name: 🔠 Debug
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📦 Build prisma
+        run: |
+          echo ${{ github.workflow }}
+          echo ${{ github.ref }}
+          echo ${{ github.event.pull_request.number }}
