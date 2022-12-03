@@ -12,6 +12,7 @@ import { z } from "zod";
 import { updateAnimalProfile } from "~/animals/profile/db.server";
 import { ActionFormData, AnimalProfileForm } from "~/animals/profile/form";
 import { prisma } from "~/core/db.server";
+import { NotFoundError } from "~/core/errors.server";
 import { assertIsDefined } from "~/core/isDefined.server";
 import { Card, CardContent, CardHeader, CardTitle } from "~/core/layout/card";
 import { getPageTitle } from "~/core/pageTitle";
@@ -73,6 +74,10 @@ export const meta: MetaFunction<typeof loader> = ({ data: { animal } }) => {
   return { title: getPageTitle(displayName) };
 };
 
+type ActionData = {
+  errors?: z.inferFlattenedErrors<typeof ActionFormData.schema>;
+};
+
 export async function action({ request }: ActionArgs) {
   const currentUser = await getCurrentUser(request, {
     select: { id: true, groups: true },
@@ -89,22 +94,41 @@ export async function action({ request }: ActionArgs) {
   );
 
   if (!formData.success) {
-    return json({ errors: formData.error.flatten() }, { status: 400 });
+    return json<ActionData>(
+      { errors: formData.error.flatten() },
+      { status: 400 }
+    );
   }
 
-  await updateAnimalProfile(formData.data.id, {
-    species: formData.data.species,
-    name: formData.data.name,
-    alias: formData.data.alias || null,
-    birthdate: formData.data.birthdate,
-    description: formData.data.description || null,
-    gender: formData.data.gender,
-    iCadNumber: formData.data.iCadNumber || null,
-    isOkCats: formData.data.isOkCats,
-    isOkChildren: formData.data.isOkChildren,
-    isOkDogs: formData.data.isOkDogs,
-    isSterilized: formData.data.isSterilized,
-  });
+  try {
+    await updateAnimalProfile(formData.data.id, {
+      species: formData.data.species,
+      name: formData.data.name,
+      alias: formData.data.alias || null,
+      birthdate: formData.data.birthdate,
+      description: formData.data.description || null,
+      gender: formData.data.gender,
+      iCadNumber: formData.data.iCadNumber || null,
+      isOkCats: formData.data.isOkCats,
+      isOkChildren: formData.data.isOkChildren,
+      isOkDogs: formData.data.isOkDogs,
+      isSterilized: formData.data.isSterilized,
+    });
+  } catch (error) {
+    if (error instanceof NotFoundError) {
+      return json<ActionData>(
+        {
+          errors: {
+            formErrors: ["L’animal est introuvable."],
+            fieldErrors: {},
+          },
+        },
+        { status: 404 }
+      );
+    }
+
+    throw error;
+  }
 
   throw redirect(
     createPath({
