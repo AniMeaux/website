@@ -1,6 +1,6 @@
 import { ActionArgs, redirect } from "@remix-run/node";
 import { createPath } from "history";
-import { destroyUserSession } from "~/currentUser/currentUser.server";
+import { destroyUserSession } from "~/currentUser/session.server";
 
 export async function loader() {
   // Nothing to render here.

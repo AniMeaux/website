@@ -24,7 +24,7 @@ import {
 } from "~/core/layout/tabBar";
 import { getPageTitle } from "~/core/pageTitle";
 import { NextSearchParams } from "~/core/searchParams";
-import { getCurrentUser } from "~/currentUser/currentUser.server";
+import { getCurrentUser } from "~/currentUser/db.server";
 import { Icon, IconProps } from "~/generated/icon";
 import nameAndLogo from "~/images/nameAndLogo.svg";
 import { UserAvatar } from "~/users/avatar";

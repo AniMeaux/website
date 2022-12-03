@@ -9,7 +9,7 @@ import { z } from "zod";
 import { AgreementItem } from "~/animals/agreements";
 import { GENDER_ICON } from "~/animals/gender";
 import { PICK_UP_REASON_TRANSLATION } from "~/animals/pickUp";
-import { ActionFormData } from "~/animals/profileForm";
+import { ActionFormData } from "~/animals/profile/form";
 import { SPECIES_ICON, SPECIES_TRANSLATION } from "~/animals/species";
 import {
   ADOPTION_OPTION_TRANSLATION,
@@ -31,16 +31,16 @@ import {
 } from "~/core/dataDisplay/markdown";
 import { prisma } from "~/core/db.server";
 import { isDefined } from "~/core/isDefined";
+import { assertIsDefined } from "~/core/isDefined.server";
 import { Card, CardContent, CardHeader, CardTitle } from "~/core/layout/card";
 import { getPageTitle } from "~/core/pageTitle";
+import { NotFoundResponse } from "~/core/response.server";
 import {
   ActionConfirmationType,
   useActionConfirmation,
 } from "~/core/searchParams";
-import {
-  assertCurrentUserHasGroups,
-  getCurrentUser,
-} from "~/currentUser/currentUser.server";
+import { getCurrentUser } from "~/currentUser/db.server";
+import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
 import { FosterFamilyAvatar } from "~/fosterFamilies/avatar";
 import { Icon } from "~/generated/icon";
 import { UserAvatar } from "~/users/avatar";
@@ -59,10 +59,10 @@ export async function loader({ request, params }: LoaderArgs) {
 
   const result = z.string().uuid().safeParse(params["id"]);
   if (!result.success) {
-    throw new Response("Not found", { status: 404 });
+    throw new NotFoundResponse();
   }
 
-  const animal = await prisma.animal.findFirst({
+  const animal = await prisma.animal.findUnique({
     where: { id: result.data },
     select: {
       adoptionDate: true,
@@ -93,9 +93,7 @@ export async function loader({ request, params }: LoaderArgs) {
     },
   });
 
-  if (animal == null) {
-    throw new Response("Not found", { status: 404 });
-  }
+  assertIsDefined(animal);
 
   const canEdit = hasGroups(currentUser, [
     UserGroup.ADMIN,

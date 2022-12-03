@@ -9,22 +9,19 @@ import {
 import { useActionData, useLoaderData } from "@remix-run/react";
 import { createPath } from "history";
 import { z } from "zod";
-import {
-  ActionFormData,
-  AnimalProfileForm,
-  animalSelect,
-} from "~/animals/profileForm";
+import { updateAnimalProfile } from "~/animals/profile/db.server";
+import { ActionFormData, AnimalProfileForm } from "~/animals/profile/form";
 import { prisma } from "~/core/db.server";
+import { assertIsDefined } from "~/core/isDefined.server";
 import { Card, CardContent, CardHeader, CardTitle } from "~/core/layout/card";
 import { getPageTitle } from "~/core/pageTitle";
+import { NotFoundResponse } from "~/core/response.server";
 import {
   ActionConfirmationSearchParams,
   ActionConfirmationType,
 } from "~/core/searchParams";
-import {
-  assertCurrentUserHasGroups,
-  getCurrentUser,
-} from "~/currentUser/currentUser.server";
+import { getCurrentUser } from "~/currentUser/db.server";
+import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
 
 export async function loader({ request, params }: LoaderArgs) {
   const currentUser = await getCurrentUser(request, {
@@ -38,17 +35,31 @@ export async function loader({ request, params }: LoaderArgs) {
 
   const result = z.string().uuid().safeParse(params["id"]);
   if (!result.success) {
-    throw new Response("Not found", { status: 404 });
+    throw new NotFoundResponse();
   }
 
-  const animal = await prisma.animal.findFirst({
+  const animal = await prisma.animal.findUnique({
     where: { id: result.data },
-    select: animalSelect.select,
+    select: {
+      alias: true,
+      birthdate: true,
+      breed: { select: { id: true, name: true } },
+      color: { select: { id: true, name: true } },
+      description: true,
+      gender: true,
+      iCadNumber: true,
+      id: true,
+      isOkCats: true,
+      isOkChildren: true,
+      isOkDogs: true,
+      isSterilized: true,
+      name: true,
+      species: true,
+      status: true,
+    },
   });
 
-  if (animal == null) {
-    throw new Response("Not found", { status: 404 });
-  }
+  assertIsDefined(animal);
 
   return json({ animal });
 }
@@ -81,21 +92,18 @@ export async function action({ request }: ActionArgs) {
     return json({ errors: formData.error.flatten() }, { status: 400 });
   }
 
-  await prisma.animal.update({
-    where: { id: formData.data.id },
-    data: {
-      species: formData.data.species,
-      name: formData.data.name,
-      alias: formData.data.alias || null,
-      birthdate: formData.data.birthdate,
-      description: formData.data.description || null,
-      gender: formData.data.gender,
-      iCadNumber: formData.data.iCadNumber || null,
-      isOkCats: formData.data.isOkCats,
-      isOkChildren: formData.data.isOkChildren,
-      isOkDogs: formData.data.isOkDogs,
-      isSterilized: formData.data.isSterilized,
-    },
+  await updateAnimalProfile(formData.data.id, {
+    species: formData.data.species,
+    name: formData.data.name,
+    alias: formData.data.alias || null,
+    birthdate: formData.data.birthdate,
+    description: formData.data.description || null,
+    gender: formData.data.gender,
+    iCadNumber: formData.data.iCadNumber || null,
+    isOkCats: formData.data.isOkCats,
+    isOkChildren: formData.data.isOkChildren,
+    isOkDogs: formData.data.isOkDogs,
+    isSterilized: formData.data.isSterilized,
   });
 
   throw redirect(

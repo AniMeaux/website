@@ -27,7 +27,7 @@ import {
   EmailAlreadyUsedError,
   getCurrentUser,
   updateCurrentUserProfile,
-} from "~/currentUser/currentUser.server";
+} from "~/currentUser/db.server";
 import { Icon } from "~/generated/icon";
 
 export async function loader({ request }: LoaderArgs) {

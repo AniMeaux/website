@@ -24,10 +24,8 @@ import {
 } from "~/core/layout/card";
 import { getPageTitle } from "~/core/pageTitle";
 import { PageSearchParams } from "~/core/searchParams";
-import {
-  assertCurrentUserHasGroups,
-  getCurrentUser,
-} from "~/currentUser/currentUser.server";
+import { getCurrentUser } from "~/currentUser/db.server";
+import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
 import { Icon } from "~/generated/icon";
 
 // Multiple of 6, 5, 4 and 3 to be nicely displayed.

@@ -1,4 +1,4 @@
-import { Gender, Prisma, Species } from "@prisma/client";
+import { Animal, Gender, Species } from "@prisma/client";
 import { SerializeFrom } from "@remix-run/node";
 import { Form, useLocation } from "@remix-run/react";
 import { DateTime } from "luxon";
@@ -26,26 +26,6 @@ import { joinReactNodes } from "~/core/joinReactNodes";
 import { Separator } from "~/core/layout/separator";
 import { createActionData, ensureBoolean, ensureDate } from "~/core/schemas";
 import { Icon } from "~/generated/icon";
-
-export const animalSelect = Prisma.validator<Prisma.AnimalArgs>()({
-  select: {
-    alias: true,
-    birthdate: true,
-    breed: { select: { id: true, name: true } },
-    color: { select: { id: true, name: true } },
-    description: true,
-    gender: true,
-    iCadNumber: true,
-    id: true,
-    isOkCats: true,
-    isOkChildren: true,
-    isOkDogs: true,
-    isSterilized: true,
-    name: true,
-    species: true,
-    status: true,
-  },
-});
 
 export const ActionFormData = createActionData(
   z.object({
@@ -93,7 +73,23 @@ export function AnimalProfileForm({
   animal,
   errors = { formErrors: [], fieldErrors: {} },
 }: {
-  animal: SerializeFrom<Prisma.AnimalGetPayload<typeof animalSelect>>;
+  animal: SerializeFrom<
+    Pick<
+      Animal,
+      | "alias"
+      | "birthdate"
+      | "description"
+      | "gender"
+      | "iCadNumber"
+      | "id"
+      | "isOkCats"
+      | "isOkChildren"
+      | "isOkDogs"
+      | "isSterilized"
+      | "name"
+      | "species"
+    >
+  >;
   errors?: z.inferFlattenedErrors<typeof ActionFormData.schema>;
 }) {
   const speciesRef = useRef<HTMLInputElement>(null);

@@ -1,15 +1,11 @@
-import { hasGroups } from "@animeaux/shared";
-import { Prisma, User, UserGroup } from "@prisma/client";
+import { Prisma, User } from "@prisma/client";
 import { redirect } from "@remix-run/node";
 import { createPath } from "history";
 import { algolia } from "~/core/algolia/algolia.server";
 import { prisma } from "~/core/db.server";
 import { NextSearchParams } from "~/core/searchParams";
-import {
-  commitSession,
-  destroySession,
-  getSession,
-} from "~/currentUser/session.server";
+import { getSession } from "~/core/session.server";
+import { destroyUserSession } from "~/currentUser/session.server";
 import { generatePasswordHash, isSamePassword } from "~/users/password.server";
 
 const USER_SESSION_KEY = "userId";
@@ -77,26 +73,6 @@ export async function verifyLogin({
   }
 
   return user.id;
-}
-
-export async function createUserSession(userId: User["id"]) {
-  const session = await getSession();
-  session.set(USER_SESSION_KEY, userId);
-  return await commitSession(session);
-}
-
-export async function destroyUserSession() {
-  const session = await getSession();
-  return await destroySession(session);
-}
-
-export function assertCurrentUserHasGroups(
-  user: Pick<User, "groups">,
-  groups: UserGroup[]
-) {
-  if (!hasGroups(user, groups)) {
-    throw new Response("Forbidden", { status: 403 });
-  }
 }
 
 export async function updateCurrentUserPassword(
