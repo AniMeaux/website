@@ -7,15 +7,15 @@
     "workerDirectory": "./public"
   },
   "scripts": {
-    "dev": "node -r dotenv-flow/config ./node_modules/.bin/remix dev",
-    "build": "run-s \"build:css --minify\" \"build:icons --minify\" build:theme build:remix",
     "build:css": "tailwindcss -i ./styles/tailwind.css -o ./src/generated/tailwind.css",
     "build:icons": "ts-node --files ./scripts/generateIconSprite.ts",
-    "build:theme": "ts-node --files ./scripts/generateTheme.ts",
     "build:remix": "remix build",
-    "start": "remix-serve ./build",
+    "build:theme": "ts-node --files ./scripts/generateTheme.ts",
+    "build": "run-s \"build:css --minify\" \"build:icons --minify\" build:theme build:remix",
+    "clean-build": "run-s clean build",
     "clean": "rm -rf ./build ./public/build ./src/generated",
-    "clean-build": "run-s clean build"
+    "dev": "node -r dotenv-flow/config ./node_modules/.bin/remix dev",
+    "start": "remix-serve ./build"
   },
   "dependencies": {
     "@algolia/client-search": "^4.14.2",
