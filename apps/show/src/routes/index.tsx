@@ -7,6 +7,7 @@ import { useConfig } from "~/core/config";
 import { StaticImage, StaticImageProps } from "~/dataDisplay/image";
 import { adoptionImages } from "~/images/adoption";
 import { animationImages } from "~/images/animation";
+import arbreVert from "~/images/arbreVert.png";
 import { associationImages } from "~/images/association";
 import citronad from "~/images/citronad.png";
 import { exhibitorsImages } from "~/images/exhibitors";
@@ -397,6 +398,12 @@ function PartnersSection() {
           image={superlogo}
           alt="Super Logo"
           to="https://www.super-logo.com"
+        />
+
+        <PartnerItem
+          image={arbreVert}
+          alt="L’Arbre Vert"
+          to="https://www.arbrevert.fr"
         />
       </div>
     </section>
