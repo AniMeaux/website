@@ -2,6 +2,8 @@ name: 🏢 Faune Remix - 🔬 Checks
 
 on:
   pull_request:
+    branches:
+      - dev
     paths:
       - yarn.lock
       - .dockerignore
