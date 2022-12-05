@@ -7,11 +7,10 @@ ENV NODE_ENV production
 # Install openssl for Prisma
 RUN apt-get update && apt-get install -y openssl
 
-# Install all node_modules, including dev dependencies
-FROM base as deps
-
 WORKDIR /workspace
 
+# Install all node_modules, including dev dependencies
+FROM base as deps
 ADD ./package.json ./yarn.lock ./
 ADD ./shared/package.json ./shared/
 ADD ./api/package.json ./api/
@@ -20,31 +19,23 @@ RUN yarn --frozen-lockfile --production=false
 
 # Setup production node_modules
 FROM base as production-deps
-
-WORKDIR /workspace
-
-COPY --from=deps /workspace/node_modules /workspace/node_modules
-COPY --from=deps /workspace/shared/node_modules /workspace/shared/node_modules
-COPY --from=deps /workspace/api/node_modules /workspace/api/node_modules
-COPY --from=deps /workspace/apps/website/node_modules /workspace/apps/website/node_modules
+COPY --from=deps /workspace/node_modules ./node_modules
+COPY --from=deps /workspace/shared/node_modules ./shared/node_modules
+COPY --from=deps /workspace/apps/website/node_modules ./apps/website/node_modules
 ADD ./package.json ./yarn.lock ./
 ADD ./shared/package.json ./shared/
-ADD ./api/package.json ./api/
 ADD ./apps/website/package.json ./apps/website/
 RUN yarn --frozen-lockfile
 
 # Build
 FROM base as build
-
-WORKDIR /workspace
-
-COPY --from=deps /workspace/node_modules /workspace/node_modules
-COPY --from=deps /workspace/shared/node_modules /workspace/shared/node_modules
-COPY --from=deps /workspace/api/node_modules /workspace/api/node_modules
-COPY --from=deps /workspace/apps/website/node_modules /workspace/apps/website/node_modules
+COPY --from=deps /workspace/node_modules ./node_modules
+COPY --from=deps /workspace/shared/node_modules ./shared/node_modules
+COPY --from=deps /workspace/api/node_modules ./api/node_modules
+COPY --from=deps /workspace/apps/website/node_modules ./apps/website/node_modules
 
 ADD ./api/package.json ./api/
-ADD ./api/prisma ./api/
+ADD ./api/prisma ./api/prisma
 RUN yarn --cwd ./api build:prisma
 
 ADD ./shared ./shared
@@ -55,17 +46,13 @@ RUN yarn --cwd ./apps/website build
 
 # Finally, build the production image with minimal footprint
 FROM base
-
-WORKDIR /workspace
-
-COPY --from=production-deps /workspace/node_modules /workspace/node_modules
-COPY --from=production-deps /workspace/shared/node_modules /workspace/shared/node_modules
-COPY --from=production-deps /workspace/apps/website/node_modules /workspace/apps/website/node_modules
-COPY --from=build /workspace/node_modules/.prisma /workspace/node_modules/.prisma
-
-COPY --from=build /workspace/shared/build /workspace/shared/build
-COPY --from=build /workspace/apps/website/build /workspace/apps/website/build
-COPY --from=build /workspace/apps/website/public /workspace/apps/website/public
+COPY --from=production-deps /workspace/node_modules ./node_modules
+COPY --from=production-deps /workspace/shared/node_modules ./shared/node_modules
+COPY --from=production-deps /workspace/apps/website/node_modules ./apps/website/node_modules
+COPY --from=build /workspace/node_modules/.prisma ./node_modules/.prisma
+COPY --from=build /workspace/shared/build ./shared/build
+COPY --from=build /workspace/apps/website/build ./apps/website/build
+COPY --from=build /workspace/apps/website/public ./apps/website/public
 ADD . .
 
 WORKDIR /workspace/apps/website

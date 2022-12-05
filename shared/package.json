@@ -10,7 +10,8 @@
     "build:types": "tsc --emitDeclarationOnly",
     "build": "run-s build:*",
     "clean-build": "run-s clean build",
-    "clean": "rm -rf ./build"
+    "clean": "rm -rf ./build",
+    "generate": "run-s clean-build"
   },
   "dependencies": {
     "@prisma/client": "^3.11.1",

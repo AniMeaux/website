@@ -16,6 +16,7 @@
     "db:setup": "run-s db:reset",
     "dev:prisma": "prisma generate",
     "dev": "node -r dotenv-flow/config -r ./build/mocks .",
+    "generate": "run-s build:prisma",
     "prisma-env": "node -r dotenv-flow/config ./node_modules/.bin/prisma",
     "script": "NODE_OPTIONS=\"-r dotenv-flow/config\" ts-node --files",
     "start": "node ."

@@ -15,6 +15,7 @@
     "clean-build": "run-s clean build",
     "clean": "rm -rf ./build ./public/build ./src/generated",
     "dev": "node -r dotenv-flow/config ./node_modules/.bin/remix dev",
+    "generate": "run-s \"build:css --minify\" \"build:icons --minify\" build:theme",
     "start": "remix-serve ./build"
   },
   "dependencies": {

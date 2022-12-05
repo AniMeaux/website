@@ -15,6 +15,7 @@
     "down:ecosystem": "pm2 delete ./ecosystem.config.js && rm -rf ./logs",
     "down": "run-s down:ecosystem down:docker",
     "format": "prettier --write .",
+    "generate": "yarn workspaces run generate",
     "lint:format": "prettier --list-different .",
     "lint:js": "eslint --cache --cache-location ./node_modules/.cache/eslint .",
     "lint:ts": "tsc --noEmit -p ./shared && tsc --noEmit -p ./apps/faune && tsc --noEmit -p ./apps/faune-remix && tsc --noEmit -p ./apps/website && tsc --noEmit -p ./apps/show",

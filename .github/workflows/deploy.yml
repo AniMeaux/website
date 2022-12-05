@@ -25,30 +25,6 @@ jobs:
       - name: 📥 Download deps
         uses: bahmutov/npm-install@v1
 
-      - name: 📦 Build prisma
-        run: yarn --cwd ./api build:prisma
-
-      - name: 📦 Build shared
-        run: yarn --cwd ./shared clean-build
-
-      - name: 📦 Build faune remix codegen
-        run: |
-          yarn --cwd ./apps/faune-remix build:css --minify
-          yarn --cwd ./apps/faune-remix build:icons --minify
-          yarn --cwd ./apps/faune-remix build:theme
-
-      - name: 📦 Build website codegen
-        run: |
-          yarn --cwd ./apps/website build:css --minify
-          yarn --cwd ./apps/website build:icons --minify
-          yarn --cwd ./apps/website build:theme
-
-      - name: 📦 Build show codegen
-        run: |
-          yarn --cwd ./apps/show build:css --minify
-          yarn --cwd ./apps/show build:icons --minify
-          yarn --cwd ./apps/show build:theme
-
       - name: 🔬 Lint
         run: yarn lint
 
