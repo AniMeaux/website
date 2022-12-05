@@ -1,6 +1,9 @@
 name: ⚙️ Workspace - 🔬 Checks
 
-on: pull_request
+on:
+  pull_request:
+    branches:
+      - dev
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}

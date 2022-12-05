@@ -2,6 +2,8 @@ name: 🎪 Show - 🔬 Checks
 
 on:
   pull_request:
+    branches:
+      - dev
     paths:
       - yarn.lock
       - .dockerignore
