@@ -1,5 +1,5 @@
 import { cloneElement } from "react";
-import { actionClassName, ActionColor } from "~/core/action";
+import { actionClassName, ActionColor } from "~/core/actions";
 import { cn } from "~/core/classNames";
 import { Icon, IconProps } from "~/generated/icon";
 
@@ -29,7 +29,7 @@ export function Helper({
 
       {action != null &&
         cloneElement(action, {
-          className: actionClassName({
+          className: actionClassName.standalone({
             variant: "text",
             color: VARIANT_ACTION_COLOR[variant],
           }),

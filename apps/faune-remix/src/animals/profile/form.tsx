@@ -13,7 +13,7 @@ import {
 } from "~/animals/agreements";
 import { GENDER_TRANSLATION, SORTED_GENDERS } from "~/animals/gender";
 import { SORTED_SPECIES, SPECIES_TRANSLATION } from "~/animals/species";
-import { actionClassName } from "~/core/action";
+import { actionClassName } from "~/core/actions";
 import { cn } from "~/core/classNames";
 import { Helper } from "~/core/dataDisplay/helper";
 import { Adornment } from "~/core/formElements/adornment";
@@ -466,7 +466,7 @@ export function AnimalProfileForm({
 
       <button
         type="submit"
-        className={cn(actionClassName(), "w-full md:w-auto")}
+        className={cn(actionClassName.standalone(), "w-full md:w-auto")}
       >
         Enregistrer
       </button>

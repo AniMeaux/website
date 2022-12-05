@@ -9,7 +9,7 @@ import { AnimalFilters } from "~/animals/filterForm";
 import { AnimalItem } from "~/animals/item";
 import { AnimalSearchParams } from "~/animals/searchParams";
 import { SORTED_SPECIES } from "~/animals/species";
-import { actionClassName } from "~/core/action";
+import { actionClassName } from "~/core/actions";
 import { BaseLink } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
 import { Paginator } from "~/core/controllers/paginator";
@@ -207,7 +207,7 @@ export default function AnimalsPage() {
 
               <BaseLink
                 to="/animals/new"
-                className={actionClassName({ variant: "text" })}
+                className={actionClassName.standalone({ variant: "text" })}
               >
                 Créer
               </BaseLink>
@@ -238,7 +238,7 @@ export default function AnimalsPage() {
                     !animalSearchParams.isEmpty() ? (
                       <BaseLink
                         to={{ search: "" }}
-                        className={actionClassName()}
+                        className={actionClassName.standalone()}
                       >
                         Effacer les filtres
                       </BaseLink>
@@ -272,7 +272,7 @@ function SortAndFiltersFloatingAction({
       <Dialog.Trigger
         className={cn(
           "fixed bottom-safe-6 right-safe-1 z-20 md:hidden",
-          actionClassName({ variant: "floating" })
+          actionClassName.standalone({ variant: "floating" })
         )}
       >
         <Icon id="filter" />
@@ -295,7 +295,10 @@ function SortAndFiltersFloatingAction({
             </Dialog.Title>
 
             <Dialog.Close
-              className={cn("flex-none", actionClassName({ variant: "text" }))}
+              className={cn(
+                "flex-none",
+                actionClassName.standalone({ variant: "text" })
+              )}
             >
               Fermer
             </Dialog.Close>
@@ -308,7 +311,9 @@ function SortAndFiltersFloatingAction({
           </Card>
 
           <footer className="sticky bottom-0 z-20 px-safe-1 pt-1 pb-safe-1 flex-none bg-white flex">
-            <Dialog.Close className={cn(actionClassName(), "w-full")}>
+            <Dialog.Close
+              className={cn(actionClassName.standalone(), "w-full")}
+            >
               Voir les résultats ({totalCount})
             </Dialog.Close>
           </footer>

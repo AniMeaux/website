@@ -2,7 +2,7 @@ import { UserGroup } from "@prisma/client";
 import { json, LoaderArgs, MetaFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { AnimalItem } from "~/animals/item";
-import { actionClassName } from "~/core/action";
+import { actionClassName } from "~/core/actions";
 import { BaseLink } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
 import { AvatarColor, inferAvatarColor } from "~/core/dataDisplay/avatar";
@@ -87,7 +87,7 @@ export default function CurrentUserPage() {
 
             <BaseLink
               to="/me/edit-profile"
-              className={actionClassName({ variant: "text" })}
+              className={actionClassName.standalone({ variant: "text" })}
             >
               Modifier
             </BaseLink>
@@ -128,7 +128,7 @@ export default function CurrentUserPage() {
             <CardContent>
               <BaseLink
                 to="/me/change-password"
-                className={actionClassName({
+                className={actionClassName.standalone({
                   variant: "secondary",
                   color: "gray",
                 })}
@@ -147,7 +147,7 @@ export default function CurrentUserPage() {
               {isManager && (
                 <BaseLink
                   to="/animals"
-                  className={actionClassName({ variant: "text" })}
+                  className={actionClassName.standalone({ variant: "text" })}
                 >
                   Tout voir
                 </BaseLink>
