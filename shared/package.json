@@ -6,11 +6,12 @@
   "types": "./build/index.d.ts",
   "sideEffects": false,
   "scripts": {
-    "build": "run-s build:*",
     "build:js": "babel src -d ./build --extensions \".ts,.tsx\"",
     "build:types": "tsc --emitDeclarationOnly",
+    "build": "run-s build:*",
+    "clean-build": "run-s clean build",
     "clean": "rm -rf ./build",
-    "clean-build": "run-s clean build"
+    "generate": "run-s clean-build"
   },
   "dependencies": {
     "@prisma/client": "^3.11.1",

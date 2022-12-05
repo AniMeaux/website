@@ -7,18 +7,19 @@
     "seed": "ts-node --files ./scripts/seedData.ts"
   },
   "scripts": {
-    "dev": "node -r dotenv-flow/config -r ./build/mocks .",
-    "dev:prisma": "prisma generate",
-    "build": "babel src -d ./build --extensions \".ts\" --copy-files",
     "build:prisma": "prisma generate",
-    "start": "node .",
-    "clean": "rm -rf ./build",
+    "build": "babel src -d ./build --extensions \".ts\" --copy-files",
     "clean-build": "run-s clean build",
-    "script": "NODE_OPTIONS=\"-r dotenv-flow/config\" ts-node --files",
-    "prisma-env": "node -r dotenv-flow/config ./node_modules/.bin/prisma",
-    "db:setup": "run-s db:reset",
+    "clean": "rm -rf ./build",
     "db:migrate": "yarn prisma-env migrate dev",
-    "db:reset": "yarn prisma-env migrate reset -f"
+    "db:reset": "yarn prisma-env migrate reset -f",
+    "db:setup": "run-s db:reset",
+    "dev:prisma": "prisma generate",
+    "dev": "node -r dotenv-flow/config -r ./build/mocks .",
+    "generate": "run-s build:prisma",
+    "prisma-env": "node -r dotenv-flow/config ./node_modules/.bin/prisma",
+    "script": "NODE_OPTIONS=\"-r dotenv-flow/config\" ts-node --files",
+    "start": "node ."
   },
   "dependencies": {
     "@algolia/client-search": "^4.12.0",
