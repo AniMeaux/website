@@ -8,7 +8,7 @@ import {
 import { Form, useActionData } from "@remix-run/react";
 import { useEffect, useRef } from "react";
 import { z } from "zod";
-import { actionClassName } from "~/core/action";
+import { actionClassName } from "~/core/actions";
 import { Helper } from "~/core/dataDisplay/helper";
 import { Adornment } from "~/core/formElements/adornment";
 import { formClassNames } from "~/core/formElements/form";
@@ -204,7 +204,7 @@ export default function LoginPage() {
               </div>
             </div>
 
-            <button type="submit" className={actionClassName()}>
+            <button type="submit" className={actionClassName.standalone()}>
               Se connecter
             </button>
           </Form>

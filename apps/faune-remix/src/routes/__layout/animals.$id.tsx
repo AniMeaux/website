@@ -17,7 +17,7 @@ import {
   StatusIcon,
   STATUS_TRANSLATION,
 } from "~/animals/status";
-import { actionClassName } from "~/core/action";
+import { actionClassName } from "~/core/actions";
 import { BaseLink, BaseLinkProps } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
 import { useConfig } from "~/core/config";
@@ -222,7 +222,7 @@ function HeaderCard() {
           {canEdit && (
             <BaseLink
               to="./edit-profile"
-              className={actionClassName({ variant: "text" })}
+              className={actionClassName.standalone({ variant: "text" })}
             >
               Modifier
             </BaseLink>
@@ -250,7 +250,7 @@ function ProfileCard() {
         {canEdit && (
           <BaseLink
             to="./edit-profile"
-            className={actionClassName({ variant: "text" })}
+            className={actionClassName.standalone({ variant: "text" })}
           >
             Modifier
           </BaseLink>
@@ -306,7 +306,7 @@ function SituationCard() {
         {canEdit && (
           <BaseLink
             to="./edit"
-            className={actionClassName({ variant: "text" })}
+            className={actionClassName.standalone({ variant: "text" })}
           >
             Modifier
           </BaseLink>
@@ -411,7 +411,10 @@ function ActionCard() {
 
       <CardContent>
         <button
-          className={actionClassName({ variant: "secondary", color: "red" })}
+          className={actionClassName.standalone({
+            variant: "secondary",
+            color: "red",
+          })}
         >
           <Icon id="trash" />
           Supprimer
@@ -437,7 +440,7 @@ function DescriptionCard() {
         {canEdit && animal.description != null && (
           <BaseLink
             to={editLink}
-            className={actionClassName({ variant: "text" })}
+            className={actionClassName.standalone({ variant: "text" })}
           >
             Modifier
           </BaseLink>
@@ -457,7 +460,9 @@ function DescriptionCard() {
               canEdit ? (
                 <BaseLink
                   to={editLink}
-                  className={actionClassName({ variant: "secondary" })}
+                  className={actionClassName.standalone({
+                    variant: "secondary",
+                  })}
                 >
                   Ajouter
                 </BaseLink>
@@ -488,7 +493,7 @@ function PicturesCard() {
         {canEdit && (
           <BaseLink
             to="./edit"
-            className={actionClassName({ variant: "text" })}
+            className={actionClassName.standalone({ variant: "text" })}
           >
             Modifier
           </BaseLink>

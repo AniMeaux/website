@@ -19,7 +19,7 @@ import {
   StatusIcon,
   STATUS_TRANSLATION,
 } from "~/animals/status";
-import { actionClassName } from "~/core/action";
+import { actionClassName } from "~/core/actions";
 import { BaseLink } from "~/core/baseLink";
 import { Filter, Filters } from "~/core/controllers/filters";
 import { ActionAdornment, Adornment } from "~/core/formElements/adornment";
@@ -62,7 +62,10 @@ export function AnimalFilters({
       <div className="flex flex-col gap-1">
         <BaseLink
           to={{ search: "" }}
-          className={actionClassName({ variant: "secondary", color: "gray" })}
+          className={actionClassName.standalone({
+            variant: "secondary",
+            color: "gray",
+          })}
         >
           Tout effacer
         </BaseLink>
@@ -422,7 +425,7 @@ function ActiveFilterLink({ currentUser }: ActiveFilterLinkProps) {
   return (
     <BaseLink
       to={{ search: toSearchParams.toString() }}
-      className={actionClassName({
+      className={actionClassName.standalone({
         variant: "secondary",
         color: isActive ? "blue" : "gray",
       })}

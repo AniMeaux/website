@@ -3,16 +3,20 @@ import { cn } from "~/core/classNames";
 type ActionVariant = "primary" | "secondary" | "text" | "floating";
 export type ActionColor = "blue" | "gray" | "amber" | "red" | "green";
 
-export function actionClassName({
-  variant = "primary",
-  color = "blue",
-}: { variant?: ActionVariant; color?: ActionColor } = {}) {
-  return cn(
-    "flex-none flex items-center justify-center gap-0.5 text-body-emphasis duration-100 ease-in-out active:scale-95 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white",
-    VARIANT_CLASS_NAME[variant],
-    COLOR_CLASS_NAMES[variant][color]
-  );
-}
+export const actionClassName = {
+  standalone: ({
+    variant = "primary",
+    color = "blue",
+  }: { variant?: ActionVariant; color?: ActionColor } = {}) => {
+    return cn(
+      "flex-none flex items-center justify-center gap-0.5 text-body-emphasis duration-100 ease-in-out active:scale-95 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white",
+      VARIANT_CLASS_NAME[variant],
+      COLOR_CLASS_NAMES[variant][color]
+    );
+  },
+  proseInline: () =>
+    "border-b text-body-emphasis border-b-blue-500 hover:border-b-2",
+};
 
 const VARIANT_CLASS_NAME: Record<ActionVariant, string> = {
   floating:
