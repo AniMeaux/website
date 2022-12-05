@@ -3,6 +3,7 @@ import { BaseLink, BaseLinkProps } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
 import { useConfig } from "~/core/config";
 import { Icon, IconProps } from "~/generated/icon";
+import arbreVert from "~/images/arbreVert.png";
 import citronad from "~/images/citronad.png";
 import meaux from "~/images/meaux.png";
 import nameAndLogo from "~/images/nameAndLogo.svg";
@@ -62,6 +63,12 @@ export function Footer() {
             image={superlogo}
             alt="Super Logo"
             to="https://www.super-logo.com"
+          />
+
+          <LogoItem
+            image={arbreVert}
+            alt="L’Arbre Vert"
+            to="https://www.arbrevert.fr"
           />
         </section>
 
@@ -127,7 +134,11 @@ function LogoItem({
       to={to}
       className="rounded-bubble-md flex items-center transition-transform duration-100 ease-in-out hover:scale-105"
     >
-      <img src={image} alt={alt} />
+      <img
+        src={image}
+        alt={alt}
+        className="w-full aspect-[2/1] object-contain"
+      />
     </BaseLink>
   );
 }

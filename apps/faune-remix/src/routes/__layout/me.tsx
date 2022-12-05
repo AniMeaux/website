@@ -5,14 +5,17 @@ import { AnimalItem } from "~/animals/item";
 import { actionClassName } from "~/core/action";
 import { BaseLink } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
-import { getCurrentUser } from "~/core/currentUser.server";
 import { AvatarColor, inferAvatarColor } from "~/core/dataDisplay/avatar";
 import { Empty } from "~/core/dataDisplay/empty";
 import { Helper } from "~/core/dataDisplay/helper";
 import { prisma } from "~/core/db.server";
 import { Card, CardContent, CardHeader, CardTitle } from "~/core/layout/card";
 import { getPageTitle } from "~/core/pageTitle";
-import { ActionConfirmationType, useActionConfirmation } from "~/core/params";
+import {
+  ActionConfirmationType,
+  useActionConfirmation,
+} from "~/core/searchParams";
+import { getCurrentUser } from "~/currentUser/db.server";
 import { Icon } from "~/generated/icon";
 import { UserAvatar } from "~/users/avatar";
 import { GROUP_ICON, GROUP_TRANSLATION, hasGroups } from "~/users/groups";

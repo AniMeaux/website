@@ -9,9 +9,7 @@ import { Form, useActionData } from "@remix-run/react";
 import { useEffect, useRef } from "react";
 import { z } from "zod";
 import { actionClassName } from "~/core/action";
-import { createUserSession, getCurrentUser } from "~/core/currentUser.server";
 import { Helper } from "~/core/dataDisplay/helper";
-import { prisma } from "~/core/db.server";
 import { Adornment } from "~/core/formElements/adornment";
 import { formClassNames } from "~/core/formElements/form";
 import { Input } from "~/core/formElements/input";
@@ -19,8 +17,10 @@ import { PasswordInput } from "~/core/formElements/passwordInput";
 import { RouteHandle } from "~/core/handles";
 import { joinReactNodes } from "~/core/joinReactNodes";
 import { getPageTitle } from "~/core/pageTitle";
-import { NextSearchParams } from "~/core/params";
-import { isSamePassword } from "~/core/password.server";
+import { createActionData } from "~/core/schemas";
+import { NextSearchParams } from "~/core/searchParams";
+import { getCurrentUser, verifyLogin } from "~/currentUser/db.server";
+import { createUserSession } from "~/currentUser/session.server";
 import { Icon } from "~/generated/icon";
 import nameAndLogo from "~/images/nameAndLogo.svg";
 
@@ -50,18 +50,20 @@ export const meta: MetaFunction = () => {
   return { title: getPageTitle("Connexion") };
 };
 
-const ActionDataSchema = z.object({
-  email: z.string().email({ message: "Veuillez entrer un email valide" }),
-  password: z.string().min(1, { message: "Veuillez entrer un mot de passe" }),
-});
+const ActionFormData = createActionData(
+  z.object({
+    email: z.string().email("Veuillez entrer un email valide"),
+    password: z.string().min(1, "Veuillez entrer un mot de passe"),
+  })
+);
 
 type ActionData = {
-  errors?: z.inferFlattenedErrors<typeof ActionDataSchema>;
+  errors?: z.inferFlattenedErrors<typeof ActionFormData.schema>;
 };
 
 export async function action({ request }: ActionArgs) {
   const rawFormData = await request.formData();
-  const formData = ActionDataSchema.safeParse(
+  const formData = ActionFormData.schema.safeParse(
     Object.fromEntries(rawFormData.entries())
   );
 
@@ -87,42 +89,13 @@ export async function action({ request }: ActionArgs) {
 
   const url = new URL(request.url);
   const searchParams = new NextSearchParams(url.searchParams);
-  return redirect(searchParams.getNext(), {
+  throw redirect(searchParams.getNext(), {
     headers: { "Set-Cookie": await createUserSession(userId) },
   });
 }
 
-async function verifyLogin({
-  email,
-  password,
-}: z.infer<typeof ActionDataSchema>) {
-  const user = await prisma.user.findFirst({
-    where: { email, isDisabled: false },
-    select: { id: true, password: true },
-  });
-
-  if (user?.password == null) {
-    // Prevent finding out which emails exists through a timing attack.
-    // We want to take approximately the same time to respond so we fake a
-    // password comparison.
-    await isSamePassword(
-      "Hello there",
-      // "Obiwan Kenobi?"
-      "879d5935bab9b03280188c1806cf5ae751579b3342c51e788c43be14e0109ab8b98da03f5fa2cc96c85ca192eda9aaf892cba7ba1fc3b7d1a4a1eb8956a65c53.6a71cc1003ad30a5c6abf0d53baa2c5d"
-    );
-
-    return null;
-  }
-
-  if (!(await isSamePassword(password, user.password.hash))) {
-    return null;
-  }
-
-  return user.id;
-}
-
 export default function LoginPage() {
-  const actionData = useActionData() as ActionData;
+  const actionData = useActionData<typeof action>();
   const { formErrors = [], fieldErrors = {} } = actionData?.errors ?? {};
 
   const emailRef = useRef<HTMLInputElement>(null);
@@ -165,7 +138,7 @@ export default function LoginPage() {
 
               <div className={formClassNames.fields.field.root()}>
                 <label
-                  htmlFor="email"
+                  htmlFor={ActionFormData.keys.email}
                   className={formClassNames.fields.field.label()}
                 >
                   Email
@@ -174,9 +147,9 @@ export default function LoginPage() {
                 <Input
                   autoFocus
                   ref={emailRef}
-                  id="email"
+                  id={ActionFormData.keys.email}
                   type="email"
-                  name="email"
+                  name={ActionFormData.keys.email}
                   autoComplete="email"
                   hasError={fieldErrors.email != null}
                   aria-describedby="email-error"
@@ -200,7 +173,7 @@ export default function LoginPage() {
 
               <div className={formClassNames.fields.field.root()}>
                 <label
-                  htmlFor="password"
+                  htmlFor={ActionFormData.keys.password}
                   className={formClassNames.fields.field.label()}
                 >
                   Mot de passe
@@ -208,8 +181,8 @@ export default function LoginPage() {
 
                 <PasswordInput
                   ref={passwordRef}
-                  id="password"
-                  name="password"
+                  id={ActionFormData.keys.password}
+                  name={ActionFormData.keys.password}
                   autoComplete="current-password"
                   hasError={fieldErrors.password != null}
                   aria-describedby="password-error"

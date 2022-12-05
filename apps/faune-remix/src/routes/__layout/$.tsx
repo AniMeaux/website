@@ -1,9 +1,10 @@
 import { MetaFunction } from "@remix-run/node";
 import { ErrorPage, getErrorTitle } from "~/core/dataDisplay/errorPage";
 import { getPageTitle } from "~/core/pageTitle";
+import { NotFoundResponse } from "~/core/response.server";
 
 export async function loader() {
-  return new Response("Not found", { status: 404 });
+  return new NotFoundResponse();
 }
 
 export const meta: MetaFunction = () => {

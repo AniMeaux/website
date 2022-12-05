@@ -6,8 +6,10 @@ import { DateTime } from "luxon";
 import { useRef, useState } from "react";
 import invariant from "tiny-invariant";
 import { z } from "zod";
+import { AgreementItem } from "~/animals/agreements";
 import { GENDER_ICON } from "~/animals/gender";
 import { PICK_UP_REASON_TRANSLATION } from "~/animals/pickUp";
+import { ActionFormData } from "~/animals/profile/form";
 import { SPECIES_ICON, SPECIES_TRANSLATION } from "~/animals/species";
 import {
   ADOPTION_OPTION_TRANSLATION,
@@ -16,14 +18,11 @@ import {
   STATUS_TRANSLATION,
 } from "~/animals/status";
 import { actionClassName } from "~/core/action";
-import { BaseLink } from "~/core/baseLink";
+import { BaseLink, BaseLinkProps } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
 import { useConfig } from "~/core/config";
-import {
-  assertCurrentUserHasGroups,
-  getCurrentUser,
-} from "~/core/currentUser.server";
 import { Empty } from "~/core/dataDisplay/empty";
+import { Helper } from "~/core/dataDisplay/helper";
 import { createCloudinaryUrl, DynamicImage } from "~/core/dataDisplay/image";
 import {
   ARTICLE_COMPONENTS,
@@ -32,10 +31,18 @@ import {
 } from "~/core/dataDisplay/markdown";
 import { prisma } from "~/core/db.server";
 import { isDefined } from "~/core/isDefined";
+import { assertIsDefined } from "~/core/isDefined.server";
 import { Card, CardContent, CardHeader, CardTitle } from "~/core/layout/card";
 import { getPageTitle } from "~/core/pageTitle";
+import { NotFoundResponse } from "~/core/response.server";
+import {
+  ActionConfirmationType,
+  useActionConfirmation,
+} from "~/core/searchParams";
+import { getCurrentUser } from "~/currentUser/db.server";
+import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
 import { FosterFamilyAvatar } from "~/fosterFamilies/avatar";
-import { Icon, IconProps } from "~/generated/icon";
+import { Icon } from "~/generated/icon";
 import { UserAvatar } from "~/users/avatar";
 import { hasGroups } from "~/users/groups";
 
@@ -52,10 +59,10 @@ export async function loader({ request, params }: LoaderArgs) {
 
   const result = z.string().uuid().safeParse(params["id"]);
   if (!result.success) {
-    throw new Response("Not found", { status: 404 });
+    throw new NotFoundResponse();
   }
 
-  const animal = await prisma.animal.findFirst({
+  const animal = await prisma.animal.findUnique({
     where: { id: result.data },
     select: {
       adoptionDate: true,
@@ -86,9 +93,7 @@ export async function loader({ request, params }: LoaderArgs) {
     },
   });
 
-  if (animal == null) {
-    throw new Response("Not found", { status: 404 });
-  }
+  assertIsDefined(animal);
 
   const canEdit = hasGroups(currentUser, [
     UserGroup.ADMIN,
@@ -112,7 +117,7 @@ export default function AnimalProfilePage() {
 
   return (
     <section className="w-full flex flex-col gap-1 md:gap-2">
-      {/* Helpers */}
+      <EditSuccessHelper />
 
       <HeaderCard />
 
@@ -140,6 +145,23 @@ export default function AnimalProfilePage() {
         )}
       </section>
     </section>
+  );
+}
+
+function EditSuccessHelper() {
+  const { animal } = useLoaderData<typeof loader>();
+  const { isVisible, clear } = useActionConfirmation(
+    ActionConfirmationType.EDIT
+  );
+
+  if (!isVisible) {
+    return null;
+  }
+
+  return (
+    <Helper variant="success" action={<button onClick={clear}>Fermer</button>}>
+      {animal.name} à bien été modifié.
+    </Helper>
   );
 }
 
@@ -199,7 +221,7 @@ function HeaderCard() {
 
           {canEdit && (
             <BaseLink
-              to="./edit"
+              to="./edit-profile"
               className={actionClassName({ variant: "text" })}
             >
               Modifier
@@ -227,7 +249,7 @@ function ProfileCard() {
 
         {canEdit && (
           <BaseLink
-            to="./edit"
+            to="./edit-profile"
             className={actionClassName({ variant: "text" })}
           >
             Modifier
@@ -264,9 +286,9 @@ function ProfileCard() {
         </ul>
 
         <ul className="grid grid-cols-3 gap-1">
-          <Agreement entity="babies" value={animal.isOkChildren} />
-          <Agreement entity="cats" value={animal.isOkCats} />
-          <Agreement entity="dogs" value={animal.isOkDogs} />
+          <AgreementItem entity="cats" value={animal.isOkCats} />
+          <AgreementItem entity="dogs" value={animal.isOkDogs} />
+          <AgreementItem entity="babies" value={animal.isOkChildren} />
         </ul>
       </CardContent>
     </Card>
@@ -402,6 +424,11 @@ function ActionCard() {
 function DescriptionCard() {
   const { canEdit, animal } = useLoaderData<typeof loader>();
 
+  const editLink: BaseLinkProps["to"] = {
+    pathname: "./edit-profile",
+    hash: ActionFormData.keys.description,
+  };
+
   return (
     <Card>
       <CardHeader>
@@ -409,7 +436,7 @@ function DescriptionCard() {
 
         {canEdit && animal.description != null && (
           <BaseLink
-            to="./edit"
+            to={editLink}
             className={actionClassName({ variant: "text" })}
           >
             Modifier
@@ -429,7 +456,7 @@ function DescriptionCard() {
             action={
               canEdit ? (
                 <BaseLink
-                  to="./edit"
+                  to={editLink}
                   className={actionClassName({ variant: "secondary" })}
                 >
                   Ajouter
@@ -544,51 +571,6 @@ function Item({
       </span>
 
       <div className="py-1">{children}</div>
-    </li>
-  );
-}
-
-function Agreement({
-  entity,
-  value,
-}: {
-  entity: "babies" | "cats" | "dogs";
-  value: boolean | null;
-}) {
-  let icon: IconProps["id"] =
-    entity === "babies"
-      ? value == null
-        ? "babyCircleQuestion"
-        : value
-        ? "babyCircleCheck"
-        : "babyCircleXMark"
-      : entity === "cats"
-      ? value == null
-        ? "catCircleQuestion"
-        : value
-        ? "catCircleCheck"
-        : "catCircleXMark"
-      : value == null
-      ? "dogCircleQuestion"
-      : value
-      ? "dogCircleCheck"
-      : "dogCircleXMark";
-
-  return (
-    <li
-      className={cn(
-        "rounded-0.5 p-1 flex flex-col items-center justify-center gap-0.5",
-        {
-          "bg-gray-100 text-gray-700": value == null,
-          "bg-green-50 text-green-600": value === true,
-          "bg-red-50 text-red-500": value === false,
-        }
-      )}
-    >
-      <Icon id={icon} className="text-[30px]" />
-      <span className="text-body-emphasis">
-        {value == null ? "Inconnu" : value ? "Oui" : "Non"}
-      </span>
     </li>
   );
 }

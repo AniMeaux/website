@@ -42,21 +42,20 @@ export function InputWrapper({
   );
 }
 
+export type InputVariant = "outlined" | "search";
+
 export function inputClassName({
-  hasError = false,
+  variant = "outlined",
   leftAdornmentCount = 0,
   rightAdornmentCount = 0,
 }: {
-  hasError?: boolean;
+  variant?: InputVariant;
   leftAdornmentCount?: number;
   rightAdornmentCount?: number;
 } = {}) {
   return cn(
-    "appearance-none w-full min-w-0 min-h-[40px] rounded-0.5 ring-inset ring-1 bg-transparent py-1 text-left transition-colors duration-100 ease-in-out placeholder:text-gray-500 focus-visible:outline-none focus-visible:ring-outset focus-visible:ring",
-    {
-      "ring-red-500 focus-visible:ring-red-400": hasError,
-      "ring-gray-200 focus-visible:ring-blue-400": !hasError,
-    },
+    "appearance-none w-full min-w-0 min-h-[40px] rounded-0.5 ring-inset ring-1 py-1 text-left transition-colors duration-100 ease-in-out placeholder:text-gray-500 focus-visible:outline-none focus-visible:ring-outset focus-visible:ring focus-visible:ring-blue-400 aria-[invalid=true]:ring-red-500 aria-[invalid=true]:focus-visible:ring-red-400 data-[invalid=true]:ring-red-500 data-[invalid=true]:focus-visible:ring-red-400",
+    INPUT_VARIANT_CLASS_NAMES[variant],
     {
       "pl-1": leftAdornmentCount === 0,
       "pl-4": leftAdornmentCount === 1,
@@ -68,3 +67,8 @@ export function inputClassName({
     }
   );
 }
+
+const INPUT_VARIANT_CLASS_NAMES: Record<InputVariant, string> = {
+  outlined: "ring-gray-200 bg-transparent",
+  search: "ring-gray-100 bg-gray-100",
+};

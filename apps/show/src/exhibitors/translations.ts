@@ -5,6 +5,7 @@ export const EXHIBITOR_CATEGORY_TRANSLATIONS: Record<
   string
 > = {
   [ExhibitorCategory.ACCESSOIRES]: "Accessoires",
+  [ExhibitorCategory.ALIMENTATION_CHAT_ET_CHIEN]: "Alimentation chat et chien",
   [ExhibitorCategory.ALIMENTATION_CHIEN]: "Alimentation chien",
   [ExhibitorCategory.ALIMENTATION_ET_ACCESSOIRES]:
     "Alimentation et accessoires",
@@ -12,9 +13,11 @@ export const EXHIBITOR_CATEGORY_TRANSLATIONS: Record<
   [ExhibitorCategory.ASSOCIATION_ANIMAUX_DE_COMPAGNIE]:
     "Association animaux de compagnie",
   [ExhibitorCategory.ASSOCIATION_FAUNE_SAUVAGE]: "Association faune sauvage",
+  [ExhibitorCategory.ASSURANCE]: "Assurance",
   [ExhibitorCategory.COMPORTEMENT_FELIN]: "Comportement félin",
   [ExhibitorCategory.EDUCATION_CANINE]: "Éducation canine",
   [ExhibitorCategory.FORMATION]: "Formation",
+  [ExhibitorCategory.FRIANDISES_CHIENS]: "Friandises chiens",
   [ExhibitorCategory.HYGIENE]: "Hygiène",
   [ExhibitorCategory.JEUX_CHATS]: "Jeux chats",
   [ExhibitorCategory.MEDECINE_DOUCE]: "Médecine douce",

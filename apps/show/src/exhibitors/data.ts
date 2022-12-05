@@ -1,13 +1,16 @@
 export enum ExhibitorCategory {
   ACCESSOIRES = "ACCESSOIRES",
+  ALIMENTATION_CHAT_ET_CHIEN = "ALIMENTATION_CHAT_ET_CHIEN",
   ALIMENTATION_CHIEN = "ALIMENTATION_CHIEN",
   ALIMENTATION_ET_ACCESSOIRES = "ALIMENTATION_ET_ACCESSOIRES",
   ALIMENTATION_ET_HYGIENE = "ALIMENTATION_ET_HYGIENE",
   ASSOCIATION_ANIMAUX_DE_COMPAGNIE = "ASSOCIATION_ANIMAUX_DE_COMPAGNIE",
   ASSOCIATION_FAUNE_SAUVAGE = "ASSOCIATION_FAUNE_SAUVAGE",
+  ASSURANCE = "ASSURANCE",
   COMPORTEMENT_FELIN = "COMPORTEMENT_FELIN",
   EDUCATION_CANINE = "EDUCATION_CANINE",
   FORMATION = "FORMATION",
+  FRIANDISES_CHIENS = "FRIANDISES_CHIENS",
   HYGIENE = "HYGIENE",
   JEUX_CHATS = "JEUX_CHATS",
   MEDECINE_DOUCE = "MEDECINE_DOUCE",
@@ -123,6 +126,13 @@ export const exhibitors: Exhibitor[] = [
     image: "show-exhibitors/2c94ae7b-44f1-4dd5-98af-6011e431555d",
     url: "https://www.assobab.fr",
   },
+  // {
+  //   id: "601f7dbb-42df-4a01-b317-66197f41cb8c",
+  //   name: "Cat’n’Dogster",
+  //   category: ExhibitorCategory.PLATEFORME_EN_LIGNE,
+  //   image: "show-exhibitors/6d5a4713-d53e-4614-a06d-a1bdc882bf0b",
+  //   url: "https://catndogster.fr",
+  // },
   {
     id: "c9523081-c3e3-4688-a5bf-ba8877a203cd",
     name: "Chat’rcours muraux",
@@ -138,11 +148,25 @@ export const exhibitors: Exhibitor[] = [
     url: "https://www.instagram.com/_creanimaux_",
   },
   {
+    id: "ad88296d-77f3-43f1-ac7e-c9657ff4fcd0",
+    name: "Generali",
+    category: ExhibitorCategory.ASSURANCE,
+    image: "show-exhibitors/d5e4a781-1c6c-4afa-843e-9a763907e129",
+    url: "https://www.generali.fr/assurance-chien-chat",
+  },
+  {
     id: "89de9e8b-8d94-4cbc-9ceb-82520f722d84",
     name: "Goya et Dali",
     category: ExhibitorCategory.SENSIBILISATION,
     image: "show-exhibitors/60c33747-4baf-47ec-8ac0-68f1d37b9dbd",
     url: "https://www.instagram.com/goya_et_dali",
+  },
+  {
+    id: "bf0aa5fd-37c9-44e2-b0fa-a1d42bedf0ed",
+    name: "Halfie",
+    category: ExhibitorCategory.ALIMENTATION_CHAT_ET_CHIEN,
+    image: "show-exhibitors/9818cae7-9180-4234-b5c5-cb2f78e292cd",
+    url: "https://www.myhalfie.com",
   },
   {
     id: "38a15b37-ce51-4f57-b9e4-e92962ef8745",
@@ -164,6 +188,13 @@ export const exhibitors: Exhibitor[] = [
     category: ExhibitorCategory.SENSIBILISATION,
     image: "show-exhibitors/51a42704-a6e5-40ef-8c69-27a5b7fc75db",
     url: "https://www.facebook.com/icecrimetheamstaff",
+  },
+  {
+    id: "7d543144-16f1-42e1-a015-3b803a88be58",
+    name: "ISTAV",
+    category: ExhibitorCategory.FORMATION,
+    image: "show-exhibitors/98a12361-afd6-4083-a092-05cb0f6d40c4",
+    url: "https://www.istav.fr",
   },
   {
     id: "77c6fa36-64c1-4ea8-b947-c3c9b3f77a5c",
@@ -215,6 +246,13 @@ export const exhibitors: Exhibitor[] = [
     url: "https://www.laboutiquepheline.com",
   },
   {
+    id: "7bd1c635-4b3c-431e-a676-afb5a5f03bf4",
+    name: "Lm Pet’s Cooking",
+    category: ExhibitorCategory.FRIANDISES_CHIENS,
+    image: "show-exhibitors/fccb3dcb-3710-481f-ae4d-2b39cab340d4",
+    url: "https://www.lm-pets-cooking.fr",
+  },
+  {
     id: "6bf921c5-199f-4481-9308-6035b044f44b",
     name: "Madnesis",
     category: ExhibitorCategory.ACCESSOIRES,
@@ -227,6 +265,13 @@ export const exhibitors: Exhibitor[] = [
     category: ExhibitorCategory.ALIMENTATION_ET_ACCESSOIRES,
     image: "show-exhibitors/fc5f0e8a-bd4b-4651-9842-0b157cf132dc",
     url: "https://matoobox.fr",
+  },
+  {
+    id: "9d02417e-ad26-4730-8c11-637dda2c2e97",
+    name: "Mistigris Croissy Beaubourg",
+    category: ExhibitorCategory.ASSOCIATION_ANIMAUX_DE_COMPAGNIE,
+    image: "show-exhibitors/9d2d7dd4-9b5f-4c39-998a-b8df7042ff85",
+    url: "https://www.facebook.com/mistigriscroissybeaubourg",
   },
   {
     id: "d0cd6090-060b-4b98-9058-32056acf8553",
@@ -243,6 +288,13 @@ export const exhibitors: Exhibitor[] = [
   //   image: "show-exhibitors/05af128d-f1e6-4259-96d4-d38d92607888",
   //   url: "https://www.facebook.com/people/mousse-toutou/100038918307131",
   // },
+  {
+    id: "c62f20a4-dc65-4f27-b88a-340eef1aedd5",
+    name: "Paaw",
+    category: ExhibitorCategory.PLATEFORME_EN_LIGNE,
+    image: "show-exhibitors/b70653bd-56f3-408f-b6f0-f07b57284950",
+    url: "https://www.paaw.co",
+  },
   {
     id: "3dae41b3-b606-435c-88e3-e9ed5ce21981",
     name: "Paradis Animalier",

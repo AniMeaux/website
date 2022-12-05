@@ -13,10 +13,6 @@ import { actionClassName } from "~/core/action";
 import { BaseLink } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
 import { Paginator } from "~/core/controllers/paginator";
-import {
-  assertCurrentUserHasGroups,
-  getCurrentUser,
-} from "~/core/currentUser.server";
 import { Empty } from "~/core/dataDisplay/empty";
 import { prisma } from "~/core/db.server";
 import {
@@ -27,7 +23,9 @@ import {
   CardTitle,
 } from "~/core/layout/card";
 import { getPageTitle } from "~/core/pageTitle";
-import { PageSearchParams } from "~/core/params";
+import { PageSearchParams } from "~/core/searchParams";
+import { getCurrentUser } from "~/currentUser/db.server";
+import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
 import { Icon } from "~/generated/icon";
 
 // Multiple of 6, 5, 4 and 3 to be nicely displayed.

@@ -6,6 +6,7 @@ export const formClassNames = {
   actions: () => "w-full flex flex-col gap-1",
   fields: {
     root: () => "w-full flex flex-col gap-2",
+    row: () => "grid grid-cols-1 gap-2 md:grid-cols-2",
     field: {
       root: () => "flex flex-col",
       label: () => "text-caption-default text-gray-500",
