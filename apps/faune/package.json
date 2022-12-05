@@ -10,7 +10,8 @@
     "build": "next build",
     "start": "next start",
     "clean": "rm -rf ./build ./public/sw.js ./public/workbox-*",
-    "clean-build": "run-s clean build"
+    "clean-build": "run-s clean build",
+    "generate": "echo \"Nothing to generate\""
   },
   "dependencies": {
     "@animeaux/shared": "*",

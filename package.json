@@ -11,19 +11,20 @@
     "yarn": "^1.22.0"
   },
   "scripts": {
-    "up": "run-s up:docker up:ecosystem",
-    "up:ecosystem": "pm2 start ./ecosystem.config.js",
-    "up:docker": "docker-compose up -d",
-    "down": "run-s down:ecosystem down:docker",
-    "down:ecosystem": "pm2 delete ./ecosystem.config.js && rm -rf ./logs",
     "down:docker": "docker-compose down",
-    "restart:ecosystem": "run-s down:ecosystem up:ecosystem",
-    "log": "yarn pm2 log",
+    "down:ecosystem": "pm2 delete ./ecosystem.config.js && rm -rf ./logs",
+    "down": "run-s down:ecosystem down:docker",
     "format": "prettier --write .",
-    "lint": "run-p --aggregate-output --continue-on-error lint:*",
+    "generate": "yarn workspaces run generate",
     "lint:format": "prettier --list-different .",
     "lint:js": "eslint --cache --cache-location ./node_modules/.cache/eslint .",
-    "lint:ts": "tsc --noEmit -p ./shared && tsc --noEmit -p ./apps/faune && tsc --noEmit -p ./apps/faune-remix && tsc --noEmit -p ./apps/website && tsc --noEmit -p ./apps/show"
+    "lint:ts": "tsc --noEmit -p ./shared && tsc --noEmit -p ./apps/faune && tsc --noEmit -p ./apps/faune-remix && tsc --noEmit -p ./apps/website && tsc --noEmit -p ./apps/show",
+    "lint": "run-p --aggregate-output --continue-on-error lint:*",
+    "log": "yarn pm2 log",
+    "restart:ecosystem": "run-s down:ecosystem up:ecosystem",
+    "up:docker": "docker-compose up -d",
+    "up:ecosystem": "pm2 start ./ecosystem.config.js",
+    "up": "run-s up:docker up:ecosystem"
   },
   "devDependencies": {
     "@remix-run/eslint-config": "^1.6.4",
