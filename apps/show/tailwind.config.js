@@ -189,6 +189,12 @@ module.exports = {
           "font-size": "14px",
           "line-height": 1.7143,
         },
+        ".text-code-default": {
+          "font-family": theme("fontFamily.mono"),
+          "font-size": "14px",
+          "font-weight": theme("fontWeight.semibold"),
+          "line-height": 1.7143,
+        },
         ".text-title-item": {
           "font-family": theme("fontFamily.serif"),
           "font-weight": theme("fontWeight.bold"),

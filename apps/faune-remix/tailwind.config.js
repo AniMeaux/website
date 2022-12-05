@@ -113,6 +113,12 @@ module.exports = {
           "font-weight": theme("fontWeight.semibold"),
           "line-height": "20px",
         },
+        ".text-code-default": {
+          "font-family": theme("fontFamily.mono"),
+          "font-size": "12px",
+          "font-weight": theme("fontWeight.semibold"),
+          "line-height": "20px",
+        },
         ".text-title-hero-small": {
           "font-family": theme("fontFamily.serif"),
           "font-size": "26px",

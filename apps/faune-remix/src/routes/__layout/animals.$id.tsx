@@ -470,9 +470,11 @@ function DescriptionCard() {
             }
           />
         ) : (
-          <Markdown components={ARTICLE_COMPONENTS}>
-            {animal.description}
-          </Markdown>
+          <article>
+            <Markdown components={ARTICLE_COMPONENTS}>
+              {animal.description}
+            </Markdown>
+          </article>
         )}
       </CardContent>
     </Card>

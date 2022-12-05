@@ -1,6 +1,8 @@
 import ReactMarkdown, { Options as ReactMarkdownOptions } from "react-markdown";
 import breaks from "remark-breaks";
 import gfm from "remark-gfm";
+import { actionClassName } from "~/core/actions";
+import { BaseLink } from "~/core/baseLink";
 
 const REMARK_PLUGINS: ReactMarkdownOptions["plugins"] = [
   // Allow line breaks in paragraphs.
@@ -45,7 +47,30 @@ export const PARAGRAPH_COMPONENTS: MarkdownProps["components"] = {
 
 export const ARTICLE_COMPONENTS: MarkdownProps["components"] = {
   br: () => <br />,
-  p: ({ children }) => <p>{children}</p>,
+  p: ({ children }) => <p className="my-2 first:mt-0 last:mb-0">{children}</p>,
+  strong: ({ children }) => (
+    <strong className="text-body-emphasis">{children}</strong>
+  ),
+  em: ({ children }) => <em>{children}</em>,
+  code: ({ children }) => (
+    <code className="bg-gray-100 rounded-0.5 px-0.5 inline-flex text-code-default">
+      {children}
+    </code>
+  ),
+  a: ({ children, href, title }) => (
+    <BaseLink to={href} title={title} className={actionClassName.proseInline()}>
+      {children}
+    </BaseLink>
+  ),
+  ul: ({ children }) => (
+    <ul className="my-2 pl-2 list-disc first:mt-0 last:mb-0">{children}</ul>
+  ),
+  ol: ({ children, start }) => (
+    <ol start={start} className="my-2 pl-2 list-decimal first:mt-0 last:mb-0">
+      {children}
+    </ol>
+  ),
+  li: ({ children }) => <li>{children}</li>,
 };
 
 export const HIGHLIGHT_COMPONENTS: MarkdownProps["components"] = {
