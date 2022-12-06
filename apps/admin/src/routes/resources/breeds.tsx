@@ -264,7 +264,8 @@ function MediumLayout({
             }
           }}
           align="start"
-          className="z-10 bg-white shadow-ambient rounded-b-1 flex flex-col"
+          sideOffset={10}
+          className="z-10 bg-white shadow-ambient rounded-1 border border-gray-200 flex flex-col"
         >
           {content}
         </Popover.Content>
