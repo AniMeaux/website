@@ -1,8 +1,8 @@
-import { Animal, Gender, Species } from "@prisma/client";
+import { Animal, Breed, Gender, Species } from "@prisma/client";
 import { SerializeFrom } from "@remix-run/node";
 import { Form, useLocation } from "@remix-run/react";
 import { DateTime } from "luxon";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { z } from "zod";
 import {
   agreementFromBoolean,
@@ -26,6 +26,7 @@ import { joinReactNodes } from "~/core/joinReactNodes";
 import { Separator } from "~/core/layout/separator";
 import { createActionData, ensureBoolean, ensureDate } from "~/core/schemas";
 import { Icon } from "~/generated/icon";
+import { BreedInput } from "~/routes/resources/breeds";
 
 export const ActionFormData = createActionData(
   z.object({
@@ -37,6 +38,7 @@ export const ActionFormData = createActionData(
         invalid_type_error: "Veuillez entrer une date valide",
       })
     ),
+    breedId: z.string().uuid().optional(),
     description: z.string().trim(),
     gender: z.nativeEnum(Gender, {
       required_error: "Veuillez choisir un genre",
@@ -88,14 +90,19 @@ export function AnimalProfileForm({
       | "isSterilized"
       | "name"
       | "species"
-    >
+    > & {
+      breed: null | Pick<Breed, "id" | "name">;
+    }
   >;
   errors?: z.inferFlattenedErrors<typeof ActionFormData.schema>;
 }) {
+  const [speciesState, setSpeciesState] = useState(animal.species);
+
   const speciesRef = useRef<HTMLInputElement>(null);
   const nameRef = useRef<HTMLInputElement>(null);
   const birthdateRef = useRef<HTMLInputElement>(null);
   const genderRef = useRef<HTMLInputElement>(null);
+  const breedRef = useRef<HTMLButtonElement>(null);
   const isOkCatsRef = useRef<HTMLInputElement>(null);
   const isOkChildrenRef = useRef<HTMLInputElement>(null);
   const isOkDogsRef = useRef<HTMLInputElement>(null);
@@ -112,6 +119,8 @@ export function AnimalProfileForm({
       birthdateRef.current?.focus();
     } else if (errors.fieldErrors.gender != null) {
       genderRef.current?.focus();
+    } else if (errors.fieldErrors.breedId != null) {
+      breedRef.current?.focus();
     } else if (errors.fieldErrors.isOkCats != null) {
       isOkCatsRef.current?.focus();
     } else if (errors.fieldErrors.isOkDogs != null) {
@@ -158,7 +167,8 @@ export function AnimalProfileForm({
                 label={SPECIES_TRANSLATION[species]}
                 name={ActionFormData.keys.species}
                 value={species}
-                defaultChecked={animal.species === species}
+                checked={speciesState === species}
+                onChange={() => setSpeciesState(species)}
                 aria-describedby="species-error"
               />
             ))}
@@ -313,6 +323,32 @@ export function AnimalProfileForm({
               </Adornment>
             }
           />
+        </div>
+
+        <Separator />
+
+        <div className={formClassNames.fields.row()}>
+          <div className={formClassNames.fields.field.root()}>
+            <span className={formClassNames.fields.field.label()}>Race</span>
+
+            <BreedInput
+              ref={breedRef}
+              name={ActionFormData.keys.breedId}
+              defaultValue={animal.breed}
+              species={speciesState}
+              hasError={errors.fieldErrors.breedId != null}
+              aria-describedby="breedId-error"
+            />
+
+            {errors.fieldErrors.breedId != null && (
+              <p
+                id="breedId-error"
+                className={formClassNames.fields.field.errorMessage()}
+              >
+                {errors.fieldErrors.breedId}
+              </p>
+            )}
+          </div>
         </div>
 
         <Separator />
