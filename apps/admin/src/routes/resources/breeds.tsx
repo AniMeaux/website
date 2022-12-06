@@ -394,11 +394,9 @@ function MediumComboboxLayout({ label, input, list }: ComboboxLayoutProps) {
       <header className="border-b border-gray-100 p-1 flex flex-col">
         {label}
         {input(
-          <Popover.Close asChild>
-            <ActionAdornment>
-              <Icon id="angleLeft" />
-            </ActionAdornment>
-          </Popover.Close>
+          <Adornment>
+            <Icon id="magnifyingGlass" />
+          </Adornment>
         )}
       </header>
 
