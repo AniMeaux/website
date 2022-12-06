@@ -1,7 +1,7 @@
 import { formatAge } from "@animeaux/shared";
 import { AdoptionOption, Gender, Status, UserGroup } from "@prisma/client";
 import { json, LoaderArgs, MetaFunction } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
+import { useCatch, useLoaderData } from "@remix-run/react";
 import { DateTime } from "luxon";
 import { useRef, useState } from "react";
 import invariant from "tiny-invariant";
@@ -22,6 +22,7 @@ import { BaseLink, BaseLinkProps } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
 import { useConfig } from "~/core/config";
 import { Empty } from "~/core/dataDisplay/empty";
+import { ErrorPage, getErrorTitle } from "~/core/dataDisplay/errorPage";
 import { Helper } from "~/core/dataDisplay/helper";
 import { createCloudinaryUrl, DynamicImage } from "~/core/dataDisplay/image";
 import {
@@ -103,7 +104,12 @@ export async function loader({ request, params }: LoaderArgs) {
   return json({ canEdit, animal });
 }
 
-export const meta: MetaFunction<typeof loader> = ({ data: { animal } }) => {
+export const meta: MetaFunction<typeof loader> = ({ data }) => {
+  const animal = data?.animal;
+  if (animal == null) {
+    return { title: getPageTitle(getErrorTitle(404)) };
+  }
+
   let displayName = animal.name;
   if (animal.alias != null) {
     displayName += ` (${animal.alias})`;
@@ -111,6 +117,11 @@ export const meta: MetaFunction<typeof loader> = ({ data: { animal } }) => {
 
   return { title: getPageTitle(displayName) };
 };
+
+export function CatchBoundary() {
+  const caught = useCatch();
+  return <ErrorPage status={caught.status} />;
+}
 
 export default function AnimalProfilePage() {
   const { canEdit } = useLoaderData<typeof loader>();
