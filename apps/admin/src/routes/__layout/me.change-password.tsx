@@ -3,7 +3,7 @@ import { Form, useActionData } from "@remix-run/react";
 import { createPath } from "history";
 import { useEffect, useRef } from "react";
 import { z } from "zod";
-import { actionClassName } from "~/core/action";
+import { actionClassName } from "~/core/actions";
 import { cn } from "~/core/classNames";
 import { Helper } from "~/core/dataDisplay/helper";
 import { Adornment } from "~/core/formElements/adornment";
@@ -126,7 +126,7 @@ export default function EditCurrentUserPasswordPage() {
 
             <button
               type="submit"
-              className={cn(actionClassName(), "w-full md:w-auto")}
+              className={cn(actionClassName.standalone(), "w-full md:w-auto")}
             >
               Enregistrer
             </button>

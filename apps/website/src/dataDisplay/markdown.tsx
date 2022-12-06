@@ -114,8 +114,10 @@ export const ARTICLE_COMPONENTS: MarkdownProps["components"] = {
   ul: ({ children }) => (
     <ul className="my-6 pl-4 list-disc first:mt-0 last:mb-0">{children}</ul>
   ),
-  ol: ({ children }) => (
-    <ol className="my-6 pl-4 list-decimal first:mt-0 last:mb-0">{children}</ol>
+  ol: ({ children, start }) => (
+    <ol start={start} className="my-6 pl-4 list-decimal first:mt-0 last:mb-0">
+      {children}
+    </ol>
   ),
   li: ({ children }) => <li>{children}</li>,
   table: ({ children }) => (

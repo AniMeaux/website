@@ -11,7 +11,7 @@
       }
     },
     {
-      "files": ["./apps/faune-remix/", "./apps/website/", "./apps/show/"],
+      "files": ["./apps/admin/", "./apps/website/", "./apps/show/"],
       "extends": [
         "@remix-run/eslint-config",
         "@remix-run/eslint-config/node",

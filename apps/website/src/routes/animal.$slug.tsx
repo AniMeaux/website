@@ -388,7 +388,34 @@ function Agreement({
 
 const DESCRIPTION_COMPONENTS: MarkdownProps["components"] = {
   br: () => <br />,
-  p: ({ children }) => <p>{children}</p>,
+  p: ({ children }) => <p className="my-6 first:mt-0 last:mb-0">{children}</p>,
+  strong: ({ children }) => (
+    <strong className="text-body-emphasis">{children}</strong>
+  ),
+  em: ({ children }) => <em>{children}</em>,
+  code: ({ children }) => (
+    <code className="bg-gray-100 rounded-sm px-1 inline-flex text-code-default">
+      {children}
+    </code>
+  ),
+  a: ({ children, href, title }) => (
+    <BaseLink
+      to={href}
+      title={title}
+      className={actionClassNames.proseInline()}
+    >
+      {children}
+    </BaseLink>
+  ),
+  ul: ({ children }) => (
+    <ul className="my-6 pl-4 list-disc first:mt-0 last:mb-0">{children}</ul>
+  ),
+  ol: ({ children, start }) => (
+    <ol start={start} className="my-6 pl-4 list-decimal first:mt-0 last:mb-0">
+      {children}
+    </ol>
+  ),
+  li: ({ children }) => <li>{children}</li>,
 };
 
 function DescriptionSection({
@@ -409,7 +436,7 @@ function DescriptionSection({
         Son histoire
       </h2>
 
-      <div className="flex flex-col gap-6">
+      <article>
         {animal.description == null ? (
           <p>À venir…</p>
         ) : (
@@ -417,7 +444,7 @@ function DescriptionSection({
             {animal.description}
           </Markdown>
         )}
-      </div>
+      </article>
     </section>
   );
 }
