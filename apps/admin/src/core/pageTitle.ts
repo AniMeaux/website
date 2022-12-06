@@ -1,5 +1,5 @@
 export function getPageTitle(title?: string) {
-  let pageTitle = "Faune";
+  let pageTitle = "Admin";
 
   if (title != null) {
     pageTitle = `${title} • ${pageTitle}`;
