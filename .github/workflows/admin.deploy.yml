@@ -1,4 +1,4 @@
-name: 🏢 Faune Remix - 🚀 Deploy
+name: 🏢 Admin - 🚀 Deploy
 
 on:
   push:
@@ -9,8 +9,8 @@ on:
       - .dockerignore
       - api/prisma/**
       - shared/**
-      - apps/faune-remix/**
-      - .github/workflows/faune-remix.deploy.yml
+      - apps/admin/**
+      - .github/workflows/admin.deploy.yml
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -49,7 +49,7 @@ jobs:
         uses: SebRollen/toml-action@v1.0.2
         id: app_name
         with:
-          file: ./apps/faune-remix/fly.toml
+          file: ./apps/admin/fly.toml
           field: app
 
       - name: 🐳 Set up Docker Buildx
@@ -74,7 +74,7 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: .
-          file: ./apps/faune-remix/Dockerfile
+          file: ./apps/admin/Dockerfile
           push: true
           tags: registry.fly.io/${{ steps.app_name.outputs.value }}:${{ github.ref_name }}-${{ github.sha }}
           cache-from: type=local,src=/tmp/.buildx-cache
@@ -104,12 +104,12 @@ jobs:
         uses: SebRollen/toml-action@v1.0.2
         id: app_name
         with:
-          file: ./apps/faune-remix/fly.toml
+          file: ./apps/admin/fly.toml
           field: app
 
       - name: 🚀 Deploy Staging
         uses: superfly/flyctl-actions@1.3
         with:
-          args: deploy --config ./apps/faune-remix/fly.toml --image registry.fly.io/${{ steps.app_name.outputs.value }}:${{ github.ref_name }}-${{ github.sha }}
+          args: deploy --config ./apps/admin/fly.toml --image registry.fly.io/${{ steps.app_name.outputs.value }}:${{ github.ref_name }}-${{ github.sha }}
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}

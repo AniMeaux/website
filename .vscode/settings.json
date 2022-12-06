@@ -5,7 +5,7 @@
     "**/build": true
   },
   "tailwindCSS.experimental.configFile": {
-    "apps/faune-remix/tailwind.config.js": "apps/faune-remix/**",
+    "apps/admin/tailwind.config.js": "apps/admin/**",
     "apps/website/tailwind.config.js": "apps/website/**",
     "apps/show/tailwind.config.js": "apps/show/**"
   }
