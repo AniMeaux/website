@@ -6,7 +6,7 @@ import {
   MetaFunction,
   redirect,
 } from "@remix-run/node";
-import { useActionData, useLoaderData } from "@remix-run/react";
+import { useActionData, useCatch, useLoaderData } from "@remix-run/react";
 import { createPath } from "history";
 import { z } from "zod";
 import {
@@ -14,6 +14,7 @@ import {
   updateAnimalProfile,
 } from "~/animals/profile/db.server";
 import { ActionFormData, AnimalProfileForm } from "~/animals/profile/form";
+import { ErrorPage, getErrorTitle } from "~/core/dataDisplay/errorPage";
 import { prisma } from "~/core/db.server";
 import { NotFoundError } from "~/core/errors.server";
 import { assertIsDefined } from "~/core/isDefined.server";
@@ -68,7 +69,12 @@ export async function loader({ request, params }: LoaderArgs) {
   return json({ animal });
 }
 
-export const meta: MetaFunction<typeof loader> = ({ data: { animal } }) => {
+export const meta: MetaFunction<typeof loader> = ({ data }) => {
+  const animal = data?.animal;
+  if (animal == null) {
+    return { title: getPageTitle(getErrorTitle(404)) };
+  }
+
   let displayName = animal.name;
   if (animal.alias != null) {
     displayName += ` (${animal.alias})`;
@@ -156,6 +162,11 @@ export async function action({ request }: ActionArgs) {
         .toString(),
     })
   );
+}
+
+export function CatchBoundary() {
+  const caught = useCatch();
+  return <ErrorPage status={caught.status} />;
 }
 
 export default function AnimalEditProfilePage() {
