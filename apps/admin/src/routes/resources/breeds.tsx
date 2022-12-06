@@ -332,7 +332,7 @@ function Combobox({
               key={breed.id}
               {...combobox.getItemProps({ item: breed, index })}
               data-is-value={asBooleanAttribute(selectedBreed?.id === breed.id)}
-              className="group relative z-0 rounded-0.5 grid grid-cols-[auto_minmax(0px,1fr)_auto] items-start cursor-pointer aria-selected:bg-gray-50 data-[is-value=true]:bg-gray-100 data-[is-value=true]:aria-selected:bg-gray-100"
+              className="group relative z-0 rounded-0.5 grid grid-cols-[auto_minmax(0px,1fr)_auto] items-start cursor-pointer aria-selected:bg-gray-100 data-[is-value=true]:bg-gray-100"
             >
               <span className="h-4 w-4 flex items-center justify-center text-gray-600 text-[20px]">
                 <Icon id="dna" />
