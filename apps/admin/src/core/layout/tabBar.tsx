@@ -3,6 +3,7 @@ import { useState } from "react";
 import { BaseLink, BaseLinkProps } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
 import { Icon, IconProps } from "~/generated/icon";
+import { theme } from "~/generated/theme";
 
 export function TabBar({ children }: { children?: React.ReactNode }) {
   return (
@@ -72,9 +73,9 @@ export function TabBarMenu({
       <DropdownMenu.Portal>
         <DropdownMenu.Content
           side="top"
-          sideOffset={15}
-          collisionPadding={10}
-          className="z-20 shadow-xl rounded-1 w-[200px] bg-white p-1 flex flex-col gap-1"
+          sideOffset={theme.spacing[1]}
+          collisionPadding={theme.spacing[1]}
+          className="z-20 shadow-ambient rounded-1 w-[200px] bg-white p-1 flex flex-col gap-1"
         >
           {children}
         </DropdownMenu.Content>

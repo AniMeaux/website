@@ -26,6 +26,7 @@ import { getPageTitle } from "~/core/pageTitle";
 import { NextSearchParams } from "~/core/searchParams";
 import { getCurrentUser } from "~/currentUser/db.server";
 import { Icon, IconProps } from "~/generated/icon";
+import { theme } from "~/generated/theme";
 import nameAndLogo from "~/images/nameAndLogo.svg";
 import { UserAvatar } from "~/users/avatar";
 import { hasGroups } from "~/users/groups";
@@ -247,9 +248,9 @@ function CurrentUserMenu({
       <DropdownMenu.Portal>
         <DropdownMenu.Content
           side="bottom"
-          sideOffset={20}
-          collisionPadding={10}
-          className="z-20 shadow-xl rounded-1 w-[300px] bg-white p-1 flex flex-col gap-1"
+          sideOffset={theme.spacing[1]}
+          collisionPadding={theme.spacing[1]}
+          className="z-20 shadow-ambient rounded-1 w-[300px] bg-white p-1 flex flex-col gap-1"
         >
           <div className="grid grid-cols-[auto,minmax(0px,1fr)] items-center gap-1">
             <UserAvatar size="lg" user={currentUser} />

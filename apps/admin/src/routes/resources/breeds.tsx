@@ -21,6 +21,7 @@ import { ScreenSizeValue, useScreenSizeCondition } from "~/core/screenSize";
 import { getCurrentUser } from "~/currentUser/db.server";
 import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
 import { Icon } from "~/generated/icon";
+import { theme } from "~/generated/theme";
 
 export async function loader({ request }: LoaderArgs) {
   const currentUser = await getCurrentUser(request, {
@@ -264,7 +265,8 @@ function MediumLayout({
             }
           }}
           align="start"
-          sideOffset={10}
+          sideOffset={theme.spacing[1]}
+          collisionPadding={theme.spacing[1]}
           className="z-10 bg-white shadow-ambient rounded-1 border border-gray-200 flex flex-col"
         >
           {content}
