@@ -204,7 +204,7 @@ const ALL_NAVIGATION_ITEMS: NavigationItem[] = [
 
 function SearchInput() {
   return (
-    <button className="rounded-0.5 bg-gray-100 pr-1 inline-grid grid-cols-[auto_minmax(0px,1fr)] text-left hover:bg-gray-200 md:text-body-default">
+    <button className="rounded-0.5 bg-gray-100 pr-1 inline-grid grid-cols-[auto_minmax(0px,1fr)] text-left hover:bg-gray-200 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 md:text-body-default">
       <span className="p-0.5 flex">
         <span className="w-3 h-3 flex items-center justify-center text-gray-600">
           <Icon id="magnifyingGlass" />
@@ -229,7 +229,7 @@ function CurrentUserMenu({
 
   return (
     <DropdownMenu.Root>
-      <DropdownMenu.Trigger className="flex items-center gap-1">
+      <DropdownMenu.Trigger className="rounded-0.5 flex items-center gap-1 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white">
         <span className="hidden md:inline-flex">{currentUser.displayName}</span>
 
         <span className="hidden md:inline-flex">
