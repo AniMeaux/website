@@ -1,4 +1,4 @@
-name: 🏢 Faune Remix - 🔬 Checks
+name: 🏢 Admin - 🔬 Checks
 
 on:
   pull_request:
@@ -9,8 +9,8 @@ on:
       - .dockerignore
       - api/prisma/**
       - shared/**
-      - apps/faune-remix/**
-      - .github/workflows/faune-remix.checks.yml
+      - apps/admin/**
+      - .github/workflows/admin.checks.yml
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -28,7 +28,7 @@ jobs:
         uses: SebRollen/toml-action@v1.0.2
         id: app_name
         with:
-          file: ./apps/faune-remix/fly.toml
+          file: ./apps/admin/fly.toml
           field: app
 
       - name: 🐳 Set up Docker Buildx
@@ -46,7 +46,7 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: .
-          file: ./apps/faune-remix/Dockerfile
+          file: ./apps/admin/Dockerfile
           tags: registry.fly.io/${{ steps.app_name.outputs.value }}:${{ github.head_ref }}-${{ github.sha }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,mode=max,dest=/tmp/.buildx-cache-new
