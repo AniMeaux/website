@@ -1,4 +1,4 @@
-app = "animeaux-admin-3ac2-staging"
+app = "animeaux-admin-3ac2"
 
 [env]
 PORT = "8080"
