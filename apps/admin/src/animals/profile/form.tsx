@@ -1,4 +1,4 @@
-import { Animal, Breed, Gender, Species } from "@prisma/client";
+import { Animal, Breed, Color, Gender, Species } from "@prisma/client";
 import { SerializeFrom } from "@remix-run/node";
 import { Form, useLocation } from "@remix-run/react";
 import { DateTime } from "luxon";
@@ -27,6 +27,7 @@ import { Separator } from "~/core/layout/separator";
 import { createActionData, ensureBoolean, ensureDate } from "~/core/schemas";
 import { Icon } from "~/generated/icon";
 import { BreedInput } from "~/routes/resources/breeds";
+import { ColorInput } from "~/routes/resources/colors";
 
 export const ActionFormData = createActionData(
   z.object({
@@ -39,6 +40,7 @@ export const ActionFormData = createActionData(
       })
     ),
     breedId: z.string().uuid().optional(),
+    colorId: z.string().uuid().optional(),
     description: z.string().trim(),
     gender: z.nativeEnum(Gender, {
       required_error: "Veuillez choisir un genre",
@@ -94,6 +96,7 @@ export function AnimalProfileForm({
       | "updatedAt"
     > & {
       breed: null | Pick<Breed, "id" | "name">;
+      color: null | Pick<Color, "id" | "name">;
     }
   >;
   errors?: z.inferFlattenedErrors<typeof ActionFormData.schema>;
@@ -105,6 +108,7 @@ export function AnimalProfileForm({
   const birthdateRef = useRef<HTMLInputElement>(null);
   const genderRef = useRef<HTMLInputElement>(null);
   const breedRef = useRef<HTMLButtonElement>(null);
+  const colorRef = useRef<HTMLButtonElement>(null);
   const isOkCatsRef = useRef<HTMLInputElement>(null);
   const isOkChildrenRef = useRef<HTMLInputElement>(null);
   const isOkDogsRef = useRef<HTMLInputElement>(null);
@@ -125,6 +129,8 @@ export function AnimalProfileForm({
       genderRef.current?.focus();
     } else if (errors.fieldErrors.breedId != null) {
       breedRef.current?.focus();
+    } else if (errors.fieldErrors.colorId != null) {
+      colorRef.current?.focus();
     } else if (errors.fieldErrors.isOkCats != null) {
       isOkCatsRef.current?.focus();
     } else if (errors.fieldErrors.isOkDogs != null) {
@@ -355,6 +361,27 @@ export function AnimalProfileForm({
                 className={formClassNames.fields.field.errorMessage()}
               >
                 {errors.fieldErrors.breedId}
+              </p>
+            )}
+          </div>
+
+          <div className={formClassNames.fields.field.root()}>
+            <span className={formClassNames.fields.field.label()}>Couleur</span>
+
+            <ColorInput
+              ref={colorRef}
+              name={ActionFormData.keys.colorId}
+              defaultValue={animal.color}
+              hasError={errors.fieldErrors.colorId != null}
+              aria-describedby="colorId-error"
+            />
+
+            {errors.fieldErrors.colorId != null && (
+              <p
+                id="colorId-error"
+                className={formClassNames.fields.field.errorMessage()}
+              >
+                {errors.fieldErrors.colorId}
               </p>
             )}
           </div>

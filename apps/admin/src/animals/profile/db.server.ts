@@ -13,6 +13,7 @@ export async function updateAnimalProfile(
     | "alias"
     | "birthdate"
     | "breedId"
+    | "colorId"
     | "description"
     | "gender"
     | "iCadNumber"

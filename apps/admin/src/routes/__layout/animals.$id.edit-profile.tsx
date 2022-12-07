@@ -117,6 +117,7 @@ export async function action({ request }: ActionArgs) {
       alias: formData.data.alias || null,
       birthdate: formData.data.birthdate,
       breedId: formData.data.breedId || null,
+      colorId: formData.data.colorId || null,
       description: formData.data.description || null,
       gender: formData.data.gender,
       iCadNumber: formData.data.iCadNumber || null,
