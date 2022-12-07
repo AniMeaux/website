@@ -4,23 +4,24 @@ import { zfd } from "zod-form-data";
 import { parseOrDefault } from "~/core/schemas";
 
 export class PageSearchParams extends URLSearchParams {
-  static readonly KEY = "page";
-  static readonly DEFAULT_VALUE = 0;
+  static readonly Keys = {
+    PAGE: "page",
+  };
 
   getPage() {
     return parseOrDefault(
       zfd.numeric(z.number().default(0)),
-      this.get(PageSearchParams.KEY)
+      this.get(PageSearchParams.Keys.PAGE)
     );
   }
 
   setPage(page: number) {
     const copy = new PageSearchParams(this);
 
-    if (page !== PageSearchParams.DEFAULT_VALUE) {
-      copy.set(PageSearchParams.KEY, String(page));
-    } else if (copy.has(PageSearchParams.KEY)) {
-      copy.delete(PageSearchParams.KEY);
+    if (page !== 0) {
+      copy.set(PageSearchParams.Keys.PAGE, String(page));
+    } else if (copy.has(PageSearchParams.Keys.PAGE)) {
+      copy.delete(PageSearchParams.Keys.PAGE);
     }
 
     return copy;
@@ -28,23 +29,24 @@ export class PageSearchParams extends URLSearchParams {
 }
 
 export class NextSearchParams extends URLSearchParams {
-  static readonly KEY = "next";
-  static readonly DEFAULT_VALUE = "/";
+  static readonly Keys = {
+    NEXT: "next",
+  };
 
   getNext() {
     return parseOrDefault(
       z.string().default("/"),
-      this.get(NextSearchParams.KEY)
+      this.get(NextSearchParams.Keys.NEXT)
     );
   }
 
   setNext(next: string) {
     const copy = new NextSearchParams(this);
 
-    if (next !== NextSearchParams.DEFAULT_VALUE) {
-      copy.set(NextSearchParams.KEY, next);
-    } else if (copy.has(NextSearchParams.KEY)) {
-      copy.delete(NextSearchParams.KEY);
+    if (next !== "/") {
+      copy.set(NextSearchParams.Keys.NEXT, next);
+    } else if (copy.has(NextSearchParams.Keys.NEXT)) {
+      copy.delete(NextSearchParams.Keys.NEXT);
     }
 
     return copy;
