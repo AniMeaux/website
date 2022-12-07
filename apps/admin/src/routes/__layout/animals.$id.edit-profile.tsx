@@ -16,7 +16,7 @@ import {
 import { ActionFormData, AnimalProfileForm } from "~/animals/profile/form";
 import { ErrorPage, getErrorTitle } from "~/core/dataDisplay/errorPage";
 import { prisma } from "~/core/db.server";
-import { NotFoundError, OutdatedError } from "~/core/errors.server";
+import { NotFoundError } from "~/core/errors.server";
 import { assertIsDefined } from "~/core/isDefined.server";
 import { Card, CardContent, CardHeader, CardTitle } from "~/core/layout/card";
 import { getPageTitle } from "~/core/pageTitle";
@@ -61,7 +61,6 @@ export async function loader({ request, params }: LoaderArgs) {
       name: true,
       species: true,
       status: true,
-      updatedAt: true,
     },
   });
 
@@ -111,7 +110,7 @@ export async function action({ request }: ActionArgs) {
   }
 
   try {
-    await updateAnimalProfile(formData.data.id, formData.data.updatedAt, {
+    await updateAnimalProfile(formData.data.id, {
       species: formData.data.species,
       name: formData.data.name,
       alias: formData.data.alias || null,
@@ -136,20 +135,6 @@ export async function action({ request }: ActionArgs) {
           },
         },
         { status: 404 }
-      );
-    }
-
-    if (error instanceof OutdatedError) {
-      return json<ActionData>(
-        {
-          errors: {
-            formErrors: [
-              "L’animal n'est pas à jours. Veuillez rafraîchir la page avant de modifier l’animal.",
-            ],
-            fieldErrors: {},
-          },
-        },
-        { status: 400 }
       );
     }
 

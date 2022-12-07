@@ -15,14 +15,13 @@ import { GENDER_TRANSLATION, SORTED_GENDERS } from "~/animals/gender";
 import { SORTED_SPECIES, SPECIES_TRANSLATION } from "~/animals/species";
 import { actionClassName } from "~/core/actions";
 import { cn } from "~/core/classNames";
-import { Helper } from "~/core/dataDisplay/helper";
 import { Adornment } from "~/core/formElements/adornment";
 import { formClassNames } from "~/core/formElements/form";
+import { FormErrors } from "~/core/formElements/formErrors";
 import { Input } from "~/core/formElements/input";
 import { RadioInput } from "~/core/formElements/radioInput";
 import { RequiredStart } from "~/core/formElements/requiredStart";
 import { Textarea } from "~/core/formElements/textarea";
-import { joinReactNodes } from "~/core/joinReactNodes";
 import { Separator } from "~/core/layout/separator";
 import { createActionData, ensureBoolean, ensureDate } from "~/core/schemas";
 import { Icon } from "~/generated/icon";
@@ -70,7 +69,6 @@ export const ActionFormData = createActionData(
     species: z.nativeEnum(Species, {
       required_error: "Veuillez choisir une espèce",
     }),
-    updatedAt: z.preprocess(ensureDate, z.date()),
   })
 );
 
@@ -93,7 +91,6 @@ export function AnimalProfileForm({
       | "isSterilized"
       | "name"
       | "species"
-      | "updatedAt"
     > & {
       breed: null | Pick<Breed, "id" | "name">;
       color: null | Pick<Color, "id" | "name">;
@@ -156,18 +153,9 @@ export function AnimalProfileForm({
       className={formClassNames.root({ hasHeader: true })}
     >
       <input type="hidden" name={ActionFormData.keys.id} value={animal.id} />
-      <input
-        type="hidden"
-        name={ActionFormData.keys.updatedAt}
-        value={animal.updatedAt}
-      />
 
       <div className={formClassNames.fields.root()}>
-        {errors.formErrors.length > 0 && (
-          <Helper variant="error">
-            {joinReactNodes(errors.formErrors, <br />)}
-          </Helper>
-        )}
+        <FormErrors errors={errors.formErrors} />
 
         <div className={formClassNames.fields.field.root()}>
           <span className={formClassNames.fields.field.label()}>
