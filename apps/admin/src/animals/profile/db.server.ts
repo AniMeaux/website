@@ -12,6 +12,7 @@ export async function updateAnimalProfile(
     | "alias"
     | "birthdate"
     | "breedId"
+    | "colorId"
     | "description"
     | "gender"
     | "iCadNumber"
@@ -36,11 +37,6 @@ export async function updateAnimalProfile(
 
   try {
     await prisma.animal.update({ where: { id: animalId }, data });
-    await algolia.animal.update(animalId, {
-      alias: data.alias,
-      name: data.name,
-      species: data.species,
-    });
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       // Not found.
@@ -52,4 +48,10 @@ export async function updateAnimalProfile(
 
     throw error;
   }
+
+  await algolia.animal.update(animalId, {
+    alias: data.alias,
+    name: data.name,
+    species: data.species,
+  });
 }

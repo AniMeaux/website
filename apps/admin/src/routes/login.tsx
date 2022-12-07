@@ -9,13 +9,12 @@ import { Form, useActionData } from "@remix-run/react";
 import { useEffect, useRef } from "react";
 import { z } from "zod";
 import { actionClassName } from "~/core/actions";
-import { Helper } from "~/core/dataDisplay/helper";
 import { Adornment } from "~/core/formElements/adornment";
 import { formClassNames } from "~/core/formElements/form";
+import { FormErrors } from "~/core/formElements/formErrors";
 import { Input } from "~/core/formElements/input";
 import { PasswordInput } from "~/core/formElements/passwordInput";
 import { RouteHandle } from "~/core/handles";
-import { joinReactNodes } from "~/core/joinReactNodes";
 import { getPageTitle } from "~/core/pageTitle";
 import { createActionData } from "~/core/schemas";
 import { NextSearchParams } from "~/core/searchParams";
@@ -104,7 +103,9 @@ export default function LoginPage() {
   // Focus the first field having an error.
   useEffect(() => {
     if (actionData?.errors != null) {
-      if (actionData.errors.fieldErrors.email != null) {
+      if (actionData.errors.formErrors.length > 0) {
+        window.scrollTo({ top: 0 });
+      } else if (actionData.errors.fieldErrors.email != null) {
         emailRef.current?.focus();
       } else if (actionData.errors.fieldErrors.password != null) {
         passwordRef.current?.focus();
@@ -130,11 +131,7 @@ export default function LoginPage() {
 
           <Form method="post" noValidate className="flex flex-col gap-4">
             <div className={formClassNames.fields.root()}>
-              {formErrors.length > 0 && (
-                <Helper isCompact variant="error">
-                  {joinReactNodes(formErrors, <br />)}
-                </Helper>
-              )}
+              <FormErrors isCompact errors={formErrors} />
 
               <div className={formClassNames.fields.field.root()}>
                 <label

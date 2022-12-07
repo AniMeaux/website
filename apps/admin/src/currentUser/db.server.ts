@@ -93,18 +93,21 @@ export async function updateCurrentUserProfile(
   userId: User["id"],
   data: Pick<User, "email" | "displayName">
 ) {
-  try {
-    await prisma.user.update({ where: { id: userId }, data });
-    await algolia.user.update(userId, data);
-  } catch (error) {
-    if (error instanceof Prisma.PrismaClientKnownRequestError) {
-      // Email already used.
-      // https://www.prisma.io/docs/reference/api-reference/error-reference#p2025
-      if (error.code === "P2002") {
-        throw new EmailAlreadyUsedError();
+  await prisma.$transaction(async (prisma) => {
+    try {
+      await prisma.user.update({ where: { id: userId }, data });
+    } catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        // Email already used.
+        // https://www.prisma.io/docs/reference/api-reference/error-reference#p2025
+        if (error.code === "P2002") {
+          throw new EmailAlreadyUsedError();
+        }
       }
+
+      throw error;
     }
 
-    throw error;
-  }
+    await algolia.user.update(userId, data);
+  });
 }

@@ -11,11 +11,10 @@ import { useEffect, useRef } from "react";
 import { z } from "zod";
 import { actionClassName } from "~/core/actions";
 import { cn } from "~/core/classNames";
-import { Helper } from "~/core/dataDisplay/helper";
 import { Adornment } from "~/core/formElements/adornment";
 import { formClassNames } from "~/core/formElements/form";
+import { FormErrors } from "~/core/formElements/formErrors";
 import { Input } from "~/core/formElements/input";
-import { joinReactNodes } from "~/core/joinReactNodes";
 import { Card, CardContent, CardHeader, CardTitle } from "~/core/layout/card";
 import { getPageTitle } from "~/core/pageTitle";
 import { createActionData } from "~/core/schemas";
@@ -113,7 +112,9 @@ export default function EditCurrentUserProfilePage() {
   // Focus the first field having an error.
   useEffect(() => {
     if (actionData?.errors != null) {
-      if (actionData.errors.fieldErrors.name != null) {
+      if (actionData.errors.formErrors.length > 0) {
+        window.scrollTo({ top: 0 });
+      } else if (actionData.errors.fieldErrors.name != null) {
         nameRef.current?.focus();
       } else if (actionData.errors.fieldErrors.email != null) {
         emailRef.current?.focus();
@@ -135,11 +136,7 @@ export default function EditCurrentUserProfilePage() {
             className={formClassNames.root({ hasHeader: true })}
           >
             <div className={formClassNames.fields.root()}>
-              {formErrors.length > 0 && (
-                <Helper variant="error">
-                  {joinReactNodes(formErrors, <br />)}
-                </Helper>
-              )}
+              <FormErrors errors={formErrors} />
 
               <div className={formClassNames.fields.field.root()}>
                 <label

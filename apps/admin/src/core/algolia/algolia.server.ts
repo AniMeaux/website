@@ -2,6 +2,7 @@ import algoliasearch from "algoliasearch";
 import invariant from "tiny-invariant";
 import { createAnimalDelegate } from "~/animals/algolia.server";
 import { createBreedDelegate } from "~/breeds/algolia.server";
+import { createColorDelegate } from "~/colors/algolia.server";
 import { createUserDelegate } from "~/users/algolia.server";
 
 invariant(process.env.ALGOLIA_ID != null, "ALGOLIA_ID must be defined.");
@@ -17,7 +18,8 @@ const client = algoliasearch(
 );
 
 export const algolia = {
-  user: createUserDelegate(client),
   animal: createAnimalDelegate(client),
   breed: createBreedDelegate(client),
+  color: createColorDelegate(client),
+  user: createUserDelegate(client),
 };
