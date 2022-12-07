@@ -104,7 +104,9 @@ export default function LoginPage() {
   // Focus the first field having an error.
   useEffect(() => {
     if (actionData?.errors != null) {
-      if (actionData.errors.fieldErrors.email != null) {
+      if (actionData.errors.formErrors.length > 0) {
+        window.scrollTo({ top: 0 });
+      } else if (actionData.errors.fieldErrors.email != null) {
         emailRef.current?.focus();
       } else if (actionData.errors.fieldErrors.password != null) {
         passwordRef.current?.focus();

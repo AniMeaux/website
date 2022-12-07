@@ -65,8 +65,12 @@ export default function EditCurrentUserPasswordPage() {
 
   // Focus the field if it has an error.
   useEffect(() => {
-    if (actionData?.errors?.fieldErrors.password != null) {
-      passwordRef.current?.focus();
+    if (actionData?.errors != null) {
+      if (actionData.errors.formErrors.length > 0) {
+        window.scrollTo({ top: 0 });
+      } else if (actionData.errors.fieldErrors.password != null) {
+        passwordRef.current?.focus();
+      }
     }
   }, [actionData]);
 

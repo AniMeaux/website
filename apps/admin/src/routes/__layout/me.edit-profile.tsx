@@ -12,13 +12,14 @@ import { z } from "zod";
 import { actionClassName } from "~/core/actions";
 import { cn } from "~/core/classNames";
 import { Helper } from "~/core/dataDisplay/helper";
+import { OutdatedError } from "~/core/errors.server";
 import { Adornment } from "~/core/formElements/adornment";
 import { formClassNames } from "~/core/formElements/form";
 import { Input } from "~/core/formElements/input";
 import { joinReactNodes } from "~/core/joinReactNodes";
 import { Card, CardContent, CardHeader, CardTitle } from "~/core/layout/card";
 import { getPageTitle } from "~/core/pageTitle";
-import { createActionData } from "~/core/schemas";
+import { createActionData, ensureDate } from "~/core/schemas";
 import {
   ActionConfirmationSearchParams,
   ActionConfirmationType,
@@ -35,6 +36,7 @@ export async function loader({ request }: LoaderArgs) {
     select: {
       displayName: true,
       email: true,
+      updatedAt: true,
     },
   });
 
@@ -49,6 +51,7 @@ const ActionFormData = createActionData(
   z.object({
     name: z.string().min(1, "Veuillez entrer un nom"),
     email: z.string().email("Veuillez entrer un email valide"),
+    updatedAt: z.preprocess(ensureDate, z.date()),
   })
 );
 
@@ -72,11 +75,25 @@ export async function action({ request }: ActionArgs) {
   }
 
   try {
-    await updateCurrentUserProfile(currentUser.id, {
+    await updateCurrentUserProfile(currentUser.id, formData.data.updatedAt, {
       displayName: formData.data.name,
       email: formData.data.email,
     });
   } catch (error) {
+    if (error instanceof OutdatedError) {
+      return json<ActionData>(
+        {
+          errors: {
+            formErrors: [
+              "Votre profil n'est pas à jours. Veuillez rafraîchir la page avant de le modifier.",
+            ],
+            fieldErrors: {},
+          },
+        },
+        { status: 400 }
+      );
+    }
+
     if (error instanceof EmailAlreadyUsedError) {
       return json<ActionData>(
         {
@@ -113,7 +130,9 @@ export default function EditCurrentUserProfilePage() {
   // Focus the first field having an error.
   useEffect(() => {
     if (actionData?.errors != null) {
-      if (actionData.errors.fieldErrors.name != null) {
+      if (actionData.errors.formErrors.length > 0) {
+        window.scrollTo({ top: 0 });
+      } else if (actionData.errors.fieldErrors.name != null) {
         nameRef.current?.focus();
       } else if (actionData.errors.fieldErrors.email != null) {
         emailRef.current?.focus();
@@ -134,6 +153,12 @@ export default function EditCurrentUserProfilePage() {
             noValidate
             className={formClassNames.root({ hasHeader: true })}
           >
+            <input
+              type="hidden"
+              name={ActionFormData.keys.updatedAt}
+              value={currentUser.updatedAt}
+            />
+
             <div className={formClassNames.fields.root()}>
               {formErrors.length > 0 && (
                 <Helper variant="error">

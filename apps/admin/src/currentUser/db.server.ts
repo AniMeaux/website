@@ -3,6 +3,7 @@ import { redirect } from "@remix-run/node";
 import { createPath } from "history";
 import { algolia } from "~/core/algolia/algolia.server";
 import { prisma } from "~/core/db.server";
+import { NotFoundError, OutdatedError } from "~/core/errors.server";
 import { NextSearchParams } from "~/core/searchParams";
 import { getSession } from "~/core/session.server";
 import { destroyUserSession } from "~/currentUser/session.server";
@@ -91,20 +92,37 @@ export class EmailAlreadyUsedError extends Error {}
 
 export async function updateCurrentUserProfile(
   userId: User["id"],
+  updatedAt: User["updatedAt"],
   data: Pick<User, "email" | "displayName">
 ) {
-  try {
-    await prisma.user.update({ where: { id: userId }, data });
-    await algolia.user.update(userId, data);
-  } catch (error) {
-    if (error instanceof Prisma.PrismaClientKnownRequestError) {
-      // Email already used.
-      // https://www.prisma.io/docs/reference/api-reference/error-reference#p2025
-      if (error.code === "P2002") {
-        throw new EmailAlreadyUsedError();
-      }
+  await prisma.$transaction(async (prisma) => {
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      select: { updatedAt: true },
+    });
+
+    if (user == null) {
+      throw new NotFoundError();
     }
 
-    throw error;
-  }
+    if (user.updatedAt > updatedAt) {
+      throw new OutdatedError();
+    }
+
+    try {
+      await prisma.user.update({ where: { id: userId }, data });
+    } catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        // Email already used.
+        // https://www.prisma.io/docs/reference/api-reference/error-reference#p2025
+        if (error.code === "P2002") {
+          throw new EmailAlreadyUsedError();
+        }
+      }
+
+      throw error;
+    }
+
+    await algolia.user.update(userId, data);
+  });
 }

@@ -68,6 +68,7 @@ export const ActionFormData = createActionData(
     species: z.nativeEnum(Species, {
       required_error: "Veuillez choisir une espèce",
     }),
+    updatedAt: z.preprocess(ensureDate, z.date()),
   })
 );
 
@@ -90,6 +91,7 @@ export function AnimalProfileForm({
       | "isSterilized"
       | "name"
       | "species"
+      | "updatedAt"
     > & {
       breed: null | Pick<Breed, "id" | "name">;
     }
@@ -111,7 +113,9 @@ export function AnimalProfileForm({
 
   // Focus the first field having an error.
   useEffect(() => {
-    if (errors.fieldErrors.species != null) {
+    if (errors.formErrors.length > 0) {
+      window.scrollTo({ top: 0 });
+    } else if (errors.fieldErrors.species != null) {
       speciesRef.current?.focus();
     } else if (errors.fieldErrors.name != null) {
       nameRef.current?.focus();
@@ -130,7 +134,7 @@ export function AnimalProfileForm({
     } else if (errors.fieldErrors.isSterilized != null) {
       isSterilizedRef.current?.focus();
     }
-  }, [errors.fieldErrors]);
+  }, [errors.formErrors, errors.fieldErrors]);
 
   const { hash } = useLocation();
   useEffect(() => {
@@ -146,6 +150,11 @@ export function AnimalProfileForm({
       className={formClassNames.root({ hasHeader: true })}
     >
       <input type="hidden" name={ActionFormData.keys.id} value={animal.id} />
+      <input
+        type="hidden"
+        name={ActionFormData.keys.updatedAt}
+        value={animal.updatedAt}
+      />
 
       <div className={formClassNames.fields.root()}>
         {errors.formErrors.length > 0 && (
