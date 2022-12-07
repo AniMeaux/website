@@ -19,7 +19,7 @@ import { Prisma, Status, UserGroup } from "@prisma/client";
 import { DateTime } from "luxon";
 import invariant from "tiny-invariant";
 import { array, boolean, mixed, number, object, string } from "yup";
-import { createSearchFilters, DEFAULT_SEARCH_OPTIONS } from "../core/algolia";
+import { createSearchFilters } from "../core/algolia";
 import { assertUserHasGroups, getCurrentUser } from "../core/authentication";
 import { prisma } from "../core/db";
 import { OperationError, OperationsImpl } from "../core/operations";
@@ -225,7 +225,6 @@ export const animalOperations: OperationsImpl<AnimalOperations> = {
     const response = await AnimalIndex.search<AnimalFromAlgolia>(
       params.search,
       {
-        ...DEFAULT_SEARCH_OPTIONS,
         attributesToRetrieve: [],
         page,
         hitsPerPage: ANIMAL_COUNT_PER_PAGE,
@@ -685,8 +684,7 @@ export const animalOperations: OperationsImpl<AnimalOperations> = {
 
     const result = await AnimalIndex.searchForFacetValues(
       "pickUpLocation",
-      params.search ?? "",
-      DEFAULT_SEARCH_OPTIONS
+      params.search ?? ""
     );
 
     return result.facetHits.map<LocationSearchHit>((hit) => ({
@@ -708,7 +706,6 @@ export const animalOperations: OperationsImpl<AnimalOperations> = {
     );
 
     const result = await UserIndex.search<UserFromAlgolia>(params.search, {
-      ...DEFAULT_SEARCH_OPTIONS,
       filters: createSearchFilters({
         isDisabled: false,
         groups: UserGroup.ANIMAL_MANAGER,

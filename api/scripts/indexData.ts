@@ -1,3 +1,4 @@
+import { Settings } from "@algolia/client-search";
 import { PrismaClient } from "@prisma/client";
 import invariant from "tiny-invariant";
 import { AnimalFromAlgolia, AnimalIndex } from "../src/entities/animal.entity";
@@ -24,9 +25,16 @@ const TABLES = [
   "user",
 ] as const;
 
-type Table = typeof TABLES[number];
-
 const prisma = new PrismaClient();
+
+const DEFAULT_SEARCH_OPTIONS: Omit<
+  Settings,
+  "searchableAttributes" | "attributesForFaceting"
+> = {
+  // Use markdown style bold.
+  highlightPreTag: "**",
+  highlightPostTag: "**",
+};
 
 indexData()
   .catch((error) => {
@@ -36,7 +44,7 @@ indexData()
   .finally(async () => await prisma.$disconnect());
 
 async function indexData() {
-  const table = (process.argv[2] as Table) || "all";
+  const table = (process.argv[2] as typeof TABLES[number]) || "all";
   invariant(
     TABLES.includes(table),
     `Invalid table "${table}". Must be one of: ${TABLES.join(", ")}.`
@@ -91,6 +99,15 @@ async function indexAnimals() {
       return { ...animalFromAlgolia, objectID: id };
     })
   );
+
+  const indexSettings: TypedIndexSettings<AnimalFromAlgolia> = {
+    ...DEFAULT_SEARCH_OPTIONS,
+    searchableAttributes: ["name", "alias"],
+    attributesForFaceting: ["searchable(pickUpLocation)", "species", "status"],
+    maxFacetHits: 20,
+  };
+
+  await AnimalIndex.setSettings(indexSettings);
 }
 
 async function indexBreeds() {
@@ -106,6 +123,14 @@ async function indexBreeds() {
       return { ...breedFromAlgolia, objectID: id };
     })
   );
+
+  const indexSettings: TypedIndexSettings<BreedFromAlgolia> = {
+    ...DEFAULT_SEARCH_OPTIONS,
+    searchableAttributes: ["name"],
+    attributesForFaceting: ["species"],
+  };
+
+  await BreedIndex.setSettings(indexSettings);
 }
 
 async function indexColors() {
@@ -121,6 +146,13 @@ async function indexColors() {
       return { ...colorFromAlgolia, objectID: id };
     })
   );
+
+  const indexSettings: TypedIndexSettings<ColorFromAlgolia> = {
+    ...DEFAULT_SEARCH_OPTIONS,
+    searchableAttributes: ["name"],
+  };
+
+  await ColorIndex.setSettings(indexSettings);
 }
 
 async function indexUsers() {
@@ -142,6 +174,14 @@ async function indexUsers() {
       return { ...userFromAlgolia, objectID: id };
     })
   );
+
+  const indexSettings: TypedIndexSettings<UserFromAlgolia> = {
+    ...DEFAULT_SEARCH_OPTIONS,
+    searchableAttributes: ["displayName", "email"],
+    attributesForFaceting: ["groups", "isDisabled"],
+  };
+
+  await UserIndex.setSettings(indexSettings);
 }
 
 async function indexFosterFamilies() {
@@ -157,4 +197,30 @@ async function indexFosterFamilies() {
       return { ...fosterFamilyFromAlgolia, objectID: id };
     })
   );
+
+  const indexSettings: TypedIndexSettings<FosterFamilyFromAlgolia> = {
+    ...DEFAULT_SEARCH_OPTIONS,
+    searchableAttributes: ["displayName"],
+  };
+
+  await FosterFamilyIndex.setSettings(indexSettings);
 }
+
+type StringOnlyKeys<TKey extends string | number | symbol> = TKey extends string
+  ? TKey
+  : never;
+
+type TypedIndexSettings<
+  TData extends object,
+  TKeys extends string = StringOnlyKeys<keyof TData>
+> = Omit<Settings, "searchableAttributes" | "attributesForFaceting"> & {
+  // https://www.algolia.com/doc/api-reference/api-parameters/searchableAttributes/
+  searchableAttributes?: readonly (TKeys | `unordered(${TKeys})`)[];
+
+  // https://www.algolia.com/doc/api-reference/api-parameters/attributesForFaceting/
+  attributesForFaceting?: readonly (
+    | TKeys
+    | `searchable(${TKeys})`
+    | `filterOnly(${TKeys})`
+  )[];
+};

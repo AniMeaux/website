@@ -1,11 +1,3 @@
-import { SearchOptions } from "@algolia/client-search";
-
-export const DEFAULT_SEARCH_OPTIONS: SearchOptions = {
-  // Use markdown style bold.
-  highlightPreTag: "**",
-  highlightPostTag: "**",
-};
-
 export function createSearchFilters(
   params: Record<string, boolean | string | string[] | undefined | null>
 ): string | undefined {

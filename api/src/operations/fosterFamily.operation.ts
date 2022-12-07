@@ -8,7 +8,6 @@ import {
 } from "@animeaux/shared";
 import { Prisma } from "@prisma/client";
 import { object, string } from "yup";
-import { DEFAULT_SEARCH_OPTIONS } from "../core/algolia";
 import { assertUserHasGroups, getCurrentUser } from "../core/authentication";
 import { prisma } from "../core/db";
 import { OperationError, OperationsImpl } from "../core/operations";
@@ -68,8 +67,7 @@ export const fosterFamilyOperations: OperationsImpl<FosterFamilyOperations> = {
     );
 
     const result = await FosterFamilyIndex.search<FosterFamilyFromAlgolia>(
-      params.search,
-      DEFAULT_SEARCH_OPTIONS
+      params.search
     );
 
     return result.hits.map<FosterFamilySearchHit>((hit) => ({
