@@ -121,12 +121,12 @@ export const currentUserOperations: OperationsImpl<CurrentUserOperations> = {
     });
 
     const userFromAlgolia: Partial<UserFromAlgolia> = {
-      displayName: currentUser.displayName,
+      displayName: newCurrentUser.displayName,
     };
 
     await UserIndex.partialUpdateObject({
       ...userFromAlgolia,
-      objectID: currentUser.id,
+      objectID: newCurrentUser.id,
     });
 
     return mapCurrentUser(newCurrentUser);
