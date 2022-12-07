@@ -13,6 +13,11 @@ import { generatePasswordHash, isSamePassword } from "../core/password";
 import { deleteSession, setUserIdInSession } from "../core/session";
 import { validateParams } from "../core/validation";
 import { mapCurrentUser } from "../entities/currentUser.entity";
+import {
+  SearchableResourceFromAlgolia,
+  SearchableResourcesIndex,
+  SearchableResourceType,
+} from "../entities/searchableResources.entity";
 import { UserFromAlgolia, UserIndex } from "../entities/user.entity";
 
 const FIREBASE_ERROR_CODES_TO_IGNORE = [
@@ -126,6 +131,16 @@ export const currentUserOperations: OperationsImpl<CurrentUserOperations> = {
 
     await UserIndex.partialUpdateObject({
       ...userFromAlgolia,
+      objectID: newCurrentUser.id,
+    });
+
+    const searchableUserFromAlgolia: SearchableResourceFromAlgolia = {
+      type: SearchableResourceType.USER,
+      data: { displayName: newCurrentUser.displayName },
+    };
+
+    await SearchableResourcesIndex.saveObject({
+      ...searchableUserFromAlgolia,
       objectID: newCurrentUser.id,
     });
 

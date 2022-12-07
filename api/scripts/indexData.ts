@@ -14,6 +14,11 @@ import {
   FosterFamilyFromAlgolia,
   FosterFamilyIndex,
 } from "../src/entities/fosterFamily.entity";
+import {
+  SearchableResourceFromAlgolia,
+  SearchableResourcesIndex,
+  SearchableResourceType,
+} from "../src/entities/searchableResources.entity";
 import { UserFromAlgolia, UserIndex } from "../src/entities/user.entity";
 
 const TABLES = [
@@ -23,18 +28,10 @@ const TABLES = [
   "color",
   "fosterFamily",
   "user",
+  "searchableResources",
 ] as const;
 
 const prisma = new PrismaClient();
-
-const DEFAULT_SEARCH_OPTIONS: Omit<
-  Settings,
-  "searchableAttributes" | "attributesForFaceting"
-> = {
-  // Use markdown style bold.
-  highlightPreTag: "**",
-  highlightPostTag: "**",
-};
 
 indexData()
   .catch((error) => {
@@ -44,13 +41,14 @@ indexData()
   .finally(async () => await prisma.$disconnect());
 
 async function indexData() {
-  const table = (process.argv[2] as typeof TABLES[number]) || "all";
+  const table = process.argv[2] as null | typeof TABLES[number];
+  invariant(table != null, `Please choose a table in: ${TABLES.join(", ")}.`);
   invariant(
     TABLES.includes(table),
     `Invalid table "${table}". Must be one of: ${TABLES.join(", ")}.`
   );
 
-  console.log(`🗂 Indexing ${table}...`);
+  console.log(`🗄 Indexing ${table}...`);
 
   const promises: Promise<void>[] = [];
 
@@ -72,6 +70,10 @@ async function indexData() {
 
   if (table === "all" || table === "user") {
     promises.push(indexUsers());
+  }
+
+  if (table === "all" || table === "searchableResources") {
+    promises.push(indexSearchableResources());
   }
 
   await Promise.all(promises);
@@ -100,14 +102,18 @@ async function indexAnimals() {
     })
   );
 
-  const indexSettings: TypedIndexSettings<AnimalFromAlgolia> = {
-    ...DEFAULT_SEARCH_OPTIONS,
+  const indexSettings = createIndexSettings<AnimalFromAlgolia>({
     searchableAttributes: ["name", "alias"],
     attributesForFaceting: ["searchable(pickUpLocation)", "species", "status"],
     maxFacetHits: 20,
-  };
+  });
 
   await AnimalIndex.setSettings(indexSettings);
+
+  console.log(
+    `- 👍 Indexed ${animals.length} animals with settings:`,
+    JSON.stringify(indexSettings)
+  );
 }
 
 async function indexBreeds() {
@@ -124,13 +130,17 @@ async function indexBreeds() {
     })
   );
 
-  const indexSettings: TypedIndexSettings<BreedFromAlgolia> = {
-    ...DEFAULT_SEARCH_OPTIONS,
+  const indexSettings = createIndexSettings<BreedFromAlgolia>({
     searchableAttributes: ["name"],
     attributesForFaceting: ["species"],
-  };
+  });
 
   await BreedIndex.setSettings(indexSettings);
+
+  console.log(
+    `- 👍 Indexed ${breeds.length} breeds with settings:`,
+    JSON.stringify(indexSettings)
+  );
 }
 
 async function indexColors() {
@@ -147,12 +157,16 @@ async function indexColors() {
     })
   );
 
-  const indexSettings: TypedIndexSettings<ColorFromAlgolia> = {
-    ...DEFAULT_SEARCH_OPTIONS,
+  const indexSettings = createIndexSettings<ColorFromAlgolia>({
     searchableAttributes: ["name"],
-  };
+  });
 
   await ColorIndex.setSettings(indexSettings);
+
+  console.log(
+    `- 👍 Indexed ${colors.length} colors with settings:`,
+    JSON.stringify(indexSettings)
+  );
 }
 
 async function indexUsers() {
@@ -175,13 +189,17 @@ async function indexUsers() {
     })
   );
 
-  const indexSettings: TypedIndexSettings<UserFromAlgolia> = {
-    ...DEFAULT_SEARCH_OPTIONS,
+  const indexSettings = createIndexSettings<UserFromAlgolia>({
     searchableAttributes: ["displayName", "email"],
     attributesForFaceting: ["groups", "isDisabled"],
-  };
+  });
 
   await UserIndex.setSettings(indexSettings);
+
+  console.log(
+    `- 👍 Indexed ${users.length} users with settings:`,
+    JSON.stringify(indexSettings)
+  );
 }
 
 async function indexFosterFamilies() {
@@ -198,24 +216,124 @@ async function indexFosterFamilies() {
     })
   );
 
-  const indexSettings: TypedIndexSettings<FosterFamilyFromAlgolia> = {
-    ...DEFAULT_SEARCH_OPTIONS,
+  const indexSettings = createIndexSettings<FosterFamilyFromAlgolia>({
     searchableAttributes: ["displayName"],
-  };
+  });
 
   await FosterFamilyIndex.setSettings(indexSettings);
+
+  console.log(
+    `- 👍 Indexed ${fosterFamilies.length} foster families with settings:`,
+    JSON.stringify(indexSettings)
+  );
 }
 
-type StringOnlyKeys<TKey extends string | number | symbol> = TKey extends string
-  ? TKey
-  : never;
+async function indexSearchableResources() {
+  const [animals, fosterFamilies, events, users] = await Promise.all([
+    prisma.animal.findMany({
+      select: {
+        id: true,
+        name: true,
+        alias: true,
+        pickUpDate: true,
+      },
+    }),
+    prisma.fosterFamily.findMany({
+      select: { id: true, displayName: true },
+    }),
+    prisma.event.findMany({
+      select: { id: true, title: true, endDate: true },
+    }),
+    prisma.user.findMany({
+      select: { id: true, displayName: true },
+    }),
+  ]);
+
+  await SearchableResourcesIndex.clearObjects();
+
+  const resources = [
+    ...animals.map(({ id, pickUpDate, ...data }) => {
+      const resourceFromAlgolia: SearchableResourceFromAlgolia = {
+        type: SearchableResourceType.ANIMAL,
+        data: {
+          ...data,
+          pickUpDate: pickUpDate.getTime(),
+        },
+      };
+
+      return { ...resourceFromAlgolia, objectID: id };
+    }),
+    ...fosterFamilies.map(({ id, ...data }) => {
+      const resourceFromAlgolia: SearchableResourceFromAlgolia = {
+        type: SearchableResourceType.FOSTER_FAMILY,
+        data,
+      };
+
+      return { ...resourceFromAlgolia, objectID: id };
+    }),
+    ...events.map(({ id, endDate, ...data }) => {
+      const resourceFromAlgolia: SearchableResourceFromAlgolia = {
+        type: SearchableResourceType.EVENT,
+        data: {
+          ...data,
+          endDate: endDate.getTime(),
+        },
+      };
+
+      return { ...resourceFromAlgolia, objectID: id };
+    }),
+    ...users.map(({ id, ...data }) => {
+      const resourceFromAlgolia: SearchableResourceFromAlgolia = {
+        type: SearchableResourceType.USER,
+        data,
+      };
+
+      return { ...resourceFromAlgolia, objectID: id };
+    }),
+  ];
+
+  await SearchableResourcesIndex.saveObjects(resources);
+
+  const indexSettings = createIndexSettings<SearchableResourceFromAlgolia>({
+    searchableAttributes: [
+      ["data.alias", "data.displayName", "data.name", "data.title"],
+    ],
+    attributesForFaceting: ["type"],
+    customRanking: ["desc(data.pickUpDate)", "desc(data.endDate)"],
+  });
+
+  await SearchableResourcesIndex.setSettings(indexSettings);
+
+  console.log(
+    `- 👍 Indexed ${resources.length} resources (${animals.length} animals, ${fosterFamilies.length} foster families, ${events.length} events, ${users.length} users) with settings:`,
+    JSON.stringify(indexSettings)
+  );
+}
+
+function createIndexSettings<TData extends object>(
+  settings: TypedIndexSettings<TData>
+) {
+  return {
+    ...settings,
+    searchableAttributes: settings.searchableAttributes?.map((attribute) =>
+      typeof attribute === "string" ? attribute : attribute.join(",")
+    ),
+
+    // Use markdown style bold.
+    highlightPreTag: "**",
+    highlightPostTag: "**",
+  };
+}
 
 type TypedIndexSettings<
   TData extends object,
-  TKeys extends string = StringOnlyKeys<keyof TData>
-> = Omit<Settings, "searchableAttributes" | "attributesForFaceting"> & {
+  TKeys extends string = RecursiveKeyOf<TData>
+> = Omit<
+  Settings,
+  "searchableAttributes" | "attributesForFaceting" | "customRanking"
+> & {
   // https://www.algolia.com/doc/api-reference/api-parameters/searchableAttributes/
-  searchableAttributes?: readonly (TKeys | `unordered(${TKeys})`)[];
+  searchableAttributes?: readonly (TKeys | `unordered(${TKeys})` | TKeys[])[];
 
   // https://www.algolia.com/doc/api-reference/api-parameters/attributesForFaceting/
   attributesForFaceting?: readonly (
@@ -223,4 +341,17 @@ type TypedIndexSettings<
     | `searchable(${TKeys})`
     | `filterOnly(${TKeys})`
   )[];
+
+  // https://www.algolia.com/doc/api-reference/api-parameters/customRanking/
+  customRanking?: readonly (`asc(${TKeys})` | `desc(${TKeys})`)[];
 };
+
+type RecursiveKeyOf<D> = D extends object ? RecursiveObjectKeyOf<D> : never;
+
+type RecursiveObjectKeyOf<TObj extends object> = {
+  [TKey in keyof TObj & (string | number)]: TObj[TKey] extends any[]
+    ? `${TKey}`
+    : TObj[TKey] extends object
+    ? `${TKey}` | `${TKey}.${RecursiveObjectKeyOf<TObj[TKey]>}`
+    : `${TKey}`;
+}[keyof TObj & (string | number)];

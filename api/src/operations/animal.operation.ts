@@ -38,6 +38,11 @@ import {
   getFormattedAddress,
   getShortLocation,
 } from "../entities/fosterFamily.entity";
+import {
+  SearchableResourceFromAlgolia,
+  SearchableResourcesIndex,
+  SearchableResourceType,
+} from "../entities/searchableResources.entity";
 import { UserFromAlgolia, UserIndex } from "../entities/user.entity";
 
 // Multiple of 2 and 3 to be nicely displayed.
@@ -434,6 +439,20 @@ export const animalOperations: OperationsImpl<AnimalOperations> = {
 
     await AnimalIndex.saveObject({ ...animalFromAlgolia, objectID: animal.id });
 
+    const searchableAnimalFromAlgolia: SearchableResourceFromAlgolia = {
+      type: SearchableResourceType.ANIMAL,
+      data: {
+        name: animal.name,
+        alias: animal.alias,
+        pickUpDate: animal.pickUpDate.getTime(),
+      },
+    };
+
+    await SearchableResourcesIndex.saveObject({
+      ...searchableAnimalFromAlgolia,
+      objectID: animal.id,
+    });
+
     return mapToAnimal(animal);
   },
 
@@ -497,6 +516,20 @@ export const animalOperations: OperationsImpl<AnimalOperations> = {
       await AnimalIndex.partialUpdateObject({
         ...animalFromAlgolia,
         objectID: params.id,
+      });
+
+      const searchableAnimalFromAlgolia: SearchableResourceFromAlgolia = {
+        type: SearchableResourceType.ANIMAL,
+        data: {
+          name: animal.name,
+          alias: animal.alias,
+          pickUpDate: animal.pickUpDate.getTime(),
+        },
+      };
+
+      await SearchableResourcesIndex.saveObject({
+        ...searchableAnimalFromAlgolia,
+        objectID: animal.id,
       });
 
       return mapToAnimal(animal);
@@ -580,6 +613,20 @@ export const animalOperations: OperationsImpl<AnimalOperations> = {
       await AnimalIndex.partialUpdateObject({
         ...animalFromAlgolia,
         objectID: params.id,
+      });
+
+      const searchableAnimalFromAlgolia: SearchableResourceFromAlgolia = {
+        type: SearchableResourceType.ANIMAL,
+        data: {
+          name: animal.name,
+          alias: animal.alias,
+          pickUpDate: animal.pickUpDate.getTime(),
+        },
+      };
+
+      await SearchableResourcesIndex.saveObject({
+        ...searchableAnimalFromAlgolia,
+        objectID: animal.id,
       });
 
       return mapToAnimal(animal);
@@ -666,6 +713,7 @@ export const animalOperations: OperationsImpl<AnimalOperations> = {
     }
 
     await AnimalIndex.deleteObject(params.id);
+    await SearchableResourcesIndex.deleteObject(params.id);
 
     return true;
   },
