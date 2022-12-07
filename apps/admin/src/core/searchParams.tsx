@@ -1,5 +1,4 @@
 import { useSearchParams } from "@remix-run/react";
-import { useState } from "react";
 import { z } from "zod";
 import { zfd } from "zod-form-data";
 import { parseOrDefault } from "~/core/schemas";
@@ -58,24 +57,35 @@ export enum ActionConfirmationType {
 }
 
 export class ActionConfirmationSearchParams extends URLSearchParams {
-  static readonly KEY = "success";
+  static readonly Keys = {
+    SUCCESS: "success",
+  };
 
   hasConfirmation(action: ActionConfirmationType) {
-    return this.get(ActionConfirmationSearchParams.KEY) === String(action);
+    return (
+      this.get(ActionConfirmationSearchParams.Keys.SUCCESS) === String(action)
+    );
   }
 
-  setConfirmation(action: ActionConfirmationType) {
+  setConfirmation(action: ActionConfirmationType | null) {
     const copy = new ActionConfirmationSearchParams(this);
-    copy.set(ActionConfirmationSearchParams.KEY, String(action));
+
+    if (action != null) {
+      copy.set(ActionConfirmationSearchParams.Keys.SUCCESS, String(action));
+    } else if (copy.has(ActionConfirmationSearchParams.Keys.SUCCESS)) {
+      copy.delete(ActionConfirmationSearchParams.Keys.SUCCESS);
+    }
+
     return copy;
   }
 }
 
 export function useActionConfirmation(action: ActionConfirmationType) {
-  const [searchParams] = useSearchParams();
-  const [isVisible, setIsVisible] = useState(() =>
-    new ActionConfirmationSearchParams(searchParams).hasConfirmation(action)
-  );
+  const [searchParams, setSearchParams] = useSearchParams();
+  const actionSearchParams = new ActionConfirmationSearchParams(searchParams);
 
-  return { isVisible, clear: () => setIsVisible(false) };
+  return {
+    isVisible: actionSearchParams.hasConfirmation(action),
+    clear: () => setSearchParams(actionSearchParams.setConfirmation(null)),
+  };
 }
