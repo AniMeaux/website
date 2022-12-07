@@ -2,7 +2,7 @@ import { BreedSearchParams } from "~/breeds/searchParams";
 import { algolia } from "~/core/algolia/algolia.server";
 import { prisma } from "~/core/db.server";
 
-const BREED_SEARCH_COUNT = 6;
+const SEARCH_COUNT = 6;
 
 export async function searchBreeds(searchParams: BreedSearchParams) {
   const text = searchParams.getText();
@@ -14,7 +14,7 @@ export async function searchBreeds(searchParams: BreedSearchParams) {
       where: { species: species ?? undefined },
       select: { id: true, name: true },
       orderBy: { name: "asc" },
-      take: BREED_SEARCH_COUNT,
+      take: SEARCH_COUNT,
     });
 
     return breeds.map((breed) => ({ ...breed, highlightedName: breed.name }));
@@ -23,6 +23,6 @@ export async function searchBreeds(searchParams: BreedSearchParams) {
   return await algolia.breed.search(
     text,
     { species },
-    { hitsPerPage: BREED_SEARCH_COUNT }
+    { hitsPerPage: SEARCH_COUNT }
   );
 }

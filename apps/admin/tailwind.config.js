@@ -37,7 +37,7 @@ module.exports = {
 
     extend: {
       boxShadow: {
-        ambient: "0px 8px 20px rgba(0, 0, 0, 0.06)",
+        ambient: "0px 7px 29px 0px rgba(100, 100, 111, 0.2)",
       },
 
       flex: {

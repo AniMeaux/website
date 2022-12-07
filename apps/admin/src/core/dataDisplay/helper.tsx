@@ -5,17 +5,19 @@ import { Icon, IconProps } from "~/generated/icon";
 
 type HelperVariant = "error" | "warning" | "success";
 
+export type HelperProps = {
+  variant: HelperVariant;
+  children?: React.ReactNode;
+  action?: React.ReactElement;
+  isCompact?: boolean;
+};
+
 export function Helper({
   children,
   variant,
   action,
   isCompact = false,
-}: {
-  variant: HelperVariant;
-  children?: React.ReactNode;
-  action?: React.ReactElement;
-  isCompact?: boolean;
-}) {
+}: HelperProps) {
   return (
     <section
       className={cn(

@@ -19,13 +19,23 @@ generateTheme().catch((error) => {
 
 async function generateTheme() {
   const tailwindFullConfig = resolveConfig(tailwindConfig);
-  invariant(tailwindFullConfig.theme, "fullConfig.theme should exists");
+  invariant(tailwindFullConfig.theme, "tailwindFullConfig.theme should exists");
+  invariant(
+    tailwindFullConfig.theme.spacing,
+    "tailwindFullConfig.theme.spacing should exists"
+  );
 
   // Add here values we need in code.
   // Only add what is actualy needed to keep a minimal size.
   const theme = {
     screens: tailwindFullConfig.theme.screens,
     colors: tailwindFullConfig.theme.colors,
+    spacing: Object.fromEntries(
+      Object.entries(tailwindFullConfig.theme.spacing).map(([key, value]) => [
+        key,
+        Number(value.replace("px", "")),
+      ])
+    ),
   };
 
   const prettierOptions = await prettier.resolveConfig(THEME_DEST);

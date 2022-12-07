@@ -1,4 +1,4 @@
-import { Animal, Breed, Gender, Species } from "@prisma/client";
+import { Animal, Breed, Color, Gender, Species } from "@prisma/client";
 import { SerializeFrom } from "@remix-run/node";
 import { Form, useLocation } from "@remix-run/react";
 import { DateTime } from "luxon";
@@ -15,18 +15,18 @@ import { GENDER_TRANSLATION, SORTED_GENDERS } from "~/animals/gender";
 import { SORTED_SPECIES, SPECIES_TRANSLATION } from "~/animals/species";
 import { actionClassName } from "~/core/actions";
 import { cn } from "~/core/classNames";
-import { Helper } from "~/core/dataDisplay/helper";
 import { Adornment } from "~/core/formElements/adornment";
 import { formClassNames } from "~/core/formElements/form";
+import { FormErrors } from "~/core/formElements/formErrors";
 import { Input } from "~/core/formElements/input";
 import { RadioInput } from "~/core/formElements/radioInput";
 import { RequiredStart } from "~/core/formElements/requiredStart";
 import { Textarea } from "~/core/formElements/textarea";
-import { joinReactNodes } from "~/core/joinReactNodes";
 import { Separator } from "~/core/layout/separator";
 import { createActionData, ensureBoolean, ensureDate } from "~/core/schemas";
 import { Icon } from "~/generated/icon";
 import { BreedInput } from "~/routes/resources/breeds";
+import { ColorInput } from "~/routes/resources/colors";
 
 export const ActionFormData = createActionData(
   z.object({
@@ -39,6 +39,7 @@ export const ActionFormData = createActionData(
       })
     ),
     breedId: z.string().uuid().optional(),
+    colorId: z.string().uuid().optional(),
     description: z.string().trim(),
     gender: z.nativeEnum(Gender, {
       required_error: "Veuillez choisir un genre",
@@ -92,6 +93,7 @@ export function AnimalProfileForm({
       | "species"
     > & {
       breed: null | Pick<Breed, "id" | "name">;
+      color: null | Pick<Color, "id" | "name">;
     }
   >;
   errors?: z.inferFlattenedErrors<typeof ActionFormData.schema>;
@@ -103,6 +105,7 @@ export function AnimalProfileForm({
   const birthdateRef = useRef<HTMLInputElement>(null);
   const genderRef = useRef<HTMLInputElement>(null);
   const breedRef = useRef<HTMLButtonElement>(null);
+  const colorRef = useRef<HTMLButtonElement>(null);
   const isOkCatsRef = useRef<HTMLInputElement>(null);
   const isOkChildrenRef = useRef<HTMLInputElement>(null);
   const isOkDogsRef = useRef<HTMLInputElement>(null);
@@ -111,7 +114,9 @@ export function AnimalProfileForm({
 
   // Focus the first field having an error.
   useEffect(() => {
-    if (errors.fieldErrors.species != null) {
+    if (errors.formErrors.length > 0) {
+      window.scrollTo({ top: 0 });
+    } else if (errors.fieldErrors.species != null) {
       speciesRef.current?.focus();
     } else if (errors.fieldErrors.name != null) {
       nameRef.current?.focus();
@@ -121,6 +126,8 @@ export function AnimalProfileForm({
       genderRef.current?.focus();
     } else if (errors.fieldErrors.breedId != null) {
       breedRef.current?.focus();
+    } else if (errors.fieldErrors.colorId != null) {
+      colorRef.current?.focus();
     } else if (errors.fieldErrors.isOkCats != null) {
       isOkCatsRef.current?.focus();
     } else if (errors.fieldErrors.isOkDogs != null) {
@@ -130,7 +137,7 @@ export function AnimalProfileForm({
     } else if (errors.fieldErrors.isSterilized != null) {
       isSterilizedRef.current?.focus();
     }
-  }, [errors.fieldErrors]);
+  }, [errors.formErrors, errors.fieldErrors]);
 
   const { hash } = useLocation();
   useEffect(() => {
@@ -148,11 +155,7 @@ export function AnimalProfileForm({
       <input type="hidden" name={ActionFormData.keys.id} value={animal.id} />
 
       <div className={formClassNames.fields.root()}>
-        {errors.formErrors.length > 0 && (
-          <Helper variant="error">
-            {joinReactNodes(errors.formErrors, <br />)}
-          </Helper>
-        )}
+        <FormErrors errors={errors.formErrors} />
 
         <div className={formClassNames.fields.field.root()}>
           <span className={formClassNames.fields.field.label()}>
@@ -346,6 +349,27 @@ export function AnimalProfileForm({
                 className={formClassNames.fields.field.errorMessage()}
               >
                 {errors.fieldErrors.breedId}
+              </p>
+            )}
+          </div>
+
+          <div className={formClassNames.fields.field.root()}>
+            <span className={formClassNames.fields.field.label()}>Couleur</span>
+
+            <ColorInput
+              ref={colorRef}
+              name={ActionFormData.keys.colorId}
+              defaultValue={animal.color}
+              hasError={errors.fieldErrors.colorId != null}
+              aria-describedby="colorId-error"
+            />
+
+            {errors.fieldErrors.colorId != null && (
+              <p
+                id="colorId-error"
+                className={formClassNames.fields.field.errorMessage()}
+              >
+                {errors.fieldErrors.colorId}
               </p>
             )}
           </div>
