@@ -1,6 +1,4 @@
 import { Breed, Species, UserGroup } from "@prisma/client";
-import * as Dialog from "@radix-ui/react-dialog";
-import * as Popover from "@radix-ui/react-popover";
 import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
 import { json, LoaderArgs, SerializeFrom } from "@remix-run/node";
 import { useFetcher } from "@remix-run/react";
@@ -12,16 +10,19 @@ import { searchBreeds } from "~/breeds/db.server";
 import { BreedSearchParams } from "~/breeds/searchParams";
 import { asBooleanAttribute } from "~/core/attributes";
 import { cn } from "~/core/classNames";
-import { HIGHLIGHT_COMPONENTS, Markdown } from "~/core/dataDisplay/markdown";
 import { ActionAdornment, Adornment } from "~/core/formElements/adornment";
 import { Input } from "~/core/formElements/input";
 import { inputClassName, InputWrapper } from "~/core/formElements/inputWrapper";
-import { Card, CardContent } from "~/core/layout/card";
-import { ScreenSizeValue, useScreenSizeCondition } from "~/core/screenSize";
+import {
+  NoSuggestion,
+  ResourceComboboxLayout,
+  ResourceInputLayout,
+  SuggestionItem,
+  SuggestionList,
+} from "~/core/formElements/resourceInput";
 import { getCurrentUser } from "~/currentUser/db.server";
 import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
 import { Icon } from "~/generated/icon";
-import { theme } from "~/generated/theme";
 
 export async function loader({ request }: LoaderArgs) {
   const currentUser = await getCurrentUser(request, {
@@ -65,11 +66,6 @@ export const BreedInput = forwardRef<HTMLButtonElement, BreedInputProps>(
     const localRef = useRef<HTMLButtonElement>(null);
     const ref = propRef ?? localRef;
 
-    const isMedium = useScreenSizeCondition(
-      (screenSize) => screenSize >= ScreenSizeValue.md
-    );
-    const Layout = isMedium ? MediumLayout : SmallLayout;
-
     const [isOpened, setIsOpened] = useState(false);
     const breedsFetcher = useFetcher<typeof loader>();
 
@@ -100,7 +96,7 @@ export const BreedInput = forwardRef<HTMLButtonElement, BreedInputProps>(
           ) : null
         }
 
-        <Layout
+        <ResourceInputLayout
           isOpened={isOpened}
           setIsOpened={setIsOpened}
           inputTriggerRef={ref}
@@ -116,7 +112,6 @@ export const BreedInput = forwardRef<HTMLButtonElement, BreedInputProps>(
           )}
           content={
             <Combobox
-              isMedium={isMedium}
               breed={breed}
               breeds={breedsFetcher.data?.breeds ?? []}
               onInputValueChange={(value) => {
@@ -199,92 +194,13 @@ const InputTrigger = forwardRef<
   );
 });
 
-type LayoutProps = {
-  isOpened: boolean;
-  setIsOpened: React.Dispatch<boolean>;
-  inputTriggerRef: React.RefObject<HTMLButtonElement>;
-  inputTrigger: (
-    triggerElement: React.ElementType<
-      React.ButtonHTMLAttributes<HTMLButtonElement>
-    >
-  ) => React.ReactNode;
-  content: React.ReactNode;
-};
-
-function SmallLayout({
-  isOpened,
-  setIsOpened,
-  inputTrigger,
-  content,
-}: LayoutProps) {
-  return (
-    <Dialog.Root open={isOpened} onOpenChange={setIsOpened}>
-      {inputTrigger(Dialog.Trigger)}
-
-      <Dialog.Portal>
-        <Dialog.Overlay
-          className={cn(
-            // Use absolute instead of fixed to avoid performances issues when
-            // mobile browser's height change due to scroll.
-            "absolute",
-            "top-0 right-0 bottom-0 left-0 z-30 overscroll-none bg-black/20"
-          )}
-        />
-
-        <Dialog.Content className="fixed top-0 left-0 bottom-0 right-0 z-30 overflow-y-auto bg-gray-50 flex flex-col">
-          <VisuallyHidden.Root>
-            <Dialog.Title>Rechercher une race</Dialog.Title>
-          </VisuallyHidden.Root>
-
-          {content}
-        </Dialog.Content>
-      </Dialog.Portal>
-    </Dialog.Root>
-  );
-}
-
-function MediumLayout({
-  isOpened,
-  setIsOpened,
-  inputTriggerRef,
-  inputTrigger,
-  content,
-}: LayoutProps) {
-  return (
-    <Popover.Root open={isOpened} onOpenChange={setIsOpened}>
-      {inputTrigger(Popover.Trigger)}
-
-      <Popover.Portal>
-        <Popover.Content
-          // Using a Ref callback is the only way to set the content width at
-          // the right moment. Effect and layout effect don't run in sync with
-          // the component mounting.
-          ref={(element) => {
-            if (element != null && inputTriggerRef.current != null) {
-              element.style.width = `${inputTriggerRef.current.clientWidth}px`;
-            }
-          }}
-          align="start"
-          sideOffset={theme.spacing[1]}
-          collisionPadding={theme.spacing[1]}
-          className="z-10 bg-white shadow-ambient rounded-1 border border-gray-200 flex flex-col"
-        >
-          {content}
-        </Popover.Content>
-      </Popover.Portal>
-    </Popover.Root>
-  );
-}
-
 function Combobox({
-  isMedium,
   breed: selectedBreed,
   breeds,
   onInputValueChange,
   onSelectedItem,
   onClose,
 }: {
-  isMedium: boolean;
   breed: null | Pick<Breed, "id" | "name">;
   breeds: SerializeFrom<typeof loader>["breeds"];
   onInputValueChange: React.Dispatch<string>;
@@ -308,10 +224,8 @@ function Combobox({
     },
   });
 
-  const Layout = isMedium ? MediumComboboxLayout : SmallComboboxLayout;
-
   return (
-    <Layout
+    <ResourceComboboxLayout
       label={
         <VisuallyHidden.Root {...combobox.getLabelProps()}>
           Rechercher une race
@@ -326,81 +240,31 @@ function Combobox({
         />
       )}
       list={
-        <ul {...combobox.getMenuProps()} className="flex flex-col">
+        <SuggestionList {...combobox.getMenuProps()}>
           {breeds.map((breed, index) => (
-            <li
+            <SuggestionItem
+              // For some reason, if `key` is not passed before
+              // `...combobox.getItemProps`, the app crash with:
+              // > Unexpected Server Error
+              // > Error: Element type is invalid: expected a string (for
+              // > built-in components) or a class/function (for composite
+              // > components) but got: undefined. You likely forgot to export
+              // > your component from the file it's defined in, or you might
+              // > have mixed up default and named imports.
               key={breed.id}
               {...combobox.getItemProps({ item: breed, index })}
-              data-is-value={asBooleanAttribute(selectedBreed?.id === breed.id)}
-              className="group relative z-0 rounded-0.5 grid grid-cols-[auto_minmax(0px,1fr)_auto] items-start cursor-pointer aria-selected:bg-gray-100 data-[is-value=true]:bg-gray-100"
+              isValue={selectedBreed?.id === breed.id}
+              leftAdornment={<Icon id="dna" />}
             >
-              <span className="h-4 w-4 flex items-center justify-center text-gray-600 text-[20px]">
-                <Icon id="dna" />
-              </span>
-
-              <span className="py-1 text-body-default group-data-[is-value=true]:text-body-emphasis">
-                <Markdown components={HIGHLIGHT_COMPONENTS}>
-                  {breed.highlightedName}
-                </Markdown>
-              </span>
-
-              <span className="opacity-0 h-4 w-4 flex items-center justify-center text-green-600 transition-opacity duration-100 ease-in-out group-data-[is-value=true]:opacity-100">
-                <Icon id="check" />
-              </span>
-            </li>
+              {breed.highlightedName}
+            </SuggestionItem>
           ))}
 
           {breeds.length === 0 ? (
-            <li className="h-4 flex flex-col justify-center">
-              <p className="text-gray-500 text-center">Aucune race trouvée</p>
-            </li>
+            <NoSuggestion>Aucune race trouvée</NoSuggestion>
           ) : null}
-        </ul>
+        </SuggestionList>
       }
     />
-  );
-}
-
-type ComboboxLayoutProps = {
-  label: React.ReactNode;
-  input: (leftAdornment: React.ReactNode) => React.ReactNode;
-  list: React.ReactNode;
-};
-
-function SmallComboboxLayout({ label, input, list }: ComboboxLayoutProps) {
-  return (
-    <div className="flex flex-col gap-1">
-      <header className="sticky top-0 z-20 px-safe-1 pt-safe-0.5 pb-0.5 flex-none bg-white flex flex-col">
-        {label}
-        {input(
-          <Dialog.Close asChild>
-            <ActionAdornment>
-              <Icon id="angleLeft" />
-            </ActionAdornment>
-          </Dialog.Close>
-        )}
-      </header>
-
-      <Card>
-        <CardContent>{list}</CardContent>
-      </Card>
-    </div>
-  );
-}
-
-function MediumComboboxLayout({ label, input, list }: ComboboxLayoutProps) {
-  return (
-    <div className="flex flex-col">
-      <header className="border-b border-gray-100 p-1 flex flex-col">
-        {label}
-        {input(
-          <Adornment>
-            <Icon id="magnifyingGlass" />
-          </Adornment>
-        )}
-      </header>
-
-      <section className="p-1 flex flex-col">{list}</section>
-    </div>
   );
 }
