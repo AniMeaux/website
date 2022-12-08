@@ -19,7 +19,7 @@ import { Prisma, Status, UserGroup } from "@prisma/client";
 import { DateTime } from "luxon";
 import invariant from "tiny-invariant";
 import { array, boolean, mixed, number, object, string } from "yup";
-import { createSearchFilters, DEFAULT_SEARCH_OPTIONS } from "../core/algolia";
+import { createSearchFilters } from "../core/algolia";
 import { assertUserHasGroups, getCurrentUser } from "../core/authentication";
 import { prisma } from "../core/db";
 import { OperationError, OperationsImpl } from "../core/operations";
@@ -38,6 +38,11 @@ import {
   getFormattedAddress,
   getShortLocation,
 } from "../entities/fosterFamily.entity";
+import {
+  SearchableResourceFromAlgolia,
+  SearchableResourcesIndex,
+  SearchableResourceType,
+} from "../entities/searchableResources.entity";
 import { UserFromAlgolia, UserIndex } from "../entities/user.entity";
 
 // Multiple of 2 and 3 to be nicely displayed.
@@ -225,7 +230,6 @@ export const animalOperations: OperationsImpl<AnimalOperations> = {
     const response = await AnimalIndex.search<AnimalFromAlgolia>(
       params.search,
       {
-        ...DEFAULT_SEARCH_OPTIONS,
         attributesToRetrieve: [],
         page,
         hitsPerPage: ANIMAL_COUNT_PER_PAGE,
@@ -435,6 +439,20 @@ export const animalOperations: OperationsImpl<AnimalOperations> = {
 
     await AnimalIndex.saveObject({ ...animalFromAlgolia, objectID: animal.id });
 
+    const searchableAnimalFromAlgolia: SearchableResourceFromAlgolia = {
+      type: SearchableResourceType.ANIMAL,
+      data: {
+        name: animal.name,
+        alias: animal.alias,
+        pickUpDate: animal.pickUpDate.getTime(),
+      },
+    };
+
+    await SearchableResourcesIndex.saveObject({
+      ...searchableAnimalFromAlgolia,
+      objectID: animal.id,
+    });
+
     return mapToAnimal(animal);
   },
 
@@ -498,6 +516,20 @@ export const animalOperations: OperationsImpl<AnimalOperations> = {
       await AnimalIndex.partialUpdateObject({
         ...animalFromAlgolia,
         objectID: params.id,
+      });
+
+      const searchableAnimalFromAlgolia: SearchableResourceFromAlgolia = {
+        type: SearchableResourceType.ANIMAL,
+        data: {
+          name: animal.name,
+          alias: animal.alias,
+          pickUpDate: animal.pickUpDate.getTime(),
+        },
+      };
+
+      await SearchableResourcesIndex.saveObject({
+        ...searchableAnimalFromAlgolia,
+        objectID: animal.id,
       });
 
       return mapToAnimal(animal);
@@ -581,6 +613,20 @@ export const animalOperations: OperationsImpl<AnimalOperations> = {
       await AnimalIndex.partialUpdateObject({
         ...animalFromAlgolia,
         objectID: params.id,
+      });
+
+      const searchableAnimalFromAlgolia: SearchableResourceFromAlgolia = {
+        type: SearchableResourceType.ANIMAL,
+        data: {
+          name: animal.name,
+          alias: animal.alias,
+          pickUpDate: animal.pickUpDate.getTime(),
+        },
+      };
+
+      await SearchableResourcesIndex.saveObject({
+        ...searchableAnimalFromAlgolia,
+        objectID: animal.id,
       });
 
       return mapToAnimal(animal);
@@ -667,6 +713,7 @@ export const animalOperations: OperationsImpl<AnimalOperations> = {
     }
 
     await AnimalIndex.deleteObject(params.id);
+    await SearchableResourcesIndex.deleteObject(params.id);
 
     return true;
   },
@@ -685,8 +732,7 @@ export const animalOperations: OperationsImpl<AnimalOperations> = {
 
     const result = await AnimalIndex.searchForFacetValues(
       "pickUpLocation",
-      params.search ?? "",
-      DEFAULT_SEARCH_OPTIONS
+      params.search ?? ""
     );
 
     return result.facetHits.map<LocationSearchHit>((hit) => ({
@@ -708,7 +754,6 @@ export const animalOperations: OperationsImpl<AnimalOperations> = {
     );
 
     const result = await UserIndex.search<UserFromAlgolia>(params.search, {
-      ...DEFAULT_SEARCH_OPTIONS,
       filters: createSearchFilters({
         isDisabled: false,
         groups: UserGroup.ANIMAL_MANAGER,

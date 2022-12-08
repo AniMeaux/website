@@ -15,6 +15,11 @@ import {
 import { prisma } from "../core/db";
 import { OperationError, OperationsImpl } from "../core/operations";
 import { validateParams } from "../core/validation";
+import {
+  SearchableResourceFromAlgolia,
+  SearchableResourcesIndex,
+  SearchableResourceType,
+} from "../entities/searchableResources.entity";
 
 // Multiple of 2 and 3 to be nicely displayed.
 const EVENT_COUNT_PER_PAGE = 18;
@@ -153,6 +158,19 @@ export const eventOperations: OperationsImpl<EventOperations> = {
       },
     });
 
+    const searchableEventFromAlgolia: SearchableResourceFromAlgolia = {
+      type: SearchableResourceType.EVENT,
+      data: {
+        title: event.title,
+        endDate: event.endDate.getTime(),
+      },
+    };
+
+    await SearchableResourcesIndex.saveObject({
+      ...searchableEventFromAlgolia,
+      objectID: event.id,
+    });
+
     return mapToPublicEvent(event);
   },
 
@@ -203,6 +221,19 @@ export const eventOperations: OperationsImpl<EventOperations> = {
       },
     });
 
+    const searchableEventFromAlgolia: SearchableResourceFromAlgolia = {
+      type: SearchableResourceType.EVENT,
+      data: {
+        title: event.title,
+        endDate: event.endDate.getTime(),
+      },
+    };
+
+    await SearchableResourcesIndex.saveObject({
+      ...searchableEventFromAlgolia,
+      objectID: event.id,
+    });
+
     return mapToPublicEvent(event);
   },
 
@@ -222,6 +253,7 @@ export const eventOperations: OperationsImpl<EventOperations> = {
     }
 
     await prisma.event.delete({ where });
+    await SearchableResourcesIndex.deleteObject(params.id);
 
     return true;
   },
