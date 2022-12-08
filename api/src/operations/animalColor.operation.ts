@@ -5,7 +5,6 @@ import {
 } from "@animeaux/shared";
 import { Prisma } from "@prisma/client";
 import { object, string } from "yup";
-import { DEFAULT_SEARCH_OPTIONS } from "../core/algolia";
 import { assertUserHasGroups, getCurrentUser } from "../core/authentication";
 import { prisma } from "../core/db";
 import { OperationError, OperationsImpl } from "../core/operations";
@@ -36,10 +35,7 @@ export const animalColorOperations: OperationsImpl<AnimalColorOperations> = {
       rawParams
     );
 
-    const result = await ColorIndex.search<ColorFromAlgolia>(
-      params.search,
-      DEFAULT_SEARCH_OPTIONS
-    );
+    const result = await ColorIndex.search<ColorFromAlgolia>(params.search);
 
     return result.hits.map<AnimalColorSearchHit>((hit) => ({
       id: hit.objectID,

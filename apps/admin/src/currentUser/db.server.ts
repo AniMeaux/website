@@ -109,5 +109,8 @@ export async function updateCurrentUserProfile(
     }
 
     await algolia.user.update(userId, data);
+    await algolia.searchableResource.updateUser(userId, {
+      displayName: data.displayName,
+    });
   });
 }

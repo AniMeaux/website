@@ -8,7 +8,6 @@ import {
 } from "@animeaux/shared";
 import { Prisma } from "@prisma/client";
 import { object, string } from "yup";
-import { DEFAULT_SEARCH_OPTIONS } from "../core/algolia";
 import { assertUserHasGroups, getCurrentUser } from "../core/authentication";
 import { prisma } from "../core/db";
 import { OperationError, OperationsImpl } from "../core/operations";
@@ -20,6 +19,11 @@ import {
   getFormattedAddress,
   getShortLocation,
 } from "../entities/fosterFamily.entity";
+import {
+  SearchableResourceFromAlgolia,
+  SearchableResourcesIndex,
+  SearchableResourceType,
+} from "../entities/searchableResources.entity";
 
 const fosterFamilyWithIncludes = Prisma.validator<Prisma.FosterFamilyArgs>()({
   include: {
@@ -68,8 +72,7 @@ export const fosterFamilyOperations: OperationsImpl<FosterFamilyOperations> = {
     );
 
     const result = await FosterFamilyIndex.search<FosterFamilyFromAlgolia>(
-      params.search,
-      DEFAULT_SEARCH_OPTIONS
+      params.search
     );
 
     return result.hits.map<FosterFamilySearchHit>((hit) => ({
@@ -148,6 +151,16 @@ export const fosterFamilyOperations: OperationsImpl<FosterFamilyOperations> = {
         objectID: fosterFamily.id,
       });
 
+      const searchableFosterFamilyFromAlgolia: SearchableResourceFromAlgolia = {
+        type: SearchableResourceType.FOSTER_FAMILY,
+        data: { displayName: fosterFamily.displayName },
+      };
+
+      await SearchableResourcesIndex.saveObject({
+        ...searchableFosterFamilyFromAlgolia,
+        objectID: fosterFamily.id,
+      });
+
       return mapToFosterFamily(fosterFamily);
     } catch (error) {
       // Unique constraint failed.
@@ -217,6 +230,16 @@ export const fosterFamilyOperations: OperationsImpl<FosterFamilyOperations> = {
         objectID: fosterFamily.id,
       });
 
+      const searchableFosterFamilyFromAlgolia: SearchableResourceFromAlgolia = {
+        type: SearchableResourceType.FOSTER_FAMILY,
+        data: { displayName: fosterFamily.displayName },
+      };
+
+      await SearchableResourcesIndex.saveObject({
+        ...searchableFosterFamilyFromAlgolia,
+        objectID: fosterFamily.id,
+      });
+
       return mapToFosterFamily(fosterFamily);
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
@@ -267,6 +290,7 @@ export const fosterFamilyOperations: OperationsImpl<FosterFamilyOperations> = {
     }
 
     await FosterFamilyIndex.deleteObject(params.id);
+    await SearchableResourcesIndex.deleteObject(params.id);
 
     return true;
   },

@@ -1,4 +1,3 @@
-import { SearchOptions } from "@algolia/client-search";
 import algoliasearch from "algoliasearch";
 import invariant from "tiny-invariant";
 
@@ -43,9 +42,3 @@ export function createSearchFilters(
 
   return filters.join(" AND ");
 }
-
-export const DEFAULT_SEARCH_OPTIONS: SearchOptions = {
-  // Use markdown style bold.
-  highlightPreTag: "**",
-  highlightPostTag: "**",
-};

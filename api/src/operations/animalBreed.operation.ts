@@ -6,7 +6,7 @@ import {
 } from "@animeaux/shared";
 import { Prisma } from "@prisma/client";
 import { mixed, object, string } from "yup";
-import { createSearchFilters, DEFAULT_SEARCH_OPTIONS } from "../core/algolia";
+import { createSearchFilters } from "../core/algolia";
 import { assertUserHasGroups, getCurrentUser } from "../core/authentication";
 import { prisma } from "../core/db";
 import { OperationError, OperationsImpl } from "../core/operations";
@@ -41,7 +41,6 @@ export const animalBreedOperations: OperationsImpl<AnimalBreedOperations> = {
     );
 
     const result = await BreedIndex.search<BreedFromAlgolia>(params.search, {
-      ...DEFAULT_SEARCH_OPTIONS,
       filters: createSearchFilters({ species: params.species }),
     });
 
