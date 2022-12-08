@@ -50,11 +50,7 @@ export const breedHandlers = [
           objectID: breed.id,
           _highlightResult: {
             name: {
-              value: highlightValue(breed.name, {
-                search: query,
-                highlightPreTag: body.highlightPreTag,
-                highlightPostTag: body.highlightPostTag,
-              }),
+              value: highlightValue(breed.name, { search: query }),
               matchLevel: "full",
               fullyHighlighted: true,
               matchedWords: [],

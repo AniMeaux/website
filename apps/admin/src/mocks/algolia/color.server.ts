@@ -50,11 +50,7 @@ export const colorHandlers = [
           objectID: color.id,
           _highlightResult: {
             name: {
-              value: highlightValue(color.name, {
-                search: query,
-                highlightPreTag: body.highlightPreTag,
-                highlightPostTag: body.highlightPostTag,
-              }),
+              value: highlightValue(color.name, { search: query }),
               matchLevel: "full",
               fullyHighlighted: true,
               matchedWords: [],
