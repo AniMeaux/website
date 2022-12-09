@@ -7,6 +7,7 @@ import { useRef, useState } from "react";
 import invariant from "tiny-invariant";
 import { z } from "zod";
 import { AgreementItem } from "~/animals/agreements";
+import { AnimalAvatar } from "~/animals/avatar";
 import { GENDER_ICON } from "~/animals/gender";
 import { PICK_UP_REASON_TRANSLATION } from "~/animals/pickUp";
 import { ActionFormData } from "~/animals/profile/form";
@@ -197,14 +198,11 @@ function HeaderCard() {
 
       <CardContent>
         <div className="relative pt-1 pl-9 grid grid-cols-1 grid-flow-col gap-1 md:pt-2 md:pl-10 md:gap-2">
-          <DynamicImage
+          <AnimalAvatar
+            animal={animal}
             loading="eager"
-            imageId={animal.avatar}
-            alt={animal.name}
-            fallbackSize="512"
-            sizes={{ default: "80px" }}
-            aspectRatio="1:1"
-            className="absolute bottom-0 left-0 w-8 aspect-square rounded-1 ring-5 ring-white"
+            size="xl"
+            className="absolute bottom-0 left-0 ring-5 ring-white"
           />
 
           <div className="flex flex-col gap-0.5">
