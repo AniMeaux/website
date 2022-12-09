@@ -33,9 +33,15 @@ export async function getCurrentUser<T extends Prisma.UserFindFirstArgs>(
 }
 
 async function redirectToLogin(request: Request) {
+  let searchParams = new NextSearchParams();
+
   // Remove host from URL.
   const redirectTo = createPath(new URL(request.url));
-  const searchParams = new NextSearchParams().setNext(redirectTo);
+
+  // We don't want to redirect to resources routes as they don't render UI.
+  if (!redirectTo.startsWith("/resources/")) {
+    searchParams = searchParams.setNext(redirectTo);
+  }
 
   return redirect(
     createPath({ pathname: "/login", search: searchParams.toString() }),
