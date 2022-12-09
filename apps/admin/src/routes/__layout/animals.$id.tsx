@@ -11,6 +11,7 @@ import { AnimalAvatar } from "~/animals/avatar";
 import { GENDER_ICON } from "~/animals/gender";
 import { PICK_UP_REASON_TRANSLATION } from "~/animals/pickUp";
 import { ActionFormData } from "~/animals/profile/form";
+import { getAnimalDisplayName } from "~/animals/profile/name";
 import { SPECIES_ICON, SPECIES_TRANSLATION } from "~/animals/species";
 import {
   ADOPTION_OPTION_TRANSLATION,
@@ -111,12 +112,7 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
     return { title: getPageTitle(getErrorTitle(404)) };
   }
 
-  let displayName = animal.name;
-  if (animal.alias != null) {
-    displayName += ` (${animal.alias})`;
-  }
-
-  return { title: getPageTitle(displayName) };
+  return { title: getPageTitle(getAnimalDisplayName(animal)) };
 };
 
 export function CatchBoundary() {
