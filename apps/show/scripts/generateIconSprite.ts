@@ -63,7 +63,7 @@ ${iconFilenames
   .join("\n")}
 ] as const;
 
-export type IconId = typeof iconsIds[number];
+type IconId = typeof iconsIds[number];
 
 export type IconProps = React.SVGAttributes<SVGElement> & {
   id: IconId;

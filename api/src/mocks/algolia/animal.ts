@@ -76,11 +76,7 @@ export const animalHandlers = [
           objectID: animal.id,
           _highlightResult: {
             name: {
-              value: highlightValue(animal.name, {
-                search: query,
-                highlightPreTag: body.highlightPreTag,
-                highlightPostTag: body.highlightPostTag,
-              }),
+              value: highlightValue(animal.name, { search: query }),
               matchLevel: "full",
               fullyHighlighted: true,
               matchedWords: [],
@@ -143,8 +139,6 @@ export const animalHandlers = [
             value: location.pickUpLocation,
             highlighted: highlightValue(location.pickUpLocation, {
               search: facetQuery,
-              highlightPreTag: body.highlightPreTag,
-              highlightPostTag: body.highlightPostTag,
             }),
             count: location._count.pickUpLocation,
           };

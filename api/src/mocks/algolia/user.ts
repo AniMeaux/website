@@ -51,21 +51,13 @@ export const userHandlers = [
           objectID: user.id,
           _highlightResult: {
             displayName: {
-              value: highlightValue(user.displayName, {
-                search: query,
-                highlightPreTag: body.highlightPreTag,
-                highlightPostTag: body.highlightPostTag,
-              }),
+              value: highlightValue(user.displayName, { search: query }),
               matchLevel: "full",
               fullyHighlighted: true,
               matchedWords: [],
             },
             email: {
-              value: highlightValue(user.email, {
-                search: query,
-                highlightPreTag: body.highlightPreTag,
-                highlightPostTag: body.highlightPostTag,
-              }),
+              value: highlightValue(user.email, { search: query }),
               matchLevel: "full",
               fullyHighlighted: true,
               matchedWords: [],
