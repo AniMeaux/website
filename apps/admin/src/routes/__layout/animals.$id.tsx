@@ -12,7 +12,7 @@ import { GENDER_ICON } from "~/animals/gender";
 import { PICK_UP_REASON_TRANSLATION } from "~/animals/pickUp";
 import { ActionFormData } from "~/animals/profile/form";
 import { getAnimalDisplayName } from "~/animals/profile/name";
-import { SPECIES_ICON, SPECIES_TRANSLATION } from "~/animals/species";
+import { getSpeciesLabels, SPECIES_ICON } from "~/animals/species";
 import {
   ADOPTION_OPTION_TRANSLATION,
   StatusBadge,
@@ -33,7 +33,6 @@ import {
   PARAGRAPH_COMPONENTS,
 } from "~/core/dataDisplay/markdown";
 import { prisma } from "~/core/db.server";
-import { isDefined } from "~/core/isDefined";
 import { assertIsDefined } from "~/core/isDefined.server";
 import { Card, CardContent, CardHeader, CardTitle } from "~/core/layout/card";
 import { getPageTitle } from "~/core/pageTitle";
@@ -241,12 +240,6 @@ function HeaderCard() {
 function ProfileCard() {
   const { canEdit, animal } = useLoaderData<typeof loader>();
 
-  const speciesLabels = [
-    SPECIES_TRANSLATION[animal.species],
-    animal.breed?.name,
-    animal.color?.name,
-  ].filter(isDefined);
-
   return (
     <Card>
       <CardHeader>
@@ -265,7 +258,7 @@ function ProfileCard() {
       <CardContent>
         <ul className="flex flex-col">
           <Item icon={<Icon id={SPECIES_ICON[animal.species]} />}>
-            {speciesLabels.join(" • ")}
+            {getSpeciesLabels(animal)}
           </Item>
 
           <Item icon={<Icon id="cakeCandles" />}>

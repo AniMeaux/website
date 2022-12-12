@@ -1,5 +1,6 @@
-import { Species } from "@prisma/client";
+import { Animal, Breed, Color, Species } from "@prisma/client";
 import orderBy from "lodash.orderby";
+import { isDefined } from "~/core/isDefined";
 import { IconProps } from "~/generated/icon";
 
 export const SPECIES_TRANSLATION: Record<Species, string> = {
@@ -22,3 +23,18 @@ export const SORTED_SPECIES = orderBy(
   Object.values(Species),
   (species) => SPECIES_TRANSLATION[species]
 );
+
+export function getSpeciesLabels(
+  animal: Pick<Animal, "species"> & {
+    breed: null | Pick<Breed, "name">;
+    color: null | Pick<Color, "name">;
+  }
+) {
+  const speciesLabels = [
+    SPECIES_TRANSLATION[animal.species],
+    animal.breed?.name,
+    animal.color?.name,
+  ].filter(isDefined);
+
+  return speciesLabels.join(" • ");
+}
