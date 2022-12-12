@@ -1,7 +1,7 @@
 import { Species } from "@prisma/client";
-import { IconId } from "~/generated/icon";
+import { IconProps } from "~/generated/icon";
 
-export const SPECIES_ICON: Record<Species, IconId> = {
+export const SPECIES_ICON: Record<Species, IconProps["id"]> = {
   [Species.BIRD]: "bird",
   [Species.CAT]: "cat",
   [Species.DOG]: "dog",
