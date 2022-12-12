@@ -1,4 +1,4 @@
-import { Prisma, User } from "@prisma/client";
+import { Prisma, User, UserGroup } from "@prisma/client";
 import { redirect } from "@remix-run/node";
 import { createPath } from "history";
 import { algolia } from "~/core/algolia/algolia.server";
@@ -6,6 +6,7 @@ import { prisma } from "~/core/db.server";
 import { NextSearchParams } from "~/core/searchParams";
 import { getSession } from "~/core/session.server";
 import { destroyUserSession } from "~/currentUser/session.server";
+import { hasGroups } from "~/users/groups";
 import { generatePasswordHash, isSamePassword } from "~/users/password.server";
 
 const USER_SESSION_KEY = "userId";
@@ -58,7 +59,7 @@ export async function verifyLogin({
 }) {
   const user = await prisma.user.findFirst({
     where: { email, isDisabled: false },
-    select: { id: true, password: true },
+    select: { id: true, password: true, groups: true },
   });
 
   if (user?.password == null) {
@@ -75,6 +76,16 @@ export async function verifyLogin({
   }
 
   if (!(await isSamePassword(password, user.password.hash))) {
+    return null;
+  }
+
+  if (
+    !hasGroups(user, [
+      UserGroup.ADMIN,
+      UserGroup.ANIMAL_MANAGER,
+      UserGroup.VETERINARIAN,
+    ])
+  ) {
     return null;
   }
 
