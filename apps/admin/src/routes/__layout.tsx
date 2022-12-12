@@ -28,6 +28,7 @@ import { getCurrentUser } from "~/currentUser/db.server";
 import { Icon, IconProps } from "~/generated/icon";
 import { theme } from "~/generated/theme";
 import nameAndLogo from "~/images/nameAndLogo.svg";
+import { GlobalSearch } from "~/routes/resources/global-search";
 import { UserAvatar } from "~/users/avatar";
 import { hasGroups } from "~/users/groups";
 
@@ -53,7 +54,7 @@ export default function Layout() {
 
       <div className="flex flex-col gap-1 md:pb-2 md:gap-2">
         <header className="w-full bg-white px-safe-1 pt-safe-0.5 pb-0.5 grid grid-cols-[minmax(0px,1fr)_auto] items-center justify-between gap-1 md:sticky md:top-0 md:z-20 md:pt-safe-1 md:pr-safe-2 md:pb-1 md:pl-2 md:grid-cols-[minmax(0px,66%)_auto] md:gap-4">
-          <SearchInput />
+          <GlobalSearch />
           <CurrentUserMenu currentUser={currentUser} />
         </header>
 
@@ -201,23 +202,6 @@ const ALL_NAVIGATION_ITEMS: NavigationItem[] = [
     authorizedGroups: [UserGroup.ADMIN],
   },
 ];
-
-function SearchInput() {
-  return (
-    <button className="rounded-0.5 bg-gray-100 pr-1 inline-grid grid-cols-[auto_minmax(0px,1fr)] text-left hover:bg-gray-200 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 md:text-body-default">
-      <span className="p-0.5 flex">
-        <span className="w-3 h-3 flex items-center justify-center text-gray-600">
-          <Icon id="magnifyingGlass" />
-        </span>
-      </span>
-
-      <span className="py-1 text-gray-500">
-        Recherche globale{" "}
-        <span className="hidden md:inline">(appuyer sur ”/”)</span>
-      </span>
-    </button>
-  );
-}
 
 function CurrentUserMenu({
   currentUser,

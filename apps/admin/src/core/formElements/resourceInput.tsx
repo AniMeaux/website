@@ -170,12 +170,12 @@ export const SuggestionList = forwardRef<
 export const SuggestionItem = forwardRef<
   HTMLLIElement,
   Omit<React.LiHTMLAttributes<HTMLLIElement>, "children"> & {
-    isValue: boolean;
+    isValue?: boolean;
     leftAdornment: React.ReactNode;
     children: string;
   }
->(function ResourceItem(
-  { isValue, leftAdornment, children, className, ...rest },
+>(function SuggestionItem(
+  { isValue = false, leftAdornment, children, className, ...rest },
   ref
 ) {
   return (

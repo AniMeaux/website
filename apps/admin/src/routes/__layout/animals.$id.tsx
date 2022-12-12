@@ -7,10 +7,12 @@ import { useRef, useState } from "react";
 import invariant from "tiny-invariant";
 import { z } from "zod";
 import { AgreementItem } from "~/animals/agreements";
+import { AnimalAvatar } from "~/animals/avatar";
 import { GENDER_ICON } from "~/animals/gender";
 import { PICK_UP_REASON_TRANSLATION } from "~/animals/pickUp";
 import { ActionFormData } from "~/animals/profile/form";
-import { SPECIES_ICON, SPECIES_TRANSLATION } from "~/animals/species";
+import { getAnimalDisplayName } from "~/animals/profile/name";
+import { getSpeciesLabels, SPECIES_ICON } from "~/animals/species";
 import {
   ADOPTION_OPTION_TRANSLATION,
   StatusBadge,
@@ -31,7 +33,6 @@ import {
   PARAGRAPH_COMPONENTS,
 } from "~/core/dataDisplay/markdown";
 import { prisma } from "~/core/db.server";
-import { isDefined } from "~/core/isDefined";
 import { assertIsDefined } from "~/core/isDefined.server";
 import { Card, CardContent, CardHeader, CardTitle } from "~/core/layout/card";
 import { getPageTitle } from "~/core/pageTitle";
@@ -110,12 +111,7 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
     return { title: getPageTitle(getErrorTitle(404)) };
   }
 
-  let displayName = animal.name;
-  if (animal.alias != null) {
-    displayName += ` (${animal.alias})`;
-  }
-
-  return { title: getPageTitle(displayName) };
+  return { title: getPageTitle(getAnimalDisplayName(animal)) };
 };
 
 export function CatchBoundary() {
@@ -197,14 +193,11 @@ function HeaderCard() {
 
       <CardContent>
         <div className="relative pt-1 pl-9 grid grid-cols-1 grid-flow-col gap-1 md:pt-2 md:pl-10 md:gap-2">
-          <DynamicImage
+          <AnimalAvatar
+            animal={animal}
             loading="eager"
-            imageId={animal.avatar}
-            alt={animal.name}
-            fallbackSize="512"
-            sizes={{ default: "80px" }}
-            aspectRatio="1:1"
-            className="absolute bottom-0 left-0 w-8 aspect-square rounded-1 ring-5 ring-white"
+            size="xl"
+            className="absolute bottom-0 left-0 ring-5 ring-white"
           />
 
           <div className="flex flex-col gap-0.5">
@@ -247,12 +240,6 @@ function HeaderCard() {
 function ProfileCard() {
   const { canEdit, animal } = useLoaderData<typeof loader>();
 
-  const speciesLabels = [
-    SPECIES_TRANSLATION[animal.species],
-    animal.breed?.name,
-    animal.color?.name,
-  ].filter(isDefined);
-
   return (
     <Card>
       <CardHeader>
@@ -271,7 +258,7 @@ function ProfileCard() {
       <CardContent>
         <ul className="flex flex-col">
           <Item icon={<Icon id={SPECIES_ICON[animal.species]} />}>
-            {speciesLabels.join(" • ")}
+            {getSpeciesLabels(animal)}
           </Item>
 
           <Item icon={<Icon id="cakeCandles" />}>

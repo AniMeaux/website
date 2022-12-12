@@ -34,24 +34,17 @@ export function createBatchHandlers(path: string) {
   });
 }
 
-export function highlightValue(
-  value: string,
-  {
-    search,
-    highlightPreTag,
-    highlightPostTag,
-  }: {
-    search: string;
-    highlightPreTag: string;
-    highlightPostTag: string;
-  }
-) {
+export function highlightValue(value: string, { search }: { search: string }) {
+  // We can't start or end hightlighting with spaces, it's not supported by
+  // markdown.
+  search = search.trim();
+
   if (search === "") {
     return value;
   }
 
-  return value.replaceAll(
-    search,
-    `${highlightPreTag}${search}${highlightPostTag}`
-  );
+  const newValue = value.replace(new RegExp(search, "ig"), "**$&**");
+
+  // Merge consecutives highlights.
+  return newValue.replace(/\*\*\*\*/g, "");
 }

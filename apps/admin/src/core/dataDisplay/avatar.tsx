@@ -3,7 +3,7 @@ import { Icon, IconProps } from "~/generated/icon";
 
 const AVATAR_COLORS = ["blue", "green", "red", "yellow"] as const;
 export type AvatarColor = typeof AVATAR_COLORS[number];
-type AvatarSize = "sm" | "lg" | "xl";
+export type AvatarSize = "sm" | "lg" | "xl";
 
 export type AvatarProps = {
   icon?: IconProps["id"];
@@ -25,7 +25,7 @@ export function Avatar({
       className={cn(
         className,
         "inline-flex items-center justify-center",
-        SIZE_CLASS_NAME[size],
+        AVATAR_SIZE_CLASS_NAME[size],
         COLOR_CLASS_NAME[color]
       )}
     >
@@ -42,7 +42,7 @@ export function Avatar({
   );
 }
 
-const SIZE_CLASS_NAME: Record<AvatarSize, string> = {
+export const AVATAR_SIZE_CLASS_NAME: Record<AvatarSize, string> = {
   sm: "rounded-0.5 w-2 h-2",
   lg: "rounded-0.5 w-4 h-4",
   xl: "rounded-1 w-8 h-8",

@@ -56,8 +56,6 @@ export const fosterFamilyHandlers = [
               displayName: {
                 value: highlightValue(fosterFamily.displayName, {
                   search: query,
-                  highlightPreTag: body.highlightPreTag,
-                  highlightPostTag: body.highlightPostTag,
                 }),
                 matchLevel: "full",
                 fullyHighlighted: true,
