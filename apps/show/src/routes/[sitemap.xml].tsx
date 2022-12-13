@@ -1,5 +1,5 @@
+import { createConfig } from "#/core/config.server";
 import { renderToStaticMarkup } from "react-dom/server";
-import { createConfig } from "~/core/config.server";
 
 type SitemapAttribute = {
   key?: React.Key;

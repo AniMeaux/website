@@ -1,11 +1,10 @@
+import { LoaderData } from "#/root";
 import { useMatches } from "@remix-run/react";
 import invariant from "tiny-invariant";
-import { LoaderData } from "~/root";
 
 export type Config = {
   animeauxUrl: string;
   cloudinaryName: string;
-  exhibitorsFormUrl: string;
   facebookUrl: string;
   googleTagManagerId?: string;
   instagramUrl: string;

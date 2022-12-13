@@ -1,16 +1,16 @@
-import { actionClassNames } from "~/core/actions";
-import { BaseLink, BaseLinkProps } from "~/core/baseLink";
-import { cn } from "~/core/classNames";
-import { useConfig } from "~/core/config";
-import { Icon, IconProps } from "~/generated/icon";
-import arbreVert from "~/images/arbreVert.png";
-import citronad from "~/images/citronad.png";
-import meaux from "~/images/meaux.png";
-import nameAndLogo from "~/images/nameAndLogo.svg";
-import paysDeMeaux from "~/images/paysDeMeaux.png";
-import superlogo from "~/images/superlogo.png";
-import villeAnimaux2Pattes from "~/images/villeAnimaux2Pattes.png";
-import { LineShapeHorizontal } from "~/layout/lineShape";
+import { actionClassNames } from "#/core/actions";
+import { BaseLink, BaseLinkProps } from "#/core/baseLink";
+import { cn } from "#/core/classNames";
+import { useConfig } from "#/core/config";
+import { Icon, IconProps } from "#/generated/icon";
+import arbreVert from "#/images/arbreVert.png";
+import citronad from "#/images/citronad.png";
+import meaux from "#/images/meaux.png";
+import nameAndLogo from "#/images/nameAndLogo.svg";
+import paysDeMeaux from "#/images/paysDeMeaux.png";
+import superlogo from "#/images/superlogo.png";
+import villeAnimaux2Pattes from "#/images/villeAnimaux2Pattes.png";
+import { LineShapeHorizontal } from "#/layout/lineShape";
 
 export function Footer() {
   const { animeauxUrl, pressReleaseUrl } = useConfig();
