@@ -5,7 +5,6 @@ import invariant from "tiny-invariant";
 export type Config = {
   animeauxUrl: string;
   cloudinaryName: string;
-  exhibitorsFormUrl: string;
   facebookUrl: string;
   googleTagManagerId?: string;
   instagramUrl: string;

@@ -2,7 +2,6 @@ declare namespace NodeJS {
   interface ProcessEnv {
     ANIMEAUX_URL?: string;
     CLOUDINARY_CLOUD_NAME?: string;
-    EXHIBITORS_FORM_URL?: string;
     FACEBOOK_URL?: string;
     GOOGLE_TAG_MANAGER_ID?: string;
     INSTAGRAM_URL?: string;

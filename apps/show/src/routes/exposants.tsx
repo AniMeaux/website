@@ -1,7 +1,5 @@
-import { actionClassNames } from "#/core/actions";
 import { BaseLink } from "#/core/baseLink";
 import { cn } from "#/core/classNames";
-import { useConfig } from "#/core/config";
 import { createSocialMeta } from "#/core/meta";
 import { getPageTitle } from "#/core/pageTitle";
 import { DynamicImage } from "#/dataDisplay/image";
@@ -23,9 +21,7 @@ export default function ExhibitorsPage() {
 
   return (
     <main className="w-full px-page flex flex-col gap-12">
-      <header
-        className={cn("flex flex-col", "md:flex-row md:items-center md:gap-6")}
-      >
+      <header className="flex flex-col">
         <h1
           className={cn(
             "text-title-hero-small text-center",
@@ -34,10 +30,6 @@ export default function ExhibitorsPage() {
         >
           Exposants
         </h1>
-
-        <div className={cn("hidden", "md:flex-none md:flex")}>
-          <BecomeExhibitor />
-        </div>
       </header>
 
       {exhibitors.length > 0 ? (
@@ -61,21 +53,7 @@ export default function ExhibitorsPage() {
           La liste des exposants sera transmise ultérieurement.
         </p>
       )}
-
-      <div className={cn("flex justify-center", "md:hidden")}>
-        <BecomeExhibitor />
-      </div>
     </main>
-  );
-}
-
-function BecomeExhibitor() {
-  const { exhibitorsFormUrl } = useConfig();
-
-  return (
-    <BaseLink to={exhibitorsFormUrl} className={actionClassNames.standalone()}>
-      Devenir exposant
-    </BaseLink>
   );
 }
 
