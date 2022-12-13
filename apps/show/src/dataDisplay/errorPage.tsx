@@ -1,7 +1,7 @@
-import { actionClassNames } from "~/core/actions";
-import { BaseLink } from "~/core/baseLink";
-import { cn } from "~/core/classNames";
-import { errorImages } from "~/images/error";
+import { actionClassNames } from "#/core/actions";
+import { BaseLink } from "#/core/baseLink";
+import { cn } from "#/core/classNames";
+import { errorImages } from "#/images/error";
 import {
   HeroSection,
   HeroSectionAction,
@@ -9,7 +9,7 @@ import {
   HeroSectionImage,
   HeroSectionParagraph,
   HeroSectionTitle,
-} from "~/layout/heroSection";
+} from "#/layout/heroSection";
 
 type ErrorMetaData = {
   title: string;

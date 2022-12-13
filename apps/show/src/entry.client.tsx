@@ -3,7 +3,7 @@ import "focus-visible";
 import { hydrate } from "react-dom";
 
 if (process.env.NODE_ENV === "development") {
-  const { startWorker } = require("./mocks");
+  const { startWorker } = require("#/mocks");
   startWorker();
 }
 

@@ -1,14 +1,14 @@
+import { BaseLink, BaseLinkProps } from "#/core/baseLink";
+import { cn } from "#/core/classNames";
+import { useFocusTrap } from "#/core/focusTrap";
+import { useScrollLock } from "#/core/scrollLock";
+import { Icon } from "#/generated/icon";
+import nameAndLogo from "#/images/nameAndLogo.svg";
+import { handleEscape, navLinkClassName } from "#/layout/navigation/shared";
+import { SocialLinks } from "#/layout/navigation/socialLinks";
 import { useLocation } from "@remix-run/react";
 import { useEffect, useRef, useState } from "react";
 import { Transition } from "react-transition-group";
-import { BaseLink, BaseLinkProps } from "~/core/baseLink";
-import { cn } from "~/core/classNames";
-import { useFocusTrap } from "~/core/focusTrap";
-import { useScrollLock } from "~/core/scrollLock";
-import { Icon } from "~/generated/icon";
-import nameAndLogo from "~/images/nameAndLogo.svg";
-import { handleEscape, navLinkClassName } from "~/layout/navigation/shared";
-import { SocialLinks } from "~/layout/navigation/socialLinks";
 
 export function SmallNav() {
   const location = useLocation();

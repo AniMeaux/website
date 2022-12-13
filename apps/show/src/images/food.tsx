@@ -1,6 +1,6 @@
-import { ImageDescriptor } from "~/dataDisplay/image";
-import food1024 from "~/images/food-1024w.png";
-import food512 from "~/images/food-512w.png";
+import { ImageDescriptor } from "#/dataDisplay/image";
+import food1024 from "#/images/food-1024w.png";
+import food512 from "#/images/food-512w.png";
 
 export const foodImages: ImageDescriptor = {
   alt: "Deux cochons d’inde mangeant une brindille.",
