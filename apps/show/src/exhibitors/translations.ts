@@ -1,4 +1,4 @@
-import { ExhibitorCategory } from "~/exhibitors/data";
+import { ExhibitorCategory } from "#/exhibitors/data";
 
 export const EXHIBITOR_CATEGORY_TRANSLATIONS: Record<
   ExhibitorCategory,

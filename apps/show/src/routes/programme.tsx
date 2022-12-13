@@ -1,7 +1,7 @@
+import { cn } from "#/core/classNames";
+import { createSocialMeta } from "#/core/meta";
+import { getPageTitle } from "#/core/pageTitle";
 import { MetaFunction } from "@remix-run/node";
-import { cn } from "~/core/classNames";
-import { createSocialMeta } from "~/core/meta";
-import { getPageTitle } from "~/core/pageTitle";
 
 export const meta: MetaFunction = () => {
   return createSocialMeta({ title: getPageTitle("Programme") });

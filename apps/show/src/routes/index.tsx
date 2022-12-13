@@ -1,24 +1,22 @@
-import { DateTime } from "luxon";
-import { useEffect, useState } from "react";
-import { actionClassNames } from "~/core/actions";
-import { BaseLink, BaseLinkProps } from "~/core/baseLink";
-import { cn } from "~/core/classNames";
-import { useConfig } from "~/core/config";
-import { StaticImage, StaticImageProps } from "~/dataDisplay/image";
-import { adoptionImages } from "~/images/adoption";
-import { animationImages } from "~/images/animation";
-import arbreVert from "~/images/arbreVert.png";
-import { associationImages } from "~/images/association";
-import citronad from "~/images/citronad.png";
-import { exhibitorsImages } from "~/images/exhibitors";
-import { foodImages } from "~/images/food";
-import { mapImages } from "~/images/map";
-import meaux from "~/images/meaux.png";
-import { medicalImages } from "~/images/medical";
-import nameAndLogo from "~/images/nameAndLogo.svg";
-import { showImages } from "~/images/show";
-import superlogo from "~/images/superlogo.png";
-import { bubbleSectionClassNames, BubbleShape } from "~/layout/bubbleSection";
+import { actionClassNames } from "#/core/actions";
+import { BaseLink, BaseLinkProps } from "#/core/baseLink";
+import { cn } from "#/core/classNames";
+import { useConfig } from "#/core/config";
+import { StaticImage, StaticImageProps } from "#/dataDisplay/image";
+import { adoptionImages } from "#/images/adoption";
+import { animationImages } from "#/images/animation";
+import arbreVert from "#/images/arbreVert.png";
+import { associationImages } from "#/images/association";
+import citronad from "#/images/citronad.png";
+import { exhibitorsImages } from "#/images/exhibitors";
+import { foodImages } from "#/images/food";
+import { mapImages } from "#/images/map";
+import meaux from "#/images/meaux.png";
+import { medicalImages } from "#/images/medical";
+import nameAndLogo from "#/images/nameAndLogo.svg";
+import { showImages } from "#/images/show";
+import superlogo from "#/images/superlogo.png";
+import { bubbleSectionClassNames, BubbleShape } from "#/layout/bubbleSection";
 import {
   HeroSection,
   HeroSectionAction,
@@ -26,7 +24,9 @@ import {
   HeroSectionImage,
   HeroSectionParagraph,
   HeroSectionTitle,
-} from "~/layout/heroSection";
+} from "#/layout/heroSection";
+import { DateTime } from "luxon";
+import { useEffect, useState } from "react";
 
 const OPENING_TIME = DateTime.fromISO("2023-06-10T10:00:00.000+02:00");
 const ONE_MINUTE_IN_MS = 60 * 1000;

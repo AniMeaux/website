@@ -1,14 +1,14 @@
+import { actionClassNames } from "#/core/actions";
+import { BaseLink } from "#/core/baseLink";
+import { cn } from "#/core/classNames";
+import { useConfig } from "#/core/config";
+import { createSocialMeta } from "#/core/meta";
+import { getPageTitle } from "#/core/pageTitle";
+import { DynamicImage } from "#/dataDisplay/image";
+import { exhibitors } from "#/exhibitors/data";
+import { EXHIBITOR_CATEGORY_TRANSLATIONS } from "#/exhibitors/translations";
 import { json, MetaFunction, SerializeFrom } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
-import { actionClassNames } from "~/core/actions";
-import { BaseLink } from "~/core/baseLink";
-import { cn } from "~/core/classNames";
-import { useConfig } from "~/core/config";
-import { createSocialMeta } from "~/core/meta";
-import { getPageTitle } from "~/core/pageTitle";
-import { DynamicImage } from "~/dataDisplay/image";
-import { exhibitors } from "~/exhibitors/data";
-import { EXHIBITOR_CATEGORY_TRANSLATIONS } from "~/exhibitors/translations";
 
 export async function loader() {
   return json({ exhibitors });
