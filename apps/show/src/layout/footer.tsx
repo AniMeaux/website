@@ -3,10 +3,12 @@ import { BaseLink, BaseLinkProps } from "#/core/baseLink";
 import { cn } from "#/core/classNames";
 import { useConfig } from "#/core/config";
 import { Icon, IconProps } from "#/generated/icon";
+import anideo from "#/images/anideo.png";
 import arbreVert from "#/images/arbreVert.png";
 import citronad from "#/images/citronad.png";
 import meaux from "#/images/meaux.png";
 import nameAndLogo from "#/images/nameAndLogo.svg";
+import neoVoice from "#/images/neoVoice.svg";
 import paysDeMeaux from "#/images/paysDeMeaux.png";
 import superlogo from "#/images/superlogo.png";
 import villeAnimaux2Pattes from "#/images/villeAnimaux2Pattes.png";
@@ -33,7 +35,10 @@ export function Footer() {
         )}
       >
         <section
-          className={cn("grid grid-cols-2 gap-x-12 gap-y-6", "md:flex-1")}
+          className={cn(
+            "grid grid-cols-[repeat(auto-fill,minmax(120px,1fr))] gap-x-12 gap-y-6",
+            "md:flex-1"
+          )}
         >
           <LogoItem
             image={meaux}
@@ -69,6 +74,14 @@ export function Footer() {
             image={arbreVert}
             alt="L’Arbre Vert"
             to="https://www.arbrevert.fr"
+          />
+
+          <LogoItem image={anideo} alt="Anidéo" to="https://www.anideo.fr" />
+
+          <LogoItem
+            image={neoVoice}
+            alt="NeoVoice"
+            to="https://www.neovoice.fr"
           />
         </section>
 
