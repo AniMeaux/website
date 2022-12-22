@@ -105,7 +105,6 @@ export const userOperations: OperationsImpl<UserOperations> = {
 
       const userFromAlgolia: UserFromAlgolia = {
         displayName: user.displayName,
-        email: user.email,
         groups: user.groups,
         isDisabled: user.isDisabled,
       };
@@ -199,7 +198,6 @@ export const userOperations: OperationsImpl<UserOperations> = {
 
       const userFromAlgolia: UserFromAlgolia = {
         displayName: user.displayName,
-        email: user.email,
         groups: user.groups,
         isDisabled: user.isDisabled,
       };

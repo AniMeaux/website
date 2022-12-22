@@ -1,6 +1,6 @@
+import { IconProps } from "#/generated/icon";
 import { User, UserGroup } from "@prisma/client";
 import intersection from "lodash.intersection";
-import { IconProps } from "~/generated/icon";
 
 export const GROUP_TRANSLATION: Record<UserGroup, string> = {
   [UserGroup.ADMIN]: "Administrateur",

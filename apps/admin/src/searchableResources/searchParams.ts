@@ -1,6 +1,6 @@
+import { parseOrDefault } from "#/core/schemas";
+import { SearchableResourceType } from "#/searchableResources/type";
 import { z } from "zod";
-import { parseOrDefault } from "~/core/schemas";
-import { SearchableResourceType } from "~/searchableResources/type";
 
 enum Keys {
   TEXT = "q",

@@ -1,7 +1,7 @@
+import { actionClassName } from "#/core/actions";
+import { BaseLink } from "#/core/baseLink";
+import { Empty } from "#/core/dataDisplay/empty";
 import { useLocation } from "@remix-run/react";
-import { actionClassName } from "~/core/actions";
-import { BaseLink } from "~/core/baseLink";
-import { Empty } from "~/core/dataDisplay/empty";
 
 export function ErrorPage({ status }: { status: number }) {
   const meta =

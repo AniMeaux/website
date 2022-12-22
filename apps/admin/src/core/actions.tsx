@@ -1,4 +1,4 @@
-import { cn } from "~/core/classNames";
+import { cn } from "#/core/classNames";
 
 type ActionVariant = "primary" | "secondary" | "text" | "floating";
 export type ActionColor = "blue" | "gray" | "amber" | "red" | "green";

@@ -1,3 +1,25 @@
+import { AnimalFilters } from "#/animals/filterForm";
+import { AnimalItem } from "#/animals/item";
+import { AnimalSearchParams } from "#/animals/searchParams";
+import { SORTED_SPECIES } from "#/animals/species";
+import { actionClassName } from "#/core/actions";
+import { BaseLink } from "#/core/baseLink";
+import { cn } from "#/core/classNames";
+import { Paginator } from "#/core/controllers/paginator";
+import { Empty } from "#/core/dataDisplay/empty";
+import { prisma } from "#/core/db.server";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "#/core/layout/card";
+import { getPageTitle } from "#/core/pageTitle";
+import { PageSearchParams } from "#/core/searchParams";
+import { getCurrentUser } from "#/currentUser/db.server";
+import { assertCurrentUserHasGroups } from "#/currentUser/groups.server";
+import { Icon } from "#/generated/icon";
 import { ANIMAL_AGE_RANGE_BY_SPECIES } from "@animeaux/shared";
 import { Prisma, UserGroup } from "@prisma/client";
 import * as Dialog from "@radix-ui/react-dialog";
@@ -5,28 +27,6 @@ import { json, LoaderArgs, MetaFunction, SerializeFrom } from "@remix-run/node";
 import { useLoaderData, useSearchParams } from "@remix-run/react";
 import { DateTime } from "luxon";
 import invariant from "tiny-invariant";
-import { AnimalFilters } from "~/animals/filterForm";
-import { AnimalItem } from "~/animals/item";
-import { AnimalSearchParams } from "~/animals/searchParams";
-import { SORTED_SPECIES } from "~/animals/species";
-import { actionClassName } from "~/core/actions";
-import { BaseLink } from "~/core/baseLink";
-import { cn } from "~/core/classNames";
-import { Paginator } from "~/core/controllers/paginator";
-import { Empty } from "~/core/dataDisplay/empty";
-import { prisma } from "~/core/db.server";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "~/core/layout/card";
-import { getPageTitle } from "~/core/pageTitle";
-import { PageSearchParams } from "~/core/searchParams";
-import { getCurrentUser } from "~/currentUser/db.server";
-import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
-import { Icon } from "~/generated/icon";
 
 // Multiple of 6, 5, 4 and 3 to be nicely displayed.
 const ANIMAL_COUNT_PER_PAGE = 60;

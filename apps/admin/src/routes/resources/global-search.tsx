@@ -1,3 +1,24 @@
+import { AnimalAvatar } from "#/animals/avatar";
+import { getAnimalDisplayName } from "#/animals/profile/name";
+import { getSpeciesLabels } from "#/animals/species";
+import { cn } from "#/core/classNames";
+import { Avatar, inferAvatarColor } from "#/core/dataDisplay/avatar";
+import { ActionAdornment } from "#/core/formElements/adornment";
+import { Input } from "#/core/formElements/input";
+import {
+  SuggestionItem,
+  SuggestionList,
+} from "#/core/formElements/resourceInput";
+import { ForbiddenResponse } from "#/core/response.server";
+import { visit } from "#/core/visitor";
+import { getCurrentUser } from "#/currentUser/db.server";
+import { FosterFamilyAvatar } from "#/fosterFamilies/avatar";
+import { getShortLocation } from "#/fosterFamilies/location";
+import { Icon } from "#/generated/icon";
+import { searchResources } from "#/searchableResources/db.server";
+import { SearchableResourceSearchParams } from "#/searchableResources/searchParams";
+import { SearchableResourceType } from "#/searchableResources/type";
+import { UserAvatar } from "#/users/avatar";
 import { formatDateRange } from "@animeaux/shared";
 import { UserGroup } from "@prisma/client";
 import * as Dialog from "@radix-ui/react-dialog";
@@ -15,27 +36,6 @@ import {
 } from "downshift";
 import { createPath } from "history";
 import { useEffect, useState } from "react";
-import { AnimalAvatar } from "~/animals/avatar";
-import { getAnimalDisplayName } from "~/animals/profile/name";
-import { getSpeciesLabels } from "~/animals/species";
-import { cn } from "~/core/classNames";
-import { Avatar, inferAvatarColor } from "~/core/dataDisplay/avatar";
-import { ActionAdornment } from "~/core/formElements/adornment";
-import { Input } from "~/core/formElements/input";
-import {
-  SuggestionItem,
-  SuggestionList,
-} from "~/core/formElements/resourceInput";
-import { ForbiddenResponse } from "~/core/response.server";
-import { visit } from "~/core/visitor";
-import { getCurrentUser } from "~/currentUser/db.server";
-import { FosterFamilyAvatar } from "~/fosterFamilies/avatar";
-import { getShortLocation } from "~/fosterFamilies/location";
-import { Icon } from "~/generated/icon";
-import { searchResources } from "~/searchableResources/db.server";
-import { SearchableResourceSearchParams } from "~/searchableResources/searchParams";
-import { SearchableResourceType } from "~/searchableResources/type";
-import { UserAvatar } from "~/users/avatar";
 
 export async function loader({ request }: LoaderArgs) {
   const currentUser = await getCurrentUser(request, {
@@ -112,23 +112,23 @@ export function GlobalSearch() {
     }
   }, [isOpened]);
 
-  const resourcesFetcher = useFetcher<typeof loader>();
+  const fetcher = useFetcher<typeof loader>();
 
   // This effect does 2 things:
   // - Make sure we display possible types without delay when the combobox is
   //   opened.
   // - Make sure we clear any search when the combobox is closed.
-  const loadResources = resourcesFetcher.load;
+  const load = fetcher.load;
   useEffect(() => {
     if (!isOpened) {
-      loadResources(
+      load(
         createPath({
           pathname: RESOURCE_PATHNAME,
           search: new SearchableResourceSearchParams().toString(),
         })
       );
     }
-  }, [loadResources, isOpened]);
+  }, [load, isOpened]);
 
   return (
     <Dialog.Root open={isOpened} onOpenChange={setIsOpened}>
@@ -157,7 +157,7 @@ export function GlobalSearch() {
 
         <Dialog.Content className="fixed top-0 left-0 bottom-0 right-0 z-30 overflow-y-auto bg-gray-50 flex flex-col md:top-[10vh] md:left-1/2 md:bottom-auto md:right-auto md:-translate-x-1/2 md:w-[550px] md:shadow-ambient md:bg-white md:rounded-1">
           <Combobox
-            fetcher={resourcesFetcher}
+            fetcher={fetcher}
             onClose={() => setIsOpened(false)}
             onSelectedItemChange={(resource) => {
               setIsOpened(false);
@@ -306,38 +306,46 @@ function Combobox({
               ),
             });
 
-            const displayedValue = visit(resource, {
+            const label = visit(resource, {
               [SearchableResourceType.ANIMAL]: (resource) => {
-                const displayName = getAnimalDisplayName({
+                return getAnimalDisplayName({
                   name: resource.highlightedData.name,
                   alias: resource.highlightedData.alias,
                 });
-                const speciesLabels = getSpeciesLabels(resource.data);
-
-                return `${displayName} - ${speciesLabels}`;
               },
 
               [SearchableResourceType.EVENT]: (resource) => {
-                const title = resource.highlightedData.title;
-                const date = formatDateRange(
+                return resource.highlightedData.title;
+              },
+
+              [SearchableResourceType.FOSTER_FAMILY]: (resource) => {
+                return resource.highlightedData.displayName;
+              },
+
+              [SearchableResourceType.USER]: (resource) => {
+                return resource.highlightedData.displayName;
+              },
+            });
+
+            const secondaryLabel = visit(resource, {
+              [SearchableResourceType.ANIMAL]: (resource) => {
+                return getSpeciesLabels(resource.data);
+              },
+
+              [SearchableResourceType.EVENT]: (resource) => {
+                return formatDateRange(
                   resource.data.startDate,
                   resource.data.endDate,
                   { showTime: !resource.data.isFullDay }
                 );
-
-                return `${title} - ${date}`;
               },
 
               [SearchableResourceType.FOSTER_FAMILY]: (resource) => {
-                const displayName = resource.highlightedData.displayName;
-                const location = getShortLocation(resource.data);
-                return `${displayName} - ${location}`;
+                return getShortLocation(resource.data);
               },
 
               [SearchableResourceType.USER]: (resource) => {
-                const displayName = resource.highlightedData.displayName;
-                const email = resource.data.email;
-                return `${displayName} - ${email}`;
+                return resource.data.email;
               },
             });
 
@@ -346,9 +354,9 @@ function Combobox({
                 key={resource.id}
                 {...combobox.getItemProps({ item: resource, index })}
                 leftAdornment={leftAdornment}
-              >
-                {displayedValue}
-              </SuggestionItem>
+                label={label}
+                secondaryLabel={secondaryLabel}
+              />
             );
           })}
         </SuggestionList>

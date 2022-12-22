@@ -1,3 +1,24 @@
+import { getAnimalDisplayName } from "#/animals/profile/name";
+import {
+  MissingAdoptionDateError,
+  MissingManagerError,
+  NotManagerError,
+  updateAnimalSituation,
+} from "#/animals/situation/db.server";
+import { ActionFormData, AnimalSituationForm } from "#/animals/situation/form";
+import { ErrorPage, getErrorTitle } from "#/core/dataDisplay/errorPage";
+import { prisma } from "#/core/db.server";
+import { NotFoundError } from "#/core/errors.server";
+import { assertIsDefined } from "#/core/isDefined.server";
+import { Card, CardContent, CardHeader, CardTitle } from "#/core/layout/card";
+import { getPageTitle } from "#/core/pageTitle";
+import { NotFoundResponse } from "#/core/response.server";
+import {
+  ActionConfirmationSearchParams,
+  ActionConfirmationType,
+} from "#/core/searchParams";
+import { getCurrentUser } from "#/currentUser/db.server";
+import { assertCurrentUserHasGroups } from "#/currentUser/groups.server";
 import { UserGroup } from "@prisma/client";
 import {
   ActionArgs,
@@ -9,25 +30,6 @@ import {
 import { useActionData, useCatch, useLoaderData } from "@remix-run/react";
 import { createPath } from "history";
 import { z } from "zod";
-import { getAnimalDisplayName } from "~/animals/profile/name";
-import {
-  MissingAdoptionDateError,
-  updateAnimalSituation,
-} from "~/animals/situation/db.server";
-import { ActionFormData, AnimalSituationForm } from "~/animals/situation/form";
-import { ErrorPage, getErrorTitle } from "~/core/dataDisplay/errorPage";
-import { prisma } from "~/core/db.server";
-import { NotFoundError } from "~/core/errors.server";
-import { assertIsDefined } from "~/core/isDefined.server";
-import { Card, CardContent, CardHeader, CardTitle } from "~/core/layout/card";
-import { getPageTitle } from "~/core/pageTitle";
-import { NotFoundResponse } from "~/core/response.server";
-import {
-  ActionConfirmationSearchParams,
-  ActionConfirmationType,
-} from "~/core/searchParams";
-import { getCurrentUser } from "~/currentUser/db.server";
-import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
 
 export async function loader({ request, params }: LoaderArgs) {
   const currentUser = await getCurrentUser(request, {
@@ -52,6 +54,7 @@ export async function loader({ request, params }: LoaderArgs) {
       alias: true,
       comments: true,
       id: true,
+      manager: { select: { id: true, displayName: true } },
       name: true,
       pickUpDate: true,
       pickUpReason: true,
@@ -104,6 +107,7 @@ export async function action({ request }: ActionArgs) {
       adoptionDate: formData.data.adoptionDate ?? null,
       adoptionOption: formData.data.adoptionOption ?? null,
       comments: formData.data.comments || null,
+      managerId: formData.data.managerId ?? null,
       pickUpDate: formData.data.pickUpDate,
       pickUpReason: formData.data.pickUpReason,
       status: formData.data.status,
@@ -128,6 +132,36 @@ export async function action({ request }: ActionArgs) {
             formErrors: [],
             fieldErrors: {
               adoptionDate: ["Veuillez entrer une date"],
+            },
+          },
+        },
+        { status: 400 }
+      );
+    }
+
+    if (error instanceof MissingManagerError) {
+      return json<ActionData>(
+        {
+          errors: {
+            formErrors: [],
+            fieldErrors: {
+              managerId: ["Veuillez choisir un responsable"],
+            },
+          },
+        },
+        { status: 400 }
+      );
+    }
+
+    if (error instanceof NotManagerError) {
+      return json<ActionData>(
+        {
+          errors: {
+            formErrors: [],
+            fieldErrors: {
+              managerId: [
+                "L’utilisateur choisi ne peux pas être un responsable",
+              ],
             },
           },
         },

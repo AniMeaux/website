@@ -7,5 +7,5 @@ export const UserIndex = AlgoliaClient.initIndex(USER_INDEX_NAME);
 
 export type UserFromAlgolia = Pick<
   User,
-  "email" | "displayName" | "groups" | "isDisabled"
+  "displayName" | "groups" | "isDisabled"
 >;
