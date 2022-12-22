@@ -4,6 +4,7 @@ import { cn } from "#/core/classNames";
 import { useConfig } from "#/core/config";
 import { StaticImage, StaticImageProps } from "#/dataDisplay/image";
 import { adoptionImages } from "#/images/adoption";
+import anideo from "#/images/anideo.png";
 import { animationImages } from "#/images/animation";
 import arbreVert from "#/images/arbreVert.png";
 import { associationImages } from "#/images/association";
@@ -14,6 +15,7 @@ import { mapImages } from "#/images/map";
 import meaux from "#/images/meaux.png";
 import { medicalImages } from "#/images/medical";
 import nameAndLogo from "#/images/nameAndLogo.svg";
+import neoVoice from "#/images/neoVoice.svg";
 import { showImages } from "#/images/show";
 import superlogo from "#/images/superlogo.png";
 import { bubbleSectionClassNames, BubbleShape } from "#/layout/bubbleSection";
@@ -378,8 +380,9 @@ function PartnersSection() {
 
       <div
         className={cn(
-          "flex flex-col gap-12",
-          "md:flex-row md:items-center md:flex-wrap md:justify-center"
+          "grid grid-cols-[minmax(0px,320px)] gap-x-12 gap-y-6 justify-center",
+          "xs:grid-cols-[repeat(2,minmax(0px,320px))]",
+          "md:grid-cols-[repeat(3,minmax(0px,320px))]"
         )}
       >
         <PartnerItem
@@ -405,6 +408,14 @@ function PartnersSection() {
           alt="L’Arbre Vert"
           to="https://www.arbrevert.fr"
         />
+
+        <PartnerItem image={anideo} alt="Anidéo" to="https://www.anideo.fr" />
+
+        <PartnerItem
+          image={neoVoice}
+          alt="NeoVoice"
+          to="https://www.neovoice.fr"
+        />
       </div>
     </section>
   );
@@ -427,7 +438,7 @@ function PartnerItem({
       <img
         src={image}
         alt={alt}
-        className={cn("w-full aspect-[2/1] object-contain", "md:w-[320px]")}
+        className="w-full aspect-[2/1] object-contain"
       />
     </BaseLink>
   );
