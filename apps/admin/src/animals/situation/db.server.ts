@@ -1,10 +1,12 @@
 import { algolia } from "#/core/algolia/algolia.server";
 import { prisma } from "#/core/db.server";
 import { NotFoundError } from "#/core/errors.server";
-import { Animal, Prisma, Status } from "@prisma/client";
+import { Animal, Prisma, Status, UserGroup } from "@prisma/client";
 
 export class MissingAdoptionDateError extends Error {}
 export class MissingAdoptionOptionError extends Error {}
+export class MissingManagerError extends Error {}
+export class NotManagerError extends Error {}
 
 export async function updateAnimalSituation(
   animalId: Animal["id"],
@@ -13,6 +15,7 @@ export async function updateAnimalSituation(
     | "adoptionDate"
     | "adoptionOption"
     | "comments"
+    | "managerId"
     | "pickUpDate"
     | "pickUpReason"
     | "status"
@@ -25,6 +28,31 @@ export async function updateAnimalSituation(
       }
       if (data.adoptionOption == null) {
         throw new MissingAdoptionOptionError();
+      }
+    }
+
+    if (data.managerId == null) {
+      const animal = await prisma.animal.findUnique({
+        where: { id: animalId },
+        select: { managerId: true },
+      });
+
+      // Allow old animals (without a manager) to be updated without setting
+      // one. But we can't unset a manager.
+      if (animal?.managerId != null) {
+        throw new MissingManagerError();
+      }
+    } else {
+      const manager = await prisma.user.findFirst({
+        where: {
+          id: data.managerId,
+          isDisabled: false,
+          groups: { has: UserGroup.ANIMAL_MANAGER },
+        },
+      });
+
+      if (manager == null) {
+        throw new NotManagerError();
       }
     }
 

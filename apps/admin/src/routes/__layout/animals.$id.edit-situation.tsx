@@ -1,6 +1,8 @@
 import { getAnimalDisplayName } from "#/animals/profile/name";
 import {
   MissingAdoptionDateError,
+  MissingManagerError,
+  NotManagerError,
   updateAnimalSituation,
 } from "#/animals/situation/db.server";
 import { ActionFormData, AnimalSituationForm } from "#/animals/situation/form";
@@ -52,6 +54,7 @@ export async function loader({ request, params }: LoaderArgs) {
       alias: true,
       comments: true,
       id: true,
+      manager: { select: { id: true, displayName: true } },
       name: true,
       pickUpDate: true,
       pickUpReason: true,
@@ -104,6 +107,7 @@ export async function action({ request }: ActionArgs) {
       adoptionDate: formData.data.adoptionDate ?? null,
       adoptionOption: formData.data.adoptionOption ?? null,
       comments: formData.data.comments || null,
+      managerId: formData.data.managerId ?? null,
       pickUpDate: formData.data.pickUpDate,
       pickUpReason: formData.data.pickUpReason,
       status: formData.data.status,
@@ -128,6 +132,36 @@ export async function action({ request }: ActionArgs) {
             formErrors: [],
             fieldErrors: {
               adoptionDate: ["Veuillez entrer une date"],
+            },
+          },
+        },
+        { status: 400 }
+      );
+    }
+
+    if (error instanceof MissingManagerError) {
+      return json<ActionData>(
+        {
+          errors: {
+            formErrors: [],
+            fieldErrors: {
+              managerId: ["Veuillez choisir un responsable"],
+            },
+          },
+        },
+        { status: 400 }
+      );
+    }
+
+    if (error instanceof NotManagerError) {
+      return json<ActionData>(
+        {
+          errors: {
+            formErrors: [],
+            fieldErrors: {
+              managerId: [
+                "L’utilisateur choisi ne peux pas être un responsable",
+              ],
             },
           },
         },
