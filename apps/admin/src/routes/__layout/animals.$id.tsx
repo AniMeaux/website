@@ -303,7 +303,7 @@ function SituationCard() {
 
         {canEdit && (
           <BaseLink
-            to="./edit"
+            to="./edit-situation"
             className={actionClassName.standalone({ variant: "text" })}
           >
             Modifier
