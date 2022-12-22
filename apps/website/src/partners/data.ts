@@ -8,6 +8,14 @@ export type Partner = {
 
 export const partners: Partner[] = [
   {
+    id: "f2f1be4f-884e-4ece-9590-4a1250620bd8",
+    image: "partners/beb4fe14-0258-40f9-9fbb-659db8746759",
+    name: "Anidéo",
+    description:
+      "Anidéo est l’entreprise de services au animaux de compagnie sur le secteur de Marne-la-Vallée ! Elle vous propose trois types de prestations sur un large secteur, 7 jours/7, de 8h à 20h : transport de votre animal (avec ou sans vous), visites et/ou gardes à votre domicile pendant votre absence et promenades canines.",
+    url: "https://www.anideo.fr",
+  },
+  {
     id: "019028a1-33f3-4717-9629-2c9c211bcb75",
     image: "partners/c4dbb22d-3131-4ebc-8373-6d050b38edf8",
     name: "Homycat",
@@ -46,6 +54,14 @@ export const partners: Partner[] = [
     description:
       "Médailles Gravées et Accessoires pour Animaux (Chiens, Chats, Chevaux, ânes, Lapins, etc…). Choix de matières, de formes, de tailles et de couleurs. Entreprise et Atelier en France. Envoi et Livraison Rapide.",
     url: "https://medailleschien.com",
+  },
+  {
+    id: "0be42a59-4d05-4e09-ba5a-a7e5550be7a6",
+    image: "partners/7d3c7741-48a9-4659-b49a-3b901aec3a2a",
+    name: "NeoVoice",
+    description:
+      "NeoVoice est l’application 100 % gratuite, construite avec un vétérinaire, qui vous aide à mieux comprendre la santé et le comportement de votre chien.",
+    url: "https://www.neovoice.fr",
   },
   {
     id: "c209b3be-c31f-49dc-881c-cbfbcdbc8343",

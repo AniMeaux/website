@@ -130,6 +130,13 @@ export const exhibitors: Exhibitor[] = [
     url: "http://bwildshop.fr",
   },
   {
+    id: "00cc792a-e1ae-4ffd-86c2-9d6d866b7799",
+    name: "Bandanas By Stella",
+    category: ExhibitorCategory.ACCESSOIRES,
+    image: "show-exhibitors/4b9fcbda-4e20-4003-bbfc-158424abda70",
+    url: "https://bandanasbystella.fr",
+  },
+  {
     id: "40976021-ad91-4f97-a82c-48c5a42cf8b9",
     name: "Boule de poils educ’",
     category: ExhibitorCategory.EDUCATION_CANINE,
@@ -163,6 +170,13 @@ export const exhibitors: Exhibitor[] = [
     category: ExhibitorCategory.ACCESSOIRES,
     image: "show-exhibitors/e2f0a63d-b6e3-4473-97b2-f748ad40e7ca",
     url: "https://www.chatrcoursmuraux.com",
+  },
+  {
+    id: "1cb1bd44-1e38-4f31-86d8-c2ee75bef84f",
+    name: "ESRAA",
+    category: ExhibitorCategory.ACCESSOIRES,
+    image: "show-exhibitors/08eb6d8d-2714-4515-a209-87d0352f1049",
+    url: "https://esraa.fr",
   },
   {
     id: "b3aa543b-373c-4d39-b962-f09a2449a18d",
@@ -310,6 +324,13 @@ export const exhibitors: Exhibitor[] = [
     category: ExhibitorCategory.ASSOCIATION_ANIMAUX_DE_COMPAGNIE,
     image: "show-exhibitors/9d2d7dd4-9b5f-4c39-998a-b8df7042ff85",
     url: "https://www.facebook.com/mistigriscroissybeaubourg",
+  },
+  {
+    id: "e1fa8dd1-88bc-4207-b4dd-f902123eb180",
+    name: "Mon animal au naturel",
+    category: ExhibitorCategory.ALIMENTATION_ET_ACCESSOIRES,
+    image: "show-exhibitors/83d4a46d-6f57-4ffd-8544-9d478d855162",
+    url: "https://monanimalaunaturel.com",
   },
   {
     id: "d0cd6090-060b-4b98-9058-32056acf8553",
