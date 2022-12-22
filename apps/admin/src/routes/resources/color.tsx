@@ -1,3 +1,20 @@
+import { searchColors } from "#/colors/db.server";
+import { ColorSearchParams } from "#/colors/searchParams";
+import { asBooleanAttribute } from "#/core/attributes";
+import { cn } from "#/core/classNames";
+import { ActionAdornment, Adornment } from "#/core/formElements/adornment";
+import { Input } from "#/core/formElements/input";
+import { inputClassName, InputWrapper } from "#/core/formElements/inputWrapper";
+import {
+  NoSuggestion,
+  ResourceComboboxLayout,
+  ResourceInputLayout,
+  SuggestionItem,
+  SuggestionList,
+} from "#/core/formElements/resourceInput";
+import { getCurrentUser } from "#/currentUser/db.server";
+import { assertCurrentUserHasGroups } from "#/currentUser/groups.server";
+import { Icon } from "#/generated/icon";
 import { Color, UserGroup } from "@prisma/client";
 import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
 import { json, LoaderArgs, SerializeFrom } from "@remix-run/node";
@@ -6,23 +23,6 @@ import { useCombobox } from "downshift";
 import { createPath } from "history";
 import { forwardRef, useEffect, useRef, useState } from "react";
 import invariant from "tiny-invariant";
-import { searchColors } from "~/colors/db.server";
-import { ColorSearchParams } from "~/colors/searchParams";
-import { asBooleanAttribute } from "~/core/attributes";
-import { cn } from "~/core/classNames";
-import { ActionAdornment, Adornment } from "~/core/formElements/adornment";
-import { Input } from "~/core/formElements/input";
-import { inputClassName, InputWrapper } from "~/core/formElements/inputWrapper";
-import {
-  NoSuggestion,
-  ResourceComboboxLayout,
-  ResourceInputLayout,
-  SuggestionItem,
-  SuggestionList,
-} from "~/core/formElements/resourceInput";
-import { getCurrentUser } from "~/currentUser/db.server";
-import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
-import { Icon } from "~/generated/icon";
 
 export async function loader({ request }: LoaderArgs) {
   const currentUser = await getCurrentUser(request, {
@@ -34,14 +34,12 @@ export async function loader({ request }: LoaderArgs) {
     UserGroup.ANIMAL_MANAGER,
   ]);
 
-  const colorSearchParams = new ColorSearchParams(
-    new URL(request.url).searchParams
-  );
+  const searchParams = new ColorSearchParams(new URL(request.url).searchParams);
 
-  return json({ colors: await searchColors(colorSearchParams) });
+  return json({ colors: await searchColors(searchParams) });
 }
 
-const RESOURCE_PATHNAME = "/resources/colors";
+const RESOURCE_PATHNAME = "/resources/color";
 
 type ColorInputProps = {
   name: string;
@@ -60,22 +58,22 @@ export const ColorInput = forwardRef<HTMLButtonElement, ColorInputProps>(
     const ref = propRef ?? localRef;
 
     const [isOpened, setIsOpened] = useState(false);
-    const colorsFetcher = useFetcher<typeof loader>();
+    const fetcher = useFetcher<typeof loader>();
 
     // This effect does 2 things:
     // - Make sure we display colors without delay when the combobox is opened.
     // - Make sure we clear any search when the combobox is closed.
-    const loadColors = colorsFetcher.load;
+    const load = fetcher.load;
     useEffect(() => {
       if (!isOpened) {
-        loadColors(
+        load(
           createPath({
             pathname: RESOURCE_PATHNAME,
             search: new ColorSearchParams().toString(),
           })
         );
       }
-    }, [loadColors, isOpened]);
+    }, [load, isOpened]);
 
     const [color, setColor] = useState(defaultValue);
 
@@ -106,9 +104,9 @@ export const ColorInput = forwardRef<HTMLButtonElement, ColorInputProps>(
           content={
             <Combobox
               color={color}
-              colors={colorsFetcher.data?.colors ?? []}
+              colors={fetcher.data?.colors ?? []}
               onInputValueChange={(value) => {
-                colorsFetcher.load(
+                fetcher.load(
                   createPath({
                     pathname: RESOURCE_PATHNAME,
                     search: new ColorSearchParams().setText(value).toString(),
@@ -245,9 +243,8 @@ function Combobox({
               {...combobox.getItemProps({ item: color, index })}
               isValue={selectedColor?.id === color.id}
               leftAdornment={<Icon id="palette" />}
-            >
-              {color.highlightedName}
-            </SuggestionItem>
+              label={color.highlightedName}
+            />
           ))}
 
           {colors.length === 0 ? (

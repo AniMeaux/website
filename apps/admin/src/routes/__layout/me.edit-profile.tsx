@@ -1,3 +1,22 @@
+import { actionClassName } from "#/core/actions";
+import { cn } from "#/core/classNames";
+import { Adornment } from "#/core/formElements/adornment";
+import { formClassNames } from "#/core/formElements/form";
+import { FormErrors } from "#/core/formElements/formErrors";
+import { Input } from "#/core/formElements/input";
+import { Card, CardContent, CardHeader, CardTitle } from "#/core/layout/card";
+import { getPageTitle } from "#/core/pageTitle";
+import { createActionData } from "#/core/schemas";
+import {
+  ActionConfirmationSearchParams,
+  ActionConfirmationType,
+} from "#/core/searchParams";
+import {
+  EmailAlreadyUsedError,
+  getCurrentUser,
+  updateCurrentUserProfile,
+} from "#/currentUser/db.server";
+import { Icon } from "#/generated/icon";
 import {
   ActionArgs,
   json,
@@ -9,25 +28,6 @@ import { Form, useActionData, useLoaderData } from "@remix-run/react";
 import { createPath } from "history";
 import { useEffect, useRef } from "react";
 import { z } from "zod";
-import { actionClassName } from "~/core/actions";
-import { cn } from "~/core/classNames";
-import { Adornment } from "~/core/formElements/adornment";
-import { formClassNames } from "~/core/formElements/form";
-import { FormErrors } from "~/core/formElements/formErrors";
-import { Input } from "~/core/formElements/input";
-import { Card, CardContent, CardHeader, CardTitle } from "~/core/layout/card";
-import { getPageTitle } from "~/core/pageTitle";
-import { createActionData } from "~/core/schemas";
-import {
-  ActionConfirmationSearchParams,
-  ActionConfirmationType,
-} from "~/core/searchParams";
-import {
-  EmailAlreadyUsedError,
-  getCurrentUser,
-  updateCurrentUserProfile,
-} from "~/currentUser/db.server";
-import { Icon } from "~/generated/icon";
 
 export async function loader({ request }: LoaderArgs) {
   const currentUser = await getCurrentUser(request, {

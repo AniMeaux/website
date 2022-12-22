@@ -1,7 +1,7 @@
+import { ErrorPage, getErrorTitle } from "#/core/dataDisplay/errorPage";
+import { getPageTitle } from "#/core/pageTitle";
+import { NotFoundResponse } from "#/core/response.server";
 import { MetaFunction } from "@remix-run/node";
-import { ErrorPage, getErrorTitle } from "~/core/dataDisplay/errorPage";
-import { getPageTitle } from "~/core/pageTitle";
-import { NotFoundResponse } from "~/core/response.server";
 
 export async function loader() {
   return new NotFoundResponse();

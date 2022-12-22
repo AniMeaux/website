@@ -1,7 +1,7 @@
+import { createSearchFilters } from "#/core/algolia/shared.server";
 import { SearchOptions } from "@algolia/client-search";
 import { Breed, Species } from "@prisma/client";
 import { SearchClient } from "algoliasearch";
-import { createSearchFilters } from "~/core/algolia/shared.server";
 
 export type BreedFromAlgolia = Pick<Breed, "name" | "species">;
 
@@ -14,7 +14,7 @@ export function createBreedDelegate(client: SearchClient) {
     async search(
       text: string,
       filters: { species: null | Species },
-      options: Omit<SearchOptions, "filter"> = {}
+      options: Omit<SearchOptions, "filters"> = {}
     ) {
       const result = await index.search<BreedFromAlgolia>(text, {
         ...options,

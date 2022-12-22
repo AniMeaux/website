@@ -1,7 +1,7 @@
+import { actionClassName, ActionColor } from "#/core/actions";
+import { cn } from "#/core/classNames";
+import { Icon, IconProps } from "#/generated/icon";
 import { cloneElement } from "react";
-import { actionClassName, ActionColor } from "~/core/actions";
-import { cn } from "~/core/classNames";
-import { Icon, IconProps } from "~/generated/icon";
 
 type HelperVariant = "error" | "warning" | "success";
 

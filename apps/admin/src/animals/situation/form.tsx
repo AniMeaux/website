@@ -1,27 +1,34 @@
-import { AdoptionOption, Animal, PickUpReason, Status } from "@prisma/client";
-import { SerializeFrom } from "@remix-run/node";
-import { Form } from "@remix-run/react";
-import { DateTime } from "luxon";
-import { useEffect, useRef, useState } from "react";
-import { z } from "zod";
 import {
   ADOPTION_OPTION_TRANSLATION,
   SORTED_ADOPTION_OPTION,
   SORTED_STATUS,
   STATUS_TRANSLATION,
-} from "~/animals/status";
-import { actionClassName } from "~/core/actions";
-import { cn } from "~/core/classNames";
-import { Adornment } from "~/core/formElements/adornment";
-import { formClassNames } from "~/core/formElements/form";
-import { FormErrors } from "~/core/formElements/formErrors";
-import { Input } from "~/core/formElements/input";
-import { RadioInput } from "~/core/formElements/radioInput";
-import { RequiredStart } from "~/core/formElements/requiredStart";
-import { Textarea } from "~/core/formElements/textarea";
-import { Separator } from "~/core/layout/separator";
-import { createActionData, ensureDate } from "~/core/schemas";
-import { Icon } from "~/generated/icon";
+} from "#/animals/status";
+import { actionClassName } from "#/core/actions";
+import { cn } from "#/core/classNames";
+import { Adornment } from "#/core/formElements/adornment";
+import { formClassNames } from "#/core/formElements/form";
+import { FormErrors } from "#/core/formElements/formErrors";
+import { Input } from "#/core/formElements/input";
+import { RadioInput } from "#/core/formElements/radioInput";
+import { RequiredStart } from "#/core/formElements/requiredStart";
+import { Textarea } from "#/core/formElements/textarea";
+import { Separator } from "#/core/layout/separator";
+import { createActionData, ensureDate } from "#/core/schemas";
+import { Icon } from "#/generated/icon";
+import { ManagerInput } from "#/routes/resources/manager";
+import {
+  AdoptionOption,
+  Animal,
+  PickUpReason,
+  Status,
+  User,
+} from "@prisma/client";
+import { SerializeFrom } from "@remix-run/node";
+import { Form } from "@remix-run/react";
+import { DateTime } from "luxon";
+import { useEffect, useRef, useState } from "react";
+import { z } from "zod";
 import { PICK_UP_REASON_TRANSLATION, SORTED_PICK_UP_REASON } from "../pickUp";
 
 export const ActionFormData = createActionData(
@@ -35,6 +42,7 @@ export const ActionFormData = createActionData(
     adoptionOption: z.nativeEnum(AdoptionOption).optional(),
     comments: z.string().trim(),
     id: z.string().uuid(),
+    managerId: z.string().uuid().optional(),
     pickUpDate: z.preprocess(
       ensureDate,
       z.date({
@@ -65,12 +73,15 @@ export function AnimalSituationForm({
       | "pickUpDate"
       | "pickUpReason"
       | "status"
-    >
+    > & {
+      manager: null | Pick<User, "id" | "displayName">;
+    }
   >;
   errors?: z.inferFlattenedErrors<typeof ActionFormData.schema>;
 }) {
   const [statusState, setStatusState] = useState(animal.status);
 
+  const managerRef = useRef<HTMLButtonElement>(null);
   const adoptionDateRef = useRef<HTMLInputElement>(null);
   const pickUpDateRef = useRef<HTMLInputElement>(null);
 
@@ -78,6 +89,8 @@ export function AnimalSituationForm({
   useEffect(() => {
     if (errors.formErrors.length > 0) {
       window.scrollTo({ top: 0 });
+    } else if (errors.fieldErrors.managerId != null) {
+      managerRef.current?.focus();
     } else if (errors.fieldErrors.adoptionDate != null) {
       adoptionDateRef.current?.focus();
     } else if (errors.fieldErrors.pickUpDate != null) {
@@ -179,6 +192,31 @@ export function AnimalSituationForm({
             </div>
           </>
         ) : null}
+
+        <Separator />
+
+        <div className={formClassNames.fields.field.root()}>
+          <span className={formClassNames.fields.field.label()}>
+            Responsable {animal.manager != null ? <RequiredStart /> : null}
+          </span>
+
+          <ManagerInput
+            ref={managerRef}
+            name={ActionFormData.keys.managerId}
+            defaultValue={animal.manager}
+            hasError={errors.fieldErrors.managerId != null}
+            aria-describedby="managerId-error"
+          />
+
+          {errors.fieldErrors.managerId != null && (
+            <p
+              id="managerId-error"
+              className={formClassNames.fields.field.errorMessage()}
+            >
+              {errors.fieldErrors.managerId}
+            </p>
+          )}
+        </div>
 
         <Separator />
 

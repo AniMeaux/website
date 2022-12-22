@@ -1,14 +1,14 @@
-import { Hit, SearchResponse } from "@algolia/client-search";
-import { Prisma } from "@prisma/client";
-import invariant from "tiny-invariant";
-import { ColorFromAlgolia } from "~/colors/algolia.server";
-import { algolia } from "~/core/algolia/algolia.server";
-import { prisma } from "~/core/db.server";
+import { ColorFromAlgolia } from "#/colors/algolia.server";
+import { algolia } from "#/core/algolia/algolia.server";
+import { prisma } from "#/core/db.server";
 import {
   createBatchHandlers,
   createPostHandlers,
   highlightValue,
-} from "~/mocks/algolia/shared.server";
+} from "#/mocks/algolia/shared.server";
+import { Hit, SearchResponse } from "@algolia/client-search";
+import { Prisma } from "@prisma/client";
+import invariant from "tiny-invariant";
 
 export const colorHandlers = [
   ...createPostHandlers(

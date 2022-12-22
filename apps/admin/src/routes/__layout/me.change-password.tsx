@@ -1,26 +1,26 @@
+import { actionClassName } from "#/core/actions";
+import { cn } from "#/core/classNames";
+import { Adornment } from "#/core/formElements/adornment";
+import { formClassNames } from "#/core/formElements/form";
+import { FormErrors } from "#/core/formElements/formErrors";
+import { PasswordInput } from "#/core/formElements/passwordInput";
+import { Card, CardContent, CardHeader, CardTitle } from "#/core/layout/card";
+import { getPageTitle } from "#/core/pageTitle";
+import { createActionData } from "#/core/schemas";
+import {
+  ActionConfirmationSearchParams,
+  ActionConfirmationType,
+} from "#/core/searchParams";
+import {
+  getCurrentUser,
+  updateCurrentUserPassword,
+} from "#/currentUser/db.server";
+import { Icon } from "#/generated/icon";
 import { ActionArgs, json, MetaFunction, redirect } from "@remix-run/node";
 import { Form, useActionData } from "@remix-run/react";
 import { createPath } from "history";
 import { useEffect, useRef } from "react";
 import { z } from "zod";
-import { actionClassName } from "~/core/actions";
-import { cn } from "~/core/classNames";
-import { Adornment } from "~/core/formElements/adornment";
-import { formClassNames } from "~/core/formElements/form";
-import { FormErrors } from "~/core/formElements/formErrors";
-import { PasswordInput } from "~/core/formElements/passwordInput";
-import { Card, CardContent, CardHeader, CardTitle } from "~/core/layout/card";
-import { getPageTitle } from "~/core/pageTitle";
-import { createActionData } from "~/core/schemas";
-import {
-  ActionConfirmationSearchParams,
-  ActionConfirmationType,
-} from "~/core/searchParams";
-import {
-  getCurrentUser,
-  updateCurrentUserPassword,
-} from "~/currentUser/db.server";
-import { Icon } from "~/generated/icon";
 
 export const meta: MetaFunction = () => {
   return { title: getPageTitle("Changer de mot de passe") };

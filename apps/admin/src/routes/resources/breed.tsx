@@ -1,3 +1,20 @@
+import { searchBreeds } from "#/breeds/db.server";
+import { BreedSearchParams } from "#/breeds/searchParams";
+import { asBooleanAttribute } from "#/core/attributes";
+import { cn } from "#/core/classNames";
+import { ActionAdornment, Adornment } from "#/core/formElements/adornment";
+import { Input } from "#/core/formElements/input";
+import { inputClassName, InputWrapper } from "#/core/formElements/inputWrapper";
+import {
+  NoSuggestion,
+  ResourceComboboxLayout,
+  ResourceInputLayout,
+  SuggestionItem,
+  SuggestionList,
+} from "#/core/formElements/resourceInput";
+import { getCurrentUser } from "#/currentUser/db.server";
+import { assertCurrentUserHasGroups } from "#/currentUser/groups.server";
+import { Icon } from "#/generated/icon";
 import { Breed, Species, UserGroup } from "@prisma/client";
 import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
 import { json, LoaderArgs, SerializeFrom } from "@remix-run/node";
@@ -6,23 +23,6 @@ import { useCombobox } from "downshift";
 import { createPath } from "history";
 import { forwardRef, useEffect, useRef, useState } from "react";
 import invariant from "tiny-invariant";
-import { searchBreeds } from "~/breeds/db.server";
-import { BreedSearchParams } from "~/breeds/searchParams";
-import { asBooleanAttribute } from "~/core/attributes";
-import { cn } from "~/core/classNames";
-import { ActionAdornment, Adornment } from "~/core/formElements/adornment";
-import { Input } from "~/core/formElements/input";
-import { inputClassName, InputWrapper } from "~/core/formElements/inputWrapper";
-import {
-  NoSuggestion,
-  ResourceComboboxLayout,
-  ResourceInputLayout,
-  SuggestionItem,
-  SuggestionList,
-} from "~/core/formElements/resourceInput";
-import { getCurrentUser } from "~/currentUser/db.server";
-import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
-import { Icon } from "~/generated/icon";
 
 export async function loader({ request }: LoaderArgs) {
   const currentUser = await getCurrentUser(request, {
@@ -34,14 +34,12 @@ export async function loader({ request }: LoaderArgs) {
     UserGroup.ANIMAL_MANAGER,
   ]);
 
-  const breedSearchParams = new BreedSearchParams(
-    new URL(request.url).searchParams
-  );
+  const searchParams = new BreedSearchParams(new URL(request.url).searchParams);
 
-  return json({ breeds: await searchBreeds(breedSearchParams) });
+  return json({ breeds: await searchBreeds(searchParams) });
 }
 
-const RESOURCE_PATHNAME = "/resources/breeds";
+const RESOURCE_PATHNAME = "/resources/breed";
 
 type BreedInputProps = {
   name: string;
@@ -67,22 +65,22 @@ export const BreedInput = forwardRef<HTMLButtonElement, BreedInputProps>(
     const ref = propRef ?? localRef;
 
     const [isOpened, setIsOpened] = useState(false);
-    const breedsFetcher = useFetcher<typeof loader>();
+    const fetcher = useFetcher<typeof loader>();
 
     // This effect does 2 things:
     // - Make sure we display breeds without delay when the combobox is opened.
     // - Make sure we clear any search when the combobox is closed.
-    const loadBreeds = breedsFetcher.load;
+    const load = fetcher.load;
     useEffect(() => {
       if (!isOpened) {
-        loadBreeds(
+        load(
           createPath({
             pathname: RESOURCE_PATHNAME,
             search: new BreedSearchParams().setSpecies(species).toString(),
           })
         );
       }
-    }, [loadBreeds, isOpened, species]);
+    }, [load, isOpened, species]);
 
     const [breed, setBreed] = useState(defaultValue);
 
@@ -113,9 +111,9 @@ export const BreedInput = forwardRef<HTMLButtonElement, BreedInputProps>(
           content={
             <Combobox
               breed={breed}
-              breeds={breedsFetcher.data?.breeds ?? []}
+              breeds={fetcher.data?.breeds ?? []}
               onInputValueChange={(value) => {
-                breedsFetcher.load(
+                fetcher.load(
                   createPath({
                     pathname: RESOURCE_PATHNAME,
                     search: new BreedSearchParams()
@@ -255,9 +253,8 @@ function Combobox({
               {...combobox.getItemProps({ item: breed, index })}
               isValue={selectedBreed?.id === breed.id}
               leftAdornment={<Icon id="dna" />}
-            >
-              {breed.highlightedName}
-            </SuggestionItem>
+              label={breed.highlightedName}
+            />
           ))}
 
           {breeds.length === 0 ? (

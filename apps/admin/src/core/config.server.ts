@@ -1,5 +1,5 @@
+import { Config } from "#/core/config";
 import invariant from "tiny-invariant";
-import { Config } from "~/core/config";
 
 export function createConfig(): Config {
   invariant(

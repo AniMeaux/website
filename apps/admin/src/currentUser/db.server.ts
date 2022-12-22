@@ -1,13 +1,13 @@
+import { algolia } from "#/core/algolia/algolia.server";
+import { prisma } from "#/core/db.server";
+import { NextSearchParams } from "#/core/searchParams";
+import { getSession } from "#/core/session.server";
+import { destroyUserSession } from "#/currentUser/session.server";
+import { hasGroups } from "#/users/groups";
+import { generatePasswordHash, isSamePassword } from "#/users/password.server";
 import { Prisma, User, UserGroup } from "@prisma/client";
 import { redirect } from "@remix-run/node";
 import { createPath } from "history";
-import { algolia } from "~/core/algolia/algolia.server";
-import { prisma } from "~/core/db.server";
-import { NextSearchParams } from "~/core/searchParams";
-import { getSession } from "~/core/session.server";
-import { destroyUserSession } from "~/currentUser/session.server";
-import { hasGroups } from "~/users/groups";
-import { generatePasswordHash, isSamePassword } from "~/users/password.server";
 
 const USER_SESSION_KEY = "userId";
 

@@ -1,15 +1,15 @@
+import { asBooleanAttribute } from "#/core/attributes";
+import { cn } from "#/core/classNames";
+import { HIGHLIGHT_COMPONENTS, Markdown } from "#/core/dataDisplay/markdown";
+import { ActionAdornment, Adornment } from "#/core/formElements/adornment";
+import { Card, CardContent } from "#/core/layout/card";
+import { ScreenSizeValue, useScreenSizeCondition } from "#/core/screenSize";
+import { Icon } from "#/generated/icon";
+import { theme } from "#/generated/theme";
 import * as Dialog from "@radix-ui/react-dialog";
 import * as Popover from "@radix-ui/react-popover";
 import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
 import { forwardRef } from "react";
-import { asBooleanAttribute } from "~/core/attributes";
-import { cn } from "~/core/classNames";
-import { HIGHLIGHT_COMPONENTS, Markdown } from "~/core/dataDisplay/markdown";
-import { ActionAdornment, Adornment } from "~/core/formElements/adornment";
-import { Card, CardContent } from "~/core/layout/card";
-import { ScreenSizeValue, useScreenSizeCondition } from "~/core/screenSize";
-import { Icon } from "~/generated/icon";
-import { theme } from "~/generated/theme";
 
 type ResourceInputLayoutProps = {
   isOpened: boolean;
@@ -172,10 +172,13 @@ export const SuggestionItem = forwardRef<
   Omit<React.LiHTMLAttributes<HTMLLIElement>, "children"> & {
     isValue?: boolean;
     leftAdornment: React.ReactNode;
-    children: string;
+
+    // We can't use `children` here because `forwardRef` automatically adds a
+    // `children` prop with `React.ReacNode` type.
+    label: string;
   }
 >(function SuggestionItem(
-  { isValue = false, leftAdornment, children, className, ...rest },
+  { isValue = false, leftAdornment, label, className, ...rest },
   ref
 ) {
   return (
@@ -193,7 +196,7 @@ export const SuggestionItem = forwardRef<
       </span>
 
       <span className="py-1 text-body-default group-data-[is-value=true]:text-body-emphasis">
-        <Markdown components={HIGHLIGHT_COMPONENTS}>{children}</Markdown>
+        <Markdown components={HIGHLIGHT_COMPONENTS}>{label}</Markdown>
       </span>
 
       <span className="opacity-0 h-4 w-4 flex items-center justify-center text-green-600 transition-opacity duration-100 ease-in-out group-data-[is-value=true]:opacity-100">
