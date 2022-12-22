@@ -65,22 +65,22 @@ export const BreedInput = forwardRef<HTMLButtonElement, BreedInputProps>(
     const ref = propRef ?? localRef;
 
     const [isOpened, setIsOpened] = useState(false);
-    const breedsFetcher = useFetcher<typeof loader>();
+    const fetcher = useFetcher<typeof loader>();
 
     // This effect does 2 things:
     // - Make sure we display breeds without delay when the combobox is opened.
     // - Make sure we clear any search when the combobox is closed.
-    const loadBreeds = breedsFetcher.load;
+    const load = fetcher.load;
     useEffect(() => {
       if (!isOpened) {
-        loadBreeds(
+        load(
           createPath({
             pathname: RESOURCE_PATHNAME,
             search: new BreedSearchParams().setSpecies(species).toString(),
           })
         );
       }
-    }, [loadBreeds, isOpened, species]);
+    }, [load, isOpened, species]);
 
     const [breed, setBreed] = useState(defaultValue);
 
@@ -111,9 +111,9 @@ export const BreedInput = forwardRef<HTMLButtonElement, BreedInputProps>(
           content={
             <Combobox
               breed={breed}
-              breeds={breedsFetcher.data?.breeds ?? []}
+              breeds={fetcher.data?.breeds ?? []}
               onInputValueChange={(value) => {
-                breedsFetcher.load(
+                fetcher.load(
                   createPath({
                     pathname: RESOURCE_PATHNAME,
                     search: new BreedSearchParams()
@@ -253,9 +253,8 @@ function Combobox({
               {...combobox.getItemProps({ item: breed, index })}
               isValue={selectedBreed?.id === breed.id}
               leftAdornment={<Icon id="dna" />}
-            >
-              {breed.highlightedName}
-            </SuggestionItem>
+              label={breed.highlightedName}
+            />
           ))}
 
           {breeds.length === 0 ? (

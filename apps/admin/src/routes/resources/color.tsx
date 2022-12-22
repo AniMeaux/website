@@ -58,22 +58,22 @@ export const ColorInput = forwardRef<HTMLButtonElement, ColorInputProps>(
     const ref = propRef ?? localRef;
 
     const [isOpened, setIsOpened] = useState(false);
-    const colorsFetcher = useFetcher<typeof loader>();
+    const fetcher = useFetcher<typeof loader>();
 
     // This effect does 2 things:
     // - Make sure we display colors without delay when the combobox is opened.
     // - Make sure we clear any search when the combobox is closed.
-    const loadColors = colorsFetcher.load;
+    const load = fetcher.load;
     useEffect(() => {
       if (!isOpened) {
-        loadColors(
+        load(
           createPath({
             pathname: RESOURCE_PATHNAME,
             search: new ColorSearchParams().toString(),
           })
         );
       }
-    }, [loadColors, isOpened]);
+    }, [load, isOpened]);
 
     const [color, setColor] = useState(defaultValue);
 
@@ -104,9 +104,9 @@ export const ColorInput = forwardRef<HTMLButtonElement, ColorInputProps>(
           content={
             <Combobox
               color={color}
-              colors={colorsFetcher.data?.colors ?? []}
+              colors={fetcher.data?.colors ?? []}
               onInputValueChange={(value) => {
-                colorsFetcher.load(
+                fetcher.load(
                   createPath({
                     pathname: RESOURCE_PATHNAME,
                     search: new ColorSearchParams().setText(value).toString(),
@@ -243,9 +243,8 @@ function Combobox({
               {...combobox.getItemProps({ item: color, index })}
               isValue={selectedColor?.id === color.id}
               leftAdornment={<Icon id="palette" />}
-            >
-              {color.highlightedName}
-            </SuggestionItem>
+              label={color.highlightedName}
+            />
           ))}
 
           {colors.length === 0 ? (
