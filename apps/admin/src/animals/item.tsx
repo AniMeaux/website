@@ -1,5 +1,6 @@
 import { Animal, Gender, User } from "@prisma/client";
 import { GENDER_ICON, GENDER_TRANSLATION } from "~/animals/gender";
+import { getAnimalDisplayName } from "~/animals/profile/name";
 import { StatusBadge } from "~/animals/status";
 import { BaseLink } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
@@ -64,8 +65,7 @@ export function AnimalItem({
               }
             )}
           >
-            {animal.name}
-            {animal.alias == null ? null : ` (${animal.alias})`}
+            {getAnimalDisplayName(animal)}
           </span>
         </p>
 

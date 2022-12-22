@@ -86,3 +86,8 @@ export const ADOPTION_OPTION_TRANSLATION: Record<AdoptionOption, string> = {
   [AdoptionOption.FREE_DONATION]: "Don libre",
   [AdoptionOption.UNKNOWN]: "Inconnu",
 };
+
+export const SORTED_ADOPTION_OPTION = orderBy(
+  Object.values(AdoptionOption),
+  (adoptionOption) => ADOPTION_OPTION_TRANSLATION[adoptionOption]
+);
