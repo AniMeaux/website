@@ -140,7 +140,7 @@ export async function action({ request }: ActionArgs) {
           errors: {
             formErrors: [],
             fieldErrors: {
-              breedId: ["La race n’appartient pas à cette espèce."],
+              breedId: ["La race n’appartient pas à cette espèce"],
             },
           },
         },

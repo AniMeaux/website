@@ -81,7 +81,7 @@ export async function action({ request }: ActionArgs) {
         {
           errors: {
             formErrors: [],
-            fieldErrors: { email: ["L’email est déjà utilisé."] },
+            fieldErrors: { email: ["L’email est déjà utilisé"] },
           },
         },
         { status: 400 }
