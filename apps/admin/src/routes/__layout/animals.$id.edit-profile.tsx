@@ -14,6 +14,7 @@ import {
   updateAnimalProfile,
 } from "~/animals/profile/db.server";
 import { ActionFormData, AnimalProfileForm } from "~/animals/profile/form";
+import { getAnimalDisplayName } from "~/animals/profile/name";
 import { ErrorPage, getErrorTitle } from "~/core/dataDisplay/errorPage";
 import { prisma } from "~/core/db.server";
 import { NotFoundError } from "~/core/errors.server";
@@ -75,12 +76,7 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
     return { title: getPageTitle(getErrorTitle(404)) };
   }
 
-  let displayName = animal.name;
-  if (animal.alias != null) {
-    displayName += ` (${animal.alias})`;
-  }
-
-  return { title: getPageTitle(displayName) };
+  return { title: getPageTitle(getAnimalDisplayName(animal)) };
 };
 
 type ActionData = {
