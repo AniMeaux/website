@@ -391,7 +391,10 @@ export const animalOperations: OperationsImpl<AnimalOperations> = {
       }
     }
 
-    if (params.status === Status.ADOPTED && params.adoptionDate == null) {
+    if (
+      params.status === Status.ADOPTED &&
+      (params.adoptionDate == null || params.adoptionOption == null)
+    ) {
       throw new OperationError(400);
     }
 
@@ -576,7 +579,10 @@ export const animalOperations: OperationsImpl<AnimalOperations> = {
       rawParams
     );
 
-    if (params.status === Status.ADOPTED && params.adoptionDate == null) {
+    if (
+      params.status === Status.ADOPTED &&
+      (params.adoptionDate == null || params.adoptionOption == null)
+    ) {
       throw new OperationError(400);
     }
 
