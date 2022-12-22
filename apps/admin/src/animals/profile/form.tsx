@@ -25,8 +25,8 @@ import { Textarea } from "~/core/formElements/textarea";
 import { Separator } from "~/core/layout/separator";
 import { createActionData, ensureBoolean, ensureDate } from "~/core/schemas";
 import { Icon } from "~/generated/icon";
-import { BreedInput } from "~/routes/resources/breeds";
-import { ColorInput } from "~/routes/resources/colors";
+import { BreedInput } from "~/routes/resources/breed";
+import { ColorInput } from "~/routes/resources/color";
 
 export const ActionFormData = createActionData(
   z.object({

@@ -41,7 +41,7 @@ export async function loader({ request }: LoaderArgs) {
   return json({ colors: await searchColors(colorSearchParams) });
 }
 
-const RESOURCE_PATHNAME = "/resources/colors";
+const RESOURCE_PATHNAME = "/resources/color";
 
 type ColorInputProps = {
   name: string;

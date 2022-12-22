@@ -41,7 +41,7 @@ export async function loader({ request }: LoaderArgs) {
   return json({ breeds: await searchBreeds(breedSearchParams) });
 }
 
-const RESOURCE_PATHNAME = "/resources/breeds";
+const RESOURCE_PATHNAME = "/resources/breed";
 
 type BreedInputProps = {
   name: string;
