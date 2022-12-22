@@ -306,38 +306,46 @@ function Combobox({
               ),
             });
 
-            const displayedValue = visit(resource, {
+            const label = visit(resource, {
               [SearchableResourceType.ANIMAL]: (resource) => {
-                const displayName = getAnimalDisplayName({
+                return getAnimalDisplayName({
                   name: resource.highlightedData.name,
                   alias: resource.highlightedData.alias,
                 });
-                const speciesLabels = getSpeciesLabels(resource.data);
-
-                return `${displayName} - ${speciesLabels}`;
               },
 
               [SearchableResourceType.EVENT]: (resource) => {
-                const title = resource.highlightedData.title;
-                const date = formatDateRange(
+                return resource.highlightedData.title;
+              },
+
+              [SearchableResourceType.FOSTER_FAMILY]: (resource) => {
+                return resource.highlightedData.displayName;
+              },
+
+              [SearchableResourceType.USER]: (resource) => {
+                return resource.highlightedData.displayName;
+              },
+            });
+
+            const secondaryLabel = visit(resource, {
+              [SearchableResourceType.ANIMAL]: (resource) => {
+                return getSpeciesLabels(resource.data);
+              },
+
+              [SearchableResourceType.EVENT]: (resource) => {
+                return formatDateRange(
                   resource.data.startDate,
                   resource.data.endDate,
                   { showTime: !resource.data.isFullDay }
                 );
-
-                return `${title} - ${date}`;
               },
 
               [SearchableResourceType.FOSTER_FAMILY]: (resource) => {
-                const displayName = resource.highlightedData.displayName;
-                const location = getShortLocation(resource.data);
-                return `${displayName} - ${location}`;
+                return getShortLocation(resource.data);
               },
 
               [SearchableResourceType.USER]: (resource) => {
-                const displayName = resource.highlightedData.displayName;
-                const email = resource.data.email;
-                return `${displayName} - ${email}`;
+                return resource.data.email;
               },
             });
 
@@ -346,7 +354,8 @@ function Combobox({
                 key={resource.id}
                 {...combobox.getItemProps({ item: resource, index })}
                 leftAdornment={leftAdornment}
-                label={displayedValue}
+                label={label}
+                secondaryLabel={secondaryLabel}
               />
             );
           })}

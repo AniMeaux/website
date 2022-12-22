@@ -768,8 +768,6 @@ export const animalOperations: OperationsImpl<AnimalOperations> = {
 
     return result.hits.map<ManagerSearchHit>((hit) => ({
       id: hit.objectID,
-      email: hit.email,
-      highlightedEmail: hit._highlightResult?.email?.value ?? hit.email,
       displayName: hit.displayName,
       highlightedDisplayName:
         hit._highlightResult?.displayName?.value ?? hit.displayName,
