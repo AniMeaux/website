@@ -176,9 +176,10 @@ export const SuggestionItem = forwardRef<
     // We can't use `children` here because `forwardRef` automatically adds a
     // `children` prop with `React.ReacNode` type.
     label: string;
+    secondaryLabel?: React.ReactNode;
   }
 >(function SuggestionItem(
-  { isValue = false, leftAdornment, label, className, ...rest },
+  { isValue = false, leftAdornment, label, secondaryLabel, className, ...rest },
   ref
 ) {
   return (
@@ -197,6 +198,9 @@ export const SuggestionItem = forwardRef<
 
       <span className="py-1 text-body-default group-data-[is-value=true]:text-body-emphasis">
         <Markdown components={HIGHLIGHT_COMPONENTS}>{label}</Markdown>
+        {secondaryLabel != null && (
+          <span className="text-gray-500"> - {secondaryLabel}</span>
+        )}
       </span>
 
       <span className="opacity-0 h-4 w-4 flex items-center justify-center text-green-600 transition-opacity duration-100 ease-in-out group-data-[is-value=true]:opacity-100">
