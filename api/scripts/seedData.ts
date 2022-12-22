@@ -321,9 +321,7 @@ function createAnimalInput({
         : null,
     adoptionOption:
       status === Status.ADOPTED
-        ? faker.helpers.maybe(() =>
-            faker.helpers.arrayElement(Object.values(AdoptionOption))
-          )
+        ? faker.helpers.arrayElement(Object.values(AdoptionOption))
         : null,
     managerId: faker.helpers.arrayElement(managers).id,
     fosterFamilyId: ACTIVE_ANIMAL_STATUS.includes(status)
