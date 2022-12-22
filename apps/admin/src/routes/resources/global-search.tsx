@@ -1,3 +1,24 @@
+import { AnimalAvatar } from "#/animals/avatar";
+import { getAnimalDisplayName } from "#/animals/profile/name";
+import { getSpeciesLabels } from "#/animals/species";
+import { cn } from "#/core/classNames";
+import { Avatar, inferAvatarColor } from "#/core/dataDisplay/avatar";
+import { ActionAdornment } from "#/core/formElements/adornment";
+import { Input } from "#/core/formElements/input";
+import {
+  SuggestionItem,
+  SuggestionList,
+} from "#/core/formElements/resourceInput";
+import { ForbiddenResponse } from "#/core/response.server";
+import { visit } from "#/core/visitor";
+import { getCurrentUser } from "#/currentUser/db.server";
+import { FosterFamilyAvatar } from "#/fosterFamilies/avatar";
+import { getShortLocation } from "#/fosterFamilies/location";
+import { Icon } from "#/generated/icon";
+import { searchResources } from "#/searchableResources/db.server";
+import { SearchableResourceSearchParams } from "#/searchableResources/searchParams";
+import { SearchableResourceType } from "#/searchableResources/type";
+import { UserAvatar } from "#/users/avatar";
 import { formatDateRange } from "@animeaux/shared";
 import { UserGroup } from "@prisma/client";
 import * as Dialog from "@radix-ui/react-dialog";
@@ -15,27 +36,6 @@ import {
 } from "downshift";
 import { createPath } from "history";
 import { useEffect, useState } from "react";
-import { AnimalAvatar } from "~/animals/avatar";
-import { getAnimalDisplayName } from "~/animals/profile/name";
-import { getSpeciesLabels } from "~/animals/species";
-import { cn } from "~/core/classNames";
-import { Avatar, inferAvatarColor } from "~/core/dataDisplay/avatar";
-import { ActionAdornment } from "~/core/formElements/adornment";
-import { Input } from "~/core/formElements/input";
-import {
-  SuggestionItem,
-  SuggestionList,
-} from "~/core/formElements/resourceInput";
-import { ForbiddenResponse } from "~/core/response.server";
-import { visit } from "~/core/visitor";
-import { getCurrentUser } from "~/currentUser/db.server";
-import { FosterFamilyAvatar } from "~/fosterFamilies/avatar";
-import { getShortLocation } from "~/fosterFamilies/location";
-import { Icon } from "~/generated/icon";
-import { searchResources } from "~/searchableResources/db.server";
-import { SearchableResourceSearchParams } from "~/searchableResources/searchParams";
-import { SearchableResourceType } from "~/searchableResources/type";
-import { UserAvatar } from "~/users/avatar";
 
 export async function loader({ request }: LoaderArgs) {
   const currentUser = await getCurrentUser(request, {

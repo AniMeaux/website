@@ -1,7 +1,7 @@
+import { cn } from "#/core/classNames";
+import { Icon } from "#/generated/icon";
 import { AdoptionOption, Status } from "@prisma/client";
 import orderBy from "lodash.orderby";
-import { cn } from "~/core/classNames";
-import { Icon } from "~/generated/icon";
 
 export const ACTIVE_ANIMAL_STATUS: Status[] = [
   Status.OPEN_TO_ADOPTION,

@@ -1,32 +1,32 @@
-import { Animal, Breed, Color, Gender, Species } from "@prisma/client";
-import { SerializeFrom } from "@remix-run/node";
-import { Form, useLocation } from "@remix-run/react";
-import { DateTime } from "luxon";
-import { useEffect, useRef, useState } from "react";
-import { z } from "zod";
 import {
   agreementFromBoolean,
   agreementToBoolean,
   AgreementValue,
   AGREEMENT_TRANSLATION,
   SORTED_AGREEMENTS,
-} from "~/animals/agreements";
-import { GENDER_TRANSLATION, SORTED_GENDERS } from "~/animals/gender";
-import { SORTED_SPECIES, SPECIES_TRANSLATION } from "~/animals/species";
-import { actionClassName } from "~/core/actions";
-import { cn } from "~/core/classNames";
-import { Adornment } from "~/core/formElements/adornment";
-import { formClassNames } from "~/core/formElements/form";
-import { FormErrors } from "~/core/formElements/formErrors";
-import { Input } from "~/core/formElements/input";
-import { RadioInput } from "~/core/formElements/radioInput";
-import { RequiredStart } from "~/core/formElements/requiredStart";
-import { Textarea } from "~/core/formElements/textarea";
-import { Separator } from "~/core/layout/separator";
-import { createActionData, ensureBoolean, ensureDate } from "~/core/schemas";
-import { Icon } from "~/generated/icon";
-import { BreedInput } from "~/routes/resources/breed";
-import { ColorInput } from "~/routes/resources/color";
+} from "#/animals/agreements";
+import { GENDER_TRANSLATION, SORTED_GENDERS } from "#/animals/gender";
+import { SORTED_SPECIES, SPECIES_TRANSLATION } from "#/animals/species";
+import { actionClassName } from "#/core/actions";
+import { cn } from "#/core/classNames";
+import { Adornment } from "#/core/formElements/adornment";
+import { formClassNames } from "#/core/formElements/form";
+import { FormErrors } from "#/core/formElements/formErrors";
+import { Input } from "#/core/formElements/input";
+import { RadioInput } from "#/core/formElements/radioInput";
+import { RequiredStart } from "#/core/formElements/requiredStart";
+import { Textarea } from "#/core/formElements/textarea";
+import { Separator } from "#/core/layout/separator";
+import { createActionData, ensureBoolean, ensureDate } from "#/core/schemas";
+import { Icon } from "#/generated/icon";
+import { BreedInput } from "#/routes/resources/breed";
+import { ColorInput } from "#/routes/resources/color";
+import { Animal, Breed, Color, Gender, Species } from "@prisma/client";
+import { SerializeFrom } from "@remix-run/node";
+import { Form, useLocation } from "@remix-run/react";
+import { DateTime } from "luxon";
+import { useEffect, useRef, useState } from "react";
+import { z } from "zod";
 
 export const ActionFormData = createActionData(
   z.object({

@@ -3,7 +3,7 @@ import { RemixServer } from "@remix-run/react";
 import { renderToString } from "react-dom/server";
 
 if (process.env.NODE_ENV === "development") {
-  const { startWorker } = require("~/mocks/mocks.server");
+  const { startWorker } = require("#/mocks/mocks.server");
   startWorker();
 }
 

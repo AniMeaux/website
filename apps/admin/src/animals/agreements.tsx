@@ -1,5 +1,5 @@
-import { cn } from "~/core/classNames";
-import { Icon, IconProps } from "~/generated/icon";
+import { cn } from "#/core/classNames";
+import { Icon, IconProps } from "#/generated/icon";
 
 export enum AgreementValue {
   TRUE = "TRUE",

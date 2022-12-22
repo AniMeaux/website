@@ -1,15 +1,15 @@
+import { asBooleanAttribute } from "#/core/attributes";
+import { cn } from "#/core/classNames";
+import { HIGHLIGHT_COMPONENTS, Markdown } from "#/core/dataDisplay/markdown";
+import { ActionAdornment, Adornment } from "#/core/formElements/adornment";
+import { Card, CardContent } from "#/core/layout/card";
+import { ScreenSizeValue, useScreenSizeCondition } from "#/core/screenSize";
+import { Icon } from "#/generated/icon";
+import { theme } from "#/generated/theme";
 import * as Dialog from "@radix-ui/react-dialog";
 import * as Popover from "@radix-ui/react-popover";
 import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
 import { forwardRef } from "react";
-import { asBooleanAttribute } from "~/core/attributes";
-import { cn } from "~/core/classNames";
-import { HIGHLIGHT_COMPONENTS, Markdown } from "~/core/dataDisplay/markdown";
-import { ActionAdornment, Adornment } from "~/core/formElements/adornment";
-import { Card, CardContent } from "~/core/layout/card";
-import { ScreenSizeValue, useScreenSizeCondition } from "~/core/screenSize";
-import { Icon } from "~/generated/icon";
-import { theme } from "~/generated/theme";
 
 type ResourceInputLayoutProps = {
   isOpened: boolean;

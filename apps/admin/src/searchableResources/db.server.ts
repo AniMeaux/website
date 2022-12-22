@@ -1,3 +1,15 @@
+import { algolia } from "#/core/algolia/algolia.server";
+import { prisma } from "#/core/db.server";
+import { visit } from "#/core/visitor";
+import {
+  SearchableAnimalHit,
+  SearchableEventHit,
+  SearchableFosterFamilyHit,
+  SearchableResourceHit,
+  SearchableUserHit,
+} from "#/searchableResources/algolia.server";
+import { SearchableResourceSearchParams } from "#/searchableResources/searchParams";
+import { SearchableResourceType } from "#/searchableResources/type";
 import {
   Animal,
   Breed,
@@ -7,18 +19,6 @@ import {
   User,
 } from "@prisma/client";
 import invariant from "tiny-invariant";
-import { algolia } from "~/core/algolia/algolia.server";
-import { prisma } from "~/core/db.server";
-import { visit } from "~/core/visitor";
-import {
-  SearchableAnimalHit,
-  SearchableEventHit,
-  SearchableFosterFamilyHit,
-  SearchableResourceHit,
-  SearchableUserHit,
-} from "~/searchableResources/algolia.server";
-import { SearchableResourceSearchParams } from "~/searchableResources/searchParams";
-import { SearchableResourceType } from "~/searchableResources/type";
 
 const SEARCH_COUNT = 6;
 
