@@ -34,11 +34,9 @@ export async function loader({ request }: LoaderArgs) {
     UserGroup.ANIMAL_MANAGER,
   ]);
 
-  const breedSearchParams = new BreedSearchParams(
-    new URL(request.url).searchParams
-  );
+  const searchParams = new BreedSearchParams(new URL(request.url).searchParams);
 
-  return json({ breeds: await searchBreeds(breedSearchParams) });
+  return json({ breeds: await searchBreeds(searchParams) });
 }
 
 const RESOURCE_PATHNAME = "/resources/breed";

@@ -34,11 +34,9 @@ export async function loader({ request }: LoaderArgs) {
     UserGroup.ANIMAL_MANAGER,
   ]);
 
-  const colorSearchParams = new ColorSearchParams(
-    new URL(request.url).searchParams
-  );
+  const searchParams = new ColorSearchParams(new URL(request.url).searchParams);
 
-  return json({ colors: await searchColors(colorSearchParams) });
+  return json({ colors: await searchColors(searchParams) });
 }
 
 const RESOURCE_PATHNAME = "/resources/color";
