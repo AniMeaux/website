@@ -40,11 +40,6 @@ export function Markdown({ children, components, className }: MarkdownProps) {
   );
 }
 
-export const PARAGRAPH_COMPONENTS: MarkdownProps["components"] = {
-  br: () => <br />,
-  p: ({ children }) => <p>{children}</p>,
-};
-
 export const ARTICLE_COMPONENTS: MarkdownProps["components"] = {
   br: () => <br />,
   p: ({ children }) => <p className="my-2 first:mt-0 last:mb-0">{children}</p>,

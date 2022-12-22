@@ -27,11 +27,7 @@ import { Empty } from "~/core/dataDisplay/empty";
 import { ErrorPage, getErrorTitle } from "~/core/dataDisplay/errorPage";
 import { Helper } from "~/core/dataDisplay/helper";
 import { createCloudinaryUrl, DynamicImage } from "~/core/dataDisplay/image";
-import {
-  ARTICLE_COMPONENTS,
-  Markdown,
-  PARAGRAPH_COMPONENTS,
-} from "~/core/dataDisplay/markdown";
+import { ARTICLE_COMPONENTS, Markdown } from "~/core/dataDisplay/markdown";
 import { prisma } from "~/core/db.server";
 import { assertIsDefined } from "~/core/isDefined.server";
 import { Card, CardContent, CardHeader, CardTitle } from "~/core/layout/card";
@@ -303,7 +299,7 @@ function SituationCard() {
 
         {canEdit && (
           <BaseLink
-            to="./edit"
+            to="./edit-situation"
             className={actionClassName.standalone({ variant: "text" })}
           >
             Modifier
@@ -389,7 +385,7 @@ function SituationCard() {
 
           {animal.comments != null && (
             <Item icon={<Icon id="comment" />}>
-              <Markdown components={PARAGRAPH_COMPONENTS}>
+              <Markdown components={ARTICLE_COMPONENTS}>
                 {animal.comments}
               </Markdown>
             </Item>

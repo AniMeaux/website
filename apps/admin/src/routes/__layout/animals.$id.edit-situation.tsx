@@ -9,12 +9,12 @@ import {
 import { useActionData, useCatch, useLoaderData } from "@remix-run/react";
 import { createPath } from "history";
 import { z } from "zod";
-import {
-  BreedNotForSpeciesError,
-  updateAnimalProfile,
-} from "~/animals/profile/db.server";
-import { ActionFormData, AnimalProfileForm } from "~/animals/profile/form";
 import { getAnimalDisplayName } from "~/animals/profile/name";
+import {
+  MissingAdoptionDateError,
+  updateAnimalSituation,
+} from "~/animals/situation/db.server";
+import { ActionFormData, AnimalSituationForm } from "~/animals/situation/form";
 import { ErrorPage, getErrorTitle } from "~/core/dataDisplay/errorPage";
 import { prisma } from "~/core/db.server";
 import { NotFoundError } from "~/core/errors.server";
@@ -47,20 +47,14 @@ export async function loader({ request, params }: LoaderArgs) {
   const animal = await prisma.animal.findUnique({
     where: { id: result.data },
     select: {
+      adoptionDate: true,
+      adoptionOption: true,
       alias: true,
-      birthdate: true,
-      breed: { select: { id: true, name: true } },
-      color: { select: { id: true, name: true } },
-      description: true,
-      gender: true,
-      iCadNumber: true,
+      comments: true,
       id: true,
-      isOkCats: true,
-      isOkChildren: true,
-      isOkDogs: true,
-      isSterilized: true,
       name: true,
-      species: true,
+      pickUpDate: true,
+      pickUpReason: true,
       status: true,
     },
   });
@@ -106,20 +100,13 @@ export async function action({ request }: ActionArgs) {
   }
 
   try {
-    await updateAnimalProfile(formData.data.id, {
-      species: formData.data.species,
-      name: formData.data.name,
-      alias: formData.data.alias || null,
-      birthdate: formData.data.birthdate,
-      breedId: formData.data.breedId || null,
-      colorId: formData.data.colorId || null,
-      description: formData.data.description || null,
-      gender: formData.data.gender,
-      iCadNumber: formData.data.iCadNumber || null,
-      isOkCats: formData.data.isOkCats,
-      isOkChildren: formData.data.isOkChildren,
-      isOkDogs: formData.data.isOkDogs,
-      isSterilized: formData.data.isSterilized,
+    await updateAnimalSituation(formData.data.id, {
+      adoptionDate: formData.data.adoptionDate ?? null,
+      adoptionOption: formData.data.adoptionOption ?? null,
+      comments: formData.data.comments || null,
+      pickUpDate: formData.data.pickUpDate,
+      pickUpReason: formData.data.pickUpReason,
+      status: formData.data.status,
     });
   } catch (error) {
     if (error instanceof NotFoundError) {
@@ -134,13 +121,13 @@ export async function action({ request }: ActionArgs) {
       );
     }
 
-    if (error instanceof BreedNotForSpeciesError) {
+    if (error instanceof MissingAdoptionDateError) {
       return json<ActionData>(
         {
           errors: {
             formErrors: [],
             fieldErrors: {
-              breedId: ["La race n’appartient pas à cette espèce"],
+              adoptionDate: ["Veuillez entrer une date"],
             },
           },
         },
@@ -166,7 +153,7 @@ export function CatchBoundary() {
   return <ErrorPage status={caught.status} />;
 }
 
-export default function AnimalEditProfilePage() {
+export default function AnimalEditSituationPage() {
   const { animal } = useLoaderData<typeof loader>();
   const actionData = useActionData<typeof action>();
 
@@ -178,7 +165,7 @@ export default function AnimalEditProfilePage() {
         </CardHeader>
 
         <CardContent>
-          <AnimalProfileForm animal={animal} errors={actionData?.errors} />
+          <AnimalSituationForm animal={animal} errors={actionData?.errors} />
         </CardContent>
       </Card>
     </main>
