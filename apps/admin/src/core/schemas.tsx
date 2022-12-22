@@ -30,7 +30,11 @@ function getSchemaKeys<TSchema extends z.ZodObject<any>>(schema: TSchema) {
 }
 
 export function ensureDate(value: unknown) {
-  if (typeof value === "string" && value !== "") {
+  if (typeof value === "string") {
+    if (value === "") {
+      return undefined;
+    }
+
     return DateTime.fromISO(value).toJSDate();
   }
 
