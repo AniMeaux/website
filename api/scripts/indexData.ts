@@ -173,7 +173,6 @@ async function indexUsers() {
   const users = await prisma.user.findMany({
     select: {
       id: true,
-      email: true,
       displayName: true,
       groups: true,
       isDisabled: true,
@@ -190,7 +189,7 @@ async function indexUsers() {
   );
 
   const indexSettings = createIndexSettings<UserFromAlgolia>({
-    searchableAttributes: ["displayName", "email"],
+    searchableAttributes: ["displayName"],
     attributesForFaceting: ["groups", "isDisabled"],
   });
 

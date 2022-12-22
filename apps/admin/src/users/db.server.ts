@@ -16,7 +16,7 @@ export async function searchUsers(searchParams: UserSearchParams) {
         groups: group == null ? undefined : { has: group },
         isDisabled: isDisabled ?? undefined,
       },
-      select: { id: true, displayName: true, email: true },
+      select: { id: true, displayName: true },
       orderBy: { displayName: "asc" },
       take: SEARCH_COUNT,
     });
@@ -24,7 +24,6 @@ export async function searchUsers(searchParams: UserSearchParams) {
     return managers.map((manager) => ({
       ...manager,
       highlightedDisplayName: manager.displayName,
-      highlightedEmail: manager.email,
     }));
   }
 

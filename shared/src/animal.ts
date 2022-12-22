@@ -154,8 +154,6 @@ export type LocationSearchHit = {
 
 export type ManagerSearchHit = {
   id: string;
-  email: string;
-  highlightedEmail: string;
   displayName: string;
   highlightedDisplayName: string;
 };

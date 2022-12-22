@@ -5,7 +5,7 @@ import { SearchClient } from "algoliasearch";
 
 export type UserFromAlgolia = Pick<
   User,
-  "email" | "displayName" | "groups" | "isDisabled"
+  "displayName" | "groups" | "isDisabled"
 >;
 
 export function createUserDelegate(client: SearchClient) {
@@ -36,8 +36,6 @@ export function createUserDelegate(client: SearchClient) {
         displayName: hit.displayName,
         highlightedDisplayName:
           hit._highlightResult?.displayName?.value ?? hit.displayName,
-        email: hit.email,
-        highlightedEmail: hit._highlightResult?.email?.value ?? hit.email,
       }));
     },
   };
