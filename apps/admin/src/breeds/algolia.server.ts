@@ -14,7 +14,7 @@ export function createBreedDelegate(client: SearchClient) {
     async search(
       text: string,
       filters: { species: null | Species },
-      options: Omit<SearchOptions, "filter"> = {}
+      options: Omit<SearchOptions, "filters"> = {}
     ) {
       const result = await index.search<BreedFromAlgolia>(text, {
         ...options,

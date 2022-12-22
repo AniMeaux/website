@@ -101,7 +101,7 @@ export function createSearchableResourceDelegate(client: SearchClient) {
     async search(
       text: string,
       filters: { type: SearchableResourceType[] | SearchableResourceType },
-      options: Omit<SearchOptions, "filter"> = {}
+      options: Omit<SearchOptions, "filters"> = {}
     ) {
       const result = await index.search<SearchableResourceFromAlgolia>(text, {
         ...options,
