@@ -6,26 +6,23 @@ import orderBy from "lodash.orderby";
 import { DateTime } from "luxon";
 import { z } from "zod";
 
-enum Sort {
-  PICK_UP = "PICK_UP",
-  NAME = "NAME",
-}
-
-enum Keys {
-  SORT = "sort",
-  NAME_OR_ALIAS = "q",
-  SPECIES = "species",
-  AGE = "age",
-  STATUS = "status",
-  MANAGERS_ID = "manager",
-  MIN_PICK_UP_DATE = "min",
-  MAX_PICK_UP_DATE = "max",
-  PICK_UP_LOCATION = "pickUp",
-}
-
 export class AnimalSearchParams extends URLSearchParams {
-  static readonly Sort = Sort;
-  static readonly Keys = Keys;
+  static readonly Sort = {
+    PICK_UP: "PICK_UP",
+    NAME: "NAME",
+  };
+
+  static readonly Keys = {
+    SORT: "sort",
+    NAME_OR_ALIAS: "q",
+    SPECIES: "species",
+    AGE: "age",
+    STATUS: "status",
+    MANAGERS_ID: "manager",
+    MIN_PICK_UP_DATE: "min",
+    MAX_PICK_UP_DATE: "max",
+    PICK_UP_LOCATION: "pickUp",
+  };
 
   isEmpty() {
     return this.areFiltersEqual(new AnimalSearchParams());
@@ -44,47 +41,49 @@ export class AnimalSearchParams extends URLSearchParams {
 
   getSort() {
     return parseOrDefault(
-      z.nativeEnum(Sort).default(Sort.PICK_UP),
-      this.get(Keys.SORT)
+      z
+        .nativeEnum(AnimalSearchParams.Sort)
+        .default(AnimalSearchParams.Sort.PICK_UP),
+      this.get(AnimalSearchParams.Keys.SORT)
     );
   }
 
   getNameOrAlias() {
-    return this.get(Keys.NAME_OR_ALIAS) || null;
+    return this.get(AnimalSearchParams.Keys.NAME_OR_ALIAS) || null;
   }
 
   deleteNameOrAlias() {
     const copy = new AnimalSearchParams(this);
-    copy.delete(Keys.NAME_OR_ALIAS);
+    copy.delete(AnimalSearchParams.Keys.NAME_OR_ALIAS);
     return copy;
   }
 
   getSpecies() {
     return parseOrDefault(
       z.nativeEnum(Species).array().default([]),
-      this.getAll(Keys.SPECIES)
+      this.getAll(AnimalSearchParams.Keys.SPECIES)
     );
   }
 
   getAges() {
     return parseOrDefault(
       z.nativeEnum(AnimalAge).array().default([]),
-      this.getAll(Keys.AGE)
+      this.getAll(AnimalSearchParams.Keys.AGE)
     );
   }
 
   getStatuses() {
     return parseOrDefault(
       z.nativeEnum(Status).array().default([]),
-      this.getAll(Keys.STATUS)
+      this.getAll(AnimalSearchParams.Keys.STATUS)
     );
   }
 
   setStatuses(statuses: Status[]) {
     const copy = new AnimalSearchParams(this);
-    copy.delete(Keys.STATUS);
+    copy.delete(AnimalSearchParams.Keys.STATUS);
     statuses.forEach((status) => {
-      copy.append(Keys.STATUS, status);
+      copy.append(AnimalSearchParams.Keys.STATUS, status);
     });
 
     return copy;
@@ -93,15 +92,15 @@ export class AnimalSearchParams extends URLSearchParams {
   getManagersId() {
     return parseOrDefault(
       z.string().uuid().array().default([]),
-      this.getAll(Keys.MANAGERS_ID)
+      this.getAll(AnimalSearchParams.Keys.MANAGERS_ID)
     );
   }
 
   setManagersId(managersId: string[]) {
     const copy = new AnimalSearchParams(this);
-    copy.delete(Keys.MANAGERS_ID);
+    copy.delete(AnimalSearchParams.Keys.MANAGERS_ID);
     managersId.forEach((managerId) => {
-      copy.append(Keys.MANAGERS_ID, managerId);
+      copy.append(AnimalSearchParams.Keys.MANAGERS_ID, managerId);
     });
 
     return copy;
@@ -110,7 +109,7 @@ export class AnimalSearchParams extends URLSearchParams {
   getMinPickUpDate() {
     const date = parseOrDefault(
       z.preprocess(ensureDate, z.date()).optional(),
-      this.get(Keys.MIN_PICK_UP_DATE)
+      this.get(AnimalSearchParams.Keys.MIN_PICK_UP_DATE)
     );
 
     if (date == null) {
@@ -122,14 +121,14 @@ export class AnimalSearchParams extends URLSearchParams {
 
   deleteMinPickUpDate() {
     const copy = new AnimalSearchParams(this);
-    copy.delete(Keys.MIN_PICK_UP_DATE);
+    copy.delete(AnimalSearchParams.Keys.MIN_PICK_UP_DATE);
     return copy;
   }
 
   getMaxPickUpDate() {
     const date = parseOrDefault(
       z.preprocess(ensureDate, z.date()).optional(),
-      this.get(Keys.MAX_PICK_UP_DATE)
+      this.get(AnimalSearchParams.Keys.MAX_PICK_UP_DATE)
     );
 
     if (date == null) {
@@ -141,14 +140,36 @@ export class AnimalSearchParams extends URLSearchParams {
 
   deleteMaxPickUpDate() {
     const copy = new AnimalSearchParams(this);
-    copy.delete(Keys.MAX_PICK_UP_DATE);
+    copy.delete(AnimalSearchParams.Keys.MAX_PICK_UP_DATE);
     return copy;
   }
 
   getPickUpLocations() {
     return parseOrDefault(
       z.string().array().default([]),
-      this.getAll(Keys.PICK_UP_LOCATION)
+      this.getAll(AnimalSearchParams.Keys.PICK_UP_LOCATION)
     );
+  }
+}
+
+export class PickUpLocationSearchParams extends URLSearchParams {
+  static readonly Keys = {
+    TEXT: "q",
+  };
+
+  getText() {
+    return this.get(PickUpLocationSearchParams.Keys.TEXT) || null;
+  }
+
+  setText(text: string) {
+    const copy = new PickUpLocationSearchParams(this);
+
+    if (text !== "") {
+      copy.set(PickUpLocationSearchParams.Keys.TEXT, text);
+    } else if (copy.has(PickUpLocationSearchParams.Keys.TEXT)) {
+      copy.delete(PickUpLocationSearchParams.Keys.TEXT);
+    }
+
+    return copy;
   }
 }
