@@ -64,7 +64,7 @@ export const ManagerInput = forwardRef<HTMLButtonElement, ManagerInputProps>(
     const fetcher = useFetcher<typeof loader>();
 
     // This effect does 2 things:
-    // - Make sure we display managers without delay when the combobox is
+    // - Make sure we display suggestions without delay when the combobox is
     //   opened.
     // - Make sure we clear any search when the combobox is closed.
     const load = fetcher.load;
