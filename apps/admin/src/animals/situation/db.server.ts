@@ -1,3 +1,4 @@
+import { ACTIVE_ANIMAL_STATUS } from "#/animals/status";
 import { algolia } from "#/core/algolia/algolia.server";
 import { prisma } from "#/core/db.server";
 import { NotFoundError } from "#/core/errors.server";
@@ -15,6 +16,7 @@ export async function updateAnimalSituation(
     | "adoptionDate"
     | "adoptionOption"
     | "comments"
+    | "fosterFamilyId"
     | "managerId"
     | "pickUpDate"
     | "pickUpReason"
@@ -59,6 +61,10 @@ export async function updateAnimalSituation(
     if (data.status !== Status.ADOPTED) {
       data.adoptionDate = null;
       data.adoptionOption = null;
+    }
+
+    if (!ACTIVE_ANIMAL_STATUS.includes(data.status)) {
+      data.fosterFamilyId = null;
     }
 
     try {

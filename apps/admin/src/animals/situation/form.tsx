@@ -1,4 +1,5 @@
 import {
+  ACTIVE_ANIMAL_STATUS,
   ADOPTION_OPTION_TRANSLATION,
   SORTED_ADOPTION_OPTION,
   SORTED_STATUS,
@@ -16,10 +17,12 @@ import { Textarea } from "#/core/formElements/textarea";
 import { Separator } from "#/core/layout/separator";
 import { createActionData, ensureDate } from "#/core/schemas";
 import { Icon } from "#/generated/icon";
+import { FosterFamilyInput } from "#/routes/resources/foster-family";
 import { ManagerInput } from "#/routes/resources/manager";
 import {
   AdoptionOption,
   Animal,
+  FosterFamily,
   PickUpReason,
   Status,
   User,
@@ -41,6 +44,7 @@ export const ActionFormData = createActionData(
     ),
     adoptionOption: z.nativeEnum(AdoptionOption).optional(),
     comments: z.string().trim(),
+    fosterFamilyId: z.string().uuid().optional(),
     id: z.string().uuid(),
     managerId: z.string().uuid().optional(),
     pickUpDate: z.preprocess(
@@ -74,6 +78,7 @@ export function AnimalSituationForm({
       | "pickUpReason"
       | "status"
     > & {
+      fosterFamily: null | Pick<FosterFamily, "id" | "displayName">;
       manager: null | Pick<User, "id" | "displayName">;
     }
   >;
@@ -272,6 +277,23 @@ export function AnimalSituationForm({
             ))}
           </div>
         </div>
+
+        {ACTIVE_ANIMAL_STATUS.includes(statusState) ? (
+          <>
+            <Separator />
+
+            <div className={formClassNames.fields.field.root()}>
+              <span className={formClassNames.fields.field.label()}>
+                Famille d’accueil
+              </span>
+
+              <FosterFamilyInput
+                name={ActionFormData.keys.fosterFamilyId}
+                defaultValue={animal.fosterFamily}
+              />
+            </div>
+          </>
+        ) : null}
 
         <Separator />
 
