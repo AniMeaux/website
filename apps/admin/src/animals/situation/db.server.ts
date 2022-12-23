@@ -8,6 +8,7 @@ export class MissingAdoptionDateError extends Error {}
 export class MissingAdoptionOptionError extends Error {}
 export class MissingManagerError extends Error {}
 export class NotManagerError extends Error {}
+export class MissingPickUpLocationError extends Error {}
 
 export async function updateAnimalSituation(
   animalId: Animal["id"],
@@ -19,6 +20,7 @@ export async function updateAnimalSituation(
     | "fosterFamilyId"
     | "managerId"
     | "pickUpDate"
+    | "pickUpLocation"
     | "pickUpReason"
     | "status"
   >
@@ -33,15 +35,18 @@ export async function updateAnimalSituation(
       }
     }
 
-    if (data.managerId == null) {
-      const animal = await prisma.animal.findUnique({
-        where: { id: animalId },
-        select: { managerId: true },
-      });
+    const currentAnimal = await prisma.animal.findUnique({
+      where: { id: animalId },
+      select: { managerId: true, pickUpLocation: true },
+    });
+    if (currentAnimal == null) {
+      throw new NotFoundError();
+    }
 
+    if (data.managerId == null) {
       // Allow old animals (without a manager) to be updated without setting
       // one. But we can't unset a manager.
-      if (animal?.managerId != null) {
+      if (currentAnimal.managerId != null) {
         throw new MissingManagerError();
       }
     } else {
@@ -56,6 +61,12 @@ export async function updateAnimalSituation(
       if (manager == null) {
         throw new NotManagerError();
       }
+    }
+
+    // Allow old animals (without a pick up location) to be updated without
+    // setting one. But we can't unset a pick up location.
+    if (data.pickUpLocation == null && currentAnimal.pickUpLocation != null) {
+      throw new MissingPickUpLocationError();
     }
 
     if (data.status !== Status.ADOPTED) {
@@ -76,6 +87,7 @@ export async function updateAnimalSituation(
 
       await algolia.animal.update(animalId, {
         status: data.status,
+        pickUpLocation: data.pickUpLocation,
       });
 
       await algolia.searchableResource.updateAnimal(animalId, {

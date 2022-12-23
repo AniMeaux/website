@@ -23,6 +23,7 @@ import { createActionData, ensureDate } from "#/core/schemas";
 import { Icon } from "#/generated/icon";
 import { FosterFamilyInput } from "#/routes/resources/foster-family";
 import { ManagerInput } from "#/routes/resources/manager";
+import { PickUpLocationInput } from "#/routes/resources/pick-up-location";
 import {
   AdoptionOption,
   Animal,
@@ -57,6 +58,7 @@ export const ActionFormData = createActionData(
         invalid_type_error: "Veuillez entrer une date valide",
       })
     ),
+    pickUpLocation: z.string().trim().optional(),
     pickUpReason: z.nativeEnum(PickUpReason, {
       required_error: "Veuillez choisir une raison",
     }),
@@ -78,6 +80,7 @@ export function AnimalSituationForm({
       | "comments"
       | "id"
       | "pickUpDate"
+      | "pickUpLocation"
       | "pickUpReason"
       | "status"
     > & {
@@ -90,6 +93,7 @@ export function AnimalSituationForm({
   const [statusState, setStatusState] = useState(animal.status);
 
   const managerRef = useRef<HTMLButtonElement>(null);
+  const pickUpLocationRef = useRef<HTMLButtonElement>(null);
   const adoptionDateRef = useRef<HTMLInputElement>(null);
   const pickUpDateRef = useRef<HTMLInputElement>(null);
 
@@ -103,6 +107,8 @@ export function AnimalSituationForm({
       adoptionDateRef.current?.focus();
     } else if (errors.fieldErrors.pickUpDate != null) {
       pickUpDateRef.current?.focus();
+    } else if (errors.fieldErrors.pickUpLocation != null) {
+      pickUpLocationRef.current?.focus();
     }
   }, [errors.formErrors, errors.fieldErrors]);
 
@@ -258,6 +264,30 @@ export function AnimalSituationForm({
                 className={formClassNames.fields.field.errorMessage()}
               >
                 {errors.fieldErrors.pickUpDate}
+              </p>
+            )}
+          </div>
+
+          <div className={formClassNames.fields.field.root()}>
+            <span className={formClassNames.fields.field.label()}>
+              Lieux de prise en charge{" "}
+              {animal.pickUpLocation != null ? <RequiredStart /> : null}
+            </span>
+
+            <PickUpLocationInput
+              ref={pickUpLocationRef}
+              name={ActionFormData.keys.pickUpLocation}
+              defaultValue={animal.pickUpLocation}
+              hasError={errors.fieldErrors.pickUpLocation != null}
+              aria-describedby="pickUpLocation-error"
+            />
+
+            {errors.fieldErrors.pickUpLocation != null && (
+              <p
+                id="pickUpLocation-error"
+                className={formClassNames.fields.field.errorMessage()}
+              >
+                {errors.fieldErrors.pickUpLocation}
               </p>
             )}
           </div>
