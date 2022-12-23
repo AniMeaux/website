@@ -1,4 +1,8 @@
 import {
+  PICK_UP_REASON_TRANSLATION,
+  SORTED_PICK_UP_REASON,
+} from "#/animals/pickUp";
+import {
   ACTIVE_ANIMAL_STATUS,
   ADOPTION_OPTION_TRANSLATION,
   SORTED_ADOPTION_OPTION,
@@ -32,7 +36,6 @@ import { Form } from "@remix-run/react";
 import { DateTime } from "luxon";
 import { useEffect, useRef, useState } from "react";
 import { z } from "zod";
-import { PICK_UP_REASON_TRANSLATION, SORTED_PICK_UP_REASON } from "../pickUp";
 
 export const ActionFormData = createActionData(
   z.object({
