@@ -1,5 +1,5 @@
 // learn more: https://fly.io/docs/reference/configuration/#services-http_checks
-import { createConfig } from "#/core/config.server";
+import { createConfig } from "~/core/config.server";
 
 export async function loader() {
   const config = createConfig();

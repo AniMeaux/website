@@ -1,11 +1,11 @@
-import { BaseLink, BaseLinkProps } from "#/core/baseLink";
-import { cn } from "#/core/classNames";
-import { useWidth } from "#/core/hooks";
-import nameAndLogo from "#/images/nameAndLogo.svg";
-import { LineShapeHorizontal } from "#/layout/lineShape";
-import { navLinkClassName } from "#/layout/navigation/shared";
-import { SocialLinks } from "#/layout/navigation/socialLinks";
 import { Transition } from "react-transition-group";
+import { BaseLink, BaseLinkProps } from "~/core/baseLink";
+import { cn } from "~/core/classNames";
+import { useWidth } from "~/core/hooks";
+import nameAndLogo from "~/images/nameAndLogo.svg";
+import { LineShapeHorizontal } from "~/layout/lineShape";
+import { navLinkClassName } from "~/layout/navigation/shared";
+import { SocialLinks } from "~/layout/navigation/socialLinks";
 
 export function LargeNav() {
   return (

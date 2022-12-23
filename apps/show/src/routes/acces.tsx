@@ -1,11 +1,12 @@
-import { actionClassNames } from "#/core/actions";
-import { BaseLink } from "#/core/baseLink";
-import { cn } from "#/core/classNames";
-import { createSocialMeta } from "#/core/meta";
-import { getPageTitle } from "#/core/pageTitle";
-import { Icon, IconProps } from "#/generated/icon";
-import { mapImages } from "#/images/map";
-import { bubbleSectionClassNames, BubbleShape } from "#/layout/bubbleSection";
+import { MetaFunction } from "@remix-run/node";
+import { actionClassNames } from "~/core/actions";
+import { BaseLink } from "~/core/baseLink";
+import { cn } from "~/core/classNames";
+import { createSocialMeta } from "~/core/meta";
+import { getPageTitle } from "~/core/pageTitle";
+import { Icon, IconProps } from "~/generated/icon";
+import { mapImages } from "~/images/map";
+import { bubbleSectionClassNames, BubbleShape } from "~/layout/bubbleSection";
 import {
   HeroSection,
   HeroSectionAction,
@@ -13,8 +14,7 @@ import {
   HeroSectionImage,
   HeroSectionParagraph,
   HeroSectionTitle,
-} from "#/layout/heroSection";
-import { MetaFunction } from "@remix-run/node";
+} from "~/layout/heroSection";
 
 export const meta: MetaFunction = () => {
   return createSocialMeta({ title: getPageTitle("Accès au Salon") });
