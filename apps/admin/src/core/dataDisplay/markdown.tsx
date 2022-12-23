@@ -1,8 +1,8 @@
-import { actionClassName } from "#/core/actions";
-import { BaseLink } from "#/core/baseLink";
 import ReactMarkdown, { Options as ReactMarkdownOptions } from "react-markdown";
 import breaks from "remark-breaks";
 import gfm from "remark-gfm";
+import { actionClassName } from "~/core/actions";
+import { BaseLink } from "~/core/baseLink";
 
 const REMARK_PLUGINS: ReactMarkdownOptions["plugins"] = [
   // Allow line breaks in paragraphs.

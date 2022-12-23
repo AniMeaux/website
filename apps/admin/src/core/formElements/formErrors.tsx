@@ -1,5 +1,5 @@
-import { Helper, HelperProps } from "#/core/dataDisplay/helper";
-import { joinReactNodes } from "#/core/joinReactNodes";
+import { Helper, HelperProps } from "~/core/dataDisplay/helper";
+import { joinReactNodes } from "~/core/joinReactNodes";
 
 export function FormErrors({
   errors,

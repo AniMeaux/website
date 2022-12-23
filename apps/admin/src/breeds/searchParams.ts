@@ -1,6 +1,6 @@
-import { parseOrDefault } from "#/core/schemas";
 import { Species } from "@prisma/client";
 import { z } from "zod";
+import { parseOrDefault } from "~/core/schemas";
 
 enum Keys {
   TEXT = "q",

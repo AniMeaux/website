@@ -1,30 +1,4 @@
 import {
-  PICK_UP_REASON_TRANSLATION,
-  SORTED_PICK_UP_REASON,
-} from "#/animals/pickUp";
-import {
-  ACTIVE_ANIMAL_STATUS,
-  ADOPTION_OPTION_TRANSLATION,
-  SORTED_ADOPTION_OPTION,
-  SORTED_STATUS,
-  STATUS_TRANSLATION,
-} from "#/animals/status";
-import { actionClassName } from "#/core/actions";
-import { cn } from "#/core/classNames";
-import { Adornment } from "#/core/formElements/adornment";
-import { formClassNames } from "#/core/formElements/form";
-import { FormErrors } from "#/core/formElements/formErrors";
-import { Input } from "#/core/formElements/input";
-import { RadioInput } from "#/core/formElements/radioInput";
-import { RequiredStart } from "#/core/formElements/requiredStart";
-import { Textarea } from "#/core/formElements/textarea";
-import { Separator } from "#/core/layout/separator";
-import { createActionData, ensureDate } from "#/core/schemas";
-import { Icon } from "#/generated/icon";
-import { FosterFamilyInput } from "#/routes/resources/foster-family";
-import { ManagerInput } from "#/routes/resources/manager";
-import { PickUpLocationInput } from "#/routes/resources/pick-up-location";
-import {
   AdoptionOption,
   Animal,
   FosterFamily,
@@ -37,6 +11,32 @@ import { Form } from "@remix-run/react";
 import { DateTime } from "luxon";
 import { useEffect, useRef, useState } from "react";
 import { z } from "zod";
+import {
+  PICK_UP_REASON_TRANSLATION,
+  SORTED_PICK_UP_REASON,
+} from "~/animals/pickUp";
+import {
+  ACTIVE_ANIMAL_STATUS,
+  ADOPTION_OPTION_TRANSLATION,
+  SORTED_ADOPTION_OPTION,
+  SORTED_STATUS,
+  STATUS_TRANSLATION,
+} from "~/animals/status";
+import { actionClassName } from "~/core/actions";
+import { cn } from "~/core/classNames";
+import { Adornment } from "~/core/formElements/adornment";
+import { formClassNames } from "~/core/formElements/form";
+import { FormErrors } from "~/core/formElements/formErrors";
+import { Input } from "~/core/formElements/input";
+import { RadioInput } from "~/core/formElements/radioInput";
+import { RequiredStart } from "~/core/formElements/requiredStart";
+import { Textarea } from "~/core/formElements/textarea";
+import { Separator } from "~/core/layout/separator";
+import { createActionData, ensureDate } from "~/core/schemas";
+import { Icon } from "~/generated/icon";
+import { FosterFamilyInput } from "~/routes/resources/foster-family";
+import { ManagerInput } from "~/routes/resources/manager";
+import { PickUpLocationInput } from "~/routes/resources/pick-up-location";
 
 export const ActionFormData = createActionData(
   z.object({

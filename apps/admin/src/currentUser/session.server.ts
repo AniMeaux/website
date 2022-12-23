@@ -1,9 +1,9 @@
+import { User } from "@prisma/client";
 import {
   commitSession,
   destroySession,
   getSession,
-} from "#/core/session.server";
-import { User } from "@prisma/client";
+} from "~/core/session.server";
 
 const USER_SESSION_KEY = "userId";
 

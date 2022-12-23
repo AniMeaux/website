@@ -52,7 +52,7 @@ ${contents.map((symbol) => `    ${symbol}`).join("\n")}
   await writeFile(ICON_SPRITE_DEST, sprite);
   console.info(`🎉 Sprite file wrote: ${relativeToCwd(ICON_SPRITE_DEST)}`);
 
-  const component = `import sprite from "#/${path.relative(
+  const component = `import sprite from "~/${path.relative(
     path.resolve(__dirname, "../src"),
     ICON_SPRITE_DEST
   )}";

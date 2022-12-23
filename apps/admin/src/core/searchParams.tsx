@@ -1,7 +1,7 @@
-import { parseOrDefault } from "#/core/schemas";
 import { useSearchParams } from "@remix-run/react";
 import { z } from "zod";
 import { zfd } from "zod-form-data";
+import { parseOrDefault } from "~/core/schemas";
 
 export class PageSearchParams extends URLSearchParams {
   static readonly Keys = {

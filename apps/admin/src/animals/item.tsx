@@ -1,11 +1,11 @@
-import { GENDER_ICON, GENDER_TRANSLATION } from "#/animals/gender";
-import { getAnimalDisplayName } from "#/animals/profile/name";
-import { StatusBadge } from "#/animals/status";
-import { BaseLink } from "#/core/baseLink";
-import { cn } from "#/core/classNames";
-import { DynamicImage, DynamicImageProps } from "#/core/dataDisplay/image";
-import { Icon } from "#/generated/icon";
 import { Animal, Gender, User } from "@prisma/client";
+import { GENDER_ICON, GENDER_TRANSLATION } from "~/animals/gender";
+import { getAnimalDisplayName } from "~/animals/profile/name";
+import { StatusBadge } from "~/animals/status";
+import { BaseLink } from "~/core/baseLink";
+import { cn } from "~/core/classNames";
+import { DynamicImage, DynamicImageProps } from "~/core/dataDisplay/image";
+import { Icon } from "~/generated/icon";
 
 export function AnimalItem({
   animal,

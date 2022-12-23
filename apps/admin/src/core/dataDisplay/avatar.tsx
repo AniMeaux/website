@@ -1,5 +1,5 @@
-import { cn } from "#/core/classNames";
-import { Icon, IconProps } from "#/generated/icon";
+import { cn } from "~/core/classNames";
+import { Icon, IconProps } from "~/generated/icon";
 
 const AVATAR_COLORS = ["blue", "green", "red", "yellow"] as const;
 export type AvatarColor = typeof AVATAR_COLORS[number];

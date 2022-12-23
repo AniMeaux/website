@@ -1,10 +1,10 @@
-import { getPageTitle } from "#/core/pageTitle";
-import { theme } from "#/generated/theme";
-import googleTouchIcon from "#/images/googleTouchIcon.png";
-import googleTouchIconMac from "#/images/googleTouchIconMac.png";
-import googleTouchIconMaskable from "#/images/googleTouchIconMaskable.png";
 import { json, LinksFunction, LoaderArgs } from "@remix-run/node";
 import Bowser from "bowser";
+import { getPageTitle } from "~/core/pageTitle";
+import { theme } from "~/generated/theme";
+import googleTouchIcon from "~/images/googleTouchIcon.png";
+import googleTouchIconMac from "~/images/googleTouchIconMac.png";
+import googleTouchIconMaskable from "~/images/googleTouchIconMaskable.png";
 
 // Make sure images are added to the build assets.
 // It looks like an asset only used on the server won't be included in the

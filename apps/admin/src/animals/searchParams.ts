@@ -1,10 +1,10 @@
-import { ensureDate, parseOrDefault } from "#/core/schemas";
 import { AnimalAge } from "@animeaux/shared";
 import { Species, Status } from "@prisma/client";
 import isEqual from "lodash.isequal";
 import orderBy from "lodash.orderby";
 import { DateTime } from "luxon";
 import { z } from "zod";
+import { ensureDate, parseOrDefault } from "~/core/schemas";
 
 export class AnimalSearchParams extends URLSearchParams {
   static readonly Sort = {

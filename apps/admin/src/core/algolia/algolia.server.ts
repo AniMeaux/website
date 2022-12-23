@@ -1,11 +1,11 @@
-import { createAnimalDelegate } from "#/animals/algolia.server";
-import { createBreedDelegate } from "#/breeds/algolia.server";
-import { createColorDelegate } from "#/colors/algolia.server";
-import { createFosterFamilyDelegate } from "#/fosterFamilies/algolia.server";
-import { createSearchableResourceDelegate } from "#/searchableResources/algolia.server";
-import { createUserDelegate } from "#/users/algolia.server";
 import algoliasearch from "algoliasearch";
 import invariant from "tiny-invariant";
+import { createAnimalDelegate } from "~/animals/algolia.server";
+import { createBreedDelegate } from "~/breeds/algolia.server";
+import { createColorDelegate } from "~/colors/algolia.server";
+import { createFosterFamilyDelegate } from "~/fosterFamilies/algolia.server";
+import { createSearchableResourceDelegate } from "~/searchableResources/algolia.server";
+import { createUserDelegate } from "~/users/algolia.server";
 
 invariant(process.env.ALGOLIA_ID != null, "ALGOLIA_ID must be defined.");
 

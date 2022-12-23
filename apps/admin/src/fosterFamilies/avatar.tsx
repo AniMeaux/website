@@ -1,9 +1,9 @@
+import { FosterFamily } from "@prisma/client";
 import {
   Avatar,
   AvatarProps,
   inferAvatarColor,
-} from "#/core/dataDisplay/avatar";
-import { FosterFamily } from "@prisma/client";
+} from "~/core/dataDisplay/avatar";
 
 export function FosterFamilyAvatar({
   fosterFamily,

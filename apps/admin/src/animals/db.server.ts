@@ -1,5 +1,5 @@
-import { PickUpLocationSearchParams } from "#/animals/searchParams";
-import { algolia } from "#/core/algolia/algolia.server";
+import { PickUpLocationSearchParams } from "~/animals/searchParams";
+import { algolia } from "~/core/algolia/algolia.server";
 
 export async function searchPickUpLocation(
   searchParams: PickUpLocationSearchParams,

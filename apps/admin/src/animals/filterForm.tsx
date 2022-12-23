@@ -1,25 +1,3 @@
-import { AGE_ICON, AGE_TRANSLATION, SORTED_AGES } from "#/animals/age";
-import { AnimalSearchParams } from "#/animals/searchParams";
-import {
-  SORTED_SPECIES,
-  SPECIES_ICON,
-  SPECIES_TRANSLATION,
-} from "#/animals/species";
-import {
-  ACTIVE_ANIMAL_STATUS,
-  SORTED_STATUS,
-  StatusIcon,
-  STATUS_TRANSLATION,
-} from "#/animals/status";
-import { actionClassName } from "#/core/actions";
-import { BaseLink } from "#/core/baseLink";
-import { Filter, Filters } from "#/core/controllers/filters";
-import { ActionAdornment, Adornment } from "#/core/formElements/adornment";
-import { formClassNames } from "#/core/formElements/form";
-import { Input } from "#/core/formElements/input";
-import { Icon } from "#/generated/icon";
-import { UserAvatar } from "#/users/avatar";
-import { hasGroups } from "#/users/groups";
 import { UserGroup } from "@prisma/client";
 import {
   Form,
@@ -28,6 +6,28 @@ import {
   useTransition,
 } from "@remix-run/react";
 import { DateTime } from "luxon";
+import { AGE_ICON, AGE_TRANSLATION, SORTED_AGES } from "~/animals/age";
+import { AnimalSearchParams } from "~/animals/searchParams";
+import {
+  SORTED_SPECIES,
+  SPECIES_ICON,
+  SPECIES_TRANSLATION,
+} from "~/animals/species";
+import {
+  ACTIVE_ANIMAL_STATUS,
+  SORTED_STATUS,
+  StatusIcon,
+  STATUS_TRANSLATION,
+} from "~/animals/status";
+import { actionClassName } from "~/core/actions";
+import { BaseLink } from "~/core/baseLink";
+import { Filter, Filters } from "~/core/controllers/filters";
+import { ActionAdornment, Adornment } from "~/core/formElements/adornment";
+import { formClassNames } from "~/core/formElements/form";
+import { Input } from "~/core/formElements/input";
+import { Icon } from "~/generated/icon";
+import { UserAvatar } from "~/users/avatar";
+import { hasGroups } from "~/users/groups";
 
 export function AnimalFilters({
   currentUser,
