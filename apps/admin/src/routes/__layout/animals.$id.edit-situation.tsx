@@ -2,6 +2,7 @@ import { getAnimalDisplayName } from "#/animals/profile/name";
 import {
   MissingAdoptionDateError,
   MissingManagerError,
+  MissingPickUpLocationError,
   NotManagerError,
   updateAnimalSituation,
 } from "#/animals/situation/db.server";
@@ -54,9 +55,11 @@ export async function loader({ request, params }: LoaderArgs) {
       alias: true,
       comments: true,
       id: true,
+      fosterFamily: { select: { id: true, displayName: true } },
       manager: { select: { id: true, displayName: true } },
       name: true,
       pickUpDate: true,
+      pickUpLocation: true,
       pickUpReason: true,
       status: true,
     },
@@ -107,8 +110,10 @@ export async function action({ request }: ActionArgs) {
       adoptionDate: formData.data.adoptionDate ?? null,
       adoptionOption: formData.data.adoptionOption ?? null,
       comments: formData.data.comments || null,
+      fosterFamilyId: formData.data.fosterFamilyId ?? null,
       managerId: formData.data.managerId ?? null,
       pickUpDate: formData.data.pickUpDate,
+      pickUpLocation: formData.data.pickUpLocation ?? null,
       pickUpReason: formData.data.pickUpReason,
       status: formData.data.status,
     });
@@ -162,6 +167,20 @@ export async function action({ request }: ActionArgs) {
               managerId: [
                 "L’utilisateur choisi ne peux pas être un responsable",
               ],
+            },
+          },
+        },
+        { status: 400 }
+      );
+    }
+
+    if (error instanceof MissingPickUpLocationError) {
+      return json<ActionData>(
+        {
+          errors: {
+            formErrors: [],
+            fieldErrors: {
+              pickUpLocation: ["Veuillez choisir un lieu"],
             },
           },
         },

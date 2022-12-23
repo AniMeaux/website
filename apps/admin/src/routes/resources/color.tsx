@@ -61,7 +61,8 @@ export const ColorInput = forwardRef<HTMLButtonElement, ColorInputProps>(
     const fetcher = useFetcher<typeof loader>();
 
     // This effect does 2 things:
-    // - Make sure we display colors without delay when the combobox is opened.
+    // - Make sure we display suggestions without delay when the combobox is
+    //   opened.
     // - Make sure we clear any search when the combobox is closed.
     const load = fetcher.load;
     useEffect(() => {

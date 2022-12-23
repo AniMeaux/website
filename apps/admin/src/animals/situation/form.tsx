@@ -1,4 +1,9 @@
 import {
+  PICK_UP_REASON_TRANSLATION,
+  SORTED_PICK_UP_REASON,
+} from "#/animals/pickUp";
+import {
+  ACTIVE_ANIMAL_STATUS,
   ADOPTION_OPTION_TRANSLATION,
   SORTED_ADOPTION_OPTION,
   SORTED_STATUS,
@@ -16,10 +21,13 @@ import { Textarea } from "#/core/formElements/textarea";
 import { Separator } from "#/core/layout/separator";
 import { createActionData, ensureDate } from "#/core/schemas";
 import { Icon } from "#/generated/icon";
+import { FosterFamilyInput } from "#/routes/resources/foster-family";
 import { ManagerInput } from "#/routes/resources/manager";
+import { PickUpLocationInput } from "#/routes/resources/pick-up-location";
 import {
   AdoptionOption,
   Animal,
+  FosterFamily,
   PickUpReason,
   Status,
   User,
@@ -29,7 +37,6 @@ import { Form } from "@remix-run/react";
 import { DateTime } from "luxon";
 import { useEffect, useRef, useState } from "react";
 import { z } from "zod";
-import { PICK_UP_REASON_TRANSLATION, SORTED_PICK_UP_REASON } from "../pickUp";
 
 export const ActionFormData = createActionData(
   z.object({
@@ -41,6 +48,7 @@ export const ActionFormData = createActionData(
     ),
     adoptionOption: z.nativeEnum(AdoptionOption).optional(),
     comments: z.string().trim(),
+    fosterFamilyId: z.string().uuid().optional(),
     id: z.string().uuid(),
     managerId: z.string().uuid().optional(),
     pickUpDate: z.preprocess(
@@ -50,6 +58,7 @@ export const ActionFormData = createActionData(
         invalid_type_error: "Veuillez entrer une date valide",
       })
     ),
+    pickUpLocation: z.string().trim().optional(),
     pickUpReason: z.nativeEnum(PickUpReason, {
       required_error: "Veuillez choisir une raison",
     }),
@@ -71,9 +80,11 @@ export function AnimalSituationForm({
       | "comments"
       | "id"
       | "pickUpDate"
+      | "pickUpLocation"
       | "pickUpReason"
       | "status"
     > & {
+      fosterFamily: null | Pick<FosterFamily, "id" | "displayName">;
       manager: null | Pick<User, "id" | "displayName">;
     }
   >;
@@ -82,6 +93,7 @@ export function AnimalSituationForm({
   const [statusState, setStatusState] = useState(animal.status);
 
   const managerRef = useRef<HTMLButtonElement>(null);
+  const pickUpLocationRef = useRef<HTMLButtonElement>(null);
   const adoptionDateRef = useRef<HTMLInputElement>(null);
   const pickUpDateRef = useRef<HTMLInputElement>(null);
 
@@ -95,6 +107,8 @@ export function AnimalSituationForm({
       adoptionDateRef.current?.focus();
     } else if (errors.fieldErrors.pickUpDate != null) {
       pickUpDateRef.current?.focus();
+    } else if (errors.fieldErrors.pickUpLocation != null) {
+      pickUpLocationRef.current?.focus();
     }
   }, [errors.formErrors, errors.fieldErrors]);
 
@@ -253,6 +267,30 @@ export function AnimalSituationForm({
               </p>
             )}
           </div>
+
+          <div className={formClassNames.fields.field.root()}>
+            <span className={formClassNames.fields.field.label()}>
+              Lieux de prise en charge{" "}
+              {animal.pickUpLocation != null ? <RequiredStart /> : null}
+            </span>
+
+            <PickUpLocationInput
+              ref={pickUpLocationRef}
+              name={ActionFormData.keys.pickUpLocation}
+              defaultValue={animal.pickUpLocation}
+              hasError={errors.fieldErrors.pickUpLocation != null}
+              aria-describedby="pickUpLocation-error"
+            />
+
+            {errors.fieldErrors.pickUpLocation != null && (
+              <p
+                id="pickUpLocation-error"
+                className={formClassNames.fields.field.errorMessage()}
+              >
+                {errors.fieldErrors.pickUpLocation}
+              </p>
+            )}
+          </div>
         </div>
 
         <div className={formClassNames.fields.field.root()}>
@@ -272,6 +310,23 @@ export function AnimalSituationForm({
             ))}
           </div>
         </div>
+
+        {ACTIVE_ANIMAL_STATUS.includes(statusState) ? (
+          <>
+            <Separator />
+
+            <div className={formClassNames.fields.field.root()}>
+              <span className={formClassNames.fields.field.label()}>
+                Famille d’accueil
+              </span>
+
+              <FosterFamilyInput
+                name={ActionFormData.keys.fosterFamilyId}
+                defaultValue={animal.fosterFamily}
+              />
+            </div>
+          </>
+        ) : null}
 
         <Separator />
 

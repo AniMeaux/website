@@ -1,6 +1,66 @@
 import { algolia } from "#/core/algolia/algolia.server";
-import { createBatchHandlers } from "#/mocks/algolia/shared.server";
+import { prisma } from "#/core/db.server";
+import {
+  createBatchHandlers,
+  createPostHandlers,
+  highlightValue,
+} from "#/mocks/algolia/shared.server";
+import { FacetHit, SearchForFacetValuesResponse } from "@algolia/client-search";
+import { Prisma } from "@prisma/client";
+import invariant from "tiny-invariant";
 
 export const animalHandlers = [
+  ...createPostHandlers(
+    `/1/indexes/${algolia.animal.indexName}/facets/pickUpLocation/query`,
+    async (req, res, ctx) => {
+      invariant(
+        req.headers.get("content-type") === "application/x-www-form-urlencoded",
+        "Content-Type must be application/x-www-form-urlencoded"
+      );
+
+      invariant(typeof req.body === "string", "Body must be a string");
+      const body = JSON.parse(req.body);
+      const facetQuery = body.facetQuery || "";
+
+      const where: Prisma.AnimalWhereInput = {};
+      if (facetQuery === "") {
+        where.pickUpLocation = { not: null };
+      } else {
+        where.pickUpLocation = { contains: facetQuery, mode: "insensitive" };
+      }
+
+      const locations = await prisma.animal.groupBy({
+        by: ["pickUpLocation"],
+        _count: { pickUpLocation: true },
+        where,
+        orderBy: {
+          _count: { pickUpLocation: "desc" },
+        },
+        take: body.maxFacetHits,
+      });
+
+      const response: SearchForFacetValuesResponse = {
+        exhaustiveFacetsCount: true,
+        processingTimeMS: 1,
+        facetHits: locations.map<FacetHit>((location) => {
+          invariant(
+            location.pickUpLocation != null,
+            "pickUpLocation must be defined"
+          );
+
+          return {
+            value: location.pickUpLocation,
+            highlighted: highlightValue(location.pickUpLocation, {
+              search: facetQuery,
+            }),
+            count: location._count.pickUpLocation,
+          };
+        }),
+      };
+
+      return res(ctx.json(response));
+    }
+  ),
+
   ...createBatchHandlers(`/1/indexes/${algolia.animal.indexName}/batch`),
 ];

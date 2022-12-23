@@ -170,6 +170,7 @@ export const SuggestionList = forwardRef<
 export const SuggestionItem = forwardRef<
   HTMLLIElement,
   Omit<React.LiHTMLAttributes<HTMLLIElement>, "children"> & {
+    isAdditional?: boolean;
     isValue?: boolean;
     leftAdornment: React.ReactNode;
 
@@ -179,7 +180,15 @@ export const SuggestionItem = forwardRef<
     secondaryLabel?: React.ReactNode;
   }
 >(function SuggestionItem(
-  { isValue = false, leftAdornment, label, secondaryLabel, className, ...rest },
+  {
+    isAdditional = false,
+    isValue = false,
+    leftAdornment,
+    label,
+    secondaryLabel,
+    className,
+    ...rest
+  },
   ref
 ) {
   return (
@@ -187,16 +196,17 @@ export const SuggestionItem = forwardRef<
       {...rest}
       ref={ref}
       data-is-value={asBooleanAttribute(isValue)}
+      data-is-additional={asBooleanAttribute(isAdditional)}
       className={cn(
         className,
         "group relative z-0 rounded-0.5 grid grid-cols-[auto_minmax(0px,1fr)_auto] items-start cursor-pointer aria-selected:bg-gray-100 data-[is-value=true]:bg-gray-100"
       )}
     >
-      <span className="h-4 w-4 flex items-center justify-center text-gray-600 text-[20px]">
-        {leftAdornment}
+      <span className="h-4 w-4 flex items-center justify-center text-gray-600 text-[20px] group-data-[is-additional=true]:text-blue-500">
+        {isAdditional ? <Icon id="plus" /> : leftAdornment}
       </span>
 
-      <span className="py-1 text-body-default group-data-[is-value=true]:text-body-emphasis">
+      <span className="py-1 text-body-default group-data-[is-value=true]:text-body-emphasis group-data-[is-additional=true]:text-blue-500">
         <Markdown components={HIGHLIGHT_COMPONENTS}>{label}</Markdown>
         {secondaryLabel != null && (
           <span className="text-gray-500"> - {secondaryLabel}</span>
