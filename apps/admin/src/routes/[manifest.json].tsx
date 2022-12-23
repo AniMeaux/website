@@ -1,32 +1,43 @@
 import { getPageTitle } from "#/core/pageTitle";
 import { theme } from "#/generated/theme";
 import googleTouchIcon from "#/images/googleTouchIcon.png";
-import { json, LinksFunction } from "@remix-run/node";
+import googleTouchIconMac from "#/images/googleTouchIconMac.png";
+import googleTouchIconMaskable from "#/images/googleTouchIconMaskable.png";
+import { json, LinksFunction, LoaderArgs } from "@remix-run/node";
+import Bowser from "bowser";
 
-// Make sure `googleTouchIcon.png` is added to the build assets.
+// Make sure images are added to the build assets.
 // It looks like an asset only used on the server won't be included in the
 // assets build folder.
 export const links: LinksFunction = () => {
-  return [{ rel: "preconnect", href: googleTouchIcon }];
+  return [
+    { rel: "preconnect", href: googleTouchIcon },
+    { rel: "preconnect", href: googleTouchIconMac },
+    { rel: "preconnect", href: googleTouchIconMaskable },
+  ];
 };
 
-export async function loader() {
+export async function loader({ request }: LoaderArgs) {
+  const browser = Bowser.getParser(request.headers.get("user-agent") ?? "");
+  const isDesktop = browser.getPlatformType() === "desktop";
+  const isMacOS = browser.getOSName() === "macOS";
+
   return json({
     name: getPageTitle(),
     short_name: getPageTitle(),
     background_color: theme.colors.white,
     theme_color: theme.colors.blue[500],
-    display: "standalone",
+    display: isDesktop ? "minimal-ui" : "standalone",
     scope: "/",
     start_url: "/?source=pwa",
     icons: [
       {
-        src: googleTouchIcon,
+        src: isDesktop && isMacOS ? googleTouchIconMac : googleTouchIcon,
         type: "image/png",
         sizes: "512x512",
       },
       {
-        src: googleTouchIcon,
+        src: googleTouchIconMaskable,
         sizes: "512x512",
         type: "image/png",
         purpose: "maskable",
