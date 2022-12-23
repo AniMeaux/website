@@ -1,17 +1,3 @@
-import { actionClassName } from "#/core/actions";
-import { Adornment } from "#/core/formElements/adornment";
-import { formClassNames } from "#/core/formElements/form";
-import { FormErrors } from "#/core/formElements/formErrors";
-import { Input } from "#/core/formElements/input";
-import { PasswordInput } from "#/core/formElements/passwordInput";
-import { RouteHandle } from "#/core/handles";
-import { getPageTitle } from "#/core/pageTitle";
-import { createActionData } from "#/core/schemas";
-import { NextSearchParams } from "#/core/searchParams";
-import { getCurrentUser, verifyLogin } from "#/currentUser/db.server";
-import { createUserSession } from "#/currentUser/session.server";
-import { Icon } from "#/generated/icon";
-import nameAndLogo from "#/images/nameAndLogo.svg";
 import {
   ActionArgs,
   json,
@@ -22,6 +8,20 @@ import {
 import { Form, useActionData } from "@remix-run/react";
 import { useEffect, useRef } from "react";
 import { z } from "zod";
+import { actionClassName } from "~/core/actions";
+import { Adornment } from "~/core/formElements/adornment";
+import { formClassNames } from "~/core/formElements/form";
+import { FormErrors } from "~/core/formElements/formErrors";
+import { Input } from "~/core/formElements/input";
+import { PasswordInput } from "~/core/formElements/passwordInput";
+import { RouteHandle } from "~/core/handles";
+import { getPageTitle } from "~/core/pageTitle";
+import { createActionData } from "~/core/schemas";
+import { NextSearchParams } from "~/core/searchParams";
+import { getCurrentUser, verifyLogin } from "~/currentUser/db.server";
+import { createUserSession } from "~/currentUser/session.server";
+import { Icon } from "~/generated/icon";
+import nameAndLogo from "~/images/nameAndLogo.svg";
 
 export const handle: RouteHandle = {
   htmlBackgroundColor: "bg-white",

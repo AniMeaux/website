@@ -1,7 +1,7 @@
-import { ActionAdornment } from "#/core/formElements/adornment";
-import { Input, InputProps } from "#/core/formElements/input";
-import { Icon } from "#/generated/icon";
 import { forwardRef, useState } from "react";
+import { ActionAdornment } from "~/core/formElements/adornment";
+import { Input, InputProps } from "~/core/formElements/input";
+import { Icon } from "~/generated/icon";
 
 export const PasswordInput = forwardRef<
   HTMLInputElement,

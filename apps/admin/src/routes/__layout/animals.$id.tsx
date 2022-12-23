@@ -1,40 +1,3 @@
-import { AgreementItem } from "#/animals/agreements";
-import { AnimalAvatar } from "#/animals/avatar";
-import { GENDER_ICON } from "#/animals/gender";
-import { PICK_UP_REASON_TRANSLATION } from "#/animals/pickUp";
-import { ActionFormData } from "#/animals/profile/form";
-import { getAnimalDisplayName } from "#/animals/profile/name";
-import { getSpeciesLabels, SPECIES_ICON } from "#/animals/species";
-import {
-  ADOPTION_OPTION_TRANSLATION,
-  StatusBadge,
-  StatusIcon,
-  STATUS_TRANSLATION,
-} from "#/animals/status";
-import { actionClassName } from "#/core/actions";
-import { BaseLink, BaseLinkProps } from "#/core/baseLink";
-import { cn } from "#/core/classNames";
-import { useConfig } from "#/core/config";
-import { Empty } from "#/core/dataDisplay/empty";
-import { ErrorPage, getErrorTitle } from "#/core/dataDisplay/errorPage";
-import { Helper } from "#/core/dataDisplay/helper";
-import { createCloudinaryUrl, DynamicImage } from "#/core/dataDisplay/image";
-import { ARTICLE_COMPONENTS, Markdown } from "#/core/dataDisplay/markdown";
-import { prisma } from "#/core/db.server";
-import { assertIsDefined } from "#/core/isDefined.server";
-import { Card, CardContent, CardHeader, CardTitle } from "#/core/layout/card";
-import { getPageTitle } from "#/core/pageTitle";
-import { NotFoundResponse } from "#/core/response.server";
-import {
-  ActionConfirmationType,
-  useActionConfirmation,
-} from "#/core/searchParams";
-import { getCurrentUser } from "#/currentUser/db.server";
-import { assertCurrentUserHasGroups } from "#/currentUser/groups.server";
-import { FosterFamilyAvatar } from "#/fosterFamilies/avatar";
-import { Icon } from "#/generated/icon";
-import { UserAvatar } from "#/users/avatar";
-import { hasGroups } from "#/users/groups";
 import { formatAge } from "@animeaux/shared";
 import { AdoptionOption, Gender, Status, UserGroup } from "@prisma/client";
 import { json, LoaderArgs, MetaFunction } from "@remix-run/node";
@@ -43,6 +6,43 @@ import { DateTime } from "luxon";
 import { useRef, useState } from "react";
 import invariant from "tiny-invariant";
 import { z } from "zod";
+import { AgreementItem } from "~/animals/agreements";
+import { AnimalAvatar } from "~/animals/avatar";
+import { GENDER_ICON } from "~/animals/gender";
+import { PICK_UP_REASON_TRANSLATION } from "~/animals/pickUp";
+import { ActionFormData } from "~/animals/profile/form";
+import { getAnimalDisplayName } from "~/animals/profile/name";
+import { getSpeciesLabels, SPECIES_ICON } from "~/animals/species";
+import {
+  ADOPTION_OPTION_TRANSLATION,
+  StatusBadge,
+  StatusIcon,
+  STATUS_TRANSLATION,
+} from "~/animals/status";
+import { actionClassName } from "~/core/actions";
+import { BaseLink, BaseLinkProps } from "~/core/baseLink";
+import { cn } from "~/core/classNames";
+import { useConfig } from "~/core/config";
+import { Empty } from "~/core/dataDisplay/empty";
+import { ErrorPage, getErrorTitle } from "~/core/dataDisplay/errorPage";
+import { Helper } from "~/core/dataDisplay/helper";
+import { createCloudinaryUrl, DynamicImage } from "~/core/dataDisplay/image";
+import { ARTICLE_COMPONENTS, Markdown } from "~/core/dataDisplay/markdown";
+import { prisma } from "~/core/db.server";
+import { assertIsDefined } from "~/core/isDefined.server";
+import { Card, CardContent, CardHeader, CardTitle } from "~/core/layout/card";
+import { getPageTitle } from "~/core/pageTitle";
+import { NotFoundResponse } from "~/core/response.server";
+import {
+  ActionConfirmationType,
+  useActionConfirmation,
+} from "~/core/searchParams";
+import { getCurrentUser } from "~/currentUser/db.server";
+import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
+import { FosterFamilyAvatar } from "~/fosterFamilies/avatar";
+import { Icon } from "~/generated/icon";
+import { UserAvatar } from "~/users/avatar";
+import { hasGroups } from "~/users/groups";
 
 export async function loader({ request, params }: LoaderArgs) {
   const currentUser = await getCurrentUser(request, {

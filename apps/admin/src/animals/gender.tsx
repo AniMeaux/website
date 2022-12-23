@@ -1,6 +1,6 @@
-import { IconProps } from "#/generated/icon";
 import { Gender } from "@prisma/client";
 import orderBy from "lodash.orderby";
+import { IconProps } from "~/generated/icon";
 
 export const GENDER_TRANSLATION: Record<Gender, string> = {
   [Gender.FEMALE]: "Femelle",

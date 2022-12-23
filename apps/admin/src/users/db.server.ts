@@ -1,6 +1,6 @@
-import { algolia } from "#/core/algolia/algolia.server";
-import { prisma } from "#/core/db.server";
-import { UserSearchParams } from "#/users/searchParams";
+import { algolia } from "~/core/algolia/algolia.server";
+import { prisma } from "~/core/db.server";
+import { UserSearchParams } from "~/users/searchParams";
 
 const SEARCH_COUNT = 6;
 

@@ -1,7 +1,7 @@
-import { algolia } from "#/core/algolia/algolia.server";
-import { prisma } from "#/core/db.server";
-import { NotFoundError } from "#/core/errors.server";
 import { Animal, Prisma } from "@prisma/client";
+import { algolia } from "~/core/algolia/algolia.server";
+import { prisma } from "~/core/db.server";
+import { NotFoundError } from "~/core/errors.server";
 
 export class BreedNotForSpeciesError extends Error {}
 

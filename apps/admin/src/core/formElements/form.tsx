@@ -1,4 +1,4 @@
-import { cn } from "#/core/classNames";
+import { cn } from "~/core/classNames";
 
 export const formClassNames = {
   root: ({ hasHeader = false }: { hasHeader?: boolean } = {}) =>

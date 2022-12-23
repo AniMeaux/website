@@ -1,8 +1,8 @@
-import { ACTIVE_ANIMAL_STATUS } from "#/animals/status";
-import { algolia } from "#/core/algolia/algolia.server";
-import { prisma } from "#/core/db.server";
-import { NotFoundError } from "#/core/errors.server";
 import { Animal, Prisma, Status, UserGroup } from "@prisma/client";
+import { ACTIVE_ANIMAL_STATUS } from "~/animals/status";
+import { algolia } from "~/core/algolia/algolia.server";
+import { prisma } from "~/core/db.server";
+import { NotFoundError } from "~/core/errors.server";
 
 export class MissingAdoptionDateError extends Error {}
 export class MissingAdoptionOptionError extends Error {}

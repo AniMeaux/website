@@ -1,9 +1,9 @@
+import { User } from "@prisma/client";
 import {
   Avatar,
   AvatarProps,
   inferAvatarColor,
-} from "#/core/dataDisplay/avatar";
-import { User } from "@prisma/client";
+} from "~/core/dataDisplay/avatar";
 
 export function UserAvatar({
   user,

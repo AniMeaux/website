@@ -1,14 +1,14 @@
-import { algolia } from "#/core/algolia/algolia.server";
-import { prisma } from "#/core/db.server";
+import { Hit, SearchResponse } from "@algolia/client-search";
+import { Prisma } from "@prisma/client";
+import invariant from "tiny-invariant";
+import { algolia } from "~/core/algolia/algolia.server";
+import { prisma } from "~/core/db.server";
 import {
   createBatchHandlers,
   createPostHandlers,
   highlightValue,
-} from "#/mocks/algolia/shared.server";
-import { UserFromAlgolia } from "#/users/algolia.server";
-import { Hit, SearchResponse } from "@algolia/client-search";
-import { Prisma } from "@prisma/client";
-import invariant from "tiny-invariant";
+} from "~/mocks/algolia/shared.server";
+import { UserFromAlgolia } from "~/users/algolia.server";
 
 export const userHandlers = [
   ...createPostHandlers(

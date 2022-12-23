@@ -1,6 +1,6 @@
 // learn more: https://fly.io/docs/reference/configuration/#services-http_checks
-import { createConfig } from "#/core/config.server";
-import { prisma } from "#/core/db.server";
+import { createConfig } from "~/core/config.server";
+import { prisma } from "~/core/db.server";
 
 export async function loader() {
   const config = createConfig();

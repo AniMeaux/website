@@ -1,25 +1,3 @@
-import { BaseLink, BaseLinkProps } from "#/core/baseLink";
-import {
-  SideBar,
-  SideBarContent,
-  SideBarItem,
-  SideBarRootItem,
-} from "#/core/layout/sideBar";
-import {
-  TabBar,
-  TabBarItem,
-  TabBarMenu,
-  TabBarMenuItem,
-} from "#/core/layout/tabBar";
-import { getPageTitle } from "#/core/pageTitle";
-import { NextSearchParams } from "#/core/searchParams";
-import { getCurrentUser } from "#/currentUser/db.server";
-import { Icon, IconProps } from "#/generated/icon";
-import { theme } from "#/generated/theme";
-import nameAndLogo from "#/images/nameAndLogo.svg";
-import { GlobalSearch } from "#/routes/resources/global-search";
-import { UserAvatar } from "#/users/avatar";
-import { hasGroups } from "#/users/groups";
 import { UserGroup } from "@prisma/client";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { json, LoaderArgs, SerializeFrom } from "@remix-run/node";
@@ -31,6 +9,28 @@ import {
 } from "@remix-run/react";
 import { createPath } from "history";
 import { useEffect, useState } from "react";
+import { BaseLink, BaseLinkProps } from "~/core/baseLink";
+import {
+  SideBar,
+  SideBarContent,
+  SideBarItem,
+  SideBarRootItem,
+} from "~/core/layout/sideBar";
+import {
+  TabBar,
+  TabBarItem,
+  TabBarMenu,
+  TabBarMenuItem,
+} from "~/core/layout/tabBar";
+import { getPageTitle } from "~/core/pageTitle";
+import { NextSearchParams } from "~/core/searchParams";
+import { getCurrentUser } from "~/currentUser/db.server";
+import { Icon, IconProps } from "~/generated/icon";
+import { theme } from "~/generated/theme";
+import nameAndLogo from "~/images/nameAndLogo.svg";
+import { GlobalSearch } from "~/routes/resources/global-search";
+import { UserAvatar } from "~/users/avatar";
+import { hasGroups } from "~/users/groups";
 
 export async function loader({ request }: LoaderArgs) {
   const currentUser = await getCurrentUser(request, {

@@ -1,9 +1,9 @@
-import { createSearchFilters } from "#/core/algolia/shared.server";
-import { visit } from "#/core/visitor";
-import { SearchableResourceType } from "#/searchableResources/type";
 import { HighlightResult, Hit, SearchOptions } from "@algolia/client-search";
 import { Animal, Event, FosterFamily, User } from "@prisma/client";
 import { SearchClient } from "algoliasearch";
+import { createSearchFilters } from "~/core/algolia/shared.server";
+import { visit } from "~/core/visitor";
+import { SearchableResourceType } from "~/searchableResources/type";
 
 type Searchable<TType extends SearchableResourceType, TData extends object> = {
   type: TType;
