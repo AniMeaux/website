@@ -34,7 +34,7 @@ type SearchableEvent = SearchableEventHit & {
 type SearchableFosterFamily = SearchableFosterFamilyHit & {
   data: Pick<FosterFamily, "city" | "id" | "zipCode">;
 };
-type SearchableUser = SearchableUserHit & { data: Pick<User, "email" | "id"> };
+type SearchableUser = SearchableUserHit & { data: Pick<User, "id"> };
 
 type SearchableResource =
   | SearchableAnimal
@@ -64,20 +64,21 @@ export async function searchResources(
   const animalsId: string[] = [];
   const eventsId: string[] = [];
   const fosterFamiliesId: string[] = [];
-  const usersId: string[] = [];
 
   hits.forEach((hit) => {
     const idArray = visit(hit, {
       [SearchableResourceType.ANIMAL]: () => animalsId,
       [SearchableResourceType.EVENT]: () => eventsId,
       [SearchableResourceType.FOSTER_FAMILY]: () => fosterFamiliesId,
-      [SearchableResourceType.USER]: () => usersId,
+      [SearchableResourceType.USER]: () => null,
     });
 
-    idArray.push(hit.id);
+    if (idArray != null) {
+      idArray.push(hit.id);
+    }
   });
 
-  const [animals, events, fosterFamilies, users] = await Promise.all([
+  const [animals, events, fosterFamilies] = await Promise.all([
     animalsId.length === 0
       ? Promise.resolve([])
       : prisma.animal.findMany({
@@ -101,12 +102,6 @@ export async function searchResources(
       : prisma.fosterFamily.findMany({
           where: { id: { in: fosterFamiliesId } },
           select: { city: true, id: true, zipCode: true },
-        }),
-    usersId.length === 0
-      ? Promise.resolve([])
-      : prisma.user.findMany({
-          where: { id: { in: usersId } },
-          select: { email: true, id: true },
         }),
   ]);
 
@@ -140,9 +135,7 @@ export async function searchResources(
       },
 
       [SearchableResourceType.USER]: (hit) => {
-        const user = users.find((user) => user.id === hit.id);
-        invariant(user != null, "User from algolia should exists.");
-        return { ...hit, data: { ...hit.data, ...user } };
+        return { ...hit, data: { ...hit.data, id: hit.id } };
       },
     });
   });

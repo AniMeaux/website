@@ -344,9 +344,7 @@ function Combobox({
                 return getShortLocation(resource.data);
               },
 
-              [SearchableResourceType.USER]: (resource) => {
-                return resource.data.email;
-              },
+              [SearchableResourceType.USER]: () => null,
             });
 
             return (
