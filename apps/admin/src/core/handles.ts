@@ -2,6 +2,7 @@ import { RouteMatch } from "@remix-run/react";
 
 export type RouteHandle = {
   htmlBackgroundColor?: string;
+  isFullHeight?: boolean;
 };
 
 export function asRouteHandle(handle: RouteMatch["handle"]): RouteHandle {

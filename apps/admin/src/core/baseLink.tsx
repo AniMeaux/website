@@ -3,29 +3,33 @@ import { createPath, parsePath } from "history";
 import { forwardRef } from "react";
 
 export type BaseLinkProps = {
-  to?: NavLinkProps["to"] | null;
-  isNavLink?: boolean;
-  disabled?: boolean;
-  shouldOpenInNewTarget?: boolean;
-  reloadDocument?: NavLinkProps["reloadDocument"];
-  className?: NavLinkProps["className"];
-  style?: NavLinkProps["style"];
   children?: NavLinkProps["children"];
+  className?: NavLinkProps["className"];
+  disabled?: boolean;
+  download?: string | boolean;
+  isNavLink?: boolean;
+  prefetch?: NavLinkProps["prefetch"];
+  reloadDocument?: NavLinkProps["reloadDocument"];
+  shouldOpenInNewTarget?: boolean;
+  style?: NavLinkProps["style"];
   title?: string;
+  to?: NavLinkProps["to"] | null;
 };
 
 export const BaseLink = forwardRef<HTMLAnchorElement, BaseLinkProps>(
   function BaseLink(
     {
-      to,
-      isNavLink = false,
-      disabled,
-      shouldOpenInNewTarget,
-      reloadDocument,
-      className,
-      style,
       children,
+      className,
+      disabled,
+      download,
+      isNavLink = false,
+      prefetch = "intent",
+      reloadDocument,
+      shouldOpenInNewTarget,
+      style,
       title,
+      to,
 
       // Because `BaseLink` can be used as a menu item, it might receive other
       // props from @radix-ui/react-dropdown-menu that need to be passed down to
@@ -39,8 +43,9 @@ export const BaseLink = forwardRef<HTMLAnchorElement, BaseLinkProps>(
     const commonProps: React.AnchorHTMLAttributes<HTMLAnchorElement> &
       React.RefAttributes<HTMLAnchorElement> = {
       ...rest,
-      ref,
+      download,
       title,
+      ref,
     };
 
     if (disabled || to == null) {
@@ -82,7 +87,7 @@ export const BaseLink = forwardRef<HTMLAnchorElement, BaseLinkProps>(
         <NavLink
           {...commonProps}
           to={to}
-          prefetch="intent"
+          prefetch={prefetch}
           reloadDocument={reloadDocument}
           className={className}
           style={style}
@@ -95,7 +100,7 @@ export const BaseLink = forwardRef<HTMLAnchorElement, BaseLinkProps>(
       <Link
         {...commonProps}
         to={to}
-        prefetch="intent"
+        prefetch={prefetch}
         reloadDocument={reloadDocument}
         className={defaultCallProp(className)}
         style={defaultCallProp(style)}
