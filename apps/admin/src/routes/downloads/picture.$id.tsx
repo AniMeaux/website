@@ -1,7 +1,6 @@
 import { UserGroup } from "@prisma/client";
 import { LoaderArgs } from "@remix-run/node";
 import { z } from "zod";
-import { BaseLink, BaseLinkProps } from "~/core/baseLink";
 import { createConfig } from "~/core/config.server";
 import { createCloudinaryUrl } from "~/core/dataDisplay/image";
 import { NotFoundResponse } from "~/core/response.server";
@@ -35,24 +34,44 @@ export async function loader({ request, params }: LoaderArgs) {
 
 const RESOURCE_PATHNAME = "/downloads/picture";
 
-export function DownloadPictureLink({
-  fileName,
-  pictureId,
-  ...rest
-}: Omit<
-  BaseLinkProps,
-  "prefetch" | "reloadDocument" | "shouldOpenInNewTarget" | "to"
-> & {
+type DownloadPictureLinkProps = {
+  children?: React.ReactNode;
+  className?: string;
   fileName: string;
   pictureId: string;
-}) {
+};
+
+export function DownloadPictureLink({
+  children,
+  className,
+  fileName,
+  pictureId,
+}: DownloadPictureLinkProps) {
+  // We can't use a regular download anchor because of native UI not displayed
+  // on iOS when the application is in standalone (installed).
+  // https://developer.apple.com/forums/thread/95911
   return (
-    <BaseLink
-      download={fileName}
-      prefetch="none"
-      reloadDocument
-      to={`${RESOURCE_PATHNAME}/${pictureId}`}
-      {...rest}
-    />
+    <button
+      onClick={() => download(fileName, `${RESOURCE_PATHNAME}/${pictureId}`)}
+      className={className}
+    >
+      {children}
+    </button>
   );
+}
+
+function download(fileName: string, url: string) {
+  const xhr = new XMLHttpRequest();
+  xhr.open("GET", url, true);
+  xhr.responseType = "blob";
+  xhr.onload = function onLoad() {
+    if (this.status === 200) {
+      const link = document.createElement("a");
+      link.href = window.URL.createObjectURL(this.response);
+      link.download = fileName;
+      link.click();
+    }
+  };
+
+  xhr.send();
 }
