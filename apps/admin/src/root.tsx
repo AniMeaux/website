@@ -109,12 +109,19 @@ export function ErrorBoundary({ error }: { error: Error }) {
 
 function Document({ children }: { children: React.ReactNode }) {
   const matches = useMatches();
-  const htmlBackgroundColor = matches
-    .map((match) => asRouteHandle(match.handle).htmlBackgroundColor)
+  const routeHandles = matches.map((match) => asRouteHandle(match.handle));
+  const htmlBackgroundColor = routeHandles
+    .map((handle) => handle.htmlBackgroundColor)
     .find((color) => color != null);
+  const isFullHeight = routeHandles.some((handle) => handle.isFullHeight);
 
   return (
-    <html lang="fr" className={htmlBackgroundColor ?? "bg-gray-50"}>
+    <html
+      lang="fr"
+      className={cn(htmlBackgroundColor ?? "bg-gray-50", {
+        "h-full": isFullHeight,
+      })}
+    >
       <head>
         <Meta />
         <Links />
@@ -124,6 +131,7 @@ function Document({ children }: { children: React.ReactNode }) {
         className={cn(
           // Make sure children with absolute positionning are correctly placed.
           "relative",
+          { "h-full": isFullHeight },
           "antialiased text-gray-800 text-body-default flex flex-col"
         )}
       >

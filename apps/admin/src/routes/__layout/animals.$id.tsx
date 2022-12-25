@@ -3,8 +3,6 @@ import { AdoptionOption, Gender, Status, UserGroup } from "@prisma/client";
 import { json, LoaderArgs, MetaFunction } from "@remix-run/node";
 import { useCatch, useLoaderData } from "@remix-run/react";
 import { DateTime } from "luxon";
-import { useRef, useState } from "react";
-import invariant from "tiny-invariant";
 import { z } from "zod";
 import { AgreementItem } from "~/animals/agreements";
 import { AnimalAvatar } from "~/animals/avatar";
@@ -21,7 +19,6 @@ import {
 } from "~/animals/status";
 import { actionClassName } from "~/core/actions";
 import { BaseLink, BaseLinkProps } from "~/core/baseLink";
-import { cn } from "~/core/classNames";
 import { useConfig } from "~/core/config";
 import { Empty } from "~/core/dataDisplay/empty";
 import { ErrorPage, getErrorTitle } from "~/core/dataDisplay/errorPage";
@@ -189,12 +186,12 @@ function HeaderCard() {
 
       <CardContent>
         <div className="relative pt-1 pl-9 grid grid-cols-1 grid-flow-col gap-1 md:pt-2 md:pl-10 md:gap-2">
-          <AnimalAvatar
-            animal={animal}
-            loading="eager"
-            size="xl"
-            className="absolute bottom-0 left-0 ring-5 ring-white"
-          />
+          <BaseLink
+            to={`./pictures/${animal.avatar}`}
+            className="absolute bottom-0 left-0 rounded-1 flex ring-5 ring-white focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+          >
+            <AnimalAvatar animal={animal} loading="eager" size="xl" />
+          </BaseLink>
 
           <div className="flex flex-col gap-0.5">
             <div className="flex items-center gap-1">
@@ -478,8 +475,6 @@ function DescriptionCard() {
 function PicturesCard() {
   const { canEdit, animal } = useLoaderData<typeof loader>();
   const allPictures = [animal.avatar].concat(animal.pictures);
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const [visibleIndex, setVisibleIndex] = useState(0);
 
   return (
     <Card>
@@ -497,60 +492,21 @@ function PicturesCard() {
       </CardHeader>
 
       <CardContent>
-        <div
-          ref={scrollContainerRef}
-          onScroll={(event) => {
-            setVisibleIndex(
-              Math.round(
-                event.currentTarget.scrollLeft / event.currentTarget.clientWidth
-              )
-            );
-          }}
-          className="overflow-auto snap-x snap-mandatory scrollbars-none scroll-smooth min-w-0 rounded-1 flex"
-        >
-          {allPictures.map((pictureId, index) => (
-            <DynamicImage
-              key={pictureId}
-              imageId={pictureId}
-              alt={`Photo ${index + 1} de ${animal.name}`}
-              sizes={{ md: "66vw", default: "100vw" }}
-              fallbackSize="2048"
-              className="snap-center w-full min-w-0 h-full min-h-0 aspect-4/3 flex-none"
-            />
-          ))}
-        </div>
-
         <div className="grid grid-cols-[repeat(auto-fill,minmax(80px,1fr))] gap-1 justify-center md:grid-cols-[repeat(auto-fill,minmax(100px,1fr))] md:gap-2">
           {allPictures.map((pictureId, index) => (
-            <button
+            <BaseLink
               key={pictureId}
-              onClick={() => {
-                invariant(
-                  scrollContainerRef.current != null,
-                  "scrollContainerRef should be set"
-                );
-
-                scrollContainerRef.current.scrollTo(
-                  index * scrollContainerRef.current.clientWidth,
-                  0
-                );
-              }}
+              to={`./pictures/${pictureId}`}
               className="aspect-4/3 rounded-0.5 flex transition-transform duration-100 ease-in-out active:scale-95 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
             >
               <DynamicImage
                 imageId={pictureId}
-                alt={`Photo ${index + 1} de ${animal.name}`}
+                alt={`Photo ${index + 1} de ${getAnimalDisplayName(animal)}`}
                 sizes={{ md: "200px", default: "160px" }}
                 fallbackSize="512"
-                className={cn(
-                  "w-full aspect-4/3 rounded-0.5 transition-opacity duration-100 ease-in-out",
-                  {
-                    "opacity-50": visibleIndex !== index,
-                    "opacity-100": visibleIndex === index,
-                  }
-                )}
+                className="w-full aspect-4/3 rounded-0.5"
               />
-            </button>
+            </BaseLink>
           ))}
         </div>
       </CardContent>
