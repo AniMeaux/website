@@ -1,22 +1,3 @@
-import {
-  BreedNotForSpeciesError,
-  updateAnimalProfile,
-} from "#/animals/profile/db.server";
-import { ActionFormData, AnimalProfileForm } from "#/animals/profile/form";
-import { getAnimalDisplayName } from "#/animals/profile/name";
-import { ErrorPage, getErrorTitle } from "#/core/dataDisplay/errorPage";
-import { prisma } from "#/core/db.server";
-import { NotFoundError } from "#/core/errors.server";
-import { assertIsDefined } from "#/core/isDefined.server";
-import { Card, CardContent, CardHeader, CardTitle } from "#/core/layout/card";
-import { getPageTitle } from "#/core/pageTitle";
-import { NotFoundResponse } from "#/core/response.server";
-import {
-  ActionConfirmationSearchParams,
-  ActionConfirmationType,
-} from "#/core/searchParams";
-import { getCurrentUser } from "#/currentUser/db.server";
-import { assertCurrentUserHasGroups } from "#/currentUser/groups.server";
 import { UserGroup } from "@prisma/client";
 import {
   ActionArgs,
@@ -28,6 +9,25 @@ import {
 import { useActionData, useCatch, useLoaderData } from "@remix-run/react";
 import { createPath } from "history";
 import { z } from "zod";
+import {
+  BreedNotForSpeciesError,
+  updateAnimalProfile,
+} from "~/animals/profile/db.server";
+import { ActionFormData, AnimalProfileForm } from "~/animals/profile/form";
+import { getAnimalDisplayName } from "~/animals/profile/name";
+import { ErrorPage, getErrorTitle } from "~/core/dataDisplay/errorPage";
+import { prisma } from "~/core/db.server";
+import { NotFoundError } from "~/core/errors.server";
+import { assertIsDefined } from "~/core/isDefined.server";
+import { Card, CardContent, CardHeader, CardTitle } from "~/core/layout/card";
+import { getPageTitle } from "~/core/pageTitle";
+import { NotFoundResponse } from "~/core/response.server";
+import {
+  ActionConfirmationSearchParams,
+  ActionConfirmationType,
+} from "~/core/searchParams";
+import { getCurrentUser } from "~/currentUser/db.server";
+import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
 
 export async function loader({ request, params }: LoaderArgs) {
   const currentUser = await getCurrentUser(request, {

@@ -1,26 +1,26 @@
-import { AnimalItem } from "#/animals/item";
-import { AnimalSearchParams } from "#/animals/searchParams";
-import { ACTIVE_ANIMAL_STATUS } from "#/animals/status";
-import { actionClassName } from "#/core/actions";
-import { BaseLink } from "#/core/baseLink";
-import { cn } from "#/core/classNames";
-import { AvatarColor, inferAvatarColor } from "#/core/dataDisplay/avatar";
-import { Empty } from "#/core/dataDisplay/empty";
-import { Helper } from "#/core/dataDisplay/helper";
-import { prisma } from "#/core/db.server";
-import { Card, CardContent, CardHeader, CardTitle } from "#/core/layout/card";
-import { getPageTitle } from "#/core/pageTitle";
-import {
-  ActionConfirmationType,
-  useActionConfirmation,
-} from "#/core/searchParams";
-import { getCurrentUser } from "#/currentUser/db.server";
-import { Icon } from "#/generated/icon";
-import { UserAvatar } from "#/users/avatar";
-import { GROUP_ICON, GROUP_TRANSLATION, hasGroups } from "#/users/groups";
 import { UserGroup } from "@prisma/client";
 import { json, LoaderArgs, MetaFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
+import { AnimalItem } from "~/animals/item";
+import { AnimalSearchParams } from "~/animals/searchParams";
+import { ACTIVE_ANIMAL_STATUS } from "~/animals/status";
+import { actionClassName } from "~/core/actions";
+import { BaseLink } from "~/core/baseLink";
+import { cn } from "~/core/classNames";
+import { AvatarColor, inferAvatarColor } from "~/core/dataDisplay/avatar";
+import { Empty } from "~/core/dataDisplay/empty";
+import { Helper } from "~/core/dataDisplay/helper";
+import { prisma } from "~/core/db.server";
+import { Card, CardContent, CardHeader, CardTitle } from "~/core/layout/card";
+import { getPageTitle } from "~/core/pageTitle";
+import {
+  ActionConfirmationType,
+  useActionConfirmation,
+} from "~/core/searchParams";
+import { getCurrentUser } from "~/currentUser/db.server";
+import { Icon } from "~/generated/icon";
+import { UserAvatar } from "~/users/avatar";
+import { GROUP_ICON, GROUP_TRANSLATION, hasGroups } from "~/users/groups";
 
 export async function loader({ request }: LoaderArgs) {
   const currentUser = await getCurrentUser(request, {

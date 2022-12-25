@@ -1,7 +1,7 @@
-import { cn } from "#/core/classNames";
-import { useConfig } from "#/core/config";
-import { ScreenSize, theme } from "#/generated/theme";
 import orderBy from "lodash.orderby";
+import { cn } from "~/core/classNames";
+import { useConfig } from "~/core/config";
+import { ScreenSize, theme } from "~/generated/theme";
 
 // Ordered by decreasing size.
 const IMAGE_SIZES = ["2048", "1536", "1024", "512", "256", "128"] as const;
@@ -30,6 +30,8 @@ export type DynamicImageProps = {
     default: string;
   };
   aspectRatio?: AspectRatio;
+  objectFit?: "cover" | "contain";
+  background?: "none" | "gray";
   fallbackSize: ImageSize;
   loading?: "lazy" | "eager";
   className?: string;
@@ -40,6 +42,8 @@ export function DynamicImage({
   alt,
   sizes: sizesProp,
   aspectRatio,
+  objectFit = "cover",
+  background = "gray",
   fallbackSize,
   loading = "lazy",
   className,
@@ -79,32 +83,31 @@ export function DynamicImage({
       })}
       srcSet={srcSet}
       sizes={sizes}
-      className={cn(className, "bg-gray-100 object-cover")}
+      className={cn(
+        className,
+        { "bg-gray-100": background === "gray" },
+        objectFit === "cover" ? "object-cover" : "object-contain"
+      )}
     />
   );
 }
 
-type AspectRatio = "1:1" | "4:3";
+type AspectRatio = "none" | "1:1" | "4:3";
 
 export function createCloudinaryUrl(
   cloudName: string,
   imageId: string,
   {
-    size,
     aspectRatio = "4:3",
+    format = "auto",
+    size,
   }: {
-    size: ImageSize;
     aspectRatio?: AspectRatio;
-  }
+    format?: "auto" | "jpg";
+    size?: ImageSize;
+  } = {}
 ) {
   const transformations = [
-    `w_${size}`,
-    // https://cloudinary.com/documentation/transformation_reference#ar_aspect_ratio
-    `ar_${aspectRatio}`,
-    // https://cloudinary.com/documentation/transformation_reference#c_pad
-    "c_pad",
-    // https://cloudinary.com/documentation/transformation_reference#b_auto
-    "b_auto",
     // https://cloudinary.com/documentation/image_optimization#automatic_quality_selection_q_auto
     "q_auto",
     // When using devtools to emulate different browsers, Cloudinary may return a
@@ -113,8 +116,23 @@ export function createCloudinaryUrl(
     // Safari browser, a JPEG-2000 may be returned, which Chrome does not support.
     // See: https://cloudinary.com/documentation/image_optimization#tips_and_considerations_for_using_f_auto
     // https://cloudinary.com/documentation/image_transformations#f_auto
-    "f_auto",
+    format === "auto" ? "f_auto" : "f_jpg",
   ];
+
+  if (size != null) {
+    transformations.push(`w_${size}`);
+  }
+
+  if (aspectRatio !== "none") {
+    transformations.push(
+      // https://cloudinary.com/documentation/transformation_reference#ar_aspect_ratio
+      `ar_${aspectRatio}`,
+      // https://cloudinary.com/documentation/transformation_reference#c_pad
+      "c_pad",
+      // https://cloudinary.com/documentation/transformation_reference#b_auto
+      "b_auto"
+    );
+  }
 
   const transformationsStr = transformations.join(",");
 

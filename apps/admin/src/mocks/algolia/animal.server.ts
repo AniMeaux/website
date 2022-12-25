@@ -1,13 +1,13 @@
-import { algolia } from "#/core/algolia/algolia.server";
-import { prisma } from "#/core/db.server";
+import { FacetHit, SearchForFacetValuesResponse } from "@algolia/client-search";
+import { Prisma } from "@prisma/client";
+import invariant from "tiny-invariant";
+import { algolia } from "~/core/algolia/algolia.server";
+import { prisma } from "~/core/db.server";
 import {
   createBatchHandlers,
   createPostHandlers,
   highlightValue,
-} from "#/mocks/algolia/shared.server";
-import { FacetHit, SearchForFacetValuesResponse } from "@algolia/client-search";
-import { Prisma } from "@prisma/client";
-import invariant from "tiny-invariant";
+} from "~/mocks/algolia/shared.server";
 
 export const animalHandlers = [
   ...createPostHandlers(

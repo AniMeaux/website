@@ -1,7 +1,7 @@
-import { createSearchFilters } from "#/core/algolia/shared.server";
 import { SearchOptions } from "@algolia/client-search";
 import { User, UserGroup } from "@prisma/client";
 import { SearchClient } from "algoliasearch";
+import { createSearchFilters } from "~/core/algolia/shared.server";
 
 export type UserFromAlgolia = Pick<
   User,

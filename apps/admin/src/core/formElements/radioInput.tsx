@@ -1,6 +1,6 @@
-import { cn } from "#/core/classNames";
-import { RequiredStart } from "#/core/formElements/requiredStart";
 import { forwardRef } from "react";
+import { cn } from "~/core/classNames";
+import { RequiredStart } from "~/core/formElements/requiredStart";
 
 type RadioProps = Omit<React.InputHTMLAttributes<HTMLInputElement>, "type"> & {
   label: React.ReactNode;

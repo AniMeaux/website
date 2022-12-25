@@ -1,5 +1,5 @@
-import { algoliaHandlers } from "#/mocks/algolia/algolia.server";
 import { setupServer } from "msw/node";
+import { algoliaHandlers } from "~/mocks/algolia/algolia.server";
 
 const server = setupServer(...algoliaHandlers);
 

@@ -1,7 +1,7 @@
-import { LoaderData } from "#/root";
 import { MetaFunction } from "@remix-run/node";
 import { useMatches } from "@remix-run/react";
 import invariant from "tiny-invariant";
+import { LoaderData } from "~/root";
 
 export type Config = {
   cloudinaryName: string;

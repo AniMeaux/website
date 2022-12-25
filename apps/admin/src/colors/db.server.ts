@@ -1,6 +1,6 @@
-import { ColorSearchParams } from "#/colors/searchParams";
-import { algolia } from "#/core/algolia/algolia.server";
-import { prisma } from "#/core/db.server";
+import { ColorSearchParams } from "~/colors/searchParams";
+import { algolia } from "~/core/algolia/algolia.server";
+import { prisma } from "~/core/db.server";
 
 const SEARCH_COUNT = 6;
 

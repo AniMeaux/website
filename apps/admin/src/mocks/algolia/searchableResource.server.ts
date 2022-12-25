@@ -1,16 +1,16 @@
-import { algolia } from "#/core/algolia/algolia.server";
-import { prisma } from "#/core/db.server";
-import { isDefined } from "#/core/isDefined";
+import { Hit, SearchResponse } from "@algolia/client-search";
+import zip from "lodash.zip";
+import invariant from "tiny-invariant";
+import { algolia } from "~/core/algolia/algolia.server";
+import { prisma } from "~/core/db.server";
+import { isDefined } from "~/core/isDefined";
 import {
   createBatchHandlers,
   createPostHandlers,
   highlightValue,
-} from "#/mocks/algolia/shared.server";
-import { SearchableResourceFromAlgolia } from "#/searchableResources/algolia.server";
-import { SearchableResourceType } from "#/searchableResources/type";
-import { Hit, SearchResponse } from "@algolia/client-search";
-import zip from "lodash.zip";
-import invariant from "tiny-invariant";
+} from "~/mocks/algolia/shared.server";
+import { SearchableResourceFromAlgolia } from "~/searchableResources/algolia.server";
+import { SearchableResourceType } from "~/searchableResources/type";
 
 export const searchableResourcesHandlers = [
   ...createPostHandlers(

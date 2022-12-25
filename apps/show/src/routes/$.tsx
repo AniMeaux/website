@@ -1,7 +1,7 @@
-import { createSocialMeta } from "#/core/meta";
-import { getPageTitle } from "#/core/pageTitle";
-import { ErrorPage, getErrorTitle } from "#/dataDisplay/errorPage";
 import { MetaFunction } from "@remix-run/node";
+import { createSocialMeta } from "~/core/meta";
+import { getPageTitle } from "~/core/pageTitle";
+import { ErrorPage, getErrorTitle } from "~/dataDisplay/errorPage";
 
 export async function loader() {
   return new Response("Not found", { status: 404 });

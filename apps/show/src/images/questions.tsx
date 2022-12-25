@@ -1,8 +1,8 @@
-import { ImageDescriptor } from "#/dataDisplay/image";
-import questions1024 from "#/images/questions-1024w.png";
-import questions1536 from "#/images/questions-1536w.png";
-import questions2048 from "#/images/questions-2048w.png";
-import questions512 from "#/images/questions-512w.png";
+import { ImageDescriptor } from "~/dataDisplay/image";
+import questions1024 from "~/images/questions-1024w.png";
+import questions1536 from "~/images/questions-1536w.png";
+import questions2048 from "~/images/questions-2048w.png";
+import questions512 from "~/images/questions-512w.png";
 
 export const questionsImages: ImageDescriptor = {
   alt: "Chien qui lève la patte.",

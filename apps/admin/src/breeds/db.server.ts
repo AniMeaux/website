@@ -1,6 +1,6 @@
-import { BreedSearchParams } from "#/breeds/searchParams";
-import { algolia } from "#/core/algolia/algolia.server";
-import { prisma } from "#/core/db.server";
+import { BreedSearchParams } from "~/breeds/searchParams";
+import { algolia } from "~/core/algolia/algolia.server";
+import { prisma } from "~/core/db.server";
 
 const SEARCH_COUNT = 6;
 
