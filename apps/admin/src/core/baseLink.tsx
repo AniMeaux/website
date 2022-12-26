@@ -10,6 +10,7 @@ export type BaseLinkProps = {
   isNavLink?: boolean;
   prefetch?: NavLinkProps["prefetch"];
   reloadDocument?: NavLinkProps["reloadDocument"];
+  replace?: NavLinkProps["replace"];
   shouldOpenInNewTarget?: boolean;
   style?: NavLinkProps["style"];
   title?: string;
@@ -26,6 +27,7 @@ export const BaseLink = forwardRef<HTMLAnchorElement, BaseLinkProps>(
       isNavLink = false,
       prefetch = "intent",
       reloadDocument,
+      replace,
       shouldOpenInNewTarget,
       style,
       title,
@@ -89,6 +91,7 @@ export const BaseLink = forwardRef<HTMLAnchorElement, BaseLinkProps>(
           to={to}
           prefetch={prefetch}
           reloadDocument={reloadDocument}
+          replace={replace}
           className={className}
           style={style}
           children={children}
@@ -102,6 +105,7 @@ export const BaseLink = forwardRef<HTMLAnchorElement, BaseLinkProps>(
         to={to}
         prefetch={prefetch}
         reloadDocument={reloadDocument}
+        replace={replace}
         className={defaultCallProp(className)}
         style={defaultCallProp(style)}
         children={defaultCallProp(children)}
