@@ -77,14 +77,7 @@ export default function AnimalPhotosPage() {
 
   return (
     <main className="w-full h-full grid grid-cols-1 grid-rows-[auto_minmax(0px,1fr)_auto]">
-      <header className="min-h-[50px] px-safe-1 pt-safe-0.5 pb-0.5 grid grid-cols-[1fr_auto] justify-items-start items-center gap-1 md:min-h-[60px] md:px-safe-2 md:pt-safe-1 md:pb-1 md:gap-2">
-        <BaseLink
-          to={`/animals/${animal.id}`}
-          className={actionClassName.standalone({ variant: "text" })}
-        >
-          Fermer
-        </BaseLink>
-
+      <header className="min-h-[50px] px-safe-1 pt-safe-0.5 pb-0.5 flex justify-end items-center md:min-h-[60px] md:px-safe-2 md:pt-safe-1 md:pb-1">
         <DownloadPictureLink
           pictureId={visiblePictureId}
           fileName={`${getAnimalDisplayName(animal)} (${
@@ -118,6 +111,7 @@ export default function AnimalPhotosPage() {
             <BaseLink
               key={pictureId}
               to={`/animals/${animal.id}/pictures/${pictureId}`}
+              replace
               className="aspect-4/3 rounded-0.5 flex transition-transform duration-100 ease-in-out active:scale-95 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
             >
               <DynamicImage
