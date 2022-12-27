@@ -51,7 +51,7 @@ async function seedUsers() {
     data: {
       email: "admin@animeaux.org",
       displayName: "Admin",
-      groups: [UserGroup.ADMIN],
+      groups: [UserGroup.VOLUNTEER, UserGroup.ADMIN],
       isDisabled: false,
       password: {
         create: { hash: await generatePasswordHash(DEFAULT_PASSWORD) },
@@ -84,7 +84,7 @@ async function seedUsers() {
           data: {
             email: faker.internet.email(),
             displayName: faker.name.firstName(),
-            groups: [UserGroup.ANIMAL_MANAGER],
+            groups: [UserGroup.VOLUNTEER, UserGroup.ANIMAL_MANAGER],
             isDisabled: faker.datatype.boolean(),
             password: {
               create: { hash: await generatePasswordHash(DEFAULT_PASSWORD) },

@@ -93,6 +93,10 @@ function CurrentUserTabBar({
     );
   }
 
+  if (visibleNavigationItems.length < 2) {
+    return null;
+  }
+
   return (
     <TabBar>
       {visibleNavigationItems.map((item) => (
@@ -169,6 +173,7 @@ const ALL_NAVIGATION_ITEMS: NavigationItem[] = [
       UserGroup.ADMIN,
       UserGroup.ANIMAL_MANAGER,
       UserGroup.VETERINARIAN,
+      UserGroup.VOLUNTEER,
     ],
   },
   {

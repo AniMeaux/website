@@ -18,9 +18,14 @@ const USER_GROUP_LANDING_PAGE: Record<UserGroup, string> = {
   [UserGroup.BLOGGER]: "/articles",
   [UserGroup.HEAD_OF_PARTNERSHIPS]: "/partners",
   [UserGroup.VETERINARIAN]: "/animals",
+  [UserGroup.VOLUNTEER]: "/animals",
 };
 
 function getUserMainGroup(groups: UserGroup[]): UserGroup {
+  if (groups.includes(UserGroup.VOLUNTEER)) {
+    return UserGroup.VOLUNTEER;
+  }
+
   if (groups.includes(UserGroup.ADMIN)) {
     return UserGroup.ADMIN;
   }

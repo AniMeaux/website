@@ -50,12 +50,19 @@ export async function loader({ request, params }: LoaderArgs) {
     UserGroup.ADMIN,
     UserGroup.ANIMAL_MANAGER,
     UserGroup.VETERINARIAN,
+    UserGroup.VOLUNTEER,
   ]);
 
   const result = z.string().uuid().safeParse(params["id"]);
   if (!result.success) {
     throw new NotFoundResponse();
   }
+
+  const showAllInfo = hasGroups(currentUser, [
+    UserGroup.ADMIN,
+    UserGroup.ANIMAL_MANAGER,
+    UserGroup.VETERINARIAN,
+  ]);
 
   const animal = await prisma.animal.findUnique({
     where: { id: result.data },
@@ -67,11 +74,13 @@ export async function loader({ request, params }: LoaderArgs) {
       birthdate: true,
       breed: { select: { name: true } },
       color: { select: { name: true } },
-      comments: true,
+      comments: showAllInfo,
       description: true,
-      fosterFamily: { select: { id: true, displayName: true } },
+      fosterFamily: showAllInfo
+        ? { select: { id: true, displayName: true } }
+        : false,
       gender: true,
-      iCadNumber: true,
+      iCadNumber: showAllInfo,
       id: true,
       isOkCats: true,
       isOkChildren: true,
@@ -134,8 +143,8 @@ export default function AnimalProfilePage() {
         </aside>
 
         <main className="flex flex-col gap-1 md:gap-2">
-          <DescriptionCard />
           <PicturesCard />
+          <DescriptionCard />
         </main>
 
         {canEdit && (
