@@ -6,4 +6,5 @@ export const USER_GROUP_LABELS: Record<UserGroup, string> = {
   [UserGroup.BLOGGER]: "Redacteur",
   [UserGroup.HEAD_OF_PARTNERSHIPS]: "Partenariat",
   [UserGroup.VETERINARIAN]: "Vétérinaire",
+  [UserGroup.VOLUNTEER]: "Bénévole",
 };

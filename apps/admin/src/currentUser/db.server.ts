@@ -84,6 +84,7 @@ export async function verifyLogin({
       UserGroup.ADMIN,
       UserGroup.ANIMAL_MANAGER,
       UserGroup.VETERINARIAN,
+      UserGroup.VOLUNTEER,
     ])
   ) {
     return null;

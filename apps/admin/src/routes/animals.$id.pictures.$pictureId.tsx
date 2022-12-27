@@ -32,6 +32,7 @@ export async function loader({ request, params }: LoaderArgs) {
     UserGroup.ADMIN,
     UserGroup.ANIMAL_MANAGER,
     UserGroup.VETERINARIAN,
+    UserGroup.VOLUNTEER,
   ]);
 
   const idResult = z.string().uuid().safeParse(params["id"]);

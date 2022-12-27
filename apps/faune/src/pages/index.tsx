@@ -5,6 +5,10 @@ import { PageComponent } from "~/core/types";
 import { useCurrentUser } from "~/currentUser/currentUser";
 
 function getUserMainGroup(user: CurrentUser): UserGroup {
+  if (user.groups.includes(UserGroup.VOLUNTEER)) {
+    return UserGroup.VOLUNTEER;
+  }
+
   if (user.groups.includes(UserGroup.ADMIN)) {
     return UserGroup.ADMIN;
   }
@@ -30,6 +34,7 @@ const UserGroupLandingPage: Record<UserGroup, string> = {
   [UserGroup.BLOGGER]: "/articles",
   [UserGroup.HEAD_OF_PARTNERSHIPS]: "/partners",
   [UserGroup.VETERINARIAN]: "/animals",
+  [UserGroup.VOLUNTEER]: "/animals",
 };
 
 const IndexPage: PageComponent = () => {
