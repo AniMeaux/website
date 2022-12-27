@@ -277,7 +277,7 @@ function initializeState(initialUser?: User) {
     displayName: initialUser?.displayName ?? "",
     email: initialUser?.email ?? "",
     password: "",
-    groups: initialUser?.groups ?? [],
+    groups: initialUser?.groups ?? [UserGroup.VOLUNTEER],
     errors: [],
   });
 }

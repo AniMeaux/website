@@ -29,6 +29,7 @@ import {
 import { ForbiddenResponse } from "~/core/response.server";
 import { visit } from "~/core/visitor";
 import { getCurrentUser } from "~/currentUser/db.server";
+import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
 import { FosterFamilyAvatar } from "~/fosterFamilies/avatar";
 import { getShortLocation } from "~/fosterFamilies/location";
 import { Icon } from "~/generated/icon";
@@ -41,6 +42,13 @@ export async function loader({ request }: LoaderArgs) {
   const currentUser = await getCurrentUser(request, {
     select: { id: true, groups: true },
   });
+
+  assertCurrentUserHasGroups(currentUser, [
+    UserGroup.ADMIN,
+    UserGroup.ANIMAL_MANAGER,
+    UserGroup.VETERINARIAN,
+    UserGroup.VOLUNTEER,
+  ]);
 
   const searchParams = new SearchableResourceSearchParams(
     new URL(request.url).searchParams
@@ -84,6 +92,7 @@ const ALLOWED_TYPES_PER_GROUP: Record<UserGroup, SearchableResourceType[]> = {
   [UserGroup.BLOGGER]: [],
   [UserGroup.HEAD_OF_PARTNERSHIPS]: [],
   [UserGroup.VETERINARIAN]: [SearchableResourceType.ANIMAL],
+  [UserGroup.VOLUNTEER]: [SearchableResourceType.ANIMAL],
 };
 
 const RESOURCE_PATHNAME = "/resources/global-search";

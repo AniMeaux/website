@@ -1,0 +1,2 @@
+-- AlterEnum
+ALTER TYPE "UserGroup" ADD VALUE 'VOLUNTEER';

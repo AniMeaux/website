@@ -27,6 +27,7 @@ import { PageSearchParams } from "~/core/searchParams";
 import { getCurrentUser } from "~/currentUser/db.server";
 import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
 import { Icon } from "~/generated/icon";
+import { hasGroups } from "~/users/groups";
 
 // Multiple of 6, 5, 4 and 3 to be nicely displayed.
 const ANIMAL_COUNT_PER_PAGE = 60;
@@ -40,6 +41,7 @@ export async function loader({ request }: LoaderArgs) {
     UserGroup.ADMIN,
     UserGroup.ANIMAL_MANAGER,
     UserGroup.VETERINARIAN,
+    UserGroup.VOLUNTEER,
   ]);
 
   const searchParams = new URL(request.url).searchParams;
@@ -155,6 +157,11 @@ export async function loader({ request }: LoaderArgs) {
 
   const pageCount = Math.ceil(totalCount / ANIMAL_COUNT_PER_PAGE);
 
+  const canEdit = hasGroups(currentUser, [
+    UserGroup.ADMIN,
+    UserGroup.ANIMAL_MANAGER,
+  ]);
+
   return json({
     totalCount,
     pageCount,
@@ -169,6 +176,7 @@ export async function loader({ request }: LoaderArgs) {
       return location.pickUpLocation;
     }),
     currentUser,
+    canEdit,
   });
 }
 
@@ -177,7 +185,8 @@ export const meta: MetaFunction = () => {
 };
 
 export default function AnimalsPage() {
-  const { totalCount, pageCount, animals } = useLoaderData<typeof loader>();
+  const { totalCount, pageCount, animals, canEdit } =
+    useLoaderData<typeof loader>();
   const [searchParams] = useSearchParams();
   const animalSearchParams = new AnimalSearchParams(searchParams);
 
@@ -205,12 +214,14 @@ export default function AnimalsPage() {
                 {totalCount} {totalCount > 1 ? "animaux" : "animal"}
               </CardTitle>
 
-              <BaseLink
-                to="/animals/new"
-                className={actionClassName.standalone({ variant: "text" })}
-              >
-                Créer
-              </BaseLink>
+              {canEdit ? (
+                <BaseLink
+                  to="/animals/new"
+                  className={actionClassName.standalone({ variant: "text" })}
+                >
+                  Créer
+                </BaseLink>
+              ) : null}
             </CardHeader>
 
             <CardContent>
