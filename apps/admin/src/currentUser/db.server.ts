@@ -13,7 +13,10 @@ const USER_SESSION_KEY = "userId";
 
 export async function getCurrentUser<T extends Prisma.UserFindFirstArgs>(
   request: Request,
-  args: Prisma.SelectSubset<T, Prisma.UserFindFirstArgs>
+  args: Prisma.SelectSubset<T, Prisma.UserFindFirstArgs>,
+  {
+    skipPasswordChangeCheck = false,
+  }: { skipPasswordChangeCheck?: boolean } = {}
 ) {
   const session = await getSession(request);
 
@@ -24,16 +27,40 @@ export async function getCurrentUser<T extends Prisma.UserFindFirstArgs>(
 
   const user = await prisma.user.findFirst<T>({
     ...args,
+    select: { ...args.select, shouldChangePassword: true },
     where: { id: userId, isDisabled: false },
   });
   if (user == null) {
     throw await redirectToLogin(request);
+  }
+  if (!skipPasswordChangeCheck && user.shouldChangePassword) {
+    throw await redirectToDefinePassword(request);
   }
 
   return user;
 }
 
 async function redirectToLogin(request: Request) {
+  const searchParams = await getRedirectToSearchParams(request);
+
+  return redirect(
+    createPath({ pathname: "/login", search: searchParams.toString() }),
+    { headers: { "Set-Cookie": await destroyUserSession() } }
+  );
+}
+
+async function redirectToDefinePassword(request: Request) {
+  const searchParams = await getRedirectToSearchParams(request);
+
+  return redirect(
+    createPath({
+      pathname: "/define-password",
+      search: searchParams.toString(),
+    })
+  );
+}
+
+async function getRedirectToSearchParams(request: Request) {
   let searchParams = new NextSearchParams();
 
   // Remove host from URL.
@@ -44,10 +71,7 @@ async function redirectToLogin(request: Request) {
     searchParams = searchParams.setNext(redirectTo);
   }
 
-  return redirect(
-    createPath({ pathname: "/login", search: searchParams.toString() }),
-    { headers: { "Set-Cookie": await destroyUserSession() } }
-  );
+  return searchParams;
 }
 
 export async function verifyLogin({
@@ -99,9 +123,12 @@ export async function updateCurrentUserPassword(
 ) {
   const passwordHash = await generatePasswordHash(password);
 
-  await prisma.password.update({
-    where: { userId },
-    data: { hash: passwordHash },
+  await prisma.user.update({
+    where: { id: userId },
+    data: {
+      shouldChangePassword: false,
+      password: { update: { hash: passwordHash } },
+    },
   });
 }
 
