@@ -27,12 +27,23 @@ export async function getCurrentUser<T extends Prisma.UserFindFirstArgs>(
 
   const user = await prisma.user.findFirst<T>({
     ...args,
-    select: { ...args.select, shouldChangePassword: true },
+    select: { ...args.select, shouldChangePassword: true, groups: true },
     where: { id: userId, isDisabled: false },
   });
   if (user == null) {
     throw await redirectToLogin(request);
   }
+  if (
+    !hasGroups(user, [
+      UserGroup.ADMIN,
+      UserGroup.ANIMAL_MANAGER,
+      UserGroup.VETERINARIAN,
+      UserGroup.VOLUNTEER,
+    ])
+  ) {
+    throw await redirectToLogin(request);
+  }
+
   if (!skipPasswordChangeCheck && user.shouldChangePassword) {
     throw await redirectToDefinePassword(request);
   }

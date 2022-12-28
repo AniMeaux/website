@@ -122,8 +122,6 @@ export function CatchBoundary() {
 }
 
 export default function AnimalProfilePage() {
-  const { canEdit } = useLoaderData<typeof loader>();
-
   return (
     <section className="w-full flex flex-col gap-1 md:gap-2">
       <EditSuccessHelper />
@@ -135,11 +133,12 @@ export default function AnimalProfilePage() {
           <ProfileCard />
           <SituationCard />
 
-          {canEdit && (
+          {/* Uncomment when pages are implemented. */}
+          {/* {canEdit && (
             <div className="hidden md:flex md:flex-col">
               <ActionCard />
             </div>
-          )}
+          )} */}
         </aside>
 
         <main className="flex flex-col gap-1 md:gap-2">
@@ -147,11 +146,12 @@ export default function AnimalProfilePage() {
           <DescriptionCard />
         </main>
 
-        {canEdit && (
+        {/* Uncomment when pages are implemented. */}
+        {/* {canEdit && (
           <aside className="flex flex-col md:hidden">
             <ActionCard />
           </aside>
-        )}
+        )} */}
       </section>
     </section>
   );
@@ -402,27 +402,28 @@ function SituationCard() {
   );
 }
 
-function ActionCard() {
-  return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Actions</CardTitle>
-      </CardHeader>
+// Uncomment when pages are implemented.
+// function ActionCard() {
+//   return (
+//     <Card>
+//       <CardHeader>
+//         <CardTitle>Actions</CardTitle>
+//       </CardHeader>
 
-      <CardContent>
-        <button
-          className={actionClassName.standalone({
-            variant: "secondary",
-            color: "red",
-          })}
-        >
-          <Icon id="trash" />
-          Supprimer
-        </button>
-      </CardContent>
-    </Card>
-  );
-}
+//       <CardContent>
+//         <button
+//           className={actionClassName.standalone({
+//             variant: "secondary",
+//             color: "red",
+//           })}
+//         >
+//           <Icon id="trash" />
+//           Supprimer
+//         </button>
+//       </CardContent>
+//     </Card>
+//   );
+// }
 
 function DescriptionCard() {
   const { canEdit, animal } = useLoaderData<typeof loader>();
@@ -482,7 +483,7 @@ function DescriptionCard() {
 }
 
 function PicturesCard() {
-  const { canEdit, animal } = useLoaderData<typeof loader>();
+  const { animal } = useLoaderData<typeof loader>();
   const allPictures = [animal.avatar].concat(animal.pictures);
 
   return (
@@ -490,14 +491,15 @@ function PicturesCard() {
       <CardHeader>
         <CardTitle>Photos</CardTitle>
 
-        {canEdit && (
+        {/* Uncomment when pages are implemented. */}
+        {/* {canEdit && (
           <BaseLink
             to="./edit"
             className={actionClassName.standalone({ variant: "text" })}
           >
             Modifier
           </BaseLink>
-        )}
+        )} */}
       </CardHeader>
 
       <CardContent>
