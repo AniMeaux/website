@@ -3,7 +3,7 @@ import { actionClassName, ActionColor } from "~/core/actions";
 import { cn } from "~/core/classNames";
 import { Icon, IconProps } from "~/generated/icon";
 
-type HelperVariant = "error" | "warning" | "success";
+type HelperVariant = "error" | "info" | "success" | "warning";
 
 export type HelperProps = {
   variant: HelperVariant;
@@ -42,18 +42,21 @@ export function Helper({
 
 const VARIANT_CLASS_NAME: Record<HelperVariant, string> = {
   error: "bg-red-50 text-red-500",
+  info: "bg-blue-50 text-blue-500",
   success: "bg-green-50 text-green-600",
   warning: "bg-amber-50 text-amber-600",
 };
 
 const VARIANT_ICON: Record<HelperVariant, IconProps["id"]> = {
   error: "circleExclamation",
+  info: "circleInfo",
   success: "circleCheck",
   warning: "triangleExclamation",
 };
 
 const VARIANT_ACTION_COLOR: Record<HelperVariant, ActionColor> = {
   error: "red",
+  info: "blue",
   success: "green",
   warning: "amber",
 };

@@ -184,6 +184,7 @@ export const userOperations: OperationsImpl<UserOperations> = {
         data: {
           displayName: params.displayName,
           groups: params.groups,
+          shouldChangePassword: passwordHash != null || undefined,
           password:
             passwordHash == null
               ? undefined

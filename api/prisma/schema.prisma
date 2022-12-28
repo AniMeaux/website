@@ -23,12 +23,13 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  email          String      @unique @db.VarChar(255)
-  displayName    String      @db.VarChar(255)
-  groups         UserGroup[]
-  isDisabled     Boolean     @default(false)
-  managedAnimals Animal[]
-  password       Password?
+  email                String      @unique @db.VarChar(255)
+  displayName          String      @db.VarChar(255)
+  groups               UserGroup[]
+  isDisabled           Boolean     @default(false)
+  managedAnimals       Animal[]
+  password             Password?
+  shouldChangePassword Boolean     @default(true)
 }
 
 model Password {

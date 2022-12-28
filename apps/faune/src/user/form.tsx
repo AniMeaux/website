@@ -140,14 +140,6 @@ export function UserForm({
               </Adornment>
             }
           />
-
-          <FieldMessage
-            infoMessage={
-              isEdit
-                ? "6 caractères minumum ; laisser vide pour ne pas changer"
-                : "6 caractères minumum"
-            }
-          />
         </Field>
 
         <Field>
@@ -199,7 +191,7 @@ export function UserForm({
             htmlFor="password"
             hasError={includes(errors, "empty-password")}
           >
-            Mot de passe
+            Mot de passe temporaire
           </Label>
 
           <PasswordInput
@@ -215,13 +207,9 @@ export function UserForm({
             }
           />
 
-          <FieldMessage
-            infoMessage={
-              isEdit
-                ? "6 caractères minumum ; laisser vide pour ne pas changer"
-                : "6 caractères minumum"
-            }
-          />
+          {isEdit ? (
+            <FieldMessage infoMessage="Laisser vide pour ne pas changer" />
+          ) : null}
         </Field>
 
         <Separator />

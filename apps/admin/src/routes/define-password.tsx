@@ -9,17 +9,19 @@ import { Form, useActionData } from "@remix-run/react";
 import { useEffect, useRef } from "react";
 import { z } from "zod";
 import { actionClassName } from "~/core/actions";
+import { Helper } from "~/core/dataDisplay/helper";
 import { Adornment } from "~/core/formElements/adornment";
 import { formClassNames } from "~/core/formElements/form";
 import { FormErrors } from "~/core/formElements/formErrors";
-import { Input } from "~/core/formElements/input";
 import { PasswordInput } from "~/core/formElements/passwordInput";
 import { RouteHandle } from "~/core/handles";
 import { getPageTitle } from "~/core/pageTitle";
 import { createActionData } from "~/core/schemas";
 import { NextSearchParams } from "~/core/searchParams";
-import { getCurrentUser, verifyLogin } from "~/currentUser/db.server";
-import { createUserSession } from "~/currentUser/session.server";
+import {
+  getCurrentUser,
+  updateCurrentUserPassword,
+} from "~/currentUser/db.server";
 import { Icon } from "~/generated/icon";
 import nameAndLogo from "~/images/nameAndLogo.svg";
 
@@ -28,19 +30,13 @@ export const handle: RouteHandle = {
 };
 
 export async function loader({ request }: LoaderArgs) {
-  let hasCurrentUser: boolean;
-  try {
-    await getCurrentUser(
-      request,
-      { select: { id: true } },
-      { skipPasswordChangeCheck: true }
-    );
-    hasCurrentUser = true;
-  } catch (error) {
-    hasCurrentUser = false;
-  }
+  const currentUser = await getCurrentUser(
+    request,
+    { select: { id: true, shouldChangePassword: true } },
+    { skipPasswordChangeCheck: true }
+  );
 
-  if (hasCurrentUser) {
+  if (!currentUser.shouldChangePassword) {
     const url = new URL(request.url);
     const searchParams = new NextSearchParams(url.searchParams);
     throw redirect(searchParams.getNext());
@@ -50,58 +46,42 @@ export async function loader({ request }: LoaderArgs) {
 }
 
 export const meta: MetaFunction = () => {
-  return { title: getPageTitle("Connexion") };
+  return { title: getPageTitle("Définir un mot de passe") };
 };
 
 const ActionFormData = createActionData(
   z.object({
-    email: z.string().email("Veuillez entrer un email valide"),
     password: z.string().min(1, "Veuillez entrer un mot de passe"),
   })
 );
 
-type ActionData = {
-  errors?: z.inferFlattenedErrors<typeof ActionFormData.schema>;
-};
-
 export async function action({ request }: ActionArgs) {
+  const currentUser = await getCurrentUser(
+    request,
+    { select: { id: true } },
+    { skipPasswordChangeCheck: true }
+  );
+
   const rawFormData = await request.formData();
   const formData = ActionFormData.schema.safeParse(
     Object.fromEntries(rawFormData.entries())
   );
 
   if (!formData.success) {
-    return json<ActionData>(
-      { errors: formData.error.flatten() },
-      { status: 400 }
-    );
+    return json({ errors: formData.error.flatten() }, { status: 400 });
   }
 
-  const userId = await verifyLogin(formData.data);
-  if (userId == null) {
-    return json<ActionData>(
-      {
-        errors: {
-          formErrors: ["Identifiants invalides."],
-          fieldErrors: {},
-        },
-      },
-      { status: 400 }
-    );
-  }
+  await updateCurrentUserPassword(currentUser.id, formData.data.password);
 
   const url = new URL(request.url);
   const searchParams = new NextSearchParams(url.searchParams);
-  throw redirect(searchParams.getNext(), {
-    headers: { "Set-Cookie": await createUserSession(userId) },
-  });
+  throw redirect(searchParams.getNext());
 }
 
-export default function LoginPage() {
+export default function DefinePasswordPage() {
   const actionData = useActionData<typeof action>();
   const { formErrors = [], fieldErrors = {} } = actionData?.errors ?? {};
 
-  const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
 
   // Focus the first field having an error.
@@ -109,8 +89,6 @@ export default function LoginPage() {
     if (actionData?.errors != null) {
       if (actionData.errors.formErrors.length > 0) {
         window.scrollTo({ top: 0 });
-      } else if (actionData.errors.fieldErrors.email != null) {
-        emailRef.current?.focus();
       } else if (actionData.errors.fieldErrors.password != null) {
         passwordRef.current?.focus();
       }
@@ -130,54 +108,23 @@ export default function LoginPage() {
 
         <section className="mt-4 md:mt-[10vh] flex flex-col gap-2">
           <h1 className="text-title-hero-small md:text-title-hero-large">
-            Bienvenue
+            Définir un mot de passe
           </h1>
 
           <Form method="post" noValidate className="flex flex-col gap-4">
             <div className={formClassNames.fields.root()}>
+              <Helper variant="info">
+                Pour plus de sécurité, veuillez définir un nouveau mot de passe.
+              </Helper>
+
               <FormErrors isCompact errors={formErrors} />
-
-              <div className={formClassNames.fields.field.root()}>
-                <label
-                  htmlFor={ActionFormData.keys.email}
-                  className={formClassNames.fields.field.label()}
-                >
-                  Email
-                </label>
-
-                <Input
-                  autoFocus
-                  ref={emailRef}
-                  id={ActionFormData.keys.email}
-                  type="email"
-                  name={ActionFormData.keys.email}
-                  autoComplete="email"
-                  hasError={fieldErrors.email != null}
-                  aria-describedby="email-error"
-                  placeholder="jean@mail.com"
-                  leftAdornment={
-                    <Adornment>
-                      <Icon id="envelope" />
-                    </Adornment>
-                  }
-                />
-
-                {fieldErrors.email != null && (
-                  <p
-                    id="email-error"
-                    className={formClassNames.fields.field.errorMessage()}
-                  >
-                    {fieldErrors.email}
-                  </p>
-                )}
-              </div>
 
               <div className={formClassNames.fields.field.root()}>
                 <label
                   htmlFor={ActionFormData.keys.password}
                   className={formClassNames.fields.field.label()}
                 >
-                  Mot de passe
+                  Nouveau mot de passe
                 </label>
 
                 <PasswordInput
@@ -206,7 +153,7 @@ export default function LoginPage() {
             </div>
 
             <button type="submit" className={actionClassName.standalone()}>
-              Se connecter
+              Enregistrer
             </button>
           </Form>
         </section>
