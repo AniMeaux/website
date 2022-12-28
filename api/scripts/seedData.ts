@@ -53,6 +53,7 @@ async function seedUsers() {
       displayName: "Admin",
       groups: [UserGroup.VOLUNTEER, UserGroup.ADMIN],
       isDisabled: false,
+      shouldChangePassword: false,
       password: {
         create: { hash: await generatePasswordHash(DEFAULT_PASSWORD) },
       },
@@ -68,6 +69,7 @@ async function seedUsers() {
             displayName: faker.name.firstName(),
             groups: [group],
             isDisabled: false,
+            shouldChangePassword: false,
             password: {
               create: { hash: await generatePasswordHash(DEFAULT_PASSWORD) },
             },
@@ -86,6 +88,7 @@ async function seedUsers() {
             displayName: faker.name.firstName(),
             groups: [UserGroup.VOLUNTEER, UserGroup.ANIMAL_MANAGER],
             isDisabled: faker.datatype.boolean(),
+            shouldChangePassword: false,
             password: {
               create: { hash: await generatePasswordHash(DEFAULT_PASSWORD) },
             },

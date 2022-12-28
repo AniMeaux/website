@@ -158,9 +158,12 @@ export const currentUserOperations: OperationsImpl<CurrentUserOperations> = {
 
     const hash = await generatePasswordHash(params.password);
 
-    await prisma.password.update({
-      where: { userId: currentUser.id },
-      data: { hash },
+    await prisma.user.update({
+      where: { id: currentUser.id },
+      data: {
+        shouldChangePassword: false,
+        password: { update: { hash } },
+      },
     });
 
     return true;
