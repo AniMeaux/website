@@ -176,36 +176,37 @@ const ALL_NAVIGATION_ITEMS: NavigationItem[] = [
       UserGroup.VOLUNTEER,
     ],
   },
-  {
-    to: "/foster-families",
-    icon: "house",
-    label: "FA",
-    authorizedGroups: [UserGroup.ADMIN, UserGroup.ANIMAL_MANAGER],
-  },
-  {
-    to: "/events",
-    icon: "calendarDays",
-    label: "Événements",
-    authorizedGroups: [UserGroup.ADMIN],
-  },
-  {
-    to: "/users",
-    icon: "user",
-    label: "Utilisateurs",
-    authorizedGroups: [UserGroup.ADMIN],
-  },
-  {
-    to: "/breeds",
-    icon: "dna",
-    label: "Races",
-    authorizedGroups: [UserGroup.ADMIN],
-  },
-  {
-    to: "/colors",
-    icon: "palette",
-    label: "Couleurs",
-    authorizedGroups: [UserGroup.ADMIN],
-  },
+  // Uncomment when pages are implemented.
+  // {
+  //   to: "/foster-families",
+  //   icon: "house",
+  //   label: "FA",
+  //   authorizedGroups: [UserGroup.ADMIN, UserGroup.ANIMAL_MANAGER],
+  // },
+  // {
+  //   to: "/events",
+  //   icon: "calendarDays",
+  //   label: "Événements",
+  //   authorizedGroups: [UserGroup.ADMIN],
+  // },
+  // {
+  //   to: "/users",
+  //   icon: "user",
+  //   label: "Utilisateurs",
+  //   authorizedGroups: [UserGroup.ADMIN],
+  // },
+  // {
+  //   to: "/breeds",
+  //   icon: "dna",
+  //   label: "Races",
+  //   authorizedGroups: [UserGroup.ADMIN],
+  // },
+  // {
+  //   to: "/colors",
+  //   icon: "palette",
+  //   label: "Couleurs",
+  //   authorizedGroups: [UserGroup.ADMIN],
+  // },
 ];
 
 function CurrentUserMenu({

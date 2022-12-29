@@ -81,13 +81,15 @@ function getCurrentUserSearchableResourceTypes(currentUser: {
 const ALLOWED_TYPES_PER_GROUP: Record<UserGroup, SearchableResourceType[]> = {
   [UserGroup.ADMIN]: [
     SearchableResourceType.ANIMAL,
-    SearchableResourceType.EVENT,
-    SearchableResourceType.FOSTER_FAMILY,
-    SearchableResourceType.USER,
+    // Uncomment when pages are implemented.
+    // SearchableResourceType.EVENT,
+    // SearchableResourceType.FOSTER_FAMILY,
+    // SearchableResourceType.USER,
   ],
   [UserGroup.ANIMAL_MANAGER]: [
     SearchableResourceType.ANIMAL,
-    SearchableResourceType.FOSTER_FAMILY,
+    // Uncomment when pages are implemented.
+    // SearchableResourceType.FOSTER_FAMILY,
   ],
   [UserGroup.BLOGGER]: [],
   [UserGroup.HEAD_OF_PARTNERSHIPS]: [],
