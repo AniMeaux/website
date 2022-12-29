@@ -2,6 +2,7 @@ import { UserGroup } from "@prisma/client";
 import { json, LoaderArgs, MetaFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { z } from "zod";
+import { getAllAnimalPictures } from "~/animals/pictures/allPictures";
 import { getAnimalDisplayName } from "~/animals/profile/name";
 import { actionClassName } from "~/core/actions";
 import { BaseLink } from "~/core/baseLink";
@@ -52,7 +53,7 @@ export async function loader({ request, params }: LoaderArgs) {
   });
 
   assertIsDefined(animal);
-  const allPictures = [animal.avatar].concat(animal.pictures);
+  const allPictures = getAllAnimalPictures(animal);
 
   const pictureIdResult = z.string().uuid().safeParse(params["pictureId"]);
   if (!pictureIdResult.success || !allPictures.includes(pictureIdResult.data)) {
@@ -73,7 +74,7 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
 
 export default function AnimalPhotosPage() {
   const { animal, visiblePictureId } = useLoaderData<typeof loader>();
-  const allPictures = [animal.avatar].concat(animal.pictures);
+  const allPictures = getAllAnimalPictures(animal);
   const visiblePictureIndex = allPictures.indexOf(visiblePictureId);
 
   return (

@@ -483,7 +483,7 @@ function DescriptionCard() {
 }
 
 function PicturesCard() {
-  const { animal } = useLoaderData<typeof loader>();
+  const { animal, canEdit } = useLoaderData<typeof loader>();
   const allPictures = [animal.avatar].concat(animal.pictures);
 
   return (
@@ -491,15 +491,14 @@ function PicturesCard() {
       <CardHeader>
         <CardTitle>Photos</CardTitle>
 
-        {/* Uncomment when pages are implemented. */}
-        {/* {canEdit && (
+        {canEdit && (
           <BaseLink
-            to="./edit"
+            to="./edit-pictures"
             className={actionClassName.standalone({ variant: "text" })}
           >
             Modifier
           </BaseLink>
-        )} */}
+        )}
       </CardHeader>
 
       <CardContent>
