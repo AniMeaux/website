@@ -23,13 +23,7 @@ export const animalHandlers = [
   ...createPostHandlers(
     `/1/indexes/${ANIMAL_INDEX_NAME}/query`,
     async (req, res, ctx) => {
-      invariant(
-        req.headers.get("content-type") === "application/x-www-form-urlencoded",
-        "Content-Type must be application/x-www-form-urlencoded"
-      );
-
-      invariant(typeof req.body === "string", "Body must be a string");
-      const body = JSON.parse(req.body);
+      const body = await req.json();
       const page = body.page || 0;
       const query = body.query || "";
       const pageSize = body.hitsPerPage ?? DEFAULT_PAGE_SIZE;
@@ -101,13 +95,7 @@ export const animalHandlers = [
   ...createPostHandlers(
     `/1/indexes/${ANIMAL_INDEX_NAME}/facets/pickUpLocation/query`,
     async (req, res, ctx) => {
-      invariant(
-        req.headers.get("content-type") === "application/x-www-form-urlencoded",
-        "Content-Type must be application/x-www-form-urlencoded"
-      );
-
-      invariant(typeof req.body === "string", "Body must be a string");
-      const body = JSON.parse(req.body);
+      const body = await req.json();
       const facetQuery = body.facetQuery || "";
 
       const locations = await prisma.animal.groupBy({

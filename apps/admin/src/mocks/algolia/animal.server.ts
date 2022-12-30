@@ -13,13 +13,7 @@ export const animalHandlers = [
   ...createPostHandlers(
     `/1/indexes/${algolia.animal.indexName}/facets/pickUpLocation/query`,
     async (req, res, ctx) => {
-      invariant(
-        req.headers.get("content-type") === "application/x-www-form-urlencoded",
-        "Content-Type must be application/x-www-form-urlencoded"
-      );
-
-      invariant(typeof req.body === "string", "Body must be a string");
-      const body = JSON.parse(req.body);
+      const body = await req.json();
       const facetQuery = body.facetQuery || "";
 
       const where: Prisma.AnimalWhereInput = {};
