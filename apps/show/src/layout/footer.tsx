@@ -6,6 +6,7 @@ import { Icon, IconProps } from "~/generated/icon";
 import anideo from "~/images/anideo.png";
 import arbreVert from "~/images/arbreVert.png";
 import citronad from "~/images/citronad.png";
+import leTraiteurImaginaire from "~/images/leTraiteurImaginaire.png";
 import meaux from "~/images/meaux.png";
 import nameAndLogo from "~/images/nameAndLogo.svg";
 import neoVoice from "~/images/neoVoice.svg";
@@ -82,6 +83,12 @@ export function Footer() {
             image={neoVoice}
             alt="NeoVoice"
             to="https://www.neovoice.fr"
+          />
+
+          <LogoItem
+            image={leTraiteurImaginaire}
+            alt="Le Traiteur Imaginaire"
+            to="https://www.traiteur-imaginaire.com"
           />
         </section>
 

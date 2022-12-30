@@ -13,6 +13,7 @@ import { associationImages } from "~/images/association";
 import citronad from "~/images/citronad.png";
 import { exhibitorsImages } from "~/images/exhibitors";
 import { foodImages } from "~/images/food";
+import leTraiteurImaginaire from "~/images/leTraiteurImaginaire.png";
 import { mapImages } from "~/images/map";
 import meaux from "~/images/meaux.png";
 import { medicalImages } from "~/images/medical";
@@ -415,6 +416,12 @@ function PartnersSection() {
           image={neoVoice}
           alt="NeoVoice"
           to="https://www.neovoice.fr"
+        />
+
+        <PartnerItem
+          image={leTraiteurImaginaire}
+          alt="Le Traiteur Imaginaire"
+          to="https://www.traiteur-imaginaire.com"
         />
       </div>
     </section>
