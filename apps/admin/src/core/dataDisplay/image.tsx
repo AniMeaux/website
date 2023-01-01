@@ -22,6 +22,28 @@ const SCREEN_SIZES = orderBy(
   .map(([name]) => name)
   .concat("default");
 
+type AspectRatio = "none" | "1:1" | "4:3";
+
+const ASPECT_RATIO_CLASS_NAME: Record<AspectRatio, string> = {
+  "1:1": "aspect-square",
+  "4:3": "aspect-4/3",
+  none: "",
+};
+
+type ImageBackground = "none" | "gray";
+
+const IMAGE_BACKGROUND_CLASS_NAME: Record<ImageBackground, string> = {
+  gray: "bg-gray-100",
+  none: "",
+};
+
+type ObjectFit = "cover" | "contain";
+
+const OBJECT_FIT_CLASS_NAME: Record<ObjectFit, string> = {
+  contain: "object-contain",
+  cover: "object-cover",
+};
+
 export type DynamicImageProps = {
   imageId: string;
   alt: string;
@@ -30,8 +52,8 @@ export type DynamicImageProps = {
     default: string;
   };
   aspectRatio?: AspectRatio;
-  objectFit?: "cover" | "contain";
-  background?: "none" | "gray";
+  objectFit?: ObjectFit;
+  background?: ImageBackground;
   fallbackSize: ImageSize;
   loading?: "lazy" | "eager";
   className?: string;
@@ -41,8 +63,8 @@ export function DynamicImage({
   imageId,
   alt,
   sizes: sizesProp,
-  aspectRatio,
-  objectFit = "cover",
+  aspectRatio = "4:3",
+  objectFit = "contain",
   background = "gray",
   fallbackSize,
   loading = "lazy",
@@ -85,27 +107,26 @@ export function DynamicImage({
       sizes={sizes}
       className={cn(
         className,
-        { "bg-gray-100": background === "gray" },
-        objectFit === "cover" ? "object-cover" : "object-contain"
+        ASPECT_RATIO_CLASS_NAME[aspectRatio],
+        IMAGE_BACKGROUND_CLASS_NAME[background],
+        OBJECT_FIT_CLASS_NAME[objectFit]
       )}
     />
   );
 }
 
-type AspectRatio = "none" | "1:1" | "4:3";
-
 export function createCloudinaryUrl(
   cloudName: string,
   imageId: string,
   {
-    aspectRatio = "4:3",
+    aspectRatio,
     format = "auto",
     size,
   }: {
-    aspectRatio?: AspectRatio;
+    aspectRatio: AspectRatio;
     format?: "auto" | "jpg";
     size?: ImageSize;
-  } = {}
+  }
 ) {
   const transformations = [
     // https://cloudinary.com/documentation/image_optimization#automatic_quality_selection_q_auto

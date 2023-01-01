@@ -515,7 +515,7 @@ function PicturesCard() {
                 alt={`Photo ${index + 1} de ${getAnimalDisplayName(animal)}`}
                 sizes={{ md: "200px", default: "160px" }}
                 fallbackSize="512"
-                className="w-full aspect-4/3 rounded-0.5"
+                className="w-full rounded-0.5"
               />
             </BaseLink>
           ))}

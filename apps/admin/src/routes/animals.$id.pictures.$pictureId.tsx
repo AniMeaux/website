@@ -101,7 +101,6 @@ export default function AnimalPhotosPage() {
           fallbackSize="2048"
           aspectRatio="none"
           background="none"
-          objectFit="contain"
           className="min-w-0 max-w-full min-h-0 max-h-full"
         />
       </div>
@@ -121,7 +120,7 @@ export default function AnimalPhotosPage() {
                 sizes={{ md: "80px", default: "60px" }}
                 fallbackSize="512"
                 className={cn(
-                  "w-full aspect-4/3 rounded-0.5 transition-opacity duration-100 ease-in-out",
+                  "w-full rounded-0.5 transition-opacity duration-100 ease-in-out",
                   pictureId === visiblePictureId ? "opacity-100" : "opacity-50"
                 )}
               />
