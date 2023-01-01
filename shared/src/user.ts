@@ -18,6 +18,7 @@ export type User = {
   groups: UserGroup[];
   disabled: boolean;
   managedAnimals: ManagedAnimal[];
+  lastActivity?: string;
 };
 
 export type ManagedAnimal = {
