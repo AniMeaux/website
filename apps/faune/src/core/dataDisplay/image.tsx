@@ -39,10 +39,6 @@ const ImagePresetTransformOptions: Record<
   },
 };
 
-// https://res.cloudinary.com/do3tcc2ku/image/upload/c_fill,h_96,w_96/8eb85a85-90f5-498f-a0ee-051cf66b22a7
-
-// https://res.cloudinary.com/do3tcc2ku/image/upload/8eb85a85-90f5-498f-a0ee-051cf66b22a7
-
 type ImageProps = StyleProps & {
   image?: ImageFileOrId | null;
   alt: string;
