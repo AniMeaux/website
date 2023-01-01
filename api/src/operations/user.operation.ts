@@ -6,6 +6,7 @@ import {
   UserOperations,
 } from "@animeaux/shared";
 import { Prisma } from "@prisma/client";
+import { DateTime } from "luxon";
 import { array, mixed, object, string } from "yup";
 import { assertUserHasGroups, getCurrentUser } from "../core/authentication";
 import { prisma } from "../core/db";
@@ -322,6 +323,10 @@ function mapToPublicUser(
     email: user.email,
     disabled: user.isDisabled,
     groups: user.groups,
+    lastActivity:
+      user.lastActivityAt == null
+        ? undefined
+        : DateTime.fromJSDate(user.lastActivityAt).toISO(),
     managedAnimals: user.managedAnimals.map<ManagedAnimal>((animal) => ({
       id: animal.id,
       avatarId: animal.avatar,

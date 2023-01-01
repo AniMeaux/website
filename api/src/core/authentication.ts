@@ -14,12 +14,19 @@ export async function getCurrentUser(
     return null;
   }
 
-  const user = await prisma.user.findUnique({ where: { id: userId } });
-  if (user == null || user.isDisabled) {
-    return null;
-  }
+  return await prisma.$transaction(async (prisma) => {
+    const user = await prisma.user.findUnique({ where: { id: userId } });
+    if (user == null || user.isDisabled) {
+      return null;
+    }
 
-  return mapCurrentUser(user);
+    await prisma.user.update({
+      where: { id: userId },
+      data: { lastActivityAt: new Date() },
+    });
+
+    return mapCurrentUser(user);
+  });
 }
 
 export function assertDontHaveUser(
