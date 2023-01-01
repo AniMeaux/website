@@ -23,8 +23,8 @@ import { actionClassName } from "~/core/actions";
 import { BaseLink } from "~/core/baseLink";
 import { Filter, Filters } from "~/core/controllers/filters";
 import { ActionAdornment, Adornment } from "~/core/formElements/adornment";
+import { ControlledInput } from "~/core/formElements/controlledInput";
 import { formClassNames } from "~/core/formElements/form";
-import { Input } from "~/core/formElements/input";
 import { Icon } from "~/generated/icon";
 import { UserAvatar } from "~/users/avatar";
 import { hasGroups } from "~/users/groups";
@@ -130,10 +130,9 @@ export function AnimalFilters({
             />
           }
         >
-          <Input
+          <ControlledInput
             name={AnimalSearchParams.Keys.NAME_OR_ALIAS}
             value={visibleFilters.nameOrAlias ?? ""}
-            onChange={() => {}}
             rightAdornment={
               visibleFilters.nameOrAlias != null && (
                 <ActionAdornment
@@ -312,11 +311,10 @@ export function AnimalFilters({
                 Après le
               </span>
 
-              <Input
+              <ControlledInput
                 type="date"
                 name={AnimalSearchParams.Keys.MIN_PICK_UP_DATE}
                 value={toIsoDate(visibleFilters.minPickUpDate)}
-                onChange={() => {}}
                 leftAdornment={
                   <Adornment>
                     <Icon id="calendarDays" />
@@ -341,11 +339,10 @@ export function AnimalFilters({
                 Avant le
               </span>
 
-              <Input
+              <ControlledInput
                 type="date"
                 name={AnimalSearchParams.Keys.MAX_PICK_UP_DATE}
                 value={toIsoDate(visibleFilters.maxPickUpDate)}
-                onChange={() => {}}
                 leftAdornment={
                   <Adornment>
                     <Icon id="calendarDays" />
