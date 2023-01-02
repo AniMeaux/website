@@ -97,7 +97,7 @@ export function LargeNav() {
           }
           onClick={() => setOpenedGroup(toggleGroup("discover"))}
         >
-          Découvrir
+          S’informer
         </NavGroupButton>
 
         <NavLink to="/evenements" forceNotActive={openedGroup != null}>

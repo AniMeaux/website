@@ -135,7 +135,7 @@ export default function LoginPage() {
 
           <Form method="post" noValidate className="flex flex-col gap-4">
             <div className={formClassNames.fields.root()}>
-              <FormErrors isCompact errors={formErrors} />
+              <FormErrors errors={formErrors} />
 
               <div className={formClassNames.fields.field.root()}>
                 <label

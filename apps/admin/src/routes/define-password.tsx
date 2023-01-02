@@ -117,7 +117,7 @@ export default function DefinePasswordPage() {
                 Pour plus de sécurité, veuillez définir un nouveau mot de passe.
               </Helper>
 
-              <FormErrors isCompact errors={formErrors} />
+              <FormErrors errors={formErrors} />
 
               <div className={formClassNames.fields.field.root()}>
                 <label
