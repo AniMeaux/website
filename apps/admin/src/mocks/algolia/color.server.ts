@@ -1,6 +1,5 @@
 import { Hit, SearchResponse } from "@algolia/client-search";
 import { Prisma } from "@prisma/client";
-import invariant from "tiny-invariant";
 import { ColorFromAlgolia } from "~/colors/algolia.server";
 import { algolia } from "~/core/algolia/algolia.server";
 import { prisma } from "~/core/db.server";
@@ -14,13 +13,7 @@ export const colorHandlers = [
   ...createPostHandlers(
     `/1/indexes/${algolia.color.indexName}/query`,
     async (req, res, ctx) => {
-      invariant(
-        req.headers.get("content-type") === "application/x-www-form-urlencoded",
-        "Content-Type must be application/x-www-form-urlencoded"
-      );
-
-      invariant(typeof req.body === "string", "Body must be a string");
-      const body = JSON.parse(req.body);
+      const body = await req.json();
       const query = body.query || "";
 
       const where: Prisma.ColorWhereInput = {};

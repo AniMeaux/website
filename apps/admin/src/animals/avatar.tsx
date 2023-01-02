@@ -23,7 +23,7 @@ export function AnimalAvatar({
       fallbackSize="256"
       sizes={{ default: SIZE_VALUE[size] }}
       aspectRatio="1:1"
-      className={cn(className, AVATAR_SIZE_CLASS_NAME[size], "aspect-square")}
+      className={cn(className, AVATAR_SIZE_CLASS_NAME[size])}
     />
   );
 }

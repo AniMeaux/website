@@ -1,6 +1,7 @@
 import orderBy from "lodash.orderby";
 import { cn } from "~/core/classNames";
 import { useConfig } from "~/core/config";
+import { generateId } from "~/core/id";
 import { ScreenSize, theme } from "~/generated/theme";
 
 // Ordered by decreasing size.
@@ -22,31 +23,58 @@ const SCREEN_SIZES = orderBy(
   .map(([name]) => name)
   .concat("default");
 
-export type DynamicImageProps = {
-  imageId: string;
+type AspectRatio = "none" | "1:1" | "4:3";
+
+const ASPECT_RATIO_CLASS_NAME: Record<AspectRatio, string> = {
+  "1:1": "aspect-square",
+  "4:3": "aspect-4/3",
+  none: "",
+};
+
+type ImageBackground = "none" | "gray";
+
+const IMAGE_BACKGROUND_CLASS_NAME: Record<ImageBackground, string> = {
+  gray: "bg-gray-100",
+  none: "",
+};
+
+type ObjectFit = "cover" | "contain";
+
+const OBJECT_FIT_CLASS_NAME: Record<ObjectFit, string> = {
+  contain: "object-contain",
+  cover: "object-cover",
+};
+
+type CommonImageProps = {
   alt: string;
+  aspectRatio?: AspectRatio;
+  background?: ImageBackground;
+  className?: string;
+  loading?: "lazy" | "eager";
+  objectFit?: ObjectFit;
+  style?: React.CSSProperties;
+};
+
+export type DynamicImageProps = CommonImageProps & {
+  fallbackSize: ImageSize;
+  imageId: string;
   sizes: Partial<Record<ScreenSize, string>> & {
     // `default` is mandatory.
     default: string;
   };
-  aspectRatio?: AspectRatio;
-  objectFit?: "cover" | "contain";
-  background?: "none" | "gray";
-  fallbackSize: ImageSize;
-  loading?: "lazy" | "eager";
-  className?: string;
 };
 
 export function DynamicImage({
   imageId,
   alt,
   sizes: sizesProp,
-  aspectRatio,
-  objectFit = "cover",
+  aspectRatio = "4:3",
+  objectFit = "contain",
   background = "gray",
   fallbackSize,
   loading = "lazy",
   className,
+  style,
 }: DynamicImageProps) {
   const config = useConfig();
 
@@ -85,27 +113,27 @@ export function DynamicImage({
       sizes={sizes}
       className={cn(
         className,
-        { "bg-gray-100": background === "gray" },
-        objectFit === "cover" ? "object-cover" : "object-contain"
+        ASPECT_RATIO_CLASS_NAME[aspectRatio],
+        IMAGE_BACKGROUND_CLASS_NAME[background],
+        OBJECT_FIT_CLASS_NAME[objectFit]
       )}
+      style={style}
     />
   );
 }
-
-type AspectRatio = "none" | "1:1" | "4:3";
 
 export function createCloudinaryUrl(
   cloudName: string,
   imageId: string,
   {
-    aspectRatio = "4:3",
+    aspectRatio,
     format = "auto",
     size,
   }: {
-    aspectRatio?: AspectRatio;
+    aspectRatio: AspectRatio;
     format?: "auto" | "jpg";
     size?: ImageSize;
-  } = {}
+  }
 ) {
   const transformations = [
     // https://cloudinary.com/documentation/image_optimization#automatic_quality_selection_q_auto
@@ -137,4 +165,121 @@ export function createCloudinaryUrl(
   const transformationsStr = transformations.join(",");
 
   return `https://res.cloudinary.com/${cloudName}/image/upload/${transformationsStr}/${imageId}`;
+}
+
+export type ImageFile = {
+  dataUrl: string;
+  file: File;
+  id: string;
+};
+
+export type ImageFileOrId = string | ImageFile;
+
+export function isImageFile(image: ImageFileOrId): image is ImageFile {
+  return typeof image !== "string";
+}
+
+export function getImageId(image: ImageFileOrId) {
+  return isImageFile(image) ? image.id : image;
+}
+
+export function DataUrlOrDynamicImage({
+  alt,
+  aspectRatio = "4:3",
+  background = "gray",
+  className,
+  fallbackSize,
+  image,
+  loading = "lazy",
+  objectFit = "contain",
+  sizes,
+  style,
+}: Omit<DataUrlImageProps, "imageFile"> &
+  Omit<DynamicImageProps, "imageId"> & {
+    image: ImageFileOrId;
+  }) {
+  if (isImageFile(image)) {
+    return (
+      <DataUrlImage
+        alt={alt}
+        aspectRatio={aspectRatio}
+        background={background}
+        className={className}
+        imageFile={image}
+        loading={loading}
+        objectFit={objectFit}
+        style={style}
+      />
+    );
+  }
+
+  return (
+    <DynamicImage
+      alt={alt}
+      aspectRatio={aspectRatio}
+      background={background}
+      className={className}
+      fallbackSize={fallbackSize}
+      imageId={image}
+      loading={loading}
+      objectFit={objectFit}
+      sizes={sizes}
+      style={style}
+    />
+  );
+}
+
+type DataUrlImageProps = CommonImageProps & {
+  imageFile: ImageFile;
+};
+
+function DataUrlImage({
+  alt,
+  aspectRatio = "4:3",
+  background = "gray",
+  className,
+  imageFile,
+  loading = "lazy",
+  objectFit = "contain",
+  style,
+}: DataUrlImageProps) {
+  return (
+    <img
+      alt={alt}
+      loading={loading}
+      src={imageFile.dataUrl}
+      className={cn(
+        className,
+        ASPECT_RATIO_CLASS_NAME[aspectRatio],
+        IMAGE_BACKGROUND_CLASS_NAME[background],
+        OBJECT_FIT_CLASS_NAME[objectFit]
+      )}
+      style={style}
+    />
+  );
+}
+
+export async function getFiles(fileList: FileList): Promise<ImageFile[]> {
+  const files: Promise<ImageFile>[] = [];
+
+  for (let index = 0; index < fileList.length; index++) {
+    files.push(readFile(fileList[index]));
+  }
+
+  return await Promise.all(files);
+}
+
+async function readFile(file: File): Promise<ImageFile> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+
+    reader.onload = (loadEvent) => {
+      const dataUrl = loadEvent.target!.result as string;
+      const id = generateId();
+      return resolve({ dataUrl, file, id });
+    };
+
+    reader.onerror = (error) => reject(error);
+    reader.readAsDataURL(file);
+  });
 }

@@ -35,7 +35,7 @@ export function AnimalItem({
           alt={animal.name}
           fallbackSize="512"
           sizes={imageSizes}
-          className="w-full aspect-4/3 flex-none rounded-1"
+          className="w-full flex-none rounded-1"
         />
 
         <StatusBadge
