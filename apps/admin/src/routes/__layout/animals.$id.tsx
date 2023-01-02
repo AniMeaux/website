@@ -329,17 +329,18 @@ function SituationCard() {
             <strong className="text-body-emphasis">
               {STATUS_TRANSLATION[animal.status]}
             </strong>
-            {animal.status === Status.ADOPTED && animal.adoptionDate != null && (
-              <>
-                {" "}
-                depuis le{" "}
-                <strong className="text-body-emphasis">
-                  {DateTime.fromISO(animal.adoptionDate).toLocaleString(
-                    DateTime.DATE_FULL
-                  )}
-                </strong>
-              </>
-            )}
+            {animal.status === Status.ADOPTED &&
+              animal.adoptionDate != null && (
+                <>
+                  {" "}
+                  depuis le{" "}
+                  <strong className="text-body-emphasis">
+                    {DateTime.fromISO(animal.adoptionDate).toLocaleString(
+                      DateTime.DATE_FULL
+                    )}
+                  </strong>
+                </>
+              )}
             {animal.status === Status.ADOPTED &&
               animal.adoptionOption != null &&
               animal.adoptionOption !== AdoptionOption.UNKNOWN && (
