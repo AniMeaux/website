@@ -1,8 +1,10 @@
 import { User, UserGroup } from "@animeaux/shared";
 import invariant from "invariant";
+import { DateTime } from "luxon";
 import {
   FaAngleRight,
   FaBan,
+  FaCalendarDay,
   FaEnvelope,
   FaExclamationTriangle,
   FaPen,
@@ -169,15 +171,37 @@ function ProfileSection({ user }: UserProp) {
     <Section>
       <SectionTitle>Profil</SectionTitle>
 
-      <Item>
-        <ItemIcon>
-          <FaEnvelope />
-        </ItemIcon>
+      <ul>
+        <li>
+          <Item>
+            <ItemIcon>
+              <FaEnvelope />
+            </ItemIcon>
 
-        <ItemContent>
-          <ItemMainText>{user.email}</ItemMainText>
-        </ItemContent>
-      </Item>
+            <ItemContent>
+              <ItemMainText>{user.email}</ItemMainText>
+            </ItemContent>
+          </Item>
+        </li>
+
+        {user.lastActivity != null ? (
+          <li>
+            <Item>
+              <ItemIcon>
+                <FaCalendarDay />
+              </ItemIcon>
+
+              <ItemContent>
+                <ItemMainText>
+                  {DateTime.fromISO(user.lastActivity).toLocaleString(
+                    DateTime.DATETIME_SHORT_WITH_SECONDS
+                  )}
+                </ItemMainText>
+              </ItemContent>
+            </Item>
+          </li>
+        ) : null}
+      </ul>
     </Section>
   );
 }
