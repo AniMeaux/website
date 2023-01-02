@@ -14,7 +14,7 @@ export function TabBar({ children }: { children?: React.ReactNode }) {
        */}
       <div
         aria-hidden
-        className="flex px-safe-1 pt-0.5 pb-safe-0.5 before:h-4 before:w-1 md:hidden"
+        className="flex pt-0.5 pb-safe-0.5 before:h-4 before:w-1 md:hidden"
       />
 
       <nav className="fixed z-20 bottom-0 left-0 right-0 bg-white px-safe-1 pt-0.5 pb-safe-0.5 grid grid-flow-col gap-1 md:hidden">

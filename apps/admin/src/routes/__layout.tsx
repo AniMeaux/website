@@ -94,7 +94,7 @@ function CurrentUserTabBar({
   }
 
   if (visibleNavigationItems.length < 2) {
-    return null;
+    return <div aria-hidden className="flex pb-safe-0 md:hidden" />;
   }
 
   return (
