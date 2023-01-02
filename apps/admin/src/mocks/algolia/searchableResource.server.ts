@@ -1,6 +1,5 @@
 import { Hit, SearchResponse } from "@algolia/client-search";
 import zip from "lodash.zip";
-import invariant from "tiny-invariant";
 import { algolia } from "~/core/algolia/algolia.server";
 import { prisma } from "~/core/db.server";
 import { isDefined } from "~/core/isDefined";
@@ -16,13 +15,7 @@ export const searchableResourcesHandlers = [
   ...createPostHandlers(
     `/1/indexes/${algolia.searchableResource.indexName}/query`,
     async (req, res, ctx) => {
-      invariant(
-        req.headers.get("content-type") === "application/x-www-form-urlencoded",
-        "Content-Type must be application/x-www-form-urlencoded"
-      );
-
-      invariant(typeof req.body === "string", "Body must be a string");
-      const body = JSON.parse(req.body);
+      const body = await req.json();
       const query = body.query || "";
 
       const [animals, events, fosterFamilies, users] = await Promise.all([

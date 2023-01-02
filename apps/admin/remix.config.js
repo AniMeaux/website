@@ -4,9 +4,9 @@
 module.exports = {
   appDirectory: "./src",
   cacheDirectory: "./node_modules/.cache/remix",
+  // See https://remix.run/docs/en/v1/api/conventions#serverdependenciestobundle
   serverDependenciesToBundle: [
     // These are dependencies of react-markdown.
-    // See https://remix.run/docs/en/v1/api/conventions#serverdependenciestobundle
     /^(comma|space)-separated-tokens/,
     /^bail$/,
     /^ccount$/,
@@ -16,14 +16,19 @@ module.exports = {
     /^hast-util-whitespace$/,
     /^is-plain-obj$/,
     /^markdown-table$/,
-    /^mdast-*/,
-    /^micromark*/,
+    /^mdast.*/,
+    /^micromark.*/,
     /^property-information$/,
     /^react-markdown$/,
-    /^remark-*/,
+    /^remark.*/,
     /^trough$/,
     /^unified$/,
-    /^unist-*/,
-    /^vfile*/,
+    /^unist.*/,
+    /^vfile.*/,
+
+    // These are dependencies of react-dnd.
+    /^@react-dnd\/.*/,
+    /^dnd-core$/,
+    /^react-dnd.*/,
   ],
 };
