@@ -52,6 +52,19 @@ export class AnimalSearchParams extends URLSearchParams {
     return this.get(AnimalSearchParams.Keys.NAME_OR_ALIAS)?.trim() || null;
   }
 
+  setNameOrAlias(nameOrAlias: string) {
+    const copy = new AnimalSearchParams(this);
+
+    nameOrAlias = nameOrAlias.trim();
+    if (nameOrAlias !== "") {
+      copy.set(AnimalSearchParams.Keys.NAME_OR_ALIAS, nameOrAlias);
+    } else if (copy.has(AnimalSearchParams.Keys.NAME_OR_ALIAS)) {
+      copy.delete(AnimalSearchParams.Keys.NAME_OR_ALIAS);
+    }
+
+    return copy;
+  }
+
   deleteNameOrAlias() {
     const copy = new AnimalSearchParams(this);
     copy.delete(AnimalSearchParams.Keys.NAME_OR_ALIAS);
