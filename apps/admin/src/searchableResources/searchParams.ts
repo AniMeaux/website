@@ -20,7 +20,7 @@ export class SearchableResourceSearchParams extends URLSearchParams {
   static readonly Type = Type;
 
   getText() {
-    return this.get(Keys.TEXT) || null;
+    return this.get(Keys.TEXT)?.trim() || null;
   }
 
   getType() {
