@@ -49,7 +49,20 @@ export class AnimalSearchParams extends URLSearchParams {
   }
 
   getNameOrAlias() {
-    return this.get(AnimalSearchParams.Keys.NAME_OR_ALIAS) || null;
+    return this.get(AnimalSearchParams.Keys.NAME_OR_ALIAS)?.trim() || null;
+  }
+
+  setNameOrAlias(nameOrAlias: string) {
+    const copy = new AnimalSearchParams(this);
+
+    nameOrAlias = nameOrAlias.trim();
+    if (nameOrAlias !== "") {
+      copy.set(AnimalSearchParams.Keys.NAME_OR_ALIAS, nameOrAlias);
+    } else if (copy.has(AnimalSearchParams.Keys.NAME_OR_ALIAS)) {
+      copy.delete(AnimalSearchParams.Keys.NAME_OR_ALIAS);
+    }
+
+    return copy;
   }
 
   deleteNameOrAlias() {
@@ -158,12 +171,13 @@ export class PickUpLocationSearchParams extends URLSearchParams {
   };
 
   getText() {
-    return this.get(PickUpLocationSearchParams.Keys.TEXT) || null;
+    return this.get(PickUpLocationSearchParams.Keys.TEXT)?.trim() || null;
   }
 
   setText(text: string) {
     const copy = new PickUpLocationSearchParams(this);
 
+    text = text.trim();
     if (text !== "") {
       copy.set(PickUpLocationSearchParams.Keys.TEXT, text);
     } else if (copy.has(PickUpLocationSearchParams.Keys.TEXT)) {

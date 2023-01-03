@@ -17,6 +17,7 @@ import { createPath } from "history";
 import { useEffect, useState } from "react";
 import { AnimalAvatar } from "~/animals/avatar";
 import { getAnimalDisplayName } from "~/animals/profile/name";
+import { AnimalSearchParams } from "~/animals/searchParams";
 import { getSpeciesLabels } from "~/animals/species";
 import { cn } from "~/core/classNames";
 import { Avatar, inferAvatarColor } from "~/core/dataDisplay/avatar";
@@ -186,6 +187,18 @@ export function GlobalSearch() {
 
               navigate(pathname);
             }}
+            onSelectSearch={(search) => {
+              setIsOpened(false);
+
+              navigate(
+                createPath({
+                  pathname: "/animals",
+                  search: new AnimalSearchParams()
+                    .setNameOrAlias(search)
+                    .toString(),
+                })
+              );
+            }}
           />
         </Dialog.Content>
       </Dialog.Portal>
@@ -211,26 +224,44 @@ function stateReducer<TItem>(
 function Combobox({
   fetcher,
   onSelectedItemChange,
+  onSelectSearch,
   onClose,
 }: {
   fetcher: FetcherWithComponents<SerializeFrom<typeof loader>>;
   onSelectedItemChange: React.Dispatch<
     SerializeFrom<typeof loader>["resources"][number]
   >;
+  onSelectSearch: React.Dispatch<string>;
   onClose: () => void;
 }) {
+  const [inputValue, setInputValue] = useState("");
+  const cleanedInputValue = inputValue.trim();
   const resources = fetcher.data?.resources ?? [];
+
+  let items: (
+    | "search-item"
+    | SerializeFrom<typeof loader>["resources"][number]
+  )[] = resources;
+
+  if (cleanedInputValue !== "") {
+    items = ["search-item", ...resources];
+  }
 
   const combobox = useCombobox({
     isOpen: true,
-    items: resources,
+    inputValue,
+    items,
     stateReducer,
-    itemToString: (resource) => {
-      if (resource === null) {
+    itemToString: (item) => {
+      if (item === null) {
         return "";
       }
 
-      return visit(resource, {
+      if (item === "search-item") {
+        return item;
+      }
+
+      return visit(item, {
         [SearchableResourceType.ANIMAL]: (resource) =>
           getAnimalDisplayName(resource.data),
         [SearchableResourceType.EVENT]: (resource) => resource.data.title,
@@ -241,12 +272,28 @@ function Combobox({
     },
     onSelectedItemChange: ({ selectedItem = null }) => {
       if (selectedItem != null) {
-        onSelectedItemChange(selectedItem);
+        if (selectedItem === "search-item") {
+          onSelectSearch(cleanedInputValue);
+        } else {
+          onSelectedItemChange(selectedItem);
+        }
       }
     },
     onIsOpenChange: ({ type }) => {
       if (type === useCombobox.stateChangeTypes.InputKeyDownEscape) {
         onClose();
+      }
+    },
+    onInputValueChange: ({ inputValue = "" }) => {
+      setInputValue(inputValue);
+    },
+    onStateChange: ({ type, selectedItem }) => {
+      if (
+        type === useCombobox.stateChangeTypes.InputKeyDownEnter &&
+        cleanedInputValue !== "" &&
+        selectedItem == null
+      ) {
+        onSelectSearch(cleanedInputValue);
       }
     },
   });
@@ -286,12 +333,23 @@ function Combobox({
 
       <section
         className={cn("bg-white flex flex-col", {
-          "p-1 md:border-t md:border-gray-100": resources.length > 0,
+          "p-1 md:border-t md:border-gray-100": items.length > 0,
         })}
       >
         <SuggestionList {...combobox.getMenuProps()}>
-          {resources.map((resource, index) => {
-            const leftAdornment = visit(resource, {
+          {items.map((item, index) => {
+            if (item === "search-item") {
+              return (
+                <SuggestionItem
+                  key="search-item"
+                  {...combobox.getItemProps({ item, index })}
+                  leftAdornment={<Icon id="magnifyingGlass" />}
+                  label={`Rechercher : **${cleanedInputValue}**`}
+                />
+              );
+            }
+
+            const leftAdornment = visit(item, {
               [SearchableResourceType.ANIMAL]: (resource) => (
                 <AnimalAvatar animal={resource.data} loading="eager" />
               ),
@@ -317,7 +375,7 @@ function Combobox({
               ),
             });
 
-            const label = visit(resource, {
+            const label = visit(item, {
               [SearchableResourceType.ANIMAL]: (resource) => {
                 return getAnimalDisplayName({
                   name: resource.highlightedData.name,
@@ -338,7 +396,7 @@ function Combobox({
               },
             });
 
-            const secondaryLabel = visit(resource, {
+            const secondaryLabel = visit(item, {
               [SearchableResourceType.ANIMAL]: (resource) => {
                 return getSpeciesLabels(resource.data);
               },
@@ -360,8 +418,8 @@ function Combobox({
 
             return (
               <SuggestionItem
-                key={resource.id}
-                {...combobox.getItemProps({ item: resource, index })}
+                key={item.id}
+                {...combobox.getItemProps({ item, index })}
                 leftAdornment={leftAdornment}
                 label={label}
                 secondaryLabel={secondaryLabel}

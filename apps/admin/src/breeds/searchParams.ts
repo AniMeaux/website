@@ -11,12 +11,13 @@ export class BreedSearchParams extends URLSearchParams {
   static readonly Keys = Keys;
 
   getText() {
-    return this.get(Keys.TEXT) || null;
+    return this.get(Keys.TEXT)?.trim() || null;
   }
 
   setText(text: string) {
     const copy = new BreedSearchParams(this);
 
+    text = text.trim();
     if (text !== "") {
       copy.set(Keys.TEXT, text);
     } else if (copy.has(Keys.TEXT)) {
