@@ -1,10 +1,12 @@
 import {
   AdoptionOption,
   Animal,
+  AnimalDraft,
   FosterFamily,
   PickUpReason,
   Status,
   User,
+  UserGroup,
 } from "@prisma/client";
 import { SerializeFrom } from "@remix-run/node";
 import { Form } from "@remix-run/react";
@@ -37,6 +39,7 @@ import { Icon } from "~/generated/icon";
 import { FosterFamilyInput } from "~/routes/resources/foster-family";
 import { ManagerInput } from "~/routes/resources/manager";
 import { PickUpLocationInput } from "~/routes/resources/pick-up-location";
+import { hasGroups } from "~/users/groups";
 
 export const ActionFormData = createActionData(
   z.object({
@@ -68,29 +71,38 @@ export const ActionFormData = createActionData(
   })
 );
 
+export const EditActionFormData = createActionData(
+  ActionFormData.schema.omit({ id: true })
+);
+
 export function AnimalSituationForm({
-  animal,
+  animalId,
+  defaultAnimal,
   errors = { formErrors: [], fieldErrors: {} },
+  currentUser,
 }: {
-  animal: SerializeFrom<
+  animalId?: Animal["id"];
+  defaultAnimal?: null | SerializeFrom<
     Pick<
-      Animal,
+      AnimalDraft,
       | "adoptionDate"
       | "adoptionOption"
       | "comments"
-      | "id"
       | "pickUpDate"
       | "pickUpLocation"
       | "pickUpReason"
       | "status"
     > & {
-      fosterFamily: null | Pick<FosterFamily, "id" | "displayName">;
-      manager: null | Pick<User, "id" | "displayName">;
+      fosterFamily?: null | Pick<FosterFamily, "id" | "displayName">;
+      manager?: null | Pick<User, "id" | "displayName">;
     }
   >;
   errors?: z.inferFlattenedErrors<typeof ActionFormData.schema>;
+  currentUser?: null | Pick<User, "id" | "displayName" | "groups">;
 }) {
-  const [statusState, setStatusState] = useState(animal.status);
+  const [statusState, setStatusState] = useState(
+    defaultAnimal?.status ?? Status.UNAVAILABLE
+  );
 
   const managerRef = useRef<HTMLButtonElement>(null);
   const pickUpLocationRef = useRef<HTMLButtonElement>(null);
@@ -118,7 +130,9 @@ export function AnimalSituationForm({
       noValidate
       className={formClassNames.root({ hasHeader: true })}
     >
-      <input type="hidden" name={ActionFormData.keys.id} value={animal.id} />
+      {animalId != null ? (
+        <input type="hidden" name={ActionFormData.keys.id} value={animalId} />
+      ) : null}
 
       <div className={formClassNames.fields.root()}>
         <FormErrors errors={errors.formErrors} />
@@ -160,9 +174,9 @@ export function AnimalSituationForm({
                 type="date"
                 name={ActionFormData.keys.adoptionDate}
                 defaultValue={
-                  animal.adoptionDate == null
+                  defaultAnimal?.adoptionDate == null
                     ? null
-                    : DateTime.fromISO(animal.adoptionDate).toISODate()
+                    : DateTime.fromISO(defaultAnimal.adoptionDate).toISODate()
                 }
                 hasError={errors.fieldErrors.adoptionDate != null}
                 aria-describedby="adoptionDate-error"
@@ -196,9 +210,8 @@ export function AnimalSituationForm({
                     name={ActionFormData.keys.adoptionOption}
                     value={adoptionOption}
                     defaultChecked={
-                      animal.adoptionOption == null
-                        ? adoptionOption === AdoptionOption.UNKNOWN
-                        : animal.adoptionOption === adoptionOption
+                      adoptionOption ===
+                      (defaultAnimal?.adoptionOption ?? AdoptionOption.UNKNOWN)
                     }
                   />
                 ))}
@@ -211,13 +224,23 @@ export function AnimalSituationForm({
 
         <div className={formClassNames.fields.field.root()}>
           <span className={formClassNames.fields.field.label()}>
-            Responsable {animal.manager != null ? <RequiredStart /> : null}
+            Responsable{" "}
+            {animalId == null || defaultAnimal?.manager != null ? (
+              <RequiredStart />
+            ) : null}
           </span>
 
           <ManagerInput
             ref={managerRef}
             name={ActionFormData.keys.managerId}
-            defaultValue={animal.manager}
+            defaultValue={
+              defaultAnimal?.manager ??
+              (animalId == null &&
+              currentUser != null &&
+              hasGroups(currentUser, [UserGroup.ANIMAL_MANAGER])
+                ? currentUser
+                : null)
+            }
             hasError={errors.fieldErrors.managerId != null}
             aria-describedby="managerId-error"
           />
@@ -248,7 +271,11 @@ export function AnimalSituationForm({
               id={ActionFormData.keys.pickUpDate}
               type="date"
               name={ActionFormData.keys.pickUpDate}
-              defaultValue={DateTime.fromISO(animal.pickUpDate).toISODate()}
+              defaultValue={
+                defaultAnimal?.pickUpDate == null
+                  ? null
+                  : DateTime.fromISO(defaultAnimal.pickUpDate).toISODate()
+              }
               hasError={errors.fieldErrors.pickUpDate != null}
               aria-describedby="pickUpDate-error"
               leftAdornment={
@@ -271,13 +298,15 @@ export function AnimalSituationForm({
           <div className={formClassNames.fields.field.root()}>
             <span className={formClassNames.fields.field.label()}>
               Lieux de prise en charge{" "}
-              {animal.pickUpLocation != null ? <RequiredStart /> : null}
+              {animalId == null || defaultAnimal?.pickUpLocation != null ? (
+                <RequiredStart />
+              ) : null}
             </span>
 
             <PickUpLocationInput
               ref={pickUpLocationRef}
               name={ActionFormData.keys.pickUpLocation}
-              defaultValue={animal.pickUpLocation}
+              defaultValue={defaultAnimal?.pickUpLocation}
               hasError={errors.fieldErrors.pickUpLocation != null}
               aria-describedby="pickUpLocation-error"
             />
@@ -305,7 +334,10 @@ export function AnimalSituationForm({
                 label={PICK_UP_REASON_TRANSLATION[pickUpReason]}
                 name={ActionFormData.keys.pickUpReason}
                 value={pickUpReason}
-                defaultChecked={animal.pickUpReason === pickUpReason}
+                defaultChecked={
+                  pickUpReason ===
+                  (defaultAnimal?.pickUpReason ?? PickUpReason.OTHER)
+                }
               />
             ))}
           </div>
@@ -322,7 +354,7 @@ export function AnimalSituationForm({
 
               <FosterFamilyInput
                 name={ActionFormData.keys.fosterFamilyId}
-                defaultValue={animal.fosterFamily}
+                defaultValue={defaultAnimal?.fosterFamily}
               />
             </div>
           </>
@@ -341,7 +373,7 @@ export function AnimalSituationForm({
           <Textarea
             id={ActionFormData.keys.comments}
             name={ActionFormData.keys.comments}
-            defaultValue={animal.comments}
+            defaultValue={defaultAnimal?.comments}
             rows={5}
           />
         </div>
@@ -351,7 +383,7 @@ export function AnimalSituationForm({
         type="submit"
         className={cn(actionClassName.standalone(), "w-full md:w-auto")}
       >
-        Enregistrer
+        {animalId == null ? "Suivant" : "Enregistrer"}
       </button>
     </Form>
   );

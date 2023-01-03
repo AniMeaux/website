@@ -415,9 +415,8 @@ export function AnimalProfileForm({
                 name={ActionFormData.keys.isOkCats}
                 value={agreement}
                 defaultChecked={
-                  defaultAnimal?.isOkCats == null
-                    ? agreement === AgreementValue.UNKNOWN
-                    : agreementFromBoolean(defaultAnimal.isOkCats) === agreement
+                  agreementFromBoolean(defaultAnimal?.isOkCats ?? null) ===
+                  agreement
                 }
                 aria-describedby="isOkCats-error"
               />
@@ -448,9 +447,8 @@ export function AnimalProfileForm({
                 name={ActionFormData.keys.isOkDogs}
                 value={agreement}
                 defaultChecked={
-                  defaultAnimal?.isOkDogs == null
-                    ? agreement === AgreementValue.UNKNOWN
-                    : agreementFromBoolean(defaultAnimal.isOkDogs) === agreement
+                  agreementFromBoolean(defaultAnimal?.isOkDogs ?? null) ===
+                  agreement
                 }
                 aria-describedby="isOkDogs-error"
               />
@@ -481,10 +479,8 @@ export function AnimalProfileForm({
                 name={ActionFormData.keys.isOkChildren}
                 value={agreement}
                 defaultChecked={
-                  defaultAnimal?.isOkChildren == null
-                    ? agreement === AgreementValue.UNKNOWN
-                    : agreementFromBoolean(defaultAnimal.isOkChildren) ===
-                      agreement
+                  agreementFromBoolean(defaultAnimal?.isOkChildren ?? null) ===
+                  agreement
                 }
                 aria-describedby="isOkChildren-error"
               />
@@ -520,10 +516,7 @@ export function AnimalProfileForm({
               label="Non"
               name={ActionFormData.keys.isSterilized}
               value={String(false)}
-              defaultChecked={
-                defaultAnimal?.isSterilized == null ||
-                !defaultAnimal.isSterilized
-              }
+              defaultChecked={!defaultAnimal?.isSterilized}
               aria-describedby="isSterilized-error"
             />
           </div>

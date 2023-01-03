@@ -26,21 +26,9 @@ export async function loader({ request }: LoaderArgs) {
       id: true,
       groups: true,
       draft: {
-        select: {
-          alias: true,
-          birthdate: true,
+        include: {
           breed: { select: { id: true, name: true } },
           color: { select: { id: true, name: true } },
-          description: true,
-          gender: true,
-          iCadNumber: true,
-          isOkCats: true,
-          isOkChildren: true,
-          isOkDogs: true,
-          isSterilized: true,
-          name: true,
-          species: true,
-          status: true,
         },
       },
     },
@@ -55,7 +43,7 @@ export async function loader({ request }: LoaderArgs) {
 }
 
 export const meta: MetaFunction = () => {
-  return { title: getPageTitle("Nouvel animal") };
+  return { title: getPageTitle(["Profil", "Nouvel animal"]) };
 };
 
 type ActionData = {
@@ -126,7 +114,7 @@ export function CatchBoundary() {
   return <ErrorPage status={caught.status} />;
 }
 
-export default function NewAnimalPage() {
+export default function NewAnimalProfilePage() {
   const { draft } = useLoaderData<typeof loader>();
   const actionData = useActionData<typeof action>();
 

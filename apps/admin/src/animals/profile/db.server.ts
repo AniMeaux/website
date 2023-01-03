@@ -1,31 +1,35 @@
 import { Animal, AnimalDraft, Prisma } from "@prisma/client";
+import { redirect } from "@remix-run/node";
 import { algolia } from "~/core/algolia/algolia.server";
 import { prisma } from "~/core/db.server";
 import { NotFoundError } from "~/core/errors.server";
+
+type ProfileKeys =
+  | "alias"
+  | "birthdate"
+  | "breedId"
+  | "colorId"
+  | "description"
+  | "gender"
+  | "iCadNumber"
+  | "isOkCats"
+  | "isOkChildren"
+  | "isOkDogs"
+  | "isSterilized"
+  | "name"
+  | "species";
+
+type AnimalProfile = Pick<Animal, ProfileKeys>;
+type AnimalDraftProfile = Pick<AnimalDraft, ProfileKeys>;
 
 export class BreedNotForSpeciesError extends Error {}
 
 export async function updateAnimalProfile(
   animalId: Animal["id"],
-  data: Pick<
-    Animal,
-    | "alias"
-    | "birthdate"
-    | "breedId"
-    | "colorId"
-    | "description"
-    | "gender"
-    | "iCadNumber"
-    | "isOkCats"
-    | "isOkChildren"
-    | "isOkDogs"
-    | "isSterilized"
-    | "name"
-    | "species"
-  >
+  data: AnimalProfile
 ) {
   await prisma.$transaction(async (prisma) => {
-    await assertBreedMatchesSpecies(prisma, data);
+    await validate(prisma, data);
 
     try {
       const animal = await prisma.animal.update({
@@ -61,26 +65,10 @@ export async function updateAnimalProfile(
 
 export async function updateAnimalProfileDraft(
   ownerId: AnimalDraft["ownerId"],
-  data: Pick<
-    // Use `Animal` instead of `AnimalDraft` because we want a more strict type.
-    Animal,
-    | "alias"
-    | "birthdate"
-    | "breedId"
-    | "colorId"
-    | "description"
-    | "gender"
-    | "iCadNumber"
-    | "isOkCats"
-    | "isOkChildren"
-    | "isOkDogs"
-    | "isSterilized"
-    | "name"
-    | "species"
-  >
+  data: AnimalProfile
 ) {
   await prisma.$transaction(async (prisma) => {
-    await assertBreedMatchesSpecies(prisma, data);
+    await validate(prisma, data);
 
     await prisma.animalDraft.upsert({
       where: { ownerId },
@@ -90,10 +78,7 @@ export async function updateAnimalProfileDraft(
   });
 }
 
-async function assertBreedMatchesSpecies(
-  prisma: Prisma.TransactionClient,
-  data: Pick<Animal, "breedId" | "species">
-) {
+async function validate(prisma: Prisma.TransactionClient, data: AnimalProfile) {
   if (data.breedId != null) {
     const breed = await prisma.breed.findUnique({
       where: { id: data.breedId },
@@ -103,5 +88,20 @@ async function assertBreedMatchesSpecies(
     if (breed == null || breed.species !== data.species) {
       throw new BreedNotForSpeciesError();
     }
+  }
+}
+
+export function assertDraftHasProfile(
+  draft?: null | AnimalDraftProfile
+): asserts draft is AnimalProfile {
+  if (
+    draft == null ||
+    draft.birthdate == null ||
+    draft.gender == null ||
+    draft.isSterilized == null ||
+    draft.name == null ||
+    draft.species == null
+  ) {
+    throw redirect("/animals/new-profile");
   }
 }
