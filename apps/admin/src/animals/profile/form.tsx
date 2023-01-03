@@ -219,7 +219,7 @@ export function AnimalProfileForm({
               id={ActionFormData.keys.name}
               type="text"
               name={ActionFormData.keys.name}
-              defaultValue={defaultAnimal?.name ?? undefined}
+              defaultValue={defaultAnimal?.name}
               hasError={errors.fieldErrors.name != null}
               aria-describedby="name-error"
               leftAdornment={
@@ -253,7 +253,7 @@ export function AnimalProfileForm({
               id={ActionFormData.keys.alias}
               type="text"
               name={ActionFormData.keys.alias}
-              defaultValue={defaultAnimal?.alias ?? undefined}
+              defaultValue={defaultAnimal?.alias}
               leftAdornment={
                 <Adornment>
                   <Icon id="comment" />
@@ -278,7 +278,7 @@ export function AnimalProfileForm({
             name={ActionFormData.keys.birthdate}
             defaultValue={
               defaultAnimal?.birthdate == null
-                ? undefined
+                ? null
                 : DateTime.fromISO(defaultAnimal.birthdate).toISODate()
             }
             hasError={errors.fieldErrors.birthdate != null}
@@ -343,7 +343,7 @@ export function AnimalProfileForm({
             id={ActionFormData.keys.iCadNumber}
             type="text"
             name={ActionFormData.keys.iCadNumber}
-            defaultValue={defaultAnimal?.iCadNumber ?? undefined}
+            defaultValue={defaultAnimal?.iCadNumber}
             leftAdornment={
               <Adornment>
                 <Icon id="fingerprint" />
@@ -512,7 +512,7 @@ export function AnimalProfileForm({
               label="Oui"
               name={ActionFormData.keys.isSterilized}
               value={String(true)}
-              defaultChecked={defaultAnimal?.isSterilized ?? undefined}
+              defaultChecked={defaultAnimal?.isSterilized}
               aria-describedby="isSterilized-error"
             />
 
@@ -552,7 +552,7 @@ export function AnimalProfileForm({
             ref={descriptionRef}
             id={ActionFormData.keys.description}
             name={ActionFormData.keys.description}
-            defaultValue={defaultAnimal?.description ?? undefined}
+            defaultValue={defaultAnimal?.description}
             rows={5}
           />
         </div>

@@ -161,7 +161,7 @@ export function AnimalSituationForm({
                 name={ActionFormData.keys.adoptionDate}
                 defaultValue={
                   animal.adoptionDate == null
-                    ? ""
+                    ? null
                     : DateTime.fromISO(animal.adoptionDate).toISODate()
                 }
                 hasError={errors.fieldErrors.adoptionDate != null}
@@ -341,7 +341,7 @@ export function AnimalSituationForm({
           <Textarea
             id={ActionFormData.keys.comments}
             name={ActionFormData.keys.comments}
-            defaultValue={animal.comments ?? ""}
+            defaultValue={animal.comments}
             rows={5}
           />
         </div>

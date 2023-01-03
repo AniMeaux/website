@@ -9,11 +9,19 @@ import {
   InputWrapperProps,
 } from "~/core/formElements/inputWrapper";
 
-export type InputProps = React.InputHTMLAttributes<HTMLInputElement> & {
+export type InputProps = Omit<
+  React.InputHTMLAttributes<HTMLInputElement>,
+  "defaultValue"
+> & {
   variant?: InputVariant;
   leftAdornment?: InputWrapperProps["leftAdornment"];
   rightAdornment?: InputWrapperProps["rightAdornment"];
   hasError?: boolean;
+
+  // Allow null.
+  defaultValue?:
+    | null
+    | React.InputHTMLAttributes<HTMLInputElement>["defaultValue"];
 };
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
@@ -25,6 +33,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
     disabled,
     type = "text",
     className,
+    defaultValue,
     // Should use `"off"` as default value but it is ingored by Chrome.
     // See https://bugs.chromium.org/p/chromium/issues/detail?id=587466
     // A random value is used to confuse the browser and make sure previous
@@ -48,6 +57,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
         pattern={getTypeFallbackPattern(type)}
         autoComplete={autoComplete}
         disabled={disabled}
+        defaultValue={defaultValue ?? undefined}
         aria-invalid={asBooleanAttribute(hasError)}
         className={cn(
           inputClassName({
