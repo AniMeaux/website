@@ -10,6 +10,7 @@ import { AnimalItem } from "~/animals/item";
 import { AnimalSearchParams } from "~/animals/searchParams";
 import { SORTED_SPECIES } from "~/animals/species";
 import { actionClassName } from "~/core/actions";
+import { algolia } from "~/core/algolia/algolia.server";
 import { BaseLink } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
 import { Paginator } from "~/core/controllers/paginator";
@@ -76,16 +77,6 @@ export async function loader({ request }: LoaderArgs) {
     where.push({ OR: conditions });
   }
 
-  const nameOrAlias = animalSearchParams.getNameOrAlias();
-  if (nameOrAlias != null) {
-    where.push({
-      OR: [
-        { name: { contains: nameOrAlias, mode: "insensitive" } },
-        { alias: { contains: nameOrAlias, mode: "insensitive" } },
-      ],
-    });
-  }
-
   const statuses = animalSearchParams.getStatuses();
   if (statuses.length > 0) {
     where.push({ status: { in: statuses } });
@@ -115,6 +106,17 @@ export async function loader({ request }: LoaderArgs) {
   const pickUpLocations = animalSearchParams.getPickUpLocations();
   if (pickUpLocations.length > 0) {
     where.push({ pickUpLocation: { in: pickUpLocations } });
+  }
+
+  const nameOrAlias = animalSearchParams.getNameOrAlias();
+  if (nameOrAlias != null) {
+    const animals = await algolia.animal.search(nameOrAlias, {
+      pickUpLocation: pickUpLocations,
+      species,
+      status: statuses,
+    });
+
+    where.push({ id: { in: animals.map((animal) => animal.id) } });
   }
 
   const [managers, possiblePickUpLocations, totalCount, animals] =

@@ -1,8 +1,9 @@
 import { SearchOptions } from "@algolia/client-search";
-import { Animal } from "@prisma/client";
+import { Animal, Species, Status } from "@prisma/client";
 import { SearchClient } from "algoliasearch";
+import { createSearchFilters } from "~/core/algolia/shared.server";
 
-type AnimalFromAlgolia = Pick<
+export type AnimalFromAlgolia = Pick<
   Animal,
   "alias" | "name" | "pickUpLocation" | "species" | "status"
 >;
@@ -15,6 +16,29 @@ export function createAnimalDelegate(client: SearchClient) {
 
     async update(animalId: Animal["id"], data: Partial<AnimalFromAlgolia>) {
       await index.partialUpdateObject({ ...data, objectID: animalId });
+    },
+
+    async search(
+      text: string,
+      filters: {
+        species: null | Species | Species[];
+        pickUpLocation: null | string | string[];
+        status: null | Status | Status[];
+      },
+      options: Omit<SearchOptions, "filters"> = {}
+    ) {
+      const result = await index.search<AnimalFromAlgolia>(text, {
+        ...options,
+        filters: createSearchFilters(filters),
+      });
+
+      return result.hits.map((hit) => ({
+        id: hit.objectID,
+        name: hit.name,
+        highlightedName: hit._highlightResult?.name?.value ?? hit.name,
+        alias: hit.alias,
+        highlightedAlias: hit._highlightResult?.alias?.value ?? hit.alias,
+      }));
     },
 
     async searchPickUpLocation(text: string, options: SearchOptions = {}) {
