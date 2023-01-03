@@ -24,7 +24,6 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
     rightAdornment,
     disabled,
     type = "text",
-    value,
     className,
     // Should use `"off"` as default value but it is ingored by Chrome.
     // See https://bugs.chromium.org/p/chromium/issues/detail?id=587466
@@ -35,8 +34,6 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
   },
   ref
 ) {
-  const isHidden = (type === "date" || type === "time") && value === "";
-
   return (
     <InputWrapper
       isDisabled={disabled}
@@ -48,7 +45,6 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
         {...rest}
         ref={ref}
         type={type}
-        value={value}
         pattern={getTypeFallbackPattern(type)}
         autoComplete={autoComplete}
         disabled={disabled}
@@ -59,7 +55,6 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
             leftAdornmentCount: ensureArray(leftAdornment).length,
             rightAdornmentCount: ensureArray(rightAdornment).length,
           }),
-          { "text-transparent focus:text-inherit": isHidden },
           { "gap-0.5": type === "date" }
         )}
       />
