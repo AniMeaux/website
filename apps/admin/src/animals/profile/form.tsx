@@ -1,4 +1,11 @@
-import { Animal, Breed, Color, Gender, Species } from "@prisma/client";
+import {
+  Animal,
+  AnimalDraft,
+  Breed,
+  Color,
+  Gender,
+  Species,
+} from "@prisma/client";
 import { SerializeFrom } from "@remix-run/node";
 import { Form, useLocation } from "@remix-run/react";
 import { DateTime } from "luxon";
@@ -12,7 +19,11 @@ import {
   SORTED_AGREEMENTS,
 } from "~/animals/agreements";
 import { GENDER_TRANSLATION, SORTED_GENDERS } from "~/animals/gender";
-import { SORTED_SPECIES, SPECIES_TRANSLATION } from "~/animals/species";
+import {
+  SORTED_SPECIES,
+  SPECIES_ICON,
+  SPECIES_TRANSLATION,
+} from "~/animals/species";
 import { actionClassName } from "~/core/actions";
 import { cn } from "~/core/classNames";
 import { Adornment } from "~/core/formElements/adornment";
@@ -72,19 +83,24 @@ export const ActionFormData = createActionData(
   })
 );
 
+export const EditActionFormData = createActionData(
+  ActionFormData.schema.omit({ id: true })
+);
+
 export function AnimalProfileForm({
-  animal,
+  animalId,
+  defaultAnimal,
   errors = { formErrors: [], fieldErrors: {} },
 }: {
-  animal: SerializeFrom<
+  animalId?: Animal["id"];
+  defaultAnimal?: null | SerializeFrom<
     Pick<
-      Animal,
+      AnimalDraft,
       | "alias"
       | "birthdate"
       | "description"
       | "gender"
       | "iCadNumber"
-      | "id"
       | "isOkCats"
       | "isOkChildren"
       | "isOkDogs"
@@ -92,13 +108,13 @@ export function AnimalProfileForm({
       | "name"
       | "species"
     > & {
-      breed: null | Pick<Breed, "id" | "name">;
-      color: null | Pick<Color, "id" | "name">;
+      breed?: null | Pick<Breed, "id" | "name">;
+      color?: null | Pick<Color, "id" | "name">;
     }
   >;
   errors?: z.inferFlattenedErrors<typeof ActionFormData.schema>;
 }) {
-  const [speciesState, setSpeciesState] = useState(animal.species);
+  const [speciesState, setSpeciesState] = useState(defaultAnimal?.species);
 
   const speciesRef = useRef<HTMLInputElement>(null);
   const nameRef = useRef<HTMLInputElement>(null);
@@ -152,7 +168,9 @@ export function AnimalProfileForm({
       noValidate
       className={formClassNames.root({ hasHeader: true })}
     >
-      <input type="hidden" name={ActionFormData.keys.id} value={animal.id} />
+      {animalId != null ? (
+        <input type="hidden" name={ActionFormData.keys.id} value={animalId} />
+      ) : null}
 
       <div className={formClassNames.fields.root()}>
         <FormErrors errors={errors.formErrors} />
@@ -201,13 +219,15 @@ export function AnimalProfileForm({
               id={ActionFormData.keys.name}
               type="text"
               name={ActionFormData.keys.name}
-              defaultValue={animal.name}
+              defaultValue={defaultAnimal?.name ?? undefined}
               hasError={errors.fieldErrors.name != null}
               aria-describedby="name-error"
               leftAdornment={
-                <Adornment>
-                  <Icon id="cat" />
-                </Adornment>
+                speciesState != null ? (
+                  <Adornment>
+                    <Icon id={SPECIES_ICON[speciesState]} />
+                  </Adornment>
+                ) : null
               }
             />
 
@@ -233,7 +253,7 @@ export function AnimalProfileForm({
               id={ActionFormData.keys.alias}
               type="text"
               name={ActionFormData.keys.alias}
-              defaultValue={animal.alias ?? ""}
+              defaultValue={defaultAnimal?.alias ?? undefined}
               leftAdornment={
                 <Adornment>
                   <Icon id="comment" />
@@ -256,7 +276,11 @@ export function AnimalProfileForm({
             id={ActionFormData.keys.birthdate}
             type="date"
             name={ActionFormData.keys.birthdate}
-            defaultValue={DateTime.fromISO(animal.birthdate).toISODate()}
+            defaultValue={
+              defaultAnimal?.birthdate == null
+                ? undefined
+                : DateTime.fromISO(defaultAnimal.birthdate).toISODate()
+            }
             hasError={errors.fieldErrors.birthdate != null}
             aria-describedby="birthdate-error"
             leftAdornment={
@@ -289,7 +313,7 @@ export function AnimalProfileForm({
                 label={GENDER_TRANSLATION[gender]}
                 name={ActionFormData.keys.gender}
                 value={gender}
-                defaultChecked={animal.gender === gender}
+                defaultChecked={defaultAnimal?.gender === gender}
                 aria-describedby="gender-error"
               />
             ))}
@@ -319,7 +343,7 @@ export function AnimalProfileForm({
             id={ActionFormData.keys.iCadNumber}
             type="text"
             name={ActionFormData.keys.iCadNumber}
-            defaultValue={animal.iCadNumber ?? ""}
+            defaultValue={defaultAnimal?.iCadNumber ?? undefined}
             leftAdornment={
               <Adornment>
                 <Icon id="fingerprint" />
@@ -337,7 +361,7 @@ export function AnimalProfileForm({
             <BreedInput
               ref={breedRef}
               name={ActionFormData.keys.breedId}
-              defaultValue={animal.breed}
+              defaultValue={defaultAnimal?.breed}
               species={speciesState}
               hasError={errors.fieldErrors.breedId != null}
               aria-describedby="breedId-error"
@@ -359,7 +383,7 @@ export function AnimalProfileForm({
             <ColorInput
               ref={colorRef}
               name={ActionFormData.keys.colorId}
-              defaultValue={animal.color}
+              defaultValue={defaultAnimal?.color}
               hasError={errors.fieldErrors.colorId != null}
               aria-describedby="colorId-error"
             />
@@ -391,7 +415,9 @@ export function AnimalProfileForm({
                 name={ActionFormData.keys.isOkCats}
                 value={agreement}
                 defaultChecked={
-                  agreementFromBoolean(animal.isOkCats) === agreement
+                  defaultAnimal?.isOkCats == null
+                    ? agreement === AgreementValue.UNKNOWN
+                    : agreementFromBoolean(defaultAnimal.isOkCats) === agreement
                 }
                 aria-describedby="isOkCats-error"
               />
@@ -422,7 +448,9 @@ export function AnimalProfileForm({
                 name={ActionFormData.keys.isOkDogs}
                 value={agreement}
                 defaultChecked={
-                  agreementFromBoolean(animal.isOkDogs) === agreement
+                  defaultAnimal?.isOkDogs == null
+                    ? agreement === AgreementValue.UNKNOWN
+                    : agreementFromBoolean(defaultAnimal.isOkDogs) === agreement
                 }
                 aria-describedby="isOkDogs-error"
               />
@@ -453,7 +481,10 @@ export function AnimalProfileForm({
                 name={ActionFormData.keys.isOkChildren}
                 value={agreement}
                 defaultChecked={
-                  agreementFromBoolean(animal.isOkChildren) === agreement
+                  defaultAnimal?.isOkChildren == null
+                    ? agreement === AgreementValue.UNKNOWN
+                    : agreementFromBoolean(defaultAnimal.isOkChildren) ===
+                      agreement
                 }
                 aria-describedby="isOkChildren-error"
               />
@@ -481,7 +512,7 @@ export function AnimalProfileForm({
               label="Oui"
               name={ActionFormData.keys.isSterilized}
               value={String(true)}
-              defaultChecked={animal.isSterilized}
+              defaultChecked={defaultAnimal?.isSterilized ?? undefined}
               aria-describedby="isSterilized-error"
             />
 
@@ -489,7 +520,10 @@ export function AnimalProfileForm({
               label="Non"
               name={ActionFormData.keys.isSterilized}
               value={String(false)}
-              defaultChecked={!animal.isSterilized}
+              defaultChecked={
+                defaultAnimal?.isSterilized == null ||
+                !defaultAnimal.isSterilized
+              }
               aria-describedby="isSterilized-error"
             />
           </div>
@@ -518,7 +552,7 @@ export function AnimalProfileForm({
             ref={descriptionRef}
             id={ActionFormData.keys.description}
             name={ActionFormData.keys.description}
-            defaultValue={animal.description ?? ""}
+            defaultValue={defaultAnimal?.description ?? undefined}
             rows={5}
           />
         </div>
@@ -528,7 +562,7 @@ export function AnimalProfileForm({
         type="submit"
         className={cn(actionClassName.standalone(), "w-full md:w-auto")}
       >
-        Enregistrer
+        {animalId == null ? "Suivant" : "Enregistrer"}
       </button>
     </Form>
   );

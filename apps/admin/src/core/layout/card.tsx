@@ -17,15 +17,18 @@ export function Card({
 export function CardHeader({
   children,
   className,
+  isVertical = false,
 }: {
   children?: React.ReactNode;
   className?: string;
+  isVertical?: boolean;
 }) {
   return (
     <header
       className={cn(
         className,
-        "flex-none bg-white p-1 flex gap-1 md:p-2 md:gap-2"
+        "flex-none bg-white p-1 flex md:p-2",
+        isVertical ? "flex-col gap-1" : "gap-1 md:gap-2"
       )}
     >
       {children}

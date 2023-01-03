@@ -1,4 +1,4 @@
-import { Animal, Prisma } from "@prisma/client";
+import { Animal, AnimalDraft, Prisma } from "@prisma/client";
 import { algolia } from "~/core/algolia/algolia.server";
 import { prisma } from "~/core/db.server";
 import { NotFoundError } from "~/core/errors.server";
@@ -25,16 +25,7 @@ export async function updateAnimalProfile(
   >
 ) {
   await prisma.$transaction(async (prisma) => {
-    if (data.breedId != null) {
-      const breed = await prisma.breed.findUnique({
-        where: { id: data.breedId },
-        select: { species: true },
-      });
-
-      if (breed == null || breed.species !== data.species) {
-        throw new BreedNotForSpeciesError();
-      }
-    }
+    await assertBreedMatchesSpecies(prisma, data);
 
     try {
       const animal = await prisma.animal.update({
@@ -66,4 +57,51 @@ export async function updateAnimalProfile(
       throw error;
     }
   });
+}
+
+export async function updateAnimalProfileDraft(
+  ownerId: AnimalDraft["ownerId"],
+  data: Pick<
+    // Use `Animal` instead of `AnimalDraft` because we want a more strict type.
+    Animal,
+    | "alias"
+    | "birthdate"
+    | "breedId"
+    | "colorId"
+    | "description"
+    | "gender"
+    | "iCadNumber"
+    | "isOkCats"
+    | "isOkChildren"
+    | "isOkDogs"
+    | "isSterilized"
+    | "name"
+    | "species"
+  >
+) {
+  await prisma.$transaction(async (prisma) => {
+    await assertBreedMatchesSpecies(prisma, data);
+
+    await prisma.animalDraft.upsert({
+      where: { ownerId },
+      update: data,
+      create: { ...data, ownerId },
+    });
+  });
+}
+
+async function assertBreedMatchesSpecies(
+  prisma: Prisma.TransactionClient,
+  data: Pick<Animal, "breedId" | "species">
+) {
+  if (data.breedId != null) {
+    const breed = await prisma.breed.findUnique({
+      where: { id: data.breedId },
+      select: { species: true },
+    });
+
+    if (breed == null || breed.species !== data.species) {
+      throw new BreedNotForSpeciesError();
+    }
+  }
 }

@@ -7,31 +7,43 @@ import {
   redirect,
 } from "@remix-run/node";
 import { useActionData, useCatch, useLoaderData } from "@remix-run/react";
-import { createPath } from "history";
 import { z } from "zod";
+import { AnimalCreationSteps } from "~/animals/creationSteps";
 import {
   BreedNotForSpeciesError,
-  updateAnimalProfile,
+  updateAnimalProfileDraft,
 } from "~/animals/profile/db.server";
-import { ActionFormData, AnimalProfileForm } from "~/animals/profile/form";
-import { getAnimalDisplayName } from "~/animals/profile/name";
-import { ErrorPage, getErrorTitle } from "~/core/dataDisplay/errorPage";
-import { prisma } from "~/core/db.server";
-import { NotFoundError } from "~/core/errors.server";
-import { assertIsDefined } from "~/core/isDefined.server";
+import { AnimalProfileForm, EditActionFormData } from "~/animals/profile/form";
+import { ErrorPage } from "~/core/dataDisplay/errorPage";
 import { Card, CardContent, CardHeader, CardTitle } from "~/core/layout/card";
 import { getPageTitle } from "~/core/pageTitle";
-import { NotFoundResponse } from "~/core/response.server";
-import {
-  ActionConfirmationSearchParams,
-  ActionConfirmationType,
-} from "~/core/searchParams";
 import { getCurrentUser } from "~/currentUser/db.server";
 import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
 
-export async function loader({ request, params }: LoaderArgs) {
+export async function loader({ request }: LoaderArgs) {
   const currentUser = await getCurrentUser(request, {
-    select: { id: true, groups: true },
+    select: {
+      id: true,
+      groups: true,
+      draft: {
+        select: {
+          alias: true,
+          birthdate: true,
+          breed: { select: { id: true, name: true } },
+          color: { select: { id: true, name: true } },
+          description: true,
+          gender: true,
+          iCadNumber: true,
+          isOkCats: true,
+          isOkChildren: true,
+          isOkDogs: true,
+          isSterilized: true,
+          name: true,
+          species: true,
+          status: true,
+        },
+      },
+    },
   });
 
   assertCurrentUserHasGroups(currentUser, [
@@ -39,48 +51,15 @@ export async function loader({ request, params }: LoaderArgs) {
     UserGroup.ANIMAL_MANAGER,
   ]);
 
-  const result = z.string().uuid().safeParse(params["id"]);
-  if (!result.success) {
-    throw new NotFoundResponse();
-  }
-
-  const animal = await prisma.animal.findUnique({
-    where: { id: result.data },
-    select: {
-      alias: true,
-      birthdate: true,
-      breed: { select: { id: true, name: true } },
-      color: { select: { id: true, name: true } },
-      description: true,
-      gender: true,
-      iCadNumber: true,
-      id: true,
-      isOkCats: true,
-      isOkChildren: true,
-      isOkDogs: true,
-      isSterilized: true,
-      name: true,
-      species: true,
-      status: true,
-    },
-  });
-
-  assertIsDefined(animal);
-
-  return json({ animal });
+  return json({ draft: currentUser.draft });
 }
 
-export const meta: MetaFunction<typeof loader> = ({ data }) => {
-  const animal = data?.animal;
-  if (animal == null) {
-    return { title: getPageTitle(getErrorTitle(404)) };
-  }
-
-  return { title: getPageTitle(getAnimalDisplayName(animal)) };
+export const meta: MetaFunction = () => {
+  return { title: getPageTitle("Nouvel animal") };
 };
 
 type ActionData = {
-  errors?: z.inferFlattenedErrors<typeof ActionFormData.schema>;
+  errors?: z.inferFlattenedErrors<typeof EditActionFormData.schema>;
 };
 
 export async function action({ request }: ActionArgs) {
@@ -94,7 +73,7 @@ export async function action({ request }: ActionArgs) {
   ]);
 
   const rawFormData = await request.formData();
-  const formData = ActionFormData.schema.safeParse(
+  const formData = EditActionFormData.schema.safeParse(
     Object.fromEntries(rawFormData.entries())
   );
 
@@ -106,7 +85,7 @@ export async function action({ request }: ActionArgs) {
   }
 
   try {
-    await updateAnimalProfile(formData.data.id, {
+    await updateAnimalProfileDraft(currentUser.id, {
       species: formData.data.species,
       name: formData.data.name,
       alias: formData.data.alias || null,
@@ -122,18 +101,6 @@ export async function action({ request }: ActionArgs) {
       isSterilized: formData.data.isSterilized,
     });
   } catch (error) {
-    if (error instanceof NotFoundError) {
-      return json<ActionData>(
-        {
-          errors: {
-            formErrors: ["L’animal est introuvable."],
-            fieldErrors: {},
-          },
-        },
-        { status: 404 }
-      );
-    }
-
     if (error instanceof BreedNotForSpeciesError) {
       return json<ActionData>(
         {
@@ -151,14 +118,7 @@ export async function action({ request }: ActionArgs) {
     throw error;
   }
 
-  throw redirect(
-    createPath({
-      pathname: `/animals/${formData.data.id}`,
-      search: new ActionConfirmationSearchParams()
-        .setConfirmation(ActionConfirmationType.EDIT)
-        .toString(),
-    })
-  );
+  throw redirect("/animals/new-situation");
 }
 
 export function CatchBoundary() {
@@ -166,21 +126,21 @@ export function CatchBoundary() {
   return <ErrorPage status={caught.status} />;
 }
 
-export default function AnimalEditProfilePage() {
-  const { animal } = useLoaderData<typeof loader>();
+export default function NewAnimalPage() {
+  const { draft } = useLoaderData<typeof loader>();
   const actionData = useActionData<typeof action>();
 
   return (
     <main className="w-full flex flex-col md:max-w-[600px]">
       <Card>
-        <CardHeader>
-          <CardTitle>Modifier {animal.name}</CardTitle>
+        <CardHeader isVertical>
+          <CardTitle>Nouvel animal</CardTitle>
+          <AnimalCreationSteps activeStep="profile" />
         </CardHeader>
 
         <CardContent>
           <AnimalProfileForm
-            animalId={animal.id}
-            defaultAnimal={animal}
+            defaultAnimal={draft}
             errors={actionData?.errors}
           />
         </CardContent>

@@ -44,7 +44,7 @@ const RESOURCE_PATHNAME = "/resources/breed";
 type BreedInputProps = {
   name: string;
   defaultValue?: null | Pick<Breed, "id" | "name">;
-  species?: Species;
+  species?: null | Species;
   disabled?: boolean;
   hasError?: boolean;
 };
