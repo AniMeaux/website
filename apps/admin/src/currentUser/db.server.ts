@@ -173,7 +173,7 @@ export async function updateCurrentUserProfile(
     }
 
     await algolia.user.update(userId, { displayName: data.displayName });
-    await algolia.searchableResource.updateUser(userId, {
+    await algolia.searchableResource.createOrUpdateUser(userId, {
       displayName: data.displayName,
     });
   });

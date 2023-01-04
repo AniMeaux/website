@@ -49,7 +49,7 @@ export async function updateAnimalSituation(
       pickUpLocation: data.pickUpLocation,
     });
 
-    await algolia.searchableResource.updateAnimal(animalId, {
+    await algolia.searchableResource.createOrUpdateAnimal(animalId, {
       alias: animal.alias,
       name: animal.name,
       pickUpDate: data.pickUpDate,

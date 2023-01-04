@@ -44,7 +44,7 @@ export async function updateAnimalProfile(
         species: data.species,
       });
 
-      await algolia.searchableResource.updateAnimal(animalId, {
+      await algolia.searchableResource.createOrUpdateAnimal(animalId, {
         alias: data.alias,
         name: data.name,
         pickUpDate: animal.pickUpDate,
