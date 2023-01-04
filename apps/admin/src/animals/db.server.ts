@@ -1,4 +1,5 @@
-import { AnimalDraft } from "@prisma/client";
+import { Animal, AnimalDraft, Prisma } from "@prisma/client";
+import { getAllAnimalPictures } from "~/animals/pictures/allPictures";
 import { AnimalPictures } from "~/animals/pictures/db.server";
 import { hasProfile, validateProfile } from "~/animals/profile/db.server";
 import { PickUpLocationSearchParams } from "~/animals/searchParams";
@@ -8,7 +9,9 @@ import {
   validateSituation,
 } from "~/animals/situation/db.server";
 import { algolia } from "~/core/algolia/algolia.server";
+import { deleteImage } from "~/core/cloudinary.server";
 import { prisma } from "~/core/db.server";
+import { NotFoundError } from "~/core/errors.server";
 
 export async function searchPickUpLocation(
   searchParams: PickUpLocationSearchParams,
@@ -60,5 +63,31 @@ export async function createAnimal(
     });
 
     return animal.id;
+  });
+}
+
+export async function deleteAnimal(animalId: Animal["id"]) {
+  await prisma.$transaction(async (prisma) => {
+    try {
+      const animal = await prisma.animal.delete({
+        where: { id: animalId },
+        select: { avatar: true, pictures: true },
+      });
+
+      await Promise.allSettled(getAllAnimalPictures(animal).map(deleteImage));
+    } catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        // Not found.
+        // https://www.prisma.io/docs/reference/api-reference/error-reference#p2025
+        if (error.code === "P2025") {
+          throw new NotFoundError();
+        }
+      }
+
+      throw error;
+    }
+
+    await algolia.animal.delete(animalId);
+    await algolia.searchableResource.deleteAnimal(animalId);
   });
 }
