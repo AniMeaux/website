@@ -197,18 +197,6 @@ export default function AnimalsPage() {
       {/* Helpers */}
 
       <section className="flex flex-col gap-1 md:flex-row md:gap-2">
-        <aside className="hidden flex-col min-w-[250px] max-w-[300px] flex-1 md:flex">
-          <Card className="sticky top-8 max-h-[calc(100vh-100px)]">
-            <CardHeader>
-              <CardTitle>Trier et filtrer</CardTitle>
-            </CardHeader>
-
-            <CardContent hasVerticalScroll>
-              <SortAndFilters />
-            </CardContent>
-          </Card>
-        </aside>
-
         <main className="flex flex-col md:min-w-0 md:flex-2">
           <Card>
             <CardHeader>
@@ -268,6 +256,18 @@ export default function AnimalsPage() {
             )}
           </Card>
         </main>
+
+        <aside className="hidden flex-col min-w-[250px] max-w-[300px] flex-1 md:flex">
+          <Card className="sticky top-8 max-h-[calc(100vh-100px)]">
+            <CardHeader>
+              <CardTitle>Trier et filtrer</CardTitle>
+            </CardHeader>
+
+            <CardContent hasVerticalScroll>
+              <SortAndFilters />
+            </CardContent>
+          </Card>
+        </aside>
       </section>
 
       <SortAndFiltersFloatingAction totalCount={totalCount} />
