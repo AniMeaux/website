@@ -20,7 +20,7 @@ export function joinReactNodes(
 
   return nodes.reduce<React.ReactNode[]>((nodes, node, index) => {
     if (nodes.length > 0) {
-      nodes.push(cloneElement(separatorElement, { key: index }));
+      nodes.push(cloneElement(separatorElement, { key: `separator-${index}` }));
     }
 
     nodes.push(node);

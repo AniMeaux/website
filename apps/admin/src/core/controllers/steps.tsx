@@ -13,6 +13,7 @@ export function Steps({
 }) {
   const steps = children.map((child, index) =>
     cloneElement(child, {
+      key: `step-${index}`,
       stepIndex: index + 1,
       isActive: index <= activeIndex,
     })
