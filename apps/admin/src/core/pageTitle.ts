@@ -1,7 +1,8 @@
-export function getPageTitle(title?: string) {
+export function getPageTitle(title?: string | string[]) {
   let pageTitle = "Admin";
 
-  if (title != null) {
+  title = Array.isArray(title) ? title.join(" • ") : title;
+  if (title) {
     pageTitle = `${title} • ${pageTitle}`;
   }
 

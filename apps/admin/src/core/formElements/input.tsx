@@ -9,11 +9,19 @@ import {
   InputWrapperProps,
 } from "~/core/formElements/inputWrapper";
 
-export type InputProps = React.InputHTMLAttributes<HTMLInputElement> & {
+export type InputProps = Omit<
+  React.InputHTMLAttributes<HTMLInputElement>,
+  "defaultValue"
+> & {
   variant?: InputVariant;
   leftAdornment?: InputWrapperProps["leftAdornment"];
   rightAdornment?: InputWrapperProps["rightAdornment"];
   hasError?: boolean;
+
+  // Allow null.
+  defaultValue?:
+    | null
+    | React.InputHTMLAttributes<HTMLInputElement>["defaultValue"];
 };
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
@@ -24,8 +32,8 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
     rightAdornment,
     disabled,
     type = "text",
-    value,
     className,
+    defaultValue,
     // Should use `"off"` as default value but it is ingored by Chrome.
     // See https://bugs.chromium.org/p/chromium/issues/detail?id=587466
     // A random value is used to confuse the browser and make sure previous
@@ -35,8 +43,6 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
   },
   ref
 ) {
-  const isHidden = (type === "date" || type === "time") && value === "";
-
   return (
     <InputWrapper
       isDisabled={disabled}
@@ -48,10 +54,10 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
         {...rest}
         ref={ref}
         type={type}
-        value={value}
         pattern={getTypeFallbackPattern(type)}
         autoComplete={autoComplete}
         disabled={disabled}
+        defaultValue={defaultValue ?? undefined}
         aria-invalid={asBooleanAttribute(hasError)}
         className={cn(
           inputClassName({
@@ -59,7 +65,6 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
             leftAdornmentCount: ensureArray(leftAdornment).length,
             rightAdornmentCount: ensureArray(rightAdornment).length,
           }),
-          { "text-transparent focus:text-inherit": isHidden },
           { "gap-0.5": type === "date" }
         )}
       />

@@ -28,9 +28,12 @@ model User {
   displayName          String      @db.VarChar(255)
   groups               UserGroup[]
   isDisabled           Boolean     @default(false)
-  managedAnimals       Animal[]
   password             Password?
   shouldChangePassword Boolean     @default(true)
+
+  managedAnimals      Animal[]
+  draft               AnimalDraft?  @relation("Draft_ownerToUser")
+  draftManagedAnimals AnimalDraft[] @relation("Draft_managerToUser")
 }
 
 model Password {
@@ -44,13 +47,15 @@ model FosterFamily {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  email         String   @unique @db.VarChar(255)
-  displayName   String   @db.VarChar(255)
-  phone         String   @db.VarChar(255)
-  zipCode       String   @db.VarChar(255)
-  city          String   @db.VarChar(255)
-  address       String   @db.VarChar(255)
-  fosterAnimals Animal[]
+  email       String @unique @db.VarChar(255)
+  displayName String @db.VarChar(255)
+  phone       String @db.VarChar(255)
+  zipCode     String @db.VarChar(255)
+  city        String @db.VarChar(255)
+  address     String @db.VarChar(255)
+
+  fosterAnimals      Animal[]
+  draftFosterAnimals AnimalDraft[]
 }
 
 enum Species {
@@ -66,9 +71,11 @@ model Breed {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  name    String   @db.VarChar(255)
+  name    String  @db.VarChar(255)
   species Species
-  animals Animal[]
+
+  animals      Animal[]
+  draftAnimals AnimalDraft[]
 
   @@unique([name, species])
   @@index([species])
@@ -79,8 +86,10 @@ model Color {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  name    String   @unique @db.VarChar(255)
-  animals Animal[]
+  name String @unique @db.VarChar(255)
+
+  animals      Animal[]
+  draftAnimals AnimalDraft[]
 }
 
 enum Gender {
@@ -158,6 +167,40 @@ model Animal {
   @@index([managerId])
   @@index([status, species])
   @@index([status, managerId])
+}
+
+model AnimalDraft {
+  owner     User     @relation("Draft_ownerToUser", fields: [ownerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  ownerId   String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  name           String?         @db.VarChar(255)
+  alias          String?         @db.VarChar(255)
+  birthdate      DateTime?
+  gender         Gender?
+  species        Species?
+  breed          Breed?          @relation(fields: [breedId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  breedId        String?
+  color          Color?          @relation(fields: [colorId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  colorId        String?
+  description    String?
+  pickUpDate     DateTime?
+  pickUpLocation String?
+  pickUpReason   PickUpReason?
+  status         Status?
+  adoptionDate   DateTime?
+  adoptionOption AdoptionOption?
+  manager        User?           @relation("Draft_managerToUser", fields: [managerId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  managerId      String?
+  fosterFamily   FosterFamily?   @relation(fields: [fosterFamilyId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  fosterFamilyId String?
+  iCadNumber     String?
+  comments       String?
+  isOkChildren   Boolean?
+  isOkDogs       Boolean?
+  isOkCats       Boolean?
+  isSterilized   Boolean?
 }
 
 enum EventCategory {

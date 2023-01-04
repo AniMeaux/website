@@ -28,6 +28,7 @@ import { PageSearchParams } from "~/core/searchParams";
 import { getCurrentUser } from "~/currentUser/db.server";
 import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
 import { Icon } from "~/generated/icon";
+import { hasGroups } from "~/users/groups";
 
 // Multiple of 6, 5, 4 and 3 to be nicely displayed.
 const ANIMAL_COUNT_PER_PAGE = 60;
@@ -158,11 +159,10 @@ export async function loader({ request }: LoaderArgs) {
 
   const pageCount = Math.ceil(totalCount / ANIMAL_COUNT_PER_PAGE);
 
-  // Uncomment when pages are implemented.
-  // const canEdit = hasGroups(currentUser, [
-  //   UserGroup.ADMIN,
-  //   UserGroup.ANIMAL_MANAGER,
-  // ]);
+  const canCreate = hasGroups(currentUser, [
+    UserGroup.ADMIN,
+    UserGroup.ANIMAL_MANAGER,
+  ]);
 
   return json({
     totalCount,
@@ -178,6 +178,7 @@ export async function loader({ request }: LoaderArgs) {
       return location.pickUpLocation;
     }),
     currentUser,
+    canCreate,
   });
 }
 
@@ -186,7 +187,8 @@ export const meta: MetaFunction = () => {
 };
 
 export default function AnimalsPage() {
-  const { totalCount, pageCount, animals } = useLoaderData<typeof loader>();
+  const { totalCount, pageCount, animals, canCreate } =
+    useLoaderData<typeof loader>();
   const [searchParams] = useSearchParams();
   const animalSearchParams = new AnimalSearchParams(searchParams);
 
@@ -195,18 +197,6 @@ export default function AnimalsPage() {
       {/* Helpers */}
 
       <section className="flex flex-col gap-1 md:flex-row md:gap-2">
-        <aside className="hidden flex-col min-w-[250px] max-w-[300px] flex-1 md:flex">
-          <Card className="sticky top-8 max-h-[calc(100vh-100px)]">
-            <CardHeader>
-              <CardTitle>Trier et filtrer</CardTitle>
-            </CardHeader>
-
-            <CardContent hasVerticalScroll>
-              <SortAndFilters />
-            </CardContent>
-          </Card>
-        </aside>
-
         <main className="flex flex-col md:min-w-0 md:flex-2">
           <Card>
             <CardHeader>
@@ -214,15 +204,14 @@ export default function AnimalsPage() {
                 {totalCount} {totalCount > 1 ? "animaux" : "animal"}
               </CardTitle>
 
-              {/* Uncomment when pages are implemented. */}
-              {/* {canEdit ? (
+              {canCreate ? (
                 <BaseLink
-                  to="/animals/new"
+                  to="/animals/new-profile"
                   className={actionClassName.standalone({ variant: "text" })}
                 >
                   Créer
                 </BaseLink>
-              ) : null} */}
+              ) : null}
             </CardHeader>
 
             <CardContent>
@@ -267,6 +256,18 @@ export default function AnimalsPage() {
             )}
           </Card>
         </main>
+
+        <aside className="hidden flex-col min-w-[250px] max-w-[300px] flex-1 md:flex">
+          <Card className="sticky top-8 max-h-[calc(100vh-100px)]">
+            <CardHeader>
+              <CardTitle>Trier et filtrer</CardTitle>
+            </CardHeader>
+
+            <CardContent hasVerticalScroll>
+              <SortAndFilters />
+            </CardContent>
+          </Card>
+        </aside>
       </section>
 
       <SortAndFiltersFloatingAction totalCount={totalCount} />

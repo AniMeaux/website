@@ -51,7 +51,7 @@ async function seedUsers() {
     data: {
       email: "admin@animeaux.org",
       displayName: "Admin",
-      groups: [UserGroup.VOLUNTEER, UserGroup.ADMIN],
+      groups: [UserGroup.ADMIN, UserGroup.ANIMAL_MANAGER, UserGroup.VOLUNTEER],
       isDisabled: false,
       shouldChangePassword: false,
       password: {
