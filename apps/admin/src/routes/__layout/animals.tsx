@@ -14,8 +14,8 @@ import { algolia } from "~/core/algolia/algolia.server";
 import { BaseLink } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
 import { Paginator } from "~/core/controllers/paginator";
+import { ActionConfirmationHelper } from "~/core/dataDisplay/actionConfirmationHelper";
 import { Empty } from "~/core/dataDisplay/empty";
-import { Helper } from "~/core/dataDisplay/helper";
 import { prisma } from "~/core/db.server";
 import {
   Card,
@@ -25,11 +25,7 @@ import {
   CardTitle,
 } from "~/core/layout/card";
 import { getPageTitle } from "~/core/pageTitle";
-import {
-  ActionConfirmationType,
-  PageSearchParams,
-  useActionConfirmation,
-} from "~/core/searchParams";
+import { ActionConfirmationType, PageSearchParams } from "~/core/searchParams";
 import { getCurrentUser } from "~/currentUser/db.server";
 import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
 import { Icon } from "~/generated/icon";
@@ -199,7 +195,9 @@ export default function AnimalsPage() {
 
   return (
     <section className="w-full flex flex-col gap-1 md:gap-2">
-      <DeleteSuccessHelper />
+      <ActionConfirmationHelper type={ActionConfirmationType.DELETE}>
+        L’animal a bien été supprimé.
+      </ActionConfirmationHelper>
 
       <section className="flex flex-col gap-1 md:flex-row md:gap-2">
         <main className="flex flex-col md:min-w-0 md:flex-2">
@@ -351,21 +349,5 @@ function SortAndFilters() {
       managers={managers}
       possiblePickUpLocations={possiblePickUpLocations}
     />
-  );
-}
-
-function DeleteSuccessHelper() {
-  const { isVisible, clear } = useActionConfirmation(
-    ActionConfirmationType.DELETE
-  );
-
-  if (!isVisible) {
-    return null;
-  }
-
-  return (
-    <Helper variant="success" action={<button onClick={clear}>Fermer</button>}>
-      L’animal a bien été supprimé.
-    </Helper>
   );
 }
