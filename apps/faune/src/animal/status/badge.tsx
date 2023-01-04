@@ -55,8 +55,12 @@ const BADGE_ELEMENT_STATUS_STYLES: Record<AnimalStatus, Styles> = {
   [AnimalStatus.RESERVED]: css`
     background: ${theme.colors.warning[500]};
   `,
-  [AnimalStatus.UNAVAILABLE]: css`
+  [AnimalStatus.RETIRED]: css`
     background: ${theme.colors.dark[700]};
+    color: ${theme.colors.text.contrast};
+  `,
+  [AnimalStatus.UNAVAILABLE]: css`
+    background: ${theme.colors.red[500]};
     color: ${theme.colors.text.contrast};
   `,
 };

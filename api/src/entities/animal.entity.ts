@@ -34,6 +34,7 @@ export const NON_ACTIVE_ANIMAL_STATUS: Status[] = [
   Status.ADOPTED,
   Status.DECEASED,
   Status.FREE,
+  Status.RETIRED,
 ];
 
 /** OPEN_TO_ADOPTION, OPEN_TO_RESERVATION */
