@@ -12,6 +12,7 @@ import { Form, useCatch, useLoaderData } from "@remix-run/react";
 import { createPath } from "history";
 import { DateTime } from "luxon";
 import { z } from "zod";
+import { ADOPTION_OPTION_TRANSLATION } from "~/animals/adoption";
 import { AgreementItem } from "~/animals/agreements";
 import { AnimalAvatar } from "~/animals/avatar";
 import { deleteAnimal } from "~/animals/db.server";
@@ -20,12 +21,7 @@ import { PICK_UP_REASON_TRANSLATION } from "~/animals/pickUp";
 import { ActionFormData } from "~/animals/profile/form";
 import { getAnimalDisplayName } from "~/animals/profile/name";
 import { getSpeciesLabels, SPECIES_ICON } from "~/animals/species";
-import {
-  ADOPTION_OPTION_TRANSLATION,
-  StatusBadge,
-  StatusIcon,
-  STATUS_TRANSLATION,
-} from "~/animals/status";
+import { StatusBadge, StatusIcon, STATUS_TRANSLATION } from "~/animals/status";
 import { actionClassName } from "~/core/actions";
 import { BaseLink, BaseLinkProps } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
