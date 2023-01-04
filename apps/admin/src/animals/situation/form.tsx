@@ -14,13 +14,15 @@ import { DateTime } from "luxon";
 import { useEffect, useRef, useState } from "react";
 import { z } from "zod";
 import {
+  ADOPTION_OPTION_TRANSLATION,
+  SORTED_ADOPTION_OPTION,
+} from "~/animals/adoption";
+import {
   PICK_UP_REASON_TRANSLATION,
   SORTED_PICK_UP_REASON,
 } from "~/animals/pickUp";
 import {
   ACTIVE_ANIMAL_STATUS,
-  ADOPTION_OPTION_TRANSLATION,
-  SORTED_ADOPTION_OPTION,
   SORTED_STATUS,
   STATUS_TRANSLATION,
 } from "~/animals/status";

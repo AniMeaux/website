@@ -7,16 +7,13 @@ import { ACTIVE_ANIMAL_STATUS } from "~/animals/status";
 import { actionClassName } from "~/core/actions";
 import { BaseLink } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
+import { ActionConfirmationHelper } from "~/core/dataDisplay/actionConfirmationHelper";
 import { AvatarColor, inferAvatarColor } from "~/core/dataDisplay/avatar";
 import { Empty } from "~/core/dataDisplay/empty";
-import { Helper } from "~/core/dataDisplay/helper";
 import { prisma } from "~/core/db.server";
 import { Card, CardContent, CardHeader, CardTitle } from "~/core/layout/card";
 import { getPageTitle } from "~/core/pageTitle";
-import {
-  ActionConfirmationType,
-  useActionConfirmation,
-} from "~/core/searchParams";
+import { ActionConfirmationType } from "~/core/searchParams";
 import { getCurrentUser } from "~/currentUser/db.server";
 import { Icon } from "~/generated/icon";
 import { UserAvatar } from "~/users/avatar";
@@ -56,8 +53,14 @@ export const meta: MetaFunction = () => {
 export default function CurrentUserPage() {
   return (
     <section className="w-full flex flex-col gap-1 md:gap-2">
-      <EditSuccessHelper />
-      <EditPasswordSuccessHelper />
+      <ActionConfirmationHelper type={ActionConfirmationType.EDIT}>
+        Votre profil a bien été mis à jour.
+      </ActionConfirmationHelper>
+
+      <ActionConfirmationHelper type={ActionConfirmationType.EDIT_PASSWORD}>
+        Votre mot de passe a bien été changé.
+      </ActionConfirmationHelper>
+
       <HeaderCard />
 
       <section className="grid grid-cols-1 gap-1 md:grid-cols-[minmax(0px,2fr)_minmax(250px,1fr)] md:items-start md:gap-2">
@@ -78,38 +81,6 @@ export default function CurrentUserPage() {
         </aside>
       </section>
     </section>
-  );
-}
-
-function EditSuccessHelper() {
-  const { isVisible, clear } = useActionConfirmation(
-    ActionConfirmationType.EDIT
-  );
-
-  if (!isVisible) {
-    return null;
-  }
-
-  return (
-    <Helper variant="success" action={<button onClick={clear}>Fermer</button>}>
-      Votre profil à bien été mis à jour.
-    </Helper>
-  );
-}
-
-function EditPasswordSuccessHelper() {
-  const { isVisible, clear } = useActionConfirmation(
-    ActionConfirmationType.EDIT_PASSWORD
-  );
-
-  if (!isVisible) {
-    return null;
-  }
-
-  return (
-    <Helper variant="success" action={<button onClick={clear}>Fermer</button>}>
-      Votre mot de passe à bien été changé.
-    </Helper>
   );
 }
 

@@ -1,4 +1,4 @@
-import { AdoptionOption, Status } from "@prisma/client";
+import { Status } from "@prisma/client";
 import orderBy from "lodash.orderby";
 import { cn } from "~/core/classNames";
 import { Icon } from "~/generated/icon";
@@ -37,7 +37,8 @@ const STATUS_BADGE_CLASS_NAMES: Record<Status, string> = {
   [Status.OPEN_TO_ADOPTION]: "bg-blue-500 text-white",
   [Status.OPEN_TO_RESERVATION]: "bg-blue-500 text-white",
   [Status.RESERVED]: "bg-yellow-400 text-black",
-  [Status.UNAVAILABLE]: "bg-gray-800 text-white",
+  [Status.RETIRED]: "bg-gray-800 text-white",
+  [Status.UNAVAILABLE]: "bg-red-500 text-white",
 };
 
 export function StatusIcon({
@@ -62,7 +63,8 @@ const STATUS_ICON_CLASS_NAMES: Record<Status, string> = {
   [Status.OPEN_TO_ADOPTION]: "text-blue-500",
   [Status.OPEN_TO_RESERVATION]: "text-blue-500",
   [Status.RESERVED]: "text-yellow-400",
-  [Status.UNAVAILABLE]: "text-gray-800",
+  [Status.RETIRED]: "text-gray-800",
+  [Status.UNAVAILABLE]: "text-red-500",
 };
 
 export const STATUS_TRANSLATION: Record<Status, string> = {
@@ -72,22 +74,11 @@ export const STATUS_TRANSLATION: Record<Status, string> = {
   [Status.OPEN_TO_ADOPTION]: "Adoptable",
   [Status.OPEN_TO_RESERVATION]: "Réservable",
   [Status.RESERVED]: "Réservé",
+  [Status.RETIRED]: "Retraité",
   [Status.UNAVAILABLE]: "Indisponible",
 };
 
 export const SORTED_STATUS = orderBy(
   Object.values(Status),
   (status) => STATUS_TRANSLATION[status]
-);
-
-export const ADOPTION_OPTION_TRANSLATION: Record<AdoptionOption, string> = {
-  [AdoptionOption.WITH_STERILIZATION]: "Avec stérilisation",
-  [AdoptionOption.WITHOUT_STERILIZATION]: "Sans stérilisation",
-  [AdoptionOption.FREE_DONATION]: "Don libre",
-  [AdoptionOption.UNKNOWN]: "Inconnu",
-};
-
-export const SORTED_ADOPTION_OPTION = orderBy(
-  Object.values(AdoptionOption),
-  (adoptionOption) => ADOPTION_OPTION_TRANSLATION[adoptionOption]
 );

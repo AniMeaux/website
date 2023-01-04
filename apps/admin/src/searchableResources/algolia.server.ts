@@ -92,6 +92,10 @@ export function createSearchableResourceDelegate(client: SearchClient) {
       await index.saveObject({ ...fromAlgolia, objectID: objectId });
     },
 
+    async deleteAnimal(objectId: Animal["id"]) {
+      await index.deleteObject(objectId);
+    },
+
     async createOrUpdateUser(
       objectId: User["id"],
       data: SearchableUser["data"]
