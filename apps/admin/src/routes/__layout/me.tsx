@@ -60,15 +60,22 @@ export default function CurrentUserPage() {
       <EditPasswordSuccessHelper />
       <HeaderCard />
 
-      <section className="grid grid-cols-1 gap-1 md:grid-cols-[minmax(250px,1fr)_minmax(0px,2fr)] md:items-start md:gap-2">
-        <aside className="flex flex-col gap-1 md:gap-2">
+      <section className="grid grid-cols-1 gap-1 md:grid-cols-[minmax(0px,2fr)_minmax(250px,1fr)] md:items-start md:gap-2">
+        <aside className="flex flex-col gap-1 md:hidden">
           <GroupCard />
-          <ActionsCard />
         </aside>
 
         <main className="flex flex-col gap-1 md:gap-2">
           <ManagerCard />
         </main>
+
+        <aside className="flex flex-col gap-1 md:gap-2">
+          <div className="hidden md:flex md:flex-col">
+            <GroupCard />
+          </div>
+
+          <ActionsCard />
+        </aside>
       </section>
     </section>
   );

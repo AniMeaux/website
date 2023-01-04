@@ -129,23 +129,22 @@ export default function AnimalProfilePage() {
 
       <HeaderCard />
 
-      <section className="grid grid-cols-1 gap-1 md:grid-cols-[minmax(250px,1fr)_minmax(0px,2fr)] md:items-start md:gap-2">
-        <aside className="flex flex-col gap-1 md:gap-2">
-          <ProfileCard />
+      <section className="grid grid-cols-1 gap-1 md:grid-cols-[minmax(0px,2fr)_minmax(250px,1fr)] md:items-start md:gap-2">
+        <aside className="flex flex-col gap-1 md:hidden">
           <SituationCard />
-
-          {/* Uncomment when pages are implemented. */}
-          {/* {canEdit && (
-            <div className="hidden md:flex md:flex-col">
-              <ActionCard />
-            </div>
-          )} */}
         </aside>
 
         <main className="flex flex-col gap-1 md:gap-2">
+          <ProfileCard />
           <PicturesCard />
           <DescriptionCard />
         </main>
+
+        <aside className="hidden md:flex-col md:gap-2 md:flex">
+          <SituationCard />
+          {/* Uncomment when pages are implemented. */}
+          {/* {canEdit && <ActionCard />} */}
+        </aside>
 
         {/* Uncomment when pages are implemented. */}
         {/* {canEdit && (
@@ -276,7 +275,7 @@ function ProfileCard() {
       </CardHeader>
 
       <CardContent>
-        <ul className="flex flex-col">
+        <ul className="flex-grow flex flex-col">
           <Item icon={<Icon id={SPECIES_ICON[animal.species]} />}>
             {getSpeciesLabels(animal)}
           </Item>
