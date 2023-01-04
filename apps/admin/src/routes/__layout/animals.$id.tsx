@@ -26,9 +26,9 @@ import { actionClassName } from "~/core/actions";
 import { BaseLink, BaseLinkProps } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
 import { useConfig } from "~/core/config";
+import { ActionConfirmationHelper } from "~/core/dataDisplay/actionConfirmationHelper";
 import { Empty } from "~/core/dataDisplay/empty";
 import { ErrorPage, getErrorTitle } from "~/core/dataDisplay/errorPage";
-import { Helper } from "~/core/dataDisplay/helper";
 import { createCloudinaryUrl, DynamicImage } from "~/core/dataDisplay/image";
 import { ARTICLE_COMPONENTS, Markdown } from "~/core/dataDisplay/markdown";
 import { prisma } from "~/core/db.server";
@@ -40,7 +40,6 @@ import { NotFoundResponse } from "~/core/response.server";
 import {
   ActionConfirmationSearchParams,
   ActionConfirmationType,
-  useActionConfirmation,
 } from "~/core/searchParams";
 import { getCurrentUser } from "~/currentUser/db.server";
 import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
@@ -169,12 +168,17 @@ export function CatchBoundary() {
 }
 
 export default function AnimalProfilePage() {
-  const { canEdit } = useLoaderData<typeof loader>();
+  const { canEdit, animal } = useLoaderData<typeof loader>();
 
   return (
     <section className="w-full flex flex-col gap-1 md:gap-2">
-      <EditSuccessHelper />
-      <CreateSuccessHelper />
+      <ActionConfirmationHelper type={ActionConfirmationType.EDIT}>
+        {animal.name} a bien été modifié.
+      </ActionConfirmationHelper>
+
+      <ActionConfirmationHelper type={ActionConfirmationType.CREATE}>
+        {animal.name} a bien été créé.
+      </ActionConfirmationHelper>
 
       <HeaderCard />
 
@@ -201,40 +205,6 @@ export default function AnimalProfilePage() {
         )}
       </section>
     </section>
-  );
-}
-
-function EditSuccessHelper() {
-  const { animal } = useLoaderData<typeof loader>();
-  const { isVisible, clear } = useActionConfirmation(
-    ActionConfirmationType.EDIT
-  );
-
-  if (!isVisible) {
-    return null;
-  }
-
-  return (
-    <Helper variant="success" action={<button onClick={clear}>Fermer</button>}>
-      {animal.name} a bien été modifié.
-    </Helper>
-  );
-}
-
-function CreateSuccessHelper() {
-  const { animal } = useLoaderData<typeof loader>();
-  const { isVisible, clear } = useActionConfirmation(
-    ActionConfirmationType.CREATE
-  );
-
-  if (!isVisible) {
-    return null;
-  }
-
-  return (
-    <Helper variant="success" action={<button onClick={clear}>Fermer</button>}>
-      {animal.name} a bien été créé.
-    </Helper>
   );
 }
 
