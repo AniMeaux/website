@@ -64,7 +64,7 @@ const COLOR_CLASS_NAMES: Record<ActionVariant, Record<ActionColor, string>> = {
     amber: "text-amber-600 hover:text-amber-500",
     black: "",
     blue: "text-blue-500 hover:text-blue-600",
-    gray: "",
+    gray: "text-gray-800 hover:text-gray-700",
     green: "text-green-600 hover:text-green-500",
     red: "text-red-500 hover:text-red-600",
   },

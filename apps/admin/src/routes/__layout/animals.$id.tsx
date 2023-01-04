@@ -1,11 +1,20 @@
 import { formatAge } from "@animeaux/shared";
 import { AdoptionOption, Gender, Status, UserGroup } from "@prisma/client";
-import { json, LoaderArgs, MetaFunction } from "@remix-run/node";
-import { useCatch, useLoaderData } from "@remix-run/react";
+import * as Dialog from "@radix-ui/react-dialog";
+import {
+  ActionArgs,
+  json,
+  LoaderArgs,
+  MetaFunction,
+  redirect,
+} from "@remix-run/node";
+import { Form, useCatch, useLoaderData } from "@remix-run/react";
+import { createPath } from "history";
 import { DateTime } from "luxon";
 import { z } from "zod";
 import { AgreementItem } from "~/animals/agreements";
 import { AnimalAvatar } from "~/animals/avatar";
+import { deleteAnimal } from "~/animals/db.server";
 import { GENDER_ICON } from "~/animals/gender";
 import { PICK_UP_REASON_TRANSLATION } from "~/animals/pickUp";
 import { ActionFormData } from "~/animals/profile/form";
@@ -19,6 +28,7 @@ import {
 } from "~/animals/status";
 import { actionClassName } from "~/core/actions";
 import { BaseLink, BaseLinkProps } from "~/core/baseLink";
+import { cn } from "~/core/classNames";
 import { useConfig } from "~/core/config";
 import { Empty } from "~/core/dataDisplay/empty";
 import { ErrorPage, getErrorTitle } from "~/core/dataDisplay/errorPage";
@@ -26,11 +36,13 @@ import { Helper } from "~/core/dataDisplay/helper";
 import { createCloudinaryUrl, DynamicImage } from "~/core/dataDisplay/image";
 import { ARTICLE_COMPONENTS, Markdown } from "~/core/dataDisplay/markdown";
 import { prisma } from "~/core/db.server";
+import { NotFoundError } from "~/core/errors.server";
 import { assertIsDefined } from "~/core/isDefined.server";
 import { Card, CardContent, CardHeader, CardTitle } from "~/core/layout/card";
 import { getPageTitle } from "~/core/pageTitle";
 import { NotFoundResponse } from "~/core/response.server";
 import {
+  ActionConfirmationSearchParams,
   ActionConfirmationType,
   useActionConfirmation,
 } from "~/core/searchParams";
@@ -116,16 +128,57 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
   return { title: getPageTitle(getAnimalDisplayName(animal)) };
 };
 
+export async function action({ request, params }: ActionArgs) {
+  if (request.method.toLowerCase() !== "delete") {
+    throw new NotFoundResponse();
+  }
+
+  const currentUser = await getCurrentUser(request, {
+    select: { id: true, groups: true },
+  });
+
+  assertCurrentUserHasGroups(currentUser, [
+    UserGroup.ADMIN,
+    UserGroup.ANIMAL_MANAGER,
+  ]);
+
+  const result = z.string().uuid().safeParse(params["id"]);
+  if (!result.success) {
+    throw new NotFoundResponse();
+  }
+
+  try {
+    await deleteAnimal(result.data);
+  } catch (error) {
+    if (error instanceof NotFoundError) {
+      throw new NotFoundResponse();
+    }
+
+    throw error;
+  }
+
+  throw redirect(
+    createPath({
+      pathname: "/animals",
+      search: new ActionConfirmationSearchParams()
+        .setConfirmation(ActionConfirmationType.DELETE)
+        .toString(),
+    })
+  );
+}
+
 export function CatchBoundary() {
   const caught = useCatch();
   return <ErrorPage status={caught.status} />;
 }
 
 export default function AnimalProfilePage() {
+  const { canEdit } = useLoaderData<typeof loader>();
+
   return (
     <section className="w-full flex flex-col gap-1 md:gap-2">
       <EditSuccessHelper />
-      <CreatSuccessHelper />
+      <CreateSuccessHelper />
 
       <HeaderCard />
 
@@ -142,16 +195,14 @@ export default function AnimalProfilePage() {
 
         <aside className="hidden md:flex-col md:gap-2 md:flex">
           <SituationCard />
-          {/* Uncomment when pages are implemented. */}
-          {/* {canEdit && <ActionCard />} */}
+          {canEdit && <ActionCard />}
         </aside>
 
-        {/* Uncomment when pages are implemented. */}
-        {/* {canEdit && (
+        {canEdit && (
           <aside className="flex flex-col md:hidden">
             <ActionCard />
           </aside>
-        )} */}
+        )}
       </section>
     </section>
   );
@@ -169,12 +220,12 @@ function EditSuccessHelper() {
 
   return (
     <Helper variant="success" action={<button onClick={clear}>Fermer</button>}>
-      {animal.name} à bien été modifié.
+      {animal.name} a bien été modifié.
     </Helper>
   );
 }
 
-function CreatSuccessHelper() {
+function CreateSuccessHelper() {
   const { animal } = useLoaderData<typeof loader>();
   const { isVisible, clear } = useActionConfirmation(
     ActionConfirmationType.CREATE
@@ -186,7 +237,7 @@ function CreatSuccessHelper() {
 
   return (
     <Helper variant="success" action={<button onClick={clear}>Fermer</button>}>
-      {animal.name} à bien été créé.
+      {animal.name} a bien été créé.
     </Helper>
   );
 }
@@ -420,28 +471,88 @@ function SituationCard() {
   );
 }
 
-// Uncomment when pages are implemented.
-// function ActionCard() {
-//   return (
-//     <Card>
-//       <CardHeader>
-//         <CardTitle>Actions</CardTitle>
-//       </CardHeader>
+function ActionCard() {
+  const { animal } = useLoaderData<typeof loader>();
 
-//       <CardContent>
-//         <button
-//           className={actionClassName.standalone({
-//             variant: "secondary",
-//             color: "red",
-//           })}
-//         >
-//           <Icon id="trash" />
-//           Supprimer
-//         </button>
-//       </CardContent>
-//     </Card>
-//   );
-// }
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>Actions</CardTitle>
+      </CardHeader>
+
+      <CardContent>
+        <Dialog.Root>
+          <Dialog.Trigger
+            className={actionClassName.standalone({
+              variant: "secondary",
+              color: "red",
+            })}
+          >
+            <Icon id="trash" />
+            Supprimer
+          </Dialog.Trigger>
+
+          <Dialog.Portal>
+            <Dialog.Overlay
+              className={cn(
+                // Use absolute instead of fixed to avoid performances issues
+                // when mobile browser's height change due to scroll.
+                "absolute",
+                "top-0 right-0 bottom-0 left-0 z-30 overscroll-none bg-black/20"
+              )}
+            />
+
+            <Dialog.Content className="fixed top-[10vh] left-1 right-1 z-30 shadow-ambient bg-white rounded-1 p-2 flex flex-col gap-2 md:left-1/2 md:right-auto md:-translate-x-1/2 md:w-[550px]">
+              <header className="grid grid-cols-[auto_minmax(0px,1fr)] gap-1">
+                <Icon
+                  id="circleExclamation"
+                  className="text-[20px] text-red-400"
+                />
+
+                <Dialog.Title className="text-title-section-small md:text-title-section-large">
+                  Supprimer {getAnimalDisplayName(animal)}
+                </Dialog.Title>
+              </header>
+
+              <p>
+                Êtes-vous sûr de vouloir supprimer{" "}
+                <strong className="text-body-emphasis">
+                  {getAnimalDisplayName(animal)}
+                </strong>
+                 ?
+                <br />
+                L’action est irréversible.
+              </p>
+
+              <footer className="flex items-center justify-between gap-2">
+                <Dialog.Close
+                  className={actionClassName.standalone({
+                    variant: "text",
+                    color: "gray",
+                  })}
+                >
+                  Annuler
+                </Dialog.Close>
+
+                <Form method="delete" className="flex">
+                  <button
+                    type="submit"
+                    className={actionClassName.standalone({
+                      variant: "secondary",
+                      color: "red",
+                    })}
+                  >
+                    Oui, supprimer
+                  </button>
+                </Form>
+              </footer>
+            </Dialog.Content>
+          </Dialog.Portal>
+        </Dialog.Root>
+      </CardContent>
+    </Card>
+  );
+}
 
 function DescriptionCard() {
   const { canEdit, animal } = useLoaderData<typeof loader>();

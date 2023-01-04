@@ -92,7 +92,7 @@ function EditSuccessHelper() {
 
   return (
     <Helper variant="success" action={<button onClick={clear}>Fermer</button>}>
-      Votre profil à bien été mis à jour.
+      Votre profil a bien été mis à jour.
     </Helper>
   );
 }
@@ -108,7 +108,7 @@ function EditPasswordSuccessHelper() {
 
   return (
     <Helper variant="success" action={<button onClick={clear}>Fermer</button>}>
-      Votre mot de passe à bien été changé.
+      Votre mot de passe a bien été changé.
     </Helper>
   );
 }

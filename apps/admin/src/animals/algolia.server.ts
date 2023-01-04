@@ -22,6 +22,10 @@ export function createAnimalDelegate(client: SearchClient) {
       await index.saveObject({ ...data, objectID: animalId });
     },
 
+    async delete(animalId: Animal["id"]) {
+      await index.deleteObject(animalId);
+    },
+
     async search(
       text: string,
       filters: {
