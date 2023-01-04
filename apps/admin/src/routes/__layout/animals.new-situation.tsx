@@ -9,7 +9,7 @@ import {
 import { useActionData, useCatch, useLoaderData } from "@remix-run/react";
 import { z } from "zod";
 import { AnimalCreationSteps } from "~/animals/creationSteps";
-import { assertDraftHasProfile } from "~/animals/profile/db.server";
+import { assertDraftHasValidProfile } from "~/animals/profile/db.server";
 import {
   MissingAdoptionDateError,
   MissingManagerError,
@@ -47,7 +47,7 @@ export async function loader({ request }: LoaderArgs) {
     UserGroup.ANIMAL_MANAGER,
   ]);
 
-  assertDraftHasProfile(draft);
+  await assertDraftHasValidProfile(draft);
 
   return json({ draft, currentUser });
 }
@@ -70,7 +70,7 @@ export async function action({ request }: ActionArgs) {
     UserGroup.ANIMAL_MANAGER,
   ]);
 
-  assertDraftHasProfile(currentUser.draft);
+  await assertDraftHasValidProfile(currentUser.draft);
 
   const rawFormData = await request.formData();
   const formData = EditActionFormData.schema.safeParse(

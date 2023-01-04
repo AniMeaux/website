@@ -19,7 +19,7 @@ type ProfileKeys =
   | "name"
   | "species";
 
-type AnimalProfile = Pick<Animal, ProfileKeys>;
+export type AnimalProfile = Pick<Animal, ProfileKeys>;
 type AnimalDraftProfile = Pick<AnimalDraft, ProfileKeys>;
 
 export class BreedNotForSpeciesError extends Error {}
@@ -29,7 +29,7 @@ export async function updateAnimalProfile(
   data: AnimalProfile
 ) {
   await prisma.$transaction(async (prisma) => {
-    await validate(prisma, data);
+    await validateProfile(prisma, data);
 
     try {
       const animal = await prisma.animal.update({
@@ -68,7 +68,7 @@ export async function updateAnimalProfileDraft(
   data: AnimalProfile
 ) {
   await prisma.$transaction(async (prisma) => {
-    await validate(prisma, data);
+    await validateProfile(prisma, data);
 
     await prisma.animalDraft.upsert({
       where: { ownerId },
@@ -78,7 +78,10 @@ export async function updateAnimalProfileDraft(
   });
 }
 
-async function validate(prisma: Prisma.TransactionClient, data: AnimalProfile) {
+export async function validateProfile(
+  prisma: Prisma.TransactionClient,
+  data: AnimalProfile
+) {
   if (data.breedId != null) {
     const breed = await prisma.breed.findUnique({
       where: { id: data.breedId },
@@ -91,17 +94,29 @@ async function validate(prisma: Prisma.TransactionClient, data: AnimalProfile) {
   }
 }
 
-export function assertDraftHasProfile(
+export async function assertDraftHasValidProfile(
   draft?: null | AnimalDraftProfile
-): asserts draft is AnimalProfile {
-  if (
-    draft == null ||
-    draft.birthdate == null ||
-    draft.gender == null ||
-    draft.isSterilized == null ||
-    draft.name == null ||
-    draft.species == null
-  ) {
+) {
+  if (!hasProfile(draft)) {
     throw redirect("/animals/new-profile");
   }
+
+  try {
+    await validateProfile(prisma, draft);
+  } catch (error) {
+    throw redirect("/animals/new-profile");
+  }
+}
+
+export function hasProfile(
+  draft?: null | AnimalDraftProfile
+): draft is AnimalProfile {
+  return (
+    draft != null &&
+    draft.birthdate != null &&
+    draft.gender != null &&
+    draft.isSterilized != null &&
+    draft.name != null &&
+    draft.species != null
+  );
 }

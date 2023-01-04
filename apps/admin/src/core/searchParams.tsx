@@ -54,6 +54,7 @@ export class NextSearchParams extends URLSearchParams {
 }
 
 export enum ActionConfirmationType {
+  CREATE,
   EDIT,
   EDIT_PASSWORD,
 }

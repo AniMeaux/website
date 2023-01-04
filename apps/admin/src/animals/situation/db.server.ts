@@ -1,11 +1,11 @@
 import { Animal, AnimalDraft, Prisma, Status, UserGroup } from "@prisma/client";
+import { redirect } from "@remix-run/node";
 import { ACTIVE_ANIMAL_STATUS } from "~/animals/status";
 import { algolia } from "~/core/algolia/algolia.server";
 import { prisma } from "~/core/db.server";
 import { NotFoundError } from "~/core/errors.server";
 
-type AnimalSituation = Pick<
-  Animal,
+type SituationKeys =
   | "adoptionDate"
   | "adoptionOption"
   | "comments"
@@ -14,8 +14,10 @@ type AnimalSituation = Pick<
   | "pickUpDate"
   | "pickUpLocation"
   | "pickUpReason"
-  | "status"
->;
+  | "status";
+
+export type AnimalSituation = Pick<Animal, SituationKeys>;
+type AnimalDraftSituation = Pick<AnimalDraft, SituationKeys>;
 
 export class MissingAdoptionDateError extends Error {}
 export class MissingAdoptionOptionError extends Error {}
@@ -36,7 +38,8 @@ export async function updateAnimalSituation(
       throw new NotFoundError();
     }
 
-    data = await validate(prisma, data, currentAnimal);
+    await validateSituation(prisma, data, currentAnimal);
+    normalizeSituation(data);
 
     const animal = await prisma.animal.update({
       where: { id: animalId },
@@ -62,12 +65,13 @@ export async function updateAnimalSituationDraft(
   data: AnimalSituation
 ) {
   await prisma.$transaction(async (prisma) => {
-    data = await validate(prisma, data);
+    await validateSituation(prisma, data);
+    normalizeSituation(data);
     await prisma.animalDraft.update({ where: { ownerId }, data });
   });
 }
 
-async function validate(
+export async function validateSituation(
   prisma: Prisma.TransactionClient,
   newData: AnimalSituation,
   currentData?: null | Pick<AnimalSituation, "managerId" | "pickUpLocation">
@@ -109,17 +113,42 @@ async function validate(
   ) {
     throw new MissingPickUpLocationError();
   }
+}
 
-  const data = { ...newData };
-
-  if (newData.status !== Status.ADOPTED) {
+export function normalizeSituation(data: AnimalSituation) {
+  if (data.status !== Status.ADOPTED) {
     data.adoptionDate = null;
     data.adoptionOption = null;
   }
 
-  if (!ACTIVE_ANIMAL_STATUS.includes(newData.status)) {
+  if (!ACTIVE_ANIMAL_STATUS.includes(data.status)) {
     data.fosterFamilyId = null;
   }
+}
 
-  return data;
+export async function assertDraftHasValidSituation(
+  draft?: null | AnimalDraftSituation
+) {
+  if (!hasSituation(draft)) {
+    throw redirect("/animals/new-situation");
+  }
+
+  try {
+    await validateSituation(prisma, draft);
+  } catch (error) {
+    throw redirect("/animals/new-situation");
+  }
+}
+
+export function hasSituation(
+  draft?: null | AnimalDraftSituation
+): draft is AnimalSituation {
+  return (
+    draft != null &&
+    draft.managerId != null &&
+    draft.pickUpDate != null &&
+    draft.pickUpLocation != null &&
+    draft.pickUpReason != null &&
+    draft.status != null
+  );
 }

@@ -5,9 +5,11 @@ import { deleteImage } from "~/core/cloudinary.server";
 import { prisma } from "~/core/db.server";
 import { NotFoundError } from "~/core/errors.server";
 
+export type AnimalPictures = Pick<Animal, "avatar" | "pictures">;
+
 export async function updateAnimalPictures(
   animalId: Animal["id"],
-  data: Pick<Animal, "avatar" | "pictures">
+  data: AnimalPictures
 ) {
   await prisma.$transaction(async (prisma) => {
     const animal = await prisma.animal.findUnique({

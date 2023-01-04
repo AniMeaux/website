@@ -125,6 +125,7 @@ export default function AnimalProfilePage() {
   return (
     <section className="w-full flex flex-col gap-1 md:gap-2">
       <EditSuccessHelper />
+      <CreatSuccessHelper />
 
       <HeaderCard />
 
@@ -170,6 +171,23 @@ function EditSuccessHelper() {
   return (
     <Helper variant="success" action={<button onClick={clear}>Fermer</button>}>
       {animal.name} à bien été modifié.
+    </Helper>
+  );
+}
+
+function CreatSuccessHelper() {
+  const { animal } = useLoaderData<typeof loader>();
+  const { isVisible, clear } = useActionConfirmation(
+    ActionConfirmationType.CREATE
+  );
+
+  if (!isVisible) {
+    return null;
+  }
+
+  return (
+    <Helper variant="success" action={<button onClick={clear}>Fermer</button>}>
+      {animal.name} à bien été créé.
     </Helper>
   );
 }

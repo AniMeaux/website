@@ -9,24 +9,25 @@ import {
   unstable_createMemoryUploadHandler,
   unstable_parseMultipartFormData,
 } from "@remix-run/node";
-import { useActionData, useCatch, useLoaderData } from "@remix-run/react";
+import { useActionData, useCatch } from "@remix-run/react";
 import { createPath } from "history";
 import { z } from "zod";
 import { zfd } from "zod-form-data";
-import { updateAnimalPictures } from "~/animals/pictures/db.server";
-import { ActionFormData, AnimalPicturesForm } from "~/animals/pictures/form";
-import { getAnimalDisplayName } from "~/animals/profile/name";
+import { AnimalCreationSteps } from "~/animals/creationSteps";
+import { createAnimal } from "~/animals/db.server";
+import {
+  AnimalPicturesForm,
+  EditActionFormData,
+} from "~/animals/pictures/form";
+import { assertDraftHasValidProfile } from "~/animals/profile/db.server";
+import { assertDraftHasValidSituation } from "~/animals/situation/db.server";
 import {
   CloudinaryUploadApiError,
   createCloudinaryUploadHandler,
 } from "~/core/cloudinary.server";
-import { ErrorPage, getErrorTitle } from "~/core/dataDisplay/errorPage";
-import { prisma } from "~/core/db.server";
-import { NotFoundError } from "~/core/errors.server";
-import { assertIsDefined } from "~/core/isDefined.server";
+import { ErrorPage } from "~/core/dataDisplay/errorPage";
 import { Card, CardContent, CardHeader, CardTitle } from "~/core/layout/card";
 import { getPageTitle } from "~/core/pageTitle";
-import { NotFoundResponse } from "~/core/response.server";
 import {
   ActionConfirmationSearchParams,
   ActionConfirmationType,
@@ -34,9 +35,9 @@ import {
 import { getCurrentUser } from "~/currentUser/db.server";
 import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
 
-export async function loader({ request, params }: LoaderArgs) {
+export async function loader({ request }: LoaderArgs) {
   const currentUser = await getCurrentUser(request, {
-    select: { id: true, groups: true },
+    select: { id: true, groups: true, draft: true },
   });
 
   assertCurrentUserHasGroups(currentUser, [
@@ -44,56 +45,39 @@ export async function loader({ request, params }: LoaderArgs) {
     UserGroup.ANIMAL_MANAGER,
   ]);
 
-  const result = z.string().uuid().safeParse(params["id"]);
-  if (!result.success) {
-    throw new NotFoundResponse();
-  }
+  await assertDraftHasValidProfile(currentUser.draft);
+  await assertDraftHasValidSituation(currentUser.draft);
 
-  const animal = await prisma.animal.findUnique({
-    where: { id: result.data },
-    select: {
-      alias: true,
-      avatar: true,
-      id: true,
-      name: true,
-      pictures: true,
-    },
-  });
-
-  assertIsDefined(animal);
-
-  return json({ animal });
+  return new Response("Ok");
 }
 
-export const meta: MetaFunction<typeof loader> = ({ data }) => {
-  const animal = data?.animal;
-  if (animal == null) {
-    return { title: getPageTitle(getErrorTitle(404)) };
-  }
-
-  return { title: getPageTitle(getAnimalDisplayName(animal)) };
+export const meta: MetaFunction = () => {
+  return { title: getPageTitle(["Photos", "Nouvel animal"]) };
 };
 
 type ActionData = {
-  errors?: z.inferFlattenedErrors<typeof ActionFormData.schema>;
+  errors?: z.inferFlattenedErrors<typeof EditActionFormData.schema>;
 };
 
 export async function action({ request }: ActionArgs) {
   const currentUser = await getCurrentUser(request, {
-    select: { id: true, groups: true },
+    select: { id: true, groups: true, draft: true },
   });
 
   assertCurrentUserHasGroups(currentUser, [
     UserGroup.ADMIN,
     UserGroup.ANIMAL_MANAGER,
   ]);
+
+  await assertDraftHasValidProfile(currentUser.draft);
+  await assertDraftHasValidSituation(currentUser.draft);
 
   try {
     const rawFormData = await unstable_parseMultipartFormData(
       request,
       unstable_composeUploadHandlers(
         createCloudinaryUploadHandler({
-          filter: ({ name }) => name === ActionFormData.keys.pictures,
+          filter: ({ name }) => name === EditActionFormData.keys.pictures,
         }),
         unstable_createMemoryUploadHandler({
           filter: ({ contentType }) => contentType == null,
@@ -101,7 +85,10 @@ export async function action({ request }: ActionArgs) {
       )
     );
 
-    const formData = zfd.formData(ActionFormData.schema).safeParse(rawFormData);
+    const formData = zfd
+      .formData(EditActionFormData.schema)
+      .safeParse(rawFormData);
+
     if (!formData.success) {
       return json<ActionData>(
         { errors: formData.error.flatten() },
@@ -109,16 +96,16 @@ export async function action({ request }: ActionArgs) {
       );
     }
 
-    await updateAnimalPictures(formData.data.id, {
+    const animalId = await createAnimal(currentUser.draft, {
       avatar: formData.data.pictures[0],
       pictures: formData.data.pictures.slice(1),
     });
 
     throw redirect(
       createPath({
-        pathname: `/animals/${formData.data.id}`,
+        pathname: `/animals/${animalId}`,
         search: new ActionConfirmationSearchParams()
-          .setConfirmation(ActionConfirmationType.EDIT)
+          .setConfirmation(ActionConfirmationType.CREATE)
           .toString(),
       })
     );
@@ -135,18 +122,6 @@ export async function action({ request }: ActionArgs) {
       );
     }
 
-    if (error instanceof NotFoundError) {
-      return json<ActionData>(
-        {
-          errors: {
-            formErrors: ["L’animal est introuvable."],
-            fieldErrors: {},
-          },
-        },
-        { status: 404 }
-      );
-    }
-
     throw error;
   }
 }
@@ -156,23 +131,19 @@ export function CatchBoundary() {
   return <ErrorPage status={caught.status} />;
 }
 
-export default function AnimalEditProfilePage() {
-  const { animal } = useLoaderData<typeof loader>();
+export default function NewAnimalSituationPage() {
   const actionData = useActionData<typeof action>();
 
   return (
     <main className="w-full flex flex-col md:max-w-[600px]">
       <Card>
-        <CardHeader>
-          <CardTitle>Modifier {animal.name}</CardTitle>
+        <CardHeader isVertical>
+          <CardTitle>Nouvel animal</CardTitle>
+          <AnimalCreationSteps activeStep="pictures" />
         </CardHeader>
 
         <CardContent>
-          <AnimalPicturesForm
-            animalId={animal.id}
-            defaultAnimal={animal}
-            errors={actionData?.errors}
-          />
+          <AnimalPicturesForm errors={actionData?.errors} />
         </CardContent>
       </Card>
     </main>
