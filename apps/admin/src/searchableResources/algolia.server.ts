@@ -77,7 +77,10 @@ export function createSearchableResourceDelegate(client: SearchClient) {
   return {
     indexName: index.indexName,
 
-    async updateAnimal(objectId: Animal["id"], data: SearchableAnimal["data"]) {
+    async createOrUpdateAnimal(
+      objectId: Animal["id"],
+      data: SearchableAnimal["data"]
+    ) {
       const fromAlgolia: SearchableResourceFromAlgolia = {
         type: SearchableResourceType.ANIMAL,
         data: {
@@ -89,7 +92,10 @@ export function createSearchableResourceDelegate(client: SearchClient) {
       await index.saveObject({ ...fromAlgolia, objectID: objectId });
     },
 
-    async updateUser(objectId: User["id"], data: SearchableUser["data"]) {
+    async createOrUpdateUser(
+      objectId: User["id"],
+      data: SearchableUser["data"]
+    ) {
       const fromAlgolia: SearchableResourceFromAlgolia = {
         type: SearchableResourceType.USER,
         data,

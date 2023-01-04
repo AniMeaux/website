@@ -18,6 +18,10 @@ export function createAnimalDelegate(client: SearchClient) {
       await index.partialUpdateObject({ ...data, objectID: animalId });
     },
 
+    async create(animalId: Animal["id"], data: AnimalFromAlgolia) {
+      await index.saveObject({ ...data, objectID: animalId });
+    },
+
     async search(
       text: string,
       filters: {

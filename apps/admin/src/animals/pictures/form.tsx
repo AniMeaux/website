@@ -36,18 +36,24 @@ export const ActionFormData = createActionData(
   })
 );
 
+export const EditActionFormData = createActionData(
+  ActionFormData.schema.omit({ id: true })
+);
+
 export function AnimalPicturesForm({
-  animal,
+  animalId,
+  defaultAnimal,
   errors = { formErrors: [], fieldErrors: {} },
 }: {
-  animal: SerializeFrom<Pick<Animal, "avatar" | "id" | "pictures">>;
+  animalId?: Animal["id"];
+  defaultAnimal?: null | SerializeFrom<Pick<Animal, "avatar" | "pictures">>;
   errors?: z.inferFlattenedErrors<typeof ActionFormData.schema>;
 }) {
   const submit = useSubmit();
   const action = useFormAction();
 
   const [pictures, setPictures] = useState<ImageFileOrId[]>(
-    getAllAnimalPictures(animal)
+    defaultAnimal == null ? [] : getAllAnimalPictures(defaultAnimal)
   );
   const [pendingPictureCount, setPendingPictureCount] = useState(0);
   const [hasImageImportError, setHasImageImportError] = useState(false);
@@ -74,7 +80,11 @@ export function AnimalPicturesForm({
         event.preventDefault();
 
         const formData = new FormData();
-        formData.set(ActionFormData.keys.id, animal.id);
+
+        if (animalId != null) {
+          formData.set(ActionFormData.keys.id, animalId);
+        }
+
         pictures.forEach((picture) => {
           if (!isImageOverSize(picture)) {
             const value = isImageFile(picture) ? picture.file : picture;
@@ -90,6 +100,10 @@ export function AnimalPicturesForm({
       }}
     >
       <div className={formClassNames.fields.root()}>
+        <Helper variant="info">
+          La première photo sera utilisée comme avatar.
+        </Helper>
+
         {overSizedPictureCount > 0 ? (
           <Helper variant="warning">
             {overSizedPictureCount === 1
@@ -116,7 +130,7 @@ export function AnimalPicturesForm({
         type="submit"
         className={cn(actionClassName.standalone(), "w-full md:w-auto")}
       >
-        Enregistrer
+        {animalId == null ? "Créer" : "Enregistrer"}
       </button>
     </Form>
   );

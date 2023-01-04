@@ -10,12 +10,19 @@ import {
 } from "~/core/formElements/inputWrapper";
 import { useLayoutEffect } from "~/core/useLayoutEffect";
 
-export type TextareaProps =
-  React.TextareaHTMLAttributes<HTMLTextAreaElement> & {
-    leftAdornment?: InputWrapperProps["leftAdornment"];
-    rightAdornment?: InputWrapperProps["rightAdornment"];
-    hasError?: boolean;
-  };
+export type TextareaProps = Omit<
+  React.TextareaHTMLAttributes<HTMLTextAreaElement>,
+  "defaultValue"
+> & {
+  leftAdornment?: InputWrapperProps["leftAdornment"];
+  rightAdornment?: InputWrapperProps["rightAdornment"];
+  hasError?: boolean;
+
+  // Allow null.
+  defaultValue?:
+    | null
+    | React.InputHTMLAttributes<HTMLInputElement>["defaultValue"];
+};
 
 export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
   function Textarea(
@@ -25,6 +32,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
       rightAdornment,
       rows = 3,
       disabled,
+      defaultValue,
       className,
       // Should use `"off"` as default value but it is ingored by Chrome.
       // See https://bugs.chromium.org/p/chromium/issues/detail?id=587466
@@ -67,6 +75,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
           rows={rows}
           autoComplete={autoComplete}
           disabled={disabled}
+          defaultValue={defaultValue ?? undefined}
           aria-invalid={asBooleanAttribute(hasError)}
           className={inputClassName({
             leftAdornmentCount: ensureArray(leftAdornment).length,
