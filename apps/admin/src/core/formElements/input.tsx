@@ -32,6 +32,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
     rightAdornment,
     disabled,
     type = "text",
+    pattern = getTypeFallbackPattern(type),
     className,
     defaultValue,
     // Should use `"off"` as default value but it is ingored by Chrome.
@@ -54,7 +55,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
         {...rest}
         ref={ref}
         type={type}
-        pattern={getTypeFallbackPattern(type)}
+        pattern={pattern}
         autoComplete={autoComplete}
         disabled={disabled}
         defaultValue={defaultValue ?? undefined}
