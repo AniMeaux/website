@@ -21,7 +21,7 @@
   "dependencies": {
     "@algolia/client-search": "^4.14.2",
     "@animeaux/shared": "*",
-    "@prisma/client": "^3.11.1",
+    "@prisma/client": "^4.8.0",
     "@radix-ui/react-dialog": "^1.0.2",
     "@radix-ui/react-dropdown-menu": "^2.0.1",
     "@radix-ui/react-popover": "^1.0.2",
