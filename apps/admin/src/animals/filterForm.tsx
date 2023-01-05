@@ -25,6 +25,7 @@ import { Filter, Filters } from "~/core/controllers/filters";
 import { ActionAdornment, Adornment } from "~/core/formElements/adornment";
 import { ControlledInput } from "~/core/formElements/controlledInput";
 import { formClassNames } from "~/core/formElements/form";
+import { FosterFamilyAvatar } from "~/fosterFamilies/avatar";
 import { Icon } from "~/generated/icon";
 import { UserAvatar } from "~/users/avatar";
 import { hasGroups } from "~/users/groups";
@@ -32,10 +33,12 @@ import { hasGroups } from "~/users/groups";
 export function AnimalFilters({
   currentUser,
   managers,
+  fosterFamilies,
   possiblePickUpLocations,
 }: {
   currentUser: ActiveFilterLinkProps["currentUser"];
   managers: { displayName: string; id: string }[];
+  fosterFamilies: { displayName: string; id: string }[];
   possiblePickUpLocations: string[];
 }) {
   const submit = useSubmit();
@@ -48,6 +51,7 @@ export function AnimalFilters({
     ages: searchParams.getAges(),
     statuses: searchParams.getStatuses(),
     managersId: searchParams.getManagersId(),
+    fosterFamiliesId: searchParams.getFosterFamiliesId(),
     minPickUpDate: searchParams.getMinPickUpDate(),
     maxPickUpDate: searchParams.getMaxPickUpDate(),
     pickUpLocations: searchParams.getPickUpLocations(),
@@ -274,6 +278,51 @@ export function AnimalFilters({
             ))}
           </Suggestions>
         </Filter>
+
+        {fosterFamilies.length > 0 ? (
+          <Filter
+            value="fosterFamilies"
+            label="Familles d’accueil"
+            count={visibleFilters.fosterFamiliesId.length}
+            hiddenContent={visibleFilters.fosterFamiliesId.map(
+              (fosterFamilyId) => (
+                <input
+                  key={fosterFamilyId}
+                  type="hidden"
+                  name={AnimalSearchParams.Keys.FOSTER_FAMILIES_ID}
+                  value={fosterFamilyId}
+                />
+              )
+            )}
+          >
+            <Suggestions>
+              {fosterFamilies.map((fosterFamily) => (
+                <Suggestion key={fosterFamily.id}>
+                  <SuggestionInput
+                    type="checkbox"
+                    name={AnimalSearchParams.Keys.FOSTER_FAMILIES_ID}
+                    value={fosterFamily.id}
+                    checked={visibleFilters.fosterFamiliesId.includes(
+                      fosterFamily.id
+                    )}
+                    onChange={() => {}}
+                  />
+
+                  <SuggestionLabel
+                    icon={
+                      <FosterFamilyAvatar
+                        fosterFamily={fosterFamily}
+                        size="sm"
+                      />
+                    }
+                  >
+                    {fosterFamily.displayName}
+                  </SuggestionLabel>
+                </Suggestion>
+              ))}
+            </Suggestions>
+          </Filter>
+        ) : null}
 
         <Filter
           value="pick-up"

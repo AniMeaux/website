@@ -411,7 +411,7 @@ export function AnimalSituationForm({
 
         <Field>
           <Label htmlFor="comments" isOptional>
-            Commentaires privées
+            Commentaires privés
           </Label>
 
           <Textarea

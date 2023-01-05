@@ -8,20 +8,21 @@ import { ensureDate, parseOrDefault } from "~/core/schemas";
 
 export class AnimalSearchParams extends URLSearchParams {
   static readonly Sort = {
-    PICK_UP: "PICK_UP",
     NAME: "NAME",
+    PICK_UP: "PICK_UP",
   };
 
   static readonly Keys = {
-    SORT: "sort",
-    NAME_OR_ALIAS: "q",
-    SPECIES: "species",
     AGE: "age",
-    STATUS: "status",
+    FOSTER_FAMILIES_ID: "ff",
     MANAGERS_ID: "manager",
-    MIN_PICK_UP_DATE: "min",
     MAX_PICK_UP_DATE: "max",
+    MIN_PICK_UP_DATE: "min",
+    NAME_OR_ALIAS: "q",
     PICK_UP_LOCATION: "pickUp",
+    SORT: "sort",
+    SPECIES: "species",
+    STATUS: "status",
   };
 
   isEmpty() {
@@ -34,6 +35,10 @@ export class AnimalSearchParams extends URLSearchParams {
       isEqual(this.getNameOrAlias(), other.getNameOrAlias()) &&
       isEqual(orderBy(this.getStatuses()), orderBy(other.getStatuses())) &&
       isEqual(orderBy(this.getManagersId()), orderBy(other.getManagersId())) &&
+      isEqual(
+        orderBy(this.getFosterFamiliesId()),
+        orderBy(other.getFosterFamiliesId())
+      ) &&
       isEqual(this.getMinPickUpDate(), other.getMinPickUpDate()) &&
       isEqual(this.getMaxPickUpDate(), other.getMaxPickUpDate())
     );
@@ -114,6 +119,23 @@ export class AnimalSearchParams extends URLSearchParams {
     copy.delete(AnimalSearchParams.Keys.MANAGERS_ID);
     managersId.forEach((managerId) => {
       copy.append(AnimalSearchParams.Keys.MANAGERS_ID, managerId);
+    });
+
+    return copy;
+  }
+
+  getFosterFamiliesId() {
+    return parseOrDefault(
+      z.string().uuid().array().default([]),
+      this.getAll(AnimalSearchParams.Keys.FOSTER_FAMILIES_ID)
+    );
+  }
+
+  setFosterFamiliesId(fosterFamiliesId: string[]) {
+    const copy = new AnimalSearchParams(this);
+    copy.delete(AnimalSearchParams.Keys.FOSTER_FAMILIES_ID);
+    fosterFamiliesId.forEach((fosterFamilyId) => {
+      copy.append(AnimalSearchParams.Keys.FOSTER_FAMILIES_ID, fosterFamilyId);
     });
 
     return copy;

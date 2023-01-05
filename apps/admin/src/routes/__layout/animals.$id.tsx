@@ -18,8 +18,9 @@ import { AnimalAvatar } from "~/animals/avatar";
 import { deleteAnimal } from "~/animals/db.server";
 import { GENDER_ICON } from "~/animals/gender";
 import { PICK_UP_REASON_TRANSLATION } from "~/animals/pickUp";
-import { ActionFormData } from "~/animals/profile/form";
+import { ActionFormData as ProfileActionFormData } from "~/animals/profile/form";
 import { getAnimalDisplayName } from "~/animals/profile/name";
+import { ActionFormData as SituationActionFormData } from "~/animals/situation/form";
 import { getSpeciesLabels, SPECIES_ICON } from "~/animals/species";
 import { StatusBadge, StatusIcon, STATUS_TRANSLATION } from "~/animals/status";
 import { actionClassName } from "~/core/actions";
@@ -182,27 +183,37 @@ export default function AnimalProfilePage() {
 
       <HeaderCard />
 
-      <section className="grid grid-cols-1 gap-1 md:grid-cols-[minmax(0px,2fr)_minmax(250px,1fr)] md:items-start md:gap-2">
-        <aside className="flex flex-col gap-1 md:hidden">
+      <section className="grid grid-cols-1 gap-1 md:hidden">
+        <aside className="flex flex-col gap-1">
           <SituationCard />
+          <CommentsCard />
         </aside>
 
-        <main className="flex flex-col gap-1 md:gap-2">
+        <main className="flex flex-col gap-1">
           <ProfileCard />
           <PicturesCard />
           <DescriptionCard />
         </main>
 
-        <aside className="hidden md:flex-col md:gap-2 md:flex">
-          <SituationCard />
-          {canEdit && <ActionCard />}
-        </aside>
-
         {canEdit && (
-          <aside className="flex flex-col md:hidden">
+          <aside className="flex flex-col">
             <ActionCard />
           </aside>
         )}
+      </section>
+
+      <section className="hidden md:grid md:grid-cols-[minmax(0px,2fr)_minmax(250px,1fr)] md:items-start md:gap-2">
+        <main className="md:flex md:flex-col md:gap-2">
+          <ProfileCard />
+          <PicturesCard />
+          <DescriptionCard />
+        </main>
+
+        <aside className="md:flex-col md:gap-2 md:flex">
+          <SituationCard />
+          <CommentsCard />
+          {canEdit && <ActionCard />}
+        </aside>
       </section>
     </section>
   );
@@ -423,15 +434,39 @@ function SituationCard() {
               {PICK_UP_REASON_TRANSLATION[animal.pickUpReason]}
             </strong>
           </Item>
-
-          {animal.comments != null && (
-            <Item icon={<Icon id="comment" />}>
-              <Markdown components={ARTICLE_COMPONENTS}>
-                {animal.comments}
-              </Markdown>
-            </Item>
-          )}
         </ul>
+      </CardContent>
+    </Card>
+  );
+}
+
+function CommentsCard() {
+  const { canEdit, animal } = useLoaderData<typeof loader>();
+
+  if (animal.comments == null) {
+    return null;
+  }
+
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>Commentaires privés</CardTitle>
+
+        {canEdit && (
+          <BaseLink
+            to={{
+              pathname: "./edit-situation",
+              hash: SituationActionFormData.keys.comments,
+            }}
+            className={actionClassName.standalone({ variant: "text" })}
+          >
+            Modifier
+          </BaseLink>
+        )}
+      </CardHeader>
+
+      <CardContent>
+        <Markdown components={ARTICLE_COMPONENTS}>{animal.comments}</Markdown>
       </CardContent>
     </Card>
   );
@@ -525,7 +560,7 @@ function DescriptionCard() {
 
   const editLink: BaseLinkProps["to"] = {
     pathname: "./edit-profile",
-    hash: ActionFormData.keys.description,
+    hash: ProfileActionFormData.keys.description,
   };
 
   return (
