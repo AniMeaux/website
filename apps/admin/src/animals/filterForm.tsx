@@ -1,10 +1,5 @@
-import { UserGroup } from "@prisma/client";
-import {
-  Form,
-  useSearchParams,
-  useSubmit,
-  useTransition,
-} from "@remix-run/react";
+import { FosterFamily, User, UserGroup } from "@prisma/client";
+import { Form, useSubmit } from "@remix-run/react";
 import { DateTime } from "luxon";
 import { AGE_ICON, AGE_TRANSLATION, SORTED_AGES } from "~/animals/age";
 import { AnimalSearchParams } from "~/animals/searchParams";
@@ -24,7 +19,14 @@ import { BaseLink } from "~/core/baseLink";
 import { Filter, Filters } from "~/core/controllers/filters";
 import { ActionAdornment, Adornment } from "~/core/formElements/adornment";
 import { ControlledInput } from "~/core/formElements/controlledInput";
+import {
+  Suggestion,
+  SuggestionInput,
+  SuggestionLabel,
+  Suggestions,
+} from "~/core/formElements/filterSuggestions";
 import { formClassNames } from "~/core/formElements/form";
+import { useOptimisticSearchParams } from "~/core/searchParams";
 import { FosterFamilyAvatar } from "~/fosterFamilies/avatar";
 import { Icon } from "~/generated/icon";
 import { UserAvatar } from "~/users/avatar";
@@ -43,18 +45,19 @@ export function AnimalFilters({
 }) {
   const submit = useSubmit();
 
-  const [searchParams, setSearchParams] = useVisibleSearchParams();
+  const [searchParams, setSearchParams] = useOptimisticSearchParams();
+  const animalSearchParams = new AnimalSearchParams(searchParams);
   const visibleFilters = {
-    sort: searchParams.getSort(),
-    nameOrAlias: searchParams.getNameOrAlias(),
-    species: searchParams.getSpecies(),
-    ages: searchParams.getAges(),
-    statuses: searchParams.getStatuses(),
-    managersId: searchParams.getManagersId(),
-    fosterFamiliesId: searchParams.getFosterFamiliesId(),
-    minPickUpDate: searchParams.getMinPickUpDate(),
-    maxPickUpDate: searchParams.getMaxPickUpDate(),
-    pickUpLocations: searchParams.getPickUpLocations(),
+    sort: animalSearchParams.getSort(),
+    nameOrAlias: animalSearchParams.getNameOrAlias(),
+    species: animalSearchParams.getSpecies(),
+    ages: animalSearchParams.getAges(),
+    statuses: animalSearchParams.getStatuses(),
+    managersId: animalSearchParams.getManagersId(),
+    fosterFamiliesId: animalSearchParams.getFosterFamiliesId(),
+    minPickUpDate: animalSearchParams.getMinPickUpDate(),
+    maxPickUpDate: animalSearchParams.getMaxPickUpDate(),
+    pickUpLocations: animalSearchParams.getPickUpLocations(),
   };
 
   return (
@@ -141,7 +144,7 @@ export function AnimalFilters({
               visibleFilters.nameOrAlias != null && (
                 <ActionAdornment
                   onClick={() =>
-                    setSearchParams(searchParams.deleteNameOrAlias())
+                    setSearchParams(animalSearchParams.deleteNameOrAlias())
                   }
                 >
                   <Icon id="xMark" />
@@ -373,7 +376,9 @@ export function AnimalFilters({
                   visibleFilters.minPickUpDate != null && (
                     <ActionAdornment
                       onClick={() =>
-                        setSearchParams(searchParams.deleteMinPickUpDate())
+                        setSearchParams(
+                          animalSearchParams.deleteMinPickUpDate()
+                        )
                       }
                     >
                       <Icon id="xMark" />
@@ -401,7 +406,9 @@ export function AnimalFilters({
                   visibleFilters.maxPickUpDate != null && (
                     <ActionAdornment
                       onClick={() =>
-                        setSearchParams(searchParams.deleteMaxPickUpDate())
+                        setSearchParams(
+                          animalSearchParams.deleteMaxPickUpDate()
+                        )
                       }
                     >
                       <Icon id="xMark" />
@@ -465,8 +472,10 @@ function ActiveFilterLink({ currentUser }: ActiveFilterLinkProps) {
     toSearchParams = toSearchParams.setManagersId([currentUser.id]);
   }
 
-  const [searchParams] = useVisibleSearchParams();
-  const isActive = toSearchParams.areFiltersEqual(searchParams);
+  const [searchParams] = useOptimisticSearchParams();
+  const isActive = toSearchParams.areFiltersEqual(
+    new AnimalSearchParams(searchParams)
+  );
 
   return (
     <BaseLink
@@ -479,68 +488,5 @@ function ActiveFilterLink({ currentUser }: ActiveFilterLinkProps) {
       {isActive && <Icon id="check" />}
       {isCurrentUserManager ? "À votre charge" : "Animaux en charge"}
     </BaseLink>
-  );
-}
-
-function useVisibleSearchParams() {
-  const [searchParams, setSearchParams] = useSearchParams();
-
-  const transition = useTransition();
-  let nextSearchParams: URLSearchParams | undefined;
-  if (transition.location?.pathname === "/animals") {
-    nextSearchParams = new URLSearchParams(transition.location.search);
-  }
-
-  return [
-    new AnimalSearchParams(
-      // Optimistic UI.
-      nextSearchParams ?? searchParams
-    ),
-    setSearchParams,
-  ] as const;
-}
-
-function Suggestions({ children }: { children?: React.ReactNode }) {
-  return <div className="flex flex-col">{children}</div>;
-}
-
-function Suggestion({ children }: { children?: React.ReactNode }) {
-  return (
-    <label className="group relative z-0 rounded-0.5 grid grid-cols-[auto_minmax(0px,1fr)_auto] items-start cursor-pointer focus-within:z-10">
-      {children}
-    </label>
-  );
-}
-
-function SuggestionInput(props: React.InputHTMLAttributes<HTMLInputElement>) {
-  return (
-    <input
-      {...props}
-      className="peer appearance-none absolute -z-10 top-0 left-0 w-full h-full rounded-0.5 cursor-pointer transition-colors duration-100 ease-in-out group-hover:bg-gray-100 checked:bg-gray-100 focus-visible:outline-none focus-visible:ring-outset focus-visible:ring focus-visible:ring-blue-400"
-    />
-  );
-}
-
-function SuggestionLabel({
-  icon,
-  children,
-}: {
-  icon: React.ReactNode;
-  children?: React.ReactNode;
-}) {
-  return (
-    <>
-      <span className="h-4 w-4 flex items-center justify-center text-gray-600 text-[20px]">
-        {icon}
-      </span>
-
-      <span className="py-1 text-body-default peer-checked:text-body-emphasis">
-        {children}
-      </span>
-
-      <span className="opacity-0 h-4 w-4 flex items-center justify-center text-green-600 transition-opacity duration-100 ease-in-out peer-checked:opacity-100">
-        <Icon id="check" />
-      </span>
-    </>
   );
 }

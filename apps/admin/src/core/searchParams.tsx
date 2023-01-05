@@ -1,7 +1,32 @@
-import { useSearchParams } from "@remix-run/react";
+import { useLocation, useSearchParams, useTransition } from "@remix-run/react";
+import { useMemo } from "react";
 import { z } from "zod";
 import { zfd } from "zod-form-data";
 import { parseOrDefault } from "~/core/schemas";
+
+export function useOptimisticSearchParams() {
+  const location = useLocation();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const transition = useTransition();
+
+  const nextSearchParams = useMemo(() => {
+    if (transition.location?.pathname === location.pathname) {
+      return new URLSearchParams(transition.location.search);
+    }
+
+    return null;
+  }, [
+    location.pathname,
+    transition.location?.pathname,
+    transition.location?.search,
+  ]);
+
+  return [
+    // Optimistic UI.
+    nextSearchParams ?? searchParams,
+    setSearchParams,
+  ] as const;
+}
 
 export class PageSearchParams extends URLSearchParams {
   static readonly Keys = {
