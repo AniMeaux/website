@@ -1,22 +1,20 @@
-enum Keys {
-  TEXT = "q",
-}
-
 export class ColorSearchParams extends URLSearchParams {
-  static readonly Keys = Keys;
+  static readonly Keys = {
+    NAME: "q",
+  };
 
-  getText() {
-    return this.get(Keys.TEXT)?.trim() || null;
+  getName() {
+    return this.get(ColorSearchParams.Keys.NAME)?.trim() || null;
   }
 
-  setText(text: string) {
+  setName(name: string) {
     const copy = new ColorSearchParams(this);
 
-    text = text.trim();
-    if (text !== "") {
-      copy.set(Keys.TEXT, text);
-    } else if (copy.has(Keys.TEXT)) {
-      copy.delete(Keys.TEXT);
+    name = name.trim();
+    if (name !== "") {
+      copy.set(ColorSearchParams.Keys.NAME, name);
+    } else if (copy.has(ColorSearchParams.Keys.NAME)) {
+      copy.delete(ColorSearchParams.Keys.NAME);
     }
 
     return copy;
