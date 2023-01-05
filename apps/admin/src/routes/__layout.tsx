@@ -103,7 +103,7 @@ function CurrentUserTabBar({
         <TabBarItem key={item.icon} icon={item.icon} to={item.to} />
       ))}
 
-      {menuNavigationItems.length > 0 && (
+      {menuNavigationItems.length > 0 ? (
         <TabBarMenu icon="ellipsis">
           {menuNavigationItems.map((item) => (
             <TabBarMenuItem
@@ -114,7 +114,7 @@ function CurrentUserTabBar({
             />
           ))}
         </TabBarMenu>
-      )}
+      ) : null}
     </TabBar>
   );
 }
@@ -176,13 +176,13 @@ const ALL_NAVIGATION_ITEMS: NavigationItem[] = [
       UserGroup.VOLUNTEER,
     ],
   },
+  {
+    to: "/foster-families",
+    icon: "house",
+    label: "Familles d’accueil",
+    authorizedGroups: [UserGroup.ADMIN, UserGroup.ANIMAL_MANAGER],
+  },
   // Uncomment when pages are implemented.
-  // {
-  //   to: "/foster-families",
-  //   icon: "house",
-  //   label: "FA",
-  //   authorizedGroups: [UserGroup.ADMIN, UserGroup.ANIMAL_MANAGER],
-  // },
   // {
   //   to: "/events",
   //   icon: "calendarDays",

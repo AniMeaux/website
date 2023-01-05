@@ -19,14 +19,14 @@ export function createUserDelegate(client: SearchClient) {
     },
 
     async search(
-      text: string,
+      displayName: string,
       filters: {
-        groups: null | UserGroup | UserGroup[];
+        groups: UserGroup[];
         isDisabled: null | boolean;
       },
       options: Omit<SearchOptions, "filters"> = {}
     ) {
-      const result = await index.search<UserFromAlgolia>(text, {
+      const result = await index.search<UserFromAlgolia>(displayName, {
         ...options,
         filters: createSearchFilters(filters),
       });

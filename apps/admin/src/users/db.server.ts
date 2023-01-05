@@ -1,19 +1,23 @@
+import { UserGroup } from "@prisma/client";
 import { algolia } from "~/core/algolia/algolia.server";
 import { prisma } from "~/core/db.server";
-import { UserSearchParams } from "~/users/searchParams";
 
 const SEARCH_COUNT = 6;
 
-export async function searchUsers(searchParams: UserSearchParams) {
-  const text = searchParams.getText();
-  const group = searchParams.getGroup();
-  const isDisabled = searchParams.getIsDisabled();
-
+export async function searchUsers({
+  displayName,
+  groups,
+  isDisabled,
+}: {
+  displayName: null | string;
+  groups: UserGroup[];
+  isDisabled: null | boolean;
+}) {
   // Don't use Algolia when there are no text search.
-  if (text == null) {
+  if (displayName == null) {
     const managers = await prisma.user.findMany({
       where: {
-        groups: group == null ? undefined : { has: group },
+        groups: groups.length === 0 ? undefined : { hasSome: groups },
         isDisabled: isDisabled ?? undefined,
       },
       select: { id: true, displayName: true },
@@ -28,8 +32,8 @@ export async function searchUsers(searchParams: UserSearchParams) {
   }
 
   return await algolia.user.search(
-    text,
-    { groups: group, isDisabled },
+    displayName,
+    { groups, isDisabled },
     { hitsPerPage: SEARCH_COUNT }
   );
 }

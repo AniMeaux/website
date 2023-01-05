@@ -112,7 +112,9 @@ function BaseSideBarItem({
         <Icon id={icon} />
       </span>
 
-      <span className="flex-1 pr-1 text-body-emphasis">{children}</span>
+      <span className="flex-1 pr-1 text-body-emphasis truncate">
+        {children}
+      </span>
     </>
   );
 }

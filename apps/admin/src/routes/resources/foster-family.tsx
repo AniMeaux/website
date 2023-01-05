@@ -21,7 +21,7 @@ import {
 import { getCurrentUser } from "~/currentUser/db.server";
 import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
 import { FosterFamilyAvatar } from "~/fosterFamilies/avatar";
-import { searchFosterFamilies } from "~/fosterFamilies/db.server";
+import { fuzzySearchFosterFamilies } from "~/fosterFamilies/db.server";
 import { getShortLocation } from "~/fosterFamilies/location";
 import { FosterFamilySearchParams } from "~/fosterFamilies/searchParams";
 import { Icon } from "~/generated/icon";
@@ -40,7 +40,11 @@ export async function loader({ request }: LoaderArgs) {
     new URL(request.url).searchParams
   );
 
-  return json({ fosterFamilies: await searchFosterFamilies(searchParams) });
+  return json({
+    fosterFamilies: await fuzzySearchFosterFamilies({
+      displayName: searchParams.getDisplayName(),
+    }),
+  });
 }
 
 const RESOURCE_PATHNAME = "/resources/foster-family";
@@ -117,7 +121,7 @@ export const FosterFamilyInput = forwardRef<
                 createPath({
                   pathname: RESOURCE_PATHNAME,
                   search: new FosterFamilySearchParams()
-                    .setText(value)
+                    .setDisplayName(value)
                     .toString(),
                 })
               );

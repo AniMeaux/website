@@ -162,14 +162,14 @@ export default function LoginPage() {
                   }
                 />
 
-                {fieldErrors.email != null && (
+                {fieldErrors.email != null ? (
                   <p
                     id="email-error"
                     className={formClassNames.fields.field.errorMessage()}
                   >
                     {fieldErrors.email}
                   </p>
-                )}
+                ) : null}
               </div>
 
               <div className={formClassNames.fields.field.root()}>
@@ -194,14 +194,14 @@ export default function LoginPage() {
                   }
                 />
 
-                {fieldErrors.password != null && (
+                {fieldErrors.password != null ? (
                   <p
                     id="password-error"
                     className={formClassNames.fields.field.errorMessage()}
                   >
                     {fieldErrors.password}
                   </p>
-                )}
+                ) : null}
               </div>
             </div>
 

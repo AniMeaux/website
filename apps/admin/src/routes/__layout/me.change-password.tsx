@@ -112,14 +112,14 @@ export default function EditCurrentUserPasswordPage() {
                   }
                 />
 
-                {fieldErrors.password != null && (
+                {fieldErrors.password != null ? (
                   <p
                     id="password-error"
                     className={formClassNames.fields.field.errorMessage()}
                   >
                     {fieldErrors.password}
                   </p>
-                )}
+                ) : null}
               </div>
             </div>
 

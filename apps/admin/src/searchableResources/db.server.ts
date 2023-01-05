@@ -17,7 +17,6 @@ import {
   SearchableResourceHit,
   SearchableUserHit,
 } from "~/searchableResources/algolia.server";
-import { SearchableResourceSearchParams } from "~/searchableResources/searchParams";
 import { SearchableResourceType } from "~/searchableResources/type";
 
 const SEARCH_COUNT = 6;
@@ -42,22 +41,20 @@ type SearchableResource =
   | SearchableFosterFamily
   | SearchableUser;
 
-export async function searchResources(
-  searchParams: SearchableResourceSearchParams,
-  fallbackTypes: SearchableResourceType[]
-) {
-  const text = searchParams.getText();
+export async function fuzzySearchResources({
+  text,
+  types,
+}: {
+  text: null | string;
+  types: SearchableResourceType[];
+}) {
   if (text == null) {
     return [];
   }
 
-  if (fallbackTypes.length === Object.values(SearchableResourceType).length) {
-    fallbackTypes = [];
-  }
-
   const hits = await algolia.searchableResource.search(
     text,
-    { type: searchParams.getType() ?? fallbackTypes },
+    { type: types },
     { hitsPerPage: SEARCH_COUNT }
   );
 

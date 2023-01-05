@@ -192,7 +192,7 @@ function ManagerCard() {
       <CardHeader>
         <CardTitle>À votre charge</CardTitle>
 
-        {isManager && (
+        {isManager ? (
           <BaseLink
             to={{
               pathname: "/animals",
@@ -205,7 +205,7 @@ function ManagerCard() {
           >
             Tout voir
           </BaseLink>
-        )}
+        ) : null}
       </CardHeader>
 
       <CardContent hasHorizontalScroll={managedAnimals.length > 0}>

@@ -6,7 +6,7 @@ import { useCombobox } from "downshift";
 import { createPath } from "history";
 import { forwardRef, useEffect, useRef, useState } from "react";
 import invariant from "tiny-invariant";
-import { searchBreeds } from "~/breeds/db.server";
+import { fuzzySearchBreeds } from "~/breeds/db.server";
 import { BreedSearchParams } from "~/breeds/searchParams";
 import { asBooleanAttribute } from "~/core/attributes";
 import { cn } from "~/core/classNames";
@@ -36,7 +36,12 @@ export async function loader({ request }: LoaderArgs) {
 
   const searchParams = new BreedSearchParams(new URL(request.url).searchParams);
 
-  return json({ breeds: await searchBreeds(searchParams) });
+  return json({
+    breeds: await fuzzySearchBreeds({
+      name: searchParams.getName(),
+      species: searchParams.getSpecies(),
+    }),
+  });
 }
 
 const RESOURCE_PATHNAME = "/resources/breed";
@@ -119,7 +124,7 @@ export const BreedInput = forwardRef<HTMLButtonElement, BreedInputProps>(
                     pathname: RESOURCE_PATHNAME,
                     search: new BreedSearchParams()
                       .setSpecies(species)
-                      .setText(value)
+                      .setName(value)
                       .toString(),
                   })
                 );

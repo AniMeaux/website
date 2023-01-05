@@ -2,26 +2,24 @@ import { Species } from "@prisma/client";
 import { z } from "zod";
 import { parseOrDefault } from "~/core/schemas";
 
-enum Keys {
-  TEXT = "q",
-  SPECIES = "species",
-}
-
 export class BreedSearchParams extends URLSearchParams {
-  static readonly Keys = Keys;
+  static readonly Keys = {
+    NAME: "q",
+    SPECIES: "species",
+  };
 
-  getText() {
-    return this.get(Keys.TEXT)?.trim() || null;
+  getName() {
+    return this.get(BreedSearchParams.Keys.NAME)?.trim() || null;
   }
 
-  setText(text: string) {
+  setName(name: string) {
     const copy = new BreedSearchParams(this);
 
-    text = text.trim();
-    if (text !== "") {
-      copy.set(Keys.TEXT, text);
-    } else if (copy.has(Keys.TEXT)) {
-      copy.delete(Keys.TEXT);
+    name = name.trim();
+    if (name !== "") {
+      copy.set(BreedSearchParams.Keys.NAME, name);
+    } else if (copy.has(BreedSearchParams.Keys.NAME)) {
+      copy.delete(BreedSearchParams.Keys.NAME);
     }
 
     return copy;
@@ -29,18 +27,18 @@ export class BreedSearchParams extends URLSearchParams {
 
   getSpecies() {
     return parseOrDefault(
-      z.nativeEnum(Species).nullable().optional().default(null),
-      this.get(Keys.SPECIES)
+      z.nativeEnum(Species).optional().nullable().default(null),
+      this.get(BreedSearchParams.Keys.SPECIES)
     );
   }
 
-  setSpecies(species: Species | null) {
+  setSpecies(species: null | Species) {
     const copy = new BreedSearchParams(this);
 
     if (species != null) {
-      copy.set(Keys.SPECIES, species);
-    } else if (copy.has(Keys.SPECIES)) {
-      copy.delete(Keys.SPECIES);
+      copy.set(BreedSearchParams.Keys.SPECIES, species);
+    } else if (copy.has(BreedSearchParams.Keys.SPECIES)) {
+      copy.delete(BreedSearchParams.Keys.SPECIES);
     }
 
     return copy;

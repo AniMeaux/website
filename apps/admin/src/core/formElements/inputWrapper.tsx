@@ -29,15 +29,17 @@ export function InputWrapper({
     >
       {children}
 
-      {leftAdornments.length > 0 &&
-        createElement(AdornmentContainer, { side: "left" }, ...leftAdornments)}
+      {leftAdornments.length > 0
+        ? createElement(AdornmentContainer, { side: "left" }, ...leftAdornments)
+        : null}
 
-      {rightAdornments.length > 0 &&
-        createElement(
-          AdornmentContainer,
-          { side: "right" },
-          ...rightAdornments
-        )}
+      {rightAdornments.length > 0
+        ? createElement(
+            AdornmentContainer,
+            { side: "right" },
+            ...rightAdornments
+          )
+        : null}
     </span>
   );
 }

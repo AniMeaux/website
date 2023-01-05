@@ -37,9 +37,15 @@ export async function loader({ request }: LoaderArgs) {
 
   const searchParams = new UserSearchParams(new URL(request.url).searchParams)
     .setIsDisabled(false)
-    .setGroup(UserGroup.ANIMAL_MANAGER);
+    .setGroups([UserGroup.ANIMAL_MANAGER]);
 
-  return json({ managers: await searchUsers(searchParams) });
+  return json({
+    managers: await searchUsers({
+      displayName: searchParams.getDisplayName(),
+      groups: searchParams.getGroups(),
+      isDisabled: searchParams.getIsDisabled(),
+    }),
+  });
 }
 
 const RESOURCE_PATHNAME = "/resources/manager";
@@ -112,7 +118,9 @@ export const ManagerInput = forwardRef<HTMLButtonElement, ManagerInputProps>(
                 fetcher.load(
                   createPath({
                     pathname: RESOURCE_PATHNAME,
-                    search: new UserSearchParams().setText(value).toString(),
+                    search: new UserSearchParams()
+                      .setDisplayName(value)
+                      .toString(),
                   })
                 );
               }}

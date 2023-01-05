@@ -187,14 +187,14 @@ export function AnimalSituationForm({
                 }
               />
 
-              {errors.fieldErrors.adoptionDate != null && (
+              {errors.fieldErrors.adoptionDate != null ? (
                 <p
                   id="adoptionDate-error"
                   className={formClassNames.fields.field.errorMessage()}
                 >
                   {errors.fieldErrors.adoptionDate}
                 </p>
-              )}
+              ) : null}
             </div>
 
             <div className={formClassNames.fields.field.root()}>
@@ -245,14 +245,14 @@ export function AnimalSituationForm({
             aria-describedby="managerId-error"
           />
 
-          {errors.fieldErrors.managerId != null && (
+          {errors.fieldErrors.managerId != null ? (
             <p
               id="managerId-error"
               className={formClassNames.fields.field.errorMessage()}
             >
               {errors.fieldErrors.managerId}
             </p>
-          )}
+          ) : null}
         </div>
 
         <Separator />
@@ -285,14 +285,14 @@ export function AnimalSituationForm({
               }
             />
 
-            {errors.fieldErrors.pickUpDate != null && (
+            {errors.fieldErrors.pickUpDate != null ? (
               <p
                 id="pickUpDate-error"
                 className={formClassNames.fields.field.errorMessage()}
               >
                 {errors.fieldErrors.pickUpDate}
               </p>
-            )}
+            ) : null}
           </div>
 
           <div className={formClassNames.fields.field.root()}>
@@ -311,14 +311,14 @@ export function AnimalSituationForm({
               aria-describedby="pickUpLocation-error"
             />
 
-            {errors.fieldErrors.pickUpLocation != null && (
+            {errors.fieldErrors.pickUpLocation != null ? (
               <p
                 id="pickUpLocation-error"
                 className={formClassNames.fields.field.errorMessage()}
               >
                 {errors.fieldErrors.pickUpLocation}
               </p>
-            )}
+            ) : null}
           </div>
         </div>
 
