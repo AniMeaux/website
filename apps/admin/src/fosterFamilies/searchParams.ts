@@ -1,22 +1,20 @@
-enum Keys {
-  TEXT = "q",
-}
-
 export class FosterFamilySearchParams extends URLSearchParams {
-  static readonly Keys = Keys;
+  static readonly Keys = {
+    NAME: "q",
+  };
 
-  getText() {
-    return this.get(Keys.TEXT)?.trim() || null;
+  getName() {
+    return this.get(FosterFamilySearchParams.Keys.NAME)?.trim() || null;
   }
 
-  setText(text: string) {
+  setName(name: string) {
     const copy = new FosterFamilySearchParams(this);
 
-    text = text.trim();
-    if (text !== "") {
-      copy.set(Keys.TEXT, text);
-    } else if (copy.has(Keys.TEXT)) {
-      copy.delete(Keys.TEXT);
+    name = name.trim();
+    if (name !== "") {
+      copy.set(FosterFamilySearchParams.Keys.NAME, name);
+    } else if (copy.has(FosterFamilySearchParams.Keys.NAME)) {
+      copy.delete(FosterFamilySearchParams.Keys.NAME);
     }
 
     return copy;

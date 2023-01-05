@@ -1,17 +1,12 @@
 import invariant from "tiny-invariant";
 import { algolia } from "~/core/algolia/algolia.server";
 import { prisma } from "~/core/db.server";
-import { FosterFamilySearchParams } from "~/fosterFamilies/searchParams";
 
 const SEARCH_COUNT = 6;
 
-export async function searchFosterFamilies(
-  searchParams: FosterFamilySearchParams
-) {
-  const text = searchParams.getText();
-
+export async function fuzzySearchFosterFamilies(name?: null | string) {
   // Don't use Algolia when there are no text search.
-  if (text == null) {
+  if (name == null) {
     const fosterFamilies = await prisma.fosterFamily.findMany({
       select: { id: true, displayName: true, city: true, zipCode: true },
       orderBy: { displayName: "asc" },
@@ -24,7 +19,7 @@ export async function searchFosterFamilies(
     }));
   }
 
-  const hits = await algolia.fosterFamily.search(text, {
+  const hits = await algolia.fosterFamily.search(name, {
     hitsPerPage: SEARCH_COUNT,
   });
 
