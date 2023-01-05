@@ -176,13 +176,13 @@ const ALL_NAVIGATION_ITEMS: NavigationItem[] = [
       UserGroup.VOLUNTEER,
     ],
   },
+  {
+    to: "/foster-families",
+    icon: "house",
+    label: "Familles d’accueil",
+    authorizedGroups: [UserGroup.ADMIN, UserGroup.ANIMAL_MANAGER],
+  },
   // Uncomment when pages are implemented.
-  // {
-  //   to: "/foster-families",
-  //   icon: "house",
-  //   label: "FA",
-  //   authorizedGroups: [UserGroup.ADMIN, UserGroup.ANIMAL_MANAGER],
-  // },
   // {
   //   to: "/events",
   //   icon: "calendarDays",
