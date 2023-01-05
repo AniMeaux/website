@@ -20,7 +20,7 @@
   },
   "dependencies": {
     "@animeaux/shared": "*",
-    "@prisma/client": "^3.11.1",
+    "@prisma/client": "^4.8.0",
     "@remix-run/node": "^1.7.5",
     "@remix-run/react": "^1.7.5",
     "@remix-run/serve": "^1.7.5",

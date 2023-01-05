@@ -9,7 +9,7 @@ import {
   UserGroup,
 } from "@prisma/client";
 import { SerializeFrom } from "@remix-run/node";
-import { Form } from "@remix-run/react";
+import { Form, useLocation } from "@remix-run/react";
 import { DateTime } from "luxon";
 import { useEffect, useRef, useState } from "react";
 import { z } from "zod";
@@ -110,6 +110,7 @@ export function AnimalSituationForm({
   const pickUpLocationRef = useRef<HTMLButtonElement>(null);
   const adoptionDateRef = useRef<HTMLInputElement>(null);
   const pickUpDateRef = useRef<HTMLInputElement>(null);
+  const commentsRef = useRef<HTMLTextAreaElement>(null);
 
   // Focus the first field having an error.
   useEffect(() => {
@@ -125,6 +126,13 @@ export function AnimalSituationForm({
       pickUpLocationRef.current?.focus();
     }
   }, [errors.formErrors, errors.fieldErrors]);
+
+  const { hash } = useLocation();
+  useEffect(() => {
+    if (hash === `#${ActionFormData.keys.comments}`) {
+      commentsRef.current?.focus();
+    }
+  }, [hash]);
 
   return (
     <Form
@@ -373,6 +381,7 @@ export function AnimalSituationForm({
           </label>
 
           <Textarea
+            ref={commentsRef}
             id={ActionFormData.keys.comments}
             name={ActionFormData.keys.comments}
             defaultValue={defaultAnimal?.comments}

@@ -1,20 +1,10 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
-}
-
-generator client {
-  provider        = "prisma-client-js"
-  previewFeatures = ["interactiveTransactions"]
-}
-
-enum UserGroup {
-  ADMIN
-  ANIMAL_MANAGER
-  BLOGGER
-  HEAD_OF_PARTNERSHIPS
-  VETERINARIAN
-  VOLUNTEER
 }
 
 model User {
@@ -24,21 +14,21 @@ model User {
   updatedAt      DateTime  @updatedAt
   lastActivityAt DateTime?
 
-  email                String      @unique @db.VarChar(255)
   displayName          String      @db.VarChar(255)
+  email                String      @unique @db.VarChar(255)
   groups               UserGroup[]
   isDisabled           Boolean     @default(false)
-  password             Password?
   shouldChangePassword Boolean     @default(true)
 
-  managedAnimals      Animal[]
   draft               AnimalDraft?  @relation("Draft_ownerToUser")
   draftManagedAnimals AnimalDraft[] @relation("Draft_managerToUser")
+  managedAnimals      Animal[]
+  password            Password?
 }
 
 model Password {
   hash   String
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String @unique
 }
 
@@ -47,23 +37,16 @@ model FosterFamily {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  email       String @unique @db.VarChar(255)
   displayName String @db.VarChar(255)
+  email       String @unique @db.VarChar(255)
   phone       String @db.VarChar(255)
-  zipCode     String @db.VarChar(255)
-  city        String @db.VarChar(255)
-  address     String @db.VarChar(255)
 
-  fosterAnimals      Animal[]
+  address String @db.VarChar(255)
+  city    String @db.VarChar(255)
+  zipCode String @db.VarChar(255)
+
   draftFosterAnimals AnimalDraft[]
-}
-
-enum Species {
-  BIRD
-  CAT
-  DOG
-  REPTILE
-  RODENT
+  fosterAnimals      Animal[]
 }
 
 model Breed {
@@ -92,6 +75,115 @@ model Color {
   draftAnimals AnimalDraft[]
 }
 
+model Animal {
+  id        String   @id @default(uuid()) @db.VarChar(255)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  adoptionDate   DateTime?
+  adoptionOption AdoptionOption?
+  alias          String?         @db.VarChar(255)
+  avatar         String
+  birthdate      DateTime
+  breed          Breed?          @relation(fields: [breedId], references: [id], onDelete: Restrict)
+  breedId        String?
+  color          Color?          @relation(fields: [colorId], references: [id], onDelete: Restrict)
+  colorId        String?
+  comments       String?
+  description    String?
+  fosterFamily   FosterFamily?   @relation(fields: [fosterFamilyId], references: [id], onDelete: Restrict)
+  fosterFamilyId String?
+  gender         Gender
+  iCadNumber     String?
+  isOkCats       Boolean?
+  isOkChildren   Boolean?
+  isOkDogs       Boolean?
+  isSterilized   Boolean
+  manager        User?           @relation(fields: [managerId], references: [id], onDelete: Restrict)
+  managerId      String?
+  name           String          @db.VarChar(255)
+  pickUpDate     DateTime
+  pickUpLocation String?
+  pickUpReason   PickUpReason    @default(OTHER)
+  pictures       String[]
+  species        Species
+  status         Status
+
+  @@index([species])
+  @@index([status])
+  @@index([managerId])
+  @@index([status, species])
+  @@index([status, managerId])
+}
+
+model AnimalDraft {
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  adoptionDate   DateTime?
+  adoptionOption AdoptionOption?
+  alias          String?         @db.VarChar(255)
+  birthdate      DateTime?
+  breed          Breed?          @relation(fields: [breedId], references: [id])
+  breedId        String?
+  color          Color?          @relation(fields: [colorId], references: [id])
+  colorId        String?
+  comments       String?
+  description    String?
+  fosterFamily   FosterFamily?   @relation(fields: [fosterFamilyId], references: [id])
+  fosterFamilyId String?
+  gender         Gender?
+  iCadNumber     String?
+  isOkCats       Boolean?
+  isOkChildren   Boolean?
+  isOkDogs       Boolean?
+  isSterilized   Boolean?
+  manager        User?           @relation("Draft_managerToUser", fields: [managerId], references: [id])
+  managerId      String?
+  name           String?         @db.VarChar(255)
+  owner          User            @relation("Draft_ownerToUser", fields: [ownerId], references: [id], onDelete: Cascade)
+  ownerId        String          @unique
+  pickUpDate     DateTime?
+  pickUpLocation String?
+  pickUpReason   PickUpReason?
+  species        Species?
+  status         Status?
+}
+
+model Event {
+  id        String   @id @default(uuid()) @db.VarChar(255)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  category    EventCategory
+  description String
+  endDate     DateTime
+  image       String?
+  isFullDay   Boolean       @default(false)
+  isVisible   Boolean       @default(false)
+  location    String
+  startDate   DateTime
+  title       String        @db.VarChar(255)
+  url         String?
+}
+
+enum UserGroup {
+  ADMIN
+  ANIMAL_MANAGER
+  BLOGGER
+  HEAD_OF_PARTNERSHIPS
+  VETERINARIAN
+  VOLUNTEER
+}
+
+enum Species {
+  BIRD
+  CAT
+  DOG
+  REPTILE
+  RODENT
+}
+
 enum Gender {
   FEMALE
   MALE
@@ -112,8 +204,8 @@ enum Status {
   OPEN_TO_ADOPTION
   OPEN_TO_RESERVATION
   RESERVED
-  RETIRED
   UNAVAILABLE
+  RETIRED
 }
 
 enum AdoptionOption {
@@ -129,103 +221,11 @@ enum AnimalAge {
   SENIOR
 }
 
-model Animal {
-  id        String   @id @default(uuid()) @db.VarChar(255)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  name           String          @db.VarChar(255)
-  alias          String?         @db.VarChar(255)
-  birthdate      DateTime
-  gender         Gender
-  species        Species
-  breed          Breed?          @relation(fields: [breedId], references: [id], onDelete: Restrict, onUpdate: Cascade)
-  breedId        String?
-  color          Color?          @relation(fields: [colorId], references: [id], onDelete: Restrict, onUpdate: Cascade)
-  colorId        String?
-  description    String?
-  avatar         String
-  pictures       String[]
-  pickUpDate     DateTime
-  pickUpLocation String?
-  pickUpReason   PickUpReason    @default(OTHER)
-  status         Status
-  adoptionDate   DateTime?
-  adoptionOption AdoptionOption?
-  manager        User?           @relation(fields: [managerId], references: [id], onDelete: Restrict, onUpdate: Cascade)
-  managerId      String?
-  fosterFamily   FosterFamily?   @relation(fields: [fosterFamilyId], references: [id], onDelete: Restrict, onUpdate: Cascade)
-  fosterFamilyId String?
-  iCadNumber     String?
-  comments       String?
-  isOkChildren   Boolean?
-  isOkDogs       Boolean?
-  isOkCats       Boolean?
-  isSterilized   Boolean
-
-  @@index([species])
-  @@index([status])
-  @@index([managerId])
-  @@index([status, species])
-  @@index([status, managerId])
-}
-
-model AnimalDraft {
-  owner     User     @relation("Draft_ownerToUser", fields: [ownerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  ownerId   String   @unique
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  name           String?         @db.VarChar(255)
-  alias          String?         @db.VarChar(255)
-  birthdate      DateTime?
-  gender         Gender?
-  species        Species?
-  breed          Breed?          @relation(fields: [breedId], references: [id], onDelete: SetNull, onUpdate: Cascade)
-  breedId        String?
-  color          Color?          @relation(fields: [colorId], references: [id], onDelete: SetNull, onUpdate: Cascade)
-  colorId        String?
-  description    String?
-  pickUpDate     DateTime?
-  pickUpLocation String?
-  pickUpReason   PickUpReason?
-  status         Status?
-  adoptionDate   DateTime?
-  adoptionOption AdoptionOption?
-  manager        User?           @relation("Draft_managerToUser", fields: [managerId], references: [id], onDelete: SetNull, onUpdate: Cascade)
-  managerId      String?
-  fosterFamily   FosterFamily?   @relation(fields: [fosterFamilyId], references: [id], onDelete: SetNull, onUpdate: Cascade)
-  fosterFamilyId String?
-  iCadNumber     String?
-  comments       String?
-  isOkChildren   Boolean?
-  isOkDogs       Boolean?
-  isOkCats       Boolean?
-  isSterilized   Boolean?
-}
-
 enum EventCategory {
+  ATHLETIC
+  BIRTHDAY
   COLLECTION
-  SHOW
   FORUM
   SENSITIZATION
-  BIRTHDAY
-  ATHLETIC
-}
-
-model Event {
-  id        String   @id @default(uuid()) @db.VarChar(255)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  title       String        @db.VarChar(255)
-  url         String?
-  description String
-  image       String?
-  startDate   DateTime
-  endDate     DateTime
-  isFullDay   Boolean       @default(false)
-  location    String
-  category    EventCategory
-  isVisible   Boolean       @default(false)
+  SHOW
 }

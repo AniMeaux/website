@@ -46,6 +46,11 @@ export async function loader({ request }: LoaderArgs) {
     UserGroup.VOLUNTEER,
   ]);
 
+  const showFosterFamilies = hasGroups(currentUser, [
+    UserGroup.ADMIN,
+    UserGroup.ANIMAL_MANAGER,
+  ]);
+
   const searchParams = new URL(request.url).searchParams;
   const pageSearchParams = new PageSearchParams(searchParams);
   const animalSearchParams = new AnimalSearchParams(searchParams);
@@ -89,6 +94,13 @@ export async function loader({ request }: LoaderArgs) {
     where.push({ managerId: { in: managersId } });
   }
 
+  if (showFosterFamilies) {
+    const fosterFamiliesId = animalSearchParams.getFosterFamiliesId();
+    if (fosterFamiliesId.length > 0) {
+      where.push({ fosterFamilyId: { in: fosterFamiliesId } });
+    }
+  }
+
   const minPickUpDate = animalSearchParams.getMinPickUpDate();
   const maxPickUpDate = animalSearchParams.getMaxPickUpDate();
   if (minPickUpDate != null || maxPickUpDate != null) {
@@ -121,42 +133,64 @@ export async function loader({ request }: LoaderArgs) {
     where.push({ id: { in: animals.map((animal) => animal.id) } });
   }
 
-  const [managers, possiblePickUpLocations, totalCount, animals] =
-    await Promise.all([
-      prisma.user.findMany({
-        where: {
-          isDisabled: false,
-          groups: { has: UserGroup.ANIMAL_MANAGER },
-        },
-        select: { id: true, displayName: true },
-        orderBy: { displayName: "asc" },
-      }),
-      prisma.animal.groupBy({
-        by: ["pickUpLocation"],
-        where: { pickUpLocation: { not: null } },
-        _count: { pickUpLocation: true },
-        orderBy: { pickUpLocation: "asc" },
-      }),
-      prisma.animal.count({ where: { AND: where } }),
-      prisma.animal.findMany({
-        skip: pageSearchParams.getPage() * ANIMAL_COUNT_PER_PAGE,
-        take: ANIMAL_COUNT_PER_PAGE,
-        orderBy:
-          animalSearchParams.getSort() === AnimalSearchParams.Sort.NAME
-            ? { name: "asc" }
-            : { pickUpDate: "desc" },
-        where: { AND: where },
-        select: {
-          id: true,
-          avatar: true,
-          name: true,
-          alias: true,
-          gender: true,
-          status: true,
-          manager: { select: { displayName: true } },
-        },
-      }),
-    ]);
+  const [
+    managers,
+    fosterFamilies,
+    possiblePickUpLocations,
+    totalCount,
+    animals,
+  ] = await Promise.all([
+    prisma.user.findMany({
+      where: {
+        isDisabled: false,
+        groups: { has: UserGroup.ANIMAL_MANAGER },
+      },
+      select: { id: true, displayName: true },
+      orderBy: { displayName: "asc" },
+    }),
+
+    showFosterFamilies
+      ? prisma.fosterFamily.findMany({
+          where: {
+            fosterAnimals: {
+              // There is at least one foster animal.
+              // https://www.prisma.io/docs/reference/api-reference/prisma-client-reference#some
+              some: {},
+            },
+          },
+          select: { id: true, displayName: true },
+          orderBy: { displayName: "asc" },
+        })
+      : Promise.resolve([]),
+
+    prisma.animal.groupBy({
+      by: ["pickUpLocation"],
+      where: { pickUpLocation: { not: null } },
+      _count: { pickUpLocation: true },
+      orderBy: { pickUpLocation: "asc" },
+    }),
+
+    prisma.animal.count({ where: { AND: where } }),
+
+    prisma.animal.findMany({
+      skip: pageSearchParams.getPage() * ANIMAL_COUNT_PER_PAGE,
+      take: ANIMAL_COUNT_PER_PAGE,
+      orderBy:
+        animalSearchParams.getSort() === AnimalSearchParams.Sort.NAME
+          ? { name: "asc" }
+          : { pickUpDate: "desc" },
+      where: { AND: where },
+      select: {
+        id: true,
+        avatar: true,
+        name: true,
+        alias: true,
+        gender: true,
+        status: true,
+        manager: { select: { displayName: true } },
+      },
+    }),
+  ]);
 
   const pageCount = Math.ceil(totalCount / ANIMAL_COUNT_PER_PAGE);
 
@@ -170,6 +204,7 @@ export async function loader({ request }: LoaderArgs) {
     pageCount,
     animals,
     managers,
+    fosterFamilies,
     possiblePickUpLocations: possiblePickUpLocations.map((location) => {
       invariant(
         location.pickUpLocation != null,
@@ -340,13 +375,14 @@ function SortAndFiltersFloatingAction({
 }
 
 function SortAndFilters() {
-  const { currentUser, managers, possiblePickUpLocations } =
+  const { currentUser, managers, fosterFamilies, possiblePickUpLocations } =
     useLoaderData<typeof loader>();
 
   return (
     <AnimalFilters
       currentUser={currentUser}
       managers={managers}
+      fosterFamilies={fosterFamilies}
       possiblePickUpLocations={possiblePickUpLocations}
     />
   );
