@@ -103,7 +103,7 @@ function CurrentUserTabBar({
         <TabBarItem key={item.icon} icon={item.icon} to={item.to} />
       ))}
 
-      {menuNavigationItems.length > 0 && (
+      {menuNavigationItems.length > 0 ? (
         <TabBarMenu icon="ellipsis">
           {menuNavigationItems.map((item) => (
             <TabBarMenuItem
@@ -114,7 +114,7 @@ function CurrentUserTabBar({
             />
           ))}
         </TabBarMenu>
-      )}
+      ) : null}
     </TabBar>
   );
 }

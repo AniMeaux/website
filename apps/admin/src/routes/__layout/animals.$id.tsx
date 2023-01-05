@@ -195,11 +195,11 @@ export default function AnimalProfilePage() {
           <DescriptionCard />
         </main>
 
-        {canEdit && (
+        {canEdit ? (
           <aside className="flex flex-col">
             <ActionCard />
           </aside>
-        )}
+        ) : null}
       </section>
 
       <section className="hidden md:grid md:grid-cols-[minmax(0px,2fr)_minmax(250px,1fr)] md:items-start md:gap-2">
@@ -212,7 +212,7 @@ export default function AnimalProfilePage() {
         <aside className="md:flex-col md:gap-2 md:flex">
           <SituationCard />
           <CommentsCard />
-          {canEdit && <ActionCard />}
+          {canEdit ? <ActionCard /> : null}
         </aside>
       </section>
     </section>
@@ -270,14 +270,14 @@ function HeaderCard() {
             </p>
           </div>
 
-          {canEdit && (
+          {canEdit ? (
             <BaseLink
               to="./edit-profile"
               className={actionClassName.standalone({ variant: "text" })}
             >
               Modifier
             </BaseLink>
-          )}
+          ) : null}
         </div>
       </CardContent>
     </Card>
@@ -292,14 +292,14 @@ function ProfileCard() {
       <CardHeader>
         <CardTitle>Profile</CardTitle>
 
-        {canEdit && (
+        {canEdit ? (
           <BaseLink
             to="./edit-profile"
             className={actionClassName.standalone({ variant: "text" })}
           >
             Modifier
           </BaseLink>
-        )}
+        ) : null}
       </CardHeader>
 
       <CardContent>
@@ -323,11 +323,11 @@ function ProfileCard() {
             </strong>
           </Item>
 
-          {animal.iCadNumber != null && (
+          {animal.iCadNumber != null ? (
             <Item icon={<Icon id="fingerprint" />}>
               I-CAD : {animal.iCadNumber}
             </Item>
-          )}
+          ) : null}
         </ul>
 
         <ul className="grid grid-cols-3 gap-1">
@@ -348,59 +348,58 @@ function SituationCard() {
       <CardHeader>
         <CardTitle>Situation</CardTitle>
 
-        {canEdit && (
+        {canEdit ? (
           <BaseLink
             to="./edit-situation"
             className={actionClassName.standalone({ variant: "text" })}
           >
             Modifier
           </BaseLink>
-        )}
+        ) : null}
       </CardHeader>
 
       <CardContent>
         <ul className="flex flex-col">
-          {animal.manager != null && (
+          {animal.manager != null ? (
             <Item icon={<UserAvatar user={animal.manager} />}>
               Est géré par{" "}
               <strong className="text-body-emphasis">
                 {animal.manager.displayName}
               </strong>
             </Item>
-          )}
+          ) : null}
 
           <Item icon={<StatusIcon status={animal.status} />}>
             Est{" "}
             <strong className="text-body-emphasis">
               {STATUS_TRANSLATION[animal.status]}
             </strong>
+            {animal.status === Status.ADOPTED && animal.adoptionDate != null ? (
+              <>
+                {" "}
+                depuis le{" "}
+                <strong className="text-body-emphasis">
+                  {DateTime.fromISO(animal.adoptionDate).toLocaleString(
+                    DateTime.DATE_FULL
+                  )}
+                </strong>
+              </>
+            ) : null}
             {animal.status === Status.ADOPTED &&
-              animal.adoptionDate != null && (
-                <>
-                  {" "}
-                  depuis le{" "}
-                  <strong className="text-body-emphasis">
-                    {DateTime.fromISO(animal.adoptionDate).toLocaleString(
-                      DateTime.DATE_FULL
-                    )}
-                  </strong>
-                </>
-              )}
-            {animal.status === Status.ADOPTED &&
-              animal.adoptionOption != null &&
-              animal.adoptionOption !== AdoptionOption.UNKNOWN && (
-                <>
-                  {" "}
-                  (
-                  {ADOPTION_OPTION_TRANSLATION[
-                    animal.adoptionOption
-                  ].toLowerCase()}
-                  )
-                </>
-              )}
+            animal.adoptionOption != null &&
+            animal.adoptionOption !== AdoptionOption.UNKNOWN ? (
+              <>
+                {" "}
+                (
+                {ADOPTION_OPTION_TRANSLATION[
+                  animal.adoptionOption
+                ].toLowerCase()}
+                )
+              </>
+            ) : null}
           </Item>
 
-          {animal.fosterFamily != null && (
+          {animal.fosterFamily != null ? (
             <Item
               icon={<FosterFamilyAvatar fosterFamily={animal.fosterFamily} />}
             >
@@ -409,7 +408,7 @@ function SituationCard() {
                 {animal.fosterFamily.displayName}
               </strong>
             </Item>
-          )}
+          ) : null}
 
           <Item icon={<Icon id="handHoldingHeart" />}>
             {animal.gender === Gender.FEMALE
@@ -420,14 +419,14 @@ function SituationCard() {
                 DateTime.DATE_FULL
               )}
             </strong>
-            {animal.pickUpLocation != null && (
+            {animal.pickUpLocation != null ? (
               <>
                 <br />à{" "}
                 <strong className="text-body-emphasis">
                   {animal.pickUpLocation}
                 </strong>
               </>
-            )}
+            ) : null}
             <br />
             suite à{" "}
             <strong className="text-body-emphasis">
@@ -452,7 +451,7 @@ function CommentsCard() {
       <CardHeader>
         <CardTitle>Commentaires privés</CardTitle>
 
-        {canEdit && (
+        {canEdit ? (
           <BaseLink
             to={{
               pathname: "./edit-situation",
@@ -462,7 +461,7 @@ function CommentsCard() {
           >
             Modifier
           </BaseLink>
-        )}
+        ) : null}
       </CardHeader>
 
       <CardContent>
@@ -568,14 +567,14 @@ function DescriptionCard() {
       <CardHeader>
         <CardTitle>Description</CardTitle>
 
-        {canEdit && animal.description != null && (
+        {canEdit && animal.description != null ? (
           <BaseLink
             to={editLink}
             className={actionClassName.standalone({ variant: "text" })}
           >
             Modifier
           </BaseLink>
-        )}
+        ) : null}
       </CardHeader>
 
       <CardContent>
@@ -621,14 +620,14 @@ function PicturesCard() {
       <CardHeader>
         <CardTitle>Photos</CardTitle>
 
-        {canEdit && (
+        {canEdit ? (
           <BaseLink
             to="./edit-pictures"
             className={actionClassName.standalone({ variant: "text" })}
           >
             Modifier
           </BaseLink>
-        )}
+        ) : null}
       </CardHeader>
 
       <CardContent>

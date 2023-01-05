@@ -75,11 +75,11 @@ export function Filter({
           {label}
         </span>
 
-        {count > 0 && (
+        {count > 0 ? (
           <span className="h-4 flex items-center">
             <Chip>{count}</Chip>
           </span>
-        )}
+        ) : null}
 
         <span
           className={cn(
@@ -93,7 +93,7 @@ export function Filter({
         </span>
       </button>
 
-      {!isOpened && <div aria-hidden>{hiddenContent}</div>}
+      {!isOpened ? <div aria-hidden>{hiddenContent}</div> : null}
 
       <div
         aria-controls={`filter-${value}-content`}

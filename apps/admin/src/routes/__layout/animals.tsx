@@ -284,11 +284,11 @@ export default function AnimalsPage() {
               )}
             </CardContent>
 
-            {pageCount > 1 && (
+            {pageCount > 1 ? (
               <CardFooter>
                 <Paginator pageCount={pageCount} />
               </CardFooter>
-            )}
+            ) : null}
           </Card>
         </main>
 

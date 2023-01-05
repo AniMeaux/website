@@ -141,7 +141,7 @@ export function AnimalFilters({
             name={AnimalSearchParams.Keys.NAME_OR_ALIAS}
             value={visibleFilters.nameOrAlias ?? ""}
             rightAdornment={
-              visibleFilters.nameOrAlias != null && (
+              visibleFilters.nameOrAlias != null ? (
                 <ActionAdornment
                   onClick={() =>
                     setSearchParams(animalSearchParams.deleteNameOrAlias())
@@ -149,7 +149,7 @@ export function AnimalFilters({
                 >
                   <Icon id="xMark" />
                 </ActionAdornment>
-              )
+              ) : null
             }
           />
         </Filter>
@@ -373,7 +373,7 @@ export function AnimalFilters({
                   </Adornment>
                 }
                 rightAdornment={
-                  visibleFilters.minPickUpDate != null && (
+                  visibleFilters.minPickUpDate != null ? (
                     <ActionAdornment
                       onClick={() =>
                         setSearchParams(
@@ -383,7 +383,7 @@ export function AnimalFilters({
                     >
                       <Icon id="xMark" />
                     </ActionAdornment>
-                  )
+                  ) : null
                 }
               />
             </div>
@@ -403,7 +403,7 @@ export function AnimalFilters({
                   </Adornment>
                 }
                 rightAdornment={
-                  visibleFilters.maxPickUpDate != null && (
+                  visibleFilters.maxPickUpDate != null ? (
                     <ActionAdornment
                       onClick={() =>
                         setSearchParams(
@@ -413,7 +413,7 @@ export function AnimalFilters({
                     >
                       <Icon id="xMark" />
                     </ActionAdornment>
-                  )
+                  ) : null
                 }
               />
             </div>
@@ -485,7 +485,7 @@ function ActiveFilterLink({ currentUser }: ActiveFilterLinkProps) {
         color: isActive ? "blue" : "gray",
       })}
     >
-      {isActive && <Icon id="check" />}
+      {isActive ? <Icon id="check" /> : null}
       {isCurrentUserManager ? "À votre charge" : "Animaux en charge"}
     </BaseLink>
   );

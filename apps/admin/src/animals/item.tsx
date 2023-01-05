@@ -69,11 +69,11 @@ export function AnimalItem({
           </span>
         </p>
 
-        {animal.manager != null && (
+        {animal.manager != null ? (
           <p className="flex text-caption-default text-gray-500">
             {animal.manager.displayName}
           </p>
-        )}
+        ) : null}
       </div>
     </BaseLink>
   );
