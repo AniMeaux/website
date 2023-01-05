@@ -4,9 +4,13 @@ import { prisma } from "~/core/db.server";
 
 const SEARCH_COUNT = 6;
 
-export async function fuzzySearchFosterFamilies(name?: null | string) {
+export async function fuzzySearchFosterFamilies({
+  displayName,
+}: {
+  displayName: null | string;
+}) {
   // Don't use Algolia when there are no text search.
-  if (name == null) {
+  if (displayName == null) {
     const fosterFamilies = await prisma.fosterFamily.findMany({
       select: { id: true, displayName: true, city: true, zipCode: true },
       orderBy: { displayName: "asc" },
@@ -19,7 +23,7 @@ export async function fuzzySearchFosterFamilies(name?: null | string) {
     }));
   }
 
-  const hits = await algolia.fosterFamily.search(name, {
+  const hits = await algolia.fosterFamily.search(displayName, {
     hitsPerPage: SEARCH_COUNT,
   });
 

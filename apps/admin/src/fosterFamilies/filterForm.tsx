@@ -24,7 +24,7 @@ export function FosterFamilyFilters({
   const fosterFamilySearchParams = new FosterFamilySearchParams(searchParams);
   const visibleFilters = {
     cities: fosterFamilySearchParams.getCities(),
-    name: fosterFamilySearchParams.getName(),
+    displayName: fosterFamilySearchParams.getDisplayName(),
     zipCode: fosterFamilySearchParams.getZipCode(),
   };
 
@@ -48,25 +48,27 @@ export function FosterFamilyFilters({
 
       <Filters>
         <Filter
-          value={FosterFamilySearchParams.Keys.NAME}
+          value={FosterFamilySearchParams.Keys.DISPLAY_NAME}
           label="Nom"
-          count={visibleFilters.name == null ? 0 : 1}
+          count={visibleFilters.displayName == null ? 0 : 1}
           hiddenContent={
             <input
               type="hidden"
-              name={FosterFamilySearchParams.Keys.NAME}
-              value={visibleFilters.name ?? ""}
+              name={FosterFamilySearchParams.Keys.DISPLAY_NAME}
+              value={visibleFilters.displayName ?? ""}
             />
           }
         >
           <ControlledInput
-            name={FosterFamilySearchParams.Keys.NAME}
-            value={visibleFilters.name ?? ""}
+            name={FosterFamilySearchParams.Keys.DISPLAY_NAME}
+            value={visibleFilters.displayName ?? ""}
             rightAdornment={
-              visibleFilters.name != null ? (
+              visibleFilters.displayName != null ? (
                 <ActionAdornment
                   onClick={() =>
-                    setSearchParams(fosterFamilySearchParams.deleteName())
+                    setSearchParams(
+                      fosterFamilySearchParams.deleteDisplayName()
+                    )
                   }
                 >
                   <Icon id="xMark" />

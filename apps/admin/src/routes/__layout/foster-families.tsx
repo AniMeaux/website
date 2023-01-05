@@ -50,9 +50,9 @@ export async function loader({ request }: LoaderArgs) {
     where.push({ city: { in: cities, mode: "insensitive" } });
   }
 
-  const name = fosterFamilySearchParams.getName();
-  if (name != null) {
-    const fosterFamilies = await algolia.fosterFamily.search(name);
+  const displayName = fosterFamilySearchParams.getDisplayName();
+  if (displayName != null) {
+    const fosterFamilies = await algolia.fosterFamily.search(displayName);
     where.push({
       id: { in: fosterFamilies.map((fosterFamily) => fosterFamily.id) },
     });

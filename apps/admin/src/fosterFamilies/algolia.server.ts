@@ -10,8 +10,11 @@ export function createFosterFamilyDelegate(client: SearchClient) {
   return {
     indexName: index.indexName,
 
-    async search(text: string, options: SearchOptions = {}) {
-      const result = await index.search<FosterFamilyFromAlgolia>(text, options);
+    async search(displayName: string, options: SearchOptions = {}) {
+      const result = await index.search<FosterFamilyFromAlgolia>(
+        displayName,
+        options
+      );
 
       return result.hits.map((hit) => ({
         id: hit.objectID,

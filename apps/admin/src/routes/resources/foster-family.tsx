@@ -41,7 +41,9 @@ export async function loader({ request }: LoaderArgs) {
   );
 
   return json({
-    fosterFamilies: await fuzzySearchFosterFamilies(searchParams.getName()),
+    fosterFamilies: await fuzzySearchFosterFamilies({
+      displayName: searchParams.getDisplayName(),
+    }),
   });
 }
 
@@ -119,7 +121,7 @@ export const FosterFamilyInput = forwardRef<
                 createPath({
                   pathname: RESOURCE_PATHNAME,
                   search: new FosterFamilySearchParams()
-                    .setName(value)
+                    .setDisplayName(value)
                     .toString(),
                 })
               );

@@ -5,7 +5,7 @@ import { parseOrDefault } from "~/core/schemas";
 
 export class FosterFamilySearchParams extends URLSearchParams {
   static readonly Keys = {
-    NAME: "q",
+    DISPLAY_NAME: "q",
     ZIP_CODE: "zip",
     CITY: "city",
   };
@@ -16,32 +16,32 @@ export class FosterFamilySearchParams extends URLSearchParams {
 
   areFiltersEqual(other: FosterFamilySearchParams) {
     return (
-      isEqual(this.getName(), other.getName()) &&
+      isEqual(this.getDisplayName(), other.getDisplayName()) &&
       isEqual(this.getZipCode(), other.getZipCode()) &&
       isEqual(orderBy(this.getCities()), orderBy(other.getCities()))
     );
   }
 
-  getName() {
-    return this.get(FosterFamilySearchParams.Keys.NAME)?.trim() || null;
+  getDisplayName() {
+    return this.get(FosterFamilySearchParams.Keys.DISPLAY_NAME)?.trim() || null;
   }
 
-  setName(name: string) {
+  setDisplayName(displayName: string) {
     const copy = new FosterFamilySearchParams(this);
 
-    name = name.trim();
-    if (name !== "") {
-      copy.set(FosterFamilySearchParams.Keys.NAME, name);
-    } else if (copy.has(FosterFamilySearchParams.Keys.NAME)) {
-      copy.delete(FosterFamilySearchParams.Keys.NAME);
+    displayName = displayName.trim();
+    if (displayName !== "") {
+      copy.set(FosterFamilySearchParams.Keys.DISPLAY_NAME, displayName);
+    } else if (copy.has(FosterFamilySearchParams.Keys.DISPLAY_NAME)) {
+      copy.delete(FosterFamilySearchParams.Keys.DISPLAY_NAME);
     }
 
     return copy;
   }
 
-  deleteName() {
+  deleteDisplayName() {
     const copy = new FosterFamilySearchParams(this);
-    copy.delete(FosterFamilySearchParams.Keys.NAME);
+    copy.delete(FosterFamilySearchParams.Keys.DISPLAY_NAME);
     return copy;
   }
 
