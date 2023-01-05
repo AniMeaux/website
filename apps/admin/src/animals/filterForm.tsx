@@ -39,8 +39,8 @@ export function AnimalFilters({
   possiblePickUpLocations,
 }: {
   currentUser: ActiveFilterLinkProps["currentUser"];
-  managers: { displayName: string; id: string }[];
-  fosterFamilies: { displayName: string; id: string }[];
+  managers: Pick<User, "displayName" | "id">[];
+  fosterFamilies: Pick<FosterFamily, "displayName" | "id">[];
   possiblePickUpLocations: string[];
 }) {
   const submit = useSubmit();
@@ -82,7 +82,7 @@ export function AnimalFilters({
 
       <Filters>
         <Filter
-          value="sort"
+          value={AnimalSearchParams.Keys.SORT}
           label="Trier"
           hiddenContent={
             <input
@@ -126,7 +126,7 @@ export function AnimalFilters({
         </Filter>
 
         <Filter
-          value="nameOrAlias"
+          value={AnimalSearchParams.Keys.NAME_OR_ALIAS}
           label="Nom ou alias"
           count={visibleFilters.nameOrAlias == null ? 0 : 1}
           hiddenContent={
@@ -155,7 +155,7 @@ export function AnimalFilters({
         </Filter>
 
         <Filter
-          value="species"
+          value={AnimalSearchParams.Keys.SPECIES}
           label="Espèces"
           count={visibleFilters.species.length}
           hiddenContent={visibleFilters.species.map((species) => (
@@ -187,7 +187,7 @@ export function AnimalFilters({
         </Filter>
 
         <Filter
-          value="ages"
+          value={AnimalSearchParams.Keys.AGE}
           label="Âges"
           count={visibleFilters.ages.length}
           hiddenContent={visibleFilters.ages.map((age) => (
@@ -219,7 +219,7 @@ export function AnimalFilters({
         </Filter>
 
         <Filter
-          value="status"
+          value={AnimalSearchParams.Keys.STATUS}
           label="Status"
           count={visibleFilters.statuses.length}
           hiddenContent={visibleFilters.statuses.map((status) => (
@@ -251,7 +251,7 @@ export function AnimalFilters({
         </Filter>
 
         <Filter
-          value="manager"
+          value={AnimalSearchParams.Keys.MANAGERS_ID}
           label="Responsables"
           count={visibleFilters.managersId.length}
           hiddenContent={visibleFilters.managersId.map((managerId) => (
@@ -284,7 +284,7 @@ export function AnimalFilters({
 
         {fosterFamilies.length > 0 ? (
           <Filter
-            value="fosterFamilies"
+            value={AnimalSearchParams.Keys.FOSTER_FAMILIES_ID}
             label="Familles d’accueil"
             count={visibleFilters.fosterFamiliesId.length}
             hiddenContent={visibleFilters.fosterFamiliesId.map(
@@ -328,7 +328,7 @@ export function AnimalFilters({
         ) : null}
 
         <Filter
-          value="pick-up"
+          value={AnimalSearchParams.Keys.PICK_UP_LOCATION}
           label="Prise en charge"
           count={
             (visibleFilters.minPickUpDate == null ? 0 : 1) +
@@ -457,7 +457,7 @@ function toIsoDate(date: Date | null) {
 }
 
 type ActiveFilterLinkProps = {
-  currentUser: { id: string; groups: UserGroup[] };
+  currentUser: Pick<User, "groups" | "id">;
 };
 
 function ActiveFilterLink({ currentUser }: ActiveFilterLinkProps) {
