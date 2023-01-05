@@ -13,7 +13,7 @@ import {
   BreedNotForSpeciesError,
   updateAnimalProfileDraft,
 } from "~/animals/profile/db.server";
-import { AnimalProfileForm, EditActionFormData } from "~/animals/profile/form";
+import { ActionFormData, AnimalProfileForm } from "~/animals/profile/form";
 import { ErrorPage } from "~/core/dataDisplay/errorPage";
 import { Card, CardContent, CardHeader, CardTitle } from "~/core/layout/card";
 import { getPageTitle } from "~/core/pageTitle";
@@ -47,7 +47,7 @@ export const meta: MetaFunction = () => {
 };
 
 type ActionData = {
-  errors?: z.inferFlattenedErrors<typeof EditActionFormData.schema>;
+  errors?: z.inferFlattenedErrors<typeof ActionFormData.schema>;
 };
 
 export async function action({ request }: ActionArgs) {
@@ -61,7 +61,7 @@ export async function action({ request }: ActionArgs) {
   ]);
 
   const rawFormData = await request.formData();
-  const formData = EditActionFormData.schema.safeParse(
+  const formData = ActionFormData.schema.safeParse(
     Object.fromEntries(rawFormData.entries())
   );
 
@@ -128,6 +128,7 @@ export default function NewAnimalProfilePage() {
 
         <CardContent>
           <AnimalProfileForm
+            isCreate
             defaultAnimal={draft}
             errors={actionData?.errors}
           />

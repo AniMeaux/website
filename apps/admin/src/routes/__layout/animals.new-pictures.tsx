@@ -15,10 +15,7 @@ import { z } from "zod";
 import { zfd } from "zod-form-data";
 import { AnimalCreationSteps } from "~/animals/creationSteps";
 import { createAnimal } from "~/animals/db.server";
-import {
-  AnimalPicturesForm,
-  EditActionFormData,
-} from "~/animals/pictures/form";
+import { ActionFormData, AnimalPicturesForm } from "~/animals/pictures/form";
 import { assertDraftHasValidProfile } from "~/animals/profile/db.server";
 import { assertDraftHasValidSituation } from "~/animals/situation/db.server";
 import {
@@ -56,7 +53,7 @@ export const meta: MetaFunction = () => {
 };
 
 type ActionData = {
-  errors?: z.inferFlattenedErrors<typeof EditActionFormData.schema>;
+  errors?: z.inferFlattenedErrors<typeof ActionFormData.schema>;
 };
 
 export async function action({ request }: ActionArgs) {
@@ -77,7 +74,7 @@ export async function action({ request }: ActionArgs) {
       request,
       unstable_composeUploadHandlers(
         createCloudinaryUploadHandler({
-          filter: ({ name }) => name === EditActionFormData.keys.pictures,
+          filter: ({ name }) => name === ActionFormData.keys.pictures,
         }),
         unstable_createMemoryUploadHandler({
           filter: ({ contentType }) => contentType == null,
@@ -85,10 +82,7 @@ export async function action({ request }: ActionArgs) {
       )
     );
 
-    const formData = zfd
-      .formData(EditActionFormData.schema)
-      .safeParse(rawFormData);
-
+    const formData = zfd.formData(ActionFormData.schema).safeParse(rawFormData);
     if (!formData.success) {
       return json<ActionData>(
         { errors: formData.error.flatten() },
@@ -143,7 +137,7 @@ export default function NewAnimalSituationPage() {
         </CardHeader>
 
         <CardContent>
-          <AnimalPicturesForm errors={actionData?.errors} />
+          <AnimalPicturesForm isCreate errors={actionData?.errors} />
         </CardContent>
       </Card>
     </main>

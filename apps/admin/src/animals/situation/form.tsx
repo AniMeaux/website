@@ -1,6 +1,5 @@
 import {
   AdoptionOption,
-  Animal,
   AnimalDraft,
   FosterFamily,
   PickUpReason,
@@ -54,7 +53,6 @@ export const ActionFormData = createActionData(
     adoptionOption: z.nativeEnum(AdoptionOption).optional(),
     comments: z.string().trim(),
     fosterFamilyId: z.string().uuid().optional(),
-    id: z.string().uuid(),
     managerId: z.string().uuid().optional(),
     pickUpDate: z.preprocess(
       ensureDate,
@@ -73,17 +71,13 @@ export const ActionFormData = createActionData(
   })
 );
 
-export const EditActionFormData = createActionData(
-  ActionFormData.schema.omit({ id: true })
-);
-
 export function AnimalSituationForm({
-  animalId,
+  isCreate = false,
   defaultAnimal,
   errors = { formErrors: [], fieldErrors: {} },
   currentUser,
 }: {
-  animalId?: Animal["id"];
+  isCreate?: boolean;
   defaultAnimal?: null | SerializeFrom<
     Pick<
       AnimalDraft,
@@ -140,10 +134,6 @@ export function AnimalSituationForm({
       noValidate
       className={formClassNames.root({ hasHeader: true })}
     >
-      {animalId != null ? (
-        <input type="hidden" name={ActionFormData.keys.id} value={animalId} />
-      ) : null}
-
       <div className={formClassNames.fields.root()}>
         <FormErrors errors={errors.formErrors} />
 
@@ -235,7 +225,7 @@ export function AnimalSituationForm({
         <div className={formClassNames.fields.field.root()}>
           <span className={formClassNames.fields.field.label()}>
             Responsable{" "}
-            {animalId == null || defaultAnimal?.manager != null ? (
+            {isCreate || defaultAnimal?.manager != null ? (
               <RequiredStart />
             ) : null}
           </span>
@@ -245,7 +235,7 @@ export function AnimalSituationForm({
             name={ActionFormData.keys.managerId}
             defaultValue={
               defaultAnimal?.manager ??
-              (animalId == null &&
+              (isCreate &&
               currentUser != null &&
               hasGroups(currentUser, [UserGroup.ANIMAL_MANAGER])
                 ? currentUser
@@ -308,7 +298,7 @@ export function AnimalSituationForm({
           <div className={formClassNames.fields.field.root()}>
             <span className={formClassNames.fields.field.label()}>
               Lieux de prise en charge{" "}
-              {animalId == null || defaultAnimal?.pickUpLocation != null ? (
+              {isCreate || defaultAnimal?.pickUpLocation != null ? (
                 <RequiredStart />
               ) : null}
             </span>
@@ -394,7 +384,7 @@ export function AnimalSituationForm({
         type="submit"
         className={cn(actionClassName.standalone(), "w-full md:w-auto")}
       >
-        {animalId == null ? "Suivant" : "Enregistrer"}
+        {isCreate ? "Suivant" : "Enregistrer"}
       </button>
     </Form>
   );
