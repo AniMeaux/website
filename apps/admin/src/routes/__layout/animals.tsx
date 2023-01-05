@@ -117,7 +117,9 @@ export async function loader({ request }: LoaderArgs) {
 
   const pickUpLocations = animalSearchParams.getPickUpLocations();
   if (pickUpLocations.length > 0) {
-    where.push({ pickUpLocation: { in: pickUpLocations } });
+    where.push({
+      pickUpLocation: { in: pickUpLocations, mode: "insensitive" },
+    });
   }
 
   const nameOrAlias = animalSearchParams.getNameOrAlias();
