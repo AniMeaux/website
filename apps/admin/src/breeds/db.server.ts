@@ -1,15 +1,18 @@
-import { BreedSearchParams } from "~/breeds/searchParams";
+import { Species } from "@prisma/client";
 import { algolia } from "~/core/algolia/algolia.server";
 import { prisma } from "~/core/db.server";
 
 const SEARCH_COUNT = 6;
 
-export async function searchBreeds(searchParams: BreedSearchParams) {
-  const text = searchParams.getText();
-  const species = searchParams.getSpecies();
-
+export async function fuzzySearchBreeds({
+  name,
+  species,
+}: {
+  name: null | string;
+  species: null | Species;
+}) {
   // Don't use Algolia when there are no text search.
-  if (text == null) {
+  if (name == null) {
     const breeds = await prisma.breed.findMany({
       where: { species: species ?? undefined },
       select: { id: true, name: true },
@@ -21,7 +24,7 @@ export async function searchBreeds(searchParams: BreedSearchParams) {
   }
 
   return await algolia.breed.search(
-    text,
+    name,
     { species },
     { hitsPerPage: SEARCH_COUNT }
   );
