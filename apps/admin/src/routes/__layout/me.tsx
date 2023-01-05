@@ -10,7 +10,6 @@ import { cn } from "~/core/classNames";
 import { ActionConfirmationHelper } from "~/core/dataDisplay/actionConfirmationHelper";
 import { AvatarColor, inferAvatarColor } from "~/core/dataDisplay/avatar";
 import { Empty } from "~/core/dataDisplay/empty";
-import { prisma } from "~/core/db.server";
 import { Card, CardContent, CardHeader, CardTitle } from "~/core/layout/card";
 import { getPageTitle } from "~/core/pageTitle";
 import { ActionConfirmationType } from "~/core/searchParams";
@@ -26,24 +25,22 @@ export async function loader({ request }: LoaderArgs) {
       displayName: true,
       email: true,
       groups: true,
+      managedAnimals: {
+        take: 5,
+        orderBy: { pickUpDate: "desc" },
+        select: {
+          id: true,
+          avatar: true,
+          name: true,
+          alias: true,
+          gender: true,
+          status: true,
+        },
+      },
     },
   });
 
-  const managedAnimals = await prisma.animal.findMany({
-    take: 5,
-    orderBy: { pickUpDate: "desc" },
-    where: { managerId: currentUser.id },
-    select: {
-      id: true,
-      avatar: true,
-      name: true,
-      alias: true,
-      gender: true,
-      status: true,
-    },
-  });
-
-  return json({ currentUser, managedAnimals });
+  return json({ currentUser });
 }
 
 export const meta: MetaFunction = () => {
@@ -184,7 +181,7 @@ function ActionsCard() {
 }
 
 function ManagerCard() {
-  const { currentUser, managedAnimals } = useLoaderData<typeof loader>();
+  const { currentUser } = useLoaderData<typeof loader>();
   const isManager = hasGroups(currentUser, [UserGroup.ANIMAL_MANAGER]);
 
   return (
@@ -208,8 +205,8 @@ function ManagerCard() {
         ) : null}
       </CardHeader>
 
-      <CardContent hasHorizontalScroll={managedAnimals.length > 0}>
-        {managedAnimals.length === 0 ? (
+      <CardContent hasHorizontalScroll={currentUser.managedAnimals.length > 0}>
+        {currentUser.managedAnimals.length === 0 ? (
           <Empty
             isCompact
             icon="🦤"
@@ -232,7 +229,7 @@ function ManagerCard() {
           />
         ) : (
           <ul className="flex gap-1">
-            {managedAnimals.map((animal) => (
+            {currentUser.managedAnimals.map((animal) => (
               <li
                 key={animal.id}
                 className="flex-none flex flex-col first:pl-1 last:pr-1 md:first:pl-2 md:last:pr-2"
