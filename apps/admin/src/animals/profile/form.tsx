@@ -1,11 +1,4 @@
-import {
-  Animal,
-  AnimalDraft,
-  Breed,
-  Color,
-  Gender,
-  Species,
-} from "@prisma/client";
+import { AnimalDraft, Breed, Color, Gender, Species } from "@prisma/client";
 import { SerializeFrom } from "@remix-run/node";
 import { Form, useLocation } from "@remix-run/react";
 import { DateTime } from "luxon";
@@ -56,7 +49,6 @@ export const ActionFormData = createActionData(
       required_error: "Veuillez choisir un genre",
     }),
     iCadNumber: z.string().trim(),
-    id: z.string().uuid(),
     isOkCats: z
       .nativeEnum(AgreementValue, {
         required_error: "Veuillez choisir une option",
@@ -83,16 +75,12 @@ export const ActionFormData = createActionData(
   })
 );
 
-export const EditActionFormData = createActionData(
-  ActionFormData.schema.omit({ id: true })
-);
-
 export function AnimalProfileForm({
-  animalId,
+  isCreate = false,
   defaultAnimal,
   errors = { formErrors: [], fieldErrors: {} },
 }: {
-  animalId?: Animal["id"];
+  isCreate?: boolean;
   defaultAnimal?: null | SerializeFrom<
     Pick<
       AnimalDraft,
@@ -168,10 +156,6 @@ export function AnimalProfileForm({
       noValidate
       className={formClassNames.root({ hasHeader: true })}
     >
-      {animalId != null ? (
-        <input type="hidden" name={ActionFormData.keys.id} value={animalId} />
-      ) : null}
-
       <div className={formClassNames.fields.root()}>
         <FormErrors errors={errors.formErrors} />
 
@@ -555,7 +539,7 @@ export function AnimalProfileForm({
         type="submit"
         className={cn(actionClassName.standalone(), "w-full md:w-auto")}
       >
-        {animalId == null ? "Suivant" : "Enregistrer"}
+        {isCreate ? "Suivant" : "Enregistrer"}
       </button>
     </Form>
   );
