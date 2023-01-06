@@ -272,7 +272,7 @@ function HeaderCard() {
 
           {canEdit ? (
             <BaseLink
-              to="./edit-profile"
+              to="./edit/profile"
               className={actionClassName.standalone({ variant: "text" })}
             >
               Modifier
@@ -294,7 +294,7 @@ function ProfileCard() {
 
         {canEdit ? (
           <BaseLink
-            to="./edit-profile"
+            to="./edit/profile"
             className={actionClassName.standalone({ variant: "text" })}
           >
             Modifier
@@ -350,7 +350,7 @@ function SituationCard() {
 
         {canEdit ? (
           <BaseLink
-            to="./edit-situation"
+            to="./edit/situation"
             className={actionClassName.standalone({ variant: "text" })}
           >
             Modifier
@@ -454,7 +454,7 @@ function CommentsCard() {
         {canEdit ? (
           <BaseLink
             to={{
-              pathname: "./edit-situation",
+              pathname: "./edit/situation",
               hash: SituationActionFormData.keys.comments,
             }}
             className={actionClassName.standalone({ variant: "text" })}
@@ -558,7 +558,7 @@ function DescriptionCard() {
   const { canEdit, animal } = useLoaderData<typeof loader>();
 
   const editLink: BaseLinkProps["to"] = {
-    pathname: "./edit-profile",
+    pathname: "./edit/profile",
     hash: ProfileActionFormData.keys.description,
   };
 
@@ -622,7 +622,7 @@ function PicturesCard() {
 
         {canEdit ? (
           <BaseLink
-            to="./edit-pictures"
+            to="./edit/pictures"
             className={actionClassName.standalone({ variant: "text" })}
           >
             Modifier

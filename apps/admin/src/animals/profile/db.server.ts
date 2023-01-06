@@ -98,13 +98,13 @@ export async function assertDraftHasValidProfile(
   draft?: null | AnimalDraftProfile
 ) {
   if (!hasProfile(draft)) {
-    throw redirect("/animals/new-profile");
+    throw redirect("/animals/new/profile");
   }
 
   try {
     await validateProfile(prisma, draft);
   } catch (error) {
-    throw redirect("/animals/new-profile");
+    throw redirect("/animals/new/profile");
   }
 }
 
