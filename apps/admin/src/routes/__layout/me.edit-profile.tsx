@@ -163,14 +163,14 @@ export default function EditCurrentUserProfilePage() {
                   }
                 />
 
-                {fieldErrors.name != null && (
+                {fieldErrors.name != null ? (
                   <p
                     id="name-error"
                     className={formClassNames.fields.field.errorMessage()}
                   >
                     {fieldErrors.name}
                   </p>
-                )}
+                ) : null}
               </div>
 
               <div className={formClassNames.fields.field.root()}>
@@ -198,14 +198,14 @@ export default function EditCurrentUserProfilePage() {
                   }
                 />
 
-                {fieldErrors.email != null && (
+                {fieldErrors.email != null ? (
                   <p
                     id="email-error"
                     className={formClassNames.fields.field.errorMessage()}
                   >
                     {fieldErrors.email}
                   </p>
-                )}
+                ) : null}
               </div>
             </div>
 

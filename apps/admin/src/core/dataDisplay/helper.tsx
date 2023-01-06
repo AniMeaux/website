@@ -29,13 +29,14 @@ export function Helper({
       <Icon id={VARIANT_ICON[variant]} className="text-[20px]" />
       <p className="text-body-emphasis">{children}</p>
 
-      {action != null &&
-        cloneElement(action, {
-          className: actionClassName.standalone({
-            variant: "text",
-            color: VARIANT_ACTION_COLOR[variant],
-          }),
-        })}
+      {action != null
+        ? cloneElement(action, {
+            className: actionClassName.standalone({
+              variant: "text",
+              color: VARIANT_ACTION_COLOR[variant],
+            }),
+          })
+        : null}
     </section>
   );
 }

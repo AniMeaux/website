@@ -6,7 +6,7 @@ import { useCombobox } from "downshift";
 import { createPath } from "history";
 import { forwardRef, useEffect, useRef, useState } from "react";
 import invariant from "tiny-invariant";
-import { searchColors } from "~/colors/db.server";
+import { fuzzySearchColors } from "~/colors/db.server";
 import { ColorSearchParams } from "~/colors/searchParams";
 import { asBooleanAttribute } from "~/core/attributes";
 import { cn } from "~/core/classNames";
@@ -36,7 +36,9 @@ export async function loader({ request }: LoaderArgs) {
 
   const searchParams = new ColorSearchParams(new URL(request.url).searchParams);
 
-  return json({ colors: await searchColors(searchParams) });
+  return json({
+    colors: await fuzzySearchColors({ name: searchParams.getName() }),
+  });
 }
 
 const RESOURCE_PATHNAME = "/resources/color";
@@ -110,7 +112,7 @@ export const ColorInput = forwardRef<HTMLButtonElement, ColorInputProps>(
                 fetcher.load(
                   createPath({
                     pathname: RESOURCE_PATHNAME,
-                    search: new ColorSearchParams().setText(value).toString(),
+                    search: new ColorSearchParams().setName(value).toString(),
                   })
                 );
               }}

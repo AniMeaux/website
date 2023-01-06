@@ -18,11 +18,12 @@ export function getDisplayName(animal: Pick<Animal, "name" | "alias">) {
   return animal.name;
 }
 
-/** OPEN_TO_ADOPTION, OPEN_TO_RESERVATION, RESERVED, UNAVAILABLE */
+/** OPEN_TO_ADOPTION, OPEN_TO_RESERVATION, RESERVED, RETIRED, UNAVAILABLE */
 export const ACTIVE_ANIMAL_STATUS: Status[] = [
   Status.OPEN_TO_ADOPTION,
   Status.OPEN_TO_RESERVATION,
   Status.RESERVED,
+  Status.RETIRED,
   Status.UNAVAILABLE,
 ];
 
@@ -34,7 +35,6 @@ export const NON_ACTIVE_ANIMAL_STATUS: Status[] = [
   Status.ADOPTED,
   Status.DECEASED,
   Status.FREE,
-  Status.RETIRED,
 ];
 
 /** OPEN_TO_ADOPTION, OPEN_TO_RESERVATION */

@@ -208,9 +208,9 @@ export const SuggestionItem = forwardRef<
 
       <span className="py-1 text-body-default group-data-[is-value=true]:text-body-emphasis group-data-[is-additional=true]:text-blue-500">
         <Markdown components={HIGHLIGHT_COMPONENTS}>{label}</Markdown>
-        {secondaryLabel != null && (
+        {secondaryLabel != null ? (
           <span className="text-gray-500"> - {secondaryLabel}</span>
-        )}
+        ) : null}
       </span>
 
       <span className="opacity-0 h-4 w-4 flex items-center justify-center text-green-600 transition-opacity duration-100 ease-in-out group-data-[is-value=true]:opacity-100">

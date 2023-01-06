@@ -1,11 +1,4 @@
-import {
-  Animal,
-  AnimalDraft,
-  Breed,
-  Color,
-  Gender,
-  Species,
-} from "@prisma/client";
+import { AnimalDraft, Breed, Color, Gender, Species } from "@prisma/client";
 import { SerializeFrom } from "@remix-run/node";
 import { Form, useLocation } from "@remix-run/react";
 import { DateTime } from "luxon";
@@ -56,7 +49,6 @@ export const ActionFormData = createActionData(
       required_error: "Veuillez choisir un genre",
     }),
     iCadNumber: z.string().trim(),
-    id: z.string().uuid(),
     isOkCats: z
       .nativeEnum(AgreementValue, {
         required_error: "Veuillez choisir une option",
@@ -83,16 +75,12 @@ export const ActionFormData = createActionData(
   })
 );
 
-export const EditActionFormData = createActionData(
-  ActionFormData.schema.omit({ id: true })
-);
-
 export function AnimalProfileForm({
-  animalId,
+  isCreate = false,
   defaultAnimal,
   errors = { formErrors: [], fieldErrors: {} },
 }: {
-  animalId?: Animal["id"];
+  isCreate?: boolean;
   defaultAnimal?: null | SerializeFrom<
     Pick<
       AnimalDraft,
@@ -168,10 +156,6 @@ export function AnimalProfileForm({
       noValidate
       className={formClassNames.root({ hasHeader: true })}
     >
-      {animalId != null ? (
-        <input type="hidden" name={ActionFormData.keys.id} value={animalId} />
-      ) : null}
-
       <div className={formClassNames.fields.root()}>
         <FormErrors errors={errors.formErrors} />
 
@@ -195,14 +179,14 @@ export function AnimalProfileForm({
             ))}
           </div>
 
-          {errors.fieldErrors.species != null && (
+          {errors.fieldErrors.species != null ? (
             <p
               id="species-error"
               className={formClassNames.fields.field.errorMessage()}
             >
               {errors.fieldErrors.species}
             </p>
-          )}
+          ) : null}
         </div>
 
         <div className={formClassNames.fields.row()}>
@@ -231,14 +215,14 @@ export function AnimalProfileForm({
               }
             />
 
-            {errors.fieldErrors.name != null && (
+            {errors.fieldErrors.name != null ? (
               <p
                 id="name-error"
                 className={formClassNames.fields.field.errorMessage()}
               >
                 {errors.fieldErrors.name}
               </p>
-            )}
+            ) : null}
           </div>
 
           <div className={formClassNames.fields.field.root()}>
@@ -290,14 +274,14 @@ export function AnimalProfileForm({
             }
           />
 
-          {errors.fieldErrors.birthdate != null && (
+          {errors.fieldErrors.birthdate != null ? (
             <p
               id="birthdate-error"
               className={formClassNames.fields.field.errorMessage()}
             >
               {errors.fieldErrors.birthdate}
             </p>
-          )}
+          ) : null}
         </div>
 
         <div className={formClassNames.fields.field.root()}>
@@ -319,14 +303,14 @@ export function AnimalProfileForm({
             ))}
           </div>
 
-          {errors.fieldErrors.gender != null && (
+          {errors.fieldErrors.gender != null ? (
             <p
               id="gender-error"
               className={formClassNames.fields.field.errorMessage()}
             >
               {errors.fieldErrors.gender}
             </p>
-          )}
+          ) : null}
         </div>
 
         <Separator />
@@ -367,14 +351,14 @@ export function AnimalProfileForm({
               aria-describedby="breedId-error"
             />
 
-            {errors.fieldErrors.breedId != null && (
+            {errors.fieldErrors.breedId != null ? (
               <p
                 id="breedId-error"
                 className={formClassNames.fields.field.errorMessage()}
               >
                 {errors.fieldErrors.breedId}
               </p>
-            )}
+            ) : null}
           </div>
 
           <div className={formClassNames.fields.field.root()}>
@@ -388,14 +372,14 @@ export function AnimalProfileForm({
               aria-describedby="colorId-error"
             />
 
-            {errors.fieldErrors.colorId != null && (
+            {errors.fieldErrors.colorId != null ? (
               <p
                 id="colorId-error"
                 className={formClassNames.fields.field.errorMessage()}
               >
                 {errors.fieldErrors.colorId}
               </p>
-            )}
+            ) : null}
           </div>
         </div>
 
@@ -423,14 +407,14 @@ export function AnimalProfileForm({
             ))}
           </div>
 
-          {errors.fieldErrors.isOkCats != null && (
+          {errors.fieldErrors.isOkCats != null ? (
             <p
               id="isOkCats-error"
               className={formClassNames.fields.field.errorMessage()}
             >
               {errors.fieldErrors.isOkCats}
             </p>
-          )}
+          ) : null}
         </div>
 
         <div className={formClassNames.fields.field.root()}>
@@ -455,14 +439,14 @@ export function AnimalProfileForm({
             ))}
           </div>
 
-          {errors.fieldErrors.isOkDogs != null && (
+          {errors.fieldErrors.isOkDogs != null ? (
             <p
               id="isOkDogs-error"
               className={formClassNames.fields.field.errorMessage()}
             >
               {errors.fieldErrors.isOkDogs}
             </p>
-          )}
+          ) : null}
         </div>
 
         <div className={formClassNames.fields.field.root()}>
@@ -487,14 +471,14 @@ export function AnimalProfileForm({
             ))}
           </div>
 
-          {errors.fieldErrors.isOkChildren != null && (
+          {errors.fieldErrors.isOkChildren != null ? (
             <p
               id="isOkChildren-error"
               className={formClassNames.fields.field.errorMessage()}
             >
               {errors.fieldErrors.isOkChildren}
             </p>
-          )}
+          ) : null}
         </div>
 
         <div className={formClassNames.fields.field.root()}>
@@ -521,14 +505,14 @@ export function AnimalProfileForm({
             />
           </div>
 
-          {errors.fieldErrors.isSterilized != null && (
+          {errors.fieldErrors.isSterilized != null ? (
             <p
               id="isSterilized-error"
               className={formClassNames.fields.field.errorMessage()}
             >
               {errors.fieldErrors.isSterilized}
             </p>
-          )}
+          ) : null}
         </div>
 
         <Separator />
@@ -555,7 +539,7 @@ export function AnimalProfileForm({
         type="submit"
         className={cn(actionClassName.standalone(), "w-full md:w-auto")}
       >
-        {animalId == null ? "Suivant" : "Enregistrer"}
+        {isCreate ? "Suivant" : "Enregistrer"}
       </button>
     </Form>
   );

@@ -29,23 +29,18 @@ import { Icon } from "~/generated/icon";
 
 export const ActionFormData = createActionData(
   z.object({
-    id: z.string().uuid(),
     pictures: zfd.repeatable(
       z.array(z.string()).min(1, "Veuillez ajouter au moins une photo")
     ),
   })
 );
 
-export const EditActionFormData = createActionData(
-  ActionFormData.schema.omit({ id: true })
-);
-
 export function AnimalPicturesForm({
-  animalId,
+  isCreate = false,
   defaultAnimal,
   errors = { formErrors: [], fieldErrors: {} },
 }: {
-  animalId?: Animal["id"];
+  isCreate?: boolean;
   defaultAnimal?: null | SerializeFrom<Pick<Animal, "avatar" | "pictures">>;
   errors?: z.inferFlattenedErrors<typeof ActionFormData.schema>;
 }) {
@@ -80,10 +75,6 @@ export function AnimalPicturesForm({
         event.preventDefault();
 
         const formData = new FormData();
-
-        if (animalId != null) {
-          formData.set(ActionFormData.keys.id, animalId);
-        }
 
         pictures.forEach((picture) => {
           if (!isImageOverSize(picture)) {
@@ -130,7 +121,7 @@ export function AnimalPicturesForm({
         type="submit"
         className={cn(actionClassName.standalone(), "w-full md:w-auto")}
       >
-        {animalId == null ? "Créer" : "Enregistrer"}
+        {isCreate ? "Créer" : "Enregistrer"}
       </button>
     </Form>
   );

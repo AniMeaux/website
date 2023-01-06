@@ -34,13 +34,18 @@ export class AnimalSearchParams extends URLSearchParams {
       isEqual(orderBy(this.getSpecies()), orderBy(other.getSpecies())) &&
       isEqual(this.getNameOrAlias(), other.getNameOrAlias()) &&
       isEqual(orderBy(this.getStatuses()), orderBy(other.getStatuses())) &&
+      isEqual(orderBy(this.getAges()), orderBy(other.getAges())) &&
       isEqual(orderBy(this.getManagersId()), orderBy(other.getManagersId())) &&
       isEqual(
         orderBy(this.getFosterFamiliesId()),
         orderBy(other.getFosterFamiliesId())
       ) &&
       isEqual(this.getMinPickUpDate(), other.getMinPickUpDate()) &&
-      isEqual(this.getMaxPickUpDate(), other.getMaxPickUpDate())
+      isEqual(this.getMaxPickUpDate(), other.getMaxPickUpDate()) &&
+      isEqual(
+        orderBy(this.getPickUpLocations()),
+        orderBy(other.getPickUpLocations())
+      )
     );
   }
 

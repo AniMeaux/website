@@ -2,47 +2,43 @@ import { UserGroup } from "@prisma/client";
 import { z } from "zod";
 import { ensureBoolean, parseOrDefault } from "~/core/schemas";
 
-enum Keys {
-  TEXT = "q",
-  GROUP = "group",
-  IS_DISABLED = "disabled",
-}
-
 export class UserSearchParams extends URLSearchParams {
-  static readonly Keys = Keys;
+  static readonly Keys = {
+    DISPLAY_NAME: "q",
+    GROUP: "group",
+    IS_DISABLED: "disabled",
+  };
 
-  getText() {
-    return this.get(Keys.TEXT)?.trim() || null;
+  getDisplayName() {
+    return this.get(UserSearchParams.Keys.DISPLAY_NAME)?.trim() || null;
   }
 
-  setText(text: string) {
+  setDisplayName(displayName: string) {
     const copy = new UserSearchParams(this);
 
-    text = text.trim();
-    if (text !== "") {
-      copy.set(Keys.TEXT, text);
-    } else if (copy.has(Keys.TEXT)) {
-      copy.delete(Keys.TEXT);
+    displayName = displayName.trim();
+    if (displayName !== "") {
+      copy.set(UserSearchParams.Keys.DISPLAY_NAME, displayName);
+    } else if (copy.has(UserSearchParams.Keys.DISPLAY_NAME)) {
+      copy.delete(UserSearchParams.Keys.DISPLAY_NAME);
     }
 
     return copy;
   }
 
-  getGroup() {
+  getGroups() {
     return parseOrDefault(
-      z.nativeEnum(UserGroup).nullable().optional().default(null),
-      this.get(Keys.GROUP)
+      z.nativeEnum(UserGroup).array().default([]),
+      this.getAll(UserSearchParams.Keys.GROUP)
     );
   }
 
-  setGroup(group: UserGroup | null) {
+  setGroups(groups: UserGroup[]) {
     const copy = new UserSearchParams(this);
-
-    if (group != null) {
-      copy.set(Keys.GROUP, group);
-    } else if (copy.has(Keys.GROUP)) {
-      copy.delete(Keys.GROUP);
-    }
+    copy.delete(UserSearchParams.Keys.GROUP);
+    groups.forEach((group) => {
+      copy.append(UserSearchParams.Keys.GROUP, group);
+    });
 
     return copy;
   }
@@ -53,7 +49,7 @@ export class UserSearchParams extends URLSearchParams {
         ensureBoolean,
         z.boolean().nullable().optional().default(null)
       ),
-      this.get(Keys.IS_DISABLED)
+      this.get(UserSearchParams.Keys.IS_DISABLED)
     );
   }
 
@@ -61,9 +57,9 @@ export class UserSearchParams extends URLSearchParams {
     const copy = new UserSearchParams(this);
 
     if (isDisabled != null) {
-      copy.set(Keys.IS_DISABLED, String(isDisabled));
-    } else if (copy.has(Keys.IS_DISABLED)) {
-      copy.delete(Keys.IS_DISABLED);
+      copy.set(UserSearchParams.Keys.IS_DISABLED, String(isDisabled));
+    } else if (copy.has(UserSearchParams.Keys.IS_DISABLED)) {
+      copy.delete(UserSearchParams.Keys.IS_DISABLED);
     }
 
     return copy;

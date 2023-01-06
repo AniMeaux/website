@@ -1,7 +1,6 @@
 import { ANIMAL_AGE_RANGE_BY_SPECIES } from "@animeaux/shared";
 import { Prisma, UserGroup } from "@prisma/client";
-import * as Dialog from "@radix-ui/react-dialog";
-import { json, LoaderArgs, MetaFunction, SerializeFrom } from "@remix-run/node";
+import { json, LoaderArgs, MetaFunction } from "@remix-run/node";
 import { useLoaderData, useSearchParams } from "@remix-run/react";
 import { DateTime } from "luxon";
 import invariant from "tiny-invariant";
@@ -12,8 +11,8 @@ import { SORTED_SPECIES } from "~/animals/species";
 import { actionClassName } from "~/core/actions";
 import { algolia } from "~/core/algolia/algolia.server";
 import { BaseLink } from "~/core/baseLink";
-import { cn } from "~/core/classNames";
 import { Paginator } from "~/core/controllers/paginator";
+import { SortAndFiltersFloatingAction } from "~/core/controllers/sortAndFiltersFloatingAction";
 import { ActionConfirmationHelper } from "~/core/dataDisplay/actionConfirmationHelper";
 import { Empty } from "~/core/dataDisplay/empty";
 import { prisma } from "~/core/db.server";
@@ -28,7 +27,6 @@ import { getPageTitle } from "~/core/pageTitle";
 import { ActionConfirmationType, PageSearchParams } from "~/core/searchParams";
 import { getCurrentUser } from "~/currentUser/db.server";
 import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
-import { Icon } from "~/generated/icon";
 import { hasGroups } from "~/users/groups";
 
 // Multiple of 6, 5, 4 and 3 to be nicely displayed.
@@ -119,7 +117,9 @@ export async function loader({ request }: LoaderArgs) {
 
   const pickUpLocations = animalSearchParams.getPickUpLocations();
   if (pickUpLocations.length > 0) {
-    where.push({ pickUpLocation: { in: pickUpLocations } });
+    where.push({
+      pickUpLocation: { in: pickUpLocations, mode: "insensitive" },
+    });
   }
 
   const nameOrAlias = animalSearchParams.getNameOrAlias();
@@ -205,13 +205,10 @@ export async function loader({ request }: LoaderArgs) {
     animals,
     managers,
     fosterFamilies,
-    possiblePickUpLocations: possiblePickUpLocations.map((location) => {
-      invariant(
-        location.pickUpLocation != null,
-        "pickUpLocation should exists"
-      );
+    possiblePickUpLocations: possiblePickUpLocations.map((group) => {
+      invariant(group.pickUpLocation != null, "pickUpLocation should exists");
 
-      return location.pickUpLocation;
+      return group.pickUpLocation;
     }),
     currentUser,
     canCreate,
@@ -287,11 +284,11 @@ export default function AnimalsPage() {
               )}
             </CardContent>
 
-            {pageCount > 1 && (
+            {pageCount > 1 ? (
               <CardFooter>
                 <Paginator pageCount={pageCount} />
               </CardFooter>
-            )}
+            ) : null}
           </Card>
         </main>
 
@@ -308,69 +305,10 @@ export default function AnimalsPage() {
         </aside>
       </section>
 
-      <SortAndFiltersFloatingAction totalCount={totalCount} />
+      <SortAndFiltersFloatingAction hasSort totalCount={totalCount}>
+        <SortAndFilters />
+      </SortAndFiltersFloatingAction>
     </section>
-  );
-}
-
-function SortAndFiltersFloatingAction({
-  totalCount,
-}: {
-  totalCount: SerializeFrom<typeof loader>["totalCount"];
-}) {
-  return (
-    <Dialog.Root>
-      <Dialog.Trigger
-        className={cn(
-          "fixed bottom-safe-6 right-safe-1 z-20 md:hidden",
-          actionClassName.standalone({ variant: "floating" })
-        )}
-      >
-        <Icon id="filter" />
-      </Dialog.Trigger>
-
-      <Dialog.Portal>
-        <Dialog.Overlay
-          className={cn(
-            // Use absolute instead of fixed to avoid performances issues when
-            // mobile browser's height change due to scroll.
-            "absolute",
-            "top-0 right-0 bottom-0 left-0 z-30 overscroll-none bg-black/20"
-          )}
-        />
-
-        <Dialog.Content className="fixed top-0 left-0 bottom-0 right-0 z-30 overflow-y-auto bg-gray-50 flex flex-col gap-1">
-          <header className="sticky top-0 z-20 min-h-[50px] px-safe-1 pt-safe-0.5 pb-0.5 flex-none bg-white flex items-center gap-1">
-            <Dialog.Title className="flex-1 text-title-section-large">
-              Trier et filtrer
-            </Dialog.Title>
-
-            <Dialog.Close
-              className={cn(
-                "flex-none",
-                actionClassName.standalone({ variant: "text" })
-              )}
-            >
-              Fermer
-            </Dialog.Close>
-          </header>
-
-          <Card>
-            <CardContent>
-              <SortAndFilters />
-            </CardContent>
-          </Card>
-
-          <footer className="sticky bottom-0 z-20 px-safe-1 pt-1 pb-safe-1 flex-none bg-white flex">
-            <Dialog.Close
-              className={cn(actionClassName.standalone(), "w-full")}
-            >
-              Voir les résultats ({totalCount})
-            </Dialog.Close>
-          </footer>
-        </Dialog.Content>
-      </Dialog.Portal>
-    </Dialog.Root>
   );
 }
 

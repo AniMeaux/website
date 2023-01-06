@@ -17,10 +17,7 @@ import {
   NotManagerError,
   updateAnimalSituationDraft,
 } from "~/animals/situation/db.server";
-import {
-  AnimalSituationForm,
-  EditActionFormData,
-} from "~/animals/situation/form";
+import { ActionFormData, AnimalSituationForm } from "~/animals/situation/form";
 import { ErrorPage } from "~/core/dataDisplay/errorPage";
 import { Card, CardContent, CardHeader, CardTitle } from "~/core/layout/card";
 import { getPageTitle } from "~/core/pageTitle";
@@ -57,7 +54,7 @@ export const meta: MetaFunction = () => {
 };
 
 type ActionData = {
-  errors?: z.inferFlattenedErrors<typeof EditActionFormData.schema>;
+  errors?: z.inferFlattenedErrors<typeof ActionFormData.schema>;
 };
 
 export async function action({ request }: ActionArgs) {
@@ -73,7 +70,7 @@ export async function action({ request }: ActionArgs) {
   await assertDraftHasValidProfile(currentUser.draft);
 
   const rawFormData = await request.formData();
-  const formData = EditActionFormData.schema.safeParse(
+  const formData = ActionFormData.schema.safeParse(
     Object.fromEntries(rawFormData.entries())
   );
 
@@ -180,6 +177,7 @@ export default function NewAnimalSituationPage() {
 
         <CardContent>
           <AnimalSituationForm
+            isCreate
             currentUser={currentUser}
             defaultAnimal={draft}
             errors={actionData?.errors}

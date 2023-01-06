@@ -78,7 +78,7 @@ type ActionData = {
   errors?: z.inferFlattenedErrors<typeof ActionFormData.schema>;
 };
 
-export async function action({ request }: ActionArgs) {
+export async function action({ request, params }: ActionArgs) {
   const currentUser = await getCurrentUser(request, {
     select: { id: true, groups: true },
   });
@@ -87,6 +87,11 @@ export async function action({ request }: ActionArgs) {
     UserGroup.ADMIN,
     UserGroup.ANIMAL_MANAGER,
   ]);
+
+  const idResult = z.string().uuid().safeParse(params["id"]);
+  if (!idResult.success) {
+    throw new NotFoundResponse();
+  }
 
   try {
     const rawFormData = await unstable_parseMultipartFormData(
@@ -109,14 +114,14 @@ export async function action({ request }: ActionArgs) {
       );
     }
 
-    await updateAnimalPictures(formData.data.id, {
+    await updateAnimalPictures(idResult.data, {
       avatar: formData.data.pictures[0],
       pictures: formData.data.pictures.slice(1),
     });
 
     throw redirect(
       createPath({
-        pathname: `/animals/${formData.data.id}`,
+        pathname: `/animals/${idResult.data}`,
         search: new ActionConfirmationSearchParams()
           .setConfirmation(ActionConfirmationType.EDIT)
           .toString(),
@@ -169,7 +174,6 @@ export default function AnimalEditProfilePage() {
 
         <CardContent>
           <AnimalPicturesForm
-            animalId={animal.id}
             defaultAnimal={animal}
             errors={actionData?.errors}
           />

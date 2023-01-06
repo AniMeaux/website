@@ -34,7 +34,7 @@ import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
 import { FosterFamilyAvatar } from "~/fosterFamilies/avatar";
 import { getShortLocation } from "~/fosterFamilies/location";
 import { Icon } from "~/generated/icon";
-import { searchResources } from "~/searchableResources/db.server";
+import { fuzzySearchResources } from "~/searchableResources/db.server";
 import { SearchableResourceSearchParams } from "~/searchableResources/searchParams";
 import { SearchableResourceType } from "~/searchableResources/type";
 import { UserAvatar } from "~/users/avatar";
@@ -64,7 +64,10 @@ export async function loader({ request }: LoaderArgs) {
 
   return json({
     possibleTypes,
-    resources: await searchResources(searchParams, possibleTypes),
+    resources: await fuzzySearchResources({
+      text: searchParams.getText(),
+      types: type == null ? possibleTypes : [type],
+    }),
   });
 }
 
