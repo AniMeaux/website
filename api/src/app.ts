@@ -27,6 +27,14 @@ app.on("error", (error) => {
   console.error(error);
 });
 
-app.listen({ port: process.env.PORT }, () => {
+const server = app.listen({ port: process.env.PORT }, () => {
   console.log(`🚀 Server ready at localhost:${process.env.PORT}`);
 });
+
+function closeServer() {
+  console.log("🛑 Stopping server");
+  return server.close();
+}
+
+process.once("SIGINT", closeServer);
+process.once("SIGTERM", closeServer);
