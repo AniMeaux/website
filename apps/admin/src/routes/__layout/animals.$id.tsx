@@ -31,6 +31,7 @@ import { ActionConfirmationHelper } from "~/core/dataDisplay/actionConfirmationH
 import { Empty } from "~/core/dataDisplay/empty";
 import { ErrorPage, getErrorTitle } from "~/core/dataDisplay/errorPage";
 import { createCloudinaryUrl, DynamicImage } from "~/core/dataDisplay/image";
+import { Item } from "~/core/dataDisplay/item";
 import { ARTICLE_COMPONENTS, Markdown } from "~/core/dataDisplay/markdown";
 import { prisma } from "~/core/db.server";
 import { NotFoundError } from "~/core/errors.server";
@@ -303,7 +304,7 @@ function ProfileCard() {
       </CardHeader>
 
       <CardContent>
-        <ul className="flex-grow flex flex-col">
+        <ul className="flex flex-col">
           <Item icon={<Icon id={SPECIES_ICON[animal.species]} />}>
             {getSpeciesLabels(animal)}
           </Item>
@@ -650,23 +651,5 @@ function PicturesCard() {
         </div>
       </CardContent>
     </Card>
-  );
-}
-
-function Item({
-  icon,
-  children,
-}: {
-  icon: React.ReactNode;
-  children?: React.ReactNode;
-}) {
-  return (
-    <li className="w-full rounded-0.5 grid grid-cols-[auto_minmax(0px,1fr)] grid-flow-col">
-      <span className="w-4 h-4 flex items-center justify-center text-gray-600 text-[20px]">
-        {icon}
-      </span>
-
-      <div className="py-1">{children}</div>
-    </li>
   );
 }

@@ -5,3 +5,9 @@ export function getShortLocation(
 ) {
   return `${fosterFamily.city} (${fosterFamily.zipCode.substring(0, 2)})`;
 }
+
+export function getLongLocation(
+  fosterFamily: Pick<FosterFamily, "address" | "city" | "zipCode">
+) {
+  return `${fosterFamily.address}, ${fosterFamily.zipCode} ${fosterFamily.city}`;
+}
