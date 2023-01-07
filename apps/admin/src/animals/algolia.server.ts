@@ -6,7 +6,9 @@ import { createSearchFilters } from "~/core/algolia/shared.server";
 export type AnimalFromAlgolia = Pick<
   Animal,
   "alias" | "name" | "pickUpLocation" | "species" | "status"
->;
+> & {
+  pickUpDate: number;
+};
 
 export function createAnimalDelegate(client: SearchClient) {
   const index = client.initIndex("animals");
@@ -27,17 +29,30 @@ export function createAnimalDelegate(client: SearchClient) {
     },
 
     async search(
-      text: string,
-      filters: {
+      nameOrAlias: string,
+      {
+        maxPickUpDate,
+        minPickUpDate,
+        ...otherFilters
+      }: {
+        maxPickUpDate: null | Date;
+        minPickUpDate: null | Date;
         species: null | Species | Species[];
         pickUpLocation: null | string | string[];
         status: null | Status | Status[];
       },
       options: Omit<SearchOptions, "filters"> = {}
     ) {
-      const result = await index.search<AnimalFromAlgolia>(text, {
+      let pickUpDate: undefined | string;
+      if (minPickUpDate != null || maxPickUpDate != null) {
+        pickUpDate = `${minPickUpDate?.getTime() ?? 0} TO ${
+          maxPickUpDate?.getTime() ?? Date.now()
+        }`;
+      }
+
+      const result = await index.search<AnimalFromAlgolia>(nameOrAlias, {
         ...options,
-        filters: createSearchFilters(filters),
+        filters: createSearchFilters({ ...otherFilters, pickUpDate }),
       });
 
       return result.hits.map((hit) => ({

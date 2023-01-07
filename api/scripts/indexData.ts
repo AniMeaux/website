@@ -90,6 +90,7 @@ async function indexAnimals() {
       species: true,
       status: true,
       pickUpLocation: true,
+      pickUpDate: true,
     },
   });
 
@@ -97,7 +98,11 @@ async function indexAnimals() {
 
   await AnimalIndex.saveObjects(
     animals.map(({ id, ...animal }) => {
-      const animalFromAlgolia: AnimalFromAlgolia = animal;
+      const animalFromAlgolia: AnimalFromAlgolia = {
+        ...animal,
+        pickUpDate: animal.pickUpDate.getTime(),
+      };
+
       return { ...animalFromAlgolia, objectID: id };
     })
   );
@@ -105,6 +110,7 @@ async function indexAnimals() {
   const indexSettings = createIndexSettings<AnimalFromAlgolia>({
     searchableAttributes: ["name", "alias"],
     attributesForFaceting: ["searchable(pickUpLocation)", "species", "status"],
+    customRanking: ["desc(pickUpDate)"],
     maxFacetHits: 20,
   });
 

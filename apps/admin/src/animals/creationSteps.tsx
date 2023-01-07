@@ -10,9 +10,9 @@ export function AnimalCreationSteps({
 }) {
   return (
     <Steps activeIndex={STEPS.indexOf(activeStep)}>
-      <Step to="/animals/new-profile">Profile</Step>
-      <Step to="/animals/new-situation">Situation</Step>
-      <Step to="/animals/new-pictures">Photos</Step>
+      <Step to="/animals/new/profile">Profile</Step>
+      <Step to="/animals/new/situation">Situation</Step>
+      <Step to="/animals/new/pictures">Photos</Step>
     </Steps>
   );
 }
