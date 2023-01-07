@@ -10,6 +10,10 @@ export function createFosterFamilyDelegate(client: SearchClient) {
   return {
     indexName: index.indexName,
 
+    async delete(fosterFamilyId: FosterFamily["id"]) {
+      await index.deleteObject(fosterFamilyId);
+    },
+
     async search(displayName: string, options: SearchOptions = {}) {
       const result = await index.search<FosterFamilyFromAlgolia>(
         displayName,

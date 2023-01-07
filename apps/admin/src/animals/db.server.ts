@@ -11,7 +11,7 @@ import {
 import { algolia } from "~/core/algolia/algolia.server";
 import { deleteImage } from "~/core/cloudinary.server";
 import { prisma } from "~/core/db.server";
-import { NotFoundError } from "~/core/errors.server";
+import { NotFoundError, PrismaErrorCodes } from "~/core/errors.server";
 
 export async function searchPickUpLocation(
   searchParams: PickUpLocationSearchParams,
@@ -77,9 +77,7 @@ export async function deleteAnimal(animalId: Animal["id"]) {
       await Promise.allSettled(getAllAnimalPictures(animal).map(deleteImage));
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
-        // Not found.
-        // https://www.prisma.io/docs/reference/api-reference/error-reference#p2025
-        if (error.code === "P2025") {
+        if (error.code === PrismaErrorCodes.NOT_FOUND) {
           throw new NotFoundError();
         }
       }

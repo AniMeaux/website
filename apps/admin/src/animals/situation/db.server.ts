@@ -130,13 +130,13 @@ export async function assertDraftHasValidSituation(
   draft?: null | AnimalDraftSituation
 ) {
   if (!hasSituation(draft)) {
-    throw redirect("/animals/new-situation");
+    throw redirect("/animals/new/situation");
   }
 
   try {
     await validateSituation(prisma, draft);
   } catch (error) {
-    throw redirect("/animals/new-situation");
+    throw redirect("/animals/new/situation");
   }
 }
 

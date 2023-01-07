@@ -155,7 +155,7 @@ export async function action({ request }: ActionArgs) {
     throw error;
   }
 
-  throw redirect("/animals/new-pictures");
+  throw redirect("/animals/new/pictures");
 }
 
 export function CatchBoundary() {

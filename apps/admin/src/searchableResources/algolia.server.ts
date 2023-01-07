@@ -78,7 +78,7 @@ export function createSearchableResourceDelegate(client: SearchClient) {
     indexName: index.indexName,
 
     async createOrUpdateAnimal(
-      objectId: Animal["id"],
+      animalId: Animal["id"],
       data: SearchableAnimal["data"]
     ) {
       const fromAlgolia: SearchableResourceFromAlgolia = {
@@ -89,23 +89,24 @@ export function createSearchableResourceDelegate(client: SearchClient) {
         },
       };
 
-      await index.saveObject({ ...fromAlgolia, objectID: objectId });
+      await index.saveObject({ ...fromAlgolia, objectID: animalId });
     },
 
-    async deleteAnimal(objectId: Animal["id"]) {
-      await index.deleteObject(objectId);
+    async deleteAnimal(animalId: Animal["id"]) {
+      await index.deleteObject(animalId);
     },
 
-    async createOrUpdateUser(
-      objectId: User["id"],
-      data: SearchableUser["data"]
-    ) {
+    async createOrUpdateUser(userId: User["id"], data: SearchableUser["data"]) {
       const fromAlgolia: SearchableResourceFromAlgolia = {
         type: SearchableResourceType.USER,
         data,
       };
 
-      await index.saveObject({ ...fromAlgolia, objectID: objectId });
+      await index.saveObject({ ...fromAlgolia, objectID: userId });
+    },
+
+    async deleteFosterFamily(fosterFamilyId: FosterFamily["id"]) {
+      await index.deleteObject(fosterFamilyId);
     },
 
     async search(
