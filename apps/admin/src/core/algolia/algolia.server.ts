@@ -4,7 +4,6 @@ import { createAnimalDelegate } from "~/animals/algolia.server";
 import { createBreedDelegate } from "~/breeds/algolia.server";
 import { createColorDelegate } from "~/colors/algolia.server";
 import { createFosterFamilyDelegate } from "~/fosterFamilies/algolia.server";
-import { createSearchableResourceDelegate } from "~/searchableResources/algolia.server";
 import { createUserDelegate } from "~/users/algolia.server";
 
 invariant(process.env.ALGOLIA_ID != null, "ALGOLIA_ID must be defined.");
@@ -24,6 +23,5 @@ export const algolia = {
   breed: createBreedDelegate(client),
   color: createColorDelegate(client),
   fosterFamily: createFosterFamilyDelegate(client),
-  searchableResource: createSearchableResourceDelegate(client),
   user: createUserDelegate(client),
 };
