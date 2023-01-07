@@ -3,6 +3,7 @@ import { redirect } from "@remix-run/node";
 import { createPath } from "history";
 import { algolia } from "~/core/algolia/algolia.server";
 import { prisma } from "~/core/db.server";
+import { PrismaErrorCodes } from "~/core/errors.server";
 import { NextSearchParams } from "~/core/searchParams";
 import { getSession } from "~/core/session.server";
 import { destroyUserSession } from "~/currentUser/session.server";
@@ -162,9 +163,7 @@ export async function updateCurrentUserProfile(
       await prisma.user.update({ where: { id: userId }, data });
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
-        // Email already used.
-        // https://www.prisma.io/docs/reference/api-reference/error-reference#p2025
-        if (error.code === "P2002") {
+        if (error.code === PrismaErrorCodes.UNIQUE_CONSTRAINT_FAILED) {
           throw new EmailAlreadyUsedError();
         }
       }

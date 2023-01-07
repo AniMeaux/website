@@ -2,7 +2,7 @@ import { Animal, AnimalDraft, Prisma } from "@prisma/client";
 import { redirect } from "@remix-run/node";
 import { algolia } from "~/core/algolia/algolia.server";
 import { prisma } from "~/core/db.server";
-import { NotFoundError } from "~/core/errors.server";
+import { NotFoundError, PrismaErrorCodes } from "~/core/errors.server";
 
 type ProfileKeys =
   | "alias"
@@ -51,9 +51,7 @@ export async function updateAnimalProfile(
       });
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
-        // Not found.
-        // https://www.prisma.io/docs/reference/api-reference/error-reference#p2025
-        if (error.code === "P2025") {
+        if (error.code === PrismaErrorCodes.NOT_FOUND) {
           throw new NotFoundError();
         }
       }
