@@ -1,6 +1,5 @@
 import { formatAge } from "@animeaux/shared";
 import { AdoptionOption, Gender, Status, UserGroup } from "@prisma/client";
-import * as Dialog from "@radix-ui/react-dialog";
 import {
   ActionArgs,
   json,
@@ -25,7 +24,6 @@ import { getSpeciesLabels, SPECIES_ICON } from "~/animals/species";
 import { StatusBadge, StatusIcon, STATUS_TRANSLATION } from "~/animals/status";
 import { actionClassName } from "~/core/actions";
 import { BaseLink, BaseLinkProps } from "~/core/baseLink";
-import { cn } from "~/core/classNames";
 import { useConfig } from "~/core/config";
 import { ActionConfirmationHelper } from "~/core/dataDisplay/actionConfirmationHelper";
 import { Empty } from "~/core/dataDisplay/empty";
@@ -38,6 +36,16 @@ import { NotFoundError } from "~/core/errors.server";
 import { assertIsDefined } from "~/core/isDefined.server";
 import { Card, CardContent, CardHeader, CardTitle } from "~/core/layout/card";
 import { getPageTitle } from "~/core/pageTitle";
+import {
+  Dialog,
+  DialogActions,
+  DialogCloseAction,
+  DialogConfirmAction,
+  DialogHeader,
+  DialogMessage,
+  DialogRoot,
+  DialogTrigger,
+} from "~/core/popovers/dialog";
 import { NotFoundResponse } from "~/core/response.server";
 import {
   ActionConfirmationSearchParams,
@@ -210,7 +218,7 @@ export default function AnimalProfilePage() {
           <DescriptionCard />
         </main>
 
-        <aside className="md:flex-col md:gap-2 md:flex">
+        <aside className="md:flex md:flex-col md:gap-2">
           <SituationCard />
           <CommentsCard />
           {canEdit ? <ActionCard /> : null}
@@ -482,8 +490,8 @@ function ActionCard() {
       </CardHeader>
 
       <CardContent>
-        <Dialog.Root>
-          <Dialog.Trigger
+        <DialogRoot>
+          <DialogTrigger
             className={actionClassName.standalone({
               variant: "secondary",
               color: "red",
@@ -491,65 +499,34 @@ function ActionCard() {
           >
             <Icon id="trash" />
             Supprimer
-          </Dialog.Trigger>
+          </DialogTrigger>
 
-          <Dialog.Portal>
-            <Dialog.Overlay
-              className={cn(
-                // Use absolute instead of fixed to avoid performances issues
-                // when mobile browser's height change due to scroll.
-                "absolute",
-                "top-0 right-0 bottom-0 left-0 z-30 overscroll-none bg-black/20"
-              )}
-            />
+          <Dialog variant="alert">
+            <DialogHeader>
+              Supprimer {getAnimalDisplayName(animal)}
+            </DialogHeader>
 
-            <Dialog.Content className="fixed top-[10vh] left-1 right-1 z-30 shadow-ambient bg-white rounded-1 p-2 flex flex-col gap-2 md:left-1/2 md:right-auto md:-translate-x-1/2 md:w-[550px]">
-              <header className="grid grid-cols-[auto_minmax(0px,1fr)] gap-1">
-                <Icon
-                  id="circleExclamation"
-                  className="text-[20px] text-red-400"
-                />
+            <DialogMessage>
+              Êtes-vous sûr de vouloir supprimer{" "}
+              <strong className="text-body-emphasis">
+                {getAnimalDisplayName(animal)}
+              </strong>
+              {" "}?
+              <br />
+              L’action est irréversible.
+            </DialogMessage>
 
-                <Dialog.Title className="text-title-section-small md:text-title-section-large">
-                  Supprimer {getAnimalDisplayName(animal)}
-                </Dialog.Title>
-              </header>
+            <DialogActions>
+              <DialogCloseAction>Annuler</DialogCloseAction>
 
-              <p>
-                Êtes-vous sûr de vouloir supprimer{" "}
-                <strong className="text-body-emphasis">
-                  {getAnimalDisplayName(animal)}
-                </strong>
-                 ?
-                <br />
-                L’action est irréversible.
-              </p>
-
-              <footer className="flex items-center justify-between gap-2">
-                <Dialog.Close
-                  className={actionClassName.standalone({
-                    variant: "text",
-                    color: "gray",
-                  })}
-                >
-                  Annuler
-                </Dialog.Close>
-
-                <Form method="delete" className="flex">
-                  <button
-                    type="submit"
-                    className={actionClassName.standalone({
-                      variant: "secondary",
-                      color: "red",
-                    })}
-                  >
-                    Oui, supprimer
-                  </button>
-                </Form>
-              </footer>
-            </Dialog.Content>
-          </Dialog.Portal>
-        </Dialog.Root>
+              <Form method="delete" className="flex">
+                <DialogConfirmAction type="submit">
+                  Oui, supprimer
+                </DialogConfirmAction>
+              </Form>
+            </DialogActions>
+          </Dialog>
+        </DialogRoot>
       </CardContent>
     </Card>
   );
