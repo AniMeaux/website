@@ -49,6 +49,7 @@ export async function updateAnimalSituation(
 
     await algolia.animal.update(animalId, {
       status: data.status,
+      pickUpDate: data.pickUpDate.getTime(),
       pickUpLocation: data.pickUpLocation,
     });
 

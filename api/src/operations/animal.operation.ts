@@ -438,6 +438,7 @@ export const animalOperations: OperationsImpl<AnimalOperations> = {
       species: animal.species,
       status: animal.status,
       pickUpLocation: animal.pickUpLocation,
+      pickUpDate: animal.pickUpDate.getTime(),
     };
 
     await AnimalIndex.saveObject({ ...animalFromAlgolia, objectID: animal.id });
@@ -614,6 +615,7 @@ export const animalOperations: OperationsImpl<AnimalOperations> = {
       const animalFromAlgolia: Partial<AnimalFromAlgolia> = {
         status: animal.status,
         pickUpLocation: animal.pickUpLocation,
+        pickUpDate: animal.pickUpDate.getTime(),
       };
 
       await AnimalIndex.partialUpdateObject({
