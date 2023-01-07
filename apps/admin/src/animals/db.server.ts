@@ -1,4 +1,5 @@
 import { Animal, AnimalDraft, Prisma } from "@prisma/client";
+import invariant from "tiny-invariant";
 import { getAllAnimalPictures } from "~/animals/pictures/allPictures";
 import { AnimalPictures } from "~/animals/pictures/db.server";
 import { hasProfile, validateProfile } from "~/animals/profile/db.server";
@@ -57,12 +58,6 @@ export async function createAnimal(
       status: data.status,
     });
 
-    await algolia.searchableResource.createOrUpdateAnimal(animal.id, {
-      alias: data.alias,
-      name: data.name,
-      pickUpDate: data.pickUpDate,
-    });
-
     return animal.id;
   });
 }
@@ -87,6 +82,26 @@ export async function deleteAnimal(animalId: Animal["id"]) {
     }
 
     await algolia.animal.delete(animalId);
-    await algolia.searchableResource.deleteAnimal(animalId);
+  });
+}
+
+export async function fuzzySearchAnimals(nameOrAlias: string) {
+  const hits = await algolia.animal.search({ nameOrAlias }, { hitsPerPage: 6 });
+
+  const animals = await prisma.animal.findMany({
+    where: { id: { in: hits.map((hit) => hit.id) } },
+    select: {
+      avatar: true,
+      id: true,
+      species: true,
+      breed: { select: { name: true } },
+      color: { select: { name: true } },
+    },
+  });
+
+  return hits.map((hit) => {
+    const animal = animals.find((animal) => animal.id === hit.id);
+    invariant(animal != null, "Animal from algolia should exists.");
+    return { ...hit, ...animal };
   });
 }

@@ -19,11 +19,6 @@ import {
   getFormattedAddress,
   getShortLocation,
 } from "../entities/fosterFamily.entity";
-import {
-  SearchableResourceFromAlgolia,
-  SearchableResourcesIndex,
-  SearchableResourceType,
-} from "../entities/searchableResources.entity";
 
 const fosterFamilyWithIncludes = Prisma.validator<Prisma.FosterFamilyArgs>()({
   include: {
@@ -151,16 +146,6 @@ export const fosterFamilyOperations: OperationsImpl<FosterFamilyOperations> = {
         objectID: fosterFamily.id,
       });
 
-      const searchableFosterFamilyFromAlgolia: SearchableResourceFromAlgolia = {
-        type: SearchableResourceType.FOSTER_FAMILY,
-        data: { displayName: fosterFamily.displayName },
-      };
-
-      await SearchableResourcesIndex.saveObject({
-        ...searchableFosterFamilyFromAlgolia,
-        objectID: fosterFamily.id,
-      });
-
       return mapToFosterFamily(fosterFamily);
     } catch (error) {
       // Unique constraint failed.
@@ -230,16 +215,6 @@ export const fosterFamilyOperations: OperationsImpl<FosterFamilyOperations> = {
         objectID: fosterFamily.id,
       });
 
-      const searchableFosterFamilyFromAlgolia: SearchableResourceFromAlgolia = {
-        type: SearchableResourceType.FOSTER_FAMILY,
-        data: { displayName: fosterFamily.displayName },
-      };
-
-      await SearchableResourcesIndex.saveObject({
-        ...searchableFosterFamilyFromAlgolia,
-        objectID: fosterFamily.id,
-      });
-
       return mapToFosterFamily(fosterFamily);
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
@@ -290,7 +265,6 @@ export const fosterFamilyOperations: OperationsImpl<FosterFamilyOperations> = {
     }
 
     await FosterFamilyIndex.deleteObject(params.id);
-    await SearchableResourcesIndex.deleteObject(params.id);
 
     return true;
   },

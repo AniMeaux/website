@@ -14,11 +14,6 @@ import { OperationError, OperationsImpl } from "../core/operations";
 import { generatePasswordHash } from "../core/password";
 import { validateParams } from "../core/validation";
 import { getDisplayName } from "../entities/animal.entity";
-import {
-  SearchableResourceFromAlgolia,
-  SearchableResourcesIndex,
-  SearchableResourceType,
-} from "../entities/searchableResources.entity";
 import { UserFromAlgolia, UserIndex } from "../entities/user.entity";
 
 const userWithIncludes = Prisma.validator<Prisma.UserArgs>()({
@@ -115,16 +110,6 @@ export const userOperations: OperationsImpl<UserOperations> = {
         objectID: user.id,
       });
 
-      const searchableUserFromAlgolia: SearchableResourceFromAlgolia = {
-        type: SearchableResourceType.USER,
-        data: { displayName: user.displayName },
-      };
-
-      await SearchableResourcesIndex.saveObject({
-        ...searchableUserFromAlgolia,
-        objectID: user.id,
-      });
-
       return mapToPublicUser(user);
     } catch (error) {
       // Unique constraint failed.
@@ -207,16 +192,6 @@ export const userOperations: OperationsImpl<UserOperations> = {
       await UserIndex.partialUpdateObject({
         ...userFromAlgolia,
         objectID: params.id,
-      });
-
-      const searchableUserFromAlgolia: SearchableResourceFromAlgolia = {
-        type: SearchableResourceType.USER,
-        data: { displayName: user.displayName },
-      };
-
-      await SearchableResourcesIndex.saveObject({
-        ...searchableUserFromAlgolia,
-        objectID: user.id,
       });
 
       return mapToPublicUser(user);
@@ -308,7 +283,6 @@ export const userOperations: OperationsImpl<UserOperations> = {
     }
 
     await UserIndex.deleteObject(params.id);
-    await SearchableResourcesIndex.deleteObject(params.id);
 
     return true;
   },

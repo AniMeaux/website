@@ -29,17 +29,20 @@ export function createAnimalDelegate(client: SearchClient) {
     },
 
     async search(
-      nameOrAlias: string,
       {
+        nameOrAlias,
         maxPickUpDate,
         minPickUpDate,
-        ...otherFilters
+        species,
+        pickUpLocation,
+        status,
       }: {
-        maxPickUpDate: null | Date;
-        minPickUpDate: null | Date;
-        species: null | Species | Species[];
-        pickUpLocation: null | string | string[];
-        status: null | Status | Status[];
+        nameOrAlias: string;
+        maxPickUpDate?: null | Date;
+        minPickUpDate?: null | Date;
+        species?: null | Species | Species[];
+        pickUpLocation?: null | string | string[];
+        status?: null | Status | Status[];
       },
       options: Omit<SearchOptions, "filters"> = {}
     ) {
@@ -52,7 +55,12 @@ export function createAnimalDelegate(client: SearchClient) {
 
       const result = await index.search<AnimalFromAlgolia>(nameOrAlias, {
         ...options,
-        filters: createSearchFilters({ ...otherFilters, pickUpDate }),
+        filters: createSearchFilters({
+          pickUpDate,
+          species,
+          pickUpLocation,
+          status,
+        }),
       });
 
       return result.hits.map((hit) => ({
