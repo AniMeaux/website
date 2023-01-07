@@ -125,6 +125,8 @@ export async function loader({ request }: LoaderArgs) {
   const nameOrAlias = animalSearchParams.getNameOrAlias();
   if (nameOrAlias != null) {
     const animals = await algolia.animal.search(nameOrAlias, {
+      maxPickUpDate,
+      minPickUpDate,
       pickUpLocation: pickUpLocations,
       species,
       status: statuses,

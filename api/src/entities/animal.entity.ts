@@ -8,7 +8,9 @@ export const AnimalIndex = AlgoliaClient.initIndex(ANIMAL_INDEX_NAME);
 export type AnimalFromAlgolia = Pick<
   Animal,
   "name" | "alias" | "species" | "status" | "pickUpLocation"
->;
+> & {
+  pickUpDate: number;
+};
 
 export function getDisplayName(animal: Pick<Animal, "name" | "alias">) {
   if (animal.alias != null && animal.alias !== "") {

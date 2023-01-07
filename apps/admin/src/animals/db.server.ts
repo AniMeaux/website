@@ -51,6 +51,7 @@ export async function createAnimal(
     await algolia.animal.create(animal.id, {
       alias: data.alias,
       name: data.name,
+      pickUpDate: data.pickUpDate.getTime(),
       pickUpLocation: data.pickUpLocation,
       species: data.species,
       status: data.status,
