@@ -105,6 +105,10 @@ export function createSearchableResourceDelegate(client: SearchClient) {
       await index.saveObject({ ...fromAlgolia, objectID: userId });
     },
 
+    async deleteFosterFamily(fosterFamilyId: FosterFamily["id"]) {
+      await index.deleteObject(fosterFamilyId);
+    },
+
     async search(
       text: string,
       filters: { type: SearchableResourceType[] },
