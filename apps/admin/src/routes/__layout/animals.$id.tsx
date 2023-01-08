@@ -1,5 +1,6 @@
 import { formatAge } from "@animeaux/shared";
 import { AdoptionOption, Gender, Status, UserGroup } from "@prisma/client";
+import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import {
   ActionArgs,
   json,
@@ -54,7 +55,9 @@ import {
 import { getCurrentUser } from "~/currentUser/db.server";
 import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
 import { FosterFamilyAvatar } from "~/fosterFamilies/avatar";
+import { getLongLocation } from "~/fosterFamilies/location";
 import { Icon } from "~/generated/icon";
+import { theme } from "~/generated/theme";
 import { UserAvatar } from "~/users/avatar";
 import { hasGroups } from "~/users/groups";
 
@@ -94,7 +97,17 @@ export async function loader({ request, params }: LoaderArgs) {
       comments: showAllInfo,
       description: true,
       fosterFamily: showAllInfo
-        ? { select: { id: true, displayName: true } }
+        ? {
+            select: {
+              address: true,
+              city: true,
+              displayName: true,
+              email: true,
+              id: true,
+              phone: true,
+              zipCode: true,
+            },
+          }
         : false,
       gender: true,
       iCadNumber: showAllInfo,
@@ -121,7 +134,12 @@ export async function loader({ request, params }: LoaderArgs) {
     UserGroup.ANIMAL_MANAGER,
   ]);
 
-  return json({ canEdit, animal });
+  const canSeeFosterFamilyDetails = hasGroups(currentUser, [
+    UserGroup.ADMIN,
+    UserGroup.ANIMAL_MANAGER,
+  ]);
+
+  return json({ animal, canEdit, canSeeFosterFamilyDetails });
 }
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
@@ -350,7 +368,8 @@ function ProfileCard() {
 }
 
 function SituationCard() {
-  const { canEdit, animal } = useLoaderData<typeof loader>();
+  const { canEdit, animal, canSeeFosterFamilyDetails } =
+    useLoaderData<typeof loader>();
 
   return (
     <Card>
@@ -409,14 +428,69 @@ function SituationCard() {
           </Item>
 
           {animal.fosterFamily != null ? (
-            <Item
-              icon={<FosterFamilyAvatar fosterFamily={animal.fosterFamily} />}
-            >
-              En FA chez{" "}
-              <strong className="text-body-emphasis">
-                {animal.fosterFamily.displayName}
-              </strong>
-            </Item>
+            <DropdownMenu.Root>
+              <Item
+                icon={<FosterFamilyAvatar fosterFamily={animal.fosterFamily} />}
+              >
+                En FA chez{" "}
+                <DropdownMenu.Trigger className={actionClassName.proseInline()}>
+                  {animal.fosterFamily.displayName}
+                </DropdownMenu.Trigger>
+              </Item>
+
+              <DropdownMenu.Portal>
+                <DropdownMenu.Content
+                  side="bottom"
+                  sideOffset={theme.spacing[1]}
+                  collisionPadding={theme.spacing[1]}
+                  className="z-20 shadow-ambient rounded-1 w-[300px] bg-white p-1 flex flex-col gap-1"
+                >
+                  <div className="grid grid-cols-[auto,minmax(0px,1fr)] items-center gap-1">
+                    <FosterFamilyAvatar
+                      size="lg"
+                      fosterFamily={animal.fosterFamily}
+                    />
+                    <div className="flex flex-col">
+                      <span>{animal.fosterFamily.displayName}</span>
+                    </div>
+                  </div>
+
+                  <DropdownMenu.Separator className="border-t border-gray-100" />
+
+                  <ul className="flex flex-col">
+                    <Item icon={<Icon id="phone" />}>
+                      {animal.fosterFamily.phone}
+                    </Item>
+                    <Item icon={<Icon id="envelope" />}>
+                      {animal.fosterFamily.email}
+                    </Item>
+                    <Item icon={<Icon id="locationDot" />}>
+                      {getLongLocation(animal.fosterFamily)}
+                    </Item>
+                  </ul>
+
+                  {canSeeFosterFamilyDetails ? (
+                    <>
+                      <DropdownMenu.Separator className="border-t border-gray-100" />
+                      <DropdownMenu.Item asChild>
+                        <BaseLink
+                          to={`/foster-families/${animal.fosterFamily.id}`}
+                          className="rounded-0.5 pr-1 grid grid-cols-[auto,minmax(0px,1fr)] items-center text-gray-500 text-left cursor-pointer transition-colors duration-100 ease-in-out hover:bg-gray-100 active:bg-gray-100 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400"
+                        >
+                          <span className="w-4 h-4 flex items-center justify-center text-[20px]">
+                            <Icon id="ellipsis" />
+                          </span>
+
+                          <span className="text-body-emphasis">
+                            Voir plus d’informations
+                          </span>
+                        </BaseLink>
+                      </DropdownMenu.Item>
+                    </>
+                  ) : null}
+                </DropdownMenu.Content>
+              </DropdownMenu.Portal>
+            </DropdownMenu.Root>
           ) : null}
 
           <Item icon={<Icon id="handHoldingHeart" />}>
