@@ -84,6 +84,7 @@ export default function EditCurrentUserPasswordPage() {
           <Form
             method="post"
             noValidate
+            replace
             className={formClassNames.root({ hasHeader: true })}
           >
             <div className={formClassNames.fields.root()}>

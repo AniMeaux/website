@@ -50,7 +50,7 @@ export async function loader({ request }: LoaderArgs) {
 }
 
 export const meta: MetaFunction = () => {
-  return { title: getPageTitle(["Situation", "Nouvel animal"]) };
+  return { title: getPageTitle(["Nouvel animal", "Situation"]) };
 };
 
 type ActionData = {
