@@ -115,6 +115,9 @@ export function useActionConfirmation(action: ActionConfirmationType) {
 
   return {
     isVisible: actionSearchParams.hasConfirmation(action),
-    clear: () => setSearchParams(actionSearchParams.setConfirmation(null)),
+    clear: () =>
+      setSearchParams(actionSearchParams.setConfirmation(null), {
+        replace: true,
+      }),
   };
 }
