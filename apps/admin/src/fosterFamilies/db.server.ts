@@ -10,11 +10,7 @@ import {
 
 const SEARCH_COUNT = 6;
 
-export async function fuzzySearchFosterFamilies({
-  displayName,
-}: {
-  displayName: null | string;
-}) {
+export async function fuzzySearchFosterFamilies(displayName: null | string) {
   // Don't use Algolia when there are no text search.
   if (displayName == null) {
     const fosterFamilies = await prisma.fosterFamily.findMany({
@@ -29,9 +25,10 @@ export async function fuzzySearchFosterFamilies({
     }));
   }
 
-  const hits = await algolia.fosterFamily.search(displayName, {
-    hitsPerPage: SEARCH_COUNT,
-  });
+  const hits = await algolia.fosterFamily.search(
+    { displayName },
+    { hitsPerPage: SEARCH_COUNT }
+  );
 
   const fosterFamilies = await prisma.fosterFamily.findMany({
     where: { id: { in: hits.map((hit) => hit.id) } },

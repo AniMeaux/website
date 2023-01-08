@@ -1,7 +1,12 @@
 import { FosterFamily } from "@prisma/client";
+import { forwardRef } from "react";
 import { BaseLink } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
 import { AvatarColor, inferAvatarColor } from "~/core/dataDisplay/avatar";
+import {
+  SuggestionItem,
+  SuggestionItemProps,
+} from "~/core/formElements/resourceInput";
 import { FosterFamilyAvatar } from "~/fosterFamilies/avatar";
 import { getShortLocation } from "~/fosterFamilies/location";
 
@@ -46,3 +51,22 @@ const DISPLAY_NAME_CLASS_NAME: Record<AvatarColor, string> = {
   red: "group-hover:text-red-600",
   yellow: "group-hover:text-yellow-600",
 };
+
+export const FosterFamilySuggestionItem = forwardRef<
+  HTMLLIElement,
+  Omit<SuggestionItemProps, "leftAdornment" | "label" | "secondaryLabel"> & {
+    fosterFamily: Pick<FosterFamily, "city" | "id" | "zipCode"> & {
+      highlightedDisplayName: string;
+    };
+  }
+>(function FosterFamilySuggestionItem({ fosterFamily, ...rest }, ref) {
+  return (
+    <SuggestionItem
+      {...rest}
+      ref={ref}
+      leftAdornment={<FosterFamilyAvatar fosterFamily={fosterFamily} />}
+      label={fosterFamily.highlightedDisplayName}
+      secondaryLabel={getShortLocation(fosterFamily)}
+    />
+  );
+});
