@@ -87,6 +87,7 @@ export function AnimalPicturesForm({
           method: "post",
           encType: "multipart/form-data",
           action,
+          replace: true,
         });
       }}
     >
