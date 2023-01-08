@@ -15,14 +15,12 @@ import {
   NoSuggestion,
   ResourceComboboxLayout,
   ResourceInputLayout,
-  SuggestionItem,
   SuggestionList,
 } from "~/core/formElements/resourceInput";
 import { getCurrentUser } from "~/currentUser/db.server";
 import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
-import { FosterFamilyAvatar } from "~/fosterFamilies/avatar";
 import { fuzzySearchFosterFamilies } from "~/fosterFamilies/db.server";
-import { getShortLocation } from "~/fosterFamilies/location";
+import { FosterFamilySuggestionItem } from "~/fosterFamilies/item";
 import { FosterFamilySearchParams } from "~/fosterFamilies/searchParams";
 import { Icon } from "~/generated/icon";
 
@@ -254,7 +252,7 @@ function Combobox({
       list={
         <SuggestionList {...combobox.getMenuProps()}>
           {fosterFamilies.map((fosterFamily, index) => (
-            <SuggestionItem
+            <FosterFamilySuggestionItem
               // For some reason, if `key` is not passed before
               // `...combobox.getItemProps`, the app crash with:
               // > Unexpected Server Error
@@ -266,9 +264,7 @@ function Combobox({
               key={fosterFamily.id}
               {...combobox.getItemProps({ item: fosterFamily, index })}
               isValue={selectedFosterFamily?.id === fosterFamily.id}
-              leftAdornment={<FosterFamilyAvatar fosterFamily={fosterFamily} />}
-              label={fosterFamily.highlightedDisplayName}
-              secondaryLabel={getShortLocation(fosterFamily)}
+              fosterFamily={fosterFamily}
             />
           ))}
 
