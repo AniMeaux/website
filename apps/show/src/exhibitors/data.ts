@@ -116,6 +116,13 @@ export const exhibitors: Exhibitor[] = [
     url: "https://www.facebook.com/Hop-hop-hop-on-adopte-103402841170712",
   },
   {
+    id: "2798a7fc-6a08-48e7-b2f0-5cb99d40451f",
+    name: "Association Marguerite & Cie",
+    category: ExhibitorCategory.ASSOCIATION,
+    image: "show-exhibitors/25a8d22f-9910-49e9-be37-ba55776b3c96",
+    url: "https://margueritecie.org",
+  },
+  {
     id: "fd45e87f-a139-4d57-b382-cae29f545fe0",
     name: "Association Oups And Co",
     category: ExhibitorCategory.ASSOCIATION_ANIMAUX_DE_COMPAGNIE,
