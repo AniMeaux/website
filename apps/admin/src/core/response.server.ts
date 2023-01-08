@@ -1,6 +1,12 @@
 export class NotFoundResponse extends Response {
   constructor() {
-    super("Not found", { status: 404 });
+    super("Not Found", { status: 404 });
+  }
+}
+
+export class BadRequestResponse extends Response {
+  constructor() {
+    super("Bad Request", { status: 400 });
   }
 }
 

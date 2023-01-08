@@ -39,9 +39,9 @@ export async function loader({ request }: LoaderArgs) {
   );
 
   return json({
-    fosterFamilies: await fuzzySearchFosterFamilies({
-      displayName: searchParams.getDisplayName(),
-    }),
+    fosterFamilies: await fuzzySearchFosterFamilies(
+      searchParams.getDisplayName()
+    ),
   });
 }
 
