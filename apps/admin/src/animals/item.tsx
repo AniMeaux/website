@@ -1,10 +1,17 @@
-import { Animal, Gender, User } from "@prisma/client";
+import { Animal, Breed, Color, Gender, User } from "@prisma/client";
+import { forwardRef } from "react";
+import { AnimalAvatar } from "~/animals/avatar";
 import { GENDER_ICON, GENDER_TRANSLATION } from "~/animals/gender";
 import { getAnimalDisplayName } from "~/animals/profile/name";
+import { getSpeciesLabels } from "~/animals/species";
 import { StatusBadge } from "~/animals/status";
 import { BaseLink } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
 import { DynamicImage, DynamicImageProps } from "~/core/dataDisplay/image";
+import {
+  SuggestionItem,
+  SuggestionItemProps,
+} from "~/core/formElements/resourceInput";
 import { Icon } from "~/generated/icon";
 
 export function AnimalItem({
@@ -81,3 +88,28 @@ export function AnimalItem({
     </BaseLink>
   );
 }
+
+export const AnimalSuggestionItem = forwardRef<
+  HTMLLIElement,
+  Omit<SuggestionItemProps, "leftAdornment" | "label" | "secondaryLabel"> & {
+    animal: Pick<Animal, "avatar" | "name" | "species"> & {
+      highlightedAlias: null | string;
+      highlightedName: string;
+      breed: null | Pick<Breed, "name">;
+      color: null | Pick<Color, "name">;
+    };
+  }
+>(function AnimalSuggestionItem({ animal, ...rest }, ref) {
+  return (
+    <SuggestionItem
+      {...rest}
+      ref={ref}
+      leftAdornment={<AnimalAvatar animal={animal} loading="eager" />}
+      label={getAnimalDisplayName({
+        name: animal.highlightedName,
+        alias: animal.highlightedAlias,
+      })}
+      secondaryLabel={getSpeciesLabels(animal)}
+    />
+  );
+});

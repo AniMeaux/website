@@ -14,11 +14,10 @@ import {
 } from "downshift";
 import { createPath } from "history";
 import { useEffect, useState } from "react";
-import { AnimalAvatar } from "~/animals/avatar";
 import { fuzzySearchAnimals } from "~/animals/db.server";
+import { AnimalSuggestionItem } from "~/animals/item";
 import { getAnimalDisplayName } from "~/animals/profile/name";
 import { AnimalSearchParams } from "~/animals/searchParams";
-import { getSpeciesLabels } from "~/animals/species";
 import { cn } from "~/core/classNames";
 import { ActionAdornment } from "~/core/formElements/adornment";
 import { Input } from "~/core/formElements/input";
@@ -289,15 +288,10 @@ function Combobox({
             }
 
             return (
-              <SuggestionItem
+              <AnimalSuggestionItem
                 key={item.id}
                 {...combobox.getItemProps({ item, index })}
-                leftAdornment={<AnimalAvatar animal={item} loading="eager" />}
-                label={getAnimalDisplayName({
-                  name: item.highlightedName,
-                  alias: item.highlightedAlias,
-                })}
-                secondaryLabel={getSpeciesLabels(item)}
+                animal={item}
               />
             );
           })}
