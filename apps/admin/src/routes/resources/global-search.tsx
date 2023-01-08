@@ -1,4 +1,3 @@
-import { formatDateRange } from "@animeaux/shared";
 import { UserGroup } from "@prisma/client";
 import * as Dialog from "@radix-ui/react-dialog";
 import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
@@ -16,28 +15,30 @@ import {
 import { createPath } from "history";
 import { useEffect, useState } from "react";
 import { AnimalAvatar } from "~/animals/avatar";
+import { fuzzySearchAnimals } from "~/animals/db.server";
 import { getAnimalDisplayName } from "~/animals/profile/name";
 import { AnimalSearchParams } from "~/animals/searchParams";
 import { getSpeciesLabels } from "~/animals/species";
 import { cn } from "~/core/classNames";
-import { Avatar, inferAvatarColor } from "~/core/dataDisplay/avatar";
 import { ActionAdornment } from "~/core/formElements/adornment";
 import { Input } from "~/core/formElements/input";
 import {
   SuggestionItem,
   SuggestionList,
 } from "~/core/formElements/resourceInput";
-import { ForbiddenResponse } from "~/core/response.server";
-import { visit } from "~/core/visitor";
 import { getCurrentUser } from "~/currentUser/db.server";
 import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
-import { FosterFamilyAvatar } from "~/fosterFamilies/avatar";
-import { getShortLocation } from "~/fosterFamilies/location";
 import { Icon } from "~/generated/icon";
-import { fuzzySearchResources } from "~/searchableResources/db.server";
-import { SearchableResourceSearchParams } from "~/searchableResources/searchParams";
-import { SearchableResourceType } from "~/searchableResources/type";
-import { UserAvatar } from "~/users/avatar";
+
+export class GlobalSearchParams extends URLSearchParams {
+  static readonly Keys = {
+    TEXT: "q",
+  };
+
+  getText() {
+    return this.get(GlobalSearchParams.Keys.TEXT)?.trim() || null;
+  }
+}
 
 export async function loader({ request }: LoaderArgs) {
   const currentUser = await getCurrentUser(request, {
@@ -51,55 +52,14 @@ export async function loader({ request }: LoaderArgs) {
     UserGroup.VOLUNTEER,
   ]);
 
-  const searchParams = new SearchableResourceSearchParams(
+  const searchParams = new GlobalSearchParams(
     new URL(request.url).searchParams
   );
 
-  const possibleTypes = getCurrentUserSearchableResourceTypes(currentUser);
+  const text = searchParams.getText();
 
-  const type = searchParams.getType();
-  if (type != null && !possibleTypes.includes(type)) {
-    throw new ForbiddenResponse();
-  }
-
-  return json({
-    possibleTypes,
-    resources: await fuzzySearchResources({
-      text: searchParams.getText(),
-      types: type == null ? possibleTypes : [type],
-    }),
-  });
+  return json({ animals: text ? await fuzzySearchAnimals(text) : [] });
 }
-
-function getCurrentUserSearchableResourceTypes(currentUser: {
-  id: string;
-  groups: UserGroup[];
-}) {
-  let possibleTypes: SearchableResourceType[] = [];
-  currentUser.groups.forEach((group) => {
-    possibleTypes = possibleTypes.concat(ALLOWED_TYPES_PER_GROUP[group]);
-  });
-  return Array.from(new Set(possibleTypes));
-}
-
-const ALLOWED_TYPES_PER_GROUP: Record<UserGroup, SearchableResourceType[]> = {
-  [UserGroup.ADMIN]: [
-    SearchableResourceType.ANIMAL,
-    // Uncomment when pages are implemented.
-    // SearchableResourceType.EVENT,
-    // SearchableResourceType.FOSTER_FAMILY,
-    // SearchableResourceType.USER,
-  ],
-  [UserGroup.ANIMAL_MANAGER]: [
-    SearchableResourceType.ANIMAL,
-    // Uncomment when pages are implemented.
-    // SearchableResourceType.FOSTER_FAMILY,
-  ],
-  [UserGroup.BLOGGER]: [],
-  [UserGroup.HEAD_OF_PARTNERSHIPS]: [],
-  [UserGroup.VETERINARIAN]: [SearchableResourceType.ANIMAL],
-  [UserGroup.VOLUNTEER]: [SearchableResourceType.ANIMAL],
-};
 
 const RESOURCE_PATHNAME = "/resources/global-search";
 
@@ -129,17 +89,14 @@ export function GlobalSearch() {
 
   const fetcher = useFetcher<typeof loader>();
 
-  // This effect does 2 things:
-  // - Make sure we display possible types without delay when the combobox is
-  //   opened.
-  // - Make sure we clear any search when the combobox is closed.
+  // Make sure we clear any search when the combobox is closed.
   const load = fetcher.load;
   useEffect(() => {
     if (!isOpened) {
       load(
         createPath({
           pathname: RESOURCE_PATHNAME,
-          search: new SearchableResourceSearchParams().toString(),
+          search: new GlobalSearchParams().toString(),
         })
       );
     }
@@ -174,21 +131,9 @@ export function GlobalSearch() {
           <Combobox
             fetcher={fetcher}
             onClose={() => setIsOpened(false)}
-            onSelectedItemChange={(resource) => {
+            onSelectedItemChange={(animal) => {
               setIsOpened(false);
-
-              const pathname = visit(resource, {
-                [SearchableResourceType.ANIMAL]: (resource) =>
-                  `/animals/${resource.id}`,
-                [SearchableResourceType.EVENT]: (resource) =>
-                  `/events/${resource.id}`,
-                [SearchableResourceType.FOSTER_FAMILY]: (resource) =>
-                  `/foster-families/${resource.id}`,
-                [SearchableResourceType.USER]: (resource) =>
-                  `/users/${resource.id}`,
-              });
-
-              navigate(pathname);
+              navigate(`/animals/${animal.id}`);
             }}
             onSelectSearch={(search) => {
               setIsOpened(false);
@@ -232,22 +177,22 @@ function Combobox({
 }: {
   fetcher: FetcherWithComponents<SerializeFrom<typeof loader>>;
   onSelectedItemChange: React.Dispatch<
-    SerializeFrom<typeof loader>["resources"][number]
+    SerializeFrom<typeof loader>["animals"][number]
   >;
   onSelectSearch: React.Dispatch<string>;
   onClose: () => void;
 }) {
   const [inputValue, setInputValue] = useState("");
   const cleanedInputValue = inputValue.trim();
-  const resources = fetcher.data?.resources ?? [];
+  const animals = fetcher.data?.animals ?? [];
 
   let items: (
     | "search-item"
-    | SerializeFrom<typeof loader>["resources"][number]
-  )[] = resources;
+    | SerializeFrom<typeof loader>["animals"][number]
+  )[] = animals;
 
   if (cleanedInputValue !== "") {
-    items = ["search-item", ...resources];
+    items = ["search-item", ...animals];
   }
 
   const combobox = useCombobox({
@@ -264,14 +209,7 @@ function Combobox({
         return item;
       }
 
-      return visit(item, {
-        [SearchableResourceType.ANIMAL]: (resource) =>
-          getAnimalDisplayName(resource.data),
-        [SearchableResourceType.EVENT]: (resource) => resource.data.title,
-        [SearchableResourceType.FOSTER_FAMILY]: (resource) =>
-          resource.data.displayName,
-        [SearchableResourceType.USER]: (resource) => resource.data.displayName,
-      });
+      return getAnimalDisplayName(item);
     },
     onSelectedItemChange: ({ selectedItem = null }) => {
       if (selectedItem != null) {
@@ -318,7 +256,7 @@ function Combobox({
         <div className="px-safe-1 pt-safe-0.5 pb-0.5 flex flex-col md:px-1 md:pt-1 ">
           <Input
             {...combobox.getInputProps()}
-            name={SearchableResourceSearchParams.Keys.TEXT}
+            name={GlobalSearchParams.Keys.TEXT}
             variant="search"
             placeholder="Recherche globale"
             leftAdornment={
@@ -330,8 +268,6 @@ function Combobox({
             }
           />
         </div>
-
-        <TypeInput possibleTypes={fetcher.data?.possibleTypes ?? []} />
       </header>
 
       <section
@@ -352,177 +288,21 @@ function Combobox({
               );
             }
 
-            const leftAdornment = visit(item, {
-              [SearchableResourceType.ANIMAL]: (resource) => (
-                <AnimalAvatar animal={resource.data} loading="eager" />
-              ),
-
-              [SearchableResourceType.EVENT]: (resource) => (
-                <Avatar
-                  icon="calendarDays"
-                  color={inferAvatarColor(resource.id)}
-                />
-              ),
-
-              [SearchableResourceType.FOSTER_FAMILY]: (resource) => (
-                <FosterFamilyAvatar fosterFamily={resource} />
-              ),
-
-              [SearchableResourceType.USER]: (resource) => (
-                <UserAvatar
-                  user={{
-                    id: resource.id,
-                    displayName: resource.data.displayName,
-                  }}
-                />
-              ),
-            });
-
-            const label = visit(item, {
-              [SearchableResourceType.ANIMAL]: (resource) => {
-                return getAnimalDisplayName({
-                  name: resource.highlightedData.name,
-                  alias: resource.highlightedData.alias,
-                });
-              },
-
-              [SearchableResourceType.EVENT]: (resource) => {
-                return resource.highlightedData.title;
-              },
-
-              [SearchableResourceType.FOSTER_FAMILY]: (resource) => {
-                return resource.highlightedData.displayName;
-              },
-
-              [SearchableResourceType.USER]: (resource) => {
-                return resource.highlightedData.displayName;
-              },
-            });
-
-            const secondaryLabel = visit(item, {
-              [SearchableResourceType.ANIMAL]: (resource) => {
-                return getSpeciesLabels(resource.data);
-              },
-
-              [SearchableResourceType.EVENT]: (resource) => {
-                return formatDateRange(
-                  resource.data.startDate,
-                  resource.data.endDate,
-                  { showTime: !resource.data.isFullDay }
-                );
-              },
-
-              [SearchableResourceType.FOSTER_FAMILY]: (resource) => {
-                return getShortLocation(resource.data);
-              },
-
-              [SearchableResourceType.USER]: () => null,
-            });
-
             return (
               <SuggestionItem
                 key={item.id}
                 {...combobox.getItemProps({ item, index })}
-                leftAdornment={leftAdornment}
-                label={label}
-                secondaryLabel={secondaryLabel}
+                leftAdornment={<AnimalAvatar animal={item} loading="eager" />}
+                label={getAnimalDisplayName({
+                  name: item.highlightedName,
+                  alias: item.highlightedAlias,
+                })}
+                secondaryLabel={getSpeciesLabels(item)}
               />
             );
           })}
         </SuggestionList>
       </section>
     </fetcher.Form>
-  );
-}
-
-function TypeInput({
-  possibleTypes,
-}: {
-  possibleTypes: SearchableResourceType[];
-}) {
-  if (possibleTypes.length < 2) {
-    return null;
-  }
-
-  return (
-    <Tabs className="py-0.5">
-      <span className="pl-1 flex flex-col">
-        <Tab>
-          <TabInput
-            type="radio"
-            name={SearchableResourceSearchParams.Keys.TYPE}
-            value={SearchableResourceSearchParams.Type.ALL}
-            defaultChecked
-          />
-
-          <TabLabel>Tout</TabLabel>
-        </Tab>
-      </span>
-
-      {possibleTypes.map((type) => (
-        <span key={type} className="flex flex-col last:pr-1">
-          <Tab>
-            <TabInput
-              type="radio"
-              name={SearchableResourceSearchParams.Keys.TYPE}
-              value={type}
-            />
-
-            <TabLabel>{TYPE_TRANSLATION_FOR_TABS[type]}</TabLabel>
-          </Tab>
-        </span>
-      ))}
-    </Tabs>
-  );
-}
-
-const TYPE_TRANSLATION_FOR_TABS: Record<SearchableResourceType, string> = {
-  [SearchableResourceType.ANIMAL]: "Animaux",
-  [SearchableResourceType.EVENT]: "Événements",
-  [SearchableResourceType.FOSTER_FAMILY]: "FA",
-  [SearchableResourceType.USER]: "Utilisateurs",
-};
-
-function Tabs({
-  children,
-  className,
-}: {
-  children?: React.ReactNode;
-  className?: string;
-}) {
-  return (
-    <div
-      className={cn(
-        className,
-        "overflow-auto scrollbars-none grid grid-flow-col justify-start gap-0.5"
-      )}
-    >
-      {children}
-    </div>
-  );
-}
-
-function Tab({ children }: { children?: React.ReactNode }) {
-  return (
-    <label className="group relative z-0 rounded-0.5 flex cursor-pointer focus-within:z-10">
-      {children}
-    </label>
-  );
-}
-
-function TabInput(props: React.InputHTMLAttributes<HTMLInputElement>) {
-  return (
-    <input
-      {...props}
-      className="peer appearance-none absolute -z-10 top-0 left-0 w-full h-full rounded-0.5 cursor-pointer transition-colors duration-100 ease-in-out group-hover:bg-gray-100 checked:bg-blue-50 group-hover:checked:bg-blue-50 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
-    />
-  );
-}
-
-function TabLabel({ children }: { children?: React.ReactNode }) {
-  return (
-    <span className="px-1 py-0.5 text-body-emphasis text-gray-500 peer-checked:text-blue-500">
-      {children}
-    </span>
   );
 }

@@ -14,11 +14,6 @@ import {
   FosterFamilyFromAlgolia,
   FosterFamilyIndex,
 } from "../src/entities/fosterFamily.entity";
-import {
-  SearchableResourceFromAlgolia,
-  SearchableResourcesIndex,
-  SearchableResourceType,
-} from "../src/entities/searchableResources.entity";
 import { UserFromAlgolia, UserIndex } from "../src/entities/user.entity";
 
 const TABLES = [
@@ -28,7 +23,6 @@ const TABLES = [
   "color",
   "fosterFamily",
   "user",
-  "searchableResources",
 ] as const;
 
 const prisma = new PrismaClient();
@@ -70,10 +64,6 @@ async function indexData() {
 
   if (table === "all" || table === "user") {
     promises.push(indexUsers());
-  }
-
-  if (table === "all" || table === "searchableResources") {
-    promises.push(indexSearchableResources());
   }
 
   await Promise.all(promises);
@@ -229,88 +219,6 @@ async function indexFosterFamilies() {
 
   console.log(
     `- 👍 Indexed ${fosterFamilies.length} foster families with settings:`,
-    JSON.stringify(indexSettings)
-  );
-}
-
-async function indexSearchableResources() {
-  const [animals, fosterFamilies, events, users] = await Promise.all([
-    prisma.animal.findMany({
-      select: {
-        id: true,
-        name: true,
-        alias: true,
-        pickUpDate: true,
-      },
-    }),
-    prisma.fosterFamily.findMany({
-      select: { id: true, displayName: true },
-    }),
-    prisma.event.findMany({
-      select: { id: true, title: true, endDate: true },
-    }),
-    prisma.user.findMany({
-      select: { id: true, displayName: true },
-    }),
-  ]);
-
-  await SearchableResourcesIndex.clearObjects();
-
-  const resources = [
-    ...animals.map(({ id, pickUpDate, ...data }) => {
-      const resourceFromAlgolia: SearchableResourceFromAlgolia = {
-        type: SearchableResourceType.ANIMAL,
-        data: {
-          ...data,
-          pickUpDate: pickUpDate.getTime(),
-        },
-      };
-
-      return { ...resourceFromAlgolia, objectID: id };
-    }),
-    ...fosterFamilies.map(({ id, ...data }) => {
-      const resourceFromAlgolia: SearchableResourceFromAlgolia = {
-        type: SearchableResourceType.FOSTER_FAMILY,
-        data,
-      };
-
-      return { ...resourceFromAlgolia, objectID: id };
-    }),
-    ...events.map(({ id, endDate, ...data }) => {
-      const resourceFromAlgolia: SearchableResourceFromAlgolia = {
-        type: SearchableResourceType.EVENT,
-        data: {
-          ...data,
-          endDate: endDate.getTime(),
-        },
-      };
-
-      return { ...resourceFromAlgolia, objectID: id };
-    }),
-    ...users.map(({ id, ...data }) => {
-      const resourceFromAlgolia: SearchableResourceFromAlgolia = {
-        type: SearchableResourceType.USER,
-        data,
-      };
-
-      return { ...resourceFromAlgolia, objectID: id };
-    }),
-  ];
-
-  await SearchableResourcesIndex.saveObjects(resources);
-
-  const indexSettings = createIndexSettings<SearchableResourceFromAlgolia>({
-    searchableAttributes: [
-      ["data.alias", "data.displayName", "data.name", "data.title"],
-    ],
-    attributesForFaceting: ["type"],
-    customRanking: ["desc(data.pickUpDate)", "desc(data.endDate)"],
-  });
-
-  await SearchableResourcesIndex.setSettings(indexSettings);
-
-  console.log(
-    `- 👍 Indexed ${resources.length} resources (${animals.length} animals, ${fosterFamilies.length} foster families, ${events.length} events, ${users.length} users) with settings:`,
     JSON.stringify(indexSettings)
   );
 }

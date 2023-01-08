@@ -32,22 +32,12 @@ export async function updateAnimalProfile(
     await validateProfile(prisma, data);
 
     try {
-      const animal = await prisma.animal.update({
-        where: { id: animalId },
-        data,
-        select: { pickUpDate: true },
-      });
+      await prisma.animal.update({ where: { id: animalId }, data });
 
       await algolia.animal.update(animalId, {
         alias: data.alias,
         name: data.name,
         species: data.species,
-      });
-
-      await algolia.searchableResource.createOrUpdateAnimal(animalId, {
-        alias: data.alias,
-        name: data.name,
-        pickUpDate: animal.pickUpDate,
       });
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {

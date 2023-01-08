@@ -41,22 +41,12 @@ export async function updateAnimalSituation(
     await validateSituation(prisma, data, currentAnimal);
     normalizeSituation(data);
 
-    const animal = await prisma.animal.update({
-      where: { id: animalId },
-      data,
-      select: { alias: true, name: true },
-    });
+    await prisma.animal.update({ where: { id: animalId }, data });
 
     await algolia.animal.update(animalId, {
       status: data.status,
       pickUpDate: data.pickUpDate.getTime(),
       pickUpLocation: data.pickUpLocation,
-    });
-
-    await algolia.searchableResource.createOrUpdateAnimal(animalId, {
-      alias: animal.alias,
-      name: animal.name,
-      pickUpDate: data.pickUpDate,
     });
   });
 }

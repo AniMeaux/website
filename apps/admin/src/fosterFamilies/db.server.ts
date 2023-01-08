@@ -72,6 +72,5 @@ export async function deleteFosterFamily(fosterFamilyId: FosterFamily["id"]) {
     }
 
     await algolia.fosterFamily.delete(fosterFamilyId);
-    await algolia.searchableResource.deleteFosterFamily(fosterFamilyId);
   });
 }

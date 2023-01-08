@@ -50,6 +50,7 @@ export const animalHandlers = [
             alias: true,
             status: true,
             species: true,
+            pickUpDate: true,
             pickUpLocation: true,
           },
         }),
@@ -67,6 +68,7 @@ export const animalHandlers = [
         processingTimeMS: 1,
         hits: animals.map<Hit<AnimalFromAlgolia>>((animal) => ({
           ...animal,
+          pickUpDate: animal.pickUpDate.getTime(),
           objectID: animal.id,
           _highlightResult: {
             name: {
