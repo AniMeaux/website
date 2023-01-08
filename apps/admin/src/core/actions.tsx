@@ -20,7 +20,7 @@ export const actionClassName = {
     );
   },
   proseInline: () =>
-    "border-b border-b-blue-500 text-body-emphasis hover:border-b-2 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white",
+    "relative text-body-emphasis after:absolute after:bottom-0 after:left-0 after:w-full after:border-b after:border-blue-500 hover:after:border-b-2 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white",
 };
 
 const VARIANT_CLASS_NAME: Record<ActionVariant, string> = {
