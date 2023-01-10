@@ -1,26 +1,10 @@
 import { UserGroup } from "@prisma/client";
-import {
-  ActionArgs,
-  json,
-  LoaderArgs,
-  MetaFunction,
-  unstable_composeUploadHandlers,
-  unstable_createMemoryUploadHandler,
-  unstable_parseMultipartFormData,
-} from "@remix-run/node";
+import { ActionArgs, json, LoaderArgs, MetaFunction } from "@remix-run/node";
 import { useCatch, useFetcher, useLoaderData } from "@remix-run/react";
 import { z } from "zod";
-import { zfd } from "zod-form-data";
-import { updateAnimalPictures } from "~/animals/pictures/db.server";
-import { ActionFormData, AnimalPicturesForm } from "~/animals/pictures/form";
-import { getAnimalDisplayName } from "~/animals/profile/name";
-import {
-  CloudinaryUploadApiError,
-  createCloudinaryUploadHandler,
-} from "~/core/cloudinary.server";
 import { ErrorPage, getErrorTitle } from "~/core/dataDisplay/errorPage";
 import { prisma } from "~/core/db.server";
-import { NotFoundError } from "~/core/errors.server";
+import { EmailAlreadyUsedError, NotFoundError } from "~/core/errors.server";
 import { assertIsDefined } from "~/core/isDefined.server";
 import { Card, CardContent, CardHeader, CardTitle } from "~/core/layout/card";
 import { useBackIfPossible } from "~/core/navigation";
@@ -28,6 +12,8 @@ import { getPageTitle } from "~/core/pageTitle";
 import { NotFoundResponse } from "~/core/response.server";
 import { getCurrentUser } from "~/currentUser/db.server";
 import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
+import { updateFosterFamily } from "~/fosterFamilies/db.server";
+import { ActionFormData, FosterFamilyForm } from "~/fosterFamilies/form";
 
 export async function loader({ request, params }: LoaderArgs) {
   const currentUser = await getCurrentUser(request, {
@@ -44,30 +30,30 @@ export async function loader({ request, params }: LoaderArgs) {
     throw new NotFoundResponse();
   }
 
-  const animal = await prisma.animal.findUnique({
+  const fosterFamily = await prisma.fosterFamily.findUnique({
     where: { id: result.data },
     select: {
-      alias: true,
-      avatar: true,
-      name: true,
-      pictures: true,
+      address: true,
+      city: true,
+      displayName: true,
+      email: true,
+      phone: true,
+      zipCode: true,
     },
   });
 
-  assertIsDefined(animal);
+  assertIsDefined(fosterFamily);
 
-  return json({ animal });
+  return json({ fosterFamily });
 }
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
-  const animal = data?.animal;
-  if (animal == null) {
+  const fosterFamily = data?.fosterFamily;
+  if (fosterFamily == null) {
     return { title: getPageTitle(getErrorTitle(404)) };
   }
 
-  return {
-    title: getPageTitle([`Modifier ${getAnimalDisplayName(animal)}`, "Photos"]),
-  };
+  return { title: getPageTitle(fosterFamily.displayName) };
 };
 
 type ActionData = {
@@ -90,49 +76,33 @@ export async function action({ request, params }: ActionArgs) {
     throw new NotFoundResponse();
   }
 
-  try {
-    const rawFormData = await unstable_parseMultipartFormData(
-      request,
-      unstable_composeUploadHandlers(
-        createCloudinaryUploadHandler({
-          filter: ({ name }) => name === ActionFormData.keys.pictures,
-        }),
-        unstable_createMemoryUploadHandler({
-          filter: ({ contentType }) => contentType == null,
-        })
-      )
+  const rawFormData = await request.formData();
+  const formData = ActionFormData.schema.safeParse(
+    Object.fromEntries(rawFormData.entries())
+  );
+
+  if (!formData.success) {
+    return json<ActionData>(
+      { errors: formData.error.flatten() },
+      { status: 400 }
     );
+  }
 
-    const formData = zfd.formData(ActionFormData.schema).safeParse(rawFormData);
-    if (!formData.success) {
-      return json<ActionData>(
-        { errors: formData.error.flatten() },
-        { status: 400 }
-      );
-    }
-
-    await updateAnimalPictures(idResult.data, {
-      avatar: formData.data.pictures[0],
-      pictures: formData.data.pictures.slice(1),
+  try {
+    await updateFosterFamily(idResult.data, {
+      address: formData.data.address,
+      city: formData.data.city,
+      displayName: formData.data.displayName,
+      email: formData.data.email,
+      phone: formData.data.phone,
+      zipCode: formData.data.zipCode,
     });
   } catch (error) {
-    if (error instanceof CloudinaryUploadApiError) {
-      return json<ActionData>(
-        {
-          errors: {
-            formErrors: [error.message],
-            fieldErrors: {},
-          },
-        },
-        { status: error.status }
-      );
-    }
-
     if (error instanceof NotFoundError) {
       return json<ActionData>(
         {
           errors: {
-            formErrors: ["L’animal est introuvable."],
+            formErrors: ["La famille d’accueil est introuvable."],
             fieldErrors: {},
           },
         },
@@ -140,10 +110,22 @@ export async function action({ request, params }: ActionArgs) {
       );
     }
 
+    if (error instanceof EmailAlreadyUsedError) {
+      return json<ActionData>(
+        {
+          errors: {
+            formErrors: [],
+            fieldErrors: { email: ["L’email est déjà utilisé"] },
+          },
+        },
+        { status: 400 }
+      );
+    }
+
     throw error;
   }
 
-  return json<ActionData>({ redirectTo: `/animals/${idResult.data}` });
+  return json<ActionData>({ redirectTo: `/foster-families/${idResult.data}` });
 }
 
 export function CatchBoundary() {
@@ -151,8 +133,8 @@ export function CatchBoundary() {
   return <ErrorPage status={caught.status} />;
 }
 
-export default function AnimalEditProfilePage() {
-  const { animal } = useLoaderData<typeof loader>();
+export default function FosterFamilyEditPage() {
+  const { fosterFamily } = useLoaderData<typeof loader>();
   const fetcher = useFetcher<typeof action>();
   useBackIfPossible({ fallbackRedirectTo: fetcher.data?.redirectTo });
 
@@ -160,11 +142,14 @@ export default function AnimalEditProfilePage() {
     <main className="w-full flex flex-col md:max-w-[600px]">
       <Card>
         <CardHeader>
-          <CardTitle>Modifier {animal.name}</CardTitle>
+          <CardTitle>Modifier {fosterFamily.displayName}</CardTitle>
         </CardHeader>
 
         <CardContent>
-          <AnimalPicturesForm defaultAnimal={animal} fetcher={fetcher} />
+          <FosterFamilyForm
+            defaultFosterFamily={fosterFamily}
+            fetcher={fetcher}
+          />
         </CardContent>
       </Card>
     </main>

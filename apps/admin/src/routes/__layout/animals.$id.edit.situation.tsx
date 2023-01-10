@@ -44,7 +44,6 @@ export async function loader({ request, params }: LoaderArgs) {
       adoptionOption: true,
       alias: true,
       comments: true,
-      id: true,
       fosterFamily: { select: { id: true, displayName: true } },
       manager: { select: { id: true, displayName: true } },
       name: true,

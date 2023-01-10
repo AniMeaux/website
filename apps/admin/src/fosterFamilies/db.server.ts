@@ -3,6 +3,7 @@ import invariant from "tiny-invariant";
 import { algolia } from "~/core/algolia/algolia.server";
 import { prisma } from "~/core/db.server";
 import {
+  EmailAlreadyUsedError,
   NotFoundError,
   PrismaErrorCodes,
   ReferencedError,
@@ -69,5 +70,65 @@ export async function deleteFosterFamily(fosterFamilyId: FosterFamily["id"]) {
     }
 
     await algolia.fosterFamily.delete(fosterFamilyId);
+  });
+}
+
+export async function updateFosterFamily(
+  fosterFamilyId: FosterFamily["id"],
+  data: Pick<
+    FosterFamily,
+    "address" | "city" | "displayName" | "email" | "phone" | "zipCode"
+  >
+) {
+  await prisma.$transaction(async (prisma) => {
+    try {
+      await prisma.fosterFamily.update({ where: { id: fosterFamilyId }, data });
+    } catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === PrismaErrorCodes.NOT_FOUND) {
+          throw new NotFoundError();
+        }
+
+        if (error.code === PrismaErrorCodes.UNIQUE_CONSTRAINT_FAILED) {
+          throw new EmailAlreadyUsedError();
+        }
+      }
+
+      throw error;
+    }
+
+    await algolia.fosterFamily.update(fosterFamilyId, {
+      displayName: data.displayName,
+    });
+  });
+}
+
+export async function createFosterFamily(
+  data: Pick<
+    FosterFamily,
+    "address" | "city" | "displayName" | "email" | "phone" | "zipCode"
+  >
+) {
+  return await prisma.$transaction(async (prisma) => {
+    try {
+      const fosterFamily = await prisma.fosterFamily.create({
+        data,
+        select: { id: true },
+      });
+
+      await algolia.fosterFamily.create(fosterFamily.id, {
+        displayName: data.displayName,
+      });
+
+      return fosterFamily.id;
+    } catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === PrismaErrorCodes.UNIQUE_CONSTRAINT_FAILED) {
+          throw new EmailAlreadyUsedError();
+        }
+      }
+
+      throw error;
+    }
   });
 }

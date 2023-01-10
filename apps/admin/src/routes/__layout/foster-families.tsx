@@ -106,6 +106,13 @@ export default function FosterFamiliesPage() {
                 {totalCount}{" "}
                 {totalCount > 1 ? "familles d’accueil" : "famille d’accueil"}
               </CardTitle>
+
+              <BaseLink
+                to="./new"
+                className={actionClassName.standalone({ variant: "text" })}
+              >
+                Créer
+              </BaseLink>
             </CardHeader>
 
             <CardContent>
