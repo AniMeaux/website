@@ -1,6 +1,5 @@
-import { ActionArgs, json, MetaFunction, redirect } from "@remix-run/node";
-import { Form, useActionData } from "@remix-run/react";
-import { createPath } from "history";
+import { ActionArgs, json, MetaFunction } from "@remix-run/node";
+import { useFetcher } from "@remix-run/react";
 import { useEffect, useRef } from "react";
 import { z } from "zod";
 import { actionClassName } from "~/core/actions";
@@ -10,12 +9,9 @@ import { formClassNames } from "~/core/formElements/form";
 import { FormErrors } from "~/core/formElements/formErrors";
 import { PasswordInput } from "~/core/formElements/passwordInput";
 import { Card, CardContent, CardHeader, CardTitle } from "~/core/layout/card";
+import { useBackIfPossible } from "~/core/navigation";
 import { getPageTitle } from "~/core/pageTitle";
 import { createActionData } from "~/core/schemas";
-import {
-  ActionConfirmationSearchParams,
-  ActionConfirmationType,
-} from "~/core/searchParams";
 import {
   getCurrentUser,
   updateCurrentUserPassword,
@@ -32,6 +28,11 @@ const ActionFormData = createActionData(
   })
 );
 
+type ActionData = {
+  redirectTo?: string;
+  errors?: z.inferFlattenedErrors<typeof ActionFormData.schema>;
+};
+
 export async function action({ request }: ActionArgs) {
   const currentUser = await getCurrentUser(request, { select: { id: true } });
 
@@ -41,37 +42,33 @@ export async function action({ request }: ActionArgs) {
   );
 
   if (!formData.success) {
-    return json({ errors: formData.error.flatten() }, { status: 400 });
+    return json<ActionData>(
+      { errors: formData.error.flatten() },
+      { status: 400 }
+    );
   }
 
   await updateCurrentUserPassword(currentUser.id, formData.data.password);
 
-  throw redirect(
-    createPath({
-      pathname: "/me",
-      search: new ActionConfirmationSearchParams()
-        .setConfirmation(ActionConfirmationType.EDIT_PASSWORD)
-        .toString(),
-    })
-  );
+  return json<ActionData>({ redirectTo: "/me" });
 }
 
 export default function EditCurrentUserPasswordPage() {
-  const actionData = useActionData<typeof action>();
-  const { formErrors = [], fieldErrors = {} } = actionData?.errors ?? {};
+  const fetcher = useFetcher<typeof action>();
+  useBackIfPossible({ fallbackRedirectTo: fetcher.data?.redirectTo });
 
   const passwordRef = useRef<HTMLInputElement>(null);
 
   // Focus the field if it has an error.
   useEffect(() => {
-    if (actionData?.errors != null) {
-      if (actionData.errors.formErrors.length > 0) {
+    if (fetcher.data?.errors != null) {
+      if (fetcher.data.errors.formErrors.length > 0) {
         window.scrollTo({ top: 0 });
-      } else if (actionData.errors.fieldErrors.password != null) {
+      } else if (fetcher.data.errors.fieldErrors.password != null) {
         passwordRef.current?.focus();
       }
     }
-  }, [actionData]);
+  }, [fetcher.data?.errors]);
 
   return (
     <main className="w-full flex flex-col md:max-w-[600px]">
@@ -81,14 +78,13 @@ export default function EditCurrentUserPasswordPage() {
         </CardHeader>
 
         <CardContent>
-          <Form
+          <fetcher.Form
             method="post"
             noValidate
-            replace
             className={formClassNames.root({ hasHeader: true })}
           >
             <div className={formClassNames.fields.root()}>
-              <FormErrors errors={formErrors} />
+              <FormErrors errors={fetcher.data?.errors?.formErrors} />
 
               <div className={formClassNames.fields.field.root()}>
                 <label
@@ -104,7 +100,7 @@ export default function EditCurrentUserPasswordPage() {
                   id={ActionFormData.keys.password}
                   name={ActionFormData.keys.password}
                   autoComplete="new-password"
-                  hasError={fieldErrors.password != null}
+                  hasError={fetcher.data?.errors?.fieldErrors.password != null}
                   aria-describedby="password-error"
                   leftAdornment={
                     <Adornment>
@@ -113,12 +109,12 @@ export default function EditCurrentUserPasswordPage() {
                   }
                 />
 
-                {fieldErrors.password != null ? (
+                {fetcher.data?.errors?.fieldErrors.password != null ? (
                   <p
                     id="password-error"
                     className={formClassNames.fields.field.errorMessage()}
                   >
-                    {fieldErrors.password}
+                    {fetcher.data.errors.fieldErrors.password}
                   </p>
                 ) : null}
               </div>
@@ -130,7 +126,7 @@ export default function EditCurrentUserPasswordPage() {
             >
               Enregistrer
             </button>
-          </Form>
+          </fetcher.Form>
         </CardContent>
       </Card>
     </main>

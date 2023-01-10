@@ -6,7 +6,6 @@ import { algolia } from "~/core/algolia/algolia.server";
 import { BaseLink } from "~/core/baseLink";
 import { Paginator } from "~/core/controllers/paginator";
 import { SortAndFiltersFloatingAction } from "~/core/controllers/sortAndFiltersFloatingAction";
-import { ActionConfirmationHelper } from "~/core/dataDisplay/actionConfirmationHelper";
 import { Empty } from "~/core/dataDisplay/empty";
 import { prisma } from "~/core/db.server";
 import {
@@ -17,7 +16,7 @@ import {
   CardTitle,
 } from "~/core/layout/card";
 import { getPageTitle } from "~/core/pageTitle";
-import { ActionConfirmationType, PageSearchParams } from "~/core/searchParams";
+import { PageSearchParams } from "~/core/searchParams";
 import { getCurrentUser } from "~/currentUser/db.server";
 import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
 import { FosterFamilyFilters } from "~/fosterFamilies/filterForm";
@@ -99,10 +98,6 @@ export default function FosterFamiliesPage() {
 
   return (
     <section className="w-full flex flex-col gap-1 md:gap-2">
-      <ActionConfirmationHelper type={ActionConfirmationType.DELETE}>
-        La famille d’accueil a bien été supprimée.
-      </ActionConfirmationHelper>
-
       <section className="flex flex-col gap-1 md:flex-row md:gap-2">
         <main className="flex flex-col md:min-w-0 md:flex-2">
           <Card>
