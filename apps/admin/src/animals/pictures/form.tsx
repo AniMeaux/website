@@ -92,7 +92,7 @@ export function AnimalPicturesForm({
       }}
     >
       <div className={formClassNames.fields.root()}>
-        <Helper variant="info">
+        <Helper isCompact variant="info">
           La première photo sera utilisée comme avatar.
         </Helper>
 
