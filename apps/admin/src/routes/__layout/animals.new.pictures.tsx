@@ -9,7 +9,7 @@ import {
   unstable_createMemoryUploadHandler,
   unstable_parseMultipartFormData,
 } from "@remix-run/node";
-import { useActionData, useCatch } from "@remix-run/react";
+import { useCatch, useFetcher } from "@remix-run/react";
 import { createPath } from "history";
 import { z } from "zod";
 import { zfd } from "zod-form-data";
@@ -25,10 +25,6 @@ import {
 import { ErrorPage } from "~/core/dataDisplay/errorPage";
 import { Card, CardContent, CardHeader, CardTitle } from "~/core/layout/card";
 import { getPageTitle } from "~/core/pageTitle";
-import {
-  ActionConfirmationSearchParams,
-  ActionConfirmationType,
-} from "~/core/searchParams";
 import { getCurrentUser } from "~/currentUser/db.server";
 import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
 
@@ -53,6 +49,7 @@ export const meta: MetaFunction = () => {
 };
 
 type ActionData = {
+  redirectTo?: string;
   errors?: z.inferFlattenedErrors<typeof ActionFormData.schema>;
 };
 
@@ -95,14 +92,9 @@ export async function action({ request }: ActionArgs) {
       pictures: formData.data.pictures.slice(1),
     });
 
-    throw redirect(
-      createPath({
-        pathname: `/animals/${animalId}`,
-        search: new ActionConfirmationSearchParams()
-          .setConfirmation(ActionConfirmationType.CREATE)
-          .toString(),
-      })
-    );
+    // Redirect instead of going back so we can display the newly created
+    // animal.
+    throw redirect(createPath({ pathname: `/animals/${animalId}` }));
   } catch (error) {
     if (error instanceof CloudinaryUploadApiError) {
       return json<ActionData>(
@@ -126,7 +118,7 @@ export function CatchBoundary() {
 }
 
 export default function NewAnimalSituationPage() {
-  const actionData = useActionData<typeof action>();
+  const fetcher = useFetcher<typeof action>();
 
   return (
     <main className="w-full flex flex-col md:max-w-[600px]">
@@ -137,7 +129,7 @@ export default function NewAnimalSituationPage() {
         </CardHeader>
 
         <CardContent>
-          <AnimalPicturesForm isCreate errors={actionData?.errors} />
+          <AnimalPicturesForm isCreate fetcher={fetcher} />
         </CardContent>
       </Card>
     </main>

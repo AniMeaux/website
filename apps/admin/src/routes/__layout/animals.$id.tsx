@@ -8,8 +8,7 @@ import {
   MetaFunction,
   redirect,
 } from "@remix-run/node";
-import { Form, useCatch, useLoaderData } from "@remix-run/react";
-import { createPath } from "history";
+import { useCatch, useFetcher, useLoaderData } from "@remix-run/react";
 import { DateTime } from "luxon";
 import { z } from "zod";
 import { ADOPTION_OPTION_TRANSLATION } from "~/animals/adoption";
@@ -26,7 +25,6 @@ import { StatusBadge, StatusIcon, STATUS_TRANSLATION } from "~/animals/status";
 import { actionClassName } from "~/core/actions";
 import { BaseLink, BaseLinkProps } from "~/core/baseLink";
 import { useConfig } from "~/core/config";
-import { ActionConfirmationHelper } from "~/core/dataDisplay/actionConfirmationHelper";
 import { Empty } from "~/core/dataDisplay/empty";
 import { ErrorPage, getErrorTitle } from "~/core/dataDisplay/errorPage";
 import { createCloudinaryUrl, DynamicImage } from "~/core/dataDisplay/image";
@@ -48,10 +46,6 @@ import {
   DialogTrigger,
 } from "~/core/popovers/dialog";
 import { NotFoundResponse } from "~/core/response.server";
-import {
-  ActionConfirmationSearchParams,
-  ActionConfirmationType,
-} from "~/core/searchParams";
 import { getCurrentUser } from "~/currentUser/db.server";
 import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
 import { FosterFamilyAvatar } from "~/fosterFamilies/avatar";
@@ -180,14 +174,9 @@ export async function action({ request, params }: ActionArgs) {
     throw error;
   }
 
-  throw redirect(
-    createPath({
-      pathname: "/animals",
-      search: new ActionConfirmationSearchParams()
-        .setConfirmation(ActionConfirmationType.DELETE)
-        .toString(),
-    })
-  );
+  // We are forced to redirect to avoid re-calling the loader with a
+  // non-existing aniaml.
+  throw redirect("/animals");
 }
 
 export function CatchBoundary() {
@@ -196,18 +185,10 @@ export function CatchBoundary() {
 }
 
 export default function AnimalProfilePage() {
-  const { canEdit, animal } = useLoaderData<typeof loader>();
+  const { canEdit } = useLoaderData<typeof loader>();
 
   return (
     <section className="w-full flex flex-col gap-1 md:gap-2">
-      <ActionConfirmationHelper type={ActionConfirmationType.EDIT}>
-        {animal.name} a bien été modifié.
-      </ActionConfirmationHelper>
-
-      <ActionConfirmationHelper type={ActionConfirmationType.CREATE}>
-        {animal.name} a bien été créé.
-      </ActionConfirmationHelper>
-
       <HeaderCard />
 
       <section className="grid grid-cols-1 gap-1 md:hidden">
@@ -556,6 +537,7 @@ function CommentsCard() {
 
 function ActionCard() {
   const { animal } = useLoaderData<typeof loader>();
+  const fetcher = useFetcher<typeof action>();
 
   return (
     <Card>
@@ -593,11 +575,11 @@ function ActionCard() {
             <DialogActions>
               <DialogCloseAction>Annuler</DialogCloseAction>
 
-              <Form method="delete" className="flex">
+              <fetcher.Form method="delete" className="flex">
                 <DialogConfirmAction type="submit">
                   Oui, supprimer
                 </DialogConfirmAction>
-              </Form>
+              </fetcher.Form>
             </DialogActions>
           </Dialog>
         </DialogRoot>

@@ -1,12 +1,5 @@
-import {
-  ActionArgs,
-  json,
-  LoaderArgs,
-  MetaFunction,
-  redirect,
-} from "@remix-run/node";
-import { Form, useActionData, useLoaderData } from "@remix-run/react";
-import { createPath } from "history";
+import { ActionArgs, json, LoaderArgs, MetaFunction } from "@remix-run/node";
+import { useFetcher, useLoaderData } from "@remix-run/react";
 import { useEffect, useRef } from "react";
 import { z } from "zod";
 import { actionClassName } from "~/core/actions";
@@ -16,12 +9,9 @@ import { formClassNames } from "~/core/formElements/form";
 import { FormErrors } from "~/core/formElements/formErrors";
 import { Input } from "~/core/formElements/input";
 import { Card, CardContent, CardHeader, CardTitle } from "~/core/layout/card";
+import { useBackIfPossible } from "~/core/navigation";
 import { getPageTitle } from "~/core/pageTitle";
 import { createActionData } from "~/core/schemas";
-import {
-  ActionConfirmationSearchParams,
-  ActionConfirmationType,
-} from "~/core/searchParams";
 import {
   EmailAlreadyUsedError,
   getCurrentUser,
@@ -52,6 +42,7 @@ const ActionFormData = createActionData(
 );
 
 type ActionData = {
+  redirectTo?: string;
   errors?: z.inferFlattenedErrors<typeof ActionFormData.schema>;
 };
 
@@ -91,36 +82,29 @@ export async function action({ request }: ActionArgs) {
     throw error;
   }
 
-  throw redirect(
-    createPath({
-      pathname: "/me",
-      search: new ActionConfirmationSearchParams()
-        .setConfirmation(ActionConfirmationType.EDIT)
-        .toString(),
-    })
-  );
+  return json<ActionData>({ redirectTo: "/me" });
 }
 
 export default function EditCurrentUserProfilePage() {
   const { currentUser } = useLoaderData<typeof loader>();
-  const actionData = useActionData<typeof action>();
-  const { formErrors = [], fieldErrors = {} } = actionData?.errors ?? {};
+  const fetcher = useFetcher<typeof action>();
+  useBackIfPossible({ fallbackRedirectTo: fetcher.data?.redirectTo });
 
   const nameRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
 
   // Focus the first field having an error.
   useEffect(() => {
-    if (actionData?.errors != null) {
-      if (actionData.errors.formErrors.length > 0) {
+    if (fetcher.data?.errors != null) {
+      if (fetcher.data.errors.formErrors.length > 0) {
         window.scrollTo({ top: 0 });
-      } else if (actionData.errors.fieldErrors.name != null) {
+      } else if (fetcher.data.errors.fieldErrors.name != null) {
         nameRef.current?.focus();
-      } else if (actionData.errors.fieldErrors.email != null) {
+      } else if (fetcher.data.errors.fieldErrors.email != null) {
         emailRef.current?.focus();
       }
     }
-  }, [actionData]);
+  }, [fetcher.data?.errors]);
 
   return (
     <main className="w-full flex flex-col md:max-w-[600px]">
@@ -130,14 +114,13 @@ export default function EditCurrentUserProfilePage() {
         </CardHeader>
 
         <CardContent>
-          <Form
+          <fetcher.Form
             method="post"
             noValidate
-            replace
             className={formClassNames.root({ hasHeader: true })}
           >
             <div className={formClassNames.fields.root()}>
-              <FormErrors errors={formErrors} />
+              <FormErrors errors={fetcher.data?.errors?.formErrors} />
 
               <div className={formClassNames.fields.field.root()}>
                 <label
@@ -155,7 +138,7 @@ export default function EditCurrentUserProfilePage() {
                   name={ActionFormData.keys.name}
                   autoComplete="name"
                   defaultValue={currentUser.displayName}
-                  hasError={fieldErrors.name != null}
+                  hasError={fetcher.data?.errors?.fieldErrors.name != null}
                   aria-describedby="name-error"
                   leftAdornment={
                     <Adornment>
@@ -164,12 +147,12 @@ export default function EditCurrentUserProfilePage() {
                   }
                 />
 
-                {fieldErrors.name != null ? (
+                {fetcher.data?.errors?.fieldErrors.name != null ? (
                   <p
                     id="name-error"
                     className={formClassNames.fields.field.errorMessage()}
                   >
-                    {fieldErrors.name}
+                    {fetcher.data.errors.fieldErrors.name}
                   </p>
                 ) : null}
               </div>
@@ -189,7 +172,7 @@ export default function EditCurrentUserProfilePage() {
                   name={ActionFormData.keys.email}
                   autoComplete="email"
                   defaultValue={currentUser.email}
-                  hasError={fieldErrors.email != null}
+                  hasError={fetcher.data?.errors?.fieldErrors.email != null}
                   aria-describedby="email-error"
                   placeholder="jean@mail.com"
                   leftAdornment={
@@ -199,12 +182,12 @@ export default function EditCurrentUserProfilePage() {
                   }
                 />
 
-                {fieldErrors.email != null ? (
+                {fetcher.data?.errors?.fieldErrors.email != null ? (
                   <p
                     id="email-error"
                     className={formClassNames.fields.field.errorMessage()}
                   >
-                    {fieldErrors.email}
+                    {fetcher.data.errors.fieldErrors.email}
                   </p>
                 ) : null}
               </div>
@@ -216,7 +199,7 @@ export default function EditCurrentUserProfilePage() {
             >
               Enregistrer
             </button>
-          </Form>
+          </fetcher.Form>
         </CardContent>
       </Card>
     </main>

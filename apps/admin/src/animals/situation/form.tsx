@@ -8,7 +8,7 @@ import {
   UserGroup,
 } from "@prisma/client";
 import { SerializeFrom } from "@remix-run/node";
-import { Form, useLocation } from "@remix-run/react";
+import { FetcherWithComponents, useLocation } from "@remix-run/react";
 import { DateTime } from "luxon";
 import { useEffect, useRef, useState } from "react";
 import { z } from "zod";
@@ -74,8 +74,8 @@ export const ActionFormData = createActionData(
 export function AnimalSituationForm({
   isCreate = false,
   defaultAnimal,
-  errors = { formErrors: [], fieldErrors: {} },
   currentUser,
+  fetcher,
 }: {
   isCreate?: boolean;
   defaultAnimal?: null | SerializeFrom<
@@ -93,8 +93,10 @@ export function AnimalSituationForm({
       manager?: null | Pick<User, "id" | "displayName">;
     }
   >;
-  errors?: z.inferFlattenedErrors<typeof ActionFormData.schema>;
   currentUser?: null | Pick<User, "id" | "displayName" | "groups">;
+  fetcher: FetcherWithComponents<{
+    errors?: z.inferFlattenedErrors<typeof ActionFormData.schema>;
+  }>;
 }) {
   const [statusState, setStatusState] = useState(
     defaultAnimal?.status ?? Status.UNAVAILABLE
@@ -108,18 +110,20 @@ export function AnimalSituationForm({
 
   // Focus the first field having an error.
   useEffect(() => {
-    if (errors.formErrors.length > 0) {
-      window.scrollTo({ top: 0 });
-    } else if (errors.fieldErrors.managerId != null) {
-      managerRef.current?.focus();
-    } else if (errors.fieldErrors.adoptionDate != null) {
-      adoptionDateRef.current?.focus();
-    } else if (errors.fieldErrors.pickUpDate != null) {
-      pickUpDateRef.current?.focus();
-    } else if (errors.fieldErrors.pickUpLocation != null) {
-      pickUpLocationRef.current?.focus();
+    if (fetcher.data?.errors != null) {
+      if (fetcher.data.errors.formErrors.length > 0) {
+        window.scrollTo({ top: 0 });
+      } else if (fetcher.data.errors.fieldErrors.managerId != null) {
+        managerRef.current?.focus();
+      } else if (fetcher.data.errors.fieldErrors.adoptionDate != null) {
+        adoptionDateRef.current?.focus();
+      } else if (fetcher.data.errors.fieldErrors.pickUpDate != null) {
+        pickUpDateRef.current?.focus();
+      } else if (fetcher.data.errors.fieldErrors.pickUpLocation != null) {
+        pickUpLocationRef.current?.focus();
+      }
     }
-  }, [errors.formErrors, errors.fieldErrors]);
+  }, [fetcher.data?.errors]);
 
   const { hash } = useLocation();
   useEffect(() => {
@@ -129,14 +133,13 @@ export function AnimalSituationForm({
   }, [hash]);
 
   return (
-    <Form
+    <fetcher.Form
       method="post"
       noValidate
-      replace
       className={formClassNames.root({ hasHeader: true })}
     >
       <div className={formClassNames.fields.root()}>
-        <FormErrors errors={errors.formErrors} />
+        <FormErrors errors={fetcher.data?.errors?.formErrors} />
 
         <div className={formClassNames.fields.field.root()}>
           <span className={formClassNames.fields.field.label()}>
@@ -179,7 +182,9 @@ export function AnimalSituationForm({
                     ? null
                     : DateTime.fromISO(defaultAnimal.adoptionDate).toISODate()
                 }
-                hasError={errors.fieldErrors.adoptionDate != null}
+                hasError={
+                  fetcher.data?.errors?.fieldErrors.adoptionDate != null
+                }
                 aria-describedby="adoptionDate-error"
                 leftAdornment={
                   <Adornment>
@@ -188,12 +193,12 @@ export function AnimalSituationForm({
                 }
               />
 
-              {errors.fieldErrors.adoptionDate != null ? (
+              {fetcher.data?.errors?.fieldErrors.adoptionDate != null ? (
                 <p
                   id="adoptionDate-error"
                   className={formClassNames.fields.field.errorMessage()}
                 >
-                  {errors.fieldErrors.adoptionDate}
+                  {fetcher.data.errors.fieldErrors.adoptionDate}
                 </p>
               ) : null}
             </div>
@@ -242,16 +247,16 @@ export function AnimalSituationForm({
                 ? currentUser
                 : null)
             }
-            hasError={errors.fieldErrors.managerId != null}
+            hasError={fetcher.data?.errors?.fieldErrors.managerId != null}
             aria-describedby="managerId-error"
           />
 
-          {errors.fieldErrors.managerId != null ? (
+          {fetcher.data?.errors?.fieldErrors.managerId != null ? (
             <p
               id="managerId-error"
               className={formClassNames.fields.field.errorMessage()}
             >
-              {errors.fieldErrors.managerId}
+              {fetcher.data.errors.fieldErrors.managerId}
             </p>
           ) : null}
         </div>
@@ -277,7 +282,7 @@ export function AnimalSituationForm({
                   ? null
                   : DateTime.fromISO(defaultAnimal.pickUpDate).toISODate()
               }
-              hasError={errors.fieldErrors.pickUpDate != null}
+              hasError={fetcher.data?.errors?.fieldErrors.pickUpDate != null}
               aria-describedby="pickUpDate-error"
               leftAdornment={
                 <Adornment>
@@ -286,12 +291,12 @@ export function AnimalSituationForm({
               }
             />
 
-            {errors.fieldErrors.pickUpDate != null ? (
+            {fetcher.data?.errors?.fieldErrors.pickUpDate != null ? (
               <p
                 id="pickUpDate-error"
                 className={formClassNames.fields.field.errorMessage()}
               >
-                {errors.fieldErrors.pickUpDate}
+                {fetcher.data.errors.fieldErrors.pickUpDate}
               </p>
             ) : null}
           </div>
@@ -308,16 +313,18 @@ export function AnimalSituationForm({
               ref={pickUpLocationRef}
               name={ActionFormData.keys.pickUpLocation}
               defaultValue={defaultAnimal?.pickUpLocation}
-              hasError={errors.fieldErrors.pickUpLocation != null}
+              hasError={
+                fetcher.data?.errors?.fieldErrors.pickUpLocation != null
+              }
               aria-describedby="pickUpLocation-error"
             />
 
-            {errors.fieldErrors.pickUpLocation != null ? (
+            {fetcher.data?.errors?.fieldErrors.pickUpLocation != null ? (
               <p
                 id="pickUpLocation-error"
                 className={formClassNames.fields.field.errorMessage()}
               >
-                {errors.fieldErrors.pickUpLocation}
+                {fetcher.data.errors.fieldErrors.pickUpLocation}
               </p>
             ) : null}
           </div>
@@ -387,6 +394,6 @@ export function AnimalSituationForm({
       >
         {isCreate ? "Suivant" : "Enregistrer"}
       </button>
-    </Form>
+    </fetcher.Form>
   );
 }

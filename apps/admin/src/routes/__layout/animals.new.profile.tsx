@@ -6,7 +6,7 @@ import {
   MetaFunction,
   redirect,
 } from "@remix-run/node";
-import { useActionData, useCatch, useLoaderData } from "@remix-run/react";
+import { useCatch, useFetcher, useLoaderData } from "@remix-run/react";
 import { z } from "zod";
 import { AnimalCreationSteps } from "~/animals/creationSteps";
 import {
@@ -116,7 +116,7 @@ export function CatchBoundary() {
 
 export default function NewAnimalProfilePage() {
   const { draft } = useLoaderData<typeof loader>();
-  const actionData = useActionData<typeof action>();
+  const fetcher = useFetcher<typeof action>();
 
   return (
     <main className="w-full flex flex-col md:max-w-[600px]">
@@ -127,11 +127,7 @@ export default function NewAnimalProfilePage() {
         </CardHeader>
 
         <CardContent>
-          <AnimalProfileForm
-            isCreate
-            defaultAnimal={draft}
-            errors={actionData?.errors}
-          />
+          <AnimalProfileForm isCreate defaultAnimal={draft} fetcher={fetcher} />
         </CardContent>
       </Card>
     </main>

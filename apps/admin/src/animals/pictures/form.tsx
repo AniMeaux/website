@@ -1,6 +1,6 @@
 import { Animal } from "@prisma/client";
 import { SerializeFrom } from "@remix-run/node";
-import { Form, useFormAction, useSubmit } from "@remix-run/react";
+import { FetcherWithComponents, useFormAction } from "@remix-run/react";
 import { useRef, useState } from "react";
 import { z } from "zod";
 import { zfd } from "zod-form-data";
@@ -38,13 +38,14 @@ export const ActionFormData = createActionData(
 export function AnimalPicturesForm({
   isCreate = false,
   defaultAnimal,
-  errors = { formErrors: [], fieldErrors: {} },
+  fetcher,
 }: {
   isCreate?: boolean;
   defaultAnimal?: null | SerializeFrom<Pick<Animal, "avatar" | "pictures">>;
-  errors?: z.inferFlattenedErrors<typeof ActionFormData.schema>;
+  fetcher: FetcherWithComponents<{
+    errors?: z.inferFlattenedErrors<typeof ActionFormData.schema>;
+  }>;
 }) {
-  const submit = useSubmit();
   const action = useFormAction();
 
   const [pictures, setPictures] = useState<ImageFileOrId[]>(
@@ -53,9 +54,9 @@ export function AnimalPicturesForm({
   const [pendingPictureCount, setPendingPictureCount] = useState(0);
   const [hasImageImportError, setHasImageImportError] = useState(false);
 
-  let formErrors = errors.formErrors;
-  if (errors.fieldErrors.pictures != null) {
-    formErrors = formErrors.concat(errors.fieldErrors.pictures);
+  let formErrors = fetcher.data?.errors?.formErrors ?? [];
+  if (fetcher.data?.errors?.fieldErrors.pictures != null) {
+    formErrors = formErrors.concat(fetcher.data.errors.fieldErrors.pictures);
   }
   if (hasImageImportError) {
     formErrors = formErrors.concat([
@@ -66,7 +67,7 @@ export function AnimalPicturesForm({
   const overSizedPictureCount = pictures.filter(isImageOverSize).length;
 
   return (
-    <Form
+    <form
       noValidate
       className={formClassNames.root({ hasHeader: true })}
       onSubmit={(event) => {
@@ -83,16 +84,15 @@ export function AnimalPicturesForm({
           }
         });
 
-        submit(formData, {
+        fetcher.submit(formData, {
           method: "post",
           encType: "multipart/form-data",
           action,
-          replace: true,
         });
       }}
     >
       <div className={formClassNames.fields.root()}>
-        <Helper variant="info">
+        <Helper isCompact variant="info">
           La première photo sera utilisée comme avatar.
         </Helper>
 
@@ -124,7 +124,7 @@ export function AnimalPicturesForm({
       >
         {isCreate ? "Créer" : "Enregistrer"}
       </button>
-    </Form>
+    </form>
   );
 }
 
