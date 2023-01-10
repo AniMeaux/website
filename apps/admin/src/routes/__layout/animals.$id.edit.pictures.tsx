@@ -49,7 +49,6 @@ export async function loader({ request, params }: LoaderArgs) {
     select: {
       alias: true,
       avatar: true,
-      id: true,
       name: true,
       pictures: true,
     },

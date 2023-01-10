@@ -44,7 +44,6 @@ export async function loader({ request, params }: LoaderArgs) {
       description: true,
       gender: true,
       iCadNumber: true,
-      id: true,
       isOkCats: true,
       isOkChildren: true,
       isOkDogs: true,
