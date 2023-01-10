@@ -5,9 +5,9 @@ export function FormErrors({
   errors,
   ...rest
 }: Omit<HelperProps, "variant" | "children" | "isCompact"> & {
-  errors: string[];
+  errors?: string[];
 }) {
-  if (errors.length === 0) {
+  if (errors == null || errors.length === 0) {
     return null;
   }
 

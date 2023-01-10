@@ -5,7 +5,7 @@ import {
   MetaFunction,
   redirect,
 } from "@remix-run/node";
-import { Form, useActionData } from "@remix-run/react";
+import { useFetcher } from "@remix-run/react";
 import { useEffect, useRef } from "react";
 import { z } from "zod";
 import { actionClassName } from "~/core/actions";
@@ -98,24 +98,22 @@ export async function action({ request }: ActionArgs) {
 }
 
 export default function LoginPage() {
-  const actionData = useActionData<typeof action>();
-  const { formErrors = [], fieldErrors = {} } = actionData?.errors ?? {};
-
+  const fetcher = useFetcher<typeof action>();
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
 
   // Focus the first field having an error.
   useEffect(() => {
-    if (actionData?.errors != null) {
-      if (actionData.errors.formErrors.length > 0) {
+    if (fetcher.data?.errors != null) {
+      if (fetcher.data.errors.formErrors.length > 0) {
         window.scrollTo({ top: 0 });
-      } else if (actionData.errors.fieldErrors.email != null) {
+      } else if (fetcher.data.errors.fieldErrors.email != null) {
         emailRef.current?.focus();
-      } else if (actionData.errors.fieldErrors.password != null) {
+      } else if (fetcher.data.errors.fieldErrors.password != null) {
         passwordRef.current?.focus();
       }
     }
-  }, [actionData]);
+  }, [fetcher.data?.errors]);
 
   return (
     <main className="w-full grid grid-cols-[minmax(0px,500px)] justify-center justify-items-center md:min-h-screen md:grid-cols-[1fr_minmax(500px,1fr)]">
@@ -133,9 +131,13 @@ export default function LoginPage() {
             Bienvenue
           </h1>
 
-          <Form method="post" noValidate className="flex flex-col gap-4">
+          <fetcher.Form
+            method="post"
+            noValidate
+            className="flex flex-col gap-4"
+          >
             <div className={formClassNames.fields.root()}>
-              <FormErrors errors={formErrors} />
+              <FormErrors errors={fetcher.data?.errors?.formErrors} />
 
               <div className={formClassNames.fields.field.root()}>
                 <label
@@ -152,7 +154,7 @@ export default function LoginPage() {
                   type="email"
                   name={ActionFormData.keys.email}
                   autoComplete="email"
-                  hasError={fieldErrors.email != null}
+                  hasError={fetcher.data?.errors?.fieldErrors.email != null}
                   aria-describedby="email-error"
                   placeholder="jean@mail.com"
                   leftAdornment={
@@ -162,12 +164,12 @@ export default function LoginPage() {
                   }
                 />
 
-                {fieldErrors.email != null ? (
+                {fetcher.data?.errors?.fieldErrors.email != null ? (
                   <p
                     id="email-error"
                     className={formClassNames.fields.field.errorMessage()}
                   >
-                    {fieldErrors.email}
+                    {fetcher.data.errors.fieldErrors.email}
                   </p>
                 ) : null}
               </div>
@@ -185,7 +187,7 @@ export default function LoginPage() {
                   id={ActionFormData.keys.password}
                   name={ActionFormData.keys.password}
                   autoComplete="current-password"
-                  hasError={fieldErrors.password != null}
+                  hasError={fetcher.data?.errors?.fieldErrors.password != null}
                   aria-describedby="password-error"
                   leftAdornment={
                     <Adornment>
@@ -194,12 +196,12 @@ export default function LoginPage() {
                   }
                 />
 
-                {fieldErrors.password != null ? (
+                {fetcher.data?.errors?.fieldErrors.password != null ? (
                   <p
                     id="password-error"
                     className={formClassNames.fields.field.errorMessage()}
                   >
-                    {fieldErrors.password}
+                    {fetcher.data.errors.fieldErrors.password}
                   </p>
                 ) : null}
               </div>
@@ -208,7 +210,7 @@ export default function LoginPage() {
             <button type="submit" className={actionClassName.standalone()}>
               Se connecter
             </button>
-          </Form>
+          </fetcher.Form>
         </section>
       </section>
     </main>

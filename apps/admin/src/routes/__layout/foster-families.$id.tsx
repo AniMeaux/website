@@ -6,8 +6,7 @@ import {
   MetaFunction,
   redirect,
 } from "@remix-run/node";
-import { Form, useActionData, useCatch, useLoaderData } from "@remix-run/react";
-import { createPath } from "history";
+import { useCatch, useFetcher, useLoaderData } from "@remix-run/react";
 import { useState } from "react";
 import { z } from "zod";
 import { AnimalItem } from "~/animals/item";
@@ -37,10 +36,6 @@ import {
   DialogTrigger,
 } from "~/core/popovers/dialog";
 import { NotFoundResponse } from "~/core/response.server";
-import {
-  ActionConfirmationSearchParams,
-  ActionConfirmationType,
-} from "~/core/searchParams";
 import { getCurrentUser } from "~/currentUser/db.server";
 import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
 import { FosterFamilyAvatar } from "~/fosterFamilies/avatar";
@@ -142,14 +137,9 @@ export async function action({ request, params }: ActionArgs) {
     throw error;
   }
 
-  throw redirect(
-    createPath({
-      pathname: "/foster-families",
-      search: new ActionConfirmationSearchParams()
-        .setConfirmation(ActionConfirmationType.DELETE)
-        .toString(),
-    })
-  );
+  // We are forced to redirect to avoid re-calling the loader with a
+  // non-existing foster family.
+  throw redirect("/foster-families");
 }
 
 export function CatchBoundary() {
@@ -302,7 +292,7 @@ function FosterAnimalsCard() {
 function ActionCard() {
   const { fosterFamily } = useLoaderData<typeof loader>();
   const canDelete = fosterFamily.fosterAnimals.length === 0;
-  const actionData = useActionData<typeof action>();
+  const fetcher = useFetcher<typeof action>();
   const [isHelperVisible, setIsHelperVisible] = useState(false);
 
   return (
@@ -359,16 +349,16 @@ function ActionCard() {
               L’action est irréversible.
             </DialogMessage>
 
-            <FormErrors errors={actionData?.errors ?? []} />
+            <FormErrors errors={fetcher.data?.errors ?? []} />
 
             <DialogActions>
               <DialogCloseAction>Annuler</DialogCloseAction>
 
-              <Form method="delete" className="flex">
+              <fetcher.Form method="delete" className="flex">
                 <DialogConfirmAction type="submit">
                   Oui, supprimer
                 </DialogConfirmAction>
-              </Form>
+              </fetcher.Form>
             </DialogActions>
           </Dialog>
         </DialogRoot>

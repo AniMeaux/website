@@ -1,13 +1,6 @@
 import { UserGroup } from "@prisma/client";
-import {
-  ActionArgs,
-  json,
-  LoaderArgs,
-  MetaFunction,
-  redirect,
-} from "@remix-run/node";
-import { useActionData, useCatch, useLoaderData } from "@remix-run/react";
-import { createPath } from "history";
+import { ActionArgs, json, LoaderArgs, MetaFunction } from "@remix-run/node";
+import { useCatch, useFetcher, useLoaderData } from "@remix-run/react";
 import { z } from "zod";
 import { getAnimalDisplayName } from "~/animals/profile/name";
 import {
@@ -23,12 +16,9 @@ import { prisma } from "~/core/db.server";
 import { NotFoundError } from "~/core/errors.server";
 import { assertIsDefined } from "~/core/isDefined.server";
 import { Card, CardContent, CardHeader, CardTitle } from "~/core/layout/card";
+import { useBackIfPossible } from "~/core/navigation";
 import { getPageTitle } from "~/core/pageTitle";
 import { NotFoundResponse } from "~/core/response.server";
-import {
-  ActionConfirmationSearchParams,
-  ActionConfirmationType,
-} from "~/core/searchParams";
 import { getCurrentUser } from "~/currentUser/db.server";
 import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
 
@@ -85,6 +75,7 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
 };
 
 type ActionData = {
+  redirectTo?: string;
   errors?: z.inferFlattenedErrors<typeof ActionFormData.schema>;
 };
 
@@ -201,14 +192,7 @@ export async function action({ request, params }: ActionArgs) {
     throw error;
   }
 
-  throw redirect(
-    createPath({
-      pathname: `/animals/${idResult.data}`,
-      search: new ActionConfirmationSearchParams()
-        .setConfirmation(ActionConfirmationType.EDIT)
-        .toString(),
-    })
-  );
+  return json<ActionData>({ redirectTo: `/animals/${idResult.data}` });
 }
 
 export function CatchBoundary() {
@@ -218,7 +202,8 @@ export function CatchBoundary() {
 
 export default function AnimalEditSituationPage() {
   const { animal } = useLoaderData<typeof loader>();
-  const actionData = useActionData<typeof action>();
+  const fetcher = useFetcher<typeof action>();
+  useBackIfPossible({ fallbackRedirectTo: fetcher.data?.redirectTo });
 
   return (
     <main className="w-full flex flex-col md:max-w-[600px]">
@@ -228,10 +213,7 @@ export default function AnimalEditSituationPage() {
         </CardHeader>
 
         <CardContent>
-          <AnimalSituationForm
-            defaultAnimal={animal}
-            errors={actionData?.errors}
-          />
+          <AnimalSituationForm defaultAnimal={animal} fetcher={fetcher} />
         </CardContent>
       </Card>
     </main>

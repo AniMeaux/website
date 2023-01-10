@@ -1,6 +1,6 @@
 import { AnimalDraft, Breed, Color, Gender, Species } from "@prisma/client";
 import { SerializeFrom } from "@remix-run/node";
-import { Form, useLocation } from "@remix-run/react";
+import { FetcherWithComponents, useLocation } from "@remix-run/react";
 import { DateTime } from "luxon";
 import { useEffect, useRef, useState } from "react";
 import { z } from "zod";
@@ -78,7 +78,7 @@ export const ActionFormData = createActionData(
 export function AnimalProfileForm({
   isCreate = false,
   defaultAnimal,
-  errors = { formErrors: [], fieldErrors: {} },
+  fetcher,
 }: {
   isCreate?: boolean;
   defaultAnimal?: null | SerializeFrom<
@@ -100,7 +100,9 @@ export function AnimalProfileForm({
       color?: null | Pick<Color, "id" | "name">;
     }
   >;
-  errors?: z.inferFlattenedErrors<typeof ActionFormData.schema>;
+  fetcher: FetcherWithComponents<{
+    errors?: z.inferFlattenedErrors<typeof ActionFormData.schema>;
+  }>;
 }) {
   const [speciesState, setSpeciesState] = useState(defaultAnimal?.species);
 
@@ -118,30 +120,32 @@ export function AnimalProfileForm({
 
   // Focus the first field having an error.
   useEffect(() => {
-    if (errors.formErrors.length > 0) {
-      window.scrollTo({ top: 0 });
-    } else if (errors.fieldErrors.species != null) {
-      speciesRef.current?.focus();
-    } else if (errors.fieldErrors.name != null) {
-      nameRef.current?.focus();
-    } else if (errors.fieldErrors.birthdate != null) {
-      birthdateRef.current?.focus();
-    } else if (errors.fieldErrors.gender != null) {
-      genderRef.current?.focus();
-    } else if (errors.fieldErrors.breedId != null) {
-      breedRef.current?.focus();
-    } else if (errors.fieldErrors.colorId != null) {
-      colorRef.current?.focus();
-    } else if (errors.fieldErrors.isOkCats != null) {
-      isOkCatsRef.current?.focus();
-    } else if (errors.fieldErrors.isOkDogs != null) {
-      isOkDogsRef.current?.focus();
-    } else if (errors.fieldErrors.isOkChildren != null) {
-      isOkChildrenRef.current?.focus();
-    } else if (errors.fieldErrors.isSterilized != null) {
-      isSterilizedRef.current?.focus();
+    if (fetcher.data?.errors != null) {
+      if (fetcher.data.errors.formErrors.length > 0) {
+        window.scrollTo({ top: 0 });
+      } else if (fetcher.data.errors.fieldErrors.species != null) {
+        speciesRef.current?.focus();
+      } else if (fetcher.data.errors.fieldErrors.name != null) {
+        nameRef.current?.focus();
+      } else if (fetcher.data.errors.fieldErrors.birthdate != null) {
+        birthdateRef.current?.focus();
+      } else if (fetcher.data.errors.fieldErrors.gender != null) {
+        genderRef.current?.focus();
+      } else if (fetcher.data.errors.fieldErrors.breedId != null) {
+        breedRef.current?.focus();
+      } else if (fetcher.data.errors.fieldErrors.colorId != null) {
+        colorRef.current?.focus();
+      } else if (fetcher.data.errors.fieldErrors.isOkCats != null) {
+        isOkCatsRef.current?.focus();
+      } else if (fetcher.data.errors.fieldErrors.isOkDogs != null) {
+        isOkDogsRef.current?.focus();
+      } else if (fetcher.data.errors.fieldErrors.isOkChildren != null) {
+        isOkChildrenRef.current?.focus();
+      } else if (fetcher.data.errors.fieldErrors.isSterilized != null) {
+        isSterilizedRef.current?.focus();
+      }
     }
-  }, [errors.formErrors, errors.fieldErrors]);
+  }, [fetcher.data?.errors]);
 
   const { hash } = useLocation();
   useEffect(() => {
@@ -151,14 +155,13 @@ export function AnimalProfileForm({
   }, [hash]);
 
   return (
-    <Form
+    <fetcher.Form
       method="post"
       noValidate
-      replace
       className={formClassNames.root({ hasHeader: true })}
     >
       <div className={formClassNames.fields.root()}>
-        <FormErrors errors={errors.formErrors} />
+        <FormErrors errors={fetcher.data?.errors?.formErrors} />
 
         <div className={formClassNames.fields.field.root()}>
           <span className={formClassNames.fields.field.label()}>
@@ -180,12 +183,12 @@ export function AnimalProfileForm({
             ))}
           </div>
 
-          {errors.fieldErrors.species != null ? (
+          {fetcher.data?.errors?.fieldErrors.species != null ? (
             <p
               id="species-error"
               className={formClassNames.fields.field.errorMessage()}
             >
-              {errors.fieldErrors.species}
+              {fetcher.data.errors.fieldErrors.species}
             </p>
           ) : null}
         </div>
@@ -205,7 +208,7 @@ export function AnimalProfileForm({
               type="text"
               name={ActionFormData.keys.name}
               defaultValue={defaultAnimal?.name}
-              hasError={errors.fieldErrors.name != null}
+              hasError={fetcher.data?.errors?.fieldErrors.name != null}
               aria-describedby="name-error"
               leftAdornment={
                 speciesState != null ? (
@@ -216,12 +219,12 @@ export function AnimalProfileForm({
               }
             />
 
-            {errors.fieldErrors.name != null ? (
+            {fetcher.data?.errors?.fieldErrors.name != null ? (
               <p
                 id="name-error"
                 className={formClassNames.fields.field.errorMessage()}
               >
-                {errors.fieldErrors.name}
+                {fetcher.data.errors.fieldErrors.name}
               </p>
             ) : null}
           </div>
@@ -266,7 +269,7 @@ export function AnimalProfileForm({
                 ? null
                 : DateTime.fromISO(defaultAnimal.birthdate).toISODate()
             }
-            hasError={errors.fieldErrors.birthdate != null}
+            hasError={fetcher.data?.errors?.fieldErrors.birthdate != null}
             aria-describedby="birthdate-error"
             leftAdornment={
               <Adornment>
@@ -275,12 +278,12 @@ export function AnimalProfileForm({
             }
           />
 
-          {errors.fieldErrors.birthdate != null ? (
+          {fetcher.data?.errors?.fieldErrors.birthdate != null ? (
             <p
               id="birthdate-error"
               className={formClassNames.fields.field.errorMessage()}
             >
-              {errors.fieldErrors.birthdate}
+              {fetcher.data.errors.fieldErrors.birthdate}
             </p>
           ) : null}
         </div>
@@ -304,12 +307,12 @@ export function AnimalProfileForm({
             ))}
           </div>
 
-          {errors.fieldErrors.gender != null ? (
+          {fetcher.data?.errors?.fieldErrors.gender != null ? (
             <p
               id="gender-error"
               className={formClassNames.fields.field.errorMessage()}
             >
-              {errors.fieldErrors.gender}
+              {fetcher.data.errors.fieldErrors.gender}
             </p>
           ) : null}
         </div>
@@ -348,16 +351,16 @@ export function AnimalProfileForm({
               name={ActionFormData.keys.breedId}
               defaultValue={defaultAnimal?.breed}
               species={speciesState}
-              hasError={errors.fieldErrors.breedId != null}
+              hasError={fetcher.data?.errors?.fieldErrors.breedId != null}
               aria-describedby="breedId-error"
             />
 
-            {errors.fieldErrors.breedId != null ? (
+            {fetcher.data?.errors?.fieldErrors.breedId != null ? (
               <p
                 id="breedId-error"
                 className={formClassNames.fields.field.errorMessage()}
               >
-                {errors.fieldErrors.breedId}
+                {fetcher.data.errors.fieldErrors.breedId}
               </p>
             ) : null}
           </div>
@@ -369,16 +372,16 @@ export function AnimalProfileForm({
               ref={colorRef}
               name={ActionFormData.keys.colorId}
               defaultValue={defaultAnimal?.color}
-              hasError={errors.fieldErrors.colorId != null}
+              hasError={fetcher.data?.errors?.fieldErrors.colorId != null}
               aria-describedby="colorId-error"
             />
 
-            {errors.fieldErrors.colorId != null ? (
+            {fetcher.data?.errors?.fieldErrors.colorId != null ? (
               <p
                 id="colorId-error"
                 className={formClassNames.fields.field.errorMessage()}
               >
-                {errors.fieldErrors.colorId}
+                {fetcher.data.errors.fieldErrors.colorId}
               </p>
             ) : null}
           </div>
@@ -408,12 +411,12 @@ export function AnimalProfileForm({
             ))}
           </div>
 
-          {errors.fieldErrors.isOkCats != null ? (
+          {fetcher.data?.errors?.fieldErrors.isOkCats != null ? (
             <p
               id="isOkCats-error"
               className={formClassNames.fields.field.errorMessage()}
             >
-              {errors.fieldErrors.isOkCats}
+              {fetcher.data.errors.fieldErrors.isOkCats}
             </p>
           ) : null}
         </div>
@@ -440,12 +443,12 @@ export function AnimalProfileForm({
             ))}
           </div>
 
-          {errors.fieldErrors.isOkDogs != null ? (
+          {fetcher.data?.errors?.fieldErrors.isOkDogs != null ? (
             <p
               id="isOkDogs-error"
               className={formClassNames.fields.field.errorMessage()}
             >
-              {errors.fieldErrors.isOkDogs}
+              {fetcher.data.errors.fieldErrors.isOkDogs}
             </p>
           ) : null}
         </div>
@@ -472,12 +475,12 @@ export function AnimalProfileForm({
             ))}
           </div>
 
-          {errors.fieldErrors.isOkChildren != null ? (
+          {fetcher.data?.errors?.fieldErrors.isOkChildren != null ? (
             <p
               id="isOkChildren-error"
               className={formClassNames.fields.field.errorMessage()}
             >
-              {errors.fieldErrors.isOkChildren}
+              {fetcher.data.errors.fieldErrors.isOkChildren}
             </p>
           ) : null}
         </div>
@@ -506,12 +509,12 @@ export function AnimalProfileForm({
             />
           </div>
 
-          {errors.fieldErrors.isSterilized != null ? (
+          {fetcher.data?.errors?.fieldErrors.isSterilized != null ? (
             <p
               id="isSterilized-error"
               className={formClassNames.fields.field.errorMessage()}
             >
-              {errors.fieldErrors.isSterilized}
+              {fetcher.data.errors.fieldErrors.isSterilized}
             </p>
           ) : null}
         </div>
@@ -542,6 +545,6 @@ export function AnimalProfileForm({
       >
         {isCreate ? "Suivant" : "Enregistrer"}
       </button>
-    </Form>
+    </fetcher.Form>
   );
 }
