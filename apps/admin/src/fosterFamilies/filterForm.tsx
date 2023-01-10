@@ -120,6 +120,7 @@ export function FosterFamilyFilters({
           count={visibleFilters.cities.length}
           hiddenContent={visibleFilters.cities.map((city) => (
             <input
+              key={city}
               type="hidden"
               name={FosterFamilySearchParams.Keys.CITY}
               value={city}

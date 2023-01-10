@@ -349,6 +349,7 @@ export function AnimalFilters({
               />
               {visibleFilters.pickUpLocations.map((location) => (
                 <input
+                  key={location}
                   type="hidden"
                   name={AnimalSearchParams.Keys.PICK_UP_LOCATION}
                   value={location}
