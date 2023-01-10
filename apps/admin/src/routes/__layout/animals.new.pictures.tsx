@@ -10,7 +10,6 @@ import {
   unstable_parseMultipartFormData,
 } from "@remix-run/node";
 import { useCatch, useFetcher } from "@remix-run/react";
-import { createPath } from "history";
 import { z } from "zod";
 import { zfd } from "zod-form-data";
 import { AnimalCreationSteps } from "~/animals/creationSteps";
@@ -49,7 +48,6 @@ export const meta: MetaFunction = () => {
 };
 
 type ActionData = {
-  redirectTo?: string;
   errors?: z.inferFlattenedErrors<typeof ActionFormData.schema>;
 };
 
@@ -94,7 +92,7 @@ export async function action({ request }: ActionArgs) {
 
     // Redirect instead of going back so we can display the newly created
     // animal.
-    throw redirect(createPath({ pathname: `/animals/${animalId}` }));
+    throw redirect(`/animals/${animalId}`);
   } catch (error) {
     if (error instanceof CloudinaryUploadApiError) {
       return json<ActionData>(

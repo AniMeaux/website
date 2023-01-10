@@ -200,6 +200,13 @@ function HeaderCard() {
             {/* To make sure we have the right height. */}
             <div> </div>
           </div>
+
+          <BaseLink
+            to="./edit"
+            className={actionClassName.standalone({ variant: "text" })}
+          >
+            Modifier
+          </BaseLink>
         </div>
       </CardContent>
     </Card>

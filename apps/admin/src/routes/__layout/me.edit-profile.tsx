@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import { z } from "zod";
 import { actionClassName } from "~/core/actions";
 import { cn } from "~/core/classNames";
+import { EmailAlreadyUsedError } from "~/core/errors.server";
 import { Adornment } from "~/core/formElements/adornment";
 import { formClassNames } from "~/core/formElements/form";
 import { FormErrors } from "~/core/formElements/formErrors";
@@ -13,7 +14,6 @@ import { useBackIfPossible } from "~/core/navigation";
 import { getPageTitle } from "~/core/pageTitle";
 import { createActionData } from "~/core/schemas";
 import {
-  EmailAlreadyUsedError,
   getCurrentUser,
   updateCurrentUserProfile,
 } from "~/currentUser/db.server";

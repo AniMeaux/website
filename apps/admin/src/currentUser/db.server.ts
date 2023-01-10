@@ -3,7 +3,7 @@ import { redirect } from "@remix-run/node";
 import { createPath } from "history";
 import { algolia } from "~/core/algolia/algolia.server";
 import { prisma } from "~/core/db.server";
-import { PrismaErrorCodes } from "~/core/errors.server";
+import { EmailAlreadyUsedError, PrismaErrorCodes } from "~/core/errors.server";
 import { NextSearchParams } from "~/core/searchParams";
 import { getSession } from "~/core/session.server";
 import { destroyUserSession } from "~/currentUser/session.server";
@@ -151,8 +151,6 @@ export async function updateCurrentUserPassword(
     },
   });
 }
-
-export class EmailAlreadyUsedError extends Error {}
 
 export async function updateCurrentUserProfile(
   userId: User["id"],

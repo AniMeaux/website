@@ -14,6 +14,20 @@ export function createFosterFamilyDelegate(client: SearchClient) {
       await index.deleteObject(fosterFamilyId);
     },
 
+    async update(
+      fosterFamilyId: FosterFamily["id"],
+      data: Partial<FosterFamilyFromAlgolia>
+    ) {
+      await index.partialUpdateObject({ ...data, objectID: fosterFamilyId });
+    },
+
+    async create(
+      fosterFamilyId: FosterFamily["id"],
+      data: FosterFamilyFromAlgolia
+    ) {
+      await index.saveObject({ ...data, objectID: fosterFamilyId });
+    },
+
     async search(
       { displayName }: { displayName: string },
       options: Omit<SearchOptions, "filters"> = {}
