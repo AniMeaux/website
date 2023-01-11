@@ -58,6 +58,32 @@ export async function loader({ request }: LoaderArgs) {
     });
   }
 
+  const speciesToHost = fosterFamilySearchParams.getSpeciesToHost();
+  if (speciesToHost != null) {
+    where.push({ speciesToHost: { has: speciesToHost } });
+  }
+
+  const speciesAlreadyPresent =
+    fosterFamilySearchParams.getSpeciesAlreadyPresent();
+  if (speciesAlreadyPresent.length > 0) {
+    speciesAlreadyPresent.forEach((species) => {
+      where.push({
+        OR: [
+          { speciesAlreadyPresent: { has: species } },
+          { fosterAnimals: { some: { species } } },
+        ],
+      });
+    });
+  }
+
+  const speciesToAvoid = fosterFamilySearchParams.getSpeciesToAvoid();
+  if (speciesToAvoid.length > 0) {
+    where.push({
+      NOT: { speciesAlreadyPresent: { hasSome: speciesToAvoid } },
+      fosterAnimals: { none: { species: { in: speciesToAvoid } } },
+    });
+  }
+
   const [possibleCities, totalCount, fosterFamilies] = await Promise.all([
     prisma.fosterFamily.groupBy({
       by: ["city"],
