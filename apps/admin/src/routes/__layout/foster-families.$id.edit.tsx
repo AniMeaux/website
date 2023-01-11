@@ -2,6 +2,7 @@ import { UserGroup } from "@prisma/client";
 import { ActionArgs, json, LoaderArgs, MetaFunction } from "@remix-run/node";
 import { useCatch, useFetcher, useLoaderData } from "@remix-run/react";
 import { z } from "zod";
+import { zfd } from "zod-form-data";
 import { ErrorPage, getErrorTitle } from "~/core/dataDisplay/errorPage";
 import { prisma } from "~/core/db.server";
 import { EmailAlreadyUsedError, NotFoundError } from "~/core/errors.server";
@@ -12,7 +13,10 @@ import { getPageTitle } from "~/core/pageTitle";
 import { NotFoundResponse } from "~/core/response.server";
 import { getCurrentUser } from "~/currentUser/db.server";
 import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
-import { updateFosterFamily } from "~/fosterFamilies/db.server";
+import {
+  MissingSpeciesToHostError,
+  updateFosterFamily,
+} from "~/fosterFamilies/db.server";
 import { ActionFormData, FosterFamilyForm } from "~/fosterFamilies/form";
 
 export async function loader({ request, params }: LoaderArgs) {
@@ -35,9 +39,12 @@ export async function loader({ request, params }: LoaderArgs) {
     select: {
       address: true,
       city: true,
+      comments: true,
       displayName: true,
       email: true,
       phone: true,
+      speciesAlreadyPresent: true,
+      speciesToHost: true,
       zipCode: true,
     },
   });
@@ -77,10 +84,7 @@ export async function action({ request, params }: ActionArgs) {
   }
 
   const rawFormData = await request.formData();
-  const formData = ActionFormData.schema.safeParse(
-    Object.fromEntries(rawFormData.entries())
-  );
-
+  const formData = zfd.formData(ActionFormData.schema).safeParse(rawFormData);
   if (!formData.success) {
     return json<ActionData>(
       { errors: formData.error.flatten() },
@@ -92,9 +96,12 @@ export async function action({ request, params }: ActionArgs) {
     await updateFosterFamily(idResult.data, {
       address: formData.data.address,
       city: formData.data.city,
+      comments: formData.data.comments || null,
       displayName: formData.data.displayName,
       email: formData.data.email,
       phone: formData.data.phone,
+      speciesAlreadyPresent: formData.data.speciesAlreadyPresent,
+      speciesToHost: formData.data.speciesToHost,
       zipCode: formData.data.zipCode,
     });
   } catch (error) {
@@ -116,6 +123,20 @@ export async function action({ request, params }: ActionArgs) {
           errors: {
             formErrors: [],
             fieldErrors: { email: ["L’email est déjà utilisé"] },
+          },
+        },
+        { status: 400 }
+      );
+    }
+
+    if (error instanceof MissingSpeciesToHostError) {
+      return json<ActionData>(
+        {
+          errors: {
+            formErrors: [],
+            fieldErrors: {
+              speciesToHost: ["Veuillez choisir au moins une espèces"],
+            },
           },
         },
         { status: 400 }

@@ -37,9 +37,12 @@ model FosterFamily {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  displayName String @db.VarChar(255)
-  email       String @unique @db.VarChar(255)
-  phone       String @db.VarChar(255)
+  comments              String?
+  displayName           String    @db.VarChar(255)
+  email                 String    @unique @db.VarChar(255)
+  phone                 String    @db.VarChar(255)
+  speciesAlreadyPresent Species[] @default([])
+  speciesToHost         Species[] @default([])
 
   address String @db.VarChar(255)
   city    String @db.VarChar(255)

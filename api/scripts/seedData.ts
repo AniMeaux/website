@@ -100,14 +100,25 @@ async function seedUsers() {
 
 async function seedFosterFamilies() {
   await prisma.fosterFamily.createMany({
-    data: repeate({ min: 80, max: 120 }, () => ({
-      email: faker.internet.email(),
-      displayName: faker.name.findName(),
-      phone: faker.phone.phoneNumber(),
-      address: faker.address.streetAddress(),
-      zipCode: faker.address.zipCode(),
-      city: faker.address.city(),
-    })),
+    data: repeate<Prisma.FosterFamilyCreateManyInput>(
+      { min: 80, max: 120 },
+      () => ({
+        comments: faker.helpers.maybe(() => faker.lorem.lines()),
+        displayName: faker.name.findName(),
+        email: faker.internet.email(),
+        phone: faker.phone.phoneNumber(),
+        speciesAlreadyPresent: faker.helpers.maybe(() =>
+          faker.helpers.arrayElements(Object.values(Species))
+        ),
+        speciesToHost: faker.helpers.maybe(() =>
+          faker.helpers.arrayElements(Object.values(Species))
+        ),
+
+        address: faker.address.streetAddress(),
+        city: faker.address.city(),
+        zipCode: faker.address.zipCode(),
+      })
+    ),
   });
 }
 
@@ -203,7 +214,7 @@ async function seedColors() {
 
 async function seedEvents() {
   await prisma.event.createMany({
-    data: repeate({ min: 5, max: 10 }, () => {
+    data: repeate<Prisma.EventCreateManyInput>({ min: 5, max: 10 }, () => {
       const startDate = faker.date.between(
         "2021-01-01",
         DateTime.now().plus({ year: 1 }).toJSDate()
