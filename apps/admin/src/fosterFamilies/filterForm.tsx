@@ -1,4 +1,9 @@
 import { Form, useSubmit } from "@remix-run/react";
+import {
+  SORTED_SPECIES,
+  SPECIES_ICON,
+  SPECIES_TRANSLATION,
+} from "~/animals/species";
 import { actionClassName } from "~/core/actions";
 import { BaseLink } from "~/core/baseLink";
 import { Filter, Filters } from "~/core/controllers/filters";
@@ -25,6 +30,9 @@ export function FosterFamilyFilters({
   const visibleFilters = {
     cities: fosterFamilySearchParams.getCities(),
     displayName: fosterFamilySearchParams.getDisplayName(),
+    speciesAlreadyPresent: fosterFamilySearchParams.getSpeciesAlreadyPresent(),
+    speciesToAvoid: fosterFamilySearchParams.getSpeciesToAvoid(),
+    speciesToHost: fosterFamilySearchParams.getSpeciesToHost(),
     zipCode: fosterFamilySearchParams.getZipCode(),
   };
 
@@ -76,6 +84,105 @@ export function FosterFamilyFilters({
               ) : null
             }
           />
+        </Filter>
+
+        <Filter
+          value={FosterFamilySearchParams.Keys.SPECIES_TO_HOST}
+          label="Espèce à accueillir"
+          count={visibleFilters.speciesToHost == null ? 0 : 1}
+          hiddenContent={
+            visibleFilters.speciesToHost != null ? (
+              <input
+                type="hidden"
+                name={FosterFamilySearchParams.Keys.SPECIES_TO_HOST}
+                value={visibleFilters.speciesToHost}
+              />
+            ) : null
+          }
+        >
+          <Suggestions>
+            {SORTED_SPECIES.map((species) => (
+              <Suggestion key={species}>
+                <SuggestionInput
+                  type="radio"
+                  name={FosterFamilySearchParams.Keys.SPECIES_TO_HOST}
+                  value={species}
+                  checked={visibleFilters.speciesToHost === species}
+                  onChange={() => {}}
+                />
+
+                <SuggestionLabel icon={<Icon id={SPECIES_ICON[species]} />}>
+                  {SPECIES_TRANSLATION[species]}
+                </SuggestionLabel>
+              </Suggestion>
+            ))}
+          </Suggestions>
+        </Filter>
+
+        <Filter
+          value={FosterFamilySearchParams.Keys.SPECIES_ALREADY_PRESENT}
+          label="Espèces déjà présentes"
+          count={visibleFilters.speciesAlreadyPresent.length}
+          hiddenContent={visibleFilters.speciesAlreadyPresent.map((species) => (
+            <input
+              key={species}
+              type="hidden"
+              name={FosterFamilySearchParams.Keys.SPECIES_ALREADY_PRESENT}
+              value={species}
+            />
+          ))}
+        >
+          <Suggestions>
+            {SORTED_SPECIES.map((species) => (
+              <Suggestion key={species}>
+                <SuggestionInput
+                  type="checkbox"
+                  name={FosterFamilySearchParams.Keys.SPECIES_ALREADY_PRESENT}
+                  value={species}
+                  checked={visibleFilters.speciesAlreadyPresent.includes(
+                    species
+                  )}
+                  onChange={() => {}}
+                />
+
+                <SuggestionLabel icon={<Icon id={SPECIES_ICON[species]} />}>
+                  {SPECIES_TRANSLATION[species]}
+                </SuggestionLabel>
+              </Suggestion>
+            ))}
+          </Suggestions>
+        </Filter>
+
+        <Filter
+          value={FosterFamilySearchParams.Keys.SPECIES_TO_AVOID}
+          label="Espèces à éviter"
+          count={visibleFilters.speciesToAvoid.length}
+          hiddenContent={visibleFilters.speciesToAvoid.map((species) => (
+            <input
+              key={species}
+              type="hidden"
+              name={FosterFamilySearchParams.Keys.SPECIES_TO_AVOID}
+              value={species}
+            />
+          ))}
+        >
+          <Suggestions>
+            {SORTED_SPECIES.map((species) => (
+              <Suggestion key={species}>
+                <SuggestionInput
+                  type="checkbox"
+                  name={FosterFamilySearchParams.Keys.SPECIES_TO_AVOID}
+                  value={species}
+                  checked={visibleFilters.speciesToAvoid.includes(species)}
+                  onChange={() => {}}
+                />
+
+                <SuggestionLabel icon={<Icon id={SPECIES_ICON[species]} />}>
+                  {SPECIES_TRANSLATION[species]}
+                </SuggestionLabel>
+              </Suggestion>
+            ))}
+          </Suggestions>
         </Filter>
 
         <Filter

@@ -1,15 +1,19 @@
-import { FosterFamily } from "@prisma/client";
+import { FosterFamily, Species } from "@prisma/client";
 import { SerializeFrom } from "@remix-run/node";
-import { FetcherWithComponents } from "@remix-run/react";
+import { FetcherWithComponents, useLocation } from "@remix-run/react";
 import { useEffect, useRef } from "react";
 import { z } from "zod";
+import { zfd } from "zod-form-data";
+import { SORTED_SPECIES, SPECIES_TRANSLATION } from "~/animals/species";
 import { actionClassName } from "~/core/actions";
 import { cn } from "~/core/classNames";
 import { Adornment } from "~/core/formElements/adornment";
+import { CheckboxInput } from "~/core/formElements/checkboxInput";
 import { formClassNames } from "~/core/formElements/form";
 import { FormErrors } from "~/core/formElements/formErrors";
 import { Input } from "~/core/formElements/input";
 import { RequiredStart } from "~/core/formElements/requiredStart";
+import { Textarea } from "~/core/formElements/textarea";
 import { Separator } from "~/core/layout/separator";
 import { createActionData } from "~/core/schemas";
 import { Icon } from "~/generated/icon";
@@ -18,12 +22,15 @@ export const ActionFormData = createActionData(
   z.object({
     address: z.string().trim().min(1, "Veuillez entrer une adresse"),
     city: z.string().trim().min(1, "Veuillez choisir une ville"),
+    comments: z.string().trim(),
     displayName: z.string().trim().min(1, "Veuillez entrer un nom"),
     email: z.string().email("Veuillez entrer un email valide"),
     phone: z
       .string()
       .trim()
       .regex(/^\+?[\s\d]+$/, "Veuillez entrer un numéro de téléphone valide"),
+    speciesAlreadyPresent: zfd.repeatable(z.nativeEnum(Species).array()),
+    speciesToHost: zfd.repeatable(z.nativeEnum(Species).array()),
     zipCode: z
       .string()
       .trim()
@@ -40,7 +47,15 @@ export function FosterFamilyForm({
   defaultFosterFamily?: null | SerializeFrom<
     Pick<
       FosterFamily,
-      "address" | "city" | "displayName" | "email" | "phone" | "zipCode"
+      | "address"
+      | "city"
+      | "comments"
+      | "displayName"
+      | "email"
+      | "phone"
+      | "speciesAlreadyPresent"
+      | "speciesToHost"
+      | "zipCode"
     >
   >;
   fetcher: FetcherWithComponents<{
@@ -49,9 +64,11 @@ export function FosterFamilyForm({
 }) {
   const addressRef = useRef<HTMLInputElement>(null);
   const cityRef = useRef<HTMLInputElement>(null);
+  const commentsRef = useRef<HTMLTextAreaElement>(null);
   const displayNameRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
   const phoneRef = useRef<HTMLInputElement>(null);
+  const speciesToHostRef = useRef<HTMLInputElement>(null);
   const zipCodeRef = useRef<HTMLInputElement>(null);
 
   // Focus the first field having an error.
@@ -71,9 +88,25 @@ export function FosterFamilyForm({
         zipCodeRef.current?.focus();
       } else if (fetcher.data.errors.fieldErrors.city != null) {
         cityRef.current?.focus();
+      } else if (fetcher.data.errors.fieldErrors.speciesToHost != null) {
+        speciesToHostRef.current?.focus();
       }
     }
   }, [fetcher.data?.errors]);
+
+  const { hash } = useLocation();
+  useEffect(() => {
+    const key = hash.replace("#", "");
+    if (key === ActionFormData.keys.comments) {
+      commentsRef.current?.focus();
+    } else if (key === ActionFormData.keys.displayName) {
+      displayNameRef.current?.focus();
+    } else if (key === ActionFormData.keys.phone) {
+      phoneRef.current?.focus();
+    } else if (key === ActionFormData.keys.speciesToHost) {
+      speciesToHostRef.current?.focus();
+    }
+  }, [hash]);
 
   return (
     <fetcher.Form
@@ -116,6 +149,8 @@ export function FosterFamilyForm({
             </p>
           ) : null}
         </div>
+
+        <Separator />
 
         <div className={formClassNames.fields.field.root()}>
           <label
@@ -184,8 +219,6 @@ export function FosterFamilyForm({
             </p>
           ) : null}
         </div>
-
-        <Separator />
 
         <div className={formClassNames.fields.field.root()}>
           <label
@@ -288,6 +321,81 @@ export function FosterFamilyForm({
               </p>
             ) : null}
           </div>
+        </div>
+
+        <Separator />
+
+        <div className={formClassNames.fields.field.root()}>
+          <span className={formClassNames.fields.field.label()}>
+            Espèces à accueillir{" "}
+            {isCreate || defaultFosterFamily?.speciesToHost.length !== 0 ? (
+              <RequiredStart />
+            ) : null}
+          </span>
+
+          <div className="py-1 flex flex-wrap gap-2">
+            {SORTED_SPECIES.map((species, index) => (
+              <CheckboxInput
+                ref={index === 0 ? speciesToHostRef : null}
+                key={species}
+                label={SPECIES_TRANSLATION[species]}
+                name={ActionFormData.keys.speciesToHost}
+                value={species}
+                defaultChecked={defaultFosterFamily?.speciesToHost.includes(
+                  species
+                )}
+                aria-describedby="speciesToHost-error"
+              />
+            ))}
+          </div>
+
+          {fetcher.data?.errors?.fieldErrors.speciesToHost != null ? (
+            <p
+              id="speciesToHost-error"
+              className={formClassNames.fields.field.errorMessage()}
+            >
+              {fetcher.data.errors.fieldErrors.speciesToHost}
+            </p>
+          ) : null}
+        </div>
+
+        <div className={formClassNames.fields.field.root()}>
+          <span className={formClassNames.fields.field.label()}>
+            Espèces déjà présentes
+          </span>
+
+          <div className="py-1 flex flex-wrap gap-2">
+            {SORTED_SPECIES.map((species) => (
+              <CheckboxInput
+                key={species}
+                label={SPECIES_TRANSLATION[species]}
+                name={ActionFormData.keys.speciesAlreadyPresent}
+                value={species}
+                defaultChecked={defaultFosterFamily?.speciesAlreadyPresent.includes(
+                  species
+                )}
+              />
+            ))}
+          </div>
+        </div>
+
+        <Separator />
+
+        <div className={formClassNames.fields.field.root()}>
+          <label
+            htmlFor={ActionFormData.keys.comments}
+            className={formClassNames.fields.field.label()}
+          >
+            Commentaires privées
+          </label>
+
+          <Textarea
+            ref={commentsRef}
+            id={ActionFormData.keys.comments}
+            name={ActionFormData.keys.comments}
+            defaultValue={defaultFosterFamily?.comments}
+            rows={5}
+          />
         </div>
       </div>
 

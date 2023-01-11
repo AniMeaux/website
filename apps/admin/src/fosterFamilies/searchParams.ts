@@ -1,3 +1,4 @@
+import { Species } from "@prisma/client";
 import isEqual from "lodash.isequal";
 import orderBy from "lodash.orderby";
 import { z } from "zod";
@@ -6,8 +7,11 @@ import { parseOrDefault } from "~/core/schemas";
 export class FosterFamilySearchParams extends URLSearchParams {
   static readonly Keys = {
     DISPLAY_NAME: "q",
-    ZIP_CODE: "zip",
     CITY: "city",
+    SPECIES_ALREADY_PRESENT: "present",
+    SPECIES_TO_AVOID: "avoid",
+    SPECIES_TO_HOST: "host",
+    ZIP_CODE: "zip",
   };
 
   isEmpty() {
@@ -17,8 +21,17 @@ export class FosterFamilySearchParams extends URLSearchParams {
   areFiltersEqual(other: FosterFamilySearchParams) {
     return (
       isEqual(this.getDisplayName(), other.getDisplayName()) &&
-      isEqual(this.getZipCode(), other.getZipCode()) &&
-      isEqual(orderBy(this.getCities()), orderBy(other.getCities()))
+      isEqual(orderBy(this.getCities()), orderBy(other.getCities())) &&
+      isEqual(
+        orderBy(this.getSpeciesAlreadyPresent()),
+        orderBy(other.getSpeciesAlreadyPresent())
+      ) &&
+      isEqual(
+        orderBy(this.getSpeciesToAvoid()),
+        orderBy(other.getSpeciesToAvoid())
+      ) &&
+      isEqual(this.getSpeciesToHost(), other.getSpeciesToHost()) &&
+      isEqual(this.getZipCode(), other.getZipCode())
     );
   }
 
@@ -45,6 +58,34 @@ export class FosterFamilySearchParams extends URLSearchParams {
     return copy;
   }
 
+  getCities() {
+    return parseOrDefault(
+      z.string().array().default([]),
+      this.getAll(FosterFamilySearchParams.Keys.CITY)
+    );
+  }
+
+  getSpeciesAlreadyPresent() {
+    return parseOrDefault(
+      z.nativeEnum(Species).array().default([]),
+      this.getAll(FosterFamilySearchParams.Keys.SPECIES_ALREADY_PRESENT)
+    );
+  }
+
+  getSpeciesToAvoid() {
+    return parseOrDefault(
+      z.nativeEnum(Species).array().default([]),
+      this.getAll(FosterFamilySearchParams.Keys.SPECIES_TO_AVOID)
+    );
+  }
+
+  getSpeciesToHost() {
+    return parseOrDefault(
+      z.nativeEnum(Species).optional(),
+      this.get(FosterFamilySearchParams.Keys.SPECIES_TO_HOST)
+    );
+  }
+
   getZipCode() {
     return (
       parseOrDefault(
@@ -58,12 +99,5 @@ export class FosterFamilySearchParams extends URLSearchParams {
     const copy = new FosterFamilySearchParams(this);
     copy.delete(FosterFamilySearchParams.Keys.ZIP_CODE);
     return copy;
-  }
-
-  getCities() {
-    return parseOrDefault(
-      z.string().array().default([]),
-      this.getAll(FosterFamilySearchParams.Keys.CITY)
-    );
   }
 }
