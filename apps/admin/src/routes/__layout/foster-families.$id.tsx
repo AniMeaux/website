@@ -11,6 +11,7 @@ import { useState } from "react";
 import { z } from "zod";
 import { AnimalItem } from "~/animals/item";
 import { AnimalSearchParams } from "~/animals/searchParams";
+import { SPECIES_TRANSLATION } from "~/animals/species";
 import { actionClassName } from "~/core/actions";
 import { BaseLink } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
@@ -19,10 +20,12 @@ import { Empty } from "~/core/dataDisplay/empty";
 import { ErrorPage, getErrorTitle } from "~/core/dataDisplay/errorPage";
 import { Helper } from "~/core/dataDisplay/helper";
 import { Item } from "~/core/dataDisplay/item";
+import { ARTICLE_COMPONENTS, Markdown } from "~/core/dataDisplay/markdown";
 import { prisma } from "~/core/db.server";
 import { NotFoundError, ReferencedError } from "~/core/errors.server";
 import { FormErrors } from "~/core/formElements/formErrors";
 import { assertIsDefined } from "~/core/isDefined.server";
+import { joinReactNodes } from "~/core/joinReactNodes";
 import { Card, CardContent, CardHeader, CardTitle } from "~/core/layout/card";
 import { getPageTitle } from "~/core/pageTitle";
 import {
@@ -40,6 +43,7 @@ import { getCurrentUser } from "~/currentUser/db.server";
 import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
 import { FosterFamilyAvatar } from "~/fosterFamilies/avatar";
 import { deleteFosterFamily } from "~/fosterFamilies/db.server";
+import { ActionFormData } from "~/fosterFamilies/form";
 import { getLongLocation } from "~/fosterFamilies/location";
 import { Icon } from "~/generated/icon";
 
@@ -63,6 +67,7 @@ export async function loader({ request, params }: LoaderArgs) {
     select: {
       address: true,
       city: true,
+      comments: true,
       displayName: true,
       email: true,
       fosterAnimals: {
@@ -79,6 +84,8 @@ export async function loader({ request, params }: LoaderArgs) {
       },
       id: true,
       phone: true,
+      speciesAlreadyPresent: true,
+      speciesToHost: true,
       zipCode: true,
     },
   });
@@ -154,6 +161,8 @@ export default function FosterFamilyProfilePage() {
 
       <section className="grid grid-cols-1 gap-1 md:hidden">
         <ProfileCard />
+        <SituationCard />
+        <CommentsCard />
         <FosterAnimalsCard />
         <ActionCard />
       </section>
@@ -165,6 +174,8 @@ export default function FosterFamilyProfilePage() {
         </section>
 
         <section className="md:flex md:flex-col md:gap-2">
+          <SituationCard />
+          <CommentsCard />
           <ActionCard />
         </section>
       </section>
@@ -202,7 +213,7 @@ function HeaderCard() {
           </div>
 
           <BaseLink
-            to="./edit"
+            to={{ pathname: "./edit", hash: ActionFormData.keys.displayName }}
             className={actionClassName.standalone({ variant: "text" })}
           >
             Modifier
@@ -227,6 +238,13 @@ function ProfileCard() {
     <Card>
       <CardHeader>
         <CardTitle>Profile</CardTitle>
+
+        <BaseLink
+          to={{ pathname: "./edit", hash: ActionFormData.keys.phone }}
+          className={actionClassName.standalone({ variant: "text" })}
+        >
+          Modifier
+        </BaseLink>
       </CardHeader>
 
       <CardContent>
@@ -237,6 +255,92 @@ function ProfileCard() {
             {getLongLocation(fosterFamily)}
           </Item>
         </ul>
+      </CardContent>
+    </Card>
+  );
+}
+
+function SituationCard() {
+  const { fosterFamily } = useLoaderData<typeof loader>();
+
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>Situation</CardTitle>
+
+        <BaseLink
+          to={{ pathname: "./edit", hash: ActionFormData.keys.speciesToHost }}
+          className={actionClassName.standalone({ variant: "text" })}
+        >
+          Modifier
+        </BaseLink>
+      </CardHeader>
+
+      <CardContent>
+        <ul className="flex flex-col">
+          <Item icon={<Icon id="handHoldingHeart" />}>
+            Peut accueillir :{" "}
+            {fosterFamily.speciesToHost.length === 0 ? (
+              <strong className="text-body-emphasis">Inconnu</strong>
+            ) : (
+              joinReactNodes(
+                fosterFamily.speciesToHost.map((species) => (
+                  <strong key={species} className="text-body-emphasis">
+                    {SPECIES_TRANSLATION[species]}
+                  </strong>
+                )),
+                ", "
+              )
+            )}
+          </Item>
+
+          <Item icon={<Icon id="houseChimneyPaw" />}>
+            {fosterFamily.speciesAlreadyPresent.length === 0 ? (
+              "Aucun animal déjà présents"
+            ) : (
+              <>
+                Sont déjà présents :{" "}
+                {joinReactNodes(
+                  fosterFamily.speciesAlreadyPresent.map((species) => (
+                    <strong key={species} className="text-body-emphasis">
+                      {SPECIES_TRANSLATION[species]}
+                    </strong>
+                  )),
+                  ", "
+                )}
+              </>
+            )}
+          </Item>
+        </ul>
+      </CardContent>
+    </Card>
+  );
+}
+
+function CommentsCard() {
+  const { fosterFamily } = useLoaderData<typeof loader>();
+
+  if (fosterFamily.comments == null) {
+    return null;
+  }
+
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>Commentaires privés</CardTitle>
+
+        <BaseLink
+          to={{ pathname: "./edit", hash: ActionFormData.keys.comments }}
+          className={actionClassName.standalone({ variant: "text" })}
+        >
+          Modifier
+        </BaseLink>
+      </CardHeader>
+
+      <CardContent>
+        <Markdown components={ARTICLE_COMPONENTS}>
+          {fosterFamily.comments}
+        </Markdown>
       </CardContent>
     </Card>
   );

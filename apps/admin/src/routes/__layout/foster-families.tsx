@@ -72,7 +72,13 @@ export async function loader({ request }: LoaderArgs) {
       take: FOSTER_FAMILY_COUNT_PER_PAGE,
       orderBy: { displayName: "asc" },
       where: { AND: where },
-      select: { city: true, displayName: true, id: true, zipCode: true },
+      select: {
+        city: true,
+        displayName: true,
+        id: true,
+        speciesToHost: true,
+        zipCode: true,
+      },
     }),
   ]);
 

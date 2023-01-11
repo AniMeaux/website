@@ -8,13 +8,17 @@ import {
 } from "@remix-run/node";
 import { useCatch, useFetcher } from "@remix-run/react";
 import { z } from "zod";
+import { zfd } from "zod-form-data";
 import { ErrorPage } from "~/core/dataDisplay/errorPage";
 import { EmailAlreadyUsedError } from "~/core/errors.server";
 import { Card, CardContent, CardHeader, CardTitle } from "~/core/layout/card";
 import { getPageTitle } from "~/core/pageTitle";
 import { getCurrentUser } from "~/currentUser/db.server";
 import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
-import { createFosterFamily } from "~/fosterFamilies/db.server";
+import {
+  createFosterFamily,
+  MissingSpeciesToHostError,
+} from "~/fosterFamilies/db.server";
 import { ActionFormData, FosterFamilyForm } from "~/fosterFamilies/form";
 
 export async function loader({ request }: LoaderArgs) {
@@ -49,10 +53,7 @@ export async function action({ request }: ActionArgs) {
   ]);
 
   const rawFormData = await request.formData();
-  const formData = ActionFormData.schema.safeParse(
-    Object.fromEntries(rawFormData.entries())
-  );
-
+  const formData = zfd.formData(ActionFormData.schema).safeParse(rawFormData);
   if (!formData.success) {
     return json<ActionData>(
       { errors: formData.error.flatten() },
@@ -64,9 +65,12 @@ export async function action({ request }: ActionArgs) {
     const fosterFamilyId = await createFosterFamily({
       address: formData.data.address,
       city: formData.data.city,
+      comments: formData.data.comments || null,
       displayName: formData.data.displayName,
       email: formData.data.email,
       phone: formData.data.phone,
+      speciesAlreadyPresent: formData.data.speciesAlreadyPresent,
+      speciesToHost: formData.data.speciesToHost,
       zipCode: formData.data.zipCode,
     });
 
@@ -80,6 +84,20 @@ export async function action({ request }: ActionArgs) {
           errors: {
             formErrors: [],
             fieldErrors: { email: ["L’email est déjà utilisé"] },
+          },
+        },
+        { status: 400 }
+      );
+    }
+
+    if (error instanceof MissingSpeciesToHostError) {
+      return json<ActionData>(
+        {
+          errors: {
+            formErrors: [],
+            fieldErrors: {
+              speciesToHost: ["Veuillez choisir au moins une espèces"],
+            },
           },
         },
         { status: 400 }

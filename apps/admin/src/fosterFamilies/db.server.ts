@@ -11,6 +11,19 @@ import {
 
 const SEARCH_COUNT = 6;
 
+type FosterFamilyData = Pick<
+  FosterFamily,
+  | "address"
+  | "city"
+  | "comments"
+  | "displayName"
+  | "email"
+  | "phone"
+  | "speciesAlreadyPresent"
+  | "speciesToHost"
+  | "zipCode"
+>;
+
 export async function fuzzySearchFosterFamilies(displayName: null | string) {
   // Don't use Algolia when there are no text search.
   if (displayName == null) {
@@ -75,20 +88,23 @@ export async function deleteFosterFamily(fosterFamilyId: FosterFamily["id"]) {
 
 export async function updateFosterFamily(
   fosterFamilyId: FosterFamily["id"],
-  data: Pick<
-    FosterFamily,
-    "address" | "city" | "displayName" | "email" | "phone" | "zipCode"
-  >
+  data: FosterFamilyData
 ) {
   await prisma.$transaction(async (prisma) => {
+    const fosterFamily = await prisma.fosterFamily.findUnique({
+      where: { id: fosterFamilyId },
+      select: { speciesToHost: true },
+    });
+    if (fosterFamily == null) {
+      throw new NotFoundError();
+    }
+
+    validateFosterFamily(data, fosterFamily);
+
     try {
       await prisma.fosterFamily.update({ where: { id: fosterFamilyId }, data });
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
-        if (error.code === PrismaErrorCodes.NOT_FOUND) {
-          throw new NotFoundError();
-        }
-
         if (error.code === PrismaErrorCodes.UNIQUE_CONSTRAINT_FAILED) {
           throw new EmailAlreadyUsedError();
         }
@@ -103,13 +119,10 @@ export async function updateFosterFamily(
   });
 }
 
-export async function createFosterFamily(
-  data: Pick<
-    FosterFamily,
-    "address" | "city" | "displayName" | "email" | "phone" | "zipCode"
-  >
-) {
+export async function createFosterFamily(data: FosterFamilyData) {
   return await prisma.$transaction(async (prisma) => {
+    validateFosterFamily(data);
+
     try {
       const fosterFamily = await prisma.fosterFamily.create({
         data,
@@ -131,4 +144,18 @@ export async function createFosterFamily(
       throw error;
     }
   });
+}
+
+export class MissingSpeciesToHostError extends Error {}
+
+export function validateFosterFamily(
+  newData: FosterFamilyData,
+  currentData?: null | Pick<FosterFamily, "speciesToHost">
+) {
+  if (newData.speciesToHost.length === 0) {
+    // Allow old foster family (without species to host) to be updated without
+    // setting them. But we can't unset them.
+    if (currentData == null || currentData.speciesToHost.length > 0)
+      throw new MissingSpeciesToHostError();
+  }
 }
