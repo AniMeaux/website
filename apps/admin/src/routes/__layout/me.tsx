@@ -1,4 +1,4 @@
-import { UserGroup } from "@prisma/client";
+import { Prisma, UserGroup } from "@prisma/client";
 import { json, LoaderArgs, MetaFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { AnimalItem } from "~/animals/item";
@@ -9,6 +9,7 @@ import { BaseLink } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
 import { AvatarColor, inferAvatarColor } from "~/core/dataDisplay/avatar";
 import { Empty } from "~/core/dataDisplay/empty";
+import { prisma } from "~/core/db.server";
 import { Card, CardContent, CardHeader, CardTitle } from "~/core/layout/card";
 import { getPageTitle } from "~/core/pageTitle";
 import { getCurrentUser } from "~/currentUser/db.server";
@@ -18,27 +19,32 @@ import { GROUP_ICON, GROUP_TRANSLATION, hasGroups } from "~/users/groups";
 
 export async function loader({ request }: LoaderArgs) {
   const currentUser = await getCurrentUser(request, {
-    select: {
-      id: true,
-      displayName: true,
-      email: true,
-      groups: true,
-      managedAnimals: {
-        take: 5,
-        orderBy: { pickUpDate: "desc" },
-        select: {
-          id: true,
-          avatar: true,
-          name: true,
-          alias: true,
-          gender: true,
-          status: true,
-        },
-      },
-    },
+    select: { id: true, displayName: true, email: true, groups: true },
   });
 
-  return json({ currentUser });
+  const where: Prisma.AnimalWhereInput = {
+    managerId: currentUser.id,
+    status: { in: ACTIVE_ANIMAL_STATUS },
+  };
+
+  const [managedAnimalCount, managedAnimals] = await Promise.all([
+    prisma.animal.count({ where }),
+    prisma.animal.findMany({
+      where,
+      take: 5,
+      orderBy: { pickUpDate: "desc" },
+      select: {
+        id: true,
+        avatar: true,
+        name: true,
+        alias: true,
+        gender: true,
+        status: true,
+      },
+    }),
+  ]);
+
+  return json({ currentUser, managedAnimalCount, managedAnimals });
 }
 
 export const meta: MetaFunction = () => {
@@ -171,15 +177,19 @@ function ActionsCard() {
 }
 
 function ManagerCard() {
-  const { currentUser } = useLoaderData<typeof loader>();
+  const { currentUser, managedAnimalCount, managedAnimals } =
+    useLoaderData<typeof loader>();
   const isManager = hasGroups(currentUser, [UserGroup.ANIMAL_MANAGER]);
 
   return (
     <Card>
       <CardHeader>
-        <CardTitle>À votre charge</CardTitle>
+        <CardTitle>
+          À votre charge
+          {managedAnimalCount > 0 ? ` (${managedAnimalCount})` : null}
+        </CardTitle>
 
-        {isManager ? (
+        {managedAnimalCount > 0 ? (
           <BaseLink
             to={{
               pathname: "/animals",
@@ -195,8 +205,8 @@ function ManagerCard() {
         ) : null}
       </CardHeader>
 
-      <CardContent hasHorizontalScroll={currentUser.managedAnimals.length > 0}>
-        {currentUser.managedAnimals.length === 0 ? (
+      <CardContent hasHorizontalScroll={managedAnimalCount > 0}>
+        {managedAnimalCount === 0 ? (
           <Empty
             isCompact
             icon="🦤"
@@ -219,7 +229,7 @@ function ManagerCard() {
           />
         ) : (
           <ul className="flex gap-1">
-            {currentUser.managedAnimals.map((animal) => (
+            {managedAnimals.map((animal) => (
               <li
                 key={animal.id}
                 className="flex-none flex flex-col first:pl-1 last:pr-1 md:first:pl-2 md:last:pr-2"
