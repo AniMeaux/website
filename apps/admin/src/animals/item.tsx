@@ -24,7 +24,7 @@ export function AnimalItem({
     Animal,
     "id" | "name" | "alias" | "gender" | "avatar" | "status"
   > & {
-    manager?: Pick<User, "displayName"> | null;
+    manager?: null | Pick<User, "displayName">;
   };
   imageSizes: DynamicImageProps["sizes"];
   imageLoading?: DynamicImageProps["loading"];

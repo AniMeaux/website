@@ -62,37 +62,44 @@ export async function loader({ request, params }: LoaderArgs) {
     throw new NotFoundResponse();
   }
 
-  const fosterFamily = await prisma.fosterFamily.findUnique({
-    where: { id: result.data },
-    select: {
-      address: true,
-      city: true,
-      comments: true,
-      displayName: true,
-      email: true,
-      fosterAnimals: {
-        take: 5,
-        orderBy: { pickUpDate: "desc" },
-        select: {
-          alias: true,
-          avatar: true,
-          gender: true,
-          id: true,
-          name: true,
-          status: true,
-        },
+  const [fosterFamily, fosterAnimalCount, fosterAnimals] = await Promise.all([
+    prisma.fosterFamily.findUnique({
+      where: { id: result.data },
+      select: {
+        address: true,
+        city: true,
+        comments: true,
+        displayName: true,
+        email: true,
+        id: true,
+        phone: true,
+        speciesAlreadyPresent: true,
+        speciesToHost: true,
+        zipCode: true,
       },
-      id: true,
-      phone: true,
-      speciesAlreadyPresent: true,
-      speciesToHost: true,
-      zipCode: true,
-    },
-  });
+    }),
+
+    prisma.animal.count({ where: { fosterFamilyId: result.data } }),
+
+    prisma.animal.findMany({
+      where: { fosterFamilyId: result.data },
+      take: 5,
+      orderBy: { pickUpDate: "desc" },
+      select: {
+        alias: true,
+        avatar: true,
+        gender: true,
+        id: true,
+        name: true,
+        manager: { select: { displayName: true } },
+        status: true,
+      },
+    }),
+  ]);
 
   assertIsDefined(fosterFamily);
 
-  return json({ fosterFamily });
+  return json({ fosterFamily, fosterAnimalCount, fosterAnimals });
 }
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
@@ -347,14 +354,18 @@ function CommentsCard() {
 }
 
 function FosterAnimalsCard() {
-  const { fosterFamily } = useLoaderData<typeof loader>();
+  const { fosterFamily, fosterAnimalCount, fosterAnimals } =
+    useLoaderData<typeof loader>();
 
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Animaux accueillis</CardTitle>
+        <CardTitle>
+          Animaux accueillis
+          {fosterAnimalCount > 0 ? ` (${fosterAnimalCount})` : null}
+        </CardTitle>
 
-        {fosterFamily.fosterAnimals.length > 0 ? (
+        {fosterAnimalCount > 0 ? (
           <BaseLink
             to={{
               pathname: "/animals",
@@ -369,8 +380,8 @@ function FosterAnimalsCard() {
         ) : null}
       </CardHeader>
 
-      <CardContent hasHorizontalScroll={fosterFamily.fosterAnimals.length > 0}>
-        {fosterFamily.fosterAnimals.length === 0 ? (
+      <CardContent hasHorizontalScroll={fosterAnimalCount > 0}>
+        {fosterAnimalCount === 0 ? (
           <Empty
             isCompact
             icon="🏡"
@@ -381,7 +392,7 @@ function FosterAnimalsCard() {
           />
         ) : (
           <ul className="flex gap-1">
-            {fosterFamily.fosterAnimals.map((animal) => (
+            {fosterAnimals.map((animal) => (
               <li
                 key={animal.id}
                 className="flex-none flex flex-col first:pl-1 last:pr-1 md:first:pl-2 md:last:pr-2"
@@ -401,8 +412,8 @@ function FosterAnimalsCard() {
 }
 
 function ActionCard() {
-  const { fosterFamily } = useLoaderData<typeof loader>();
-  const canDelete = fosterFamily.fosterAnimals.length === 0;
+  const { fosterFamily, fosterAnimalCount } = useLoaderData<typeof loader>();
+  const canDelete = fosterAnimalCount === 0;
   const fetcher = useFetcher<typeof action>();
   const [isHelperVisible, setIsHelperVisible] = useState(false);
 
