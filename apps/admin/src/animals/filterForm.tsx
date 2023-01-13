@@ -38,7 +38,7 @@ export function AnimalFilters({
   fosterFamilies,
   possiblePickUpLocations,
 }: {
-  currentUser: ActiveFilterLinkProps["currentUser"];
+  currentUser: ManagerActiveFilterLinkProps["currentUser"];
   managers: Pick<User, "displayName" | "id">[];
   fosterFamilies: Pick<FosterFamily, "displayName" | "id">[];
   possiblePickUpLocations: string[];
@@ -60,6 +60,10 @@ export function AnimalFilters({
     pickUpLocations: animalSearchParams.getPickUpLocations(),
   };
 
+  const isCurrentUserManager = hasGroups(currentUser, [
+    UserGroup.ANIMAL_MANAGER,
+  ]);
+
   return (
     <Form
       method="get"
@@ -77,7 +81,11 @@ export function AnimalFilters({
           Tout effacer
         </BaseLink>
 
-        <ActiveFilterLink currentUser={currentUser} />
+        <ActiveFilterLink />
+
+        {isCurrentUserManager ? (
+          <ManagerActiveFilterLink currentUser={currentUser} />
+        ) : null}
       </div>
 
       <Filters>
@@ -457,21 +465,10 @@ function toIsoDate(date: Date | null) {
   return DateTime.fromJSDate(date).toISODate();
 }
 
-type ActiveFilterLinkProps = {
-  currentUser: Pick<User, "groups" | "id">;
-};
-
-function ActiveFilterLink({ currentUser }: ActiveFilterLinkProps) {
-  const isCurrentUserManager = hasGroups(currentUser, [
-    UserGroup.ANIMAL_MANAGER,
-  ]);
-
+function ActiveFilterLink() {
   let toSearchParams = new AnimalSearchParams().setStatuses(
     ACTIVE_ANIMAL_STATUS
   );
-  if (isCurrentUserManager) {
-    toSearchParams = toSearchParams.setManagersId([currentUser.id]);
-  }
 
   const [searchParams] = useOptimisticSearchParams();
   const isActive = toSearchParams.areFiltersEqual(
@@ -487,7 +484,36 @@ function ActiveFilterLink({ currentUser }: ActiveFilterLinkProps) {
       })}
     >
       {isActive ? <Icon id="check" /> : null}
-      {isCurrentUserManager ? "À votre charge" : "Animaux en charge"}
+      Animaux en charge
+    </BaseLink>
+  );
+}
+
+type ManagerActiveFilterLinkProps = {
+  currentUser: Pick<User, "groups" | "id">;
+};
+
+function ManagerActiveFilterLink({
+  currentUser,
+}: ManagerActiveFilterLinkProps) {
+  const toSearchParams = new AnimalSearchParams()
+    .setStatuses(ACTIVE_ANIMAL_STATUS)
+    .setManagersId([currentUser.id]);
+
+  const [searchParams] = useOptimisticSearchParams();
+  const isActive = toSearchParams.areFiltersEqual(
+    new AnimalSearchParams(searchParams)
+  );
+
+  return (
+    <BaseLink
+      to={{ search: toSearchParams.toString() }}
+      className={actionClassName.standalone({
+        variant: "secondary",
+        color: isActive ? "blue" : "gray",
+      })}
+    >
+      {isActive ? <Icon id="check" /> : null}À votre charge
     </BaseLink>
   );
 }
