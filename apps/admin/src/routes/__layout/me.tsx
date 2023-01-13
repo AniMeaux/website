@@ -11,6 +11,7 @@ import { AvatarColor, inferAvatarColor } from "~/core/dataDisplay/avatar";
 import { Empty } from "~/core/dataDisplay/empty";
 import { prisma } from "~/core/db.server";
 import { Card, CardContent, CardHeader, CardTitle } from "~/core/layout/card";
+import { PageContent, PageLayout } from "~/core/layout/page";
 import { getPageTitle } from "~/core/pageTitle";
 import { getCurrentUser } from "~/currentUser/db.server";
 import { Icon } from "~/generated/icon";
@@ -53,27 +54,29 @@ export const meta: MetaFunction = () => {
 
 export default function CurrentUserPage() {
   return (
-    <section className="w-full flex flex-col gap-1 md:gap-2">
-      <HeaderCard />
+    <PageLayout>
+      <PageContent className="flex flex-col gap-1 md:gap-2">
+        <HeaderCard />
 
-      <section className="grid grid-cols-1 gap-1 md:grid-cols-[minmax(0px,2fr)_minmax(250px,1fr)] md:items-start md:gap-2">
-        <aside className="flex flex-col gap-1 md:hidden">
-          <GroupCard />
-        </aside>
-
-        <main className="flex flex-col gap-1 md:gap-2">
-          <ManagerCard />
-        </main>
-
-        <aside className="flex flex-col gap-1 md:gap-2">
-          <div className="hidden md:flex md:flex-col">
+        <section className="grid grid-cols-1 gap-1 md:grid-cols-[minmax(0px,2fr)_minmax(250px,1fr)] md:items-start md:gap-2">
+          <aside className="flex flex-col gap-1 md:hidden">
             <GroupCard />
-          </div>
+          </aside>
 
-          <ActionsCard />
-        </aside>
-      </section>
-    </section>
+          <section className="flex flex-col gap-1 md:gap-2">
+            <ManagerCard />
+          </section>
+
+          <aside className="flex flex-col gap-1 md:gap-2">
+            <div className="hidden md:flex md:flex-col">
+              <GroupCard />
+            </div>
+
+            <ActionsCard />
+          </aside>
+        </section>
+      </PageContent>
+    </PageLayout>
   );
 }
 

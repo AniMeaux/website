@@ -34,6 +34,7 @@ import { prisma } from "~/core/db.server";
 import { NotFoundError } from "~/core/errors.server";
 import { assertIsDefined } from "~/core/isDefined.server";
 import { Card, CardContent, CardHeader, CardTitle } from "~/core/layout/card";
+import { PageContent, PageLayout } from "~/core/layout/page";
 import { getPageTitle } from "~/core/pageTitle";
 import {
   Dialog,
@@ -188,42 +189,44 @@ export default function AnimalProfilePage() {
   const { canEdit } = useLoaderData<typeof loader>();
 
   return (
-    <section className="w-full flex flex-col gap-1 md:gap-2">
-      <HeaderCard />
+    <PageLayout>
+      <PageContent className="flex flex-col gap-1 md:gap-2">
+        <HeaderCard />
 
-      <section className="grid grid-cols-1 gap-1 md:hidden">
-        <aside className="flex flex-col gap-1">
-          <SituationCard />
-          <CommentsCard />
-        </aside>
-
-        <main className="flex flex-col gap-1">
-          <ProfileCard />
-          <PicturesCard />
-          <DescriptionCard />
-        </main>
-
-        {canEdit ? (
-          <aside className="flex flex-col">
-            <ActionCard />
+        <section className="grid grid-cols-1 gap-1 md:hidden">
+          <aside className="flex flex-col gap-1">
+            <SituationCard />
+            <CommentsCard />
           </aside>
-        ) : null}
-      </section>
 
-      <section className="hidden md:grid md:grid-cols-[minmax(0px,2fr)_minmax(250px,1fr)] md:items-start md:gap-2">
-        <main className="md:flex md:flex-col md:gap-2">
-          <ProfileCard />
-          <PicturesCard />
-          <DescriptionCard />
-        </main>
+          <section className="flex flex-col gap-1">
+            <ProfileCard />
+            <PicturesCard />
+            <DescriptionCard />
+          </section>
 
-        <aside className="md:flex md:flex-col md:gap-2">
-          <SituationCard />
-          <CommentsCard />
-          {canEdit ? <ActionCard /> : null}
-        </aside>
-      </section>
-    </section>
+          {canEdit ? (
+            <aside className="flex flex-col">
+              <ActionCard />
+            </aside>
+          ) : null}
+        </section>
+
+        <section className="hidden md:grid md:grid-cols-[minmax(0px,2fr)_minmax(250px,1fr)] md:items-start md:gap-2">
+          <section className="md:flex md:flex-col md:gap-2">
+            <ProfileCard />
+            <PicturesCard />
+            <DescriptionCard />
+          </section>
+
+          <aside className="md:flex md:flex-col md:gap-2">
+            <SituationCard />
+            <CommentsCard />
+            {canEdit ? <ActionCard /> : null}
+          </aside>
+        </section>
+      </PageContent>
+    </PageLayout>
   );
 }
 

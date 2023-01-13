@@ -12,6 +12,7 @@ import { zfd } from "zod-form-data";
 import { ErrorPage } from "~/core/dataDisplay/errorPage";
 import { EmailAlreadyUsedError } from "~/core/errors.server";
 import { Card, CardContent, CardHeader, CardTitle } from "~/core/layout/card";
+import { PageContent, PageLayout } from "~/core/layout/page";
 import { getPageTitle } from "~/core/pageTitle";
 import { getCurrentUser } from "~/currentUser/db.server";
 import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
@@ -117,16 +118,18 @@ export default function NewFosterFamilyPage() {
   const fetcher = useFetcher<typeof action>();
 
   return (
-    <main className="w-full flex flex-col md:max-w-[600px]">
-      <Card>
-        <CardHeader>
-          <CardTitle>Nouvelle famille d’accueil</CardTitle>
-        </CardHeader>
+    <PageLayout>
+      <PageContent className="flex flex-col items-center">
+        <Card className="w-full md:max-w-[600px]">
+          <CardHeader>
+            <CardTitle>Nouvelle famille d’accueil</CardTitle>
+          </CardHeader>
 
-        <CardContent>
-          <FosterFamilyForm isCreate fetcher={fetcher} />
-        </CardContent>
-      </Card>
-    </main>
+          <CardContent>
+            <FosterFamilyForm isCreate fetcher={fetcher} />
+          </CardContent>
+        </Card>
+      </PageContent>
+    </PageLayout>
   );
 }
