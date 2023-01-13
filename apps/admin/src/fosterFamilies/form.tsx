@@ -99,12 +99,6 @@ export function FosterFamilyForm({
     const key = hash.replace("#", "");
     if (key === ActionFormData.keys.comments) {
       commentsRef.current?.focus();
-    } else if (key === ActionFormData.keys.displayName) {
-      displayNameRef.current?.focus();
-    } else if (key === ActionFormData.keys.phone) {
-      phoneRef.current?.focus();
-    } else if (key === ActionFormData.keys.speciesToHost) {
-      speciesToHostRef.current?.focus();
     }
   }, [hash]);
 

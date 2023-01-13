@@ -220,7 +220,7 @@ function HeaderCard() {
           </div>
 
           <BaseLink
-            to={{ pathname: "./edit", hash: ActionFormData.keys.displayName }}
+            to="./edit"
             className={actionClassName.standalone({ variant: "text" })}
           >
             Modifier
@@ -247,7 +247,7 @@ function ProfileCard() {
         <CardTitle>Profile</CardTitle>
 
         <BaseLink
-          to={{ pathname: "./edit", hash: ActionFormData.keys.phone }}
+          to="./edit"
           className={actionClassName.standalone({ variant: "text" })}
         >
           Modifier
@@ -276,7 +276,7 @@ function SituationCard() {
         <CardTitle>Situation</CardTitle>
 
         <BaseLink
-          to={{ pathname: "./edit", hash: ActionFormData.keys.speciesToHost }}
+          to="./edit"
           className={actionClassName.standalone({ variant: "text" })}
         >
           Modifier
