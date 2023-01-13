@@ -27,7 +27,7 @@ import { RadioInput } from "~/core/formElements/radioInput";
 import { RequiredStart } from "~/core/formElements/requiredStart";
 import { Textarea } from "~/core/formElements/textarea";
 import { Separator } from "~/core/layout/separator";
-import { createActionData, ensureBoolean, ensureDate } from "~/core/schemas";
+import { createActionData, ensureDate } from "~/core/schemas";
 import { Icon } from "~/generated/icon";
 import { BreedInput } from "~/routes/resources/breed";
 import { ColorInput } from "~/routes/resources/color";
@@ -64,10 +64,6 @@ export const ActionFormData = createActionData(
         required_error: "Veuillez choisir une option",
       })
       .transform(agreementToBoolean),
-    isSterilized: z.preprocess(
-      ensureBoolean,
-      z.boolean({ required_error: "Veuillez choisir une option" })
-    ),
     name: z.string().trim().min(1, "Veuillez entrer un nom"),
     species: z.nativeEnum(Species, {
       required_error: "Veuillez choisir une espèce",
@@ -92,7 +88,6 @@ export function AnimalProfileForm({
       | "isOkCats"
       | "isOkChildren"
       | "isOkDogs"
-      | "isSterilized"
       | "name"
       | "species"
     > & {
@@ -115,7 +110,6 @@ export function AnimalProfileForm({
   const isOkCatsRef = useRef<HTMLInputElement>(null);
   const isOkChildrenRef = useRef<HTMLInputElement>(null);
   const isOkDogsRef = useRef<HTMLInputElement>(null);
-  const isSterilizedRef = useRef<HTMLInputElement>(null);
   const descriptionRef = useRef<HTMLTextAreaElement>(null);
 
   // Focus the first field having an error.
@@ -141,8 +135,6 @@ export function AnimalProfileForm({
         isOkDogsRef.current?.focus();
       } else if (fetcher.data.errors.fieldErrors.isOkChildren != null) {
         isOkChildrenRef.current?.focus();
-      } else if (fetcher.data.errors.fieldErrors.isSterilized != null) {
-        isSterilizedRef.current?.focus();
       }
     }
   }, [fetcher.data?.errors]);
@@ -481,40 +473,6 @@ export function AnimalProfileForm({
               className={formClassNames.fields.field.errorMessage()}
             >
               {fetcher.data.errors.fieldErrors.isOkChildren}
-            </p>
-          ) : null}
-        </div>
-
-        <div className={formClassNames.fields.field.root()}>
-          <span className={formClassNames.fields.field.label()}>
-            Stérilisé <RequiredStart />
-          </span>
-
-          <div className="py-1 flex flex-wrap gap-2">
-            <RadioInput
-              ref={isSterilizedRef}
-              label="Oui"
-              name={ActionFormData.keys.isSterilized}
-              value={String(true)}
-              defaultChecked={defaultAnimal?.isSterilized}
-              aria-describedby="isSterilized-error"
-            />
-
-            <RadioInput
-              label="Non"
-              name={ActionFormData.keys.isSterilized}
-              value={String(false)}
-              defaultChecked={!defaultAnimal?.isSterilized}
-              aria-describedby="isSterilized-error"
-            />
-          </div>
-
-          {fetcher.data?.errors?.fieldErrors.isSterilized != null ? (
-            <p
-              id="isSterilized-error"
-              className={formClassNames.fields.field.errorMessage()}
-            >
-              {fetcher.data.errors.fieldErrors.isSterilized}
             </p>
           ) : null}
         </div>

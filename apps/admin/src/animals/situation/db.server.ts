@@ -10,6 +10,7 @@ type SituationKeys =
   | "adoptionOption"
   | "comments"
   | "fosterFamilyId"
+  | "isSterilized"
   | "managerId"
   | "pickUpDate"
   | "pickUpLocation"
@@ -136,6 +137,7 @@ export function hasSituation(
 ): draft is AnimalSituation {
   return (
     draft != null &&
+    draft.isSterilized != null &&
     draft.managerId != null &&
     draft.pickUpDate != null &&
     draft.pickUpLocation != null &&

@@ -47,7 +47,6 @@ export async function loader({ request, params }: LoaderArgs) {
       isOkCats: true,
       isOkChildren: true,
       isOkDogs: true,
-      isSterilized: true,
       name: true,
       species: true,
       status: true,
@@ -116,7 +115,6 @@ export async function action({ request, params }: ActionArgs) {
       isOkCats: formData.data.isOkCats,
       isOkChildren: formData.data.isOkChildren,
       isOkDogs: formData.data.isOkDogs,
-      isSterilized: formData.data.isSterilized,
     });
   } catch (error) {
     if (error instanceof NotFoundError) {

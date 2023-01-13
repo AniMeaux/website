@@ -86,7 +86,6 @@ export async function action({ request }: ActionArgs) {
       isOkCats: formData.data.isOkCats,
       isOkChildren: formData.data.isOkChildren,
       isOkDogs: formData.data.isOkDogs,
-      isSterilized: formData.data.isSterilized,
     });
   } catch (error) {
     if (error instanceof BreedNotForSpeciesError) {

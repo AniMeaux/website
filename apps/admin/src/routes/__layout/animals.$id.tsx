@@ -323,14 +323,6 @@ function ProfileCard() {
             ({formatAge(animal.birthdate)})
           </Item>
 
-          <Item icon={<Icon id="scissors" />}>
-            {animal.isSterilized ? "Est" : "N'est"}{" "}
-            <strong className="text-body-emphasis">
-              {animal.isSterilized ? "" : "pas "}
-              {animal.gender === Gender.FEMALE ? "stérilisée" : "stérilisé"}
-            </strong>
-          </Item>
-
           {animal.iCadNumber != null ? (
             <Item icon={<Icon id="fingerprint" />}>
               I-CAD : {animal.iCadNumber}
@@ -473,6 +465,14 @@ function SituationCard() {
               </DropdownMenu.Portal>
             </DropdownMenu.Root>
           ) : null}
+
+          <Item icon={<Icon id="scissors" />}>
+            {animal.isSterilized ? "Est" : "N'est"}{" "}
+            <strong className="text-body-emphasis">
+              {animal.isSterilized ? "" : "pas "}
+              {animal.gender === Gender.FEMALE ? "stérilisée" : "stérilisé"}
+            </strong>
+          </Item>
 
           <Item icon={<Icon id="handHoldingHeart" />}>
             {animal.gender === Gender.FEMALE

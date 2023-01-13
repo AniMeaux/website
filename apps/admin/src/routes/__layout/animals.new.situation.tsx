@@ -87,6 +87,7 @@ export async function action({ request }: ActionArgs) {
       adoptionOption: formData.data.adoptionOption ?? null,
       comments: formData.data.comments || null,
       fosterFamilyId: formData.data.fosterFamilyId ?? null,
+      isSterilized: formData.data.isSterilized,
       managerId: formData.data.managerId ?? null,
       pickUpDate: formData.data.pickUpDate,
       pickUpLocation: formData.data.pickUpLocation ?? null,
