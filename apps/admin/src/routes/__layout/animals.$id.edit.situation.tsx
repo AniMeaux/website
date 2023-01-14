@@ -16,6 +16,7 @@ import { prisma } from "~/core/db.server";
 import { NotFoundError } from "~/core/errors.server";
 import { assertIsDefined } from "~/core/isDefined.server";
 import { Card, CardContent, CardHeader, CardTitle } from "~/core/layout/card";
+import { PageContent, PageLayout } from "~/core/layout/page";
 import { useBackIfPossible } from "~/core/navigation";
 import { getPageTitle } from "~/core/pageTitle";
 import { NotFoundResponse } from "~/core/response.server";
@@ -45,6 +46,8 @@ export async function loader({ request, params }: LoaderArgs) {
       alias: true,
       comments: true,
       fosterFamily: { select: { id: true, displayName: true } },
+      isSterilizationMandatory: true,
+      isSterilized: true,
       manager: { select: { id: true, displayName: true } },
       name: true,
       pickUpDate: true,
@@ -111,6 +114,12 @@ export async function action({ request, params }: ActionArgs) {
       adoptionOption: formData.data.adoptionOption ?? null,
       comments: formData.data.comments || null,
       fosterFamilyId: formData.data.fosterFamilyId ?? null,
+      isSterilizationMandatory:
+        formData.data.isSterilized !==
+        ActionFormData.schema.shape.isSterilized.Enum.NOT_MANDATORY,
+      isSterilized:
+        formData.data.isSterilized ===
+        ActionFormData.schema.shape.isSterilized.Enum.YES,
       managerId: formData.data.managerId ?? null,
       pickUpDate: formData.data.pickUpDate,
       pickUpLocation: formData.data.pickUpLocation ?? null,
@@ -205,16 +214,18 @@ export default function AnimalEditSituationPage() {
   useBackIfPossible({ fallbackRedirectTo: fetcher.data?.redirectTo });
 
   return (
-    <main className="w-full flex flex-col md:max-w-[600px]">
-      <Card>
-        <CardHeader>
-          <CardTitle>Modifier {animal.name}</CardTitle>
-        </CardHeader>
+    <PageLayout>
+      <PageContent className="flex flex-col items-center">
+        <Card className="w-full md:max-w-[600px]">
+          <CardHeader>
+            <CardTitle>Modifier {animal.name}</CardTitle>
+          </CardHeader>
 
-        <CardContent>
-          <AnimalSituationForm defaultAnimal={animal} fetcher={fetcher} />
-        </CardContent>
-      </Card>
-    </main>
+          <CardContent>
+            <AnimalSituationForm defaultAnimal={animal} fetcher={fetcher} />
+          </CardContent>
+        </Card>
+      </PageContent>
+    </PageLayout>
   );
 }

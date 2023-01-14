@@ -16,6 +16,7 @@ import {
 import { ActionFormData, AnimalProfileForm } from "~/animals/profile/form";
 import { ErrorPage } from "~/core/dataDisplay/errorPage";
 import { Card, CardContent, CardHeader, CardTitle } from "~/core/layout/card";
+import { PageContent, PageLayout } from "~/core/layout/page";
 import { getPageTitle } from "~/core/pageTitle";
 import { getCurrentUser } from "~/currentUser/db.server";
 import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
@@ -86,7 +87,6 @@ export async function action({ request }: ActionArgs) {
       isOkCats: formData.data.isOkCats,
       isOkChildren: formData.data.isOkChildren,
       isOkDogs: formData.data.isOkDogs,
-      isSterilized: formData.data.isSterilized,
     });
   } catch (error) {
     if (error instanceof BreedNotForSpeciesError) {
@@ -119,17 +119,23 @@ export default function NewAnimalProfilePage() {
   const fetcher = useFetcher<typeof action>();
 
   return (
-    <main className="w-full flex flex-col md:max-w-[600px]">
-      <Card>
-        <CardHeader isVertical>
-          <CardTitle>Nouvel animal</CardTitle>
-          <AnimalCreationSteps activeStep="profile" />
-        </CardHeader>
+    <PageLayout>
+      <PageContent className="flex flex-col items-center">
+        <Card className="w-full md:max-w-[600px]">
+          <CardHeader isVertical>
+            <CardTitle>Nouvel animal</CardTitle>
+            <AnimalCreationSteps activeStep="profile" />
+          </CardHeader>
 
-        <CardContent>
-          <AnimalProfileForm isCreate defaultAnimal={draft} fetcher={fetcher} />
-        </CardContent>
-      </Card>
-    </main>
+          <CardContent>
+            <AnimalProfileForm
+              isCreate
+              defaultAnimal={draft}
+              fetcher={fetcher}
+            />
+          </CardContent>
+        </Card>
+      </PageContent>
+    </PageLayout>
   );
 }

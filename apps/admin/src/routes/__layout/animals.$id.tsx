@@ -34,6 +34,7 @@ import { prisma } from "~/core/db.server";
 import { NotFoundError } from "~/core/errors.server";
 import { assertIsDefined } from "~/core/isDefined.server";
 import { Card, CardContent, CardHeader, CardTitle } from "~/core/layout/card";
+import { PageContent, PageLayout } from "~/core/layout/page";
 import { getPageTitle } from "~/core/pageTitle";
 import {
   Dialog,
@@ -109,6 +110,7 @@ export async function loader({ request, params }: LoaderArgs) {
       isOkCats: true,
       isOkChildren: true,
       isOkDogs: true,
+      isSterilizationMandatory: true,
       isSterilized: true,
       manager: { select: { id: true, displayName: true } },
       name: true,
@@ -188,48 +190,50 @@ export default function AnimalProfilePage() {
   const { canEdit } = useLoaderData<typeof loader>();
 
   return (
-    <section className="w-full flex flex-col gap-1 md:gap-2">
-      <HeaderCard />
+    <PageLayout>
+      <PageContent className="flex flex-col gap-1 md:gap-2">
+        <HeaderCard />
 
-      <section className="grid grid-cols-1 gap-1 md:hidden">
-        <aside className="flex flex-col gap-1">
-          <SituationCard />
-          <CommentsCard />
-        </aside>
-
-        <main className="flex flex-col gap-1">
-          <ProfileCard />
-          <PicturesCard />
-          <DescriptionCard />
-        </main>
-
-        {canEdit ? (
-          <aside className="flex flex-col">
-            <ActionCard />
+        <section className="grid grid-cols-1 gap-1 md:hidden">
+          <aside className="flex flex-col gap-1">
+            <SituationCard />
+            <CommentsCard />
           </aside>
-        ) : null}
-      </section>
 
-      <section className="hidden md:grid md:grid-cols-[minmax(0px,2fr)_minmax(250px,1fr)] md:items-start md:gap-2">
-        <main className="md:flex md:flex-col md:gap-2">
-          <ProfileCard />
-          <PicturesCard />
-          <DescriptionCard />
-        </main>
+          <section className="flex flex-col gap-1">
+            <ProfileCard />
+            <PicturesCard />
+            <DescriptionCard />
+          </section>
 
-        <aside className="md:flex md:flex-col md:gap-2">
-          <SituationCard />
-          <CommentsCard />
-          {canEdit ? <ActionCard /> : null}
-        </aside>
-      </section>
-    </section>
+          {canEdit ? (
+            <aside className="flex flex-col">
+              <ActionCard />
+            </aside>
+          ) : null}
+        </section>
+
+        <section className="hidden md:grid md:grid-cols-[minmax(0px,2fr)_minmax(250px,1fr)] md:items-start md:gap-2">
+          <section className="md:flex md:flex-col md:gap-2">
+            <ProfileCard />
+            <PicturesCard />
+            <DescriptionCard />
+          </section>
+
+          <aside className="md:flex md:flex-col md:gap-2">
+            <SituationCard />
+            <CommentsCard />
+            {canEdit ? <ActionCard /> : null}
+          </aside>
+        </section>
+      </PageContent>
+    </PageLayout>
   );
 }
 
 function HeaderCard() {
   const { cloudinaryName } = useConfig();
-  const { canEdit, animal } = useLoaderData<typeof loader>();
+  const { animal } = useLoaderData<typeof loader>();
 
   return (
     <Card>
@@ -277,15 +281,6 @@ function HeaderCard() {
               {animal.alias ?? " "}
             </p>
           </div>
-
-          {canEdit ? (
-            <BaseLink
-              to="./edit/profile"
-              className={actionClassName.standalone({ variant: "text" })}
-            >
-              Modifier
-            </BaseLink>
-          ) : null}
         </div>
       </CardContent>
     </Card>
@@ -321,14 +316,6 @@ function ProfileCard() {
               DateTime.DATE_FULL
             )}{" "}
             ({formatAge(animal.birthdate)})
-          </Item>
-
-          <Item icon={<Icon id="scissors" />}>
-            {animal.isSterilized ? "Est" : "N'est"}{" "}
-            <strong className="text-body-emphasis">
-              {animal.isSterilized ? "" : "pas "}
-              {animal.gender === Gender.FEMALE ? "stérilisée" : "stérilisé"}
-            </strong>
           </Item>
 
           {animal.iCadNumber != null ? (
@@ -473,6 +460,33 @@ function SituationCard() {
               </DropdownMenu.Portal>
             </DropdownMenu.Root>
           ) : null}
+
+          <Item icon={<Icon id="scissors" />}>
+            {animal.isSterilized ? (
+              <>
+                Est{" "}
+                <strong className="text-body-emphasis">
+                  {animal.gender === Gender.FEMALE ? "stérilisée" : "stérilisé"}
+                </strong>
+              </>
+            ) : animal.isSterilizationMandatory ? (
+              <>
+                N’est{" "}
+                <strong className="text-body-emphasis">
+                  pas{" "}
+                  {animal.gender === Gender.FEMALE ? "stérilisée" : "stérilisé"}
+                </strong>
+              </>
+            ) : (
+              <>
+                Ne sera{" "}
+                <strong className="text-body-emphasis">
+                  pas{" "}
+                  {animal.gender === Gender.FEMALE ? "stérilisée" : "stérilisé"}
+                </strong>
+              </>
+            )}
+          </Item>
 
           <Item icon={<Icon id="handHoldingHeart" />}>
             {animal.gender === Gender.FEMALE

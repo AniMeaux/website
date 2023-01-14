@@ -62,10 +62,7 @@ export function CurrentUserContextProvider({
     return <SignInPage />;
   }
 
-  if (
-    authorisedGroupsForPage != null &&
-    !hasGroups(currentUser, authorisedGroupsForPage)
-  ) {
+  if (!hasGroups(currentUser, [UserGroup.ADMIN])) {
     return (
       <ErrorPage
         status={403}

@@ -10,6 +10,7 @@ import { formClassNames } from "~/core/formElements/form";
 import { FormErrors } from "~/core/formElements/formErrors";
 import { Input } from "~/core/formElements/input";
 import { Card, CardContent, CardHeader, CardTitle } from "~/core/layout/card";
+import { PageContent, PageLayout } from "~/core/layout/page";
 import { useBackIfPossible } from "~/core/navigation";
 import { getPageTitle } from "~/core/pageTitle";
 import { createActionData } from "~/core/schemas";
@@ -107,101 +108,103 @@ export default function EditCurrentUserProfilePage() {
   }, [fetcher.data?.errors]);
 
   return (
-    <main className="w-full flex flex-col md:max-w-[600px]">
-      <Card>
-        <CardHeader>
-          <CardTitle>Modifier votre profil</CardTitle>
-        </CardHeader>
+    <PageLayout>
+      <PageContent className="flex flex-col items-center">
+        <Card className="w-full md:max-w-[600px]">
+          <CardHeader>
+            <CardTitle>Modifier votre profil</CardTitle>
+          </CardHeader>
 
-        <CardContent>
-          <fetcher.Form
-            method="post"
-            noValidate
-            className={formClassNames.root({ hasHeader: true })}
-          >
-            <div className={formClassNames.fields.root()}>
-              <FormErrors errors={fetcher.data?.errors?.formErrors} />
-
-              <div className={formClassNames.fields.field.root()}>
-                <label
-                  htmlFor={ActionFormData.keys.name}
-                  className={formClassNames.fields.field.label()}
-                >
-                  Nom
-                </label>
-
-                <Input
-                  autoFocus
-                  ref={nameRef}
-                  id={ActionFormData.keys.name}
-                  type="text"
-                  name={ActionFormData.keys.name}
-                  autoComplete="name"
-                  defaultValue={currentUser.displayName}
-                  hasError={fetcher.data?.errors?.fieldErrors.name != null}
-                  aria-describedby="name-error"
-                  leftAdornment={
-                    <Adornment>
-                      <Icon id="user" />
-                    </Adornment>
-                  }
-                />
-
-                {fetcher.data?.errors?.fieldErrors.name != null ? (
-                  <p
-                    id="name-error"
-                    className={formClassNames.fields.field.errorMessage()}
-                  >
-                    {fetcher.data.errors.fieldErrors.name}
-                  </p>
-                ) : null}
-              </div>
-
-              <div className={formClassNames.fields.field.root()}>
-                <label
-                  htmlFor={ActionFormData.keys.email}
-                  className={formClassNames.fields.field.label()}
-                >
-                  Email
-                </label>
-
-                <Input
-                  ref={emailRef}
-                  id={ActionFormData.keys.email}
-                  type="email"
-                  name={ActionFormData.keys.email}
-                  autoComplete="email"
-                  defaultValue={currentUser.email}
-                  hasError={fetcher.data?.errors?.fieldErrors.email != null}
-                  aria-describedby="email-error"
-                  placeholder="jean@mail.com"
-                  leftAdornment={
-                    <Adornment>
-                      <Icon id="envelope" />
-                    </Adornment>
-                  }
-                />
-
-                {fetcher.data?.errors?.fieldErrors.email != null ? (
-                  <p
-                    id="email-error"
-                    className={formClassNames.fields.field.errorMessage()}
-                  >
-                    {fetcher.data.errors.fieldErrors.email}
-                  </p>
-                ) : null}
-              </div>
-            </div>
-
-            <button
-              type="submit"
-              className={cn(actionClassName.standalone(), "w-full md:w-auto")}
+          <CardContent>
+            <fetcher.Form
+              method="post"
+              noValidate
+              className={formClassNames.root({ hasHeader: true })}
             >
-              Enregistrer
-            </button>
-          </fetcher.Form>
-        </CardContent>
-      </Card>
-    </main>
+              <div className={formClassNames.fields.root()}>
+                <FormErrors errors={fetcher.data?.errors?.formErrors} />
+
+                <div className={formClassNames.fields.field.root()}>
+                  <label
+                    htmlFor={ActionFormData.keys.name}
+                    className={formClassNames.fields.field.label()}
+                  >
+                    Nom
+                  </label>
+
+                  <Input
+                    autoFocus
+                    ref={nameRef}
+                    id={ActionFormData.keys.name}
+                    type="text"
+                    name={ActionFormData.keys.name}
+                    autoComplete="name"
+                    defaultValue={currentUser.displayName}
+                    hasError={fetcher.data?.errors?.fieldErrors.name != null}
+                    aria-describedby="name-error"
+                    leftAdornment={
+                      <Adornment>
+                        <Icon id="user" />
+                      </Adornment>
+                    }
+                  />
+
+                  {fetcher.data?.errors?.fieldErrors.name != null ? (
+                    <p
+                      id="name-error"
+                      className={formClassNames.fields.field.errorMessage()}
+                    >
+                      {fetcher.data.errors.fieldErrors.name}
+                    </p>
+                  ) : null}
+                </div>
+
+                <div className={formClassNames.fields.field.root()}>
+                  <label
+                    htmlFor={ActionFormData.keys.email}
+                    className={formClassNames.fields.field.label()}
+                  >
+                    Email
+                  </label>
+
+                  <Input
+                    ref={emailRef}
+                    id={ActionFormData.keys.email}
+                    type="email"
+                    name={ActionFormData.keys.email}
+                    autoComplete="email"
+                    defaultValue={currentUser.email}
+                    hasError={fetcher.data?.errors?.fieldErrors.email != null}
+                    aria-describedby="email-error"
+                    placeholder="jean@mail.com"
+                    leftAdornment={
+                      <Adornment>
+                        <Icon id="envelope" />
+                      </Adornment>
+                    }
+                  />
+
+                  {fetcher.data?.errors?.fieldErrors.email != null ? (
+                    <p
+                      id="email-error"
+                      className={formClassNames.fields.field.errorMessage()}
+                    >
+                      {fetcher.data.errors.fieldErrors.email}
+                    </p>
+                  ) : null}
+                </div>
+              </div>
+
+              <button
+                type="submit"
+                className={cn(actionClassName.standalone(), "w-full md:w-auto")}
+              >
+                Enregistrer
+              </button>
+            </fetcher.Form>
+          </CardContent>
+        </Card>
+      </PageContent>
+    </PageLayout>
   );
 }

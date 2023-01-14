@@ -52,13 +52,13 @@ export default function Layout() {
     <div className="grid grid-cols-1 md:grid-cols-[auto,minmax(0px,1fr)] items-start">
       <CurrentUserSideBar currentUser={currentUser} />
 
-      <div className="flex flex-col gap-1 md:pb-2 md:gap-2">
-        <header className="w-full bg-white px-safe-1 pt-safe-0.5 pb-0.5 grid grid-cols-[minmax(0px,1fr)_auto] items-center justify-between gap-1 md:sticky md:top-0 md:z-20 md:pt-safe-1 md:pr-safe-2 md:pb-1 md:pl-2 md:grid-cols-[minmax(0px,66%)_auto] md:gap-4 md:border-l md:border-gray-50">
+      <div className="flex flex-col">
+        <header className="w-full bg-white px-safe-1 pt-safe-0.5 pb-0.5 grid grid-cols-[minmax(0px,1fr)_auto] items-center justify-between gap-1 md:sticky md:top-0 md:z-20 md:pt-safe-1 md:pr-safe-2 md:pb-1 md:pl-2 md:grid-cols-[minmax(200px,500px)_auto] md:gap-4 md:border-l md:border-gray-50">
           <GlobalSearch />
           <CurrentUserMenu currentUser={currentUser} />
         </header>
 
-        <div className="flex flex-col items-center gap-1 md:px-2 md:gap-2">
+        <div className="flex flex-col">
           <Outlet />
         </div>
 

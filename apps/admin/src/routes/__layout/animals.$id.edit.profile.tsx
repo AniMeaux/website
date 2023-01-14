@@ -13,6 +13,7 @@ import { prisma } from "~/core/db.server";
 import { NotFoundError } from "~/core/errors.server";
 import { assertIsDefined } from "~/core/isDefined.server";
 import { Card, CardContent, CardHeader, CardTitle } from "~/core/layout/card";
+import { PageContent, PageLayout } from "~/core/layout/page";
 import { useBackIfPossible } from "~/core/navigation";
 import { getPageTitle } from "~/core/pageTitle";
 import { NotFoundResponse } from "~/core/response.server";
@@ -47,7 +48,6 @@ export async function loader({ request, params }: LoaderArgs) {
       isOkCats: true,
       isOkChildren: true,
       isOkDogs: true,
-      isSterilized: true,
       name: true,
       species: true,
       status: true,
@@ -116,7 +116,6 @@ export async function action({ request, params }: ActionArgs) {
       isOkCats: formData.data.isOkCats,
       isOkChildren: formData.data.isOkChildren,
       isOkDogs: formData.data.isOkDogs,
-      isSterilized: formData.data.isSterilized,
     });
   } catch (error) {
     if (error instanceof NotFoundError) {
@@ -162,16 +161,18 @@ export default function AnimalEditProfilePage() {
   useBackIfPossible({ fallbackRedirectTo: fetcher.data?.redirectTo });
 
   return (
-    <main className="w-full flex flex-col md:max-w-[600px]">
-      <Card>
-        <CardHeader>
-          <CardTitle>Modifier {animal.name}</CardTitle>
-        </CardHeader>
+    <PageLayout>
+      <PageContent className="flex flex-col items-center">
+        <Card className="w-full md:max-w-[600px]">
+          <CardHeader>
+            <CardTitle>Modifier {animal.name}</CardTitle>
+          </CardHeader>
 
-        <CardContent>
-          <AnimalProfileForm defaultAnimal={animal} fetcher={fetcher} />
-        </CardContent>
-      </Card>
-    </main>
+          <CardContent>
+            <AnimalProfileForm defaultAnimal={animal} fetcher={fetcher} />
+          </CardContent>
+        </Card>
+      </PageContent>
+    </PageLayout>
   );
 }

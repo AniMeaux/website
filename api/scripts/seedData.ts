@@ -304,11 +304,19 @@ function createAnimalInput({
   managers: { id: string }[];
   fosterFamilies: { id: string }[];
 }): Prisma.AnimalCreateManyInput {
-  const birthdate = faker.date.past(20);
+  const birthdate = DateTime.fromJSDate(faker.date.past(20))
+    .startOf("day")
+    .toJSDate();
   const species = faker.helpers.arrayElement(Object.values(Species));
   const breeds = breedsBySpecies[species];
   const status = faker.helpers.arrayElement(possibleStatus);
-  const pickUpDate = faker.date.between(birthdate, DateTime.now().toJSDate());
+  const pickUpDate = DateTime.fromJSDate(
+    faker.date.between(birthdate, DateTime.now().toJSDate())
+  )
+    .startOf("day")
+    .toJSDate();
+
+  const isSterilized = faker.datatype.boolean();
 
   return {
     name: faker.name.firstName(),
@@ -331,7 +339,11 @@ function createAnimalInput({
     status,
     adoptionDate:
       status === Status.ADOPTED
-        ? faker.date.between(pickUpDate, DateTime.now().toJSDate())
+        ? DateTime.fromJSDate(
+            faker.date.between(pickUpDate, DateTime.now().toJSDate())
+          )
+            .startOf("day")
+            .toJSDate()
         : null,
     adoptionOption:
       status === Status.ADOPTED
@@ -349,7 +361,8 @@ function createAnimalInput({
     isOkCats: nullableBoolean(),
     isOkChildren: nullableBoolean(),
     isOkDogs: nullableBoolean(),
-    isSterilized: faker.datatype.boolean(),
+    isSterilizationMandatory: isSterilized || faker.datatype.boolean(),
+    isSterilized,
   };
 }
 

@@ -15,6 +15,7 @@ import {
   CardHeader,
   CardTitle,
 } from "~/core/layout/card";
+import { PageContent, PageLayout } from "~/core/layout/page";
 import { getPageTitle } from "~/core/pageTitle";
 import { PageSearchParams } from "~/core/searchParams";
 import { getCurrentUser } from "~/currentUser/db.server";
@@ -129,82 +130,84 @@ export default function FosterFamiliesPage() {
   const fosterFamilySearchParams = new FosterFamilySearchParams(searchParams);
 
   return (
-    <section className="w-full flex flex-col gap-1 md:gap-2">
-      <section className="flex flex-col gap-1 md:flex-row md:gap-2">
-        <main className="flex flex-col md:min-w-0 md:flex-2">
-          <Card>
-            <CardHeader>
-              <CardTitle>
-                {totalCount}{" "}
-                {totalCount > 1 ? "familles d’accueil" : "famille d’accueil"}
-              </CardTitle>
+    <PageLayout>
+      <PageContent className="flex flex-col gap-1 md:gap-2">
+        <section className="flex flex-col gap-1 md:flex-row md:gap-2">
+          <section className="flex flex-col md:min-w-0 md:flex-2">
+            <Card>
+              <CardHeader>
+                <CardTitle>
+                  {totalCount}{" "}
+                  {totalCount > 1 ? "familles d’accueil" : "famille d’accueil"}
+                </CardTitle>
 
-              <BaseLink
-                to="./new"
-                className={actionClassName.standalone({ variant: "text" })}
-              >
-                Créer
-              </BaseLink>
-            </CardHeader>
+                <BaseLink
+                  to="./new"
+                  className={actionClassName.standalone({ variant: "text" })}
+                >
+                  Créer
+                </BaseLink>
+              </CardHeader>
 
-            <CardContent>
-              {fosterFamilies.length > 0 ? (
-                <ul className="grid grid-cols-1">
-                  {fosterFamilies.map((fosterFamily) => (
-                    <li key={fosterFamily.id} className="flex">
-                      <ForsterFamilyItem
-                        fosterFamily={fosterFamily}
-                        className="w-full"
-                      />
-                    </li>
-                  ))}
-                </ul>
-              ) : (
-                <Empty
-                  icon="🏡"
-                  iconAlt="Maison avec jardin"
-                  title="Aucune famille d’accueil trouvée"
-                  message="Nous n’avons pas trouvé ce que vous cherchiez. Essayez à nouveau de rechercher."
-                  titleElementType="h3"
-                  action={
-                    !fosterFamilySearchParams.isEmpty() ? (
-                      <BaseLink
-                        to={{ search: "" }}
-                        className={actionClassName.standalone()}
-                      >
-                        Effacer les filtres
-                      </BaseLink>
-                    ) : null
-                  }
-                />
-              )}
-            </CardContent>
+              <CardContent>
+                {fosterFamilies.length > 0 ? (
+                  <ul className="grid grid-cols-1">
+                    {fosterFamilies.map((fosterFamily) => (
+                      <li key={fosterFamily.id} className="flex">
+                        <ForsterFamilyItem
+                          fosterFamily={fosterFamily}
+                          className="w-full"
+                        />
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <Empty
+                    icon="🏡"
+                    iconAlt="Maison avec jardin"
+                    title="Aucune famille d’accueil trouvée"
+                    message="Nous n’avons pas trouvé ce que vous cherchiez. Essayez à nouveau de rechercher."
+                    titleElementType="h3"
+                    action={
+                      !fosterFamilySearchParams.isEmpty() ? (
+                        <BaseLink
+                          to={{ search: "" }}
+                          className={actionClassName.standalone()}
+                        >
+                          Effacer les filtres
+                        </BaseLink>
+                      ) : null
+                    }
+                  />
+                )}
+              </CardContent>
 
-            {pageCount > 1 ? (
-              <CardFooter>
-                <Paginator pageCount={pageCount} />
-              </CardFooter>
-            ) : null}
-          </Card>
-        </main>
+              {pageCount > 1 ? (
+                <CardFooter>
+                  <Paginator pageCount={pageCount} />
+                </CardFooter>
+              ) : null}
+            </Card>
+          </section>
 
-        <aside className="hidden flex-col min-w-[250px] max-w-[300px] flex-1 md:flex">
-          <Card className="sticky top-8 max-h-[calc(100vh-100px)]">
-            <CardHeader>
-              <CardTitle>Trier et filtrer</CardTitle>
-            </CardHeader>
+          <aside className="hidden flex-col min-w-[250px] max-w-[300px] flex-1 md:flex">
+            <Card className="sticky top-8 max-h-[calc(100vh-100px)]">
+              <CardHeader>
+                <CardTitle>Trier et filtrer</CardTitle>
+              </CardHeader>
 
-            <CardContent hasVerticalScroll>
-              <SortAndFilters />
-            </CardContent>
-          </Card>
-        </aside>
-      </section>
+              <CardContent hasVerticalScroll>
+                <SortAndFilters />
+              </CardContent>
+            </Card>
+          </aside>
+        </section>
 
-      <SortAndFiltersFloatingAction totalCount={totalCount}>
-        <SortAndFilters />
-      </SortAndFiltersFloatingAction>
-    </section>
+        <SortAndFiltersFloatingAction totalCount={totalCount}>
+          <SortAndFilters />
+        </SortAndFiltersFloatingAction>
+      </PageContent>
+    </PageLayout>
   );
 }
 

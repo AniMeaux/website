@@ -53,6 +53,9 @@ export const ActionFormData = createActionData(
     adoptionOption: z.nativeEnum(AdoptionOption).optional(),
     comments: z.string().trim(),
     fosterFamilyId: z.string().uuid().optional(),
+    isSterilized: z.enum(["YES", "NO", "NOT_MANDATORY"], {
+      required_error: "Veuillez choisir une option",
+    }),
     managerId: z.string().uuid().optional(),
     pickUpDate: z.preprocess(
       ensureDate,
@@ -66,7 +69,7 @@ export const ActionFormData = createActionData(
       required_error: "Veuillez choisir une raison",
     }),
     status: z.nativeEnum(Status, {
-      required_error: "Veuillez choisir un status",
+      required_error: "Veuillez choisir un statut",
     }),
   })
 );
@@ -84,6 +87,8 @@ export function AnimalSituationForm({
       | "adoptionDate"
       | "adoptionOption"
       | "comments"
+      | "isSterilizationMandatory"
+      | "isSterilized"
       | "pickUpDate"
       | "pickUpLocation"
       | "pickUpReason"
@@ -102,11 +107,12 @@ export function AnimalSituationForm({
     defaultAnimal?.status ?? Status.UNAVAILABLE
   );
 
-  const managerRef = useRef<HTMLButtonElement>(null);
-  const pickUpLocationRef = useRef<HTMLButtonElement>(null);
   const adoptionDateRef = useRef<HTMLInputElement>(null);
-  const pickUpDateRef = useRef<HTMLInputElement>(null);
   const commentsRef = useRef<HTMLTextAreaElement>(null);
+  const isSterilizedRef = useRef<HTMLInputElement>(null);
+  const managerRef = useRef<HTMLButtonElement>(null);
+  const pickUpDateRef = useRef<HTMLInputElement>(null);
+  const pickUpLocationRef = useRef<HTMLButtonElement>(null);
 
   // Focus the first field having an error.
   useEffect(() => {
@@ -121,6 +127,8 @@ export function AnimalSituationForm({
         pickUpDateRef.current?.focus();
       } else if (fetcher.data.errors.fieldErrors.pickUpLocation != null) {
         pickUpLocationRef.current?.focus();
+      } else if (fetcher.data.errors.fieldErrors.isSterilized != null) {
+        isSterilizedRef.current?.focus();
       }
     }
   }, [fetcher.data?.errors]);
@@ -143,7 +151,7 @@ export function AnimalSituationForm({
 
         <div className={formClassNames.fields.field.root()}>
           <span className={formClassNames.fields.field.label()}>
-            Status <RequiredStart />
+            Statut <RequiredStart />
           </span>
 
           <div className="py-1 flex flex-wrap gap-2">
@@ -367,6 +375,55 @@ export function AnimalSituationForm({
             </div>
           </>
         ) : null}
+
+        <Separator />
+
+        <div className={formClassNames.fields.field.root()}>
+          <span className={formClassNames.fields.field.label()}>
+            Stérilisé <RequiredStart />
+          </span>
+
+          <div className="py-1 flex flex-wrap gap-2">
+            <RadioInput
+              ref={isSterilizedRef}
+              label="Oui"
+              name={ActionFormData.keys.isSterilized}
+              value={ActionFormData.schema.shape.isSterilized.Enum.YES}
+              defaultChecked={defaultAnimal?.isSterilized}
+              aria-describedby="isSterilized-error"
+            />
+
+            <RadioInput
+              label="Non"
+              name={ActionFormData.keys.isSterilized}
+              value={ActionFormData.schema.shape.isSterilized.Enum.NO}
+              defaultChecked={
+                !defaultAnimal?.isSterilized &&
+                defaultAnimal?.isSterilizationMandatory !== false
+              }
+              aria-describedby="isSterilized-error"
+            />
+
+            <RadioInput
+              label="Non, et ne le sera pas"
+              name={ActionFormData.keys.isSterilized}
+              value={
+                ActionFormData.schema.shape.isSterilized.Enum.NOT_MANDATORY
+              }
+              defaultChecked={defaultAnimal?.isSterilizationMandatory === false}
+              aria-describedby="isSterilized-error"
+            />
+          </div>
+
+          {fetcher.data?.errors?.fieldErrors.isSterilized != null ? (
+            <p
+              id="isSterilized-error"
+              className={formClassNames.fields.field.errorMessage()}
+            >
+              {fetcher.data.errors.fieldErrors.isSterilized}
+            </p>
+          ) : null}
+        </div>
 
         <Separator />
 
