@@ -232,7 +232,7 @@ export default function AnimalProfilePage() {
 
 function HeaderCard() {
   const { cloudinaryName } = useConfig();
-  const { canEdit, animal } = useLoaderData<typeof loader>();
+  const { animal } = useLoaderData<typeof loader>();
 
   return (
     <Card>
@@ -280,15 +280,6 @@ function HeaderCard() {
               {animal.alias ?? " "}
             </p>
           </div>
-
-          {canEdit ? (
-            <BaseLink
-              to="./edit/profile"
-              className={actionClassName.standalone({ variant: "text" })}
-            >
-              Modifier
-            </BaseLink>
-          ) : null}
         </div>
       </CardContent>
     </Card>
