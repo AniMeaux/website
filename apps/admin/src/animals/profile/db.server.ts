@@ -15,7 +15,6 @@ type ProfileKeys =
   | "isOkCats"
   | "isOkChildren"
   | "isOkDogs"
-  | "isSterilized"
   | "name"
   | "species";
 
@@ -103,7 +102,6 @@ export function hasProfile(
     draft != null &&
     draft.birthdate != null &&
     draft.gender != null &&
-    draft.isSterilized != null &&
     draft.name != null &&
     draft.species != null
   );

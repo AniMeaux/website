@@ -8,6 +8,7 @@ import { prisma } from "~/core/db.server";
 import { EmailAlreadyUsedError, NotFoundError } from "~/core/errors.server";
 import { assertIsDefined } from "~/core/isDefined.server";
 import { Card, CardContent, CardHeader, CardTitle } from "~/core/layout/card";
+import { PageContent, PageLayout } from "~/core/layout/page";
 import { useBackIfPossible } from "~/core/navigation";
 import { getPageTitle } from "~/core/pageTitle";
 import { NotFoundResponse } from "~/core/response.server";
@@ -160,19 +161,21 @@ export default function FosterFamilyEditPage() {
   useBackIfPossible({ fallbackRedirectTo: fetcher.data?.redirectTo });
 
   return (
-    <main className="w-full flex flex-col md:max-w-[600px]">
-      <Card>
-        <CardHeader>
-          <CardTitle>Modifier {fosterFamily.displayName}</CardTitle>
-        </CardHeader>
+    <PageLayout>
+      <PageContent className="flex flex-col items-center">
+        <Card className="w-full md:max-w-[600px]">
+          <CardHeader>
+            <CardTitle>Modifier {fosterFamily.displayName}</CardTitle>
+          </CardHeader>
 
-        <CardContent>
-          <FosterFamilyForm
-            defaultFosterFamily={fosterFamily}
-            fetcher={fetcher}
-          />
-        </CardContent>
-      </Card>
-    </main>
+          <CardContent>
+            <FosterFamilyForm
+              defaultFosterFamily={fosterFamily}
+              fetcher={fetcher}
+            />
+          </CardContent>
+        </Card>
+      </PageContent>
+    </PageLayout>
   );
 }

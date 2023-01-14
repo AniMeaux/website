@@ -23,6 +23,7 @@ import {
 } from "~/core/cloudinary.server";
 import { ErrorPage } from "~/core/dataDisplay/errorPage";
 import { Card, CardContent, CardHeader, CardTitle } from "~/core/layout/card";
+import { PageContent, PageLayout } from "~/core/layout/page";
 import { getPageTitle } from "~/core/pageTitle";
 import { getCurrentUser } from "~/currentUser/db.server";
 import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
@@ -119,17 +120,19 @@ export default function NewAnimalSituationPage() {
   const fetcher = useFetcher<typeof action>();
 
   return (
-    <main className="w-full flex flex-col md:max-w-[600px]">
-      <Card>
-        <CardHeader isVertical>
-          <CardTitle>Nouvel animal</CardTitle>
-          <AnimalCreationSteps activeStep="pictures" />
-        </CardHeader>
+    <PageLayout>
+      <PageContent className="flex flex-col items-center">
+        <Card className="w-full md:max-w-[600px]">
+          <CardHeader isVertical>
+            <CardTitle>Nouvel animal</CardTitle>
+            <AnimalCreationSteps activeStep="pictures" />
+          </CardHeader>
 
-        <CardContent>
-          <AnimalPicturesForm isCreate fetcher={fetcher} />
-        </CardContent>
-      </Card>
-    </main>
+          <CardContent>
+            <AnimalPicturesForm isCreate fetcher={fetcher} />
+          </CardContent>
+        </Card>
+      </PageContent>
+    </PageLayout>
   );
 }

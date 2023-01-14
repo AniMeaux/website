@@ -22,6 +22,7 @@ import {
   CardHeader,
   CardTitle,
 } from "~/core/layout/card";
+import { PageContent, PageLayout } from "~/core/layout/page";
 import { getPageTitle } from "~/core/pageTitle";
 import { PageSearchParams } from "~/core/searchParams";
 import { getCurrentUser } from "~/currentUser/db.server";
@@ -228,85 +229,89 @@ export default function AnimalsPage() {
   const animalSearchParams = new AnimalSearchParams(searchParams);
 
   return (
-    <section className="w-full flex flex-col gap-1 md:gap-2">
-      <section className="flex flex-col gap-1 md:flex-row md:gap-2">
-        <main className="flex flex-col md:min-w-0 md:flex-2">
-          <Card>
-            <CardHeader>
-              <CardTitle>
-                {totalCount} {totalCount > 1 ? "animaux" : "animal"}
-              </CardTitle>
+    <PageLayout>
+      <PageContent className="flex flex-col gap-1 md:gap-2">
+        <section className="flex flex-col gap-1 md:flex-row md:gap-2">
+          <section className="flex flex-col md:min-w-0 md:flex-2">
+            <Card>
+              <CardHeader>
+                <CardTitle>
+                  {totalCount} {totalCount > 1 ? "animaux" : "animal"}
+                </CardTitle>
 
-              {canCreate ? (
-                <BaseLink
-                  to="./new/profile"
-                  className={actionClassName.standalone({ variant: "text" })}
-                >
-                  Créer
-                </BaseLink>
+                {canCreate ? (
+                  <BaseLink
+                    to="./new/profile"
+                    className={actionClassName.standalone({
+                      variant: "text",
+                    })}
+                  >
+                    Créer
+                  </BaseLink>
+                ) : null}
+              </CardHeader>
+
+              <CardContent>
+                {animals.length > 0 ? (
+                  <ul className="grid grid-cols-[repeat(auto-fill,minmax(150px,1fr))] gap-1 md:gap-2">
+                    {animals.map((animal, index) => (
+                      <li key={animal.id} className="flex">
+                        <AnimalItem
+                          animal={animal}
+                          imageSizes={{ default: "300px" }}
+                          imageLoading={index < 15 ? "eager" : "lazy"}
+                          className="w-full"
+                        />
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <Empty
+                    icon="🪹"
+                    iconAlt="Nid vide"
+                    title="Aucun animal trouvé"
+                    message="Nous n’avons pas trouvé ce que vous cherchiez. Essayez à nouveau de rechercher."
+                    titleElementType="h3"
+                    action={
+                      !animalSearchParams.isEmpty() ? (
+                        <BaseLink
+                          to={{ search: "" }}
+                          className={actionClassName.standalone()}
+                        >
+                          Effacer les filtres
+                        </BaseLink>
+                      ) : null
+                    }
+                  />
+                )}
+              </CardContent>
+
+              {pageCount > 1 ? (
+                <CardFooter>
+                  <Paginator pageCount={pageCount} />
+                </CardFooter>
               ) : null}
-            </CardHeader>
+            </Card>
+          </section>
 
-            <CardContent>
-              {animals.length > 0 ? (
-                <ul className="grid grid-cols-[repeat(auto-fill,minmax(150px,1fr))] gap-1 md:gap-2">
-                  {animals.map((animal, index) => (
-                    <li key={animal.id} className="flex">
-                      <AnimalItem
-                        animal={animal}
-                        imageSizes={{ default: "300px" }}
-                        imageLoading={index < 15 ? "eager" : "lazy"}
-                        className="w-full"
-                      />
-                    </li>
-                  ))}
-                </ul>
-              ) : (
-                <Empty
-                  icon="🪹"
-                  iconAlt="Nid vide"
-                  title="Aucun animal trouvé"
-                  message="Nous n’avons pas trouvé ce que vous cherchiez. Essayez à nouveau de rechercher."
-                  titleElementType="h3"
-                  action={
-                    !animalSearchParams.isEmpty() ? (
-                      <BaseLink
-                        to={{ search: "" }}
-                        className={actionClassName.standalone()}
-                      >
-                        Effacer les filtres
-                      </BaseLink>
-                    ) : null
-                  }
-                />
-              )}
-            </CardContent>
+          <aside className="hidden flex-col min-w-[250px] max-w-[300px] flex-1 md:flex">
+            <Card className="sticky top-8 max-h-[calc(100vh-100px)]">
+              <CardHeader>
+                <CardTitle>Trier et filtrer</CardTitle>
+              </CardHeader>
 
-            {pageCount > 1 ? (
-              <CardFooter>
-                <Paginator pageCount={pageCount} />
-              </CardFooter>
-            ) : null}
-          </Card>
-        </main>
+              <CardContent hasVerticalScroll>
+                <SortAndFilters />
+              </CardContent>
+            </Card>
+          </aside>
+        </section>
 
-        <aside className="hidden flex-col min-w-[250px] max-w-[300px] flex-1 md:flex">
-          <Card className="sticky top-8 max-h-[calc(100vh-100px)]">
-            <CardHeader>
-              <CardTitle>Trier et filtrer</CardTitle>
-            </CardHeader>
-
-            <CardContent hasVerticalScroll>
-              <SortAndFilters />
-            </CardContent>
-          </Card>
-        </aside>
-      </section>
-
-      <SortAndFiltersFloatingAction hasSort totalCount={totalCount}>
-        <SortAndFilters />
-      </SortAndFiltersFloatingAction>
-    </section>
+        <SortAndFiltersFloatingAction hasSort totalCount={totalCount}>
+          <SortAndFilters />
+        </SortAndFiltersFloatingAction>
+      </PageContent>
+    </PageLayout>
   );
 }
 

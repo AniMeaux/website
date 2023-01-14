@@ -27,6 +27,7 @@ import { FormErrors } from "~/core/formElements/formErrors";
 import { assertIsDefined } from "~/core/isDefined.server";
 import { joinReactNodes } from "~/core/joinReactNodes";
 import { Card, CardContent, CardHeader, CardTitle } from "~/core/layout/card";
+import { PageContent, PageLayout } from "~/core/layout/page";
 import { getPageTitle } from "~/core/pageTitle";
 import {
   Dialog,
@@ -163,30 +164,32 @@ export function CatchBoundary() {
 
 export default function FosterFamilyProfilePage() {
   return (
-    <main className="w-full flex flex-col gap-1 md:gap-2">
-      <HeaderCard />
+    <PageLayout>
+      <PageContent className="flex flex-col gap-1 md:gap-2">
+        <HeaderCard />
 
-      <section className="grid grid-cols-1 gap-1 md:hidden">
-        <ProfileCard />
-        <SituationCard />
-        <CommentsCard />
-        <FosterAnimalsCard />
-        <ActionCard />
-      </section>
-
-      <section className="hidden md:grid md:grid-cols-[minmax(0px,2fr)_minmax(250px,1fr)] md:items-start md:gap-2">
-        <section className="md:flex md:flex-col md:gap-2">
+        <section className="grid grid-cols-1 gap-1 md:hidden">
           <ProfileCard />
-          <FosterAnimalsCard />
-        </section>
-
-        <section className="md:flex md:flex-col md:gap-2">
           <SituationCard />
           <CommentsCard />
+          <FosterAnimalsCard />
           <ActionCard />
         </section>
-      </section>
-    </main>
+
+        <section className="hidden md:grid md:grid-cols-[minmax(0px,2fr)_minmax(250px,1fr)] md:items-start md:gap-2">
+          <section className="md:flex md:flex-col md:gap-2">
+            <ProfileCard />
+            <FosterAnimalsCard />
+          </section>
+
+          <section className="md:flex md:flex-col md:gap-2">
+            <SituationCard />
+            <CommentsCard />
+            <ActionCard />
+          </section>
+        </section>
+      </PageContent>
+    </PageLayout>
   );
 }
 
@@ -220,7 +223,7 @@ function HeaderCard() {
           </div>
 
           <BaseLink
-            to={{ pathname: "./edit", hash: ActionFormData.keys.displayName }}
+            to="./edit"
             className={actionClassName.standalone({ variant: "text" })}
           >
             Modifier
@@ -247,7 +250,7 @@ function ProfileCard() {
         <CardTitle>Profile</CardTitle>
 
         <BaseLink
-          to={{ pathname: "./edit", hash: ActionFormData.keys.phone }}
+          to="./edit"
           className={actionClassName.standalone({ variant: "text" })}
         >
           Modifier
@@ -276,7 +279,7 @@ function SituationCard() {
         <CardTitle>Situation</CardTitle>
 
         <BaseLink
-          to={{ pathname: "./edit", hash: ActionFormData.keys.speciesToHost }}
+          to="./edit"
           className={actionClassName.standalone({ variant: "text" })}
         >
           Modifier
