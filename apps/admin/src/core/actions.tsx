@@ -6,7 +6,14 @@ type ActionVariant =
   | "secondary"
   | "text"
   | "translucid";
-export type ActionColor = "amber" | "black" | "blue" | "gray" | "green" | "red";
+
+export type ActionColor =
+  | "black"
+  | "blue"
+  | "gray"
+  | "green"
+  | "orange"
+  | "red";
 
 export const actionClassName = {
   standalone: ({
@@ -37,43 +44,43 @@ const VARIANT_CLASS_NAME: Record<ActionVariant, string> = {
 
 const COLOR_CLASS_NAMES: Record<ActionVariant, Record<ActionColor, string>> = {
   floating: {
-    amber: "",
     black: "",
     blue: "bg-blue-500 text-white hover:bg-blue-400",
     gray: "",
     green: "",
+    orange: "",
     red: "",
   },
   primary: {
-    amber: "",
     black: "",
     blue: "bg-blue-500 text-white hover:bg-blue-400",
     gray: "",
     green: "",
+    orange: "",
     red: "",
   },
   secondary: {
-    amber: "bg-amber-50 text-amber-600 hover:bg-amber-100",
     black: "",
     blue: "bg-blue-50 text-blue-500 hover:bg-blue-100",
     gray: "bg-gray-100 text-gray-800 hover:bg-gray-200",
     green: "",
+    orange: "bg-orange-50 text-orange-500 hover:bg-orange-100",
     red: "bg-red-50 text-red-500 hover:bg-red-100",
   },
   text: {
-    amber: "text-amber-600 hover:text-amber-500",
     black: "",
     blue: "text-blue-500 hover:text-blue-600",
     gray: "text-gray-800 hover:text-gray-700",
     green: "text-green-600 hover:text-green-500",
+    orange: "text-orange-500 hover:text-orange-600",
     red: "text-red-500 hover:text-red-600",
   },
   translucid: {
-    amber: "",
     black: "bg-gray-700 text-white",
     blue: "",
     gray: "",
     green: "",
+    orange: "",
     red: "",
   },
 };

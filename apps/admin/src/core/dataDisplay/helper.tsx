@@ -45,7 +45,7 @@ const VARIANT_CLASS_NAME: Record<HelperVariant, string> = {
   error: "bg-red-50 text-red-500",
   info: "bg-blue-50 text-blue-500",
   success: "bg-green-50 text-green-600",
-  warning: "bg-amber-50 text-amber-600",
+  warning: "bg-orange-50 text-orange-500",
 };
 
 const VARIANT_ICON: Record<HelperVariant, IconProps["id"]> = {
@@ -59,5 +59,5 @@ const VARIANT_ACTION_COLOR: Record<HelperVariant, ActionColor> = {
   error: "red",
   info: "blue",
   success: "green",
-  warning: "amber",
+  warning: "orange",
 };
