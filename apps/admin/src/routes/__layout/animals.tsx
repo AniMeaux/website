@@ -2,6 +2,7 @@ import { ANIMAL_AGE_RANGE_BY_SPECIES } from "@animeaux/shared";
 import { Prisma, UserGroup } from "@prisma/client";
 import { json, LoaderArgs, MetaFunction } from "@remix-run/node";
 import { useLoaderData, useSearchParams } from "@remix-run/react";
+import orderBy from "lodash.orderby";
 import { DateTime } from "luxon";
 import invariant from "tiny-invariant";
 import { AnimalFilters } from "~/animals/filterForm";
@@ -123,6 +124,7 @@ export async function loader({ request }: LoaderArgs) {
   }
 
   const nameOrAlias = animalSearchParams.getNameOrAlias();
+  let rankedAnimalsId: string[] = [];
   if (nameOrAlias != null) {
     const animals = await algolia.animal.search({
       nameOrAlias,
@@ -133,67 +135,68 @@ export async function loader({ request }: LoaderArgs) {
       status: statuses,
     });
 
-    where.push({ id: { in: animals.map((animal) => animal.id) } });
+    rankedAnimalsId = animals.map((animal) => animal.id);
+
+    where.push({ id: { in: rankedAnimalsId } });
   }
 
-  const [
-    managers,
-    fosterFamilies,
-    possiblePickUpLocations,
-    totalCount,
-    animals,
-  ] = await Promise.all([
-    prisma.user.findMany({
-      where: {
-        isDisabled: false,
-        groups: { has: UserGroup.ANIMAL_MANAGER },
-      },
-      select: { id: true, displayName: true },
-      orderBy: { displayName: "asc" },
-    }),
+  const sort = animalSearchParams.getSort();
 
-    showFosterFamilies
-      ? prisma.fosterFamily.findMany({
-          where: {
-            fosterAnimals: {
-              // There is at least one foster animal.
-              // https://www.prisma.io/docs/reference/api-reference/prisma-client-reference#some
-              some: {},
+  let [managers, fosterFamilies, possiblePickUpLocations, totalCount, animals] =
+    await Promise.all([
+      prisma.user.findMany({
+        where: {
+          isDisabled: false,
+          groups: { has: UserGroup.ANIMAL_MANAGER },
+        },
+        select: { id: true, displayName: true },
+        orderBy: { displayName: "asc" },
+      }),
+
+      showFosterFamilies
+        ? prisma.fosterFamily.findMany({
+            where: {
+              fosterAnimals: {
+                // There is at least one foster animal.
+                // https://www.prisma.io/docs/reference/api-reference/prisma-client-reference#some
+                some: {},
+              },
             },
-          },
-          select: { id: true, displayName: true },
-          orderBy: { displayName: "asc" },
-        })
-      : Promise.resolve([]),
+            select: { id: true, displayName: true },
+            orderBy: { displayName: "asc" },
+          })
+        : Promise.resolve([]),
 
-    prisma.animal.groupBy({
-      by: ["pickUpLocation"],
-      where: { pickUpLocation: { not: null } },
-      _count: { pickUpLocation: true },
-      orderBy: { pickUpLocation: "asc" },
-    }),
+      prisma.animal.groupBy({
+        by: ["pickUpLocation"],
+        where: { pickUpLocation: { not: null } },
+        _count: { pickUpLocation: true },
+        orderBy: { pickUpLocation: "asc" },
+      }),
 
-    prisma.animal.count({ where: { AND: where } }),
+      prisma.animal.count({ where: { AND: where } }),
 
-    prisma.animal.findMany({
-      skip: pageSearchParams.getPage() * ANIMAL_COUNT_PER_PAGE,
-      take: ANIMAL_COUNT_PER_PAGE,
-      orderBy:
-        animalSearchParams.getSort() === AnimalSearchParams.Sort.NAME
-          ? { name: "asc" }
-          : { pickUpDate: "desc" },
-      where: { AND: where },
-      select: {
-        id: true,
-        avatar: true,
-        name: true,
-        alias: true,
-        gender: true,
-        status: true,
-        manager: { select: { displayName: true } },
-      },
-    }),
-  ]);
+      prisma.animal.findMany({
+        skip: pageSearchParams.getPage() * ANIMAL_COUNT_PER_PAGE,
+        take: ANIMAL_COUNT_PER_PAGE,
+        orderBy:
+          sort === AnimalSearchParams.Sort.NAME
+            ? { name: "asc" }
+            : sort === AnimalSearchParams.Sort.PICK_UP || nameOrAlias == null
+            ? { pickUpDate: "desc" }
+            : undefined,
+        where: { AND: where },
+        select: {
+          id: true,
+          avatar: true,
+          name: true,
+          alias: true,
+          gender: true,
+          status: true,
+          manager: { select: { displayName: true } },
+        },
+      }),
+    ]);
 
   const pageCount = Math.ceil(totalCount / ANIMAL_COUNT_PER_PAGE);
 
@@ -201,6 +204,15 @@ export async function loader({ request }: LoaderArgs) {
     UserGroup.ADMIN,
     UserGroup.ANIMAL_MANAGER,
   ]);
+
+  if (
+    sort === AnimalSearchParams.Sort.RELEVANCE &&
+    rankedAnimalsId.length > 0
+  ) {
+    animals = orderBy(animals, (animal) =>
+      rankedAnimalsId.findIndex((animalId) => animal.id === animalId)
+    );
+  }
 
   return json({
     totalCount,

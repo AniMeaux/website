@@ -10,7 +10,8 @@ export class AnimalSearchParams extends URLSearchParams {
   static readonly Sort = {
     NAME: "NAME",
     PICK_UP: "PICK_UP",
-  };
+    RELEVANCE: "RELEVANCE",
+  } as const;
 
   static readonly Keys = {
     AGE: "age",
@@ -56,6 +57,22 @@ export class AnimalSearchParams extends URLSearchParams {
         .default(AnimalSearchParams.Sort.PICK_UP),
       this.get(AnimalSearchParams.Keys.SORT)
     );
+  }
+
+  setSort(
+    sort:
+      | null
+      | typeof AnimalSearchParams.Sort[keyof typeof AnimalSearchParams.Sort]
+  ) {
+    const copy = new AnimalSearchParams(this);
+
+    if (sort != null) {
+      copy.set(AnimalSearchParams.Keys.SORT, sort);
+    } else if (copy.has(AnimalSearchParams.Keys.SORT)) {
+      copy.delete(AnimalSearchParams.Keys.SORT);
+    }
+
+    return copy;
   }
 
   getNameOrAlias() {
