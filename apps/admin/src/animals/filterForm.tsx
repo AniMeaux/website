@@ -228,7 +228,7 @@ export function AnimalFilters({
 
         <Filter
           value={AnimalSearchParams.Keys.STATUS}
-          label="Status"
+          label="Statuts"
           count={visibleFilters.statuses.length}
           hiddenContent={visibleFilters.statuses.map((status) => (
             <input

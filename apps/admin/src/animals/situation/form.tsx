@@ -70,7 +70,7 @@ export const ActionFormData = createActionData(
       required_error: "Veuillez choisir une raison",
     }),
     status: z.nativeEnum(Status, {
-      required_error: "Veuillez choisir un status",
+      required_error: "Veuillez choisir un statut",
     }),
   })
 );
@@ -151,7 +151,7 @@ export function AnimalSituationForm({
 
         <div className={formClassNames.fields.field.root()}>
           <span className={formClassNames.fields.field.label()}>
-            Status <RequiredStart />
+            Statut <RequiredStart />
           </span>
 
           <div className="py-1 flex flex-wrap gap-2">
