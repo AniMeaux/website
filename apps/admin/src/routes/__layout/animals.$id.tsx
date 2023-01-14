@@ -110,6 +110,7 @@ export async function loader({ request, params }: LoaderArgs) {
       isOkCats: true,
       isOkChildren: true,
       isOkDogs: true,
+      isSterilizationMandatory: true,
       isSterilized: true,
       manager: { select: { id: true, displayName: true } },
       name: true,
@@ -461,11 +462,30 @@ function SituationCard() {
           ) : null}
 
           <Item icon={<Icon id="scissors" />}>
-            {animal.isSterilized ? "Est" : "N'est"}{" "}
-            <strong className="text-body-emphasis">
-              {animal.isSterilized ? "" : "pas "}
-              {animal.gender === Gender.FEMALE ? "stérilisée" : "stérilisé"}
-            </strong>
+            {animal.isSterilized ? (
+              <>
+                Est{" "}
+                <strong className="text-body-emphasis">
+                  {animal.gender === Gender.FEMALE ? "stérilisée" : "stérilisé"}
+                </strong>
+              </>
+            ) : animal.isSterilizationMandatory ? (
+              <>
+                N’est{" "}
+                <strong className="text-body-emphasis">
+                  pas{" "}
+                  {animal.gender === Gender.FEMALE ? "stérilisée" : "stérilisé"}
+                </strong>
+              </>
+            ) : (
+              <>
+                Ne sera{" "}
+                <strong className="text-body-emphasis">
+                  pas{" "}
+                  {animal.gender === Gender.FEMALE ? "stérilisée" : "stérilisé"}
+                </strong>
+              </>
+            )}
           </Item>
 
           <Item icon={<Icon id="handHoldingHeart" />}>

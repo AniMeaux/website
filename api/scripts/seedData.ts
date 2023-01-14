@@ -316,6 +316,8 @@ function createAnimalInput({
     .startOf("day")
     .toJSDate();
 
+  const isSterilized = faker.datatype.boolean();
+
   return {
     name: faker.name.firstName(),
     alias: faker.helpers.maybe(() => faker.name.firstName()),
@@ -359,7 +361,8 @@ function createAnimalInput({
     isOkCats: nullableBoolean(),
     isOkChildren: nullableBoolean(),
     isOkDogs: nullableBoolean(),
-    isSterilized: faker.datatype.boolean(),
+    isSterilizationMandatory: isSterilized || faker.datatype.boolean(),
+    isSterilized,
   };
 }
 

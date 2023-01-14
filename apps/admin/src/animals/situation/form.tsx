@@ -35,7 +35,7 @@ import { RadioInput } from "~/core/formElements/radioInput";
 import { RequiredStart } from "~/core/formElements/requiredStart";
 import { Textarea } from "~/core/formElements/textarea";
 import { Separator } from "~/core/layout/separator";
-import { createActionData, ensureBoolean, ensureDate } from "~/core/schemas";
+import { createActionData, ensureDate } from "~/core/schemas";
 import { Icon } from "~/generated/icon";
 import { FosterFamilyInput } from "~/routes/resources/foster-family";
 import { ManagerInput } from "~/routes/resources/manager";
@@ -53,10 +53,9 @@ export const ActionFormData = createActionData(
     adoptionOption: z.nativeEnum(AdoptionOption).optional(),
     comments: z.string().trim(),
     fosterFamilyId: z.string().uuid().optional(),
-    isSterilized: z.preprocess(
-      ensureBoolean,
-      z.boolean({ required_error: "Veuillez choisir une option" })
-    ),
+    isSterilized: z.enum(["YES", "NO", "NOT_MANDATORY"], {
+      required_error: "Veuillez choisir une option",
+    }),
     managerId: z.string().uuid().optional(),
     pickUpDate: z.preprocess(
       ensureDate,
@@ -88,6 +87,7 @@ export function AnimalSituationForm({
       | "adoptionDate"
       | "adoptionOption"
       | "comments"
+      | "isSterilizationMandatory"
       | "isSterilized"
       | "pickUpDate"
       | "pickUpLocation"
@@ -388,7 +388,7 @@ export function AnimalSituationForm({
               ref={isSterilizedRef}
               label="Oui"
               name={ActionFormData.keys.isSterilized}
-              value={String(true)}
+              value={ActionFormData.schema.shape.isSterilized.Enum.YES}
               defaultChecked={defaultAnimal?.isSterilized}
               aria-describedby="isSterilized-error"
             />
@@ -396,8 +396,21 @@ export function AnimalSituationForm({
             <RadioInput
               label="Non"
               name={ActionFormData.keys.isSterilized}
-              value={String(false)}
-              defaultChecked={!defaultAnimal?.isSterilized}
+              value={ActionFormData.schema.shape.isSterilized.Enum.NO}
+              defaultChecked={
+                !defaultAnimal?.isSterilized &&
+                defaultAnimal?.isSterilizationMandatory !== false
+              }
+              aria-describedby="isSterilized-error"
+            />
+
+            <RadioInput
+              label="Non, et ne le sera pas"
+              name={ActionFormData.keys.isSterilized}
+              value={
+                ActionFormData.schema.shape.isSterilized.Enum.NOT_MANDATORY
+              }
+              defaultChecked={defaultAnimal?.isSterilizationMandatory === false}
               aria-describedby="isSterilized-error"
             />
           </div>

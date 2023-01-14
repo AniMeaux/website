@@ -83,34 +83,35 @@ model Animal {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  adoptionDate   DateTime?
-  adoptionOption AdoptionOption?
-  alias          String?         @db.VarChar(255)
-  avatar         String
-  birthdate      DateTime
-  breed          Breed?          @relation(fields: [breedId], references: [id], onDelete: Restrict)
-  breedId        String?
-  color          Color?          @relation(fields: [colorId], references: [id], onDelete: Restrict)
-  colorId        String?
-  comments       String?
-  description    String?
-  fosterFamily   FosterFamily?   @relation(fields: [fosterFamilyId], references: [id], onDelete: Restrict)
-  fosterFamilyId String?
-  gender         Gender
-  iCadNumber     String?
-  isOkCats       Boolean?
-  isOkChildren   Boolean?
-  isOkDogs       Boolean?
-  isSterilized   Boolean
-  manager        User?           @relation(fields: [managerId], references: [id], onDelete: Restrict)
-  managerId      String?
-  name           String          @db.VarChar(255)
-  pickUpDate     DateTime
-  pickUpLocation String?
-  pickUpReason   PickUpReason    @default(OTHER)
-  pictures       String[]
-  species        Species
-  status         Status
+  adoptionDate             DateTime?
+  adoptionOption           AdoptionOption?
+  alias                    String?         @db.VarChar(255)
+  avatar                   String
+  birthdate                DateTime
+  breed                    Breed?          @relation(fields: [breedId], references: [id], onDelete: Restrict)
+  breedId                  String?
+  color                    Color?          @relation(fields: [colorId], references: [id], onDelete: Restrict)
+  colorId                  String?
+  comments                 String?
+  description              String?
+  fosterFamily             FosterFamily?   @relation(fields: [fosterFamilyId], references: [id], onDelete: Restrict)
+  fosterFamilyId           String?
+  gender                   Gender
+  iCadNumber               String?
+  isOkCats                 Boolean?
+  isOkChildren             Boolean?
+  isOkDogs                 Boolean?
+  isSterilizationMandatory Boolean         @default(true)
+  isSterilized             Boolean
+  manager                  User?           @relation(fields: [managerId], references: [id], onDelete: Restrict)
+  managerId                String?
+  name                     String          @db.VarChar(255)
+  pickUpDate               DateTime
+  pickUpLocation           String?
+  pickUpReason             PickUpReason    @default(OTHER)
+  pictures                 String[]
+  species                  Species
+  status                   Status
 
   @@index([species])
   @@index([status])
@@ -123,34 +124,35 @@ model AnimalDraft {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  adoptionDate   DateTime?
-  adoptionOption AdoptionOption?
-  alias          String?         @db.VarChar(255)
-  birthdate      DateTime?
-  breed          Breed?          @relation(fields: [breedId], references: [id])
-  breedId        String?
-  color          Color?          @relation(fields: [colorId], references: [id])
-  colorId        String?
-  comments       String?
-  description    String?
-  fosterFamily   FosterFamily?   @relation(fields: [fosterFamilyId], references: [id])
-  fosterFamilyId String?
-  gender         Gender?
-  iCadNumber     String?
-  isOkCats       Boolean?
-  isOkChildren   Boolean?
-  isOkDogs       Boolean?
-  isSterilized   Boolean?
-  manager        User?           @relation("Draft_managerToUser", fields: [managerId], references: [id])
-  managerId      String?
-  name           String?         @db.VarChar(255)
-  owner          User            @relation("Draft_ownerToUser", fields: [ownerId], references: [id], onDelete: Cascade)
-  ownerId        String          @unique
-  pickUpDate     DateTime?
-  pickUpLocation String?
-  pickUpReason   PickUpReason?
-  species        Species?
-  status         Status?
+  adoptionDate             DateTime?
+  adoptionOption           AdoptionOption?
+  alias                    String?         @db.VarChar(255)
+  birthdate                DateTime?
+  breed                    Breed?          @relation(fields: [breedId], references: [id])
+  breedId                  String?
+  color                    Color?          @relation(fields: [colorId], references: [id])
+  colorId                  String?
+  comments                 String?
+  description              String?
+  fosterFamily             FosterFamily?   @relation(fields: [fosterFamilyId], references: [id])
+  fosterFamilyId           String?
+  gender                   Gender?
+  iCadNumber               String?
+  isOkCats                 Boolean?
+  isOkChildren             Boolean?
+  isOkDogs                 Boolean?
+  isSterilizationMandatory Boolean?
+  isSterilized             Boolean?
+  manager                  User?           @relation("Draft_managerToUser", fields: [managerId], references: [id])
+  managerId                String?
+  name                     String?         @db.VarChar(255)
+  owner                    User            @relation("Draft_ownerToUser", fields: [ownerId], references: [id], onDelete: Cascade)
+  ownerId                  String          @unique
+  pickUpDate               DateTime?
+  pickUpLocation           String?
+  pickUpReason             PickUpReason?
+  species                  Species?
+  status                   Status?
 }
 
 model Event {
