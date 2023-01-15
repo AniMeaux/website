@@ -267,7 +267,7 @@ export function AnimalFilters({
 
             <div className={formClassNames.fields.field.root()}>
               <span className={formClassNames.fields.field.label()}>
-                Né après le
+                Né après le et incluant
               </span>
 
               <ControlledInput
@@ -295,7 +295,7 @@ export function AnimalFilters({
 
             <div className={formClassNames.fields.field.root()}>
               <span className={formClassNames.fields.field.label()}>
-                Né avant le
+                Né avant le et incluant
               </span>
 
               <ControlledInput
@@ -466,7 +466,7 @@ export function AnimalFilters({
           <div className={formClassNames.fields.root()}>
             <div className={formClassNames.fields.field.root()}>
               <span className={formClassNames.fields.field.label()}>
-                Après le
+                Après le et incluant
               </span>
 
               <ControlledInput
@@ -496,7 +496,7 @@ export function AnimalFilters({
 
             <div className={formClassNames.fields.field.root()}>
               <span className={formClassNames.fields.field.label()}>
-                Avant le
+                Avant le et incluant
               </span>
 
               <ControlledInput
