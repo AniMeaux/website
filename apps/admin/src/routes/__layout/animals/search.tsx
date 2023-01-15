@@ -280,7 +280,7 @@ export default function AnimalsPage() {
 
             {canCreate ? (
               <BaseLink
-                to="./new/profile"
+                to="/animals/new/profile"
                 className={actionClassName.standalone({
                   variant: "text",
                 })}
