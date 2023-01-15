@@ -89,7 +89,7 @@ export function AnimalItem({
           <span
             className={cn(
               "flex-1 text-body-emphasis transition-colors duration-100 ease-in-out",
-              animal.gender === Gender.MALE
+              animal.gender === Gender.FEMALE
                 ? "group-hover:text-pink-500"
                 : "group-hover:text-blue-500"
             )}
@@ -149,7 +149,7 @@ export function AnimalSmallItem({
           <span
             className={cn(
               "flex-1 text-body-emphasis truncate transition-colors duration-100 ease-in-out",
-              animal.gender === Gender.MALE
+              animal.gender === Gender.FEMALE
                 ? "group-hover:text-pink-500"
                 : "group-hover:text-blue-500"
             )}
