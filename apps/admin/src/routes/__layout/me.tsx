@@ -188,8 +188,11 @@ function ManagerCard() {
     <Card>
       <CardHeader>
         <CardTitle>
-          À votre charge
-          {managedAnimalCount > 0 ? ` (${managedAnimalCount})` : null}
+          {managedAnimalCount === 0
+            ? "À votre charge"
+            : managedAnimalCount > 1
+            ? `${managedAnimalCount} animaux à votre charge`
+            : "1 animal à votre charge"}
         </CardTitle>
 
         {managedAnimalCount > 0 ? (

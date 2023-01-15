@@ -364,8 +364,11 @@ function FosterAnimalsCard() {
     <Card>
       <CardHeader>
         <CardTitle>
-          Animaux accueillis
-          {fosterAnimalCount > 0 ? ` (${fosterAnimalCount})` : null}
+          {fosterAnimalCount === 0
+            ? "Animaux accueillis"
+            : fosterAnimalCount > 1
+            ? `${fosterAnimalCount} animaux accueillis`
+            : "1 animal accueillis"}
         </CardTitle>
 
         {fosterAnimalCount > 0 ? (
