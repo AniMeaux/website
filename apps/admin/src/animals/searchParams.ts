@@ -54,25 +54,9 @@ export class AnimalSearchParams extends URLSearchParams {
     return parseOrDefault(
       z
         .nativeEnum(AnimalSearchParams.Sort)
-        .default(AnimalSearchParams.Sort.PICK_UP),
+        .default(AnimalSearchParams.Sort.RELEVANCE),
       this.get(AnimalSearchParams.Keys.SORT)
     );
-  }
-
-  setSort(
-    sort:
-      | null
-      | typeof AnimalSearchParams.Sort[keyof typeof AnimalSearchParams.Sort]
-  ) {
-    const copy = new AnimalSearchParams(this);
-
-    if (sort != null) {
-      copy.set(AnimalSearchParams.Keys.SORT, sort);
-    } else if (copy.has(AnimalSearchParams.Keys.SORT)) {
-      copy.delete(AnimalSearchParams.Keys.SORT);
-    }
-
-    return copy;
   }
 
   getNameOrAlias() {
