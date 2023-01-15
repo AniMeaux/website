@@ -105,6 +105,22 @@ export function AnimalFilters({
               <SuggestionInput
                 type="radio"
                 name={AnimalSearchParams.Keys.SORT}
+                value={AnimalSearchParams.Sort.RELEVANCE}
+                checked={
+                  visibleFilters.sort === AnimalSearchParams.Sort.RELEVANCE
+                }
+                onChange={() => {}}
+              />
+
+              <SuggestionLabel icon={<Icon id="bolt" />}>
+                Pertinence
+              </SuggestionLabel>
+            </Suggestion>
+
+            <Suggestion>
+              <SuggestionInput
+                type="radio"
+                name={AnimalSearchParams.Keys.SORT}
                 value={AnimalSearchParams.Sort.PICK_UP}
                 checked={
                   visibleFilters.sort === AnimalSearchParams.Sort.PICK_UP
@@ -128,22 +144,6 @@ export function AnimalFilters({
 
               <SuggestionLabel icon={<Icon id="arrowDownAZ" />}>
                 Alphabétique
-              </SuggestionLabel>
-            </Suggestion>
-
-            <Suggestion>
-              <SuggestionInput
-                type="radio"
-                name={AnimalSearchParams.Keys.SORT}
-                value={AnimalSearchParams.Sort.RELEVANCE}
-                checked={
-                  visibleFilters.sort === AnimalSearchParams.Sort.RELEVANCE
-                }
-                onChange={() => {}}
-              />
-
-              <SuggestionLabel icon={<Icon id="bolt" />}>
-                Pertinence
               </SuggestionLabel>
             </Suggestion>
           </Suggestions>

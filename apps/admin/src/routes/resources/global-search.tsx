@@ -234,7 +234,6 @@ export function GlobalSearch() {
                     createPath({
                       pathname: "/animals",
                       search: new AnimalSearchParams()
-                        .setSort(AnimalSearchParams.Sort.RELEVANCE)
                         .setNameOrAlias(search)
                         .toString(),
                     })
