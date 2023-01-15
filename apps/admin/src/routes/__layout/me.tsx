@@ -35,11 +35,15 @@ export async function loader({ request }: LoaderArgs) {
       take: 5,
       orderBy: { pickUpDate: "desc" },
       select: {
-        id: true,
-        avatar: true,
-        name: true,
         alias: true,
+        avatar: true,
+        birthdate: true,
         gender: true,
+        id: true,
+        isSterilizationMandatory: true,
+        isSterilized: true,
+        name: true,
+        species: true,
         status: true,
       },
     }),
@@ -188,14 +192,17 @@ function ManagerCard() {
     <Card>
       <CardHeader>
         <CardTitle>
-          À votre charge
-          {managedAnimalCount > 0 ? ` (${managedAnimalCount})` : null}
+          {managedAnimalCount === 0
+            ? "À votre charge"
+            : managedAnimalCount > 1
+            ? `${managedAnimalCount} animaux à votre charge`
+            : "1 animal à votre charge"}
         </CardTitle>
 
         {managedAnimalCount > 0 ? (
           <BaseLink
             to={{
-              pathname: "/animals",
+              pathname: "/animals/search",
               search: new AnimalSearchParams()
                 .setStatuses(ACTIVE_ANIMAL_STATUS)
                 .setManagersId([currentUser.id])

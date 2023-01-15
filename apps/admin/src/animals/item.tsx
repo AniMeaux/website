@@ -1,4 +1,5 @@
 import { Animal, Breed, Color, Gender, User } from "@prisma/client";
+import { SerializeFrom } from "@remix-run/node";
 import { forwardRef } from "react";
 import { AnimalAvatar } from "~/animals/avatar";
 import { GENDER_ICON, GENDER_TRANSLATION } from "~/animals/gender";
@@ -13,6 +14,7 @@ import {
   SuggestionItemProps,
 } from "~/core/formElements/resourceInput";
 import { Icon } from "~/generated/icon";
+import { hasUpCommingSterilisation } from "./situation/sterilization";
 
 export function AnimalItem({
   animal,
@@ -20,9 +22,20 @@ export function AnimalItem({
   imageLoading,
   className,
 }: {
-  animal: Pick<
-    Animal,
-    "id" | "name" | "alias" | "gender" | "avatar" | "status"
+  animal: SerializeFrom<
+    Pick<
+      Animal,
+      | "alias"
+      | "avatar"
+      | "birthdate"
+      | "gender"
+      | "id"
+      | "isSterilizationMandatory"
+      | "isSterilized"
+      | "name"
+      | "species"
+      | "status"
+    >
   > & {
     manager?: null | Pick<User, "displayName">;
   };
@@ -48,19 +61,26 @@ export function AnimalItem({
           className="w-full flex-none rounded-1"
         />
 
-        <StatusBadge
-          status={animal.status}
-          className="absolute bottom-0.5 right-0.5"
-        />
+        <span className="absolute bottom-0 left-0 w-full p-0.5 flex justify-end">
+          {hasUpCommingSterilisation(animal) ? (
+            <span className="mr-auto h-2 rounded-0.5 px-0.5 flex items-center bg-orange-500 text-white text-[14px]">
+              <Icon id="scissors" />
+            </span>
+          ) : null}
+
+          <StatusBadge status={animal.status} />
+        </span>
       </span>
 
       <div className="flex flex-col">
         <p className="flex items-start gap-0.5">
           <span
-            className={cn("h-2 flex-none flex items-center", {
-              "text-pink-500": animal.gender === Gender.FEMALE,
-              "text-blue-500": animal.gender === Gender.MALE,
-            })}
+            className={cn(
+              "h-2 flex-none flex items-center",
+              animal.gender === Gender.FEMALE
+                ? "text-pink-500"
+                : "text-blue-500"
+            )}
             title={GENDER_TRANSLATION[animal.gender]}
           >
             <Icon id={GENDER_ICON[animal.gender]} />
@@ -69,10 +89,9 @@ export function AnimalItem({
           <span
             className={cn(
               "flex-1 text-body-emphasis transition-colors duration-100 ease-in-out",
-              {
-                "group-hover:text-blue-500": animal.gender === Gender.MALE,
-                "group-hover:text-pink-500": animal.gender === Gender.FEMALE,
-              }
+              animal.gender === Gender.FEMALE
+                ? "group-hover:text-pink-500"
+                : "group-hover:text-blue-500"
             )}
           >
             {getAnimalDisplayName(animal)}
@@ -85,6 +104,66 @@ export function AnimalItem({
           </p>
         ) : null}
       </div>
+    </BaseLink>
+  );
+}
+
+export function AnimalSmallItem({
+  animal,
+  imageLoading,
+  secondaryLabel,
+  className,
+}: {
+  animal: Pick<
+    Animal,
+    "id" | "name" | "alias" | "gender" | "avatar" | "status"
+  >;
+  secondaryLabel: React.ReactNode;
+  imageLoading?: DynamicImageProps["loading"];
+  className?: string;
+}) {
+  return (
+    <BaseLink
+      to={`/animals/${animal.id}`}
+      className={cn(
+        className,
+        "group rounded-0.5 grid grid-cols-[auto_minmax(0px,1fr)_auto] items-center gap-1 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+      )}
+    >
+      <AnimalAvatar animal={animal} size="lg" loading={imageLoading} />
+
+      <div className="flex flex-col">
+        <p className="flex items-start gap-0.5">
+          <span
+            className={cn(
+              "h-2 flex-none flex items-center",
+              animal.gender === Gender.FEMALE
+                ? "text-pink-500"
+                : "text-blue-500"
+            )}
+            title={GENDER_TRANSLATION[animal.gender]}
+          >
+            <Icon id={GENDER_ICON[animal.gender]} />
+          </span>
+
+          <span
+            className={cn(
+              "flex-1 text-body-emphasis truncate transition-colors duration-100 ease-in-out",
+              animal.gender === Gender.FEMALE
+                ? "group-hover:text-pink-500"
+                : "group-hover:text-blue-500"
+            )}
+          >
+            {getAnimalDisplayName(animal)}
+          </span>
+        </p>
+
+        <p className="flex text-caption-default text-gray-500">
+          {secondaryLabel}
+        </p>
+      </div>
+
+      <StatusBadge status={animal.status} />
     </BaseLink>
   );
 }

@@ -20,6 +20,7 @@ import { PICK_UP_REASON_TRANSLATION } from "~/animals/pickUp";
 import { ActionFormData as ProfileActionFormData } from "~/animals/profile/form";
 import { getAnimalDisplayName } from "~/animals/profile/name";
 import { ActionFormData as SituationActionFormData } from "~/animals/situation/form";
+import { hasUpCommingSterilisation } from "~/animals/situation/sterilization";
 import { getSpeciesLabels, SPECIES_ICON } from "~/animals/species";
 import { StatusBadge, StatusIcon, STATUS_TRANSLATION } from "~/animals/status";
 import { actionClassName } from "~/core/actions";
@@ -27,6 +28,7 @@ import { BaseLink, BaseLinkProps } from "~/core/baseLink";
 import { useConfig } from "~/core/config";
 import { Empty } from "~/core/dataDisplay/empty";
 import { ErrorPage, getErrorTitle } from "~/core/dataDisplay/errorPage";
+import { Helper } from "~/core/dataDisplay/helper";
 import { createCloudinaryUrl, DynamicImage } from "~/core/dataDisplay/image";
 import { Item } from "~/core/dataDisplay/item";
 import { ARTICLE_COMPONENTS, Markdown } from "~/core/dataDisplay/markdown";
@@ -34,7 +36,7 @@ import { prisma } from "~/core/db.server";
 import { NotFoundError } from "~/core/errors.server";
 import { assertIsDefined } from "~/core/isDefined.server";
 import { Card, CardContent, CardHeader, CardTitle } from "~/core/layout/card";
-import { PageContent, PageLayout } from "~/core/layout/page";
+import { PageContent } from "~/core/layout/page";
 import { getPageTitle } from "~/core/pageTitle";
 import {
   Dialog,
@@ -178,7 +180,7 @@ export async function action({ request, params }: ActionArgs) {
 
   // We are forced to redirect to avoid re-calling the loader with a
   // non-existing aniaml.
-  throw redirect("/animals");
+  throw redirect("/animals/search");
 }
 
 export function CatchBoundary() {
@@ -190,44 +192,42 @@ export default function AnimalProfilePage() {
   const { canEdit } = useLoaderData<typeof loader>();
 
   return (
-    <PageLayout>
-      <PageContent className="flex flex-col gap-1 md:gap-2">
-        <HeaderCard />
+    <PageContent className="flex flex-col gap-1 md:gap-2">
+      <HeaderCard />
 
-        <section className="grid grid-cols-1 gap-1 md:hidden">
-          <aside className="flex flex-col gap-1">
-            <SituationCard />
-            <CommentsCard />
-          </aside>
+      <section className="grid grid-cols-1 gap-1 md:hidden">
+        <aside className="flex flex-col gap-1">
+          <SituationCard />
+          <CommentsCard />
+        </aside>
 
-          <section className="flex flex-col gap-1">
-            <ProfileCard />
-            <PicturesCard />
-            <DescriptionCard />
-          </section>
-
-          {canEdit ? (
-            <aside className="flex flex-col">
-              <ActionCard />
-            </aside>
-          ) : null}
+        <section className="flex flex-col gap-1">
+          <ProfileCard />
+          <PicturesCard />
+          <DescriptionCard />
         </section>
 
-        <section className="hidden md:grid md:grid-cols-[minmax(0px,2fr)_minmax(250px,1fr)] md:items-start md:gap-2">
-          <section className="md:flex md:flex-col md:gap-2">
-            <ProfileCard />
-            <PicturesCard />
-            <DescriptionCard />
-          </section>
-
-          <aside className="md:flex md:flex-col md:gap-2">
-            <SituationCard />
-            <CommentsCard />
-            {canEdit ? <ActionCard /> : null}
+        {canEdit ? (
+          <aside className="flex flex-col">
+            <ActionCard />
           </aside>
+        ) : null}
+      </section>
+
+      <section className="hidden md:grid md:grid-cols-[minmax(0px,2fr)_minmax(250px,1fr)] md:items-start md:gap-2">
+        <section className="md:flex md:flex-col md:gap-2">
+          <ProfileCard />
+          <PicturesCard />
+          <DescriptionCard />
         </section>
-      </PageContent>
-    </PageLayout>
+
+        <aside className="md:flex md:flex-col md:gap-2">
+          <SituationCard />
+          <CommentsCard />
+          {canEdit ? <ActionCard /> : null}
+        </aside>
+      </section>
+    </PageContent>
   );
 }
 
@@ -355,6 +355,12 @@ function SituationCard() {
       </CardHeader>
 
       <CardContent>
+        {hasUpCommingSterilisation(animal) ? (
+          <Helper isCompact variant="warning" icon={<Icon id="scissors" />}>
+            Stérilisation à prévoir.
+          </Helper>
+        ) : null}
+
         <ul className="flex flex-col">
           {animal.manager != null ? (
             <Item icon={<UserAvatar user={animal.manager} />}>

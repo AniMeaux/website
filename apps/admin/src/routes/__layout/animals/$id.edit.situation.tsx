@@ -1,66 +1,89 @@
 import { UserGroup } from "@prisma/client";
-import {
-  ActionArgs,
-  json,
-  LoaderArgs,
-  MetaFunction,
-  redirect,
-} from "@remix-run/node";
+import { ActionArgs, json, LoaderArgs, MetaFunction } from "@remix-run/node";
 import { useCatch, useFetcher, useLoaderData } from "@remix-run/react";
 import { z } from "zod";
-import { AnimalCreationSteps } from "~/animals/creationSteps";
-import { assertDraftHasValidProfile } from "~/animals/profile/db.server";
+import { getAnimalDisplayName } from "~/animals/profile/name";
 import {
   MissingAdoptionDateError,
   MissingManagerError,
   MissingPickUpLocationError,
   NotManagerError,
-  updateAnimalSituationDraft,
+  updateAnimalSituation,
 } from "~/animals/situation/db.server";
 import { ActionFormData, AnimalSituationForm } from "~/animals/situation/form";
-import { ErrorPage } from "~/core/dataDisplay/errorPage";
+import { ErrorPage, getErrorTitle } from "~/core/dataDisplay/errorPage";
+import { prisma } from "~/core/db.server";
+import { NotFoundError } from "~/core/errors.server";
+import { assertIsDefined } from "~/core/isDefined.server";
 import { Card, CardContent, CardHeader, CardTitle } from "~/core/layout/card";
-import { PageContent, PageLayout } from "~/core/layout/page";
+import { PageContent } from "~/core/layout/page";
+import { useBackIfPossible } from "~/core/navigation";
 import { getPageTitle } from "~/core/pageTitle";
+import { NotFoundResponse } from "~/core/response.server";
 import { getCurrentUser } from "~/currentUser/db.server";
 import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
 
-export async function loader({ request }: LoaderArgs) {
-  const { draft, ...currentUser } = await getCurrentUser(request, {
+export async function loader({ request, params }: LoaderArgs) {
+  const currentUser = await getCurrentUser(request, {
+    select: { id: true, groups: true },
+  });
+
+  assertCurrentUserHasGroups(currentUser, [
+    UserGroup.ADMIN,
+    UserGroup.ANIMAL_MANAGER,
+  ]);
+
+  const result = z.string().uuid().safeParse(params["id"]);
+  if (!result.success) {
+    throw new NotFoundResponse();
+  }
+
+  const animal = await prisma.animal.findUnique({
+    where: { id: result.data },
     select: {
-      id: true,
-      groups: true,
-      displayName: true,
-      draft: {
-        include: {
-          fosterFamily: { select: { id: true, displayName: true } },
-          manager: { select: { id: true, displayName: true } },
-        },
-      },
+      adoptionDate: true,
+      adoptionOption: true,
+      alias: true,
+      comments: true,
+      fosterFamily: { select: { id: true, displayName: true } },
+      isSterilizationMandatory: true,
+      isSterilized: true,
+      manager: { select: { id: true, displayName: true } },
+      name: true,
+      pickUpDate: true,
+      pickUpLocation: true,
+      pickUpReason: true,
+      status: true,
     },
   });
 
-  assertCurrentUserHasGroups(currentUser, [
-    UserGroup.ADMIN,
-    UserGroup.ANIMAL_MANAGER,
-  ]);
+  assertIsDefined(animal);
 
-  await assertDraftHasValidProfile(draft);
-
-  return json({ draft, currentUser });
+  return json({ animal });
 }
 
-export const meta: MetaFunction = () => {
-  return { title: getPageTitle(["Nouvel animal", "Situation"]) };
+export const meta: MetaFunction<typeof loader> = ({ data }) => {
+  const animal = data?.animal;
+  if (animal == null) {
+    return { title: getPageTitle(getErrorTitle(404)) };
+  }
+
+  return {
+    title: getPageTitle([
+      `Modifier ${getAnimalDisplayName(animal)}`,
+      "Situation",
+    ]),
+  };
 };
 
 type ActionData = {
+  redirectTo?: string;
   errors?: z.inferFlattenedErrors<typeof ActionFormData.schema>;
 };
 
-export async function action({ request }: ActionArgs) {
+export async function action({ request, params }: ActionArgs) {
   const currentUser = await getCurrentUser(request, {
-    select: { id: true, groups: true, draft: true },
+    select: { id: true, groups: true },
   });
 
   assertCurrentUserHasGroups(currentUser, [
@@ -68,7 +91,10 @@ export async function action({ request }: ActionArgs) {
     UserGroup.ANIMAL_MANAGER,
   ]);
 
-  await assertDraftHasValidProfile(currentUser.draft);
+  const idResult = z.string().uuid().safeParse(params["id"]);
+  if (!idResult.success) {
+    throw new NotFoundResponse();
+  }
 
   const rawFormData = await request.formData();
   const formData = ActionFormData.schema.safeParse(
@@ -83,7 +109,7 @@ export async function action({ request }: ActionArgs) {
   }
 
   try {
-    await updateAnimalSituationDraft(currentUser.id, {
+    await updateAnimalSituation(idResult.data, {
       adoptionDate: formData.data.adoptionDate ?? null,
       adoptionOption: formData.data.adoptionOption ?? null,
       comments: formData.data.comments || null,
@@ -101,6 +127,18 @@ export async function action({ request }: ActionArgs) {
       status: formData.data.status,
     });
   } catch (error) {
+    if (error instanceof NotFoundError) {
+      return json<ActionData>(
+        {
+          errors: {
+            formErrors: ["L’animal est introuvable."],
+            fieldErrors: {},
+          },
+        },
+        { status: 404 }
+      );
+    }
+
     if (error instanceof MissingAdoptionDateError) {
       return json<ActionData>(
         {
@@ -162,7 +200,7 @@ export async function action({ request }: ActionArgs) {
     throw error;
   }
 
-  throw redirect("/animals/new/pictures");
+  return json<ActionData>({ redirectTo: `/animals/${idResult.data}` });
 }
 
 export function CatchBoundary() {
@@ -170,29 +208,22 @@ export function CatchBoundary() {
   return <ErrorPage status={caught.status} />;
 }
 
-export default function NewAnimalSituationPage() {
-  const { currentUser, draft } = useLoaderData<typeof loader>();
+export default function AnimalEditSituationPage() {
+  const { animal } = useLoaderData<typeof loader>();
   const fetcher = useFetcher<typeof action>();
+  useBackIfPossible({ fallbackRedirectTo: fetcher.data?.redirectTo });
 
   return (
-    <PageLayout>
-      <PageContent className="flex flex-col items-center">
-        <Card className="w-full md:max-w-[600px]">
-          <CardHeader isVertical>
-            <CardTitle>Nouvel animal</CardTitle>
-            <AnimalCreationSteps activeStep="situation" />
-          </CardHeader>
+    <PageContent className="flex flex-col items-center">
+      <Card className="w-full md:max-w-[600px]">
+        <CardHeader>
+          <CardTitle>Modifier {animal.name}</CardTitle>
+        </CardHeader>
 
-          <CardContent>
-            <AnimalSituationForm
-              isCreate
-              currentUser={currentUser}
-              defaultAnimal={draft}
-              fetcher={fetcher}
-            />
-          </CardContent>
-        </Card>
-      </PageContent>
-    </PageLayout>
+        <CardContent>
+          <AnimalSituationForm defaultAnimal={animal} fetcher={fetcher} />
+        </CardContent>
+      </Card>
+    </PageContent>
   );
 }
