@@ -48,16 +48,19 @@ export function AnimalFilters({
   const [searchParams, setSearchParams] = useOptimisticSearchParams();
   const animalSearchParams = new AnimalSearchParams(searchParams);
   const visibleFilters = {
-    sort: animalSearchParams.getSort(),
-    nameOrAlias: animalSearchParams.getNameOrAlias(),
-    species: animalSearchParams.getSpecies(),
     ages: animalSearchParams.getAges(),
-    statuses: animalSearchParams.getStatuses(),
-    managersId: animalSearchParams.getManagersId(),
     fosterFamiliesId: animalSearchParams.getFosterFamiliesId(),
-    minPickUpDate: animalSearchParams.getMinPickUpDate(),
+    isSterilized: animalSearchParams.getIsSterilized(),
+    managersId: animalSearchParams.getManagersId(),
+    maxBirthdate: animalSearchParams.getMaxBirthdate(),
     maxPickUpDate: animalSearchParams.getMaxPickUpDate(),
+    minBirthdate: animalSearchParams.getMinBirthdate(),
+    minPickUpDate: animalSearchParams.getMinPickUpDate(),
+    nameOrAlias: animalSearchParams.getNameOrAlias(),
     pickUpLocations: animalSearchParams.getPickUpLocations(),
+    sort: animalSearchParams.getSort(),
+    species: animalSearchParams.getSpecies(),
+    statuses: animalSearchParams.getStatuses(),
   };
 
   const isCurrentUserManager = hasGroups(currentUser, [
@@ -213,33 +216,111 @@ export function AnimalFilters({
         <Filter
           value={AnimalSearchParams.Keys.AGE}
           label="Âges"
-          count={visibleFilters.ages.length}
-          hiddenContent={visibleFilters.ages.map((age) => (
-            <input
-              key={age}
-              type="hidden"
-              name={AnimalSearchParams.Keys.AGE}
-              value={age}
-            />
-          ))}
-        >
-          <Suggestions>
-            {SORTED_AGES.map((age) => (
-              <Suggestion key={age}>
-                <SuggestionInput
-                  type="checkbox"
+          count={
+            (visibleFilters.minBirthdate == null ? 0 : 1) +
+            (visibleFilters.maxBirthdate == null ? 0 : 1) +
+            visibleFilters.ages.length
+          }
+          hiddenContent={
+            <>
+              <input
+                type="hidden"
+                name={AnimalSearchParams.Keys.MIN_BIRTHDATE}
+                value={toIsoDate(visibleFilters.minBirthdate)}
+              />
+              <input
+                type="hidden"
+                name={AnimalSearchParams.Keys.MAX_BIRTHDATE}
+                value={toIsoDate(visibleFilters.maxBirthdate)}
+              />
+              {visibleFilters.ages.map((age) => (
+                <input
+                  key={age}
+                  type="hidden"
                   name={AnimalSearchParams.Keys.AGE}
                   value={age}
-                  checked={visibleFilters.ages.includes(age)}
-                  onChange={() => {}}
                 />
+              ))}
+            </>
+          }
+        >
+          <div className={formClassNames.fields.root()}>
+            <div className={formClassNames.fields.field.root()}>
+              <Suggestions>
+                {SORTED_AGES.map((age) => (
+                  <Suggestion key={age}>
+                    <SuggestionInput
+                      type="checkbox"
+                      name={AnimalSearchParams.Keys.AGE}
+                      value={age}
+                      checked={visibleFilters.ages.includes(age)}
+                      onChange={() => {}}
+                    />
 
-                <SuggestionLabel icon={<Icon id={AGE_ICON[age]} />}>
-                  {AGE_TRANSLATION[age]}
-                </SuggestionLabel>
-              </Suggestion>
-            ))}
-          </Suggestions>
+                    <SuggestionLabel icon={<Icon id={AGE_ICON[age]} />}>
+                      {AGE_TRANSLATION[age]}
+                    </SuggestionLabel>
+                  </Suggestion>
+                ))}
+              </Suggestions>
+            </div>
+
+            <div className={formClassNames.fields.field.root()}>
+              <span className={formClassNames.fields.field.label()}>
+                Né après le
+              </span>
+
+              <ControlledInput
+                type="date"
+                name={AnimalSearchParams.Keys.MIN_BIRTHDATE}
+                value={toIsoDate(visibleFilters.minBirthdate)}
+                leftAdornment={
+                  <Adornment>
+                    <Icon id="calendarDays" />
+                  </Adornment>
+                }
+                rightAdornment={
+                  visibleFilters.minBirthdate != null ? (
+                    <ActionAdornment
+                      onClick={() =>
+                        setSearchParams(animalSearchParams.deleteMinBirthdate())
+                      }
+                    >
+                      <Icon id="xMark" />
+                    </ActionAdornment>
+                  ) : null
+                }
+              />
+            </div>
+
+            <div className={formClassNames.fields.field.root()}>
+              <span className={formClassNames.fields.field.label()}>
+                Né avant le
+              </span>
+
+              <ControlledInput
+                type="date"
+                name={AnimalSearchParams.Keys.MAX_BIRTHDATE}
+                value={toIsoDate(visibleFilters.maxBirthdate)}
+                leftAdornment={
+                  <Adornment>
+                    <Icon id="calendarDays" />
+                  </Adornment>
+                }
+                rightAdornment={
+                  visibleFilters.maxBirthdate != null ? (
+                    <ActionAdornment
+                      onClick={() =>
+                        setSearchParams(animalSearchParams.deleteMaxBirthdate())
+                      }
+                    >
+                      <Icon id="xMark" />
+                    </ActionAdornment>
+                  ) : null
+                }
+              />
+            </div>
+          </div>
         </Filter>
 
         <Filter
@@ -467,6 +548,74 @@ export function AnimalFilters({
               </Suggestions>
             </div>
           </div>
+        </Filter>
+
+        <Filter
+          value={AnimalSearchParams.Keys.IS_STERILIZED}
+          label="Stérilisé"
+          count={visibleFilters.isSterilized == null ? 0 : 1}
+          hiddenContent={
+            visibleFilters.isSterilized != null ? (
+              <input
+                type="hidden"
+                name={AnimalSearchParams.Keys.IS_STERILIZED}
+                value={visibleFilters.isSterilized}
+              />
+            ) : null
+          }
+        >
+          <Suggestions>
+            <Suggestion>
+              <SuggestionInput
+                type="radio"
+                name={AnimalSearchParams.Keys.IS_STERILIZED}
+                value={AnimalSearchParams.IsSterilized.YES}
+                checked={
+                  visibleFilters.isSterilized ===
+                  AnimalSearchParams.IsSterilized.YES
+                }
+                onChange={() => {}}
+              />
+
+              <SuggestionLabel icon={<Icon id="scissors" />}>
+                Oui
+              </SuggestionLabel>
+            </Suggestion>
+
+            <Suggestion>
+              <SuggestionInput
+                type="radio"
+                name={AnimalSearchParams.Keys.IS_STERILIZED}
+                value={AnimalSearchParams.IsSterilized.NO}
+                checked={
+                  visibleFilters.isSterilized ===
+                  AnimalSearchParams.IsSterilized.NO
+                }
+                onChange={() => {}}
+              />
+
+              <SuggestionLabel icon={<Icon id="scissors" />}>
+                Non
+              </SuggestionLabel>
+            </Suggestion>
+
+            <Suggestion>
+              <SuggestionInput
+                type="radio"
+                name={AnimalSearchParams.Keys.IS_STERILIZED}
+                value={AnimalSearchParams.IsSterilized.NOT_MANDATORY}
+                checked={
+                  visibleFilters.isSterilized ===
+                  AnimalSearchParams.IsSterilized.NOT_MANDATORY
+                }
+                onChange={() => {}}
+              />
+
+              <SuggestionLabel icon={<Icon id="scissors" />}>
+                Non, et ne le sera pas
+              </SuggestionLabel>
+            </Suggestion>
+          </Suggestions>
         </Filter>
       </Filters>
     </Form>

@@ -83,6 +83,22 @@ export async function loader({ request }: LoaderArgs) {
     where.push({ OR: conditions });
   }
 
+  const minBirthdate = animalSearchParams.getMinBirthdate();
+  const maxBirthdate = animalSearchParams.getMaxBirthdate();
+  if (minBirthdate != null || maxBirthdate != null) {
+    const birthdate: Prisma.DateTimeFilter = {};
+
+    if (minBirthdate != null) {
+      birthdate.gte = minBirthdate;
+    }
+
+    if (maxBirthdate != null) {
+      birthdate.lte = maxBirthdate;
+    }
+
+    where.push({ birthdate });
+  }
+
   const statuses = animalSearchParams.getStatuses();
   if (statuses.length > 0) {
     where.push({ status: { in: statuses } });
@@ -138,6 +154,15 @@ export async function loader({ request }: LoaderArgs) {
     rankedAnimalsId = animals.map((animal) => animal.id);
 
     where.push({ id: { in: rankedAnimalsId } });
+  }
+
+  const isSterilized = animalSearchParams.getIsSterilized();
+  if (isSterilized != null) {
+    where.push({
+      isSterilized: isSterilized === AnimalSearchParams.IsSterilized.YES,
+      isSterilizationMandatory:
+        isSterilized !== AnimalSearchParams.IsSterilized.NOT_MANDATORY,
+    });
   }
 
   const sort = animalSearchParams.getSort();

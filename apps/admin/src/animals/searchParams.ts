@@ -13,14 +13,23 @@ export class AnimalSearchParams extends URLSearchParams {
     RELEVANCE: "RELEVANCE",
   } as const;
 
+  static readonly IsSterilized = {
+    YES: "YES",
+    NO: "NO",
+    NOT_MANDATORY: "NOT_MANDATORY",
+  } as const;
+
   static readonly Keys = {
     AGE: "age",
     FOSTER_FAMILIES_ID: "ff",
+    IS_STERILIZED: "isSterilized",
     MANAGERS_ID: "manager",
-    MAX_PICK_UP_DATE: "max",
-    MIN_PICK_UP_DATE: "min",
+    MAX_BIRTHDATE: "maxBirth",
+    MAX_PICK_UP_DATE: "pickUpMax",
+    MIN_BIRTHDATE: "minBirth",
+    MIN_PICK_UP_DATE: "pickUpMin",
     NAME_OR_ALIAS: "q",
-    PICK_UP_LOCATION: "pickUp",
+    PICK_UP_LOCATION: "pickUpLoc",
     SORT: "sort",
     SPECIES: "species",
     STATUS: "status",
@@ -43,6 +52,9 @@ export class AnimalSearchParams extends URLSearchParams {
       ) &&
       isEqual(this.getMinPickUpDate(), other.getMinPickUpDate()) &&
       isEqual(this.getMaxPickUpDate(), other.getMaxPickUpDate()) &&
+      isEqual(this.getMinBirthdate(), other.getMinBirthdate()) &&
+      isEqual(this.getMaxBirthdate(), other.getMaxBirthdate()) &&
+      isEqual(this.getIsSterilized(), other.getIsSterilized()) &&
       isEqual(
         orderBy(this.getPickUpLocations()),
         orderBy(other.getPickUpLocations())
@@ -94,6 +106,44 @@ export class AnimalSearchParams extends URLSearchParams {
       z.nativeEnum(AnimalAge).array().default([]),
       this.getAll(AnimalSearchParams.Keys.AGE)
     );
+  }
+
+  getMinBirthdate() {
+    const date = parseOrDefault(
+      z.preprocess(ensureDate, z.date()).optional(),
+      this.get(AnimalSearchParams.Keys.MIN_BIRTHDATE)
+    );
+
+    if (date == null) {
+      return null;
+    }
+
+    return DateTime.fromJSDate(date).startOf("day").toJSDate();
+  }
+
+  deleteMinBirthdate() {
+    const copy = new AnimalSearchParams(this);
+    copy.delete(AnimalSearchParams.Keys.MIN_BIRTHDATE);
+    return copy;
+  }
+
+  getMaxBirthdate() {
+    const date = parseOrDefault(
+      z.preprocess(ensureDate, z.date()).optional(),
+      this.get(AnimalSearchParams.Keys.MAX_BIRTHDATE)
+    );
+
+    if (date == null) {
+      return null;
+    }
+
+    return DateTime.fromJSDate(date).startOf("day").toJSDate();
+  }
+
+  deleteMaxBirthdate() {
+    const copy = new AnimalSearchParams(this);
+    copy.delete(AnimalSearchParams.Keys.MAX_BIRTHDATE);
+    return copy;
   }
 
   getStatuses() {
@@ -190,6 +240,33 @@ export class AnimalSearchParams extends URLSearchParams {
       z.string().array().default([]),
       this.getAll(AnimalSearchParams.Keys.PICK_UP_LOCATION)
     );
+  }
+
+  getIsSterilized() {
+    return parseOrDefault(
+      z
+        .nativeEnum(AnimalSearchParams.IsSterilized)
+        .optional()
+        .nullable()
+        .default(null),
+      this.get(AnimalSearchParams.Keys.IS_STERILIZED)
+    );
+  }
+
+  setIsSterilized(
+    isSterilized:
+      | null
+      | typeof AnimalSearchParams.IsSterilized[keyof typeof AnimalSearchParams.IsSterilized]
+  ) {
+    const copy = new AnimalSearchParams(this);
+
+    if (isSterilized != null) {
+      copy.set(AnimalSearchParams.Keys.IS_STERILIZED, isSterilized);
+    } else if (copy.has(AnimalSearchParams.Keys.IS_STERILIZED)) {
+      copy.delete(AnimalSearchParams.Keys.IS_STERILIZED);
+    }
+
+    return copy;
   }
 }
 
