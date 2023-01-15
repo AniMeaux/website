@@ -232,7 +232,7 @@ export function GlobalSearch() {
                 if (type === "animal") {
                   navigate(
                     createPath({
-                      pathname: "/animals",
+                      pathname: "/animals/search",
                       search: new AnimalSearchParams()
                         .setNameOrAlias(search)
                         .toString(),

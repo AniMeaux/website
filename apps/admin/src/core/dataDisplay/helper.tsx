@@ -10,6 +10,7 @@ export type HelperProps = {
   children?: React.ReactNode;
   action?: React.ReactElement;
   isCompact?: boolean;
+  icon?: React.ReactNode;
 };
 
 export function Helper({
@@ -17,6 +18,7 @@ export function Helper({
   variant,
   action,
   isCompact = false,
+  icon,
 }: HelperProps) {
   return (
     <section
@@ -26,7 +28,10 @@ export function Helper({
         VARIANT_CLASS_NAME[variant]
       )}
     >
-      <Icon id={VARIANT_ICON[variant]} className="text-[20px]" />
+      <span className="flex text-[20px]">
+        {icon ?? <Icon id={VARIANT_ICON[variant]} />}
+      </span>
+
       <p className="text-body-emphasis">{children}</p>
 
       {action != null

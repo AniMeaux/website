@@ -16,7 +16,7 @@ import {
 import { ActionFormData, AnimalProfileForm } from "~/animals/profile/form";
 import { ErrorPage } from "~/core/dataDisplay/errorPage";
 import { Card, CardContent, CardHeader, CardTitle } from "~/core/layout/card";
-import { PageContent, PageLayout } from "~/core/layout/page";
+import { PageContent } from "~/core/layout/page";
 import { getPageTitle } from "~/core/pageTitle";
 import { getCurrentUser } from "~/currentUser/db.server";
 import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
@@ -119,23 +119,17 @@ export default function NewAnimalProfilePage() {
   const fetcher = useFetcher<typeof action>();
 
   return (
-    <PageLayout>
-      <PageContent className="flex flex-col items-center">
-        <Card className="w-full md:max-w-[600px]">
-          <CardHeader isVertical>
-            <CardTitle>Nouvel animal</CardTitle>
-            <AnimalCreationSteps activeStep="profile" />
-          </CardHeader>
+    <PageContent className="flex flex-col items-center">
+      <Card className="w-full md:max-w-[600px]">
+        <CardHeader isVertical>
+          <CardTitle>Nouvel animal</CardTitle>
+          <AnimalCreationSteps activeStep="profile" />
+        </CardHeader>
 
-          <CardContent>
-            <AnimalProfileForm
-              isCreate
-              defaultAnimal={draft}
-              fetcher={fetcher}
-            />
-          </CardContent>
-        </Card>
-      </PageContent>
-    </PageLayout>
+        <CardContent>
+          <AnimalProfileForm isCreate defaultAnimal={draft} fetcher={fetcher} />
+        </CardContent>
+      </Card>
+    </PageContent>
   );
 }

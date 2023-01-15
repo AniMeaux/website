@@ -101,6 +101,16 @@ export class AnimalSearchParams extends URLSearchParams {
     );
   }
 
+  setSpecies(species: Species[]) {
+    const copy = new AnimalSearchParams(this);
+    copy.delete(AnimalSearchParams.Keys.SPECIES);
+    species.forEach((species) => {
+      copy.append(AnimalSearchParams.Keys.SPECIES, species);
+    });
+
+    return copy;
+  }
+
   getAges() {
     return parseOrDefault(
       z.nativeEnum(AnimalAge).array().default([]),
@@ -143,6 +153,21 @@ export class AnimalSearchParams extends URLSearchParams {
   deleteMaxBirthdate() {
     const copy = new AnimalSearchParams(this);
     copy.delete(AnimalSearchParams.Keys.MAX_BIRTHDATE);
+    return copy;
+  }
+
+  setMaxBirthdate(maxBirthdate: null | Date) {
+    const copy = new AnimalSearchParams(this);
+
+    if (maxBirthdate != null) {
+      copy.set(
+        AnimalSearchParams.Keys.MAX_BIRTHDATE,
+        DateTime.fromJSDate(maxBirthdate).toISODate()
+      );
+    } else if (copy.has(AnimalSearchParams.Keys.MAX_BIRTHDATE)) {
+      copy.delete(AnimalSearchParams.Keys.MAX_BIRTHDATE);
+    }
+
     return copy;
   }
 

@@ -89,10 +89,14 @@ export async function loader({ request, params }: LoaderArgs) {
       select: {
         alias: true,
         avatar: true,
+        birthdate: true,
         gender: true,
         id: true,
-        name: true,
+        isSterilizationMandatory: true,
+        isSterilized: true,
         manager: { select: { displayName: true } },
+        name: true,
+        species: true,
         status: true,
       },
     }),
@@ -374,7 +378,7 @@ function FosterAnimalsCard() {
         {fosterAnimalCount > 0 ? (
           <BaseLink
             to={{
-              pathname: "/animals",
+              pathname: "/animals/search",
               search: new AnimalSearchParams()
                 .setFosterFamiliesId([fosterFamily.id])
                 .toString(),
