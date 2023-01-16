@@ -162,6 +162,7 @@ function AnimalsToSterilizeCard() {
             to={{
               pathname: "/animals/search",
               search: new AnimalSearchParams()
+                .setSort(AnimalSearchParams.Sort.BIRTHDATE)
                 .setSpecies([Species.CAT, Species.DOG])
                 .setIsSterilized(AnimalSearchParams.IsSterilized.NO)
                 .setMaxBirthdate(DateTime.now().minus({ months: 6 }).toJSDate())

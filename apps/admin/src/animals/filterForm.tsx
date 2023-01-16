@@ -95,6 +95,9 @@ export function AnimalFilters({
         <Filter
           value={AnimalSearchParams.Keys.SORT}
           label="Trier"
+          count={
+            visibleFilters.sort === AnimalSearchParams.Sort.RELEVANCE ? 0 : 1
+          }
           hiddenContent={
             <input
               type="hidden"
@@ -147,6 +150,22 @@ export function AnimalFilters({
 
               <SuggestionLabel icon={<Icon id="arrowDownAZ" />}>
                 Alphabétique
+              </SuggestionLabel>
+            </Suggestion>
+
+            <Suggestion>
+              <SuggestionInput
+                type="radio"
+                name={AnimalSearchParams.Keys.SORT}
+                value={AnimalSearchParams.Sort.BIRTHDATE}
+                checked={
+                  visibleFilters.sort === AnimalSearchParams.Sort.BIRTHDATE
+                }
+                onChange={() => {}}
+              />
+
+              <SuggestionLabel icon={<Icon id="cakeCandles" />}>
+                Date de naissance
               </SuggestionLabel>
             </Suggestion>
           </Suggestions>

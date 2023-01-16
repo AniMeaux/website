@@ -207,6 +207,8 @@ export async function loader({ request }: LoaderArgs) {
         orderBy:
           sort === AnimalSearchParams.Sort.NAME
             ? { name: "asc" }
+            : sort === AnimalSearchParams.Sort.BIRTHDATE
+            ? { birthdate: "desc" }
             : sort === AnimalSearchParams.Sort.PICK_UP || nameOrAlias == null
             ? { pickUpDate: "desc" }
             : undefined,
