@@ -8,6 +8,7 @@ import { ensureDate, parseOrDefault } from "~/core/schemas";
 
 export class AnimalSearchParams extends URLSearchParams {
   static readonly Sort = {
+    BIRTHDATE: "BIRTHDATE",
     NAME: "NAME",
     PICK_UP: "PICK_UP",
     RELEVANCE: "RELEVANCE",
@@ -69,6 +70,22 @@ export class AnimalSearchParams extends URLSearchParams {
         .default(AnimalSearchParams.Sort.RELEVANCE),
       this.get(AnimalSearchParams.Keys.SORT)
     );
+  }
+
+  setSort(
+    sort:
+      | null
+      | typeof AnimalSearchParams.Sort[keyof typeof AnimalSearchParams.Sort]
+  ) {
+    const copy = new AnimalSearchParams(this);
+
+    if (sort != null) {
+      copy.set(AnimalSearchParams.Keys.SORT, sort);
+    } else if (copy.has(AnimalSearchParams.Keys.SORT)) {
+      copy.delete(AnimalSearchParams.Keys.SORT);
+    }
+
+    return copy;
   }
 
   getNameOrAlias() {
