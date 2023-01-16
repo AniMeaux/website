@@ -8,6 +8,7 @@ export function Empty({
   action,
   isCompact = false,
   titleElementType: TitleElementType = "h1",
+  className,
 }: {
   icon: string;
   iconAlt: string;
@@ -16,9 +17,15 @@ export function Empty({
   action?: React.ReactNode;
   isCompact?: boolean;
   titleElementType?: React.ElementType;
+  className?: string;
 }) {
   return (
-    <section className="w-full p-2 flex flex-col items-center justify-start gap-4">
+    <section
+      className={cn(
+        className,
+        "w-full p-2 flex flex-col items-center justify-center gap-4"
+      )}
+    >
       <div
         role="img"
         aria-label={iconAlt}

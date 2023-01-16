@@ -175,7 +175,7 @@ export default function AnimalDashboard() {
 
   return (
     <PageContent className="flex flex-col gap-1 md:gap-2">
-      <section className="grid grid-cols-1 gap-1 md:grid-cols-2 md:gap-2 md:items-start">
+      <section className="grid grid-cols-1 gap-1 md:grid-cols-2 md:gap-2">
         <AnimalsToVaccinateCard />
         <AnimalsToSterilizeCard />
       </section>
@@ -183,6 +183,76 @@ export default function AnimalDashboard() {
       {isCurrentUserManager ? <ManagedAnimalsCard /> : null}
       <ActiveAnimalsCard />
     </PageContent>
+  );
+}
+
+function AnimalsToVaccinateCard() {
+  const { animalToVaccinateCount, animalsToVaccinate } =
+    useLoaderData<typeof loader>();
+
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>
+          {animalToVaccinateCount === 0
+            ? "Vaccinations prévues"
+            : animalToVaccinateCount > 1
+            ? `${animalToVaccinateCount} vaccinations prévues`
+            : "1 vaccination prévue"}
+        </CardTitle>
+
+        {animalToVaccinateCount > 0 ? (
+          <BaseLink
+            to={{
+              pathname: "/animals/search",
+              search: new AnimalSearchParams()
+                .setSort(AnimalSearchParams.Sort.VACCINATION)
+                .setMaxVaccinationDate(
+                  DateTime.now().plus({ days: 15 }).toJSDate()
+                )
+                .setStatuses(ACTIVE_ANIMAL_STATUS)
+                .toString(),
+            }}
+            className={actionClassName.standalone({
+              variant: "text",
+            })}
+          >
+            Tout voir
+          </BaseLink>
+        ) : null}
+      </CardHeader>
+
+      <CardContent>
+        {animalToVaccinateCount === 0 ? (
+          <Empty
+            isCompact
+            icon="💉"
+            iconAlt="Seringue"
+            title="Aucun animal à vacciner"
+            message="Dans les 15 jours à venir."
+            titleElementType="h3"
+            className="h-full"
+          />
+        ) : (
+          <ul className="grid grid-cols-1 gap-x-2 gap-y-1 xs:grid-cols-[repeat(auto-fill,minmax(300px,1fr))] md:gap-x-4 md:gap-y-2">
+            {animalsToVaccinate.map((animal) => (
+              <li key={animal.id} className="flex flex-col">
+                <AnimalSmallItem
+                  animal={animal}
+                  hasError={hasPastVaccination(animal)}
+                  secondaryLabel={
+                    <span className="first-letter:capitalize">
+                      {formatNextVaccinationDate(animal)}
+                    </span>
+                  }
+                  imageLoading="eager"
+                />
+              </li>
+            ))}
+          </ul>
+        )}
+      </CardContent>
+    </Card>
   );
 }
 
@@ -227,11 +297,13 @@ function AnimalsToSterilizeCard() {
       <CardContent>
         {animalToSterilizeCount === 0 ? (
           <Empty
+            isCompact
             icon="✂️"
             iconAlt="Ciseaux"
             title="Aucun animal à stériliser"
             message="À leur 6 mois, chiens et chats doivent être stérilisés."
             titleElementType="h3"
+            className="h-full"
           />
         ) : (
           <ul className="grid grid-cols-1 gap-x-2 gap-y-1 xs:grid-cols-[repeat(auto-fill,minmax(300px,1fr))] md:gap-x-4 md:gap-y-2">
@@ -240,74 +312,6 @@ function AnimalsToSterilizeCard() {
                 <AnimalSmallItem
                   animal={animal}
                   secondaryLabel={formatAge(animal.birthdate)}
-                  imageLoading="eager"
-                />
-              </li>
-            ))}
-          </ul>
-        )}
-      </CardContent>
-    </Card>
-  );
-}
-
-function AnimalsToVaccinateCard() {
-  const { animalToVaccinateCount, animalsToVaccinate } =
-    useLoaderData<typeof loader>();
-
-  return (
-    <Card>
-      <CardHeader>
-        <CardTitle>
-          {animalToVaccinateCount === 0
-            ? "Vaccinations prévues"
-            : animalToVaccinateCount > 1
-            ? `${animalToVaccinateCount} vaccinations prévues`
-            : "1 vaccination prévue"}
-        </CardTitle>
-
-        {animalToVaccinateCount > 0 ? (
-          <BaseLink
-            to={{
-              pathname: "/animals/search",
-              search: new AnimalSearchParams()
-                .setSort(AnimalSearchParams.Sort.VACCINATION)
-                .setMaxVaccinationDate(
-                  DateTime.now().plus({ days: 15 }).toJSDate()
-                )
-                .setStatuses(ACTIVE_ANIMAL_STATUS)
-                .toString(),
-            }}
-            className={actionClassName.standalone({
-              variant: "text",
-            })}
-          >
-            Tout voir
-          </BaseLink>
-        ) : null}
-      </CardHeader>
-
-      <CardContent>
-        {animalToVaccinateCount === 0 ? (
-          <Empty
-            icon="💉"
-            iconAlt="Seringue"
-            title="Aucun animal à vacciner"
-            message="Dans les 15 jours à venir."
-            titleElementType="h3"
-          />
-        ) : (
-          <ul className="grid grid-cols-1 gap-x-2 gap-y-1 xs:grid-cols-[repeat(auto-fill,minmax(300px,1fr))] md:gap-x-4 md:gap-y-2">
-            {animalsToVaccinate.map((animal) => (
-              <li key={animal.id} className="flex flex-col">
-                <AnimalSmallItem
-                  animal={animal}
-                  hasError={hasPastVaccination(animal)}
-                  secondaryLabel={
-                    <span className="first-letter:capitalize">
-                      {formatNextVaccinationDate(animal)}
-                    </span>
-                  }
                   imageLoading="eager"
                 />
               </li>
