@@ -165,6 +165,22 @@ export async function loader({ request }: LoaderArgs) {
     });
   }
 
+  const minVaccinationDate = animalSearchParams.getMinVaccinationDate();
+  const maxVaccinationDate = animalSearchParams.getMaxVaccinationDate();
+  if (minVaccinationDate != null || maxVaccinationDate != null) {
+    const nextVaccinationDate: Prisma.DateTimeFilter = {};
+
+    if (minVaccinationDate != null) {
+      nextVaccinationDate.gte = minVaccinationDate;
+    }
+
+    if (maxVaccinationDate != null) {
+      nextVaccinationDate.lte = maxVaccinationDate;
+    }
+
+    where.push({ nextVaccinationDate });
+  }
+
   const sort = animalSearchParams.getSort();
 
   let [managers, fosterFamilies, possiblePickUpLocations, totalCount, animals] =
@@ -209,22 +225,25 @@ export async function loader({ request }: LoaderArgs) {
             ? { name: "asc" }
             : sort === AnimalSearchParams.Sort.BIRTHDATE
             ? { birthdate: "desc" }
+            : sort === AnimalSearchParams.Sort.VACCINATION
+            ? { nextVaccinationDate: "asc" }
             : sort === AnimalSearchParams.Sort.PICK_UP || nameOrAlias == null
             ? { pickUpDate: "desc" }
             : undefined,
         where: { AND: where },
         select: {
-          id: true,
+          alias: true,
           avatar: true,
           birthdate: true,
-          name: true,
-          alias: true,
           gender: true,
+          id: true,
           isSterilizationMandatory: true,
           isSterilized: true,
+          manager: { select: { displayName: true } },
+          name: true,
+          nextVaccinationDate: true,
           species: true,
           status: true,
-          manager: { select: { displayName: true } },
         },
       }),
     ]);

@@ -13,6 +13,7 @@ type SituationKeys =
   | "isSterilizationMandatory"
   | "isSterilized"
   | "managerId"
+  | "nextVaccinationDate"
   | "pickUpDate"
   | "pickUpLocation"
   | "pickUpReason"

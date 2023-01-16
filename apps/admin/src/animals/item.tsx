@@ -4,6 +4,11 @@ import { forwardRef } from "react";
 import { AnimalAvatar } from "~/animals/avatar";
 import { GENDER_ICON, GENDER_TRANSLATION } from "~/animals/gender";
 import { getAnimalDisplayName } from "~/animals/profile/name";
+import {
+  hasPastVaccination,
+  hasUpCommingSterilisation,
+  hasUpCommingVaccination,
+} from "~/animals/situation/health";
 import { getSpeciesLabels } from "~/animals/species";
 import { StatusBadge } from "~/animals/status";
 import { BaseLink } from "~/core/baseLink";
@@ -14,7 +19,6 @@ import {
   SuggestionItemProps,
 } from "~/core/formElements/resourceInput";
 import { Icon } from "~/generated/icon";
-import { hasUpCommingSterilisation } from "./situation/sterilization";
 
 export function AnimalItem({
   animal,
@@ -33,6 +37,7 @@ export function AnimalItem({
       | "isSterilizationMandatory"
       | "isSterilized"
       | "name"
+      | "nextVaccinationDate"
       | "species"
       | "status"
     >
@@ -62,11 +67,25 @@ export function AnimalItem({
         />
 
         <span className="absolute bottom-0 left-0 w-full p-0.5 flex justify-end">
-          {hasUpCommingSterilisation(animal) ? (
-            <span className="mr-auto h-2 rounded-0.5 px-0.5 flex items-center bg-orange-500 text-white text-[14px]">
-              <Icon id="scissors" />
-            </span>
-          ) : null}
+          <span className="mr-auto flex gap-0.5">
+            {hasPastVaccination(animal) ? (
+              <NotificationBadge variant="error">
+                <Icon id="syringe" />
+              </NotificationBadge>
+            ) : null}
+
+            {hasUpCommingVaccination(animal) ? (
+              <NotificationBadge variant="warning">
+                <Icon id="syringe" />
+              </NotificationBadge>
+            ) : null}
+
+            {hasUpCommingSterilisation(animal) ? (
+              <NotificationBadge variant="warning">
+                <Icon id="scissors" />
+              </NotificationBadge>
+            ) : null}
+          </span>
 
           <StatusBadge status={animal.status} />
         </span>
@@ -108,10 +127,32 @@ export function AnimalItem({
   );
 }
 
+type NotificationBadgeVariant = "error" | "warning";
+
+function NotificationBadge({
+  variant,
+  children,
+}: {
+  variant: NotificationBadgeVariant;
+  children?: React.ReactNode;
+}) {
+  return (
+    <span
+      className={cn(
+        "h-2 rounded-0.5 px-0.5 flex items-center text-white text-[14px]",
+        variant === "error" ? "bg-red-500" : "bg-orange-500"
+      )}
+    >
+      {children}
+    </span>
+  );
+}
+
 export function AnimalSmallItem({
   animal,
   imageLoading,
   secondaryLabel,
+  hasError = false,
   className,
 }: {
   animal: Pick<
@@ -120,6 +161,7 @@ export function AnimalSmallItem({
   >;
   secondaryLabel: React.ReactNode;
   imageLoading?: DynamicImageProps["loading"];
+  hasError?: boolean;
   className?: string;
 }) {
   return (
@@ -158,7 +200,14 @@ export function AnimalSmallItem({
           </span>
         </p>
 
-        <p className="flex text-caption-default text-gray-500">
+        <p
+          className={cn(
+            "flex",
+            hasError
+              ? "text-caption-emphasis text-red-500"
+              : "text-caption-default text-gray-500"
+          )}
+        >
           {secondaryLabel}
         </p>
       </div>

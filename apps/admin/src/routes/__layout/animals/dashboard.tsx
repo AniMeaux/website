@@ -3,8 +3,14 @@ import { Prisma, Species, Status, UserGroup } from "@prisma/client";
 import { json, LoaderArgs } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { DateTime } from "luxon";
+import { promiseHash } from "remix-utils";
+import invariant from "tiny-invariant";
 import { AnimalItem, AnimalSmallItem } from "~/animals/item";
 import { AnimalSearchParams } from "~/animals/searchParams";
+import {
+  formatNextVaccinationDate,
+  hasPastVaccination,
+} from "~/animals/situation/health";
 import { ACTIVE_ANIMAL_STATUS, SORTED_STATUS } from "~/animals/status";
 import { actionClassName } from "~/core/actions";
 import { BaseLink } from "~/core/baseLink";
@@ -40,6 +46,13 @@ export async function loader({ request }: LoaderArgs) {
     status: { not: Status.DECEASED },
   };
 
+  const animalsToVaccinateWhere: Prisma.AnimalWhereInput = {
+    status: { in: ACTIVE_ANIMAL_STATUS },
+    nextVaccinationDate: {
+      lte: DateTime.now().plus({ days: 15 }).toJSDate(),
+    },
+  };
+
   const managedAnimalswhere: Prisma.AnimalWhereInput = {
     managerId: currentUser.id,
     status: { in: ACTIVE_ANIMAL_STATUS },
@@ -49,16 +62,10 @@ export async function loader({ request }: LoaderArgs) {
     UserGroup.ANIMAL_MANAGER,
   ]);
 
-  const [
-    activeAnimalCount,
-    activeAnimals,
-    animalToSterilizeCount,
-    animalsToSterilize,
-    managedAnimalCount,
-    managedAnimals,
-  ] = await Promise.all([
-    prisma.animal.count({ where: activeAnimalsWhere }),
-    prisma.animal.findMany({
+  const data = await promiseHash({
+    activeAnimalCount: prisma.animal.count({ where: activeAnimalsWhere }),
+
+    activeAnimals: prisma.animal.findMany({
       take: 12,
       where: activeAnimalsWhere,
       orderBy: { pickUpDate: "desc" },
@@ -72,13 +79,17 @@ export async function loader({ request }: LoaderArgs) {
         isSterilized: true,
         manager: { select: { displayName: true } },
         name: true,
+        nextVaccinationDate: true,
         species: true,
         status: true,
       },
     }),
 
-    prisma.animal.count({ where: animalsToSterilizeWhere }),
-    prisma.animal.findMany({
+    animalToSterilizeCount: prisma.animal.count({
+      where: animalsToSterilizeWhere,
+    }),
+
+    animalsToSterilize: prisma.animal.findMany({
       take: 6,
       where: animalsToSterilizeWhere,
       orderBy: { birthdate: "desc" },
@@ -93,11 +104,31 @@ export async function loader({ request }: LoaderArgs) {
       },
     }),
 
-    isCurrentUserManager
+    animalToVaccinateCount: prisma.animal.count({
+      where: animalsToVaccinateWhere,
+    }),
+
+    animalsToVaccinate: prisma.animal.findMany({
+      take: 6,
+      where: animalsToVaccinateWhere,
+      orderBy: { nextVaccinationDate: "asc" },
+      select: {
+        alias: true,
+        birthdate: true,
+        avatar: true,
+        gender: true,
+        id: true,
+        name: true,
+        nextVaccinationDate: true,
+        status: true,
+      },
+    }),
+
+    managedAnimalCount: isCurrentUserManager
       ? prisma.animal.count({ where: managedAnimalswhere })
       : Promise.resolve(0),
 
-    isCurrentUserManager
+    managedAnimals: isCurrentUserManager
       ? prisma.animal.findMany({
           take: 12,
           where: managedAnimalswhere,
@@ -111,22 +142,31 @@ export async function loader({ request }: LoaderArgs) {
             isSterilizationMandatory: true,
             isSterilized: true,
             name: true,
+            nextVaccinationDate: true,
             species: true,
             status: true,
           },
         })
-      : [],
-  ]);
+      : Promise.resolve([]),
+  });
 
   return json({
+    ...data,
     isCurrentUserManager,
     currentUser,
-    activeAnimalCount,
-    activeAnimals,
-    animalToSterilizeCount,
-    animalsToSterilize,
-    managedAnimalCount,
-    managedAnimals,
+
+    // Just for type checking.
+    // At this point `nextVaccinationDate` must be defined.
+    animalsToVaccinate: data.animalsToVaccinate.map(
+      ({ nextVaccinationDate, ...animal }) => {
+        invariant(
+          nextVaccinationDate != null,
+          "nextVaccinationDate should be defined"
+        );
+
+        return { ...animal, nextVaccinationDate };
+      }
+    ),
   });
 }
 
@@ -135,7 +175,11 @@ export default function AnimalDashboard() {
 
   return (
     <PageContent className="flex flex-col gap-1 md:gap-2">
-      <AnimalsToSterilizeCard />
+      <section className="grid grid-cols-1 gap-1 md:grid-cols-2 md:gap-2 md:items-start">
+        <AnimalsToVaccinateCard />
+        <AnimalsToSterilizeCard />
+      </section>
+
       {isCurrentUserManager ? <ManagedAnimalsCard /> : null}
       <ActiveAnimalsCard />
     </PageContent>
@@ -196,6 +240,74 @@ function AnimalsToSterilizeCard() {
                 <AnimalSmallItem
                   animal={animal}
                   secondaryLabel={formatAge(animal.birthdate)}
+                  imageLoading="eager"
+                />
+              </li>
+            ))}
+          </ul>
+        )}
+      </CardContent>
+    </Card>
+  );
+}
+
+function AnimalsToVaccinateCard() {
+  const { animalToVaccinateCount, animalsToVaccinate } =
+    useLoaderData<typeof loader>();
+
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>
+          {animalToVaccinateCount === 0
+            ? "Vaccinations prévues"
+            : animalToVaccinateCount > 1
+            ? `${animalToVaccinateCount} vaccinations prévues`
+            : "1 vaccination prévue"}
+        </CardTitle>
+
+        {animalToVaccinateCount > 0 ? (
+          <BaseLink
+            to={{
+              pathname: "/animals/search",
+              search: new AnimalSearchParams()
+                .setSort(AnimalSearchParams.Sort.VACCINATION)
+                .setMaxVaccinationDate(
+                  DateTime.now().plus({ days: 15 }).toJSDate()
+                )
+                .setStatuses(ACTIVE_ANIMAL_STATUS)
+                .toString(),
+            }}
+            className={actionClassName.standalone({
+              variant: "text",
+            })}
+          >
+            Tout voir
+          </BaseLink>
+        ) : null}
+      </CardHeader>
+
+      <CardContent>
+        {animalToVaccinateCount === 0 ? (
+          <Empty
+            icon="💉"
+            iconAlt="Seringue"
+            title="Aucun animal à vacciner"
+            message="Dans les 15 jours à venir."
+            titleElementType="h3"
+          />
+        ) : (
+          <ul className="grid grid-cols-1 gap-x-2 gap-y-1 xs:grid-cols-[repeat(auto-fill,minmax(300px,1fr))] md:gap-x-4 md:gap-y-2">
+            {animalsToVaccinate.map((animal) => (
+              <li key={animal.id} className="flex flex-col">
+                <AnimalSmallItem
+                  animal={animal}
+                  hasError={hasPastVaccination(animal)}
+                  secondaryLabel={
+                    <span className="first-letter:capitalize">
+                      {formatNextVaccinationDate(animal)}
+                    </span>
+                  }
                   imageLoading="eager"
                 />
               </li>

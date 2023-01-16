@@ -57,6 +57,12 @@ export const ActionFormData = createActionData(
       required_error: "Veuillez choisir une option",
     }),
     managerId: z.string().uuid().optional(),
+    nextVaccinationDate: z.preprocess(
+      ensureDate,
+      z
+        .date({ invalid_type_error: "Veuillez entrer une date valide" })
+        .optional()
+    ),
     pickUpDate: z.preprocess(
       ensureDate,
       z.date({
@@ -89,6 +95,7 @@ export function AnimalSituationForm({
       | "comments"
       | "isSterilizationMandatory"
       | "isSterilized"
+      | "nextVaccinationDate"
       | "pickUpDate"
       | "pickUpLocation"
       | "pickUpReason"
@@ -111,6 +118,7 @@ export function AnimalSituationForm({
   const commentsRef = useRef<HTMLTextAreaElement>(null);
   const isSterilizedRef = useRef<HTMLInputElement>(null);
   const managerRef = useRef<HTMLButtonElement>(null);
+  const nextVaccinationDateRef = useRef<HTMLInputElement>(null);
   const pickUpDateRef = useRef<HTMLInputElement>(null);
   const pickUpLocationRef = useRef<HTMLButtonElement>(null);
 
@@ -129,6 +137,8 @@ export function AnimalSituationForm({
         pickUpLocationRef.current?.focus();
       } else if (fetcher.data.errors.fieldErrors.isSterilized != null) {
         isSterilizedRef.current?.focus();
+      } else if (fetcher.data.errors.fieldErrors.nextVaccinationDate != null) {
+        nextVaccinationDateRef.current?.focus();
       }
     }
   }, [fetcher.data?.errors]);
@@ -378,51 +388,97 @@ export function AnimalSituationForm({
 
         <Separator />
 
-        <div className={formClassNames.fields.field.root()}>
-          <span className={formClassNames.fields.field.label()}>
-            Stérilisé <RequiredStart />
-          </span>
+        <div className={formClassNames.fields.row()}>
+          <div className={formClassNames.fields.field.root()}>
+            <span className={formClassNames.fields.field.label()}>
+              Stérilisé <RequiredStart />
+            </span>
 
-          <div className="py-1 flex flex-wrap gap-2">
-            <RadioInput
-              ref={isSterilizedRef}
-              label="Oui"
-              name={ActionFormData.keys.isSterilized}
-              value={ActionFormData.schema.shape.isSterilized.Enum.YES}
-              defaultChecked={defaultAnimal?.isSterilized}
-              aria-describedby="isSterilized-error"
-            />
+            <div className="py-1 flex flex-wrap gap-2">
+              <RadioInput
+                ref={isSterilizedRef}
+                label="Oui"
+                name={ActionFormData.keys.isSterilized}
+                value={ActionFormData.schema.shape.isSterilized.Enum.YES}
+                defaultChecked={defaultAnimal?.isSterilized}
+                aria-describedby="isSterilized-error"
+              />
 
-            <RadioInput
-              label="Non"
-              name={ActionFormData.keys.isSterilized}
-              value={ActionFormData.schema.shape.isSterilized.Enum.NO}
-              defaultChecked={
-                !defaultAnimal?.isSterilized &&
-                defaultAnimal?.isSterilizationMandatory !== false
-              }
-              aria-describedby="isSterilized-error"
-            />
+              <RadioInput
+                label="Non"
+                name={ActionFormData.keys.isSterilized}
+                value={ActionFormData.schema.shape.isSterilized.Enum.NO}
+                defaultChecked={
+                  !defaultAnimal?.isSterilized &&
+                  defaultAnimal?.isSterilizationMandatory !== false
+                }
+                aria-describedby="isSterilized-error"
+              />
 
-            <RadioInput
-              label="Non, et ne le sera pas"
-              name={ActionFormData.keys.isSterilized}
-              value={
-                ActionFormData.schema.shape.isSterilized.Enum.NOT_MANDATORY
-              }
-              defaultChecked={defaultAnimal?.isSterilizationMandatory === false}
-              aria-describedby="isSterilized-error"
-            />
+              <RadioInput
+                label="Non, et ne le sera pas"
+                name={ActionFormData.keys.isSterilized}
+                value={
+                  ActionFormData.schema.shape.isSterilized.Enum.NOT_MANDATORY
+                }
+                defaultChecked={
+                  defaultAnimal?.isSterilizationMandatory === false
+                }
+                aria-describedby="isSterilized-error"
+              />
+            </div>
+
+            {fetcher.data?.errors?.fieldErrors.isSterilized != null ? (
+              <p
+                id="isSterilized-error"
+                className={formClassNames.fields.field.errorMessage()}
+              >
+                {fetcher.data.errors.fieldErrors.isSterilized}
+              </p>
+            ) : null}
           </div>
 
-          {fetcher.data?.errors?.fieldErrors.isSterilized != null ? (
-            <p
-              id="isSterilized-error"
-              className={formClassNames.fields.field.errorMessage()}
+          <div className={formClassNames.fields.field.root()}>
+            <label
+              htmlFor={ActionFormData.keys.nextVaccinationDate}
+              className={formClassNames.fields.field.label()}
             >
-              {fetcher.data.errors.fieldErrors.isSterilized}
-            </p>
-          ) : null}
+              Prochaine vaccination
+            </label>
+
+            <Input
+              ref={nextVaccinationDateRef}
+              id={ActionFormData.keys.nextVaccinationDate}
+              type="date"
+              min={DateTime.now().toISODate()}
+              name={ActionFormData.keys.nextVaccinationDate}
+              defaultValue={
+                defaultAnimal?.nextVaccinationDate == null
+                  ? null
+                  : DateTime.fromISO(
+                      defaultAnimal.nextVaccinationDate
+                    ).toISODate()
+              }
+              hasError={
+                fetcher.data?.errors?.fieldErrors.nextVaccinationDate != null
+              }
+              aria-describedby="nextVaccinationDate-error"
+              leftAdornment={
+                <Adornment>
+                  <Icon id="calendarDays" />
+                </Adornment>
+              }
+            />
+
+            {fetcher.data?.errors?.fieldErrors.nextVaccinationDate != null ? (
+              <p
+                id="nextVaccinationDate-error"
+                className={formClassNames.fields.field.errorMessage()}
+              >
+                {fetcher.data.errors.fieldErrors.nextVaccinationDate}
+              </p>
+            ) : null}
+          </div>
         </div>
 
         <Separator />

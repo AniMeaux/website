@@ -95,6 +95,7 @@ export async function action({ request }: ActionArgs) {
         formData.data.isSterilized ===
         ActionFormData.schema.shape.isSterilized.Enum.YES,
       managerId: formData.data.managerId ?? null,
+      nextVaccinationDate: formData.data.nextVaccinationDate ?? null,
       pickUpDate: formData.data.pickUpDate,
       pickUpLocation: formData.data.pickUpLocation ?? null,
       pickUpReason: formData.data.pickUpReason,
