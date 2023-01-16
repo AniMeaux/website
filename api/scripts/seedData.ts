@@ -319,24 +319,6 @@ function createAnimalInput({
   const isSterilized = faker.datatype.boolean();
 
   return {
-    name: faker.name.firstName(),
-    alias: faker.helpers.maybe(() => faker.name.firstName()),
-    birthdate,
-    gender: faker.helpers.arrayElement(Object.values(Gender)),
-    species,
-    breedId: breeds.length > 0 ? faker.helpers.arrayElement(breeds) : null,
-    colorId: faker.helpers.maybe(() => faker.helpers.arrayElement(colors).id),
-    description: faker.helpers.maybe(() =>
-      faker.lorem.paragraphs(faker.datatype.number({ min: 1, max: 5 }), "\n\n")
-    ),
-    avatar: faker.datatype.uuid(),
-    pictures: faker.helpers.maybe(() =>
-      repeate({ min: 1, max: 5 }, () => faker.datatype.uuid())
-    ),
-    pickUpDate,
-    pickUpLocation: faker.helpers.maybe(() => faker.address.city()),
-    pickUpReason: faker.helpers.arrayElement(Object.values(PickUpReason)),
-    status,
     adoptionDate:
       status === Status.ADOPTED
         ? DateTime.fromJSDate(
@@ -349,20 +331,41 @@ function createAnimalInput({
       status === Status.ADOPTED
         ? faker.helpers.arrayElement(Object.values(AdoptionOption))
         : null,
-    managerId: faker.helpers.maybe(
-      () => faker.helpers.arrayElement(managers).id,
-      { probability: 3 / 4 }
+    alias: faker.helpers.maybe(() => faker.name.firstName()),
+    avatar: faker.datatype.uuid(),
+    birthdate,
+    breedId: breeds.length > 0 ? faker.helpers.arrayElement(breeds) : null,
+    colorId: faker.helpers.maybe(() => faker.helpers.arrayElement(colors).id),
+    comments: faker.helpers.maybe(() => faker.lorem.lines()),
+    description: faker.helpers.maybe(() =>
+      faker.lorem.paragraphs(faker.datatype.number({ min: 1, max: 5 }), "\n\n")
     ),
     fosterFamilyId: ACTIVE_ANIMAL_STATUS.includes(status)
       ? faker.helpers.arrayElement(fosterFamilies).id
       : null,
+    gender: faker.helpers.arrayElement(Object.values(Gender)),
     iCadNumber: faker.helpers.maybe(() => faker.random.numeric(15)),
-    comments: faker.helpers.maybe(() => faker.lorem.lines()),
     isOkCats: nullableBoolean(),
     isOkChildren: nullableBoolean(),
     isOkDogs: nullableBoolean(),
     isSterilizationMandatory: isSterilized || faker.datatype.boolean(),
     isSterilized,
+    managerId: faker.helpers.maybe(
+      () => faker.helpers.arrayElement(managers).id,
+      { probability: 3 / 4 }
+    ),
+    name: faker.name.firstName(),
+    nextVaccinationDate: faker.helpers.maybe(() =>
+      DateTime.fromJSDate(faker.date.soon(30)).startOf("day").toJSDate()
+    ),
+    pickUpDate,
+    pickUpLocation: faker.helpers.maybe(() => faker.address.city()),
+    pickUpReason: faker.helpers.arrayElement(Object.values(PickUpReason)),
+    pictures: faker.helpers.maybe(() =>
+      repeate({ min: 1, max: 5 }, () => faker.datatype.uuid())
+    ),
+    species,
+    status,
   };
 }
 

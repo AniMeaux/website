@@ -96,6 +96,7 @@ export async function loader({ request, params }: LoaderArgs) {
         isSterilized: true,
         manager: { select: { displayName: true } },
         name: true,
+        nextVaccinationDate: true,
         species: true,
         status: true,
       },

@@ -60,10 +60,9 @@ export function CardContent({
         hasHorizontalScroll
           ? "scrollbars-none overflow-x-auto"
           : "px-1 md:px-2",
-        {
-          "flex-1 overflow-y-scroll scrollbars-custom overscroll-contain":
-            hasVerticalScroll,
-        }
+        hasVerticalScroll
+          ? "flex-1 overflow-y-scroll scrollbars-custom overscroll-contain"
+          : "flex-auto"
       )}
     >
       {children}

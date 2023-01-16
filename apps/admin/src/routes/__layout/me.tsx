@@ -43,6 +43,7 @@ export async function loader({ request }: LoaderArgs) {
         isSterilizationMandatory: true,
         isSterilized: true,
         name: true,
+        nextVaccinationDate: true,
         species: true,
         status: true,
       },
