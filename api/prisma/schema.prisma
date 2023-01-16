@@ -106,6 +106,7 @@ model Animal {
   manager                  User?           @relation(fields: [managerId], references: [id], onDelete: Restrict)
   managerId                String?
   name                     String          @db.VarChar(255)
+  nextVaccinationDate      DateTime?
   pickUpDate               DateTime
   pickUpLocation           String?
   pickUpReason             PickUpReason    @default(OTHER)
@@ -146,6 +147,7 @@ model AnimalDraft {
   manager                  User?           @relation("Draft_managerToUser", fields: [managerId], references: [id])
   managerId                String?
   name                     String?         @db.VarChar(255)
+  nextVaccinationDate      DateTime?
   owner                    User            @relation("Draft_ownerToUser", fields: [ownerId], references: [id], onDelete: Cascade)
   ownerId                  String          @unique
   pickUpDate               DateTime?

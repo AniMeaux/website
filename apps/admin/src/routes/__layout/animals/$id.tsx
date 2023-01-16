@@ -20,7 +20,12 @@ import { PICK_UP_REASON_TRANSLATION } from "~/animals/pickUp";
 import { ActionFormData as ProfileActionFormData } from "~/animals/profile/form";
 import { getAnimalDisplayName } from "~/animals/profile/name";
 import { ActionFormData as SituationActionFormData } from "~/animals/situation/form";
-import { hasUpCommingSterilisation } from "~/animals/situation/sterilization";
+import {
+  formatNextVaccinationDate,
+  hasPastVaccination,
+  hasUpCommingSterilisation,
+  hasUpCommingVaccination,
+} from "~/animals/situation/health";
 import { getSpeciesLabels, SPECIES_ICON } from "~/animals/species";
 import { StatusBadge, StatusIcon, STATUS_TRANSLATION } from "~/animals/status";
 import { actionClassName } from "~/core/actions";
@@ -116,6 +121,7 @@ export async function loader({ request, params }: LoaderArgs) {
       isSterilized: true,
       manager: { select: { id: true, displayName: true } },
       name: true,
+      nextVaccinationDate: true,
       pickUpDate: true,
       pickUpLocation: true,
       pickUpReason: true,
@@ -355,6 +361,20 @@ function SituationCard() {
       </CardHeader>
 
       <CardContent>
+        {hasUpCommingVaccination(animal) ? (
+          <Helper isCompact variant="warning" icon={<Icon id="syringe" />}>
+            Prochaine vaccination {formatNextVaccinationDate(animal)}.
+          </Helper>
+        ) : null}
+
+        {hasPastVaccination(animal) ? (
+          <Helper isCompact variant="error" icon={<Icon id="syringe" />}>
+            Une vaccination était prévue {formatNextVaccinationDate(animal)}.
+            <br />
+            Pensez à mettre à jour la prochaine date.
+          </Helper>
+        ) : null}
+
         {hasUpCommingSterilisation(animal) ? (
           <Helper isCompact variant="warning" icon={<Icon id="scissors" />}>
             Stérilisation à prévoir.
@@ -493,6 +513,17 @@ function SituationCard() {
               </>
             )}
           </Item>
+
+          {animal.nextVaccinationDate != null ? (
+            <Item icon={<Icon id="syringe" />}>
+              Prochaine vaccination le{" "}
+              <strong className="text-body-emphasis">
+                {DateTime.fromISO(animal.nextVaccinationDate).toLocaleString(
+                  DateTime.DATE_FULL
+                )}
+              </strong>
+            </Item>
+          ) : null}
 
           <Item icon={<Icon id="handHoldingHeart" />}>
             {animal.gender === Gender.FEMALE

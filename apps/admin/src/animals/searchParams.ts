@@ -12,6 +12,7 @@ export class AnimalSearchParams extends URLSearchParams {
     NAME: "NAME",
     PICK_UP: "PICK_UP",
     RELEVANCE: "RELEVANCE",
+    VACCINATION: "VACCINATION",
   } as const;
 
   static readonly IsSterilized = {
@@ -27,8 +28,10 @@ export class AnimalSearchParams extends URLSearchParams {
     MANAGERS_ID: "manager",
     MAX_BIRTHDATE: "maxBirth",
     MAX_PICK_UP_DATE: "pickUpMax",
+    MAX_VACCINATION: "vaccMax",
     MIN_BIRTHDATE: "minBirth",
     MIN_PICK_UP_DATE: "pickUpMin",
+    MIN_VACCINATION: "vaccMin",
     NAME_OR_ALIAS: "q",
     PICK_UP_LOCATION: "pickUpLoc",
     SORT: "sort",
@@ -42,24 +45,26 @@ export class AnimalSearchParams extends URLSearchParams {
 
   areFiltersEqual(other: AnimalSearchParams) {
     return (
-      isEqual(orderBy(this.getSpecies()), orderBy(other.getSpecies())) &&
-      isEqual(this.getNameOrAlias(), other.getNameOrAlias()) &&
-      isEqual(orderBy(this.getStatuses()), orderBy(other.getStatuses())) &&
       isEqual(orderBy(this.getAges()), orderBy(other.getAges())) &&
-      isEqual(orderBy(this.getManagersId()), orderBy(other.getManagersId())) &&
       isEqual(
         orderBy(this.getFosterFamiliesId()),
         orderBy(other.getFosterFamiliesId())
       ) &&
-      isEqual(this.getMinPickUpDate(), other.getMinPickUpDate()) &&
-      isEqual(this.getMaxPickUpDate(), other.getMaxPickUpDate()) &&
-      isEqual(this.getMinBirthdate(), other.getMinBirthdate()) &&
-      isEqual(this.getMaxBirthdate(), other.getMaxBirthdate()) &&
       isEqual(this.getIsSterilized(), other.getIsSterilized()) &&
+      isEqual(orderBy(this.getManagersId()), orderBy(other.getManagersId())) &&
+      isEqual(this.getMaxBirthdate(), other.getMaxBirthdate()) &&
+      isEqual(this.getMaxPickUpDate(), other.getMaxPickUpDate()) &&
+      isEqual(this.getMaxVaccinationDate(), other.getMaxVaccinationDate()) &&
+      isEqual(this.getMinBirthdate(), other.getMinBirthdate()) &&
+      isEqual(this.getMinPickUpDate(), other.getMinPickUpDate()) &&
+      isEqual(this.getMinVaccinationDate(), other.getMinVaccinationDate()) &&
+      isEqual(this.getNameOrAlias(), other.getNameOrAlias()) &&
       isEqual(
         orderBy(this.getPickUpLocations()),
         orderBy(other.getPickUpLocations())
-      )
+      ) &&
+      isEqual(orderBy(this.getSpecies()), orderBy(other.getSpecies())) &&
+      isEqual(orderBy(this.getStatuses()), orderBy(other.getStatuses()))
     );
   }
 
@@ -183,6 +188,59 @@ export class AnimalSearchParams extends URLSearchParams {
       );
     } else if (copy.has(AnimalSearchParams.Keys.MAX_BIRTHDATE)) {
       copy.delete(AnimalSearchParams.Keys.MAX_BIRTHDATE);
+    }
+
+    return copy;
+  }
+
+  getMinVaccinationDate() {
+    const date = parseOrDefault(
+      z.preprocess(ensureDate, z.date()).optional(),
+      this.get(AnimalSearchParams.Keys.MIN_VACCINATION)
+    );
+
+    if (date == null) {
+      return null;
+    }
+
+    return DateTime.fromJSDate(date).startOf("day").toJSDate();
+  }
+
+  deleteMinVaccinationDate() {
+    const copy = new AnimalSearchParams(this);
+    copy.delete(AnimalSearchParams.Keys.MIN_VACCINATION);
+    return copy;
+  }
+
+  getMaxVaccinationDate() {
+    const date = parseOrDefault(
+      z.preprocess(ensureDate, z.date()).optional(),
+      this.get(AnimalSearchParams.Keys.MAX_VACCINATION)
+    );
+
+    if (date == null) {
+      return null;
+    }
+
+    return DateTime.fromJSDate(date).startOf("day").toJSDate();
+  }
+
+  deleteMaxVaccinationDate() {
+    const copy = new AnimalSearchParams(this);
+    copy.delete(AnimalSearchParams.Keys.MAX_VACCINATION);
+    return copy;
+  }
+
+  setMaxVaccinationDate(maxVaccinationDate: null | Date) {
+    const copy = new AnimalSearchParams(this);
+
+    if (maxVaccinationDate != null) {
+      copy.set(
+        AnimalSearchParams.Keys.MAX_VACCINATION,
+        DateTime.fromJSDate(maxVaccinationDate).toISODate()
+      );
+    } else if (copy.has(AnimalSearchParams.Keys.MAX_VACCINATION)) {
+      copy.delete(AnimalSearchParams.Keys.MAX_VACCINATION);
     }
 
     return copy;

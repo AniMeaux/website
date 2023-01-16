@@ -54,8 +54,10 @@ export function AnimalFilters({
     managersId: animalSearchParams.getManagersId(),
     maxBirthdate: animalSearchParams.getMaxBirthdate(),
     maxPickUpDate: animalSearchParams.getMaxPickUpDate(),
+    maxVaccinationDate: animalSearchParams.getMaxVaccinationDate(),
     minBirthdate: animalSearchParams.getMinBirthdate(),
     minPickUpDate: animalSearchParams.getMinPickUpDate(),
+    minVaccinationDate: animalSearchParams.getMinVaccinationDate(),
     nameOrAlias: animalSearchParams.getNameOrAlias(),
     pickUpLocations: animalSearchParams.getPickUpLocations(),
     sort: animalSearchParams.getSort(),
@@ -134,7 +136,7 @@ export function AnimalFilters({
                 onChange={() => {}}
               />
 
-              <SuggestionLabel icon={<Icon id="calendarDays" />}>
+              <SuggestionLabel icon={<Icon id="handHoldingHeart" />}>
                 Date de prise en charge
               </SuggestionLabel>
             </Suggestion>
@@ -166,6 +168,22 @@ export function AnimalFilters({
 
               <SuggestionLabel icon={<Icon id="cakeCandles" />}>
                 Date de naissance
+              </SuggestionLabel>
+            </Suggestion>
+
+            <Suggestion>
+              <SuggestionInput
+                type="radio"
+                name={AnimalSearchParams.Keys.SORT}
+                value={AnimalSearchParams.Sort.VACCINATION}
+                checked={
+                  visibleFilters.sort === AnimalSearchParams.Sort.VACCINATION
+                }
+                onChange={() => {}}
+              />
+
+              <SuggestionLabel icon={<Icon id="syringe" />}>
+                Date de vaccination
               </SuggestionLabel>
             </Suggestion>
           </Suggestions>
@@ -285,12 +303,16 @@ export function AnimalFilters({
             </div>
 
             <div className={formClassNames.fields.field.root()}>
-              <span className={formClassNames.fields.field.label()}>
+              <label
+                htmlFor={AnimalSearchParams.Keys.MIN_BIRTHDATE}
+                className={formClassNames.fields.field.label()}
+              >
                 Né après le et incluant
-              </span>
+              </label>
 
               <ControlledInput
                 type="date"
+                id={AnimalSearchParams.Keys.MIN_BIRTHDATE}
                 name={AnimalSearchParams.Keys.MIN_BIRTHDATE}
                 value={toIsoDate(visibleFilters.minBirthdate)}
                 leftAdornment={
@@ -313,12 +335,16 @@ export function AnimalFilters({
             </div>
 
             <div className={formClassNames.fields.field.root()}>
-              <span className={formClassNames.fields.field.label()}>
+              <label
+                htmlFor={AnimalSearchParams.Keys.MAX_BIRTHDATE}
+                className={formClassNames.fields.field.label()}
+              >
                 Né avant le et incluant
-              </span>
+              </label>
 
               <ControlledInput
                 type="date"
+                id={AnimalSearchParams.Keys.MAX_BIRTHDATE}
                 name={AnimalSearchParams.Keys.MAX_BIRTHDATE}
                 value={toIsoDate(visibleFilters.maxBirthdate)}
                 leftAdornment={
@@ -484,12 +510,16 @@ export function AnimalFilters({
         >
           <div className={formClassNames.fields.root()}>
             <div className={formClassNames.fields.field.root()}>
-              <span className={formClassNames.fields.field.label()}>
+              <label
+                htmlFor={AnimalSearchParams.Keys.MIN_PICK_UP_DATE}
+                className={formClassNames.fields.field.label()}
+              >
                 Après le et incluant
-              </span>
+              </label>
 
               <ControlledInput
                 type="date"
+                id={AnimalSearchParams.Keys.MIN_PICK_UP_DATE}
                 name={AnimalSearchParams.Keys.MIN_PICK_UP_DATE}
                 value={toIsoDate(visibleFilters.minPickUpDate)}
                 leftAdornment={
@@ -514,12 +544,16 @@ export function AnimalFilters({
             </div>
 
             <div className={formClassNames.fields.field.root()}>
-              <span className={formClassNames.fields.field.label()}>
+              <label
+                htmlFor={AnimalSearchParams.Keys.MAX_PICK_UP_DATE}
+                className={formClassNames.fields.field.label()}
+              >
                 Avant le et incluant
-              </span>
+              </label>
 
               <ControlledInput
                 type="date"
+                id={AnimalSearchParams.Keys.MAX_PICK_UP_DATE}
                 name={AnimalSearchParams.Keys.MAX_PICK_UP_DATE}
                 value={toIsoDate(visibleFilters.maxPickUpDate)}
                 leftAdornment={
@@ -635,6 +669,99 @@ export function AnimalFilters({
               </SuggestionLabel>
             </Suggestion>
           </Suggestions>
+        </Filter>
+
+        <Filter
+          value={AnimalSearchParams.Keys.MIN_VACCINATION}
+          label="Prochaine vaccination"
+          count={
+            (visibleFilters.minVaccinationDate == null ? 0 : 1) +
+            (visibleFilters.maxVaccinationDate == null ? 0 : 1)
+          }
+          hiddenContent={
+            <>
+              <input
+                type="hidden"
+                name={AnimalSearchParams.Keys.MIN_VACCINATION}
+                value={toIsoDate(visibleFilters.minVaccinationDate)}
+              />
+              <input
+                type="hidden"
+                name={AnimalSearchParams.Keys.MAX_VACCINATION}
+                value={toIsoDate(visibleFilters.maxVaccinationDate)}
+              />
+            </>
+          }
+        >
+          <div className={formClassNames.fields.root()}>
+            <div className={formClassNames.fields.field.root()}>
+              <label
+                htmlFor={AnimalSearchParams.Keys.MIN_VACCINATION}
+                className={formClassNames.fields.field.label()}
+              >
+                Après le et incluant
+              </label>
+
+              <ControlledInput
+                type="date"
+                id={AnimalSearchParams.Keys.MIN_VACCINATION}
+                name={AnimalSearchParams.Keys.MIN_VACCINATION}
+                value={toIsoDate(visibleFilters.minVaccinationDate)}
+                leftAdornment={
+                  <Adornment>
+                    <Icon id="calendarDays" />
+                  </Adornment>
+                }
+                rightAdornment={
+                  visibleFilters.minVaccinationDate != null ? (
+                    <ActionAdornment
+                      onClick={() =>
+                        setSearchParams(
+                          animalSearchParams.deleteMinVaccinationDate()
+                        )
+                      }
+                    >
+                      <Icon id="xMark" />
+                    </ActionAdornment>
+                  ) : null
+                }
+              />
+            </div>
+
+            <div className={formClassNames.fields.field.root()}>
+              <label
+                htmlFor={AnimalSearchParams.Keys.MAX_VACCINATION}
+                className={formClassNames.fields.field.label()}
+              >
+                Avant le et incluant
+              </label>
+
+              <ControlledInput
+                type="date"
+                id={AnimalSearchParams.Keys.MAX_VACCINATION}
+                name={AnimalSearchParams.Keys.MAX_VACCINATION}
+                value={toIsoDate(visibleFilters.maxVaccinationDate)}
+                leftAdornment={
+                  <Adornment>
+                    <Icon id="calendarDays" />
+                  </Adornment>
+                }
+                rightAdornment={
+                  visibleFilters.maxVaccinationDate != null ? (
+                    <ActionAdornment
+                      onClick={() =>
+                        setSearchParams(
+                          animalSearchParams.deleteMaxVaccinationDate()
+                        )
+                      }
+                    >
+                      <Icon id="xMark" />
+                    </ActionAdornment>
+                  ) : null
+                }
+              />
+            </div>
+          </div>
         </Filter>
       </Filters>
     </Form>
