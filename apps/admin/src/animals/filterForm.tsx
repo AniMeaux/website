@@ -136,7 +136,7 @@ export function AnimalFilters({
                 onChange={() => {}}
               />
 
-              <SuggestionLabel icon={<Icon id="calendarDays" />}>
+              <SuggestionLabel icon={<Icon id="handHoldingHeart" />}>
                 Date de prise en charge
               </SuggestionLabel>
             </Suggestion>
