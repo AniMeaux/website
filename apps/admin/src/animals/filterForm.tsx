@@ -38,7 +38,7 @@ export function AnimalFilters({
   fosterFamilies,
   possiblePickUpLocations,
 }: {
-  currentUser: ManagerActiveFilterLinkProps["currentUser"];
+  currentUser: Pick<User, "groups" | "id">;
   managers: Pick<User, "displayName" | "id">[];
   fosterFamilies: Pick<FosterFamily, "displayName" | "id">[];
   possiblePickUpLocations: string[];
@@ -68,6 +68,10 @@ export function AnimalFilters({
   const isCurrentUserManager = hasGroups(currentUser, [
     UserGroup.ANIMAL_MANAGER,
   ]);
+
+  const isCurrentUserAnimalAdmin =
+    isCurrentUserManager ||
+    hasGroups(currentUser, [UserGroup.ADMIN, UserGroup.VETERINARIAN]);
 
   return (
     <Form
@@ -171,21 +175,23 @@ export function AnimalFilters({
               </SuggestionLabel>
             </Suggestion>
 
-            <Suggestion>
-              <SuggestionInput
-                type="radio"
-                name={AnimalSearchParams.Keys.SORT}
-                value={AnimalSearchParams.Sort.VACCINATION}
-                checked={
-                  visibleFilters.sort === AnimalSearchParams.Sort.VACCINATION
-                }
-                onChange={() => {}}
-              />
+            {isCurrentUserAnimalAdmin ? (
+              <Suggestion>
+                <SuggestionInput
+                  type="radio"
+                  name={AnimalSearchParams.Keys.SORT}
+                  value={AnimalSearchParams.Sort.VACCINATION}
+                  checked={
+                    visibleFilters.sort === AnimalSearchParams.Sort.VACCINATION
+                  }
+                  onChange={() => {}}
+                />
 
-              <SuggestionLabel icon={<Icon id="syringe" />}>
-                Date de vaccination
-              </SuggestionLabel>
-            </Suggestion>
+                <SuggestionLabel icon={<Icon id="syringe" />}>
+                  Date de vaccination
+                </SuggestionLabel>
+              </Suggestion>
+            ) : null}
           </Suggestions>
         </Filter>
 
@@ -603,166 +609,170 @@ export function AnimalFilters({
           </div>
         </Filter>
 
-        <Filter
-          value={AnimalSearchParams.Keys.IS_STERILIZED}
-          label="Stérilisé"
-          count={visibleFilters.isSterilized == null ? 0 : 1}
-          hiddenContent={
-            visibleFilters.isSterilized != null ? (
-              <input
-                type="hidden"
-                name={AnimalSearchParams.Keys.IS_STERILIZED}
-                value={visibleFilters.isSterilized}
-              />
-            ) : null
-          }
-        >
-          <Suggestions>
-            <Suggestion>
-              <SuggestionInput
-                type="radio"
-                name={AnimalSearchParams.Keys.IS_STERILIZED}
-                value={AnimalSearchParams.IsSterilized.YES}
-                checked={
-                  visibleFilters.isSterilized ===
-                  AnimalSearchParams.IsSterilized.YES
-                }
-                onChange={() => {}}
-              />
+        {isCurrentUserAnimalAdmin ? (
+          <Filter
+            value={AnimalSearchParams.Keys.IS_STERILIZED}
+            label="Stérilisé"
+            count={visibleFilters.isSterilized == null ? 0 : 1}
+            hiddenContent={
+              visibleFilters.isSterilized != null ? (
+                <input
+                  type="hidden"
+                  name={AnimalSearchParams.Keys.IS_STERILIZED}
+                  value={visibleFilters.isSterilized}
+                />
+              ) : null
+            }
+          >
+            <Suggestions>
+              <Suggestion>
+                <SuggestionInput
+                  type="radio"
+                  name={AnimalSearchParams.Keys.IS_STERILIZED}
+                  value={AnimalSearchParams.IsSterilized.YES}
+                  checked={
+                    visibleFilters.isSterilized ===
+                    AnimalSearchParams.IsSterilized.YES
+                  }
+                  onChange={() => {}}
+                />
 
-              <SuggestionLabel icon={<Icon id="scissors" />}>
-                Oui
-              </SuggestionLabel>
-            </Suggestion>
+                <SuggestionLabel icon={<Icon id="scissors" />}>
+                  Oui
+                </SuggestionLabel>
+              </Suggestion>
 
-            <Suggestion>
-              <SuggestionInput
-                type="radio"
-                name={AnimalSearchParams.Keys.IS_STERILIZED}
-                value={AnimalSearchParams.IsSterilized.NO}
-                checked={
-                  visibleFilters.isSterilized ===
-                  AnimalSearchParams.IsSterilized.NO
-                }
-                onChange={() => {}}
-              />
+              <Suggestion>
+                <SuggestionInput
+                  type="radio"
+                  name={AnimalSearchParams.Keys.IS_STERILIZED}
+                  value={AnimalSearchParams.IsSterilized.NO}
+                  checked={
+                    visibleFilters.isSterilized ===
+                    AnimalSearchParams.IsSterilized.NO
+                  }
+                  onChange={() => {}}
+                />
 
-              <SuggestionLabel icon={<Icon id="scissors" />}>
-                Non
-              </SuggestionLabel>
-            </Suggestion>
+                <SuggestionLabel icon={<Icon id="scissors" />}>
+                  Non
+                </SuggestionLabel>
+              </Suggestion>
 
-            <Suggestion>
-              <SuggestionInput
-                type="radio"
-                name={AnimalSearchParams.Keys.IS_STERILIZED}
-                value={AnimalSearchParams.IsSterilized.NOT_MANDATORY}
-                checked={
-                  visibleFilters.isSterilized ===
-                  AnimalSearchParams.IsSterilized.NOT_MANDATORY
-                }
-                onChange={() => {}}
-              />
+              <Suggestion>
+                <SuggestionInput
+                  type="radio"
+                  name={AnimalSearchParams.Keys.IS_STERILIZED}
+                  value={AnimalSearchParams.IsSterilized.NOT_MANDATORY}
+                  checked={
+                    visibleFilters.isSterilized ===
+                    AnimalSearchParams.IsSterilized.NOT_MANDATORY
+                  }
+                  onChange={() => {}}
+                />
 
-              <SuggestionLabel icon={<Icon id="scissors" />}>
-                Non, et ne le sera pas
-              </SuggestionLabel>
-            </Suggestion>
-          </Suggestions>
-        </Filter>
+                <SuggestionLabel icon={<Icon id="scissors" />}>
+                  Non, et ne le sera pas
+                </SuggestionLabel>
+              </Suggestion>
+            </Suggestions>
+          </Filter>
+        ) : null}
 
-        <Filter
-          value={AnimalSearchParams.Keys.MIN_VACCINATION}
-          label="Prochaine vaccination"
-          count={
-            (visibleFilters.minVaccinationDate == null ? 0 : 1) +
-            (visibleFilters.maxVaccinationDate == null ? 0 : 1)
-          }
-          hiddenContent={
-            <>
-              <input
-                type="hidden"
-                name={AnimalSearchParams.Keys.MIN_VACCINATION}
-                value={toIsoDate(visibleFilters.minVaccinationDate)}
-              />
-              <input
-                type="hidden"
-                name={AnimalSearchParams.Keys.MAX_VACCINATION}
-                value={toIsoDate(visibleFilters.maxVaccinationDate)}
-              />
-            </>
-          }
-        >
-          <div className={formClassNames.fields.root()}>
-            <div className={formClassNames.fields.field.root()}>
-              <label
-                htmlFor={AnimalSearchParams.Keys.MIN_VACCINATION}
-                className={formClassNames.fields.field.label()}
-              >
-                Après le et incluant
-              </label>
+        {isCurrentUserAnimalAdmin ? (
+          <Filter
+            value={AnimalSearchParams.Keys.MIN_VACCINATION}
+            label="Prochaine vaccination"
+            count={
+              (visibleFilters.minVaccinationDate == null ? 0 : 1) +
+              (visibleFilters.maxVaccinationDate == null ? 0 : 1)
+            }
+            hiddenContent={
+              <>
+                <input
+                  type="hidden"
+                  name={AnimalSearchParams.Keys.MIN_VACCINATION}
+                  value={toIsoDate(visibleFilters.minVaccinationDate)}
+                />
+                <input
+                  type="hidden"
+                  name={AnimalSearchParams.Keys.MAX_VACCINATION}
+                  value={toIsoDate(visibleFilters.maxVaccinationDate)}
+                />
+              </>
+            }
+          >
+            <div className={formClassNames.fields.root()}>
+              <div className={formClassNames.fields.field.root()}>
+                <label
+                  htmlFor={AnimalSearchParams.Keys.MIN_VACCINATION}
+                  className={formClassNames.fields.field.label()}
+                >
+                  Après le et incluant
+                </label>
 
-              <ControlledInput
-                type="date"
-                id={AnimalSearchParams.Keys.MIN_VACCINATION}
-                name={AnimalSearchParams.Keys.MIN_VACCINATION}
-                value={toIsoDate(visibleFilters.minVaccinationDate)}
-                leftAdornment={
-                  <Adornment>
-                    <Icon id="calendarDays" />
-                  </Adornment>
-                }
-                rightAdornment={
-                  visibleFilters.minVaccinationDate != null ? (
-                    <ActionAdornment
-                      onClick={() =>
-                        setSearchParams(
-                          animalSearchParams.deleteMinVaccinationDate()
-                        )
-                      }
-                    >
-                      <Icon id="xMark" />
-                    </ActionAdornment>
-                  ) : null
-                }
-              />
+                <ControlledInput
+                  type="date"
+                  id={AnimalSearchParams.Keys.MIN_VACCINATION}
+                  name={AnimalSearchParams.Keys.MIN_VACCINATION}
+                  value={toIsoDate(visibleFilters.minVaccinationDate)}
+                  leftAdornment={
+                    <Adornment>
+                      <Icon id="calendarDays" />
+                    </Adornment>
+                  }
+                  rightAdornment={
+                    visibleFilters.minVaccinationDate != null ? (
+                      <ActionAdornment
+                        onClick={() =>
+                          setSearchParams(
+                            animalSearchParams.deleteMinVaccinationDate()
+                          )
+                        }
+                      >
+                        <Icon id="xMark" />
+                      </ActionAdornment>
+                    ) : null
+                  }
+                />
+              </div>
+
+              <div className={formClassNames.fields.field.root()}>
+                <label
+                  htmlFor={AnimalSearchParams.Keys.MAX_VACCINATION}
+                  className={formClassNames.fields.field.label()}
+                >
+                  Avant le et incluant
+                </label>
+
+                <ControlledInput
+                  type="date"
+                  id={AnimalSearchParams.Keys.MAX_VACCINATION}
+                  name={AnimalSearchParams.Keys.MAX_VACCINATION}
+                  value={toIsoDate(visibleFilters.maxVaccinationDate)}
+                  leftAdornment={
+                    <Adornment>
+                      <Icon id="calendarDays" />
+                    </Adornment>
+                  }
+                  rightAdornment={
+                    visibleFilters.maxVaccinationDate != null ? (
+                      <ActionAdornment
+                        onClick={() =>
+                          setSearchParams(
+                            animalSearchParams.deleteMaxVaccinationDate()
+                          )
+                        }
+                      >
+                        <Icon id="xMark" />
+                      </ActionAdornment>
+                    ) : null
+                  }
+                />
+              </div>
             </div>
-
-            <div className={formClassNames.fields.field.root()}>
-              <label
-                htmlFor={AnimalSearchParams.Keys.MAX_VACCINATION}
-                className={formClassNames.fields.field.label()}
-              >
-                Avant le et incluant
-              </label>
-
-              <ControlledInput
-                type="date"
-                id={AnimalSearchParams.Keys.MAX_VACCINATION}
-                name={AnimalSearchParams.Keys.MAX_VACCINATION}
-                value={toIsoDate(visibleFilters.maxVaccinationDate)}
-                leftAdornment={
-                  <Adornment>
-                    <Icon id="calendarDays" />
-                  </Adornment>
-                }
-                rightAdornment={
-                  visibleFilters.maxVaccinationDate != null ? (
-                    <ActionAdornment
-                      onClick={() =>
-                        setSearchParams(
-                          animalSearchParams.deleteMaxVaccinationDate()
-                        )
-                      }
-                    >
-                      <Icon id="xMark" />
-                    </ActionAdornment>
-                  ) : null
-                }
-              />
-            </div>
-          </div>
-        </Filter>
+          </Filter>
+        ) : null}
       </Filters>
     </Form>
   );

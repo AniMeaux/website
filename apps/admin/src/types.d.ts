@@ -1,3 +1,6 @@
+// This import is required for standard CSS properties to be autocompleted.
+import "csstype";
+
 declare namespace NodeJS {
   interface ProcessEnv {
     ALGOLIA_ADMIN_KEY?: string;
@@ -9,5 +12,13 @@ declare namespace NodeJS {
     PUBLIC_HOST?: string;
     RUNTIME_ENV?: "staging" | "production";
     SESSION_SECRET?: string;
+  }
+}
+
+// Add a custom CSS variables here.
+// https://github.com/frenic/csstype#what-should-i-do-when-i-get-type-errors
+declare module "csstype" {
+  interface Properties {
+    "--header-height"?: `${number}px`;
   }
 }
