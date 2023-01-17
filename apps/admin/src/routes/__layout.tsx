@@ -1,4 +1,4 @@
-import { UserGroup } from "@prisma/client";
+import { User, UserGroup } from "@prisma/client";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { json, LoaderArgs, SerializeFrom } from "@remix-run/node";
 import {
@@ -52,7 +52,7 @@ export default function Layout() {
     <div className="grid grid-cols-1 md:grid-cols-[auto,minmax(0px,1fr)] items-start">
       <CurrentUserSideBar currentUser={currentUser} />
 
-      <div className="flex flex-col">
+      <div className="flex flex-col" style={{ "--header-height": "80px" }}>
         <header className="w-full bg-white px-safe-1 pt-safe-0.5 pb-0.5 grid grid-cols-[minmax(0px,1fr)_auto] items-center justify-between gap-1 md:sticky md:top-0 md:z-20 md:pt-safe-1 md:pr-safe-2 md:pb-1 md:pl-2 md:grid-cols-[minmax(200px,500px)_auto] md:gap-4 md:border-l md:border-gray-50">
           <GlobalSearch />
           <CurrentUserMenu currentUser={currentUser} />
@@ -75,9 +75,7 @@ function CurrentUserTabBar({
 }: {
   currentUser: SerializeFrom<typeof loader>["currentUser"];
 }) {
-  const navigationItems = ALL_NAVIGATION_ITEMS.filter((item) =>
-    hasGroups(currentUser, item.authorizedGroups)
-  );
+  const navigationItems = getNavigationItems(currentUser);
 
   let visibleNavigationItems = navigationItems;
   let menuNavigationItems: NavigationItem[] = [];
@@ -138,9 +136,7 @@ function CurrentUserSideBar({
     }
   }, [isOpened]);
 
-  const navigationItems = ALL_NAVIGATION_ITEMS.filter((item) =>
-    hasGroups(currentUser, item.authorizedGroups)
-  );
+  const navigationItems = getNavigationItems(currentUser);
 
   return (
     <SideBar isOpened={isOpened} setIsOpened={setIsOpened}>
@@ -163,6 +159,12 @@ type NavigationItem = {
   label: string;
   authorizedGroups: UserGroup[];
 };
+
+function getNavigationItems(currentUser: Pick<User, "groups">) {
+  return ALL_NAVIGATION_ITEMS.filter((item) =>
+    hasGroups(currentUser, item.authorizedGroups)
+  );
+}
 
 const ALL_NAVIGATION_ITEMS: NavigationItem[] = [
   {

@@ -4,6 +4,7 @@ import { json, LoaderArgs, MetaFunction } from "@remix-run/node";
 import { useLoaderData, useSearchParams } from "@remix-run/react";
 import orderBy from "lodash.orderby";
 import { DateTime } from "luxon";
+import { promiseHash } from "remix-utils";
 import invariant from "tiny-invariant";
 import { AnimalFilters } from "~/animals/filterForm";
 import { AnimalItem } from "~/animals/item";
@@ -25,6 +26,7 @@ import {
 } from "~/core/layout/card";
 import { PageContent } from "~/core/layout/page";
 import { getPageTitle } from "~/core/pageTitle";
+import { ForbiddenResponse } from "~/core/response.server";
 import { PageSearchParams } from "~/core/searchParams";
 import { getCurrentUser } from "~/currentUser/db.server";
 import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
@@ -50,9 +52,23 @@ export async function loader({ request }: LoaderArgs) {
     UserGroup.ANIMAL_MANAGER,
   ]);
 
+  const isCurrentUserAnimalAdmin = hasGroups(currentUser, [
+    UserGroup.ADMIN,
+    UserGroup.ANIMAL_MANAGER,
+    UserGroup.VETERINARIAN,
+  ]);
+
   const searchParams = new URL(request.url).searchParams;
   const pageSearchParams = new PageSearchParams(searchParams);
   const animalSearchParams = new AnimalSearchParams(searchParams);
+
+  let sort = animalSearchParams.getSort();
+  if (
+    !isCurrentUserAnimalAdmin &&
+    sort === AnimalSearchParams.Sort.VACCINATION
+  ) {
+    throw new ForbiddenResponse();
+  }
 
   const where: Prisma.AnimalWhereInput[] = [];
   const species = animalSearchParams.getSpecies();
@@ -156,97 +172,109 @@ export async function loader({ request }: LoaderArgs) {
     where.push({ id: { in: rankedAnimalsId } });
   }
 
-  const isSterilized = animalSearchParams.getIsSterilized();
-  if (isSterilized != null) {
-    where.push({
-      isSterilized: isSterilized === AnimalSearchParams.IsSterilized.YES,
-      isSterilizationMandatory:
-        isSterilized !== AnimalSearchParams.IsSterilized.NOT_MANDATORY,
-    });
+  if (isCurrentUserAnimalAdmin) {
+    const isSterilized = animalSearchParams.getIsSterilized();
+    if (isSterilized != null) {
+      where.push({
+        isSterilized: isSterilized === AnimalSearchParams.IsSterilized.YES,
+        isSterilizationMandatory:
+          isSterilized !== AnimalSearchParams.IsSterilized.NOT_MANDATORY,
+      });
+    }
   }
 
-  const minVaccinationDate = animalSearchParams.getMinVaccinationDate();
-  const maxVaccinationDate = animalSearchParams.getMaxVaccinationDate();
-  if (minVaccinationDate != null || maxVaccinationDate != null) {
-    const nextVaccinationDate: Prisma.DateTimeFilter = {};
+  if (isCurrentUserAnimalAdmin) {
+    const minVaccinationDate = animalSearchParams.getMinVaccinationDate();
+    const maxVaccinationDate = animalSearchParams.getMaxVaccinationDate();
+    if (minVaccinationDate != null || maxVaccinationDate != null) {
+      const nextVaccinationDate: Prisma.DateTimeFilter = {};
 
-    if (minVaccinationDate != null) {
-      nextVaccinationDate.gte = minVaccinationDate;
+      if (minVaccinationDate != null) {
+        nextVaccinationDate.gte = minVaccinationDate;
+      }
+
+      if (maxVaccinationDate != null) {
+        nextVaccinationDate.lte = maxVaccinationDate;
+      }
+
+      where.push({ nextVaccinationDate });
     }
-
-    if (maxVaccinationDate != null) {
-      nextVaccinationDate.lte = maxVaccinationDate;
-    }
-
-    where.push({ nextVaccinationDate });
   }
 
-  const sort = animalSearchParams.getSort();
+  let {
+    managers,
+    fosterFamilies,
+    possiblePickUpLocations,
+    totalCount,
+    animals,
+  } = await promiseHash({
+    managers: prisma.user.findMany({
+      where: {
+        isDisabled: false,
+        groups: { has: UserGroup.ANIMAL_MANAGER },
+      },
+      select: { id: true, displayName: true },
+      orderBy: { displayName: "asc" },
+    }),
 
-  let [managers, fosterFamilies, possiblePickUpLocations, totalCount, animals] =
-    await Promise.all([
-      prisma.user.findMany({
-        where: {
-          isDisabled: false,
-          groups: { has: UserGroup.ANIMAL_MANAGER },
-        },
-        select: { id: true, displayName: true },
-        orderBy: { displayName: "asc" },
-      }),
-
-      showFosterFamilies
-        ? prisma.fosterFamily.findMany({
-            where: {
-              fosterAnimals: {
-                // There is at least one foster animal.
-                // https://www.prisma.io/docs/reference/api-reference/prisma-client-reference#some
-                some: {},
-              },
+    fosterFamilies: showFosterFamilies
+      ? prisma.fosterFamily.findMany({
+          where: {
+            fosterAnimals: {
+              // There is at least one foster animal.
+              // https://www.prisma.io/docs/reference/api-reference/prisma-client-reference#some
+              some: {},
             },
-            select: { id: true, displayName: true },
-            orderBy: { displayName: "asc" },
-          })
-        : Promise.resolve([]),
+          },
+          select: { id: true, displayName: true },
+          orderBy: { displayName: "asc" },
+        })
+      : Promise.resolve([]),
 
-      prisma.animal.groupBy({
-        by: ["pickUpLocation"],
-        where: { pickUpLocation: { not: null } },
-        _count: { pickUpLocation: true },
-        orderBy: { pickUpLocation: "asc" },
-      }),
+    possiblePickUpLocations: prisma.animal.groupBy({
+      by: ["pickUpLocation"],
+      where: { pickUpLocation: { not: null } },
+      _count: { pickUpLocation: true },
+      orderBy: { pickUpLocation: "asc" },
+    }),
 
-      prisma.animal.count({ where: { AND: where } }),
+    totalCount: prisma.animal.count({ where: { AND: where } }),
 
-      prisma.animal.findMany({
-        skip: pageSearchParams.getPage() * ANIMAL_COUNT_PER_PAGE,
-        take: ANIMAL_COUNT_PER_PAGE,
-        orderBy:
-          sort === AnimalSearchParams.Sort.NAME
-            ? { name: "asc" }
-            : sort === AnimalSearchParams.Sort.BIRTHDATE
-            ? { birthdate: "desc" }
-            : sort === AnimalSearchParams.Sort.VACCINATION
-            ? { nextVaccinationDate: "asc" }
-            : sort === AnimalSearchParams.Sort.PICK_UP || nameOrAlias == null
-            ? { pickUpDate: "desc" }
-            : undefined,
-        where: { AND: where },
-        select: {
-          alias: true,
-          avatar: true,
-          birthdate: true,
-          gender: true,
-          id: true,
-          isSterilizationMandatory: true,
-          isSterilized: true,
-          manager: { select: { displayName: true } },
-          name: true,
-          nextVaccinationDate: true,
-          species: true,
-          status: true,
-        },
-      }),
-    ]);
+    animals: prisma.animal.findMany({
+      skip: pageSearchParams.getPage() * ANIMAL_COUNT_PER_PAGE,
+      take: ANIMAL_COUNT_PER_PAGE,
+      orderBy:
+        sort === AnimalSearchParams.Sort.NAME
+          ? { name: "asc" }
+          : sort === AnimalSearchParams.Sort.BIRTHDATE
+          ? { birthdate: "desc" }
+          : sort === AnimalSearchParams.Sort.VACCINATION
+          ? { nextVaccinationDate: "asc" }
+          : sort === AnimalSearchParams.Sort.PICK_UP || nameOrAlias == null
+          ? { pickUpDate: "desc" }
+          : undefined,
+      where: { AND: where },
+      select: {
+        alias: true,
+        avatar: true,
+        birthdate: true,
+        gender: true,
+        id: true,
+        manager: { select: { displayName: true } },
+        name: true,
+        species: true,
+        status: true,
+
+        ...(isCurrentUserAnimalAdmin
+          ? {
+              isSterilizationMandatory: true,
+              isSterilized: true,
+              nextVaccinationDate: true,
+            }
+          : {}),
+      },
+    }),
+  });
 
   const pageCount = Math.ceil(totalCount / ANIMAL_COUNT_PER_PAGE);
 
@@ -272,7 +300,6 @@ export async function loader({ request }: LoaderArgs) {
     fosterFamilies,
     possiblePickUpLocations: possiblePickUpLocations.map((group) => {
       invariant(group.pickUpLocation != null, "pickUpLocation should exists");
-
       return group.pickUpLocation;
     }),
     currentUser,
@@ -355,7 +382,7 @@ export default function AnimalsPage() {
       </section>
 
       <aside className="hidden flex-col min-w-[250px] max-w-[300px] flex-1 md:flex">
-        <Card className="sticky top-13 max-h-[calc(100vh-150px)]">
+        <Card className="sticky top-[var(--header-height)] max-h-[calc(100vh-20px-var(--header-height))]">
           <CardHeader>
             <CardTitle>Trier et filtrer</CardTitle>
           </CardHeader>

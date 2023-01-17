@@ -80,7 +80,7 @@ export async function loader({ request, params }: LoaderArgs) {
     throw new NotFoundResponse();
   }
 
-  const showAllInfo = hasGroups(currentUser, [
+  const isCurrentUserAnimalAdmin = hasGroups(currentUser, [
     UserGroup.ADMIN,
     UserGroup.ANIMAL_MANAGER,
     UserGroup.VETERINARIAN,
@@ -96,38 +96,41 @@ export async function loader({ request, params }: LoaderArgs) {
       birthdate: true,
       breed: { select: { name: true } },
       color: { select: { name: true } },
-      comments: showAllInfo,
       description: true,
-      fosterFamily: showAllInfo
-        ? {
-            select: {
-              address: true,
-              city: true,
-              displayName: true,
-              email: true,
-              id: true,
-              phone: true,
-              zipCode: true,
-            },
-          }
-        : false,
       gender: true,
-      iCadNumber: showAllInfo,
       id: true,
       isOkCats: true,
       isOkChildren: true,
       isOkDogs: true,
-      isSterilizationMandatory: true,
-      isSterilized: true,
       manager: { select: { id: true, displayName: true } },
       name: true,
-      nextVaccinationDate: true,
       pickUpDate: true,
       pickUpLocation: true,
       pickUpReason: true,
       pictures: true,
       species: true,
       status: true,
+
+      ...(isCurrentUserAnimalAdmin
+        ? {
+            comments: true,
+            fosterFamily: {
+              select: {
+                address: true,
+                city: true,
+                displayName: true,
+                email: true,
+                id: true,
+                phone: true,
+                zipCode: true,
+              },
+            },
+            iCadNumber: true,
+            isSterilizationMandatory: true,
+            isSterilized: true,
+            nextVaccinationDate: true,
+          }
+        : {}),
     },
   });
 
@@ -487,32 +490,41 @@ function SituationCard() {
             </DropdownMenu.Root>
           ) : null}
 
-          <Item icon={<Icon id="scissors" />}>
-            {animal.isSterilized ? (
-              <>
-                Est{" "}
-                <strong className="text-body-emphasis">
-                  {animal.gender === Gender.FEMALE ? "stérilisée" : "stérilisé"}
-                </strong>
-              </>
-            ) : animal.isSterilizationMandatory ? (
-              <>
-                N’est{" "}
-                <strong className="text-body-emphasis">
-                  pas{" "}
-                  {animal.gender === Gender.FEMALE ? "stérilisée" : "stérilisé"}
-                </strong>
-              </>
-            ) : (
-              <>
-                Ne sera{" "}
-                <strong className="text-body-emphasis">
-                  pas{" "}
-                  {animal.gender === Gender.FEMALE ? "stérilisée" : "stérilisé"}
-                </strong>
-              </>
-            )}
-          </Item>
+          {animal.isSterilized != null &&
+          animal.isSterilizationMandatory != null ? (
+            <Item icon={<Icon id="scissors" />}>
+              {animal.isSterilized ? (
+                <>
+                  Est{" "}
+                  <strong className="text-body-emphasis">
+                    {animal.gender === Gender.FEMALE
+                      ? "stérilisée"
+                      : "stérilisé"}
+                  </strong>
+                </>
+              ) : animal.isSterilizationMandatory ? (
+                <>
+                  N’est{" "}
+                  <strong className="text-body-emphasis">
+                    pas{" "}
+                    {animal.gender === Gender.FEMALE
+                      ? "stérilisée"
+                      : "stérilisé"}
+                  </strong>
+                </>
+              ) : (
+                <>
+                  Ne sera{" "}
+                  <strong className="text-body-emphasis">
+                    pas{" "}
+                    {animal.gender === Gender.FEMALE
+                      ? "stérilisée"
+                      : "stérilisé"}
+                  </strong>
+                </>
+              )}
+            </Item>
+          ) : null}
 
           {animal.nextVaccinationDate != null ? (
             <Item icon={<Icon id="syringe" />}>
