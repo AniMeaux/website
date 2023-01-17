@@ -4,21 +4,19 @@ import { DateTime } from "luxon";
 import { SetNonNullable } from "type-fest";
 import { ACTIVE_ANIMAL_STATUS } from "~/animals/status";
 
-export function hasUpCommingSterilisation(
-  animal: SerializeFrom<
-    Pick<
-      Animal,
-      | "birthdate"
-      | "isSterilizationMandatory"
-      | "isSterilized"
-      | "species"
-      | "status"
-    >
+export function hasUpCommingSterilisation<
+  TAnimal extends SerializeFrom<
+    Pick<Animal, "birthdate" | "species" | "status"> &
+      Partial<Pick<Animal, "isSterilizationMandatory" | "isSterilized">>
   >
-) {
+>(
+  animal: TAnimal
+): animal is Required<
+  SetNonNullable<TAnimal, "isSterilizationMandatory" | "isSterilized">
+> {
   return (
-    animal.isSterilizationMandatory &&
-    !animal.isSterilized &&
+    Boolean(animal.isSterilizationMandatory) &&
+    animal.isSterilized === false &&
     (animal.species === Species.CAT || animal.species === Species.DOG) &&
     animal.status !== Status.DECEASED &&
     DateTime.fromISO(animal.birthdate) <= DateTime.now().minus({ months: 6 })
@@ -26,8 +24,12 @@ export function hasUpCommingSterilisation(
 }
 
 export function hasUpCommingVaccination<
-  TAnimal extends SerializeFrom<Pick<Animal, "nextVaccinationDate" | "status">>
->(animal: TAnimal): animal is SetNonNullable<TAnimal, "nextVaccinationDate"> {
+  TAnimal extends SerializeFrom<
+    Partial<Pick<Animal, "nextVaccinationDate">> & Pick<Animal, "status">
+  >
+>(
+  animal: TAnimal
+): animal is Required<SetNonNullable<TAnimal, "nextVaccinationDate">> {
   if (
     animal.nextVaccinationDate == null ||
     !ACTIVE_ANIMAL_STATUS.includes(animal.status)
@@ -44,8 +46,12 @@ export function hasUpCommingVaccination<
 }
 
 export function hasPastVaccination<
-  TAnimal extends SerializeFrom<Pick<Animal, "nextVaccinationDate" | "status">>
->(animal: TAnimal): animal is SetNonNullable<TAnimal, "nextVaccinationDate"> {
+  TAnimal extends SerializeFrom<
+    Partial<Pick<Animal, "nextVaccinationDate">> & Pick<Animal, "status">
+  >
+>(
+  animal: TAnimal
+): animal is Required<SetNonNullable<TAnimal, "nextVaccinationDate">> {
   if (
     animal.nextVaccinationDate == null ||
     !ACTIVE_ANIMAL_STATUS.includes(animal.status)

@@ -30,8 +30,6 @@ export async function loader({ request }: LoaderArgs) {
   assertCurrentUserHasGroups(currentUser, [
     UserGroup.ADMIN,
     UserGroup.ANIMAL_MANAGER,
-    UserGroup.VETERINARIAN,
-    UserGroup.VOLUNTEER,
   ]);
 
   const activeAnimalsWhere: Prisma.AnimalWhereInput = {

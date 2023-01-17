@@ -34,16 +34,19 @@ export function AnimalItem({
       | "birthdate"
       | "gender"
       | "id"
-      | "isSterilizationMandatory"
-      | "isSterilized"
       | "name"
-      | "nextVaccinationDate"
       | "species"
       | "status"
-    >
-  > & {
-    manager?: null | Pick<User, "displayName">;
-  };
+    > &
+      Partial<
+        Pick<
+          Animal,
+          "isSterilizationMandatory" | "isSterilized" | "nextVaccinationDate"
+        >
+      > & {
+        manager?: null | Pick<User, "displayName">;
+      }
+  >;
   imageSizes: DynamicImageProps["sizes"];
   imageLoading?: DynamicImageProps["loading"];
   className?: string;

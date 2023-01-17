@@ -1,8 +1,20 @@
+import { Children, isValidElement } from "react";
 import { BaseLink, BaseLinkProps } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
 
 export function PageLayout({ children }: { children?: React.ReactNode }) {
-  return <section className="flex flex-col">{children}</section>;
+  const hasTabs = Children.toArray(children).some(
+    (child) => isValidElement(child) && child.type === PageTabs
+  );
+
+  return (
+    <section
+      className="flex flex-col"
+      style={hasTabs ? { "--header-height": "130px" } : undefined}
+    >
+      {children}
+    </section>
+  );
 }
 
 export function PageTabs({ children }: { children?: React.ReactNode }) {
