@@ -30,6 +30,7 @@ export function FosterFamilyFilters({
   const visibleFilters = {
     cities: fosterFamilySearchParams.getCities(),
     displayName: fosterFamilySearchParams.getDisplayName(),
+    sort: fosterFamilySearchParams.getSort(),
     speciesAlreadyPresent: fosterFamilySearchParams.getSpeciesAlreadyPresent(),
     speciesToAvoid: fosterFamilySearchParams.getSpeciesToAvoid(),
     speciesToHost: fosterFamilySearchParams.getSpeciesToHost(),
@@ -55,6 +56,58 @@ export function FosterFamilyFilters({
       </div>
 
       <Filters>
+        <Filter
+          value={FosterFamilySearchParams.Keys.SORT}
+          label="Trier"
+          count={
+            visibleFilters.sort === FosterFamilySearchParams.Sort.RELEVANCE
+              ? 0
+              : 1
+          }
+          hiddenContent={
+            <input
+              type="hidden"
+              name={FosterFamilySearchParams.Keys.SORT}
+              value={visibleFilters.sort}
+            />
+          }
+        >
+          <Suggestions>
+            <Suggestion>
+              <SuggestionInput
+                type="radio"
+                name={FosterFamilySearchParams.Keys.SORT}
+                value={FosterFamilySearchParams.Sort.RELEVANCE}
+                checked={
+                  visibleFilters.sort ===
+                  FosterFamilySearchParams.Sort.RELEVANCE
+                }
+                onChange={() => {}}
+              />
+
+              <SuggestionLabel icon={<Icon id="bolt" />}>
+                Pertinence
+              </SuggestionLabel>
+            </Suggestion>
+
+            <Suggestion>
+              <SuggestionInput
+                type="radio"
+                name={FosterFamilySearchParams.Keys.SORT}
+                value={FosterFamilySearchParams.Sort.NAME}
+                checked={
+                  visibleFilters.sort === FosterFamilySearchParams.Sort.NAME
+                }
+                onChange={() => {}}
+              />
+
+              <SuggestionLabel icon={<Icon id="arrowDownAZ" />}>
+                Alphabétique
+              </SuggestionLabel>
+            </Suggestion>
+          </Suggestions>
+        </Filter>
+
         <Filter
           value={FosterFamilySearchParams.Keys.DISPLAY_NAME}
           label="Nom"
