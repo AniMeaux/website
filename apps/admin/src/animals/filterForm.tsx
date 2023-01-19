@@ -613,27 +613,25 @@ export function AnimalFilters({
           <Filter
             value={AnimalSearchParams.Keys.IS_STERILIZED}
             label="Stérilisé"
-            count={visibleFilters.isSterilized == null ? 0 : 1}
-            hiddenContent={
-              visibleFilters.isSterilized != null ? (
-                <input
-                  type="hidden"
-                  name={AnimalSearchParams.Keys.IS_STERILIZED}
-                  value={visibleFilters.isSterilized}
-                />
-              ) : null
-            }
+            count={visibleFilters.isSterilized.length}
+            hiddenContent={visibleFilters.isSterilized.map((isSterilized) => (
+              <input
+                key={isSterilized}
+                type="hidden"
+                name={AnimalSearchParams.Keys.IS_STERILIZED}
+                value={isSterilized}
+              />
+            ))}
           >
             <Suggestions>
               <Suggestion>
                 <SuggestionInput
-                  type="radio"
+                  type="checkbox"
                   name={AnimalSearchParams.Keys.IS_STERILIZED}
                   value={AnimalSearchParams.IsSterilized.YES}
-                  checked={
-                    visibleFilters.isSterilized ===
+                  checked={visibleFilters.isSterilized.includes(
                     AnimalSearchParams.IsSterilized.YES
-                  }
+                  )}
                   onChange={() => {}}
                 />
 
@@ -644,13 +642,12 @@ export function AnimalFilters({
 
               <Suggestion>
                 <SuggestionInput
-                  type="radio"
+                  type="checkbox"
                   name={AnimalSearchParams.Keys.IS_STERILIZED}
                   value={AnimalSearchParams.IsSterilized.NO}
-                  checked={
-                    visibleFilters.isSterilized ===
+                  checked={visibleFilters.isSterilized.includes(
                     AnimalSearchParams.IsSterilized.NO
-                  }
+                  )}
                   onChange={() => {}}
                 />
 
@@ -661,13 +658,12 @@ export function AnimalFilters({
 
               <Suggestion>
                 <SuggestionInput
-                  type="radio"
+                  type="checkbox"
                   name={AnimalSearchParams.Keys.IS_STERILIZED}
                   value={AnimalSearchParams.IsSterilized.NOT_MANDATORY}
-                  checked={
-                    visibleFilters.isSterilized ===
+                  checked={visibleFilters.isSterilized.includes(
                     AnimalSearchParams.IsSterilized.NOT_MANDATORY
-                  }
+                  )}
                   onChange={() => {}}
                 />
 

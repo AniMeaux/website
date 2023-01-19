@@ -50,7 +50,10 @@ export class AnimalSearchParams extends URLSearchParams {
         orderBy(this.getFosterFamiliesId()),
         orderBy(other.getFosterFamiliesId())
       ) &&
-      isEqual(this.getIsSterilized(), other.getIsSterilized()) &&
+      isEqual(
+        orderBy(this.getIsSterilized()),
+        orderBy(other.getIsSterilized())
+      ) &&
       isEqual(orderBy(this.getManagersId()), orderBy(other.getManagersId())) &&
       isEqual(this.getMaxBirthdate(), other.getMaxBirthdate()) &&
       isEqual(this.getMaxPickUpDate(), other.getMaxPickUpDate()) &&
@@ -344,27 +347,19 @@ export class AnimalSearchParams extends URLSearchParams {
 
   getIsSterilized() {
     return parseOrDefault(
-      z
-        .nativeEnum(AnimalSearchParams.IsSterilized)
-        .optional()
-        .nullable()
-        .default(null),
-      this.get(AnimalSearchParams.Keys.IS_STERILIZED)
+      z.nativeEnum(AnimalSearchParams.IsSterilized).array().default([]),
+      this.getAll(AnimalSearchParams.Keys.IS_STERILIZED)
     );
   }
 
   setIsSterilized(
-    isSterilized:
-      | null
-      | typeof AnimalSearchParams.IsSterilized[keyof typeof AnimalSearchParams.IsSterilized]
+    isSterilized: typeof AnimalSearchParams.IsSterilized[keyof typeof AnimalSearchParams.IsSterilized][]
   ) {
     const copy = new AnimalSearchParams(this);
-
-    if (isSterilized != null) {
-      copy.set(AnimalSearchParams.Keys.IS_STERILIZED, isSterilized);
-    } else if (copy.has(AnimalSearchParams.Keys.IS_STERILIZED)) {
-      copy.delete(AnimalSearchParams.Keys.IS_STERILIZED);
-    }
+    copy.delete(AnimalSearchParams.Keys.IS_STERILIZED);
+    isSterilized.forEach((isSterilized) => {
+      copy.append(AnimalSearchParams.Keys.IS_STERILIZED, isSterilized);
+    });
 
     return copy;
   }
