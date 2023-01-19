@@ -1,7 +1,7 @@
 import { FosterFamily, UserGroup } from "@prisma/client";
 import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
 import { json, LoaderArgs, SerializeFrom } from "@remix-run/node";
-import { useFetcher } from "@remix-run/react";
+import { useFetcher, useLocation, useNavigate } from "@remix-run/react";
 import { useCombobox } from "downshift";
 import { createPath } from "history";
 import { forwardRef, useEffect, useRef, useState } from "react";
@@ -12,11 +12,12 @@ import { ActionAdornment, Adornment } from "~/core/formElements/adornment";
 import { Input } from "~/core/formElements/input";
 import { inputClassName, InputWrapper } from "~/core/formElements/inputWrapper";
 import {
-  NoSuggestion,
   ResourceComboboxLayout,
   ResourceInputLayout,
+  SuggestionItem,
   SuggestionList,
 } from "~/core/formElements/resourceInput";
+import { NextSearchParams } from "~/core/searchParams";
 import { getCurrentUser } from "~/currentUser/db.server";
 import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
 import { fuzzySearchFosterFamilies } from "~/fosterFamilies/db.server";
@@ -24,7 +25,8 @@ import { FosterFamilySuggestionItem } from "~/fosterFamilies/item";
 import { FosterFamilySearchParams } from "~/fosterFamilies/searchParams";
 import { Icon } from "~/generated/icon";
 
-const SEARCH_COUNT = 6;
+// Use 5 instead of 6 to save space for the additional item.
+const SEARCH_COUNT = 5;
 
 export async function loader({ request }: LoaderArgs) {
   const currentUser = await getCurrentUser(request, {
@@ -204,6 +206,8 @@ const InputTrigger = forwardRef<
   );
 });
 
+type FosterFamilyHit = SerializeFrom<typeof loader>["fosterFamilies"][number];
+
 function Combobox({
   fosterFamily: selectedFosterFamily,
   fosterFamilies,
@@ -212,7 +216,7 @@ function Combobox({
   onClose,
 }: {
   fosterFamily: null | Pick<FosterFamily, "id" | "displayName">;
-  fosterFamilies: SerializeFrom<typeof loader>["fosterFamilies"];
+  fosterFamilies: FosterFamilyHit[];
   onInputValueChange: React.Dispatch<string>;
   onSelectedItem: React.Dispatch<null | Pick<
     FosterFamily,
@@ -220,12 +224,34 @@ function Combobox({
   >>;
   onClose: () => void;
 }) {
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const visibleFosterFamilies: (
+    | (FosterFamilyHit & { isAdditional?: undefined })
+    | { isAdditional: true }
+  )[] = [...fosterFamilies, { isAdditional: true }];
+
   const combobox = useCombobox({
     isOpen: true,
-    items: fosterFamilies,
-    itemToString: (fosterFamily) => fosterFamily?.displayName ?? "",
+    items: visibleFosterFamilies,
+    itemToString: (fosterFamily) =>
+      fosterFamily?.isAdditional
+        ? "additional"
+        : fosterFamily?.displayName ?? "",
     onSelectedItemChange: ({ selectedItem = null }) => {
-      onSelectedItem(selectedItem);
+      if (selectedItem?.isAdditional) {
+        navigate(
+          createPath({
+            pathname: "/foster-families/new",
+            search: new NextSearchParams()
+              .setNext(createPath(location))
+              .toString(),
+          })
+        );
+      } else {
+        onSelectedItem(selectedItem);
+      }
     },
     onInputValueChange: ({ inputValue = "" }) => {
       onInputValueChange(inputValue);
@@ -254,26 +280,43 @@ function Combobox({
       )}
       list={
         <SuggestionList {...combobox.getMenuProps()}>
-          {fosterFamilies.map((fosterFamily, index) => (
-            <FosterFamilySuggestionItem
-              // For some reason, if `key` is not passed before
-              // `...combobox.getItemProps`, the app crash with:
-              // > Unexpected Server Error
-              // > Error: Element type is invalid: expected a string (for
-              // > built-in components) or a class/function (for composite
-              // > components) but got: undefined. You likely forgot to export
-              // > your component from the file it's defined in, or you might
-              // > have mixed up default and named imports.
-              key={fosterFamily.id}
-              {...combobox.getItemProps({ item: fosterFamily, index })}
-              isValue={selectedFosterFamily?.id === fosterFamily.id}
-              fosterFamily={fosterFamily}
-            />
-          ))}
+          {visibleFosterFamilies.map((fosterFamily, index) => {
+            if (fosterFamily.isAdditional) {
+              return (
+                <SuggestionItem
+                  // For some reason, if `key` is not passed before
+                  // `...combobox.getItemProps`, the app crash with:
+                  // > Unexpected Server Error
+                  // > Error: Element type is invalid: expected a string (for
+                  // > built-in components) or a class/function (for composite
+                  // > components) but got: undefined. You likely forgot to export
+                  // > your component from the file it's defined in, or you might
+                  // > have mixed up default and named imports.
+                  key="additional"
+                  {...combobox.getItemProps({ item: fosterFamily, index })}
+                  isAdditional
+                  label={`Créer une **famille d’accueil**`}
+                />
+              );
+            }
 
-          {fosterFamilies.length === 0 ? (
-            <NoSuggestion>Aucune famille d’accueil trouvée</NoSuggestion>
-          ) : null}
+            return (
+              <FosterFamilySuggestionItem
+                // For some reason, if `key` is not passed before
+                // `...combobox.getItemProps`, the app crash with:
+                // > Unexpected Server Error
+                // > Error: Element type is invalid: expected a string (for
+                // > built-in components) or a class/function (for composite
+                // > components) but got: undefined. You likely forgot to export
+                // > your component from the file it's defined in, or you might
+                // > have mixed up default and named imports.
+                key={fosterFamily.id}
+                {...combobox.getItemProps({ item: fosterFamily, index })}
+                isValue={selectedFosterFamily?.id === fosterFamily.id}
+                fosterFamily={fosterFamily}
+              />
+            );
+          })}
         </SuggestionList>
       }
     />
