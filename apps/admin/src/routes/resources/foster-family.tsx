@@ -24,6 +24,8 @@ import { FosterFamilySuggestionItem } from "~/fosterFamilies/item";
 import { FosterFamilySearchParams } from "~/fosterFamilies/searchParams";
 import { Icon } from "~/generated/icon";
 
+const SEARCH_COUNT = 6;
+
 export async function loader({ request }: LoaderArgs) {
   const currentUser = await getCurrentUser(request, {
     select: { id: true, groups: true },
@@ -40,7 +42,8 @@ export async function loader({ request }: LoaderArgs) {
 
   return json({
     fosterFamilies: await fuzzySearchFosterFamilies(
-      searchParams.getDisplayName()
+      searchParams.getDisplayName(),
+      SEARCH_COUNT
     ),
   });
 }
