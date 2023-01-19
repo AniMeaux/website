@@ -5,9 +5,15 @@ import { z } from "zod";
 import { parseOrDefault } from "~/core/schemas";
 
 export class FosterFamilySearchParams extends URLSearchParams {
+  static readonly Sort = {
+    NAME: "NAME",
+    RELEVANCE: "RELEVANCE",
+  } as const;
+
   static readonly Keys = {
     DISPLAY_NAME: "q",
     CITY: "city",
+    SORT: "sort",
     SPECIES_ALREADY_PRESENT: "present",
     SPECIES_TO_AVOID: "avoid",
     SPECIES_TO_HOST: "host",
@@ -20,8 +26,8 @@ export class FosterFamilySearchParams extends URLSearchParams {
 
   areFiltersEqual(other: FosterFamilySearchParams) {
     return (
-      isEqual(this.getDisplayName(), other.getDisplayName()) &&
       isEqual(orderBy(this.getCities()), orderBy(other.getCities())) &&
+      isEqual(this.getDisplayName(), other.getDisplayName()) &&
       isEqual(
         orderBy(this.getSpeciesAlreadyPresent()),
         orderBy(other.getSpeciesAlreadyPresent())
@@ -32,6 +38,15 @@ export class FosterFamilySearchParams extends URLSearchParams {
       ) &&
       isEqual(this.getSpeciesToHost(), other.getSpeciesToHost()) &&
       isEqual(this.getZipCode(), other.getZipCode())
+    );
+  }
+
+  getSort() {
+    return parseOrDefault(
+      z
+        .nativeEnum(FosterFamilySearchParams.Sort)
+        .default(FosterFamilySearchParams.Sort.RELEVANCE),
+      this.get(FosterFamilySearchParams.Keys.SORT)
     );
   }
 

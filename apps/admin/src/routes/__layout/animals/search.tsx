@@ -1,5 +1,5 @@
 import { ANIMAL_AGE_RANGE_BY_SPECIES } from "@animeaux/shared";
-import { Prisma, UserGroup } from "@prisma/client";
+import { Animal, Prisma, UserGroup } from "@prisma/client";
 import { json, LoaderArgs, MetaFunction } from "@remix-run/node";
 import { useLoaderData, useSearchParams } from "@remix-run/react";
 import orderBy from "lodash.orderby";
@@ -62,7 +62,7 @@ export async function loader({ request }: LoaderArgs) {
   const pageSearchParams = new PageSearchParams(searchParams);
   const animalSearchParams = new AnimalSearchParams(searchParams);
 
-  let sort = animalSearchParams.getSort();
+  const sort = animalSearchParams.getSort();
   if (
     !isCurrentUserAnimalAdmin &&
     sort === AnimalSearchParams.Sort.VACCINATION
@@ -156,7 +156,7 @@ export async function loader({ request }: LoaderArgs) {
   }
 
   const nameOrAlias = animalSearchParams.getNameOrAlias();
-  let rankedAnimalsId: string[] = [];
+  let rankedAnimalsId: Animal["id"][] = [];
   if (nameOrAlias != null) {
     const animals = await algolia.animal.search({
       nameOrAlias,
