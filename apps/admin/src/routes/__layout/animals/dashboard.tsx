@@ -276,7 +276,7 @@ function AnimalsToSterilizeCard() {
               search: new AnimalSearchParams()
                 .setSort(AnimalSearchParams.Sort.BIRTHDATE)
                 .setSpecies([Species.CAT, Species.DOG])
-                .setIsSterilized(AnimalSearchParams.IsSterilized.NO)
+                .setIsSterilized([AnimalSearchParams.IsSterilized.NO])
                 .setMaxBirthdate(DateTime.now().minus({ months: 6 }).toJSDate())
                 .setStatuses(
                   SORTED_STATUS.filter((status) => status !== Status.DECEASED)

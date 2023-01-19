@@ -174,12 +174,30 @@ export async function loader({ request }: LoaderArgs) {
 
   if (isCurrentUserAnimalAdmin) {
     const isSterilized = animalSearchParams.getIsSterilized();
-    if (isSterilized != null) {
-      where.push({
-        isSterilized: isSterilized === AnimalSearchParams.IsSterilized.YES,
-        isSterilizationMandatory:
-          isSterilized !== AnimalSearchParams.IsSterilized.NOT_MANDATORY,
-      });
+    if (isSterilized.length > 0) {
+      const conditions: Prisma.AnimalWhereInput[] = [];
+
+      if (isSterilized.includes(AnimalSearchParams.IsSterilized.YES)) {
+        conditions.push({ isSterilized: true, isSterilizationMandatory: true });
+      }
+
+      if (isSterilized.includes(AnimalSearchParams.IsSterilized.NO)) {
+        conditions.push({
+          isSterilized: false,
+          isSterilizationMandatory: true,
+        });
+      }
+
+      if (
+        isSterilized.includes(AnimalSearchParams.IsSterilized.NOT_MANDATORY)
+      ) {
+        conditions.push({
+          isSterilized: false,
+          isSterilizationMandatory: false,
+        });
+      }
+
+      where.push({ OR: conditions });
     }
   }
 
