@@ -1,6 +1,5 @@
 import { FosterFamily, User, UserGroup } from "@prisma/client";
 import { Form, useSubmit } from "@remix-run/react";
-import { DateTime } from "luxon";
 import { AGE_ICON, AGE_TRANSLATION, SORTED_AGES } from "~/animals/age";
 import { AnimalSearchParams } from "~/animals/searchParams";
 import {
@@ -17,6 +16,7 @@ import {
 import { actionClassName } from "~/core/actions";
 import { BaseLink } from "~/core/baseLink";
 import { Filter, Filters } from "~/core/controllers/filters";
+import { toIsoDateValue } from "~/core/dates";
 import { ActionAdornment, Adornment } from "~/core/formElements/adornment";
 import { ControlledInput } from "~/core/formElements/controlledInput";
 import {
@@ -269,12 +269,12 @@ export function AnimalFilters({
               <input
                 type="hidden"
                 name={AnimalSearchParams.Keys.MIN_BIRTHDATE}
-                value={toIsoDate(visibleFilters.minBirthdate)}
+                value={toIsoDateValue(visibleFilters.minBirthdate)}
               />
               <input
                 type="hidden"
                 name={AnimalSearchParams.Keys.MAX_BIRTHDATE}
-                value={toIsoDate(visibleFilters.maxBirthdate)}
+                value={toIsoDateValue(visibleFilters.maxBirthdate)}
               />
               {visibleFilters.ages.map((age) => (
                 <input
@@ -320,7 +320,7 @@ export function AnimalFilters({
                 type="date"
                 id={AnimalSearchParams.Keys.MIN_BIRTHDATE}
                 name={AnimalSearchParams.Keys.MIN_BIRTHDATE}
-                value={toIsoDate(visibleFilters.minBirthdate)}
+                value={toIsoDateValue(visibleFilters.minBirthdate)}
                 leftAdornment={
                   <Adornment>
                     <Icon id="calendarDays" />
@@ -352,7 +352,7 @@ export function AnimalFilters({
                 type="date"
                 id={AnimalSearchParams.Keys.MAX_BIRTHDATE}
                 name={AnimalSearchParams.Keys.MAX_BIRTHDATE}
-                value={toIsoDate(visibleFilters.maxBirthdate)}
+                value={toIsoDateValue(visibleFilters.maxBirthdate)}
                 leftAdornment={
                   <Adornment>
                     <Icon id="calendarDays" />
@@ -496,12 +496,12 @@ export function AnimalFilters({
               <input
                 type="hidden"
                 name={AnimalSearchParams.Keys.MIN_PICK_UP_DATE}
-                value={toIsoDate(visibleFilters.minPickUpDate)}
+                value={toIsoDateValue(visibleFilters.minPickUpDate)}
               />
               <input
                 type="hidden"
                 name={AnimalSearchParams.Keys.MAX_PICK_UP_DATE}
-                value={toIsoDate(visibleFilters.maxPickUpDate)}
+                value={toIsoDateValue(visibleFilters.maxPickUpDate)}
               />
               {visibleFilters.pickUpLocations.map((location) => (
                 <input
@@ -527,7 +527,7 @@ export function AnimalFilters({
                 type="date"
                 id={AnimalSearchParams.Keys.MIN_PICK_UP_DATE}
                 name={AnimalSearchParams.Keys.MIN_PICK_UP_DATE}
-                value={toIsoDate(visibleFilters.minPickUpDate)}
+                value={toIsoDateValue(visibleFilters.minPickUpDate)}
                 leftAdornment={
                   <Adornment>
                     <Icon id="calendarDays" />
@@ -561,7 +561,7 @@ export function AnimalFilters({
                 type="date"
                 id={AnimalSearchParams.Keys.MAX_PICK_UP_DATE}
                 name={AnimalSearchParams.Keys.MAX_PICK_UP_DATE}
-                value={toIsoDate(visibleFilters.maxPickUpDate)}
+                value={toIsoDateValue(visibleFilters.maxPickUpDate)}
                 leftAdornment={
                   <Adornment>
                     <Icon id="calendarDays" />
@@ -688,12 +688,12 @@ export function AnimalFilters({
                 <input
                   type="hidden"
                   name={AnimalSearchParams.Keys.MIN_VACCINATION}
-                  value={toIsoDate(visibleFilters.minVaccinationDate)}
+                  value={toIsoDateValue(visibleFilters.minVaccinationDate)}
                 />
                 <input
                   type="hidden"
                   name={AnimalSearchParams.Keys.MAX_VACCINATION}
-                  value={toIsoDate(visibleFilters.maxVaccinationDate)}
+                  value={toIsoDateValue(visibleFilters.maxVaccinationDate)}
                 />
               </>
             }
@@ -711,7 +711,7 @@ export function AnimalFilters({
                   type="date"
                   id={AnimalSearchParams.Keys.MIN_VACCINATION}
                   name={AnimalSearchParams.Keys.MIN_VACCINATION}
-                  value={toIsoDate(visibleFilters.minVaccinationDate)}
+                  value={toIsoDateValue(visibleFilters.minVaccinationDate)}
                   leftAdornment={
                     <Adornment>
                       <Icon id="calendarDays" />
@@ -745,7 +745,7 @@ export function AnimalFilters({
                   type="date"
                   id={AnimalSearchParams.Keys.MAX_VACCINATION}
                   name={AnimalSearchParams.Keys.MAX_VACCINATION}
-                  value={toIsoDate(visibleFilters.maxVaccinationDate)}
+                  value={toIsoDateValue(visibleFilters.maxVaccinationDate)}
                   leftAdornment={
                     <Adornment>
                       <Icon id="calendarDays" />
@@ -772,14 +772,6 @@ export function AnimalFilters({
       </Filters>
     </Form>
   );
-}
-
-function toIsoDate(date: Date | null) {
-  if (date == null) {
-    return "";
-  }
-
-  return DateTime.fromJSDate(date).toISODate();
 }
 
 function ActiveFilterLink() {
