@@ -35,6 +35,8 @@ import { FosterFamilySuggestionItem } from "~/fosterFamilies/item";
 import { FosterFamilySearchParams } from "~/fosterFamilies/searchParams";
 import { Icon } from "~/generated/icon";
 
+const SEARCH_COUNT = 6;
+
 const TYPES = ["animal", "fosterFamily"] as const;
 type Type = typeof TYPES[number];
 
@@ -97,12 +99,12 @@ export async function loader({ request }: LoaderArgs) {
   }
 
   if (type === "animal") {
-    const animals = await fuzzySearchAnimals(text);
+    const animals = await fuzzySearchAnimals(text, SEARCH_COUNT);
     const items = animals.map((animal) => ({ type, ...animal }));
     return json({ possibleTypes, items });
   }
 
-  const fosterFamilies = await fuzzySearchFosterFamilies(text);
+  const fosterFamilies = await fuzzySearchFosterFamilies(text, SEARCH_COUNT);
   const items = fosterFamilies.map((fosterFamily) => ({
     type,
     ...fosterFamily,

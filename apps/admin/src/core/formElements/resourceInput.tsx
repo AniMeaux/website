@@ -173,7 +173,7 @@ export type SuggestionItemProps = Omit<
 > & {
   isAdditional?: boolean;
   isValue?: boolean;
-  leftAdornment: React.ReactNode;
+  leftAdornment?: React.ReactNode;
   // We can't use `children` here because `forwardRef` automatically adds a
   // `children` prop with `React.ReacNode` type.
   label: string;

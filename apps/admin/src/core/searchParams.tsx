@@ -60,9 +60,13 @@ export class NextSearchParams extends URLSearchParams {
 
   getNext() {
     return parseOrDefault(
-      z.string().default("/"),
+      z.string().optional().nullable().default(null),
       this.get(NextSearchParams.Keys.NEXT)
     );
+  }
+
+  getNextOrDefault() {
+    return this.getNext() ?? "/";
   }
 
   setNext(next: string) {

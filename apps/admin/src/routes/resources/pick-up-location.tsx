@@ -45,10 +45,6 @@ export async function loader({ request }: LoaderArgs) {
   });
 }
 
-type PickUpLocationHit = SerializeFrom<
-  typeof loader
->["pickUpLocations"][number];
-
 const RESOURCE_PATHNAME = "/resources/pick-up-location";
 
 type PickUpLocationInputProps = {
@@ -181,6 +177,10 @@ const InputTrigger = forwardRef<
     </InputWrapper>
   );
 });
+
+type PickUpLocationHit = SerializeFrom<
+  typeof loader
+>["pickUpLocations"][number];
 
 function Combobox({
   pickUpLocation: selectedPickUpLocation,

@@ -9,8 +9,6 @@ import {
   ReferencedError,
 } from "~/core/errors.server";
 
-const SEARCH_COUNT = 6;
-
 type FosterFamilyData = Pick<
   FosterFamily,
   | "address"
@@ -24,13 +22,16 @@ type FosterFamilyData = Pick<
   | "zipCode"
 >;
 
-export async function fuzzySearchFosterFamilies(displayName: null | string) {
+export async function fuzzySearchFosterFamilies(
+  displayName: null | string,
+  maxCount: number
+) {
   // Don't use Algolia when there are no text search.
   if (displayName == null) {
     const fosterFamilies = await prisma.fosterFamily.findMany({
       select: { id: true, displayName: true, city: true, zipCode: true },
       orderBy: { displayName: "asc" },
-      take: SEARCH_COUNT,
+      take: maxCount,
     });
 
     return fosterFamilies.map((fosterFamily) => ({
@@ -41,7 +42,7 @@ export async function fuzzySearchFosterFamilies(displayName: null | string) {
 
   const hits = await algolia.fosterFamily.search(
     { displayName },
-    { hitsPerPage: SEARCH_COUNT }
+    { hitsPerPage: maxCount }
   );
 
   const fosterFamilies = await prisma.fosterFamily.findMany({

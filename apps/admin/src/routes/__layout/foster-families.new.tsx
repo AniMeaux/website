@@ -13,7 +13,9 @@ import { ErrorPage } from "~/core/dataDisplay/errorPage";
 import { EmailAlreadyUsedError } from "~/core/errors.server";
 import { Card, CardContent, CardHeader, CardTitle } from "~/core/layout/card";
 import { PageContent, PageLayout } from "~/core/layout/page";
+import { useBackIfPossible } from "~/core/navigation";
 import { getPageTitle } from "~/core/pageTitle";
+import { NextSearchParams } from "~/core/searchParams";
 import { getCurrentUser } from "~/currentUser/db.server";
 import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
 import {
@@ -40,6 +42,7 @@ export const meta: MetaFunction = () => {
 };
 
 type ActionData = {
+  redirectTo?: string;
   errors?: z.inferFlattenedErrors<typeof ActionFormData.schema>;
 };
 
@@ -75,9 +78,17 @@ export async function action({ request }: ActionArgs) {
       zipCode: formData.data.zipCode,
     });
 
-    // Redirect instead of going back so we can display the newly created
-    // foster family.
-    throw redirect(`/foster-families/${fosterFamilyId}`);
+    const url = new URL(request.url);
+    const searchParams = new NextSearchParams(url.searchParams);
+    const next = searchParams.getNext();
+
+    if (next == null) {
+      // Redirect instead of going back so we can display the newly created
+      // foster family.
+      throw redirect(`/foster-families/${fosterFamilyId}`);
+    }
+
+    return json<ActionData>({ redirectTo: next });
   } catch (error) {
     if (error instanceof EmailAlreadyUsedError) {
       return json<ActionData>(
@@ -116,6 +127,7 @@ export function CatchBoundary() {
 
 export default function NewFosterFamilyPage() {
   const fetcher = useFetcher<typeof action>();
+  useBackIfPossible({ fallbackRedirectTo: fetcher.data?.redirectTo });
 
   return (
     <PageLayout>
