@@ -4,7 +4,7 @@ import { prisma } from "~/core/db.server";
 
 const SEARCH_COUNT = 6;
 
-export async function searchUsers({
+export async function fuzzySearchUsers({
   displayName,
   groups,
   isDisabled,
@@ -32,8 +32,7 @@ export async function searchUsers({
   }
 
   return await algolia.user.search(
-    displayName,
-    { groups, isDisabled },
+    { displayName, groups, isDisabled },
     { hitsPerPage: SEARCH_COUNT }
   );
 }

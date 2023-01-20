@@ -19,16 +19,20 @@ export function createUserDelegate(client: SearchClient) {
     },
 
     async search(
-      displayName: string,
-      filters: {
-        groups: UserGroup[];
-        isDisabled: null | boolean;
+      {
+        displayName,
+        groups,
+        isDisabled,
+      }: {
+        displayName: string;
+        groups?: null | UserGroup[];
+        isDisabled?: null | boolean;
       },
       options: Omit<SearchOptions, "filters"> = {}
     ) {
       const result = await index.search<UserFromAlgolia>(displayName, {
         ...options,
-        filters: createSearchFilters(filters),
+        filters: createSearchFilters({ groups, isDisabled }),
       });
 
       return result.hits.map((hit) => ({
