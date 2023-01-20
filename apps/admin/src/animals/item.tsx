@@ -13,6 +13,7 @@ import { getSpeciesLabels } from "~/animals/species";
 import { StatusBadge } from "~/animals/status";
 import { BaseLink } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
+import { Chip } from "~/core/dataDisplay/chip";
 import { DynamicImage, DynamicImageProps } from "~/core/dataDisplay/image";
 import {
   SuggestionItem,
@@ -72,21 +73,23 @@ export function AnimalItem({
         <span className="absolute bottom-0 left-0 w-full p-0.5 flex justify-end">
           <span className="mr-auto flex gap-0.5">
             {hasPastVaccination(animal) ? (
-              <NotificationBadge variant="error">
-                <Icon id="syringe" />
-              </NotificationBadge>
+              <Chip
+                color="red"
+                icon="syringe"
+                title="Date de vaccination passée"
+              />
             ) : null}
 
             {hasUpCommingVaccination(animal) ? (
-              <NotificationBadge variant="warning">
-                <Icon id="syringe" />
-              </NotificationBadge>
+              <Chip color="orange" icon="syringe" title="Vaccination prévue" />
             ) : null}
 
             {hasUpCommingSterilisation(animal) ? (
-              <NotificationBadge variant="warning">
-                <Icon id="scissors" />
-              </NotificationBadge>
+              <Chip
+                color="orange"
+                icon="scissors"
+                title="Stérilisation à prévoir"
+              />
             ) : null}
           </span>
 
@@ -127,27 +130,6 @@ export function AnimalItem({
         ) : null}
       </div>
     </BaseLink>
-  );
-}
-
-type NotificationBadgeVariant = "error" | "warning";
-
-function NotificationBadge({
-  variant,
-  children,
-}: {
-  variant: NotificationBadgeVariant;
-  children?: React.ReactNode;
-}) {
-  return (
-    <span
-      className={cn(
-        "h-2 rounded-0.5 px-0.5 flex items-center text-white text-[14px]",
-        variant === "error" ? "bg-red-500" : "bg-orange-500"
-      )}
-    >
-      {children}
-    </span>
   );
 }
 

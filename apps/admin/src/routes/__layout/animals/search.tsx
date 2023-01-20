@@ -1,7 +1,7 @@
 import { ANIMAL_AGE_RANGE_BY_SPECIES } from "@animeaux/shared";
 import { Animal, Prisma, UserGroup } from "@prisma/client";
 import { json, LoaderArgs, MetaFunction } from "@remix-run/node";
-import { useLoaderData, useSearchParams } from "@remix-run/react";
+import { useLoaderData } from "@remix-run/react";
 import orderBy from "lodash.orderby";
 import { DateTime } from "luxon";
 import { promiseHash } from "remix-utils";
@@ -27,7 +27,10 @@ import {
 import { PageContent } from "~/core/layout/page";
 import { getPageTitle } from "~/core/pageTitle";
 import { ForbiddenResponse } from "~/core/response.server";
-import { PageSearchParams } from "~/core/searchParams";
+import {
+  PageSearchParams,
+  useOptimisticSearchParams,
+} from "~/core/searchParams";
 import { getCurrentUser } from "~/currentUser/db.server";
 import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
 import { hasGroups } from "~/users/groups";
@@ -202,6 +205,13 @@ export async function loader({ request }: LoaderArgs) {
   }
 
   if (isCurrentUserAnimalAdmin) {
+    const noVaccination = animalSearchParams.getNoVaccination();
+    if (noVaccination) {
+      where.push({ nextVaccinationDate: null });
+    }
+  }
+
+  if (isCurrentUserAnimalAdmin) {
     const minVaccinationDate = animalSearchParams.getMinVaccinationDate();
     const maxVaccinationDate = animalSearchParams.getMaxVaccinationDate();
     if (minVaccinationDate != null || maxVaccinationDate != null) {
@@ -294,13 +304,6 @@ export async function loader({ request }: LoaderArgs) {
     }),
   });
 
-  const pageCount = Math.ceil(totalCount / ANIMAL_COUNT_PER_PAGE);
-
-  const canCreate = hasGroups(currentUser, [
-    UserGroup.ADMIN,
-    UserGroup.ANIMAL_MANAGER,
-  ]);
-
   if (
     sort === AnimalSearchParams.Sort.RELEVANCE &&
     rankedAnimalsId.length > 0
@@ -309,6 +312,13 @@ export async function loader({ request }: LoaderArgs) {
       rankedAnimalsId.findIndex((animalId) => animal.id === animalId)
     );
   }
+
+  const pageCount = Math.ceil(totalCount / ANIMAL_COUNT_PER_PAGE);
+
+  const canCreate = hasGroups(currentUser, [
+    UserGroup.ADMIN,
+    UserGroup.ANIMAL_MANAGER,
+  ]);
 
   return json({
     totalCount,
@@ -332,7 +342,7 @@ export const meta: MetaFunction = () => {
 export default function AnimalsPage() {
   const { totalCount, pageCount, animals, canCreate } =
     useLoaderData<typeof loader>();
-  const [searchParams] = useSearchParams();
+  const [searchParams] = useOptimisticSearchParams();
   const animalSearchParams = new AnimalSearchParams(searchParams);
 
   return (
@@ -372,6 +382,7 @@ export default function AnimalsPage() {
               </ul>
             ) : (
               <Empty
+                isCompact
                 icon="🪹"
                 iconAlt="Nid vide"
                 title="Aucun animal trouvé"

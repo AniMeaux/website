@@ -443,7 +443,10 @@ export function AnimalSituationForm({
               htmlFor={ActionFormData.keys.nextVaccinationDate}
               className={formClassNames.fields.field.label()}
             >
-              Prochaine vaccination
+              Prochaine vaccination{" "}
+              {!isCreate && defaultAnimal?.nextVaccinationDate != null ? (
+                <RequiredStart />
+              ) : null}
             </label>
 
             <Input

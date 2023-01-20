@@ -12,7 +12,7 @@ export function FormErrors({
   }
 
   return (
-    <Helper {...rest} isCompact variant="error">
+    <Helper {...rest} variant="error">
       {joinReactNodes(errors, <br />)}
     </Helper>
   );

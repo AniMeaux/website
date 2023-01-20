@@ -25,8 +25,9 @@ type AnimalDraftSituation = Pick<AnimalDraft, SituationKeys>;
 export class MissingAdoptionDateError extends Error {}
 export class MissingAdoptionOptionError extends Error {}
 export class MissingManagerError extends Error {}
-export class NotManagerError extends Error {}
+export class MissingNextVaccinationError extends Error {}
 export class MissingPickUpLocationError extends Error {}
+export class NotManagerError extends Error {}
 
 export async function updateAnimalSituation(
   animalId: Animal["id"],
@@ -35,7 +36,11 @@ export async function updateAnimalSituation(
   await prisma.$transaction(async (prisma) => {
     const currentAnimal = await prisma.animal.findUnique({
       where: { id: animalId },
-      select: { managerId: true, pickUpLocation: true },
+      select: {
+        managerId: true,
+        nextVaccinationDate: true,
+        pickUpLocation: true,
+      },
     });
     if (currentAnimal == null) {
       throw new NotFoundError();
@@ -68,7 +73,10 @@ export async function updateAnimalSituationDraft(
 export async function validateSituation(
   prisma: Prisma.TransactionClient,
   newData: AnimalSituation,
-  currentData?: null | Pick<AnimalSituation, "managerId" | "pickUpLocation">
+  currentData?: null | Pick<
+    AnimalSituation,
+    "managerId" | "nextVaccinationDate" | "pickUpLocation"
+  >
 ) {
   if (newData.status === Status.ADOPTED) {
     if (newData.adoptionDate == null) {
@@ -106,6 +114,14 @@ export async function validateSituation(
     (currentData == null || currentData?.pickUpLocation != null)
   ) {
     throw new MissingPickUpLocationError();
+  }
+
+  // Once a vaccination date is set, we cannot stop vaccinating the animal.
+  if (
+    newData.nextVaccinationDate == null &&
+    currentData?.nextVaccinationDate != null
+  ) {
+    throw new MissingNextVaccinationError();
   }
 }
 

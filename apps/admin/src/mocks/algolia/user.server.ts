@@ -18,10 +18,7 @@ export const userHandlers = [
 
       const where: Prisma.UserWhereInput = {};
       if (query !== "") {
-        where.OR = [
-          { displayName: { contains: query, mode: "insensitive" } },
-          { email: { contains: query, mode: "insensitive" } },
-        ];
+        where.displayName = { contains: query, mode: "insensitive" };
       }
 
       const breeds = await prisma.user.findMany({
