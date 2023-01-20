@@ -85,8 +85,14 @@ export async function deleteAnimal(animalId: Animal["id"]) {
   });
 }
 
-export async function fuzzySearchAnimals(nameOrAlias: string) {
-  const hits = await algolia.animal.search({ nameOrAlias }, { hitsPerPage: 6 });
+export async function fuzzySearchAnimals(
+  nameOrAlias: string,
+  maxCount: number
+) {
+  const hits = await algolia.animal.search(
+    { nameOrAlias },
+    { hitsPerPage: maxCount }
+  );
 
   const animals = await prisma.animal.findMany({
     where: { id: { in: hits.map((hit) => hit.id) } },
