@@ -4,7 +4,7 @@ import isEqual from "lodash.isequal";
 import orderBy from "lodash.orderby";
 import { DateTime } from "luxon";
 import { z } from "zod";
-import { ensureDate, parseOrDefault } from "~/core/schemas";
+import { ensureBoolean, ensureDate, parseOrDefault } from "~/core/schemas";
 
 export class AnimalSearchParams extends URLSearchParams {
   static readonly Sort = {
@@ -33,6 +33,7 @@ export class AnimalSearchParams extends URLSearchParams {
     MIN_PICK_UP_DATE: "pickUpMin",
     MIN_VACCINATION: "vaccMin",
     NAME_OR_ALIAS: "q",
+    NO_VACCINATION: "noVacc",
     PICK_UP_LOCATION: "pickUpLoc",
     SORT: "sort",
     SPECIES: "species",
@@ -117,6 +118,13 @@ export class AnimalSearchParams extends URLSearchParams {
     const copy = new AnimalSearchParams(this);
     copy.delete(AnimalSearchParams.Keys.NAME_OR_ALIAS);
     return copy;
+  }
+
+  getNoVaccination() {
+    return parseOrDefault(
+      z.preprocess(ensureBoolean, z.boolean()).default(false),
+      this.get(AnimalSearchParams.Keys.NO_VACCINATION)
+    );
   }
 
   getSpecies() {

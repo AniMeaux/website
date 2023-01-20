@@ -59,6 +59,7 @@ export function AnimalFilters({
     minPickUpDate: animalSearchParams.getMinPickUpDate(),
     minVaccinationDate: animalSearchParams.getMinVaccinationDate(),
     nameOrAlias: animalSearchParams.getNameOrAlias(),
+    noVaccination: animalSearchParams.getNoVaccination(),
     pickUpLocations: animalSearchParams.getPickUpLocations(),
     sort: animalSearchParams.getSort(),
     species: animalSearchParams.getSpecies(),
@@ -681,7 +682,8 @@ export function AnimalFilters({
             label="Prochaine vaccination"
             count={
               (visibleFilters.minVaccinationDate == null ? 0 : 1) +
-              (visibleFilters.maxVaccinationDate == null ? 0 : 1)
+              (visibleFilters.maxVaccinationDate == null ? 0 : 1) +
+              (visibleFilters.noVaccination ? 1 : 0)
             }
             hiddenContent={
               <>
@@ -695,10 +697,35 @@ export function AnimalFilters({
                   name={AnimalSearchParams.Keys.MAX_VACCINATION}
                   value={toIsoDateValue(visibleFilters.maxVaccinationDate)}
                 />
+                {visibleFilters.noVaccination ? (
+                  <input
+                    type="hidden"
+                    name={AnimalSearchParams.Keys.NO_VACCINATION}
+                    value={String(true)}
+                  />
+                ) : null}
               </>
             }
           >
             <div className={formClassNames.fields.root()}>
+              <div className={formClassNames.fields.field.root()}>
+                <Suggestions>
+                  <Suggestion>
+                    <SuggestionInput
+                      type="checkbox"
+                      name={AnimalSearchParams.Keys.NO_VACCINATION}
+                      value={String(true)}
+                      checked={visibleFilters.noVaccination}
+                      onChange={() => {}}
+                    />
+
+                    <SuggestionLabel icon={<Icon id="syringe" />}>
+                      Aucune prévue
+                    </SuggestionLabel>
+                  </Suggestion>
+                </Suggestions>
+              </div>
+
               <div className={formClassNames.fields.field.root()}>
                 <label
                   htmlFor={AnimalSearchParams.Keys.MIN_VACCINATION}

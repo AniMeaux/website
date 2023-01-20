@@ -205,6 +205,13 @@ export async function loader({ request }: LoaderArgs) {
   }
 
   if (isCurrentUserAnimalAdmin) {
+    const noVaccination = animalSearchParams.getNoVaccination();
+    if (noVaccination) {
+      where.push({ nextVaccinationDate: null });
+    }
+  }
+
+  if (isCurrentUserAnimalAdmin) {
     const minVaccinationDate = animalSearchParams.getMinVaccinationDate();
     const maxVaccinationDate = animalSearchParams.getMaxVaccinationDate();
     if (minVaccinationDate != null || maxVaccinationDate != null) {
