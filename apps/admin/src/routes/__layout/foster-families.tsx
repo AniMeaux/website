@@ -1,6 +1,6 @@
 import { FosterFamily, Prisma, UserGroup } from "@prisma/client";
 import { json, LoaderArgs, MetaFunction } from "@remix-run/node";
-import { useLoaderData, useSearchParams } from "@remix-run/react";
+import { useLoaderData } from "@remix-run/react";
 import orderBy from "lodash.orderby";
 import { promiseHash } from "remix-utils";
 import { actionClassName } from "~/core/actions";
@@ -19,7 +19,10 @@ import {
 } from "~/core/layout/card";
 import { PageContent, PageLayout } from "~/core/layout/page";
 import { getPageTitle } from "~/core/pageTitle";
-import { PageSearchParams } from "~/core/searchParams";
+import {
+  PageSearchParams,
+  useOptimisticSearchParams,
+} from "~/core/searchParams";
 import { getCurrentUser } from "~/currentUser/db.server";
 import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
 import { FosterFamilyFilters } from "~/fosterFamilies/filterForm";
@@ -120,8 +123,6 @@ export async function loader({ request }: LoaderArgs) {
     }),
   });
 
-  const pageCount = Math.ceil(totalCount / FOSTER_FAMILY_COUNT_PER_PAGE);
-
   if (
     sort === FosterFamilySearchParams.Sort.RELEVANCE &&
     rankedFosterFamiliesId.length > 0
@@ -132,6 +133,8 @@ export async function loader({ request }: LoaderArgs) {
       )
     );
   }
+
+  const pageCount = Math.ceil(totalCount / FOSTER_FAMILY_COUNT_PER_PAGE);
 
   return json({
     totalCount,
@@ -148,7 +151,7 @@ export const meta: MetaFunction = () => {
 export default function FosterFamiliesPage() {
   const { totalCount, pageCount, fosterFamilies } =
     useLoaderData<typeof loader>();
-  const [searchParams] = useSearchParams();
+  const [searchParams] = useOptimisticSearchParams();
   const fosterFamilySearchParams = new FosterFamilySearchParams(searchParams);
 
   return (
