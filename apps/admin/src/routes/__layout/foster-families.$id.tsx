@@ -8,6 +8,7 @@ import {
 } from "@remix-run/node";
 import { useCatch, useFetcher, useLoaderData } from "@remix-run/react";
 import { useState } from "react";
+import { promiseHash } from "remix-utils";
 import { z } from "zod";
 import { AnimalItem } from "~/animals/item";
 import { AnimalSearchParams } from "~/animals/searchParams";
@@ -63,8 +64,8 @@ export async function loader({ request, params }: LoaderArgs) {
     throw new NotFoundResponse();
   }
 
-  const [fosterFamily, fosterAnimalCount, fosterAnimals] = await Promise.all([
-    prisma.fosterFamily.findUnique({
+  const { fosterFamily, fosterAnimalCount, fosterAnimals } = await promiseHash({
+    fosterFamily: prisma.fosterFamily.findUnique({
       where: { id: result.data },
       select: {
         address: true,
@@ -80,9 +81,11 @@ export async function loader({ request, params }: LoaderArgs) {
       },
     }),
 
-    prisma.animal.count({ where: { fosterFamilyId: result.data } }),
+    fosterAnimalCount: prisma.animal.count({
+      where: { fosterFamilyId: result.data },
+    }),
 
-    prisma.animal.findMany({
+    fosterAnimals: prisma.animal.findMany({
       where: { fosterFamilyId: result.data },
       take: 5,
       orderBy: { pickUpDate: "desc" },
@@ -101,7 +104,7 @@ export async function loader({ request, params }: LoaderArgs) {
         status: true,
       },
     }),
-  ]);
+  });
 
   assertIsDefined(fosterFamily);
 
