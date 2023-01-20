@@ -437,7 +437,6 @@ function ActionCard() {
       <CardContent>
         {isHelperVisible ? (
           <Helper
-            isCompact
             variant="info"
             action={
               <button onClick={() => setIsHelperVisible(false)}>Fermer</button>
