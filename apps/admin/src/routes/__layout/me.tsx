@@ -1,6 +1,7 @@
 import { Prisma, UserGroup } from "@prisma/client";
 import { json, LoaderArgs, MetaFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
+import { promiseHash } from "remix-utils";
 import { AnimalItem } from "~/animals/item";
 import { AnimalSearchParams } from "~/animals/searchParams";
 import { ACTIVE_ANIMAL_STATUS } from "~/animals/status";
@@ -28,9 +29,9 @@ export async function loader({ request }: LoaderArgs) {
     status: { in: ACTIVE_ANIMAL_STATUS },
   };
 
-  const [managedAnimalCount, managedAnimals] = await Promise.all([
-    prisma.animal.count({ where }),
-    prisma.animal.findMany({
+  const { managedAnimalCount, managedAnimals } = await promiseHash({
+    managedAnimalCount: prisma.animal.count({ where }),
+    managedAnimals: prisma.animal.findMany({
       where,
       take: 5,
       orderBy: { pickUpDate: "desc" },
@@ -48,7 +49,7 @@ export async function loader({ request }: LoaderArgs) {
         status: true,
       },
     }),
-  ]);
+  });
 
   return json({ currentUser, managedAnimalCount, managedAnimals });
 }

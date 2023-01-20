@@ -49,7 +49,7 @@ export function ForsterFamilyItem({
 
       {fosterFamily.speciesToHost.length > 0 ? (
         <span
-          className="flex gap-0.5 items-center"
+          className="h-2 flex items-center gap-0.5"
           title="Espèces à accueillir"
         >
           {fosterFamily.speciesToHost.map((species) => (

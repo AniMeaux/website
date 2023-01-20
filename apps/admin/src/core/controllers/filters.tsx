@@ -77,7 +77,7 @@ export function Filter({
 
         {count > 0 ? (
           <span className="h-4 flex items-center">
-            <Chip>{count}</Chip>
+            <Chip color="gray">{count}</Chip>
           </span>
         ) : null}
 

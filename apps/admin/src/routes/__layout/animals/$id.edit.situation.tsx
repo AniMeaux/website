@@ -6,6 +6,7 @@ import { getAnimalDisplayName } from "~/animals/profile/name";
 import {
   MissingAdoptionDateError,
   MissingManagerError,
+  MissingNextVaccinationError,
   MissingPickUpLocationError,
   NotManagerError,
   updateAnimalSituation,
@@ -192,6 +193,20 @@ export async function action({ request, params }: ActionArgs) {
             formErrors: [],
             fieldErrors: {
               pickUpLocation: ["Veuillez choisir un lieu"],
+            },
+          },
+        },
+        { status: 400 }
+      );
+    }
+
+    if (error instanceof MissingNextVaccinationError) {
+      return json<ActionData>(
+        {
+          errors: {
+            formErrors: [],
+            fieldErrors: {
+              nextVaccinationDate: ["Veuillez entrer une date"],
             },
           },
         },

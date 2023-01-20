@@ -365,13 +365,13 @@ function SituationCard() {
 
       <CardContent>
         {hasUpCommingVaccination(animal) ? (
-          <Helper isCompact variant="warning" icon={<Icon id="syringe" />}>
+          <Helper variant="warning" icon="syringe">
             Prochaine vaccination {formatNextVaccinationDate(animal)}.
           </Helper>
         ) : null}
 
         {hasPastVaccination(animal) ? (
-          <Helper isCompact variant="error" icon={<Icon id="syringe" />}>
+          <Helper variant="error" icon="syringe">
             Une vaccination était prévue {formatNextVaccinationDate(animal)}.
             <br />
             Pensez à mettre à jour la prochaine date.
@@ -379,7 +379,7 @@ function SituationCard() {
         ) : null}
 
         {hasUpCommingSterilisation(animal) ? (
-          <Helper isCompact variant="warning" icon={<Icon id="scissors" />}>
+          <Helper variant="warning" icon="scissors">
             Stérilisation à prévoir.
           </Helper>
         ) : null}
