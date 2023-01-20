@@ -375,6 +375,7 @@ export default function AnimalsPage() {
               </ul>
             ) : (
               <Empty
+                isCompact
                 icon="🪹"
                 iconAlt="Nid vide"
                 title="Aucun animal trouvé"

@@ -188,6 +188,7 @@ export default function FosterFamiliesPage() {
                   </ul>
                 ) : (
                   <Empty
+                    isCompact
                     icon="🏡"
                     iconAlt="Maison avec jardin"
                     title="Aucune famille d’accueil trouvée"
