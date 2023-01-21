@@ -7,7 +7,7 @@ import { Icon, IconProps } from "~/generated/icon";
 export const DialogRoot = RadixDialog.Root;
 export const DialogTrigger = RadixDialog.Trigger;
 
-type DialogVariant = "alert";
+type DialogVariant = "alert" | "warning";
 
 type DialogContextValue = { variant: DialogVariant };
 const DialogContext = createContext<DialogContextValue>({ variant: "alert" });
@@ -60,10 +60,12 @@ export function DialogHeader({ children }: { children?: React.ReactNode }) {
 
 const VARIANT_ICON: Record<DialogVariant, IconProps["id"]> = {
   alert: "circleExclamation",
+  warning: "triangleExclamation",
 };
 
 const VARIANT_ICON_CLASS_NAME: Record<DialogVariant, string> = {
   alert: "text-red-400",
+  warning: "text-orange-400",
 };
 
 export function DialogMessage({ children }: { children?: React.ReactNode }) {
@@ -113,4 +115,5 @@ export function DialogConfirmAction(props: DialogConfirmActionProps) {
 
 const VARIANT_CONFIRM_ACTION_COLOR: Record<DialogVariant, ActionColor> = {
   alert: "red",
+  warning: "orange",
 };
