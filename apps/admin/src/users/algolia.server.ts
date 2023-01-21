@@ -18,6 +18,10 @@ export function createUserDelegate(client: SearchClient) {
       await index.partialUpdateObject({ ...data, objectID: userId });
     },
 
+    async delete(userId: User["id"]) {
+      await index.deleteObject(userId);
+    },
+
     async search(
       {
         displayName,
