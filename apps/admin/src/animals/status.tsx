@@ -11,6 +11,10 @@ export const ACTIVE_ANIMAL_STATUS: Status[] = [
   Status.UNAVAILABLE,
 ];
 
+export const NON_ACTIVE_ANIMAL_STATUS = Object.values(Status).filter(
+  (status) => !ACTIVE_ANIMAL_STATUS.includes(status)
+);
+
 export function StatusBadge({
   status,
   className,

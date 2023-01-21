@@ -484,7 +484,7 @@ function ActionCard() {
               L’action est irréversible.
             </DialogMessage>
 
-            <FormErrors errors={fetcher.data?.errors ?? []} />
+            <FormErrors errors={fetcher.data?.errors} />
 
             <DialogActions>
               <DialogCloseAction>Annuler</DialogCloseAction>

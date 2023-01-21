@@ -4,7 +4,10 @@ import { useLoaderData } from "@remix-run/react";
 import { promiseHash } from "remix-utils";
 import { AnimalItem } from "~/animals/item";
 import { AnimalSearchParams } from "~/animals/searchParams";
-import { ACTIVE_ANIMAL_STATUS } from "~/animals/status";
+import {
+  ACTIVE_ANIMAL_STATUS,
+  NON_ACTIVE_ANIMAL_STATUS,
+} from "~/animals/status";
 import { actionClassName } from "~/core/actions";
 import { BaseLink } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
@@ -24,15 +27,47 @@ export async function loader({ request }: LoaderArgs) {
     select: { id: true, displayName: true, email: true, groups: true },
   });
 
-  const where: Prisma.AnimalWhereInput = {
+  const managedAnimalsWhere: Prisma.AnimalWhereInput = {
     managerId: currentUser.id,
     status: { in: ACTIVE_ANIMAL_STATUS },
   };
 
-  const { managedAnimalCount, managedAnimals } = await promiseHash({
-    managedAnimalCount: prisma.animal.count({ where }),
+  const nonActiveManagedAnimalsWhere: Prisma.AnimalWhereInput = {
+    managerId: currentUser.id,
+    status: { in: NON_ACTIVE_ANIMAL_STATUS },
+  };
+
+  const {
+    managedAnimalCount,
+    managedAnimals,
+    nonActiveManagedAnimalCount,
+    nonActiveManagedAnimals,
+  } = await promiseHash({
+    managedAnimalCount: prisma.animal.count({ where: managedAnimalsWhere }),
     managedAnimals: prisma.animal.findMany({
-      where,
+      where: managedAnimalsWhere,
+      take: 5,
+      orderBy: { pickUpDate: "desc" },
+      select: {
+        alias: true,
+        avatar: true,
+        birthdate: true,
+        gender: true,
+        id: true,
+        isSterilizationMandatory: true,
+        isSterilized: true,
+        name: true,
+        nextVaccinationDate: true,
+        species: true,
+        status: true,
+      },
+    }),
+
+    nonActiveManagedAnimalCount: prisma.animal.count({
+      where: nonActiveManagedAnimalsWhere,
+    }),
+    nonActiveManagedAnimals: prisma.animal.findMany({
+      where: nonActiveManagedAnimalsWhere,
       take: 5,
       orderBy: { pickUpDate: "desc" },
       select: {
@@ -51,14 +86,20 @@ export async function loader({ request }: LoaderArgs) {
     }),
   });
 
-  return json({ currentUser, managedAnimalCount, managedAnimals });
+  return json({
+    currentUser,
+    managedAnimalCount,
+    managedAnimals,
+    nonActiveManagedAnimalCount,
+    nonActiveManagedAnimals,
+  });
 }
 
 export const meta: MetaFunction = () => {
   return { title: getPageTitle("Mon profil") };
 };
 
-export default function CurrentUserPage() {
+export default function Route() {
   return (
     <PageLayout>
       <PageContent className="flex flex-col gap-1 md:gap-2">
@@ -70,7 +111,8 @@ export default function CurrentUserPage() {
           </aside>
 
           <section className="flex flex-col gap-1 md:gap-2">
-            <ManagerCard />
+            <ManagedAnimalsCard />
+            <NonActiveManagedAnimalsCard />
           </section>
 
           <aside className="flex flex-col gap-1 md:gap-2">
@@ -185,7 +227,7 @@ function ActionsCard() {
   );
 }
 
-function ManagerCard() {
+function ManagedAnimalsCard() {
   const { currentUser, managedAnimalCount, managedAnimals } =
     useLoaderData<typeof loader>();
   const isManager = hasGroups(currentUser, [UserGroup.ANIMAL_MANAGER]);
@@ -230,7 +272,7 @@ function ManagerCard() {
                 "Pour l’instant ;)"
               ) : (
                 <>
-                  Seuls les membres du group{" "}
+                  Seuls les membres du groupe{" "}
                   <strong className="text-body-emphasis">
                     {GROUP_TRANSLATION[UserGroup.ANIMAL_MANAGER]}
                   </strong>{" "}
@@ -242,6 +284,81 @@ function ManagerCard() {
         ) : (
           <ul className="flex gap-1">
             {managedAnimals.map((animal) => (
+              <li
+                key={animal.id}
+                className="flex-none flex flex-col first:pl-1 last:pr-1 md:first:pl-2 md:last:pr-2"
+              >
+                <AnimalItem
+                  animal={animal}
+                  imageSizes={{ default: "300px" }}
+                  className="w-[150px]"
+                />
+              </li>
+            ))}
+          </ul>
+        )}
+      </CardContent>
+    </Card>
+  );
+}
+
+function NonActiveManagedAnimalsCard() {
+  const { currentUser, nonActiveManagedAnimalCount, nonActiveManagedAnimals } =
+    useLoaderData<typeof loader>();
+  const isManager = hasGroups(currentUser, [UserGroup.ANIMAL_MANAGER]);
+
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>
+          {nonActiveManagedAnimalCount === 0
+            ? "Animaux gérés et sortis"
+            : nonActiveManagedAnimalCount > 1
+            ? `${nonActiveManagedAnimalCount} animaux gérés et sortis`
+            : "1 animal géré et sorti"}
+        </CardTitle>
+
+        {nonActiveManagedAnimalCount > 0 ? (
+          <BaseLink
+            to={{
+              pathname: "/animals/search",
+              search: new AnimalSearchParams()
+                .setStatuses(NON_ACTIVE_ANIMAL_STATUS)
+                .setManagersId([currentUser.id])
+                .toString(),
+            }}
+            className={actionClassName.standalone({ variant: "text" })}
+          >
+            Tout voir
+          </BaseLink>
+        ) : null}
+      </CardHeader>
+
+      <CardContent hasHorizontalScroll={nonActiveManagedAnimalCount > 0}>
+        {nonActiveManagedAnimalCount === 0 ? (
+          <Empty
+            isCompact
+            icon="📭"
+            iconAlt="Boîte aux lettres ouverte avec drapeau abaissé"
+            title="Aucun animal géré et sorti"
+            titleElementType="h3"
+            message={
+              isManager ? (
+                "Pour l’instant ;)"
+              ) : (
+                <>
+                  Seuls les membres du groupe{" "}
+                  <strong className="text-body-emphasis">
+                    {GROUP_TRANSLATION[UserGroup.ANIMAL_MANAGER]}
+                  </strong>{" "}
+                  peuvent gérer des animaux.
+                </>
+              )
+            }
+          />
+        ) : (
+          <ul className="flex gap-1">
+            {nonActiveManagedAnimals.map((animal) => (
               <li
                 key={animal.id}
                 className="flex-none flex flex-col first:pl-1 last:pr-1 md:first:pl-2 md:last:pr-2"
