@@ -230,7 +230,7 @@ function ManagerCard() {
                 "Pour l’instant ;)"
               ) : (
                 <>
-                  Seuls les membres du group{" "}
+                  Seuls les membres du groupe{" "}
                   <strong className="text-body-emphasis">
                     {GROUP_TRANSLATION[UserGroup.ANIMAL_MANAGER]}
                   </strong>{" "}
