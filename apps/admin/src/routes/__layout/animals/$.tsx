@@ -18,7 +18,7 @@ export const meta: MetaFunction = () => {
  *
  * @see https://remix.run/docs/en/v1/guides/routing#splats
  */
-export default function NotFoundPage() {
+export default function Route() {
   return (
     <PageContent className="flex flex-col">
       <ErrorPage status={404} />

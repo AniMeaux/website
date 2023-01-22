@@ -33,7 +33,7 @@ const FOSTER_FAMILY_COUNT_PER_PAGE = 20;
 
 export async function loader({ request }: LoaderArgs) {
   const currentUser = await getCurrentUser(request, {
-    select: { id: true, groups: true },
+    select: { groups: true },
   });
 
   assertCurrentUserHasGroups(currentUser, [
@@ -148,7 +148,7 @@ export const meta: MetaFunction = () => {
   return { title: getPageTitle("Familles d’accueil") };
 };
 
-export default function FosterFamiliesPage() {
+export default function Route() {
   const { totalCount, pageCount, fosterFamilies } =
     useLoaderData<typeof loader>();
   const [searchParams] = useOptimisticSearchParams();

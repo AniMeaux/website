@@ -171,7 +171,7 @@ export function CatchBoundary() {
   return <ErrorPage status={caught.status} />;
 }
 
-export default function NewAnimalSituationPage() {
+export default function Route() {
   const { currentUser, draft } = useLoaderData<typeof loader>();
   const fetcher = useFetcher<typeof action>();
 

@@ -54,7 +54,7 @@ export async function action({ request }: ActionArgs) {
   return json<ActionData>({ redirectTo: "/me" });
 }
 
-export default function EditCurrentUserPasswordPage() {
+export default function Route() {
   const fetcher = useFetcher<typeof action>();
   useBackIfPossible({ fallbackRedirectTo: fetcher.data?.redirectTo });
 

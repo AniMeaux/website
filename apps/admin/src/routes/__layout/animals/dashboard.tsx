@@ -168,7 +168,7 @@ export async function loader({ request }: LoaderArgs) {
   });
 }
 
-export default function AnimalDashboard() {
+export default function Route() {
   const { isCurrentUserManager } = useLoaderData<typeof loader>();
 
   return (

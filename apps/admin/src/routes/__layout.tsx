@@ -45,7 +45,7 @@ export async function loader({ request }: LoaderArgs) {
   return json({ currentUser });
 }
 
-export default function Layout() {
+export default function Route() {
   const { currentUser } = useLoaderData<typeof loader>();
 
   return (
@@ -184,17 +184,17 @@ const ALL_NAVIGATION_ITEMS: NavigationItem[] = [
     label: "Familles d’accueil",
     authorizedGroups: [UserGroup.ADMIN, UserGroup.ANIMAL_MANAGER],
   },
+  {
+    to: "/users",
+    icon: "user",
+    label: "Utilisateurs",
+    authorizedGroups: [UserGroup.ADMIN],
+  },
   // Uncomment when pages are implemented.
   // {
   //   to: "/events",
   //   icon: "calendarDays",
   //   label: "Événements",
-  //   authorizedGroups: [UserGroup.ADMIN],
-  // },
-  // {
-  //   to: "/users",
-  //   icon: "user",
-  //   label: "Utilisateurs",
   //   authorizedGroups: [UserGroup.ADMIN],
   // },
   // {

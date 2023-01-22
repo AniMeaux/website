@@ -26,7 +26,7 @@ import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
 
 export async function loader({ request, params }: LoaderArgs) {
   const currentUser = await getCurrentUser(request, {
-    select: { id: true, groups: true },
+    select: { groups: true },
   });
 
   assertCurrentUserHasGroups(currentUser, [
@@ -85,7 +85,7 @@ type ActionData = {
 
 export async function action({ request, params }: ActionArgs) {
   const currentUser = await getCurrentUser(request, {
-    select: { id: true, groups: true },
+    select: { groups: true },
   });
 
   assertCurrentUserHasGroups(currentUser, [
@@ -225,7 +225,7 @@ export function CatchBoundary() {
   return <ErrorPage status={caught.status} />;
 }
 
-export default function AnimalEditSituationPage() {
+export default function Route() {
   const { animal } = useLoaderData<typeof loader>();
   const fetcher = useFetcher<typeof action>();
   useBackIfPossible({ fallbackRedirectTo: fetcher.data?.redirectTo });

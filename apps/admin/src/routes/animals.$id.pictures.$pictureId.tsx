@@ -26,7 +26,7 @@ export const handle: RouteHandle = {
 
 export async function loader({ request, params }: LoaderArgs) {
   const currentUser = await getCurrentUser(request, {
-    select: { id: true, groups: true },
+    select: { groups: true },
   });
 
   assertCurrentUserHasGroups(currentUser, [
@@ -72,7 +72,7 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
   return { title: getPageTitle(`Photos de ${getAnimalDisplayName(animal)}`) };
 };
 
-export default function AnimalPhotosPage() {
+export default function Route() {
   const { animal, visiblePictureId } = useLoaderData<typeof loader>();
   const allPictures = getAllAnimalPictures(animal);
   const visiblePictureIndex = allPictures.indexOf(visiblePictureId);

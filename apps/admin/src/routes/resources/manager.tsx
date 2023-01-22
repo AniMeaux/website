@@ -22,12 +22,12 @@ import { getCurrentUser } from "~/currentUser/db.server";
 import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
 import { Icon } from "~/generated/icon";
 import { UserAvatar } from "~/users/avatar";
-import { searchUsers } from "~/users/db.server";
+import { fuzzySearchUsers } from "~/users/db.server";
 import { UserSearchParams } from "~/users/searchParams";
 
 export async function loader({ request }: LoaderArgs) {
   const currentUser = await getCurrentUser(request, {
-    select: { id: true, groups: true },
+    select: { groups: true },
   });
 
   assertCurrentUserHasGroups(currentUser, [
@@ -35,15 +35,13 @@ export async function loader({ request }: LoaderArgs) {
     UserGroup.ANIMAL_MANAGER,
   ]);
 
-  const searchParams = new UserSearchParams(new URL(request.url).searchParams)
-    .setIsDisabled(false)
-    .setGroups([UserGroup.ANIMAL_MANAGER]);
+  const searchParams = new UserSearchParams(new URL(request.url).searchParams);
 
   return json({
-    managers: await searchUsers({
+    managers: await fuzzySearchUsers({
       displayName: searchParams.getDisplayName(),
-      groups: searchParams.getGroups(),
-      isDisabled: searchParams.getIsDisabled(),
+      groups: [UserGroup.ANIMAL_MANAGER],
+      isDisabled: false,
     }),
   });
 }
