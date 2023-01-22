@@ -61,7 +61,7 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
     return { title: getPageTitle(getErrorTitle(404)) };
   }
 
-  return { title: getPageTitle(fosterFamily.displayName) };
+  return { title: getPageTitle(`Modifier ${fosterFamily.displayName}`) };
 };
 
 type ActionData = {
