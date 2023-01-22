@@ -14,54 +14,39 @@ import { getPageTitle } from "~/core/pageTitle";
 import { NotFoundResponse } from "~/core/response.server";
 import { getCurrentUser } from "~/currentUser/db.server";
 import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
-import {
-  MissingSpeciesToHostError,
-  updateFosterFamily,
-} from "~/fosterFamilies/db.server";
-import { ActionFormData, FosterFamilyForm } from "~/fosterFamilies/form";
+import { LockMyselfError, updateUser } from "~/users/db.server";
+import { ActionFormData, UserForm } from "~/users/form";
+import { GROUP_TRANSLATION } from "~/users/groups";
 
 export async function loader({ request, params }: LoaderArgs) {
   const currentUser = await getCurrentUser(request, {
     select: { groups: true },
   });
 
-  assertCurrentUserHasGroups(currentUser, [
-    UserGroup.ADMIN,
-    UserGroup.ANIMAL_MANAGER,
-  ]);
+  assertCurrentUserHasGroups(currentUser, [UserGroup.ADMIN]);
 
   const result = z.string().uuid().safeParse(params["id"]);
   if (!result.success) {
     throw new NotFoundResponse();
   }
 
-  const fosterFamily = await prisma.fosterFamily.findUnique({
+  const user = await prisma.user.findUnique({
     where: { id: result.data },
-    select: {
-      address: true,
-      city: true,
-      comments: true,
-      displayName: true,
-      email: true,
-      phone: true,
-      speciesAlreadyPresent: true,
-      speciesToHost: true,
-      zipCode: true,
-    },
+    select: { displayName: true, email: true, groups: true },
   });
 
-  assertIsDefined(fosterFamily);
+  assertIsDefined(user);
 
-  return json({ fosterFamily });
+  return json({ user });
 }
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
-  const fosterFamily = data?.fosterFamily;
-  if (fosterFamily == null) {
+  const user = data?.user;
+  if (user == null) {
     return { title: getPageTitle(getErrorTitle(404)) };
   }
 
-  return { title: getPageTitle(`Modifier ${fosterFamily.displayName}`) };
+  return { title: getPageTitle(`Modifier ${user.displayName}`) };
 };
 
 type ActionData = {
@@ -71,21 +56,20 @@ type ActionData = {
 
 export async function action({ request, params }: ActionArgs) {
   const currentUser = await getCurrentUser(request, {
-    select: { groups: true },
+    select: { groups: true, id: true },
   });
 
-  assertCurrentUserHasGroups(currentUser, [
-    UserGroup.ADMIN,
-    UserGroup.ANIMAL_MANAGER,
-  ]);
+  assertCurrentUserHasGroups(currentUser, [UserGroup.ADMIN]);
 
   const idResult = z.string().uuid().safeParse(params["id"]);
   if (!idResult.success) {
     throw new NotFoundResponse();
   }
 
-  const rawFormData = await request.formData();
-  const formData = zfd.formData(ActionFormData.schema).safeParse(rawFormData);
+  const formData = zfd
+    .formData(ActionFormData.schema)
+    .safeParse(await request.formData());
+
   if (!formData.success) {
     return json<ActionData>(
       { errors: formData.error.flatten() },
@@ -94,23 +78,22 @@ export async function action({ request, params }: ActionArgs) {
   }
 
   try {
-    await updateFosterFamily(idResult.data, {
-      address: formData.data.address,
-      city: formData.data.city,
-      comments: formData.data.comments || null,
-      displayName: formData.data.displayName,
-      email: formData.data.email,
-      phone: formData.data.phone,
-      speciesAlreadyPresent: formData.data.speciesAlreadyPresent,
-      speciesToHost: formData.data.speciesToHost,
-      zipCode: formData.data.zipCode,
-    });
+    await updateUser(
+      idResult.data,
+      {
+        displayName: formData.data.displayName,
+        email: formData.data.email,
+        groups: formData.data.groups,
+        temporaryPassword: formData.data.temporaryPassword,
+      },
+      currentUser
+    );
   } catch (error) {
     if (error instanceof NotFoundError) {
       return json<ActionData>(
         {
           errors: {
-            formErrors: ["La famille d’accueil est introuvable."],
+            formErrors: ["L’utilisateur est introuvable."],
             fieldErrors: {},
           },
         },
@@ -130,13 +113,17 @@ export async function action({ request, params }: ActionArgs) {
       );
     }
 
-    if (error instanceof MissingSpeciesToHostError) {
+    if (error instanceof LockMyselfError) {
       return json<ActionData>(
         {
           errors: {
             formErrors: [],
             fieldErrors: {
-              speciesToHost: ["Veuillez choisir au moins une espèces"],
+              groups: [
+                `Vous ne pouvez pas vous retirer du groupe ${
+                  GROUP_TRANSLATION[UserGroup.ADMIN]
+                }.`,
+              ],
             },
           },
         },
@@ -147,7 +134,7 @@ export async function action({ request, params }: ActionArgs) {
     throw error;
   }
 
-  return json<ActionData>({ redirectTo: `/foster-families/${idResult.data}` });
+  return json<ActionData>({ redirectTo: `/users/${idResult.data}` });
 }
 
 export function CatchBoundary() {
@@ -156,7 +143,7 @@ export function CatchBoundary() {
 }
 
 export default function Route() {
-  const { fosterFamily } = useLoaderData<typeof loader>();
+  const { user } = useLoaderData<typeof loader>();
   const fetcher = useFetcher<typeof action>();
   useBackIfPossible({ fallbackRedirectTo: fetcher.data?.redirectTo });
 
@@ -165,14 +152,11 @@ export default function Route() {
       <PageContent className="flex flex-col items-center">
         <Card className="w-full md:max-w-[600px]">
           <CardHeader>
-            <CardTitle>Modifier {fosterFamily.displayName}</CardTitle>
+            <CardTitle>Modifier {user.displayName}</CardTitle>
           </CardHeader>
 
           <CardContent>
-            <FosterFamilyForm
-              defaultFosterFamily={fosterFamily}
-              fetcher={fetcher}
-            />
+            <UserForm defaultUser={user} fetcher={fetcher} />
           </CardContent>
         </Card>
       </PageContent>

@@ -18,17 +18,29 @@ export function createUserDelegate(client: SearchClient) {
       await index.partialUpdateObject({ ...data, objectID: userId });
     },
 
+    async delete(userId: User["id"]) {
+      await index.deleteObject(userId);
+    },
+
+    async create(userId: User["id"], data: UserFromAlgolia) {
+      await index.saveObject({ ...data, objectID: userId });
+    },
+
     async search(
-      displayName: string,
-      filters: {
-        groups: UserGroup[];
-        isDisabled: null | boolean;
+      {
+        displayName,
+        groups,
+        isDisabled,
+      }: {
+        displayName: string;
+        groups?: null | UserGroup[];
+        isDisabled?: null | boolean;
       },
       options: Omit<SearchOptions, "filters"> = {}
     ) {
       const result = await index.search<UserFromAlgolia>(displayName, {
         ...options,
-        filters: createSearchFilters(filters),
+        filters: createSearchFilters({ groups, isDisabled }),
       });
 
       return result.hits.map((hit) => ({

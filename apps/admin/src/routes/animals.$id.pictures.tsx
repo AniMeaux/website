@@ -9,7 +9,7 @@ import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
 
 export async function loader({ request, params }: LoaderArgs) {
   const currentUser = await getCurrentUser(request, {
-    select: { id: true, groups: true },
+    select: { groups: true },
   });
 
   assertCurrentUserHasGroups(currentUser, [
@@ -35,6 +35,6 @@ export async function loader({ request, params }: LoaderArgs) {
 }
 
 // This export is required for parent's `CatchBoundary` to work.
-export default function Nop() {
+export default function Route() {
   return null;
 }

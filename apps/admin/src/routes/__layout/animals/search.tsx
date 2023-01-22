@@ -339,7 +339,7 @@ export const meta: MetaFunction = () => {
   return { title: getPageTitle("Animaux") };
 };
 
-export default function AnimalsPage() {
+export default function Route() {
   const { totalCount, pageCount, animals, canCreate } =
     useLoaderData<typeof loader>();
   const [searchParams] = useOptimisticSearchParams();

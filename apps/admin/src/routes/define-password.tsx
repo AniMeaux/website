@@ -32,7 +32,7 @@ export const handle: RouteHandle = {
 export async function loader({ request }: LoaderArgs) {
   const currentUser = await getCurrentUser(
     request,
-    { select: { id: true, shouldChangePassword: true } },
+    { select: { shouldChangePassword: true } },
     { skipPasswordChangeCheck: true }
   );
 
@@ -78,7 +78,7 @@ export async function action({ request }: ActionArgs) {
   throw redirect(searchParams.getNextOrDefault());
 }
 
-export default function DefinePasswordPage() {
+export default function Route() {
   const actionData = useActionData<typeof action>();
   const { formErrors = [], fieldErrors = {} } = actionData?.errors ?? {};
 

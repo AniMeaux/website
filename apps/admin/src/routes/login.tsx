@@ -97,7 +97,7 @@ export async function action({ request }: ActionArgs) {
   });
 }
 
-export default function LoginPage() {
+export default function Route() {
   const fetcher = useFetcher<typeof action>();
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);

@@ -24,7 +24,6 @@ import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
 export async function loader({ request }: LoaderArgs) {
   const currentUser = await getCurrentUser(request, {
     select: {
-      id: true,
       groups: true,
       draft: {
         include: {
@@ -114,7 +113,7 @@ export function CatchBoundary() {
   return <ErrorPage status={caught.status} />;
 }
 
-export default function NewAnimalProfilePage() {
+export default function Route() {
   const { draft } = useLoaderData<typeof loader>();
   const fetcher = useFetcher<typeof action>();
 

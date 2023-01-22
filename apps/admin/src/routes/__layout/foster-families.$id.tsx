@@ -51,7 +51,7 @@ import { Icon } from "~/generated/icon";
 
 export async function loader({ request, params }: LoaderArgs) {
   const currentUser = await getCurrentUser(request, {
-    select: { id: true, groups: true },
+    select: { groups: true },
   });
 
   assertCurrentUserHasGroups(currentUser, [
@@ -126,7 +126,7 @@ export async function action({ request, params }: ActionArgs) {
   }
 
   const currentUser = await getCurrentUser(request, {
-    select: { id: true, groups: true },
+    select: { groups: true },
   });
 
   assertCurrentUserHasGroups(currentUser, [
@@ -170,7 +170,7 @@ export function CatchBoundary() {
   return <ErrorPage status={caught.status} />;
 }
 
-export default function FosterFamilyProfilePage() {
+export default function Route() {
   return (
     <PageLayout>
       <PageContent className="flex flex-col gap-1 md:gap-2">

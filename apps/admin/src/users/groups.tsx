@@ -1,5 +1,6 @@
 import { User, UserGroup } from "@prisma/client";
 import intersection from "lodash.intersection";
+import orderBy from "lodash.orderby";
 import { IconProps } from "~/generated/icon";
 
 export const GROUP_TRANSLATION: Record<UserGroup, string> = {
@@ -10,6 +11,11 @@ export const GROUP_TRANSLATION: Record<UserGroup, string> = {
   [UserGroup.VETERINARIAN]: "Vétérinaire",
   [UserGroup.VOLUNTEER]: "Bénévole",
 };
+
+export const SORTED_GROUPS = orderBy(
+  Object.values(UserGroup),
+  (group) => GROUP_TRANSLATION[group]
+);
 
 export const GROUP_ICON: Record<UserGroup, IconProps["id"]> = {
   [UserGroup.ADMIN]: "shieldHalved",

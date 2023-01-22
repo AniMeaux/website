@@ -13,32 +13,24 @@ import { ErrorPage } from "~/core/dataDisplay/errorPage";
 import { EmailAlreadyUsedError } from "~/core/errors.server";
 import { Card, CardContent, CardHeader, CardTitle } from "~/core/layout/card";
 import { PageContent, PageLayout } from "~/core/layout/page";
-import { useBackIfPossible } from "~/core/navigation";
 import { getPageTitle } from "~/core/pageTitle";
-import { NextSearchParams } from "~/core/searchParams";
 import { getCurrentUser } from "~/currentUser/db.server";
 import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
-import {
-  createFosterFamily,
-  MissingSpeciesToHostError,
-} from "~/fosterFamilies/db.server";
-import { ActionFormData, FosterFamilyForm } from "~/fosterFamilies/form";
+import { createUser, MissingPasswordError } from "~/users/db.server";
+import { ActionFormData, UserForm } from "~/users/form";
 
 export async function loader({ request }: LoaderArgs) {
   const currentUser = await getCurrentUser(request, {
     select: { groups: true },
   });
 
-  assertCurrentUserHasGroups(currentUser, [
-    UserGroup.ADMIN,
-    UserGroup.ANIMAL_MANAGER,
-  ]);
+  assertCurrentUserHasGroups(currentUser, [UserGroup.ADMIN]);
 
   return new Response("Ok");
 }
 
 export const meta: MetaFunction = () => {
-  return { title: getPageTitle("Nouvelle famille d’accueil") };
+  return { title: getPageTitle("Nouvel utilisateur") };
 };
 
 type ActionData = {
@@ -51,13 +43,12 @@ export async function action({ request }: ActionArgs) {
     select: { groups: true },
   });
 
-  assertCurrentUserHasGroups(currentUser, [
-    UserGroup.ADMIN,
-    UserGroup.ANIMAL_MANAGER,
-  ]);
+  assertCurrentUserHasGroups(currentUser, [UserGroup.ADMIN]);
 
-  const rawFormData = await request.formData();
-  const formData = zfd.formData(ActionFormData.schema).safeParse(rawFormData);
+  const formData = zfd
+    .formData(ActionFormData.schema)
+    .safeParse(await request.formData());
+
   if (!formData.success) {
     return json<ActionData>(
       { errors: formData.error.flatten() },
@@ -66,50 +57,35 @@ export async function action({ request }: ActionArgs) {
   }
 
   try {
-    const fosterFamilyId = await createFosterFamily({
-      address: formData.data.address,
-      city: formData.data.city,
-      comments: formData.data.comments || null,
+    const userId = await createUser({
       displayName: formData.data.displayName,
       email: formData.data.email,
-      phone: formData.data.phone,
-      speciesAlreadyPresent: formData.data.speciesAlreadyPresent,
-      speciesToHost: formData.data.speciesToHost,
-      zipCode: formData.data.zipCode,
+      groups: formData.data.groups,
+      temporaryPassword: formData.data.temporaryPassword,
     });
 
-    const url = new URL(request.url);
-    const searchParams = new NextSearchParams(url.searchParams);
-    const next = searchParams.getNext();
-
-    if (next == null) {
-      // Redirect instead of going back so we can display the newly created
-      // foster family.
-      throw redirect(`/foster-families/${fosterFamilyId}`);
-    }
-
-    return json<ActionData>({ redirectTo: next });
+    throw redirect(`/users/${userId}`);
   } catch (error) {
-    if (error instanceof EmailAlreadyUsedError) {
+    if (error instanceof MissingPasswordError) {
       return json<ActionData>(
         {
           errors: {
             formErrors: [],
-            fieldErrors: { email: ["L’email est déjà utilisé"] },
+            fieldErrors: {
+              temporaryPassword: ["Veuillez entrer un mot de passe"],
+            },
           },
         },
         { status: 400 }
       );
     }
 
-    if (error instanceof MissingSpeciesToHostError) {
+    if (error instanceof EmailAlreadyUsedError) {
       return json<ActionData>(
         {
           errors: {
             formErrors: [],
-            fieldErrors: {
-              speciesToHost: ["Veuillez choisir au moins une espèces"],
-            },
+            fieldErrors: { email: ["L’email est déjà utilisé"] },
           },
         },
         { status: 400 }
@@ -127,18 +103,17 @@ export function CatchBoundary() {
 
 export default function Route() {
   const fetcher = useFetcher<typeof action>();
-  useBackIfPossible({ fallbackRedirectTo: fetcher.data?.redirectTo });
 
   return (
     <PageLayout>
       <PageContent className="flex flex-col items-center">
         <Card className="w-full md:max-w-[600px]">
           <CardHeader>
-            <CardTitle>Nouvelle famille d’accueil</CardTitle>
+            <CardTitle>Nouvel utilisateur</CardTitle>
           </CardHeader>
 
           <CardContent>
-            <FosterFamilyForm isCreate fetcher={fetcher} />
+            <UserForm isCreate fetcher={fetcher} />
           </CardContent>
         </Card>
       </PageContent>
