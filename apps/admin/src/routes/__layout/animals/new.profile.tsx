@@ -24,7 +24,6 @@ import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
 export async function loader({ request }: LoaderArgs) {
   const currentUser = await getCurrentUser(request, {
     select: {
-      id: true,
       groups: true,
       draft: {
         include: {

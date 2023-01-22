@@ -32,7 +32,7 @@ export const handle: RouteHandle = {
 export async function loader({ request }: LoaderArgs) {
   const currentUser = await getCurrentUser(
     request,
-    { select: { id: true, shouldChangePassword: true } },
+    { select: { shouldChangePassword: true } },
     { skipPasswordChangeCheck: true }
   );
 

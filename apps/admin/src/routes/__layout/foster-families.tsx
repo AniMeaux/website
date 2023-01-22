@@ -33,7 +33,7 @@ const FOSTER_FAMILY_COUNT_PER_PAGE = 20;
 
 export async function loader({ request }: LoaderArgs) {
   const currentUser = await getCurrentUser(request, {
-    select: { id: true, groups: true },
+    select: { groups: true },
   });
 
   assertCurrentUserHasGroups(currentUser, [
