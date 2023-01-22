@@ -332,6 +332,13 @@ function HeaderCard() {
 
             <div>{user.email}</div>
           </div>
+
+          <BaseLink
+            to="./edit"
+            className={actionClassName.standalone({ variant: "text" })}
+          >
+            Modifier
+          </BaseLink>
         </div>
       </CardContent>
     </Card>

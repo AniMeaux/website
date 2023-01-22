@@ -22,6 +22,10 @@ export function createUserDelegate(client: SearchClient) {
       await index.deleteObject(userId);
     },
 
+    async create(userId: User["id"], data: UserFromAlgolia) {
+      await index.saveObject({ ...data, objectID: userId });
+    },
+
     async search(
       {
         displayName,

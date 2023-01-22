@@ -11,6 +11,7 @@ export const formClassNames = {
       root: () => "flex flex-col",
       label: () => "text-caption-default text-gray-500",
       errorMessage: () => "text-caption-default text-red-500",
+      helperMessage: () => "text-caption-default text-gray-500",
     },
   },
 };

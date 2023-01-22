@@ -120,7 +120,7 @@ export const meta: MetaFunction = () => {
   return { title: getPageTitle("Utilisateurs") };
 };
 
-export default function UsersPage() {
+export default function Route() {
   const { pageCount, userCount, users } = useLoaderData<typeof loader>();
   const [searchParams] = useOptimisticSearchParams();
   const userSearchParams = new UserSearchParams(searchParams);
@@ -135,6 +135,13 @@ export default function UsersPage() {
                 <CardTitle>
                   {userCount} {userCount > 1 ? "utilisateurs" : "utilisateur"}
                 </CardTitle>
+
+                <BaseLink
+                  to="./new"
+                  className={actionClassName.standalone({ variant: "text" })}
+                >
+                  Créer
+                </BaseLink>
               </CardHeader>
 
               <CardContent>
