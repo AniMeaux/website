@@ -148,7 +148,7 @@ export const meta: MetaFunction = () => {
   return { title: getPageTitle("Familles d’accueil") };
 };
 
-export default function FosterFamiliesPage() {
+export default function Route() {
   const { totalCount, pageCount, fosterFamilies } =
     useLoaderData<typeof loader>();
   const [searchParams] = useOptimisticSearchParams();

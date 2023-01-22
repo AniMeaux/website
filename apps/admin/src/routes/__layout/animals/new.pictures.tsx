@@ -116,7 +116,7 @@ export function CatchBoundary() {
   return <ErrorPage status={caught.status} />;
 }
 
-export default function NewAnimalSituationPage() {
+export default function Route() {
   const fetcher = useFetcher<typeof action>();
 
   return (

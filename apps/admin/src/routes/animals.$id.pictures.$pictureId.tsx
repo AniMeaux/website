@@ -72,7 +72,7 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
   return { title: getPageTitle(`Photos de ${getAnimalDisplayName(animal)}`) };
 };
 
-export default function AnimalPhotosPage() {
+export default function Route() {
   const { animal, visiblePictureId } = useLoaderData<typeof loader>();
   const allPictures = getAllAnimalPictures(animal);
   const visiblePictureIndex = allPictures.indexOf(visiblePictureId);

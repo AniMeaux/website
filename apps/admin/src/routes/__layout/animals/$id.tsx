@@ -197,7 +197,7 @@ export function CatchBoundary() {
   return <ErrorPage status={caught.status} />;
 }
 
-export default function AnimalProfilePage() {
+export default function Route() {
   const { canEdit } = useLoaderData<typeof loader>();
 
   return (

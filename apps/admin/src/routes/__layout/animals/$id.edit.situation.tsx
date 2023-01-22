@@ -225,7 +225,7 @@ export function CatchBoundary() {
   return <ErrorPage status={caught.status} />;
 }
 
-export default function AnimalEditSituationPage() {
+export default function Route() {
   const { animal } = useLoaderData<typeof loader>();
   const fetcher = useFetcher<typeof action>();
   useBackIfPossible({ fallbackRedirectTo: fetcher.data?.redirectTo });

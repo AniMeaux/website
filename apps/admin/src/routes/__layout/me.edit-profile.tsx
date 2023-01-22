@@ -86,7 +86,7 @@ export async function action({ request }: ActionArgs) {
   return json<ActionData>({ redirectTo: "/me" });
 }
 
-export default function EditCurrentUserProfilePage() {
+export default function Route() {
   const { currentUser } = useLoaderData<typeof loader>();
   const fetcher = useFetcher<typeof action>();
   useBackIfPossible({ fallbackRedirectTo: fetcher.data?.redirectTo });

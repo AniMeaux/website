@@ -155,7 +155,7 @@ export function CatchBoundary() {
   return <ErrorPage status={caught.status} />;
 }
 
-export default function FosterFamilyEditPage() {
+export default function Route() {
   const { fosterFamily } = useLoaderData<typeof loader>();
   const fetcher = useFetcher<typeof action>();
   useBackIfPossible({ fallbackRedirectTo: fetcher.data?.redirectTo });

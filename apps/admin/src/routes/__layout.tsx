@@ -45,7 +45,7 @@ export async function loader({ request }: LoaderArgs) {
   return json({ currentUser });
 }
 
-export default function Layout() {
+export default function Route() {
   const { currentUser } = useLoaderData<typeof loader>();
 
   return (

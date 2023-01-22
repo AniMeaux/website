@@ -113,7 +113,7 @@ export function CatchBoundary() {
   return <ErrorPage status={caught.status} />;
 }
 
-export default function NewAnimalProfilePage() {
+export default function Route() {
   const { draft } = useLoaderData<typeof loader>();
   const fetcher = useFetcher<typeof action>();
 

@@ -170,7 +170,7 @@ export function CatchBoundary() {
   return <ErrorPage status={caught.status} />;
 }
 
-export default function FosterFamilyProfilePage() {
+export default function Route() {
   return (
     <PageLayout>
       <PageContent className="flex flex-col gap-1 md:gap-2">

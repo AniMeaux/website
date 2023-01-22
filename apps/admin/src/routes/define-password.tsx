@@ -78,7 +78,7 @@ export async function action({ request }: ActionArgs) {
   throw redirect(searchParams.getNextOrDefault());
 }
 
-export default function DefinePasswordPage() {
+export default function Route() {
   const actionData = useActionData<typeof action>();
   const { formErrors = [], fieldErrors = {} } = actionData?.errors ?? {};
 

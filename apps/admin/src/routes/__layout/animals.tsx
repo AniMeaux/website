@@ -18,7 +18,7 @@ export async function loader({ request }: LoaderArgs) {
   return json({ hasDashboard });
 }
 
-export default function AnimalsPage() {
+export default function Route() {
   const { hasDashboard } = useLoaderData<typeof loader>();
   const { pathname } = useLocation();
 
