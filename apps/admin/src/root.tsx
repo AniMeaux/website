@@ -26,7 +26,12 @@ import appleTouchIcon from "~/images/appleTouchIcon.png";
 import favicon from "~/images/favicon.svg";
 import maskIcon from "~/images/maskIcon.svg";
 
+// Display dates in French.
 Settings.defaultLocale = "fr";
+
+// All "day dates" should be inferred as in Paris time zone.
+// Ex: 2022-01-01 => 2021-12-31T23:00:00.000Z and not 2021-01-01T00:00:00.000Z
+Settings.defaultZone = "Europe/Paris";
 
 export const links: LinksFunction = () => {
   return [
