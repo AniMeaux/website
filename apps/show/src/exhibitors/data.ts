@@ -53,6 +53,13 @@ export const exhibitors: Exhibitor[] = [
     url: "https://www.alforme.fr",
   },
   {
+    id: "8cfa1614-d0fd-4602-ae06-2aa799b2b621",
+    name: "Alliance hérissons",
+    category: ExhibitorCategory.ASSOCIATION_FAUNE_SAUVAGE,
+    image: "show-exhibitors/c1f9cf91-c0c2-4156-bcda-a07dc7d4f117",
+    url: "https://www.facebook.com/profile.php?id=100064320027110",
+  },
+  {
     id: "96c1f509-e06e-4686-b8d8-fc6d5c747219",
     name: "Ani’Meaux",
     category: ExhibitorCategory.ASSOCIATION_ANIMAUX_DE_COMPAGNIE,
