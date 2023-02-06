@@ -80,21 +80,30 @@ function OptionsSection() {
 
       <OptionList>
         <OptionCard>
+          <OptionTitle>Adhérent bienfaiteur</OptionTitle>
+          <OptionDescription>
+            Pour les personnes n’ayant pas la possibilité de beaucoup participer
+            mais souhaitant nous soutenir.
+          </OptionDescription>
+          <OptionPrice suffix="/ an">35 €</OptionPrice>
+        </OptionCard>
+
+        <OptionCard>
+          <OptionTitle>Adhérent dédié aux évènements</OptionTitle>
+          <OptionDescription>
+            Pour nous aider lors de nos évènements au moins 1 fois tous les 2
+            mois !
+          </OptionDescription>
+          <OptionPrice suffix="/ an">25 €</OptionPrice>
+        </OptionCard>
+
+        <OptionCard>
           <OptionTitle>Adhérent actif</OptionTitle>
           <OptionDescription>
             Pour les personnes souhaitant s’investir et participer à au moins
             une mission par mois.
           </OptionDescription>
           <OptionPrice suffix="/ an">15 €</OptionPrice>
-        </OptionCard>
-
-        <OptionCard>
-          <OptionTitle>Adhérent simple</OptionTitle>
-          <OptionDescription>
-            Pour les personnes n’ayant pas la possibilité de beaucoup participer
-            mais souhaitant nous soutenir.
-          </OptionDescription>
-          <OptionPrice suffix="/ an">30 €</OptionPrice>
         </OptionCard>
       </OptionList>
 

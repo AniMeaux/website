@@ -225,7 +225,7 @@ function CostsSection() {
             <OptionTitle>Sans stérilisation / castration</OptionTitle>
             <OptionDescription>
               La stérilisation / castration est obligatoire à l’âge de 6 mois,
-              un chèque de caution de 150 € vous sera demandé et rendu ou
+              un chèque de caution de 200 € vous sera demandé et rendu ou
               détruit, une fois la stérilisation / castration faite.
             </OptionDescription>
             <OptionPrice>180 €</OptionPrice>
@@ -283,9 +283,12 @@ function CostsSection() {
           <OptionCard>
             <OptionTitle>Sans stérilisation / castration</OptionTitle>
             <OptionDescription>
-              La stérilisation / castration est obligatoire à l’âge de 6 mois,
-              un chèque de caution de 150 € vous sera demandé et rendu ou
-              détruit, une fois la stérilisation / castration faite.
+              <strong className="text-body-emphasis">
+                Exclusivement pour un chiot de moins de 1 an
+              </strong>
+              , la stérilisation / castration est obligatoire, un chèque de
+              caution de 200 € vous sera demandé et rendu ou détruit, une fois
+              la stérilisation / castration faite.
             </OptionDescription>
             <OptionPrice>200 €</OptionPrice>
             <OptionFeatureList>
@@ -299,10 +302,11 @@ function CostsSection() {
           <OptionCard>
             <OptionTitle>Avec castration</OptionTitle>
             <OptionDescription>
-              <strong className="text-body-emphasis">Pour un mâle</strong>, la
-              castration est comprise en passant par l’un de nos vétérinaires
-              partenaires, à faire à l’âge de 6 mois pour les chiots ou déjà
-              faite pour les adultes.
+              <strong className="text-body-emphasis">
+                Exclusivement pour un mâle de 1 an et plus
+              </strong>
+              , la castration est comprise en passant par l’un de nos
+              vétérinaires partenaires.
             </OptionDescription>
             <OptionPrice>300 €</OptionPrice>
             <OptionFeatureList>
@@ -316,10 +320,11 @@ function CostsSection() {
           <OptionCard>
             <OptionTitle>Avec stérilisation</OptionTitle>
             <OptionDescription>
-              <strong className="text-body-emphasis">Pour un femelle</strong>,
-              la stérilisation est comprise en passant par l’un de nos
-              vétérinaires partenaires, à faire à l’âge de 6 mois pour les
-              chiots ou déjà faite pour les adultes.
+              <strong className="text-body-emphasis">
+                Exclusivement pour un femelle de 1 an et plus
+              </strong>
+              , la stérilisation est comprise en passant par l’un de nos
+              vétérinaires partenaires.
             </OptionDescription>
             <OptionPrice>350 €</OptionPrice>
             <OptionFeatureList>
