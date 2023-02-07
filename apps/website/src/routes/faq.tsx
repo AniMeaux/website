@@ -110,6 +110,21 @@ const FAQ: Faq[] = [
     ),
   },
   {
+    icon: "commentsQuestion",
+    color: "blue",
+    question: "Où peut-on venir vous rencontrer ?",
+    answer: (
+      <>
+        Notre association ne disposant pas de locaux ou de bureaux, vous pourrez
+        nous retrouver lors de{" "}
+        <BaseLink to="/evenements" className={actionClassNames.proseInline()}>
+          nos évènements
+        </BaseLink>
+        .
+      </>
+    ),
+  },
+  {
     icon: "houseChimneyPaw",
     color: "green",
     question: "Où vont les animaux lorsque vous les prenez en charge ?",
@@ -147,40 +162,6 @@ const FAQ: Faq[] = [
     ),
   },
   {
-    icon: "commentsQuestion",
-    color: "blue",
-    question: "Où peut-on venir vous rencontrer ?",
-    answer: (
-      <>
-        Notre association ne disposant pas de locaux ou de bureaux, vous pourrez
-        nous retrouver lors de{" "}
-        <BaseLink to="/evenements" className={actionClassNames.proseInline()}>
-          nos évènements
-        </BaseLink>
-        .
-      </>
-    ),
-  },
-  {
-    icon: "handHoldingHeart",
-    color: "yellow",
-    question: "Comment vous aider dans votre action ?",
-    answer: (
-      <>
-        Les dons financiers et matériels sont cruciaux pour le bon
-        fonctionnement de notre association.
-        <br />
-        <br />
-        Néanmoins, vous pouvez également faire don de votre temps pour nous
-        accompagner dans notre mission au quotidien.
-        <br />
-        <br />
-        Attention cependant, le contact avec les animaux n’est pas quotidien
-        dans la mesure où nous n’avons pas de locaux ni de refuge.
-      </>
-    ),
-  },
-  {
     icon: "boxHeart",
     color: "green",
     question:
@@ -209,6 +190,25 @@ const FAQ: Faq[] = [
           nos évènements
         </BaseLink>{" "}
         comme nos collectes.
+      </>
+    ),
+  },
+  {
+    icon: "handHoldingHeart",
+    color: "yellow",
+    question: "Comment vous aider dans votre action ?",
+    answer: (
+      <>
+        Les dons financiers et matériels sont cruciaux pour le bon
+        fonctionnement de notre association.
+        <br />
+        <br />
+        Néanmoins, vous pouvez également faire don de votre temps pour nous
+        accompagner dans notre mission au quotidien.
+        <br />
+        <br />
+        Attention cependant, le contact avec les animaux n’est pas quotidien
+        dans la mesure où nous n’avons pas de locaux ni de refuge.
       </>
     ),
   },
