@@ -6,7 +6,7 @@ type AnimalGenderIconProps = IconBaseProps & {
   gender: AnimalGender;
 };
 
-const AnimalGenderIcons: { [key in AnimalGender]: React.ElementType } = {
+const AnimalGenderIcons: Record<AnimalGender, React.VFC<IconBaseProps>> = {
   [AnimalGender.FEMALE]: FaVenus,
   [AnimalGender.MALE]: FaMars,
 };

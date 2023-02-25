@@ -61,7 +61,7 @@ const INITIAL_STATE: ProviderState = {
 
 type DragAndDropContextProviderProps = ChildrenProp & {
   itemType: string;
-  previewElement: React.ElementType;
+  previewElement: React.VFC;
   disabled?: boolean;
   direction?: DragAndDropDirection;
 };

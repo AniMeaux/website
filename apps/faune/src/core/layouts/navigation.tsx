@@ -89,7 +89,7 @@ function NavigationMenu({ navigationItems }: NavigationMenuProps) {
 
 type NavigationItem = {
   href: string;
-  icon: React.ElementType;
+  icon: React.VFC;
   label: string;
   authorizedGroups: UserGroup[];
 };

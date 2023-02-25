@@ -84,7 +84,7 @@ export class AnimalSearchParams extends URLSearchParams {
   setSort(
     sort:
       | null
-      | typeof AnimalSearchParams.Sort[keyof typeof AnimalSearchParams.Sort]
+      | (typeof AnimalSearchParams.Sort)[keyof typeof AnimalSearchParams.Sort]
   ) {
     const copy = new AnimalSearchParams(this);
 
@@ -361,7 +361,7 @@ export class AnimalSearchParams extends URLSearchParams {
   }
 
   setIsSterilized(
-    isSterilized: typeof AnimalSearchParams.IsSterilized[keyof typeof AnimalSearchParams.IsSterilized][]
+    isSterilized: (typeof AnimalSearchParams.IsSterilized)[keyof typeof AnimalSearchParams.IsSterilized][]
   ) {
     const copy = new AnimalSearchParams(this);
     copy.delete(AnimalSearchParams.Keys.IS_STERILIZED);
