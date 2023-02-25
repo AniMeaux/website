@@ -1,7 +1,7 @@
 import { Step, Steps } from "~/core/controllers/steps";
 
 const STEPS = ["profile", "situation", "pictures"] as const;
-type ActiveStep = typeof STEPS[number];
+type ActiveStep = (typeof STEPS)[number];
 
 export function AnimalCreationSteps({
   activeStep,

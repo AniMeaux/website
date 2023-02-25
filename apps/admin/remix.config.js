@@ -29,6 +29,6 @@ module.exports = {
     // These are dependencies of react-dnd.
     /^@react-dnd\/.*/,
     /^dnd-core$/,
-    /^react-dnd.*/,
+    /^react-dnd/,
   ],
 };

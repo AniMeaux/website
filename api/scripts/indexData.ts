@@ -35,7 +35,7 @@ indexData()
   .finally(async () => await prisma.$disconnect());
 
 async function indexData() {
-  const table = process.argv[2] as null | typeof TABLES[number];
+  const table = process.argv[2] as null | (typeof TABLES)[number];
   invariant(table != null, `Please choose a table in: ${TABLES.join(", ")}.`);
   invariant(
     TABLES.includes(table),

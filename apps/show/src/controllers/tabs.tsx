@@ -7,7 +7,9 @@ import { LineShapeHorizontal } from "~/layout/lineShape";
 export function Tab({
   children,
   ...rest
-}: Omit<BaseLinkProps, "className" | "isNavLink">) {
+}: React.PropsWithChildren<
+  Omit<BaseLinkProps, "children" | "className" | "isNavLink">
+>) {
   const { ref, width } = useWidth<HTMLAnchorElement>();
 
   return (

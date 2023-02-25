@@ -38,7 +38,7 @@ import { Icon } from "~/generated/icon";
 const SEARCH_COUNT = 6;
 
 const TYPES = ["animal", "fosterFamily"] as const;
-type Type = typeof TYPES[number];
+type Type = (typeof TYPES)[number];
 
 export class GlobalSearchParams extends URLSearchParams {
   static readonly Keys = {

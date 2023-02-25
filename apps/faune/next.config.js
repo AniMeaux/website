@@ -1,17 +1,12 @@
-const withPwa = require("next-pwa");
+const withPwa = require("next-pwa")({
+  disable: process.env.NODE_ENV === "development",
+  dest: "./public",
+});
 
 module.exports = withPwa({
-  pwa: {
-    disable: process.env.NODE_ENV === "development",
-    dest: "./public",
-  },
   distDir: "./build",
   reactStrictMode: true,
-  devIndicators: {
-    buildActivity: false,
-    autoPrerender: false,
-  },
-  experimental: {
+  compiler: {
     styledComponents: true,
   },
 
