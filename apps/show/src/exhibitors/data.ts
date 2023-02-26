@@ -312,13 +312,6 @@ export const exhibitors: Exhibitor[] = [
     url: "https://www.lesnonuches.fr",
   },
   {
-    id: "7bd1c635-4b3c-431e-a676-afb5a5f03bf4",
-    name: "Lm Pet’s Cooking",
-    category: ExhibitorCategory.FRIANDISES_CHIENS,
-    image: "show-exhibitors/fccb3dcb-3710-481f-ae4d-2b39cab340d4",
-    url: "https://www.lm-pets-cooking.fr",
-  },
-  {
     id: "6bf921c5-199f-4481-9308-6035b044f44b",
     name: "Madnesis",
     category: ExhibitorCategory.ACCESSOIRES,
@@ -327,10 +320,10 @@ export const exhibitors: Exhibitor[] = [
   },
   {
     id: "85ee717c-4932-4bb1-aa96-446b9eddcf9e",
-    name: "Matoobox",
+    name: "Matoo & Patoo",
     category: ExhibitorCategory.ALIMENTATION_ET_ACCESSOIRES,
-    image: "show-exhibitors/fc5f0e8a-bd4b-4651-9842-0b157cf132dc",
-    url: "https://matoobox.fr",
+    image: "show-exhibitors/f01bf6cb-b501-4a97-aaa1-5ddaa4bea958",
+    url: "https://matooetpatoo.fr",
   },
   {
     id: "9d02417e-ad26-4730-8c11-637dda2c2e97",
@@ -374,13 +367,6 @@ export const exhibitors: Exhibitor[] = [
     category: ExhibitorCategory.PLATEFORME_EN_LIGNE,
     image: "show-exhibitors/9fb5830f-11c0-474d-bebe-4e4bc305b3f9",
     url: "https://paradis-animalier.fr",
-  },
-  {
-    id: "dfa41f09-8825-4ae3-ad34-6b6abf4685de",
-    name: "Patoobox",
-    category: ExhibitorCategory.ALIMENTATION_ET_ACCESSOIRES,
-    image: "show-exhibitors/8fcf9a14-7128-4172-bc67-3b4052a061a1",
-    url: "https://patoobox.fr",
   },
   {
     id: "78e7db71-fdd3-4a19-9d60-1a0c8df7b276",
