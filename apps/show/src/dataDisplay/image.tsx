@@ -6,7 +6,7 @@ import { ScreenSize, theme } from "~/generated/theme";
 
 // Ordered by decreasing size.
 const IMAGE_SIZES = ["2048", "1536", "1024", "512", "256", "128"] as const;
-type ImageSize = typeof IMAGE_SIZES[number];
+type ImageSize = (typeof IMAGE_SIZES)[number];
 
 export type ImageDescriptor = {
   imagesBySize: Partial<Record<ImageSize, string>>;

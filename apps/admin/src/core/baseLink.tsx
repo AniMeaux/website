@@ -115,11 +115,13 @@ export const BaseLink = forwardRef<HTMLAnchorElement, BaseLinkProps>(
 );
 
 function defaultCallProp<
-  TProp extends
-    | BaseLinkProps["className"]
-    | BaseLinkProps["style"]
-    | BaseLinkProps["children"]
->(prop: TProp) {
+  TValue extends string | React.CSSProperties | React.ReactNode
+>(
+  prop:
+    | undefined
+    | TValue
+    | ((arg: { isActive: boolean }) => undefined | TValue)
+) {
   if (typeof prop === "function") {
     return prop({ isActive: false });
   }

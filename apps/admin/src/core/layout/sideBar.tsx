@@ -16,7 +16,7 @@ export function SideBar({ isOpened, setIsOpened, children }: SideBarProps) {
         {(transitionStatus) => (
           <div
             className={cn(
-              "w-full h-full flex flex-col gap-4 transition-[width] duration-200 ease-in-out",
+              "h-full flex flex-col gap-4 transition-[width] duration-200 ease-in-out",
               {
                 "w-[40px]":
                   transitionStatus === "exited" ||

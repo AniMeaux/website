@@ -10,7 +10,7 @@ type AnimalSpeciesIconProps = IconBaseProps & {
   species: AnimalSpecies;
 };
 
-const ANIMAL_SPECIES_ICONS: Record<AnimalSpecies, React.ElementType> = {
+const ANIMAL_SPECIES_ICONS: Record<AnimalSpecies, React.VFC<IconBaseProps>> = {
   [AnimalSpecies.BIRD]: BirdIcon,
   [AnimalSpecies.CAT]: CatIcon,
   [AnimalSpecies.DOG]: DogIcon,
