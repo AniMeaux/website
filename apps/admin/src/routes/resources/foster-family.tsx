@@ -1,7 +1,7 @@
 import { FosterFamily, UserGroup } from "@prisma/client";
 import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
 import { json, LoaderArgs, SerializeFrom } from "@remix-run/node";
-import { useFetcher, useLocation, useNavigate } from "@remix-run/react";
+import { useFetcher, useLocation } from "@remix-run/react";
 import { useCombobox } from "downshift";
 import { createPath } from "history";
 import { forwardRef, useEffect, useRef, useState } from "react";
@@ -17,6 +17,7 @@ import {
   SuggestionItem,
   SuggestionList,
 } from "~/core/formElements/resourceInput";
+import { useNavigate } from "~/core/navigation";
 import { NextSearchParams } from "~/core/searchParams";
 import { getCurrentUser } from "~/currentUser/db.server";
 import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
