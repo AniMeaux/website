@@ -5,7 +5,7 @@ import {
   MetaFunction,
   redirect,
 } from "@remix-run/node";
-import { Form, useActionData } from "@remix-run/react";
+import { useFetcher } from "@remix-run/react";
 import { useEffect, useRef } from "react";
 import { z } from "zod";
 import { actionClassName } from "~/core/actions";
@@ -79,21 +79,19 @@ export async function action({ request }: ActionArgs) {
 }
 
 export default function Route() {
-  const actionData = useActionData<typeof action>();
-  const { formErrors = [], fieldErrors = {} } = actionData?.errors ?? {};
-
+  const fetcher = useFetcher<typeof action>();
   const passwordRef = useRef<HTMLInputElement>(null);
 
   // Focus the first field having an error.
   useEffect(() => {
-    if (actionData?.errors != null) {
-      if (actionData.errors.formErrors.length > 0) {
+    if (fetcher.data?.errors != null) {
+      if (fetcher.data.errors.formErrors.length > 0) {
         window.scrollTo({ top: 0 });
-      } else if (actionData.errors.fieldErrors.password != null) {
+      } else if (fetcher.data.errors.fieldErrors.password != null) {
         passwordRef.current?.focus();
       }
     }
-  }, [actionData]);
+  }, [fetcher.data?.errors]);
 
   return (
     <main className="w-full grid grid-cols-[minmax(0px,500px)] justify-center justify-items-center md:min-h-screen md:grid-cols-[1fr_minmax(500px,1fr)]">
@@ -111,13 +109,17 @@ export default function Route() {
             Définir un mot de passe
           </h1>
 
-          <Form method="post" noValidate className="flex flex-col gap-4">
+          <fetcher.Form
+            method="post"
+            noValidate
+            className="flex flex-col gap-4"
+          >
             <div className={formClassNames.fields.root()}>
               <Helper variant="info">
                 Pour plus de sécurité, veuillez définir un nouveau mot de passe.
               </Helper>
 
-              <FormErrors errors={formErrors} />
+              <FormErrors errors={fetcher.data?.errors.formErrors} />
 
               <div className={formClassNames.fields.field.root()}>
                 <label
@@ -132,7 +134,7 @@ export default function Route() {
                   id={ActionFormData.keys.password}
                   name={ActionFormData.keys.password}
                   autoComplete="current-password"
-                  hasError={fieldErrors.password != null}
+                  hasError={fetcher.data?.errors.fieldErrors.password != null}
                   aria-describedby="password-error"
                   leftAdornment={
                     <Adornment>
@@ -141,12 +143,12 @@ export default function Route() {
                   }
                 />
 
-                {fieldErrors.password != null ? (
+                {fetcher.data?.errors.fieldErrors.password != null ? (
                   <p
                     id="password-error"
                     className={formClassNames.fields.field.errorMessage()}
                   >
-                    {fieldErrors.password}
+                    {fetcher.data?.errors.fieldErrors.password}
                   </p>
                 ) : null}
               </div>
@@ -155,7 +157,7 @@ export default function Route() {
             <button type="submit" className={actionClassName.standalone()}>
               Enregistrer
             </button>
-          </Form>
+          </fetcher.Form>
         </section>
       </section>
     </main>

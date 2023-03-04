@@ -39,12 +39,14 @@ export function FosterFamilyFilters({
 
   return (
     <Form
+      replace
       method="get"
-      onChange={(event) => submit(event.currentTarget)}
+      onChange={(event) => submit(event.currentTarget, { replace: true })}
       className="flex flex-col gap-2"
     >
       <div className="flex flex-col gap-1">
         <BaseLink
+          replace
           to={{ search: "" }}
           className={actionClassName.standalone({
             variant: "secondary",

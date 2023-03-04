@@ -1,6 +1,7 @@
 import { Link, NavLink, NavLinkProps } from "@remix-run/react";
 import { createPath, parsePath } from "history";
 import { forwardRef } from "react";
+import { createLocationState, useLocationState } from "~/core/locationState";
 
 export type BaseLinkProps = {
   children?: NavLinkProps["children"];
@@ -42,6 +43,8 @@ export const BaseLink = forwardRef<HTMLAnchorElement, BaseLinkProps>(
     },
     ref
   ) {
+    const { fromApp } = useLocationState();
+
     const commonProps: React.AnchorHTMLAttributes<HTMLAnchorElement> &
       React.RefAttributes<HTMLAnchorElement> = {
       ...rest,
@@ -84,14 +87,22 @@ export const BaseLink = forwardRef<HTMLAnchorElement, BaseLinkProps>(
       );
     }
 
+    const internalCommonProps: Omit<
+      NavLinkProps,
+      "className" | "style" | "children"
+    > = {
+      to,
+      state: createLocationState({ fromApp: !replace || fromApp }),
+      prefetch,
+      reloadDocument,
+      replace,
+    };
+
     if (isNavLink) {
       return (
         <NavLink
           {...commonProps}
-          to={to}
-          prefetch={prefetch}
-          reloadDocument={reloadDocument}
-          replace={replace}
+          {...internalCommonProps}
           className={className}
           style={style}
           children={children}
@@ -102,10 +113,7 @@ export const BaseLink = forwardRef<HTMLAnchorElement, BaseLinkProps>(
     return (
       <Link
         {...commonProps}
-        to={to}
-        prefetch={prefetch}
-        reloadDocument={reloadDocument}
-        replace={replace}
+        {...internalCommonProps}
         className={defaultCallProp(className)}
         style={defaultCallProp(style)}
         children={defaultCallProp(children)}

@@ -2,11 +2,7 @@ import { User, UserGroup } from "@prisma/client";
 import * as Dialog from "@radix-ui/react-dialog";
 import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
 import { json, LoaderArgs, SerializeFrom } from "@remix-run/node";
-import {
-  FetcherWithComponents,
-  useFetcher,
-  useNavigate,
-} from "@remix-run/react";
+import { FetcherWithComponents, useFetcher } from "@remix-run/react";
 import {
   useCombobox,
   UseComboboxState,
@@ -26,6 +22,7 @@ import {
   SuggestionItem,
   SuggestionList,
 } from "~/core/formElements/resourceInput";
+import { useNavigate } from "~/core/navigation";
 import { ForbiddenResponse } from "~/core/response.server";
 import { parseOrDefault } from "~/core/schemas";
 import { getCurrentUser } from "~/currentUser/db.server";
