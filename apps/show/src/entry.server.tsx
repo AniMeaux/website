@@ -1,7 +1,11 @@
-import { EntryContext } from "@remix-run/node";
+import { EntryContext, Response } from "@remix-run/node";
 import { RemixServer } from "@remix-run/react";
-import { renderToString } from "react-dom/server";
+import isbot from "isbot";
+import { renderToPipeableStream } from "react-dom/server";
+import { PassThrough } from "stream";
 import invariant from "tiny-invariant";
+
+const ABORT_DELAY = 5000;
 
 export default function handleRequest(
   request: Request,
@@ -9,24 +13,52 @@ export default function handleRequest(
   responseHeaders: Headers,
   remixContext: EntryContext
 ) {
-  const markup = renderToString(
-    <RemixServer context={remixContext} url={request.url} />
-  );
+  const callbackName = isbot(request.headers.get("user-agent"))
+    ? "onAllReady"
+    : "onShellReady";
 
-  responseHeaders.set("Content-Type", "text/html");
+  return new Promise((resolve, reject) => {
+    let didError = false;
 
-  if (process.env.NODE_ENV === "production") {
-    invariant(process.env.RUNTIME_ENV, "RUNTIME_ENV should be defined");
+    const { pipe, abort } = renderToPipeableStream(
+      <RemixServer context={remixContext} url={request.url} />,
+      {
+        [callbackName]: () => {
+          const body = new PassThrough();
 
-    if (process.env.RUNTIME_ENV === "staging") {
-      // We don't want it to be index by search engines.
-      // See https://developers.google.com/search/docs/advanced/crawling/block-indexing
-      responseHeaders.set("X-Robots-Tag", "noindex");
-    }
-  }
+          responseHeaders.set("Content-Type", "text/html");
 
-  return new Response("<!DOCTYPE html>" + markup, {
-    status: responseStatusCode,
-    headers: responseHeaders,
+          if (process.env.NODE_ENV === "production") {
+            invariant(process.env.RUNTIME_ENV, "RUNTIME_ENV should be defined");
+
+            if (process.env.RUNTIME_ENV === "staging") {
+              // We don't want it to be index by search engines.
+              // See https://developers.google.com/search/docs/advanced/crawling/block-indexing
+              responseHeaders.set("X-Robots-Tag", "noindex");
+            }
+          }
+
+          resolve(
+            new Response(body, {
+              headers: responseHeaders,
+              status: didError ? 500 : responseStatusCode,
+            })
+          );
+
+          pipe(body);
+        },
+
+        onShellError: (error: unknown) => {
+          reject(error);
+        },
+
+        onError: (error: unknown) => {
+          didError = true;
+          console.error("renderToPipeableStream:", error);
+        },
+      }
+    );
+
+    setTimeout(abort, ABORT_DELAY);
   });
 }
