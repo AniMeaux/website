@@ -6,6 +6,8 @@ const LocationStateSchema = z
   .object({ fromApp: z.boolean().catch(false) })
   .catch({ fromApp: false });
 
+export type LocationState = z.infer<typeof LocationStateSchema>;
+
 export function useLocationState() {
   const location = useLocation();
 
@@ -13,11 +15,4 @@ export function useLocationState() {
     () => LocationStateSchema.parse(location.state),
     [location.state]
   );
-}
-
-// TODO: Replace this function by `satisfies` operator once Remix is updated.
-export function createLocationState(
-  state: z.infer<typeof LocationStateSchema>
-) {
-  return state;
 }

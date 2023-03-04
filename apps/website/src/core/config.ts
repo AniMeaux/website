@@ -1,5 +1,5 @@
 import { MetaFunction } from "@remix-run/node";
-import { useMatches } from "@remix-run/react";
+import { useRouteLoaderData } from "@remix-run/react";
 import invariant from "tiny-invariant";
 import { LoaderData } from "~/root";
 
@@ -21,10 +21,9 @@ export type Config = {
 };
 
 export function useConfig(): Config {
-  const matches = useMatches();
-  const match = matches.find((match) => match.id === "root");
-  invariant(match != null, "A root match must exists");
-  return (match.data as LoaderData).config;
+  const data = useRouteLoaderData("root");
+  invariant(data != null, "A root data must exists");
+  return (data as LoaderData).config;
 }
 
 export function getConfig(

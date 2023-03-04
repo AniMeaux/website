@@ -4,7 +4,7 @@ import {
 } from "@remix-run/react";
 import { useCallback, useEffect } from "react";
 import { NavigateOptions, To } from "react-router";
-import { createLocationState, useLocationState } from "~/core/locationState";
+import { LocationState, useLocationState } from "~/core/locationState";
 
 export function useBackIfPossible({
   fallbackRedirectTo,
@@ -37,7 +37,9 @@ export function useNavigate() {
 
       return navigate(to, {
         ...options,
-        state: createLocationState({ fromApp: !options?.replace || fromApp }),
+        state: {
+          fromApp: !options?.replace || fromApp,
+        } satisfies LocationState,
       });
     },
     [navigate, fromApp]
