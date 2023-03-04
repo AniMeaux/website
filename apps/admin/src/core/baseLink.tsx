@@ -1,6 +1,6 @@
 import { Link, NavLink, NavLinkProps } from "@remix-run/react";
-import { createPath, parsePath } from "history";
 import { forwardRef } from "react";
+import { LocationState, useLocationState } from "~/core/locationState";
 
 export type BaseLinkProps = {
   children?: NavLinkProps["children"];
@@ -42,6 +42,8 @@ export const BaseLink = forwardRef<HTMLAnchorElement, BaseLinkProps>(
     },
     ref
   ) {
+    const { fromApp } = useLocationState();
+
     const commonProps: React.AnchorHTMLAttributes<HTMLAnchorElement> &
       React.RefAttributes<HTMLAnchorElement> = {
       ...rest,
@@ -67,31 +69,22 @@ export const BaseLink = forwardRef<HTMLAnchorElement, BaseLinkProps>(
       commonProps.rel = "noopener noreferrer";
     }
 
-    const asPath = typeof to === "string" ? parsePath(to) : to;
-
-    // External link.
-    if (asPath.pathname?.includes(":")) {
-      // Content is passed in `commonProps`.
-      // eslint-disable-next-line jsx-a11y/anchor-has-content
-      return (
-        <a
-          {...commonProps}
-          href={createPath(asPath)}
-          className={defaultCallProp(className)}
-          style={defaultCallProp(style)}
-          children={defaultCallProp(children)}
-        />
-      );
-    }
+    const internalCommonProps: Omit<
+      NavLinkProps,
+      "className" | "style" | "children"
+    > = {
+      to,
+      state: { fromApp: !replace || fromApp } satisfies LocationState,
+      prefetch,
+      reloadDocument,
+      replace,
+    };
 
     if (isNavLink) {
       return (
         <NavLink
           {...commonProps}
-          to={to}
-          prefetch={prefetch}
-          reloadDocument={reloadDocument}
-          replace={replace}
+          {...internalCommonProps}
           className={className}
           style={style}
           children={children}
@@ -102,10 +95,7 @@ export const BaseLink = forwardRef<HTMLAnchorElement, BaseLinkProps>(
     return (
       <Link
         {...commonProps}
-        to={to}
-        prefetch={prefetch}
-        reloadDocument={reloadDocument}
-        replace={replace}
+        {...internalCommonProps}
         className={defaultCallProp(className)}
         style={defaultCallProp(style)}
         children={defaultCallProp(children)}
@@ -120,10 +110,10 @@ function defaultCallProp<
   prop:
     | undefined
     | TValue
-    | ((arg: { isActive: boolean }) => undefined | TValue)
+    | ((arg: { isActive: boolean; isPending: boolean }) => undefined | TValue)
 ) {
   if (typeof prop === "function") {
-    return prop({ isActive: false });
+    return prop({ isActive: false, isPending: false });
   }
 
   return prop;

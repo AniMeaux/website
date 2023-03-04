@@ -1,5 +1,4 @@
 import { Link, NavLink, NavLinkProps } from "@remix-run/react";
-import { createPath, parsePath } from "history";
 import { forwardRef } from "react";
 
 export type BaseLinkProps = {
@@ -52,23 +51,6 @@ export const BaseLink = forwardRef<HTMLAnchorElement, BaseLinkProps>(
       commonProps.rel = "noopener noreferrer";
     }
 
-    const asPath = typeof to === "string" ? parsePath(to) : to;
-
-    // External link.
-    if (asPath.pathname?.includes(":")) {
-      // Content is passed in `commonProps`.
-      // eslint-disable-next-line jsx-a11y/anchor-has-content
-      return (
-        <a
-          {...commonProps}
-          href={createPath(asPath)}
-          className={defaultCallProp(className)}
-          style={defaultCallProp(style)}
-          children={defaultCallProp(children)}
-        />
-      );
-    }
-
     if (isNavLink) {
       return (
         <NavLink
@@ -103,10 +85,10 @@ function defaultCallProp<
   prop:
     | undefined
     | TValue
-    | ((arg: { isActive: boolean }) => undefined | TValue)
+    | ((arg: { isActive: boolean; isPending: boolean }) => undefined | TValue)
 ) {
   if (typeof prop === "function") {
-    return prop({ isActive: false });
+    return prop({ isActive: false, isPending: false });
   }
 
   return prop;
