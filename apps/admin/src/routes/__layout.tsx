@@ -123,18 +123,22 @@ function CurrentUserSideBar({
   currentUser: SerializeFrom<typeof loader>["currentUser"];
 }) {
   const [isOpened, setIsOpened] = useState(true);
+  const [isInitialized, setIsInitialized] = useState(false);
 
   useEffect(() => {
     setIsOpened(!Boolean(localStorage.getItem("isSideBarCollapsed")));
+    setIsInitialized(true);
   }, []);
 
   useEffect(() => {
-    if (isOpened) {
-      localStorage.removeItem("isSideBarCollapsed");
-    } else {
-      localStorage.setItem("isSideBarCollapsed", "true");
+    if (isInitialized) {
+      if (isOpened) {
+        localStorage.removeItem("isSideBarCollapsed");
+      } else {
+        localStorage.setItem("isSideBarCollapsed", "true");
+      }
     }
-  }, [isOpened]);
+  }, [isOpened, isInitialized]);
 
   const navigationItems = getNavigationItems(currentUser);
 
