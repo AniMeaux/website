@@ -12,7 +12,6 @@ declare global {
       DATABASE_URL?: string;
       PUBLIC_HOST?: string;
       RUNTIME_ENV?: "staging" | "production";
-      SENTRY_DSN?: string;
       SESSION_SECRET?: string;
     }
   }
