@@ -11,5 +11,6 @@ export function createConfig(): Config {
   return {
     cloudinaryName: process.env.CLOUDINARY_CLOUD_NAME,
     publicHost: process.env.PUBLIC_HOST,
+    sentryDsn: process.env.SENTRY_DSN,
   };
 }

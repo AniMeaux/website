@@ -1,14 +1,24 @@
 import { EntryContext, Response } from "@remix-run/node";
 import { RemixServer } from "@remix-run/react";
+import * as Sentry from "@sentry/remix";
 import isbot from "isbot";
 import { renderToPipeableStream } from "react-dom/server";
 import { PassThrough } from "stream";
+import { prisma } from "~/core/db.server";
 
 const ABORT_DELAY = 5000;
 
 if (process.env.NODE_ENV === "development") {
   const { startWorker } = require("~/mocks/mocks.server");
   startWorker();
+}
+
+if (process.env.SENTRY_DSN != null) {
+  Sentry.init({
+    dsn: process.env.SENTRY_DSN,
+    tracesSampleRate: 1,
+    integrations: [new Sentry.Integrations.Prisma({ client: prisma })],
+  });
 }
 
 export default function handleRequest(

@@ -1,17 +1,20 @@
 // This import is required for standard CSS properties to be autocompleted.
 import "csstype";
 
-declare namespace NodeJS {
-  interface ProcessEnv {
-    ALGOLIA_ADMIN_KEY?: string;
-    ALGOLIA_ID?: string;
-    CLOUDINARY_API_KEY?: string;
-    CLOUDINARY_API_SECRET?: string;
-    CLOUDINARY_CLOUD_NAME?: string;
-    DATABASE_URL?: string;
-    PUBLIC_HOST?: string;
-    RUNTIME_ENV?: "staging" | "production";
-    SESSION_SECRET?: string;
+declare global {
+  declare namespace NodeJS {
+    interface ProcessEnv {
+      ALGOLIA_ADMIN_KEY?: string;
+      ALGOLIA_ID?: string;
+      CLOUDINARY_API_KEY?: string;
+      CLOUDINARY_API_SECRET?: string;
+      CLOUDINARY_CLOUD_NAME?: string;
+      DATABASE_URL?: string;
+      PUBLIC_HOST?: string;
+      RUNTIME_ENV?: "staging" | "production";
+      SENTRY_DSN?: string;
+      SESSION_SECRET?: string;
+    }
   }
 }
 
