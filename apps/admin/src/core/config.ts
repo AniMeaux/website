@@ -6,7 +6,6 @@ import { LoaderData } from "~/root";
 export type Config = {
   cloudinaryName: string;
   publicHost: string;
-  sentryDsn?: string;
 };
 
 export function useConfig(): Config {

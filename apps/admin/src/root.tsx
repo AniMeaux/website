@@ -12,14 +12,10 @@ import {
   Scripts,
   ScrollRestoration,
   useCatch,
-  useLocation,
   useMatches,
 } from "@remix-run/react";
-import * as Sentry from "@sentry/remix";
 import { Settings } from "luxon";
-import { useEffect } from "react";
 import { cn } from "~/core/classNames";
-import { useConfig } from "~/core/config";
 import { createConfig } from "~/core/config.server";
 import { ErrorPage } from "~/core/dataDisplay/errorPage";
 import { asRouteHandle } from "~/core/handles";
@@ -117,7 +113,6 @@ export function ErrorBoundary({ error }: { error: Error }) {
 }
 
 function Document({ children }: { children: React.ReactNode }) {
-  useSentry();
   const matches = useMatches();
   const routeHandles = matches.map((match) => asRouteHandle(match.handle));
   const htmlBackgroundColor = routeHandles
@@ -152,26 +147,4 @@ function Document({ children }: { children: React.ReactNode }) {
       </body>
     </html>
   );
-}
-
-function useSentry() {
-  const { sentryDsn } = useConfig();
-
-  useEffect(() => {
-    if (sentryDsn != null) {
-      Sentry.init({
-        dsn: sentryDsn,
-        tracesSampleRate: 1,
-        integrations: [
-          new Sentry.BrowserTracing({
-            routingInstrumentation: Sentry.remixRouterInstrumentation(
-              useEffect,
-              useLocation,
-              useMatches
-            ),
-          }),
-        ],
-      });
-    }
-  }, [sentryDsn]);
 }
