@@ -16,14 +16,6 @@ export const partners: Partner[] = [
     url: "https://www.anideo.fr",
   },
   {
-    id: "019028a1-33f3-4717-9629-2c9c211bcb75",
-    image: "partners/c4dbb22d-3131-4ebc-8373-6d050b38edf8",
-    name: "Homycat",
-    description:
-      "Griffoirs pour chats, arbres à chat, maisons de toilette, jouets, poufs et coussins, catnip, herbe à chat à planter 100 % Made in France.",
-    url: "https://www.homycat.com",
-  },
-  {
     id: "09d72a39-a7f7-4635-a816-8125a0daeaea",
     image: "partners/00c8e356-ed74-46a3-9d67-22d68f8cf407",
     name: "HugoDogs",
@@ -62,14 +54,6 @@ export const partners: Partner[] = [
     description:
       "NeoVoice est l’application 100 % gratuite, construite avec un vétérinaire, qui vous aide à mieux comprendre la santé et le comportement de votre chien.",
     url: "https://www.neovoice.fr",
-  },
-  {
-    id: "c209b3be-c31f-49dc-881c-cbfbcdbc8343",
-    image: "partners/e8706837-c95e-4024-9af9-fa0ca2a56ada",
-    name: "Nominoo",
-    description:
-      "Un large choix de JOOJOO et BIJOO pour chiens et chats fabriqués à la main à Tours avec des matières consciencieusement choisies pour des accessoires élégants. Bénéficiez de 10 % de réduction avec le code **ANIMEAUX77**.",
-    url: "https://nominoo.fr",
   },
   {
     id: "393f0531-f2cf-4db2-a3f6-50a5c28317b7",
