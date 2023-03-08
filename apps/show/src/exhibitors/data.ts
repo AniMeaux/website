@@ -81,6 +81,13 @@ export const exhibitors: Exhibitor[] = [
     url: "https://www.facebook.com/people/Alexandra-Bernard/100087571103292",
   },
   {
+    id: "f7a9d341-8601-4912-8035-08eed8917b9b",
+    name: "Anizoo",
+    category: ExhibitorCategory.ALIMENTATION_ET_ACCESSOIRES,
+    image: "show-exhibitors/9ce6ec11-c3e7-4f05-97dc-3ef45772baed",
+    url: "https://anizoo.fr",
+  },
+  {
     id: "abdc98c8-dc09-44b9-91a8-c03cb6dfc016",
     name: "ASPAS",
     category: ExhibitorCategory.ASSOCIATION_FAUNE_SAUVAGE,
