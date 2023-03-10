@@ -2,7 +2,11 @@ import { User, UserGroup } from "@prisma/client";
 import * as Dialog from "@radix-ui/react-dialog";
 import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
 import { json, LoaderArgs, SerializeFrom } from "@remix-run/node";
-import { FetcherWithComponents, useFetcher } from "@remix-run/react";
+import {
+  FetcherWithComponents,
+  useFetcher,
+  useNavigation,
+} from "@remix-run/react";
 import {
   useCombobox,
   UseComboboxState,
@@ -132,7 +136,19 @@ const RESOURCE_PATHNAME = "/resources/global-search";
 export function GlobalSearch() {
   const [isOpened, setIsOpened] = useState(false);
   const [type, setType] = useState<Type | null>(null);
+
   const navigate = useNavigate();
+  const navigation = useNavigation();
+  const isNavigating =
+    navigation.state === "loading" && navigation.formData == null;
+
+  // We don't close the search (change state) at the same time as we navigate
+  // (also change state) to ensure the states change in order.
+  useEffect(() => {
+    if (isOpened && isNavigating) {
+      setIsOpened(false);
+    }
+  }, [isNavigating, isOpened]);
 
   useEffect(() => {
     if (!isOpened) {
@@ -157,9 +173,10 @@ export function GlobalSearch() {
   const fetcher = useFetcher<typeof loader>();
 
   // Make sure we clear any search when the combobox is closed.
+  // We can't load during a navigation or it will cancel the navigation.
   const load = fetcher.load;
   useEffect(() => {
-    if (!isOpened) {
+    if (!isOpened && !isNavigating) {
       load(
         createPath({
           pathname: RESOURCE_PATHNAME,
@@ -167,7 +184,7 @@ export function GlobalSearch() {
         })
       );
     }
-  }, [load, isOpened, type]);
+  }, [load, isOpened, isNavigating, type]);
 
   // - Set the first possible type once we get it.
   // - Reset to the first possible type when the combobox is closed.
@@ -217,8 +234,6 @@ export function GlobalSearch() {
               fetcher={fetcher}
               onClose={() => setIsOpened(false)}
               onSelectedItemChange={(item) => {
-                setIsOpened(false);
-
                 if (item.type === "animal") {
                   navigate(`/animals/${item.id}`);
                 } else {
@@ -226,8 +241,6 @@ export function GlobalSearch() {
                 }
               }}
               onSelectSearch={(search) => {
-                setIsOpened(false);
-
                 if (type === "animal") {
                   navigate(
                     createPath({
