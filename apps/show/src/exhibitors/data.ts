@@ -270,18 +270,18 @@ export const exhibitors: Exhibitor[] = [
     url: "https://jardineriepoullain.fr",
   },
   {
-    id: "636a8ef7-5913-4276-a8cf-dd30fe304e44",
-    name: "KiKazh®",
-    category: ExhibitorCategory.ALIMENTATION_ET_HYGIENE,
-    image: "show-exhibitors/f3f77934-09ba-40e0-a82e-bc4a13ac9aa4",
-    url: "https://www.lhv-bonapp.com",
-  },
-  {
     id: "3a01f001-1374-4b31-9ee1-90df57b4b488",
     name: "Kaliska Shop",
     category: ExhibitorCategory.ACCESSOIRES,
     image: "show-exhibitors/ad50f081-c914-46bf-b915-bb793037da4e",
     url: "https://www.kaliska-shop.com",
+  },
+  {
+    id: "636a8ef7-5913-4276-a8cf-dd30fe304e44",
+    name: "KiKazh®",
+    category: ExhibitorCategory.ALIMENTATION_ET_HYGIENE,
+    image: "show-exhibitors/f3f77934-09ba-40e0-a82e-bc4a13ac9aa4",
+    url: "https://www.lhv-bonapp.com",
   },
   {
     id: "1ad8e49b-c242-4be7-a791-32ea2055b9e5",
