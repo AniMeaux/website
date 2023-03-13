@@ -11,6 +11,7 @@ import { animationImages } from "~/images/animation";
 import arbreVert from "~/images/arbreVert.png";
 import { associationImages } from "~/images/association";
 import citronad from "~/images/citronad.png";
+import evasion from "~/images/evasion.png";
 import { exhibitorsImages } from "~/images/exhibitors";
 import { foodImages } from "~/images/food";
 import leTraiteurImaginaire from "~/images/leTraiteurImaginaire.png";
@@ -422,6 +423,12 @@ function PartnersSection() {
           image={leTraiteurImaginaire}
           alt="Le Traiteur Imaginaire"
           to="https://www.traiteur-imaginaire.com"
+        />
+
+        <PartnerItem
+          image={evasion}
+          alt="EVASION"
+          to="https://www.evasionfm.com"
         />
       </div>
     </section>
