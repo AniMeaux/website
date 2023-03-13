@@ -2,9 +2,11 @@ import { MetaFunction } from "@remix-run/node";
 import { actionClassNames } from "~/core/actions";
 import { BaseLink } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
+import { useConfig } from "~/core/config";
 import { createSocialMeta } from "~/core/meta";
 import { getPageTitle } from "~/core/pageTitle";
 import { Icon, IconProps } from "~/generated/icon";
+import { carpoolImages } from "~/images/carpool";
 import { mapImages } from "~/images/map";
 import { bubbleSectionClassNames, BubbleShape } from "~/layout/bubbleSection";
 import {
@@ -20,7 +22,9 @@ export const meta: MetaFunction = () => {
   return createSocialMeta({ title: getPageTitle("Accès au Salon") });
 };
 
-export default function AccessPage() {
+export default function Route() {
+  const { carpoolFacebookGroupUrl } = useConfig();
+
   return (
     <main className="w-full px-page flex flex-col gap-24">
       <HeroSection>
@@ -52,6 +56,29 @@ export default function AccessPage() {
       </HeroSection>
 
       <WarnSection />
+
+      <HeroSection isReversed>
+        <HeroSectionAside>
+          <HeroSectionImage image={carpoolImages} />
+        </HeroSectionAside>
+
+        <HeroSectionAside>
+          <HeroSectionTitle>Covoiturage</HeroSectionTitle>
+          <HeroSectionParagraph>
+            Proposez ou demandez un covoiturage, sur le groupe Facebook dédié,
+            pour vous rendre au Salon des Ani’Meaux.
+          </HeroSectionParagraph>
+
+          <HeroSectionAction>
+            <BaseLink
+              to={carpoolFacebookGroupUrl}
+              className={actionClassNames.standalone()}
+            >
+              Rejoindre le groupe
+            </BaseLink>
+          </HeroSectionAction>
+        </HeroSectionAside>
+      </HeroSection>
 
       <section className="flex">
         <ul

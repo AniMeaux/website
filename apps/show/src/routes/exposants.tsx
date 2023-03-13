@@ -16,7 +16,7 @@ export const meta: MetaFunction = () => {
   return createSocialMeta({ title: getPageTitle("Exposants") });
 };
 
-export default function ExhibitorsPage() {
+export default function Route() {
   const { exhibitors } = useLoaderData<typeof loader>();
 
   return (

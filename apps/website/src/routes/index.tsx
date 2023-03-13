@@ -52,7 +52,7 @@ export async function loader() {
   });
 }
 
-export default function HomePage() {
+export default function Route() {
   const { pickUpCount, upcomingEvents } = useLoaderData<typeof loader>();
 
   return (

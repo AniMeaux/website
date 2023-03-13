@@ -27,7 +27,7 @@ export const meta: MetaFunction = ({ parentsData }) => {
   });
 };
 
-export default function FosterFamilyPage() {
+export default function Route() {
   const { fosterFamilyFormUrl } = useConfig();
 
   return (

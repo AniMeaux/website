@@ -29,7 +29,7 @@ export const meta: MetaFunction = ({ parentsData }) => {
   });
 };
 
-export default function AbusePage() {
+export default function Route() {
   return (
     <>
       <main className="w-full px-article flex flex-col gap-12">
