@@ -2,6 +2,8 @@ import { json, LoaderArgs, MetaFunction } from "@remix-run/node";
 import { useCatch, useLoaderData } from "@remix-run/react";
 import { z } from "zod";
 import { Tab } from "~/controllers/tabs";
+import { actionClassNames } from "~/core/actions";
+import { BaseLink } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
 import { createSocialMeta } from "~/core/meta";
 import { getPageTitle } from "~/core/pageTitle";
@@ -66,6 +68,30 @@ export default function ProgramPage() {
             icon="commentsQuestion"
           >
             Qu’est-ce que le rappel du chien ?
+          </TimelineItem>
+
+          <TimelineItem
+            title={
+              <>
+                13h : Rencontre et échange avec{" "}
+                <BaseLink
+                  to="https://www.instagram.com/snowandserra"
+                  className={actionClassNames.proseInline()}
+                >
+                  @snowandserra
+                </BaseLink>{" "}
+                &{" "}
+                <BaseLink
+                  to="https://www.instagram.com/dogragnar_"
+                  className={actionClassNames.proseInline()}
+                >
+                  @dogragnar_
+                </BaseLink>
+              </>
+            }
+            icon="shareFromSquare"
+          >
+            Le bien-être animal sur les réseaux sociaux.
           </TimelineItem>
 
           <TimelineItem
