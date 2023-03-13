@@ -13,3 +13,8 @@ declare global {
     }
   }
 }
+
+// Files containing module augmentation must be modules (as opposed to scripts).
+// The difference between modules and scripts is that modules have at least one
+// import/export statement.
+export {};
