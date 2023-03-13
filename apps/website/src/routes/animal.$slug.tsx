@@ -85,7 +85,7 @@ export function CatchBoundary() {
   return <ErrorPage status={caught.status} />;
 }
 
-export default function AnimalPage() {
+export default function Route() {
   const { animal } = useLoaderData<typeof loader>();
 
   return (

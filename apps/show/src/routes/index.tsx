@@ -11,6 +11,7 @@ import { animationImages } from "~/images/animation";
 import arbreVert from "~/images/arbreVert.png";
 import { associationImages } from "~/images/association";
 import citronad from "~/images/citronad.png";
+import evasion from "~/images/evasion.png";
 import { exhibitorsImages } from "~/images/exhibitors";
 import { foodImages } from "~/images/food";
 import leTraiteurImaginaire from "~/images/leTraiteurImaginaire.png";
@@ -34,7 +35,7 @@ import {
 const OPENING_TIME = DateTime.fromISO("2023-06-10T10:00:00.000+02:00");
 const ONE_MINUTE_IN_MS = 60 * 1000;
 
-export default function HomePage() {
+export default function Route() {
   const { ticketingUrl } = useConfig();
 
   return (
@@ -422,6 +423,12 @@ function PartnersSection() {
           image={leTraiteurImaginaire}
           alt="Le Traiteur Imaginaire"
           to="https://www.traiteur-imaginaire.com"
+        />
+
+        <PartnerItem
+          image={evasion}
+          alt="EVASION"
+          to="https://www.evasionfm.com"
         />
       </div>
     </section>

@@ -24,7 +24,7 @@ export const meta: MetaFunction = ({ parentsData }) => {
   });
 };
 
-export default function FaqPage() {
+export default function Route() {
   return (
     <main className="w-full px-page flex flex-col gap-24">
       <HeroSection>

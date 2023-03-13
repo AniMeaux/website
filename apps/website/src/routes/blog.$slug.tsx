@@ -64,7 +64,7 @@ export function CatchBoundary() {
   return <ErrorPage status={caught.status} />;
 }
 
-export default function BlogPage() {
+export default function Route() {
   const { article, otherArticles } = useLoaderData<typeof loader>();
 
   return (

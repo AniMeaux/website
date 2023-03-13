@@ -14,7 +14,7 @@ export const meta: MetaFunction = () => {
   return createSocialMeta({ title: getPageTitle("Blog") });
 };
 
-export default function BlogPage() {
+export default function Route() {
   const { articles } = useLoaderData<typeof loader>();
 
   return (

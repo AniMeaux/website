@@ -61,7 +61,7 @@ export const meta: MetaFunction = () => {
   return createSocialMeta({ title: getPageTitle("Nommez votre animal") });
 };
 
-export default function NameYourAnimalPage() {
+export default function Route() {
   const { names } = useLoaderData<typeof loader>();
   const [searchParams] = useSearchParams();
   const params = getParams(searchParams);

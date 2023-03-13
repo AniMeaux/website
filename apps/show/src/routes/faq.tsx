@@ -19,7 +19,7 @@ export const meta: MetaFunction = () => {
   return createSocialMeta({ title: getPageTitle("Foire aux questions") });
 };
 
-export default function FaqPage() {
+export default function Route() {
   const config = useConfig();
 
   return (

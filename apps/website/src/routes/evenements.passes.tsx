@@ -52,7 +52,7 @@ export const meta: MetaFunction = () => {
   return createSocialMeta({ title: getPageTitle("Événements passés") });
 };
 
-export default function PastEventsPage() {
+export default function Route() {
   const { totalCount, pageCount, events } = useLoaderData<typeof loader>();
 
   return (

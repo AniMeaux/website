@@ -29,7 +29,7 @@ export const meta: MetaFunction = ({ parentsData }) => {
   });
 };
 
-export default function DonationPage() {
+export default function Route() {
   const { donationUrl } = useConfig();
 
   return (

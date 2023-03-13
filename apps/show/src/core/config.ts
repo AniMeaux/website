@@ -4,6 +4,7 @@ import { LoaderData } from "~/root";
 
 export type Config = {
   animeauxUrl: string;
+  carpoolFacebookGroupUrl: string;
   cloudinaryName: string;
   facebookUrl: string;
   googleTagManagerId?: string;
