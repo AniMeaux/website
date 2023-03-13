@@ -2,6 +2,7 @@ declare global {
   declare namespace NodeJS {
     interface ProcessEnv {
       ANIMEAUX_URL?: string;
+      CARPOOL_FACEBOOK_GROUP_URL?: string;
       CLOUDINARY_CLOUD_NAME?: string;
       FACEBOOK_URL?: string;
       GOOGLE_TAG_MANAGER_ID?: string;
