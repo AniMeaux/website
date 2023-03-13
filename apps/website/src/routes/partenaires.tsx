@@ -16,7 +16,7 @@ export const meta: MetaFunction = () => {
   return createSocialMeta({ title: getPageTitle("Partenaires") });
 };
 
-export default function PartnersPage() {
+export default function Route() {
   const { partners } = useLoaderData<typeof loader>();
 
   return (

@@ -35,7 +35,7 @@ import {
 const OPENING_TIME = DateTime.fromISO("2023-06-10T10:00:00.000+02:00");
 const ONE_MINUTE_IN_MS = 60 * 1000;
 
-export default function HomePage() {
+export default function Route() {
   const { ticketingUrl } = useConfig();
 
   return (

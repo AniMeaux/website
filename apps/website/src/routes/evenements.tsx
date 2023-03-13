@@ -52,7 +52,7 @@ export const meta: MetaFunction = () => {
   return createSocialMeta({ title: getPageTitle("Événements à venir") });
 };
 
-export default function EventsPage() {
+export default function Route() {
   const { events, pastEvents } = useLoaderData<typeof loader>();
 
   return (

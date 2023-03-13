@@ -50,7 +50,7 @@ export const meta: MetaFunction = () => {
   return createSocialMeta({ title: getPageTitle("Animaux sauvés") });
 };
 
-export default function SavedPage() {
+export default function Route() {
   const { totalCount, pageCount, animals } = useLoaderData<typeof loader>();
 
   return (

@@ -35,7 +35,7 @@ export function CatchBoundary() {
   return <ErrorPage status={caught.status} />;
 }
 
-export default function ProgramPage() {
+export default function Route() {
   const { day } = useLoaderData<typeof loader>();
 
   return (

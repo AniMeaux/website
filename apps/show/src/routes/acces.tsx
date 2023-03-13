@@ -22,7 +22,7 @@ export const meta: MetaFunction = () => {
   return createSocialMeta({ title: getPageTitle("Accès au Salon") });
 };
 
-export default function AccessPage() {
+export default function Route() {
   const { carpoolFacebookGroupUrl } = useConfig();
 
   return (

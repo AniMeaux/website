@@ -169,7 +169,7 @@ export function CatchBoundary() {
   return <ErrorPage status={caught.status} />;
 }
 
-export default function AdoptionPage() {
+export default function Route() {
   const params = useParams();
   const pageParams = PATH_TO_PAGE_PARAMS.get(params["*"] ?? "");
   invariant(pageParams != null, "pageParams should exists");

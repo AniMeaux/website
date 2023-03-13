@@ -9,7 +9,7 @@ export const meta: MetaFunction = () => {
   return createSocialMeta({ title: getPageTitle("Mentions légales") });
 };
 
-export default function LegalNoticePage() {
+export default function Route() {
   const config = useConfig();
 
   return (
