@@ -21,6 +21,7 @@ export function createConfig(): Config {
   invariant(process.env.PAYPAL_URL, "PAYPAL_URL should be defined");
   invariant(process.env.PICK_UP_FORM_URL, "PICK_UP_FORM_URL should be defined");
   invariant(process.env.PUBLIC_HOST, "PUBLIC_HOST should be defined");
+  invariant(process.env.SHOW_URL, "SHOW_URL should be defined");
   invariant(process.env.TEAMING_URL, "TEAMING_URL should be defined");
   invariant(process.env.TWITTER_URL, "TWITTER_URL should be defined");
   invariant(
@@ -40,6 +41,7 @@ export function createConfig(): Config {
     paypalUrl: process.env.PAYPAL_URL,
     pickUpFormUrl: process.env.PICK_UP_FORM_URL,
     publicHost: process.env.PUBLIC_HOST,
+    showUrl: process.env.SHOW_URL,
     teamingUrl: process.env.TEAMING_URL,
     twitterUrl: process.env.TWITTER_URL,
     volunteerFormUrl: process.env.VOLUNTEER_FORM_URL,

@@ -13,6 +13,7 @@ import {
   NavGroup,
   navLinkClassName,
 } from "~/layout/navigation/shared";
+import { ShowBanner } from "~/layout/navigation/showBanner";
 import { SocialLinks } from "~/layout/navigation/socialLinks";
 import { SubNavAct } from "~/layout/navigation/subNavAct";
 import { SubNavAdopt } from "~/layout/navigation/subNavAdopt";
@@ -23,7 +24,11 @@ type State =
   | { isOpened: false; openedGroup?: null }
   | { isOpened: true; openedGroup?: NavGroup | null };
 
-export function SmallNav() {
+export function SmallNav({
+  displayShowBanner,
+}: {
+  displayShowBanner: boolean;
+}) {
   const location = useLocation();
   const [state, setState] = useState<State>({ isOpened: false });
 
@@ -51,149 +56,169 @@ export function SmallNav() {
   return (
     <header
       ref={headerRef}
-      className={cn(
-        "relative z-10 w-full pt-safe-2 px-page pb-2 flex items-center justify-between",
-        "md:hidden"
-      )}
+      className="relative z-10 w-full flex flex-col md:hidden"
       onKeyDown={handleEscape(() => {
         setState((prevState) =>
           state.isOpened ? { isOpened: false } : prevState
         );
       })}
+      style={{ "--header-height": displayShowBanner ? "112px" : "56px" }}
     >
-      <BaseLink to="/" className="z-10 overflow-hidden flex">
-        <Transition in={!state.isOpened} timeout={100}>
+      {displayShowBanner ? <ShowBanner className="z-10" /> : null}
+
+      <div
+        className={cn(
+          "px-page pb-2 flex items-center justify-between",
+          displayShowBanner ? "pt-2" : "pt-safe-2"
+        )}
+      >
+        <BaseLink to="/" className="z-10 overflow-hidden flex">
+          <Transition in={!state.isOpened} timeout={100}>
+            {(transitionState) => {
+              return (
+                <img
+                  src={nameAndLogo}
+                  alt="Ani’Meaux"
+                  className={cn("h-[40px]", {
+                    // 100px is enough to hide the text.
+                    // TODO: Find a better way to do this.
+                    "-translate-x-[100px] transition-transform duration-100 ease-in-out":
+                      transitionState === "exiting",
+                    "-translate-x-[100px]": transitionState === "exited",
+                    "translate-x-0 transition-transform duration-100 ease-in-out":
+                      transitionState === "entering",
+                    "translate-x-0": transitionState === "entered",
+                  })}
+                />
+              );
+            }}
+          </Transition>
+        </BaseLink>
+
+        <button
+          className="z-10 flex p-2"
+          onClick={() =>
+            setState((prevState) =>
+              prevState.isOpened ? { isOpened: false } : { isOpened: true }
+            )
+          }
+        >
+          <Icon
+            id={state.isOpened ? "xMark" : "bars"}
+            className="text-[20px]"
+          />
+        </button>
+
+        <Transition
+          mountOnEnter
+          unmountOnExit
+          in={state.isOpened}
+          timeout={100}
+        >
           {(transitionState) => {
             return (
-              <img
-                src={nameAndLogo}
-                alt="Ani’Meaux"
-                className={cn("h-[40px]", {
-                  // 100px is enough to hide the text.
-                  // TODO: Find a better way to do this.
-                  "-translate-x-[100px] transition-transform duration-100 ease-in-out":
-                    transitionState === "exiting",
-                  "-translate-x-[100px]": transitionState === "exited",
-                  "translate-x-0 transition-transform duration-100 ease-in-out":
-                    transitionState === "entering",
-                  "translate-x-0": transitionState === "entered",
-                })}
-              />
+              <div
+                className={cn(
+                  "absolute top-0 left-0 w-full h-screen bg-white",
+                  // We need to handle safe areas because this element has
+                  // absolute positioning.
+                  "pt-safe-[calc(8px+var(--header-height))] px-safe-page pb-safe-2",
+                  "flex",
+                  {
+                    "opacity-100 translate-y-0 transition-[opacity,transform] duration-100 ease-out":
+                      transitionState === "entering",
+                    "opacity-100 translate-y-0": transitionState === "entered",
+                    "opacity-0 -translate-y-4 transition-[opacity,transform] duration-100 ease-in":
+                      transitionState === "exiting",
+                    "opacity-0 -translate-y-4": transitionState === "exited",
+                  }
+                )}
+              >
+                <nav
+                  ref={navRef}
+                  className="w-full h-full min-h-0 overflow-auto flex flex-col"
+                >
+                  <NavGroupButton
+                    isActive={state.openedGroup === "adopt"}
+                    onClick={() => setState(toggleGroup("adopt"))}
+                    className="flex-none"
+                  >
+                    Adopter
+                  </NavGroupButton>
+
+                  <SubNav isOpened={state.openedGroup === "adopt"}>
+                    <SubNavAdopt />
+                  </SubNav>
+
+                  <NavGroupButton
+                    isActive={state.openedGroup === "act"}
+                    onClick={() => setState(toggleGroup("act"))}
+                    className="flex-none"
+                  >
+                    Agir
+                  </NavGroupButton>
+
+                  <SubNav isOpened={state.openedGroup === "act"}>
+                    <SubNavAct />
+                  </SubNav>
+
+                  <NavGroupButton
+                    isActive={state.openedGroup === "warn"}
+                    onClick={() => setState(toggleGroup("warn"))}
+                    className="flex-none"
+                  >
+                    Avertir
+                  </NavGroupButton>
+
+                  <SubNav isOpened={state.openedGroup === "warn"}>
+                    <SubNavWarn />
+                  </SubNav>
+
+                  <NavGroupButton
+                    isActive={state.openedGroup === "discover"}
+                    onClick={() => setState(toggleGroup("discover"))}
+                    className="flex-none"
+                  >
+                    S’informer
+                  </NavGroupButton>
+
+                  <SubNav isOpened={state.openedGroup === "discover"}>
+                    <SubNavDiscover />
+                  </SubNav>
+
+                  <BaseLink
+                    to="/evenements"
+                    isNavLink
+                    className={({ isActive }) => navLinkClassName({ isActive })}
+                  >
+                    Événements
+                  </BaseLink>
+                </nav>
+              </div>
             );
           }}
         </Transition>
-      </BaseLink>
 
-      <button
-        className="z-10 flex p-2"
-        onClick={() =>
-          setState((prevState) =>
-            prevState.isOpened ? { isOpened: false } : { isOpened: true }
-          )
-        }
-      >
-        <Icon id={state.isOpened ? "xMark" : "bars"} className="text-[20px]" />
-      </button>
-
-      <Transition mountOnEnter unmountOnExit in={state.isOpened} timeout={100}>
-        {(transitionState) => {
-          return (
-            <div
-              className={cn(
-                "absolute top-0 left-0 w-full h-screen bg-white",
-                // We need to handle safe areas because this element has
-                // absolute positioning.
-                "pt-safe-[64px] px-safe-page pb-safe-2",
-                "flex",
-                {
-                  "opacity-100 translate-y-0 transition-[opacity,transform] duration-100 ease-out":
-                    transitionState === "entering",
-                  "opacity-100 translate-y-0": transitionState === "entered",
-                  "opacity-0 -translate-y-4 transition-[opacity,transform] duration-100 ease-in":
-                    transitionState === "exiting",
-                  "opacity-0 -translate-y-4": transitionState === "exited",
-                }
-              )}
-            >
-              <nav
-                ref={navRef}
-                className="w-full h-full min-h-0 overflow-auto flex flex-col"
-              >
-                <NavGroupButton
-                  isActive={state.openedGroup === "adopt"}
-                  onClick={() => setState(toggleGroup("adopt"))}
-                  className="flex-none"
-                >
-                  Adopter
-                </NavGroupButton>
-
-                <SubNav isOpened={state.openedGroup === "adopt"}>
-                  <SubNavAdopt />
-                </SubNav>
-
-                <NavGroupButton
-                  isActive={state.openedGroup === "act"}
-                  onClick={() => setState(toggleGroup("act"))}
-                  className="flex-none"
-                >
-                  Agir
-                </NavGroupButton>
-
-                <SubNav isOpened={state.openedGroup === "act"}>
-                  <SubNavAct />
-                </SubNav>
-
-                <NavGroupButton
-                  isActive={state.openedGroup === "warn"}
-                  onClick={() => setState(toggleGroup("warn"))}
-                  className="flex-none"
-                >
-                  Avertir
-                </NavGroupButton>
-
-                <SubNav isOpened={state.openedGroup === "warn"}>
-                  <SubNavWarn />
-                </SubNav>
-
-                <NavGroupButton
-                  isActive={state.openedGroup === "discover"}
-                  onClick={() => setState(toggleGroup("discover"))}
-                  className="flex-none"
-                >
-                  S’informer
-                </NavGroupButton>
-
-                <SubNav isOpened={state.openedGroup === "discover"}>
-                  <SubNavDiscover />
-                </SubNav>
-
-                <BaseLink
-                  to="/evenements"
-                  isNavLink
-                  className={({ isActive }) => navLinkClassName({ isActive })}
-                >
-                  Événements
-                </BaseLink>
-              </nav>
-            </div>
-          );
-        }}
-      </Transition>
-
-      <Transition mountOnEnter unmountOnExit in={state.isOpened} timeout={100}>
-        {(transitionState) => (
-          <SocialLinks
-            className={cn("absolute z-10 bottom-3 left-1/2", {
-              "opacity-100 -translate-x-1/2 transition-[opacity,transform] duration-100 ease-out":
-                transitionState === "entering",
-              "opacity-100 -translate-x-1/2": transitionState === "entered",
-              "opacity-0 translate-x-0 transition-[opacity,transform] duration-100 ease-in":
-                transitionState === "exiting",
-              "opacity-0 translate-x-0": transitionState === "exited",
-            })}
-          />
-        )}
-      </Transition>
+        <Transition
+          mountOnEnter
+          unmountOnExit
+          in={state.isOpened}
+          timeout={100}
+        >
+          {(transitionState) => (
+            <SocialLinks
+              className={cn("absolute z-10 bottom-3 left-1/2", {
+                "opacity-100 -translate-x-1/2 transition-[opacity,transform] duration-100 ease-out":
+                  transitionState === "entering",
+                "opacity-100 -translate-x-1/2": transitionState === "entered",
+                "opacity-0 translate-x-0 transition-[opacity,transform] duration-100 ease-in":
+                  transitionState === "exiting",
+                "opacity-0 translate-x-0": transitionState === "exited",
+              })}
+            />
+          )}
+        </Transition>
+      </div>
     </header>
   );
 }

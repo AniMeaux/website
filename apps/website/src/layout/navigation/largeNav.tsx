@@ -13,6 +13,7 @@ import {
   NavGroup,
   navLinkClassName,
 } from "~/layout/navigation/shared";
+import { ShowBanner } from "~/layout/navigation/showBanner";
 import { SocialLinks } from "~/layout/navigation/socialLinks";
 import { SubNavAct } from "~/layout/navigation/subNavAct";
 import { SubNavAdopt } from "~/layout/navigation/subNavAdopt";
@@ -21,7 +22,11 @@ import { SubNavWarn } from "~/layout/navigation/subNavWarn";
 
 type State = NavGroup | null;
 
-export function LargeNav() {
+export function LargeNav({
+  displayShowBanner,
+}: {
+  displayShowBanner: boolean;
+}) {
   const location = useLocation();
   const [openedGroup, setOpenedGroup] = useState<State>(null);
 
@@ -50,74 +55,81 @@ export function LargeNav() {
   return (
     <header
       {...getFocusTrapIgnoreAttribute()}
-      className={cn(
-        "z-[0] w-full pt-safe-2 px-page pb-2 hidden items-center justify-between",
-        "md:flex"
-      )}
+      className={cn("z-[0] w-full hidden flex-col", "md:flex")}
+      style={{ "--header-height": displayShowBanner ? "112px" : "56px" }}
     >
-      <BaseLink to="/" className="flex">
-        <img src={nameAndLogo} alt="Ani’Meaux" className="h-[40px]" />
-      </BaseLink>
+      {displayShowBanner ? <ShowBanner /> : null}
 
-      <nav className="flex lg:gap-2">
-        <NavGroupButton
-          isActive={
-            openedGroup === "adopt" ||
-            (SubNavAdopt.isActive(location) && openedGroup == null)
-          }
-          onClick={() => setOpenedGroup(toggleGroup("adopt"))}
-        >
-          Adopter
-        </NavGroupButton>
+      <div
+        className={cn(
+          "pb-2 px-page flex items-center justify-between",
+          displayShowBanner ? "pt-2" : "pt-safe-2"
+        )}
+      >
+        <BaseLink to="/" className="flex">
+          <img src={nameAndLogo} alt="Ani’Meaux" className="h-[40px]" />
+        </BaseLink>
 
-        <NavGroupButton
-          isActive={
-            openedGroup === "act" ||
-            (SubNavAct.isActive(location) && openedGroup == null)
-          }
-          onClick={() => setOpenedGroup(toggleGroup("act"))}
-        >
-          Agir
-        </NavGroupButton>
+        <nav className="flex lg:gap-2">
+          <NavGroupButton
+            isActive={
+              openedGroup === "adopt" ||
+              (SubNavAdopt.isActive(location) && openedGroup == null)
+            }
+            onClick={() => setOpenedGroup(toggleGroup("adopt"))}
+          >
+            Adopter
+          </NavGroupButton>
 
-        <NavGroupButton
-          isActive={
-            openedGroup === "warn" ||
-            (SubNavWarn.isActive(location) && openedGroup == null)
-          }
-          onClick={() => setOpenedGroup(toggleGroup("warn"))}
-        >
-          Avertir
-        </NavGroupButton>
+          <NavGroupButton
+            isActive={
+              openedGroup === "act" ||
+              (SubNavAct.isActive(location) && openedGroup == null)
+            }
+            onClick={() => setOpenedGroup(toggleGroup("act"))}
+          >
+            Agir
+          </NavGroupButton>
 
-        <NavGroupButton
-          isActive={
-            openedGroup === "discover" ||
-            (SubNavDiscover.isActive(location) && openedGroup == null)
-          }
-          onClick={() => setOpenedGroup(toggleGroup("discover"))}
-        >
-          S’informer
-        </NavGroupButton>
+          <NavGroupButton
+            isActive={
+              openedGroup === "warn" ||
+              (SubNavWarn.isActive(location) && openedGroup == null)
+            }
+            onClick={() => setOpenedGroup(toggleGroup("warn"))}
+          >
+            Avertir
+          </NavGroupButton>
 
-        <NavLink to="/evenements" forceNotActive={openedGroup != null}>
-          Événements
-        </NavLink>
+          <NavGroupButton
+            isActive={
+              openedGroup === "discover" ||
+              (SubNavDiscover.isActive(location) && openedGroup == null)
+            }
+            onClick={() => setOpenedGroup(toggleGroup("discover"))}
+          >
+            S’informer
+          </NavGroupButton>
 
-        <Dropdown
-          ref={dropdownRef}
-          isOpened={openedGroup != null}
-          onClose={() => setOpenedGroup(null)}
-        >
-          {openedGroup === "adopt" && <SubNavAdopt />}
-          {openedGroup === "act" && <SubNavAct />}
-          {openedGroup === "warn" && <SubNavWarn />}
-          {openedGroup === "discover" && <SubNavDiscover />}
-        </Dropdown>
-      </nav>
+          <NavLink to="/evenements" forceNotActive={openedGroup != null}>
+            Événements
+          </NavLink>
 
-      <div className="flex">
-        <SocialLinks />
+          <Dropdown
+            ref={dropdownRef}
+            isOpened={openedGroup != null}
+            onClose={() => setOpenedGroup(null)}
+          >
+            {openedGroup === "adopt" && <SubNavAdopt />}
+            {openedGroup === "act" && <SubNavAct />}
+            {openedGroup === "warn" && <SubNavWarn />}
+            {openedGroup === "discover" && <SubNavDiscover />}
+          </Dropdown>
+        </nav>
+
+        <div className="flex">
+          <SocialLinks />
+        </div>
       </div>
     </header>
   );
@@ -265,11 +277,7 @@ const Dropdown = forwardRef<
           >
             <div
               ref={childrenRef}
-              className={cn(
-                "w-[600px] flex flex-col",
-                // 104px = 56px (header height) + 48px (padding)
-                "pt-safe-[104px] pb-12"
-              )}
+              className="w-[600px] pt-safe-[calc(48px+var(--header-height))] pb-12 flex flex-col"
               onKeyDown={handleEscape(onClose)}
             >
               {children}
