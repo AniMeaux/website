@@ -11,7 +11,7 @@ export function TimelineItem({
   children,
   action,
 }: {
-  title: React.ReactNode;
+  title: string;
   icon: IconProps["id"];
   children: React.ReactNode;
   action?: React.ReactNode;
@@ -57,7 +57,7 @@ export function TimelineItem({
         </span>
       </span>
 
-      <div className="flex-1 flex flex-col gap-3">
+      <div className="flex-1 flex flex-col gap-3 md:gap-6">
         <div className={cn("flex flex-col", "md:group-odd:text-right")}>
           <h3 className="text-title-item">{title}</h3>
           <p>{children}</p>

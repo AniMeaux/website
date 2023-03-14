@@ -9,6 +9,7 @@ export type Config = {
   facebookUrl: string;
   googleTagManagerId?: string;
   instagramUrl: string;
+  kidWorkshopRegistrationUrl: string;
   pressReleaseUrl: string;
   publicHost: string;
   ticketingUrl: string;

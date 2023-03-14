@@ -14,6 +14,10 @@ export function createConfig(): Config {
   invariant(process.env.FACEBOOK_URL, "FACEBOOK_URL should be defined");
   invariant(process.env.INSTAGRAM_URL, "INSTAGRAM_URL should be defined");
   invariant(
+    process.env.KID_WORKSHOP_REGISTRATION_URL,
+    "KID_WORKSHOP_REGISTRATION_URL should be defined"
+  );
+  invariant(
     process.env.PRESS_RELEASE_URL,
     "PRESS_RELEASE_URL should be defined"
   );
@@ -27,6 +31,7 @@ export function createConfig(): Config {
     facebookUrl: process.env.FACEBOOK_URL,
     googleTagManagerId: process.env.GOOGLE_TAG_MANAGER_ID,
     instagramUrl: process.env.INSTAGRAM_URL,
+    kidWorkshopRegistrationUrl: process.env.KID_WORKSHOP_REGISTRATION_URL,
     pressReleaseUrl: process.env.PRESS_RELEASE_URL,
     publicHost: process.env.PUBLIC_HOST,
     ticketingUrl: process.env.TICKETING_URL,
