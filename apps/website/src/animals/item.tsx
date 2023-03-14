@@ -35,8 +35,9 @@ export function AnimalItem({
   return (
     <li className="flex">
       <BaseLink
-        to={`/animal/${toSlug(animal.name)}-${animal.id}`}
-        disabled={isDisabled}
+        to={
+          isDisabled ? undefined : `/animal/${toSlug(animal.name)}-${animal.id}`
+        }
         className="group w-full rounded-bubble-md flex flex-col gap-3"
       >
         <DynamicImage

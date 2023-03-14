@@ -5,7 +5,6 @@ import { LocationState, useLocationState } from "~/core/locationState";
 export type BaseLinkProps = {
   children?: NavLinkProps["children"];
   className?: NavLinkProps["className"];
-  disabled?: boolean;
   download?: string | boolean;
   isNavLink?: boolean;
   prefetch?: NavLinkProps["prefetch"];
@@ -22,7 +21,6 @@ export const BaseLink = forwardRef<HTMLAnchorElement, BaseLinkProps>(
     {
       children,
       className,
-      disabled,
       download,
       isNavLink = false,
       prefetch = "intent",
@@ -52,7 +50,7 @@ export const BaseLink = forwardRef<HTMLAnchorElement, BaseLinkProps>(
       ref,
     };
 
-    if (disabled || to == null) {
+    if (to == null) {
       return (
         <span
           {...commonProps}

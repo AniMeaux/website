@@ -4,7 +4,6 @@ import { forwardRef } from "react";
 export type BaseLinkProps = {
   to?: NavLinkProps["to"] | null;
   isNavLink?: boolean;
-  disabled?: boolean;
   shouldOpenInNewTarget?: boolean;
   reloadDocument?: NavLinkProps["reloadDocument"];
   className?: NavLinkProps["className"];
@@ -18,7 +17,6 @@ export const BaseLink = forwardRef<HTMLAnchorElement, BaseLinkProps>(
     {
       to,
       isNavLink = false,
-      disabled,
       shouldOpenInNewTarget,
       reloadDocument,
       className,
@@ -34,7 +32,7 @@ export const BaseLink = forwardRef<HTMLAnchorElement, BaseLinkProps>(
       title,
     };
 
-    if (disabled || to == null) {
+    if (to == null) {
       return (
         <span
           {...commonProps}

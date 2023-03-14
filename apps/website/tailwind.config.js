@@ -117,6 +117,11 @@ module.exports = {
           lightest: brandCyan[50],
           DEFAULT: brandCyan[300],
         },
+        showBrandBlue: {
+          lightest: "#c5e9ee",
+          darker: "#39605a",
+          darkest: "#203532",
+        },
         facebook: "#3774dc",
         instagram: "#ad3d7a",
         linkedin: "#2c66bc",
