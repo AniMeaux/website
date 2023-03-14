@@ -5,6 +5,7 @@ import { Tab } from "~/controllers/tabs";
 import { actionClassNames } from "~/core/actions";
 import { BaseLink } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
+import { useConfig } from "~/core/config";
 import { createSocialMeta } from "~/core/meta";
 import { getPageTitle } from "~/core/pageTitle";
 import { ErrorPage, getErrorTitle } from "~/dataDisplay/errorPage";
@@ -37,6 +38,7 @@ export function CatchBoundary() {
 
 export default function Route() {
   const { day } = useLoaderData<typeof loader>();
+  const { kidWorkshopRegistrationUrl } = useConfig();
 
   return (
     <main className="w-full px-page flex flex-col gap-12">
@@ -136,6 +138,28 @@ export default function Route() {
               className={actionClassNames.proseInline()}
             >
               Cyno Wild Academy
+            </BaseLink>
+            .
+          </TimelineItem>
+
+          <TimelineItem
+            title="17h : Atelier enfants : Relations humains / animaux"
+            icon="handHoldingHeart"
+            action={
+              <BaseLink
+                to={kidWorkshopRegistrationUrl}
+                className={actionClassNames.standalone({ color: "gray" })}
+              >
+                Inscription à l’atelier
+              </BaseLink>
+            }
+          >
+            Par les{" "}
+            <BaseLink
+              to="https://www.ethique-animale.fr"
+              className={actionClassNames.proseInline()}
+            >
+              Ateliers d’Ethique Animale
             </BaseLink>
             .
           </TimelineItem>
