@@ -69,8 +69,7 @@ function PaginatorItem({
   return (
     <li className="flex-none flex">
       <BaseLink
-        to={to}
-        disabled={isActive}
+        to={isActive ? undefined : to}
         className={cn(
           "h-[40px]",
           {

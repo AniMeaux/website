@@ -28,8 +28,7 @@ export function EventItem({
   return (
     <li className="flex">
       <BaseLink
-        disabled={isDisabled}
-        to={event.url}
+        to={isDisabled ? undefined : event.url}
         className={cn("group rounded-bubble-md w-full flex flex-col gap-3", {
           "sm:flex-row sm:gap-6 sm:items-start": isInlined,
         })}
