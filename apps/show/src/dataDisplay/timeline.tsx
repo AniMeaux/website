@@ -11,7 +11,7 @@ export function TimelineItem({
   children,
   action,
 }: {
-  title: React.ReactNode;
+  title: string;
   icon: IconProps["id"];
   children: React.ReactNode;
   action?: React.ReactNode;

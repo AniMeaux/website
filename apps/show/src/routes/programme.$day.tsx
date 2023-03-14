@@ -64,56 +64,80 @@ export default function Route() {
           </TimelineItem>
 
           <TimelineItem
-            title="11h : Échange avec William - Cyno Wild Academy"
+            title="11h : Qu’est-ce que le rappel du chien ?"
             icon="commentsQuestion"
           >
-            Qu’est-ce que le rappel du chien ?
+            Échange avec William de{" "}
+            <BaseLink
+              to="https://instagram.com/cyno_wild_academy"
+              className={actionClassNames.proseInline()}
+            >
+              Cyno Wild Academy
+            </BaseLink>
+            .
           </TimelineItem>
 
           <TimelineItem
-            title={
-              <>
-                13h : Rencontre et échange avec{" "}
-                <BaseLink
-                  to="https://www.instagram.com/snowandserra"
-                  className={actionClassNames.proseInline()}
-                >
-                  @snowandserra
-                </BaseLink>{" "}
-                &{" "}
-                <BaseLink
-                  to="https://www.instagram.com/dogragnar_"
-                  className={actionClassNames.proseInline()}
-                >
-                  @dogragnar_
-                </BaseLink>
-              </>
-            }
+            title="13h : Le bien-être animal sur les réseaux sociaux"
             icon="shareFromSquare"
           >
-            Le bien-être animal sur les réseaux sociaux.
+            Rencontre et échange avec{" "}
+            <BaseLink
+              to="https://www.instagram.com/snowandserra"
+              className={actionClassNames.proseInline()}
+            >
+              @snowandserra
+            </BaseLink>{" "}
+            et{" "}
+            <BaseLink
+              to="https://www.instagram.com/dogragnar_"
+              className={actionClassNames.proseInline()}
+            >
+              @dogragnar_
+            </BaseLink>
+            .
           </TimelineItem>
 
           <TimelineItem
-            title="14h : Démonstration Humanimal"
+            title="14h : Découvrez le premier secours canin / félin"
             icon="clipboardMedical"
           >
-            Découvrez le premier secours canin / félin.
+            Démonstration de{" "}
+            <BaseLink
+              to="https://www.facebook.com/humanimalpremiersecourschienchat"
+              className={actionClassNames.proseInline()}
+            >
+              Humanimal
+            </BaseLink>
+            .
           </TimelineItem>
 
           <TimelineItem
-            title="15h : Rencontrez Léa et Mélody - La Patt’Enchantée"
+            title="15h : Créer du lien avec son chien par une activité : démonstration de Dog Dancing"
             icon="dog"
           >
-            Créer du lien avec son chien par une activité : démonstration de Dog
-            Dancing.
+            Rencontrez Léa et Mélody de{" "}
+            <BaseLink
+              to="https://instagram.com/lapattenchantee"
+              className={actionClassNames.proseInline()}
+            >
+              La Patt’Enchantée
+            </BaseLink>
+            .
           </TimelineItem>
 
           <TimelineItem
-            title="16h : Échange avec William - Cyno Wild Academy"
+            title="16h : L’expression des patrons moteurs"
             icon="commentsQuestion"
           >
-            L’expression des patrons moteurs.
+            Échange avec William de{" "}
+            <BaseLink
+              to="https://instagram.com/cyno_wild_academy"
+              className={actionClassNames.proseInline()}
+            >
+              Cyno Wild Academy
+            </BaseLink>
+            .
           </TimelineItem>
 
           <TimelineItem title="18h : Fermeture des portes" icon="doorClosed">
