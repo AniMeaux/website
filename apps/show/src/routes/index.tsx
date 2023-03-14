@@ -33,10 +33,12 @@ import {
 } from "~/layout/heroSection";
 
 const OPENING_TIME = DateTime.fromISO("2023-06-10T10:00:00.000+02:00");
+const CLOSING_TIME = DateTime.fromISO("2023-06-11T18:00:00.000+02:00");
 const ONE_MINUTE_IN_MS = 60 * 1000;
 
 export default function Route() {
   const { ticketingUrl } = useConfig();
+  const hasEnded = DateTime.now() >= CLOSING_TIME;
 
   return (
     <main className="w-full px-page flex flex-col gap-24">
@@ -67,8 +69,8 @@ export default function Route() {
 
           <HeroSectionAction>
             <BaseLink
-              to={ticketingUrl}
-              className={actionClassNames.standalone()}
+              to={hasEnded ? undefined : ticketingUrl}
+              className={actionClassNames.standalone({ disabled: hasEnded })}
             >
               Achetez votre billet
             </BaseLink>
