@@ -7,6 +7,7 @@ declare global {
       FACEBOOK_URL?: string;
       GOOGLE_TAG_MANAGER_ID?: string;
       INSTAGRAM_URL?: string;
+      KID_WORKSHOP_REGISTRATION_URL?: string;
       PRESS_RELEASE_URL?: string;
       PUBLIC_HOST?: string;
       RUNTIME_ENV?: "staging" | "production";
