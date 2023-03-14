@@ -15,6 +15,7 @@ export type Config = {
   paypalUrl: string;
   pickUpFormUrl: string;
   publicHost: string;
+  showUrl: string;
   teamingUrl: string;
   twitterUrl: string;
   volunteerFormUrl: string;

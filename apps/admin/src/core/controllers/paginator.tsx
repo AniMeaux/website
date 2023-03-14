@@ -69,8 +69,7 @@ function PaginatorItem({
   return (
     <li className="flex-none flex">
       <BaseLink
-        to={to}
-        disabled={isActive}
+        to={isActive ? undefined : to}
         className={cn(
           "flex text-caption-emphasis transition-colors duration-100 ease-in-out",
           { "px-1 rounded-0.5": !isEllipsis },
