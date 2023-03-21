@@ -46,13 +46,6 @@ export const exhibitors: Exhibitor[] = [
     url: "https://www.actionprotectionanimale.com",
   },
   {
-    id: "7373bcb8-030c-4247-857f-39d77fdc82cb",
-    name: "Alforme",
-    category: ExhibitorCategory.FORMATION,
-    image: "show-exhibitors/f171ad0b-aa87-4101-91de-394091b85411",
-    url: "https://www.alforme.fr",
-  },
-  {
     id: "8cfa1614-d0fd-4602-ae06-2aa799b2b621",
     name: "Alliance hérissons",
     category: ExhibitorCategory.ASSOCIATION_FAUNE_SAUVAGE,
@@ -226,13 +219,6 @@ export const exhibitors: Exhibitor[] = [
     category: ExhibitorCategory.SENSIBILISATION,
     image: "show-exhibitors/60c33747-4baf-47ec-8ac0-68f1d37b9dbd",
     url: "https://www.instagram.com/goya_et_dali",
-  },
-  {
-    id: "bf0aa5fd-37c9-44e2-b0fa-a1d42bedf0ed",
-    name: "Halfie",
-    category: ExhibitorCategory.ALIMENTATION_CHAT_ET_CHIEN,
-    image: "show-exhibitors/9818cae7-9180-4234-b5c5-cb2f78e292cd",
-    url: "https://www.myhalfie.com",
   },
   {
     id: "38a15b37-ce51-4f57-b9e4-e92962ef8745",
