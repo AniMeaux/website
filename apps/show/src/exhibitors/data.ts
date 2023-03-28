@@ -172,13 +172,6 @@ export const exhibitors: Exhibitor[] = [
     url: "https://catndogster.fr",
   },
   {
-    id: "9a31904b-e0ae-4c0f-b94f-5f9c6c4f15aa",
-    name: "CIE Chiens Guides du coeur",
-    category: ExhibitorCategory.ASSOCIATION,
-    image: "show-exhibitors/ab8ef7fc-031f-463b-9969-4cd910ce721c",
-    url: "https://www.chienguide-cie.fr",
-  },
-  {
     id: "c9523081-c3e3-4688-a5bf-ba8877a203cd",
     name: "Chat’rcours muraux",
     category: ExhibitorCategory.ACCESSOIRES,
@@ -186,11 +179,18 @@ export const exhibitors: Exhibitor[] = [
     url: "https://www.chatrcoursmuraux.com",
   },
   {
-    id: "1cb1bd44-1e38-4f31-86d8-c2ee75bef84f",
-    name: "ESRAA",
-    category: ExhibitorCategory.ACCESSOIRES,
-    image: "show-exhibitors/08eb6d8d-2714-4515-a209-87d0352f1049",
-    url: "https://esraa.fr",
+    id: "ccd9eb83-9183-49e6-bb26-d90178c87fde",
+    name: "Chijiwi",
+    category: ExhibitorCategory.ALIMENTATION_ET_ACCESSOIRES,
+    image: "show-exhibitors/7bb844cb-3d8e-4ac3-8844-3c968578b1c8",
+    url: "https://www.chijiwi.fr",
+  },
+  {
+    id: "9a31904b-e0ae-4c0f-b94f-5f9c6c4f15aa",
+    name: "CIE Chiens Guides du coeur",
+    category: ExhibitorCategory.ASSOCIATION,
+    image: "show-exhibitors/ab8ef7fc-031f-463b-9969-4cd910ce721c",
+    url: "https://www.chienguide-cie.fr",
   },
   {
     id: "b3aa543b-373c-4d39-b962-f09a2449a18d",
@@ -198,6 +198,13 @@ export const exhibitors: Exhibitor[] = [
     category: ExhibitorCategory.ACCESSOIRES,
     image: "show-exhibitors/b566d194-4eac-4c4d-a475-74f472e06bf9",
     url: "https://www.instagram.com/_creanimaux_",
+  },
+  {
+    id: "1cb1bd44-1e38-4f31-86d8-c2ee75bef84f",
+    name: "ESRAA",
+    category: ExhibitorCategory.ACCESSOIRES,
+    image: "show-exhibitors/08eb6d8d-2714-4515-a209-87d0352f1049",
+    url: "https://esraa.fr",
   },
   {
     id: "10bcaff5-118d-4cee-b08d-090db6abcf9b",
