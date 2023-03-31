@@ -89,13 +89,20 @@ export default function Route() {
               className={actionClassNames.proseInline()}
             >
               @snowandserra
-            </BaseLink>{" "}
-            et{" "}
+            </BaseLink>
+            ,{" "}
             <BaseLink
               to="https://www.instagram.com/dogragnar_"
               className={actionClassNames.proseInline()}
             >
               @dogragnar_
+            </BaseLink>{" "}
+            et{" "}
+            <BaseLink
+              to="https://www.instagram.com/lapattenchantee"
+              className={actionClassNames.proseInline()}
+            >
+              @lapattenchantee
             </BaseLink>
             .
           </TimelineItem>
