@@ -44,6 +44,10 @@ const BADGE_ELEMENT_STATUS_STYLES: Record<AnimalStatus, Styles> = {
     background: ${theme.colors.dark[700]};
     color: ${theme.colors.text.contrast};
   `,
+  [AnimalStatus.LOST]: css`
+    background: ${theme.colors.red[500]};
+    color: ${theme.colors.text.contrast};
+  `,
   [AnimalStatus.OPEN_TO_ADOPTION]: css`
     background: ${theme.colors.primary[500]};
     color: ${theme.colors.text.contrast};
