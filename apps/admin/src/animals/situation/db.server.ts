@@ -94,16 +94,21 @@ export async function validateSituation(
       throw new MissingManagerError();
     }
   } else {
-    const manager = await prisma.user.findFirst({
-      where: {
-        id: newData.managerId,
-        isDisabled: false,
-        groups: { has: UserGroup.ANIMAL_MANAGER },
-      },
-    });
+    // Only check the manager if it has changed.
+    // They could have changed groups or been blocked but we still want to be
+    // able to update the animal.
+    if (newData.managerId !== currentData?.managerId) {
+      const manager = await prisma.user.findFirst({
+        where: {
+          id: newData.managerId,
+          isDisabled: false,
+          groups: { has: UserGroup.ANIMAL_MANAGER },
+        },
+      });
 
-    if (manager == null) {
-      throw new NotManagerError();
+      if (manager == null) {
+        throw new NotManagerError();
+      }
     }
   }
 
