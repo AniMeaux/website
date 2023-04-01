@@ -1,5 +1,5 @@
 import { AnimalAge } from "@animeaux/shared";
-import { Species, Status } from "@prisma/client";
+import { AdoptionOption, Species, Status } from "@prisma/client";
 import isEqual from "lodash.isequal";
 import orderBy from "lodash.orderby";
 import { DateTime } from "luxon";
@@ -24,6 +24,7 @@ export class AnimalSearchParams extends URLSearchParams {
   } as const;
 
   static readonly Keys = {
+    ADOPTION_OPTION: "adoptionOption",
     AGE: "age",
     FOSTER_FAMILIES_ID: "ff",
     IS_STERILIZED: "isSterilized",
@@ -48,6 +49,10 @@ export class AnimalSearchParams extends URLSearchParams {
 
   areFiltersEqual(other: AnimalSearchParams) {
     return (
+      isEqual(
+        orderBy(this.getAdoptionOptions()),
+        orderBy(other.getAdoptionOptions())
+      ) &&
       isEqual(orderBy(this.getAges()), orderBy(other.getAges())) &&
       isEqual(
         orderBy(this.getFosterFamiliesId()),
@@ -150,6 +155,13 @@ export class AnimalSearchParams extends URLSearchParams {
     return parseOrDefault(
       z.nativeEnum(AnimalAge).array().default([]),
       this.getAll(AnimalSearchParams.Keys.AGE)
+    );
+  }
+
+  getAdoptionOptions() {
+    return parseOrDefault(
+      z.nativeEnum(AdoptionOption).array().default([]),
+      this.getAll(AnimalSearchParams.Keys.ADOPTION_OPTION)
     );
   }
 

@@ -1,11 +1,19 @@
 import { AdoptionOption } from "@prisma/client";
 import orderBy from "lodash.orderby";
+import { IconProps } from "~/generated/icon";
 
 export const ADOPTION_OPTION_TRANSLATION: Record<AdoptionOption, string> = {
   [AdoptionOption.WITH_STERILIZATION]: "Avec stérilisation",
   [AdoptionOption.WITHOUT_STERILIZATION]: "Sans stérilisation",
   [AdoptionOption.FREE_DONATION]: "Don libre",
   [AdoptionOption.UNKNOWN]: "Inconnu",
+};
+
+export const ADOPTION_OPTION_ICON: Record<AdoptionOption, IconProps["id"]> = {
+  [AdoptionOption.WITH_STERILIZATION]: "scissors",
+  [AdoptionOption.WITHOUT_STERILIZATION]: "scissors",
+  [AdoptionOption.FREE_DONATION]: "handHoldingEuro",
+  [AdoptionOption.UNKNOWN]: "circleQuestion",
 };
 
 export const SORTED_ADOPTION_OPTION = orderBy(

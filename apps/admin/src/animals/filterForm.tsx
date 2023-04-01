@@ -1,5 +1,10 @@
 import { FosterFamily, User, UserGroup } from "@prisma/client";
 import { Form, useSubmit } from "@remix-run/react";
+import {
+  ADOPTION_OPTION_ICON,
+  ADOPTION_OPTION_TRANSLATION,
+  SORTED_ADOPTION_OPTION,
+} from "~/animals/adoption";
 import { AGE_ICON, AGE_TRANSLATION, SORTED_AGES } from "~/animals/age";
 import { AnimalSearchParams } from "~/animals/searchParams";
 import {
@@ -48,6 +53,7 @@ export function AnimalFilters({
   const [searchParams, setSearchParams] = useOptimisticSearchParams();
   const animalSearchParams = new AnimalSearchParams(searchParams);
   const visibleFilters = {
+    adoptionOptions: animalSearchParams.getAdoptionOptions(),
     ages: animalSearchParams.getAges(),
     fosterFamiliesId: animalSearchParams.getFosterFamiliesId(),
     isSterilized: animalSearchParams.getIsSterilized(),
@@ -814,6 +820,48 @@ export function AnimalFilters({
             </div>
           </Filter>
         ) : null}
+
+        <Filter
+          value={AnimalSearchParams.Keys.ADOPTION_OPTION}
+          label="Adoption"
+          count={visibleFilters.adoptionOptions.length}
+          hiddenContent={visibleFilters.adoptionOptions.map(
+            (adoptionOption) => (
+              <input
+                key={adoptionOption}
+                type="hidden"
+                name={AnimalSearchParams.Keys.ADOPTION_OPTION}
+                value={adoptionOption}
+              />
+            )
+          )}
+        >
+          <div className={formClassNames.fields.root()}>
+            <div className={formClassNames.fields.field.root()}>
+              <Suggestions>
+                {SORTED_ADOPTION_OPTION.map((adoptionOption) => (
+                  <Suggestion key={adoptionOption}>
+                    <SuggestionInput
+                      type="checkbox"
+                      name={AnimalSearchParams.Keys.ADOPTION_OPTION}
+                      value={adoptionOption}
+                      checked={visibleFilters.adoptionOptions.includes(
+                        adoptionOption
+                      )}
+                      onChange={() => {}}
+                    />
+
+                    <SuggestionLabel
+                      icon={<Icon id={ADOPTION_OPTION_ICON[adoptionOption]} />}
+                    >
+                      {ADOPTION_OPTION_TRANSLATION[adoptionOption]}
+                    </SuggestionLabel>
+                  </Suggestion>
+                ))}
+              </Suggestions>
+            </div>
+          </div>
+        </Filter>
       </Filters>
     </Form>
   );
