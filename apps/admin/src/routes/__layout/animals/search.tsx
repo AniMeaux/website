@@ -158,6 +158,11 @@ export async function loader({ request }: LoaderArgs) {
     });
   }
 
+  const pickUpReasons = animalSearchParams.getPickUpReasons();
+  if (pickUpReasons.length > 0) {
+    where.push({ pickUpReason: { in: pickUpReasons } });
+  }
+
   const nameOrAlias = animalSearchParams.getNameOrAlias();
   let rankedAnimalsId: Animal["id"][] = [];
   if (nameOrAlias != null) {

@@ -6,6 +6,11 @@ import {
   SORTED_ADOPTION_OPTION,
 } from "~/animals/adoption";
 import { AGE_ICON, AGE_TRANSLATION, SORTED_AGES } from "~/animals/age";
+import {
+  PICK_UP_REASON_ICON,
+  PICK_UP_REASON_TRANSLATION,
+  SORTED_PICK_UP_REASON,
+} from "~/animals/pickUp";
 import { AnimalSearchParams } from "~/animals/searchParams";
 import {
   SORTED_SPECIES,
@@ -69,6 +74,7 @@ export function AnimalFilters({
     nameOrAlias: animalSearchParams.getNameOrAlias(),
     noVaccination: animalSearchParams.getNoVaccination(),
     pickUpLocations: animalSearchParams.getPickUpLocations(),
+    pickUpReasons: animalSearchParams.getPickUpReasons(),
     sort: animalSearchParams.getSort(),
     species: animalSearchParams.getSpecies(),
     statuses: animalSearchParams.getStatuses(),
@@ -398,12 +404,21 @@ export function AnimalFilters({
           value={AnimalSearchParams.Keys.PICK_UP_LOCATION}
           label="Prise en charge"
           count={
+            visibleFilters.pickUpReasons.length +
             (visibleFilters.minPickUpDate == null ? 0 : 1) +
             (visibleFilters.maxPickUpDate == null ? 0 : 1) +
             visibleFilters.pickUpLocations.length
           }
           hiddenContent={
             <>
+              {visibleFilters.pickUpReasons.map((pickUpReason) => (
+                <input
+                  key={pickUpReason}
+                  type="hidden"
+                  name={AnimalSearchParams.Keys.PICK_UP_REASON}
+                  value={pickUpReason}
+                />
+              ))}
               {visibleFilters.minPickUpDate == null ? null : (
                 <input
                   type="hidden"
@@ -430,6 +445,34 @@ export function AnimalFilters({
           }
         >
           <div className={formClassNames.fields.root()}>
+            <div className={formClassNames.fields.field.root()}>
+              <span className={formClassNames.fields.field.label()}>
+                Raison
+              </span>
+
+              <Suggestions>
+                {SORTED_PICK_UP_REASON.map((pickUpReason) => (
+                  <Suggestion key={pickUpReason}>
+                    <SuggestionInput
+                      type="checkbox"
+                      name={AnimalSearchParams.Keys.PICK_UP_REASON}
+                      value={pickUpReason}
+                      checked={visibleFilters.pickUpReasons.includes(
+                        pickUpReason
+                      )}
+                      onChange={() => {}}
+                    />
+
+                    <SuggestionLabel
+                      icon={<Icon id={PICK_UP_REASON_ICON[pickUpReason]} />}
+                    >
+                      {PICK_UP_REASON_TRANSLATION[pickUpReason]}
+                    </SuggestionLabel>
+                  </Suggestion>
+                ))}
+              </Suggestions>
+            </div>
+
             <div className={formClassNames.fields.field.root()}>
               <label
                 htmlFor={AnimalSearchParams.Keys.MIN_PICK_UP_DATE}

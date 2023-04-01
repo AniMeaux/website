@@ -1,5 +1,5 @@
 import { AnimalAge } from "@animeaux/shared";
-import { AdoptionOption, Species, Status } from "@prisma/client";
+import { AdoptionOption, PickUpReason, Species, Status } from "@prisma/client";
 import isEqual from "lodash.isequal";
 import orderBy from "lodash.orderby";
 import { DateTime } from "luxon";
@@ -40,6 +40,7 @@ export class AnimalSearchParams extends URLSearchParams {
     NAME_OR_ALIAS: "q",
     NO_VACCINATION: "noVacc",
     PICK_UP_LOCATION: "pickUpLoc",
+    PICK_UP_REASON: "pickUpReason",
     SORT: "sort",
     SPECIES: "species",
     STATUS: "status",
@@ -77,6 +78,10 @@ export class AnimalSearchParams extends URLSearchParams {
       isEqual(
         orderBy(this.getPickUpLocations()),
         orderBy(other.getPickUpLocations())
+      ) &&
+      isEqual(
+        orderBy(this.getPickUpReasons()),
+        orderBy(other.getPickUpReasons())
       ) &&
       isEqual(orderBy(this.getSpecies()), orderBy(other.getSpecies())) &&
       isEqual(orderBy(this.getStatuses()), orderBy(other.getStatuses()))
@@ -406,6 +411,13 @@ export class AnimalSearchParams extends URLSearchParams {
     return parseOrDefault(
       z.string().array().default([]),
       this.getAll(AnimalSearchParams.Keys.PICK_UP_LOCATION)
+    );
+  }
+
+  getPickUpReasons() {
+    return parseOrDefault(
+      z.nativeEnum(PickUpReason).array().default([]),
+      this.getAll(AnimalSearchParams.Keys.PICK_UP_REASON)
     );
   }
 
