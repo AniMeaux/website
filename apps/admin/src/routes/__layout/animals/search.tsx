@@ -1,5 +1,5 @@
 import { ANIMAL_AGE_RANGE_BY_SPECIES } from "@animeaux/shared";
-import { Animal, Prisma, UserGroup } from "@prisma/client";
+import { Animal, Prisma, Status, UserGroup } from "@prisma/client";
 import { json, LoaderArgs, MetaFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import orderBy from "lodash.orderby";
@@ -158,6 +158,11 @@ export async function loader({ request }: LoaderArgs) {
     });
   }
 
+  const pickUpReasons = animalSearchParams.getPickUpReasons();
+  if (pickUpReasons.length > 0) {
+    where.push({ pickUpReason: { in: pickUpReasons } });
+  }
+
   const nameOrAlias = animalSearchParams.getNameOrAlias();
   let rankedAnimalsId: Animal["id"][] = [];
   if (nameOrAlias != null) {
@@ -173,6 +178,33 @@ export async function loader({ request }: LoaderArgs) {
     rankedAnimalsId = animals.map((animal) => animal.id);
 
     where.push({ id: { in: rankedAnimalsId } });
+  }
+
+  const adoptionOptions = animalSearchParams.getAdoptionOptions();
+  if (adoptionOptions.length > 0) {
+    where.push({
+      status: { in: [Status.ADOPTED] },
+      adoptionOption: { in: adoptionOptions },
+    });
+  }
+
+  const minAdoptionDate = animalSearchParams.getMinAdoptionDate();
+  const maxAdoptionDate = animalSearchParams.getMaxAdoptionDate();
+  if (minAdoptionDate != null || maxAdoptionDate != null) {
+    const adoptionDate: Prisma.DateTimeFilter = {};
+
+    if (minAdoptionDate != null) {
+      adoptionDate.gte = minAdoptionDate;
+    }
+
+    if (maxAdoptionDate != null) {
+      adoptionDate.lte = maxAdoptionDate;
+    }
+
+    where.push({
+      status: { in: [Status.ADOPTED] },
+      adoptionDate,
+    });
   }
 
   if (isCurrentUserAnimalAdmin) {

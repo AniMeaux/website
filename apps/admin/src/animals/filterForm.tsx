@@ -1,6 +1,16 @@
 import { FosterFamily, User, UserGroup } from "@prisma/client";
 import { Form, useSubmit } from "@remix-run/react";
+import {
+  ADOPTION_OPTION_ICON,
+  ADOPTION_OPTION_TRANSLATION,
+  SORTED_ADOPTION_OPTION,
+} from "~/animals/adoption";
 import { AGE_ICON, AGE_TRANSLATION, SORTED_AGES } from "~/animals/age";
+import {
+  PICK_UP_REASON_ICON,
+  PICK_UP_REASON_TRANSLATION,
+  SORTED_PICK_UP_REASON,
+} from "~/animals/pickUp";
 import { AnimalSearchParams } from "~/animals/searchParams";
 import {
   SORTED_SPECIES,
@@ -48,19 +58,23 @@ export function AnimalFilters({
   const [searchParams, setSearchParams] = useOptimisticSearchParams();
   const animalSearchParams = new AnimalSearchParams(searchParams);
   const visibleFilters = {
+    adoptionOptions: animalSearchParams.getAdoptionOptions(),
     ages: animalSearchParams.getAges(),
     fosterFamiliesId: animalSearchParams.getFosterFamiliesId(),
     isSterilized: animalSearchParams.getIsSterilized(),
     managersId: animalSearchParams.getManagersId(),
+    maxAdoptionDate: animalSearchParams.getMaxAdoptionDate(),
     maxBirthdate: animalSearchParams.getMaxBirthdate(),
     maxPickUpDate: animalSearchParams.getMaxPickUpDate(),
     maxVaccinationDate: animalSearchParams.getMaxVaccinationDate(),
+    minAdoptionDate: animalSearchParams.getMinAdoptionDate(),
     minBirthdate: animalSearchParams.getMinBirthdate(),
     minPickUpDate: animalSearchParams.getMinPickUpDate(),
     minVaccinationDate: animalSearchParams.getMinVaccinationDate(),
     nameOrAlias: animalSearchParams.getNameOrAlias(),
     noVaccination: animalSearchParams.getNoVaccination(),
     pickUpLocations: animalSearchParams.getPickUpLocations(),
+    pickUpReasons: animalSearchParams.getPickUpReasons(),
     sort: animalSearchParams.getSort(),
     species: animalSearchParams.getSpecies(),
     statuses: animalSearchParams.getStatuses(),
@@ -105,14 +119,16 @@ export function AnimalFilters({
           value={AnimalSearchParams.Keys.SORT}
           label="Trier"
           count={
-            visibleFilters.sort === AnimalSearchParams.Sort.RELEVANCE ? 0 : 1
+            visibleFilters.sort === AnimalSearchParams.DEFAULT_SORT ? 0 : 1
           }
           hiddenContent={
-            <input
-              type="hidden"
-              name={AnimalSearchParams.Keys.SORT}
-              value={visibleFilters.sort}
-            />
+            visibleFilters.sort === AnimalSearchParams.DEFAULT_SORT ? null : (
+              <input
+                type="hidden"
+                name={AnimalSearchParams.Keys.SORT}
+                value={visibleFilters.sort}
+              />
+            )
           }
         >
           <Suggestions>
@@ -199,35 +215,6 @@ export function AnimalFilters({
         </Filter>
 
         <Filter
-          value={AnimalSearchParams.Keys.NAME_OR_ALIAS}
-          label="Nom ou alias"
-          count={visibleFilters.nameOrAlias == null ? 0 : 1}
-          hiddenContent={
-            <input
-              type="hidden"
-              name={AnimalSearchParams.Keys.NAME_OR_ALIAS}
-              value={visibleFilters.nameOrAlias ?? ""}
-            />
-          }
-        >
-          <ControlledInput
-            name={AnimalSearchParams.Keys.NAME_OR_ALIAS}
-            value={visibleFilters.nameOrAlias ?? ""}
-            rightAdornment={
-              visibleFilters.nameOrAlias != null ? (
-                <ActionAdornment
-                  onClick={() =>
-                    setSearchParams(animalSearchParams.deleteNameOrAlias())
-                  }
-                >
-                  <Icon id="xMark" />
-                </ActionAdornment>
-              ) : null
-            }
-          />
-        </Filter>
-
-        <Filter
           value={AnimalSearchParams.Keys.SPECIES}
           label="Espèces"
           count={visibleFilters.species.length}
@@ -269,16 +256,20 @@ export function AnimalFilters({
           }
           hiddenContent={
             <>
-              <input
-                type="hidden"
-                name={AnimalSearchParams.Keys.MIN_BIRTHDATE}
-                value={toIsoDateValue(visibleFilters.minBirthdate)}
-              />
-              <input
-                type="hidden"
-                name={AnimalSearchParams.Keys.MAX_BIRTHDATE}
-                value={toIsoDateValue(visibleFilters.maxBirthdate)}
-              />
+              {visibleFilters.minBirthdate == null ? null : (
+                <input
+                  type="hidden"
+                  name={AnimalSearchParams.Keys.MIN_BIRTHDATE}
+                  value={toIsoDateValue(visibleFilters.minBirthdate)}
+                />
+              )}
+              {visibleFilters.maxBirthdate == null ? null : (
+                <input
+                  type="hidden"
+                  name={AnimalSearchParams.Keys.MAX_BIRTHDATE}
+                  value={toIsoDateValue(visibleFilters.maxBirthdate)}
+                />
+              )}
               {visibleFilters.ages.map((age) => (
                 <input
                   key={age}
@@ -410,102 +401,38 @@ export function AnimalFilters({
         </Filter>
 
         <Filter
-          value={AnimalSearchParams.Keys.MANAGERS_ID}
-          label="Responsables"
-          count={visibleFilters.managersId.length}
-          hiddenContent={visibleFilters.managersId.map((managerId) => (
-            <input
-              key={managerId}
-              type="hidden"
-              name={AnimalSearchParams.Keys.MANAGERS_ID}
-              value={managerId}
-            />
-          ))}
-        >
-          <Suggestions>
-            {managers.map((manager) => (
-              <Suggestion key={manager.id}>
-                <SuggestionInput
-                  type="checkbox"
-                  name={AnimalSearchParams.Keys.MANAGERS_ID}
-                  value={manager.id}
-                  checked={visibleFilters.managersId.includes(manager.id)}
-                  onChange={() => {}}
-                />
-
-                <SuggestionLabel icon={<UserAvatar user={manager} size="sm" />}>
-                  {manager.displayName}
-                </SuggestionLabel>
-              </Suggestion>
-            ))}
-          </Suggestions>
-        </Filter>
-
-        {fosterFamilies.length > 0 ? (
-          <Filter
-            value={AnimalSearchParams.Keys.FOSTER_FAMILIES_ID}
-            label="Familles d’accueil"
-            count={visibleFilters.fosterFamiliesId.length}
-            hiddenContent={visibleFilters.fosterFamiliesId.map(
-              (fosterFamilyId) => (
-                <input
-                  key={fosterFamilyId}
-                  type="hidden"
-                  name={AnimalSearchParams.Keys.FOSTER_FAMILIES_ID}
-                  value={fosterFamilyId}
-                />
-              )
-            )}
-          >
-            <Suggestions>
-              {fosterFamilies.map((fosterFamily) => (
-                <Suggestion key={fosterFamily.id}>
-                  <SuggestionInput
-                    type="checkbox"
-                    name={AnimalSearchParams.Keys.FOSTER_FAMILIES_ID}
-                    value={fosterFamily.id}
-                    checked={visibleFilters.fosterFamiliesId.includes(
-                      fosterFamily.id
-                    )}
-                    onChange={() => {}}
-                  />
-
-                  <SuggestionLabel
-                    icon={
-                      <FosterFamilyAvatar
-                        fosterFamily={fosterFamily}
-                        size="sm"
-                      />
-                    }
-                  >
-                    {fosterFamily.displayName}
-                  </SuggestionLabel>
-                </Suggestion>
-              ))}
-            </Suggestions>
-          </Filter>
-        ) : null}
-
-        <Filter
           value={AnimalSearchParams.Keys.PICK_UP_LOCATION}
           label="Prise en charge"
           count={
+            visibleFilters.pickUpReasons.length +
             (visibleFilters.minPickUpDate == null ? 0 : 1) +
             (visibleFilters.maxPickUpDate == null ? 0 : 1) +
             visibleFilters.pickUpLocations.length
           }
           hiddenContent={
             <>
-              <input
-                type="hidden"
-                name={AnimalSearchParams.Keys.MIN_PICK_UP_DATE}
-                value={toIsoDateValue(visibleFilters.minPickUpDate)}
-              />
-              <input
-                type="hidden"
-                name={AnimalSearchParams.Keys.MAX_PICK_UP_DATE}
-                value={toIsoDateValue(visibleFilters.maxPickUpDate)}
-              />
+              {visibleFilters.pickUpReasons.map((pickUpReason) => (
+                <input
+                  key={pickUpReason}
+                  type="hidden"
+                  name={AnimalSearchParams.Keys.PICK_UP_REASON}
+                  value={pickUpReason}
+                />
+              ))}
+              {visibleFilters.minPickUpDate == null ? null : (
+                <input
+                  type="hidden"
+                  name={AnimalSearchParams.Keys.MIN_PICK_UP_DATE}
+                  value={toIsoDateValue(visibleFilters.minPickUpDate)}
+                />
+              )}
+              {visibleFilters.maxPickUpDate == null ? null : (
+                <input
+                  type="hidden"
+                  name={AnimalSearchParams.Keys.MAX_PICK_UP_DATE}
+                  value={toIsoDateValue(visibleFilters.maxPickUpDate)}
+                />
+              )}
               {visibleFilters.pickUpLocations.map((location) => (
                 <input
                   key={location}
@@ -518,6 +445,34 @@ export function AnimalFilters({
           }
         >
           <div className={formClassNames.fields.root()}>
+            <div className={formClassNames.fields.field.root()}>
+              <span className={formClassNames.fields.field.label()}>
+                Raison
+              </span>
+
+              <Suggestions>
+                {SORTED_PICK_UP_REASON.map((pickUpReason) => (
+                  <Suggestion key={pickUpReason}>
+                    <SuggestionInput
+                      type="checkbox"
+                      name={AnimalSearchParams.Keys.PICK_UP_REASON}
+                      value={pickUpReason}
+                      checked={visibleFilters.pickUpReasons.includes(
+                        pickUpReason
+                      )}
+                      onChange={() => {}}
+                    />
+
+                    <SuggestionLabel
+                      icon={<Icon id={PICK_UP_REASON_ICON[pickUpReason]} />}
+                    >
+                      {PICK_UP_REASON_TRANSLATION[pickUpReason]}
+                    </SuggestionLabel>
+                  </Suggestion>
+                ))}
+              </Suggestions>
+            </div>
+
             <div className={formClassNames.fields.field.root()}>
               <label
                 htmlFor={AnimalSearchParams.Keys.MIN_PICK_UP_DATE}
@@ -689,16 +644,20 @@ export function AnimalFilters({
             }
             hiddenContent={
               <>
-                <input
-                  type="hidden"
-                  name={AnimalSearchParams.Keys.MIN_VACCINATION}
-                  value={toIsoDateValue(visibleFilters.minVaccinationDate)}
-                />
-                <input
-                  type="hidden"
-                  name={AnimalSearchParams.Keys.MAX_VACCINATION}
-                  value={toIsoDateValue(visibleFilters.maxVaccinationDate)}
-                />
+                {visibleFilters.minVaccinationDate == null ? null : (
+                  <input
+                    type="hidden"
+                    name={AnimalSearchParams.Keys.MIN_VACCINATION}
+                    value={toIsoDateValue(visibleFilters.minVaccinationDate)}
+                  />
+                )}
+                {visibleFilters.maxVaccinationDate == null ? null : (
+                  <input
+                    type="hidden"
+                    name={AnimalSearchParams.Keys.MAX_VACCINATION}
+                    value={toIsoDateValue(visibleFilters.maxVaccinationDate)}
+                  />
+                )}
                 {visibleFilters.noVaccination ? (
                   <input
                     type="hidden"
@@ -798,6 +757,244 @@ export function AnimalFilters({
             </div>
           </Filter>
         ) : null}
+
+        <Filter
+          value={AnimalSearchParams.Keys.ADOPTION_OPTION}
+          label="Adoption"
+          count={
+            (visibleFilters.minAdoptionDate == null ? 0 : 1) +
+            (visibleFilters.maxAdoptionDate == null ? 0 : 1) +
+            visibleFilters.adoptionOptions.length
+          }
+          hiddenContent={
+            <>
+              {visibleFilters.minAdoptionDate == null ? null : (
+                <input
+                  type="hidden"
+                  name={AnimalSearchParams.Keys.MIN_ADOPTION_DATE}
+                  value={toIsoDateValue(visibleFilters.minAdoptionDate)}
+                />
+              )}
+              {visibleFilters.maxAdoptionDate == null ? null : (
+                <input
+                  type="hidden"
+                  name={AnimalSearchParams.Keys.MAX_ADOPTION_DATE}
+                  value={toIsoDateValue(visibleFilters.maxAdoptionDate)}
+                />
+              )}
+              {visibleFilters.adoptionOptions.map((adoptionOption) => (
+                <input
+                  key={adoptionOption}
+                  type="hidden"
+                  name={AnimalSearchParams.Keys.ADOPTION_OPTION}
+                  value={adoptionOption}
+                />
+              ))}
+            </>
+          }
+        >
+          <div className={formClassNames.fields.root()}>
+            <div className={formClassNames.fields.field.root()}>
+              <Suggestions>
+                {SORTED_ADOPTION_OPTION.map((adoptionOption) => (
+                  <Suggestion key={adoptionOption}>
+                    <SuggestionInput
+                      type="checkbox"
+                      name={AnimalSearchParams.Keys.ADOPTION_OPTION}
+                      value={adoptionOption}
+                      checked={visibleFilters.adoptionOptions.includes(
+                        adoptionOption
+                      )}
+                      onChange={() => {}}
+                    />
+
+                    <SuggestionLabel
+                      icon={<Icon id={ADOPTION_OPTION_ICON[adoptionOption]} />}
+                    >
+                      {ADOPTION_OPTION_TRANSLATION[adoptionOption]}
+                    </SuggestionLabel>
+                  </Suggestion>
+                ))}
+              </Suggestions>
+            </div>
+
+            <div className={formClassNames.fields.field.root()}>
+              <label
+                htmlFor={AnimalSearchParams.Keys.MIN_ADOPTION_DATE}
+                className={formClassNames.fields.field.label()}
+              >
+                Adopté après le et incluant
+              </label>
+
+              <ControlledInput
+                type="date"
+                id={AnimalSearchParams.Keys.MIN_ADOPTION_DATE}
+                name={AnimalSearchParams.Keys.MIN_ADOPTION_DATE}
+                value={toIsoDateValue(visibleFilters.minAdoptionDate)}
+                leftAdornment={
+                  <Adornment>
+                    <Icon id="calendarDays" />
+                  </Adornment>
+                }
+                rightAdornment={
+                  visibleFilters.minAdoptionDate != null ? (
+                    <ActionAdornment
+                      onClick={() =>
+                        setSearchParams(
+                          animalSearchParams.deleteMinAdoptionDate()
+                        )
+                      }
+                    >
+                      <Icon id="xMark" />
+                    </ActionAdornment>
+                  ) : null
+                }
+              />
+            </div>
+
+            <div className={formClassNames.fields.field.root()}>
+              <label
+                htmlFor={AnimalSearchParams.Keys.MAX_ADOPTION_DATE}
+                className={formClassNames.fields.field.label()}
+              >
+                Adopté avant le et incluant
+              </label>
+
+              <ControlledInput
+                type="date"
+                id={AnimalSearchParams.Keys.MAX_ADOPTION_DATE}
+                name={AnimalSearchParams.Keys.MAX_ADOPTION_DATE}
+                value={toIsoDateValue(visibleFilters.maxAdoptionDate)}
+                leftAdornment={
+                  <Adornment>
+                    <Icon id="calendarDays" />
+                  </Adornment>
+                }
+                rightAdornment={
+                  visibleFilters.maxAdoptionDate != null ? (
+                    <ActionAdornment
+                      onClick={() =>
+                        setSearchParams(
+                          animalSearchParams.deleteMaxAdoptionDate()
+                        )
+                      }
+                    >
+                      <Icon id="xMark" />
+                    </ActionAdornment>
+                  ) : null
+                }
+              />
+            </div>
+          </div>
+        </Filter>
+
+        {fosterFamilies.length > 0 ? (
+          <Filter
+            value={AnimalSearchParams.Keys.FOSTER_FAMILIES_ID}
+            label="Familles d’accueil"
+            count={visibleFilters.fosterFamiliesId.length}
+            hiddenContent={visibleFilters.fosterFamiliesId.map(
+              (fosterFamilyId) => (
+                <input
+                  key={fosterFamilyId}
+                  type="hidden"
+                  name={AnimalSearchParams.Keys.FOSTER_FAMILIES_ID}
+                  value={fosterFamilyId}
+                />
+              )
+            )}
+          >
+            <Suggestions>
+              {fosterFamilies.map((fosterFamily) => (
+                <Suggestion key={fosterFamily.id}>
+                  <SuggestionInput
+                    type="checkbox"
+                    name={AnimalSearchParams.Keys.FOSTER_FAMILIES_ID}
+                    value={fosterFamily.id}
+                    checked={visibleFilters.fosterFamiliesId.includes(
+                      fosterFamily.id
+                    )}
+                    onChange={() => {}}
+                  />
+
+                  <SuggestionLabel
+                    icon={
+                      <FosterFamilyAvatar
+                        fosterFamily={fosterFamily}
+                        size="sm"
+                      />
+                    }
+                  >
+                    {fosterFamily.displayName}
+                  </SuggestionLabel>
+                </Suggestion>
+              ))}
+            </Suggestions>
+          </Filter>
+        ) : null}
+
+        <Filter
+          value={AnimalSearchParams.Keys.MANAGERS_ID}
+          label="Responsables"
+          count={visibleFilters.managersId.length}
+          hiddenContent={visibleFilters.managersId.map((managerId) => (
+            <input
+              key={managerId}
+              type="hidden"
+              name={AnimalSearchParams.Keys.MANAGERS_ID}
+              value={managerId}
+            />
+          ))}
+        >
+          <Suggestions>
+            {managers.map((manager) => (
+              <Suggestion key={manager.id}>
+                <SuggestionInput
+                  type="checkbox"
+                  name={AnimalSearchParams.Keys.MANAGERS_ID}
+                  value={manager.id}
+                  checked={visibleFilters.managersId.includes(manager.id)}
+                  onChange={() => {}}
+                />
+
+                <SuggestionLabel icon={<UserAvatar user={manager} size="sm" />}>
+                  {manager.displayName}
+                </SuggestionLabel>
+              </Suggestion>
+            ))}
+          </Suggestions>
+        </Filter>
+
+        <Filter
+          value={AnimalSearchParams.Keys.NAME_OR_ALIAS}
+          label="Nom ou alias"
+          count={visibleFilters.nameOrAlias == null ? 0 : 1}
+          hiddenContent={
+            visibleFilters.nameOrAlias == null ? null : (
+              <input
+                type="hidden"
+                name={AnimalSearchParams.Keys.NAME_OR_ALIAS}
+                value={visibleFilters.nameOrAlias}
+              />
+            )
+          }
+        >
+          <ControlledInput
+            name={AnimalSearchParams.Keys.NAME_OR_ALIAS}
+            value={visibleFilters.nameOrAlias ?? ""}
+            rightAdornment={
+              visibleFilters.nameOrAlias != null ? (
+                <ActionAdornment
+                  onClick={() =>
+                    setSearchParams(animalSearchParams.deleteNameOrAlias())
+                  }
+                >
+                  <Icon id="xMark" />
+                </ActionAdornment>
+              ) : null
+            }
+          />
+        </Filter>
       </Filters>
     </Form>
   );

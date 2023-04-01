@@ -1,5 +1,5 @@
 import { AnimalAge } from "@animeaux/shared";
-import { Species, Status } from "@prisma/client";
+import { AdoptionOption, PickUpReason, Species, Status } from "@prisma/client";
 import isEqual from "lodash.isequal";
 import orderBy from "lodash.orderby";
 import { DateTime } from "luxon";
@@ -15,6 +15,8 @@ export class AnimalSearchParams extends URLSearchParams {
     VACCINATION: "VACCINATION",
   } as const;
 
+  static readonly DEFAULT_SORT = AnimalSearchParams.Sort.RELEVANCE;
+
   static readonly IsSterilized = {
     YES: "YES",
     NO: "NO",
@@ -22,19 +24,23 @@ export class AnimalSearchParams extends URLSearchParams {
   } as const;
 
   static readonly Keys = {
+    ADOPTION_OPTION: "adoptionOption",
     AGE: "age",
     FOSTER_FAMILIES_ID: "ff",
     IS_STERILIZED: "isSterilized",
     MANAGERS_ID: "manager",
+    MAX_ADOPTION_DATE: "maxAdoption",
     MAX_BIRTHDATE: "maxBirth",
     MAX_PICK_UP_DATE: "pickUpMax",
     MAX_VACCINATION: "vaccMax",
+    MIN_ADOPTION_DATE: "minAdoption",
     MIN_BIRTHDATE: "minBirth",
     MIN_PICK_UP_DATE: "pickUpMin",
     MIN_VACCINATION: "vaccMin",
     NAME_OR_ALIAS: "q",
     NO_VACCINATION: "noVacc",
     PICK_UP_LOCATION: "pickUpLoc",
+    PICK_UP_REASON: "pickUpReason",
     SORT: "sort",
     SPECIES: "species",
     STATUS: "status",
@@ -46,6 +52,10 @@ export class AnimalSearchParams extends URLSearchParams {
 
   areFiltersEqual(other: AnimalSearchParams) {
     return (
+      isEqual(
+        orderBy(this.getAdoptionOptions()),
+        orderBy(other.getAdoptionOptions())
+      ) &&
       isEqual(orderBy(this.getAges()), orderBy(other.getAges())) &&
       isEqual(
         orderBy(this.getFosterFamiliesId()),
@@ -56,9 +66,11 @@ export class AnimalSearchParams extends URLSearchParams {
         orderBy(other.getIsSterilized())
       ) &&
       isEqual(orderBy(this.getManagersId()), orderBy(other.getManagersId())) &&
+      isEqual(this.getMaxAdoptionDate(), other.getMaxAdoptionDate()) &&
       isEqual(this.getMaxBirthdate(), other.getMaxBirthdate()) &&
       isEqual(this.getMaxPickUpDate(), other.getMaxPickUpDate()) &&
       isEqual(this.getMaxVaccinationDate(), other.getMaxVaccinationDate()) &&
+      isEqual(this.getMinAdoptionDate(), other.getMinAdoptionDate()) &&
       isEqual(this.getMinBirthdate(), other.getMinBirthdate()) &&
       isEqual(this.getMinPickUpDate(), other.getMinPickUpDate()) &&
       isEqual(this.getMinVaccinationDate(), other.getMinVaccinationDate()) &&
@@ -66,6 +78,10 @@ export class AnimalSearchParams extends URLSearchParams {
       isEqual(
         orderBy(this.getPickUpLocations()),
         orderBy(other.getPickUpLocations())
+      ) &&
+      isEqual(
+        orderBy(this.getPickUpReasons()),
+        orderBy(other.getPickUpReasons())
       ) &&
       isEqual(orderBy(this.getSpecies()), orderBy(other.getSpecies())) &&
       isEqual(orderBy(this.getStatuses()), orderBy(other.getStatuses()))
@@ -76,7 +92,7 @@ export class AnimalSearchParams extends URLSearchParams {
     return parseOrDefault(
       z
         .nativeEnum(AnimalSearchParams.Sort)
-        .default(AnimalSearchParams.Sort.RELEVANCE),
+        .default(AnimalSearchParams.DEFAULT_SORT),
       this.get(AnimalSearchParams.Keys.SORT)
     );
   }
@@ -149,6 +165,51 @@ export class AnimalSearchParams extends URLSearchParams {
       z.nativeEnum(AnimalAge).array().default([]),
       this.getAll(AnimalSearchParams.Keys.AGE)
     );
+  }
+
+  getAdoptionOptions() {
+    return parseOrDefault(
+      z.nativeEnum(AdoptionOption).array().default([]),
+      this.getAll(AnimalSearchParams.Keys.ADOPTION_OPTION)
+    );
+  }
+
+  getMinAdoptionDate() {
+    const date = parseOrDefault(
+      z.preprocess(ensureDate, z.date()).optional(),
+      this.get(AnimalSearchParams.Keys.MIN_ADOPTION_DATE)
+    );
+
+    if (date == null) {
+      return null;
+    }
+
+    return DateTime.fromJSDate(date).startOf("day").toJSDate();
+  }
+
+  deleteMinAdoptionDate() {
+    const copy = new AnimalSearchParams(this);
+    copy.delete(AnimalSearchParams.Keys.MIN_ADOPTION_DATE);
+    return copy;
+  }
+
+  getMaxAdoptionDate() {
+    const date = parseOrDefault(
+      z.preprocess(ensureDate, z.date()).optional(),
+      this.get(AnimalSearchParams.Keys.MAX_ADOPTION_DATE)
+    );
+
+    if (date == null) {
+      return null;
+    }
+
+    return DateTime.fromJSDate(date).startOf("day").toJSDate();
+  }
+
+  deleteMaxAdoptionDate() {
+    const copy = new AnimalSearchParams(this);
+    copy.delete(AnimalSearchParams.Keys.MAX_ADOPTION_DATE);
+    return copy;
   }
 
   getMinBirthdate() {
@@ -350,6 +411,13 @@ export class AnimalSearchParams extends URLSearchParams {
     return parseOrDefault(
       z.string().array().default([]),
       this.getAll(AnimalSearchParams.Keys.PICK_UP_LOCATION)
+    );
+  }
+
+  getPickUpReasons() {
+    return parseOrDefault(
+      z.nativeEnum(PickUpReason).array().default([]),
+      this.getAll(AnimalSearchParams.Keys.PICK_UP_REASON)
     );
   }
 
