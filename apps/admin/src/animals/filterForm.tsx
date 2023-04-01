@@ -108,11 +108,13 @@ export function AnimalFilters({
             visibleFilters.sort === AnimalSearchParams.DEFAULT_SORT ? 0 : 1
           }
           hiddenContent={
-            <input
-              type="hidden"
-              name={AnimalSearchParams.Keys.SORT}
-              value={visibleFilters.sort}
-            />
+            visibleFilters.sort === AnimalSearchParams.DEFAULT_SORT ? null : (
+              <input
+                type="hidden"
+                name={AnimalSearchParams.Keys.SORT}
+                value={visibleFilters.sort}
+              />
+            )
           }
         >
           <Suggestions>
@@ -203,11 +205,13 @@ export function AnimalFilters({
           label="Nom ou alias"
           count={visibleFilters.nameOrAlias == null ? 0 : 1}
           hiddenContent={
-            <input
-              type="hidden"
-              name={AnimalSearchParams.Keys.NAME_OR_ALIAS}
-              value={visibleFilters.nameOrAlias ?? ""}
-            />
+            visibleFilters.nameOrAlias == null ? null : (
+              <input
+                type="hidden"
+                name={AnimalSearchParams.Keys.NAME_OR_ALIAS}
+                value={visibleFilters.nameOrAlias}
+              />
+            )
           }
         >
           <ControlledInput
@@ -269,16 +273,20 @@ export function AnimalFilters({
           }
           hiddenContent={
             <>
-              <input
-                type="hidden"
-                name={AnimalSearchParams.Keys.MIN_BIRTHDATE}
-                value={toIsoDateValue(visibleFilters.minBirthdate)}
-              />
-              <input
-                type="hidden"
-                name={AnimalSearchParams.Keys.MAX_BIRTHDATE}
-                value={toIsoDateValue(visibleFilters.maxBirthdate)}
-              />
+              {visibleFilters.minBirthdate == null ? null : (
+                <input
+                  type="hidden"
+                  name={AnimalSearchParams.Keys.MIN_BIRTHDATE}
+                  value={toIsoDateValue(visibleFilters.minBirthdate)}
+                />
+              )}
+              {visibleFilters.maxBirthdate == null ? null : (
+                <input
+                  type="hidden"
+                  name={AnimalSearchParams.Keys.MAX_BIRTHDATE}
+                  value={toIsoDateValue(visibleFilters.maxBirthdate)}
+                />
+              )}
               {visibleFilters.ages.map((age) => (
                 <input
                   key={age}
@@ -496,16 +504,20 @@ export function AnimalFilters({
           }
           hiddenContent={
             <>
-              <input
-                type="hidden"
-                name={AnimalSearchParams.Keys.MIN_PICK_UP_DATE}
-                value={toIsoDateValue(visibleFilters.minPickUpDate)}
-              />
-              <input
-                type="hidden"
-                name={AnimalSearchParams.Keys.MAX_PICK_UP_DATE}
-                value={toIsoDateValue(visibleFilters.maxPickUpDate)}
-              />
+              {visibleFilters.minPickUpDate == null ? null : (
+                <input
+                  type="hidden"
+                  name={AnimalSearchParams.Keys.MIN_PICK_UP_DATE}
+                  value={toIsoDateValue(visibleFilters.minPickUpDate)}
+                />
+              )}
+              {visibleFilters.maxPickUpDate == null ? null : (
+                <input
+                  type="hidden"
+                  name={AnimalSearchParams.Keys.MAX_PICK_UP_DATE}
+                  value={toIsoDateValue(visibleFilters.maxPickUpDate)}
+                />
+              )}
               {visibleFilters.pickUpLocations.map((location) => (
                 <input
                   key={location}
@@ -689,16 +701,20 @@ export function AnimalFilters({
             }
             hiddenContent={
               <>
-                <input
-                  type="hidden"
-                  name={AnimalSearchParams.Keys.MIN_VACCINATION}
-                  value={toIsoDateValue(visibleFilters.minVaccinationDate)}
-                />
-                <input
-                  type="hidden"
-                  name={AnimalSearchParams.Keys.MAX_VACCINATION}
-                  value={toIsoDateValue(visibleFilters.maxVaccinationDate)}
-                />
+                {visibleFilters.minVaccinationDate == null ? null : (
+                  <input
+                    type="hidden"
+                    name={AnimalSearchParams.Keys.MIN_VACCINATION}
+                    value={toIsoDateValue(visibleFilters.minVaccinationDate)}
+                  />
+                )}
+                {visibleFilters.maxVaccinationDate == null ? null : (
+                  <input
+                    type="hidden"
+                    name={AnimalSearchParams.Keys.MAX_VACCINATION}
+                    value={toIsoDateValue(visibleFilters.maxVaccinationDate)}
+                  />
+                )}
                 {visibleFilters.noVaccination ? (
                   <input
                     type="hidden"
