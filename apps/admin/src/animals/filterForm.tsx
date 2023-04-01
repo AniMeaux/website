@@ -58,9 +58,11 @@ export function AnimalFilters({
     fosterFamiliesId: animalSearchParams.getFosterFamiliesId(),
     isSterilized: animalSearchParams.getIsSterilized(),
     managersId: animalSearchParams.getManagersId(),
+    maxAdoptionDate: animalSearchParams.getMaxAdoptionDate(),
     maxBirthdate: animalSearchParams.getMaxBirthdate(),
     maxPickUpDate: animalSearchParams.getMaxPickUpDate(),
     maxVaccinationDate: animalSearchParams.getMaxVaccinationDate(),
+    minAdoptionDate: animalSearchParams.getMinAdoptionDate(),
     minBirthdate: animalSearchParams.getMinBirthdate(),
     minPickUpDate: animalSearchParams.getMinPickUpDate(),
     minVaccinationDate: animalSearchParams.getMinVaccinationDate(),
@@ -824,17 +826,37 @@ export function AnimalFilters({
         <Filter
           value={AnimalSearchParams.Keys.ADOPTION_OPTION}
           label="Adoption"
-          count={visibleFilters.adoptionOptions.length}
-          hiddenContent={visibleFilters.adoptionOptions.map(
-            (adoptionOption) => (
-              <input
-                key={adoptionOption}
-                type="hidden"
-                name={AnimalSearchParams.Keys.ADOPTION_OPTION}
-                value={adoptionOption}
-              />
-            )
-          )}
+          count={
+            (visibleFilters.minAdoptionDate == null ? 0 : 1) +
+            (visibleFilters.maxAdoptionDate == null ? 0 : 1) +
+            visibleFilters.adoptionOptions.length
+          }
+          hiddenContent={
+            <>
+              {visibleFilters.minAdoptionDate == null ? null : (
+                <input
+                  type="hidden"
+                  name={AnimalSearchParams.Keys.MIN_ADOPTION_DATE}
+                  value={toIsoDateValue(visibleFilters.minAdoptionDate)}
+                />
+              )}
+              {visibleFilters.maxAdoptionDate == null ? null : (
+                <input
+                  type="hidden"
+                  name={AnimalSearchParams.Keys.MAX_ADOPTION_DATE}
+                  value={toIsoDateValue(visibleFilters.maxAdoptionDate)}
+                />
+              )}
+              {visibleFilters.adoptionOptions.map((adoptionOption) => (
+                <input
+                  key={adoptionOption}
+                  type="hidden"
+                  name={AnimalSearchParams.Keys.ADOPTION_OPTION}
+                  value={adoptionOption}
+                />
+              ))}
+            </>
+          }
         >
           <div className={formClassNames.fields.root()}>
             <div className={formClassNames.fields.field.root()}>
@@ -859,6 +881,74 @@ export function AnimalFilters({
                   </Suggestion>
                 ))}
               </Suggestions>
+            </div>
+
+            <div className={formClassNames.fields.field.root()}>
+              <label
+                htmlFor={AnimalSearchParams.Keys.MIN_ADOPTION_DATE}
+                className={formClassNames.fields.field.label()}
+              >
+                Adopté après le et incluant
+              </label>
+
+              <ControlledInput
+                type="date"
+                id={AnimalSearchParams.Keys.MIN_ADOPTION_DATE}
+                name={AnimalSearchParams.Keys.MIN_ADOPTION_DATE}
+                value={toIsoDateValue(visibleFilters.minAdoptionDate)}
+                leftAdornment={
+                  <Adornment>
+                    <Icon id="calendarDays" />
+                  </Adornment>
+                }
+                rightAdornment={
+                  visibleFilters.minAdoptionDate != null ? (
+                    <ActionAdornment
+                      onClick={() =>
+                        setSearchParams(
+                          animalSearchParams.deleteMinAdoptionDate()
+                        )
+                      }
+                    >
+                      <Icon id="xMark" />
+                    </ActionAdornment>
+                  ) : null
+                }
+              />
+            </div>
+
+            <div className={formClassNames.fields.field.root()}>
+              <label
+                htmlFor={AnimalSearchParams.Keys.MAX_ADOPTION_DATE}
+                className={formClassNames.fields.field.label()}
+              >
+                Adopté avant le et incluant
+              </label>
+
+              <ControlledInput
+                type="date"
+                id={AnimalSearchParams.Keys.MAX_ADOPTION_DATE}
+                name={AnimalSearchParams.Keys.MAX_ADOPTION_DATE}
+                value={toIsoDateValue(visibleFilters.maxAdoptionDate)}
+                leftAdornment={
+                  <Adornment>
+                    <Icon id="calendarDays" />
+                  </Adornment>
+                }
+                rightAdornment={
+                  visibleFilters.maxAdoptionDate != null ? (
+                    <ActionAdornment
+                      onClick={() =>
+                        setSearchParams(
+                          animalSearchParams.deleteMaxAdoptionDate()
+                        )
+                      }
+                    >
+                      <Icon id="xMark" />
+                    </ActionAdornment>
+                  ) : null
+                }
+              />
             </div>
           </div>
         </Filter>

@@ -29,9 +29,11 @@ export class AnimalSearchParams extends URLSearchParams {
     FOSTER_FAMILIES_ID: "ff",
     IS_STERILIZED: "isSterilized",
     MANAGERS_ID: "manager",
+    MAX_ADOPTION_DATE: "maxAdoption",
     MAX_BIRTHDATE: "maxBirth",
     MAX_PICK_UP_DATE: "pickUpMax",
     MAX_VACCINATION: "vaccMax",
+    MIN_ADOPTION_DATE: "minAdoption",
     MIN_BIRTHDATE: "minBirth",
     MIN_PICK_UP_DATE: "pickUpMin",
     MIN_VACCINATION: "vaccMin",
@@ -63,9 +65,11 @@ export class AnimalSearchParams extends URLSearchParams {
         orderBy(other.getIsSterilized())
       ) &&
       isEqual(orderBy(this.getManagersId()), orderBy(other.getManagersId())) &&
+      isEqual(this.getMaxAdoptionDate(), other.getMaxAdoptionDate()) &&
       isEqual(this.getMaxBirthdate(), other.getMaxBirthdate()) &&
       isEqual(this.getMaxPickUpDate(), other.getMaxPickUpDate()) &&
       isEqual(this.getMaxVaccinationDate(), other.getMaxVaccinationDate()) &&
+      isEqual(this.getMinAdoptionDate(), other.getMinAdoptionDate()) &&
       isEqual(this.getMinBirthdate(), other.getMinBirthdate()) &&
       isEqual(this.getMinPickUpDate(), other.getMinPickUpDate()) &&
       isEqual(this.getMinVaccinationDate(), other.getMinVaccinationDate()) &&
@@ -163,6 +167,44 @@ export class AnimalSearchParams extends URLSearchParams {
       z.nativeEnum(AdoptionOption).array().default([]),
       this.getAll(AnimalSearchParams.Keys.ADOPTION_OPTION)
     );
+  }
+
+  getMinAdoptionDate() {
+    const date = parseOrDefault(
+      z.preprocess(ensureDate, z.date()).optional(),
+      this.get(AnimalSearchParams.Keys.MIN_ADOPTION_DATE)
+    );
+
+    if (date == null) {
+      return null;
+    }
+
+    return DateTime.fromJSDate(date).startOf("day").toJSDate();
+  }
+
+  deleteMinAdoptionDate() {
+    const copy = new AnimalSearchParams(this);
+    copy.delete(AnimalSearchParams.Keys.MIN_ADOPTION_DATE);
+    return copy;
+  }
+
+  getMaxAdoptionDate() {
+    const date = parseOrDefault(
+      z.preprocess(ensureDate, z.date()).optional(),
+      this.get(AnimalSearchParams.Keys.MAX_ADOPTION_DATE)
+    );
+
+    if (date == null) {
+      return null;
+    }
+
+    return DateTime.fromJSDate(date).startOf("day").toJSDate();
+  }
+
+  deleteMaxAdoptionDate() {
+    const copy = new AnimalSearchParams(this);
+    copy.delete(AnimalSearchParams.Keys.MAX_ADOPTION_DATE);
+    return copy;
   }
 
   getMinBirthdate() {

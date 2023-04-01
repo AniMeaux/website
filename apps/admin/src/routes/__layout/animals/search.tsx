@@ -183,6 +183,25 @@ export async function loader({ request }: LoaderArgs) {
     });
   }
 
+  const minAdoptionDate = animalSearchParams.getMinAdoptionDate();
+  const maxAdoptionDate = animalSearchParams.getMaxAdoptionDate();
+  if (minAdoptionDate != null || maxAdoptionDate != null) {
+    const adoptionDate: Prisma.DateTimeFilter = {};
+
+    if (minAdoptionDate != null) {
+      adoptionDate.gte = minAdoptionDate;
+    }
+
+    if (maxAdoptionDate != null) {
+      adoptionDate.lte = maxAdoptionDate;
+    }
+
+    where.push({
+      status: { in: [Status.ADOPTED] },
+      adoptionDate,
+    });
+  }
+
   if (isCurrentUserAnimalAdmin) {
     const isSterilized = animalSearchParams.getIsSterilized();
     if (isSterilized.length > 0) {
