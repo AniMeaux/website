@@ -263,13 +263,6 @@ export const exhibitors: Exhibitor[] = [
     url: "https://jardineriepoullain.fr",
   },
   {
-    id: "0d117036-a840-48b1-9f9e-a309073abf75",
-    name: "La Main et la Patte",
-    category: ExhibitorCategory.MEDECINE_DOUCE,
-    image: "show-exhibitors/8f54955a-6a41-45d3-834b-fc013d802bc5",
-    url: "https://www.lamainetlapatte.com",
-  },
-  {
     id: "3a01f001-1374-4b31-9ee1-90df57b4b488",
     name: "Kaliska Shop",
     category: ExhibitorCategory.ACCESSOIRES,
@@ -310,6 +303,13 @@ export const exhibitors: Exhibitor[] = [
     category: ExhibitorCategory.JEUX_CHATS,
     image: "show-exhibitors/8ca886fa-94a2-4e4b-921c-0cb85a0014ea",
     url: "https://www.laboutiquepheline.com",
+  },
+  {
+    id: "0d117036-a840-48b1-9f9e-a309073abf75",
+    name: "La Main et la Patte",
+    category: ExhibitorCategory.MEDECINE_DOUCE,
+    image: "show-exhibitors/8f54955a-6a41-45d3-834b-fc013d802bc5",
+    url: "https://www.lamainetlapatte.com",
   },
   {
     id: "090daccc-e918-4590-a443-36191c0ed61a",
