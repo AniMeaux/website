@@ -209,37 +209,6 @@ export function AnimalFilters({
         </Filter>
 
         <Filter
-          value={AnimalSearchParams.Keys.NAME_OR_ALIAS}
-          label="Nom ou alias"
-          count={visibleFilters.nameOrAlias == null ? 0 : 1}
-          hiddenContent={
-            visibleFilters.nameOrAlias == null ? null : (
-              <input
-                type="hidden"
-                name={AnimalSearchParams.Keys.NAME_OR_ALIAS}
-                value={visibleFilters.nameOrAlias}
-              />
-            )
-          }
-        >
-          <ControlledInput
-            name={AnimalSearchParams.Keys.NAME_OR_ALIAS}
-            value={visibleFilters.nameOrAlias ?? ""}
-            rightAdornment={
-              visibleFilters.nameOrAlias != null ? (
-                <ActionAdornment
-                  onClick={() =>
-                    setSearchParams(animalSearchParams.deleteNameOrAlias())
-                  }
-                >
-                  <Icon id="xMark" />
-                </ActionAdornment>
-              ) : null
-            }
-          />
-        </Filter>
-
-        <Filter
           value={AnimalSearchParams.Keys.SPECIES}
           label="Espèces"
           count={visibleFilters.species.length}
@@ -424,83 +393,6 @@ export function AnimalFilters({
             ))}
           </Suggestions>
         </Filter>
-
-        <Filter
-          value={AnimalSearchParams.Keys.MANAGERS_ID}
-          label="Responsables"
-          count={visibleFilters.managersId.length}
-          hiddenContent={visibleFilters.managersId.map((managerId) => (
-            <input
-              key={managerId}
-              type="hidden"
-              name={AnimalSearchParams.Keys.MANAGERS_ID}
-              value={managerId}
-            />
-          ))}
-        >
-          <Suggestions>
-            {managers.map((manager) => (
-              <Suggestion key={manager.id}>
-                <SuggestionInput
-                  type="checkbox"
-                  name={AnimalSearchParams.Keys.MANAGERS_ID}
-                  value={manager.id}
-                  checked={visibleFilters.managersId.includes(manager.id)}
-                  onChange={() => {}}
-                />
-
-                <SuggestionLabel icon={<UserAvatar user={manager} size="sm" />}>
-                  {manager.displayName}
-                </SuggestionLabel>
-              </Suggestion>
-            ))}
-          </Suggestions>
-        </Filter>
-
-        {fosterFamilies.length > 0 ? (
-          <Filter
-            value={AnimalSearchParams.Keys.FOSTER_FAMILIES_ID}
-            label="Familles d’accueil"
-            count={visibleFilters.fosterFamiliesId.length}
-            hiddenContent={visibleFilters.fosterFamiliesId.map(
-              (fosterFamilyId) => (
-                <input
-                  key={fosterFamilyId}
-                  type="hidden"
-                  name={AnimalSearchParams.Keys.FOSTER_FAMILIES_ID}
-                  value={fosterFamilyId}
-                />
-              )
-            )}
-          >
-            <Suggestions>
-              {fosterFamilies.map((fosterFamily) => (
-                <Suggestion key={fosterFamily.id}>
-                  <SuggestionInput
-                    type="checkbox"
-                    name={AnimalSearchParams.Keys.FOSTER_FAMILIES_ID}
-                    value={fosterFamily.id}
-                    checked={visibleFilters.fosterFamiliesId.includes(
-                      fosterFamily.id
-                    )}
-                    onChange={() => {}}
-                  />
-
-                  <SuggestionLabel
-                    icon={
-                      <FosterFamilyAvatar
-                        fosterFamily={fosterFamily}
-                        size="sm"
-                      />
-                    }
-                  >
-                    {fosterFamily.displayName}
-                  </SuggestionLabel>
-                </Suggestion>
-              ))}
-            </Suggestions>
-          </Filter>
-        ) : null}
 
         <Filter
           value={AnimalSearchParams.Keys.PICK_UP_LOCATION}
@@ -951,6 +843,114 @@ export function AnimalFilters({
               />
             </div>
           </div>
+        </Filter>
+
+        {fosterFamilies.length > 0 ? (
+          <Filter
+            value={AnimalSearchParams.Keys.FOSTER_FAMILIES_ID}
+            label="Familles d’accueil"
+            count={visibleFilters.fosterFamiliesId.length}
+            hiddenContent={visibleFilters.fosterFamiliesId.map(
+              (fosterFamilyId) => (
+                <input
+                  key={fosterFamilyId}
+                  type="hidden"
+                  name={AnimalSearchParams.Keys.FOSTER_FAMILIES_ID}
+                  value={fosterFamilyId}
+                />
+              )
+            )}
+          >
+            <Suggestions>
+              {fosterFamilies.map((fosterFamily) => (
+                <Suggestion key={fosterFamily.id}>
+                  <SuggestionInput
+                    type="checkbox"
+                    name={AnimalSearchParams.Keys.FOSTER_FAMILIES_ID}
+                    value={fosterFamily.id}
+                    checked={visibleFilters.fosterFamiliesId.includes(
+                      fosterFamily.id
+                    )}
+                    onChange={() => {}}
+                  />
+
+                  <SuggestionLabel
+                    icon={
+                      <FosterFamilyAvatar
+                        fosterFamily={fosterFamily}
+                        size="sm"
+                      />
+                    }
+                  >
+                    {fosterFamily.displayName}
+                  </SuggestionLabel>
+                </Suggestion>
+              ))}
+            </Suggestions>
+          </Filter>
+        ) : null}
+
+        <Filter
+          value={AnimalSearchParams.Keys.MANAGERS_ID}
+          label="Responsables"
+          count={visibleFilters.managersId.length}
+          hiddenContent={visibleFilters.managersId.map((managerId) => (
+            <input
+              key={managerId}
+              type="hidden"
+              name={AnimalSearchParams.Keys.MANAGERS_ID}
+              value={managerId}
+            />
+          ))}
+        >
+          <Suggestions>
+            {managers.map((manager) => (
+              <Suggestion key={manager.id}>
+                <SuggestionInput
+                  type="checkbox"
+                  name={AnimalSearchParams.Keys.MANAGERS_ID}
+                  value={manager.id}
+                  checked={visibleFilters.managersId.includes(manager.id)}
+                  onChange={() => {}}
+                />
+
+                <SuggestionLabel icon={<UserAvatar user={manager} size="sm" />}>
+                  {manager.displayName}
+                </SuggestionLabel>
+              </Suggestion>
+            ))}
+          </Suggestions>
+        </Filter>
+
+        <Filter
+          value={AnimalSearchParams.Keys.NAME_OR_ALIAS}
+          label="Nom ou alias"
+          count={visibleFilters.nameOrAlias == null ? 0 : 1}
+          hiddenContent={
+            visibleFilters.nameOrAlias == null ? null : (
+              <input
+                type="hidden"
+                name={AnimalSearchParams.Keys.NAME_OR_ALIAS}
+                value={visibleFilters.nameOrAlias}
+              />
+            )
+          }
+        >
+          <ControlledInput
+            name={AnimalSearchParams.Keys.NAME_OR_ALIAS}
+            value={visibleFilters.nameOrAlias ?? ""}
+            rightAdornment={
+              visibleFilters.nameOrAlias != null ? (
+                <ActionAdornment
+                  onClick={() =>
+                    setSearchParams(animalSearchParams.deleteNameOrAlias())
+                  }
+                >
+                  <Icon id="xMark" />
+                </ActionAdornment>
+              ) : null
+            }
+          />
         </Filter>
       </Filters>
     </Form>
