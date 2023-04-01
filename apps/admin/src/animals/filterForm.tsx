@@ -105,7 +105,7 @@ export function AnimalFilters({
           value={AnimalSearchParams.Keys.SORT}
           label="Trier"
           count={
-            visibleFilters.sort === AnimalSearchParams.Sort.RELEVANCE ? 0 : 1
+            visibleFilters.sort === AnimalSearchParams.DEFAULT_SORT ? 0 : 1
           }
           hiddenContent={
             <input

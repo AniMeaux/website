@@ -15,6 +15,8 @@ export class AnimalSearchParams extends URLSearchParams {
     VACCINATION: "VACCINATION",
   } as const;
 
+  static readonly DEFAULT_SORT = AnimalSearchParams.Sort.RELEVANCE;
+
   static readonly IsSterilized = {
     YES: "YES",
     NO: "NO",
@@ -76,7 +78,7 @@ export class AnimalSearchParams extends URLSearchParams {
     return parseOrDefault(
       z
         .nativeEnum(AnimalSearchParams.Sort)
-        .default(AnimalSearchParams.Sort.RELEVANCE),
+        .default(AnimalSearchParams.DEFAULT_SORT),
       this.get(AnimalSearchParams.Keys.SORT)
     );
   }
