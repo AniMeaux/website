@@ -368,7 +368,7 @@ export async function loader({ request }: LoaderArgs) {
 }
 
 export const meta: MetaFunction = () => {
-  return { title: getPageTitle("Animaux") };
+  return { title: getPageTitle("Tous les animaux") };
 };
 
 export default function Route() {
