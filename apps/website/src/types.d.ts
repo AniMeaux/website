@@ -14,6 +14,7 @@ declare global {
       PICK_UP_FORM_URL?: string;
       PUBLIC_HOST?: string;
       RUNTIME_ENV?: "staging" | "production";
+      SENDINBLUE_API_KEY?: string;
       SHOW_URL?: string;
       TEAMING_URL?: string;
       TWITTER_URL?: string;

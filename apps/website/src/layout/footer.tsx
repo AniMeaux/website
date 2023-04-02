@@ -1,12 +1,9 @@
-import { useFetcher } from "@remix-run/react";
-import { useEffect, useRef } from "react";
-import invariant from "tiny-invariant";
 import { BaseLink, BaseLinkProps } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
 import { Icon, IconProps } from "~/generated/icon";
 import nameAndLogo from "~/images/nameAndLogo.svg";
 import { LineShapeHorizontal } from "~/layout/lineShape";
-import { ActionData } from "~/routes/subscribe";
+import { SubscriptionForm } from "~/routes/resources/subscribe";
 
 export function Footer() {
   return (
@@ -49,7 +46,7 @@ export function Footer() {
               "md:items-start"
             )}
           >
-            <NewletterForm />
+            <SubscriptionForm />
           </div>
         </section>
 
@@ -132,91 +129,5 @@ function ContactItem({
         <span>{children}</span>
       </BaseLink>
     </li>
-  );
-}
-
-function NewletterForm() {
-  const fetcher = useFetcher<ActionData>();
-  const formRef = useRef<HTMLFormElement>(null);
-  const inputRef = useRef<HTMLInputElement>(null);
-
-  useEffect(
-    () => {
-      if (fetcher.data?.type === "success") {
-        invariant(formRef.current != null, "formRef must be set");
-        formRef.current.reset();
-      }
-    },
-    // Use `fetcher.data` instead of `isSuccess` to distinguish 2 successive
-    // success.
-    [fetcher.data]
-  );
-
-  useEffect(
-    () => {
-      if (fetcher.data?.type === "error") {
-        invariant(inputRef.current != null, "inputRef must be set");
-        inputRef.current.focus();
-      }
-    },
-    // Use `fetcher.data` instead of `isError` to distinguish 2 successive errors.
-    [fetcher.data]
-  );
-
-  const isSuccess = fetcher.data?.type === "success";
-  const isError = fetcher.data?.type === "error";
-
-  return (
-    <div
-      className={cn(
-        "w-full max-w-sm flex flex-col items-start gap-3",
-        "md:max-w-none"
-      )}
-    >
-      <fetcher.Form
-        ref={formRef}
-        method="post"
-        action="/subscribe"
-        className={cn(
-          "w-full rounded-tl-[16px] rounded-tr-[10px] rounded-br-[16px] rounded-bl-[10px] shadow-base p-1 flex gap-2",
-          {
-            "bg-brandRed-lightest": isError,
-            "bg-white": !isError,
-          }
-        )}
-      >
-        <input
-          ref={inputRef}
-          type="email"
-          name="email"
-          aria-label="Email"
-          placeholder="jean@email.com"
-          className="min-w-0 flex-1 rounded-bubble-sm bg-transparent px-6 py-2 placeholder-gray-500"
-        />
-
-        <button
-          className={cn(
-            "flex p-3 rounded-bubble-sm text-white transition-[background-color,transform] duration-100 ease-in-out",
-            {
-              "bg-brandGreen": isSuccess,
-              "bg-brandBlue hover:bg-brandBlue-lighter active:scale-95":
-                !isSuccess,
-            }
-          )}
-        >
-          <Icon id={isSuccess ? "check" : "paperPlane"} />
-        </button>
-      </fetcher.Form>
-
-      {fetcher.data?.type === "error" && (
-        <p className="flex items-center gap-2 text-brandRed">
-          <Icon id="circleExclamation" className="text-[14px]" />
-          <span className="text-caption-default">
-            {fetcher.data.errors.formErrors.join(". ") ||
-              fetcher.data.errors.fieldErrors.email}
-          </span>
-        </p>
-      )}
-    </div>
   );
 }
