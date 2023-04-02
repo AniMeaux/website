@@ -1,6 +1,6 @@
 import { formatAge } from "@animeaux/shared";
 import { Prisma, Species, Status, UserGroup } from "@prisma/client";
-import { json, LoaderArgs } from "@remix-run/node";
+import { json, LoaderArgs, MetaFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { DateTime } from "luxon";
 import { promiseHash } from "remix-utils";
@@ -18,6 +18,7 @@ import { Empty } from "~/core/dataDisplay/empty";
 import { prisma } from "~/core/db.server";
 import { Card, CardContent, CardHeader, CardTitle } from "~/core/layout/card";
 import { PageContent } from "~/core/layout/page";
+import { getPageTitle } from "~/core/pageTitle";
 import { getCurrentUser } from "~/currentUser/db.server";
 import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
 import { hasGroups } from "~/users/groups";
@@ -167,6 +168,10 @@ export async function loader({ request }: LoaderArgs) {
     ),
   });
 }
+
+export const meta: MetaFunction = () => {
+  return { title: getPageTitle("Tableau de bord") };
+};
 
 export default function Route() {
   const { isCurrentUserManager } = useLoaderData<typeof loader>();

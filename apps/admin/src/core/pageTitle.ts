@@ -3,7 +3,7 @@ export function getPageTitle(title?: string | string[]) {
 
   title = Array.isArray(title) ? title.join(" • ") : title;
   if (title) {
-    pageTitle = `${title} • ${pageTitle}`;
+    pageTitle = title;
   }
 
   return pageTitle;
