@@ -30,16 +30,16 @@ import { getSpeciesLabels, SPECIES_ICON } from "~/animals/species";
 import { StatusBadge, StatusIcon, STATUS_TRANSLATION } from "~/animals/status";
 import { actionClassName } from "~/core/actions";
 import { BaseLink, BaseLinkProps } from "~/core/baseLink";
-import { useConfig } from "~/core/config";
 import { Empty } from "~/core/dataDisplay/empty";
 import { ErrorPage, getErrorTitle } from "~/core/dataDisplay/errorPage";
 import { Helper } from "~/core/dataDisplay/helper";
-import { createCloudinaryUrl, DynamicImage } from "~/core/dataDisplay/image";
+import { DynamicImage } from "~/core/dataDisplay/image";
 import { Item } from "~/core/dataDisplay/item";
 import { ARTICLE_COMPONENTS, Markdown } from "~/core/dataDisplay/markdown";
 import { prisma } from "~/core/db.server";
 import { NotFoundError } from "~/core/errors.server";
 import { assertIsDefined } from "~/core/isDefined.server";
+import { AvatarCard } from "~/core/layout/avatarCard";
 import { Card, CardContent, CardHeader, CardTitle } from "~/core/layout/card";
 import { PageContent } from "~/core/layout/page";
 import { getPageTitle } from "~/core/pageTitle";
@@ -248,36 +248,29 @@ export default function Route() {
 }
 
 function HeaderCard() {
-  const { cloudinaryName } = useConfig();
   const { animal } = useLoaderData<typeof loader>();
 
   return (
-    <Card>
-      <div className="relative h-6 flex md:h-10">
-        <span className="absolute top-0 left-0 w-full h-full backdrop-blur-3xl" />
+    <AvatarCard>
+      <AvatarCard.BackgroundImage
+        imageId={animal.avatar}
+        imageAlt={animal.name}
+      />
 
-        <img
-          src={createCloudinaryUrl(cloudinaryName, animal.avatar, {
-            size: "128",
-            aspectRatio: "1:1",
-          })}
-          alt={animal.name}
-          className="w-full h-full object-cover object-top"
-        />
-      </div>
-
-      <CardContent>
-        <div className="relative pt-1 pl-9 grid grid-cols-1 grid-flow-col gap-1 md:pt-2 md:pl-10 md:gap-2">
+      <AvatarCard.Content>
+        <AvatarCard.Avatar>
           <BaseLink
             to={`./pictures/${animal.avatar}`}
-            className="absolute bottom-0 left-0 rounded-1 flex ring-5 ring-white focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+            className="rounded-1 flex focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
           >
             <AnimalAvatar animal={animal} loading="eager" size="xl" />
           </BaseLink>
+        </AvatarCard.Avatar>
 
-          <div className="flex flex-col gap-0.5">
+        <AvatarCard.Lines>
+          <AvatarCard.FirstLine>
             <div className="flex items-center gap-1">
-              <div className="flex items-center gap-0.5 text-title-section-small md:text-title-section-large">
+              <div className="flex items-center gap-0.5">
                 <Icon
                   id={GENDER_ICON[animal.gender]}
                   className={
@@ -292,14 +285,16 @@ function HeaderCard() {
 
               <StatusBadge status={animal.status} />
             </div>
+          </AvatarCard.FirstLine>
 
-            <p className="text-body-emphasis text-gray-500">
-              {animal.alias ?? " "}
-            </p>
-          </div>
-        </div>
-      </CardContent>
-    </Card>
+          {animal.alias != null ? (
+            <AvatarCard.SecondLine>
+              <p>{animal.alias}</p>
+            </AvatarCard.SecondLine>
+          ) : null}
+        </AvatarCard.Lines>
+      </AvatarCard.Content>
+    </AvatarCard>
   );
 }
 
