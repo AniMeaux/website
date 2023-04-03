@@ -146,7 +146,14 @@ export async function loader({ request, params }: LoaderArgs) {
     UserGroup.ANIMAL_MANAGER,
   ]);
 
-  return json({ animal, canEdit, canSeeFosterFamilyDetails });
+  const canSeeManagerDetails = hasGroups(currentUser, [UserGroup.ADMIN]);
+
+  return json({
+    animal,
+    canEdit,
+    canSeeFosterFamilyDetails,
+    canSeeManagerDetails,
+  });
 }
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
@@ -345,7 +352,7 @@ function ProfileCard() {
 }
 
 function SituationCard() {
-  const { canEdit, animal, canSeeFosterFamilyDetails } =
+  const { canEdit, animal, canSeeFosterFamilyDetails, canSeeManagerDetails } =
     useLoaderData<typeof loader>();
 
   return (
@@ -388,9 +395,18 @@ function SituationCard() {
           {animal.manager != null ? (
             <Item icon={<UserAvatar user={animal.manager} />}>
               Est géré par{" "}
-              <strong className="text-body-emphasis">
-                {animal.manager.displayName}
-              </strong>
+              {canSeeManagerDetails ? (
+                <BaseLink
+                  to={`/users/${animal.manager.id}`}
+                  className={actionClassName.proseInline()}
+                >
+                  {animal.manager.displayName}
+                </BaseLink>
+              ) : (
+                <strong className="text-body-emphasis">
+                  {animal.manager.displayName}
+                </strong>
+              )}
             </Item>
           ) : null}
 
