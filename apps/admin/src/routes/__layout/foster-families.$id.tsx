@@ -15,8 +15,7 @@ import { AnimalSearchParams } from "~/animals/searchParams";
 import { SPECIES_TRANSLATION } from "~/animals/species";
 import { actionClassName } from "~/core/actions";
 import { BaseLink } from "~/core/baseLink";
-import { cn } from "~/core/classNames";
-import { AvatarColor, inferAvatarColor } from "~/core/dataDisplay/avatar";
+import { inferAvatarColor } from "~/core/dataDisplay/avatar";
 import { Empty } from "~/core/dataDisplay/empty";
 import { ErrorPage, getErrorTitle } from "~/core/dataDisplay/errorPage";
 import { Helper } from "~/core/dataDisplay/helper";
@@ -27,6 +26,7 @@ import { NotFoundError, ReferencedError } from "~/core/errors.server";
 import { FormErrors } from "~/core/formElements/formErrors";
 import { assertIsDefined } from "~/core/isDefined.server";
 import { joinReactNodes } from "~/core/joinReactNodes";
+import { AvatarCard } from "~/core/layout/avatarCard";
 import { Card, CardContent, CardHeader, CardTitle } from "~/core/layout/card";
 import { PageContent, PageLayout } from "~/core/layout/page";
 import { getPageTitle } from "~/core/pageTitle";
@@ -205,49 +205,30 @@ function HeaderCard() {
   const { fosterFamily } = useLoaderData<typeof loader>();
 
   return (
-    <Card>
-      <div
-        className={cn(
-          "h-6 flex md:h-10",
-          FOSTER_FAMILY_BG_COLOR[inferAvatarColor(fosterFamily.id)]
-        )}
-      />
+    <AvatarCard>
+      <AvatarCard.BackgroundColor color={inferAvatarColor(fosterFamily.id)} />
 
-      <CardContent>
-        <div className="relative pt-1 pl-9 grid grid-cols-1 grid-flow-col gap-1 md:pt-2 md:pl-10 md:gap-2">
-          <FosterFamilyAvatar
-            fosterFamily={fosterFamily}
-            size="xl"
-            className="absolute bottom-0 left-0 ring-5 ring-white"
-          />
+      <AvatarCard.Content>
+        <AvatarCard.Avatar>
+          <FosterFamilyAvatar fosterFamily={fosterFamily} size="xl" />
+        </AvatarCard.Avatar>
 
-          <div className="flex flex-col gap-0.5">
-            <h1 className="text-title-section-small md:text-title-section-large">
-              {fosterFamily.displayName}
-            </h1>
+        <AvatarCard.Lines>
+          <AvatarCard.FirstLine>
+            <h1>{fosterFamily.displayName}</h1>
+          </AvatarCard.FirstLine>
+        </AvatarCard.Lines>
 
-            {/* To make sure we have the right height. */}
-            <div> </div>
-          </div>
-
-          <BaseLink
-            to="./edit"
-            className={actionClassName.standalone({ variant: "text" })}
-          >
-            Modifier
-          </BaseLink>
-        </div>
-      </CardContent>
-    </Card>
+        <BaseLink
+          to="./edit"
+          className={actionClassName.standalone({ variant: "text" })}
+        >
+          Modifier
+        </BaseLink>
+      </AvatarCard.Content>
+    </AvatarCard>
   );
 }
-
-const FOSTER_FAMILY_BG_COLOR: Record<AvatarColor, string> = {
-  blue: "bg-blue-50",
-  green: "bg-green-50",
-  red: "bg-red-50",
-  yellow: "bg-yellow-50",
-};
 
 function ProfileCard() {
   const { fosterFamily } = useLoaderData<typeof loader>();
