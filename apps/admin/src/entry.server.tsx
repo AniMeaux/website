@@ -1,7 +1,7 @@
 import { EntryContext, HandleDataRequestFunction } from "@remix-run/node";
 import { RemixServer } from "@remix-run/react";
 import { renderToString } from "react-dom/server";
-import { extendSession } from "~/core/session.server";
+import { extendCurrentUserSession } from "~/currentUser/session.server";
 
 if (process.env.NODE_ENV === "development") {
   const { startWorker } = require("~/mocks/mocks.server");
@@ -14,7 +14,7 @@ export default async function handleRequest(
   responseHeaders: Headers,
   remixContext: EntryContext
 ) {
-  await extendSession(request.headers, responseHeaders);
+  await extendCurrentUserSession(request.headers, responseHeaders);
 
   const markup = renderToString(
     <RemixServer context={remixContext} url={request.url} />
@@ -36,6 +36,6 @@ export const handleDataRequest: HandleDataRequestFunction = async (
   response,
   { request }
 ) => {
-  await extendSession(request.headers, response.headers);
+  await extendCurrentUserSession(request.headers, response.headers);
   return response;
 };
