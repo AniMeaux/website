@@ -1,6 +1,6 @@
 import { User, UserGroup } from "@prisma/client";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
-import { json, LoaderArgs, SerializeFrom } from "@remix-run/node";
+import { json, LoaderArgs } from "@remix-run/node";
 import {
   Outlet,
   useFetcher,
@@ -8,7 +8,8 @@ import {
   useLocation,
 } from "@remix-run/react";
 import { createPath } from "history";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { promiseHash } from "remix-utils";
 import { BaseLink, BaseLinkProps } from "~/core/baseLink";
 import {
   SideBar,
@@ -25,44 +26,47 @@ import {
 import { getPageTitle } from "~/core/pageTitle";
 import { NextSearchParams } from "~/core/searchParams";
 import { getCurrentUser } from "~/currentUser/db.server";
+import { getCurrentUserPreferences } from "~/currentUser/preferences.server";
 import { Icon, IconProps } from "~/generated/icon";
 import { theme } from "~/generated/theme";
 import nameAndLogo from "~/images/nameAndLogo.svg";
 import { GlobalSearch } from "~/routes/resources/global-search";
+import { usePreferencesFetcher } from "~/routes/resources/preferences";
 import { UserAvatar } from "~/users/avatar";
 import { hasGroups } from "~/users/groups";
 
 export async function loader({ request }: LoaderArgs) {
-  const currentUser = await getCurrentUser(request, {
-    select: {
-      id: true,
-      displayName: true,
-      email: true,
-      groups: true,
-    },
+  const { currentUser, preferences } = await promiseHash({
+    preferences: getCurrentUserPreferences(request),
+    currentUser: getCurrentUser(request, {
+      select: {
+        id: true,
+        displayName: true,
+        email: true,
+        groups: true,
+      },
+    }),
   });
 
-  return json({ currentUser });
+  return json({ currentUser, preferences });
 }
 
 export default function Route() {
-  const { currentUser } = useLoaderData<typeof loader>();
-
   return (
     <div className="grid grid-cols-1 md:grid-cols-[auto,minmax(0px,1fr)] items-start">
-      <CurrentUserSideBar currentUser={currentUser} />
+      <CurrentUserSideBar />
 
       <div className="flex flex-col" style={{ "--header-height": "80px" }}>
         <header className="w-full bg-white px-safe-1 pt-safe-0.5 pb-0.5 grid grid-cols-[minmax(0px,1fr)_auto] items-center justify-between gap-1 md:sticky md:top-0 md:z-20 md:pt-safe-1 md:pr-safe-2 md:pb-1 md:pl-2 md:grid-cols-[minmax(200px,500px)_auto] md:gap-4 md:border-l md:border-gray-50">
           <GlobalSearch />
-          <CurrentUserMenu currentUser={currentUser} />
+          <CurrentUserMenu />
         </header>
 
         <div className="flex flex-col">
           <Outlet />
         </div>
 
-        <CurrentUserTabBar currentUser={currentUser} />
+        <CurrentUserTabBar />
       </div>
     </div>
   );
@@ -70,11 +74,8 @@ export default function Route() {
 
 const MAX_VISIBLE_TAB_BAR_ITEM_COUNT = 5;
 
-function CurrentUserTabBar({
-  currentUser,
-}: {
-  currentUser: SerializeFrom<typeof loader>["currentUser"];
-}) {
+function CurrentUserTabBar() {
+  const { currentUser } = useLoaderData<typeof loader>();
   const navigationItems = getNavigationItems(currentUser);
 
   let visibleNavigationItems = navigationItems;
@@ -117,33 +118,32 @@ function CurrentUserTabBar({
   );
 }
 
-function CurrentUserSideBar({
-  currentUser,
-}: {
-  currentUser: SerializeFrom<typeof loader>["currentUser"];
-}) {
-  const [isOpened, setIsOpened] = useState(true);
-  const [isInitialized, setIsInitialized] = useState(false);
-
+function CurrentUserSideBar() {
   useEffect(() => {
-    setIsOpened(!Boolean(localStorage.getItem("isSideBarCollapsed")));
-    setIsInitialized(true);
+    // Clean up old local storage usage.
+    localStorage.removeItem("isSideBarCollapsed");
   }, []);
 
-  useEffect(() => {
-    if (isInitialized) {
-      if (isOpened) {
-        localStorage.removeItem("isSideBarCollapsed");
-      } else {
-        localStorage.setItem("isSideBarCollapsed", "true");
-      }
-    }
-  }, [isOpened, isInitialized]);
+  const { currentUser, preferences } = useLoaderData<typeof loader>();
+  const preferencesFetcher = usePreferencesFetcher();
+
+  // Optimistic UI.
+  const isOpened = !(
+    preferencesFetcher.formData?.isSideBarCollapsed ??
+    preferences.isSideBarCollapsed
+  );
 
   const navigationItems = getNavigationItems(currentUser);
 
   return (
-    <SideBar isOpened={isOpened} setIsOpened={setIsOpened}>
+    <SideBar
+      isOpened={isOpened}
+      onIsOpenedChange={() =>
+        preferencesFetcher.submit({
+          isSideBarCollapsed: !preferences.isSideBarCollapsed,
+        })
+      }
+    >
       <SideBarRootItem logo={nameAndLogo} to="/" alt={getPageTitle()} />
 
       <SideBarContent>
@@ -215,11 +215,8 @@ const ALL_NAVIGATION_ITEMS: NavigationItem[] = [
   // },
 ];
 
-function CurrentUserMenu({
-  currentUser,
-}: {
-  currentUser: SerializeFrom<typeof loader>["currentUser"];
-}) {
+function CurrentUserMenu() {
+  const { currentUser } = useLoaderData<typeof loader>();
   const fetcher = useFetcher();
   const location = useLocation();
 
