@@ -5,12 +5,12 @@ import { algolia } from "~/core/algolia/algolia.server";
 import { prisma } from "~/core/db.server";
 import { EmailAlreadyUsedError, PrismaErrorCodes } from "~/core/errors.server";
 import { NextSearchParams } from "~/core/searchParams";
-import { getSession } from "~/core/session.server";
-import { destroyUserSession } from "~/currentUser/session.server";
+import {
+  destroyCurrentUserSession,
+  getCurrentUserSession,
+} from "~/currentUser/session.server";
 import { hasGroups } from "~/users/groups";
 import { generatePasswordHash, isSamePassword } from "~/users/password.server";
-
-const USER_SESSION_KEY = "userId";
 
 export async function getCurrentUser<T extends Prisma.UserFindFirstArgs>(
   request: Request,
@@ -19,10 +19,8 @@ export async function getCurrentUser<T extends Prisma.UserFindFirstArgs>(
     skipPasswordChangeCheck = false,
   }: { skipPasswordChangeCheck?: boolean } = {}
 ) {
-  const session = await getSession(request);
-
-  const userId = session.get(USER_SESSION_KEY);
-  if (typeof userId !== "string") {
+  const session = await getCurrentUserSession(request);
+  if (session.data.userId == null) {
     throw await redirectToLogin(request);
   }
 
@@ -30,14 +28,14 @@ export async function getCurrentUser<T extends Prisma.UserFindFirstArgs>(
     const user = await prisma.user.findFirst<T>({
       ...args,
       select: { ...args.select, shouldChangePassword: true, groups: true },
-      where: { id: userId, isDisabled: false },
+      where: { id: session.data.userId, isDisabled: false },
     });
     if (user == null) {
       throw await redirectToLogin(request);
     }
 
     await prisma.user.update({
-      where: { id: userId },
+      where: { id: session.data.userId },
       data: { lastActivityAt: new Date() },
     });
 
@@ -65,7 +63,7 @@ async function redirectToLogin(request: Request) {
 
   return redirect(
     createPath({ pathname: "/login", search: searchParams.toString() }),
-    { headers: { "Set-Cookie": await destroyUserSession() } }
+    { headers: { "Set-Cookie": await destroyCurrentUserSession() } }
   );
 }
 

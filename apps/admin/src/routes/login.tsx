@@ -19,7 +19,7 @@ import { getPageTitle } from "~/core/pageTitle";
 import { createActionData } from "~/core/schemas";
 import { NextSearchParams } from "~/core/searchParams";
 import { getCurrentUser, verifyLogin } from "~/currentUser/db.server";
-import { createUserSession } from "~/currentUser/session.server";
+import { createCurrentUserSession } from "~/currentUser/session.server";
 import { Icon } from "~/generated/icon";
 import nameAndLogo from "~/images/nameAndLogo.svg";
 
@@ -93,7 +93,7 @@ export async function action({ request }: ActionArgs) {
   const url = new URL(request.url);
   const searchParams = new NextSearchParams(url.searchParams);
   throw redirect(searchParams.getNextOrDefault(), {
-    headers: { "Set-Cookie": await createUserSession(userId) },
+    headers: { "Set-Cookie": await createCurrentUserSession(userId) },
   });
 }
 
