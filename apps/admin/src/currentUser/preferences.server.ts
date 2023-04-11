@@ -1,47 +1,41 @@
-import { User } from "@prisma/client";
 import { createCookie, createCookieSessionStorage } from "@remix-run/node";
 import { createTypedSessionStorage } from "remix-utils";
-import invariant from "tiny-invariant";
 import { z } from "zod";
 
-invariant(process.env.SESSION_SECRET, "SESSION_SECRET must be set");
-
-const SessionSchema = z.object({
-  userId: z.string().uuid().optional().catch(undefined),
+const PreferencesSchema = z.object({
+  isSideBarCollapsed: z.boolean().catch(false),
 });
 
-const sessionCookie = createCookie("_session", {
+const sessionCookie = createCookie("preferences", {
   httpOnly: true,
   path: "/",
   sameSite: "strict",
-  // 2 weeks.
-  maxAge: 60 * 60 * 24 * 7 * 2,
-  secrets: [process.env.SESSION_SECRET],
+  // 5 weeks.
+  maxAge: 60 * 60 * 24 * 7 * 5,
   secure: process.env.NODE_ENV === "production",
 });
 
 const sessionStorage = createTypedSessionStorage({
   sessionStorage: createCookieSessionStorage({ cookie: sessionCookie }),
-  schema: SessionSchema,
+  schema: PreferencesSchema,
 });
 
-export async function getCurrentUserSession(request?: Request) {
+export async function getCurrentUserPreferences(request?: Request) {
   const cookie = request?.headers.get("cookie");
-  return await sessionStorage.getSession(cookie);
+  const session = await sessionStorage.getSession(cookie);
+  return session.data;
 }
 
-export async function createCurrentUserSession(userId: User["id"]) {
-  const session = await getCurrentUserSession();
-  session.data.userId = userId;
+export async function commitCurrentUserPreferences(
+  preferences: z.infer<typeof PreferencesSchema>
+) {
+  // Create new session with default values.
+  const session = await sessionStorage.getSession();
+  session.data.isSideBarCollapsed = preferences.isSideBarCollapsed;
   return await sessionStorage.commitSession(session);
 }
 
-export async function destroyCurrentUserSession() {
-  const session = await getCurrentUserSession();
-  return await sessionStorage.destroySession(session);
-}
-
-export async function extendCurrentUserSession(
+export async function extendCurrentUserPreferences(
   requestHeaders: Headers,
   responseHeaders: Headers
 ) {

@@ -1,6 +1,6 @@
 import { ActionArgs, redirect } from "@remix-run/node";
 import { createPath } from "history";
-import { destroyUserSession } from "~/currentUser/session.server";
+import { destroyCurrentUserSession } from "~/currentUser/session.server";
 
 export async function loader() {
   // Nothing to render here.
@@ -13,6 +13,6 @@ export async function action({ request }: ActionArgs) {
       pathname: "/login",
       search: new URL(request.url).searchParams.toString(),
     }),
-    { headers: { "Set-Cookie": await destroyUserSession() } }
+    { headers: { "Set-Cookie": await destroyCurrentUserSession() } }
   );
 }

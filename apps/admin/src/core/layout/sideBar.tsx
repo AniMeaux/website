@@ -5,11 +5,15 @@ import { Icon, IconProps } from "~/generated/icon";
 
 export type SideBarProps = {
   isOpened: boolean;
-  setIsOpened: React.Dispatch<React.SetStateAction<boolean>>;
+  onIsOpenedChange: () => void;
   children?: React.ReactNode;
 };
 
-export function SideBar({ isOpened, setIsOpened, children }: SideBarProps) {
+export function SideBar({
+  isOpened,
+  onIsOpenedChange,
+  children,
+}: SideBarProps) {
   return (
     <nav className="hidden sticky top-0 h-screen bg-white pl-safe-2 pt-safe-1 pb-safe-2 pr-2 md:flex">
       <Transition in={isOpened} timeout={200}>
@@ -29,10 +33,7 @@ export function SideBar({ isOpened, setIsOpened, children }: SideBarProps) {
           >
             {children}
 
-            <button
-              onClick={() => setIsOpened((isOpened) => !isOpened)}
-              className={itemClassName()}
-            >
+            <button onClick={onIsOpenedChange} className={itemClassName()}>
               <BaseSideBarItem icon={isOpened ? "anglesLeft" : "anglesRight"}>
                 Réduire
               </BaseSideBarItem>
@@ -86,6 +87,19 @@ export function SideBarItem({
     >
       <BaseSideBarItem icon={icon}>{children}</BaseSideBarItem>
     </BaseLink>
+  );
+}
+
+export function SideBarExpendCollapseItem({
+  isOpened,
+  ...rest
+}: { isOpened: boolean } & React.ButtonHTMLAttributes<HTMLButtonElement>) {
+  return (
+    <button {...rest} className={itemClassName()}>
+      <BaseSideBarItem icon={isOpened ? "anglesLeft" : "anglesRight"}>
+        Réduire
+      </BaseSideBarItem>
+    </button>
   );
 }
 
