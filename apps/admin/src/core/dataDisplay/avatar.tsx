@@ -57,14 +57,14 @@ const COLOR_CLASS_NAME: Record<AvatarColor, string> = {
 
 const ICON_CLASS_NAME: Record<AvatarSize, string> = {
   sm: "text-[12px]",
-  lg: "text-[20px]",
-  xl: "text-[40px]",
+  lg: "text-[24px]",
+  xl: "text-[48px]",
 };
 
 const LETTER_CLASS_NAME: Record<AvatarSize, string> = {
   sm: "text-[14px]",
-  lg: "text-[22px]",
-  xl: "text-[44px]",
+  lg: "text-[28px]",
+  xl: "text-[56px]",
 };
 
 export function inferAvatarColor(uuid: string): AvatarColor {
