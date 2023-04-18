@@ -1,6 +1,7 @@
 import { Prisma } from "@prisma/client";
 import { json, LoaderArgs, MetaFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
+import { promiseHash } from "remix-utils";
 import { Paginator } from "~/controllers/paginator";
 import { actionClassNames } from "~/core/actions";
 import { BaseLink } from "~/core/baseLink";
@@ -23,9 +24,9 @@ export async function loader({ request }: LoaderArgs) {
   const searchParams = new URL(request.url).searchParams;
   const page = getPage(searchParams);
 
-  const [totalCount, events] = await Promise.all([
-    prisma.event.count({ where }),
-    prisma.event.findMany({
+  const { totalCount, events } = await promiseHash({
+    totalCount: prisma.event.count({ where }),
+    events: prisma.event.findMany({
       where,
       skip: page * EVENT_COUNT_PER_PAGE,
       take: EVENT_COUNT_PER_PAGE,
@@ -41,7 +42,7 @@ export async function loader({ request }: LoaderArgs) {
         location: true,
       },
     }),
-  ]);
+  });
 
   const pageCount = Math.ceil(totalCount / EVENT_COUNT_PER_PAGE);
 

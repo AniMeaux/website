@@ -1,6 +1,7 @@
 import { Prisma } from "@prisma/client";
 import { json, MetaFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
+import { promiseHash } from "remix-utils";
 import { actionClassNames } from "~/core/actions";
 import { BaseLink } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
@@ -31,19 +32,19 @@ const eventSelect = Prisma.validator<Prisma.EventArgs>()({
 const PAST_EVENT_COUNT = 3;
 
 export async function loader() {
-  const [events, pastEvents] = await Promise.all([
-    prisma.event.findMany({
+  const { events, pastEvents } = await promiseHash({
+    events: prisma.event.findMany({
       where: { isVisible: true, endDate: { gte: new Date() } },
       orderBy: { endDate: "asc" },
       select: eventSelect.select,
     }),
-    prisma.event.findMany({
+    pastEvents: prisma.event.findMany({
       where: { isVisible: true, endDate: { lt: new Date() } },
       take: PAST_EVENT_COUNT,
       orderBy: { endDate: "desc" },
       select: eventSelect.select,
     }),
-  ]);
+  });
 
   return json({ events, pastEvents });
 }
