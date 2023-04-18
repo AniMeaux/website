@@ -39,10 +39,7 @@ const EventEditPage: PageComponent = () => {
         "Can delete image only if an event was found."
       );
 
-      if (
-        getEvent.result.image != null &&
-        getEvent.result.image !== params.image
-      ) {
+      if (getEvent.result.image !== params.image) {
         await deleteImage(getEvent.result.image);
       }
     },
@@ -69,14 +66,14 @@ const EventEditPage: PageComponent = () => {
         "Can upload image only if an event was found."
       );
 
-      if (value.image != null && isImageFile(value.image)) {
+      if (isImageFile(value.image)) {
         await uploadImageFile(value.image, { tags: ["event"] });
       }
 
       updateEvent.mutate({
         ...value,
         id: getEvent.result.id,
-        image: value.image == null ? null : getImageId(value.image),
+        image: getImageId(value.image),
       });
     }
   );

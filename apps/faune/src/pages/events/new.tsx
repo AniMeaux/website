@@ -30,7 +30,6 @@ const CreateEventPage: PageComponent = () => {
   const uploadEventImage = useMutation<void, Error, FormValue>(
     async (value) => {
       if (
-        value.image != null &&
         // It can only be an `ImageFile` when creating a new event but we do it
         // for type checking (cast).
         isImageFile(value.image)
@@ -38,10 +37,7 @@ const CreateEventPage: PageComponent = () => {
         await uploadImageFile(value.image, { tags: ["event"] });
       }
 
-      createEvent.mutate({
-        ...value,
-        image: value.image == null ? null : getImageId(value.image),
-      });
+      createEvent.mutate({ ...value, image: getImageId(value.image) });
     }
   );
 
