@@ -259,7 +259,11 @@ function ImageItem({
       <button
         onClick={() => onRemove()}
         className={cn(
-          actionClassName.standalone({ variant: "translucid", color: "black" }),
+          actionClassName.standalone({
+            isIconOnly: true,
+            variant: "translucid",
+            color: "black",
+          }),
           "absolute bottom-0.5 right-0.5"
         )}
       >
