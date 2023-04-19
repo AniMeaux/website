@@ -222,21 +222,21 @@ function ImageItem({
   onRemove: () => void;
 }) {
   const itemRef = useRef<HTMLLIElement>(null);
+  const handleRef = useRef<HTMLDivElement>(null);
   const { isDragging, isDisabled } = useDragItem({
     data: image,
     index,
     itemRef,
+    handleRef,
   });
   const isOverSize = isImageOverSize(image);
 
   return (
     <li
       ref={itemRef}
-      draggable={!isDisabled}
-      className={cn(
-        "relative overflow-hidden rounded-1 aspect-4/3 cursor-move",
-        { hidden: isDragging }
-      )}
+      className={cn("relative overflow-hidden rounded-1 aspect-4/3", {
+        hidden: isDragging,
+      })}
     >
       <DataUrlOrDynamicImage
         alt={`Photo ${index + 1}`}
@@ -254,6 +254,19 @@ function ImageItem({
             Image trop grande
           </span>
         </p>
+      ) : null}
+
+      {!isDisabled ? (
+        <div
+          ref={handleRef}
+          draggable
+          className="absolute top-1/2 -translate-y-1/2 left-0 h-4 w-4 flex items-center justify-center opacity-75 cursor-move"
+        >
+          <Icon
+            id="gripDotsVertical"
+            className="text-[20px] text-white stroke-black"
+          />
+        </div>
       ) : null}
 
       <button
