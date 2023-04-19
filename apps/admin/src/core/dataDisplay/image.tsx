@@ -1,3 +1,4 @@
+import { blurhashToImageCssObject } from "@unpic/placeholder";
 import orderBy from "lodash.orderby";
 import { cn } from "~/core/classNames";
 import { useConfig } from "~/core/config";
@@ -76,10 +77,16 @@ export function DynamicImage({
   className,
   style,
 }: DynamicImageProps) {
-  const config = useConfig();
+  const imageUrl = new URL(imageId, "https://fake.host");
+  const hash = imageUrl.searchParams.get("hash");
+  if (hash != null) {
+    style = { ...style, ...blurhashToImageCssObject(hash, 80, 80) };
+  }
+
+  const { cloudinaryName } = useConfig();
 
   const srcSet = IMAGE_SIZES.map((size) => {
-    const url = createCloudinaryUrl(config.cloudinaryName, imageId, {
+    const url = createCloudinaryUrl(cloudinaryName, imageUrl.pathname, {
       size,
       aspectRatio,
     });
@@ -105,7 +112,7 @@ export function DynamicImage({
     <img
       alt={alt}
       loading={loading}
-      src={createCloudinaryUrl(config.cloudinaryName, imageId, {
+      src={createCloudinaryUrl(cloudinaryName, imageUrl.pathname, {
         size: fallbackSize,
         aspectRatio,
       })}
@@ -117,6 +124,12 @@ export function DynamicImage({
         IMAGE_BACKGROUND_CLASS_NAME[background],
         OBJECT_FIT_CLASS_NAME[objectFit]
       )}
+      // style={{
+      //   backgroundImage:
+      //     "url(data:image/bmp;base64,Qk1aBAAAAAAAADYAAAAoAAAABAAAAAMAAAABABgAAAAAACQAAAATCwAAEwsAAAAAAAAAAAAAxtbS8O7s0cvMaXeGprfB09HasazCJkaNVnugipO2g5HEAEqg)",
+      //   backgroundSize: "cover",
+      //   ...style,
+      // }}
       style={style}
     />
   );
@@ -135,6 +148,9 @@ export function createCloudinaryUrl(
     size?: ImageSize;
   }
 ) {
+  // Remove leading "/" when using URL#pathname.
+  imageId = imageId.replace(/^\//, "");
+
   const transformations = [
     // https://cloudinary.com/documentation/image_optimization#automatic_quality_selection_q_auto
     "q_auto",

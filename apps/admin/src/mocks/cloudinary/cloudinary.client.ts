@@ -14,6 +14,9 @@ const SVGS = [
 
 const resolver: Parameters<typeof rest.get>[1] = async (req, res, ctx) => {
   invariant(typeof req.params.id === "string", "id is required");
+
+  await new Promise((resolve) => setTimeout(resolve, 3000));
+
   // path is an UUID, so we take the first 8 hexa characters.
   const hash = Number(`0x${req.params.id.substring(0, 8)}`);
   const svg = SVGS[hash % SVGS.length];
