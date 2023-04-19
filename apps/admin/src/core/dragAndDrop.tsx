@@ -192,6 +192,7 @@ export function createDragAndDropContext<DataType>() {
     handleRef,
     index,
     itemRef,
+    previewRef,
   }: UseDragItemParameters<DataType>) {
     const {
       direction,
@@ -204,7 +205,7 @@ export function createDragAndDropContext<DataType>() {
       startDrag,
     } = useDragAndDropContext("useDragItem");
 
-    const [, drag] = useDrag<DragItem<DataType>, void, void>({
+    const [, drag, preview] = useDrag<DragItem<DataType>, void, void>({
       canDrag: () => !isDisabled,
 
       // Reset the drag and drop when either a drop was done or not.
@@ -271,6 +272,7 @@ export function createDragAndDropContext<DataType>() {
     // https://github.com/react-dnd/react-dnd/blob/main/packages/react-dnd/src/common/TargetConnector.ts#L13
     // https://github.com/react-dnd/react-dnd/blob/main/packages/react-dnd/src/common/SourceConnector.ts#L23
     drag(handleRef ?? itemRef);
+    preview(previewRef ?? itemRef);
     drop(itemRef);
 
     return {
@@ -347,6 +349,7 @@ type UseDragItemParameters<DataType> = {
   handleRef?: React.RefObject<HTMLElement>;
   index: number;
   itemRef: React.RefObject<HTMLElement>;
+  previewRef?: React.RefObject<HTMLElement>;
 };
 
 function subtractCoordinates(a: XYCoord, b: XYCoord): XYCoord {
