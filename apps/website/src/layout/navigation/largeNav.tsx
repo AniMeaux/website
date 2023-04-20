@@ -55,7 +55,7 @@ export function LargeNav({
   return (
     <header
       {...getFocusTrapIgnoreAttribute()}
-      className={cn("z-[0] w-full hidden flex-col", "md:flex")}
+      className={cn("z-0 w-full hidden flex-col", "md:flex")}
       style={{ "--header-height": displayShowBanner ? "112px" : "56px" }}
     >
       {displayShowBanner ? <ShowBanner /> : null}

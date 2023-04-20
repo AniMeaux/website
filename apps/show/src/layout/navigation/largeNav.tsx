@@ -11,7 +11,7 @@ export function LargeNav() {
   return (
     <header
       className={cn(
-        "z-[0] w-full pt-safe-2 px-page pb-2 hidden items-center justify-between",
+        "z-0 w-full pt-safe-2 px-page pb-2 hidden items-center justify-between",
         "md:flex"
       )}
     >

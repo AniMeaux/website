@@ -19,7 +19,7 @@ AvatarCard.BackgroundImage = function AvatarCardBackgroundImage({
   const { cloudinaryName } = useConfig();
 
   return (
-    <div className="z-[0] relative h-6 flex md:h-10">
+    <div className="z-0 relative h-6 flex md:h-10">
       <span className="absolute top-0 left-0 w-full h-full backdrop-blur-3xl" />
 
       <img
@@ -55,7 +55,7 @@ AvatarCard.Content = function AvatarCardContent({
   children?: React.ReactNode;
 }) {
   return (
-    <div className="z-[0] h-[65px] p-1 flex gap-1 items-center content-end md:h-[85px] md:p-2 md:gap-2">
+    <div className="z-0 h-[65px] p-1 flex gap-1 items-center content-end md:h-[85px] md:p-2 md:gap-2">
       {children}
     </div>
   );
