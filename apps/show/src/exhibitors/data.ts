@@ -179,6 +179,13 @@ export const exhibitors: Exhibitor[] = [
     url: "https://www.chatrcoursmuraux.com",
   },
   {
+    id: "86b30d24-0ba5-4cfb-8fbf-9ff72586bc18",
+    name: "Chatouillis Jouets",
+    category: ExhibitorCategory.ACCESSOIRES,
+    image: "show-exhibitors/ea6f9a3e-a471-40c9-a619-e398344f583b",
+    url: "https://chatouillisjouets.fr",
+  },
+  {
     id: "ccd9eb83-9183-49e6-bb26-d90178c87fde",
     name: "Chijiwi",
     category: ExhibitorCategory.ALIMENTATION_ET_ACCESSOIRES,
@@ -191,6 +198,13 @@ export const exhibitors: Exhibitor[] = [
     category: ExhibitorCategory.ASSOCIATION,
     image: "show-exhibitors/ab8ef7fc-031f-463b-9969-4cd910ce721c",
     url: "https://www.chienguide-cie.fr",
+  },
+  {
+    id: "eae12574-91ea-4446-9273-722c84eb9436",
+    name: "Color’corde",
+    category: ExhibitorCategory.ACCESSOIRES,
+    image: "show-exhibitors/950083eb-cb41-4a60-9b3a-62134b1b1825",
+    url: "https://www.colorcorde.fr",
   },
   {
     id: "b3aa543b-373c-4d39-b962-f09a2449a18d",
@@ -326,13 +340,6 @@ export const exhibitors: Exhibitor[] = [
     url: "https://madnesis.com",
   },
   {
-    id: "85ee717c-4932-4bb1-aa96-446b9eddcf9e",
-    name: "Matoo & Patoo",
-    category: ExhibitorCategory.ALIMENTATION_ET_ACCESSOIRES,
-    image: "show-exhibitors/f01bf6cb-b501-4a97-aaa1-5ddaa4bea958",
-    url: "https://matooetpatoo.fr",
-  },
-  {
     id: "9d02417e-ad26-4730-8c11-637dda2c2e97",
     name: "Mistigris Croissy Beaubourg",
     category: ExhibitorCategory.ASSOCIATION_ANIMAUX_DE_COMPAGNIE,
@@ -395,6 +402,13 @@ export const exhibitors: Exhibitor[] = [
     category: ExhibitorCategory.ALIMENTATION_ET_ACCESSOIRES,
     image: "show-exhibitors/3a5bf3c0-46d8-4400-af23-dfc20c5d7c21",
     url: "https://www.phyto-flore-nature.com",
+  },
+  {
+    id: "17b0d252-435b-417e-bcb8-9bbd75c4f039",
+    name: "Picardie Faune Sauvage",
+    category: ExhibitorCategory.ASSOCIATION,
+    image: "show-exhibitors/8aa93caa-fabf-4a71-9883-f2e61be1bf09",
+    url: "https://www.facebook.com/PicardieFauneSauvage",
   },
   {
     id: "9f1ae94e-7a55-4cbb-b6d3-43c96aaa49f4",
