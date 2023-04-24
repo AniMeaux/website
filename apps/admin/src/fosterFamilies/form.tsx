@@ -39,11 +39,9 @@ export const ActionFormData = createActionData(
 );
 
 export function FosterFamilyForm({
-  isCreate = false,
   defaultFosterFamily,
   fetcher,
 }: {
-  isCreate?: boolean;
   defaultFosterFamily?: null | SerializeFrom<
     Pick<
       FosterFamily,
@@ -62,6 +60,7 @@ export function FosterFamilyForm({
     errors?: z.inferFlattenedErrors<typeof ActionFormData.schema>;
   }>;
 }) {
+  const isCreate = defaultFosterFamily == null;
   const addressRef = useRef<HTMLInputElement>(null);
   const cityRef = useRef<HTMLInputElement>(null);
   const commentsRef = useRef<HTMLTextAreaElement>(null);
@@ -322,7 +321,7 @@ export function FosterFamilyForm({
         <div className={formClassNames.fields.field.root()}>
           <span className={formClassNames.fields.field.label()}>
             Espèces à accueillir{" "}
-            {isCreate || defaultFosterFamily?.speciesToHost.length !== 0 ? (
+            {isCreate || defaultFosterFamily.speciesToHost.length !== 0 ? (
               <RequiredStar />
             ) : null}
           </span>

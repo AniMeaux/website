@@ -113,7 +113,7 @@ export default function Route() {
           </CardHeader>
 
           <CardContent>
-            <UserForm isCreate fetcher={fetcher} />
+            <UserForm fetcher={fetcher} />
           </CardContent>
         </Card>
       </PageContent>

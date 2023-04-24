@@ -36,16 +36,15 @@ export const ActionFormData = createActionData(
 );
 
 export function AnimalPicturesForm({
-  isCreate = false,
   defaultAnimal,
   fetcher,
 }: {
-  isCreate?: boolean;
   defaultAnimal?: null | SerializeFrom<Pick<Animal, "avatar" | "pictures">>;
   fetcher: FetcherWithComponents<{
     errors?: z.inferFlattenedErrors<typeof ActionFormData.schema>;
   }>;
 }) {
+  const isCreate = defaultAnimal == null;
   const action = useFormAction();
 
   const [pictures, setPictures] = useState<ImageFileOrId[]>(

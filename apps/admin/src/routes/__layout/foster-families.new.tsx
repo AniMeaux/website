@@ -138,7 +138,7 @@ export default function Route() {
           </CardHeader>
 
           <CardContent>
-            <FosterFamilyForm isCreate fetcher={fetcher} />
+            <FosterFamilyForm fetcher={fetcher} />
           </CardContent>
         </Card>
       </PageContent>

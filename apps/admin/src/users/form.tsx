@@ -33,11 +33,9 @@ export const ActionFormData = createActionData(
 );
 
 export function UserForm({
-  isCreate = false,
   defaultUser,
   fetcher,
 }: {
-  isCreate?: boolean;
   defaultUser?: null | SerializeFrom<
     Pick<User, "displayName" | "email" | "groups">
   >;
@@ -45,6 +43,7 @@ export function UserForm({
     errors?: z.inferFlattenedErrors<typeof ActionFormData.schema>;
   }>;
 }) {
+  const isCreate = defaultUser == null;
   const displayNameRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
   const groupsRef = useRef<HTMLInputElement>(null);

@@ -128,7 +128,7 @@ export default function Route() {
         </CardHeader>
 
         <CardContent>
-          <AnimalPicturesForm isCreate fetcher={fetcher} />
+          <AnimalPicturesForm fetcher={fetcher} />
         </CardContent>
       </Card>
     </PageContent>
