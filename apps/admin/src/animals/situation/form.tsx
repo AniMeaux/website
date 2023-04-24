@@ -392,7 +392,7 @@ export function AnimalSituationForm({
                 label="Oui"
                 name={ActionFormData.keys.isSterilized}
                 value={ActionFormData.schema.shape.isSterilized.Enum.YES}
-                defaultChecked={defaultAnimal?.isSterilized}
+                defaultChecked={defaultAnimal?.isSterilized === true}
                 aria-describedby="isSterilized-error"
               />
 

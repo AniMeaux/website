@@ -199,7 +199,7 @@ export function AnimalProfileForm({
               id={ActionFormData.keys.name}
               type="text"
               name={ActionFormData.keys.name}
-              defaultValue={defaultAnimal?.name}
+              defaultValue={defaultAnimal?.name ?? undefined}
               hasError={fetcher.data?.errors?.fieldErrors.name != null}
               aria-describedby="name-error"
               leftAdornment={
@@ -233,7 +233,7 @@ export function AnimalProfileForm({
               id={ActionFormData.keys.alias}
               type="text"
               name={ActionFormData.keys.alias}
-              defaultValue={defaultAnimal?.alias}
+              defaultValue={defaultAnimal?.alias ?? undefined}
               leftAdornment={
                 <Adornment>
                   <Icon id="comment" />
@@ -319,7 +319,7 @@ export function AnimalProfileForm({
             id={ActionFormData.keys.iCadNumber}
             type="text"
             name={ActionFormData.keys.iCadNumber}
-            defaultValue={defaultAnimal?.iCadNumber}
+            defaultValue={defaultAnimal?.iCadNumber ?? undefined}
             leftAdornment={
               <Adornment>
                 <Icon id="fingerprint" />
