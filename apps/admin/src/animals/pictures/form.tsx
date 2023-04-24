@@ -20,7 +20,9 @@ import {
   getImageId,
   ImageFile,
   ImageFileOrId,
+  IMAGE_SIZE_LIMIT_MB,
   isImageFile,
+  isImageOverSize,
 } from "~/core/dataDisplay/image";
 import { formClassNames } from "~/core/formElements/form";
 import { FormErrors } from "~/core/formElements/formErrors";
@@ -125,18 +127,6 @@ export function AnimalPicturesForm({
       </button>
     </form>
   );
-}
-
-// Cloudinary default image size (20 MiB).
-const IMAGE_SIZE_LIMIT_MB = 20;
-
-const IMAGE_SIZE_LIMIT_B =
-  IMAGE_SIZE_LIMIT_MB *
-  // 1024 * 1024 B
-  1048576;
-
-function isImageOverSize(image: ImageFileOrId) {
-  return isImageFile(image) && image.file.size > IMAGE_SIZE_LIMIT_B;
 }
 
 function ImagesInput({
