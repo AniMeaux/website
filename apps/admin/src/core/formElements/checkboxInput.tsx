@@ -1,6 +1,6 @@
 import { forwardRef } from "react";
 import { cn } from "~/core/classNames";
-import { RequiredStart } from "~/core/formElements/requiredStart";
+import { RequiredStar } from "~/core/formElements/requiredStar";
 import { Icon } from "~/generated/icon";
 
 type CheckboxInputProps = Omit<
@@ -41,7 +41,7 @@ export const CheckboxInput = forwardRef<HTMLInputElement, CheckboxInputProps>(
         </span>
 
         <span>
-          {label} {required ? <RequiredStart /> : null}
+          {label} {required ? <RequiredStar /> : null}
         </span>
       </label>
     );

@@ -12,7 +12,7 @@ import { CheckboxInput } from "~/core/formElements/checkboxInput";
 import { formClassNames } from "~/core/formElements/form";
 import { FormErrors } from "~/core/formElements/formErrors";
 import { Input } from "~/core/formElements/input";
-import { RequiredStart } from "~/core/formElements/requiredStart";
+import { RequiredStar } from "~/core/formElements/requiredStar";
 import { Textarea } from "~/core/formElements/textarea";
 import { Separator } from "~/core/layout/separator";
 import { createActionData } from "~/core/schemas";
@@ -116,7 +116,7 @@ export function FosterFamilyForm({
             htmlFor={ActionFormData.keys.displayName}
             className={formClassNames.fields.field.label()}
           >
-            Nom <RequiredStart />
+            Nom <RequiredStar />
           </label>
 
           <Input
@@ -151,7 +151,7 @@ export function FosterFamilyForm({
             htmlFor={ActionFormData.keys.phone}
             className={formClassNames.fields.field.label()}
           >
-            Téléphone <RequiredStart />
+            Téléphone <RequiredStar />
           </label>
 
           <Input
@@ -185,7 +185,7 @@ export function FosterFamilyForm({
             htmlFor={ActionFormData.keys.email}
             className={formClassNames.fields.field.label()}
           >
-            Email <RequiredStart />
+            Email <RequiredStar />
           </label>
 
           <Input
@@ -219,7 +219,7 @@ export function FosterFamilyForm({
             htmlFor={ActionFormData.keys.address}
             className={formClassNames.fields.field.label()}
           >
-            Adresse <RequiredStart />
+            Adresse <RequiredStar />
           </label>
 
           <Input
@@ -253,7 +253,7 @@ export function FosterFamilyForm({
               htmlFor={ActionFormData.keys.zipCode}
               className={formClassNames.fields.field.label()}
             >
-              Code postal <RequiredStart />
+              Code postal <RequiredStar />
             </label>
 
             <Input
@@ -288,7 +288,7 @@ export function FosterFamilyForm({
               htmlFor={ActionFormData.keys.city}
               className={formClassNames.fields.field.label()}
             >
-              Ville <RequiredStart />
+              Ville <RequiredStar />
             </label>
 
             <Input
@@ -323,7 +323,7 @@ export function FosterFamilyForm({
           <span className={formClassNames.fields.field.label()}>
             Espèces à accueillir{" "}
             {isCreate || defaultFosterFamily?.speciesToHost.length !== 0 ? (
-              <RequiredStart />
+              <RequiredStar />
             ) : null}
           </span>
 

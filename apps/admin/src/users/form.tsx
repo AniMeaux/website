@@ -12,7 +12,7 @@ import { formClassNames } from "~/core/formElements/form";
 import { FormErrors } from "~/core/formElements/formErrors";
 import { Input } from "~/core/formElements/input";
 import { PasswordInput } from "~/core/formElements/passwordInput";
-import { RequiredStart } from "~/core/formElements/requiredStart";
+import { RequiredStar } from "~/core/formElements/requiredStar";
 import { Separator } from "~/core/layout/separator";
 import { createActionData } from "~/core/schemas";
 import { Icon } from "~/generated/icon";
@@ -81,7 +81,7 @@ export function UserForm({
             htmlFor={ActionFormData.keys.displayName}
             className={formClassNames.fields.field.label()}
           >
-            Nom <RequiredStart />
+            Nom <RequiredStar />
           </label>
 
           <Input
@@ -114,7 +114,7 @@ export function UserForm({
             htmlFor={ActionFormData.keys.email}
             className={formClassNames.fields.field.label()}
           >
-            Email <RequiredStart />
+            Email <RequiredStar />
           </label>
 
           <Input
@@ -145,7 +145,7 @@ export function UserForm({
 
         <div className={formClassNames.fields.field.root()}>
           <span className={formClassNames.fields.field.label()}>
-            Groupes <RequiredStart />
+            Groupes <RequiredStar />
           </span>
 
           <div className="py-1 flex flex-wrap gap-2">
@@ -182,7 +182,7 @@ export function UserForm({
             htmlFor={ActionFormData.keys.temporaryPassword}
             className={formClassNames.fields.field.label()}
           >
-            Mot de passe temporaire {isCreate ? <RequiredStart /> : null}
+            Mot de passe temporaire {isCreate ? <RequiredStar /> : null}
           </label>
 
           <PasswordInput

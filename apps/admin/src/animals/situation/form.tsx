@@ -32,7 +32,7 @@ import { formClassNames } from "~/core/formElements/form";
 import { FormErrors } from "~/core/formElements/formErrors";
 import { Input } from "~/core/formElements/input";
 import { RadioInput } from "~/core/formElements/radioInput";
-import { RequiredStart } from "~/core/formElements/requiredStart";
+import { RequiredStar } from "~/core/formElements/requiredStar";
 import { Textarea } from "~/core/formElements/textarea";
 import { Separator } from "~/core/layout/separator";
 import { createActionData, ensureDate } from "~/core/schemas";
@@ -161,7 +161,7 @@ export function AnimalSituationForm({
 
         <div className={formClassNames.fields.field.root()}>
           <span className={formClassNames.fields.field.label()}>
-            Statut <RequiredStart />
+            Statut <RequiredStar />
           </span>
 
           <div className="py-1 flex flex-wrap gap-2">
@@ -187,7 +187,7 @@ export function AnimalSituationForm({
                 htmlFor={ActionFormData.keys.adoptionDate}
                 className={formClassNames.fields.field.label()}
               >
-                Date d’adoption <RequiredStart />
+                Date d’adoption <RequiredStar />
               </label>
 
               <Input
@@ -223,7 +223,7 @@ export function AnimalSituationForm({
 
             <div className={formClassNames.fields.field.root()}>
               <span className={formClassNames.fields.field.label()}>
-                Option d’adoption <RequiredStart />
+                Option d’adoption <RequiredStar />
               </span>
 
               <div className="py-1 flex flex-wrap gap-2">
@@ -250,7 +250,7 @@ export function AnimalSituationForm({
           <span className={formClassNames.fields.field.label()}>
             Responsable{" "}
             {isCreate || defaultAnimal?.manager != null ? (
-              <RequiredStart />
+              <RequiredStar />
             ) : null}
           </span>
 
@@ -287,7 +287,7 @@ export function AnimalSituationForm({
               htmlFor={ActionFormData.keys.pickUpDate}
               className={formClassNames.fields.field.label()}
             >
-              Date de prise en charge <RequiredStart />
+              Date de prise en charge <RequiredStar />
             </label>
 
             <Input
@@ -323,7 +323,7 @@ export function AnimalSituationForm({
             <span className={formClassNames.fields.field.label()}>
               Lieux de prise en charge{" "}
               {isCreate || defaultAnimal?.pickUpLocation != null ? (
-                <RequiredStart />
+                <RequiredStar />
               ) : null}
             </span>
 
@@ -350,7 +350,7 @@ export function AnimalSituationForm({
 
         <div className={formClassNames.fields.field.root()}>
           <span className={formClassNames.fields.field.label()}>
-            Raison de la prise en charge <RequiredStart />
+            Raison de la prise en charge <RequiredStar />
           </span>
 
           <div className="py-1 flex flex-wrap gap-2">
@@ -391,7 +391,7 @@ export function AnimalSituationForm({
         <div className={formClassNames.fields.row()}>
           <div className={formClassNames.fields.field.root()}>
             <span className={formClassNames.fields.field.label()}>
-              Stérilisé <RequiredStart />
+              Stérilisé <RequiredStar />
             </span>
 
             <div className="py-1 flex flex-wrap gap-2">
@@ -445,7 +445,7 @@ export function AnimalSituationForm({
             >
               Prochaine vaccination{" "}
               {!isCreate && defaultAnimal?.nextVaccinationDate != null ? (
-                <RequiredStart />
+                <RequiredStar />
               ) : null}
             </label>
 

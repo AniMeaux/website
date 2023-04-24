@@ -1,6 +1,6 @@
 import { forwardRef } from "react";
 import { cn } from "~/core/classNames";
-import { RequiredStart } from "~/core/formElements/requiredStart";
+import { RequiredStar } from "~/core/formElements/requiredStar";
 
 type RadioInputProps = Omit<
   React.InputHTMLAttributes<HTMLInputElement>,
@@ -33,7 +33,7 @@ export const RadioInput = forwardRef<HTMLInputElement, RadioInputProps>(
         />
 
         <span>
-          {label} {required ? <RequiredStart /> : null}
+          {label} {required ? <RequiredStar /> : null}
         </span>
       </label>
     );

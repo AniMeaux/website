@@ -24,7 +24,7 @@ import { formClassNames } from "~/core/formElements/form";
 import { FormErrors } from "~/core/formElements/formErrors";
 import { Input } from "~/core/formElements/input";
 import { RadioInput } from "~/core/formElements/radioInput";
-import { RequiredStart } from "~/core/formElements/requiredStart";
+import { RequiredStar } from "~/core/formElements/requiredStar";
 import { Textarea } from "~/core/formElements/textarea";
 import { Separator } from "~/core/layout/separator";
 import { createActionData, ensureDate } from "~/core/schemas";
@@ -157,7 +157,7 @@ export function AnimalProfileForm({
 
         <div className={formClassNames.fields.field.root()}>
           <span className={formClassNames.fields.field.label()}>
-            Espèce <RequiredStart />
+            Espèce <RequiredStar />
           </span>
 
           <div className="py-1 flex flex-wrap gap-2">
@@ -191,7 +191,7 @@ export function AnimalProfileForm({
               htmlFor={ActionFormData.keys.name}
               className={formClassNames.fields.field.label()}
             >
-              Nom <RequiredStart />
+              Nom <RequiredStar />
             </label>
 
             <Input
@@ -248,7 +248,7 @@ export function AnimalProfileForm({
             htmlFor={ActionFormData.keys.birthdate}
             className={formClassNames.fields.field.label()}
           >
-            Date de naissance <RequiredStart />
+            Date de naissance <RequiredStar />
           </label>
 
           <Input
@@ -282,7 +282,7 @@ export function AnimalProfileForm({
 
         <div className={formClassNames.fields.field.root()}>
           <span className={formClassNames.fields.field.label()}>
-            Genre <RequiredStart />
+            Genre <RequiredStar />
           </span>
 
           <div className="py-1 flex flex-wrap gap-2">
@@ -383,7 +383,7 @@ export function AnimalProfileForm({
 
         <div className={formClassNames.fields.field.root()}>
           <span className={formClassNames.fields.field.label()}>
-            Ok chats <RequiredStart />
+            Ok chats <RequiredStar />
           </span>
 
           <div className="py-1 flex flex-wrap gap-2">
@@ -415,7 +415,7 @@ export function AnimalProfileForm({
 
         <div className={formClassNames.fields.field.root()}>
           <span className={formClassNames.fields.field.label()}>
-            Ok chiens <RequiredStart />
+            Ok chiens <RequiredStar />
           </span>
 
           <div className="py-1 flex flex-wrap gap-2">
@@ -447,7 +447,7 @@ export function AnimalProfileForm({
 
         <div className={formClassNames.fields.field.root()}>
           <span className={formClassNames.fields.field.label()}>
-            Ok enfants <RequiredStart />
+            Ok enfants <RequiredStar />
           </span>
 
           <div className="py-1 flex flex-wrap gap-2">
