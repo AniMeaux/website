@@ -22,7 +22,7 @@ import { BaseLink } from "~/core/baseLink";
 import { inferAvatarColor } from "~/core/dataDisplay/avatar";
 import { Empty } from "~/core/dataDisplay/empty";
 import { ErrorPage, getErrorTitle } from "~/core/dataDisplay/errorPage";
-import { Helper } from "~/core/dataDisplay/helper";
+import { BlockHelper, InlineHelper } from "~/core/dataDisplay/helper";
 import { Item } from "~/core/dataDisplay/item";
 import { toRoundedRelative } from "~/core/dates";
 import { prisma } from "~/core/db.server";
@@ -273,9 +273,9 @@ export default function Route() {
     <PageLayout>
       <PageContent className="flex flex-col gap-1 md:gap-2">
         {user.isDisabled ? (
-          <Helper isBlock variant="warning" icon="ban">
+          <BlockHelper variant="warning" icon="ban">
             {user.displayName} est actuellement bloqué.
-          </Helper>
+          </BlockHelper>
         ) : null}
 
         <HeaderCard />
@@ -573,14 +573,14 @@ function ActionDisable() {
   return (
     <>
       {isHelperVisible ? (
-        <Helper
+        <InlineHelper
           variant="info"
           action={
             <button onClick={() => setIsHelperVisible(false)}>Fermer</button>
           }
         >
           Vous ne pouvez pas vous bloquer.
-        </Helper>
+        </InlineHelper>
       ) : null}
 
       <DialogRoot open={isDialogOpened} onOpenChange={setIsDialogOpened}>
@@ -647,7 +647,7 @@ function ActionDelete() {
   return (
     <>
       {isHelperVisible ? (
-        <Helper
+        <InlineHelper
           variant="info"
           action={
             <button onClick={() => setIsHelperVisible(false)}>Fermer</button>
@@ -658,7 +658,7 @@ function ActionDelete() {
             : hasManagedAnimals
             ? "L’utilisateur ne peut être supprimé tant qu’il a des animaux gérés ou à sa charge."
             : null}
-        </Helper>
+        </InlineHelper>
       ) : null}
 
       <DialogRoot>

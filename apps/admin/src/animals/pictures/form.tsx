@@ -13,7 +13,7 @@ import {
 } from "~/animals/pictures/dragAndDrop";
 import { actionClassName } from "~/core/actions";
 import { cn } from "~/core/classNames";
-import { Helper } from "~/core/dataDisplay/helper";
+import { DenseHelper, InlineHelper } from "~/core/dataDisplay/helper";
 import {
   DataUrlOrDynamicImage,
   getFiles,
@@ -56,9 +56,12 @@ export function AnimalPicturesForm({
   const [hasImageImportError, setHasImageImportError] = useState(false);
 
   let formErrors = fetcher.data?.errors?.formErrors ?? [];
+
+  // Errors on the `pictures` field are displayed as form errors.
   if (fetcher.data?.errors?.fieldErrors.pictures != null) {
     formErrors = formErrors.concat(fetcher.data.errors.fieldErrors.pictures);
   }
+
   if (hasImageImportError) {
     formErrors = formErrors.concat([
       "Une erreur est survenue lors de l’import d’image.",
@@ -66,6 +69,15 @@ export function AnimalPicturesForm({
   }
 
   const overSizedPictureCount = pictures.filter(isImageOverSize).length;
+  if (overSizedPictureCount > 0) {
+    formErrors = formErrors.concat([
+      `${
+        overSizedPictureCount === 1
+          ? "1 image est trop grande."
+          : `${overSizedPictureCount} images sont trop grandes.`
+      } La taille maximum est de ${IMAGE_SIZE_LIMIT_MB} MiB.`,
+    ]);
+  }
 
   return (
     <form
@@ -75,6 +87,10 @@ export function AnimalPicturesForm({
         // Because we manually create the FormData to send, we need to manually
         // submit the form.
         event.preventDefault();
+
+        if (overSizedPictureCount > 0) {
+          return;
+        }
 
         const formData = new FormData();
 
@@ -93,18 +109,9 @@ export function AnimalPicturesForm({
       }}
     >
       <div className={formClassNames.fields.root()}>
-        <Helper variant="info">
+        <InlineHelper variant="info">
           La première photo sera utilisée comme avatar.
-        </Helper>
-
-        {overSizedPictureCount > 0 ? (
-          <Helper variant="warning">
-            {overSizedPictureCount === 1
-              ? "1 image est trop grande et sera ignorée."
-              : `${overSizedPictureCount} images sont trop grandes et seront ignorées.`}{" "}
-            La taille maximum est de {IMAGE_SIZE_LIMIT_MB} MiB.
-          </Helper>
-        ) : null}
+        </InlineHelper>
 
         <FormErrors errors={formErrors} />
 
@@ -237,12 +244,12 @@ function ImageItem({
       />
 
       {isOverSize ? (
-        <p className="absolute top-0 left-0 w-full px-1 py-0.5 bg-amber-50 flex items-center gap-0.5 text-amber-600">
-          <Icon id="triangleExclamation" className="text-[14px]" />
-          <span className="flex-1 text-caption-emphasis">
-            Image trop grande
-          </span>
-        </p>
+        <DenseHelper
+          variant="error"
+          className="absolute top-0.5 left-0.5 w-[calc(100%-10px)]"
+        >
+          Image trop grande
+        </DenseHelper>
       ) : null}
 
       {!isDisabled ? (

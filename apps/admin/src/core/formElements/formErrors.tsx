@@ -1,10 +1,10 @@
-import { Helper, HelperProps } from "~/core/dataDisplay/helper";
+import { InlineHelper, InlineHelperProps } from "~/core/dataDisplay/helper";
 import { joinReactNodes } from "~/core/joinReactNodes";
 
 export function FormErrors({
   errors,
   ...rest
-}: Omit<HelperProps, "variant" | "children" | "isCompact"> & {
+}: Omit<InlineHelperProps, "variant" | "children"> & {
   errors?: string[];
 }) {
   if (errors == null || errors.length === 0) {
@@ -12,8 +12,8 @@ export function FormErrors({
   }
 
   return (
-    <Helper {...rest} variant="error">
+    <InlineHelper {...rest} variant="error">
       {joinReactNodes(errors, <br />)}
-    </Helper>
+    </InlineHelper>
   );
 }

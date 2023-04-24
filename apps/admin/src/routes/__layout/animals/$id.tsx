@@ -32,7 +32,7 @@ import { actionClassName } from "~/core/actions";
 import { BaseLink, BaseLinkProps } from "~/core/baseLink";
 import { Empty } from "~/core/dataDisplay/empty";
 import { ErrorPage, getErrorTitle } from "~/core/dataDisplay/errorPage";
-import { Helper } from "~/core/dataDisplay/helper";
+import { InlineHelper } from "~/core/dataDisplay/helper";
 import { DynamicImage } from "~/core/dataDisplay/image";
 import { Item } from "~/core/dataDisplay/item";
 import { ARTICLE_COMPONENTS, Markdown } from "~/core/dataDisplay/markdown";
@@ -367,23 +367,23 @@ function SituationCard() {
 
       <CardContent>
         {hasUpCommingVaccination(animal) ? (
-          <Helper variant="warning" icon="syringe">
+          <InlineHelper variant="warning" icon="syringe">
             Prochaine vaccination {formatNextVaccinationDate(animal)}.
-          </Helper>
+          </InlineHelper>
         ) : null}
 
         {hasPastVaccination(animal) ? (
-          <Helper variant="error" icon="syringe">
+          <InlineHelper variant="error" icon="syringe">
             Une vaccination était prévue {formatNextVaccinationDate(animal)}.
             <br />
             Pensez à mettre à jour la prochaine date.
-          </Helper>
+          </InlineHelper>
         ) : null}
 
         {hasUpCommingSterilisation(animal) ? (
-          <Helper variant="warning" icon="scissors">
+          <InlineHelper variant="warning" icon="scissors">
             Stérilisation à prévoir.
-          </Helper>
+          </InlineHelper>
         ) : null}
 
         <ul className="flex flex-col">

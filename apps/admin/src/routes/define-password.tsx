@@ -9,7 +9,7 @@ import { useFetcher } from "@remix-run/react";
 import { useEffect, useRef } from "react";
 import { z } from "zod";
 import { actionClassName } from "~/core/actions";
-import { Helper } from "~/core/dataDisplay/helper";
+import { InlineHelper } from "~/core/dataDisplay/helper";
 import { Adornment } from "~/core/formElements/adornment";
 import { formClassNames } from "~/core/formElements/form";
 import { FormErrors } from "~/core/formElements/formErrors";
@@ -115,9 +115,9 @@ export default function Route() {
             className="flex flex-col gap-4"
           >
             <div className={formClassNames.fields.root()}>
-              <Helper variant="info">
+              <InlineHelper variant="info">
                 Pour plus de sécurité, veuillez définir un nouveau mot de passe.
-              </Helper>
+              </InlineHelper>
 
               <FormErrors errors={fetcher.data?.errors.formErrors} />
 

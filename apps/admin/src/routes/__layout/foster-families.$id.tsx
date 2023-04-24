@@ -18,7 +18,7 @@ import { BaseLink } from "~/core/baseLink";
 import { inferAvatarColor } from "~/core/dataDisplay/avatar";
 import { Empty } from "~/core/dataDisplay/empty";
 import { ErrorPage, getErrorTitle } from "~/core/dataDisplay/errorPage";
-import { Helper } from "~/core/dataDisplay/helper";
+import { InlineHelper } from "~/core/dataDisplay/helper";
 import { Item } from "~/core/dataDisplay/item";
 import { ARTICLE_COMPONENTS, Markdown } from "~/core/dataDisplay/markdown";
 import { prisma } from "~/core/db.server";
@@ -420,7 +420,7 @@ function ActionCard() {
 
       <CardContent>
         {isHelperVisible ? (
-          <Helper
+          <InlineHelper
             variant="info"
             action={
               <button onClick={() => setIsHelperVisible(false)}>Fermer</button>
@@ -428,7 +428,7 @@ function ActionCard() {
           >
             La famille d’accueil ne peut être supprimée tant qu’elle a des
             animaux accueillis.
-          </Helper>
+          </InlineHelper>
         ) : null}
 
         <DialogRoot>
