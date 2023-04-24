@@ -11,7 +11,7 @@ export function Item({
         {icon}
       </span>
 
-      <div className="py-1">{children}</div>
+      <div className="py-1 break-words">{children}</div>
     </li>
   );
 }
