@@ -9,7 +9,6 @@ import {
 } from "@prisma/client";
 import { SerializeFrom } from "@remix-run/node";
 import { FetcherWithComponents, useLocation } from "@remix-run/react";
-import { DateTime } from "luxon";
 import { useEffect, useRef, useState } from "react";
 import { z } from "zod";
 import {
@@ -27,6 +26,7 @@ import {
 } from "~/animals/status";
 import { actionClassName } from "~/core/actions";
 import { cn } from "~/core/classNames";
+import { toIsoDateValue } from "~/core/dates";
 import { Adornment } from "~/core/formElements/adornment";
 import { formClassNames } from "~/core/formElements/form";
 import { FormErrors } from "~/core/formElements/formErrors";
@@ -195,11 +195,7 @@ export function AnimalSituationForm({
                 id={ActionFormData.keys.adoptionDate}
                 type="date"
                 name={ActionFormData.keys.adoptionDate}
-                defaultValue={
-                  defaultAnimal?.adoptionDate == null
-                    ? null
-                    : DateTime.fromISO(defaultAnimal.adoptionDate).toISODate()
-                }
+                defaultValue={toIsoDateValue(defaultAnimal?.adoptionDate)}
                 hasError={
                   fetcher.data?.errors?.fieldErrors.adoptionDate != null
                 }
@@ -295,11 +291,7 @@ export function AnimalSituationForm({
               id={ActionFormData.keys.pickUpDate}
               type="date"
               name={ActionFormData.keys.pickUpDate}
-              defaultValue={
-                defaultAnimal?.pickUpDate == null
-                  ? null
-                  : DateTime.fromISO(defaultAnimal.pickUpDate).toISODate()
-              }
+              defaultValue={toIsoDateValue(defaultAnimal?.pickUpDate)}
               hasError={fetcher.data?.errors?.fieldErrors.pickUpDate != null}
               aria-describedby="pickUpDate-error"
               leftAdornment={
@@ -453,15 +445,9 @@ export function AnimalSituationForm({
               ref={nextVaccinationDateRef}
               id={ActionFormData.keys.nextVaccinationDate}
               type="date"
-              min={DateTime.now().toISODate()}
+              min={toIsoDateValue(new Date())}
               name={ActionFormData.keys.nextVaccinationDate}
-              defaultValue={
-                defaultAnimal?.nextVaccinationDate == null
-                  ? null
-                  : DateTime.fromISO(
-                      defaultAnimal.nextVaccinationDate
-                    ).toISODate()
-              }
+              defaultValue={toIsoDateValue(defaultAnimal?.nextVaccinationDate)}
               hasError={
                 fetcher.data?.errors?.fieldErrors.nextVaccinationDate != null
               }

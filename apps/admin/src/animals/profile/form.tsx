@@ -1,7 +1,6 @@
 import { AnimalDraft, Breed, Color, Gender, Species } from "@prisma/client";
 import { SerializeFrom } from "@remix-run/node";
 import { FetcherWithComponents, useLocation } from "@remix-run/react";
-import { DateTime } from "luxon";
 import { useEffect, useRef, useState } from "react";
 import { z } from "zod";
 import {
@@ -19,6 +18,7 @@ import {
 } from "~/animals/species";
 import { actionClassName } from "~/core/actions";
 import { cn } from "~/core/classNames";
+import { toIsoDateValue } from "~/core/dates";
 import { Adornment } from "~/core/formElements/adornment";
 import { formClassNames } from "~/core/formElements/form";
 import { FormErrors } from "~/core/formElements/formErrors";
@@ -256,11 +256,7 @@ export function AnimalProfileForm({
             id={ActionFormData.keys.birthdate}
             type="date"
             name={ActionFormData.keys.birthdate}
-            defaultValue={
-              defaultAnimal?.birthdate == null
-                ? null
-                : DateTime.fromISO(defaultAnimal.birthdate).toISODate()
-            }
+            defaultValue={toIsoDateValue(defaultAnimal?.birthdate)}
             hasError={fetcher.data?.errors?.fieldErrors.birthdate != null}
             aria-describedby="birthdate-error"
             leftAdornment={
