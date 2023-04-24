@@ -149,7 +149,7 @@ export async function createFosterFamily(data: FosterFamilyData) {
 
 export class MissingSpeciesToHostError extends Error {}
 
-export function validateFosterFamily(
+function validateFosterFamily(
   newData: FosterFamilyData,
   currentData?: null | Pick<FosterFamily, "speciesToHost">
 ) {
