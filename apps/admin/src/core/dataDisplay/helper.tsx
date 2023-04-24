@@ -26,10 +26,7 @@ export function Helper({
         "p-1 grid grid-cols-[auto_1fr] grid-flow-col items-start gap-1",
         VARIANT_CLASS_NAME[variant],
         isBlock
-          ? cn(
-              "border md:rounded-0.5 md:p-2",
-              BLOCK_VARIANT_CLASS_NAME[variant]
-            )
+          ? cn("border md:p-2", BLOCK_VARIANT_CLASS_NAME[variant])
           : "rounded-0.5"
       )}
     >
