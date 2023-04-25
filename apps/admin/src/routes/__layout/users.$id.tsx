@@ -19,10 +19,10 @@ import {
 } from "~/animals/status";
 import { actionClassName } from "~/core/actions";
 import { BaseLink } from "~/core/baseLink";
-import { inferAvatarColor } from "~/core/dataDisplay/avatar";
 import { Empty } from "~/core/dataDisplay/empty";
 import { ErrorPage, getErrorTitle } from "~/core/dataDisplay/errorPage";
 import { BlockHelper, InlineHelper } from "~/core/dataDisplay/helper";
+import { inferInstanceColor } from "~/core/dataDisplay/instanceColor";
 import { Item } from "~/core/dataDisplay/item";
 import { toRoundedRelative } from "~/core/dates";
 import { prisma } from "~/core/db.server";
@@ -310,7 +310,7 @@ function HeaderCard() {
 
   return (
     <AvatarCard>
-      <AvatarCard.BackgroundColor color={inferAvatarColor(user.id)} />
+      <AvatarCard.BackgroundColor color={inferInstanceColor(user.id)} />
 
       <AvatarCard.Content>
         <AvatarCard.Avatar>

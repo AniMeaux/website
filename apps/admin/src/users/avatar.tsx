@@ -1,9 +1,6 @@
 import { User } from "@prisma/client";
-import {
-  Avatar,
-  AvatarProps,
-  inferAvatarColor,
-} from "~/core/dataDisplay/avatar";
+import { Avatar, AvatarProps } from "~/core/dataDisplay/avatar";
+import { inferInstanceColor } from "~/core/dataDisplay/instanceColor";
 
 export function UserAvatar({
   user,
@@ -14,7 +11,7 @@ export function UserAvatar({
   return (
     <Avatar
       {...props}
-      color={inferAvatarColor(user.id)}
+      color={inferInstanceColor(user.id)}
       letter={user.displayName[0].toUpperCase()}
     />
   );

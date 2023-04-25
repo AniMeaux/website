@@ -15,10 +15,10 @@ import { AnimalSearchParams } from "~/animals/searchParams";
 import { SPECIES_TRANSLATION } from "~/animals/species";
 import { actionClassName } from "~/core/actions";
 import { BaseLink } from "~/core/baseLink";
-import { inferAvatarColor } from "~/core/dataDisplay/avatar";
 import { Empty } from "~/core/dataDisplay/empty";
 import { ErrorPage, getErrorTitle } from "~/core/dataDisplay/errorPage";
 import { InlineHelper } from "~/core/dataDisplay/helper";
+import { inferInstanceColor } from "~/core/dataDisplay/instanceColor";
 import { Item } from "~/core/dataDisplay/item";
 import { ARTICLE_COMPONENTS, Markdown } from "~/core/dataDisplay/markdown";
 import { prisma } from "~/core/db.server";
@@ -206,7 +206,7 @@ function HeaderCard() {
 
   return (
     <AvatarCard>
-      <AvatarCard.BackgroundColor color={inferAvatarColor(fosterFamily.id)} />
+      <AvatarCard.BackgroundColor color={inferInstanceColor(fosterFamily.id)} />
 
       <AvatarCard.Content>
         <AvatarCard.Avatar>

@@ -10,8 +10,8 @@ import {
 } from "~/animals/status";
 import { actionClassName } from "~/core/actions";
 import { BaseLink } from "~/core/baseLink";
-import { inferAvatarColor } from "~/core/dataDisplay/avatar";
 import { Empty } from "~/core/dataDisplay/empty";
+import { inferInstanceColor } from "~/core/dataDisplay/instanceColor";
 import { prisma } from "~/core/db.server";
 import { AvatarCard } from "~/core/layout/avatarCard";
 import { Card, CardContent, CardHeader, CardTitle } from "~/core/layout/card";
@@ -133,7 +133,7 @@ function HeaderCard() {
 
   return (
     <AvatarCard>
-      <AvatarCard.BackgroundColor color={inferAvatarColor(currentUser.id)} />
+      <AvatarCard.BackgroundColor color={inferInstanceColor(currentUser.id)} />
 
       <AvatarCard.Content>
         <AvatarCard.Avatar>
