@@ -4,12 +4,13 @@ import { FetcherWithComponents } from "@remix-run/react";
 import { useEffect, useRef } from "react";
 import { z } from "zod";
 import { zfd } from "zod-form-data";
-import { actionClassName } from "~/core/actions";
-import { cn } from "~/core/classNames";
+import { Action } from "~/core/actions";
 import { Adornment } from "~/core/formElements/adornment";
-import { CheckboxInput } from "~/core/formElements/checkboxInput";
-import { formClassNames } from "~/core/formElements/form";
-import { FormErrors } from "~/core/formElements/formErrors";
+import {
+  CheckboxInput,
+  CheckboxInputList,
+} from "~/core/formElements/checkboxInput";
+import { Form } from "~/core/formElements/form";
 import { Input } from "~/core/formElements/input";
 import { PasswordInput } from "~/core/formElements/passwordInput";
 import { RequiredStar } from "~/core/formElements/requiredStar";
@@ -67,168 +68,141 @@ export function UserForm({
   }, [fetcher.data?.errors]);
 
   return (
-    <fetcher.Form
-      method="post"
-      noValidate
-      className={formClassNames.root({ hasHeader: true })}
-    >
-      <div className={formClassNames.fields.root()}>
-        <FormErrors errors={fetcher.data?.errors?.formErrors} />
+    <Form asChild hasHeader>
+      <fetcher.Form method="post" noValidate>
+        <Form.Fields>
+          <Form.Errors errors={fetcher.data?.errors?.formErrors} />
 
-        <div className={formClassNames.fields.field.root()}>
-          <label
-            htmlFor={ActionFormData.keys.displayName}
-            className={formClassNames.fields.field.label()}
-          >
-            Nom <RequiredStar />
-          </label>
+          <Form.Field>
+            <Form.Label htmlFor={ActionFormData.keys.displayName}>
+              Nom <RequiredStar />
+            </Form.Label>
 
-          <Input
-            ref={displayNameRef}
-            id={ActionFormData.keys.displayName}
-            type="text"
-            name={ActionFormData.keys.displayName}
-            defaultValue={defaultUser?.displayName}
-            hasError={fetcher.data?.errors?.fieldErrors.displayName != null}
-            aria-describedby="displayName-error"
-            leftAdornment={
-              <Adornment>
-                <Icon id="user" />
-              </Adornment>
-            }
-          />
+            <Input
+              ref={displayNameRef}
+              id={ActionFormData.keys.displayName}
+              type="text"
+              name={ActionFormData.keys.displayName}
+              defaultValue={defaultUser?.displayName}
+              hasError={fetcher.data?.errors?.fieldErrors.displayName != null}
+              aria-describedby="displayName-error"
+              leftAdornment={
+                <Adornment>
+                  <Icon id="user" />
+                </Adornment>
+              }
+            />
 
-          {fetcher.data?.errors?.fieldErrors.displayName != null ? (
-            <p
-              id="displayName-error"
-              className={formClassNames.fields.field.errorMessage()}
-            >
-              {fetcher.data.errors.fieldErrors.displayName}
-            </p>
-          ) : null}
-        </div>
+            {fetcher.data?.errors?.fieldErrors.displayName != null ? (
+              <Form.ErrorMessage id="displayName-error">
+                {fetcher.data.errors.fieldErrors.displayName}
+              </Form.ErrorMessage>
+            ) : null}
+          </Form.Field>
 
-        <div className={formClassNames.fields.field.root()}>
-          <label
-            htmlFor={ActionFormData.keys.email}
-            className={formClassNames.fields.field.label()}
-          >
-            Email <RequiredStar />
-          </label>
+          <Form.Field>
+            <Form.Label htmlFor={ActionFormData.keys.email}>
+              Email <RequiredStar />
+            </Form.Label>
 
-          <Input
-            ref={emailRef}
-            id={ActionFormData.keys.email}
-            type="email"
-            name={ActionFormData.keys.email}
-            defaultValue={defaultUser?.email}
-            placeholder="jean@mail.com"
-            hasError={fetcher.data?.errors?.fieldErrors.email != null}
-            aria-describedby="email-error"
-            leftAdornment={
-              <Adornment>
-                <Icon id="envelope" />
-              </Adornment>
-            }
-          />
+            <Input
+              ref={emailRef}
+              id={ActionFormData.keys.email}
+              type="email"
+              name={ActionFormData.keys.email}
+              defaultValue={defaultUser?.email}
+              placeholder="jean@mail.com"
+              hasError={fetcher.data?.errors?.fieldErrors.email != null}
+              aria-describedby="email-error"
+              leftAdornment={
+                <Adornment>
+                  <Icon id="envelope" />
+                </Adornment>
+              }
+            />
 
-          {fetcher.data?.errors?.fieldErrors.email != null ? (
-            <p
-              id="email-error"
-              className={formClassNames.fields.field.errorMessage()}
-            >
-              {fetcher.data.errors.fieldErrors.email}
-            </p>
-          ) : null}
-        </div>
+            {fetcher.data?.errors?.fieldErrors.email != null ? (
+              <Form.ErrorMessage id="email-error">
+                {fetcher.data.errors.fieldErrors.email}
+              </Form.ErrorMessage>
+            ) : null}
+          </Form.Field>
 
-        <div className={formClassNames.fields.field.root()}>
-          <span className={formClassNames.fields.field.label()}>
-            Groupes <RequiredStar />
-          </span>
+          <Form.Field>
+            <Form.Label asChild>
+              <span>
+                Groupes <RequiredStar />
+              </span>
+            </Form.Label>
 
-          <div className="py-1 flex flex-wrap gap-2">
-            {SORTED_GROUPS.map((group, index) => (
-              <CheckboxInput
-                ref={index === 0 ? groupsRef : null}
-                key={group}
-                label={GROUP_TRANSLATION[group]}
-                name={ActionFormData.keys.groups}
-                value={group}
-                defaultChecked={
-                  defaultUser?.groups.includes(group) ||
-                  (defaultUser == null && group === UserGroup.VOLUNTEER)
-                }
-                aria-describedby="groups-error"
-              />
-            ))}
-          </div>
+            <CheckboxInputList>
+              {SORTED_GROUPS.map((group, index) => (
+                <CheckboxInput
+                  ref={index === 0 ? groupsRef : null}
+                  key={group}
+                  label={GROUP_TRANSLATION[group]}
+                  name={ActionFormData.keys.groups}
+                  value={group}
+                  defaultChecked={
+                    defaultUser?.groups.includes(group) ||
+                    (defaultUser == null && group === UserGroup.VOLUNTEER)
+                  }
+                  aria-describedby="groups-error"
+                />
+              ))}
+            </CheckboxInputList>
 
-          {fetcher.data?.errors?.fieldErrors.groups != null ? (
-            <p
-              id="groups-error"
-              className={formClassNames.fields.field.errorMessage()}
-            >
-              {fetcher.data.errors.fieldErrors.groups}
-            </p>
-          ) : null}
-        </div>
+            {fetcher.data?.errors?.fieldErrors.groups != null ? (
+              <Form.ErrorMessage id="groups-error">
+                {fetcher.data.errors.fieldErrors.groups}
+              </Form.ErrorMessage>
+            ) : null}
+          </Form.Field>
 
-        <Separator />
+          <Separator />
 
-        <div className={formClassNames.fields.field.root()}>
-          <label
-            htmlFor={ActionFormData.keys.temporaryPassword}
-            className={formClassNames.fields.field.label()}
-          >
-            Mot de passe temporaire {isCreate ? <RequiredStar /> : null}
-          </label>
+          <Form.Field>
+            <Form.Label htmlFor={ActionFormData.keys.temporaryPassword}>
+              Mot de passe temporaire {isCreate ? <RequiredStar /> : null}
+            </Form.Label>
 
-          <PasswordInput
-            ref={temporaryPasswordRef}
-            id={ActionFormData.keys.temporaryPassword}
-            name={ActionFormData.keys.temporaryPassword}
-            hasError={
-              fetcher.data?.errors?.fieldErrors.temporaryPassword != null
-            }
-            aria-describedby={
-              fetcher.data?.errors?.fieldErrors.temporaryPassword != null
-                ? "password-error"
-                : "password-helper"
-            }
-            leftAdornment={
-              <Adornment>
-                <Icon id="lock" />
-              </Adornment>
-            }
-          />
+            <PasswordInput
+              ref={temporaryPasswordRef}
+              id={ActionFormData.keys.temporaryPassword}
+              name={ActionFormData.keys.temporaryPassword}
+              hasError={
+                fetcher.data?.errors?.fieldErrors.temporaryPassword != null
+              }
+              aria-describedby={
+                fetcher.data?.errors?.fieldErrors.temporaryPassword != null
+                  ? "password-error"
+                  : "password-helper"
+              }
+              leftAdornment={
+                <Adornment>
+                  <Icon id="lock" />
+                </Adornment>
+              }
+            />
 
-          {!isCreate ? (
-            <p
-              id="password-helper"
-              className={formClassNames.fields.field.helperMessage()}
-            >
-              Laisser vide pour ne pas changer.
-            </p>
-          ) : null}
+            {!isCreate ? (
+              <Form.HelperMessage id="password-helper">
+                Laisser vide pour ne pas changer.
+              </Form.HelperMessage>
+            ) : null}
 
-          {fetcher.data?.errors?.fieldErrors.temporaryPassword != null ? (
-            <p
-              id="password-error"
-              className={formClassNames.fields.field.errorMessage()}
-            >
-              {fetcher.data.errors.fieldErrors.temporaryPassword}
-            </p>
-          ) : null}
-        </div>
-      </div>
+            {fetcher.data?.errors?.fieldErrors.temporaryPassword != null ? (
+              <Form.ErrorMessage id="password-error">
+                {fetcher.data.errors.fieldErrors.temporaryPassword}
+              </Form.ErrorMessage>
+            ) : null}
+          </Form.Field>
+        </Form.Fields>
 
-      <button
-        type="submit"
-        className={cn(actionClassName.standalone(), "w-full md:w-auto")}
-      >
-        {isCreate ? "Créer" : "Enregistrer"}
-      </button>
-    </fetcher.Form>
+        <Form.Action asChild>
+          <Action>{isCreate ? "Créer" : "Enregistrer"}</Action>
+        </Form.Action>
+      </fetcher.Form>
+    </Form>
   );
 }

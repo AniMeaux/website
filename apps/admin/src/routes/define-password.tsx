@@ -8,11 +8,10 @@ import {
 import { useFetcher } from "@remix-run/react";
 import { useEffect, useRef } from "react";
 import { z } from "zod";
-import { actionClassName } from "~/core/actions";
+import { Action } from "~/core/actions";
 import { InlineHelper } from "~/core/dataDisplay/helper";
 import { Adornment } from "~/core/formElements/adornment";
-import { formClassNames } from "~/core/formElements/form";
-import { FormErrors } from "~/core/formElements/formErrors";
+import { Form } from "~/core/formElements/form";
 import { PasswordInput } from "~/core/formElements/passwordInput";
 import { RouteHandle } from "~/core/handles";
 import { getPageTitle } from "~/core/pageTitle";
@@ -114,20 +113,17 @@ export default function Route() {
             noValidate
             className="flex flex-col gap-4"
           >
-            <div className={formClassNames.fields.root()}>
+            <Form.Fields>
               <InlineHelper variant="info">
                 Pour plus de sécurité, veuillez définir un nouveau mot de passe.
               </InlineHelper>
 
-              <FormErrors errors={fetcher.data?.errors.formErrors} />
+              <Form.Errors errors={fetcher.data?.errors.formErrors} />
 
-              <div className={formClassNames.fields.field.root()}>
-                <label
-                  htmlFor={ActionFormData.keys.password}
-                  className={formClassNames.fields.field.label()}
-                >
+              <Form.Field>
+                <Form.Label htmlFor={ActionFormData.keys.password}>
                   Nouveau mot de passe
-                </label>
+                </Form.Label>
 
                 <PasswordInput
                   ref={passwordRef}
@@ -144,19 +140,14 @@ export default function Route() {
                 />
 
                 {fetcher.data?.errors.fieldErrors.password != null ? (
-                  <p
-                    id="password-error"
-                    className={formClassNames.fields.field.errorMessage()}
-                  >
+                  <Form.ErrorMessage id="password-error">
                     {fetcher.data?.errors.fieldErrors.password}
-                  </p>
+                  </Form.ErrorMessage>
                 ) : null}
-              </div>
-            </div>
+              </Form.Field>
+            </Form.Fields>
 
-            <button type="submit" className={actionClassName.standalone()}>
-              Enregistrer
-            </button>
+            <Action type="submit">Enregistrer</Action>
           </fetcher.Form>
         </section>
       </section>

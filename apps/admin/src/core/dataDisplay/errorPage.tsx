@@ -1,5 +1,5 @@
 import { useLocation } from "@remix-run/react";
-import { actionClassName } from "~/core/actions";
+import { Action } from "~/core/actions";
 import { BaseLink } from "~/core/baseLink";
 import { Empty } from "~/core/dataDisplay/empty";
 
@@ -33,9 +33,9 @@ type ErrorMetaData = {
 
 function GoHomeAction() {
   return (
-    <BaseLink to="/" className={actionClassName.standalone()}>
-      Page d’accueil
-    </BaseLink>
+    <Action asChild>
+      <BaseLink to="/">Page d’accueil</BaseLink>
+    </Action>
   );
 }
 
@@ -43,13 +43,11 @@ function RefreshAction() {
   const location = useLocation();
 
   return (
-    <BaseLink
-      to={location}
-      reloadDocument
-      className={actionClassName.standalone()}
-    >
-      Rafraichir
-    </BaseLink>
+    <Action asChild>
+      <BaseLink to={location} reloadDocument>
+        Rafraichir
+      </BaseLink>
+    </Action>
   );
 }
 

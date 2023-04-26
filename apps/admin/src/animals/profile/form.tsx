@@ -16,14 +16,12 @@ import {
   SPECIES_ICON,
   SPECIES_TRANSLATION,
 } from "~/animals/species";
-import { actionClassName } from "~/core/actions";
-import { cn } from "~/core/classNames";
+import { Action } from "~/core/actions";
 import { toIsoDateValue } from "~/core/dates";
 import { Adornment } from "~/core/formElements/adornment";
-import { formClassNames } from "~/core/formElements/form";
-import { FormErrors } from "~/core/formElements/formErrors";
+import { Form } from "~/core/formElements/form";
 import { Input } from "~/core/formElements/input";
-import { RadioInput } from "~/core/formElements/radioInput";
+import { RadioInput, RadioInputList } from "~/core/formElements/radioInput";
 import { RequiredStar } from "~/core/formElements/requiredStar";
 import { Textarea } from "~/core/formElements/textarea";
 import { Separator } from "~/core/layout/separator";
@@ -147,358 +145,324 @@ export function AnimalProfileForm({
   }, [hash]);
 
   return (
-    <fetcher.Form
-      method="post"
-      noValidate
-      className={formClassNames.root({ hasHeader: true })}
-    >
-      <div className={formClassNames.fields.root()}>
-        <FormErrors errors={fetcher.data?.errors?.formErrors} />
+    <Form asChild hasHeader>
+      <fetcher.Form method="post" noValidate>
+        <Form.Fields>
+          <Form.Errors errors={fetcher.data?.errors?.formErrors} />
 
-        <div className={formClassNames.fields.field.root()}>
-          <span className={formClassNames.fields.field.label()}>
-            Espèce <RequiredStar />
-          </span>
+          <Form.Field>
+            <Form.Label asChild>
+              <span>
+                Espèce <RequiredStar />
+              </span>
+            </Form.Label>
 
-          <div className="py-1 flex flex-wrap gap-2">
-            {SORTED_SPECIES.map((species, index) => (
-              <RadioInput
-                ref={index === 0 ? speciesRef : null}
-                key={species}
-                label={SPECIES_TRANSLATION[species]}
-                name={ActionFormData.keys.species}
-                value={species}
-                checked={speciesState === species}
-                onChange={() => setSpeciesState(species)}
-                aria-describedby="species-error"
-              />
-            ))}
-          </div>
+            <RadioInputList>
+              {SORTED_SPECIES.map((species, index) => (
+                <RadioInput
+                  ref={index === 0 ? speciesRef : null}
+                  key={species}
+                  label={SPECIES_TRANSLATION[species]}
+                  name={ActionFormData.keys.species}
+                  value={species}
+                  checked={speciesState === species}
+                  onChange={() => setSpeciesState(species)}
+                  aria-describedby="species-error"
+                />
+              ))}
+            </RadioInputList>
 
-          {fetcher.data?.errors?.fieldErrors.species != null ? (
-            <p
-              id="species-error"
-              className={formClassNames.fields.field.errorMessage()}
-            >
-              {fetcher.data.errors.fieldErrors.species}
-            </p>
-          ) : null}
-        </div>
-
-        <div className={formClassNames.fields.row()}>
-          <div className={formClassNames.fields.field.root()}>
-            <label
-              htmlFor={ActionFormData.keys.name}
-              className={formClassNames.fields.field.label()}
-            >
-              Nom <RequiredStar />
-            </label>
-
-            <Input
-              ref={nameRef}
-              id={ActionFormData.keys.name}
-              type="text"
-              name={ActionFormData.keys.name}
-              defaultValue={defaultAnimal?.name ?? undefined}
-              hasError={fetcher.data?.errors?.fieldErrors.name != null}
-              aria-describedby="name-error"
-              leftAdornment={
-                speciesState != null ? (
-                  <Adornment>
-                    <Icon id={SPECIES_ICON[speciesState]} />
-                  </Adornment>
-                ) : null
-              }
-            />
-
-            {fetcher.data?.errors?.fieldErrors.name != null ? (
-              <p
-                id="name-error"
-                className={formClassNames.fields.field.errorMessage()}
-              >
-                {fetcher.data.errors.fieldErrors.name}
-              </p>
+            {fetcher.data?.errors?.fieldErrors.species != null ? (
+              <Form.ErrorMessage id="species-error">
+                {fetcher.data.errors.fieldErrors.species}
+              </Form.ErrorMessage>
             ) : null}
-          </div>
+          </Form.Field>
 
-          <div className={formClassNames.fields.field.root()}>
-            <label
-              htmlFor={ActionFormData.keys.alias}
-              className={formClassNames.fields.field.label()}
-            >
-              Alias
-            </label>
+          <Form.Row>
+            <Form.Field>
+              <Form.Label htmlFor={ActionFormData.keys.name}>
+                Nom <RequiredStar />
+              </Form.Label>
+
+              <Input
+                ref={nameRef}
+                id={ActionFormData.keys.name}
+                type="text"
+                name={ActionFormData.keys.name}
+                defaultValue={defaultAnimal?.name ?? undefined}
+                hasError={fetcher.data?.errors?.fieldErrors.name != null}
+                aria-describedby="name-error"
+                leftAdornment={
+                  speciesState != null ? (
+                    <Adornment>
+                      <Icon id={SPECIES_ICON[speciesState]} />
+                    </Adornment>
+                  ) : null
+                }
+              />
+
+              {fetcher.data?.errors?.fieldErrors.name != null ? (
+                <Form.ErrorMessage id="name-error">
+                  {fetcher.data.errors.fieldErrors.name}
+                </Form.ErrorMessage>
+              ) : null}
+            </Form.Field>
+
+            <Form.Field>
+              <Form.Label htmlFor={ActionFormData.keys.alias}>Alias</Form.Label>
+
+              <Input
+                id={ActionFormData.keys.alias}
+                type="text"
+                name={ActionFormData.keys.alias}
+                defaultValue={defaultAnimal?.alias ?? undefined}
+                leftAdornment={
+                  <Adornment>
+                    <Icon id="comment" />
+                  </Adornment>
+                }
+              />
+            </Form.Field>
+          </Form.Row>
+
+          <Form.Field>
+            <Form.Label htmlFor={ActionFormData.keys.birthdate}>
+              Date de naissance <RequiredStar />
+            </Form.Label>
 
             <Input
-              id={ActionFormData.keys.alias}
-              type="text"
-              name={ActionFormData.keys.alias}
-              defaultValue={defaultAnimal?.alias ?? undefined}
+              ref={birthdateRef}
+              id={ActionFormData.keys.birthdate}
+              type="date"
+              name={ActionFormData.keys.birthdate}
+              defaultValue={toIsoDateValue(defaultAnimal?.birthdate)}
+              hasError={fetcher.data?.errors?.fieldErrors.birthdate != null}
+              aria-describedby="birthdate-error"
               leftAdornment={
                 <Adornment>
-                  <Icon id="comment" />
+                  <Icon id="calendarDays" />
                 </Adornment>
               }
             />
-          </div>
-        </div>
 
-        <div className={formClassNames.fields.field.root()}>
-          <label
-            htmlFor={ActionFormData.keys.birthdate}
-            className={formClassNames.fields.field.label()}
-          >
-            Date de naissance <RequiredStar />
-          </label>
-
-          <Input
-            ref={birthdateRef}
-            id={ActionFormData.keys.birthdate}
-            type="date"
-            name={ActionFormData.keys.birthdate}
-            defaultValue={toIsoDateValue(defaultAnimal?.birthdate)}
-            hasError={fetcher.data?.errors?.fieldErrors.birthdate != null}
-            aria-describedby="birthdate-error"
-            leftAdornment={
-              <Adornment>
-                <Icon id="calendarDays" />
-              </Adornment>
-            }
-          />
-
-          {fetcher.data?.errors?.fieldErrors.birthdate != null ? (
-            <p
-              id="birthdate-error"
-              className={formClassNames.fields.field.errorMessage()}
-            >
-              {fetcher.data.errors.fieldErrors.birthdate}
-            </p>
-          ) : null}
-        </div>
-
-        <div className={formClassNames.fields.field.root()}>
-          <span className={formClassNames.fields.field.label()}>
-            Genre <RequiredStar />
-          </span>
-
-          <div className="py-1 flex flex-wrap gap-2">
-            {SORTED_GENDERS.map((gender, index) => (
-              <RadioInput
-                ref={index === 0 ? genderRef : null}
-                key={gender}
-                label={GENDER_TRANSLATION[gender]}
-                name={ActionFormData.keys.gender}
-                value={gender}
-                defaultChecked={defaultAnimal?.gender === gender}
-                aria-describedby="gender-error"
-              />
-            ))}
-          </div>
-
-          {fetcher.data?.errors?.fieldErrors.gender != null ? (
-            <p
-              id="gender-error"
-              className={formClassNames.fields.field.errorMessage()}
-            >
-              {fetcher.data.errors.fieldErrors.gender}
-            </p>
-          ) : null}
-        </div>
-
-        <Separator />
-
-        <div className={formClassNames.fields.field.root()}>
-          <label
-            htmlFor={ActionFormData.keys.iCadNumber}
-            className={formClassNames.fields.field.label()}
-          >
-            Numéro I-CAD
-          </label>
-
-          <Input
-            id={ActionFormData.keys.iCadNumber}
-            type="text"
-            name={ActionFormData.keys.iCadNumber}
-            defaultValue={defaultAnimal?.iCadNumber ?? undefined}
-            leftAdornment={
-              <Adornment>
-                <Icon id="fingerprint" />
-              </Adornment>
-            }
-          />
-        </div>
-
-        <Separator />
-
-        <div className={formClassNames.fields.row()}>
-          <div className={formClassNames.fields.field.root()}>
-            <span className={formClassNames.fields.field.label()}>Race</span>
-
-            <BreedInput
-              ref={breedRef}
-              name={ActionFormData.keys.breedId}
-              defaultValue={defaultAnimal?.breed}
-              species={speciesState}
-              hasError={fetcher.data?.errors?.fieldErrors.breedId != null}
-              aria-describedby="breedId-error"
-            />
-
-            {fetcher.data?.errors?.fieldErrors.breedId != null ? (
-              <p
-                id="breedId-error"
-                className={formClassNames.fields.field.errorMessage()}
-              >
-                {fetcher.data.errors.fieldErrors.breedId}
-              </p>
+            {fetcher.data?.errors?.fieldErrors.birthdate != null ? (
+              <Form.ErrorMessage id="birthdate-error">
+                {fetcher.data.errors.fieldErrors.birthdate}
+              </Form.ErrorMessage>
             ) : null}
-          </div>
+          </Form.Field>
 
-          <div className={formClassNames.fields.field.root()}>
-            <span className={formClassNames.fields.field.label()}>Couleur</span>
+          <Form.Field>
+            <Form.Label asChild>
+              <span>
+                Genre <RequiredStar />
+              </span>
+            </Form.Label>
 
-            <ColorInput
-              ref={colorRef}
-              name={ActionFormData.keys.colorId}
-              defaultValue={defaultAnimal?.color}
-              hasError={fetcher.data?.errors?.fieldErrors.colorId != null}
-              aria-describedby="colorId-error"
-            />
+            <RadioInputList>
+              {SORTED_GENDERS.map((gender, index) => (
+                <RadioInput
+                  ref={index === 0 ? genderRef : null}
+                  key={gender}
+                  label={GENDER_TRANSLATION[gender]}
+                  name={ActionFormData.keys.gender}
+                  value={gender}
+                  defaultChecked={defaultAnimal?.gender === gender}
+                  aria-describedby="gender-error"
+                />
+              ))}
+            </RadioInputList>
 
-            {fetcher.data?.errors?.fieldErrors.colorId != null ? (
-              <p
-                id="colorId-error"
-                className={formClassNames.fields.field.errorMessage()}
-              >
-                {fetcher.data.errors.fieldErrors.colorId}
-              </p>
+            {fetcher.data?.errors?.fieldErrors.gender != null ? (
+              <Form.ErrorMessage id="gender-error">
+                {fetcher.data.errors.fieldErrors.gender}
+              </Form.ErrorMessage>
             ) : null}
-          </div>
-        </div>
+          </Form.Field>
 
-        <Separator />
+          <Separator />
 
-        <div className={formClassNames.fields.field.root()}>
-          <span className={formClassNames.fields.field.label()}>
-            Ok chats <RequiredStar />
-          </span>
+          <Form.Field>
+            <Form.Label htmlFor={ActionFormData.keys.iCadNumber}>
+              Numéro I-CAD
+            </Form.Label>
 
-          <div className="py-1 flex flex-wrap gap-2">
-            {SORTED_AGREEMENTS.map((agreement, index) => (
-              <RadioInput
-                ref={index === 0 ? isOkCatsRef : null}
-                key={agreement}
-                label={AGREEMENT_TRANSLATION[agreement]}
-                name={ActionFormData.keys.isOkCats}
-                value={agreement}
-                defaultChecked={
-                  agreementFromBoolean(defaultAnimal?.isOkCats ?? null) ===
-                  agreement
-                }
-                aria-describedby="isOkCats-error"
+            <Input
+              id={ActionFormData.keys.iCadNumber}
+              type="text"
+              name={ActionFormData.keys.iCadNumber}
+              defaultValue={defaultAnimal?.iCadNumber ?? undefined}
+              leftAdornment={
+                <Adornment>
+                  <Icon id="fingerprint" />
+                </Adornment>
+              }
+            />
+          </Form.Field>
+
+          <Separator />
+
+          <Form.Row>
+            <Form.Field>
+              <Form.Label asChild>
+                <span>Race</span>
+              </Form.Label>
+
+              <BreedInput
+                ref={breedRef}
+                name={ActionFormData.keys.breedId}
+                defaultValue={defaultAnimal?.breed}
+                species={speciesState}
+                hasError={fetcher.data?.errors?.fieldErrors.breedId != null}
+                aria-describedby="breedId-error"
               />
-            ))}
-          </div>
 
-          {fetcher.data?.errors?.fieldErrors.isOkCats != null ? (
-            <p
-              id="isOkCats-error"
-              className={formClassNames.fields.field.errorMessage()}
-            >
-              {fetcher.data.errors.fieldErrors.isOkCats}
-            </p>
-          ) : null}
-        </div>
+              {fetcher.data?.errors?.fieldErrors.breedId != null ? (
+                <Form.ErrorMessage id="breedId-error">
+                  {fetcher.data.errors.fieldErrors.breedId}
+                </Form.ErrorMessage>
+              ) : null}
+            </Form.Field>
 
-        <div className={formClassNames.fields.field.root()}>
-          <span className={formClassNames.fields.field.label()}>
-            Ok chiens <RequiredStar />
-          </span>
+            <Form.Field>
+              <Form.Label asChild>
+                <span>Couleur</span>
+              </Form.Label>
 
-          <div className="py-1 flex flex-wrap gap-2">
-            {SORTED_AGREEMENTS.map((agreement, index) => (
-              <RadioInput
-                ref={index === 0 ? isOkDogsRef : null}
-                key={agreement}
-                label={AGREEMENT_TRANSLATION[agreement]}
-                name={ActionFormData.keys.isOkDogs}
-                value={agreement}
-                defaultChecked={
-                  agreementFromBoolean(defaultAnimal?.isOkDogs ?? null) ===
-                  agreement
-                }
-                aria-describedby="isOkDogs-error"
+              <ColorInput
+                ref={colorRef}
+                name={ActionFormData.keys.colorId}
+                defaultValue={defaultAnimal?.color}
+                hasError={fetcher.data?.errors?.fieldErrors.colorId != null}
+                aria-describedby="colorId-error"
               />
-            ))}
-          </div>
 
-          {fetcher.data?.errors?.fieldErrors.isOkDogs != null ? (
-            <p
-              id="isOkDogs-error"
-              className={formClassNames.fields.field.errorMessage()}
-            >
-              {fetcher.data.errors.fieldErrors.isOkDogs}
-            </p>
-          ) : null}
-        </div>
+              {fetcher.data?.errors?.fieldErrors.colorId != null ? (
+                <Form.ErrorMessage id="colorId-error">
+                  {fetcher.data.errors.fieldErrors.colorId}
+                </Form.ErrorMessage>
+              ) : null}
+            </Form.Field>
+          </Form.Row>
 
-        <div className={formClassNames.fields.field.root()}>
-          <span className={formClassNames.fields.field.label()}>
-            Ok enfants <RequiredStar />
-          </span>
+          <Separator />
 
-          <div className="py-1 flex flex-wrap gap-2">
-            {SORTED_AGREEMENTS.map((agreement, index) => (
-              <RadioInput
-                ref={index === 0 ? isOkChildrenRef : null}
-                key={agreement}
-                label={AGREEMENT_TRANSLATION[agreement]}
-                name={ActionFormData.keys.isOkChildren}
-                value={agreement}
-                defaultChecked={
-                  agreementFromBoolean(defaultAnimal?.isOkChildren ?? null) ===
-                  agreement
-                }
-                aria-describedby="isOkChildren-error"
-              />
-            ))}
-          </div>
+          <Form.Field>
+            <Form.Label asChild>
+              <span>
+                Ok chats <RequiredStar />
+              </span>
+            </Form.Label>
 
-          {fetcher.data?.errors?.fieldErrors.isOkChildren != null ? (
-            <p
-              id="isOkChildren-error"
-              className={formClassNames.fields.field.errorMessage()}
-            >
-              {fetcher.data.errors.fieldErrors.isOkChildren}
-            </p>
-          ) : null}
-        </div>
+            <RadioInputList>
+              {SORTED_AGREEMENTS.map((agreement, index) => (
+                <RadioInput
+                  ref={index === 0 ? isOkCatsRef : null}
+                  key={agreement}
+                  label={AGREEMENT_TRANSLATION[agreement]}
+                  name={ActionFormData.keys.isOkCats}
+                  value={agreement}
+                  defaultChecked={
+                    agreementFromBoolean(defaultAnimal?.isOkCats ?? null) ===
+                    agreement
+                  }
+                  aria-describedby="isOkCats-error"
+                />
+              ))}
+            </RadioInputList>
 
-        <Separator />
+            {fetcher.data?.errors?.fieldErrors.isOkCats != null ? (
+              <Form.ErrorMessage id="isOkCats-error">
+                {fetcher.data.errors.fieldErrors.isOkCats}
+              </Form.ErrorMessage>
+            ) : null}
+          </Form.Field>
 
-        <div className={formClassNames.fields.field.root()}>
-          <label
-            htmlFor={ActionFormData.keys.description}
-            className={formClassNames.fields.field.label()}
-          >
-            Description publique
-          </label>
+          <Form.Field>
+            <Form.Label asChild>
+              <span>
+                Ok chiens <RequiredStar />
+              </span>
+            </Form.Label>
 
-          <Textarea
-            ref={descriptionRef}
-            id={ActionFormData.keys.description}
-            name={ActionFormData.keys.description}
-            defaultValue={defaultAnimal?.description}
-            rows={5}
-          />
-        </div>
-      </div>
+            <RadioInputList>
+              {SORTED_AGREEMENTS.map((agreement, index) => (
+                <RadioInput
+                  ref={index === 0 ? isOkDogsRef : null}
+                  key={agreement}
+                  label={AGREEMENT_TRANSLATION[agreement]}
+                  name={ActionFormData.keys.isOkDogs}
+                  value={agreement}
+                  defaultChecked={
+                    agreementFromBoolean(defaultAnimal?.isOkDogs ?? null) ===
+                    agreement
+                  }
+                  aria-describedby="isOkDogs-error"
+                />
+              ))}
+            </RadioInputList>
 
-      <button
-        type="submit"
-        className={cn(actionClassName.standalone(), "w-full md:w-auto")}
-      >
-        {isCreate ? "Suivant" : "Enregistrer"}
-      </button>
-    </fetcher.Form>
+            {fetcher.data?.errors?.fieldErrors.isOkDogs != null ? (
+              <Form.ErrorMessage id="isOkDogs-error">
+                {fetcher.data.errors.fieldErrors.isOkDogs}
+              </Form.ErrorMessage>
+            ) : null}
+          </Form.Field>
+
+          <Form.Field>
+            <Form.Label asChild>
+              <span>
+                Ok enfants <RequiredStar />
+              </span>
+            </Form.Label>
+
+            <RadioInputList>
+              {SORTED_AGREEMENTS.map((agreement, index) => (
+                <RadioInput
+                  ref={index === 0 ? isOkChildrenRef : null}
+                  key={agreement}
+                  label={AGREEMENT_TRANSLATION[agreement]}
+                  name={ActionFormData.keys.isOkChildren}
+                  value={agreement}
+                  defaultChecked={
+                    agreementFromBoolean(
+                      defaultAnimal?.isOkChildren ?? null
+                    ) === agreement
+                  }
+                  aria-describedby="isOkChildren-error"
+                />
+              ))}
+            </RadioInputList>
+
+            {fetcher.data?.errors?.fieldErrors.isOkChildren != null ? (
+              <Form.ErrorMessage id="isOkChildren-error">
+                {fetcher.data.errors.fieldErrors.isOkChildren}
+              </Form.ErrorMessage>
+            ) : null}
+          </Form.Field>
+
+          <Separator />
+
+          <Form.Field>
+            <Form.Label htmlFor={ActionFormData.keys.description}>
+              Description publique
+            </Form.Label>
+
+            <Textarea
+              ref={descriptionRef}
+              id={ActionFormData.keys.description}
+              name={ActionFormData.keys.description}
+              defaultValue={defaultAnimal?.description}
+              rows={5}
+            />
+          </Form.Field>
+        </Form.Fields>
+
+        <Form.Action asChild>
+          <Action>{isCreate ? "Suivant" : "Enregistrer"}</Action>
+        </Form.Action>
+      </fetcher.Form>
+    </Form>
   );
 }

@@ -11,8 +11,8 @@ import { z } from "zod";
 import { zfd } from "zod-form-data";
 import { ErrorPage } from "~/core/dataDisplay/errorPage";
 import { EmailAlreadyUsedError } from "~/core/errors.server";
-import { Card, CardContent, CardHeader, CardTitle } from "~/core/layout/card";
-import { PageContent, PageLayout } from "~/core/layout/page";
+import { Card } from "~/core/layout/card";
+import { PageLayout } from "~/core/layout/page";
 import { getPageTitle } from "~/core/pageTitle";
 import { getCurrentUser } from "~/currentUser/db.server";
 import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
@@ -106,17 +106,17 @@ export default function Route() {
 
   return (
     <PageLayout>
-      <PageContent className="flex flex-col items-center">
+      <PageLayout.Content className="flex flex-col items-center">
         <Card className="w-full md:max-w-[600px]">
-          <CardHeader>
-            <CardTitle>Nouvel utilisateur</CardTitle>
-          </CardHeader>
+          <Card.Header>
+            <Card.Title>Nouvel utilisateur</Card.Title>
+          </Card.Header>
 
-          <CardContent>
+          <Card.Content>
             <UserForm fetcher={fetcher} />
-          </CardContent>
+          </Card.Content>
         </Card>
-      </PageContent>
+      </PageLayout.Content>
     </PageLayout>
   );
 }

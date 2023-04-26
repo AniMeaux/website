@@ -1,12 +1,11 @@
-import { Form, useSubmit } from "@remix-run/react";
 import {
   SORTED_SPECIES,
   SPECIES_ICON,
   SPECIES_TRANSLATION,
 } from "~/animals/species";
-import { actionClassName } from "~/core/actions";
+import { Action } from "~/core/actions";
 import { BaseLink } from "~/core/baseLink";
-import { Filter, Filters } from "~/core/controllers/filters";
+import { Filters } from "~/core/controllers/filters";
 import { ActionAdornment, Adornment } from "~/core/formElements/adornment";
 import { ControlledInput } from "~/core/formElements/controlledInput";
 import {
@@ -24,7 +23,6 @@ export function FosterFamilyFilters({
 }: {
   possibleCities: string[];
 }) {
-  const submit = useSubmit();
   const [searchParams, setSearchParams] = useOptimisticSearchParams();
   const fosterFamilySearchParams = new FosterFamilySearchParams(searchParams);
   const visibleFilters = {
@@ -38,27 +36,17 @@ export function FosterFamilyFilters({
   };
 
   return (
-    <Form
-      replace
-      method="get"
-      onChange={(event) => submit(event.currentTarget, { replace: true })}
-      className="flex flex-col gap-2"
-    >
-      <div className="flex flex-col gap-1">
-        <BaseLink
-          replace
-          to={{ search: "" }}
-          className={actionClassName.standalone({
-            variant: "secondary",
-            color: "gray",
-          })}
-        >
-          Tout effacer
-        </BaseLink>
-      </div>
+    <Filters>
+      <Filters.Actions>
+        <Action asChild variant="secondary" color="gray">
+          <BaseLink replace to={{ search: "" }}>
+            Tout effacer
+          </BaseLink>
+        </Action>
+      </Filters.Actions>
 
-      <Filters>
-        <Filter
+      <Filters.Content>
+        <Filters.Filter
           value={FosterFamilySearchParams.Keys.SORT}
           label="Trier"
           count={
@@ -108,9 +96,9 @@ export function FosterFamilyFilters({
               </SuggestionLabel>
             </Suggestion>
           </Suggestions>
-        </Filter>
+        </Filters.Filter>
 
-        <Filter
+        <Filters.Filter
           value={FosterFamilySearchParams.Keys.DISPLAY_NAME}
           label="Nom"
           count={visibleFilters.displayName == null ? 0 : 1}
@@ -139,9 +127,9 @@ export function FosterFamilyFilters({
               ) : null
             }
           />
-        </Filter>
+        </Filters.Filter>
 
-        <Filter
+        <Filters.Filter
           value={FosterFamilySearchParams.Keys.SPECIES_TO_HOST}
           label="Espèce à accueillir"
           count={visibleFilters.speciesToHost == null ? 0 : 1}
@@ -172,9 +160,9 @@ export function FosterFamilyFilters({
               </Suggestion>
             ))}
           </Suggestions>
-        </Filter>
+        </Filters.Filter>
 
-        <Filter
+        <Filters.Filter
           value={FosterFamilySearchParams.Keys.SPECIES_ALREADY_PRESENT}
           label="Espèces déjà présentes"
           count={visibleFilters.speciesAlreadyPresent.length}
@@ -206,9 +194,9 @@ export function FosterFamilyFilters({
               </Suggestion>
             ))}
           </Suggestions>
-        </Filter>
+        </Filters.Filter>
 
-        <Filter
+        <Filters.Filter
           value={FosterFamilySearchParams.Keys.SPECIES_TO_AVOID}
           label="Espèces à éviter"
           count={visibleFilters.speciesToAvoid.length}
@@ -238,9 +226,9 @@ export function FosterFamilyFilters({
               </Suggestion>
             ))}
           </Suggestions>
-        </Filter>
+        </Filters.Filter>
 
-        <Filter
+        <Filters.Filter
           value={FosterFamilySearchParams.Keys.ZIP_CODE}
           label="Département ou code postal"
           count={visibleFilters.zipCode == null ? 0 : 1}
@@ -274,9 +262,9 @@ export function FosterFamilyFilters({
               ) : null
             }
           />
-        </Filter>
+        </Filters.Filter>
 
-        <Filter
+        <Filters.Filter
           value={FosterFamilySearchParams.Keys.CITY}
           label="Ville"
           count={visibleFilters.cities.length}
@@ -306,8 +294,8 @@ export function FosterFamilyFilters({
               </Suggestion>
             ))}
           </Suggestions>
-        </Filter>
-      </Filters>
-    </Form>
+        </Filters.Filter>
+      </Filters.Content>
+    </Filters>
   );
 }

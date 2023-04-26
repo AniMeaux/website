@@ -38,3 +38,11 @@ export const CheckboxInput = forwardRef<HTMLInputElement, CheckboxInputProps>(
     );
   }
 );
+
+export function CheckboxInputList({
+  children,
+}: {
+  children?: React.ReactNode;
+}) {
+  return <div className="py-1 flex flex-wrap gap-2">{children}</div>;
+}

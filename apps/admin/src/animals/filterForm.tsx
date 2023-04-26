@@ -1,5 +1,4 @@
 import { FosterFamily, User, UserGroup } from "@prisma/client";
-import { Form, useSubmit } from "@remix-run/react";
 import {
   ADOPTION_OPTION_ICON,
   ADOPTION_OPTION_TRANSLATION,
@@ -23,9 +22,9 @@ import {
   StatusIcon,
   STATUS_TRANSLATION,
 } from "~/animals/status";
-import { actionClassName } from "~/core/actions";
+import { Action } from "~/core/actions";
 import { BaseLink } from "~/core/baseLink";
-import { Filter, Filters } from "~/core/controllers/filters";
+import { Filters } from "~/core/controllers/filters";
 import { toIsoDateValue } from "~/core/dates";
 import { ActionAdornment, Adornment } from "~/core/formElements/adornment";
 import { ControlledInput } from "~/core/formElements/controlledInput";
@@ -35,7 +34,7 @@ import {
   SuggestionLabel,
   Suggestions,
 } from "~/core/formElements/filterSuggestions";
-import { formClassNames } from "~/core/formElements/form";
+import { Form } from "~/core/formElements/form";
 import { useOptimisticSearchParams } from "~/core/searchParams";
 import { FosterFamilyAvatar } from "~/fosterFamilies/avatar";
 import { Icon } from "~/generated/icon";
@@ -53,8 +52,6 @@ export function AnimalFilters({
   fosterFamilies: Pick<FosterFamily, "displayName" | "id">[];
   possiblePickUpLocations: string[];
 }) {
-  const submit = useSubmit();
-
   const [searchParams, setSearchParams] = useOptimisticSearchParams();
   const animalSearchParams = new AnimalSearchParams(searchParams);
   const visibleFilters = {
@@ -89,33 +86,23 @@ export function AnimalFilters({
     hasGroups(currentUser, [UserGroup.ADMIN, UserGroup.VETERINARIAN]);
 
   return (
-    <Form
-      replace
-      method="get"
-      onChange={(event) => submit(event.currentTarget, { replace: true })}
-      className="flex flex-col gap-2"
-    >
-      <div className="flex flex-col gap-1">
-        <BaseLink
-          replace
-          to={{ search: "" }}
-          className={actionClassName.standalone({
-            variant: "secondary",
-            color: "gray",
-          })}
-        >
-          Tout effacer
-        </BaseLink>
+    <Filters>
+      <Filters.Actions>
+        <Action asChild variant="secondary" color="gray">
+          <BaseLink replace to={{ search: "" }}>
+            Tout effacer
+          </BaseLink>
+        </Action>
 
         <ActiveFilterLink />
 
         {isCurrentUserManager ? (
           <ManagerActiveFilterLink currentUser={currentUser} />
         ) : null}
-      </div>
+      </Filters.Actions>
 
-      <Filters>
-        <Filter
+      <Filters.Content>
+        <Filters.Filter
           value={AnimalSearchParams.Keys.SORT}
           label="Trier"
           count={
@@ -212,9 +199,9 @@ export function AnimalFilters({
               </Suggestion>
             ) : null}
           </Suggestions>
-        </Filter>
+        </Filters.Filter>
 
-        <Filter
+        <Filters.Filter
           value={AnimalSearchParams.Keys.SPECIES}
           label="Espèces"
           count={visibleFilters.species.length}
@@ -244,9 +231,9 @@ export function AnimalFilters({
               </Suggestion>
             ))}
           </Suggestions>
-        </Filter>
+        </Filters.Filter>
 
-        <Filter
+        <Filters.Filter
           value={AnimalSearchParams.Keys.AGE}
           label="Âges"
           count={
@@ -281,8 +268,8 @@ export function AnimalFilters({
             </>
           }
         >
-          <div className={formClassNames.fields.root()}>
-            <div className={formClassNames.fields.field.root()}>
+          <Form.Fields>
+            <Form.Field>
               <Suggestions>
                 {SORTED_AGES.map((age) => (
                   <Suggestion key={age}>
@@ -300,15 +287,12 @@ export function AnimalFilters({
                   </Suggestion>
                 ))}
               </Suggestions>
-            </div>
+            </Form.Field>
 
-            <div className={formClassNames.fields.field.root()}>
-              <label
-                htmlFor={AnimalSearchParams.Keys.MIN_BIRTHDATE}
-                className={formClassNames.fields.field.label()}
-              >
+            <Form.Field>
+              <Form.Label htmlFor={AnimalSearchParams.Keys.MIN_BIRTHDATE}>
                 Né après le et incluant
-              </label>
+              </Form.Label>
 
               <ControlledInput
                 type="date"
@@ -332,15 +316,12 @@ export function AnimalFilters({
                   ) : null
                 }
               />
-            </div>
+            </Form.Field>
 
-            <div className={formClassNames.fields.field.root()}>
-              <label
-                htmlFor={AnimalSearchParams.Keys.MAX_BIRTHDATE}
-                className={formClassNames.fields.field.label()}
-              >
+            <Form.Field>
+              <Form.Label htmlFor={AnimalSearchParams.Keys.MAX_BIRTHDATE}>
                 Né avant le et incluant
-              </label>
+              </Form.Label>
 
               <ControlledInput
                 type="date"
@@ -364,11 +345,11 @@ export function AnimalFilters({
                   ) : null
                 }
               />
-            </div>
-          </div>
-        </Filter>
+            </Form.Field>
+          </Form.Fields>
+        </Filters.Filter>
 
-        <Filter
+        <Filters.Filter
           value={AnimalSearchParams.Keys.STATUS}
           label="Statuts"
           count={visibleFilters.statuses.length}
@@ -398,9 +379,9 @@ export function AnimalFilters({
               </Suggestion>
             ))}
           </Suggestions>
-        </Filter>
+        </Filters.Filter>
 
-        <Filter
+        <Filters.Filter
           value={AnimalSearchParams.Keys.PICK_UP_LOCATION}
           label="Prise en charge"
           count={
@@ -444,11 +425,11 @@ export function AnimalFilters({
             </>
           }
         >
-          <div className={formClassNames.fields.root()}>
-            <div className={formClassNames.fields.field.root()}>
-              <span className={formClassNames.fields.field.label()}>
-                Raison
-              </span>
+          <Form.Fields>
+            <Form.Field>
+              <Form.Label asChild>
+                <span>Raison</span>
+              </Form.Label>
 
               <Suggestions>
                 {SORTED_PICK_UP_REASON.map((pickUpReason) => (
@@ -471,15 +452,12 @@ export function AnimalFilters({
                   </Suggestion>
                 ))}
               </Suggestions>
-            </div>
+            </Form.Field>
 
-            <div className={formClassNames.fields.field.root()}>
-              <label
-                htmlFor={AnimalSearchParams.Keys.MIN_PICK_UP_DATE}
-                className={formClassNames.fields.field.label()}
-              >
+            <Form.Field>
+              <Form.Label htmlFor={AnimalSearchParams.Keys.MIN_PICK_UP_DATE}>
                 Après le et incluant
-              </label>
+              </Form.Label>
 
               <ControlledInput
                 type="date"
@@ -505,15 +483,12 @@ export function AnimalFilters({
                   ) : null
                 }
               />
-            </div>
+            </Form.Field>
 
-            <div className={formClassNames.fields.field.root()}>
-              <label
-                htmlFor={AnimalSearchParams.Keys.MAX_PICK_UP_DATE}
-                className={formClassNames.fields.field.label()}
-              >
+            <Form.Field>
+              <Form.Label htmlFor={AnimalSearchParams.Keys.MAX_PICK_UP_DATE}>
                 Avant le et incluant
-              </label>
+              </Form.Label>
 
               <ControlledInput
                 type="date"
@@ -539,10 +514,12 @@ export function AnimalFilters({
                   ) : null
                 }
               />
-            </div>
+            </Form.Field>
 
-            <div className={formClassNames.fields.field.root()}>
-              <span className={formClassNames.fields.field.label()}>Lieu</span>
+            <Form.Field>
+              <Form.Label asChild>
+                <span>Lieu</span>
+              </Form.Label>
 
               <Suggestions>
                 {possiblePickUpLocations.map((location) => (
@@ -563,12 +540,12 @@ export function AnimalFilters({
                   </Suggestion>
                 ))}
               </Suggestions>
-            </div>
-          </div>
-        </Filter>
+            </Form.Field>
+          </Form.Fields>
+        </Filters.Filter>
 
         {isCurrentUserAnimalAdmin ? (
-          <Filter
+          <Filters.Filter
             value={AnimalSearchParams.Keys.IS_STERILIZED}
             label="Stérilisé"
             count={visibleFilters.isSterilized.length}
@@ -630,11 +607,11 @@ export function AnimalFilters({
                 </SuggestionLabel>
               </Suggestion>
             </Suggestions>
-          </Filter>
+          </Filters.Filter>
         ) : null}
 
         {isCurrentUserAnimalAdmin ? (
-          <Filter
+          <Filters.Filter
             value={AnimalSearchParams.Keys.MIN_VACCINATION}
             label="Prochaine vaccination"
             count={
@@ -668,8 +645,8 @@ export function AnimalFilters({
               </>
             }
           >
-            <div className={formClassNames.fields.root()}>
-              <div className={formClassNames.fields.field.root()}>
+            <Form.Fields>
+              <Form.Field>
                 <Suggestions>
                   <Suggestion>
                     <SuggestionInput
@@ -685,15 +662,12 @@ export function AnimalFilters({
                     </SuggestionLabel>
                   </Suggestion>
                 </Suggestions>
-              </div>
+              </Form.Field>
 
-              <div className={formClassNames.fields.field.root()}>
-                <label
-                  htmlFor={AnimalSearchParams.Keys.MIN_VACCINATION}
-                  className={formClassNames.fields.field.label()}
-                >
+              <Form.Field>
+                <Form.Label htmlFor={AnimalSearchParams.Keys.MIN_VACCINATION}>
                   Après le et incluant
-                </label>
+                </Form.Label>
 
                 <ControlledInput
                   type="date"
@@ -719,15 +693,12 @@ export function AnimalFilters({
                     ) : null
                   }
                 />
-              </div>
+              </Form.Field>
 
-              <div className={formClassNames.fields.field.root()}>
-                <label
-                  htmlFor={AnimalSearchParams.Keys.MAX_VACCINATION}
-                  className={formClassNames.fields.field.label()}
-                >
+              <Form.Field>
+                <Form.Label htmlFor={AnimalSearchParams.Keys.MAX_VACCINATION}>
                   Avant le et incluant
-                </label>
+                </Form.Label>
 
                 <ControlledInput
                   type="date"
@@ -753,12 +724,12 @@ export function AnimalFilters({
                     ) : null
                   }
                 />
-              </div>
-            </div>
-          </Filter>
+              </Form.Field>
+            </Form.Fields>
+          </Filters.Filter>
         ) : null}
 
-        <Filter
+        <Filters.Filter
           value={AnimalSearchParams.Keys.ADOPTION_OPTION}
           label="Adoption"
           count={
@@ -793,8 +764,8 @@ export function AnimalFilters({
             </>
           }
         >
-          <div className={formClassNames.fields.root()}>
-            <div className={formClassNames.fields.field.root()}>
+          <Form.Fields>
+            <Form.Field>
               <Suggestions>
                 {SORTED_ADOPTION_OPTION.map((adoptionOption) => (
                   <Suggestion key={adoptionOption}>
@@ -816,15 +787,12 @@ export function AnimalFilters({
                   </Suggestion>
                 ))}
               </Suggestions>
-            </div>
+            </Form.Field>
 
-            <div className={formClassNames.fields.field.root()}>
-              <label
-                htmlFor={AnimalSearchParams.Keys.MIN_ADOPTION_DATE}
-                className={formClassNames.fields.field.label()}
-              >
+            <Form.Field>
+              <Form.Label htmlFor={AnimalSearchParams.Keys.MIN_ADOPTION_DATE}>
                 Adopté après le et incluant
-              </label>
+              </Form.Label>
 
               <ControlledInput
                 type="date"
@@ -850,15 +818,12 @@ export function AnimalFilters({
                   ) : null
                 }
               />
-            </div>
+            </Form.Field>
 
-            <div className={formClassNames.fields.field.root()}>
-              <label
-                htmlFor={AnimalSearchParams.Keys.MAX_ADOPTION_DATE}
-                className={formClassNames.fields.field.label()}
-              >
+            <Form.Field>
+              <Form.Label htmlFor={AnimalSearchParams.Keys.MAX_ADOPTION_DATE}>
                 Adopté avant le et incluant
-              </label>
+              </Form.Label>
 
               <ControlledInput
                 type="date"
@@ -884,12 +849,12 @@ export function AnimalFilters({
                   ) : null
                 }
               />
-            </div>
-          </div>
-        </Filter>
+            </Form.Field>
+          </Form.Fields>
+        </Filters.Filter>
 
         {fosterFamilies.length > 0 ? (
-          <Filter
+          <Filters.Filter
             value={AnimalSearchParams.Keys.FOSTER_FAMILIES_ID}
             label="Familles d’accueil"
             count={visibleFilters.fosterFamiliesId.length}
@@ -930,10 +895,10 @@ export function AnimalFilters({
                 </Suggestion>
               ))}
             </Suggestions>
-          </Filter>
+          </Filters.Filter>
         ) : null}
 
-        <Filter
+        <Filters.Filter
           value={AnimalSearchParams.Keys.MANAGERS_ID}
           label="Responsables"
           count={visibleFilters.managersId.length}
@@ -963,9 +928,9 @@ export function AnimalFilters({
               </Suggestion>
             ))}
           </Suggestions>
-        </Filter>
+        </Filters.Filter>
 
-        <Filter
+        <Filters.Filter
           value={AnimalSearchParams.Keys.NAME_OR_ALIAS}
           label="Nom ou alias"
           count={visibleFilters.nameOrAlias == null ? 0 : 1}
@@ -994,9 +959,9 @@ export function AnimalFilters({
               ) : null
             }
           />
-        </Filter>
-      </Filters>
-    </Form>
+        </Filters.Filter>
+      </Filters.Content>
+    </Filters>
   );
 }
 
@@ -1011,17 +976,12 @@ function ActiveFilterLink() {
   );
 
   return (
-    <BaseLink
-      replace
-      to={{ search: toSearchParams.toString() }}
-      className={actionClassName.standalone({
-        variant: "secondary",
-        color: isActive ? "blue" : "gray",
-      })}
-    >
-      {isActive ? <Icon id="check" /> : null}
-      Animaux en charge
-    </BaseLink>
+    <Action asChild variant="secondary" color={isActive ? "blue" : "gray"}>
+      <BaseLink replace to={{ search: toSearchParams.toString() }}>
+        {isActive ? <Icon id="check" /> : null}
+        Animaux en charge
+      </BaseLink>
+    </Action>
   );
 }
 
@@ -1042,15 +1002,10 @@ function ManagerActiveFilterLink({
   );
 
   return (
-    <BaseLink
-      replace
-      to={{ search: toSearchParams.toString() }}
-      className={actionClassName.standalone({
-        variant: "secondary",
-        color: isActive ? "blue" : "gray",
-      })}
-    >
-      {isActive ? <Icon id="check" /> : null}À votre charge
-    </BaseLink>
+    <Action asChild variant="secondary" color={isActive ? "blue" : "gray"}>
+      <BaseLink replace to={{ search: toSearchParams.toString() }}>
+        {isActive ? <Icon id="check" /> : null}À votre charge
+      </BaseLink>
+    </Action>
   );
 }

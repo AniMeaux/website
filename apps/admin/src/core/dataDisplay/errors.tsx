@@ -1,7 +1,7 @@
 import { InlineHelper, InlineHelperProps } from "~/core/dataDisplay/helper";
 import { joinReactNodes } from "~/core/joinReactNodes";
 
-export function FormErrors({
+export function ErrorsInlineHelper({
   errors,
   ...rest
 }: Omit<InlineHelperProps, "variant" | "children"> & {

@@ -10,21 +10,15 @@ import { AnimalFilters } from "~/animals/filterForm";
 import { AnimalItem } from "~/animals/item";
 import { AnimalSearchParams } from "~/animals/searchParams";
 import { SORTED_SPECIES } from "~/animals/species";
-import { actionClassName } from "~/core/actions";
+import { Action } from "~/core/actions";
 import { algolia } from "~/core/algolia/algolia.server";
 import { BaseLink } from "~/core/baseLink";
 import { Paginator } from "~/core/controllers/paginator";
 import { SortAndFiltersFloatingAction } from "~/core/controllers/sortAndFiltersFloatingAction";
 import { Empty } from "~/core/dataDisplay/empty";
 import { prisma } from "~/core/db.server";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "~/core/layout/card";
-import { PageContent } from "~/core/layout/page";
+import { Card } from "~/core/layout/card";
+import { PageLayout } from "~/core/layout/page";
 import { getPageTitle } from "~/core/pageTitle";
 import { ForbiddenResponse } from "~/core/response.server";
 import {
@@ -378,27 +372,22 @@ export default function Route() {
   const animalSearchParams = new AnimalSearchParams(searchParams);
 
   return (
-    <PageContent className="flex flex-col gap-1 md:flex-row md:gap-2">
+    <PageLayout.Content className="flex flex-col gap-1 md:flex-row md:gap-2">
       <section className="flex flex-col md:min-w-0 md:flex-2">
         <Card>
-          <CardHeader>
-            <CardTitle>
+          <Card.Header>
+            <Card.Title>
               {totalCount} {totalCount > 1 ? "animaux" : "animal"}
-            </CardTitle>
+            </Card.Title>
 
             {canCreate ? (
-              <BaseLink
-                to="/animals/new/profile"
-                className={actionClassName.standalone({
-                  variant: "text",
-                })}
-              >
-                Créer
-              </BaseLink>
+              <Action asChild variant="text">
+                <BaseLink to="/animals/new/profile">Créer</BaseLink>
+              </Action>
             ) : null}
-          </CardHeader>
+          </Card.Header>
 
-          <CardContent>
+          <Card.Content>
             {animals.length > 0 ? (
               <ul className="grid grid-cols-[repeat(auto-fill,minmax(150px,1fr))] gap-1 md:gap-2">
                 {animals.map((animal, index) => (
@@ -422,42 +411,41 @@ export default function Route() {
                 titleElementType="h3"
                 action={
                   !animalSearchParams.isEmpty() ? (
-                    <BaseLink
-                      to={{ search: "" }}
-                      className={actionClassName.standalone()}
-                    >
-                      Effacer les filtres
-                    </BaseLink>
+                    <Action asChild>
+                      <BaseLink to={{ search: "" }}>
+                        Effacer les filtres
+                      </BaseLink>
+                    </Action>
                   ) : null
                 }
               />
             )}
-          </CardContent>
+          </Card.Content>
 
           {pageCount > 1 ? (
-            <CardFooter>
+            <Card.Footer>
               <Paginator pageCount={pageCount} />
-            </CardFooter>
+            </Card.Footer>
           ) : null}
         </Card>
       </section>
 
       <aside className="hidden flex-col min-w-[250px] max-w-[300px] flex-1 md:flex">
         <Card className="sticky top-[var(--header-height)] max-h-[calc(100vh-20px-var(--header-height))]">
-          <CardHeader>
-            <CardTitle>Trier et filtrer</CardTitle>
-          </CardHeader>
+          <Card.Header>
+            <Card.Title>Trier et filtrer</Card.Title>
+          </Card.Header>
 
-          <CardContent hasVerticalScroll>
+          <Card.Content hasVerticalScroll>
             <SortAndFilters />
-          </CardContent>
+          </Card.Content>
         </Card>
       </aside>
 
       <SortAndFiltersFloatingAction hasSort totalCount={totalCount}>
         <SortAndFilters />
       </SortAndFiltersFloatingAction>
-    </PageContent>
+    </PageLayout.Content>
   );
 }
 

@@ -1,5 +1,4 @@
-import { cloneElement } from "react";
-import { actionClassName, ActionColor } from "~/core/actions";
+import { Action, ActionColor } from "~/core/actions";
 import { cn } from "~/core/classNames";
 import { Icon, IconProps } from "~/generated/icon";
 
@@ -37,7 +36,7 @@ const BLOCK_VARIANT_CLASS_NAME: Record<HelperVariant, string> = {
 };
 
 export type InlineHelperProps = {
-  action?: React.ReactElement<{ className?: string }>;
+  action?: React.ReactElement;
   children?: React.ReactNode;
   icon?: IconProps["id"];
   variant: HelperVariant;
@@ -62,14 +61,11 @@ export function InlineHelper({
 
       <p className="text-body-emphasis">{children}</p>
 
-      {action != null
-        ? cloneElement(action, {
-            className: actionClassName.standalone({
-              variant: "text",
-              color: VARIANT_ACTION_COLOR[variant],
-            }),
-          })
-        : null}
+      {action != null ? (
+        <Action asChild variant="text" color={VARIANT_ACTION_COLOR[variant]}>
+          {action}
+        </Action>
+      ) : null}
     </section>
   );
 }

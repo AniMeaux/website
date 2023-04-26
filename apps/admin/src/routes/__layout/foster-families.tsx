@@ -3,21 +3,15 @@ import { json, LoaderArgs, MetaFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import orderBy from "lodash.orderby";
 import { promiseHash } from "remix-utils";
-import { actionClassName } from "~/core/actions";
+import { Action } from "~/core/actions";
 import { algolia } from "~/core/algolia/algolia.server";
 import { BaseLink } from "~/core/baseLink";
 import { Paginator } from "~/core/controllers/paginator";
 import { SortAndFiltersFloatingAction } from "~/core/controllers/sortAndFiltersFloatingAction";
 import { Empty } from "~/core/dataDisplay/empty";
 import { prisma } from "~/core/db.server";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "~/core/layout/card";
-import { PageContent, PageLayout } from "~/core/layout/page";
+import { Card } from "~/core/layout/card";
+import { PageLayout } from "~/core/layout/page";
 import { getPageTitle } from "~/core/pageTitle";
 import {
   PageSearchParams,
@@ -156,25 +150,22 @@ export default function Route() {
 
   return (
     <PageLayout>
-      <PageContent className="flex flex-col gap-1 md:gap-2">
+      <PageLayout.Content className="flex flex-col gap-1 md:gap-2">
         <section className="flex flex-col gap-1 md:flex-row md:gap-2">
           <section className="flex flex-col md:min-w-0 md:flex-2">
             <Card>
-              <CardHeader>
-                <CardTitle>
+              <Card.Header>
+                <Card.Title>
                   {totalCount}{" "}
                   {totalCount > 1 ? "familles d’accueil" : "famille d’accueil"}
-                </CardTitle>
+                </Card.Title>
 
-                <BaseLink
-                  to="./new"
-                  className={actionClassName.standalone({ variant: "text" })}
-                >
-                  Créer
-                </BaseLink>
-              </CardHeader>
+                <Action asChild variant="text">
+                  <BaseLink to="./new">Créer</BaseLink>
+                </Action>
+              </Card.Header>
 
-              <CardContent>
+              <Card.Content>
                 {fosterFamilies.length > 0 ? (
                   <ul className="grid grid-cols-1">
                     {fosterFamilies.map((fosterFamily) => (
@@ -196,35 +187,34 @@ export default function Route() {
                     titleElementType="h3"
                     action={
                       !fosterFamilySearchParams.isEmpty() ? (
-                        <BaseLink
-                          to={{ search: "" }}
-                          className={actionClassName.standalone()}
-                        >
-                          Effacer les filtres
-                        </BaseLink>
+                        <Action asChild>
+                          <BaseLink to={{ search: "" }}>
+                            Effacer les filtres
+                          </BaseLink>
+                        </Action>
                       ) : null
                     }
                   />
                 )}
-              </CardContent>
+              </Card.Content>
 
               {pageCount > 1 ? (
-                <CardFooter>
+                <Card.Footer>
                   <Paginator pageCount={pageCount} />
-                </CardFooter>
+                </Card.Footer>
               ) : null}
             </Card>
           </section>
 
           <aside className="hidden flex-col min-w-[250px] max-w-[300px] flex-1 md:flex">
             <Card className="sticky top-8 max-h-[calc(100vh-100px)]">
-              <CardHeader>
-                <CardTitle>Trier et filtrer</CardTitle>
-              </CardHeader>
+              <Card.Header>
+                <Card.Title>Trier et filtrer</Card.Title>
+              </Card.Header>
 
-              <CardContent hasVerticalScroll>
+              <Card.Content hasVerticalScroll>
                 <SortAndFilters />
-              </CardContent>
+              </Card.Content>
             </Card>
           </aside>
         </section>
@@ -232,7 +222,7 @@ export default function Route() {
         <SortAndFiltersFloatingAction totalCount={totalCount}>
           <SortAndFilters />
         </SortAndFiltersFloatingAction>
-      </PageContent>
+      </PageLayout.Content>
     </PageLayout>
   );
 }

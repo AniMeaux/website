@@ -14,7 +14,7 @@ export function Card({
   );
 }
 
-export function CardHeader({
+Card.Header = function CardHeader({
   children,
   className,
   isVertical = false,
@@ -34,17 +34,17 @@ export function CardHeader({
       {children}
     </header>
   );
-}
+};
 
-export function CardTitle({ children }: { children?: React.ReactNode }) {
+Card.Title = function CardTitle({ children }: { children?: React.ReactNode }) {
   return (
     <h2 className="flex-1 text-title-section-small md:text-title-section-large">
       {children}
     </h2>
   );
-}
+};
 
-export function CardContent({
+Card.Content = function CardContent({
   children,
   hasHorizontalScroll = false,
   hasVerticalScroll = false,
@@ -68,9 +68,9 @@ export function CardContent({
       {children}
     </div>
   );
-}
+};
 
-export function CardFooter({
+Card.Footer = function CardFooter({
   children,
   className,
 }: {
@@ -87,4 +87,4 @@ export function CardFooter({
       {children}
     </footer>
   );
-}
+};

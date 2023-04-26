@@ -11,7 +11,7 @@ import {
   useDragItem,
   useDropContainer,
 } from "~/animals/pictures/dragAndDrop";
-import { actionClassName } from "~/core/actions";
+import { Action } from "~/core/actions";
 import { cn } from "~/core/classNames";
 import { DenseHelper, InlineHelper } from "~/core/dataDisplay/helper";
 import {
@@ -24,8 +24,7 @@ import {
   isImageFile,
   isImageOverSize,
 } from "~/core/dataDisplay/image";
-import { formClassNames } from "~/core/formElements/form";
-import { FormErrors } from "~/core/formElements/formErrors";
+import { Form } from "~/core/formElements/form";
 import { createActionData } from "~/core/schemas";
 import { Icon } from "~/generated/icon";
 
@@ -80,9 +79,9 @@ export function AnimalPicturesForm({
   }
 
   return (
-    <form
+    <Form
+      hasHeader
       noValidate
-      className={formClassNames.root({ hasHeader: true })}
       onSubmit={(event) => {
         // Because we manually create the FormData to send, we need to manually
         // submit the form.
@@ -108,12 +107,12 @@ export function AnimalPicturesForm({
         });
       }}
     >
-      <div className={formClassNames.fields.root()}>
+      <Form.Fields>
         <InlineHelper variant="info">
           La première photo sera utilisée comme avatar.
         </InlineHelper>
 
-        <FormErrors errors={formErrors} />
+        <Form.Errors errors={formErrors} />
 
         <DragAndDropContextProvider previewElement={PictureItemPreview}>
           <ImagesInput
@@ -124,15 +123,12 @@ export function AnimalPicturesForm({
             onImportImagesFailed={() => setHasImageImportError(true)}
           />
         </DragAndDropContextProvider>
-      </div>
+      </Form.Fields>
 
-      <button
-        type="submit"
-        className={cn(actionClassName.standalone(), "w-full md:w-auto")}
-      >
-        {isCreate ? "Créer" : "Enregistrer"}
-      </button>
-    </form>
+      <Form.Action asChild>
+        <Action>{isCreate ? "Créer" : "Enregistrer"}</Action>
+      </Form.Action>
+    </Form>
   );
 }
 
@@ -265,19 +261,15 @@ function ImageItem({
         </div>
       ) : null}
 
-      <button
+      <Action
+        isIconOnly
+        variant="translucid"
+        color="black"
         onClick={() => onRemove()}
-        className={cn(
-          actionClassName.standalone({
-            isIconOnly: true,
-            variant: "translucid",
-            color: "black",
-          }),
-          "absolute bottom-0.5 right-0.5"
-        )}
+        className="absolute bottom-0.5 right-0.5"
       >
         <Icon id="trash" />
-      </button>
+      </Action>
     </li>
   );
 }

@@ -1,7 +1,6 @@
-import { Form, useSubmit } from "@remix-run/react";
-import { actionClassName } from "~/core/actions";
+import { Action } from "~/core/actions";
 import { BaseLink } from "~/core/baseLink";
-import { Filter, Filters } from "~/core/controllers/filters";
+import { Filters } from "~/core/controllers/filters";
 import { toIsoDateValue } from "~/core/dates";
 import { ActionAdornment, Adornment } from "~/core/formElements/adornment";
 import { ControlledInput } from "~/core/formElements/controlledInput";
@@ -11,14 +10,13 @@ import {
   SuggestionLabel,
   Suggestions,
 } from "~/core/formElements/filterSuggestions";
-import { formClassNames } from "~/core/formElements/form";
+import { Form } from "~/core/formElements/form";
 import { useOptimisticSearchParams } from "~/core/searchParams";
 import { Icon } from "~/generated/icon";
 import { GROUP_ICON, GROUP_TRANSLATION, SORTED_GROUPS } from "~/users/groups";
 import { UserSearchParams } from "~/users/searchParams";
 
 export function UserFilterForm() {
-  const submit = useSubmit();
   const [searchParams, setSearchParams] = useOptimisticSearchParams();
   const userSearchParams = new UserSearchParams(searchParams);
   const visibleFilters = {
@@ -31,27 +29,17 @@ export function UserFilterForm() {
   };
 
   return (
-    <Form
-      replace
-      method="get"
-      onChange={(event) => submit(event.currentTarget, { replace: true })}
-      className="flex flex-col gap-2"
-    >
-      <div className="flex flex-col gap-1">
-        <BaseLink
-          replace
-          to={{ search: "" }}
-          className={actionClassName.standalone({
-            variant: "secondary",
-            color: "gray",
-          })}
-        >
-          Tout effacer
-        </BaseLink>
-      </div>
+    <Filters>
+      <Filters.Actions>
+        <Action asChild variant="secondary" color="gray">
+          <BaseLink replace to={{ search: "" }}>
+            Tout effacer
+          </BaseLink>
+        </Action>
+      </Filters.Actions>
 
-      <Filters>
-        <Filter
+      <Filters.Content>
+        <Filters.Filter
           value={UserSearchParams.Keys.SORT}
           label="Trier"
           count={
@@ -112,9 +100,9 @@ export function UserFilterForm() {
               </SuggestionLabel>
             </Suggestion>
           </Suggestions>
-        </Filter>
+        </Filters.Filter>
 
-        <Filter
+        <Filters.Filter
           value={UserSearchParams.Keys.DISPLAY_NAME}
           label="Nom"
           count={visibleFilters.displayName == null ? 0 : 1}
@@ -141,9 +129,9 @@ export function UserFilterForm() {
               ) : null
             }
           />
-        </Filter>
+        </Filters.Filter>
 
-        <Filter
+        <Filters.Filter
           value={UserSearchParams.Keys.GROUP}
           label="Groupes"
           count={visibleFilters.groups.length}
@@ -173,9 +161,9 @@ export function UserFilterForm() {
               </Suggestion>
             ))}
           </Suggestions>
-        </Filter>
+        </Filters.Filter>
 
-        <Filter
+        <Filters.Filter
           value={UserSearchParams.Keys.NO_ACTIVITY}
           label="Dernière activité"
           count={
@@ -205,8 +193,8 @@ export function UserFilterForm() {
             </>
           }
         >
-          <div className={formClassNames.fields.root()}>
-            <div className={formClassNames.fields.field.root()}>
+          <Form.Fields>
+            <Form.Field>
               <Suggestions>
                 <Suggestion>
                   <SuggestionInput
@@ -222,15 +210,12 @@ export function UserFilterForm() {
                   </SuggestionLabel>
                 </Suggestion>
               </Suggestions>
-            </div>
+            </Form.Field>
 
-            <div className={formClassNames.fields.field.root()}>
-              <label
-                htmlFor={UserSearchParams.Keys.MIN_ACTIVITY}
-                className={formClassNames.fields.field.label()}
-              >
+            <Form.Field>
+              <Form.Label htmlFor={UserSearchParams.Keys.MIN_ACTIVITY}>
                 Après le et incluant
-              </label>
+              </Form.Label>
 
               <ControlledInput
                 type="date"
@@ -254,15 +239,12 @@ export function UserFilterForm() {
                   ) : null
                 }
               />
-            </div>
+            </Form.Field>
 
-            <div className={formClassNames.fields.field.root()}>
-              <label
-                htmlFor={UserSearchParams.Keys.MAX_ACTIVITY}
-                className={formClassNames.fields.field.label()}
-              >
+            <Form.Field>
+              <Form.Label htmlFor={UserSearchParams.Keys.MAX_ACTIVITY}>
                 Avant le et incluant
-              </label>
+              </Form.Label>
 
               <ControlledInput
                 type="date"
@@ -286,10 +268,10 @@ export function UserFilterForm() {
                   ) : null
                 }
               />
-            </div>
-          </div>
-        </Filter>
-      </Filters>
-    </Form>
+            </Form.Field>
+          </Form.Fields>
+        </Filters.Filter>
+      </Filters.Content>
+    </Filters>
   );
 }

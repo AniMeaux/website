@@ -19,8 +19,8 @@ import {
 } from "~/animals/situation/db.server";
 import { ActionFormData, AnimalSituationForm } from "~/animals/situation/form";
 import { ErrorPage } from "~/core/dataDisplay/errorPage";
-import { Card, CardContent, CardHeader, CardTitle } from "~/core/layout/card";
-import { PageContent } from "~/core/layout/page";
+import { Card } from "~/core/layout/card";
+import { PageLayout } from "~/core/layout/page";
 import { getPageTitle } from "~/core/pageTitle";
 import { getCurrentUser } from "~/currentUser/db.server";
 import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
@@ -176,22 +176,22 @@ export default function Route() {
   const fetcher = useFetcher<typeof action>();
 
   return (
-    <PageContent className="flex flex-col items-center">
+    <PageLayout.Content className="flex flex-col items-center">
       <Card className="w-full md:max-w-[600px]">
-        <CardHeader isVertical>
-          <CardTitle>Nouvel animal</CardTitle>
+        <Card.Header isVertical>
+          <Card.Title>Nouvel animal</Card.Title>
           <AnimalCreationSteps activeStep="situation" />
-        </CardHeader>
+        </Card.Header>
 
-        <CardContent>
+        <Card.Content>
           <AnimalSituationForm
             isCreate
             currentUser={currentUser}
             defaultAnimal={draft}
             fetcher={fetcher}
           />
-        </CardContent>
+        </Card.Content>
       </Card>
-    </PageContent>
+    </PageLayout.Content>
   );
 }

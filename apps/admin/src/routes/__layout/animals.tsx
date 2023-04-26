@@ -1,7 +1,7 @@
 import { UserGroup } from "@prisma/client";
 import { json, LoaderArgs } from "@remix-run/node";
 import { Outlet, useLoaderData, useLocation } from "@remix-run/react";
-import { PageLayout, PageTab, PageTabs } from "~/core/layout/page";
+import { PageLayout } from "~/core/layout/page";
 import { getCurrentUser } from "~/currentUser/db.server";
 import { hasGroups } from "~/users/groups";
 
@@ -25,20 +25,20 @@ export default function Route() {
   return (
     <PageLayout>
       {hasDashboard ? (
-        <PageTabs>
-          <PageTab isNavLink to="/animals/dashboard">
+        <PageLayout.Tabs>
+          <PageLayout.Tab isNavLink to="/animals/dashboard">
             Tableau de bord
-          </PageTab>
+          </PageLayout.Tab>
 
-          <PageTab
+          <PageLayout.Tab
             to="/animals/search"
             aria-current={
               pathname !== "/animals/dashboard" ? "page" : undefined
             }
           >
             Tous les animaux
-          </PageTab>
-        </PageTabs>
+          </PageLayout.Tab>
+        </PageLayout.Tabs>
       ) : null}
 
       <Outlet />

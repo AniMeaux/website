@@ -12,12 +12,12 @@ import {
   hasPastVaccination,
 } from "~/animals/situation/health";
 import { ACTIVE_ANIMAL_STATUS, SORTED_STATUS } from "~/animals/status";
-import { actionClassName } from "~/core/actions";
+import { Action } from "~/core/actions";
 import { BaseLink } from "~/core/baseLink";
 import { Empty } from "~/core/dataDisplay/empty";
 import { prisma } from "~/core/db.server";
-import { Card, CardContent, CardHeader, CardTitle } from "~/core/layout/card";
-import { PageContent } from "~/core/layout/page";
+import { Card } from "~/core/layout/card";
+import { PageLayout } from "~/core/layout/page";
 import { getPageTitle } from "~/core/pageTitle";
 import { getCurrentUser } from "~/currentUser/db.server";
 import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
@@ -177,7 +177,7 @@ export default function Route() {
   const { isCurrentUserManager } = useLoaderData<typeof loader>();
 
   return (
-    <PageContent className="flex flex-col gap-1 md:gap-2">
+    <PageLayout.Content className="flex flex-col gap-1 md:gap-2">
       <section className="grid grid-cols-1 gap-1 md:grid-cols-2 md:gap-2">
         <AnimalsToVaccinateCard />
         <AnimalsToSterilizeCard />
@@ -185,7 +185,7 @@ export default function Route() {
 
       {isCurrentUserManager ? <ManagedAnimalsCard /> : null}
       <ActiveAnimalsCard />
-    </PageContent>
+    </PageLayout.Content>
   );
 }
 
@@ -195,37 +195,36 @@ function AnimalsToVaccinateCard() {
 
   return (
     <Card>
-      <CardHeader>
-        <CardTitle>
+      <Card.Header>
+        <Card.Title>
           {animalToVaccinateCount === 0
             ? "Vaccinations prévues"
             : animalToVaccinateCount > 1
             ? `${animalToVaccinateCount} vaccinations prévues`
             : "1 vaccination prévue"}
-        </CardTitle>
+        </Card.Title>
 
         {animalToVaccinateCount > 0 ? (
-          <BaseLink
-            to={{
-              pathname: "/animals/search",
-              search: new AnimalSearchParams()
-                .setSort(AnimalSearchParams.Sort.VACCINATION)
-                .setMaxVaccinationDate(
-                  DateTime.now().plus({ days: 15 }).toJSDate()
-                )
-                .setStatuses(ACTIVE_ANIMAL_STATUS)
-                .toString(),
-            }}
-            className={actionClassName.standalone({
-              variant: "text",
-            })}
-          >
-            Tout voir
-          </BaseLink>
+          <Action asChild variant="text">
+            <BaseLink
+              to={{
+                pathname: "/animals/search",
+                search: new AnimalSearchParams()
+                  .setSort(AnimalSearchParams.Sort.VACCINATION)
+                  .setMaxVaccinationDate(
+                    DateTime.now().plus({ days: 15 }).toJSDate()
+                  )
+                  .setStatuses(ACTIVE_ANIMAL_STATUS)
+                  .toString(),
+              }}
+            >
+              Tout voir
+            </BaseLink>
+          </Action>
         ) : null}
-      </CardHeader>
+      </Card.Header>
 
-      <CardContent>
+      <Card.Content>
         {animalToVaccinateCount === 0 ? (
           <Empty
             isCompact
@@ -254,7 +253,7 @@ function AnimalsToVaccinateCard() {
             ))}
           </ul>
         )}
-      </CardContent>
+      </Card.Content>
     </Card>
   );
 }
@@ -265,39 +264,40 @@ function AnimalsToSterilizeCard() {
 
   return (
     <Card>
-      <CardHeader>
-        <CardTitle>
+      <Card.Header>
+        <Card.Title>
           {animalToSterilizeCount === 0
             ? "Stérilisations à prévoir"
             : animalToSterilizeCount > 1
             ? `${animalToSterilizeCount} stérilisations à prévoir`
             : "1 stérilisation à prévoir"}
-        </CardTitle>
+        </Card.Title>
 
         {animalToSterilizeCount > 0 ? (
-          <BaseLink
-            to={{
-              pathname: "/animals/search",
-              search: new AnimalSearchParams()
-                .setSort(AnimalSearchParams.Sort.BIRTHDATE)
-                .setSpecies([Species.CAT, Species.DOG])
-                .setIsSterilized([AnimalSearchParams.IsSterilized.NO])
-                .setMaxBirthdate(DateTime.now().minus({ months: 6 }).toJSDate())
-                .setStatuses(
-                  SORTED_STATUS.filter((status) => status !== Status.DECEASED)
-                )
-                .toString(),
-            }}
-            className={actionClassName.standalone({
-              variant: "text",
-            })}
-          >
-            Tout voir
-          </BaseLink>
+          <Action asChild variant="text">
+            <BaseLink
+              to={{
+                pathname: "/animals/search",
+                search: new AnimalSearchParams()
+                  .setSort(AnimalSearchParams.Sort.BIRTHDATE)
+                  .setSpecies([Species.CAT, Species.DOG])
+                  .setIsSterilized([AnimalSearchParams.IsSterilized.NO])
+                  .setMaxBirthdate(
+                    DateTime.now().minus({ months: 6 }).toJSDate()
+                  )
+                  .setStatuses(
+                    SORTED_STATUS.filter((status) => status !== Status.DECEASED)
+                  )
+                  .toString(),
+              }}
+            >
+              Tout voir
+            </BaseLink>
+          </Action>
         ) : null}
-      </CardHeader>
+      </Card.Header>
 
-      <CardContent>
+      <Card.Content>
         {animalToSterilizeCount === 0 ? (
           <Empty
             isCompact
@@ -321,7 +321,7 @@ function AnimalsToSterilizeCard() {
             ))}
           </ul>
         )}
-      </CardContent>
+      </Card.Content>
     </Card>
   );
 }
@@ -332,34 +332,33 @@ function ManagedAnimalsCard() {
 
   return (
     <Card>
-      <CardHeader>
-        <CardTitle>
+      <Card.Header>
+        <Card.Title>
           {managedAnimalCount === 0
             ? "À votre charge"
             : managedAnimalCount > 1
             ? `${managedAnimalCount} animaux à votre charge`
             : "1 animal à votre charge"}
-        </CardTitle>
+        </Card.Title>
 
         {managedAnimalCount > 0 ? (
-          <BaseLink
-            to={{
-              pathname: "/animals/search",
-              search: new AnimalSearchParams()
-                .setStatuses(ACTIVE_ANIMAL_STATUS)
-                .setManagersId([currentUser.id])
-                .toString(),
-            }}
-            className={actionClassName.standalone({
-              variant: "text",
-            })}
-          >
-            Tout voir
-          </BaseLink>
+          <Action asChild variant="text">
+            <BaseLink
+              to={{
+                pathname: "/animals/search",
+                search: new AnimalSearchParams()
+                  .setStatuses(ACTIVE_ANIMAL_STATUS)
+                  .setManagersId([currentUser.id])
+                  .toString(),
+              }}
+            >
+              Tout voir
+            </BaseLink>
+          </Action>
         ) : null}
-      </CardHeader>
+      </Card.Header>
 
-      <CardContent hasHorizontalScroll={managedAnimalCount > 0}>
+      <Card.Content hasHorizontalScroll={managedAnimalCount > 0}>
         {managedAnimalCount === 0 ? (
           <Empty
             isCompact
@@ -385,7 +384,7 @@ function ManagedAnimalsCard() {
             ))}
           </ul>
         )}
-      </CardContent>
+      </Card.Content>
     </Card>
   );
 }
@@ -395,33 +394,32 @@ function ActiveAnimalsCard() {
 
   return (
     <Card>
-      <CardHeader>
-        <CardTitle>
+      <Card.Header>
+        <Card.Title>
           {activeAnimalCount === 0
             ? "Animaux en charge"
             : activeAnimalCount > 1
             ? `${activeAnimalCount} animaux en charge`
             : "1 animal en charge"}
-        </CardTitle>
+        </Card.Title>
 
         {activeAnimalCount > 0 ? (
-          <BaseLink
-            to={{
-              pathname: "/animals/search",
-              search: new AnimalSearchParams()
-                .setStatuses(ACTIVE_ANIMAL_STATUS)
-                .toString(),
-            }}
-            className={actionClassName.standalone({
-              variant: "text",
-            })}
-          >
-            Tout voir
-          </BaseLink>
+          <Action asChild variant="text">
+            <BaseLink
+              to={{
+                pathname: "/animals/search",
+                search: new AnimalSearchParams()
+                  .setStatuses(ACTIVE_ANIMAL_STATUS)
+                  .toString(),
+              }}
+            >
+              Tout voir
+            </BaseLink>
+          </Action>
         ) : null}
-      </CardHeader>
+      </Card.Header>
 
-      <CardContent hasHorizontalScroll={activeAnimalCount > 0}>
+      <Card.Content hasHorizontalScroll={activeAnimalCount > 0}>
         {activeAnimalCount === 0 ? (
           <Empty
             isCompact
@@ -447,7 +445,7 @@ function ActiveAnimalsCard() {
             ))}
           </ul>
         )}
-      </CardContent>
+      </Card.Content>
     </Card>
   );
 }

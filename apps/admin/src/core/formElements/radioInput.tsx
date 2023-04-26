@@ -30,3 +30,7 @@ export const RadioInput = forwardRef<HTMLInputElement, RadioInputProps>(
     );
   }
 );
+
+export function RadioInputList({ children }: { children?: React.ReactNode }) {
+  return <div className="py-1 flex flex-wrap gap-2">{children}</div>;
+}
