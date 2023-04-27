@@ -34,7 +34,7 @@ import { Empty } from "~/core/dataDisplay/empty";
 import { ErrorPage, getErrorTitle } from "~/core/dataDisplay/errorPage";
 import { InlineHelper } from "~/core/dataDisplay/helper";
 import { DynamicImage } from "~/core/dataDisplay/image";
-import { Item } from "~/core/dataDisplay/item";
+import { ItemList, SimpleItem } from "~/core/dataDisplay/item";
 import { ARTICLE_COMPONENTS, Markdown } from "~/core/dataDisplay/markdown";
 import { prisma } from "~/core/db.server";
 import { NotFoundError } from "~/core/errors.server";
@@ -305,24 +305,24 @@ function ProfileCard() {
       </Card.Header>
 
       <Card.Content>
-        <ul className="flex flex-col">
-          <Item icon={<Icon id={SPECIES_ICON[animal.species]} />}>
+        <ItemList>
+          <SimpleItem icon={<Icon id={SPECIES_ICON[animal.species]} />}>
             {getSpeciesLabels(animal)}
-          </Item>
+          </SimpleItem>
 
-          <Item icon={<Icon id="cakeCandles" />}>
+          <SimpleItem icon={<Icon id="cakeCandles" />}>
             {DateTime.fromISO(animal.birthdate).toLocaleString(
               DateTime.DATE_FULL
             )}{" "}
             ({formatAge(animal.birthdate)})
-          </Item>
+          </SimpleItem>
 
           {animal.iCadNumber != null ? (
-            <Item icon={<Icon id="fingerprint" />}>
+            <SimpleItem icon={<Icon id="fingerprint" />}>
               I-CAD : {animal.iCadNumber}
-            </Item>
+            </SimpleItem>
           ) : null}
-        </ul>
+        </ItemList>
 
         <ul className="grid grid-cols-3 gap-1">
           <AgreementItem entity="cats" value={animal.isOkCats} />
@@ -371,9 +371,9 @@ function SituationCard() {
           </InlineHelper>
         ) : null}
 
-        <ul className="flex flex-col">
+        <ItemList>
           {animal.manager != null ? (
-            <Item icon={<UserAvatar user={animal.manager} />}>
+            <SimpleItem icon={<UserAvatar user={animal.manager} />}>
               Est géré par{" "}
               {canSeeManagerDetails ? (
                 <ProseInlineAction asChild>
@@ -386,10 +386,10 @@ function SituationCard() {
                   {animal.manager.displayName}
                 </strong>
               )}
-            </Item>
+            </SimpleItem>
           ) : null}
 
-          <Item icon={<StatusIcon status={animal.status} />}>
+          <SimpleItem icon={<StatusIcon status={animal.status} />}>
             Est{" "}
             <strong className="text-body-emphasis">
               {STATUS_TRANSLATION[animal.status]}
@@ -417,11 +417,11 @@ function SituationCard() {
                 )
               </>
             ) : null}
-          </Item>
+          </SimpleItem>
 
           {animal.fosterFamily != null ? (
             <DropdownMenu.Root>
-              <Item
+              <SimpleItem
                 icon={<FosterFamilyAvatar fosterFamily={animal.fosterFamily} />}
               >
                 En FA chez{" "}
@@ -430,7 +430,7 @@ function SituationCard() {
                     {animal.fosterFamily.displayName}
                   </ProseInlineAction>
                 </DropdownMenu.Trigger>
-              </Item>
+              </SimpleItem>
 
               <DropdownMenu.Portal>
                 <DropdownMenu.Content
@@ -452,15 +452,15 @@ function SituationCard() {
                   <DropdownMenu.Separator className="border-t border-gray-100" />
 
                   <ul className="flex flex-col">
-                    <Item icon={<Icon id="phone" />}>
+                    <SimpleItem icon={<Icon id="phone" />}>
                       {animal.fosterFamily.phone}
-                    </Item>
-                    <Item icon={<Icon id="envelope" />}>
+                    </SimpleItem>
+                    <SimpleItem icon={<Icon id="envelope" />}>
                       {animal.fosterFamily.email}
-                    </Item>
-                    <Item icon={<Icon id="locationDot" />}>
+                    </SimpleItem>
+                    <SimpleItem icon={<Icon id="locationDot" />}>
                       {getLongLocation(animal.fosterFamily)}
-                    </Item>
+                    </SimpleItem>
                   </ul>
 
                   {canSeeFosterFamilyDetails ? (
@@ -489,7 +489,7 @@ function SituationCard() {
 
           {animal.isSterilized != null &&
           animal.isSterilizationMandatory != null ? (
-            <Item icon={<Icon id="scissors" />}>
+            <SimpleItem icon={<Icon id="scissors" />}>
               {animal.isSterilized ? (
                 <>
                   Est{" "}
@@ -520,21 +520,21 @@ function SituationCard() {
                   </strong>
                 </>
               )}
-            </Item>
+            </SimpleItem>
           ) : null}
 
           {animal.nextVaccinationDate != null ? (
-            <Item icon={<Icon id="syringe" />}>
+            <SimpleItem icon={<Icon id="syringe" />}>
               Prochaine vaccination le{" "}
               <strong className="text-body-emphasis">
                 {DateTime.fromISO(animal.nextVaccinationDate).toLocaleString(
                   DateTime.DATE_FULL
                 )}
               </strong>
-            </Item>
+            </SimpleItem>
           ) : null}
 
-          <Item icon={<Icon id="handHoldingHeart" />}>
+          <SimpleItem icon={<Icon id="handHoldingHeart" />}>
             {animal.gender === Gender.FEMALE
               ? "Prise en charge le"
               : "Pris en charge le"}{" "}
@@ -556,8 +556,8 @@ function SituationCard() {
             <strong className="text-body-emphasis">
               {PICK_UP_REASON_TRANSLATION[animal.pickUpReason]}
             </strong>
-          </Item>
-        </ul>
+          </SimpleItem>
+        </ItemList>
       </Card.Content>
     </Card>
   );

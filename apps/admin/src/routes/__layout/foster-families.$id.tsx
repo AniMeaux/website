@@ -20,7 +20,7 @@ import { ErrorPage, getErrorTitle } from "~/core/dataDisplay/errorPage";
 import { ErrorsInlineHelper } from "~/core/dataDisplay/errors";
 import { InlineHelper } from "~/core/dataDisplay/helper";
 import { inferInstanceColor } from "~/core/dataDisplay/instanceColor";
-import { Item } from "~/core/dataDisplay/item";
+import { ItemList, SimpleItem } from "~/core/dataDisplay/item";
 import { ARTICLE_COMPONENTS, Markdown } from "~/core/dataDisplay/markdown";
 import { prisma } from "~/core/db.server";
 import { NotFoundError, ReferencedError } from "~/core/errors.server";
@@ -232,13 +232,17 @@ function ProfileCard() {
       </Card.Header>
 
       <Card.Content>
-        <ul className="flex flex-col">
-          <Item icon={<Icon id="phone" />}>{fosterFamily.phone}</Item>
-          <Item icon={<Icon id="envelope" />}>{fosterFamily.email}</Item>
-          <Item icon={<Icon id="locationDot" />}>
+        <ItemList>
+          <SimpleItem icon={<Icon id="phone" />}>
+            {fosterFamily.phone}
+          </SimpleItem>
+          <SimpleItem icon={<Icon id="envelope" />}>
+            {fosterFamily.email}
+          </SimpleItem>
+          <SimpleItem icon={<Icon id="locationDot" />}>
             {getLongLocation(fosterFamily)}
-          </Item>
-        </ul>
+          </SimpleItem>
+        </ItemList>
       </Card.Content>
     </Card>
   );
@@ -258,8 +262,8 @@ function SituationCard() {
       </Card.Header>
 
       <Card.Content>
-        <ul className="flex flex-col">
-          <Item icon={<Icon id="handHoldingHeart" />}>
+        <ItemList>
+          <SimpleItem icon={<Icon id="handHoldingHeart" />}>
             Peut accueillir :{" "}
             {fosterFamily.speciesToHost.length === 0 ? (
               <strong className="text-body-emphasis">Inconnu</strong>
@@ -273,9 +277,9 @@ function SituationCard() {
                 ", "
               )
             )}
-          </Item>
+          </SimpleItem>
 
-          <Item icon={<Icon id="houseChimneyPaw" />}>
+          <SimpleItem icon={<Icon id="houseChimneyPaw" />}>
             {fosterFamily.speciesAlreadyPresent.length === 0 ? (
               "Aucun animal déjà présents"
             ) : (
@@ -291,8 +295,8 @@ function SituationCard() {
                 )}
               </>
             )}
-          </Item>
-        </ul>
+          </SimpleItem>
+        </ItemList>
       </Card.Content>
     </Card>
   );

@@ -8,12 +8,7 @@ import { BaseLink } from "~/core/baseLink";
 import { Filters } from "~/core/controllers/filters";
 import { ActionAdornment, Adornment } from "~/core/formElements/adornment";
 import { ControlledInput } from "~/core/formElements/controlledInput";
-import {
-  Suggestion,
-  SuggestionInput,
-  SuggestionLabel,
-  Suggestions,
-} from "~/core/formElements/filterSuggestions";
+import { ToggleInput, ToggleInputList } from "~/core/formElements/toggleInput";
 import { useOptimisticSearchParams } from "~/core/searchParams";
 import { FosterFamilySearchParams } from "~/fosterFamilies/searchParams";
 import { Icon } from "~/generated/icon";
@@ -62,40 +57,31 @@ export function FosterFamilyFilters({
             />
           }
         >
-          <Suggestions>
-            <Suggestion>
-              <SuggestionInput
-                type="radio"
-                name={FosterFamilySearchParams.Keys.SORT}
-                value={FosterFamilySearchParams.Sort.RELEVANCE}
-                checked={
-                  visibleFilters.sort ===
-                  FosterFamilySearchParams.Sort.RELEVANCE
-                }
-                onChange={() => {}}
-              />
+          <ToggleInputList>
+            <ToggleInput
+              type="radio"
+              label="Pertinence"
+              name={FosterFamilySearchParams.Keys.SORT}
+              value={FosterFamilySearchParams.Sort.RELEVANCE}
+              icon={<Icon id="bolt" />}
+              checked={
+                visibleFilters.sort === FosterFamilySearchParams.Sort.RELEVANCE
+              }
+              onChange={() => {}}
+            />
 
-              <SuggestionLabel icon={<Icon id="bolt" />}>
-                Pertinence
-              </SuggestionLabel>
-            </Suggestion>
-
-            <Suggestion>
-              <SuggestionInput
-                type="radio"
-                name={FosterFamilySearchParams.Keys.SORT}
-                value={FosterFamilySearchParams.Sort.NAME}
-                checked={
-                  visibleFilters.sort === FosterFamilySearchParams.Sort.NAME
-                }
-                onChange={() => {}}
-              />
-
-              <SuggestionLabel icon={<Icon id="arrowDownAZ" />}>
-                Alphabétique
-              </SuggestionLabel>
-            </Suggestion>
-          </Suggestions>
+            <ToggleInput
+              type="radio"
+              label="Alphabétique"
+              name={FosterFamilySearchParams.Keys.SORT}
+              value={FosterFamilySearchParams.Sort.NAME}
+              icon={<Icon id="arrowDownAZ" />}
+              checked={
+                visibleFilters.sort === FosterFamilySearchParams.Sort.NAME
+              }
+              onChange={() => {}}
+            />
+          </ToggleInputList>
         </Filters.Filter>
 
         <Filters.Filter
@@ -143,23 +129,20 @@ export function FosterFamilyFilters({
             ) : null
           }
         >
-          <Suggestions>
+          <ToggleInputList>
             {SORTED_SPECIES.map((species) => (
-              <Suggestion key={species}>
-                <SuggestionInput
-                  type="radio"
-                  name={FosterFamilySearchParams.Keys.SPECIES_TO_HOST}
-                  value={species}
-                  checked={visibleFilters.speciesToHost === species}
-                  onChange={() => {}}
-                />
-
-                <SuggestionLabel icon={<Icon id={SPECIES_ICON[species]} />}>
-                  {SPECIES_TRANSLATION[species]}
-                </SuggestionLabel>
-              </Suggestion>
+              <ToggleInput
+                key={species}
+                type="radio"
+                label={SPECIES_TRANSLATION[species]}
+                name={FosterFamilySearchParams.Keys.SPECIES_TO_HOST}
+                value={species}
+                icon={<Icon id={SPECIES_ICON[species]} />}
+                checked={visibleFilters.speciesToHost === species}
+                onChange={() => {}}
+              />
             ))}
-          </Suggestions>
+          </ToggleInputList>
         </Filters.Filter>
 
         <Filters.Filter
@@ -175,25 +158,20 @@ export function FosterFamilyFilters({
             />
           ))}
         >
-          <Suggestions>
+          <ToggleInputList>
             {SORTED_SPECIES.map((species) => (
-              <Suggestion key={species}>
-                <SuggestionInput
-                  type="checkbox"
-                  name={FosterFamilySearchParams.Keys.SPECIES_ALREADY_PRESENT}
-                  value={species}
-                  checked={visibleFilters.speciesAlreadyPresent.includes(
-                    species
-                  )}
-                  onChange={() => {}}
-                />
-
-                <SuggestionLabel icon={<Icon id={SPECIES_ICON[species]} />}>
-                  {SPECIES_TRANSLATION[species]}
-                </SuggestionLabel>
-              </Suggestion>
+              <ToggleInput
+                key={species}
+                type="checkbox"
+                label={SPECIES_TRANSLATION[species]}
+                name={FosterFamilySearchParams.Keys.SPECIES_ALREADY_PRESENT}
+                value={species}
+                icon={<Icon id={SPECIES_ICON[species]} />}
+                checked={visibleFilters.speciesAlreadyPresent.includes(species)}
+                onChange={() => {}}
+              />
             ))}
-          </Suggestions>
+          </ToggleInputList>
         </Filters.Filter>
 
         <Filters.Filter
@@ -209,23 +187,20 @@ export function FosterFamilyFilters({
             />
           ))}
         >
-          <Suggestions>
+          <ToggleInputList>
             {SORTED_SPECIES.map((species) => (
-              <Suggestion key={species}>
-                <SuggestionInput
-                  type="checkbox"
-                  name={FosterFamilySearchParams.Keys.SPECIES_TO_AVOID}
-                  value={species}
-                  checked={visibleFilters.speciesToAvoid.includes(species)}
-                  onChange={() => {}}
-                />
-
-                <SuggestionLabel icon={<Icon id={SPECIES_ICON[species]} />}>
-                  {SPECIES_TRANSLATION[species]}
-                </SuggestionLabel>
-              </Suggestion>
+              <ToggleInput
+                key={species}
+                type="checkbox"
+                label={SPECIES_TRANSLATION[species]}
+                name={FosterFamilySearchParams.Keys.SPECIES_TO_AVOID}
+                value={species}
+                icon={<Icon id={SPECIES_ICON[species]} />}
+                checked={visibleFilters.speciesToAvoid.includes(species)}
+                onChange={() => {}}
+              />
             ))}
-          </Suggestions>
+          </ToggleInputList>
         </Filters.Filter>
 
         <Filters.Filter
@@ -277,23 +252,20 @@ export function FosterFamilyFilters({
             />
           ))}
         >
-          <Suggestions>
+          <ToggleInputList>
             {possibleCities.map((city) => (
-              <Suggestion key={city}>
-                <SuggestionInput
-                  type="checkbox"
-                  name={FosterFamilySearchParams.Keys.CITY}
-                  value={city}
-                  checked={visibleFilters.cities.includes(city)}
-                  onChange={() => {}}
-                />
-
-                <SuggestionLabel icon={<Icon id="locationDot" />}>
-                  {city}
-                </SuggestionLabel>
-              </Suggestion>
+              <ToggleInput
+                key={city}
+                type="checkbox"
+                label={city}
+                name={FosterFamilySearchParams.Keys.CITY}
+                value={city}
+                icon={<Icon id="locationDot" />}
+                checked={visibleFilters.cities.includes(city)}
+                onChange={() => {}}
+              />
             ))}
-          </Suggestions>
+          </ToggleInputList>
         </Filters.Filter>
       </Filters.Content>
     </Filters>

@@ -24,7 +24,7 @@ import { ErrorPage, getErrorTitle } from "~/core/dataDisplay/errorPage";
 import { ErrorsInlineHelper } from "~/core/dataDisplay/errors";
 import { BlockHelper, InlineHelper } from "~/core/dataDisplay/helper";
 import { inferInstanceColor } from "~/core/dataDisplay/instanceColor";
-import { Item } from "~/core/dataDisplay/item";
+import { ItemList, SimpleItem } from "~/core/dataDisplay/item";
 import { toRoundedRelative } from "~/core/dates";
 import { prisma } from "~/core/db.server";
 import { NotFoundError, ReferencedError } from "~/core/errors.server";
@@ -335,8 +335,8 @@ function ActivityCard() {
       </Card.Header>
 
       <Card.Content>
-        <ul className="flex flex-col">
-          <Item icon={<Icon id="wavePulse" />}>
+        <ItemList>
+          <SimpleItem icon={<Icon id="wavePulse" />}>
             {user.lastActivityAt == null ? (
               "Aucune activité"
             ) : (
@@ -347,8 +347,8 @@ function ActivityCard() {
                 </strong>
               </>
             )}
-          </Item>
-        </ul>
+          </SimpleItem>
+        </ItemList>
       </Card.Content>
     </Card>
   );
@@ -364,13 +364,13 @@ function GroupsCard() {
       </Card.Header>
 
       <Card.Content>
-        <ul className="flex flex-col">
+        <ItemList>
           {user.groups.map((group) => (
-            <Item key={group} icon={<Icon id={GROUP_ICON[group]} />}>
+            <SimpleItem key={group} icon={<Icon id={GROUP_ICON[group]} />}>
               {GROUP_TRANSLATION[group]}
-            </Item>
+            </SimpleItem>
           ))}
-        </ul>
+        </ItemList>
       </Card.Content>
     </Card>
   );

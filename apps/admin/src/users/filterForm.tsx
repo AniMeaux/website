@@ -4,13 +4,8 @@ import { Filters } from "~/core/controllers/filters";
 import { toIsoDateValue } from "~/core/dates";
 import { ActionAdornment, Adornment } from "~/core/formElements/adornment";
 import { ControlledInput } from "~/core/formElements/controlledInput";
-import {
-  Suggestion,
-  SuggestionInput,
-  SuggestionLabel,
-  Suggestions,
-} from "~/core/formElements/filterSuggestions";
 import { Form } from "~/core/formElements/form";
+import { ToggleInput, ToggleInputList } from "~/core/formElements/toggleInput";
 import { useOptimisticSearchParams } from "~/core/searchParams";
 import { Icon } from "~/generated/icon";
 import { GROUP_ICON, GROUP_TRANSLATION, SORTED_GROUPS } from "~/users/groups";
@@ -53,53 +48,39 @@ export function UserFilterForm() {
             />
           }
         >
-          <Suggestions>
-            <Suggestion>
-              <SuggestionInput
-                type="radio"
-                name={UserSearchParams.Keys.SORT}
-                value={UserSearchParams.Sort.RELEVANCE}
-                checked={
-                  visibleFilters.sort === UserSearchParams.Sort.RELEVANCE
-                }
-                onChange={() => {}}
-              />
+          <ToggleInputList>
+            <ToggleInput
+              type="radio"
+              label="Pertinence"
+              name={UserSearchParams.Keys.SORT}
+              value={UserSearchParams.Sort.RELEVANCE}
+              icon={<Icon id="bolt" />}
+              checked={visibleFilters.sort === UserSearchParams.Sort.RELEVANCE}
+              onChange={() => {}}
+            />
 
-              <SuggestionLabel icon={<Icon id="bolt" />}>
-                Pertinence
-              </SuggestionLabel>
-            </Suggestion>
+            <ToggleInput
+              type="radio"
+              label="Alphabétique"
+              name={UserSearchParams.Keys.SORT}
+              value={UserSearchParams.Sort.NAME}
+              icon={<Icon id="arrowDownAZ" />}
+              checked={visibleFilters.sort === UserSearchParams.Sort.NAME}
+              onChange={() => {}}
+            />
 
-            <Suggestion>
-              <SuggestionInput
-                type="radio"
-                name={UserSearchParams.Keys.SORT}
-                value={UserSearchParams.Sort.NAME}
-                checked={visibleFilters.sort === UserSearchParams.Sort.NAME}
-                onChange={() => {}}
-              />
-
-              <SuggestionLabel icon={<Icon id="arrowDownAZ" />}>
-                Alphabétique
-              </SuggestionLabel>
-            </Suggestion>
-
-            <Suggestion>
-              <SuggestionInput
-                type="radio"
-                name={UserSearchParams.Keys.SORT}
-                value={UserSearchParams.Sort.LAST_ACTIVITY}
-                checked={
-                  visibleFilters.sort === UserSearchParams.Sort.LAST_ACTIVITY
-                }
-                onChange={() => {}}
-              />
-
-              <SuggestionLabel icon={<Icon id="wavePulse" />}>
-                Dernière activité
-              </SuggestionLabel>
-            </Suggestion>
-          </Suggestions>
+            <ToggleInput
+              type="radio"
+              label="Dernière activité"
+              name={UserSearchParams.Keys.SORT}
+              value={UserSearchParams.Sort.LAST_ACTIVITY}
+              icon={<Icon id="wavePulse" />}
+              checked={
+                visibleFilters.sort === UserSearchParams.Sort.LAST_ACTIVITY
+              }
+              onChange={() => {}}
+            />
+          </ToggleInputList>
         </Filters.Filter>
 
         <Filters.Filter
@@ -144,23 +125,20 @@ export function UserFilterForm() {
             />
           ))}
         >
-          <Suggestions>
+          <ToggleInputList>
             {SORTED_GROUPS.map((group) => (
-              <Suggestion key={group}>
-                <SuggestionInput
-                  type="checkbox"
-                  name={UserSearchParams.Keys.GROUP}
-                  value={group}
-                  checked={visibleFilters.groups.includes(group)}
-                  onChange={() => {}}
-                />
-
-                <SuggestionLabel icon={<Icon id={GROUP_ICON[group]} />}>
-                  {GROUP_TRANSLATION[group]}
-                </SuggestionLabel>
-              </Suggestion>
+              <ToggleInput
+                key={group}
+                type="checkbox"
+                label={GROUP_TRANSLATION[group]}
+                name={UserSearchParams.Keys.GROUP}
+                value={group}
+                icon={<Icon id={GROUP_ICON[group]} />}
+                checked={visibleFilters.groups.includes(group)}
+                onChange={() => {}}
+              />
             ))}
-          </Suggestions>
+          </ToggleInputList>
         </Filters.Filter>
 
         <Filters.Filter
@@ -195,21 +173,17 @@ export function UserFilterForm() {
         >
           <Form.Fields>
             <Form.Field>
-              <Suggestions>
-                <Suggestion>
-                  <SuggestionInput
-                    type="checkbox"
-                    name={UserSearchParams.Keys.NO_ACTIVITY}
-                    value={String(true)}
-                    checked={visibleFilters.noActivity}
-                    onChange={() => {}}
-                  />
-
-                  <SuggestionLabel icon={<Icon id="wavePulse" />}>
-                    Aucune activité
-                  </SuggestionLabel>
-                </Suggestion>
-              </Suggestions>
+              <ToggleInputList>
+                <ToggleInput
+                  type="checkbox"
+                  label="Aucune activité"
+                  name={UserSearchParams.Keys.NO_ACTIVITY}
+                  value={String(true)}
+                  icon={<Icon id="wavePulse" />}
+                  checked={visibleFilters.noActivity}
+                  onChange={() => {}}
+                />
+              </ToggleInputList>
             </Form.Field>
 
             <Form.Field>
