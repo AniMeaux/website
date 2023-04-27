@@ -17,36 +17,39 @@ export type ActionColor =
   | "orange"
   | "red";
 
-export const Action = forwardRef<
-  HTMLButtonElement,
-  React.ComponentPropsWithoutRef<typeof Primitive.button> & {
-    color?: ActionColor;
-    isIconOnly?: boolean;
-    variant?: ActionVariant;
+export type ActionProps = React.ComponentPropsWithoutRef<
+  typeof Primitive.button
+> & {
+  color?: ActionColor;
+  isIconOnly?: boolean;
+  variant?: ActionVariant;
+};
+
+export const Action = forwardRef<HTMLButtonElement, ActionProps>(
+  function Action(
+    {
+      className,
+      color = "blue",
+      isIconOnly = false,
+      variant = "primary",
+      ...rest
+    },
+    ref
+  ) {
+    return (
+      <Primitive.button
+        {...rest}
+        ref={ref}
+        className={cn(
+          "flex-none flex items-center justify-center gap-0.5 text-body-emphasis duration-100 ease-in-out active:scale-95 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white",
+          VARIANT_CLASS_NAME[variant]({ isIconOnly }),
+          COLOR_CLASS_NAMES[variant][color],
+          className
+        )}
+      />
+    );
   }
->(function Action(
-  {
-    className,
-    color = "blue",
-    isIconOnly = false,
-    variant = "primary",
-    ...rest
-  },
-  ref
-) {
-  return (
-    <Primitive.button
-      {...rest}
-      ref={ref}
-      className={cn(
-        "flex-none flex items-center justify-center gap-0.5 text-body-emphasis duration-100 ease-in-out active:scale-95 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white",
-        VARIANT_CLASS_NAME[variant]({ isIconOnly }),
-        COLOR_CLASS_NAMES[variant][color],
-        className
-      )}
-    />
-  );
-});
+);
 
 export const ProseInlineAction = forwardRef<
   HTMLButtonElement,
