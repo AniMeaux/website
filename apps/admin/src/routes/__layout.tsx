@@ -182,18 +182,18 @@ const ALL_NAVIGATION_ITEMS: NavigationItem[] = [
     authorizedGroups: [UserGroup.ADMIN, UserGroup.ANIMAL_MANAGER],
   },
   {
+    to: "/events",
+    icon: "calendarDays",
+    label: "Événements",
+    authorizedGroups: [UserGroup.ADMIN],
+  },
+  {
     to: "/users",
     icon: "user",
     label: "Utilisateurs",
     authorizedGroups: [UserGroup.ADMIN],
   },
   // Uncomment when pages are implemented.
-  // {
-  //   to: "/events",
-  //   icon: "calendarDays",
-  //   label: "Événements",
-  //   authorizedGroups: [UserGroup.ADMIN],
-  // },
   // {
   //   to: "/breeds",
   //   icon: "dna",

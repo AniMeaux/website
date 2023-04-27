@@ -212,29 +212,52 @@ async function seedColors() {
 }
 
 async function seedEvents() {
-  await prisma.event.createMany({
-    data: repeate<Prisma.EventCreateManyInput>({ min: 5, max: 10 }, () => {
-      const startDate = faker.date.between(
-        "2021-01-01",
-        DateTime.now().plus({ year: 1 }).toJSDate()
-      );
+  const now = DateTime.now();
 
-      return {
-        title: faker.commerce.productName(),
-        location: faker.address.streetAddress(true),
-        url: faker.helpers.maybe(() => faker.internet.url()),
-        description: faker.commerce.productDescription(),
-        startDate,
-        endDate: faker.date.between(
-          startDate,
-          DateTime.fromJSDate(startDate).plus({ days: 3 }).toJSDate()
-        ),
-        isFullDay: faker.datatype.boolean(),
-        image: faker.datatype.uuid(),
-        isVisible: faker.datatype.boolean(),
-      };
+  await Promise.all([
+    prisma.event.createMany({
+      data: repeate({ min: 10, max: 20 }, () =>
+        createEventInput({
+          minStartDate: now.minus({ year: 1 }).toJSDate(),
+          maxStartDate: now.toJSDate(),
+        })
+      ),
     }),
-  });
+
+    prisma.event.createMany({
+      data: repeate({ min: 10, max: 20 }, () =>
+        createEventInput({
+          minStartDate: now.toJSDate(),
+          maxStartDate: now.plus({ year: 1 }).toJSDate(),
+        })
+      ),
+    }),
+  ]);
+}
+
+function createEventInput({
+  minStartDate,
+  maxStartDate,
+}: {
+  minStartDate: Date;
+  maxStartDate: Date;
+}): Prisma.EventCreateManyInput {
+  const startDate = faker.date.between(minStartDate, maxStartDate);
+
+  return {
+    title: faker.commerce.productName(),
+    location: faker.address.streetAddress(true),
+    url: faker.helpers.maybe(() => faker.internet.url()),
+    description: faker.commerce.productDescription(),
+    startDate,
+    endDate: faker.date.between(
+      startDate,
+      DateTime.fromJSDate(startDate).plus({ days: 3 }).toJSDate()
+    ),
+    isFullDay: faker.datatype.boolean(),
+    image: faker.datatype.uuid(),
+    isVisible: faker.datatype.boolean(),
+  };
 }
 
 async function seedAnimals() {
