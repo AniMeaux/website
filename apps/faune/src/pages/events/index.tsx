@@ -1,9 +1,4 @@
-import {
-  Event,
-  EVENT_CATEGORY_LABELS,
-  formatDateRange,
-  UserGroup,
-} from "@animeaux/shared";
+import { Event, formatDateRange, UserGroup } from "@animeaux/shared";
 import { DateTime } from "luxon";
 import { FaPlus } from "react-icons/fa";
 import styled from "styled-components";
@@ -142,7 +137,6 @@ function EventItem({ event }: { event: Event }) {
               formatDateRange(event.startDate, event.endDate, {
                 showTime: !event.isFullDay,
               }),
-              EVENT_CATEGORY_LABELS[event.category],
               event.isVisible ? null : <strong key="isDraft">Brouillon</strong>,
             ].filter(isDefined),
             " • "

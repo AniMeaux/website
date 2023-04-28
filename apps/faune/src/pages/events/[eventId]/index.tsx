@@ -1,14 +1,8 @@
-import {
-  Event,
-  EVENT_CATEGORY_LABELS,
-  formatDateRange,
-  UserGroup,
-} from "@animeaux/shared";
+import { Event, formatDateRange, UserGroup } from "@animeaux/shared";
 import invariant from "invariant";
 import {
   FaAngleRight,
   FaCalendarDay,
-  FaCertificate,
   FaEye,
   FaEyeSlash,
   FaFacebook,
@@ -73,10 +67,7 @@ const EventPage: PageComponent = () => {
   });
 
   const deleteEventImage = useMutation<void, Error, Event>(async (event) => {
-    if (event.image != null) {
-      await deleteImage(event.image);
-    }
-
+    await deleteImage(event.image);
     deleteEvent.mutate({ id: event.id });
   });
 
@@ -149,8 +140,7 @@ const DescriptionText = styled(Markdown)`
 type EventProp = { event: Event };
 
 function PicturesSection({ event }: EventProp) {
-  const picturesId = event.image == null ? [] : [event.image];
-  return <ImageSlideshow images={picturesId} alt={event.title} />;
+  return <ImageSlideshow images={[event.image]} alt={event.title} />;
 }
 
 function MetaSection({ event }: EventProp) {
@@ -197,20 +187,6 @@ function MetaSection({ event }: EventProp) {
                 {formatDateRange(event.startDate, event.endDate, {
                   showTime: !event.isFullDay,
                 })}
-              </ItemMainText>
-            </ItemContent>
-          </Item>
-        </li>
-
-        <li>
-          <Item>
-            <ItemIcon>
-              <FaCertificate />
-            </ItemIcon>
-
-            <ItemContent>
-              <ItemMainText>
-                {EVENT_CATEGORY_LABELS[event.category]}
               </ItemMainText>
             </ItemContent>
           </Item>
