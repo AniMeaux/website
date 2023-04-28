@@ -1,18 +1,21 @@
 import * as RadixDialog from "@radix-ui/react-dialog";
 import { createContext, useContext, useMemo } from "react";
-import { actionClassName, ActionColor } from "~/core/actions";
+import { Action, ActionColor } from "~/core/actions";
 import { cn } from "~/core/classNames";
 import { Icon, IconProps } from "~/generated/icon";
-
-export const DialogRoot = RadixDialog.Root;
-export const DialogTrigger = RadixDialog.Trigger;
 
 type DialogVariant = "alert" | "warning";
 
 type DialogContextValue = { variant: DialogVariant };
 const DialogContext = createContext<DialogContextValue>({ variant: "alert" });
 
-export function Dialog({
+export function Dialog(props: RadixDialog.DialogProps) {
+  return <RadixDialog.Root {...props} />;
+}
+
+Dialog.Trigger = RadixDialog.Trigger;
+
+Dialog.Content = function DialogContent({
   variant,
   children,
 }: {
@@ -39,9 +42,13 @@ export function Dialog({
       </RadixDialog.Portal>
     </DialogContext.Provider>
   );
-}
+};
 
-export function DialogHeader({ children }: { children?: React.ReactNode }) {
+Dialog.Header = function DialogHeader({
+  children,
+}: {
+  children?: React.ReactNode;
+}) {
   const { variant } = useContext(DialogContext);
 
   return (
@@ -56,7 +63,7 @@ export function DialogHeader({ children }: { children?: React.ReactNode }) {
       </RadixDialog.Title>
     </header>
   );
-}
+};
 
 const VARIANT_ICON: Record<DialogVariant, IconProps["id"]> = {
   alert: "circleExclamation",
@@ -68,50 +75,58 @@ const VARIANT_ICON_CLASS_NAME: Record<DialogVariant, string> = {
   warning: "text-orange-400",
 };
 
-export function DialogMessage({ children }: { children?: React.ReactNode }) {
+Dialog.Message = function DialogMessage({
+  children,
+}: {
+  children?: React.ReactNode;
+}) {
   return <p>{children}</p>;
-}
+};
 
-export function DialogActions({ children }: { children?: React.ReactNode }) {
-  return (
-    <footer className="flex items-center justify-between gap-2">
-      {children}
-    </footer>
-  );
-}
-
-export function DialogCloseAction({
+Dialog.Actions = function DialogActions({
   children,
 }: {
   children?: React.ReactNode;
 }) {
   return (
-    <RadixDialog.Close
-      className={actionClassName.standalone({ variant: "text", color: "gray" })}
-    >
+    <footer className="flex items-center justify-between gap-2">
       {children}
+    </footer>
+  );
+};
+
+Dialog.CloseAction = function DialogCloseAction({
+  children,
+}: {
+  children?: React.ReactNode;
+}) {
+  return (
+    <RadixDialog.Close asChild>
+      <Action variant="text" color="gray">
+        {children}
+      </Action>
     </RadixDialog.Close>
   );
-}
+};
 
 type DialogConfirmActionProps = Omit<
   React.ButtonHTMLAttributes<HTMLButtonElement>,
   "className"
 >;
 
-export function DialogConfirmAction(props: DialogConfirmActionProps) {
+Dialog.ConfirmAction = function DialogConfirmAction(
+  props: DialogConfirmActionProps
+) {
   const { variant } = useContext(DialogContext);
 
   return (
-    <button
+    <Action
       {...props}
-      className={actionClassName.standalone({
-        variant: "secondary",
-        color: VARIANT_CONFIRM_ACTION_COLOR[variant],
-      })}
+      variant="secondary"
+      color={VARIANT_CONFIRM_ACTION_COLOR[variant]}
     />
   );
-}
+};
 
 const VARIANT_CONFIRM_ACTION_COLOR: Record<DialogVariant, ActionColor> = {
   alert: "red",

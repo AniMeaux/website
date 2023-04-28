@@ -4,9 +4,10 @@ import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
 import { forwardRef } from "react";
 import { asBooleanAttribute } from "~/core/attributes";
 import { cn } from "~/core/classNames";
+import { Item } from "~/core/dataDisplay/item";
 import { HIGHLIGHT_COMPONENTS, Markdown } from "~/core/dataDisplay/markdown";
 import { ActionAdornment, Adornment } from "~/core/formElements/adornment";
-import { Card, CardContent } from "~/core/layout/card";
+import { Card } from "~/core/layout/card";
 import { ScreenSizeValue, useScreenSizeCondition } from "~/core/screenSize";
 import { Icon } from "~/generated/icon";
 import { theme } from "~/generated/theme";
@@ -154,7 +155,7 @@ function SmallComboboxLayout({
       </header>
 
       <Card>
-        <CardContent>{list}</CardContent>
+        <Card.Content>{list}</Card.Content>
       </Card>
     </div>
   );
@@ -194,31 +195,33 @@ export const SuggestionItem = forwardRef<HTMLLIElement, SuggestionItemProps>(
     ref
   ) {
     return (
-      <li
+      <Item
         {...rest}
         ref={ref}
         data-is-value={asBooleanAttribute(isValue)}
         data-is-additional={asBooleanAttribute(isAdditional)}
         className={cn(
           className,
-          "group relative z-0 rounded-0.5 grid grid-cols-[auto_minmax(0px,1fr)_auto] items-start cursor-pointer aria-selected:bg-gray-100 data-[is-value=true]:bg-gray-100"
+          "cursor-pointer aria-selected:bg-gray-100 data-[is-value=true]:bg-gray-100"
         )}
       >
-        <span className="h-4 w-4 flex items-center justify-center text-gray-600 text-[20px] group-data-[is-additional=true]:text-blue-500">
+        <Item.Icon className="group-data-[is-additional=true]:text-blue-500">
           {isAdditional ? <Icon id="plus" /> : leftAdornment}
-        </span>
+        </Item.Icon>
 
-        <span className="py-1 text-body-default group-data-[is-value=true]:text-body-emphasis group-data-[is-additional=true]:text-blue-500">
-          <Markdown components={HIGHLIGHT_COMPONENTS}>{label}</Markdown>
-          {secondaryLabel != null ? (
-            <span className="text-gray-500"> - {secondaryLabel}</span>
-          ) : null}
-        </span>
+        <Item.Content asChild>
+          <span className="group-data-[is-value=true]:text-body-emphasis group-data-[is-additional=true]:text-blue-500">
+            <Markdown components={HIGHLIGHT_COMPONENTS}>{label}</Markdown>
+            {secondaryLabel != null ? (
+              <span className="text-gray-500"> - {secondaryLabel}</span>
+            ) : null}
+          </span>
+        </Item.Content>
 
-        <span className="opacity-0 h-4 w-4 flex items-center justify-center text-green-600 transition-opacity duration-100 ease-in-out group-data-[is-value=true]:opacity-100">
-          <Icon id="check" />
-        </span>
-      </li>
+        <Item.Icon className="opacity-0 transition-opacity duration-100 ease-in-out group-data-[is-value=true]:opacity-100">
+          <Icon id="check" className="text-green-600 text-[14px]" />
+        </Item.Icon>
+      </Item>
     );
   }
 );

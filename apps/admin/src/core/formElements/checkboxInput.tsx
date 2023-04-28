@@ -1,25 +1,17 @@
 import { forwardRef } from "react";
 import { cn } from "~/core/classNames";
-import { RequiredStart } from "~/core/formElements/requiredStart";
+import { RequiredStar } from "~/core/formElements/requiredStar";
 import { Icon } from "~/generated/icon";
 
 type CheckboxInputProps = Omit<
   React.InputHTMLAttributes<HTMLInputElement>,
-  "type" | "defaultChecked"
+  "type"
 > & {
   label: React.ReactNode;
-
-  // Allow null.
-  defaultChecked?:
-    | null
-    | React.InputHTMLAttributes<HTMLInputElement>["defaultChecked"];
 };
 
 export const CheckboxInput = forwardRef<HTMLInputElement, CheckboxInputProps>(
-  function CheckboxInput(
-    { label, required = false, defaultChecked, className, ...rest },
-    ref
-  ) {
+  function CheckboxInput({ label, required = false, className, ...rest }, ref) {
     return (
       <label
         className={cn(className, "flex items-center gap-0.5 cursor-pointer")}
@@ -30,7 +22,6 @@ export const CheckboxInput = forwardRef<HTMLInputElement, CheckboxInputProps>(
             ref={ref}
             type="checkbox"
             required={required}
-            defaultChecked={defaultChecked ?? undefined}
             className="appearance-none relative w-[14px] h-[14px] rounded-0.5 border border-gray-200 bg-white inline-flex cursor-pointer transition-colors duration-100 ease-in-out focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white checked:border-blue-500 checked:bg-blue-500"
           />
 
@@ -41,9 +32,17 @@ export const CheckboxInput = forwardRef<HTMLInputElement, CheckboxInputProps>(
         </span>
 
         <span>
-          {label} {required ? <RequiredStart /> : null}
+          {label} {required ? <RequiredStar /> : null}
         </span>
       </label>
     );
   }
 );
+
+export function CheckboxInputList({
+  children,
+}: {
+  children?: React.ReactNode;
+}) {
+  return <div className="py-1 flex flex-wrap gap-2">{children}</div>;
+}

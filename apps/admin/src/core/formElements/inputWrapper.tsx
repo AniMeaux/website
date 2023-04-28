@@ -56,7 +56,7 @@ export function inputClassName({
   rightAdornmentCount?: number;
 } = {}) {
   return cn(
-    "appearance-none w-full min-w-0 min-h-[40px] rounded-0.5 ring-inset ring-1 py-1 text-left transition-colors duration-100 ease-in-out placeholder:text-gray-500 focus-visible:outline-none focus-visible:ring-outset focus-visible:ring focus-visible:ring-blue-400 aria-[invalid=true]:ring-red-500 aria-[invalid=true]:focus-visible:ring-red-400 data-[invalid=true]:ring-red-500 data-[invalid=true]:focus-visible:ring-red-400",
+    "appearance-none w-full min-w-0 min-h-[40px] rounded-0.5 ring-inset ring-1 py-1 text-left transition-colors duration-100 ease-in-out placeholder:text-gray-500 focus-visible:outline-none focus-visible:ring-outset focus-visible:ring focus-visible:ring-blue-400 aria-[invalid=true]:ring-red-500 aria-[invalid=true]:focus-visible:ring-red-500 data-[invalid=true]:ring-red-500 data-[invalid=true]:focus-visible:ring-red-500",
     INPUT_VARIANT_CLASS_NAMES[variant],
     {
       "pl-1": leftAdornmentCount === 0,

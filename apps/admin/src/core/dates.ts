@@ -1,11 +1,16 @@
 import { DateTime } from "luxon";
 
-export function toIsoDateValue(date: null | Date) {
+export function toIsoDateValue(date: undefined | null | string | Date) {
   if (date == null) {
     return "";
   }
 
-  return DateTime.fromJSDate(date).toISODate();
+  const dateTime =
+    typeof date === "string"
+      ? DateTime.fromISO(date)
+      : DateTime.fromJSDate(date);
+
+  return dateTime.toISODate();
 }
 
 export function toRoundedRelative(isoDate: string) {

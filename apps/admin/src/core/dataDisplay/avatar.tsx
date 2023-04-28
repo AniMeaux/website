@@ -1,14 +1,13 @@
 import { cn } from "~/core/classNames";
+import { InstanceColor } from "~/core/dataDisplay/instanceColor";
 import { Icon, IconProps } from "~/generated/icon";
 
-const AVATAR_COLORS = ["blue", "green", "red", "yellow"] as const;
-export type AvatarColor = (typeof AVATAR_COLORS)[number];
 export type AvatarSize = "sm" | "lg" | "xl";
 
 export type AvatarProps = {
   icon?: IconProps["id"];
   letter?: string;
-  color?: AvatarColor;
+  color?: InstanceColor;
   size?: AvatarSize;
   className?: string;
 };
@@ -48,7 +47,7 @@ export const AVATAR_SIZE_CLASS_NAME: Record<AvatarSize, string> = {
   xl: "rounded-1 w-8 h-8",
 };
 
-const COLOR_CLASS_NAME: Record<AvatarColor, string> = {
+const COLOR_CLASS_NAME: Record<InstanceColor, string> = {
   blue: "bg-blue-100 text-blue-600",
   green: "bg-green-100 text-green-700",
   red: "bg-red-100 text-red-600",
@@ -66,9 +65,3 @@ const LETTER_CLASS_NAME: Record<AvatarSize, string> = {
   lg: "text-[28px]",
   xl: "text-[56px]",
 };
-
-export function inferAvatarColor(uuid: string): AvatarColor {
-  // We take the first 8 hexa characters.
-  const hash = Number(`0x${uuid.substring(0, 8)}`);
-  return AVATAR_COLORS[hash % AVATAR_COLORS.length];
-}

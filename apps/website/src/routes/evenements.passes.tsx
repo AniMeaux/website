@@ -1,6 +1,7 @@
 import { Prisma } from "@prisma/client";
 import { json, LoaderArgs, MetaFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
+import { promiseHash } from "remix-utils";
 import { Paginator } from "~/controllers/paginator";
 import { actionClassNames } from "~/core/actions";
 import { BaseLink } from "~/core/baseLink";
@@ -23,25 +24,26 @@ export async function loader({ request }: LoaderArgs) {
   const searchParams = new URL(request.url).searchParams;
   const page = getPage(searchParams);
 
-  const [totalCount, events] = await Promise.all([
-    prisma.event.count({ where }),
-    prisma.event.findMany({
+  const { totalCount, events } = await promiseHash({
+    totalCount: prisma.event.count({ where }),
+    events: prisma.event.findMany({
       where,
       skip: page * EVENT_COUNT_PER_PAGE,
       take: EVENT_COUNT_PER_PAGE,
       orderBy: { endDate: "desc" },
       select: {
+        description: true,
+        endDate: true,
         id: true,
         image: true,
-        title: true,
-        description: true,
-        startDate: true,
-        endDate: true,
         isFullDay: true,
         location: true,
+        startDate: true,
+        title: true,
+        url: true,
       },
     }),
-  ]);
+  });
 
   const pageCount = Math.ceil(totalCount / EVENT_COUNT_PER_PAGE);
 

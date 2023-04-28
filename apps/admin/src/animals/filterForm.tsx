@@ -1,5 +1,4 @@
 import { FosterFamily, User, UserGroup } from "@prisma/client";
-import { Form, useSubmit } from "@remix-run/react";
 import {
   ADOPTION_OPTION_ICON,
   ADOPTION_OPTION_TRANSLATION,
@@ -23,19 +22,14 @@ import {
   StatusIcon,
   STATUS_TRANSLATION,
 } from "~/animals/status";
-import { actionClassName } from "~/core/actions";
+import { Action } from "~/core/actions";
 import { BaseLink } from "~/core/baseLink";
-import { Filter, Filters } from "~/core/controllers/filters";
+import { Filters } from "~/core/controllers/filters";
 import { toIsoDateValue } from "~/core/dates";
 import { ActionAdornment, Adornment } from "~/core/formElements/adornment";
 import { ControlledInput } from "~/core/formElements/controlledInput";
-import {
-  Suggestion,
-  SuggestionInput,
-  SuggestionLabel,
-  Suggestions,
-} from "~/core/formElements/filterSuggestions";
-import { formClassNames } from "~/core/formElements/form";
+import { Form } from "~/core/formElements/form";
+import { ToggleInput, ToggleInputList } from "~/core/formElements/toggleInput";
 import { useOptimisticSearchParams } from "~/core/searchParams";
 import { FosterFamilyAvatar } from "~/fosterFamilies/avatar";
 import { Icon } from "~/generated/icon";
@@ -53,8 +47,6 @@ export function AnimalFilters({
   fosterFamilies: Pick<FosterFamily, "displayName" | "id">[];
   possiblePickUpLocations: string[];
 }) {
-  const submit = useSubmit();
-
   const [searchParams, setSearchParams] = useOptimisticSearchParams();
   const animalSearchParams = new AnimalSearchParams(searchParams);
   const visibleFilters = {
@@ -89,33 +81,23 @@ export function AnimalFilters({
     hasGroups(currentUser, [UserGroup.ADMIN, UserGroup.VETERINARIAN]);
 
   return (
-    <Form
-      replace
-      method="get"
-      onChange={(event) => submit(event.currentTarget, { replace: true })}
-      className="flex flex-col gap-2"
-    >
-      <div className="flex flex-col gap-1">
-        <BaseLink
-          replace
-          to={{ search: "" }}
-          className={actionClassName.standalone({
-            variant: "secondary",
-            color: "gray",
-          })}
-        >
-          Tout effacer
-        </BaseLink>
+    <Filters>
+      <Filters.Actions>
+        <Action asChild variant="secondary" color="gray">
+          <BaseLink replace to={{ search: "" }}>
+            Tout effacer
+          </BaseLink>
+        </Action>
 
         <ActiveFilterLink />
 
         {isCurrentUserManager ? (
           <ManagerActiveFilterLink currentUser={currentUser} />
         ) : null}
-      </div>
+      </Filters.Actions>
 
-      <Filters>
-        <Filter
+      <Filters.Content>
+        <Filters.Filter
           value={AnimalSearchParams.Keys.SORT}
           label="Trier"
           count={
@@ -131,90 +113,68 @@ export function AnimalFilters({
             )
           }
         >
-          <Suggestions>
-            <Suggestion>
-              <SuggestionInput
-                type="radio"
-                name={AnimalSearchParams.Keys.SORT}
-                value={AnimalSearchParams.Sort.RELEVANCE}
-                checked={
-                  visibleFilters.sort === AnimalSearchParams.Sort.RELEVANCE
-                }
-                onChange={() => {}}
-              />
+          <ToggleInputList>
+            <ToggleInput
+              type="radio"
+              label="Pertinence"
+              name={AnimalSearchParams.Keys.SORT}
+              value={AnimalSearchParams.Sort.RELEVANCE}
+              icon={<Icon id="bolt" />}
+              checked={
+                visibleFilters.sort === AnimalSearchParams.Sort.RELEVANCE
+              }
+              onChange={() => {}}
+            />
 
-              <SuggestionLabel icon={<Icon id="bolt" />}>
-                Pertinence
-              </SuggestionLabel>
-            </Suggestion>
+            <ToggleInput
+              type="radio"
+              label="Date de prise en charge"
+              name={AnimalSearchParams.Keys.SORT}
+              value={AnimalSearchParams.Sort.PICK_UP}
+              icon={<Icon id="handHoldingHeart" />}
+              checked={visibleFilters.sort === AnimalSearchParams.Sort.PICK_UP}
+              onChange={() => {}}
+            />
 
-            <Suggestion>
-              <SuggestionInput
-                type="radio"
-                name={AnimalSearchParams.Keys.SORT}
-                value={AnimalSearchParams.Sort.PICK_UP}
-                checked={
-                  visibleFilters.sort === AnimalSearchParams.Sort.PICK_UP
-                }
-                onChange={() => {}}
-              />
+            <ToggleInput
+              type="radio"
+              label="Alphabétique"
+              name={AnimalSearchParams.Keys.SORT}
+              value={AnimalSearchParams.Sort.NAME}
+              icon={<Icon id="arrowDownAZ" />}
+              checked={visibleFilters.sort === AnimalSearchParams.Sort.NAME}
+              onChange={() => {}}
+            />
 
-              <SuggestionLabel icon={<Icon id="handHoldingHeart" />}>
-                Date de prise en charge
-              </SuggestionLabel>
-            </Suggestion>
-
-            <Suggestion>
-              <SuggestionInput
-                type="radio"
-                name={AnimalSearchParams.Keys.SORT}
-                value={AnimalSearchParams.Sort.NAME}
-                checked={visibleFilters.sort === AnimalSearchParams.Sort.NAME}
-                onChange={() => {}}
-              />
-
-              <SuggestionLabel icon={<Icon id="arrowDownAZ" />}>
-                Alphabétique
-              </SuggestionLabel>
-            </Suggestion>
-
-            <Suggestion>
-              <SuggestionInput
-                type="radio"
-                name={AnimalSearchParams.Keys.SORT}
-                value={AnimalSearchParams.Sort.BIRTHDATE}
-                checked={
-                  visibleFilters.sort === AnimalSearchParams.Sort.BIRTHDATE
-                }
-                onChange={() => {}}
-              />
-
-              <SuggestionLabel icon={<Icon id="cakeCandles" />}>
-                Date de naissance
-              </SuggestionLabel>
-            </Suggestion>
+            <ToggleInput
+              type="radio"
+              label="Date de naissance"
+              name={AnimalSearchParams.Keys.SORT}
+              value={AnimalSearchParams.Sort.BIRTHDATE}
+              icon={<Icon id="cakeCandles" />}
+              checked={
+                visibleFilters.sort === AnimalSearchParams.Sort.BIRTHDATE
+              }
+              onChange={() => {}}
+            />
 
             {isCurrentUserAnimalAdmin ? (
-              <Suggestion>
-                <SuggestionInput
-                  type="radio"
-                  name={AnimalSearchParams.Keys.SORT}
-                  value={AnimalSearchParams.Sort.VACCINATION}
-                  checked={
-                    visibleFilters.sort === AnimalSearchParams.Sort.VACCINATION
-                  }
-                  onChange={() => {}}
-                />
-
-                <SuggestionLabel icon={<Icon id="syringe" />}>
-                  Date de vaccination
-                </SuggestionLabel>
-              </Suggestion>
+              <ToggleInput
+                type="radio"
+                label="Date de vaccination"
+                name={AnimalSearchParams.Keys.SORT}
+                value={AnimalSearchParams.Sort.VACCINATION}
+                icon={<Icon id="syringe" />}
+                checked={
+                  visibleFilters.sort === AnimalSearchParams.Sort.VACCINATION
+                }
+                onChange={() => {}}
+              />
             ) : null}
-          </Suggestions>
-        </Filter>
+          </ToggleInputList>
+        </Filters.Filter>
 
-        <Filter
+        <Filters.Filter
           value={AnimalSearchParams.Keys.SPECIES}
           label="Espèces"
           count={visibleFilters.species.length}
@@ -227,26 +187,23 @@ export function AnimalFilters({
             />
           ))}
         >
-          <Suggestions>
+          <ToggleInputList>
             {SORTED_SPECIES.map((species) => (
-              <Suggestion key={species}>
-                <SuggestionInput
-                  type="checkbox"
-                  name={AnimalSearchParams.Keys.SPECIES}
-                  value={species}
-                  checked={visibleFilters.species.includes(species)}
-                  onChange={() => {}}
-                />
-
-                <SuggestionLabel icon={<Icon id={SPECIES_ICON[species]} />}>
-                  {SPECIES_TRANSLATION[species]}
-                </SuggestionLabel>
-              </Suggestion>
+              <ToggleInput
+                key={species}
+                type="checkbox"
+                label={SPECIES_TRANSLATION[species]}
+                name={AnimalSearchParams.Keys.SPECIES}
+                value={species}
+                icon={<Icon id={SPECIES_ICON[species]} />}
+                checked={visibleFilters.species.includes(species)}
+                onChange={() => {}}
+              />
             ))}
-          </Suggestions>
-        </Filter>
+          </ToggleInputList>
+        </Filters.Filter>
 
-        <Filter
+        <Filters.Filter
           value={AnimalSearchParams.Keys.AGE}
           label="Âges"
           count={
@@ -281,34 +238,28 @@ export function AnimalFilters({
             </>
           }
         >
-          <div className={formClassNames.fields.root()}>
-            <div className={formClassNames.fields.field.root()}>
-              <Suggestions>
+          <Form.Fields>
+            <Form.Field>
+              <ToggleInputList>
                 {SORTED_AGES.map((age) => (
-                  <Suggestion key={age}>
-                    <SuggestionInput
-                      type="checkbox"
-                      name={AnimalSearchParams.Keys.AGE}
-                      value={age}
-                      checked={visibleFilters.ages.includes(age)}
-                      onChange={() => {}}
-                    />
-
-                    <SuggestionLabel icon={<Icon id={AGE_ICON[age]} />}>
-                      {AGE_TRANSLATION[age]}
-                    </SuggestionLabel>
-                  </Suggestion>
+                  <ToggleInput
+                    key={age}
+                    type="checkbox"
+                    label={AGE_TRANSLATION[age]}
+                    name={AnimalSearchParams.Keys.AGE}
+                    value={age}
+                    icon={<Icon id={AGE_ICON[age]} />}
+                    checked={visibleFilters.ages.includes(age)}
+                    onChange={() => {}}
+                  />
                 ))}
-              </Suggestions>
-            </div>
+              </ToggleInputList>
+            </Form.Field>
 
-            <div className={formClassNames.fields.field.root()}>
-              <label
-                htmlFor={AnimalSearchParams.Keys.MIN_BIRTHDATE}
-                className={formClassNames.fields.field.label()}
-              >
+            <Form.Field>
+              <Form.Label htmlFor={AnimalSearchParams.Keys.MIN_BIRTHDATE}>
                 Né après le et incluant
-              </label>
+              </Form.Label>
 
               <ControlledInput
                 type="date"
@@ -332,15 +283,12 @@ export function AnimalFilters({
                   ) : null
                 }
               />
-            </div>
+            </Form.Field>
 
-            <div className={formClassNames.fields.field.root()}>
-              <label
-                htmlFor={AnimalSearchParams.Keys.MAX_BIRTHDATE}
-                className={formClassNames.fields.field.label()}
-              >
+            <Form.Field>
+              <Form.Label htmlFor={AnimalSearchParams.Keys.MAX_BIRTHDATE}>
                 Né avant le et incluant
-              </label>
+              </Form.Label>
 
               <ControlledInput
                 type="date"
@@ -364,11 +312,11 @@ export function AnimalFilters({
                   ) : null
                 }
               />
-            </div>
-          </div>
-        </Filter>
+            </Form.Field>
+          </Form.Fields>
+        </Filters.Filter>
 
-        <Filter
+        <Filters.Filter
           value={AnimalSearchParams.Keys.STATUS}
           label="Statuts"
           count={visibleFilters.statuses.length}
@@ -381,26 +329,23 @@ export function AnimalFilters({
             />
           ))}
         >
-          <Suggestions>
+          <ToggleInputList>
             {SORTED_STATUS.map((status) => (
-              <Suggestion key={status}>
-                <SuggestionInput
-                  type="checkbox"
-                  name={AnimalSearchParams.Keys.STATUS}
-                  value={status}
-                  checked={visibleFilters.statuses.includes(status)}
-                  onChange={() => {}}
-                />
-
-                <SuggestionLabel icon={<StatusIcon status={status} />}>
-                  {STATUS_TRANSLATION[status]}
-                </SuggestionLabel>
-              </Suggestion>
+              <ToggleInput
+                key={status}
+                type="checkbox"
+                label={STATUS_TRANSLATION[status]}
+                name={AnimalSearchParams.Keys.STATUS}
+                value={status}
+                icon={<StatusIcon status={status} />}
+                checked={visibleFilters.statuses.includes(status)}
+                onChange={() => {}}
+              />
             ))}
-          </Suggestions>
-        </Filter>
+          </ToggleInputList>
+        </Filters.Filter>
 
-        <Filter
+        <Filters.Filter
           value={AnimalSearchParams.Keys.PICK_UP_LOCATION}
           label="Prise en charge"
           count={
@@ -444,42 +389,34 @@ export function AnimalFilters({
             </>
           }
         >
-          <div className={formClassNames.fields.root()}>
-            <div className={formClassNames.fields.field.root()}>
-              <span className={formClassNames.fields.field.label()}>
-                Raison
-              </span>
+          <Form.Fields>
+            <Form.Field>
+              <Form.Label asChild>
+                <span>Raison</span>
+              </Form.Label>
 
-              <Suggestions>
+              <ToggleInputList>
                 {SORTED_PICK_UP_REASON.map((pickUpReason) => (
-                  <Suggestion key={pickUpReason}>
-                    <SuggestionInput
-                      type="checkbox"
-                      name={AnimalSearchParams.Keys.PICK_UP_REASON}
-                      value={pickUpReason}
-                      checked={visibleFilters.pickUpReasons.includes(
-                        pickUpReason
-                      )}
-                      onChange={() => {}}
-                    />
-
-                    <SuggestionLabel
-                      icon={<Icon id={PICK_UP_REASON_ICON[pickUpReason]} />}
-                    >
-                      {PICK_UP_REASON_TRANSLATION[pickUpReason]}
-                    </SuggestionLabel>
-                  </Suggestion>
+                  <ToggleInput
+                    key={pickUpReason}
+                    type="checkbox"
+                    label={PICK_UP_REASON_TRANSLATION[pickUpReason]}
+                    name={AnimalSearchParams.Keys.PICK_UP_REASON}
+                    value={pickUpReason}
+                    icon={<Icon id={PICK_UP_REASON_ICON[pickUpReason]} />}
+                    checked={visibleFilters.pickUpReasons.includes(
+                      pickUpReason
+                    )}
+                    onChange={() => {}}
+                  />
                 ))}
-              </Suggestions>
-            </div>
+              </ToggleInputList>
+            </Form.Field>
 
-            <div className={formClassNames.fields.field.root()}>
-              <label
-                htmlFor={AnimalSearchParams.Keys.MIN_PICK_UP_DATE}
-                className={formClassNames.fields.field.label()}
-              >
+            <Form.Field>
+              <Form.Label htmlFor={AnimalSearchParams.Keys.MIN_PICK_UP_DATE}>
                 Après le et incluant
-              </label>
+              </Form.Label>
 
               <ControlledInput
                 type="date"
@@ -505,15 +442,12 @@ export function AnimalFilters({
                   ) : null
                 }
               />
-            </div>
+            </Form.Field>
 
-            <div className={formClassNames.fields.field.root()}>
-              <label
-                htmlFor={AnimalSearchParams.Keys.MAX_PICK_UP_DATE}
-                className={formClassNames.fields.field.label()}
-              >
+            <Form.Field>
+              <Form.Label htmlFor={AnimalSearchParams.Keys.MAX_PICK_UP_DATE}>
                 Avant le et incluant
-              </label>
+              </Form.Label>
 
               <ControlledInput
                 type="date"
@@ -539,36 +473,33 @@ export function AnimalFilters({
                   ) : null
                 }
               />
-            </div>
+            </Form.Field>
 
-            <div className={formClassNames.fields.field.root()}>
-              <span className={formClassNames.fields.field.label()}>Lieu</span>
+            <Form.Field>
+              <Form.Label asChild>
+                <span>Lieu</span>
+              </Form.Label>
 
-              <Suggestions>
+              <ToggleInputList>
                 {possiblePickUpLocations.map((location) => (
-                  <Suggestion key={location}>
-                    <SuggestionInput
-                      type="checkbox"
-                      name={AnimalSearchParams.Keys.PICK_UP_LOCATION}
-                      value={location}
-                      checked={visibleFilters.pickUpLocations.includes(
-                        location
-                      )}
-                      onChange={() => {}}
-                    />
-
-                    <SuggestionLabel icon={<Icon id="locationDot" />}>
-                      {location}
-                    </SuggestionLabel>
-                  </Suggestion>
+                  <ToggleInput
+                    key={location}
+                    type="checkbox"
+                    label={location}
+                    name={AnimalSearchParams.Keys.PICK_UP_LOCATION}
+                    value={location}
+                    icon={<Icon id="locationDot" />}
+                    checked={visibleFilters.pickUpLocations.includes(location)}
+                    onChange={() => {}}
+                  />
                 ))}
-              </Suggestions>
-            </div>
-          </div>
-        </Filter>
+              </ToggleInputList>
+            </Form.Field>
+          </Form.Fields>
+        </Filters.Filter>
 
         {isCurrentUserAnimalAdmin ? (
-          <Filter
+          <Filters.Filter
             value={AnimalSearchParams.Keys.IS_STERILIZED}
             label="Stérilisé"
             count={visibleFilters.isSterilized.length}
@@ -581,60 +512,48 @@ export function AnimalFilters({
               />
             ))}
           >
-            <Suggestions>
-              <Suggestion>
-                <SuggestionInput
-                  type="checkbox"
-                  name={AnimalSearchParams.Keys.IS_STERILIZED}
-                  value={AnimalSearchParams.IsSterilized.YES}
-                  checked={visibleFilters.isSterilized.includes(
-                    AnimalSearchParams.IsSterilized.YES
-                  )}
-                  onChange={() => {}}
-                />
+            <ToggleInputList>
+              <ToggleInput
+                type="checkbox"
+                label="Oui"
+                name={AnimalSearchParams.Keys.IS_STERILIZED}
+                value={AnimalSearchParams.IsSterilized.YES}
+                icon={<Icon id="scissors" />}
+                checked={visibleFilters.isSterilized.includes(
+                  AnimalSearchParams.IsSterilized.YES
+                )}
+                onChange={() => {}}
+              />
 
-                <SuggestionLabel icon={<Icon id="scissors" />}>
-                  Oui
-                </SuggestionLabel>
-              </Suggestion>
+              <ToggleInput
+                type="checkbox"
+                label="Non"
+                name={AnimalSearchParams.Keys.IS_STERILIZED}
+                value={AnimalSearchParams.IsSterilized.NO}
+                icon={<Icon id="scissors" />}
+                checked={visibleFilters.isSterilized.includes(
+                  AnimalSearchParams.IsSterilized.NO
+                )}
+                onChange={() => {}}
+              />
 
-              <Suggestion>
-                <SuggestionInput
-                  type="checkbox"
-                  name={AnimalSearchParams.Keys.IS_STERILIZED}
-                  value={AnimalSearchParams.IsSterilized.NO}
-                  checked={visibleFilters.isSterilized.includes(
-                    AnimalSearchParams.IsSterilized.NO
-                  )}
-                  onChange={() => {}}
-                />
-
-                <SuggestionLabel icon={<Icon id="scissors" />}>
-                  Non
-                </SuggestionLabel>
-              </Suggestion>
-
-              <Suggestion>
-                <SuggestionInput
-                  type="checkbox"
-                  name={AnimalSearchParams.Keys.IS_STERILIZED}
-                  value={AnimalSearchParams.IsSterilized.NOT_MANDATORY}
-                  checked={visibleFilters.isSterilized.includes(
-                    AnimalSearchParams.IsSterilized.NOT_MANDATORY
-                  )}
-                  onChange={() => {}}
-                />
-
-                <SuggestionLabel icon={<Icon id="scissors" />}>
-                  Non, et ne le sera pas
-                </SuggestionLabel>
-              </Suggestion>
-            </Suggestions>
-          </Filter>
+              <ToggleInput
+                type="checkbox"
+                label="Non, et ne le sera pas"
+                name={AnimalSearchParams.Keys.IS_STERILIZED}
+                value={AnimalSearchParams.IsSterilized.NOT_MANDATORY}
+                icon={<Icon id="scissors" />}
+                checked={visibleFilters.isSterilized.includes(
+                  AnimalSearchParams.IsSterilized.NOT_MANDATORY
+                )}
+                onChange={() => {}}
+              />
+            </ToggleInputList>
+          </Filters.Filter>
         ) : null}
 
         {isCurrentUserAnimalAdmin ? (
-          <Filter
+          <Filters.Filter
             value={AnimalSearchParams.Keys.MIN_VACCINATION}
             label="Prochaine vaccination"
             count={
@@ -668,32 +587,25 @@ export function AnimalFilters({
               </>
             }
           >
-            <div className={formClassNames.fields.root()}>
-              <div className={formClassNames.fields.field.root()}>
-                <Suggestions>
-                  <Suggestion>
-                    <SuggestionInput
-                      type="checkbox"
-                      name={AnimalSearchParams.Keys.NO_VACCINATION}
-                      value={String(true)}
-                      checked={visibleFilters.noVaccination}
-                      onChange={() => {}}
-                    />
+            <Form.Fields>
+              <Form.Field>
+                <ToggleInputList>
+                  <ToggleInput
+                    type="checkbox"
+                    label="Aucune prévue"
+                    name={AnimalSearchParams.Keys.NO_VACCINATION}
+                    value={String(true)}
+                    icon={<Icon id="syringe" />}
+                    checked={visibleFilters.noVaccination}
+                    onChange={() => {}}
+                  />
+                </ToggleInputList>
+              </Form.Field>
 
-                    <SuggestionLabel icon={<Icon id="syringe" />}>
-                      Aucune prévue
-                    </SuggestionLabel>
-                  </Suggestion>
-                </Suggestions>
-              </div>
-
-              <div className={formClassNames.fields.field.root()}>
-                <label
-                  htmlFor={AnimalSearchParams.Keys.MIN_VACCINATION}
-                  className={formClassNames.fields.field.label()}
-                >
+              <Form.Field>
+                <Form.Label htmlFor={AnimalSearchParams.Keys.MIN_VACCINATION}>
                   Après le et incluant
-                </label>
+                </Form.Label>
 
                 <ControlledInput
                   type="date"
@@ -719,15 +631,12 @@ export function AnimalFilters({
                     ) : null
                   }
                 />
-              </div>
+              </Form.Field>
 
-              <div className={formClassNames.fields.field.root()}>
-                <label
-                  htmlFor={AnimalSearchParams.Keys.MAX_VACCINATION}
-                  className={formClassNames.fields.field.label()}
-                >
+              <Form.Field>
+                <Form.Label htmlFor={AnimalSearchParams.Keys.MAX_VACCINATION}>
                   Avant le et incluant
-                </label>
+                </Form.Label>
 
                 <ControlledInput
                   type="date"
@@ -753,12 +662,12 @@ export function AnimalFilters({
                     ) : null
                   }
                 />
-              </div>
-            </div>
-          </Filter>
+              </Form.Field>
+            </Form.Fields>
+          </Filters.Filter>
         ) : null}
 
-        <Filter
+        <Filters.Filter
           value={AnimalSearchParams.Keys.ADOPTION_OPTION}
           label="Adoption"
           count={
@@ -793,38 +702,30 @@ export function AnimalFilters({
             </>
           }
         >
-          <div className={formClassNames.fields.root()}>
-            <div className={formClassNames.fields.field.root()}>
-              <Suggestions>
+          <Form.Fields>
+            <Form.Field>
+              <ToggleInputList>
                 {SORTED_ADOPTION_OPTION.map((adoptionOption) => (
-                  <Suggestion key={adoptionOption}>
-                    <SuggestionInput
-                      type="checkbox"
-                      name={AnimalSearchParams.Keys.ADOPTION_OPTION}
-                      value={adoptionOption}
-                      checked={visibleFilters.adoptionOptions.includes(
-                        adoptionOption
-                      )}
-                      onChange={() => {}}
-                    />
-
-                    <SuggestionLabel
-                      icon={<Icon id={ADOPTION_OPTION_ICON[adoptionOption]} />}
-                    >
-                      {ADOPTION_OPTION_TRANSLATION[adoptionOption]}
-                    </SuggestionLabel>
-                  </Suggestion>
+                  <ToggleInput
+                    key={adoptionOption}
+                    type="checkbox"
+                    label={ADOPTION_OPTION_TRANSLATION[adoptionOption]}
+                    name={AnimalSearchParams.Keys.ADOPTION_OPTION}
+                    value={adoptionOption}
+                    icon={<Icon id={ADOPTION_OPTION_ICON[adoptionOption]} />}
+                    checked={visibleFilters.adoptionOptions.includes(
+                      adoptionOption
+                    )}
+                    onChange={() => {}}
+                  />
                 ))}
-              </Suggestions>
-            </div>
+              </ToggleInputList>
+            </Form.Field>
 
-            <div className={formClassNames.fields.field.root()}>
-              <label
-                htmlFor={AnimalSearchParams.Keys.MIN_ADOPTION_DATE}
-                className={formClassNames.fields.field.label()}
-              >
+            <Form.Field>
+              <Form.Label htmlFor={AnimalSearchParams.Keys.MIN_ADOPTION_DATE}>
                 Adopté après le et incluant
-              </label>
+              </Form.Label>
 
               <ControlledInput
                 type="date"
@@ -850,15 +751,12 @@ export function AnimalFilters({
                   ) : null
                 }
               />
-            </div>
+            </Form.Field>
 
-            <div className={formClassNames.fields.field.root()}>
-              <label
-                htmlFor={AnimalSearchParams.Keys.MAX_ADOPTION_DATE}
-                className={formClassNames.fields.field.label()}
-              >
+            <Form.Field>
+              <Form.Label htmlFor={AnimalSearchParams.Keys.MAX_ADOPTION_DATE}>
                 Adopté avant le et incluant
-              </label>
+              </Form.Label>
 
               <ControlledInput
                 type="date"
@@ -884,12 +782,12 @@ export function AnimalFilters({
                   ) : null
                 }
               />
-            </div>
-          </div>
-        </Filter>
+            </Form.Field>
+          </Form.Fields>
+        </Filters.Filter>
 
         {fosterFamilies.length > 0 ? (
-          <Filter
+          <Filters.Filter
             value={AnimalSearchParams.Keys.FOSTER_FAMILIES_ID}
             label="Familles d’accueil"
             count={visibleFilters.fosterFamiliesId.length}
@@ -904,36 +802,28 @@ export function AnimalFilters({
               )
             )}
           >
-            <Suggestions>
+            <ToggleInputList>
               {fosterFamilies.map((fosterFamily) => (
-                <Suggestion key={fosterFamily.id}>
-                  <SuggestionInput
-                    type="checkbox"
-                    name={AnimalSearchParams.Keys.FOSTER_FAMILIES_ID}
-                    value={fosterFamily.id}
-                    checked={visibleFilters.fosterFamiliesId.includes(
-                      fosterFamily.id
-                    )}
-                    onChange={() => {}}
-                  />
-
-                  <SuggestionLabel
-                    icon={
-                      <FosterFamilyAvatar
-                        fosterFamily={fosterFamily}
-                        size="sm"
-                      />
-                    }
-                  >
-                    {fosterFamily.displayName}
-                  </SuggestionLabel>
-                </Suggestion>
+                <ToggleInput
+                  key={fosterFamily.id}
+                  type="checkbox"
+                  label={fosterFamily.displayName}
+                  name={AnimalSearchParams.Keys.FOSTER_FAMILIES_ID}
+                  value={fosterFamily.id}
+                  icon={
+                    <FosterFamilyAvatar fosterFamily={fosterFamily} size="sm" />
+                  }
+                  checked={visibleFilters.fosterFamiliesId.includes(
+                    fosterFamily.id
+                  )}
+                  onChange={() => {}}
+                />
               ))}
-            </Suggestions>
-          </Filter>
+            </ToggleInputList>
+          </Filters.Filter>
         ) : null}
 
-        <Filter
+        <Filters.Filter
           value={AnimalSearchParams.Keys.MANAGERS_ID}
           label="Responsables"
           count={visibleFilters.managersId.length}
@@ -946,26 +836,23 @@ export function AnimalFilters({
             />
           ))}
         >
-          <Suggestions>
+          <ToggleInputList>
             {managers.map((manager) => (
-              <Suggestion key={manager.id}>
-                <SuggestionInput
-                  type="checkbox"
-                  name={AnimalSearchParams.Keys.MANAGERS_ID}
-                  value={manager.id}
-                  checked={visibleFilters.managersId.includes(manager.id)}
-                  onChange={() => {}}
-                />
-
-                <SuggestionLabel icon={<UserAvatar user={manager} size="sm" />}>
-                  {manager.displayName}
-                </SuggestionLabel>
-              </Suggestion>
+              <ToggleInput
+                key={manager.id}
+                type="checkbox"
+                label={manager.displayName}
+                name={AnimalSearchParams.Keys.MANAGERS_ID}
+                value={manager.id}
+                icon={<UserAvatar user={manager} size="sm" />}
+                checked={visibleFilters.managersId.includes(manager.id)}
+                onChange={() => {}}
+              />
             ))}
-          </Suggestions>
-        </Filter>
+          </ToggleInputList>
+        </Filters.Filter>
 
-        <Filter
+        <Filters.Filter
           value={AnimalSearchParams.Keys.NAME_OR_ALIAS}
           label="Nom ou alias"
           count={visibleFilters.nameOrAlias == null ? 0 : 1}
@@ -994,9 +881,9 @@ export function AnimalFilters({
               ) : null
             }
           />
-        </Filter>
-      </Filters>
-    </Form>
+        </Filters.Filter>
+      </Filters.Content>
+    </Filters>
   );
 }
 
@@ -1011,17 +898,12 @@ function ActiveFilterLink() {
   );
 
   return (
-    <BaseLink
-      replace
-      to={{ search: toSearchParams.toString() }}
-      className={actionClassName.standalone({
-        variant: "secondary",
-        color: isActive ? "blue" : "gray",
-      })}
-    >
-      {isActive ? <Icon id="check" /> : null}
-      Animaux en charge
-    </BaseLink>
+    <Action asChild variant="secondary" color={isActive ? "blue" : "gray"}>
+      <BaseLink replace to={{ search: toSearchParams.toString() }}>
+        {isActive ? <Icon id="check" /> : null}
+        Animaux en charge
+      </BaseLink>
+    </Action>
   );
 }
 
@@ -1042,15 +924,10 @@ function ManagerActiveFilterLink({
   );
 
   return (
-    <BaseLink
-      replace
-      to={{ search: toSearchParams.toString() }}
-      className={actionClassName.standalone({
-        variant: "secondary",
-        color: isActive ? "blue" : "gray",
-      })}
-    >
-      {isActive ? <Icon id="check" /> : null}À votre charge
-    </BaseLink>
+    <Action asChild variant="secondary" color={isActive ? "blue" : "gray"}>
+      <BaseLink replace to={{ search: toSearchParams.toString() }}>
+        {isActive ? <Icon id="check" /> : null}À votre charge
+      </BaseLink>
+    </Action>
   );
 }

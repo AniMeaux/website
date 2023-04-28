@@ -1,7 +1,9 @@
 import { formatDateRange } from "@animeaux/shared";
+import { Event } from "@prisma/client";
+import { SerializeFrom } from "@remix-run/node";
 import { BaseLink } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
-import { DynamicImage, PlaceholderImage } from "~/dataDisplay/image";
+import { DynamicImage } from "~/dataDisplay/image";
 import { Icon, IconProps } from "~/generated/icon";
 
 export function EventItem({
@@ -11,17 +13,20 @@ export function EventItem({
 }: {
   isInlined?: boolean;
   isDisabled?: boolean;
-  event: {
-    title: string;
-    image: string | null;
-    id: string;
-    url?: string | null;
-    description: string;
-    startDate: string;
-    endDate: string;
-    isFullDay: boolean;
-    location: string;
-  };
+  event: SerializeFrom<
+    Pick<
+      Event,
+      | "description"
+      | "endDate"
+      | "id"
+      | "image"
+      | "isFullDay"
+      | "location"
+      | "startDate"
+      | "title"
+      | "url"
+    >
+  >;
 }) {
   const isDisabled = isDisabledProp || event.url == null;
 
@@ -33,28 +38,19 @@ export function EventItem({
           "sm:flex-row sm:gap-6 sm:items-start": isInlined,
         })}
       >
-        {event.image == null ? (
-          <PlaceholderImage
-            icon="calendarDay"
-            className={cn("w-full aspect-4/3 flex-none rounded-bubble-md", {
-              "sm:w-[150px]": isInlined,
-            })}
-          />
-        ) : (
-          <DynamicImage
-            imageId={event.image}
-            alt={event.title}
-            sizes={
-              isInlined
-                ? { sm: "150px", default: "100vw" }
-                : { lg: "300px", md: "30vw", xs: "50vw", default: "100vw" }
-            }
-            fallbackSize="512"
-            className={cn("w-full aspect-4/3 flex-none rounded-bubble-md", {
-              "sm:w-[150px]": isInlined,
-            })}
-          />
-        )}
+        <DynamicImage
+          imageId={event.image}
+          alt={event.title}
+          sizes={
+            isInlined
+              ? { sm: "150px", default: "100vw" }
+              : { lg: "300px", md: "30vw", xs: "50vw", default: "100vw" }
+          }
+          fallbackSize="512"
+          className={cn("w-full aspect-4/3 flex-none rounded-bubble-md", {
+            "sm:w-[150px]": isInlined,
+          })}
+        />
 
         <div className="flex-1 flex flex-col">
           <p
@@ -77,7 +73,7 @@ export function EventItem({
           </ul>
         </div>
 
-        {isInlined && (
+        {isInlined && !isDisabled && (
           <Icon
             id="arrowRight"
             className={cn(

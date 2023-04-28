@@ -28,31 +28,22 @@ import {
 } from "~/animals/situation/health";
 import { getSpeciesLabels, SPECIES_ICON } from "~/animals/species";
 import { StatusBadge, StatusIcon, STATUS_TRANSLATION } from "~/animals/status";
-import { actionClassName } from "~/core/actions";
+import { Action, ProseInlineAction } from "~/core/actions";
 import { BaseLink, BaseLinkProps } from "~/core/baseLink";
 import { Empty } from "~/core/dataDisplay/empty";
 import { ErrorPage, getErrorTitle } from "~/core/dataDisplay/errorPage";
-import { Helper } from "~/core/dataDisplay/helper";
+import { InlineHelper } from "~/core/dataDisplay/helper";
 import { DynamicImage } from "~/core/dataDisplay/image";
-import { Item } from "~/core/dataDisplay/item";
+import { ItemList, SimpleItem } from "~/core/dataDisplay/item";
 import { ARTICLE_COMPONENTS, Markdown } from "~/core/dataDisplay/markdown";
 import { prisma } from "~/core/db.server";
 import { NotFoundError } from "~/core/errors.server";
 import { assertIsDefined } from "~/core/isDefined.server";
 import { AvatarCard } from "~/core/layout/avatarCard";
-import { Card, CardContent, CardHeader, CardTitle } from "~/core/layout/card";
-import { PageContent } from "~/core/layout/page";
+import { Card } from "~/core/layout/card";
+import { PageLayout } from "~/core/layout/page";
 import { getPageTitle } from "~/core/pageTitle";
-import {
-  Dialog,
-  DialogActions,
-  DialogCloseAction,
-  DialogConfirmAction,
-  DialogHeader,
-  DialogMessage,
-  DialogRoot,
-  DialogTrigger,
-} from "~/core/popovers/dialog";
+import { Dialog } from "~/core/popovers/dialog";
 import { NotFoundResponse } from "~/core/response.server";
 import { getCurrentUser } from "~/currentUser/db.server";
 import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
@@ -208,7 +199,7 @@ export default function Route() {
   const { canEdit } = useLoaderData<typeof loader>();
 
   return (
-    <PageContent className="flex flex-col gap-1 md:gap-2">
+    <PageLayout.Content className="flex flex-col gap-1 md:gap-2">
       <HeaderCard />
 
       <section className="grid grid-cols-1 gap-1 md:hidden">
@@ -243,7 +234,7 @@ export default function Route() {
           {canEdit ? <ActionCard /> : null}
         </aside>
       </section>
-    </PageContent>
+    </PageLayout.Content>
   );
 }
 
@@ -303,45 +294,42 @@ function ProfileCard() {
 
   return (
     <Card>
-      <CardHeader>
-        <CardTitle>Profile</CardTitle>
+      <Card.Header>
+        <Card.Title>Profile</Card.Title>
 
         {canEdit ? (
-          <BaseLink
-            to="./edit/profile"
-            className={actionClassName.standalone({ variant: "text" })}
-          >
-            Modifier
-          </BaseLink>
+          <Action asChild variant="text">
+            <BaseLink to="./edit/profile">Modifier</BaseLink>
+          </Action>
         ) : null}
-      </CardHeader>
+      </Card.Header>
 
-      <CardContent>
-        <ul className="flex flex-col">
-          <Item icon={<Icon id={SPECIES_ICON[animal.species]} />}>
+      <Card.Content>
+        <ItemList>
+          <SimpleItem icon={<Icon id={SPECIES_ICON[animal.species]} />}>
             {getSpeciesLabels(animal)}
-          </Item>
+          </SimpleItem>
 
-          <Item icon={<Icon id="cakeCandles" />}>
+          <SimpleItem icon={<Icon id="cakeCandles" />}>
             {DateTime.fromISO(animal.birthdate).toLocaleString(
               DateTime.DATE_FULL
             )}{" "}
             ({formatAge(animal.birthdate)})
-          </Item>
+          </SimpleItem>
 
           {animal.iCadNumber != null ? (
-            <Item icon={<Icon id="fingerprint" />}>
+            <SimpleItem icon={<Icon id="fingerprint" />}>
               I-CAD : {animal.iCadNumber}
-            </Item>
+            </SimpleItem>
           ) : null}
-        </ul>
+        </ItemList>
 
         <ul className="grid grid-cols-3 gap-1">
           <AgreementItem entity="cats" value={animal.isOkCats} />
           <AgreementItem entity="dogs" value={animal.isOkDogs} />
           <AgreementItem entity="babies" value={animal.isOkChildren} />
         </ul>
-      </CardContent>
+      </Card.Content>
     </Card>
   );
 }
@@ -352,60 +340,56 @@ function SituationCard() {
 
   return (
     <Card>
-      <CardHeader>
-        <CardTitle>Situation</CardTitle>
+      <Card.Header>
+        <Card.Title>Situation</Card.Title>
 
         {canEdit ? (
-          <BaseLink
-            to="./edit/situation"
-            className={actionClassName.standalone({ variant: "text" })}
-          >
-            Modifier
-          </BaseLink>
+          <Action asChild variant="text">
+            <BaseLink to="./edit/situation">Modifier</BaseLink>
+          </Action>
         ) : null}
-      </CardHeader>
+      </Card.Header>
 
-      <CardContent>
+      <Card.Content>
         {hasUpCommingVaccination(animal) ? (
-          <Helper variant="warning" icon="syringe">
+          <InlineHelper variant="warning" icon="syringe">
             Prochaine vaccination {formatNextVaccinationDate(animal)}.
-          </Helper>
+          </InlineHelper>
         ) : null}
 
         {hasPastVaccination(animal) ? (
-          <Helper variant="error" icon="syringe">
+          <InlineHelper variant="error" icon="syringe">
             Une vaccination était prévue {formatNextVaccinationDate(animal)}.
             <br />
             Pensez à mettre à jour la prochaine date.
-          </Helper>
+          </InlineHelper>
         ) : null}
 
         {hasUpCommingSterilisation(animal) ? (
-          <Helper variant="warning" icon="scissors">
+          <InlineHelper variant="warning" icon="scissors">
             Stérilisation à prévoir.
-          </Helper>
+          </InlineHelper>
         ) : null}
 
-        <ul className="flex flex-col">
+        <ItemList>
           {animal.manager != null ? (
-            <Item icon={<UserAvatar user={animal.manager} />}>
+            <SimpleItem icon={<UserAvatar user={animal.manager} />}>
               Est géré par{" "}
               {canSeeManagerDetails ? (
-                <BaseLink
-                  to={`/users/${animal.manager.id}`}
-                  className={actionClassName.proseInline()}
-                >
-                  {animal.manager.displayName}
-                </BaseLink>
+                <ProseInlineAction asChild>
+                  <BaseLink to={`/users/${animal.manager.id}`}>
+                    {animal.manager.displayName}
+                  </BaseLink>
+                </ProseInlineAction>
               ) : (
                 <strong className="text-body-emphasis">
                   {animal.manager.displayName}
                 </strong>
               )}
-            </Item>
+            </SimpleItem>
           ) : null}
 
-          <Item icon={<StatusIcon status={animal.status} />}>
+          <SimpleItem icon={<StatusIcon status={animal.status} />}>
             Est{" "}
             <strong className="text-body-emphasis">
               {STATUS_TRANSLATION[animal.status]}
@@ -433,18 +417,20 @@ function SituationCard() {
                 )
               </>
             ) : null}
-          </Item>
+          </SimpleItem>
 
           {animal.fosterFamily != null ? (
             <DropdownMenu.Root>
-              <Item
+              <SimpleItem
                 icon={<FosterFamilyAvatar fosterFamily={animal.fosterFamily} />}
               >
                 En FA chez{" "}
-                <DropdownMenu.Trigger className={actionClassName.proseInline()}>
-                  {animal.fosterFamily.displayName}
+                <DropdownMenu.Trigger asChild>
+                  <ProseInlineAction>
+                    {animal.fosterFamily.displayName}
+                  </ProseInlineAction>
                 </DropdownMenu.Trigger>
-              </Item>
+              </SimpleItem>
 
               <DropdownMenu.Portal>
                 <DropdownMenu.Content
@@ -466,15 +452,15 @@ function SituationCard() {
                   <DropdownMenu.Separator className="border-t border-gray-100" />
 
                   <ul className="flex flex-col">
-                    <Item icon={<Icon id="phone" />}>
+                    <SimpleItem icon={<Icon id="phone" />}>
                       {animal.fosterFamily.phone}
-                    </Item>
-                    <Item icon={<Icon id="envelope" />}>
+                    </SimpleItem>
+                    <SimpleItem icon={<Icon id="envelope" />}>
                       {animal.fosterFamily.email}
-                    </Item>
-                    <Item icon={<Icon id="locationDot" />}>
+                    </SimpleItem>
+                    <SimpleItem icon={<Icon id="locationDot" />}>
                       {getLongLocation(animal.fosterFamily)}
-                    </Item>
+                    </SimpleItem>
                   </ul>
 
                   {canSeeFosterFamilyDetails ? (
@@ -503,7 +489,7 @@ function SituationCard() {
 
           {animal.isSterilized != null &&
           animal.isSterilizationMandatory != null ? (
-            <Item icon={<Icon id="scissors" />}>
+            <SimpleItem icon={<Icon id="scissors" />}>
               {animal.isSterilized ? (
                 <>
                   Est{" "}
@@ -534,21 +520,21 @@ function SituationCard() {
                   </strong>
                 </>
               )}
-            </Item>
+            </SimpleItem>
           ) : null}
 
           {animal.nextVaccinationDate != null ? (
-            <Item icon={<Icon id="syringe" />}>
+            <SimpleItem icon={<Icon id="syringe" />}>
               Prochaine vaccination le{" "}
               <strong className="text-body-emphasis">
                 {DateTime.fromISO(animal.nextVaccinationDate).toLocaleString(
                   DateTime.DATE_FULL
                 )}
               </strong>
-            </Item>
+            </SimpleItem>
           ) : null}
 
-          <Item icon={<Icon id="handHoldingHeart" />}>
+          <SimpleItem icon={<Icon id="handHoldingHeart" />}>
             {animal.gender === Gender.FEMALE
               ? "Prise en charge le"
               : "Pris en charge le"}{" "}
@@ -570,9 +556,9 @@ function SituationCard() {
             <strong className="text-body-emphasis">
               {PICK_UP_REASON_TRANSLATION[animal.pickUpReason]}
             </strong>
-          </Item>
-        </ul>
-      </CardContent>
+          </SimpleItem>
+        </ItemList>
+      </Card.Content>
     </Card>
   );
 }
@@ -586,25 +572,26 @@ function CommentsCard() {
 
   return (
     <Card>
-      <CardHeader>
-        <CardTitle>Commentaires privés</CardTitle>
+      <Card.Header>
+        <Card.Title>Commentaires privés</Card.Title>
 
         {canEdit ? (
-          <BaseLink
-            to={{
-              pathname: "./edit/situation",
-              hash: SituationActionFormData.keys.comments,
-            }}
-            className={actionClassName.standalone({ variant: "text" })}
-          >
-            Modifier
-          </BaseLink>
+          <Action asChild variant="text">
+            <BaseLink
+              to={{
+                pathname: "./edit/situation",
+                hash: SituationActionFormData.keys.comments,
+              }}
+            >
+              Modifier
+            </BaseLink>
+          </Action>
         ) : null}
-      </CardHeader>
+      </Card.Header>
 
-      <CardContent>
+      <Card.Content>
         <Markdown components={ARTICLE_COMPONENTS}>{animal.comments}</Markdown>
-      </CardContent>
+      </Card.Content>
     </Card>
   );
 }
@@ -615,28 +602,25 @@ function ActionCard() {
 
   return (
     <Card>
-      <CardHeader>
-        <CardTitle>Actions</CardTitle>
-      </CardHeader>
+      <Card.Header>
+        <Card.Title>Actions</Card.Title>
+      </Card.Header>
 
-      <CardContent>
-        <DialogRoot>
-          <DialogTrigger
-            className={actionClassName.standalone({
-              variant: "secondary",
-              color: "red",
-            })}
-          >
-            <Icon id="trash" />
-            Supprimer
-          </DialogTrigger>
+      <Card.Content>
+        <Dialog>
+          <Dialog.Trigger asChild>
+            <Action variant="secondary" color="red">
+              <Icon id="trash" />
+              Supprimer
+            </Action>
+          </Dialog.Trigger>
 
-          <Dialog variant="alert">
-            <DialogHeader>
+          <Dialog.Content variant="alert">
+            <Dialog.Header>
               Supprimer {getAnimalDisplayName(animal)}
-            </DialogHeader>
+            </Dialog.Header>
 
-            <DialogMessage>
+            <Dialog.Message>
               Êtes-vous sûr de vouloir supprimer{" "}
               <strong className="text-body-emphasis">
                 {getAnimalDisplayName(animal)}
@@ -644,20 +628,20 @@ function ActionCard() {
               {" "}?
               <br />
               L’action est irréversible.
-            </DialogMessage>
+            </Dialog.Message>
 
-            <DialogActions>
-              <DialogCloseAction>Annuler</DialogCloseAction>
+            <Dialog.Actions>
+              <Dialog.CloseAction>Annuler</Dialog.CloseAction>
 
               <fetcher.Form method="delete" className="flex">
-                <DialogConfirmAction type="submit">
+                <Dialog.ConfirmAction type="submit">
                   Oui, supprimer
-                </DialogConfirmAction>
+                </Dialog.ConfirmAction>
               </fetcher.Form>
-            </DialogActions>
-          </Dialog>
-        </DialogRoot>
-      </CardContent>
+            </Dialog.Actions>
+          </Dialog.Content>
+        </Dialog>
+      </Card.Content>
     </Card>
   );
 }
@@ -672,20 +656,17 @@ function DescriptionCard() {
 
   return (
     <Card>
-      <CardHeader>
-        <CardTitle>Description</CardTitle>
+      <Card.Header>
+        <Card.Title>Description</Card.Title>
 
         {canEdit && animal.description != null ? (
-          <BaseLink
-            to={editLink}
-            className={actionClassName.standalone({ variant: "text" })}
-          >
-            Modifier
-          </BaseLink>
+          <Action asChild variant="text">
+            <BaseLink to={editLink}>Modifier</BaseLink>
+          </Action>
         ) : null}
-      </CardHeader>
+      </Card.Header>
 
-      <CardContent>
+      <Card.Content>
         {animal.description == null ? (
           <Empty
             isCompact
@@ -696,14 +677,9 @@ function DescriptionCard() {
             message="Ajoutez une description pour faciliter l’adoption de l’animal."
             action={
               canEdit ? (
-                <BaseLink
-                  to={editLink}
-                  className={actionClassName.standalone({
-                    variant: "secondary",
-                  })}
-                >
-                  Ajouter
-                </BaseLink>
+                <Action asChild variant="secondary">
+                  <BaseLink to={editLink}>Ajouter</BaseLink>
+                </Action>
               ) : null
             }
           />
@@ -714,7 +690,7 @@ function DescriptionCard() {
             </Markdown>
           </article>
         )}
-      </CardContent>
+      </Card.Content>
     </Card>
   );
 }
@@ -725,20 +701,17 @@ function PicturesCard() {
 
   return (
     <Card>
-      <CardHeader>
-        <CardTitle>Photos</CardTitle>
+      <Card.Header>
+        <Card.Title>Photos</Card.Title>
 
         {canEdit ? (
-          <BaseLink
-            to="./edit/pictures"
-            className={actionClassName.standalone({ variant: "text" })}
-          >
-            Modifier
-          </BaseLink>
+          <Action asChild variant="text">
+            <BaseLink to="./edit/pictures">Modifier</BaseLink>
+          </Action>
         ) : null}
-      </CardHeader>
+      </Card.Header>
 
-      <CardContent>
+      <Card.Content>
         <div className="grid grid-cols-[repeat(auto-fill,minmax(80px,1fr))] gap-1 justify-center md:grid-cols-[repeat(auto-fill,minmax(100px,1fr))] md:gap-2">
           {allPictures.map((pictureId, index) => (
             <BaseLink
@@ -756,7 +729,7 @@ function PicturesCard() {
             </BaseLink>
           ))}
         </div>
-      </CardContent>
+      </Card.Content>
     </Card>
   );
 }

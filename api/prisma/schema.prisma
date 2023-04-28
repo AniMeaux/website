@@ -162,15 +162,14 @@ model Event {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  category    EventCategory
   description String
   endDate     DateTime
-  image       String?
-  isFullDay   Boolean       @default(false)
-  isVisible   Boolean       @default(false)
+  image       String
+  isFullDay   Boolean  @default(false)
+  isVisible   Boolean  @default(true)
   location    String
   startDate   DateTime
-  title       String        @db.VarChar(255)
+  title       String   @db.VarChar(255)
   url         String?
 }
 
@@ -227,13 +226,4 @@ enum AnimalAge {
   ADULT
   JUNIOR
   SENIOR
-}
-
-enum EventCategory {
-  ATHLETIC
-  BIRTHDAY
-  COLLECTION
-  FORUM
-  SENSITIZATION
-  SHOW
 }

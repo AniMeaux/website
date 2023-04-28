@@ -7,8 +7,8 @@ import { ErrorPage, getErrorTitle } from "~/core/dataDisplay/errorPage";
 import { prisma } from "~/core/db.server";
 import { EmailAlreadyUsedError, NotFoundError } from "~/core/errors.server";
 import { assertIsDefined } from "~/core/isDefined.server";
-import { Card, CardContent, CardHeader, CardTitle } from "~/core/layout/card";
-import { PageContent, PageLayout } from "~/core/layout/page";
+import { Card } from "~/core/layout/card";
+import { PageLayout } from "~/core/layout/page";
 import { useBackIfPossible } from "~/core/navigation";
 import { getPageTitle } from "~/core/pageTitle";
 import { NotFoundResponse } from "~/core/response.server";
@@ -149,17 +149,17 @@ export default function Route() {
 
   return (
     <PageLayout>
-      <PageContent className="flex flex-col items-center">
+      <PageLayout.Content className="flex flex-col items-center">
         <Card className="w-full md:max-w-[600px]">
-          <CardHeader>
-            <CardTitle>Modifier {user.displayName}</CardTitle>
-          </CardHeader>
+          <Card.Header>
+            <Card.Title>Modifier {user.displayName}</Card.Title>
+          </Card.Header>
 
-          <CardContent>
+          <Card.Content>
             <UserForm defaultUser={user} fetcher={fetcher} />
-          </CardContent>
+          </Card.Content>
         </Card>
-      </PageContent>
+      </PageLayout.Content>
     </PageLayout>
   );
 }

@@ -1,7 +1,6 @@
 import faker from "@faker-js/faker";
 import {
   AdoptionOption,
-  EventCategory,
   Gender,
   PickUpReason,
   Prisma,
@@ -221,10 +220,9 @@ async function seedEvents() {
       );
 
       return {
-        category: faker.helpers.arrayElement(Object.values(EventCategory)),
         title: faker.commerce.productName(),
         location: faker.address.streetAddress(true),
-        url: faker.internet.url(),
+        url: faker.helpers.maybe(() => faker.internet.url()),
         description: faker.commerce.productDescription(),
         startDate,
         endDate: faker.date.between(
@@ -232,7 +230,7 @@ async function seedEvents() {
           DateTime.fromJSDate(startDate).plus({ days: 3 }).toJSDate()
         ),
         isFullDay: faker.datatype.boolean(),
-        image: faker.helpers.maybe(() => faker.datatype.uuid()),
+        image: faker.datatype.uuid(),
         isVisible: faker.datatype.boolean(),
       };
     }),

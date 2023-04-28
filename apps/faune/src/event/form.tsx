@@ -1,4 +1,4 @@
-import { Event, EventCategory, EVENT_CATEGORY_LABELS } from "@animeaux/shared";
+import { Event } from "@animeaux/shared";
 import invariant from "invariant";
 import without from "lodash.without";
 import { DateTime } from "luxon";
@@ -18,13 +18,6 @@ import { AsideFields, Field, Fields } from "~/core/formElements/field";
 import { Form } from "~/core/formElements/form";
 import { Input } from "~/core/formElements/input";
 import { Label } from "~/core/formElements/label";
-import {
-  Selector,
-  SelectorItem,
-  SelectorLabel,
-  SelectorRadio,
-  Selectors,
-} from "~/core/formElements/selector";
 import { SubmitButton } from "~/core/formElements/submitButton";
 import { Textarea } from "~/core/formElements/textarea";
 import { ToggleInput } from "~/core/formElements/toggleInput";
@@ -39,7 +32,6 @@ import { theme } from "~/styles/theme";
 type ErrorCode =
   | "server-error"
   | "empty-title"
-  | "empty-url"
   | "invalid-url"
   | "empty-description"
   | "empty-start-date"
@@ -53,6 +45,7 @@ type ErrorCode =
   | "end-date-before-start"
   | "empty-location"
   | "empty-category"
+  | "empty-image"
   | "image-upload-error";
 
 class ValidationError extends BaseValidationError<ErrorCode> {}
@@ -60,7 +53,6 @@ class ValidationError extends BaseValidationError<ErrorCode> {}
 const ERROR_CODE_LABEL: Record<ErrorCode, string> = {
   "server-error": "Une erreur est survenue.",
   "empty-title": "Le titre est obligatoire.",
-  "empty-url": "L'URL est obligatoire pour un événement visible.",
   "invalid-url": "Le format de l'URL est invalide.",
   "empty-description": "La description est obligatoire.",
   "empty-start-date": "La date de début est obligatoire.",
@@ -75,6 +67,7 @@ const ERROR_CODE_LABEL: Record<ErrorCode, string> = {
     "La date de fin ne peut pas être avant la date de début.",
   "empty-location": "Le lieu est obligatoire.",
   "empty-category": "La catégorie est obligatoire.",
+  "empty-image": "L'image est obligatoire.",
   "image-upload-error": "L'image n'a pas pu être envoyée.",
 };
 
@@ -89,7 +82,6 @@ type FormState = {
   endTime: string;
   isFullDay: boolean;
   location: string;
-  category: EventCategory | null;
   isDraft: boolean;
   errors: ErrorCode[];
 };
@@ -98,12 +90,11 @@ export type FormValue = {
   title: string;
   url: string;
   description: string;
-  image: ImageFileOrId | null;
+  image: ImageFileOrId;
   startDate: string;
   endDate: string;
   isFullDay: boolean;
   location: string;
-  category: EventCategory;
   isVisible: boolean;
 };
 
@@ -254,28 +245,6 @@ export function EventForm({
         />
 
         <Field>
-          <Label hasError={includes(errors, "empty-category")}>Catégorie</Label>
-
-          <Selectors>
-            {Object.values(EventCategory).map((category) => (
-              <SelectorItem key={category}>
-                <Selector hasError={includes(errors, "empty-category")}>
-                  <SelectorRadio
-                    name="category"
-                    checked={state.category === category}
-                    onChange={() => setState(setCategory(category))}
-                  />
-
-                  <SelectorLabel>
-                    {EVENT_CATEGORY_LABELS[category]}
-                  </SelectorLabel>
-                </Selector>
-              </SelectorItem>
-            ))}
-          </Selectors>
-        </Field>
-
-        <Field>
           <Label
             htmlFor="event-location"
             hasError={includes(errors, "empty-location")}
@@ -295,7 +264,7 @@ export function EventForm({
 
         <Field>
           <Label htmlFor="url" hasError={includes(errors, "invalid-url")}>
-            Lien de l'événement Facebook
+            Lien de l'événement Facebook (Optionnel)
           </Label>
 
           <Input
@@ -508,7 +477,6 @@ function initializeState(initialEvent?: Event) {
       endTime: initialEndDate?.toISOTime().substring(0, 5) ?? "23:59",
       isFullDay: initialEvent?.isFullDay ?? true,
       location: initialEvent?.location ?? "",
-      category: initialEvent?.category ?? null,
       isDraft: !initialEvent?.isVisible,
       errors: [],
     };
@@ -539,16 +507,6 @@ function setLocation(
 
 function setIsDraft(isDraft: FormState["isDraft"]): SetStateAction<FormState> {
   return (prevState) => ({ ...prevState, isDraft });
-}
-
-function setCategory(
-  category: FormState["category"]
-): SetStateAction<FormState> {
-  return (prevState) => ({
-    ...prevState,
-    category,
-    errors: without(prevState.errors, "empty-category"),
-  });
 }
 
 function setUrl(url: FormState["url"]): SetStateAction<FormState> {
@@ -653,9 +611,7 @@ function validate(state: FormState): FormValue {
     errorCodes.push("empty-title");
   }
 
-  if (!state.isDraft && state.url === "") {
-    errorCodes.push("empty-url");
-  } else if (
+  if (
     state.url !== "" &&
     !string().trim().nullable().defined().isValidSync(state.url)
   ) {
@@ -723,8 +679,8 @@ function validate(state: FormState): FormValue {
     errorCodes.push("empty-location");
   }
 
-  if (state.category == null) {
-    errorCodes.push("empty-category");
+  if (state.image == null) {
+    errorCodes.push("empty-image");
   }
 
   if (errorCodes.length > 0) {
@@ -735,12 +691,11 @@ function validate(state: FormState): FormValue {
     title: state.title.trim(),
     url: state.url.trim(),
     description: state.description.trim(),
-    image: state.image,
+    image: state.image!,
     startDate: startDateTime.toISO(),
     endDate: endDateTime.toISO(),
     isFullDay: state.isFullDay,
     location: state.location.trim(),
-    category: state.category!,
     isVisible: !state.isDraft,
   };
 }

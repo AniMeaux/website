@@ -8,14 +8,14 @@ import {
   ACTIVE_ANIMAL_STATUS,
   NON_ACTIVE_ANIMAL_STATUS,
 } from "~/animals/status";
-import { actionClassName } from "~/core/actions";
+import { Action } from "~/core/actions";
 import { BaseLink } from "~/core/baseLink";
-import { inferAvatarColor } from "~/core/dataDisplay/avatar";
 import { Empty } from "~/core/dataDisplay/empty";
+import { inferInstanceColor } from "~/core/dataDisplay/instanceColor";
 import { prisma } from "~/core/db.server";
 import { AvatarCard } from "~/core/layout/avatarCard";
-import { Card, CardContent, CardHeader, CardTitle } from "~/core/layout/card";
-import { PageContent, PageLayout } from "~/core/layout/page";
+import { Card } from "~/core/layout/card";
+import { PageLayout } from "~/core/layout/page";
 import { getPageTitle } from "~/core/pageTitle";
 import { getCurrentUser } from "~/currentUser/db.server";
 import { Icon } from "~/generated/icon";
@@ -102,7 +102,7 @@ export const meta: MetaFunction = () => {
 export default function Route() {
   return (
     <PageLayout>
-      <PageContent className="flex flex-col gap-1 md:gap-2">
+      <PageLayout.Content className="flex flex-col gap-1 md:gap-2">
         <HeaderCard />
 
         <section className="grid grid-cols-1 gap-1 md:grid-cols-[minmax(0px,2fr)_minmax(250px,1fr)] md:items-start md:gap-2">
@@ -123,7 +123,7 @@ export default function Route() {
             <ActionsCard />
           </aside>
         </section>
-      </PageContent>
+      </PageLayout.Content>
     </PageLayout>
   );
 }
@@ -133,7 +133,7 @@ function HeaderCard() {
 
   return (
     <AvatarCard>
-      <AvatarCard.BackgroundColor color={inferAvatarColor(currentUser.id)} />
+      <AvatarCard.BackgroundColor color={inferInstanceColor(currentUser.id)} />
 
       <AvatarCard.Content>
         <AvatarCard.Avatar>
@@ -149,12 +149,9 @@ function HeaderCard() {
           </AvatarCard.SecondLine>
         </AvatarCard.Lines>
 
-        <BaseLink
-          to="/me/edit-profile"
-          className={actionClassName.standalone({ variant: "text" })}
-        >
-          Modifier
-        </BaseLink>
+        <Action asChild variant="text">
+          <BaseLink to="/me/edit-profile">Modifier</BaseLink>
+        </Action>
       </AvatarCard.Content>
     </AvatarCard>
   );
@@ -165,11 +162,11 @@ function GroupCard() {
 
   return (
     <Card>
-      <CardHeader>
-        <CardTitle>Groupes</CardTitle>
-      </CardHeader>
+      <Card.Header>
+        <Card.Title>Groupes</Card.Title>
+      </Card.Header>
 
-      <CardContent>
+      <Card.Content>
         <ul className="flex flex-col">
           {currentUser.groups.map((group) => (
             <li
@@ -184,7 +181,7 @@ function GroupCard() {
             </li>
           ))}
         </ul>
-      </CardContent>
+      </Card.Content>
     </Card>
   );
 }
@@ -192,21 +189,15 @@ function GroupCard() {
 function ActionsCard() {
   return (
     <Card>
-      <CardHeader>
-        <CardTitle>Sécurité</CardTitle>
-      </CardHeader>
+      <Card.Header>
+        <Card.Title>Sécurité</Card.Title>
+      </Card.Header>
 
-      <CardContent>
-        <BaseLink
-          to="/me/change-password"
-          className={actionClassName.standalone({
-            variant: "secondary",
-            color: "gray",
-          })}
-        >
-          Changer de mot de passe
-        </BaseLink>
-      </CardContent>
+      <Card.Content>
+        <Action asChild variant="secondary" color="gray">
+          <BaseLink to="/me/change-password">Changer de mot de passe</BaseLink>
+        </Action>
+      </Card.Content>
     </Card>
   );
 }
@@ -218,32 +209,33 @@ function ManagedAnimalsCard() {
 
   return (
     <Card>
-      <CardHeader>
-        <CardTitle>
+      <Card.Header>
+        <Card.Title>
           {managedAnimalCount === 0
             ? "À votre charge"
             : managedAnimalCount > 1
             ? `${managedAnimalCount} animaux à votre charge`
             : "1 animal à votre charge"}
-        </CardTitle>
+        </Card.Title>
 
         {managedAnimalCount > 0 ? (
-          <BaseLink
-            to={{
-              pathname: "/animals/search",
-              search: new AnimalSearchParams()
-                .setStatuses(ACTIVE_ANIMAL_STATUS)
-                .setManagersId([currentUser.id])
-                .toString(),
-            }}
-            className={actionClassName.standalone({ variant: "text" })}
-          >
-            Tout voir
-          </BaseLink>
+          <Action asChild variant="text">
+            <BaseLink
+              to={{
+                pathname: "/animals/search",
+                search: new AnimalSearchParams()
+                  .setStatuses(ACTIVE_ANIMAL_STATUS)
+                  .setManagersId([currentUser.id])
+                  .toString(),
+              }}
+            >
+              Tout voir
+            </BaseLink>
+          </Action>
         ) : null}
-      </CardHeader>
+      </Card.Header>
 
-      <CardContent hasHorizontalScroll={managedAnimalCount > 0}>
+      <Card.Content hasHorizontalScroll={managedAnimalCount > 0}>
         {managedAnimalCount === 0 ? (
           <Empty
             isCompact
@@ -281,7 +273,7 @@ function ManagedAnimalsCard() {
             ))}
           </ul>
         )}
-      </CardContent>
+      </Card.Content>
     </Card>
   );
 }
@@ -293,32 +285,33 @@ function NonActiveManagedAnimalsCard() {
 
   return (
     <Card>
-      <CardHeader>
-        <CardTitle>
+      <Card.Header>
+        <Card.Title>
           {nonActiveManagedAnimalCount === 0
             ? "Animaux gérés et sortis"
             : nonActiveManagedAnimalCount > 1
             ? `${nonActiveManagedAnimalCount} animaux gérés et sortis`
             : "1 animal géré et sorti"}
-        </CardTitle>
+        </Card.Title>
 
         {nonActiveManagedAnimalCount > 0 ? (
-          <BaseLink
-            to={{
-              pathname: "/animals/search",
-              search: new AnimalSearchParams()
-                .setStatuses(NON_ACTIVE_ANIMAL_STATUS)
-                .setManagersId([currentUser.id])
-                .toString(),
-            }}
-            className={actionClassName.standalone({ variant: "text" })}
-          >
-            Tout voir
-          </BaseLink>
+          <Action asChild variant="text">
+            <BaseLink
+              to={{
+                pathname: "/animals/search",
+                search: new AnimalSearchParams()
+                  .setStatuses(NON_ACTIVE_ANIMAL_STATUS)
+                  .setManagersId([currentUser.id])
+                  .toString(),
+              }}
+            >
+              Tout voir
+            </BaseLink>
+          </Action>
         ) : null}
-      </CardHeader>
+      </Card.Header>
 
-      <CardContent hasHorizontalScroll={nonActiveManagedAnimalCount > 0}>
+      <Card.Content hasHorizontalScroll={nonActiveManagedAnimalCount > 0}>
         {nonActiveManagedAnimalCount === 0 ? (
           <Empty
             isCompact
@@ -356,7 +349,7 @@ function NonActiveManagedAnimalsCard() {
             ))}
           </ul>
         )}
-      </CardContent>
+      </Card.Content>
     </Card>
   );
 }

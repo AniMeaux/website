@@ -1,12 +1,11 @@
 import {
   Event as PublicEvent,
-  EventCategory,
   EventOperations,
   UserGroup,
 } from "@animeaux/shared";
 import { Event, Prisma } from "@prisma/client";
 import { DateTime } from "luxon";
-import { boolean, mixed, number, object, string } from "yup";
+import { boolean, number, object, string } from "yup";
 import {
   assertUserHasGroups,
   getCurrentUser,
@@ -117,12 +116,11 @@ export const eventOperations: OperationsImpl<EventOperations> = {
         title: string().trim().required(),
         url: string().trim().nullable().defined(),
         description: string().trim().required(),
-        image: string().nullable().defined(),
+        image: string().defined(),
         startDate: string().dateISO().required(),
         endDate: string().dateISO().required(),
         isFullDay: boolean().required(),
         location: string().trim().required(),
-        category: mixed().oneOf(Object.values(EventCategory)).required(),
         isVisible: boolean().required(),
       }),
       rawParams
@@ -148,7 +146,6 @@ export const eventOperations: OperationsImpl<EventOperations> = {
         endDate: params.endDate,
         isFullDay: params.isFullDay,
         location: params.location,
-        category: params.category,
         isVisible: params.isVisible,
       },
     });
@@ -166,12 +163,11 @@ export const eventOperations: OperationsImpl<EventOperations> = {
         title: string().trim().required(),
         url: string().trim().nullable().defined(),
         description: string().trim().required(),
-        image: string().nullable().defined(),
+        image: string().defined(),
         startDate: string().dateISO().required(),
         endDate: string().dateISO().required(),
         isFullDay: boolean().required(),
         location: string().trim().required(),
-        category: mixed().oneOf(Object.values(EventCategory)).required(),
         isVisible: boolean().required(),
       }),
       rawParams
@@ -198,7 +194,6 @@ export const eventOperations: OperationsImpl<EventOperations> = {
         endDate: params.endDate,
         isFullDay: params.isFullDay,
         location: params.location,
-        category: params.category,
         isVisible: params.isVisible,
       },
     });
@@ -233,12 +228,11 @@ function mapToPublicEvent(event: Event): PublicEvent {
     title: event.title,
     url: event.url || undefined,
     description: event.description,
-    image: event.image ?? undefined,
+    image: event.image,
     startDate: DateTime.fromJSDate(event.startDate).toISO(),
     endDate: DateTime.fromJSDate(event.endDate).toISO(),
     isFullDay: event.isFullDay,
     location: event.location,
-    category: event.category,
     isVisible: event.isVisible,
   };
 }

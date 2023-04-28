@@ -1,8 +1,19 @@
 import orderBy from "lodash.orderby";
 import { cn } from "~/core/classNames";
+import { CLOUDINARY_IMAGE_SIZE_LIMIT_MB } from "~/core/cloudinary";
 import { useConfig } from "~/core/config";
 import { generateId } from "~/core/id";
 import { ScreenSize, theme } from "~/generated/theme";
+
+export const IMAGE_SIZE_LIMIT_MB = CLOUDINARY_IMAGE_SIZE_LIMIT_MB;
+export const IMAGE_SIZE_LIMIT_B =
+  IMAGE_SIZE_LIMIT_MB *
+  // 1024 * 1024 B
+  1048576;
+
+export function isImageOverSize(image: ImageFileOrId) {
+  return isImageFile(image) && image.file.size > IMAGE_SIZE_LIMIT_B;
+}
 
 // Ordered by decreasing size.
 const IMAGE_SIZES = ["2048", "1536", "1024", "512", "256", "128"] as const;

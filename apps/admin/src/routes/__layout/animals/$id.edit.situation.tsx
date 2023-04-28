@@ -16,8 +16,8 @@ import { ErrorPage, getErrorTitle } from "~/core/dataDisplay/errorPage";
 import { prisma } from "~/core/db.server";
 import { NotFoundError } from "~/core/errors.server";
 import { assertIsDefined } from "~/core/isDefined.server";
-import { Card, CardContent, CardHeader, CardTitle } from "~/core/layout/card";
-import { PageContent } from "~/core/layout/page";
+import { Card } from "~/core/layout/card";
+import { PageLayout } from "~/core/layout/page";
 import { useBackIfPossible } from "~/core/navigation";
 import { getPageTitle } from "~/core/pageTitle";
 import { NotFoundResponse } from "~/core/response.server";
@@ -231,16 +231,16 @@ export default function Route() {
   useBackIfPossible({ fallbackRedirectTo: fetcher.data?.redirectTo });
 
   return (
-    <PageContent className="flex flex-col items-center">
+    <PageLayout.Content className="flex flex-col items-center">
       <Card className="w-full md:max-w-[600px]">
-        <CardHeader>
-          <CardTitle>Modifier {animal.name}</CardTitle>
-        </CardHeader>
+        <Card.Header>
+          <Card.Title>Modifier {animal.name}</Card.Title>
+        </Card.Header>
 
-        <CardContent>
+        <Card.Content>
           <AnimalSituationForm defaultAnimal={animal} fetcher={fetcher} />
-        </CardContent>
+        </Card.Content>
       </Card>
-    </PageContent>
+    </PageLayout.Content>
   );
 }

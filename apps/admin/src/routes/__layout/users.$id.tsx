@@ -17,32 +17,23 @@ import {
   ACTIVE_ANIMAL_STATUS,
   NON_ACTIVE_ANIMAL_STATUS,
 } from "~/animals/status";
-import { actionClassName } from "~/core/actions";
+import { Action } from "~/core/actions";
 import { BaseLink } from "~/core/baseLink";
-import { inferAvatarColor } from "~/core/dataDisplay/avatar";
 import { Empty } from "~/core/dataDisplay/empty";
 import { ErrorPage, getErrorTitle } from "~/core/dataDisplay/errorPage";
-import { Helper } from "~/core/dataDisplay/helper";
-import { Item } from "~/core/dataDisplay/item";
+import { ErrorsInlineHelper } from "~/core/dataDisplay/errors";
+import { BlockHelper, InlineHelper } from "~/core/dataDisplay/helper";
+import { inferInstanceColor } from "~/core/dataDisplay/instanceColor";
+import { ItemList, SimpleItem } from "~/core/dataDisplay/item";
 import { toRoundedRelative } from "~/core/dates";
 import { prisma } from "~/core/db.server";
 import { NotFoundError, ReferencedError } from "~/core/errors.server";
-import { FormErrors } from "~/core/formElements/formErrors";
 import { assertIsDefined } from "~/core/isDefined.server";
 import { AvatarCard } from "~/core/layout/avatarCard";
-import { Card, CardContent, CardHeader, CardTitle } from "~/core/layout/card";
-import { PageContent, PageLayout } from "~/core/layout/page";
+import { Card } from "~/core/layout/card";
+import { PageLayout } from "~/core/layout/page";
 import { getPageTitle } from "~/core/pageTitle";
-import {
-  Dialog,
-  DialogActions,
-  DialogCloseAction,
-  DialogConfirmAction,
-  DialogHeader,
-  DialogMessage,
-  DialogRoot,
-  DialogTrigger,
-} from "~/core/popovers/dialog";
+import { Dialog } from "~/core/popovers/dialog";
 import { BadRequestResponse, NotFoundResponse } from "~/core/response.server";
 import { createActionData, ensureBoolean } from "~/core/schemas";
 import { getCurrentUser } from "~/currentUser/db.server";
@@ -271,11 +262,11 @@ export default function Route() {
 
   return (
     <PageLayout>
-      <PageContent className="flex flex-col gap-1 md:gap-2">
+      <PageLayout.Content className="flex flex-col gap-1 md:gap-2">
         {user.isDisabled ? (
-          <Helper isBlock variant="warning" icon="ban">
+          <BlockHelper variant="warning" icon="ban">
             {user.displayName} est actuellement bloqué.
-          </Helper>
+          </BlockHelper>
         ) : null}
 
         <HeaderCard />
@@ -300,7 +291,7 @@ export default function Route() {
             <ActionsCard />
           </section>
         </section>
-      </PageContent>
+      </PageLayout.Content>
     </PageLayout>
   );
 }
@@ -310,7 +301,7 @@ function HeaderCard() {
 
   return (
     <AvatarCard>
-      <AvatarCard.BackgroundColor color={inferAvatarColor(user.id)} />
+      <AvatarCard.BackgroundColor color={inferInstanceColor(user.id)} />
 
       <AvatarCard.Content>
         <AvatarCard.Avatar>
@@ -326,12 +317,9 @@ function HeaderCard() {
           </AvatarCard.SecondLine>
         </AvatarCard.Lines>
 
-        <BaseLink
-          to="./edit"
-          className={actionClassName.standalone({ variant: "text" })}
-        >
-          Modifier
-        </BaseLink>
+        <Action asChild variant="text">
+          <BaseLink to="./edit">Modifier</BaseLink>
+        </Action>
       </AvatarCard.Content>
     </AvatarCard>
   );
@@ -342,13 +330,13 @@ function ActivityCard() {
 
   return (
     <Card>
-      <CardHeader>
-        <CardTitle>Activité</CardTitle>
-      </CardHeader>
+      <Card.Header>
+        <Card.Title>Activité</Card.Title>
+      </Card.Header>
 
-      <CardContent>
-        <ul className="flex flex-col">
-          <Item icon={<Icon id="wavePulse" />}>
+      <Card.Content>
+        <ItemList>
+          <SimpleItem icon={<Icon id="wavePulse" />}>
             {user.lastActivityAt == null ? (
               "Aucune activité"
             ) : (
@@ -359,9 +347,9 @@ function ActivityCard() {
                 </strong>
               </>
             )}
-          </Item>
-        </ul>
-      </CardContent>
+          </SimpleItem>
+        </ItemList>
+      </Card.Content>
     </Card>
   );
 }
@@ -371,19 +359,19 @@ function GroupsCard() {
 
   return (
     <Card>
-      <CardHeader>
-        <CardTitle>Groupes</CardTitle>
-      </CardHeader>
+      <Card.Header>
+        <Card.Title>Groupes</Card.Title>
+      </Card.Header>
 
-      <CardContent>
-        <ul className="flex flex-col">
+      <Card.Content>
+        <ItemList>
           {user.groups.map((group) => (
-            <Item key={group} icon={<Icon id={GROUP_ICON[group]} />}>
+            <SimpleItem key={group} icon={<Icon id={GROUP_ICON[group]} />}>
               {GROUP_TRANSLATION[group]}
-            </Item>
+            </SimpleItem>
           ))}
-        </ul>
-      </CardContent>
+        </ItemList>
+      </Card.Content>
     </Card>
   );
 }
@@ -395,32 +383,33 @@ function ManagedAnimalsCard() {
 
   return (
     <Card>
-      <CardHeader>
-        <CardTitle>
+      <Card.Header>
+        <Card.Title>
           {managedAnimalCount === 0
             ? "À sa charge"
             : managedAnimalCount > 1
             ? `${managedAnimalCount} animaux à sa charge`
             : "1 animal à sa charge"}
-        </CardTitle>
+        </Card.Title>
 
         {managedAnimalCount > 0 ? (
-          <BaseLink
-            to={{
-              pathname: "/animals/search",
-              search: new AnimalSearchParams()
-                .setStatuses(ACTIVE_ANIMAL_STATUS)
-                .setManagersId([user.id])
-                .toString(),
-            }}
-            className={actionClassName.standalone({ variant: "text" })}
-          >
-            Tout voir
-          </BaseLink>
+          <Action asChild variant="text">
+            <BaseLink
+              to={{
+                pathname: "/animals/search",
+                search: new AnimalSearchParams()
+                  .setStatuses(ACTIVE_ANIMAL_STATUS)
+                  .setManagersId([user.id])
+                  .toString(),
+              }}
+            >
+              Tout voir
+            </BaseLink>
+          </Action>
         ) : null}
-      </CardHeader>
+      </Card.Header>
 
-      <CardContent hasHorizontalScroll={managedAnimalCount > 0}>
+      <Card.Content hasHorizontalScroll={managedAnimalCount > 0}>
         {managedAnimalCount === 0 ? (
           <Empty
             isCompact
@@ -458,7 +447,7 @@ function ManagedAnimalsCard() {
             ))}
           </ul>
         )}
-      </CardContent>
+      </Card.Content>
     </Card>
   );
 }
@@ -470,32 +459,33 @@ function NonActiveManagedAnimalsCard() {
 
   return (
     <Card>
-      <CardHeader>
-        <CardTitle>
+      <Card.Header>
+        <Card.Title>
           {nonActiveManagedAnimalCount === 0
             ? "Animaux gérés et sortis"
             : nonActiveManagedAnimalCount > 1
             ? `${nonActiveManagedAnimalCount} animaux gérés et sortis`
             : "1 animal géré et sorti"}
-        </CardTitle>
+        </Card.Title>
 
         {nonActiveManagedAnimalCount > 0 ? (
-          <BaseLink
-            to={{
-              pathname: "/animals/search",
-              search: new AnimalSearchParams()
-                .setStatuses(NON_ACTIVE_ANIMAL_STATUS)
-                .setManagersId([user.id])
-                .toString(),
-            }}
-            className={actionClassName.standalone({ variant: "text" })}
-          >
-            Tout voir
-          </BaseLink>
+          <Action asChild variant="text">
+            <BaseLink
+              to={{
+                pathname: "/animals/search",
+                search: new AnimalSearchParams()
+                  .setStatuses(NON_ACTIVE_ANIMAL_STATUS)
+                  .setManagersId([user.id])
+                  .toString(),
+              }}
+            >
+              Tout voir
+            </BaseLink>
+          </Action>
         ) : null}
-      </CardHeader>
+      </Card.Header>
 
-      <CardContent hasHorizontalScroll={nonActiveManagedAnimalCount > 0}>
+      <Card.Content hasHorizontalScroll={nonActiveManagedAnimalCount > 0}>
         {nonActiveManagedAnimalCount === 0 ? (
           <Empty
             isCompact
@@ -533,7 +523,7 @@ function NonActiveManagedAnimalsCard() {
             ))}
           </ul>
         )}
-      </CardContent>
+      </Card.Content>
     </Card>
   );
 }
@@ -541,16 +531,16 @@ function NonActiveManagedAnimalsCard() {
 function ActionsCard() {
   return (
     <Card>
-      <CardHeader>
-        <CardTitle>Actions</CardTitle>
-      </CardHeader>
+      <Card.Header>
+        <Card.Title>Actions</Card.Title>
+      </Card.Header>
 
-      <CardContent>
+      <Card.Content>
         <div className="flex flex-col gap-1">
           <ActionDisable />
           <ActionDelete />
         </div>
-      </CardContent>
+      </Card.Content>
     </Card>
   );
 }
@@ -573,18 +563,19 @@ function ActionDisable() {
   return (
     <>
       {isHelperVisible ? (
-        <Helper
+        <InlineHelper
           variant="info"
           action={
             <button onClick={() => setIsHelperVisible(false)}>Fermer</button>
           }
         >
           Vous ne pouvez pas vous bloquer.
-        </Helper>
+        </InlineHelper>
       ) : null}
 
-      <DialogRoot open={isDialogOpened} onOpenChange={setIsDialogOpened}>
-        <DialogTrigger
+      <Dialog open={isDialogOpened} onOpenChange={setIsDialogOpened}>
+        <Dialog.Trigger
+          asChild
           onClick={
             canDisable
               ? undefined
@@ -595,41 +586,39 @@ function ActionDisable() {
                   setIsHelperVisible(true);
                 }
           }
-          className={actionClassName.standalone({
-            variant: "secondary",
-            color: "orange",
-          })}
         >
-          <Icon id="ban" />
-          {user.isDisabled ? "Débloquer" : "Bloquer"}
-        </DialogTrigger>
+          <Action variant="secondary" color="orange">
+            <Icon id="ban" />
+            {user.isDisabled ? "Débloquer" : "Bloquer"}
+          </Action>
+        </Dialog.Trigger>
 
-        <Dialog variant="warning">
-          <DialogHeader>
+        <Dialog.Content variant="warning">
+          <Dialog.Header>
             {user.isDisabled ? "Débloquer" : "Bloquer"} {user.displayName}
-          </DialogHeader>
+          </Dialog.Header>
 
-          <DialogMessage>
+          <Dialog.Message>
             Êtes-vous sûr de vouloir {user.isDisabled ? "débloquer" : "bloquer"}{" "}
             <strong className="text-body-emphasis">{user.displayName}</strong>
             {" "}?
-          </DialogMessage>
+          </Dialog.Message>
 
-          <DialogActions>
-            <DialogCloseAction>Annuler</DialogCloseAction>
+          <Dialog.Actions>
+            <Dialog.CloseAction>Annuler</Dialog.CloseAction>
 
             <fetcher.Form method="post" className="flex">
-              <DialogConfirmAction
+              <Dialog.ConfirmAction
                 type="submit"
                 name={DisableActionFormData.keys.isDisabled}
                 value={String(!user.isDisabled)}
               >
                 Oui, {user.isDisabled ? "débloquer" : "bloquer"}
-              </DialogConfirmAction>
+              </Dialog.ConfirmAction>
             </fetcher.Form>
-          </DialogActions>
-        </Dialog>
-      </DialogRoot>
+          </Dialog.Actions>
+        </Dialog.Content>
+      </Dialog>
     </>
   );
 }
@@ -647,7 +636,7 @@ function ActionDelete() {
   return (
     <>
       {isHelperVisible ? (
-        <Helper
+        <InlineHelper
           variant="info"
           action={
             <button onClick={() => setIsHelperVisible(false)}>Fermer</button>
@@ -658,11 +647,12 @@ function ActionDelete() {
             : hasManagedAnimals
             ? "L’utilisateur ne peut être supprimé tant qu’il a des animaux gérés ou à sa charge."
             : null}
-        </Helper>
+        </InlineHelper>
       ) : null}
 
-      <DialogRoot>
-        <DialogTrigger
+      <Dialog>
+        <Dialog.Trigger
+          asChild
           onClick={
             canDelete
               ? undefined
@@ -673,39 +663,37 @@ function ActionDelete() {
                   setIsHelperVisible(true);
                 }
           }
-          className={actionClassName.standalone({
-            variant: "secondary",
-            color: "red",
-          })}
         >
-          <Icon id="trash" />
-          Supprimer
-        </DialogTrigger>
+          <Action variant="secondary" color="red">
+            <Icon id="trash" />
+            Supprimer
+          </Action>
+        </Dialog.Trigger>
 
-        <Dialog variant="alert">
-          <DialogHeader>Supprimer {user.displayName}</DialogHeader>
+        <Dialog.Content variant="alert">
+          <Dialog.Header>Supprimer {user.displayName}</Dialog.Header>
 
-          <DialogMessage>
+          <Dialog.Message>
             Êtes-vous sûr de vouloir supprimer{" "}
             <strong className="text-body-emphasis">{user.displayName}</strong>
             {" "}?
             <br />
             L’action est irréversible.
-          </DialogMessage>
+          </Dialog.Message>
 
-          <FormErrors errors={fetcher.data?.errors} />
+          <ErrorsInlineHelper errors={fetcher.data?.errors} />
 
-          <DialogActions>
-            <DialogCloseAction>Annuler</DialogCloseAction>
+          <Dialog.Actions>
+            <Dialog.CloseAction>Annuler</Dialog.CloseAction>
 
             <fetcher.Form method="delete" className="flex">
-              <DialogConfirmAction type="submit">
+              <Dialog.ConfirmAction type="submit">
                 Oui, supprimer
-              </DialogConfirmAction>
+              </Dialog.ConfirmAction>
             </fetcher.Form>
-          </DialogActions>
-        </Dialog>
-      </DialogRoot>
+          </Dialog.Actions>
+        </Dialog.Content>
+      </Dialog>
     </>
   );
 }

@@ -11,18 +11,8 @@ import { createPath } from "history";
 import { useEffect } from "react";
 import { promiseHash } from "remix-utils";
 import { BaseLink, BaseLinkProps } from "~/core/baseLink";
-import {
-  SideBar,
-  SideBarContent,
-  SideBarItem,
-  SideBarRootItem,
-} from "~/core/layout/sideBar";
-import {
-  TabBar,
-  TabBarItem,
-  TabBarMenu,
-  TabBarMenuItem,
-} from "~/core/layout/tabBar";
+import { SideBar } from "~/core/layout/sideBar";
+import { TabBar } from "~/core/layout/tabBar";
 import { getPageTitle } from "~/core/pageTitle";
 import { NextSearchParams } from "~/core/searchParams";
 import { getCurrentUser } from "~/currentUser/db.server";
@@ -99,20 +89,20 @@ function CurrentUserTabBar() {
   return (
     <TabBar>
       {visibleNavigationItems.map((item) => (
-        <TabBarItem key={item.icon} icon={item.icon} to={item.to} />
+        <TabBar.Item key={item.icon} icon={item.icon} to={item.to} />
       ))}
 
       {menuNavigationItems.length > 0 ? (
-        <TabBarMenu icon="ellipsis">
+        <TabBar.Menu icon="ellipsis">
           {menuNavigationItems.map((item) => (
-            <TabBarMenuItem
+            <TabBar.MenuItem
               key={item.icon}
               icon={item.icon}
               to={item.to}
               label={item.label}
             />
           ))}
-        </TabBarMenu>
+        </TabBar.Menu>
       ) : null}
     </TabBar>
   );
@@ -144,15 +134,18 @@ function CurrentUserSideBar() {
         })
       }
     >
-      <SideBarRootItem logo={nameAndLogo} to="/" alt={getPageTitle()} />
+      <SideBar.RootItem logo={nameAndLogo} to="/" alt={getPageTitle()} />
 
-      <SideBarContent>
+      <SideBar.Content>
         {navigationItems.map((item) => (
-          <SideBarItem key={item.label} icon={item.icon} to={item.to}>
-            {item.label}
-          </SideBarItem>
+          <SideBar.Item asChild key={item.label}>
+            <BaseLink isNavLink to={item.to}>
+              <SideBar.ItemIcon id={item.icon} />
+              <SideBar.ItemContent>{item.label}</SideBar.ItemContent>
+            </BaseLink>
+          </SideBar.Item>
         ))}
-      </SideBarContent>
+      </SideBar.Content>
     </SideBar>
   );
 }

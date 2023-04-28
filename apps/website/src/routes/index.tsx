@@ -1,6 +1,7 @@
-import { json, SerializeFrom } from "@remix-run/node";
+import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { DateTime } from "luxon";
+import { promiseHash } from "remix-utils";
 import { SearchForm } from "~/controllers/searchForm";
 import { actionClassNames } from "~/core/actions";
 import { BaseLink } from "~/core/baseLink";
@@ -26,9 +27,9 @@ import {
 } from "~/layout/heroSection";
 
 export async function loader() {
-  const [pickUpCount, upcomingEvents] = await Promise.all([
-    prisma.animal.count(),
-    prisma.event.findMany({
+  const { pickUpCount, upcomingEvents } = await promiseHash({
+    pickUpCount: prisma.animal.count(),
+    upcomingEvents: prisma.event.findMany({
       where: { isVisible: true, endDate: { gte: new Date() } },
       orderBy: { endDate: "asc" },
       select: {
@@ -43,7 +44,7 @@ export async function loader() {
         location: true,
       },
     }),
-  ]);
+  });
 
   return json({
     // Round to nearest lower 50 multiple.
@@ -53,8 +54,6 @@ export async function loader() {
 }
 
 export default function Route() {
-  const { pickUpCount, upcomingEvents } = useLoaderData<typeof loader>();
-
   return (
     <main className="w-full px-page flex flex-col gap-24">
       <HeroSection isReversed>
@@ -75,8 +74,8 @@ export default function Route() {
       </HeroSection>
 
       <WhoWeAreSection />
-      <NumbersSection pickUpCount={pickUpCount} />
-      <UpcomingEventsSection upcomingEvents={upcomingEvents} />
+      <NumbersSection />
+      <UpcomingEventsSection />
 
       <HeroSection>
         <HeroSectionAside>
@@ -197,11 +196,9 @@ function WhoWeAreItem({
   );
 }
 
-function NumbersSection({
-  pickUpCount,
-}: {
-  pickUpCount: SerializeFrom<typeof loader>["pickUpCount"];
-}) {
+function NumbersSection() {
+  const { pickUpCount } = useLoaderData<typeof loader>();
+
   const years = DateTime.now()
     .diff(DateTime.fromISO("2018-04-10"), "years")
     .toHuman({ maximumFractionDigits: 0 });
@@ -274,11 +271,8 @@ function NumberItem({
   );
 }
 
-function UpcomingEventsSection({
-  upcomingEvents,
-}: {
-  upcomingEvents: SerializeFrom<typeof loader>["upcomingEvents"];
-}) {
+function UpcomingEventsSection() {
+  const { upcomingEvents } = useLoaderData<typeof loader>();
   if (upcomingEvents.length === 0) {
     return null;
   }

@@ -24,7 +24,7 @@ export function TabBar({ children }: { children?: React.ReactNode }) {
   );
 }
 
-export function TabBarItem({
+TabBar.Item = function TabBarItem({
   icon,
   to,
 }: {
@@ -48,9 +48,9 @@ export function TabBarItem({
       <Icon id={icon} />
     </BaseLink>
   );
-}
+};
 
-export function TabBarMenu({
+TabBar.Menu = function TabBarMenu({
   icon,
   children,
 }: {
@@ -82,9 +82,9 @@ export function TabBarMenu({
       </DropdownMenu.Portal>
     </DropdownMenu.Root>
   );
-}
+};
 
-export function TabBarMenuItem({
+TabBar.MenuItem = function TabBarMenuItem({
   icon,
   label,
   to,
@@ -117,4 +117,4 @@ export function TabBarMenuItem({
       </BaseLink>
     </DropdownMenu.Item>
   );
-}
+};

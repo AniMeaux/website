@@ -1,24 +1,17 @@
-import { Form, useSubmit } from "@remix-run/react";
-import { actionClassName } from "~/core/actions";
+import { Action } from "~/core/actions";
 import { BaseLink } from "~/core/baseLink";
-import { Filter, Filters } from "~/core/controllers/filters";
+import { Filters } from "~/core/controllers/filters";
 import { toIsoDateValue } from "~/core/dates";
 import { ActionAdornment, Adornment } from "~/core/formElements/adornment";
 import { ControlledInput } from "~/core/formElements/controlledInput";
-import {
-  Suggestion,
-  SuggestionInput,
-  SuggestionLabel,
-  Suggestions,
-} from "~/core/formElements/filterSuggestions";
-import { formClassNames } from "~/core/formElements/form";
+import { Form } from "~/core/formElements/form";
+import { ToggleInput, ToggleInputList } from "~/core/formElements/toggleInput";
 import { useOptimisticSearchParams } from "~/core/searchParams";
 import { Icon } from "~/generated/icon";
 import { GROUP_ICON, GROUP_TRANSLATION, SORTED_GROUPS } from "~/users/groups";
 import { UserSearchParams } from "~/users/searchParams";
 
 export function UserFilterForm() {
-  const submit = useSubmit();
   const [searchParams, setSearchParams] = useOptimisticSearchParams();
   const userSearchParams = new UserSearchParams(searchParams);
   const visibleFilters = {
@@ -31,27 +24,17 @@ export function UserFilterForm() {
   };
 
   return (
-    <Form
-      replace
-      method="get"
-      onChange={(event) => submit(event.currentTarget, { replace: true })}
-      className="flex flex-col gap-2"
-    >
-      <div className="flex flex-col gap-1">
-        <BaseLink
-          replace
-          to={{ search: "" }}
-          className={actionClassName.standalone({
-            variant: "secondary",
-            color: "gray",
-          })}
-        >
-          Tout effacer
-        </BaseLink>
-      </div>
+    <Filters>
+      <Filters.Actions>
+        <Action asChild variant="secondary" color="gray">
+          <BaseLink replace to={{ search: "" }}>
+            Tout effacer
+          </BaseLink>
+        </Action>
+      </Filters.Actions>
 
-      <Filters>
-        <Filter
+      <Filters.Content>
+        <Filters.Filter
           value={UserSearchParams.Keys.SORT}
           label="Trier"
           count={
@@ -65,56 +48,42 @@ export function UserFilterForm() {
             />
           }
         >
-          <Suggestions>
-            <Suggestion>
-              <SuggestionInput
-                type="radio"
-                name={UserSearchParams.Keys.SORT}
-                value={UserSearchParams.Sort.RELEVANCE}
-                checked={
-                  visibleFilters.sort === UserSearchParams.Sort.RELEVANCE
-                }
-                onChange={() => {}}
-              />
+          <ToggleInputList>
+            <ToggleInput
+              type="radio"
+              label="Pertinence"
+              name={UserSearchParams.Keys.SORT}
+              value={UserSearchParams.Sort.RELEVANCE}
+              icon={<Icon id="bolt" />}
+              checked={visibleFilters.sort === UserSearchParams.Sort.RELEVANCE}
+              onChange={() => {}}
+            />
 
-              <SuggestionLabel icon={<Icon id="bolt" />}>
-                Pertinence
-              </SuggestionLabel>
-            </Suggestion>
+            <ToggleInput
+              type="radio"
+              label="Alphabétique"
+              name={UserSearchParams.Keys.SORT}
+              value={UserSearchParams.Sort.NAME}
+              icon={<Icon id="arrowDownAZ" />}
+              checked={visibleFilters.sort === UserSearchParams.Sort.NAME}
+              onChange={() => {}}
+            />
 
-            <Suggestion>
-              <SuggestionInput
-                type="radio"
-                name={UserSearchParams.Keys.SORT}
-                value={UserSearchParams.Sort.NAME}
-                checked={visibleFilters.sort === UserSearchParams.Sort.NAME}
-                onChange={() => {}}
-              />
+            <ToggleInput
+              type="radio"
+              label="Dernière activité"
+              name={UserSearchParams.Keys.SORT}
+              value={UserSearchParams.Sort.LAST_ACTIVITY}
+              icon={<Icon id="wavePulse" />}
+              checked={
+                visibleFilters.sort === UserSearchParams.Sort.LAST_ACTIVITY
+              }
+              onChange={() => {}}
+            />
+          </ToggleInputList>
+        </Filters.Filter>
 
-              <SuggestionLabel icon={<Icon id="arrowDownAZ" />}>
-                Alphabétique
-              </SuggestionLabel>
-            </Suggestion>
-
-            <Suggestion>
-              <SuggestionInput
-                type="radio"
-                name={UserSearchParams.Keys.SORT}
-                value={UserSearchParams.Sort.LAST_ACTIVITY}
-                checked={
-                  visibleFilters.sort === UserSearchParams.Sort.LAST_ACTIVITY
-                }
-                onChange={() => {}}
-              />
-
-              <SuggestionLabel icon={<Icon id="wavePulse" />}>
-                Dernière activité
-              </SuggestionLabel>
-            </Suggestion>
-          </Suggestions>
-        </Filter>
-
-        <Filter
+        <Filters.Filter
           value={UserSearchParams.Keys.DISPLAY_NAME}
           label="Nom"
           count={visibleFilters.displayName == null ? 0 : 1}
@@ -141,9 +110,9 @@ export function UserFilterForm() {
               ) : null
             }
           />
-        </Filter>
+        </Filters.Filter>
 
-        <Filter
+        <Filters.Filter
           value={UserSearchParams.Keys.GROUP}
           label="Groupes"
           count={visibleFilters.groups.length}
@@ -156,26 +125,23 @@ export function UserFilterForm() {
             />
           ))}
         >
-          <Suggestions>
+          <ToggleInputList>
             {SORTED_GROUPS.map((group) => (
-              <Suggestion key={group}>
-                <SuggestionInput
-                  type="checkbox"
-                  name={UserSearchParams.Keys.GROUP}
-                  value={group}
-                  checked={visibleFilters.groups.includes(group)}
-                  onChange={() => {}}
-                />
-
-                <SuggestionLabel icon={<Icon id={GROUP_ICON[group]} />}>
-                  {GROUP_TRANSLATION[group]}
-                </SuggestionLabel>
-              </Suggestion>
+              <ToggleInput
+                key={group}
+                type="checkbox"
+                label={GROUP_TRANSLATION[group]}
+                name={UserSearchParams.Keys.GROUP}
+                value={group}
+                icon={<Icon id={GROUP_ICON[group]} />}
+                checked={visibleFilters.groups.includes(group)}
+                onChange={() => {}}
+              />
             ))}
-          </Suggestions>
-        </Filter>
+          </ToggleInputList>
+        </Filters.Filter>
 
-        <Filter
+        <Filters.Filter
           value={UserSearchParams.Keys.NO_ACTIVITY}
           label="Dernière activité"
           count={
@@ -205,32 +171,25 @@ export function UserFilterForm() {
             </>
           }
         >
-          <div className={formClassNames.fields.root()}>
-            <div className={formClassNames.fields.field.root()}>
-              <Suggestions>
-                <Suggestion>
-                  <SuggestionInput
-                    type="checkbox"
-                    name={UserSearchParams.Keys.NO_ACTIVITY}
-                    value={String(true)}
-                    checked={visibleFilters.noActivity}
-                    onChange={() => {}}
-                  />
+          <Form.Fields>
+            <Form.Field>
+              <ToggleInputList>
+                <ToggleInput
+                  type="checkbox"
+                  label="Aucune activité"
+                  name={UserSearchParams.Keys.NO_ACTIVITY}
+                  value={String(true)}
+                  icon={<Icon id="wavePulse" />}
+                  checked={visibleFilters.noActivity}
+                  onChange={() => {}}
+                />
+              </ToggleInputList>
+            </Form.Field>
 
-                  <SuggestionLabel icon={<Icon id="wavePulse" />}>
-                    Aucune activité
-                  </SuggestionLabel>
-                </Suggestion>
-              </Suggestions>
-            </div>
-
-            <div className={formClassNames.fields.field.root()}>
-              <label
-                htmlFor={UserSearchParams.Keys.MIN_ACTIVITY}
-                className={formClassNames.fields.field.label()}
-              >
+            <Form.Field>
+              <Form.Label htmlFor={UserSearchParams.Keys.MIN_ACTIVITY}>
                 Après le et incluant
-              </label>
+              </Form.Label>
 
               <ControlledInput
                 type="date"
@@ -254,15 +213,12 @@ export function UserFilterForm() {
                   ) : null
                 }
               />
-            </div>
+            </Form.Field>
 
-            <div className={formClassNames.fields.field.root()}>
-              <label
-                htmlFor={UserSearchParams.Keys.MAX_ACTIVITY}
-                className={formClassNames.fields.field.label()}
-              >
+            <Form.Field>
+              <Form.Label htmlFor={UserSearchParams.Keys.MAX_ACTIVITY}>
                 Avant le et incluant
-              </label>
+              </Form.Label>
 
               <ControlledInput
                 type="date"
@@ -286,10 +242,10 @@ export function UserFilterForm() {
                   ) : null
                 }
               />
-            </div>
-          </div>
-        </Filter>
-      </Filters>
-    </Form>
+            </Form.Field>
+          </Form.Fields>
+        </Filters.Filter>
+      </Filters.Content>
+    </Filters>
   );
 }

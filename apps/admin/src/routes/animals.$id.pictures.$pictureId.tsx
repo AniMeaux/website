@@ -4,7 +4,7 @@ import { useLoaderData } from "@remix-run/react";
 import { z } from "zod";
 import { getAllAnimalPictures } from "~/animals/pictures/allPictures";
 import { getAnimalDisplayName } from "~/animals/profile/name";
-import { actionClassName } from "~/core/actions";
+import { Action } from "~/core/actions";
 import { BaseLink } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
 import { getErrorTitle } from "~/core/dataDisplay/errorPage";
@@ -80,16 +80,17 @@ export default function Route() {
   return (
     <main className="w-full h-full grid grid-cols-1 grid-rows-[auto_minmax(0px,1fr)_auto]">
       <header className="min-h-[50px] px-safe-1 pt-safe-0.5 pb-0.5 flex justify-end items-center md:min-h-[60px] md:px-safe-2 md:pt-safe-1 md:pb-1">
-        <DownloadPictureLink
-          pictureId={visiblePictureId}
-          fileName={`${getAnimalDisplayName(animal)} (${
-            visiblePictureIndex + 1
-          })`}
-          className={actionClassName.standalone({ variant: "text" })}
-        >
-          <Icon id="download" />
-          Télécharger
-        </DownloadPictureLink>
+        <Action asChild variant="text">
+          <DownloadPictureLink
+            pictureId={visiblePictureId}
+            fileName={`${getAnimalDisplayName(animal)} (${
+              visiblePictureIndex + 1
+            })`}
+          >
+            <Icon id="download" />
+            Télécharger
+          </DownloadPictureLink>
+        </Action>
       </header>
 
       <div className="flex flex-col items-center justify-center">

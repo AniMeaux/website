@@ -11,8 +11,8 @@ import { z } from "zod";
 import { zfd } from "zod-form-data";
 import { ErrorPage } from "~/core/dataDisplay/errorPage";
 import { EmailAlreadyUsedError } from "~/core/errors.server";
-import { Card, CardContent, CardHeader, CardTitle } from "~/core/layout/card";
-import { PageContent, PageLayout } from "~/core/layout/page";
+import { Card } from "~/core/layout/card";
+import { PageLayout } from "~/core/layout/page";
 import { useBackIfPossible } from "~/core/navigation";
 import { getPageTitle } from "~/core/pageTitle";
 import { NextSearchParams } from "~/core/searchParams";
@@ -131,17 +131,17 @@ export default function Route() {
 
   return (
     <PageLayout>
-      <PageContent className="flex flex-col items-center">
+      <PageLayout.Content className="flex flex-col items-center">
         <Card className="w-full md:max-w-[600px]">
-          <CardHeader>
-            <CardTitle>Nouvelle famille d’accueil</CardTitle>
-          </CardHeader>
+          <Card.Header>
+            <Card.Title>Nouvelle famille d’accueil</Card.Title>
+          </Card.Header>
 
-          <CardContent>
-            <FosterFamilyForm isCreate fetcher={fetcher} />
-          </CardContent>
+          <Card.Content>
+            <FosterFamilyForm fetcher={fetcher} />
+          </Card.Content>
         </Card>
-      </PageContent>
+      </PageLayout.Content>
     </PageLayout>
   );
 }

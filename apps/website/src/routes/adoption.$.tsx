@@ -3,6 +3,7 @@ import { Prisma, Species } from "@prisma/client";
 import { json, LoaderArgs, MetaFunction } from "@remix-run/node";
 import { useCatch, useLoaderData, useParams } from "@remix-run/react";
 import { DateTime } from "luxon";
+import { promiseHash } from "remix-utils";
 import invariant from "tiny-invariant";
 import { AnimalItem } from "~/animals/item";
 import { ADOPTABLE_ANIMAL_STATUS } from "~/animals/status";
@@ -75,9 +76,9 @@ export async function loader({ params, request }: LoaderArgs) {
   const searchParams = new URL(request.url).searchParams;
   const page = getPage(searchParams);
 
-  const [totalCount, animals] = await Promise.all([
-    prisma.animal.count({ where }),
-    prisma.animal.findMany({
+  const { totalCount, animals } = await promiseHash({
+    totalCount: prisma.animal.count({ where }),
+    animals: prisma.animal.findMany({
       where,
       skip: page * ANIMAL_COUNT_PER_PAGE,
       take: ANIMAL_COUNT_PER_PAGE,
@@ -93,7 +94,7 @@ export async function loader({ params, request }: LoaderArgs) {
         color: { select: { name: true } },
       },
     }),
-  ]);
+  });
 
   const pageCount = Math.ceil(totalCount / ANIMAL_COUNT_PER_PAGE);
 

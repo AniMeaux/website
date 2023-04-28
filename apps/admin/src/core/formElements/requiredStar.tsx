@@ -1,3 +1,3 @@
-export function RequiredStart() {
+export function RequiredStar() {
   return <span className="text-red-500">*</span>;
 }
