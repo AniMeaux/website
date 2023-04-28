@@ -1,8 +1,8 @@
 import { cloneElement } from "react";
 import { cn } from "~/core/classNames";
 import { useConfig } from "~/core/config";
-import { AvatarColor } from "~/core/dataDisplay/avatar";
 import { createCloudinaryUrl } from "~/core/dataDisplay/image";
+import { InstanceColor } from "~/core/dataDisplay/instanceColor";
 import { Card } from "~/core/layout/card";
 
 export function AvatarCard({ children }: { children?: React.ReactNode }) {
@@ -19,7 +19,7 @@ AvatarCard.BackgroundImage = function AvatarCardBackgroundImage({
   const { cloudinaryName } = useConfig();
 
   return (
-    <div className="z-[0] relative h-6 flex md:h-10">
+    <div className="z-0 relative h-6 flex md:h-10">
       <span className="absolute top-0 left-0 w-full h-full backdrop-blur-3xl" />
 
       <img
@@ -37,12 +37,12 @@ AvatarCard.BackgroundImage = function AvatarCardBackgroundImage({
 AvatarCard.BackgroundColor = function AvatarCardBackgroundColor({
   color,
 }: {
-  color: AvatarColor;
+  color: InstanceColor;
 }) {
   return <div className={cn("h-6 flex md:h-10", BACKGROUND_COLOR[color])} />;
 };
 
-const BACKGROUND_COLOR: Record<AvatarColor, string> = {
+const BACKGROUND_COLOR: Record<InstanceColor, string> = {
   blue: "bg-blue-50",
   green: "bg-green-50",
   red: "bg-red-50",
@@ -55,7 +55,7 @@ AvatarCard.Content = function AvatarCardContent({
   children?: React.ReactNode;
 }) {
   return (
-    <div className="z-[0] h-[65px] p-1 flex gap-1 items-center content-end md:h-[85px] md:p-2 md:gap-2">
+    <div className="z-0 h-[65px] p-1 flex gap-1 items-center content-end md:h-[85px] md:p-2 md:gap-2">
       {children}
     </div>
   );

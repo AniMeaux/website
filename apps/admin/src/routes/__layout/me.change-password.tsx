@@ -2,14 +2,12 @@ import { ActionArgs, json, MetaFunction } from "@remix-run/node";
 import { useFetcher } from "@remix-run/react";
 import { useEffect, useRef } from "react";
 import { z } from "zod";
-import { actionClassName } from "~/core/actions";
-import { cn } from "~/core/classNames";
+import { Action } from "~/core/actions";
 import { Adornment } from "~/core/formElements/adornment";
-import { formClassNames } from "~/core/formElements/form";
-import { FormErrors } from "~/core/formElements/formErrors";
+import { Form } from "~/core/formElements/form";
 import { PasswordInput } from "~/core/formElements/passwordInput";
-import { Card, CardContent, CardHeader, CardTitle } from "~/core/layout/card";
-import { PageContent, PageLayout } from "~/core/layout/page";
+import { Card } from "~/core/layout/card";
+import { PageLayout } from "~/core/layout/page";
 import { useBackIfPossible } from "~/core/navigation";
 import { getPageTitle } from "~/core/pageTitle";
 import { createActionData } from "~/core/schemas";
@@ -73,67 +71,56 @@ export default function Route() {
 
   return (
     <PageLayout>
-      <PageContent className="flex flex-col items-center">
+      <PageLayout.Content className="flex flex-col items-center">
         <Card className="w-full md:max-w-[600px]">
-          <CardHeader>
-            <CardTitle>Changer de mot de passe</CardTitle>
-          </CardHeader>
+          <Card.Header>
+            <Card.Title>Changer de mot de passe</Card.Title>
+          </Card.Header>
 
-          <CardContent>
-            <fetcher.Form
-              method="post"
-              noValidate
-              className={formClassNames.root({ hasHeader: true })}
-            >
-              <div className={formClassNames.fields.root()}>
-                <FormErrors errors={fetcher.data?.errors?.formErrors} />
+          <Card.Content>
+            <Form asChild hasHeader>
+              <fetcher.Form method="post" noValidate>
+                <Form.Fields>
+                  <Form.Errors errors={fetcher.data?.errors?.formErrors} />
 
-                <div className={formClassNames.fields.field.root()}>
-                  <label
-                    htmlFor={ActionFormData.keys.password}
-                    className={formClassNames.fields.field.label()}
-                  >
-                    Nouveau mot de passe
-                  </label>
+                  <Form.Field>
+                    <Form.Label htmlFor={ActionFormData.keys.password}>
+                      Nouveau mot de passe
+                    </Form.Label>
 
-                  <PasswordInput
-                    autoFocus
-                    ref={passwordRef}
-                    id={ActionFormData.keys.password}
-                    name={ActionFormData.keys.password}
-                    autoComplete="new-password"
-                    hasError={
-                      fetcher.data?.errors?.fieldErrors.password != null
-                    }
-                    aria-describedby="password-error"
-                    leftAdornment={
-                      <Adornment>
-                        <Icon id="lock" />
-                      </Adornment>
-                    }
-                  />
+                    <PasswordInput
+                      autoFocus
+                      ref={passwordRef}
+                      id={ActionFormData.keys.password}
+                      name={ActionFormData.keys.password}
+                      autoComplete="new-password"
+                      hasError={
+                        fetcher.data?.errors?.fieldErrors.password != null
+                      }
+                      aria-describedby="password-error"
+                      leftAdornment={
+                        <Adornment>
+                          <Icon id="lock" />
+                        </Adornment>
+                      }
+                    />
 
-                  {fetcher.data?.errors?.fieldErrors.password != null ? (
-                    <p
-                      id="password-error"
-                      className={formClassNames.fields.field.errorMessage()}
-                    >
-                      {fetcher.data.errors.fieldErrors.password}
-                    </p>
-                  ) : null}
-                </div>
-              </div>
+                    {fetcher.data?.errors?.fieldErrors.password != null ? (
+                      <Form.ErrorMessage id="password-error">
+                        {fetcher.data.errors.fieldErrors.password}
+                      </Form.ErrorMessage>
+                    ) : null}
+                  </Form.Field>
+                </Form.Fields>
 
-              <button
-                type="submit"
-                className={cn(actionClassName.standalone(), "w-full md:w-auto")}
-              >
-                Enregistrer
-              </button>
-            </fetcher.Form>
-          </CardContent>
+                <Form.Action asChild>
+                  <Action>Enregistrer</Action>
+                </Form.Action>
+              </fetcher.Form>
+            </Form>
+          </Card.Content>
         </Card>
-      </PageContent>
+      </PageLayout.Content>
     </PageLayout>
   );
 }

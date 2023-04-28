@@ -1,3 +1,4 @@
+import { Primitive } from "@radix-ui/react-primitive";
 import { Transition } from "react-transition-group";
 import { BaseLink, BaseLinkProps } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
@@ -33,11 +34,14 @@ export function SideBar({
           >
             {children}
 
-            <button onClick={onIsOpenedChange} className={itemClassName()}>
-              <BaseSideBarItem icon={isOpened ? "anglesLeft" : "anglesRight"}>
-                Réduire
-              </BaseSideBarItem>
-            </button>
+            <SideBar.Item asChild>
+              <button onClick={onIsOpenedChange}>
+                <SideBar.ItemIcon
+                  id={isOpened ? "anglesLeft" : "anglesRight"}
+                />
+                <SideBar.ItemContent>Réduire</SideBar.ItemContent>
+              </button>
+            </SideBar.Item>
           </div>
         )}
       </Transition>
@@ -45,7 +49,7 @@ export function SideBar({
   );
 }
 
-export function SideBarRootItem({
+SideBar.RootItem = function SideBarRootItem({
   to,
   logo,
   alt,
@@ -62,73 +66,46 @@ export function SideBarRootItem({
       <img src={logo} alt={alt} className="h-3 object-cover object-left" />
     </BaseLink>
   );
-}
+};
 
-export function SideBarContent({ children }: { children?: React.ReactNode }) {
+SideBar.Content = function SideBarContent({
+  children,
+}: {
+  children?: React.ReactNode;
+}) {
   return (
     <div className="flex-1 flex flex-col justify-start gap-1">{children}</div>
   );
-}
+};
 
-export function SideBarItem({
-  icon,
-  to,
-  children,
-}: {
-  icon: IconProps["id"];
-  to: BaseLinkProps["to"];
-  children?: React.ReactNode;
-}) {
-  return (
-    <BaseLink
-      isNavLink
-      to={to}
-      className={({ isActive }) => itemClassName({ isActive })}
-    >
-      <BaseSideBarItem icon={icon}>{children}</BaseSideBarItem>
-    </BaseLink>
-  );
-}
-
-export function SideBarExpendCollapseItem({
-  isOpened,
+SideBar.Item = function SideBarItem({
+  className,
   ...rest
-}: { isOpened: boolean } & React.ButtonHTMLAttributes<HTMLButtonElement>) {
+}: React.ComponentPropsWithoutRef<typeof Primitive.span>) {
   return (
-    <button {...rest} className={itemClassName()}>
-      <BaseSideBarItem icon={isOpened ? "anglesLeft" : "anglesRight"}>
-        Réduire
-      </BaseSideBarItem>
-    </button>
+    <Primitive.span
+      {...rest}
+      className={cn(
+        "overflow-hidden flex-none rounded-0.5 flex items-center text-left text-gray-500 transition-colors duration-100 ease-in-out focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 hover:bg-gray-100 aria-[current=page]:bg-blue-50 aria-[current=page]:text-blue-500 aria-[current=page]:hover:bg-blue-50"
+      )}
+    />
   );
-}
+};
 
-function itemClassName({ isActive = false }: { isActive?: boolean } = {}) {
-  return cn(
-    "overflow-hidden flex-none rounded-0.5 flex items-center text-left transition-colors duration-100 ease-in-out focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400",
-    {
-      "bg-blue-50 text-blue-500": isActive,
-      "text-gray-500 hover:bg-gray-100 active:bg-gray-100": !isActive,
-    }
+SideBar.ItemIcon = function SideBarItemIcon({ id }: { id: IconProps["id"] }) {
+  return (
+    <span className="w-4 h-4 flex-none flex items-center justify-center text-[20px]">
+      <Icon id={id} />
+    </span>
   );
-}
+};
 
-function BaseSideBarItem({
-  icon,
+SideBar.ItemContent = function SideBarItemContent({
   children,
 }: {
-  icon: IconProps["id"];
   children?: React.ReactNode;
 }) {
   return (
-    <>
-      <span className="w-4 h-4 flex-none flex items-center justify-center text-[20px]">
-        <Icon id={icon} />
-      </span>
-
-      <span className="flex-1 pr-1 text-body-emphasis truncate">
-        {children}
-      </span>
-    </>
+    <span className="flex-1 pr-1 text-body-emphasis truncate">{children}</span>
   );
-}
+};

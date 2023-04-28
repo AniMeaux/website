@@ -1,5 +1,10 @@
 {
   "extends": "react-app",
+  "rules": {
+    // To allow usages of `<Primitive.button />`.
+    // https://github.com/jsx-eslint/eslint-plugin-react/blob/master/docs/rules/jsx-pascal-case.md
+    "react/jsx-pascal-case": ["warn", { "allowNamespace": true }]
+  },
   "overrides": [
     {
       "files": ["./**/*.js"],

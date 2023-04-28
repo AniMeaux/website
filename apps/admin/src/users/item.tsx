@@ -2,8 +2,11 @@ import { User } from "@prisma/client";
 import { SerializeFrom } from "@remix-run/node";
 import { BaseLink } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
-import { AvatarColor, inferAvatarColor } from "~/core/dataDisplay/avatar";
 import { Chip } from "~/core/dataDisplay/chip";
+import {
+  inferInstanceColor,
+  InstanceColor,
+} from "~/core/dataDisplay/instanceColor";
 import { toRoundedRelative } from "~/core/dates";
 import { Icon } from "~/generated/icon";
 import { UserAvatar } from "~/users/avatar";
@@ -35,7 +38,7 @@ export function UserItem({
         <span
           className={cn(
             "text-body-emphasis transition-colors duration-100 ease-in-out",
-            DISPLAY_NAME_CLASS_NAME[inferAvatarColor(user.id)]
+            DISPLAY_NAME_CLASS_NAME[inferInstanceColor(user.id)]
           )}
         >
           {user.displayName}
@@ -65,7 +68,7 @@ export function UserItem({
   );
 }
 
-const DISPLAY_NAME_CLASS_NAME: Record<AvatarColor, string> = {
+const DISPLAY_NAME_CLASS_NAME: Record<InstanceColor, string> = {
   blue: "group-hover:text-blue-600",
   green: "group-hover:text-green-700",
   red: "group-hover:text-red-600",

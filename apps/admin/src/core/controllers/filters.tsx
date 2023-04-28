@@ -1,3 +1,4 @@
+import { Form, useSubmit } from "@remix-run/react";
 import { Children, createContext, useContext, useMemo, useState } from "react";
 import { cn } from "~/core/classNames";
 import { Chip } from "~/core/dataDisplay/chip";
@@ -5,23 +6,50 @@ import { joinReactNodes } from "~/core/joinReactNodes";
 import { Separator } from "~/core/layout/separator";
 import { Icon } from "~/generated/icon";
 
-type FiltersContextValue = {
+export function Filters({ children }: { children?: React.ReactNode }) {
+  const submit = useSubmit();
+
+  return (
+    <Form
+      replace
+      method="get"
+      onChange={(event) => submit(event.currentTarget, { replace: true })}
+      className="flex flex-col gap-2"
+    >
+      {children}
+    </Form>
+  );
+}
+
+Filters.Actions = function FiltersActions({
+  children,
+}: {
+  children?: React.ReactNode;
+}) {
+  return <div className="flex flex-col gap-1">{children}</div>;
+};
+
+type FiltersContentContextValue = {
   openedFilter: string | null;
   setOpenedFilter: React.Dispatch<React.SetStateAction<string | null>>;
 };
 
-const FiltersContext = createContext<FiltersContextValue>({
+const FiltersContentContext = createContext<FiltersContentContextValue>({
   openedFilter: null,
   setOpenedFilter: () => {},
 });
 
-export function Filters({ children }: { children?: React.ReactNode }) {
+Filters.Content = function FiltersContent({
+  children,
+}: {
+  children?: React.ReactNode;
+}) {
   const [openedFilter, setOpenedFilter] = useState<string | null>(null);
   const childrenArray = Children.toArray(children);
 
   return (
-    <FiltersContext.Provider
-      value={useMemo<FiltersContextValue>(
+    <FiltersContentContext.Provider
+      value={useMemo<FiltersContentContextValue>(
         () => ({ openedFilter, setOpenedFilter }),
         [openedFilter, setOpenedFilter]
       )}
@@ -29,11 +57,11 @@ export function Filters({ children }: { children?: React.ReactNode }) {
       <div className="flex flex-col gap-0.5">
         {joinReactNodes(childrenArray, <Separator />)}
       </div>
-    </FiltersContext.Provider>
+    </FiltersContentContext.Provider>
   );
-}
+};
 
-export function Filter({
+Filters.Filter = function Filter({
   value,
   label,
   count = 0,
@@ -46,7 +74,7 @@ export function Filter({
   children?: React.ReactNode;
   hiddenContent?: React.ReactNode;
 }) {
-  const { openedFilter, setOpenedFilter } = useContext(FiltersContext);
+  const { openedFilter, setOpenedFilter } = useContext(FiltersContentContext);
   const isOpened = openedFilter === value;
 
   return (
@@ -106,4 +134,4 @@ export function Filter({
       </div>
     </div>
   );
-}
+};

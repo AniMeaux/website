@@ -36,12 +36,17 @@ type StepProps = {
   to: NonNullable<BaseLinkProps["to"]>;
 };
 
-export function Step({
+Steps.Step = function Step({
   children,
   isActive = false,
   stepIndex = 0,
   to,
-}: StepProps) {
+}: {
+  children?: React.ReactNode;
+  isActive?: boolean;
+  stepIndex?: number;
+  to: NonNullable<BaseLinkProps["to"]>;
+}) {
   return (
     <BaseLink
       to={to}
@@ -68,4 +73,4 @@ export function Step({
       </span>
     </BaseLink>
   );
-}
+};

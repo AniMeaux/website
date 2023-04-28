@@ -3,7 +3,10 @@ import { forwardRef } from "react";
 import { SPECIES_ICON } from "~/animals/species";
 import { BaseLink } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
-import { AvatarColor, inferAvatarColor } from "~/core/dataDisplay/avatar";
+import {
+  inferInstanceColor,
+  InstanceColor,
+} from "~/core/dataDisplay/instanceColor";
 import {
   SuggestionItem,
   SuggestionItemProps,
@@ -36,7 +39,7 @@ export function ForsterFamilyItem({
         <span
           className={cn(
             "text-body-emphasis transition-colors duration-100 ease-in-out",
-            DISPLAY_NAME_CLASS_NAME[inferAvatarColor(fosterFamily.id)]
+            DISPLAY_NAME_CLASS_NAME[inferInstanceColor(fosterFamily.id)]
           )}
         >
           {fosterFamily.displayName}
@@ -65,7 +68,7 @@ export function ForsterFamilyItem({
   );
 }
 
-const DISPLAY_NAME_CLASS_NAME: Record<AvatarColor, string> = {
+const DISPLAY_NAME_CLASS_NAME: Record<InstanceColor, string> = {
   blue: "group-hover:text-blue-600",
   green: "group-hover:text-green-700",
   red: "group-hover:text-red-600",

@@ -1,7 +1,7 @@
 import ReactMarkdown, { Options as ReactMarkdownOptions } from "react-markdown";
 import breaks from "remark-breaks";
 import gfm from "remark-gfm";
-import { actionClassName } from "~/core/actions";
+import { ProseInlineAction } from "~/core/actions";
 import { BaseLink } from "~/core/baseLink";
 
 const REMARK_PLUGINS: ReactMarkdownOptions["plugins"] = [
@@ -53,9 +53,11 @@ export const ARTICLE_COMPONENTS: MarkdownProps["components"] = {
     </code>
   ),
   a: ({ children, href, title }) => (
-    <BaseLink to={href} title={title} className={actionClassName.proseInline()}>
-      {children}
-    </BaseLink>
+    <ProseInlineAction asChild>
+      <BaseLink to={href} title={title}>
+        {children}
+      </BaseLink>
+    </ProseInlineAction>
   ),
   ul: ({ children }) => (
     <ul className="my-2 pl-2 list-disc first:mt-0 last:mb-0">{children}</ul>

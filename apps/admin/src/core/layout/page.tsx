@@ -4,7 +4,7 @@ import { cn } from "~/core/classNames";
 
 export function PageLayout({ children }: { children?: React.ReactNode }) {
   const hasTabs = Children.toArray(children).some(
-    (child) => isValidElement(child) && child.type === PageTabs
+    (child) => isValidElement(child) && child.type === PageLayout.Tabs
   );
 
   return (
@@ -17,15 +17,19 @@ export function PageLayout({ children }: { children?: React.ReactNode }) {
   );
 }
 
-export function PageTabs({ children }: { children?: React.ReactNode }) {
+PageLayout.Tabs = function PageTabs({
+  children,
+}: {
+  children?: React.ReactNode;
+}) {
   return (
     <nav className="bg-white py-0.5 overflow-auto scrollbars-none grid grid-flow-col justify-start gap-0.5 md:sticky md:top-6 md:z-20 md:border-l md:border-gray-50 md:py-1 md:gap-1">
       {children}
     </nav>
   );
-}
+};
 
-export function PageTab(props: Omit<BaseLinkProps, "className">) {
+PageLayout.Tab = function PageTab(props: Omit<BaseLinkProps, "className">) {
   return (
     <span className="flex flex-col first:pl-safe-1 last:pr-safe-1 md:first:pl-2 md:last:pr-2">
       <BaseLink
@@ -34,9 +38,9 @@ export function PageTab(props: Omit<BaseLinkProps, "className">) {
       />
     </span>
   );
-}
+};
 
-export function PageContent({
+PageLayout.Content = function PageContent({
   children,
   className,
 }: {
@@ -46,4 +50,4 @@ export function PageContent({
   return (
     <main className={cn("my-1 md:my-2 md:px-2", className)}>{children}</main>
   );
-}
+};

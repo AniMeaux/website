@@ -1,7 +1,7 @@
 import * as Dialog from "@radix-ui/react-dialog";
-import { actionClassName } from "~/core/actions";
+import { Action } from "~/core/actions";
 import { cn } from "~/core/classNames";
-import { Card, CardContent } from "~/core/layout/card";
+import { Card } from "~/core/layout/card";
 import { Icon } from "~/generated/icon";
 
 export function SortAndFiltersFloatingAction({
@@ -15,13 +15,13 @@ export function SortAndFiltersFloatingAction({
 }) {
   return (
     <Dialog.Root>
-      <Dialog.Trigger
-        className={cn(
-          "fixed bottom-safe-6 right-safe-1 z-20 md:hidden",
-          actionClassName.standalone({ variant: "floating" })
-        )}
-      >
-        <Icon id="filter" />
+      <Dialog.Trigger asChild>
+        <Action
+          variant="floating"
+          className="fixed bottom-safe-6 right-safe-1 z-20 md:hidden"
+        >
+          <Icon id="filter" />
+        </Action>
       </Dialog.Trigger>
 
       <Dialog.Portal>
@@ -40,25 +40,22 @@ export function SortAndFiltersFloatingAction({
               {hasSort ? "Trier et filtrer" : "Filtrer"}
             </Dialog.Title>
 
-            <Dialog.Close
-              className={cn(
-                "flex-none",
-                actionClassName.standalone({ variant: "text" })
-              )}
-            >
-              Fermer
+            <Dialog.Close asChild>
+              <Action variant="text" className="flex-none">
+                Fermer
+              </Action>
             </Dialog.Close>
           </header>
 
           <Card>
-            <CardContent>{children}</CardContent>
+            <Card.Content>{children}</Card.Content>
           </Card>
 
           <footer className="sticky bottom-0 z-20 px-safe-1 pt-1 pb-safe-1 flex-none bg-white flex">
-            <Dialog.Close
-              className={cn(actionClassName.standalone(), "w-full")}
-            >
-              Voir les résultats ({totalCount})
+            <Dialog.Close asChild>
+              <Action className="w-full">
+                Voir les résultats ({totalCount})
+              </Action>
             </Dialog.Close>
           </footer>
         </Dialog.Content>

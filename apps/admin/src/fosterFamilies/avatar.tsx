@@ -1,9 +1,6 @@
 import { FosterFamily } from "@prisma/client";
-import {
-  Avatar,
-  AvatarProps,
-  inferAvatarColor,
-} from "~/core/dataDisplay/avatar";
+import { Avatar, AvatarProps } from "~/core/dataDisplay/avatar";
+import { inferInstanceColor } from "~/core/dataDisplay/instanceColor";
 
 export function FosterFamilyAvatar({
   fosterFamily,
@@ -12,6 +9,10 @@ export function FosterFamilyAvatar({
   fosterFamily: Pick<FosterFamily, "id">;
 }) {
   return (
-    <Avatar {...props} color={inferAvatarColor(fosterFamily.id)} icon="house" />
+    <Avatar
+      {...props}
+      color={inferInstanceColor(fosterFamily.id)}
+      icon="house"
+    />
   );
 }

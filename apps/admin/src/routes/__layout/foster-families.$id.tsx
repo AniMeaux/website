@@ -13,33 +13,24 @@ import { z } from "zod";
 import { AnimalItem } from "~/animals/item";
 import { AnimalSearchParams } from "~/animals/searchParams";
 import { SPECIES_TRANSLATION } from "~/animals/species";
-import { actionClassName } from "~/core/actions";
+import { Action } from "~/core/actions";
 import { BaseLink } from "~/core/baseLink";
-import { inferAvatarColor } from "~/core/dataDisplay/avatar";
 import { Empty } from "~/core/dataDisplay/empty";
 import { ErrorPage, getErrorTitle } from "~/core/dataDisplay/errorPage";
-import { Helper } from "~/core/dataDisplay/helper";
-import { Item } from "~/core/dataDisplay/item";
+import { ErrorsInlineHelper } from "~/core/dataDisplay/errors";
+import { InlineHelper } from "~/core/dataDisplay/helper";
+import { inferInstanceColor } from "~/core/dataDisplay/instanceColor";
+import { ItemList, SimpleItem } from "~/core/dataDisplay/item";
 import { ARTICLE_COMPONENTS, Markdown } from "~/core/dataDisplay/markdown";
 import { prisma } from "~/core/db.server";
 import { NotFoundError, ReferencedError } from "~/core/errors.server";
-import { FormErrors } from "~/core/formElements/formErrors";
 import { assertIsDefined } from "~/core/isDefined.server";
 import { joinReactNodes } from "~/core/joinReactNodes";
 import { AvatarCard } from "~/core/layout/avatarCard";
-import { Card, CardContent, CardHeader, CardTitle } from "~/core/layout/card";
-import { PageContent, PageLayout } from "~/core/layout/page";
+import { Card } from "~/core/layout/card";
+import { PageLayout } from "~/core/layout/page";
 import { getPageTitle } from "~/core/pageTitle";
-import {
-  Dialog,
-  DialogActions,
-  DialogCloseAction,
-  DialogConfirmAction,
-  DialogHeader,
-  DialogMessage,
-  DialogRoot,
-  DialogTrigger,
-} from "~/core/popovers/dialog";
+import { Dialog } from "~/core/popovers/dialog";
 import { NotFoundResponse } from "~/core/response.server";
 import { getCurrentUser } from "~/currentUser/db.server";
 import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
@@ -173,7 +164,7 @@ export function CatchBoundary() {
 export default function Route() {
   return (
     <PageLayout>
-      <PageContent className="flex flex-col gap-1 md:gap-2">
+      <PageLayout.Content className="flex flex-col gap-1 md:gap-2">
         <HeaderCard />
 
         <section className="grid grid-cols-1 gap-1 md:hidden">
@@ -196,7 +187,7 @@ export default function Route() {
             <ActionCard />
           </section>
         </section>
-      </PageContent>
+      </PageLayout.Content>
     </PageLayout>
   );
 }
@@ -206,7 +197,7 @@ function HeaderCard() {
 
   return (
     <AvatarCard>
-      <AvatarCard.BackgroundColor color={inferAvatarColor(fosterFamily.id)} />
+      <AvatarCard.BackgroundColor color={inferInstanceColor(fosterFamily.id)} />
 
       <AvatarCard.Content>
         <AvatarCard.Avatar>
@@ -219,12 +210,9 @@ function HeaderCard() {
           </AvatarCard.FirstLine>
         </AvatarCard.Lines>
 
-        <BaseLink
-          to="./edit"
-          className={actionClassName.standalone({ variant: "text" })}
-        >
-          Modifier
-        </BaseLink>
+        <Action asChild variant="text">
+          <BaseLink to="./edit">Modifier</BaseLink>
+        </Action>
       </AvatarCard.Content>
     </AvatarCard>
   );
@@ -235,26 +223,27 @@ function ProfileCard() {
 
   return (
     <Card>
-      <CardHeader>
-        <CardTitle>Profile</CardTitle>
+      <Card.Header>
+        <Card.Title>Profile</Card.Title>
 
-        <BaseLink
-          to="./edit"
-          className={actionClassName.standalone({ variant: "text" })}
-        >
-          Modifier
-        </BaseLink>
-      </CardHeader>
+        <Action asChild variant="text">
+          <BaseLink to="./edit">Modifier</BaseLink>
+        </Action>
+      </Card.Header>
 
-      <CardContent>
-        <ul className="flex flex-col">
-          <Item icon={<Icon id="phone" />}>{fosterFamily.phone}</Item>
-          <Item icon={<Icon id="envelope" />}>{fosterFamily.email}</Item>
-          <Item icon={<Icon id="locationDot" />}>
+      <Card.Content>
+        <ItemList>
+          <SimpleItem icon={<Icon id="phone" />}>
+            {fosterFamily.phone}
+          </SimpleItem>
+          <SimpleItem icon={<Icon id="envelope" />}>
+            {fosterFamily.email}
+          </SimpleItem>
+          <SimpleItem icon={<Icon id="locationDot" />}>
             {getLongLocation(fosterFamily)}
-          </Item>
-        </ul>
-      </CardContent>
+          </SimpleItem>
+        </ItemList>
+      </Card.Content>
     </Card>
   );
 }
@@ -264,20 +253,17 @@ function SituationCard() {
 
   return (
     <Card>
-      <CardHeader>
-        <CardTitle>Situation</CardTitle>
+      <Card.Header>
+        <Card.Title>Situation</Card.Title>
 
-        <BaseLink
-          to="./edit"
-          className={actionClassName.standalone({ variant: "text" })}
-        >
-          Modifier
-        </BaseLink>
-      </CardHeader>
+        <Action asChild variant="text">
+          <BaseLink to="./edit">Modifier</BaseLink>
+        </Action>
+      </Card.Header>
 
-      <CardContent>
-        <ul className="flex flex-col">
-          <Item icon={<Icon id="handHoldingHeart" />}>
+      <Card.Content>
+        <ItemList>
+          <SimpleItem icon={<Icon id="handHoldingHeart" />}>
             Peut accueillir :{" "}
             {fosterFamily.speciesToHost.length === 0 ? (
               <strong className="text-body-emphasis">Inconnu</strong>
@@ -291,9 +277,9 @@ function SituationCard() {
                 ", "
               )
             )}
-          </Item>
+          </SimpleItem>
 
-          <Item icon={<Icon id="houseChimneyPaw" />}>
+          <SimpleItem icon={<Icon id="houseChimneyPaw" />}>
             {fosterFamily.speciesAlreadyPresent.length === 0 ? (
               "Aucun animal déjà présents"
             ) : (
@@ -309,9 +295,9 @@ function SituationCard() {
                 )}
               </>
             )}
-          </Item>
-        </ul>
-      </CardContent>
+          </SimpleItem>
+        </ItemList>
+      </Card.Content>
     </Card>
   );
 }
@@ -325,22 +311,23 @@ function CommentsCard() {
 
   return (
     <Card>
-      <CardHeader>
-        <CardTitle>Commentaires privés</CardTitle>
+      <Card.Header>
+        <Card.Title>Commentaires privés</Card.Title>
 
-        <BaseLink
-          to={{ pathname: "./edit", hash: ActionFormData.keys.comments }}
-          className={actionClassName.standalone({ variant: "text" })}
-        >
-          Modifier
-        </BaseLink>
-      </CardHeader>
+        <Action asChild variant="text">
+          <BaseLink
+            to={{ pathname: "./edit", hash: ActionFormData.keys.comments }}
+          >
+            Modifier
+          </BaseLink>
+        </Action>
+      </Card.Header>
 
-      <CardContent>
+      <Card.Content>
         <Markdown components={ARTICLE_COMPONENTS}>
           {fosterFamily.comments}
         </Markdown>
-      </CardContent>
+      </Card.Content>
     </Card>
   );
 }
@@ -351,31 +338,32 @@ function FosterAnimalsCard() {
 
   return (
     <Card>
-      <CardHeader>
-        <CardTitle>
+      <Card.Header>
+        <Card.Title>
           {fosterAnimalCount === 0
             ? "Animaux accueillis"
             : fosterAnimalCount > 1
             ? `${fosterAnimalCount} animaux accueillis`
             : "1 animal accueillis"}
-        </CardTitle>
+        </Card.Title>
 
         {fosterAnimalCount > 0 ? (
-          <BaseLink
-            to={{
-              pathname: "/animals/search",
-              search: new AnimalSearchParams()
-                .setFosterFamiliesId([fosterFamily.id])
-                .toString(),
-            }}
-            className={actionClassName.standalone({ variant: "text" })}
-          >
-            Tout voir
-          </BaseLink>
+          <Action asChild variant="text">
+            <BaseLink
+              to={{
+                pathname: "/animals/search",
+                search: new AnimalSearchParams()
+                  .setFosterFamiliesId([fosterFamily.id])
+                  .toString(),
+              }}
+            >
+              Tout voir
+            </BaseLink>
+          </Action>
         ) : null}
-      </CardHeader>
+      </Card.Header>
 
-      <CardContent hasHorizontalScroll={fosterAnimalCount > 0}>
+      <Card.Content hasHorizontalScroll={fosterAnimalCount > 0}>
         {fosterAnimalCount === 0 ? (
           <Empty
             isCompact
@@ -401,7 +389,7 @@ function FosterAnimalsCard() {
             ))}
           </ul>
         )}
-      </CardContent>
+      </Card.Content>
     </Card>
   );
 }
@@ -414,13 +402,13 @@ function ActionCard() {
 
   return (
     <Card>
-      <CardHeader>
-        <CardTitle>Actions</CardTitle>
-      </CardHeader>
+      <Card.Header>
+        <Card.Title>Actions</Card.Title>
+      </Card.Header>
 
-      <CardContent>
+      <Card.Content>
         {isHelperVisible ? (
-          <Helper
+          <InlineHelper
             variant="info"
             action={
               <button onClick={() => setIsHelperVisible(false)}>Fermer</button>
@@ -428,11 +416,12 @@ function ActionCard() {
           >
             La famille d’accueil ne peut être supprimée tant qu’elle a des
             animaux accueillis.
-          </Helper>
+          </InlineHelper>
         ) : null}
 
-        <DialogRoot>
-          <DialogTrigger
+        <Dialog>
+          <Dialog.Trigger
+            asChild
             onClick={
               canDelete
                 ? undefined
@@ -443,19 +432,17 @@ function ActionCard() {
                     setIsHelperVisible(true);
                   }
             }
-            className={actionClassName.standalone({
-              variant: "secondary",
-              color: "red",
-            })}
           >
-            <Icon id="trash" />
-            Supprimer
-          </DialogTrigger>
+            <Action variant="secondary" color="red">
+              <Icon id="trash" />
+              Supprimer
+            </Action>
+          </Dialog.Trigger>
 
-          <Dialog variant="alert">
-            <DialogHeader>Supprimer {fosterFamily.displayName}</DialogHeader>
+          <Dialog.Content variant="alert">
+            <Dialog.Header>Supprimer {fosterFamily.displayName}</Dialog.Header>
 
-            <DialogMessage>
+            <Dialog.Message>
               Êtes-vous sûr de vouloir supprimer{" "}
               <strong className="text-body-emphasis">
                 {fosterFamily.displayName}
@@ -463,22 +450,22 @@ function ActionCard() {
               {" "}?
               <br />
               L’action est irréversible.
-            </DialogMessage>
+            </Dialog.Message>
 
-            <FormErrors errors={fetcher.data?.errors} />
+            <ErrorsInlineHelper errors={fetcher.data?.errors} />
 
-            <DialogActions>
-              <DialogCloseAction>Annuler</DialogCloseAction>
+            <Dialog.Actions>
+              <Dialog.CloseAction>Annuler</Dialog.CloseAction>
 
               <fetcher.Form method="delete" className="flex">
-                <DialogConfirmAction type="submit">
+                <Dialog.ConfirmAction type="submit">
                   Oui, supprimer
-                </DialogConfirmAction>
+                </Dialog.ConfirmAction>
               </fetcher.Form>
-            </DialogActions>
-          </Dialog>
-        </DialogRoot>
-      </CardContent>
+            </Dialog.Actions>
+          </Dialog.Content>
+        </Dialog>
+      </Card.Content>
     </Card>
   );
 }

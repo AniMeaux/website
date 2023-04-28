@@ -9,7 +9,6 @@ import {
 } from "@prisma/client";
 import { SerializeFrom } from "@remix-run/node";
 import { FetcherWithComponents, useLocation } from "@remix-run/react";
-import { DateTime } from "luxon";
 import { useEffect, useRef, useState } from "react";
 import { z } from "zod";
 import {
@@ -25,14 +24,13 @@ import {
   SORTED_STATUS,
   STATUS_TRANSLATION,
 } from "~/animals/status";
-import { actionClassName } from "~/core/actions";
-import { cn } from "~/core/classNames";
+import { Action } from "~/core/actions";
+import { toIsoDateValue } from "~/core/dates";
 import { Adornment } from "~/core/formElements/adornment";
-import { formClassNames } from "~/core/formElements/form";
-import { FormErrors } from "~/core/formElements/formErrors";
+import { Form } from "~/core/formElements/form";
 import { Input } from "~/core/formElements/input";
-import { RadioInput } from "~/core/formElements/radioInput";
-import { RequiredStart } from "~/core/formElements/requiredStart";
+import { RadioInput, RadioInputList } from "~/core/formElements/radioInput";
+import { RequiredStar } from "~/core/formElements/requiredStar";
 import { Textarea } from "~/core/formElements/textarea";
 import { Separator } from "~/core/layout/separator";
 import { createActionData, ensureDate } from "~/core/schemas";
@@ -151,59 +149,141 @@ export function AnimalSituationForm({
   }, [hash]);
 
   return (
-    <fetcher.Form
-      method="post"
-      noValidate
-      className={formClassNames.root({ hasHeader: true })}
-    >
-      <div className={formClassNames.fields.root()}>
-        <FormErrors errors={fetcher.data?.errors?.formErrors} />
+    <Form asChild hasHeader>
+      <fetcher.Form method="post" noValidate>
+        <Form.Fields>
+          <Form.Errors errors={fetcher.data?.errors?.formErrors} />
 
-        <div className={formClassNames.fields.field.root()}>
-          <span className={formClassNames.fields.field.label()}>
-            Statut <RequiredStart />
-          </span>
+          <Form.Field>
+            <Form.Label asChild>
+              <span>
+                Statut <RequiredStar />
+              </span>
+            </Form.Label>
 
-          <div className="py-1 flex flex-wrap gap-2">
-            {SORTED_STATUS.map((status) => (
-              <RadioInput
-                key={status}
-                label={STATUS_TRANSLATION[status]}
-                name={ActionFormData.keys.status}
-                value={status}
-                checked={statusState === status}
-                onChange={() => setStatusState(status)}
-              />
-            ))}
-          </div>
-        </div>
+            <RadioInputList>
+              {SORTED_STATUS.map((status) => (
+                <RadioInput
+                  key={status}
+                  label={STATUS_TRANSLATION[status]}
+                  name={ActionFormData.keys.status}
+                  value={status}
+                  checked={statusState === status}
+                  onChange={() => setStatusState(status)}
+                />
+              ))}
+            </RadioInputList>
+          </Form.Field>
 
-        {statusState === Status.ADOPTED ? (
-          <>
-            <Separator />
+          {statusState === Status.ADOPTED ? (
+            <>
+              <Separator />
 
-            <div className={formClassNames.fields.field.root()}>
-              <label
-                htmlFor={ActionFormData.keys.adoptionDate}
-                className={formClassNames.fields.field.label()}
-              >
-                Date d’adoption <RequiredStart />
-              </label>
+              <Form.Field>
+                <Form.Label htmlFor={ActionFormData.keys.adoptionDate}>
+                  Date d’adoption <RequiredStar />
+                </Form.Label>
+
+                <Input
+                  ref={adoptionDateRef}
+                  id={ActionFormData.keys.adoptionDate}
+                  type="date"
+                  name={ActionFormData.keys.adoptionDate}
+                  defaultValue={toIsoDateValue(defaultAnimal?.adoptionDate)}
+                  hasError={
+                    fetcher.data?.errors?.fieldErrors.adoptionDate != null
+                  }
+                  aria-describedby="adoptionDate-error"
+                  leftAdornment={
+                    <Adornment>
+                      <Icon id="calendarDays" />
+                    </Adornment>
+                  }
+                />
+
+                {fetcher.data?.errors?.fieldErrors.adoptionDate != null ? (
+                  <Form.ErrorMessage id="adoptionDate-error">
+                    {fetcher.data.errors.fieldErrors.adoptionDate}
+                  </Form.ErrorMessage>
+                ) : null}
+              </Form.Field>
+
+              <Form.Field>
+                <Form.Label asChild>
+                  <span>
+                    Option d’adoption <RequiredStar />
+                  </span>
+                </Form.Label>
+
+                <RadioInputList>
+                  {SORTED_ADOPTION_OPTION.map((adoptionOption) => (
+                    <RadioInput
+                      key={adoptionOption}
+                      label={ADOPTION_OPTION_TRANSLATION[adoptionOption]}
+                      name={ActionFormData.keys.adoptionOption}
+                      value={adoptionOption}
+                      defaultChecked={
+                        adoptionOption ===
+                        (defaultAnimal?.adoptionOption ??
+                          AdoptionOption.UNKNOWN)
+                      }
+                    />
+                  ))}
+                </RadioInputList>
+              </Form.Field>
+            </>
+          ) : null}
+
+          <Separator />
+
+          <Form.Field>
+            <Form.Label asChild>
+              <span>
+                Responsable{" "}
+                {isCreate || defaultAnimal?.manager != null ? (
+                  <RequiredStar />
+                ) : null}
+              </span>
+            </Form.Label>
+
+            <ManagerInput
+              ref={managerRef}
+              name={ActionFormData.keys.managerId}
+              defaultValue={
+                defaultAnimal?.manager ??
+                (isCreate &&
+                currentUser != null &&
+                hasGroups(currentUser, [UserGroup.ANIMAL_MANAGER])
+                  ? currentUser
+                  : null)
+              }
+              hasError={fetcher.data?.errors?.fieldErrors.managerId != null}
+              aria-describedby="managerId-error"
+            />
+
+            {fetcher.data?.errors?.fieldErrors.managerId != null ? (
+              <Form.ErrorMessage id="managerId-error">
+                {fetcher.data.errors.fieldErrors.managerId}
+              </Form.ErrorMessage>
+            ) : null}
+          </Form.Field>
+
+          <Separator />
+
+          <Form.Row>
+            <Form.Field>
+              <Form.Label htmlFor={ActionFormData.keys.pickUpDate}>
+                Date de prise en charge <RequiredStar />
+              </Form.Label>
 
               <Input
-                ref={adoptionDateRef}
-                id={ActionFormData.keys.adoptionDate}
+                ref={pickUpDateRef}
+                id={ActionFormData.keys.pickUpDate}
                 type="date"
-                name={ActionFormData.keys.adoptionDate}
-                defaultValue={
-                  defaultAnimal?.adoptionDate == null
-                    ? null
-                    : DateTime.fromISO(defaultAnimal.adoptionDate).toISODate()
-                }
-                hasError={
-                  fetcher.data?.errors?.fieldErrors.adoptionDate != null
-                }
-                aria-describedby="adoptionDate-error"
+                name={ActionFormData.keys.pickUpDate}
+                defaultValue={toIsoDateValue(defaultAnimal?.pickUpDate)}
+                hasError={fetcher.data?.errors?.fieldErrors.pickUpDate != null}
+                aria-describedby="pickUpDate-error"
                 leftAdornment={
                   <Adornment>
                     <Icon id="calendarDays" />
@@ -211,305 +291,189 @@ export function AnimalSituationForm({
                 }
               />
 
-              {fetcher.data?.errors?.fieldErrors.adoptionDate != null ? (
-                <p
-                  id="adoptionDate-error"
-                  className={formClassNames.fields.field.errorMessage()}
-                >
-                  {fetcher.data.errors.fieldErrors.adoptionDate}
-                </p>
+              {fetcher.data?.errors?.fieldErrors.pickUpDate != null ? (
+                <Form.ErrorMessage id="pickUpDate-error">
+                  {fetcher.data.errors.fieldErrors.pickUpDate}
+                </Form.ErrorMessage>
               ) : null}
-            </div>
+            </Form.Field>
 
-            <div className={formClassNames.fields.field.root()}>
-              <span className={formClassNames.fields.field.label()}>
-                Option d’adoption <RequiredStart />
+            <Form.Field>
+              <Form.Label asChild>
+                <span>
+                  Lieux de prise en charge{" "}
+                  {isCreate || defaultAnimal?.pickUpLocation != null ? (
+                    <RequiredStar />
+                  ) : null}
+                </span>
+              </Form.Label>
+
+              <PickUpLocationInput
+                ref={pickUpLocationRef}
+                name={ActionFormData.keys.pickUpLocation}
+                defaultValue={defaultAnimal?.pickUpLocation}
+                hasError={
+                  fetcher.data?.errors?.fieldErrors.pickUpLocation != null
+                }
+                aria-describedby="pickUpLocation-error"
+              />
+
+              {fetcher.data?.errors?.fieldErrors.pickUpLocation != null ? (
+                <Form.ErrorMessage id="pickUpLocation-error">
+                  {fetcher.data.errors.fieldErrors.pickUpLocation}
+                </Form.ErrorMessage>
+              ) : null}
+            </Form.Field>
+          </Form.Row>
+
+          <Form.Field>
+            <Form.Label asChild>
+              <span>
+                Raison de la prise en charge <RequiredStar />
               </span>
+            </Form.Label>
 
-              <div className="py-1 flex flex-wrap gap-2">
-                {SORTED_ADOPTION_OPTION.map((adoptionOption) => (
-                  <RadioInput
-                    key={adoptionOption}
-                    label={ADOPTION_OPTION_TRANSLATION[adoptionOption]}
-                    name={ActionFormData.keys.adoptionOption}
-                    value={adoptionOption}
-                    defaultChecked={
-                      adoptionOption ===
-                      (defaultAnimal?.adoptionOption ?? AdoptionOption.UNKNOWN)
-                    }
-                  />
-                ))}
-              </div>
-            </div>
-          </>
-        ) : null}
+            <RadioInputList>
+              {SORTED_PICK_UP_REASON.map((pickUpReason) => (
+                <RadioInput
+                  key={pickUpReason}
+                  label={PICK_UP_REASON_TRANSLATION[pickUpReason]}
+                  name={ActionFormData.keys.pickUpReason}
+                  value={pickUpReason}
+                  defaultChecked={
+                    pickUpReason ===
+                    (defaultAnimal?.pickUpReason ?? PickUpReason.OTHER)
+                  }
+                />
+              ))}
+            </RadioInputList>
+          </Form.Field>
 
-        <Separator />
+          {ACTIVE_ANIMAL_STATUS.includes(statusState) ? (
+            <>
+              <Separator />
 
-        <div className={formClassNames.fields.field.root()}>
-          <span className={formClassNames.fields.field.label()}>
-            Responsable{" "}
-            {isCreate || defaultAnimal?.manager != null ? (
-              <RequiredStart />
-            ) : null}
-          </span>
+              <Form.Field>
+                <Form.Label asChild>
+                  <span>Famille d’accueil</span>
+                </Form.Label>
 
-          <ManagerInput
-            ref={managerRef}
-            name={ActionFormData.keys.managerId}
-            defaultValue={
-              defaultAnimal?.manager ??
-              (isCreate &&
-              currentUser != null &&
-              hasGroups(currentUser, [UserGroup.ANIMAL_MANAGER])
-                ? currentUser
-                : null)
-            }
-            hasError={fetcher.data?.errors?.fieldErrors.managerId != null}
-            aria-describedby="managerId-error"
-          />
-
-          {fetcher.data?.errors?.fieldErrors.managerId != null ? (
-            <p
-              id="managerId-error"
-              className={formClassNames.fields.field.errorMessage()}
-            >
-              {fetcher.data.errors.fieldErrors.managerId}
-            </p>
+                <FosterFamilyInput
+                  name={ActionFormData.keys.fosterFamilyId}
+                  defaultValue={defaultAnimal?.fosterFamily}
+                />
+              </Form.Field>
+            </>
           ) : null}
-        </div>
 
-        <Separator />
+          <Separator />
 
-        <div className={formClassNames.fields.row()}>
-          <div className={formClassNames.fields.field.root()}>
-            <label
-              htmlFor={ActionFormData.keys.pickUpDate}
-              className={formClassNames.fields.field.label()}
-            >
-              Date de prise en charge <RequiredStart />
-            </label>
+          <Form.Row>
+            <Form.Field>
+              <Form.Label asChild>
+                <span>
+                  Stérilisé <RequiredStar />
+                </span>
+              </Form.Label>
 
-            <Input
-              ref={pickUpDateRef}
-              id={ActionFormData.keys.pickUpDate}
-              type="date"
-              name={ActionFormData.keys.pickUpDate}
-              defaultValue={
-                defaultAnimal?.pickUpDate == null
-                  ? null
-                  : DateTime.fromISO(defaultAnimal.pickUpDate).toISODate()
-              }
-              hasError={fetcher.data?.errors?.fieldErrors.pickUpDate != null}
-              aria-describedby="pickUpDate-error"
-              leftAdornment={
-                <Adornment>
-                  <Icon id="calendarDays" />
-                </Adornment>
-              }
-            />
+              <RadioInputList>
+                <RadioInput
+                  ref={isSterilizedRef}
+                  label="Oui"
+                  name={ActionFormData.keys.isSterilized}
+                  value={ActionFormData.schema.shape.isSterilized.Enum.YES}
+                  defaultChecked={defaultAnimal?.isSterilized === true}
+                  aria-describedby="isSterilized-error"
+                />
 
-            {fetcher.data?.errors?.fieldErrors.pickUpDate != null ? (
-              <p
-                id="pickUpDate-error"
-                className={formClassNames.fields.field.errorMessage()}
-              >
-                {fetcher.data.errors.fieldErrors.pickUpDate}
-              </p>
-            ) : null}
-          </div>
+                <RadioInput
+                  label="Non"
+                  name={ActionFormData.keys.isSterilized}
+                  value={ActionFormData.schema.shape.isSterilized.Enum.NO}
+                  defaultChecked={
+                    !defaultAnimal?.isSterilized &&
+                    defaultAnimal?.isSterilizationMandatory !== false
+                  }
+                  aria-describedby="isSterilized-error"
+                />
 
-          <div className={formClassNames.fields.field.root()}>
-            <span className={formClassNames.fields.field.label()}>
-              Lieux de prise en charge{" "}
-              {isCreate || defaultAnimal?.pickUpLocation != null ? (
-                <RequiredStart />
+                <RadioInput
+                  label="Non, et ne le sera pas"
+                  name={ActionFormData.keys.isSterilized}
+                  value={
+                    ActionFormData.schema.shape.isSterilized.Enum.NOT_MANDATORY
+                  }
+                  defaultChecked={
+                    defaultAnimal?.isSterilizationMandatory === false
+                  }
+                  aria-describedby="isSterilized-error"
+                />
+              </RadioInputList>
+
+              {fetcher.data?.errors?.fieldErrors.isSterilized != null ? (
+                <Form.ErrorMessage id="isSterilized-error">
+                  {fetcher.data.errors.fieldErrors.isSterilized}
+                </Form.ErrorMessage>
               ) : null}
-            </span>
+            </Form.Field>
 
-            <PickUpLocationInput
-              ref={pickUpLocationRef}
-              name={ActionFormData.keys.pickUpLocation}
-              defaultValue={defaultAnimal?.pickUpLocation}
-              hasError={
-                fetcher.data?.errors?.fieldErrors.pickUpLocation != null
-              }
-              aria-describedby="pickUpLocation-error"
-            />
+            <Form.Field>
+              <Form.Label htmlFor={ActionFormData.keys.nextVaccinationDate}>
+                Prochaine vaccination{" "}
+                {!isCreate && defaultAnimal?.nextVaccinationDate != null ? (
+                  <RequiredStar />
+                ) : null}
+              </Form.Label>
 
-            {fetcher.data?.errors?.fieldErrors.pickUpLocation != null ? (
-              <p
-                id="pickUpLocation-error"
-                className={formClassNames.fields.field.errorMessage()}
-              >
-                {fetcher.data.errors.fieldErrors.pickUpLocation}
-              </p>
-            ) : null}
-          </div>
-        </div>
-
-        <div className={formClassNames.fields.field.root()}>
-          <span className={formClassNames.fields.field.label()}>
-            Raison de la prise en charge <RequiredStart />
-          </span>
-
-          <div className="py-1 flex flex-wrap gap-2">
-            {SORTED_PICK_UP_REASON.map((pickUpReason) => (
-              <RadioInput
-                key={pickUpReason}
-                label={PICK_UP_REASON_TRANSLATION[pickUpReason]}
-                name={ActionFormData.keys.pickUpReason}
-                value={pickUpReason}
-                defaultChecked={
-                  pickUpReason ===
-                  (defaultAnimal?.pickUpReason ?? PickUpReason.OTHER)
+              <Input
+                ref={nextVaccinationDateRef}
+                id={ActionFormData.keys.nextVaccinationDate}
+                type="date"
+                min={toIsoDateValue(new Date())}
+                name={ActionFormData.keys.nextVaccinationDate}
+                defaultValue={toIsoDateValue(
+                  defaultAnimal?.nextVaccinationDate
+                )}
+                hasError={
+                  fetcher.data?.errors?.fieldErrors.nextVaccinationDate != null
+                }
+                aria-describedby="nextVaccinationDate-error"
+                leftAdornment={
+                  <Adornment>
+                    <Icon id="calendarDays" />
+                  </Adornment>
                 }
               />
-            ))}
-          </div>
-        </div>
 
-        {ACTIVE_ANIMAL_STATUS.includes(statusState) ? (
-          <>
-            <Separator />
-
-            <div className={formClassNames.fields.field.root()}>
-              <span className={formClassNames.fields.field.label()}>
-                Famille d’accueil
-              </span>
-
-              <FosterFamilyInput
-                name={ActionFormData.keys.fosterFamilyId}
-                defaultValue={defaultAnimal?.fosterFamily}
-              />
-            </div>
-          </>
-        ) : null}
-
-        <Separator />
-
-        <div className={formClassNames.fields.row()}>
-          <div className={formClassNames.fields.field.root()}>
-            <span className={formClassNames.fields.field.label()}>
-              Stérilisé <RequiredStart />
-            </span>
-
-            <div className="py-1 flex flex-wrap gap-2">
-              <RadioInput
-                ref={isSterilizedRef}
-                label="Oui"
-                name={ActionFormData.keys.isSterilized}
-                value={ActionFormData.schema.shape.isSterilized.Enum.YES}
-                defaultChecked={defaultAnimal?.isSterilized}
-                aria-describedby="isSterilized-error"
-              />
-
-              <RadioInput
-                label="Non"
-                name={ActionFormData.keys.isSterilized}
-                value={ActionFormData.schema.shape.isSterilized.Enum.NO}
-                defaultChecked={
-                  !defaultAnimal?.isSterilized &&
-                  defaultAnimal?.isSterilizationMandatory !== false
-                }
-                aria-describedby="isSterilized-error"
-              />
-
-              <RadioInput
-                label="Non, et ne le sera pas"
-                name={ActionFormData.keys.isSterilized}
-                value={
-                  ActionFormData.schema.shape.isSterilized.Enum.NOT_MANDATORY
-                }
-                defaultChecked={
-                  defaultAnimal?.isSterilizationMandatory === false
-                }
-                aria-describedby="isSterilized-error"
-              />
-            </div>
-
-            {fetcher.data?.errors?.fieldErrors.isSterilized != null ? (
-              <p
-                id="isSterilized-error"
-                className={formClassNames.fields.field.errorMessage()}
-              >
-                {fetcher.data.errors.fieldErrors.isSterilized}
-              </p>
-            ) : null}
-          </div>
-
-          <div className={formClassNames.fields.field.root()}>
-            <label
-              htmlFor={ActionFormData.keys.nextVaccinationDate}
-              className={formClassNames.fields.field.label()}
-            >
-              Prochaine vaccination{" "}
-              {!isCreate && defaultAnimal?.nextVaccinationDate != null ? (
-                <RequiredStart />
+              {fetcher.data?.errors?.fieldErrors.nextVaccinationDate != null ? (
+                <Form.ErrorMessage id="nextVaccinationDate-error">
+                  {fetcher.data.errors.fieldErrors.nextVaccinationDate}
+                </Form.ErrorMessage>
               ) : null}
-            </label>
+            </Form.Field>
+          </Form.Row>
 
-            <Input
-              ref={nextVaccinationDateRef}
-              id={ActionFormData.keys.nextVaccinationDate}
-              type="date"
-              min={DateTime.now().toISODate()}
-              name={ActionFormData.keys.nextVaccinationDate}
-              defaultValue={
-                defaultAnimal?.nextVaccinationDate == null
-                  ? null
-                  : DateTime.fromISO(
-                      defaultAnimal.nextVaccinationDate
-                    ).toISODate()
-              }
-              hasError={
-                fetcher.data?.errors?.fieldErrors.nextVaccinationDate != null
-              }
-              aria-describedby="nextVaccinationDate-error"
-              leftAdornment={
-                <Adornment>
-                  <Icon id="calendarDays" />
-                </Adornment>
-              }
+          <Separator />
+
+          <Form.Field>
+            <Form.Label htmlFor={ActionFormData.keys.comments}>
+              Commentaires privées
+            </Form.Label>
+
+            <Textarea
+              ref={commentsRef}
+              id={ActionFormData.keys.comments}
+              name={ActionFormData.keys.comments}
+              defaultValue={defaultAnimal?.comments}
+              rows={5}
             />
+          </Form.Field>
+        </Form.Fields>
 
-            {fetcher.data?.errors?.fieldErrors.nextVaccinationDate != null ? (
-              <p
-                id="nextVaccinationDate-error"
-                className={formClassNames.fields.field.errorMessage()}
-              >
-                {fetcher.data.errors.fieldErrors.nextVaccinationDate}
-              </p>
-            ) : null}
-          </div>
-        </div>
-
-        <Separator />
-
-        <div className={formClassNames.fields.field.root()}>
-          <label
-            htmlFor={ActionFormData.keys.comments}
-            className={formClassNames.fields.field.label()}
-          >
-            Commentaires privées
-          </label>
-
-          <Textarea
-            ref={commentsRef}
-            id={ActionFormData.keys.comments}
-            name={ActionFormData.keys.comments}
-            defaultValue={defaultAnimal?.comments}
-            rows={5}
-          />
-        </div>
-      </div>
-
-      <button
-        type="submit"
-        className={cn(actionClassName.standalone(), "w-full md:w-auto")}
-      >
-        {isCreate ? "Suivant" : "Enregistrer"}
-      </button>
-    </fetcher.Form>
+        <Form.Action asChild>
+          <Action>{isCreate ? "Suivant" : "Enregistrer"}</Action>
+        </Form.Action>
+      </fetcher.Form>
+    </Form>
   );
 }

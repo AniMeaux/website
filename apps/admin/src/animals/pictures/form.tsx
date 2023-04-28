@@ -11,19 +11,20 @@ import {
   useDragItem,
   useDropContainer,
 } from "~/animals/pictures/dragAndDrop";
-import { actionClassName } from "~/core/actions";
+import { Action } from "~/core/actions";
 import { cn } from "~/core/classNames";
-import { Helper } from "~/core/dataDisplay/helper";
+import { DenseHelper, InlineHelper } from "~/core/dataDisplay/helper";
 import {
   DataUrlOrDynamicImage,
   getFiles,
   getImageId,
   ImageFile,
   ImageFileOrId,
+  IMAGE_SIZE_LIMIT_MB,
   isImageFile,
+  isImageOverSize,
 } from "~/core/dataDisplay/image";
-import { formClassNames } from "~/core/formElements/form";
-import { FormErrors } from "~/core/formElements/formErrors";
+import { Form } from "~/core/formElements/form";
 import { createActionData } from "~/core/schemas";
 import { Icon } from "~/generated/icon";
 
@@ -36,16 +37,15 @@ export const ActionFormData = createActionData(
 );
 
 export function AnimalPicturesForm({
-  isCreate = false,
   defaultAnimal,
   fetcher,
 }: {
-  isCreate?: boolean;
   defaultAnimal?: null | SerializeFrom<Pick<Animal, "avatar" | "pictures">>;
   fetcher: FetcherWithComponents<{
     errors?: z.inferFlattenedErrors<typeof ActionFormData.schema>;
   }>;
 }) {
+  const isCreate = defaultAnimal == null;
   const action = useFormAction();
 
   const [pictures, setPictures] = useState<ImageFileOrId[]>(
@@ -55,9 +55,12 @@ export function AnimalPicturesForm({
   const [hasImageImportError, setHasImageImportError] = useState(false);
 
   let formErrors = fetcher.data?.errors?.formErrors ?? [];
+
+  // Errors on the `pictures` field are displayed as form errors.
   if (fetcher.data?.errors?.fieldErrors.pictures != null) {
     formErrors = formErrors.concat(fetcher.data.errors.fieldErrors.pictures);
   }
+
   if (hasImageImportError) {
     formErrors = formErrors.concat([
       "Une erreur est survenue lors de l’import d’image.",
@@ -65,15 +68,28 @@ export function AnimalPicturesForm({
   }
 
   const overSizedPictureCount = pictures.filter(isImageOverSize).length;
+  if (overSizedPictureCount > 0) {
+    formErrors = formErrors.concat([
+      `${
+        overSizedPictureCount === 1
+          ? "1 image est trop grande."
+          : `${overSizedPictureCount} images sont trop grandes.`
+      } La taille maximum est de ${IMAGE_SIZE_LIMIT_MB} MiB.`,
+    ]);
+  }
 
   return (
-    <form
+    <Form
+      hasHeader
       noValidate
-      className={formClassNames.root({ hasHeader: true })}
       onSubmit={(event) => {
         // Because we manually create the FormData to send, we need to manually
         // submit the form.
         event.preventDefault();
+
+        if (overSizedPictureCount > 0) {
+          return;
+        }
 
         const formData = new FormData();
 
@@ -91,21 +107,12 @@ export function AnimalPicturesForm({
         });
       }}
     >
-      <div className={formClassNames.fields.root()}>
-        <Helper variant="info">
+      <Form.Fields>
+        <InlineHelper variant="info">
           La première photo sera utilisée comme avatar.
-        </Helper>
+        </InlineHelper>
 
-        {overSizedPictureCount > 0 ? (
-          <Helper variant="warning">
-            {overSizedPictureCount === 1
-              ? "1 image est trop grande et sera ignorée."
-              : `${overSizedPictureCount} images sont trop grandes et seront ignorées.`}{" "}
-            La taille maximum est de {IMAGE_SIZE_LIMIT_MB} MiB.
-          </Helper>
-        ) : null}
-
-        <FormErrors errors={formErrors} />
+        <Form.Errors errors={formErrors} />
 
         <DragAndDropContextProvider previewElement={PictureItemPreview}>
           <ImagesInput
@@ -116,28 +123,13 @@ export function AnimalPicturesForm({
             onImportImagesFailed={() => setHasImageImportError(true)}
           />
         </DragAndDropContextProvider>
-      </div>
+      </Form.Fields>
 
-      <button
-        type="submit"
-        className={cn(actionClassName.standalone(), "w-full md:w-auto")}
-      >
-        {isCreate ? "Créer" : "Enregistrer"}
-      </button>
-    </form>
+      <Form.Action asChild>
+        <Action>{isCreate ? "Créer" : "Enregistrer"}</Action>
+      </Form.Action>
+    </Form>
   );
-}
-
-// Cloudinary default image size (20 MiB).
-const IMAGE_SIZE_LIMIT_MB = 20;
-
-const IMAGE_SIZE_LIMIT_B =
-  IMAGE_SIZE_LIMIT_MB *
-  // 1024 * 1024 B
-  1048576;
-
-function isImageOverSize(image: ImageFileOrId) {
-  return isImageFile(image) && image.file.size > IMAGE_SIZE_LIMIT_B;
 }
 
 function ImagesInput({
@@ -248,12 +240,12 @@ function ImageItem({
       />
 
       {isOverSize ? (
-        <p className="absolute top-0 left-0 w-full px-1 py-0.5 bg-amber-50 flex items-center gap-0.5 text-amber-600">
-          <Icon id="triangleExclamation" className="text-[14px]" />
-          <span className="flex-1 text-caption-emphasis">
-            Image trop grande
-          </span>
-        </p>
+        <DenseHelper
+          variant="error"
+          className="absolute top-0.5 left-0.5 w-[calc(100%-10px)]"
+        >
+          Image trop grande
+        </DenseHelper>
       ) : null}
 
       {!isDisabled ? (
@@ -269,19 +261,15 @@ function ImageItem({
         </div>
       ) : null}
 
-      <button
+      <Action
+        isIconOnly
+        variant="translucid"
+        color="black"
         onClick={() => onRemove()}
-        className={cn(
-          actionClassName.standalone({
-            isIconOnly: true,
-            variant: "translucid",
-            color: "black",
-          }),
-          "absolute bottom-0.5 right-0.5"
-        )}
+        className="absolute bottom-0.5 right-0.5"
       >
         <Icon id="trash" />
-      </button>
+      </Action>
     </li>
   );
 }
