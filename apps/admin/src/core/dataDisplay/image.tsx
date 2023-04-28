@@ -56,14 +56,14 @@ const OBJECT_FIT_CLASS_NAME: Record<ObjectFit, string> = {
   cover: "object-cover",
 };
 
-type CommonImageProps = {
+type CommonImageProps = Omit<
+  React.ImgHTMLAttributes<HTMLImageElement>,
+  "alt" | "background" | "sizes"
+> & {
   alt: string;
   aspectRatio?: AspectRatio;
   background?: ImageBackground;
-  className?: string;
-  loading?: "lazy" | "eager";
   objectFit?: ObjectFit;
-  style?: React.CSSProperties;
 };
 
 export type DynamicImageProps = CommonImageProps & {
@@ -86,6 +86,7 @@ export function DynamicImage({
   loading = "lazy",
   className,
   style,
+  ...rest
 }: DynamicImageProps) {
   const config = useConfig();
 
@@ -114,6 +115,7 @@ export function DynamicImage({
 
   return (
     <img
+      {...rest}
       alt={alt}
       loading={loading}
       src={createCloudinaryUrl(config.cloudinaryName, imageId, {
@@ -194,6 +196,11 @@ export function getImageId(image: ImageFileOrId) {
   return isImageFile(image) ? image.id : image;
 }
 
+export type DataUrlOrDynamicImageProps = Omit<DataUrlImageProps, "imageFile"> &
+  Omit<DynamicImageProps, "imageId"> & {
+    image: ImageFileOrId;
+  };
+
 export function DataUrlOrDynamicImage({
   alt,
   aspectRatio = "4:3",
@@ -205,13 +212,12 @@ export function DataUrlOrDynamicImage({
   objectFit = "contain",
   sizes,
   style,
-}: Omit<DataUrlImageProps, "imageFile"> &
-  Omit<DynamicImageProps, "imageId"> & {
-    image: ImageFileOrId;
-  }) {
+  ...rest
+}: DataUrlOrDynamicImageProps) {
   if (isImageFile(image)) {
     return (
       <DataUrlImage
+        {...rest}
         alt={alt}
         aspectRatio={aspectRatio}
         background={background}
@@ -226,6 +232,7 @@ export function DataUrlOrDynamicImage({
 
   return (
     <DynamicImage
+      {...rest}
       alt={alt}
       aspectRatio={aspectRatio}
       background={background}
@@ -253,9 +260,11 @@ function DataUrlImage({
   loading = "lazy",
   objectFit = "contain",
   style,
+  ...rest
 }: DataUrlImageProps) {
   return (
     <img
+      {...rest}
       alt={alt}
       loading={loading}
       src={imageFile.dataUrl}
@@ -270,7 +279,7 @@ function DataUrlImage({
   );
 }
 
-export async function getFiles(fileList: FileList): Promise<ImageFile[]> {
+export async function readFiles(fileList: FileList): Promise<ImageFile[]> {
   const files: Promise<ImageFile>[] = [];
 
   for (let index = 0; index < fileList.length; index++) {
@@ -280,7 +289,7 @@ export async function getFiles(fileList: FileList): Promise<ImageFile[]> {
   return await Promise.all(files);
 }
 
-async function readFile(file: File): Promise<ImageFile> {
+export async function readFile(file: File): Promise<ImageFile> {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
 
