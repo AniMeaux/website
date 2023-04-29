@@ -19,7 +19,7 @@ export function ToggleInput({
 }) {
   return (
     <Item asChild>
-      <label className="relative cursor-pointer focus-within:z-10">
+      <label className="relative z-0 cursor-pointer focus-within:z-10">
         <input
           {...rest}
           className="peer appearance-none absolute -z-10 top-0 left-0 w-full h-full rounded-0.5 transition-colors duration-100 ease-in-out group-hover:bg-gray-100 checked:bg-gray-100 focus-visible:outline-none focus-visible:ring-outset focus-visible:ring focus-visible:ring-blue-400"
