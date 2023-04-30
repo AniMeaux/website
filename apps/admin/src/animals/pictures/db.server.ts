@@ -26,10 +26,10 @@ export async function updateAnimalPictures(
       getAllAnimalPictures(data)
     );
 
+    await prisma.animal.update({ where: { id: animalId }, data });
+
     if (picturesToDelete.length > 0) {
       await Promise.allSettled(picturesToDelete.map(deleteImage));
     }
-
-    await prisma.animal.update({ where: { id: animalId }, data });
   });
 }

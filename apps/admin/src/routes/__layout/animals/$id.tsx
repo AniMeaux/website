@@ -30,6 +30,7 @@ import { getSpeciesLabels, SPECIES_ICON } from "~/animals/species";
 import { StatusBadge, StatusIcon, STATUS_TRANSLATION } from "~/animals/status";
 import { Action, ProseInlineAction } from "~/core/actions";
 import { BaseLink, BaseLinkProps } from "~/core/baseLink";
+import { cn } from "~/core/classNames";
 import { Empty } from "~/core/dataDisplay/empty";
 import { ErrorPage, getErrorTitle } from "~/core/dataDisplay/errorPage";
 import { InlineHelper } from "~/core/dataDisplay/helper";
@@ -260,21 +261,21 @@ function HeaderCard() {
 
         <AvatarCard.Lines>
           <AvatarCard.FirstLine>
-            <div className="flex items-center gap-1">
-              <div className="flex items-center gap-0.5">
-                <Icon
-                  id={GENDER_ICON[animal.gender]}
-                  className={
-                    animal.gender === Gender.FEMALE
-                      ? "text-pink-500"
-                      : "text-blue-500"
-                  }
-                />
-
-                <h1>{animal.name}</h1>
+            <div className="grid grid-cols-[auto_minmax(0px,1fr)_auto] items-start gap-0.5">
+              <div
+                className={cn(
+                  "h-2 flex items-center",
+                  animal.gender === Gender.FEMALE
+                    ? "text-pink-500"
+                    : "text-blue-500"
+                )}
+              >
+                <Icon id={GENDER_ICON[animal.gender]} />
               </div>
 
-              <StatusBadge status={animal.status} />
+              <h1>{animal.name}</h1>
+
+              <StatusBadge status={animal.status} className="ml-0.5" />
             </div>
           </AvatarCard.FirstLine>
 
