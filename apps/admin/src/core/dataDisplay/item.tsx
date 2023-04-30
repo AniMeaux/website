@@ -48,7 +48,7 @@ export const Item = Object.assign(
       return (
         <Primitive.p
           {...rest}
-          className={cn("py-1 break-words first:pl-1 last:pr-1", className)}
+          className={cn("py-1 first:pl-1 last:pr-1", className)}
         />
       );
     },
