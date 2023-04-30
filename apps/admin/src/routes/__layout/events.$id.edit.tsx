@@ -87,13 +87,15 @@ export async function action({ request, params }: ActionArgs) {
     throw new NotFoundResponse();
   }
 
+  const cloudinaryUploadHandler = createCloudinaryUploadHandler({
+    filter: ({ name }) => name === ActionFormData.keys.image,
+  });
+
   try {
     const rawFormData = await unstable_parseMultipartFormData(
       request,
       unstable_composeUploadHandlers(
-        createCloudinaryUploadHandler({
-          filter: ({ name }) => name === ActionFormData.keys.image,
-        }),
+        cloudinaryUploadHandler,
         unstable_createMemoryUploadHandler({
           filter: ({ contentType }) => contentType == null,
         })
@@ -102,6 +104,7 @@ export async function action({ request, params }: ActionArgs) {
 
     const formData = zfd.formData(ActionFormData.schema).safeParse(rawFormData);
     if (!formData.success) {
+      await cloudinaryUploadHandler.revert();
       return json<ActionData>(
         { errors: formData.error.flatten() },
         { status: 400 }
@@ -120,6 +123,10 @@ export async function action({ request, params }: ActionArgs) {
       url: formData.data.url || null,
     });
   } catch (error) {
+    if (error instanceof Error) {
+      await cloudinaryUploadHandler.revert();
+    }
+
     if (error instanceof CloudinaryUploadApiError) {
       return json<ActionData>(
         {

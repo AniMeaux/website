@@ -51,13 +51,15 @@ export async function action({ request }: ActionArgs) {
 
   assertCurrentUserHasGroups(currentUser, [UserGroup.ADMIN]);
 
+  const cloudinaryUploadHandler = createCloudinaryUploadHandler({
+    filter: ({ name }) => name === ActionFormData.keys.image,
+  });
+
   try {
     const rawFormData = await unstable_parseMultipartFormData(
       request,
       unstable_composeUploadHandlers(
-        createCloudinaryUploadHandler({
-          filter: ({ name }) => name === ActionFormData.keys.image,
-        }),
+        cloudinaryUploadHandler,
         unstable_createMemoryUploadHandler({
           filter: ({ contentType }) => contentType == null,
         })
@@ -66,6 +68,7 @@ export async function action({ request }: ActionArgs) {
 
     const formData = zfd.formData(ActionFormData.schema).safeParse(rawFormData);
     if (!formData.success) {
+      await cloudinaryUploadHandler.revert();
       return json<ActionData>(
         { errors: formData.error.flatten() },
         { status: 400 }
@@ -86,6 +89,10 @@ export async function action({ request }: ActionArgs) {
 
     throw redirect(`/events/${eventId}`);
   } catch (error) {
+    if (error instanceof Error) {
+      await cloudinaryUploadHandler.revert();
+    }
+
     if (error instanceof CloudinaryUploadApiError) {
       return json<ActionData>(
         {
