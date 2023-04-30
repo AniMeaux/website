@@ -55,7 +55,7 @@ AvatarCard.Content = function AvatarCardContent({
   children?: React.ReactNode;
 }) {
   return (
-    <div className="z-0 h-[65px] p-1 flex gap-1 items-center content-end md:h-[85px] md:p-2 md:gap-2">
+    <div className="z-0 p-1 flex gap-1 items-center md:p-2 md:gap-2">
       {children}
     </div>
   );
@@ -66,12 +66,13 @@ AvatarCard.Avatar = function AvatarCardAvatar({
 }: {
   children: React.ReactElement<{ className?: string }>;
 }) {
-  return cloneElement(children, {
-    className: cn(
-      "flex-none self-end ring-5 ring-white",
-      children.props.className
-    ),
-  });
+  return (
+    <span className="h-[45px] flex-none self-start flex items-end">
+      {cloneElement(children, {
+        className: cn("ring-5 ring-white", children.props.className),
+      })}
+    </span>
+  );
 };
 
 AvatarCard.Lines = function AvatarCardLines({
@@ -79,7 +80,7 @@ AvatarCard.Lines = function AvatarCardLines({
 }: {
   children?: React.ReactNode;
 }) {
-  return <div className="flex-1 flex flex-col gap-0.5">{children}</div>;
+  return <div className="min-w-0 flex-1 flex flex-col gap-0.5">{children}</div>;
 };
 
 AvatarCard.FirstLine = function AvatarCardFirstLine({
