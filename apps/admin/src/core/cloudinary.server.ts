@@ -35,12 +35,23 @@ export class CloudinaryUploadApiError extends Error {
   }
 }
 
+type CloudinaryUploadHandler = UploadHandler & {
+  revert: () => Promise<void>;
+};
+
 export function createCloudinaryUploadHandler({
   filter,
 }: {
   filter: (args: { name: string }) => boolean;
-}): UploadHandler {
-  return async ({ name, contentType, data, filename }) => {
+}): CloudinaryUploadHandler {
+  const uploadedPublicIds: string[] = [];
+
+  const uploadHandler: UploadHandler = async ({
+    name,
+    contentType,
+    data,
+    filename,
+  }) => {
     if (
       !filter({ name }) ||
       contentType == null ||
@@ -65,6 +76,7 @@ export function createCloudinaryUploadHandler({
             "result should exist when there are no errors."
           );
 
+          uploadedPublicIds.push(result.public_id);
           resolve(result.public_id);
         }
       );
@@ -72,12 +84,18 @@ export function createCloudinaryUploadHandler({
       await writeAsyncIterableToWritable(data, uploadStream);
     });
   };
+
+  const revert: CloudinaryUploadHandler["revert"] = async () => {
+    await Promise.allSettled(uploadedPublicIds.map(deleteImage));
+  };
+
+  return Object.assign(uploadHandler, { revert });
 }
 
 export async function deleteImage(image: string) {
   try {
     await cloudinary.uploader.destroy(image);
   } catch (error) {
-    console.error("Could not delete image:", error);
+    console.error(`Could not delete image "${image}":`, error);
   }
 }

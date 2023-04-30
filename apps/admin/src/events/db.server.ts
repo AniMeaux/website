@@ -1,5 +1,6 @@
 import { Event, Prisma } from "@prisma/client";
 import { DateTime } from "luxon";
+import { deleteImage } from "~/core/cloudinary.server";
 import { prisma } from "~/core/db.server";
 import { NotFoundError, PrismaErrorCodes } from "~/core/errors.server";
 
@@ -42,7 +43,12 @@ export async function updateEvent(eventId: Event["id"], data: EventData) {
 
 export async function deleteEvent(eventId: Event["id"]) {
   try {
-    await prisma.event.delete({ where: { id: eventId } });
+    const event = await prisma.event.delete({
+      where: { id: eventId },
+      select: { image: true },
+    });
+
+    await deleteImage(event.image);
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       if (error.code === PrismaErrorCodes.NOT_FOUND) {
