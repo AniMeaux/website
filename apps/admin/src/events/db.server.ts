@@ -28,17 +28,22 @@ export async function updateEvent(eventId: Event["id"], data: EventData) {
   validateEvent(data);
   normalizeEvent(data);
 
-  try {
-    await prisma.event.update({ where: { id: eventId }, data });
-  } catch (error) {
-    if (error instanceof Prisma.PrismaClientKnownRequestError) {
-      if (error.code === PrismaErrorCodes.NOT_FOUND) {
-        throw new NotFoundError();
-      }
+  await prisma.$transaction(async (prisma) => {
+    const event = await prisma.event.findUnique({
+      where: { id: eventId },
+      select: { image: true },
+    });
+
+    if (event == null) {
+      throw new NotFoundError();
     }
 
-    throw error;
-  }
+    await prisma.event.update({ where: { id: eventId }, data });
+
+    if (event.image !== data.image) {
+      await deleteImage(event.image);
+    }
+  });
 }
 
 export async function deleteEvent(eventId: Event["id"]) {
