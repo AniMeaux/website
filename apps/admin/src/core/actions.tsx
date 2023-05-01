@@ -1,6 +1,7 @@
 import { Primitive } from "@radix-ui/react-primitive";
 import { forwardRef } from "react";
 import { cn } from "~/core/classNames";
+import { Spinner } from "~/core/loaders/spinner";
 
 type ActionVariant =
   | "floating"
@@ -25,8 +26,8 @@ export type ActionProps = React.ComponentPropsWithoutRef<
   variant?: ActionVariant;
 };
 
-export const Action = forwardRef<HTMLButtonElement, ActionProps>(
-  function Action(
+export const Action = Object.assign(
+  forwardRef<HTMLButtonElement, ActionProps>(function Action(
     {
       className,
       color = "blue",
@@ -41,13 +42,27 @@ export const Action = forwardRef<HTMLButtonElement, ActionProps>(
         {...rest}
         ref={ref}
         className={cn(
-          "flex-none flex items-center justify-center gap-0.5 text-body-emphasis duration-100 ease-in-out active:scale-95 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white",
+          "relative flex-none flex items-center justify-center gap-0.5 text-body-emphasis duration-100 ease-in-out active:scale-95 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white",
           VARIANT_CLASS_NAME[variant]({ isIconOnly }),
           COLOR_CLASS_NAMES[variant][color],
           className
         )}
       />
     );
+  }),
+  {
+    Loader: function ActionLoader({ isLoading }: { isLoading: boolean }) {
+      return (
+        <span
+          className={cn(
+            "absolute top-0 left-0 w-full h-full rounded-[inherit] bg-inherit flex items-center justify-center transition-opacity duration-100 ease-in-out",
+            isLoading ? "opacity-100" : "opacity-0"
+          )}
+        >
+          <Spinner />
+        </span>
+      );
+    },
   }
 );
 
