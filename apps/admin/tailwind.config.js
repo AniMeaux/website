@@ -62,6 +62,30 @@ module.exports = {
       ringWidth: {
         5: "5px",
       },
+
+      animation: {
+        "spin-spinner": "spin 1.5s linear infinite",
+        "stroke-spinner": "stroke 2s ease-in-out infinite",
+      },
+
+      keyframes: {
+        stroke: {
+          "0%": {
+            "stroke-dasharray": "1, 300",
+            "stroke-dashoffset": "0",
+          },
+          "50%": {
+            "stroke-dasharray": "150, 300",
+            // Yep, that's right!
+            // Computed by: circle.getTotalLength().
+            "stroke-dashoffset": "-175.6449737548828 / 4",
+          },
+          "100%": {
+            "stroke-dasharray": "150, 300",
+            "stroke-dashoffset": "-175.6449737548828",
+          },
+        },
+      },
     },
   },
 

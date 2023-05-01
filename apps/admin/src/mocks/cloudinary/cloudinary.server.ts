@@ -1,3 +1,4 @@
+import faker from "@faker-js/faker";
 import {
   unstable_composeUploadHandlers,
   unstable_createMemoryUploadHandler,
@@ -67,6 +68,11 @@ function createFileMockUploadHandler(): UploadHandler {
     ) {
       return undefined;
     }
+
+    // Uploading a file is not instantaneous.
+    await new Promise((resolve) => {
+      setTimeout(resolve, faker.datatype.number({ min: 2000, max: 5000 }));
+    });
 
     return filename;
   };
