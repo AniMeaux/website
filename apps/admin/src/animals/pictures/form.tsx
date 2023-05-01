@@ -134,7 +134,10 @@ export function AnimalPicturesForm({
       </Form.Fields>
 
       <Form.Action asChild>
-        <Action>{isCreate ? "Créer" : "Enregistrer"}</Action>
+        <Action>
+          {isCreate ? "Créer" : "Enregistrer"}
+          <Action.Loader isLoading={fetcher.state !== "idle"} />
+        </Action>
       </Form.Action>
     </Form>
   );

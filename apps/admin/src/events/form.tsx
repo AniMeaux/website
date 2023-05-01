@@ -428,7 +428,10 @@ export function EventForm({
       </Form.Fields>
 
       <Form.Action asChild>
-        <Action type="submit">{isCreate ? "Créer" : "Enregistrer"}</Action>
+        <Action type="submit">
+          {isCreate ? "Créer" : "Enregistrer"}
+          <Action.Loader isLoading={fetcher.state !== "idle"} />
+        </Action>
       </Form.Action>
     </Form>
   );

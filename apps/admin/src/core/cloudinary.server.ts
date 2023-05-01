@@ -62,7 +62,7 @@ export function createCloudinaryUploadHandler({
       return undefined;
     }
 
-    return new Promise<string>(async (resolve, reject) => {
+    return await new Promise<string>(async (resolve, reject) => {
       const uploadStream = cloudinary.uploader.upload_stream(
         { public_id: uuid() },
         (error, result) => {
