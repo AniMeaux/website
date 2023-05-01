@@ -1,6 +1,9 @@
 import { DateTime } from "luxon";
 
-export function toIsoDateValue(date: undefined | null | string | Date) {
+export function toIsoDateValue(
+  date: undefined | null | string | Date,
+  { hasTime = false }: { hasTime?: boolean } = {}
+) {
   if (date == null) {
     return "";
   }
@@ -9,6 +12,10 @@ export function toIsoDateValue(date: undefined | null | string | Date) {
     typeof date === "string"
       ? DateTime.fromISO(date)
       : DateTime.fromJSDate(date);
+
+  if (hasTime) {
+    return dateTime.toISO().substring(0, 16);
+  }
 
   return dateTime.toISODate();
 }

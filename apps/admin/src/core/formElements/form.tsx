@@ -60,9 +60,22 @@ Form.Row = function FormRow({
 
 Form.Field = function FormField({
   className,
+  isInline = false,
   ...rest
-}: React.ComponentPropsWithoutRef<typeof Primitive.div>) {
-  return <Primitive.div {...rest} className={cn("flex flex-col", className)} />;
+}: React.ComponentPropsWithoutRef<typeof Primitive.div> & {
+  isInline?: boolean;
+}) {
+  return (
+    <Primitive.div
+      {...rest}
+      className={cn(
+        isInline
+          ? "grid grid-cols-[minmax(0px,1fr)_auto] items-center gap-1"
+          : "flex flex-col",
+        className
+      )}
+    />
+  );
 };
 
 Form.Label = function FormLabel({
@@ -72,7 +85,10 @@ Form.Label = function FormLabel({
   return (
     <Primitive.label
       {...rest}
-      className={cn("text-caption-default text-gray-500", className)}
+      className={cn(
+        "text-caption-default text-gray-500 [label&]:cursor-pointer",
+        className
+      )}
     />
   );
 };
