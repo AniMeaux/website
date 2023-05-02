@@ -35,7 +35,12 @@ export async function loader() {
   const { events, pastEvents } = await promiseHash({
     events: prisma.event.findMany({
       where: { isVisible: true, endDate: { gte: new Date() } },
-      orderBy: { endDate: "asc" },
+      orderBy: [
+        { startDate: "asc" },
+        // If two events start at the same time, display the one that ends the
+        // earliest first.
+        { endDate: "asc" },
+      ],
       select: eventSelect.select,
     }),
     pastEvents: prisma.event.findMany({
