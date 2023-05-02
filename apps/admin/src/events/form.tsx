@@ -20,6 +20,7 @@ import { ImageInput } from "~/core/formElements/imageInput";
 import { Input } from "~/core/formElements/input";
 import { RequiredStar } from "~/core/formElements/requiredStar";
 import { SwitchInput } from "~/core/formElements/switchInput";
+import { Textarea } from "~/core/formElements/textarea";
 import { Separator } from "~/core/layout/separator";
 import { createActionData, ensureDate } from "~/core/schemas";
 import { Icon } from "~/generated/icon";
@@ -83,7 +84,7 @@ export function EventForm({
     image: defaultEvent?.image,
   });
   const [isFullDay, setisFullDay] = useState(defaultEvent?.isFullDay ?? true);
-  const descriptionRef = useRef<HTMLInputElement>(null);
+  const descriptionRef = useRef<HTMLTextAreaElement>(null);
   const endDateRef = useRef<HTMLInputElement>(null);
   const imageRef = useRef<HTMLInputElement>(null);
   const locationRef = useRef<HTMLInputElement>(null);
@@ -409,14 +410,14 @@ export function EventForm({
             Description <RequiredStar />
           </Form.Label>
 
-          <Input
+          <Textarea
             ref={descriptionRef}
             id={ActionFormData.keys.description}
-            type="text"
             name={ActionFormData.keys.description}
             defaultValue={defaultEvent?.description}
             hasError={fetcher.data?.errors?.fieldErrors.description != null}
             aria-describedby="description-error"
+            rows={5}
           />
 
           {fetcher.data?.errors?.fieldErrors.description != null ? (
