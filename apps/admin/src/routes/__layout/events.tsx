@@ -37,7 +37,12 @@ export async function loader({ request }: LoaderArgs) {
     events: prisma.event.findMany({
       skip: pageSearchParams.getPage() * EVENT_COUNT_PER_PAGE,
       take: EVENT_COUNT_PER_PAGE,
-      orderBy: { endDate: "asc" },
+      orderBy: [
+        { startDate: "asc" },
+        // If two events start at the same time, display the one that ends the
+        // earliest first.
+        { endDate: "asc" },
+      ],
       where,
       select: {
         endDate: true,
