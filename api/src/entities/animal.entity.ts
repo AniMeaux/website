@@ -33,11 +33,12 @@ export const ACTIVE_ANIMAL_STATUS: Status[] = [
 /** ADOPTED, FREE */
 export const SAVED_ANIMAL_STATUS: Status[] = [Status.ADOPTED, Status.FREE];
 
-/** ADOPTED, DECEASED, FREE */
+/** ADOPTED, DECEASED, FREE, RETURNED */
 export const NON_ACTIVE_ANIMAL_STATUS: Status[] = [
   Status.ADOPTED,
   Status.DECEASED,
   Status.FREE,
+  Status.RETURNED,
 ];
 
 /** OPEN_TO_ADOPTION, OPEN_TO_RESERVATION */

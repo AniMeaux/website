@@ -4,6 +4,7 @@ import { IconProps } from "~/generated/icon";
 
 export const PICK_UP_REASON_TRANSLATION: Record<PickUpReason, string> = {
   [PickUpReason.ABANDONMENT]: "Abandon",
+  [PickUpReason.BIRTH]: "Naissance",
   [PickUpReason.DECEASED_MASTER]: "Décès du propriétaire",
   [PickUpReason.MISTREATMENT]: "Maltraitance",
   [PickUpReason.STRAY_ANIMAL]: "Errance",
@@ -12,6 +13,7 @@ export const PICK_UP_REASON_TRANSLATION: Record<PickUpReason, string> = {
 
 export const PICK_UP_REASON_ICON: Record<PickUpReason, IconProps["id"]> = {
   [PickUpReason.ABANDONMENT]: "heartCrack",
+  [PickUpReason.BIRTH]: "cakeCandles",
   [PickUpReason.DECEASED_MASTER]: "cross",
   [PickUpReason.MISTREATMENT]: "sirenOn",
   [PickUpReason.STRAY_ANIMAL]: "catTree",

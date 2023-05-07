@@ -22,13 +22,13 @@ export function useWidth<TElement extends HTMLElement>() {
 
   useEffect(() => {
     invariant(ref.current != null, "ref must be set");
-    const buttonElement = ref.current;
+    const element = ref.current;
 
     const observer = new ResizeObserver(() => {
-      setWidth(buttonElement.clientWidth);
+      setWidth(element.clientWidth);
     });
 
-    observer.observe(buttonElement);
+    observer.observe(element);
 
     return () => {
       observer.disconnect();
