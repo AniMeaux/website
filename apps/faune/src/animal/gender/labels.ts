@@ -7,6 +7,7 @@ export const ANIMAL_GENDER_LABELS: Record<AnimalGender, string> = {
 
 export const PICK_UP_REASON_LABELS: Record<PickUpReason, string> = {
   [PickUpReason.ABANDONMENT]: "Abandon",
+  [PickUpReason.BIRTH]: "Naissance",
   [PickUpReason.DECEASED_MASTER]: "Décès du propriétaire",
   [PickUpReason.MISTREATMENT]: "Maltraitance",
   [PickUpReason.STRAY_ANIMAL]: "Errance",

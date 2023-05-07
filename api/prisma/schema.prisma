@@ -197,10 +197,11 @@ enum Gender {
 
 enum PickUpReason {
   ABANDONMENT
+  BIRTH
   DECEASED_MASTER
   MISTREATMENT
-  STRAY_ANIMAL
   OTHER
+  STRAY_ANIMAL
 }
 
 enum Status {
@@ -211,8 +212,9 @@ enum Status {
   OPEN_TO_ADOPTION
   OPEN_TO_RESERVATION
   RESERVED
-  UNAVAILABLE
   RETIRED
+  RETURNED
+  UNAVAILABLE
 }
 
 enum AdoptionOption {
