@@ -77,12 +77,20 @@ export function StaticImage({
   );
 }
 
+type ImageBackground = "none" | "gray";
+
+const IMAGE_BACKGROUND_CLASS_NAME: Record<ImageBackground, string> = {
+  gray: "bg-gray-100",
+  none: "",
+};
+
 export function DynamicImage({
   imageId,
   alt,
   sizes,
   fallbackSize,
   loading,
+  background = "gray",
   className,
 }: {
   imageId: string;
@@ -90,6 +98,7 @@ export function DynamicImage({
   sizes: StaticImageProps["sizes"];
   fallbackSize: NonNullable<StaticImageProps["fallbackSize"]>;
   loading?: StaticImageProps["loading"];
+  background?: ImageBackground;
   className?: string;
 }) {
   const config = useConfig();
@@ -111,7 +120,7 @@ export function DynamicImage({
       fallbackSize={fallbackSize}
       sizes={sizes}
       loading={loading}
-      className={cn(className, "bg-gray-100")}
+      className={cn(className, IMAGE_BACKGROUND_CLASS_NAME[background])}
     />
   );
 }

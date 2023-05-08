@@ -7,6 +7,14 @@ export const SubNavDiscover: SubNavComponent = () => {
         Partenaires
       </SubNavItem>
 
+      <SubNavItem
+        color="cyan"
+        icon="fileContract"
+        to="/conventions-de-sterilisation"
+      >
+        Conventions de stérilisation
+      </SubNavItem>
+
       <SubNavItem color="green" icon="newspaper" to="/blog">
         Blog
       </SubNavItem>
