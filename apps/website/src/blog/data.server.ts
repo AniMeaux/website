@@ -1,3 +1,6 @@
+import orderBy from "lodash.orderby";
+import { DateTime } from "luxon";
+
 export type Article = {
   id: string;
   title: string;
@@ -9,17 +12,18 @@ export type Article = {
   content: string;
 };
 
-export const articles: Article[] = [
-  {
-    id: "0ea736e3-f847-4b30-a198-42b65c157623",
-    title: "Les parasites",
-    authorName: "Sara",
-    publicationDate: new Date("2019-04-30"),
-    image: "blog/dabcc03c-fe76-4d02-a57b-4fa87a38e310",
-    slug: "les-parasites",
-    description:
-      "Nos animaux de compagnie peuvent être la cible de différents parasites qu’il est important de connaître afin de mieux les combattre.",
-    content: `Nos animaux de compagnie peuvent être la cible de différents parasites qu’il est important de connaître afin de mieux les combattre.
+export const articles: Article[] = orderBy(
+  [
+    {
+      id: "0ea736e3-f847-4b30-a198-42b65c157623",
+      title: "Les parasites",
+      authorName: "Sara",
+      publicationDate: new Date("2019-04-30"),
+      image: "blog/dabcc03c-fe76-4d02-a57b-4fa87a38e310",
+      slug: "les-parasites",
+      description:
+        "Nos animaux de compagnie peuvent être la cible de différents parasites qu’il est important de connaître afin de mieux les combattre.",
+      content: `Nos animaux de compagnie peuvent être la cible de différents parasites qu’il est important de connaître afin de mieux les combattre.
 
 Les parasites sont de petits organismes qui vivent dans le corps ou sur le corps des animaux (au niveau de l’intestin, du cœur, des poumons, de la peau…).
 
@@ -126,17 +130,17 @@ Prévention :
 - Désinfecter le terrarium (antiparasite)
 
 Pensez à ne pas remettre tout de suite tous les éléments dans le terrarium. Vous pouvez remettre votre animal avec de l’essuie-tout en substrat afin de vérifier que le terrarium a bien été traité.`,
-  },
-  {
-    id: "69966266-182b-4f73-86bb-b19e4d44577e",
-    title: "Une grande menace plane sur les abeilles !",
-    authorName: "Sara",
-    publicationDate: new Date("2019-04-05"),
-    image: "blog/ab8f2635-e376-4a50-9a82-381d2e64a0fa",
-    slug: "une-grande-menace-plane-sur-les-abeilles",
-    description:
-      "Depuis quelques années, la population d’abeilles est en très forte diminution, avec une disparition totale sur certaines zones. On vous explique comment ne pas aggraver la situation…",
-    content: `Depuis quelques années, la population d’abeilles est en très forte diminution, avec une disparition totale sur certaines zones. En France, plus de 30 % des colonies d’abeilles disparaissent chaque année. Depuis 10 ans, 15 000 apiculteurs ont cessé leur activité. La disparition de l’abeille serait lourde de conséquences sur un plan environnemental et économique.
+    },
+    {
+      id: "69966266-182b-4f73-86bb-b19e4d44577e",
+      title: "Une grande menace plane sur les abeilles !",
+      authorName: "Sara",
+      publicationDate: new Date("2019-04-05"),
+      image: "blog/ab8f2635-e376-4a50-9a82-381d2e64a0fa",
+      slug: "une-grande-menace-plane-sur-les-abeilles",
+      description:
+        "Depuis quelques années, la population d’abeilles est en très forte diminution, avec une disparition totale sur certaines zones. On vous explique comment ne pas aggraver la situation…",
+      content: `Depuis quelques années, la population d’abeilles est en très forte diminution, avec une disparition totale sur certaines zones. En France, plus de 30 % des colonies d’abeilles disparaissent chaque année. Depuis 10 ans, 15 000 apiculteurs ont cessé leur activité. La disparition de l’abeille serait lourde de conséquences sur un plan environnemental et économique.
 
 On vous explique comment ne pas aggraver la situation…
 
@@ -155,17 +159,17 @@ On vous explique comment ne pas aggraver la situation…
 Vous pouvez également vous rapprocher de l’Association Natur Miel.
 
 Cette association est née au printemps 2018 suite à la destruction d’un rucher de 24 ruches biologiques par un pesticide. Vous pouvez les contacter par [mail](mailto:association@natur-miel.fr). Visitez également leur [site internet](https://natur-miel.fr). Vous pourrez y trouver de nombreux conseils pour préserver les abeilles, acheter du miel et faire un don pour les apiculteurs en difficulté.`,
-  },
-  {
-    id: "6329efdd-24f7-4187-9c73-374d6c7b0e73",
-    title: "Pourquoi adopter en association ?",
-    authorName: "Sara",
-    publicationDate: new Date("2019-03-20"),
-    image: "blog/2cacd032-ba23-4082-9324-c8ab4b4ce5c6",
-    slug: "pourquoi-adopter-en-association",
-    description:
-      "Vous souhaitez agrandir votre famille ? Privilégiez l’adoption en association ! On vous explique pourquoi…",
-    content: `Vous souhaitez agrandir votre famille ? Privilégiez l’adoption en association ! On vous explique pourquoi…
+    },
+    {
+      id: "6329efdd-24f7-4187-9c73-374d6c7b0e73",
+      title: "Pourquoi adopter en association ?",
+      authorName: "Sara",
+      publicationDate: new Date("2019-03-20"),
+      image: "blog/2cacd032-ba23-4082-9324-c8ab4b4ce5c6",
+      slug: "pourquoi-adopter-en-association",
+      description:
+        "Vous souhaitez agrandir votre famille ? Privilégiez l’adoption en association ! On vous explique pourquoi…",
+      content: `Vous souhaitez agrandir votre famille ? Privilégiez l’adoption en association ! On vous explique pourquoi…
 
 ## 1. Votre portefeuille vous remerciera
 
@@ -215,17 +219,17 @@ Vous voulez en adopter 2 ? Adoptez 2 protégés inséparables…
 Vous aimez les petits mal-aimés ? Adoptez un de nos protégés ayant le sida, un chat noir, un petit handicapé…
 
 Laissez-vous tenter par l’expérience avec nos protégés à l’adoption !`,
-  },
-  {
-    id: "d1886656-3081-45e9-89d9-e60233e42645",
-    title: "Comment choisir les bonnes croquettes pour nos amis à 4 pattes ?",
-    authorName: "Sara",
-    publicationDate: new Date("2019-03-09"),
-    image: "blog/76db3528-e3fe-481a-bfd2-70feff01150b",
-    slug: "comment-choisir-les-bonnes-croquettes-pour-nos-amis-a-4-pattes",
-    description:
-      "Choisir les bonnes croquettes pour votre protégé est très important.",
-    content: `**Choisir les bonnes croquettes pour votre protégé est très important**. Des croquettes de toutes sortes et de toutes marques sont proposées partout : dans les supermarchés, dans les animaleries, dans les cliniques vétérinaires et sur internet. Face aux nombreux choix qui s’offrent à vous, n’oubliez pas que les entreprises recherchent avant tout à faire du bénéfice et cela, très souvent, au-delà même du bien-être de nos amis les bêtes. Il convient donc d’être vigilant dans le choix de vos croquettes.
+    },
+    {
+      id: "d1886656-3081-45e9-89d9-e60233e42645",
+      title: "Comment choisir les bonnes croquettes pour nos amis à 4 pattes ?",
+      authorName: "Sara",
+      publicationDate: new Date("2019-03-09"),
+      image: "blog/76db3528-e3fe-481a-bfd2-70feff01150b",
+      slug: "comment-choisir-les-bonnes-croquettes-pour-nos-amis-a-4-pattes",
+      description:
+        "Choisir les bonnes croquettes pour votre protégé est très important.",
+      content: `**Choisir les bonnes croquettes pour votre protégé est très important**. Des croquettes de toutes sortes et de toutes marques sont proposées partout : dans les supermarchés, dans les animaleries, dans les cliniques vétérinaires et sur internet. Face aux nombreux choix qui s’offrent à vous, n’oubliez pas que les entreprises recherchent avant tout à faire du bénéfice et cela, très souvent, au-delà même du bien-être de nos amis les bêtes. Il convient donc d’être vigilant dans le choix de vos croquettes.
 
 _Pour cela, nous vous présentons les règles de base…_
 
@@ -331,17 +335,17 @@ _En conclusion, pour choisir de bonnes croquettes pour votre protégé, voici le
 3. Des protéines animales de bonne qualité vous choisirez ;
 4. Le mot animal ou végétal vous regarderez ;
 5. Les céréales vous éviterez.`,
-  },
-  {
-    id: "936ced63-9ee1-4758-a023-f0847dac7b16",
-    title: "Nos perles noires",
-    authorName: "Sara",
-    publicationDate: new Date("2019-02-09"),
-    image: "blog/91b2db94-c111-4e89-b041-0ea02c5f269d",
-    slug: "nos-perles-noires",
-    description:
-      "Les chats noirs sont de véritables perles au sein d’une famille.",
-    content: `Les chats noirs sont de véritables perles au sein d’une famille.
+    },
+    {
+      id: "936ced63-9ee1-4758-a023-f0847dac7b16",
+      title: "Nos perles noires",
+      authorName: "Sara",
+      publicationDate: new Date("2019-02-09"),
+      image: "blog/91b2db94-c111-4e89-b041-0ea02c5f269d",
+      slug: "nos-perles-noires",
+      description:
+        "Les chats noirs sont de véritables perles au sein d’une famille.",
+      content: `Les chats noirs sont de véritables perles au sein d’une famille.
 
 Malheureusement victimes de leur couleur, ils sont très souvent les derniers à être adoptés… à tort !
 
@@ -378,5 +382,8 @@ S’ils ne trouvent pas de famille, notre action n’en sera que retardée et di
 Alors, qu’attendez-vous ? C’est peut-être vous le nouveau compagnon pour la vie d’une de nos perles noires !
 
 [Contactez-nous](mailto:adoption@animeaux.org) !`,
-  },
-];
+    },
+  ],
+  (article) => DateTime.fromJSDate(article.publicationDate).toMillis(),
+  "desc"
+);

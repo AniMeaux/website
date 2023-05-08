@@ -1,7 +1,7 @@
 import { json, LoaderArgs, MetaFunction } from "@remix-run/node";
 import { useCatch, useLoaderData } from "@remix-run/react";
 import { DateTime } from "luxon";
-import { articles } from "~/blog/data";
+import { articles } from "~/blog/data.server";
 import { ArticleItem } from "~/blog/item";
 import { cn } from "~/core/classNames";
 import { getConfig } from "~/core/config";

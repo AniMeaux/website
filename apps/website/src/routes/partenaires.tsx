@@ -6,7 +6,7 @@ import { createSocialMeta } from "~/core/meta";
 import { getPageTitle } from "~/core/pageTitle";
 import { DynamicImage } from "~/dataDisplay/image";
 import { Markdown, MarkdownProps } from "~/dataDisplay/markdown";
-import { partners } from "~/partners/data";
+import { partners } from "~/partners/data.server";
 
 export async function loader() {
   return json({ partners });
