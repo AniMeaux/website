@@ -1,5 +1,7 @@
 import { json, MetaFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
+import { actionClassNames } from "~/core/actions";
+import { BaseLink } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
 import { createSocialMeta } from "~/core/meta";
 import { getPageTitle } from "~/core/pageTitle";
@@ -29,8 +31,9 @@ export default function Route() {
   return (
     <main className="w-full px-page flex flex-col gap-24">
       <Header />
-      <LawSection />
+      <AlertSection />
       <ErrandsSection />
+      <LawSection />
       <CitiesSection />
     </main>
   );
@@ -52,6 +55,40 @@ function Header() {
         </HeroSectionParagraph>
       </HeroSectionAside>
     </HeroSection>
+  );
+}
+
+function AlertSection() {
+  return (
+    <section className={bubbleSectionClassNames.root()}>
+      <span className={bubbleSectionClassNames.bubbleContainer()}>
+        <BubbleShape isDouble />
+      </span>
+
+      <div
+        className={cn(
+          bubbleSectionClassNames.content(),
+          "px-10 py-12 flex flex-col gap-6",
+          "md:px-30 md:py-[60px]"
+        )}
+      >
+        <h2 className="text-title-section-small text-center md:text-title-section-large">
+          Signalements
+        </h2>
+
+        <p className="text-center">
+          Vous avez constaté la présence de chats errants sur votre commune ?
+          Contactez notre équipe par mail à{" "}
+          <BaseLink
+            to="mailto:errance.feline@animeaux.org"
+            className={actionClassNames.proseInline()}
+          >
+            errance.feline@animeaux.org
+          </BaseLink>{" "}
+          et nous reviendrons vers vous avec les solutions possibles.
+        </p>
+      </div>
+    </section>
   );
 }
 
