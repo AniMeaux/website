@@ -1,6 +1,6 @@
 import { json, MetaFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
-import { articles } from "~/blog/data";
+import { articles } from "~/blog/data.server";
 import { ArticleItem } from "~/blog/item";
 import { cn } from "~/core/classNames";
 import { createSocialMeta } from "~/core/meta";
