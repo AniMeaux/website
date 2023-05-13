@@ -4,6 +4,7 @@
 module.exports = {
   appDirectory: "./src",
   cacheDirectory: "./node_modules/.cache/remix",
+  serverModuleFormat: "cjs",
   serverDependenciesToBundle: [
     // These are dependencies of react-markdown.
     // See https://remix.run/docs/en/v1/api/conventions#serverdependenciestobundle
