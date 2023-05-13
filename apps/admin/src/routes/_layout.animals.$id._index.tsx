@@ -261,7 +261,7 @@ function HeaderCard() {
 
         <AvatarCard.Lines>
           <AvatarCard.FirstLine>
-            <div className="grid grid-cols-[auto_minmax(0px,1fr)_auto] items-start gap-0.5">
+            <div className="grid grid-cols-[auto_minmax(0px,auto)_auto] items-start justify-start gap-0.5">
               <div
                 className={cn(
                   "h-2 flex items-center",
