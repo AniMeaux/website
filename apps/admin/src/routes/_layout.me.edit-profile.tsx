@@ -1,5 +1,5 @@
-import { ActionArgs, json, LoaderArgs, MetaFunction } from "@remix-run/node";
-import { useFetcher, useLoaderData } from "@remix-run/react";
+import { ActionArgs, json, LoaderArgs } from "@remix-run/node";
+import { useFetcher, useLoaderData, V2_MetaFunction } from "@remix-run/react";
 import { useEffect, useRef } from "react";
 import { z } from "zod";
 import { Action } from "~/core/actions";
@@ -29,8 +29,8 @@ export async function loader({ request }: LoaderArgs) {
   return json({ currentUser });
 }
 
-export const meta: MetaFunction = () => {
-  return { title: getPageTitle("Modifier votre profil") };
+export const meta: V2_MetaFunction = () => {
+  return [{ title: getPageTitle("Modifier votre profil") }];
 };
 
 const ActionFormData = createActionData(

@@ -1,4 +1,4 @@
-import { HtmlMetaDescriptor } from "@remix-run/react";
+import { V2_MetaDescriptor } from "@remix-run/react";
 
 /**
  * @see https://metatags.io/
@@ -13,24 +13,30 @@ export function createSocialMeta({
   title?: string;
   description?: string;
   imageUrl?: string;
-} = {}): HtmlMetaDescriptor {
-  const meta: HtmlMetaDescriptor = {};
+} = {}) {
+  const meta: V2_MetaDescriptor[] = [];
 
   if (title != null) {
-    meta["title"] = title;
-    meta["og:title"] = title;
-    meta["twitter:title"] = title;
+    meta.push(
+      { title },
+      { property: "og:title", content: title },
+      { property: "twitter:title", content: title }
+    );
   }
 
   if (description != null) {
-    meta["description"] = description;
-    meta["og:description"] = description;
-    meta["twitter:description"] = description;
+    meta.push(
+      { name: "description", content: description },
+      { property: "og:description", content: description },
+      { property: "twitter:description", content: description }
+    );
   }
 
   if (imageUrl != null) {
-    meta["og:image"] = imageUrl;
-    meta["twitter:image"] = imageUrl;
+    meta.push(
+      { property: "og:image", content: imageUrl },
+      { property: "twitter:image", content: imageUrl }
+    );
   }
 
   return meta;

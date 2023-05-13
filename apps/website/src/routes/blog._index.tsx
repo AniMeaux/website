@@ -1,5 +1,5 @@
-import { json, MetaFunction } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
+import { json } from "@remix-run/node";
+import { useLoaderData, V2_MetaFunction } from "@remix-run/react";
 import { articles } from "~/blog/data.server";
 import { ArticleItem } from "~/blog/item";
 import { cn } from "~/core/classNames";
@@ -10,7 +10,7 @@ export async function loader() {
   return json({ articles });
 }
 
-export const meta: MetaFunction = () => {
+export const meta: V2_MetaFunction = () => {
   return createSocialMeta({ title: getPageTitle("Blog") });
 };
 

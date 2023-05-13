@@ -1,7 +1,7 @@
 import { formatAge } from "@animeaux/shared";
 import { Prisma, Species, Status, UserGroup } from "@prisma/client";
-import { json, LoaderArgs, MetaFunction } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
+import { json, LoaderArgs } from "@remix-run/node";
+import { useLoaderData, V2_MetaFunction } from "@remix-run/react";
 import { DateTime } from "luxon";
 import { promiseHash } from "remix-utils";
 import invariant from "tiny-invariant";
@@ -169,8 +169,8 @@ export async function loader({ request }: LoaderArgs) {
   });
 }
 
-export const meta: MetaFunction = () => {
-  return { title: getPageTitle("Tableau de bord") };
+export const meta: V2_MetaFunction = () => {
+  return [{ title: getPageTitle("Tableau de bord") }];
 };
 
 export default function Route() {

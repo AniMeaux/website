@@ -3,12 +3,11 @@ import {
   ActionArgs,
   json,
   LoaderArgs,
-  MetaFunction,
   unstable_composeUploadHandlers,
   unstable_createMemoryUploadHandler,
   unstable_parseMultipartFormData,
 } from "@remix-run/node";
-import { useFetcher, useLoaderData } from "@remix-run/react";
+import { useFetcher, useLoaderData, V2_MetaFunction } from "@remix-run/react";
 import { z } from "zod";
 import { zfd } from "zod-form-data";
 import { updateAnimalPictures } from "~/animals/pictures/db.server";
@@ -60,15 +59,20 @@ export async function loader({ request, params }: LoaderArgs) {
   return json({ animal });
 }
 
-export const meta: MetaFunction<typeof loader> = ({ data }) => {
+export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
   const animal = data?.animal;
   if (animal == null) {
-    return { title: getPageTitle(getErrorTitle(404)) };
+    return [{ title: getPageTitle(getErrorTitle(404)) }];
   }
 
-  return {
-    title: getPageTitle([`Modifier ${getAnimalDisplayName(animal)}`, "Photos"]),
-  };
+  return [
+    {
+      title: getPageTitle([
+        `Modifier ${getAnimalDisplayName(animal)}`,
+        "Photos",
+      ]),
+    },
+  ];
 };
 
 type ActionData = {

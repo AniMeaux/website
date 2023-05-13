@@ -1,6 +1,6 @@
 import { Prisma } from "@prisma/client";
-import { json, MetaFunction } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
+import { json } from "@remix-run/node";
+import { useLoaderData, V2_MetaFunction } from "@remix-run/react";
 import { promiseHash } from "remix-utils";
 import { actionClassNames } from "~/core/actions";
 import { BaseLink } from "~/core/baseLink";
@@ -54,7 +54,7 @@ export async function loader() {
   return json({ events, pastEvents });
 }
 
-export const meta: MetaFunction = () => {
+export const meta: V2_MetaFunction = () => {
   return createSocialMeta({ title: getPageTitle("Événements à venir") });
 };
 

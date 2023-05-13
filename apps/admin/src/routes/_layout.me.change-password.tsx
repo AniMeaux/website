@@ -1,5 +1,5 @@
-import { ActionArgs, json, MetaFunction } from "@remix-run/node";
-import { useFetcher } from "@remix-run/react";
+import { ActionArgs, json } from "@remix-run/node";
+import { useFetcher, V2_MetaFunction } from "@remix-run/react";
 import { useEffect, useRef } from "react";
 import { z } from "zod";
 import { Action } from "~/core/actions";
@@ -17,8 +17,8 @@ import {
 } from "~/currentUser/db.server";
 import { Icon } from "~/generated/icon";
 
-export const meta: MetaFunction = () => {
-  return { title: getPageTitle("Changer de mot de passe") };
+export const meta: V2_MetaFunction = () => {
+  return [{ title: getPageTitle("Changer de mot de passe") }];
 };
 
 const ActionFormData = createActionData(

@@ -1,14 +1,8 @@
 import { formatAge } from "@animeaux/shared";
 import { AdoptionOption, Gender, Status, UserGroup } from "@prisma/client";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
-import {
-  ActionArgs,
-  json,
-  LoaderArgs,
-  MetaFunction,
-  redirect,
-} from "@remix-run/node";
-import { useFetcher, useLoaderData } from "@remix-run/react";
+import { ActionArgs, json, LoaderArgs, redirect } from "@remix-run/node";
+import { useFetcher, useLoaderData, V2_MetaFunction } from "@remix-run/react";
 import { DateTime } from "luxon";
 import { z } from "zod";
 import { ADOPTION_OPTION_TRANSLATION } from "~/animals/adoption";
@@ -148,13 +142,13 @@ export async function loader({ request, params }: LoaderArgs) {
   });
 }
 
-export const meta: MetaFunction<typeof loader> = ({ data }) => {
+export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
   const animal = data?.animal;
   if (animal == null) {
-    return { title: getPageTitle(getErrorTitle(404)) };
+    return [{ title: getPageTitle(getErrorTitle(404)) }];
   }
 
-  return { title: getPageTitle(getAnimalDisplayName(animal)) };
+  return [{ title: getPageTitle(getAnimalDisplayName(animal)) }];
 };
 
 export async function action({ request, params }: ActionArgs) {

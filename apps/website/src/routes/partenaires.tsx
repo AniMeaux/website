@@ -1,5 +1,5 @@
-import { json, MetaFunction, SerializeFrom } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
+import { json, SerializeFrom } from "@remix-run/node";
+import { useLoaderData, V2_MetaFunction } from "@remix-run/react";
 import { BaseLink } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
 import { createSocialMeta } from "~/core/meta";
@@ -12,7 +12,7 @@ export async function loader() {
   return json({ partners });
 }
 
-export const meta: MetaFunction = () => {
+export const meta: V2_MetaFunction = () => {
   return createSocialMeta({ title: getPageTitle("Partenaires") });
 };
 

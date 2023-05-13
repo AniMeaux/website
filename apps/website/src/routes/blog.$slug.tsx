@@ -1,10 +1,10 @@
-import { json, LoaderArgs, MetaFunction } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
+import { json, LoaderArgs } from "@remix-run/node";
+import { useLoaderData, V2_MetaFunction } from "@remix-run/react";
 import { DateTime } from "luxon";
 import { articles } from "~/blog/data.server";
 import { ArticleItem } from "~/blog/item";
 import { cn } from "~/core/classNames";
-import { getConfig } from "~/core/config";
+import { getConfigFromMetaMatches } from "~/core/config";
 import { createSocialMeta } from "~/core/meta";
 import { getPageTitle } from "~/core/pageTitle";
 import { ErrorPage, getErrorTitle } from "~/dataDisplay/errorPage";
@@ -42,13 +42,13 @@ export async function loader({ params }: LoaderArgs) {
   return json({ article, otherArticles });
 }
 
-export const meta: MetaFunction<typeof loader> = ({ data, parentsData }) => {
+export const meta: V2_MetaFunction<typeof loader> = ({ data, matches }) => {
   const article = data?.article;
   if (article == null) {
     return createSocialMeta({ title: getPageTitle(getErrorTitle(404)) });
   }
 
-  const config = getConfig(parentsData);
+  const config = getConfigFromMetaMatches(matches);
   return createSocialMeta({
     title: getPageTitle(article.title),
     description: article.description,

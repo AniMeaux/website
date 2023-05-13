@@ -1,12 +1,6 @@
 import { UserGroup } from "@prisma/client";
-import {
-  ActionArgs,
-  json,
-  LoaderArgs,
-  MetaFunction,
-  redirect,
-} from "@remix-run/node";
-import { useFetcher, useLoaderData } from "@remix-run/react";
+import { ActionArgs, json, LoaderArgs, redirect } from "@remix-run/node";
+import { useFetcher, useLoaderData, V2_MetaFunction } from "@remix-run/react";
 import { z } from "zod";
 import { AnimalCreationSteps } from "~/animals/creationSteps";
 import {
@@ -42,8 +36,8 @@ export async function loader({ request }: LoaderArgs) {
   return json({ draft: currentUser.draft });
 }
 
-export const meta: MetaFunction = () => {
-  return { title: getPageTitle(["Nouvel animal", "Profil"]) };
+export const meta: V2_MetaFunction = () => {
+  return [{ title: getPageTitle(["Nouvel animal", "Profil"]) }];
 };
 
 type ActionData = {

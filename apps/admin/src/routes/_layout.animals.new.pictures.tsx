@@ -3,13 +3,12 @@ import {
   ActionArgs,
   json,
   LoaderArgs,
-  MetaFunction,
   redirect,
   unstable_composeUploadHandlers,
   unstable_createMemoryUploadHandler,
   unstable_parseMultipartFormData,
 } from "@remix-run/node";
-import { useFetcher } from "@remix-run/react";
+import { useFetcher, V2_MetaFunction } from "@remix-run/react";
 import { z } from "zod";
 import { zfd } from "zod-form-data";
 import { AnimalCreationSteps } from "~/animals/creationSteps";
@@ -44,8 +43,8 @@ export async function loader({ request }: LoaderArgs) {
   return new Response("Ok");
 }
 
-export const meta: MetaFunction = () => {
-  return { title: getPageTitle(["Nouvel animal", "Photos"]) };
+export const meta: V2_MetaFunction = () => {
+  return [{ title: getPageTitle(["Nouvel animal", "Photos"]) }];
 };
 
 type ActionData = {

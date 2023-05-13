@@ -1,6 +1,6 @@
 import { UserGroup } from "@prisma/client";
-import { ActionArgs, json, LoaderArgs, MetaFunction } from "@remix-run/node";
-import { useFetcher, useLoaderData } from "@remix-run/react";
+import { ActionArgs, json, LoaderArgs } from "@remix-run/node";
+import { useFetcher, useLoaderData, V2_MetaFunction } from "@remix-run/react";
 import { z } from "zod";
 import { zfd } from "zod-form-data";
 import { ErrorPage, getErrorTitle } from "~/core/dataDisplay/errorPage";
@@ -40,13 +40,13 @@ export async function loader({ request, params }: LoaderArgs) {
   return json({ user });
 }
 
-export const meta: MetaFunction<typeof loader> = ({ data }) => {
+export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
   const user = data?.user;
   if (user == null) {
-    return { title: getPageTitle(getErrorTitle(404)) };
+    return [{ title: getPageTitle(getErrorTitle(404)) }];
   }
 
-  return { title: getPageTitle(`Modifier ${user.displayName}`) };
+  return [{ title: getPageTitle(`Modifier ${user.displayName}`) }];
 };
 
 type ActionData = {

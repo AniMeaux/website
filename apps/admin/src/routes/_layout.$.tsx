@@ -1,4 +1,4 @@
-import { MetaFunction } from "@remix-run/node";
+import { V2_MetaFunction } from "@remix-run/react";
 import { ErrorPage, getErrorTitle } from "~/core/dataDisplay/errorPage";
 import { PageLayout } from "~/core/layout/page";
 import { getPageTitle } from "~/core/pageTitle";
@@ -8,8 +8,8 @@ export async function loader() {
   throw new NotFoundResponse();
 }
 
-export const meta: MetaFunction = () => {
-  return { title: getPageTitle(getErrorTitle(404)) };
+export const meta: V2_MetaFunction = () => {
+  return [{ title: getPageTitle(getErrorTitle(404)) }];
 };
 
 /**

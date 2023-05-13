@@ -1,5 +1,5 @@
-import { json, LoaderArgs, MetaFunction } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
+import { json, LoaderArgs } from "@remix-run/node";
+import { useLoaderData, V2_MetaFunction } from "@remix-run/react";
 import { z } from "zod";
 import { Tab } from "~/controllers/tabs";
 import { actionClassNames } from "~/core/actions";
@@ -22,10 +22,10 @@ export async function loader({ params }: LoaderArgs) {
   return json({ day: result.data });
 }
 
-export const meta: MetaFunction<typeof loader> = ({ data }) => {
+export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
   const day = data?.day;
   if (day == null) {
-    return { title: getPageTitle(getErrorTitle(404)) };
+    return createSocialMeta({ title: getPageTitle(getErrorTitle(404)) });
   }
 
   return createSocialMeta({ title: getPageTitle(`Programme du ${day}`) });

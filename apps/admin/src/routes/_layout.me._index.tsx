@@ -1,6 +1,6 @@
 import { Prisma, UserGroup } from "@prisma/client";
-import { json, LoaderArgs, MetaFunction } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
+import { json, LoaderArgs } from "@remix-run/node";
+import { useLoaderData, V2_MetaFunction } from "@remix-run/react";
 import { promiseHash } from "remix-utils";
 import { AnimalItem } from "~/animals/item";
 import { AnimalSearchParams } from "~/animals/searchParams";
@@ -95,8 +95,8 @@ export async function loader({ request }: LoaderArgs) {
   });
 }
 
-export const meta: MetaFunction = () => {
-  return { title: getPageTitle("Mon profil") };
+export const meta: V2_MetaFunction = () => {
+  return [{ title: getPageTitle("Mon profil") }];
 };
 
 export default function Route() {

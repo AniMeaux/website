@@ -1,6 +1,11 @@
 import { Gender } from "@prisma/client";
-import { json, LoaderArgs, MetaFunction } from "@remix-run/node";
-import { Form, useLoaderData, useSearchParams } from "@remix-run/react";
+import { json, LoaderArgs } from "@remix-run/node";
+import {
+  Form,
+  useLoaderData,
+  useSearchParams,
+  V2_MetaFunction,
+} from "@remix-run/react";
 import orderBy from "lodash.orderby";
 import { useEffect, useState } from "react";
 import { z } from "zod";
@@ -57,7 +62,7 @@ export async function loader({ request }: LoaderArgs) {
   return json({ names });
 }
 
-export const meta: MetaFunction = () => {
+export const meta: V2_MetaFunction = () => {
   return createSocialMeta({ title: getPageTitle("Nommez votre animal") });
 };
 

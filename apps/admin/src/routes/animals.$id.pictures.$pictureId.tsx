@@ -1,6 +1,6 @@
 import { UserGroup } from "@prisma/client";
-import { json, LoaderArgs, MetaFunction } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
+import { json, LoaderArgs } from "@remix-run/node";
+import { useLoaderData, V2_MetaFunction } from "@remix-run/react";
 import { z } from "zod";
 import { getAllAnimalPictures } from "~/animals/pictures/allPictures";
 import { getAnimalDisplayName } from "~/animals/profile/name";
@@ -63,13 +63,13 @@ export async function loader({ request, params }: LoaderArgs) {
   return json({ animal, visiblePictureId: pictureIdResult.data });
 }
 
-export const meta: MetaFunction<typeof loader> = ({ data }) => {
+export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
   const animal = data?.animal;
   if (animal == null) {
-    return { title: getPageTitle(getErrorTitle(404)) };
+    return [{ title: getPageTitle(getErrorTitle(404)) }];
   }
 
-  return { title: getPageTitle(`Photos de ${getAnimalDisplayName(animal)}`) };
+  return [{ title: getPageTitle(`Photos de ${getAnimalDisplayName(animal)}`) }];
 };
 
 export default function Route() {

@@ -1,7 +1,7 @@
 import { AnimalAge, ANIMAL_AGE_RANGE_BY_SPECIES } from "@animeaux/shared";
 import { Prisma, Species } from "@prisma/client";
-import { json, LoaderArgs, MetaFunction } from "@remix-run/node";
-import { useLoaderData, useParams } from "@remix-run/react";
+import { json, LoaderArgs } from "@remix-run/node";
+import { useLoaderData, useParams, V2_MetaFunction } from "@remix-run/react";
 import { DateTime } from "luxon";
 import { promiseHash } from "remix-utils";
 import invariant from "tiny-invariant";
@@ -127,7 +127,7 @@ function getAgeRangeSearchFilter(
   };
 }
 
-export const meta: MetaFunction = ({ params }) => {
+export const meta: V2_MetaFunction = ({ params }) => {
   const pageParams = PATH_TO_PAGE_PARAMS.get(params["*"] ?? "");
   if (pageParams == null) {
     return createSocialMeta({ title: getPageTitle(getErrorTitle(404)) });

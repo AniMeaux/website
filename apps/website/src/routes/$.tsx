@@ -1,6 +1,7 @@
 import { AnimalAge } from "@animeaux/shared";
 import { Species } from "@prisma/client";
-import { LoaderArgs, MetaFunction, redirect } from "@remix-run/node";
+import { LoaderArgs, redirect } from "@remix-run/node";
+import { V2_MetaFunction } from "@remix-run/react";
 import { getPath } from "~/controllers/searchForm";
 import { createSocialMeta } from "~/core/meta";
 import { getPageTitle } from "~/core/pageTitle";
@@ -15,7 +16,7 @@ export async function loader({ params }: LoaderArgs) {
   throw new Response("Not found", { status: 404 });
 }
 
-export const meta: MetaFunction = () => {
+export const meta: V2_MetaFunction = () => {
   return createSocialMeta({ title: getPageTitle(getErrorTitle(404)) });
 };
 

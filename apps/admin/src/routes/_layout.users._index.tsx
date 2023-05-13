@@ -1,6 +1,6 @@
 import { Prisma, User, UserGroup } from "@prisma/client";
-import { json, LoaderArgs, MetaFunction } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
+import { json, LoaderArgs } from "@remix-run/node";
+import { useLoaderData, V2_MetaFunction } from "@remix-run/react";
 import orderBy from "lodash.orderby";
 import { DateTime } from "luxon";
 import { promiseHash } from "remix-utils";
@@ -110,8 +110,8 @@ export async function loader({ request }: LoaderArgs) {
   return json({ pageCount, userCount, users });
 }
 
-export const meta: MetaFunction = () => {
-  return { title: getPageTitle("Utilisateurs") };
+export const meta: V2_MetaFunction = () => {
+  return [{ title: getPageTitle("Utilisateurs") }];
 };
 
 export default function Route() {
