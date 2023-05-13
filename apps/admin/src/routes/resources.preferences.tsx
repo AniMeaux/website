@@ -53,7 +53,7 @@ export function usePreferencesFetcher() {
         String(preferences.isSideBarCollapsed)
       );
 
-      fetcherSubmit(formData, { method: "post", action: RESOURCE_PATHNAME });
+      fetcherSubmit(formData, { method: "POST", action: RESOURCE_PATHNAME });
     },
     [fetcherSubmit]
   );

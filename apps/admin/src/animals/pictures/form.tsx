@@ -108,7 +108,7 @@ export function AnimalPicturesForm({
         }
 
         fetcher.submit(formData, {
-          method: "post",
+          method: "POST",
           encType: "multipart/form-data",
           action,
         });

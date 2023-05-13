@@ -115,7 +115,7 @@ export default function Route() {
 
           <Card.Content>
             <Form asChild hasHeader>
-              <fetcher.Form method="post" noValidate>
+              <fetcher.Form method="POST" noValidate>
                 <Form.Fields>
                   <Form.Errors errors={fetcher.data?.errors?.formErrors} />
 

@@ -109,7 +109,7 @@ export default function Route() {
           </h1>
 
           <fetcher.Form
-            method="post"
+            method="POST"
             noValidate
             className="flex flex-col gap-4"
           >

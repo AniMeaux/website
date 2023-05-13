@@ -20,8 +20,8 @@ import { getCurrentUserPreferences } from "~/currentUser/preferences.server";
 import { Icon, IconProps } from "~/generated/icon";
 import { theme } from "~/generated/theme";
 import nameAndLogo from "~/images/nameAndLogo.svg";
-import { GlobalSearch } from "~/routes/resources/global-search";
-import { usePreferencesFetcher } from "~/routes/resources/preferences";
+import { GlobalSearch } from "~/routes/resources.global-search";
+import { usePreferencesFetcher } from "~/routes/resources.preferences";
 import { UserAvatar } from "~/users/avatar";
 import { hasGroups } from "~/users/groups";
 
@@ -268,7 +268,7 @@ function CurrentUserMenu() {
           <DropdownMenu.Item
             onSelect={() =>
               fetcher.submit(null, {
-                method: "post",
+                method: "POST",
                 action: createPath({
                   pathname: "/logout",
                   search: new NextSearchParams()

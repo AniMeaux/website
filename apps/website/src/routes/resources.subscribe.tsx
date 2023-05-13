@@ -84,7 +84,7 @@ export function SubscriptionForm() {
     >
       <fetcher.Form
         ref={formRef}
-        method="post"
+        method="POST"
         action={RESOURCE_PATHNAME}
         className={cn(
           "w-full rounded-tl-[16px] rounded-tr-[10px] rounded-br-[16px] rounded-bl-[10px] shadow-base p-1 flex gap-2",

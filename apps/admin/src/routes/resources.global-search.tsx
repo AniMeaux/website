@@ -364,7 +364,7 @@ function Combobox({
 
   return (
     <fetcher.Form
-      method="get"
+      method="GET"
       action={RESOURCE_PATHNAME}
       className="flex flex-col gap-1 md:gap-0"
       onChange={(event) => fetcher.submit(event.currentTarget)}

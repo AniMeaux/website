@@ -12,7 +12,7 @@ export function Filters({ children }: { children?: React.ReactNode }) {
   return (
     <Form
       replace
-      method="get"
+      method="GET"
       onChange={(event) => submit(event.currentTarget, { replace: true })}
       className="flex flex-col gap-2"
     >

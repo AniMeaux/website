@@ -112,7 +112,7 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
 };
 
 export async function action({ request, params }: ActionArgs) {
-  if (request.method.toLowerCase() !== "delete") {
+  if (request.method.toUpperCase() !== "DELETE") {
     throw new NotFoundResponse();
   }
 
@@ -457,7 +457,7 @@ function ActionCard() {
             <Dialog.Actions>
               <Dialog.CloseAction>Annuler</Dialog.CloseAction>
 
-              <fetcher.Form method="delete" className="flex">
+              <fetcher.Form method="DELETE" className="flex">
                 <Dialog.ConfirmAction type="submit">
                   Oui, supprimer
                 </Dialog.ConfirmAction>

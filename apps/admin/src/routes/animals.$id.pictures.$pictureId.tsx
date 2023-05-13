@@ -17,7 +17,7 @@ import { NotFoundResponse } from "~/core/response.server";
 import { getCurrentUser } from "~/currentUser/db.server";
 import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
 import { Icon } from "~/generated/icon";
-import { DownloadPictureLink } from "~/routes/downloads/picture.$id";
+import { DownloadPictureLink } from "~/routes/downloads.picture.$id";
 
 export const handle: RouteHandle = {
   htmlBackgroundColor: "bg-white",

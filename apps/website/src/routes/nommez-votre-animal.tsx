@@ -96,7 +96,7 @@ export default function Route() {
             "md:flex-1 md:max-w-xs"
           )}
         >
-          <Form method="get" className="w-full flex flex-col gap-6">
+          <Form method="GET" className="w-full flex flex-col gap-6">
             <h2 className="text-title-item">Critères</h2>
 
             <div className="flex flex-col gap-3">
@@ -204,7 +204,7 @@ export default function Route() {
                 ))}
               </ul>
 
-              <Form method="get" className="flex">
+              <Form method="GET" className="flex">
                 <input type="hidden" name="l" value={params.l ?? ""} />
                 <input type="hidden" name="g" value={params.g ?? ""} />
 

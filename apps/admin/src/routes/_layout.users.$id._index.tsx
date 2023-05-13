@@ -171,7 +171,7 @@ export async function action({ request, params }: ActionArgs) {
     throw new NotFoundResponse();
   }
 
-  if (request.method.toLowerCase() === "delete") {
+  if (request.method.toUpperCase() === "DELETE") {
     return await actionDelete({ currentUser, userId: result.data });
   }
 
@@ -607,7 +607,7 @@ function ActionDisable() {
           <Dialog.Actions>
             <Dialog.CloseAction>Annuler</Dialog.CloseAction>
 
-            <fetcher.Form method="post" className="flex">
+            <fetcher.Form method="POST" className="flex">
               <Dialog.ConfirmAction
                 type="submit"
                 name={DisableActionFormData.keys.isDisabled}
@@ -686,7 +686,7 @@ function ActionDelete() {
           <Dialog.Actions>
             <Dialog.CloseAction>Annuler</Dialog.CloseAction>
 
-            <fetcher.Form method="delete" className="flex">
+            <fetcher.Form method="DELETE" className="flex">
               <Dialog.ConfirmAction type="submit">
                 Oui, supprimer
               </Dialog.ConfirmAction>
