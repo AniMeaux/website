@@ -5,6 +5,13 @@ module.exports = {
   appDirectory: "./src",
   cacheDirectory: "./node_modules/.cache/remix",
   serverModuleFormat: "cjs",
+  tailwind: true,
+  future: {
+    v2_errorBoundary: true,
+    v2_meta: true,
+    v2_normalizeFormMethod: true,
+    v2_routeConvention: true,
+  },
   // See https://remix.run/docs/en/v1/api/conventions#serverdependenciestobundle
   serverDependenciesToBundle: [
     // These are dependencies of react-markdown.
@@ -32,10 +39,4 @@ module.exports = {
     /^dnd-core$/,
     /^react-dnd/,
   ],
-  future: {
-    v2_errorBoundary: true,
-    v2_meta: true,
-    v2_normalizeFormMethod: true,
-    v2_routeConvention: true,
-  },
 };

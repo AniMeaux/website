@@ -15,11 +15,11 @@ import { createConfig } from "~/core/config.server";
 import { ErrorPage } from "~/core/dataDisplay/errorPage";
 import { asRouteHandle } from "~/core/handles";
 import { getPageTitle } from "~/core/pageTitle";
-import stylesheet from "~/generated/tailwind.css";
 import { theme } from "~/generated/theme";
 import appleTouchIcon from "~/images/appleTouchIcon.png";
 import favicon from "~/images/favicon.svg";
 import maskIcon from "~/images/maskIcon.svg";
+import stylesheet from "~/tailwind.css";
 
 // Display dates in French.
 Settings.defaultLocale = "fr";

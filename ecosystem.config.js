@@ -41,14 +41,6 @@ module.exports = {
     }),
 
     createApp({
-      name: "admin-css",
-      cwd: "./apps/admin",
-      script: "yarn build:css",
-      watch: ["./tailwind.config.js", "./styles", "./src"],
-      ignore_watch: ["./src/generated"],
-    }),
-
-    createApp({
       name: "admin-icons",
       cwd: "./apps/admin",
       script: "yarn build:icons",
@@ -70,14 +62,6 @@ module.exports = {
     }),
 
     createApp({
-      name: "website-css",
-      cwd: "./apps/website",
-      script: "yarn build:css",
-      watch: ["./tailwind.config.js", "./styles", "./src"],
-      ignore_watch: ["./src/generated"],
-    }),
-
-    createApp({
       name: "website-icons",
       cwd: "./apps/website",
       script: "yarn build:icons",
@@ -96,14 +80,6 @@ module.exports = {
       cwd: "./apps/show",
       script: "yarn dev",
       watch: ["./remix.config.js", "tsconfig.json", "./.env*"],
-    }),
-
-    createApp({
-      name: "show-css",
-      cwd: "./apps/show",
-      script: "yarn build:css",
-      watch: ["./tailwind.config.js", "./styles", "./src"],
-      ignore_watch: ["./src/generated"],
     }),
 
     createApp({

@@ -16,7 +16,6 @@ import { createConfig } from "~/core/config.server";
 import { createSocialMeta } from "~/core/meta";
 import { getPageTitle, pageDescription } from "~/core/pageTitle";
 import { ErrorPage } from "~/dataDisplay/errorPage";
-import stylesheet from "~/generated/tailwind.css";
 import { theme } from "~/generated/theme";
 import appleTouchIcon from "~/images/appleTouchIcon.png";
 import background from "~/images/background.svg";
@@ -25,6 +24,7 @@ import maskIcon from "~/images/maskIcon.svg";
 import { socialImages } from "~/images/social";
 import { Footer } from "~/layout/footer";
 import { Header } from "~/layout/header";
+import stylesheet from "~/tailwind.css";
 
 Settings.defaultLocale = "fr";
 

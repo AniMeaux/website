@@ -5,6 +5,7 @@ module.exports = {
   appDirectory: "./src",
   cacheDirectory: "./node_modules/.cache/remix",
   serverModuleFormat: "cjs",
+  tailwind: true,
   future: {
     v2_errorBoundary: true,
     v2_meta: true,
