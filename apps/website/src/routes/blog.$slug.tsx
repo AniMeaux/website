@@ -1,5 +1,5 @@
 import { json, LoaderArgs, MetaFunction } from "@remix-run/node";
-import { useCatch, useLoaderData } from "@remix-run/react";
+import { useLoaderData } from "@remix-run/react";
 import { DateTime } from "luxon";
 import { articles } from "~/blog/data.server";
 import { ArticleItem } from "~/blog/item";
@@ -59,9 +59,8 @@ export const meta: MetaFunction<typeof loader> = ({ data, parentsData }) => {
   });
 };
 
-export function CatchBoundary() {
-  const caught = useCatch();
-  return <ErrorPage status={caught.status} />;
+export function ErrorBoundary() {
+  return <ErrorPage />;
 }
 
 export default function Route() {

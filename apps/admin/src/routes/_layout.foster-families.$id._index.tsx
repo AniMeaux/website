@@ -6,7 +6,7 @@ import {
   MetaFunction,
   redirect,
 } from "@remix-run/node";
-import { useCatch, useFetcher, useLoaderData } from "@remix-run/react";
+import { useFetcher, useLoaderData } from "@remix-run/react";
 import { useState } from "react";
 import { promiseHash } from "remix-utils";
 import { z } from "zod";
@@ -156,9 +156,8 @@ export async function action({ request, params }: ActionArgs) {
   throw redirect("/foster-families");
 }
 
-export function CatchBoundary() {
-  const caught = useCatch();
-  return <ErrorPage status={caught.status} />;
+export function ErrorBoundary() {
+  return <ErrorPage />;
 }
 
 export default function Route() {

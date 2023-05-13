@@ -1,6 +1,6 @@
 import { UserGroup } from "@prisma/client";
 import { ActionArgs, json, LoaderArgs, MetaFunction } from "@remix-run/node";
-import { useCatch, useFetcher, useLoaderData } from "@remix-run/react";
+import { useFetcher, useLoaderData } from "@remix-run/react";
 import { z } from "zod";
 import { getAnimalDisplayName } from "~/animals/profile/name";
 import {
@@ -220,9 +220,8 @@ export async function action({ request, params }: ActionArgs) {
   return json<ActionData>({ redirectTo: `/animals/${idResult.data}` });
 }
 
-export function CatchBoundary() {
-  const caught = useCatch();
-  return <ErrorPage status={caught.status} />;
+export function ErrorBoundary() {
+  return <ErrorPage />;
 }
 
 export default function Route() {

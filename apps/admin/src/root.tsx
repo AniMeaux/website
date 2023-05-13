@@ -11,7 +11,6 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
-  useCatch,
   useMatches,
 } from "@remix-run/react";
 import { Settings } from "luxon";
@@ -92,22 +91,10 @@ export default function App() {
   );
 }
 
-export function CatchBoundary() {
-  const caught = useCatch();
-
+export function ErrorBoundary() {
   return (
     <Document>
-      <ErrorPage status={caught.status} />
-    </Document>
-  );
-}
-
-export function ErrorBoundary({ error }: { error: Error }) {
-  console.error("ErrorBoundary error", error);
-
-  return (
-    <Document>
-      <ErrorPage status={500} />
+      <ErrorPage />
     </Document>
   );
 }

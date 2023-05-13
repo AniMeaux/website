@@ -6,7 +6,7 @@ import {
   MetaFunction,
   redirect,
 } from "@remix-run/node";
-import { useCatch, useFetcher, useLoaderData } from "@remix-run/react";
+import { useFetcher, useLoaderData } from "@remix-run/react";
 import { z } from "zod";
 import { AnimalCreationSteps } from "~/animals/creationSteps";
 import { assertDraftHasValidProfile } from "~/animals/profile/db.server";
@@ -166,9 +166,8 @@ export async function action({ request }: ActionArgs) {
   throw redirect("/animals/new/pictures");
 }
 
-export function CatchBoundary() {
-  const caught = useCatch();
-  return <ErrorPage status={caught.status} />;
+export function ErrorBoundary() {
+  return <ErrorPage />;
 }
 
 export default function Route() {

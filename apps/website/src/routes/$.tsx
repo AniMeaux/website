@@ -9,10 +9,10 @@ import { ErrorPage, getErrorTitle } from "~/dataDisplay/errorPage";
 export async function loader({ params }: LoaderArgs) {
   const redirectTo = REDIRECTIONS[`/${params["*"]}`];
   if (redirectTo != null) {
-    return redirect(redirectTo, 301);
+    throw redirect(redirectTo, 301);
   }
 
-  return new Response("Not found", { status: 404 });
+  throw new Response("Not found", { status: 404 });
 }
 
 export const meta: MetaFunction = () => {
@@ -25,8 +25,12 @@ export const meta: MetaFunction = () => {
  *
  * @see https://remix.run/docs/en/v1/guides/routing#splats
  */
+export function ErrorBoundary() {
+  return <ErrorPage />;
+}
+
 export default function Route() {
-  return <ErrorPage status={404} />;
+  return null;
 }
 
 const REDIRECTIONS: Record<string, string> = {

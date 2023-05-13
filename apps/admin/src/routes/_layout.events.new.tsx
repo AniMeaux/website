@@ -9,7 +9,7 @@ import {
   unstable_createMemoryUploadHandler,
   unstable_parseMultipartFormData,
 } from "@remix-run/node";
-import { useCatch, useFetcher } from "@remix-run/react";
+import { useFetcher } from "@remix-run/react";
 import { z } from "zod";
 import { zfd } from "zod-form-data";
 import {
@@ -125,9 +125,8 @@ export async function action({ request }: ActionArgs) {
   }
 }
 
-export function CatchBoundary() {
-  const caught = useCatch();
-  return <ErrorPage status={caught.status} />;
+export function ErrorBoundary() {
+  return <ErrorPage />;
 }
 
 export default function Route() {

@@ -1,7 +1,7 @@
 import { AnimalAge, ANIMAL_AGE_RANGE_BY_SPECIES } from "@animeaux/shared";
 import { Prisma, Species } from "@prisma/client";
 import { json, LoaderArgs, MetaFunction } from "@remix-run/node";
-import { useCatch, useLoaderData, useParams } from "@remix-run/react";
+import { useLoaderData, useParams } from "@remix-run/react";
 import { DateTime } from "luxon";
 import { promiseHash } from "remix-utils";
 import invariant from "tiny-invariant";
@@ -165,9 +165,8 @@ function getPageParamsTranslation(
   return translation;
 }
 
-export function CatchBoundary() {
-  const caught = useCatch();
-  return <ErrorPage status={caught.status} />;
+export function ErrorBoundary() {
+  return <ErrorPage />;
 }
 
 export default function Route() {

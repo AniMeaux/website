@@ -8,7 +8,7 @@ import {
   MetaFunction,
   redirect,
 } from "@remix-run/node";
-import { useCatch, useFetcher, useLoaderData } from "@remix-run/react";
+import { useFetcher, useLoaderData } from "@remix-run/react";
 import { DateTime } from "luxon";
 import { z } from "zod";
 import { ADOPTION_OPTION_TRANSLATION } from "~/animals/adoption";
@@ -191,9 +191,8 @@ export async function action({ request, params }: ActionArgs) {
   throw redirect("/animals/search");
 }
 
-export function CatchBoundary() {
-  const caught = useCatch();
-  return <ErrorPage status={caught.status} />;
+export function ErrorBoundary() {
+  return <ErrorPage />;
 }
 
 export default function Route() {

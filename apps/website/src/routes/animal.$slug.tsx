@@ -1,7 +1,7 @@
 import { formatAge } from "@animeaux/shared";
 import { Gender } from "@prisma/client";
 import { json, LoaderArgs, MetaFunction, SerializeFrom } from "@remix-run/node";
-import { useCatch, useLoaderData } from "@remix-run/react";
+import { useLoaderData } from "@remix-run/react";
 import { DateTime } from "luxon";
 import { useRef, useState } from "react";
 import invariant from "tiny-invariant";
@@ -80,9 +80,8 @@ export const meta: MetaFunction<typeof loader> = ({ data, parentsData }) => {
   });
 };
 
-export function CatchBoundary() {
-  const caught = useCatch();
-  return <ErrorPage status={caught.status} />;
+export function ErrorBoundary() {
+  return <ErrorPage />;
 }
 
 export default function Route() {

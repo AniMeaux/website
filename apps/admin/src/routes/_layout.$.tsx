@@ -5,7 +5,7 @@ import { getPageTitle } from "~/core/pageTitle";
 import { NotFoundResponse } from "~/core/response.server";
 
 export async function loader() {
-  return new NotFoundResponse();
+  throw new NotFoundResponse();
 }
 
 export const meta: MetaFunction = () => {
@@ -18,12 +18,16 @@ export const meta: MetaFunction = () => {
  *
  * @see https://remix.run/docs/en/v1/guides/routing#splats
  */
-export default function Route() {
+export function ErrorBoundary() {
   return (
     <PageLayout>
       <PageLayout.Content className="flex flex-col">
-        <ErrorPage status={404} />
+        <ErrorPage />
       </PageLayout.Content>
     </PageLayout>
   );
+}
+
+export default function Route() {
+  return null;
 }

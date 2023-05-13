@@ -34,7 +34,7 @@ export async function loader({ request, params }: LoaderArgs) {
   throw redirect(`/animals/${id.data}/pictures/${animal.avatar}`);
 }
 
-// This export is required for parent's `CatchBoundary` to work.
+// This export is required for parent's `ErrorBoundary` to work.
 export default function Route() {
   return null;
 }

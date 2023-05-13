@@ -11,7 +11,6 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
-  useCatch,
 } from "@remix-run/react";
 import { Settings } from "luxon";
 import { cn } from "~/core/classNames";
@@ -115,22 +114,10 @@ export default function App() {
   );
 }
 
-export function CatchBoundary() {
-  const caught = useCatch();
-
+export function ErrorBoundary() {
   return (
     <Document>
-      <ErrorPage isStandAlone status={caught.status} />
-    </Document>
-  );
-}
-
-export function ErrorBoundary({ error }: { error: Error }) {
-  console.error("ErrorBoundary error", error);
-
-  return (
-    <Document>
-      <ErrorPage isStandAlone status={500} />
+      <ErrorPage isStandAlone />
     </Document>
   );
 }

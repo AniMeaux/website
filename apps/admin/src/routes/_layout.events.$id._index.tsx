@@ -7,7 +7,7 @@ import {
   MetaFunction,
   redirect,
 } from "@remix-run/node";
-import { useCatch, useFetcher, useLoaderData } from "@remix-run/react";
+import { useFetcher, useLoaderData } from "@remix-run/react";
 import { z } from "zod";
 import { Action } from "~/core/actions";
 import { BaseLink } from "~/core/baseLink";
@@ -103,9 +103,8 @@ export async function action({ request, params }: ActionArgs) {
   throw redirect("/events");
 }
 
-export function CatchBoundary() {
-  const caught = useCatch();
-  return <ErrorPage status={caught.status} />;
+export function ErrorBoundary() {
+  return <ErrorPage />;
 }
 
 export default function Route() {

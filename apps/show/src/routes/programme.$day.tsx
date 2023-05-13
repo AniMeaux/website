@@ -1,5 +1,5 @@
 import { json, LoaderArgs, MetaFunction } from "@remix-run/node";
-import { useCatch, useLoaderData } from "@remix-run/react";
+import { useLoaderData } from "@remix-run/react";
 import { z } from "zod";
 import { Tab } from "~/controllers/tabs";
 import { actionClassNames } from "~/core/actions";
@@ -31,9 +31,8 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
   return createSocialMeta({ title: getPageTitle(`Programme du ${day}`) });
 };
 
-export function CatchBoundary() {
-  const caught = useCatch();
-  return <ErrorPage status={caught.status} />;
+export function ErrorBoundary() {
+  return <ErrorPage />;
 }
 
 export default function Route() {
