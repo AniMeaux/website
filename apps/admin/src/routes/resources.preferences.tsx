@@ -67,8 +67,5 @@ export function usePreferencesFetcher() {
     return zfd.formData(ActionFormData.schema).parse(fetcherFormData);
   }, [fetcherFormData]);
 
-  return useMemo(
-    () => ({ ...fetcher, submit, formData }),
-    [fetcher, submit, formData]
-  );
+  return useMemo(() => ({ submit, formData }), [submit, formData]);
 }

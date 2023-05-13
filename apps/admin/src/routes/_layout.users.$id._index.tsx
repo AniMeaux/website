@@ -543,7 +543,7 @@ function ActionDisable() {
   const fetcher = useFetcher<typeof action>();
   const [isDialogOpened, setIsDialogOpened] = useState(false);
 
-  const done = fetcher.state === "idle" && fetcher.type === "done";
+  const done = fetcher.state === "idle" && fetcher.data != null;
   useEffect(() => {
     if (done) {
       setIsDialogOpened(false);
