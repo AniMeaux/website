@@ -1,6 +1,11 @@
 import { Gender } from "@prisma/client";
-import { json, LoaderArgs, MetaFunction } from "@remix-run/node";
-import { Form, useLoaderData, useSearchParams } from "@remix-run/react";
+import { json, LoaderArgs } from "@remix-run/node";
+import {
+  Form,
+  useLoaderData,
+  useSearchParams,
+  V2_MetaFunction,
+} from "@remix-run/react";
 import orderBy from "lodash.orderby";
 import { useEffect, useState } from "react";
 import { z } from "zod";
@@ -57,7 +62,7 @@ export async function loader({ request }: LoaderArgs) {
   return json({ names });
 }
 
-export const meta: MetaFunction = () => {
+export const meta: V2_MetaFunction = () => {
   return createSocialMeta({ title: getPageTitle("Nommez votre animal") });
 };
 
@@ -96,7 +101,7 @@ export default function Route() {
             "md:flex-1 md:max-w-xs"
           )}
         >
-          <Form method="get" className="w-full flex flex-col gap-6">
+          <Form method="GET" className="w-full flex flex-col gap-6">
             <h2 className="text-title-item">Critères</h2>
 
             <div className="flex flex-col gap-3">
@@ -204,7 +209,7 @@ export default function Route() {
                 ))}
               </ul>
 
-              <Form method="get" className="flex">
+              <Form method="GET" className="flex">
                 <input type="hidden" name="l" value={params.l ?? ""} />
                 <input type="hidden" name="g" value={params.g ?? ""} />
 

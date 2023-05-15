@@ -27,8 +27,8 @@ import { Textarea } from "~/core/formElements/textarea";
 import { Separator } from "~/core/layout/separator";
 import { createActionData, ensureDate } from "~/core/schemas";
 import { Icon } from "~/generated/icon";
-import { BreedInput } from "~/routes/resources/breed";
-import { ColorInput } from "~/routes/resources/color";
+import { BreedInput } from "~/routes/resources.breed";
+import { ColorInput } from "~/routes/resources.color";
 
 export const ActionFormData = createActionData(
   z.object({
@@ -146,7 +146,7 @@ export function AnimalProfileForm({
 
   return (
     <Form asChild hasHeader>
-      <fetcher.Form method="post" noValidate>
+      <fetcher.Form method="POST" noValidate>
         <Form.Fields>
           <Form.Errors errors={fetcher.data?.errors?.formErrors} />
 

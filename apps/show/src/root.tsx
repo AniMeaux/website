@@ -1,9 +1,4 @@
-import {
-  json,
-  LinksFunction,
-  MetaFunction,
-  SerializeFrom,
-} from "@remix-run/node";
+import { json, LinksFunction } from "@remix-run/node";
 import {
   Links,
   LiveReload,
@@ -11,16 +6,14 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
-  useCatch,
+  useLocation,
 } from "@remix-run/react";
 import { Settings } from "luxon";
 import { cn } from "~/core/classNames";
 import { useConfig } from "~/core/config";
 import { createConfig } from "~/core/config.server";
-import { createSocialMeta } from "~/core/meta";
 import { getPageTitle, pageDescription } from "~/core/pageTitle";
 import { ErrorPage } from "~/dataDisplay/errorPage";
-import stylesheet from "~/generated/tailwind.css";
 import { theme } from "~/generated/theme";
 import appleTouchIcon from "~/images/appleTouchIcon.png";
 import background from "~/images/background.svg";
@@ -29,6 +22,7 @@ import maskIcon from "~/images/maskIcon.png";
 import { socialImages } from "~/images/social";
 import { Footer } from "~/layout/footer";
 import { Header } from "~/layout/header";
+import stylesheet from "~/tailwind.css";
 
 Settings.defaultLocale = "fr";
 
@@ -60,50 +54,11 @@ export async function loader() {
   return json({ config: createConfig() });
 }
 
-export type LoaderData = SerializeFrom<typeof loader>;
-
-export const meta: MetaFunction<typeof loader> = ({ data, location }) => {
-  // The data can be null in case of error.
-  const config = data?.config;
-  const title = getPageTitle();
-
-  let url: string | undefined = undefined;
-  let imageUrl: string | undefined = undefined;
-
-  if (config != null) {
-    url = config.publicHost;
-    if (location.pathname !== "/") {
-      url = `${url}${location.pathname}`;
-    }
-
-    imageUrl = `${config.publicHost}${socialImages.imagesBySize[2048]}`;
-  }
-
-  return {
-    charset: "utf-8",
-    "theme-color": theme.colors.gray[50],
-
-    // Use `maximum-scale=1` to prevent browsers to zoom on form elements.
-    viewport:
-      "width=device-width, minimum-scale=1, initial-scale=1, maximum-scale=1, shrink-to-fit=no, user-scalable=no, viewport-fit=cover",
-
-    ...createSocialMeta({ title, description: pageDescription, imageUrl }),
-
-    // Meta tags that shouldn't be overridden by route meta.
-    "og:type": "website",
-    "og:site_name": title,
-    "og:locale": "fr_FR",
-    "og:url": url,
-    "twitter:card": "summary_large_image",
-    "twitter:url": url,
-  };
-};
-
 export default function App() {
-  const { googleTagManagerId } = useConfig();
+  const { googleTagManagerId, publicHost } = useConfig();
 
   return (
-    <Document googleTagManagerId={googleTagManagerId}>
+    <Document googleTagManagerId={googleTagManagerId} publicHost={publicHost}>
       <Header />
       <Outlet />
       <Footer />
@@ -111,33 +66,35 @@ export default function App() {
   );
 }
 
-export function CatchBoundary() {
-  const caught = useCatch();
-
+export function ErrorBoundary() {
   return (
     <Document>
-      <ErrorPage isStandAlone status={caught.status} />
-    </Document>
-  );
-}
-
-export function ErrorBoundary({ error }: { error: Error }) {
-  console.error("ErrorBoundary error", error);
-
-  return (
-    <Document>
-      <ErrorPage isStandAlone status={500} />
+      <ErrorPage isStandAlone />
     </Document>
   );
 }
 
 function Document({
-  googleTagManagerId,
   children,
+  googleTagManagerId,
+  publicHost,
 }: {
-  googleTagManagerId?: string;
   children: React.ReactNode;
+  googleTagManagerId?: string;
+  publicHost?: string;
 }) {
+  const location = useLocation();
+
+  let url = publicHost;
+  if (url != null && location.pathname !== "/") {
+    url = `${url}${location.pathname}`;
+  }
+
+  let imageUrl: string | undefined = undefined;
+  if (publicHost != null) {
+    imageUrl = `${publicHost}${socialImages.imagesBySize[2048]}`;
+  }
+
   return (
     <html
       lang="fr"
@@ -145,6 +102,38 @@ function Document({
       style={{ backgroundImage: `url("${background}"` }}
     >
       <head>
+        <meta charSet="utf-8" />
+        <meta name="theme-color" content={theme.colors.gray[50]} />
+
+        {/* Use `maximum-scale=1` to prevent browsers to zoom on form elements. */}
+        <meta
+          name="viewport"
+          content="width=device-width, minimum-scale=1, initial-scale=1, maximum-scale=1, shrink-to-fit=no, user-scalable=no, viewport-fit=cover"
+        />
+
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content={getPageTitle()} />
+        <meta property="og:locale" content="fr_FR" />
+        <meta name="twitter:card" content="summary_large_image" />
+
+        <meta name="description" content={pageDescription} />
+        <meta property="og:description" content={pageDescription} />
+        <meta property="twitter:description" content={pageDescription} />
+
+        {url != null ? (
+          <>
+            <meta property="og:url" content={url} />
+            <meta name="twitter:url" content={url} />
+          </>
+        ) : null}
+
+        {imageUrl != null ? (
+          <>
+            <meta property="og:image" content={imageUrl} />
+            <meta property="twitter:image" content={imageUrl} />
+          </>
+        ) : null}
+
         <Meta />
         <Links />
         {googleTagManagerId != null && (

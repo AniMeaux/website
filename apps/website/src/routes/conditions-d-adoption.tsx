@@ -1,12 +1,12 @@
 import { Species } from "@prisma/client";
-import { MetaFunction } from "@remix-run/node";
+import { V2_MetaFunction } from "@remix-run/react";
 import { useState } from "react";
 import { SPECIES_ICON } from "~/animals/species";
 import { Tab } from "~/controllers/tabs";
 import { actionClassNames } from "~/core/actions";
 import { BaseLink } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
-import { getConfig } from "~/core/config";
+import { getConfigFromMetaMatches } from "~/core/config";
 import { createSocialMeta } from "~/core/meta";
 import { getPageTitle } from "~/core/pageTitle";
 import {
@@ -32,8 +32,8 @@ import {
   HeroSectionTitle,
 } from "~/layout/heroSection";
 
-export const meta: MetaFunction = ({ parentsData }) => {
-  const config = getConfig(parentsData);
+export const meta: V2_MetaFunction = ({ matches }) => {
+  const config = getConfigFromMetaMatches(matches);
   return createSocialMeta({
     title: getPageTitle("Conditions d’adoption"),
     imageUrl: `${config.publicHost}${socialImages.adoptionConditions.imagesBySize[1024]}`,

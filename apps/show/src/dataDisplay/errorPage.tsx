@@ -1,3 +1,4 @@
+import { isRouteErrorResponse, useRouteError } from "@remix-run/react";
 import { actionClassNames } from "~/core/actions";
 import { BaseLink } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
@@ -45,12 +46,15 @@ export function getErrorTitle(status: number): string {
 }
 
 export function ErrorPage({
-  status,
   isStandAlone = false,
 }: {
-  status: number;
   isStandAlone?: boolean;
 }) {
+  const error = useRouteError();
+  console.error("ErrorBoundary error", error);
+
+  const status = isRouteErrorResponse(error) ? error.status : 500;
+
   const meta =
     STATUS_CODE_ERROR_META_DATA[status] ?? STATUS_CODE_ERROR_META_DATA[500];
 

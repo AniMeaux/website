@@ -1,7 +1,7 @@
-import { MetaFunction } from "@remix-run/node";
+import { SerializeFrom } from "@remix-run/node";
 import { useRouteLoaderData } from "@remix-run/react";
 import invariant from "tiny-invariant";
-import { LoaderData } from "~/root";
+import type { loader as rootLoader } from "~/root";
 
 export type Config = {
   cloudinaryName: string;
@@ -11,13 +11,5 @@ export type Config = {
 export function useConfig(): Config {
   const data = useRouteLoaderData("root");
   invariant(data != null, "A root data must exists");
-  return (data as LoaderData).config;
-}
-
-export function getConfig(
-  routeData: Parameters<MetaFunction>[0]["parentsData"]
-) {
-  const data = routeData["root"];
-  invariant(data != null, "A root data must exists");
-  return (data as LoaderData).config;
+  return (data as SerializeFrom<typeof rootLoader>).config;
 }

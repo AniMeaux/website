@@ -1,4 +1,4 @@
-import { MetaFunction } from "@remix-run/node";
+import { V2_MetaFunction } from "@remix-run/react";
 import { actionClassNames } from "~/core/actions";
 import { BaseLink } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
@@ -18,7 +18,7 @@ import {
   HeroSectionTitle,
 } from "~/layout/heroSection";
 
-export const meta: MetaFunction = () => {
+export const meta: V2_MetaFunction = () => {
   return createSocialMeta({ title: getPageTitle("Accès au Salon") });
 };
 
