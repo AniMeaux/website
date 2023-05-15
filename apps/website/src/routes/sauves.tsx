@@ -1,6 +1,6 @@
 import { Prisma } from "@prisma/client";
-import { json, LoaderArgs, MetaFunction } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
+import { json, LoaderArgs } from "@remix-run/node";
+import { useLoaderData, V2_MetaFunction } from "@remix-run/react";
 import { promiseHash } from "remix-utils";
 import { AnimalItem } from "~/animals/item";
 import { SAVED_ANIMAL_STATUS } from "~/animals/status";
@@ -47,7 +47,7 @@ export async function loader({ request }: LoaderArgs) {
   return json({ totalCount, pageCount, animals });
 }
 
-export const meta: MetaFunction = () => {
+export const meta: V2_MetaFunction = () => {
   return createSocialMeta({ title: getPageTitle("Animaux sauvés") });
 };
 

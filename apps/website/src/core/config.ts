@@ -1,7 +1,7 @@
-import { MetaFunction } from "@remix-run/node";
-import { useRouteLoaderData } from "@remix-run/react";
+import { SerializeFrom } from "@remix-run/node";
+import { useRouteLoaderData, V2_MetaArgs } from "@remix-run/react";
 import invariant from "tiny-invariant";
-import { LoaderData } from "~/root";
+import type { loader as rootLoader } from "~/root";
 
 export type Config = {
   adoptionFormUrl: string;
@@ -23,14 +23,12 @@ export type Config = {
 
 export function useConfig(): Config {
   const data = useRouteLoaderData("root");
-  invariant(data != null, "A root data must exists");
-  return (data as LoaderData).config;
+  invariant(data != null, "A root loader data must exists");
+  return (data as SerializeFrom<typeof rootLoader>).config;
 }
 
-export function getConfig(
-  routeData: Parameters<MetaFunction>[0]["parentsData"]
-) {
-  const data = routeData["root"];
-  invariant(data != null, "A root data must exists");
-  return (data as LoaderData).config;
+export function getConfigFromMetaMatches(matches: V2_MetaArgs["matches"]) {
+  const match = matches.find((match) => match.id === "root");
+  invariant(match != null, "A root match must exists");
+  return (match.data as SerializeFrom<typeof rootLoader>).config;
 }

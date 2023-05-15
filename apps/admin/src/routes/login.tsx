@@ -1,11 +1,5 @@
-import {
-  ActionArgs,
-  json,
-  LoaderArgs,
-  MetaFunction,
-  redirect,
-} from "@remix-run/node";
-import { useFetcher } from "@remix-run/react";
+import { ActionArgs, json, LoaderArgs, redirect } from "@remix-run/node";
+import { useFetcher, V2_MetaFunction } from "@remix-run/react";
 import { useEffect, useRef } from "react";
 import { z } from "zod";
 import { Action } from "~/core/actions";
@@ -48,8 +42,8 @@ export async function loader({ request }: LoaderArgs) {
   return null;
 }
 
-export const meta: MetaFunction = () => {
-  return { title: getPageTitle("Connexion") };
+export const meta: V2_MetaFunction = () => {
+  return [{ title: getPageTitle("Connexion") }];
 };
 
 const ActionFormData = createActionData(
@@ -131,7 +125,7 @@ export default function Route() {
           </h1>
 
           <fetcher.Form
-            method="post"
+            method="POST"
             noValidate
             className="flex flex-col gap-4"
           >

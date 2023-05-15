@@ -1,9 +1,4 @@
-import {
-  json,
-  LinksFunction,
-  MetaFunction,
-  SerializeFrom,
-} from "@remix-run/node";
+import { json, LinksFunction } from "@remix-run/node";
 import {
   Links,
   LiveReload,
@@ -11,8 +6,8 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
-  useCatch,
   useMatches,
+  V2_MetaFunction,
 } from "@remix-run/react";
 import { Settings } from "luxon";
 import { cn } from "~/core/classNames";
@@ -20,11 +15,11 @@ import { createConfig } from "~/core/config.server";
 import { ErrorPage } from "~/core/dataDisplay/errorPage";
 import { asRouteHandle } from "~/core/handles";
 import { getPageTitle } from "~/core/pageTitle";
-import stylesheet from "~/generated/tailwind.css";
 import { theme } from "~/generated/theme";
 import appleTouchIcon from "~/images/appleTouchIcon.png";
 import favicon from "~/images/favicon.svg";
 import maskIcon from "~/images/maskIcon.svg";
+import stylesheet from "~/tailwind.css";
 
 // Display dates in French.
 Settings.defaultLocale = "fr";
@@ -65,23 +60,8 @@ export async function loader() {
   return json({ config: createConfig() });
 }
 
-export type LoaderData = SerializeFrom<typeof loader>;
-
-export const meta: MetaFunction = () => {
-  return {
-    charset: "utf-8",
-    "theme-color": theme.colors.white,
-
-    // Use `maximum-scale=1` to prevent browsers to zoom on form elements.
-    viewport:
-      "width=device-width, minimum-scale=1, initial-scale=1, maximum-scale=1, shrink-to-fit=no, user-scalable=no, viewport-fit=cover",
-
-    title: getPageTitle(),
-
-    // We don't want it to be index by search engines.
-    // See https://developers.google.com/search/docs/advanced/crawling/block-indexing
-    robots: "noindex",
-  };
+export const meta: V2_MetaFunction = () => {
+  return [{ title: getPageTitle() }];
 };
 
 export default function App() {
@@ -92,22 +72,10 @@ export default function App() {
   );
 }
 
-export function CatchBoundary() {
-  const caught = useCatch();
-
+export function ErrorBoundary() {
   return (
     <Document>
-      <ErrorPage status={caught.status} />
-    </Document>
-  );
-}
-
-export function ErrorBoundary({ error }: { error: Error }) {
-  console.error("ErrorBoundary error", error);
-
-  return (
-    <Document>
-      <ErrorPage status={500} />
+      <ErrorPage />
     </Document>
   );
 }
@@ -128,6 +96,19 @@ function Document({ children }: { children: React.ReactNode }) {
       })}
     >
       <head>
+        <meta charSet="utf-8" />
+        <meta name="theme-color" content={theme.colors.white} />
+
+        {/* We don't want it to be index by search engines. */}
+        {/* See https://developers.google.com/search/docs/advanced/crawling/block-indexing */}
+        <meta name="robots" content="noindex" />
+
+        {/* Use `maximum-scale=1` to prevent browsers to zoom on form elements. */}
+        <meta
+          name="viewport"
+          content="width=device-width, minimum-scale=1, initial-scale=1, maximum-scale=1, shrink-to-fit=no, user-scalable=no, viewport-fit=cover"
+        />
+
         <Meta />
         <Links />
       </head>

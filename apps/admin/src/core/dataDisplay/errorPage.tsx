@@ -1,9 +1,18 @@
-import { useLocation } from "@remix-run/react";
+import {
+  isRouteErrorResponse,
+  useLocation,
+  useRouteError,
+} from "@remix-run/react";
 import { Action } from "~/core/actions";
 import { BaseLink } from "~/core/baseLink";
 import { Empty } from "~/core/dataDisplay/empty";
 
-export function ErrorPage({ status }: { status: number }) {
+export function ErrorPage() {
+  const error = useRouteError();
+  console.error("ErrorBoundary error", error);
+
+  const status = isRouteErrorResponse(error) ? error.status : 500;
+
   const meta =
     STATUS_CODE_ERROR_META_DATA[status] ?? STATUS_CODE_ERROR_META_DATA[500];
 

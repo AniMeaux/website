@@ -1,8 +1,8 @@
-import { MetaFunction } from "@remix-run/node";
+import { V2_MetaFunction } from "@remix-run/react";
 import { actionClassNames } from "~/core/actions";
 import { BaseLink } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
-import { getConfig, useConfig } from "~/core/config";
+import { getConfigFromMetaMatches, useConfig } from "~/core/config";
 import { createSocialMeta } from "~/core/meta";
 import { getPageTitle } from "~/core/pageTitle";
 import { Icon, IconProps } from "~/generated/icon";
@@ -21,8 +21,8 @@ import {
   HeroSectionTitle,
 } from "~/layout/heroSection";
 
-export const meta: MetaFunction = ({ parentsData }) => {
-  const config = getConfig(parentsData);
+export const meta: V2_MetaFunction = ({ matches }) => {
+  const config = getConfigFromMetaMatches(matches);
   return createSocialMeta({
     title: getPageTitle("Faire un don"),
     imageUrl: `${config.publicHost}${socialImages.donation.imagesBySize[1024]}`,

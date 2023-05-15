@@ -3,7 +3,7 @@ import { cn } from "~/core/classNames";
 import { Icon, IconProps } from "~/generated/icon";
 import nameAndLogo from "~/images/nameAndLogo.svg";
 import { LineShapeHorizontal } from "~/layout/lineShape";
-import { SubscriptionForm } from "~/routes/resources/subscribe";
+import { SubscriptionForm } from "~/routes/resources.subscribe";
 
 export function Footer() {
   return (

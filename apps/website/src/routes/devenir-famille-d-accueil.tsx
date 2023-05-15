@@ -1,8 +1,8 @@
-import { MetaFunction } from "@remix-run/node";
+import { V2_MetaFunction } from "@remix-run/react";
 import { actionClassNames } from "~/core/actions";
 import { BaseLink } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
-import { getConfig, useConfig } from "~/core/config";
+import { getConfigFromMetaMatches, useConfig } from "~/core/config";
 import { createSocialMeta } from "~/core/meta";
 import { getPageTitle } from "~/core/pageTitle";
 import { Timeline, TimelineItem } from "~/dataDisplay/timeline";
@@ -19,8 +19,8 @@ import {
   HeroSectionTitle,
 } from "~/layout/heroSection";
 
-export const meta: MetaFunction = ({ parentsData }) => {
-  const config = getConfig(parentsData);
+export const meta: V2_MetaFunction = ({ matches }) => {
+  const config = getConfigFromMetaMatches(matches);
   return createSocialMeta({
     title: getPageTitle("Devenez famille d’accueil"),
     imageUrl: `${config.publicHost}${socialImages.fosterFamily.imagesBySize[1024]}`,

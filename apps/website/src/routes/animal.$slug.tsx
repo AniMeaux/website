@@ -1,7 +1,7 @@
 import { formatAge } from "@animeaux/shared";
 import { Gender } from "@prisma/client";
-import { json, LoaderArgs, MetaFunction, SerializeFrom } from "@remix-run/node";
-import { useCatch, useLoaderData } from "@remix-run/react";
+import { json, LoaderArgs, SerializeFrom } from "@remix-run/node";
+import { useLoaderData, V2_MetaFunction } from "@remix-run/react";
 import { DateTime } from "luxon";
 import { useRef, useState } from "react";
 import invariant from "tiny-invariant";
@@ -11,7 +11,7 @@ import { ADOPTABLE_ANIMAL_STATUS } from "~/animals/status";
 import { actionClassNames } from "~/core/actions";
 import { BaseLink } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
-import { getConfig, useConfig } from "~/core/config";
+import { getConfigFromMetaMatches, useConfig } from "~/core/config";
 import { prisma } from "~/core/db.server";
 import { isDefined } from "~/core/isDefined";
 import { createSocialMeta } from "~/core/meta";
@@ -64,13 +64,13 @@ export async function loader({ params }: LoaderArgs) {
   return json({ animal });
 }
 
-export const meta: MetaFunction<typeof loader> = ({ data, parentsData }) => {
+export const meta: V2_MetaFunction<typeof loader> = ({ data, matches }) => {
   const animal = data?.animal;
   if (animal == null) {
     return createSocialMeta({ title: getPageTitle(getErrorTitle(404)) });
   }
 
-  const config = getConfig(parentsData);
+  const config = getConfigFromMetaMatches(matches);
   return createSocialMeta({
     title: getPageTitle(`Adopter ${animal.name}`),
     imageUrl: createCloudinaryUrl(config.cloudinaryName, animal.avatar, {
@@ -80,9 +80,8 @@ export const meta: MetaFunction<typeof loader> = ({ data, parentsData }) => {
   });
 };
 
-export function CatchBoundary() {
-  const caught = useCatch();
-  return <ErrorPage status={caught.status} />;
+export function ErrorBoundary() {
+  return <ErrorPage />;
 }
 
 export default function Route() {

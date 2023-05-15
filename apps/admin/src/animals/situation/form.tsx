@@ -35,9 +35,9 @@ import { Textarea } from "~/core/formElements/textarea";
 import { Separator } from "~/core/layout/separator";
 import { createActionData, ensureDate } from "~/core/schemas";
 import { Icon } from "~/generated/icon";
-import { FosterFamilyInput } from "~/routes/resources/foster-family";
-import { ManagerInput } from "~/routes/resources/manager";
-import { PickUpLocationInput } from "~/routes/resources/pick-up-location";
+import { FosterFamilyInput } from "~/routes/resources.foster-family";
+import { ManagerInput } from "~/routes/resources.manager";
+import { PickUpLocationInput } from "~/routes/resources.pick-up-location";
 import { hasGroups } from "~/users/groups";
 
 export const ActionFormData = createActionData(
@@ -150,7 +150,7 @@ export function AnimalSituationForm({
 
   return (
     <Form asChild hasHeader>
-      <fetcher.Form method="post" noValidate>
+      <fetcher.Form method="POST" noValidate>
         <Form.Fields>
           <Form.Errors errors={fetcher.data?.errors?.formErrors} />
 

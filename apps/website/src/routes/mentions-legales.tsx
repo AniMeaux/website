@@ -1,11 +1,11 @@
-import { MetaFunction } from "@remix-run/node";
+import { V2_MetaFunction } from "@remix-run/react";
 import { cn } from "~/core/classNames";
 import { Config, useConfig } from "~/core/config";
 import { createSocialMeta } from "~/core/meta";
 import { getPageTitle } from "~/core/pageTitle";
 import { ARTICLE_COMPONENTS, Markdown } from "~/dataDisplay/markdown";
 
-export const meta: MetaFunction = () => {
+export const meta: V2_MetaFunction = () => {
   return createSocialMeta({ title: getPageTitle("Mentions légales") });
 };
 
