@@ -21,14 +21,21 @@
     }
   }
 
-  /*
-   * Disable bark background on tap.
-   * See https://developer.mozilla.org/en-US/docs/Web/CSS/-webkit-tap-highlight-color
-   */
   *,
   *::before,
   *::after {
+    /*
+     * Disable bark background on tap.
+     * See https://developer.mozilla.org/en-US/docs/Web/CSS/-webkit-tap-highlight-color
+     */
     -webkit-tap-highlight-color: transparent;
+
+    /*
+     * Disabling double-tap to zoom removes the need for browsers to delay the
+     * generation of click events when the user taps the screen.
+     * See https://developer.mozilla.org/en-US/docs/Web/CSS/touch-action
+     */
+    touch-action: manipulation;
   }
 
   body {
