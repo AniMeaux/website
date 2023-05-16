@@ -69,7 +69,11 @@ export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
     imageUrl = `${config.publicHost}${socialImages.default.imagesBySize[1024]}`;
   }
 
-  return createSocialMeta({ description: pageDescription, imageUrl });
+  return createSocialMeta({
+    title: getPageTitle(),
+    description: pageDescription,
+    imageUrl,
+  });
 };
 
 export default function App() {

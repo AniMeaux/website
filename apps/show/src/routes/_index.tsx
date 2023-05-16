@@ -1,9 +1,12 @@
+import { V2_MetaFunction } from "@remix-run/react";
 import { DateTime } from "luxon";
 import { useEffect, useState } from "react";
 import { actionClassNames } from "~/core/actions";
 import { BaseLink, BaseLinkProps } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
 import { useConfig } from "~/core/config";
+import { createSocialMeta } from "~/core/meta";
+import { getPageTitle } from "~/core/pageTitle";
 import { StaticImage, StaticImageProps } from "~/dataDisplay/image";
 import { adoptionImages } from "~/images/adoption";
 import anideo from "~/images/anideo.png";
@@ -35,6 +38,10 @@ import {
 const OPENING_TIME = DateTime.fromISO("2023-06-10T10:00:00.000+02:00");
 const CLOSING_TIME = DateTime.fromISO("2023-06-11T18:00:00.000+02:00");
 const ONE_MINUTE_IN_MS = 60 * 1000;
+
+export const meta: V2_MetaFunction = () => {
+  return createSocialMeta({ title: getPageTitle() });
+};
 
 export default function Route() {
   const { ticketingUrl } = useConfig();
