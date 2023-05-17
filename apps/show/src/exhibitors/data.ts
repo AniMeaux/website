@@ -428,13 +428,6 @@ export const exhibitors = orderBy(
       url: "https://www.rubyshop.fr",
     },
     {
-      id: "7be51d28-33db-4284-ac01-495823892c00",
-      name: "WOOF Éducation",
-      category: ExhibitorCategory.EDUCATION_CANINE,
-      image: "show-exhibitors/3101f4c2-69a1-48bf-a846-1a940ccec2fb",
-      url: "https://www.woof-education.fr",
-    },
-    {
       id: "979b0024-49a3-42d5-bf6d-fa0c636cf5f6",
       name: "YULI",
       category: ExhibitorCategory.ACCESSOIRES,
