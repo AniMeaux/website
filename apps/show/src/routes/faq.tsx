@@ -173,12 +173,6 @@ const FAQ: Faq[] = [
     ),
   },
   {
-    icon: "personWalking",
-    color: "yellow",
-    question: "Puis-je entrer et sortir comme je le souhaite ?",
-    answer: () => <>Non, toute sortie est définitive.</>,
-  },
-  {
     icon: "restroom",
     color: "blue",
     question: "Y a-t-il des toilettes ?",
