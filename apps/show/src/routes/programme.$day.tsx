@@ -78,6 +78,17 @@ export default function Route() {
             .
           </TimelineItem>
 
+          <TimelineItem title="12h : Soignez les animaux sauvages" icon="bird">
+            Découverte de la faune sauvage et des rapaces avec l’association{" "}
+            <BaseLink
+              to="https://www.facebook.com/PicardieFauneSauvage"
+              className={actionClassNames.proseInline()}
+            >
+              Picardie Faune Sauvage
+            </BaseLink>
+            .
+          </TimelineItem>
+
           <TimelineItem
             title="13h : Le bien-être animal sur les réseaux sociaux"
             icon="shareFromSquare"
