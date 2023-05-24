@@ -7,6 +7,7 @@ import anideo from "~/images/anideo.png";
 import arbreVert from "~/images/arbreVert.png";
 import citronad from "~/images/citronad.png";
 import evasion from "~/images/evasion.png";
+import leroyMerlin from "~/images/leroyMerlin.png";
 import leTraiteurImaginaire from "~/images/leTraiteurImaginaire.png";
 import meaux from "~/images/meaux.png";
 import nameAndLogo from "~/images/nameAndLogo.svg";
@@ -96,6 +97,12 @@ export function Footer() {
             image={evasion}
             alt="EVASION"
             to="https://www.evasionfm.com"
+          />
+
+          <LogoItem
+            image={leroyMerlin}
+            alt="Leroy Merlin"
+            to="https://www.leroymerlin.fr"
           />
         </section>
 

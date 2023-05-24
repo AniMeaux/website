@@ -17,6 +17,7 @@ import citronad from "~/images/citronad.png";
 import evasion from "~/images/evasion.png";
 import { exhibitorsImages } from "~/images/exhibitors";
 import { foodImages } from "~/images/food";
+import leroyMerlin from "~/images/leroyMerlin.png";
 import leTraiteurImaginaire from "~/images/leTraiteurImaginaire.png";
 import { mapImages } from "~/images/map";
 import meaux from "~/images/meaux.png";
@@ -438,6 +439,12 @@ function PartnersSection() {
           image={evasion}
           alt="EVASION"
           to="https://www.evasionfm.com"
+        />
+
+        <PartnerItem
+          image={leroyMerlin}
+          alt="Leroy Merlin"
+          to="https://www.leroymerlin.fr"
         />
       </div>
     </section>
