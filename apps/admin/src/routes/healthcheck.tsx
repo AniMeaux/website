@@ -1,26 +1,13 @@
 // learn more: https://fly.io/docs/reference/configuration/#services-http_checks
-import { createConfig } from "~/core/config.server";
 import { prisma } from "~/core/db.server";
 
 export async function loader() {
-  const config = createConfig();
-
   try {
-    // We're good if we can:
-    await Promise.all([
-      // 1. Connect to the database and make a simple query.
-      prisma.user.count(),
-
-      // 2. Make a HEAD request to ourselves
-      fetch(config.publicHost, { method: "HEAD" }).then((response) => {
-        if (!response.ok) {
-          return Promise.reject(response);
-        }
-      }),
-    ]);
+    // We're good if we can connect to the database and make a simple query.
+    await prisma.user.count();
 
     return new Response("OK");
-  } catch (error: unknown) {
+  } catch (error) {
     console.log("healthcheck ❌", { error });
     return new Response("ERROR", { status: 500 });
   }
