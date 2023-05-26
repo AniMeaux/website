@@ -421,6 +421,13 @@ export const exhibitors = orderBy(
       url: "https://www.refugeecureuilroux.fr",
     },
     {
+      id: "6631e752-3bc2-423f-9354-af54903d8dc6",
+      name: "Reptilian Protect",
+      category: ExhibitorCategory.ASSOCIATION,
+      image: "show-exhibitors/c3da2917-aac7-44d9-9bee-71ece0d67580",
+      url: "https://reptilian-protect.business.site",
+    },
+    {
       id: "e4b8c7cf-3762-46d9-91bb-26bb41e4cc60",
       name: "RubyShop",
       category: ExhibitorCategory.ALIMENTATION_CHIEN,

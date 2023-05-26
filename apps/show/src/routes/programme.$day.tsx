@@ -78,6 +78,17 @@ export default function Route() {
             .
           </TimelineItem>
 
+          <TimelineItem title="11h30 : Découverte de l’agility" icon="dog">
+            En extérieur, par l'association{" "}
+            <BaseLink
+              to="https://www.facebook.com/Hop-hop-hop-on-adopte-103402841170712"
+              className={actionClassNames.proseInline()}
+            >
+              Hop hop hop, on adopte
+            </BaseLink>
+            .
+          </TimelineItem>
+
           <TimelineItem title="12h : Soignez les animaux sauvages" icon="bird">
             Découverte de la faune sauvage et des rapaces avec l’association{" "}
             <BaseLink
@@ -143,6 +154,28 @@ export default function Route() {
               La Patt’Enchantée
             </BaseLink>
             .
+          </TimelineItem>
+
+          <TimelineItem title="15h30 : Découverte de l’agility" icon="dog">
+            En extérieur, par l'association{" "}
+            <BaseLink
+              to="https://www.facebook.com/Hop-hop-hop-on-adopte-103402841170712"
+              className={actionClassNames.proseInline()}
+            >
+              Hop hop hop, on adopte
+            </BaseLink>
+            .
+          </TimelineItem>
+
+          <TimelineItem title="15h30 : Découverte des reptiles" icon="turtle">
+            Par l’association{" "}
+            <BaseLink
+              to="https://reptilian-protect.business.site"
+              className={actionClassNames.proseInline()}
+            >
+              Reptilian Protect
+            </BaseLink>{" "}
+            sur le stand n°11.
           </TimelineItem>
 
           <TimelineItem
