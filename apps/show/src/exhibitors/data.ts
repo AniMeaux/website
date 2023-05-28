@@ -425,7 +425,7 @@ export const exhibitors = orderBy(
       name: "Reptilian Protect",
       category: ExhibitorCategory.ASSOCIATION,
       image: "show-exhibitors/c3da2917-aac7-44d9-9bee-71ece0d67580",
-      url: "https://reptilian-protect.business.site",
+      url: "https://630bc48d6d764.site123.me",
     },
     {
       id: "e4b8c7cf-3762-46d9-91bb-26bb41e4cc60",
