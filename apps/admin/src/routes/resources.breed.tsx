@@ -8,7 +8,7 @@ import { forwardRef, useEffect, useRef, useState } from "react";
 import invariant from "tiny-invariant";
 import { fuzzySearchBreeds } from "~/breeds/db.server";
 import { BreedSearchParams } from "~/breeds/searchParams";
-import { asBooleanAttribute } from "~/core/attributes";
+import { toBooleanAttribute } from "~/core/attributes";
 import { cn } from "~/core/classNames";
 import { ActionAdornment, Adornment } from "~/core/formElements/adornment";
 import { Input } from "~/core/formElements/input";
@@ -184,7 +184,7 @@ const InputTrigger = forwardRef<
         ref={ref}
         type="button"
         disabled={disabled}
-        data-invalid={asBooleanAttribute(hasError)}
+        data-invalid={toBooleanAttribute(hasError)}
         className={cn(
           inputClassName({
             leftAdornmentCount: 1,

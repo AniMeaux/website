@@ -8,7 +8,7 @@ import { forwardRef, useEffect, useRef, useState } from "react";
 import invariant from "tiny-invariant";
 import { searchPickUpLocation } from "~/animals/db.server";
 import { PickUpLocationSearchParams } from "~/animals/searchParams";
-import { asBooleanAttribute } from "~/core/attributes";
+import { toBooleanAttribute } from "~/core/attributes";
 import { cn } from "~/core/classNames";
 import { Adornment } from "~/core/formElements/adornment";
 import { Input } from "~/core/formElements/input";
@@ -167,7 +167,7 @@ const InputTrigger = forwardRef<
         ref={ref}
         type="button"
         disabled={disabled}
-        data-invalid={asBooleanAttribute(hasError)}
+        data-invalid={toBooleanAttribute(hasError)}
         className={cn(
           inputClassName({ leftAdornmentCount: 1, rightAdornmentCount: 1 })
         )}

@@ -1,7 +1,7 @@
 import autosize from "autosize";
 import { forwardRef, useRef } from "react";
 import invariant from "tiny-invariant";
-import { asBooleanAttribute } from "~/core/attributes";
+import { toBooleanAttribute } from "~/core/attributes";
 import { ensureArray } from "~/core/ensureArray";
 import {
   inputClassName,
@@ -76,7 +76,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
           autoComplete={autoComplete}
           disabled={disabled}
           defaultValue={defaultValue ?? undefined}
-          aria-invalid={asBooleanAttribute(hasError)}
+          aria-invalid={toBooleanAttribute(hasError)}
           className={inputClassName({
             leftAdornmentCount: ensureArray(leftAdornment).length,
             rightAdornmentCount: ensureArray(rightAdornment).length,

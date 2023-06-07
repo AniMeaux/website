@@ -2,7 +2,7 @@ import * as Dialog from "@radix-ui/react-dialog";
 import * as Popover from "@radix-ui/react-popover";
 import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
 import { forwardRef } from "react";
-import { asBooleanAttribute } from "~/core/attributes";
+import { toBooleanAttribute } from "~/core/attributes";
 import { cn } from "~/core/classNames";
 import { Item } from "~/core/dataDisplay/item";
 import { HIGHLIGHT_COMPONENTS, Markdown } from "~/core/dataDisplay/markdown";
@@ -198,8 +198,8 @@ export const SuggestionItem = forwardRef<HTMLLIElement, SuggestionItemProps>(
       <Item
         {...rest}
         ref={ref}
-        data-is-value={asBooleanAttribute(isValue)}
-        data-is-additional={asBooleanAttribute(isAdditional)}
+        data-is-value={toBooleanAttribute(isValue)}
+        data-is-additional={toBooleanAttribute(isAdditional)}
         className={cn(
           className,
           "cursor-pointer aria-selected:bg-gray-100 data-[is-value=true]:bg-gray-100"

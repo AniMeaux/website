@@ -1,5 +1,5 @@
 import { forwardRef } from "react";
-import { asBooleanAttribute } from "~/core/attributes";
+import { toBooleanAttribute } from "~/core/attributes";
 import { cn } from "~/core/classNames";
 import { ensureArray } from "~/core/ensureArray";
 import {
@@ -49,7 +49,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
         pattern={pattern}
         autoComplete={autoComplete}
         disabled={disabled}
-        aria-invalid={asBooleanAttribute(hasError)}
+        aria-invalid={toBooleanAttribute(hasError)}
         className={cn(
           inputClassName({
             variant,
