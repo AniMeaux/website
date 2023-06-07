@@ -167,17 +167,6 @@ export default function Route() {
             .
           </TimelineItem>
 
-          <TimelineItem title="15h30 : Découverte des reptiles" icon="turtle">
-            Par l’association{" "}
-            <BaseLink
-              to="https://630bc48d6d764.site123.me"
-              className={actionClassNames.proseInline()}
-            >
-              Reptilian Protect
-            </BaseLink>{" "}
-            sur le stand n°11.
-          </TimelineItem>
-
           <TimelineItem
             title="16h : L’expression des patrons moteurs"
             icon="commentsQuestion"
