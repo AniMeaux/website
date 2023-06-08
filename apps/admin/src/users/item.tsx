@@ -60,7 +60,7 @@ export function UserItem({
           <Icon
             key={group}
             id={GROUP_ICON[group]}
-            className="text-[14px] text-gray-500 transition-colors duration-100 ease-in-out group-hover:text-gray-800"
+            className="text-[20px] text-gray-500 transition-colors duration-100 ease-in-out group-hover:text-gray-800"
           />
         ))}
       </span>
