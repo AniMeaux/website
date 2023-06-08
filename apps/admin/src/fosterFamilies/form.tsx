@@ -6,7 +6,6 @@ import { z } from "zod";
 import { zfd } from "zod-form-data";
 import { SORTED_SPECIES, SPECIES_TRANSLATION } from "~/animals/species";
 import { Action } from "~/core/actions";
-import { Adornment } from "~/core/formElements/adornment";
 import {
   CheckboxInput,
   CheckboxInputList,
@@ -122,9 +121,9 @@ export function FosterFamilyForm({
               hasError={fetcher.data?.errors?.fieldErrors.displayName != null}
               aria-describedby="displayName-error"
               leftAdornment={
-                <Adornment>
+                <Input.Adornment>
                   <Icon id="user" />
-                </Adornment>
+                </Input.Adornment>
               }
             />
 
@@ -152,9 +151,9 @@ export function FosterFamilyForm({
               hasError={fetcher.data?.errors?.fieldErrors.phone != null}
               aria-describedby="phone-error"
               leftAdornment={
-                <Adornment>
+                <Input.Adornment>
                   <Icon id="phone" />
-                </Adornment>
+                </Input.Adornment>
               }
             />
 
@@ -180,9 +179,9 @@ export function FosterFamilyForm({
               hasError={fetcher.data?.errors?.fieldErrors.email != null}
               aria-describedby="email-error"
               leftAdornment={
-                <Adornment>
+                <Input.Adornment>
                   <Icon id="envelope" />
-                </Adornment>
+                </Input.Adornment>
               }
             />
 
@@ -207,9 +206,9 @@ export function FosterFamilyForm({
               hasError={fetcher.data?.errors?.fieldErrors.address != null}
               aria-describedby="address-error"
               leftAdornment={
-                <Adornment>
+                <Input.Adornment>
                   <Icon id="locationDot" />
-                </Adornment>
+                </Input.Adornment>
               }
             />
 
@@ -237,9 +236,9 @@ export function FosterFamilyForm({
                 hasError={fetcher.data?.errors?.fieldErrors.zipCode != null}
                 aria-describedby="zipCode-error"
                 leftAdornment={
-                  <Adornment>
+                  <Input.Adornment>
                     <Icon id="locationDot" />
-                  </Adornment>
+                  </Input.Adornment>
                 }
               />
 
@@ -264,9 +263,9 @@ export function FosterFamilyForm({
                 hasError={fetcher.data?.errors?.fieldErrors.city != null}
                 aria-describedby="city-error"
                 leftAdornment={
-                  <Adornment>
+                  <Input.Adornment>
                     <Icon id="locationDot" />
-                  </Adornment>
+                  </Input.Adornment>
                 }
               />
 
@@ -344,7 +343,7 @@ export function FosterFamilyForm({
               ref={commentsRef}
               id={ActionFormData.keys.comments}
               name={ActionFormData.keys.comments}
-              defaultValue={defaultFosterFamily?.comments}
+              defaultValue={defaultFosterFamily?.comments ?? undefined}
               rows={5}
             />
           </Form.Field>

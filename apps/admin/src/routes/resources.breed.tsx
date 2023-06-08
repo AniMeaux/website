@@ -9,10 +9,8 @@ import invariant from "tiny-invariant";
 import { fuzzySearchBreeds } from "~/breeds/db.server";
 import { BreedSearchParams } from "~/breeds/searchParams";
 import { toBooleanAttribute } from "~/core/attributes";
-import { cn } from "~/core/classNames";
-import { ActionAdornment, Adornment } from "~/core/formElements/adornment";
+import { BaseTextInput } from "~/core/formElements/baseTextInput";
 import { Input } from "~/core/formElements/input";
-import { inputClassName, InputWrapper } from "~/core/formElements/inputWrapper";
 import {
   NoSuggestion,
   ResourceComboboxLayout,
@@ -158,43 +156,50 @@ const InputTrigger = forwardRef<
   ref
 ) {
   const rightAdornments = [
-    <Adornment>
+    <BaseTextInput.Adornment>
       <Icon id="caretDown" />
-    </Adornment>,
+    </BaseTextInput.Adornment>,
   ];
   if (breed != null) {
     rightAdornments.unshift(
-      <ActionAdornment onClick={() => setBreed(null)}>
+      <BaseTextInput.ActionAdornment onClick={() => setBreed(null)}>
         <Icon id="xMark" />
-      </ActionAdornment>
+      </BaseTextInput.ActionAdornment>
     );
   }
 
   return (
-    <InputWrapper
-      isDisabled={disabled}
-      leftAdornment={
-        <Adornment>
-          <Icon id="dna" />
-        </Adornment>
-      }
-      rightAdornment={rightAdornments}
-    >
-      <TriggerElement
-        ref={ref}
-        type="button"
-        disabled={disabled}
-        data-invalid={toBooleanAttribute(hasError)}
-        className={cn(
-          inputClassName({
-            leftAdornmentCount: 1,
-            rightAdornmentCount: rightAdornments.length,
-          })
-        )}
+    <BaseTextInput.Root aria-disabled={disabled}>
+      <BaseTextInput
+        asChild
+        variant="outlined"
+        leftAdornmentCount={1}
+        rightAdornmentCount={rightAdornments.length}
       >
-        {breed?.name}
-      </TriggerElement>
-    </InputWrapper>
+        <TriggerElement
+          ref={ref}
+          type="button"
+          disabled={disabled}
+          data-invalid={toBooleanAttribute(hasError)}
+        >
+          {breed?.name}
+        </TriggerElement>
+      </BaseTextInput>
+
+      <BaseTextInput.AdornmentContainer
+        side="left"
+        adornment={
+          <BaseTextInput.Adornment>
+            <Icon id="dna" />
+          </BaseTextInput.Adornment>
+        }
+      />
+
+      <BaseTextInput.AdornmentContainer
+        side="right"
+        adornment={rightAdornments}
+      />
+    </BaseTextInput.Root>
   );
 });
 

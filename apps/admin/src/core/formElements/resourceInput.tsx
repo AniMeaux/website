@@ -6,7 +6,7 @@ import { toBooleanAttribute } from "~/core/attributes";
 import { cn } from "~/core/classNames";
 import { Item } from "~/core/dataDisplay/item";
 import { HIGHLIGHT_COMPONENTS, Markdown } from "~/core/dataDisplay/markdown";
-import { ActionAdornment, Adornment } from "~/core/formElements/adornment";
+import { BaseTextInput } from "~/core/formElements/baseTextInput";
 import { Card } from "~/core/layout/card";
 import { ScreenSizeValue, useScreenSizeCondition } from "~/core/screenSize";
 import { Icon } from "~/generated/icon";
@@ -125,9 +125,9 @@ function MediumComboboxLayout({
       <header className="border-b border-gray-100 p-1 flex flex-col">
         {label}
         {input(
-          <Adornment>
+          <BaseTextInput.Adornment>
             <Icon id="magnifyingGlass" />
-          </Adornment>
+          </BaseTextInput.Adornment>
         )}
       </header>
 
@@ -147,9 +147,9 @@ function SmallComboboxLayout({
         {label}
         {input(
           <Dialog.Close asChild>
-            <ActionAdornment>
+            <BaseTextInput.ActionAdornment>
               <Icon id="angleLeft" />
-            </ActionAdornment>
+            </BaseTextInput.ActionAdornment>
           </Dialog.Close>
         )}
       </header>

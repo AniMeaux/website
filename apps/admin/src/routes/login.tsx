@@ -3,7 +3,6 @@ import { useFetcher, V2_MetaFunction } from "@remix-run/react";
 import { useEffect, useRef } from "react";
 import { z } from "zod";
 import { Action } from "~/core/actions";
-import { Adornment } from "~/core/formElements/adornment";
 import { Form } from "~/core/formElements/form";
 import { Input } from "~/core/formElements/input";
 import { PasswordInput } from "~/core/formElements/passwordInput";
@@ -148,9 +147,9 @@ export default function Route() {
                   aria-describedby="email-error"
                   placeholder="jean@mail.com"
                   leftAdornment={
-                    <Adornment>
+                    <Input.Adornment>
                       <Icon id="envelope" />
-                    </Adornment>
+                    </Input.Adornment>
                   }
                 />
 
@@ -174,9 +173,9 @@ export default function Route() {
                   hasError={fetcher.data?.errors?.fieldErrors.password != null}
                   aria-describedby="password-error"
                   leftAdornment={
-                    <Adornment>
+                    <PasswordInput.Adornment>
                       <Icon id="lock" />
-                    </Adornment>
+                    </PasswordInput.Adornment>
                   }
                 />
 

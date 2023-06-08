@@ -2,7 +2,6 @@ import { Action } from "~/core/actions";
 import { BaseLink } from "~/core/baseLink";
 import { Filters } from "~/core/controllers/filters";
 import { toIsoDateValue } from "~/core/dates";
-import { ActionAdornment, Adornment } from "~/core/formElements/adornment";
 import { ControlledInput } from "~/core/formElements/controlledInput";
 import { Form } from "~/core/formElements/form";
 import { ToggleInput, ToggleInputList } from "~/core/formElements/toggleInput";
@@ -100,13 +99,13 @@ export function UserFilterForm() {
             value={visibleFilters.displayName ?? ""}
             rightAdornment={
               visibleFilters.displayName != null ? (
-                <ActionAdornment
+                <ControlledInput.ActionAdornment
                   onClick={() =>
                     setSearchParams(userSearchParams.deleteDisplayName())
                   }
                 >
                   <Icon id="xMark" />
-                </ActionAdornment>
+                </ControlledInput.ActionAdornment>
               ) : null
             }
           />
@@ -197,19 +196,19 @@ export function UserFilterForm() {
                 name={UserSearchParams.Keys.MIN_ACTIVITY}
                 value={toIsoDateValue(visibleFilters.minActivity)}
                 leftAdornment={
-                  <Adornment>
+                  <ControlledInput.Adornment>
                     <Icon id="calendarDays" />
-                  </Adornment>
+                  </ControlledInput.Adornment>
                 }
                 rightAdornment={
                   visibleFilters.minActivity != null ? (
-                    <ActionAdornment
+                    <ControlledInput.ActionAdornment
                       onClick={() =>
                         setSearchParams(userSearchParams.deleteMinActivity())
                       }
                     >
                       <Icon id="xMark" />
-                    </ActionAdornment>
+                    </ControlledInput.ActionAdornment>
                   ) : null
                 }
               />
@@ -226,19 +225,19 @@ export function UserFilterForm() {
                 name={UserSearchParams.Keys.MAX_ACTIVITY}
                 value={toIsoDateValue(visibleFilters.maxActivity)}
                 leftAdornment={
-                  <Adornment>
+                  <ControlledInput.Adornment>
                     <Icon id="calendarDays" />
-                  </Adornment>
+                  </ControlledInput.Adornment>
                 }
                 rightAdornment={
                   visibleFilters.maxActivity != null ? (
-                    <ActionAdornment
+                    <ControlledInput.ActionAdornment
                       onClick={() =>
                         setSearchParams(userSearchParams.deleteMaxActivity())
                       }
                     >
                       <Icon id="xMark" />
-                    </ActionAdornment>
+                    </ControlledInput.ActionAdornment>
                   ) : null
                 }
               />

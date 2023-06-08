@@ -20,7 +20,6 @@ import { AnimalSuggestionItem } from "~/animals/item";
 import { getAnimalDisplayName } from "~/animals/profile/name";
 import { AnimalSearchParams } from "~/animals/searchParams";
 import { cn } from "~/core/classNames";
-import { ActionAdornment } from "~/core/formElements/adornment";
 import { Input } from "~/core/formElements/input";
 import {
   SuggestionItem,
@@ -384,9 +383,9 @@ function Combobox({
             placeholder="Recherche globale"
             leftAdornment={
               <Dialog.Close asChild>
-                <ActionAdornment>
+                <Input.ActionAdornment>
                   <Icon id="angleLeft" />
-                </ActionAdornment>
+                </Input.ActionAdornment>
               </Dialog.Close>
             }
           />

@@ -6,7 +6,6 @@ import {
 import { Action } from "~/core/actions";
 import { BaseLink } from "~/core/baseLink";
 import { Filters } from "~/core/controllers/filters";
-import { ActionAdornment, Adornment } from "~/core/formElements/adornment";
 import { ControlledInput } from "~/core/formElements/controlledInput";
 import { ToggleInput, ToggleInputList } from "~/core/formElements/toggleInput";
 import { useOptimisticSearchParams } from "~/core/searchParams";
@@ -101,7 +100,7 @@ export function FosterFamilyFilters({
             value={visibleFilters.displayName ?? ""}
             rightAdornment={
               visibleFilters.displayName != null ? (
-                <ActionAdornment
+                <ControlledInput.ActionAdornment
                   onClick={() =>
                     setSearchParams(
                       fosterFamilySearchParams.deleteDisplayName()
@@ -109,7 +108,7 @@ export function FosterFamilyFilters({
                   }
                 >
                   <Icon id="xMark" />
-                </ActionAdornment>
+                </ControlledInput.ActionAdornment>
               ) : null
             }
           />
@@ -221,19 +220,19 @@ export function FosterFamilyFilters({
             inputMode="numeric"
             pattern="\d+"
             leftAdornment={
-              <Adornment>
+              <ControlledInput.Adornment>
                 <Icon id="locationDot" />
-              </Adornment>
+              </ControlledInput.Adornment>
             }
             rightAdornment={
               visibleFilters.zipCode != null ? (
-                <ActionAdornment
+                <ControlledInput.ActionAdornment
                   onClick={() =>
                     setSearchParams(fosterFamilySearchParams.deleteZipCode())
                   }
                 >
                   <Icon id="xMark" />
-                </ActionAdornment>
+                </ControlledInput.ActionAdornment>
               ) : null
             }
           />

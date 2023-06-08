@@ -7,10 +7,8 @@ import { createPath } from "history";
 import { forwardRef, useEffect, useRef, useState } from "react";
 import invariant from "tiny-invariant";
 import { toBooleanAttribute } from "~/core/attributes";
-import { cn } from "~/core/classNames";
-import { ActionAdornment, Adornment } from "~/core/formElements/adornment";
+import { BaseTextInput } from "~/core/formElements/baseTextInput";
 import { Input } from "~/core/formElements/input";
-import { inputClassName, InputWrapper } from "~/core/formElements/inputWrapper";
 import {
   ResourceComboboxLayout,
   ResourceInputLayout,
@@ -167,43 +165,50 @@ const InputTrigger = forwardRef<
   ref
 ) {
   const rightAdornments = [
-    <Adornment>
+    <BaseTextInput.Adornment>
       <Icon id="caretDown" />
-    </Adornment>,
+    </BaseTextInput.Adornment>,
   ];
   if (fosterFamily != null) {
     rightAdornments.unshift(
-      <ActionAdornment onClick={() => setFosterFamily(null)}>
+      <BaseTextInput.ActionAdornment onClick={() => setFosterFamily(null)}>
         <Icon id="xMark" />
-      </ActionAdornment>
+      </BaseTextInput.ActionAdornment>
     );
   }
 
   return (
-    <InputWrapper
-      isDisabled={disabled}
-      leftAdornment={
-        <Adornment>
-          <Icon id="house" />
-        </Adornment>
-      }
-      rightAdornment={rightAdornments}
-    >
-      <TriggerElement
-        ref={ref}
-        type="button"
-        disabled={disabled}
-        data-invalid={toBooleanAttribute(hasError)}
-        className={cn(
-          inputClassName({
-            leftAdornmentCount: 1,
-            rightAdornmentCount: rightAdornments.length,
-          })
-        )}
+    <BaseTextInput.Root aria-disabled={disabled}>
+      <BaseTextInput
+        asChild
+        variant="outlined"
+        leftAdornmentCount={1}
+        rightAdornmentCount={rightAdornments.length}
       >
-        {fosterFamily?.displayName}
-      </TriggerElement>
-    </InputWrapper>
+        <TriggerElement
+          ref={ref}
+          type="button"
+          disabled={disabled}
+          data-invalid={toBooleanAttribute(hasError)}
+        >
+          {fosterFamily?.displayName}
+        </TriggerElement>
+      </BaseTextInput>
+
+      <BaseTextInput.AdornmentContainer
+        side="left"
+        adornment={
+          <BaseTextInput.Adornment>
+            <Icon id="house" />
+          </BaseTextInput.Adornment>
+        }
+      />
+
+      <BaseTextInput.AdornmentContainer
+        side="right"
+        adornment={rightAdornments}
+      />
+    </BaseTextInput.Root>
   );
 });
 

@@ -14,7 +14,6 @@ import {
   readFile,
 } from "~/core/dataDisplay/image";
 import { toIsoDateValue } from "~/core/dates";
-import { Adornment } from "~/core/formElements/adornment";
 import { Form } from "~/core/formElements/form";
 import { ImageInput } from "~/core/formElements/imageInput";
 import { Input } from "~/core/formElements/input";
@@ -276,9 +275,9 @@ export function EventForm({
             hasError={fetcher.data?.errors?.fieldErrors.location != null}
             aria-describedby="location-error"
             leftAdornment={
-              <Adornment>
+              <Input.Adornment>
                 <Icon id="locationDot" />
-              </Adornment>
+              </Input.Adornment>
             }
           />
 
@@ -303,9 +302,9 @@ export function EventForm({
             hasError={fetcher.data?.errors?.fieldErrors.url != null}
             aria-describedby="url-error"
             leftAdornment={
-              <Adornment>
+              <Input.Adornment>
                 <Icon id="globe" />
-              </Adornment>
+              </Input.Adornment>
             }
           />
 
@@ -354,9 +353,9 @@ export function EventForm({
               hasError={fetcher.data?.errors?.fieldErrors.startDate != null}
               aria-describedby="startDate-error"
               leftAdornment={
-                <Adornment>
+                <Input.Adornment>
                   <Icon id="calendarDays" />
-                </Adornment>
+                </Input.Adornment>
               }
             />
 
@@ -389,9 +388,9 @@ export function EventForm({
               hasError={fetcher.data?.errors?.fieldErrors.endDate != null}
               aria-describedby="endDate-error"
               leftAdornment={
-                <Adornment>
+                <Input.Adornment>
                   <Icon id="calendarDays" />
-                </Adornment>
+                </Input.Adornment>
               }
             />
 

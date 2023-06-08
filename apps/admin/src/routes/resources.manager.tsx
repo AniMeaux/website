@@ -7,10 +7,8 @@ import { createPath } from "history";
 import { forwardRef, useEffect, useRef, useState } from "react";
 import invariant from "tiny-invariant";
 import { toBooleanAttribute } from "~/core/attributes";
-import { cn } from "~/core/classNames";
-import { Adornment } from "~/core/formElements/adornment";
+import { BaseTextInput } from "~/core/formElements/baseTextInput";
 import { Input } from "~/core/formElements/input";
-import { inputClassName, InputWrapper } from "~/core/formElements/inputWrapper";
 import {
   NoSuggestion,
   ResourceComboboxLayout,
@@ -150,31 +148,41 @@ const InputTrigger = forwardRef<
   ref
 ) {
   return (
-    <InputWrapper
-      isDisabled={disabled}
-      leftAdornment={
-        <Adornment>
-          <Icon id="user" />
-        </Adornment>
-      }
-      rightAdornment={
-        <Adornment>
-          <Icon id="caretDown" />
-        </Adornment>
-      }
-    >
-      <TriggerElement
-        ref={ref}
-        type="button"
-        disabled={disabled}
-        data-invalid={toBooleanAttribute(hasError)}
-        className={cn(
-          inputClassName({ leftAdornmentCount: 1, rightAdornmentCount: 1 })
-        )}
+    <BaseTextInput.Root aria-disabled={disabled}>
+      <BaseTextInput
+        asChild
+        variant="outlined"
+        leftAdornmentCount={1}
+        rightAdornmentCount={1}
       >
-        {manager?.displayName}
-      </TriggerElement>
-    </InputWrapper>
+        <TriggerElement
+          ref={ref}
+          type="button"
+          disabled={disabled}
+          data-invalid={toBooleanAttribute(hasError)}
+        >
+          {manager?.displayName}
+        </TriggerElement>
+      </BaseTextInput>
+
+      <BaseTextInput.AdornmentContainer
+        side="left"
+        adornment={
+          <BaseTextInput.Adornment>
+            <Icon id="user" />
+          </BaseTextInput.Adornment>
+        }
+      />
+
+      <BaseTextInput.AdornmentContainer
+        side="right"
+        adornment={
+          <BaseTextInput.Adornment>
+            <Icon id="caretDown" />
+          </BaseTextInput.Adornment>
+        }
+      />
+    </BaseTextInput.Root>
   );
 });
 

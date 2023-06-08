@@ -26,7 +26,6 @@ import { Action } from "~/core/actions";
 import { BaseLink } from "~/core/baseLink";
 import { Filters } from "~/core/controllers/filters";
 import { toIsoDateValue } from "~/core/dates";
-import { ActionAdornment, Adornment } from "~/core/formElements/adornment";
 import { ControlledInput } from "~/core/formElements/controlledInput";
 import { Form } from "~/core/formElements/form";
 import { ToggleInput, ToggleInputList } from "~/core/formElements/toggleInput";
@@ -267,19 +266,19 @@ export function AnimalFilters({
                 name={AnimalSearchParams.Keys.MIN_BIRTHDATE}
                 value={toIsoDateValue(visibleFilters.minBirthdate)}
                 leftAdornment={
-                  <Adornment>
+                  <ControlledInput.Adornment>
                     <Icon id="calendarDays" />
-                  </Adornment>
+                  </ControlledInput.Adornment>
                 }
                 rightAdornment={
                   visibleFilters.minBirthdate != null ? (
-                    <ActionAdornment
+                    <ControlledInput.ActionAdornment
                       onClick={() =>
                         setSearchParams(animalSearchParams.deleteMinBirthdate())
                       }
                     >
                       <Icon id="xMark" />
-                    </ActionAdornment>
+                    </ControlledInput.ActionAdornment>
                   ) : null
                 }
               />
@@ -296,19 +295,19 @@ export function AnimalFilters({
                 name={AnimalSearchParams.Keys.MAX_BIRTHDATE}
                 value={toIsoDateValue(visibleFilters.maxBirthdate)}
                 leftAdornment={
-                  <Adornment>
+                  <ControlledInput.Adornment>
                     <Icon id="calendarDays" />
-                  </Adornment>
+                  </ControlledInput.Adornment>
                 }
                 rightAdornment={
                   visibleFilters.maxBirthdate != null ? (
-                    <ActionAdornment
+                    <ControlledInput.ActionAdornment
                       onClick={() =>
                         setSearchParams(animalSearchParams.deleteMaxBirthdate())
                       }
                     >
                       <Icon id="xMark" />
-                    </ActionAdornment>
+                    </ControlledInput.ActionAdornment>
                   ) : null
                 }
               />
@@ -424,13 +423,13 @@ export function AnimalFilters({
                 name={AnimalSearchParams.Keys.MIN_PICK_UP_DATE}
                 value={toIsoDateValue(visibleFilters.minPickUpDate)}
                 leftAdornment={
-                  <Adornment>
+                  <ControlledInput.Adornment>
                     <Icon id="calendarDays" />
-                  </Adornment>
+                  </ControlledInput.Adornment>
                 }
                 rightAdornment={
                   visibleFilters.minPickUpDate != null ? (
-                    <ActionAdornment
+                    <ControlledInput.ActionAdornment
                       onClick={() =>
                         setSearchParams(
                           animalSearchParams.deleteMinPickUpDate()
@@ -438,7 +437,7 @@ export function AnimalFilters({
                       }
                     >
                       <Icon id="xMark" />
-                    </ActionAdornment>
+                    </ControlledInput.ActionAdornment>
                   ) : null
                 }
               />
@@ -455,13 +454,13 @@ export function AnimalFilters({
                 name={AnimalSearchParams.Keys.MAX_PICK_UP_DATE}
                 value={toIsoDateValue(visibleFilters.maxPickUpDate)}
                 leftAdornment={
-                  <Adornment>
+                  <ControlledInput.Adornment>
                     <Icon id="calendarDays" />
-                  </Adornment>
+                  </ControlledInput.Adornment>
                 }
                 rightAdornment={
                   visibleFilters.maxPickUpDate != null ? (
-                    <ActionAdornment
+                    <ControlledInput.ActionAdornment
                       onClick={() =>
                         setSearchParams(
                           animalSearchParams.deleteMaxPickUpDate()
@@ -469,7 +468,7 @@ export function AnimalFilters({
                       }
                     >
                       <Icon id="xMark" />
-                    </ActionAdornment>
+                    </ControlledInput.ActionAdornment>
                   ) : null
                 }
               />
@@ -613,13 +612,13 @@ export function AnimalFilters({
                   name={AnimalSearchParams.Keys.MIN_VACCINATION}
                   value={toIsoDateValue(visibleFilters.minVaccinationDate)}
                   leftAdornment={
-                    <Adornment>
+                    <ControlledInput.Adornment>
                       <Icon id="calendarDays" />
-                    </Adornment>
+                    </ControlledInput.Adornment>
                   }
                   rightAdornment={
                     visibleFilters.minVaccinationDate != null ? (
-                      <ActionAdornment
+                      <ControlledInput.ActionAdornment
                         onClick={() =>
                           setSearchParams(
                             animalSearchParams.deleteMinVaccinationDate()
@@ -627,7 +626,7 @@ export function AnimalFilters({
                         }
                       >
                         <Icon id="xMark" />
-                      </ActionAdornment>
+                      </ControlledInput.ActionAdornment>
                     ) : null
                   }
                 />
@@ -644,13 +643,13 @@ export function AnimalFilters({
                   name={AnimalSearchParams.Keys.MAX_VACCINATION}
                   value={toIsoDateValue(visibleFilters.maxVaccinationDate)}
                   leftAdornment={
-                    <Adornment>
+                    <ControlledInput.Adornment>
                       <Icon id="calendarDays" />
-                    </Adornment>
+                    </ControlledInput.Adornment>
                   }
                   rightAdornment={
                     visibleFilters.maxVaccinationDate != null ? (
-                      <ActionAdornment
+                      <ControlledInput.ActionAdornment
                         onClick={() =>
                           setSearchParams(
                             animalSearchParams.deleteMaxVaccinationDate()
@@ -658,7 +657,7 @@ export function AnimalFilters({
                         }
                       >
                         <Icon id="xMark" />
-                      </ActionAdornment>
+                      </ControlledInput.ActionAdornment>
                     ) : null
                   }
                 />
@@ -733,13 +732,13 @@ export function AnimalFilters({
                 name={AnimalSearchParams.Keys.MIN_ADOPTION_DATE}
                 value={toIsoDateValue(visibleFilters.minAdoptionDate)}
                 leftAdornment={
-                  <Adornment>
+                  <ControlledInput.Adornment>
                     <Icon id="calendarDays" />
-                  </Adornment>
+                  </ControlledInput.Adornment>
                 }
                 rightAdornment={
                   visibleFilters.minAdoptionDate != null ? (
-                    <ActionAdornment
+                    <ControlledInput.ActionAdornment
                       onClick={() =>
                         setSearchParams(
                           animalSearchParams.deleteMinAdoptionDate()
@@ -747,7 +746,7 @@ export function AnimalFilters({
                       }
                     >
                       <Icon id="xMark" />
-                    </ActionAdornment>
+                    </ControlledInput.ActionAdornment>
                   ) : null
                 }
               />
@@ -764,13 +763,13 @@ export function AnimalFilters({
                 name={AnimalSearchParams.Keys.MAX_ADOPTION_DATE}
                 value={toIsoDateValue(visibleFilters.maxAdoptionDate)}
                 leftAdornment={
-                  <Adornment>
+                  <ControlledInput.Adornment>
                     <Icon id="calendarDays" />
-                  </Adornment>
+                  </ControlledInput.Adornment>
                 }
                 rightAdornment={
                   visibleFilters.maxAdoptionDate != null ? (
-                    <ActionAdornment
+                    <ControlledInput.ActionAdornment
                       onClick={() =>
                         setSearchParams(
                           animalSearchParams.deleteMaxAdoptionDate()
@@ -778,7 +777,7 @@ export function AnimalFilters({
                       }
                     >
                       <Icon id="xMark" />
-                    </ActionAdornment>
+                    </ControlledInput.ActionAdornment>
                   ) : null
                 }
               />
@@ -871,13 +870,13 @@ export function AnimalFilters({
             value={visibleFilters.nameOrAlias ?? ""}
             rightAdornment={
               visibleFilters.nameOrAlias != null ? (
-                <ActionAdornment
+                <ControlledInput.ActionAdornment
                   onClick={() =>
                     setSearchParams(animalSearchParams.deleteNameOrAlias())
                   }
                 >
                   <Icon id="xMark" />
-                </ActionAdornment>
+                </ControlledInput.ActionAdornment>
               ) : null
             }
           />

@@ -1,4 +1,6 @@
-export function ensureArray<DataType>(value: DataType[] | DataType | null) {
+export function ensureArray<DataType>(
+  value: undefined | null | DataType[] | DataType
+) {
   if (value == null) {
     return [];
   }

@@ -18,7 +18,6 @@ import {
 } from "~/animals/species";
 import { Action } from "~/core/actions";
 import { toIsoDateValue } from "~/core/dates";
-import { Adornment } from "~/core/formElements/adornment";
 import { Form } from "~/core/formElements/form";
 import { Input } from "~/core/formElements/input";
 import { RadioInput, RadioInputList } from "~/core/formElements/radioInput";
@@ -195,9 +194,9 @@ export function AnimalProfileForm({
                 aria-describedby="name-error"
                 leftAdornment={
                   speciesState != null ? (
-                    <Adornment>
+                    <Input.Adornment>
                       <Icon id={SPECIES_ICON[speciesState]} />
-                    </Adornment>
+                    </Input.Adornment>
                   ) : null
                 }
               />
@@ -218,9 +217,9 @@ export function AnimalProfileForm({
                 name={ActionFormData.keys.alias}
                 defaultValue={defaultAnimal?.alias ?? undefined}
                 leftAdornment={
-                  <Adornment>
+                  <Input.Adornment>
                     <Icon id="comment" />
-                  </Adornment>
+                  </Input.Adornment>
                 }
               />
             </Form.Field>
@@ -240,9 +239,9 @@ export function AnimalProfileForm({
               hasError={fetcher.data?.errors?.fieldErrors.birthdate != null}
               aria-describedby="birthdate-error"
               leftAdornment={
-                <Adornment>
+                <Input.Adornment>
                   <Icon id="calendarDays" />
-                </Adornment>
+                </Input.Adornment>
               }
             />
 
@@ -294,9 +293,9 @@ export function AnimalProfileForm({
               name={ActionFormData.keys.iCadNumber}
               defaultValue={defaultAnimal?.iCadNumber ?? undefined}
               leftAdornment={
-                <Adornment>
+                <Input.Adornment>
                   <Icon id="fingerprint" />
-                </Adornment>
+                </Input.Adornment>
               }
             />
           </Form.Field>
@@ -453,7 +452,7 @@ export function AnimalProfileForm({
               ref={descriptionRef}
               id={ActionFormData.keys.description}
               name={ActionFormData.keys.description}
-              defaultValue={defaultAnimal?.description}
+              defaultValue={defaultAnimal?.description ?? undefined}
               rows={5}
             />
           </Form.Field>

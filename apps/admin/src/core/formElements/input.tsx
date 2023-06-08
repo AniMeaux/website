@@ -1,67 +1,72 @@
 import { forwardRef } from "react";
 import { toBooleanAttribute } from "~/core/attributes";
-import { cn } from "~/core/classNames";
 import { ensureArray } from "~/core/ensureArray";
-import {
-  inputClassName,
-  InputVariant,
-  InputWrapper,
-  InputWrapperProps,
-} from "~/core/formElements/inputWrapper";
+import { BaseTextInput } from "~/core/formElements/baseTextInput";
 
 export type InputProps = React.InputHTMLAttributes<HTMLInputElement> & {
-  variant?: InputVariant;
-  leftAdornment?: InputWrapperProps["leftAdornment"];
-  rightAdornment?: InputWrapperProps["rightAdornment"];
+  variant?: React.ComponentPropsWithoutRef<typeof BaseTextInput>["variant"];
+  leftAdornment?: React.ComponentPropsWithoutRef<
+    typeof BaseTextInput.AdornmentContainer
+  >["adornment"];
+  rightAdornment?: React.ComponentPropsWithoutRef<
+    typeof BaseTextInput.AdornmentContainer
+  >["adornment"];
   hasError?: boolean;
 };
 
-export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
+export const Input = Object.assign(
+  forwardRef<HTMLInputElement, InputProps>(function Input(
+    {
+      variant = "outlined",
+      hasError = false,
+      leftAdornment,
+      rightAdornment,
+      disabled,
+      type = "text",
+      pattern = getTypeFallbackPattern(type),
+      className,
+      // Should use `"off"` as default value but it is ingored by Chrome.
+      // See https://bugs.chromium.org/p/chromium/issues/detail?id=587466
+      // A random value is used to confuse the browser and make sure previous
+      // values are never suggested.
+      autoComplete = String(Math.random()),
+      ...rest
+    },
+    ref
+  ) {
+    return (
+      <BaseTextInput.Root aria-disabled={disabled} className={className}>
+        <BaseTextInput
+          {...rest}
+          ref={ref}
+          type={type}
+          pattern={pattern}
+          autoComplete={autoComplete}
+          disabled={disabled}
+          aria-invalid={toBooleanAttribute(hasError)}
+          variant={variant}
+          leftAdornmentCount={ensureArray(leftAdornment).length}
+          rightAdornmentCount={ensureArray(rightAdornment).length}
+          className={type === "date" ? "gap-0.5" : undefined}
+        />
+
+        <BaseTextInput.AdornmentContainer
+          side="left"
+          adornment={leftAdornment}
+        />
+
+        <BaseTextInput.AdornmentContainer
+          side="right"
+          adornment={rightAdornment}
+        />
+      </BaseTextInput.Root>
+    );
+  }),
   {
-    variant,
-    hasError = false,
-    leftAdornment,
-    rightAdornment,
-    disabled,
-    type = "text",
-    pattern = getTypeFallbackPattern(type),
-    className,
-    // Should use `"off"` as default value but it is ingored by Chrome.
-    // See https://bugs.chromium.org/p/chromium/issues/detail?id=587466
-    // A random value is used to confuse the browser and make sure previous
-    // values are never suggested.
-    autoComplete = String(Math.random()),
-    ...rest
-  },
-  ref
-) {
-  return (
-    <InputWrapper
-      isDisabled={disabled}
-      leftAdornment={leftAdornment}
-      rightAdornment={rightAdornment}
-      className={className}
-    >
-      <input
-        {...rest}
-        ref={ref}
-        type={type}
-        pattern={pattern}
-        autoComplete={autoComplete}
-        disabled={disabled}
-        aria-invalid={toBooleanAttribute(hasError)}
-        className={cn(
-          inputClassName({
-            variant,
-            leftAdornmentCount: ensureArray(leftAdornment).length,
-            rightAdornmentCount: ensureArray(rightAdornment).length,
-          }),
-          { "gap-0.5": type === "date" }
-        )}
-      />
-    </InputWrapper>
-  );
-});
+    Adornment: BaseTextInput.Adornment,
+    ActionAdornment: BaseTextInput.ActionAdornment,
+  }
+);
 
 function getTypeFallbackPattern(type: React.HTMLInputTypeAttribute) {
   switch (type) {

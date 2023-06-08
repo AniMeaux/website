@@ -4,7 +4,6 @@ import { useEffect, useRef } from "react";
 import { z } from "zod";
 import { Action } from "~/core/actions";
 import { EmailAlreadyUsedError } from "~/core/errors.server";
-import { Adornment } from "~/core/formElements/adornment";
 import { Form } from "~/core/formElements/form";
 import { Input } from "~/core/formElements/input";
 import { Card } from "~/core/layout/card";
@@ -135,9 +134,9 @@ export default function Route() {
                       hasError={fetcher.data?.errors?.fieldErrors.name != null}
                       aria-describedby="name-error"
                       leftAdornment={
-                        <Adornment>
+                        <Input.Adornment>
                           <Icon id="user" />
-                        </Adornment>
+                        </Input.Adornment>
                       }
                     />
 
@@ -164,9 +163,9 @@ export default function Route() {
                       aria-describedby="email-error"
                       placeholder="jean@mail.com"
                       leftAdornment={
-                        <Adornment>
+                        <Input.Adornment>
                           <Icon id="envelope" />
-                        </Adornment>
+                        </Input.Adornment>
                       }
                     />
 
