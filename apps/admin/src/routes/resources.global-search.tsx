@@ -20,6 +20,7 @@ import { AnimalSuggestionItem } from "~/animals/item";
 import { getAnimalDisplayName } from "~/animals/profile/name";
 import { AnimalSearchParams } from "~/animals/searchParams";
 import { cn } from "~/core/classNames";
+import { BaseTextInput } from "~/core/formElements/baseTextInput";
 import { Input } from "~/core/formElements/input";
 import {
   SuggestionItem,
@@ -202,18 +203,30 @@ export function GlobalSearch() {
         setIsOpened(isOpened && type != null);
       }}
     >
-      <Dialog.Trigger className="rounded-0.5 bg-gray-100 pr-1 inline-grid grid-cols-[auto_minmax(0px,1fr)] text-left hover:bg-gray-200 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 md:text-body-default">
-        <span className="p-0.5 flex">
-          <span className="w-3 h-3 flex items-center justify-center text-gray-600">
-            <Icon id="magnifyingGlass" />
-          </span>
-        </span>
+      <BaseTextInput.Root>
+        <BaseTextInput
+          asChild
+          leftAdornmentCount={1}
+          rightAdornmentCount={0}
+          variant="search"
+        >
+          <Dialog.Trigger>
+            <span className="text-gray-500">
+              Recherche globale{" "}
+              <span className="hidden md:inline">(appuyer sur ”/”)</span>
+            </span>
+          </Dialog.Trigger>
+        </BaseTextInput>
 
-        <span className="py-1 text-gray-500">
-          Recherche globale{" "}
-          <span className="hidden md:inline">(appuyer sur ”/”)</span>
-        </span>
-      </Dialog.Trigger>
+        <BaseTextInput.AdornmentContainer
+          side="left"
+          adornment={
+            <BaseTextInput.Adornment>
+              <Icon id="magnifyingGlass" />
+            </BaseTextInput.Adornment>
+          }
+        />
+      </BaseTextInput.Root>
 
       <Dialog.Portal>
         <Dialog.Overlay
