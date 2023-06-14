@@ -87,7 +87,7 @@ const VARIANT_CLASS_NAME: Record<
   (args: { isIconOnly: boolean }) => string
 > = {
   floating: () =>
-    "shadow-xl rounded-full w-5 h-5 justify-center text-[20px] transition-[background-color,transform]",
+    "shadow-ambient rounded-full w-5 h-5 justify-center text-[20px] transition-[background-color,transform]",
   primary: ({ isIconOnly }) =>
     cn(
       "rounded-0.5 min-w-[40px] h-4 transition-[background-color,transform]",

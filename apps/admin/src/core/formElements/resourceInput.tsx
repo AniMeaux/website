@@ -59,7 +59,7 @@ function MediumLayout({
           align="start"
           sideOffset={theme.spacing[1]}
           collisionPadding={theme.spacing[1]}
-          className="z-10 bg-white shadow-lg rounded-1 border border-gray-100 flex flex-col"
+          className="z-10 bg-white shadow-ambient rounded-1 flex flex-col"
         >
           {content}
         </Popover.Content>
