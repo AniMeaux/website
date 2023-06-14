@@ -27,6 +27,7 @@ import {
   SuggestionList,
 } from "~/core/formElements/resourceInput";
 import { useNavigate } from "~/core/navigation";
+import { Overlay } from "~/core/popovers/overlay";
 import { ForbiddenResponse } from "~/core/response.server";
 import { parseOrDefault } from "~/core/schemas";
 import { getCurrentUser } from "~/currentUser/db.server";
@@ -229,14 +230,9 @@ export function GlobalSearch() {
       </BaseTextInput.Root>
 
       <Dialog.Portal>
-        <Dialog.Overlay
-          className={cn(
-            // Use absolute instead of fixed to avoid performances issues when
-            // mobile browser's height change due to scroll.
-            "absolute",
-            "top-0 right-0 bottom-0 left-0 z-30 overscroll-none bg-black/20 cursor-pointer"
-          )}
-        />
+        <Overlay asChild>
+          <Dialog.Overlay />
+        </Overlay>
 
         <Dialog.Content className="fixed top-0 left-0 bottom-0 right-0 z-30 overflow-y-auto bg-gray-50 flex flex-col md:top-[10vh] md:left-1/2 md:bottom-auto md:right-auto md:-translate-x-1/2 md:w-[550px] md:shadow-ambient md:bg-white md:rounded-1">
           {type != null ? (

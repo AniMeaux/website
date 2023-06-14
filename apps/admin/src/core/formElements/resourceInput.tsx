@@ -8,6 +8,7 @@ import { Item } from "~/core/dataDisplay/item";
 import { HIGHLIGHT_COMPONENTS, Markdown } from "~/core/dataDisplay/markdown";
 import { BaseTextInput } from "~/core/formElements/baseTextInput";
 import { Card } from "~/core/layout/card";
+import { Overlay } from "~/core/popovers/overlay";
 import { ScreenSizeValue, useScreenSizeCondition } from "~/core/screenSize";
 import { Icon } from "~/generated/icon";
 import { theme } from "~/generated/theme";
@@ -78,14 +79,9 @@ function SmallLayout({
       {inputTrigger(Dialog.Trigger)}
 
       <Dialog.Portal>
-        <Dialog.Overlay
-          className={cn(
-            // Use absolute instead of fixed to avoid performances issues when
-            // mobile browser's height change due to scroll.
-            "absolute",
-            "top-0 right-0 bottom-0 left-0 z-30 overscroll-none bg-black/20"
-          )}
-        />
+        <Overlay asChild>
+          <Dialog.Overlay />
+        </Overlay>
 
         <Dialog.Content className="fixed top-0 left-0 bottom-0 right-0 z-30 overflow-y-auto bg-gray-50 flex flex-col">
           <VisuallyHidden.Root>
