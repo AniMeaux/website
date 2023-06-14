@@ -59,7 +59,7 @@ function MediumLayout({
           align="start"
           sideOffset={theme.spacing[1]}
           collisionPadding={theme.spacing[1]}
-          className="z-10 bg-white shadow-ambient rounded-1 border border-gray-200 flex flex-col"
+          className="z-10 bg-white shadow-lg rounded-1 border border-gray-100 flex flex-col"
         >
           {content}
         </Popover.Content>
@@ -118,7 +118,7 @@ function MediumComboboxLayout({
 }: ResourceComboboxLayoutProps) {
   return (
     <div className="flex flex-col">
-      <header className="border-b border-gray-100 p-1 flex flex-col">
+      <header className="border-b border-gray-100 p-0.5 flex flex-col">
         {label}
         {input(
           <BaseTextInput.Adornment>
@@ -127,7 +127,7 @@ function MediumComboboxLayout({
         )}
       </header>
 
-      <section className="p-1 flex flex-col">{list}</section>
+      <section className="p-0.5 flex flex-col">{list}</section>
     </div>
   );
 }

@@ -32,7 +32,7 @@ Dialog.Content = function DialogContent({
           <RadixDialog.Overlay />
         </Overlay>
 
-        <RadixDialog.Content className="fixed top-[10vh] left-1 right-1 z-30 shadow-ambient bg-white rounded-1 p-2 flex flex-col gap-2 md:left-1/2 md:right-auto md:-translate-x-1/2 md:w-[550px]">
+        <RadixDialog.Content className="fixed top-[10vh] left-1 right-1 z-30 shadow-2xl bg-white rounded-1 p-2 flex flex-col gap-2 md:left-1/2 md:right-auto md:-translate-x-1/2 md:w-[550px]">
           {children}
         </RadixDialog.Content>
       </RadixDialog.Portal>

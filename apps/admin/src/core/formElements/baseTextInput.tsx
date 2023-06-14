@@ -8,12 +8,20 @@ export const BaseTextInput = Object.assign(
   forwardRef<
     HTMLInputElement,
     React.ComponentPropsWithoutRef<typeof Primitive.input> & {
-      variant: "outlined" | "search";
+      variant: "outlined" | "search" | "transparent";
       leftAdornmentCount: number;
       rightAdornmentCount: number;
+      hideFocusRing?: boolean;
     }
   >(function BaseTextInput(
-    { variant, leftAdornmentCount, rightAdornmentCount, className, ...rest },
+    {
+      variant,
+      leftAdornmentCount,
+      rightAdornmentCount,
+      hideFocusRing = false,
+      className,
+      ...rest
+    },
     ref
   ) {
     return (
@@ -21,7 +29,10 @@ export const BaseTextInput = Object.assign(
         {...rest}
         ref={ref}
         className={cn(
-          "appearance-none w-full min-w-0 min-h-[40px] rounded-0.5 ring-inset ring-1 py-1 text-left transition-colors duration-100 ease-in-out placeholder:text-gray-500 focus-visible:outline-none focus-visible:ring-outset focus-visible:ring focus-visible:ring-blue-400 aria-[invalid=true]:ring-red-500 aria-[invalid=true]:focus-visible:ring-red-500 data-[invalid=true]:ring-red-500 data-[invalid=true]:focus-visible:ring-red-500",
+          "appearance-none w-full min-w-0 min-h-[40px] rounded-0.5 ring-inset ring-1 py-1 text-left transition-colors duration-100 ease-in-out placeholder:text-gray-500 focus-visible:outline-none aria-[invalid=true]:ring-red-500 data-[invalid=true]:ring-red-500",
+          hideFocusRing
+            ? undefined
+            : "focus-visible:ring-outset focus-visible:ring focus-visible:ring-blue-400 aria-[invalid=true]:focus-visible:ring-red-500 data-[invalid=true]:focus-visible:ring-red-500",
           INPUT_VARIANT_CLASS_NAMES[variant],
           {
             "pl-1": leftAdornmentCount === 0,
@@ -135,4 +146,5 @@ const INPUT_VARIANT_CLASS_NAMES: Record<
 > = {
   outlined: "ring-gray-200 bg-transparent",
   search: "ring-gray-100 bg-gray-100",
+  transparent: "ring-transparent bg-transparent",
 };

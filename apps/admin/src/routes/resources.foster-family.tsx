@@ -278,7 +278,9 @@ function Combobox({
       }
       input={(leftAdornment) => (
         <Input
-          variant="search"
+          hideFocusRing
+          type="search"
+          variant="transparent"
           placeholder="Rechercher une famille d’accueil"
           leftAdornment={leftAdornment}
           {...combobox.getInputProps()}

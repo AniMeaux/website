@@ -225,7 +225,9 @@ function Combobox({
       }
       input={(leftAdornment) => (
         <Input
-          variant="search"
+          hideFocusRing
+          type="search"
+          variant="transparent"
           placeholder="Rechercher un responsable"
           leftAdornment={leftAdornment}
           {...combobox.getInputProps()}

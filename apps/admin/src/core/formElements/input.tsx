@@ -12,6 +12,9 @@ export type InputProps = React.InputHTMLAttributes<HTMLInputElement> & {
     typeof BaseTextInput.AdornmentContainer
   >["adornment"];
   hasError?: boolean;
+  hideFocusRing?: React.ComponentPropsWithoutRef<
+    typeof BaseTextInput
+  >["hideFocusRing"];
 };
 
 export const Input = Object.assign(
@@ -21,6 +24,7 @@ export const Input = Object.assign(
       hasError = false,
       leftAdornment,
       rightAdornment,
+      hideFocusRing,
       disabled,
       type = "text",
       pattern = getTypeFallbackPattern(type),
@@ -45,6 +49,7 @@ export const Input = Object.assign(
           disabled={disabled}
           aria-invalid={toBooleanAttribute(hasError)}
           variant={variant}
+          hideFocusRing={hideFocusRing}
           leftAdornmentCount={ensureArray(leftAdornment).length}
           rightAdornmentCount={ensureArray(rightAdornment).length}
           className={type === "date" ? "gap-0.5" : undefined}

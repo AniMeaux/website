@@ -242,7 +242,9 @@ function Combobox({
       }
       input={(leftAdornment) => (
         <Input
-          variant="search"
+          hideFocusRing
+          type="search"
+          variant="transparent"
           placeholder="Rechercher une race"
           leftAdornment={leftAdornment}
           {...combobox.getInputProps()}
