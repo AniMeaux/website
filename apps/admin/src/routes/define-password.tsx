@@ -4,7 +4,6 @@ import { useEffect, useRef } from "react";
 import { z } from "zod";
 import { Action } from "~/core/actions";
 import { InlineHelper } from "~/core/dataDisplay/helper";
-import { Adornment } from "~/core/formElements/adornment";
 import { Form } from "~/core/formElements/form";
 import { PasswordInput } from "~/core/formElements/passwordInput";
 import { RouteHandle } from "~/core/handles";
@@ -127,9 +126,9 @@ export default function Route() {
                   hasError={fetcher.data?.errors.fieldErrors.password != null}
                   aria-describedby="password-error"
                   leftAdornment={
-                    <Adornment>
+                    <PasswordInput.Adornment>
                       <Icon id="lock" />
-                    </Adornment>
+                    </PasswordInput.Adornment>
                   }
                 />
 

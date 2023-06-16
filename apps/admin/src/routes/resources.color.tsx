@@ -8,11 +8,9 @@ import { forwardRef, useEffect, useRef, useState } from "react";
 import invariant from "tiny-invariant";
 import { fuzzySearchColors } from "~/colors/db.server";
 import { ColorSearchParams } from "~/colors/searchParams";
-import { asBooleanAttribute } from "~/core/attributes";
-import { cn } from "~/core/classNames";
-import { ActionAdornment, Adornment } from "~/core/formElements/adornment";
+import { toBooleanAttribute } from "~/core/attributes";
+import { BaseTextInput } from "~/core/formElements/baseTextInput";
 import { Input } from "~/core/formElements/input";
-import { inputClassName, InputWrapper } from "~/core/formElements/inputWrapper";
 import {
   NoSuggestion,
   ResourceComboboxLayout,
@@ -145,43 +143,50 @@ const InputTrigger = forwardRef<
   ref
 ) {
   const rightAdornments = [
-    <Adornment>
+    <BaseTextInput.Adornment>
       <Icon id="caretDown" />
-    </Adornment>,
+    </BaseTextInput.Adornment>,
   ];
   if (color != null) {
     rightAdornments.unshift(
-      <ActionAdornment onClick={() => setColor(null)}>
+      <BaseTextInput.ActionAdornment onClick={() => setColor(null)}>
         <Icon id="xMark" />
-      </ActionAdornment>
+      </BaseTextInput.ActionAdornment>
     );
   }
 
   return (
-    <InputWrapper
-      isDisabled={disabled}
-      leftAdornment={
-        <Adornment>
-          <Icon id="palette" />
-        </Adornment>
-      }
-      rightAdornment={rightAdornments}
-    >
-      <TriggerElement
-        ref={ref}
-        type="button"
-        disabled={disabled}
-        data-invalid={asBooleanAttribute(hasError)}
-        className={cn(
-          inputClassName({
-            leftAdornmentCount: 1,
-            rightAdornmentCount: rightAdornments.length,
-          })
-        )}
+    <BaseTextInput.Root aria-disabled={disabled}>
+      <BaseTextInput
+        asChild
+        variant="outlined"
+        leftAdornmentCount={1}
+        rightAdornmentCount={rightAdornments.length}
       >
-        {color?.name}
-      </TriggerElement>
-    </InputWrapper>
+        <TriggerElement
+          ref={ref}
+          type="button"
+          disabled={disabled}
+          data-invalid={toBooleanAttribute(hasError)}
+        >
+          {color?.name}
+        </TriggerElement>
+      </BaseTextInput>
+
+      <BaseTextInput.AdornmentContainer
+        side="left"
+        adornment={
+          <BaseTextInput.Adornment>
+            <Icon id="palette" />
+          </BaseTextInput.Adornment>
+        }
+      />
+
+      <BaseTextInput.AdornmentContainer
+        side="right"
+        adornment={rightAdornments}
+      />
+    </BaseTextInput.Root>
   );
 });
 
@@ -224,7 +229,9 @@ function Combobox({
       }
       input={(leftAdornment) => (
         <Input
-          variant="search"
+          hideFocusRing
+          type="search"
+          variant="transparent"
           placeholder="Rechercher une couleur"
           leftAdornment={leftAdornment}
           {...combobox.getInputProps()}

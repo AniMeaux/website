@@ -8,11 +8,9 @@ import { forwardRef, useEffect, useRef, useState } from "react";
 import invariant from "tiny-invariant";
 import { searchPickUpLocation } from "~/animals/db.server";
 import { PickUpLocationSearchParams } from "~/animals/searchParams";
-import { asBooleanAttribute } from "~/core/attributes";
-import { cn } from "~/core/classNames";
-import { Adornment } from "~/core/formElements/adornment";
+import { toBooleanAttribute } from "~/core/attributes";
+import { BaseTextInput } from "~/core/formElements/baseTextInput";
 import { Input } from "~/core/formElements/input";
-import { inputClassName, InputWrapper } from "~/core/formElements/inputWrapper";
 import {
   NoSuggestion,
   ResourceComboboxLayout,
@@ -150,31 +148,41 @@ const InputTrigger = forwardRef<
   ref
 ) {
   return (
-    <InputWrapper
-      isDisabled={disabled}
-      leftAdornment={
-        <Adornment>
-          <Icon id="locationDot" />
-        </Adornment>
-      }
-      rightAdornment={
-        <Adornment>
-          <Icon id="caretDown" />
-        </Adornment>
-      }
-    >
-      <TriggerElement
-        ref={ref}
-        type="button"
-        disabled={disabled}
-        data-invalid={asBooleanAttribute(hasError)}
-        className={cn(
-          inputClassName({ leftAdornmentCount: 1, rightAdornmentCount: 1 })
-        )}
+    <BaseTextInput.Root aria-disabled={disabled}>
+      <BaseTextInput
+        asChild
+        variant="outlined"
+        leftAdornmentCount={1}
+        rightAdornmentCount={1}
       >
-        {pickUpLocation}
-      </TriggerElement>
-    </InputWrapper>
+        <TriggerElement
+          ref={ref}
+          type="button"
+          disabled={disabled}
+          data-invalid={toBooleanAttribute(hasError)}
+        >
+          {pickUpLocation}
+        </TriggerElement>
+      </BaseTextInput>
+
+      <BaseTextInput.AdornmentContainer
+        side="left"
+        adornment={
+          <BaseTextInput.Adornment>
+            <Icon id="locationDot" />
+          </BaseTextInput.Adornment>
+        }
+      />
+
+      <BaseTextInput.AdornmentContainer
+        side="right"
+        adornment={
+          <BaseTextInput.Adornment>
+            <Icon id="caretDown" />
+          </BaseTextInput.Adornment>
+        }
+      />
+    </BaseTextInput.Root>
   );
 });
 
@@ -251,7 +259,9 @@ function Combobox({
       }
       input={(leftAdornment) => (
         <Input
-          variant="search"
+          hideFocusRing
+          type="search"
+          variant="transparent"
           placeholder="Rechercher un lieu"
           leftAdornment={leftAdornment}
           {...combobox.getInputProps()}

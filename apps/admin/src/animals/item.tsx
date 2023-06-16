@@ -98,7 +98,7 @@ export function AnimalItem({
       </span>
 
       <div className="flex flex-col">
-        <p className="flex items-start gap-0.5">
+        <p className="flex items-start gap-0.25">
           <span
             className={cn(
               "h-2 flex-none flex items-center",
@@ -160,7 +160,7 @@ export function AnimalSmallItem({
       <AnimalAvatar animal={animal} size="lg" loading={imageLoading} />
 
       <div className="flex flex-col">
-        <p className="flex items-start gap-0.5">
+        <p className="flex items-start gap-0.25">
           <span
             className={cn(
               "h-2 flex-none flex items-center",
