@@ -26,7 +26,6 @@ import {
 } from "~/animals/status";
 import { Action } from "~/core/actions";
 import { toIsoDateValue } from "~/core/dates";
-import { Adornment } from "~/core/formElements/adornment";
 import { Form } from "~/core/formElements/form";
 import { Input } from "~/core/formElements/input";
 import { RadioInput, RadioInputList } from "~/core/formElements/radioInput";
@@ -195,9 +194,9 @@ export function AnimalSituationForm({
                   }
                   aria-describedby="adoptionDate-error"
                   leftAdornment={
-                    <Adornment>
+                    <Input.Adornment>
                       <Icon id="calendarDays" />
-                    </Adornment>
+                    </Input.Adornment>
                   }
                 />
 
@@ -285,9 +284,9 @@ export function AnimalSituationForm({
                 hasError={fetcher.data?.errors?.fieldErrors.pickUpDate != null}
                 aria-describedby="pickUpDate-error"
                 leftAdornment={
-                  <Adornment>
+                  <Input.Adornment>
                     <Icon id="calendarDays" />
-                  </Adornment>
+                  </Input.Adornment>
                 }
               />
 
@@ -439,9 +438,9 @@ export function AnimalSituationForm({
                 }
                 aria-describedby="nextVaccinationDate-error"
                 leftAdornment={
-                  <Adornment>
+                  <Input.Adornment>
                     <Icon id="calendarDays" />
-                  </Adornment>
+                  </Input.Adornment>
                 }
               />
 
@@ -464,7 +463,7 @@ export function AnimalSituationForm({
               ref={commentsRef}
               id={ActionFormData.keys.comments}
               name={ActionFormData.keys.comments}
-              defaultValue={defaultAnimal?.comments}
+              defaultValue={defaultAnimal?.comments ?? undefined}
               rows={5}
             />
           </Form.Field>

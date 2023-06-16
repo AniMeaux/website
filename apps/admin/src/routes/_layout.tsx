@@ -226,7 +226,7 @@ function CurrentUserMenu() {
           <UserAvatar size="lg" user={currentUser} />
         </span>
 
-        <span className="hidden text-gray-600 md:inline-flex">
+        <span className="hidden text-[20px] text-gray-600 md:inline-flex">
           <Icon id="caretDown" />
         </span>
       </DropdownMenu.Trigger>

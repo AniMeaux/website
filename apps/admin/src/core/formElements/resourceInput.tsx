@@ -2,12 +2,13 @@ import * as Dialog from "@radix-ui/react-dialog";
 import * as Popover from "@radix-ui/react-popover";
 import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
 import { forwardRef } from "react";
-import { asBooleanAttribute } from "~/core/attributes";
+import { toBooleanAttribute } from "~/core/attributes";
 import { cn } from "~/core/classNames";
 import { Item } from "~/core/dataDisplay/item";
 import { HIGHLIGHT_COMPONENTS, Markdown } from "~/core/dataDisplay/markdown";
-import { ActionAdornment, Adornment } from "~/core/formElements/adornment";
+import { BaseTextInput } from "~/core/formElements/baseTextInput";
 import { Card } from "~/core/layout/card";
+import { Overlay } from "~/core/popovers/overlay";
 import { ScreenSizeValue, useScreenSizeCondition } from "~/core/screenSize";
 import { Icon } from "~/generated/icon";
 import { theme } from "~/generated/theme";
@@ -58,7 +59,7 @@ function MediumLayout({
           align="start"
           sideOffset={theme.spacing[1]}
           collisionPadding={theme.spacing[1]}
-          className="z-10 bg-white shadow-ambient rounded-1 border border-gray-200 flex flex-col"
+          className="z-10 bg-white shadow-ambient rounded-1 flex flex-col"
         >
           {content}
         </Popover.Content>
@@ -78,14 +79,9 @@ function SmallLayout({
       {inputTrigger(Dialog.Trigger)}
 
       <Dialog.Portal>
-        <Dialog.Overlay
-          className={cn(
-            // Use absolute instead of fixed to avoid performances issues when
-            // mobile browser's height change due to scroll.
-            "absolute",
-            "top-0 right-0 bottom-0 left-0 z-30 overscroll-none bg-black/20"
-          )}
-        />
+        <Overlay asChild>
+          <Dialog.Overlay />
+        </Overlay>
 
         <Dialog.Content className="fixed top-0 left-0 bottom-0 right-0 z-30 overflow-y-auto bg-gray-50 flex flex-col">
           <VisuallyHidden.Root>
@@ -122,16 +118,16 @@ function MediumComboboxLayout({
 }: ResourceComboboxLayoutProps) {
   return (
     <div className="flex flex-col">
-      <header className="border-b border-gray-100 p-1 flex flex-col">
+      <header className="border-b border-gray-100 p-0.5 flex flex-col">
         {label}
         {input(
-          <Adornment>
+          <BaseTextInput.Adornment>
             <Icon id="magnifyingGlass" />
-          </Adornment>
+          </BaseTextInput.Adornment>
         )}
       </header>
 
-      <section className="p-1 flex flex-col">{list}</section>
+      <section className="p-0.5 flex flex-col">{list}</section>
     </div>
   );
 }
@@ -147,9 +143,9 @@ function SmallComboboxLayout({
         {label}
         {input(
           <Dialog.Close asChild>
-            <ActionAdornment>
+            <BaseTextInput.ActionAdornment>
               <Icon id="angleLeft" />
-            </ActionAdornment>
+            </BaseTextInput.ActionAdornment>
           </Dialog.Close>
         )}
       </header>
@@ -198,8 +194,8 @@ export const SuggestionItem = forwardRef<HTMLLIElement, SuggestionItemProps>(
       <Item
         {...rest}
         ref={ref}
-        data-is-value={asBooleanAttribute(isValue)}
-        data-is-additional={asBooleanAttribute(isAdditional)}
+        data-is-value={toBooleanAttribute(isValue)}
+        data-is-additional={toBooleanAttribute(isAdditional)}
         className={cn(
           className,
           "cursor-pointer aria-selected:bg-gray-100 data-[is-value=true]:bg-gray-100"

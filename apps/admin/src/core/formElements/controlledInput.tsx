@@ -8,25 +8,31 @@ import { useLayoutEffect } from "~/core/useLayoutEffect";
  * Using a local state makes the input faster and preserve native state (cursor
  * position, date parts for date input).
  */
-export function ControlledInput({
-  value: valueProp,
-  onChange: onChangeProp,
-  ...rest
-}: Omit<InputProps, "value"> & Required<Pick<InputProps, "value">>) {
-  const [value, setValue] = useState(valueProp);
+export const ControlledInput = Object.assign(
+  function ControlledInput({
+    value: valueProp,
+    onChange: onChangeProp,
+    ...rest
+  }: Omit<InputProps, "value"> & Required<Pick<InputProps, "value">>) {
+    const [value, setValue] = useState(valueProp);
 
-  useLayoutEffect(() => {
-    setValue(valueProp);
-  }, [valueProp]);
+    useLayoutEffect(() => {
+      setValue(valueProp);
+    }, [valueProp]);
 
-  return (
-    <Input
-      {...rest}
-      value={value}
-      onChange={(event) => {
-        setValue(event.target.value);
-        onChangeProp?.(event);
-      }}
-    />
-  );
-}
+    return (
+      <Input
+        {...rest}
+        value={value}
+        onChange={(event) => {
+          setValue(event.target.value);
+          onChangeProp?.(event);
+        }}
+      />
+    );
+  },
+  {
+    Adornment: Input.Adornment,
+    ActionAdornment: Input.ActionAdornment,
+  }
+);

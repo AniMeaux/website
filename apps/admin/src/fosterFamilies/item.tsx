@@ -59,7 +59,7 @@ export function ForsterFamilyItem({
             <Icon
               key={species}
               id={SPECIES_ICON[species]}
-              className="text-[14px] text-gray-500 transition-colors duration-100 ease-in-out group-hover:text-gray-800"
+              className="text-[20px] text-gray-500 transition-colors duration-100 ease-in-out group-hover:text-gray-800"
             />
           ))}
         </span>

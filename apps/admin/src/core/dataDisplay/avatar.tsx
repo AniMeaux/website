@@ -29,10 +29,13 @@ export function Avatar({
       )}
     >
       {icon != null ? (
-        <Icon id={icon} className={ICON_CLASS_NAME[size]} />
+        <Icon id={icon} className={ICON_OR_LETTER_CLASS_NAME[size]} />
       ) : (
         <span
-          className={cn("font-semibold leading-none", LETTER_CLASS_NAME[size])}
+          className={cn(
+            "font-semibold leading-none",
+            ICON_OR_LETTER_CLASS_NAME[size]
+          )}
         >
           {letter}
         </span>
@@ -54,13 +57,7 @@ const COLOR_CLASS_NAME: Record<InstanceColor, string> = {
   yellow: "bg-yellow-100 text-yellow-600",
 };
 
-const ICON_CLASS_NAME: Record<AvatarSize, string> = {
-  sm: "text-[12px]",
-  lg: "text-[24px]",
-  xl: "text-[48px]",
-};
-
-const LETTER_CLASS_NAME: Record<AvatarSize, string> = {
+const ICON_OR_LETTER_CLASS_NAME: Record<AvatarSize, string> = {
   sm: "text-[14px]",
   lg: "text-[28px]",
   xl: "text-[56px]",

@@ -3,7 +3,6 @@ import { useFetcher, V2_MetaFunction } from "@remix-run/react";
 import { useEffect, useRef } from "react";
 import { z } from "zod";
 import { Action } from "~/core/actions";
-import { Adornment } from "~/core/formElements/adornment";
 import { Form } from "~/core/formElements/form";
 import { PasswordInput } from "~/core/formElements/passwordInput";
 import { Card } from "~/core/layout/card";
@@ -99,9 +98,9 @@ export default function Route() {
                       }
                       aria-describedby="password-error"
                       leftAdornment={
-                        <Adornment>
+                        <PasswordInput.Adornment>
                           <Icon id="lock" />
-                        </Adornment>
+                        </PasswordInput.Adornment>
                       }
                     />
 

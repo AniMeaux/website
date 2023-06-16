@@ -2,6 +2,7 @@ import * as RadixDialog from "@radix-ui/react-dialog";
 import { createContext, useContext, useMemo } from "react";
 import { Action, ActionColor } from "~/core/actions";
 import { cn } from "~/core/classNames";
+import { Overlay } from "~/core/popovers/overlay";
 import { Icon, IconProps } from "~/generated/icon";
 
 type DialogVariant = "alert" | "warning";
@@ -27,16 +28,11 @@ Dialog.Content = function DialogContent({
       value={useMemo<DialogContextValue>(() => ({ variant }), [variant])}
     >
       <RadixDialog.Portal>
-        <RadixDialog.Overlay
-          className={cn(
-            // Use absolute instead of fixed to avoid performances issues
-            // when mobile browser's height change due to scroll.
-            "absolute",
-            "top-0 right-0 bottom-0 left-0 z-30 overscroll-none bg-black/20 cursor-pointer"
-          )}
-        />
+        <Overlay asChild>
+          <RadixDialog.Overlay />
+        </Overlay>
 
-        <RadixDialog.Content className="fixed top-[10vh] left-1 right-1 z-30 shadow-ambient bg-white rounded-1 p-2 flex flex-col gap-2 md:left-1/2 md:right-auto md:-translate-x-1/2 md:w-[550px]">
+        <RadixDialog.Content className="fixed bottom-safe-1 left-safe-1 right-safe-1 z-30 shadow-ambient bg-white rounded-1 p-2 flex flex-col gap-2 md:bottom-auto md:top-[10vh] md:left-1/2 md:right-auto md:-translate-x-1/2 md:w-[550px]">
           {children}
         </RadixDialog.Content>
       </RadixDialog.Portal>

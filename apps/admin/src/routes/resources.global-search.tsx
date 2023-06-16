@@ -20,13 +20,14 @@ import { AnimalSuggestionItem } from "~/animals/item";
 import { getAnimalDisplayName } from "~/animals/profile/name";
 import { AnimalSearchParams } from "~/animals/searchParams";
 import { cn } from "~/core/classNames";
-import { ActionAdornment } from "~/core/formElements/adornment";
+import { BaseTextInput } from "~/core/formElements/baseTextInput";
 import { Input } from "~/core/formElements/input";
 import {
   SuggestionItem,
   SuggestionList,
 } from "~/core/formElements/resourceInput";
 import { useNavigate } from "~/core/navigation";
+import { Overlay } from "~/core/popovers/overlay";
 import { ForbiddenResponse } from "~/core/response.server";
 import { parseOrDefault } from "~/core/schemas";
 import { getCurrentUser } from "~/currentUser/db.server";
@@ -203,28 +204,35 @@ export function GlobalSearch() {
         setIsOpened(isOpened && type != null);
       }}
     >
-      <Dialog.Trigger className="rounded-0.5 bg-gray-100 pr-1 inline-grid grid-cols-[auto_minmax(0px,1fr)] text-left hover:bg-gray-200 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 md:text-body-default">
-        <span className="p-0.5 flex">
-          <span className="w-3 h-3 flex items-center justify-center text-gray-600">
-            <Icon id="magnifyingGlass" />
-          </span>
-        </span>
+      <BaseTextInput.Root>
+        <BaseTextInput
+          asChild
+          leftAdornmentCount={1}
+          rightAdornmentCount={0}
+          variant="search"
+        >
+          <Dialog.Trigger>
+            <span className="text-gray-500">
+              Recherche globale{" "}
+              <span className="hidden md:inline">(appuyer sur ”/”)</span>
+            </span>
+          </Dialog.Trigger>
+        </BaseTextInput>
 
-        <span className="py-1 text-gray-500">
-          Recherche globale{" "}
-          <span className="hidden md:inline">(appuyer sur ”/”)</span>
-        </span>
-      </Dialog.Trigger>
+        <BaseTextInput.AdornmentContainer
+          side="left"
+          adornment={
+            <BaseTextInput.Adornment>
+              <Icon id="magnifyingGlass" />
+            </BaseTextInput.Adornment>
+          }
+        />
+      </BaseTextInput.Root>
 
       <Dialog.Portal>
-        <Dialog.Overlay
-          className={cn(
-            // Use absolute instead of fixed to avoid performances issues when
-            // mobile browser's height change due to scroll.
-            "absolute",
-            "top-0 right-0 bottom-0 left-0 z-30 overscroll-none bg-black/20 cursor-pointer"
-          )}
-        />
+        <Overlay asChild>
+          <Dialog.Overlay />
+        </Overlay>
 
         <Dialog.Content className="fixed top-0 left-0 bottom-0 right-0 z-30 overflow-y-auto bg-gray-50 flex flex-col md:top-[10vh] md:left-1/2 md:bottom-auto md:right-auto md:-translate-x-1/2 md:w-[550px] md:shadow-ambient md:bg-white md:rounded-1">
           {type != null ? (
@@ -379,15 +387,27 @@ function Combobox({
         <div className="px-safe-1 pt-safe-0.5 pb-0.5 flex flex-col md:px-1 md:pt-1 ">
           <Input
             {...combobox.getInputProps()}
+            hideFocusRing
             name={GlobalSearchParams.Keys.TEXT}
-            variant="search"
+            type="search"
+            variant="transparent"
             placeholder="Recherche globale"
             leftAdornment={
-              <Dialog.Close asChild>
-                <ActionAdornment>
-                  <Icon id="angleLeft" />
-                </ActionAdornment>
-              </Dialog.Close>
+              <>
+                <span className="flex md:hidden">
+                  <Dialog.Close asChild>
+                    <Input.ActionAdornment>
+                      <Icon id="angleLeft" />
+                    </Input.ActionAdornment>
+                  </Dialog.Close>
+                </span>
+
+                <span className="hidden md:flex">
+                  <Input.Adornment>
+                    <Icon id="magnifyingGlass" />
+                  </Input.Adornment>
+                </span>
+              </>
             }
           />
         </div>

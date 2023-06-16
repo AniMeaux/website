@@ -1,7 +1,7 @@
 import { Primitive } from "@radix-ui/react-primitive";
 import { forwardRef } from "react";
 import { Action, ActionProps } from "~/core/actions";
-import { asBooleanAttribute } from "~/core/attributes";
+import { toBooleanAttribute } from "~/core/attributes";
 import { cn } from "~/core/classNames";
 import { DenseHelper } from "~/core/dataDisplay/helper";
 import {
@@ -44,7 +44,7 @@ function ImageInputTrigger({
     <button
       {...rest}
       type="button"
-      data-invalid={asBooleanAttribute(hasError)}
+      data-invalid={toBooleanAttribute(hasError)}
       className={cn(
         className,
         "rounded-1 border border-gray-300 border-dashed flex flex-col items-center justify-center gap-0.5 text-blue-500 transition-colors duration-100 ease-in-out hover:border-gray-500 focus-visible:outline-none focus-visible:border-0 focus-visible:ring-outset focus-visible:ring focus-visible:ring-blue-400 data-[invalid=true]:border-red-500 data-[invalid=true]:hover:border-red-500 data-[invalid=true]:focus-visible:ring-red-500"

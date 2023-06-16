@@ -5,7 +5,6 @@ import { useEffect, useRef } from "react";
 import { z } from "zod";
 import { zfd } from "zod-form-data";
 import { Action } from "~/core/actions";
-import { Adornment } from "~/core/formElements/adornment";
 import {
   CheckboxInput,
   CheckboxInputList,
@@ -87,9 +86,9 @@ export function UserForm({
               hasError={fetcher.data?.errors?.fieldErrors.displayName != null}
               aria-describedby="displayName-error"
               leftAdornment={
-                <Adornment>
+                <Input.Adornment>
                   <Icon id="user" />
-                </Adornment>
+                </Input.Adornment>
               }
             />
 
@@ -115,9 +114,9 @@ export function UserForm({
               hasError={fetcher.data?.errors?.fieldErrors.email != null}
               aria-describedby="email-error"
               leftAdornment={
-                <Adornment>
+                <Input.Adornment>
                   <Icon id="envelope" />
-                </Adornment>
+                </Input.Adornment>
               }
             />
 
@@ -179,9 +178,9 @@ export function UserForm({
                   : "password-helper"
               }
               leftAdornment={
-                <Adornment>
+                <PasswordInput.Adornment>
                   <Icon id="lock" />
-                </Adornment>
+                </PasswordInput.Adornment>
               }
             />
 
