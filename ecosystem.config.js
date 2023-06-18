@@ -90,6 +90,20 @@ module.exports = {
     }),
 
     createApp({
+      name: "show-image-shapes",
+      cwd: "./apps/show",
+      script: "yarn build:image-shapes",
+      watch: ["./imageShapes", "./scripts/generateImageShapeSprite.ts"],
+    }),
+
+    createApp({
+      name: "show-pictograms",
+      cwd: "./apps/show",
+      script: "yarn build:pictograms",
+      watch: ["./pictograms", "./scripts/generatePictogramSprite.ts"],
+    }),
+
+    createApp({
       name: "show-theme",
       cwd: "./apps/show",
       script: "yarn build:theme",
