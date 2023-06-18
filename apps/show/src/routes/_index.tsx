@@ -46,7 +46,7 @@ function ComeBackSection() {
       <aside className="relative grid grid-cols-1">
         <DynamicImage
           image={{
-            id: "/show/9ec51afc-44b3-4bf8-963a-d3d06d6227a6",
+            id: "/show/d7cc20a6-3cb7-4b57-a25c-f4a612ab5fa8",
             blurhash: "U5FO+L0000?[00EJ?t$m00^,RQk95QyD4;IA",
           }}
           alt="Stands des exposants du salon."
