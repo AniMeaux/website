@@ -17,7 +17,8 @@ import { PageBackground } from "~/core/layout/pageBackground";
 import { getPageTitle, pageDescription } from "~/core/pageTitle";
 import { theme } from "~/generated/theme";
 import appleTouchIcon from "~/images/appleTouchIcon.png";
-import favicon from "~/images/favicon.png";
+import faviconDark from "~/images/faviconDark.png";
+import faviconLight from "~/images/faviconLight.png";
 import maskIcon from "~/images/maskIcon.png";
 import stylesheet from "~/tailwind.css";
 
@@ -25,7 +26,8 @@ export const links: LinksFunction = () => {
   return [
     { rel: "stylesheet", href: stylesheet },
     { rel: "manifest", href: "/manifest.json" },
-    { rel: "icon", href: favicon },
+    { rel: "icon", href: faviconLight, media: "(prefers-color-scheme: light)" },
+    { rel: "icon", href: faviconDark, media: "(prefers-color-scheme: dark)" },
     { rel: "mask-icon", href: maskIcon, color: theme.colors.mystic.DEFAULT },
     { rel: "apple-touch-icon", href: appleTouchIcon },
     { rel: "preconnect", href: "https://fonts.googleapis.com" },
