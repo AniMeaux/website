@@ -11,11 +11,19 @@ export function createConfig(): Config {
     process.env.CLOUDINARY_CLOUD_NAME,
     "CLOUDINARY_CLOUD_NAME should be defined"
   );
+  invariant(
+    process.env.EXHIBITORS_FORM_URL,
+    "EXHIBITORS_FORM_URL should be defined"
+  );
   invariant(process.env.FACEBOOK_URL, "FACEBOOK_URL should be defined");
   invariant(process.env.INSTAGRAM_URL, "INSTAGRAM_URL should be defined");
   invariant(
     process.env.KID_WORKSHOP_REGISTRATION_URL,
     "KID_WORKSHOP_REGISTRATION_URL should be defined"
+  );
+  invariant(
+    process.env.PARTNERS_FORM_URL,
+    "PARTNERS_FORM_URL should be defined"
   );
   invariant(
     process.env.PRESS_RELEASE_URL,
@@ -28,10 +36,12 @@ export function createConfig(): Config {
     animeauxUrl: process.env.ANIMEAUX_URL,
     carpoolFacebookGroupUrl: process.env.CARPOOL_FACEBOOK_GROUP_URL,
     cloudinaryName: process.env.CLOUDINARY_CLOUD_NAME,
+    exhibitorsFormUrl: process.env.EXHIBITORS_FORM_URL,
     facebookUrl: process.env.FACEBOOK_URL,
     googleTagManagerId: process.env.GOOGLE_TAG_MANAGER_ID,
     instagramUrl: process.env.INSTAGRAM_URL,
     kidWorkshopRegistrationUrl: process.env.KID_WORKSHOP_REGISTRATION_URL,
+    partnersFormUrl: process.env.PARTNERS_FORM_URL,
     pressReleaseUrl: process.env.PRESS_RELEASE_URL,
     publicHost: process.env.PUBLIC_HOST,
     ticketingUrl: process.env.TICKETING_URL,

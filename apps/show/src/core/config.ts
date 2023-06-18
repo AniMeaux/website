@@ -7,17 +7,28 @@ export type Config = {
   animeauxUrl: string;
   carpoolFacebookGroupUrl: string;
   cloudinaryName: string;
+  exhibitorsFormUrl: string;
   facebookUrl: string;
   googleTagManagerId?: string;
   instagramUrl: string;
   kidWorkshopRegistrationUrl: string;
+  partnersFormUrl: string;
   pressReleaseUrl: string;
   publicHost: string;
   ticketingUrl: string;
 };
 
-export function useConfig(): Config {
+export function useOptionalConfig(): undefined | Config {
   const data = useRouteLoaderData("root");
-  invariant(data != null, "A root data must exists");
+  if (data == null) {
+    return undefined;
+  }
+
   return (data as SerializeFrom<typeof rootLoader>).config;
+}
+
+export function useConfig(): Config {
+  const config = useOptionalConfig();
+  invariant(config != null, "A root data must exists");
+  return config;
 }
