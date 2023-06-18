@@ -50,6 +50,7 @@ function ComeBackSection() {
             blurhash: "U5FO+L0000?[00EJ?t$m00^,RQk95QyD4;IA",
           }}
           alt="Stands des exposants du salon."
+          title="Julia Pommé Photographe"
           fallbackSize="1024"
           sizes={{ md: "50vw", default: "100vw" }}
           loading="eager"
