@@ -9,7 +9,7 @@ const mkdir = util.promisify(fs.mkdir);
 
 const ICON_SRC = path.resolve(__dirname, "../icons");
 const ICON_DEST = path.resolve(__dirname, "../src/generated");
-const ICON_SPRITE_DEST = path.join(ICON_DEST, "sprite.svg");
+const ICON_SPRITE_DEST = path.join(ICON_DEST, "iconSprite.svg");
 const ICON_COMPONENT_DEST = path.join(ICON_DEST, "icon.tsx");
 
 generateIconSprite().catch((error) => {

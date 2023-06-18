@@ -8,30 +8,27 @@ import {
   ScrollRestoration,
   useLocation,
 } from "@remix-run/react";
-import { Settings } from "luxon";
 import { cn } from "~/core/classNames";
 import { useConfig } from "~/core/config";
 import { createConfig } from "~/core/config.server";
+import { ErrorPage } from "~/core/dataDisplay/errorPage";
+import { createCloudinaryUrl } from "~/core/dataDisplay/image";
+import { PageBackground } from "~/core/layout/pageBackground";
 import { getPageTitle, pageDescription } from "~/core/pageTitle";
-import { ErrorPage } from "~/dataDisplay/errorPage";
 import { theme } from "~/generated/theme";
 import appleTouchIcon from "~/images/appleTouchIcon.png";
-import background from "~/images/background.svg";
-import favicon from "~/images/favicon.png";
+import faviconDark from "~/images/faviconDark.png";
+import faviconLight from "~/images/faviconLight.png";
 import maskIcon from "~/images/maskIcon.png";
-import { socialImages } from "~/images/social";
-import { Footer } from "~/layout/footer";
-import { Header } from "~/layout/header";
 import stylesheet from "~/tailwind.css";
-
-Settings.defaultLocale = "fr";
 
 export const links: LinksFunction = () => {
   return [
     { rel: "stylesheet", href: stylesheet },
     { rel: "manifest", href: "/manifest.json" },
-    { rel: "icon", href: favicon },
-    { rel: "mask-icon", href: maskIcon, color: theme.colors.brandBlue.DEFAULT },
+    { rel: "icon", href: faviconLight, media: "(prefers-color-scheme: light)" },
+    { rel: "icon", href: faviconDark, media: "(prefers-color-scheme: dark)" },
+    { rel: "mask-icon", href: maskIcon, color: theme.colors.mystic.DEFAULT },
     { rel: "apple-touch-icon", href: appleTouchIcon },
     { rel: "preconnect", href: "https://fonts.googleapis.com" },
     {
@@ -41,11 +38,14 @@ export const links: LinksFunction = () => {
     },
     {
       rel: "stylesheet",
-      href: "https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap",
+      href: "https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;600&display=swap",
     },
+    { rel: "stylesheet", href: "/fonts/caramel-mocacino/font.css" },
     {
-      rel: "stylesheet",
-      href: "https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap",
+      rel: "preload",
+      href: "/fonts/caramel-mocacino/caramel-mocacino.otf",
+      as: "font",
+      crossOrigin: "anonymous",
     },
   ];
 };
@@ -55,13 +55,15 @@ export async function loader() {
 }
 
 export default function App() {
-  const { googleTagManagerId, publicHost } = useConfig();
+  const { cloudinaryName, googleTagManagerId, publicHost } = useConfig();
 
   return (
-    <Document googleTagManagerId={googleTagManagerId} publicHost={publicHost}>
-      <Header />
+    <Document
+      cloudinaryName={cloudinaryName}
+      googleTagManagerId={googleTagManagerId}
+      publicHost={publicHost}
+    >
       <Outlet />
-      <Footer />
     </Document>
   );
 }
@@ -76,10 +78,12 @@ export function ErrorBoundary() {
 
 function Document({
   children,
+  cloudinaryName,
   googleTagManagerId,
   publicHost,
 }: {
   children: React.ReactNode;
+  cloudinaryName?: string;
   googleTagManagerId?: string;
   publicHost?: string;
 }) {
@@ -91,19 +95,19 @@ function Document({
   }
 
   let imageUrl: string | undefined = undefined;
-  if (publicHost != null) {
-    imageUrl = `${publicHost}${socialImages.imagesBySize[2048]}`;
+  if (cloudinaryName != null) {
+    imageUrl = createCloudinaryUrl(
+      cloudinaryName,
+      "show/f4fe85de-763b-41f8-8f3e-5dc6db343804",
+      { size: "1024", format: "jpg" }
+    );
   }
 
   return (
-    <html
-      lang="fr"
-      className="bg-gray-50 bg-repeat"
-      style={{ backgroundImage: `url("${background}"` }}
-    >
+    <html lang="fr" className="bg-white bg-var-white">
       <head>
         <meta charSet="utf-8" />
-        <meta name="theme-color" content={theme.colors.gray[50]} />
+        <meta name="theme-color" content={theme.colors.white} />
 
         {/* Use `maximum-scale=1` to prevent browsers to zoom on form elements. */}
         <meta
@@ -143,15 +147,13 @@ function Document({
 
       <body
         className={cn(
+          "min-h-screen antialiased grid grid-cols-1 text-prussianBlue text-body-lowercase-default",
           // Make sure children with absolute positionning are correctly placed.
-          "relative",
-          "min-h-screen",
-          // Safe top padding is handled by the header.
-          "px-safe-0 pb-safe-0",
-          "antialiased text-gray-800 text-body-default flex flex-col items-center gap-6",
-          "md:gap-12"
+          "relative"
         )}
       >
+        <PageBackground />
+
         {googleTagManagerId != null && (
           <GoogleTagManagerIframe id={googleTagManagerId} />
         )}

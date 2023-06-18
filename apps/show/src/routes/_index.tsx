@@ -1,514 +1,328 @@
 import { V2_MetaFunction } from "@remix-run/react";
-import { DateTime } from "luxon";
-import { useEffect, useState } from "react";
-import { actionClassNames } from "~/core/actions";
+import { Action, ProseInlineAction } from "~/core/actions";
 import { BaseLink, BaseLinkProps } from "~/core/baseLink";
-import { cn } from "~/core/classNames";
 import { useConfig } from "~/core/config";
+import { DynamicImage } from "~/core/dataDisplay/image";
+import { FooterWave } from "~/core/layout/footerWave";
+import { HighLightBackground } from "~/core/layout/highlightBackground";
 import { createSocialMeta } from "~/core/meta";
 import { getPageTitle } from "~/core/pageTitle";
-import { StaticImage, StaticImageProps } from "~/dataDisplay/image";
-import { adoptionImages } from "~/images/adoption";
-import anideo from "~/images/anideo.png";
-import { animationImages } from "~/images/animation";
-import arbreVert from "~/images/arbreVert.png";
-import { associationImages } from "~/images/association";
-import citronad from "~/images/citronad.png";
-import evasion from "~/images/evasion.png";
-import { exhibitorsImages } from "~/images/exhibitors";
-import { foodImages } from "~/images/food";
-import leroyMerlin from "~/images/leroyMerlin.png";
-import leTraiteurImaginaire from "~/images/leTraiteurImaginaire.png";
-import { mapImages } from "~/images/map";
-import meaux from "~/images/meaux.png";
-import { medicalImages } from "~/images/medical";
-import nameAndLogo from "~/images/nameAndLogo.svg";
-import neoVoice from "~/images/neoVoice.svg";
-import { showImages } from "~/images/show";
-import superlogo from "~/images/superlogo.png";
-import { bubbleSectionClassNames, BubbleShape } from "~/layout/bubbleSection";
-import {
-  HeroSection,
-  HeroSectionAction,
-  HeroSectionAside,
-  HeroSectionImage,
-  HeroSectionParagraph,
-  HeroSectionTitle,
-} from "~/layout/heroSection";
-
-const OPENING_TIME = DateTime.fromISO("2023-06-10T10:00:00.000+02:00");
-const CLOSING_TIME = DateTime.fromISO("2023-06-11T18:00:00.000+02:00");
-const ONE_MINUTE_IN_MS = 60 * 1000;
+import { Icon, IconProps } from "~/generated/icon";
+import { Pictogram } from "~/generated/pictogram";
+import logoAniMeaux from "~/images/logoAniMeaux.svg";
+import logoLarge from "~/images/logoLarge.svg";
 
 export const meta: V2_MetaFunction = () => {
   return createSocialMeta({ title: getPageTitle() });
 };
 
 export default function Route() {
-  const { ticketingUrl } = useConfig();
-  const hasEnded = DateTime.now() >= CLOSING_TIME;
-
   return (
-    <main className="w-full px-page flex flex-col gap-24">
-      <HeroSection isReversed>
-        <HeroSectionAside>
-          <HeroSectionImage image={showImages} loading="eager" />
-        </HeroSectionAside>
-
-        <HeroSectionAside>
-          <img
-            src={nameAndLogo}
-            alt="Salon des Ani’Meaux"
-            className="w-full aspect-[440_/_126]"
-          />
-
-          <HeroSectionParagraph>
-            Premier salon dédié au bien-être animal à Meaux.
-            <br />
-            <strong className="text-body-emphasis">
-              <time dateTime={OPENING_TIME.toISO()}>
-                10 et 11 juin 2023 - 10h à 18h
-              </time>{" "}
-              - Colisée de Meaux.
-            </strong>
-          </HeroSectionParagraph>
-
-          <Countdown />
-
-          <HeroSectionAction>
-            <BaseLink
-              to={hasEnded ? undefined : ticketingUrl}
-              className={actionClassNames.standalone({ disabled: hasEnded })}
-            >
-              Achetez votre billet
-            </BaseLink>
-          </HeroSectionAction>
-        </HeroSectionAside>
-      </HeroSection>
-
-      <ComeWithYourDogSection />
-      <PresentationSection />
-      <OriginSection />
-      <PartnersSection />
-      <ExhibitorsSection />
-
-      <HeroSection>
-        <HeroSectionAside>
-          <HeroSectionImage image={mapImages} />
-        </HeroSectionAside>
-
-        <HeroSectionAside>
-          <HeroSectionTitle>Accès au Salon</HeroSectionTitle>
-          <HeroSectionParagraph>
-            Voiture, bus, vélo ou à pied, tous les moyens sont bons pour visiter
-            le Salon des Ani’Meaux !
-          </HeroSectionParagraph>
-
-          <HeroSectionAction>
-            <BaseLink to="/acces" className={actionClassNames.standalone()}>
-              S’y rendre
-            </BaseLink>
-          </HeroSectionAction>
-        </HeroSectionAside>
-      </HeroSection>
+    <main className="grid grid-cols-1 gap-24">
+      <LogoSection />
+      <ComeBackSection />
+      <ActionsSection />
+      <FollowSection />
+      <FooterSection />
     </main>
   );
 }
 
-function Countdown() {
-  const [, forceUpdate] = useState(true);
-
-  const now = DateTime.now();
-  const diff = OPENING_TIME.diff(now, ["days", "hours", "minutes"]);
-
-  // Force a re-rendering every minutes to recompute the diff.
-  useEffect(() => {
-    const interval = setInterval(
-      () => forceUpdate((b) => !b),
-      ONE_MINUTE_IN_MS
-    );
-
-    return () => {
-      clearInterval(interval);
-    };
-  }, []);
-
-  if (diff.toMillis() <= 0) {
-    return null;
-  }
-
+function LogoSection() {
   return (
-    <HeroSectionAction>
-      <div className="flex items-center gap-3">
-        <CountDownItem
-          label={diff.days > 1 ? "Jours" : "Jour"}
-          value={diff.days}
-        />
-
-        <CountDownItem
-          label={diff.hours > 1 ? "Heures" : "Heure"}
-          value={diff.hours}
-        />
-
-        <CountDownItem
-          // `minutes` can have decimals because it's the smallest unit
-          // asked in the diff
-          label={Math.floor(diff.minutes) > 1 ? "Minutes" : "Minute"}
-          value={Math.floor(diff.minutes)}
-        />
-      </div>
-    </HeroSectionAction>
-  );
-}
-
-function CountDownItem({ label, value }: { label: string; value: number }) {
-  return (
-    <div className="rounded-bubble-sm bg-gray-100 px-3 py-2 flex flex-col items-center">
-      <span className="font-serif text-[32px] font-bold leading-normal text-brandBlue">
-        {value.toLocaleString("fr-FR", { minimumIntegerDigits: 2 })}
-      </span>
-
-      <span>{label}</span>
-    </div>
-  );
-}
-
-function ComeWithYourDogSection() {
-  return (
-    <section className={bubbleSectionClassNames.root()}>
-      <span className={bubbleSectionClassNames.bubbleContainer()}>
-        <BubbleShape isDouble />
-      </span>
-
-      <div
-        className={cn(
-          bubbleSectionClassNames.content(),
-          "px-10 py-18 flex flex-col items-center gap-6 text-center",
-          "md:px-30 md:py-[60px]"
-        )}
-      >
-        <h2
-          className={cn(
-            "text-title-section-small",
-            "md:text-title-section-large"
-          )}
-        >
-          Venir avec son chien
-        </h2>
-
-        <p>
-          Votre chien est le bienvenu durant le salon. Cependant,{" "}
-          <strong className="text-body-emphasis">
-            un contrôle vétérinaire sera effectué à l’entrée
-          </strong>
-          . Le carnet de santé et les papiers d’identification des animaux
-          seront obligatoire lors de ce contrôle. Pour les chiens de catégorie,
-          veillez à prévoir votre autorisation de détention.
-        </p>
-
-        <p>
-          Pour le bien-être de votre chien et celui des autres présents durant
-          le salon, veillez à ne{" "}
-          <strong className="text-body-emphasis">
-            l’amener que s’il est sociable avec les autres animaux et à l’aise
-            en présence de nombreuses personnes
-          </strong>
-          .
-        </p>
-      </div>
-    </section>
-  );
-}
-
-function PresentationSection() {
-  return (
-    <section className="flex flex-col gap-12">
-      <div className={cn("flex flex-col gap-6 text-center", "md:px-30")}>
-        <h2
-          className={cn(
-            "text-title-section-small",
-            "md:text-title-section-large"
-          )}
-        >
-          Présentation
-        </h2>
-
-        <p>
-          Le Salon des Ani’Meaux a pour vocation de{" "}
-          <strong className="text-body-emphasis">
-            sensibiliser les petits et les grands
-          </strong>{" "}
-          au bien-être de nos amis les animaux.
-        </p>
-
-        <p>
-          Ouvert à tous, il permet de rencontrer des{" "}
-          <strong className="text-body-emphasis">
-            professionnels et des associations
-          </strong>
-          , tout en profitant d’activités et animations riches et de moments de
-          convivialité.
-        </p>
-
-        <p>
-          Les visiteurs pourront retrouver des acteurs agissant en faveur du
-          bien-être des animaux de compagnie mais également des animaux de la
-          ferme, des animaux sauvages ainsi que des insectes.
-        </p>
-      </div>
-
-      <ul className="flex items-start flex-wrap gap-12 justify-evenly">
-        <PresentationItem
-          text={
-            <>
-              <strong className="text-body-emphasis">60 exposants</strong>{" "}
-              dévoués au bien-être des animaux.
-            </>
-          }
-          image={exhibitorsImages}
-        />
-
-        <PresentationItem
-          text={
-            <>
-              Des <strong className="text-body-emphasis">animations</strong>{" "}
-              pour vous divertir et enrichir vos connaissances.
-            </>
-          }
-          image={animationImages}
-        />
-
-        <PresentationItem
-          text={
-            <>
-              Des{" "}
-              <strong className="text-body-emphasis">
-                chiens à l’adoption
-              </strong>{" "}
-              qui feront chavirer votre coeur.
-            </>
-          }
-          image={adoptionImages}
-        />
-      </ul>
-    </section>
-  );
-}
-
-function PresentationItem({
-  text,
-  image,
-}: {
-  text: React.ReactNode;
-  image: StaticImageProps["image"];
-}) {
-  return (
-    <li className="w-[200px] flex flex-col gap-6 text-center">
-      <StaticImage
-        image={image}
-        sizes={{ default: "200px" }}
-        className="w-full aspect-square"
+    <header className="px-safe-page-narrow md:px-safe-page-normal pt-safe-4 pb-4 grid grid-cols-1 justify-items-center">
+      <img
+        src={logoLarge}
+        alt="Salon des Ani’Meaux"
+        className="w-2/3 md:w-1/2 aspect-square"
       />
-
-      <p>{text}</p>
-    </li>
+    </header>
   );
 }
 
-function OriginSection() {
-  const { animeauxUrl } = useConfig();
+function ComeBackSection() {
+  return (
+    <section className="px-safe-page-narrow md:px-safe-page-normal py-4 grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-4 lg:gap-8 md:items-center">
+      <aside className="relative grid grid-cols-1">
+        <DynamicImage
+          image={{
+            id: "/show/d7cc20a6-3cb7-4b57-a25c-f4a612ab5fa8",
+            blurhash: "U5FO+L0000?[00EJ?t$m00^,RQk95QyD4;IA",
+          }}
+          alt="Stands des exposants du salon."
+          title="Julia Pommé Photographe"
+          fallbackSize="1024"
+          sizes={{ md: "50vw", default: "100vw" }}
+          loading="eager"
+          shape={{ id: "variant2", color: "alabaster", side: "left" }}
+        />
+      </aside>
+
+      <aside className="grid grid-cols-1 gap-2">
+        <h1 className="text-title-small md:text-title-large text-mystic">
+          Revient en 2024
+        </h1>
+
+        <p>
+          Le Salon des Ani’Meaux revient en force pour une nouvelle édition en
+          2024 ! Préparez-vous à vivre une expérience unique dédiée au bien-être
+          des animaux domestiques et sauvages.
+          <br />
+          <br />
+          Rencontrez des exposants passionnés, découvrez des produits et
+          services de qualité, participez à des animations ludiques et
+          éducatives, le tout dans une ambiance conviviale et bienveillante.
+          <br />
+          <br />
+          Restez à l’affût des prochaines annonces pour ne pas manquer cet
+          événement incontournable pour tous les amoureux des animaux.
+        </p>
+      </aside>
+    </section>
+  );
+}
+
+function ActionsSection() {
+  const { exhibitorsFormUrl, partnersFormUrl } = useConfig();
 
   return (
-    <section className={bubbleSectionClassNames.root()}>
-      <span className={bubbleSectionClassNames.bubbleContainer()}>
-        <BubbleShape />
-      </span>
+    <section className="py-4 grid grid-cols-1">
+      <div className="relative bg-alabaster bg-var-alabaster px-safe-page-narrow md:px-safe-page-normal py-4 grid grid-cols-1 md:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] gap-4 lg:gap-8 md:items-start">
+        <HighLightBackground
+          color="alabaster"
+          className="absolute -z-10 top-0 left-0 w-full h-full"
+        />
 
-      <div
-        className={cn(
-          bubbleSectionClassNames.content(),
-          "px-10 py-12 flex flex-col items-center gap-6 text-center",
-          "md:px-30 md:py-[60px]"
-        )}
-      >
-        <h2
-          className={cn(
-            "text-title-section-small",
-            "md:text-title-section-large"
-          )}
-        >
-          L’origine
-        </h2>
+        <aside className="grid grid-cols-1 gap-2">
+          <h1 className="text-title-small md:text-title-large text-mystic">
+            Devenir partenaire
+          </h1>
 
-        <p>
-          A l’initiative de l’association{" "}
-          <BaseLink to={animeauxUrl} className={actionClassNames.proseInline()}>
-            Ani’Meaux
-          </BaseLink>{" "}
-          et organisé en collaboration avec la municipalité de Meaux, le Salon
-          des Ani’Meaux a vu naître sa première édition le 15 mai 2022.
-        </p>
+          <p>
+            Vous souhaitez soutenir le Salon des Ani’Meaux et contribuer à sa
+            réussite ?
+            <br />
+            <br />
+            Devenez partenaire en apportant votre soutien financier à notre
+            association organisatrice. Votre contribution nous permettra de
+            proposer un événement encore plus exceptionnel, avec des animations
+            variées, des exposants de qualité et des moments de partage
+            inoubliables. En devenant partenaire, vous marquerez votre
+            engagement en faveur du bien-être animal et bénéficierez d'une
+            visibilité auprès d’un large public passionné.
+            <br />
+            <br />
+            Rejoignez-nous dans cette aventure et ensemble, créons un salon
+            encore plus grand et impactant pour notre communauté d'amoureux des
+            animaux.
+          </p>
 
-        <p>
-          Mis en œuvre en seulement deux mois, grâce au travail de bénévoles
-          dévoués, cette première édition a connu un franc succès puisqu’elle a
-          rassemblé une{" "}
-          <strong className="text-body-emphasis">
-            cinquantaine d’exposants
-          </strong>
-          , professionnels et associations confondus, et a reçu plus de{" "}
-          <strong className="text-body-emphasis">1 200 visiteurs</strong> sur
-          une seule journée.
-        </p>
+          <div className="grid grid-cols-1 justify-items-center md:justify-items-start">
+            <Action asChild>
+              <BaseLink to={partnersFormUrl}>Devenez partenaire</BaseLink>
+            </Action>
+          </div>
+        </aside>
 
-        <p>
-          En 2023, le Salon des Ani’Meaux voit plus grand en conviant 60
-          exposants et ouvrira ses portes aux visiteurs durant deux journées :
-          les 10 et 11 juin 2023.
-        </p>
+        <VerticalSeparator />
+        <HorizontalSeparator />
+
+        <aside className="grid grid-cols-1 gap-2">
+          <h1 className="text-title-small md:text-title-large text-mystic">
+            Devenir Exposant
+          </h1>
+
+          <p>
+            Vous êtes un professionnel passionné par le monde animal et
+            souhaitez faire partie de l’aventure du Salon des Ani’Meaux en tant
+            qu’exposant ?
+            <br />
+            <br />
+            Remplissez dès maintenant notre formulaire de présentation et
+            proposez votre participation à l’édition 2024. En rejoignant notre
+            salon, vous bénéficierez d'une visibilité exceptionnelle auprès d’un
+            public enthousiaste et engagé. Faites connaître votre activité,
+            partagez votre expertise et rencontrez de nouveaux partenaires.
+            <br />
+            <br />
+            Nous sommes impatients de découvrir votre univers et de vous
+            accueillir parmi les exposants de notre prochain événement. Ne
+            manquez pas cette opportunité unique de participer à une expérience
+            enrichissante et mémorable.
+          </p>
+
+          <div className="grid grid-cols-1 justify-items-center md:justify-items-start">
+            <Action asChild>
+              <BaseLink to={exhibitorsFormUrl}>Devenez exposant</BaseLink>
+            </Action>
+          </div>
+        </aside>
       </div>
     </section>
   );
 }
 
-function PartnersSection() {
+function VerticalSeparator() {
   return (
-    <section className="flex flex-col gap-12">
-      <div className={cn("flex flex-col gap-6 text-center", "md:px-30")}>
-        <h2
-          className={cn(
-            "text-title-section-small",
-            "md:text-title-section-large"
-          )}
-        >
-          Nos partenaires
-        </h2>
+    <svg
+      viewBox="0 0 3 100"
+      fill="none"
+      // Allow the shape to stretch.
+      preserveAspectRatio="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className="hidden md:block h-full w-[3px] overflow-visible text-mystic"
+    >
+      <path
+        d="M1.5 0L1.5 100"
+        stroke="currentColor"
+        strokeWidth="3"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeDasharray="14 13"
+        // We don't want the stroke to scale, keep it at 3px.
+        vectorEffect="non-scaling-stroke"
+      />
+    </svg>
+  );
+}
+
+function HorizontalSeparator() {
+  return (
+    <svg
+      viewBox="0 0 100 3"
+      fill="none"
+      // Allow the shape to stretch.
+      preserveAspectRatio="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className="md:hidden h-[3px] w-full overflow-visible text-mystic"
+    >
+      <path
+        d="M0 1.5L100 1.5"
+        stroke="currentColor"
+        strokeWidth="3"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeDasharray="14 13"
+        // We don't want the stroke to scale, keep it at 3px.
+        vectorEffect="non-scaling-stroke"
+      />
+    </svg>
+  );
+}
+
+function FollowSection() {
+  const { facebookUrl, instagramUrl } = useConfig();
+
+  return (
+    <section className="px-safe-page-narrow py-4 flex">
+      <aside className="grid grid-cols-1 gap-2 text-center">
+        <h1 className="text-title-small md:text-title-large text-mystic">
+          Restez informés
+        </h1>
 
         <p>
-          Le Salon des Ani’Meaux est imaginé et mis en place par des bénévoles,
-          mais il n’aurait pas pu voir le jour sans leur participation.
+          Rejoignez notre communauté passionnée et ne manquez aucune annonce,
+          programme ou nouveauté. Suivez-nous dès maintenant pour vivre
+          l'aventure animale avec nous !
         </p>
-      </div>
 
-      <div
-        className={cn(
-          "grid grid-cols-[minmax(0px,320px)] gap-x-12 gap-y-6 justify-center",
-          "xs:grid-cols-[repeat(2,minmax(0px,320px))]",
-          "md:grid-cols-[repeat(3,minmax(0px,320px))]"
-        )}
-      >
-        <PartnerItem
-          image={meaux}
-          alt="Ville de Meaux"
-          to="https://www.ville-meaux.fr"
-        />
+        <div className="grid grid-cols-[auto_auto] justify-center gap-2">
+          <SocialLink to={facebookUrl}>
+            <Pictogram id="facebook" className="text-[48px]" />
+          </SocialLink>
 
-        <PartnerItem
-          image={citronad}
-          alt="Citron’ad"
-          to="https://www.citron-ad.fr"
-        />
-
-        <PartnerItem
-          image={superlogo}
-          alt="Super Logo"
-          to="https://www.super-logo.com"
-        />
-
-        <PartnerItem
-          image={arbreVert}
-          alt="L’Arbre Vert"
-          to="https://www.arbrevert.fr"
-        />
-
-        <PartnerItem image={anideo} alt="Anidéo" to="https://www.anideo.fr" />
-
-        <PartnerItem
-          image={neoVoice}
-          alt="NeoVoice"
-          to="https://www.neovoice.fr"
-        />
-
-        <PartnerItem
-          image={leTraiteurImaginaire}
-          alt="Le Traiteur Imaginaire"
-          to="https://www.traiteur-imaginaire.com"
-        />
-
-        <PartnerItem
-          image={evasion}
-          alt="EVASION"
-          to="https://www.evasionfm.com"
-        />
-
-        <PartnerItem
-          image={leroyMerlin}
-          alt="Leroy Merlin"
-          to="https://www.leroymerlin.fr"
-        />
-      </div>
+          <SocialLink to={instagramUrl}>
+            <Pictogram id="instagram" className="text-[48px]" />
+          </SocialLink>
+        </div>
+      </aside>
     </section>
   );
 }
 
-function PartnerItem({
-  image,
-  alt,
-  to,
-}: {
-  image: string;
-  alt: string;
-  to: BaseLinkProps["to"];
-}) {
+function FooterSection() {
+  const { facebookUrl, instagramUrl, animeauxUrl } = useConfig();
+
+  return (
+    <footer className="grid grid-cols-1">
+      <FooterWave className="w-full h-[53px] md:h-[90px]" />
+
+      <section className="bg-paleBlue bg-var-paleBlue px-page-narrow md:px-page-normal py-4 grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-8 justify-items-center md:items-center">
+        <img
+          src={logoAniMeaux}
+          alt="Association Ani’Meaux"
+          className="w-[200px]"
+        />
+
+        <aside className="w-full grid grid-cols-1 gap-2">
+          <div className="grid grid-cols-[auto_auto] justify-start gap-1">
+            <SocialLink to={facebookUrl}>
+              <Pictogram id="facebook" className="text-[24px]" />
+            </SocialLink>
+
+            <SocialLink to={instagramUrl}>
+              <Pictogram id="instagram" className="text-[24px]" />
+            </SocialLink>
+          </div>
+
+          <ul className="grid grid-cols-1">
+            <ContactItem icon="boldCall" to="tel:+33612194392">
+              06 12 19 43 92
+            </ContactItem>
+
+            <ContactItem icon="boldSms" to="mailto:salon@animeaux.org">
+              salon@animeaux.org
+            </ContactItem>
+          </ul>
+
+          <p>
+            Le Salon des Ani’Meaux est organisé par l'association{" "}
+            <ProseInlineAction asChild>
+              <BaseLink to={animeauxUrl}>Ani’Meaux.</BaseLink>
+            </ProseInlineAction>
+          </p>
+        </aside>
+      </section>
+
+      <section className="bg-prussianBlue px-page-narrow md:px-page-normal py-2 grid grid-cols-1">
+        <p className="text-caption-lowercase-emphasis text-white text-center">
+          Copyright © {new Date().getFullYear()} Ani’Meaux
+        </p>
+      </section>
+    </footer>
+  );
+}
+
+function SocialLink(props: Omit<BaseLinkProps, "className">) {
   return (
     <BaseLink
-      to={to}
-      className="rounded-bubble-md flex transition-transform duration-100 ease-in-out hover:scale-105"
-    >
-      <img
-        src={image}
-        alt={alt}
-        className="w-full aspect-[2/1] object-contain"
-      />
-    </BaseLink>
+      {...props}
+      className="rounded-full grid grid-cols-1 transition-transform duration-100 ease-in-out hover:scale-105 active:scale-95 hover:active:scale-95 focus-visible:outline-none focus-visible:ring focus-visible:ring-prussianBlue focus-visible:ring-offset-2 focus-visible:ring-offset-inheritBg"
+    />
   );
 }
 
-function ExhibitorsSection() {
+function ContactItem({
+  icon,
+  to,
+  children,
+}: {
+  icon: IconProps["id"];
+  to: NonNullable<BaseLinkProps["to"]>;
+  children: string;
+}) {
   return (
-    <section className="flex flex-col gap-12">
-      <div className={cn("flex flex-col gap-6 text-center", "md:px-30")}>
-        <h2
-          className={cn(
-            "text-title-section-small",
-            "md:text-title-section-large"
-          )}
-        >
-          Exposants
-        </h2>
-
-        <p>
-          Cette année,{" "}
-          <strong className="text-body-emphasis">60 exposants</strong> vous
-          attendent répartis dans 3 grandes catégories.
-        </p>
-      </div>
-
-      <ul className="flex items-start flex-wrap gap-12 justify-evenly">
-        <PresentationItem text="Associations" image={associationImages} />
-        <PresentationItem text="Soins et activités" image={medicalImages} />
-        <PresentationItem
-          text="Alimentation et accessoires"
-          image={foodImages}
-        />
-      </ul>
-
+    <li className="grid grid-cols-1 justify-items-start">
       <BaseLink
-        to="/exposants"
-        className={cn(actionClassNames.standalone(), "self-center")}
+        to={to}
+        className="rounded-md grid grid-cols-[auto_auto] items-start gap-1 transition-transform duration-100 ease-in-out hover:scale-105 active:scale-95 hover:active:scale-95 focus-visible:outline-none focus-visible:ring focus-visible:ring-mystic focus-visible:ring-offset-2 focus-visible:ring-offset-paleBlue"
       >
-        Voir tous les exposants
+        <span className="h-2 flex items-center">
+          <Icon id={icon} className="text-[16px] text-mystic" />
+        </span>
+
+        <span>{children}</span>
       </BaseLink>
-    </section>
+    </li>
   );
 }

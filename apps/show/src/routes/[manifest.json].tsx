@@ -14,8 +14,8 @@ export async function loader() {
   return json({
     name: getPageTitle(),
     short_name: getPageTitle(),
-    background_color: theme.colors.gray[50],
-    theme_color: theme.colors.brandBlue.DEFAULT,
+    background_color: theme.colors.white,
+    theme_color: theme.colors.white,
     display: "standalone",
     scope: "/",
     start_url: "/?source=pwa",
