@@ -6,8 +6,8 @@ import { BaseTextInput } from "~/core/formElements/baseTextInput";
 import { useLayoutEffect } from "~/core/useLayoutEffect";
 
 export const Textarea = forwardRef<
-  HTMLTextAreaElement,
-  React.TextareaHTMLAttributes<HTMLTextAreaElement> & { hasError?: boolean }
+  React.ComponentRef<"textarea">,
+  React.ComponentPropsWithoutRef<"textarea"> & { hasError?: boolean }
 >(function Textarea(
   {
     hasError = false,

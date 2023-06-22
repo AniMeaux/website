@@ -48,95 +48,94 @@ type ColorInputProps = {
   hasError?: boolean;
 };
 
-export const ColorInput = forwardRef<HTMLButtonElement, ColorInputProps>(
-  function ColorInput(
-    { name, defaultValue = null, disabled = false, hasError = false },
-    propRef
-  ) {
-    invariant(typeof propRef !== "function", "Only object ref are supported.");
-    const localRef = useRef<HTMLButtonElement>(null);
-    const ref = propRef ?? localRef;
+export const ColorInput = forwardRef<
+  React.ComponentRef<typeof InputTrigger>,
+  ColorInputProps
+>(function ColorInput(
+  { name, defaultValue = null, disabled = false, hasError = false },
+  propRef
+) {
+  invariant(typeof propRef !== "function", "Only object ref are supported.");
+  const localRef = useRef<HTMLButtonElement>(null);
+  const ref = propRef ?? localRef;
 
-    const [isOpened, setIsOpened] = useState(false);
-    const fetcher = useFetcher<typeof loader>();
+  const [isOpened, setIsOpened] = useState(false);
+  const fetcher = useFetcher<typeof loader>();
 
-    // This effect does 2 things:
-    // - Make sure we display suggestions without delay when the combobox is
-    //   opened.
-    // - Make sure we clear any search when the combobox is closed.
-    const load = fetcher.load;
-    useEffect(() => {
-      if (!isOpened) {
-        load(
-          createPath({
-            pathname: RESOURCE_PATHNAME,
-            search: new ColorSearchParams().toString(),
-          })
-        );
+  // This effect does 2 things:
+  // - Make sure we display suggestions without delay when the combobox is
+  //   opened.
+  // - Make sure we clear any search when the combobox is closed.
+  const load = fetcher.load;
+  useEffect(() => {
+    if (!isOpened) {
+      load(
+        createPath({
+          pathname: RESOURCE_PATHNAME,
+          search: new ColorSearchParams().toString(),
+        })
+      );
+    }
+  }, [load, isOpened]);
+
+  const [color, setColor] = useState(defaultValue);
+
+  return (
+    <>
+      {
+        // Conditionally rendering the hidden input allows us to make it
+        // optional in the enclosing form.
+        color != null ? (
+          <input type="hidden" name={name} value={color.id} />
+        ) : null
       }
-    }, [load, isOpened]);
 
-    const [color, setColor] = useState(defaultValue);
-
-    return (
-      <>
-        {
-          // Conditionally rendering the hidden input allows us to make it
-          // optional in the enclosing form.
-          color != null ? (
-            <input type="hidden" name={name} value={color.id} />
-          ) : null
+      <ResourceInputLayout
+        isOpened={isOpened}
+        setIsOpened={setIsOpened}
+        inputTriggerRef={ref}
+        inputTrigger={(triggerElement) => (
+          <InputTrigger
+            ref={ref}
+            color={color}
+            disabled={disabled}
+            hasError={hasError}
+            setColor={setColor}
+            triggerElement={triggerElement}
+          />
+        )}
+        content={
+          <Combobox
+            color={color}
+            colors={fetcher.data?.colors ?? []}
+            onInputValueChange={(value) => {
+              fetcher.load(
+                createPath({
+                  pathname: RESOURCE_PATHNAME,
+                  search: new ColorSearchParams().setName(value).toString(),
+                })
+              );
+            }}
+            onSelectedItem={(color) => {
+              setColor(color);
+              setIsOpened(false);
+            }}
+            onClose={() => setIsOpened(false)}
+          />
         }
-
-        <ResourceInputLayout
-          isOpened={isOpened}
-          setIsOpened={setIsOpened}
-          inputTriggerRef={ref}
-          inputTrigger={(triggerElement) => (
-            <InputTrigger
-              ref={ref}
-              color={color}
-              disabled={disabled}
-              hasError={hasError}
-              setColor={setColor}
-              triggerElement={triggerElement}
-            />
-          )}
-          content={
-            <Combobox
-              color={color}
-              colors={fetcher.data?.colors ?? []}
-              onInputValueChange={(value) => {
-                fetcher.load(
-                  createPath({
-                    pathname: RESOURCE_PATHNAME,
-                    search: new ColorSearchParams().setName(value).toString(),
-                  })
-                );
-              }}
-              onSelectedItem={(color) => {
-                setColor(color);
-                setIsOpened(false);
-              }}
-              onClose={() => setIsOpened(false)}
-            />
-          }
-        />
-      </>
-    );
-  }
-);
+      />
+    </>
+  );
+});
 
 const InputTrigger = forwardRef<
-  HTMLButtonElement,
+  React.ComponentRef<"button">,
   {
     disabled: boolean;
     color: null | Pick<Color, "id" | "name">;
     setColor: React.Dispatch<null | Pick<Color, "id" | "name">>;
     hasError: boolean;
-    triggerElement: React.ElementType<
-      React.ButtonHTMLAttributes<HTMLButtonElement>
-    >;
+    triggerElement: React.ElementType<React.ComponentPropsWithoutRef<"button">>;
   }
 >(function InputTrigger(
   { disabled, color, setColor, hasError, triggerElement: TriggerElement },

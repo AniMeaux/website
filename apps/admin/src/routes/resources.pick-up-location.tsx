@@ -53,7 +53,7 @@ type PickUpLocationInputProps = {
 };
 
 export const PickUpLocationInput = forwardRef<
-  HTMLButtonElement,
+  React.ComponentRef<typeof InputTrigger>,
   PickUpLocationInputProps
 >(function PickUpLocationInput(
   { name, defaultValue = null, disabled = false, hasError = false },
@@ -134,14 +134,12 @@ export const PickUpLocationInput = forwardRef<
 });
 
 const InputTrigger = forwardRef<
-  HTMLButtonElement,
+  React.ComponentRef<"button">,
   {
     disabled: boolean;
     pickUpLocation: null | string;
     hasError: boolean;
-    triggerElement: React.ElementType<
-      React.ButtonHTMLAttributes<HTMLButtonElement>
-    >;
+    triggerElement: React.ElementType<React.ComponentPropsWithoutRef<"button">>;
   }
 >(function InputTrigger(
   { disabled, pickUpLocation, hasError, triggerElement: TriggerElement },

@@ -12,11 +12,8 @@ import { Primitive } from "~/core/primitives";
 import { Icon, IconProps } from "~/generated/icon";
 
 const ImageInputNative = forwardRef<
-  HTMLInputElement,
-  Omit<
-    React.InputHTMLAttributes<HTMLInputElement>,
-    "accept" | "className" | "type"
-  >
+  React.ComponentRef<"input">,
+  Omit<React.ComponentPropsWithoutRef<"input">, "accept" | "className" | "type">
 >(function ImageInputNative(props, ref) {
   return (
     <input

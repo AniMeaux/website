@@ -11,7 +11,7 @@ export function ItemList({
 
 export const Item = Object.assign(
   forwardRef<
-    HTMLLIElement,
+    React.ComponentRef<typeof Primitive.li>,
     React.ComponentPropsWithoutRef<typeof Primitive.li>
   >(function Item({ className, ...rest }, ref) {
     return (
