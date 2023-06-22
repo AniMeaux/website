@@ -1,7 +1,7 @@
-import { Primitive } from "@radix-ui/react-primitive";
 import { Transition } from "react-transition-group";
 import { BaseLink, BaseLinkProps } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
+import { Primitive } from "~/core/primitives";
 import { Icon, IconProps } from "~/generated/icon";
 
 export type SideBarProps = {

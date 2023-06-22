@@ -1,9 +1,9 @@
-import { Primitive } from "@radix-ui/react-primitive";
 import { forwardRef } from "react";
 import { cn } from "~/core/classNames";
+import { Primitive } from "~/core/primitives";
 
 export const Overlay = forwardRef<
-  HTMLDivElement,
+  React.ComponentRef<typeof Primitive.div>,
   React.ComponentPropsWithoutRef<typeof Primitive.div>
 >(function Overlay({ className, ...rest }, ref) {
   return (

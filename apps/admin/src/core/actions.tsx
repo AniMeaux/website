@@ -1,7 +1,7 @@
-import { Primitive } from "@radix-ui/react-primitive";
 import { forwardRef } from "react";
 import { cn } from "~/core/classNames";
 import { Spinner } from "~/core/loaders/spinner";
+import { Primitive } from "~/core/primitives";
 
 type ActionVariant =
   | "floating"
@@ -27,29 +27,31 @@ export type ActionProps = React.ComponentPropsWithoutRef<
 };
 
 export const Action = Object.assign(
-  forwardRef<HTMLButtonElement, ActionProps>(function Action(
-    {
-      className,
-      color = "blue",
-      isIconOnly = false,
-      variant = "primary",
-      ...rest
-    },
-    ref
-  ) {
-    return (
-      <Primitive.button
-        {...rest}
-        ref={ref}
-        className={cn(
-          "relative flex-none flex items-center justify-center gap-0.5 text-body-emphasis duration-100 ease-in-out active:scale-95 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white",
-          VARIANT_CLASS_NAME[variant]({ isIconOnly }),
-          COLOR_CLASS_NAMES[variant][color],
-          className
-        )}
-      />
-    );
-  }),
+  forwardRef<React.ComponentRef<typeof Primitive.button>, ActionProps>(
+    function Action(
+      {
+        className,
+        color = "blue",
+        isIconOnly = false,
+        variant = "primary",
+        ...rest
+      },
+      ref
+    ) {
+      return (
+        <Primitive.button
+          {...rest}
+          ref={ref}
+          className={cn(
+            "relative flex-none flex items-center justify-center gap-0.5 text-body-emphasis duration-100 ease-in-out active:scale-95 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white",
+            VARIANT_CLASS_NAME[variant]({ isIconOnly }),
+            COLOR_CLASS_NAMES[variant][color],
+            className
+          )}
+        />
+      );
+    }
+  ),
   {
     Loader: function ActionLoader({ isLoading }: { isLoading: boolean }) {
       return (
@@ -67,7 +69,7 @@ export const Action = Object.assign(
 );
 
 export const ProseInlineAction = forwardRef<
-  HTMLButtonElement,
+  React.ComponentRef<typeof Primitive.button>,
   React.ComponentPropsWithoutRef<typeof Primitive.button>
 >(function ProseInlineAction({ className, ...rest }, ref) {
   return (

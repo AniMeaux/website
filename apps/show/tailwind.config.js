@@ -24,6 +24,16 @@ module.exports = {
       5: "60px",
       6: "72px",
       8: "96px",
+
+      // We cannot use the `theme` parameter because referencing the `spacing`
+      // values ends in a infinite recursion: `theme("spacing.4")`.
+      // The values in the formula are defined by:
+      // - A page takes 90% of the width, 5% spacing on each side.
+      // - Left and right spacing cannot go under spacing 4 (16px).
+      // - The page should not exceed LG or SM (1024px or 640px).
+      // Wrap the value in a `calc` so tailwind can negate it.
+      "page-normal": `calc(max(16px, 5vw, (100vw - ${defaultTheme.screens.lg}) / 2))`,
+      "page-narrow": `calc(max(16px, 5vw, (100vw - ${defaultTheme.screens.sm}) / 2))`,
     },
 
     extend: {
@@ -46,19 +56,6 @@ module.exports = {
         alabaster: {
           DEFAULT: "#f2e8e3",
         },
-      },
-
-      spacing: {
-        // We cannot use the `theme` parameter because referencing the `spacing`
-        // values ends in a infinite recursion: `theme("spacing.4")`.
-
-        // The values in the formula are defined by:
-        // - A page takes 90% of the width, 5% spacing on each side.
-        // - Left and right spacing cannot go under spacing 4 (16px).
-        // - The page should not exceed LG or SM (1024px or 640px).
-        // Wrap the value in a `calc` so tailwind can negate it.
-        "page-normal": `calc(max(16px, 5vw, (100vw - ${defaultTheme.screens.lg}) / 2))`,
-        "page-narrow": `calc(max(16px, 5vw, (100vw - ${defaultTheme.screens.sm}) / 2))`,
       },
     },
   },

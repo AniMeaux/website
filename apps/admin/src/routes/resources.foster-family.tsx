@@ -59,7 +59,7 @@ type FosterFamilyInputProps = {
 };
 
 export const FosterFamilyInput = forwardRef<
-  HTMLButtonElement,
+  React.ComponentRef<typeof InputTrigger>,
   FosterFamilyInputProps
 >(function FosterFamilyInput(
   { name, defaultValue = null, disabled = false, hasError = false },
@@ -141,7 +141,7 @@ export const FosterFamilyInput = forwardRef<
 });
 
 const InputTrigger = forwardRef<
-  HTMLButtonElement,
+  React.ComponentRef<"button">,
   {
     disabled: boolean;
     fosterFamily: null | Pick<FosterFamily, "id" | "displayName">;
@@ -150,9 +150,7 @@ const InputTrigger = forwardRef<
       "id" | "displayName"
     >>;
     hasError: boolean;
-    triggerElement: React.ElementType<
-      React.ButtonHTMLAttributes<HTMLButtonElement>
-    >;
+    triggerElement: React.ElementType<React.ComponentPropsWithoutRef<"button">>;
   }
 >(function InputTrigger(
   {

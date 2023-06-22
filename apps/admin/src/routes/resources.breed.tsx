@@ -52,104 +52,103 @@ type BreedInputProps = {
   hasError?: boolean;
 };
 
-export const BreedInput = forwardRef<HTMLButtonElement, BreedInputProps>(
-  function BreedInput(
-    {
-      name,
-      defaultValue = null,
-      species = null,
-      disabled = false,
-      hasError = false,
-    },
-    propRef
-  ) {
-    invariant(typeof propRef !== "function", "Only object ref are supported.");
-    const localRef = useRef<HTMLButtonElement>(null);
-    const ref = propRef ?? localRef;
+export const BreedInput = forwardRef<
+  React.ComponentRef<typeof InputTrigger>,
+  BreedInputProps
+>(function BreedInput(
+  {
+    name,
+    defaultValue = null,
+    species = null,
+    disabled = false,
+    hasError = false,
+  },
+  propRef
+) {
+  invariant(typeof propRef !== "function", "Only object ref are supported.");
+  const localRef = useRef<HTMLButtonElement>(null);
+  const ref = propRef ?? localRef;
 
-    const [isOpened, setIsOpened] = useState(false);
-    const fetcher = useFetcher<typeof loader>();
+  const [isOpened, setIsOpened] = useState(false);
+  const fetcher = useFetcher<typeof loader>();
 
-    // This effect does 2 things:
-    // - Make sure we display suggestions without delay when the combobox is
-    //   opened.
-    // - Make sure we clear any search when the combobox is closed.
-    const load = fetcher.load;
-    useEffect(() => {
-      if (!isOpened) {
-        load(
-          createPath({
-            pathname: RESOURCE_PATHNAME,
-            search: new BreedSearchParams().setSpecies(species).toString(),
-          })
-        );
+  // This effect does 2 things:
+  // - Make sure we display suggestions without delay when the combobox is
+  //   opened.
+  // - Make sure we clear any search when the combobox is closed.
+  const load = fetcher.load;
+  useEffect(() => {
+    if (!isOpened) {
+      load(
+        createPath({
+          pathname: RESOURCE_PATHNAME,
+          search: new BreedSearchParams().setSpecies(species).toString(),
+        })
+      );
+    }
+  }, [load, isOpened, species]);
+
+  const [breed, setBreed] = useState(defaultValue);
+
+  return (
+    <>
+      {
+        // Conditionally rendering the hidden input allows us to make it
+        // optional in the enclosing form.
+        breed != null ? (
+          <input type="hidden" name={name} value={breed.id} />
+        ) : null
       }
-    }, [load, isOpened, species]);
 
-    const [breed, setBreed] = useState(defaultValue);
-
-    return (
-      <>
-        {
-          // Conditionally rendering the hidden input allows us to make it
-          // optional in the enclosing form.
-          breed != null ? (
-            <input type="hidden" name={name} value={breed.id} />
-          ) : null
+      <ResourceInputLayout
+        isOpened={isOpened}
+        setIsOpened={setIsOpened}
+        inputTriggerRef={ref}
+        inputTrigger={(triggerElement) => (
+          <InputTrigger
+            ref={ref}
+            breed={breed}
+            disabled={disabled}
+            hasError={hasError}
+            setBreed={setBreed}
+            triggerElement={triggerElement}
+          />
+        )}
+        content={
+          <Combobox
+            breed={breed}
+            breeds={fetcher.data?.breeds ?? []}
+            onInputValueChange={(value) => {
+              fetcher.load(
+                createPath({
+                  pathname: RESOURCE_PATHNAME,
+                  search: new BreedSearchParams()
+                    .setSpecies(species)
+                    .setName(value)
+                    .toString(),
+                })
+              );
+            }}
+            onSelectedItem={(breed) => {
+              setBreed(breed);
+              setIsOpened(false);
+            }}
+            onClose={() => setIsOpened(false)}
+          />
         }
-
-        <ResourceInputLayout
-          isOpened={isOpened}
-          setIsOpened={setIsOpened}
-          inputTriggerRef={ref}
-          inputTrigger={(triggerElement) => (
-            <InputTrigger
-              ref={ref}
-              breed={breed}
-              disabled={disabled}
-              hasError={hasError}
-              setBreed={setBreed}
-              triggerElement={triggerElement}
-            />
-          )}
-          content={
-            <Combobox
-              breed={breed}
-              breeds={fetcher.data?.breeds ?? []}
-              onInputValueChange={(value) => {
-                fetcher.load(
-                  createPath({
-                    pathname: RESOURCE_PATHNAME,
-                    search: new BreedSearchParams()
-                      .setSpecies(species)
-                      .setName(value)
-                      .toString(),
-                  })
-                );
-              }}
-              onSelectedItem={(breed) => {
-                setBreed(breed);
-                setIsOpened(false);
-              }}
-              onClose={() => setIsOpened(false)}
-            />
-          }
-        />
-      </>
-    );
-  }
-);
+      />
+    </>
+  );
+});
 
 const InputTrigger = forwardRef<
-  HTMLButtonElement,
+  React.ComponentRef<"button">,
   {
     disabled: boolean;
     breed: null | Pick<Breed, "id" | "name">;
     setBreed: React.Dispatch<null | Pick<Breed, "id" | "name">>;
     hasError: boolean;
-    triggerElement: React.ElementType<
-      React.ButtonHTMLAttributes<HTMLButtonElement>
-    >;
+    triggerElement: React.ElementType<React.ComponentPropsWithoutRef<"button">>;
   }
 >(function InputTrigger(
   { disabled, breed, setBreed, hasError, triggerElement: TriggerElement },

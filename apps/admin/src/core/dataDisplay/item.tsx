@@ -1,6 +1,6 @@
-import { Primitive } from "@radix-ui/react-primitive";
 import { forwardRef } from "react";
 import { cn } from "~/core/classNames";
+import { Primitive } from "~/core/primitives";
 
 export function ItemList({
   className,
@@ -11,7 +11,7 @@ export function ItemList({
 
 export const Item = Object.assign(
   forwardRef<
-    HTMLLIElement,
+    React.ComponentRef<typeof Primitive.li>,
     React.ComponentPropsWithoutRef<typeof Primitive.li>
   >(function Item({ className, ...rest }, ref) {
     return (

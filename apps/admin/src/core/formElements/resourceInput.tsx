@@ -158,15 +158,14 @@ function SmallComboboxLayout({
 }
 
 export const SuggestionList = forwardRef<
-  HTMLUListElement,
-  React.HTMLAttributes<HTMLUListElement>
+  React.ComponentRef<"ul">,
+  React.ComponentPropsWithoutRef<"ul">
 >(function ResourceItemList({ className, ...rest }, ref) {
   return <ul {...rest} ref={ref} className={cn(className, "flex flex-col")} />;
 });
 
-export type SuggestionItemProps = Omit<
-  React.LiHTMLAttributes<HTMLLIElement>,
-  "children"
+export type SuggestionItemProps = React.ComponentPropsWithoutRef<
+  typeof Item
 > & {
   isAdditional?: boolean;
   isValue?: boolean;
@@ -177,50 +176,51 @@ export type SuggestionItemProps = Omit<
   secondaryLabel?: React.ReactNode;
 };
 
-export const SuggestionItem = forwardRef<HTMLLIElement, SuggestionItemProps>(
-  function SuggestionItem(
-    {
-      isAdditional = false,
-      isValue = false,
-      leftAdornment,
-      label,
-      secondaryLabel,
-      className,
-      ...rest
-    },
-    ref
-  ) {
-    return (
-      <Item
-        {...rest}
-        ref={ref}
-        data-is-value={toBooleanAttribute(isValue)}
-        data-is-additional={toBooleanAttribute(isAdditional)}
-        className={cn(
-          className,
-          "cursor-pointer aria-selected:bg-gray-100 data-[is-value=true]:bg-gray-100"
-        )}
-      >
-        <Item.Icon className="group-data-[is-additional=true]:text-blue-500">
-          {isAdditional ? <Icon id="plus" /> : leftAdornment}
-        </Item.Icon>
+export const SuggestionItem = forwardRef<
+  React.ComponentRef<typeof Item>,
+  SuggestionItemProps
+>(function SuggestionItem(
+  {
+    isAdditional = false,
+    isValue = false,
+    leftAdornment,
+    label,
+    secondaryLabel,
+    className,
+    ...rest
+  },
+  ref
+) {
+  return (
+    <Item
+      {...rest}
+      ref={ref}
+      data-is-value={toBooleanAttribute(isValue)}
+      data-is-additional={toBooleanAttribute(isAdditional)}
+      className={cn(
+        className,
+        "cursor-pointer aria-selected:bg-gray-100 data-[is-value=true]:bg-gray-100"
+      )}
+    >
+      <Item.Icon className="group-data-[is-additional=true]:text-blue-500">
+        {isAdditional ? <Icon id="plus" /> : leftAdornment}
+      </Item.Icon>
 
-        <Item.Content asChild>
-          <span className="group-data-[is-value=true]:text-body-emphasis group-data-[is-additional=true]:text-blue-500">
-            <Markdown components={HIGHLIGHT_COMPONENTS}>{label}</Markdown>
-            {secondaryLabel != null ? (
-              <span className="text-gray-500"> - {secondaryLabel}</span>
-            ) : null}
-          </span>
-        </Item.Content>
+      <Item.Content asChild>
+        <span className="group-data-[is-value=true]:text-body-emphasis group-data-[is-additional=true]:text-blue-500">
+          <Markdown components={HIGHLIGHT_COMPONENTS}>{label}</Markdown>
+          {secondaryLabel != null ? (
+            <span className="text-gray-500"> - {secondaryLabel}</span>
+          ) : null}
+        </span>
+      </Item.Content>
 
-        <Item.Icon className="opacity-0 transition-opacity duration-100 ease-in-out group-data-[is-value=true]:opacity-100">
-          <Icon id="check" className="text-green-600 text-[14px]" />
-        </Item.Icon>
-      </Item>
-    );
-  }
-);
+      <Item.Icon className="opacity-0 transition-opacity duration-100 ease-in-out group-data-[is-value=true]:opacity-100">
+        <Icon id="check" className="text-green-600 text-[14px]" />
+      </Item.Icon>
+    </Item>
+  );
+});
 
 export function NoSuggestion({ children }: { children?: React.ReactNode }) {
   return (

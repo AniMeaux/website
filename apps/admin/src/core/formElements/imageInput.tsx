@@ -1,4 +1,3 @@
-import { Primitive } from "@radix-ui/react-primitive";
 import { forwardRef } from "react";
 import { Action, ActionProps } from "~/core/actions";
 import { toBooleanAttribute } from "~/core/attributes";
@@ -9,14 +8,12 @@ import {
   DataUrlOrDynamicImageProps,
   isImageOverSize,
 } from "~/core/dataDisplay/image";
+import { Primitive } from "~/core/primitives";
 import { Icon, IconProps } from "~/generated/icon";
 
 const ImageInputNative = forwardRef<
-  HTMLInputElement,
-  Omit<
-    React.InputHTMLAttributes<HTMLInputElement>,
-    "accept" | "className" | "type"
-  >
+  React.ComponentRef<"input">,
+  Omit<React.ComponentPropsWithoutRef<"input">, "accept" | "className" | "type">
 >(function ImageInputNative(props, ref) {
   return (
     <input

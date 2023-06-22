@@ -53,95 +53,94 @@ type ManagerInputProps = {
   hasError?: boolean;
 };
 
-export const ManagerInput = forwardRef<HTMLButtonElement, ManagerInputProps>(
-  function ManagerInput(
-    { name, defaultValue = null, disabled = false, hasError = false },
-    propRef
-  ) {
-    invariant(typeof propRef !== "function", "Only object ref are supported.");
-    const localRef = useRef<HTMLButtonElement>(null);
-    const ref = propRef ?? localRef;
+export const ManagerInput = forwardRef<
+  React.ComponentRef<typeof InputTrigger>,
+  ManagerInputProps
+>(function ManagerInput(
+  { name, defaultValue = null, disabled = false, hasError = false },
+  propRef
+) {
+  invariant(typeof propRef !== "function", "Only object ref are supported.");
+  const localRef = useRef<HTMLButtonElement>(null);
+  const ref = propRef ?? localRef;
 
-    const [isOpened, setIsOpened] = useState(false);
-    const fetcher = useFetcher<typeof loader>();
+  const [isOpened, setIsOpened] = useState(false);
+  const fetcher = useFetcher<typeof loader>();
 
-    // This effect does 2 things:
-    // - Make sure we display suggestions without delay when the combobox is
-    //   opened.
-    // - Make sure we clear any search when the combobox is closed.
-    const load = fetcher.load;
-    useEffect(() => {
-      if (!isOpened) {
-        load(
-          createPath({
-            pathname: RESOURCE_PATHNAME,
-            search: new UserSearchParams().toString(),
-          })
-        );
+  // This effect does 2 things:
+  // - Make sure we display suggestions without delay when the combobox is
+  //   opened.
+  // - Make sure we clear any search when the combobox is closed.
+  const load = fetcher.load;
+  useEffect(() => {
+    if (!isOpened) {
+      load(
+        createPath({
+          pathname: RESOURCE_PATHNAME,
+          search: new UserSearchParams().toString(),
+        })
+      );
+    }
+  }, [load, isOpened]);
+
+  const [manager, setManager] = useState(defaultValue);
+
+  return (
+    <>
+      {
+        // Conditionally rendering the hidden input allows us to make it
+        // optional in the enclosing form.
+        manager != null ? (
+          <input type="hidden" name={name} value={manager.id} />
+        ) : null
       }
-    }, [load, isOpened]);
 
-    const [manager, setManager] = useState(defaultValue);
-
-    return (
-      <>
-        {
-          // Conditionally rendering the hidden input allows us to make it
-          // optional in the enclosing form.
-          manager != null ? (
-            <input type="hidden" name={name} value={manager.id} />
-          ) : null
+      <ResourceInputLayout
+        isOpened={isOpened}
+        setIsOpened={setIsOpened}
+        inputTriggerRef={ref}
+        inputTrigger={(triggerElement) => (
+          <InputTrigger
+            ref={ref}
+            manager={manager}
+            disabled={disabled}
+            hasError={hasError}
+            triggerElement={triggerElement}
+          />
+        )}
+        content={
+          <Combobox
+            manager={manager}
+            managers={fetcher.data?.managers ?? []}
+            onInputValueChange={(value) => {
+              fetcher.load(
+                createPath({
+                  pathname: RESOURCE_PATHNAME,
+                  search: new UserSearchParams()
+                    .setDisplayName(value)
+                    .toString(),
+                })
+              );
+            }}
+            onSelectedItem={(manager) => {
+              setManager(manager);
+              setIsOpened(false);
+            }}
+            onClose={() => setIsOpened(false)}
+          />
         }
-
-        <ResourceInputLayout
-          isOpened={isOpened}
-          setIsOpened={setIsOpened}
-          inputTriggerRef={ref}
-          inputTrigger={(triggerElement) => (
-            <InputTrigger
-              ref={ref}
-              manager={manager}
-              disabled={disabled}
-              hasError={hasError}
-              triggerElement={triggerElement}
-            />
-          )}
-          content={
-            <Combobox
-              manager={manager}
-              managers={fetcher.data?.managers ?? []}
-              onInputValueChange={(value) => {
-                fetcher.load(
-                  createPath({
-                    pathname: RESOURCE_PATHNAME,
-                    search: new UserSearchParams()
-                      .setDisplayName(value)
-                      .toString(),
-                  })
-                );
-              }}
-              onSelectedItem={(manager) => {
-                setManager(manager);
-                setIsOpened(false);
-              }}
-              onClose={() => setIsOpened(false)}
-            />
-          }
-        />
-      </>
-    );
-  }
-);
+      />
+    </>
+  );
+});
 
 const InputTrigger = forwardRef<
-  HTMLButtonElement,
+  React.ComponentRef<"button">,
   {
     disabled: boolean;
     manager: null | Pick<User, "id" | "displayName">;
     hasError: boolean;
-    triggerElement: React.ElementType<
-      React.ButtonHTMLAttributes<HTMLButtonElement>
-    >;
+    triggerElement: React.ElementType<React.ComponentPropsWithoutRef<"button">>;
   }
 >(function InputTrigger(
   { disabled, manager, hasError, triggerElement: TriggerElement },

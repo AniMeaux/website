@@ -3,8 +3,10 @@ import { toBooleanAttribute } from "~/core/attributes";
 import { ensureArray } from "~/core/ensureArray";
 import { BaseTextInput } from "~/core/formElements/baseTextInput";
 
-export type InputProps = React.InputHTMLAttributes<HTMLInputElement> & {
-  variant?: React.ComponentPropsWithoutRef<typeof BaseTextInput>["variant"];
+export type InputProps = Omit<
+  React.ComponentPropsWithoutRef<typeof BaseTextInput>,
+  "leftAdornmentCount" | "rightAdornmentCount"
+> & {
   leftAdornment?: React.ComponentPropsWithoutRef<
     typeof BaseTextInput.AdornmentContainer
   >["adornment"];
@@ -12,15 +14,12 @@ export type InputProps = React.InputHTMLAttributes<HTMLInputElement> & {
     typeof BaseTextInput.AdornmentContainer
   >["adornment"];
   hasError?: boolean;
-  hideFocusRing?: React.ComponentPropsWithoutRef<
-    typeof BaseTextInput
-  >["hideFocusRing"];
 };
 
 export const Input = Object.assign(
-  forwardRef<HTMLInputElement, InputProps>(function Input(
+  forwardRef<React.ComponentRef<"input">, InputProps>(function Input(
     {
-      variant = "outlined",
+      variant,
       hasError = false,
       leftAdornment,
       rightAdornment,
