@@ -1,21 +1,23 @@
-import { Primitive } from "@radix-ui/react-primitive";
 import { createElement, forwardRef } from "react";
 import { fromBooleanAttribute } from "~/core/attributes";
 import { cn } from "~/core/classNames";
 import { ensureArray } from "~/core/ensureArray";
+import { Primitive } from "~/core/primitives";
+
+type BaseTextInputVariant = "outlined" | "search" | "transparent";
 
 export const BaseTextInput = Object.assign(
   forwardRef<
-    HTMLInputElement,
+    React.ComponentRef<typeof Primitive.input>,
     React.ComponentPropsWithoutRef<typeof Primitive.input> & {
-      variant: "outlined" | "search" | "transparent";
+      variant?: BaseTextInputVariant;
       leftAdornmentCount: number;
       rightAdornmentCount: number;
       hideFocusRing?: boolean;
     }
   >(function BaseTextInput(
     {
-      variant,
+      variant = "outlined",
       leftAdornmentCount,
       rightAdornmentCount,
       hideFocusRing = false,
@@ -50,7 +52,7 @@ export const BaseTextInput = Object.assign(
   }),
   {
     Root: forwardRef<
-      HTMLSpanElement,
+      React.ComponentRef<typeof Primitive.span>,
       React.ComponentPropsWithoutRef<typeof Primitive.span>
     >(function BaseTextInputRoot({ className, ...rest }, ref) {
       return (
@@ -69,7 +71,7 @@ export const BaseTextInput = Object.assign(
     }),
 
     AdornmentContainer: forwardRef<
-      HTMLSpanElement,
+      React.ComponentRef<typeof Primitive.span>,
       Omit<
         React.ComponentPropsWithoutRef<typeof Primitive.span>,
         "children"
@@ -104,7 +106,7 @@ export const BaseTextInput = Object.assign(
     }),
 
     Adornment: forwardRef<
-      HTMLSpanElement,
+      React.ComponentRef<typeof Primitive.span>,
       React.ComponentPropsWithoutRef<typeof Primitive.span>
     >(function BaseTextInputAdornment({ className, ...rest }, ref) {
       return (
@@ -120,8 +122,8 @@ export const BaseTextInput = Object.assign(
     }),
 
     ActionAdornment: forwardRef<
-      HTMLButtonElement,
-      React.ButtonHTMLAttributes<HTMLButtonElement>
+      React.ComponentRef<"button">,
+      React.ComponentPropsWithoutRef<"button">
     >(function BaseTextInputActionAdornment({ className, ...rest }, ref) {
       return (
         <BaseTextInput.Adornment asChild>
@@ -140,10 +142,7 @@ export const BaseTextInput = Object.assign(
   }
 );
 
-const INPUT_VARIANT_CLASS_NAMES: Record<
-  React.ComponentPropsWithoutRef<typeof BaseTextInput>["variant"],
-  string
-> = {
+const INPUT_VARIANT_CLASS_NAMES: Record<BaseTextInputVariant, string> = {
   outlined: "ring-gray-200 bg-transparent",
   search: "ring-gray-100 bg-gray-100",
   transparent: "ring-transparent bg-transparent",

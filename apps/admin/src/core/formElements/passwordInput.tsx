@@ -1,11 +1,14 @@
 import { forwardRef, useState } from "react";
-import { Input, InputProps } from "~/core/formElements/input";
+import { Input } from "~/core/formElements/input";
 import { Icon } from "~/generated/icon";
 
 export const PasswordInput = Object.assign(
   forwardRef<
-    HTMLInputElement,
-    Omit<InputProps, "type" | "rightAdornment" | "spellCheck">
+    React.ComponentRef<typeof Input>,
+    Omit<
+      React.ComponentPropsWithoutRef<typeof Input>,
+      "type" | "rightAdornment" | "spellCheck"
+    >
   >(function PasswordInput(props, ref) {
     const [showPassword, setShowPassword] = useState(false);
 

@@ -7,10 +7,7 @@ import {
   inferInstanceColor,
   InstanceColor,
 } from "~/core/dataDisplay/instanceColor";
-import {
-  SuggestionItem,
-  SuggestionItemProps,
-} from "~/core/formElements/resourceInput";
+import { SuggestionItem } from "~/core/formElements/resourceInput";
 import { FosterFamilyAvatar } from "~/fosterFamilies/avatar";
 import { getShortLocation } from "~/fosterFamilies/location";
 import { Icon } from "~/generated/icon";
@@ -76,8 +73,11 @@ const DISPLAY_NAME_CLASS_NAME: Record<InstanceColor, string> = {
 };
 
 export const FosterFamilySuggestionItem = forwardRef<
-  HTMLLIElement,
-  Omit<SuggestionItemProps, "leftAdornment" | "label" | "secondaryLabel"> & {
+  React.ComponentRef<typeof SuggestionItem>,
+  Omit<
+    React.ComponentPropsWithoutRef<typeof SuggestionItem>,
+    "leftAdornment" | "label" | "secondaryLabel"
+  > & {
     fosterFamily: Pick<FosterFamily, "city" | "id" | "zipCode"> & {
       highlightedDisplayName: string;
     };

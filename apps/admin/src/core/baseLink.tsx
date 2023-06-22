@@ -16,91 +16,92 @@ export type BaseLinkProps = {
   to?: NavLinkProps["to"] | null;
 };
 
-export const BaseLink = forwardRef<HTMLAnchorElement, BaseLinkProps>(
-  function BaseLink(
-    {
-      children,
-      className,
-      download,
-      isNavLink = false,
-      prefetch = "intent",
-      reloadDocument,
-      replace,
-      shouldOpenInNewTarget,
-      style,
-      title,
-      to,
+export const BaseLink = forwardRef<
+  React.ComponentRef<typeof Link>,
+  BaseLinkProps
+>(function BaseLink(
+  {
+    children,
+    className,
+    download,
+    isNavLink = false,
+    prefetch = "intent",
+    reloadDocument,
+    replace,
+    shouldOpenInNewTarget,
+    style,
+    title,
+    to,
 
-      // Because `BaseLink` can be used as a menu item, it might receive other
-      // props from @radix-ui/react-dropdown-menu that need to be passed down to
-      // the HTML element.
-      // We don't type them because they're specific to the lib and they're
-      //  implementation details.
-      ...rest
-    },
-    ref
-  ) {
-    const { fromApp } = useLocationState();
+    // Because `BaseLink` can be used as a menu item, it might receive other
+    // props from @radix-ui/react-dropdown-menu that need to be passed down to
+    // the HTML element.
+    // We don't type them because they're specific to the lib and they're
+    //  implementation details.
+    ...rest
+  },
+  ref
+) {
+  const { fromApp } = useLocationState();
 
-    const commonProps: React.AnchorHTMLAttributes<HTMLAnchorElement> &
-      React.RefAttributes<HTMLAnchorElement> = {
-      ...rest,
-      download,
-      title,
-      ref,
-    };
+  const commonProps: React.AnchorHTMLAttributes<HTMLAnchorElement> &
+    React.RefAttributes<HTMLAnchorElement> = {
+    ...rest,
+    download,
+    title,
+    ref,
+  };
 
-    if (to == null) {
-      return (
-        <span
-          {...commonProps}
-          aria-disabled
-          className={defaultCallProp(className)}
-          style={defaultCallProp(style)}
-          children={defaultCallProp(children)}
-        />
-      );
-    }
-
-    if (shouldOpenInNewTarget) {
-      commonProps.target = "_blank";
-      commonProps.rel = "noopener noreferrer";
-    }
-
-    const internalCommonProps: Omit<
-      NavLinkProps,
-      "className" | "style" | "children"
-    > = {
-      to,
-      state: { fromApp: !replace || fromApp } satisfies LocationState,
-      prefetch,
-      reloadDocument,
-      replace,
-    };
-
-    if (isNavLink) {
-      return (
-        <NavLink
-          {...commonProps}
-          {...internalCommonProps}
-          className={className}
-          style={style}
-          children={children}
-        />
-      );
-    }
-
+  if (to == null) {
     return (
-      <Link
+      <span
         {...commonProps}
-        {...internalCommonProps}
+        aria-disabled
         className={defaultCallProp(className)}
         style={defaultCallProp(style)}
         children={defaultCallProp(children)}
       />
     );
   }
-);
+
+  if (shouldOpenInNewTarget) {
+    commonProps.target = "_blank";
+    commonProps.rel = "noopener noreferrer";
+  }
+
+  const internalCommonProps: Omit<
+    NavLinkProps,
+    "className" | "style" | "children"
+  > = {
+    to,
+    state: { fromApp: !replace || fromApp } satisfies LocationState,
+    prefetch,
+    reloadDocument,
+    replace,
+  };
+
+  if (isNavLink) {
+    return (
+      <NavLink
+        {...commonProps}
+        {...internalCommonProps}
+        className={className}
+        style={style}
+        children={children}
+      />
+    );
+  }
+
+  return (
+    <Link
+      {...commonProps}
+      {...internalCommonProps}
+      className={defaultCallProp(className)}
+      style={defaultCallProp(style)}
+      children={defaultCallProp(children)}
+    />
+  );
+});
 
 function defaultCallProp<
   TValue extends string | React.CSSProperties | React.ReactNode

@@ -1,6 +1,6 @@
-import { Primitive } from "@radix-ui/react-primitive";
 import { cn } from "~/core/classNames";
 import { ErrorsInlineHelper } from "~/core/dataDisplay/errors";
+import { Primitive } from "~/core/primitives";
 
 export function Form({
   className,

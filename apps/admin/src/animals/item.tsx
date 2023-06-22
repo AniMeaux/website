@@ -203,7 +203,7 @@ export function AnimalSmallItem({
 }
 
 export const AnimalSuggestionItem = forwardRef<
-  HTMLLIElement,
+  React.ComponentRef<typeof SuggestionItem>,
   Omit<SuggestionItemProps, "leftAdornment" | "label" | "secondaryLabel"> & {
     animal: Pick<Animal, "avatar" | "name" | "species"> & {
       highlightedAlias: null | string;
