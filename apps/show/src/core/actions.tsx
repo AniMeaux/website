@@ -1,11 +1,11 @@
-import { Primitive } from "@radix-ui/react-primitive";
 import { forwardRef } from "react";
 import { cn } from "~/core/classNames";
+import { Primitive } from "~/core/primitives";
 
 type ActionColor = "alabaster" | "mystic" | "prussianBlue";
 
 export const Action = forwardRef<
-  HTMLButtonElement,
+  React.ComponentRef<typeof Primitive.button>,
   React.ComponentPropsWithoutRef<typeof Primitive.button> & {
     color?: ActionColor;
   }
@@ -30,7 +30,7 @@ const COLOR_CLASS_NAMES: Record<ActionColor, string> = {
 };
 
 export const ProseInlineAction = forwardRef<
-  HTMLButtonElement,
+  React.ComponentRef<typeof Primitive.button>,
   React.ComponentPropsWithoutRef<typeof Primitive.button>
 >(function ProseInlineAction({ className, ...rest }, ref) {
   return (
