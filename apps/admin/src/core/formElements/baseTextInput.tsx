@@ -1,8 +1,8 @@
-import { Primitive } from "@radix-ui/react-primitive";
 import { createElement, forwardRef } from "react";
 import { fromBooleanAttribute } from "~/core/attributes";
 import { cn } from "~/core/classNames";
 import { ensureArray } from "~/core/ensureArray";
+import { Primitive } from "~/core/primitives";
 
 export const BaseTextInput = Object.assign(
   forwardRef<

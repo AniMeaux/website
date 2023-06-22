@@ -1,7 +1,7 @@
-import { Primitive } from "@radix-ui/react-primitive";
 import { forwardRef } from "react";
 import { cn } from "~/core/classNames";
 import { Spinner } from "~/core/loaders/spinner";
+import { Primitive } from "~/core/primitives";
 
 type ActionVariant =
   | "floating"
