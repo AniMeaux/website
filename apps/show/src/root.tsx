@@ -147,7 +147,7 @@ function Document({
 
       <body
         className={cn(
-          "min-h-screen antialiased grid grid-cols-1 text-prussianBlue text-body-lowercase-default",
+          "min-h-screen antialiased overflow-x-clip grid grid-cols-1 text-prussianBlue text-body-lowercase-default",
           // Make sure children with absolute positionning are correctly placed.
           "relative"
         )}
