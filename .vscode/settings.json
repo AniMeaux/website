@@ -6,7 +6,7 @@
   },
   "tailwindCSS.experimental.configFile": {
     "apps/admin/tailwind.config.js": "apps/admin/**",
-    "apps/website/tailwind.config.js": "apps/website/**",
+    "apps/website/tailwind.config.ts": "apps/website/**",
     "apps/show/tailwind.config.js": "apps/show/**"
   }
 }
