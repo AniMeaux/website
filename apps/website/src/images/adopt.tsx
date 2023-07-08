@@ -1,4 +1,4 @@
-import { ImageDescriptor } from "~/dataDisplay/image";
+import { ImageDescriptor } from "~/core/dataDisplay/image";
 import adopt1024 from "~/images/adopt-1024w.png";
 import adopt1536 from "~/images/adopt-1536w.png";
 import adopt2048 from "~/images/adopt-2048w.png";

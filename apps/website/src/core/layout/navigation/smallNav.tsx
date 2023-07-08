@@ -5,20 +5,20 @@ import invariant from "tiny-invariant";
 import { BaseLink } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
 import { useFocusTrap } from "~/core/focusTrap";
-import { useScrollLock } from "~/core/scrollLock";
-import { Icon } from "~/generated/icon";
-import nameAndLogo from "~/images/nameAndLogo.svg";
 import {
   handleEscape,
   NavGroup,
   navLinkClassName,
-} from "~/layout/navigation/shared";
-import { ShowBanner } from "~/layout/navigation/showBanner";
-import { SocialLinks } from "~/layout/navigation/socialLinks";
-import { SubNavAct } from "~/layout/navigation/subNavAct";
-import { SubNavAdopt } from "~/layout/navigation/subNavAdopt";
-import { SubNavDiscover } from "~/layout/navigation/subNavDiscover";
-import { SubNavWarn } from "~/layout/navigation/subNavWarn";
+} from "~/core/layout/navigation/shared";
+import { ShowBanner } from "~/core/layout/navigation/showBanner";
+import { SocialLinks } from "~/core/layout/navigation/socialLinks";
+import { SubNavAct } from "~/core/layout/navigation/subNavAct";
+import { SubNavAdopt } from "~/core/layout/navigation/subNavAdopt";
+import { SubNavDiscover } from "~/core/layout/navigation/subNavDiscover";
+import { SubNavWarn } from "~/core/layout/navigation/subNavWarn";
+import { useScrollLock } from "~/core/scrollLock";
+import { Icon } from "~/generated/icon";
+import nameAndLogo from "~/images/nameAndLogo.svg";
 
 type State =
   | { isOpened: false; openedGroup?: null }

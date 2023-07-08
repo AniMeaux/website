@@ -3,7 +3,7 @@ import { Event } from "@prisma/client";
 import { SerializeFrom } from "@remix-run/node";
 import { BaseLink } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
-import { DynamicImage } from "~/dataDisplay/image";
+import { DynamicImage } from "~/core/dataDisplay/image";
 import { Icon, IconProps } from "~/generated/icon";
 
 export function EventItem({

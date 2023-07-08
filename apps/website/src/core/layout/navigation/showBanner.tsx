@@ -1,7 +1,7 @@
 import { BaseLink } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
 import { useConfig } from "~/core/config";
-import { StaticImage } from "~/dataDisplay/image";
+import { StaticImage } from "~/core/dataDisplay/image";
 import { Icon } from "~/generated/icon";
 import { showLogoImages } from "~/images/showLogo";
 

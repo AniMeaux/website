@@ -2,10 +2,10 @@ import { AnimalAge } from "@animeaux/shared";
 import { Species } from "@prisma/client";
 import { LoaderArgs, redirect } from "@remix-run/node";
 import { V2_MetaFunction } from "@remix-run/react";
-import { getPath } from "~/controllers/searchForm";
+import { getPath } from "~/core/controllers/searchForm";
+import { ErrorPage, getErrorTitle } from "~/core/dataDisplay/errorPage";
 import { createSocialMeta } from "~/core/meta";
 import { getPageTitle } from "~/core/pageTitle";
-import { ErrorPage, getErrorTitle } from "~/dataDisplay/errorPage";
 
 export async function loader({ params }: LoaderArgs) {
   const redirectTo = REDIRECTIONS[`/${params["*"]}`];

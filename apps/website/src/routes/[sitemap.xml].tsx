@@ -1,7 +1,7 @@
 import { Species } from "@prisma/client";
 import { renderToStaticMarkup } from "react-dom/server";
-import { SPECIES_TO_PATH } from "~/controllers/searchForm";
 import { createConfig } from "~/core/config.server";
+import { SPECIES_TO_PATH } from "~/core/controllers/searchForm";
 
 type SitemapAttribute = {
   key?: React.Key;

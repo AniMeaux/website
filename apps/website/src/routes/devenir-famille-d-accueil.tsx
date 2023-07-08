@@ -3,21 +3,21 @@ import { actionClassNames } from "~/core/actions";
 import { BaseLink } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
 import { getConfigFromMetaMatches, useConfig } from "~/core/config";
-import { createSocialMeta } from "~/core/meta";
-import { getPageTitle } from "~/core/pageTitle";
-import { Timeline, TimelineItem } from "~/dataDisplay/timeline";
-import { engagementImages } from "~/images/engagement";
-import { equipmentImages } from "~/images/equipment";
-import { followUpImages } from "~/images/followUp";
-import { fosterFamilyLargeImages } from "~/images/fosterFamilyLarge";
-import { socialImages } from "~/images/social";
+import { Timeline, TimelineItem } from "~/core/dataDisplay/timeline";
 import {
   HeroSection,
   HeroSectionAside,
   HeroSectionImage,
   HeroSectionParagraph,
   HeroSectionTitle,
-} from "~/layout/heroSection";
+} from "~/core/layout/heroSection";
+import { createSocialMeta } from "~/core/meta";
+import { getPageTitle } from "~/core/pageTitle";
+import { engagementImages } from "~/images/engagement";
+import { equipmentImages } from "~/images/equipment";
+import { followUpImages } from "~/images/followUp";
+import { fosterFamilyLargeImages } from "~/images/fosterFamilyLarge";
+import { socialImages } from "~/images/social";
 
 export const meta: V2_MetaFunction = ({ matches }) => {
   const config = getConfigFromMetaMatches(matches);

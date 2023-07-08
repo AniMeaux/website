@@ -1,8 +1,8 @@
 import { BaseLink, BaseLinkProps } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
+import { LineShapeHorizontal } from "~/core/layout/lineShape";
 import { Icon, IconProps } from "~/generated/icon";
 import nameAndLogo from "~/images/nameAndLogo.svg";
-import { LineShapeHorizontal } from "~/layout/lineShape";
 import { SubscriptionForm } from "~/routes/resources.subscribe";
 
 export function Footer() {

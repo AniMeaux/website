@@ -2,12 +2,24 @@ import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { DateTime } from "luxon";
 import { promiseHash } from "remix-utils";
-import { SearchForm } from "~/controllers/searchForm";
 import { actionClassNames } from "~/core/actions";
 import { BaseLink } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
+import { SearchForm } from "~/core/controllers/searchForm";
+import { StaticImage, StaticImageProps } from "~/core/dataDisplay/image";
 import { prisma } from "~/core/db.server";
-import { StaticImage, StaticImageProps } from "~/dataDisplay/image";
+import {
+  bubbleSectionClassNames,
+  BubbleShape,
+} from "~/core/layout/bubbleSection";
+import {
+  HeroSection,
+  HeroSectionAction,
+  HeroSectionAside,
+  HeroSectionImage,
+  HeroSectionParagraph,
+  HeroSectionTitle,
+} from "~/core/layout/heroSection";
 import { EventItem } from "~/events/item";
 import { Icon, IconProps } from "~/generated/icon";
 import { adoptionImages } from "~/images/adoption";
@@ -16,15 +28,6 @@ import { fosterFamilySmallImages } from "~/images/fosterFamilySmall";
 import { heroImages } from "~/images/hero";
 import { pickUpImages } from "~/images/pickUp";
 import { volunteerImages } from "~/images/volunteer";
-import { bubbleSectionClassNames, BubbleShape } from "~/layout/bubbleSection";
-import {
-  HeroSection,
-  HeroSectionAction,
-  HeroSectionAside,
-  HeroSectionImage,
-  HeroSectionParagraph,
-  HeroSectionTitle,
-} from "~/layout/heroSection";
 
 export async function loader() {
   const { pickUpCount, upcomingEvents } = await promiseHash({

@@ -6,14 +6,14 @@ import { actionClassNames } from "~/core/actions";
 import { BaseLink } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
 import { prisma } from "~/core/db.server";
-import { createSocialMeta } from "~/core/meta";
-import { getPageTitle } from "~/core/pageTitle";
-import { EventItem } from "~/events/item";
 import {
   RelatedSection,
   RelatedSectionList,
   RelatedSectionTitle,
-} from "~/layout/relatedSection";
+} from "~/core/layout/relatedSection";
+import { createSocialMeta } from "~/core/meta";
+import { getPageTitle } from "~/core/pageTitle";
+import { EventItem } from "~/events/item";
 
 const eventSelect = Prisma.validator<Prisma.EventArgs>()({
   select: {

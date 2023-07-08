@@ -1,4 +1,4 @@
-import { ImageDescriptor } from "~/dataDisplay/image";
+import { ImageDescriptor } from "~/core/dataDisplay/image";
 import followUp1024 from "~/images/followUp-1024w.png";
 import followUp1536 from "~/images/followUp-1536w.png";
 import followUp2048 from "~/images/followUp-2048w.png";

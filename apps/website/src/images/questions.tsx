@@ -1,4 +1,4 @@
-import { ImageDescriptor } from "~/dataDisplay/image";
+import { ImageDescriptor } from "~/core/dataDisplay/image";
 import questions1024 from "~/images/questions-1024w.png";
 import questions1536 from "~/images/questions-1536w.png";
 import questions2048 from "~/images/questions-2048w.png";

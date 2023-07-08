@@ -3,18 +3,18 @@ import { actionClassNames } from "~/core/actions";
 import { BaseLink } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
 import { getConfigFromMetaMatches } from "~/core/config";
-import { createSocialMeta } from "~/core/meta";
-import { getPageTitle } from "~/core/pageTitle";
-import { Icon, IconProps } from "~/generated/icon";
-import { questionsImages } from "~/images/questions";
-import { socialImages } from "~/images/social";
 import {
   HeroSection,
   HeroSectionAside,
   HeroSectionImage,
   HeroSectionParagraph,
   HeroSectionTitle,
-} from "~/layout/heroSection";
+} from "~/core/layout/heroSection";
+import { createSocialMeta } from "~/core/meta";
+import { getPageTitle } from "~/core/pageTitle";
+import { Icon, IconProps } from "~/generated/icon";
+import { questionsImages } from "~/images/questions";
+import { socialImages } from "~/images/social";
 
 export const meta: V2_MetaFunction = ({ matches }) => {
   const config = getConfigFromMetaMatches(matches);

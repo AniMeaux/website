@@ -2,13 +2,11 @@ import { Species } from "@prisma/client";
 import { V2_MetaFunction } from "@remix-run/react";
 import { useState } from "react";
 import { SPECIES_ICON } from "~/animals/species";
-import { Tab } from "~/controllers/tabs";
 import { actionClassNames } from "~/core/actions";
 import { BaseLink } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
 import { getConfigFromMetaMatches } from "~/core/config";
-import { createSocialMeta } from "~/core/meta";
-import { getPageTitle } from "~/core/pageTitle";
+import { Tab } from "~/core/controllers/tabs";
 import {
   OptionCard,
   OptionDescription,
@@ -17,20 +15,25 @@ import {
   OptionList,
   OptionPrice,
   OptionTitle,
-} from "~/dataDisplay/options";
-import { Timeline, TimelineItem } from "~/dataDisplay/timeline";
-import { Icon } from "~/generated/icon";
-import { adoptImages } from "~/images/adopt";
-import { questionsImages } from "~/images/questions";
-import { socialImages } from "~/images/social";
-import { bubbleSectionClassNames, BubbleShape } from "~/layout/bubbleSection";
+} from "~/core/dataDisplay/options";
+import { Timeline, TimelineItem } from "~/core/dataDisplay/timeline";
+import {
+  bubbleSectionClassNames,
+  BubbleShape,
+} from "~/core/layout/bubbleSection";
 import {
   HeroSection,
   HeroSectionAside,
   HeroSectionImage,
   HeroSectionParagraph,
   HeroSectionTitle,
-} from "~/layout/heroSection";
+} from "~/core/layout/heroSection";
+import { createSocialMeta } from "~/core/meta";
+import { getPageTitle } from "~/core/pageTitle";
+import { Icon } from "~/generated/icon";
+import { adoptImages } from "~/images/adopt";
+import { questionsImages } from "~/images/questions";
+import { socialImages } from "~/images/social";
 
 export const meta: V2_MetaFunction = ({ matches }) => {
   const config = getConfigFromMetaMatches(matches);
