@@ -15,6 +15,7 @@ import {
 } from "~/core/layout/relatedSection";
 import { createSocialMeta } from "~/core/meta";
 import { getPageTitle } from "~/core/pageTitle";
+import { DonationSection } from "~/donation/section";
 
 const OTHER_ARTICLE_COUNT = 3;
 
@@ -100,6 +101,10 @@ export default function Route() {
           <Markdown components={ARTICLE_COMPONENTS}>{article.content}</Markdown>
         </article>
       </main>
+
+      <aside className="w-full px-page pt-18 md:pt-12 flex flex-col">
+        <DonationSection />
+      </aside>
 
       <RelatedSection>
         <RelatedSectionTitle>Continuer à lire</RelatedSectionTitle>
