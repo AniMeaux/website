@@ -3,16 +3,23 @@ import { actionClassNames } from "~/core/actions";
 import { BaseLink } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
 import { getConfigFromMetaMatches, useConfig } from "~/core/config";
-import { createSocialMeta } from "~/core/meta";
-import { getPageTitle } from "~/core/pageTitle";
-import { StaticImage, StaticImageProps } from "~/dataDisplay/image";
+import { StaticImage, StaticImageProps } from "~/core/dataDisplay/image";
 import {
   OptionCard,
   OptionDescription,
   OptionList,
   OptionPrice,
   OptionTitle,
-} from "~/dataDisplay/options";
+} from "~/core/dataDisplay/options";
+import {
+  HeroSection,
+  HeroSectionAside,
+  HeroSectionImage,
+  HeroSectionParagraph,
+  HeroSectionTitle,
+} from "~/core/layout/heroSection";
+import { createSocialMeta } from "~/core/meta";
+import { getPageTitle } from "~/core/pageTitle";
 import { missionAccountingImages } from "~/images/missionAccounting";
 import { missionCarpoolImages } from "~/images/missionCarpool";
 import { missionCommunicationImages } from "~/images/missionCommunication";
@@ -22,13 +29,6 @@ import { missionFoodCollectionImages } from "~/images/missionFoodCollection";
 import { missionInterventionImages } from "~/images/missionIntervention";
 import { socialImages } from "~/images/social";
 import { volunteerImages } from "~/images/volunteer";
-import {
-  HeroSection,
-  HeroSectionAside,
-  HeroSectionImage,
-  HeroSectionParagraph,
-  HeroSectionTitle,
-} from "~/layout/heroSection";
 
 export const meta: V2_MetaFunction = ({ matches }) => {
   const config = getConfigFromMetaMatches(matches);

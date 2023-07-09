@@ -6,8 +6,8 @@ import { actionClassNames } from "~/core/actions";
 import { BaseLink } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
 import { Config, useConfig } from "~/core/config";
-import { DynamicImage } from "~/dataDisplay/image";
-import { LineShapeVertical } from "~/layout/lineShape";
+import { DynamicImage } from "~/core/dataDisplay/image";
+import { LineShapeVertical } from "~/core/layout/lineShape";
 
 const REMARK_PLUGINS: ReactMarkdownOptions["plugins"] = [
   // Allow line breaks in paragraphs.

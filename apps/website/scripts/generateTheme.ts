@@ -1,10 +1,8 @@
 import fs from "fs";
 import path from "path";
 import prettier from "prettier";
-import resolveConfig from "tailwindcss/resolveConfig";
-import invariant from "tiny-invariant";
 import util from "util";
-import tailwindConfig from "../tailwind.config";
+import { colors, screens } from "../tailwind.config";
 
 const writeFile = util.promisify(fs.writeFile);
 const mkdir = util.promisify(fs.mkdir);
@@ -18,20 +16,10 @@ generateTheme().catch((error) => {
 });
 
 async function generateTheme() {
-  const tailwindFullConfig = resolveConfig(tailwindConfig);
-  invariant(tailwindFullConfig.theme, "fullConfig.theme should exists");
-
-  // Add here values we need in code.
-  // Only add what is actualy needed to keep a minimal size.
-  const theme = {
-    screens: tailwindFullConfig.theme.screens,
-    colors: tailwindFullConfig.theme.colors,
-  };
-
   const prettierOptions = await prettier.resolveConfig(THEME_DEST);
   const content = prettier.format(
     `export type ScreenSize = keyof typeof theme.screens;
-    export const theme = ${JSON.stringify(theme)}`,
+    export const theme = ${JSON.stringify({ screens, colors })}`,
     {
       ...prettierOptions,
       parser: "typescript",

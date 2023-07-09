@@ -5,16 +5,17 @@ import { articles } from "~/blog/data.server";
 import { ArticleItem } from "~/blog/item";
 import { cn } from "~/core/classNames";
 import { getConfigFromMetaMatches } from "~/core/config";
-import { createSocialMeta } from "~/core/meta";
-import { getPageTitle } from "~/core/pageTitle";
-import { ErrorPage, getErrorTitle } from "~/dataDisplay/errorPage";
-import { createCloudinaryUrl, DynamicImage } from "~/dataDisplay/image";
-import { ARTICLE_COMPONENTS, Markdown } from "~/dataDisplay/markdown";
+import { ErrorPage, getErrorTitle } from "~/core/dataDisplay/errorPage";
+import { createCloudinaryUrl, DynamicImage } from "~/core/dataDisplay/image";
+import { ARTICLE_COMPONENTS, Markdown } from "~/core/dataDisplay/markdown";
 import {
   RelatedSection,
   RelatedSectionList,
   RelatedSectionTitle,
-} from "~/layout/relatedSection";
+} from "~/core/layout/relatedSection";
+import { createSocialMeta } from "~/core/meta";
+import { getPageTitle } from "~/core/pageTitle";
+import { DonationSection } from "~/donation/section";
 
 const OTHER_ARTICLE_COUNT = 3;
 
@@ -100,6 +101,10 @@ export default function Route() {
           <Markdown components={ARTICLE_COMPONENTS}>{article.content}</Markdown>
         </article>
       </main>
+
+      <aside className="w-full px-page pt-18 md:pt-12 flex flex-col">
+        <DonationSection />
+      </aside>
 
       <RelatedSection>
         <RelatedSectionTitle>Continuer à lire</RelatedSectionTitle>

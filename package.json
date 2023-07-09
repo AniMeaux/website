@@ -28,7 +28,7 @@
     "up": "run-s up:docker up:ecosystem"
   },
   "devDependencies": {
-    "@remix-run/eslint-config": "^1.6.4",
+    "@remix-run/eslint-config": "~1.18.0",
     "@types/prettier": "^2.6.4",
     "babel-eslint": "^10.1.0",
     "eslint": "^8.6.0",

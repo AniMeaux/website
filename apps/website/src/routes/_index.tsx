@@ -2,12 +2,25 @@ import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { DateTime } from "luxon";
 import { promiseHash } from "remix-utils";
-import { SearchForm } from "~/controllers/searchForm";
 import { actionClassNames } from "~/core/actions";
 import { BaseLink } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
+import { SearchForm } from "~/core/controllers/searchForm";
+import { StaticImage, StaticImageProps } from "~/core/dataDisplay/image";
 import { prisma } from "~/core/db.server";
-import { StaticImage, StaticImageProps } from "~/dataDisplay/image";
+import {
+  bubbleSectionClassNames,
+  BubbleShape,
+} from "~/core/layout/bubbleSection";
+import {
+  HeroSection,
+  HeroSectionAction,
+  HeroSectionAside,
+  HeroSectionImage,
+  HeroSectionParagraph,
+  HeroSectionTitle,
+} from "~/core/layout/heroSection";
+import { DonationSection } from "~/donation/section";
 import { EventItem } from "~/events/item";
 import { Icon, IconProps } from "~/generated/icon";
 import { adoptionImages } from "~/images/adoption";
@@ -16,15 +29,6 @@ import { fosterFamilySmallImages } from "~/images/fosterFamilySmall";
 import { heroImages } from "~/images/hero";
 import { pickUpImages } from "~/images/pickUp";
 import { volunteerImages } from "~/images/volunteer";
-import { bubbleSectionClassNames, BubbleShape } from "~/layout/bubbleSection";
-import {
-  HeroSection,
-  HeroSectionAction,
-  HeroSectionAside,
-  HeroSectionImage,
-  HeroSectionParagraph,
-  HeroSectionTitle,
-} from "~/layout/heroSection";
 
 export async function loader() {
   const { pickUpCount, upcomingEvents } = await promiseHash({
@@ -108,7 +112,7 @@ export default function Route() {
         </HeroSectionAside>
       </HeroSection>
 
-      <DonateSection />
+      <DonationSection />
 
       <HeroSection isReversed>
         <HeroSectionAside>
@@ -309,53 +313,6 @@ function UpcomingEventsSection() {
       <BaseLink to="/evenements" className={actionClassNames.standalone()}>
         Voir plus
       </BaseLink>
-    </section>
-  );
-}
-
-function DonateSection() {
-  return (
-    <section className={bubbleSectionClassNames.root()}>
-      <span className={bubbleSectionClassNames.bubbleContainer()}>
-        <BubbleShape isDouble />
-      </span>
-
-      <div
-        className={cn(
-          bubbleSectionClassNames.content(),
-          "px-10 py-12 flex flex-col items-center gap-6",
-          "md:px-30 md:py-[60px]"
-        )}
-      >
-        <div className="w-full flex flex-col gap-6 text-center">
-          <h2
-            className={cn(
-              "text-title-section-small",
-              "md:text-title-section-large"
-            )}
-          >
-            Faîtes un don !
-          </h2>
-
-          <p>
-            Vous souhaitez nous aider mais vous ne pouvez accueillir ou adopter
-             ? Vous pouvez nous faire un don ! Ce don servira à financer les{" "}
-            <strong className="text-body-emphasis">soins vétérinaires</strong>,
-            effectuer plus de{" "}
-            <strong className="text-body-emphasis">
-              sauvetages et acheter du matériel
-            </strong>{" "}
-            pour les animaux.
-          </p>
-        </div>
-
-        <BaseLink
-          to="/faire-un-don"
-          className={actionClassNames.standalone({ color: "yellow" })}
-        >
-          Faire un don
-        </BaseLink>
-      </div>
     </section>
   );
 }

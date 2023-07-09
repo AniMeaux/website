@@ -3,6 +3,18 @@ import { actionClassNames } from "~/core/actions";
 import { BaseLink } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
 import { getConfigFromMetaMatches, useConfig } from "~/core/config";
+import {
+  bubbleSectionClassNames,
+  BubbleShape,
+} from "~/core/layout/bubbleSection";
+import {
+  HeroSection,
+  HeroSectionAction,
+  HeroSectionAside,
+  HeroSectionImage,
+  HeroSectionParagraph,
+  HeroSectionTitle,
+} from "~/core/layout/heroSection";
 import { createSocialMeta } from "~/core/meta";
 import { getPageTitle } from "~/core/pageTitle";
 import { Icon, IconProps } from "~/generated/icon";
@@ -11,15 +23,6 @@ import { helloassoImages } from "~/images/helloasso";
 import paypalImage from "~/images/paypal.png";
 import { socialImages } from "~/images/social";
 import teamingImage from "~/images/teaming.png";
-import { bubbleSectionClassNames, BubbleShape } from "~/layout/bubbleSection";
-import {
-  HeroSection,
-  HeroSectionAction,
-  HeroSectionAside,
-  HeroSectionImage,
-  HeroSectionParagraph,
-  HeroSectionTitle,
-} from "~/layout/heroSection";
 
 export const meta: V2_MetaFunction = ({ matches }) => {
   const config = getConfigFromMetaMatches(matches);
