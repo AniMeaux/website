@@ -15,6 +15,32 @@ export type Article = {
 export const articles: Article[] = orderBy(
   [
     {
+      id: "3c27118f-bca3-4916-aca3-8e24655a2e45",
+      title: "L’histoire inspirante de Plume",
+      authorName: "Sara",
+      publicationDate: new Date("2023-07-09"),
+      image: "blog/34d5dfb5-8d03-46e0-a1ab-2ef5a1c6d4aa",
+      slug: "l-histoire-inspirante-de-plume",
+      description:
+        "Plume a commencé sa vie dans des circonstances difficiles. Abandonnée et livrée à elle-même, elle a dû se débrouiller seule dans les rues, luttant pour sa survie.",
+      content: `Plume a commencé sa vie dans des circonstances difficiles. Abandonnée et livrée à elle-même, elle a dû se débrouiller seule dans les rues, luttant pour sa survie.
+Alors qu’elle était en situation de détresse, une personne bienveillante a croisé son chemin et a décidé de l’aider en la conduisant en urgence chez le vétérinaire de garde.
+
+![Plume](blog/a505472b-95fa-4546-ac97-0b7caf653a58)
+
+C’est ainsi que Plume a été prise en charge au sein de notre association, où nous avons rapidement pris conscience de sa nature spéciale.
+
+Les des examens médicaux de Plume, réalisés en urgence, ont révélé une problématique au niveau de son cerveau, une condition potentiellement dégénérative. Malgré les incertitudes et les préoccupations qui ont suivi ce diagnostic, Plume a montré une force inébranlable. Elle a fait preuve d’une stabilité remarquable et continue à nous émerveiller par sa capacité à se nourrir seule et à faire face à ses tremblements avec courage.
+
+![Plume](blog/c98044a0-d616-4554-b86a-25814d82b638)
+
+Au sein de notre association, nous sommes conscients que l’amour et le soutien sont essentiels pour aider nos protégés à traverser les moments difficiles. Plume a bénéficié de l’affection inconditionnelle de notre équipe et de sa famille d’accueil dévouée, qui ont travaillé sans relâche pour lui offrir les meilleurs soins possibles. Chaque caresse, chaque encouragement, chaque moment de présence lui ont apporté un réconfort précieux et ont contribué à sa stabilité.
+
+![Plume](blog/34d5dfb5-8d03-46e0-a1ab-2ef5a1c6d4aa)
+
+Plume a désormais rejoint une famille d’accueil définitive, où elle bénéficiera de toute l’attention et tous les soins dont elle a besoin, tout en restant sous la responsabilité de l’association, pour sa sécurité.`,
+    },
+    {
       id: "0ea736e3-f847-4b30-a198-42b65c157623",
       title: "Les parasites",
       authorName: "Sara",
