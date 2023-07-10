@@ -2,10 +2,10 @@ import { json, SerializeFrom } from "@remix-run/node";
 import { useLoaderData, V2_MetaFunction } from "@remix-run/react";
 import { BaseLink } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
+import { DynamicImage } from "~/core/dataDisplay/image";
+import { Markdown, MarkdownProps } from "~/core/dataDisplay/markdown";
 import { createSocialMeta } from "~/core/meta";
 import { getPageTitle } from "~/core/pageTitle";
-import { DynamicImage } from "~/dataDisplay/image";
-import { Markdown, MarkdownProps } from "~/dataDisplay/markdown";
 import { partners } from "~/partners/data.server";
 
 export async function loader() {

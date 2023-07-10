@@ -1,4 +1,4 @@
-import { ImageDescriptor } from "~/dataDisplay/image";
+import { ImageDescriptor } from "~/core/dataDisplay/image";
 import showLogo512 from "~/images/showLogo-512w.png";
 
 export const showLogoImages: ImageDescriptor = {

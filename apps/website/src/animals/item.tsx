@@ -2,10 +2,10 @@ import { formatAge } from "@animeaux/shared";
 import { Gender, Species } from "@prisma/client";
 import { BaseLink } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
+import { DynamicImage } from "~/core/dataDisplay/image";
 import { isDefined } from "~/core/isDefined";
 import { toSlug } from "~/core/slugs";
 import { GENDER_TRANSLATION, SPECIES_TRANSLATION } from "~/core/translations";
-import { DynamicImage } from "~/dataDisplay/image";
 import { Icon } from "~/generated/icon";
 
 export function AnimalItem({

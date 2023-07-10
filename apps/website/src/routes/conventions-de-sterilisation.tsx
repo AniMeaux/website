@@ -3,18 +3,21 @@ import { useLoaderData, V2_MetaFunction } from "@remix-run/react";
 import { actionClassNames } from "~/core/actions";
 import { BaseLink } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
-import { createSocialMeta } from "~/core/meta";
-import { getPageTitle } from "~/core/pageTitle";
-import { DynamicImage } from "~/dataDisplay/image";
-import { agreementsImages } from "~/images/agreements";
-import { bubbleSectionClassNames, BubbleShape } from "~/layout/bubbleSection";
+import { DynamicImage } from "~/core/dataDisplay/image";
+import {
+  bubbleSectionClassNames,
+  BubbleShape,
+} from "~/core/layout/bubbleSection";
 import {
   HeroSection,
   HeroSectionAside,
   HeroSectionImage,
   HeroSectionParagraph,
   HeroSectionTitle,
-} from "~/layout/heroSection";
+} from "~/core/layout/heroSection";
+import { createSocialMeta } from "~/core/meta";
+import { getPageTitle } from "~/core/pageTitle";
+import { agreementsImages } from "~/images/agreements";
 import { citiesWithAgreements } from "~/sterilisationAgreements/data.server";
 
 export async function loader() {

@@ -5,20 +5,20 @@ import { BaseLink, BaseLinkProps } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
 import { getFocusTrapIgnoreAttribute, useFocusTrap } from "~/core/focusTrap";
 import { useWidth } from "~/core/hooks";
-import { useScrollLock } from "~/core/scrollLock";
-import nameAndLogo from "~/images/nameAndLogo.svg";
-import { LineShapeHorizontal } from "~/layout/lineShape";
+import { LineShapeHorizontal } from "~/core/layout/lineShape";
 import {
   handleEscape,
   NavGroup,
   navLinkClassName,
-} from "~/layout/navigation/shared";
-import { ShowBanner } from "~/layout/navigation/showBanner";
-import { SocialLinks } from "~/layout/navigation/socialLinks";
-import { SubNavAct } from "~/layout/navigation/subNavAct";
-import { SubNavAdopt } from "~/layout/navigation/subNavAdopt";
-import { SubNavDiscover } from "~/layout/navigation/subNavDiscover";
-import { SubNavWarn } from "~/layout/navigation/subNavWarn";
+} from "~/core/layout/navigation/shared";
+import { ShowBanner } from "~/core/layout/navigation/showBanner";
+import { SocialLinks } from "~/core/layout/navigation/socialLinks";
+import { SubNavAct } from "~/core/layout/navigation/subNavAct";
+import { SubNavAdopt } from "~/core/layout/navigation/subNavAdopt";
+import { SubNavDiscover } from "~/core/layout/navigation/subNavDiscover";
+import { SubNavWarn } from "~/core/layout/navigation/subNavWarn";
+import { useScrollLock } from "~/core/scrollLock";
+import nameAndLogo from "~/images/nameAndLogo.svg";
 
 type State = NavGroup | null;
 

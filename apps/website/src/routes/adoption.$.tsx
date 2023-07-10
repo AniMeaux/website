@@ -7,16 +7,17 @@ import { promiseHash } from "remix-utils";
 import invariant from "tiny-invariant";
 import { AnimalItem } from "~/animals/item";
 import { ADOPTABLE_ANIMAL_STATUS } from "~/animals/status";
-import { Paginator } from "~/controllers/paginator";
+import { actionClassNames } from "~/core/actions";
+import { BaseLink } from "~/core/baseLink";
+import { cn } from "~/core/classNames";
+import { Paginator } from "~/core/controllers/paginator";
 import {
   AGES_TO_PATH,
   ANIMAL_AGES_BY_SPECIES,
   SearchForm,
   SPECIES_TO_PATH,
-} from "~/controllers/searchForm";
-import { actionClassNames } from "~/core/actions";
-import { BaseLink } from "~/core/baseLink";
-import { cn } from "~/core/classNames";
+} from "~/core/controllers/searchForm";
+import { ErrorPage, getErrorTitle } from "~/core/dataDisplay/errorPage";
 import { prisma } from "~/core/db.server";
 import { createSocialMeta } from "~/core/meta";
 import { getPageTitle } from "~/core/pageTitle";
@@ -27,7 +28,6 @@ import {
   SPECIES_PLURAL_TRANSLATION,
   SPECIES_TRANSLATION,
 } from "~/core/translations";
-import { ErrorPage, getErrorTitle } from "~/dataDisplay/errorPage";
 
 type PageParams = {
   species?: Species;

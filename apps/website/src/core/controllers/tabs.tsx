@@ -1,7 +1,7 @@
 import { Transition } from "react-transition-group";
 import { cn } from "~/core/classNames";
 import { useWidth } from "~/core/hooks";
-import { LineShapeHorizontal } from "~/layout/lineShape";
+import { LineShapeHorizontal } from "~/core/layout/lineShape";
 
 export function Tab({
   onSelect,

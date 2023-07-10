@@ -1,5 +1,7 @@
-const defaultTheme = require("tailwindcss/defaultTheme");
-const plugin = require("tailwindcss/plugin");
+import type { Config } from "tailwindcss";
+import defaultColors from "tailwindcss/colors";
+import defaultTheme from "tailwindcss/defaultTheme";
+import plugin from "tailwindcss/plugin";
 
 // Color gradiants generated from Material Design.
 // https://material.io/design/color/the-color-system.html#tools-for-picking-colors
@@ -74,59 +76,60 @@ const brandCyan = {
   900: "#00574e",
 };
 
-/**
- * @type {import('tailwindcss').Config}
- */
-module.exports = {
+export const screens = {
+  xs: "475px",
+  ...defaultTheme.screens,
+};
+
+export const colors = {
+  gray: defaultColors.gray,
+
+  brandBlue: {
+    lightest: brandBlue[50],
+    lighter: brandBlue[700],
+    DEFAULT: brandBlue[800],
+  },
+  brandGreen: {
+    lightest: brandGreen[50],
+    DEFAULT: brandGreen[500],
+  },
+  brandYellow: {
+    lightest: brandYellow[50],
+    DEFAULT: brandYellow[500],
+    darker: brandYellow[700],
+  },
+  brandRed: {
+    lightest: brandRed[50],
+    DEFAULT: brandRed[600],
+  },
+  brandCyan: {
+    lightest: brandCyan[50],
+    DEFAULT: brandCyan[300],
+  },
+  showBrandBlue: {
+    lightest: "#c5e9ee",
+    darker: "#39605a",
+    darkest: "#203532",
+  },
+  facebook: "#3774dc",
+  instagram: "#ad3d7a",
+  linkedin: "#2c66bc",
+  twitter: "#499be9",
+};
+
+export default {
   content: ["./src/**/*.{ts,tsx}"],
 
   theme: {
-    screens: {
-      xs: "475px",
-      ...defaultTheme.screens,
+    screens,
+
+    fontFamily: {
+      serif: ['"Open Sans"', ...defaultTheme.fontFamily.serif],
+      sans: ["Roboto", ...defaultTheme.fontFamily.sans],
     },
 
     extend: {
-      fontFamily: {
-        serif: ['"Open Sans"', ...defaultTheme.fontFamily.serif],
-        sans: ["Roboto", ...defaultTheme.fontFamily.sans],
-      },
-
-      colors: {
-        white: "#ffffff",
-        black: "#000000",
-        brandBlue: {
-          lightest: brandBlue[50],
-          lighter: brandBlue[700],
-          DEFAULT: brandBlue[800],
-        },
-        brandGreen: {
-          lightest: brandGreen[50],
-          DEFAULT: brandGreen[500],
-        },
-        brandYellow: {
-          lightest: brandYellow[50],
-          DEFAULT: brandYellow[500],
-          darker: brandYellow[700],
-        },
-        brandRed: {
-          lightest: brandRed[50],
-          DEFAULT: brandRed[600],
-        },
-        brandCyan: {
-          lightest: brandCyan[50],
-          DEFAULT: brandCyan[300],
-        },
-        showBrandBlue: {
-          lightest: "#c5e9ee",
-          darker: "#39605a",
-          darkest: "#203532",
-        },
-        facebook: "#3774dc",
-        instagram: "#ad3d7a",
-        linkedin: "#2c66bc",
-        twitter: "#499be9",
-      },
+      colors,
 
       boxShadow: {
         base: "0px 8px 20px rgba(0, 0, 0, 0.06)",
@@ -141,8 +144,8 @@ module.exports = {
         // - Left and right spacing cannot go under spacing 4 (16px).
         // - The page should not exceed LG or MD (1024px or 768px).
         // Wrap the value in a `calc` so tailwind can negate it.
-        page: `calc(max(${defaultTheme.spacing[4]}, 5vw, (100% - ${defaultTheme.screens.lg}) / 2))`,
-        article: `calc(max(${defaultTheme.spacing[4]}, 5vw, (100% - ${defaultTheme.screens.md}) / 2))`,
+        page: `calc(max(${defaultTheme.spacing[4]}, 5vw, (100% - ${screens.lg}) / 2))`,
+        article: `calc(max(${defaultTheme.spacing[4]}, 5vw, (100% - ${screens.md}) / 2))`,
 
         // 72px
         18: "4.5rem",
@@ -173,63 +176,61 @@ module.exports = {
 
     /*
      * In order to preserve a nice vertical rhythm, all text must have a size
-     * multiple of 24px:
-     *
-     *   font-size * line-height = X * 24px
+     * multiple of 24px.
      */
     plugin(({ addUtilities, theme }) => {
       addUtilities({
         ".text-body-default": {
           "font-family": theme("fontFamily.sans"),
           "font-size": "16px",
-          "line-height": 1.5,
+          "line-height": "24px",
         },
         ".text-body-emphasis": {
           "font-family": theme("fontFamily.sans"),
           "font-weight": theme("fontWeight.medium"),
           "font-size": "16px",
-          "line-height": 1.5,
+          "line-height": "24px",
         },
         ".text-caption-default": {
           "font-family": theme("fontFamily.sans"),
           "font-size": "14px",
-          "line-height": 1.7143,
+          "line-height": "24px",
         },
         ".text-code-default": {
           "font-family": theme("fontFamily.mono"),
           "font-size": "14px",
           "font-weight": theme("fontWeight.semibold"),
-          "line-height": 1.7143,
+          "line-height": "24px",
         },
         ".text-title-item": {
           "font-family": theme("fontFamily.serif"),
           "font-weight": theme("fontWeight.bold"),
           "font-size": "16px",
-          "line-height": 1.5,
+          "line-height": "24px",
         },
         ".text-title-hero-large": {
           "font-family": theme("fontFamily.serif"),
           "font-weight": theme("fontWeight.semibold"),
           "font-size": "60px",
-          "line-height": 1.2,
+          "line-height": "72px",
         },
         ".text-title-hero-small": {
           "font-family": theme("fontFamily.serif"),
           "font-weight": theme("fontWeight.semibold"),
           "font-size": "40px",
-          "line-height": 1.2,
+          "line-height": "48px",
         },
         ".text-title-section-large": {
           "font-family": theme("fontFamily.serif"),
           "font-weight": theme("fontWeight.semibold"),
           "font-size": "40px",
-          "line-height": 1.2,
+          "line-height": "48px",
         },
         ".text-title-section-small": {
           "font-family": theme("fontFamily.serif"),
           "font-weight": theme("fontWeight.bold"),
           "font-size": "20px",
-          "line-height": 1.2,
+          "line-height": "24px",
         },
       });
     }),
@@ -264,14 +265,14 @@ module.exports = {
       matchUtilities(
         {
           "rounded-bubble": (value) => ({
-            borderTopLeftRadius: value[0],
-            borderTopRightRadius: value[1],
-            borderBottomRightRadius: value[0],
-            borderBottomLeftRadius: value[1],
+            borderTopLeftRadius: String(value[0]),
+            borderTopRightRadius: String(value[1]),
+            borderBottomRightRadius: String(value[0]),
+            borderBottomLeftRadius: String(value[1]),
           }),
           "rounded-bubble-b": (value) => ({
-            borderBottomRightRadius: value[0],
-            borderBottomLeftRadius: value[1],
+            borderBottomRightRadius: String(value[0]),
+            borderBottomLeftRadius: String(value[1]),
           }),
         },
         {
@@ -290,8 +291,8 @@ module.exports = {
         {
           scrollbars: () => ({
             "&::-webkit-scrollbar": {
-              width: 0,
-              height: 0,
+              width: "0",
+              height: "0",
               display: "none",
             },
             "&::-webkit-scrollbar-track-piece": {
@@ -303,13 +304,12 @@ module.exports = {
       );
     }),
   ],
-};
+} satisfies Config;
 
-/**
- * @param {"top" | "right" | "bottom" | "left"} side
- * @param {string} value
- */
-function createSafePadding(side, value) {
+function createSafePadding(
+  side: "top" | "right" | "bottom" | "left",
+  value: string
+) {
   const name = {
     top: "paddingTop",
     right: "paddingRight",

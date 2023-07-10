@@ -2,7 +2,6 @@ import { isRouteErrorResponse, useRouteError } from "@remix-run/react";
 import { actionClassNames } from "~/core/actions";
 import { BaseLink } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
-import { errorImages } from "~/images/error";
 import {
   HeroSection,
   HeroSectionAction,
@@ -10,7 +9,8 @@ import {
   HeroSectionImage,
   HeroSectionParagraph,
   HeroSectionTitle,
-} from "~/layout/heroSection";
+} from "~/core/layout/heroSection";
+import { errorImages } from "~/images/error";
 
 type ErrorMetaData = {
   title: string;

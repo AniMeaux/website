@@ -1,19 +1,19 @@
 import { V2_MetaFunction } from "@remix-run/react";
 import { cn } from "~/core/classNames";
 import { getConfigFromMetaMatches } from "~/core/config";
-import { createSocialMeta } from "~/core/meta";
-import { getPageTitle } from "~/core/pageTitle";
-import { createCloudinaryUrl, DynamicImage } from "~/dataDisplay/image";
+import { createCloudinaryUrl, DynamicImage } from "~/core/dataDisplay/image";
 import {
   ARTICLE_COMPONENTS,
   Markdown,
   MarkdownLink,
-} from "~/dataDisplay/markdown";
+} from "~/core/dataDisplay/markdown";
 import {
   RelatedSection,
   RelatedSectionList,
   RelatedSectionTitle,
-} from "~/layout/relatedSection";
+} from "~/core/layout/relatedSection";
+import { createSocialMeta } from "~/core/meta";
+import { getPageTitle } from "~/core/pageTitle";
 import { WarnItem } from "~/warn/item";
 
 const IMAGE_ID = "blog/bd9dec91-45da-4064-9053-536b5a9b61c3";

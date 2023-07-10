@@ -1,4 +1,4 @@
-import { ImageDescriptor } from "~/dataDisplay/image";
+import { ImageDescriptor } from "~/core/dataDisplay/image";
 import missionAccounting512 from "~/images/missionAccounting-512w.png";
 
 export const missionAccountingImages: ImageDescriptor = {
