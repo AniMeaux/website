@@ -47,6 +47,7 @@ const STATUS_BADGE_CLASS_NAMES: Record<Status, string> = {
   [Status.RETIRED]: "bg-gray-800 text-white",
   [Status.RETURNED]: "bg-gray-800 text-white",
   [Status.UNAVAILABLE]: "bg-red-500 text-white",
+  [Status.TRANSFERRED]: "bg-gray-800 text-white",
 };
 
 export function StatusIcon({
@@ -75,6 +76,7 @@ const STATUS_ICON_CLASS_NAMES: Record<Status, string> = {
   [Status.RETIRED]: "text-gray-800",
   [Status.RETURNED]: "text-gray-800",
   [Status.UNAVAILABLE]: "text-red-500",
+  [Status.TRANSFERRED]: "text-gray-800",
 };
 
 export const STATUS_TRANSLATION: Record<Status, string> = {
@@ -88,6 +90,7 @@ export const STATUS_TRANSLATION: Record<Status, string> = {
   [Status.RETIRED]: "Retraité",
   [Status.RETURNED]: "Restitué",
   [Status.UNAVAILABLE]: "Indisponible",
+  [Status.TRANSFERRED]: "Transféré",
 };
 
 export const SORTED_STATUS = orderBy(

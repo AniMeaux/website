@@ -67,6 +67,10 @@ const BADGE_ELEMENT_STATUS_STYLES: Record<AnimalStatus, Styles> = {
     background: ${theme.colors.dark[700]};
     color: ${theme.colors.text.contrast};
   `,
+  [AnimalStatus.TRANSFERRED]: css`
+    background: ${theme.colors.dark[700]};
+    color: ${theme.colors.text.contrast};
+  `,
   [AnimalStatus.UNAVAILABLE]: css`
     background: ${theme.colors.red[500]};
     color: ${theme.colors.text.contrast};
