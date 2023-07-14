@@ -11,4 +11,5 @@ export const ANIMAL_STATUS_LABELS: Record<AnimalStatus, string> = {
   [AnimalStatus.RETIRED]: "Retraité",
   [AnimalStatus.RETURNED]: "Restitué",
   [AnimalStatus.UNAVAILABLE]: "Indisponible",
+  [AnimalStatus.TRANSFERRED]: "Transféré",
 };
