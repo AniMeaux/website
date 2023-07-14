@@ -59,7 +59,7 @@
     "zod-form-data": "^1.2.2"
   },
   "devDependencies": {
-    "@faker-js/faker": "^6.1.1",
+    "@faker-js/faker": "^8.0.2",
     "@remix-run/dev": "~1.18.0",
     "@types/cookie-signature": "^1.0.4",
     "@types/lodash.difference": "^4.5.6",
