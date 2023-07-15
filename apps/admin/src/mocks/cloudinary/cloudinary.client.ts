@@ -14,8 +14,7 @@ const SVGS = [
 
 const resolver: Parameters<typeof rest.get>[1] = async (req, res, ctx) => {
   invariant(typeof req.params.id === "string", "id is required");
-  // path is an UUID, so we take the first 8 hexa characters.
-  const hash = Number(`0x${req.params.id.substring(0, 8)}`);
+  const hash = Number(stringToHex(req.params.id));
   const svg = SVGS[hash % SVGS.length];
 
   return res(
@@ -39,3 +38,12 @@ export const cloudinaryHandlers = [
     resolver
   ),
 ];
+
+function stringToHex(value: string) {
+  const hexValue = value
+    .split("")
+    .map((char) => char.charCodeAt(0).toString(16).padStart(2, "0"))
+    .join("");
+
+  return `0x${hexValue}`;
+}

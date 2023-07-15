@@ -193,6 +193,12 @@ const ALL_NAVIGATION_ITEMS: NavigationItem[] = [
     label: "Utilisateurs",
     authorizedGroups: [UserGroup.ADMIN],
   },
+  {
+    to: "/press-articles",
+    icon: "newspaper",
+    label: "Articles de presse",
+    authorizedGroups: [UserGroup.ADMIN],
+  },
   // Uncomment when pages are implemented.
   // {
   //   to: "/breeds",

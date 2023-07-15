@@ -24,7 +24,7 @@ export async function getCurrentUser<T extends Prisma.UserFindFirstArgs>(
     throw await redirectToLogin(request);
   }
 
-  return await prisma.$transaction(async (prisma) => {
+  const user = await prisma.$transaction(async (prisma) => {
     const user = await prisma.user.findFirst<T>({
       ...args,
       select: { ...args.select, shouldChangePassword: true, groups: true },
@@ -39,23 +39,25 @@ export async function getCurrentUser<T extends Prisma.UserFindFirstArgs>(
       data: { lastActivityAt: new Date() },
     });
 
-    if (
-      !hasGroups(user, [
-        UserGroup.ADMIN,
-        UserGroup.ANIMAL_MANAGER,
-        UserGroup.VETERINARIAN,
-        UserGroup.VOLUNTEER,
-      ])
-    ) {
-      throw await redirectToLogin(request);
-    }
-
-    if (!skipPasswordChangeCheck && user.shouldChangePassword) {
-      throw await redirectToDefinePassword(request);
-    }
-
     return user;
   });
+
+  if (
+    !hasGroups(user, [
+      UserGroup.ADMIN,
+      UserGroup.ANIMAL_MANAGER,
+      UserGroup.VETERINARIAN,
+      UserGroup.VOLUNTEER,
+    ])
+  ) {
+    throw await redirectToLogin(request);
+  }
+
+  if (!skipPasswordChangeCheck && user.shouldChangePassword) {
+    throw await redirectToDefinePassword(request);
+  }
+
+  return user;
 }
 
 async function redirectToLogin(request: Request) {

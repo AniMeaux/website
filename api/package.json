@@ -53,7 +53,7 @@
     "@babel/plugin-proposal-optional-chaining": "^7.16.7",
     "@babel/preset-env": "^7.16.7",
     "@babel/preset-typescript": "^7.16.7",
-    "@faker-js/faker": "^6.1.1",
+    "@faker-js/faker": "^8.0.2",
     "@types/bcryptjs": "^2.4.2",
     "@types/cookie-signature": "^1.0.4",
     "@types/d3-dsv": "^3.0.0",
