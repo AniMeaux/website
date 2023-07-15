@@ -336,7 +336,7 @@ export function FosterFamilyForm({
 
           <Form.Field>
             <Form.Label htmlFor={ActionFormData.keys.comments}>
-              Commentaires privées
+              Commentaires privés
             </Form.Label>
 
             <Textarea

@@ -43,7 +43,8 @@ function stringToHex(value: string) {
   const hexValue = value
     .split("")
     .map((char) => char.charCodeAt(0).toString(16).padStart(2, "0"))
-    .join("");
+    .join("")
+    .substring(0, 8);
 
   return `0x${hexValue}`;
 }

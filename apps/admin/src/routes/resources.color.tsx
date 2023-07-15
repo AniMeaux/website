@@ -4,8 +4,7 @@ import { json, LoaderArgs, SerializeFrom } from "@remix-run/node";
 import { useFetcher } from "@remix-run/react";
 import { useCombobox } from "downshift";
 import { createPath } from "history";
-import { forwardRef, useEffect, useRef, useState } from "react";
-import invariant from "tiny-invariant";
+import { forwardRef, useEffect, useState } from "react";
 import { fuzzySearchColors } from "~/colors/db.server";
 import { ColorSearchParams } from "~/colors/searchParams";
 import { toBooleanAttribute } from "~/core/attributes";
@@ -53,12 +52,8 @@ export const ColorInput = forwardRef<
   ColorInputProps
 >(function ColorInput(
   { name, defaultValue = null, disabled = false, hasError = false },
-  propRef
+  ref
 ) {
-  invariant(typeof propRef !== "function", "Only object ref are supported.");
-  const localRef = useRef<HTMLButtonElement>(null);
-  const ref = propRef ?? localRef;
-
   const [isOpened, setIsOpened] = useState(false);
   const fetcher = useFetcher<typeof loader>();
 
@@ -93,7 +88,6 @@ export const ColorInput = forwardRef<
       <ResourceInputLayout
         isOpened={isOpened}
         setIsOpened={setIsOpened}
-        inputTriggerRef={ref}
         inputTrigger={(triggerElement) => (
           <InputTrigger
             ref={ref}
