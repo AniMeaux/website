@@ -1,4 +1,4 @@
-import faker from "@faker-js/faker";
+import { fakerFR as faker } from "@faker-js/faker";
 import {
   AdoptionOption,
   Gender,
@@ -15,8 +15,6 @@ import {
   ACTIVE_ANIMAL_STATUS,
   NON_ACTIVE_ANIMAL_STATUS,
 } from "../src/entities/animal.entity";
-
-faker.setLocale("fr");
 
 const prisma = new PrismaClient();
 
@@ -38,6 +36,7 @@ async function seedData() {
     seedBreeds(),
     seedColors(),
     seedEvents(),
+    seedPressArticle(),
   ]);
 
   await seedAnimals();
@@ -65,7 +64,7 @@ async function seedUsers() {
         await prisma.user.create({
           data: {
             email: faker.internet.email(),
-            displayName: faker.name.firstName(),
+            displayName: faker.person.firstName(),
             groups: [group],
             isDisabled: false,
             shouldChangePassword: false,
@@ -84,7 +83,7 @@ async function seedUsers() {
         await prisma.user.create({
           data: {
             email: faker.internet.email(),
-            displayName: faker.name.firstName(),
+            displayName: faker.person.firstName(),
             groups: [UserGroup.VOLUNTEER, UserGroup.ANIMAL_MANAGER],
             isDisabled: faker.datatype.boolean(),
             shouldChangePassword: false,
@@ -99,25 +98,22 @@ async function seedUsers() {
 
 async function seedFosterFamilies() {
   await prisma.fosterFamily.createMany({
-    data: repeate<Prisma.FosterFamilyCreateManyInput>(
-      { min: 80, max: 120 },
-      () => ({
-        comments: faker.helpers.maybe(() => faker.lorem.lines()),
-        displayName: faker.name.findName(),
-        email: faker.internet.email(),
-        phone: faker.phone.phoneNumber(),
-        speciesAlreadyPresent: faker.helpers.maybe(() =>
-          faker.helpers.arrayElements(Object.values(Species))
-        ),
-        speciesToHost: faker.helpers.maybe(() =>
-          faker.helpers.arrayElements(Object.values(Species))
-        ),
+    data: repeate({ min: 80, max: 120 }, () => ({
+      comments: faker.helpers.maybe(() => faker.lorem.lines()),
+      displayName: faker.person.fullName(),
+      email: faker.internet.email(),
+      phone: faker.phone.number(),
+      speciesAlreadyPresent: faker.helpers.maybe(() =>
+        faker.helpers.arrayElements(Object.values(Species))
+      ),
+      speciesToHost: faker.helpers.maybe(() =>
+        faker.helpers.arrayElements(Object.values(Species))
+      ),
 
-        address: faker.address.streetAddress(),
-        city: faker.address.city(),
-        zipCode: faker.address.zipCode(),
-      })
-    ),
+      address: faker.location.streetAddress(),
+      city: faker.location.city(),
+      zipCode: faker.location.zipCode(),
+    })),
   });
 }
 
@@ -242,20 +238,23 @@ function createEventInput({
   minStartDate: Date;
   maxStartDate: Date;
 }): Prisma.EventCreateManyInput {
-  const startDate = faker.date.between(minStartDate, maxStartDate);
+  const startDate = faker.date.between({
+    from: minStartDate,
+    to: maxStartDate,
+  });
 
   return {
     title: faker.commerce.productName(),
-    location: faker.address.streetAddress(true),
+    location: faker.location.streetAddress(true),
     url: faker.helpers.maybe(() => faker.internet.url()),
     description: faker.commerce.productDescription(),
     startDate,
-    endDate: faker.date.between(
-      startDate,
-      DateTime.fromJSDate(startDate).plus({ days: 3 }).toJSDate()
-    ),
+    endDate: faker.date.between({
+      from: startDate,
+      to: DateTime.fromJSDate(startDate).plus({ days: 3 }).toJSDate(),
+    }),
     isFullDay: faker.datatype.boolean(),
-    image: faker.datatype.uuid(),
+    image: faker.string.uuid(),
     isVisible: faker.datatype.boolean(),
   };
 }
@@ -325,14 +324,14 @@ function createAnimalInput({
   managers: { id: string }[];
   fosterFamilies: { id: string }[];
 }): Prisma.AnimalCreateManyInput {
-  const birthdate = DateTime.fromJSDate(faker.date.past(20))
+  const birthdate = DateTime.fromJSDate(faker.date.past({ years: 20 }))
     .startOf("day")
     .toJSDate();
   const species = faker.helpers.arrayElement(Object.values(Species));
   const breeds = breedsBySpecies[species];
   const status = faker.helpers.arrayElement(possibleStatus);
   const pickUpDate = DateTime.fromJSDate(
-    faker.date.between(birthdate, DateTime.now().toJSDate())
+    faker.date.between({ from: birthdate, to: DateTime.now().toJSDate() })
   )
     .startOf("day")
     .toJSDate();
@@ -343,7 +342,10 @@ function createAnimalInput({
     adoptionDate:
       status === Status.ADOPTED
         ? DateTime.fromJSDate(
-            faker.date.between(pickUpDate, DateTime.now().toJSDate())
+            faker.date.between({
+              from: pickUpDate,
+              to: DateTime.now().toJSDate(),
+            })
           )
             .startOf("day")
             .toJSDate()
@@ -352,20 +354,20 @@ function createAnimalInput({
       status === Status.ADOPTED
         ? faker.helpers.arrayElement(Object.values(AdoptionOption))
         : null,
-    alias: faker.helpers.maybe(() => faker.name.firstName()),
-    avatar: faker.datatype.uuid(),
+    alias: faker.helpers.maybe(() => faker.person.firstName()),
+    avatar: faker.string.uuid(),
     birthdate,
     breedId: breeds.length > 0 ? faker.helpers.arrayElement(breeds) : null,
     colorId: faker.helpers.maybe(() => faker.helpers.arrayElement(colors).id),
     comments: faker.helpers.maybe(() => faker.lorem.lines()),
     description: faker.helpers.maybe(() =>
-      faker.lorem.paragraphs(faker.datatype.number({ min: 1, max: 5 }), "\n\n")
+      faker.lorem.paragraphs(faker.number.int({ min: 1, max: 5 }), "\n\n")
     ),
     fosterFamilyId: ACTIVE_ANIMAL_STATUS.includes(status)
       ? faker.helpers.arrayElement(fosterFamilies).id
       : null,
     gender: faker.helpers.arrayElement(Object.values(Gender)),
-    iCadNumber: faker.helpers.maybe(() => faker.random.numeric(15)),
+    iCadNumber: faker.helpers.maybe(() => faker.string.numeric(15)),
     isOkCats: nullableBoolean(),
     isOkChildren: nullableBoolean(),
     isOkDogs: nullableBoolean(),
@@ -375,19 +377,39 @@ function createAnimalInput({
       () => faker.helpers.arrayElement(managers).id,
       { probability: 3 / 4 }
     ),
-    name: faker.name.firstName(),
+    name: faker.person.firstName(),
     nextVaccinationDate: faker.helpers.maybe(() =>
-      DateTime.fromJSDate(faker.date.soon(30)).startOf("day").toJSDate()
+      DateTime.fromJSDate(faker.date.soon({ days: 30 }))
+        .startOf("day")
+        .toJSDate()
     ),
     pickUpDate,
-    pickUpLocation: faker.helpers.maybe(() => faker.address.city()),
+    pickUpLocation: faker.helpers.maybe(() => faker.location.city()),
     pickUpReason: faker.helpers.arrayElement(Object.values(PickUpReason)),
     pictures: faker.helpers.maybe(() =>
-      repeate({ min: 1, max: 5 }, () => faker.datatype.uuid())
+      repeate({ min: 1, max: 5 }, () => faker.string.uuid())
     ),
     species,
     status,
   };
+}
+
+async function seedPressArticle() {
+  await prisma.pressArticle.createMany({
+    data: repeate({ min: 10, max: 20 }, () => ({
+      image: faker.helpers.maybe(() =>
+        faker.image.url({ width: 640, height: 480 })
+      ),
+      publicationDate: DateTime.fromJSDate(faker.date.past({ years: 5 }))
+        .startOf("day")
+        .toJSDate(),
+      publisherName: faker.internet.domainName(),
+      title: faker.lorem
+        .sentence(faker.number.int({ min: 3, max: 6 }))
+        .replace(".", ""),
+      url: faker.internet.url(),
+    })),
+  });
 }
 
 function nullableBoolean() {
@@ -397,8 +419,8 @@ function nullableBoolean() {
 }
 
 function repeate<T>(
-  options: NonNullable<Parameters<typeof faker.datatype.number>[0]>,
+  options: NonNullable<Parameters<typeof faker.number.int>[0]>,
   cb: () => T
 ) {
-  return Array.from({ length: faker.datatype.number(options) }, cb);
+  return Array.from({ length: faker.number.int(options) }, cb);
 }

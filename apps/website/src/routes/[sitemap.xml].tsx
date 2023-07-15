@@ -44,6 +44,7 @@ const urlDefinitions: UrlDefinition[] = [
   { path: "/", changeFrequency: "weekly" },
   { path: "/abandonner-votre-animal", changeFrequency: "monthly" },
   { path: "/adoption", changeFrequency: "weekly" },
+  { path: "/articles-de-presse", changeFrequency: "monthly" },
   { path: "/blog", changeFrequency: "monthly" },
   { path: "/conditions-d-adoption", changeFrequency: "monthly" },
   { path: "/devenir-benevole", changeFrequency: "monthly" },

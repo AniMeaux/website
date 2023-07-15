@@ -70,7 +70,7 @@ Form.Field = function FormField({
       {...rest}
       className={cn(
         isInline
-          ? "grid grid-cols-[minmax(0px,1fr)_auto] items-center gap-1"
+          ? "grid grid-cols-1 grid-flow-col items-center gap-1"
           : "flex flex-col",
         className
       )}

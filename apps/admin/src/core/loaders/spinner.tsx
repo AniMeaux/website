@@ -1,6 +1,6 @@
 export function Spinner() {
   return (
-    <span className="relative w-[1em] h-[1em] animate-spin-spinner">
+    <span className="relative w-[1em] h-[1em] inline-flex animate-spin-spinner">
       <svg
         viewBox="0 0 66 66"
         xmlns="http://www.w3.org/2000/svg"
