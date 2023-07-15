@@ -4,8 +4,7 @@ import { json, LoaderArgs, SerializeFrom } from "@remix-run/node";
 import { useFetcher } from "@remix-run/react";
 import { useCombobox } from "downshift";
 import { createPath } from "history";
-import { forwardRef, useEffect, useRef, useState } from "react";
-import invariant from "tiny-invariant";
+import { forwardRef, useEffect, useState } from "react";
 import { searchPickUpLocation } from "~/animals/db.server";
 import { PickUpLocationSearchParams } from "~/animals/searchParams";
 import { toBooleanAttribute } from "~/core/attributes";
@@ -57,12 +56,8 @@ export const PickUpLocationInput = forwardRef<
   PickUpLocationInputProps
 >(function PickUpLocationInput(
   { name, defaultValue = null, disabled = false, hasError = false },
-  propRef
+  ref
 ) {
-  invariant(typeof propRef !== "function", "Only object ref are supported.");
-  const localRef = useRef<HTMLButtonElement>(null);
-  const ref = propRef ?? localRef;
-
   const [isOpened, setIsOpened] = useState(false);
   const fetcher = useFetcher<typeof loader>();
 
@@ -97,7 +92,6 @@ export const PickUpLocationInput = forwardRef<
       <ResourceInputLayout
         isOpened={isOpened}
         setIsOpened={setIsOpened}
-        inputTriggerRef={ref}
         inputTrigger={(triggerElement) => (
           <InputTrigger
             ref={ref}

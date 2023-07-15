@@ -4,8 +4,7 @@ import { json, LoaderArgs, SerializeFrom } from "@remix-run/node";
 import { useFetcher, useLocation } from "@remix-run/react";
 import { useCombobox } from "downshift";
 import { createPath } from "history";
-import { forwardRef, useEffect, useRef, useState } from "react";
-import invariant from "tiny-invariant";
+import { forwardRef, useEffect, useState } from "react";
 import { toBooleanAttribute } from "~/core/attributes";
 import { BaseTextInput } from "~/core/formElements/baseTextInput";
 import { Input } from "~/core/formElements/input";
@@ -63,12 +62,8 @@ export const FosterFamilyInput = forwardRef<
   FosterFamilyInputProps
 >(function FosterFamilyInput(
   { name, defaultValue = null, disabled = false, hasError = false },
-  propRef
+  ref
 ) {
-  invariant(typeof propRef !== "function", "Only object ref are supported.");
-  const localRef = useRef<HTMLButtonElement>(null);
-  const ref = propRef ?? localRef;
-
   const [isOpened, setIsOpened] = useState(false);
   const fetcher = useFetcher<typeof loader>();
 
@@ -103,7 +98,6 @@ export const FosterFamilyInput = forwardRef<
       <ResourceInputLayout
         isOpened={isOpened}
         setIsOpened={setIsOpened}
-        inputTriggerRef={ref}
         inputTrigger={(triggerElement) => (
           <InputTrigger
             ref={ref}
