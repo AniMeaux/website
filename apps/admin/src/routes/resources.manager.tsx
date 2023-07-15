@@ -4,8 +4,7 @@ import { json, LoaderArgs, SerializeFrom } from "@remix-run/node";
 import { useFetcher } from "@remix-run/react";
 import { useCombobox } from "downshift";
 import { createPath } from "history";
-import { forwardRef, useEffect, useRef, useState } from "react";
-import invariant from "tiny-invariant";
+import { forwardRef, useEffect, useState } from "react";
 import { toBooleanAttribute } from "~/core/attributes";
 import { BaseTextInput } from "~/core/formElements/baseTextInput";
 import { Input } from "~/core/formElements/input";
@@ -58,12 +57,8 @@ export const ManagerInput = forwardRef<
   ManagerInputProps
 >(function ManagerInput(
   { name, defaultValue = null, disabled = false, hasError = false },
-  propRef
+  ref
 ) {
-  invariant(typeof propRef !== "function", "Only object ref are supported.");
-  const localRef = useRef<HTMLButtonElement>(null);
-  const ref = propRef ?? localRef;
-
   const [isOpened, setIsOpened] = useState(false);
   const fetcher = useFetcher<typeof loader>();
 
@@ -98,7 +93,6 @@ export const ManagerInput = forwardRef<
       <ResourceInputLayout
         isOpened={isOpened}
         setIsOpened={setIsOpened}
-        inputTriggerRef={ref}
         inputTrigger={(triggerElement) => (
           <InputTrigger
             ref={ref}

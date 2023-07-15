@@ -16,7 +16,6 @@ import { theme } from "~/generated/theme";
 type ResourceInputLayoutProps = {
   isOpened: boolean;
   setIsOpened: React.Dispatch<boolean>;
-  inputTriggerRef: React.RefObject<HTMLButtonElement>;
   inputTrigger: (
     triggerElement: React.ElementType<
       React.ButtonHTMLAttributes<HTMLButtonElement>
@@ -38,7 +37,6 @@ export function ResourceInputLayout(props: ResourceInputLayoutProps) {
 function MediumLayout({
   isOpened,
   setIsOpened,
-  inputTriggerRef,
   inputTrigger,
   content,
 }: ResourceInputLayoutProps) {
@@ -48,18 +46,10 @@ function MediumLayout({
 
       <Popover.Portal>
         <Popover.Content
-          // Using a Ref callback is the only way to set the content width at
-          // the right moment. Effect and layout effect don't run in sync with
-          // the component mounting.
-          ref={(element) => {
-            if (element != null && inputTriggerRef.current != null) {
-              element.style.width = `${inputTriggerRef.current.clientWidth}px`;
-            }
-          }}
           align="start"
           sideOffset={theme.spacing[1]}
           collisionPadding={theme.spacing[1]}
-          className="z-10 bg-white shadow-ambient rounded-1 flex flex-col"
+          className="z-20 w-[var(--radix-popover-trigger-width)] bg-white shadow-ambient rounded-1 flex flex-col"
         >
           {content}
         </Popover.Content>
