@@ -36,6 +36,7 @@ async function seedData() {
     seedBreeds(),
     seedColors(),
     seedEvents(),
+    seedPressArticle(),
   ]);
 
   await seedAnimals();
@@ -105,7 +106,7 @@ async function seedFosterFamilies() {
       speciesAlreadyPresent: faker.helpers.maybe(() =>
         faker.helpers.arrayElements(Object.values(Species))
       ),
-        speciesToHost: faker.helpers.maybe(() =>
+      speciesToHost: faker.helpers.maybe(() =>
         faker.helpers.arrayElements(Object.values(Species))
       ),
 
@@ -391,6 +392,24 @@ function createAnimalInput({
     species,
     status,
   };
+}
+
+async function seedPressArticle() {
+  await prisma.pressArticle.createMany({
+    data: repeate({ min: 10, max: 20 }, () => ({
+      image: faker.helpers.maybe(() =>
+        faker.image.url({ width: 640, height: 480 })
+      ),
+      publicationDate: DateTime.fromJSDate(faker.date.past({ years: 5 }))
+        .startOf("day")
+        .toJSDate(),
+      publisherName: faker.internet.domainName(),
+      title: faker.lorem
+        .sentence(faker.number.int({ min: 3, max: 6 }))
+        .replace(".", ""),
+      url: faker.internet.url(),
+    })),
+  });
 }
 
 function nullableBoolean() {
