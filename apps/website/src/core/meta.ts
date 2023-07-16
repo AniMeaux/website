@@ -5,16 +5,22 @@ import { V2_MetaDescriptor } from "@remix-run/react";
  * @see https://ogp.me/
  * @see https://developer.twitter.com/en/docs/twitter-for-websites/cards/overview/abouts-cards
  */
-export function createSocialMeta({
-  title,
-  description,
-  imageUrl,
-}: {
-  title?: string;
-  description?: string;
-  imageUrl?: string;
-} = {}) {
-  const meta: V2_MetaDescriptor[] = [];
+export function createSocialMeta(
+  params: {
+    title?: string;
+    description?: string;
+    imageUrl?: string;
+  } & (
+    | { type?: "website" }
+    | {
+        type: "article";
+        publishedTime: string;
+        author: string;
+      }
+  ) = {}
+) {
+  const { type = "website", title, description, imageUrl } = params;
+  const meta: V2_MetaDescriptor[] = [{ property: "og:type", content: type }];
 
   if (title != null) {
     meta.push(
@@ -36,6 +42,13 @@ export function createSocialMeta({
     meta.push(
       { property: "og:image", content: imageUrl },
       { property: "twitter:image", content: imageUrl }
+    );
+  }
+
+  if (params.type === "article") {
+    meta.push(
+      { property: "article:published_time", content: params.publishedTime },
+      { property: "article:author", content: params.author }
     );
   }
 

@@ -128,7 +128,6 @@ function Document({
           content="width=device-width, minimum-scale=1, initial-scale=1, maximum-scale=1, shrink-to-fit=no, user-scalable=no, viewport-fit=cover"
         />
 
-        <meta property="og:type" content="website" />
         <meta property="og:site_name" content={getPageTitle()} />
         <meta property="og:locale" content="fr_FR" />
         <meta name="twitter:card" content="summary_large_image" />

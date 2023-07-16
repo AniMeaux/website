@@ -18,7 +18,7 @@ export const articles: Article[] = orderBy(
       id: "3c27118f-bca3-4916-aca3-8e24655a2e45",
       title: "L’histoire inspirante de Plume",
       authorName: "Sara",
-      publicationDate: new Date("2023-07-09"),
+      publicationDate: DateTime.fromISO("2023-07-09").toJSDate(),
       image: "blog/34d5dfb5-8d03-46e0-a1ab-2ef5a1c6d4aa",
       slug: "l-histoire-inspirante-de-plume",
       description:
@@ -44,7 +44,7 @@ Plume a désormais rejoint une famille d’accueil définitive, où elle bénéf
       id: "0ea736e3-f847-4b30-a198-42b65c157623",
       title: "Les parasites",
       authorName: "Sara",
-      publicationDate: new Date("2019-04-30"),
+      publicationDate: DateTime.fromISO("2019-04-30").toJSDate(),
       image: "blog/dabcc03c-fe76-4d02-a57b-4fa87a38e310",
       slug: "les-parasites",
       description:
@@ -161,7 +161,7 @@ Pensez à ne pas remettre tout de suite tous les éléments dans le terrarium. V
       id: "69966266-182b-4f73-86bb-b19e4d44577e",
       title: "Une grande menace plane sur les abeilles !",
       authorName: "Sara",
-      publicationDate: new Date("2019-04-05"),
+      publicationDate: DateTime.fromISO("2019-04-05").toJSDate(),
       image: "blog/ab8f2635-e376-4a50-9a82-381d2e64a0fa",
       slug: "une-grande-menace-plane-sur-les-abeilles",
       description:
@@ -190,7 +190,7 @@ Cette association est née au printemps 2018 suite à la destruction d’un ruch
       id: "6329efdd-24f7-4187-9c73-374d6c7b0e73",
       title: "Pourquoi adopter en association ?",
       authorName: "Sara",
-      publicationDate: new Date("2019-03-20"),
+      publicationDate: DateTime.fromISO("2019-03-20").toJSDate(),
       image: "blog/2cacd032-ba23-4082-9324-c8ab4b4ce5c6",
       slug: "pourquoi-adopter-en-association",
       description:
@@ -250,7 +250,7 @@ Laissez-vous tenter par l’expérience avec nos protégés à l’adoption !`,
       id: "d1886656-3081-45e9-89d9-e60233e42645",
       title: "Comment choisir les bonnes croquettes pour nos amis à 4 pattes ?",
       authorName: "Sara",
-      publicationDate: new Date("2019-03-09"),
+      publicationDate: DateTime.fromISO("2019-03-09").toJSDate(),
       image: "blog/76db3528-e3fe-481a-bfd2-70feff01150b",
       slug: "comment-choisir-les-bonnes-croquettes-pour-nos-amis-a-4-pattes",
       description:
@@ -366,7 +366,7 @@ _En conclusion, pour choisir de bonnes croquettes pour votre protégé, voici le
       id: "936ced63-9ee1-4758-a023-f0847dac7b16",
       title: "Nos perles noires",
       authorName: "Sara",
-      publicationDate: new Date("2019-02-09"),
+      publicationDate: DateTime.fromISO("2019-02-09").toJSDate(),
       image: "blog/91b2db94-c111-4e89-b041-0ea02c5f269d",
       slug: "nos-perles-noires",
       description:
