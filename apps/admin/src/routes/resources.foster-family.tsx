@@ -1,6 +1,6 @@
 import { FosterFamily, UserGroup } from "@prisma/client";
 import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
-import { json, LoaderArgs, SerializeFrom } from "@remix-run/node";
+import { LoaderArgs, SerializeFrom, json } from "@remix-run/node";
 import { useFetcher, useLocation } from "@remix-run/react";
 import { useCombobox } from "downshift";
 import { createPath } from "history";

@@ -6,8 +6,8 @@ import { cn } from "~/core/classNames";
 import { Chip } from "~/core/dataDisplay/chip";
 import { DynamicImage, DynamicImageProps } from "~/core/dataDisplay/image";
 import {
-  inferInstanceColor,
   InstanceColor,
+  inferInstanceColor,
 } from "~/core/dataDisplay/instanceColor";
 
 export function EventItem({

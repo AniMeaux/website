@@ -51,12 +51,15 @@ export const meta: V2_MetaFunction<typeof loader> = ({ data, matches }) => {
 
   const config = getConfigFromMetaMatches(matches);
   return createSocialMeta({
+    type: "article",
     title: getPageTitle(article.title),
     description: article.description,
     imageUrl: createCloudinaryUrl(config.cloudinaryName, article.image, {
       size: "1024",
       aspectRatio: "16:9",
     }),
+    publishedTime: article.publicationDate,
+    author: article.authorName,
   });
 };
 

@@ -1,4 +1,4 @@
-import { AnimalAge, ANIMAL_AGE_RANGE_BY_SPECIES } from "@animeaux/shared";
+import { ANIMAL_AGE_RANGE_BY_SPECIES, AnimalAge } from "@animeaux/shared";
 import { Species } from "@prisma/client";
 import orderBy from "lodash.orderby";
 import { useCallback, useEffect, useState } from "react";

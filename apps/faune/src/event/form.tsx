@@ -8,10 +8,10 @@ import styled from "styled-components";
 import { string } from "yup";
 import { Button } from "~/core/actions/button";
 import {
-  getFiles,
+  IMAGE_SIZE_LIMIT,
   Image,
   ImageFileOrId,
-  IMAGE_SIZE_LIMIT,
+  getFiles,
 } from "~/core/dataDisplay/image";
 import { Info } from "~/core/dataDisplay/info";
 import { AsideFields, Field, Fields } from "~/core/formElements/field";
@@ -25,7 +25,7 @@ import { BaseValidationError } from "~/core/formValidation";
 import { includes } from "~/core/includes";
 import { joinReactNodes } from "~/core/joinReactNodes";
 import { Separator } from "~/core/layouts/separator";
-import { showSnackbar, Snackbar } from "~/core/popovers/snackbar";
+import { Snackbar, showSnackbar } from "~/core/popovers/snackbar";
 import { SetStateAction } from "~/core/types";
 import { theme } from "~/styles/theme";
 

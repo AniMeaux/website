@@ -1,7 +1,7 @@
 import { Hit, SearchResponse } from "@algolia/client-search";
 import { Prisma } from "@prisma/client";
 import { prisma } from "../../core/db";
-import { UserFromAlgolia, USER_INDEX_NAME } from "../../entities/user.entity";
+import { USER_INDEX_NAME, UserFromAlgolia } from "../../entities/user.entity";
 import {
   createBatchHandlers,
   createPostHandlers,

@@ -13,11 +13,13 @@ import {
 } from "./operationPagination";
 import { Trilean } from "./trilean";
 
-export { Species as AnimalSpecies };
-export { Gender as AnimalGender };
-export { Status as AnimalStatus };
-export { AdoptionOption };
-export { PickUpReason };
+export {
+  AdoptionOption,
+  Gender as AnimalGender,
+  Species as AnimalSpecies,
+  Status as AnimalStatus,
+  PickUpReason,
+};
 
 export const ALL_ANIMAL_SPECIES = Object.values(Species);
 export const ALL_ANIMAL_STATUSES = Object.values(Status);

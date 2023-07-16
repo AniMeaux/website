@@ -1,6 +1,6 @@
 import { PressArticle, UserGroup } from "@prisma/client";
-import { ActionArgs, json, LoaderArgs, SerializeFrom } from "@remix-run/node";
-import { useFetcher, useLoaderData, V2_MetaFunction } from "@remix-run/react";
+import { ActionArgs, LoaderArgs, SerializeFrom, json } from "@remix-run/node";
+import { V2_MetaFunction, useFetcher, useLoaderData } from "@remix-run/react";
 import { DateTime } from "luxon";
 import { promiseHash } from "remix-utils";
 import { z } from "zod";
@@ -12,8 +12,8 @@ import { Paginator } from "~/core/controllers/paginator";
 import { Empty } from "~/core/dataDisplay/empty";
 import { DynamicImage } from "~/core/dataDisplay/image";
 import {
-  inferInstanceColor,
   InstanceColor,
+  inferInstanceColor,
 } from "~/core/dataDisplay/instanceColor";
 import { prisma } from "~/core/db.server";
 import { NotFoundError } from "~/core/errors.server";
