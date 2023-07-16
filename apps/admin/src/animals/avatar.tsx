@@ -1,6 +1,6 @@
 import { Animal } from "@prisma/client";
 import { cn } from "~/core/classNames";
-import { AvatarSize, AVATAR_SIZE_CLASS_NAME } from "~/core/dataDisplay/avatar";
+import { AVATAR_SIZE_CLASS_NAME, AvatarSize } from "~/core/dataDisplay/avatar";
 import { DynamicImage, DynamicImageProps } from "~/core/dataDisplay/image";
 
 export function AnimalAvatar({

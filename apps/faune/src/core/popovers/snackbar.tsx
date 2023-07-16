@@ -3,12 +3,12 @@ import { useEffect, useState } from "react";
 import { FaCheckCircle, FaTimesCircle } from "react-icons/fa";
 import {
   Slide,
-  toast,
   ToastContainer,
   ToastContainerProps,
   ToastContentProps,
   TypeOptions,
   Zoom,
+  toast,
 } from "react-toastify";
 import styled, { createGlobalStyle } from "styled-components";
 import {

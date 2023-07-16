@@ -2,12 +2,12 @@ import { useRef, useState } from "react";
 import { FaImages, FaTrash } from "react-icons/fa";
 import styled from "styled-components";
 import {
-  getFiles,
-  getImageId,
+  IMAGE_SIZE_LIMIT,
   Image,
   ImageFile,
   ImageFileOrId,
-  IMAGE_SIZE_LIMIT,
+  getFiles,
+  getImageId,
 } from "~/core/dataDisplay/image";
 import {
   DragAndDropContextProvider,
@@ -16,7 +16,7 @@ import {
   useDropContainer,
 } from "~/core/dragAndDrop";
 import { Placeholder, Placeholders } from "~/core/loaders/placeholder";
-import { showSnackbar, Snackbar } from "~/core/popovers/snackbar";
+import { Snackbar, showSnackbar } from "~/core/popovers/snackbar";
 import { SetStateAction } from "~/core/types";
 import { theme } from "~/styles/theme";
 

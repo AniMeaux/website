@@ -4,9 +4,9 @@ import { BaseLink, BaseLinkProps } from "~/core/baseLink";
 import { ensureArray } from "~/core/ensureArray";
 import { Adornment } from "~/core/formElements/adornment";
 import {
+  INPUT_STYLES,
   InputWrapper,
   InputWrapperProps,
-  INPUT_STYLES,
 } from "~/core/formElements/inputWrapper";
 import { StyleProps } from "~/core/types";
 import { theme } from "~/styles/theme";

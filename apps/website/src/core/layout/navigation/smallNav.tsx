@@ -6,8 +6,8 @@ import { BaseLink } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
 import { useFocusTrap } from "~/core/focusTrap";
 import {
-  handleEscape,
   NavGroup,
+  handleEscape,
   navLinkClassName,
 } from "~/core/layout/navigation/shared";
 import { ShowBanner } from "~/core/layout/navigation/showBanner";

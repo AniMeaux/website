@@ -4,8 +4,8 @@ import { BaseLink } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
 import { getConfigFromMetaMatches, useConfig } from "~/core/config";
 import {
-  bubbleSectionClassNames,
   BubbleShape,
+  bubbleSectionClassNames,
 } from "~/core/layout/bubbleSection";
 import {
   HeroSection,

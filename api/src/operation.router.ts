@@ -1,6 +1,6 @@
 import { AllOperationName, AllOperations } from "@animeaux/shared";
 import Router from "koa-router";
-import { mixed, object, ValidationError } from "yup";
+import { ValidationError, mixed, object } from "yup";
 import {
   OperationError,
   OperationImpl,

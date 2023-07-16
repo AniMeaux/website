@@ -2,8 +2,8 @@ import { Hit, SearchResponse } from "@algolia/client-search";
 import { Prisma } from "@prisma/client";
 import { prisma } from "../../core/db";
 import {
-  ColorFromAlgolia,
   COLOR_INDEX_NAME,
+  ColorFromAlgolia,
 } from "../../entities/animalColor.entity";
 import {
   createBatchHandlers,

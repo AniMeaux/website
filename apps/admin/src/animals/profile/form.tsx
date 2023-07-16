@@ -4,11 +4,11 @@ import { FetcherWithComponents, useLocation } from "@remix-run/react";
 import { useEffect, useRef, useState } from "react";
 import { z } from "zod";
 import {
+  AGREEMENT_TRANSLATION,
+  AgreementValue,
+  SORTED_AGREEMENTS,
   agreementFromBoolean,
   agreementToBoolean,
-  AgreementValue,
-  AGREEMENT_TRANSLATION,
-  SORTED_AGREEMENTS,
 } from "~/animals/agreements";
 import { GENDER_TRANSLATION, SORTED_GENDERS } from "~/animals/gender";
 import {

@@ -5,12 +5,12 @@ import { QuickLinkAction } from "~/core/actions/quickAction";
 import { AvatarPlaceholder } from "~/core/dataDisplay/avatar";
 import { EmptyMessage } from "~/core/dataDisplay/emptyMessage";
 import {
+  LinkItem as BaseLinkItem,
   Item,
   ItemContent,
   ItemIcon,
   ItemMainText,
   ItemSecondaryText,
-  LinkItem as BaseLinkItem,
 } from "~/core/dataDisplay/item";
 import { ApplicationLayout } from "~/core/layouts/applicationLayout";
 import { ErrorPage } from "~/core/layouts/errorPage";

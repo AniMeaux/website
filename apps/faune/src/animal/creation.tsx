@@ -16,8 +16,8 @@ import { FormState, getInitialState } from "~/animal/formState";
 import { validate as validateProfile } from "~/animal/profileForm";
 import { validate as validateSituation } from "~/animal/situationForm";
 import {
-  Step,
   Stepper as BaseStepper,
+  Step,
   StepStatus,
 } from "~/core/controllers/stepper";
 import { useRouter } from "~/core/router";
