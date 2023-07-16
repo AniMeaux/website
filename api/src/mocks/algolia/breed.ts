@@ -2,8 +2,8 @@ import { Hit, SearchResponse } from "@algolia/client-search";
 import { Prisma } from "@prisma/client";
 import { prisma } from "../../core/db";
 import {
-  BreedFromAlgolia,
   BREED_INDEX_NAME,
+  BreedFromAlgolia,
 } from "../../entities/animalBreed.entity";
 import {
   createBatchHandlers,

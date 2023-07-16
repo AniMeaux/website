@@ -1,6 +1,6 @@
 import { Prisma, User, UserGroup } from "@prisma/client";
-import { ActionArgs, json, LoaderArgs, redirect } from "@remix-run/node";
-import { useFetcher, useLoaderData, V2_MetaFunction } from "@remix-run/react";
+import { ActionArgs, LoaderArgs, json, redirect } from "@remix-run/node";
+import { V2_MetaFunction, useFetcher, useLoaderData } from "@remix-run/react";
 import { useEffect, useState } from "react";
 import { promiseHash } from "remix-utils";
 import { z } from "zod";
@@ -36,8 +36,8 @@ import { Icon } from "~/generated/icon";
 import { UserAvatar } from "~/users/avatar";
 import {
   DeleteMyselfError,
-  deleteUser,
   DisableMyselfError,
+  deleteUser,
   setUserIsDisabled,
 } from "~/users/db.server";
 import { GROUP_ICON, GROUP_TRANSLATION, hasGroups } from "~/users/groups";

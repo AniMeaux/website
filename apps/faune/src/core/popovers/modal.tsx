@@ -9,7 +9,7 @@ import {
   useRef,
   useState,
 } from "react";
-import { usePopper, UsePopperOptions } from "react-behave";
+import { UsePopperOptions, usePopper } from "react-behave";
 import * as ReactDOM from "react-dom";
 import styled, { css } from "styled-components";
 import { Button } from "~/core/actions/button";

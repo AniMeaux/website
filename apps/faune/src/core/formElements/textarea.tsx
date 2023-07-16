@@ -2,9 +2,9 @@ import autosize from "autosize";
 import { useLayoutEffect, useRef } from "react";
 import styled from "styled-components";
 import {
+  INPUT_STYLES,
   InputWrapper,
   InputWrapperProps,
-  INPUT_STYLES,
 } from "~/core/formElements/inputWrapper";
 import { HtmlInputProps, StyleProps } from "~/core/types";
 

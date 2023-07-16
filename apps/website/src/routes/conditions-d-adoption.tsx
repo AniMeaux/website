@@ -18,8 +18,8 @@ import {
 } from "~/core/dataDisplay/options";
 import { Timeline, TimelineItem } from "~/core/dataDisplay/timeline";
 import {
-  bubbleSectionClassNames,
   BubbleShape,
+  bubbleSectionClassNames,
 } from "~/core/layout/bubbleSection";
 import {
   HeroSection,

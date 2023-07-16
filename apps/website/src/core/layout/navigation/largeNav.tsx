@@ -7,8 +7,8 @@ import { getFocusTrapIgnoreAttribute, useFocusTrap } from "~/core/focusTrap";
 import { useWidth } from "~/core/hooks";
 import { LineShapeHorizontal } from "~/core/layout/lineShape";
 import {
-  handleEscape,
   NavGroup,
+  handleEscape,
   navLinkClassName,
 } from "~/core/layout/navigation/shared";
 import { ShowBanner } from "~/core/layout/navigation/showBanner";

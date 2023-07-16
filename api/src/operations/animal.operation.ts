@@ -1,4 +1,5 @@
 import {
+  ANIMAL_AGE_RANGE_BY_SPECIES,
   AdoptionOption,
   Animal,
   AnimalActiveBrief,
@@ -7,13 +8,12 @@ import {
   AnimalOperations,
   AnimalSearchHit,
   AnimalSpecies,
-  ANIMAL_AGE_RANGE_BY_SPECIES,
-  hasGroups,
   LocationSearchHit,
   ManagerSearchHit,
   PickUpReason,
   PublicAnimalSearchHit,
   Trilean,
+  hasGroups,
 } from "@animeaux/shared";
 import { Prisma, Status, UserGroup } from "@prisma/client";
 import { DateTime } from "luxon";
@@ -30,9 +30,9 @@ import {
   ADOPTABLE_ANIMAL_STATUS,
   AnimalFromAlgolia,
   AnimalIndex,
-  getDisplayName,
   NON_ACTIVE_ANIMAL_STATUS,
   SAVED_ANIMAL_STATUS,
+  getDisplayName,
 } from "../entities/animal.entity";
 import {
   getFormattedAddress,

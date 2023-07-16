@@ -2,8 +2,8 @@ import { Hit, SearchResponse } from "@algolia/client-search";
 import { Prisma } from "@prisma/client";
 import { prisma } from "../../core/db";
 import {
-  FosterFamilyFromAlgolia,
   FOSTER_FAMILY_INDEX_NAME,
+  FosterFamilyFromAlgolia,
 } from "../../entities/fosterFamily.entity";
 import {
   createBatchHandlers,

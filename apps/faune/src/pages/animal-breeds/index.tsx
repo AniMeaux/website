@@ -26,7 +26,7 @@ import { Placeholder, Placeholders } from "~/core/loaders/placeholder";
 import { useOperationMutation, useOperationQuery } from "~/core/operations";
 import { PageTitle } from "~/core/pageTitle";
 import { Modal, useModal } from "~/core/popovers/modal";
-import { showSnackbar, Snackbar } from "~/core/popovers/snackbar";
+import { Snackbar, showSnackbar } from "~/core/popovers/snackbar";
 import { PageComponent } from "~/core/types";
 
 const TITLE = "Races";

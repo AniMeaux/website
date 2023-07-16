@@ -1,6 +1,6 @@
 import { User, UserGroup } from "@prisma/client";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
-import { json, LoaderArgs } from "@remix-run/node";
+import { LoaderArgs, json } from "@remix-run/node";
 import {
   Outlet,
   useFetcher,

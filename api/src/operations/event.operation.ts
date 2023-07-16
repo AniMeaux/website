@@ -1,6 +1,6 @@
 import {
-  Event as PublicEvent,
   EventOperations,
+  Event as PublicEvent,
   UserGroup,
 } from "@animeaux/shared";
 import { Event, Prisma } from "@prisma/client";

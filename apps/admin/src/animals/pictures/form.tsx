@@ -15,10 +15,10 @@ import {
 import { Action } from "~/core/actions";
 import { InlineHelper } from "~/core/dataDisplay/helper";
 import {
-  getImageId,
+  IMAGE_SIZE_LIMIT_MB,
   ImageFile,
   ImageFileOrId,
-  IMAGE_SIZE_LIMIT_MB,
+  getImageId,
   isImageFile,
   isImageOverSize,
   readFiles,

@@ -19,8 +19,8 @@ import {
 import {
   ACTIVE_ANIMAL_STATUS,
   SORTED_STATUS,
-  StatusIcon,
   STATUS_TRANSLATION,
+  StatusIcon,
 } from "~/animals/status";
 import { Action } from "~/core/actions";
 import { BaseLink } from "~/core/baseLink";

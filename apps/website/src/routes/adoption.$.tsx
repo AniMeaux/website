@@ -1,7 +1,7 @@
-import { AnimalAge, ANIMAL_AGE_RANGE_BY_SPECIES } from "@animeaux/shared";
+import { ANIMAL_AGE_RANGE_BY_SPECIES, AnimalAge } from "@animeaux/shared";
 import { Prisma, Species } from "@prisma/client";
-import { json, LoaderArgs } from "@remix-run/node";
-import { useLoaderData, useParams, V2_MetaFunction } from "@remix-run/react";
+import { LoaderArgs, json } from "@remix-run/node";
+import { V2_MetaFunction, useLoaderData, useParams } from "@remix-run/react";
 import { DateTime } from "luxon";
 import { promiseHash } from "remix-utils";
 import invariant from "tiny-invariant";
@@ -14,8 +14,8 @@ import { Paginator } from "~/core/controllers/paginator";
 import {
   AGES_TO_PATH,
   ANIMAL_AGES_BY_SPECIES,
-  SearchForm,
   SPECIES_TO_PATH,
+  SearchForm,
 } from "~/core/controllers/searchForm";
 import { ErrorPage, getErrorTitle } from "~/core/dataDisplay/errorPage";
 import { prisma } from "~/core/db.server";

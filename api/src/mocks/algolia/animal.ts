@@ -8,8 +8,8 @@ import { Prisma } from "@prisma/client";
 import invariant from "tiny-invariant";
 import { prisma } from "../../core/db";
 import {
-  AnimalFromAlgolia,
   ANIMAL_INDEX_NAME,
+  AnimalFromAlgolia,
 } from "../../entities/animal.entity";
 import {
   createBatchHandlers,

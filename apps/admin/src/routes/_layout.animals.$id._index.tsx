@@ -1,8 +1,8 @@
 import { formatAge } from "@animeaux/shared";
 import { AdoptionOption, Gender, Status, UserGroup } from "@prisma/client";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
-import { ActionArgs, json, LoaderArgs, redirect } from "@remix-run/node";
-import { useFetcher, useLoaderData, V2_MetaFunction } from "@remix-run/react";
+import { ActionArgs, LoaderArgs, json, redirect } from "@remix-run/node";
+import { V2_MetaFunction, useFetcher, useLoaderData } from "@remix-run/react";
 import { DateTime } from "luxon";
 import { z } from "zod";
 import { ADOPTION_OPTION_TRANSLATION } from "~/animals/adoption";
@@ -20,8 +20,8 @@ import {
   hasUpCommingSterilisation,
   hasUpCommingVaccination,
 } from "~/animals/situation/health";
-import { getSpeciesLabels, SPECIES_ICON } from "~/animals/species";
-import { StatusBadge, StatusIcon, STATUS_TRANSLATION } from "~/animals/status";
+import { SPECIES_ICON, getSpeciesLabels } from "~/animals/species";
+import { STATUS_TRANSLATION, StatusBadge, StatusIcon } from "~/animals/status";
 import { Action, ProseInlineAction } from "~/core/actions";
 import { BaseLink, BaseLinkProps } from "~/core/baseLink";
 import { cn } from "~/core/classNames";

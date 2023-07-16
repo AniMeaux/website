@@ -9,8 +9,8 @@ import { SearchForm } from "~/core/controllers/searchForm";
 import { StaticImage, StaticImageProps } from "~/core/dataDisplay/image";
 import { prisma } from "~/core/db.server";
 import {
-  bubbleSectionClassNames,
   BubbleShape,
+  bubbleSectionClassNames,
 } from "~/core/layout/bubbleSection";
 import {
   HeroSection,

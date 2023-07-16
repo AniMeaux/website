@@ -1,7 +1,7 @@
 import { formatAge } from "@animeaux/shared";
 import { Prisma, Species, Status, UserGroup } from "@prisma/client";
-import { json, LoaderArgs } from "@remix-run/node";
-import { useLoaderData, V2_MetaFunction } from "@remix-run/react";
+import { LoaderArgs, json } from "@remix-run/node";
+import { V2_MetaFunction, useLoaderData } from "@remix-run/react";
 import { DateTime } from "luxon";
 import { promiseHash } from "remix-utils";
 import invariant from "tiny-invariant";
