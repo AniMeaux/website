@@ -1,7 +1,6 @@
-import { FosterFamily, Prisma, UserGroup } from "@prisma/client";
+import { Prisma, UserGroup } from "@prisma/client";
 import { LoaderArgs, json } from "@remix-run/node";
 import { V2_MetaFunction, useLoaderData } from "@remix-run/react";
-import orderBy from "lodash.orderby";
 import { promiseHash } from "remix-utils";
 import { Action } from "~/core/actions";
 import { algolia } from "~/core/algolia/algolia.server";
@@ -51,15 +50,11 @@ export async function loader({ request }: LoaderArgs) {
   }
 
   const displayName = fosterFamilySearchParams.getDisplayName();
-  let rankedFosterFamiliesId: FosterFamily["id"][] = [];
   if (displayName != null) {
     const fosterFamilies = await algolia.fosterFamily.search({ displayName });
-
-    rankedFosterFamiliesId = fosterFamilies.map(
-      (fosterFamily) => fosterFamily.id
-    );
-
-    where.push({ id: { in: rankedFosterFamiliesId } });
+    where.push({
+      id: { in: fosterFamilies.map((fosterFamily) => fosterFamily.id) },
+    });
   }
 
   const speciesToHost = fosterFamilySearchParams.getSpeciesToHost();
@@ -88,9 +83,7 @@ export async function loader({ request }: LoaderArgs) {
     });
   }
 
-  const sort = fosterFamilySearchParams.getSort();
-
-  let { possibleCities, totalCount, fosterFamilies } = await promiseHash({
+  const { possibleCities, totalCount, fosterFamilies } = await promiseHash({
     possibleCities: prisma.fosterFamily.groupBy({
       by: ["city"],
       _count: { city: true },
@@ -102,10 +95,7 @@ export async function loader({ request }: LoaderArgs) {
     fosterFamilies: prisma.fosterFamily.findMany({
       skip: pageSearchParams.getPage() * FOSTER_FAMILY_COUNT_PER_PAGE,
       take: FOSTER_FAMILY_COUNT_PER_PAGE,
-      orderBy:
-        sort === FosterFamilySearchParams.Sort.NAME || displayName == null
-          ? { displayName: "asc" }
-          : undefined,
+      orderBy: { displayName: "asc" },
       where: { AND: where },
       select: {
         city: true,
@@ -116,17 +106,6 @@ export async function loader({ request }: LoaderArgs) {
       },
     }),
   });
-
-  if (
-    sort === FosterFamilySearchParams.Sort.RELEVANCE &&
-    rankedFosterFamiliesId.length > 0
-  ) {
-    fosterFamilies = orderBy(fosterFamilies, (fosterFamily) =>
-      rankedFosterFamiliesId.findIndex(
-        (fosterFamilyId) => fosterFamily.id === fosterFamilyId
-      )
-    );
-  }
 
   const pageCount = Math.ceil(totalCount / FOSTER_FAMILY_COUNT_PER_PAGE);
 

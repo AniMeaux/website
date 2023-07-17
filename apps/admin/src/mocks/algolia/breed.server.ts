@@ -1,5 +1,6 @@
 import { Hit, SearchResponse } from "@algolia/client-search";
 import { Prisma } from "@prisma/client";
+import { promiseHash } from "remix-utils";
 import { BreedFromAlgolia } from "~/breeds/algolia.server";
 import { algolia } from "~/core/algolia/algolia.server";
 import { prisma } from "~/core/db.server";
@@ -15,24 +16,29 @@ export const breedHandlers = [
     async (req, res, ctx) => {
       const body = await req.json();
       const query = body.query || "";
+      const page = body.page ?? 0;
 
       const where: Prisma.BreedWhereInput = {};
       if (query !== "") {
         where.name = { contains: query, mode: "insensitive" };
       }
 
-      const breeds = await prisma.breed.findMany({
-        where,
-        orderBy: { name: "asc" },
-        select: { id: true, name: true, species: true },
-        take: body.hitsPerPage,
+      const { totalCount, breeds } = await promiseHash({
+        totalCount: prisma.breed.count({ where }),
+        breeds: prisma.breed.findMany({
+          where,
+          orderBy: { name: "asc" },
+          take: body.hitsPerPage,
+          skip: page * body.hitsPerPage,
+          select: { id: true, name: true, species: true },
+        }),
       });
 
       const responseBody: SearchResponse<BreedFromAlgolia> = {
-        nbHits: breeds.length,
-        page: 0,
-        nbPages: 1,
-        hitsPerPage: body.hitsPerPage ?? breeds.length,
+        nbHits: totalCount,
+        page,
+        nbPages: Math.ceil(totalCount / body.hitsPerPage),
+        hitsPerPage: body.hitsPerPage,
         exhaustiveNbHits: true,
         query,
         params: "",
