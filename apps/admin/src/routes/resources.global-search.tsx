@@ -90,7 +90,7 @@ export async function loader({ request }: LoaderArgs) {
 
   const possibleTypes = getTypesForCurrentUser(currentUser);
   const type = searchParams.getType() ?? possibleTypes[0];
-  if (!possibleTypes.includes(type)) {
+  if (type == null || !possibleTypes.includes(type)) {
     throw new ForbiddenResponse();
   }
 
@@ -169,6 +169,8 @@ export function GlobalSearch() {
       document.addEventListener("keydown", handleKeyDown);
       return () => document.removeEventListener("keydown", handleKeyDown);
     }
+
+    return undefined;
   }, [isOpened]);
 
   const fetcher = useFetcher<typeof loader>();

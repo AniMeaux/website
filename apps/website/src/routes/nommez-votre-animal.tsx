@@ -8,6 +8,7 @@ import {
 } from "@remix-run/react";
 import orderBy from "lodash.orderby";
 import { useEffect, useState } from "react";
+import invariant from "tiny-invariant";
 import { z } from "zod";
 import { animalNames } from "~/animals/data";
 import { ACTIVE_ANIMAL_STATUS } from "~/animals/status";
@@ -290,7 +291,12 @@ function pickRandom<T>(names: T[], count: number) {
   for (let currentCount = 0; currentCount < count; currentCount++) {
     const index = Math.floor((names.length - currentCount) * Math.random());
     const temp = arrayCopy[index];
-    arrayCopy[index] = arrayCopy[names.length - currentCount - 1];
+    invariant(temp != null, "First element should exists");
+
+    const temp2 = arrayCopy[names.length - currentCount - 1];
+    invariant(temp2 != null, "Second element should exists");
+
+    arrayCopy[index] = temp2;
     arrayCopy[names.length - currentCount - 1] = temp;
   }
 

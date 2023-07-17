@@ -12,6 +12,10 @@ export async function isSamePassword(password: string, hash: string) {
   const [hashedPassword, salt] = hash.split(SEPARATOR);
 
   invariant(
+    hashedPassword != null,
+    `Can't compare password without a hashed password. Got '${hashedPassword}'`
+  );
+  invariant(
     salt != null && salt !== "",
     `Can't compare password without a salt. Got '${salt}'`
   );

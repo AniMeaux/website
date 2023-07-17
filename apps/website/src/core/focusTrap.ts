@@ -66,5 +66,7 @@ export function useFocusTrap(
         }
       };
     }
+
+    return undefined;
   }, [disabled, shouldFocusFirstChild, targetRef]);
 }

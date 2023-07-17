@@ -27,7 +27,7 @@ export function createPostHandlers(
 }
 
 export function createBatchHandlers(path: string) {
-  return createPostHandlers(path, async (req, res, ctx) => {
+  return createPostHandlers(path, async (_req, res, ctx) => {
     return res(
       ctx.json({ taskID: Math.round(Math.random() * 1000), objectIDs: [] })
     );
