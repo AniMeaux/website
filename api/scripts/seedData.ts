@@ -168,7 +168,7 @@ async function seedBreeds() {
       { species: Species.DOG, name: "Teckel" },
       { species: Species.DOG, name: "Typé staff" },
       { species: Species.DOG, name: "Yorkshire" },
-      { species: Species.RODENT, name: "Cochon d'Inde" },
+      { species: Species.RODENT, name: "Cochon d’Inde" },
       { species: Species.RODENT, name: "Hamster" },
       { species: Species.RODENT, name: "Lapin" },
       { species: Species.RODENT, name: "Rat" },

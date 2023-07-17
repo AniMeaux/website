@@ -11,11 +11,10 @@ export class AnimalSearchParams extends URLSearchParams {
     BIRTHDATE: "BIRTHDATE",
     NAME: "NAME",
     PICK_UP: "PICK_UP",
-    RELEVANCE: "RELEVANCE",
     VACCINATION: "VACCINATION",
   } as const;
 
-  static readonly DEFAULT_SORT = AnimalSearchParams.Sort.RELEVANCE;
+  static readonly DEFAULT_SORT = AnimalSearchParams.Sort.PICK_UP;
 
   static readonly IsSterilized = {
     YES: "YES",

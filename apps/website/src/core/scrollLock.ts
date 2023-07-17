@@ -44,5 +44,7 @@ export function useScrollLock(
         window.scrollTo({ top: initialScrollY });
       };
     }
+
+    return undefined;
   }, [disabled, targetRef]);
 }

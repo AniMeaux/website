@@ -5,11 +5,6 @@ import { z } from "zod";
 import { parseOrDefault } from "~/core/schemas";
 
 export class FosterFamilySearchParams extends URLSearchParams {
-  static readonly Sort = {
-    NAME: "NAME",
-    RELEVANCE: "RELEVANCE",
-  } as const;
-
   static readonly Keys = {
     DISPLAY_NAME: "q",
     CITY: "city",
@@ -38,15 +33,6 @@ export class FosterFamilySearchParams extends URLSearchParams {
       ) &&
       isEqual(this.getSpeciesToHost(), other.getSpeciesToHost()) &&
       isEqual(this.getZipCode(), other.getZipCode())
-    );
-  }
-
-  getSort() {
-    return parseOrDefault(
-      z
-        .nativeEnum(FosterFamilySearchParams.Sort)
-        .default(FosterFamilySearchParams.Sort.RELEVANCE),
-      this.get(FosterFamilySearchParams.Keys.SORT)
     );
   }
 

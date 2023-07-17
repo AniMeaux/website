@@ -5,6 +5,7 @@ import {
   SearchResponse,
 } from "@algolia/client-search";
 import { Prisma } from "@prisma/client";
+import { promiseHash } from "remix-utils";
 import invariant from "tiny-invariant";
 import { AnimalFromAlgolia } from "~/animals/algolia.server";
 import { algolia } from "~/core/algolia/algolia.server";
@@ -21,6 +22,7 @@ export const animalHandlers = [
     async (req, res, ctx) => {
       const body = await req.json();
       const query = body.query || "";
+      const page = body.page ?? 0;
 
       const where: Prisma.AnimalWhereInput = {};
       if (query !== "") {
@@ -30,26 +32,30 @@ export const animalHandlers = [
         ];
       }
 
-      const animals = await prisma.animal.findMany({
-        where,
-        orderBy: { name: "asc" },
-        select: {
-          alias: true,
-          id: true,
-          name: true,
-          pickUpDate: true,
-          pickUpLocation: true,
-          species: true,
-          status: true,
-        },
-        take: body.hitsPerPage,
+      const { totalCount, animals } = await promiseHash({
+        totalCount: prisma.animal.count({ where }),
+        animals: prisma.animal.findMany({
+          where,
+          orderBy: { name: "asc" },
+          take: body.hitsPerPage,
+          skip: page * body.hitsPerPage,
+          select: {
+            alias: true,
+            id: true,
+            name: true,
+            pickUpDate: true,
+            pickUpLocation: true,
+            species: true,
+            status: true,
+          },
+        }),
       });
 
       const responseBody: SearchResponse<AnimalFromAlgolia> = {
-        nbHits: animals.length,
-        page: 0,
-        nbPages: 1,
-        hitsPerPage: body.hitsPerPage ?? animals.length,
+        nbHits: totalCount,
+        page,
+        nbPages: Math.ceil(totalCount / body.hitsPerPage),
+        hitsPerPage: body.hitsPerPage,
         exhaustiveNbHits: true,
         query,
         params: "",

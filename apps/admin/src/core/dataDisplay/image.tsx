@@ -281,9 +281,8 @@ function DataUrlImage({
 
 export async function readFiles(fileList: FileList): Promise<ImageFile[]> {
   const files: Promise<ImageFile>[] = [];
-
-  for (let index = 0; index < fileList.length; index++) {
-    files.push(readFile(fileList[index]));
+  for (const file of fileList) {
+    files.push(readFile(file));
   }
 
   return await Promise.all(files);

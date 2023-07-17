@@ -115,18 +115,6 @@ export function AnimalFilters({
           <ToggleInputList>
             <ToggleInput
               type="radio"
-              label="Pertinence"
-              name={AnimalSearchParams.Keys.SORT}
-              value={AnimalSearchParams.Sort.RELEVANCE}
-              icon={<Icon id="bolt" />}
-              checked={
-                visibleFilters.sort === AnimalSearchParams.Sort.RELEVANCE
-              }
-              onChange={() => {}}
-            />
-
-            <ToggleInput
-              type="radio"
               label="Date de prise en charge"
               name={AnimalSearchParams.Keys.SORT}
               value={AnimalSearchParams.Sort.PICK_UP}

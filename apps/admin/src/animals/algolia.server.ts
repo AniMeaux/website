@@ -1,7 +1,7 @@
 import { SearchOptions } from "@algolia/client-search";
 import { Animal, Species, Status } from "@prisma/client";
 import { SearchClient } from "algoliasearch";
-import { createSearchFilters } from "~/core/algolia/shared.server";
+import { createSearchFilters, indexSearch } from "~/core/algolia/shared.server";
 
 export type AnimalFromAlgolia = Pick<
   Animal,
@@ -53,7 +53,7 @@ export function createAnimalDelegate(client: SearchClient) {
         }`;
       }
 
-      const result = await index.search<AnimalFromAlgolia>(nameOrAlias, {
+      const hits = await indexSearch<AnimalFromAlgolia>(index, nameOrAlias, {
         ...options,
         filters: createSearchFilters({
           pickUpDate,
@@ -63,7 +63,7 @@ export function createAnimalDelegate(client: SearchClient) {
         }),
       });
 
-      return result.hits.map((hit) => ({
+      return hits.map((hit) => ({
         id: hit.objectID,
         name: hit.name,
         highlightedName: hit._highlightResult?.name?.value ?? hit.name,

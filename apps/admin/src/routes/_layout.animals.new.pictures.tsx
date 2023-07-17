@@ -9,6 +9,7 @@ import {
   unstable_parseMultipartFormData,
 } from "@remix-run/node";
 import { useFetcher, V2_MetaFunction } from "@remix-run/react";
+import invariant from "tiny-invariant";
 import { z } from "zod";
 import { zfd } from "zod-form-data";
 import { AnimalCreationSteps } from "~/animals/creationSteps";
@@ -85,8 +86,11 @@ export async function action({ request }: ActionArgs) {
       );
     }
 
+    const avatar = formData.data.pictures[0];
+    invariant(avatar != null, "The avatar should exists");
+
     const animalId = await createAnimal(currentUser.draft, {
-      avatar: formData.data.pictures[0],
+      avatar,
       pictures: formData.data.pictures.slice(1),
     });
 

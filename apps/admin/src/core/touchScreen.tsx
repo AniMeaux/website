@@ -31,6 +31,8 @@ export function useIsTouchScreen() {
         mediaQuery.removeEventListener("change", handleChange);
       };
     }
+
+    return undefined;
   });
 
   return { isTouchScreen };

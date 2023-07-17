@@ -1,7 +1,7 @@
 import { SearchOptions } from "@algolia/client-search";
 import { User, UserGroup } from "@prisma/client";
 import { SearchClient } from "algoliasearch";
-import { createSearchFilters } from "~/core/algolia/shared.server";
+import { createSearchFilters, indexSearch } from "~/core/algolia/shared.server";
 
 export type UserFromAlgolia = Pick<
   User,
@@ -38,12 +38,12 @@ export function createUserDelegate(client: SearchClient) {
       },
       options: Omit<SearchOptions, "filters"> = {}
     ) {
-      const result = await index.search<UserFromAlgolia>(displayName, {
+      const hits = await indexSearch<UserFromAlgolia>(index, displayName, {
         ...options,
         filters: createSearchFilters({ groups, isDisabled }),
       });
 
-      return result.hits.map((hit) => ({
+      return hits.map((hit) => ({
         id: hit.objectID,
         displayName: hit.displayName,
         highlightedDisplayName:

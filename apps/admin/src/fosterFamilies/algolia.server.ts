@@ -1,6 +1,7 @@
 import { SearchOptions } from "@algolia/client-search";
 import { FosterFamily } from "@prisma/client";
 import { SearchClient } from "algoliasearch";
+import { indexSearch } from "~/core/algolia/shared.server";
 
 export type FosterFamilyFromAlgolia = Pick<FosterFamily, "displayName">;
 
@@ -32,12 +33,13 @@ export function createFosterFamilyDelegate(client: SearchClient) {
       { displayName }: { displayName: string },
       options: Omit<SearchOptions, "filters"> = {}
     ) {
-      const result = await index.search<FosterFamilyFromAlgolia>(
+      const hits = await indexSearch<FosterFamilyFromAlgolia>(
+        index,
         displayName,
         options
       );
 
-      return result.hits.map((hit) => ({
+      return hits.map((hit) => ({
         id: hit.objectID,
         displayName: hit.displayName,
         highlightedDisplayName:

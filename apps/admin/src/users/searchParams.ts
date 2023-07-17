@@ -9,7 +9,6 @@ export class UserSearchParams extends URLSearchParams {
   static readonly Sort = {
     LAST_ACTIVITY: "LAST_ACTIVITY",
     NAME: "NAME",
-    RELEVANCE: "RELEVANCE",
   } as const;
 
   static readonly Keys = {
@@ -37,9 +36,7 @@ export class UserSearchParams extends URLSearchParams {
 
   getSort() {
     return parseOrDefault(
-      z
-        .nativeEnum(UserSearchParams.Sort)
-        .default(UserSearchParams.Sort.RELEVANCE),
+      z.nativeEnum(UserSearchParams.Sort).default(UserSearchParams.Sort.NAME),
       this.get(UserSearchParams.Keys.SORT)
     );
   }

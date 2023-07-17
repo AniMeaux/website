@@ -157,6 +157,7 @@ export function createDragAndDropContext<DataType>() {
           setItems((items) => {
             const newItems = items.slice();
             const [item] = newItems.splice(draggedItem.index, 1);
+            invariant(item != null, "The dragged item should exists");
 
             let insertionIndex = pendingDropIndex;
 
