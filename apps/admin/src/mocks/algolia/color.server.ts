@@ -1,5 +1,6 @@
 import { Hit, SearchResponse } from "@algolia/client-search";
 import { Prisma } from "@prisma/client";
+import { promiseHash } from "remix-utils";
 import { ColorFromAlgolia } from "~/colors/algolia.server";
 import { algolia } from "~/core/algolia/algolia.server";
 import { prisma } from "~/core/db.server";
@@ -15,24 +16,29 @@ export const colorHandlers = [
     async (req, res, ctx) => {
       const body = await req.json();
       const query = body.query || "";
+      const page = body.page ?? 0;
 
       const where: Prisma.ColorWhereInput = {};
       if (query !== "") {
         where.name = { contains: query, mode: "insensitive" };
       }
 
-      const colors = await prisma.color.findMany({
-        where,
-        orderBy: { name: "asc" },
-        select: { id: true, name: true },
-        take: body.hitsPerPage,
+      const { totalCount, colors } = await promiseHash({
+        totalCount: prisma.color.count({ where }),
+        colors: prisma.color.findMany({
+          where,
+          orderBy: { name: "asc" },
+          take: body.hitsPerPage,
+          skip: page * body.hitsPerPage,
+          select: { id: true, name: true },
+        }),
       });
 
       const responseBody: SearchResponse<ColorFromAlgolia> = {
-        nbHits: colors.length,
-        page: 0,
-        nbPages: 1,
-        hitsPerPage: body.hitsPerPage ?? colors.length,
+        nbHits: totalCount,
+        page,
+        nbPages: Math.ceil(totalCount / body.hitsPerPage),
+        hitsPerPage: body.hitsPerPage,
         exhaustiveNbHits: true,
         query,
         params: "",

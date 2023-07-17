@@ -12,13 +12,25 @@ import {
 } from "~/core/layout/heroSection";
 import { errorImages } from "~/images/error";
 
+const STATUS_CODE = [404, 500] as const;
+type StatusCode = (typeof STATUS_CODE)[number];
+const DEFAULT_STATUS_CODE = 500 satisfies StatusCode;
+
+function isStatusCode(status: number): status is StatusCode {
+  return STATUS_CODE.includes(status as StatusCode);
+}
+
+function asStatusCode(status: number) {
+  return isStatusCode(status) ? status : DEFAULT_STATUS_CODE;
+}
+
 type ErrorMetaData = {
   title: string;
   message: string;
   action: React.ReactNode;
 };
 
-const STATUS_CODE_ERROR_META_DATA: Record<number, ErrorMetaData> = {
+const STATUS_CODE_ERROR_META_DATA: Record<StatusCode, ErrorMetaData> = {
   404: {
     title: "Page introuvable",
     message: "Nous n’avons pas trouvé la page que vous chercher.",
@@ -40,9 +52,7 @@ const STATUS_CODE_ERROR_META_DATA: Record<number, ErrorMetaData> = {
 };
 
 export function getErrorTitle(status: number): string {
-  return (
-    STATUS_CODE_ERROR_META_DATA[status] ?? STATUS_CODE_ERROR_META_DATA[500]
-  ).title;
+  return STATUS_CODE_ERROR_META_DATA[asStatusCode(status)].title;
 }
 
 export function ErrorPage({
@@ -53,10 +63,11 @@ export function ErrorPage({
   const error = useRouteError();
   console.error("ErrorBoundary error", error);
 
-  const status = isRouteErrorResponse(error) ? error.status : 500;
+  const status = isRouteErrorResponse(error)
+    ? asStatusCode(error.status)
+    : DEFAULT_STATUS_CODE;
 
-  const meta =
-    STATUS_CODE_ERROR_META_DATA[status] ?? STATUS_CODE_ERROR_META_DATA[500];
+  const meta = STATUS_CODE_ERROR_META_DATA[status];
 
   return (
     <main

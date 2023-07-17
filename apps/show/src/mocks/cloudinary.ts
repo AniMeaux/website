@@ -16,6 +16,7 @@ const resolver: Parameters<typeof rest.get>[1] = async (req, res, ctx) => {
   invariant(typeof req.params.id === "string", "id is required");
   const hash = Number(stringToHex(req.params.id));
   const svg = SVGS[hash % SVGS.length];
+  invariant(svg != null, "An SVG should exists");
 
   return res(
     ctx.set("Content-Length", String(svg.length)),

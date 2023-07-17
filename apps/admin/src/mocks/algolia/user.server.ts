@@ -1,5 +1,6 @@
 import { Hit, SearchResponse } from "@algolia/client-search";
 import { Prisma } from "@prisma/client";
+import { promiseHash } from "remix-utils";
 import { algolia } from "~/core/algolia/algolia.server";
 import { prisma } from "~/core/db.server";
 import {
@@ -15,36 +16,41 @@ export const userHandlers = [
     async (req, res, ctx) => {
       const body = await req.json();
       const query = body.query || "";
+      const page = body.page ?? 0;
 
       const where: Prisma.UserWhereInput = {};
       if (query !== "") {
         where.displayName = { contains: query, mode: "insensitive" };
       }
 
-      const breeds = await prisma.user.findMany({
-        where,
-        orderBy: { displayName: "asc" },
-        select: {
-          displayName: true,
-          email: true,
-          groups: true,
-          id: true,
-          isDisabled: true,
-        },
-        take: body.hitsPerPage,
+      const { totalCount, users } = await promiseHash({
+        totalCount: prisma.user.count({ where }),
+        users: prisma.user.findMany({
+          where,
+          orderBy: { displayName: "asc" },
+          take: body.hitsPerPage,
+          skip: page * body.hitsPerPage,
+          select: {
+            displayName: true,
+            email: true,
+            groups: true,
+            id: true,
+            isDisabled: true,
+          },
+        }),
       });
 
       const responseBody: SearchResponse<UserFromAlgolia> = {
-        nbHits: breeds.length,
-        page: 0,
-        nbPages: 1,
-        hitsPerPage: body.hitsPerPage ?? breeds.length,
+        nbHits: totalCount,
+        page,
+        nbPages: Math.ceil(totalCount / body.hitsPerPage),
+        hitsPerPage: body.hitsPerPage,
         exhaustiveNbHits: true,
         query,
         params: "",
         renderingContent: {},
         processingTimeMS: 1,
-        hits: breeds.map<Hit<UserFromAlgolia>>((user) => ({
+        hits: users.map<Hit<UserFromAlgolia>>((user) => ({
           ...user,
           objectID: user.id,
           _highlightResult: {

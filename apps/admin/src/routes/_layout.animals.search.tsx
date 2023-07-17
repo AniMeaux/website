@@ -1,8 +1,7 @@
 import { ANIMAL_AGE_RANGE_BY_SPECIES } from "@animeaux/shared";
-import { Animal, Prisma, Status, UserGroup } from "@prisma/client";
+import { Prisma, Status, UserGroup } from "@prisma/client";
 import { LoaderArgs, json } from "@remix-run/node";
 import { V2_MetaFunction, useLoaderData } from "@remix-run/react";
-import orderBy from "lodash.orderby";
 import { DateTime } from "luxon";
 import { promiseHash } from "remix-utils";
 import invariant from "tiny-invariant";
@@ -158,7 +157,6 @@ export async function loader({ request }: LoaderArgs) {
   }
 
   const nameOrAlias = animalSearchParams.getNameOrAlias();
-  let rankedAnimalsId: Animal["id"][] = [];
   if (nameOrAlias != null) {
     const animals = await algolia.animal.search({
       nameOrAlias,
@@ -169,9 +167,7 @@ export async function loader({ request }: LoaderArgs) {
       status: statuses,
     });
 
-    rankedAnimalsId = animals.map((animal) => animal.id);
-
-    where.push({ id: { in: rankedAnimalsId } });
+    where.push({ id: { in: animals.map((animal) => animal.id) } });
   }
 
   const adoptionOptions = animalSearchParams.getAdoptionOptions();
@@ -255,7 +251,7 @@ export async function loader({ request }: LoaderArgs) {
     }
   }
 
-  let {
+  const {
     managers,
     fosterFamilies,
     possiblePickUpLocations,
@@ -304,9 +300,7 @@ export async function loader({ request }: LoaderArgs) {
           ? { birthdate: "desc" }
           : sort === AnimalSearchParams.Sort.VACCINATION
           ? { nextVaccinationDate: "asc" }
-          : sort === AnimalSearchParams.Sort.PICK_UP || nameOrAlias == null
-          ? { pickUpDate: "desc" }
-          : undefined,
+          : { pickUpDate: "desc" },
       where: { AND: where },
       select: {
         alias: true,
@@ -329,15 +323,6 @@ export async function loader({ request }: LoaderArgs) {
       },
     }),
   });
-
-  if (
-    sort === AnimalSearchParams.Sort.RELEVANCE &&
-    rankedAnimalsId.length > 0
-  ) {
-    animals = orderBy(animals, (animal) =>
-      rankedAnimalsId.findIndex((animalId) => animal.id === animalId)
-    );
-  }
 
   const pageCount = Math.ceil(totalCount / ANIMAL_COUNT_PER_PAGE);
 

@@ -1,5 +1,6 @@
 import { rest } from "msw";
 import invariant from "tiny-invariant";
+import { simpleHash } from "~/core/simpleHash";
 
 const SVGS = [
   // Cat
@@ -14,8 +15,8 @@ const SVGS = [
 
 const resolver: Parameters<typeof rest.get>[1] = async (req, res, ctx) => {
   invariant(typeof req.params.id === "string", "id is required");
-  const hash = Number(stringToHex(req.params.id));
-  const svg = SVGS[hash % SVGS.length];
+  const svg = SVGS[simpleHash(req.params.id) % SVGS.length];
+  invariant(svg != null, "An SVG should exists");
 
   return res(
     ctx.set("Content-Length", String(svg.length)),
@@ -38,13 +39,3 @@ export const cloudinaryHandlers = [
     resolver
   ),
 ];
-
-function stringToHex(value: string) {
-  const hexValue = value
-    .split("")
-    .map((char) => char.charCodeAt(0).toString(16).padStart(2, "0"))
-    .join("")
-    .substring(0, 8);
-
-  return `0x${hexValue}`;
-}

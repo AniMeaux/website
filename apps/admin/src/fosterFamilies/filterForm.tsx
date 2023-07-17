@@ -22,7 +22,6 @@ export function FosterFamilyFilters({
   const visibleFilters = {
     cities: fosterFamilySearchParams.getCities(),
     displayName: fosterFamilySearchParams.getDisplayName(),
-    sort: fosterFamilySearchParams.getSort(),
     speciesAlreadyPresent: fosterFamilySearchParams.getSpeciesAlreadyPresent(),
     speciesToAvoid: fosterFamilySearchParams.getSpeciesToAvoid(),
     speciesToHost: fosterFamilySearchParams.getSpeciesToHost(),
@@ -40,49 +39,6 @@ export function FosterFamilyFilters({
       </Filters.Actions>
 
       <Filters.Content>
-        <Filters.Filter
-          value={FosterFamilySearchParams.Keys.SORT}
-          label="Trier"
-          count={
-            visibleFilters.sort === FosterFamilySearchParams.Sort.RELEVANCE
-              ? 0
-              : 1
-          }
-          hiddenContent={
-            <input
-              type="hidden"
-              name={FosterFamilySearchParams.Keys.SORT}
-              value={visibleFilters.sort}
-            />
-          }
-        >
-          <ToggleInputList>
-            <ToggleInput
-              type="radio"
-              label="Pertinence"
-              name={FosterFamilySearchParams.Keys.SORT}
-              value={FosterFamilySearchParams.Sort.RELEVANCE}
-              icon={<Icon id="bolt" />}
-              checked={
-                visibleFilters.sort === FosterFamilySearchParams.Sort.RELEVANCE
-              }
-              onChange={() => {}}
-            />
-
-            <ToggleInput
-              type="radio"
-              label="Alphabétique"
-              name={FosterFamilySearchParams.Keys.SORT}
-              value={FosterFamilySearchParams.Sort.NAME}
-              icon={<Icon id="arrowDownAZ" />}
-              checked={
-                visibleFilters.sort === FosterFamilySearchParams.Sort.NAME
-              }
-              onChange={() => {}}
-            />
-          </ToggleInputList>
-        </Filters.Filter>
-
         <Filters.Filter
           value={FosterFamilySearchParams.Keys.DISPLAY_NAME}
           label="Nom"

@@ -1,7 +1,6 @@
-import { Prisma, User, UserGroup } from "@prisma/client";
+import { Prisma, UserGroup } from "@prisma/client";
 import { LoaderArgs, json } from "@remix-run/node";
 import { V2_MetaFunction, useLoaderData } from "@remix-run/react";
-import orderBy from "lodash.orderby";
 import { DateTime } from "luxon";
 import { promiseHash } from "remix-utils";
 import { Action } from "~/core/actions";
@@ -67,16 +66,14 @@ export async function loader({ request }: LoaderArgs) {
   }
 
   const displayName = userSearchParams.getDisplayName();
-  let rankedUserId: User["id"][] = [];
   if (displayName != null) {
     const users = await algolia.user.search({ displayName, groups });
-    rankedUserId = users.map((user) => user.id);
-    where.push({ id: { in: rankedUserId } });
+    where.push({ id: { in: users.map((user) => user.id) } });
   }
 
   const sort = userSearchParams.getSort();
 
-  let { userCount, users } = await promiseHash({
+  const { userCount, users } = await promiseHash({
     userCount: prisma.user.count({ where: { AND: where } }),
 
     users: prisma.user.findMany({
@@ -85,9 +82,7 @@ export async function loader({ request }: LoaderArgs) {
       orderBy:
         sort === UserSearchParams.Sort.LAST_ACTIVITY
           ? { lastActivityAt: "desc" }
-          : sort === UserSearchParams.Sort.NAME || displayName == null
-          ? { displayName: "asc" }
-          : undefined,
+          : { displayName: "asc" },
       where: { AND: where },
       select: {
         displayName: true,
@@ -98,12 +93,6 @@ export async function loader({ request }: LoaderArgs) {
       },
     }),
   });
-
-  if (sort === UserSearchParams.Sort.RELEVANCE && rankedUserId.length > 0) {
-    users = orderBy(users, (user) =>
-      rankedUserId.findIndex((userId) => user.id === userId)
-    );
-  }
 
   const pageCount = Math.ceil(userCount / USER_COUNT_PER_PAGE);
 

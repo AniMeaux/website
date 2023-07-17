@@ -115,11 +115,12 @@ export function EventForm({
   async function handleImageChange() {
     invariant(imageRef.current != null, "imageRef should be defined");
 
-    if (imageRef.current.files != null && imageRef.current.files.length > 0) {
+    const [firstFile] = imageRef.current.files ?? [];
+    if (firstFile != null) {
       setImageState("loading");
 
       try {
-        setImageState({ image: await readFile(imageRef.current.files[0]) });
+        setImageState({ image: await readFile(firstFile) });
       } catch (error) {
         console.error("Could not import image:", error);
         setImageState("error");

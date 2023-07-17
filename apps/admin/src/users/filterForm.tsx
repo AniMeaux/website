@@ -36,9 +36,7 @@ export function UserFilterForm() {
         <Filters.Filter
           value={UserSearchParams.Keys.SORT}
           label="Trier"
-          count={
-            visibleFilters.sort === UserSearchParams.Sort.RELEVANCE ? 0 : 1
-          }
+          count={visibleFilters.sort === UserSearchParams.Sort.NAME ? 0 : 1}
           hiddenContent={
             <input
               type="hidden"
@@ -48,16 +46,6 @@ export function UserFilterForm() {
           }
         >
           <ToggleInputList>
-            <ToggleInput
-              type="radio"
-              label="Pertinence"
-              name={UserSearchParams.Keys.SORT}
-              value={UserSearchParams.Sort.RELEVANCE}
-              icon={<Icon id="bolt" />}
-              checked={visibleFilters.sort === UserSearchParams.Sort.RELEVANCE}
-              onChange={() => {}}
-            />
-
             <ToggleInput
               type="radio"
               label="Alphabétique"
