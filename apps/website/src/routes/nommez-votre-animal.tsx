@@ -210,7 +210,7 @@ export default function Route() {
                 ))}
               </ul>
 
-              <Form method="GET" className="flex">
+              <Form method="GET" replace preventScrollReset className="flex">
                 <input type="hidden" name="l" value={params.l ?? ""} />
                 <input type="hidden" name="g" value={params.g ?? ""} />
 
