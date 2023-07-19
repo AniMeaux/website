@@ -12,6 +12,7 @@ import {
   useDragItem,
   useDropContainer,
 } from "~/animals/pictures/dragAndDrop";
+import { createActionData } from "~/core/actionData";
 import { Action } from "~/core/actions";
 import { InlineHelper } from "~/core/dataDisplay/helper";
 import {
@@ -25,7 +26,6 @@ import {
 } from "~/core/dataDisplay/image";
 import { Form } from "~/core/formElements/form";
 import { ImageInput } from "~/core/formElements/imageInput";
-import { createActionData } from "~/core/schemas";
 import { Icon } from "~/generated/icon";
 
 export const ActionFormData = createActionData(

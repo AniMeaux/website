@@ -3,7 +3,8 @@ import { useFetcher } from "@remix-run/react";
 import { useCallback, useMemo } from "react";
 import { z } from "zod";
 import { zfd } from "zod-form-data";
-import { createActionData, ensureBoolean } from "~/core/schemas";
+import { createActionData } from "~/core/actionData";
+import { ensureBoolean } from "~/core/schemas";
 import { getCurrentUser } from "~/currentUser/db.server";
 import { commitCurrentUserPreferences } from "~/currentUser/preferences.server";
 

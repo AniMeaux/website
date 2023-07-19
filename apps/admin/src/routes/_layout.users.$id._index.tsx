@@ -11,6 +11,7 @@ import {
   ACTIVE_ANIMAL_STATUS,
   NON_ACTIVE_ANIMAL_STATUS,
 } from "~/animals/status";
+import { createActionData } from "~/core/actionData";
 import { Action } from "~/core/actions";
 import { BaseLink } from "~/core/baseLink";
 import { Empty } from "~/core/dataDisplay/empty";
@@ -29,7 +30,7 @@ import { PageLayout } from "~/core/layout/page";
 import { getPageTitle } from "~/core/pageTitle";
 import { Dialog } from "~/core/popovers/dialog";
 import { BadRequestResponse, NotFoundResponse } from "~/core/response.server";
-import { createActionData, ensureBoolean } from "~/core/schemas";
+import { ensureBoolean } from "~/core/schemas";
 import { getCurrentUser } from "~/currentUser/db.server";
 import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
 import { Icon } from "~/generated/icon";

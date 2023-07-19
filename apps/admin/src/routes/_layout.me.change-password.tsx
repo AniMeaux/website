@@ -2,6 +2,7 @@ import { ActionArgs, json } from "@remix-run/node";
 import { V2_MetaFunction, useFetcher } from "@remix-run/react";
 import { useEffect, useRef } from "react";
 import { z } from "zod";
+import { createActionData } from "~/core/actionData";
 import { Action } from "~/core/actions";
 import { Form } from "~/core/formElements/form";
 import { PasswordInput } from "~/core/formElements/passwordInput";
@@ -9,7 +10,6 @@ import { Card } from "~/core/layout/card";
 import { PageLayout } from "~/core/layout/page";
 import { useBackIfPossible } from "~/core/navigation";
 import { getPageTitle } from "~/core/pageTitle";
-import { createActionData } from "~/core/schemas";
 import {
   getCurrentUser,
   updateCurrentUserPassword,

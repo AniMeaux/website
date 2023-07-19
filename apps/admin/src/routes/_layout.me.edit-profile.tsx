@@ -2,6 +2,7 @@ import { ActionArgs, json, LoaderArgs } from "@remix-run/node";
 import { useFetcher, useLoaderData, V2_MetaFunction } from "@remix-run/react";
 import { useEffect, useRef } from "react";
 import { z } from "zod";
+import { createActionData } from "~/core/actionData";
 import { Action } from "~/core/actions";
 import { EmailAlreadyUsedError } from "~/core/errors.server";
 import { Form } from "~/core/formElements/form";
@@ -10,7 +11,6 @@ import { Card } from "~/core/layout/card";
 import { PageLayout } from "~/core/layout/page";
 import { useBackIfPossible } from "~/core/navigation";
 import { getPageTitle } from "~/core/pageTitle";
-import { createActionData } from "~/core/schemas";
 import {
   getCurrentUser,
   updateCurrentUserProfile,
