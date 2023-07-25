@@ -1,5 +1,5 @@
 import { useLocation, useNavigation, useSearchParams } from "@remix-run/react";
-import { useMemo } from "react";
+import { useCallback, useMemo } from "react";
 import { z } from "zod";
 import { zfd } from "zod-form-data";
 import { parseOrDefault } from "~/core/schemas";
@@ -14,18 +14,30 @@ export function useOptimisticSearchParams() {
       return new URLSearchParams(navigation.location.search);
     }
 
-    return null;
+    return undefined;
   }, [
     location.pathname,
     navigation.location?.pathname,
     navigation.location?.search,
   ]);
 
-  return [
-    // Optimistic UI.
-    nextSearchParams ?? searchParams,
-    setSearchParams,
-  ] as const;
+  const optimisticSearchParams = nextSearchParams ?? searchParams;
+
+  // When the set state function is called with a function, it needs to recieve
+  // the optimistic search parameters.
+  const setOptimisticSearchParams = useCallback<typeof setSearchParams>(
+    (nextInit, navigateOpts) => {
+      setSearchParams(
+        typeof nextInit === "function"
+          ? nextInit(optimisticSearchParams)
+          : nextInit,
+        navigateOpts
+      );
+    },
+    [optimisticSearchParams, setSearchParams]
+  );
+
+  return [optimisticSearchParams, setOptimisticSearchParams] as const;
 }
 
 export class PageSearchParams extends URLSearchParams {
