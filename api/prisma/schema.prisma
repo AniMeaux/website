@@ -185,6 +185,14 @@ model PressArticle {
   url             String   @unique
 }
 
+model AnimalNameSuggestion {
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  name   String  @id @db.VarChar(255)
+  gender Gender?
+}
+
 enum UserGroup {
   ADMIN
   ANIMAL_MANAGER

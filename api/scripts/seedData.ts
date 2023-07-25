@@ -9,6 +9,7 @@ import {
   Status,
   UserGroup,
 } from "@prisma/client";
+import uniqBy from "lodash.uniqby";
 import { DateTime } from "luxon";
 import { generatePasswordHash } from "../src/core/password";
 import {
@@ -36,7 +37,8 @@ async function seedData() {
     seedBreeds(),
     seedColors(),
     seedEvents(),
-    seedPressArticle(),
+    seedPressArticles(),
+    seedAnimalNameSuggestions(),
   ]);
 
   await seedAnimals();
@@ -394,7 +396,7 @@ function createAnimalInput({
   };
 }
 
-async function seedPressArticle() {
+async function seedPressArticles() {
   await prisma.pressArticle.createMany({
     data: repeate({ min: 10, max: 20 }, () => ({
       image: faker.helpers.maybe(() =>
@@ -409,6 +411,21 @@ async function seedPressArticle() {
         .replace(".", ""),
       url: faker.internet.url(),
     })),
+  });
+}
+
+async function seedAnimalNameSuggestions() {
+  await prisma.animalNameSuggestion.createMany({
+    data: uniqBy(
+      repeate({ min: 2000, max: 3000 }, () => ({
+        name: faker.person.firstName(),
+        gender: faker.helpers.maybe(
+          () => faker.helpers.arrayElement(Object.values(Gender)),
+          { probability: 2 / 3 }
+        ),
+      })),
+      (suggestion) => suggestion.name
+    ),
   });
 }
 

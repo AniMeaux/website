@@ -1,16 +1,16 @@
-import { Gender } from "@prisma/client";
-import { json, LoaderArgs } from "@remix-run/node";
+import { Gender, Prisma } from "@prisma/client";
+import { LoaderArgs, json } from "@remix-run/node";
 import {
   Form,
+  V2_MetaFunction,
   useLoaderData,
   useSearchParams,
-  V2_MetaFunction,
 } from "@remix-run/react";
 import orderBy from "lodash.orderby";
 import { useEffect, useState } from "react";
 import invariant from "tiny-invariant";
 import { z } from "zod";
-import { animalNames } from "~/animals/data";
+import { zfd } from "zod-form-data";
 import { ACTIVE_ANIMAL_STATUS } from "~/animals/status";
 import { actionClassNames } from "~/core/actions";
 import { cn } from "~/core/classNames";
@@ -24,43 +24,69 @@ const ANIMAL_NAME_COUNT_PER_PAGE = 18;
 
 export async function loader({ request }: LoaderArgs) {
   const url = new URL(request.url);
-  const params = getParams(url.searchParams);
+  const searchParams = getSearchParams(url.searchParams);
 
-  const animals = await prisma.animal.findMany({
+  // We don't want to suggest names used by active animals.
+  const activeAnimals = await prisma.animal.findMany({
     where: {
-      name: { in: animalNames.map((name) => name.label), mode: "insensitive" },
+      name:
+        searchParams.l == null
+          ? undefined
+          : { startsWith: searchParams.l, mode: "insensitive" },
       status: { in: ACTIVE_ANIMAL_STATUS },
     },
     select: { name: true },
   });
 
-  const usedNames = animals.map((animal) => animal.name.toLowerCase());
+  const where: Prisma.AnimalNameSuggestionWhereInput[] = [
+    {
+      name: {
+        notIn: activeAnimals.map((animal) => animal.name),
+        mode: "insensitive",
+      },
+    },
+  ];
 
-  // Remove names used by active animals.
-  let names = animalNames.filter(
-    (name) => !usedNames.includes(name.label.toLowerCase())
-  );
-
-  if (params.l != null) {
-    const firstLetter = params.l.toLowerCase();
-    names = names.filter((name) =>
-      name.label.toLowerCase().startsWith(firstLetter)
-    );
+  if (searchParams.l != null) {
+    where.push({ name: { startsWith: searchParams.l, mode: "insensitive" } });
   }
 
-  if (params.g != null) {
-    const gender = params.g;
-    names = names.filter(
-      (name) => name.gender == null || name.gender === gender
-    );
+  if (searchParams.g != null) {
+    // Names relevent for both genders (gender: null) should always be
+    // suggested.
+    where.push({ OR: [{ gender: searchParams.g }, { gender: null }] });
   }
 
-  names = orderBy(
-    pickRandom(names, ANIMAL_NAME_COUNT_PER_PAGE),
-    (name) => name.label
+  const count = await prisma.animalNameSuggestion.count({
+    where: { AND: where },
+  });
+
+  // Order indexes so the names will be alphabetically ordered.
+  const indexesToPick = orderBy(
+    pickRandom(
+      Array.from({ length: count }, (_, i) => i),
+      ANIMAL_NAME_COUNT_PER_PAGE
+    )
   );
 
-  return json({ names });
+  const suggestions = await Promise.all(
+    indexesToPick.map(async (index) => {
+      // Use `findMany` so we can use pagination options to get by index.
+      const suggestions = await prisma.animalNameSuggestion.findMany({
+        where: { AND: where },
+        orderBy: { name: "asc" },
+        skip: index,
+        take: 1,
+        select: { name: true, gender: true },
+      });
+
+      invariant(suggestions[0], "The name should exists.");
+
+      return suggestions[0];
+    })
+  );
+
+  return json({ suggestions });
 }
 
 export const meta: V2_MetaFunction = () => {
@@ -68,9 +94,9 @@ export const meta: V2_MetaFunction = () => {
 };
 
 export default function Route() {
-  const { names } = useLoaderData<typeof loader>();
+  const { suggestions } = useLoaderData<typeof loader>();
   const [searchParams] = useSearchParams();
-  const params = getParams(searchParams);
+  const params = getSearchParams(searchParams);
 
   return (
     <main className={cn("w-full px-page flex flex-col gap-12", "md:gap-24")}>
@@ -164,7 +190,7 @@ export default function Route() {
         <section
           className={cn("flex flex-col items-center gap-12", "md:flex-1")}
         >
-          {names.length === 0 ? (
+          {suggestions.length === 0 ? (
             <p
               className={cn(
                 "w-full py-12 text-gray-500 text-center",
@@ -184,28 +210,22 @@ export default function Route() {
                   "lg:grid-cols-3"
                 )}
               >
-                {names.map((name) => (
+                {suggestions.map((suggestion) => (
                   <li
-                    key={name.label}
+                    key={suggestion.name}
                     className="flex items-center justify-center gap-1"
                   >
                     <span className="flex items-center text-[20px]">
-                      <Icon
-                        id="venus"
-                        className={cn("text-pink-500", {
-                          hidden: name.gender === Gender.MALE,
-                        })}
-                      />
+                      {suggestion.gender !== Gender.MALE ? (
+                        <Icon id="venus" className="text-pink-500" />
+                      ) : null}
 
-                      <Icon
-                        id="mars"
-                        className={cn("text-brandBlue", {
-                          hidden: name.gender === Gender.FEMALE,
-                        })}
-                      />
+                      {suggestion.gender !== Gender.FEMALE ? (
+                        <Icon id="mars" className="text-brandBlue" />
+                      ) : null}
                     </span>
 
-                    <span className="text-title-item">{name.label}</span>
+                    <span className="text-title-item">{suggestion.name}</span>
                   </li>
                 ))}
               </ul>
@@ -263,42 +283,37 @@ function FirstLetterInput({ defaultValue }: { defaultValue: string }) {
 }
 
 const LoaderSearchParamsSchema = z.object({
-  l: z
-    .string()
-    .regex(/^[A-Z]?$/)
-    .optional()
-    .transform((value) => value || null),
-  g: z
-    .union([z.literal(""), z.nativeEnum(Gender)])
-    .optional()
-    .transform((value) => value || null),
+  l: zfd.text(
+    z
+      .string()
+      .regex(/^[A-Z]?$/)
+      .optional()
+      .catch(undefined)
+  ),
+  g: z.nativeEnum(Gender).optional().catch(undefined),
 });
 
-function getParams(searchParams: URLSearchParams) {
-  const result = LoaderSearchParamsSchema.safeParse(
-    Object.fromEntries(searchParams.entries())
-  );
-
-  return result.success ? result.data : { l: null, g: null };
+function getSearchParams(searchParams: URLSearchParams) {
+  return zfd.formData(LoaderSearchParamsSchema).parse(searchParams);
 }
 
 // Inspired by Faker's `arrayElements`.
 // https://github.com/faker-js/faker/blob/v7.5.0/src/modules/helpers/index.ts#L431
-function pickRandom<T>(names: T[], count: number) {
-  count = Math.min(count, names.length);
-  const arrayCopy = names.slice();
+function pickRandom<T>(array: T[], count: number) {
+  count = Math.min(count, array.length);
+  const arrayCopy = array.slice();
 
   for (let currentCount = 0; currentCount < count; currentCount++) {
-    const index = Math.floor((names.length - currentCount) * Math.random());
+    const index = Math.floor((array.length - currentCount) * Math.random());
     const temp = arrayCopy[index];
     invariant(temp != null, "First element should exists");
 
-    const temp2 = arrayCopy[names.length - currentCount - 1];
+    const temp2 = arrayCopy[array.length - currentCount - 1];
     invariant(temp2 != null, "Second element should exists");
 
     arrayCopy[index] = temp2;
-    arrayCopy[names.length - currentCount - 1] = temp;
+    arrayCopy[array.length - currentCount - 1] = temp;
   }
 
-  return arrayCopy.slice(names.length - count);
+  return arrayCopy.slice(array.length - count);
 }
