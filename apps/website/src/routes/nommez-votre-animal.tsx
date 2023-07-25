@@ -102,7 +102,12 @@ export default function Route() {
             "md:flex-1 md:max-w-xs"
           )}
         >
-          <Form method="GET" className="w-full flex flex-col gap-6">
+          <Form
+            method="GET"
+            replace
+            preventScrollReset
+            className="w-full flex flex-col gap-6"
+          >
             <h2 className="text-title-item">Critères</h2>
 
             <div className="flex flex-col gap-3">
