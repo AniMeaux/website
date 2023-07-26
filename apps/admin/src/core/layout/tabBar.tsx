@@ -37,7 +37,7 @@ TabBar.Item = function TabBarItem({
       to={to}
       className={({ isActive }) =>
         cn(
-          "rounded-0.5 py-1 flex items-center justify-center text-[20px] transition-colors duration-100 ease-in-out focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400",
+          "rounded-0.5 py-1 flex items-center justify-center text-[25px] transition-colors duration-100 ease-in-out focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400",
           {
             "bg-blue-50 text-blue-500": isActive,
             "text-gray-500 hover:bg-gray-100 active:bg-gray-100": !isActive,

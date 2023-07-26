@@ -43,7 +43,7 @@ export const Action = Object.assign(
           {...rest}
           ref={ref}
           className={cn(
-            "relative flex-none flex items-center justify-center gap-0.5 text-body-emphasis duration-100 ease-in-out active:scale-95 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white",
+            "relative flex-none flex items-center justify-center gap-0.5 duration-100 ease-in-out active:scale-95 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white",
             VARIANT_CLASS_NAME[variant]({ isIconOnly }),
             COLOR_CLASS_NAMES[variant][color],
             className
@@ -68,42 +68,27 @@ export const Action = Object.assign(
   }
 );
 
-export const ProseInlineAction = forwardRef<
-  React.ComponentRef<typeof Primitive.button>,
-  React.ComponentPropsWithoutRef<typeof Primitive.button>
->(function ProseInlineAction({ className, ...rest }, ref) {
-  return (
-    <Primitive.button
-      {...rest}
-      ref={ref}
-      className={cn(
-        "relative text-body-emphasis after:absolute after:bottom-0 after:left-0 after:w-full after:border-b after:border-blue-500 hover:after:border-b-2 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white",
-        className
-      )}
-    />
-  );
-});
-
 const VARIANT_CLASS_NAME: Record<
   ActionVariant,
   (args: { isIconOnly: boolean }) => string
 > = {
   floating: () =>
-    "shadow-ambient rounded-full w-5 h-5 justify-center text-[20px] transition-[background-color,transform]",
+    "shadow-ambient rounded-full w-5 h-5 justify-center text-[25px] transition-[background-color,transform]",
   primary: ({ isIconOnly }) =>
     cn(
-      "rounded-0.5 min-w-[40px] h-4 transition-[background-color,transform]",
+      "rounded-0.5 min-w-[40px] h-4 text-body-emphasis transition-[background-color,transform]",
       isIconOnly ? "px-1" : "px-2"
     ),
   secondary: ({ isIconOnly }) =>
     cn(
-      "rounded-0.5 min-w-[40px] h-4 transition-[background-color,transform]",
+      "rounded-0.5 min-w-[40px] h-4 text-body-emphasis transition-[background-color,transform]",
       isIconOnly ? "px-1" : "px-2"
     ),
-  text: () => "rounded-0.5 min-w-[20px] h-2 transition-[color,transform]",
+  text: () =>
+    "rounded-0.5 min-w-[20px] h-2 text-body-emphasis transition-[color,transform]",
   translucid: ({ isIconOnly }) =>
     cn(
-      "rounded-0.5 min-w-[40px] h-4 bg-opacity-50 transition-[background-color,transform] hover:bg-opacity-70",
+      "rounded-0.5 min-w-[40px] h-4 bg-opacity-50 text-body-emphasis transition-[background-color,transform] hover:bg-opacity-70",
       isIconOnly ? "px-1" : "px-2"
     ),
 };
@@ -150,3 +135,19 @@ const COLOR_CLASS_NAMES: Record<ActionVariant, Record<ActionColor, string>> = {
     red: "",
   },
 };
+
+export const ProseInlineAction = forwardRef<
+  React.ComponentRef<typeof Primitive.button>,
+  React.ComponentPropsWithoutRef<typeof Primitive.button>
+>(function ProseInlineAction({ className, ...rest }, ref) {
+  return (
+    <Primitive.button
+      {...rest}
+      ref={ref}
+      className={cn(
+        "relative text-body-emphasis after:absolute after:bottom-0 after:left-0 after:w-full after:border-b after:border-blue-500 hover:after:border-b-2 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white",
+        className
+      )}
+    />
+  );
+});
