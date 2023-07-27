@@ -14,7 +14,7 @@ export const Overlay = forwardRef<
         // Use absolute instead of fixed to avoid performances issues when
         // mobile browser's height change due to scroll.
         "absolute",
-        "top-0 right-0 z-30 h-screen w-full overscroll-none bg-black/20 cursor-pointer",
+        "top-0 right-0 z-30 h-full w-full overscroll-none bg-black/20 cursor-pointer",
         className
       )}
     />
