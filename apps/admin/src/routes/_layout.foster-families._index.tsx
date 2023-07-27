@@ -188,7 +188,7 @@ export default function Route() {
           <aside className="hidden flex-col min-w-[250px] max-w-[300px] flex-1 md:flex">
             <Card className="sticky top-8 max-h-[calc(100vh-100px)]">
               <Card.Header>
-                <Card.Title>Trier et filtrer</Card.Title>
+                <Card.Title>Filtrer</Card.Title>
               </Card.Header>
 
               <Card.Content hasVerticalScroll>

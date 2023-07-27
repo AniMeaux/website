@@ -175,7 +175,7 @@ export default function Route() {
           </aside>
         </section>
 
-        <SortAndFiltersFloatingAction totalCount={userCount}>
+        <SortAndFiltersFloatingAction hasSort totalCount={userCount}>
           <UserFilterForm />
         </SortAndFiltersFloatingAction>
       </PageLayout.Content>
