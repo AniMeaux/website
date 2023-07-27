@@ -12,13 +12,12 @@ export function createBreedDelegate(client: SearchClient) {
     indexName: index.indexName,
 
     async search(
-      name: string,
-      filters: { species: null | Species },
+      { name, species = [] }: { name: string; species?: Species[] },
       options: Omit<SearchOptions, "filters"> = {}
     ) {
       const hits = await indexSearch<BreedFromAlgolia>(index, name, {
         ...options,
-        filters: createSearchFilters(filters),
+        filters: createSearchFilters({ species }),
       });
 
       return hits.map((hit) => ({

@@ -43,7 +43,7 @@ export const Action = Object.assign(
           {...rest}
           ref={ref}
           className={cn(
-            "relative flex-none flex items-center justify-center gap-0.5 duration-100 ease-in-out active:scale-95 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white",
+            "relative disabled:opacity-50 flex-none flex items-center justify-center gap-0.5 duration-100 ease-in-out active:scale-95 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white",
             VARIANT_CLASS_NAME[variant]({ isIconOnly }),
             COLOR_CLASS_NAMES[variant][color],
             className

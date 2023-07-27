@@ -199,13 +199,13 @@ const ALL_NAVIGATION_ITEMS: NavigationItem[] = [
     label: "Articles de presse",
     authorizedGroups: [UserGroup.ADMIN],
   },
+  {
+    to: "/breeds",
+    icon: "dna",
+    label: "Races",
+    authorizedGroups: [UserGroup.ADMIN],
+  },
   // Uncomment when pages are implemented.
-  // {
-  //   to: "/breeds",
-  //   icon: "dna",
-  //   label: "Races",
-  //   authorizedGroups: [UserGroup.ADMIN],
-  // },
   // {
   //   to: "/colors",
   //   icon: "palette",

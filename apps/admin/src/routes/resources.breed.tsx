@@ -8,6 +8,7 @@ import { forwardRef, useEffect, useState } from "react";
 import { fuzzySearchBreeds } from "~/breeds/db.server";
 import { BreedSearchParams } from "~/breeds/searchParams";
 import { toBooleanAttribute } from "~/core/attributes";
+import { ensureArray } from "~/core/ensureArray";
 import { BaseTextInput } from "~/core/formElements/baseTextInput";
 import { Input } from "~/core/formElements/input";
 import {
@@ -77,7 +78,9 @@ export const BreedInput = forwardRef<
       load(
         createPath({
           pathname: RESOURCE_PATHNAME,
-          search: new BreedSearchParams().setSpecies(species).toString(),
+          search: new BreedSearchParams()
+            .setSpecies(ensureArray(species))
+            .toString(),
         })
       );
     }
@@ -117,7 +120,7 @@ export const BreedInput = forwardRef<
                 createPath({
                   pathname: RESOURCE_PATHNAME,
                   search: new BreedSearchParams()
-                    .setSpecies(species)
+                    .setSpecies(ensureArray(species))
                     .setName(value)
                     .toString(),
                 })

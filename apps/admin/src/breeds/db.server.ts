@@ -8,13 +8,13 @@ export async function fuzzySearchBreeds({
   name,
   species,
 }: {
-  name: null | string;
-  species: null | Species;
+  name?: string;
+  species: Species[];
 }) {
   // Don't use Algolia when there are no text search.
   if (name == null) {
     const breeds = await prisma.breed.findMany({
-      where: { species: species ?? undefined },
+      where: { species: species == null ? undefined : { in: species } },
       select: { id: true, name: true },
       orderBy: { name: "asc" },
       take: SEARCH_COUNT,
@@ -24,8 +24,7 @@ export async function fuzzySearchBreeds({
   }
 
   return await algolia.breed.search(
-    name,
-    { species },
+    { name, species },
     { hitsPerPage: SEARCH_COUNT }
   );
 }
