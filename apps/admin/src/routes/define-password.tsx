@@ -5,15 +5,12 @@ import { z } from "zod";
 import { createActionData } from "~/core/actionData";
 import { Action } from "~/core/actions";
 import { InlineHelper } from "~/core/dataDisplay/helper";
+import { db } from "~/core/db.server";
 import { Form } from "~/core/formElements/form";
 import { PasswordInput } from "~/core/formElements/passwordInput";
 import { RouteHandle } from "~/core/handles";
 import { getPageTitle } from "~/core/pageTitle";
 import { NextSearchParams } from "~/core/searchParams";
-import {
-  getCurrentUser,
-  updateCurrentUserPassword,
-} from "~/currentUser/db.server";
 import { Icon } from "~/generated/icon";
 import nameAndLogo from "~/images/nameAndLogo.svg";
 
@@ -22,7 +19,7 @@ export const handle: RouteHandle = {
 };
 
 export async function loader({ request }: LoaderArgs) {
-  const currentUser = await getCurrentUser(
+  const currentUser = await db.currentUser.get(
     request,
     { select: { shouldChangePassword: true } },
     { skipPasswordChangeCheck: true }
@@ -48,7 +45,7 @@ const ActionFormData = createActionData(
 );
 
 export async function action({ request }: ActionArgs) {
-  const currentUser = await getCurrentUser(
+  const currentUser = await db.currentUser.get(
     request,
     { select: { id: true } },
     { skipPasswordChangeCheck: true }
@@ -63,7 +60,7 @@ export async function action({ request }: ActionArgs) {
     return json({ errors: formData.error.flatten() }, { status: 400 });
   }
 
-  await updateCurrentUserPassword(currentUser.id, formData.data.password);
+  await db.currentUser.updatePassword(currentUser.id, formData.data.password);
 
   const url = new URL(request.url);
   const searchParams = new NextSearchParams(url.searchParams);

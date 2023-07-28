@@ -3,20 +3,17 @@ import { ActionArgs, json, LoaderArgs, redirect } from "@remix-run/node";
 import { useFetcher, useLoaderData, V2_MetaFunction } from "@remix-run/react";
 import { z } from "zod";
 import { AnimalCreationSteps } from "~/animals/creationSteps";
-import {
-  BreedNotForSpeciesError,
-  updateAnimalProfileDraft,
-} from "~/animals/profile/db.server";
+import { BreedNotForSpeciesError } from "~/animals/profile/db.server";
 import { ActionFormData, AnimalProfileForm } from "~/animals/profile/form";
 import { ErrorPage } from "~/core/dataDisplay/errorPage";
+import { db } from "~/core/db.server";
 import { Card } from "~/core/layout/card";
 import { PageLayout } from "~/core/layout/page";
 import { getPageTitle } from "~/core/pageTitle";
-import { getCurrentUser } from "~/currentUser/db.server";
 import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
 
 export async function loader({ request }: LoaderArgs) {
-  const currentUser = await getCurrentUser(request, {
+  const currentUser = await db.currentUser.get(request, {
     select: {
       groups: true,
       draft: {
@@ -45,7 +42,7 @@ type ActionData = {
 };
 
 export async function action({ request }: ActionArgs) {
-  const currentUser = await getCurrentUser(request, {
+  const currentUser = await db.currentUser.get(request, {
     select: { id: true, groups: true },
   });
 
@@ -67,7 +64,7 @@ export async function action({ request }: ActionArgs) {
   }
 
   try {
-    await updateAnimalProfileDraft(currentUser.id, {
+    await db.animal.profile.updateDraft(currentUser.id, {
       species: formData.data.species,
       name: formData.data.name,
       alias: formData.data.alias || null,

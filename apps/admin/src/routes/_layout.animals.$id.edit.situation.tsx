@@ -9,23 +9,22 @@ import {
   MissingNextVaccinationError,
   MissingPickUpLocationError,
   NotManagerError,
-  updateAnimalSituation,
 } from "~/animals/situation/db.server";
 import { ActionFormData, AnimalSituationForm } from "~/animals/situation/form";
 import { ErrorPage, getErrorTitle } from "~/core/dataDisplay/errorPage";
-import { prisma } from "~/core/db.server";
+import { db } from "~/core/db.server";
 import { NotFoundError } from "~/core/errors.server";
 import { assertIsDefined } from "~/core/isDefined.server";
 import { Card } from "~/core/layout/card";
 import { PageLayout } from "~/core/layout/page";
 import { useBackIfPossible } from "~/core/navigation";
 import { getPageTitle } from "~/core/pageTitle";
+import { prisma } from "~/core/prisma.server";
 import { NotFoundResponse } from "~/core/response.server";
-import { getCurrentUser } from "~/currentUser/db.server";
 import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
 
 export async function loader({ request, params }: LoaderArgs) {
-  const currentUser = await getCurrentUser(request, {
+  const currentUser = await db.currentUser.get(request, {
     select: { groups: true },
   });
 
@@ -86,7 +85,7 @@ type ActionData = {
 };
 
 export async function action({ request, params }: ActionArgs) {
-  const currentUser = await getCurrentUser(request, {
+  const currentUser = await db.currentUser.get(request, {
     select: { groups: true },
   });
 
@@ -113,7 +112,7 @@ export async function action({ request, params }: ActionArgs) {
   }
 
   try {
-    await updateAnimalSituation(idResult.data, {
+    await db.animal.situation.update(idResult.data, {
       adoptionDate: formData.data.adoptionDate ?? null,
       adoptionOption: formData.data.adoptionOption ?? null,
       comments: formData.data.comments || null,

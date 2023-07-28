@@ -15,11 +15,11 @@ import {
 import { createPath } from "history";
 import { useEffect, useState } from "react";
 import { z } from "zod";
-import { fuzzySearchAnimals } from "~/animals/db.server";
 import { AnimalSuggestionItem } from "~/animals/item";
 import { getAnimalDisplayName } from "~/animals/profile/name";
 import { AnimalSearchParams } from "~/animals/searchParams";
 import { cn } from "~/core/classNames";
+import { db } from "~/core/db.server";
 import { BaseTextInput } from "~/core/formElements/baseTextInput";
 import { Input } from "~/core/formElements/input";
 import {
@@ -30,9 +30,7 @@ import { useNavigate } from "~/core/navigation";
 import { Overlay } from "~/core/popovers/overlay";
 import { ForbiddenResponse } from "~/core/response.server";
 import { parseOrDefault } from "~/core/schemas";
-import { getCurrentUser } from "~/currentUser/db.server";
 import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
-import { fuzzySearchFosterFamilies } from "~/fosterFamilies/db.server";
 import { FosterFamilySuggestionItem } from "~/fosterFamilies/item";
 import { FosterFamilySearchParams } from "~/fosterFamilies/searchParams";
 import { Icon } from "~/generated/icon";
@@ -73,7 +71,7 @@ export class GlobalSearchParams extends URLSearchParams {
 }
 
 export async function loader({ request }: LoaderArgs) {
-  const currentUser = await getCurrentUser(request, {
+  const currentUser = await db.currentUser.get(request, {
     select: { groups: true },
   });
 
@@ -101,12 +99,19 @@ export async function loader({ request }: LoaderArgs) {
   }
 
   if (type === "animal") {
-    const animals = await fuzzySearchAnimals(text, SEARCH_COUNT);
+    const animals = await db.animal.fuzzySearch({
+      nameOrAlias: text,
+      maxHitCount: SEARCH_COUNT,
+    });
     const items = animals.map((animal) => ({ type, ...animal }));
     return json({ possibleTypes, items });
   }
 
-  const fosterFamilies = await fuzzySearchFosterFamilies(text, SEARCH_COUNT);
+  const fosterFamilies = await db.fosterFamily.fuzzySearch({
+    displayName: text,
+    maxHitCount: SEARCH_COUNT,
+  });
+
   const items = fosterFamilies.map((fosterFamily) => ({
     type,
     ...fosterFamily,

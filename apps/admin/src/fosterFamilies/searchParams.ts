@@ -37,7 +37,9 @@ export class FosterFamilySearchParams extends URLSearchParams {
   }
 
   getDisplayName() {
-    return this.get(FosterFamilySearchParams.Keys.DISPLAY_NAME)?.trim() || null;
+    return (
+      this.get(FosterFamilySearchParams.Keys.DISPLAY_NAME)?.trim() || undefined
+    );
   }
 
   setDisplayName(displayName: string) {

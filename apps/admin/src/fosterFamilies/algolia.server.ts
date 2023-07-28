@@ -1,50 +1,50 @@
 import { SearchOptions } from "@algolia/client-search";
 import { FosterFamily } from "@prisma/client";
-import { SearchClient } from "algoliasearch";
+import { SearchClient, SearchIndex } from "algoliasearch";
 import { indexSearch } from "~/core/algolia/shared.server";
 
 export type FosterFamilyFromAlgolia = Pick<FosterFamily, "displayName">;
 
-export function createFosterFamilyDelegate(client: SearchClient) {
-  const index = client.initIndex("fosterFamily");
+export class FosterFamilyAlgoliaDelegate {
+  readonly index: SearchIndex;
 
-  return {
-    indexName: index.indexName,
+  constructor(client: SearchClient) {
+    this.index = client.initIndex("fosterFamily");
+  }
 
-    async delete(fosterFamilyId: FosterFamily["id"]) {
-      await index.deleteObject(fosterFamilyId);
-    },
+  async delete(fosterFamilyId: FosterFamily["id"]) {
+    await this.index.deleteObject(fosterFamilyId);
+  }
 
-    async update(
-      fosterFamilyId: FosterFamily["id"],
-      data: Partial<FosterFamilyFromAlgolia>
-    ) {
-      await index.partialUpdateObject({ ...data, objectID: fosterFamilyId });
-    },
+  async update(
+    fosterFamilyId: FosterFamily["id"],
+    data: Partial<FosterFamilyFromAlgolia>
+  ) {
+    await this.index.partialUpdateObject({ ...data, objectID: fosterFamilyId });
+  }
 
-    async create(
-      fosterFamilyId: FosterFamily["id"],
-      data: FosterFamilyFromAlgolia
-    ) {
-      await index.saveObject({ ...data, objectID: fosterFamilyId });
-    },
+  async create(
+    fosterFamilyId: FosterFamily["id"],
+    data: FosterFamilyFromAlgolia
+  ) {
+    await this.index.saveObject({ ...data, objectID: fosterFamilyId });
+  }
 
-    async search(
-      { displayName }: { displayName: string },
-      options: Omit<SearchOptions, "filters"> = {}
-    ) {
-      const hits = await indexSearch<FosterFamilyFromAlgolia>(
-        index,
-        displayName,
-        options
-      );
+  async search({
+    displayName,
+    ...options
+  }: Omit<SearchOptions, "filters"> & { displayName: string }) {
+    const hits = await indexSearch<FosterFamilyFromAlgolia>(
+      this.index,
+      displayName,
+      options
+    );
 
-      return hits.map((hit) => ({
-        id: hit.objectID,
-        displayName: hit.displayName,
-        highlightedDisplayName:
-          hit._highlightResult?.displayName?.value ?? hit.displayName,
-      }));
-    },
-  };
+    return hits.map((hit) => ({
+      id: hit.objectID,
+      displayName: hit.displayName,
+      highlightedDisplayName:
+        hit._highlightResult?.displayName?.value ?? hit.displayName,
+    }));
+  }
 }

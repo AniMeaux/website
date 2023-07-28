@@ -4,16 +4,13 @@ import { useEffect, useRef } from "react";
 import { z } from "zod";
 import { createActionData } from "~/core/actionData";
 import { Action } from "~/core/actions";
+import { db } from "~/core/db.server";
 import { Form } from "~/core/formElements/form";
 import { PasswordInput } from "~/core/formElements/passwordInput";
 import { Card } from "~/core/layout/card";
 import { PageLayout } from "~/core/layout/page";
 import { useBackIfPossible } from "~/core/navigation";
 import { getPageTitle } from "~/core/pageTitle";
-import {
-  getCurrentUser,
-  updateCurrentUserPassword,
-} from "~/currentUser/db.server";
 import { Icon } from "~/generated/icon";
 
 export const meta: V2_MetaFunction = () => {
@@ -32,7 +29,9 @@ type ActionData = {
 };
 
 export async function action({ request }: ActionArgs) {
-  const currentUser = await getCurrentUser(request, { select: { id: true } });
+  const currentUser = await db.currentUser.get(request, {
+    select: { id: true },
+  });
 
   const rawFormData = await request.formData();
   const formData = ActionFormData.schema.safeParse(
@@ -46,7 +45,7 @@ export async function action({ request }: ActionArgs) {
     );
   }
 
-  await updateCurrentUserPassword(currentUser.id, formData.data.password);
+  await db.currentUser.updatePassword(currentUser.id, formData.data.password);
 
   return json<ActionData>({ redirectTo: "/me" });
 }

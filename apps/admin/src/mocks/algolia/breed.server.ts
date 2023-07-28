@@ -3,7 +3,7 @@ import { Prisma } from "@prisma/client";
 import { promiseHash } from "remix-utils";
 import { BreedFromAlgolia } from "~/breeds/algolia.server";
 import { algolia } from "~/core/algolia/algolia.server";
-import { prisma } from "~/core/db.server";
+import { prisma } from "~/core/prisma.server";
 import {
   createBatchHandlers,
   createPostHandlers,
@@ -12,7 +12,7 @@ import {
 
 export const breedHandlers = [
   ...createPostHandlers(
-    `/1/indexes/${algolia.breed.indexName}/query`,
+    `/1/indexes/${algolia.breed.index.indexName}/query`,
     async (req, res, ctx) => {
       const body = await req.json();
       const query = body.query || "";
@@ -62,5 +62,5 @@ export const breedHandlers = [
     }
   ),
 
-  ...createBatchHandlers(`/1/indexes/${algolia.breed.indexName}/batch`),
+  ...createBatchHandlers(`/1/indexes/${algolia.breed.index.indexName}/batch`),
 ];

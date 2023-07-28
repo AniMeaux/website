@@ -4,17 +4,17 @@ import { useFetcher, V2_MetaFunction } from "@remix-run/react";
 import { z } from "zod";
 import { zfd } from "zod-form-data";
 import { ErrorPage } from "~/core/dataDisplay/errorPage";
+import { db } from "~/core/db.server";
 import { EmailAlreadyUsedError } from "~/core/errors.server";
 import { Card } from "~/core/layout/card";
 import { PageLayout } from "~/core/layout/page";
 import { getPageTitle } from "~/core/pageTitle";
-import { getCurrentUser } from "~/currentUser/db.server";
 import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
-import { createUser, MissingPasswordError } from "~/users/db.server";
+import { MissingPasswordError } from "~/users/db.server";
 import { ActionFormData, UserForm } from "~/users/form";
 
 export async function loader({ request }: LoaderArgs) {
-  const currentUser = await getCurrentUser(request, {
+  const currentUser = await db.currentUser.get(request, {
     select: { groups: true },
   });
 
@@ -33,7 +33,7 @@ type ActionData = {
 };
 
 export async function action({ request }: ActionArgs) {
-  const currentUser = await getCurrentUser(request, {
+  const currentUser = await db.currentUser.get(request, {
     select: { groups: true },
   });
 
@@ -51,7 +51,7 @@ export async function action({ request }: ActionArgs) {
   }
 
   try {
-    const userId = await createUser({
+    const userId = await db.user.create({
       displayName: formData.data.displayName,
       email: formData.data.email,
       groups: formData.data.groups,

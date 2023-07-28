@@ -4,22 +4,22 @@ import { useFetcher, useLoaderData, V2_MetaFunction } from "@remix-run/react";
 import { z } from "zod";
 import { zfd } from "zod-form-data";
 import { ErrorPage, getErrorTitle } from "~/core/dataDisplay/errorPage";
-import { prisma } from "~/core/db.server";
+import { db } from "~/core/db.server";
 import { EmailAlreadyUsedError, NotFoundError } from "~/core/errors.server";
 import { assertIsDefined } from "~/core/isDefined.server";
 import { Card } from "~/core/layout/card";
 import { PageLayout } from "~/core/layout/page";
 import { useBackIfPossible } from "~/core/navigation";
 import { getPageTitle } from "~/core/pageTitle";
+import { prisma } from "~/core/prisma.server";
 import { NotFoundResponse } from "~/core/response.server";
-import { getCurrentUser } from "~/currentUser/db.server";
 import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
-import { LockMyselfError, updateUser } from "~/users/db.server";
+import { LockMyselfError } from "~/users/db.server";
 import { ActionFormData, UserForm } from "~/users/form";
 import { GROUP_TRANSLATION } from "~/users/groups";
 
 export async function loader({ request, params }: LoaderArgs) {
-  const currentUser = await getCurrentUser(request, {
+  const currentUser = await db.currentUser.get(request, {
     select: { groups: true },
   });
 
@@ -55,7 +55,7 @@ type ActionData = {
 };
 
 export async function action({ request, params }: ActionArgs) {
-  const currentUser = await getCurrentUser(request, {
+  const currentUser = await db.currentUser.get(request, {
     select: { groups: true, id: true },
   });
 
@@ -78,7 +78,7 @@ export async function action({ request, params }: ActionArgs) {
   }
 
   try {
-    await updateUser(
+    await db.user.update(
       idResult.data,
       {
         displayName: formData.data.displayName,

@@ -16,23 +16,22 @@ import {
   InstanceColor,
   inferInstanceColor,
 } from "~/core/dataDisplay/instanceColor";
-import { prisma } from "~/core/db.server";
+import { db } from "~/core/db.server";
 import { NotFoundError } from "~/core/errors.server";
 import { Card } from "~/core/layout/card";
 import { PageLayout } from "~/core/layout/page";
 import { getPageTitle } from "~/core/pageTitle";
 import { Dialog } from "~/core/popovers/dialog";
+import { prisma } from "~/core/prisma.server";
 import { NotFoundResponse } from "~/core/response.server";
 import { PageSearchParams } from "~/core/searchParams";
-import { getCurrentUser } from "~/currentUser/db.server";
 import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
 import { Icon } from "~/generated/icon";
-import { deletePressArticle } from "~/pressArticles/db.server";
 
 const PRESS_ARTICLES_COUNT_PER_PAGE = 20;
 
 export async function loader({ request }: LoaderArgs) {
-  const currentUser = await getCurrentUser(request, {
+  const currentUser = await db.currentUser.get(request, {
     select: { groups: true },
   });
 
@@ -79,7 +78,7 @@ export async function action({ request }: ActionArgs) {
     throw new NotFoundResponse();
   }
 
-  const currentUser = await getCurrentUser(request, {
+  const currentUser = await db.currentUser.get(request, {
     select: { groups: true },
   });
 
@@ -94,7 +93,7 @@ export async function action({ request }: ActionArgs) {
   }
 
   try {
-    await deletePressArticle(formData.data.id);
+    await db.pressArticle.delete(formData.data.id);
   } catch (error) {
     if (error instanceof NotFoundError) {
       throw new NotFoundResponse();

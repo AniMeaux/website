@@ -2,7 +2,7 @@ import { Hit, SearchResponse } from "@algolia/client-search";
 import { Prisma } from "@prisma/client";
 import { promiseHash } from "remix-utils";
 import { algolia } from "~/core/algolia/algolia.server";
-import { prisma } from "~/core/db.server";
+import { prisma } from "~/core/prisma.server";
 import {
   createBatchHandlers,
   createPostHandlers,
@@ -12,7 +12,7 @@ import { UserFromAlgolia } from "~/users/algolia.server";
 
 export const userHandlers = [
   ...createPostHandlers(
-    `/1/indexes/${algolia.user.indexName}/query`,
+    `/1/indexes/${algolia.user.index.indexName}/query`,
     async (req, res, ctx) => {
       const body = await req.json();
       const query = body.query || "";
@@ -74,5 +74,5 @@ export const userHandlers = [
     }
   ),
 
-  ...createBatchHandlers(`/1/indexes/${algolia.user.indexName}/batch`),
+  ...createBatchHandlers(`/1/indexes/${algolia.user.index.indexName}/batch`),
 ];

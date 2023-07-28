@@ -11,21 +11,21 @@ import { BaseLink } from "~/core/baseLink";
 import { Paginator } from "~/core/controllers/paginator";
 import { SortAndFiltersFloatingAction } from "~/core/controllers/sortAndFiltersFloatingAction";
 import { Empty } from "~/core/dataDisplay/empty";
-import { prisma } from "~/core/db.server";
+import { db } from "~/core/db.server";
 import { Card } from "~/core/layout/card";
 import { PageLayout } from "~/core/layout/page";
 import { getPageTitle } from "~/core/pageTitle";
+import { prisma } from "~/core/prisma.server";
 import {
   PageSearchParams,
   useOptimisticSearchParams,
 } from "~/core/searchParams";
-import { getCurrentUser } from "~/currentUser/db.server";
 import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
 
 const BREED_COUNT_PER_PAGE = 20;
 
 export async function loader({ request }: LoaderArgs) {
-  const currentUser = await getCurrentUser(request, {
+  const currentUser = await db.currentUser.get(request, {
     select: { groups: true },
   });
 

@@ -5,9 +5,9 @@ import { useFetcher } from "@remix-run/react";
 import { useCombobox } from "downshift";
 import { createPath } from "history";
 import { forwardRef, useEffect, useState } from "react";
-import { fuzzySearchColors } from "~/colors/db.server";
 import { ColorSearchParams } from "~/colors/searchParams";
 import { toBooleanAttribute } from "~/core/attributes";
+import { db } from "~/core/db.server";
 import { BaseTextInput } from "~/core/formElements/baseTextInput";
 import { Input } from "~/core/formElements/input";
 import {
@@ -17,12 +17,11 @@ import {
   SuggestionItem,
   SuggestionList,
 } from "~/core/formElements/resourceInput";
-import { getCurrentUser } from "~/currentUser/db.server";
 import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
 import { Icon } from "~/generated/icon";
 
 export async function loader({ request }: LoaderArgs) {
-  const currentUser = await getCurrentUser(request, {
+  const currentUser = await db.currentUser.get(request, {
     select: { groups: true },
   });
 
@@ -34,7 +33,10 @@ export async function loader({ request }: LoaderArgs) {
   const searchParams = new ColorSearchParams(new URL(request.url).searchParams);
 
   return json({
-    colors: await fuzzySearchColors({ name: searchParams.getName() }),
+    colors: await db.color.fuzzySearch({
+      name: searchParams.getName(),
+      maxHitCount: 6,
+    }),
   });
 }
 
@@ -64,12 +66,7 @@ export const ColorInput = forwardRef<
   const load = fetcher.load;
   useEffect(() => {
     if (!isOpened) {
-      load(
-        createPath({
-          pathname: RESOURCE_PATHNAME,
-          search: new ColorSearchParams().toString(),
-        })
-      );
+      load(RESOURCE_PATHNAME);
     }
   }, [load, isOpened]);
 

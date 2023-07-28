@@ -4,13 +4,13 @@ import { useEffect, useRef } from "react";
 import { z } from "zod";
 import { createActionData } from "~/core/actionData";
 import { Action } from "~/core/actions";
+import { db } from "~/core/db.server";
 import { Form } from "~/core/formElements/form";
 import { Input } from "~/core/formElements/input";
 import { PasswordInput } from "~/core/formElements/passwordInput";
 import { RouteHandle } from "~/core/handles";
 import { getPageTitle } from "~/core/pageTitle";
 import { NextSearchParams } from "~/core/searchParams";
-import { getCurrentUser, verifyLogin } from "~/currentUser/db.server";
 import { createCurrentUserSession } from "~/currentUser/session.server";
 import { Icon } from "~/generated/icon";
 import nameAndLogo from "~/images/nameAndLogo.svg";
@@ -22,7 +22,7 @@ export const handle: RouteHandle = {
 export async function loader({ request }: LoaderArgs) {
   let hasCurrentUser: boolean;
   try {
-    await getCurrentUser(
+    await db.currentUser.get(
       request,
       { select: { id: true } },
       { skipPasswordChangeCheck: true }
@@ -69,7 +69,7 @@ export async function action({ request }: ActionArgs) {
     );
   }
 
-  const userId = await verifyLogin(formData.data);
+  const userId = await db.currentUser.verifyLogin(formData.data);
   if (userId == null) {
     return json<ActionData>(
       {

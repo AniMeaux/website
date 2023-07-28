@@ -4,21 +4,20 @@ import { useFetcher, V2_MetaFunction } from "@remix-run/react";
 import { z } from "zod";
 import { zfd } from "zod-form-data";
 import { ErrorPage } from "~/core/dataDisplay/errorPage";
+import { db } from "~/core/db.server";
 import { Card } from "~/core/layout/card";
 import { PageLayout } from "~/core/layout/page";
 import { useBackIfPossible } from "~/core/navigation";
 import { getPageTitle } from "~/core/pageTitle";
-import { getCurrentUser } from "~/currentUser/db.server";
 import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
 import {
-  createPressArticle,
   InvalidPublicationDateError,
   UrlAlreadyUsedError,
 } from "~/pressArticles/db.server";
 import { ActionFormData, PressArticleForm } from "~/pressArticles/form";
 
 export async function loader({ request }: LoaderArgs) {
-  const currentUser = await getCurrentUser(request, {
+  const currentUser = await db.currentUser.get(request, {
     select: { groups: true },
   });
 
@@ -37,7 +36,7 @@ type ActionData = {
 };
 
 export async function action({ request }: ActionArgs) {
-  const currentUser = await getCurrentUser(request, {
+  const currentUser = await db.currentUser.get(request, {
     select: { groups: true },
   });
 
@@ -53,7 +52,7 @@ export async function action({ request }: ActionArgs) {
   }
 
   try {
-    await createPressArticle({
+    await db.pressArticle.create({
       image: formData.data.image || null,
       publicationDate: formData.data.publicationDate,
       publisherName: formData.data.publisherName,

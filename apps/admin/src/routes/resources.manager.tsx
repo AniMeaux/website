@@ -6,6 +6,7 @@ import { useCombobox } from "downshift";
 import { createPath } from "history";
 import { forwardRef, useEffect, useState } from "react";
 import { toBooleanAttribute } from "~/core/attributes";
+import { db } from "~/core/db.server";
 import { BaseTextInput } from "~/core/formElements/baseTextInput";
 import { Input } from "~/core/formElements/input";
 import {
@@ -15,15 +16,13 @@ import {
   SuggestionItem,
   SuggestionList,
 } from "~/core/formElements/resourceInput";
-import { getCurrentUser } from "~/currentUser/db.server";
 import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
 import { Icon } from "~/generated/icon";
 import { UserAvatar } from "~/users/avatar";
-import { fuzzySearchUsers } from "~/users/db.server";
 import { UserSearchParams } from "~/users/searchParams";
 
 export async function loader({ request }: LoaderArgs) {
-  const currentUser = await getCurrentUser(request, {
+  const currentUser = await db.currentUser.get(request, {
     select: { groups: true },
   });
 
@@ -32,13 +31,15 @@ export async function loader({ request }: LoaderArgs) {
     UserGroup.ANIMAL_MANAGER,
   ]);
 
-  const searchParams = new UserSearchParams(new URL(request.url).searchParams);
+  const url = new URL(request.url);
+  const searchParams = new UserSearchParams(url.searchParams);
 
   return json({
-    managers: await fuzzySearchUsers({
+    managers: await db.user.fuzzySearch({
       displayName: searchParams.getDisplayName(),
       groups: [UserGroup.ANIMAL_MANAGER],
       isDisabled: false,
+      maxHitCount: 6,
     }),
   });
 }

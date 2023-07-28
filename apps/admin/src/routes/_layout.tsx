@@ -11,11 +11,11 @@ import { createPath } from "history";
 import { useEffect } from "react";
 import { promiseHash } from "remix-utils";
 import { BaseLink, BaseLinkProps } from "~/core/baseLink";
+import { db } from "~/core/db.server";
 import { SideBar } from "~/core/layout/sideBar";
 import { TabBar } from "~/core/layout/tabBar";
 import { getPageTitle } from "~/core/pageTitle";
 import { NextSearchParams } from "~/core/searchParams";
-import { getCurrentUser } from "~/currentUser/db.server";
 import { getCurrentUserPreferences } from "~/currentUser/preferences.server";
 import { Icon, IconProps } from "~/generated/icon";
 import { theme } from "~/generated/theme";
@@ -28,7 +28,7 @@ import { hasGroups } from "~/users/groups";
 export async function loader({ request }: LoaderArgs) {
   const { currentUser, preferences } = await promiseHash({
     preferences: getCurrentUserPreferences(request),
-    currentUser: getCurrentUser(request, {
+    currentUser: db.currentUser.get(request, {
       select: {
         id: true,
         displayName: true,

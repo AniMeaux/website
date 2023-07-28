@@ -4,8 +4,8 @@ import { useCallback, useMemo } from "react";
 import { z } from "zod";
 import { zfd } from "zod-form-data";
 import { createActionData } from "~/core/actionData";
+import { db } from "~/core/db.server";
 import { ensureBoolean } from "~/core/schemas";
-import { getCurrentUser } from "~/currentUser/db.server";
 import { commitCurrentUserPreferences } from "~/currentUser/preferences.server";
 
 const RESOURCE_PATHNAME = "/resources/preferences";
@@ -23,7 +23,7 @@ const ActionFormData = createActionData(
 
 export async function action({ request }: ActionArgs) {
   // Only a logged in user can change there settings.
-  await getCurrentUser(request, { select: { id: true } });
+  await db.currentUser.get(request, { select: { id: true } });
 
   const rawFormData = await request.formData();
   const formData = zfd.formData(ActionFormData.schema).safeParse(rawFormData);
