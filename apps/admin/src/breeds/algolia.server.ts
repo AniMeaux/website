@@ -12,6 +12,10 @@ export class BreedAlgoliaDelegate {
     this.index = client.initIndex("breeds");
   }
 
+  async delete(id: Breed["id"]) {
+    await this.index.deleteObject(id);
+  }
+
   async search({
     name,
     species = [],

@@ -1,4 +1,4 @@
-import { PressArticle, UserGroup } from "@prisma/client";
+import { UserGroup } from "@prisma/client";
 import { ActionArgs, LoaderArgs, SerializeFrom, json } from "@remix-run/node";
 import { V2_MetaFunction, useFetcher, useLoaderData } from "@remix-run/react";
 import { DateTime } from "luxon";
@@ -23,7 +23,7 @@ import { PageLayout } from "~/core/layout/page";
 import { getPageTitle } from "~/core/pageTitle";
 import { Dialog } from "~/core/popovers/dialog";
 import { prisma } from "~/core/prisma.server";
-import { NotFoundResponse } from "~/core/response.server";
+import { BadRequestResponse, NotFoundResponse } from "~/core/response.server";
 import { PageSearchParams } from "~/core/searchParams";
 import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
 import { Icon } from "~/generated/icon";
@@ -89,7 +89,7 @@ export async function action({ request }: ActionArgs) {
     .formData(DeleteActionFormData.schema)
     .safeParse(rawFormData);
   if (!formData.success) {
-    throw new NotFoundResponse();
+    throw new BadRequestResponse();
   }
 
   try {
@@ -163,12 +163,7 @@ function PressArticleItem({
   pressArticle,
   imageLoading,
 }: {
-  pressArticle: SerializeFrom<
-    Pick<
-      PressArticle,
-      "id" | "image" | "publicationDate" | "publisherName" | "title" | "url"
-    >
-  >;
+  pressArticle: SerializeFrom<typeof loader>["pressArticles"][number];
   imageLoading: NonNullable<
     React.ComponentPropsWithoutRef<typeof DynamicImage>["loading"]
   >;

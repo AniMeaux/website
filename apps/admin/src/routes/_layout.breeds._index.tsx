@@ -1,10 +1,13 @@
 import { Prisma, UserGroup } from "@prisma/client";
-import { LoaderArgs, json } from "@remix-run/node";
-import { V2_MetaFunction, useLoaderData } from "@remix-run/react";
+import { ActionArgs, LoaderArgs, SerializeFrom, json } from "@remix-run/node";
+import { V2_MetaFunction, useFetcher, useLoaderData } from "@remix-run/react";
 import { promiseHash } from "remix-utils";
+import { z } from "zod";
+import { zfd } from "zod-form-data";
+import { SPECIES_ICON } from "~/animals/species";
 import { BreedFilterForm } from "~/breeds/filterForm";
-import { BreedItem } from "~/breeds/item";
 import { BreedSearchParams } from "~/breeds/searchParams";
+import { createActionData } from "~/core/actionData";
 import { Action } from "~/core/actions";
 import { algolia } from "~/core/algolia/algolia.server";
 import { BaseLink } from "~/core/baseLink";
@@ -12,15 +15,19 @@ import { Paginator } from "~/core/controllers/paginator";
 import { SortAndFiltersFloatingAction } from "~/core/controllers/sortAndFiltersFloatingAction";
 import { Empty } from "~/core/dataDisplay/empty";
 import { db } from "~/core/db.server";
+import { NotFoundError, ReferencedError } from "~/core/errors.server";
 import { Card } from "~/core/layout/card";
 import { PageLayout } from "~/core/layout/page";
 import { getPageTitle } from "~/core/pageTitle";
+import { Dialog } from "~/core/popovers/dialog";
 import { prisma } from "~/core/prisma.server";
+import { BadRequestResponse, NotFoundResponse } from "~/core/response.server";
 import {
   PageSearchParams,
   useOptimisticSearchParams,
 } from "~/core/searchParams";
 import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
+import { Icon } from "~/generated/icon";
 
 const BREED_COUNT_PER_PAGE = 20;
 
@@ -88,6 +95,48 @@ export const meta: V2_MetaFunction = () => {
   return [{ title: getPageTitle("Races") }];
 };
 
+const DeleteActionFormData = createActionData(
+  z.object({
+    id: z.string().uuid(),
+  })
+);
+
+export async function action({ request }: ActionArgs) {
+  if (request.method.toUpperCase() !== "DELETE") {
+    throw new NotFoundResponse();
+  }
+
+  const currentUser = await db.currentUser.get(request, {
+    select: { groups: true },
+  });
+
+  assertCurrentUserHasGroups(currentUser, [UserGroup.ADMIN]);
+
+  const rawFormData = await request.formData();
+  const formData = zfd
+    .formData(DeleteActionFormData.schema)
+    .safeParse(rawFormData);
+  if (!formData.success) {
+    throw new BadRequestResponse();
+  }
+
+  try {
+    await db.breed.delete(formData.data.id);
+  } catch (error) {
+    if (error instanceof NotFoundError) {
+      throw new NotFoundResponse();
+    }
+
+    if (error instanceof ReferencedError) {
+      throw new BadRequestResponse();
+    }
+
+    throw error;
+  }
+
+  return new Response("OK");
+}
+
 export default function Route() {
   const { totalCount, pageCount, breeds } = useLoaderData<typeof loader>();
   const [searchParams] = useOptimisticSearchParams();
@@ -113,7 +162,7 @@ export default function Route() {
                 <ul className="grid grid-cols-1">
                   {breeds.map((breed) => (
                     <li key={breed.id} className="flex">
-                      <BreedItem breed={breed} className="w-full" />
+                      <BreedItem breed={breed} />
                     </li>
                   ))}
                 </ul>
@@ -163,5 +212,83 @@ export default function Route() {
         </SortAndFiltersFloatingAction>
       </PageLayout.Content>
     </PageLayout>
+  );
+}
+
+export function BreedItem({
+  breed,
+}: {
+  breed: SerializeFrom<typeof loader>["breeds"][number];
+}) {
+  const fetcher = useFetcher<typeof action>();
+
+  return (
+    <span className="w-full py-1 grid grid-cols-[auto_minmax(0px,1fr)] grid-flow-col items-start gap-1 md:gap-2">
+      <Icon
+        id={SPECIES_ICON[breed.species]}
+        className="text-[20px] text-gray-600"
+      />
+
+      <span className="flex flex-col md:flex-row md:gap-2">
+        <span className="text-body-emphasis">{breed.name}</span>
+
+        <span className="text-gray-500">
+          {breed._count.animals}{" "}
+          {breed._count.animals > 1 ? "animaux" : "animal"}
+        </span>
+      </span>
+
+      <span className="h-2 flex items-center gap-0.5">
+        <Action asChild variant="text" color="gray" isIconOnly title="Modifier">
+          <BaseLink to={`./${breed.id}/edit`}>
+            <Icon id="pen" />
+          </BaseLink>
+        </Action>
+
+        <Dialog>
+          <Dialog.Trigger asChild>
+            <Action
+              variant="text"
+              color="red"
+              isIconOnly
+              title={
+                breed._count.animals > 0
+                  ? "La race ne peut être supprimée tant que des animaux sont de cette race."
+                  : "Supprimer"
+              }
+              disabled={breed._count.animals > 0}
+            >
+              <Icon id="trash" />
+            </Action>
+          </Dialog.Trigger>
+
+          <Dialog.Content variant="alert">
+            <Dialog.Header>Supprimer {breed.name}</Dialog.Header>
+
+            <Dialog.Message>
+              Êtes-vous sûr de vouloir supprimer{" "}
+              <strong className="text-body-emphasis">{breed.name}</strong>
+              {" "}?
+              <br />
+              L’action est irréversible.
+            </Dialog.Message>
+
+            <Dialog.Actions>
+              <Dialog.CloseAction>Annuler</Dialog.CloseAction>
+
+              <fetcher.Form method="DELETE" className="flex">
+                <Dialog.ConfirmAction
+                  type="submit"
+                  name={DeleteActionFormData.keys.id}
+                  value={breed.id}
+                >
+                  Oui, supprimer
+                </Dialog.ConfirmAction>
+              </fetcher.Form>
+            </Dialog.Actions>
+          </Dialog.Content>
+        </Dialog>
+      </span>
+    </span>
   );
 }
