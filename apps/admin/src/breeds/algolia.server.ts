@@ -16,6 +16,10 @@ export class BreedAlgoliaDelegate {
     await this.index.deleteObject(id);
   }
 
+  async create(id: Breed["id"], data: BreedFromAlgolia) {
+    await this.index.saveObject({ ...data, objectID: id });
+  }
+
   async search({
     name,
     species = [],

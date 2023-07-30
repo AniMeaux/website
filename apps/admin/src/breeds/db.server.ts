@@ -1,6 +1,7 @@
 import { Breed, Prisma, Species } from "@prisma/client";
 import { algolia } from "~/core/algolia/algolia.server";
 import {
+  AlreadyExistError,
   NotFoundError,
   PrismaErrorCodes,
   ReferencedError,
@@ -8,6 +9,30 @@ import {
 import { prisma } from "~/core/prisma.server";
 
 export class BreedDbDelegate {
+  async create(data: BreedData) {
+    await prisma.$transaction(async (prisma) => {
+      try {
+        const breed = await prisma.breed.create({
+          data,
+          select: { id: true },
+        });
+
+        await algolia.breed.create(breed.id, {
+          name: data.name,
+          species: data.species,
+        });
+      } catch (error) {
+        if (error instanceof Prisma.PrismaClientKnownRequestError) {
+          if (error.code === PrismaErrorCodes.UNIQUE_CONSTRAINT_FAILED) {
+            throw new AlreadyExistError();
+          }
+        }
+
+        throw error;
+      }
+    });
+  }
+
   async delete(id: Breed["id"]) {
     await prisma.$transaction(async (prisma) => {
       try {
@@ -63,3 +88,5 @@ export class BreedDbDelegate {
     });
   }
 }
+
+type BreedData = Pick<Breed, "name" | "species">;
