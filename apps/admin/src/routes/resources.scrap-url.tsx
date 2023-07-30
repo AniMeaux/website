@@ -5,10 +5,10 @@ import { createPath } from "history";
 import { DateTime } from "luxon";
 import { useEffect, useMemo } from "react";
 import { z } from "zod";
+import { db } from "~/core/db.server";
 import { scrapUrl } from "~/core/metascraper.server";
 import { BadRequestResponse } from "~/core/response.server";
 import { parseOrDefault } from "~/core/schemas";
-import { getCurrentUser } from "~/currentUser/db.server";
 import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
 
 const RESOURCE_PATHNAME = "/resources/scrap-url";
@@ -39,7 +39,7 @@ export class ScrapUrlSearchParams extends URLSearchParams {
 }
 
 export async function loader({ request }: LoaderArgs) {
-  const currentUser = await getCurrentUser(request, {
+  const currentUser = await db.currentUser.get(request, {
     select: { groups: true },
   });
 

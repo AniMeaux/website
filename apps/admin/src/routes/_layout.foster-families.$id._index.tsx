@@ -16,7 +16,7 @@ import { InlineHelper } from "~/core/dataDisplay/helper";
 import { inferInstanceColor } from "~/core/dataDisplay/instanceColor";
 import { ItemList, SimpleItem } from "~/core/dataDisplay/item";
 import { ARTICLE_COMPONENTS, Markdown } from "~/core/dataDisplay/markdown";
-import { prisma } from "~/core/db.server";
+import { db } from "~/core/db.server";
 import { NotFoundError, ReferencedError } from "~/core/errors.server";
 import { assertIsDefined } from "~/core/isDefined.server";
 import { joinReactNodes } from "~/core/joinReactNodes";
@@ -25,17 +25,16 @@ import { Card } from "~/core/layout/card";
 import { PageLayout } from "~/core/layout/page";
 import { getPageTitle } from "~/core/pageTitle";
 import { Dialog } from "~/core/popovers/dialog";
+import { prisma } from "~/core/prisma.server";
 import { NotFoundResponse } from "~/core/response.server";
-import { getCurrentUser } from "~/currentUser/db.server";
 import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
 import { FosterFamilyAvatar } from "~/fosterFamilies/avatar";
-import { deleteFosterFamily } from "~/fosterFamilies/db.server";
 import { ActionFormData } from "~/fosterFamilies/form";
 import { getLongLocation } from "~/fosterFamilies/location";
 import { Icon } from "~/generated/icon";
 
 export async function loader({ request, params }: LoaderArgs) {
-  const currentUser = await getCurrentUser(request, {
+  const currentUser = await db.currentUser.get(request, {
     select: { groups: true },
   });
 
@@ -110,7 +109,7 @@ export async function action({ request, params }: ActionArgs) {
     throw new NotFoundResponse();
   }
 
-  const currentUser = await getCurrentUser(request, {
+  const currentUser = await db.currentUser.get(request, {
     select: { groups: true },
   });
 
@@ -125,7 +124,7 @@ export async function action({ request, params }: ActionArgs) {
   }
 
   try {
-    await deleteFosterFamily(result.data);
+    await db.fosterFamily.delete(result.data);
   } catch (error) {
     if (error instanceof NotFoundError) {
       throw new NotFoundResponse();

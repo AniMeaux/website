@@ -42,7 +42,7 @@ export class UserSearchParams extends URLSearchParams {
   }
 
   getDisplayName() {
-    return this.get(UserSearchParams.Keys.DISPLAY_NAME)?.trim() || null;
+    return this.get(UserSearchParams.Keys.DISPLAY_NAME)?.trim() || undefined;
   }
 
   setDisplayName(displayName: string) {

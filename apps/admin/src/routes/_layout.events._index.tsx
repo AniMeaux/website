@@ -6,19 +6,19 @@ import { Action } from "~/core/actions";
 import { BaseLink } from "~/core/baseLink";
 import { Paginator } from "~/core/controllers/paginator";
 import { Empty } from "~/core/dataDisplay/empty";
-import { prisma } from "~/core/db.server";
+import { db } from "~/core/db.server";
 import { Card } from "~/core/layout/card";
 import { PageLayout } from "~/core/layout/page";
 import { getPageTitle } from "~/core/pageTitle";
+import { prisma } from "~/core/prisma.server";
 import { PageSearchParams } from "~/core/searchParams";
-import { getCurrentUser } from "~/currentUser/db.server";
 import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
 import { EventItem } from "~/events/item";
 
 const EVENT_COUNT_PER_PAGE = 20;
 
 export async function loader({ request }: LoaderArgs) {
-  const currentUser = await getCurrentUser(request, {
+  const currentUser = await db.currentUser.get(request, {
     select: { groups: true },
   });
 

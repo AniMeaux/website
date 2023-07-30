@@ -6,6 +6,7 @@ import { useCombobox } from "downshift";
 import { createPath } from "history";
 import { forwardRef, useEffect, useState } from "react";
 import { toBooleanAttribute } from "~/core/attributes";
+import { db } from "~/core/db.server";
 import { BaseTextInput } from "~/core/formElements/baseTextInput";
 import { Input } from "~/core/formElements/input";
 import {
@@ -16,18 +17,13 @@ import {
 } from "~/core/formElements/resourceInput";
 import { useNavigate } from "~/core/navigation";
 import { NextSearchParams } from "~/core/searchParams";
-import { getCurrentUser } from "~/currentUser/db.server";
 import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
-import { fuzzySearchFosterFamilies } from "~/fosterFamilies/db.server";
 import { FosterFamilySuggestionItem } from "~/fosterFamilies/item";
 import { FosterFamilySearchParams } from "~/fosterFamilies/searchParams";
 import { Icon } from "~/generated/icon";
 
-// Use 5 instead of 6 to save space for the additional item.
-const SEARCH_COUNT = 5;
-
 export async function loader({ request }: LoaderArgs) {
-  const currentUser = await getCurrentUser(request, {
+  const currentUser = await db.currentUser.get(request, {
     select: { groups: true },
   });
 
@@ -36,15 +32,15 @@ export async function loader({ request }: LoaderArgs) {
     UserGroup.ANIMAL_MANAGER,
   ]);
 
-  const searchParams = new FosterFamilySearchParams(
-    new URL(request.url).searchParams
-  );
+  const url = new URL(request.url);
+  const searchParams = new FosterFamilySearchParams(url.searchParams);
 
   return json({
-    fosterFamilies: await fuzzySearchFosterFamilies(
-      searchParams.getDisplayName(),
-      SEARCH_COUNT
-    ),
+    fosterFamilies: await db.fosterFamily.fuzzySearch({
+      displayName: searchParams.getDisplayName(),
+      // Use 5 instead of 6 to save space for the additional item.
+      maxHitCount: 5,
+    }),
   });
 }
 

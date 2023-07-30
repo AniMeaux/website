@@ -1,28 +1,22 @@
-import { PrismaClient } from "@prisma/client";
-import invariant from "tiny-invariant";
+import { AnimalDbDelegate } from "~/animals/db.server";
+import { BreedDbDelegate } from "~/breeds/db.server";
+import { ColorDbDelegate } from "~/colors/db.server";
+import { singleton } from "~/core/singleton.server";
+import { CurrentUserDbDelegate } from "~/currentUser/db.server";
+import { EventDbDelegate } from "~/events/db.server";
+import { FosterFamilyDbDelegate } from "~/fosterFamilies/db.server";
+import { PressArticleDbDelegate } from "~/pressArticles/db.server";
+import { UserDbDelegate } from "~/users/db.server";
 
-invariant(
-  typeof process.env.DATABASE_URL === "string",
-  "DATABASE_URL must be defined."
-);
-
-export let prisma: PrismaClient;
-
-declare global {
-  var __db__: PrismaClient | undefined;
+class DbClient {
+  readonly animal = new AnimalDbDelegate();
+  readonly breed = new BreedDbDelegate();
+  readonly color = new ColorDbDelegate();
+  readonly currentUser = new CurrentUserDbDelegate();
+  readonly event = new EventDbDelegate();
+  readonly fosterFamily = new FosterFamilyDbDelegate();
+  readonly pressArticle = new PressArticleDbDelegate();
+  readonly user = new UserDbDelegate();
 }
 
-// This is needed because in development we don't want to restart the server
-// with every change, but we want to make sure we don't create a new connection
-// to the DB with every change either.
-// In production we'll have a single connection to the DB.
-if (process.env.NODE_ENV === "production") {
-  prisma = new PrismaClient();
-} else {
-  if (global.__db__ == null) {
-    global.__db__ = new PrismaClient();
-  }
-
-  prisma = global.__db__;
-  prisma.$connect();
-}
+export const db = singleton("db", () => new DbClient());

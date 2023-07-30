@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import invariant from "tiny-invariant";
 import { z } from "zod";
 import { zfd } from "zod-form-data";
+import { createActionData } from "~/core/actionData";
 import { Action } from "~/core/actions";
 import {
   IMAGE_SIZE_LIMIT_MB,
@@ -21,7 +22,7 @@ import { RequiredStar } from "~/core/formElements/requiredStar";
 import { SwitchInput } from "~/core/formElements/switchInput";
 import { Textarea } from "~/core/formElements/textarea";
 import { Separator } from "~/core/layout/separator";
-import { createActionData, ensureDate } from "~/core/schemas";
+import { ensureDate } from "~/core/schemas";
 import { Icon } from "~/generated/icon";
 
 export const ActionFormData = createActionData(

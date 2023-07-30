@@ -9,12 +9,12 @@ import { BaseLink } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
 import { getErrorTitle } from "~/core/dataDisplay/errorPage";
 import { DynamicImage } from "~/core/dataDisplay/image";
-import { prisma } from "~/core/db.server";
+import { db } from "~/core/db.server";
 import { RouteHandle } from "~/core/handles";
 import { assertIsDefined } from "~/core/isDefined.server";
 import { getPageTitle } from "~/core/pageTitle";
+import { prisma } from "~/core/prisma.server";
 import { NotFoundResponse } from "~/core/response.server";
-import { getCurrentUser } from "~/currentUser/db.server";
 import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
 import { Icon } from "~/generated/icon";
 import { DownloadPictureLink } from "~/routes/downloads.picture.$id";
@@ -25,7 +25,7 @@ export const handle: RouteHandle = {
 };
 
 export async function loader({ request, params }: LoaderArgs) {
-  const currentUser = await getCurrentUser(request, {
+  const currentUser = await db.currentUser.get(request, {
     select: { groups: true },
   });
 

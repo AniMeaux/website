@@ -13,13 +13,9 @@ export function parseOrDefault<TSchema extends z.ZodType<any, any, any>>(
   return schema.parse(undefined);
 }
 
-export function createActionData<TSchema extends z.ZodObject<any>>(
+export function getObjectSchemaKeys<TSchema extends z.ZodObject<any>>(
   schema: TSchema
 ) {
-  return { schema, keys: getSchemaKeys(schema) };
-}
-
-function getSchemaKeys<TSchema extends z.ZodObject<any>>(schema: TSchema) {
   const keys = Object.fromEntries(
     Object.keys(schema.shape).map((key) => [key, key])
   );

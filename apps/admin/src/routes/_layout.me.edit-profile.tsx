@@ -2,7 +2,9 @@ import { ActionArgs, json, LoaderArgs } from "@remix-run/node";
 import { useFetcher, useLoaderData, V2_MetaFunction } from "@remix-run/react";
 import { useEffect, useRef } from "react";
 import { z } from "zod";
+import { createActionData } from "~/core/actionData";
 import { Action } from "~/core/actions";
+import { db } from "~/core/db.server";
 import { EmailAlreadyUsedError } from "~/core/errors.server";
 import { Form } from "~/core/formElements/form";
 import { Input } from "~/core/formElements/input";
@@ -10,15 +12,10 @@ import { Card } from "~/core/layout/card";
 import { PageLayout } from "~/core/layout/page";
 import { useBackIfPossible } from "~/core/navigation";
 import { getPageTitle } from "~/core/pageTitle";
-import { createActionData } from "~/core/schemas";
-import {
-  getCurrentUser,
-  updateCurrentUserProfile,
-} from "~/currentUser/db.server";
 import { Icon } from "~/generated/icon";
 
 export async function loader({ request }: LoaderArgs) {
-  const currentUser = await getCurrentUser(request, {
+  const currentUser = await db.currentUser.get(request, {
     select: {
       displayName: true,
       email: true,
@@ -45,7 +42,9 @@ type ActionData = {
 };
 
 export async function action({ request }: ActionArgs) {
-  const currentUser = await getCurrentUser(request, { select: { id: true } });
+  const currentUser = await db.currentUser.get(request, {
+    select: { id: true },
+  });
 
   const rawFormData = await request.formData();
   const formData = ActionFormData.schema.safeParse(
@@ -60,7 +59,7 @@ export async function action({ request }: ActionArgs) {
   }
 
   try {
-    await updateCurrentUserProfile(currentUser.id, {
+    await db.currentUser.updateProfile(currentUser.id, {
       displayName: formData.data.name,
       email: formData.data.email,
     });

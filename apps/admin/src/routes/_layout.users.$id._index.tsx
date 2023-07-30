@@ -11,6 +11,7 @@ import {
   ACTIVE_ANIMAL_STATUS,
   NON_ACTIVE_ANIMAL_STATUS,
 } from "~/animals/status";
+import { createActionData } from "~/core/actionData";
 import { Action } from "~/core/actions";
 import { BaseLink } from "~/core/baseLink";
 import { Empty } from "~/core/dataDisplay/empty";
@@ -20,7 +21,7 @@ import { BlockHelper, InlineHelper } from "~/core/dataDisplay/helper";
 import { inferInstanceColor } from "~/core/dataDisplay/instanceColor";
 import { ItemList, SimpleItem } from "~/core/dataDisplay/item";
 import { toRoundedRelative } from "~/core/dates";
-import { prisma } from "~/core/db.server";
+import { db } from "~/core/db.server";
 import { NotFoundError, ReferencedError } from "~/core/errors.server";
 import { assertIsDefined } from "~/core/isDefined.server";
 import { AvatarCard } from "~/core/layout/avatarCard";
@@ -28,22 +29,17 @@ import { Card } from "~/core/layout/card";
 import { PageLayout } from "~/core/layout/page";
 import { getPageTitle } from "~/core/pageTitle";
 import { Dialog } from "~/core/popovers/dialog";
+import { prisma } from "~/core/prisma.server";
 import { BadRequestResponse, NotFoundResponse } from "~/core/response.server";
-import { createActionData, ensureBoolean } from "~/core/schemas";
-import { getCurrentUser } from "~/currentUser/db.server";
+import { ensureBoolean } from "~/core/schemas";
 import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
 import { Icon } from "~/generated/icon";
 import { UserAvatar } from "~/users/avatar";
-import {
-  DeleteMyselfError,
-  DisableMyselfError,
-  deleteUser,
-  setUserIsDisabled,
-} from "~/users/db.server";
+import { DeleteMyselfError, DisableMyselfError } from "~/users/db.server";
 import { GROUP_ICON, GROUP_TRANSLATION, hasGroups } from "~/users/groups";
 
 export async function loader({ request, params }: LoaderArgs) {
-  const currentUser = await getCurrentUser(request, {
+  const currentUser = await db.currentUser.get(request, {
     select: { id: true, groups: true },
   });
 
@@ -154,7 +150,7 @@ const DisableActionFormData = createActionData(
 );
 
 export async function action({ request, params }: ActionArgs) {
-  const currentUser = await getCurrentUser(request, {
+  const currentUser = await db.currentUser.get(request, {
     select: { id: true, groups: true },
   });
 
@@ -184,7 +180,7 @@ async function actionDelete({
   userId: User["id"];
 }) {
   try {
-    await deleteUser(userId, currentUser);
+    await db.user.delete(userId, currentUser);
   } catch (error) {
     if (error instanceof NotFoundError) {
       throw new NotFoundResponse();
@@ -230,7 +226,7 @@ async function actionDisable({
   }
 
   try {
-    await setUserIsDisabled(userId, currentUser, formData.data.isDisabled);
+    await db.user.setIsDisabled(userId, currentUser, formData.data.isDisabled);
   } catch (error) {
     if (error instanceof NotFoundError) {
       throw new NotFoundResponse();

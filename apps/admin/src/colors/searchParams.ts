@@ -1,22 +1,20 @@
+import { z } from "zod";
+import { zfd } from "zod-form-data";
+
 export class ColorSearchParams extends URLSearchParams {
   static readonly Keys = {
     NAME: "q",
   };
 
   getName() {
-    return this.get(ColorSearchParams.Keys.NAME)?.trim() || null;
+    return zfd
+      .text(z.string().optional().catch(undefined))
+      .parse(this.get(ColorSearchParams.Keys.NAME));
   }
 
   setName(name: string) {
     const copy = new ColorSearchParams(this);
-
-    name = name.trim();
-    if (name !== "") {
-      copy.set(ColorSearchParams.Keys.NAME, name);
-    } else if (copy.has(ColorSearchParams.Keys.NAME)) {
-      copy.delete(ColorSearchParams.Keys.NAME);
-    }
-
+    copy.set(ColorSearchParams.Keys.NAME, name);
     return copy;
   }
 }

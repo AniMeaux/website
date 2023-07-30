@@ -4,22 +4,19 @@ import { useFetcher, V2_MetaFunction } from "@remix-run/react";
 import { z } from "zod";
 import { zfd } from "zod-form-data";
 import { ErrorPage } from "~/core/dataDisplay/errorPage";
+import { db } from "~/core/db.server";
 import { EmailAlreadyUsedError } from "~/core/errors.server";
 import { Card } from "~/core/layout/card";
 import { PageLayout } from "~/core/layout/page";
 import { useBackIfPossible } from "~/core/navigation";
 import { getPageTitle } from "~/core/pageTitle";
 import { NextSearchParams } from "~/core/searchParams";
-import { getCurrentUser } from "~/currentUser/db.server";
 import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
-import {
-  createFosterFamily,
-  MissingSpeciesToHostError,
-} from "~/fosterFamilies/db.server";
+import { MissingSpeciesToHostError } from "~/fosterFamilies/db.server";
 import { ActionFormData, FosterFamilyForm } from "~/fosterFamilies/form";
 
 export async function loader({ request }: LoaderArgs) {
-  const currentUser = await getCurrentUser(request, {
+  const currentUser = await db.currentUser.get(request, {
     select: { groups: true },
   });
 
@@ -41,7 +38,7 @@ type ActionData = {
 };
 
 export async function action({ request }: ActionArgs) {
-  const currentUser = await getCurrentUser(request, {
+  const currentUser = await db.currentUser.get(request, {
     select: { groups: true },
   });
 
@@ -60,7 +57,7 @@ export async function action({ request }: ActionArgs) {
   }
 
   try {
-    const fosterFamilyId = await createFosterFamily({
+    const fosterFamilyId = await db.fosterFamily.create({
       address: formData.data.address,
       city: formData.data.city,
       comments: formData.data.comments || null,

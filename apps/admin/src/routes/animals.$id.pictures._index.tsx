@@ -1,14 +1,14 @@
 import { UserGroup } from "@prisma/client";
 import { LoaderArgs, redirect } from "@remix-run/node";
 import { z } from "zod";
-import { prisma } from "~/core/db.server";
+import { db } from "~/core/db.server";
 import { assertIsDefined } from "~/core/isDefined.server";
+import { prisma } from "~/core/prisma.server";
 import { NotFoundResponse } from "~/core/response.server";
-import { getCurrentUser } from "~/currentUser/db.server";
 import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
 
 export async function loader({ request, params }: LoaderArgs) {
-  const currentUser = await getCurrentUser(request, {
+  const currentUser = await db.currentUser.get(request, {
     select: { groups: true },
   });
 

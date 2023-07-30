@@ -4,7 +4,6 @@ import { cn } from "~/core/classNames";
 import { Icon } from "~/generated/icon";
 
 export const ACTIVE_ANIMAL_STATUS: Status[] = [
-  Status.LOST,
   Status.OPEN_TO_ADOPTION,
   Status.OPEN_TO_RESERVATION,
   Status.RESERVED,

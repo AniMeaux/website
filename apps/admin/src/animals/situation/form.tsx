@@ -24,6 +24,7 @@ import {
   SORTED_STATUS,
   STATUS_TRANSLATION,
 } from "~/animals/status";
+import { createActionData } from "~/core/actionData";
 import { Action } from "~/core/actions";
 import { toIsoDateValue } from "~/core/dates";
 import { Form } from "~/core/formElements/form";
@@ -32,7 +33,7 @@ import { RadioInput, RadioInputList } from "~/core/formElements/radioInput";
 import { RequiredStar } from "~/core/formElements/requiredStar";
 import { Textarea } from "~/core/formElements/textarea";
 import { Separator } from "~/core/layout/separator";
-import { createActionData, ensureDate } from "~/core/schemas";
+import { ensureDate } from "~/core/schemas";
 import { Icon } from "~/generated/icon";
 import { FosterFamilyInput } from "~/routes/resources.foster-family";
 import { ManagerInput } from "~/routes/resources.manager";

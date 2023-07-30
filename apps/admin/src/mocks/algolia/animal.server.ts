@@ -9,7 +9,7 @@ import { promiseHash } from "remix-utils";
 import invariant from "tiny-invariant";
 import { AnimalFromAlgolia } from "~/animals/algolia.server";
 import { algolia } from "~/core/algolia/algolia.server";
-import { prisma } from "~/core/db.server";
+import { prisma } from "~/core/prisma.server";
 import {
   createBatchHandlers,
   createPostHandlers,
@@ -18,7 +18,7 @@ import {
 
 export const animalHandlers = [
   ...createPostHandlers(
-    `/1/indexes/${algolia.animal.indexName}/query`,
+    `/1/indexes/${algolia.animal.index.indexName}/query`,
     async (req, res, ctx) => {
       const body = await req.json();
       const query = body.query || "";
@@ -90,7 +90,7 @@ export const animalHandlers = [
   ),
 
   ...createPostHandlers(
-    `/1/indexes/${algolia.animal.indexName}/facets/pickUpLocation/query`,
+    `/1/indexes/${algolia.animal.index.indexName}/facets/pickUpLocation/query`,
     async (req, res, ctx) => {
       const body = await req.json();
       const facetQuery = body.facetQuery || "";
@@ -135,5 +135,5 @@ export const animalHandlers = [
     }
   ),
 
-  ...createBatchHandlers(`/1/indexes/${algolia.animal.indexName}/batch`),
+  ...createBatchHandlers(`/1/indexes/${algolia.animal.index.indexName}/batch`),
 ];

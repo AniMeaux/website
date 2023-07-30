@@ -1,27 +1,39 @@
 import algoliasearch from "algoliasearch";
 import invariant from "tiny-invariant";
-import { createAnimalDelegate } from "~/animals/algolia.server";
-import { createBreedDelegate } from "~/breeds/algolia.server";
-import { createColorDelegate } from "~/colors/algolia.server";
-import { createFosterFamilyDelegate } from "~/fosterFamilies/algolia.server";
-import { createUserDelegate } from "~/users/algolia.server";
+import { AnimalAlgoliaDelegate } from "~/animals/algolia.server";
+import { BreedAlgoliaDelegate } from "~/breeds/algolia.server";
+import { ColorAlgoliaDelegate } from "~/colors/algolia.server";
+import { singleton } from "~/core/singleton.server";
+import { FosterFamilyAlgoliaDelegate } from "~/fosterFamilies/algolia.server";
+import { UserAlgoliaDelegate } from "~/users/algolia.server";
 
-invariant(process.env.ALGOLIA_ID != null, "ALGOLIA_ID must be defined.");
+class AlgoliaClient {
+  readonly animal: AnimalAlgoliaDelegate;
+  readonly breed: BreedAlgoliaDelegate;
+  readonly color: ColorAlgoliaDelegate;
+  readonly fosterFamily: FosterFamilyAlgoliaDelegate;
+  readonly user: UserAlgoliaDelegate;
 
-invariant(
-  process.env.ALGOLIA_ADMIN_KEY != null,
-  "ALGOLIA_ADMIN_KEY must be defined."
-);
+  constructor(appId: string, apiKey: string) {
+    const client = algoliasearch(appId, apiKey);
+    this.animal = new AnimalAlgoliaDelegate(client);
+    this.breed = new BreedAlgoliaDelegate(client);
+    this.color = new ColorAlgoliaDelegate(client);
+    this.fosterFamily = new FosterFamilyAlgoliaDelegate(client);
+    this.user = new UserAlgoliaDelegate(client);
+  }
+}
 
-const client = algoliasearch(
-  process.env.ALGOLIA_ID,
-  process.env.ALGOLIA_ADMIN_KEY
-);
+export const algolia = singleton("algolia", () => {
+  invariant(process.env.ALGOLIA_ID != null, "ALGOLIA_ID must be defined.");
 
-export const algolia = {
-  animal: createAnimalDelegate(client),
-  breed: createBreedDelegate(client),
-  color: createColorDelegate(client),
-  fosterFamily: createFosterFamilyDelegate(client),
-  user: createUserDelegate(client),
-};
+  invariant(
+    process.env.ALGOLIA_ADMIN_KEY != null,
+    "ALGOLIA_ADMIN_KEY must be defined."
+  );
+
+  return new AlgoliaClient(
+    process.env.ALGOLIA_ID,
+    process.env.ALGOLIA_ADMIN_KEY
+  );
+});

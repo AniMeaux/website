@@ -3,24 +3,22 @@ import { ActionArgs, json, LoaderArgs, redirect } from "@remix-run/node";
 import { useFetcher, useLoaderData, V2_MetaFunction } from "@remix-run/react";
 import { z } from "zod";
 import { AnimalCreationSteps } from "~/animals/creationSteps";
-import { assertDraftHasValidProfile } from "~/animals/profile/db.server";
 import {
   MissingAdoptionDateError,
   MissingManagerError,
   MissingPickUpLocationError,
   NotManagerError,
-  updateAnimalSituationDraft,
 } from "~/animals/situation/db.server";
 import { ActionFormData, AnimalSituationForm } from "~/animals/situation/form";
 import { ErrorPage } from "~/core/dataDisplay/errorPage";
+import { db } from "~/core/db.server";
 import { Card } from "~/core/layout/card";
 import { PageLayout } from "~/core/layout/page";
 import { getPageTitle } from "~/core/pageTitle";
-import { getCurrentUser } from "~/currentUser/db.server";
 import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
 
 export async function loader({ request }: LoaderArgs) {
-  const { draft, ...currentUser } = await getCurrentUser(request, {
+  const { draft, ...currentUser } = await db.currentUser.get(request, {
     select: {
       id: true,
       groups: true,
@@ -39,7 +37,7 @@ export async function loader({ request }: LoaderArgs) {
     UserGroup.ANIMAL_MANAGER,
   ]);
 
-  await assertDraftHasValidProfile(draft);
+  await db.animal.profile.assertDraftIsValid(draft);
 
   return json({ draft, currentUser });
 }
@@ -53,7 +51,7 @@ type ActionData = {
 };
 
 export async function action({ request }: ActionArgs) {
-  const currentUser = await getCurrentUser(request, {
+  const currentUser = await db.currentUser.get(request, {
     select: { id: true, groups: true, draft: true },
   });
 
@@ -62,7 +60,7 @@ export async function action({ request }: ActionArgs) {
     UserGroup.ANIMAL_MANAGER,
   ]);
 
-  await assertDraftHasValidProfile(currentUser.draft);
+  await db.animal.profile.assertDraftIsValid(currentUser.draft);
 
   const rawFormData = await request.formData();
   const formData = ActionFormData.schema.safeParse(
@@ -77,7 +75,7 @@ export async function action({ request }: ActionArgs) {
   }
 
   try {
-    await updateAnimalSituationDraft(currentUser.id, {
+    await db.animal.situation.updateDraft(currentUser.id, {
       adoptionDate: formData.data.adoptionDate ?? null,
       adoptionOption: formData.data.adoptionOption ?? null,
       comments: formData.data.comments || null,

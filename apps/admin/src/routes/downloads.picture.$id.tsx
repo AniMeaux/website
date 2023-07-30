@@ -3,12 +3,12 @@ import { LoaderArgs } from "@remix-run/node";
 import { z } from "zod";
 import { createConfig } from "~/core/config.server";
 import { createCloudinaryUrl } from "~/core/dataDisplay/image";
+import { db } from "~/core/db.server";
 import { NotFoundResponse } from "~/core/response.server";
-import { getCurrentUser } from "~/currentUser/db.server";
 import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
 
 export async function loader({ request, params }: LoaderArgs) {
-  const currentUser = await getCurrentUser(request, {
+  const currentUser = await db.currentUser.get(request, {
     select: { groups: true },
   });
 

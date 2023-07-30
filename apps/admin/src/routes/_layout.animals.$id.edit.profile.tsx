@@ -2,26 +2,23 @@ import { UserGroup } from "@prisma/client";
 import { ActionArgs, json, LoaderArgs } from "@remix-run/node";
 import { useFetcher, useLoaderData, V2_MetaFunction } from "@remix-run/react";
 import { z } from "zod";
-import {
-  BreedNotForSpeciesError,
-  updateAnimalProfile,
-} from "~/animals/profile/db.server";
+import { BreedNotForSpeciesError } from "~/animals/profile/db.server";
 import { ActionFormData, AnimalProfileForm } from "~/animals/profile/form";
 import { getAnimalDisplayName } from "~/animals/profile/name";
 import { ErrorPage, getErrorTitle } from "~/core/dataDisplay/errorPage";
-import { prisma } from "~/core/db.server";
+import { db } from "~/core/db.server";
 import { NotFoundError } from "~/core/errors.server";
 import { assertIsDefined } from "~/core/isDefined.server";
 import { Card } from "~/core/layout/card";
 import { PageLayout } from "~/core/layout/page";
 import { useBackIfPossible } from "~/core/navigation";
 import { getPageTitle } from "~/core/pageTitle";
+import { prisma } from "~/core/prisma.server";
 import { NotFoundResponse } from "~/core/response.server";
-import { getCurrentUser } from "~/currentUser/db.server";
 import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
 
 export async function loader({ request, params }: LoaderArgs) {
-  const currentUser = await getCurrentUser(request, {
+  const currentUser = await db.currentUser.get(request, {
     select: { groups: true },
   });
 
@@ -81,7 +78,7 @@ type ActionData = {
 };
 
 export async function action({ request, params }: ActionArgs) {
-  const currentUser = await getCurrentUser(request, {
+  const currentUser = await db.currentUser.get(request, {
     select: { groups: true },
   });
 
@@ -108,7 +105,7 @@ export async function action({ request, params }: ActionArgs) {
   }
 
   try {
-    await updateAnimalProfile(idResult.data, {
+    await db.animal.profile.update(idResult.data, {
       species: formData.data.species,
       name: formData.data.name,
       alias: formData.data.alias || null,

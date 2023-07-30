@@ -4,6 +4,7 @@ import { FetcherWithComponents } from "@remix-run/react";
 import { useEffect, useRef } from "react";
 import { z } from "zod";
 import { zfd } from "zod-form-data";
+import { createActionData } from "~/core/actionData";
 import { Action } from "~/core/actions";
 import {
   CheckboxInput,
@@ -14,7 +15,6 @@ import { Input } from "~/core/formElements/input";
 import { PasswordInput } from "~/core/formElements/passwordInput";
 import { RequiredStar } from "~/core/formElements/requiredStar";
 import { Separator } from "~/core/layout/separator";
-import { createActionData } from "~/core/schemas";
 import { Icon } from "~/generated/icon";
 import { GROUP_TRANSLATION, SORTED_GROUPS } from "~/users/groups";
 

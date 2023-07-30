@@ -2,7 +2,7 @@ import { Hit, SearchResponse } from "@algolia/client-search";
 import { Prisma } from "@prisma/client";
 import { promiseHash } from "remix-utils";
 import { algolia } from "~/core/algolia/algolia.server";
-import { prisma } from "~/core/db.server";
+import { prisma } from "~/core/prisma.server";
 import { FosterFamilyFromAlgolia } from "~/fosterFamilies/algolia.server";
 import {
   createBatchHandlers,
@@ -12,7 +12,7 @@ import {
 
 export const fosterFamilyHandlers = [
   ...createPostHandlers(
-    `/1/indexes/${algolia.fosterFamily.indexName}/query`,
+    `/1/indexes/${algolia.fosterFamily.index.indexName}/query`,
     async (req, res, ctx) => {
       const body = await req.json();
       const query = body.query || "";
@@ -66,5 +66,7 @@ export const fosterFamilyHandlers = [
     }
   ),
 
-  ...createBatchHandlers(`/1/indexes/${algolia.fosterFamily.indexName}/batch`),
+  ...createBatchHandlers(
+    `/1/indexes/${algolia.fosterFamily.index.indexName}/batch`
+  ),
 ];
