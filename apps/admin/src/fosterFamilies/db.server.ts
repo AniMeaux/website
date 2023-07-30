@@ -90,7 +90,7 @@ export class FosterFamilyDbDelegate {
         throw new NotFoundError();
       }
 
-      this.validateFosterFamily(data, fosterFamily);
+      this.validate(data, fosterFamily);
 
       try {
         await prisma.fosterFamily.update({
@@ -115,7 +115,7 @@ export class FosterFamilyDbDelegate {
 
   async create(data: FosterFamilyData) {
     return await prisma.$transaction(async (prisma) => {
-      this.validateFosterFamily(data);
+      this.validate(data);
 
       try {
         const fosterFamily = await prisma.fosterFamily.create({
@@ -140,7 +140,7 @@ export class FosterFamilyDbDelegate {
     });
   }
 
-  private validateFosterFamily(
+  private validate(
     newData: FosterFamilyData,
     currentData?: null | Pick<FosterFamily, "speciesToHost">
   ) {

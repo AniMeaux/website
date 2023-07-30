@@ -12,22 +12,16 @@ export class FosterFamilyAlgoliaDelegate {
     this.index = client.initIndex("fosterFamily");
   }
 
-  async delete(fosterFamilyId: FosterFamily["id"]) {
-    await this.index.deleteObject(fosterFamilyId);
+  async delete(id: FosterFamily["id"]) {
+    await this.index.deleteObject(id);
   }
 
-  async update(
-    fosterFamilyId: FosterFamily["id"],
-    data: Partial<FosterFamilyFromAlgolia>
-  ) {
-    await this.index.partialUpdateObject({ ...data, objectID: fosterFamilyId });
+  async update(id: FosterFamily["id"], data: Partial<FosterFamilyFromAlgolia>) {
+    await this.index.partialUpdateObject({ ...data, objectID: id });
   }
 
-  async create(
-    fosterFamilyId: FosterFamily["id"],
-    data: FosterFamilyFromAlgolia
-  ) {
-    await this.index.saveObject({ ...data, objectID: fosterFamilyId });
+  async create(id: FosterFamily["id"], data: FosterFamilyFromAlgolia) {
+    await this.index.saveObject({ ...data, objectID: id });
   }
 
   async search({
