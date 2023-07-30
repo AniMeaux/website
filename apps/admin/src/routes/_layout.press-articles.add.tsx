@@ -1,5 +1,5 @@
 import { UserGroup } from "@prisma/client";
-import { ActionArgs, json, LoaderArgs, redirect } from "@remix-run/node";
+import { ActionArgs, json, LoaderArgs } from "@remix-run/node";
 import { useFetcher, V2_MetaFunction } from "@remix-run/react";
 import { z } from "zod";
 import { zfd } from "zod-form-data";
@@ -91,7 +91,7 @@ export async function action({ request }: ActionArgs) {
     throw error;
   }
 
-  throw redirect("/press-articles");
+  return json<ActionData>({ redirectTo: "/press-articles" });
 }
 
 export function ErrorBoundary() {
