@@ -1,11 +1,12 @@
 import { UserGroup } from "@prisma/client";
-import { ActionArgs, json, LoaderArgs } from "@remix-run/node";
-import { useFetcher, useLoaderData, V2_MetaFunction } from "@remix-run/react";
+import { ActionArgs, LoaderArgs, json } from "@remix-run/node";
+import { V2_MetaFunction, useFetcher, useLoaderData } from "@remix-run/react";
 import { z } from "zod";
 import { zfd } from "zod-form-data";
+import { ActionFormData, BreedForm } from "~/breeds/form";
 import { ErrorPage, getErrorTitle } from "~/core/dataDisplay/errorPage";
 import { db } from "~/core/db.server";
-import { EmailAlreadyUsedError, NotFoundError } from "~/core/errors.server";
+import { AlreadyExistError } from "~/core/errors.server";
 import { assertIsDefined } from "~/core/isDefined.server";
 import { Card } from "~/core/layout/card";
 import { PageLayout } from "~/core/layout/page";
@@ -14,51 +15,38 @@ import { getPageTitle } from "~/core/pageTitle";
 import { prisma } from "~/core/prisma.server";
 import { NotFoundResponse } from "~/core/response.server";
 import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
-import { MissingSpeciesToHostError } from "~/fosterFamilies/db.server";
-import { ActionFormData, FosterFamilyForm } from "~/fosterFamilies/form";
 
 export async function loader({ request, params }: LoaderArgs) {
   const currentUser = await db.currentUser.get(request, {
     select: { groups: true },
   });
 
-  assertCurrentUserHasGroups(currentUser, [
-    UserGroup.ADMIN,
-    UserGroup.ANIMAL_MANAGER,
-  ]);
+  assertCurrentUserHasGroups(currentUser, [UserGroup.ADMIN]);
 
   const result = z.string().uuid().safeParse(params["id"]);
   if (!result.success) {
     throw new NotFoundResponse();
   }
 
-  const fosterFamily = await prisma.fosterFamily.findUnique({
+  const breed = await prisma.breed.findUnique({
     where: { id: result.data },
     select: {
-      address: true,
-      city: true,
-      comments: true,
-      displayName: true,
-      email: true,
-      phone: true,
-      speciesAlreadyPresent: true,
-      speciesToHost: true,
-      zipCode: true,
+      name: true,
+      species: true,
     },
   });
 
-  assertIsDefined(fosterFamily);
+  assertIsDefined(breed);
 
-  return json({ fosterFamily });
+  return json({ breed });
 }
 
 export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
-  const fosterFamily = data?.fosterFamily;
-  if (fosterFamily == null) {
+  if (data?.breed == null) {
     return [{ title: getPageTitle(getErrorTitle(404)) }];
   }
 
-  return [{ title: getPageTitle(`Modifier ${fosterFamily.displayName}`) }];
+  return [{ title: getPageTitle(`Modifier ${data.breed.name}`) }];
 };
 
 type ActionData = {
@@ -71,10 +59,7 @@ export async function action({ request, params }: ActionArgs) {
     select: { groups: true },
   });
 
-  assertCurrentUserHasGroups(currentUser, [
-    UserGroup.ADMIN,
-    UserGroup.ANIMAL_MANAGER,
-  ]);
+  assertCurrentUserHasGroups(currentUser, [UserGroup.ADMIN]);
 
   const idResult = z.string().uuid().safeParse(params["id"]);
   if (!idResult.success) {
@@ -91,50 +76,17 @@ export async function action({ request, params }: ActionArgs) {
   }
 
   try {
-    await db.fosterFamily.update(idResult.data, {
-      address: formData.data.address,
-      city: formData.data.city,
-      comments: formData.data.comments || null,
-      displayName: formData.data.displayName,
-      email: formData.data.email,
-      phone: formData.data.phone,
-      speciesAlreadyPresent: formData.data.speciesAlreadyPresent,
-      speciesToHost: formData.data.speciesToHost,
-      zipCode: formData.data.zipCode,
+    await db.breed.update(idResult.data, {
+      name: formData.data.name,
+      species: formData.data.species,
     });
   } catch (error) {
-    if (error instanceof NotFoundError) {
+    if (error instanceof AlreadyExistError) {
       return json<ActionData>(
         {
           errors: {
-            formErrors: ["La famille d’accueil est introuvable."],
+            formErrors: ["Cette race existe déjà."],
             fieldErrors: {},
-          },
-        },
-        { status: 404 }
-      );
-    }
-
-    if (error instanceof EmailAlreadyUsedError) {
-      return json<ActionData>(
-        {
-          errors: {
-            formErrors: [],
-            fieldErrors: { email: ["L’email est déjà utilisé"] },
-          },
-        },
-        { status: 400 }
-      );
-    }
-
-    if (error instanceof MissingSpeciesToHostError) {
-      return json<ActionData>(
-        {
-          errors: {
-            formErrors: [],
-            fieldErrors: {
-              speciesToHost: ["Veuillez choisir au moins une espèces"],
-            },
           },
         },
         { status: 400 }
@@ -144,7 +96,7 @@ export async function action({ request, params }: ActionArgs) {
     throw error;
   }
 
-  return json<ActionData>({ redirectTo: `/foster-families/${idResult.data}` });
+  return json<ActionData>({ redirectTo: "/breeds" });
 }
 
 export function ErrorBoundary() {
@@ -152,7 +104,7 @@ export function ErrorBoundary() {
 }
 
 export default function Route() {
-  const { fosterFamily } = useLoaderData<typeof loader>();
+  const { breed } = useLoaderData<typeof loader>();
   const fetcher = useFetcher<typeof action>();
   useBackIfPossible({ fallbackRedirectTo: fetcher.data?.redirectTo });
 
@@ -161,14 +113,11 @@ export default function Route() {
       <PageLayout.Content className="flex flex-col items-center">
         <Card className="w-full md:max-w-[600px]">
           <Card.Header>
-            <Card.Title>Modifier {fosterFamily.displayName}</Card.Title>
+            <Card.Title>Modifier {breed.name}</Card.Title>
           </Card.Header>
 
           <Card.Content>
-            <FosterFamilyForm
-              defaultFosterFamily={fosterFamily}
-              fetcher={fetcher}
-            />
+            <BreedForm defaultBreed={breed} fetcher={fetcher} />
           </Card.Content>
         </Card>
       </PageLayout.Content>

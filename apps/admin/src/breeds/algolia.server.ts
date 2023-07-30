@@ -1,31 +1,46 @@
 import { SearchOptions } from "@algolia/client-search";
 import { Breed, Species } from "@prisma/client";
-import { SearchClient } from "algoliasearch";
+import { SearchClient, SearchIndex } from "algoliasearch";
 import { createSearchFilters, indexSearch } from "~/core/algolia/shared.server";
 
 export type BreedFromAlgolia = Pick<Breed, "name" | "species">;
 
-export function createBreedDelegate(client: SearchClient) {
-  const index = client.initIndex("breeds");
+export class BreedAlgoliaDelegate {
+  readonly index: SearchIndex;
 
-  return {
-    indexName: index.indexName,
+  constructor(client: SearchClient) {
+    this.index = client.initIndex("breeds");
+  }
 
-    async search(
-      name: string,
-      filters: { species: null | Species },
-      options: Omit<SearchOptions, "filters"> = {}
-    ) {
-      const hits = await indexSearch<BreedFromAlgolia>(index, name, {
-        ...options,
-        filters: createSearchFilters(filters),
-      });
+  async delete(id: Breed["id"]) {
+    await this.index.deleteObject(id);
+  }
 
-      return hits.map((hit) => ({
-        id: hit.objectID,
-        name: hit.name,
-        highlightedName: hit._highlightResult?.name?.value ?? hit.name,
-      }));
-    },
-  };
+  async create(id: Breed["id"], data: BreedFromAlgolia) {
+    await this.index.saveObject({ ...data, objectID: id });
+  }
+
+  async update(id: Breed["id"], data: Partial<BreedFromAlgolia>) {
+    await this.index.partialUpdateObject({ ...data, objectID: id });
+  }
+
+  async search({
+    name,
+    species = [],
+    ...options
+  }: Omit<SearchOptions, "filters"> & {
+    name: string;
+    species?: Species[];
+  }) {
+    const hits = await indexSearch<BreedFromAlgolia>(this.index, name, {
+      ...options,
+      filters: createSearchFilters({ species }),
+    });
+
+    return hits.map((hit) => ({
+      id: hit.objectID,
+      name: hit.name,
+      highlightedName: hit._highlightResult?.name?.value ?? hit.name,
+    }));
+  }
 }

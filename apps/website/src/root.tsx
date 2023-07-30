@@ -153,7 +153,7 @@ function Document({
           "min-h-screen",
           // Safe top padding is handled by the header.
           "px-safe-0 pb-safe-0",
-          "antialiased text-gray-800 text-body-default flex flex-col items-center gap-6",
+          "text-gray-800 text-body-default flex flex-col items-center gap-6",
           "md:gap-12"
         )}
       >

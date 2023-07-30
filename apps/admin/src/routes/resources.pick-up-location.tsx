@@ -5,9 +5,9 @@ import { useFetcher } from "@remix-run/react";
 import { useCombobox } from "downshift";
 import { createPath } from "history";
 import { forwardRef, useEffect, useState } from "react";
-import { searchPickUpLocation } from "~/animals/db.server";
 import { PickUpLocationSearchParams } from "~/animals/searchParams";
 import { toBooleanAttribute } from "~/core/attributes";
+import { db } from "~/core/db.server";
 import { BaseTextInput } from "~/core/formElements/baseTextInput";
 import { Input } from "~/core/formElements/input";
 import {
@@ -17,14 +17,13 @@ import {
   SuggestionItem,
   SuggestionList,
 } from "~/core/formElements/resourceInput";
-import { getCurrentUser } from "~/currentUser/db.server";
 import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
 import { Icon } from "~/generated/icon";
 
-const SEARCH_COUNT = 6;
+const MAX_HIT_COUNT = 6;
 
 export async function loader({ request }: LoaderArgs) {
-  const currentUser = await getCurrentUser(request, {
+  const currentUser = await db.currentUser.get(request, {
     select: { groups: true },
   });
 
@@ -33,12 +32,14 @@ export async function loader({ request }: LoaderArgs) {
     UserGroup.ANIMAL_MANAGER,
   ]);
 
-  const searchParams = new PickUpLocationSearchParams(
-    new URL(request.url).searchParams
-  );
+  const url = new URL(request.url);
+  const searchParams = new PickUpLocationSearchParams(url.searchParams);
 
   return json({
-    pickUpLocations: await searchPickUpLocation(searchParams, SEARCH_COUNT),
+    pickUpLocations: await db.animal.fuzzySearchPickUpLocation({
+      text: searchParams.getText(),
+      maxHitCount: MAX_HIT_COUNT,
+    }),
   });
 }
 
@@ -68,12 +69,7 @@ export const PickUpLocationInput = forwardRef<
   const load = fetcher.load;
   useEffect(() => {
     if (!isOpened) {
-      load(
-        createPath({
-          pathname: RESOURCE_PATHNAME,
-          search: new PickUpLocationSearchParams().toString(),
-        })
-      );
+      load(RESOURCE_PATHNAME);
     }
   }, [load, isOpened]);
 
@@ -212,7 +208,7 @@ function Combobox({
   ) {
     // Replace the last item by the additional one so we always have at most
     // SEARCH_COUNT items.
-    if (visiblePickUpLocation.length === SEARCH_COUNT) {
+    if (visiblePickUpLocation.length === MAX_HIT_COUNT) {
       visiblePickUpLocation.splice(-1);
     }
 

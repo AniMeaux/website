@@ -16,16 +16,16 @@ import {
   createCloudinaryUploadHandler,
 } from "~/core/cloudinary.server";
 import { ErrorPage } from "~/core/dataDisplay/errorPage";
+import { db } from "~/core/db.server";
 import { Card } from "~/core/layout/card";
 import { PageLayout } from "~/core/layout/page";
 import { getPageTitle } from "~/core/pageTitle";
-import { getCurrentUser } from "~/currentUser/db.server";
 import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
-import { createEvent, InvalidDateRangeError } from "~/events/db.server";
+import { InvalidDateRangeError } from "~/events/db.server";
 import { ActionFormData, EventForm } from "~/events/form";
 
 export async function loader({ request }: LoaderArgs) {
-  const currentUser = await getCurrentUser(request, {
+  const currentUser = await db.currentUser.get(request, {
     select: { groups: true },
   });
 
@@ -39,12 +39,11 @@ export const meta: V2_MetaFunction = () => {
 };
 
 type ActionData = {
-  redirectTo?: string;
   errors?: z.inferFlattenedErrors<typeof ActionFormData.schema>;
 };
 
 export async function action({ request }: ActionArgs) {
-  const currentUser = await getCurrentUser(request, {
+  const currentUser = await db.currentUser.get(request, {
     select: { groups: true },
   });
 
@@ -74,7 +73,7 @@ export async function action({ request }: ActionArgs) {
       );
     }
 
-    const eventId = await createEvent({
+    const eventId = await db.event.create({
       description: formData.data.description,
       endDate: formData.data.endDate,
       image: formData.data.image,

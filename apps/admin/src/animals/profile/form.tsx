@@ -16,6 +16,7 @@ import {
   SPECIES_ICON,
   SPECIES_TRANSLATION,
 } from "~/animals/species";
+import { createActionData } from "~/core/actionData";
 import { Action } from "~/core/actions";
 import { toIsoDateValue } from "~/core/dates";
 import { Form } from "~/core/formElements/form";
@@ -24,7 +25,7 @@ import { RadioInput, RadioInputList } from "~/core/formElements/radioInput";
 import { RequiredStar } from "~/core/formElements/requiredStar";
 import { Textarea } from "~/core/formElements/textarea";
 import { Separator } from "~/core/layout/separator";
-import { createActionData, ensureDate } from "~/core/schemas";
+import { ensureDate } from "~/core/schemas";
 import { Icon } from "~/generated/icon";
 import { BreedInput } from "~/routes/resources.breed";
 import { ColorInput } from "~/routes/resources.color";

@@ -2,8 +2,8 @@ import { Animal, AnimalDraft, Prisma, Status, UserGroup } from "@prisma/client";
 import { redirect } from "@remix-run/node";
 import { ACTIVE_ANIMAL_STATUS } from "~/animals/status";
 import { algolia } from "~/core/algolia/algolia.server";
-import { prisma } from "~/core/db.server";
 import { NotFoundError } from "~/core/errors.server";
+import { prisma } from "~/core/prisma.server";
 
 type SituationKeys =
   | "adoptionDate"
@@ -29,143 +29,137 @@ export class MissingNextVaccinationError extends Error {}
 export class MissingPickUpLocationError extends Error {}
 export class NotManagerError extends Error {}
 
-export async function updateAnimalSituation(
-  animalId: Animal["id"],
-  data: AnimalSituation
-) {
-  await prisma.$transaction(async (prisma) => {
-    const currentAnimal = await prisma.animal.findUnique({
-      where: { id: animalId },
-      select: {
-        managerId: true,
-        nextVaccinationDate: true,
-        pickUpLocation: true,
-      },
-    });
-    if (currentAnimal == null) {
-      throw new NotFoundError();
-    }
-
-    await validateSituation(prisma, data, currentAnimal);
-    normalizeSituation(data);
-
-    await prisma.animal.update({ where: { id: animalId }, data });
-
-    await algolia.animal.update(animalId, {
-      status: data.status,
-      pickUpDate: data.pickUpDate.getTime(),
-      pickUpLocation: data.pickUpLocation,
-    });
-  });
-}
-
-export async function updateAnimalSituationDraft(
-  ownerId: AnimalDraft["ownerId"],
-  data: AnimalSituation
-) {
-  await prisma.$transaction(async (prisma) => {
-    await validateSituation(prisma, data);
-    normalizeSituation(data);
-    await prisma.animalDraft.update({ where: { ownerId }, data });
-  });
-}
-
-export async function validateSituation(
-  prisma: Prisma.TransactionClient,
-  newData: AnimalSituation,
-  currentData?: null | Pick<
-    AnimalSituation,
-    "managerId" | "nextVaccinationDate" | "pickUpLocation"
-  >
-) {
-  if (newData.status === Status.ADOPTED) {
-    if (newData.adoptionDate == null) {
-      throw new MissingAdoptionDateError();
-    }
-    if (newData.adoptionOption == null) {
-      throw new MissingAdoptionOptionError();
-    }
-  }
-
-  if (newData.managerId == null) {
-    // Allow old animals (without a manager) to be updated without setting
-    // one. But we can't unset a manager.
-    if (currentData == null || currentData.managerId != null) {
-      throw new MissingManagerError();
-    }
-  } else {
-    // Only check the manager if it has changed.
-    // They could have changed groups or been blocked but we still want to be
-    // able to update the animal.
-    if (newData.managerId !== currentData?.managerId) {
-      const manager = await prisma.user.findFirst({
-        where: {
-          id: newData.managerId,
-          isDisabled: false,
-          groups: { has: UserGroup.ANIMAL_MANAGER },
+export class AnimalSituationDbDelegate {
+  async update(animalId: Animal["id"], data: AnimalSituation) {
+    await prisma.$transaction(async (prisma) => {
+      const currentAnimal = await prisma.animal.findUnique({
+        where: { id: animalId },
+        select: {
+          managerId: true,
+          nextVaccinationDate: true,
+          pickUpLocation: true,
         },
       });
-
-      if (manager == null) {
-        throw new NotManagerError();
+      if (currentAnimal == null) {
+        throw new NotFoundError();
       }
+
+      await this.validate(prisma, data, currentAnimal);
+      this.normalize(data);
+
+      await prisma.animal.update({ where: { id: animalId }, data });
+
+      await algolia.animal.update(animalId, {
+        status: data.status,
+        pickUpDate: data.pickUpDate.getTime(),
+        pickUpLocation: data.pickUpLocation,
+      });
+    });
+  }
+
+  async updateDraft(ownerId: AnimalDraft["ownerId"], data: AnimalSituation) {
+    await prisma.$transaction(async (prisma) => {
+      await this.validate(prisma, data);
+      this.normalize(data);
+      await prisma.animalDraft.update({ where: { ownerId }, data });
+    });
+  }
+
+  async validate(
+    prisma: Prisma.TransactionClient,
+    newData: AnimalSituation,
+    currentData?: null | Pick<
+      AnimalSituation,
+      "managerId" | "nextVaccinationDate" | "pickUpLocation"
+    >
+  ) {
+    if (newData.status === Status.ADOPTED) {
+      if (newData.adoptionDate == null) {
+        throw new MissingAdoptionDateError();
+      }
+      if (newData.adoptionOption == null) {
+        throw new MissingAdoptionOptionError();
+      }
+    }
+
+    if (newData.managerId == null) {
+      // Allow old animals (without a manager) to be updated without setting
+      // one. But we can't unset a manager.
+      if (currentData == null || currentData.managerId != null) {
+        throw new MissingManagerError();
+      }
+    } else {
+      // Only check the manager if it has changed.
+      // They could have changed groups or been blocked but we still want to be
+      // able to update the animal.
+      if (newData.managerId !== currentData?.managerId) {
+        const manager = await prisma.user.findFirst({
+          where: {
+            id: newData.managerId,
+            isDisabled: false,
+            groups: { has: UserGroup.ANIMAL_MANAGER },
+          },
+        });
+
+        if (manager == null) {
+          throw new NotManagerError();
+        }
+      }
+    }
+
+    // Allow old animals (without a pick up location) to be updated without
+    // setting one. But we can't unset a pick up location.
+    if (
+      newData.pickUpLocation == null &&
+      (currentData == null || currentData?.pickUpLocation != null)
+    ) {
+      throw new MissingPickUpLocationError();
+    }
+
+    // Once a vaccination date is set, we cannot stop vaccinating the animal.
+    if (
+      newData.nextVaccinationDate == null &&
+      currentData?.nextVaccinationDate != null
+    ) {
+      throw new MissingNextVaccinationError();
     }
   }
 
-  // Allow old animals (without a pick up location) to be updated without
-  // setting one. But we can't unset a pick up location.
-  if (
-    newData.pickUpLocation == null &&
-    (currentData == null || currentData?.pickUpLocation != null)
-  ) {
-    throw new MissingPickUpLocationError();
+  normalize(data: AnimalSituation) {
+    if (data.status !== Status.ADOPTED) {
+      data.adoptionDate = null;
+      data.adoptionOption = null;
+    }
+
+    if (!ACTIVE_ANIMAL_STATUS.includes(data.status)) {
+      data.fosterFamilyId = null;
+    }
   }
 
-  // Once a vaccination date is set, we cannot stop vaccinating the animal.
-  if (
-    newData.nextVaccinationDate == null &&
-    currentData?.nextVaccinationDate != null
-  ) {
-    throw new MissingNextVaccinationError();
-  }
-}
+  async assertDraftIsValid(draft?: null | AnimalDraftSituation) {
+    if (!this.draftHasSituation(draft)) {
+      throw redirect("/animals/new/situation");
+    }
 
-export function normalizeSituation(data: AnimalSituation) {
-  if (data.status !== Status.ADOPTED) {
-    data.adoptionDate = null;
-    data.adoptionOption = null;
+    try {
+      await this.validate(prisma, draft);
+    } catch (error) {
+      throw redirect("/animals/new/situation");
+    }
   }
 
-  if (!ACTIVE_ANIMAL_STATUS.includes(data.status)) {
-    data.fosterFamilyId = null;
+  draftHasSituation(
+    draft?: null | AnimalDraftSituation
+  ): draft is AnimalSituation {
+    return (
+      draft != null &&
+      draft.isSterilizationMandatory != null &&
+      draft.isSterilized != null &&
+      draft.managerId != null &&
+      draft.pickUpDate != null &&
+      draft.pickUpLocation != null &&
+      draft.pickUpReason != null &&
+      draft.status != null
+    );
   }
-}
-
-export async function assertDraftHasValidSituation(
-  draft?: null | AnimalDraftSituation
-) {
-  if (!hasSituation(draft)) {
-    throw redirect("/animals/new/situation");
-  }
-
-  try {
-    await validateSituation(prisma, draft);
-  } catch (error) {
-    throw redirect("/animals/new/situation");
-  }
-}
-
-export function hasSituation(
-  draft?: null | AnimalDraftSituation
-): draft is AnimalSituation {
-  return (
-    draft != null &&
-    draft.isSterilizationMandatory != null &&
-    draft.isSterilized != null &&
-    draft.managerId != null &&
-    draft.pickUpDate != null &&
-    draft.pickUpLocation != null &&
-    draft.pickUpReason != null &&
-    draft.status != null
-  );
 }

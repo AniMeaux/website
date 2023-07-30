@@ -2,6 +2,8 @@ export class NotFoundError extends Error {}
 
 export class ReferencedError extends Error {}
 
+export class AlreadyExistError extends Error {}
+
 export class EmailAlreadyUsedError extends Error {}
 
 // Prisma only expose error codes as string.

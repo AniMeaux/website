@@ -3,7 +3,7 @@ import { Prisma } from "@prisma/client";
 import { promiseHash } from "remix-utils";
 import { ColorFromAlgolia } from "~/colors/algolia.server";
 import { algolia } from "~/core/algolia/algolia.server";
-import { prisma } from "~/core/db.server";
+import { prisma } from "~/core/prisma.server";
 import {
   createBatchHandlers,
   createPostHandlers,
@@ -12,7 +12,7 @@ import {
 
 export const colorHandlers = [
   ...createPostHandlers(
-    `/1/indexes/${algolia.color.indexName}/query`,
+    `/1/indexes/${algolia.color.index.indexName}/query`,
     async (req, res, ctx) => {
       const body = await req.json();
       const query = body.query || "";
@@ -62,5 +62,5 @@ export const colorHandlers = [
     }
   ),
 
-  ...createBatchHandlers(`/1/indexes/${algolia.color.indexName}/batch`),
+  ...createBatchHandlers(`/1/indexes/${algolia.color.index.indexName}/batch`),
 ];

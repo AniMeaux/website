@@ -1,24 +1,27 @@
 import { SearchOptions } from "@algolia/client-search";
 import { Color } from "@prisma/client";
-import { SearchClient } from "algoliasearch";
+import { SearchClient, SearchIndex } from "algoliasearch";
 import { indexSearch } from "~/core/algolia/shared.server";
 
 export type ColorFromAlgolia = Pick<Color, "name">;
 
-export function createColorDelegate(client: SearchClient) {
-  const index = client.initIndex("colors");
+export class ColorAlgoliaDelegate {
+  readonly index: SearchIndex;
 
-  return {
-    indexName: index.indexName,
+  constructor(client: SearchClient) {
+    this.index = client.initIndex("colors");
+  }
 
-    async search(text: string, options: SearchOptions = {}) {
-      const hits = await indexSearch<ColorFromAlgolia>(index, text, options);
+  async search({
+    name,
+    ...options
+  }: Omit<SearchOptions, "filters"> & { name: string }) {
+    const hits = await indexSearch<ColorFromAlgolia>(this.index, name, options);
 
-      return hits.map((hit) => ({
-        id: hit.objectID,
-        name: hit.name,
-        highlightedName: hit._highlightResult?.name?.value ?? hit.name,
-      }));
-    },
-  };
+    return hits.map((hit) => ({
+      id: hit.objectID,
+      name: hit.name,
+      highlightedName: hit._highlightResult?.name?.value ?? hit.name,
+    }));
+  }
 }

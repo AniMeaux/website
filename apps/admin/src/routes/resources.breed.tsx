@@ -5,9 +5,10 @@ import { useFetcher } from "@remix-run/react";
 import { useCombobox } from "downshift";
 import { createPath } from "history";
 import { forwardRef, useEffect, useState } from "react";
-import { fuzzySearchBreeds } from "~/breeds/db.server";
 import { BreedSearchParams } from "~/breeds/searchParams";
 import { toBooleanAttribute } from "~/core/attributes";
+import { db } from "~/core/db.server";
+import { ensureArray } from "~/core/ensureArray";
 import { BaseTextInput } from "~/core/formElements/baseTextInput";
 import { Input } from "~/core/formElements/input";
 import {
@@ -17,12 +18,11 @@ import {
   SuggestionItem,
   SuggestionList,
 } from "~/core/formElements/resourceInput";
-import { getCurrentUser } from "~/currentUser/db.server";
 import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
 import { Icon } from "~/generated/icon";
 
 export async function loader({ request }: LoaderArgs) {
-  const currentUser = await getCurrentUser(request, {
+  const currentUser = await db.currentUser.get(request, {
     select: { groups: true },
   });
 
@@ -34,9 +34,10 @@ export async function loader({ request }: LoaderArgs) {
   const searchParams = new BreedSearchParams(new URL(request.url).searchParams);
 
   return json({
-    breeds: await fuzzySearchBreeds({
+    breeds: await db.breed.fuzzySearch({
       name: searchParams.getName(),
       species: searchParams.getSpecies(),
+      maxHitCount: 6,
     }),
   });
 }
@@ -77,7 +78,9 @@ export const BreedInput = forwardRef<
       load(
         createPath({
           pathname: RESOURCE_PATHNAME,
-          search: new BreedSearchParams().setSpecies(species).toString(),
+          search: new BreedSearchParams()
+            .setSpecies(ensureArray(species))
+            .toString(),
         })
       );
     }
@@ -117,7 +120,7 @@ export const BreedInput = forwardRef<
                 createPath({
                   pathname: RESOURCE_PATHNAME,
                   search: new BreedSearchParams()
-                    .setSpecies(species)
+                    .setSpecies(ensureArray(species))
                     .setName(value)
                     .toString(),
                 })

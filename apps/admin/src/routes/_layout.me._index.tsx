@@ -12,18 +12,18 @@ import { Action } from "~/core/actions";
 import { BaseLink } from "~/core/baseLink";
 import { Empty } from "~/core/dataDisplay/empty";
 import { inferInstanceColor } from "~/core/dataDisplay/instanceColor";
-import { prisma } from "~/core/db.server";
+import { db } from "~/core/db.server";
 import { AvatarCard } from "~/core/layout/avatarCard";
 import { Card } from "~/core/layout/card";
 import { PageLayout } from "~/core/layout/page";
 import { getPageTitle } from "~/core/pageTitle";
-import { getCurrentUser } from "~/currentUser/db.server";
+import { prisma } from "~/core/prisma.server";
 import { Icon } from "~/generated/icon";
 import { UserAvatar } from "~/users/avatar";
 import { GROUP_ICON, GROUP_TRANSLATION, hasGroups } from "~/users/groups";
 
 export async function loader({ request }: LoaderArgs) {
-  const currentUser = await getCurrentUser(request, {
+  const currentUser = await db.currentUser.get(request, {
     select: { id: true, displayName: true, email: true, groups: true },
   });
 

@@ -8,7 +8,6 @@ import { z } from "zod";
 import { ADOPTION_OPTION_TRANSLATION } from "~/animals/adoption";
 import { AgreementItem } from "~/animals/agreements";
 import { AnimalAvatar } from "~/animals/avatar";
-import { deleteAnimal } from "~/animals/db.server";
 import { GENDER_ICON } from "~/animals/gender";
 import { PICK_UP_REASON_TRANSLATION } from "~/animals/pickUp";
 import { ActionFormData as ProfileActionFormData } from "~/animals/profile/form";
@@ -31,7 +30,7 @@ import { InlineHelper } from "~/core/dataDisplay/helper";
 import { DynamicImage } from "~/core/dataDisplay/image";
 import { ItemList, SimpleItem } from "~/core/dataDisplay/item";
 import { ARTICLE_COMPONENTS, Markdown } from "~/core/dataDisplay/markdown";
-import { prisma } from "~/core/db.server";
+import { db } from "~/core/db.server";
 import { NotFoundError } from "~/core/errors.server";
 import { assertIsDefined } from "~/core/isDefined.server";
 import { AvatarCard } from "~/core/layout/avatarCard";
@@ -39,8 +38,8 @@ import { Card } from "~/core/layout/card";
 import { PageLayout } from "~/core/layout/page";
 import { getPageTitle } from "~/core/pageTitle";
 import { Dialog } from "~/core/popovers/dialog";
+import { prisma } from "~/core/prisma.server";
 import { NotFoundResponse } from "~/core/response.server";
-import { getCurrentUser } from "~/currentUser/db.server";
 import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
 import { FosterFamilyAvatar } from "~/fosterFamilies/avatar";
 import { getLongLocation } from "~/fosterFamilies/location";
@@ -50,7 +49,7 @@ import { UserAvatar } from "~/users/avatar";
 import { hasGroups } from "~/users/groups";
 
 export async function loader({ request, params }: LoaderArgs) {
-  const currentUser = await getCurrentUser(request, {
+  const currentUser = await db.currentUser.get(request, {
     select: { groups: true },
   });
 
@@ -156,7 +155,7 @@ export async function action({ request, params }: ActionArgs) {
     throw new NotFoundResponse();
   }
 
-  const currentUser = await getCurrentUser(request, {
+  const currentUser = await db.currentUser.get(request, {
     select: { groups: true },
   });
 
@@ -171,7 +170,7 @@ export async function action({ request, params }: ActionArgs) {
   }
 
   try {
-    await deleteAnimal(result.data);
+    await db.animal.delete(result.data);
   } catch (error) {
     if (error instanceof NotFoundError) {
       throw new NotFoundResponse();

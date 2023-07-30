@@ -4,6 +4,7 @@ import isEqual from "lodash.isequal";
 import orderBy from "lodash.orderby";
 import { DateTime } from "luxon";
 import { z } from "zod";
+import { zfd } from "zod-form-data";
 import { ensureBoolean, ensureDate, parseOrDefault } from "~/core/schemas";
 
 export class AnimalSearchParams extends URLSearchParams {
@@ -446,19 +447,14 @@ export class PickUpLocationSearchParams extends URLSearchParams {
   };
 
   getText() {
-    return this.get(PickUpLocationSearchParams.Keys.TEXT)?.trim() || null;
+    return zfd
+      .text(z.string().optional().catch(undefined))
+      .parse(this.get(PickUpLocationSearchParams.Keys.TEXT));
   }
 
   setText(text: string) {
     const copy = new PickUpLocationSearchParams(this);
-
-    text = text.trim();
-    if (text !== "") {
-      copy.set(PickUpLocationSearchParams.Keys.TEXT, text);
-    } else if (copy.has(PickUpLocationSearchParams.Keys.TEXT)) {
-      copy.delete(PickUpLocationSearchParams.Keys.TEXT);
-    }
-
+    copy.set(PickUpLocationSearchParams.Keys.TEXT, text);
     return copy;
   }
 }

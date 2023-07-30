@@ -5,6 +5,7 @@ import { useEffect, useRef } from "react";
 import { z } from "zod";
 import { zfd } from "zod-form-data";
 import { SORTED_SPECIES, SPECIES_TRANSLATION } from "~/animals/species";
+import { createActionData } from "~/core/actionData";
 import { Action } from "~/core/actions";
 import {
   CheckboxInput,
@@ -15,7 +16,6 @@ import { Input } from "~/core/formElements/input";
 import { RequiredStar } from "~/core/formElements/requiredStar";
 import { Textarea } from "~/core/formElements/textarea";
 import { Separator } from "~/core/layout/separator";
-import { createActionData } from "~/core/schemas";
 import { Icon } from "~/generated/icon";
 
 export const ActionFormData = createActionData(

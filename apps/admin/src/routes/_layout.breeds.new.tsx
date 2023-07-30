@@ -1,20 +1,17 @@
 import { UserGroup } from "@prisma/client";
-import { ActionArgs, json, LoaderArgs } from "@remix-run/node";
-import { useFetcher, V2_MetaFunction } from "@remix-run/react";
+import { ActionArgs, LoaderArgs, json } from "@remix-run/node";
+import { V2_MetaFunction, useFetcher } from "@remix-run/react";
 import { z } from "zod";
 import { zfd } from "zod-form-data";
+import { ActionFormData, BreedForm } from "~/breeds/form";
 import { ErrorPage } from "~/core/dataDisplay/errorPage";
 import { db } from "~/core/db.server";
+import { AlreadyExistError } from "~/core/errors.server";
 import { Card } from "~/core/layout/card";
 import { PageLayout } from "~/core/layout/page";
 import { useBackIfPossible } from "~/core/navigation";
 import { getPageTitle } from "~/core/pageTitle";
 import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
-import {
-  InvalidPublicationDateError,
-  UrlAlreadyUsedError,
-} from "~/pressArticles/db.server";
-import { ActionFormData, PressArticleForm } from "~/pressArticles/form";
 
 export async function loader({ request }: LoaderArgs) {
   const currentUser = await db.currentUser.get(request, {
@@ -27,7 +24,7 @@ export async function loader({ request }: LoaderArgs) {
 }
 
 export const meta: V2_MetaFunction = () => {
-  return [{ title: getPageTitle("Nouvel article de presse") }];
+  return [{ title: getPageTitle("Nouvelle race") }];
 };
 
 type ActionData = {
@@ -52,36 +49,17 @@ export async function action({ request }: ActionArgs) {
   }
 
   try {
-    await db.pressArticle.create({
-      image: formData.data.image || null,
-      publicationDate: formData.data.publicationDate,
-      publisherName: formData.data.publisherName,
-      title: formData.data.title,
-      url: formData.data.url,
+    await db.breed.create({
+      name: formData.data.name,
+      species: formData.data.species,
     });
   } catch (error) {
-    if (error instanceof UrlAlreadyUsedError) {
+    if (error instanceof AlreadyExistError) {
       return json<ActionData>(
         {
           errors: {
-            formErrors: [],
-            fieldErrors: { url: ["Cet article de press a déjà été ajouté"] },
-          },
-        },
-        { status: 400 }
-      );
-    }
-
-    if (error instanceof InvalidPublicationDateError) {
-      return json<ActionData>(
-        {
-          errors: {
-            formErrors: [],
-            fieldErrors: {
-              publicationDate: [
-                "La date de publication doit être antérieure à aujourd’hui.",
-              ],
-            },
+            formErrors: ["Cette race existe déjà."],
+            fieldErrors: {},
           },
         },
         { status: 400 }
@@ -91,7 +69,7 @@ export async function action({ request }: ActionArgs) {
     throw error;
   }
 
-  return json<ActionData>({ redirectTo: "/press-articles" });
+  return json<ActionData>({ redirectTo: "/breeds" });
 }
 
 export function ErrorBoundary() {
@@ -107,11 +85,11 @@ export default function Route() {
       <PageLayout.Content className="flex flex-col items-center">
         <Card className="w-full md:max-w-[600px]">
           <Card.Header>
-            <Card.Title>Nouvel article de presse</Card.Title>
+            <Card.Title>Nouvelle race</Card.Title>
           </Card.Header>
 
           <Card.Content>
-            <PressArticleForm fetcher={fetcher} />
+            <BreedForm fetcher={fetcher} />
           </Card.Content>
         </Card>
       </PageLayout.Content>

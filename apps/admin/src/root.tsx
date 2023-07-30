@@ -118,7 +118,7 @@ function Document({ children }: { children: React.ReactNode }) {
           // Make sure children with absolute positionning are correctly placed.
           "relative",
           { "h-full": isFullHeight },
-          "antialiased text-gray-800 text-body-default flex flex-col"
+          "text-gray-800 text-body-default flex flex-col"
         )}
       >
         {children}

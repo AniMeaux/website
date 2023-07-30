@@ -15,21 +15,21 @@ import {
   createCloudinaryUploadHandler,
 } from "~/core/cloudinary.server";
 import { ErrorPage, getErrorTitle } from "~/core/dataDisplay/errorPage";
-import { prisma } from "~/core/db.server";
+import { db } from "~/core/db.server";
 import { NotFoundError } from "~/core/errors.server";
 import { assertIsDefined } from "~/core/isDefined.server";
 import { Card } from "~/core/layout/card";
 import { PageLayout } from "~/core/layout/page";
 import { useBackIfPossible } from "~/core/navigation";
 import { getPageTitle } from "~/core/pageTitle";
+import { prisma } from "~/core/prisma.server";
 import { NotFoundResponse } from "~/core/response.server";
-import { getCurrentUser } from "~/currentUser/db.server";
 import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
-import { InvalidDateRangeError, updateEvent } from "~/events/db.server";
+import { InvalidDateRangeError } from "~/events/db.server";
 import { ActionFormData, EventForm } from "~/events/form";
 
 export async function loader({ request, params }: LoaderArgs) {
-  const currentUser = await getCurrentUser(request, {
+  const currentUser = await db.currentUser.get(request, {
     select: { groups: true },
   });
 
@@ -75,7 +75,7 @@ type ActionData = {
 };
 
 export async function action({ request, params }: ActionArgs) {
-  const currentUser = await getCurrentUser(request, {
+  const currentUser = await db.currentUser.get(request, {
     select: { groups: true },
   });
 
@@ -110,7 +110,7 @@ export async function action({ request, params }: ActionArgs) {
       );
     }
 
-    await updateEvent(idResult.data, {
+    await db.event.update(idResult.data, {
       description: formData.data.description,
       endDate: formData.data.endDate,
       image: formData.data.image,

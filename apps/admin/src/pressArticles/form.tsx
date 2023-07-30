@@ -1,6 +1,7 @@
 import { FetcherWithComponents } from "@remix-run/react";
 import { useEffect, useRef, useState } from "react";
 import { z } from "zod";
+import { createActionData } from "~/core/actionData";
 import { Action } from "~/core/actions";
 import { Form } from "~/core/formElements/form";
 import { Input } from "~/core/formElements/input";
@@ -8,7 +9,7 @@ import { RequiredStar } from "~/core/formElements/requiredStar";
 import { SwitchInput } from "~/core/formElements/switchInput";
 import { Separator } from "~/core/layout/separator";
 import { Spinner } from "~/core/loaders/spinner";
-import { createActionData, ensureDate } from "~/core/schemas";
+import { ensureDate } from "~/core/schemas";
 import { Icon } from "~/generated/icon";
 import { useScrapUrlFetcher } from "~/routes/resources.scrap-url";
 

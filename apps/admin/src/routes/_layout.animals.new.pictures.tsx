@@ -13,23 +13,20 @@ import invariant from "tiny-invariant";
 import { z } from "zod";
 import { zfd } from "zod-form-data";
 import { AnimalCreationSteps } from "~/animals/creationSteps";
-import { createAnimal } from "~/animals/db.server";
 import { ActionFormData, AnimalPicturesForm } from "~/animals/pictures/form";
-import { assertDraftHasValidProfile } from "~/animals/profile/db.server";
-import { assertDraftHasValidSituation } from "~/animals/situation/db.server";
 import {
   CloudinaryUploadApiError,
   createCloudinaryUploadHandler,
 } from "~/core/cloudinary.server";
 import { ErrorPage } from "~/core/dataDisplay/errorPage";
+import { db } from "~/core/db.server";
 import { Card } from "~/core/layout/card";
 import { PageLayout } from "~/core/layout/page";
 import { getPageTitle } from "~/core/pageTitle";
-import { getCurrentUser } from "~/currentUser/db.server";
 import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
 
 export async function loader({ request }: LoaderArgs) {
-  const currentUser = await getCurrentUser(request, {
+  const currentUser = await db.currentUser.get(request, {
     select: { groups: true, draft: true },
   });
 
@@ -38,8 +35,8 @@ export async function loader({ request }: LoaderArgs) {
     UserGroup.ANIMAL_MANAGER,
   ]);
 
-  await assertDraftHasValidProfile(currentUser.draft);
-  await assertDraftHasValidSituation(currentUser.draft);
+  await db.animal.profile.assertDraftIsValid(currentUser.draft);
+  await db.animal.situation.assertDraftIsValid(currentUser.draft);
 
   return new Response("Ok");
 }
@@ -53,7 +50,7 @@ type ActionData = {
 };
 
 export async function action({ request }: ActionArgs) {
-  const currentUser = await getCurrentUser(request, {
+  const currentUser = await db.currentUser.get(request, {
     select: { groups: true, draft: true },
   });
 
@@ -62,8 +59,8 @@ export async function action({ request }: ActionArgs) {
     UserGroup.ANIMAL_MANAGER,
   ]);
 
-  await assertDraftHasValidProfile(currentUser.draft);
-  await assertDraftHasValidSituation(currentUser.draft);
+  await db.animal.profile.assertDraftIsValid(currentUser.draft);
+  await db.animal.situation.assertDraftIsValid(currentUser.draft);
 
   try {
     const rawFormData = await unstable_parseMultipartFormData(
@@ -89,7 +86,7 @@ export async function action({ request }: ActionArgs) {
     const avatar = formData.data.pictures[0];
     invariant(avatar != null, "The avatar should exists");
 
-    const animalId = await createAnimal(currentUser.draft, {
+    const animalId = await db.animal.create(currentUser.draft, {
       avatar,
       pictures: formData.data.pictures.slice(1),
     });
