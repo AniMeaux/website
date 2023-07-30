@@ -28,7 +28,6 @@ export const meta: V2_MetaFunction = () => {
 };
 
 type ActionData = {
-  redirectTo?: string;
   errors?: z.inferFlattenedErrors<typeof ActionFormData.schema>;
 };
 
