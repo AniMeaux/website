@@ -20,6 +20,10 @@ export class BreedAlgoliaDelegate {
     await this.index.saveObject({ ...data, objectID: id });
   }
 
+  async update(id: Breed["id"], data: Partial<BreedFromAlgolia>) {
+    await this.index.partialUpdateObject({ ...data, objectID: id });
+  }
+
   async search({
     name,
     species = [],
