@@ -1,5 +1,11 @@
 import { AnimalAge } from "@animeaux/shared";
-import { AdoptionOption, PickUpReason, Species, Status } from "@prisma/client";
+import {
+  AdoptionOption,
+  PickUpReason,
+  ScreeningResult,
+  Species,
+  Status,
+} from "@prisma/client";
 import isEqual from "lodash.isequal";
 import orderBy from "lodash.orderby";
 import { DateTime } from "luxon";
@@ -41,6 +47,8 @@ export class AnimalSearchParams extends URLSearchParams {
     NO_VACCINATION: "noVacc",
     PICK_UP_LOCATION: "pickUpLoc",
     PICK_UP_REASON: "pickUpReason",
+    SCREENING_FELV: "felv",
+    SCREENING_FIV: "fiv",
     SORT: "sort",
     SPECIES: "species",
     STATUS: "status",
@@ -84,7 +92,12 @@ export class AnimalSearchParams extends URLSearchParams {
         orderBy(other.getPickUpReasons())
       ) &&
       isEqual(orderBy(this.getSpecies()), orderBy(other.getSpecies())) &&
-      isEqual(orderBy(this.getStatuses()), orderBy(other.getStatuses()))
+      isEqual(orderBy(this.getStatuses()), orderBy(other.getStatuses())) &&
+      isEqual(
+        orderBy(this.getScreeningFelv()),
+        orderBy(other.getScreeningFelv())
+      ) &&
+      isEqual(orderBy(this.getScreeningFiv()), orderBy(other.getScreeningFiv()))
     );
   }
 
@@ -438,6 +451,18 @@ export class AnimalSearchParams extends URLSearchParams {
     });
 
     return copy;
+  }
+
+  getScreeningFelv() {
+    return zfd
+      .repeatable(z.nativeEnum(ScreeningResult).array().catch([]))
+      .parse(this.getAll(AnimalSearchParams.Keys.SCREENING_FELV));
+  }
+
+  getScreeningFiv() {
+    return zfd
+      .repeatable(z.nativeEnum(ScreeningResult).array().catch([]))
+      .parse(this.getAll(AnimalSearchParams.Keys.SCREENING_FIV));
   }
 }
 

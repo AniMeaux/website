@@ -1,5 +1,12 @@
 import { formatAge } from "@animeaux/shared";
-import { AdoptionOption, Gender, Status, UserGroup } from "@prisma/client";
+import {
+  AdoptionOption,
+  Gender,
+  ScreeningResult,
+  Species,
+  Status,
+  UserGroup,
+} from "@prisma/client";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { ActionArgs, LoaderArgs, json, redirect } from "@remix-run/node";
 import { V2_MetaFunction, useFetcher, useLoaderData } from "@remix-run/react";
@@ -12,6 +19,10 @@ import { GENDER_ICON } from "~/animals/gender";
 import { PICK_UP_REASON_TRANSLATION } from "~/animals/pickUp";
 import { ActionFormData as ProfileActionFormData } from "~/animals/profile/form";
 import { getAnimalDisplayName } from "~/animals/profile/name";
+import {
+  SCREENING_RESULT_ICON,
+  SCREENING_RESULT_TRANSLATION,
+} from "~/animals/screening";
 import { ActionFormData as SituationActionFormData } from "~/animals/situation/form";
 import {
   formatNextVaccinationDate,
@@ -93,6 +104,8 @@ export async function loader({ request, params }: LoaderArgs) {
       pickUpLocation: true,
       pickUpReason: true,
       pictures: true,
+      screeningFiv: true,
+      screeningFelv: true,
       species: true,
       status: true,
 
@@ -524,6 +537,58 @@ function SituationCard() {
                   DateTime.DATE_FULL
                 )}
               </strong>
+            </SimpleItem>
+          ) : null}
+
+          {animal.species === Species.CAT &&
+          animal.screeningFiv !== ScreeningResult.UNKNOWN ? (
+            <SimpleItem
+              icon={
+                <Icon
+                  id={SCREENING_RESULT_ICON[animal.screeningFiv]}
+                  className={
+                    animal.screeningFiv === ScreeningResult.NEGATIVE
+                      ? "text-green-600"
+                      : "text-red-500"
+                  }
+                />
+              }
+            >
+              Est{" "}
+              <strong className="text-body-emphasis">
+                {
+                  SCREENING_RESULT_TRANSLATION[animal.screeningFiv][
+                    animal.gender
+                  ]
+                }
+              </strong>{" "}
+              au FIV
+            </SimpleItem>
+          ) : null}
+
+          {animal.species === Species.CAT &&
+          animal.screeningFelv !== ScreeningResult.UNKNOWN ? (
+            <SimpleItem
+              icon={
+                <Icon
+                  id={SCREENING_RESULT_ICON[animal.screeningFelv]}
+                  className={
+                    animal.screeningFelv === ScreeningResult.NEGATIVE
+                      ? "text-green-600"
+                      : "text-red-500"
+                  }
+                />
+              }
+            >
+              Est{" "}
+              <strong className="text-body-emphasis">
+                {
+                  SCREENING_RESULT_TRANSLATION[animal.screeningFelv][
+                    animal.gender
+                  ]
+                }
+              </strong>{" "}
+              au FeLV
             </SimpleItem>
           ) : null}
 

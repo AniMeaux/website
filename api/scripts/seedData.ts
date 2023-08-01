@@ -5,6 +5,7 @@ import {
   PickUpReason,
   Prisma,
   PrismaClient,
+  ScreeningResult,
   Species,
   Status,
   UserGroup,
@@ -389,6 +390,14 @@ function createAnimalInput({
     pictures: faker.helpers.maybe(() =>
       repeate({ min: 1, max: 5 }, () => faker.string.uuid())
     ),
+    screeningFiv:
+      species === Species.CAT
+        ? faker.helpers.arrayElement(Object.values(ScreeningResult))
+        : undefined,
+    screeningFelv:
+      species === Species.CAT
+        ? faker.helpers.arrayElement(Object.values(ScreeningResult))
+        : undefined,
     species,
     status,
   };

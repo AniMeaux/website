@@ -7,6 +7,7 @@ const TABLES_NAME = [
   "Breed",
   "Color",
   "Event",
+  "PressArticle",
   "FosterFamily",
   "Password",
   "User",
