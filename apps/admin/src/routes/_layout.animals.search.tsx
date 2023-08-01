@@ -197,6 +197,16 @@ export async function loader({ request }: LoaderArgs) {
     });
   }
 
+  const screeningFiv = animalSearchParams.getScreeningFiv();
+  if (screeningFiv.length > 0) {
+    where.push({ screeningFiv: { in: screeningFiv } });
+  }
+
+  const screeningFelv = animalSearchParams.getScreeningFelv();
+  if (screeningFelv.length > 0) {
+    where.push({ screeningFelv: { in: screeningFelv } });
+  }
+
   if (isCurrentUserAnimalAdmin) {
     const isSterilized = animalSearchParams.getIsSterilized();
     if (isSterilized.length > 0) {
@@ -224,16 +234,12 @@ export async function loader({ request }: LoaderArgs) {
 
       where.push({ OR: conditions });
     }
-  }
 
-  if (isCurrentUserAnimalAdmin) {
     const noVaccination = animalSearchParams.getNoVaccination();
     if (noVaccination) {
       where.push({ nextVaccinationDate: null });
     }
-  }
 
-  if (isCurrentUserAnimalAdmin) {
     const minVaccinationDate = animalSearchParams.getMinVaccinationDate();
     const maxVaccinationDate = animalSearchParams.getMaxVaccinationDate();
     if (minVaccinationDate != null || maxVaccinationDate != null) {

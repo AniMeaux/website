@@ -2,7 +2,10 @@ import {
   AdoptionOption,
   AnimalDraft,
   FosterFamily,
+  Gender,
   PickUpReason,
+  ScreeningResult,
+  Species,
   Status,
   User,
   UserGroup,
@@ -19,6 +22,10 @@ import {
   PICK_UP_REASON_TRANSLATION,
   SORTED_PICK_UP_REASON,
 } from "~/animals/pickUp";
+import {
+  SCREENING_RESULT_TRANSLATION,
+  SORTED_SCREENING_RESULTS,
+} from "~/animals/screening";
 import {
   ACTIVE_ANIMAL_STATUS,
   SORTED_STATUS,
@@ -72,6 +79,12 @@ export const ActionFormData = createActionData(
     pickUpReason: z.nativeEnum(PickUpReason, {
       required_error: "Veuillez choisir une raison",
     }),
+    screeningFelv: z
+      .nativeEnum(ScreeningResult)
+      .default(ScreeningResult.UNKNOWN),
+    screeningFiv: z
+      .nativeEnum(ScreeningResult)
+      .default(ScreeningResult.UNKNOWN),
     status: z.nativeEnum(Status, {
       required_error: "Veuillez choisir un statut",
     }),
@@ -97,6 +110,9 @@ export function AnimalSituationForm({
       | "pickUpDate"
       | "pickUpLocation"
       | "pickUpReason"
+      | "screeningFelv"
+      | "screeningFiv"
+      | "species"
       | "status"
     > & {
       fosterFamily?: null | Pick<FosterFamily, "id" | "displayName">;
@@ -452,6 +468,64 @@ export function AnimalSituationForm({
               ) : null}
             </Form.Field>
           </Form.Row>
+
+          {defaultAnimal?.species === Species.CAT ? (
+            <>
+              <Separator />
+
+              <Form.Row>
+                <Form.Field>
+                  <Form.Label asChild>
+                    <span>
+                      Dépistage FIV <RequiredStar />
+                    </span>
+                  </Form.Label>
+
+                  <RadioInputList>
+                    {SORTED_SCREENING_RESULTS.map((result) => (
+                      <RadioInput
+                        key={result}
+                        label={
+                          SCREENING_RESULT_TRANSLATION[result][Gender.MALE]
+                        }
+                        name={ActionFormData.keys.screeningFiv}
+                        value={result}
+                        defaultChecked={
+                          result === defaultAnimal?.screeningFiv ??
+                          ScreeningResult.UNKNOWN
+                        }
+                      />
+                    ))}
+                  </RadioInputList>
+                </Form.Field>
+
+                <Form.Field>
+                  <Form.Label asChild>
+                    <span>
+                      Dépistage FeLV <RequiredStar />
+                    </span>
+                  </Form.Label>
+
+                  <RadioInputList>
+                    {SORTED_SCREENING_RESULTS.map((result) => (
+                      <RadioInput
+                        key={result}
+                        label={
+                          SCREENING_RESULT_TRANSLATION[result][Gender.MALE]
+                        }
+                        name={ActionFormData.keys.screeningFelv}
+                        value={result}
+                        defaultChecked={
+                          result === defaultAnimal?.screeningFelv ??
+                          ScreeningResult.UNKNOWN
+                        }
+                      />
+                    ))}
+                  </RadioInputList>
+                </Form.Field>
+              </Form.Row>
+            </>
+          ) : null}
 
           <Separator />
 

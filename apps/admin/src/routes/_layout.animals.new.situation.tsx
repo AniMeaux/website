@@ -2,6 +2,7 @@ import { UserGroup } from "@prisma/client";
 import { ActionArgs, json, LoaderArgs, redirect } from "@remix-run/node";
 import { useFetcher, useLoaderData, V2_MetaFunction } from "@remix-run/react";
 import { z } from "zod";
+import { zfd } from "zod-form-data";
 import { AnimalCreationSteps } from "~/animals/creationSteps";
 import {
   MissingAdoptionDateError,
@@ -63,10 +64,7 @@ export async function action({ request }: ActionArgs) {
   await db.animal.profile.assertDraftIsValid(currentUser.draft);
 
   const rawFormData = await request.formData();
-  const formData = ActionFormData.schema.safeParse(
-    Object.fromEntries(rawFormData.entries())
-  );
-
+  const formData = zfd.formData(ActionFormData.schema).safeParse(rawFormData);
   if (!formData.success) {
     return json<ActionData>(
       { errors: formData.error.flatten() },
@@ -91,6 +89,8 @@ export async function action({ request }: ActionArgs) {
       pickUpDate: formData.data.pickUpDate,
       pickUpLocation: formData.data.pickUpLocation ?? null,
       pickUpReason: formData.data.pickUpReason,
+      screeningFelv: formData.data.screeningFelv,
+      screeningFiv: formData.data.screeningFiv,
       status: formData.data.status,
     });
   } catch (error) {
