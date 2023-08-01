@@ -1,11 +1,15 @@
 import { formatAge } from "@animeaux/shared";
-import { Gender } from "@prisma/client";
-import { json, LoaderArgs, SerializeFrom } from "@remix-run/node";
-import { useLoaderData, V2_MetaFunction } from "@remix-run/react";
+import { Gender, ScreeningResult, Species } from "@prisma/client";
+import { LoaderArgs, json } from "@remix-run/node";
+import { V2_MetaFunction, useLoaderData } from "@remix-run/react";
 import { DateTime } from "luxon";
 import { useRef, useState } from "react";
 import invariant from "tiny-invariant";
 import { z } from "zod";
+import {
+  SCREENING_RESULT_ICON,
+  SCREENING_RESULT_TRANSLATION,
+} from "~/animals/screening";
 import { SPECIES_ICON } from "~/animals/species";
 import { ADOPTABLE_ANIMAL_STATUS } from "~/animals/status";
 import { actionClassNames } from "~/core/actions";
@@ -13,7 +17,7 @@ import { BaseLink } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
 import { getConfigFromMetaMatches, useConfig } from "~/core/config";
 import { ErrorPage, getErrorTitle } from "~/core/dataDisplay/errorPage";
-import { createCloudinaryUrl, DynamicImage } from "~/core/dataDisplay/image";
+import { DynamicImage, createCloudinaryUrl } from "~/core/dataDisplay/image";
 import { Markdown, MarkdownProps } from "~/core/dataDisplay/markdown";
 import { prisma } from "~/core/db.server";
 import { isDefined } from "~/core/isDefined";
@@ -35,25 +39,27 @@ export async function loader({ params }: LoaderArgs) {
   const animal = await prisma.animal.findFirst({
     where: { id: result.data, status: { in: ADOPTABLE_ANIMAL_STATUS } },
     select: {
-      id: true,
       avatar: true,
-      pictures: true,
-      name: true,
-      gender: true,
       birthdate: true,
-      description: true,
-      species: true,
       breed: { select: { name: true } },
       color: { select: { name: true } },
-      isOkChildren: true,
-      isOkDogs: true,
-      isOkCats: true,
+      description: true,
       fosterFamily: {
         select: {
-          zipCode: true,
           city: true,
+          zipCode: true,
         },
       },
+      gender: true,
+      id: true,
+      isOkCats: true,
+      isOkChildren: true,
+      isOkDogs: true,
+      name: true,
+      pictures: true,
+      screeningFelv: true,
+      screeningFiv: true,
+      species: true,
     },
   });
 
@@ -120,11 +126,8 @@ export default function Route() {
           "md:flex-row md:items-center md:gap-24"
         )}
       >
-        <ImageSection animal={animal} className="md:flex-[1_1_66%]" />
-        <InfoSection
-          animal={animal}
-          className="md:flex-[1_1_34%] md:max-w-xs"
-        />
+        <ImageSection className="md:flex-[1_1_66%]" />
+        <InfoSection className="md:flex-[1_1_34%] md:max-w-xs" />
       </div>
 
       <div
@@ -133,11 +136,8 @@ export default function Route() {
           "md:flex-row-reverse md:items-start md:gap-24"
         )}
       >
-        <AggrementsSection
-          animal={animal}
-          className="md:flex-[1_1_34%] md:max-w-xs"
-        />
-        <DescriptionSection animal={animal} className="md:flex-[1_1_66%]" />
+        <AggrementsSection className="md:flex-[1_1_34%] md:max-w-xs" />
+        <DescriptionSection className="md:flex-[1_1_66%]" />
       </div>
 
       <div className={cn("flex flex-col items-center gap-3", "md:hidden")}>
@@ -166,13 +166,8 @@ function Actions() {
   );
 }
 
-function ImageSection({
-  animal,
-  className,
-}: {
-  animal: SerializeFrom<typeof loader>["animal"];
-  className: string;
-}) {
+function ImageSection({ className }: { className: string }) {
+  const { animal } = useLoaderData<typeof loader>();
   const allPictures = [animal.avatar].concat(animal.pictures);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [visibleIndex, setVisibleIndex] = useState(0);
@@ -244,13 +239,9 @@ function ImageSection({
   );
 }
 
-function InfoSection({
-  animal,
-  className,
-}: {
-  animal: SerializeFrom<typeof loader>["animal"];
-  className: string;
-}) {
+function InfoSection({ className }: { className: string }) {
+  const { animal } = useLoaderData<typeof loader>();
+
   const speciesLabels = [
     SPECIES_TRANSLATION[animal.species],
     animal.breed?.name,
@@ -284,6 +275,36 @@ function InfoSection({
             {animal.fosterFamily.zipCode.slice(0, 2)})
           </Item>
         )}
+
+        {animal.species === Species.CAT &&
+        animal.screeningFiv !== ScreeningResult.UNKNOWN ? (
+          <Item
+            icon={SCREENING_RESULT_ICON[animal.screeningFiv]}
+            color={
+              animal.screeningFiv === ScreeningResult.NEGATIVE ? "green" : "red"
+            }
+          >
+            Est{" "}
+            {SCREENING_RESULT_TRANSLATION[animal.screeningFiv][animal.gender]}{" "}
+            au FIV
+          </Item>
+        ) : null}
+
+        {animal.species === Species.CAT &&
+        animal.screeningFelv !== ScreeningResult.UNKNOWN ? (
+          <Item
+            icon={SCREENING_RESULT_ICON[animal.screeningFelv]}
+            color={
+              animal.screeningFelv === ScreeningResult.NEGATIVE
+                ? "green"
+                : "red"
+            }
+          >
+            Est{" "}
+            {SCREENING_RESULT_TRANSLATION[animal.screeningFelv][animal.gender]}{" "}
+            au FeLV
+          </Item>
+        ) : null}
       </ul>
     </section>
   );
@@ -295,7 +316,7 @@ function Item({
   children,
 }: {
   icon: IconProps["id"];
-  color?: "pink" | "blue" | "default";
+  color?: "pink" | "blue" | "default" | "red" | "green";
   children: React.ReactNode;
 }) {
   return (
@@ -306,6 +327,8 @@ function Item({
           "text-gray-700": color === "default",
           "text-pink-500": color === "pink",
           "text-brandBlue": color === "blue",
+          "text-brandRed": color === "red",
+          "text-brandGreen": color === "green",
         })}
       />
       <span className="flex-1">{children}</span>
@@ -313,13 +336,9 @@ function Item({
   );
 }
 
-function AggrementsSection({
-  animal,
-  className,
-}: {
-  animal: SerializeFrom<typeof loader>["animal"];
-  className: string;
-}) {
+function AggrementsSection({ className }: { className: string }) {
+  const { animal } = useLoaderData<typeof loader>();
+
   return (
     <div className={cn(className, "flex flex-col gap-6")}>
       <h2
@@ -417,13 +436,9 @@ const DESCRIPTION_COMPONENTS: MarkdownProps["components"] = {
   li: ({ children }) => <li>{children}</li>,
 };
 
-function DescriptionSection({
-  animal,
-  className,
-}: {
-  animal: SerializeFrom<typeof loader>["animal"];
-  className: string;
-}) {
+function DescriptionSection({ className }: { className: string }) {
+  const { animal } = useLoaderData<typeof loader>();
+
   return (
     <section className={cn(className, "flex flex-col gap-6")}>
       <h2

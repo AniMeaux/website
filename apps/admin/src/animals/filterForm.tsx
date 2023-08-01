@@ -1,4 +1,4 @@
-import { FosterFamily, User, UserGroup } from "@prisma/client";
+import { FosterFamily, Gender, User, UserGroup } from "@prisma/client";
 import {
   ADOPTION_OPTION_ICON,
   ADOPTION_OPTION_TRANSLATION,
@@ -34,6 +34,11 @@ import { FosterFamilyAvatar } from "~/fosterFamilies/avatar";
 import { Icon } from "~/generated/icon";
 import { UserAvatar } from "~/users/avatar";
 import { hasGroups } from "~/users/groups";
+import {
+  SCREENING_RESULT_ICON,
+  SCREENING_RESULT_TRANSLATION,
+  SORTED_SCREENING_RESULTS,
+} from "./screening";
 
 export function AnimalFilters({
   currentUser,
@@ -66,6 +71,8 @@ export function AnimalFilters({
     noVaccination: animalSearchParams.getNoVaccination(),
     pickUpLocations: animalSearchParams.getPickUpLocations(),
     pickUpReasons: animalSearchParams.getPickUpReasons(),
+    screeningFelv: animalSearchParams.getScreeningFelv(),
+    screeningFiv: animalSearchParams.getScreeningFiv(),
     sort: animalSearchParams.getSort(),
     species: animalSearchParams.getSpecies(),
     statuses: animalSearchParams.getStatuses(),
@@ -75,9 +82,11 @@ export function AnimalFilters({
     UserGroup.ANIMAL_MANAGER,
   ]);
 
-  const isCurrentUserAnimalAdmin =
-    isCurrentUserManager ||
-    hasGroups(currentUser, [UserGroup.ADMIN, UserGroup.VETERINARIAN]);
+  const isCurrentUserAnimalAdmin = hasGroups(currentUser, [
+    UserGroup.ADMIN,
+    UserGroup.ANIMAL_MANAGER,
+    UserGroup.VETERINARIAN,
+  ]);
 
   return (
     <Filters>
@@ -653,6 +662,79 @@ export function AnimalFilters({
             </Form.Fields>
           </Filters.Filter>
         ) : null}
+
+        <Filters.Filter
+          value={AnimalSearchParams.Keys.SCREENING_FIV}
+          label="Dépistage"
+          count={
+            visibleFilters.screeningFiv.length +
+            visibleFilters.screeningFelv.length
+          }
+          hiddenContent={
+            <>
+              {visibleFilters.screeningFiv.map((result) => (
+                <input
+                  key={result}
+                  type="hidden"
+                  name={AnimalSearchParams.Keys.SCREENING_FIV}
+                  value={result}
+                />
+              ))}
+              {visibleFilters.screeningFelv.map((result) => (
+                <input
+                  key={result}
+                  type="hidden"
+                  name={AnimalSearchParams.Keys.SCREENING_FELV}
+                  value={result}
+                />
+              ))}
+            </>
+          }
+        >
+          <Form.Fields>
+            <Form.Field>
+              <Form.Label asChild>
+                <span>FIV</span>
+              </Form.Label>
+
+              <ToggleInputList>
+                {SORTED_SCREENING_RESULTS.map((result) => (
+                  <ToggleInput
+                    key={result}
+                    type="checkbox"
+                    label={SCREENING_RESULT_TRANSLATION[result][Gender.MALE]}
+                    name={AnimalSearchParams.Keys.SCREENING_FIV}
+                    value={result}
+                    icon={<Icon id={SCREENING_RESULT_ICON[result]} />}
+                    checked={visibleFilters.screeningFiv.includes(result)}
+                    onChange={() => {}}
+                  />
+                ))}
+              </ToggleInputList>
+            </Form.Field>
+
+            <Form.Field>
+              <Form.Label asChild>
+                <span>FeLV</span>
+              </Form.Label>
+
+              <ToggleInputList>
+                {SORTED_SCREENING_RESULTS.map((result) => (
+                  <ToggleInput
+                    key={result}
+                    type="checkbox"
+                    label={SCREENING_RESULT_TRANSLATION[result][Gender.MALE]}
+                    name={AnimalSearchParams.Keys.SCREENING_FELV}
+                    value={result}
+                    icon={<Icon id={SCREENING_RESULT_ICON[result]} />}
+                    checked={visibleFilters.screeningFelv.includes(result)}
+                    onChange={() => {}}
+                  />
+                ))}
+              </ToggleInputList>
+            </Form.Field>
+          </Form.Fields>
+        </Filters.Filter>
 
         <Filters.Filter
           value={AnimalSearchParams.Keys.ADOPTION_OPTION}

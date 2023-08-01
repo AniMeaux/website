@@ -17,6 +17,8 @@ type SituationKeys =
   | "pickUpDate"
   | "pickUpLocation"
   | "pickUpReason"
+  | "screeningFelv"
+  | "screeningFiv"
   | "status";
 
 export type AnimalSituation = Pick<Animal, SituationKeys>;
@@ -159,6 +161,8 @@ export class AnimalSituationDbDelegate {
       draft.pickUpDate != null &&
       draft.pickUpLocation != null &&
       draft.pickUpReason != null &&
+      draft.screeningFelv != null &&
+      draft.screeningFiv != null &&
       draft.status != null
     );
   }
