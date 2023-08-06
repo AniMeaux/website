@@ -25,6 +25,7 @@
     "@remix-run/node": "~1.18.0",
     "@remix-run/react": "~1.18.0",
     "@remix-run/serve": "~1.18.0",
+    "@total-typescript/ts-reset": "^0.4.2",
     "@unpic/placeholder": "^0.1.2",
     "focus-visible": "^5.2.0",
     "lodash.orderby": "^4.6.0",

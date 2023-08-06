@@ -1,3 +1,4 @@
+import "@total-typescript/ts-reset";
 // This import is required for standard CSS properties to be autocompleted.
 import "csstype";
 
