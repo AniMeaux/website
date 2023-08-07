@@ -5,6 +5,7 @@ import { useConfig } from "~/core/config";
 import { DynamicImage } from "~/core/dataDisplay/image";
 import { FooterWave } from "~/core/layout/footerWave";
 import { HighLightBackground } from "~/core/layout/highlightBackground";
+import { LegalsBackground } from "~/core/layout/legalsBackground";
 import { createSocialMeta } from "~/core/meta";
 import { getPageTitle } from "~/core/pageTitle";
 import { Icon, IconProps } from "~/generated/icon";
@@ -87,7 +88,7 @@ function ActionsSection() {
 
   return (
     <section className="py-4 grid grid-cols-1">
-      <div className="relative bg-alabaster bg-var-alabaster px-safe-page-narrow md:px-safe-page-normal py-4 grid grid-cols-1 md:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] gap-4 lg:gap-8 md:items-start">
+      <div className="relative bg-var-alabaster px-safe-page-narrow md:px-safe-page-normal py-4 grid grid-cols-1 md:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] gap-4 lg:gap-8 md:items-start">
         <HighLightBackground
           color="alabaster"
           className="absolute -z-10 top-0 left-0 w-full h-full"
@@ -284,7 +285,9 @@ function FooterSection() {
         </aside>
       </section>
 
-      <section className="bg-prussianBlue px-page-narrow md:px-page-normal py-2 grid grid-cols-1">
+      <section className="relative z-10 px-page-narrow md:px-page-normal py-2 grid grid-cols-1">
+        <LegalsBackground className="absolute -z-10 top-0 left-0 w-full h-full" />
+
         <p className="text-caption-lowercase-emphasis text-white text-center">
           Copyright © {new Date().getFullYear()} Ani’Meaux
         </p>
