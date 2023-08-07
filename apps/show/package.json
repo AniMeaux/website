@@ -28,6 +28,7 @@
     "@total-typescript/ts-reset": "^0.4.2",
     "@unpic/placeholder": "^0.1.2",
     "focus-visible": "^5.2.0",
+    "isbot": "^3.6.13",
     "lodash.orderby": "^4.6.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
