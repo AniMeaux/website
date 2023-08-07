@@ -38,13 +38,13 @@ export async function loader({ request }: LoaderArgs) {
   assertCurrentUserHasGroups(currentUser, [UserGroup.ADMIN]);
 
   const searchParams = new URL(request.url).searchParams;
-  const pageSearchParams = new PageSearchParams(searchParams);
+  const pageSearchParams = PageSearchParams.parse(searchParams);
 
   const { pressArticles, totalCount } = await promiseHash({
     totalCount: prisma.pressArticle.count(),
 
     pressArticles: prisma.pressArticle.findMany({
-      skip: pageSearchParams.getPage() * PRESS_ARTICLES_COUNT_PER_PAGE,
+      skip: pageSearchParams.page * PRESS_ARTICLES_COUNT_PER_PAGE,
       take: PRESS_ARTICLES_COUNT_PER_PAGE,
       orderBy: { publicationDate: "desc" },
       select: {

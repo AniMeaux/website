@@ -6,7 +6,7 @@ import { z } from "zod";
 import { zfd } from "zod-form-data";
 import { SPECIES_ICON } from "~/animals/species";
 import { BreedFilterForm } from "~/breeds/filterForm";
-import { BreedSearchParams } from "~/breeds/searchParams";
+import { BreedSearchParams, BreedSort } from "~/breeds/searchParams";
 import { createActionData } from "~/core/actionData";
 import { Action } from "~/core/actions";
 import { algolia } from "~/core/algolia/algolia.server";
@@ -39,31 +39,30 @@ export async function loader({ request }: LoaderArgs) {
   assertCurrentUserHasGroups(currentUser, [UserGroup.ADMIN]);
 
   const searchParams = new URL(request.url).searchParams;
-  const pageSearchParams = new PageSearchParams(searchParams);
-  const breedSearchParams = new BreedSearchParams(searchParams);
+  const pageSearchParams = PageSearchParams.parse(searchParams);
+  const breedSearchParams = BreedSearchParams.parse(searchParams);
 
   const where: Prisma.BreedWhereInput[] = [];
 
-  const species = breedSearchParams.getSpecies();
-  if (species.length > 0) {
-    where.push({ species: { in: species } });
+  if (breedSearchParams.species.size > 0) {
+    where.push({ species: { in: Array.from(breedSearchParams.species) } });
   }
 
-  const name = breedSearchParams.getName();
-  if (name != null) {
-    const breeds = await algolia.breed.search({ name, species });
+  if (breedSearchParams.name != null) {
+    const breeds = await algolia.breed.search({
+      name: breedSearchParams.name,
+      species: breedSearchParams.species,
+    });
     where.push({ id: { in: breeds.map((breed) => breed.id) } });
   }
-
-  const sort = breedSearchParams.getSort();
 
   const { breeds, totalCount } = await promiseHash({
     totalCount: prisma.breed.count({ where: { AND: where } }),
 
     breeds: prisma.breed.findMany({
-      skip: pageSearchParams.getPage() * BREED_COUNT_PER_PAGE,
+      skip: pageSearchParams.page * BREED_COUNT_PER_PAGE,
       take: BREED_COUNT_PER_PAGE,
-      orderBy: BREED_ORDER_BY[sort],
+      orderBy: BREED_ORDER_BY[breedSearchParams.sort],
       where: { AND: where },
       select: {
         id: true,
@@ -83,12 +82,9 @@ export async function loader({ request }: LoaderArgs) {
   return json({ totalCount, pageCount, breeds });
 }
 
-const BREED_ORDER_BY: Record<
-  (typeof BreedSearchParams.Sort)[keyof typeof BreedSearchParams.Sort],
-  Prisma.BreedFindManyArgs["orderBy"]
-> = {
-  [BreedSearchParams.Sort.NAME]: { name: "asc" },
-  [BreedSearchParams.Sort.ANIMAL_COUNT]: { animals: { _count: "desc" } },
+const BREED_ORDER_BY: Record<BreedSort, Prisma.BreedFindManyArgs["orderBy"]> = {
+  [BreedSort.NAME]: { name: "asc" },
+  [BreedSort.ANIMAL_COUNT]: { animals: { _count: "desc" } },
 };
 
 export const meta: V2_MetaFunction = () => {
@@ -140,7 +136,6 @@ export async function action({ request }: ActionArgs) {
 export default function Route() {
   const { totalCount, pageCount, breeds } = useLoaderData<typeof loader>();
   const [searchParams] = useOptimisticSearchParams();
-  const breedSearchParams = new BreedSearchParams(searchParams);
 
   return (
     <PageLayout>
@@ -175,7 +170,7 @@ export default function Route() {
                   message="Nous n’avons pas trouvé ce que vous cherchiez. Essayez à nouveau de rechercher."
                   titleElementType="h3"
                   action={
-                    !breedSearchParams.isEmpty() ? (
+                    !BreedSearchParams.isEmpty(searchParams) ? (
                       <Action asChild>
                         <BaseLink to={{ search: "" }}>
                           Effacer les filtres

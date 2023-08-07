@@ -344,9 +344,9 @@ function FosterAnimalsCard() {
             <BaseLink
               to={{
                 pathname: "/animals/search",
-                search: new AnimalSearchParams()
-                  .setFosterFamiliesId([fosterFamily.id])
-                  .toString(),
+                search: AnimalSearchParams.stringify({
+                  fosterFamiliesId: new Set([fosterFamily.id]),
+                }),
               }}
             >
               Tout voir

@@ -31,12 +31,13 @@ export async function loader({ request }: LoaderArgs) {
     UserGroup.ANIMAL_MANAGER,
   ]);
 
-  const url = new URL(request.url);
-  const searchParams = new UserSearchParams(url.searchParams);
+  const searchParams = UserSearchParams.parse(
+    new URL(request.url).searchParams
+  );
 
   return json({
     managers: await db.user.fuzzySearch({
-      displayName: searchParams.getDisplayName(),
+      displayName: searchParams.displayName,
       groups: [UserGroup.ANIMAL_MANAGER],
       isDisabled: false,
       maxHitCount: 6,
@@ -70,12 +71,7 @@ export const ManagerInput = forwardRef<
   const load = fetcher.load;
   useEffect(() => {
     if (!isOpened) {
-      load(
-        createPath({
-          pathname: RESOURCE_PATHNAME,
-          search: new UserSearchParams().toString(),
-        })
-      );
+      load(RESOURCE_PATHNAME);
     }
   }, [load, isOpened]);
 
@@ -111,9 +107,7 @@ export const ManagerInput = forwardRef<
               fetcher.load(
                 createPath({
                   pathname: RESOURCE_PATHNAME,
-                  search: new UserSearchParams()
-                    .setDisplayName(value)
-                    .toString(),
+                  search: UserSearchParams.stringify({ displayName: value }),
                 })
               );
             }}

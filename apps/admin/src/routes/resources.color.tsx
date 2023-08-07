@@ -30,11 +30,13 @@ export async function loader({ request }: LoaderArgs) {
     UserGroup.ANIMAL_MANAGER,
   ]);
 
-  const searchParams = new ColorSearchParams(new URL(request.url).searchParams);
+  const searchParams = ColorSearchParams.parse(
+    new URL(request.url).searchParams
+  );
 
   return json({
     colors: await db.color.fuzzySearch({
-      name: searchParams.getName(),
+      name: searchParams.name,
       maxHitCount: 6,
     }),
   });
@@ -103,7 +105,7 @@ export const ColorInput = forwardRef<
               fetcher.load(
                 createPath({
                   pathname: RESOURCE_PATHNAME,
-                  search: new ColorSearchParams().setName(value).toString(),
+                  search: ColorSearchParams.stringify({ name: value }),
                 })
               );
             }}

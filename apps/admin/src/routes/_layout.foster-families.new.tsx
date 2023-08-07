@@ -70,8 +70,7 @@ export async function action({ request }: ActionArgs) {
     });
 
     const url = new URL(request.url);
-    const searchParams = new NextSearchParams(url.searchParams);
-    const next = searchParams.getNext();
+    const { next } = NextSearchParams.parse(url.searchParams);
 
     if (next == null) {
       // Redirect instead of going back so we can display the newly created

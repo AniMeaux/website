@@ -26,11 +26,11 @@ export class BreedAlgoliaDelegate {
 
   async search({
     name,
-    species = [],
+    species,
     ...options
   }: Omit<SearchOptions, "filters"> & {
     name: string;
-    species?: Species[];
+    species?: Iterable<Species>;
   }) {
     const hits = await indexSearch<BreedFromAlgolia>(this.index, name, {
       ...options,
