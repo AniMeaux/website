@@ -13,8 +13,8 @@ import {
   useCombobox,
 } from "downshift";
 import { createPath } from "history";
+import orderBy from "lodash.orderby";
 import { useEffect, useState } from "react";
-import { z } from "zod";
 import { AnimalSuggestionItem } from "~/animals/item";
 import { getAnimalDisplayName } from "~/animals/profile/name";
 import { AnimalSearchParams } from "~/animals/searchParams";
@@ -29,46 +29,34 @@ import {
 import { useNavigate } from "~/core/navigation";
 import { Overlay } from "~/core/popovers/overlay";
 import { ForbiddenResponse } from "~/core/response.server";
-import { parseOrDefault } from "~/core/schemas";
+import { zsp } from "~/core/schemas";
+import { createSearchParams } from "~/core/searchParams";
 import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
 import { FosterFamilySuggestionItem } from "~/fosterFamilies/item";
 import { FosterFamilySearchParams } from "~/fosterFamilies/searchParams";
 import { Icon } from "~/generated/icon";
 
-const SEARCH_COUNT = 6;
+const MAX_HIT_COUNT = 6;
 
-const TYPES = ["animal", "fosterFamily"] as const;
-type Type = (typeof TYPES)[number];
-
-export class GlobalSearchParams extends URLSearchParams {
-  static readonly Keys = {
-    TEXT: "q",
-    TYPE: "type",
-  };
-
-  getText() {
-    return this.get(GlobalSearchParams.Keys.TEXT)?.trim() || null;
-  }
-
-  getType() {
-    return parseOrDefault(
-      z.enum(TYPES).optional().nullable().default(null),
-      this.get(GlobalSearchParams.Keys.TYPE)
-    );
-  }
-
-  setType(type: null | Type) {
-    const copy = new GlobalSearchParams(this);
-
-    if (type != null) {
-      copy.set(GlobalSearchParams.Keys.TYPE, type);
-    } else if (copy.has(GlobalSearchParams.Keys.TYPE)) {
-      copy.delete(GlobalSearchParams.Keys.TYPE);
-    }
-
-    return copy;
-  }
+enum Entity {
+  ANIMAL = "ANIMAL",
+  FOSTER_FAMILY = "FOSTER_FAMILY",
 }
+
+const ENTITY_TRANSLATION: Record<Entity, string> = {
+  [Entity.ANIMAL]: "Animaux",
+  [Entity.FOSTER_FAMILY]: "FA",
+};
+
+const SORTED_ENTITIES = orderBy(
+  Object.values(Entity),
+  (entity) => ENTITY_TRANSLATION[entity]
+);
+
+const GlobalSearchParams = createSearchParams({
+  text: { key: "q", schema: zsp.text() },
+  entity: zsp.optionalEnum(Entity),
+});
 
 export async function loader({ request }: LoaderArgs) {
   const currentUser = await db.currentUser.get(request, {
@@ -82,66 +70,81 @@ export async function loader({ request }: LoaderArgs) {
     UserGroup.VOLUNTEER,
   ]);
 
-  const searchParams = new GlobalSearchParams(
+  const searchParams = GlobalSearchParams.parse(
     new URL(request.url).searchParams
   );
 
-  const possibleTypes = getTypesForCurrentUser(currentUser);
-  const type = searchParams.getType() ?? possibleTypes[0];
-  if (type == null || !possibleTypes.includes(type)) {
+  const possibleEntities = getPossibleEntitiesForCurrentUser(currentUser);
+  const entity =
+    searchParams.entity ??
+    SORTED_ENTITIES.find((entity) => possibleEntities.has(entity));
+
+  if (entity == null || !possibleEntities.has(entity)) {
     throw new ForbiddenResponse();
   }
 
-  const text = searchParams.getText();
-
-  if (!text) {
-    return json({ possibleTypes, items: [] });
+  if (searchParams.text == null) {
+    return json({
+      possibleEntities: Array.from(possibleEntities),
+      items: [],
+    });
   }
 
-  if (type === "animal") {
+  if (entity === Entity.ANIMAL) {
     const animals = await db.animal.fuzzySearch({
-      nameOrAlias: text,
-      maxHitCount: SEARCH_COUNT,
+      nameOrAlias: searchParams.text,
+      maxHitCount: MAX_HIT_COUNT,
     });
-    const items = animals.map((animal) => ({ type, ...animal }));
-    return json({ possibleTypes, items });
+    const items = animals.map((animal) => ({
+      type: Entity.ANIMAL as const,
+      ...animal,
+    }));
+    return json({
+      possibleEntities: Array.from(possibleEntities),
+      items,
+    });
   }
 
   const fosterFamilies = await db.fosterFamily.fuzzySearch({
-    displayName: text,
-    maxHitCount: SEARCH_COUNT,
+    displayName: searchParams.text,
+    maxHitCount: MAX_HIT_COUNT,
   });
 
   const items = fosterFamilies.map((fosterFamily) => ({
-    type,
+    type: Entity.FOSTER_FAMILY as const,
     ...fosterFamily,
   }));
-  return json({ possibleTypes, items });
-}
 
-function getTypesForCurrentUser(currentUser: Pick<User, "groups">) {
-  let possibleTypes: Type[] = [];
-  currentUser.groups.forEach((group) => {
-    possibleTypes = possibleTypes.concat(ALLOWED_TYPES_PER_GROUP[group]);
+  return json({
+    possibleEntities: Array.from(possibleEntities),
+    items,
   });
-  return Array.from(new Set(possibleTypes));
 }
 
-// The types will be displayed in this order.
-const ALLOWED_TYPES_PER_GROUP: Record<UserGroup, Type[]> = {
-  [UserGroup.ADMIN]: ["animal", "fosterFamily"],
-  [UserGroup.ANIMAL_MANAGER]: ["animal", "fosterFamily"],
-  [UserGroup.BLOGGER]: [],
-  [UserGroup.HEAD_OF_PARTNERSHIPS]: [],
-  [UserGroup.VETERINARIAN]: ["animal"],
-  [UserGroup.VOLUNTEER]: ["animal"],
+function getPossibleEntitiesForCurrentUser(currentUser: Pick<User, "groups">) {
+  const possibleEntities = new Set<Entity>();
+  currentUser.groups.forEach((group) => {
+    ALLOWED_ENTITIES_PER_GROUP[group].forEach((entity) =>
+      possibleEntities.add(entity)
+    );
+  });
+  return possibleEntities;
+}
+
+const ALLOWED_ENTITIES_PER_GROUP: Record<UserGroup, Set<Entity>> = {
+  [UserGroup.ADMIN]: new Set([Entity.ANIMAL, Entity.FOSTER_FAMILY]),
+  [UserGroup.ANIMAL_MANAGER]: new Set([Entity.ANIMAL, Entity.FOSTER_FAMILY]),
+  [UserGroup.BLOGGER]: new Set(),
+  [UserGroup.HEAD_OF_PARTNERSHIPS]: new Set(),
+  [UserGroup.VETERINARIAN]: new Set([Entity.ANIMAL]),
+  [UserGroup.VOLUNTEER]: new Set([Entity.ANIMAL]),
 };
 
 const RESOURCE_PATHNAME = "/resources/global-search";
 
 export function GlobalSearch() {
   const [isOpened, setIsOpened] = useState(false);
-  const [type, setType] = useState<Type | null>(null);
+  const [entity, setEntity] = useState<undefined | Entity>();
 
   const navigate = useNavigate();
   const navigation = useNavigation();
@@ -179,6 +182,7 @@ export function GlobalSearch() {
   }, [isOpened]);
 
   const fetcher = useFetcher<typeof loader>();
+  const possibleEntities = new Set(fetcher.data?.possibleEntities);
 
   // Make sure we clear any search when the combobox is closed.
   // We can't load during a navigation or it will cancel the navigation.
@@ -188,27 +192,30 @@ export function GlobalSearch() {
       load(
         createPath({
           pathname: RESOURCE_PATHNAME,
-          search: new GlobalSearchParams().setType(type).toString(),
+          search: GlobalSearchParams.stringify({ entity }),
         })
       );
     }
-  }, [load, isOpened, isNavigating, type]);
+  }, [load, isOpened, isNavigating, entity]);
 
   // - Set the first possible type once we get it.
   // - Reset to the first possible type when the combobox is closed.
-  const firstPossibleType = fetcher.data?.possibleTypes[0];
+  const firstPossibleEntity = SORTED_ENTITIES.find((entity) =>
+    possibleEntities.has(entity)
+  );
+
   useEffect(() => {
-    if (firstPossibleType != null && (type == null || !isOpened)) {
-      setType(firstPossibleType);
+    if (firstPossibleEntity != null && (entity == null || !isOpened)) {
+      setEntity(firstPossibleEntity);
     }
-  }, [firstPossibleType, type, isOpened]);
+  }, [firstPossibleEntity, entity, isOpened]);
 
   return (
     <Dialog.Root
       open={isOpened}
       onOpenChange={(isOpened) => {
         // Only open the search if we have a type.
-        setIsOpened(isOpened && type != null);
+        setIsOpened(isOpened && entity != null);
       }}
     >
       <BaseTextInput.Root>
@@ -242,36 +249,36 @@ export function GlobalSearch() {
         </Overlay>
 
         <Dialog.Content className="fixed top-0 left-0 bottom-0 right-0 z-30 overflow-y-auto bg-gray-50 flex flex-col md:top-[10vh] md:left-1/2 md:bottom-auto md:right-auto md:-translate-x-1/2 md:w-[550px] md:shadow-ambient md:bg-white md:rounded-1">
-          {type != null ? (
+          {entity != null ? (
             <Combobox
-              type={type}
-              setType={setType}
+              entity={entity}
+              setEntity={setEntity}
               fetcher={fetcher}
               onClose={() => setIsOpened(false)}
               onSelectedItemChange={(item) => {
-                if (item.type === "animal") {
+                if (item.type === Entity.ANIMAL) {
                   navigate(`/animals/${item.id}`);
                 } else {
                   navigate(`/foster-families/${item.id}`);
                 }
               }}
               onSelectSearch={(search) => {
-                if (type === "animal") {
+                if (entity === Entity.ANIMAL) {
                   navigate(
                     createPath({
                       pathname: "/animals/search",
-                      search: new AnimalSearchParams()
-                        .setNameOrAlias(search)
-                        .toString(),
+                      search: AnimalSearchParams.stringify({
+                        nameOrAlias: search,
+                      }),
                     })
                   );
                 } else {
                   navigate(
                     createPath({
                       pathname: "/foster-families",
-                      search: new FosterFamilySearchParams()
-                        .setDisplayName(search)
-                        .toString(),
+                      search: FosterFamilySearchParams.stringify({
+                        displayName: search,
+                      }),
                     })
                   );
                 }
@@ -300,15 +307,15 @@ function stateReducer<TItem>(
 }
 
 function Combobox({
-  type,
-  setType,
+  entity,
+  setEntity,
   fetcher,
   onSelectedItemChange,
   onSelectSearch,
   onClose,
 }: {
-  type: Type;
-  setType: React.Dispatch<Type>;
+  entity: Entity;
+  setEntity: React.Dispatch<Entity>;
   fetcher: FetcherWithComponents<SerializeFrom<typeof loader>>;
   onSelectedItemChange: React.Dispatch<
     SerializeFrom<typeof loader>["items"][number]
@@ -343,7 +350,7 @@ function Combobox({
         return item;
       }
 
-      if (item.type === "animal") {
+      if (item.type === Entity.ANIMAL) {
         return getAnimalDisplayName(item);
       }
 
@@ -395,7 +402,7 @@ function Combobox({
           <Input
             {...combobox.getInputProps()}
             hideFocusRing
-            name={GlobalSearchParams.Keys.TEXT}
+            name={GlobalSearchParams.keys.text}
             type="search"
             variant="transparent"
             placeholder="Recherche globale"
@@ -419,10 +426,10 @@ function Combobox({
           />
         </div>
 
-        <TypeInput
-          type={type}
-          setType={setType}
-          possibleTypes={fetcher.data?.possibleTypes ?? []}
+        <EntityInput
+          entity={entity}
+          setEntity={setEntity}
+          possibleEntities={new Set(fetcher.data?.possibleEntities)}
         />
       </header>
 
@@ -444,7 +451,7 @@ function Combobox({
               );
             }
 
-            if (item.type === "animal") {
+            if (item.type === Entity.ANIMAL) {
               return (
                 <AnimalSuggestionItem
                   key={item.id}
@@ -468,47 +475,44 @@ function Combobox({
   );
 }
 
-function TypeInput({
-  type,
-  setType,
-  possibleTypes,
+function EntityInput({
+  entity,
+  setEntity,
+  possibleEntities,
 }: {
-  type: Type;
-  setType: React.Dispatch<Type>;
-  possibleTypes: Type[];
+  entity: Entity;
+  setEntity: React.Dispatch<Entity>;
+  possibleEntities: Set<Entity>;
 }) {
-  if (possibleTypes.length < 2) {
+  if (possibleEntities.size < 2) {
     return null;
   }
 
   return (
     <Tabs className="py-0.5">
-      {possibleTypes.map((possibleType) => (
-        <span
-          key={possibleType}
-          className="flex flex-col first:pl-safe-1 last:pr-safe-1 md:first:pl-1 md:last:pr-1"
-        >
-          <Tab>
-            <TabInput
-              type="radio"
-              name={GlobalSearchParams.Keys.TYPE}
-              value={possibleType}
-              checked={possibleType === type}
-              onChange={() => setType(possibleType)}
-            />
+      {SORTED_ENTITIES.filter((entity) => possibleEntities.has(entity)).map(
+        (possibleEntity) => (
+          <span
+            key={possibleEntity}
+            className="flex flex-col first:pl-safe-1 last:pr-safe-1 md:first:pl-1 md:last:pr-1"
+          >
+            <Tab>
+              <TabInput
+                type="radio"
+                name={GlobalSearchParams.keys.entity}
+                value={possibleEntity}
+                checked={possibleEntity === entity}
+                onChange={() => setEntity(possibleEntity)}
+              />
 
-            <TabLabel>{TYPE_TRANSLATION_FOR_TABS[possibleType]}</TabLabel>
-          </Tab>
-        </span>
-      ))}
+              <TabLabel>{ENTITY_TRANSLATION[possibleEntity]}</TabLabel>
+            </Tab>
+          </span>
+        )
+      )}
     </Tabs>
   );
 }
-
-const TYPE_TRANSLATION_FOR_TABS: Record<Type, string> = {
-  animal: "Animaux",
-  fosterFamily: "FA",
-};
 
 function Tabs({
   children,

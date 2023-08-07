@@ -1,7 +1,7 @@
 import { createElement, forwardRef } from "react";
 import { fromBooleanAttribute } from "~/core/attributes";
 import { cn } from "~/core/classNames";
-import { ensureArray } from "~/core/ensureArray";
+import { ensureArray } from "~/core/collections";
 import { Primitive } from "~/core/primitives";
 
 type BaseTextInputVariant = "outlined" | "search" | "transparent";

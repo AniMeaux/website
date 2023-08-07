@@ -1,17 +1,5 @@
-import { DateTime } from "luxon";
 import { z } from "zod";
-
-export function parseOrDefault<TSchema extends z.ZodType<any, any, any>>(
-  schema: TSchema,
-  value: unknown
-): z.infer<TSchema> {
-  const result = schema.safeParse(value);
-  if (result.success) {
-    return result.data;
-  }
-
-  return schema.parse(undefined);
-}
+import { zfd } from "zod-form-data";
 
 export function getObjectSchemaKeys<TSchema extends z.ZodObject<any>>(
   schema: TSchema
@@ -25,25 +13,44 @@ export function getObjectSchemaKeys<TSchema extends z.ZodObject<any>>(
   };
 }
 
-export function ensureDate(value: unknown) {
-  if (typeof value === "string") {
-    if (value === "") {
-      return undefined;
-    }
-
-    return DateTime.fromISO(value).toJSDate();
-  }
-
-  return value;
-}
-
-export function ensureBoolean(value: unknown) {
-  if (
-    typeof value === "string" &&
-    [String(true), String(false)].includes(value)
+export namespace zsp {
+  export function date(
+    transform: (date: undefined | Date) => undefined | Date
   ) {
-    return value === String(true);
+    return z.coerce.date().optional().transform(transform).catch(undefined);
   }
 
-  return value;
+  export function set<TSchema extends z.ZodType>(schema: TSchema) {
+    return zfd
+      .repeatable(schema.array().catch([]))
+      .transform((array) => new Set(array));
+  }
+
+  export const text: InputType<z.ZodString> = (schema = z.string()) => {
+    return zfd.text(schema.optional().catch(undefined)) as any;
+  };
+
+  export function checkbox() {
+    return zfd.checkbox().catch(false);
+  }
+
+  export function optionalEnum<TEnum extends z.EnumLike>(values: TEnum) {
+    return z.nativeEnum(values).optional().catch(undefined);
+  }
+
+  export function requiredEnum<TEnum extends z.EnumLike>(
+    values: TEnum,
+    defaultValue: TEnum[string | number]
+  ) {
+    return z.nativeEnum(values).catch(defaultValue);
+  }
 }
+
+// Copied from:
+// https://github.com/airjp73/remix-validated-form/blob/zod-form-data-v2.0.1/packages/zod-form-data/src/helpers.ts#L13
+type InputType<DefaultType extends z.ZodTypeAny> = {
+  (): z.ZodEffects<DefaultType>;
+  <ProvidedType extends z.ZodTypeAny>(
+    schema: ProvidedType
+  ): z.ZodEffects<ProvidedType>;
+};

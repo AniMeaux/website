@@ -277,9 +277,9 @@ function CurrentUserMenu() {
                 method: "POST",
                 action: createPath({
                   pathname: "/logout",
-                  search: new NextSearchParams()
-                    .setNext(createPath(location))
-                    .toString(),
+                  search: NextSearchParams.stringify({
+                    next: createPath(location),
+                  }),
                 }),
               })
             }

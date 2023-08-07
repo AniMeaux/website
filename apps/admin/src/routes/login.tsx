@@ -34,8 +34,8 @@ export async function loader({ request }: LoaderArgs) {
 
   if (hasCurrentUser) {
     const url = new URL(request.url);
-    const searchParams = new NextSearchParams(url.searchParams);
-    throw redirect(searchParams.getNextOrDefault());
+    const { next = "/" } = NextSearchParams.parse(url.searchParams);
+    throw redirect(next);
   }
 
   return null;
@@ -83,8 +83,8 @@ export async function action({ request }: ActionArgs) {
   }
 
   const url = new URL(request.url);
-  const searchParams = new NextSearchParams(url.searchParams);
-  throw redirect(searchParams.getNextOrDefault(), {
+  const { next = "/" } = NextSearchParams.parse(url.searchParams);
+  throw redirect(next, {
     headers: { "Set-Cookie": await createCurrentUserSession(userId) },
   });
 }

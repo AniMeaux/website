@@ -31,24 +31,24 @@ export class AnimalAlgoliaDelegate {
 
   async search({
     nameOrAlias,
-    maxPickUpDate,
-    minPickUpDate,
+    pickUpDateEnd,
+    pickUpDateStart,
+    pickUpLocations,
     species,
-    pickUpLocation,
-    status,
+    statuses,
     ...options
   }: Omit<SearchOptions, "filters"> & {
     nameOrAlias: string;
-    maxPickUpDate?: null | Date;
-    minPickUpDate?: null | Date;
-    species?: null | Species | Species[];
-    pickUpLocation?: null | string | string[];
-    status?: null | Status | Status[];
+    pickUpDateEnd?: Date;
+    pickUpDateStart?: Date;
+    pickUpLocations?: Iterable<string>;
+    species?: Iterable<Species>;
+    statuses?: Iterable<Status>;
   }) {
     let pickUpDate: undefined | string;
-    if (minPickUpDate != null || maxPickUpDate != null) {
-      pickUpDate = `${minPickUpDate?.getTime() ?? 0} TO ${
-        maxPickUpDate?.getTime() ?? Date.now()
+    if (pickUpDateStart != null || pickUpDateEnd != null) {
+      pickUpDate = `${pickUpDateStart?.getTime() ?? 0} TO ${
+        pickUpDateEnd?.getTime() ?? Date.now()
       }`;
     }
 
@@ -57,8 +57,8 @@ export class AnimalAlgoliaDelegate {
       filters: createSearchFilters({
         pickUpDate,
         species,
-        pickUpLocation,
-        status,
+        pickUpLocation: pickUpLocations,
+        status: statuses,
       }),
     });
 

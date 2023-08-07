@@ -8,19 +8,15 @@ import { ToggleInput, ToggleInputList } from "~/core/formElements/toggleInput";
 import { useOptimisticSearchParams } from "~/core/searchParams";
 import { Icon } from "~/generated/icon";
 import { GROUP_ICON, GROUP_TRANSLATION, SORTED_GROUPS } from "~/users/groups";
-import { UserSearchParams } from "~/users/searchParams";
+import {
+  USER_DEFAULT_SORT,
+  UserSearchParams,
+  UserSort,
+} from "~/users/searchParams";
 
 export function UserFilterForm() {
   const [searchParams, setSearchParams] = useOptimisticSearchParams();
-  const userSearchParams = new UserSearchParams(searchParams);
-  const visibleFilters = {
-    displayName: userSearchParams.getDisplayName(),
-    groups: userSearchParams.getGroups(),
-    maxActivity: userSearchParams.getMaxActivity(),
-    minActivity: userSearchParams.getMinActivity(),
-    noActivity: userSearchParams.getNoActivity(),
-    sort: userSearchParams.getSort(),
-  };
+  const userSearchParams = UserSearchParams.parse(searchParams);
 
   return (
     <Filters>
@@ -34,62 +30,68 @@ export function UserFilterForm() {
 
       <Filters.Content>
         <Filters.Filter
-          value={UserSearchParams.Keys.SORT}
+          value={UserSearchParams.keys.sort}
           label="Trier"
-          count={visibleFilters.sort === UserSearchParams.Sort.NAME ? 0 : 1}
+          count={userSearchParams.sort === USER_DEFAULT_SORT ? 0 : 1}
           hiddenContent={
-            <input
-              type="hidden"
-              name={UserSearchParams.Keys.SORT}
-              value={visibleFilters.sort}
-            />
+            userSearchParams.sort !== USER_DEFAULT_SORT ? (
+              <input
+                type="hidden"
+                name={UserSearchParams.keys.sort}
+                value={userSearchParams.sort}
+              />
+            ) : null
           }
         >
           <ToggleInputList>
             <ToggleInput
               type="radio"
               label="Alphabétique"
-              name={UserSearchParams.Keys.SORT}
-              value={UserSearchParams.Sort.NAME}
+              name={UserSearchParams.keys.sort}
+              value={UserSort.NAME}
               icon={<Icon id="arrowDownAZ" />}
-              checked={visibleFilters.sort === UserSearchParams.Sort.NAME}
+              checked={userSearchParams.sort === UserSort.NAME}
               onChange={() => {}}
             />
 
             <ToggleInput
               type="radio"
               label="Dernière activité"
-              name={UserSearchParams.Keys.SORT}
-              value={UserSearchParams.Sort.LAST_ACTIVITY}
+              name={UserSearchParams.keys.sort}
+              value={UserSort.LAST_ACTIVITY}
               icon={<Icon id="wavePulse" />}
-              checked={
-                visibleFilters.sort === UserSearchParams.Sort.LAST_ACTIVITY
-              }
+              checked={userSearchParams.sort === UserSort.LAST_ACTIVITY}
               onChange={() => {}}
             />
           </ToggleInputList>
         </Filters.Filter>
 
         <Filters.Filter
-          value={UserSearchParams.Keys.DISPLAY_NAME}
+          value={UserSearchParams.keys.displayName}
           label="Nom"
-          count={visibleFilters.displayName == null ? 0 : 1}
+          count={userSearchParams.displayName == null ? 0 : 1}
           hiddenContent={
-            <input
-              type="hidden"
-              name={UserSearchParams.Keys.DISPLAY_NAME}
-              value={visibleFilters.displayName ?? ""}
-            />
+            userSearchParams.displayName != null ? (
+              <input
+                type="hidden"
+                name={UserSearchParams.keys.displayName}
+                value={userSearchParams.displayName}
+              />
+            ) : null
           }
         >
           <ControlledInput
-            name={UserSearchParams.Keys.DISPLAY_NAME}
-            value={visibleFilters.displayName ?? ""}
+            name={UserSearchParams.keys.displayName}
+            value={userSearchParams.displayName ?? ""}
             rightAdornment={
-              visibleFilters.displayName != null ? (
+              userSearchParams.displayName != null ? (
                 <ControlledInput.ActionAdornment
                   onClick={() =>
-                    setSearchParams(userSearchParams.deleteDisplayName())
+                    setSearchParams((searchParams) => {
+                      const copy = new URLSearchParams(searchParams);
+                      UserSearchParams.set(copy, { displayName: undefined });
+                      return copy;
+                    })
                   }
                 >
                   <Icon id="xMark" />
@@ -100,14 +102,14 @@ export function UserFilterForm() {
         </Filters.Filter>
 
         <Filters.Filter
-          value={UserSearchParams.Keys.GROUP}
+          value={UserSearchParams.keys.groups}
           label="Groupes"
-          count={visibleFilters.groups.length}
-          hiddenContent={visibleFilters.groups.map((group) => (
+          count={userSearchParams.groups.size}
+          hiddenContent={Array.from(userSearchParams.groups).map((group) => (
             <input
               key={group}
               type="hidden"
-              name={UserSearchParams.Keys.GROUP}
+              name={UserSearchParams.keys.groups}
               value={group}
             />
           ))}
@@ -118,10 +120,10 @@ export function UserFilterForm() {
                 key={group}
                 type="checkbox"
                 label={GROUP_TRANSLATION[group]}
-                name={UserSearchParams.Keys.GROUP}
+                name={UserSearchParams.keys.groups}
                 value={group}
                 icon={<Icon id={GROUP_ICON[group]} />}
-                checked={visibleFilters.groups.includes(group)}
+                checked={userSearchParams.groups.has(group)}
                 onChange={() => {}}
               />
             ))}
@@ -129,30 +131,34 @@ export function UserFilterForm() {
         </Filters.Filter>
 
         <Filters.Filter
-          value={UserSearchParams.Keys.NO_ACTIVITY}
+          value={UserSearchParams.keys.noActivity}
           label="Dernière activité"
           count={
-            (visibleFilters.minActivity == null ? 0 : 1) +
-            (visibleFilters.maxActivity == null ? 0 : 1) +
-            (visibleFilters.noActivity ? 1 : 0)
+            (userSearchParams.lastActivityStart == null ? 0 : 1) +
+            (userSearchParams.lastActivityEnd == null ? 0 : 1) +
+            (userSearchParams.noActivity ? 1 : 0)
           }
           hiddenContent={
             <>
-              <input
-                type="hidden"
-                name={UserSearchParams.Keys.MIN_ACTIVITY}
-                value={toIsoDateValue(visibleFilters.minActivity)}
-              />
-              <input
-                type="hidden"
-                name={UserSearchParams.Keys.MAX_ACTIVITY}
-                value={toIsoDateValue(visibleFilters.maxActivity)}
-              />
-              {visibleFilters.noActivity ? (
+              {userSearchParams.lastActivityStart != null ? (
                 <input
                   type="hidden"
-                  name={UserSearchParams.Keys.NO_ACTIVITY}
-                  value={String(true)}
+                  name={UserSearchParams.keys.lastActivityStart}
+                  value={toIsoDateValue(userSearchParams.lastActivityStart)}
+                />
+              ) : null}
+              {userSearchParams.lastActivityEnd != null ? (
+                <input
+                  type="hidden"
+                  name={UserSearchParams.keys.lastActivityEnd}
+                  value={toIsoDateValue(userSearchParams.lastActivityEnd)}
+                />
+              ) : null}
+              {userSearchParams.noActivity ? (
+                <input
+                  type="hidden"
+                  name={UserSearchParams.keys.noActivity}
+                  value="on"
                 />
               ) : null}
             </>
@@ -164,35 +170,40 @@ export function UserFilterForm() {
                 <ToggleInput
                   type="checkbox"
                   label="Aucune activité"
-                  name={UserSearchParams.Keys.NO_ACTIVITY}
-                  value={String(true)}
+                  name={UserSearchParams.keys.noActivity}
                   icon={<Icon id="wavePulse" />}
-                  checked={visibleFilters.noActivity}
+                  checked={userSearchParams.noActivity}
                   onChange={() => {}}
                 />
               </ToggleInputList>
             </Form.Field>
 
             <Form.Field>
-              <Form.Label htmlFor={UserSearchParams.Keys.MIN_ACTIVITY}>
+              <Form.Label htmlFor={UserSearchParams.keys.lastActivityStart}>
                 Après le et incluant
               </Form.Label>
 
               <ControlledInput
                 type="date"
-                id={UserSearchParams.Keys.MIN_ACTIVITY}
-                name={UserSearchParams.Keys.MIN_ACTIVITY}
-                value={toIsoDateValue(visibleFilters.minActivity)}
+                id={UserSearchParams.keys.lastActivityStart}
+                name={UserSearchParams.keys.lastActivityStart}
+                value={toIsoDateValue(userSearchParams.lastActivityStart)}
                 leftAdornment={
                   <ControlledInput.Adornment>
                     <Icon id="calendarDays" />
                   </ControlledInput.Adornment>
                 }
                 rightAdornment={
-                  visibleFilters.minActivity != null ? (
+                  userSearchParams.lastActivityStart != null ? (
                     <ControlledInput.ActionAdornment
                       onClick={() =>
-                        setSearchParams(userSearchParams.deleteMinActivity())
+                        setSearchParams((searchParams) => {
+                          const copy = new URLSearchParams(searchParams);
+                          UserSearchParams.set(copy, {
+                            lastActivityStart: undefined,
+                          });
+                          return copy;
+                        })
                       }
                     >
                       <Icon id="xMark" />
@@ -203,25 +214,31 @@ export function UserFilterForm() {
             </Form.Field>
 
             <Form.Field>
-              <Form.Label htmlFor={UserSearchParams.Keys.MAX_ACTIVITY}>
+              <Form.Label htmlFor={UserSearchParams.keys.lastActivityEnd}>
                 Avant le et incluant
               </Form.Label>
 
               <ControlledInput
                 type="date"
-                id={UserSearchParams.Keys.MAX_ACTIVITY}
-                name={UserSearchParams.Keys.MAX_ACTIVITY}
-                value={toIsoDateValue(visibleFilters.maxActivity)}
+                id={UserSearchParams.keys.lastActivityEnd}
+                name={UserSearchParams.keys.lastActivityEnd}
+                value={toIsoDateValue(userSearchParams.lastActivityEnd)}
                 leftAdornment={
                   <ControlledInput.Adornment>
                     <Icon id="calendarDays" />
                   </ControlledInput.Adornment>
                 }
                 rightAdornment={
-                  visibleFilters.maxActivity != null ? (
+                  userSearchParams.lastActivityEnd != null ? (
                     <ControlledInput.ActionAdornment
                       onClick={() =>
-                        setSearchParams(userSearchParams.deleteMaxActivity())
+                        setSearchParams((searchParams) => {
+                          const copy = new URLSearchParams(searchParams);
+                          UserSearchParams.set(copy, {
+                            lastActivityEnd: undefined,
+                          });
+                          return copy;
+                        })
                       }
                     >
                       <Icon id="xMark" />

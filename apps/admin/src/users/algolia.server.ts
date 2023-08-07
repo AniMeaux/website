@@ -29,12 +29,12 @@ export class UserAlgoliaDelegate {
 
   async search({
     displayName,
-    groups = [],
+    groups,
     isDisabled,
     ...options
   }: Omit<SearchOptions, "filters"> & {
     displayName: string;
-    groups?: UserGroup[];
+    groups?: Iterable<UserGroup>;
     isDisabled?: boolean;
   }) {
     const hits = await indexSearch<UserFromAlgolia>(this.index, displayName, {

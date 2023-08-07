@@ -1,17 +1,19 @@
 import { SearchOptions } from "@algolia/client-search";
 import { SearchIndex } from "algoliasearch";
 import chunk from "lodash.chunk";
+import { isIterable } from "~/core/collections";
 
 export function createSearchFilters(
-  params: Record<string, boolean | string | string[] | undefined | null>
+  params: Record<string, undefined | null | boolean | string | Iterable<string>>
 ): string | undefined {
   let filters: string[] = [];
 
   Object.entries(params).forEach(([key, value]) => {
     if (value != null) {
-      if (Array.isArray(value)) {
-        if (value.length > 0) {
-          filters.push(value.map((value) => `${key}:${value}`).join(" OR "));
+      if (isIterable(value)) {
+        const values = Array.from(value);
+        if (values.length > 0) {
+          filters.push(values.map((value) => `${key}:${value}`).join(" OR "));
         }
       } else {
         filters.push(`${key}:${value}`);

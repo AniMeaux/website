@@ -6,7 +6,11 @@ import { DateTime } from "luxon";
 import { promiseHash } from "remix-utils";
 import invariant from "tiny-invariant";
 import { AnimalItem, AnimalSmallItem } from "~/animals/item";
-import { AnimalSearchParams } from "~/animals/searchParams";
+import {
+  AnimalSearchParams,
+  AnimalSort,
+  AnimalSterilization,
+} from "~/animals/searchParams";
 import {
   formatNextVaccinationDate,
   hasPastVaccination,
@@ -209,13 +213,13 @@ function AnimalsToVaccinateCard() {
             <BaseLink
               to={{
                 pathname: "/animals/search",
-                search: new AnimalSearchParams()
-                  .setSort(AnimalSearchParams.Sort.VACCINATION)
-                  .setMaxVaccinationDate(
-                    DateTime.now().plus({ days: 15 }).toJSDate()
-                  )
-                  .setStatuses(ACTIVE_ANIMAL_STATUS)
-                  .toString(),
+                search: AnimalSearchParams.stringify({
+                  sort: AnimalSort.VACCINATION,
+                  nextVaccinationDateEnd: DateTime.now()
+                    .plus({ days: 15 })
+                    .toJSDate(),
+                  statuses: new Set(ACTIVE_ANIMAL_STATUS),
+                }),
               }}
             >
               Tout voir
@@ -278,17 +282,15 @@ function AnimalsToSterilizeCard() {
             <BaseLink
               to={{
                 pathname: "/animals/search",
-                search: new AnimalSearchParams()
-                  .setSort(AnimalSearchParams.Sort.BIRTHDATE)
-                  .setSpecies([Species.CAT, Species.DOG])
-                  .setIsSterilized([AnimalSearchParams.IsSterilized.NO])
-                  .setMaxBirthdate(
-                    DateTime.now().minus({ months: 6 }).toJSDate()
-                  )
-                  .setStatuses(
+                search: AnimalSearchParams.stringify({
+                  sort: AnimalSort.BIRTHDATE,
+                  species: new Set([Species.CAT, Species.DOG]),
+                  sterilizations: new Set([AnimalSterilization.NO]),
+                  birthdateEnd: DateTime.now().minus({ months: 6 }).toJSDate(),
+                  statuses: new Set(
                     SORTED_STATUS.filter((status) => status !== Status.DECEASED)
-                  )
-                  .toString(),
+                  ),
+                }),
               }}
             >
               Tout voir
@@ -346,10 +348,10 @@ function ManagedAnimalsCard() {
             <BaseLink
               to={{
                 pathname: "/animals/search",
-                search: new AnimalSearchParams()
-                  .setStatuses(ACTIVE_ANIMAL_STATUS)
-                  .setManagersId([currentUser.id])
-                  .toString(),
+                search: AnimalSearchParams.stringify({
+                  statuses: new Set(ACTIVE_ANIMAL_STATUS),
+                  managersId: new Set([currentUser.id]),
+                }),
               }}
             >
               Tout voir
@@ -408,9 +410,9 @@ function ActiveAnimalsCard() {
             <BaseLink
               to={{
                 pathname: "/animals/search",
-                search: new AnimalSearchParams()
-                  .setStatuses(ACTIVE_ANIMAL_STATUS)
-                  .toString(),
+                search: AnimalSearchParams.stringify({
+                  statuses: new Set(ACTIVE_ANIMAL_STATUS),
+                }),
               }}
             >
               Tout voir

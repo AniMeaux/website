@@ -7,8 +7,8 @@ import { createPath } from "history";
 import { forwardRef, useEffect, useState } from "react";
 import { BreedSearchParams } from "~/breeds/searchParams";
 import { toBooleanAttribute } from "~/core/attributes";
+import { ensureArray } from "~/core/collections";
 import { db } from "~/core/db.server";
-import { ensureArray } from "~/core/ensureArray";
 import { BaseTextInput } from "~/core/formElements/baseTextInput";
 import { Input } from "~/core/formElements/input";
 import {
@@ -31,12 +31,14 @@ export async function loader({ request }: LoaderArgs) {
     UserGroup.ANIMAL_MANAGER,
   ]);
 
-  const searchParams = new BreedSearchParams(new URL(request.url).searchParams);
+  const searchParams = BreedSearchParams.parse(
+    new URL(request.url).searchParams
+  );
 
   return json({
     breeds: await db.breed.fuzzySearch({
-      name: searchParams.getName(),
-      species: searchParams.getSpecies(),
+      name: searchParams.name,
+      species: searchParams.species,
       maxHitCount: 6,
     }),
   });
@@ -78,9 +80,9 @@ export const BreedInput = forwardRef<
       load(
         createPath({
           pathname: RESOURCE_PATHNAME,
-          search: new BreedSearchParams()
-            .setSpecies(ensureArray(species))
-            .toString(),
+          search: BreedSearchParams.stringify({
+            species: new Set(ensureArray(species)),
+          }),
         })
       );
     }
@@ -119,10 +121,10 @@ export const BreedInput = forwardRef<
               fetcher.load(
                 createPath({
                   pathname: RESOURCE_PATHNAME,
-                  search: new BreedSearchParams()
-                    .setSpecies(ensureArray(species))
-                    .setName(value)
-                    .toString(),
+                  search: BreedSearchParams.stringify({
+                    species: new Set(ensureArray(species)),
+                    name: value,
+                  }),
                 })
               );
             }}

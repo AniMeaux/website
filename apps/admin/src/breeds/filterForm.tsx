@@ -3,7 +3,11 @@ import {
   SPECIES_ICON,
   SPECIES_TRANSLATION,
 } from "~/animals/species";
-import { BreedSearchParams } from "~/breeds/searchParams";
+import {
+  BREED_DEFAULT_SORT,
+  BreedSearchParams,
+  BreedSort,
+} from "~/breeds/searchParams";
 import { Action } from "~/core/actions";
 import { BaseLink } from "~/core/baseLink";
 import { Filters } from "~/core/controllers/filters";
@@ -14,12 +18,7 @@ import { Icon } from "~/generated/icon";
 
 export function BreedFilterForm() {
   const [searchParams, setSearchParams] = useOptimisticSearchParams();
-  const breedSearchParams = new BreedSearchParams(searchParams);
-  const visibleFilters = {
-    name: breedSearchParams.getName(),
-    species: breedSearchParams.getSpecies(),
-    sort: breedSearchParams.getSort(),
-  };
+  const breedSearchParams = BreedSearchParams.parse(searchParams);
 
   return (
     <Filters>
@@ -33,15 +32,15 @@ export function BreedFilterForm() {
 
       <Filters.Content>
         <Filters.Filter
-          value={BreedSearchParams.Keys.SORT}
+          value={BreedSearchParams.keys.sort}
           label="Trier"
-          count={visibleFilters.sort === BreedSearchParams.Sort.NAME ? 0 : 1}
+          count={breedSearchParams.sort === BREED_DEFAULT_SORT ? 0 : 1}
           hiddenContent={
-            visibleFilters.sort !== BreedSearchParams.Sort.NAME ? (
+            breedSearchParams.sort !== BREED_DEFAULT_SORT ? (
               <input
                 type="hidden"
-                name={BreedSearchParams.Keys.SORT}
-                value={visibleFilters.sort}
+                name={BreedSearchParams.keys.sort}
+                value={breedSearchParams.sort}
               />
             ) : null
           }
@@ -50,39 +49,39 @@ export function BreedFilterForm() {
             <ToggleInput
               type="radio"
               label="Alphabétique"
-              name={BreedSearchParams.Keys.SORT}
-              value={BreedSearchParams.Sort.NAME}
+              name={BreedSearchParams.keys.sort}
+              value={BreedSort.NAME}
               icon={<Icon id="arrowDownAZ" />}
-              checked={visibleFilters.sort === BreedSearchParams.Sort.NAME}
+              checked={breedSearchParams.sort === BreedSort.NAME}
               onChange={() => {}}
             />
 
             <ToggleInput
               type="radio"
               label="Nombre d’animaux"
-              name={BreedSearchParams.Keys.SORT}
-              value={BreedSearchParams.Sort.ANIMAL_COUNT}
+              name={BreedSearchParams.keys.sort}
+              value={BreedSort.ANIMAL_COUNT}
               icon={<Icon id="arrowDown91" />}
-              checked={
-                visibleFilters.sort === BreedSearchParams.Sort.ANIMAL_COUNT
-              }
+              checked={breedSearchParams.sort === BreedSort.ANIMAL_COUNT}
               onChange={() => {}}
             />
           </ToggleInputList>
         </Filters.Filter>
 
         <Filters.Filter
-          value={BreedSearchParams.Keys.SPECIES}
+          value={BreedSearchParams.keys.species}
           label="Espèces"
-          count={visibleFilters.species.length}
-          hiddenContent={visibleFilters.species.map((species) => (
-            <input
-              key={species}
-              type="hidden"
-              name={BreedSearchParams.Keys.SPECIES}
-              value={species}
-            />
-          ))}
+          count={breedSearchParams.species.size}
+          hiddenContent={Array.from(breedSearchParams.species).map(
+            (species) => (
+              <input
+                key={species}
+                type="hidden"
+                name={BreedSearchParams.keys.species}
+                value={species}
+              />
+            )
+          )}
         >
           <ToggleInputList>
             {SORTED_SPECIES.map((species) => (
@@ -90,10 +89,10 @@ export function BreedFilterForm() {
                 key={species}
                 type="checkbox"
                 label={SPECIES_TRANSLATION[species]}
-                name={BreedSearchParams.Keys.SPECIES}
+                name={BreedSearchParams.keys.species}
                 value={species}
                 icon={<Icon id={SPECIES_ICON[species]} />}
-                checked={visibleFilters.species.includes(species)}
+                checked={breedSearchParams.species.has(species)}
                 onChange={() => {}}
               />
             ))}
@@ -101,30 +100,32 @@ export function BreedFilterForm() {
         </Filters.Filter>
 
         <Filters.Filter
-          value={BreedSearchParams.Keys.NAME}
+          value={BreedSearchParams.keys.name}
           label="Nom"
-          count={visibleFilters.name == null ? 0 : 1}
+          count={breedSearchParams.name == null ? 0 : 1}
           hiddenContent={
-            visibleFilters.name != null ? (
+            breedSearchParams.name != null ? (
               <input
                 type="hidden"
-                name={BreedSearchParams.Keys.NAME}
-                value={visibleFilters.name}
+                name={BreedSearchParams.keys.name}
+                value={breedSearchParams.name}
               />
             ) : null
           }
         >
           <ControlledInput
-            name={BreedSearchParams.Keys.NAME}
-            value={visibleFilters.name ?? ""}
+            name={BreedSearchParams.keys.name}
+            value={breedSearchParams.name ?? ""}
             rightAdornment={
-              visibleFilters.name != null ? (
+              breedSearchParams.name != null ? (
                 <ControlledInput.ActionAdornment
-                  onClick={() =>
-                    setSearchParams((searchParams) =>
-                      new BreedSearchParams(searchParams).deleteName()
-                    )
-                  }
+                  onClick={() => {
+                    setSearchParams((searchParams) => {
+                      const copy = new URLSearchParams(searchParams);
+                      BreedSearchParams.set(copy, { name: undefined });
+                      return copy;
+                    });
+                  }}
                 >
                   <Icon id="xMark" />
                 </ControlledInput.ActionAdornment>

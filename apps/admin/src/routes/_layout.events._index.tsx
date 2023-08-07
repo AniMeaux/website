@@ -25,7 +25,7 @@ export async function loader({ request }: LoaderArgs) {
   assertCurrentUserHasGroups(currentUser, [UserGroup.ADMIN]);
 
   const searchParams = new URL(request.url).searchParams;
-  const pageSearchParams = new PageSearchParams(searchParams);
+  const pageSearchParams = PageSearchParams.parse(searchParams);
 
   const where: Prisma.EventWhereInput = {
     endDate: { gte: new Date() },
@@ -35,7 +35,7 @@ export async function loader({ request }: LoaderArgs) {
     totalCount: prisma.event.count({ where }),
 
     events: prisma.event.findMany({
-      skip: pageSearchParams.getPage() * EVENT_COUNT_PER_PAGE,
+      skip: pageSearchParams.page * EVENT_COUNT_PER_PAGE,
       take: EVENT_COUNT_PER_PAGE,
       orderBy: [
         { startDate: "asc" },

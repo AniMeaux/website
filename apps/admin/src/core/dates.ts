@@ -29,3 +29,19 @@ export function toRoundedRelative(isoDate: string) {
 
   return date.toRelative();
 }
+
+export function startOfDay(date: undefined | Date) {
+  if (date == null) {
+    return undefined;
+  }
+
+  return DateTime.fromJSDate(date).startOf("day").toJSDate();
+}
+
+export function endOfDay(date: undefined | Date) {
+  if (date == null) {
+    return undefined;
+  }
+
+  return DateTime.fromJSDate(date).endOf("day").toJSDate();
+}

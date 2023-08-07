@@ -21,7 +21,7 @@ import {
 import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
 import { UserFilterForm } from "~/users/filterForm";
 import { UserItem } from "~/users/item";
-import { UserSearchParams } from "~/users/searchParams";
+import { UserSearchParams, UserSort } from "~/users/searchParams";
 
 const USER_COUNT_PER_PAGE = 20;
 
@@ -33,26 +33,26 @@ export async function loader({ request }: LoaderArgs) {
   assertCurrentUserHasGroups(currentUser, [UserGroup.ADMIN]);
 
   const searchParams = new URL(request.url).searchParams;
-  const pageSearchParams = new PageSearchParams(searchParams);
-  const userSearchParams = new UserSearchParams(searchParams);
+  const pageSearchParams = PageSearchParams.parse(searchParams);
+  const userSearchParams = UserSearchParams.parse(searchParams);
 
   const where: Prisma.UserWhereInput[] = [];
-  const groups = userSearchParams.getGroups();
-  if (groups.length > 0) {
-    where.push({ groups: { hasSome: groups } });
+  if (userSearchParams.groups.size > 0) {
+    where.push({ groups: { hasSome: Array.from(userSearchParams.groups) } });
   }
 
-  const minActivity = userSearchParams.getMinActivity();
-  const maxActivity = userSearchParams.getMaxActivity();
-  if (minActivity != null || maxActivity != null) {
+  if (
+    userSearchParams.lastActivityStart != null ||
+    userSearchParams.lastActivityEnd != null
+  ) {
     const lastActivityAt: Prisma.DateTimeFilter = {};
 
-    if (minActivity != null) {
-      lastActivityAt.gte = minActivity;
+    if (userSearchParams.lastActivityStart != null) {
+      lastActivityAt.gte = userSearchParams.lastActivityStart;
     }
 
-    if (maxActivity != null) {
-      lastActivityAt.lte = DateTime.fromJSDate(maxActivity)
+    if (userSearchParams.lastActivityEnd != null) {
+      lastActivityAt.lte = DateTime.fromJSDate(userSearchParams.lastActivityEnd)
         .endOf("day")
         .toJSDate();
     }
@@ -60,29 +60,25 @@ export async function loader({ request }: LoaderArgs) {
     where.push({ lastActivityAt });
   }
 
-  const noActivity = userSearchParams.getNoActivity();
-  if (noActivity) {
+  if (userSearchParams.noActivity) {
     where.push({ lastActivityAt: null });
   }
 
-  const displayName = userSearchParams.getDisplayName();
-  if (displayName != null) {
-    const users = await algolia.user.search({ displayName, groups });
+  if (userSearchParams.displayName != null) {
+    const users = await algolia.user.search({
+      displayName: userSearchParams.displayName,
+      groups: userSearchParams.groups,
+    });
     where.push({ id: { in: users.map((user) => user.id) } });
   }
-
-  const sort = userSearchParams.getSort();
 
   const { userCount, users } = await promiseHash({
     userCount: prisma.user.count({ where: { AND: where } }),
 
     users: prisma.user.findMany({
-      skip: pageSearchParams.getPage() * USER_COUNT_PER_PAGE,
+      skip: pageSearchParams.page * USER_COUNT_PER_PAGE,
       take: USER_COUNT_PER_PAGE,
-      orderBy:
-        sort === UserSearchParams.Sort.LAST_ACTIVITY
-          ? { lastActivityAt: "desc" }
-          : { displayName: "asc" },
+      orderBy: USER_ORDER_BY[userSearchParams.sort],
       where: { AND: where },
       select: {
         displayName: true,
@@ -99,6 +95,11 @@ export async function loader({ request }: LoaderArgs) {
   return json({ pageCount, userCount, users });
 }
 
+const USER_ORDER_BY: Record<UserSort, Prisma.UserFindManyArgs["orderBy"]> = {
+  [UserSort.NAME]: { displayName: "asc" },
+  [UserSort.LAST_ACTIVITY]: { lastActivityAt: "desc" },
+};
+
 export const meta: V2_MetaFunction = () => {
   return [{ title: getPageTitle("Utilisateurs") }];
 };
@@ -106,7 +107,6 @@ export const meta: V2_MetaFunction = () => {
 export default function Route() {
   const { pageCount, userCount, users } = useLoaderData<typeof loader>();
   const [searchParams] = useOptimisticSearchParams();
-  const userSearchParams = new UserSearchParams(searchParams);
 
   return (
     <PageLayout>
@@ -142,7 +142,7 @@ export default function Route() {
                     message="Nous n’avons pas trouvé ce que vous cherchiez. Essayez à nouveau de rechercher."
                     titleElementType="h3"
                     action={
-                      !userSearchParams.isEmpty() ? (
+                      !UserSearchParams.isEmpty(searchParams) ? (
                         <Action asChild>
                           <BaseLink to={{ search: "" }}>
                             Effacer les filtres
