@@ -9,6 +9,7 @@ export type Config = {
   cloudinaryName: string;
   exhibitorsFormUrl: string;
   facebookUrl: string;
+  featureFlagSiteOnline: boolean;
   googleTagManagerId?: string;
   instagramUrl: string;
   kidWorkshopRegistrationUrl: string;

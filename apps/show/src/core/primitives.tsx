@@ -9,4 +9,12 @@ export const Primitive = {
     const Component = asChild ? Slot : "button";
     return <Component {...props} ref={ref} />;
   }),
+
+  span: forwardRef<
+    React.ComponentRef<"span">,
+    React.ComponentPropsWithoutRef<"span"> & { asChild?: boolean }
+  >(function PrimitiveButton({ asChild = false, ...props }, ref) {
+    const Component = asChild ? Slot : "span";
+    return <Component {...props} ref={ref} />;
+  }),
 };

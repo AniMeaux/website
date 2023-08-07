@@ -8,6 +8,7 @@ declare global {
       CLOUDINARY_CLOUD_NAME?: string;
       EXHIBITORS_FORM_URL?: string;
       FACEBOOK_URL?: string;
+      FEATURE_FLAG_SITE_ONLINE?: "true" | "false";
       GOOGLE_TAG_MANAGER_ID?: string;
       INSTAGRAM_URL?: string;
       KID_WORKSHOP_REGISTRATION_URL?: string;

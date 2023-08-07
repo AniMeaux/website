@@ -2,10 +2,12 @@ import { V2_MetaFunction } from "@remix-run/react";
 import { Action, ProseInlineAction } from "~/core/actions";
 import { BaseLink, BaseLinkProps } from "~/core/baseLink";
 import { useConfig } from "~/core/config";
+import { ErrorPage } from "~/core/dataDisplay/errorPage";
 import { DynamicImage } from "~/core/dataDisplay/image";
+import { RouteHandle } from "~/core/handles";
 import { FooterWave } from "~/core/layout/footerWave";
 import { HighLightBackground } from "~/core/layout/highlightBackground";
-import { LegalsBackground } from "~/core/layout/legalsBackground";
+import { LegalBackground } from "~/core/layout/legalBackground";
 import { createSocialMeta } from "~/core/meta";
 import { getPageTitle } from "~/core/pageTitle";
 import { Icon, IconProps } from "~/generated/icon";
@@ -13,13 +15,37 @@ import { Pictogram } from "~/generated/pictogram";
 import logoAniMeaux from "~/images/logoAniMeaux.svg";
 import logoLarge from "~/images/logoLarge.svg";
 
+export const handle: RouteHandle = {
+  hasExpandedPageBackground: true,
+};
+
 export const meta: V2_MetaFunction = () => {
   return createSocialMeta({ title: getPageTitle() });
 };
 
+export function ErrorBoundary() {
+  const { featureFlagSiteOnline } = useConfig();
+
+  return <ErrorPage isStandAlone={!featureFlagSiteOnline} />;
+}
+
 export default function Route() {
+  const { featureFlagSiteOnline } = useConfig();
+
+  if (featureFlagSiteOnline) {
+    return <HomePage />;
+  }
+
+  return <WaitingPage />;
+}
+
+function HomePage() {
+  return <p>Coucou</p>;
+}
+
+function WaitingPage() {
   return (
-    <main className="grid grid-cols-1 gap-24">
+    <main className="grid grid-cols-1">
       <LogoSection />
       <ComeBackSection />
       <ActionsSection />
@@ -53,7 +79,7 @@ function ComeBackSection() {
           alt="Stands des exposants du salon."
           title="Julia Pommé Photographe"
           fallbackSize="1024"
-          sizes={{ md: "50vw", default: "100vw" }}
+          sizes={{ default: "100vw", md: "50vw", lg: "512px" }}
           loading="eager"
           shape={{ id: "variant2", color: "alabaster", side: "left" }}
         />
@@ -252,7 +278,7 @@ function FooterSection() {
         <img
           src={logoAniMeaux}
           alt="Association Ani’Meaux"
-          className="w-[200px]"
+          className="w-[200px] aspect-square"
         />
 
         <aside className="w-full grid grid-cols-1 gap-2">
@@ -286,7 +312,7 @@ function FooterSection() {
       </section>
 
       <section className="relative z-10 px-page-narrow md:px-page-normal py-2 grid grid-cols-1">
-        <LegalsBackground className="absolute -z-10 top-0 left-0 w-full h-full" />
+        <LegalBackground className="absolute -z-10 top-0 left-0 w-full h-full" />
 
         <p className="text-caption-lowercase-emphasis text-white text-center">
           Copyright © {new Date().getFullYear()} Ani’Meaux
@@ -318,7 +344,7 @@ function ContactItem({
     <li className="grid grid-cols-1 justify-items-start">
       <BaseLink
         to={to}
-        className="rounded-md grid grid-cols-[auto_auto] items-start gap-1 transition-transform duration-100 ease-in-out hover:scale-105 active:scale-95 hover:active:scale-95 focus-visible:outline-none focus-visible:ring focus-visible:ring-mystic focus-visible:ring-offset-2 focus-visible:ring-offset-paleBlue"
+        className="rounded-0.5 grid grid-cols-[auto_auto] items-start gap-1 transition-transform duration-100 ease-in-out hover:scale-105 active:scale-95 hover:active:scale-95 focus-visible:outline-none focus-visible:ring focus-visible:ring-mystic focus-visible:ring-offset-2 focus-visible:ring-offset-paleBlue"
       >
         <span className="h-2 flex items-center">
           <Icon id={icon} className="text-[16px] text-mystic" />

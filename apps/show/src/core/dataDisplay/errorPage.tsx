@@ -33,11 +33,11 @@ export function ErrorPage({
     >
       <section
         className={cn(
-          "px-safe-page-narrow md:px-safe-page-normal grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-4 lg:gap-8 md:items-center",
+          "px-safe-page-narrow md:px-safe-page-normal grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-4 lg:gap-8 justify-items-center md:items-center",
           isStandAlone ? "py-safe-4" : "py-4"
         )}
       >
-        <aside className="relative grid grid-cols-1">
+        <aside className="relative max-w-sm md:max-w-none grid grid-cols-1">
           {config != null ? (
             <DynamicImage
               image={{
@@ -46,19 +46,19 @@ export function ErrorPage({
               }}
               alt="Chiot allongé sur le sol."
               fallbackSize="1024"
-              sizes={{ md: "50vw", default: "100vw" }}
+              sizes={{ default: "384px", md: "50vw", lg: "512px" }}
               loading="eager"
               shape={{ id: "variant12", color: "alabaster", side: "left" }}
             />
           ) : null}
         </aside>
 
-        <aside className="grid grid-cols-1 gap-2">
-          <h1 className="text-title-small md:text-title-large text-mystic">
+        <aside className="w-full grid grid-cols-1 gap-2">
+          <h1 className="text-title-small md:text-title-large text-center md:text-left text-mystic">
             {meta.title}
           </h1>
 
-          <p>{meta.message}</p>
+          <p className="text-center md:text-left">{meta.message}</p>
 
           <div className="grid grid-cols-1 justify-items-center md:justify-items-start">
             {meta.action}

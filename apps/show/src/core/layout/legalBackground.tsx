@@ -1,6 +1,6 @@
 import { cn } from "~/core/classNames";
 
-export function LegalsBackground({ className }: { className?: string }) {
+export function LegalBackground({ className }: { className?: string }) {
   return (
     <svg
       viewBox="0 0 1024 400"
