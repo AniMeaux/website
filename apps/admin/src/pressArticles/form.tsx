@@ -9,7 +9,6 @@ import { RequiredStar } from "~/core/formElements/requiredStar";
 import { SwitchInput } from "~/core/formElements/switchInput";
 import { Separator } from "~/core/layout/separator";
 import { Spinner } from "~/core/loaders/spinner";
-import { ensureDate } from "~/core/schemas";
 import { Icon } from "~/generated/icon";
 import { useScrapUrlFetcher } from "~/routes/resources.scrap-url";
 
@@ -19,13 +18,10 @@ export const ActionFormData = createActionData(
       z.literal(""),
       z.string().url("Veuillez entrer une URL valide"),
     ]),
-    publicationDate: z.preprocess(
-      ensureDate,
-      z.date({
-        required_error: "Veuillez entrer une date de publication",
-        invalid_type_error: "Veuillez entrer une date de publication valide",
-      })
-    ),
+    publicationDate: z.coerce.date({
+      required_error: "Veuillez entrer une date de publication",
+      invalid_type_error: "Veuillez entrer une date de publication valide",
+    }),
     publisherName: z.string().trim().min(1, "Veuillez entrer un éditeur"),
     title: z.string().trim().min(1, "Veuillez entrer un titre"),
     url: z.string().url("Veuillez entrer une URL valide"),

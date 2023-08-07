@@ -138,36 +138,37 @@ export class CurrentUserDbDelegate {
   }
 
   private async redirectToLogin(request: Request) {
-    const searchParams = await this.getRedirectToSearchParams(request);
+    const path = this.getCurrentRoutePath(request);
 
     return redirect(
-      createPath({ pathname: "/login", search: searchParams.toString() }),
+      createPath({
+        pathname: "/login",
+        search: NextSearchParams.stringify({ next: path }),
+      }),
       { headers: { "Set-Cookie": await destroyCurrentUserSession() } }
     );
   }
 
   private async redirectToDefinePassword(request: Request) {
-    const searchParams = await this.getRedirectToSearchParams(request);
+    const path = this.getCurrentRoutePath(request);
 
     return redirect(
       createPath({
         pathname: "/define-password",
-        search: searchParams.toString(),
+        search: NextSearchParams.stringify({ next: path }),
       })
     );
   }
 
-  private async getRedirectToSearchParams(request: Request) {
-    let searchParams = new NextSearchParams();
-
+  private getCurrentRoutePath(request: Request) {
     // Remove host from URL.
-    const redirectTo = createPath(new URL(request.url));
+    let path = createPath(new URL(request.url));
 
     // We don't want to redirect to resources routes as they don't render UI.
-    if (!redirectTo.startsWith("/resources/")) {
-      searchParams = searchParams.setNext(redirectTo);
+    if (path.startsWith("/resources/")) {
+      path = "/";
     }
 
-    return searchParams;
+    return path;
   }
 }

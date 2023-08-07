@@ -5,7 +5,6 @@ import { z } from "zod";
 import { zfd } from "zod-form-data";
 import { createActionData } from "~/core/actionData";
 import { db } from "~/core/db.server";
-import { ensureBoolean } from "~/core/schemas";
 import { commitCurrentUserPreferences } from "~/currentUser/preferences.server";
 
 const RESOURCE_PATHNAME = "/resources/preferences";
@@ -17,7 +16,7 @@ export async function loader() {
 
 const ActionFormData = createActionData(
   z.object({
-    isSideBarCollapsed: z.preprocess(ensureBoolean, z.boolean()),
+    isSideBarCollapsed: zfd.checkbox(),
   })
 );
 
@@ -49,10 +48,9 @@ export function usePreferencesFetcher() {
   const submit = useCallback(
     (preferences: z.infer<typeof ActionFormData.schema>) => {
       const formData = new FormData();
-      formData.set(
-        ActionFormData.keys.isSideBarCollapsed,
-        String(preferences.isSideBarCollapsed)
-      );
+      if (preferences.isSideBarCollapsed) {
+        formData.set(ActionFormData.keys.isSideBarCollapsed, "on");
+      }
 
       fetcherSubmit(formData, { method: "POST", action: RESOURCE_PATHNAME });
     },

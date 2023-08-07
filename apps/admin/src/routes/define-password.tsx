@@ -27,8 +27,8 @@ export async function loader({ request }: LoaderArgs) {
 
   if (!currentUser.shouldChangePassword) {
     const url = new URL(request.url);
-    const searchParams = new NextSearchParams(url.searchParams);
-    throw redirect(searchParams.getNextOrDefault());
+    const { next = "/" } = NextSearchParams.parse(url.searchParams);
+    throw redirect(next);
   }
 
   return null;
@@ -63,8 +63,8 @@ export async function action({ request }: ActionArgs) {
   await db.currentUser.updatePassword(currentUser.id, formData.data.password);
 
   const url = new URL(request.url);
-  const searchParams = new NextSearchParams(url.searchParams);
-  throw redirect(searchParams.getNextOrDefault());
+  const { next = "/" } = NextSearchParams.parse(url.searchParams);
+  throw redirect(next);
 }
 
 export default function Route() {

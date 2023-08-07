@@ -10,7 +10,17 @@ import {
   PICK_UP_REASON_TRANSLATION,
   SORTED_PICK_UP_REASON,
 } from "~/animals/pickUp";
-import { AnimalSearchParams } from "~/animals/searchParams";
+import {
+  SCREENING_RESULT_ICON,
+  SCREENING_RESULT_TRANSLATION,
+  SORTED_SCREENING_RESULTS,
+} from "~/animals/screening";
+import {
+  ANIMAL_DEFAULT_SORT,
+  AnimalSearchParams,
+  AnimalSort,
+  AnimalSterilization,
+} from "~/animals/searchParams";
 import {
   SORTED_SPECIES,
   SPECIES_ICON,
@@ -34,11 +44,6 @@ import { FosterFamilyAvatar } from "~/fosterFamilies/avatar";
 import { Icon } from "~/generated/icon";
 import { UserAvatar } from "~/users/avatar";
 import { hasGroups } from "~/users/groups";
-import {
-  SCREENING_RESULT_ICON,
-  SCREENING_RESULT_TRANSLATION,
-  SORTED_SCREENING_RESULTS,
-} from "./screening";
 
 export function AnimalFilters({
   currentUser,
@@ -52,31 +57,7 @@ export function AnimalFilters({
   possiblePickUpLocations: string[];
 }) {
   const [searchParams, setSearchParams] = useOptimisticSearchParams();
-  const animalSearchParams = new AnimalSearchParams(searchParams);
-  const visibleFilters = {
-    adoptionOptions: animalSearchParams.getAdoptionOptions(),
-    ages: animalSearchParams.getAges(),
-    fosterFamiliesId: animalSearchParams.getFosterFamiliesId(),
-    isSterilized: animalSearchParams.getIsSterilized(),
-    managersId: animalSearchParams.getManagersId(),
-    maxAdoptionDate: animalSearchParams.getMaxAdoptionDate(),
-    maxBirthdate: animalSearchParams.getMaxBirthdate(),
-    maxPickUpDate: animalSearchParams.getMaxPickUpDate(),
-    maxVaccinationDate: animalSearchParams.getMaxVaccinationDate(),
-    minAdoptionDate: animalSearchParams.getMinAdoptionDate(),
-    minBirthdate: animalSearchParams.getMinBirthdate(),
-    minPickUpDate: animalSearchParams.getMinPickUpDate(),
-    minVaccinationDate: animalSearchParams.getMinVaccinationDate(),
-    nameOrAlias: animalSearchParams.getNameOrAlias(),
-    noVaccination: animalSearchParams.getNoVaccination(),
-    pickUpLocations: animalSearchParams.getPickUpLocations(),
-    pickUpReasons: animalSearchParams.getPickUpReasons(),
-    screeningFelv: animalSearchParams.getScreeningFelv(),
-    screeningFiv: animalSearchParams.getScreeningFiv(),
-    sort: animalSearchParams.getSort(),
-    species: animalSearchParams.getSpecies(),
-    statuses: animalSearchParams.getStatuses(),
-  };
+  const animalSearchParams = AnimalSearchParams.parse(searchParams);
 
   const isCurrentUserManager = hasGroups(currentUser, [
     UserGroup.ANIMAL_MANAGER,
@@ -106,51 +87,47 @@ export function AnimalFilters({
 
       <Filters.Content>
         <Filters.Filter
-          value={AnimalSearchParams.Keys.SORT}
+          value={AnimalSearchParams.keys.sort}
           label="Trier"
-          count={
-            visibleFilters.sort === AnimalSearchParams.DEFAULT_SORT ? 0 : 1
-          }
+          count={animalSearchParams.sort === ANIMAL_DEFAULT_SORT ? 0 : 1}
           hiddenContent={
-            visibleFilters.sort === AnimalSearchParams.DEFAULT_SORT ? null : (
+            animalSearchParams.sort !== ANIMAL_DEFAULT_SORT ? (
               <input
                 type="hidden"
-                name={AnimalSearchParams.Keys.SORT}
-                value={visibleFilters.sort}
+                name={AnimalSearchParams.keys.sort}
+                value={animalSearchParams.sort}
               />
-            )
+            ) : null
           }
         >
           <ToggleInputList>
             <ToggleInput
               type="radio"
               label="Date de prise en charge"
-              name={AnimalSearchParams.Keys.SORT}
-              value={AnimalSearchParams.Sort.PICK_UP}
+              name={AnimalSearchParams.keys.sort}
+              value={AnimalSort.PICK_UP}
               icon={<Icon id="handHoldingHeart" />}
-              checked={visibleFilters.sort === AnimalSearchParams.Sort.PICK_UP}
+              checked={animalSearchParams.sort === AnimalSort.PICK_UP}
               onChange={() => {}}
             />
 
             <ToggleInput
               type="radio"
               label="Alphabétique"
-              name={AnimalSearchParams.Keys.SORT}
-              value={AnimalSearchParams.Sort.NAME}
+              name={AnimalSearchParams.keys.sort}
+              value={AnimalSort.NAME}
               icon={<Icon id="arrowDownAZ" />}
-              checked={visibleFilters.sort === AnimalSearchParams.Sort.NAME}
+              checked={animalSearchParams.sort === AnimalSort.NAME}
               onChange={() => {}}
             />
 
             <ToggleInput
               type="radio"
               label="Date de naissance"
-              name={AnimalSearchParams.Keys.SORT}
-              value={AnimalSearchParams.Sort.BIRTHDATE}
+              name={AnimalSearchParams.keys.sort}
+              value={AnimalSort.BIRTHDATE}
               icon={<Icon id="cakeCandles" />}
-              checked={
-                visibleFilters.sort === AnimalSearchParams.Sort.BIRTHDATE
-              }
+              checked={animalSearchParams.sort === AnimalSort.BIRTHDATE}
               onChange={() => {}}
             />
 
@@ -158,12 +135,10 @@ export function AnimalFilters({
               <ToggleInput
                 type="radio"
                 label="Date de vaccination"
-                name={AnimalSearchParams.Keys.SORT}
-                value={AnimalSearchParams.Sort.VACCINATION}
+                name={AnimalSearchParams.keys.sort}
+                value={AnimalSort.VACCINATION}
                 icon={<Icon id="syringe" />}
-                checked={
-                  visibleFilters.sort === AnimalSearchParams.Sort.VACCINATION
-                }
+                checked={animalSearchParams.sort === AnimalSort.VACCINATION}
                 onChange={() => {}}
               />
             ) : null}
@@ -171,17 +146,19 @@ export function AnimalFilters({
         </Filters.Filter>
 
         <Filters.Filter
-          value={AnimalSearchParams.Keys.SPECIES}
+          value={AnimalSearchParams.keys.species}
           label="Espèces"
-          count={visibleFilters.species.length}
-          hiddenContent={visibleFilters.species.map((species) => (
-            <input
-              key={species}
-              type="hidden"
-              name={AnimalSearchParams.Keys.SPECIES}
-              value={species}
-            />
-          ))}
+          count={animalSearchParams.species.size}
+          hiddenContent={Array.from(animalSearchParams.species).map(
+            (species) => (
+              <input
+                key={species}
+                type="hidden"
+                name={AnimalSearchParams.keys.species}
+                value={species}
+              />
+            )
+          )}
         >
           <ToggleInputList>
             {SORTED_SPECIES.map((species) => (
@@ -189,10 +166,10 @@ export function AnimalFilters({
                 key={species}
                 type="checkbox"
                 label={SPECIES_TRANSLATION[species]}
-                name={AnimalSearchParams.Keys.SPECIES}
+                name={AnimalSearchParams.keys.species}
                 value={species}
                 icon={<Icon id={SPECIES_ICON[species]} />}
-                checked={visibleFilters.species.includes(species)}
+                checked={animalSearchParams.species.has(species)}
                 onChange={() => {}}
               />
             ))}
@@ -200,34 +177,34 @@ export function AnimalFilters({
         </Filters.Filter>
 
         <Filters.Filter
-          value={AnimalSearchParams.Keys.AGE}
+          value={AnimalSearchParams.keys.ages}
           label="Âges"
           count={
-            (visibleFilters.minBirthdate == null ? 0 : 1) +
-            (visibleFilters.maxBirthdate == null ? 0 : 1) +
-            visibleFilters.ages.length
+            (animalSearchParams.birthdateStart == null ? 0 : 1) +
+            (animalSearchParams.birthdateEnd == null ? 0 : 1) +
+            animalSearchParams.ages.size
           }
           hiddenContent={
             <>
-              {visibleFilters.minBirthdate == null ? null : (
+              {animalSearchParams.birthdateStart == null ? null : (
                 <input
                   type="hidden"
-                  name={AnimalSearchParams.Keys.MIN_BIRTHDATE}
-                  value={toIsoDateValue(visibleFilters.minBirthdate)}
+                  name={AnimalSearchParams.keys.birthdateStart}
+                  value={toIsoDateValue(animalSearchParams.birthdateStart)}
                 />
               )}
-              {visibleFilters.maxBirthdate == null ? null : (
+              {animalSearchParams.birthdateEnd == null ? null : (
                 <input
                   type="hidden"
-                  name={AnimalSearchParams.Keys.MAX_BIRTHDATE}
-                  value={toIsoDateValue(visibleFilters.maxBirthdate)}
+                  name={AnimalSearchParams.keys.birthdateEnd}
+                  value={toIsoDateValue(animalSearchParams.birthdateEnd)}
                 />
               )}
-              {visibleFilters.ages.map((age) => (
+              {Array.from(animalSearchParams.ages).map((age) => (
                 <input
                   key={age}
                   type="hidden"
-                  name={AnimalSearchParams.Keys.AGE}
+                  name={AnimalSearchParams.keys.ages}
                   value={age}
                 />
               ))}
@@ -242,10 +219,10 @@ export function AnimalFilters({
                     key={age}
                     type="checkbox"
                     label={AGE_TRANSLATION[age]}
-                    name={AnimalSearchParams.Keys.AGE}
+                    name={AnimalSearchParams.keys.ages}
                     value={age}
                     icon={<Icon id={AGE_ICON[age]} />}
-                    checked={visibleFilters.ages.includes(age)}
+                    checked={animalSearchParams.ages.has(age)}
                     onChange={() => {}}
                   />
                 ))}
@@ -253,26 +230,32 @@ export function AnimalFilters({
             </Form.Field>
 
             <Form.Field>
-              <Form.Label htmlFor={AnimalSearchParams.Keys.MIN_BIRTHDATE}>
+              <Form.Label htmlFor={AnimalSearchParams.keys.birthdateStart}>
                 Né après le et incluant
               </Form.Label>
 
               <ControlledInput
                 type="date"
-                id={AnimalSearchParams.Keys.MIN_BIRTHDATE}
-                name={AnimalSearchParams.Keys.MIN_BIRTHDATE}
-                value={toIsoDateValue(visibleFilters.minBirthdate)}
+                id={AnimalSearchParams.keys.birthdateStart}
+                name={AnimalSearchParams.keys.birthdateStart}
+                value={toIsoDateValue(animalSearchParams.birthdateStart)}
                 leftAdornment={
                   <ControlledInput.Adornment>
                     <Icon id="calendarDays" />
                   </ControlledInput.Adornment>
                 }
                 rightAdornment={
-                  visibleFilters.minBirthdate != null ? (
+                  animalSearchParams.birthdateStart != null ? (
                     <ControlledInput.ActionAdornment
-                      onClick={() =>
-                        setSearchParams(animalSearchParams.deleteMinBirthdate())
-                      }
+                      onClick={() => {
+                        setSearchParams((searchParams) => {
+                          const copy = new URLSearchParams(searchParams);
+                          AnimalSearchParams.set(copy, {
+                            birthdateStart: undefined,
+                          });
+                          return copy;
+                        });
+                      }}
                     >
                       <Icon id="xMark" />
                     </ControlledInput.ActionAdornment>
@@ -282,26 +265,32 @@ export function AnimalFilters({
             </Form.Field>
 
             <Form.Field>
-              <Form.Label htmlFor={AnimalSearchParams.Keys.MAX_BIRTHDATE}>
+              <Form.Label htmlFor={AnimalSearchParams.keys.birthdateEnd}>
                 Né avant le et incluant
               </Form.Label>
 
               <ControlledInput
                 type="date"
-                id={AnimalSearchParams.Keys.MAX_BIRTHDATE}
-                name={AnimalSearchParams.Keys.MAX_BIRTHDATE}
-                value={toIsoDateValue(visibleFilters.maxBirthdate)}
+                id={AnimalSearchParams.keys.birthdateEnd}
+                name={AnimalSearchParams.keys.birthdateEnd}
+                value={toIsoDateValue(animalSearchParams.birthdateEnd)}
                 leftAdornment={
                   <ControlledInput.Adornment>
                     <Icon id="calendarDays" />
                   </ControlledInput.Adornment>
                 }
                 rightAdornment={
-                  visibleFilters.maxBirthdate != null ? (
+                  animalSearchParams.birthdateEnd != null ? (
                     <ControlledInput.ActionAdornment
-                      onClick={() =>
-                        setSearchParams(animalSearchParams.deleteMaxBirthdate())
-                      }
+                      onClick={() => {
+                        setSearchParams((searchParams) => {
+                          const copy = new URLSearchParams(searchParams);
+                          AnimalSearchParams.set(copy, {
+                            birthdateEnd: undefined,
+                          });
+                          return copy;
+                        });
+                      }}
                     >
                       <Icon id="xMark" />
                     </ControlledInput.ActionAdornment>
@@ -313,17 +302,19 @@ export function AnimalFilters({
         </Filters.Filter>
 
         <Filters.Filter
-          value={AnimalSearchParams.Keys.STATUS}
+          value={AnimalSearchParams.keys.statuses}
           label="Statuts"
-          count={visibleFilters.statuses.length}
-          hiddenContent={visibleFilters.statuses.map((status) => (
-            <input
-              key={status}
-              type="hidden"
-              name={AnimalSearchParams.Keys.STATUS}
-              value={status}
-            />
-          ))}
+          count={animalSearchParams.statuses.size}
+          hiddenContent={Array.from(animalSearchParams.statuses).map(
+            (status) => (
+              <input
+                key={status}
+                type="hidden"
+                name={AnimalSearchParams.keys.statuses}
+                value={status}
+              />
+            )
+          )}
         >
           <ToggleInputList>
             {SORTED_STATUS.map((status) => (
@@ -331,10 +322,10 @@ export function AnimalFilters({
                 key={status}
                 type="checkbox"
                 label={STATUS_TRANSLATION[status]}
-                name={AnimalSearchParams.Keys.STATUS}
+                name={AnimalSearchParams.keys.statuses}
                 value={status}
                 icon={<StatusIcon status={status} />}
-                checked={visibleFilters.statuses.includes(status)}
+                checked={animalSearchParams.statuses.has(status)}
                 onChange={() => {}}
               />
             ))}
@@ -342,46 +333,50 @@ export function AnimalFilters({
         </Filters.Filter>
 
         <Filters.Filter
-          value={AnimalSearchParams.Keys.PICK_UP_LOCATION}
+          value={AnimalSearchParams.keys.pickUpLocations}
           label="Prise en charge"
           count={
-            visibleFilters.pickUpReasons.length +
-            (visibleFilters.minPickUpDate == null ? 0 : 1) +
-            (visibleFilters.maxPickUpDate == null ? 0 : 1) +
-            visibleFilters.pickUpLocations.length
+            animalSearchParams.pickUpReasons.size +
+            (animalSearchParams.pickUpDateStart == null ? 0 : 1) +
+            (animalSearchParams.pickUpDateEnd == null ? 0 : 1) +
+            animalSearchParams.pickUpLocations.size
           }
           hiddenContent={
             <>
-              {visibleFilters.pickUpReasons.map((pickUpReason) => (
+              {Array.from(animalSearchParams.pickUpReasons).map(
+                (pickUpReason) => (
+                  <input
+                    key={pickUpReason}
+                    type="hidden"
+                    name={AnimalSearchParams.keys.pickUpReasons}
+                    value={pickUpReason}
+                  />
+                )
+              )}
+              {animalSearchParams.pickUpDateStart == null ? null : (
                 <input
-                  key={pickUpReason}
                   type="hidden"
-                  name={AnimalSearchParams.Keys.PICK_UP_REASON}
-                  value={pickUpReason}
-                />
-              ))}
-              {visibleFilters.minPickUpDate == null ? null : (
-                <input
-                  type="hidden"
-                  name={AnimalSearchParams.Keys.MIN_PICK_UP_DATE}
-                  value={toIsoDateValue(visibleFilters.minPickUpDate)}
+                  name={AnimalSearchParams.keys.pickUpDateStart}
+                  value={toIsoDateValue(animalSearchParams.pickUpDateStart)}
                 />
               )}
-              {visibleFilters.maxPickUpDate == null ? null : (
+              {animalSearchParams.pickUpDateEnd == null ? null : (
                 <input
                   type="hidden"
-                  name={AnimalSearchParams.Keys.MAX_PICK_UP_DATE}
-                  value={toIsoDateValue(visibleFilters.maxPickUpDate)}
+                  name={AnimalSearchParams.keys.pickUpDateEnd}
+                  value={toIsoDateValue(animalSearchParams.pickUpDateEnd)}
                 />
               )}
-              {visibleFilters.pickUpLocations.map((location) => (
-                <input
-                  key={location}
-                  type="hidden"
-                  name={AnimalSearchParams.Keys.PICK_UP_LOCATION}
-                  value={location}
-                />
-              ))}
+              {Array.from(animalSearchParams.pickUpLocations).map(
+                (location) => (
+                  <input
+                    key={location}
+                    type="hidden"
+                    name={AnimalSearchParams.keys.pickUpLocations}
+                    value={location}
+                  />
+                )
+              )}
             </>
           }
         >
@@ -397,12 +392,10 @@ export function AnimalFilters({
                     key={pickUpReason}
                     type="checkbox"
                     label={PICK_UP_REASON_TRANSLATION[pickUpReason]}
-                    name={AnimalSearchParams.Keys.PICK_UP_REASON}
+                    name={AnimalSearchParams.keys.pickUpReasons}
                     value={pickUpReason}
                     icon={<Icon id={PICK_UP_REASON_ICON[pickUpReason]} />}
-                    checked={visibleFilters.pickUpReasons.includes(
-                      pickUpReason
-                    )}
+                    checked={animalSearchParams.pickUpReasons.has(pickUpReason)}
                     onChange={() => {}}
                   />
                 ))}
@@ -410,28 +403,32 @@ export function AnimalFilters({
             </Form.Field>
 
             <Form.Field>
-              <Form.Label htmlFor={AnimalSearchParams.Keys.MIN_PICK_UP_DATE}>
+              <Form.Label htmlFor={AnimalSearchParams.keys.pickUpDateStart}>
                 Après le et incluant
               </Form.Label>
 
               <ControlledInput
                 type="date"
-                id={AnimalSearchParams.Keys.MIN_PICK_UP_DATE}
-                name={AnimalSearchParams.Keys.MIN_PICK_UP_DATE}
-                value={toIsoDateValue(visibleFilters.minPickUpDate)}
+                id={AnimalSearchParams.keys.pickUpDateStart}
+                name={AnimalSearchParams.keys.pickUpDateStart}
+                value={toIsoDateValue(animalSearchParams.pickUpDateStart)}
                 leftAdornment={
                   <ControlledInput.Adornment>
                     <Icon id="calendarDays" />
                   </ControlledInput.Adornment>
                 }
                 rightAdornment={
-                  visibleFilters.minPickUpDate != null ? (
+                  animalSearchParams.pickUpDateStart != null ? (
                     <ControlledInput.ActionAdornment
-                      onClick={() =>
-                        setSearchParams(
-                          animalSearchParams.deleteMinPickUpDate()
-                        )
-                      }
+                      onClick={() => {
+                        setSearchParams((searchParams) => {
+                          const copy = new URLSearchParams(searchParams);
+                          AnimalSearchParams.set(copy, {
+                            pickUpDateStart: undefined,
+                          });
+                          return copy;
+                        });
+                      }}
                     >
                       <Icon id="xMark" />
                     </ControlledInput.ActionAdornment>
@@ -441,28 +438,32 @@ export function AnimalFilters({
             </Form.Field>
 
             <Form.Field>
-              <Form.Label htmlFor={AnimalSearchParams.Keys.MAX_PICK_UP_DATE}>
+              <Form.Label htmlFor={AnimalSearchParams.keys.pickUpDateEnd}>
                 Avant le et incluant
               </Form.Label>
 
               <ControlledInput
                 type="date"
-                id={AnimalSearchParams.Keys.MAX_PICK_UP_DATE}
-                name={AnimalSearchParams.Keys.MAX_PICK_UP_DATE}
-                value={toIsoDateValue(visibleFilters.maxPickUpDate)}
+                id={AnimalSearchParams.keys.pickUpDateEnd}
+                name={AnimalSearchParams.keys.pickUpDateEnd}
+                value={toIsoDateValue(animalSearchParams.pickUpDateEnd)}
                 leftAdornment={
                   <ControlledInput.Adornment>
                     <Icon id="calendarDays" />
                   </ControlledInput.Adornment>
                 }
                 rightAdornment={
-                  visibleFilters.maxPickUpDate != null ? (
+                  animalSearchParams.pickUpDateEnd != null ? (
                     <ControlledInput.ActionAdornment
-                      onClick={() =>
-                        setSearchParams(
-                          animalSearchParams.deleteMaxPickUpDate()
-                        )
-                      }
+                      onClick={() => {
+                        setSearchParams((searchParams) => {
+                          const copy = new URLSearchParams(searchParams);
+                          AnimalSearchParams.set(copy, {
+                            pickUpDateEnd: undefined,
+                          });
+                          return copy;
+                        });
+                      }}
                     >
                       <Icon id="xMark" />
                     </ControlledInput.ActionAdornment>
@@ -482,10 +483,10 @@ export function AnimalFilters({
                     key={location}
                     type="checkbox"
                     label={location}
-                    name={AnimalSearchParams.Keys.PICK_UP_LOCATION}
+                    name={AnimalSearchParams.keys.pickUpLocations}
                     value={location}
                     icon={<Icon id="locationDot" />}
-                    checked={visibleFilters.pickUpLocations.includes(location)}
+                    checked={animalSearchParams.pickUpLocations.has(location)}
                     onChange={() => {}}
                   />
                 ))}
@@ -496,27 +497,29 @@ export function AnimalFilters({
 
         {isCurrentUserAnimalAdmin ? (
           <Filters.Filter
-            value={AnimalSearchParams.Keys.IS_STERILIZED}
+            value={AnimalSearchParams.keys.sterilizations}
             label="Stérilisé"
-            count={visibleFilters.isSterilized.length}
-            hiddenContent={visibleFilters.isSterilized.map((isSterilized) => (
-              <input
-                key={isSterilized}
-                type="hidden"
-                name={AnimalSearchParams.Keys.IS_STERILIZED}
-                value={isSterilized}
-              />
-            ))}
+            count={animalSearchParams.sterilizations.size}
+            hiddenContent={Array.from(animalSearchParams.sterilizations).map(
+              (isSterilized) => (
+                <input
+                  key={isSterilized}
+                  type="hidden"
+                  name={AnimalSearchParams.keys.sterilizations}
+                  value={isSterilized}
+                />
+              )
+            )}
           >
             <ToggleInputList>
               <ToggleInput
                 type="checkbox"
                 label="Oui"
-                name={AnimalSearchParams.Keys.IS_STERILIZED}
-                value={AnimalSearchParams.IsSterilized.YES}
+                name={AnimalSearchParams.keys.sterilizations}
+                value={AnimalSterilization.YES}
                 icon={<Icon id="scissors" />}
-                checked={visibleFilters.isSterilized.includes(
-                  AnimalSearchParams.IsSterilized.YES
+                checked={animalSearchParams.sterilizations.has(
+                  AnimalSterilization.YES
                 )}
                 onChange={() => {}}
               />
@@ -524,11 +527,11 @@ export function AnimalFilters({
               <ToggleInput
                 type="checkbox"
                 label="Non"
-                name={AnimalSearchParams.Keys.IS_STERILIZED}
-                value={AnimalSearchParams.IsSterilized.NO}
+                name={AnimalSearchParams.keys.sterilizations}
+                value={AnimalSterilization.NO}
                 icon={<Icon id="scissors" />}
-                checked={visibleFilters.isSterilized.includes(
-                  AnimalSearchParams.IsSterilized.NO
+                checked={animalSearchParams.sterilizations.has(
+                  AnimalSterilization.NO
                 )}
                 onChange={() => {}}
               />
@@ -536,11 +539,11 @@ export function AnimalFilters({
               <ToggleInput
                 type="checkbox"
                 label="Non, et ne le sera pas"
-                name={AnimalSearchParams.Keys.IS_STERILIZED}
-                value={AnimalSearchParams.IsSterilized.NOT_MANDATORY}
+                name={AnimalSearchParams.keys.sterilizations}
+                value={AnimalSterilization.NOT_MANDATORY}
                 icon={<Icon id="scissors" />}
-                checked={visibleFilters.isSterilized.includes(
-                  AnimalSearchParams.IsSterilized.NOT_MANDATORY
+                checked={animalSearchParams.sterilizations.has(
+                  AnimalSterilization.NOT_MANDATORY
                 )}
                 onChange={() => {}}
               />
@@ -550,34 +553,38 @@ export function AnimalFilters({
 
         {isCurrentUserAnimalAdmin ? (
           <Filters.Filter
-            value={AnimalSearchParams.Keys.MIN_VACCINATION}
+            value={AnimalSearchParams.keys.nextVaccinationDateStart}
             label="Prochaine vaccination"
             count={
-              (visibleFilters.minVaccinationDate == null ? 0 : 1) +
-              (visibleFilters.maxVaccinationDate == null ? 0 : 1) +
-              (visibleFilters.noVaccination ? 1 : 0)
+              (animalSearchParams.nextVaccinationDateStart == null ? 0 : 1) +
+              (animalSearchParams.nextVaccinationDateEnd == null ? 0 : 1) +
+              (animalSearchParams.noVaccination ? 1 : 0)
             }
             hiddenContent={
               <>
-                {visibleFilters.minVaccinationDate == null ? null : (
+                {animalSearchParams.nextVaccinationDateStart == null ? null : (
                   <input
                     type="hidden"
-                    name={AnimalSearchParams.Keys.MIN_VACCINATION}
-                    value={toIsoDateValue(visibleFilters.minVaccinationDate)}
+                    name={AnimalSearchParams.keys.nextVaccinationDateStart}
+                    value={toIsoDateValue(
+                      animalSearchParams.nextVaccinationDateStart
+                    )}
                   />
                 )}
-                {visibleFilters.maxVaccinationDate == null ? null : (
+                {animalSearchParams.nextVaccinationDateEnd == null ? null : (
                   <input
                     type="hidden"
-                    name={AnimalSearchParams.Keys.MAX_VACCINATION}
-                    value={toIsoDateValue(visibleFilters.maxVaccinationDate)}
+                    name={AnimalSearchParams.keys.nextVaccinationDateEnd}
+                    value={toIsoDateValue(
+                      animalSearchParams.nextVaccinationDateEnd
+                    )}
                   />
                 )}
-                {visibleFilters.noVaccination ? (
+                {animalSearchParams.noVaccination ? (
                   <input
                     type="hidden"
-                    name={AnimalSearchParams.Keys.NO_VACCINATION}
-                    value={String(true)}
+                    name={AnimalSearchParams.keys.noVaccination}
+                    value="on"
                   />
                 ) : null}
               </>
@@ -589,38 +596,45 @@ export function AnimalFilters({
                   <ToggleInput
                     type="checkbox"
                     label="Aucune prévue"
-                    name={AnimalSearchParams.Keys.NO_VACCINATION}
-                    value={String(true)}
+                    name={AnimalSearchParams.keys.noVaccination}
                     icon={<Icon id="syringe" />}
-                    checked={visibleFilters.noVaccination}
+                    checked={animalSearchParams.noVaccination}
                     onChange={() => {}}
                   />
                 </ToggleInputList>
               </Form.Field>
 
               <Form.Field>
-                <Form.Label htmlFor={AnimalSearchParams.Keys.MIN_VACCINATION}>
+                <Form.Label
+                  htmlFor={AnimalSearchParams.keys.nextVaccinationDateStart}
+                >
                   Après le et incluant
                 </Form.Label>
 
                 <ControlledInput
                   type="date"
-                  id={AnimalSearchParams.Keys.MIN_VACCINATION}
-                  name={AnimalSearchParams.Keys.MIN_VACCINATION}
-                  value={toIsoDateValue(visibleFilters.minVaccinationDate)}
+                  id={AnimalSearchParams.keys.nextVaccinationDateStart}
+                  name={AnimalSearchParams.keys.nextVaccinationDateStart}
+                  value={toIsoDateValue(
+                    animalSearchParams.nextVaccinationDateStart
+                  )}
                   leftAdornment={
                     <ControlledInput.Adornment>
                       <Icon id="calendarDays" />
                     </ControlledInput.Adornment>
                   }
                   rightAdornment={
-                    visibleFilters.minVaccinationDate != null ? (
+                    animalSearchParams.nextVaccinationDateStart != null ? (
                       <ControlledInput.ActionAdornment
-                        onClick={() =>
-                          setSearchParams(
-                            animalSearchParams.deleteMinVaccinationDate()
-                          )
-                        }
+                        onClick={() => {
+                          setSearchParams((searchParams) => {
+                            const copy = new URLSearchParams(searchParams);
+                            AnimalSearchParams.set(copy, {
+                              nextVaccinationDateStart: undefined,
+                            });
+                            return copy;
+                          });
+                        }}
                       >
                         <Icon id="xMark" />
                       </ControlledInput.ActionAdornment>
@@ -630,28 +644,36 @@ export function AnimalFilters({
               </Form.Field>
 
               <Form.Field>
-                <Form.Label htmlFor={AnimalSearchParams.Keys.MAX_VACCINATION}>
+                <Form.Label
+                  htmlFor={AnimalSearchParams.keys.nextVaccinationDateEnd}
+                >
                   Avant le et incluant
                 </Form.Label>
 
                 <ControlledInput
                   type="date"
-                  id={AnimalSearchParams.Keys.MAX_VACCINATION}
-                  name={AnimalSearchParams.Keys.MAX_VACCINATION}
-                  value={toIsoDateValue(visibleFilters.maxVaccinationDate)}
+                  id={AnimalSearchParams.keys.nextVaccinationDateEnd}
+                  name={AnimalSearchParams.keys.nextVaccinationDateEnd}
+                  value={toIsoDateValue(
+                    animalSearchParams.nextVaccinationDateEnd
+                  )}
                   leftAdornment={
                     <ControlledInput.Adornment>
                       <Icon id="calendarDays" />
                     </ControlledInput.Adornment>
                   }
                   rightAdornment={
-                    visibleFilters.maxVaccinationDate != null ? (
+                    animalSearchParams.nextVaccinationDateEnd != null ? (
                       <ControlledInput.ActionAdornment
-                        onClick={() =>
-                          setSearchParams(
-                            animalSearchParams.deleteMaxVaccinationDate()
-                          )
-                        }
+                        onClick={() => {
+                          setSearchParams((searchParams) => {
+                            const copy = new URLSearchParams(searchParams);
+                            AnimalSearchParams.set(copy, {
+                              nextVaccinationDateEnd: undefined,
+                            });
+                            return copy;
+                          });
+                        }}
                       >
                         <Icon id="xMark" />
                       </ControlledInput.ActionAdornment>
@@ -664,27 +686,27 @@ export function AnimalFilters({
         ) : null}
 
         <Filters.Filter
-          value={AnimalSearchParams.Keys.SCREENING_FIV}
+          value={AnimalSearchParams.keys.fivResults}
           label="Dépistage"
           count={
-            visibleFilters.screeningFiv.length +
-            visibleFilters.screeningFelv.length
+            animalSearchParams.fivResults.size +
+            animalSearchParams.felvResults.size
           }
           hiddenContent={
             <>
-              {visibleFilters.screeningFiv.map((result) => (
+              {Array.from(animalSearchParams.fivResults).map((result) => (
                 <input
                   key={result}
                   type="hidden"
-                  name={AnimalSearchParams.Keys.SCREENING_FIV}
+                  name={AnimalSearchParams.keys.fivResults}
                   value={result}
                 />
               ))}
-              {visibleFilters.screeningFelv.map((result) => (
+              {Array.from(animalSearchParams.felvResults).map((result) => (
                 <input
                   key={result}
                   type="hidden"
-                  name={AnimalSearchParams.Keys.SCREENING_FELV}
+                  name={AnimalSearchParams.keys.felvResults}
                   value={result}
                 />
               ))}
@@ -703,10 +725,10 @@ export function AnimalFilters({
                     key={result}
                     type="checkbox"
                     label={SCREENING_RESULT_TRANSLATION[result][Gender.MALE]}
-                    name={AnimalSearchParams.Keys.SCREENING_FIV}
+                    name={AnimalSearchParams.keys.fivResults}
                     value={result}
                     icon={<Icon id={SCREENING_RESULT_ICON[result]} />}
-                    checked={visibleFilters.screeningFiv.includes(result)}
+                    checked={animalSearchParams.fivResults.has(result)}
                     onChange={() => {}}
                   />
                 ))}
@@ -724,10 +746,10 @@ export function AnimalFilters({
                     key={result}
                     type="checkbox"
                     label={SCREENING_RESULT_TRANSLATION[result][Gender.MALE]}
-                    name={AnimalSearchParams.Keys.SCREENING_FELV}
+                    name={AnimalSearchParams.keys.felvResults}
                     value={result}
                     icon={<Icon id={SCREENING_RESULT_ICON[result]} />}
-                    checked={visibleFilters.screeningFelv.includes(result)}
+                    checked={animalSearchParams.felvResults.has(result)}
                     onChange={() => {}}
                   />
                 ))}
@@ -737,37 +759,39 @@ export function AnimalFilters({
         </Filters.Filter>
 
         <Filters.Filter
-          value={AnimalSearchParams.Keys.ADOPTION_OPTION}
+          value={AnimalSearchParams.keys.adoptionOptions}
           label="Adoption"
           count={
-            (visibleFilters.minAdoptionDate == null ? 0 : 1) +
-            (visibleFilters.maxAdoptionDate == null ? 0 : 1) +
-            visibleFilters.adoptionOptions.length
+            (animalSearchParams.adoptionDateStart == null ? 0 : 1) +
+            (animalSearchParams.adoptionDateEnd == null ? 0 : 1) +
+            animalSearchParams.adoptionOptions.size
           }
           hiddenContent={
             <>
-              {visibleFilters.minAdoptionDate == null ? null : (
+              {animalSearchParams.adoptionDateStart == null ? null : (
                 <input
                   type="hidden"
-                  name={AnimalSearchParams.Keys.MIN_ADOPTION_DATE}
-                  value={toIsoDateValue(visibleFilters.minAdoptionDate)}
+                  name={AnimalSearchParams.keys.adoptionDateStart}
+                  value={toIsoDateValue(animalSearchParams.adoptionDateStart)}
                 />
               )}
-              {visibleFilters.maxAdoptionDate == null ? null : (
+              {animalSearchParams.adoptionDateEnd == null ? null : (
                 <input
                   type="hidden"
-                  name={AnimalSearchParams.Keys.MAX_ADOPTION_DATE}
-                  value={toIsoDateValue(visibleFilters.maxAdoptionDate)}
+                  name={AnimalSearchParams.keys.adoptionDateEnd}
+                  value={toIsoDateValue(animalSearchParams.adoptionDateEnd)}
                 />
               )}
-              {visibleFilters.adoptionOptions.map((adoptionOption) => (
-                <input
-                  key={adoptionOption}
-                  type="hidden"
-                  name={AnimalSearchParams.Keys.ADOPTION_OPTION}
-                  value={adoptionOption}
-                />
-              ))}
+              {Array.from(animalSearchParams.adoptionOptions).map(
+                (adoptionOption) => (
+                  <input
+                    key={adoptionOption}
+                    type="hidden"
+                    name={AnimalSearchParams.keys.adoptionOptions}
+                    value={adoptionOption}
+                  />
+                )
+              )}
             </>
           }
         >
@@ -779,10 +803,10 @@ export function AnimalFilters({
                     key={adoptionOption}
                     type="checkbox"
                     label={ADOPTION_OPTION_TRANSLATION[adoptionOption]}
-                    name={AnimalSearchParams.Keys.ADOPTION_OPTION}
+                    name={AnimalSearchParams.keys.adoptionOptions}
                     value={adoptionOption}
                     icon={<Icon id={ADOPTION_OPTION_ICON[adoptionOption]} />}
-                    checked={visibleFilters.adoptionOptions.includes(
+                    checked={animalSearchParams.adoptionOptions.has(
                       adoptionOption
                     )}
                     onChange={() => {}}
@@ -792,28 +816,32 @@ export function AnimalFilters({
             </Form.Field>
 
             <Form.Field>
-              <Form.Label htmlFor={AnimalSearchParams.Keys.MIN_ADOPTION_DATE}>
+              <Form.Label htmlFor={AnimalSearchParams.keys.adoptionDateStart}>
                 Adopté après le et incluant
               </Form.Label>
 
               <ControlledInput
                 type="date"
-                id={AnimalSearchParams.Keys.MIN_ADOPTION_DATE}
-                name={AnimalSearchParams.Keys.MIN_ADOPTION_DATE}
-                value={toIsoDateValue(visibleFilters.minAdoptionDate)}
+                id={AnimalSearchParams.keys.adoptionDateStart}
+                name={AnimalSearchParams.keys.adoptionDateStart}
+                value={toIsoDateValue(animalSearchParams.adoptionDateStart)}
                 leftAdornment={
                   <ControlledInput.Adornment>
                     <Icon id="calendarDays" />
                   </ControlledInput.Adornment>
                 }
                 rightAdornment={
-                  visibleFilters.minAdoptionDate != null ? (
+                  animalSearchParams.adoptionDateStart != null ? (
                     <ControlledInput.ActionAdornment
-                      onClick={() =>
-                        setSearchParams(
-                          animalSearchParams.deleteMinAdoptionDate()
-                        )
-                      }
+                      onClick={() => {
+                        setSearchParams((searchParams) => {
+                          const copy = new URLSearchParams(searchParams);
+                          AnimalSearchParams.set(copy, {
+                            adoptionDateStart: undefined,
+                          });
+                          return copy;
+                        });
+                      }}
                     >
                       <Icon id="xMark" />
                     </ControlledInput.ActionAdornment>
@@ -823,28 +851,32 @@ export function AnimalFilters({
             </Form.Field>
 
             <Form.Field>
-              <Form.Label htmlFor={AnimalSearchParams.Keys.MAX_ADOPTION_DATE}>
+              <Form.Label htmlFor={AnimalSearchParams.keys.adoptionDateEnd}>
                 Adopté avant le et incluant
               </Form.Label>
 
               <ControlledInput
                 type="date"
-                id={AnimalSearchParams.Keys.MAX_ADOPTION_DATE}
-                name={AnimalSearchParams.Keys.MAX_ADOPTION_DATE}
-                value={toIsoDateValue(visibleFilters.maxAdoptionDate)}
+                id={AnimalSearchParams.keys.adoptionDateEnd}
+                name={AnimalSearchParams.keys.adoptionDateEnd}
+                value={toIsoDateValue(animalSearchParams.adoptionDateEnd)}
                 leftAdornment={
                   <ControlledInput.Adornment>
                     <Icon id="calendarDays" />
                   </ControlledInput.Adornment>
                 }
                 rightAdornment={
-                  visibleFilters.maxAdoptionDate != null ? (
+                  animalSearchParams.adoptionDateEnd != null ? (
                     <ControlledInput.ActionAdornment
-                      onClick={() =>
-                        setSearchParams(
-                          animalSearchParams.deleteMaxAdoptionDate()
-                        )
-                      }
+                      onClick={() => {
+                        setSearchParams((searchParams) => {
+                          const copy = new URLSearchParams(searchParams);
+                          AnimalSearchParams.set(copy, {
+                            adoptionDateEnd: undefined,
+                          });
+                          return copy;
+                        });
+                      }}
                     >
                       <Icon id="xMark" />
                     </ControlledInput.ActionAdornment>
@@ -857,15 +889,15 @@ export function AnimalFilters({
 
         {fosterFamilies.length > 0 ? (
           <Filters.Filter
-            value={AnimalSearchParams.Keys.FOSTER_FAMILIES_ID}
+            value={AnimalSearchParams.keys.fosterFamiliesId}
             label="Familles d’accueil"
-            count={visibleFilters.fosterFamiliesId.length}
-            hiddenContent={visibleFilters.fosterFamiliesId.map(
+            count={animalSearchParams.fosterFamiliesId.size}
+            hiddenContent={Array.from(animalSearchParams.fosterFamiliesId).map(
               (fosterFamilyId) => (
                 <input
                   key={fosterFamilyId}
                   type="hidden"
-                  name={AnimalSearchParams.Keys.FOSTER_FAMILIES_ID}
+                  name={AnimalSearchParams.keys.fosterFamiliesId}
                   value={fosterFamilyId}
                 />
               )
@@ -877,12 +909,12 @@ export function AnimalFilters({
                   key={fosterFamily.id}
                   type="checkbox"
                   label={fosterFamily.displayName}
-                  name={AnimalSearchParams.Keys.FOSTER_FAMILIES_ID}
+                  name={AnimalSearchParams.keys.fosterFamiliesId}
                   value={fosterFamily.id}
                   icon={
                     <FosterFamilyAvatar fosterFamily={fosterFamily} size="sm" />
                   }
-                  checked={visibleFilters.fosterFamiliesId.includes(
+                  checked={animalSearchParams.fosterFamiliesId.has(
                     fosterFamily.id
                   )}
                   onChange={() => {}}
@@ -893,17 +925,19 @@ export function AnimalFilters({
         ) : null}
 
         <Filters.Filter
-          value={AnimalSearchParams.Keys.MANAGERS_ID}
+          value={AnimalSearchParams.keys.managersId}
           label="Responsables"
-          count={visibleFilters.managersId.length}
-          hiddenContent={visibleFilters.managersId.map((managerId) => (
-            <input
-              key={managerId}
-              type="hidden"
-              name={AnimalSearchParams.Keys.MANAGERS_ID}
-              value={managerId}
-            />
-          ))}
+          count={animalSearchParams.managersId.size}
+          hiddenContent={Array.from(animalSearchParams.managersId).map(
+            (managerId) => (
+              <input
+                key={managerId}
+                type="hidden"
+                name={AnimalSearchParams.keys.managersId}
+                value={managerId}
+              />
+            )
+          )}
         >
           <ToggleInputList>
             {managers.map((manager) => (
@@ -911,10 +945,10 @@ export function AnimalFilters({
                 key={manager.id}
                 type="checkbox"
                 label={manager.displayName}
-                name={AnimalSearchParams.Keys.MANAGERS_ID}
+                name={AnimalSearchParams.keys.managersId}
                 value={manager.id}
                 icon={<UserAvatar user={manager} size="sm" />}
-                checked={visibleFilters.managersId.includes(manager.id)}
+                checked={animalSearchParams.managersId.has(manager.id)}
                 onChange={() => {}}
               />
             ))}
@@ -922,28 +956,34 @@ export function AnimalFilters({
         </Filters.Filter>
 
         <Filters.Filter
-          value={AnimalSearchParams.Keys.NAME_OR_ALIAS}
+          value={AnimalSearchParams.keys.nameOrAlias}
           label="Nom ou alias"
-          count={visibleFilters.nameOrAlias == null ? 0 : 1}
+          count={animalSearchParams.nameOrAlias == null ? 0 : 1}
           hiddenContent={
-            visibleFilters.nameOrAlias == null ? null : (
+            animalSearchParams.nameOrAlias == null ? null : (
               <input
                 type="hidden"
-                name={AnimalSearchParams.Keys.NAME_OR_ALIAS}
-                value={visibleFilters.nameOrAlias}
+                name={AnimalSearchParams.keys.nameOrAlias}
+                value={animalSearchParams.nameOrAlias}
               />
             )
           }
         >
           <ControlledInput
-            name={AnimalSearchParams.Keys.NAME_OR_ALIAS}
-            value={visibleFilters.nameOrAlias ?? ""}
+            name={AnimalSearchParams.keys.nameOrAlias}
+            value={animalSearchParams.nameOrAlias ?? ""}
             rightAdornment={
-              visibleFilters.nameOrAlias != null ? (
+              animalSearchParams.nameOrAlias != null ? (
                 <ControlledInput.ActionAdornment
-                  onClick={() =>
-                    setSearchParams(animalSearchParams.deleteNameOrAlias())
-                  }
+                  onClick={() => {
+                    setSearchParams((searchParams) => {
+                      const copy = new URLSearchParams(searchParams);
+                      AnimalSearchParams.set(copy, {
+                        nameOrAlias: undefined,
+                      });
+                      return copy;
+                    });
+                  }}
                 >
                   <Icon id="xMark" />
                 </ControlledInput.ActionAdornment>
@@ -957,14 +997,12 @@ export function AnimalFilters({
 }
 
 function ActiveFilterLink() {
-  let toSearchParams = new AnimalSearchParams().setStatuses(
-    ACTIVE_ANIMAL_STATUS
-  );
+  const toSearchParams = AnimalSearchParams.create({
+    statuses: new Set(ACTIVE_ANIMAL_STATUS),
+  });
 
   const [searchParams] = useOptimisticSearchParams();
-  const isActive = toSearchParams.areFiltersEqual(
-    new AnimalSearchParams(searchParams)
-  );
+  const isActive = AnimalSearchParams.areEqual(searchParams, toSearchParams);
 
   return (
     <Action asChild variant="secondary" color={isActive ? "blue" : "gray"}>
@@ -983,14 +1021,13 @@ type ManagerActiveFilterLinkProps = {
 function ManagerActiveFilterLink({
   currentUser,
 }: ManagerActiveFilterLinkProps) {
-  const toSearchParams = new AnimalSearchParams()
-    .setStatuses(ACTIVE_ANIMAL_STATUS)
-    .setManagersId([currentUser.id]);
+  const toSearchParams = AnimalSearchParams.create({
+    statuses: new Set(ACTIVE_ANIMAL_STATUS),
+    managersId: new Set([currentUser.id]),
+  });
 
   const [searchParams] = useOptimisticSearchParams();
-  const isActive = toSearchParams.areFiltersEqual(
-    new AnimalSearchParams(searchParams)
-  );
+  const isActive = AnimalSearchParams.areEqual(searchParams, toSearchParams);
 
   return (
     <Action asChild variant="secondary" color={isActive ? "blue" : "gray"}>

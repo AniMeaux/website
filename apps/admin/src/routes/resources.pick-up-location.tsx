@@ -32,12 +32,13 @@ export async function loader({ request }: LoaderArgs) {
     UserGroup.ANIMAL_MANAGER,
   ]);
 
-  const url = new URL(request.url);
-  const searchParams = new PickUpLocationSearchParams(url.searchParams);
+  const searchParams = PickUpLocationSearchParams.parse(
+    new URL(request.url).searchParams
+  );
 
   return json({
     pickUpLocations: await db.animal.fuzzySearchPickUpLocation({
-      text: searchParams.getText(),
+      text: searchParams.text,
       maxHitCount: MAX_HIT_COUNT,
     }),
   });
@@ -105,9 +106,9 @@ export const PickUpLocationInput = forwardRef<
               fetcher.load(
                 createPath({
                   pathname: RESOURCE_PATHNAME,
-                  search: new PickUpLocationSearchParams()
-                    .setText(value)
-                    .toString(),
+                  search: PickUpLocationSearchParams.stringify({
+                    text: value,
+                  }),
                 })
               );
             }}

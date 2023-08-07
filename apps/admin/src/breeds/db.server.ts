@@ -80,17 +80,20 @@ export class BreedDbDelegate {
 
   async fuzzySearch({
     name,
-    species = [],
+    species,
     maxHitCount,
   }: {
     name?: string;
-    species?: Species[];
+    species?: Iterable<Species>;
     maxHitCount: number;
   }) {
     // Don't use Algolia when there are no text search.
     if (name == null) {
+      const speciesArray = Array.from(species ?? []);
       const breeds = await prisma.breed.findMany({
-        where: { species: species == null ? undefined : { in: species } },
+        where: {
+          species: speciesArray.length === 0 ? undefined : { in: speciesArray },
+        },
         select: { id: true, name: true },
         orderBy: { name: "asc" },
         take: maxHitCount,

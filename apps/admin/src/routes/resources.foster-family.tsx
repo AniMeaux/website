@@ -32,12 +32,13 @@ export async function loader({ request }: LoaderArgs) {
     UserGroup.ANIMAL_MANAGER,
   ]);
 
-  const url = new URL(request.url);
-  const searchParams = new FosterFamilySearchParams(url.searchParams);
+  const searchParams = FosterFamilySearchParams.parse(
+    new URL(request.url).searchParams
+  );
 
   return json({
     fosterFamilies: await db.fosterFamily.fuzzySearch({
-      displayName: searchParams.getDisplayName(),
+      displayName: searchParams.displayName,
       // Use 5 instead of 6 to save space for the additional item.
       maxHitCount: 5,
     }),
@@ -70,12 +71,7 @@ export const FosterFamilyInput = forwardRef<
   const load = fetcher.load;
   useEffect(() => {
     if (!isOpened) {
-      load(
-        createPath({
-          pathname: RESOURCE_PATHNAME,
-          search: new FosterFamilySearchParams().toString(),
-        })
-      );
+      load(RESOURCE_PATHNAME);
     }
   }, [load, isOpened]);
 
@@ -112,9 +108,9 @@ export const FosterFamilyInput = forwardRef<
               fetcher.load(
                 createPath({
                   pathname: RESOURCE_PATHNAME,
-                  search: new FosterFamilySearchParams()
-                    .setDisplayName(value)
-                    .toString(),
+                  search: FosterFamilySearchParams.stringify({
+                    displayName: value,
+                  }),
                 })
               );
             }}
@@ -238,9 +234,7 @@ function Combobox({
         navigate(
           createPath({
             pathname: "/foster-families/new",
-            search: new NextSearchParams()
-              .setNext(createPath(location))
-              .toString(),
+            search: NextSearchParams.stringify({ next: createPath(location) }),
           })
         );
       } else {

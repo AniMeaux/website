@@ -18,15 +18,7 @@ export function FosterFamilyFilters({
   possibleCities: string[];
 }) {
   const [searchParams, setSearchParams] = useOptimisticSearchParams();
-  const fosterFamilySearchParams = new FosterFamilySearchParams(searchParams);
-  const visibleFilters = {
-    cities: fosterFamilySearchParams.getCities(),
-    displayName: fosterFamilySearchParams.getDisplayName(),
-    speciesAlreadyPresent: fosterFamilySearchParams.getSpeciesAlreadyPresent(),
-    speciesToAvoid: fosterFamilySearchParams.getSpeciesToAvoid(),
-    speciesToHost: fosterFamilySearchParams.getSpeciesToHost(),
-    zipCode: fosterFamilySearchParams.getZipCode(),
-  };
+  const fosterFamilySearchParams = FosterFamilySearchParams.parse(searchParams);
 
   return (
     <Filters>
@@ -40,27 +32,33 @@ export function FosterFamilyFilters({
 
       <Filters.Content>
         <Filters.Filter
-          value={FosterFamilySearchParams.Keys.DISPLAY_NAME}
+          value={FosterFamilySearchParams.keys.displayName}
           label="Nom"
-          count={visibleFilters.displayName == null ? 0 : 1}
+          count={fosterFamilySearchParams.displayName == null ? 0 : 1}
           hiddenContent={
-            <input
-              type="hidden"
-              name={FosterFamilySearchParams.Keys.DISPLAY_NAME}
-              value={visibleFilters.displayName ?? ""}
-            />
+            fosterFamilySearchParams.displayName != null ? (
+              <input
+                type="hidden"
+                name={FosterFamilySearchParams.keys.displayName}
+                value={fosterFamilySearchParams.displayName}
+              />
+            ) : null
           }
         >
           <ControlledInput
-            name={FosterFamilySearchParams.Keys.DISPLAY_NAME}
-            value={visibleFilters.displayName ?? ""}
+            name={FosterFamilySearchParams.keys.displayName}
+            value={fosterFamilySearchParams.displayName ?? ""}
             rightAdornment={
-              visibleFilters.displayName != null ? (
+              fosterFamilySearchParams.displayName != null ? (
                 <ControlledInput.ActionAdornment
                   onClick={() =>
-                    setSearchParams(
-                      fosterFamilySearchParams.deleteDisplayName()
-                    )
+                    setSearchParams((searchParams) => {
+                      const copy = new URLSearchParams(searchParams);
+                      FosterFamilySearchParams.set(copy, {
+                        displayName: undefined,
+                      });
+                      return copy;
+                    })
                   }
                 >
                   <Icon id="xMark" />
@@ -71,15 +69,15 @@ export function FosterFamilyFilters({
         </Filters.Filter>
 
         <Filters.Filter
-          value={FosterFamilySearchParams.Keys.SPECIES_TO_HOST}
+          value={FosterFamilySearchParams.keys.speciesToHost}
           label="Espèce à accueillir"
-          count={visibleFilters.speciesToHost == null ? 0 : 1}
+          count={fosterFamilySearchParams.speciesToHost == null ? 0 : 1}
           hiddenContent={
-            visibleFilters.speciesToHost != null ? (
+            fosterFamilySearchParams.speciesToHost != null ? (
               <input
                 type="hidden"
-                name={FosterFamilySearchParams.Keys.SPECIES_TO_HOST}
-                value={visibleFilters.speciesToHost}
+                name={FosterFamilySearchParams.keys.speciesToHost}
+                value={fosterFamilySearchParams.speciesToHost}
               />
             ) : null
           }
@@ -90,10 +88,10 @@ export function FosterFamilyFilters({
                 key={species}
                 type="radio"
                 label={SPECIES_TRANSLATION[species]}
-                name={FosterFamilySearchParams.Keys.SPECIES_TO_HOST}
+                name={FosterFamilySearchParams.keys.speciesToHost}
                 value={species}
                 icon={<Icon id={SPECIES_ICON[species]} />}
-                checked={visibleFilters.speciesToHost === species}
+                checked={fosterFamilySearchParams.speciesToHost === species}
                 onChange={() => {}}
               />
             ))}
@@ -101,14 +99,16 @@ export function FosterFamilyFilters({
         </Filters.Filter>
 
         <Filters.Filter
-          value={FosterFamilySearchParams.Keys.SPECIES_ALREADY_PRESENT}
+          value={FosterFamilySearchParams.keys.speciesAlreadyPresent}
           label="Espèces déjà présentes"
-          count={visibleFilters.speciesAlreadyPresent.length}
-          hiddenContent={visibleFilters.speciesAlreadyPresent.map((species) => (
+          count={fosterFamilySearchParams.speciesAlreadyPresent.size}
+          hiddenContent={Array.from(
+            fosterFamilySearchParams.speciesAlreadyPresent
+          ).map((species) => (
             <input
               key={species}
               type="hidden"
-              name={FosterFamilySearchParams.Keys.SPECIES_ALREADY_PRESENT}
+              name={FosterFamilySearchParams.keys.speciesAlreadyPresent}
               value={species}
             />
           ))}
@@ -119,10 +119,12 @@ export function FosterFamilyFilters({
                 key={species}
                 type="checkbox"
                 label={SPECIES_TRANSLATION[species]}
-                name={FosterFamilySearchParams.Keys.SPECIES_ALREADY_PRESENT}
+                name={FosterFamilySearchParams.keys.speciesAlreadyPresent}
                 value={species}
                 icon={<Icon id={SPECIES_ICON[species]} />}
-                checked={visibleFilters.speciesAlreadyPresent.includes(species)}
+                checked={fosterFamilySearchParams.speciesAlreadyPresent.has(
+                  species
+                )}
                 onChange={() => {}}
               />
             ))}
@@ -130,14 +132,16 @@ export function FosterFamilyFilters({
         </Filters.Filter>
 
         <Filters.Filter
-          value={FosterFamilySearchParams.Keys.SPECIES_TO_AVOID}
+          value={FosterFamilySearchParams.keys.speciesToAvoid}
           label="Espèces à éviter"
-          count={visibleFilters.speciesToAvoid.length}
-          hiddenContent={visibleFilters.speciesToAvoid.map((species) => (
+          count={fosterFamilySearchParams.speciesToAvoid.size}
+          hiddenContent={Array.from(
+            fosterFamilySearchParams.speciesToAvoid
+          ).map((species) => (
             <input
               key={species}
               type="hidden"
-              name={FosterFamilySearchParams.Keys.SPECIES_TO_AVOID}
+              name={FosterFamilySearchParams.keys.speciesToAvoid}
               value={species}
             />
           ))}
@@ -148,10 +152,10 @@ export function FosterFamilyFilters({
                 key={species}
                 type="checkbox"
                 label={SPECIES_TRANSLATION[species]}
-                name={FosterFamilySearchParams.Keys.SPECIES_TO_AVOID}
+                name={FosterFamilySearchParams.keys.speciesToAvoid}
                 value={species}
                 icon={<Icon id={SPECIES_ICON[species]} />}
-                checked={visibleFilters.speciesToAvoid.includes(species)}
+                checked={fosterFamilySearchParams.speciesToAvoid.has(species)}
                 onChange={() => {}}
               />
             ))}
@@ -159,20 +163,22 @@ export function FosterFamilyFilters({
         </Filters.Filter>
 
         <Filters.Filter
-          value={FosterFamilySearchParams.Keys.ZIP_CODE}
+          value={FosterFamilySearchParams.keys.zipCode}
           label="Département ou code postal"
-          count={visibleFilters.zipCode == null ? 0 : 1}
+          count={fosterFamilySearchParams.zipCode == null ? 0 : 1}
           hiddenContent={
-            <input
-              type="hidden"
-              name={FosterFamilySearchParams.Keys.ZIP_CODE}
-              value={visibleFilters.zipCode ?? ""}
-            />
+            fosterFamilySearchParams.zipCode != null ? (
+              <input
+                type="hidden"
+                name={FosterFamilySearchParams.keys.zipCode}
+                value={fosterFamilySearchParams.zipCode}
+              />
+            ) : null
           }
         >
           <ControlledInput
-            name={FosterFamilySearchParams.Keys.ZIP_CODE}
-            value={visibleFilters.zipCode ?? ""}
+            name={FosterFamilySearchParams.keys.zipCode}
+            value={fosterFamilySearchParams.zipCode ?? ""}
             inputMode="numeric"
             pattern="\d+"
             leftAdornment={
@@ -181,10 +187,16 @@ export function FosterFamilyFilters({
               </ControlledInput.Adornment>
             }
             rightAdornment={
-              visibleFilters.zipCode != null ? (
+              fosterFamilySearchParams.zipCode != null ? (
                 <ControlledInput.ActionAdornment
                   onClick={() =>
-                    setSearchParams(fosterFamilySearchParams.deleteZipCode())
+                    setSearchParams((searchParams) => {
+                      const copy = new URLSearchParams(searchParams);
+                      FosterFamilySearchParams.set(copy, {
+                        zipCode: undefined,
+                      });
+                      return copy;
+                    })
                   }
                 >
                   <Icon id="xMark" />
@@ -195,17 +207,19 @@ export function FosterFamilyFilters({
         </Filters.Filter>
 
         <Filters.Filter
-          value={FosterFamilySearchParams.Keys.CITY}
+          value={FosterFamilySearchParams.keys.cities}
           label="Ville"
-          count={visibleFilters.cities.length}
-          hiddenContent={visibleFilters.cities.map((city) => (
-            <input
-              key={city}
-              type="hidden"
-              name={FosterFamilySearchParams.Keys.CITY}
-              value={city}
-            />
-          ))}
+          count={fosterFamilySearchParams.cities.size}
+          hiddenContent={Array.from(fosterFamilySearchParams.cities).map(
+            (city) => (
+              <input
+                key={city}
+                type="hidden"
+                name={FosterFamilySearchParams.keys.cities}
+                value={city}
+              />
+            )
+          )}
         >
           <ToggleInputList>
             {possibleCities.map((city) => (
@@ -213,10 +227,10 @@ export function FosterFamilyFilters({
                 key={city}
                 type="checkbox"
                 label={city}
-                name={FosterFamilySearchParams.Keys.CITY}
+                name={FosterFamilySearchParams.keys.cities}
                 value={city}
                 icon={<Icon id="locationDot" />}
-                checked={visibleFilters.cities.includes(city)}
+                checked={fosterFamilySearchParams.cities.has(city)}
                 onChange={() => {}}
               />
             ))}

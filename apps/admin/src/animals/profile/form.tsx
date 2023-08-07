@@ -25,7 +25,6 @@ import { RadioInput, RadioInputList } from "~/core/formElements/radioInput";
 import { RequiredStar } from "~/core/formElements/requiredStar";
 import { Textarea } from "~/core/formElements/textarea";
 import { Separator } from "~/core/layout/separator";
-import { ensureDate } from "~/core/schemas";
 import { Icon } from "~/generated/icon";
 import { BreedInput } from "~/routes/resources.breed";
 import { ColorInput } from "~/routes/resources.color";
@@ -33,13 +32,10 @@ import { ColorInput } from "~/routes/resources.color";
 export const ActionFormData = createActionData(
   z.object({
     alias: z.string().trim(),
-    birthdate: z.preprocess(
-      ensureDate,
-      z.date({
-        required_error: "Veuillez entrer une date",
-        invalid_type_error: "Veuillez entrer une date valide",
-      })
-    ),
+    birthdate: z.coerce.date({
+      required_error: "Veuillez entrer une date",
+      invalid_type_error: "Veuillez entrer une date valide",
+    }),
     breedId: z.string().uuid().optional(),
     colorId: z.string().uuid().optional(),
     description: z.string().trim(),

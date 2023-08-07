@@ -223,10 +223,10 @@ function ManagedAnimalsCard() {
             <BaseLink
               to={{
                 pathname: "/animals/search",
-                search: new AnimalSearchParams()
-                  .setStatuses(ACTIVE_ANIMAL_STATUS)
-                  .setManagersId([currentUser.id])
-                  .toString(),
+                search: AnimalSearchParams.stringify({
+                  statuses: new Set(ACTIVE_ANIMAL_STATUS),
+                  managersId: new Set([currentUser.id]),
+                }),
               }}
             >
               Tout voir
@@ -299,10 +299,10 @@ function NonActiveManagedAnimalsCard() {
             <BaseLink
               to={{
                 pathname: "/animals/search",
-                search: new AnimalSearchParams()
-                  .setStatuses(NON_ACTIVE_ANIMAL_STATUS)
-                  .setManagersId([currentUser.id])
-                  .toString(),
+                search: AnimalSearchParams.stringify({
+                  statuses: new Set(NON_ACTIVE_ANIMAL_STATUS),
+                  managersId: new Set([currentUser.id]),
+                }),
               }}
             >
               Tout voir

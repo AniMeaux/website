@@ -1,6 +1,6 @@
 import { forwardRef } from "react";
 import { toBooleanAttribute } from "~/core/attributes";
-import { ensureArray } from "~/core/ensureArray";
+import { ensureArray } from "~/core/collections";
 import { BaseTextInput } from "~/core/formElements/baseTextInput";
 
 export type InputProps = Omit<

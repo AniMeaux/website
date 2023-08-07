@@ -35,51 +35,59 @@ export async function loader({ request }: LoaderArgs) {
   ]);
 
   const searchParams = new URL(request.url).searchParams;
-  const pageSearchParams = new PageSearchParams(searchParams);
-  const fosterFamilySearchParams = new FosterFamilySearchParams(searchParams);
+  const pageSearchParams = PageSearchParams.parse(searchParams);
+  const fosterFamilySearchParams = FosterFamilySearchParams.parse(searchParams);
 
   const where: Prisma.FosterFamilyWhereInput[] = [];
-  const zipCode = fosterFamilySearchParams.getZipCode();
-  if (zipCode != null) {
-    where.push({ zipCode: { startsWith: zipCode } });
+  if (fosterFamilySearchParams.zipCode != null) {
+    where.push({ zipCode: { startsWith: fosterFamilySearchParams.zipCode } });
   }
 
-  const cities = fosterFamilySearchParams.getCities();
-  if (cities.length > 0) {
-    where.push({ city: { in: cities, mode: "insensitive" } });
+  if (fosterFamilySearchParams.cities.size > 0) {
+    where.push({
+      city: {
+        in: Array.from(fosterFamilySearchParams.cities),
+        mode: "insensitive",
+      },
+    });
   }
 
-  const displayName = fosterFamilySearchParams.getDisplayName();
-  if (displayName != null) {
-    const fosterFamilies = await algolia.fosterFamily.search({ displayName });
+  if (fosterFamilySearchParams.displayName != null) {
+    const fosterFamilies = await algolia.fosterFamily.search({
+      displayName: fosterFamilySearchParams.displayName,
+    });
     where.push({
       id: { in: fosterFamilies.map((fosterFamily) => fosterFamily.id) },
     });
   }
 
-  const speciesToHost = fosterFamilySearchParams.getSpeciesToHost();
-  if (speciesToHost != null) {
-    where.push({ speciesToHost: { has: speciesToHost } });
-  }
-
-  const speciesAlreadyPresent =
-    fosterFamilySearchParams.getSpeciesAlreadyPresent();
-  if (speciesAlreadyPresent.length > 0) {
-    speciesAlreadyPresent.forEach((species) => {
-      where.push({
-        OR: [
-          { speciesAlreadyPresent: { has: species } },
-          { fosterAnimals: { some: { species } } },
-        ],
-      });
+  if (fosterFamilySearchParams.speciesToHost != null) {
+    where.push({
+      speciesToHost: { has: fosterFamilySearchParams.speciesToHost },
     });
   }
 
-  const speciesToAvoid = fosterFamilySearchParams.getSpeciesToAvoid();
-  if (speciesToAvoid.length > 0) {
+  fosterFamilySearchParams.speciesAlreadyPresent.forEach((species) => {
     where.push({
-      NOT: { speciesAlreadyPresent: { hasSome: speciesToAvoid } },
-      fosterAnimals: { none: { species: { in: speciesToAvoid } } },
+      OR: [
+        { speciesAlreadyPresent: { has: species } },
+        { fosterAnimals: { some: { species } } },
+      ],
+    });
+  });
+
+  if (fosterFamilySearchParams.speciesToAvoid.size > 0) {
+    where.push({
+      NOT: {
+        speciesAlreadyPresent: {
+          hasSome: Array.from(fosterFamilySearchParams.speciesToAvoid),
+        },
+      },
+      fosterAnimals: {
+        none: {
+          species: { in: Array.from(fosterFamilySearchParams.speciesToAvoid) },
+        },
+      },
     });
   }
 
@@ -93,7 +101,7 @@ export async function loader({ request }: LoaderArgs) {
     totalCount: prisma.fosterFamily.count({ where: { AND: where } }),
 
     fosterFamilies: prisma.fosterFamily.findMany({
-      skip: pageSearchParams.getPage() * FOSTER_FAMILY_COUNT_PER_PAGE,
+      skip: pageSearchParams.page * FOSTER_FAMILY_COUNT_PER_PAGE,
       take: FOSTER_FAMILY_COUNT_PER_PAGE,
       orderBy: { displayName: "asc" },
       where: { AND: where },
@@ -125,7 +133,6 @@ export default function Route() {
   const { totalCount, pageCount, fosterFamilies } =
     useLoaderData<typeof loader>();
   const [searchParams] = useOptimisticSearchParams();
-  const fosterFamilySearchParams = new FosterFamilySearchParams(searchParams);
 
   return (
     <PageLayout>
@@ -165,7 +172,7 @@ export default function Route() {
                     message="Nous n’avons pas trouvé ce que vous cherchiez. Essayez à nouveau de rechercher."
                     titleElementType="h3"
                     action={
-                      !fosterFamilySearchParams.isEmpty() ? (
+                      !FosterFamilySearchParams.isEmpty(searchParams) ? (
                         <Action asChild>
                           <BaseLink to={{ search: "" }}>
                             Effacer les filtres

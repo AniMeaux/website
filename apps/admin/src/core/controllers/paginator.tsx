@@ -12,18 +12,18 @@ export function Paginator({
   className?: string;
 }) {
   const [searchParams] = useSearchParams();
-  const pageSearchParams = new PageSearchParams(searchParams);
-  const page = pageSearchParams.getPage();
+  const { page } = PageSearchParams.parse(searchParams);
 
   const items: ReactNode[] = [];
   for (let index = 0; index < pageCount; index++) {
+    const copy = new URLSearchParams(searchParams);
+    PageSearchParams.set(copy, { page: index });
+
     items.push(
       <PaginatorItem
         key={index}
         isActive={page === index}
-        to={{
-          search: pageSearchParams.setPage(index).toString(),
-        }}
+        to={{ search: copy.toString() }}
       >
         {index + 1}
       </PaginatorItem>
