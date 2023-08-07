@@ -40,7 +40,6 @@ import { RadioInput, RadioInputList } from "~/core/formElements/radioInput";
 import { RequiredStar } from "~/core/formElements/requiredStar";
 import { Textarea } from "~/core/formElements/textarea";
 import { Separator } from "~/core/layout/separator";
-import { ensureDate } from "~/core/schemas";
 import { Icon } from "~/generated/icon";
 import { FosterFamilyInput } from "~/routes/resources.foster-family";
 import { ManagerInput } from "~/routes/resources.manager";
@@ -49,12 +48,9 @@ import { hasGroups } from "~/users/groups";
 
 export const ActionFormData = createActionData(
   z.object({
-    adoptionDate: z.preprocess(
-      ensureDate,
-      z
-        .date({ invalid_type_error: "Veuillez entrer une date valide" })
-        .optional()
-    ),
+    adoptionDate: z.coerce
+      .date({ invalid_type_error: "Veuillez entrer une date valide" })
+      .optional(),
     adoptionOption: z.nativeEnum(AdoptionOption).optional(),
     comments: z.string().trim(),
     fosterFamilyId: z.string().uuid().optional(),
@@ -62,19 +58,13 @@ export const ActionFormData = createActionData(
       required_error: "Veuillez choisir une option",
     }),
     managerId: z.string().uuid().optional(),
-    nextVaccinationDate: z.preprocess(
-      ensureDate,
-      z
-        .date({ invalid_type_error: "Veuillez entrer une date valide" })
-        .optional()
-    ),
-    pickUpDate: z.preprocess(
-      ensureDate,
-      z.date({
-        required_error: "Veuillez entrer une date",
-        invalid_type_error: "Veuillez entrer une date valide",
-      })
-    ),
+    nextVaccinationDate: z.coerce
+      .date({ invalid_type_error: "Veuillez entrer une date valide" })
+      .optional(),
+    pickUpDate: z.coerce.date({
+      required_error: "Veuillez entrer une date",
+      invalid_type_error: "Veuillez entrer une date valide",
+    }),
     pickUpLocation: z.string().trim().optional(),
     pickUpReason: z.nativeEnum(PickUpReason, {
       required_error: "Veuillez choisir une raison",

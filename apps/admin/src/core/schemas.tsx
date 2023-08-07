@@ -1,4 +1,3 @@
-import { DateTime } from "luxon";
 import { z } from "zod";
 import { zfd } from "zod-form-data";
 
@@ -12,29 +11,6 @@ export function getObjectSchemaKeys<TSchema extends z.ZodObject<any>>(
   return keys as {
     [key in keyof Required<z.infer<TSchema>>]: string;
   };
-}
-
-export function ensureDate(value: unknown) {
-  if (typeof value === "string") {
-    if (value === "") {
-      return undefined;
-    }
-
-    return DateTime.fromISO(value).toJSDate();
-  }
-
-  return value;
-}
-
-export function ensureBoolean(value: unknown) {
-  if (
-    typeof value === "string" &&
-    [String(true), String(false)].includes(value)
-  ) {
-    return value === String(true);
-  }
-
-  return value;
 }
 
 export namespace zsp {

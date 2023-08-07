@@ -22,30 +22,23 @@ import { RequiredStar } from "~/core/formElements/requiredStar";
 import { SwitchInput } from "~/core/formElements/switchInput";
 import { Textarea } from "~/core/formElements/textarea";
 import { Separator } from "~/core/layout/separator";
-import { ensureDate } from "~/core/schemas";
 import { Icon } from "~/generated/icon";
 
 export const ActionFormData = createActionData(
   z.object({
     description: z.string().trim().min(1, "Veuillez entrer une description"),
-    endDate: z.preprocess(
-      ensureDate,
-      z.date({
-        required_error: "Veuillez entrer une date de fin",
-        invalid_type_error: "Veuillez entrer une date de fin valide",
-      })
-    ),
+    endDate: z.coerce.date({
+      required_error: "Veuillez entrer une date de fin",
+      invalid_type_error: "Veuillez entrer une date de fin valide",
+    }),
     image: z.string({ required_error: "Veuillez choisir une affiche" }),
     isDraft: zfd.checkbox(),
     isFullDay: zfd.checkbox(),
     location: z.string().trim().min(1, "Veuillez entrer un lieu"),
-    startDate: z.preprocess(
-      ensureDate,
-      z.date({
-        required_error: "Veuillez entrer une date de début",
-        invalid_type_error: "Veuillez entrer une date de début valide",
-      })
-    ),
+    startDate: z.coerce.date({
+      required_error: "Veuillez entrer une date de début",
+      invalid_type_error: "Veuillez entrer une date de début valide",
+    }),
     title: z.string().trim().min(1, "Veuillez entrer un titre"),
     url: z.union([
       z.literal(""),

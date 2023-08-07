@@ -31,7 +31,6 @@ import { getPageTitle } from "~/core/pageTitle";
 import { Dialog } from "~/core/popovers/dialog";
 import { prisma } from "~/core/prisma.server";
 import { BadRequestResponse, NotFoundResponse } from "~/core/response.server";
-import { ensureBoolean } from "~/core/schemas";
 import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
 import { Icon } from "~/generated/icon";
 import { UserAvatar } from "~/users/avatar";
@@ -146,7 +145,9 @@ export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
 };
 
 const DisableActionFormData = createActionData(
-  z.object({ isDisabled: z.preprocess(ensureBoolean, z.boolean()) })
+  z.object({
+    isDisabled: zfd.checkbox(),
+  })
 );
 
 export async function action({ request, params }: ActionArgs) {
@@ -597,11 +598,15 @@ function ActionDisable() {
             <Dialog.CloseAction>Annuler</Dialog.CloseAction>
 
             <fetcher.Form method="POST" className="flex">
-              <Dialog.ConfirmAction
-                type="submit"
-                name={DisableActionFormData.keys.isDisabled}
-                value={String(!user.isDisabled)}
-              >
+              {!user.isDisabled ? (
+                <input
+                  type="hidden"
+                  name={DisableActionFormData.keys.isDisabled}
+                  value="on"
+                />
+              ) : null}
+
+              <Dialog.ConfirmAction type="submit">
                 Oui, {user.isDisabled ? "débloquer" : "bloquer"}
               </Dialog.ConfirmAction>
             </fetcher.Form>
