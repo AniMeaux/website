@@ -15,6 +15,7 @@ declare global {
       PARTNERS_FORM_URL?: string;
       PRESS_RELEASE_URL?: string;
       PUBLIC_HOST?: string;
+      RAFFLE_URL?: string;
       RUNTIME_ENV?: "staging" | "production";
       TICKETING_URL?: string;
     }

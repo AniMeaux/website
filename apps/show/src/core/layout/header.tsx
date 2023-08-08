@@ -2,19 +2,13 @@ import * as NavigationMenu from "@radix-ui/react-navigation-menu";
 import { Link, NavLink } from "@remix-run/react";
 import { forwardRef } from "react";
 import { cn } from "~/core/classNames";
+import { Config, useConfig } from "~/core/config";
 import { createImageMedia } from "~/core/dataDisplay/image";
 import { Primitive } from "~/core/primitives";
+import { Routes } from "~/core/routing";
 import { Icon } from "~/generated/icon";
 import logoMedium from "~/images/logoMedium.svg";
 import logoSmall from "~/images/logoSmall.svg";
-
-const NAVIGATION_ITEMS: { to: string; label: string }[] = [
-  { to: "/billetterie", label: "Billetterie" },
-  { to: "/exposants", label: "Exposants" },
-  { to: "/programme", label: "Programme" },
-  { to: "/acces", label: "Accès" },
-  { to: "/faq", label: "FAQ" },
-];
 
 export function Header() {
   return (
@@ -26,6 +20,8 @@ export function Header() {
 }
 
 function SmallHeader() {
+  const config = useConfig();
+
   return (
     <header className="relative z-20 w-full grid md:hidden grid-cols-1">
       <NavigationMenu.Root className="grid grid-cols-1">
@@ -47,7 +43,7 @@ function SmallHeader() {
             </NavigationMenu.Trigger>
 
             <NavigationMenu.Content className="grid grid-cols-1 gap-2">
-              {NAVIGATION_ITEMS.map(({ to, label }) => (
+              {getNavigationItems(config).map(({ to, label }) => (
                 <NavigationMenu.Link asChild key={to}>
                   <NavItem to={to}>{label}</NavItem>
                 </NavigationMenu.Link>
@@ -70,13 +66,15 @@ function SmallHeader() {
 }
 
 function LargeHeader() {
+  const config = useConfig();
+
   return (
     <header className="z-20 hidden md:grid md:grid-cols-1">
       <nav className="px-safe-page-normal pt-safe-1 pb-1 grid grid-cols-[auto_auto] items-center justify-between gap-2">
         <HomeNavItem />
 
         <div className="grid grid-flow-col items-center justify-end">
-          {NAVIGATION_ITEMS.map(({ to, label }) => (
+          {getNavigationItems(config).map(({ to, label }) => (
             <NavItem key={to} to={to}>
               {label}
             </NavItem>
@@ -87,12 +85,22 @@ function LargeHeader() {
   );
 }
 
+function getNavigationItems({ ticketingUrl }: Config) {
+  return [
+    { to: ticketingUrl, label: "Billetterie" },
+    { to: Routes.exhibitors(), label: "Exposants" },
+    { to: Routes.program(), label: "Programme" },
+    { to: Routes.access(), label: "Accès" },
+    { to: Routes.faq(), label: "FAQ" },
+  ];
+}
+
 function HomeNavItem({
   onClick,
 }: Pick<React.ComponentPropsWithoutRef<typeof Link>, "onClick">) {
   return (
     <Link
-      to="/"
+      to={Routes.home()}
       prefetch="intent"
       onClick={onClick}
       className="transition-transform duration-100 ease-in-out active:scale-95 focus-visible:outline-none focus-visible:ring focus-visible:ring-mystic"

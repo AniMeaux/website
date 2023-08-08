@@ -8,7 +8,7 @@ import sprite from "~/generated/imageShapesSprite.svg";
 import { ScreenSize, theme } from "~/generated/theme";
 
 type ImageSize = (typeof IMAGE_SIZES)[number];
-type AspectRatio = "none" | "1:1" | "16:9";
+type AspectRatio = "none" | "1:1" | "16:9" | "16:10";
 type ObjectFit = "cover" | "contain";
 type ImageShapeColor = "alabaster" | "mystic" | "paleBlue" | "prussianBlue";
 type ImageShapeSide = "left" | "right";
@@ -200,6 +200,7 @@ const SCREEN_SIZES = orderBy(
 const ASPECT_RATIO_CLASS_NAME: Record<AspectRatio, string> = {
   "1:1": "aspect-square",
   "16:9": "aspect-video",
+  "16:10": "aspect-16/10",
   none: "",
 };
 

@@ -4,9 +4,12 @@ import { useConfig } from "~/core/config";
 import { DynamicImage } from "~/core/dataDisplay/image";
 import { FooterWave } from "~/core/layout/footerWave";
 import { LegalBackground } from "~/core/layout/legalBackground";
+import { Section } from "~/core/layout/section";
+import { Routes } from "~/core/routing";
 import { Icon } from "~/generated/icon";
 import { Pictogram } from "~/generated/pictogram";
 import logoAniMeaux from "~/images/logoAniMeaux.svg";
+import { PartnersImage } from "~/partners/image";
 
 export function Footer() {
   return (
@@ -22,13 +25,11 @@ function AccessSection() {
   const { ticketingUrl } = useConfig();
 
   return (
-    <section className="relative px-page-narrow md:px-page-normal py-4 grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-4 lg:gap-8 justify-items-center md:items-end">
+    <section className="relative px-page-narrow md:px-page-normal py-4 grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-4 lg:gap-8 md:items-end">
       <FooterWave className="absolute -z-10 left-0 bottom-0 w-full h-[53px] md:h-[90px]" />
 
-      <section className="rounded-2 bg-alabaster p-2 grid grid-cols-1 gap-2">
-        <h2 className="text-title-small md:text-title-large text-mystic">
-          Économisez, soutenez, profitez !
-        </h2>
+      <Section.TextAside className="rounded-2 bg-alabaster bg-var-alabaster p-2">
+        <Section.Title>Économisez, soutenez, profitez !</Section.Title>
 
         <p>
           En achetant vos billets à l’avance, vous bénéficiez d’un tarif
@@ -37,14 +38,14 @@ function AccessSection() {
           du salon !
         </p>
 
-        <div className="grid grid-cols-1 justify-items-center md:justify-items-start">
+        <Section.Action asChild>
           <Action asChild color="mystic">
             <Link to={ticketingUrl}>Achetez votre billet</Link>
           </Action>
-        </div>
-      </section>
+        </Section.Action>
+      </Section.TextAside>
 
-      <section className="relative w-full aspect-4/3 max-w-sm md:max-w-none flex">
+      <Section.ImageAside className="w-full aspect-4/3">
         <DynamicImage
           image={{ id: "/show/ae7c7389-eb8a-4b19-bc18-a8c504f410c5" }}
           alt="Chien"
@@ -53,7 +54,7 @@ function AccessSection() {
           aspectRatio="none"
           className="absolute top-0 left-0 w-full"
         />
-      </section>
+      </Section.ImageAside>
     </section>
   );
 }
@@ -68,29 +69,27 @@ function LinksSection() {
   } = useConfig();
 
   return (
-    <section className="bg-paleBlue bg-var-paleBlue px-page-narrow md:px-page-normal py-4 grid grid-cols-1 md:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] gap-4 justify-items-center md:items-center">
-      <section className="max-w-sm md:max-w-none grid grid-cols-1 gap-2 justify-items-center">
-        <DynamicImage
-          image={{ id: "/show/4bd88df0-c000-4d87-a403-f01393c16a47" }}
-          alt="Partenaires du salon."
-          title="L’Arbre Vert, NeoVoice"
+    <section className="bg-paleBlue bg-var-paleBlue px-page-narrow md:px-page-normal py-4 grid grid-cols-1 md:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] gap-4 lg:gap-8 md:items-center">
+      <Section.TextAside className="justify-self-center md:justify-self-stretch max-w-sm md:max-w-none">
+        <PartnersImage
           fallbackSize="512"
           sizes={{ default: "384px", md: "50vw", lg: "341px" }}
-          aspectRatio="16:9"
         />
 
-        <Action asChild color="prussianBlue">
-          <Link to={partnersFormUrl}>Devenez partenaire</Link>
-        </Action>
-      </section>
+        <Section.Action asChild isCentered>
+          <Action asChild color="prussianBlue">
+            <Link to={partnersFormUrl}>Devenez partenaire</Link>
+          </Action>
+        </Section.Action>
+      </Section.TextAside>
 
       <img
         src={logoAniMeaux}
         alt="Association Ani’Meaux"
-        className="w-[150px] aspect-square"
+        className="justify-self-center md:justify-self-stretch w-[150px] aspect-square"
       />
 
-      <section className="w-full max-w-sm md:max-w-none grid grid-cols-1 gap-2">
+      <Section.TextAside className="justify-self-center md:justify-self-stretch max-w-sm md:max-w-none">
         <div className="grid grid-flow-col justify-start gap-1">
           <SocialLink to={facebookUrl}>
             <Pictogram id="facebook" className="text-[24px]" />
@@ -114,7 +113,7 @@ function LinksSection() {
             Communiqué de presse
           </ContactItem>
 
-          <ContactItem icon="boldGallery" to="/editions">
+          <ContactItem icon="boldGallery" to={Routes.previousEditions()}>
             Éditions précédentes
           </ContactItem>
         </ul>
@@ -126,7 +125,7 @@ function LinksSection() {
           </ProseInlineAction>{" "}
           au Colisée de Meaux, les 8 et 9 juin 2024 de 10h à 18h.
         </p>
-      </section>
+      </Section.TextAside>
     </section>
   );
 }

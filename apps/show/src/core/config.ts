@@ -16,6 +16,7 @@ export type Config = {
   partnersFormUrl: string;
   pressReleaseUrl: string;
   publicHost: string;
+  raffleUrl: string;
   ticketingUrl: string;
 };
 

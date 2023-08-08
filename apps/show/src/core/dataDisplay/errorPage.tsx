@@ -4,6 +4,7 @@ import { BaseLink } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
 import { useOptionalConfig } from "~/core/config";
 import { DynamicImage } from "~/core/dataDisplay/image";
+import { Routes } from "~/core/routing";
 
 export function getErrorTitle(status: number): string {
   return STATUS_CODE_ERROR_META_DATA[asStatusCode(status)].title;
@@ -94,7 +95,7 @@ const STATUS_CODE_ERROR_META_DATA: Record<
     message: "Nous n’avons pas trouvé la page que vous chercher.",
     action: (
       <Action asChild>
-        <BaseLink to="/">Page d’accueil</BaseLink>
+        <BaseLink to={Routes.home()}>Page d’accueil</BaseLink>
       </Action>
     ),
   },
@@ -103,7 +104,7 @@ const STATUS_CODE_ERROR_META_DATA: Record<
     message: "Une erreur est survenue.",
     action: (
       <Action asChild>
-        <BaseLink to="/" reloadDocument>
+        <BaseLink to={Routes.home()} reloadDocument>
           Rafraichir
         </BaseLink>
       </Action>
