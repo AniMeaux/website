@@ -10,5 +10,9 @@ export function ensureArray<DataType>(
 }
 
 export function isIterable(value: unknown): value is Iterable<any> {
-  return Symbol.iterator in (value as Iterable<any>);
+  return (
+    value != null &&
+    typeof value === "object" &&
+    Symbol.iterator in (value as Iterable<any>)
+  );
 }
