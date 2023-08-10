@@ -4,6 +4,7 @@ import { forwardRef } from "react";
 import { cn } from "~/core/classNames";
 import { Config, useConfig } from "~/core/config";
 import { createImageMedia } from "~/core/dataDisplay/image";
+import { hasShowEnded } from "~/core/dates";
 import { Primitive } from "~/core/primitives";
 import { Routes } from "~/core/routing";
 import { Icon } from "~/generated/icon";
@@ -87,12 +88,12 @@ function LargeHeader() {
 
 function getNavigationItems({ ticketingUrl }: Config) {
   return [
-    { to: ticketingUrl, label: "Billetterie" },
+    hasShowEnded() ? null : { to: ticketingUrl, label: "Billetterie" },
     { to: Routes.exhibitors(), label: "Exposants" },
     { to: Routes.program(), label: "Programme" },
     { to: Routes.access(), label: "Accès" },
     { to: Routes.faq(), label: "FAQ" },
-  ];
+  ].filter(Boolean);
 }
 
 function HomeNavItem({

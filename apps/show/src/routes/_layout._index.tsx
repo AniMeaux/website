@@ -7,6 +7,7 @@ import { cn } from "~/core/classNames";
 import { useConfig } from "~/core/config";
 import { ErrorPage } from "~/core/dataDisplay/errorPage";
 import { DynamicImage } from "~/core/dataDisplay/image";
+import { OPENING_TIME, hasShowEnded } from "~/core/dates";
 import { RouteHandle } from "~/core/handles";
 import { BoardCard } from "~/core/layout/boardCard";
 import { FooterWave } from "~/core/layout/footerWave";
@@ -23,8 +24,6 @@ import logoAniMeaux from "~/images/logoAniMeaux.svg";
 import logoLarge from "~/images/logoLarge.svg";
 import { PartnersImage } from "~/partners/image";
 
-const OPENING_TIME = DateTime.fromISO("2024-06-08T10:00:00.000+02:00");
-const CLOSING_TIME = DateTime.fromISO("2024-06-09T18:00:00.000+02:00");
 const ONE_MINUTE_IN_MS = 60 * 1000;
 
 export const handle: RouteHandle = {
@@ -101,11 +100,13 @@ function HeroSection() {
 
           <Countdown className="justify-self-center md:justify-self-start" />
 
-          <Section.Action asChild>
-            <Action asChild color="mystic">
-              <Link to={ticketingUrl}>Achetez votre billet</Link>
-            </Action>
-          </Section.Action>
+          {hasShowEnded() ? null : (
+            <Section.Action asChild>
+              <Action asChild color="mystic">
+                <Link to={ticketingUrl}>Achetez votre billet</Link>
+              </Action>
+            </Section.Action>
+          )}
         </Section.TextAside>
       </div>
     </Section>
@@ -414,11 +415,13 @@ function RaffleSection() {
           reversés aux associations exposantes du Salon.
         </p>
 
-        <Section.Action asChild>
-          <Action asChild color="mystic">
-            <Link to={raffleUrl}>Acheter un ticket</Link>
-          </Action>
-        </Section.Action>
+        {hasShowEnded() ? null : (
+          <Section.Action asChild>
+            <Action asChild color="mystic">
+              <Link to={raffleUrl}>Acheter un ticket</Link>
+            </Action>
+          </Section.Action>
+        )}
       </Section.TextAside>
     </Section>
   );

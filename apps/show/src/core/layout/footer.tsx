@@ -2,6 +2,7 @@ import { Link } from "@remix-run/react";
 import { Action, ProseInlineAction } from "~/core/actions";
 import { useConfig } from "~/core/config";
 import { DynamicImage } from "~/core/dataDisplay/image";
+import { hasShowEnded } from "~/core/dates";
 import { FooterWave } from "~/core/layout/footerWave";
 import { LegalBackground } from "~/core/layout/legalBackground";
 import { Section } from "~/core/layout/section";
@@ -38,11 +39,13 @@ function AccessSection() {
           du salon !
         </p>
 
-        <Section.Action asChild>
-          <Action asChild color="mystic">
-            <Link to={ticketingUrl}>Achetez votre billet</Link>
-          </Action>
-        </Section.Action>
+        {hasShowEnded() ? null : (
+          <Section.Action asChild>
+            <Action asChild color="mystic">
+              <Link to={ticketingUrl}>Achetez votre billet</Link>
+            </Action>
+          </Section.Action>
+        )}
       </Section.TextAside>
 
       <Section.ImageAside className="w-full aspect-4/3">
