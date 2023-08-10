@@ -4,6 +4,14 @@
   "search.exclude": {
     "**/build": true
   },
+  "tailwindCSS.experimental.classRegex": [
+    [
+      // Container: `cn([...])`
+      "cn\\(([^)]*)\\)",
+      // Class lists: `"[...]"`
+      "(?:'|\"|`)([^']*)(?:'|\"|`)"
+    ]
+  ],
   "tailwindCSS.experimental.configFile": {
     "apps/admin/tailwind.config.js": "apps/admin/**",
     "apps/website/tailwind.config.ts": "apps/website/**",
