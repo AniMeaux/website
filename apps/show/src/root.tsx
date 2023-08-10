@@ -8,12 +8,12 @@ import {
   ScrollRestoration,
   useLocation,
 } from "@remix-run/react";
+import { Settings } from "luxon";
 import { cn } from "~/core/classNames";
 import { useConfig } from "~/core/config";
 import { createConfig } from "~/core/config.server";
 import { ErrorPage } from "~/core/dataDisplay/errorPage";
 import { createCloudinaryUrl } from "~/core/dataDisplay/image";
-import { PageBackground } from "~/core/layout/pageBackground";
 import { getPageTitle, pageDescription } from "~/core/pageTitle";
 import { theme } from "~/generated/theme";
 import appleTouchIcon from "~/images/appleTouchIcon.png";
@@ -21,6 +21,13 @@ import faviconDark from "~/images/faviconDark.png";
 import faviconLight from "~/images/faviconLight.png";
 import maskIcon from "~/images/maskIcon.png";
 import stylesheet from "~/tailwind.css";
+
+// Display dates in French.
+Settings.defaultLocale = "fr";
+
+// All "day dates" should be inferred as in Paris time zone.
+// Ex: 2022-01-01 => 2021-12-31T23:00:00.000Z and not 2021-01-01T00:00:00.000Z
+Settings.defaultZone = "Europe/Paris";
 
 export const links: LinksFunction = () => {
   return [
@@ -54,6 +61,14 @@ export async function loader() {
   return json({ config: createConfig() });
 }
 
+export function ErrorBoundary() {
+  return (
+    <Document>
+      <ErrorPage isStandAlone />
+    </Document>
+  );
+}
+
 export default function App() {
   const { cloudinaryName, googleTagManagerId, publicHost } = useConfig();
 
@@ -64,14 +79,6 @@ export default function App() {
       publicHost={publicHost}
     >
       <Outlet />
-    </Document>
-  );
-}
-
-export function ErrorBoundary() {
-  return (
-    <Document>
-      <ErrorPage isStandAlone />
     </Document>
   );
 }
@@ -147,13 +154,11 @@ function Document({
 
       <body
         className={cn(
-          "min-h-screen overflow-x-clip grid grid-cols-1 text-prussianBlue text-body-lowercase-default",
+          "min-h-screen overflow-x-clip grid grid-cols-1 content-start text-prussianBlue text-body-lowercase-default",
           // Make sure children with absolute positionning are correctly placed.
           "relative"
         )}
       >
-        <PageBackground />
-
         {googleTagManagerId != null && (
           <GoogleTagManagerIframe id={googleTagManagerId} />
         )}

@@ -15,7 +15,7 @@ export const Action = forwardRef<
       {...rest}
       ref={ref}
       className={cn(
-        "flex-none rounded-md px-2 py-0.5 flex text-body-lowercase-emphasis transition-[background-color,color,transform] duration-100 ease-in-out hover:scale-105 active:scale-95 hover:active:scale-95 focus-visible:outline-none focus-visible:ring focus-visible:ring-offset-2 focus-visible:ring-offset-inheritBg",
+        "flex-none rounded-0.5 px-2 py-0.5 flex text-body-lowercase-emphasis transition-[background-color,color,transform] duration-100 ease-in-out hover:scale-105 active:scale-95 hover:active:scale-95 focus-visible:outline-none focus-visible:ring focus-visible:ring-offset-2 focus-visible:ring-offset-inheritBg",
         COLOR_CLASS_NAMES[color],
         className
       )}
@@ -38,7 +38,7 @@ export const ProseInlineAction = forwardRef<
       {...rest}
       ref={ref}
       className={cn(
-        "relative rounded-md text-body-lowercase-emphasis after:absolute after:bottom-0 after:left-0 after:w-full after:border-b after:border-mystic hover:after:border-b-2 focus-visible:outline-none focus-visible:ring focus-visible:ring-mystic focus-visible:ring-offset-2 focus-visible:ring-offset-inheritBg",
+        "relative rounded-0.5 text-body-lowercase-emphasis after:absolute after:bottom-0 after:left-0 after:w-full after:border-b after:border-mystic hover:after:border-b-2 focus-visible:outline-none focus-visible:ring focus-visible:ring-mystic focus-visible:ring-offset-2 focus-visible:ring-offset-inheritBg",
         className
       )}
     />

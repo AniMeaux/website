@@ -8,7 +8,7 @@ import sprite from "~/generated/imageShapesSprite.svg";
 import { ScreenSize, theme } from "~/generated/theme";
 
 type ImageSize = (typeof IMAGE_SIZES)[number];
-type AspectRatio = "none" | "1:1";
+type AspectRatio = "none" | "1:1" | "16:9" | "16:10";
 type ObjectFit = "cover" | "contain";
 type ImageShapeColor = "alabaster" | "mystic" | "paleBlue" | "prussianBlue";
 type ImageShapeSide = "left" | "right";
@@ -22,7 +22,7 @@ export type DynamicImageProps = Omit<
   fallbackSize: ImageSize;
   image: {
     id: string;
-    blurhash: string;
+    blurhash?: string;
   };
   objectFit?: ObjectFit;
   shape?: {
@@ -65,9 +65,7 @@ export function DynamicImage({
 
     if (width != null) {
       sizes.push(
-        screen === "default"
-          ? width
-          : `(min-width: ${theme.screens[screen]}) ${width}`
+        screen === "default" ? width : createImageMedia(screen, width)
       );
     }
 
@@ -76,7 +74,11 @@ export function DynamicImage({
 
   const imageShapeInstanceId = `image-shape-${useId()}`;
   const style = styleProp ?? {};
-  style.backgroundImage = `url(${blurhashToDataUri(image.blurhash, 8, 8)})`;
+
+  if (image.blurhash != null) {
+    style.backgroundImage = `url(${blurhashToDataUri(image.blurhash, 8, 8)})`;
+  }
+
   if (shape != null) {
     style.clipPath = `url(#${imageShapeInstanceId})`;
   }
@@ -126,6 +128,12 @@ export function DynamicImage({
       ) : null}
     </>
   );
+}
+
+export function createImageMedia(screenSize: ScreenSize, width?: string) {
+  return [`(min-width: ${theme.screens[screenSize]})`, width]
+    .filter(Boolean)
+    .join(" ");
 }
 
 export function createCloudinaryUrl(
@@ -191,6 +199,8 @@ const SCREEN_SIZES = orderBy(
 
 const ASPECT_RATIO_CLASS_NAME: Record<AspectRatio, string> = {
   "1:1": "aspect-square",
+  "16:9": "aspect-video",
+  "16:10": "aspect-16/10",
   none: "",
 };
 

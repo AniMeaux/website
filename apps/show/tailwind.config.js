@@ -3,6 +3,19 @@ const plugin = require("tailwindcss/plugin");
 const flattenColorPalette =
   require("tailwindcss/lib/util/flattenColorPalette").default;
 
+const SPACING = {
+  0: "0px",
+  0.5: "6px",
+  1: "12px",
+  2: "24px",
+  3: "36px",
+  4: "48px",
+  5: "60px",
+  6: "72px",
+  8: "96px",
+  10: "120px",
+};
+
 /**
  * @type {import('tailwindcss').Config}
  */
@@ -16,24 +29,21 @@ module.exports = {
     },
 
     spacing: {
-      0: "0px",
-      0.5: "6px",
-      1: "12px",
-      2: "24px",
-      4: "48px",
-      5: "60px",
-      6: "72px",
-      8: "96px",
+      ...SPACING,
 
-      // We cannot use the `theme` parameter because referencing the `spacing`
-      // values ends in a infinite recursion: `theme("spacing.4")`.
       // The values in the formula are defined by:
       // - A page takes 90% of the width, 5% spacing on each side.
-      // - Left and right spacing cannot go under spacing 4 (16px).
+      // - Left and right spacing cannot go under 16px.
       // - The page should not exceed LG or SM (1024px or 640px).
       // Wrap the value in a `calc` so tailwind can negate it.
       "page-normal": `calc(max(16px, 5vw, (100vw - ${defaultTheme.screens.lg}) / 2))`,
       "page-narrow": `calc(max(16px, 5vw, (100vw - ${defaultTheme.screens.sm}) / 2))`,
+    },
+
+    borderRadius: {
+      ...SPACING,
+      none: "0",
+      full: "9999px",
     },
 
     extend: {
@@ -57,6 +67,11 @@ module.exports = {
           DEFAULT: "#f2e8e3",
         },
       },
+
+      aspectRatio: {
+        "4/3": "4 / 3",
+        "16/10": "16 / 10",
+      },
     },
   },
 
@@ -64,8 +79,14 @@ module.exports = {
     plugin(({ addVariant }) => {
       // Override focus-visible to make sure it supports the `.focus-visible`
       // class.
+      // We also don't want touch screens devices to have visible focus.
+      // They usally don't have input mechanism that can hover over elements so
+      // we check that.
       // https://tailwindcss.com/docs/plugins#adding-variants
-      addVariant("focus-visible", "&:is(:focus-visible, .focus-visible)");
+      addVariant(
+        "focus-visible",
+        "@media(any-hover:hover){&:is(:focus-visible, .focus-visible)}"
+      );
     }),
 
     plugin(({ addVariant }) => {

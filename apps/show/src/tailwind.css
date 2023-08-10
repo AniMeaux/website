@@ -10,7 +10,24 @@
     @apply outline-none;
   }
 
+  /*
+   * Don't show focus outline on touch screens devices.
+   * They usally don't have input mechanism that can hover over elements so we
+   * check that.
+   */
+  @media (any-hover: none) {
+    :focus {
+      @apply outline-none;
+    }
+  }
+
   body {
+    /*
+     * Make line breaks are added mid-word if needed.
+     * See https://tailwindcss.com/docs/word-break#break-words
+     */
+    @apply break-words;
+
     text-size-adjust: 100%;
     text-rendering: optimizeLegibility;
   }
