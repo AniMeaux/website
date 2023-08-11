@@ -22,34 +22,37 @@ export function BoardCard({
   );
 }
 
-export function BoardBackground() {
-  const { ref, size } = useElementSize<SVGSVGElement>();
+function BoardBackground() {
+  const { ref, size } = useElementSize<HTMLDivElement>();
   const isMedium = useScreenSizeCondition(
     (screenSize) => screenSize >= theme.screensPx.md
   );
 
   return (
-    <svg
-      ref={ref}
-      viewBox={size == null ? "0 0 0 0" : `0 0 ${size.width} ${size.height}`}
-      fill="none"
-      // Allow the shape to stretch.
-      preserveAspectRatio="none"
-      xmlns="http://www.w3.org/2000/svg"
-      className="overflow-visible absolute -z-10 top-0 left-0 w-full h-full"
-    >
-      {size != null ? (
-        <>
-          <Background
-            width={size.width}
-            height={size.height}
-            isMedium={isMedium}
-          />
+    // ResizeObserver don't seem to work on SVG in Safari.
+    // https://stackoverflow.com/questions/65565149/how-to-apply-resizeobserver-to-svg-element
+    <div ref={ref} className="absolute -z-10 top-0 left-0 w-full h-full grid">
+      <svg
+        viewBox={size == null ? "0 0 0 0" : `0 0 ${size.width} ${size.height}`}
+        fill="none"
+        // Allow the shape to stretch.
+        preserveAspectRatio="none"
+        xmlns="http://www.w3.org/2000/svg"
+        className="overflow-visible w-full h-full"
+      >
+        {size != null ? (
+          <>
+            <Background
+              width={size.width}
+              height={size.height}
+              isMedium={isMedium}
+            />
 
-          <Dots width={size.width} height={size.height} isMedium={isMedium} />
-        </>
-      ) : null}
-    </svg>
+            <Dots width={size.width} height={size.height} isMedium={isMedium} />
+          </>
+        ) : null}
+      </svg>
+    </div>
   );
 }
 
