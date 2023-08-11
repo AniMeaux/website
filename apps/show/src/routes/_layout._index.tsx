@@ -16,7 +16,7 @@ import { LegalBackground } from "~/core/layout/legalBackground";
 import { Section } from "~/core/layout/section";
 import { createSocialMeta } from "~/core/meta";
 import { getPageTitle } from "~/core/pageTitle";
-import { Routes } from "~/core/routing";
+import { Routes } from "~/core/routes";
 import { ExhibitorsImage } from "~/exhibitors/image";
 import { Icon, IconProps } from "~/generated/icon";
 import { Pictogram } from "~/generated/pictogram";

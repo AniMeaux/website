@@ -6,7 +6,7 @@ import { hasShowEnded } from "~/core/dates";
 import { FooterWave } from "~/core/layout/footerWave";
 import { LegalBackground } from "~/core/layout/legalBackground";
 import { Section } from "~/core/layout/section";
-import { Routes } from "~/core/routing";
+import { Routes } from "~/core/routes";
 import { Icon } from "~/generated/icon";
 import { Pictogram } from "~/generated/pictogram";
 import logoAniMeaux from "~/images/logoAniMeaux.svg";
