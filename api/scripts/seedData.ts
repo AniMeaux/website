@@ -1,6 +1,7 @@
 import { fakerFR as faker } from "@faker-js/faker";
 import {
   AdoptionOption,
+  ExhibitorCategory,
   Gender,
   PickUpReason,
   Prisma,
@@ -38,6 +39,7 @@ async function seedData() {
     seedColors(),
     seedEvents(),
     seedPressArticle(),
+    seedExhibitors(),
   ]);
 
   await seedAnimals();
@@ -416,6 +418,17 @@ async function seedPressArticle() {
       title: faker.lorem
         .sentence(faker.number.int({ min: 3, max: 6 }))
         .replace(".", ""),
+      url: faker.internet.url(),
+    })),
+  });
+}
+
+async function seedExhibitors() {
+  await prisma.exhibitor.createMany({
+    data: repeate({ min: 10, max: 70 }, () => ({
+      category: faker.helpers.arrayElement(Object.values(ExhibitorCategory)),
+      image: faker.string.uuid(),
+      name: faker.company.name(),
       url: faker.internet.url(),
     })),
   });

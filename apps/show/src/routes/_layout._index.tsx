@@ -16,7 +16,7 @@ import { LegalBackground } from "~/core/layout/legalBackground";
 import { Section } from "~/core/layout/section";
 import { createSocialMeta } from "~/core/meta";
 import { getPageTitle } from "~/core/pageTitle";
-import { Routes } from "~/core/routing";
+import { Routes } from "~/core/routes";
 import { ExhibitorsImage } from "~/exhibitors/image";
 import { Icon, IconProps } from "~/generated/icon";
 import { Pictogram } from "~/generated/pictogram";
@@ -247,7 +247,7 @@ function PresentationSection() {
 
           <aside className="grid grid-cols-1">
             <ul className="grid grid-cols-1 md:grid-flow-col md:auto-cols-fr gap-2 md:gap-4">
-              <HighLightItem icon="stand">
+              <HighLightItem icon="standPrussianBlue">
                 60 exposants dévoués au bien-être des animaux.
               </HighLightItem>
 
@@ -288,21 +288,24 @@ function OriginSection() {
           <Section.Title>Origine du salon</Section.Title>
 
           <p>
-            A l’initiative de l’association Ani’Meaux et organisé en
-            collaboration avec la municipalité de Meaux, le Salon des Ani’Meaux
-            a vu naître sa première édition le 15 mai 2022.
+            L’histoire du Salon des Ani’Meaux remonte à l’initiative de
+            l’association Ani’Meaux, passionnée et engagée dans la cause
+            animale. En partenariat étroit avec la municipalité de Meaux, cette
+            initiative a donné naissance à un événement unique dédié au
+            bien-être des animaux.
             <br />
             <br />
-            Mis en œuvre en seulement deux mois, grâce au travail de bénévoles
-            dévoués, cette première édition a connu un franc succès puisqu’elle
-            a rassemblé une cinquantaine d’exposants, professionnels et
-            associations confondus, et a reçu plus de 1 200 visiteurs sur une
-            seule journée.
+            La première édition a vu le jour en mai 2022, résultat d’un travail
+            acharné de bénévoles déterminés à sensibiliser et à rassembler.
+            Forte de ce succès initial, l’édition suivante en 2023 a amplifié
+            les ambitions, réunissant exposants et visiteurs dans une atmosphère
+            conviviale et engagée.
             <br />
             <br />
-            En 2023, le Salon des Ani’Meaux voit plus grand en conviant 60
-            exposants et ouvrira ses portes aux visiteurs durant deux journées :
-            les 10 et 11 juin 2023.
+            Aujourd’hui, le Salon des Ani’Meaux est devenu un rendez-vous
+            incontournable pour les amoureux des animaux, conjuguant passion,
+            éducation et sensibilisation pour le bien-être de nos amis à quatre
+            pattes.
           </p>
         </BoardCard>
       </Section.TextAside>

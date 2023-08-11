@@ -39,6 +39,8 @@ export function createConfig(): Config {
     cloudinaryName: process.env.CLOUDINARY_CLOUD_NAME,
     exhibitorsFormUrl: process.env.EXHIBITORS_FORM_URL,
     facebookUrl: process.env.FACEBOOK_URL,
+    featureFlagShowExhibitors:
+      process.env.FEATURE_FLAG_SHOW_EXHIBITORS === "true",
     featureFlagSiteOnline: process.env.FEATURE_FLAG_SITE_ONLINE === "true",
     googleTagManagerId: process.env.GOOGLE_TAG_MANAGER_ID,
     instagramUrl: process.env.INSTAGRAM_URL,
