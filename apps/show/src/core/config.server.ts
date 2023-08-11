@@ -25,6 +25,7 @@ export function createConfig(): Config {
     process.env.PARTNERS_FORM_URL,
     "PARTNERS_FORM_URL should be defined"
   );
+  invariant(process.env.RAFFLE_URL, "RAFFLE_URL should be defined");
   invariant(
     process.env.PRESS_RELEASE_URL,
     "PRESS_RELEASE_URL should be defined"
@@ -38,12 +39,14 @@ export function createConfig(): Config {
     cloudinaryName: process.env.CLOUDINARY_CLOUD_NAME,
     exhibitorsFormUrl: process.env.EXHIBITORS_FORM_URL,
     facebookUrl: process.env.FACEBOOK_URL,
+    featureFlagSiteOnline: process.env.FEATURE_FLAG_SITE_ONLINE === "true",
     googleTagManagerId: process.env.GOOGLE_TAG_MANAGER_ID,
     instagramUrl: process.env.INSTAGRAM_URL,
     kidWorkshopRegistrationUrl: process.env.KID_WORKSHOP_REGISTRATION_URL,
     partnersFormUrl: process.env.PARTNERS_FORM_URL,
     pressReleaseUrl: process.env.PRESS_RELEASE_URL,
     publicHost: process.env.PUBLIC_HOST,
+    raffleUrl: process.env.RAFFLE_URL,
     ticketingUrl: process.env.TICKETING_URL,
   };
 }

@@ -1,6 +1,7 @@
 import { RemixBrowser } from "@remix-run/react";
 import "focus-visible";
-import { hydrate } from "react-dom";
+import { StrictMode, startTransition } from "react";
+import { hydrateRoot } from "react-dom/client";
 
 if (process.env.NODE_ENV === "development") {
   const { startWorker } = require("~/mocks");
@@ -13,4 +14,11 @@ if (process.env.NODE_ENV === "development") {
 document.documentElement.classList.remove("js-focus-visible");
 document.documentElement.removeAttribute("data-js-focus-visible");
 
-hydrate(<RemixBrowser />, document);
+startTransition(() => {
+  hydrateRoot(
+    document,
+    <StrictMode>
+      <RemixBrowser />
+    </StrictMode>
+  );
+});

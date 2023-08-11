@@ -1,4 +1,5 @@
 import { V2_MetaFunction } from "@remix-run/react";
+import { useConfig } from "~/core/config";
 import { ErrorPage, getErrorTitle } from "~/core/dataDisplay/errorPage";
 import { createSocialMeta } from "~/core/meta";
 import { getPageTitle } from "~/core/pageTitle";
@@ -18,7 +19,9 @@ export const meta: V2_MetaFunction = () => {
  * @see https://remix.run/docs/en/v1/guides/routing#splats
  */
 export function ErrorBoundary() {
-  return <ErrorPage isStandAlone />;
+  const { featureFlagSiteOnline } = useConfig();
+
+  return <ErrorPage isStandAlone={!featureFlagSiteOnline} />;
 }
 
 export default function Route() {
