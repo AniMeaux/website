@@ -189,6 +189,40 @@ model PressArticle {
   url             String   @unique
 }
 
+model Exhibitor {
+  id        String   @id @default(uuid()) @db.VarChar(255)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  category ExhibitorCategory
+  image    String
+  name     String            @unique @db.VarChar(255)
+  url      String            @unique
+}
+
+enum ExhibitorCategory {
+  ACCESSORIES
+  ALTERNATIVE_MEDICINE
+  ASSOCIATION
+  ASSOCIATION_PETS
+  ASSOCIATION_WILDLIFE
+  CANINE_EDUCATION
+  FELINE_BEHAVIOR
+  FOOD_AND_ACCESSORIES
+  FOOD_AND_HYGIENE
+  FOOD_CAT_AND_DOG
+  FOOD_DOG
+  HYGIENE
+  INSURANCE
+  ONLINE_PLATFORM
+  PROVISION_OF_SERVICES
+  SENSITIZATION
+  TOYS_CAT
+  TOYS_CAT_AND_DOG
+  TRAINING
+  TREATS_DOGS
+}
+
 enum UserGroup {
   ADMIN
   ANIMAL_MANAGER

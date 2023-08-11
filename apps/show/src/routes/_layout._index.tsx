@@ -247,7 +247,7 @@ function PresentationSection() {
 
           <aside className="grid grid-cols-1">
             <ul className="grid grid-cols-1 md:grid-flow-col md:auto-cols-fr gap-2 md:gap-4">
-              <HighLightItem icon="stand">
+              <HighLightItem icon="standPrussianBlue">
                 60 exposants dévoués au bien-être des animaux.
               </HighLightItem>
 
