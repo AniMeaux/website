@@ -6,7 +6,7 @@ import { Config, useConfig } from "~/core/config";
 import { createImageMedia } from "~/core/dataDisplay/image";
 import { hasShowEnded } from "~/core/dates";
 import { Primitive } from "~/core/primitives";
-import { Routes } from "~/core/routing";
+import { Routes } from "~/core/routes";
 import { Icon } from "~/generated/icon";
 import logoMedium from "~/images/logoMedium.svg";
 import logoSmall from "~/images/logoSmall.svg";

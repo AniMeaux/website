@@ -1,0 +1,21 @@
+-- CreateEnum
+CREATE TYPE "ExhibitorCategory" AS ENUM ('ACCESSORIES', 'ALTERNATIVE_MEDICINE', 'ASSOCIATION', 'ASSOCIATION_PETS', 'ASSOCIATION_WILDLIFE', 'CANINE_EDUCATION', 'FELINE_BEHAVIOR', 'FOOD_AND_ACCESSORIES', 'FOOD_AND_HYGIENE', 'FOOD_CAT_AND_DOG', 'FOOD_DOG', 'HYGIENE', 'INSURANCE', 'ONLINE_PLATFORM', 'PROVISION_OF_SERVICES', 'SENSITIZATION', 'TOYS_CAT', 'TOYS_CAT_AND_DOG', 'TRAINING', 'TREATS_DOGS');
+
+-- CreateTable
+CREATE TABLE "Exhibitor" (
+    "id" VARCHAR(255) NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+    "category" "ExhibitorCategory" NOT NULL,
+    "image" TEXT NOT NULL,
+    "name" VARCHAR(255) NOT NULL,
+    "url" TEXT NOT NULL,
+
+    CONSTRAINT "Exhibitor_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Exhibitor_name_key" ON "Exhibitor"("name");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Exhibitor_url_key" ON "Exhibitor"("url");

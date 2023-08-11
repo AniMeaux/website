@@ -3,9 +3,10 @@ import { useConfig } from "~/core/config";
 import { ErrorPage, getErrorTitle } from "~/core/dataDisplay/errorPage";
 import { createSocialMeta } from "~/core/meta";
 import { getPageTitle } from "~/core/pageTitle";
+import { NotFoundResponse } from "~/core/response.server";
 
 export async function loader() {
-  throw new Response("Not found", { status: 404 });
+  throw new NotFoundResponse();
 }
 
 export const meta: V2_MetaFunction = () => {

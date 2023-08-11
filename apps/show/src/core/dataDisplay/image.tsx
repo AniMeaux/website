@@ -1,17 +1,25 @@
 import { blurhashToDataUri } from "@unpic/placeholder";
 import orderBy from "lodash.orderby";
 import { useId } from "react";
+import invariant from "tiny-invariant";
+import { z } from "zod";
+import { zfd } from "zod-form-data";
 import { cn } from "~/core/classNames";
 import { useConfig } from "~/core/config";
+import { createSearchParams } from "~/core/searchParams";
 import { ImageShapeId } from "~/generated/imageShapeId";
 import sprite from "~/generated/imageShapesSprite.svg";
 import { ScreenSize, theme } from "~/generated/theme";
 
 type ImageSize = (typeof IMAGE_SIZES)[number];
-type AspectRatio = "none" | "1:1" | "16:9" | "16:10";
+type AspectRatio = "none" | "1:1" | "4:3" | "16:9" | "16:10";
 type ObjectFit = "cover" | "contain";
 type ImageShapeColor = "alabaster" | "mystic" | "paleBlue" | "prussianBlue";
 type ImageShapeSide = "left" | "right";
+type ImageData = {
+  id: string;
+  blurhash?: string;
+};
 
 export type DynamicImageProps = Omit<
   React.ImgHTMLAttributes<HTMLImageElement>,
@@ -20,10 +28,7 @@ export type DynamicImageProps = Omit<
   alt: string;
   aspectRatio?: AspectRatio;
   fallbackSize: ImageSize;
-  image: {
-    id: string;
-    blurhash?: string;
-  };
+  image: ImageData;
   objectFit?: ObjectFit;
   shape?: {
     id: ImageShapeId;
@@ -76,7 +81,7 @@ export function DynamicImage({
   const style = styleProp ?? {};
 
   if (image.blurhash != null) {
-    style.backgroundImage = `url(${blurhashToDataUri(image.blurhash, 8, 8)})`;
+    style.backgroundImage = `url(${blurhashToDataUri(image.blurhash, 16, 16)})`;
   }
 
   if (shape != null) {
@@ -179,6 +184,23 @@ export function createCloudinaryUrl(
   return `https://res.cloudinary.com/${cloudName}/image/upload/${transformationsStr}/${imageId}`;
 }
 
+export const ImageUrl = {
+  parse(image: string): ImageData {
+    const [id, searchParams] = image.split("?");
+    invariant(id != null, "The image should exists");
+
+    const { blurhash } = BlurhashSearchParams.parse(
+      new URLSearchParams(searchParams)
+    );
+
+    return { id, blurhash };
+  },
+};
+
+const BlurhashSearchParams = createSearchParams({
+  blurhash: zfd.text(z.string().optional().catch(undefined)),
+});
+
 // Ordered by decreasing size.
 const IMAGE_SIZES = ["2048", "1536", "1024", "512", "256", "128"] as const;
 
@@ -198,9 +220,10 @@ const SCREEN_SIZES = orderBy(
   .concat("default");
 
 const ASPECT_RATIO_CLASS_NAME: Record<AspectRatio, string> = {
-  "1:1": "aspect-square",
-  "16:9": "aspect-video",
-  "16:10": "aspect-16/10",
+  "1:1": cn("aspect-square"),
+  "4:3": cn("aspect-4/3"),
+  "16:9": cn("aspect-video"),
+  "16:10": cn("aspect-16/10"),
   none: "",
 };
 

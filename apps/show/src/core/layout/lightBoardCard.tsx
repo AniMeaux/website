@@ -4,22 +4,29 @@ import { useElementSize } from "~/core/hooks";
 import { useScreenSizeCondition } from "~/core/screenSize";
 import { theme } from "~/generated/theme";
 
-export function BoardCard({
+export function LightBoardCard({
+  isSmall = false,
   children,
   className,
-}: React.PropsWithChildren<{ className?: string }>) {
+}: React.PropsWithChildren<{ className?: string }> & {
+  isSmall?: boolean;
+}) {
   return (
     <div
       className={cn(
-        "relative p-3 md:px-10 md:py-6 bg-var-alabaster",
+        "relative p-3",
+        isSmall ? undefined : "md:px-10 md:py-6",
         className
       )}
     >
-      <BoardBackground />
+      <LightBoardBackground isSmall={isSmall} />
 
       <BeeIllustration
         direction="left-to-right"
-        className="absolute -z-10 bottom-0 right-1 md:right-3 translate-y-[6.75px] w-[25px]"
+        className={cn(
+          "absolute -z-10 bottom-0 right-1.5 translate-y-[0.75px] w-[25px]",
+          isSmall ? undefined : "md:right-4 md:-translate-y-[5.25px]"
+        )}
       />
 
       {children}
@@ -27,7 +34,7 @@ export function BoardCard({
   );
 }
 
-function BoardBackground() {
+function LightBoardBackground({ isSmall }: { isSmall: boolean }) {
   const { ref, size } = useElementSize<HTMLDivElement>();
   const isMedium = useScreenSizeCondition(
     (screenSize) => screenSize >= theme.screensPx.md
@@ -46,44 +53,14 @@ function BoardBackground() {
         className="overflow-visible w-full h-full"
       >
         {size != null ? (
-          <>
-            <Background
-              width={size.width}
-              height={size.height}
-              isMedium={isMedium}
-            />
-
-            <Dots width={size.width} height={size.height} isMedium={isMedium} />
-          </>
+          <Dots
+            width={size.width}
+            height={size.height}
+            isMedium={isMedium && !isSmall}
+          />
         ) : null}
       </svg>
     </div>
-  );
-}
-
-function Background({
-  width,
-  height,
-  isMedium,
-}: {
-  width: number;
-  height: number;
-  isMedium: boolean;
-}) {
-  const spacing = isMedium ? theme.spacing[2] : theme.spacing[1];
-  const radius = isMedium ? theme.spacing[4] : theme.spacing[2];
-
-  return (
-    <rect
-      x="0"
-      y="0"
-      width={width - spacing}
-      height={height - spacing}
-      rx={radius}
-      className="fill-alabaster"
-      // We don't want the stroke to scale, keep it at 3px.
-      vectorEffect="non-scaling-stroke"
-    />
   );
 }
 
@@ -96,15 +73,15 @@ function Dots({
   height: number;
   isMedium: boolean;
 }) {
-  const spacing = isMedium ? theme.spacing[2] : theme.spacing[1];
+  const spacing = isMedium ? theme.spacing[1] : theme.spacing["0.5"];
   const radius = isMedium ? theme.spacing[4] : theme.spacing[2];
 
   return (
     <rect
       x={spacing}
       y={spacing}
-      width={width - spacing}
-      height={height - spacing}
+      width={width - 2 * spacing}
+      height={height - 2 * spacing}
       rx={radius}
       strokeWidth="3"
       strokeLinecap="round"

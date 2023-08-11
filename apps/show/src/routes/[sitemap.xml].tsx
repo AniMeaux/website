@@ -1,5 +1,6 @@
 import { renderToStaticMarkup } from "react-dom/server";
 import { createConfig } from "~/core/config.server";
+import { Routes } from "~/core/routes";
 
 type SitemapAttribute = {
   key?: React.Key;
@@ -38,18 +39,25 @@ type UrlDefinition = {
   priority?: number;
 };
 
-const urlDefinitions: UrlDefinition[] = [
-  { path: "/", changeFrequency: "weekly" },
-];
-
 export async function loader() {
-  const config = createConfig();
+  const { featureFlagSiteOnline, publicHost } = createConfig();
+
+  const urlDefinitions: UrlDefinition[] = [
+    { path: Routes.home(), changeFrequency: "weekly" },
+  ];
+
+  if (featureFlagSiteOnline) {
+    urlDefinitions.push(
+      { path: Routes.exhibitors(), changeFrequency: "weekly" },
+      { path: Routes.program(), changeFrequency: "weekly" }
+    );
+  }
 
   const markup = renderToStaticMarkup(
     <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
       {urlDefinitions.map((url) => (
         <url key={url.path}>
-          <loc>{`${config.publicHost}${url.path}`}</loc>
+          <loc>{`${publicHost}${url.path}`}</loc>
           <changefreq>{url.changeFrequency}</changefreq>
           {url.priority != null && <priority>{url.priority}</priority>}
         </url>
