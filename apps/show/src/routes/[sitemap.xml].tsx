@@ -47,10 +47,10 @@ export async function loader() {
   ];
 
   if (featureFlagSiteOnline) {
-    urlDefinitions.push({
-      path: Routes.exhibitors(),
-      changeFrequency: "weekly",
-    });
+    urlDefinitions.push(
+      { path: Routes.exhibitors(), changeFrequency: "weekly" },
+      { path: Routes.program(), changeFrequency: "weekly" }
+    );
   }
 
   const markup = renderToStaticMarkup(
