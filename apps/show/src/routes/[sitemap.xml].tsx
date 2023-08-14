@@ -52,7 +52,8 @@ export async function loader() {
     urlDefinitions.push(
       { path: Routes.exhibitors(), changeFrequency: "weekly" },
       { path: Routes.program(), changeFrequency: "weekly" },
-      { path: Routes.access(), changeFrequency: "weekly" }
+      { path: Routes.access(), changeFrequency: "weekly" },
+      { path: Routes.faq(), changeFrequency: "weekly" }
     );
   }
 
