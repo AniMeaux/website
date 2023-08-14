@@ -1,22 +1,28 @@
-import { json } from "@remix-run/node";
+import { json, redirect } from "@remix-run/node";
 import { V2_MetaFunction } from "@remix-run/react";
 import { useConfig } from "~/core/config";
 import { createConfig } from "~/core/config.server";
 import { ErrorPage, getErrorTitle } from "~/core/dataDisplay/errorPage";
+import { ShowDay } from "~/core/dates";
 import { BoardCard } from "~/core/layout/boardCard";
 import { Section } from "~/core/layout/section";
 import { createSocialMeta } from "~/core/meta";
+import { Routes } from "~/core/navigation";
 import { getPageTitle } from "~/core/pageTitle";
 import { NotFoundResponse } from "~/core/response.server";
 
 export async function loader() {
-  const { featureFlagSiteOnline } = createConfig();
+  const { featureFlagShowProgram, featureFlagSiteOnline } = createConfig();
 
   if (!featureFlagSiteOnline) {
     throw new NotFoundResponse();
   }
 
-  return json("ok" as const);
+  if (!featureFlagShowProgram) {
+    return json("ok" as const);
+  }
+
+  throw redirect(Routes.program(ShowDay.SATURDAY));
 }
 
 export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {

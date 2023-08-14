@@ -40,6 +40,7 @@ async function seedData() {
     seedEvents(),
     seedPressArticle(),
     seedExhibitors(),
+    seedShowEvents(),
   ]);
 
   await seedAnimals();
@@ -430,6 +431,32 @@ async function seedExhibitors() {
       image: faker.string.uuid(),
       name: faker.company.name(),
       url: faker.internet.url(),
+    })),
+  });
+}
+
+async function seedShowEvents() {
+  const OPENING_TIME = DateTime.fromISO("2024-06-08T10:00:00.000+02:00");
+
+  await prisma.showEvent.createMany({
+    data: Array.from({ length: 18 }, (_, index) => ({
+      description: faker.lorem.paragraph({ min: 1, max: 3 }),
+      startTime: OPENING_TIME.plus({
+        // [0, 8]: first day
+        // [9, 17]: second day
+        day: Math.floor(index / 9),
+        hour: index % 9,
+        minute:
+          index % 9 < 8
+            ? faker.helpers.maybe(
+                () => faker.helpers.arrayElement([15, 30, 45]),
+                { probability: 1 / 4 }
+              )
+            : undefined,
+      }).toJSDate(),
+      registrationUrl: faker.helpers.maybe(() => faker.internet.url(), {
+        probability: 1 / 5,
+      }),
     })),
   });
 }

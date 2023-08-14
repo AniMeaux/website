@@ -15,8 +15,8 @@ import { HighLightBackground } from "~/core/layout/highlightBackground";
 import { LegalBackground } from "~/core/layout/legalBackground";
 import { Section } from "~/core/layout/section";
 import { createSocialMeta } from "~/core/meta";
+import { Routes } from "~/core/navigation";
 import { getPageTitle } from "~/core/pageTitle";
-import { Routes } from "~/core/routes";
 import { ExhibitorsImage } from "~/exhibitors/image";
 import { Icon, IconProps } from "~/generated/icon";
 import { Pictogram } from "~/generated/pictogram";
@@ -71,7 +71,7 @@ function HeroSection() {
 
   return (
     <Section columnCount={1}>
-      <div className="relative grid grid-cols-1 gap-2 md:pt-[calc((1024px-100vw)*100/(1024-768))] lg:pt-0">
+      <div className="relative grid grid-cols-1 gap-2 sm:gap-4 md:pt-[calc((1024px-100vw)*100/(1024-768))] lg:pt-0">
         <DynamicImage
           image={{ id: "/show/e0617fd9-ef5d-4faa-9921-e3e4105362cd" }}
           alt="Les animaux du salon."
@@ -207,7 +207,7 @@ function PresentationSection() {
   return (
     <Section width="full" columnCount={1}>
       <div className="grid grid-cols-1">
-        <section className="px-safe-page-narrow md:px-safe-page-normal grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-4 lg:gap-8 md:items-end">
+        <section className="px-safe-page-narrow md:px-safe-page-normal grid grid-cols-1 md:grid-cols-2 gap-2 sm:gap-4 lg:gap-8 md:items-end">
           <Section.TextAside className="md:pb-4">
             <Section.Title>Présentation</Section.Title>
 
@@ -433,7 +433,7 @@ function RaffleSection() {
 function PreviousEditionsSection() {
   return (
     <Section width="full" columnCount={1}>
-      <div className="relative px-safe-page-narrow md:px-safe-page-normal py-2 md:py-4 bg-var-alabaster grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-4 lg:gap-8 md:items-center">
+      <div className="relative px-safe-page-narrow md:px-safe-page-normal py-2 md:py-4 bg-var-alabaster grid grid-cols-1 md:grid-cols-2 gap-2 sm:gap-4 lg:gap-8 md:items-center">
         <HighLightBackground
           color="alabaster"
           className="absolute -z-10 top-0 left-0 w-full h-full"

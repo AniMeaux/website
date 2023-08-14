@@ -1,5 +1,4 @@
-import { Exhibitor } from "@prisma/client";
-import { json } from "@remix-run/node";
+import { SerializeFrom, json } from "@remix-run/node";
 import { Link, V2_MetaFunction, useLoaderData } from "@remix-run/react";
 import { Action } from "~/core/actions";
 import { useConfig } from "~/core/config";
@@ -159,7 +158,7 @@ function ExhibitorItem({
   exhibitor,
   loading,
 }: {
-  exhibitor: Pick<Exhibitor, "category" | "id" | "image" | "name" | "url">;
+  exhibitor: SerializeFrom<typeof loader>["exhibitors"][number];
   loading: NonNullable<
     React.ComponentPropsWithoutRef<typeof DynamicImage>["loading"]
   >;

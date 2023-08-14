@@ -1,6 +1,6 @@
 import { BeeIllustration } from "~/core/Illustration/bee";
 import { cn } from "~/core/classNames";
-import { useElementSize } from "~/core/hooks";
+import { useElementSize } from "~/core/elements";
 import { useScreenSizeCondition } from "~/core/screenSize";
 import { theme } from "~/generated/theme";
 
@@ -19,7 +19,7 @@ export function BoardCard({
 
       <BeeIllustration
         direction="left-to-right"
-        className="absolute -z-10 bottom-0 right-1 md:right-3 translate-y-[6.75px] w-[25px]"
+        className="absolute -z-10 bottom-0 translate-y-1/2 right-2 md:right-4 w-[25px]"
       />
 
       {children}

@@ -24,7 +24,7 @@ export const Action = forwardRef<
 });
 
 const COLOR_CLASS_NAMES: Record<ActionColor, string> = {
-  alabaster: "bg-alabaster text-prussianBlue focus-visible:ring-alabaster",
+  alabaster: "bg-alabaster text-prussianBlue focus-visible:ring-mystic",
   mystic: "bg-mystic text-white focus-visible:ring-mystic",
   prussianBlue: "bg-prussianBlue text-white focus-visible:ring-prussianBlue",
 };

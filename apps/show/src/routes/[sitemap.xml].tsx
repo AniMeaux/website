@@ -1,6 +1,7 @@
 import { renderToStaticMarkup } from "react-dom/server";
 import { createConfig } from "~/core/config.server";
-import { Routes } from "~/core/routes";
+import { ShowDay } from "~/core/dates";
+import { Routes } from "~/core/navigation";
 
 type SitemapAttribute = {
   key?: React.Key;
@@ -40,7 +41,8 @@ type UrlDefinition = {
 };
 
 export async function loader() {
-  const { featureFlagSiteOnline, publicHost } = createConfig();
+  const { featureFlagSiteOnline, featureFlagShowProgram, publicHost } =
+    createConfig();
 
   const urlDefinitions: UrlDefinition[] = [
     { path: Routes.home(), changeFrequency: "weekly" },
@@ -51,6 +53,15 @@ export async function loader() {
       { path: Routes.exhibitors(), changeFrequency: "weekly" },
       { path: Routes.program(), changeFrequency: "weekly" }
     );
+  }
+
+  if (featureFlagShowProgram) {
+    Object.values(ShowDay).forEach((day) => {
+      urlDefinitions.push({
+        path: Routes.program(day),
+        changeFrequency: "weekly",
+      });
+    });
   }
 
   const markup = renderToStaticMarkup(
