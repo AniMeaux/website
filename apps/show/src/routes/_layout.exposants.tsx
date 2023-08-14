@@ -136,15 +136,12 @@ function BecomeExhibitorItem() {
   const { exhibitorsFormUrl } = useConfig();
 
   return (
-    <li className="group grid grid-cols-1 gap-2">
+    <li className="grid grid-cols-1 gap-2">
       <LightBoardCard
         isSmall
         className="aspect-4/3 grid grid-cols-1 justify-items-center items-center"
       >
-        <Pictogram
-          id="standMystic"
-          className="text-[96px] group-hover:scale-105 transition-transform duration-150 ease-in-out"
-        />
+        <Pictogram id="standMystic" className="text-[96px]" />
       </LightBoardCard>
 
       <Action asChild className="justify-self-center">
