@@ -1,6 +1,7 @@
 import { Link, V2_MetaFunction } from "@remix-run/react";
 import { DateTime } from "luxon";
 import { useEffect, useState } from "react";
+import { AccessImage } from "~/access/image";
 import { Action, ProseInlineAction } from "~/core/actions";
 import { BaseLink, BaseLinkProps } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
@@ -486,13 +487,7 @@ function AccessSection() {
   return (
     <Section>
       <Section.ImageAside>
-        <DynamicImage
-          image={{
-            id: "/show/d9abb32b-c6f4-4ab4-af8b-a4cc2e2f228e",
-            blurhash: "UPO||Q~CNGxc~CnpR$xY$-NXj=Rmj^R~oOoc",
-          }}
-          alt="Carte de Meaux."
-          aspectRatio="1:1"
+        <AccessImage
           fallbackSize="1024"
           sizes={{ default: "384px", md: "50vw", lg: "512px" }}
           shape={{ id: "variant7", color: "paleBlue", side: "left" }}

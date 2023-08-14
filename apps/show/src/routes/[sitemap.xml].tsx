@@ -51,7 +51,8 @@ export async function loader() {
   if (featureFlagSiteOnline) {
     urlDefinitions.push(
       { path: Routes.exhibitors(), changeFrequency: "weekly" },
-      { path: Routes.program(), changeFrequency: "weekly" }
+      { path: Routes.program(), changeFrequency: "weekly" },
+      { path: Routes.access(), changeFrequency: "weekly" }
     );
   }
 
