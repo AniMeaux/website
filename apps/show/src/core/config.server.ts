@@ -41,6 +41,7 @@ export function createConfig(): Config {
     facebookUrl: process.env.FACEBOOK_URL,
     featureFlagShowExhibitors:
       process.env.FEATURE_FLAG_SHOW_EXHIBITORS === "true",
+    featureFlagShowProgram: process.env.FEATURE_FLAG_SHOW_PROGRAM === "true",
     featureFlagSiteOnline: process.env.FEATURE_FLAG_SITE_ONLINE === "true",
     googleTagManagerId: process.env.GOOGLE_TAG_MANAGER_ID,
     instagramUrl: process.env.INSTAGRAM_URL,

@@ -6,7 +6,7 @@ import { hasShowEnded } from "~/core/dates";
 import { FooterWave } from "~/core/layout/footerWave";
 import { LegalBackground } from "~/core/layout/legalBackground";
 import { Section } from "~/core/layout/section";
-import { Routes } from "~/core/routes";
+import { Routes } from "~/core/navigation";
 import { Icon } from "~/generated/icon";
 import { Pictogram } from "~/generated/pictogram";
 import logoAniMeaux from "~/images/logoAniMeaux.svg";
@@ -72,7 +72,7 @@ function LinksSection() {
   } = useConfig();
 
   return (
-    <section className="bg-paleBlue bg-var-paleBlue px-page-narrow md:px-page-normal py-4 grid grid-cols-1 md:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] gap-4 lg:gap-8 md:items-center">
+    <section className="bg-paleBlue bg-var-paleBlue px-page-narrow md:px-page-normal py-4 grid grid-cols-1 md:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] gap-2 sm:gap-4 lg:gap-8 md:items-center">
       <Section.TextAside className="justify-self-center md:justify-self-stretch max-w-sm md:max-w-none">
         <PartnersImage
           fallbackSize="512"

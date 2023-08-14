@@ -4,7 +4,7 @@ import { BaseLink } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
 import { useOptionalConfig } from "~/core/config";
 import { DynamicImage } from "~/core/dataDisplay/image";
-import { Routes } from "~/core/routes";
+import { Routes } from "~/core/navigation";
 
 export function getErrorTitle(status: number): string {
   return STATUS_CODE_ERROR_META_DATA[asStatusCode(status)].title;

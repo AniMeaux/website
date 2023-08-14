@@ -9,12 +9,14 @@ const SPACING = {
   1: "12px",
   1.5: "18px",
   2: "24px",
+  2.5: "30px",
   3: "36px",
   4: "48px",
   5: "60px",
   6: "72px",
   8: "96px",
   10: "120px",
+  14: "168px",
 };
 
 /**
@@ -172,6 +174,13 @@ module.exports = {
           }),
         },
         { values: flattenColorPalette(theme("colors")) }
+      );
+    }),
+
+    plugin(({ matchUtilities, theme }) => {
+      matchUtilities(
+        { "stroke-dashoffset": (value) => ({ "stroke-dashoffset": value }) },
+        { values: theme("spacing") }
       );
     }),
 

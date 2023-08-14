@@ -10,6 +10,7 @@ export type Config = {
   exhibitorsFormUrl: string;
   facebookUrl: string;
   featureFlagShowExhibitors: boolean;
+  featureFlagShowProgram: boolean;
   featureFlagSiteOnline: boolean;
   googleTagManagerId?: string;
   instagramUrl: string;
