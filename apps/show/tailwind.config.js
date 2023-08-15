@@ -75,6 +75,24 @@ module.exports = {
         "4/3": "4 / 3",
         "16/10": "16 / 10",
       },
+
+      animation: {
+        "radix-collapsible-content-open":
+          "radix-collapsible-content-open 150ms ease-in-out",
+        "radix-collapsible-content-close":
+          "radix-collapsible-content-close 150ms ease-in-out",
+      },
+
+      keyframes: {
+        "radix-collapsible-content-open": {
+          "0%": { height: "0px" },
+          "100%": { height: "var(--radix-collapsible-content-height)" },
+        },
+        "radix-collapsible-content-close": {
+          "0%": { height: "var(--radix-collapsible-content-height)" },
+          "100%": { height: "0px" },
+        },
+      },
     },
   },
 
