@@ -1,5 +1,4 @@
-import { Exhibitor } from "@prisma/client";
-import { json } from "@remix-run/node";
+import { SerializeFrom, json } from "@remix-run/node";
 import { Link, V2_MetaFunction, useLoaderData } from "@remix-run/react";
 import { Action } from "~/core/actions";
 import { useConfig } from "~/core/config";
@@ -137,15 +136,12 @@ function BecomeExhibitorItem() {
   const { exhibitorsFormUrl } = useConfig();
 
   return (
-    <li className="group grid grid-cols-1 gap-2">
+    <li className="grid grid-cols-1 gap-2">
       <LightBoardCard
         isSmall
         className="aspect-4/3 grid grid-cols-1 justify-items-center items-center"
       >
-        <Pictogram
-          id="standMystic"
-          className="text-[96px] group-hover:scale-105 transition-transform duration-150 ease-in-out"
-        />
+        <Pictogram id="standMystic" className="text-[96px]" />
       </LightBoardCard>
 
       <Action asChild className="justify-self-center">
@@ -159,7 +155,7 @@ function ExhibitorItem({
   exhibitor,
   loading,
 }: {
-  exhibitor: Pick<Exhibitor, "category" | "id" | "image" | "name" | "url">;
+  exhibitor: SerializeFrom<typeof loader>["exhibitors"][number];
   loading: NonNullable<
     React.ComponentPropsWithoutRef<typeof DynamicImage>["loading"]
   >;

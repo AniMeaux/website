@@ -16,7 +16,7 @@ export function Section({
     <Primitive.section
       {...rest}
       className={cn(
-        "py-4 grid grid-cols-1 gap-2 md:gap-4",
+        "py-4 grid grid-cols-1 gap-2 sm:gap-4",
         SECTION_WIDTH_CLASS_NAMES[width],
         columnCount === 2
           ? "md:grid-cols-2 lg:gap-8 md:items-center"

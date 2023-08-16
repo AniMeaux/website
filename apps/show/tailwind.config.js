@@ -9,12 +9,14 @@ const SPACING = {
   1: "12px",
   1.5: "18px",
   2: "24px",
+  2.5: "30px",
   3: "36px",
   4: "48px",
   5: "60px",
   6: "72px",
   8: "96px",
   10: "120px",
+  14: "168px",
 };
 
 /**
@@ -72,6 +74,24 @@ module.exports = {
       aspectRatio: {
         "4/3": "4 / 3",
         "16/10": "16 / 10",
+      },
+
+      animation: {
+        "radix-collapsible-content-open":
+          "radix-collapsible-content-open 150ms ease-in-out",
+        "radix-collapsible-content-close":
+          "radix-collapsible-content-close 150ms ease-in-out",
+      },
+
+      keyframes: {
+        "radix-collapsible-content-open": {
+          "0%": { height: "0px" },
+          "100%": { height: "var(--radix-collapsible-content-height)" },
+        },
+        "radix-collapsible-content-close": {
+          "0%": { height: "var(--radix-collapsible-content-height)" },
+          "100%": { height: "0px" },
+        },
       },
     },
   },
@@ -172,6 +192,13 @@ module.exports = {
           }),
         },
         { values: flattenColorPalette(theme("colors")) }
+      );
+    }),
+
+    plugin(({ matchUtilities, theme }) => {
+      matchUtilities(
+        { "stroke-dashoffset": (value) => ({ "stroke-dashoffset": value }) },
+        { values: theme("spacing") }
       );
     }),
 

@@ -1,6 +1,6 @@
 import { BeeIllustration } from "~/core/Illustration/bee";
 import { cn } from "~/core/classNames";
-import { useElementSize } from "~/core/hooks";
+import { useElementSize } from "~/core/elements";
 import { useScreenSizeCondition } from "~/core/screenSize";
 import { theme } from "~/generated/theme";
 
@@ -24,8 +24,8 @@ export function LightBoardCard({
       <BeeIllustration
         direction="left-to-right"
         className={cn(
-          "absolute -z-10 bottom-0 right-1.5 translate-y-[0.75px] w-[25px]",
-          isSmall ? undefined : "md:right-4 md:-translate-y-[5.25px]"
+          "absolute -z-10 bottom-0.5 translate-y-1/2 right-2.5 w-[25px]",
+          isSmall ? undefined : "md:bottom-1 md:right-5"
         )}
       />
 

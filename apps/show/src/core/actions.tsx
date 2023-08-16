@@ -24,7 +24,7 @@ export const Action = forwardRef<
 });
 
 const COLOR_CLASS_NAMES: Record<ActionColor, string> = {
-  alabaster: "bg-alabaster text-prussianBlue focus-visible:ring-alabaster",
+  alabaster: "bg-alabaster text-prussianBlue focus-visible:ring-mystic",
   mystic: "bg-mystic text-white focus-visible:ring-mystic",
   prussianBlue: "bg-prussianBlue text-white focus-visible:ring-prussianBlue",
 };
@@ -38,7 +38,7 @@ export const ProseInlineAction = forwardRef<
       {...rest}
       ref={ref}
       className={cn(
-        "relative rounded-0.5 text-body-lowercase-emphasis after:absolute after:bottom-0 after:left-0 after:w-full after:border-b after:border-mystic hover:after:border-b-2 focus-visible:outline-none focus-visible:ring focus-visible:ring-mystic focus-visible:ring-offset-2 focus-visible:ring-offset-inheritBg",
+        "relative border-b border-mystic hover:border-b-2 text-body-lowercase-emphasis focus-visible:outline-none focus-visible:ring focus-visible:ring-mystic focus-visible:ring-offset-2 focus-visible:ring-offset-inheritBg",
         className
       )}
     />
