@@ -11,3 +11,5 @@ export enum ShowDay {
   SATURDAY = "samedi",
   SUNDAY = "dimanche",
 }
+
+export const SORTED_SHOW_DAYS = [ShowDay.SATURDAY, ShowDay.SUNDAY];

@@ -23,6 +23,7 @@ import { Pictogram } from "~/generated/pictogram";
 import logoAniMeaux from "~/images/logoAniMeaux.svg";
 import logoLarge from "~/images/logoLarge.svg";
 import { PartnersImage } from "~/partners/image";
+import { PreviousEditionImage } from "~/previousEditions/image";
 
 const ONE_MINUTE_IN_MS = 60 * 1000;
 
@@ -444,14 +445,7 @@ function PreviousEditionsSection() {
         />
 
         <Section.ImageAside>
-          <DynamicImage
-            image={{
-              id: "/show/d5e8898b-d756-4942-a957-17ba782d2aa1",
-              blurhash: "UDGuH~.T000000IAEMs;4n%2o~tRs9xD-;t7",
-            }}
-            alt="Des visiteurs regardant le panneau des adoptions."
-            title="Julia Pommé Photographe"
-            aspectRatio="1:1"
+          <PreviousEditionImage
             fallbackSize="1024"
             sizes={{ default: "384px", md: "50vw", lg: "512px" }}
             shape={{ id: "variant3", color: "mystic", side: "right" }}

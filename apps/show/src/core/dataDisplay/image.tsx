@@ -22,7 +22,7 @@ type ImageData = {
 };
 
 export type DynamicImageProps = Omit<
-  React.ImgHTMLAttributes<HTMLImageElement>,
+  React.ComponentPropsWithoutRef<"img">,
   "alt" | "sizes"
 > & {
   alt: string;
@@ -57,7 +57,7 @@ export function DynamicImage({
   const config = useConfig();
 
   const srcSet = IMAGE_SIZES.map((size) => {
-    const url = createCloudinaryUrl(config.cloudinaryName, image.id, {
+    const url = createImageUrl(config.cloudinaryName, image.id, {
       size,
       aspectRatio,
     });
@@ -94,7 +94,7 @@ export function DynamicImage({
         {...rest}
         alt={alt}
         loading={loading}
-        src={createCloudinaryUrl(config.cloudinaryName, image.id, {
+        src={createImageUrl(config.cloudinaryName, image.id, {
           size: fallbackSize,
           aspectRatio,
         })}
@@ -141,7 +141,7 @@ export function createImageMedia(screenSize: ScreenSize, width?: string) {
     .join(" ");
 }
 
-export function createCloudinaryUrl(
+export function createImageUrl(
   cloudName: string,
   imageId: string,
   {

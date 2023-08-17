@@ -10,7 +10,12 @@ import { createConfig } from "~/core/config.server";
 import { Tab, Tabs } from "~/core/controllers/tabs";
 import { ErrorPage, getErrorTitle } from "~/core/dataDisplay/errorPage";
 import { Markdown, SENTENCE_COMPONENTS } from "~/core/dataDisplay/markdown";
-import { CLOSING_TIME, OPENING_TIME, ShowDay } from "~/core/dates";
+import {
+  CLOSING_TIME,
+  OPENING_TIME,
+  SORTED_SHOW_DAYS,
+  ShowDay,
+} from "~/core/dates";
 import { Section } from "~/core/layout/section";
 import { createSocialMeta } from "~/core/meta";
 import { Routes } from "~/core/navigation";
@@ -156,7 +161,7 @@ function EventListSection() {
   return (
     <Section columnCount={1}>
       <Tabs>
-        {Object.values(ShowDay).map((day) => (
+        {SORTED_SHOW_DAYS.map((day) => (
           <Tab
             key={day}
             to={Routes.program(day)}

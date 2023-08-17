@@ -1,7 +1,8 @@
 import { renderToStaticMarkup } from "react-dom/server";
 import { createConfig } from "~/core/config.server";
-import { ShowDay } from "~/core/dates";
+import { SORTED_SHOW_DAYS } from "~/core/dates";
 import { Routes } from "~/core/navigation";
+import { SORTED_PREVIOUS_EDITIONS } from "~/previousEditions/previousEdition";
 
 type SitemapAttribute = {
   key?: React.Key;
@@ -51,19 +52,30 @@ export async function loader() {
   if (featureFlagSiteOnline) {
     urlDefinitions.push(
       { path: Routes.exhibitors(), changeFrequency: "weekly" },
-      { path: Routes.program(), changeFrequency: "weekly" },
       { path: Routes.access(), changeFrequency: "weekly" },
       { path: Routes.faq(), changeFrequency: "weekly" }
     );
-  }
 
-  if (featureFlagShowProgram) {
-    Object.values(ShowDay).forEach((day) => {
+    SORTED_PREVIOUS_EDITIONS.forEach((edition) => {
       urlDefinitions.push({
-        path: Routes.program(day),
-        changeFrequency: "weekly",
+        path: Routes.previousEditions(edition),
+        changeFrequency: "monthly",
       });
     });
+
+    if (featureFlagShowProgram) {
+      SORTED_SHOW_DAYS.forEach((day) => {
+        urlDefinitions.push({
+          path: Routes.program(day),
+          changeFrequency: "weekly",
+        });
+      });
+    } else {
+      urlDefinitions.push({
+        path: Routes.program(),
+        changeFrequency: "weekly",
+      });
+    }
   }
 
   const markup = renderToStaticMarkup(
