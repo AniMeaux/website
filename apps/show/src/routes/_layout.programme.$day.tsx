@@ -157,7 +157,12 @@ function EventListSection() {
     <Section columnCount={1}>
       <Tabs>
         {Object.values(ShowDay).map((day) => (
-          <Tab key={day} to={Routes.program(day)} className="capitalize">
+          <Tab
+            key={day}
+            to={Routes.program(day)}
+            prefetch="intent"
+            className="capitalize"
+          >
             {day}
           </Tab>
         ))}

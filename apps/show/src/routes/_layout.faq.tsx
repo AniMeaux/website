@@ -286,7 +286,9 @@ const FAQ: Faq[] = [
       <>
         La liste des exposants est disponible dans la page{" "}
         <ProseInlineAction asChild>
-          <Link to={Routes.exhibitors()}>Exposants</Link>
+          <Link to={Routes.exhibitors()} prefetch="intent">
+            Exposants
+          </Link>
         </ProseInlineAction>
         .
       </>
@@ -307,7 +309,9 @@ const FAQ: Faq[] = [
       <>
         Oui, le programme des animations est disponible dans la page{" "}
         <ProseInlineAction asChild>
-          <Link to={Routes.program()}>Programme</Link>
+          <Link to={Routes.program()} prefetch="intent">
+            Programme
+          </Link>
         </ProseInlineAction>
         . Nous vous réservons des animations variées et ludiques destinées aux
         familles.

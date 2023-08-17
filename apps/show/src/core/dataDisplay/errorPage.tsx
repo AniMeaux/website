@@ -1,6 +1,5 @@
-import { isRouteErrorResponse, useRouteError } from "@remix-run/react";
+import { Link, isRouteErrorResponse, useRouteError } from "@remix-run/react";
 import { Action } from "~/core/actions";
-import { BaseLink } from "~/core/baseLink";
 import { cn } from "~/core/classNames";
 import { useOptionalConfig } from "~/core/config";
 import { DynamicImage } from "~/core/dataDisplay/image";
@@ -95,7 +94,9 @@ const STATUS_CODE_ERROR_META_DATA: Record<
     message: "Nous n’avons pas trouvé la page que vous chercher.",
     action: (
       <Action asChild>
-        <BaseLink to={Routes.home()}>Page d’accueil</BaseLink>
+        <Link to={Routes.home()} prefetch="intent">
+          Page d’accueil
+        </Link>
       </Action>
     ),
   },
@@ -104,9 +105,9 @@ const STATUS_CODE_ERROR_META_DATA: Record<
     message: "Une erreur est survenue.",
     action: (
       <Action asChild>
-        <BaseLink to={Routes.home()} reloadDocument>
+        <Link to={Routes.home()} reloadDocument>
           Rafraichir
-        </BaseLink>
+        </Link>
       </Action>
     ),
   },
