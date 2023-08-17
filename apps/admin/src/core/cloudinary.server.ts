@@ -24,8 +24,6 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-export { cloudinary };
-
 export class CloudinaryUploadApiError extends Error {
   status: number;
 
