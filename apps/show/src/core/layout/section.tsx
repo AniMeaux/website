@@ -87,7 +87,7 @@ Section.ImageAside = function SectionImageAside({
     <Primitive.aside
       {...rest}
       className={cn(
-        "relative justify-self-center md:justify-self-stretch max-w-sm md:max-w-none grid grid-cols-1",
+        "relative justify-self-center md:justify-self-stretch w-full max-w-sm md:max-w-none grid grid-cols-1",
         className
       )}
     />

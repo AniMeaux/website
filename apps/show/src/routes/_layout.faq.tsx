@@ -63,6 +63,7 @@ function TitleSection() {
           fallbackSize="1024"
           sizes={{ default: "384px", md: "50vw", lg: "512px" }}
           shape={{ id: "variant11", color: "prussianBlue", side: "right" }}
+          className="w-full"
         />
       </Section.ImageAside>
 

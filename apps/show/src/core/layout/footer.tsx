@@ -77,6 +77,7 @@ function LinksSection() {
         <PartnersImage
           fallbackSize="512"
           sizes={{ default: "384px", md: "50vw", lg: "341px" }}
+          className="w-full"
         />
 
         <Section.Action asChild isCentered>

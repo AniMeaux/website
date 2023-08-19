@@ -55,6 +55,7 @@ function TitleSection() {
           fallbackSize="1024"
           sizes={{ default: "384px", md: "50vw", lg: "512px" }}
           shape={{ id: "variant7", color: "prussianBlue", side: "right" }}
+          className="w-full"
         />
       </Section.ImageAside>
 
@@ -115,6 +116,7 @@ function CarpoolSection() {
           fallbackSize="1024"
           sizes={{ default: "384px", md: "50vw", lg: "512px" }}
           shape={{ id: "variant10", color: "paleBlue", side: "left" }}
+          className="w-full"
         />
       </Section.ImageAside>
 

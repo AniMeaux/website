@@ -179,6 +179,7 @@ function ComeWithYourDogSection() {
           fallbackSize="512"
           sizes={{ default: "384px", md: "50vw", lg: "464px" }}
           loading="eager"
+          className="w-full"
         />
       </Section.ImageAside>
 
@@ -235,6 +236,7 @@ function PresentationSection() {
               sizes={{ default: "384px", md: "50vw", lg: "464px" }}
               loading="eager"
               aspectRatio="16:10"
+              className="w-full"
             />
           </Section.ImageAside>
         </section>
@@ -337,6 +339,7 @@ function PartnersSection() {
         <PartnersImage
           fallbackSize="1024"
           sizes={{ default: "100vw", lg: "1024px" }}
+          className="w-full"
         />
       </section>
     </Section>
@@ -351,6 +354,7 @@ function ExhibitorsSection() {
           fallbackSize="1024"
           sizes={{ default: "384px", md: "50vw", lg: "512px" }}
           shape={{ id: "variant2", color: "paleBlue", side: "right" }}
+          className="w-full"
         />
       </Section.ImageAside>
 
@@ -451,6 +455,7 @@ function PreviousEditionsSection() {
             fallbackSize="1024"
             sizes={{ default: "384px", md: "50vw", lg: "512px" }}
             shape={{ id: "variant3", color: "mystic", side: "right" }}
+            className="w-full"
           />
         </Section.ImageAside>
 
@@ -492,6 +497,7 @@ function AccessSection() {
           fallbackSize="1024"
           sizes={{ default: "384px", md: "50vw", lg: "512px" }}
           shape={{ id: "variant7", color: "paleBlue", side: "left" }}
+          className="w-full"
         />
       </Section.ImageAside>
 
