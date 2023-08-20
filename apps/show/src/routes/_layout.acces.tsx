@@ -1,18 +1,18 @@
+import { AccessImage } from "#access/image.tsx";
+import { Action } from "#core/actions.tsx";
+import { createConfig } from "#core/config.server.ts";
+import { useConfig } from "#core/config.ts";
+import { ErrorPage, getErrorTitle } from "#core/dataDisplay/errorPage.tsx";
+import { DynamicImage } from "#core/dataDisplay/image.tsx";
+import { BoardCard } from "#core/layout/boardCard.tsx";
+import { HighLightBackground } from "#core/layout/highlightBackground.tsx";
+import { Section } from "#core/layout/section.tsx";
+import { createSocialMeta } from "#core/meta.ts";
+import { getPageTitle } from "#core/pageTitle.ts";
+import { NotFoundResponse } from "#core/response.server.ts";
+import { Pictogram } from "#generated/pictogram.tsx";
 import { json } from "@remix-run/node";
 import { Link, V2_MetaFunction } from "@remix-run/react";
-import { AccessImage } from "~/access/image";
-import { Action } from "~/core/actions";
-import { useConfig } from "~/core/config";
-import { createConfig } from "~/core/config.server";
-import { ErrorPage, getErrorTitle } from "~/core/dataDisplay/errorPage";
-import { DynamicImage } from "~/core/dataDisplay/image";
-import { BoardCard } from "~/core/layout/boardCard";
-import { HighLightBackground } from "~/core/layout/highlightBackground";
-import { Section } from "~/core/layout/section";
-import { createSocialMeta } from "~/core/meta";
-import { getPageTitle } from "~/core/pageTitle";
-import { NotFoundResponse } from "~/core/response.server";
-import { Pictogram } from "~/generated/pictogram";
 
 export async function loader() {
   const { featureFlagSiteOnline } = createConfig();
@@ -55,6 +55,7 @@ function TitleSection() {
           fallbackSize="1024"
           sizes={{ default: "384px", md: "50vw", lg: "512px" }}
           shape={{ id: "variant7", color: "prussianBlue", side: "right" }}
+          className="w-full"
         />
       </Section.ImageAside>
 
@@ -115,6 +116,7 @@ function CarpoolSection() {
           fallbackSize="1024"
           sizes={{ default: "384px", md: "50vw", lg: "512px" }}
           shape={{ id: "variant10", color: "paleBlue", side: "left" }}
+          className="w-full"
         />
       </Section.ImageAside>
 

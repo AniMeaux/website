@@ -6,6 +6,9 @@
   "msw": {
     "workerDirectory": "./public"
   },
+  "imports": {
+    "#*": "./src/*"
+  },
   "scripts": {
     "build:icons": "ts-node --files ./scripts/generateIconSprite.ts",
     "build:image-shapes": "ts-node --files ./scripts/generateImageShapeSprite.ts",
@@ -30,11 +33,14 @@
     "@remix-run/serve": "~1.18.0",
     "@total-typescript/ts-reset": "^0.4.2",
     "@unpic/placeholder": "^0.1.2",
+    "cachified": "^3.5.4",
+    "cloudinary": "^1.40.0",
     "focus-visible": "^5.2.0",
     "isbot": "^3.6.13",
     "lodash.chunk": "^4.2.0",
     "lodash.isequal": "^4.5.0",
     "lodash.orderby": "^4.6.0",
+    "lru-cache": "^10.0.1",
     "luxon": "^2.3.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -42,6 +48,7 @@
     "remark-breaks": "^3.0.2",
     "remark-gfm": "^3.0.1",
     "tiny-invariant": "^1.2.0",
+    "uuid": "^9.0.0",
     "zod": "^3.17.3",
     "zod-form-data": "^1.2.2"
   },
@@ -54,6 +61,7 @@
     "@types/node": "^17.0.6",
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",
+    "@types/uuid": "^9.0.0",
     "@unpic/pixels": "^1.2.0",
     "autoprefixer": "^10.4.14",
     "blurhash": "^2.0.5",

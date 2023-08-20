@@ -1,8 +1,8 @@
+import { ProseInlineAction } from "#core/actions.tsx";
 import { Link } from "@remix-run/react";
 import ReactMarkdown, { Options as ReactMarkdownOptions } from "react-markdown";
 import breaks from "remark-breaks";
 import gfm from "remark-gfm";
-import { ProseInlineAction } from "~/core/actions";
 
 type MarkdownComponents = NonNullable<ReactMarkdownOptions["components"]>;
 

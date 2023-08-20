@@ -1,3 +1,5 @@
+import { ShowDay } from "#core/dates.ts";
+import { PreviousEdition } from "#previousEditions/previousEdition.tsx";
 import {
   NavLinkProps,
   useLocation,
@@ -6,7 +8,6 @@ import {
 } from "@remix-run/react";
 import { useContext } from "react";
 import { UNSAFE_NavigationContext } from "react-router";
-import { ShowDay } from "~/core/dates";
 
 export const Routes = {
   home: () => "/",
@@ -14,7 +15,10 @@ export const Routes = {
   program: (day?: ShowDay) => ["/programme", day].filter(Boolean).join("/"),
   access: () => "/acces",
   faq: () => "/faq",
-  previousEditions: () => "/editions-precedentes",
+  previousEditions: (edition?: PreviousEdition) =>
+    ["/editions-precedentes", edition].filter(Boolean).join("/"),
+  photo: (edition: PreviousEdition, photoIndex: number) =>
+    ["/editions-precedentes", edition, photoIndex].join("/"),
 };
 
 /**

@@ -1,5 +1,5 @@
-import { cn } from "~/core/classNames";
-import { Primitive } from "~/core/primitives";
+import { cn } from "#core/classNames.ts";
+import { Primitive } from "#core/primitives.tsx";
 
 type SectionWidth = "full" | "narrow" | "normal";
 
@@ -87,7 +87,7 @@ Section.ImageAside = function SectionImageAside({
     <Primitive.aside
       {...rest}
       className={cn(
-        "relative justify-self-center md:justify-self-stretch max-w-sm md:max-w-none grid grid-cols-1",
+        "relative justify-self-center md:justify-self-stretch w-full max-w-sm md:max-w-none grid grid-cols-1",
         className
       )}
     />

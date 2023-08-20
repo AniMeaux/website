@@ -1,15 +1,15 @@
+import { createConfig } from "#core/config.server.ts";
+import { useConfig } from "#core/config.ts";
+import { ErrorPage, getErrorTitle } from "#core/dataDisplay/errorPage.tsx";
+import { ShowDay } from "#core/dates.ts";
+import { BoardCard } from "#core/layout/boardCard.tsx";
+import { Section } from "#core/layout/section.tsx";
+import { createSocialMeta } from "#core/meta.ts";
+import { Routes } from "#core/navigation.tsx";
+import { getPageTitle } from "#core/pageTitle.ts";
+import { NotFoundResponse } from "#core/response.server.ts";
 import { json, redirect } from "@remix-run/node";
 import { V2_MetaFunction } from "@remix-run/react";
-import { useConfig } from "~/core/config";
-import { createConfig } from "~/core/config.server";
-import { ErrorPage, getErrorTitle } from "~/core/dataDisplay/errorPage";
-import { ShowDay } from "~/core/dates";
-import { BoardCard } from "~/core/layout/boardCard";
-import { Section } from "~/core/layout/section";
-import { createSocialMeta } from "~/core/meta";
-import { Routes } from "~/core/navigation";
-import { getPageTitle } from "~/core/pageTitle";
-import { NotFoundResponse } from "~/core/response.server";
 
 export async function loader() {
   const { featureFlagShowProgram, featureFlagSiteOnline } = createConfig();

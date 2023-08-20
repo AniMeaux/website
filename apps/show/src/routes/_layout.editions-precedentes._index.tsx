@@ -1,24 +1,28 @@
+import { createConfig } from "#core/config.server.ts";
 import { useConfig } from "#core/config.ts";
 import { ErrorPage, getErrorTitle } from "#core/dataDisplay/errorPage.tsx";
 import { createSocialMeta } from "#core/meta.ts";
+import { Routes } from "#core/navigation.tsx";
 import { getPageTitle } from "#core/pageTitle.ts";
 import { NotFoundResponse } from "#core/response.server.ts";
+import { SORTED_PREVIOUS_EDITIONS } from "#previousEditions/previousEdition.tsx";
+import { redirect } from "@remix-run/node";
 import { V2_MetaFunction } from "@remix-run/react";
 
 export async function loader() {
-  throw new NotFoundResponse();
+  const { featureFlagSiteOnline } = createConfig();
+
+  if (!featureFlagSiteOnline) {
+    throw new NotFoundResponse();
+  }
+
+  throw redirect(Routes.previousEditions(SORTED_PREVIOUS_EDITIONS[0]));
 }
 
 export const meta: V2_MetaFunction = () => {
   return createSocialMeta({ title: getPageTitle(getErrorTitle(404)) });
 };
 
-/**
- * By using a splat route we can still use the root's loader data in a 404 page.
- * Other error pages (500) will be displayed by a degraded error page.
- *
- * @see https://remix.run/docs/en/v1/guides/routing#splats
- */
 export function ErrorBoundary() {
   const { featureFlagSiteOnline } = useConfig();
 

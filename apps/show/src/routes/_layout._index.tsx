@@ -1,29 +1,29 @@
+import { AccessImage } from "#access/image.tsx";
+import { Action, ProseInlineAction } from "#core/actions.tsx";
+import { cn } from "#core/classNames.ts";
+import { useConfig } from "#core/config.ts";
+import { ErrorPage } from "#core/dataDisplay/errorPage.tsx";
+import { DynamicImage } from "#core/dataDisplay/image.tsx";
+import { OPENING_TIME, hasShowEnded } from "#core/dates.ts";
+import { RouteHandle } from "#core/handles.ts";
+import { BoardCard } from "#core/layout/boardCard.tsx";
+import { FooterWave } from "#core/layout/footerWave.tsx";
+import { HighLightBackground } from "#core/layout/highlightBackground.tsx";
+import { LegalBackground } from "#core/layout/legalBackground.tsx";
+import { Section } from "#core/layout/section.tsx";
+import { createSocialMeta } from "#core/meta.ts";
+import { Routes } from "#core/navigation.tsx";
+import { getPageTitle } from "#core/pageTitle.ts";
+import { ExhibitorsImage } from "#exhibitors/image.tsx";
+import { Icon, IconProps } from "#generated/icon.tsx";
+import { Pictogram } from "#generated/pictogram.tsx";
+import logoAniMeaux from "#images/logoAniMeaux.svg";
+import logoLarge from "#images/logoLarge.svg";
+import { PartnersImage } from "#partners/image.tsx";
+import { PreviousEditionImage } from "#previousEditions/image.tsx";
 import { Link, V2_MetaFunction } from "@remix-run/react";
 import { DateTime } from "luxon";
 import { useEffect, useState } from "react";
-import { AccessImage } from "~/access/image";
-import { Action, ProseInlineAction } from "~/core/actions";
-import { BaseLink, BaseLinkProps } from "~/core/baseLink";
-import { cn } from "~/core/classNames";
-import { useConfig } from "~/core/config";
-import { ErrorPage } from "~/core/dataDisplay/errorPage";
-import { DynamicImage } from "~/core/dataDisplay/image";
-import { OPENING_TIME, hasShowEnded } from "~/core/dates";
-import { RouteHandle } from "~/core/handles";
-import { BoardCard } from "~/core/layout/boardCard";
-import { FooterWave } from "~/core/layout/footerWave";
-import { HighLightBackground } from "~/core/layout/highlightBackground";
-import { LegalBackground } from "~/core/layout/legalBackground";
-import { Section } from "~/core/layout/section";
-import { createSocialMeta } from "~/core/meta";
-import { Routes } from "~/core/navigation";
-import { getPageTitle } from "~/core/pageTitle";
-import { ExhibitorsImage } from "~/exhibitors/image";
-import { Icon, IconProps } from "~/generated/icon";
-import { Pictogram } from "~/generated/pictogram";
-import logoAniMeaux from "~/images/logoAniMeaux.svg";
-import logoLarge from "~/images/logoLarge.svg";
-import { PartnersImage } from "~/partners/image";
 
 const ONE_MINUTE_IN_MS = 60 * 1000;
 
@@ -180,6 +180,7 @@ function ComeWithYourDogSection() {
           fallbackSize="512"
           sizes={{ default: "384px", md: "50vw", lg: "464px" }}
           loading="eager"
+          className="w-full"
         />
       </Section.ImageAside>
 
@@ -236,6 +237,7 @@ function PresentationSection() {
               sizes={{ default: "384px", md: "50vw", lg: "464px" }}
               loading="eager"
               aspectRatio="16:10"
+              className="w-full"
             />
           </Section.ImageAside>
         </section>
@@ -338,6 +340,7 @@ function PartnersSection() {
         <PartnersImage
           fallbackSize="1024"
           sizes={{ default: "100vw", lg: "1024px" }}
+          className="w-full"
         />
       </section>
     </Section>
@@ -352,6 +355,7 @@ function ExhibitorsSection() {
           fallbackSize="1024"
           sizes={{ default: "384px", md: "50vw", lg: "512px" }}
           shape={{ id: "variant2", color: "paleBlue", side: "right" }}
+          className="w-full"
         />
       </Section.ImageAside>
 
@@ -441,17 +445,11 @@ function PreviousEditionsSection() {
         />
 
         <Section.ImageAside>
-          <DynamicImage
-            image={{
-              id: "/show/d5e8898b-d756-4942-a957-17ba782d2aa1",
-              blurhash: "UDGuH~.T000000IAEMs;4n%2o~tRs9xD-;t7",
-            }}
-            alt="Des visiteurs regardant le panneau des adoptions."
-            title="Julia Pommé Photographe"
-            aspectRatio="1:1"
+          <PreviousEditionImage
             fallbackSize="1024"
             sizes={{ default: "384px", md: "50vw", lg: "512px" }}
             shape={{ id: "variant3", color: "mystic", side: "right" }}
+            className="w-full"
           />
         </Section.ImageAside>
 
@@ -474,7 +472,9 @@ function PreviousEditionsSection() {
 
           <Section.Action asChild>
             <Action asChild color="mystic">
-              <Link to={Routes.previousEditions()}>Voir les photos</Link>
+              <Link to={Routes.previousEditions()} prefetch="intent">
+                Voir les photos
+              </Link>
             </Action>
           </Section.Action>
         </Section.TextAside>
@@ -491,6 +491,7 @@ function AccessSection() {
           fallbackSize="1024"
           sizes={{ default: "384px", md: "50vw", lg: "512px" }}
           shape={{ id: "variant7", color: "paleBlue", side: "left" }}
+          className="w-full"
         />
       </Section.ImageAside>
 
@@ -506,7 +507,9 @@ function AccessSection() {
 
         <Section.Action asChild>
           <Action asChild color="mystic">
-            <Link to={Routes.access()}>S’y rendre</Link>
+            <Link to={Routes.access()} prefetch="intent">
+              S’y rendre
+            </Link>
           </Action>
         </Section.Action>
       </Section.TextAside>
@@ -611,7 +614,7 @@ function ActionsSection() {
 
           <div className="grid grid-cols-1 justify-items-center md:justify-items-start">
             <Action asChild>
-              <BaseLink to={partnersFormUrl}>Devenez partenaire</BaseLink>
+              <Link to={partnersFormUrl}>Devenez partenaire</Link>
             </Action>
           </div>
         </aside>
@@ -645,7 +648,7 @@ function ActionsSection() {
 
           <div className="grid grid-cols-1 justify-items-center md:justify-items-start">
             <Action asChild>
-              <BaseLink to={exhibitorsFormUrl}>Devenez exposant</BaseLink>
+              <Link to={exhibitorsFormUrl}>Devenez exposant</Link>
             </Action>
           </div>
         </aside>
@@ -770,7 +773,7 @@ function FooterSection() {
           <p>
             Le Salon des Ani’Meaux est organisé par l'association{" "}
             <ProseInlineAction asChild>
-              <BaseLink to={animeauxUrl}>Ani’Meaux.</BaseLink>
+              <Link to={animeauxUrl}>Ani’Meaux.</Link>
             </ProseInlineAction>
           </p>
         </aside>
@@ -787,9 +790,11 @@ function FooterSection() {
   );
 }
 
-function SocialLink(props: Omit<BaseLinkProps, "className">) {
+function SocialLink(
+  props: Omit<React.ComponentPropsWithoutRef<typeof Link>, "className">
+) {
   return (
-    <BaseLink
+    <Link
       {...props}
       className="rounded-full grid grid-cols-1 transition-transform duration-100 ease-in-out hover:scale-105 active:scale-95 hover:active:scale-95 focus-visible:outline-none focus-visible:ring focus-visible:ring-prussianBlue focus-visible:ring-offset-2 focus-visible:ring-offset-inheritBg"
     />
@@ -802,12 +807,12 @@ function ContactItem({
   children,
 }: {
   icon: IconProps["id"];
-  to: NonNullable<BaseLinkProps["to"]>;
+  to: React.ComponentProps<typeof Link>["to"];
   children: string;
 }) {
   return (
     <li className="grid grid-cols-1 justify-items-start">
-      <BaseLink
+      <Link
         to={to}
         className="rounded-0.5 grid grid-cols-[auto_auto] items-start gap-1 transition-transform duration-100 ease-in-out hover:scale-105 active:scale-95 hover:active:scale-95 focus-visible:outline-none focus-visible:ring focus-visible:ring-mystic focus-visible:ring-offset-2 focus-visible:ring-offset-paleBlue"
       >
@@ -816,7 +821,7 @@ function ContactItem({
         </span>
 
         <span>{children}</span>
-      </BaseLink>
+      </Link>
     </li>
   );
 }

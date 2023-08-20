@@ -10,6 +10,11 @@ import invariant from "tiny-invariant";
 
 const ABORT_DELAY = 5000;
 
+if (process.env.NODE_ENV === "development") {
+  const { startWorker } = require("#mocks/mocks.server.ts");
+  startWorker();
+}
+
 export default function handleRequest(
   request: Request,
   responseStatusCode: number,

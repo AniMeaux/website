@@ -33,7 +33,7 @@
     "algoliasearch": "^4.14.2",
     "autosize": "^5.0.1",
     "bowser": "^2.11.0",
-    "cloudinary": "^1.33.0",
+    "cloudinary": "^1.40.0",
     "cookie-signature": "^1.2.0",
     "downshift": "^7.0.4",
     "focus-visible": "^5.2.0",
