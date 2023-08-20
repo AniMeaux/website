@@ -15,7 +15,12 @@ export const CloudinaryApiResponseSchema = z.object({
         .object({
           custom: z
             .object({
-              blurhash: z.string().optional(),
+              blurhash: z
+                .string()
+                .optional()
+                .transform((value) =>
+                  value == null ? undefined : decodeURIComponent(value)
+                ),
             })
             .optional(),
         })
