@@ -329,7 +329,7 @@ function SeparatorLargeBlock({
         className="overflow-visible w-full h-full"
       >
         <path
-          d="M24 120C-48 0 305.33 15 512 30C718.67 45 1000 150 1000 -200"
+          d="M24 120C-48 0 305.33 15 512 30C718.67 45 1000 150 1000 -100"
           strokeDasharray="14 13"
           strokeLinecap="round"
           strokeLinejoin="round"
@@ -343,7 +343,7 @@ function SeparatorLargeBlock({
       {hasBee ? (
         <BeeIllustration
           direction="right-to-left"
-          className="absolute top-[56px] -translate-y-1/2 right-[21%] -translate-x-1/2 w-[25px]"
+          className="absolute top-[64px] -translate-y-1/2 right-[15.5%] -translate-x-1/2 w-[25px]"
         />
       ) : null}
     </div>
