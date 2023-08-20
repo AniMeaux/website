@@ -1,19 +1,19 @@
+import { ProseInlineAction } from "#core/actions.tsx";
+import { createConfig } from "#core/config.server.ts";
+import { Config, useConfig } from "#core/config.ts";
+import { ErrorPage, getErrorTitle } from "#core/dataDisplay/errorPage.tsx";
+import { DynamicImage } from "#core/dataDisplay/image.tsx";
+import { LightBoardCard } from "#core/layout/lightBoardCard.tsx";
+import { Section } from "#core/layout/section.tsx";
+import { createSocialMeta } from "#core/meta.ts";
+import { Routes } from "#core/navigation.tsx";
+import { getPageTitle } from "#core/pageTitle.ts";
+import { NotFoundResponse } from "#core/response.server.ts";
+import { Icon } from "#generated/icon.tsx";
 import * as Collapsible from "@radix-ui/react-collapsible";
 import { json } from "@remix-run/node";
 import { Link, V2_MetaFunction } from "@remix-run/react";
 import chunk from "lodash.chunk";
-import { ProseInlineAction } from "~/core/actions";
-import { Config, useConfig } from "~/core/config";
-import { createConfig } from "~/core/config.server";
-import { ErrorPage, getErrorTitle } from "~/core/dataDisplay/errorPage";
-import { DynamicImage } from "~/core/dataDisplay/image";
-import { LightBoardCard } from "~/core/layout/lightBoardCard";
-import { Section } from "~/core/layout/section";
-import { createSocialMeta } from "~/core/meta";
-import { Routes } from "~/core/navigation";
-import { getPageTitle } from "~/core/pageTitle";
-import { NotFoundResponse } from "~/core/response.server";
-import { Icon } from "~/generated/icon";
 
 export async function loader() {
   const { featureFlagSiteOnline } = createConfig();
@@ -63,6 +63,7 @@ function TitleSection() {
           fallbackSize="1024"
           sizes={{ default: "384px", md: "50vw", lg: "512px" }}
           shape={{ id: "variant11", color: "prussianBlue", side: "right" }}
+          className="w-full"
         />
       </Section.ImageAside>
 
@@ -286,7 +287,9 @@ const FAQ: Faq[] = [
       <>
         La liste des exposants est disponible dans la page{" "}
         <ProseInlineAction asChild>
-          <Link to={Routes.exhibitors()}>Exposants</Link>
+          <Link to={Routes.exhibitors()} prefetch="intent">
+            Exposants
+          </Link>
         </ProseInlineAction>
         .
       </>
@@ -307,7 +310,9 @@ const FAQ: Faq[] = [
       <>
         Oui, le programme des animations est disponible dans la page{" "}
         <ProseInlineAction asChild>
-          <Link to={Routes.program()}>Programme</Link>
+          <Link to={Routes.program()} prefetch="intent">
+            Programme
+          </Link>
         </ProseInlineAction>
         . Nous vous réservons des animations variées et ludiques destinées aux
         familles.

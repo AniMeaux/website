@@ -1,9 +1,9 @@
+import { useConfig } from "#core/config.ts";
+import { asRouteHandle } from "#core/handles.ts";
+import { Footer } from "#core/layout/footer.tsx";
+import { Header } from "#core/layout/header.tsx";
+import { PageBackground } from "#core/layout/pageBackground.tsx";
 import { Outlet, useMatches } from "@remix-run/react";
-import { useConfig } from "~/core/config";
-import { asRouteHandle } from "~/core/handles";
-import { Footer } from "~/core/layout/footer";
-import { Header } from "~/core/layout/header";
-import { PageBackground } from "~/core/layout/pageBackground";
 
 export default function Route() {
   const { featureFlagSiteOnline } = useConfig();

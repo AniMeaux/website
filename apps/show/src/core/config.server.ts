@@ -1,5 +1,5 @@
+import { Config } from "#core/config.ts";
 import invariant from "tiny-invariant";
-import { Config } from "~/core/config";
 
 export function createConfig(): Config {
   invariant(process.env.ANIMEAUX_URL, "ANIMEAUX_URL should be defined");

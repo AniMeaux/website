@@ -1,4 +1,18 @@
-import { json, LinksFunction } from "@remix-run/node";
+import { cn } from "#core/classNames.ts";
+import { createConfig } from "#core/config.server.ts";
+import { useConfig } from "#core/config.ts";
+import { ErrorPage } from "#core/dataDisplay/errorPage.tsx";
+import { createImageUrl } from "#core/dataDisplay/image.tsx";
+import { asRouteHandle } from "#core/handles.ts";
+import { getPageTitle, pageDescription } from "#core/pageTitle.ts";
+import { ScrollRestorationLocationState } from "#core/scrollRestoration.ts";
+import { theme } from "#generated/theme.ts";
+import appleTouchIcon from "#images/appleTouchIcon.png";
+import faviconDark from "#images/faviconDark.png";
+import faviconLight from "#images/faviconLight.png";
+import maskIcon from "#images/maskIcon.png";
+import stylesheet from "#tailwind.css";
+import { LinksFunction, json } from "@remix-run/node";
 import {
   Links,
   LiveReload,
@@ -7,20 +21,9 @@ import {
   Scripts,
   ScrollRestoration,
   useLocation,
+  useMatches,
 } from "@remix-run/react";
 import { Settings } from "luxon";
-import { cn } from "~/core/classNames";
-import { useConfig } from "~/core/config";
-import { createConfig } from "~/core/config.server";
-import { ErrorPage } from "~/core/dataDisplay/errorPage";
-import { createCloudinaryUrl } from "~/core/dataDisplay/image";
-import { getPageTitle, pageDescription } from "~/core/pageTitle";
-import { theme } from "~/generated/theme";
-import appleTouchIcon from "~/images/appleTouchIcon.png";
-import faviconDark from "~/images/faviconDark.png";
-import faviconLight from "~/images/faviconLight.png";
-import maskIcon from "~/images/maskIcon.png";
-import stylesheet from "~/tailwind.css";
 
 // Display dates in French.
 Settings.defaultLocale = "fr";
@@ -103,15 +106,28 @@ function Document({
 
   let imageUrl: string | undefined = undefined;
   if (cloudinaryName != null) {
-    imageUrl = createCloudinaryUrl(
+    imageUrl = createImageUrl(
       cloudinaryName,
       "show/f4fe85de-763b-41f8-8f3e-5dc6db343804",
       { size: "1024", format: "jpg" }
     );
   }
 
+  const routeHandles = useMatches().map((match) => asRouteHandle(match.handle));
+  const htmlBackgroundColor = routeHandles
+    .map((handle) => handle.htmlBackgroundColor)
+    .find((color) => color != null);
+
+  const isFullHeight = routeHandles.some((handle) => handle.isFullHeight);
+
   return (
-    <html lang="fr" className="bg-white bg-var-white">
+    <html
+      lang="fr"
+      className={cn(
+        htmlBackgroundColor ?? "bg-white bg-var-white",
+        isFullHeight ? "h-full" : undefined
+      )}
+    >
       <head>
         <meta charSet="utf-8" />
         <meta name="theme-color" content={theme.colors.white} />
@@ -154,9 +170,10 @@ function Document({
 
       <body
         className={cn(
-          "min-h-screen overflow-x-clip grid grid-cols-1 content-start text-prussianBlue text-body-lowercase-default",
+          "overflow-x-clip grid grid-cols-1 text-prussianBlue text-body-lowercase-default",
           // Make sure children with absolute positionning are correctly placed.
-          "relative"
+          "relative",
+          isFullHeight ? "h-full" : "min-h-screen content-start"
         )}
       >
         {googleTagManagerId != null && (
@@ -164,7 +181,16 @@ function Document({
         )}
 
         {children}
-        <ScrollRestoration />
+
+        <ScrollRestoration
+          getKey={(location) => {
+            const { scrollRestorationLocationKey } =
+              ScrollRestorationLocationState.parse(location.state);
+
+            return scrollRestorationLocationKey ?? location.key;
+          }}
+        />
+
         <Scripts />
         <LiveReload />
       </body>

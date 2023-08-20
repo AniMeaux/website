@@ -28,7 +28,7 @@
     "@prisma/client": "^4.8.0",
     "algoliasearch": "^4.12.0",
     "bcryptjs": "^2.4.3",
-    "cloudinary": "^1.33.0",
+    "cloudinary": "^1.40.0",
     "cookie-signature": "^1.2.0",
     "d3-dsv": "^2.0.0",
     "dotenv-flow": "^3.2.0",

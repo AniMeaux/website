@@ -5,6 +5,8 @@ declare global {
     interface ProcessEnv {
       ANIMEAUX_URL?: string;
       CARPOOL_FACEBOOK_GROUP_URL?: string;
+      CLOUDINARY_API_KEY?: string;
+      CLOUDINARY_API_SECRET?: string;
       CLOUDINARY_CLOUD_NAME?: string;
       DATABASE_URL?: string;
       EXHIBITORS_FORM_URL?: string;

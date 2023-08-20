@@ -1,15 +1,15 @@
+import { cn } from "#core/classNames.ts";
+import { useConfig } from "#core/config.ts";
+import { createSearchParams } from "#core/searchParams.ts";
+import { ImageShapeId } from "#generated/imageShapeId.ts";
+import sprite from "#generated/imageShapesSprite.svg";
+import { ScreenSize, theme } from "#generated/theme.ts";
 import { blurhashToDataUri } from "@unpic/placeholder";
 import orderBy from "lodash.orderby";
 import { useId } from "react";
 import invariant from "tiny-invariant";
 import { z } from "zod";
 import { zfd } from "zod-form-data";
-import { cn } from "~/core/classNames";
-import { useConfig } from "~/core/config";
-import { createSearchParams } from "~/core/searchParams";
-import { ImageShapeId } from "~/generated/imageShapeId";
-import sprite from "~/generated/imageShapesSprite.svg";
-import { ScreenSize, theme } from "~/generated/theme";
 
 type ImageSize = (typeof IMAGE_SIZES)[number];
 type AspectRatio = "none" | "1:1" | "4:3" | "16:9" | "16:10";
@@ -22,7 +22,7 @@ type ImageData = {
 };
 
 export type DynamicImageProps = Omit<
-  React.ImgHTMLAttributes<HTMLImageElement>,
+  React.ComponentPropsWithoutRef<"img">,
   "alt" | "sizes"
 > & {
   alt: string;
@@ -57,7 +57,7 @@ export function DynamicImage({
   const config = useConfig();
 
   const srcSet = IMAGE_SIZES.map((size) => {
-    const url = createCloudinaryUrl(config.cloudinaryName, image.id, {
+    const url = createImageUrl(config.cloudinaryName, image.id, {
       size,
       aspectRatio,
     });
@@ -94,7 +94,7 @@ export function DynamicImage({
         {...rest}
         alt={alt}
         loading={loading}
-        src={createCloudinaryUrl(config.cloudinaryName, image.id, {
+        src={createImageUrl(config.cloudinaryName, image.id, {
           size: fallbackSize,
           aspectRatio,
         })}
@@ -141,7 +141,7 @@ export function createImageMedia(screenSize: ScreenSize, width?: string) {
     .join(" ");
 }
 
-export function createCloudinaryUrl(
+export function createImageUrl(
   cloudName: string,
   imageId: string,
   {

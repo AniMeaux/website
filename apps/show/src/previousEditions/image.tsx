@@ -1,6 +1,6 @@
 import { DynamicImage } from "#core/dataDisplay/image.tsx";
 
-export function ExhibitorsImage(
+export function PreviousEditionImage(
   props: Omit<
     React.ComponentPropsWithoutRef<typeof DynamicImage>,
     "alt" | "aspectRatio" | "image" | "title"
@@ -10,10 +10,10 @@ export function ExhibitorsImage(
     <DynamicImage
       {...props}
       image={{
-        id: "/show/d7cc20a6-3cb7-4b57-a25c-f4a612ab5fa8",
-        blurhash: "U5FO+L0000?[00EJ?t$m00^,RQk95QyD4;IA",
+        id: "/show/d5e8898b-d756-4942-a957-17ba782d2aa1",
+        blurhash: "UDGuH~.T000000IAEMs;4n%2o~tRs9xD-;t7",
       }}
-      alt="Stands des exposants du salon."
+      alt="Des visiteurs regardant le panneau des adoptions."
       title="Julia Pommé Photographe"
       aspectRatio="1:1"
     />
