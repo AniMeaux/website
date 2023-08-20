@@ -1,3 +1,22 @@
+import { cn } from "#core/classNames.ts";
+import { cloudinary } from "#core/cloudinary/cloudinary.server.ts";
+import { createConfig } from "#core/config.server.ts";
+import { useConfig } from "#core/config.ts";
+import { Tab, Tabs } from "#core/controllers/tabs.tsx";
+import { ErrorPage, getErrorTitle } from "#core/dataDisplay/errorPage.tsx";
+import { DynamicImage } from "#core/dataDisplay/image.tsx";
+import { Section } from "#core/layout/section.tsx";
+import { createSocialMeta } from "#core/meta.ts";
+import { Routes } from "#core/navigation.tsx";
+import { getPageTitle } from "#core/pageTitle.ts";
+import { NotFoundResponse } from "#core/response.server.ts";
+import { ScrollRestorationLocationState } from "#core/scrollRestoration.ts";
+import { PreviousEditionImage } from "#previousEditions/image.tsx";
+import { PhotoLocationState } from "#previousEditions/photoLocationState.ts";
+import {
+  PreviousEdition,
+  SORTED_PREVIOUS_EDITIONS,
+} from "#previousEditions/previousEdition.tsx";
 import { LoaderArgs, SerializeFrom, defer } from "@remix-run/node";
 import {
   Await,
@@ -8,25 +27,6 @@ import {
 } from "@remix-run/react";
 import { Suspense } from "react";
 import { z } from "zod";
-import { cn } from "~/core/classNames";
-import { cloudinary } from "~/core/cloudinary/cloudinary.server";
-import { useConfig } from "~/core/config";
-import { createConfig } from "~/core/config.server";
-import { Tab, Tabs } from "~/core/controllers/tabs";
-import { ErrorPage, getErrorTitle } from "~/core/dataDisplay/errorPage";
-import { DynamicImage } from "~/core/dataDisplay/image";
-import { Section } from "~/core/layout/section";
-import { createSocialMeta } from "~/core/meta";
-import { Routes } from "~/core/navigation";
-import { getPageTitle } from "~/core/pageTitle";
-import { NotFoundResponse } from "~/core/response.server";
-import { ScrollRestorationLocationState } from "~/core/scrollRestoration";
-import { PreviousEditionImage } from "~/previousEditions/image";
-import { PhotoLocationState } from "~/previousEditions/photoLocationState";
-import {
-  PreviousEdition,
-  SORTED_PREVIOUS_EDITIONS,
-} from "~/previousEditions/previousEdition";
 
 const ParamsSchema = z.object({
   edition: z.nativeEnum(PreviousEdition),

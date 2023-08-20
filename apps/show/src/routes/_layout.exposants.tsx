@@ -1,19 +1,19 @@
+import { Action } from "#core/actions.tsx";
+import { createConfig } from "#core/config.server.ts";
+import { useConfig } from "#core/config.ts";
+import { ErrorPage, getErrorTitle } from "#core/dataDisplay/errorPage.tsx";
+import { DynamicImage, ImageUrl } from "#core/dataDisplay/image.tsx";
+import { BoardCard } from "#core/layout/boardCard.tsx";
+import { LightBoardCard } from "#core/layout/lightBoardCard.tsx";
+import { Section } from "#core/layout/section.tsx";
+import { createSocialMeta } from "#core/meta.ts";
+import { getPageTitle } from "#core/pageTitle.ts";
+import { prisma } from "#core/prisma.server.ts";
+import { NotFoundResponse } from "#core/response.server.ts";
+import { EXHIBITOR_CATEGORY_TRANSLATIONS } from "#exhibitors/translations.ts";
+import { Pictogram } from "#generated/pictogram.tsx";
 import { SerializeFrom, json } from "@remix-run/node";
 import { Link, V2_MetaFunction, useLoaderData } from "@remix-run/react";
-import { Action } from "~/core/actions";
-import { useConfig } from "~/core/config";
-import { createConfig } from "~/core/config.server";
-import { ErrorPage, getErrorTitle } from "~/core/dataDisplay/errorPage";
-import { DynamicImage, ImageUrl } from "~/core/dataDisplay/image";
-import { BoardCard } from "~/core/layout/boardCard";
-import { LightBoardCard } from "~/core/layout/lightBoardCard";
-import { Section } from "~/core/layout/section";
-import { createSocialMeta } from "~/core/meta";
-import { getPageTitle } from "~/core/pageTitle";
-import { prisma } from "~/core/prisma.server";
-import { NotFoundResponse } from "~/core/response.server";
-import { EXHIBITOR_CATEGORY_TRANSLATIONS } from "~/exhibitors/translations";
-import { Pictogram } from "~/generated/pictogram";
 
 export async function loader() {
   const { featureFlagShowExhibitors, featureFlagSiteOnline } = createConfig();

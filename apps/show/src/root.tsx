@@ -1,4 +1,18 @@
-import { json, LinksFunction } from "@remix-run/node";
+import { cn } from "#core/classNames.ts";
+import { createConfig } from "#core/config.server.ts";
+import { useConfig } from "#core/config.ts";
+import { ErrorPage } from "#core/dataDisplay/errorPage.tsx";
+import { createImageUrl } from "#core/dataDisplay/image.tsx";
+import { asRouteHandle } from "#core/handles.ts";
+import { getPageTitle, pageDescription } from "#core/pageTitle.ts";
+import { ScrollRestorationLocationState } from "#core/scrollRestoration.ts";
+import { theme } from "#generated/theme.ts";
+import appleTouchIcon from "#images/appleTouchIcon.png";
+import faviconDark from "#images/faviconDark.png";
+import faviconLight from "#images/faviconLight.png";
+import maskIcon from "#images/maskIcon.png";
+import stylesheet from "#tailwind.css";
+import { LinksFunction, json } from "@remix-run/node";
 import {
   Links,
   LiveReload,
@@ -10,20 +24,6 @@ import {
   useMatches,
 } from "@remix-run/react";
 import { Settings } from "luxon";
-import { cn } from "~/core/classNames";
-import { useConfig } from "~/core/config";
-import { createConfig } from "~/core/config.server";
-import { ErrorPage } from "~/core/dataDisplay/errorPage";
-import { createImageUrl } from "~/core/dataDisplay/image";
-import { asRouteHandle } from "~/core/handles";
-import { getPageTitle, pageDescription } from "~/core/pageTitle";
-import { ScrollRestorationLocationState } from "~/core/scrollRestoration";
-import { theme } from "~/generated/theme";
-import appleTouchIcon from "~/images/appleTouchIcon.png";
-import faviconDark from "~/images/faviconDark.png";
-import faviconLight from "~/images/faviconLight.png";
-import maskIcon from "~/images/maskIcon.png";
-import stylesheet from "~/tailwind.css";
 
 // Display dates in French.
 Settings.defaultLocale = "fr";

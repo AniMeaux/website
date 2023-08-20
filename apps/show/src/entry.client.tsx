@@ -4,7 +4,7 @@ import { StrictMode, startTransition } from "react";
 import { hydrateRoot } from "react-dom/client";
 
 if (process.env.NODE_ENV === "development") {
-  const { startWorker } = require("~/mocks/mocks.client");
+  const { startWorker } = require("#mocks/mocks.client.ts");
   startWorker();
 }
 

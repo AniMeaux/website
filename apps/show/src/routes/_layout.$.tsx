@@ -1,9 +1,9 @@
+import { useConfig } from "#core/config.ts";
+import { ErrorPage, getErrorTitle } from "#core/dataDisplay/errorPage.tsx";
+import { createSocialMeta } from "#core/meta.ts";
+import { getPageTitle } from "#core/pageTitle.ts";
+import { NotFoundResponse } from "#core/response.server.ts";
 import { V2_MetaFunction } from "@remix-run/react";
-import { useConfig } from "~/core/config";
-import { ErrorPage, getErrorTitle } from "~/core/dataDisplay/errorPage";
-import { createSocialMeta } from "~/core/meta";
-import { getPageTitle } from "~/core/pageTitle";
-import { NotFoundResponse } from "~/core/response.server";
 
 export async function loader() {
   throw new NotFoundResponse();

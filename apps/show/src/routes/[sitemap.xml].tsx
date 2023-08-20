@@ -1,8 +1,8 @@
+import { createConfig } from "#core/config.server.ts";
+import { SORTED_SHOW_DAYS } from "#core/dates.ts";
+import { Routes } from "#core/navigation.tsx";
+import { SORTED_PREVIOUS_EDITIONS } from "#previousEditions/previousEdition.tsx";
 import { renderToStaticMarkup } from "react-dom/server";
-import { createConfig } from "~/core/config.server";
-import { SORTED_SHOW_DAYS } from "~/core/dates";
-import { Routes } from "~/core/navigation";
-import { SORTED_PREVIOUS_EDITIONS } from "~/previousEditions/previousEdition";
 
 type SitemapAttribute = {
   key?: React.Key;

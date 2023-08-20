@@ -1,9 +1,9 @@
+import { CloudinaryApiResponse } from "#core/cloudinary/shared.server.ts";
+import { createSearchParams } from "#core/searchParams.ts";
 import { rest } from "msw";
 import { v4 as uuid } from "uuid";
 import { z } from "zod";
 import { zfd } from "zod-form-data";
-import { CloudinaryApiResponse } from "~/core/cloudinary/shared.server";
-import { createSearchParams } from "~/core/searchParams";
 
 const SearchParams = createSearchParams({
   maxResults: {

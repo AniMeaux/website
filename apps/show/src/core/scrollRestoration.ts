@@ -1,5 +1,5 @@
+import { createLocationState } from "#core/locationState.ts";
 import { z } from "zod";
-import { createLocationState } from "~/core/locationState";
 
 export const ScrollRestorationLocationState = createLocationState(
   z

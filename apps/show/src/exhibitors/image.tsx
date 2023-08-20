@@ -1,4 +1,4 @@
-import { DynamicImage } from "~/core/dataDisplay/image";
+import { DynamicImage } from "#core/dataDisplay/image.tsx";
 
 export function ExhibitorsImage(
   props: Omit<

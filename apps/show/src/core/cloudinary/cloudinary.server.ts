@@ -1,6 +1,6 @@
+import { PrevousEditionCloudinaryDelegate } from "#previousEditions/cloudinary.server.ts";
 import { v2 as cloudinaryClient } from "cloudinary";
 import invariant from "tiny-invariant";
-import { PrevousEditionCloudinaryDelegate } from "~/previousEditions/cloudinary.server";
 
 invariant(
   process.env.CLOUDINARY_CLOUD_NAME != null,
@@ -22,6 +22,8 @@ cloudinaryClient.config({
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
+
+export { cloudinaryClient };
 
 export const cloudinary = {
   previousEdition: new PrevousEditionCloudinaryDelegate(cloudinaryClient),

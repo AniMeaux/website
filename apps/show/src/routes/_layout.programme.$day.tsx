@@ -1,27 +1,27 @@
-import { LoaderArgs, SerializeFrom, json } from "@remix-run/node";
-import { Link, V2_MetaFunction, useLoaderData } from "@remix-run/react";
-import { DateTime } from "luxon";
-import { z } from "zod";
-import { BeeIllustration } from "~/core/Illustration/bee";
-import { Action } from "~/core/actions";
-import { cn } from "~/core/classNames";
-import { useConfig } from "~/core/config";
-import { createConfig } from "~/core/config.server";
-import { Tab, Tabs } from "~/core/controllers/tabs";
-import { ErrorPage, getErrorTitle } from "~/core/dataDisplay/errorPage";
-import { Markdown, SENTENCE_COMPONENTS } from "~/core/dataDisplay/markdown";
+import { BeeIllustration } from "#core/Illustration/bee.tsx";
+import { Action } from "#core/actions.tsx";
+import { cn } from "#core/classNames.ts";
+import { createConfig } from "#core/config.server.ts";
+import { useConfig } from "#core/config.ts";
+import { Tab, Tabs } from "#core/controllers/tabs.tsx";
+import { ErrorPage, getErrorTitle } from "#core/dataDisplay/errorPage.tsx";
+import { Markdown, SENTENCE_COMPONENTS } from "#core/dataDisplay/markdown.tsx";
 import {
   CLOSING_TIME,
   OPENING_TIME,
   SORTED_SHOW_DAYS,
   ShowDay,
-} from "~/core/dates";
-import { Section } from "~/core/layout/section";
-import { createSocialMeta } from "~/core/meta";
-import { Routes } from "~/core/navigation";
-import { getPageTitle } from "~/core/pageTitle";
-import { prisma } from "~/core/prisma.server";
-import { NotFoundResponse } from "~/core/response.server";
+} from "#core/dates.ts";
+import { Section } from "#core/layout/section.tsx";
+import { createSocialMeta } from "#core/meta.ts";
+import { Routes } from "#core/navigation.tsx";
+import { getPageTitle } from "#core/pageTitle.ts";
+import { prisma } from "#core/prisma.server.ts";
+import { NotFoundResponse } from "#core/response.server.ts";
+import { LoaderArgs, SerializeFrom, json } from "@remix-run/node";
+import { Link, V2_MetaFunction, useLoaderData } from "@remix-run/react";
+import { DateTime } from "luxon";
+import { z } from "zod";
 
 const DaySchema = z.object({
   day: z.nativeEnum(ShowDay),

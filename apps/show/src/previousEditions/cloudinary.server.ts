@@ -1,11 +1,11 @@
-import { cachified } from "cachified";
-import { lruCache } from "~/core/cache.server";
+import { lruCache } from "#core/cache.server.ts";
 import {
   CloudinaryApiResponse,
   CloudinaryApiResponseSchema,
   CloudinaryDelegate,
-} from "~/core/cloudinary/shared.server";
-import { PreviousEdition } from "~/previousEditions/previousEdition";
+} from "#core/cloudinary/shared.server.ts";
+import { PreviousEdition } from "#previousEditions/previousEdition.tsx";
+import { cachified } from "cachified";
 
 export class PrevousEditionCloudinaryDelegate extends CloudinaryDelegate {
   async findAllImages(edition: PreviousEdition) {

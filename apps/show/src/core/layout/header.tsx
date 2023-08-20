@@ -1,15 +1,15 @@
+import { cn } from "#core/classNames.ts";
+import { Config, useConfig } from "#core/config.ts";
+import { createImageMedia } from "#core/dataDisplay/image.tsx";
+import { hasShowEnded } from "#core/dates.ts";
+import { Routes } from "#core/navigation.tsx";
+import { Primitive } from "#core/primitives.tsx";
+import { Icon } from "#generated/icon.tsx";
+import logoMedium from "#images/logoMedium.svg";
+import logoSmall from "#images/logoSmall.svg";
 import * as NavigationMenu from "@radix-ui/react-navigation-menu";
 import { Link, NavLink } from "@remix-run/react";
 import { forwardRef } from "react";
-import { cn } from "~/core/classNames";
-import { Config, useConfig } from "~/core/config";
-import { createImageMedia } from "~/core/dataDisplay/image";
-import { hasShowEnded } from "~/core/dates";
-import { Routes } from "~/core/navigation";
-import { Primitive } from "~/core/primitives";
-import { Icon } from "~/generated/icon";
-import logoMedium from "~/images/logoMedium.svg";
-import logoSmall from "~/images/logoSmall.svg";
 
 export function Header() {
   return (

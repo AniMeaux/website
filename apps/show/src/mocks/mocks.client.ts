@@ -1,5 +1,5 @@
+import { cloudinaryHandlers } from "#mocks/cloudinary.client.ts";
 import { setupWorker } from "msw";
-import { cloudinaryHandlers } from "~/mocks/cloudinary.client";
 
 const worker = setupWorker(...cloudinaryHandlers);
 

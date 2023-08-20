@@ -1,5 +1,5 @@
-import { cn } from "~/core/classNames";
-import { Primitive } from "~/core/primitives";
+import { cn } from "#core/classNames.ts";
+import { Primitive } from "#core/primitives.tsx";
 
 type SectionWidth = "full" | "narrow" | "normal";
 

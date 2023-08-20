@@ -1,6 +1,6 @@
+import { Action } from "#core/actions.tsx";
+import { useNavLink } from "#core/navigation.tsx";
 import { NavLink } from "@remix-run/react";
-import { Action } from "~/core/actions";
-import { useNavLink } from "~/core/navigation";
 
 export function Tabs({ children }: React.PropsWithChildren<{}>) {
   return (
