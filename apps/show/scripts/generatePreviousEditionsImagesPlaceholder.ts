@@ -33,7 +33,7 @@ async function generatePreviousEditionsImagesPlaceholder() {
           );
 
           await cloudinaryClient.uploader.add_context(
-            ["blurhash", blurhash].join("="),
+            ["blurhash", encodeURIComponent(blurhash)].join("="),
             [image.id]
           );
 
