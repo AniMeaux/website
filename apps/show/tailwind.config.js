@@ -110,10 +110,19 @@ module.exports = {
       );
     }),
 
-    plugin(({ addVariant }) => {
+    plugin(({ addVariant, matchVariant }) => {
       // Override hover to make sure it's only applied on supported devices.
       // https://tailwindcss.com/docs/hover-focus-and-other-states#using-arbitrary-variants
       addVariant("hover", "@media(any-hover:hover){&:hover}");
+      // https://github.com/tailwindlabs/tailwindcss/discussions/9788#discussioncomment-4098439
+      matchVariant(
+        "group",
+        (_, { modifier }) => {
+          const suffix = modifier == null ? "" : `\\/${modifier}`;
+          return `@media(any-hover:hover){:merge(.group${suffix}):hover &}`;
+        },
+        { values: { hover: "hover" } }
+      );
     }),
 
     /*
