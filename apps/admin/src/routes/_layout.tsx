@@ -210,13 +210,12 @@ const ALL_NAVIGATION_ITEMS: NavigationItem[] = [
     label: "Races",
     authorizedGroups: [UserGroup.ADMIN],
   },
-  // Uncomment when pages are implemented.
-  // {
-  //   to: Routes.colors.toString(),
-  //   icon: "palette",
-  //   label: "Couleurs",
-  //   authorizedGroups: [UserGroup.ADMIN],
-  // },
+  {
+    to: Routes.colors.toString(),
+    icon: "palette",
+    label: "Couleurs",
+    authorizedGroups: [UserGroup.ADMIN],
+  },
 ];
 
 function CurrentUserMenu() {

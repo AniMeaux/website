@@ -41,6 +41,13 @@ export const Routes = {
     }),
     new: { toString: () => "/breeds/new" as const },
   },
+  colors: {
+    toString: () => "/colors" as const,
+    id: (id: string) => ({
+      edit: { toString: () => `/colors/${id}/edit` as const },
+    }),
+    new: { toString: () => "/colors/new" as const },
+  },
   events: {
     toString: () => "/events" as const,
     id: (id: string) => ({

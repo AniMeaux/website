@@ -12,6 +12,18 @@ export class ColorAlgoliaDelegate {
     this.index = client.initIndex("colors");
   }
 
+  async delete(id: Color["id"]) {
+    await this.index.deleteObject(id);
+  }
+
+  async create(id: Color["id"], data: ColorFromAlgolia) {
+    await this.index.saveObject({ ...data, objectID: id });
+  }
+
+  async update(id: Color["id"], data: Partial<ColorFromAlgolia>) {
+    await this.index.partialUpdateObject({ ...data, objectID: id });
+  }
+
   async search({
     name,
     ...options
