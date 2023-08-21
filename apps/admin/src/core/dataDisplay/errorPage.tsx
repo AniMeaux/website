@@ -6,6 +6,7 @@ import {
 import { Action } from "~/core/actions";
 import { BaseLink } from "~/core/baseLink";
 import { Empty } from "~/core/dataDisplay/empty";
+import { Routes } from "~/core/navigation";
 
 export function ErrorPage() {
   const error = useRouteError();
@@ -42,7 +43,7 @@ type ErrorMetaData = {
 function GoHomeAction() {
   return (
     <Action asChild>
-      <BaseLink to="/">Page d’accueil</BaseLink>
+      <BaseLink to={Routes.home.toString()}>Page d’accueil</BaseLink>
     </Action>
   );
 }

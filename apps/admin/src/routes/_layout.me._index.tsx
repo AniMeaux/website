@@ -16,6 +16,7 @@ import { db } from "~/core/db.server";
 import { AvatarCard } from "~/core/layout/avatarCard";
 import { Card } from "~/core/layout/card";
 import { PageLayout } from "~/core/layout/page";
+import { Routes } from "~/core/navigation";
 import { getPageTitle } from "~/core/pageTitle";
 import { prisma } from "~/core/prisma.server";
 import { Icon } from "~/generated/icon";
@@ -150,7 +151,7 @@ function HeaderCard() {
         </AvatarCard.Lines>
 
         <Action asChild variant="text">
-          <BaseLink to="/me/edit-profile">Modifier</BaseLink>
+          <BaseLink to={Routes.me.editProfile.toString()}>Modifier</BaseLink>
         </Action>
       </AvatarCard.Content>
     </AvatarCard>
@@ -195,7 +196,9 @@ function ActionsCard() {
 
       <Card.Content>
         <Action asChild variant="secondary" color="gray">
-          <BaseLink to="/me/change-password">Changer de mot de passe</BaseLink>
+          <BaseLink to={Routes.me.changePassword.toString()}>
+            Changer de mot de passe
+          </BaseLink>
         </Action>
       </Card.Content>
     </Card>
@@ -222,7 +225,7 @@ function ManagedAnimalsCard() {
           <Action asChild variant="text">
             <BaseLink
               to={{
-                pathname: "/animals/search",
+                pathname: Routes.animals.search.toString(),
                 search: AnimalSearchParams.stringify({
                   statuses: new Set(ACTIVE_ANIMAL_STATUS),
                   managersId: new Set([currentUser.id]),
@@ -298,7 +301,7 @@ function NonActiveManagedAnimalsCard() {
           <Action asChild variant="text">
             <BaseLink
               to={{
-                pathname: "/animals/search",
+                pathname: Routes.animals.search.toString(),
                 search: AnimalSearchParams.stringify({
                   statuses: new Set(NON_ACTIVE_ANIMAL_STATUS),
                   managersId: new Set([currentUser.id]),

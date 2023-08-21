@@ -26,7 +26,7 @@ import {
   SuggestionItem,
   SuggestionList,
 } from "~/core/formElements/resourceInput";
-import { useNavigate } from "~/core/navigation";
+import { Routes, useNavigate } from "~/core/navigation";
 import { Overlay } from "~/core/popovers/overlay";
 import { ForbiddenResponse } from "~/core/response.server";
 import { zsp } from "~/core/schemas";
@@ -140,8 +140,6 @@ const ALLOWED_ENTITIES_PER_GROUP: Record<UserGroup, Set<Entity>> = {
   [UserGroup.VOLUNTEER]: new Set([Entity.ANIMAL]),
 };
 
-const RESOURCE_PATHNAME = "/resources/global-search";
-
 export function GlobalSearch() {
   const [isOpened, setIsOpened] = useState(false);
   const [entity, setEntity] = useState<undefined | Entity>();
@@ -191,7 +189,7 @@ export function GlobalSearch() {
     if (!isOpened && !isNavigating) {
       load(
         createPath({
-          pathname: RESOURCE_PATHNAME,
+          pathname: Routes.resources.globalSearch.toString(),
           search: GlobalSearchParams.stringify({ entity }),
         })
       );
@@ -257,16 +255,16 @@ export function GlobalSearch() {
               onClose={() => setIsOpened(false)}
               onSelectedItemChange={(item) => {
                 if (item.type === Entity.ANIMAL) {
-                  navigate(`/animals/${item.id}`);
+                  navigate(Routes.animals.id(item.id).toString());
                 } else {
-                  navigate(`/foster-families/${item.id}`);
+                  navigate(Routes.fosterFamilies.id(item.id).toString());
                 }
               }}
               onSelectSearch={(search) => {
                 if (entity === Entity.ANIMAL) {
                   navigate(
                     createPath({
-                      pathname: "/animals/search",
+                      pathname: Routes.animals.search.toString(),
                       search: AnimalSearchParams.stringify({
                         nameOrAlias: search,
                       }),
@@ -275,7 +273,7 @@ export function GlobalSearch() {
                 } else {
                   navigate(
                     createPath({
-                      pathname: "/foster-families",
+                      pathname: Routes.fosterFamilies.toString(),
                       search: FosterFamilySearchParams.stringify({
                         displayName: search,
                       }),
@@ -387,7 +385,7 @@ function Combobox({
   return (
     <fetcher.Form
       method="GET"
-      action={RESOURCE_PATHNAME}
+      action={Routes.resources.globalSearch.toString()}
       className="flex flex-col gap-1 md:gap-0"
       onChange={(event) => fetcher.submit(event.currentTarget)}
     >

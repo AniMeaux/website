@@ -9,6 +9,7 @@ import { db } from "~/core/db.server";
 import { Form } from "~/core/formElements/form";
 import { PasswordInput } from "~/core/formElements/passwordInput";
 import { RouteHandle } from "~/core/handles";
+import { Routes } from "~/core/navigation";
 import { getPageTitle } from "~/core/pageTitle";
 import { NextSearchParams } from "~/core/searchParams";
 import { Icon } from "~/generated/icon";
@@ -27,7 +28,9 @@ export async function loader({ request }: LoaderArgs) {
 
   if (!currentUser.shouldChangePassword) {
     const url = new URL(request.url);
-    const { next = "/" } = NextSearchParams.parse(url.searchParams);
+    const { next = Routes.home.toString() } = NextSearchParams.parse(
+      url.searchParams
+    );
     throw redirect(next);
   }
 
@@ -63,7 +66,9 @@ export async function action({ request }: ActionArgs) {
   await db.currentUser.updatePassword(currentUser.id, formData.data.password);
 
   const url = new URL(request.url);
-  const { next = "/" } = NextSearchParams.parse(url.searchParams);
+  const { next = Routes.home.toString() } = NextSearchParams.parse(
+    url.searchParams
+  );
   throw redirect(next);
 }
 

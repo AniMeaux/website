@@ -16,6 +16,7 @@ import {
   SuggestionItem,
   SuggestionList,
 } from "~/core/formElements/resourceInput";
+import { Routes } from "~/core/navigation";
 import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
 import { Icon } from "~/generated/icon";
 import { UserAvatar } from "~/users/avatar";
@@ -45,8 +46,6 @@ export async function loader({ request }: LoaderArgs) {
   });
 }
 
-const RESOURCE_PATHNAME = "/resources/manager";
-
 type ManagerInputProps = {
   name: string;
   defaultValue?: null | Pick<User, "id" | "displayName">;
@@ -71,7 +70,7 @@ export const ManagerInput = forwardRef<
   const load = fetcher.load;
   useEffect(() => {
     if (!isOpened) {
-      load(RESOURCE_PATHNAME);
+      load(Routes.resources.manager.toString());
     }
   }, [load, isOpened]);
 
@@ -106,7 +105,7 @@ export const ManagerInput = forwardRef<
             onInputValueChange={(value) => {
               fetcher.load(
                 createPath({
-                  pathname: RESOURCE_PATHNAME,
+                  pathname: Routes.resources.manager.toString(),
                   search: UserSearchParams.stringify({ displayName: value }),
                 })
               );

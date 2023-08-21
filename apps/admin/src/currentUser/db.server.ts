@@ -3,6 +3,7 @@ import { redirect } from "@remix-run/node";
 import { createPath } from "history";
 import { algolia } from "~/core/algolia/algolia.server";
 import { EmailAlreadyUsedError, PrismaErrorCodes } from "~/core/errors.server";
+import { Routes } from "~/core/navigation";
 import { prisma } from "~/core/prisma.server";
 import { NextSearchParams } from "~/core/searchParams";
 import {
@@ -142,7 +143,7 @@ export class CurrentUserDbDelegate {
 
     return redirect(
       createPath({
-        pathname: "/login",
+        pathname: Routes.login.toString(),
         search: NextSearchParams.stringify({ next: path }),
       }),
       { headers: { "Set-Cookie": await destroyCurrentUserSession() } }
@@ -154,7 +155,7 @@ export class CurrentUserDbDelegate {
 
     return redirect(
       createPath({
-        pathname: "/define-password",
+        pathname: Routes.definePassword.toString(),
         search: NextSearchParams.stringify({ next: path }),
       })
     );

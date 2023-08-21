@@ -8,6 +8,7 @@ import {
   InstanceColor,
 } from "~/core/dataDisplay/instanceColor";
 import { toRoundedRelative } from "~/core/dates";
+import { Routes } from "~/core/navigation";
 import { Icon } from "~/generated/icon";
 import { UserAvatar } from "~/users/avatar";
 import { GROUP_ICON } from "~/users/groups";
@@ -26,7 +27,7 @@ export function UserItem({
 }) {
   return (
     <BaseLink
-      to={`/users/${user.id}`}
+      to={Routes.users.id(user.id).toString()}
       className={cn(
         className,
         "group rounded-0.5 py-1 grid grid-cols-[auto_minmax(0px,1fr)] grid-flow-col items-start gap-1 md:gap-2 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white"

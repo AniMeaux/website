@@ -15,7 +15,7 @@ import {
   SuggestionItem,
   SuggestionList,
 } from "~/core/formElements/resourceInput";
-import { useNavigate } from "~/core/navigation";
+import { Routes, useNavigate } from "~/core/navigation";
 import { NextSearchParams } from "~/core/searchParams";
 import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
 import { FosterFamilySuggestionItem } from "~/fosterFamilies/item";
@@ -45,8 +45,6 @@ export async function loader({ request }: LoaderArgs) {
   });
 }
 
-const RESOURCE_PATHNAME = "/resources/foster-family";
-
 type FosterFamilyInputProps = {
   name: string;
   defaultValue?: null | Pick<FosterFamily, "id" | "displayName">;
@@ -71,7 +69,7 @@ export const FosterFamilyInput = forwardRef<
   const load = fetcher.load;
   useEffect(() => {
     if (!isOpened) {
-      load(RESOURCE_PATHNAME);
+      load(Routes.resources.fosterFamily.toString());
     }
   }, [load, isOpened]);
 
@@ -107,7 +105,7 @@ export const FosterFamilyInput = forwardRef<
             onInputValueChange={(value) => {
               fetcher.load(
                 createPath({
-                  pathname: RESOURCE_PATHNAME,
+                  pathname: Routes.resources.fosterFamily.toString(),
                   search: FosterFamilySearchParams.stringify({
                     displayName: value,
                   }),
@@ -233,7 +231,7 @@ function Combobox({
       if (selectedItem?.isAdditional) {
         navigate(
           createPath({
-            pathname: "/foster-families/new",
+            pathname: Routes.fosterFamilies.new.toString(),
             search: NextSearchParams.stringify({ next: createPath(location) }),
           })
         );

@@ -18,6 +18,7 @@ import {
   SuggestionItem,
   SuggestionList,
 } from "~/core/formElements/resourceInput";
+import { Routes } from "~/core/navigation";
 import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
 import { Icon } from "~/generated/icon";
 
@@ -43,8 +44,6 @@ export async function loader({ request }: LoaderArgs) {
     }),
   });
 }
-
-const RESOURCE_PATHNAME = "/resources/breed";
 
 type BreedInputProps = {
   name: string;
@@ -79,7 +78,7 @@ export const BreedInput = forwardRef<
     if (!isOpened) {
       load(
         createPath({
-          pathname: RESOURCE_PATHNAME,
+          pathname: Routes.resources.breed.toString(),
           search: BreedSearchParams.stringify({
             species: new Set(ensureArray(species)),
           }),
@@ -120,7 +119,7 @@ export const BreedInput = forwardRef<
             onInputValueChange={(value) => {
               fetcher.load(
                 createPath({
-                  pathname: RESOURCE_PATHNAME,
+                  pathname: Routes.resources.breed.toString(),
                   search: BreedSearchParams.stringify({
                     species: new Set(ensureArray(species)),
                     name: value,

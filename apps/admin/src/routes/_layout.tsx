@@ -14,6 +14,7 @@ import { BaseLink, BaseLinkProps } from "~/core/baseLink";
 import { db } from "~/core/db.server";
 import { SideBar } from "~/core/layout/sideBar";
 import { TabBar } from "~/core/layout/tabBar";
+import { Routes } from "~/core/navigation";
 import { getPageTitle } from "~/core/pageTitle";
 import { NextSearchParams } from "~/core/searchParams";
 import { getCurrentUserPreferences } from "~/currentUser/preferences.server";
@@ -134,7 +135,11 @@ function CurrentUserSideBar() {
         })
       }
     >
-      <SideBar.RootItem logo={nameAndLogo} to="/" alt={getPageTitle()} />
+      <SideBar.RootItem
+        logo={nameAndLogo}
+        to={Routes.home.toString()}
+        alt={getPageTitle()}
+      />
 
       <SideBar.Content>
         {navigationItems.map((item) => (
@@ -165,7 +170,7 @@ function getNavigationItems(currentUser: Pick<User, "groups">) {
 
 const ALL_NAVIGATION_ITEMS: NavigationItem[] = [
   {
-    to: "/animals",
+    to: Routes.animals.toString(),
     icon: "paw",
     label: "Animaux",
     authorizedGroups: [
@@ -176,42 +181,41 @@ const ALL_NAVIGATION_ITEMS: NavigationItem[] = [
     ],
   },
   {
-    to: "/foster-families",
+    to: Routes.fosterFamilies.toString(),
     icon: "house",
     label: "Familles d’accueil",
     authorizedGroups: [UserGroup.ADMIN, UserGroup.ANIMAL_MANAGER],
   },
   {
-    to: "/events",
+    to: Routes.events.toString(),
     icon: "calendarDays",
     label: "Événements",
     authorizedGroups: [UserGroup.ADMIN],
   },
   {
-    to: "/users",
+    to: Routes.users.toString(),
     icon: "user",
     label: "Utilisateurs",
     authorizedGroups: [UserGroup.ADMIN],
   },
   {
-    to: "/press-articles",
+    to: Routes.pressArticles.toString(),
     icon: "newspaper",
     label: "Articles de presse",
     authorizedGroups: [UserGroup.ADMIN],
   },
   {
-    to: "/breeds",
+    to: Routes.breeds.toString(),
     icon: "dna",
     label: "Races",
     authorizedGroups: [UserGroup.ADMIN],
   },
-  // Uncomment when pages are implemented.
-  // {
-  //   to: "/colors",
-  //   icon: "palette",
-  //   label: "Couleurs",
-  //   authorizedGroups: [UserGroup.ADMIN],
-  // },
+  {
+    to: Routes.colors.toString(),
+    icon: "palette",
+    label: "Couleurs",
+    authorizedGroups: [UserGroup.ADMIN],
+  },
 ];
 
 function CurrentUserMenu() {
@@ -258,7 +262,7 @@ function CurrentUserMenu() {
 
           <DropdownMenu.Item asChild>
             <BaseLink
-              to="/me"
+              to={Routes.me.toString()}
               className="rounded-0.5 pr-1 grid grid-cols-[auto,minmax(0px,1fr)] items-center text-gray-500 text-left cursor-pointer transition-colors duration-100 ease-in-out hover:bg-gray-100 active:bg-gray-100 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400"
             >
               <span className="w-4 h-4 flex items-center justify-center text-[20px]">
@@ -276,7 +280,7 @@ function CurrentUserMenu() {
               fetcher.submit(null, {
                 method: "POST",
                 action: createPath({
-                  pathname: "/logout",
+                  pathname: Routes.logout.toString(),
                   search: NextSearchParams.stringify({
                     next: createPath(location),
                   }),

@@ -11,7 +11,7 @@ import { NotFoundError } from "~/core/errors.server";
 import { assertIsDefined } from "~/core/isDefined.server";
 import { Card } from "~/core/layout/card";
 import { PageLayout } from "~/core/layout/page";
-import { useBackIfPossible } from "~/core/navigation";
+import { Routes, useBackIfPossible } from "~/core/navigation";
 import { getPageTitle } from "~/core/pageTitle";
 import { prisma } from "~/core/prisma.server";
 import { NotFoundResponse } from "~/core/response.server";
@@ -149,7 +149,9 @@ export async function action({ request, params }: ActionArgs) {
     throw error;
   }
 
-  return json<ActionData>({ redirectTo: `/animals/${idResult.data}` });
+  return json<ActionData>({
+    redirectTo: Routes.animals.id(idResult.data).toString(),
+  });
 }
 
 export function ErrorBoundary() {

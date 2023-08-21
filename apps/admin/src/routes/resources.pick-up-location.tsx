@@ -17,6 +17,7 @@ import {
   SuggestionItem,
   SuggestionList,
 } from "~/core/formElements/resourceInput";
+import { Routes } from "~/core/navigation";
 import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
 import { Icon } from "~/generated/icon";
 
@@ -44,8 +45,6 @@ export async function loader({ request }: LoaderArgs) {
   });
 }
 
-const RESOURCE_PATHNAME = "/resources/pick-up-location";
-
 type PickUpLocationInputProps = {
   name: string;
   defaultValue?: null | string;
@@ -70,7 +69,7 @@ export const PickUpLocationInput = forwardRef<
   const load = fetcher.load;
   useEffect(() => {
     if (!isOpened) {
-      load(RESOURCE_PATHNAME);
+      load(Routes.resources.pickUpLocation.toString());
     }
   }, [load, isOpened]);
 
@@ -105,7 +104,7 @@ export const PickUpLocationInput = forwardRef<
             onInputValueChange={(value) => {
               fetcher.load(
                 createPath({
-                  pathname: RESOURCE_PATHNAME,
+                  pathname: Routes.resources.pickUpLocation.toString(),
                   search: PickUpLocationSearchParams.stringify({
                     text: value,
                   }),

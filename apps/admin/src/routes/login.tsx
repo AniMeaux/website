@@ -9,6 +9,7 @@ import { Form } from "~/core/formElements/form";
 import { Input } from "~/core/formElements/input";
 import { PasswordInput } from "~/core/formElements/passwordInput";
 import { RouteHandle } from "~/core/handles";
+import { Routes } from "~/core/navigation";
 import { getPageTitle } from "~/core/pageTitle";
 import { NextSearchParams } from "~/core/searchParams";
 import { createCurrentUserSession } from "~/currentUser/session.server";
@@ -34,7 +35,9 @@ export async function loader({ request }: LoaderArgs) {
 
   if (hasCurrentUser) {
     const url = new URL(request.url);
-    const { next = "/" } = NextSearchParams.parse(url.searchParams);
+    const { next = Routes.home.toString() } = NextSearchParams.parse(
+      url.searchParams
+    );
     throw redirect(next);
   }
 
@@ -83,7 +86,9 @@ export async function action({ request }: ActionArgs) {
   }
 
   const url = new URL(request.url);
-  const { next = "/" } = NextSearchParams.parse(url.searchParams);
+  const { next = Routes.home.toString() } = NextSearchParams.parse(
+    url.searchParams
+  );
   throw redirect(next, {
     headers: { "Set-Cookie": await createCurrentUserSession(userId) },
   });

@@ -1,6 +1,7 @@
 import { UserGroup } from "@prisma/client";
 import { LoaderArgs, redirect } from "@remix-run/node";
 import { db } from "~/core/db.server";
+import { Routes } from "~/core/navigation";
 
 export async function loader({ request }: LoaderArgs) {
   const currentUser = await db.currentUser.get(request, {
@@ -13,12 +14,12 @@ export async function loader({ request }: LoaderArgs) {
 }
 
 const USER_GROUP_LANDING_PAGE: Record<UserGroup, string> = {
-  [UserGroup.ADMIN]: "/animals",
-  [UserGroup.ANIMAL_MANAGER]: "/animals",
-  [UserGroup.BLOGGER]: "/articles",
-  [UserGroup.HEAD_OF_PARTNERSHIPS]: "/partners",
-  [UserGroup.VETERINARIAN]: "/animals",
-  [UserGroup.VOLUNTEER]: "/animals",
+  [UserGroup.ADMIN]: Routes.animals.toString(),
+  [UserGroup.ANIMAL_MANAGER]: Routes.animals.toString(),
+  [UserGroup.BLOGGER]: Routes.home.toString(),
+  [UserGroup.HEAD_OF_PARTNERSHIPS]: Routes.home.toString(),
+  [UserGroup.VETERINARIAN]: Routes.animals.toString(),
+  [UserGroup.VOLUNTEER]: Routes.animals.toString(),
 };
 
 function getUserMainGroup(groups: UserGroup[]): UserGroup {

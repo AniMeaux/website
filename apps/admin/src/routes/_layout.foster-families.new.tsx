@@ -8,7 +8,7 @@ import { db } from "~/core/db.server";
 import { EmailAlreadyUsedError } from "~/core/errors.server";
 import { Card } from "~/core/layout/card";
 import { PageLayout } from "~/core/layout/page";
-import { useBackIfPossible } from "~/core/navigation";
+import { Routes, useBackIfPossible } from "~/core/navigation";
 import { getPageTitle } from "~/core/pageTitle";
 import { NextSearchParams } from "~/core/searchParams";
 import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
@@ -75,7 +75,7 @@ export async function action({ request }: ActionArgs) {
     if (next == null) {
       // Redirect instead of going back so we can display the newly created
       // foster family.
-      throw redirect(`/foster-families/${fosterFamilyId}`);
+      throw redirect(Routes.fosterFamilies.id(fosterFamilyId).toString());
     }
 
     return json<ActionData>({ redirectTo: next });
