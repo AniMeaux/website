@@ -3236,14 +3236,3 @@ export const animalNames: AnimalName[] = [
   { label: "Zozo", gender: Gender.FEMALE },
   { label: "Zut", gender: Gender.MALE },
 ];
-
-const visited = new Set<string>();
-const duplicates = new Set<string>();
-animalNames.forEach((suggestion) => {
-  if (visited.has(suggestion.label)) {
-    duplicates.add(suggestion.label);
-  }
-  visited.add(suggestion.label);
-});
-
-console.log("duplicates:", duplicates);

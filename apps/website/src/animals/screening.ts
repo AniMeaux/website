@@ -1,5 +1,5 @@
+import { IconProps } from "#generated/icon.tsx";
 import { Gender, ScreeningResult } from "@prisma/client";
-import { IconProps } from "~/generated/icon";
 
 export const SCREENING_RESULT_ICON: Record<
   Exclude<ScreeningResult, "UNKNOWN">,

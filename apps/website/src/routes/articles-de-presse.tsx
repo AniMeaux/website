@@ -1,13 +1,13 @@
+import { BaseLink } from "#core/baseLink.tsx";
+import { cn } from "#core/classNames.ts";
+import { DynamicImage } from "#core/dataDisplay/image.tsx";
+import { prisma } from "#core/db.server.ts";
+import { createSocialMeta } from "#core/meta.ts";
+import { getPageTitle } from "#core/pageTitle.ts";
 import { PressArticle } from "@prisma/client";
 import { json, SerializeFrom } from "@remix-run/node";
 import { useLoaderData, V2_MetaFunction } from "@remix-run/react";
 import { DateTime } from "luxon";
-import { BaseLink } from "~/core/baseLink";
-import { cn } from "~/core/classNames";
-import { DynamicImage } from "~/core/dataDisplay/image";
-import { prisma } from "~/core/db.server";
-import { createSocialMeta } from "~/core/meta";
-import { getPageTitle } from "~/core/pageTitle";
 
 export async function loader() {
   const pressArticles = await prisma.pressArticle.findMany({

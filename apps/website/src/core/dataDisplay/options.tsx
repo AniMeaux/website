@@ -1,5 +1,5 @@
-import { cn } from "~/core/classNames";
-import { Icon } from "~/generated/icon";
+import { cn } from "#core/classNames.ts";
+import { Icon } from "#generated/icon.tsx";
 
 export function OptionList({ children }: { children: React.ReactNode }) {
   return (

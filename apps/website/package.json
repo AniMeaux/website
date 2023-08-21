@@ -6,6 +6,9 @@
   "msw": {
     "workerDirectory": "./public"
   },
+  "imports": {
+    "#*": "./src/*"
+  },
   "scripts": {
     "build:icons": "ts-node --files ./scripts/generateIconSprite.ts",
     "build:remix": "remix build",

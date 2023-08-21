@@ -1,3 +1,11 @@
+import { animalNames } from "#animals/data.ts";
+import { ACTIVE_ANIMAL_STATUS } from "#animals/status.ts";
+import { actionClassNames } from "#core/actions.ts";
+import { cn } from "#core/classNames.ts";
+import { prisma } from "#core/db.server.ts";
+import { createSocialMeta } from "#core/meta.ts";
+import { getPageTitle } from "#core/pageTitle.ts";
+import { Icon } from "#generated/icon.tsx";
 import { Gender } from "@prisma/client";
 import { json, LoaderArgs } from "@remix-run/node";
 import {
@@ -10,14 +18,6 @@ import orderBy from "lodash.orderby";
 import { useEffect, useState } from "react";
 import invariant from "tiny-invariant";
 import { z } from "zod";
-import { animalNames } from "~/animals/data";
-import { ACTIVE_ANIMAL_STATUS } from "~/animals/status";
-import { actionClassNames } from "~/core/actions";
-import { cn } from "~/core/classNames";
-import { prisma } from "~/core/db.server";
-import { createSocialMeta } from "~/core/meta";
-import { getPageTitle } from "~/core/pageTitle";
-import { Icon } from "~/generated/icon";
 
 // Multiple of 2 and 3 to be nicely displayed.
 const ANIMAL_NAME_COUNT_PER_PAGE = 18;

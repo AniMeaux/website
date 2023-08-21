@@ -1,5 +1,5 @@
-import { ImageDescriptor } from "~/core/dataDisplay/image";
-import missionAccounting512 from "~/images/missionAccounting-512w.png";
+import { ImageDescriptor } from "#core/dataDisplay/image.tsx";
+import missionAccounting512 from "#images/missionAccounting-512w.png";
 
 export const missionAccountingImages: ImageDescriptor = {
   alt: "Dossiers empilés.",

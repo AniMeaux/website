@@ -1,12 +1,11 @@
-import { V2_MetaFunction } from "@remix-run/react";
-import { actionClassNames } from "~/core/actions";
-import { BaseLink } from "~/core/baseLink";
-import { cn } from "~/core/classNames";
-import { getConfigFromMetaMatches, useConfig } from "~/core/config";
+import { actionClassNames } from "#core/actions.ts";
+import { BaseLink } from "#core/baseLink.tsx";
+import { cn } from "#core/classNames.ts";
+import { getConfigFromMetaMatches, useConfig } from "#core/config.ts";
 import {
   BubbleShape,
   bubbleSectionClassNames,
-} from "~/core/layout/bubbleSection";
+} from "#core/layout/bubbleSection.tsx";
 import {
   HeroSection,
   HeroSectionAction,
@@ -14,15 +13,16 @@ import {
   HeroSectionImage,
   HeroSectionParagraph,
   HeroSectionTitle,
-} from "~/core/layout/heroSection";
-import { createSocialMeta } from "~/core/meta";
-import { getPageTitle } from "~/core/pageTitle";
-import { Icon, IconProps } from "~/generated/icon";
-import { donationImages } from "~/images/donation";
-import { helloassoImages } from "~/images/helloasso";
-import paypalImage from "~/images/paypal.png";
-import { socialImages } from "~/images/social";
-import teamingImage from "~/images/teaming.png";
+} from "#core/layout/heroSection.tsx";
+import { createSocialMeta } from "#core/meta.ts";
+import { getPageTitle } from "#core/pageTitle.ts";
+import { Icon, IconProps } from "#generated/icon.tsx";
+import { donationImages } from "#images/donation.tsx";
+import { helloassoImages } from "#images/helloasso.tsx";
+import paypalImage from "#images/paypal.png";
+import { socialImages } from "#images/social.tsx";
+import teamingImage from "#images/teaming.png";
+import { V2_MetaFunction } from "@remix-run/react";
 
 export const meta: V2_MetaFunction = ({ matches }) => {
   const config = getConfigFromMetaMatches(matches);

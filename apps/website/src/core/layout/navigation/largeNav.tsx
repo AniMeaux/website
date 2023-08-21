@@ -1,24 +1,24 @@
-import { useLocation } from "@remix-run/react";
-import { forwardRef, useEffect, useRef, useState } from "react";
-import { Transition } from "react-transition-group";
-import { BaseLink, BaseLinkProps } from "~/core/baseLink";
-import { cn } from "~/core/classNames";
-import { getFocusTrapIgnoreAttribute, useFocusTrap } from "~/core/focusTrap";
-import { useWidth } from "~/core/hooks";
-import { LineShapeHorizontal } from "~/core/layout/lineShape";
+import { BaseLink, BaseLinkProps } from "#core/baseLink.tsx";
+import { cn } from "#core/classNames.ts";
+import { getFocusTrapIgnoreAttribute, useFocusTrap } from "#core/focusTrap.ts";
+import { useWidth } from "#core/hooks.ts";
+import { LineShapeHorizontal } from "#core/layout/lineShape.tsx";
 import {
   NavGroup,
   handleEscape,
   navLinkClassName,
-} from "~/core/layout/navigation/shared";
-import { ShowBanner } from "~/core/layout/navigation/showBanner";
-import { SocialLinks } from "~/core/layout/navigation/socialLinks";
-import { SubNavAct } from "~/core/layout/navigation/subNavAct";
-import { SubNavAdopt } from "~/core/layout/navigation/subNavAdopt";
-import { SubNavDiscover } from "~/core/layout/navigation/subNavDiscover";
-import { SubNavWarn } from "~/core/layout/navigation/subNavWarn";
-import { useScrollLock } from "~/core/scrollLock";
-import nameAndLogo from "~/images/nameAndLogo.svg";
+} from "#core/layout/navigation/shared.tsx";
+import { ShowBanner } from "#core/layout/navigation/showBanner.tsx";
+import { SocialLinks } from "#core/layout/navigation/socialLinks.tsx";
+import { SubNavAct } from "#core/layout/navigation/subNavAct.tsx";
+import { SubNavAdopt } from "#core/layout/navigation/subNavAdopt.tsx";
+import { SubNavDiscover } from "#core/layout/navigation/subNavDiscover.tsx";
+import { SubNavWarn } from "#core/layout/navigation/subNavWarn.tsx";
+import { useScrollLock } from "#core/scrollLock.ts";
+import nameAndLogo from "#images/nameAndLogo.svg";
+import { useLocation } from "@remix-run/react";
+import { forwardRef, useEffect, useRef, useState } from "react";
+import { Transition } from "react-transition-group";
 
 type State = NavGroup | null;
 

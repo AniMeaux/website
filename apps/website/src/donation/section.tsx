@@ -1,10 +1,10 @@
-import { actionClassNames } from "~/core/actions";
-import { BaseLink } from "~/core/baseLink";
-import { cn } from "~/core/classNames";
+import { actionClassNames } from "#core/actions.ts";
+import { BaseLink } from "#core/baseLink.tsx";
+import { cn } from "#core/classNames.ts";
 import {
   bubbleSectionClassNames,
   BubbleShape,
-} from "~/core/layout/bubbleSection";
+} from "#core/layout/bubbleSection.tsx";
 
 export function DonationSection() {
   return (

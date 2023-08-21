@@ -1,7 +1,6 @@
-import { isRouteErrorResponse, useRouteError } from "@remix-run/react";
-import { actionClassNames } from "~/core/actions";
-import { BaseLink } from "~/core/baseLink";
-import { cn } from "~/core/classNames";
+import { actionClassNames } from "#core/actions.ts";
+import { BaseLink } from "#core/baseLink.tsx";
+import { cn } from "#core/classNames.ts";
 import {
   HeroSection,
   HeroSectionAction,
@@ -9,8 +8,9 @@ import {
   HeroSectionImage,
   HeroSectionParagraph,
   HeroSectionTitle,
-} from "~/core/layout/heroSection";
-import { errorImages } from "~/images/error";
+} from "#core/layout/heroSection.tsx";
+import { errorImages } from "#images/error.tsx";
+import { isRouteErrorResponse, useRouteError } from "@remix-run/react";
 
 const STATUS_CODE = [404, 500] as const;
 type StatusCode = (typeof STATUS_CODE)[number];

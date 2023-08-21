@@ -1,9 +1,9 @@
-import { BaseLink, BaseLinkProps } from "~/core/baseLink";
-import { cn } from "~/core/classNames";
-import { LineShapeHorizontal } from "~/core/layout/lineShape";
-import { Icon, IconProps } from "~/generated/icon";
-import nameAndLogo from "~/images/nameAndLogo.svg";
-import { SubscriptionForm } from "~/routes/resources.subscribe";
+import { BaseLink, BaseLinkProps } from "#core/baseLink.tsx";
+import { cn } from "#core/classNames.ts";
+import { LineShapeHorizontal } from "#core/layout/lineShape.tsx";
+import { Icon, IconProps } from "#generated/icon.tsx";
+import nameAndLogo from "#images/nameAndLogo.svg";
+import { SubscriptionForm } from "#routes/resources.subscribe.tsx";
 
 export function Footer() {
   return (

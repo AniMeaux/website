@@ -1,6 +1,6 @@
+import { BaseLink } from "#core/baseLink.tsx";
+import { DynamicImage } from "#core/dataDisplay/image.tsx";
 import { DateTime } from "luxon";
-import { BaseLink } from "~/core/baseLink";
-import { DynamicImage } from "~/core/dataDisplay/image";
 
 export function ArticleItem({
   article,
