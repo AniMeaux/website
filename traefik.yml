@@ -8,10 +8,6 @@ http:
       rule: "Host(`show.animeaux.localhost`)"
       service: service-show
 
-    faune:
-      rule: "Host(`faune.animeaux.localhost`)"
-      service: service-faune
-
     admin:
       rule: "Host(`admin.animeaux.localhost`)"
       service: service-admin
@@ -35,11 +31,6 @@ http:
       loadBalancer:
         servers:
           - url: "http://host.docker.internal:3002"
-
-    service-faune:
-      loadBalancer:
-        servers:
-          - url: "http://host.docker.internal:3001"
 
     service-api:
       loadBalancer:
