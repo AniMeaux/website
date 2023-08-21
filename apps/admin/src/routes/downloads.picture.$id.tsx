@@ -4,6 +4,7 @@ import { z } from "zod";
 import { createConfig } from "~/core/config.server";
 import { createCloudinaryUrl } from "~/core/dataDisplay/image";
 import { db } from "~/core/db.server";
+import { Routes } from "~/core/navigation";
 import { NotFoundResponse } from "~/core/response.server";
 import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
 
@@ -33,8 +34,6 @@ export async function loader({ request, params }: LoaderArgs) {
   return await fetch(url);
 }
 
-const RESOURCE_PATHNAME = "/downloads/picture";
-
 type DownloadPictureLinkProps = {
   children?: React.ReactNode;
   className?: string;
@@ -53,7 +52,9 @@ export function DownloadPictureLink({
   // https://developer.apple.com/forums/thread/95911
   return (
     <button
-      onClick={() => download(fileName, `${RESOURCE_PATHNAME}/${pictureId}`)}
+      onClick={() =>
+        download(fileName, Routes.downloads.picture.id(pictureId).toString())
+      }
       className={className}
     >
       {children}

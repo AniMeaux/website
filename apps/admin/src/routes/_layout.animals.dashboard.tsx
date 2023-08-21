@@ -22,6 +22,7 @@ import { Empty } from "~/core/dataDisplay/empty";
 import { db } from "~/core/db.server";
 import { Card } from "~/core/layout/card";
 import { PageLayout } from "~/core/layout/page";
+import { Routes } from "~/core/navigation";
 import { getPageTitle } from "~/core/pageTitle";
 import { prisma } from "~/core/prisma.server";
 import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
@@ -212,7 +213,7 @@ function AnimalsToVaccinateCard() {
           <Action asChild variant="text">
             <BaseLink
               to={{
-                pathname: "/animals/search",
+                pathname: Routes.animals.search.toString(),
                 search: AnimalSearchParams.stringify({
                   sort: AnimalSort.VACCINATION,
                   nextVaccinationDateEnd: DateTime.now()
@@ -281,7 +282,7 @@ function AnimalsToSterilizeCard() {
           <Action asChild variant="text">
             <BaseLink
               to={{
-                pathname: "/animals/search",
+                pathname: Routes.animals.search.toString(),
                 search: AnimalSearchParams.stringify({
                   sort: AnimalSort.BIRTHDATE,
                   species: new Set([Species.CAT, Species.DOG]),
@@ -347,7 +348,7 @@ function ManagedAnimalsCard() {
           <Action asChild variant="text">
             <BaseLink
               to={{
-                pathname: "/animals/search",
+                pathname: Routes.animals.search.toString(),
                 search: AnimalSearchParams.stringify({
                   statuses: new Set(ACTIVE_ANIMAL_STATUS),
                   managersId: new Set([currentUser.id]),
@@ -409,7 +410,7 @@ function ActiveAnimalsCard() {
           <Action asChild variant="text">
             <BaseLink
               to={{
-                pathname: "/animals/search",
+                pathname: Routes.animals.search.toString(),
                 search: AnimalSearchParams.stringify({
                   statuses: new Set(ACTIVE_ANIMAL_STATUS),
                 }),

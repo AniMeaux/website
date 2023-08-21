@@ -18,6 +18,7 @@ import { db } from "~/core/db.server";
 import { NotFoundError, ReferencedError } from "~/core/errors.server";
 import { Card } from "~/core/layout/card";
 import { PageLayout } from "~/core/layout/page";
+import { Routes } from "~/core/navigation";
 import { getPageTitle } from "~/core/pageTitle";
 import { Dialog } from "~/core/popovers/dialog";
 import { prisma } from "~/core/prisma.server";
@@ -148,7 +149,7 @@ export default function Route() {
               </Card.Title>
 
               <Action asChild variant="text">
-                <BaseLink to="./new">Créer</BaseLink>
+                <BaseLink to={Routes.breeds.new.toString()}>Créer</BaseLink>
               </Action>
             </Card.Header>
 
@@ -235,7 +236,7 @@ export function BreedItem({
 
       <span className="h-2 flex items-center gap-0.5">
         <Action asChild variant="text" color="gray" isIconOnly title="Modifier">
-          <BaseLink to={`./${breed.id}/edit`}>
+          <BaseLink to={Routes.breeds.id(breed.id).edit.toString()}>
             <Icon id="pen" />
           </BaseLink>
         </Action>

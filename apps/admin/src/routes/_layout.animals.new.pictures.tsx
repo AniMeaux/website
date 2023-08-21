@@ -22,6 +22,7 @@ import { ErrorPage } from "~/core/dataDisplay/errorPage";
 import { db } from "~/core/db.server";
 import { Card } from "~/core/layout/card";
 import { PageLayout } from "~/core/layout/page";
+import { Routes } from "~/core/navigation";
 import { getPageTitle } from "~/core/pageTitle";
 import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
 
@@ -93,7 +94,7 @@ export async function action({ request }: ActionArgs) {
 
     // Redirect instead of going back so we can display the newly created
     // animal.
-    throw redirect(`/animals/${animalId}`);
+    throw redirect(Routes.animals.id(animalId).toString());
   } catch (error) {
     if (error instanceof CloudinaryUploadApiError) {
       return json<ActionData>(

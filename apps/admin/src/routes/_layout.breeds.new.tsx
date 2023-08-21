@@ -9,7 +9,7 @@ import { db } from "~/core/db.server";
 import { AlreadyExistError } from "~/core/errors.server";
 import { Card } from "~/core/layout/card";
 import { PageLayout } from "~/core/layout/page";
-import { useBackIfPossible } from "~/core/navigation";
+import { Routes, useBackIfPossible } from "~/core/navigation";
 import { getPageTitle } from "~/core/pageTitle";
 import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
 
@@ -69,7 +69,7 @@ export async function action({ request }: ActionArgs) {
     throw error;
   }
 
-  return json<ActionData>({ redirectTo: "/breeds" });
+  return json<ActionData>({ redirectTo: Routes.breeds.toString() });
 }
 
 export function ErrorBoundary() {

@@ -27,6 +27,7 @@ import { assertIsDefined } from "~/core/isDefined.server";
 import { AvatarCard } from "~/core/layout/avatarCard";
 import { Card } from "~/core/layout/card";
 import { PageLayout } from "~/core/layout/page";
+import { Routes } from "~/core/navigation";
 import { getPageTitle } from "~/core/pageTitle";
 import { Dialog } from "~/core/popovers/dialog";
 import { prisma } from "~/core/prisma.server";
@@ -207,7 +208,7 @@ async function actionDelete({
 
   // We are forced to redirect to avoid re-calling the loader with a
   // non-existing user.
-  throw redirect("/users");
+  throw redirect(Routes.users.toString());
 }
 
 async function actionDisable({
@@ -308,7 +309,9 @@ function HeaderCard() {
         </AvatarCard.Lines>
 
         <Action asChild variant="text">
-          <BaseLink to="./edit">Modifier</BaseLink>
+          <BaseLink to={Routes.users.id(user.id).edit.toString()}>
+            Modifier
+          </BaseLink>
         </Action>
       </AvatarCard.Content>
     </AvatarCard>
@@ -386,7 +389,7 @@ function ManagedAnimalsCard() {
           <Action asChild variant="text">
             <BaseLink
               to={{
-                pathname: "/animals/search",
+                pathname: Routes.animals.search.toString(),
                 search: AnimalSearchParams.stringify({
                   statuses: new Set(ACTIVE_ANIMAL_STATUS),
                   managersId: new Set([user.id]),
@@ -462,7 +465,7 @@ function NonActiveManagedAnimalsCard() {
           <Action asChild variant="text">
             <BaseLink
               to={{
-                pathname: "/animals/search",
+                pathname: Routes.animals.search.toString(),
                 search: AnimalSearchParams.stringify({
                   statuses: new Set(NON_ACTIVE_ANIMAL_STATUS),
                   managersId: new Set([user.id]),

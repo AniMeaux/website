@@ -8,6 +8,7 @@ import { db } from "~/core/db.server";
 import { EmailAlreadyUsedError } from "~/core/errors.server";
 import { Card } from "~/core/layout/card";
 import { PageLayout } from "~/core/layout/page";
+import { Routes } from "~/core/navigation";
 import { getPageTitle } from "~/core/pageTitle";
 import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
 import { MissingPasswordError } from "~/users/db.server";
@@ -57,7 +58,7 @@ export async function action({ request }: ActionArgs) {
       temporaryPassword: formData.data.temporaryPassword,
     });
 
-    throw redirect(`/users/${userId}`);
+    throw redirect(Routes.users.id(userId).toString());
   } catch (error) {
     if (error instanceof MissingPasswordError) {
       return json<ActionData>(

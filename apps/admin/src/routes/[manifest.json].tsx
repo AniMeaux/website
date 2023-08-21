@@ -1,5 +1,6 @@
 import { json, LinksFunction, LoaderArgs } from "@remix-run/node";
 import Bowser from "bowser";
+import { Routes } from "~/core/navigation";
 import { getPageTitle } from "~/core/pageTitle";
 import { theme } from "~/generated/theme";
 import googleTouchIcon from "~/images/googleTouchIcon.png";
@@ -28,8 +29,8 @@ export async function loader({ request }: LoaderArgs) {
     background_color: theme.colors.white,
     theme_color: theme.colors.blue[500],
     display: isDesktop ? "minimal-ui" : "standalone",
-    scope: "/",
-    start_url: "/?source=pwa",
+    scope: Routes.home.toString(),
+    start_url: `${Routes.home.toString()}?source=pwa`,
     icons: [
       {
         src: isDesktop && isMacOS ? googleTouchIconMac : googleTouchIcon,

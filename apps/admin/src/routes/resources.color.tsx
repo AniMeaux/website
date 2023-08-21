@@ -17,6 +17,7 @@ import {
   SuggestionItem,
   SuggestionList,
 } from "~/core/formElements/resourceInput";
+import { Routes } from "~/core/navigation";
 import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
 import { Icon } from "~/generated/icon";
 
@@ -42,8 +43,6 @@ export async function loader({ request }: LoaderArgs) {
   });
 }
 
-const RESOURCE_PATHNAME = "/resources/color";
-
 type ColorInputProps = {
   name: string;
   defaultValue?: null | Pick<Color, "id" | "name">;
@@ -68,7 +67,7 @@ export const ColorInput = forwardRef<
   const load = fetcher.load;
   useEffect(() => {
     if (!isOpened) {
-      load(RESOURCE_PATHNAME);
+      load(Routes.resources.color.toString());
     }
   }, [load, isOpened]);
 
@@ -104,7 +103,7 @@ export const ColorInput = forwardRef<
             onInputValueChange={(value) => {
               fetcher.load(
                 createPath({
-                  pathname: RESOURCE_PATHNAME,
+                  pathname: Routes.resources.color.toString(),
                   search: ColorSearchParams.stringify({ name: value }),
                 })
               );

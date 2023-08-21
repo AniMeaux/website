@@ -6,6 +6,96 @@ import { useCallback, useEffect } from "react";
 import { NavigateOptions, To } from "react-router";
 import { LocationState, useLocationState } from "~/core/locationState";
 
+export const Routes = {
+  home: { toString: () => "/" as const },
+  animals: {
+    toString: () => "/animals" as const,
+    dashboard: { toString: () => "/animals/dashboard" as const },
+    search: { toString: () => "/animals/search" as const },
+    id: (id: string) =>
+      ({
+        toString: () => `/animals/${id}` as const,
+        edit: {
+          pictures: { toString: () => `/animals/${id}/edit/pictures` as const },
+          profile: { toString: () => `/animals/${id}/edit/profile` as const },
+          situation: {
+            toString: () => `/animals/${id}/edit/situation` as const,
+          },
+        },
+        pictures: {
+          pictureId: (pictureId: string) => ({
+            toString: () => `/animals/${id}/pictures/${pictureId}` as const,
+          }),
+        },
+      } as const),
+    new: {
+      profile: { toString: () => "/animals/new/profile" as const },
+      situation: { toString: () => "/animals/new/situation" as const },
+      pictures: { toString: () => "/animals/new/pictures" as const },
+    },
+  },
+  breeds: {
+    toString: () => "/breeds" as const,
+    id: (id: string) => ({
+      edit: { toString: () => `/breeds/${id}/edit` as const },
+    }),
+    new: { toString: () => "/breeds/new" as const },
+  },
+  events: {
+    toString: () => "/events" as const,
+    id: (id: string) => ({
+      toString: () => `/events/${id}` as const,
+      edit: { toString: () => `/events/${id}/edit` as const },
+    }),
+    new: { toString: () => "/events/new" as const },
+  },
+  fosterFamilies: {
+    toString: () => "/foster-families" as const,
+    id: (id: string) => ({
+      toString: () => `/foster-families/${id}` as const,
+      edit: { toString: () => `/foster-families/${id}/edit` as const },
+    }),
+    new: { toString: () => "/foster-families/new" as const },
+  },
+  me: {
+    toString: () => "/me" as const,
+    changePassword: { toString: () => "/me/change-password" as const },
+    editProfile: { toString: () => "/me/edit-profile" as const },
+  },
+  pressArticles: {
+    toString: () => "/press-articles" as const,
+    add: { toString: () => "/press-articles/add" as const },
+  },
+  users: {
+    toString: () => "/users" as const,
+    id: (id: string) => ({
+      toString: () => `/users/${id}` as const,
+      edit: { toString: () => `/users/${id}/edit` as const },
+    }),
+    new: { toString: () => "/users/new" as const },
+  },
+  definePassword: { toString: () => "/define-password" as const },
+  downloads: {
+    picture: {
+      id: (id: string) => ({
+        toString: () => `/downloads/picture/${id}` as const,
+      }),
+    },
+  },
+  login: { toString: () => "/login" as const },
+  logout: { toString: () => "/logout" as const },
+  resources: {
+    breed: { toString: () => "/resources/breed" as const },
+    color: { toString: () => "/resources/color" as const },
+    fosterFamily: { toString: () => "/resources/foster-family" as const },
+    globalSearch: { toString: () => "/resources/global-search" as const },
+    manager: { toString: () => "/resources/manager" as const },
+    pickUpLocation: { toString: () => "/resources/pick-up-location" as const },
+    preferences: { toString: () => "/resources/preferences" as const },
+    scrapUrl: { toString: () => "/resources/scrap-url" as const },
+  },
+};
+
 export function useBackIfPossible({
   fallbackRedirectTo,
 }: {
