@@ -23,6 +23,7 @@ import { joinReactNodes } from "~/core/joinReactNodes";
 import { AvatarCard } from "~/core/layout/avatarCard";
 import { Card } from "~/core/layout/card";
 import { PageLayout } from "~/core/layout/page";
+import { Routes } from "~/core/navigation";
 import { getPageTitle } from "~/core/pageTitle";
 import { Dialog } from "~/core/popovers/dialog";
 import { prisma } from "~/core/prisma.server";
@@ -146,7 +147,7 @@ export async function action({ request, params }: ActionArgs) {
 
   // We are forced to redirect to avoid re-calling the loader with a
   // non-existing foster family.
-  throw redirect("/foster-families");
+  throw redirect(Routes.fosterFamilies.toString());
 }
 
 export function ErrorBoundary() {
@@ -203,7 +204,11 @@ function HeaderCard() {
         </AvatarCard.Lines>
 
         <Action asChild variant="text">
-          <BaseLink to="./edit">Modifier</BaseLink>
+          <BaseLink
+            to={Routes.fosterFamilies.id(fosterFamily.id).edit.toString()}
+          >
+            Modifier
+          </BaseLink>
         </Action>
       </AvatarCard.Content>
     </AvatarCard>
@@ -219,7 +224,11 @@ function ProfileCard() {
         <Card.Title>Profile</Card.Title>
 
         <Action asChild variant="text">
-          <BaseLink to="./edit">Modifier</BaseLink>
+          <BaseLink
+            to={Routes.fosterFamilies.id(fosterFamily.id).edit.toString()}
+          >
+            Modifier
+          </BaseLink>
         </Action>
       </Card.Header>
 
@@ -249,7 +258,11 @@ function SituationCard() {
         <Card.Title>Situation</Card.Title>
 
         <Action asChild variant="text">
-          <BaseLink to="./edit">Modifier</BaseLink>
+          <BaseLink
+            to={Routes.fosterFamilies.id(fosterFamily.id).edit.toString()}
+          >
+            Modifier
+          </BaseLink>
         </Action>
       </Card.Header>
 
@@ -308,7 +321,12 @@ function CommentsCard() {
 
         <Action asChild variant="text">
           <BaseLink
-            to={{ pathname: "./edit", hash: ActionFormData.keys.comments }}
+            to={{
+              pathname: Routes.fosterFamilies
+                .id(fosterFamily.id)
+                .edit.toString(),
+              hash: ActionFormData.keys.comments,
+            }}
           >
             Modifier
           </BaseLink>
@@ -343,7 +361,7 @@ function FosterAnimalsCard() {
           <Action asChild variant="text">
             <BaseLink
               to={{
-                pathname: "/animals/search",
+                pathname: Routes.animals.search.toString(),
                 search: AnimalSearchParams.stringify({
                   fosterFamiliesId: new Set([fosterFamily.id]),
                 }),

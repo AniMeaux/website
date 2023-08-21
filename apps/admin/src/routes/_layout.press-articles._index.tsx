@@ -20,6 +20,7 @@ import { db } from "~/core/db.server";
 import { NotFoundError } from "~/core/errors.server";
 import { Card } from "~/core/layout/card";
 import { PageLayout } from "~/core/layout/page";
+import { Routes } from "~/core/navigation";
 import { getPageTitle } from "~/core/pageTitle";
 import { Dialog } from "~/core/popovers/dialog";
 import { prisma } from "~/core/prisma.server";
@@ -120,7 +121,9 @@ export default function Route() {
             </Card.Title>
 
             <Action asChild variant="text">
-              <BaseLink to="./add">Ajouter</BaseLink>
+              <BaseLink to={Routes.pressArticles.add.toString()}>
+                Ajouter
+              </BaseLink>
             </Action>
           </Card.Header>
 

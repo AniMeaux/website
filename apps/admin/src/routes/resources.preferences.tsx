@@ -5,13 +5,12 @@ import { z } from "zod";
 import { zfd } from "zod-form-data";
 import { createActionData } from "~/core/actionData";
 import { db } from "~/core/db.server";
+import { Routes } from "~/core/navigation";
 import { commitCurrentUserPreferences } from "~/currentUser/preferences.server";
-
-const RESOURCE_PATHNAME = "/resources/preferences";
 
 export async function loader() {
   // Nothing to render here.
-  return redirect("/");
+  return redirect(Routes.home.toString());
 }
 
 const ActionFormData = createActionData(
@@ -52,7 +51,10 @@ export function usePreferencesFetcher() {
         formData.set(ActionFormData.keys.isSideBarCollapsed, "on");
       }
 
-      fetcherSubmit(formData, { method: "POST", action: RESOURCE_PATHNAME });
+      fetcherSubmit(formData, {
+        method: "POST",
+        action: Routes.resources.preferences.toString(),
+      });
     },
     [fetcherSubmit]
   );

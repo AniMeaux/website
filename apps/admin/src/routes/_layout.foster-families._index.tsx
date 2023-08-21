@@ -11,6 +11,7 @@ import { Empty } from "~/core/dataDisplay/empty";
 import { db } from "~/core/db.server";
 import { Card } from "~/core/layout/card";
 import { PageLayout } from "~/core/layout/page";
+import { Routes } from "~/core/navigation";
 import { getPageTitle } from "~/core/pageTitle";
 import { prisma } from "~/core/prisma.server";
 import {
@@ -147,7 +148,9 @@ export default function Route() {
                 </Card.Title>
 
                 <Action asChild variant="text">
-                  <BaseLink to="./new">Créer</BaseLink>
+                  <BaseLink to={Routes.fosterFamilies.new.toString()}>
+                    Créer
+                  </BaseLink>
                 </Action>
               </Card.Header>
 

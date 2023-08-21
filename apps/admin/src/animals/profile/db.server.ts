@@ -2,6 +2,7 @@ import { Animal, AnimalDraft, Prisma } from "@prisma/client";
 import { redirect } from "@remix-run/node";
 import { algolia } from "~/core/algolia/algolia.server";
 import { NotFoundError, PrismaErrorCodes } from "~/core/errors.server";
+import { Routes } from "~/core/navigation";
 import { prisma } from "~/core/prisma.server";
 
 type ProfileKeys =
@@ -75,13 +76,13 @@ export class AnimalProfileDbDelegate {
 
   async assertDraftIsValid(draft?: null | AnimalDraftProfile) {
     if (!this.draftHasProfile(draft)) {
-      throw redirect("/animals/new/profile");
+      throw redirect(Routes.animals.new.profile.toString());
     }
 
     try {
       await this.validate(prisma, draft);
     } catch (error) {
-      throw redirect("/animals/new/profile");
+      throw redirect(Routes.animals.new.profile.toString());
     }
   }
 

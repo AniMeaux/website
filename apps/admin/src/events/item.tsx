@@ -9,6 +9,7 @@ import {
   InstanceColor,
   inferInstanceColor,
 } from "~/core/dataDisplay/instanceColor";
+import { Routes } from "~/core/navigation";
 
 export function EventItem({
   event,
@@ -35,7 +36,7 @@ export function EventItem({
 }) {
   return (
     <BaseLink
-      to={`/events/${event.id}`}
+      to={Routes.events.id(event.id).toString()}
       className={cn(
         className,
         "group rounded-1 flex flex-col gap-0.5 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white"

@@ -3,7 +3,7 @@ import { ActionArgs, LoaderArgs, json } from "@remix-run/node";
 import { V2_MetaFunction, useFetcher, useLoaderData } from "@remix-run/react";
 import { z } from "zod";
 import { zfd } from "zod-form-data";
-import { ActionFormData, BreedForm } from "~/breeds/form";
+import { ActionFormData, ColorForm } from "~/colors/form";
 import { ErrorPage, getErrorTitle } from "~/core/dataDisplay/errorPage";
 import { db } from "~/core/db.server";
 import { AlreadyExistError } from "~/core/errors.server";
@@ -28,25 +28,22 @@ export async function loader({ request, params }: LoaderArgs) {
     throw new NotFoundResponse();
   }
 
-  const breed = await prisma.breed.findUnique({
+  const color = await prisma.color.findUnique({
     where: { id: result.data },
-    select: {
-      name: true,
-      species: true,
-    },
+    select: { name: true },
   });
 
-  assertIsDefined(breed);
+  assertIsDefined(color);
 
-  return json({ breed });
+  return json({ color });
 }
 
 export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
-  if (data?.breed == null) {
+  if (data?.color == null) {
     return [{ title: getPageTitle(getErrorTitle(404)) }];
   }
 
-  return [{ title: getPageTitle(`Modifier ${data.breed.name}`) }];
+  return [{ title: getPageTitle(`Modifier ${data.color.name}`) }];
 };
 
 type ActionData = {
@@ -76,16 +73,15 @@ export async function action({ request, params }: ActionArgs) {
   }
 
   try {
-    await db.breed.update(idResult.data, {
+    await db.color.update(idResult.data, {
       name: formData.data.name,
-      species: formData.data.species,
     });
   } catch (error) {
     if (error instanceof AlreadyExistError) {
       return json<ActionData>(
         {
           errors: {
-            formErrors: ["Cette race existe déjà."],
+            formErrors: ["Cette couleur existe déjà."],
             fieldErrors: {},
           },
         },
@@ -96,7 +92,7 @@ export async function action({ request, params }: ActionArgs) {
     throw error;
   }
 
-  return json<ActionData>({ redirectTo: Routes.breeds.toString() });
+  return json<ActionData>({ redirectTo: Routes.colors.toString() });
 }
 
 export function ErrorBoundary() {
@@ -104,7 +100,7 @@ export function ErrorBoundary() {
 }
 
 export default function Route() {
-  const { breed } = useLoaderData<typeof loader>();
+  const { color } = useLoaderData<typeof loader>();
   const fetcher = useFetcher<typeof action>();
   useBackIfPossible({ fallbackRedirectTo: fetcher.data?.redirectTo });
 
@@ -113,11 +109,11 @@ export default function Route() {
       <PageLayout.Content className="flex flex-col items-center">
         <Card className="w-full md:max-w-[600px]">
           <Card.Header>
-            <Card.Title>Modifier {breed.name}</Card.Title>
+            <Card.Title>Modifier {color.name}</Card.Title>
           </Card.Header>
 
           <Card.Content>
-            <BreedForm defaultBreed={breed} fetcher={fetcher} />
+            <ColorForm defaultColor={color} fetcher={fetcher} />
           </Card.Content>
         </Card>
       </PageLayout.Content>

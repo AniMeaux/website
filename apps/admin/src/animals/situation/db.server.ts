@@ -3,6 +3,7 @@ import { redirect } from "@remix-run/node";
 import { ACTIVE_ANIMAL_STATUS } from "~/animals/status";
 import { algolia } from "~/core/algolia/algolia.server";
 import { NotFoundError } from "~/core/errors.server";
+import { Routes } from "~/core/navigation";
 import { prisma } from "~/core/prisma.server";
 
 type SituationKeys =
@@ -140,13 +141,13 @@ export class AnimalSituationDbDelegate {
 
   async assertDraftIsValid(draft?: null | AnimalDraftSituation) {
     if (!this.draftHasSituation(draft)) {
-      throw redirect("/animals/new/situation");
+      throw redirect(Routes.animals.new.situation.toString());
     }
 
     try {
       await this.validate(prisma, draft);
     } catch (error) {
-      throw redirect("/animals/new/situation");
+      throw redirect(Routes.animals.new.situation.toString());
     }
   }
 

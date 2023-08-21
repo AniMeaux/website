@@ -3,6 +3,7 @@ import { json, LoaderArgs } from "@remix-run/node";
 import { Outlet, useLoaderData, useLocation } from "@remix-run/react";
 import { db } from "~/core/db.server";
 import { PageLayout } from "~/core/layout/page";
+import { Routes } from "~/core/navigation";
 import { hasGroups } from "~/users/groups";
 
 export async function loader({ request }: LoaderArgs) {
@@ -26,14 +27,18 @@ export default function Route() {
     <PageLayout>
       {hasDashboard ? (
         <PageLayout.Tabs>
-          <PageLayout.Tab isNavLink to="/animals/dashboard">
+          <PageLayout.Tab isNavLink to={Routes.animals.dashboard.toString()}>
             Tableau de bord
           </PageLayout.Tab>
 
           <PageLayout.Tab
-            to="/animals/search"
+            to={Routes.animals.search.toString()}
+            // Don't use `isNavLink` because we want "/animals/$id" to be under
+            // "/animals/search"
             aria-current={
-              pathname !== "/animals/dashboard" ? "page" : undefined
+              pathname !== Routes.animals.dashboard.toString()
+                ? "page"
+                : undefined
             }
           >
             Tous les animaux

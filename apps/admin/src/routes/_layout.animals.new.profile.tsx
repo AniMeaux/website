@@ -9,6 +9,7 @@ import { ErrorPage } from "~/core/dataDisplay/errorPage";
 import { db } from "~/core/db.server";
 import { Card } from "~/core/layout/card";
 import { PageLayout } from "~/core/layout/page";
+import { Routes } from "~/core/navigation";
 import { getPageTitle } from "~/core/pageTitle";
 import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
 
@@ -96,7 +97,7 @@ export async function action({ request }: ActionArgs) {
     throw error;
   }
 
-  throw redirect("/animals/new/situation");
+  throw redirect(Routes.animals.new.situation.toString());
 }
 
 export function ErrorBoundary() {

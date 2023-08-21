@@ -15,6 +15,7 @@ import { assertIsDefined } from "~/core/isDefined.server";
 import { AvatarCard } from "~/core/layout/avatarCard";
 import { Card } from "~/core/layout/card";
 import { PageLayout } from "~/core/layout/page";
+import { Routes } from "~/core/navigation";
 import { getPageTitle } from "~/core/pageTitle";
 import { Dialog } from "~/core/popovers/dialog";
 import { prisma } from "~/core/prisma.server";
@@ -93,7 +94,7 @@ export async function action({ request, params }: ActionArgs) {
 
   // We are forced to redirect to avoid re-calling the loader with a
   // non-existing foster family.
-  throw redirect("/events");
+  throw redirect(Routes.events.toString());
 }
 
 export function ErrorBoundary() {
@@ -152,7 +153,9 @@ function HeaderCard() {
         </AvatarCard.Lines>
 
         <Action asChild variant="text">
-          <BaseLink to="./edit">Modifier</BaseLink>
+          <BaseLink to={Routes.events.id(event.id).edit.toString()}>
+            Modifier
+          </BaseLink>
         </Action>
       </AvatarCard.Content>
     </AvatarCard>

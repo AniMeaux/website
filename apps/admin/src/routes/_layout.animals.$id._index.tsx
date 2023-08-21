@@ -47,6 +47,7 @@ import { assertIsDefined } from "~/core/isDefined.server";
 import { AvatarCard } from "~/core/layout/avatarCard";
 import { Card } from "~/core/layout/card";
 import { PageLayout } from "~/core/layout/page";
+import { Routes } from "~/core/navigation";
 import { getPageTitle } from "~/core/pageTitle";
 import { Dialog } from "~/core/popovers/dialog";
 import { prisma } from "~/core/prisma.server";
@@ -194,7 +195,7 @@ export async function action({ request, params }: ActionArgs) {
 
   // We are forced to redirect to avoid re-calling the loader with a
   // non-existing aniaml.
-  throw redirect("/animals/search");
+  throw redirect(Routes.animals.search.toString());
 }
 
 export function ErrorBoundary() {
@@ -257,7 +258,10 @@ function HeaderCard() {
       <AvatarCard.Content>
         <AvatarCard.Avatar>
           <BaseLink
-            to={`./pictures/${animal.avatar}`}
+            to={Routes.animals
+              .id(animal.id)
+              .pictures.pictureId(animal.avatar)
+              .toString()}
             className="rounded-1 flex focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
           >
             <AnimalAvatar animal={animal} loading="eager" size="xl" />
@@ -305,7 +309,9 @@ function ProfileCard() {
 
         {canEdit ? (
           <Action asChild variant="text">
-            <BaseLink to="./edit/profile">Modifier</BaseLink>
+            <BaseLink to={Routes.animals.id(animal.id).edit.profile.toString()}>
+              Modifier
+            </BaseLink>
           </Action>
         ) : null}
       </Card.Header>
@@ -351,7 +357,11 @@ function SituationCard() {
 
         {canEdit ? (
           <Action asChild variant="text">
-            <BaseLink to="./edit/situation">Modifier</BaseLink>
+            <BaseLink
+              to={Routes.animals.id(animal.id).edit.situation.toString()}
+            >
+              Modifier
+            </BaseLink>
           </Action>
         ) : null}
       </Card.Header>
@@ -383,7 +393,7 @@ function SituationCard() {
               Est géré par{" "}
               {canSeeManagerDetails ? (
                 <ProseInlineAction asChild>
-                  <BaseLink to={`/users/${animal.manager.id}`}>
+                  <BaseLink to={Routes.users.id(animal.manager.id).toString()}>
                     {animal.manager.displayName}
                   </BaseLink>
                 </ProseInlineAction>
@@ -474,7 +484,9 @@ function SituationCard() {
                       <DropdownMenu.Separator className="border-t border-gray-100" />
                       <DropdownMenu.Item asChild>
                         <BaseLink
-                          to={`/foster-families/${animal.fosterFamily.id}`}
+                          to={Routes.fosterFamilies
+                            .id(animal.fosterFamily.id)
+                            .toString()}
                           className="rounded-0.5 pr-1 grid grid-cols-[auto,minmax(0px,1fr)] items-center text-gray-500 text-left cursor-pointer transition-colors duration-100 ease-in-out hover:bg-gray-100 active:bg-gray-100 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400"
                         >
                           <span className="w-4 h-4 flex items-center justify-center text-[20px]">
@@ -637,7 +649,9 @@ function CommentsCard() {
           <Action asChild variant="text">
             <BaseLink
               to={{
-                pathname: "./edit/situation",
+                pathname: Routes.animals
+                  .id(animal.id)
+                  .edit.situation.toString(),
                 hash: SituationActionFormData.keys.comments,
               }}
             >
@@ -708,7 +722,7 @@ function DescriptionCard() {
   const { canEdit, animal } = useLoaderData<typeof loader>();
 
   const editLink: BaseLinkProps["to"] = {
-    pathname: "./edit/profile",
+    pathname: Routes.animals.id(animal.id).edit.profile.toString(),
     hash: ProfileActionFormData.keys.description,
   };
 
@@ -764,7 +778,11 @@ function PicturesCard() {
 
         {canEdit ? (
           <Action asChild variant="text">
-            <BaseLink to="./edit/pictures">Modifier</BaseLink>
+            <BaseLink
+              to={Routes.animals.id(animal.id).edit.pictures.toString()}
+            >
+              Modifier
+            </BaseLink>
           </Action>
         ) : null}
       </Card.Header>
@@ -774,7 +792,10 @@ function PicturesCard() {
           {allPictures.map((pictureId, index) => (
             <BaseLink
               key={pictureId}
-              to={`./pictures/${pictureId}`}
+              to={Routes.animals
+                .id(animal.id)
+                .pictures.pictureId(pictureId)
+                .toString()}
               className="aspect-4/3 rounded-0.5 flex transition-transform duration-100 ease-in-out active:scale-95 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
             >
               <DynamicImage

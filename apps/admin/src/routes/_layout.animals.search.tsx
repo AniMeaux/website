@@ -22,6 +22,7 @@ import { Empty } from "~/core/dataDisplay/empty";
 import { db } from "~/core/db.server";
 import { Card } from "~/core/layout/card";
 import { PageLayout } from "~/core/layout/page";
+import { Routes } from "~/core/navigation";
 import { getPageTitle } from "~/core/pageTitle";
 import { prisma } from "~/core/prisma.server";
 import { ForbiddenResponse } from "~/core/response.server";
@@ -384,7 +385,9 @@ export default function Route() {
 
             {canCreate ? (
               <Action asChild variant="text">
-                <BaseLink to="/animals/new/profile">Créer</BaseLink>
+                <BaseLink to={Routes.animals.new.profile.toString()}>
+                  Créer
+                </BaseLink>
               </Action>
             ) : null}
           </Card.Header>

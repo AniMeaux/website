@@ -7,12 +7,11 @@ import { useEffect, useMemo } from "react";
 import { z } from "zod";
 import { db } from "~/core/db.server";
 import { scrapUrl } from "~/core/metascraper.server";
+import { Routes } from "~/core/navigation";
 import { BadRequestResponse } from "~/core/response.server";
 import { zsp } from "~/core/schemas";
 import { createSearchParams } from "~/core/searchParams";
 import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
-
-const RESOURCE_PATHNAME = "/resources/scrap-url";
 
 const ScrapUrlSearchParams = createSearchParams({
   url: zsp.text(z.string().url()),
@@ -64,7 +63,7 @@ export function useScrapUrlFetcher({
       if (result.success) {
         load(
           createPath({
-            pathname: RESOURCE_PATHNAME,
+            pathname: Routes.resources.scrapUrl.toString(),
             search: ScrapUrlSearchParams.stringify({ url: result.data }),
           })
         );

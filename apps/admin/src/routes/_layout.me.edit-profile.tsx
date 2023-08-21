@@ -10,7 +10,7 @@ import { Form } from "~/core/formElements/form";
 import { Input } from "~/core/formElements/input";
 import { Card } from "~/core/layout/card";
 import { PageLayout } from "~/core/layout/page";
-import { useBackIfPossible } from "~/core/navigation";
+import { Routes, useBackIfPossible } from "~/core/navigation";
 import { getPageTitle } from "~/core/pageTitle";
 import { Icon } from "~/generated/icon";
 
@@ -79,7 +79,7 @@ export async function action({ request }: ActionArgs) {
     throw error;
   }
 
-  return json<ActionData>({ redirectTo: "/me" });
+  return json<ActionData>({ redirectTo: Routes.me.toString() });
 }
 
 export default function Route() {

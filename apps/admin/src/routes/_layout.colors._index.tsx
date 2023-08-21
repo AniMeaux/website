@@ -4,9 +4,8 @@ import { V2_MetaFunction, useFetcher, useLoaderData } from "@remix-run/react";
 import { promiseHash } from "remix-utils";
 import { z } from "zod";
 import { zfd } from "zod-form-data";
-import { SPECIES_ICON } from "~/animals/species";
-import { BreedFilterForm } from "~/breeds/filterForm";
-import { BreedSearchParams, BreedSort } from "~/breeds/searchParams";
+import { ColorFilterForm } from "~/colors/filterForm";
+import { ColorSearchParams, ColorSort } from "~/colors/searchParams";
 import { createActionData } from "~/core/actionData";
 import { Action } from "~/core/actions";
 import { algolia } from "~/core/algolia/algolia.server";
@@ -30,7 +29,7 @@ import {
 import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
 import { Icon } from "~/generated/icon";
 
-const BREED_COUNT_PER_PAGE = 20;
+const COLOR_COUNT_PER_PAGE = 20;
 
 export async function loader({ request }: LoaderArgs) {
   const currentUser = await db.currentUser.get(request, {
@@ -41,34 +40,28 @@ export async function loader({ request }: LoaderArgs) {
 
   const searchParams = new URL(request.url).searchParams;
   const pageSearchParams = PageSearchParams.parse(searchParams);
-  const breedSearchParams = BreedSearchParams.parse(searchParams);
+  const colorSearchParams = ColorSearchParams.parse(searchParams);
 
-  const where: Prisma.BreedWhereInput[] = [];
+  const where: Prisma.ColorWhereInput[] = [];
 
-  if (breedSearchParams.species.size > 0) {
-    where.push({ species: { in: Array.from(breedSearchParams.species) } });
-  }
-
-  if (breedSearchParams.name != null) {
-    const breeds = await algolia.breed.search({
-      name: breedSearchParams.name,
-      species: breedSearchParams.species,
+  if (colorSearchParams.name != null) {
+    const colors = await algolia.color.search({
+      name: colorSearchParams.name,
     });
-    where.push({ id: { in: breeds.map((breed) => breed.id) } });
+    where.push({ id: { in: colors.map((color) => color.id) } });
   }
 
-  const { breeds, totalCount } = await promiseHash({
-    totalCount: prisma.breed.count({ where: { AND: where } }),
+  const { colors, totalCount } = await promiseHash({
+    totalCount: prisma.color.count({ where: { AND: where } }),
 
-    breeds: prisma.breed.findMany({
-      skip: pageSearchParams.page * BREED_COUNT_PER_PAGE,
-      take: BREED_COUNT_PER_PAGE,
-      orderBy: BREED_ORDER_BY[breedSearchParams.sort],
+    colors: prisma.color.findMany({
+      skip: pageSearchParams.page * COLOR_COUNT_PER_PAGE,
+      take: COLOR_COUNT_PER_PAGE,
+      orderBy: COLOR_ORDER_BY[colorSearchParams.sort],
       where: { AND: where },
       select: {
         id: true,
         name: true,
-        species: true,
         _count: {
           select: {
             animals: true,
@@ -78,18 +71,18 @@ export async function loader({ request }: LoaderArgs) {
     }),
   });
 
-  const pageCount = Math.ceil(totalCount / BREED_COUNT_PER_PAGE);
+  const pageCount = Math.ceil(totalCount / COLOR_COUNT_PER_PAGE);
 
-  return json({ totalCount, pageCount, breeds });
+  return json({ totalCount, pageCount, colors });
 }
 
-const BREED_ORDER_BY: Record<BreedSort, Prisma.BreedFindManyArgs["orderBy"]> = {
-  [BreedSort.NAME]: { name: "asc" },
-  [BreedSort.ANIMAL_COUNT]: { animals: { _count: "desc" } },
+const COLOR_ORDER_BY: Record<ColorSort, Prisma.ColorFindManyArgs["orderBy"]> = {
+  [ColorSort.NAME]: { name: "asc" },
+  [ColorSort.ANIMAL_COUNT]: { animals: { _count: "desc" } },
 };
 
 export const meta: V2_MetaFunction = () => {
-  return [{ title: getPageTitle("Races") }];
+  return [{ title: getPageTitle("Couleurs") }];
 };
 
 const DeleteActionFormData = createActionData(
@@ -118,7 +111,7 @@ export async function action({ request }: ActionArgs) {
   }
 
   try {
-    await db.breed.delete(formData.data.id);
+    await db.color.delete(formData.data.id);
   } catch (error) {
     if (error instanceof NotFoundError) {
       throw new NotFoundResponse();
@@ -135,7 +128,7 @@ export async function action({ request }: ActionArgs) {
 }
 
 export default function Route() {
-  const { totalCount, pageCount, breeds } = useLoaderData<typeof loader>();
+  const { totalCount, pageCount, colors } = useLoaderData<typeof loader>();
   const [searchParams] = useOptimisticSearchParams();
 
   return (
@@ -145,33 +138,33 @@ export default function Route() {
           <Card>
             <Card.Header>
               <Card.Title>
-                {totalCount} {totalCount > 1 ? "races" : "race"}
+                {totalCount} {totalCount > 1 ? "couleurs" : "couleur"}
               </Card.Title>
 
               <Action asChild variant="text">
-                <BaseLink to={Routes.breeds.new.toString()}>Créer</BaseLink>
+                <BaseLink to={Routes.colors.new.toString()}>Créer</BaseLink>
               </Action>
             </Card.Header>
 
             <Card.Content>
-              {breeds.length > 0 ? (
+              {colors.length > 0 ? (
                 <ul className="grid grid-cols-1">
-                  {breeds.map((breed) => (
-                    <li key={breed.id} className="flex">
-                      <BreedItem breed={breed} />
+                  {colors.map((color) => (
+                    <li key={color.id} className="flex">
+                      <ColorItem color={color} />
                     </li>
                   ))}
                 </ul>
               ) : (
                 <Empty
                   isCompact
-                  icon="🧬"
-                  iconAlt="ADN"
-                  title="Aucune race trouvée"
+                  icon="🎨"
+                  iconAlt="Palette d’artiste"
+                  title="Aucune couleur trouvée"
                   message="Nous n’avons pas trouvé ce que vous cherchiez. Essayez à nouveau de rechercher."
                   titleElementType="h3"
                   action={
-                    !BreedSearchParams.isEmpty(searchParams) ? (
+                    !ColorSearchParams.isEmpty(searchParams) ? (
                       <Action asChild>
                         <BaseLink to={{ search: "" }}>
                           Effacer les filtres
@@ -198,45 +191,42 @@ export default function Route() {
             </Card.Header>
 
             <Card.Content hasVerticalScroll>
-              <BreedFilterForm />
+              <ColorFilterForm />
             </Card.Content>
           </Card>
         </aside>
 
         <SortAndFiltersFloatingAction hasSort totalCount={totalCount}>
-          <BreedFilterForm />
+          <ColorFilterForm />
         </SortAndFiltersFloatingAction>
       </PageLayout.Content>
     </PageLayout>
   );
 }
 
-export function BreedItem({
-  breed,
+export function ColorItem({
+  color,
 }: {
-  breed: SerializeFrom<typeof loader>["breeds"][number];
+  color: SerializeFrom<typeof loader>["colors"][number];
 }) {
   const fetcher = useFetcher<typeof action>();
 
   return (
     <span className="w-full py-1 grid grid-cols-[auto_minmax(0px,1fr)] grid-flow-col items-start gap-1 md:gap-2">
-      <Icon
-        id={SPECIES_ICON[breed.species]}
-        className="text-[20px] text-gray-600"
-      />
+      <Icon id="palette" className="text-[20px] text-gray-600" />
 
       <span className="flex flex-col md:flex-row md:gap-2">
-        <span className="text-body-emphasis">{breed.name}</span>
+        <span className="text-body-emphasis">{color.name}</span>
 
         <span className="text-gray-500">
-          {breed._count.animals}{" "}
-          {breed._count.animals > 1 ? "animaux" : "animal"}
+          {color._count.animals}{" "}
+          {color._count.animals > 1 ? "animaux" : "animal"}
         </span>
       </span>
 
       <span className="h-2 flex items-center gap-0.5">
         <Action asChild variant="text" color="gray" isIconOnly title="Modifier">
-          <BaseLink to={Routes.breeds.id(breed.id).edit.toString()}>
+          <BaseLink to={Routes.colors.id(color.id).edit.toString()}>
             <Icon id="pen" />
           </BaseLink>
         </Action>
@@ -248,22 +238,22 @@ export function BreedItem({
               color="red"
               isIconOnly
               title={
-                breed._count.animals > 0
-                  ? "La race ne peut être supprimée tant que des animaux sont de cette race."
+                color._count.animals > 0
+                  ? "La couleur ne peut être supprimée tant que des animaux sont de cette couleur."
                   : "Supprimer"
               }
-              disabled={breed._count.animals > 0}
+              disabled={color._count.animals > 0}
             >
               <Icon id="trash" />
             </Action>
           </Dialog.Trigger>
 
           <Dialog.Content variant="alert">
-            <Dialog.Header>Supprimer {breed.name}</Dialog.Header>
+            <Dialog.Header>Supprimer {color.name}</Dialog.Header>
 
             <Dialog.Message>
               Êtes-vous sûr de vouloir supprimer{" "}
-              <strong className="text-body-emphasis">{breed.name}</strong>
+              <strong className="text-body-emphasis">{color.name}</strong>
               {" "}?
               <br />
               L’action est irréversible.
@@ -276,7 +266,7 @@ export function BreedItem({
                 <Dialog.ConfirmAction
                   type="submit"
                   name={DeleteActionFormData.keys.id}
-                  value={breed.id}
+                  value={color.id}
                 >
                   Oui, supprimer
                 </Dialog.ConfirmAction>

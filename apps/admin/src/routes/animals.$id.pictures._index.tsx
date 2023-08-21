@@ -3,6 +3,7 @@ import { LoaderArgs, redirect } from "@remix-run/node";
 import { z } from "zod";
 import { db } from "~/core/db.server";
 import { assertIsDefined } from "~/core/isDefined.server";
+import { Routes } from "~/core/navigation";
 import { prisma } from "~/core/prisma.server";
 import { NotFoundResponse } from "~/core/response.server";
 import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
@@ -31,7 +32,9 @@ export async function loader({ request, params }: LoaderArgs) {
 
   assertIsDefined(animal);
 
-  throw redirect(`/animals/${id.data}/pictures/${animal.avatar}`);
+  throw redirect(
+    Routes.animals.id(id.data).pictures.pictureId(animal.avatar).toString()
+  );
 }
 
 // This export is required for parent's `ErrorBoundary` to work.
