@@ -1,20 +1,20 @@
+import { createActionData } from "#core/actionData.tsx";
+import { Action } from "#core/actions.tsx";
+import { db } from "#core/db.server.ts";
+import { Form } from "#core/formElements/form.tsx";
+import { Input } from "#core/formElements/input.tsx";
+import { PasswordInput } from "#core/formElements/passwordInput.tsx";
+import { RouteHandle } from "#core/handles.ts";
+import { Routes } from "#core/navigation.ts";
+import { getPageTitle } from "#core/pageTitle.ts";
+import { NextSearchParams } from "#core/searchParams.ts";
+import { createCurrentUserSession } from "#currentUser/session.server.ts";
+import { Icon } from "#generated/icon.tsx";
+import nameAndLogo from "#images/nameAndLogo.svg";
 import { ActionArgs, json, LoaderArgs, redirect } from "@remix-run/node";
 import { useFetcher, V2_MetaFunction } from "@remix-run/react";
 import { useEffect, useRef } from "react";
 import { z } from "zod";
-import { createActionData } from "~/core/actionData";
-import { Action } from "~/core/actions";
-import { db } from "~/core/db.server";
-import { Form } from "~/core/formElements/form";
-import { Input } from "~/core/formElements/input";
-import { PasswordInput } from "~/core/formElements/passwordInput";
-import { RouteHandle } from "~/core/handles";
-import { Routes } from "~/core/navigation";
-import { getPageTitle } from "~/core/pageTitle";
-import { NextSearchParams } from "~/core/searchParams";
-import { createCurrentUserSession } from "~/currentUser/session.server";
-import { Icon } from "~/generated/icon";
-import nameAndLogo from "~/images/nameAndLogo.svg";
 
 export const handle: RouteHandle = {
   htmlBackgroundColor: "bg-white",

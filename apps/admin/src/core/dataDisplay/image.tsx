@@ -1,9 +1,9 @@
+import { cn } from "#core/classNames.ts";
+import { CLOUDINARY_IMAGE_SIZE_LIMIT_MB } from "#core/cloudinary.ts";
+import { useConfig } from "#core/config.ts";
+import { generateId } from "#core/id.ts";
+import { ScreenSize, theme } from "#generated/theme.ts";
 import orderBy from "lodash.orderby";
-import { cn } from "~/core/classNames";
-import { CLOUDINARY_IMAGE_SIZE_LIMIT_MB } from "~/core/cloudinary";
-import { useConfig } from "~/core/config";
-import { generateId } from "~/core/id";
-import { ScreenSize, theme } from "~/generated/theme";
 
 export const IMAGE_SIZE_LIMIT_MB = CLOUDINARY_IMAGE_SIZE_LIMIT_MB;
 export const IMAGE_SIZE_LIMIT_B =

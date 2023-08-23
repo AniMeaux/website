@@ -1,12 +1,12 @@
+import { db } from "#core/db.server.ts";
+import { assertIsDefined } from "#core/isDefined.server.ts";
+import { Routes } from "#core/navigation.ts";
+import { prisma } from "#core/prisma.server.ts";
+import { NotFoundResponse } from "#core/response.server.ts";
+import { assertCurrentUserHasGroups } from "#currentUser/groups.server.ts";
 import { UserGroup } from "@prisma/client";
 import { LoaderArgs, redirect } from "@remix-run/node";
 import { z } from "zod";
-import { db } from "~/core/db.server";
-import { assertIsDefined } from "~/core/isDefined.server";
-import { Routes } from "~/core/navigation";
-import { prisma } from "~/core/prisma.server";
-import { NotFoundResponse } from "~/core/response.server";
-import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
 
 export async function loader({ request, params }: LoaderArgs) {
   const currentUser = await db.currentUser.get(request, {

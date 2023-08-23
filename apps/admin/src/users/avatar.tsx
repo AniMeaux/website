@@ -1,7 +1,7 @@
+import { Avatar, AvatarProps } from "#core/dataDisplay/avatar.tsx";
+import { inferInstanceColor } from "#core/dataDisplay/instanceColor.tsx";
 import { User } from "@prisma/client";
 import invariant from "tiny-invariant";
-import { Avatar, AvatarProps } from "~/core/dataDisplay/avatar";
-import { inferInstanceColor } from "~/core/dataDisplay/instanceColor";
 
 export function UserAvatar({
   user,

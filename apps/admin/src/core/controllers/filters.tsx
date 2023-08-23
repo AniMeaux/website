@@ -1,10 +1,10 @@
+import { cn } from "#core/classNames.ts";
+import { Chip } from "#core/dataDisplay/chip.tsx";
+import { joinReactNodes } from "#core/joinReactNodes.tsx";
+import { Separator } from "#core/layout/separator.tsx";
+import { Icon } from "#generated/icon.tsx";
 import { Form, useSubmit } from "@remix-run/react";
 import { Children, createContext, useContext, useMemo, useState } from "react";
-import { cn } from "~/core/classNames";
-import { Chip } from "~/core/dataDisplay/chip";
-import { joinReactNodes } from "~/core/joinReactNodes";
-import { Separator } from "~/core/layout/separator";
-import { Icon } from "~/generated/icon";
 
 export function Filters({ children }: { children?: React.ReactNode }) {
   const submit = useSubmit();

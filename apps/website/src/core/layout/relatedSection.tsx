@@ -1,5 +1,5 @@
+import { cn } from "#core/classNames.ts";
 import { Children } from "react";
-import { cn } from "~/core/classNames";
 import { LineShapeHorizontal } from "./lineShape";
 
 export function RelatedSection({ children }: { children: React.ReactNode }) {

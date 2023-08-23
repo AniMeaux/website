@@ -1,15 +1,15 @@
-import { formatDateRange } from "@animeaux/shared";
-import { Event } from "@prisma/client";
-import { SerializeFrom } from "@remix-run/node";
-import { BaseLink } from "~/core/baseLink";
-import { cn } from "~/core/classNames";
-import { Chip } from "~/core/dataDisplay/chip";
-import { DynamicImage, DynamicImageProps } from "~/core/dataDisplay/image";
+import { BaseLink } from "#core/baseLink.tsx";
+import { cn } from "#core/classNames.ts";
+import { Chip } from "#core/dataDisplay/chip.tsx";
+import { DynamicImage, DynamicImageProps } from "#core/dataDisplay/image.tsx";
 import {
   InstanceColor,
   inferInstanceColor,
-} from "~/core/dataDisplay/instanceColor";
-import { Routes } from "~/core/navigation";
+} from "#core/dataDisplay/instanceColor.tsx";
+import { Routes } from "#core/navigation.ts";
+import { formatDateRange } from "@animeaux/shared";
+import { Event } from "@prisma/client";
+import { SerializeFrom } from "@remix-run/node";
 
 export function EventItem({
   event,

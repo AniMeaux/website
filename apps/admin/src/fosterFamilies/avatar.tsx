@@ -1,6 +1,6 @@
+import { Avatar, AvatarProps } from "#core/dataDisplay/avatar.tsx";
+import { inferInstanceColor } from "#core/dataDisplay/instanceColor.tsx";
 import { FosterFamily } from "@prisma/client";
-import { Avatar, AvatarProps } from "~/core/dataDisplay/avatar";
-import { inferInstanceColor } from "~/core/dataDisplay/instanceColor";
 
 export function FosterFamilyAvatar({
   fosterFamily,

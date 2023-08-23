@@ -1,12 +1,9 @@
-import { Species } from "@prisma/client";
-import { V2_MetaFunction } from "@remix-run/react";
-import { useState } from "react";
-import { SPECIES_ICON } from "~/animals/species";
-import { actionClassNames } from "~/core/actions";
-import { BaseLink } from "~/core/baseLink";
-import { cn } from "~/core/classNames";
-import { getConfigFromMetaMatches } from "~/core/config";
-import { Tab } from "~/core/controllers/tabs";
+import { SPECIES_ICON } from "#animals/species.ts";
+import { actionClassNames } from "#core/actions.ts";
+import { BaseLink } from "#core/baseLink.tsx";
+import { cn } from "#core/classNames.ts";
+import { getConfigFromMetaMatches } from "#core/config.ts";
+import { Tab } from "#core/controllers/tabs.tsx";
 import {
   OptionCard,
   OptionDescription,
@@ -15,25 +12,28 @@ import {
   OptionList,
   OptionPrice,
   OptionTitle,
-} from "~/core/dataDisplay/options";
-import { Timeline, TimelineItem } from "~/core/dataDisplay/timeline";
+} from "#core/dataDisplay/options.tsx";
+import { Timeline, TimelineItem } from "#core/dataDisplay/timeline.tsx";
 import {
   BubbleShape,
   bubbleSectionClassNames,
-} from "~/core/layout/bubbleSection";
+} from "#core/layout/bubbleSection.tsx";
 import {
   HeroSection,
   HeroSectionAside,
   HeroSectionImage,
   HeroSectionParagraph,
   HeroSectionTitle,
-} from "~/core/layout/heroSection";
-import { createSocialMeta } from "~/core/meta";
-import { getPageTitle } from "~/core/pageTitle";
-import { Icon } from "~/generated/icon";
-import { adoptImages } from "~/images/adopt";
-import { questionsImages } from "~/images/questions";
-import { socialImages } from "~/images/social";
+} from "#core/layout/heroSection.tsx";
+import { createSocialMeta } from "#core/meta.ts";
+import { getPageTitle } from "#core/pageTitle.ts";
+import { Icon } from "#generated/icon.tsx";
+import { adoptImages } from "#images/adopt.tsx";
+import { questionsImages } from "#images/questions.tsx";
+import { socialImages } from "#images/social.tsx";
+import { Species } from "@prisma/client";
+import { V2_MetaFunction } from "@remix-run/react";
+import { useState } from "react";
 
 export const meta: V2_MetaFunction = ({ matches }) => {
   const config = getConfigFromMetaMatches(matches);

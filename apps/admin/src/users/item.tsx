@@ -1,17 +1,17 @@
-import { User } from "@prisma/client";
-import { SerializeFrom } from "@remix-run/node";
-import { BaseLink } from "~/core/baseLink";
-import { cn } from "~/core/classNames";
-import { Chip } from "~/core/dataDisplay/chip";
+import { BaseLink } from "#core/baseLink.tsx";
+import { cn } from "#core/classNames.ts";
+import { Chip } from "#core/dataDisplay/chip.tsx";
 import {
   inferInstanceColor,
   InstanceColor,
-} from "~/core/dataDisplay/instanceColor";
-import { toRoundedRelative } from "~/core/dates";
-import { Routes } from "~/core/navigation";
-import { Icon } from "~/generated/icon";
-import { UserAvatar } from "~/users/avatar";
-import { GROUP_ICON } from "~/users/groups";
+} from "#core/dataDisplay/instanceColor.tsx";
+import { toRoundedRelative } from "#core/dates.ts";
+import { Routes } from "#core/navigation.ts";
+import { Icon } from "#generated/icon.tsx";
+import { UserAvatar } from "#users/avatar.tsx";
+import { GROUP_ICON } from "#users/groups.tsx";
+import { User } from "@prisma/client";
+import { SerializeFrom } from "@remix-run/node";
 
 export function UserItem({
   user,

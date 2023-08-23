@@ -1,8 +1,8 @@
+import { BaseLink, BaseLinkProps } from "#core/baseLink.tsx";
+import { cn } from "#core/classNames.ts";
+import { Primitive } from "#core/primitives.tsx";
+import { Icon, IconProps } from "#generated/icon.tsx";
 import { Transition } from "react-transition-group";
-import { BaseLink, BaseLinkProps } from "~/core/baseLink";
-import { cn } from "~/core/classNames";
-import { Primitive } from "~/core/primitives";
-import { Icon, IconProps } from "~/generated/icon";
 
 export type SideBarProps = {
   isOpened: boolean;

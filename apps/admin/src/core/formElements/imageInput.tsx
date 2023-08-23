@@ -1,15 +1,15 @@
-import { forwardRef } from "react";
-import { Action, ActionProps } from "~/core/actions";
-import { toBooleanAttribute } from "~/core/attributes";
-import { cn } from "~/core/classNames";
-import { DenseHelper } from "~/core/dataDisplay/helper";
+import { Action, ActionProps } from "#core/actions.tsx";
+import { toBooleanAttribute } from "#core/attributes.ts";
+import { cn } from "#core/classNames.ts";
+import { DenseHelper } from "#core/dataDisplay/helper.tsx";
 import {
   DataUrlOrDynamicImage,
   DataUrlOrDynamicImageProps,
   isImageOverSize,
-} from "~/core/dataDisplay/image";
-import { Primitive } from "~/core/primitives";
-import { Icon, IconProps } from "~/generated/icon";
+} from "#core/dataDisplay/image.tsx";
+import { Primitive } from "#core/primitives.tsx";
+import { Icon, IconProps } from "#generated/icon.tsx";
+import { forwardRef } from "react";
 
 const ImageInputNative = forwardRef<
   React.ComponentRef<"input">,

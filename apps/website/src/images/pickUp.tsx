@@ -1,6 +1,6 @@
-import { ImageDescriptor } from "~/core/dataDisplay/image";
-import pickUp1024 from "~/images/pickUp-1024w.png";
-import pickUp512 from "~/images/pickUp-512w.png";
+import { ImageDescriptor } from "#core/dataDisplay/image.tsx";
+import pickUp1024 from "#images/pickUp-1024w.png";
+import pickUp512 from "#images/pickUp-512w.png";
 
 export const pickUpImages: ImageDescriptor = {
   alt: "Chat qui regarde à travers une grille.",

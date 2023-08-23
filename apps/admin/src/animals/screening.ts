@@ -1,6 +1,6 @@
+import { IconProps } from "#generated/icon.tsx";
 import { Gender, ScreeningResult } from "@prisma/client";
 import orderBy from "lodash.orderby";
-import { IconProps } from "~/generated/icon";
 
 export const SCREENING_RESULT_TRANSLATION: Record<
   ScreeningResult,

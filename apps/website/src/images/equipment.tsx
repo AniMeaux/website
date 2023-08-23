@@ -1,8 +1,8 @@
-import { ImageDescriptor } from "~/core/dataDisplay/image";
-import equipment1024 from "~/images/equipment-1024w.png";
-import equipment1536 from "~/images/equipment-1536w.png";
-import equipment2048 from "~/images/equipment-2048w.png";
-import equipment512 from "~/images/equipment-512w.png";
+import { ImageDescriptor } from "#core/dataDisplay/image.tsx";
+import equipment1024 from "#images/equipment-1024w.png";
+import equipment1536 from "#images/equipment-1536w.png";
+import equipment2048 from "#images/equipment-2048w.png";
+import equipment512 from "#images/equipment-512w.png";
 
 export const equipmentImages: ImageDescriptor = {
   alt: "Deux cochons d’indes mangeant de la carotte.",

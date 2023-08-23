@@ -1,22 +1,22 @@
+import { ErrorPage, getErrorTitle } from "#core/dataDisplay/errorPage.tsx";
+import { db } from "#core/db.server.ts";
+import { EmailAlreadyUsedError, NotFoundError } from "#core/errors.server.ts";
+import { assertIsDefined } from "#core/isDefined.server.ts";
+import { Card } from "#core/layout/card.tsx";
+import { PageLayout } from "#core/layout/page.tsx";
+import { Routes, useBackIfPossible } from "#core/navigation.ts";
+import { getPageTitle } from "#core/pageTitle.ts";
+import { prisma } from "#core/prisma.server.ts";
+import { NotFoundResponse } from "#core/response.server.ts";
+import { assertCurrentUserHasGroups } from "#currentUser/groups.server.ts";
+import { LockMyselfError } from "#users/db.server.ts";
+import { ActionFormData, UserForm } from "#users/form.tsx";
+import { GROUP_TRANSLATION } from "#users/groups.tsx";
 import { UserGroup } from "@prisma/client";
-import { ActionArgs, json, LoaderArgs } from "@remix-run/node";
-import { useFetcher, useLoaderData, V2_MetaFunction } from "@remix-run/react";
+import { ActionArgs, LoaderArgs, json } from "@remix-run/node";
+import { V2_MetaFunction, useFetcher, useLoaderData } from "@remix-run/react";
 import { z } from "zod";
 import { zfd } from "zod-form-data";
-import { ErrorPage, getErrorTitle } from "~/core/dataDisplay/errorPage";
-import { db } from "~/core/db.server";
-import { EmailAlreadyUsedError, NotFoundError } from "~/core/errors.server";
-import { assertIsDefined } from "~/core/isDefined.server";
-import { Card } from "~/core/layout/card";
-import { PageLayout } from "~/core/layout/page";
-import { Routes, useBackIfPossible } from "~/core/navigation";
-import { getPageTitle } from "~/core/pageTitle";
-import { prisma } from "~/core/prisma.server";
-import { NotFoundResponse } from "~/core/response.server";
-import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
-import { LockMyselfError } from "~/users/db.server";
-import { ActionFormData, UserForm } from "~/users/form";
-import { GROUP_TRANSLATION } from "~/users/groups";
 
 export async function loader({ request, params }: LoaderArgs) {
   const currentUser = await db.currentUser.get(request, {

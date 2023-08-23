@@ -1,7 +1,7 @@
+import { cn } from "#core/classNames.ts";
+import { RequiredStar } from "#core/formElements/requiredStar.tsx";
+import { Icon } from "#generated/icon.tsx";
 import { forwardRef } from "react";
-import { cn } from "~/core/classNames";
-import { RequiredStar } from "~/core/formElements/requiredStar";
-import { Icon } from "~/generated/icon";
 
 type CheckboxInputProps = Omit<
   React.ComponentPropsWithoutRef<"input">,

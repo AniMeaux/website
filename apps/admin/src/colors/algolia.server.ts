@@ -1,7 +1,7 @@
+import { indexSearch } from "#core/algolia/shared.server.ts";
 import { SearchOptions } from "@algolia/client-search";
 import { Color } from "@prisma/client";
 import { SearchClient, SearchIndex } from "algoliasearch";
-import { indexSearch } from "~/core/algolia/shared.server";
 
 export type ColorFromAlgolia = Pick<Color, "name">;
 

@@ -1,8 +1,8 @@
+import { db } from "#core/db.server.ts";
+import { Routes } from "#core/navigation.ts";
+import { hasGroups } from "#users/groups.tsx";
 import { UserGroup } from "@prisma/client";
 import { LoaderArgs, redirect } from "@remix-run/node";
-import { db } from "~/core/db.server";
-import { Routes } from "~/core/navigation";
-import { hasGroups } from "~/users/groups";
 
 export async function loader({ request }: LoaderArgs) {
   const currentUser = await db.currentUser.get(request, {

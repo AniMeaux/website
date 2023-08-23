@@ -1,7 +1,7 @@
+import { isIterable } from "#core/collections.ts";
 import { SearchOptions } from "@algolia/client-search";
 import { SearchIndex } from "algoliasearch";
 import chunk from "lodash.chunk";
-import { isIterable } from "~/core/collections";
 
 export function createSearchFilters(
   params: Record<string, undefined | null | boolean | string | Iterable<string>>

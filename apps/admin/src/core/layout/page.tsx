@@ -1,6 +1,6 @@
+import { BaseLink, BaseLinkProps } from "#core/baseLink.tsx";
+import { cn } from "#core/classNames.ts";
 import { Children, isValidElement } from "react";
-import { BaseLink, BaseLinkProps } from "~/core/baseLink";
-import { cn } from "~/core/classNames";
 
 export function PageLayout({ children }: { children?: React.ReactNode }) {
   const hasTabs = Children.toArray(children).some(

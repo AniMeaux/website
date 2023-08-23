@@ -1,8 +1,8 @@
-import { ImageDescriptor } from "~/core/dataDisplay/image";
-import error1024 from "~/images/error-1024w.png";
-import error1536 from "~/images/error-1536w.png";
-import error2048 from "~/images/error-2048w.png";
-import error512 from "~/images/error-512w.png";
+import { ImageDescriptor } from "#core/dataDisplay/image.tsx";
+import error1024 from "#images/error-1024w.png";
+import error1536 from "#images/error-1536w.png";
+import error2048 from "#images/error-2048w.png";
+import error512 from "#images/error-512w.png";
 
 export const errorImages: ImageDescriptor = {
   alt: "Chien qui se cache dans l’herbe.",

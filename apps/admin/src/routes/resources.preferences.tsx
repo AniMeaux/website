@@ -1,12 +1,12 @@
+import { createActionData } from "#core/actionData.tsx";
+import { db } from "#core/db.server.ts";
+import { Routes } from "#core/navigation.ts";
+import { commitCurrentUserPreferences } from "#currentUser/preferences.server.ts";
 import { ActionArgs, json, redirect } from "@remix-run/node";
 import { useFetcher } from "@remix-run/react";
 import { useCallback, useMemo } from "react";
 import { z } from "zod";
 import { zfd } from "zod-form-data";
-import { createActionData } from "~/core/actionData";
-import { db } from "~/core/db.server";
-import { Routes } from "~/core/navigation";
-import { commitCurrentUserPreferences } from "~/currentUser/preferences.server";
 
 export async function loader() {
   // Nothing to render here.

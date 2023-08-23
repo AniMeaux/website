@@ -1,12 +1,12 @@
+import { createConfig } from "#core/config.server.ts";
+import { createCloudinaryUrl } from "#core/dataDisplay/image.tsx";
+import { db } from "#core/db.server.ts";
+import { Routes } from "#core/navigation.ts";
+import { NotFoundResponse } from "#core/response.server.ts";
+import { assertCurrentUserHasGroups } from "#currentUser/groups.server.ts";
 import { UserGroup } from "@prisma/client";
 import { LoaderArgs } from "@remix-run/node";
 import { z } from "zod";
-import { createConfig } from "~/core/config.server";
-import { createCloudinaryUrl } from "~/core/dataDisplay/image";
-import { db } from "~/core/db.server";
-import { Routes } from "~/core/navigation";
-import { NotFoundResponse } from "~/core/response.server";
-import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
 
 export async function loader({ request, params }: LoaderArgs) {
   const currentUser = await db.currentUser.get(request, {

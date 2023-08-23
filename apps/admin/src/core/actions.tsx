@@ -1,7 +1,7 @@
+import { cn } from "#core/classNames.ts";
+import { Spinner } from "#core/loaders/spinner.tsx";
+import { Primitive } from "#core/primitives.tsx";
 import { forwardRef } from "react";
-import { cn } from "~/core/classNames";
-import { Spinner } from "~/core/loaders/spinner";
-import { Primitive } from "~/core/primitives";
 
 type ActionVariant =
   | "floating"

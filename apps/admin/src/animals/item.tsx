@@ -1,26 +1,26 @@
-import { Animal, Breed, Color, Gender, User } from "@prisma/client";
-import { SerializeFrom } from "@remix-run/node";
-import { forwardRef } from "react";
-import { AnimalAvatar } from "~/animals/avatar";
-import { GENDER_ICON, GENDER_TRANSLATION } from "~/animals/gender";
-import { getAnimalDisplayName } from "~/animals/profile/name";
+import { AnimalAvatar } from "#animals/avatar.tsx";
+import { GENDER_ICON, GENDER_TRANSLATION } from "#animals/gender.tsx";
+import { getAnimalDisplayName } from "#animals/profile/name.tsx";
 import {
   hasPastVaccination,
   hasUpCommingSterilisation,
   hasUpCommingVaccination,
-} from "~/animals/situation/health";
-import { getSpeciesLabels } from "~/animals/species";
-import { StatusBadge } from "~/animals/status";
-import { BaseLink } from "~/core/baseLink";
-import { cn } from "~/core/classNames";
-import { Chip } from "~/core/dataDisplay/chip";
-import { DynamicImage, DynamicImageProps } from "~/core/dataDisplay/image";
+} from "#animals/situation/health.ts";
+import { getSpeciesLabels } from "#animals/species.tsx";
+import { StatusBadge } from "#animals/status.tsx";
+import { BaseLink } from "#core/baseLink.tsx";
+import { cn } from "#core/classNames.ts";
+import { Chip } from "#core/dataDisplay/chip.tsx";
+import { DynamicImage, DynamicImageProps } from "#core/dataDisplay/image.tsx";
 import {
   SuggestionItem,
   SuggestionItemProps,
-} from "~/core/formElements/resourceInput";
-import { Routes } from "~/core/navigation";
-import { Icon } from "~/generated/icon";
+} from "#core/formElements/resourceInput.tsx";
+import { Routes } from "#core/navigation.ts";
+import { Icon } from "#generated/icon.tsx";
+import { Animal, Breed, Color, Gender, User } from "@prisma/client";
+import { SerializeFrom } from "@remix-run/node";
+import { forwardRef } from "react";
 
 export function AnimalItem({
   animal,

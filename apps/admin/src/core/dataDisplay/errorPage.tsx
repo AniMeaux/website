@@ -1,12 +1,12 @@
+import { Action } from "#core/actions.tsx";
+import { BaseLink } from "#core/baseLink.tsx";
+import { Empty } from "#core/dataDisplay/empty.tsx";
+import { Routes } from "#core/navigation.ts";
 import {
   isRouteErrorResponse,
   useLocation,
   useRouteError,
 } from "@remix-run/react";
-import { Action } from "~/core/actions";
-import { BaseLink } from "~/core/baseLink";
-import { Empty } from "~/core/dataDisplay/empty";
-import { Routes } from "~/core/navigation";
 
 export function ErrorPage() {
   const error = useRouteError();

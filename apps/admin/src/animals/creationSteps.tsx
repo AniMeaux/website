@@ -1,5 +1,5 @@
-import { Steps } from "~/core/controllers/steps";
-import { Routes } from "~/core/navigation";
+import { Steps } from "#core/controllers/steps.tsx";
+import { Routes } from "#core/navigation.ts";
 
 const STEPS = ["profile", "situation", "pictures"] as const;
 type ActiveStep = (typeof STEPS)[number];

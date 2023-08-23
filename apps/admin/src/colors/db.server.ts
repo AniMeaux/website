@@ -1,12 +1,12 @@
-import { Color, Prisma } from "@prisma/client";
-import { algolia } from "~/core/algolia/algolia.server";
+import { algolia } from "#core/algolia/algolia.server.ts";
 import {
   AlreadyExistError,
   NotFoundError,
   PrismaErrorCodes,
   ReferencedError,
-} from "~/core/errors.server";
-import { prisma } from "~/core/prisma.server";
+} from "#core/errors.server.ts";
+import { prisma } from "#core/prisma.server.ts";
+import { Color, Prisma } from "@prisma/client";
 
 export class ColorDbDelegate {
   async create(data: ColorData) {

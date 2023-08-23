@@ -1,3 +1,35 @@
+import { AnimalItem } from "#animals/item.tsx";
+import { AnimalSearchParams } from "#animals/searchParams.ts";
+import {
+  ACTIVE_ANIMAL_STATUS,
+  NON_ACTIVE_ANIMAL_STATUS,
+} from "#animals/status.tsx";
+import { createActionData } from "#core/actionData.tsx";
+import { Action } from "#core/actions.tsx";
+import { BaseLink } from "#core/baseLink.tsx";
+import { Empty } from "#core/dataDisplay/empty.tsx";
+import { ErrorPage, getErrorTitle } from "#core/dataDisplay/errorPage.tsx";
+import { ErrorsInlineHelper } from "#core/dataDisplay/errors.tsx";
+import { BlockHelper, InlineHelper } from "#core/dataDisplay/helper.tsx";
+import { inferInstanceColor } from "#core/dataDisplay/instanceColor.tsx";
+import { ItemList, SimpleItem } from "#core/dataDisplay/item.tsx";
+import { toRoundedRelative } from "#core/dates.ts";
+import { db } from "#core/db.server.ts";
+import { NotFoundError, ReferencedError } from "#core/errors.server.ts";
+import { assertIsDefined } from "#core/isDefined.server.ts";
+import { AvatarCard } from "#core/layout/avatarCard.tsx";
+import { Card } from "#core/layout/card.tsx";
+import { PageLayout } from "#core/layout/page.tsx";
+import { Routes } from "#core/navigation.ts";
+import { getPageTitle } from "#core/pageTitle.ts";
+import { Dialog } from "#core/popovers/dialog.tsx";
+import { prisma } from "#core/prisma.server.ts";
+import { BadRequestResponse, NotFoundResponse } from "#core/response.server.ts";
+import { assertCurrentUserHasGroups } from "#currentUser/groups.server.ts";
+import { Icon } from "#generated/icon.tsx";
+import { UserAvatar } from "#users/avatar.tsx";
+import { DeleteMyselfError, DisableMyselfError } from "#users/db.server.ts";
+import { GROUP_ICON, GROUP_TRANSLATION, hasGroups } from "#users/groups.tsx";
 import { Prisma, User, UserGroup } from "@prisma/client";
 import { ActionArgs, LoaderArgs, json, redirect } from "@remix-run/node";
 import { V2_MetaFunction, useFetcher, useLoaderData } from "@remix-run/react";
@@ -5,38 +37,6 @@ import { useEffect, useState } from "react";
 import { promiseHash } from "remix-utils";
 import { z } from "zod";
 import { zfd } from "zod-form-data";
-import { AnimalItem } from "~/animals/item";
-import { AnimalSearchParams } from "~/animals/searchParams";
-import {
-  ACTIVE_ANIMAL_STATUS,
-  NON_ACTIVE_ANIMAL_STATUS,
-} from "~/animals/status";
-import { createActionData } from "~/core/actionData";
-import { Action } from "~/core/actions";
-import { BaseLink } from "~/core/baseLink";
-import { Empty } from "~/core/dataDisplay/empty";
-import { ErrorPage, getErrorTitle } from "~/core/dataDisplay/errorPage";
-import { ErrorsInlineHelper } from "~/core/dataDisplay/errors";
-import { BlockHelper, InlineHelper } from "~/core/dataDisplay/helper";
-import { inferInstanceColor } from "~/core/dataDisplay/instanceColor";
-import { ItemList, SimpleItem } from "~/core/dataDisplay/item";
-import { toRoundedRelative } from "~/core/dates";
-import { db } from "~/core/db.server";
-import { NotFoundError, ReferencedError } from "~/core/errors.server";
-import { assertIsDefined } from "~/core/isDefined.server";
-import { AvatarCard } from "~/core/layout/avatarCard";
-import { Card } from "~/core/layout/card";
-import { PageLayout } from "~/core/layout/page";
-import { Routes } from "~/core/navigation";
-import { getPageTitle } from "~/core/pageTitle";
-import { Dialog } from "~/core/popovers/dialog";
-import { prisma } from "~/core/prisma.server";
-import { BadRequestResponse, NotFoundResponse } from "~/core/response.server";
-import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
-import { Icon } from "~/generated/icon";
-import { UserAvatar } from "~/users/avatar";
-import { DeleteMyselfError, DisableMyselfError } from "~/users/db.server";
-import { GROUP_ICON, GROUP_TRANSLATION, hasGroups } from "~/users/groups";
 
 export async function loader({ request, params }: LoaderArgs) {
   const currentUser = await db.currentUser.get(request, {

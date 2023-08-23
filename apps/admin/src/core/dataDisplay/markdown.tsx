@@ -1,8 +1,8 @@
+import { ProseInlineAction } from "#core/actions.tsx";
+import { BaseLink } from "#core/baseLink.tsx";
 import ReactMarkdown, { Options as ReactMarkdownOptions } from "react-markdown";
 import breaks from "remark-breaks";
 import gfm from "remark-gfm";
-import { ProseInlineAction } from "~/core/actions";
-import { BaseLink } from "~/core/baseLink";
 
 const REMARK_PLUGINS: ReactMarkdownOptions["plugins"] = [
   // Allow line breaks in paragraphs.

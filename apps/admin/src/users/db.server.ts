@@ -1,13 +1,13 @@
-import { Prisma, User, UserGroup } from "@prisma/client";
-import { algolia } from "~/core/algolia/algolia.server";
+import { algolia } from "#core/algolia/algolia.server.ts";
 import {
   EmailAlreadyUsedError,
   NotFoundError,
   PrismaErrorCodes,
   ReferencedError,
-} from "~/core/errors.server";
-import { prisma } from "~/core/prisma.server";
-import { generatePasswordHash } from "~/users/password.server";
+} from "#core/errors.server.ts";
+import { prisma } from "#core/prisma.server.ts";
+import { generatePasswordHash } from "#users/password.server.ts";
+import { Prisma, User, UserGroup } from "@prisma/client";
 
 export class DisableMyselfError extends Error {}
 export class DeleteMyselfError extends Error {}

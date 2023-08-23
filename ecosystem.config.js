@@ -109,13 +109,6 @@ module.exports = {
       script: "yarn build:theme",
       watch: ["./tailwind.config.js", "./scripts/generateTheme.ts"],
     }),
-
-    createApp({
-      name: "faune",
-      cwd: "./apps/faune",
-      script: "yarn dev",
-      watch: ["./next.config.js", "./tsconfig.json", "./.env*"],
-    }),
   ],
 };
 

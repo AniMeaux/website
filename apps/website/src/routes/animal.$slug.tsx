@@ -1,3 +1,22 @@
+import {
+  SCREENING_RESULT_ICON,
+  SCREENING_RESULT_TRANSLATION,
+} from "#animals/screening.ts";
+import { SPECIES_ICON } from "#animals/species.ts";
+import { ADOPTABLE_ANIMAL_STATUS } from "#animals/status.ts";
+import { actionClassNames } from "#core/actions.ts";
+import { BaseLink } from "#core/baseLink.tsx";
+import { cn } from "#core/classNames.ts";
+import { getConfigFromMetaMatches, useConfig } from "#core/config.ts";
+import { ErrorPage, getErrorTitle } from "#core/dataDisplay/errorPage.tsx";
+import { DynamicImage, createCloudinaryUrl } from "#core/dataDisplay/image.tsx";
+import { Markdown, MarkdownProps } from "#core/dataDisplay/markdown.tsx";
+import { prisma } from "#core/db.server.ts";
+import { isDefined } from "#core/isDefined.ts";
+import { createSocialMeta } from "#core/meta.ts";
+import { getPageTitle } from "#core/pageTitle.ts";
+import { GENDER_TRANSLATION, SPECIES_TRANSLATION } from "#core/translations.ts";
+import { Icon, IconProps } from "#generated/icon.tsx";
 import { formatAge } from "@animeaux/shared";
 import { Gender, ScreeningResult, Species } from "@prisma/client";
 import { LoaderArgs, json } from "@remix-run/node";
@@ -6,25 +25,6 @@ import { DateTime } from "luxon";
 import { useRef, useState } from "react";
 import invariant from "tiny-invariant";
 import { z } from "zod";
-import {
-  SCREENING_RESULT_ICON,
-  SCREENING_RESULT_TRANSLATION,
-} from "~/animals/screening";
-import { SPECIES_ICON } from "~/animals/species";
-import { ADOPTABLE_ANIMAL_STATUS } from "~/animals/status";
-import { actionClassNames } from "~/core/actions";
-import { BaseLink } from "~/core/baseLink";
-import { cn } from "~/core/classNames";
-import { getConfigFromMetaMatches, useConfig } from "~/core/config";
-import { ErrorPage, getErrorTitle } from "~/core/dataDisplay/errorPage";
-import { DynamicImage, createCloudinaryUrl } from "~/core/dataDisplay/image";
-import { Markdown, MarkdownProps } from "~/core/dataDisplay/markdown";
-import { prisma } from "~/core/db.server";
-import { isDefined } from "~/core/isDefined";
-import { createSocialMeta } from "~/core/meta";
-import { getPageTitle } from "~/core/pageTitle";
-import { GENDER_TRANSLATION, SPECIES_TRANSLATION } from "~/core/translations";
-import { Icon, IconProps } from "~/generated/icon";
 
 const UuidSchema = z.string().uuid();
 

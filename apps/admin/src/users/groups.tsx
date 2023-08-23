@@ -1,7 +1,7 @@
+import { IconProps } from "#generated/icon.tsx";
 import { User, UserGroup } from "@prisma/client";
 import intersection from "lodash.intersection";
 import orderBy from "lodash.orderby";
-import { IconProps } from "~/generated/icon";
 
 export const GROUP_TRANSLATION: Record<UserGroup, string> = {
   [UserGroup.ADMIN]: "Administrateur",

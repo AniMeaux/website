@@ -1,5 +1,5 @@
-import { Item, ItemList } from "~/core/dataDisplay/item";
-import { Icon } from "~/generated/icon";
+import { Item, ItemList } from "#core/dataDisplay/item.tsx";
+import { Icon } from "#generated/icon.tsx";
 
 export function ToggleInputList({ children }: { children?: React.ReactNode }) {
   return (

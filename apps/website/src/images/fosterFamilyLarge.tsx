@@ -1,8 +1,8 @@
-import { ImageDescriptor } from "~/core/dataDisplay/image";
-import fosterFamilyLarge1024 from "~/images/fosterFamilyLarge-1024w.png";
-import fosterFamilyLarge1536 from "~/images/fosterFamilyLarge-1536w.png";
-import fosterFamilyLarge2048 from "~/images/fosterFamilyLarge-2048w.png";
-import fosterFamilyLarge512 from "~/images/fosterFamilyLarge-512w.png";
+import { ImageDescriptor } from "#core/dataDisplay/image.tsx";
+import fosterFamilyLarge1024 from "#images/fosterFamilyLarge-1024w.png";
+import fosterFamilyLarge1536 from "#images/fosterFamilyLarge-1536w.png";
+import fosterFamilyLarge2048 from "#images/fosterFamilyLarge-2048w.png";
+import fosterFamilyLarge512 from "#images/fosterFamilyLarge-512w.png";
 
 export const fosterFamilyLargeImages: ImageDescriptor = {
   alt: "Homme portant un chat dans les bras.",

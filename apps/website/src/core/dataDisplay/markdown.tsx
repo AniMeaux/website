@@ -1,13 +1,13 @@
+import { actionClassNames } from "#core/actions.ts";
+import { BaseLink } from "#core/baseLink.tsx";
+import { cn } from "#core/classNames.ts";
+import { Config, useConfig } from "#core/config.ts";
+import { DynamicImage } from "#core/dataDisplay/image.tsx";
+import { LineShapeVertical } from "#core/layout/lineShape.tsx";
 import ReactMarkdown, { Options as ReactMarkdownOptions } from "react-markdown";
 import breaks from "remark-breaks";
 import gfm from "remark-gfm";
 import invariant from "tiny-invariant";
-import { actionClassNames } from "~/core/actions";
-import { BaseLink } from "~/core/baseLink";
-import { cn } from "~/core/classNames";
-import { Config, useConfig } from "~/core/config";
-import { DynamicImage } from "~/core/dataDisplay/image";
-import { LineShapeVertical } from "~/core/layout/lineShape";
 
 const REMARK_PLUGINS: ReactMarkdownOptions["plugins"] = [
   // Allow line breaks in paragraphs.

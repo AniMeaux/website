@@ -1,5 +1,5 @@
-import { ImageDescriptor } from "~/core/dataDisplay/image";
-import missionField512 from "~/images/missionField-512w.png";
+import { ImageDescriptor } from "#core/dataDisplay/image.tsx";
+import missionField512 from "#images/missionField-512w.png";
 
 export const missionFieldImages: ImageDescriptor = {
   alt: "Chat enfermé dans une cage trappe.",

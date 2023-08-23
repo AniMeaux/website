@@ -1,20 +1,20 @@
-import { V2_MetaFunction } from "@remix-run/react";
-import { cn } from "~/core/classNames";
-import { getConfigFromMetaMatches } from "~/core/config";
-import { createCloudinaryUrl, DynamicImage } from "~/core/dataDisplay/image";
+import { cn } from "#core/classNames.ts";
+import { getConfigFromMetaMatches } from "#core/config.ts";
+import { createCloudinaryUrl, DynamicImage } from "#core/dataDisplay/image.tsx";
 import {
   ARTICLE_COMPONENTS,
   Markdown,
   MarkdownLink,
-} from "~/core/dataDisplay/markdown";
+} from "#core/dataDisplay/markdown.tsx";
 import {
   RelatedSection,
   RelatedSectionList,
   RelatedSectionTitle,
-} from "~/core/layout/relatedSection";
-import { createSocialMeta } from "~/core/meta";
-import { getPageTitle } from "~/core/pageTitle";
-import { WarnItem } from "~/warn/item";
+} from "#core/layout/relatedSection.tsx";
+import { createSocialMeta } from "#core/meta.ts";
+import { getPageTitle } from "#core/pageTitle.ts";
+import { WarnItem } from "#warn/item.tsx";
+import { V2_MetaFunction } from "@remix-run/react";
 
 const IMAGE_ID = "blog/a2bf3ad2-a475-4c63-8f30-fd29928c8fa3";
 

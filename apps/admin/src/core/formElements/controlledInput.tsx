@@ -1,6 +1,6 @@
+import { Input, InputProps } from "#core/formElements/input.tsx";
+import { useLayoutEffect } from "#core/useLayoutEffect.ts";
 import { useState } from "react";
-import { Input, InputProps } from "~/core/formElements/input";
-import { useLayoutEffect } from "~/core/useLayoutEffect";
 
 /**
  * Input component to use when the value needs to be controlled by an external

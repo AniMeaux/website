@@ -1,8 +1,8 @@
+import { ErrorPage, getErrorTitle } from "#core/dataDisplay/errorPage.tsx";
+import { PageLayout } from "#core/layout/page.tsx";
+import { getPageTitle } from "#core/pageTitle.ts";
+import { NotFoundResponse } from "#core/response.server.ts";
 import { V2_MetaFunction } from "@remix-run/react";
-import { ErrorPage, getErrorTitle } from "~/core/dataDisplay/errorPage";
-import { PageLayout } from "~/core/layout/page";
-import { getPageTitle } from "~/core/pageTitle";
-import { NotFoundResponse } from "~/core/response.server";
 
 export async function loader() {
   throw new NotFoundResponse();

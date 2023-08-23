@@ -1,21 +1,21 @@
-import { json, LoaderArgs } from "@remix-run/node";
-import { useLoaderData, V2_MetaFunction } from "@remix-run/react";
-import { DateTime } from "luxon";
-import { articles } from "~/blog/data.server";
-import { ArticleItem } from "~/blog/item";
-import { cn } from "~/core/classNames";
-import { getConfigFromMetaMatches } from "~/core/config";
-import { ErrorPage, getErrorTitle } from "~/core/dataDisplay/errorPage";
-import { createCloudinaryUrl, DynamicImage } from "~/core/dataDisplay/image";
-import { ARTICLE_COMPONENTS, Markdown } from "~/core/dataDisplay/markdown";
+import { articles } from "#blog/data.server.ts";
+import { ArticleItem } from "#blog/item.tsx";
+import { cn } from "#core/classNames.ts";
+import { getConfigFromMetaMatches } from "#core/config.ts";
+import { ErrorPage, getErrorTitle } from "#core/dataDisplay/errorPage.tsx";
+import { DynamicImage, createCloudinaryUrl } from "#core/dataDisplay/image.tsx";
+import { ARTICLE_COMPONENTS, Markdown } from "#core/dataDisplay/markdown.tsx";
 import {
   RelatedSection,
   RelatedSectionList,
   RelatedSectionTitle,
-} from "~/core/layout/relatedSection";
-import { createSocialMeta } from "~/core/meta";
-import { getPageTitle } from "~/core/pageTitle";
-import { DonationSection } from "~/donation/section";
+} from "#core/layout/relatedSection.tsx";
+import { createSocialMeta } from "#core/meta.ts";
+import { getPageTitle } from "#core/pageTitle.ts";
+import { DonationSection } from "#donation/section.tsx";
+import { LoaderArgs, json } from "@remix-run/node";
+import { V2_MetaFunction, useLoaderData } from "@remix-run/react";
+import { DateTime } from "luxon";
 
 const OTHER_ARTICLE_COUNT = 3;
 

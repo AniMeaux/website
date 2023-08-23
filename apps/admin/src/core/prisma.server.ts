@@ -1,6 +1,6 @@
+import { singleton } from "#core/singleton.server.ts";
 import { PrismaClient } from "@prisma/client";
 import invariant from "tiny-invariant";
-import { singleton } from "~/core/singleton.server";
 
 invariant(
   typeof process.env.DATABASE_URL === "string",

@@ -1,9 +1,9 @@
-import { BaseLink } from "~/core/baseLink";
-import { cn } from "~/core/classNames";
-import { useConfig } from "~/core/config";
-import { StaticImage } from "~/core/dataDisplay/image";
-import { Icon } from "~/generated/icon";
-import { showLogoImages } from "~/images/showLogo";
+import { BaseLink } from "#core/baseLink.tsx";
+import { cn } from "#core/classNames.ts";
+import { useConfig } from "#core/config.ts";
+import { StaticImage } from "#core/dataDisplay/image.tsx";
+import { Icon } from "#generated/icon.tsx";
+import { showLogoImages } from "#images/showLogo.tsx";
 
 export function ShowBanner({ className }: { className?: string }) {
   const { showUrl } = useConfig();
