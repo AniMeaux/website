@@ -47,7 +47,7 @@ export async function loader({ request }: LoaderArgs) {
     isSterilizationMandatory: true,
     isSterilized: false,
     species: { in: [Species.CAT, Species.DOG] },
-    status: { not: Status.DECEASED },
+    status: { notIn: [Status.DECEASED, Status.TRANSFERRED] },
   };
 
   const animalsToVaccinateWhere: Prisma.AnimalWhereInput = {
@@ -289,7 +289,11 @@ function AnimalsToSterilizeCard() {
                   sterilizations: new Set([AnimalSterilization.NO]),
                   birthdateEnd: DateTime.now().minus({ months: 6 }).toJSDate(),
                   statuses: new Set(
-                    SORTED_STATUS.filter((status) => status !== Status.DECEASED)
+                    SORTED_STATUS.filter(
+                      (status) =>
+                        status !== Status.DECEASED &&
+                        status !== Status.TRANSFERRED
+                    )
                   ),
                 }),
               }}
