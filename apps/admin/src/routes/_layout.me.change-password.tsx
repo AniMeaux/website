@@ -1,17 +1,17 @@
+import { createActionData } from "#core/actionData.tsx";
+import { Action } from "#core/actions.tsx";
+import { db } from "#core/db.server.ts";
+import { Form } from "#core/formElements/form.tsx";
+import { PasswordInput } from "#core/formElements/passwordInput.tsx";
+import { Card } from "#core/layout/card.tsx";
+import { PageLayout } from "#core/layout/page.tsx";
+import { Routes, useBackIfPossible } from "#core/navigation.ts";
+import { getPageTitle } from "#core/pageTitle.ts";
+import { Icon } from "#generated/icon.tsx";
 import { ActionArgs, json } from "@remix-run/node";
 import { V2_MetaFunction, useFetcher } from "@remix-run/react";
 import { useEffect, useRef } from "react";
 import { z } from "zod";
-import { createActionData } from "~/core/actionData";
-import { Action } from "~/core/actions";
-import { db } from "~/core/db.server";
-import { Form } from "~/core/formElements/form";
-import { PasswordInput } from "~/core/formElements/passwordInput";
-import { Card } from "~/core/layout/card";
-import { PageLayout } from "~/core/layout/page";
-import { Routes, useBackIfPossible } from "~/core/navigation";
-import { getPageTitle } from "~/core/pageTitle";
-import { Icon } from "~/generated/icon";
 
 export const meta: V2_MetaFunction = () => {
   return [{ title: getPageTitle("Changer de mot de passe") }];

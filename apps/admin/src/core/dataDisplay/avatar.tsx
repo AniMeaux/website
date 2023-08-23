@@ -1,6 +1,6 @@
-import { cn } from "~/core/classNames";
-import { InstanceColor } from "~/core/dataDisplay/instanceColor";
-import { Icon, IconProps } from "~/generated/icon";
+import { cn } from "#core/classNames.ts";
+import { InstanceColor } from "#core/dataDisplay/instanceColor.tsx";
+import { Icon, IconProps } from "#generated/icon.tsx";
 
 export type AvatarSize = "sm" | "lg" | "xl";
 

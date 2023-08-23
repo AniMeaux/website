@@ -1,3 +1,26 @@
+import { createActionData } from "#core/actionData.tsx";
+import { Action } from "#core/actions.tsx";
+import { BaseLink } from "#core/baseLink.tsx";
+import { cn } from "#core/classNames.ts";
+import { Paginator } from "#core/controllers/paginator.tsx";
+import { Empty } from "#core/dataDisplay/empty.tsx";
+import { DynamicImage } from "#core/dataDisplay/image.tsx";
+import {
+  InstanceColor,
+  inferInstanceColor,
+} from "#core/dataDisplay/instanceColor.tsx";
+import { db } from "#core/db.server.ts";
+import { NotFoundError } from "#core/errors.server.ts";
+import { Card } from "#core/layout/card.tsx";
+import { PageLayout } from "#core/layout/page.tsx";
+import { Routes } from "#core/navigation.ts";
+import { getPageTitle } from "#core/pageTitle.ts";
+import { Dialog } from "#core/popovers/dialog.tsx";
+import { prisma } from "#core/prisma.server.ts";
+import { BadRequestResponse, NotFoundResponse } from "#core/response.server.ts";
+import { PageSearchParams } from "#core/searchParams.ts";
+import { assertCurrentUserHasGroups } from "#currentUser/groups.server.ts";
+import { Icon } from "#generated/icon.tsx";
 import { UserGroup } from "@prisma/client";
 import { ActionArgs, LoaderArgs, SerializeFrom, json } from "@remix-run/node";
 import { V2_MetaFunction, useFetcher, useLoaderData } from "@remix-run/react";
@@ -5,29 +28,6 @@ import { DateTime } from "luxon";
 import { promiseHash } from "remix-utils";
 import { z } from "zod";
 import { zfd } from "zod-form-data";
-import { createActionData } from "~/core/actionData";
-import { Action } from "~/core/actions";
-import { BaseLink } from "~/core/baseLink";
-import { cn } from "~/core/classNames";
-import { Paginator } from "~/core/controllers/paginator";
-import { Empty } from "~/core/dataDisplay/empty";
-import { DynamicImage } from "~/core/dataDisplay/image";
-import {
-  InstanceColor,
-  inferInstanceColor,
-} from "~/core/dataDisplay/instanceColor";
-import { db } from "~/core/db.server";
-import { NotFoundError } from "~/core/errors.server";
-import { Card } from "~/core/layout/card";
-import { PageLayout } from "~/core/layout/page";
-import { Routes } from "~/core/navigation";
-import { getPageTitle } from "~/core/pageTitle";
-import { Dialog } from "~/core/popovers/dialog";
-import { prisma } from "~/core/prisma.server";
-import { BadRequestResponse, NotFoundResponse } from "~/core/response.server";
-import { PageSearchParams } from "~/core/searchParams";
-import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
-import { Icon } from "~/generated/icon";
 
 const PRESS_ARTICLES_COUNT_PER_PAGE = 20;
 

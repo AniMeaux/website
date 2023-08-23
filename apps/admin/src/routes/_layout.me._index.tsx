@@ -1,27 +1,27 @@
+import { AnimalItem } from "#animals/item.tsx";
+import { AnimalSearchParams } from "#animals/searchParams.ts";
+import {
+  ACTIVE_ANIMAL_STATUS,
+  NON_ACTIVE_ANIMAL_STATUS,
+} from "#animals/status.tsx";
+import { Action } from "#core/actions.tsx";
+import { BaseLink } from "#core/baseLink.tsx";
+import { Empty } from "#core/dataDisplay/empty.tsx";
+import { inferInstanceColor } from "#core/dataDisplay/instanceColor.tsx";
+import { db } from "#core/db.server.ts";
+import { AvatarCard } from "#core/layout/avatarCard.tsx";
+import { Card } from "#core/layout/card.tsx";
+import { PageLayout } from "#core/layout/page.tsx";
+import { Routes } from "#core/navigation.ts";
+import { getPageTitle } from "#core/pageTitle.ts";
+import { prisma } from "#core/prisma.server.ts";
+import { Icon } from "#generated/icon.tsx";
+import { UserAvatar } from "#users/avatar.tsx";
+import { GROUP_ICON, GROUP_TRANSLATION, hasGroups } from "#users/groups.tsx";
 import { Prisma, UserGroup } from "@prisma/client";
 import { LoaderArgs, json } from "@remix-run/node";
 import { V2_MetaFunction, useLoaderData } from "@remix-run/react";
 import { promiseHash } from "remix-utils";
-import { AnimalItem } from "~/animals/item";
-import { AnimalSearchParams } from "~/animals/searchParams";
-import {
-  ACTIVE_ANIMAL_STATUS,
-  NON_ACTIVE_ANIMAL_STATUS,
-} from "~/animals/status";
-import { Action } from "~/core/actions";
-import { BaseLink } from "~/core/baseLink";
-import { Empty } from "~/core/dataDisplay/empty";
-import { inferInstanceColor } from "~/core/dataDisplay/instanceColor";
-import { db } from "~/core/db.server";
-import { AvatarCard } from "~/core/layout/avatarCard";
-import { Card } from "~/core/layout/card";
-import { PageLayout } from "~/core/layout/page";
-import { Routes } from "~/core/navigation";
-import { getPageTitle } from "~/core/pageTitle";
-import { prisma } from "~/core/prisma.server";
-import { Icon } from "~/generated/icon";
-import { UserAvatar } from "~/users/avatar";
-import { GROUP_ICON, GROUP_TRANSLATION, hasGroups } from "~/users/groups";
 
 export async function loader({ request }: LoaderArgs) {
   const currentUser = await db.currentUser.get(request, {

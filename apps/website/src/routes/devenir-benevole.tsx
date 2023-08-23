@@ -1,34 +1,34 @@
-import { V2_MetaFunction } from "@remix-run/react";
-import { actionClassNames } from "~/core/actions";
-import { BaseLink } from "~/core/baseLink";
-import { cn } from "~/core/classNames";
-import { getConfigFromMetaMatches, useConfig } from "~/core/config";
-import { StaticImage, StaticImageProps } from "~/core/dataDisplay/image";
+import { actionClassNames } from "#core/actions.ts";
+import { BaseLink } from "#core/baseLink.tsx";
+import { cn } from "#core/classNames.ts";
+import { getConfigFromMetaMatches, useConfig } from "#core/config.ts";
+import { StaticImage, StaticImageProps } from "#core/dataDisplay/image.tsx";
 import {
   OptionCard,
   OptionDescription,
   OptionList,
   OptionPrice,
   OptionTitle,
-} from "~/core/dataDisplay/options";
+} from "#core/dataDisplay/options.tsx";
 import {
   HeroSection,
   HeroSectionAside,
   HeroSectionImage,
   HeroSectionParagraph,
   HeroSectionTitle,
-} from "~/core/layout/heroSection";
-import { createSocialMeta } from "~/core/meta";
-import { getPageTitle } from "~/core/pageTitle";
-import { missionAccountingImages } from "~/images/missionAccounting";
-import { missionCarpoolImages } from "~/images/missionCarpool";
-import { missionCommunicationImages } from "~/images/missionCommunication";
-import { missionEventImages } from "~/images/missionEvent";
-import { missionFieldImages } from "~/images/missionField";
-import { missionFoodCollectionImages } from "~/images/missionFoodCollection";
-import { missionInterventionImages } from "~/images/missionIntervention";
-import { socialImages } from "~/images/social";
-import { volunteerImages } from "~/images/volunteer";
+} from "#core/layout/heroSection.tsx";
+import { createSocialMeta } from "#core/meta.ts";
+import { getPageTitle } from "#core/pageTitle.ts";
+import { missionAccountingImages } from "#images/missionAccounting.tsx";
+import { missionCarpoolImages } from "#images/missionCarpool.tsx";
+import { missionCommunicationImages } from "#images/missionCommunication.tsx";
+import { missionEventImages } from "#images/missionEvent.tsx";
+import { missionFieldImages } from "#images/missionField.tsx";
+import { missionFoodCollectionImages } from "#images/missionFoodCollection.tsx";
+import { missionInterventionImages } from "#images/missionIntervention.tsx";
+import { socialImages } from "#images/social.tsx";
+import { volunteerImages } from "#images/volunteer.tsx";
+import { V2_MetaFunction } from "@remix-run/react";
 
 export const meta: V2_MetaFunction = ({ matches }) => {
   const config = getConfigFromMetaMatches(matches);

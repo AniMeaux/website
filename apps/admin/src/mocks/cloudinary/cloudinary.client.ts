@@ -1,6 +1,6 @@
+import { simpleHash } from "#core/simpleHash.tsx";
 import { rest } from "msw";
 import invariant from "tiny-invariant";
-import { simpleHash } from "~/core/simpleHash";
 
 const SVGS = [
   // Cat

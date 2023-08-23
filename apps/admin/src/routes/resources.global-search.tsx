@@ -1,3 +1,23 @@
+import { AnimalSuggestionItem } from "#animals/item.tsx";
+import { getAnimalDisplayName } from "#animals/profile/name.tsx";
+import { AnimalSearchParams } from "#animals/searchParams.ts";
+import { cn } from "#core/classNames.ts";
+import { db } from "#core/db.server.ts";
+import { BaseTextInput } from "#core/formElements/baseTextInput.tsx";
+import { Input } from "#core/formElements/input.tsx";
+import {
+  SuggestionItem,
+  SuggestionList,
+} from "#core/formElements/resourceInput.tsx";
+import { Routes, useNavigate } from "#core/navigation.ts";
+import { Overlay } from "#core/popovers/overlay.tsx";
+import { ForbiddenResponse } from "#core/response.server.ts";
+import { zsp } from "#core/schemas.tsx";
+import { createSearchParams } from "#core/searchParams.ts";
+import { assertCurrentUserHasGroups } from "#currentUser/groups.server.ts";
+import { FosterFamilySuggestionItem } from "#fosterFamilies/item.tsx";
+import { FosterFamilySearchParams } from "#fosterFamilies/searchParams.ts";
+import { Icon } from "#generated/icon.tsx";
 import { User, UserGroup } from "@prisma/client";
 import * as Dialog from "@radix-ui/react-dialog";
 import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
@@ -15,26 +35,6 @@ import {
 import { createPath } from "history";
 import orderBy from "lodash.orderby";
 import { useEffect, useState } from "react";
-import { AnimalSuggestionItem } from "~/animals/item";
-import { getAnimalDisplayName } from "~/animals/profile/name";
-import { AnimalSearchParams } from "~/animals/searchParams";
-import { cn } from "~/core/classNames";
-import { db } from "~/core/db.server";
-import { BaseTextInput } from "~/core/formElements/baseTextInput";
-import { Input } from "~/core/formElements/input";
-import {
-  SuggestionItem,
-  SuggestionList,
-} from "~/core/formElements/resourceInput";
-import { Routes, useNavigate } from "~/core/navigation";
-import { Overlay } from "~/core/popovers/overlay";
-import { ForbiddenResponse } from "~/core/response.server";
-import { zsp } from "~/core/schemas";
-import { createSearchParams } from "~/core/searchParams";
-import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
-import { FosterFamilySuggestionItem } from "~/fosterFamilies/item";
-import { FosterFamilySearchParams } from "~/fosterFamilies/searchParams";
-import { Icon } from "~/generated/icon";
 
 const MAX_HIT_COUNT = 6;
 

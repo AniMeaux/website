@@ -1,14 +1,14 @@
-import { Hit, SearchResponse } from "@algolia/client-search";
-import { Prisma } from "@prisma/client";
-import { promiseHash } from "remix-utils";
-import { BreedFromAlgolia } from "~/breeds/algolia.server";
-import { algolia } from "~/core/algolia/algolia.server";
-import { prisma } from "~/core/prisma.server";
+import { BreedFromAlgolia } from "#breeds/algolia.server.ts";
+import { algolia } from "#core/algolia/algolia.server.ts";
+import { prisma } from "#core/prisma.server.ts";
 import {
   createBatchHandlers,
   createPostHandlers,
   highlightValue,
-} from "~/mocks/algolia/shared.server";
+} from "#mocks/algolia/shared.server.ts";
+import { Hit, SearchResponse } from "@algolia/client-search";
+import { Prisma } from "@prisma/client";
+import { promiseHash } from "remix-utils";
 
 export const breedHandlers = [
   ...createPostHandlers(

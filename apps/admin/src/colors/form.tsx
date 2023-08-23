@@ -1,14 +1,14 @@
+import { createActionData } from "#core/actionData.tsx";
+import { Action } from "#core/actions.tsx";
+import { Form } from "#core/formElements/form.tsx";
+import { Input } from "#core/formElements/input.tsx";
+import { RequiredStar } from "#core/formElements/requiredStar.tsx";
+import { Icon } from "#generated/icon.tsx";
 import { Color } from "@prisma/client";
 import { SerializeFrom } from "@remix-run/node";
 import { FetcherWithComponents } from "@remix-run/react";
 import { useEffect, useRef } from "react";
 import { z } from "zod";
-import { createActionData } from "~/core/actionData";
-import { Action } from "~/core/actions";
-import { Form } from "~/core/formElements/form";
-import { Input } from "~/core/formElements/input";
-import { RequiredStar } from "~/core/formElements/requiredStar";
-import { Icon } from "~/generated/icon";
 
 export const ActionFormData = createActionData(
   z.object({

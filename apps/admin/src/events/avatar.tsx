@@ -1,8 +1,8 @@
+import { cn } from "#core/classNames.ts";
+import { AVATAR_SIZE_CLASS_NAME } from "#core/dataDisplay/avatar.tsx";
 import { Event } from "@prisma/client";
 import { SerializeFrom } from "@remix-run/node";
 import { DateTime } from "luxon";
-import { cn } from "~/core/classNames";
-import { AVATAR_SIZE_CLASS_NAME } from "~/core/dataDisplay/avatar";
 
 export function EventAvatar({
   event,

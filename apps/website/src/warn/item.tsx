@@ -1,5 +1,5 @@
-import { BaseLink, BaseLinkProps } from "~/core/baseLink";
-import { DynamicImage } from "~/core/dataDisplay/image";
+import { BaseLink, BaseLinkProps } from "#core/baseLink.tsx";
+import { DynamicImage } from "#core/dataDisplay/image.tsx";
 
 export function WarnItem({
   to,

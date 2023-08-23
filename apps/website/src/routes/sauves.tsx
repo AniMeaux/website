@@ -1,15 +1,15 @@
+import { AnimalItem } from "#animals/item.tsx";
+import { SAVED_ANIMAL_STATUS } from "#animals/status.ts";
+import { cn } from "#core/classNames.ts";
+import { Paginator } from "#core/controllers/paginator.tsx";
+import { prisma } from "#core/db.server.ts";
+import { createSocialMeta } from "#core/meta.ts";
+import { getPageTitle } from "#core/pageTitle.ts";
+import { getPage } from "#core/searchParams.ts";
 import { Prisma } from "@prisma/client";
 import { json, LoaderArgs } from "@remix-run/node";
 import { useLoaderData, V2_MetaFunction } from "@remix-run/react";
 import { promiseHash } from "remix-utils";
-import { AnimalItem } from "~/animals/item";
-import { SAVED_ANIMAL_STATUS } from "~/animals/status";
-import { cn } from "~/core/classNames";
-import { Paginator } from "~/core/controllers/paginator";
-import { prisma } from "~/core/db.server";
-import { createSocialMeta } from "~/core/meta";
-import { getPageTitle } from "~/core/pageTitle";
-import { getPage } from "~/core/searchParams";
 
 // Multiple of 2 and 3 to be nicely displayed.
 const ANIMAL_COUNT_PER_PAGE = 18;

@@ -1,6 +1,6 @@
+import { algoliaHandlers } from "#mocks/algolia/algolia.server.ts";
+import { cloudinaryHandlers } from "#mocks/cloudinary/cloudinary.server.ts";
 import { setupServer } from "msw/node";
-import { algoliaHandlers } from "~/mocks/algolia/algolia.server";
-import { cloudinaryHandlers } from "~/mocks/cloudinary/cloudinary.server";
 
 const server = setupServer(...algoliaHandlers, ...cloudinaryHandlers);
 

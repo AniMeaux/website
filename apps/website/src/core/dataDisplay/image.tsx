@@ -1,9 +1,9 @@
+import { cn } from "#core/classNames.ts";
+import { useConfig } from "#core/config.ts";
+import { Icon, IconProps } from "#generated/icon.tsx";
+import { ScreenSize, theme } from "#generated/theme.ts";
 import orderBy from "lodash.orderby";
 import invariant from "tiny-invariant";
-import { cn } from "~/core/classNames";
-import { useConfig } from "~/core/config";
-import { Icon, IconProps } from "~/generated/icon";
-import { ScreenSize, theme } from "~/generated/theme";
 
 // Ordered by decreasing size.
 const IMAGE_SIZES = ["2048", "1536", "1024", "512", "256", "128"] as const;

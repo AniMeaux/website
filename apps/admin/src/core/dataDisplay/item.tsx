@@ -1,6 +1,6 @@
+import { cn } from "#core/classNames.ts";
+import { Primitive } from "#core/primitives.tsx";
 import { forwardRef } from "react";
-import { cn } from "~/core/classNames";
-import { Primitive } from "~/core/primitives";
 
 export function ItemList({
   className,

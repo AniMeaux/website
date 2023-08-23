@@ -1,20 +1,20 @@
-import { UserGroup } from "@prisma/client";
-import { ActionArgs, json, LoaderArgs } from "@remix-run/node";
-import { useFetcher, V2_MetaFunction } from "@remix-run/react";
-import { z } from "zod";
-import { zfd } from "zod-form-data";
-import { ErrorPage } from "~/core/dataDisplay/errorPage";
-import { db } from "~/core/db.server";
-import { Card } from "~/core/layout/card";
-import { PageLayout } from "~/core/layout/page";
-import { Routes, useBackIfPossible } from "~/core/navigation";
-import { getPageTitle } from "~/core/pageTitle";
-import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
+import { ErrorPage } from "#core/dataDisplay/errorPage.tsx";
+import { db } from "#core/db.server.ts";
+import { Card } from "#core/layout/card.tsx";
+import { PageLayout } from "#core/layout/page.tsx";
+import { Routes, useBackIfPossible } from "#core/navigation.ts";
+import { getPageTitle } from "#core/pageTitle.ts";
+import { assertCurrentUserHasGroups } from "#currentUser/groups.server.ts";
 import {
   InvalidPublicationDateError,
   UrlAlreadyUsedError,
-} from "~/pressArticles/db.server";
-import { ActionFormData, PressArticleForm } from "~/pressArticles/form";
+} from "#pressArticles/db.server.ts";
+import { ActionFormData, PressArticleForm } from "#pressArticles/form.tsx";
+import { UserGroup } from "@prisma/client";
+import { ActionArgs, LoaderArgs, json } from "@remix-run/node";
+import { V2_MetaFunction, useFetcher } from "@remix-run/react";
+import { z } from "zod";
+import { zfd } from "zod-form-data";
 
 export async function loader({ request }: LoaderArgs) {
   const currentUser = await db.currentUser.get(request, {

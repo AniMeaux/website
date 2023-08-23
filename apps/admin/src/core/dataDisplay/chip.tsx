@@ -1,5 +1,5 @@
-import { cn } from "~/core/classNames";
-import { Icon, IconProps } from "~/generated/icon";
+import { cn } from "#core/classNames.ts";
+import { Icon, IconProps } from "#generated/icon.tsx";
 
 type ChipColor = "gray" | "orange" | "red";
 

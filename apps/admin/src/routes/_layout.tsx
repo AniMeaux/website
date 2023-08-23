@@ -1,3 +1,18 @@
+import { BaseLink, BaseLinkProps } from "#core/baseLink.tsx";
+import { db } from "#core/db.server.ts";
+import { SideBar } from "#core/layout/sideBar.tsx";
+import { TabBar } from "#core/layout/tabBar.tsx";
+import { Routes } from "#core/navigation.ts";
+import { getPageTitle } from "#core/pageTitle.ts";
+import { NextSearchParams } from "#core/searchParams.ts";
+import { getCurrentUserPreferences } from "#currentUser/preferences.server.ts";
+import { Icon, IconProps } from "#generated/icon.tsx";
+import { theme } from "#generated/theme.ts";
+import nameAndLogo from "#images/nameAndLogo.svg";
+import { GlobalSearch } from "#routes/resources.global-search.tsx";
+import { usePreferencesFetcher } from "#routes/resources.preferences.tsx";
+import { UserAvatar } from "#users/avatar.tsx";
+import { hasGroups } from "#users/groups.tsx";
 import { User, UserGroup } from "@prisma/client";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { LoaderArgs, json } from "@remix-run/node";
@@ -10,21 +25,6 @@ import {
 import { createPath } from "history";
 import { useEffect } from "react";
 import { promiseHash } from "remix-utils";
-import { BaseLink, BaseLinkProps } from "~/core/baseLink";
-import { db } from "~/core/db.server";
-import { SideBar } from "~/core/layout/sideBar";
-import { TabBar } from "~/core/layout/tabBar";
-import { Routes } from "~/core/navigation";
-import { getPageTitle } from "~/core/pageTitle";
-import { NextSearchParams } from "~/core/searchParams";
-import { getCurrentUserPreferences } from "~/currentUser/preferences.server";
-import { Icon, IconProps } from "~/generated/icon";
-import { theme } from "~/generated/theme";
-import nameAndLogo from "~/images/nameAndLogo.svg";
-import { GlobalSearch } from "~/routes/resources.global-search";
-import { usePreferencesFetcher } from "~/routes/resources.preferences";
-import { UserAvatar } from "~/users/avatar";
-import { hasGroups } from "~/users/groups";
 
 export async function loader({ request }: LoaderArgs) {
   const { currentUser, preferences } = await promiseHash({

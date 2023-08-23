@@ -1,8 +1,8 @@
+import { BaseLink, BaseLinkProps } from "#core/baseLink.tsx";
+import { cn } from "#core/classNames.ts";
+import { Icon, IconProps } from "#generated/icon.tsx";
 import { Location } from "history";
 import { forwardRef } from "react";
-import { BaseLink, BaseLinkProps } from "~/core/baseLink";
-import { cn } from "~/core/classNames";
-import { Icon, IconProps } from "~/generated/icon";
 
 export type NavGroup = "act" | "adopt" | "discover" | "warn";
 

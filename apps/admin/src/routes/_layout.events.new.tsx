@@ -1,29 +1,29 @@
+import {
+  CloudinaryUploadApiError,
+  createCloudinaryUploadHandler,
+} from "#core/cloudinary.server.ts";
+import { ErrorPage } from "#core/dataDisplay/errorPage.tsx";
+import { db } from "#core/db.server.ts";
+import { Card } from "#core/layout/card.tsx";
+import { PageLayout } from "#core/layout/page.tsx";
+import { Routes } from "#core/navigation.ts";
+import { getPageTitle } from "#core/pageTitle.ts";
+import { assertCurrentUserHasGroups } from "#currentUser/groups.server.ts";
+import { InvalidDateRangeError } from "#events/db.server.ts";
+import { ActionFormData, EventForm } from "#events/form.tsx";
 import { UserGroup } from "@prisma/client";
 import {
   ActionArgs,
-  json,
   LoaderArgs,
+  json,
   redirect,
   unstable_composeUploadHandlers,
   unstable_createMemoryUploadHandler,
   unstable_parseMultipartFormData,
 } from "@remix-run/node";
-import { useFetcher, V2_MetaFunction } from "@remix-run/react";
+import { V2_MetaFunction, useFetcher } from "@remix-run/react";
 import { z } from "zod";
 import { zfd } from "zod-form-data";
-import {
-  CloudinaryUploadApiError,
-  createCloudinaryUploadHandler,
-} from "~/core/cloudinary.server";
-import { ErrorPage } from "~/core/dataDisplay/errorPage";
-import { db } from "~/core/db.server";
-import { Card } from "~/core/layout/card";
-import { PageLayout } from "~/core/layout/page";
-import { Routes } from "~/core/navigation";
-import { getPageTitle } from "~/core/pageTitle";
-import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
-import { InvalidDateRangeError } from "~/events/db.server";
-import { ActionFormData, EventForm } from "~/events/form";
 
 export async function loader({ request }: LoaderArgs) {
   const currentUser = await db.currentUser.get(request, {

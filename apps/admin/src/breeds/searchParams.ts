@@ -1,7 +1,7 @@
+import { zsp } from "#core/schemas.tsx";
+import { createSearchParams } from "#core/searchParams.ts";
 import { Species } from "@prisma/client";
 import { z } from "zod";
-import { zsp } from "~/core/schemas";
-import { createSearchParams } from "~/core/searchParams";
 
 export enum BreedSort {
   NAME = "N",

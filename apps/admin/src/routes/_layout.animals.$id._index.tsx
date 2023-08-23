@@ -1,3 +1,54 @@
+import { ADOPTION_OPTION_TRANSLATION } from "#animals/adoption.tsx";
+import { AgreementItem } from "#animals/agreements.tsx";
+import { AnimalAvatar } from "#animals/avatar.tsx";
+import { GENDER_ICON } from "#animals/gender.tsx";
+import { PICK_UP_REASON_TRANSLATION } from "#animals/pickUp.ts";
+import { ActionFormData as ProfileActionFormData } from "#animals/profile/form.tsx";
+import { getAnimalDisplayName } from "#animals/profile/name.tsx";
+import {
+  SCREENING_RESULT_ICON,
+  SCREENING_RESULT_TRANSLATION,
+} from "#animals/screening.ts";
+import { ActionFormData as SituationActionFormData } from "#animals/situation/form.tsx";
+import {
+  formatNextVaccinationDate,
+  hasPastVaccination,
+  hasUpCommingSterilisation,
+  hasUpCommingVaccination,
+} from "#animals/situation/health.ts";
+import { SPECIES_ICON, getSpeciesLabels } from "#animals/species.tsx";
+import {
+  STATUS_TRANSLATION,
+  StatusBadge,
+  StatusIcon,
+} from "#animals/status.tsx";
+import { Action, ProseInlineAction } from "#core/actions.tsx";
+import { BaseLink, BaseLinkProps } from "#core/baseLink.tsx";
+import { cn } from "#core/classNames.ts";
+import { Empty } from "#core/dataDisplay/empty.tsx";
+import { ErrorPage, getErrorTitle } from "#core/dataDisplay/errorPage.tsx";
+import { InlineHelper } from "#core/dataDisplay/helper.tsx";
+import { DynamicImage } from "#core/dataDisplay/image.tsx";
+import { ItemList, SimpleItem } from "#core/dataDisplay/item.tsx";
+import { ARTICLE_COMPONENTS, Markdown } from "#core/dataDisplay/markdown.tsx";
+import { db } from "#core/db.server.ts";
+import { NotFoundError } from "#core/errors.server.ts";
+import { assertIsDefined } from "#core/isDefined.server.ts";
+import { AvatarCard } from "#core/layout/avatarCard.tsx";
+import { Card } from "#core/layout/card.tsx";
+import { PageLayout } from "#core/layout/page.tsx";
+import { Routes } from "#core/navigation.ts";
+import { getPageTitle } from "#core/pageTitle.ts";
+import { Dialog } from "#core/popovers/dialog.tsx";
+import { prisma } from "#core/prisma.server.ts";
+import { NotFoundResponse } from "#core/response.server.ts";
+import { assertCurrentUserHasGroups } from "#currentUser/groups.server.ts";
+import { FosterFamilyAvatar } from "#fosterFamilies/avatar.tsx";
+import { getLongLocation } from "#fosterFamilies/location.tsx";
+import { Icon } from "#generated/icon.tsx";
+import { theme } from "#generated/theme.ts";
+import { UserAvatar } from "#users/avatar.tsx";
+import { hasGroups } from "#users/groups.tsx";
 import { formatAge } from "@animeaux/shared";
 import {
   AdoptionOption,
@@ -12,53 +63,6 @@ import { ActionArgs, LoaderArgs, json, redirect } from "@remix-run/node";
 import { V2_MetaFunction, useFetcher, useLoaderData } from "@remix-run/react";
 import { DateTime } from "luxon";
 import { z } from "zod";
-import { ADOPTION_OPTION_TRANSLATION } from "~/animals/adoption";
-import { AgreementItem } from "~/animals/agreements";
-import { AnimalAvatar } from "~/animals/avatar";
-import { GENDER_ICON } from "~/animals/gender";
-import { PICK_UP_REASON_TRANSLATION } from "~/animals/pickUp";
-import { ActionFormData as ProfileActionFormData } from "~/animals/profile/form";
-import { getAnimalDisplayName } from "~/animals/profile/name";
-import {
-  SCREENING_RESULT_ICON,
-  SCREENING_RESULT_TRANSLATION,
-} from "~/animals/screening";
-import { ActionFormData as SituationActionFormData } from "~/animals/situation/form";
-import {
-  formatNextVaccinationDate,
-  hasPastVaccination,
-  hasUpCommingSterilisation,
-  hasUpCommingVaccination,
-} from "~/animals/situation/health";
-import { SPECIES_ICON, getSpeciesLabels } from "~/animals/species";
-import { STATUS_TRANSLATION, StatusBadge, StatusIcon } from "~/animals/status";
-import { Action, ProseInlineAction } from "~/core/actions";
-import { BaseLink, BaseLinkProps } from "~/core/baseLink";
-import { cn } from "~/core/classNames";
-import { Empty } from "~/core/dataDisplay/empty";
-import { ErrorPage, getErrorTitle } from "~/core/dataDisplay/errorPage";
-import { InlineHelper } from "~/core/dataDisplay/helper";
-import { DynamicImage } from "~/core/dataDisplay/image";
-import { ItemList, SimpleItem } from "~/core/dataDisplay/item";
-import { ARTICLE_COMPONENTS, Markdown } from "~/core/dataDisplay/markdown";
-import { db } from "~/core/db.server";
-import { NotFoundError } from "~/core/errors.server";
-import { assertIsDefined } from "~/core/isDefined.server";
-import { AvatarCard } from "~/core/layout/avatarCard";
-import { Card } from "~/core/layout/card";
-import { PageLayout } from "~/core/layout/page";
-import { Routes } from "~/core/navigation";
-import { getPageTitle } from "~/core/pageTitle";
-import { Dialog } from "~/core/popovers/dialog";
-import { prisma } from "~/core/prisma.server";
-import { NotFoundResponse } from "~/core/response.server";
-import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
-import { FosterFamilyAvatar } from "~/fosterFamilies/avatar";
-import { getLongLocation } from "~/fosterFamilies/location";
-import { Icon } from "~/generated/icon";
-import { theme } from "~/generated/theme";
-import { UserAvatar } from "~/users/avatar";
-import { hasGroups } from "~/users/groups";
 
 export async function loader({ request, params }: LoaderArgs) {
   const currentUser = await db.currentUser.get(request, {

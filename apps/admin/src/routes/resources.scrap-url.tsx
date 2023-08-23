@@ -1,3 +1,10 @@
+import { db } from "#core/db.server.ts";
+import { scrapUrl } from "#core/metascraper.server.ts";
+import { Routes } from "#core/navigation.ts";
+import { BadRequestResponse } from "#core/response.server.ts";
+import { zsp } from "#core/schemas.tsx";
+import { createSearchParams } from "#core/searchParams.ts";
+import { assertCurrentUserHasGroups } from "#currentUser/groups.server.ts";
 import { UserGroup } from "@prisma/client";
 import { json, LoaderArgs } from "@remix-run/node";
 import { useFetcher } from "@remix-run/react";
@@ -5,13 +12,6 @@ import { createPath } from "history";
 import { DateTime } from "luxon";
 import { useEffect, useMemo } from "react";
 import { z } from "zod";
-import { db } from "~/core/db.server";
-import { scrapUrl } from "~/core/metascraper.server";
-import { Routes } from "~/core/navigation";
-import { BadRequestResponse } from "~/core/response.server";
-import { zsp } from "~/core/schemas";
-import { createSearchParams } from "~/core/searchParams";
-import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
 
 const ScrapUrlSearchParams = createSearchParams({
   url: zsp.text(z.string().url()),

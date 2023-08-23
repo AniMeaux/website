@@ -1,16 +1,16 @@
-import { Animal, AnimalDraft, Prisma } from "@prisma/client";
-import invariant from "tiny-invariant";
-import { getAllAnimalPictures } from "~/animals/pictures/allPictures";
+import { getAllAnimalPictures } from "#animals/pictures/allPictures.ts";
 import {
   AnimalPictureDbDelegate,
   AnimalPictures,
-} from "~/animals/pictures/db.server";
-import { AnimalProfileDbDelegate } from "~/animals/profile/db.server";
-import { AnimalSituationDbDelegate } from "~/animals/situation/db.server";
-import { algolia } from "~/core/algolia/algolia.server";
-import { deleteImage } from "~/core/cloudinary.server";
-import { NotFoundError, PrismaErrorCodes } from "~/core/errors.server";
-import { prisma } from "~/core/prisma.server";
+} from "#animals/pictures/db.server.ts";
+import { AnimalProfileDbDelegate } from "#animals/profile/db.server.ts";
+import { AnimalSituationDbDelegate } from "#animals/situation/db.server.ts";
+import { algolia } from "#core/algolia/algolia.server.ts";
+import { deleteImage } from "#core/cloudinary.server.ts";
+import { NotFoundError, PrismaErrorCodes } from "#core/errors.server.ts";
+import { prisma } from "#core/prisma.server.ts";
+import { Animal, AnimalDraft, Prisma } from "@prisma/client";
+import invariant from "tiny-invariant";
 
 export class AnimalDbDelegate {
   readonly picture = new AnimalPictureDbDelegate();

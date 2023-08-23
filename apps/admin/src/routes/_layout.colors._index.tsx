@@ -1,33 +1,33 @@
+import { ColorFilterForm } from "#colors/filterForm.tsx";
+import { ColorSearchParams, ColorSort } from "#colors/searchParams.ts";
+import { createActionData } from "#core/actionData.tsx";
+import { Action } from "#core/actions.tsx";
+import { algolia } from "#core/algolia/algolia.server.ts";
+import { BaseLink } from "#core/baseLink.tsx";
+import { Paginator } from "#core/controllers/paginator.tsx";
+import { SortAndFiltersFloatingAction } from "#core/controllers/sortAndFiltersFloatingAction.tsx";
+import { Empty } from "#core/dataDisplay/empty.tsx";
+import { db } from "#core/db.server.ts";
+import { NotFoundError, ReferencedError } from "#core/errors.server.ts";
+import { Card } from "#core/layout/card.tsx";
+import { PageLayout } from "#core/layout/page.tsx";
+import { Routes } from "#core/navigation.ts";
+import { getPageTitle } from "#core/pageTitle.ts";
+import { Dialog } from "#core/popovers/dialog.tsx";
+import { prisma } from "#core/prisma.server.ts";
+import { BadRequestResponse, NotFoundResponse } from "#core/response.server.ts";
+import {
+  PageSearchParams,
+  useOptimisticSearchParams,
+} from "#core/searchParams.ts";
+import { assertCurrentUserHasGroups } from "#currentUser/groups.server.ts";
+import { Icon } from "#generated/icon.tsx";
 import { Prisma, UserGroup } from "@prisma/client";
 import { ActionArgs, LoaderArgs, SerializeFrom, json } from "@remix-run/node";
 import { V2_MetaFunction, useFetcher, useLoaderData } from "@remix-run/react";
 import { promiseHash } from "remix-utils";
 import { z } from "zod";
 import { zfd } from "zod-form-data";
-import { ColorFilterForm } from "~/colors/filterForm";
-import { ColorSearchParams, ColorSort } from "~/colors/searchParams";
-import { createActionData } from "~/core/actionData";
-import { Action } from "~/core/actions";
-import { algolia } from "~/core/algolia/algolia.server";
-import { BaseLink } from "~/core/baseLink";
-import { Paginator } from "~/core/controllers/paginator";
-import { SortAndFiltersFloatingAction } from "~/core/controllers/sortAndFiltersFloatingAction";
-import { Empty } from "~/core/dataDisplay/empty";
-import { db } from "~/core/db.server";
-import { NotFoundError, ReferencedError } from "~/core/errors.server";
-import { Card } from "~/core/layout/card";
-import { PageLayout } from "~/core/layout/page";
-import { Routes } from "~/core/navigation";
-import { getPageTitle } from "~/core/pageTitle";
-import { Dialog } from "~/core/popovers/dialog";
-import { prisma } from "~/core/prisma.server";
-import { BadRequestResponse, NotFoundResponse } from "~/core/response.server";
-import {
-  PageSearchParams,
-  useOptimisticSearchParams,
-} from "~/core/searchParams";
-import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
-import { Icon } from "~/generated/icon";
 
 const COLOR_COUNT_PER_PAGE = 20;
 

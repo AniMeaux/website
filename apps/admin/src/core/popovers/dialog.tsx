@@ -1,9 +1,9 @@
+import { Action, ActionColor } from "#core/actions.tsx";
+import { cn } from "#core/classNames.ts";
+import { Overlay } from "#core/popovers/overlay.tsx";
+import { Icon, IconProps } from "#generated/icon.tsx";
 import * as RadixDialog from "@radix-ui/react-dialog";
 import { createContext, useContext, useMemo } from "react";
-import { Action, ActionColor } from "~/core/actions";
-import { cn } from "~/core/classNames";
-import { Overlay } from "~/core/popovers/overlay";
-import { Icon, IconProps } from "~/generated/icon";
 
 type DialogVariant = "alert" | "warning";
 

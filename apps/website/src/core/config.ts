@@ -1,7 +1,7 @@
+import type { loader as rootLoader } from "#root.tsx";
 import { SerializeFrom } from "@remix-run/node";
 import { useRouteLoaderData, V2_MetaArgs } from "@remix-run/react";
 import invariant from "tiny-invariant";
-import type { loader as rootLoader } from "~/root";
 
 export type Config = {
   adoptionFormUrl: string;

@@ -1,4 +1,4 @@
-import { cn } from "~/core/classNames";
+import { cn } from "#core/classNames.ts";
 
 export const bubbleSectionClassNames = {
   root: () => "relative flex",

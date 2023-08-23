@@ -1,3 +1,19 @@
+import { toBooleanAttribute } from "#core/attributes.ts";
+import { db } from "#core/db.server.ts";
+import { BaseTextInput } from "#core/formElements/baseTextInput.tsx";
+import { Input } from "#core/formElements/input.tsx";
+import {
+  ResourceComboboxLayout,
+  ResourceInputLayout,
+  SuggestionItem,
+  SuggestionList,
+} from "#core/formElements/resourceInput.tsx";
+import { Routes, useNavigate } from "#core/navigation.ts";
+import { NextSearchParams } from "#core/searchParams.ts";
+import { assertCurrentUserHasGroups } from "#currentUser/groups.server.ts";
+import { FosterFamilySuggestionItem } from "#fosterFamilies/item.tsx";
+import { FosterFamilySearchParams } from "#fosterFamilies/searchParams.ts";
+import { Icon } from "#generated/icon.tsx";
 import { FosterFamily, UserGroup } from "@prisma/client";
 import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
 import { LoaderArgs, SerializeFrom, json } from "@remix-run/node";
@@ -5,22 +21,6 @@ import { useFetcher, useLocation } from "@remix-run/react";
 import { useCombobox } from "downshift";
 import { createPath } from "history";
 import { forwardRef, useEffect, useState } from "react";
-import { toBooleanAttribute } from "~/core/attributes";
-import { db } from "~/core/db.server";
-import { BaseTextInput } from "~/core/formElements/baseTextInput";
-import { Input } from "~/core/formElements/input";
-import {
-  ResourceComboboxLayout,
-  ResourceInputLayout,
-  SuggestionItem,
-  SuggestionList,
-} from "~/core/formElements/resourceInput";
-import { Routes, useNavigate } from "~/core/navigation";
-import { NextSearchParams } from "~/core/searchParams";
-import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
-import { FosterFamilySuggestionItem } from "~/fosterFamilies/item";
-import { FosterFamilySearchParams } from "~/fosterFamilies/searchParams";
-import { Icon } from "~/generated/icon";
 
 export async function loader({ request }: LoaderArgs) {
   const currentUser = await db.currentUser.get(request, {

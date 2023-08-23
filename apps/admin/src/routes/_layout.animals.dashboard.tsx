@@ -1,3 +1,25 @@
+import { AnimalItem, AnimalSmallItem } from "#animals/item.tsx";
+import {
+  AnimalSearchParams,
+  AnimalSort,
+  AnimalSterilization,
+} from "#animals/searchParams.ts";
+import {
+  formatNextVaccinationDate,
+  hasPastVaccination,
+} from "#animals/situation/health.ts";
+import { ACTIVE_ANIMAL_STATUS, SORTED_STATUS } from "#animals/status.tsx";
+import { Action } from "#core/actions.tsx";
+import { BaseLink } from "#core/baseLink.tsx";
+import { Empty } from "#core/dataDisplay/empty.tsx";
+import { db } from "#core/db.server.ts";
+import { Card } from "#core/layout/card.tsx";
+import { PageLayout } from "#core/layout/page.tsx";
+import { Routes } from "#core/navigation.ts";
+import { getPageTitle } from "#core/pageTitle.ts";
+import { prisma } from "#core/prisma.server.ts";
+import { assertCurrentUserHasGroups } from "#currentUser/groups.server.ts";
+import { hasGroups } from "#users/groups.tsx";
 import { formatAge } from "@animeaux/shared";
 import { Prisma, Species, Status, UserGroup } from "@prisma/client";
 import { LoaderArgs, json } from "@remix-run/node";
@@ -5,28 +27,6 @@ import { V2_MetaFunction, useLoaderData } from "@remix-run/react";
 import { DateTime } from "luxon";
 import { promiseHash } from "remix-utils";
 import invariant from "tiny-invariant";
-import { AnimalItem, AnimalSmallItem } from "~/animals/item";
-import {
-  AnimalSearchParams,
-  AnimalSort,
-  AnimalSterilization,
-} from "~/animals/searchParams";
-import {
-  formatNextVaccinationDate,
-  hasPastVaccination,
-} from "~/animals/situation/health";
-import { ACTIVE_ANIMAL_STATUS, SORTED_STATUS } from "~/animals/status";
-import { Action } from "~/core/actions";
-import { BaseLink } from "~/core/baseLink";
-import { Empty } from "~/core/dataDisplay/empty";
-import { db } from "~/core/db.server";
-import { Card } from "~/core/layout/card";
-import { PageLayout } from "~/core/layout/page";
-import { Routes } from "~/core/navigation";
-import { getPageTitle } from "~/core/pageTitle";
-import { prisma } from "~/core/prisma.server";
-import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
-import { hasGroups } from "~/users/groups";
 
 export async function loader({ request }: LoaderArgs) {
   const currentUser = await db.currentUser.get(request, {
@@ -47,7 +47,7 @@ export async function loader({ request }: LoaderArgs) {
     isSterilizationMandatory: true,
     isSterilized: false,
     species: { in: [Species.CAT, Species.DOG] },
-    status: { not: Status.DECEASED },
+    status: { notIn: [Status.DECEASED, Status.TRANSFERRED] },
   };
 
   const animalsToVaccinateWhere: Prisma.AnimalWhereInput = {
@@ -289,7 +289,11 @@ function AnimalsToSterilizeCard() {
                   sterilizations: new Set([AnimalSterilization.NO]),
                   birthdateEnd: DateTime.now().minus({ months: 6 }).toJSDate(),
                   statuses: new Set(
-                    SORTED_STATUS.filter((status) => status !== Status.DECEASED)
+                    SORTED_STATUS.filter(
+                      (status) =>
+                        status !== Status.DECEASED &&
+                        status !== Status.TRANSFERRED
+                    )
                   ),
                 }),
               }}

@@ -1,6 +1,6 @@
+import { IconProps } from "#generated/icon.tsx";
 import { AdoptionOption } from "@prisma/client";
 import orderBy from "lodash.orderby";
-import { IconProps } from "~/generated/icon";
 
 export const ADOPTION_OPTION_TRANSLATION: Record<AdoptionOption, string> = {
   [AdoptionOption.WITH_STERILIZATION]: "Avec stérilisation",

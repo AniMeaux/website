@@ -1,17 +1,17 @@
+import { toBooleanAttribute } from "#core/attributes.ts";
+import { cn } from "#core/classNames.ts";
+import { Item } from "#core/dataDisplay/item.tsx";
+import { HIGHLIGHT_COMPONENTS, Markdown } from "#core/dataDisplay/markdown.tsx";
+import { BaseTextInput } from "#core/formElements/baseTextInput.tsx";
+import { Card } from "#core/layout/card.tsx";
+import { Overlay } from "#core/popovers/overlay.tsx";
+import { ScreenSizeValue, useScreenSizeCondition } from "#core/screenSize.tsx";
+import { Icon } from "#generated/icon.tsx";
+import { theme } from "#generated/theme.ts";
 import * as Dialog from "@radix-ui/react-dialog";
 import * as Popover from "@radix-ui/react-popover";
 import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
 import { forwardRef } from "react";
-import { toBooleanAttribute } from "~/core/attributes";
-import { cn } from "~/core/classNames";
-import { Item } from "~/core/dataDisplay/item";
-import { HIGHLIGHT_COMPONENTS, Markdown } from "~/core/dataDisplay/markdown";
-import { BaseTextInput } from "~/core/formElements/baseTextInput";
-import { Card } from "~/core/layout/card";
-import { Overlay } from "~/core/popovers/overlay";
-import { ScreenSizeValue, useScreenSizeCondition } from "~/core/screenSize";
-import { Icon } from "~/generated/icon";
-import { theme } from "~/generated/theme";
 
 type ResourceInputLayoutProps = {
   isOpened: boolean;

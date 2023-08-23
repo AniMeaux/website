@@ -1,8 +1,8 @@
+import { BaseLink, BaseLinkProps } from "#core/baseLink.tsx";
+import { cn } from "#core/classNames.ts";
+import { joinReactNodes } from "#core/joinReactNodes.tsx";
+import { Icon } from "#generated/icon.tsx";
 import { cloneElement } from "react";
-import { BaseLink, BaseLinkProps } from "~/core/baseLink";
-import { cn } from "~/core/classNames";
-import { joinReactNodes } from "~/core/joinReactNodes";
-import { Icon } from "~/generated/icon";
 
 export function Steps({
   activeIndex,

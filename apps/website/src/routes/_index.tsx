@@ -1,17 +1,13 @@
-import { json } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
-import { DateTime } from "luxon";
-import { promiseHash } from "remix-utils";
-import { actionClassNames } from "~/core/actions";
-import { BaseLink } from "~/core/baseLink";
-import { cn } from "~/core/classNames";
-import { SearchForm } from "~/core/controllers/searchForm";
-import { StaticImage, StaticImageProps } from "~/core/dataDisplay/image";
-import { prisma } from "~/core/db.server";
+import { actionClassNames } from "#core/actions.ts";
+import { BaseLink } from "#core/baseLink.tsx";
+import { cn } from "#core/classNames.ts";
+import { SearchForm } from "#core/controllers/searchForm.tsx";
+import { StaticImage, StaticImageProps } from "#core/dataDisplay/image.tsx";
+import { prisma } from "#core/db.server.ts";
 import {
   BubbleShape,
   bubbleSectionClassNames,
-} from "~/core/layout/bubbleSection";
+} from "#core/layout/bubbleSection.tsx";
 import {
   HeroSection,
   HeroSectionAction,
@@ -19,16 +15,20 @@ import {
   HeroSectionImage,
   HeroSectionParagraph,
   HeroSectionTitle,
-} from "~/core/layout/heroSection";
-import { DonationSection } from "~/donation/section";
-import { EventItem } from "~/events/item";
-import { Icon, IconProps } from "~/generated/icon";
-import { adoptionImages } from "~/images/adoption";
-import { fosterFamilyLargeImages } from "~/images/fosterFamilyLarge";
-import { fosterFamilySmallImages } from "~/images/fosterFamilySmall";
-import { heroImages } from "~/images/hero";
-import { pickUpImages } from "~/images/pickUp";
-import { volunteerImages } from "~/images/volunteer";
+} from "#core/layout/heroSection.tsx";
+import { DonationSection } from "#donation/section.tsx";
+import { EventItem } from "#events/item.tsx";
+import { Icon, IconProps } from "#generated/icon.tsx";
+import { adoptionImages } from "#images/adoption.tsx";
+import { fosterFamilyLargeImages } from "#images/fosterFamilyLarge.tsx";
+import { fosterFamilySmallImages } from "#images/fosterFamilySmall.tsx";
+import { heroImages } from "#images/hero.tsx";
+import { pickUpImages } from "#images/pickUp.tsx";
+import { volunteerImages } from "#images/volunteer.tsx";
+import { json } from "@remix-run/node";
+import { useLoaderData } from "@remix-run/react";
+import { DateTime } from "luxon";
+import { promiseHash } from "remix-utils";
 
 export async function loader() {
   const { pickUpCount, upcomingEvents } = await promiseHash({

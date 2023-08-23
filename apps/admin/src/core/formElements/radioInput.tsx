@@ -1,6 +1,6 @@
+import { cn } from "#core/classNames.ts";
+import { RequiredStar } from "#core/formElements/requiredStar.tsx";
 import { forwardRef } from "react";
-import { cn } from "~/core/classNames";
-import { RequiredStar } from "~/core/formElements/requiredStar";
 
 export const RadioInput = forwardRef<
   React.ComponentRef<"input">,

@@ -1,3 +1,26 @@
+import { AnimalItem } from "#animals/item.tsx";
+import { ADOPTABLE_ANIMAL_STATUS } from "#animals/status.ts";
+import { actionClassNames } from "#core/actions.ts";
+import { BaseLink } from "#core/baseLink.tsx";
+import { cn } from "#core/classNames.ts";
+import { Paginator } from "#core/controllers/paginator.tsx";
+import {
+  AGES_TO_PATH,
+  ANIMAL_AGES_BY_SPECIES,
+  SPECIES_TO_PATH,
+  SearchForm,
+} from "#core/controllers/searchForm.tsx";
+import { ErrorPage, getErrorTitle } from "#core/dataDisplay/errorPage.tsx";
+import { prisma } from "#core/db.server.ts";
+import { createSocialMeta } from "#core/meta.ts";
+import { getPageTitle } from "#core/pageTitle.ts";
+import { getPage } from "#core/searchParams.ts";
+import {
+  AGE_PLURAL_TRANSLATION,
+  AGE_TRANSLATION,
+  SPECIES_PLURAL_TRANSLATION,
+  SPECIES_TRANSLATION,
+} from "#core/translations.ts";
 import { ANIMAL_AGE_RANGE_BY_SPECIES, AnimalAge } from "@animeaux/shared";
 import { Prisma, Species } from "@prisma/client";
 import { LoaderArgs, json } from "@remix-run/node";
@@ -5,29 +28,6 @@ import { V2_MetaFunction, useLoaderData, useParams } from "@remix-run/react";
 import { DateTime } from "luxon";
 import { promiseHash } from "remix-utils";
 import invariant from "tiny-invariant";
-import { AnimalItem } from "~/animals/item";
-import { ADOPTABLE_ANIMAL_STATUS } from "~/animals/status";
-import { actionClassNames } from "~/core/actions";
-import { BaseLink } from "~/core/baseLink";
-import { cn } from "~/core/classNames";
-import { Paginator } from "~/core/controllers/paginator";
-import {
-  AGES_TO_PATH,
-  ANIMAL_AGES_BY_SPECIES,
-  SPECIES_TO_PATH,
-  SearchForm,
-} from "~/core/controllers/searchForm";
-import { ErrorPage, getErrorTitle } from "~/core/dataDisplay/errorPage";
-import { prisma } from "~/core/db.server";
-import { createSocialMeta } from "~/core/meta";
-import { getPageTitle } from "~/core/pageTitle";
-import { getPage } from "~/core/searchParams";
-import {
-  AGE_PLURAL_TRANSLATION,
-  AGE_TRANSLATION,
-  SPECIES_PLURAL_TRANSLATION,
-  SPECIES_TRANSLATION,
-} from "~/core/translations";
 
 type PageParams = {
   species?: Species;

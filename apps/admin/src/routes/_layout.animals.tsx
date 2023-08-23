@@ -1,10 +1,10 @@
+import { db } from "#core/db.server.ts";
+import { PageLayout } from "#core/layout/page.tsx";
+import { Routes } from "#core/navigation.ts";
+import { hasGroups } from "#users/groups.tsx";
 import { UserGroup } from "@prisma/client";
 import { json, LoaderArgs } from "@remix-run/node";
 import { Outlet, useLoaderData, useLocation } from "@remix-run/react";
-import { db } from "~/core/db.server";
-import { PageLayout } from "~/core/layout/page";
-import { Routes } from "~/core/navigation";
-import { hasGroups } from "~/users/groups";
 
 export async function loader({ request }: LoaderArgs) {
   const currentUser = await db.currentUser.get(request, {

@@ -1,5 +1,5 @@
-import { ImageDescriptor } from "~/core/dataDisplay/image";
-import missionEvent512 from "~/images/missionEvent-512w.png";
+import { ImageDescriptor } from "#core/dataDisplay/image.tsx";
+import missionEvent512 from "#images/missionEvent-512w.png";
 
 export const missionEventImages: ImageDescriptor = {
   alt: "Visiteurs marchant dans les allées du Salon des Ani’Meaux.",

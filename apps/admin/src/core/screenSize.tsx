@@ -1,5 +1,5 @@
+import { ScreenSize, theme } from "#generated/theme.ts";
 import { useEffect, useState } from "react";
-import { ScreenSize, theme } from "~/generated/theme";
 
 export const ScreenSizeValue = Object.fromEntries(
   Object.entries(theme.screens).map(([key, value]) => [

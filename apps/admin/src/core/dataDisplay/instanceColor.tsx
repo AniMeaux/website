@@ -1,5 +1,5 @@
+import { simpleHash } from "#core/simpleHash.tsx";
 import invariant from "tiny-invariant";
-import { simpleHash } from "~/core/simpleHash";
 
 const COLORS = ["blue", "green", "red", "yellow"] as const;
 

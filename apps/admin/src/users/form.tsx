@@ -1,22 +1,22 @@
+import { createActionData } from "#core/actionData.tsx";
+import { Action } from "#core/actions.tsx";
+import {
+  CheckboxInput,
+  CheckboxInputList,
+} from "#core/formElements/checkboxInput.tsx";
+import { Form } from "#core/formElements/form.tsx";
+import { Input } from "#core/formElements/input.tsx";
+import { PasswordInput } from "#core/formElements/passwordInput.tsx";
+import { RequiredStar } from "#core/formElements/requiredStar.tsx";
+import { Separator } from "#core/layout/separator.tsx";
+import { Icon } from "#generated/icon.tsx";
+import { GROUP_TRANSLATION, SORTED_GROUPS } from "#users/groups.tsx";
 import { User, UserGroup } from "@prisma/client";
 import { SerializeFrom } from "@remix-run/node";
 import { FetcherWithComponents } from "@remix-run/react";
 import { useEffect, useRef } from "react";
 import { z } from "zod";
 import { zfd } from "zod-form-data";
-import { createActionData } from "~/core/actionData";
-import { Action } from "~/core/actions";
-import {
-  CheckboxInput,
-  CheckboxInputList,
-} from "~/core/formElements/checkboxInput";
-import { Form } from "~/core/formElements/form";
-import { Input } from "~/core/formElements/input";
-import { PasswordInput } from "~/core/formElements/passwordInput";
-import { RequiredStar } from "~/core/formElements/requiredStar";
-import { Separator } from "~/core/layout/separator";
-import { Icon } from "~/generated/icon";
-import { GROUP_TRANSLATION, SORTED_GROUPS } from "~/users/groups";
 
 export const ActionFormData = createActionData(
   z.object({

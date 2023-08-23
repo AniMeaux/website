@@ -1,27 +1,27 @@
+import { Action } from "#core/actions.tsx";
+import { algolia } from "#core/algolia/algolia.server.ts";
+import { BaseLink } from "#core/baseLink.tsx";
+import { Paginator } from "#core/controllers/paginator.tsx";
+import { SortAndFiltersFloatingAction } from "#core/controllers/sortAndFiltersFloatingAction.tsx";
+import { Empty } from "#core/dataDisplay/empty.tsx";
+import { db } from "#core/db.server.ts";
+import { Card } from "#core/layout/card.tsx";
+import { PageLayout } from "#core/layout/page.tsx";
+import { Routes } from "#core/navigation.ts";
+import { getPageTitle } from "#core/pageTitle.ts";
+import { prisma } from "#core/prisma.server.ts";
+import {
+  PageSearchParams,
+  useOptimisticSearchParams,
+} from "#core/searchParams.ts";
+import { assertCurrentUserHasGroups } from "#currentUser/groups.server.ts";
+import { FosterFamilyFilters } from "#fosterFamilies/filterForm.tsx";
+import { ForsterFamilyItem } from "#fosterFamilies/item.tsx";
+import { FosterFamilySearchParams } from "#fosterFamilies/searchParams.ts";
 import { Prisma, UserGroup } from "@prisma/client";
 import { LoaderArgs, json } from "@remix-run/node";
 import { V2_MetaFunction, useLoaderData } from "@remix-run/react";
 import { promiseHash } from "remix-utils";
-import { Action } from "~/core/actions";
-import { algolia } from "~/core/algolia/algolia.server";
-import { BaseLink } from "~/core/baseLink";
-import { Paginator } from "~/core/controllers/paginator";
-import { SortAndFiltersFloatingAction } from "~/core/controllers/sortAndFiltersFloatingAction";
-import { Empty } from "~/core/dataDisplay/empty";
-import { db } from "~/core/db.server";
-import { Card } from "~/core/layout/card";
-import { PageLayout } from "~/core/layout/page";
-import { Routes } from "~/core/navigation";
-import { getPageTitle } from "~/core/pageTitle";
-import { prisma } from "~/core/prisma.server";
-import {
-  PageSearchParams,
-  useOptimisticSearchParams,
-} from "~/core/searchParams";
-import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
-import { FosterFamilyFilters } from "~/fosterFamilies/filterForm";
-import { ForsterFamilyItem } from "~/fosterFamilies/item";
-import { FosterFamilySearchParams } from "~/fosterFamilies/searchParams";
 
 const FOSTER_FAMILY_COUNT_PER_PAGE = 20;
 

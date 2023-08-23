@@ -1,12 +1,12 @@
+import { BaseLink } from "#core/baseLink.tsx";
+import { cn } from "#core/classNames.ts";
+import { DynamicImage } from "#core/dataDisplay/image.tsx";
+import { isDefined } from "#core/isDefined.ts";
+import { toSlug } from "#core/slugs.ts";
+import { GENDER_TRANSLATION, SPECIES_TRANSLATION } from "#core/translations.ts";
+import { Icon } from "#generated/icon.tsx";
 import { formatAge } from "@animeaux/shared";
 import { Gender, Species } from "@prisma/client";
-import { BaseLink } from "~/core/baseLink";
-import { cn } from "~/core/classNames";
-import { DynamicImage } from "~/core/dataDisplay/image";
-import { isDefined } from "~/core/isDefined";
-import { toSlug } from "~/core/slugs";
-import { GENDER_TRANSLATION, SPECIES_TRANSLATION } from "~/core/translations";
-import { Icon } from "~/generated/icon";
 
 export function AnimalItem({
   isDisabled = false,

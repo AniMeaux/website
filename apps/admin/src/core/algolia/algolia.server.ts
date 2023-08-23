@@ -1,11 +1,11 @@
+import { AnimalAlgoliaDelegate } from "#animals/algolia.server.ts";
+import { BreedAlgoliaDelegate } from "#breeds/algolia.server.ts";
+import { ColorAlgoliaDelegate } from "#colors/algolia.server.ts";
+import { singleton } from "#core/singleton.server.ts";
+import { FosterFamilyAlgoliaDelegate } from "#fosterFamilies/algolia.server.ts";
+import { UserAlgoliaDelegate } from "#users/algolia.server.ts";
 import algoliasearch from "algoliasearch";
 import invariant from "tiny-invariant";
-import { AnimalAlgoliaDelegate } from "~/animals/algolia.server";
-import { BreedAlgoliaDelegate } from "~/breeds/algolia.server";
-import { ColorAlgoliaDelegate } from "~/colors/algolia.server";
-import { singleton } from "~/core/singleton.server";
-import { FosterFamilyAlgoliaDelegate } from "~/fosterFamilies/algolia.server";
-import { UserAlgoliaDelegate } from "~/users/algolia.server";
 
 class AlgoliaClient {
   readonly animal: AnimalAlgoliaDelegate;

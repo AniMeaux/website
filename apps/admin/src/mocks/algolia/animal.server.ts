@@ -1,3 +1,11 @@
+import { AnimalFromAlgolia } from "#animals/algolia.server.ts";
+import { algolia } from "#core/algolia/algolia.server.ts";
+import { prisma } from "#core/prisma.server.ts";
+import {
+  createBatchHandlers,
+  createPostHandlers,
+  highlightValue,
+} from "#mocks/algolia/shared.server.ts";
 import {
   FacetHit,
   Hit,
@@ -7,14 +15,6 @@ import {
 import { Prisma } from "@prisma/client";
 import { promiseHash } from "remix-utils";
 import invariant from "tiny-invariant";
-import { AnimalFromAlgolia } from "~/animals/algolia.server";
-import { algolia } from "~/core/algolia/algolia.server";
-import { prisma } from "~/core/prisma.server";
-import {
-  createBatchHandlers,
-  createPostHandlers,
-  highlightValue,
-} from "~/mocks/algolia/shared.server";
 
 export const animalHandlers = [
   ...createPostHandlers(

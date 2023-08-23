@@ -1,11 +1,11 @@
+import { extendCurrentUserPreferences } from "#currentUser/preferences.server.ts";
+import { extendCurrentUserSession } from "#currentUser/session.server.ts";
 import { EntryContext, HandleDataRequestFunction } from "@remix-run/node";
 import { RemixServer } from "@remix-run/react";
 import { renderToString } from "react-dom/server";
-import { extendCurrentUserPreferences } from "~/currentUser/preferences.server";
-import { extendCurrentUserSession } from "~/currentUser/session.server";
 
 if (process.env.NODE_ENV === "development") {
-  const { startWorker } = require("~/mocks/mocks.server");
+  const { startWorker } = require("#mocks/mocks.server.ts");
   startWorker();
 }
 

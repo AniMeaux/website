@@ -2,19 +2,22 @@ import {
   SORTED_SPECIES,
   SPECIES_ICON,
   SPECIES_TRANSLATION,
-} from "~/animals/species";
+} from "#animals/species.tsx";
 import {
   BREED_DEFAULT_SORT,
   BreedSearchParams,
   BreedSort,
-} from "~/breeds/searchParams";
-import { Action } from "~/core/actions";
-import { BaseLink } from "~/core/baseLink";
-import { Filters } from "~/core/controllers/filters";
-import { ControlledInput } from "~/core/formElements/controlledInput";
-import { ToggleInput, ToggleInputList } from "~/core/formElements/toggleInput";
-import { useOptimisticSearchParams } from "~/core/searchParams";
-import { Icon } from "~/generated/icon";
+} from "#breeds/searchParams.ts";
+import { Action } from "#core/actions.tsx";
+import { BaseLink } from "#core/baseLink.tsx";
+import { Filters } from "#core/controllers/filters.tsx";
+import { ControlledInput } from "#core/formElements/controlledInput.tsx";
+import {
+  ToggleInput,
+  ToggleInputList,
+} from "#core/formElements/toggleInput.tsx";
+import { useOptimisticSearchParams } from "#core/searchParams.ts";
+import { Icon } from "#generated/icon.tsx";
 
 export function BreedFilterForm() {
   const [searchParams, setSearchParams] = useOptimisticSearchParams();
