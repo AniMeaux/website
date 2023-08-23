@@ -1,25 +1,25 @@
-import { UserGroup } from "@prisma/client";
-import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
-import { json, LoaderArgs, SerializeFrom } from "@remix-run/node";
-import { useFetcher } from "@remix-run/react";
-import { useCombobox } from "downshift";
-import { createPath } from "history";
-import { forwardRef, useEffect, useState } from "react";
-import { PickUpLocationSearchParams } from "~/animals/searchParams";
-import { toBooleanAttribute } from "~/core/attributes";
-import { db } from "~/core/db.server";
-import { BaseTextInput } from "~/core/formElements/baseTextInput";
-import { Input } from "~/core/formElements/input";
+import { PickUpLocationSearchParams } from "#animals/searchParams.ts";
+import { toBooleanAttribute } from "#core/attributes.ts";
+import { db } from "#core/db.server.ts";
+import { BaseTextInput } from "#core/formElements/baseTextInput.tsx";
+import { Input } from "#core/formElements/input.tsx";
 import {
   NoSuggestion,
   ResourceComboboxLayout,
   ResourceInputLayout,
   SuggestionItem,
   SuggestionList,
-} from "~/core/formElements/resourceInput";
-import { Routes } from "~/core/navigation";
-import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
-import { Icon } from "~/generated/icon";
+} from "#core/formElements/resourceInput.tsx";
+import { Routes } from "#core/navigation.ts";
+import { assertCurrentUserHasGroups } from "#currentUser/groups.server.ts";
+import { Icon } from "#generated/icon.tsx";
+import { UserGroup } from "@prisma/client";
+import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
+import { LoaderArgs, SerializeFrom, json } from "@remix-run/node";
+import { useFetcher } from "@remix-run/react";
+import { useCombobox } from "downshift";
+import { createPath } from "history";
+import { forwardRef, useEffect, useState } from "react";
 
 const MAX_HIT_COUNT = 6;
 

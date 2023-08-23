@@ -1,17 +1,17 @@
+import { AnimalCreationSteps } from "#animals/creationSteps.tsx";
+import { BreedNotForSpeciesError } from "#animals/profile/db.server.ts";
+import { ActionFormData, AnimalProfileForm } from "#animals/profile/form.tsx";
+import { ErrorPage } from "#core/dataDisplay/errorPage.tsx";
+import { db } from "#core/db.server.ts";
+import { Card } from "#core/layout/card.tsx";
+import { PageLayout } from "#core/layout/page.tsx";
+import { Routes } from "#core/navigation.ts";
+import { getPageTitle } from "#core/pageTitle.ts";
+import { assertCurrentUserHasGroups } from "#currentUser/groups.server.ts";
 import { UserGroup } from "@prisma/client";
-import { ActionArgs, json, LoaderArgs, redirect } from "@remix-run/node";
-import { useFetcher, useLoaderData, V2_MetaFunction } from "@remix-run/react";
+import { ActionArgs, LoaderArgs, json, redirect } from "@remix-run/node";
+import { V2_MetaFunction, useFetcher, useLoaderData } from "@remix-run/react";
 import { z } from "zod";
-import { AnimalCreationSteps } from "~/animals/creationSteps";
-import { BreedNotForSpeciesError } from "~/animals/profile/db.server";
-import { ActionFormData, AnimalProfileForm } from "~/animals/profile/form";
-import { ErrorPage } from "~/core/dataDisplay/errorPage";
-import { db } from "~/core/db.server";
-import { Card } from "~/core/layout/card";
-import { PageLayout } from "~/core/layout/page";
-import { Routes } from "~/core/navigation";
-import { getPageTitle } from "~/core/pageTitle";
-import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
 
 export async function loader({ request }: LoaderArgs) {
   const currentUser = await db.currentUser.get(request, {

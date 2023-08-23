@@ -1,17 +1,23 @@
-import { Prisma, User, UserGroup } from "@prisma/client";
-import { redirect } from "@remix-run/node";
-import { createPath } from "history";
-import { algolia } from "~/core/algolia/algolia.server";
-import { EmailAlreadyUsedError, PrismaErrorCodes } from "~/core/errors.server";
-import { Routes } from "~/core/navigation";
-import { prisma } from "~/core/prisma.server";
-import { NextSearchParams } from "~/core/searchParams";
+import { algolia } from "#core/algolia/algolia.server.ts";
+import {
+  EmailAlreadyUsedError,
+  PrismaErrorCodes,
+} from "#core/errors.server.ts";
+import { Routes } from "#core/navigation.ts";
+import { prisma } from "#core/prisma.server.ts";
+import { NextSearchParams } from "#core/searchParams.ts";
 import {
   destroyCurrentUserSession,
   getCurrentUserSession,
-} from "~/currentUser/session.server";
-import { hasGroups } from "~/users/groups";
-import { generatePasswordHash, isSamePassword } from "~/users/password.server";
+} from "#currentUser/session.server.ts";
+import { hasGroups } from "#users/groups.tsx";
+import {
+  generatePasswordHash,
+  isSamePassword,
+} from "#users/password.server.ts";
+import { Prisma, User, UserGroup } from "@prisma/client";
+import { redirect } from "@remix-run/node";
+import { createPath } from "history";
 
 export class CurrentUserDbDelegate {
   async get<T extends Prisma.UserFindFirstArgs>(

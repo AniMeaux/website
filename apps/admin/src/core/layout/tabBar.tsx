@@ -1,9 +1,9 @@
+import { BaseLink, BaseLinkProps } from "#core/baseLink.tsx";
+import { cn } from "#core/classNames.ts";
+import { Icon, IconProps } from "#generated/icon.tsx";
+import { theme } from "#generated/theme.ts";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { useState } from "react";
-import { BaseLink, BaseLinkProps } from "~/core/baseLink";
-import { cn } from "~/core/classNames";
-import { Icon, IconProps } from "~/generated/icon";
-import { theme } from "~/generated/theme";
 
 export function TabBar({ children }: { children?: React.ReactNode }) {
   return (

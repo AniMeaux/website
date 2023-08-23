@@ -1,3 +1,21 @@
+import { createActionData } from "#core/actionData.tsx";
+import { Action } from "#core/actions.tsx";
+import {
+  IMAGE_SIZE_LIMIT_MB,
+  ImageFileOrId,
+  isImageFile,
+  isImageOverSize,
+  readFile,
+} from "#core/dataDisplay/image.tsx";
+import { toIsoDateValue } from "#core/dates.ts";
+import { Form } from "#core/formElements/form.tsx";
+import { ImageInput } from "#core/formElements/imageInput.tsx";
+import { Input } from "#core/formElements/input.tsx";
+import { RequiredStar } from "#core/formElements/requiredStar.tsx";
+import { SwitchInput } from "#core/formElements/switchInput.tsx";
+import { Textarea } from "#core/formElements/textarea.tsx";
+import { Separator } from "#core/layout/separator.tsx";
+import { Icon } from "#generated/icon.tsx";
 import { Event } from "@prisma/client";
 import { SerializeFrom } from "@remix-run/node";
 import { FetcherWithComponents, useFormAction } from "@remix-run/react";
@@ -5,24 +23,6 @@ import { useEffect, useRef, useState } from "react";
 import invariant from "tiny-invariant";
 import { z } from "zod";
 import { zfd } from "zod-form-data";
-import { createActionData } from "~/core/actionData";
-import { Action } from "~/core/actions";
-import {
-  IMAGE_SIZE_LIMIT_MB,
-  ImageFileOrId,
-  isImageFile,
-  isImageOverSize,
-  readFile,
-} from "~/core/dataDisplay/image";
-import { toIsoDateValue } from "~/core/dates";
-import { Form } from "~/core/formElements/form";
-import { ImageInput } from "~/core/formElements/imageInput";
-import { Input } from "~/core/formElements/input";
-import { RequiredStar } from "~/core/formElements/requiredStar";
-import { SwitchInput } from "~/core/formElements/switchInput";
-import { Textarea } from "~/core/formElements/textarea";
-import { Separator } from "~/core/layout/separator";
-import { Icon } from "~/generated/icon";
 
 export const ActionFormData = createActionData(
   z.object({

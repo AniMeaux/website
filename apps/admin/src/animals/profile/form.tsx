@@ -1,33 +1,33 @@
-import { AnimalDraft, Breed, Color, Gender, Species } from "@prisma/client";
-import { SerializeFrom } from "@remix-run/node";
-import { FetcherWithComponents, useLocation } from "@remix-run/react";
-import { useEffect, useRef, useState } from "react";
-import { z } from "zod";
 import {
   AGREEMENT_TRANSLATION,
   AgreementValue,
   SORTED_AGREEMENTS,
   agreementFromBoolean,
   agreementToBoolean,
-} from "~/animals/agreements";
-import { GENDER_TRANSLATION, SORTED_GENDERS } from "~/animals/gender";
+} from "#animals/agreements.tsx";
+import { GENDER_TRANSLATION, SORTED_GENDERS } from "#animals/gender.tsx";
 import {
   SORTED_SPECIES,
   SPECIES_ICON,
   SPECIES_TRANSLATION,
-} from "~/animals/species";
-import { createActionData } from "~/core/actionData";
-import { Action } from "~/core/actions";
-import { toIsoDateValue } from "~/core/dates";
-import { Form } from "~/core/formElements/form";
-import { Input } from "~/core/formElements/input";
-import { RadioInput, RadioInputList } from "~/core/formElements/radioInput";
-import { RequiredStar } from "~/core/formElements/requiredStar";
-import { Textarea } from "~/core/formElements/textarea";
-import { Separator } from "~/core/layout/separator";
-import { Icon } from "~/generated/icon";
-import { BreedInput } from "~/routes/resources.breed";
-import { ColorInput } from "~/routes/resources.color";
+} from "#animals/species.tsx";
+import { createActionData } from "#core/actionData.tsx";
+import { Action } from "#core/actions.tsx";
+import { toIsoDateValue } from "#core/dates.ts";
+import { Form } from "#core/formElements/form.tsx";
+import { Input } from "#core/formElements/input.tsx";
+import { RadioInput, RadioInputList } from "#core/formElements/radioInput.tsx";
+import { RequiredStar } from "#core/formElements/requiredStar.tsx";
+import { Textarea } from "#core/formElements/textarea.tsx";
+import { Separator } from "#core/layout/separator.tsx";
+import { Icon } from "#generated/icon.tsx";
+import { BreedInput } from "#routes/resources.breed.tsx";
+import { ColorInput } from "#routes/resources.color.tsx";
+import { AnimalDraft, Breed, Color, Gender, Species } from "@prisma/client";
+import { SerializeFrom } from "@remix-run/node";
+import { FetcherWithComponents, useLocation } from "@remix-run/react";
+import { useEffect, useRef, useState } from "react";
+import { z } from "zod";
 
 export const ActionFormData = createActionData(
   z.object({

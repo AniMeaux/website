@@ -1,24 +1,24 @@
+import { getAllAnimalPictures } from "#animals/pictures/allPictures.ts";
+import { getAnimalDisplayName } from "#animals/profile/name.tsx";
+import { Action } from "#core/actions.tsx";
+import { BaseLink } from "#core/baseLink.tsx";
+import { cn } from "#core/classNames.ts";
+import { getErrorTitle } from "#core/dataDisplay/errorPage.tsx";
+import { DynamicImage } from "#core/dataDisplay/image.tsx";
+import { db } from "#core/db.server.ts";
+import { RouteHandle } from "#core/handles.ts";
+import { assertIsDefined } from "#core/isDefined.server.ts";
+import { Routes } from "#core/navigation.ts";
+import { getPageTitle } from "#core/pageTitle.ts";
+import { prisma } from "#core/prisma.server.ts";
+import { NotFoundResponse } from "#core/response.server.ts";
+import { assertCurrentUserHasGroups } from "#currentUser/groups.server.ts";
+import { Icon } from "#generated/icon.tsx";
+import { DownloadPictureLink } from "#routes/downloads.picture.$id.tsx";
 import { UserGroup } from "@prisma/client";
 import { json, LoaderArgs } from "@remix-run/node";
 import { useLoaderData, V2_MetaFunction } from "@remix-run/react";
 import { z } from "zod";
-import { getAllAnimalPictures } from "~/animals/pictures/allPictures";
-import { getAnimalDisplayName } from "~/animals/profile/name";
-import { Action } from "~/core/actions";
-import { BaseLink } from "~/core/baseLink";
-import { cn } from "~/core/classNames";
-import { getErrorTitle } from "~/core/dataDisplay/errorPage";
-import { DynamicImage } from "~/core/dataDisplay/image";
-import { db } from "~/core/db.server";
-import { RouteHandle } from "~/core/handles";
-import { assertIsDefined } from "~/core/isDefined.server";
-import { Routes } from "~/core/navigation";
-import { getPageTitle } from "~/core/pageTitle";
-import { prisma } from "~/core/prisma.server";
-import { NotFoundResponse } from "~/core/response.server";
-import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
-import { Icon } from "~/generated/icon";
-import { DownloadPictureLink } from "~/routes/downloads.picture.$id";
 
 export const handle: RouteHandle = {
   htmlBackgroundColor: "bg-white",

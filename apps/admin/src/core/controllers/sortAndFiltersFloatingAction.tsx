@@ -1,8 +1,8 @@
+import { Action } from "#core/actions.tsx";
+import { cn } from "#core/classNames.ts";
+import { Card } from "#core/layout/card.tsx";
+import { Icon } from "#generated/icon.tsx";
 import * as Dialog from "@radix-ui/react-dialog";
-import { Action } from "~/core/actions";
-import { cn } from "~/core/classNames";
-import { Card } from "~/core/layout/card";
-import { Icon } from "~/generated/icon";
 
 export function SortAndFiltersFloatingAction({
   totalCount,

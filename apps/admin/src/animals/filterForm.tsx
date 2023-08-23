@@ -1,49 +1,52 @@
-import { FosterFamily, Gender, User, UserGroup } from "@prisma/client";
 import {
   ADOPTION_OPTION_ICON,
   ADOPTION_OPTION_TRANSLATION,
   SORTED_ADOPTION_OPTION,
-} from "~/animals/adoption";
-import { AGE_ICON, AGE_TRANSLATION, SORTED_AGES } from "~/animals/age";
+} from "#animals/adoption.tsx";
+import { AGE_ICON, AGE_TRANSLATION, SORTED_AGES } from "#animals/age.tsx";
 import {
   PICK_UP_REASON_ICON,
   PICK_UP_REASON_TRANSLATION,
   SORTED_PICK_UP_REASON,
-} from "~/animals/pickUp";
+} from "#animals/pickUp.ts";
 import {
   SCREENING_RESULT_ICON,
   SCREENING_RESULT_TRANSLATION,
   SORTED_SCREENING_RESULTS,
-} from "~/animals/screening";
+} from "#animals/screening.ts";
 import {
   ANIMAL_DEFAULT_SORT,
   AnimalSearchParams,
   AnimalSort,
   AnimalSterilization,
-} from "~/animals/searchParams";
+} from "#animals/searchParams.ts";
 import {
   SORTED_SPECIES,
   SPECIES_ICON,
   SPECIES_TRANSLATION,
-} from "~/animals/species";
+} from "#animals/species.tsx";
 import {
   ACTIVE_ANIMAL_STATUS,
   SORTED_STATUS,
   STATUS_TRANSLATION,
   StatusIcon,
-} from "~/animals/status";
-import { Action } from "~/core/actions";
-import { BaseLink } from "~/core/baseLink";
-import { Filters } from "~/core/controllers/filters";
-import { toIsoDateValue } from "~/core/dates";
-import { ControlledInput } from "~/core/formElements/controlledInput";
-import { Form } from "~/core/formElements/form";
-import { ToggleInput, ToggleInputList } from "~/core/formElements/toggleInput";
-import { useOptimisticSearchParams } from "~/core/searchParams";
-import { FosterFamilyAvatar } from "~/fosterFamilies/avatar";
-import { Icon } from "~/generated/icon";
-import { UserAvatar } from "~/users/avatar";
-import { hasGroups } from "~/users/groups";
+} from "#animals/status.tsx";
+import { Action } from "#core/actions.tsx";
+import { BaseLink } from "#core/baseLink.tsx";
+import { Filters } from "#core/controllers/filters.tsx";
+import { toIsoDateValue } from "#core/dates.ts";
+import { ControlledInput } from "#core/formElements/controlledInput.tsx";
+import { Form } from "#core/formElements/form.tsx";
+import {
+  ToggleInput,
+  ToggleInputList,
+} from "#core/formElements/toggleInput.tsx";
+import { useOptimisticSearchParams } from "#core/searchParams.ts";
+import { FosterFamilyAvatar } from "#fosterFamilies/avatar.tsx";
+import { Icon } from "#generated/icon.tsx";
+import { UserAvatar } from "#users/avatar.tsx";
+import { hasGroups } from "#users/groups.tsx";
+import { FosterFamily, Gender, User, UserGroup } from "@prisma/client";
 
 export function AnimalFilters({
   currentUser,

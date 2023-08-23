@@ -1,6 +1,6 @@
+import { IconProps } from "#generated/icon.tsx";
 import { PickUpReason } from "@prisma/client";
 import orderBy from "lodash.orderby";
-import { IconProps } from "~/generated/icon";
 
 export const PICK_UP_REASON_TRANSLATION: Record<PickUpReason, string> = {
   [PickUpReason.ABANDONMENT]: "Abandon",

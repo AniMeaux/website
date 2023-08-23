@@ -1,18 +1,18 @@
+import { ErrorPage } from "#core/dataDisplay/errorPage.tsx";
+import { db } from "#core/db.server.ts";
+import { EmailAlreadyUsedError } from "#core/errors.server.ts";
+import { Card } from "#core/layout/card.tsx";
+import { PageLayout } from "#core/layout/page.tsx";
+import { Routes } from "#core/navigation.ts";
+import { getPageTitle } from "#core/pageTitle.ts";
+import { assertCurrentUserHasGroups } from "#currentUser/groups.server.ts";
+import { MissingPasswordError } from "#users/db.server.ts";
+import { ActionFormData, UserForm } from "#users/form.tsx";
 import { UserGroup } from "@prisma/client";
-import { ActionArgs, json, LoaderArgs, redirect } from "@remix-run/node";
-import { useFetcher, V2_MetaFunction } from "@remix-run/react";
+import { ActionArgs, LoaderArgs, json, redirect } from "@remix-run/node";
+import { V2_MetaFunction, useFetcher } from "@remix-run/react";
 import { z } from "zod";
 import { zfd } from "zod-form-data";
-import { ErrorPage } from "~/core/dataDisplay/errorPage";
-import { db } from "~/core/db.server";
-import { EmailAlreadyUsedError } from "~/core/errors.server";
-import { Card } from "~/core/layout/card";
-import { PageLayout } from "~/core/layout/page";
-import { Routes } from "~/core/navigation";
-import { getPageTitle } from "~/core/pageTitle";
-import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
-import { MissingPasswordError } from "~/users/db.server";
-import { ActionFormData, UserForm } from "~/users/form";
 
 export async function loader({ request }: LoaderArgs) {
   const currentUser = await db.currentUser.get(request, {

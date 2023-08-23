@@ -1,5 +1,5 @@
-import { zsp } from "~/core/schemas";
-import { createSearchParams } from "~/core/searchParams";
+import { zsp } from "#core/schemas.tsx";
+import { createSearchParams } from "#core/searchParams.ts";
 
 export enum ColorSort {
   NAME = "N",

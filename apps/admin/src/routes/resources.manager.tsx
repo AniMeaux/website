@@ -1,3 +1,19 @@
+import { toBooleanAttribute } from "#core/attributes.ts";
+import { db } from "#core/db.server.ts";
+import { BaseTextInput } from "#core/formElements/baseTextInput.tsx";
+import { Input } from "#core/formElements/input.tsx";
+import {
+  NoSuggestion,
+  ResourceComboboxLayout,
+  ResourceInputLayout,
+  SuggestionItem,
+  SuggestionList,
+} from "#core/formElements/resourceInput.tsx";
+import { Routes } from "#core/navigation.ts";
+import { assertCurrentUserHasGroups } from "#currentUser/groups.server.ts";
+import { Icon } from "#generated/icon.tsx";
+import { UserAvatar } from "#users/avatar.tsx";
+import { UserSearchParams } from "#users/searchParams.ts";
 import { User, UserGroup } from "@prisma/client";
 import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
 import { LoaderArgs, SerializeFrom, json } from "@remix-run/node";
@@ -5,22 +21,6 @@ import { useFetcher } from "@remix-run/react";
 import { useCombobox } from "downshift";
 import { createPath } from "history";
 import { forwardRef, useEffect, useState } from "react";
-import { toBooleanAttribute } from "~/core/attributes";
-import { db } from "~/core/db.server";
-import { BaseTextInput } from "~/core/formElements/baseTextInput";
-import { Input } from "~/core/formElements/input";
-import {
-  NoSuggestion,
-  ResourceComboboxLayout,
-  ResourceInputLayout,
-  SuggestionItem,
-  SuggestionList,
-} from "~/core/formElements/resourceInput";
-import { Routes } from "~/core/navigation";
-import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
-import { Icon } from "~/generated/icon";
-import { UserAvatar } from "~/users/avatar";
-import { UserSearchParams } from "~/users/searchParams";
 
 export async function loader({ request }: LoaderArgs) {
   const currentUser = await db.currentUser.get(request, {

@@ -1,7 +1,7 @@
+import { indexSearch } from "#core/algolia/shared.server.ts";
 import { SearchOptions } from "@algolia/client-search";
 import { FosterFamily } from "@prisma/client";
 import { SearchClient, SearchIndex } from "algoliasearch";
-import { indexSearch } from "~/core/algolia/shared.server";
 
 export type FosterFamilyFromAlgolia = Pick<FosterFamily, "displayName">;
 

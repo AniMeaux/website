@@ -1,22 +1,22 @@
+import { SORTED_SPECIES, SPECIES_TRANSLATION } from "#animals/species.tsx";
+import { createActionData } from "#core/actionData.tsx";
+import { Action } from "#core/actions.tsx";
+import {
+  CheckboxInput,
+  CheckboxInputList,
+} from "#core/formElements/checkboxInput.tsx";
+import { Form } from "#core/formElements/form.tsx";
+import { Input } from "#core/formElements/input.tsx";
+import { RequiredStar } from "#core/formElements/requiredStar.tsx";
+import { Textarea } from "#core/formElements/textarea.tsx";
+import { Separator } from "#core/layout/separator.tsx";
+import { Icon } from "#generated/icon.tsx";
 import { FosterFamily, Species } from "@prisma/client";
 import { SerializeFrom } from "@remix-run/node";
 import { FetcherWithComponents, useLocation } from "@remix-run/react";
 import { useEffect, useRef } from "react";
 import { z } from "zod";
 import { zfd } from "zod-form-data";
-import { SORTED_SPECIES, SPECIES_TRANSLATION } from "~/animals/species";
-import { createActionData } from "~/core/actionData";
-import { Action } from "~/core/actions";
-import {
-  CheckboxInput,
-  CheckboxInputList,
-} from "~/core/formElements/checkboxInput";
-import { Form } from "~/core/formElements/form";
-import { Input } from "~/core/formElements/input";
-import { RequiredStar } from "~/core/formElements/requiredStar";
-import { Textarea } from "~/core/formElements/textarea";
-import { Separator } from "~/core/layout/separator";
-import { Icon } from "~/generated/icon";
 
 export const ActionFormData = createActionData(
   z.object({

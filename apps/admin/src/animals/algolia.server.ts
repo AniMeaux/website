@@ -1,7 +1,10 @@
+import {
+  createSearchFilters,
+  indexSearch,
+} from "#core/algolia/shared.server.ts";
 import { SearchOptions } from "@algolia/client-search";
 import { Animal, Species, Status } from "@prisma/client";
 import { SearchClient, SearchIndex } from "algoliasearch";
-import { createSearchFilters, indexSearch } from "~/core/algolia/shared.server";
 
 export type AnimalFromAlgolia = Pick<
   Animal,

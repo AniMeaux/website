@@ -1,9 +1,9 @@
+import { algolia } from "#core/algolia/algolia.server.ts";
+import { NotFoundError, PrismaErrorCodes } from "#core/errors.server.ts";
+import { Routes } from "#core/navigation.ts";
+import { prisma } from "#core/prisma.server.ts";
 import { Animal, AnimalDraft, Prisma } from "@prisma/client";
 import { redirect } from "@remix-run/node";
-import { algolia } from "~/core/algolia/algolia.server";
-import { NotFoundError, PrismaErrorCodes } from "~/core/errors.server";
-import { Routes } from "~/core/navigation";
-import { prisma } from "~/core/prisma.server";
 
 type ProfileKeys =
   | "alias"

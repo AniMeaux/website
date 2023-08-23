@@ -2,14 +2,17 @@ import {
   COLOR_DEFAULT_SORT,
   ColorSearchParams,
   ColorSort,
-} from "~/colors/searchParams";
-import { Action } from "~/core/actions";
-import { BaseLink } from "~/core/baseLink";
-import { Filters } from "~/core/controllers/filters";
-import { ControlledInput } from "~/core/formElements/controlledInput";
-import { ToggleInput, ToggleInputList } from "~/core/formElements/toggleInput";
-import { useOptimisticSearchParams } from "~/core/searchParams";
-import { Icon } from "~/generated/icon";
+} from "#colors/searchParams.ts";
+import { Action } from "#core/actions.tsx";
+import { BaseLink } from "#core/baseLink.tsx";
+import { Filters } from "#core/controllers/filters.tsx";
+import { ControlledInput } from "#core/formElements/controlledInput.tsx";
+import {
+  ToggleInput,
+  ToggleInputList,
+} from "#core/formElements/toggleInput.tsx";
+import { useOptimisticSearchParams } from "#core/searchParams.ts";
+import { Icon } from "#generated/icon.tsx";
 
 export function ColorFilterForm() {
   const [searchParams, setSearchParams] = useOptimisticSearchParams();

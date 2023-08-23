@@ -1,4 +1,35 @@
 import {
+  ADOPTION_OPTION_TRANSLATION,
+  SORTED_ADOPTION_OPTION,
+} from "#animals/adoption.tsx";
+import {
+  PICK_UP_REASON_TRANSLATION,
+  SORTED_PICK_UP_REASON,
+} from "#animals/pickUp.ts";
+import {
+  SCREENING_RESULT_TRANSLATION,
+  SORTED_SCREENING_RESULTS,
+} from "#animals/screening.ts";
+import {
+  ACTIVE_ANIMAL_STATUS,
+  SORTED_STATUS,
+  STATUS_TRANSLATION,
+} from "#animals/status.tsx";
+import { createActionData } from "#core/actionData.tsx";
+import { Action } from "#core/actions.tsx";
+import { toIsoDateValue } from "#core/dates.ts";
+import { Form } from "#core/formElements/form.tsx";
+import { Input } from "#core/formElements/input.tsx";
+import { RadioInput, RadioInputList } from "#core/formElements/radioInput.tsx";
+import { RequiredStar } from "#core/formElements/requiredStar.tsx";
+import { Textarea } from "#core/formElements/textarea.tsx";
+import { Separator } from "#core/layout/separator.tsx";
+import { Icon } from "#generated/icon.tsx";
+import { FosterFamilyInput } from "#routes/resources.foster-family.tsx";
+import { ManagerInput } from "#routes/resources.manager.tsx";
+import { PickUpLocationInput } from "#routes/resources.pick-up-location.tsx";
+import { hasGroups } from "#users/groups.tsx";
+import {
   AdoptionOption,
   AnimalDraft,
   FosterFamily,
@@ -14,37 +45,6 @@ import { SerializeFrom } from "@remix-run/node";
 import { FetcherWithComponents, useLocation } from "@remix-run/react";
 import { useEffect, useRef, useState } from "react";
 import { z } from "zod";
-import {
-  ADOPTION_OPTION_TRANSLATION,
-  SORTED_ADOPTION_OPTION,
-} from "~/animals/adoption";
-import {
-  PICK_UP_REASON_TRANSLATION,
-  SORTED_PICK_UP_REASON,
-} from "~/animals/pickUp";
-import {
-  SCREENING_RESULT_TRANSLATION,
-  SORTED_SCREENING_RESULTS,
-} from "~/animals/screening";
-import {
-  ACTIVE_ANIMAL_STATUS,
-  SORTED_STATUS,
-  STATUS_TRANSLATION,
-} from "~/animals/status";
-import { createActionData } from "~/core/actionData";
-import { Action } from "~/core/actions";
-import { toIsoDateValue } from "~/core/dates";
-import { Form } from "~/core/formElements/form";
-import { Input } from "~/core/formElements/input";
-import { RadioInput, RadioInputList } from "~/core/formElements/radioInput";
-import { RequiredStar } from "~/core/formElements/requiredStar";
-import { Textarea } from "~/core/formElements/textarea";
-import { Separator } from "~/core/layout/separator";
-import { Icon } from "~/generated/icon";
-import { FosterFamilyInput } from "~/routes/resources.foster-family";
-import { ManagerInput } from "~/routes/resources.manager";
-import { PickUpLocationInput } from "~/routes/resources.pick-up-location";
-import { hasGroups } from "~/users/groups";
 
 export const ActionFormData = createActionData(
   z.object({

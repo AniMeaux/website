@@ -1,5 +1,5 @@
+import { cn } from "#core/classNames.ts";
 import { forwardRef } from "react";
-import { cn } from "~/core/classNames";
 
 export const SwitchInput = forwardRef<
   React.ComponentRef<"input">,

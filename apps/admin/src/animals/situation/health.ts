@@ -1,8 +1,8 @@
+import { ACTIVE_ANIMAL_STATUS } from "#animals/status.tsx";
 import { Animal, Species, Status } from "@prisma/client";
 import { SerializeFrom } from "@remix-run/node";
 import { DateTime } from "luxon";
 import { SetNonNullable } from "type-fest";
-import { ACTIVE_ANIMAL_STATUS } from "~/animals/status";
 
 export function hasUpCommingSterilisation<
   TAnimal extends SerializeFrom<

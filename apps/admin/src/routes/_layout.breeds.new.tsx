@@ -1,17 +1,17 @@
+import { ActionFormData, BreedForm } from "#breeds/form.tsx";
+import { ErrorPage } from "#core/dataDisplay/errorPage.tsx";
+import { db } from "#core/db.server.ts";
+import { AlreadyExistError } from "#core/errors.server.ts";
+import { Card } from "#core/layout/card.tsx";
+import { PageLayout } from "#core/layout/page.tsx";
+import { Routes, useBackIfPossible } from "#core/navigation.ts";
+import { getPageTitle } from "#core/pageTitle.ts";
+import { assertCurrentUserHasGroups } from "#currentUser/groups.server.ts";
 import { UserGroup } from "@prisma/client";
 import { ActionArgs, LoaderArgs, json } from "@remix-run/node";
 import { V2_MetaFunction, useFetcher } from "@remix-run/react";
 import { z } from "zod";
 import { zfd } from "zod-form-data";
-import { ActionFormData, BreedForm } from "~/breeds/form";
-import { ErrorPage } from "~/core/dataDisplay/errorPage";
-import { db } from "~/core/db.server";
-import { AlreadyExistError } from "~/core/errors.server";
-import { Card } from "~/core/layout/card";
-import { PageLayout } from "~/core/layout/page";
-import { Routes, useBackIfPossible } from "~/core/navigation";
-import { getPageTitle } from "~/core/pageTitle";
-import { assertCurrentUserHasGroups } from "~/currentUser/groups.server";
 
 export async function loader({ request }: LoaderArgs) {
   const currentUser = await db.currentUser.get(request, {
