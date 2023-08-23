@@ -26,7 +26,7 @@ import {
 import { assertCurrentUserHasGroups } from "#currentUser/groups.server.ts";
 import { hasGroups } from "#users/groups.tsx";
 import { ANIMAL_AGE_RANGE_BY_SPECIES } from "@animeaux/shared";
-import { Prisma, Status, UserGroup } from "@prisma/client";
+import { Prisma, Species, Status, UserGroup } from "@prisma/client";
 import { LoaderArgs, json } from "@remix-run/node";
 import { V2_MetaFunction, useLoaderData } from "@remix-run/react";
 import { DateTime } from "luxon";
@@ -208,12 +208,14 @@ export async function loader({ request }: LoaderArgs) {
 
   if (animalSearchParams.fivResults.size > 0) {
     where.push({
+      species: Species.CAT,
       screeningFiv: { in: Array.from(animalSearchParams.fivResults) },
     });
   }
 
   if (animalSearchParams.felvResults.size > 0) {
     where.push({
+      species: Species.CAT,
       screeningFelv: { in: Array.from(animalSearchParams.felvResults) },
     });
   }
