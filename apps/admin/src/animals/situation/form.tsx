@@ -45,12 +45,15 @@ import { SerializeFrom } from "@remix-run/node";
 import { FetcherWithComponents, useLocation } from "@remix-run/react";
 import { useEffect, useRef, useState } from "react";
 import { z } from "zod";
+import { zfd } from "zod-form-data";
 
 export const ActionFormData = createActionData(
   z.object({
-    adoptionDate: z.coerce
-      .date({ invalid_type_error: "Veuillez entrer une date valide" })
-      .optional(),
+    adoptionDate: zfd.text(
+      z.coerce
+        .date({ invalid_type_error: "Veuillez entrer une date valide" })
+        .optional()
+    ),
     adoptionOption: z.nativeEnum(AdoptionOption).optional(),
     comments: z.string().trim(),
     fosterFamilyId: z.string().uuid().optional(),
@@ -58,9 +61,11 @@ export const ActionFormData = createActionData(
       required_error: "Veuillez choisir une option",
     }),
     managerId: z.string().uuid().optional(),
-    nextVaccinationDate: z.coerce
-      .date({ invalid_type_error: "Veuillez entrer une date valide" })
-      .optional(),
+    nextVaccinationDate: zfd.text(
+      z.coerce
+        .date({ invalid_type_error: "Veuillez entrer une date valide" })
+        .optional()
+    ),
     pickUpDate: z.coerce.date({
       required_error: "Veuillez entrer une date",
       invalid_type_error: "Veuillez entrer une date valide",
