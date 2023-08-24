@@ -83,6 +83,7 @@ export const ActionFormData = createActionData(
     status: z.nativeEnum(Status, {
       required_error: "Veuillez choisir un statut",
     }),
+    vaccination: z.enum(["MANDATORY", "WONT_BE_DONE"]),
   })
 );
 
@@ -101,6 +102,7 @@ export function AnimalSituationForm({
       | "comments"
       | "isSterilizationMandatory"
       | "isSterilized"
+      | "isVaccinationMandatory"
       | "nextVaccinationDate"
       | "pickUpDate"
       | "pickUpLocation"
@@ -122,6 +124,9 @@ export function AnimalSituationForm({
   const [statusState, setStatusState] = useState(
     defaultAnimal?.status ?? Status.UNAVAILABLE
   );
+
+  const [isVaccinationMandatoryState, setIsVaccinationMandatoryState] =
+    useState(defaultAnimal?.isVaccinationMandatory !== false);
 
   const adoptionDateRef = useRef<HTMLInputElement>(null);
   const commentsRef = useRef<HTMLTextAreaElement>(null);
@@ -379,89 +384,121 @@ export function AnimalSituationForm({
 
           <Separator />
 
+          <Form.Field>
+            <Form.Label asChild>
+              <span>
+                Stérilisé <RequiredStar />
+              </span>
+            </Form.Label>
+
+            <RadioInputList>
+              <RadioInput
+                ref={isSterilizedRef}
+                label="Oui"
+                name={ActionFormData.keys.isSterilized}
+                value={ActionFormData.schema.shape.isSterilized.Enum.YES}
+                defaultChecked={defaultAnimal?.isSterilized === true}
+                aria-describedby="isSterilized-error"
+              />
+
+              <RadioInput
+                label="Non"
+                name={ActionFormData.keys.isSterilized}
+                value={ActionFormData.schema.shape.isSterilized.Enum.NO}
+                defaultChecked={
+                  !defaultAnimal?.isSterilized &&
+                  defaultAnimal?.isSterilizationMandatory !== false
+                }
+                aria-describedby="isSterilized-error"
+              />
+
+              <RadioInput
+                label="Non, et ne le sera pas"
+                name={ActionFormData.keys.isSterilized}
+                value={
+                  ActionFormData.schema.shape.isSterilized.Enum.NOT_MANDATORY
+                }
+                defaultChecked={
+                  defaultAnimal?.isSterilizationMandatory === false
+                }
+                aria-describedby="isSterilized-error"
+              />
+            </RadioInputList>
+
+            {fetcher.data?.errors?.fieldErrors.isSterilized != null ? (
+              <Form.ErrorMessage id="isSterilized-error">
+                {fetcher.data.errors.fieldErrors.isSterilized}
+              </Form.ErrorMessage>
+            ) : null}
+          </Form.Field>
+
           <Form.Row>
             <Form.Field>
               <Form.Label asChild>
                 <span>
-                  Stérilisé <RequiredStar />
+                  Vaccination <RequiredStar />
                 </span>
               </Form.Label>
 
               <RadioInputList>
                 <RadioInput
-                  ref={isSterilizedRef}
-                  label="Oui"
-                  name={ActionFormData.keys.isSterilized}
-                  value={ActionFormData.schema.shape.isSterilized.Enum.YES}
-                  defaultChecked={defaultAnimal?.isSterilized === true}
-                  aria-describedby="isSterilized-error"
+                  label="Obligatoire"
+                  name={ActionFormData.keys.vaccination}
+                  value={ActionFormData.schema.shape.vaccination.Enum.MANDATORY}
+                  checked={isVaccinationMandatoryState}
+                  onChange={() => setIsVaccinationMandatoryState(true)}
                 />
 
                 <RadioInput
-                  label="Non"
-                  name={ActionFormData.keys.isSterilized}
-                  value={ActionFormData.schema.shape.isSterilized.Enum.NO}
-                  defaultChecked={
-                    !defaultAnimal?.isSterilized &&
-                    defaultAnimal?.isSterilizationMandatory !== false
-                  }
-                  aria-describedby="isSterilized-error"
-                />
-
-                <RadioInput
-                  label="Non, et ne le sera pas"
-                  name={ActionFormData.keys.isSterilized}
+                  label="Ne sera pas faite"
+                  name={ActionFormData.keys.vaccination}
                   value={
-                    ActionFormData.schema.shape.isSterilized.Enum.NOT_MANDATORY
+                    ActionFormData.schema.shape.vaccination.Enum.WONT_BE_DONE
                   }
-                  defaultChecked={
-                    defaultAnimal?.isSterilizationMandatory === false
-                  }
-                  aria-describedby="isSterilized-error"
+                  checked={!isVaccinationMandatoryState}
+                  onChange={() => setIsVaccinationMandatoryState(false)}
                 />
               </RadioInputList>
-
-              {fetcher.data?.errors?.fieldErrors.isSterilized != null ? (
-                <Form.ErrorMessage id="isSterilized-error">
-                  {fetcher.data.errors.fieldErrors.isSterilized}
-                </Form.ErrorMessage>
-              ) : null}
             </Form.Field>
 
-            <Form.Field>
-              <Form.Label htmlFor={ActionFormData.keys.nextVaccinationDate}>
-                Prochaine vaccination{" "}
-                {!isCreate && defaultAnimal?.nextVaccinationDate != null ? (
-                  <RequiredStar />
+            {isVaccinationMandatoryState ? (
+              <Form.Field>
+                <Form.Label htmlFor={ActionFormData.keys.nextVaccinationDate}>
+                  Prochaine vaccination{" "}
+                  {!isCreate && defaultAnimal?.nextVaccinationDate != null ? (
+                    <RequiredStar />
+                  ) : null}
+                </Form.Label>
+
+                <Input
+                  ref={nextVaccinationDateRef}
+                  id={ActionFormData.keys.nextVaccinationDate}
+                  type="date"
+                  min={toIsoDateValue(new Date())}
+                  name={ActionFormData.keys.nextVaccinationDate}
+                  defaultValue={toIsoDateValue(
+                    defaultAnimal?.nextVaccinationDate
+                  )}
+                  hasError={
+                    fetcher.data?.errors?.fieldErrors.nextVaccinationDate !=
+                    null
+                  }
+                  aria-describedby="nextVaccinationDate-error"
+                  leftAdornment={
+                    <Input.Adornment>
+                      <Icon id="calendarDays" />
+                    </Input.Adornment>
+                  }
+                />
+
+                {fetcher.data?.errors?.fieldErrors.nextVaccinationDate !=
+                null ? (
+                  <Form.ErrorMessage id="nextVaccinationDate-error">
+                    {fetcher.data.errors.fieldErrors.nextVaccinationDate}
+                  </Form.ErrorMessage>
                 ) : null}
-              </Form.Label>
-
-              <Input
-                ref={nextVaccinationDateRef}
-                id={ActionFormData.keys.nextVaccinationDate}
-                type="date"
-                min={toIsoDateValue(new Date())}
-                name={ActionFormData.keys.nextVaccinationDate}
-                defaultValue={toIsoDateValue(
-                  defaultAnimal?.nextVaccinationDate
-                )}
-                hasError={
-                  fetcher.data?.errors?.fieldErrors.nextVaccinationDate != null
-                }
-                aria-describedby="nextVaccinationDate-error"
-                leftAdornment={
-                  <Input.Adornment>
-                    <Icon id="calendarDays" />
-                  </Input.Adornment>
-                }
-              />
-
-              {fetcher.data?.errors?.fieldErrors.nextVaccinationDate != null ? (
-                <Form.ErrorMessage id="nextVaccinationDate-error">
-                  {fetcher.data.errors.fieldErrors.nextVaccinationDate}
-                </Form.ErrorMessage>
-              ) : null}
-            </Form.Field>
+              </Form.Field>
+            ) : null}
           </Form.Row>
 
           {defaultAnimal?.species === Species.CAT ? (

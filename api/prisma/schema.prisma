@@ -103,6 +103,7 @@ model Animal {
   isOkDogs                 Boolean?
   isSterilizationMandatory Boolean         @default(true)
   isSterilized             Boolean
+  isVaccinationMandatory   Boolean         @default(true)
   manager                  User?           @relation(fields: [managerId], references: [id], onDelete: Restrict)
   managerId                String?
   name                     String          @db.VarChar(255)
@@ -146,6 +147,7 @@ model AnimalDraft {
   isOkDogs                 Boolean?
   isSterilizationMandatory Boolean?
   isSterilized             Boolean?
+  isVaccinationMandatory   Boolean?
   manager                  User?            @relation("Draft_managerToUser", fields: [managerId], references: [id])
   managerId                String?
   name                     String?          @db.VarChar(255)

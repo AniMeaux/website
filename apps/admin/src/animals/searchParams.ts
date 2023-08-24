@@ -27,6 +27,11 @@ export enum AnimalSterilization {
   NOT_MANDATORY = "NM",
 }
 
+export enum AnimalVaccination {
+  NONE_PLANNED = "NP",
+  NOT_MANDATORY = "NM",
+}
+
 export const AnimalSearchParams = createSearchParams({
   adoptionDateEnd: { key: "ade", schema: zsp.date(endOfDay) },
   adoptionDateStart: { key: "ads", schema: zsp.date(startOfDay) },
@@ -39,7 +44,7 @@ export const AnimalSearchParams = createSearchParams({
   fosterFamiliesId: { key: "ffid", schema: zsp.set(z.string().uuid()) },
   managersId: { key: "mid", schema: zsp.set(z.string().uuid()) },
   nameOrAlias: { key: "q", schema: zsp.text() },
-  noVaccination: { key: "nv", schema: zsp.checkbox() },
+  vaccination: { key: "v", schema: zsp.set(z.nativeEnum(AnimalVaccination)) },
   pickUpDateEnd: { key: "pude", schema: zsp.date(endOfDay) },
   pickUpDateStart: { key: "puds", schema: zsp.date(startOfDay) },
   pickUpLocations: { key: "pul", schema: zsp.set(zfd.text()) },
