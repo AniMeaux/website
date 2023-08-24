@@ -131,6 +131,7 @@ export async function loader({ request, params }: LoaderArgs) {
             iCadNumber: true,
             isSterilizationMandatory: true,
             isSterilized: true,
+            isVaccinationMandatory: true,
             nextVaccinationDate: true,
           }
         : {}),
@@ -552,6 +553,15 @@ function SituationCard() {
                 {DateTime.fromISO(animal.nextVaccinationDate).toLocaleString(
                   DateTime.DATE_FULL
                 )}
+              </strong>
+            </SimpleItem>
+          ) : null}
+
+          {animal.isVaccinationMandatory === false ? (
+            <SimpleItem icon={<Icon id="syringe" />}>
+              Ne sera{" "}
+              <strong className="text-body-emphasis">
+                pas {animal.gender === Gender.FEMALE ? "vaccinée" : "vacciné"}
               </strong>
             </SimpleItem>
           ) : null}

@@ -342,6 +342,11 @@ function createAnimalInput({
 
   const isSterilized = faker.datatype.boolean();
 
+  const nextVaccinationDate = faker.helpers.maybe(() =>
+    DateTime.fromJSDate(faker.date.soon({ days: 30 }))
+      .startOf("day")
+      .toJSDate()
+  );
   return {
     adoptionDate:
       status === Status.ADOPTED
@@ -377,16 +382,14 @@ function createAnimalInput({
     isOkDogs: nullableBoolean(),
     isSterilizationMandatory: isSterilized || faker.datatype.boolean(),
     isSterilized,
+    isVaccinationMandatory:
+      nextVaccinationDate != null || faker.datatype.boolean(),
     managerId: faker.helpers.maybe(
       () => faker.helpers.arrayElement(managers).id,
       { probability: 3 / 4 }
     ),
     name: faker.person.firstName(),
-    nextVaccinationDate: faker.helpers.maybe(() =>
-      DateTime.fromJSDate(faker.date.soon({ days: 30 }))
-        .startOf("day")
-        .toJSDate()
-    ),
+    nextVaccinationDate,
     pickUpDate,
     pickUpLocation: faker.helpers.maybe(() => faker.location.city()),
     pickUpReason: faker.helpers.arrayElement(Object.values(PickUpReason)),
