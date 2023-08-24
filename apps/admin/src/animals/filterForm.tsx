@@ -19,6 +19,7 @@ import {
   AnimalSearchParams,
   AnimalSort,
   AnimalSterilization,
+  AnimalVaccination,
 } from "#animals/searchParams.ts";
 import {
   SORTED_SPECIES,
@@ -556,15 +557,25 @@ export function AnimalFilters({
 
         {isCurrentUserAnimalAdmin ? (
           <Filters.Filter
-            value={AnimalSearchParams.keys.nextVaccinationDateStart}
+            value={AnimalSearchParams.keys.vaccination}
             label="Prochaine vaccination"
             count={
+              animalSearchParams.vaccination.size +
               (animalSearchParams.nextVaccinationDateStart == null ? 0 : 1) +
-              (animalSearchParams.nextVaccinationDateEnd == null ? 0 : 1) +
-              (animalSearchParams.noVaccination ? 1 : 0)
+              (animalSearchParams.nextVaccinationDateEnd == null ? 0 : 1)
             }
             hiddenContent={
               <>
+                {Array.from(animalSearchParams.vaccination).map(
+                  (vaccination) => (
+                    <input
+                      key={vaccination}
+                      type="hidden"
+                      name={AnimalSearchParams.keys.vaccination}
+                      value={vaccination}
+                    />
+                  )
+                )}
                 {animalSearchParams.nextVaccinationDateStart == null ? null : (
                   <input
                     type="hidden"
@@ -583,13 +594,6 @@ export function AnimalFilters({
                     )}
                   />
                 )}
-                {animalSearchParams.noVaccination ? (
-                  <input
-                    type="hidden"
-                    name={AnimalSearchParams.keys.noVaccination}
-                    value="on"
-                  />
-                ) : null}
               </>
             }
           >
@@ -599,9 +603,24 @@ export function AnimalFilters({
                   <ToggleInput
                     type="checkbox"
                     label="Aucune prévue"
-                    name={AnimalSearchParams.keys.noVaccination}
+                    name={AnimalSearchParams.keys.vaccination}
+                    value={AnimalVaccination.NONE_PLANNED}
                     icon={<Icon id="syringe" />}
-                    checked={animalSearchParams.noVaccination}
+                    checked={animalSearchParams.vaccination.has(
+                      AnimalVaccination.NONE_PLANNED
+                    )}
+                    onChange={() => {}}
+                  />
+
+                  <ToggleInput
+                    type="checkbox"
+                    label="Ne sera pas vacciné"
+                    name={AnimalSearchParams.keys.vaccination}
+                    value={AnimalVaccination.NOT_MANDATORY}
+                    icon={<Icon id="syringe" />}
+                    checked={animalSearchParams.vaccination.has(
+                      AnimalVaccination.NOT_MANDATORY
+                    )}
                     onChange={() => {}}
                   />
                 </ToggleInputList>

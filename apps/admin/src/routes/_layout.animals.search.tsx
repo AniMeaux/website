@@ -4,6 +4,7 @@ import {
   AnimalSearchParams,
   AnimalSort,
   AnimalSterilization,
+  AnimalVaccination,
 } from "#animals/searchParams.ts";
 import { SORTED_SPECIES } from "#animals/species.tsx";
 import { Action } from "#core/actions.tsx";
@@ -222,33 +223,19 @@ export async function loader({ request }: LoaderArgs) {
 
   if (isCurrentUserAnimalAdmin) {
     if (animalSearchParams.sterilizations.size > 0) {
-      const conditions: Prisma.AnimalWhereInput[] = [];
-
-      if (animalSearchParams.sterilizations.has(AnimalSterilization.YES)) {
-        conditions.push({ isSterilized: true, isSterilizationMandatory: true });
-      }
-
-      if (animalSearchParams.sterilizations.has(AnimalSterilization.NO)) {
-        conditions.push({
-          isSterilized: false,
-          isSterilizationMandatory: true,
-        });
-      }
-
-      if (
-        animalSearchParams.sterilizations.has(AnimalSterilization.NOT_MANDATORY)
-      ) {
-        conditions.push({
-          isSterilized: false,
-          isSterilizationMandatory: false,
-        });
-      }
-
-      where.push({ OR: conditions });
+      where.push({
+        OR: Array.from(animalSearchParams.sterilizations).map(
+          (sterilization) => ANIMAL_STERILIZATION_WHERE[sterilization]
+        ),
+      });
     }
 
-    if (animalSearchParams.noVaccination) {
-      where.push({ nextVaccinationDate: null });
+    if (animalSearchParams.vaccination.size > 0) {
+      where.push({
+        OR: Array.from(animalSearchParams.vaccination).map(
+          (vaccination) => ANIMAL_VACCINATION_WHERE[vaccination]
+        ),
+      });
     }
 
     if (
@@ -365,6 +352,37 @@ const ANIMAL_ORDER_BY: Record<
   [AnimalSort.NAME]: { name: "asc" },
   [AnimalSort.PICK_UP]: { pickUpDate: "desc" },
   [AnimalSort.VACCINATION]: { nextVaccinationDate: "asc" },
+};
+
+const ANIMAL_STERILIZATION_WHERE: Record<
+  AnimalSterilization,
+  Prisma.AnimalWhereInput
+> = {
+  [AnimalSterilization.NO]: {
+    isSterilized: false,
+    isSterilizationMandatory: true,
+  },
+  [AnimalSterilization.NOT_MANDATORY]: {
+    isSterilized: false,
+    isSterilizationMandatory: false,
+  },
+  [AnimalSterilization.YES]: {
+    isSterilized: true,
+    isSterilizationMandatory: true,
+  },
+};
+
+const ANIMAL_VACCINATION_WHERE: Record<
+  AnimalVaccination,
+  Prisma.AnimalWhereInput
+> = {
+  [AnimalVaccination.NONE_PLANNED]: {
+    isVaccinationMandatory: true,
+    nextVaccinationDate: null,
+  },
+  [AnimalVaccination.NOT_MANDATORY]: {
+    isVaccinationMandatory: false,
+  },
 };
 
 export const meta: V2_MetaFunction = () => {

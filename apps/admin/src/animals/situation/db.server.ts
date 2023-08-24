@@ -13,6 +13,7 @@ type SituationKeys =
   | "fosterFamilyId"
   | "isSterilizationMandatory"
   | "isSterilized"
+  | "isVaccinationMandatory"
   | "managerId"
   | "nextVaccinationDate"
   | "pickUpDate"
@@ -121,6 +122,7 @@ export class AnimalSituationDbDelegate {
 
     // Once a vaccination date is set, we cannot stop vaccinating the animal.
     if (
+      newData.isVaccinationMandatory &&
       newData.nextVaccinationDate == null &&
       currentData?.nextVaccinationDate != null
     ) {
@@ -136,6 +138,10 @@ export class AnimalSituationDbDelegate {
 
     if (!ACTIVE_ANIMAL_STATUS.includes(data.status)) {
       data.fosterFamilyId = null;
+    }
+
+    if (!data.isVaccinationMandatory) {
+      data.nextVaccinationDate = null;
     }
   }
 
@@ -158,6 +164,7 @@ export class AnimalSituationDbDelegate {
       draft != null &&
       draft.isSterilizationMandatory != null &&
       draft.isSterilized != null &&
+      draft.isVaccinationMandatory != null &&
       draft.managerId != null &&
       draft.pickUpDate != null &&
       draft.pickUpLocation != null &&
