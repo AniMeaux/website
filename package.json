@@ -1,8 +1,6 @@
 {
   "private": true,
   "workspaces": [
-    "api",
-    "shared",
     "apps/*",
     "libs/*"
   ],
@@ -12,33 +10,60 @@
     "yarn": "^1.22.0"
   },
   "scripts": {
+    "db:migrate": "yarn prisma-env migrate dev",
+    "db:reset": "yarn prisma-env migrate reset -f",
     "down:docker": "docker-compose down",
     "down:ecosystem": "pm2 delete ./ecosystem.config.js && rm -rf ./logs",
     "down": "run-s down:ecosystem down:docker",
     "format": "prettier --write .",
-    "generate": "yarn workspaces run generate",
+    "generate": "run-s generate:prisma generate:workspaces",
+    "generate:prisma": "prisma generate",
+    "generate:workspaces": "yarn workspaces run generate",
     "lint:format": "prettier --list-different .",
     "lint:js": "eslint --cache --cache-location ./node_modules/.cache/eslint .",
-    "lint:ts": "tsc --noEmit -p ./shared && tsc --noEmit -p ./api && tsc --noEmit -p ./apps/admin && tsc --noEmit -p ./apps/website && tsc --noEmit -p ./apps/show",
+    "lint:ts": "tsc --noEmit -p ./apps/admin && tsc --noEmit -p ./apps/website && tsc --noEmit -p ./apps/show",
     "lint": "run-p --aggregate-output --continue-on-error lint:*",
     "ls": "yarn pm2 ls",
     "log": "yarn pm2 log",
+    "prisma-env": "node -r dotenv-flow/config ./node_modules/.bin/prisma",
     "restart:ecosystem": "run-s down:ecosystem up:ecosystem",
+    "script": "NODE_OPTIONS=\"-r dotenv-flow/config\" ts-node --files",
     "up:docker": "docker-compose up -d",
     "up:ecosystem": "pm2 start ./ecosystem.config.js",
     "up": "run-s up:docker up:ecosystem"
   },
+  "prisma": {
+    "seed": "ts-node --files ./scripts/seedData.ts"
+  },
+  "dependencies": {
+    "prisma": "^4.8.0"
+  },
   "devDependencies": {
+    "@animeaux/algolia-client": "*",
+    "@animeaux/core": "*",
+    "@animeaux/password": "*",
+    "@faker-js/faker": "^8.0.2",
+    "@prisma/client": "^4.8.0",
     "@remix-run/eslint-config": "~1.18.0",
+    "@types/d3-dsv": "^3.0.0",
+    "@types/luxon": "^2.0.9",
+    "@types/pg": "^8.6.5",
+    "@types/pg-copy-streams": "^1.2.1",
     "@types/prettier": "^2.6.4",
     "babel-eslint": "^10.1.0",
+    "d3-dsv": "^2.0.0",
     "eslint": "^8.6.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-config-react-app": "^7.0.0",
+    "luxon": "^2.3.0",
     "npm-run-all": "^4.1.5",
+    "pg": "^8.8.0",
+    "pg-copy-streams": "^6.0.2",
     "pm2": "^5.2.0",
     "prettier": "^2.8.5",
     "prettier-plugin-organize-imports": "^3.2.1",
-    "typescript": "~5.1.6"
+    "tiny-invariant": "^1.2.0",
+    "typescript": "~5.1.6",
+    "zod": "^3.17.3"
   }
 }

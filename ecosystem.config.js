@@ -9,8 +9,7 @@ module.exports = {
 
     createApp({
       name: "prisma",
-      cwd: "./api",
-      script: "yarn dev:prisma",
+      script: "yarn generate:prisma",
       watch: ["./prisma/schema.prisma"],
     }),
 
