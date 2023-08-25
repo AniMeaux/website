@@ -3,7 +3,8 @@
   "workspaces": [
     "api",
     "shared",
-    "apps/*"
+    "apps/*",
+    "libs/*"
   ],
   "license": "MIT",
   "engines": {
