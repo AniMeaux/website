@@ -8,8 +8,7 @@ on:
     paths:
       - yarn.lock
       - .dockerignore
-      - api/prisma/**
-      - shared/**
+      - prisma/**
       - apps/show/**
       - .github/workflows/show.deploy.yml
 
