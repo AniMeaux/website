@@ -1,4 +1,4 @@
-import { RouteMatch } from "@remix-run/react";
+import type { RouteMatch } from "@remix-run/react";
 
 export type RouteHandle = {
   hasExpandedPageBackground?: boolean;

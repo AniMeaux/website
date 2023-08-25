@@ -4,7 +4,8 @@ import { theme } from "#generated/theme.ts";
 import googleTouchIcon from "#images/googleTouchIcon.png";
 import googleTouchIconMac from "#images/googleTouchIconMac.png";
 import googleTouchIconMaskable from "#images/googleTouchIconMaskable.png";
-import { json, LinksFunction, LoaderArgs } from "@remix-run/node";
+import type { LinksFunction, LoaderArgs } from "@remix-run/node";
+import { json } from "@remix-run/node";
 import Bowser from "bowser";
 
 // Make sure images are added to the build assets.

@@ -18,8 +18,10 @@ import { Routes } from "#core/navigation.tsx";
 import { getPageTitle } from "#core/pageTitle.ts";
 import { prisma } from "#core/prisma.server.ts";
 import { NotFoundResponse } from "#core/response.server.ts";
-import { LoaderArgs, SerializeFrom, json } from "@remix-run/node";
-import { Link, V2_MetaFunction, useLoaderData } from "@remix-run/react";
+import type { LoaderArgs, SerializeFrom } from "@remix-run/node";
+import { json } from "@remix-run/node";
+import type { V2_MetaFunction } from "@remix-run/react";
+import { Link, useLoaderData } from "@remix-run/react";
 import { DateTime } from "luxon";
 import { z } from "zod";
 

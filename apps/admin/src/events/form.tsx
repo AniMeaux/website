@@ -1,8 +1,8 @@
 import { createActionData } from "#core/actionData.tsx";
 import { Action } from "#core/actions.tsx";
+import type { ImageFileOrId } from "#core/dataDisplay/image.tsx";
 import {
   IMAGE_SIZE_LIMIT_MB,
-  ImageFileOrId,
   isImageFile,
   isImageOverSize,
   readFile,
@@ -16,9 +16,10 @@ import { SwitchInput } from "#core/formElements/switchInput.tsx";
 import { Textarea } from "#core/formElements/textarea.tsx";
 import { Separator } from "#core/layout/separator.tsx";
 import { Icon } from "#generated/icon.tsx";
-import { Event } from "@prisma/client";
-import { SerializeFrom } from "@remix-run/node";
-import { FetcherWithComponents, useFormAction } from "@remix-run/react";
+import type { Event } from "@prisma/client";
+import type { SerializeFrom } from "@remix-run/node";
+import type { FetcherWithComponents } from "@remix-run/react";
+import { useFormAction } from "@remix-run/react";
 import { useEffect, useRef, useState } from "react";
 import invariant from "tiny-invariant";
 import { z } from "zod";

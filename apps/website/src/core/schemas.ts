@@ -1,4 +1,4 @@
-import { z } from "zod";
+import type { z } from "zod";
 
 export function createActionData<TSchema extends z.ZodObject<any>>(
   schema: TSchema

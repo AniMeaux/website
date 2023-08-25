@@ -1,10 +1,9 @@
-import { LocationState, useLocationState } from "#core/locationState.ts";
-import {
-  NavigateFunction,
-  useNavigate as useBaseNavigate,
-} from "@remix-run/react";
+import type { LocationState } from "#core/locationState.ts";
+import { useLocationState } from "#core/locationState.ts";
+import type { NavigateFunction } from "@remix-run/react";
+import { useNavigate as useBaseNavigate } from "@remix-run/react";
 import { useCallback, useEffect } from "react";
-import { NavigateOptions, To } from "react-router";
+import type { NavigateOptions, To } from "react-router";
 
 export const Routes = {
   home: { toString: () => "/" as const },

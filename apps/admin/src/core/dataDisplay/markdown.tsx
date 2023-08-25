@@ -1,6 +1,7 @@
 import { ProseInlineAction } from "#core/actions.tsx";
 import { BaseLink } from "#core/baseLink.tsx";
-import ReactMarkdown, { Options as ReactMarkdownOptions } from "react-markdown";
+import type { Options as ReactMarkdownOptions } from "react-markdown";
+import ReactMarkdown from "react-markdown";
 import breaks from "remark-breaks";
 import gfm from "remark-gfm";
 

@@ -6,9 +6,11 @@ import { prisma } from "#core/db.server.ts";
 import { createSocialMeta } from "#core/meta.ts";
 import { getPageTitle } from "#core/pageTitle.ts";
 import { getPage } from "#core/searchParams.ts";
-import { Prisma } from "@prisma/client";
-import { json, LoaderArgs } from "@remix-run/node";
-import { useLoaderData, V2_MetaFunction } from "@remix-run/react";
+import type { Prisma } from "@prisma/client";
+import type { LoaderArgs } from "@remix-run/node";
+import { json } from "@remix-run/node";
+import type { V2_MetaFunction } from "@remix-run/react";
+import { useLoaderData } from "@remix-run/react";
 import { promiseHash } from "remix-utils";
 
 // Multiple of 2 and 3 to be nicely displayed.

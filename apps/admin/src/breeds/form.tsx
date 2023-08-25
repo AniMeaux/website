@@ -6,9 +6,10 @@ import { Input } from "#core/formElements/input.tsx";
 import { RadioInput, RadioInputList } from "#core/formElements/radioInput.tsx";
 import { RequiredStar } from "#core/formElements/requiredStar.tsx";
 import { Icon } from "#generated/icon.tsx";
-import { Breed, Species } from "@prisma/client";
-import { SerializeFrom } from "@remix-run/node";
-import { FetcherWithComponents } from "@remix-run/react";
+import type { Breed } from "@prisma/client";
+import { Species } from "@prisma/client";
+import type { SerializeFrom } from "@remix-run/node";
+import type { FetcherWithComponents } from "@remix-run/react";
 import { useEffect, useRef } from "react";
 import { z } from "zod";
 

@@ -17,14 +17,10 @@ import {
   PreviousEdition,
   SORTED_PREVIOUS_EDITIONS,
 } from "#previousEditions/previousEdition.tsx";
-import { LoaderArgs, SerializeFrom, defer } from "@remix-run/node";
-import {
-  Await,
-  Link,
-  V2_MetaFunction,
-  useLoaderData,
-  useLocation,
-} from "@remix-run/react";
+import type { LoaderArgs, SerializeFrom } from "@remix-run/node";
+import { defer } from "@remix-run/node";
+import type { V2_MetaFunction } from "@remix-run/react";
+import { Await, Link, useLoaderData, useLocation } from "@remix-run/react";
 import { Suspense } from "react";
 import { z } from "zod";
 

@@ -1,4 +1,4 @@
-import { User } from "@prisma/client";
+import type { User } from "@prisma/client";
 import { createCookie, createCookieSessionStorage } from "@remix-run/node";
 import { createTypedSessionStorage } from "remix-utils";
 import invariant from "tiny-invariant";

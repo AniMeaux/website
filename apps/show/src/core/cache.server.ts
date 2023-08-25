@@ -1,5 +1,6 @@
 import { singleton } from "#core/singleton.server.ts";
-import { CacheEntry, lruCacheAdapter } from "cachified";
+import type { CacheEntry } from "cachified";
+import { lruCacheAdapter } from "cachified";
 import { LRUCache } from "lru-cache";
 
 const lru = singleton(

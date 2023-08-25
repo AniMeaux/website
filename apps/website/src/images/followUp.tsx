@@ -1,4 +1,4 @@
-import { ImageDescriptor } from "#core/dataDisplay/image.tsx";
+import type { ImageDescriptor } from "#core/dataDisplay/image.tsx";
 import followUp1024 from "#images/followUp-1024w.png";
 import followUp1536 from "#images/followUp-1536w.png";
 import followUp2048 from "#images/followUp-2048w.png";

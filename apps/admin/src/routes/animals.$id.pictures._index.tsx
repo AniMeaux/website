@@ -5,7 +5,8 @@ import { prisma } from "#core/prisma.server.ts";
 import { NotFoundResponse } from "#core/response.server.ts";
 import { assertCurrentUserHasGroups } from "#currentUser/groups.server.ts";
 import { UserGroup } from "@prisma/client";
-import { LoaderArgs, redirect } from "@remix-run/node";
+import type { LoaderArgs } from "@remix-run/node";
+import { redirect } from "@remix-run/node";
 import { z } from "zod";
 
 export async function loader({ request, params }: LoaderArgs) {

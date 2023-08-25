@@ -6,7 +6,8 @@ import {
   ReferencedError,
 } from "#core/errors.server.ts";
 import { prisma } from "#core/prisma.server.ts";
-import { Breed, Prisma, Species } from "@prisma/client";
+import type { Breed, Species } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 
 export class BreedDbDelegate {
   async create(data: BreedData) {

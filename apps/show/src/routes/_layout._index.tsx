@@ -5,7 +5,7 @@ import { useConfig } from "#core/config.ts";
 import { ErrorPage } from "#core/dataDisplay/errorPage.tsx";
 import { DynamicImage } from "#core/dataDisplay/image.tsx";
 import { OPENING_TIME, hasShowEnded } from "#core/dates.ts";
-import { RouteHandle } from "#core/handles.ts";
+import type { RouteHandle } from "#core/handles.ts";
 import { BoardCard } from "#core/layout/boardCard.tsx";
 import { FooterWave } from "#core/layout/footerWave.tsx";
 import { HighLightBackground } from "#core/layout/highlightBackground.tsx";
@@ -15,13 +15,15 @@ import { createSocialMeta } from "#core/meta.ts";
 import { Routes } from "#core/navigation.tsx";
 import { getPageTitle } from "#core/pageTitle.ts";
 import { ExhibitorsImage } from "#exhibitors/image.tsx";
-import { Icon, IconProps } from "#generated/icon.tsx";
+import type { IconProps } from "#generated/icon.tsx";
+import { Icon } from "#generated/icon.tsx";
 import { Pictogram } from "#generated/pictogram.tsx";
 import logoAniMeaux from "#images/logoAniMeaux.svg";
 import logoLarge from "#images/logoLarge.svg";
 import { PartnersImage } from "#partners/image.tsx";
 import { PreviousEditionImage } from "#previousEditions/image.tsx";
-import { Link, V2_MetaFunction } from "@remix-run/react";
+import type { V2_MetaFunction } from "@remix-run/react";
+import { Link } from "@remix-run/react";
 import { DateTime } from "luxon";
 import { useEffect, useState } from "react";
 
@@ -790,14 +792,17 @@ function FooterSection() {
   );
 }
 
-function SocialLink(
-  props: Omit<React.ComponentPropsWithoutRef<typeof Link>, "className">
-) {
+function SocialLink({
+  children,
+  ...rest
+}: Omit<React.ComponentPropsWithoutRef<typeof Link>, "className">) {
   return (
     <Link
-      {...props}
+      {...rest}
       className="rounded-full grid grid-cols-1 transition-transform duration-100 ease-in-out hover:scale-105 active:scale-95 hover:active:scale-95 focus-visible:outline-none focus-visible:ring focus-visible:ring-prussianBlue focus-visible:ring-offset-2 focus-visible:ring-offset-inheritBg"
-    />
+    >
+      {children}
+    </Link>
   );
 }
 

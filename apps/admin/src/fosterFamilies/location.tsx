@@ -1,4 +1,4 @@
-import { FosterFamily } from "@prisma/client";
+import type { FosterFamily } from "@prisma/client";
 
 export function getShortLocation(
   fosterFamily: Pick<FosterFamily, "city" | "zipCode">

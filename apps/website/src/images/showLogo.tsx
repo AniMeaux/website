@@ -1,4 +1,4 @@
-import { ImageDescriptor } from "#core/dataDisplay/image.tsx";
+import type { ImageDescriptor } from "#core/dataDisplay/image.tsx";
 import showLogo512 from "#images/showLogo-512w.png";
 
 export const showLogoImages: ImageDescriptor = {

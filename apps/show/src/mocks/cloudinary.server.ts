@@ -1,4 +1,4 @@
-import { CloudinaryApiResponse } from "#core/cloudinary/shared.server.ts";
+import type { CloudinaryApiResponse } from "#core/cloudinary/shared.server.ts";
 import { createSearchParams } from "#core/searchParams.ts";
 import { rest } from "msw";
 import { v4 as uuid } from "uuid";

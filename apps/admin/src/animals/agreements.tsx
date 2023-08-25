@@ -1,5 +1,6 @@
 import { cn } from "#core/classNames.ts";
-import { Icon, IconProps } from "#generated/icon.tsx";
+import type { IconProps } from "#generated/icon.tsx";
+import { Icon } from "#generated/icon.tsx";
 
 export enum AgreementValue {
   TRUE = "TRUE",

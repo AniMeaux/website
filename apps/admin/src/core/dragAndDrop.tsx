@@ -8,14 +8,8 @@ import {
   useMemo,
   useState,
 } from "react";
-import {
-  DndProvider,
-  DragLayerMonitor,
-  XYCoord,
-  useDrag,
-  useDragLayer,
-  useDrop,
-} from "react-dnd";
+import type { DragLayerMonitor, XYCoord } from "react-dnd";
+import { DndProvider, useDrag, useDragLayer, useDrop } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { TouchBackend } from "react-dnd-touch-backend";
 import invariant from "tiny-invariant";

@@ -4,7 +4,8 @@ import { cn } from "#core/classNames.ts";
 import { createSocialMeta } from "#core/meta.ts";
 import { getPageTitle } from "#core/pageTitle.ts";
 import { json } from "@remix-run/node";
-import { useLoaderData, V2_MetaFunction } from "@remix-run/react";
+import type { V2_MetaFunction } from "@remix-run/react";
+import { useLoaderData } from "@remix-run/react";
 
 export async function loader() {
   return json({ articles });

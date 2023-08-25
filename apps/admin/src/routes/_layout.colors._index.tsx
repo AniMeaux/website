@@ -22,9 +22,12 @@ import {
 } from "#core/searchParams.ts";
 import { assertCurrentUserHasGroups } from "#currentUser/groups.server.ts";
 import { Icon } from "#generated/icon.tsx";
-import { Prisma, UserGroup } from "@prisma/client";
-import { ActionArgs, LoaderArgs, SerializeFrom, json } from "@remix-run/node";
-import { V2_MetaFunction, useFetcher, useLoaderData } from "@remix-run/react";
+import type { Prisma } from "@prisma/client";
+import { UserGroup } from "@prisma/client";
+import type { ActionArgs, LoaderArgs, SerializeFrom } from "@remix-run/node";
+import { json } from "@remix-run/node";
+import type { V2_MetaFunction } from "@remix-run/react";
+import { useFetcher, useLoaderData } from "@remix-run/react";
 import { promiseHash } from "remix-utils";
 import { z } from "zod";
 import { zfd } from "zod-form-data";

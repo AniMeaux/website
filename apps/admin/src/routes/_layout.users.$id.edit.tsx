@@ -13,8 +13,10 @@ import { LockMyselfError } from "#users/db.server.ts";
 import { ActionFormData, UserForm } from "#users/form.tsx";
 import { GROUP_TRANSLATION } from "#users/groups.tsx";
 import { UserGroup } from "@prisma/client";
-import { ActionArgs, LoaderArgs, json } from "@remix-run/node";
-import { V2_MetaFunction, useFetcher, useLoaderData } from "@remix-run/react";
+import type { ActionArgs, LoaderArgs } from "@remix-run/node";
+import { json } from "@remix-run/node";
+import type { V2_MetaFunction } from "@remix-run/react";
+import { useFetcher, useLoaderData } from "@remix-run/react";
 import { z } from "zod";
 import { zfd } from "zod-form-data";
 

@@ -1,8 +1,9 @@
-import { BaseLink, BaseLinkProps } from "#core/baseLink.tsx";
+import type { BaseLinkProps } from "#core/baseLink.tsx";
+import { BaseLink } from "#core/baseLink.tsx";
 import { cn } from "#core/classNames.ts";
 import { PageSearchParams } from "#core/searchParams.ts";
 import { useSearchParams } from "@remix-run/react";
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 
 export function Paginator({
   pageCount,

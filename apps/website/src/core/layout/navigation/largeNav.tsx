@@ -1,10 +1,11 @@
-import { BaseLink, BaseLinkProps } from "#core/baseLink.tsx";
+import type { BaseLinkProps } from "#core/baseLink.tsx";
+import { BaseLink } from "#core/baseLink.tsx";
 import { cn } from "#core/classNames.ts";
 import { getFocusTrapIgnoreAttribute, useFocusTrap } from "#core/focusTrap.ts";
 import { useWidth } from "#core/hooks.ts";
 import { LineShapeHorizontal } from "#core/layout/lineShape.tsx";
+import type { NavGroup } from "#core/layout/navigation/shared.tsx";
 import {
-  NavGroup,
   handleEscape,
   navLinkClassName,
 } from "#core/layout/navigation/shared.tsx";

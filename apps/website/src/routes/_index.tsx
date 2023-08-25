@@ -2,7 +2,8 @@ import { actionClassNames } from "#core/actions.ts";
 import { BaseLink } from "#core/baseLink.tsx";
 import { cn } from "#core/classNames.ts";
 import { SearchForm } from "#core/controllers/searchForm.tsx";
-import { StaticImage, StaticImageProps } from "#core/dataDisplay/image.tsx";
+import type { StaticImageProps } from "#core/dataDisplay/image.tsx";
+import { StaticImage } from "#core/dataDisplay/image.tsx";
 import { prisma } from "#core/db.server.ts";
 import {
   BubbleShape,
@@ -18,7 +19,8 @@ import {
 } from "#core/layout/heroSection.tsx";
 import { DonationSection } from "#donation/section.tsx";
 import { EventItem } from "#events/item.tsx";
-import { Icon, IconProps } from "#generated/icon.tsx";
+import type { IconProps } from "#generated/icon.tsx";
+import { Icon } from "#generated/icon.tsx";
 import { adoptionImages } from "#images/adoption.tsx";
 import { fosterFamilyLargeImages } from "#images/fosterFamilyLarge.tsx";
 import { fosterFamilySmallImages } from "#images/fosterFamilySmall.tsx";
