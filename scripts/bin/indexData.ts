@@ -1,3 +1,6 @@
+#!/usr/bin/env ts-node
+
+import "#env.ts";
 import { AlgoliaClient } from "@animeaux/algolia-client";
 import { PrismaClient } from "@prisma/client";
 import { z } from "zod";

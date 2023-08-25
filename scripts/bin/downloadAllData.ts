@@ -1,3 +1,6 @@
+#!/usr/bin/env ts-node
+
+import "#env.ts";
 import { PrismaClient } from "@prisma/client";
 import { csvFormat } from "d3-dsv";
 import { DateTime } from "luxon";
@@ -35,7 +38,7 @@ downloadAllData()
 
 async function downloadAllData() {
   const folderName = DateTime.now().toISO();
-  const folderPath = resolve(__dirname, "../dumps/", folderName);
+  const folderPath = resolve(__dirname, "../../dumps/", folderName);
   const relativeFolderPath = relative(process.cwd(), folderPath);
 
   console.log(`💾 Data will be downloaded in folder: ${relativeFolderPath}`);
