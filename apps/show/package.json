@@ -18,7 +18,7 @@
     "build": "run-s \"build:icons --minify\" \"build:image-shapes --minify\" \"build:pictograms --minify\" build:theme build:remix",
     "clean-build": "run-s clean build",
     "clean": "rm -rf ./build ./public/build ./src/generated",
-    "dev": "PORT=3003 node -r dotenv-flow/config ./node_modules/.bin/remix dev --port 3013",
+    "dev": "PORT=3001 node -r dotenv-flow/config ./node_modules/.bin/remix dev --port 3011",
     "generate": "run-s \"build:icons --minify\" \"build:image-shapes --minify\" \"build:pictograms --minify\" build:theme",
     "script": "NODE_OPTIONS=\"-r dotenv-flow/config\" ts-node --files",
     "start": "remix-serve ./build"
