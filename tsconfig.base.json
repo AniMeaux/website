@@ -12,8 +12,6 @@
     "skipLibCheck": true,
     "target": "ES2022",
 
-    "baseUrl": "./",
-
     // Options for a more strict type checking.
     "strict": true,
     "noImplicitOverride": true,

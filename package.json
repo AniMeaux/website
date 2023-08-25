@@ -21,7 +21,7 @@
     "generate:workspaces": "yarn workspaces run generate",
     "lint:format": "prettier --list-different .",
     "lint:js": "eslint --cache --cache-location ./node_modules/.cache/eslint .",
-    "lint:ts": "tsc --noEmit -p ./apps/admin && tsc --noEmit -p ./apps/website && tsc --noEmit -p ./apps/show",
+    "lint:ts": "tsc --noEmit && yarn workspaces run tsc --noEmit",
     "lint": "run-p --aggregate-output --continue-on-error lint:*",
     "ls": "yarn pm2 ls",
     "log": "yarn pm2 log",
