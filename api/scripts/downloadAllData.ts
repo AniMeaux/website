@@ -1,12 +1,30 @@
 import { PrismaClient } from "@prisma/client";
 import { csvFormat } from "d3-dsv";
-import { ensureDir, outputFile } from "fs-extra";
 import { DateTime } from "luxon";
-import path from "path";
+import { mkdir, writeFile } from "node:fs/promises";
+import { join, relative, resolve } from "path";
+import type { ConditionalKeys } from "type-fest";
+
+type TableName = ConditionalKeys<
+  PrismaClient,
+  { findMany: () => Promise<object[]> }
+>;
 
 const prisma = new PrismaClient();
 
-const TABLES_NAMES = Object.keys(prisma).filter((key) => /^[^$_]/.test(key));
+const DOWNLOADERS: Record<TableName, () => Promise<object[]>> = {
+  animal: () => prisma.animal.findMany(),
+  animalDraft: () => prisma.animalDraft.findMany(),
+  breed: () => prisma.breed.findMany(),
+  color: () => prisma.color.findMany(),
+  event: () => prisma.event.findMany(),
+  exhibitor: () => prisma.exhibitor.findMany(),
+  fosterFamily: () => prisma.fosterFamily.findMany(),
+  password: () => prisma.password.findMany(),
+  pressArticle: () => prisma.pressArticle.findMany(),
+  showEvent: () => prisma.showEvent.findMany(),
+  user: () => prisma.user.findMany(),
+};
 
 downloadAllData()
   .catch((error) => {
@@ -17,15 +35,18 @@ downloadAllData()
 
 async function downloadAllData() {
   const folderName = DateTime.now().toISO();
-  const folderPath = path.resolve(__dirname, "../dumps/", folderName);
-  const relativeFolderPath = path.relative(process.cwd(), folderPath);
+  const folderPath = resolve(__dirname, "../dumps/", folderName);
+  const relativeFolderPath = relative(process.cwd(), folderPath);
 
   console.log(`💾 Data will be downloaded in folder: ${relativeFolderPath}`);
 
-  await ensureDir(folderPath);
+  await mkdir(folderPath, { recursive: true });
 
-  const tablesPromise = TABLES_NAMES.map((name) =>
-    downloadTable(name, folderPath)
+  const tablesPromise = Object.entries(DOWNLOADERS).map(
+    async ([tableName, downloader]) => {
+      const data = await downloader();
+      await outputCsv(data, tableName, folderPath);
+    }
   );
 
   await Promise.all(tablesPromise);
@@ -33,12 +54,12 @@ async function downloadAllData() {
   console.log(`🎉 Downloaded ${tablesPromise.length} tables(s)`);
 }
 
-async function downloadTable(name: string, folderPath: string) {
-  const data = await (prisma as any)[name].findMany();
-  await outputCsv(data, name, folderPath);
-}
+async function outputCsv(
+  data: object[],
+  tableName: string,
+  folderPath: string
+) {
+  await writeFile(join(folderPath, `${tableName}.csv`), csvFormat(data));
 
-async function outputCsv(data: any[], tableName: string, folderPath: string) {
-  await outputFile(path.join(folderPath, `${tableName}.csv`), csvFormat(data));
   console.log(`- 👍 ${tableName}`);
 }

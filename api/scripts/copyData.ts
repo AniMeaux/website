@@ -11,6 +11,8 @@ const TABLES_NAME = [
   "FosterFamily",
   "Password",
   "User",
+  "Exhibitor",
+  "ShowEvent",
 ];
 
 const [, , source, destination] = process.argv;

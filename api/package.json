@@ -46,6 +46,9 @@
     "yup": "^0.32.11"
   },
   "devDependencies": {
+    "@animeaux/algolia-client": "*",
+    "@animeaux/core": "*",
+    "@animeaux/password": "*",
     "@babel/cli": "^7.16.7",
     "@babel/core": "^7.16.7",
     "@babel/plugin-proposal-nullish-coalescing-operator": "^7.16.7",
@@ -76,6 +79,7 @@
     "pg-copy-streams": "^6.0.2",
     "prisma": "^4.8.0",
     "ts-node": "^10.9.1",
-    "typescript": "~5.1.6"
+    "typescript": "~5.1.6",
+    "zod": "^3.17.3"
   }
 }

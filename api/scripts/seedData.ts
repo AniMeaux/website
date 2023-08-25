@@ -1,3 +1,5 @@
+import { ACTIVE_ANIMAL_STATUS, NON_ACTIVE_ANIMAL_STATUS } from "@animeaux/core";
+import { generatePasswordHash } from "@animeaux/password";
 import { fakerFR as faker } from "@faker-js/faker";
 import {
   AdoptionOption,
@@ -12,11 +14,6 @@ import {
   UserGroup,
 } from "@prisma/client";
 import { DateTime } from "luxon";
-import { generatePasswordHash } from "../src/core/password";
-import {
-  ACTIVE_ANIMAL_STATUS,
-  NON_ACTIVE_ANIMAL_STATUS,
-} from "../src/entities/animal.entity";
 
 const prisma = new PrismaClient();
 
@@ -98,6 +95,9 @@ async function seedUsers() {
         })
     )
   );
+
+  const count = await prisma.user.count();
+  console.log(`- 👍 ${count} users`);
 }
 
 async function seedFosterFamilies() {
@@ -119,6 +119,9 @@ async function seedFosterFamilies() {
       zipCode: faker.location.zipCode(),
     })),
   });
+
+  const count = await prisma.fosterFamily.count();
+  console.log(`- 👍 ${count} foster families`);
 }
 
 async function seedBreeds() {
@@ -178,6 +181,9 @@ async function seedBreeds() {
       { species: Species.RODENT, name: "Rat" },
     ],
   });
+
+  const count = await prisma.breed.count();
+  console.log(`- 👍 ${count} breeds`);
 }
 
 async function seedColors() {
@@ -209,6 +215,9 @@ async function seedColors() {
       { name: "Typé siamois" },
     ],
   });
+
+  const count = await prisma.color.count();
+  console.log(`- 👍 ${count} colors`);
 }
 
 async function seedEvents() {
@@ -233,6 +242,9 @@ async function seedEvents() {
       ),
     }),
   ]);
+
+  const count = await prisma.event.count();
+  console.log(`- 👍 ${count} events`);
 }
 
 function createEventInput({
@@ -313,6 +325,9 @@ async function seedAnimals() {
       ),
     }),
   ]);
+
+  const count = await prisma.animal.count();
+  console.log(`- 👍 ${count} animals`);
 }
 
 function createAnimalInput({
@@ -347,6 +362,7 @@ function createAnimalInput({
       .startOf("day")
       .toJSDate()
   );
+
   return {
     adoptionDate:
       status === Status.ADOPTED
@@ -425,6 +441,9 @@ async function seedPressArticle() {
       url: faker.internet.url(),
     })),
   });
+
+  const count = await prisma.pressArticle.count();
+  console.log(`- 👍 ${count} press articles`);
 }
 
 async function seedExhibitors() {
@@ -436,6 +455,9 @@ async function seedExhibitors() {
       url: faker.internet.url(),
     })),
   });
+
+  const count = await prisma.exhibitor.count();
+  console.log(`- 👍 ${count} exhibitors`);
 }
 
 async function seedShowEvents() {
@@ -462,6 +484,9 @@ async function seedShowEvents() {
       }),
     })),
   });
+
+  const count = await prisma.showEvent.count();
+  console.log(`- 👍 ${count} show events`);
 }
 
 function nullableBoolean() {
