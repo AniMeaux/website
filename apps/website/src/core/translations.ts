@@ -1,4 +1,4 @@
-import { AnimalAge } from "@animeaux/shared";
+import { AnimalAge } from "@animeaux/core";
 import { Gender, Species } from "@prisma/client";
 
 export const SPECIES_TRANSLATION: Record<Species, string> = {

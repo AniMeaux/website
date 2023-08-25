@@ -18,7 +18,7 @@ import { NotFoundResponse } from "#core/response.server.ts";
 import { assertCurrentUserHasGroups } from "#currentUser/groups.server.ts";
 import { EventAvatar } from "#events/avatar.tsx";
 import { Icon } from "#generated/icon.tsx";
-import { formatDateRange } from "@animeaux/shared";
+import { formatDateRange } from "@animeaux/core";
 import { UserGroup } from "@prisma/client";
 import { ActionArgs, LoaderArgs, json, redirect } from "@remix-run/node";
 import { V2_MetaFunction, useFetcher, useLoaderData } from "@remix-run/react";

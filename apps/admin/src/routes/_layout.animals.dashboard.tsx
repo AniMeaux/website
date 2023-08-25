@@ -20,7 +20,7 @@ import { getPageTitle } from "#core/pageTitle.ts";
 import { prisma } from "#core/prisma.server.ts";
 import { assertCurrentUserHasGroups } from "#currentUser/groups.server.ts";
 import { hasGroups } from "#users/groups.tsx";
-import { formatAge } from "@animeaux/shared";
+import { formatAge } from "@animeaux/core";
 import { Prisma, Species, Status, UserGroup } from "@prisma/client";
 import { LoaderArgs, json } from "@remix-run/node";
 import { V2_MetaFunction, useLoaderData } from "@remix-run/react";

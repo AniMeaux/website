@@ -26,7 +26,7 @@ import {
 } from "#core/searchParams.ts";
 import { assertCurrentUserHasGroups } from "#currentUser/groups.server.ts";
 import { hasGroups } from "#users/groups.tsx";
-import { ANIMAL_AGE_RANGE_BY_SPECIES } from "@animeaux/shared";
+import { ANIMAL_AGE_RANGE_BY_SPECIES } from "@animeaux/core";
 import { Prisma, Species, Status, UserGroup } from "@prisma/client";
 import { LoaderArgs, json } from "@remix-run/node";
 import { V2_MetaFunction, useLoaderData } from "@remix-run/react";

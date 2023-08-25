@@ -2,7 +2,7 @@ import { getPath } from "#core/controllers/searchForm.tsx";
 import { ErrorPage, getErrorTitle } from "#core/dataDisplay/errorPage.tsx";
 import { createSocialMeta } from "#core/meta.ts";
 import { getPageTitle } from "#core/pageTitle.ts";
-import { AnimalAge } from "@animeaux/shared";
+import { AnimalAge } from "@animeaux/core";
 import { Species } from "@prisma/client";
 import { LoaderArgs, redirect } from "@remix-run/node";
 import { V2_MetaFunction } from "@remix-run/react";

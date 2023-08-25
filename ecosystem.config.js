@@ -8,28 +8,8 @@ module.exports = {
     }),
 
     createApp({
-      name: "build-api",
-      cwd: "./api",
-      script: "yarn build",
-      watch: [
-        "./src",
-        "./babel.config.js",
-        "./tsconfig.json",
-        "./globals.d.ts",
-      ],
-    }),
-
-    createApp({
-      name: "api",
-      cwd: "./api",
-      script: "yarn dev",
-      watch: ["./build", "./.env*"],
-    }),
-
-    createApp({
       name: "prisma",
-      cwd: "./api",
-      script: "yarn dev:prisma",
+      script: "yarn generate:prisma",
       watch: ["./prisma/schema.prisma"],
     }),
 

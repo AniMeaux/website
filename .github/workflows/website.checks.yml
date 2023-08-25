@@ -7,8 +7,8 @@ on:
     paths:
       - yarn.lock
       - .dockerignore
-      - api/prisma/**
-      - shared/**
+      - prisma/**
+      - libs/**
       - apps/website/**
       - .github/workflows/website.checks.yml
 

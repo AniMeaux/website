@@ -1,0 +1,22 @@
+{
+  "name": "@animeaux/algolia-client",
+  "version": "1.0.0",
+  "private": true,
+  "sideEffects": false,
+  "main": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "types": "./src/index.ts",
+  "scripts": {
+    "generate": "# Nothing to generate"
+  },
+  "peerDependencies": {
+    "@algolia/client-search": "^4.19.1",
+    "@prisma/client": "^4.8.0",
+    "algoliasearch": "^4.19.1",
+    "tiny-invariant": "^1.2.0",
+    "type-fest": "^3.6.0",
+    "zod": "^3.17.3"
+  }
+}

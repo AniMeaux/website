@@ -6,8 +6,3 @@ dumps/
 generated/
 logs/
 node_modules/
-
-# Next.js
-tsconfig.tsbuildinfo
-sw.js
-workbox-*
