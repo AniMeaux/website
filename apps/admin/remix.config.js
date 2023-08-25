@@ -17,6 +17,8 @@ module.exports = {
   },
   // See https://remix.run/docs/en/v1/api/conventions#serverdependenciestobundle
   serverDependenciesToBundle: [
+    /^@animeaux\//,
+
     // These are dependencies of react-markdown.
     /^(comma|space)-separated-tokens/,
     /^bail$/,

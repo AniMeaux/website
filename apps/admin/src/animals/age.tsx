@@ -1,5 +1,5 @@
 import { IconProps } from "#generated/icon.tsx";
-import { AnimalAge } from "@animeaux/shared";
+import { AnimalAge } from "@animeaux/core";
 import orderBy from "lodash.orderby";
 
 export const SORTED_AGES = orderBy(Object.values(AnimalAge), (age) =>

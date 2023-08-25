@@ -2,7 +2,3 @@ build/
 generated/
 mockServiceWorker.js
 node_modules/
-
-# Next.js
-sw.js
-workbox-*

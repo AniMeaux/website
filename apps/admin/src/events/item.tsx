@@ -7,7 +7,7 @@ import {
   inferInstanceColor,
 } from "#core/dataDisplay/instanceColor.tsx";
 import { Routes } from "#core/navigation.ts";
-import { formatDateRange } from "@animeaux/shared";
+import { formatDateRange } from "@animeaux/core";
 import { Event } from "@prisma/client";
 import { SerializeFrom } from "@remix-run/node";
 

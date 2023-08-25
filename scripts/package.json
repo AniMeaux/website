@@ -1,0 +1,40 @@
+{
+  "name": "@animeaux/scripts",
+  "version": "1.0.0",
+  "private": true,
+  "bin": {
+    "copy-data": "./bin/copyData.ts",
+    "download-all-data": "./bin/downloadAllData.ts",
+    "index-data": "./bin/indexData.ts",
+    "seed-data": "./bin/seedData.ts"
+  },
+  "imports": {
+    "#*": "./src/*"
+  },
+  "scripts": {
+    "generate": "# Nothing to generate"
+  },
+  "devDependencies": {
+    "@algolia/client-search": "^4.19.1",
+    "@animeaux/algolia-client": "*",
+    "@animeaux/core": "*",
+    "@animeaux/password": "*",
+    "@faker-js/faker": "^8.0.2",
+    "@prisma/client": "^4.8.0",
+    "@types/d3-dsv": "^3.0.0",
+    "@types/dotenv-flow": "^3.2.0",
+    "@types/luxon": "^2.0.9",
+    "@types/pg": "^8.6.5",
+    "@types/pg-copy-streams": "^1.2.1",
+    "algoliasearch": "^4.19.1",
+    "d3-dsv": "^2.0.0",
+    "dotenv-flow": "^3.2.0",
+    "luxon": "^2.3.0",
+    "pg": "^8.8.0",
+    "pg-copy-streams": "^6.0.2",
+    "tiny-invariant": "^1.2.0",
+    "ts-node": "^10.9.1",
+    "type-fest": "^3.6.0",
+    "zod": "^3.17.3"
+  }
+}

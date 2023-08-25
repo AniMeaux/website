@@ -49,7 +49,7 @@ import { Icon } from "#generated/icon.tsx";
 import { theme } from "#generated/theme.ts";
 import { UserAvatar } from "#users/avatar.tsx";
 import { hasGroups } from "#users/groups.tsx";
-import { formatAge } from "@animeaux/shared";
+import { formatAge } from "@animeaux/core";
 import {
   AdoptionOption,
   Gender,

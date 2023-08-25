@@ -12,10 +12,6 @@ http:
       rule: "Host(`admin.animeaux.localhost`)"
       service: service-admin
 
-    api:
-      rule: "Host(`api.animeaux.localhost`)"
-      service: service-api
-
   services:
     service-website:
       loadBalancer:
@@ -25,14 +21,9 @@ http:
     service-show:
       loadBalancer:
         servers:
-          - url: "http://host.docker.internal:3003"
+          - url: "http://host.docker.internal:3001"
 
     service-admin:
       loadBalancer:
         servers:
           - url: "http://host.docker.internal:3002"
-
-    service-api:
-      loadBalancer:
-        servers:
-          - url: "http://host.docker.internal:4000"

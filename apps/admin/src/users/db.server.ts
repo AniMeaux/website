@@ -6,7 +6,7 @@ import {
   ReferencedError,
 } from "#core/errors.server.ts";
 import { prisma } from "#core/prisma.server.ts";
-import { generatePasswordHash } from "#users/password.server.ts";
+import { generatePasswordHash } from "@animeaux/password";
 import { Prisma, User, UserGroup } from "@prisma/client";
 
 export class DisableMyselfError extends Error {}
