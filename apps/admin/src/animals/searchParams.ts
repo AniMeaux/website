@@ -1,7 +1,7 @@
 import { endOfDay, startOfDay } from "#core/dates.ts";
 import { zsp } from "#core/schemas.tsx";
 import { createSearchParams } from "#core/searchParams.ts";
-import { AnimalAge } from "@animeaux/shared";
+import { AnimalAge } from "@animeaux/core";
 import {
   AdoptionOption,
   PickUpReason,

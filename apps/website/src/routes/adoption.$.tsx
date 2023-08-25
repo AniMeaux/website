@@ -21,7 +21,7 @@ import {
   SPECIES_PLURAL_TRANSLATION,
   SPECIES_TRANSLATION,
 } from "#core/translations.ts";
-import { ANIMAL_AGE_RANGE_BY_SPECIES, AnimalAge } from "@animeaux/shared";
+import { ANIMAL_AGE_RANGE_BY_SPECIES, AnimalAge } from "@animeaux/core";
 import { Prisma, Species } from "@prisma/client";
 import { LoaderArgs, json } from "@remix-run/node";
 import { V2_MetaFunction, useLoaderData, useParams } from "@remix-run/react";

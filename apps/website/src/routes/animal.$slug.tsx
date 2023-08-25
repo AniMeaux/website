@@ -17,7 +17,7 @@ import { createSocialMeta } from "#core/meta.ts";
 import { getPageTitle } from "#core/pageTitle.ts";
 import { GENDER_TRANSLATION, SPECIES_TRANSLATION } from "#core/translations.ts";
 import { Icon, IconProps } from "#generated/icon.tsx";
-import { formatAge } from "@animeaux/shared";
+import { formatAge } from "@animeaux/core";
 import { Gender, ScreeningResult, Species } from "@prisma/client";
 import { LoaderArgs, json } from "@remix-run/node";
 import { V2_MetaFunction, useLoaderData } from "@remix-run/react";
