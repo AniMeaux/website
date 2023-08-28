@@ -1,4 +1,4 @@
-import { AnimalFromAlgolia } from "#animals/algolia.server.ts";
+import type { AnimalFromAlgolia } from "#animals/algolia.server.ts";
 import { algolia } from "#core/algolia/algolia.server.ts";
 import { prisma } from "#core/prisma.server.ts";
 import {
@@ -6,13 +6,13 @@ import {
   createPostHandlers,
   highlightValue,
 } from "#mocks/algolia/shared.server.ts";
-import {
+import type {
   FacetHit,
   Hit,
   SearchForFacetValuesResponse,
   SearchResponse,
 } from "@algolia/client-search";
-import { Prisma } from "@prisma/client";
+import type { Prisma } from "@prisma/client";
 import { promiseHash } from "remix-utils";
 import invariant from "tiny-invariant";
 

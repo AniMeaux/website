@@ -1,7 +1,9 @@
-import { BaseLink, BaseLinkProps } from "#core/baseLink.tsx";
+import type { BaseLinkProps } from "#core/baseLink.tsx";
+import { BaseLink } from "#core/baseLink.tsx";
 import { cn } from "#core/classNames.ts";
 import { useConfig } from "#core/config.ts";
-import { Icon, IconProps } from "#generated/icon.tsx";
+import type { IconProps } from "#generated/icon.tsx";
+import { Icon } from "#generated/icon.tsx";
 
 export function SocialLinks({ className }: { className?: string }) {
   const { facebookUrl, instagramUrl, linkedInUrl, twitterUrl } = useConfig();

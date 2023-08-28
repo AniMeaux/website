@@ -1,4 +1,5 @@
-import { Input, InputProps } from "#core/formElements/input.tsx";
+import type { InputProps } from "#core/formElements/input.tsx";
+import { Input } from "#core/formElements/input.tsx";
 import { useLayoutEffect } from "#core/useLayoutEffect.ts";
 import { useState } from "react";
 

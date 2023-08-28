@@ -134,14 +134,17 @@ function LinksSection() {
   );
 }
 
-function SocialLink(
-  props: Omit<React.ComponentPropsWithoutRef<typeof Link>, "className">
-) {
+function SocialLink({
+  children,
+  ...rest
+}: Omit<React.ComponentPropsWithoutRef<typeof Link>, "className">) {
   return (
     <Link
-      {...props}
+      {...rest}
       className="rounded-full grid grid-cols-1 transition-transform duration-100 ease-in-out hover:scale-105 active:scale-95 hover:active:scale-95 focus-visible:outline-none focus-visible:ring focus-visible:ring-prussianBlue focus-visible:ring-offset-2 focus-visible:ring-offset-inheritBg"
-    />
+    >
+      {children}
+    </Link>
   );
 }
 

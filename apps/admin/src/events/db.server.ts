@@ -1,7 +1,8 @@
 import { deleteImage } from "#core/cloudinary.server.ts";
 import { NotFoundError, PrismaErrorCodes } from "#core/errors.server.ts";
 import { prisma } from "#core/prisma.server.ts";
-import { Event, Prisma } from "@prisma/client";
+import type { Event } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 import { DateTime } from "luxon";
 
 export class InvalidDateRangeError extends Error {}

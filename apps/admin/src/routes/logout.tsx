@@ -1,6 +1,7 @@
 import { Routes } from "#core/navigation.ts";
 import { destroyCurrentUserSession } from "#currentUser/session.server.ts";
-import { ActionArgs, redirect } from "@remix-run/node";
+import type { ActionArgs } from "@remix-run/node";
+import { redirect } from "@remix-run/node";
 import { createPath } from "history";
 
 export async function loader() {

@@ -1,4 +1,5 @@
-import { InlineHelper, InlineHelperProps } from "#core/dataDisplay/helper.tsx";
+import type { InlineHelperProps } from "#core/dataDisplay/helper.tsx";
+import { InlineHelper } from "#core/dataDisplay/helper.tsx";
 import { joinReactNodes } from "#core/joinReactNodes.tsx";
 
 export function ErrorsInlineHelper({

@@ -1,4 +1,4 @@
-import { IconProps } from "#generated/icon.tsx";
+import type { IconProps } from "#generated/icon.tsx";
 import { Species } from "@prisma/client";
 
 export const SPECIES_ICON: Record<Species, IconProps["id"]> = {

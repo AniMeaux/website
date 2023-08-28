@@ -47,7 +47,8 @@ import { FosterFamilyAvatar } from "#fosterFamilies/avatar.tsx";
 import { Icon } from "#generated/icon.tsx";
 import { UserAvatar } from "#users/avatar.tsx";
 import { hasGroups } from "#users/groups.tsx";
-import { FosterFamily, Gender, User, UserGroup } from "@prisma/client";
+import type { FosterFamily, User } from "@prisma/client";
+import { Gender, UserGroup } from "@prisma/client";
 
 export function AnimalFilters({
   currentUser,

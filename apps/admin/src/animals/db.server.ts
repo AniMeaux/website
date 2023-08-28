@@ -1,15 +1,14 @@
 import { getAllAnimalPictures } from "#animals/pictures/allPictures.ts";
-import {
-  AnimalPictureDbDelegate,
-  AnimalPictures,
-} from "#animals/pictures/db.server.ts";
+import type { AnimalPictures } from "#animals/pictures/db.server.ts";
+import { AnimalPictureDbDelegate } from "#animals/pictures/db.server.ts";
 import { AnimalProfileDbDelegate } from "#animals/profile/db.server.ts";
 import { AnimalSituationDbDelegate } from "#animals/situation/db.server.ts";
 import { algolia } from "#core/algolia/algolia.server.ts";
 import { deleteImage } from "#core/cloudinary.server.ts";
 import { NotFoundError, PrismaErrorCodes } from "#core/errors.server.ts";
 import { prisma } from "#core/prisma.server.ts";
-import { Animal, AnimalDraft, Prisma } from "@prisma/client";
+import type { Animal, AnimalDraft } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 import invariant from "tiny-invariant";
 
 export class AnimalDbDelegate {

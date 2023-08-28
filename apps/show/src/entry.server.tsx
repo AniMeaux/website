@@ -1,11 +1,10 @@
-import { EntryContext, Response } from "@remix-run/node";
+import type { EntryContext } from "@remix-run/node";
+import { Response } from "@remix-run/node";
 import { RemixServer } from "@remix-run/react";
 import isbot from "isbot";
 import { PassThrough } from "node:stream";
-import {
-  RenderToPipeableStreamOptions,
-  renderToPipeableStream,
-} from "react-dom/server";
+import type { RenderToPipeableStreamOptions } from "react-dom/server";
+import { renderToPipeableStream } from "react-dom/server";
 import invariant from "tiny-invariant";
 
 const ABORT_DELAY = 5000;

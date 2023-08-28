@@ -13,9 +13,11 @@ import {
 import { Routes } from "#core/navigation.ts";
 import { assertCurrentUserHasGroups } from "#currentUser/groups.server.ts";
 import { Icon } from "#generated/icon.tsx";
-import { Color, UserGroup } from "@prisma/client";
+import type { Color } from "@prisma/client";
+import { UserGroup } from "@prisma/client";
 import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
-import { LoaderArgs, SerializeFrom, json } from "@remix-run/node";
+import type { LoaderArgs, SerializeFrom } from "@remix-run/node";
+import { json } from "@remix-run/node";
 import { useFetcher } from "@remix-run/react";
 import { useCombobox } from "downshift";
 import { createPath } from "history";
@@ -134,17 +136,18 @@ const InputTrigger = forwardRef<
   ref
 ) {
   const rightAdornments = [
-    <BaseTextInput.Adornment>
-      <Icon id="caretDown" />
-    </BaseTextInput.Adornment>,
-  ];
-  if (color != null) {
-    rightAdornments.unshift(
-      <BaseTextInput.ActionAdornment onClick={() => setColor(null)}>
+    color != null ? (
+      <BaseTextInput.ActionAdornment
+        key="remove"
+        onClick={() => setColor(null)}
+      >
         <Icon id="xMark" />
       </BaseTextInput.ActionAdornment>
-    );
-  }
+    ) : null,
+    <BaseTextInput.Adornment key="caret">
+      <Icon id="caretDown" />
+    </BaseTextInput.Adornment>,
+  ].filter(Boolean);
 
   return (
     <BaseTextInput.Root aria-disabled={disabled}>

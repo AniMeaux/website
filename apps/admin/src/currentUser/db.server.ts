@@ -12,7 +12,8 @@ import {
 } from "#currentUser/session.server.ts";
 import { hasGroups } from "#users/groups.tsx";
 import { generatePasswordHash, isSamePassword } from "@animeaux/password";
-import { Prisma, User, UserGroup } from "@prisma/client";
+import type { User } from "@prisma/client";
+import { Prisma, UserGroup } from "@prisma/client";
 import { redirect } from "@remix-run/node";
 import { createPath } from "history";
 

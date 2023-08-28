@@ -12,7 +12,8 @@ import { getPageTitle } from "#core/pageTitle.ts";
 import { EventItem } from "#events/item.tsx";
 import { Prisma } from "@prisma/client";
 import { json } from "@remix-run/node";
-import { V2_MetaFunction, useLoaderData } from "@remix-run/react";
+import type { V2_MetaFunction } from "@remix-run/react";
+import { useLoaderData } from "@remix-run/react";
 import { promiseHash } from "remix-utils";
 
 const eventSelect = Prisma.validator<Prisma.EventArgs>()({

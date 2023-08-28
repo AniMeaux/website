@@ -9,9 +9,11 @@ import { assertCurrentUserHasGroups } from "#currentUser/groups.server.ts";
 import { MissingPasswordError } from "#users/db.server.ts";
 import { ActionFormData, UserForm } from "#users/form.tsx";
 import { UserGroup } from "@prisma/client";
-import { ActionArgs, LoaderArgs, json, redirect } from "@remix-run/node";
-import { V2_MetaFunction, useFetcher } from "@remix-run/react";
-import { z } from "zod";
+import type { ActionArgs, LoaderArgs } from "@remix-run/node";
+import { json, redirect } from "@remix-run/node";
+import type { V2_MetaFunction } from "@remix-run/react";
+import { useFetcher } from "@remix-run/react";
+import type { z } from "zod";
 import { zfd } from "zod-form-data";
 
 export async function loader({ request }: LoaderArgs) {

@@ -6,7 +6,8 @@ import {
   ReferencedError,
 } from "#core/errors.server.ts";
 import { prisma } from "#core/prisma.server.ts";
-import { FosterFamily, Prisma } from "@prisma/client";
+import type { FosterFamily } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 import invariant from "tiny-invariant";
 
 export class MissingSpeciesToHostError extends Error {}

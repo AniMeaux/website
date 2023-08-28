@@ -12,18 +12,18 @@ import { Routes } from "#core/navigation.ts";
 import { getPageTitle } from "#core/pageTitle.ts";
 import { assertCurrentUserHasGroups } from "#currentUser/groups.server.ts";
 import { UserGroup } from "@prisma/client";
+import type { ActionArgs, LoaderArgs } from "@remix-run/node";
 import {
-  ActionArgs,
-  LoaderArgs,
   json,
   redirect,
   unstable_composeUploadHandlers,
   unstable_createMemoryUploadHandler,
   unstable_parseMultipartFormData,
 } from "@remix-run/node";
-import { V2_MetaFunction, useFetcher } from "@remix-run/react";
+import type { V2_MetaFunction } from "@remix-run/react";
+import { useFetcher } from "@remix-run/react";
 import invariant from "tiny-invariant";
-import { z } from "zod";
+import type { z } from "zod";
 import { zfd } from "zod-form-data";
 
 export async function loader({ request }: LoaderArgs) {

@@ -8,7 +8,9 @@ import appleTouchIcon from "#images/appleTouchIcon.png";
 import favicon from "#images/favicon.svg";
 import maskIcon from "#images/maskIcon.svg";
 import stylesheet from "#tailwind.css";
-import { json, LinksFunction } from "@remix-run/node";
+import type { LinksFunction } from "@remix-run/node";
+import { json } from "@remix-run/node";
+import type { V2_MetaFunction } from "@remix-run/react";
 import {
   Links,
   LiveReload,
@@ -17,7 +19,6 @@ import {
   Scripts,
   ScrollRestoration,
   useMatches,
-  V2_MetaFunction,
 } from "@remix-run/react";
 import { Settings } from "luxon";
 

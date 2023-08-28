@@ -27,9 +27,12 @@ import {
 import { assertCurrentUserHasGroups } from "#currentUser/groups.server.ts";
 import { hasGroups } from "#users/groups.tsx";
 import { ANIMAL_AGE_RANGE_BY_SPECIES } from "@animeaux/core";
-import { Prisma, Species, Status, UserGroup } from "@prisma/client";
-import { LoaderArgs, json } from "@remix-run/node";
-import { V2_MetaFunction, useLoaderData } from "@remix-run/react";
+import type { Prisma } from "@prisma/client";
+import { Species, Status, UserGroup } from "@prisma/client";
+import type { LoaderArgs } from "@remix-run/node";
+import { json } from "@remix-run/node";
+import type { V2_MetaFunction } from "@remix-run/react";
+import { useLoaderData } from "@remix-run/react";
 import { DateTime } from "luxon";
 import { promiseHash } from "remix-utils";
 import invariant from "tiny-invariant";

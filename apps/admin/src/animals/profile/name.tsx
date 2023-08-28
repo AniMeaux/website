@@ -1,4 +1,4 @@
-import { Animal } from "@prisma/client";
+import type { Animal } from "@prisma/client";
 
 export function getAnimalDisplayName(animal: Pick<Animal, "name" | "alias">) {
   if (animal.alias === null) {

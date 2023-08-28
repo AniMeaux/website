@@ -1,4 +1,4 @@
-import { ColorFromAlgolia } from "#colors/algolia.server.ts";
+import type { ColorFromAlgolia } from "#colors/algolia.server.ts";
 import { algolia } from "#core/algolia/algolia.server.ts";
 import { prisma } from "#core/prisma.server.ts";
 import {
@@ -6,8 +6,8 @@ import {
   createPostHandlers,
   highlightValue,
 } from "#mocks/algolia/shared.server.ts";
-import { Hit, SearchResponse } from "@algolia/client-search";
-import { Prisma } from "@prisma/client";
+import type { Hit, SearchResponse } from "@algolia/client-search";
+import type { Prisma } from "@prisma/client";
 import { promiseHash } from "remix-utils";
 
 export const colorHandlers = [

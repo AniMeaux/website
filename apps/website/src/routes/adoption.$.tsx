@@ -21,10 +21,13 @@ import {
   SPECIES_PLURAL_TRANSLATION,
   SPECIES_TRANSLATION,
 } from "#core/translations.ts";
-import { ANIMAL_AGE_RANGE_BY_SPECIES, AnimalAge } from "@animeaux/core";
-import { Prisma, Species } from "@prisma/client";
-import { LoaderArgs, json } from "@remix-run/node";
-import { V2_MetaFunction, useLoaderData, useParams } from "@remix-run/react";
+import type { AnimalAge } from "@animeaux/core";
+import { ANIMAL_AGE_RANGE_BY_SPECIES } from "@animeaux/core";
+import type { Prisma, Species } from "@prisma/client";
+import type { LoaderArgs } from "@remix-run/node";
+import { json } from "@remix-run/node";
+import type { V2_MetaFunction } from "@remix-run/react";
+import { useLoaderData, useParams } from "@remix-run/react";
 import { DateTime } from "luxon";
 import { promiseHash } from "remix-utils";
 import invariant from "tiny-invariant";

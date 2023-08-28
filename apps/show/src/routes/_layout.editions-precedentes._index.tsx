@@ -7,7 +7,7 @@ import { getPageTitle } from "#core/pageTitle.ts";
 import { NotFoundResponse } from "#core/response.server.ts";
 import { SORTED_PREVIOUS_EDITIONS } from "#previousEditions/previousEdition.tsx";
 import { redirect } from "@remix-run/node";
-import { V2_MetaFunction } from "@remix-run/react";
+import type { V2_MetaFunction } from "@remix-run/react";
 
 export async function loader() {
   const { featureFlagSiteOnline } = createConfig();

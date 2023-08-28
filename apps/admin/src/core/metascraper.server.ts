@@ -1,4 +1,5 @@
-import metascraper, { Metadata } from "metascraper";
+import type { Metadata } from "metascraper";
+import metascraper from "metascraper";
 import metascraperDate from "metascraper-date";
 import metascraperImage from "metascraper-image";
 import metascraperPublisher from "metascraper-publisher";

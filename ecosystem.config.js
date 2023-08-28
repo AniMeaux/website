@@ -1,13 +1,6 @@
 module.exports = {
   apps: [
     createApp({
-      name: "shared",
-      cwd: "./shared",
-      script: "yarn build",
-      watch: ["./src", "./babel.config.js", "./tsconfig.json"],
-    }),
-
-    createApp({
       name: "prisma",
       script: "yarn generate:prisma",
       watch: ["./prisma/schema.prisma"],

@@ -1,4 +1,5 @@
-import { Link, NavLink, NavLinkProps } from "@remix-run/react";
+import type { NavLinkProps } from "@remix-run/react";
+import { Link, NavLink } from "@remix-run/react";
 import { forwardRef } from "react";
 
 export type BaseLinkProps = {

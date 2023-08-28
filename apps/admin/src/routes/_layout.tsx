@@ -1,4 +1,5 @@
-import { BaseLink, BaseLinkProps } from "#core/baseLink.tsx";
+import type { BaseLinkProps } from "#core/baseLink.tsx";
+import { BaseLink } from "#core/baseLink.tsx";
 import { db } from "#core/db.server.ts";
 import { SideBar } from "#core/layout/sideBar.tsx";
 import { TabBar } from "#core/layout/tabBar.tsx";
@@ -6,16 +7,19 @@ import { Routes } from "#core/navigation.ts";
 import { getPageTitle } from "#core/pageTitle.ts";
 import { NextSearchParams } from "#core/searchParams.ts";
 import { getCurrentUserPreferences } from "#currentUser/preferences.server.ts";
-import { Icon, IconProps } from "#generated/icon.tsx";
+import type { IconProps } from "#generated/icon.tsx";
+import { Icon } from "#generated/icon.tsx";
 import { theme } from "#generated/theme.ts";
 import nameAndLogo from "#images/nameAndLogo.svg";
 import { GlobalSearch } from "#routes/resources.global-search.tsx";
 import { usePreferencesFetcher } from "#routes/resources.preferences.tsx";
 import { UserAvatar } from "#users/avatar.tsx";
 import { hasGroups } from "#users/groups.tsx";
-import { User, UserGroup } from "@prisma/client";
+import type { User } from "@prisma/client";
+import { UserGroup } from "@prisma/client";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
-import { LoaderArgs, json } from "@remix-run/node";
+import type { LoaderArgs } from "@remix-run/node";
+import { json } from "@remix-run/node";
 import {
   Outlet,
   useFetcher,

@@ -1,8 +1,8 @@
 import { BaseLink } from "#core/baseLink.tsx";
 import { cn } from "#core/classNames.ts";
 import { useFocusTrap } from "#core/focusTrap.ts";
+import type { NavGroup } from "#core/layout/navigation/shared.tsx";
 import {
-  NavGroup,
   handleEscape,
   navLinkClassName,
 } from "#core/layout/navigation/shared.tsx";

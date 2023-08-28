@@ -2,7 +2,7 @@ import { getAllAnimalPictures } from "#animals/pictures/allPictures.ts";
 import { deleteImage } from "#core/cloudinary.server.ts";
 import { NotFoundError } from "#core/errors.server.ts";
 import { prisma } from "#core/prisma.server.ts";
-import { Animal } from "@prisma/client";
+import type { Animal } from "@prisma/client";
 import difference from "lodash.difference";
 
 export type AnimalPictures = Pick<Animal, "avatar" | "pictures">;

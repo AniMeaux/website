@@ -17,7 +17,7 @@ import { equipmentImages } from "#images/equipment.tsx";
 import { followUpImages } from "#images/followUp.tsx";
 import { fosterFamilyLargeImages } from "#images/fosterFamilyLarge.tsx";
 import { socialImages } from "#images/social.tsx";
-import { V2_MetaFunction } from "@remix-run/react";
+import type { V2_MetaFunction } from "@remix-run/react";
 
 export const meta: V2_MetaFunction = ({ matches }) => {
   const config = getConfigFromMetaMatches(matches);

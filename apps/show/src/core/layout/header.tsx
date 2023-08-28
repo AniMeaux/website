@@ -1,5 +1,6 @@
 import { cn } from "#core/classNames.ts";
-import { Config, useConfig } from "#core/config.ts";
+import type { Config } from "#core/config.ts";
+import { useConfig } from "#core/config.ts";
 import { createImageMedia } from "#core/dataDisplay/image.tsx";
 import { hasShowEnded } from "#core/dates.ts";
 import { Routes } from "#core/navigation.tsx";

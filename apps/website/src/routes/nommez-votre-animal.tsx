@@ -7,13 +7,10 @@ import { createSocialMeta } from "#core/meta.ts";
 import { getPageTitle } from "#core/pageTitle.ts";
 import { Icon } from "#generated/icon.tsx";
 import { Gender } from "@prisma/client";
-import { json, LoaderArgs } from "@remix-run/node";
-import {
-  Form,
-  useLoaderData,
-  useSearchParams,
-  V2_MetaFunction,
-} from "@remix-run/react";
+import type { LoaderArgs } from "@remix-run/node";
+import { json } from "@remix-run/node";
+import type { V2_MetaFunction } from "@remix-run/react";
+import { Form, useLoaderData, useSearchParams } from "@remix-run/react";
 import orderBy from "lodash.orderby";
 import { useEffect, useState } from "react";
 import invariant from "tiny-invariant";

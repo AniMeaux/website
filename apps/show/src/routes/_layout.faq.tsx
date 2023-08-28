@@ -1,6 +1,7 @@
 import { ProseInlineAction } from "#core/actions.tsx";
 import { createConfig } from "#core/config.server.ts";
-import { Config, useConfig } from "#core/config.ts";
+import type { Config } from "#core/config.ts";
+import { useConfig } from "#core/config.ts";
 import { ErrorPage, getErrorTitle } from "#core/dataDisplay/errorPage.tsx";
 import { DynamicImage } from "#core/dataDisplay/image.tsx";
 import { LightBoardCard } from "#core/layout/lightBoardCard.tsx";
@@ -12,7 +13,8 @@ import { NotFoundResponse } from "#core/response.server.ts";
 import { Icon } from "#generated/icon.tsx";
 import * as Collapsible from "@radix-ui/react-collapsible";
 import { json } from "@remix-run/node";
-import { Link, V2_MetaFunction } from "@remix-run/react";
+import type { V2_MetaFunction } from "@remix-run/react";
+import { Link } from "@remix-run/react";
 import chunk from "lodash.chunk";
 
 export async function loader() {

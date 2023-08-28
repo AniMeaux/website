@@ -1,4 +1,4 @@
-import { IconProps } from "#generated/icon.tsx";
+import type { IconProps } from "#generated/icon.tsx";
 import { AnimalAge } from "@animeaux/core";
 import orderBy from "lodash.orderby";
 

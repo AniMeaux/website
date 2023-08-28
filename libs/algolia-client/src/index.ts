@@ -1,8 +1,9 @@
-import { Settings } from "@algolia/client-search";
+import type { Settings } from "@algolia/client-search";
 import { Species, Status, UserGroup } from "@prisma/client";
-import algoliasearch, { SearchClient, SearchIndex } from "algoliasearch";
+import type { SearchClient, SearchIndex } from "algoliasearch";
+import algoliasearch from "algoliasearch";
 import invariant from "tiny-invariant";
-import { Simplify } from "type-fest";
+import type { Simplify } from "type-fest";
 import { z } from "zod";
 
 declare global {

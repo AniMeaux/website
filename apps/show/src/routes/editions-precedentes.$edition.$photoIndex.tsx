@@ -4,7 +4,7 @@ import { createConfig } from "#core/config.server.ts";
 import { ErrorPage, getErrorTitle } from "#core/dataDisplay/errorPage.tsx";
 import { DynamicImage } from "#core/dataDisplay/image.tsx";
 import { useElementSize } from "#core/elements.ts";
-import { RouteHandle } from "#core/handles.ts";
+import type { RouteHandle } from "#core/handles.ts";
 import { createSocialMeta } from "#core/meta.ts";
 import { Routes } from "#core/navigation.tsx";
 import { getPageTitle } from "#core/pageTitle.ts";
@@ -14,14 +14,10 @@ import { ScrollRestorationLocationState } from "#core/scrollRestoration.ts";
 import { Icon } from "#generated/icon.tsx";
 import { PhotoLocationState } from "#previousEditions/photoLocationState.ts";
 import { PreviousEdition } from "#previousEditions/previousEdition.tsx";
-import { LoaderArgs, json } from "@remix-run/node";
-import {
-  Link,
-  V2_MetaFunction,
-  useLoaderData,
-  useLocation,
-  useParams,
-} from "@remix-run/react";
+import type { LoaderArgs } from "@remix-run/node";
+import { json } from "@remix-run/node";
+import type { V2_MetaFunction } from "@remix-run/react";
+import { Link, useLoaderData, useLocation, useParams } from "@remix-run/react";
 import { forwardRef } from "react";
 import { z } from "zod";
 import { zfd } from "zod-form-data";

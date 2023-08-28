@@ -8,9 +8,11 @@ import { Routes, useBackIfPossible } from "#core/navigation.ts";
 import { getPageTitle } from "#core/pageTitle.ts";
 import { assertCurrentUserHasGroups } from "#currentUser/groups.server.ts";
 import { UserGroup } from "@prisma/client";
-import { ActionArgs, LoaderArgs, json } from "@remix-run/node";
-import { V2_MetaFunction, useFetcher } from "@remix-run/react";
-import { z } from "zod";
+import type { ActionArgs, LoaderArgs } from "@remix-run/node";
+import { json } from "@remix-run/node";
+import type { V2_MetaFunction } from "@remix-run/react";
+import { useFetcher } from "@remix-run/react";
+import type { z } from "zod";
 import { zfd } from "zod-form-data";
 
 export async function loader({ request }: LoaderArgs) {

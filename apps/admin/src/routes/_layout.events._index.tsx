@@ -11,9 +11,12 @@ import { prisma } from "#core/prisma.server.ts";
 import { PageSearchParams } from "#core/searchParams.ts";
 import { assertCurrentUserHasGroups } from "#currentUser/groups.server.ts";
 import { EventItem } from "#events/item.tsx";
-import { Prisma, UserGroup } from "@prisma/client";
-import { LoaderArgs, json } from "@remix-run/node";
-import { V2_MetaFunction, useLoaderData } from "@remix-run/react";
+import type { Prisma } from "@prisma/client";
+import { UserGroup } from "@prisma/client";
+import type { LoaderArgs } from "@remix-run/node";
+import { json } from "@remix-run/node";
+import type { V2_MetaFunction } from "@remix-run/react";
+import { useLoaderData } from "@remix-run/react";
 import { promiseHash } from "remix-utils";
 
 const EVENT_COUNT_PER_PAGE = 20;

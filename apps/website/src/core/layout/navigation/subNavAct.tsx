@@ -1,7 +1,5 @@
-import {
-  SubNavComponent,
-  SubNavItem,
-} from "#core/layout/navigation/shared.tsx";
+import type { SubNavComponent } from "#core/layout/navigation/shared.tsx";
+import { SubNavItem } from "#core/layout/navigation/shared.tsx";
 
 export const SubNavAct: SubNavComponent = () => {
   return (

@@ -1,11 +1,7 @@
-import { ShowDay } from "#core/dates.ts";
-import { PreviousEdition } from "#previousEditions/previousEdition.tsx";
-import {
-  NavLinkProps,
-  useLocation,
-  useNavigation,
-  useResolvedPath,
-} from "@remix-run/react";
+import type { ShowDay } from "#core/dates.ts";
+import type { PreviousEdition } from "#previousEditions/previousEdition.tsx";
+import type { NavLinkProps } from "@remix-run/react";
+import { useLocation, useNavigation, useResolvedPath } from "@remix-run/react";
 import { useContext } from "react";
 import { UNSAFE_NavigationContext } from "react-router";
 

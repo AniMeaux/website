@@ -5,7 +5,7 @@ import { Routes } from "#core/navigation.ts";
 import { NotFoundResponse } from "#core/response.server.ts";
 import { assertCurrentUserHasGroups } from "#currentUser/groups.server.ts";
 import { UserGroup } from "@prisma/client";
-import { LoaderArgs } from "@remix-run/node";
+import type { LoaderArgs } from "@remix-run/node";
 import { z } from "zod";
 
 export async function loader({ request, params }: LoaderArgs) {

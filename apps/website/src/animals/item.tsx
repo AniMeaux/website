@@ -6,7 +6,8 @@ import { toSlug } from "#core/slugs.ts";
 import { GENDER_TRANSLATION, SPECIES_TRANSLATION } from "#core/translations.ts";
 import { Icon } from "#generated/icon.tsx";
 import { formatAge } from "@animeaux/core";
-import { Gender, Species } from "@prisma/client";
+import type { Species } from "@prisma/client";
+import { Gender } from "@prisma/client";
 
 export function AnimalItem({
   isDisabled = false,

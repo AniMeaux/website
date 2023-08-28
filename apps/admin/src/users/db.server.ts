@@ -7,7 +7,8 @@ import {
 } from "#core/errors.server.ts";
 import { prisma } from "#core/prisma.server.ts";
 import { generatePasswordHash } from "@animeaux/password";
-import { Prisma, User, UserGroup } from "@prisma/client";
+import type { User } from "@prisma/client";
+import { Prisma, UserGroup } from "@prisma/client";
 
 export class DisableMyselfError extends Error {}
 export class DeleteMyselfError extends Error {}

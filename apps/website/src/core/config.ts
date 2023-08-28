@@ -1,6 +1,7 @@
 import type { loader as rootLoader } from "#root.tsx";
-import { SerializeFrom } from "@remix-run/node";
-import { useRouteLoaderData, V2_MetaArgs } from "@remix-run/react";
+import type { SerializeFrom } from "@remix-run/node";
+import type { V2_MetaArgs } from "@remix-run/react";
+import { useRouteLoaderData } from "@remix-run/react";
 import invariant from "tiny-invariant";
 
 export type Config = {

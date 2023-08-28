@@ -1,10 +1,11 @@
 import { BaseLink } from "#core/baseLink.tsx";
 import { cn } from "#core/classNames.ts";
 import { DynamicImage } from "#core/dataDisplay/image.tsx";
-import { Icon, IconProps } from "#generated/icon.tsx";
+import type { IconProps } from "#generated/icon.tsx";
+import { Icon } from "#generated/icon.tsx";
 import { formatDateRange } from "@animeaux/core";
-import { Event } from "@prisma/client";
-import { SerializeFrom } from "@remix-run/node";
+import type { Event } from "@prisma/client";
+import type { SerializeFrom } from "@remix-run/node";
 
 export function EventItem({
   isInlined = false,

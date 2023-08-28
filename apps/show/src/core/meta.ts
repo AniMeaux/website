@@ -1,4 +1,4 @@
-import { V2_MetaDescriptor } from "@remix-run/react";
+import type { V2_MetaDescriptor } from "@remix-run/react";
 
 /**
  * @see https://metatags.io/
