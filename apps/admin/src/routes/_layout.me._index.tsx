@@ -18,9 +18,12 @@ import { prisma } from "#core/prisma.server.ts";
 import { Icon } from "#generated/icon.tsx";
 import { UserAvatar } from "#users/avatar.tsx";
 import { GROUP_ICON, GROUP_TRANSLATION, hasGroups } from "#users/groups.tsx";
-import { Prisma, UserGroup } from "@prisma/client";
-import { LoaderArgs, json } from "@remix-run/node";
-import { V2_MetaFunction, useLoaderData } from "@remix-run/react";
+import type { Prisma } from "@prisma/client";
+import { UserGroup } from "@prisma/client";
+import type { LoaderArgs } from "@remix-run/node";
+import { json } from "@remix-run/node";
+import type { V2_MetaFunction } from "@remix-run/react";
+import { useLoaderData } from "@remix-run/react";
 import { promiseHash } from "remix-utils";
 
 export async function loader({ request }: LoaderArgs) {

@@ -1,5 +1,6 @@
-import { IconProps } from "#generated/icon.tsx";
-import { User, UserGroup } from "@prisma/client";
+import type { IconProps } from "#generated/icon.tsx";
+import type { User } from "@prisma/client";
+import { UserGroup } from "@prisma/client";
 import intersection from "lodash.intersection";
 import orderBy from "lodash.orderby";
 

@@ -32,7 +32,7 @@ import { adoptImages } from "#images/adopt.tsx";
 import { questionsImages } from "#images/questions.tsx";
 import { socialImages } from "#images/social.tsx";
 import { Species } from "@prisma/client";
-import { V2_MetaFunction } from "@remix-run/react";
+import type { V2_MetaFunction } from "@remix-run/react";
 import { useState } from "react";
 
 export const meta: V2_MetaFunction = ({ matches }) => {

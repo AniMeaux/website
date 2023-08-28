@@ -9,8 +9,10 @@ import { PageLayout } from "#core/layout/page.tsx";
 import { Routes, useBackIfPossible } from "#core/navigation.ts";
 import { getPageTitle } from "#core/pageTitle.ts";
 import { Icon } from "#generated/icon.tsx";
-import { ActionArgs, LoaderArgs, json } from "@remix-run/node";
-import { V2_MetaFunction, useFetcher, useLoaderData } from "@remix-run/react";
+import type { ActionArgs, LoaderArgs } from "@remix-run/node";
+import { json } from "@remix-run/node";
+import type { V2_MetaFunction } from "@remix-run/react";
+import { useFetcher, useLoaderData } from "@remix-run/react";
 import { useEffect, useRef } from "react";
 import { z } from "zod";
 

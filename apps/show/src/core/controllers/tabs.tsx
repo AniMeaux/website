@@ -8,12 +8,15 @@ export function Tabs({ children }: React.PropsWithChildren<{}>) {
   );
 }
 
-export function Tab(props: React.ComponentPropsWithoutRef<typeof NavLink>) {
-  const { isActive } = useNavLink(props);
+export function Tab({
+  children,
+  ...rest
+}: React.ComponentPropsWithoutRef<typeof NavLink>) {
+  const { isActive } = useNavLink(rest);
 
   return (
     <Action asChild color={isActive ? "mystic" : "alabaster"}>
-      <NavLink {...props} />
+      <NavLink {...rest}>{children}</NavLink>
     </Action>
   );
 }

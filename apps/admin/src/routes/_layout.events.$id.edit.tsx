@@ -16,15 +16,15 @@ import { assertCurrentUserHasGroups } from "#currentUser/groups.server.ts";
 import { InvalidDateRangeError } from "#events/db.server.ts";
 import { ActionFormData, EventForm } from "#events/form.tsx";
 import { UserGroup } from "@prisma/client";
+import type { ActionArgs, LoaderArgs } from "@remix-run/node";
 import {
-  ActionArgs,
-  LoaderArgs,
   json,
   unstable_composeUploadHandlers,
   unstable_createMemoryUploadHandler,
   unstable_parseMultipartFormData,
 } from "@remix-run/node";
-import { V2_MetaFunction, useFetcher, useLoaderData } from "@remix-run/react";
+import type { V2_MetaFunction } from "@remix-run/react";
+import { useFetcher, useLoaderData } from "@remix-run/react";
 import { z } from "zod";
 import { zfd } from "zod-form-data";
 

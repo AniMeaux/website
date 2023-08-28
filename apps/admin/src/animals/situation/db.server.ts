@@ -3,7 +3,8 @@ import { algolia } from "#core/algolia/algolia.server.ts";
 import { NotFoundError } from "#core/errors.server.ts";
 import { Routes } from "#core/navigation.ts";
 import { prisma } from "#core/prisma.server.ts";
-import { Animal, AnimalDraft, Prisma, Status, UserGroup } from "@prisma/client";
+import type { Animal, AnimalDraft, Prisma } from "@prisma/client";
+import { Status, UserGroup } from "@prisma/client";
 import { redirect } from "@remix-run/node";
 
 type SituationKeys =

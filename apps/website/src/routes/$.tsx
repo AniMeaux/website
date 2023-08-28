@@ -4,8 +4,9 @@ import { createSocialMeta } from "#core/meta.ts";
 import { getPageTitle } from "#core/pageTitle.ts";
 import { AnimalAge } from "@animeaux/core";
 import { Species } from "@prisma/client";
-import { LoaderArgs, redirect } from "@remix-run/node";
-import { V2_MetaFunction } from "@remix-run/react";
+import type { LoaderArgs } from "@remix-run/node";
+import { redirect } from "@remix-run/node";
+import type { V2_MetaFunction } from "@remix-run/react";
 
 export async function loader({ params }: LoaderArgs) {
   const redirectTo = REDIRECTIONS[`/${params["*"]}`];

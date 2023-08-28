@@ -1,7 +1,5 @@
-import {
-  DataUrlOrDynamicImage,
-  ImageFileOrId,
-} from "#core/dataDisplay/image.tsx";
+import type { ImageFileOrId } from "#core/dataDisplay/image.tsx";
+import { DataUrlOrDynamicImage } from "#core/dataDisplay/image.tsx";
 import { createDragAndDropContext } from "#core/dragAndDrop.tsx";
 
 const {

@@ -18,20 +18,19 @@ import { assertCurrentUserHasGroups } from "#currentUser/groups.server.ts";
 import { FosterFamilySuggestionItem } from "#fosterFamilies/item.tsx";
 import { FosterFamilySearchParams } from "#fosterFamilies/searchParams.ts";
 import { Icon } from "#generated/icon.tsx";
-import { User, UserGroup } from "@prisma/client";
+import type { User } from "@prisma/client";
+import { UserGroup } from "@prisma/client";
 import * as Dialog from "@radix-ui/react-dialog";
 import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
-import { LoaderArgs, SerializeFrom, json } from "@remix-run/node";
-import {
-  FetcherWithComponents,
-  useFetcher,
-  useNavigation,
-} from "@remix-run/react";
-import {
+import type { LoaderArgs, SerializeFrom } from "@remix-run/node";
+import { json } from "@remix-run/node";
+import type { FetcherWithComponents } from "@remix-run/react";
+import { useFetcher, useNavigation } from "@remix-run/react";
+import type {
   UseComboboxState,
   UseComboboxStateChangeOptions,
-  useCombobox,
 } from "downshift";
+import { useCombobox } from "downshift";
 import { createPath } from "history";
 import orderBy from "lodash.orderby";
 import { useEffect, useState } from "react";

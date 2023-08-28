@@ -6,7 +6,7 @@ import { cn } from "#core/classNames.ts";
 import { getErrorTitle } from "#core/dataDisplay/errorPage.tsx";
 import { DynamicImage } from "#core/dataDisplay/image.tsx";
 import { db } from "#core/db.server.ts";
-import { RouteHandle } from "#core/handles.ts";
+import type { RouteHandle } from "#core/handles.ts";
 import { assertIsDefined } from "#core/isDefined.server.ts";
 import { Routes } from "#core/navigation.ts";
 import { getPageTitle } from "#core/pageTitle.ts";
@@ -16,8 +16,10 @@ import { assertCurrentUserHasGroups } from "#currentUser/groups.server.ts";
 import { Icon } from "#generated/icon.tsx";
 import { DownloadPictureLink } from "#routes/downloads.picture.$id.tsx";
 import { UserGroup } from "@prisma/client";
-import { json, LoaderArgs } from "@remix-run/node";
-import { useLoaderData, V2_MetaFunction } from "@remix-run/react";
+import type { LoaderArgs } from "@remix-run/node";
+import { json } from "@remix-run/node";
+import type { V2_MetaFunction } from "@remix-run/react";
+import { useLoaderData } from "@remix-run/react";
 import { z } from "zod";
 
 export const handle: RouteHandle = {

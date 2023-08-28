@@ -11,10 +11,11 @@ import {
 } from "#core/layout/heroSection.tsx";
 import { createSocialMeta } from "#core/meta.ts";
 import { getPageTitle } from "#core/pageTitle.ts";
-import { Icon, IconProps } from "#generated/icon.tsx";
+import type { IconProps } from "#generated/icon.tsx";
+import { Icon } from "#generated/icon.tsx";
 import { questionsImages } from "#images/questions.tsx";
 import { socialImages } from "#images/social.tsx";
-import { V2_MetaFunction } from "@remix-run/react";
+import type { V2_MetaFunction } from "@remix-run/react";
 
 export const meta: V2_MetaFunction = ({ matches }) => {
   const config = getConfigFromMetaMatches(matches);

@@ -1,7 +1,9 @@
 import { cn } from "#core/classNames.ts";
 import { useConfig } from "#core/config.ts";
-import { Icon, IconProps } from "#generated/icon.tsx";
-import { ScreenSize, theme } from "#generated/theme.ts";
+import type { IconProps } from "#generated/icon.tsx";
+import { Icon } from "#generated/icon.tsx";
+import type { ScreenSize } from "#generated/theme.ts";
+import { theme } from "#generated/theme.ts";
 import orderBy from "lodash.orderby";
 import invariant from "tiny-invariant";
 

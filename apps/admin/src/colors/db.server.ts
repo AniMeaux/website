@@ -6,7 +6,8 @@ import {
   ReferencedError,
 } from "#core/errors.server.ts";
 import { prisma } from "#core/prisma.server.ts";
-import { Color, Prisma } from "@prisma/client";
+import type { Color } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 
 export class ColorDbDelegate {
   async create(data: ColorData) {

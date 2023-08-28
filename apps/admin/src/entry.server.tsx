@@ -1,6 +1,6 @@
 import { extendCurrentUserPreferences } from "#currentUser/preferences.server.ts";
 import { extendCurrentUserSession } from "#currentUser/session.server.ts";
-import { EntryContext, HandleDataRequestFunction } from "@remix-run/node";
+import type { EntryContext, HandleDataRequestFunction } from "@remix-run/node";
 import { RemixServer } from "@remix-run/react";
 import { renderToString } from "react-dom/server";
 

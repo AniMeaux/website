@@ -1,7 +1,8 @@
 import { getPageTitle } from "#core/pageTitle.ts";
 import { theme } from "#generated/theme.ts";
 import googleTouchIcon from "#images/googleTouchIcon.png";
-import { json, LinksFunction } from "@remix-run/node";
+import type { LinksFunction } from "@remix-run/node";
+import { json } from "@remix-run/node";
 
 // Make sure `googleTouchIcon.png` is added to the build assets.
 // It looks like an asset only used on the server won't be included in the

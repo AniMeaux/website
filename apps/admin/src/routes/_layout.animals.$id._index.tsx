@@ -23,7 +23,8 @@ import {
   StatusIcon,
 } from "#animals/status.tsx";
 import { Action, ProseInlineAction } from "#core/actions.tsx";
-import { BaseLink, BaseLinkProps } from "#core/baseLink.tsx";
+import type { BaseLinkProps } from "#core/baseLink.tsx";
+import { BaseLink } from "#core/baseLink.tsx";
 import { cn } from "#core/classNames.ts";
 import { Empty } from "#core/dataDisplay/empty.tsx";
 import { ErrorPage, getErrorTitle } from "#core/dataDisplay/errorPage.tsx";
@@ -59,8 +60,10 @@ import {
   UserGroup,
 } from "@prisma/client";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
-import { ActionArgs, LoaderArgs, json, redirect } from "@remix-run/node";
-import { V2_MetaFunction, useFetcher, useLoaderData } from "@remix-run/react";
+import type { ActionArgs, LoaderArgs } from "@remix-run/node";
+import { json, redirect } from "@remix-run/node";
+import type { V2_MetaFunction } from "@remix-run/react";
+import { useFetcher, useLoaderData } from "@remix-run/react";
 import { DateTime } from "luxon";
 import { z } from "zod";
 

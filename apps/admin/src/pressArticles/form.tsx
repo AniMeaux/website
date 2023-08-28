@@ -8,7 +8,7 @@ import { Separator } from "#core/layout/separator.tsx";
 import { Spinner } from "#core/loaders/spinner.tsx";
 import { Icon } from "#generated/icon.tsx";
 import { useScrapUrlFetcher } from "#routes/resources.scrap-url.tsx";
-import { FetcherWithComponents } from "@remix-run/react";
+import type { FetcherWithComponents } from "@remix-run/react";
 import { useEffect, useRef, useState } from "react";
 import { z } from "zod";
 

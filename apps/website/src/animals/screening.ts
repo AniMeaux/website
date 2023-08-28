@@ -1,4 +1,4 @@
-import { IconProps } from "#generated/icon.tsx";
+import type { IconProps } from "#generated/icon.tsx";
 import { Gender, ScreeningResult } from "@prisma/client";
 
 export const SCREENING_RESULT_ICON: Record<

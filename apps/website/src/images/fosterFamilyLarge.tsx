@@ -1,4 +1,4 @@
-import { ImageDescriptor } from "#core/dataDisplay/image.tsx";
+import type { ImageDescriptor } from "#core/dataDisplay/image.tsx";
 import fosterFamilyLarge1024 from "#images/fosterFamilyLarge-1024w.png";
 import fosterFamilyLarge1536 from "#images/fosterFamilyLarge-1536w.png";
 import fosterFamilyLarge2048 from "#images/fosterFamilyLarge-2048w.png";

@@ -11,15 +11,15 @@ import { StatusBadge } from "#animals/status.tsx";
 import { BaseLink } from "#core/baseLink.tsx";
 import { cn } from "#core/classNames.ts";
 import { Chip } from "#core/dataDisplay/chip.tsx";
-import { DynamicImage, DynamicImageProps } from "#core/dataDisplay/image.tsx";
-import {
-  SuggestionItem,
-  SuggestionItemProps,
-} from "#core/formElements/resourceInput.tsx";
+import type { DynamicImageProps } from "#core/dataDisplay/image.tsx";
+import { DynamicImage } from "#core/dataDisplay/image.tsx";
+import type { SuggestionItemProps } from "#core/formElements/resourceInput.tsx";
+import { SuggestionItem } from "#core/formElements/resourceInput.tsx";
 import { Routes } from "#core/navigation.ts";
 import { Icon } from "#generated/icon.tsx";
-import { Animal, Breed, Color, Gender, User } from "@prisma/client";
-import { SerializeFrom } from "@remix-run/node";
+import type { Animal, Breed, Color, User } from "@prisma/client";
+import { Gender } from "@prisma/client";
+import type { SerializeFrom } from "@remix-run/node";
 import { forwardRef } from "react";
 
 export function AnimalItem({

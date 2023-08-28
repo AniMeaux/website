@@ -1,7 +1,9 @@
-import { Action, ActionColor } from "#core/actions.tsx";
+import type { ActionColor } from "#core/actions.tsx";
+import { Action } from "#core/actions.tsx";
 import { cn } from "#core/classNames.ts";
 import { Overlay } from "#core/popovers/overlay.tsx";
-import { Icon, IconProps } from "#generated/icon.tsx";
+import type { IconProps } from "#generated/icon.tsx";
+import { Icon } from "#generated/icon.tsx";
 import * as RadixDialog from "@radix-ui/react-dialog";
 import { createContext, useContext, useMemo } from "react";
 

@@ -3,7 +3,8 @@ import { PageLayout } from "#core/layout/page.tsx";
 import { Routes } from "#core/navigation.ts";
 import { hasGroups } from "#users/groups.tsx";
 import { UserGroup } from "@prisma/client";
-import { json, LoaderArgs } from "@remix-run/node";
+import type { LoaderArgs } from "@remix-run/node";
+import { json } from "@remix-run/node";
 import { Outlet, useLoaderData, useLocation } from "@remix-run/react";
 
 export async function loader({ request }: LoaderArgs) {

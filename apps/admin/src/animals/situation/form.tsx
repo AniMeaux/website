@@ -29,20 +29,19 @@ import { FosterFamilyInput } from "#routes/resources.foster-family.tsx";
 import { ManagerInput } from "#routes/resources.manager.tsx";
 import { PickUpLocationInput } from "#routes/resources.pick-up-location.tsx";
 import { hasGroups } from "#users/groups.tsx";
+import type { AnimalDraft, FosterFamily, User } from "@prisma/client";
 import {
   AdoptionOption,
-  AnimalDraft,
-  FosterFamily,
   Gender,
   PickUpReason,
   ScreeningResult,
   Species,
   Status,
-  User,
   UserGroup,
 } from "@prisma/client";
-import { SerializeFrom } from "@remix-run/node";
-import { FetcherWithComponents, useLocation } from "@remix-run/react";
+import type { SerializeFrom } from "@remix-run/node";
+import type { FetcherWithComponents } from "@remix-run/react";
+import { useLocation } from "@remix-run/react";
 import { useEffect, useRef, useState } from "react";
 import { z } from "zod";
 import { zfd } from "zod-form-data";

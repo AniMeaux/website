@@ -12,7 +12,8 @@ import faviconDark from "#images/faviconDark.png";
 import faviconLight from "#images/faviconLight.png";
 import maskIcon from "#images/maskIcon.png";
 import stylesheet from "#tailwind.css";
-import { LinksFunction, json } from "@remix-run/node";
+import type { LinksFunction } from "@remix-run/node";
+import { json } from "@remix-run/node";
 import {
   Links,
   LiveReload,

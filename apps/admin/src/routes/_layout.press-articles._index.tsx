@@ -5,10 +5,8 @@ import { cn } from "#core/classNames.ts";
 import { Paginator } from "#core/controllers/paginator.tsx";
 import { Empty } from "#core/dataDisplay/empty.tsx";
 import { DynamicImage } from "#core/dataDisplay/image.tsx";
-import {
-  InstanceColor,
-  inferInstanceColor,
-} from "#core/dataDisplay/instanceColor.tsx";
+import type { InstanceColor } from "#core/dataDisplay/instanceColor.tsx";
+import { inferInstanceColor } from "#core/dataDisplay/instanceColor.tsx";
 import { db } from "#core/db.server.ts";
 import { NotFoundError } from "#core/errors.server.ts";
 import { Card } from "#core/layout/card.tsx";
@@ -22,8 +20,10 @@ import { PageSearchParams } from "#core/searchParams.ts";
 import { assertCurrentUserHasGroups } from "#currentUser/groups.server.ts";
 import { Icon } from "#generated/icon.tsx";
 import { UserGroup } from "@prisma/client";
-import { ActionArgs, LoaderArgs, SerializeFrom, json } from "@remix-run/node";
-import { V2_MetaFunction, useFetcher, useLoaderData } from "@remix-run/react";
+import type { ActionArgs, LoaderArgs, SerializeFrom } from "@remix-run/node";
+import { json } from "@remix-run/node";
+import type { V2_MetaFunction } from "@remix-run/react";
+import { useFetcher, useLoaderData } from "@remix-run/react";
 import { DateTime } from "luxon";
 import { promiseHash } from "remix-utils";
 import { z } from "zod";

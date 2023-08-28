@@ -14,9 +14,11 @@ import { assertCurrentUserHasGroups } from "#currentUser/groups.server.ts";
 import { FosterFamilySuggestionItem } from "#fosterFamilies/item.tsx";
 import { FosterFamilySearchParams } from "#fosterFamilies/searchParams.ts";
 import { Icon } from "#generated/icon.tsx";
-import { FosterFamily, UserGroup } from "@prisma/client";
+import type { FosterFamily } from "@prisma/client";
+import { UserGroup } from "@prisma/client";
 import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
-import { LoaderArgs, SerializeFrom, json } from "@remix-run/node";
+import type { LoaderArgs, SerializeFrom } from "@remix-run/node";
+import { json } from "@remix-run/node";
 import { useFetcher, useLocation } from "@remix-run/react";
 import { useCombobox } from "downshift";
 import { createPath } from "history";
@@ -147,17 +149,18 @@ const InputTrigger = forwardRef<
   ref
 ) {
   const rightAdornments = [
-    <BaseTextInput.Adornment>
-      <Icon id="caretDown" />
-    </BaseTextInput.Adornment>,
-  ];
-  if (fosterFamily != null) {
-    rightAdornments.unshift(
-      <BaseTextInput.ActionAdornment onClick={() => setFosterFamily(null)}>
+    fosterFamily != null ? (
+      <BaseTextInput.ActionAdornment
+        key="remove"
+        onClick={() => setFosterFamily(null)}
+      >
         <Icon id="xMark" />
       </BaseTextInput.ActionAdornment>
-    );
-  }
+    ) : null,
+    <BaseTextInput.Adornment key="caret">
+      <Icon id="caretDown" />
+    </BaseTextInput.Adornment>,
+  ].filter(Boolean);
 
   return (
     <BaseTextInput.Root aria-disabled={disabled}>

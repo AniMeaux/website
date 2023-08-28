@@ -1,7 +1,7 @@
 import { cn } from "#core/classNames.ts";
 import { useConfig } from "#core/config.ts";
 import { createCloudinaryUrl } from "#core/dataDisplay/image.tsx";
-import { InstanceColor } from "#core/dataDisplay/instanceColor.tsx";
+import type { InstanceColor } from "#core/dataDisplay/instanceColor.tsx";
 import { Card } from "#core/layout/card.tsx";
 import { cloneElement } from "react";
 

@@ -2,9 +2,9 @@ import {
   createSearchFilters,
   indexSearch,
 } from "#core/algolia/shared.server.ts";
-import { SearchOptions } from "@algolia/client-search";
-import { Breed, Species } from "@prisma/client";
-import { SearchClient, SearchIndex } from "algoliasearch";
+import type { SearchOptions } from "@algolia/client-search";
+import type { Breed, Species } from "@prisma/client";
+import type { SearchClient, SearchIndex } from "algoliasearch";
 
 export type BreedFromAlgolia = Pick<Breed, "name" | "species">;
 

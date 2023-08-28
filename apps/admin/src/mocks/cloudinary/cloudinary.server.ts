@@ -1,11 +1,11 @@
 import { faker } from "@faker-js/faker";
+import type { UploadHandler } from "@remix-run/node";
 import {
   unstable_composeUploadHandlers,
   unstable_createMemoryUploadHandler,
   unstable_parseMultipartFormData,
-  UploadHandler,
 } from "@remix-run/node";
-import { UploadApiErrorResponse, UploadApiResponse } from "cloudinary";
+import type { UploadApiErrorResponse, UploadApiResponse } from "cloudinary";
 import { rest } from "msw";
 import { z } from "zod";
 import { zfd } from "zod-form-data";

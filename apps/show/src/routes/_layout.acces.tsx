@@ -12,7 +12,8 @@ import { getPageTitle } from "#core/pageTitle.ts";
 import { NotFoundResponse } from "#core/response.server.ts";
 import { Pictogram } from "#generated/pictogram.tsx";
 import { json } from "@remix-run/node";
-import { Link, V2_MetaFunction } from "@remix-run/react";
+import type { V2_MetaFunction } from "@remix-run/react";
+import { Link } from "@remix-run/react";
 
 export async function loader() {
   const { featureFlagSiteOnline } = createConfig();

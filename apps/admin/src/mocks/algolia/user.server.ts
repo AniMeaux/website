@@ -5,9 +5,9 @@ import {
   createPostHandlers,
   highlightValue,
 } from "#mocks/algolia/shared.server.ts";
-import { UserFromAlgolia } from "#users/algolia.server.ts";
-import { Hit, SearchResponse } from "@algolia/client-search";
-import { Prisma } from "@prisma/client";
+import type { UserFromAlgolia } from "#users/algolia.server.ts";
+import type { Hit, SearchResponse } from "@algolia/client-search";
+import type { Prisma } from "@prisma/client";
 import { promiseHash } from "remix-utils";
 
 export const userHandlers = [

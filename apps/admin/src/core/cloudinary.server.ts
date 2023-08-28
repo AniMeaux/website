@@ -1,5 +1,7 @@
-import { UploadHandler, writeAsyncIterableToWritable } from "@remix-run/node";
-import { UploadApiErrorResponse, v2 as cloudinary } from "cloudinary";
+import type { UploadHandler } from "@remix-run/node";
+import { writeAsyncIterableToWritable } from "@remix-run/node";
+import type { UploadApiErrorResponse } from "cloudinary";
+import { v2 as cloudinary } from "cloudinary";
 import invariant from "tiny-invariant";
 import { v4 as uuid } from "uuid";
 

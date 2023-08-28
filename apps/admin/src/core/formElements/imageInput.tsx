@@ -1,14 +1,16 @@
-import { Action, ActionProps } from "#core/actions.tsx";
+import type { ActionProps } from "#core/actions.tsx";
+import { Action } from "#core/actions.tsx";
 import { toBooleanAttribute } from "#core/attributes.ts";
 import { cn } from "#core/classNames.ts";
 import { DenseHelper } from "#core/dataDisplay/helper.tsx";
+import type { DataUrlOrDynamicImageProps } from "#core/dataDisplay/image.tsx";
 import {
   DataUrlOrDynamicImage,
-  DataUrlOrDynamicImageProps,
   isImageOverSize,
 } from "#core/dataDisplay/image.tsx";
 import { Primitive } from "#core/primitives.tsx";
-import { Icon, IconProps } from "#generated/icon.tsx";
+import type { IconProps } from "#generated/icon.tsx";
+import { Icon } from "#generated/icon.tsx";
 import { forwardRef } from "react";
 
 const ImageInputNative = forwardRef<

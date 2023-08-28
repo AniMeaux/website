@@ -1,9 +1,10 @@
 import { cn } from "#core/classNames.ts";
-import { Config, useConfig } from "#core/config.ts";
+import type { Config } from "#core/config.ts";
+import { useConfig } from "#core/config.ts";
 import { ARTICLE_COMPONENTS, Markdown } from "#core/dataDisplay/markdown.tsx";
 import { createSocialMeta } from "#core/meta.ts";
 import { getPageTitle } from "#core/pageTitle.ts";
-import { V2_MetaFunction } from "@remix-run/react";
+import type { V2_MetaFunction } from "@remix-run/react";
 
 export const meta: V2_MetaFunction = () => {
   return createSocialMeta({ title: getPageTitle("Mentions légales") });

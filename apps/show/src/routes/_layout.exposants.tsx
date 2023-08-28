@@ -12,8 +12,10 @@ import { prisma } from "#core/prisma.server.ts";
 import { NotFoundResponse } from "#core/response.server.ts";
 import { EXHIBITOR_CATEGORY_TRANSLATIONS } from "#exhibitors/translations.ts";
 import { Pictogram } from "#generated/pictogram.tsx";
-import { SerializeFrom, json } from "@remix-run/node";
-import { Link, V2_MetaFunction, useLoaderData } from "@remix-run/react";
+import type { SerializeFrom } from "@remix-run/node";
+import { json } from "@remix-run/node";
+import type { V2_MetaFunction } from "@remix-run/react";
+import { Link, useLoaderData } from "@remix-run/react";
 
 export async function loader() {
   const { featureFlagShowExhibitors, featureFlagSiteOnline } = createConfig();

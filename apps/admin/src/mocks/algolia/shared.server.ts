@@ -1,11 +1,11 @@
-import {
+import type {
   DefaultBodyType,
   PathParams,
   ResponseResolver,
-  rest,
   RestContext,
   RestRequest,
 } from "msw";
+import { rest } from "msw";
 
 export function createPostHandlers(
   path: string,

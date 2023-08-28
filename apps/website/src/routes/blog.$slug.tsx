@@ -13,8 +13,10 @@ import {
 import { createSocialMeta } from "#core/meta.ts";
 import { getPageTitle } from "#core/pageTitle.ts";
 import { DonationSection } from "#donation/section.tsx";
-import { LoaderArgs, json } from "@remix-run/node";
-import { V2_MetaFunction, useLoaderData } from "@remix-run/react";
+import type { LoaderArgs } from "@remix-run/node";
+import { json } from "@remix-run/node";
+import type { V2_MetaFunction } from "@remix-run/react";
+import { useLoaderData } from "@remix-run/react";
 import { DateTime } from "luxon";
 
 const OTHER_ARTICLE_COUNT = 3;

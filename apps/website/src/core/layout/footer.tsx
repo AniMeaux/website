@@ -1,7 +1,9 @@
-import { BaseLink, BaseLinkProps } from "#core/baseLink.tsx";
+import type { BaseLinkProps } from "#core/baseLink.tsx";
+import { BaseLink } from "#core/baseLink.tsx";
 import { cn } from "#core/classNames.ts";
 import { LineShapeHorizontal } from "#core/layout/lineShape.tsx";
-import { Icon, IconProps } from "#generated/icon.tsx";
+import type { IconProps } from "#generated/icon.tsx";
+import { Icon } from "#generated/icon.tsx";
 import nameAndLogo from "#images/nameAndLogo.svg";
 import { SubscriptionForm } from "#routes/resources.subscribe.tsx";
 

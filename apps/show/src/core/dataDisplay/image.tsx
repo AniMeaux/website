@@ -1,9 +1,10 @@
 import { cn } from "#core/classNames.ts";
 import { useConfig } from "#core/config.ts";
 import { createSearchParams } from "#core/searchParams.ts";
-import { ImageShapeId } from "#generated/imageShapeId.ts";
+import type { ImageShapeId } from "#generated/imageShapeId.ts";
 import sprite from "#generated/imageShapesSprite.svg";
-import { ScreenSize, theme } from "#generated/theme.ts";
+import type { ScreenSize } from "#generated/theme.ts";
+import { theme } from "#generated/theme.ts";
 import { blurhashToDataUri } from "@unpic/placeholder";
 import orderBy from "lodash.orderby";
 import { useId } from "react";

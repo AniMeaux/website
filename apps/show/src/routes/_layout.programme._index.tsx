@@ -9,7 +9,7 @@ import { Routes } from "#core/navigation.tsx";
 import { getPageTitle } from "#core/pageTitle.ts";
 import { NotFoundResponse } from "#core/response.server.ts";
 import { json, redirect } from "@remix-run/node";
-import { V2_MetaFunction } from "@remix-run/react";
+import type { V2_MetaFunction } from "@remix-run/react";
 
 export async function loader() {
   const { featureFlagShowProgram, featureFlagSiteOnline } = createConfig();

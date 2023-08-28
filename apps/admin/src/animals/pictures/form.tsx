@@ -8,10 +8,9 @@ import {
 import { createActionData } from "#core/actionData.tsx";
 import { Action } from "#core/actions.tsx";
 import { InlineHelper } from "#core/dataDisplay/helper.tsx";
+import type { ImageFile, ImageFileOrId } from "#core/dataDisplay/image.tsx";
 import {
   IMAGE_SIZE_LIMIT_MB,
-  ImageFile,
-  ImageFileOrId,
   getImageId,
   isImageFile,
   isImageOverSize,
@@ -20,9 +19,10 @@ import {
 import { Form } from "#core/formElements/form.tsx";
 import { ImageInput } from "#core/formElements/imageInput.tsx";
 import { Icon } from "#generated/icon.tsx";
-import { Animal } from "@prisma/client";
-import { SerializeFrom } from "@remix-run/node";
-import { FetcherWithComponents, useFormAction } from "@remix-run/react";
+import type { Animal } from "@prisma/client";
+import type { SerializeFrom } from "@remix-run/node";
+import type { FetcherWithComponents } from "@remix-run/react";
+import { useFormAction } from "@remix-run/react";
 import { useRef, useState } from "react";
 import invariant from "tiny-invariant";
 import { z } from "zod";

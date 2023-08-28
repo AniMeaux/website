@@ -14,7 +14,7 @@ import {
 import { createSocialMeta } from "#core/meta.ts";
 import { getPageTitle } from "#core/pageTitle.ts";
 import { WarnItem } from "#warn/item.tsx";
-import { V2_MetaFunction } from "@remix-run/react";
+import type { V2_MetaFunction } from "@remix-run/react";
 
 const IMAGE_ID = "blog/bd9dec91-45da-4064-9053-536b5a9b61c3";
 

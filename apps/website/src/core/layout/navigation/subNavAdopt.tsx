@@ -4,10 +4,8 @@ import {
   LineShapeHorizontal,
   LineShapeVertical,
 } from "#core/layout/lineShape.tsx";
-import {
-  SubNavComponent,
-  SubNavItem,
-} from "#core/layout/navigation/shared.tsx";
+import type { SubNavComponent } from "#core/layout/navigation/shared.tsx";
+import { SubNavItem } from "#core/layout/navigation/shared.tsx";
 import { Species } from "@prisma/client";
 
 export const SubNavAdopt: SubNavComponent = () => {

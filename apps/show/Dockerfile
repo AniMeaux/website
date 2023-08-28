@@ -28,7 +28,7 @@ FROM base as build
 COPY --from=deps /workspace/node_modules ./node_modules
 COPY --from=deps /workspace/apps/show/node_modules ./apps/show/node_modules
 
-ADD ./package.json ./
+ADD ./package.json ./tsconfig.base.json ./
 ADD ./prisma ./prisma
 RUN yarn generate:prisma
 

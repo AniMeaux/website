@@ -23,9 +23,11 @@ import { Separator } from "#core/layout/separator.tsx";
 import { Icon } from "#generated/icon.tsx";
 import { BreedInput } from "#routes/resources.breed.tsx";
 import { ColorInput } from "#routes/resources.color.tsx";
-import { AnimalDraft, Breed, Color, Gender, Species } from "@prisma/client";
-import { SerializeFrom } from "@remix-run/node";
-import { FetcherWithComponents, useLocation } from "@remix-run/react";
+import type { AnimalDraft, Breed, Color } from "@prisma/client";
+import { Gender, Species } from "@prisma/client";
+import type { SerializeFrom } from "@remix-run/node";
+import type { FetcherWithComponents } from "@remix-run/react";
+import { useLocation } from "@remix-run/react";
 import { useEffect, useRef, useState } from "react";
 import { z } from "zod";
 
