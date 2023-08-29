@@ -5,30 +5,30 @@ export function createConfig(): Config {
   invariant(process.env.ANIMEAUX_URL, "ANIMEAUX_URL should be defined");
   invariant(
     process.env.CARPOOL_FACEBOOK_GROUP_URL,
-    "CARPOOL_FACEBOOK_GROUP_URL should be defined"
+    "CARPOOL_FACEBOOK_GROUP_URL should be defined",
   );
   invariant(
     process.env.CLOUDINARY_CLOUD_NAME,
-    "CLOUDINARY_CLOUD_NAME should be defined"
+    "CLOUDINARY_CLOUD_NAME should be defined",
   );
   invariant(
     process.env.EXHIBITORS_FORM_URL,
-    "EXHIBITORS_FORM_URL should be defined"
+    "EXHIBITORS_FORM_URL should be defined",
   );
   invariant(process.env.FACEBOOK_URL, "FACEBOOK_URL should be defined");
   invariant(process.env.INSTAGRAM_URL, "INSTAGRAM_URL should be defined");
   invariant(
     process.env.KID_WORKSHOP_REGISTRATION_URL,
-    "KID_WORKSHOP_REGISTRATION_URL should be defined"
+    "KID_WORKSHOP_REGISTRATION_URL should be defined",
   );
   invariant(
     process.env.PARTNERS_FORM_URL,
-    "PARTNERS_FORM_URL should be defined"
+    "PARTNERS_FORM_URL should be defined",
   );
   invariant(process.env.RAFFLE_URL, "RAFFLE_URL should be defined");
   invariant(
     process.env.PRESS_RELEASE_URL,
-    "PRESS_RELEASE_URL should be defined"
+    "PRESS_RELEASE_URL should be defined",
   );
   invariant(process.env.PUBLIC_HOST, "PUBLIC_HOST should be defined");
   invariant(process.env.TICKETING_URL, "TICKETING_URL should be defined");

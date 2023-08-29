@@ -13,16 +13,16 @@ export async function isSamePassword(password: string, hash: string) {
 
   invariant(
     hashedPassword != null,
-    `Can't compare password without a hashed password. Got '${hashedPassword}'`
+    `Can't compare password without a hashed password. Got '${hashedPassword}'`,
   );
   invariant(
     salt != null && salt !== "",
-    `Can't compare password without a salt. Got '${salt}'`
+    `Can't compare password without a salt. Got '${salt}'`,
   );
 
   return timingSafeEqual(
     Buffer.from(hashedPassword),
-    Buffer.from(await hashPassword(password, salt))
+    Buffer.from(await hashPassword(password, salt)),
   );
 }
 
@@ -42,7 +42,7 @@ async function hashPassword(password: string, salt: string) {
         } else {
           reject(error);
         }
-      }
+      },
     );
   });
 }

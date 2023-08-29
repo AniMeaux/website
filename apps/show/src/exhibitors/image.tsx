@@ -4,7 +4,7 @@ export function ExhibitorsImage(
   props: Omit<
     React.ComponentPropsWithoutRef<typeof DynamicImage>,
     "alt" | "aspectRatio" | "image" | "title"
-  >
+  >,
 ) {
   return (
     <DynamicImage

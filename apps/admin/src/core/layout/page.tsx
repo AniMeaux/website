@@ -5,7 +5,7 @@ import { Children, isValidElement } from "react";
 
 export function PageLayout({ children }: { children?: React.ReactNode }) {
   const hasTabs = Children.toArray(children).some(
-    (child) => isValidElement(child) && child.type === PageLayout.Tabs
+    (child) => isValidElement(child) && child.type === PageLayout.Tabs,
   );
 
   return (

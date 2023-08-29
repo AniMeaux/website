@@ -35,7 +35,7 @@ export async function loader({ request }: LoaderArgs) {
   ]);
 
   const searchParams = UserSearchParams.parse(
-    new URL(request.url).searchParams
+    new URL(request.url).searchParams,
   );
 
   return json({
@@ -60,7 +60,7 @@ export const ManagerInput = forwardRef<
   ManagerInputProps
 >(function ManagerInput(
   { name, defaultValue = null, disabled = false, hasError = false },
-  ref
+  ref,
 ) {
   const [isOpened, setIsOpened] = useState(false);
   const fetcher = useFetcher<typeof loader>();
@@ -109,7 +109,7 @@ export const ManagerInput = forwardRef<
                 createPath({
                   pathname: Routes.resources.manager.toString(),
                   search: UserSearchParams.stringify({ displayName: value }),
-                })
+                }),
               );
             }}
             onSelectedItem={(manager) => {
@@ -134,7 +134,7 @@ const InputTrigger = forwardRef<
   }
 >(function InputTrigger(
   { disabled, manager, hasError, triggerElement: TriggerElement },
-  ref
+  ref,
 ) {
   return (
     <BaseTextInput.Root aria-disabled={disabled}>

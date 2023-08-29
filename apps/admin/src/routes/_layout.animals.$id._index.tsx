@@ -284,7 +284,7 @@ function HeaderCard() {
                   "h-2 flex items-center",
                   animal.gender === Gender.FEMALE
                     ? "text-pink-500"
-                    : "text-blue-500"
+                    : "text-blue-500",
                 )}
               >
                 <Icon id={GENDER_ICON[animal.gender]} />
@@ -332,7 +332,7 @@ function ProfileCard() {
 
           <SimpleItem icon={<Icon id="cakeCandles" />}>
             {DateTime.fromISO(animal.birthdate).toLocaleString(
-              DateTime.DATE_FULL
+              DateTime.DATE_FULL,
             )}{" "}
             ({formatAge(animal.birthdate)})
           </SimpleItem>
@@ -424,7 +424,7 @@ function SituationCard() {
                 depuis le{" "}
                 <strong className="text-body-emphasis">
                   {DateTime.fromISO(animal.adoptionDate).toLocaleString(
-                    DateTime.DATE_FULL
+                    DateTime.DATE_FULL,
                   )}
                 </strong>
               </>
@@ -554,7 +554,7 @@ function SituationCard() {
               Prochaine vaccination le{" "}
               <strong className="text-body-emphasis">
                 {DateTime.fromISO(animal.nextVaccinationDate).toLocaleString(
-                  DateTime.DATE_FULL
+                  DateTime.DATE_FULL,
                 )}
               </strong>
             </SimpleItem>
@@ -627,7 +627,7 @@ function SituationCard() {
               : "Pris en charge le"}{" "}
             <strong className="text-body-emphasis">
               {DateTime.fromISO(animal.pickUpDate).toLocaleString(
-                DateTime.DATE_FULL
+                DateTime.DATE_FULL,
               )}
             </strong>
             {animal.pickUpLocation != null ? (

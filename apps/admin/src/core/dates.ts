@@ -2,7 +2,7 @@ import { DateTime } from "luxon";
 
 export function toIsoDateValue(
   date: undefined | null | string | Date,
-  { hasTime = false }: { hasTime?: boolean } = {}
+  { hasTime = false }: { hasTime?: boolean } = {},
 ) {
   if (date == null) {
     return "";

@@ -7,7 +7,7 @@ export function RelatedSection({ children }: { children: React.ReactNode }) {
     <aside
       className={cn(
         "w-full px-page pt-18 flex flex-col items-center gap-24",
-        "md:pt-12"
+        "md:pt-12",
       )}
     >
       <LineShapeHorizontal
@@ -28,7 +28,7 @@ export function RelatedSectionTitle({
     <h2
       className={cn(
         "text-title-section-small text-center",
-        "md:text-title-section-large md:text-left"
+        "md:text-title-section-large md:text-left",
       )}
     >
       {children}

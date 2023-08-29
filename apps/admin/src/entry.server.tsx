@@ -13,13 +13,13 @@ export default async function handleRequest(
   request: Request,
   responseStatusCode: number,
   responseHeaders: Headers,
-  remixContext: EntryContext
+  remixContext: EntryContext,
 ) {
   await extendCurrentUserSession(request.headers, responseHeaders);
   await extendCurrentUserPreferences(request.headers, responseHeaders);
 
   const markup = renderToString(
-    <RemixServer context={remixContext} url={request.url} />
+    <RemixServer context={remixContext} url={request.url} />,
   );
 
   responseHeaders.set("Content-Type", "text/html");
@@ -36,7 +36,7 @@ export default async function handleRequest(
 
 export const handleDataRequest: HandleDataRequestFunction = async (
   response,
-  { request }
+  { request },
 ) => {
   await extendCurrentUserSession(request.headers, response.headers);
   await extendCurrentUserPreferences(request.headers, response.headers);

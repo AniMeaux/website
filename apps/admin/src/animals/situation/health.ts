@@ -9,9 +9,9 @@ export function hasUpCommingSterilisation<
   TAnimal extends SerializeFrom<
     Pick<Animal, "birthdate" | "species" | "status"> &
       Partial<Pick<Animal, "isSterilizationMandatory" | "isSterilized">>
-  >
+  >,
 >(
-  animal: TAnimal
+  animal: TAnimal,
 ): animal is Required<
   SetNonNullable<TAnimal, "isSterilizationMandatory" | "isSterilized">
 > {
@@ -27,9 +27,9 @@ export function hasUpCommingSterilisation<
 export function hasUpCommingVaccination<
   TAnimal extends SerializeFrom<
     Partial<Pick<Animal, "nextVaccinationDate">> & Pick<Animal, "status">
-  >
+  >,
 >(
-  animal: TAnimal
+  animal: TAnimal,
 ): animal is Required<SetNonNullable<TAnimal, "nextVaccinationDate">> {
   if (
     animal.nextVaccinationDate == null ||
@@ -49,9 +49,9 @@ export function hasUpCommingVaccination<
 export function hasPastVaccination<
   TAnimal extends SerializeFrom<
     Partial<Pick<Animal, "nextVaccinationDate">> & Pick<Animal, "status">
-  >
+  >,
 >(
-  animal: TAnimal
+  animal: TAnimal,
 ): animal is Required<SetNonNullable<TAnimal, "nextVaccinationDate">> {
   if (
     animal.nextVaccinationDate == null ||
@@ -66,7 +66,7 @@ export function hasPastVaccination<
 }
 
 export function formatNextVaccinationDate(
-  animal: SetNonNullable<SerializeFrom<Pick<Animal, "nextVaccinationDate">>>
+  animal: SetNonNullable<SerializeFrom<Pick<Animal, "nextVaccinationDate">>>,
 ) {
   const nextVaccinationDate = DateTime.fromISO(animal.nextVaccinationDate);
 

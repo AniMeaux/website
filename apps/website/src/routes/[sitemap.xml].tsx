@@ -80,7 +80,7 @@ export async function loader() {
           {url.priority != null && <priority>{url.priority}</priority>}
         </url>
       ))}
-    </urlset>
+    </urlset>,
   );
 
   return new Response('<?xml version="1.0" encoding="UTF-8"?>' + markup, {

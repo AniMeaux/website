@@ -38,7 +38,7 @@ export function EventItem({
       to={Routes.events.id(event.id).toString()}
       className={cn(
         className,
-        "group rounded-1 flex flex-col gap-0.5 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+        "group rounded-1 flex flex-col gap-0.5 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white",
       )}
     >
       <span className="relative flex flex-col">
@@ -72,7 +72,7 @@ export function EventItem({
         <p
           className={cn(
             "text-body-emphasis transition-colors duration-100 ease-in-out",
-            TITLE_CLASS_NAME[inferInstanceColor(event.id)]
+            TITLE_CLASS_NAME[inferInstanceColor(event.id)],
           )}
         >
           {event.title}

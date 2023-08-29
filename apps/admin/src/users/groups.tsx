@@ -15,7 +15,7 @@ export const GROUP_TRANSLATION: Record<UserGroup, string> = {
 
 export const SORTED_GROUPS = orderBy(
   Object.values(UserGroup),
-  (group) => GROUP_TRANSLATION[group]
+  (group) => GROUP_TRANSLATION[group],
 );
 
 export const GROUP_ICON: Record<UserGroup, IconProps["id"]> = {

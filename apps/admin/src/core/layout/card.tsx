@@ -28,7 +28,7 @@ Card.Header = function CardHeader({
       className={cn(
         className,
         "flex-none bg-white p-1 flex md:p-2",
-        isVertical ? "flex-col gap-1" : "gap-1 md:gap-2"
+        isVertical ? "flex-col gap-1" : "gap-1 md:gap-2",
       )}
     >
       {children}
@@ -62,7 +62,7 @@ Card.Content = function CardContent({
           : "px-1 md:px-2",
         hasVerticalScroll
           ? "flex-1 overflow-y-scroll scrollbars-custom overscroll-contain"
-          : "flex-auto"
+          : "flex-auto",
       )}
     >
       {children}
@@ -81,7 +81,7 @@ Card.Footer = function CardFooter({
     <footer
       className={cn(
         className,
-        "flex-none bg-white p-1 flex gap-1 md:p-2 md:gap-2"
+        "flex-none bg-white p-1 flex gap-1 md:p-2 md:gap-2",
       )}
     >
       {children}

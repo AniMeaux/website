@@ -13,7 +13,7 @@ export function createPostHandlers(
     RestRequest<DefaultBodyType, PathParams<string>>,
     RestContext,
     DefaultBodyType
-  >
+  >,
 ) {
   // Mock all primary and fallback hosts.
   // See https://www.algolia.com/doc/rest-api/search/#hosts
@@ -29,7 +29,7 @@ export function createPostHandlers(
 export function createBatchHandlers(path: string) {
   return createPostHandlers(path, async (_req, res, ctx) => {
     return res(
-      ctx.json({ taskID: Math.round(Math.random() * 1000), objectIDs: [] })
+      ctx.json({ taskID: Math.round(Math.random() * 1000), objectIDs: [] }),
     );
   });
 }

@@ -12,7 +12,7 @@ export function Footer() {
     <footer
       className={cn(
         "w-full pt-18 px-page pb-12 flex flex-col items-center gap-24",
-        "md:pt-12"
+        "md:pt-12",
       )}
     >
       <LineShapeHorizontal
@@ -22,7 +22,7 @@ export function Footer() {
       <div
         className={cn(
           "w-full flex flex-col items-center gap-24",
-          "md:flex-row"
+          "md:flex-row",
         )}
       >
         <section className={cn("flex flex-col gap-6", "md:flex-1")}>
@@ -30,7 +30,7 @@ export function Footer() {
             <h2
               className={cn(
                 "text-title-section-small text-center",
-                "md:text-title-section-large md:text-left"
+                "md:text-title-section-large md:text-left",
               )}
             >
               Newsletter
@@ -45,7 +45,7 @@ export function Footer() {
           <div
             className={cn(
               "w-full flex flex-col items-center",
-              "md:items-start"
+              "md:items-start",
             )}
           >
             <SubscriptionForm />
@@ -88,7 +88,7 @@ export function Footer() {
       <section
         className={cn(
           "py-6 flex flex-col gap-6 text-gray-500 text-center",
-          "md:w-full md:flex-row md:items-center md:justify-between md:gap-12 md:text-left"
+          "md:w-full md:flex-row md:items-center md:justify-between md:gap-12 md:text-left",
         )}
       >
         <p className="text-caption-default">

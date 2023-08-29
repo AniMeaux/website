@@ -15,7 +15,7 @@ const SearchParams = createSearchParams({
         .min(0)
         // Cloudinary default value.
         // https://cloudinary.com/documentation/admin_api#get_resources_optional_parameters
-        .catch(10)
+        .catch(10),
     ),
   },
   nextIndex: {
@@ -29,21 +29,21 @@ const RESOURCE_COUNT = 200;
 const resolver: Parameters<typeof rest.get>[1] = async (req, res, ctx) => {
   const request = new Request(req.url, {
     method: req.method,
-    headers: req.headers,
+    headers: Array.from(req.headers.entries()),
   });
 
   const searchParams = SearchParams.parse(new URL(request.url).searchParams);
 
   const endIndex = Math.min(
     RESOURCE_COUNT,
-    searchParams.nextIndex + searchParams.maxResults
+    searchParams.nextIndex + searchParams.maxResults,
   );
 
   const response: CloudinaryApiResponse = {
     next_cursor: endIndex === RESOURCE_COUNT ? undefined : String(endIndex),
     resources: Array.from(
       { length: endIndex - searchParams.nextIndex },
-      () => ({ public_id: uuid(), width: 8000, height: 8000 })
+      () => ({ public_id: uuid(), width: 8000, height: 8000 }),
     ),
   };
 
@@ -53,6 +53,6 @@ const resolver: Parameters<typeof rest.get>[1] = async (req, res, ctx) => {
 export const cloudinaryHandlers = [
   rest.get(
     "https://api.cloudinary.com/v1_1/mock-cloud-name/resources/image/upload",
-    resolver
+    resolver,
   ),
 ];

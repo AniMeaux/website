@@ -34,7 +34,7 @@ async function generatePictogramSprite() {
         .replace(/\s*(width|height|xmlns(:xlink)?)="[^"]+"/g, "");
 
       return symbol;
-    })
+    }),
   );
 
   let sprite = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -54,7 +54,7 @@ ${contents.map((symbol) => `    ${symbol}`).join("\n")}
 
   const component = `import sprite from "#${path.relative(
     path.resolve(__dirname, "../src"),
-    PICTOGRAM_SPRITE_DEST
+    PICTOGRAM_SPRITE_DEST,
   )}";
 
 export const pictogramsIds = [
@@ -91,7 +91,7 @@ export function Pictogram({
 
   await writeFile(PICTOGRAM_COMPONENT_DEST, component);
   console.info(
-    `🎉 Component file wrote: ${relativeToCwd(PICTOGRAM_COMPONENT_DEST)}`
+    `🎉 Component file wrote: ${relativeToCwd(PICTOGRAM_COMPONENT_DEST)}`,
   );
 }
 

@@ -27,7 +27,7 @@ export async function getCurrentUserPreferences(request?: Request) {
 }
 
 export async function commitCurrentUserPreferences(
-  preferences: z.infer<typeof PreferencesSchema>
+  preferences: z.infer<typeof PreferencesSchema>,
 ) {
   // Create new session with default values.
   const session = await sessionStorage.getSession();
@@ -37,10 +37,10 @@ export async function commitCurrentUserPreferences(
 
 export async function extendCurrentUserPreferences(
   requestHeaders: Headers,
-  responseHeaders: Headers
+  responseHeaders: Headers,
 ) {
   const setCookieValue = await sessionCookie.parse(
-    responseHeaders.get("set-cookie")
+    responseHeaders.get("set-cookie"),
   );
 
   if (setCookieValue == null) {
@@ -48,7 +48,7 @@ export async function extendCurrentUserPreferences(
     if (cookieValue != null) {
       responseHeaders.append(
         "Set-Cookie",
-        await sessionCookie.serialize(cookieValue)
+        await sessionCookie.serialize(cookieValue),
       );
     }
   }

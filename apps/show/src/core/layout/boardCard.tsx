@@ -12,7 +12,7 @@ export function BoardCard({
     <div
       className={cn(
         "relative p-3 md:px-10 md:py-6 bg-var-alabaster",
-        className
+        className,
       )}
     >
       <BoardBackground />
@@ -30,7 +30,7 @@ export function BoardCard({
 function BoardBackground() {
   const { ref, size } = useElementSize<HTMLDivElement>();
   const isMedium = useScreenSizeCondition(
-    (screenSize) => screenSize >= theme.screensPx.md
+    (screenSize) => screenSize >= theme.screensPx.md,
   );
 
   return (

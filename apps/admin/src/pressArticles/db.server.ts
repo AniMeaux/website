@@ -41,7 +41,7 @@ export class PressArticleDbDelegate {
   private validatePressArticle(data: PressArticleData) {
     const now = DateTime.now().toMillis();
     const publicationDate = DateTime.fromJSDate(
-      data.publicationDate
+      data.publicationDate,
     ).toMillis();
     if (now < publicationDate) {
       throw new InvalidPublicationDateError();

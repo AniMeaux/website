@@ -25,13 +25,13 @@ export async function loader({ request }: LoaderArgs) {
   const currentUser = await db.currentUser.get(
     request,
     { select: { shouldChangePassword: true } },
-    { skipPasswordChangeCheck: true }
+    { skipPasswordChangeCheck: true },
   );
 
   if (!currentUser.shouldChangePassword) {
     const url = new URL(request.url);
     const { next = Routes.home.toString() } = NextSearchParams.parse(
-      url.searchParams
+      url.searchParams,
     );
     throw redirect(next);
   }
@@ -46,19 +46,19 @@ export const meta: V2_MetaFunction = () => {
 const ActionFormData = createActionData(
   z.object({
     password: z.string().min(1, "Veuillez entrer un mot de passe"),
-  })
+  }),
 );
 
 export async function action({ request }: ActionArgs) {
   const currentUser = await db.currentUser.get(
     request,
     { select: { id: true } },
-    { skipPasswordChangeCheck: true }
+    { skipPasswordChangeCheck: true },
   );
 
   const rawFormData = await request.formData();
   const formData = ActionFormData.schema.safeParse(
-    Object.fromEntries(rawFormData.entries())
+    Object.fromEntries(rawFormData.entries()),
   );
 
   if (!formData.success) {
@@ -69,7 +69,7 @@ export async function action({ request }: ActionArgs) {
 
   const url = new URL(request.url);
   const { next = Routes.home.toString() } = NextSearchParams.parse(
-    url.searchParams
+    url.searchParams,
   );
   throw redirect(next);
 }

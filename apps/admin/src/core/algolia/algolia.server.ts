@@ -29,11 +29,11 @@ export const algolia = singleton("algolia", () => {
 
   invariant(
     process.env.ALGOLIA_ADMIN_KEY != null,
-    "ALGOLIA_ADMIN_KEY must be defined."
+    "ALGOLIA_ADMIN_KEY must be defined.",
   );
 
   return new AlgoliaClient(
     process.env.ALGOLIA_ID,
-    process.env.ALGOLIA_ADMIN_KEY
+    process.env.ALGOLIA_ADMIN_KEY,
   );
 });

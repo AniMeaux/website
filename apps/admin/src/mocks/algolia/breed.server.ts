@@ -59,7 +59,7 @@ export const breedHandlers = [
       };
 
       return res(ctx.json(responseBody));
-    }
+    },
   ),
 
   ...createBatchHandlers(`/1/indexes/${algolia.breed.index.indexName}/batch`),

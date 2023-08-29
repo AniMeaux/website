@@ -17,14 +17,14 @@ export function Steps({
       key: `step-${index}`,
       stepIndex: index + 1,
       isActive: index <= activeIndex,
-    })
+    }),
   );
 
   return (
     <nav className="flex items-center gap-1">
       {joinReactNodes(
         steps,
-        <Icon id="angleRight" className="text-gray-200" />
+        <Icon id="angleRight" className="text-gray-200" />,
       )}
     </nav>
   );
@@ -59,7 +59,7 @@ Steps.Step = function Step({
           "w-2 h-2 border rounded-0.5 flex items-center justify-center",
           isActive
             ? "border-blue-500 bg-blue-500 text-white"
-            : "border-gray-200 text-gray-500 group-hover:text-gray-800"
+            : "border-gray-200 text-gray-500 group-hover:text-gray-800",
         )}
       >
         {stepIndex}

@@ -28,5 +28,5 @@ export const SCREENING_RESULT_ICON: Record<ScreeningResult, IconProps["id"]> = {
 
 export const SORTED_SCREENING_RESULTS = orderBy(
   Object.values(ScreeningResult),
-  (result) => SCREENING_RESULT_TRANSLATION[result][Gender.MALE]
+  (result) => SCREENING_RESULT_TRANSLATION[result][Gender.MALE],
 );

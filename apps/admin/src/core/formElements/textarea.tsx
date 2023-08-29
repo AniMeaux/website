@@ -21,7 +21,7 @@ export const Textarea = forwardRef<
     autoComplete = String(Math.random()),
     ...rest
   },
-  propRef
+  propRef,
 ) {
   invariant(typeof propRef !== "function", "Only object ref are supported.");
   const localRef = useRef<HTMLTextAreaElement>(null);

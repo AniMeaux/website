@@ -20,7 +20,7 @@ export const Item = Object.assign(
         ref={ref}
         className={cn(
           "group w-full rounded-0.5 grid grid-cols-[auto_minmax(0px,1fr)] grid-flow-col",
-          className
+          className,
         )}
       />
     );
@@ -35,7 +35,7 @@ export const Item = Object.assign(
           {...rest}
           className={cn(
             "w-4 h-4 flex items-center justify-center text-gray-600 text-[20px]",
-            className
+            className,
           )}
         />
       );
@@ -52,7 +52,7 @@ export const Item = Object.assign(
         />
       );
     },
-  }
+  },
 );
 
 export function SimpleItem({

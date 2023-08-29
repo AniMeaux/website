@@ -45,7 +45,7 @@ export async function loader() {
 export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
   return createSocialMeta({
     title: getPageTitle(
-      data?.exhibitors != null ? "Exposants" : getErrorTitle(404)
+      data?.exhibitors != null ? "Exposants" : getErrorTitle(404),
     ),
   });
 };

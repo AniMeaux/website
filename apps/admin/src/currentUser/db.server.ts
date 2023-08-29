@@ -23,7 +23,7 @@ export class CurrentUserDbDelegate {
     args: Prisma.SelectSubset<T, Prisma.UserFindFirstArgs>,
     {
       skipPasswordChangeCheck = false,
-    }: { skipPasswordChangeCheck?: boolean } = {}
+    }: { skipPasswordChangeCheck?: boolean } = {},
   ) {
     const session = await getCurrentUserSession(request);
     if (session.data.userId == null) {
@@ -85,7 +85,7 @@ export class CurrentUserDbDelegate {
       await isSamePassword(
         "Hello there",
         // "Obiwan Kenobi?"
-        "879d5935bab9b03280188c1806cf5ae751579b3342c51e788c43be14e0109ab8b98da03f5fa2cc96c85ca192eda9aaf892cba7ba1fc3b7d1a4a1eb8956a65c53.6a71cc1003ad30a5c6abf0d53baa2c5d"
+        "879d5935bab9b03280188c1806cf5ae751579b3342c51e788c43be14e0109ab8b98da03f5fa2cc96c85ca192eda9aaf892cba7ba1fc3b7d1a4a1eb8956a65c53.6a71cc1003ad30a5c6abf0d53baa2c5d",
       );
 
       return null;
@@ -123,7 +123,7 @@ export class CurrentUserDbDelegate {
 
   async updateProfile(
     userId: User["id"],
-    data: Pick<User, "email" | "displayName">
+    data: Pick<User, "email" | "displayName">,
   ) {
     await prisma.$transaction(async (prisma) => {
       try {
@@ -150,7 +150,7 @@ export class CurrentUserDbDelegate {
         pathname: Routes.login.toString(),
         search: NextSearchParams.stringify({ next: path }),
       }),
-      { headers: { "Set-Cookie": await destroyCurrentUserSession() } }
+      { headers: { "Set-Cookie": await destroyCurrentUserSession() } },
     );
   }
 
@@ -161,7 +161,7 @@ export class CurrentUserDbDelegate {
       createPath({
         pathname: Routes.definePassword.toString(),
         search: NextSearchParams.stringify({ next: path }),
-      })
+      }),
     );
   }
 

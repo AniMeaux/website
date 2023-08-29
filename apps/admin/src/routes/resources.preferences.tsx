@@ -17,7 +17,7 @@ export async function loader() {
 const ActionFormData = createActionData(
   z.object({
     isSideBarCollapsed: zfd.checkbox(),
-  })
+  }),
 );
 
 export async function action({ request }: ActionArgs) {
@@ -37,7 +37,7 @@ export async function action({ request }: ActionArgs) {
       headers: {
         "Set-Cookie": await commitCurrentUserPreferences(formData.data),
       },
-    }
+    },
   );
 }
 
@@ -57,7 +57,7 @@ export function usePreferencesFetcher() {
         action: Routes.resources.preferences.toString(),
       });
     },
-    [fetcherSubmit]
+    [fetcherSubmit],
   );
 
   const fetcherFormData = fetcher.formData;

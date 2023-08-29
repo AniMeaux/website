@@ -113,7 +113,7 @@ type DialogConfirmActionProps = Omit<
 >;
 
 Dialog.ConfirmAction = function DialogConfirmAction(
-  props: DialogConfirmActionProps
+  props: DialogConfirmActionProps,
 ) {
   const { variant } = useContext(DialogContext);
 

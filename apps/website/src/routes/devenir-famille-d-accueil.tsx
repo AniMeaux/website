@@ -53,7 +53,7 @@ export default function Route() {
         <h2
           className={cn(
             "text-title-section-small text-center",
-            "md:text-title-section-large"
+            "md:text-title-section-large",
           )}
         >
           En 3 étapes

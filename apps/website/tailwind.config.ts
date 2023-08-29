@@ -257,7 +257,7 @@ export default {
           "pb-safe": (value) => createSafePadding("bottom", value),
           "pl-safe": (value) => createSafePadding("left", value),
         },
-        { values: theme("spacing") }
+        { values: theme("spacing") },
       );
     }),
 
@@ -282,7 +282,7 @@ export default {
             lg: [theme("spacing.12"), theme("spacing.6")],
             xl: [theme("spacing.24"), theme("spacing.12")],
           },
-        }
+        },
       );
     }),
 
@@ -300,7 +300,7 @@ export default {
             },
           }),
         },
-        { values: { none: "none" } }
+        { values: { none: "none" } },
       );
     }),
   ],
@@ -308,7 +308,7 @@ export default {
 
 function createSafePadding(
   side: "top" | "right" | "bottom" | "left",
-  value: string
+  value: string,
 ) {
   const name = {
     top: "paddingTop",

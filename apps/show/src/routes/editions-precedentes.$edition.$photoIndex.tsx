@@ -45,7 +45,7 @@ export async function loader({ params }: LoaderArgs) {
   }
 
   const images = await cloudinary.previousEdition.findAllImages(
-    result.data.edition
+    result.data.edition,
   );
 
   const image = images[result.data.photoIndex];
@@ -65,7 +65,7 @@ export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
     title: getPageTitle(
       data != null
         ? `Photo du salon ${data.edition} par Julia Pommé Photographe.`
-        : getErrorTitle(404)
+        : getErrorTitle(404),
     ),
   });
 };
@@ -153,7 +153,7 @@ const PhotoAction = forwardRef<
       ref={ref}
       className={cn(
         "justify-self-center self-center opacity-70 hover:opacity-100 focus-visible:opacity-100 grid grid-cols-1 text-[48px] text-white focus-visible:outline-none focus-visible:ring focus-visible:ring-mystic",
-        className
+        className,
       )}
     />
   );

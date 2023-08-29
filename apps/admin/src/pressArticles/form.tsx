@@ -25,7 +25,7 @@ export const ActionFormData = createActionData(
     publisherName: z.string().trim().min(1, "Veuillez entrer un éditeur"),
     title: z.string().trim().min(1, "Veuillez entrer un titre"),
     url: z.string().url("Veuillez entrer une URL valide"),
-  })
+  }),
 );
 
 type State = {

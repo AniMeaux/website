@@ -15,7 +15,7 @@ export const Overlay = forwardRef<
         // mobile browser's height change due to scroll.
         "absolute",
         "top-0 right-0 z-30 h-full w-full overscroll-none bg-black/20 cursor-pointer",
-        className
+        className,
       )}
     />
   );

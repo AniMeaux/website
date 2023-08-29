@@ -29,7 +29,7 @@ export function Paginator({
         to={{ search: setPage(new URLSearchParams(), index).toString() }}
       >
         {index + 1}
-      </PaginatorItem>
+      </PaginatorItem>,
     );
   }
 
@@ -39,7 +39,7 @@ export function Paginator({
       pageCount - page - 3,
       <PaginatorItem key={pageCount - 2} isEllipsis>
         ...
-      </PaginatorItem>
+      </PaginatorItem>,
     );
   }
 
@@ -49,7 +49,7 @@ export function Paginator({
       page - 2,
       <PaginatorItem key={1} isEllipsis>
         ...
-      </PaginatorItem>
+      </PaginatorItem>,
     );
   }
 
@@ -80,7 +80,7 @@ function PaginatorItem({
           {
             "bg-brandBlue text-white": isActive,
             "hover:bg-gray-200": !isActive && to != null,
-          }
+          },
         )}
       >
         {children}

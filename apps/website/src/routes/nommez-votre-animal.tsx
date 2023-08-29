@@ -35,26 +35,26 @@ export async function loader({ request }: LoaderArgs) {
 
   // Remove names used by active animals.
   let names = animalNames.filter(
-    (name) => !usedNames.includes(name.label.toLowerCase())
+    (name) => !usedNames.includes(name.label.toLowerCase()),
   );
 
   if (params.l != null) {
     const firstLetter = params.l.toLowerCase();
     names = names.filter((name) =>
-      name.label.toLowerCase().startsWith(firstLetter)
+      name.label.toLowerCase().startsWith(firstLetter),
     );
   }
 
   if (params.g != null) {
     const gender = params.g;
     names = names.filter(
-      (name) => name.gender == null || name.gender === gender
+      (name) => name.gender == null || name.gender === gender,
     );
   }
 
   names = orderBy(
     pickRandom(names, ANIMAL_NAME_COUNT_PER_PAGE),
-    (name) => name.label
+    (name) => name.label,
   );
 
   return json({ names });
@@ -75,7 +75,7 @@ export default function Route() {
         <h1
           className={cn(
             "text-title-hero-small text-center",
-            "md:text-title-hero-large md:text-left"
+            "md:text-title-hero-large md:text-left",
           )}
         >
           Nommez votre animal
@@ -90,13 +90,13 @@ export default function Route() {
       <div
         className={cn(
           "flex flex-col gap-12",
-          "md:flex-row md:items-start md:gap-24"
+          "md:flex-row md:items-start md:gap-24",
         )}
       >
         <section
           className={cn(
             "shadow-base rounded-bubble-lg bg-white p-6 flex",
-            "md:flex-1 md:max-w-xs"
+            "md:flex-1 md:max-w-xs",
           )}
         >
           <Form
@@ -170,7 +170,7 @@ export default function Route() {
             <p
               className={cn(
                 "w-full py-12 text-gray-500 text-center",
-                "md:py-40"
+                "md:py-40",
               )}
             >
               Aucun nom trouvé.
@@ -183,7 +183,7 @@ export default function Route() {
                   "xs:grid-cols-2",
                   "sm:grid-cols-3",
                   "md:grid-cols-2 md:gap-y-12",
-                  "lg:grid-cols-3"
+                  "lg:grid-cols-3",
                 )}
               >
                 {names.map((name) => (
@@ -278,7 +278,7 @@ const LoaderSearchParamsSchema = z.object({
 
 function getParams(searchParams: URLSearchParams) {
   const result = LoaderSearchParamsSchema.safeParse(
-    Object.fromEntries(searchParams.entries())
+    Object.fromEntries(searchParams.entries()),
   );
 
   return result.success ? result.data : { l: null, g: null };

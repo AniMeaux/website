@@ -26,7 +26,7 @@ export function Avatar({
         className,
         "inline-flex items-center justify-center",
         AVATAR_SIZE_CLASS_NAME[size],
-        COLOR_CLASS_NAME[color]
+        COLOR_CLASS_NAME[color],
       )}
     >
       {icon != null ? (
@@ -35,7 +35,7 @@ export function Avatar({
         <span
           className={cn(
             "font-semibold leading-none",
-            ICON_OR_LETTER_CLASS_NAME[size]
+            ICON_OR_LETTER_CLASS_NAME[size],
           )}
         >
           {letter}

@@ -97,7 +97,7 @@ function StepsSection() {
       <h2
         className={cn(
           "text-title-section-small text-center",
-          "md:text-title-section-large"
+          "md:text-title-section-large",
         )}
       >
         Les étapes
@@ -123,7 +123,7 @@ function StepsSection() {
             className={cn(
               bubbleSectionClassNames.content(),
               "px-10 py-12 flex flex-col items-center gap-6 text-center",
-              "md:px-30 md:py-[60px]"
+              "md:px-30 md:py-[60px]",
             )}
           >
             <p>
@@ -179,7 +179,7 @@ function CostsSection() {
       <h2
         className={cn(
           "text-title-section-small text-center",
-          "md:text-title-section-large"
+          "md:text-title-section-large",
         )}
       >
         Frais d’adoption

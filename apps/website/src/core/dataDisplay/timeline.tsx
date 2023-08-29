@@ -21,27 +21,27 @@ export function TimelineItem({
     <li
       className={cn(
         "group relative py-3 flex items-center gap-6",
-        "md:p-6 md:gap-12 md:odd:flex-row-reverse"
+        "md:p-6 md:gap-12 md:odd:flex-row-reverse",
       )}
     >
       <TopLine
         className={cn(
           "hidden absolute -z-10 -top-2 left-4 w-6 h-12 text-gray-300 group-first:block",
-          "md:-top-0.5 md:left-1/2 md:-translate-x-1/2 md:h-20"
+          "md:-top-0.5 md:left-1/2 md:-translate-x-1/2 md:h-20",
         )}
       />
 
       <BottomLine
         className={cn(
           "absolute -z-10 top-10 left-4 w-6 h-full text-gray-300 group-even:scale-x-[-1] group-last:hidden",
-          "md:top-[78px] md:left-1/2 md:-translate-x-1/2"
+          "md:top-[78px] md:left-1/2 md:-translate-x-1/2",
         )}
       />
 
       <TopLine
         className={cn(
           "hidden absolute -z-10 top-10 left-4 w-6 h-12 text-gray-300 scale-y-[-1] group-last:block group-odd:scale-x-[-1]",
-          "md:top-[78px] md:left-1/2 md:-translate-x-1/2 md:h-20"
+          "md:top-[78px] md:left-1/2 md:-translate-x-1/2 md:h-20",
         )}
       />
 

@@ -100,7 +100,7 @@ export default function Route() {
         <DynamicImage
           imageId={visiblePictureId}
           alt={`Photo ${visiblePictureIndex + 1} de ${getAnimalDisplayName(
-            animal
+            animal,
           )}`}
           sizes={{ default: "100vw" }}
           fallbackSize="2048"
@@ -129,7 +129,7 @@ export default function Route() {
                 fallbackSize="512"
                 className={cn(
                   "w-full rounded-0.5 transition-opacity duration-100 ease-in-out",
-                  pictureId === visiblePictureId ? "opacity-100" : "opacity-50"
+                  pictureId === visiblePictureId ? "opacity-100" : "opacity-50",
                 )}
               />
             </BaseLink>

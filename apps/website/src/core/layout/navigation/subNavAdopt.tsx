@@ -13,7 +13,7 @@ export const SubNavAdopt: SubNavComponent = () => {
     <div
       className={cn(
         "flex flex-col gap-2",
-        "md:flex-row md:items-center md:gap-6"
+        "md:flex-row md:items-center md:gap-6",
       )}
     >
       <div className={cn("grid grid-cols-3", "md:flex-1")}>
@@ -66,7 +66,7 @@ export const SubNavAdopt: SubNavComponent = () => {
       <div
         className={cn(
           "w-full px-2 flex text-gray-100",
-          "md:w-auto md:h-full md:px-0 md:py-2"
+          "md:w-auto md:h-full md:px-0 md:py-2",
         )}
       >
         <LineShapeHorizontal className={cn("w-full h-2", "md:hidden")} />

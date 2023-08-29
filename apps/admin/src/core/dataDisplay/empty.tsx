@@ -23,7 +23,7 @@ export function Empty({
     <section
       className={cn(
         className,
-        "w-full p-2 flex flex-col items-center justify-center gap-4"
+        "w-full p-2 flex flex-col items-center justify-center gap-4",
       )}
     >
       <div

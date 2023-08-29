@@ -10,7 +10,7 @@ export default function Route() {
   const matches = useMatches();
   const routeHandles = matches.map((match) => asRouteHandle(match.handle));
   const hasExpandedPageBackground = routeHandles.some(
-    (handle) => handle.hasExpandedPageBackground
+    (handle) => handle.hasExpandedPageBackground,
   );
 
   return (

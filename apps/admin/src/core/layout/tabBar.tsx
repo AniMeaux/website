@@ -43,7 +43,7 @@ TabBar.Item = function TabBarItem({
           {
             "bg-blue-50 text-blue-500": isActive,
             "text-gray-500 hover:bg-gray-100 active:bg-gray-100": !isActive,
-          }
+          },
         )
       }
     >
@@ -66,7 +66,7 @@ TabBar.Menu = function TabBarMenu({
       <DropdownMenu.Trigger
         className={cn(
           "rounded-0.5 py-1 flex items-center justify-center text-[20px] text-gray-500 transition-colors duration-100 ease-in-out hover:bg-gray-100 active:bg-gray-100 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400",
-          { "bg-gray-100": isOpened }
+          { "bg-gray-100": isOpened },
         )}
       >
         <Icon id={icon} />
@@ -106,7 +106,7 @@ TabBar.MenuItem = function TabBarMenuItem({
           <span
             className={cn(
               "w-full rounded-0.5 pr-1 grid grid-cols-[auto,minmax(0px,1fr)] items-center transition-colors duration-100 ease-in-out",
-              isActive ? "bg-blue-50 text-blue-500" : "text-gray-500"
+              isActive ? "bg-blue-50 text-blue-500" : "text-gray-500",
             )}
           >
             <span className="w-4 h-4 flex items-center justify-center text-[20px]">

@@ -4,17 +4,17 @@ import invariant from "tiny-invariant";
 export function createConfig(): Config {
   invariant(
     process.env.ADOPTION_FORM_URL,
-    "ADOPTION_FORM_URL should be defined"
+    "ADOPTION_FORM_URL should be defined",
   );
   invariant(
     process.env.CLOUDINARY_CLOUD_NAME,
-    "CLOUDINARY_CLOUD_NAME should be defined"
+    "CLOUDINARY_CLOUD_NAME should be defined",
   );
   invariant(process.env.DONATION_URL, "DONATION_URL should be defined");
   invariant(process.env.FACEBOOK_URL, "FACEBOOK_URL should be defined");
   invariant(
     process.env.FOSTER_FAMILY_FORM_URL,
-    "FOSTER_FAMILY_FORM_URL should be defined"
+    "FOSTER_FAMILY_FORM_URL should be defined",
   );
   invariant(process.env.INSTAGRAM_URL, "INSTAGRAM_URL should be defined");
   invariant(process.env.LINKEDIN_URL, "LINKEDIN_URL should be defined");
@@ -26,7 +26,7 @@ export function createConfig(): Config {
   invariant(process.env.TWITTER_URL, "TWITTER_URL should be defined");
   invariant(
     process.env.VOLUNTEER_FORM_URL,
-    "VOLUNTEER_FORM_URL should be defined"
+    "VOLUNTEER_FORM_URL should be defined",
   );
 
   return {

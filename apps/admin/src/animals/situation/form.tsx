@@ -51,7 +51,7 @@ export const ActionFormData = createActionData(
     adoptionDate: zfd.text(
       z.coerce
         .date({ invalid_type_error: "Veuillez entrer une date valide" })
-        .optional()
+        .optional(),
     ),
     adoptionOption: z.nativeEnum(AdoptionOption).optional(),
     comments: z.string().trim(),
@@ -63,7 +63,7 @@ export const ActionFormData = createActionData(
     nextVaccinationDate: zfd.text(
       z.coerce
         .date({ invalid_type_error: "Veuillez entrer une date valide" })
-        .optional()
+        .optional(),
     ),
     pickUpDate: z.coerce.date({
       required_error: "Veuillez entrer une date",
@@ -83,7 +83,7 @@ export const ActionFormData = createActionData(
       required_error: "Veuillez choisir un statut",
     }),
     vaccination: z.enum(["MANDATORY", "WONT_BE_DONE"]),
-  })
+  }),
 );
 
 export function AnimalSituationForm({
@@ -121,7 +121,7 @@ export function AnimalSituationForm({
   }>;
 }) {
   const [statusState, setStatusState] = useState(
-    defaultAnimal?.status ?? Status.UNAVAILABLE
+    defaultAnimal?.status ?? Status.UNAVAILABLE,
   );
 
   const [isVaccinationMandatoryState, setIsVaccinationMandatoryState] =
@@ -476,7 +476,7 @@ export function AnimalSituationForm({
                   min={toIsoDateValue(new Date())}
                   name={ActionFormData.keys.nextVaccinationDate}
                   defaultValue={toIsoDateValue(
-                    defaultAnimal?.nextVaccinationDate
+                    defaultAnimal?.nextVaccinationDate,
                   )}
                   hasError={
                     fetcher.data?.errors?.fieldErrors.nextVaccinationDate !=

@@ -49,7 +49,7 @@ export default function Route() {
           className={cn(
             "w-full aspect-4/3 flex-none rounded-bubble-md",
             "sm:rounded-bubble-lg",
-            "md:rounded-bubble-xl"
+            "md:rounded-bubble-xl",
           )}
         />
 

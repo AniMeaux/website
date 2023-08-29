@@ -57,7 +57,7 @@ export function EventItem({
           <p
             className={cn(
               "text-title-item transition-colors duration-100 ease-in-out",
-              { "group-hover:text-brandBlue": !isDisabled }
+              { "group-hover:text-brandBlue": !isDisabled },
             )}
           >
             {event.title}
@@ -83,7 +83,7 @@ export function EventItem({
                 "transition-transform duration-100 ease-in-out group-hover:scale-110":
                   !isDisabled,
               },
-              "sm:block"
+              "sm:block",
             )}
           />
         )}

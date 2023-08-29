@@ -46,11 +46,11 @@ export class FosterFamilyDbDelegate {
 
     return hits.map((hit) => {
       const fosterFamily = fosterFamilies.find(
-        (fosterFamily) => fosterFamily.id === hit.id
+        (fosterFamily) => fosterFamily.id === hit.id,
       );
       invariant(
         fosterFamily != null,
-        "Foster family from algolia should exists."
+        "Foster family from algolia should exists.",
       );
 
       return { ...hit, ...fosterFamily };
@@ -143,7 +143,7 @@ export class FosterFamilyDbDelegate {
 
   private validate(
     newData: FosterFamilyData,
-    currentData?: null | Pick<FosterFamily, "speciesToHost">
+    currentData?: null | Pick<FosterFamily, "speciesToHost">,
   ) {
     if (newData.speciesToHost.length === 0) {
       // Allow old foster family (without species to host) to be updated without

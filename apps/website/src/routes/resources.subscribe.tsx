@@ -18,7 +18,7 @@ const RESOURCE_PATHNAME = "/resources/subscribe";
 const ActionFormData = createActionData(
   z.object({
     email: z.string().email("L’adresse email est invalide"),
-  })
+  }),
 );
 
 type ActionData =
@@ -31,13 +31,13 @@ type ActionData =
 export async function action({ request }: ActionArgs) {
   const rawFormData = await request.formData();
   const formData = ActionFormData.schema.safeParse(
-    Object.fromEntries(rawFormData.entries())
+    Object.fromEntries(rawFormData.entries()),
   );
 
   if (!formData.success) {
     return json<ActionData>(
       { type: "error", errors: formData.error.flatten() },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
@@ -59,7 +59,7 @@ export function SubscriptionForm() {
     },
     // Use `fetcher.data` instead of `isSuccess` to distinguish 2 successive
     // success.
-    [fetcher.data]
+    [fetcher.data],
   );
 
   useEffect(
@@ -70,7 +70,7 @@ export function SubscriptionForm() {
       }
     },
     // Use `fetcher.data` instead of `isError` to distinguish 2 successive errors.
-    [fetcher.data]
+    [fetcher.data],
   );
 
   const isSuccess = fetcher.data?.type === "success";
@@ -80,7 +80,7 @@ export function SubscriptionForm() {
     <div
       className={cn(
         "w-full max-w-sm flex flex-col items-start gap-3",
-        "md:max-w-none"
+        "md:max-w-none",
       )}
     >
       <fetcher.Form
@@ -92,7 +92,7 @@ export function SubscriptionForm() {
           {
             "bg-brandRed-lightest": isError,
             "bg-white": !isError,
-          }
+          },
         )}
       >
         <input
@@ -111,7 +111,7 @@ export function SubscriptionForm() {
               "bg-brandGreen": isSuccess,
               "bg-brandBlue hover:bg-brandBlue-lighter active:scale-95":
                 !isSuccess,
-            }
+            },
           )}
         >
           <Icon id={isSuccess ? "check" : "paperPlane"} />

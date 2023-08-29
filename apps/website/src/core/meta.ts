@@ -17,7 +17,7 @@ export function createSocialMeta(
         publishedTime: string;
         author: string;
       }
-  ) = {}
+  ) = {},
 ) {
   const { type = "website", title, description, imageUrl } = params;
   const meta: V2_MetaDescriptor[] = [{ property: "og:type", content: type }];
@@ -26,7 +26,7 @@ export function createSocialMeta(
     meta.push(
       { title },
       { property: "og:title", content: title },
-      { property: "twitter:title", content: title }
+      { property: "twitter:title", content: title },
     );
   }
 
@@ -34,21 +34,21 @@ export function createSocialMeta(
     meta.push(
       { name: "description", content: description },
       { property: "og:description", content: description },
-      { property: "twitter:description", content: description }
+      { property: "twitter:description", content: description },
     );
   }
 
   if (imageUrl != null) {
     meta.push(
       { property: "og:image", content: imageUrl },
-      { property: "twitter:image", content: imageUrl }
+      { property: "twitter:image", content: imageUrl },
     );
   }
 
   if (params.type === "article") {
     meta.push(
       { property: "article:published_time", content: params.publishedTime },
-      { property: "article:author", content: params.author }
+      { property: "article:author", content: params.author },
     );
   }
 

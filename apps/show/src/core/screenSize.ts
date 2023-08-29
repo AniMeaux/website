@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 
 export function useScreenSizeCondition(
-  conditionFunction: (screenSize: number) => boolean
+  conditionFunction: (screenSize: number) => boolean,
 ) {
   const [result, setResult] = useState(() =>
-    conditionFunction(getScreenSize())
+    conditionFunction(getScreenSize()),
   );
 
   useEffect(() => {

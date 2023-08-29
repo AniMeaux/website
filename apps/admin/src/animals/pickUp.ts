@@ -22,5 +22,5 @@ export const PICK_UP_REASON_ICON: Record<PickUpReason, IconProps["id"]> = {
 
 export const SORTED_PICK_UP_REASON = orderBy(
   Object.values(PickUpReason),
-  (pickUpReason) => PICK_UP_REASON_TRANSLATION[pickUpReason]
+  (pickUpReason) => PICK_UP_REASON_TRANSLATION[pickUpReason],
 );

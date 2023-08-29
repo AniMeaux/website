@@ -49,7 +49,7 @@ export async function loader({ params }: LoaderArgs) {
 export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
   return createSocialMeta({
     title: getPageTitle(
-      data != null ? `Édition de ${data.edition}` : getErrorTitle(404)
+      data != null ? `Édition de ${data.edition}` : getErrorTitle(404),
     ),
   });
 };
@@ -125,10 +125,10 @@ function PhotoGrid() {
                 key={index}
                 className={cn(
                   "rounded-1 md:rounded-2 aspect-square bg-alabaster animate-pulse",
-                  index === 0 ? "sm:col-span-2 sm:row-span-2" : undefined
+                  index === 0 ? "sm:col-span-2 sm:row-span-2" : undefined,
                 )}
               />
-            )
+            ),
           )}
         >
           <Await resolve={images}>
@@ -162,7 +162,7 @@ function ImageItem({
     <li
       className={cn(
         "grid grid-cols-1",
-        isCover ? "sm:col-span-2 sm:row-span-2" : undefined
+        isCover ? "sm:col-span-2 sm:row-span-2" : undefined,
       )}
     >
       <Link

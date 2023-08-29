@@ -35,6 +35,6 @@ SubNavDiscover.isActive = (location) => {
   const pathname = location.pathname.toLowerCase();
 
   return ["/partenaires", "/blog", "/faq"].some((path) =>
-    pathname.startsWith(path)
+    pathname.startsWith(path),
   );
 };

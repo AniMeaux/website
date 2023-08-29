@@ -12,7 +12,7 @@ export const ACTIVE_ANIMAL_STATUS: Status[] = [
 ];
 
 export const NON_ACTIVE_ANIMAL_STATUS = Object.values(Status).filter(
-  (status) => !ACTIVE_ANIMAL_STATUS.includes(status)
+  (status) => !ACTIVE_ANIMAL_STATUS.includes(status),
 );
 
 export function StatusBadge({
@@ -27,7 +27,7 @@ export function StatusBadge({
       className={cn(
         className,
         "rounded-0.5 px-0.5 inline-flex text-caption-emphasis",
-        STATUS_BADGE_CLASS_NAMES[status]
+        STATUS_BADGE_CLASS_NAMES[status],
       )}
     >
       {STATUS_TRANSLATION[status]}
@@ -94,5 +94,5 @@ export const STATUS_TRANSLATION: Record<Status, string> = {
 
 export const SORTED_STATUS = orderBy(
   Object.values(Status),
-  (status) => STATUS_TRANSLATION[status]
+  (status) => STATUS_TRANSLATION[status],
 );

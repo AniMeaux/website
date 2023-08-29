@@ -22,7 +22,7 @@ export const meta: V2_MetaFunction = () => {
 const ActionFormData = createActionData(
   z.object({
     password: z.string().min(1, "Veuillez entrer un mot de passe"),
-  })
+  }),
 );
 
 type ActionData = {
@@ -37,13 +37,13 @@ export async function action({ request }: ActionArgs) {
 
   const rawFormData = await request.formData();
   const formData = ActionFormData.schema.safeParse(
-    Object.fromEntries(rawFormData.entries())
+    Object.fromEntries(rawFormData.entries()),
   );
 
   if (!formData.success) {
     return json<ActionData>(
       { errors: formData.error.flatten() },
-      { status: 400 }
+      { status: 400 },
     );
   }
 

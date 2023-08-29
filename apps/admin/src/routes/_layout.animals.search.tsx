@@ -228,7 +228,7 @@ export async function loader({ request }: LoaderArgs) {
     if (animalSearchParams.sterilizations.size > 0) {
       where.push({
         OR: Array.from(animalSearchParams.sterilizations).map(
-          (sterilization) => ANIMAL_STERILIZATION_WHERE[sterilization]
+          (sterilization) => ANIMAL_STERILIZATION_WHERE[sterilization],
         ),
       });
     }
@@ -236,7 +236,7 @@ export async function loader({ request }: LoaderArgs) {
     if (animalSearchParams.vaccination.size > 0) {
       where.push({
         OR: Array.from(animalSearchParams.vaccination).map(
-          (vaccination) => ANIMAL_VACCINATION_WHERE[vaccination]
+          (vaccination) => ANIMAL_VACCINATION_WHERE[vaccination],
         ),
       });
     }

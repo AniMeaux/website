@@ -146,7 +146,7 @@ function NavAction({
       {...rest}
       className={cn(
         "group px-1 lg:px-2 flex justify-center text-body-uppercase-emphasis transition-[color,transform] duration-100 ease-in-out hover:text-mystic aria-[current=page]:text-mystic active:scale-95 focus-visible:outline-none focus-visible:ring focus-visible:ring-mystic",
-        className
+        className,
       )}
     />
   );
@@ -156,7 +156,7 @@ NavAction.Content = function NavActionContent(
   props: Omit<
     React.ComponentPropsWithoutRef<typeof Primitive.span>,
     "className"
-  >
+  >,
 ) {
   return <Primitive.span {...props} className="relative py-0.5 flex" />;
 };
@@ -165,7 +165,7 @@ NavAction.Marker = function NavActionMarker(
   props: Omit<
     React.ComponentPropsWithoutRef<typeof Primitive.span>,
     "className" | "aria-hidden"
-  >
+  >,
 ) {
   return (
     <Primitive.span

@@ -12,7 +12,7 @@ export function OptionList({ children }: { children: React.ReactNode }) {
         // Because of `overflow-x-auto`, we need to ensure card shadows are
         // visible.
         "-my-6 py-6",
-        "md:m-0 md:overflow-visible md:w-auto md:p-0 md:items-end md:justify-center md:gap-6"
+        "md:m-0 md:overflow-visible md:w-auto md:p-0 md:items-end md:justify-center md:gap-6",
       )}
     >
       {children}
@@ -33,7 +33,7 @@ export function OptionCard({ children }: { children: React.ReactNode }) {
         // https://github.com/w3c/csswg-drafts/issues/129#issuecomment-417525242
         "-mx-page px-page first:ml-0 last:mr-0",
         "snap-center w-11/12 first:last:w-full flex-none flex",
-        "md:m-0 md:p-0 md:w-auto md:flex-1 md:max-w-sm"
+        "md:m-0 md:p-0 md:w-auto md:flex-1 md:max-w-sm",
       )}
     >
       <div className="shadow-base rounded-bubble-lg w-full bg-white p-6 flex flex-col gap-6">
@@ -63,7 +63,7 @@ export function OptionPrice({
       <span
         className={cn(
           "font-serif font-bold text-[32px] leading-normal",
-          "md:text-[40px] md:leading-[1.2]"
+          "md:text-[40px] md:leading-[1.2]",
         )}
       >
         {children}

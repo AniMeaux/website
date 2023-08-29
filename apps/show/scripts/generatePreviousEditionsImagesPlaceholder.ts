@@ -21,7 +21,7 @@ async function generatePreviousEditionsImagesPlaceholder() {
       if (image.blurhash == null) {
         try {
           const imageData = await getPixels(
-            `https://res.cloudinary.com/${process.env.CLOUDINARY_CLOUD_NAME}/image/upload/q_auto,f_jpg,w_128/${image.id}`
+            `https://res.cloudinary.com/${process.env.CLOUDINARY_CLOUD_NAME}/image/upload/q_auto,f_jpg,w_128/${image.id}`,
           );
 
           const blurhash = encode(
@@ -29,12 +29,12 @@ async function generatePreviousEditionsImagesPlaceholder() {
             imageData.width,
             imageData.height,
             4,
-            4
+            4,
           );
 
           await cloudinaryClient.uploader.add_context(
             ["blurhash", encodeURIComponent(blurhash)].join("="),
-            [image.id]
+            [image.id],
           );
 
           console.log(`- 👍 ${image.id}`);

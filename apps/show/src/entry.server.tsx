@@ -18,7 +18,7 @@ export default function handleRequest(
   request: Request,
   responseStatusCode: number,
   responseHeaders: Headers,
-  remixContext: EntryContext
+  remixContext: EntryContext,
 ) {
   if (process.env.NODE_ENV === "production") {
     invariant(process.env.RUNTIME_ENV, "RUNTIME_ENV should be defined");
@@ -53,7 +53,7 @@ export default function handleRequest(
             new Response(body, {
               headers: responseHeaders,
               status: didError ? 500 : responseStatusCode,
-            })
+            }),
           );
 
           pipe(body);
@@ -67,7 +67,7 @@ export default function handleRequest(
           didError = true;
           console.error(error);
         },
-      }
+      },
     );
 
     setTimeout(abort, ABORT_DELAY);

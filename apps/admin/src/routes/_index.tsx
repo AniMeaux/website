@@ -10,7 +10,7 @@ export async function loader({ request }: LoaderArgs) {
   });
 
   return redirect(
-    USER_GROUP_LANDING_PAGE[getUserMainGroup(currentUser.groups)]
+    USER_GROUP_LANDING_PAGE[getUserMainGroup(currentUser.groups)],
   );
 }
 

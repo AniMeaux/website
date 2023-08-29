@@ -22,11 +22,11 @@ async function generateTheme() {
   invariant(tailwindFullConfig.theme, "fullConfig.theme should exists");
   invariant(
     tailwindFullConfig.theme.screens,
-    "tailwindFullConfig.theme.screens should exists"
+    "tailwindFullConfig.theme.screens should exists",
   );
   invariant(
     tailwindFullConfig.theme.spacing,
-    "tailwindFullConfig.theme.spacing should exists"
+    "tailwindFullConfig.theme.spacing should exists",
   );
 
   // Add here values we need in code.
@@ -39,13 +39,13 @@ async function generateTheme() {
   };
 
   const prettierOptions = await prettier.resolveConfig(THEME_DEST);
-  const content = prettier.format(
+  const content = await prettier.format(
     `export type ScreenSize = keyof typeof theme.screens;
     export const theme = ${JSON.stringify(theme)}`,
     {
       ...prettierOptions,
       parser: "typescript",
-    }
+    },
   );
 
   await mkdir(FOLDER_DEST, { recursive: true });
@@ -62,6 +62,6 @@ function toNumberRecord<TObject extends Record<string, any>>(object: TObject) {
     Object.entries(object)
       .filter(([_, value]) => typeof value === "string")
       .map(([key, value]) => [key, Number(value.replace("px", ""))] as const)
-      .filter(([_, value]) => !isNaN(value))
+      .filter(([_, value]) => !isNaN(value)),
   );
 }
