@@ -20,7 +20,7 @@
     "@animeaux/core": "*",
     "@animeaux/password": "*",
     "@faker-js/faker": "^8.0.2",
-    "@prisma/client": "^4.8.0",
+    "@prisma/client": "^5.2.0",
     "@types/d3-dsv": "^3.0.0",
     "@types/dotenv-flow": "^3.2.0",
     "@types/luxon": "^2.0.9",

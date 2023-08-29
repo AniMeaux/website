@@ -24,7 +24,7 @@
     "@algolia/client-search": "^4.19.1",
     "@animeaux/core": "*",
     "@animeaux/password": "*",
-    "@prisma/client": "^4.8.0",
+    "@prisma/client": "^5.2.0",
     "@radix-ui/react-dialog": "^1.0.4",
     "@radix-ui/react-dropdown-menu": "^2.0.5",
     "@radix-ui/react-popover": "^1.0.6",

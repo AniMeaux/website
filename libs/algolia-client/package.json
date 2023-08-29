@@ -13,7 +13,7 @@
   },
   "peerDependencies": {
     "@algolia/client-search": "^4.19.1",
-    "@prisma/client": "^4.8.0",
+    "@prisma/client": "^5.2.0",
     "algoliasearch": "^4.19.1",
     "tiny-invariant": "^1.2.0",
     "type-fest": "^3.6.0",
