@@ -28,7 +28,7 @@ export async function loader({ request }: LoaderArgs) {
     await db.currentUser.get(
       request,
       { select: { id: true } },
-      { skipPasswordChangeCheck: true }
+      { skipPasswordChangeCheck: true },
     );
     hasCurrentUser = true;
   } catch (error) {
@@ -38,7 +38,7 @@ export async function loader({ request }: LoaderArgs) {
   if (hasCurrentUser) {
     const url = new URL(request.url);
     const { next = Routes.home.toString() } = NextSearchParams.parse(
-      url.searchParams
+      url.searchParams,
     );
     throw redirect(next);
   }
@@ -54,7 +54,7 @@ const ActionFormData = createActionData(
   z.object({
     email: z.string().email("Veuillez entrer un email valide"),
     password: z.string().min(1, "Veuillez entrer un mot de passe"),
-  })
+  }),
 );
 
 type ActionData = {
@@ -64,13 +64,13 @@ type ActionData = {
 export async function action({ request }: ActionArgs) {
   const rawFormData = await request.formData();
   const formData = ActionFormData.schema.safeParse(
-    Object.fromEntries(rawFormData.entries())
+    Object.fromEntries(rawFormData.entries()),
   );
 
   if (!formData.success) {
     return json<ActionData>(
       { errors: formData.error.flatten() },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
@@ -83,13 +83,13 @@ export async function action({ request }: ActionArgs) {
           fieldErrors: {},
         },
       },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
   const url = new URL(request.url);
   const { next = Routes.home.toString() } = NextSearchParams.parse(
-    url.searchParams
+    url.searchParams,
   );
   throw redirect(next, {
     headers: { "Set-Cookie": await createCurrentUserSession(userId) },

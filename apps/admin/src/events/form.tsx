@@ -45,7 +45,7 @@ export const ActionFormData = createActionData(
       z.literal(""),
       z.string().url("Veuillez entrer une URL valide"),
     ]),
-  })
+  }),
 );
 
 type ImageState = "loading" | "error" | { image: undefined | ImageFileOrId };

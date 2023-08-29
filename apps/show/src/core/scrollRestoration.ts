@@ -6,5 +6,5 @@ export const ScrollRestorationLocationState = createLocationState(
     .object({
       scrollRestorationLocationKey: z.string().optional().catch(undefined),
     })
-    .catch({})
+    .catch({}),
 );

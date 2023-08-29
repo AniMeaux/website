@@ -168,11 +168,11 @@ export async function loader({ request }: LoaderArgs) {
       ({ nextVaccinationDate, ...animal }) => {
         invariant(
           nextVaccinationDate != null,
-          "nextVaccinationDate should be defined"
+          "nextVaccinationDate should be defined",
         );
 
         return { ...animal, nextVaccinationDate };
-      }
+      },
     ),
   });
 }
@@ -295,8 +295,8 @@ function AnimalsToSterilizeCard() {
                     SORTED_STATUS.filter(
                       (status) =>
                         status !== Status.DECEASED &&
-                        status !== Status.TRANSFERRED
-                    )
+                        status !== Status.TRANSFERRED,
+                    ),
                   ),
                 }),
               }}

@@ -47,7 +47,7 @@ export default function Route() {
           className={cn(
             "w-full grid grid-cols-1 gap-12",
             "sm:grid-cols-2",
-            "md:grid-cols-3"
+            "md:grid-cols-3",
           )}
         >
           {FAQ.map((faq) => (
@@ -55,7 +55,7 @@ export default function Route() {
               <span
                 className={cn(
                   "rounded-bubble-sm p-3 flex items-center justify-center text-[40px]",
-                  ICON_COLOR_CLASS_NAME[faq.color]
+                  ICON_COLOR_CLASS_NAME[faq.color],
                 )}
               >
                 <Icon id={faq.icon} />

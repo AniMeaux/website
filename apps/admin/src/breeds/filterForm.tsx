@@ -83,7 +83,7 @@ export function BreedFilterForm() {
                 name={BreedSearchParams.keys.species}
                 value={species}
               />
-            )
+            ),
           )}
         >
           <ToggleInputList>

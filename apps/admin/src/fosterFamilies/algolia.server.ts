@@ -31,7 +31,7 @@ export class FosterFamilyAlgoliaDelegate {
     const hits = await indexSearch<FosterFamilyFromAlgolia>(
       this.index,
       displayName,
-      options
+      options,
     );
 
     return hits.map((hit) => ({

@@ -14,7 +14,7 @@ const ActionFormData = zfd.formData(
   z.object({
     folder: z.string().optional(),
     public_id: z.string(),
-  })
+  }),
 );
 
 const resolver: Parameters<typeof rest.post>[1] = async (req, res, ctx) => {
@@ -30,8 +30,8 @@ const resolver: Parameters<typeof rest.post>[1] = async (req, res, ctx) => {
       createFileMockUploadHandler(),
       unstable_createMemoryUploadHandler({
         filter: ({ contentType }) => contentType == null,
-      })
-    )
+      }),
+    ),
   );
 
   const formData = ActionFormData.safeParse(rawFormData);
@@ -81,10 +81,10 @@ function createFileMockUploadHandler(): UploadHandler {
 export const cloudinaryHandlers = [
   rest.post(
     "https://api.cloudinary.com/v1_1/mock-cloud-name/image/upload",
-    resolver
+    resolver,
   ),
   rest.post(
     "https://api.cloudinary.com/v1_1/mock-cloud-name/image/destroy",
-    (_req, res, ctx) => res(ctx.json({ result: "ok" }))
+    (_req, res, ctx) => res(ctx.json({ result: "ok" })),
   ),
 ];

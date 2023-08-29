@@ -21,7 +21,7 @@ export function Section({
         columnCount === 2
           ? "md:grid-cols-2 lg:gap-8 md:items-center"
           : undefined,
-        className
+        className,
       )}
     />
   );
@@ -54,7 +54,7 @@ Section.Title = function SectionTitle({
       {...rest}
       className={cn(
         "text-title-small md:text-title-small text-mystic",
-        className
+        className,
       )}
     />
   );
@@ -73,7 +73,7 @@ Section.Action = function SectionAction({
       className={cn(
         "justify-self-center",
         isCentered ? undefined : "md:justify-self-start",
-        className
+        className,
       )}
     />
   );
@@ -88,7 +88,7 @@ Section.ImageAside = function SectionImageAside({
       {...rest}
       className={cn(
         "relative justify-self-center md:justify-self-stretch w-full max-w-sm md:max-w-none grid grid-cols-1",
-        className
+        className,
       )}
     />
   );

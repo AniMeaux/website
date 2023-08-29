@@ -34,7 +34,7 @@ async function generateIconSprite() {
         .replace(/\s*(width|height|fill|xmlns(:xlink)?)="[^"]+"/g, "");
 
       return symbol;
-    })
+    }),
   );
 
   let sprite = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -54,7 +54,7 @@ ${contents.map((symbol) => `    ${symbol}`).join("\n")}
 
   const component = `import sprite from "#${path.relative(
     path.resolve(__dirname, "../src"),
-    ICON_SPRITE_DEST
+    ICON_SPRITE_DEST,
   )}";
 
 export const iconsIds = [
@@ -93,7 +93,7 @@ export function Icon({
 
   await writeFile(ICON_COMPONENT_DEST, component);
   console.info(
-    `🎉 Icon component file wrote: ${relativeToCwd(ICON_COMPONENT_DEST)}`
+    `🎉 Icon component file wrote: ${relativeToCwd(ICON_COMPONENT_DEST)}`,
   );
 }
 

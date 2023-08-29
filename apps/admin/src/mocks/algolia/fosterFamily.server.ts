@@ -58,15 +58,15 @@ export const fosterFamilyHandlers = [
                 matchedWords: [],
               },
             },
-          })
+          }),
         ),
       };
 
       return res(ctx.json(responseBody));
-    }
+    },
   ),
 
   ...createBatchHandlers(
-    `/1/indexes/${algolia.fosterFamily.index.indexName}/batch`
+    `/1/indexes/${algolia.fosterFamily.index.indexName}/batch`,
   ),
 ];

@@ -77,7 +77,7 @@ export const ARTICLE_COMPONENTS: MarkdownProps["components"] = {
         className={cn(
           "my-12 w-full aspect-4/3 flex-none rounded-bubble-md",
           "sm:rounded-bubble-lg",
-          "md:rounded-bubble-xl"
+          "md:rounded-bubble-xl",
         )}
       />
     );
@@ -107,7 +107,7 @@ export const ARTICLE_COMPONENTS: MarkdownProps["components"] = {
     <h2
       className={cn(
         "mt-12 mb-6 text-title-section-small first:mt-0 last:mb-0",
-        "md:text-title-section-large"
+        "md:text-title-section-large",
       )}
     >
       {children}

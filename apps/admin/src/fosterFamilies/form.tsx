@@ -37,7 +37,7 @@ export const ActionFormData = createActionData(
       .string()
       .trim()
       .regex(/^\d{5}$/, "Veuillez entrer un code postal valide"),
-  })
+  }),
 );
 
 export function FosterFamilyForm({
@@ -300,7 +300,7 @@ export function FosterFamilyForm({
                   name={ActionFormData.keys.speciesToHost}
                   value={species}
                   defaultChecked={defaultFosterFamily?.speciesToHost.includes(
-                    species
+                    species,
                   )}
                   aria-describedby="speciesToHost-error"
                 />
@@ -327,7 +327,7 @@ export function FosterFamilyForm({
                   name={ActionFormData.keys.speciesAlreadyPresent}
                   value={species}
                   defaultChecked={defaultFosterFamily?.speciesAlreadyPresent.includes(
-                    species
+                    species,
                   )}
                 />
               ))}

@@ -151,7 +151,7 @@ export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
 const DisableActionFormData = createActionData(
   z.object({
     isDisabled: zfd.checkbox(),
-  })
+  }),
 );
 
 export async function action({ request, params }: ActionArgs) {
@@ -202,7 +202,7 @@ async function actionDelete({
             "L’utilisateur ne peut être supprimé tant qu’il a des animaux gérés ou à sa charge.",
           ],
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
 

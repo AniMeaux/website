@@ -26,7 +26,7 @@ export async function loader({ request }: LoaderArgs) {
   assertCurrentUserHasGroups(currentUser, [UserGroup.ADMIN]);
 
   const searchParams = ScrapUrlSearchParams.parse(
-    new URL(request.url).searchParams
+    new URL(request.url).searchParams,
   );
 
   if (searchParams.url == null) {
@@ -66,7 +66,7 @@ export function useScrapUrlFetcher({
           createPath({
             pathname: Routes.resources.scrapUrl.toString(),
             search: ScrapUrlSearchParams.stringify({ url: result.data }),
-          })
+          }),
         );
       }
     }

@@ -13,6 +13,6 @@ export async function loader({ request }: LoaderArgs) {
   throw redirect(
     hasGroups(currentUser, [UserGroup.ADMIN, UserGroup.ANIMAL_MANAGER])
       ? Routes.animals.dashboard.toString()
-      : Routes.animals.search.toString()
+      : Routes.animals.search.toString(),
   );
 }

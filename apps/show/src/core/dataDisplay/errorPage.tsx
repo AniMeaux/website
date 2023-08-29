@@ -29,13 +29,13 @@ export function ErrorPage({
     <main
       className={cn(
         "grid grid-cols-1",
-        isStandAlone ? "min-h-screen items-center" : undefined
+        isStandAlone ? "min-h-screen items-center" : undefined,
       )}
     >
       <div
         className={cn(
           "grid grid-cols-1",
-          isStandAlone ? "py-safe-0" : undefined
+          isStandAlone ? "py-safe-0" : undefined,
         )}
       >
         <Section>

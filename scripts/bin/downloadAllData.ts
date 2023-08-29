@@ -49,7 +49,7 @@ async function downloadAllData() {
     async ([tableName, downloader]) => {
       const data = await downloader();
       await outputCsv(data, tableName, folderPath);
-    }
+    },
   );
 
   await Promise.all(tablesPromise);
@@ -60,7 +60,7 @@ async function downloadAllData() {
 async function outputCsv(
   data: object[],
   tableName: string,
-  folderPath: string
+  folderPath: string,
 ) {
   await writeFile(join(folderPath, `${tableName}.csv`), csvFormat(data));
 

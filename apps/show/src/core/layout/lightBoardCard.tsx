@@ -16,7 +16,7 @@ export function LightBoardCard({
       className={cn(
         "relative p-3",
         isSmall ? undefined : "md:px-10 md:py-6",
-        className
+        className,
       )}
     >
       <LightBoardBackground isSmall={isSmall} />
@@ -25,7 +25,7 @@ export function LightBoardCard({
         direction="left-to-right"
         className={cn(
           "absolute -z-10 bottom-0.5 translate-y-1/2 right-2.5 w-[25px]",
-          isSmall ? undefined : "md:bottom-1 md:right-5"
+          isSmall ? undefined : "md:bottom-1 md:right-5",
         )}
       />
 
@@ -37,7 +37,7 @@ export function LightBoardCard({
 function LightBoardBackground({ isSmall }: { isSmall: boolean }) {
   const { ref, size } = useElementSize<HTMLDivElement>();
   const isMedium = useScreenSizeCondition(
-    (screenSize) => screenSize >= theme.screensPx.md
+    (screenSize) => screenSize >= theme.screensPx.md,
   );
 
   return (

@@ -14,5 +14,5 @@ export const GENDER_ICON: Record<Gender, IconProps["id"]> = {
 
 export const SORTED_GENDERS = orderBy(
   Object.values(Gender),
-  (gender) => GENDER_TRANSLATION[gender]
+  (gender) => GENDER_TRANSLATION[gender],
 );

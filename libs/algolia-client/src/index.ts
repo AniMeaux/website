@@ -60,37 +60,37 @@ export class AlgoliaClient {
 
     invariant(
       process.env.ALGOLIA_ADMIN_KEY != null,
-      "ALGOLIA_ADMIN_KEY must be defined."
+      "ALGOLIA_ADMIN_KEY must be defined.",
     );
 
     const client = algoliasearch(
       process.env.ALGOLIA_ID,
-      process.env.ALGOLIA_ADMIN_KEY
+      process.env.ALGOLIA_ADMIN_KEY,
     );
     this.animal = new AlgoliaDelegate<typeof AnimalSchema>(
       client,
       "animals",
-      AnimalSchema
+      AnimalSchema,
     );
     this.breed = new AlgoliaDelegate<typeof BreedSchema>(
       client,
       "breeds",
-      BreedSchema
+      BreedSchema,
     );
     this.color = new AlgoliaDelegate<typeof ColorSchema>(
       client,
       "colors",
-      ColorSchema
+      ColorSchema,
     );
     this.fosterFamily = new AlgoliaDelegate<typeof FosterFamilySchema>(
       client,
       "fosterFamily",
-      FosterFamilySchema
+      FosterFamilySchema,
     );
     this.user = new AlgoliaDelegate<typeof UserSchema>(
       client,
       "users",
-      UserSchema
+      UserSchema,
     );
   }
 }
@@ -101,13 +101,13 @@ class AlgoliaDelegate<TSchema extends z.ZodObject<any>> {
   constructor(
     client: SearchClient,
     indexName: string,
-    private readonly schema: TSchema
+    private readonly schema: TSchema,
   ) {
     this.index = client.initIndex(indexName);
   }
 
   async partialUpdateObject(
-    object: Simplify<z.infer<typeof ObjectWithId> & Partial<z.infer<TSchema>>>
+    object: Simplify<z.infer<typeof ObjectWithId> & Partial<z.infer<TSchema>>>,
   ) {
     await this.index.partialUpdateObject(
       this.schema
@@ -115,33 +115,33 @@ class AlgoliaDelegate<TSchema extends z.ZodObject<any>> {
         .merge(ObjectWithId)
         .transform(serializeObject)
         .transform(addAlgoliaObjectId)
-        .parse(object)
+        .parse(object),
     );
   }
 
   async saveObject(
-    object: Simplify<z.infer<typeof ObjectWithId> & z.infer<TSchema>>
+    object: Simplify<z.infer<typeof ObjectWithId> & z.infer<TSchema>>,
   ) {
     await this.index.saveObject(
       this.schema
         .merge(ObjectWithId)
         .transform(serializeObject)
         .transform(addAlgoliaObjectId)
-        .parse(object)
+        .parse(object),
     );
   }
 
   async saveObjects(
-    objects: Simplify<z.infer<typeof ObjectWithId> & z.infer<TSchema>>[]
+    objects: Simplify<z.infer<typeof ObjectWithId> & z.infer<TSchema>>[],
   ) {
     await this.index.saveObjects(
       this.schema
         .merge(ObjectWithId)
         .array()
         .transform((objects) =>
-          objects.map(serializeObject).map(addAlgoliaObjectId)
+          objects.map(serializeObject).map(addAlgoliaObjectId),
         )
-        .parse(objects)
+        .parse(objects),
     );
   }
 
@@ -157,7 +157,7 @@ class AlgoliaDelegate<TSchema extends z.ZodObject<any>> {
     await this.index.setSettings({
       ...settings,
       searchableAttributes: settings.searchableAttributes?.map((attribute) =>
-        typeof attribute === "string" ? attribute : attribute.join(",")
+        typeof attribute === "string" ? attribute : attribute.join(","),
       ),
 
       // Use markdown style bold.
@@ -175,7 +175,7 @@ function serializeObject(object: object) {
       }
 
       return [key, value];
-    })
+    }),
   );
 }
 
@@ -187,7 +187,7 @@ function addAlgoliaObjectId(object: object) {
 
 type IndexSettings<
   TData extends object,
-  TKeys extends string = RecursiveKeyOf<TData>
+  TKeys extends string = RecursiveKeyOf<TData>,
 > = Simplify<
   Omit<
     Settings,

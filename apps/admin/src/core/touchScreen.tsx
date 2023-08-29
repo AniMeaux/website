@@ -7,7 +7,7 @@ export function useIsTouchScreen() {
     typeof document === "undefined" ? null : window.matchMedia("(hover: none)");
 
   const [isTouchScreen, setIsTouchScreen] = useState(
-    mediaQuery?.matches ?? true
+    mediaQuery?.matches ?? true,
   );
 
   useEffect(() => {

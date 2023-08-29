@@ -35,7 +35,7 @@ export async function loader({ request }: LoaderArgs) {
   ]);
 
   const searchParams = PickUpLocationSearchParams.parse(
-    new URL(request.url).searchParams
+    new URL(request.url).searchParams,
   );
 
   return json({
@@ -58,7 +58,7 @@ export const PickUpLocationInput = forwardRef<
   PickUpLocationInputProps
 >(function PickUpLocationInput(
   { name, defaultValue = null, disabled = false, hasError = false },
-  ref
+  ref,
 ) {
   const [isOpened, setIsOpened] = useState(false);
   const fetcher = useFetcher<typeof loader>();
@@ -109,7 +109,7 @@ export const PickUpLocationInput = forwardRef<
                   search: PickUpLocationSearchParams.stringify({
                     text: value,
                   }),
-                })
+                }),
               );
             }}
             onSelectedItem={(pickUpLocation) => {
@@ -134,7 +134,7 @@ const InputTrigger = forwardRef<
   }
 >(function InputTrigger(
   { disabled, pickUpLocation, hasError, triggerElement: TriggerElement },
-  ref
+  ref,
 ) {
   return (
     <BaseTextInput.Root aria-disabled={disabled}>
@@ -204,7 +204,7 @@ function Combobox({
     cleanedSearch !== "" &&
     pickUpLocations.every(
       (pickUpLocation) =>
-        pickUpLocation.value.toLowerCase() !== normalizedSearch
+        pickUpLocation.value.toLowerCase() !== normalizedSearch,
     )
   ) {
     // Replace the last item by the additional one so we always have at most

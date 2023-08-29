@@ -19,7 +19,7 @@ export const CloudinaryApiResponseSchema = z.object({
                 .string()
                 .optional()
                 .transform((value) =>
-                  value == null ? undefined : decodeURIComponent(value)
+                  value == null ? undefined : decodeURIComponent(value),
                 ),
             })
             .optional(),

@@ -79,11 +79,11 @@ function CurrentUserTabBar() {
   if (visibleNavigationItems.length > MAX_VISIBLE_TAB_BAR_ITEM_COUNT) {
     visibleNavigationItems = navigationItems.slice(
       0,
-      MAX_VISIBLE_TAB_BAR_ITEM_COUNT - 1
+      MAX_VISIBLE_TAB_BAR_ITEM_COUNT - 1,
     );
 
     menuNavigationItems = navigationItems.slice(
-      MAX_VISIBLE_TAB_BAR_ITEM_COUNT - 1
+      MAX_VISIBLE_TAB_BAR_ITEM_COUNT - 1,
     );
   }
 
@@ -168,7 +168,7 @@ type NavigationItem = {
 
 function getNavigationItems(currentUser: Pick<User, "groups">) {
   return ALL_NAVIGATION_ITEMS.filter((item) =>
-    hasGroups(currentUser, item.authorizedGroups)
+    hasGroups(currentUser, item.authorizedGroups),
   );
 }
 

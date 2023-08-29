@@ -19,14 +19,14 @@ type ResourceInputLayoutProps = {
   inputTrigger: (
     triggerElement: React.ElementType<
       React.ButtonHTMLAttributes<HTMLButtonElement>
-    >
+    >,
   ) => React.ReactNode;
   content: React.ReactNode;
 };
 
 export function ResourceInputLayout(props: ResourceInputLayoutProps) {
   const isMedium = useScreenSizeCondition(
-    (screenSize) => screenSize >= ScreenSizeValue.md
+    (screenSize) => screenSize >= ScreenSizeValue.md,
   );
 
   const Layout = isMedium ? MediumLayout : SmallLayout;
@@ -93,7 +93,7 @@ type ResourceComboboxLayoutProps = {
 
 export function ResourceComboboxLayout(props: ResourceComboboxLayoutProps) {
   const isMedium = useScreenSizeCondition(
-    (screenSize) => screenSize >= ScreenSizeValue.md
+    (screenSize) => screenSize >= ScreenSizeValue.md,
   );
 
   const Layout = isMedium ? MediumComboboxLayout : SmallComboboxLayout;
@@ -113,7 +113,7 @@ function MediumComboboxLayout({
         {input(
           <BaseTextInput.Adornment>
             <Icon id="magnifyingGlass" />
-          </BaseTextInput.Adornment>
+          </BaseTextInput.Adornment>,
         )}
       </header>
 
@@ -136,7 +136,7 @@ function SmallComboboxLayout({
             <BaseTextInput.ActionAdornment>
               <Icon id="angleLeft" />
             </BaseTextInput.ActionAdornment>
-          </Dialog.Close>
+          </Dialog.Close>,
         )}
       </header>
 
@@ -179,7 +179,7 @@ export const SuggestionItem = forwardRef<
     className,
     ...rest
   },
-  ref
+  ref,
 ) {
   return (
     <Item
@@ -189,7 +189,7 @@ export const SuggestionItem = forwardRef<
       data-is-additional={toBooleanAttribute(isAdditional)}
       className={cn(
         className,
-        "cursor-pointer aria-selected:bg-gray-100 data-[is-value=true]:bg-gray-100"
+        "cursor-pointer aria-selected:bg-gray-100 data-[is-value=true]:bg-gray-100",
       )}
     >
       <Item.Icon className="group-data-[is-additional=true]:text-blue-500">

@@ -97,8 +97,8 @@ export async function action({ request, params }: ActionArgs) {
         cloudinaryUploadHandler,
         unstable_createMemoryUploadHandler({
           filter: ({ contentType }) => contentType == null,
-        })
-      )
+        }),
+      ),
     );
 
     const formData = zfd.formData(ActionFormData.schema).safeParse(rawFormData);
@@ -106,7 +106,7 @@ export async function action({ request, params }: ActionArgs) {
       await cloudinaryUploadHandler.revert();
       return json<ActionData>(
         { errors: formData.error.flatten() },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -134,7 +134,7 @@ export async function action({ request, params }: ActionArgs) {
             fieldErrors: { image: [error.message] },
           },
         },
-        { status: error.status }
+        { status: error.status },
       );
     }
 
@@ -146,7 +146,7 @@ export async function action({ request, params }: ActionArgs) {
             fieldErrors: {},
           },
         },
-        { status: 404 }
+        { status: 404 },
       );
     }
 
@@ -162,7 +162,7 @@ export async function action({ request, params }: ActionArgs) {
             },
           },
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
 

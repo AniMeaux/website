@@ -24,7 +24,7 @@ export function Tab({
         {
           "text-brandBlue": isActive,
           "text-gray-600 hover:text-black": !isActive,
-        }
+        },
       )}
     >
       <span className="flex items-center gap-2">{children}</span>

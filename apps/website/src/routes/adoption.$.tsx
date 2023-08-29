@@ -55,7 +55,7 @@ function createPathToPageParams() {
         // An age for a species.
         map.set(`${speciesPath}/${AGES_TO_PATH[age]}`, { species, age });
       });
-    }
+    },
   );
 
   return map;
@@ -106,7 +106,7 @@ export async function loader({ params, request }: LoaderArgs) {
 
 function getAgeRangeSearchFilter(
   species?: Species,
-  age?: AnimalAge
+  age?: AnimalAge,
 ): NonNullable<Prisma.AnimalWhereInput["birthdate"]> | undefined {
   if (species == null || age == null) {
     return undefined;
@@ -147,7 +147,7 @@ export const meta: V2_MetaFunction = ({ params }) => {
 
 function getPageParamsTranslation(
   pageParams: PageParams,
-  { isPlural = false }: { isPlural?: boolean } = {}
+  { isPlural = false }: { isPlural?: boolean } = {},
 ) {
   if (pageParams.species == null) {
     return isPlural ? "Animaux" : "Animal";
@@ -184,13 +184,13 @@ export default function Route() {
       <header
         className={cn(
           "flex flex-col gap-6",
-          "md:flex-row md:items-center md:gap-12"
+          "md:flex-row md:items-center md:gap-12",
         )}
       >
         <h1
           className={cn(
             "text-title-hero-small text-center",
-            "md:flex-1 md:text-title-hero-large md:text-left"
+            "md:flex-1 md:text-title-hero-large md:text-left",
           )}
         >
           À adopter
@@ -199,7 +199,7 @@ export default function Route() {
         <div
           className={cn(
             "flex-none flex justify-center",
-            "md:flex-1 md:max-w-sm"
+            "md:flex-1 md:max-w-sm",
           )}
         >
           <SearchForm
@@ -225,7 +225,7 @@ export default function Route() {
               className={cn(
                 "w-full grid grid-cols-1 gap-12 items-start",
                 "xs:grid-cols-2",
-                "sm:grid-cols-3"
+                "sm:grid-cols-3",
               )}
             >
               {animals.map((animal) => (
@@ -238,7 +238,7 @@ export default function Route() {
         <section
           className={cn(
             "py-12 flex flex-col gap-6 items-center text-center text-gray-500",
-            "md:px-30 md:py-40"
+            "md:px-30 md:py-40",
           )}
         >
           <p className="w-full">

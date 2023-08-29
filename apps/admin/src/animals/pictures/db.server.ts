@@ -21,7 +21,7 @@ export class AnimalPictureDbDelegate {
 
       const picturesToDelete = difference(
         getAllAnimalPictures(animal),
-        getAllAnimalPictures(data)
+        getAllAnimalPictures(data),
       );
 
       await prisma.animal.update({ where: { id: animalId }, data });

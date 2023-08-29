@@ -15,6 +15,6 @@ export async function action({ request }: ActionArgs) {
       pathname: Routes.login.toString(),
       search: new URL(request.url).searchParams.toString(),
     }),
-    { headers: { "Set-Cookie": await destroyCurrentUserSession() } }
+    { headers: { "Set-Cookie": await destroyCurrentUserSession() } },
   );
 }

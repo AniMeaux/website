@@ -95,7 +95,7 @@ function OtherOptionsSection() {
       <h2
         className={cn(
           "text-title-section-small text-center",
-          "md:text-title-section-large"
+          "md:text-title-section-large",
         )}
       >
         Autres options
@@ -183,13 +183,13 @@ function TaxationSection() {
         className={cn(
           bubbleSectionClassNames.content(),
           "px-10 py-18 flex flex-col items-center gap-6 text-center",
-          "md:px-30 md:py-[60px]"
+          "md:px-30 md:py-[60px]",
         )}
       >
         <h2
           className={cn(
             "text-title-section-small",
-            "md:text-title-section-large"
+            "md:text-title-section-large",
           )}
         >
           Déduction fiscale

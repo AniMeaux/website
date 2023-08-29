@@ -64,13 +64,13 @@ export default function Route() {
       <header
         className={cn(
           "flex flex-col gap-6",
-          "md:flex-row md:items-center md:gap-12"
+          "md:flex-row md:items-center md:gap-12",
         )}
       >
         <h1
           className={cn(
             "text-title-hero-small text-center",
-            "md:flex-1 md:text-title-hero-large md:text-left"
+            "md:flex-1 md:text-title-hero-large md:text-left",
           )}
         >
           Événements passés
@@ -94,7 +94,7 @@ export default function Route() {
             className={cn(
               "grid grid-cols-1 gap-12 items-start",
               "xs:grid-cols-2",
-              "md:grid-cols-3"
+              "md:grid-cols-3",
             )}
           >
             {events.map((event) => (
@@ -106,7 +106,7 @@ export default function Route() {
         <section
           className={cn(
             "py-12 flex flex-col gap-6 items-center text-center text-gray-500",
-            "md:px-30 md:py-40"
+            "md:px-30 md:py-40",
           )}
         >
           <p className="w-full">Aucun événement à passé pour l’instant.</p>

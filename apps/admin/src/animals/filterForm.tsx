@@ -162,7 +162,7 @@ export function AnimalFilters({
                 name={AnimalSearchParams.keys.species}
                 value={species}
               />
-            )
+            ),
           )}
         >
           <ToggleInputList>
@@ -318,7 +318,7 @@ export function AnimalFilters({
                 name={AnimalSearchParams.keys.statuses}
                 value={status}
               />
-            )
+            ),
           )}
         >
           <ToggleInputList>
@@ -356,7 +356,7 @@ export function AnimalFilters({
                     name={AnimalSearchParams.keys.pickUpReasons}
                     value={pickUpReason}
                   />
-                )
+                ),
               )}
               {animalSearchParams.pickUpDateStart == null ? null : (
                 <input
@@ -380,7 +380,7 @@ export function AnimalFilters({
                     name={AnimalSearchParams.keys.pickUpLocations}
                     value={location}
                   />
-                )
+                ),
               )}
             </>
           }
@@ -513,7 +513,7 @@ export function AnimalFilters({
                   name={AnimalSearchParams.keys.sterilizations}
                   value={isSterilized}
                 />
-              )
+              ),
             )}
           >
             <ToggleInputList>
@@ -524,7 +524,7 @@ export function AnimalFilters({
                 value={AnimalSterilization.YES}
                 icon={<Icon id="scissors" />}
                 checked={animalSearchParams.sterilizations.has(
-                  AnimalSterilization.YES
+                  AnimalSterilization.YES,
                 )}
                 onChange={() => {}}
               />
@@ -536,7 +536,7 @@ export function AnimalFilters({
                 value={AnimalSterilization.NO}
                 icon={<Icon id="scissors" />}
                 checked={animalSearchParams.sterilizations.has(
-                  AnimalSterilization.NO
+                  AnimalSterilization.NO,
                 )}
                 onChange={() => {}}
               />
@@ -548,7 +548,7 @@ export function AnimalFilters({
                 value={AnimalSterilization.NOT_MANDATORY}
                 icon={<Icon id="scissors" />}
                 checked={animalSearchParams.sterilizations.has(
-                  AnimalSterilization.NOT_MANDATORY
+                  AnimalSterilization.NOT_MANDATORY,
                 )}
                 onChange={() => {}}
               />
@@ -575,14 +575,14 @@ export function AnimalFilters({
                       name={AnimalSearchParams.keys.vaccination}
                       value={vaccination}
                     />
-                  )
+                  ),
                 )}
                 {animalSearchParams.nextVaccinationDateStart == null ? null : (
                   <input
                     type="hidden"
                     name={AnimalSearchParams.keys.nextVaccinationDateStart}
                     value={toIsoDateValue(
-                      animalSearchParams.nextVaccinationDateStart
+                      animalSearchParams.nextVaccinationDateStart,
                     )}
                   />
                 )}
@@ -591,7 +591,7 @@ export function AnimalFilters({
                     type="hidden"
                     name={AnimalSearchParams.keys.nextVaccinationDateEnd}
                     value={toIsoDateValue(
-                      animalSearchParams.nextVaccinationDateEnd
+                      animalSearchParams.nextVaccinationDateEnd,
                     )}
                   />
                 )}
@@ -608,7 +608,7 @@ export function AnimalFilters({
                     value={AnimalVaccination.NONE_PLANNED}
                     icon={<Icon id="syringe" />}
                     checked={animalSearchParams.vaccination.has(
-                      AnimalVaccination.NONE_PLANNED
+                      AnimalVaccination.NONE_PLANNED,
                     )}
                     onChange={() => {}}
                   />
@@ -620,7 +620,7 @@ export function AnimalFilters({
                     value={AnimalVaccination.NOT_MANDATORY}
                     icon={<Icon id="syringe" />}
                     checked={animalSearchParams.vaccination.has(
-                      AnimalVaccination.NOT_MANDATORY
+                      AnimalVaccination.NOT_MANDATORY,
                     )}
                     onChange={() => {}}
                   />
@@ -639,7 +639,7 @@ export function AnimalFilters({
                   id={AnimalSearchParams.keys.nextVaccinationDateStart}
                   name={AnimalSearchParams.keys.nextVaccinationDateStart}
                   value={toIsoDateValue(
-                    animalSearchParams.nextVaccinationDateStart
+                    animalSearchParams.nextVaccinationDateStart,
                   )}
                   leftAdornment={
                     <ControlledInput.Adornment>
@@ -678,7 +678,7 @@ export function AnimalFilters({
                   id={AnimalSearchParams.keys.nextVaccinationDateEnd}
                   name={AnimalSearchParams.keys.nextVaccinationDateEnd}
                   value={toIsoDateValue(
-                    animalSearchParams.nextVaccinationDateEnd
+                    animalSearchParams.nextVaccinationDateEnd,
                   )}
                   leftAdornment={
                     <ControlledInput.Adornment>
@@ -813,7 +813,7 @@ export function AnimalFilters({
                     name={AnimalSearchParams.keys.adoptionOptions}
                     value={adoptionOption}
                   />
-                )
+                ),
               )}
             </>
           }
@@ -830,7 +830,7 @@ export function AnimalFilters({
                     value={adoptionOption}
                     icon={<Icon id={ADOPTION_OPTION_ICON[adoptionOption]} />}
                     checked={animalSearchParams.adoptionOptions.has(
-                      adoptionOption
+                      adoptionOption,
                     )}
                     onChange={() => {}}
                   />
@@ -923,7 +923,7 @@ export function AnimalFilters({
                   name={AnimalSearchParams.keys.fosterFamiliesId}
                   value={fosterFamilyId}
                 />
-              )
+              ),
             )}
           >
             <ToggleInputList>
@@ -938,7 +938,7 @@ export function AnimalFilters({
                     <FosterFamilyAvatar fosterFamily={fosterFamily} size="sm" />
                   }
                   checked={animalSearchParams.fosterFamiliesId.has(
-                    fosterFamily.id
+                    fosterFamily.id,
                   )}
                   onChange={() => {}}
                 />
@@ -959,7 +959,7 @@ export function AnimalFilters({
                 name={AnimalSearchParams.keys.managersId}
                 value={managerId}
               />
-            )
+            ),
           )}
         >
           <ToggleInputList>

@@ -17,13 +17,13 @@ generateTheme().catch((error) => {
 
 async function generateTheme() {
   const prettierOptions = await prettier.resolveConfig(THEME_DEST);
-  const content = prettier.format(
+  const content = await prettier.format(
     `export type ScreenSize = keyof typeof theme.screens;
     export const theme = ${JSON.stringify({ screens, colors })}`,
     {
       ...prettierOptions,
       parser: "typescript",
-    }
+    },
   );
 
   await mkdir(FOLDER_DEST, { recursive: true });

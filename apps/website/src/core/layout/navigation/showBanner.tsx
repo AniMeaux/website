@@ -13,7 +13,7 @@ export function ShowBanner({ className }: { className?: string }) {
       to={showUrl}
       className={cn(
         className,
-        "bg-showBrandBlue-lightest pt-safe-2 px-page pb-2 flex items-center gap-3 text-body-emphasis text-showBrandBlue-darkest hover:text-showBrandBlue-darker md:gap-6"
+        "bg-showBrandBlue-lightest pt-safe-2 px-page pb-2 flex items-center gap-3 text-body-emphasis text-showBrandBlue-darkest hover:text-showBrandBlue-darker md:gap-6",
       )}
     >
       <StaticImage

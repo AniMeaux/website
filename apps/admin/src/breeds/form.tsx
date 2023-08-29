@@ -19,7 +19,7 @@ export const ActionFormData = createActionData(
     species: z.nativeEnum(Species, {
       required_error: "Veuillez choisir une espèce",
     }),
-  })
+  }),
 );
 
 export function BreedForm({

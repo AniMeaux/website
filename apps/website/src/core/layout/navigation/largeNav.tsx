@@ -64,7 +64,7 @@ export function LargeNav({
       <div
         className={cn(
           "pb-2 px-page flex items-center justify-between",
-          displayShowBanner ? "pt-2" : "pt-safe-2"
+          displayShowBanner ? "pt-2" : "pt-safe-2",
         )}
       >
         <BaseLink to="/" className="flex">
@@ -169,7 +169,7 @@ function NavGroupButton({
                 "transition-[stroke-dashoffset] duration-150 ease-in-out":
                   transitionState === "entering" ||
                   transitionState === "exiting",
-              }
+              },
             )}
             style={{
               strokeDasharray: width,
@@ -204,7 +204,7 @@ function NavLink({
       className={({ isActive }) =>
         cn(
           navLinkClassName({ isActive: isActive && !forceNotActive }),
-          "relative"
+          "relative",
         )
       }
     >
@@ -221,7 +221,7 @@ function NavLink({
                     "transition-[stroke-dashoffset] duration-150 ease-in-out":
                       transitionState === "entering" ||
                       transitionState === "exiting",
-                  }
+                  },
                 )}
                 style={{
                   strokeDasharray: width,
@@ -272,7 +272,7 @@ const Dropdown = forwardRef<
                   transitionState === "exiting" ||
                   // Keep it the transition when visible child changes.
                   transitionState === "entered",
-              }
+              },
             )}
             style={{ height: childrenHeight }}
           >

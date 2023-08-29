@@ -35,7 +35,7 @@ const ActionFormData = createActionData(
   z.object({
     name: z.string().min(1, "Veuillez entrer un nom"),
     email: z.string().email("Veuillez entrer un email valide"),
-  })
+  }),
 );
 
 type ActionData = {
@@ -50,13 +50,13 @@ export async function action({ request }: ActionArgs) {
 
   const rawFormData = await request.formData();
   const formData = ActionFormData.schema.safeParse(
-    Object.fromEntries(rawFormData.entries())
+    Object.fromEntries(rawFormData.entries()),
   );
 
   if (!formData.success) {
     return json<ActionData>(
       { errors: formData.error.flatten() },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
@@ -74,7 +74,7 @@ export async function action({ request }: ActionArgs) {
             fieldErrors: { email: ["L’email est déjà utilisé"] },
           },
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
 

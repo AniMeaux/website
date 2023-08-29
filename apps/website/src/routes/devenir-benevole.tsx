@@ -73,7 +73,7 @@ function OptionsSection() {
       <h2
         className={cn(
           "text-title-section-small text-center",
-          "md:text-title-section-large"
+          "md:text-title-section-large",
         )}
       >
         Options
@@ -124,7 +124,7 @@ function VolunteerSection() {
       <h2
         className={cn(
           "text-title-section-small text-center",
-          "md:text-title-section-large"
+          "md:text-title-section-large",
         )}
       >
         Missions des bénévoles
@@ -134,7 +134,7 @@ function VolunteerSection() {
         className={cn(
           "grid grid-cols-1 gap-12 items-start",
           "xs:grid-cols-2",
-          "md:grid-cols-3"
+          "md:grid-cols-3",
         )}
       >
         <MissionItem

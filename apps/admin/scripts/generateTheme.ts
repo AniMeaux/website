@@ -22,7 +22,7 @@ async function generateTheme() {
   invariant(tailwindFullConfig.theme, "tailwindFullConfig.theme should exists");
   invariant(
     tailwindFullConfig.theme.spacing,
-    "tailwindFullConfig.theme.spacing should exists"
+    "tailwindFullConfig.theme.spacing should exists",
   );
 
   // Add here values we need in code.
@@ -34,18 +34,18 @@ async function generateTheme() {
       Object.entries(tailwindFullConfig.theme.spacing).map(([key, value]) => [
         key,
         Number(value.replace("px", "")),
-      ])
+      ]),
     ),
   };
 
   const prettierOptions = await prettier.resolveConfig(THEME_DEST);
-  const content = prettier.format(
+  const content = await prettier.format(
     `export type ScreenSize = keyof typeof theme.screens;
     export const theme = ${JSON.stringify(theme)}`,
     {
       ...prettierOptions,
       parser: "typescript",
-    }
+    },
   );
 
   await mkdir(FOLDER_DEST, { recursive: true });

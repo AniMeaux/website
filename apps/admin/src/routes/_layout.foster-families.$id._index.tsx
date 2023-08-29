@@ -140,7 +140,7 @@ export async function action({ request, params }: ActionArgs) {
             "La famille d’accueil ne peut être supprimée tant qu’elle a des animaux accueillis.",
           ],
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -281,7 +281,7 @@ function SituationCard() {
                     {SPECIES_TRANSLATION[species]}
                   </strong>
                 )),
-                ", "
+                ", ",
               )
             )}
           </SimpleItem>
@@ -298,7 +298,7 @@ function SituationCard() {
                       {SPECIES_TRANSLATION[species]}
                     </strong>
                   )),
-                  ", "
+                  ", ",
                 )}
               </>
             )}

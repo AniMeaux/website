@@ -34,7 +34,7 @@ export async function loader({ request }: LoaderArgs) {
   ]);
 
   const searchParams = ColorSearchParams.parse(
-    new URL(request.url).searchParams
+    new URL(request.url).searchParams,
   );
 
   return json({
@@ -57,7 +57,7 @@ export const ColorInput = forwardRef<
   ColorInputProps
 >(function ColorInput(
   { name, defaultValue = null, disabled = false, hasError = false },
-  ref
+  ref,
 ) {
   const [isOpened, setIsOpened] = useState(false);
   const fetcher = useFetcher<typeof loader>();
@@ -107,7 +107,7 @@ export const ColorInput = forwardRef<
                 createPath({
                   pathname: Routes.resources.color.toString(),
                   search: ColorSearchParams.stringify({ name: value }),
-                })
+                }),
               );
             }}
             onSelectedItem={(color) => {
@@ -133,7 +133,7 @@ const InputTrigger = forwardRef<
   }
 >(function InputTrigger(
   { disabled, color, setColor, hasError, triggerElement: TriggerElement },
-  ref
+  ref,
 ) {
   const rightAdornments = [
     color != null ? (

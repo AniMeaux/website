@@ -71,7 +71,7 @@ export const meta: V2_MetaFunction = () => {
 const DeleteActionFormData = createActionData(
   z.object({
     id: z.string().uuid(),
-  })
+  }),
 );
 
 export async function action({ request }: ActionArgs) {
@@ -248,7 +248,7 @@ function PressArticleItem({
       <div className="flex flex-col">
         <p className="text-caption-default text-gray-500">
           {DateTime.fromISO(pressArticle.publicationDate).toLocaleString(
-            DateTime.DATE_MED
+            DateTime.DATE_MED,
           )}
           {" • "}
           {pressArticle.publisherName}
@@ -257,7 +257,7 @@ function PressArticleItem({
         <p
           className={cn(
             "text-body-default transition-colors duration-100 ease-in-out",
-            TITLE_CLASS_NAME[inferInstanceColor(pressArticle.id)]
+            TITLE_CLASS_NAME[inferInstanceColor(pressArticle.id)],
           )}
         >
           {pressArticle.title}

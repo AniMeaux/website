@@ -34,7 +34,7 @@ export async function loader({ request, params }: LoaderArgs) {
   assertIsDefined(animal);
 
   throw redirect(
-    Routes.animals.id(id.data).pictures.pictureId(animal.avatar).toString()
+    Routes.animals.id(id.data).pictures.pictureId(animal.avatar).toString(),
   );
 }
 

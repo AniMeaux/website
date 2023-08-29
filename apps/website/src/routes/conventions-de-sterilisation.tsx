@@ -73,7 +73,7 @@ function AlertSection() {
         className={cn(
           bubbleSectionClassNames.content(),
           "px-10 py-12 flex flex-col gap-6",
-          "md:px-30 md:py-[60px]"
+          "md:px-30 md:py-[60px]",
         )}
       >
         <h2 className="text-title-section-small text-center md:text-title-section-large">
@@ -107,7 +107,7 @@ function LawSection() {
         className={cn(
           bubbleSectionClassNames.content(),
           "px-10 py-12 flex flex-col gap-6",
-          "md:px-30 md:py-[60px]"
+          "md:px-30 md:py-[60px]",
         )}
       >
         <h2 className="text-title-section-small text-center md:text-title-section-large">
@@ -211,7 +211,7 @@ function CitiesSection() {
           className={cn(
             "grid grid-cols-1 gap-12 items-start",
             "xs:grid-cols-2",
-            "md:grid-cols-3"
+            "md:grid-cols-3",
           )}
         >
           {citiesWithAgreements.map((city) => (

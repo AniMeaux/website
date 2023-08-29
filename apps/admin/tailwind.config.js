@@ -100,7 +100,7 @@ module.exports = {
       // https://tailwindcss.com/docs/plugins#adding-variants
       addVariant(
         "focus-visible",
-        "@media(any-hover:hover){&:is(:focus-visible, .focus-visible)}"
+        "@media(any-hover:hover){&:is(:focus-visible, .focus-visible)}",
       );
     }),
 
@@ -194,7 +194,7 @@ module.exports = {
           "pb-safe": (value) => createSafePadding("bottom", value),
           "pl-safe": (value) => createSafePadding("left", value),
         },
-        { values: theme("spacing") }
+        { values: theme("spacing") },
       );
     }),
 
@@ -206,7 +206,7 @@ module.exports = {
           "bottom-safe": (value) => createSafePosition("bottom", value),
           "left-safe": (value) => createSafePosition("left", value),
         },
-        { values: theme("spacing") }
+        { values: theme("spacing") },
       );
     }),
 
@@ -243,7 +243,7 @@ module.exports = {
             none: "none",
             custom: "custom",
           },
-        }
+        },
       );
     }),
 

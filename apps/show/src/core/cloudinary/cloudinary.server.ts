@@ -4,17 +4,17 @@ import invariant from "tiny-invariant";
 
 invariant(
   process.env.CLOUDINARY_CLOUD_NAME != null,
-  "CLOUDINARY_CLOUD_NAME must be defined"
+  "CLOUDINARY_CLOUD_NAME must be defined",
 );
 
 invariant(
   process.env.CLOUDINARY_API_KEY != null,
-  "CLOUDINARY_API_KEY must be defined"
+  "CLOUDINARY_API_KEY must be defined",
 );
 
 invariant(
   process.env.CLOUDINARY_API_SECRET != null,
-  "CLOUDINARY_API_SECRET must be defined"
+  "CLOUDINARY_API_SECRET must be defined",
 );
 
 cloudinaryClient.config({

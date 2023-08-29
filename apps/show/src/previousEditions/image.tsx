@@ -4,7 +4,7 @@ export function PreviousEditionImage(
   props: Omit<
     React.ComponentPropsWithoutRef<typeof DynamicImage>,
     "alt" | "aspectRatio" | "image" | "title"
-  >
+  >,
 ) {
   return (
     <DynamicImage

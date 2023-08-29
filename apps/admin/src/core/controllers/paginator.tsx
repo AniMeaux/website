@@ -27,7 +27,7 @@ export function Paginator({
         to={{ search: copy.toString() }}
       >
         {index + 1}
-      </PaginatorItem>
+      </PaginatorItem>,
     );
   }
 
@@ -37,7 +37,7 @@ export function Paginator({
       pageCount - page - 3,
       <PaginatorItem key={pageCount - 2} isEllipsis>
         …
-      </PaginatorItem>
+      </PaginatorItem>,
     );
   }
 
@@ -47,7 +47,7 @@ export function Paginator({
       page - 2,
       <PaginatorItem key={1} isEllipsis>
         …
-      </PaginatorItem>
+      </PaginatorItem>,
     );
   }
 
@@ -78,7 +78,7 @@ function PaginatorItem({
             "bg-blue-500 text-white": isActive,
             "text-gray-500": !isActive,
             "hover:bg-gray-200": !isActive && to != null,
-          }
+          },
         )}
       >
         {children}

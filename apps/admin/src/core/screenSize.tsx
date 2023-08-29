@@ -6,14 +6,14 @@ export const ScreenSizeValue = Object.fromEntries(
   Object.entries(theme.screens).map(([key, value]) => [
     key,
     Number(value.replace("px", "")),
-  ])
+  ]),
 ) as Record<ScreenSize, number>;
 
 export function useScreenSizeCondition(
-  conditionFunction: (screenSize: number) => boolean
+  conditionFunction: (screenSize: number) => boolean,
 ) {
   const [result, setResult] = useState(() =>
-    conditionFunction(getScreenSize())
+    conditionFunction(getScreenSize()),
   );
 
   useEffect(() => {

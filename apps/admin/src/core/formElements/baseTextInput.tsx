@@ -24,7 +24,7 @@ export const BaseTextInput = Object.assign(
       className,
       ...rest
     },
-    ref
+    ref,
   ) {
     return (
       <Primitive.input
@@ -45,7 +45,7 @@ export const BaseTextInput = Object.assign(
             "pr-4": rightAdornmentCount === 1,
             "pr-7": rightAdornmentCount === 2,
           },
-          className
+          className,
         )}
       />
     );
@@ -64,7 +64,7 @@ export const BaseTextInput = Object.assign(
             fromBooleanAttribute(rest["aria-disabled"])
               ? "opacity-60"
               : undefined,
-            className
+            className,
           )}
         />
       );
@@ -81,7 +81,7 @@ export const BaseTextInput = Object.assign(
       }
     >(function BaseTextInputAdornmentContainer(
       { side, adornment, className, ...rest },
-      ref
+      ref,
     ) {
       const adornments = ensureArray(adornment);
       if (adornments.length === 0) {
@@ -98,10 +98,10 @@ export const BaseTextInput = Object.assign(
           className: cn(
             "absolute top-0 p-0.5 flex items-center pointer-events-none",
             side === "left" ? "left-0" : "right-0",
-            className
+            className,
           ),
         },
-        ...adornments
+        ...adornments,
       );
     }),
 
@@ -115,7 +115,7 @@ export const BaseTextInput = Object.assign(
           ref={ref}
           className={cn(
             "w-3 h-3 flex-none flex items-center justify-center text-[20px] text-gray-600",
-            className
+            className,
           )}
         />
       );
@@ -133,13 +133,13 @@ export const BaseTextInput = Object.assign(
             type="button"
             className={cn(
               "rounded-full pointer-events-auto cursor-pointer transition-colors duration-100 ease-in-out hover:bg-gray-100 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400",
-              className
+              className,
             )}
           />
         </BaseTextInput.Adornment>
       );
     }),
-  }
+  },
 );
 
 const INPUT_VARIANT_CLASS_NAMES: Record<BaseTextInputVariant, string> = {

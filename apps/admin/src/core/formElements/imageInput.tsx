@@ -46,7 +46,7 @@ function ImageInputTrigger({
       data-invalid={toBooleanAttribute(hasError)}
       className={cn(
         className,
-        "rounded-1 border border-gray-300 border-dashed flex flex-col items-center justify-center gap-0.5 text-blue-500 transition-colors duration-100 ease-in-out hover:border-gray-500 focus-visible:outline-none focus-visible:border-0 focus-visible:ring-outset focus-visible:ring focus-visible:ring-blue-400 data-[invalid=true]:border-red-500 data-[invalid=true]:hover:border-red-500 data-[invalid=true]:focus-visible:ring-red-500"
+        "rounded-1 border border-gray-300 border-dashed flex flex-col items-center justify-center gap-0.5 text-blue-500 transition-colors duration-100 ease-in-out hover:border-gray-500 focus-visible:outline-none focus-visible:border-0 focus-visible:ring-outset focus-visible:ring focus-visible:ring-blue-400 data-[invalid=true]:border-red-500 data-[invalid=true]:hover:border-red-500 data-[invalid=true]:focus-visible:ring-red-500",
       )}
     >
       <Icon id={icon} className="text-[30px]" />
@@ -82,7 +82,7 @@ function ImageInputPreviewImage({
       data-is-over-size={String(isOverSize)}
       className={cn(
         className,
-        "peer w-full data-[is-over-size=true]:opacity-50"
+        "peer w-full data-[is-over-size=true]:opacity-50",
       )}
     />
   );

@@ -69,7 +69,7 @@ export function AnimalItem({
                     !isDisabled && animal.gender === Gender.MALE,
                   "group-hover:text-pink-500":
                     !isDisabled && animal.gender === Gender.FEMALE,
-                }
+                },
               )}
             >
               {animal.name}

@@ -106,7 +106,7 @@ export function FosterFamilyFilters({
           label="Espèces déjà présentes"
           count={fosterFamilySearchParams.speciesAlreadyPresent.size}
           hiddenContent={Array.from(
-            fosterFamilySearchParams.speciesAlreadyPresent
+            fosterFamilySearchParams.speciesAlreadyPresent,
           ).map((species) => (
             <input
               key={species}
@@ -126,7 +126,7 @@ export function FosterFamilyFilters({
                 value={species}
                 icon={<Icon id={SPECIES_ICON[species]} />}
                 checked={fosterFamilySearchParams.speciesAlreadyPresent.has(
-                  species
+                  species,
                 )}
                 onChange={() => {}}
               />
@@ -139,7 +139,7 @@ export function FosterFamilyFilters({
           label="Espèces à éviter"
           count={fosterFamilySearchParams.speciesToAvoid.size}
           hiddenContent={Array.from(
-            fosterFamilySearchParams.speciesToAvoid
+            fosterFamilySearchParams.speciesToAvoid,
           ).map((species) => (
             <input
               key={species}
@@ -221,7 +221,7 @@ export function FosterFamilyFilters({
                 name={FosterFamilySearchParams.keys.cities}
                 value={city}
               />
-            )
+            ),
           )}
         >
           <ToggleInputList>

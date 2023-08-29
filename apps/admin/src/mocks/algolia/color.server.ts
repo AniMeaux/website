@@ -59,7 +59,7 @@ export const colorHandlers = [
       };
 
       return res(ctx.json(responseBody));
-    }
+    },
   ),
 
   ...createBatchHandlers(`/1/indexes/${algolia.color.index.indexName}/batch`),

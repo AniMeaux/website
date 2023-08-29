@@ -28,7 +28,7 @@ export default function Route() {
         <h1
           className={cn(
             "text-title-hero-small text-center",
-            "md:text-title-hero-large md:text-left"
+            "md:text-title-hero-large md:text-left",
           )}
         >
           Partenaires
@@ -41,7 +41,7 @@ export default function Route() {
             className={cn(
               "grid grid-cols-1 gap-12 items-start",
               "xs:grid-cols-2",
-              "md:grid-cols-3"
+              "md:grid-cols-3",
             )}
           >
             {partners.map((partner) => (

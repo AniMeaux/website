@@ -13,7 +13,7 @@ export function useFocusTrap(
   {
     disabled,
     shouldFocusFirstChild = false,
-  }: { disabled: boolean; shouldFocusFirstChild?: boolean }
+  }: { disabled: boolean; shouldFocusFirstChild?: boolean },
 ) {
   const elementToReturnFocus = useRef<HTMLElement | null>(null);
 
@@ -47,7 +47,7 @@ export function useFocusTrap(
 
         allowOutsideClick: (event) => {
           const ancestor = (event.target as HTMLElement).closest(
-            `[${FOCUS_TRAP_IGNORE_ATTRIBUTE}]`
+            `[${FOCUS_TRAP_IGNORE_ATTRIBUTE}]`,
           );
           return (
             ancestor != null &&

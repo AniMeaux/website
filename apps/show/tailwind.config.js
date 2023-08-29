@@ -106,7 +106,7 @@ module.exports = {
       // https://tailwindcss.com/docs/plugins#adding-variants
       addVariant(
         "focus-visible",
-        "@media(any-hover:hover){&:is(:focus-visible, .focus-visible)}"
+        "@media(any-hover:hover){&:is(:focus-visible, .focus-visible)}",
       );
     }),
 
@@ -121,7 +121,7 @@ module.exports = {
           const suffix = modifier == null ? "" : `\\/${modifier}`;
           return `@media(any-hover:hover){:merge(.group${suffix}):hover &}`;
         },
-        { values: { hover: "hover" } }
+        { values: { hover: "hover" } },
       );
     }),
 
@@ -200,14 +200,14 @@ module.exports = {
             "--background-color": value,
           }),
         },
-        { values: flattenColorPalette(theme("colors")) }
+        { values: flattenColorPalette(theme("colors")) },
       );
     }),
 
     plugin(({ matchUtilities, theme }) => {
       matchUtilities(
         { "stroke-dashoffset": (value) => ({ "stroke-dashoffset": value }) },
-        { values: theme("spacing") }
+        { values: theme("spacing") },
       );
     }),
 
@@ -233,7 +233,7 @@ module.exports = {
           "pb-safe": (value) => createSafePadding("bottom", value),
           "pl-safe": (value) => createSafePadding("left", value),
         },
-        { values: theme("spacing") }
+        { values: theme("spacing") },
       );
     }),
   ],

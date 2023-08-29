@@ -110,7 +110,7 @@ function Document({
     imageUrl = createImageUrl(
       cloudinaryName,
       "show/f4fe85de-763b-41f8-8f3e-5dc6db343804",
-      { size: "1024", format: "jpg" }
+      { size: "1024", format: "jpg" },
     );
   }
 
@@ -126,7 +126,7 @@ function Document({
       lang="fr"
       className={cn(
         htmlBackgroundColor ?? "bg-white bg-var-white",
-        isFullHeight ? "h-full" : undefined
+        isFullHeight ? "h-full" : undefined,
       )}
     >
       <head>
@@ -174,7 +174,7 @@ function Document({
           "overflow-x-clip grid grid-cols-1 text-prussianBlue text-body-lowercase-default",
           // Make sure children with absolute positionning are correctly placed.
           "relative",
-          isFullHeight ? "h-full" : "min-h-screen content-start"
+          isFullHeight ? "h-full" : "min-h-screen content-start",
         )}
       >
         {googleTagManagerId != null && (

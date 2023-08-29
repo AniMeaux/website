@@ -25,7 +25,7 @@ export const BaseLink = forwardRef<HTMLAnchorElement, BaseLinkProps>(
       children,
       title,
     },
-    ref
+    ref,
   ) {
     const commonProps: React.AnchorHTMLAttributes<HTMLAnchorElement> &
       React.RefAttributes<HTMLAnchorElement> = {
@@ -75,16 +75,16 @@ export const BaseLink = forwardRef<HTMLAnchorElement, BaseLinkProps>(
         children={defaultCallProp(children)}
       />
     );
-  }
+  },
 );
 
 function defaultCallProp<
-  TValue extends string | React.CSSProperties | React.ReactNode
+  TValue extends string | React.CSSProperties | React.ReactNode,
 >(
   prop:
     | undefined
     | TValue
-    | ((arg: { isActive: boolean; isPending: boolean }) => undefined | TValue)
+    | ((arg: { isActive: boolean; isPending: boolean }) => undefined | TValue),
 ) {
   if (typeof prop === "function") {
     return prop({ isActive: false, isPending: false });

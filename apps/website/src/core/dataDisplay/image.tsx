@@ -22,11 +22,11 @@ const SCREEN_SIZES = orderBy(
     ([name, width]) =>
       [name, Number(width.replace("px", ""))] as [
         ScreenSize | "default",
-        number
-      ]
+        number,
+      ],
   ),
   ([_, width]) => width,
-  "desc"
+  "desc",
 )
   .map(([name]) => name)
   .concat("default");
@@ -58,7 +58,7 @@ export function StaticImage({
       sizes.push(
         screen === "default"
           ? width
-          : `(min-width: ${theme.screens[screen]}) ${width}`
+          : `(min-width: ${theme.screens[screen]}) ${width}`,
       );
     }
 
@@ -112,7 +112,7 @@ export function DynamicImage({
         createCloudinaryUrl(config.cloudinaryName, imageId, {
           size,
         }),
-      ])
+      ]),
     ),
   };
 
@@ -136,7 +136,7 @@ export function createCloudinaryUrl(
   }: {
     size: ImageSize;
     aspectRatio?: "4:3" | "16:9";
-  }
+  },
 ) {
   const transformations = [
     `w_${size}`,

@@ -8,5 +8,5 @@ export enum PreviousEdition {
 export const SORTED_PREVIOUS_EDITIONS = orderBy(
   Object.values(PreviousEdition),
   (edition) => edition,
-  ["desc"]
+  ["desc"],
 );

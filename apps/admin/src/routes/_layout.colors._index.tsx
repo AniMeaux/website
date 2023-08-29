@@ -91,7 +91,7 @@ export const meta: V2_MetaFunction = () => {
 const DeleteActionFormData = createActionData(
   z.object({
     id: z.string().uuid(),
-  })
+  }),
 );
 
 export async function action({ request }: ActionArgs) {

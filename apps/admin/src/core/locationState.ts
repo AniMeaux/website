@@ -13,6 +13,6 @@ export function useLocationState() {
 
   return useMemo(
     () => LocationStateSchema.parse(location.state),
-    [location.state]
+    [location.state],
   );
 }
