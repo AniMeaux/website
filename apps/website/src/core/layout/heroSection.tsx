@@ -17,7 +17,7 @@ export function HeroSection({
           "md:flex-row-reverse": isReversed,
           "md:flex-row": !isReversed,
         },
-        "md:gap-24"
+        "md:gap-24",
       )}
     >
       {children}

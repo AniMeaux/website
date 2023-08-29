@@ -35,7 +35,7 @@ export function AgreementItem({
     <li
       className={cn(
         "rounded-0.5 p-1 flex flex-col items-center justify-center gap-0.5",
-        AGREEMENT_CLASS_NAMES[agreement]
+        AGREEMENT_CLASS_NAMES[agreement],
       )}
     >
       <Icon id={ICONS[entity][agreement]} className="text-[30px]" />

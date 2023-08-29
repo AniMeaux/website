@@ -36,7 +36,7 @@ export const Action = Object.assign(
         variant = "primary",
         ...rest
       },
-      ref
+      ref,
     ) {
       return (
         <Primitive.button
@@ -46,11 +46,11 @@ export const Action = Object.assign(
             "relative disabled:opacity-50 flex-none flex items-center justify-center gap-0.5 duration-100 ease-in-out active:scale-95 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white",
             VARIANT_CLASS_NAME[variant]({ isIconOnly }),
             COLOR_CLASS_NAMES[variant][color],
-            className
+            className,
           )}
         />
       );
-    }
+    },
   ),
   {
     Loader: function ActionLoader({ isLoading }: { isLoading: boolean }) {
@@ -58,14 +58,14 @@ export const Action = Object.assign(
         <span
           className={cn(
             "absolute top-0 left-0 w-full h-full rounded-[inherit] bg-inherit flex items-center justify-center transition-opacity duration-100 ease-in-out",
-            isLoading ? "opacity-100" : "opacity-0"
+            isLoading ? "opacity-100" : "opacity-0",
           )}
         >
           <Spinner />
         </span>
       );
     },
-  }
+  },
 );
 
 const VARIANT_CLASS_NAME: Record<
@@ -77,19 +77,19 @@ const VARIANT_CLASS_NAME: Record<
   primary: ({ isIconOnly }) =>
     cn(
       "rounded-0.5 min-w-[40px] h-4 text-body-emphasis transition-[background-color,transform]",
-      isIconOnly ? "px-1" : "px-2"
+      isIconOnly ? "px-1" : "px-2",
     ),
   secondary: ({ isIconOnly }) =>
     cn(
       "rounded-0.5 min-w-[40px] h-4 text-body-emphasis transition-[background-color,transform]",
-      isIconOnly ? "px-1" : "px-2"
+      isIconOnly ? "px-1" : "px-2",
     ),
   text: () =>
     "rounded-0.5 min-w-[20px] h-2 text-body-emphasis transition-[color,transform]",
   translucid: ({ isIconOnly }) =>
     cn(
       "rounded-0.5 min-w-[40px] h-4 bg-opacity-50 text-body-emphasis transition-[background-color,transform] hover:bg-opacity-70",
-      isIconOnly ? "px-1" : "px-2"
+      isIconOnly ? "px-1" : "px-2",
     ),
 };
 
@@ -146,7 +146,7 @@ export const ProseInlineAction = forwardRef<
       ref={ref}
       className={cn(
         "relative text-body-emphasis after:absolute after:bottom-0 after:left-0 after:w-full after:border-b after:border-blue-500 hover:after:border-b-2 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white",
-        className
+        className,
       )}
     />
   );

@@ -6,5 +6,5 @@ export const PhotoLocationState = createLocationState(
     .object({
       galleryLocationKey: z.string().optional().catch(undefined),
     })
-    .catch({})
+    .catch({}),
 );

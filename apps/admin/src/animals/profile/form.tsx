@@ -64,7 +64,7 @@ export const ActionFormData = createActionData(
     species: z.nativeEnum(Species, {
       required_error: "Veuillez choisir une espèce",
     }),
-  })
+  }),
 );
 
 export function AnimalProfileForm({
@@ -425,7 +425,7 @@ export function AnimalProfileForm({
                   value={agreement}
                   defaultChecked={
                     agreementFromBoolean(
-                      defaultAnimal?.isOkChildren ?? null
+                      defaultAnimal?.isOkChildren ?? null,
                     ) === agreement
                   }
                   aria-describedby="isOkChildren-error"

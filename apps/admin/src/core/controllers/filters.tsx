@@ -51,7 +51,7 @@ Filters.Content = function FiltersContent({
     <FiltersContentContext.Provider
       value={useMemo<FiltersContentContextValue>(
         () => ({ openedFilter, setOpenedFilter }),
-        [openedFilter, setOpenedFilter]
+        [openedFilter, setOpenedFilter],
       )}
     >
       <div className="flex flex-col gap-0.5">
@@ -86,7 +86,7 @@ Filters.Filter = function Filter({
         data-state={isOpened ? "open" : "closed"}
         onClick={() =>
           setOpenedFilter((openedFilter) =>
-            openedFilter === value ? null : value
+            openedFilter === value ? null : value,
           )
         }
         className="group w-full rounded-0.5 grid grid-cols-1 grid-flow-col items-start text-left focus:z-10 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
@@ -97,7 +97,7 @@ Filters.Filter = function Filter({
             {
               "text-gray-500 group-hover:text-inherit":
                 !isOpened && count === 0,
-            }
+            },
           )}
         >
           {label}
@@ -114,7 +114,7 @@ Filters.Filter = function Filter({
             "w-4 h-4 flex items-center justify-center transition-[color,transform] duration-100 ease-in-out ",
             isOpened
               ? "text-gray-600 -rotate-90"
-              : "text-gray-500 group-hover:text-gray-600"
+              : "text-gray-500 group-hover:text-gray-600",
           )}
         >
           <Icon id="angleRight" />

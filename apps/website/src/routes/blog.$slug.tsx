@@ -28,17 +28,17 @@ export async function loader({ params }: LoaderArgs) {
   }
 
   let otherArticles = articles.filter(
-    (article) => article.slug !== params["slug"]
+    (article) => article.slug !== params["slug"],
   );
 
   if (otherArticles.length > OTHER_ARTICLE_COUNT) {
     const startIndex = Math.floor(
-      Math.random() * (otherArticles.length - OTHER_ARTICLE_COUNT + 1)
+      Math.random() * (otherArticles.length - OTHER_ARTICLE_COUNT + 1),
     );
 
     otherArticles = otherArticles.slice(
       startIndex,
-      startIndex + OTHER_ARTICLE_COUNT
+      startIndex + OTHER_ARTICLE_COUNT,
     );
   }
 
@@ -84,7 +84,7 @@ export default function Route() {
 
           <p className="text-gray-500">
             {DateTime.fromISO(article.publicationDate).toLocaleString(
-              DateTime.DATE_MED
+              DateTime.DATE_MED,
             )}{" "}
             par {article.authorName}
           </p>
@@ -98,7 +98,7 @@ export default function Route() {
           className={cn(
             "w-full aspect-4/3 flex-none rounded-bubble-md",
             "sm:rounded-bubble-lg",
-            "md:rounded-bubble-xl"
+            "md:rounded-bubble-xl",
           )}
         />
 

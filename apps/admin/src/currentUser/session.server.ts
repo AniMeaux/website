@@ -43,10 +43,10 @@ export async function destroyCurrentUserSession() {
 
 export async function extendCurrentUserSession(
   requestHeaders: Headers,
-  responseHeaders: Headers
+  responseHeaders: Headers,
 ) {
   const setCookieValue = await sessionCookie.parse(
-    responseHeaders.get("set-cookie")
+    responseHeaders.get("set-cookie"),
   );
 
   if (setCookieValue == null) {
@@ -54,7 +54,7 @@ export async function extendCurrentUserSession(
     if (cookieValue != null) {
       responseHeaders.append(
         "Set-Cookie",
-        await sessionCookie.serialize(cookieValue)
+        await sessionCookie.serialize(cookieValue),
       );
     }
   }

@@ -24,7 +24,7 @@ export const Routes = {
  * @see https://github.com/remix-run/react-router/blob/react-router%406.14.2/packages/react-router-dom/index.tsx#L624
  */
 export function useNavLink(
-  props: Pick<NavLinkProps, "caseSensitive" | "end" | "relative" | "to">
+  props: Pick<NavLinkProps, "caseSensitive" | "end" | "relative" | "to">,
 ) {
   const path = useResolvedPath(props.to, { relative: props.relative });
   const location = useLocation();

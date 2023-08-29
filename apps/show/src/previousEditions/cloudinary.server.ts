@@ -24,7 +24,7 @@ export class PrevousEditionCloudinaryDelegate extends CloudinaryDelegate {
         try {
           do {
             const response = CloudinaryApiResponseSchema.transform(
-              flattenCloudinaryApiResponse
+              flattenCloudinaryApiResponse,
             ).parse(
               await this.client.api.resources({
                 context: true,
@@ -32,7 +32,7 @@ export class PrevousEditionCloudinaryDelegate extends CloudinaryDelegate {
                 next_cursor: nextCursor,
                 prefix: `show/gallery/${edition}/`,
                 type: "upload",
-              })
+              }),
             );
 
             allImages = allImages.concat(response.images);

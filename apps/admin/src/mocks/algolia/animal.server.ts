@@ -86,7 +86,7 @@ export const animalHandlers = [
       };
 
       return res(ctx.json(responseBody));
-    }
+    },
   ),
 
   ...createPostHandlers(
@@ -118,7 +118,7 @@ export const animalHandlers = [
         facetHits: locations.map<FacetHit>((location) => {
           invariant(
             location.pickUpLocation != null,
-            "pickUpLocation must be defined"
+            "pickUpLocation must be defined",
           );
 
           return {
@@ -132,7 +132,7 @@ export const animalHandlers = [
       };
 
       return res(ctx.json(response));
-    }
+    },
   ),
 
   ...createBatchHandlers(`/1/indexes/${algolia.animal.index.indexName}/batch`),

@@ -411,5 +411,5 @@ Alors, qu’attendez-vous ? C’est peut-être vous le nouveau compagnon pour l
     },
   ],
   (article) => DateTime.fromJSDate(article.publicationDate).toMillis(),
-  "desc"
+  "desc",
 );

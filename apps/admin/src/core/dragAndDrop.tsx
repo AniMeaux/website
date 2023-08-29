@@ -39,7 +39,7 @@ export function createDragAndDropContext<DataType>() {
 
     invariant(
       context != null,
-      `${functionCallerName} can only be used inside a DragAndDropContextProvider.`
+      `${functionCallerName} can only be used inside a DragAndDropContextProvider.`,
     );
 
     return context;
@@ -70,7 +70,7 @@ export function createDragAndDropContext<DataType>() {
           });
         });
       },
-      []
+      [],
     );
 
     const endDrag = useCallback<DragAndDropContextValue["endDrag"]>(() => {
@@ -88,7 +88,7 @@ export function createDragAndDropContext<DataType>() {
           return { ...state, pendingDropIndex };
         });
       },
-      []
+      [],
     );
 
     const itemType = useMemo(generateId, []);
@@ -103,7 +103,7 @@ export function createDragAndDropContext<DataType>() {
         itemType,
         startDrag,
       }),
-      [direction, endDrag, hoverItem, isDisabled, itemType, startDrag, state]
+      [direction, endDrag, hoverItem, isDisabled, itemType, startDrag, state],
     );
 
     const { isTouchScreen } = useIsTouchScreen();
@@ -294,7 +294,7 @@ export function createDragAndDropContext<DataType>() {
         isDragging: monitor.isDragging(),
         item: monitor.getItem() as DragItem<DataType>,
         sourcePreviewCoordinates: getSourcePreviewCoordinates(monitor),
-      })
+      }),
     );
 
     if (
@@ -368,12 +368,12 @@ function getPointerDistanceFromSource(monitor: DragLayerMonitor): XYCoord {
   // pointer, so the difference is always positive.
   return subtractCoordinates(
     initialPointerCoordinates,
-    initialSourceCoordinates
+    initialSourceCoordinates,
   );
 }
 
 function getSourcePreviewCoordinates(
-  monitor: DragLayerMonitor
+  monitor: DragLayerMonitor,
 ): XYCoord | null {
   const currentPointerCoordinates = monitor.getClientOffset();
   if (currentPointerCoordinates == null) {
@@ -382,13 +382,13 @@ function getSourcePreviewCoordinates(
 
   return subtractCoordinates(
     currentPointerCoordinates,
-    getPointerDistanceFromSource(monitor)
+    getPointerDistanceFromSource(monitor),
   );
 }
 
 function getStyle(
   draggedElementInitialRect: DOMRect,
-  sourcePreviewCoordinates: XYCoord
+  sourcePreviewCoordinates: XYCoord,
 ): React.CSSProperties {
   const transform = `translate(${sourcePreviewCoordinates.x}px, ${sourcePreviewCoordinates.y}px)`;
 

@@ -31,7 +31,7 @@ export function ArticleItem({
         <div className="flex flex-col">
           <p className="text-caption-default text-gray-500">
             {DateTime.fromISO(article.publicationDate).toLocaleString(
-              DateTime.DATE_MED
+              DateTime.DATE_MED,
             )}{" "}
             par {article.authorName}
           </p>

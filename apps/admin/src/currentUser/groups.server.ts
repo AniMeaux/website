@@ -4,7 +4,7 @@ import type { User, UserGroup } from "@prisma/client";
 
 export function assertCurrentUserHasGroups(
   user: Pick<User, "groups">,
-  groups: UserGroup[]
+  groups: UserGroup[],
 ) {
   if (!hasGroups(user, groups)) {
     throw new ForbiddenResponse();

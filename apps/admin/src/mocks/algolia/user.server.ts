@@ -71,7 +71,7 @@ export const userHandlers = [
       };
 
       return res(ctx.json(responseBody));
-    }
+    },
   ),
 
   ...createBatchHandlers(`/1/indexes/${algolia.user.index.indexName}/batch`),

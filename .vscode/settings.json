@@ -16,5 +16,6 @@
     "apps/admin/tailwind.config.js": "apps/admin/**",
     "apps/website/tailwind.config.ts": "apps/website/**",
     "apps/show/tailwind.config.js": "apps/show/**"
-  }
+  },
+  "typescript.tsdk": "node_modules/typescript/lib"
 }

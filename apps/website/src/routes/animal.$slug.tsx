@@ -102,13 +102,13 @@ export default function Route() {
       <header
         className={cn(
           "flex flex-col",
-          "md:grid md:grid-cols-[1fr,auto] md:items-center md:gap-6"
+          "md:grid md:grid-cols-[1fr,auto] md:items-center md:gap-6",
         )}
       >
         <h1
           className={cn(
             "text-title-hero-small text-center break-words",
-            "md:text-title-hero-large md:text-left"
+            "md:text-title-hero-large md:text-left",
           )}
         >
           {animal.name}
@@ -117,7 +117,7 @@ export default function Route() {
         <div
           className={cn(
             "hidden",
-            "md:flex md:flex-wrap md:items-center md:justify-end md:gap-x-6 md:gap-y-3"
+            "md:flex md:flex-wrap md:items-center md:justify-end md:gap-x-6 md:gap-y-3",
           )}
         >
           <Actions />
@@ -127,7 +127,7 @@ export default function Route() {
       <div
         className={cn(
           "flex flex-col gap-12",
-          "md:flex-row md:items-center md:gap-24"
+          "md:flex-row md:items-center md:gap-24",
         )}
       >
         <ImageSection className="md:flex-[1_1_66%]" />
@@ -137,7 +137,7 @@ export default function Route() {
       <div
         className={cn(
           "flex flex-col gap-12",
-          "md:flex-row-reverse md:items-start md:gap-24"
+          "md:flex-row-reverse md:items-start md:gap-24",
         )}
       >
         <AggrementsSection className="md:flex-[1_1_34%] md:max-w-xs" />
@@ -183,14 +183,14 @@ function ImageSection({ className }: { className: string }) {
         onScroll={(event) => {
           setVisibleIndex(
             Math.round(
-              event.currentTarget.scrollLeft / event.currentTarget.clientWidth
-            )
+              event.currentTarget.scrollLeft / event.currentTarget.clientWidth,
+            ),
           );
         }}
         className={cn(
           "overflow-auto snap-x snap-mandatory scrollbars-none scroll-smooth min-w-0 rounded-bubble-md flex",
           "sm:rounded-bubble-lg",
-          "lg:rounded-bubble-xl"
+          "lg:rounded-bubble-xl",
         )}
       >
         {allPictures.map((pictureId, index) => (
@@ -213,12 +213,12 @@ function ImageSection({ className }: { className: string }) {
             onClick={() => {
               invariant(
                 scrollContainerRef.current != null,
-                "scrollContainerRef should be set"
+                "scrollContainerRef should be set",
               );
 
               scrollContainerRef.current.scrollTo(
                 index * scrollContainerRef.current.clientWidth,
-                0
+                0,
               );
             }}
           >
@@ -233,7 +233,7 @@ function ImageSection({ className }: { className: string }) {
                 {
                   "opacity-50": visibleIndex !== index,
                   "opacity-100": visibleIndex === index,
-                }
+                },
               )}
             />
           </button>
@@ -268,7 +268,7 @@ function InfoSection({ className }: { className: string }) {
 
         <Item icon="cakeCandles">
           {DateTime.fromISO(animal.birthdate).toLocaleString(
-            DateTime.DATE_FULL
+            DateTime.DATE_FULL,
           )}{" "}
           ({formatAge(animal.birthdate)})
         </Item>
@@ -348,7 +348,7 @@ function AggrementsSection({ className }: { className: string }) {
       <h2
         className={cn(
           "text-title-section-small",
-          "md:text-title-section-large"
+          "md:text-title-section-large",
         )}
       >
         Ses ententes
@@ -397,7 +397,7 @@ function Agreement({
           "bg-gray-100 text-gray-700": value == null,
           "bg-brandGreen-lightest text-brandGreen": value === true,
           "bg-brandRed-lightest text-brandRed": value === false,
-        }
+        },
       )}
     >
       <Icon id={icon} className="text-[32px]" />
@@ -448,7 +448,7 @@ function DescriptionSection({ className }: { className: string }) {
       <h2
         className={cn(
           "text-title-section-small",
-          "md:text-title-section-large"
+          "md:text-title-section-large",
         )}
       >
         Son histoire

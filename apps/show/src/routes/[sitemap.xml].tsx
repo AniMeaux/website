@@ -53,7 +53,7 @@ export async function loader() {
     urlDefinitions.push(
       { path: Routes.exhibitors(), changeFrequency: "weekly" },
       { path: Routes.access(), changeFrequency: "weekly" },
-      { path: Routes.faq(), changeFrequency: "weekly" }
+      { path: Routes.faq(), changeFrequency: "weekly" },
     );
 
     SORTED_PREVIOUS_EDITIONS.forEach((edition) => {
@@ -87,7 +87,7 @@ export async function loader() {
           {url.priority != null && <priority>{url.priority}</priority>}
         </url>
       ))}
-    </urlset>
+    </urlset>,
   );
 
   return new Response('<?xml version="1.0" encoding="UTF-8"?>' + markup, {

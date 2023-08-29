@@ -34,5 +34,5 @@ export const citiesWithAgreements: CityWithAgreements[] = orderBy(
       image: "cities-with-agreements/1e456eef-4cbb-43e6-b228-e89a9ff4ac9e.png",
     },
   ],
-  (city) => city.name.toLowerCase()
+  (city) => city.name.toLowerCase(),
 );

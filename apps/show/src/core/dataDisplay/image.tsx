@@ -71,7 +71,7 @@ export function DynamicImage({
 
     if (width != null) {
       sizes.push(
-        screen === "default" ? width : createImageMedia(screen, width)
+        screen === "default" ? width : createImageMedia(screen, width),
       );
     }
 
@@ -105,7 +105,7 @@ export function DynamicImage({
           "bg-cover",
           ASPECT_RATIO_CLASS_NAME[aspectRatio],
           OBJECT_FIT_CLASS_NAME[objectFit],
-          className
+          className,
         )}
         style={style}
       />
@@ -117,7 +117,7 @@ export function DynamicImage({
           className={cn(
             "absolute -z-10 top-0 left-0 -translate-y-1 md:-translate-y-2 w-full aspect-square transition-transform ease-in-out duration-100",
             IMAGE_SHAPE_COLOR_CLASS_NAME[shape.color],
-            IMAGE_SHAPE_SIDE_CLASS_NAME[shape.side]
+            IMAGE_SHAPE_SIDE_CLASS_NAME[shape.side],
           )}
         >
           <defs>
@@ -153,7 +153,7 @@ export function createImageUrl(
     aspectRatio?: AspectRatio;
     format?: "auto" | "jpg";
     size?: ImageSize;
-  }
+  },
 ) {
   const transformations = [
     // https://cloudinary.com/documentation/image_optimization#automatic_quality_selection_q_auto
@@ -176,7 +176,7 @@ export function createImageUrl(
       // https://cloudinary.com/documentation/transformation_reference#ar_aspect_ratio
       `ar_${aspectRatio}`,
       // https://cloudinary.com/documentation/transformation_reference#c_fill
-      "c_fill"
+      "c_fill",
     );
   }
 
@@ -191,7 +191,7 @@ export const ImageUrl = {
     invariant(id != null, "The image should exists");
 
     const { blurhash } = BlurhashSearchParams.parse(
-      new URLSearchParams(searchParams)
+      new URLSearchParams(searchParams),
     );
 
     return { id, blurhash };
@@ -211,11 +211,11 @@ const SCREEN_SIZES = orderBy(
     ([name, width]) =>
       [name, Number(width.replace("px", ""))] as [
         ScreenSize | "default",
-        number
-      ]
+        number,
+      ],
   ),
   ([_, width]) => width,
-  "desc"
+  "desc",
 )
   .map(([name]) => name)
   .concat("default");

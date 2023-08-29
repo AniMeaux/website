@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import invariant from "tiny-invariant";
 
 export function usePreviousValue<ValueType>(
-  value: ValueType
+  value: ValueType,
 ): ValueType | null {
   const previousValue = useRef<ValueType | null>(null);
 

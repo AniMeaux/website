@@ -76,7 +76,7 @@ export class AnimalSituationDbDelegate {
     currentData?: null | Pick<
       AnimalSituation,
       "managerId" | "nextVaccinationDate" | "pickUpLocation"
-    >
+    >,
   ) {
     if (newData.status === Status.ADOPTED) {
       if (newData.adoptionDate == null) {
@@ -159,7 +159,7 @@ export class AnimalSituationDbDelegate {
   }
 
   draftHasSituation(
-    draft?: null | AnimalDraftSituation
+    draft?: null | AnimalDraftSituation,
   ): draft is AnimalSituation {
     return (
       draft != null &&

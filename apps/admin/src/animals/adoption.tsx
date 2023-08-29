@@ -18,5 +18,5 @@ export const ADOPTION_OPTION_ICON: Record<AdoptionOption, IconProps["id"]> = {
 
 export const SORTED_ADOPTION_OPTION = orderBy(
   Object.values(AdoptionOption),
-  (adoptionOption) => ADOPTION_OPTION_TRANSLATION[adoptionOption]
+  (adoptionOption) => ADOPTION_OPTION_TRANSLATION[adoptionOption],
 );

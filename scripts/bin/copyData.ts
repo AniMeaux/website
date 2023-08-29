@@ -70,11 +70,11 @@ async function copyTables() {
   for (const tableName of tablesName) {
     await new Promise((resolve, reject) => {
       const sourceStream = sourceClient.query(
-        to(`COPY "${tableName}" TO STDOUT CSV HEADER`)
+        to(`COPY "${tableName}" TO STDOUT CSV HEADER`),
       );
 
       const destinationStream = destinationClient.query(
-        from(`COPY "${tableName}" FROM STDIN CSV HEADER`)
+        from(`COPY "${tableName}" FROM STDIN CSV HEADER`),
       );
 
       destinationStream.on("finish", resolve);

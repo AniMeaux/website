@@ -10,7 +10,7 @@ import { cloneElement, isValidElement } from "react";
  */
 export function joinReactNodes(
   nodes: React.ReactNode[],
-  separator: React.ReactElement | string
+  separator: React.ReactElement | string,
 ): React.ReactNode[] {
   const separatorElement = isValidElement(separator) ? (
     separator

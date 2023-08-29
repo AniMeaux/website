@@ -7,17 +7,17 @@ import { v4 as uuid } from "uuid";
 
 invariant(
   process.env.CLOUDINARY_CLOUD_NAME != null,
-  "CLOUDINARY_CLOUD_NAME must be defined"
+  "CLOUDINARY_CLOUD_NAME must be defined",
 );
 
 invariant(
   process.env.CLOUDINARY_API_KEY != null,
-  "CLOUDINARY_API_KEY must be defined"
+  "CLOUDINARY_API_KEY must be defined",
 );
 
 invariant(
   process.env.CLOUDINARY_API_SECRET != null,
-  "CLOUDINARY_API_SECRET must be defined"
+  "CLOUDINARY_API_SECRET must be defined",
 );
 
 cloudinary.config({
@@ -73,12 +73,12 @@ export function createCloudinaryUploadHandler({
 
           invariant(
             result != null,
-            "result should exist when there are no errors."
+            "result should exist when there are no errors.",
           );
 
           uploadedPublicIds.push(result.public_id);
           resolve(result.public_id);
-        }
+        },
       );
 
       await writeAsyncIterableToWritable(data, uploadStream);

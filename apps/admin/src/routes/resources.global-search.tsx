@@ -49,7 +49,7 @@ const ENTITY_TRANSLATION: Record<Entity, string> = {
 
 const SORTED_ENTITIES = orderBy(
   Object.values(Entity),
-  (entity) => ENTITY_TRANSLATION[entity]
+  (entity) => ENTITY_TRANSLATION[entity],
 );
 
 const GlobalSearchParams = createSearchParams({
@@ -70,7 +70,7 @@ export async function loader({ request }: LoaderArgs) {
   ]);
 
   const searchParams = GlobalSearchParams.parse(
-    new URL(request.url).searchParams
+    new URL(request.url).searchParams,
   );
 
   const possibleEntities = getPossibleEntitiesForCurrentUser(currentUser);
@@ -124,7 +124,7 @@ function getPossibleEntitiesForCurrentUser(currentUser: Pick<User, "groups">) {
   const possibleEntities = new Set<Entity>();
   currentUser.groups.forEach((group) => {
     ALLOWED_ENTITIES_PER_GROUP[group].forEach((entity) =>
-      possibleEntities.add(entity)
+      possibleEntities.add(entity),
     );
   });
   return possibleEntities;
@@ -162,7 +162,7 @@ export function GlobalSearch() {
         if (
           !event.defaultPrevented &&
           !["input", "textarea"].includes(
-            (event.target as HTMLElement).tagName.toLowerCase()
+            (event.target as HTMLElement).tagName.toLowerCase(),
           ) &&
           event.key === "/"
         ) {
@@ -190,7 +190,7 @@ export function GlobalSearch() {
         createPath({
           pathname: Routes.resources.globalSearch.toString(),
           search: GlobalSearchParams.stringify({ entity }),
-        })
+        }),
       );
     }
   }, [load, isOpened, isNavigating, entity]);
@@ -198,7 +198,7 @@ export function GlobalSearch() {
   // - Set the first possible type once we get it.
   // - Reset to the first possible type when the combobox is closed.
   const firstPossibleEntity = SORTED_ENTITIES.find((entity) =>
-    possibleEntities.has(entity)
+    possibleEntities.has(entity),
   );
 
   useEffect(() => {
@@ -267,7 +267,7 @@ export function GlobalSearch() {
                       search: AnimalSearchParams.stringify({
                         nameOrAlias: search,
                       }),
-                    })
+                    }),
                   );
                 } else {
                   navigate(
@@ -276,7 +276,7 @@ export function GlobalSearch() {
                       search: FosterFamilySearchParams.stringify({
                         displayName: search,
                       }),
-                    })
+                    }),
                   );
                 }
               }}
@@ -290,7 +290,7 @@ export function GlobalSearch() {
 
 function stateReducer<TItem>(
   state: UseComboboxState<TItem>,
-  actionAndChanges: UseComboboxStateChangeOptions<TItem>
+  actionAndChanges: UseComboboxStateChangeOptions<TItem>,
 ): Partial<UseComboboxState<TItem>> {
   // Don't select highlighted item on tab.
   if (
@@ -505,7 +505,7 @@ function EntityInput({
               <TabLabel>{ENTITY_TRANSLATION[possibleEntity]}</TabLabel>
             </Tab>
           </span>
-        )
+        ),
       )}
     </Tabs>
   );
@@ -522,7 +522,7 @@ function Tabs({
     <div
       className={cn(
         className,
-        "overflow-auto scrollbars-none grid grid-flow-col justify-start gap-0.5"
+        "overflow-auto scrollbars-none grid grid-flow-col justify-start gap-0.5",
       )}
     >
       {children}

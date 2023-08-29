@@ -9,11 +9,11 @@ import { useCallback, useEffect, useState } from "react";
 
 const SORTED_SPECIES = orderBy(
   Object.values(Species),
-  (species) => SPECIES_TRANSLATION[species]
+  (species) => SPECIES_TRANSLATION[species],
 );
 
 const SORTED_AGES = orderBy(Object.values(AnimalAge), (age) =>
-  age === AnimalAge.JUNIOR ? 0 : age === AnimalAge.ADULT ? 1 : 2
+  age === AnimalAge.JUNIOR ? 0 : age === AnimalAge.ADULT ? 1 : 2,
 );
 
 export const ANIMAL_AGES_BY_SPECIES: Record<Species, AnimalAge[]> = {
@@ -82,7 +82,7 @@ export function SearchForm({
     <div
       className={cn(
         className,
-        "rounded-tl-[16px] rounded-tr-[10px] rounded-br-[16px] rounded-bl-[10px] bg-white shadow-base p-1 flex gap-2"
+        "rounded-tl-[16px] rounded-tr-[10px] rounded-br-[16px] rounded-bl-[10px] bg-white shadow-base p-1 flex gap-2",
       )}
     >
       <Select<AnimalSpeciesOption>
@@ -155,7 +155,7 @@ function Select<ValueType extends string>({
       }}
       className={cn(
         "appearance-none min-w-0 flex-1 rounded-bubble-sm bg-transparent px-6 py-2 cursor-pointer transition-colors duration-100 ease-in-out hover:bg-gray-50",
-        { "text-gray-500": value == null }
+        { "text-gray-500": value == null },
       )}
     >
       <option disabled value="">

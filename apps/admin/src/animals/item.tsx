@@ -58,7 +58,7 @@ export function AnimalItem({
       to={Routes.animals.id(animal.id).toString()}
       className={cn(
         className,
-        "group rounded-1 flex flex-col gap-0.5 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+        "group rounded-1 flex flex-col gap-0.5 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white",
       )}
     >
       <span className="relative flex flex-col">
@@ -105,7 +105,7 @@ export function AnimalItem({
               "h-2 flex-none flex items-center",
               animal.gender === Gender.FEMALE
                 ? "text-pink-500"
-                : "text-blue-500"
+                : "text-blue-500",
             )}
             title={GENDER_TRANSLATION[animal.gender]}
           >
@@ -117,7 +117,7 @@ export function AnimalItem({
               "flex-1 text-body-emphasis transition-colors duration-100 ease-in-out",
               animal.gender === Gender.FEMALE
                 ? "group-hover:text-pink-500"
-                : "group-hover:text-blue-500"
+                : "group-hover:text-blue-500",
             )}
           >
             {getAnimalDisplayName(animal)}
@@ -155,7 +155,7 @@ export function AnimalSmallItem({
       to={Routes.animals.id(animal.id).toString()}
       className={cn(
         className,
-        "group rounded-0.5 grid grid-cols-[auto_minmax(0px,1fr)_auto] items-center gap-1 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+        "group rounded-0.5 grid grid-cols-[auto_minmax(0px,1fr)_auto] items-center gap-1 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white",
       )}
     >
       <AnimalAvatar animal={animal} size="lg" loading={imageLoading} />
@@ -167,7 +167,7 @@ export function AnimalSmallItem({
               "h-2 flex-none flex items-center",
               animal.gender === Gender.FEMALE
                 ? "text-pink-500"
-                : "text-blue-500"
+                : "text-blue-500",
             )}
             title={GENDER_TRANSLATION[animal.gender]}
           >
@@ -179,7 +179,7 @@ export function AnimalSmallItem({
               "flex-1 text-body-emphasis truncate transition-colors duration-100 ease-in-out",
               animal.gender === Gender.FEMALE
                 ? "group-hover:text-pink-500"
-                : "group-hover:text-blue-500"
+                : "group-hover:text-blue-500",
             )}
           >
             {getAnimalDisplayName(animal)}
@@ -191,7 +191,7 @@ export function AnimalSmallItem({
             "flex",
             hasError
               ? "text-caption-emphasis text-red-500"
-              : "text-caption-default text-gray-500"
+              : "text-caption-default text-gray-500",
           )}
         >
           {secondaryLabel}

@@ -76,7 +76,7 @@ async function indexAnimals() {
 
   console.log(
     `- 👍 Indexed ${animals.length} animals with settings:`,
-    JSON.stringify(settings)
+    JSON.stringify(settings),
   );
 }
 
@@ -97,7 +97,7 @@ async function indexBreeds() {
 
   console.log(
     `- 👍 Indexed ${breeds.length} breeds with settings:`,
-    JSON.stringify(settings)
+    JSON.stringify(settings),
   );
 }
 
@@ -117,7 +117,7 @@ async function indexColors() {
 
   console.log(
     `- 👍 Indexed ${colors.length} colors with settings:`,
-    JSON.stringify(settings)
+    JSON.stringify(settings),
   );
 }
 
@@ -143,7 +143,7 @@ async function indexUsers() {
 
   console.log(
     `- 👍 Indexed ${users.length} users with settings:`,
-    JSON.stringify(settings)
+    JSON.stringify(settings),
   );
 }
 
@@ -163,6 +163,6 @@ async function indexFosterFamilies() {
 
   console.log(
     `- 👍 Indexed ${fosterFamilies.length} foster families with settings:`,
-    JSON.stringify(settings)
+    JSON.stringify(settings),
   );
 }

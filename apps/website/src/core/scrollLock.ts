@@ -12,7 +12,7 @@ const IGNORE_SCROLL_LOCK_ATTRIBUTE = "data-body-scroll-lock-ignore";
  */
 export function useScrollLock(
   targetRef: React.RefObject<HTMLElement | null>,
-  { disabled }: { disabled: boolean }
+  { disabled }: { disabled: boolean },
 ) {
   useEffect(() => {
     const initialScrollY = window.scrollY;

@@ -126,7 +126,7 @@ function Countdown({ className }: { className?: string }) {
   useEffect(() => {
     const interval = setInterval(
       () => forceUpdate((b) => !b),
-      ONE_MINUTE_IN_MS
+      ONE_MINUTE_IN_MS,
     );
 
     return () => {

@@ -12,6 +12,6 @@
     "generate": "# Nothing to generate"
   },
   "peerDependencies": {
-    "tiny-invariant": "^1.2.0"
+    "tiny-invariant": "^1.3.1"
   }
 }

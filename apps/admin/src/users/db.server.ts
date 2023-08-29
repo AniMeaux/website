@@ -56,7 +56,7 @@ export class UserDbDelegate {
   async setIsDisabled(
     userId: User["id"],
     currentUser: Pick<User, "id">,
-    isDisabled: boolean
+    isDisabled: boolean,
   ) {
     // Don't allow a user to disable himself.
     if (currentUser.id === userId) {
@@ -167,7 +167,7 @@ export class UserDbDelegate {
     }: Pick<User, "displayName" | "email" | "groups"> & {
       temporaryPassword: string;
     },
-    currentUser: Pick<User, "id">
+    currentUser: Pick<User, "id">,
   ) {
     // Don't allow an admin (only admins can access users) to lock himself out.
     if (currentUser.id === userId && !groups.includes(UserGroup.ADMIN)) {

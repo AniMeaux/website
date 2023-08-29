@@ -28,7 +28,7 @@ export function UserItem({
       to={Routes.users.id(user.id).toString()}
       className={cn(
         className,
-        "group rounded-0.5 py-1 grid grid-cols-[auto_minmax(0px,1fr)] grid-flow-col items-start gap-1 md:gap-2 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+        "group rounded-0.5 py-1 grid grid-cols-[auto_minmax(0px,1fr)] grid-flow-col items-start gap-1 md:gap-2 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white",
       )}
     >
       <UserAvatar user={user} size="sm" />
@@ -37,7 +37,7 @@ export function UserItem({
         <span
           className={cn(
             "text-body-emphasis transition-colors duration-100 ease-in-out",
-            DISPLAY_NAME_CLASS_NAME[inferInstanceColor(user.id)]
+            DISPLAY_NAME_CLASS_NAME[inferInstanceColor(user.id)],
           )}
         >
           {user.displayName}

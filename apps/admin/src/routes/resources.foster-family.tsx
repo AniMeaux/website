@@ -35,7 +35,7 @@ export async function loader({ request }: LoaderArgs) {
   ]);
 
   const searchParams = FosterFamilySearchParams.parse(
-    new URL(request.url).searchParams
+    new URL(request.url).searchParams,
   );
 
   return json({
@@ -59,7 +59,7 @@ export const FosterFamilyInput = forwardRef<
   FosterFamilyInputProps
 >(function FosterFamilyInput(
   { name, defaultValue = null, disabled = false, hasError = false },
-  ref
+  ref,
 ) {
   const [isOpened, setIsOpened] = useState(false);
   const fetcher = useFetcher<typeof loader>();
@@ -111,7 +111,7 @@ export const FosterFamilyInput = forwardRef<
                   search: FosterFamilySearchParams.stringify({
                     displayName: value,
                   }),
-                })
+                }),
               );
             }}
             onSelectedItem={(fosterFamily) => {
@@ -146,7 +146,7 @@ const InputTrigger = forwardRef<
     hasError,
     triggerElement: TriggerElement,
   },
-  ref
+  ref,
 ) {
   const rightAdornments = [
     fosterFamily != null ? (
@@ -236,7 +236,7 @@ function Combobox({
           createPath({
             pathname: Routes.fosterFamilies.new.toString(),
             search: NextSearchParams.stringify({ next: createPath(location) }),
-          })
+          }),
         );
       } else {
         onSelectedItem(selectedItem);

@@ -1,7 +1,7 @@
 import type { z } from "zod";
 
 export function createLocationState<TSchema extends z.ZodTypeAny>(
-  schema: TSchema
+  schema: TSchema,
 ) {
   return {
     parse(state: unknown) {

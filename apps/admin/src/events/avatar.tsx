@@ -16,7 +16,7 @@ export function EventAvatar({
       className={cn(
         className,
         "z-0 relative bg-white inline-flex flex-col overflow-hidden",
-        AVATAR_SIZE_CLASS_NAME.xl
+        AVATAR_SIZE_CLASS_NAME.xl,
       )}
     >
       {/*

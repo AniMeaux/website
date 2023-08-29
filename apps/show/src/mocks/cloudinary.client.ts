@@ -21,22 +21,22 @@ const resolver: Parameters<typeof rest.get>[1] = async (req, res, ctx) => {
   return res(
     ctx.set("Content-Length", String(svg.length)),
     ctx.set("Content-Type", "image/svg+xml"),
-    ctx.body(svg)
+    ctx.body(svg),
   );
 };
 
 export const cloudinaryHandlers = [
   rest.get(
     "https://res.cloudinary.com/mock-cloud-name/image/upload/:filters/:id",
-    resolver
+    resolver,
   ),
   rest.get(
     "https://res.cloudinary.com/mock-cloud-name/image/upload/:filters/:folder/:id",
-    resolver
+    resolver,
   ),
   rest.get(
     "https://res.cloudinary.com/mock-cloud-name/image/upload/:id",
-    resolver
+    resolver,
   ),
 ];
 

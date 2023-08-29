@@ -49,7 +49,7 @@ export async function action({ request }: ActionArgs) {
   if (!formData.success) {
     return json<ActionData>(
       { errors: formData.error.flatten() },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
@@ -70,7 +70,7 @@ export async function action({ request }: ActionArgs) {
             fieldErrors: { url: ["Cet article de press a déjà été ajouté"] },
           },
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -86,7 +86,7 @@ export async function action({ request }: ActionArgs) {
             },
           },
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
 

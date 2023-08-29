@@ -35,7 +35,7 @@ export async function loader({ request }: LoaderArgs) {
   ]);
 
   const searchParams = BreedSearchParams.parse(
-    new URL(request.url).searchParams
+    new URL(request.url).searchParams,
   );
 
   return json({
@@ -66,7 +66,7 @@ export const BreedInput = forwardRef<
     disabled = false,
     hasError = false,
   },
-  ref
+  ref,
 ) {
   const [isOpened, setIsOpened] = useState(false);
   const fetcher = useFetcher<typeof loader>();
@@ -84,7 +84,7 @@ export const BreedInput = forwardRef<
           search: BreedSearchParams.stringify({
             species: new Set(ensureArray(species)),
           }),
-        })
+        }),
       );
     }
   }, [load, isOpened, species]);
@@ -126,7 +126,7 @@ export const BreedInput = forwardRef<
                     species: new Set(ensureArray(species)),
                     name: value,
                   }),
-                })
+                }),
               );
             }}
             onSelectedItem={(breed) => {
@@ -152,7 +152,7 @@ const InputTrigger = forwardRef<
   }
 >(function InputTrigger(
   { disabled, breed, setBreed, hasError, triggerElement: TriggerElement },
-  ref
+  ref,
 ) {
   const rightAdornments = [
     breed != null ? (

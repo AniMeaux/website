@@ -59,7 +59,7 @@ export function SmallNav({
       className="relative z-10 w-full flex flex-col md:hidden"
       onKeyDown={handleEscape(() => {
         setState((prevState) =>
-          state.isOpened ? { isOpened: false } : prevState
+          state.isOpened ? { isOpened: false } : prevState,
         );
       })}
       style={{ "--header-height": displayShowBanner ? "112px" : "56px" }}
@@ -69,7 +69,7 @@ export function SmallNav({
       <div
         className={cn(
           "px-page pb-2 flex items-center justify-between",
-          displayShowBanner ? "pt-2" : "pt-safe-2"
+          displayShowBanner ? "pt-2" : "pt-safe-2",
         )}
       >
         <BaseLink to="/" className="z-10 overflow-hidden flex">
@@ -99,7 +99,7 @@ export function SmallNav({
           className="z-10 flex p-2"
           onClick={() =>
             setState((prevState) =>
-              prevState.isOpened ? { isOpened: false } : { isOpened: true }
+              prevState.isOpened ? { isOpened: false } : { isOpened: true },
             )
           }
         >
@@ -131,7 +131,7 @@ export function SmallNav({
                     "opacity-0 -translate-y-4 transition-[opacity,transform] duration-100 ease-in":
                       transitionState === "exiting",
                     "opacity-0 -translate-y-4": transitionState === "exited",
-                  }
+                  },
                 )}
               >
                 <nav

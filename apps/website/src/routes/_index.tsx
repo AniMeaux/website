@@ -152,7 +152,7 @@ function WhoWeAreSection() {
         <h2
           className={cn(
             "text-title-section-small",
-            "md:text-title-section-large"
+            "md:text-title-section-large",
           )}
         >
           Qui sommes-nous ?
@@ -224,7 +224,7 @@ function NumbersSection() {
         className={cn(
           bubbleSectionClassNames.content(),
           "px-10 py-12 flex items-start flex-wrap justify-evenly gap-12",
-          "md:px-30 md:py-10"
+          "md:px-30 md:py-10",
         )}
       >
         <NumberItem
@@ -293,7 +293,7 @@ function UpcomingEventsSection() {
       <h2
         className={cn(
           "w-full text-title-section-small text-center",
-          "md:px-30 md:text-title-section-large"
+          "md:px-30 md:text-title-section-large",
         )}
       >
         Événements à venir
@@ -304,7 +304,7 @@ function UpcomingEventsSection() {
           "grid grid-cols-1 gap-12",
           { "xs:grid-cols-2": upcomingEvents.length > 1 },
           "sm:grid-cols-1",
-          "md:px-30"
+          "md:px-30",
         )}
       >
         {upcomingEvents.map((event) => (

@@ -17,7 +17,7 @@ export const Action = forwardRef<
       className={cn(
         "flex-none rounded-0.5 px-2 py-0.5 flex text-body-lowercase-emphasis transition-[background-color,color,transform] duration-100 ease-in-out hover:scale-105 active:scale-95 hover:active:scale-95 focus-visible:outline-none focus-visible:ring focus-visible:ring-offset-2 focus-visible:ring-offset-inheritBg",
         COLOR_CLASS_NAMES[color],
-        className
+        className,
       )}
     />
   );
@@ -39,7 +39,7 @@ export const ProseInlineAction = forwardRef<
       ref={ref}
       className={cn(
         "relative border-b border-mystic hover:border-b-2 text-body-lowercase-emphasis focus-visible:outline-none focus-visible:ring focus-visible:ring-mystic focus-visible:ring-offset-2 focus-visible:ring-offset-inheritBg",
-        className
+        className,
       )}
     />
   );

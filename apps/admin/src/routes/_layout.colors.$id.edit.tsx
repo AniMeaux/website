@@ -70,7 +70,7 @@ export async function action({ request, params }: ActionArgs) {
   if (!formData.success) {
     return json<ActionData>(
       { errors: formData.error.flatten() },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
@@ -87,7 +87,7 @@ export async function action({ request, params }: ActionArgs) {
             fieldErrors: {},
           },
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
 

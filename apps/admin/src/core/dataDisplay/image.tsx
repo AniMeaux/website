@@ -26,11 +26,11 @@ const SCREEN_SIZES = orderBy(
     ([name, width]) =>
       [name, Number(width.replace("px", ""))] as [
         ScreenSize | "default",
-        number
-      ]
+        number,
+      ],
   ),
   ([_, width]) => width,
-  "desc"
+  "desc",
 )
   .map(([name]) => name)
   .concat("default");
@@ -107,7 +107,7 @@ export function DynamicImage({
       sizes.push(
         screen === "default"
           ? width
-          : `(min-width: ${theme.screens[screen]}) ${width}`
+          : `(min-width: ${theme.screens[screen]}) ${width}`,
       );
     }
 
@@ -129,7 +129,7 @@ export function DynamicImage({
         className,
         ASPECT_RATIO_CLASS_NAME[aspectRatio],
         IMAGE_BACKGROUND_CLASS_NAME[background],
-        OBJECT_FIT_CLASS_NAME[objectFit]
+        OBJECT_FIT_CLASS_NAME[objectFit],
       )}
       style={style}
     />
@@ -147,7 +147,7 @@ export function createCloudinaryUrl(
     aspectRatio: AspectRatio;
     format?: "auto" | "jpg";
     size?: ImageSize;
-  }
+  },
 ) {
   const transformations = [
     // https://cloudinary.com/documentation/image_optimization#automatic_quality_selection_q_auto
@@ -172,7 +172,7 @@ export function createCloudinaryUrl(
       // https://cloudinary.com/documentation/transformation_reference#c_pad
       "c_pad",
       // https://cloudinary.com/documentation/transformation_reference#b_auto
-      "b_auto"
+      "b_auto",
     );
   }
 
@@ -273,7 +273,7 @@ function DataUrlImage({
         className,
         ASPECT_RATIO_CLASS_NAME[aspectRatio],
         IMAGE_BACKGROUND_CLASS_NAME[background],
-        OBJECT_FIT_CLASS_NAME[objectFit]
+        OBJECT_FIT_CLASS_NAME[objectFit],
       )}
       style={style}
     />

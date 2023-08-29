@@ -35,7 +35,7 @@ export const Input = Object.assign(
       autoComplete = String(Math.random()),
       ...rest
     },
-    ref
+    ref,
   ) {
     return (
       <BaseTextInput.Root aria-disabled={disabled} className={className}>
@@ -69,7 +69,7 @@ export const Input = Object.assign(
   {
     Adornment: BaseTextInput.Adornment,
     ActionAdornment: BaseTextInput.ActionAdornment,
-  }
+  },
 );
 
 function getTypeFallbackPattern(type: React.HTMLInputTypeAttribute) {

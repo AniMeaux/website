@@ -15,7 +15,7 @@ export function Form({
       className={cn(
         "flex flex-col items-end gap-4",
         hasHeader ? "pt-1 md:pt-0" : undefined,
-        className
+        className,
       )}
     />
   );
@@ -72,7 +72,7 @@ Form.Field = function FormField({
         isInline
           ? "grid grid-cols-1 grid-flow-col items-center gap-1"
           : "flex flex-col",
-        className
+        className,
       )}
     />
   );
@@ -87,7 +87,7 @@ Form.Label = function FormLabel({
       {...rest}
       className={cn(
         "text-caption-default text-gray-500 [label&]:cursor-pointer",
-        className
+        className,
       )}
     />
   );

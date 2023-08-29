@@ -42,7 +42,7 @@ export const BaseLink = forwardRef<
     //  implementation details.
     ...rest
   },
-  ref
+  ref,
 ) {
   const { fromApp } = useLocationState();
 
@@ -106,12 +106,12 @@ export const BaseLink = forwardRef<
 });
 
 function defaultCallProp<
-  TValue extends string | React.CSSProperties | React.ReactNode
+  TValue extends string | React.CSSProperties | React.ReactNode,
 >(
   prop:
     | undefined
     | TValue
-    | ((arg: { isActive: boolean; isPending: boolean }) => undefined | TValue)
+    | ((arg: { isActive: boolean; isPending: boolean }) => undefined | TValue),
 ) {
   if (typeof prop === "function") {
     return prop({ isActive: false, isPending: false });

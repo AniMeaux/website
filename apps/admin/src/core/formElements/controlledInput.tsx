@@ -35,5 +35,5 @@ export const ControlledInput = Object.assign(
   {
     Adornment: Input.Adornment,
     ActionAdornment: Input.ActionAdornment,
-  }
+  },
 );

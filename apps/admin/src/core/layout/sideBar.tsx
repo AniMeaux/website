@@ -31,7 +31,7 @@ export function SideBar({
                 "w-[210px]":
                   transitionStatus === "entered" ||
                   transitionStatus === "entering",
-              }
+              },
             )}
           >
             {children}
@@ -88,7 +88,7 @@ SideBar.Item = function SideBarItem({
     <Primitive.span
       {...rest}
       className={cn(
-        "overflow-hidden flex-none rounded-0.5 flex items-center text-left text-gray-500 transition-colors duration-100 ease-in-out focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 hover:bg-gray-100 aria-[current=page]:bg-blue-50 aria-[current=page]:text-blue-500 aria-[current=page]:hover:bg-blue-50"
+        "overflow-hidden flex-none rounded-0.5 flex items-center text-left text-gray-500 transition-colors duration-100 ease-in-out focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 hover:bg-gray-100 aria-[current=page]:bg-blue-50 aria-[current=page]:text-blue-500 aria-[current=page]:hover:bg-blue-50",
       )}
     />
   );

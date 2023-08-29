@@ -4,7 +4,7 @@ import invariant from "tiny-invariant";
 
 invariant(
   typeof process.env.DATABASE_URL === "string",
-  "DATABASE_URL must be defined."
+  "DATABASE_URL must be defined.",
 );
 
 // This is needed because in development we don't want to restart the server

@@ -27,10 +27,10 @@ export const ActionFormData = createActionData(
       z
         .nativeEnum(UserGroup)
         .array()
-        .min(1, "Veuillez choisir au moins 1 groupe")
+        .min(1, "Veuillez choisir au moins 1 groupe"),
     ),
     temporaryPassword: z.string(),
-  })
+  }),
 );
 
 export function UserForm({

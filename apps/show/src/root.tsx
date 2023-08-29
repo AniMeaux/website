@@ -33,6 +33,15 @@ Settings.defaultLocale = "fr";
 // Ex: 2022-01-01 => 2021-12-31T23:00:00.000Z and not 2021-01-01T00:00:00.000Z
 Settings.defaultZone = "Europe/Paris";
 
+// We're not supposed to have invalid date objects.
+// Use null or undefined instead.
+Settings.throwOnInvalid = true;
+declare module "luxon" {
+  interface TSSettings {
+    throwOnInvalid: true;
+  }
+}
+
 export const links: LinksFunction = () => {
   return [
     { rel: "stylesheet", href: stylesheet },
@@ -110,7 +119,7 @@ function Document({
     imageUrl = createImageUrl(
       cloudinaryName,
       "show/f4fe85de-763b-41f8-8f3e-5dc6db343804",
-      { size: "1024", format: "jpg" }
+      { size: "1024", format: "jpg" },
     );
   }
 
@@ -126,7 +135,7 @@ function Document({
       lang="fr"
       className={cn(
         htmlBackgroundColor ?? "bg-white bg-var-white",
-        isFullHeight ? "h-full" : undefined
+        isFullHeight ? "h-full" : undefined,
       )}
     >
       <head>
@@ -174,7 +183,7 @@ function Document({
           "overflow-x-clip grid grid-cols-1 text-prussianBlue text-body-lowercase-default",
           // Make sure children with absolute positionning are correctly placed.
           "relative",
-          isFullHeight ? "h-full" : "min-h-screen content-start"
+          isFullHeight ? "h-full" : "min-h-screen content-start",
         )}
       >
         {googleTagManagerId != null && (

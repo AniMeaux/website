@@ -60,7 +60,7 @@ export const SubNavItem = forwardRef<
         {
           "flex-col gap-1": isMultiline,
           "gap-3": !isMultiline,
-        }
+        },
       )}
     >
       <span
@@ -71,7 +71,7 @@ export const SubNavItem = forwardRef<
             "p-2 text-[20px]": !isMultiline,
           },
           subNavItemBgColorClassName[color],
-          subNavItemTextColorClassName[color]
+          subNavItemTextColorClassName[color],
         )}
       >
         <Icon id={icon} />
@@ -84,7 +84,7 @@ export const SubNavItem = forwardRef<
           id="arrowRight"
           className={cn(
             "opacity-0 text-[20px] group-hover:opacity-100 transition-opacity duration-100 ease-in-out",
-            subNavItemTextColorClassName[color]
+            subNavItemTextColorClassName[color],
           )}
         />
       )}

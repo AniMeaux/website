@@ -9,5 +9,5 @@ export const ACTIVE_ANIMAL_STATUS: Status[] = [
 ];
 
 export const NON_ACTIVE_ANIMAL_STATUS: Status[] = Object.values(Status).filter(
-  (status) => !ACTIVE_ANIMAL_STATUS.includes(status)
+  (status) => !ACTIVE_ANIMAL_STATUS.includes(status),
 );

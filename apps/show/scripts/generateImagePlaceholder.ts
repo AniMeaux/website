@@ -4,7 +4,7 @@ import invariant from "tiny-invariant";
 
 invariant(
   process.env.CLOUDINARY_CLOUD_NAME,
-  "CLOUDINARY_CLOUD_NAME should be defined"
+  "CLOUDINARY_CLOUD_NAME should be defined",
 );
 
 generateImagePlaceholder().catch((error) => {
@@ -17,7 +17,7 @@ async function generateImagePlaceholder() {
   invariant(imageId != null, "Missing image id in command line.");
 
   const imageData = await getPixels(
-    `https://res.cloudinary.com/${process.env.CLOUDINARY_CLOUD_NAME}/image/upload/q_auto,f_jpg,w_128/${imageId}`
+    `https://res.cloudinary.com/${process.env.CLOUDINARY_CLOUD_NAME}/image/upload/q_auto,f_jpg,w_128/${imageId}`,
   );
 
   const blurhash = encode(
@@ -25,7 +25,7 @@ async function generateImagePlaceholder() {
     imageData.width,
     imageData.height,
     4,
-    4
+    4,
   );
 
   console.log("blurhash:", blurhash);

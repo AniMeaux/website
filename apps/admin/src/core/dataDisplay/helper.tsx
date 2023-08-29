@@ -18,7 +18,7 @@ export function BlockHelper({ children, icon, variant }: BlockHelperProps) {
       className={cn(
         "p-1 border grid grid-cols-[auto_1fr] grid-flow-col items-start gap-1 md:p-2",
         VARIANT_CLASS_NAME[variant],
-        BLOCK_VARIANT_CLASS_NAME[variant]
+        BLOCK_VARIANT_CLASS_NAME[variant],
       )}
     >
       <span className="flex text-[20px]">
@@ -54,7 +54,7 @@ export function InlineHelper({
     <section
       className={cn(
         "rounded-0.5 p-1 grid grid-cols-[auto_1fr] grid-flow-col items-start gap-1",
-        VARIANT_CLASS_NAME[variant]
+        VARIANT_CLASS_NAME[variant],
       )}
     >
       <span className="flex text-[20px]">
@@ -97,7 +97,7 @@ export function DenseHelper({
       className={cn(
         "rounded-0.5 px-1 py-0.5 grid grid-cols-[auto_1fr] grid-flow-col items-start gap-0.5",
         VARIANT_CLASS_NAME[variant],
-        className
+        className,
       )}
     >
       <span className="h-2 flex items-center">

@@ -22,14 +22,14 @@ export const SPECIES_ICON: Record<Species, IconProps["id"]> = {
 
 export const SORTED_SPECIES = orderBy(
   Object.values(Species),
-  (species) => SPECIES_TRANSLATION[species]
+  (species) => SPECIES_TRANSLATION[species],
 );
 
 export function getSpeciesLabels(
   animal: Pick<Animal, "species"> & {
     breed: null | Pick<Breed, "name">;
     color: null | Pick<Color, "name">;
-  }
+  },
 ) {
   const speciesLabels = [
     SPECIES_TRANSLATION[animal.species],

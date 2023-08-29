@@ -23,7 +23,7 @@ export function Chip({
       className={cn(
         className,
         "h-2 rounded-0.5 px-0.5 flex items-center justify-center text-caption-emphasis",
-        COLOR_CLASS_NAME[color]
+        COLOR_CLASS_NAME[color],
       )}
     >
       {icon != null ? <Icon id={icon} className="text-[14px]" /> : null}

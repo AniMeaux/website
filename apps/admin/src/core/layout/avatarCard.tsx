@@ -91,7 +91,7 @@ AvatarCard.FirstLine = function AvatarCardFirstLine({
   return cloneElement(children, {
     className: cn(
       "text-title-section-small md:text-title-section-large",
-      children.props.className
+      children.props.className,
     ),
   });
 };

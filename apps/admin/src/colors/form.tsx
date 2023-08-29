@@ -13,7 +13,7 @@ import { z } from "zod";
 export const ActionFormData = createActionData(
   z.object({
     name: z.string().trim().min(1, "Veuillez entrer un nom"),
-  })
+  }),
 );
 
 export function ColorForm({

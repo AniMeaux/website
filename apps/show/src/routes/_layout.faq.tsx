@@ -30,7 +30,7 @@ export async function loader() {
 export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
   return createSocialMeta({
     title: getPageTitle(
-      data === "ok" ? "Foire aux questions" : getErrorTitle(404)
+      data === "ok" ? "Foire aux questions" : getErrorTitle(404),
     ),
   });
 };

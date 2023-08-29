@@ -91,5 +91,5 @@ export const partners: Partner[] = orderBy(
       url: "https://marketing.net.zooplus.fr/ts/i3971185/tsc?typ=r&amc=con.zooplus.391263.404652.CRTD9sCr3t7",
     },
   ],
-  (partner) => partner.name.toLowerCase()
+  (partner) => partner.name.toLowerCase(),
 );

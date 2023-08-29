@@ -81,7 +81,7 @@ export class AnimalAlgoliaDelegate {
     const result = await this.index.searchForFacetValues(
       "pickUpLocation" satisfies keyof AnimalFromAlgolia,
       text,
-      options
+      options,
     );
 
     return result.facetHits.map((hit) => ({

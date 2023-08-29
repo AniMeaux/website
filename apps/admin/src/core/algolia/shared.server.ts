@@ -4,7 +4,10 @@ import type { SearchIndex } from "algoliasearch";
 import chunk from "lodash.chunk";
 
 export function createSearchFilters(
-  params: Record<string, undefined | null | boolean | string | Iterable<string>>
+  params: Record<
+    string,
+    undefined | null | boolean | string | Iterable<string>
+  >,
 ): string | undefined {
   let filters: string[] = [];
 
@@ -27,7 +30,7 @@ export function createSearchFilters(
 
   if (filters.length > 1) {
     filters = filters.map((value) =>
-      value.includes(" OR ") ? `(${value})` : value
+      value.includes(" OR ") ? `(${value})` : value,
     );
   }
 
@@ -49,7 +52,7 @@ const REQUEST_COUNT_PER_BATCH = 10;
 export async function indexSearch<TData>(
   index: SearchIndex,
   query: string,
-  options: SearchOptions = {}
+  options: SearchOptions = {},
 ) {
   if (options.hitsPerPage != null) {
     const response = await index.search<TData>(query, options);
@@ -88,7 +91,7 @@ async function batchRequests<T>({
 }) {
   const chunks = chunk(
     Array.from({ length: totalCount }, (_, index) => index),
-    countPerBatch
+    countPerBatch,
   );
 
   let allResults: T[] = [];

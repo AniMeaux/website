@@ -31,9 +31,9 @@ import { zfd } from "zod-form-data";
 export const ActionFormData = createActionData(
   z.object({
     pictures: zfd.repeatable(
-      z.array(z.string()).min(1, "Veuillez ajouter au moins une photo")
+      z.array(z.string()).min(1, "Veuillez ajouter au moins une photo"),
     ),
-  })
+  }),
 );
 
 export function AnimalPicturesForm({
@@ -49,7 +49,7 @@ export function AnimalPicturesForm({
   const action = useFormAction();
 
   const [pictures, setPictures] = useState<ImageFileOrId[]>(
-    defaultAnimal == null ? [] : getAllAnimalPictures(defaultAnimal)
+    defaultAnimal == null ? [] : getAllAnimalPictures(defaultAnimal),
   );
   const [pendingPictureCount, setPendingPictureCount] = useState(0);
   const [hasImageImportError, setHasImageImportError] = useState(false);
@@ -171,7 +171,7 @@ function ImagesInput({
       index={index}
       onRemove={() =>
         setImages((images) =>
-          images.filter((imageToRemove) => imageToRemove !== image)
+          images.filter((imageToRemove) => imageToRemove !== image),
         )
       }
     />
@@ -182,7 +182,7 @@ function ImagesInput({
     imagesElement.splice(
       pendingDropIndex,
       0,
-      <ImageItemPlaceholder key="placeholder" />
+      <ImageItemPlaceholder key="placeholder" />,
     );
   }
 

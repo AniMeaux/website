@@ -2,10 +2,10 @@ import { z } from "zod";
 import { zfd } from "zod-form-data";
 
 export function getObjectSchemaKeys<TSchema extends z.ZodObject<any>>(
-  schema: TSchema
+  schema: TSchema,
 ) {
   const keys = Object.fromEntries(
-    Object.keys(schema.shape).map((key) => [key, key])
+    Object.keys(schema.shape).map((key) => [key, key]),
   );
 
   return keys as {
@@ -15,7 +15,7 @@ export function getObjectSchemaKeys<TSchema extends z.ZodObject<any>>(
 
 export namespace zsp {
   export function date(
-    transform: (date: undefined | Date) => undefined | Date
+    transform: (date: undefined | Date) => undefined | Date,
   ) {
     return z.coerce.date().optional().transform(transform).catch(undefined);
   }
@@ -40,7 +40,7 @@ export namespace zsp {
 
   export function requiredEnum<TEnum extends z.EnumLike>(
     values: TEnum,
-    defaultValue: TEnum[string | number]
+    defaultValue: TEnum[string | number],
   ) {
     return z.nativeEnum(values).catch(defaultValue);
   }
@@ -51,6 +51,6 @@ export namespace zsp {
 type InputType<DefaultType extends z.ZodTypeAny> = {
   (): z.ZodEffects<DefaultType>;
   <ProvidedType extends z.ZodTypeAny>(
-    schema: ProvidedType
+    schema: ProvidedType,
   ): z.ZodEffects<ProvidedType>;
 };

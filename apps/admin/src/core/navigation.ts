@@ -26,7 +26,7 @@ export const Routes = {
             toString: () => `/animals/${id}/pictures/${pictureId}` as const,
           }),
         },
-      } as const),
+      }) as const,
     new: {
       profile: { toString: () => "/animals/new/profile" as const },
       situation: { toString: () => "/animals/new/situation" as const },
@@ -138,6 +138,6 @@ export function useNavigate() {
         } satisfies LocationState,
       });
     },
-    [navigate, fromApp]
+    [navigate, fromApp],
   );
 }

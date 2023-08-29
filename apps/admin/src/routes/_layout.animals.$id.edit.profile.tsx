@@ -96,13 +96,13 @@ export async function action({ request, params }: ActionArgs) {
 
   const rawFormData = await request.formData();
   const formData = ActionFormData.schema.safeParse(
-    Object.fromEntries(rawFormData.entries())
+    Object.fromEntries(rawFormData.entries()),
   );
 
   if (!formData.success) {
     return json<ActionData>(
       { errors: formData.error.flatten() },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
@@ -130,7 +130,7 @@ export async function action({ request, params }: ActionArgs) {
             fieldErrors: {},
           },
         },
-        { status: 404 }
+        { status: 404 },
       );
     }
 
@@ -144,7 +144,7 @@ export async function action({ request, params }: ActionArgs) {
             },
           },
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
 

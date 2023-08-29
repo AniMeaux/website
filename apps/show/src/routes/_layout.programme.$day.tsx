@@ -69,7 +69,7 @@ export async function loader({ params }: LoaderArgs) {
 export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
   return createSocialMeta({
     title: getPageTitle(
-      data != null ? `Programme du ${data.day}` : getErrorTitle(404)
+      data != null ? `Programme du ${data.day}` : getErrorTitle(404),
     ),
   });
 };
@@ -112,7 +112,7 @@ function EventListSection() {
           side={index % 2 === 0 ? "right" : "left"}
           hasBee={(index + 1) % 3 === 0}
           className="sm:hidden"
-        />
+        />,
       );
     }
 
@@ -123,7 +123,7 @@ function EventListSection() {
           key={`${event.id}.Medium.SeparatorInline`}
           hasBee={(index + 1) % 3 === 0}
           className="hidden sm:block md:hidden"
-        />
+        />,
       );
     }
     if (index > 0 && index % 2 === 0) {
@@ -132,7 +132,7 @@ function EventListSection() {
           key={`${event.id}.Medium.SeparatorLargeBlock`}
           hasBee={(index + 1) % 3 === 0}
           className="hidden sm:block md:hidden col-span-3"
-        />
+        />,
       );
     }
 
@@ -143,7 +143,7 @@ function EventListSection() {
           key={`${event.id}.Large.SeparatorInline`}
           hasBee={(index + 1) % 4 === 0}
           className="hidden md:block"
-        />
+        />,
       );
     }
 
@@ -153,7 +153,7 @@ function EventListSection() {
           key={`${event.id}.Large.SeparatorLargeBlock`}
           hasBee={(index + 1) % 4 === 0}
           className="hidden md:block col-span-5"
-        />
+        />,
       );
     }
 
@@ -279,7 +279,7 @@ function SeparatorSmallBlock({
         xmlns="http://www.w3.org/2000/svg"
         className={cn(
           "overflow-visible absolute top-0",
-          side === "left" ? "left-2" : "right-2"
+          side === "left" ? "left-2" : "right-2",
         )}
       >
         <path
@@ -303,7 +303,7 @@ function SeparatorSmallBlock({
             "absolute top-[36px] -translate-y-1/2 h-[25px]",
             side === "left"
               ? "left-2 -translate-x-1/2"
-              : "right-2 translate-x-1/2"
+              : "right-2 translate-x-1/2",
           )}
         />
       ) : null}

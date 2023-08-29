@@ -40,10 +40,10 @@ export function useOptimisticSearchParams() {
         typeof nextInit === "function"
           ? nextInit(optimisticSearchParams)
           : nextInit,
-        navigateOpts
+        navigateOpts,
       );
     },
-    [optimisticSearchParams, setSearchParams]
+    [optimisticSearchParams, setSearchParams],
   );
 
   return [optimisticSearchParams, setOptimisticSearchParams] as const;
@@ -53,7 +53,7 @@ export function createSearchParams<
   const TSchemaDeclaration extends Record<
     string,
     z.ZodType | KeyMappingDeclaration
-  >
+  >,
 >(schemaDeclaration: TSchemaDeclaration) {
   const attributeToKey = Object.fromEntries(
     Object.entries(schemaDeclaration).map(([attribute, schemaDeclaration]) => [
@@ -61,7 +61,7 @@ export function createSearchParams<
       schemaDeclaration instanceof z.ZodType
         ? attribute
         : schemaDeclaration.key,
-    ])
+    ]),
   ) as {
     [key in keyof TSchemaDeclaration]: TSchemaDeclaration[key] extends KeyMappingDeclaration
       ? TSchemaDeclaration[key]["key"]
@@ -69,7 +69,7 @@ export function createSearchParams<
   };
 
   const keyToAttribute = Object.fromEntries(
-    Object.entries(attributeToKey).map(([attribute, key]) => [key, attribute])
+    Object.entries(attributeToKey).map(([attribute, key]) => [key, attribute]),
   );
 
   const schema = zfd
@@ -80,10 +80,10 @@ export function createSearchParams<
             ([attribute, schemaDeclaration]) =>
               schemaDeclaration instanceof z.ZodType
                 ? [attribute, schemaDeclaration]
-                : [schemaDeclaration.key, schemaDeclaration.schema]
-          )
-        )
-      )
+                : [schemaDeclaration.key, schemaDeclaration.schema],
+          ),
+        ),
+      ),
     )
     .transform(
       (data) =>
@@ -91,8 +91,8 @@ export function createSearchParams<
           Object.entries(data).map(([key, value]) => [
             keyToAttribute[key],
             value,
-          ])
-        ) as InferType<TSchemaDeclaration>
+          ]),
+        ) as InferType<TSchemaDeclaration>,
     );
 
   return {
@@ -117,8 +117,8 @@ export function createSearchParams<
       nextData:
         | Partial<InferType<TSchemaDeclaration>>
         | ((
-            nextData: InferType<TSchemaDeclaration>
-          ) => Partial<InferType<TSchemaDeclaration>>)
+            nextData: InferType<TSchemaDeclaration>,
+          ) => Partial<InferType<TSchemaDeclaration>>),
     ) {
       const data =
         typeof nextData === "function"
@@ -129,7 +129,7 @@ export function createSearchParams<
         const key = attributeToKey[attribute];
         invariant(
           key != null,
-          "The key should exists in the schema declaration."
+          "The key should exists in the schema declaration.",
         );
 
         searchParams.delete(key);
@@ -166,7 +166,7 @@ type GetSchema<TType> = TType extends z.ZodType
   : never;
 
 type InferType<
-  TSchemaDeclaration extends Record<string, z.ZodType | KeyMappingDeclaration>
+  TSchemaDeclaration extends Record<string, z.ZodType | KeyMappingDeclaration>,
 > = {
   [key in keyof TSchemaDeclaration]: z.infer<
     GetSchema<TSchemaDeclaration[key]>

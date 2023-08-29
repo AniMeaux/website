@@ -3,7 +3,7 @@ import { DateTime } from "luxon";
 export function formatDateRange(
   startDate: string,
   endDate: string,
-  { showTime = false }: { showTime?: boolean } = {}
+  { showTime = false }: { showTime?: boolean } = {},
 ) {
   const start = DateTime.fromISO(startDate);
   const end = DateTime.fromISO(endDate);
@@ -22,12 +22,12 @@ export function formatDateRange(
             hour: "numeric",
             minute: "numeric",
           },
-          { locale: "fr" }
+          { locale: "fr" },
         ),
         "-",
         end.toLocaleString(
           { hour: "numeric", minute: "numeric" },
-          { locale: "fr" }
+          { locale: "fr" },
         ),
       ].join(" ");
     }
@@ -45,7 +45,7 @@ export function formatDateRange(
           hour: "numeric",
           minute: "numeric",
         },
-        { locale: "fr" }
+        { locale: "fr" },
       ),
       "-",
       end.toLocaleString(
@@ -59,7 +59,7 @@ export function formatDateRange(
           hour: "numeric",
           minute: "numeric",
         },
-        { locale: "fr" }
+        { locale: "fr" },
       ),
     ].join(" ");
   }
@@ -74,7 +74,7 @@ export function formatDateRange(
         month: "long",
         year: start.hasSame(now, "year") ? undefined : "numeric",
       },
-      { locale: "fr" }
+      { locale: "fr" },
     );
   }
 
@@ -90,7 +90,7 @@ export function formatDateRange(
           month: "long",
           year: start.hasSame(now, "year") ? undefined : "numeric",
         },
-        { locale: "fr" }
+        { locale: "fr" },
       ),
     ].join(" ");
   }
@@ -107,7 +107,7 @@ export function formatDateRange(
           month: "long",
           year: start.hasSame(now, "year") ? undefined : "numeric",
         },
-        { locale: "fr" }
+        { locale: "fr" },
       ),
     ].join(" ");
   }
@@ -116,12 +116,12 @@ export function formatDateRange(
   return [
     start.toLocaleString(
       { day: "numeric", month: "long", year: "numeric" },
-      { locale: "fr" }
+      { locale: "fr" },
     ),
     "-",
     end.toLocaleString(
       { day: "numeric", month: "long", year: "numeric" },
-      { locale: "fr" }
+      { locale: "fr" },
     ),
   ].join(" ");
 }
