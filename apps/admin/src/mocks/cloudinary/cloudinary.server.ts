@@ -20,7 +20,7 @@ const ActionFormData = zfd.formData(
 const resolver: Parameters<typeof rest.post>[1] = async (req, res, ctx) => {
   const request = new Request(req.url, {
     method: req.method,
-    headers: req.headers,
+    headers: Array.from(req.headers.entries()),
     body: await req.arrayBuffer(),
   });
 

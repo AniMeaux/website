@@ -29,7 +29,7 @@ const RESOURCE_COUNT = 200;
 const resolver: Parameters<typeof rest.get>[1] = async (req, res, ctx) => {
   const request = new Request(req.url, {
     method: req.method,
-    headers: req.headers,
+    headers: Array.from(req.headers.entries()),
   });
 
   const searchParams = SearchParams.parse(new URL(request.url).searchParams);
