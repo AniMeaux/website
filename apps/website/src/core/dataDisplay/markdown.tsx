@@ -11,7 +11,7 @@ import breaks from "remark-breaks";
 import gfm from "remark-gfm";
 import invariant from "tiny-invariant";
 
-const REMARK_PLUGINS: ReactMarkdownOptions["plugins"] = [
+const REMARK_PLUGINS: ReactMarkdownOptions["remarkPlugins"] = [
   // Allow line breaks in paragraphs.
   breaks,
   // Allow autolink literals, strikethrough, table and task list.

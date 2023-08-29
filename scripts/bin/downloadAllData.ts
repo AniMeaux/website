@@ -3,10 +3,19 @@
 import "#env.ts";
 import { PrismaClient } from "@prisma/client";
 import { csvFormat } from "d3-dsv";
-import { DateTime } from "luxon";
+import { DateTime, Settings } from "luxon";
 import { mkdir, writeFile } from "node:fs/promises";
 import { join, relative, resolve } from "path";
 import type { ConditionalKeys } from "type-fest";
+
+// We're not supposed to have invalid date objects.
+// Use null or undefined instead.
+Settings.throwOnInvalid = true;
+declare module "luxon" {
+  interface TSSettings {
+    throwOnInvalid: true;
+  }
+}
 
 type TableName = ConditionalKeys<
   PrismaClient,

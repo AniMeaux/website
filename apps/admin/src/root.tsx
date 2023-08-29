@@ -29,6 +29,15 @@ Settings.defaultLocale = "fr";
 // Ex: 2022-01-01 => 2021-12-31T23:00:00.000Z and not 2021-01-01T00:00:00.000Z
 Settings.defaultZone = "Europe/Paris";
 
+// We're not supposed to have invalid date objects.
+// Use null or undefined instead.
+Settings.throwOnInvalid = true;
+declare module "luxon" {
+  interface TSSettings {
+    throwOnInvalid: true;
+  }
+}
+
 export const links: LinksFunction = () => {
   return [
     { rel: "stylesheet", href: stylesheet },

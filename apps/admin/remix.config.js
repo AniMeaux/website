@@ -34,6 +34,7 @@ module.exports = {
     /^property-information$/,
     /^react-markdown$/,
     /^remark.*/,
+    /^trim-lines$/,
     /^trough$/,
     /^unified$/,
     /^unist.*/,
