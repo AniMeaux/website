@@ -15,13 +15,10 @@ import { getPageTitle } from "#core/pageTitle.ts";
 import { Dialog } from "#core/popovers/dialog.tsx";
 import { prisma } from "#core/prisma.server.ts";
 import { BadRequestResponse, NotFoundResponse } from "#core/response.server.ts";
-import {
-  PageSearchParams,
-  useOptimisticSearchParams,
-} from "#core/searchParams.ts";
+import { PageSearchParams } from "#core/searchParams.ts";
 import { assertCurrentUserHasGroups } from "#currentUser/groups.server.ts";
 import { Icon } from "#generated/icon.tsx";
-import { createFormData } from "@animeaux/form-data";
+import { createFormData, useOptimisticSearchParams } from "@animeaux/form-data";
 import type { Prisma } from "@prisma/client";
 import { UserGroup } from "@prisma/client";
 import type { ActionArgs, LoaderArgs, SerializeFrom } from "@remix-run/node";

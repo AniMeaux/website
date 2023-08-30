@@ -1,7 +1,7 @@
 import isEqual from "lodash.isequal";
 import invariant from "tiny-invariant";
 import { z } from "zod";
-import { zfd } from "zod-form-data";
+import { toObject } from "./toObject";
 
 export function createSearchParams<
   const TSchemaDeclaration extends Record<
@@ -26,16 +26,14 @@ export function createSearchParams<
     Object.entries(attributeToKey).map(([attribute, key]) => [key, attribute]),
   );
 
-  const schema = zfd
-    .formData(
-      z.object(
-        Object.fromEntries(
-          Object.entries(schemaDeclaration).map(
-            ([attribute, schemaDeclaration]) =>
-              schemaDeclaration instanceof z.ZodType
-                ? [attribute, schemaDeclaration]
-                : [schemaDeclaration.key, schemaDeclaration.schema],
-          ),
+  const schema = z
+    .object(
+      Object.fromEntries(
+        Object.entries(schemaDeclaration).map(
+          ([attribute, schemaDeclaration]) =>
+            schemaDeclaration instanceof z.ZodType
+              ? [attribute, schemaDeclaration]
+              : [schemaDeclaration.key, schemaDeclaration.schema],
         ),
       ),
     )
@@ -53,7 +51,7 @@ export function createSearchParams<
     keys: attributeToKey,
 
     parse(searchParams: URLSearchParams) {
-      return schema.parse(searchParams);
+      return schema.parse(toObject(searchParams));
     },
 
     stringify(data: Partial<InferType<TSchemaDeclaration>>) {

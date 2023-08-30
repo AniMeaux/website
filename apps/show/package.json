@@ -24,6 +24,8 @@
     "start": "remix-serve ./build"
   },
   "dependencies": {
+    "@animeaux/form-data": "*",
+    "@animeaux/zod-utils": "*",
     "@prisma/client": "^5.2.0",
     "@radix-ui/react-collapsible": "^1.0.3",
     "@radix-ui/react-navigation-menu": "^1.1.3",

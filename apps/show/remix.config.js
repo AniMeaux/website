@@ -15,8 +15,10 @@ module.exports = {
     v2_normalizeFormMethod: true,
     v2_routeConvention: true,
   },
+  // These are dependencies of react-markdown.
   serverDependenciesToBundle: [
-    // These are dependencies of react-markdown.
+    /^@animeaux\//,
+
     // See https://remix.run/docs/en/v1/api/conventions#serverdependenciestobundle
     /^(comma|space)-separated-tokens/,
     /^bail$/,

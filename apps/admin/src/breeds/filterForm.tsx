@@ -16,8 +16,8 @@ import {
   ToggleInput,
   ToggleInputList,
 } from "#core/formElements/toggleInput.tsx";
-import { useOptimisticSearchParams } from "#core/searchParams.ts";
 import { Icon } from "#generated/icon.tsx";
+import { useOptimisticSearchParams } from "@animeaux/form-data";
 
 export function BreedFilterForm() {
   const [searchParams, setSearchParams] = useOptimisticSearchParams();

@@ -11,9 +11,9 @@ import {
   ToggleInput,
   ToggleInputList,
 } from "#core/formElements/toggleInput.tsx";
-import { useOptimisticSearchParams } from "#core/searchParams.ts";
 import { FosterFamilySearchParams } from "#fosterFamilies/searchParams.ts";
 import { Icon } from "#generated/icon.tsx";
+import { useOptimisticSearchParams } from "@animeaux/form-data";
 
 export function FosterFamilyFilters({
   possibleCities,
