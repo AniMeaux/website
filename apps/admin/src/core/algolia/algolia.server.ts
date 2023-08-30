@@ -1,9 +1,9 @@
 import { AnimalAlgoliaDelegate } from "#animals/algolia.server.ts";
 import { BreedAlgoliaDelegate } from "#breeds/algolia.server.ts";
 import { ColorAlgoliaDelegate } from "#colors/algolia.server.ts";
-import { singleton } from "#core/singleton.server.ts";
 import { FosterFamilyAlgoliaDelegate } from "#fosterFamilies/algolia.server.ts";
 import { UserAlgoliaDelegate } from "#users/algolia.server.ts";
+import { singleton } from "@animeaux/core";
 import algoliasearch from "algoliasearch";
 import invariant from "tiny-invariant";
 

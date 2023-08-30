@@ -8,7 +8,6 @@ import {
   ToggleInput,
   ToggleInputList,
 } from "#core/formElements/toggleInput.tsx";
-import { useOptimisticSearchParams } from "#core/searchParams.ts";
 import { Icon } from "#generated/icon.tsx";
 import {
   GROUP_ICON,
@@ -20,6 +19,7 @@ import {
   UserSearchParams,
   UserSort,
 } from "#users/searchParams.ts";
+import { useOptimisticSearchParams } from "@animeaux/form-data";
 
 export function UserFilterForm() {
   const [searchParams, setSearchParams] = useOptimisticSearchParams();

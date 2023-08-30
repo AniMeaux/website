@@ -42,11 +42,11 @@ import {
   ToggleInput,
   ToggleInputList,
 } from "#core/formElements/toggleInput.tsx";
-import { useOptimisticSearchParams } from "#core/searchParams.ts";
 import { FosterFamilyAvatar } from "#fosterFamilies/avatar.tsx";
 import { Icon } from "#generated/icon.tsx";
 import { UserAvatar } from "#users/avatar.tsx";
 import { hasGroups } from "#users/groups.tsx";
+import { useOptimisticSearchParams } from "@animeaux/form-data";
 import type { FosterFamily, User } from "@prisma/client";
 import { Gender, UserGroup } from "@prisma/client";
 

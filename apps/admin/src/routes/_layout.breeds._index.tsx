@@ -1,7 +1,6 @@
 import { SPECIES_ICON } from "#animals/species.tsx";
 import { BreedFilterForm } from "#breeds/filterForm.tsx";
 import { BreedSearchParams, BreedSort } from "#breeds/searchParams.ts";
-import { createActionData } from "#core/actionData.tsx";
 import { Action } from "#core/actions.tsx";
 import { algolia } from "#core/algolia/algolia.server.ts";
 import { BaseLink } from "#core/baseLink.tsx";
@@ -17,12 +16,10 @@ import { getPageTitle } from "#core/pageTitle.ts";
 import { Dialog } from "#core/popovers/dialog.tsx";
 import { prisma } from "#core/prisma.server.ts";
 import { BadRequestResponse, NotFoundResponse } from "#core/response.server.ts";
-import {
-  PageSearchParams,
-  useOptimisticSearchParams,
-} from "#core/searchParams.ts";
+import { PageSearchParams } from "#core/searchParams.ts";
 import { assertCurrentUserHasGroups } from "#currentUser/groups.server.ts";
 import { Icon } from "#generated/icon.tsx";
+import { createFormData, useOptimisticSearchParams } from "@animeaux/form-data";
 import type { Prisma } from "@prisma/client";
 import { UserGroup } from "@prisma/client";
 import type { ActionArgs, LoaderArgs, SerializeFrom } from "@remix-run/node";
@@ -31,7 +28,6 @@ import type { V2_MetaFunction } from "@remix-run/react";
 import { useFetcher, useLoaderData } from "@remix-run/react";
 import { promiseHash } from "remix-utils";
 import { z } from "zod";
-import { zfd } from "zod-form-data";
 
 const BREED_COUNT_PER_PAGE = 20;
 
@@ -95,7 +91,7 @@ export const meta: V2_MetaFunction = () => {
   return [{ title: getPageTitle("Races") }];
 };
 
-const DeleteActionFormData = createActionData(
+const DeleteActionFormData = createFormData(
   z.object({
     id: z.string().uuid(),
   }),
@@ -112,10 +108,7 @@ export async function action({ request }: ActionArgs) {
 
   assertCurrentUserHasGroups(currentUser, [UserGroup.ADMIN]);
 
-  const rawFormData = await request.formData();
-  const formData = zfd
-    .formData(DeleteActionFormData.schema)
-    .safeParse(rawFormData);
+  const formData = DeleteActionFormData.safeParse(await request.formData());
   if (!formData.success) {
     throw new BadRequestResponse();
   }

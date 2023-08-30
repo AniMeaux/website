@@ -1,4 +1,3 @@
-import { createActionData } from "#core/actionData.tsx";
 import { Action } from "#core/actions.tsx";
 import { BaseLink } from "#core/baseLink.tsx";
 import { cn } from "#core/classNames.ts";
@@ -19,6 +18,7 @@ import { BadRequestResponse, NotFoundResponse } from "#core/response.server.ts";
 import { PageSearchParams } from "#core/searchParams.ts";
 import { assertCurrentUserHasGroups } from "#currentUser/groups.server.ts";
 import { Icon } from "#generated/icon.tsx";
+import { createFormData } from "@animeaux/form-data";
 import { UserGroup } from "@prisma/client";
 import type { ActionArgs, LoaderArgs, SerializeFrom } from "@remix-run/node";
 import { json } from "@remix-run/node";
@@ -27,7 +27,6 @@ import { useFetcher, useLoaderData } from "@remix-run/react";
 import { DateTime } from "luxon";
 import { promiseHash } from "remix-utils";
 import { z } from "zod";
-import { zfd } from "zod-form-data";
 
 const PRESS_ARTICLES_COUNT_PER_PAGE = 20;
 
@@ -68,7 +67,7 @@ export const meta: V2_MetaFunction = () => {
   return [{ title: getPageTitle("Articles de presse") }];
 };
 
-const DeleteActionFormData = createActionData(
+const DeleteActionFormData = createFormData(
   z.object({
     id: z.string().uuid(),
   }),
@@ -85,10 +84,7 @@ export async function action({ request }: ActionArgs) {
 
   assertCurrentUserHasGroups(currentUser, [UserGroup.ADMIN]);
 
-  const rawFormData = await request.formData();
-  const formData = zfd
-    .formData(DeleteActionFormData.schema)
-    .safeParse(rawFormData);
+  const formData = DeleteActionFormData.safeParse(await request.formData());
   if (!formData.success) {
     throw new BadRequestResponse();
   }

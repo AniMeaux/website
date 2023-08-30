@@ -1,11 +1,11 @@
 import { SORTED_SPECIES, SPECIES_TRANSLATION } from "#animals/species.tsx";
-import { createActionData } from "#core/actionData.tsx";
 import { Action } from "#core/actions.tsx";
 import { Form } from "#core/formElements/form.tsx";
 import { Input } from "#core/formElements/input.tsx";
 import { RadioInput, RadioInputList } from "#core/formElements/radioInput.tsx";
 import { RequiredStar } from "#core/formElements/requiredStar.tsx";
 import { Icon } from "#generated/icon.tsx";
+import { createFormData } from "@animeaux/form-data";
 import type { Breed } from "@prisma/client";
 import { Species } from "@prisma/client";
 import type { SerializeFrom } from "@remix-run/node";
@@ -13,7 +13,7 @@ import type { FetcherWithComponents } from "@remix-run/react";
 import { useEffect, useRef } from "react";
 import { z } from "zod";
 
-export const ActionFormData = createActionData(
+export const ActionFormData = createFormData(
   z.object({
     name: z.string().trim().min(1, "Veuillez entrer un nom"),
     species: z.nativeEnum(Species, {

@@ -1,4 +1,4 @@
-import { singleton } from "#core/singleton.server.ts";
+import { singleton } from "@animeaux/core";
 import { PrismaClient } from "@prisma/client";
 import invariant from "tiny-invariant";
 

@@ -1,10 +1,10 @@
 import { cn } from "#core/classNames.ts";
 import { useConfig } from "#core/config.ts";
-import { createSearchParams } from "#core/searchParams.ts";
 import type { ImageShapeId } from "#generated/imageShapeId.ts";
 import sprite from "#generated/imageShapesSprite.svg";
 import type { ScreenSize } from "#generated/theme.ts";
 import { theme } from "#generated/theme.ts";
+import { createSearchParams } from "@animeaux/form-data";
 import { blurhashToDataUri } from "@unpic/placeholder";
 import orderBy from "lodash.orderby";
 import { useId } from "react";

@@ -15,7 +15,6 @@ import {
   SORTED_STATUS,
   STATUS_TRANSLATION,
 } from "#animals/status.tsx";
-import { createActionData } from "#core/actionData.tsx";
 import { Action } from "#core/actions.tsx";
 import { toIsoDateValue } from "#core/dates.ts";
 import { Form } from "#core/formElements/form.tsx";
@@ -29,6 +28,7 @@ import { FosterFamilyInput } from "#routes/resources.foster-family.tsx";
 import { ManagerInput } from "#routes/resources.manager.tsx";
 import { PickUpLocationInput } from "#routes/resources.pick-up-location.tsx";
 import { hasGroups } from "#users/groups.tsx";
+import { createFormData } from "@animeaux/form-data";
 import type { AnimalDraft, FosterFamily, User } from "@prisma/client";
 import {
   AdoptionOption,
@@ -46,7 +46,7 @@ import { useEffect, useRef, useState } from "react";
 import { z } from "zod";
 import { zfd } from "zod-form-data";
 
-export const ActionFormData = createActionData(
+export const ActionFormData = createFormData(
   z.object({
     adoptionDate: zfd.text(
       z.coerce

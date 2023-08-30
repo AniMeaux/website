@@ -1,5 +1,5 @@
 import type { CloudinaryApiResponse } from "#core/cloudinary/shared.server.ts";
-import { createSearchParams } from "#core/searchParams.ts";
+import { createSearchParams } from "@animeaux/form-data";
 import { rest } from "msw";
 import { v4 as uuid } from "uuid";
 import { z } from "zod";
