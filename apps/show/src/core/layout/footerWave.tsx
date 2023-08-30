@@ -1,4 +1,4 @@
-import { cn } from "#core/classNames.ts";
+import { cn } from "@animeaux/core";
 
 export function FooterWave({ className }: { className?: string }) {
   return (

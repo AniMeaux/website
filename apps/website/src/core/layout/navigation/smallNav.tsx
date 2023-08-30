@@ -1,5 +1,4 @@
 import { BaseLink } from "#core/baseLink.tsx";
-import { cn } from "#core/classNames.ts";
 import { useFocusTrap } from "#core/focusTrap.ts";
 import type { NavGroup } from "#core/layout/navigation/shared.tsx";
 import {
@@ -15,6 +14,7 @@ import { SubNavWarn } from "#core/layout/navigation/subNavWarn.tsx";
 import { useScrollLock } from "#core/scrollLock.ts";
 import { Icon } from "#generated/icon.tsx";
 import nameAndLogo from "#images/nameAndLogo.svg";
+import { cn } from "@animeaux/core";
 import { useLocation } from "@remix-run/react";
 import { useEffect, useRef, useState } from "react";
 import { Transition } from "react-transition-group";

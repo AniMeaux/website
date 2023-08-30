@@ -1,5 +1,5 @@
-import { cn } from "#core/classNames.ts";
 import { RequiredStar } from "#core/formElements/requiredStar.tsx";
+import { cn } from "@animeaux/core";
 import { forwardRef } from "react";
 
 export const RadioInput = forwardRef<

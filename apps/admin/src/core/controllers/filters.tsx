@@ -1,8 +1,8 @@
-import { cn } from "#core/classNames.ts";
 import { Chip } from "#core/dataDisplay/chip.tsx";
 import { joinReactNodes } from "#core/joinReactNodes.tsx";
 import { Separator } from "#core/layout/separator.tsx";
 import { Icon } from "#generated/icon.tsx";
+import { cn } from "@animeaux/core";
 import { Form, useSubmit } from "@remix-run/react";
 import { Children, createContext, useContext, useMemo, useState } from "react";
 

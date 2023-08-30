@@ -1,7 +1,6 @@
 import { AnimalSuggestionItem } from "#animals/item.tsx";
 import { getAnimalDisplayName } from "#animals/profile/name.tsx";
 import { AnimalSearchParams } from "#animals/searchParams.ts";
-import { cn } from "#core/classNames.ts";
 import { db } from "#core/db.server.ts";
 import { BaseTextInput } from "#core/formElements/baseTextInput.tsx";
 import { Input } from "#core/formElements/input.tsx";
@@ -17,6 +16,7 @@ import { assertCurrentUserHasGroups } from "#currentUser/groups.server.ts";
 import { FosterFamilySuggestionItem } from "#fosterFamilies/item.tsx";
 import { FosterFamilySearchParams } from "#fosterFamilies/searchParams.ts";
 import { Icon } from "#generated/icon.tsx";
+import { cn } from "@animeaux/core";
 import { createSearchParams } from "@animeaux/form-data";
 import type { User } from "@prisma/client";
 import { UserGroup } from "@prisma/client";

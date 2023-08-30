@@ -1,4 +1,3 @@
-import { cn } from "#core/classNames.ts";
 import { getConfigFromMetaMatches } from "#core/config.ts";
 import { createCloudinaryUrl, DynamicImage } from "#core/dataDisplay/image.tsx";
 import {
@@ -14,6 +13,7 @@ import {
 import { createSocialMeta } from "#core/meta.ts";
 import { getPageTitle } from "#core/pageTitle.ts";
 import { WarnItem } from "#warn/item.tsx";
+import { cn } from "@animeaux/core";
 import type { V2_MetaFunction } from "@remix-run/react";
 
 const IMAGE_ID = "blog/a2bf3ad2-a475-4c63-8f30-fd29928c8fa3";

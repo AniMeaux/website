@@ -1,6 +1,6 @@
-import { cn } from "#core/classNames.ts";
 import { useWidth } from "#core/hooks.ts";
 import { LineShapeHorizontal } from "#core/layout/lineShape.tsx";
+import { cn } from "@animeaux/core";
 import { Transition } from "react-transition-group";
 
 export function Tab({

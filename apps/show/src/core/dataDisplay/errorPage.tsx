@@ -1,9 +1,9 @@
 import { Action } from "#core/actions.tsx";
-import { cn } from "#core/classNames.ts";
 import { useOptionalConfig } from "#core/config.ts";
 import { DynamicImage } from "#core/dataDisplay/image.tsx";
 import { Section } from "#core/layout/section.tsx";
 import { Routes } from "#core/navigation.tsx";
+import { cn } from "@animeaux/core";
 import { Link, isRouteErrorResponse, useRouteError } from "@remix-run/react";
 
 export function getErrorTitle(status: number): string {

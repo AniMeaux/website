@@ -2,7 +2,6 @@ import { AnimalItem } from "#animals/item.tsx";
 import { ADOPTABLE_ANIMAL_STATUS } from "#animals/status.ts";
 import { actionClassNames } from "#core/actions.ts";
 import { BaseLink } from "#core/baseLink.tsx";
-import { cn } from "#core/classNames.ts";
 import { Paginator } from "#core/controllers/paginator.tsx";
 import {
   AGES_TO_PATH,
@@ -22,7 +21,7 @@ import {
   SPECIES_TRANSLATION,
 } from "#core/translations.ts";
 import type { AnimalAge } from "@animeaux/core";
-import { ANIMAL_AGE_RANGE_BY_SPECIES } from "@animeaux/core";
+import { ANIMAL_AGE_RANGE_BY_SPECIES, cn } from "@animeaux/core";
 import type { Prisma, Species } from "@prisma/client";
 import type { LoaderArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";

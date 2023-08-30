@@ -1,12 +1,11 @@
 import { BaseLink } from "#core/baseLink.tsx";
-import { cn } from "#core/classNames.ts";
 import { Chip } from "#core/dataDisplay/chip.tsx";
 import type { DynamicImageProps } from "#core/dataDisplay/image.tsx";
 import { DynamicImage } from "#core/dataDisplay/image.tsx";
 import type { InstanceColor } from "#core/dataDisplay/instanceColor.tsx";
 import { inferInstanceColor } from "#core/dataDisplay/instanceColor.tsx";
 import { Routes } from "#core/navigation.ts";
-import { formatDateRange } from "@animeaux/core";
+import { cn, formatDateRange } from "@animeaux/core";
 import type { Event } from "@prisma/client";
 import type { SerializeFrom } from "@remix-run/node";
 

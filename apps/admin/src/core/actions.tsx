@@ -1,6 +1,6 @@
-import { cn } from "#core/classNames.ts";
 import { Spinner } from "#core/loaders/spinner.tsx";
 import { Primitive } from "#core/primitives.tsx";
+import { cn } from "@animeaux/core";
 import { forwardRef } from "react";
 
 type ActionVariant =

@@ -1,6 +1,5 @@
 import type { BaseLinkProps } from "#core/baseLink.tsx";
 import { BaseLink } from "#core/baseLink.tsx";
-import { cn } from "#core/classNames.ts";
 import { getFocusTrapIgnoreAttribute, useFocusTrap } from "#core/focusTrap.ts";
 import { useWidth } from "#core/hooks.ts";
 import { LineShapeHorizontal } from "#core/layout/lineShape.tsx";
@@ -17,6 +16,7 @@ import { SubNavDiscover } from "#core/layout/navigation/subNavDiscover.tsx";
 import { SubNavWarn } from "#core/layout/navigation/subNavWarn.tsx";
 import { useScrollLock } from "#core/scrollLock.ts";
 import nameAndLogo from "#images/nameAndLogo.svg";
+import { cn } from "@animeaux/core";
 import { useLocation } from "@remix-run/react";
 import { forwardRef, useEffect, useRef, useState } from "react";
 import { Transition } from "react-transition-group";

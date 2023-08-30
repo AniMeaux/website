@@ -1,6 +1,6 @@
-import { cn } from "#core/classNames.ts";
 import { createActionData } from "#core/schemas.ts";
 import { Icon } from "#generated/icon.tsx";
+import { cn } from "@animeaux/core";
 import type { ActionArgs } from "@remix-run/node";
 import { fetch, json, redirect } from "@remix-run/node";
 import { useFetcher } from "@remix-run/react";

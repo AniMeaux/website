@@ -1,6 +1,5 @@
 import { actionClassNames } from "#core/actions.ts";
 import { BaseLink } from "#core/baseLink.tsx";
-import { cn } from "#core/classNames.ts";
 import { getConfigFromMetaMatches, useConfig } from "#core/config.ts";
 import { Timeline, TimelineItem } from "#core/dataDisplay/timeline.tsx";
 import {
@@ -17,6 +16,7 @@ import { equipmentImages } from "#images/equipment.tsx";
 import { followUpImages } from "#images/followUp.tsx";
 import { fosterFamilyLargeImages } from "#images/fosterFamilyLarge.tsx";
 import { socialImages } from "#images/social.tsx";
+import { cn } from "@animeaux/core";
 import type { V2_MetaFunction } from "@remix-run/react";
 
 export const meta: V2_MetaFunction = ({ matches }) => {

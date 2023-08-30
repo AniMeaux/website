@@ -1,4 +1,3 @@
-import { cn } from "#core/classNames.ts";
 import { createConfig } from "#core/config.server.ts";
 import { useConfig } from "#core/config.ts";
 import { ErrorPage } from "#core/dataDisplay/errorPage.tsx";
@@ -12,6 +11,7 @@ import faviconDark from "#images/faviconDark.png";
 import faviconLight from "#images/faviconLight.png";
 import maskIcon from "#images/maskIcon.png";
 import stylesheet from "#tailwind.css";
+import { cn } from "@animeaux/core";
 import type { LinksFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import {

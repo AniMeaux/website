@@ -1,7 +1,7 @@
 import { fromBooleanAttribute } from "#core/attributes.ts";
-import { cn } from "#core/classNames.ts";
 import { ensureArray } from "#core/collections.ts";
 import { Primitive } from "#core/primitives.tsx";
+import { cn } from "@animeaux/core";
 import { createElement, forwardRef } from "react";
 
 type BaseTextInputVariant = "outlined" | "search" | "transparent";

@@ -1,7 +1,7 @@
 import { Action } from "#core/actions.tsx";
-import { cn } from "#core/classNames.ts";
 import { Card } from "#core/layout/card.tsx";
 import { Icon } from "#generated/icon.tsx";
+import { cn } from "@animeaux/core";
 import * as Dialog from "@radix-ui/react-dialog";
 
 export function SortAndFiltersFloatingAction({

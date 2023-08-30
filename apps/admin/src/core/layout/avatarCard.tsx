@@ -1,8 +1,8 @@
-import { cn } from "#core/classNames.ts";
 import { useConfig } from "#core/config.ts";
 import { createCloudinaryUrl } from "#core/dataDisplay/image.tsx";
 import type { InstanceColor } from "#core/dataDisplay/instanceColor.tsx";
 import { Card } from "#core/layout/card.tsx";
+import { cn } from "@animeaux/core";
 import { cloneElement } from "react";
 
 export function AvatarCard({ children }: { children?: React.ReactNode }) {

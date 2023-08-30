@@ -1,6 +1,5 @@
 import { actionClassNames } from "#core/actions.ts";
 import { BaseLink } from "#core/baseLink.tsx";
-import { cn } from "#core/classNames.ts";
 import {
   HeroSection,
   HeroSectionAction,
@@ -10,6 +9,7 @@ import {
   HeroSectionTitle,
 } from "#core/layout/heroSection.tsx";
 import { errorImages } from "#images/error.tsx";
+import { cn } from "@animeaux/core";
 import { isRouteErrorResponse, useRouteError } from "@remix-run/react";
 
 const STATUS_CODE = [404, 500] as const;

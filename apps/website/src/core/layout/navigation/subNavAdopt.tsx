@@ -1,11 +1,11 @@
 import { SPECIES_ICON } from "#animals/species.ts";
-import { cn } from "#core/classNames.ts";
 import {
   LineShapeHorizontal,
   LineShapeVertical,
 } from "#core/layout/lineShape.tsx";
 import type { SubNavComponent } from "#core/layout/navigation/shared.tsx";
 import { SubNavItem } from "#core/layout/navigation/shared.tsx";
+import { cn } from "@animeaux/core";
 import { Species } from "@prisma/client";
 
 export const SubNavAdopt: SubNavComponent = () => {
