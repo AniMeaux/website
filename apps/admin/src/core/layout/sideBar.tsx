@@ -4,7 +4,6 @@ import { Primitive } from "#core/primitives.tsx";
 import type { IconProps } from "#generated/icon.tsx";
 import { Icon } from "#generated/icon.tsx";
 import { cn } from "@animeaux/core";
-import { Transition } from "react-transition-group";
 
 export type SideBarProps = {
   isOpened: boolean;
@@ -19,34 +18,21 @@ export function SideBar({
 }: SideBarProps) {
   return (
     <nav className="hidden sticky top-0 h-screen bg-white pl-safe-2 pt-safe-1 pb-safe-2 pr-2 md:flex">
-      <Transition in={isOpened} timeout={200}>
-        {(transitionStatus) => (
-          <div
-            className={cn(
-              "h-full flex flex-col gap-4 transition-[width] duration-200 ease-in-out",
-              {
-                "w-[40px]":
-                  transitionStatus === "exited" ||
-                  transitionStatus === "exiting",
-                "w-[210px]":
-                  transitionStatus === "entered" ||
-                  transitionStatus === "entering",
-              },
-            )}
-          >
-            {children}
-
-            <SideBar.Item asChild>
-              <button onClick={onIsOpenedChange}>
-                <SideBar.ItemIcon
-                  id={isOpened ? "anglesLeft" : "anglesRight"}
-                />
-                <SideBar.ItemContent>Réduire</SideBar.ItemContent>
-              </button>
-            </SideBar.Item>
-          </div>
+      <div
+        className={cn(
+          "h-full flex flex-col gap-4 transition-[width] duration-200 ease-in-out",
+          isOpened ? "w-[210px]" : "w-[40px]",
         )}
-      </Transition>
+      >
+        {children}
+
+        <SideBar.Item asChild>
+          <button onClick={onIsOpenedChange}>
+            <SideBar.ItemIcon id={isOpened ? "anglesLeft" : "anglesRight"} />
+            <SideBar.ItemContent>Réduire</SideBar.ItemContent>
+          </button>
+        </SideBar.Item>
+      </div>
     </nav>
   );
 }
