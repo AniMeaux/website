@@ -1,6 +1,5 @@
 import { actionClassNames } from "#core/actions.ts";
 import { BaseLink } from "#core/baseLink.tsx";
-import { cn } from "#core/classNames.ts";
 import { getConfigFromMetaMatches } from "#core/config.ts";
 import {
   HeroSection,
@@ -15,6 +14,7 @@ import type { IconProps } from "#generated/icon.tsx";
 import { Icon } from "#generated/icon.tsx";
 import { questionsImages } from "#images/questions.tsx";
 import { socialImages } from "#images/social.tsx";
+import { cn } from "@animeaux/core";
 import type { V2_MetaFunction } from "@remix-run/react";
 
 export const meta: V2_MetaFunction = ({ matches }) => {

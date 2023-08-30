@@ -1,6 +1,5 @@
 import { actionClassNames } from "#core/actions.ts";
 import { BaseLink } from "#core/baseLink.tsx";
-import { cn } from "#core/classNames.ts";
 import { DynamicImage } from "#core/dataDisplay/image.tsx";
 import {
   bubbleSectionClassNames,
@@ -17,6 +16,7 @@ import { createSocialMeta } from "#core/meta.ts";
 import { getPageTitle } from "#core/pageTitle.ts";
 import { agreementsImages } from "#images/agreements.tsx";
 import { citiesWithAgreements } from "#sterilisationAgreements/data.server.ts";
+import { cn } from "@animeaux/core";
 import { json } from "@remix-run/node";
 import type { V2_MetaFunction } from "@remix-run/react";
 import { useLoaderData } from "@remix-run/react";

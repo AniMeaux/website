@@ -1,7 +1,6 @@
 import { SPECIES_ICON } from "#animals/species.ts";
 import { actionClassNames } from "#core/actions.ts";
 import { BaseLink } from "#core/baseLink.tsx";
-import { cn } from "#core/classNames.ts";
 import { getConfigFromMetaMatches } from "#core/config.ts";
 import { Tab } from "#core/controllers/tabs.tsx";
 import {
@@ -31,6 +30,7 @@ import { Icon } from "#generated/icon.tsx";
 import { adoptImages } from "#images/adopt.tsx";
 import { questionsImages } from "#images/questions.tsx";
 import { socialImages } from "#images/social.tsx";
+import { cn } from "@animeaux/core";
 import { Species } from "@prisma/client";
 import type { V2_MetaFunction } from "@remix-run/react";
 import { useState } from "react";

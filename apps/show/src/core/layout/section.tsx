@@ -1,5 +1,5 @@
-import { cn } from "#core/classNames.ts";
 import { Primitive } from "#core/primitives.tsx";
+import { cn } from "@animeaux/core";
 
 type SectionWidth = "full" | "narrow" | "normal";
 

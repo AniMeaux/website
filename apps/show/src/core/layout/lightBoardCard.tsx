@@ -1,8 +1,8 @@
 import { BeeIllustration } from "#core/Illustration/bee.tsx";
-import { cn } from "#core/classNames.ts";
 import { useElementSize } from "#core/elements.ts";
 import { useScreenSizeCondition } from "#core/screenSize.ts";
 import { theme } from "#generated/theme.ts";
+import { cn } from "@animeaux/core";
 
 export function LightBoardCard({
   isSmall = false,

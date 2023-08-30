@@ -1,5 +1,4 @@
 import { BaseLink } from "#core/baseLink.tsx";
-import { cn } from "#core/classNames.ts";
 import { Chip } from "#core/dataDisplay/chip.tsx";
 import type { InstanceColor } from "#core/dataDisplay/instanceColor.tsx";
 import { inferInstanceColor } from "#core/dataDisplay/instanceColor.tsx";
@@ -8,6 +7,7 @@ import { Routes } from "#core/navigation.ts";
 import { Icon } from "#generated/icon.tsx";
 import { UserAvatar } from "#users/avatar.tsx";
 import { GROUP_ICON } from "#users/groups.tsx";
+import { cn } from "@animeaux/core";
 import type { User } from "@prisma/client";
 import type { SerializeFrom } from "@remix-run/node";
 

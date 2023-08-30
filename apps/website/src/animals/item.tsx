@@ -1,11 +1,10 @@
 import { BaseLink } from "#core/baseLink.tsx";
-import { cn } from "#core/classNames.ts";
 import { DynamicImage } from "#core/dataDisplay/image.tsx";
 import { isDefined } from "#core/isDefined.ts";
 import { toSlug } from "#core/slugs.ts";
 import { GENDER_TRANSLATION, SPECIES_TRANSLATION } from "#core/translations.ts";
 import { Icon } from "#generated/icon.tsx";
-import { formatAge } from "@animeaux/core";
+import { cn, formatAge } from "@animeaux/core";
 import type { Species } from "@prisma/client";
 import { Gender } from "@prisma/client";
 

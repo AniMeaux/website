@@ -1,6 +1,5 @@
 import { SPECIES_ICON } from "#animals/species.tsx";
 import { BaseLink } from "#core/baseLink.tsx";
-import { cn } from "#core/classNames.ts";
 import type { InstanceColor } from "#core/dataDisplay/instanceColor.tsx";
 import { inferInstanceColor } from "#core/dataDisplay/instanceColor.tsx";
 import { SuggestionItem } from "#core/formElements/resourceInput.tsx";
@@ -8,6 +7,7 @@ import { Routes } from "#core/navigation.ts";
 import { FosterFamilyAvatar } from "#fosterFamilies/avatar.tsx";
 import { getShortLocation } from "#fosterFamilies/location.tsx";
 import { Icon } from "#generated/icon.tsx";
+import { cn } from "@animeaux/core";
 import type { FosterFamily } from "@prisma/client";
 import { forwardRef } from "react";
 

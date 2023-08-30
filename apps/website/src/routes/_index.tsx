@@ -1,6 +1,5 @@
 import { actionClassNames } from "#core/actions.ts";
 import { BaseLink } from "#core/baseLink.tsx";
-import { cn } from "#core/classNames.ts";
 import { SearchForm } from "#core/controllers/searchForm.tsx";
 import type { StaticImageProps } from "#core/dataDisplay/image.tsx";
 import { StaticImage } from "#core/dataDisplay/image.tsx";
@@ -27,6 +26,7 @@ import { fosterFamilySmallImages } from "#images/fosterFamilySmall.tsx";
 import { heroImages } from "#images/hero.tsx";
 import { pickUpImages } from "#images/pickUp.tsx";
 import { volunteerImages } from "#images/volunteer.tsx";
+import { cn } from "@animeaux/core";
 import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { DateTime } from "luxon";

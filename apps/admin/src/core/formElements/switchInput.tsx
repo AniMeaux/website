@@ -1,4 +1,4 @@
-import { cn } from "#core/classNames.ts";
+import { cn } from "@animeaux/core";
 import { forwardRef } from "react";
 
 export const SwitchInput = forwardRef<

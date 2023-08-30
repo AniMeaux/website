@@ -1,8 +1,8 @@
 import type { ActionColor } from "#core/actions.tsx";
 import { Action } from "#core/actions.tsx";
-import { cn } from "#core/classNames.ts";
 import type { IconProps } from "#generated/icon.tsx";
 import { Icon } from "#generated/icon.tsx";
+import { cn } from "@animeaux/core";
 
 type HelperVariant = "error" | "info" | "success" | "warning";
 

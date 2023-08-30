@@ -1,10 +1,10 @@
 import { actionClassNames } from "#core/actions.ts";
 import { BaseLink } from "#core/baseLink.tsx";
-import { cn } from "#core/classNames.ts";
 import type { Config } from "#core/config.ts";
 import { useConfig } from "#core/config.ts";
 import { DynamicImage } from "#core/dataDisplay/image.tsx";
 import { LineShapeVertical } from "#core/layout/lineShape.tsx";
+import { cn } from "@animeaux/core";
 import type { Options as ReactMarkdownOptions } from "react-markdown";
 import ReactMarkdown from "react-markdown";
 import breaks from "remark-breaks";

@@ -1,6 +1,5 @@
 import { actionClassNames } from "#core/actions.ts";
 import { BaseLink } from "#core/baseLink.tsx";
-import { cn } from "#core/classNames.ts";
 import { prisma } from "#core/db.server.ts";
 import {
   RelatedSection,
@@ -10,6 +9,7 @@ import {
 import { createSocialMeta } from "#core/meta.ts";
 import { getPageTitle } from "#core/pageTitle.ts";
 import { EventItem } from "#events/item.tsx";
+import { cn } from "@animeaux/core";
 import { Prisma } from "@prisma/client";
 import { json } from "@remix-run/node";
 import type { V2_MetaFunction } from "@remix-run/react";

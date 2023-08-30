@@ -1,6 +1,6 @@
-import { cn } from "#core/classNames.ts";
 import type { StaticImageProps } from "#core/dataDisplay/image.tsx";
 import { StaticImage } from "#core/dataDisplay/image.tsx";
+import { cn } from "@animeaux/core";
 
 export function HeroSection({
   isReversed = false,

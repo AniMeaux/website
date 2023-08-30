@@ -1,4 +1,3 @@
-import { cn } from "#core/classNames.ts";
 import { cloudinary } from "#core/cloudinary/cloudinary.server.ts";
 import { createConfig } from "#core/config.server.ts";
 import { ErrorPage, getErrorTitle } from "#core/dataDisplay/errorPage.tsx";
@@ -14,6 +13,7 @@ import { ScrollRestorationLocationState } from "#core/scrollRestoration.ts";
 import { Icon } from "#generated/icon.tsx";
 import { PhotoLocationState } from "#previousEditions/photoLocationState.ts";
 import { PreviousEdition } from "#previousEditions/previousEdition.tsx";
+import { cn } from "@animeaux/core";
 import type { LoaderArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import type { V2_MetaFunction } from "@remix-run/react";

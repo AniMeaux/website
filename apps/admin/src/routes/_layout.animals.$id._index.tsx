@@ -25,7 +25,6 @@ import {
 import { Action, ProseInlineAction } from "#core/actions.tsx";
 import type { BaseLinkProps } from "#core/baseLink.tsx";
 import { BaseLink } from "#core/baseLink.tsx";
-import { cn } from "#core/classNames.ts";
 import { Empty } from "#core/dataDisplay/empty.tsx";
 import { ErrorPage, getErrorTitle } from "#core/dataDisplay/errorPage.tsx";
 import { InlineHelper } from "#core/dataDisplay/helper.tsx";
@@ -50,7 +49,7 @@ import { Icon } from "#generated/icon.tsx";
 import { theme } from "#generated/theme.ts";
 import { UserAvatar } from "#users/avatar.tsx";
 import { hasGroups } from "#users/groups.tsx";
-import { formatAge } from "@animeaux/core";
+import { cn, formatAge } from "@animeaux/core";
 import {
   AdoptionOption,
   Gender,
