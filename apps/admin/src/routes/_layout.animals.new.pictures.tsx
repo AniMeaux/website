@@ -24,7 +24,6 @@ import type { V2_MetaFunction } from "@remix-run/react";
 import { useFetcher } from "@remix-run/react";
 import invariant from "tiny-invariant";
 import type { z } from "zod";
-import { zfd } from "zod-form-data";
 
 export async function loader({ request }: LoaderArgs) {
   const currentUser = await db.currentUser.get(request, {
@@ -76,7 +75,7 @@ export async function action({ request }: ActionArgs) {
       ),
     );
 
-    const formData = zfd.formData(ActionFormData.schema).safeParse(rawFormData);
+    const formData = ActionFormData.safeParse(rawFormData);
     if (!formData.success) {
       return json<ActionData>(
         { errors: formData.error.flatten() },

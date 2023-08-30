@@ -20,13 +20,11 @@ import { Routes } from "#core/navigation.ts";
 import { getPageTitle } from "#core/pageTitle.ts";
 import { prisma } from "#core/prisma.server.ts";
 import { ForbiddenResponse } from "#core/response.server.ts";
-import {
-  PageSearchParams,
-  useOptimisticSearchParams,
-} from "#core/searchParams.ts";
+import { PageSearchParams } from "#core/searchParams.ts";
 import { assertCurrentUserHasGroups } from "#currentUser/groups.server.ts";
 import { hasGroups } from "#users/groups.tsx";
 import { ANIMAL_AGE_RANGE_BY_SPECIES } from "@animeaux/core";
+import { useOptimisticSearchParams } from "@animeaux/form-data";
 import type { Prisma } from "@prisma/client";
 import { Species, Status, UserGroup } from "@prisma/client";
 import type { LoaderArgs } from "@remix-run/node";

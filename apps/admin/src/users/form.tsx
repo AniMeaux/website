@@ -1,4 +1,3 @@
-import { createActionData } from "#core/actionData.tsx";
 import { Action } from "#core/actions.tsx";
 import {
   CheckboxInput,
@@ -11,6 +10,7 @@ import { RequiredStar } from "#core/formElements/requiredStar.tsx";
 import { Separator } from "#core/layout/separator.tsx";
 import { Icon } from "#generated/icon.tsx";
 import { GROUP_TRANSLATION, SORTED_GROUPS } from "#users/groups.tsx";
+import { createFormData } from "@animeaux/form-data";
 import type { User } from "@prisma/client";
 import { UserGroup } from "@prisma/client";
 import type { SerializeFrom } from "@remix-run/node";
@@ -19,7 +19,7 @@ import { useEffect, useRef } from "react";
 import { z } from "zod";
 import { zfd } from "zod-form-data";
 
-export const ActionFormData = createActionData(
+export const ActionFormData = createFormData(
   z.object({
     displayName: z.string().trim().min(1, "Veuillez entrer un nom"),
     email: z.string().email("Veuillez entrer un email valide"),

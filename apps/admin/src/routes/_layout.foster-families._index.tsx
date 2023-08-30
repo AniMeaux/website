@@ -10,14 +10,12 @@ import { PageLayout } from "#core/layout/page.tsx";
 import { Routes } from "#core/navigation.ts";
 import { getPageTitle } from "#core/pageTitle.ts";
 import { prisma } from "#core/prisma.server.ts";
-import {
-  PageSearchParams,
-  useOptimisticSearchParams,
-} from "#core/searchParams.ts";
+import { PageSearchParams } from "#core/searchParams.ts";
 import { assertCurrentUserHasGroups } from "#currentUser/groups.server.ts";
 import { FosterFamilyFilters } from "#fosterFamilies/filterForm.tsx";
 import { ForsterFamilyItem } from "#fosterFamilies/item.tsx";
 import { FosterFamilySearchParams } from "#fosterFamilies/searchParams.ts";
+import { useOptimisticSearchParams } from "@animeaux/form-data";
 import type { Prisma } from "@prisma/client";
 import { UserGroup } from "@prisma/client";
 import type { LoaderArgs } from "@remix-run/node";

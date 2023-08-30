@@ -1,4 +1,3 @@
-import { createActionData } from "#core/actionData.tsx";
 import { Action } from "#core/actions.tsx";
 import { Form } from "#core/formElements/form.tsx";
 import { Input } from "#core/formElements/input.tsx";
@@ -8,11 +7,12 @@ import { Separator } from "#core/layout/separator.tsx";
 import { Spinner } from "#core/loaders/spinner.tsx";
 import { Icon } from "#generated/icon.tsx";
 import { useScrapUrlFetcher } from "#routes/resources.scrap-url.tsx";
+import { createFormData } from "@animeaux/form-data";
 import type { FetcherWithComponents } from "@remix-run/react";
 import { useEffect, useRef, useState } from "react";
 import { z } from "zod";
 
-export const ActionFormData = createActionData(
+export const ActionFormData = createFormData(
   z.object({
     image: z.union([
       z.literal(""),

@@ -1,5 +1,5 @@
 import { zsp } from "#core/schemas.tsx";
-import { createSearchParams } from "#core/searchParams.ts";
+import { createSearchParams } from "@animeaux/form-data";
 import { Species } from "@prisma/client";
 import { z } from "zod";
 

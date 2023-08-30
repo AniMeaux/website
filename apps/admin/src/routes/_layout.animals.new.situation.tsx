@@ -22,7 +22,6 @@ import { json, redirect } from "@remix-run/node";
 import type { V2_MetaFunction } from "@remix-run/react";
 import { useFetcher, useLoaderData } from "@remix-run/react";
 import type { z } from "zod";
-import { zfd } from "zod-form-data";
 
 export async function loader({ request }: LoaderArgs) {
   const { draft, ...currentUser } = await db.currentUser.get(request, {
@@ -69,8 +68,7 @@ export async function action({ request }: ActionArgs) {
 
   await db.animal.profile.assertDraftIsValid(currentUser.draft);
 
-  const rawFormData = await request.formData();
-  const formData = zfd.formData(ActionFormData.schema).safeParse(rawFormData);
+  const formData = ActionFormData.safeParse(await request.formData());
   if (!formData.success) {
     return json<ActionData>(
       { errors: formData.error.flatten() },

@@ -54,11 +54,7 @@ export async function action({ request }: ActionArgs) {
     UserGroup.ANIMAL_MANAGER,
   ]);
 
-  const rawFormData = await request.formData();
-  const formData = ActionFormData.schema.safeParse(
-    Object.fromEntries(rawFormData.entries()),
-  );
-
+  const formData = ActionFormData.safeParse(await request.formData());
   if (!formData.success) {
     return json<ActionData>(
       { errors: formData.error.flatten() },

@@ -11,7 +11,6 @@ import {
   SPECIES_ICON,
   SPECIES_TRANSLATION,
 } from "#animals/species.tsx";
-import { createActionData } from "#core/actionData.tsx";
 import { Action } from "#core/actions.tsx";
 import { toIsoDateValue } from "#core/dates.ts";
 import { Form } from "#core/formElements/form.tsx";
@@ -23,6 +22,7 @@ import { Separator } from "#core/layout/separator.tsx";
 import { Icon } from "#generated/icon.tsx";
 import { BreedInput } from "#routes/resources.breed.tsx";
 import { ColorInput } from "#routes/resources.color.tsx";
+import { createFormData } from "@animeaux/form-data";
 import type { AnimalDraft, Breed, Color } from "@prisma/client";
 import { Gender, Species } from "@prisma/client";
 import type { SerializeFrom } from "@remix-run/node";
@@ -31,7 +31,7 @@ import { useLocation } from "@remix-run/react";
 import { useEffect, useRef, useState } from "react";
 import { z } from "zod";
 
-export const ActionFormData = createActionData(
+export const ActionFormData = createFormData(
   z.object({
     alias: z.string().trim(),
     birthdate: z.coerce.date({
