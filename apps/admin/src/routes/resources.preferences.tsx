@@ -1,7 +1,7 @@
-import { createActionData } from "#core/actionData.tsx";
 import { db } from "#core/db.server.ts";
 import { Routes } from "#core/navigation.ts";
 import { commitCurrentUserPreferences } from "#currentUser/preferences.server.ts";
+import { createFormData } from "@animeaux/form-data";
 import type { ActionArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { useFetcher } from "@remix-run/react";
@@ -14,7 +14,7 @@ export async function loader() {
   return redirect(Routes.home.toString());
 }
 
-const ActionFormData = createActionData(
+const ActionFormData = createFormData(
   z.object({
     isSideBarCollapsed: zfd.checkbox(),
   }),
@@ -24,9 +24,7 @@ export async function action({ request }: ActionArgs) {
   // Only a logged in user can change there settings.
   await db.currentUser.get(request, { select: { id: true } });
 
-  const rawFormData = await request.formData();
-  const formData = zfd.formData(ActionFormData.schema).safeParse(rawFormData);
-
+  const formData = ActionFormData.safeParse(await request.formData());
   if (!formData.success) {
     return json({ errors: formData.error.flatten() }, { status: 400 });
   }
@@ -66,7 +64,7 @@ export function usePreferencesFetcher() {
       return undefined;
     }
 
-    return zfd.formData(ActionFormData.schema).parse(fetcherFormData);
+    return ActionFormData.parse(fetcherFormData);
   }, [fetcherFormData]);
 
   return useMemo(() => ({ submit, formData }), [submit, formData]);

@@ -27,7 +27,6 @@ import { json } from "@remix-run/node";
 import type { V2_MetaFunction } from "@remix-run/react";
 import { useFetcher, useLoaderData } from "@remix-run/react";
 import { z } from "zod";
-import { zfd } from "zod-form-data";
 
 export async function loader({ request, params }: LoaderArgs) {
   const currentUser = await db.currentUser.get(request, {
@@ -109,8 +108,7 @@ export async function action({ request, params }: ActionArgs) {
     throw new NotFoundResponse();
   }
 
-  const rawFormData = await request.formData();
-  const formData = zfd.formData(ActionFormData.schema).safeParse(rawFormData);
+  const formData = ActionFormData.safeParse(await request.formData());
   if (!formData.success) {
     return json<ActionData>(
       { errors: formData.error.flatten() },

@@ -23,6 +23,7 @@
   "dependencies": {
     "@algolia/client-search": "^4.19.1",
     "@animeaux/core": "*",
+    "@animeaux/form-data": "*",
     "@animeaux/password": "*",
     "@prisma/client": "^5.2.0",
     "@radix-ui/react-dialog": "^1.0.4",

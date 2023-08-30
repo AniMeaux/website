@@ -4,7 +4,6 @@ import {
   ACTIVE_ANIMAL_STATUS,
   NON_ACTIVE_ANIMAL_STATUS,
 } from "#animals/status.tsx";
-import { createActionData } from "#core/actionData.tsx";
 import { Action } from "#core/actions.tsx";
 import { BaseLink } from "#core/baseLink.tsx";
 import { Empty } from "#core/dataDisplay/empty.tsx";
@@ -30,6 +29,7 @@ import { Icon } from "#generated/icon.tsx";
 import { UserAvatar } from "#users/avatar.tsx";
 import { DeleteMyselfError, DisableMyselfError } from "#users/db.server.ts";
 import { GROUP_ICON, GROUP_TRANSLATION, hasGroups } from "#users/groups.tsx";
+import { createFormData } from "@animeaux/form-data";
 import type { Prisma, User } from "@prisma/client";
 import { UserGroup } from "@prisma/client";
 import type { ActionArgs, LoaderArgs } from "@remix-run/node";
@@ -148,7 +148,7 @@ export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
   return [{ title: getPageTitle(user.displayName) }];
 };
 
-const DisableActionFormData = createActionData(
+const DisableActionFormData = createFormData(
   z.object({
     isDisabled: zfd.checkbox(),
   }),
@@ -222,10 +222,7 @@ async function actionDisable({
   currentUser: Pick<User, "id">;
   userId: User["id"];
 }) {
-  const formData = zfd
-    .formData(DisableActionFormData.schema)
-    .safeParse(await request.formData());
-
+  const formData = DisableActionFormData.safeParse(await request.formData());
   if (!formData.success) {
     throw new BadRequestResponse();
   }

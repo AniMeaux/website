@@ -1,4 +1,3 @@
-import { createActionData } from "#core/actionData.tsx";
 import { Action } from "#core/actions.tsx";
 import { db } from "#core/db.server.ts";
 import { Form } from "#core/formElements/form.tsx";
@@ -11,6 +10,7 @@ import { NextSearchParams } from "#core/searchParams.ts";
 import { createCurrentUserSession } from "#currentUser/session.server.ts";
 import { Icon } from "#generated/icon.tsx";
 import nameAndLogo from "#images/nameAndLogo.svg";
+import { createFormData } from "@animeaux/form-data";
 import type { ActionArgs, LoaderArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import type { V2_MetaFunction } from "@remix-run/react";
@@ -50,7 +50,7 @@ export const meta: V2_MetaFunction = () => {
   return [{ title: getPageTitle("Connexion") }];
 };
 
-const ActionFormData = createActionData(
+const ActionFormData = createFormData(
   z.object({
     email: z.string().email("Veuillez entrer un email valide"),
     password: z.string().min(1, "Veuillez entrer un mot de passe"),
@@ -62,11 +62,7 @@ type ActionData = {
 };
 
 export async function action({ request }: ActionArgs) {
-  const rawFormData = await request.formData();
-  const formData = ActionFormData.schema.safeParse(
-    Object.fromEntries(rawFormData.entries()),
-  );
-
+  const formData = ActionFormData.safeParse(await request.formData());
   if (!formData.success) {
     return json<ActionData>(
       { errors: formData.error.flatten() },

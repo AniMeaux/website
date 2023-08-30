@@ -26,7 +26,6 @@ import {
 import type { V2_MetaFunction } from "@remix-run/react";
 import { useFetcher, useLoaderData } from "@remix-run/react";
 import { z } from "zod";
-import { zfd } from "zod-form-data";
 
 export async function loader({ request, params }: LoaderArgs) {
   const currentUser = await db.currentUser.get(request, {
@@ -101,7 +100,7 @@ export async function action({ request, params }: ActionArgs) {
       ),
     );
 
-    const formData = zfd.formData(ActionFormData.schema).safeParse(rawFormData);
+    const formData = ActionFormData.safeParse(rawFormData);
     if (!formData.success) {
       await cloudinaryUploadHandler.revert();
       return json<ActionData>(
