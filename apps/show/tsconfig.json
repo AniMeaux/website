@@ -5,7 +5,6 @@
   "compilerOptions": {
     "allowImportingTsExtensions": true,
     "jsx": "react-jsx",
-    "lib": ["DOM", "DOM.Iterable", "ES2022"],
 
     "baseUrl": "./",
     "paths": {
