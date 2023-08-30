@@ -1,6 +1,5 @@
 import { actionClassNames } from "#core/actions.ts";
 import { BaseLink } from "#core/baseLink.tsx";
-import { cn } from "#core/classNames.ts";
 import { getConfigFromMetaMatches, useConfig } from "#core/config.ts";
 import type { StaticImageProps } from "#core/dataDisplay/image.tsx";
 import { StaticImage } from "#core/dataDisplay/image.tsx";
@@ -29,6 +28,7 @@ import { missionFoodCollectionImages } from "#images/missionFoodCollection.tsx";
 import { missionInterventionImages } from "#images/missionIntervention.tsx";
 import { socialImages } from "#images/social.tsx";
 import { volunteerImages } from "#images/volunteer.tsx";
+import { cn } from "@animeaux/core";
 import type { V2_MetaFunction } from "@remix-run/react";
 
 export const meta: V2_MetaFunction = ({ matches }) => {

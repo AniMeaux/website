@@ -1,6 +1,6 @@
-import { cn } from "#core/classNames.ts";
 import { ErrorsInlineHelper } from "#core/dataDisplay/errors.tsx";
 import { Primitive } from "#core/primitives.tsx";
+import { cn } from "@animeaux/core";
 
 export function Form({
   className,

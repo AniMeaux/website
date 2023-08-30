@@ -1,6 +1,5 @@
 import { BeeIllustration } from "#core/Illustration/bee.tsx";
 import { Action } from "#core/actions.tsx";
-import { cn } from "#core/classNames.ts";
 import { createConfig } from "#core/config.server.ts";
 import { useConfig } from "#core/config.ts";
 import { Tab, Tabs } from "#core/controllers/tabs.tsx";
@@ -18,6 +17,7 @@ import { Routes } from "#core/navigation.tsx";
 import { getPageTitle } from "#core/pageTitle.ts";
 import { prisma } from "#core/prisma.server.ts";
 import { NotFoundResponse } from "#core/response.server.ts";
+import { cn } from "@animeaux/core";
 import type { LoaderArgs, SerializeFrom } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import type { V2_MetaFunction } from "@remix-run/react";

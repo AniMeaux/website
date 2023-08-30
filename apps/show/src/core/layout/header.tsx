@@ -1,4 +1,3 @@
-import { cn } from "#core/classNames.ts";
 import type { Config } from "#core/config.ts";
 import { useConfig } from "#core/config.ts";
 import { createImageMedia } from "#core/dataDisplay/image.tsx";
@@ -8,6 +7,7 @@ import { Primitive } from "#core/primitives.tsx";
 import { Icon } from "#generated/icon.tsx";
 import logoMedium from "#images/logoMedium.svg";
 import logoSmall from "#images/logoSmall.svg";
+import { cn } from "@animeaux/core";
 import * as NavigationMenu from "@radix-ui/react-navigation-menu";
 import { Link, NavLink } from "@remix-run/react";
 import { forwardRef } from "react";

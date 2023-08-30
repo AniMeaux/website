@@ -1,6 +1,5 @@
 import { AccessImage } from "#access/image.tsx";
 import { Action, ProseInlineAction } from "#core/actions.tsx";
-import { cn } from "#core/classNames.ts";
 import { useConfig } from "#core/config.ts";
 import { ErrorPage } from "#core/dataDisplay/errorPage.tsx";
 import { DynamicImage } from "#core/dataDisplay/image.tsx";
@@ -22,6 +21,7 @@ import logoAniMeaux from "#images/logoAniMeaux.svg";
 import logoLarge from "#images/logoLarge.svg";
 import { PartnersImage } from "#partners/image.tsx";
 import { PreviousEditionImage } from "#previousEditions/image.tsx";
+import { cn } from "@animeaux/core";
 import type { V2_MetaFunction } from "@remix-run/react";
 import { Link } from "@remix-run/react";
 import { DateTime } from "luxon";

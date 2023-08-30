@@ -1,8 +1,8 @@
 import { articles } from "#blog/data.server.ts";
 import { ArticleItem } from "#blog/item.tsx";
-import { cn } from "#core/classNames.ts";
 import { createSocialMeta } from "#core/meta.ts";
 import { getPageTitle } from "#core/pageTitle.ts";
+import { cn } from "@animeaux/core";
 import { json } from "@remix-run/node";
 import type { V2_MetaFunction } from "@remix-run/react";
 import { useLoaderData } from "@remix-run/react";

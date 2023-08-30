@@ -1,8 +1,8 @@
-import { cn } from "#core/classNames.ts";
 import type { AvatarSize } from "#core/dataDisplay/avatar.tsx";
 import { AVATAR_SIZE_CLASS_NAME } from "#core/dataDisplay/avatar.tsx";
 import type { DynamicImageProps } from "#core/dataDisplay/image.tsx";
 import { DynamicImage } from "#core/dataDisplay/image.tsx";
+import { cn } from "@animeaux/core";
 import type { Animal } from "@prisma/client";
 
 export function AnimalAvatar({

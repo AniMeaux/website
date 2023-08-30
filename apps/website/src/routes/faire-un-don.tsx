@@ -1,6 +1,5 @@
 import { actionClassNames } from "#core/actions.ts";
 import { BaseLink } from "#core/baseLink.tsx";
-import { cn } from "#core/classNames.ts";
 import { getConfigFromMetaMatches, useConfig } from "#core/config.ts";
 import {
   BubbleShape,
@@ -23,6 +22,7 @@ import { helloassoImages } from "#images/helloasso.tsx";
 import paypalImage from "#images/paypal.png";
 import { socialImages } from "#images/social.tsx";
 import teamingImage from "#images/teaming.png";
+import { cn } from "@animeaux/core";
 import type { V2_MetaFunction } from "@remix-run/react";
 
 export const meta: V2_MetaFunction = ({ matches }) => {

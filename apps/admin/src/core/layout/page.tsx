@@ -1,6 +1,6 @@
 import type { BaseLinkProps } from "#core/baseLink.tsx";
 import { BaseLink } from "#core/baseLink.tsx";
-import { cn } from "#core/classNames.ts";
+import { cn } from "@animeaux/core";
 import { Children, isValidElement } from "react";
 
 export function PageLayout({ children }: { children?: React.ReactNode }) {

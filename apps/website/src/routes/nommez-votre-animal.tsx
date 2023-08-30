@@ -1,11 +1,11 @@
 import { animalNames } from "#animals/data.ts";
 import { ACTIVE_ANIMAL_STATUS } from "#animals/status.ts";
 import { actionClassNames } from "#core/actions.ts";
-import { cn } from "#core/classNames.ts";
 import { prisma } from "#core/db.server.ts";
 import { createSocialMeta } from "#core/meta.ts";
 import { getPageTitle } from "#core/pageTitle.ts";
 import { Icon } from "#generated/icon.tsx";
+import { cn } from "@animeaux/core";
 import { Gender } from "@prisma/client";
 import type { LoaderArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";

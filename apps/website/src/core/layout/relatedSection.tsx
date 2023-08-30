@@ -1,4 +1,4 @@
-import { cn } from "#core/classNames.ts";
+import { cn } from "@animeaux/core";
 import { Children } from "react";
 import { LineShapeHorizontal } from "./lineShape";
 

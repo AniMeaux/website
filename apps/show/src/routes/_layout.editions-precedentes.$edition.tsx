@@ -1,4 +1,3 @@
-import { cn } from "#core/classNames.ts";
 import { cloudinary } from "#core/cloudinary/cloudinary.server.ts";
 import { createConfig } from "#core/config.server.ts";
 import { useConfig } from "#core/config.ts";
@@ -17,6 +16,7 @@ import {
   PreviousEdition,
   SORTED_PREVIOUS_EDITIONS,
 } from "#previousEditions/previousEdition.tsx";
+import { cn } from "@animeaux/core";
 import type { LoaderArgs, SerializeFrom } from "@remix-run/node";
 import { defer } from "@remix-run/node";
 import type { V2_MetaFunction } from "@remix-run/react";

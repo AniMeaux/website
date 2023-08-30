@@ -1,4 +1,3 @@
-import { cn } from "#core/classNames.ts";
 import { createConfig } from "#core/config.server.ts";
 import { ErrorPage } from "#core/dataDisplay/errorPage.tsx";
 import { asRouteHandle } from "#core/handles.ts";
@@ -8,6 +7,7 @@ import appleTouchIcon from "#images/appleTouchIcon.png";
 import favicon from "#images/favicon.svg";
 import maskIcon from "#images/maskIcon.svg";
 import stylesheet from "#tailwind.css";
+import { cn } from "@animeaux/core";
 import type { LinksFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import type { V2_MetaFunction } from "@remix-run/react";

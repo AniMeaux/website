@@ -1,6 +1,5 @@
 import { articles } from "#blog/data.server.ts";
 import { ArticleItem } from "#blog/item.tsx";
-import { cn } from "#core/classNames.ts";
 import { getConfigFromMetaMatches } from "#core/config.ts";
 import { ErrorPage, getErrorTitle } from "#core/dataDisplay/errorPage.tsx";
 import { DynamicImage, createCloudinaryUrl } from "#core/dataDisplay/image.tsx";
@@ -13,6 +12,7 @@ import {
 import { createSocialMeta } from "#core/meta.ts";
 import { getPageTitle } from "#core/pageTitle.ts";
 import { DonationSection } from "#donation/section.tsx";
+import { cn } from "@animeaux/core";
 import type { LoaderArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import type { V2_MetaFunction } from "@remix-run/react";

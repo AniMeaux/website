@@ -1,5 +1,4 @@
 import { toBooleanAttribute } from "#core/attributes.ts";
-import { cn } from "#core/classNames.ts";
 import { Item } from "#core/dataDisplay/item.tsx";
 import { HIGHLIGHT_COMPONENTS, Markdown } from "#core/dataDisplay/markdown.tsx";
 import { BaseTextInput } from "#core/formElements/baseTextInput.tsx";
@@ -8,6 +7,7 @@ import { Overlay } from "#core/popovers/overlay.tsx";
 import { ScreenSizeValue, useScreenSizeCondition } from "#core/screenSize.tsx";
 import { Icon } from "#generated/icon.tsx";
 import { theme } from "#generated/theme.ts";
+import { cn } from "@animeaux/core";
 import * as Dialog from "@radix-ui/react-dialog";
 import * as Popover from "@radix-ui/react-popover";
 import * as VisuallyHidden from "@radix-ui/react-visually-hidden";

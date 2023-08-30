@@ -1,11 +1,11 @@
 import { AnimalItem } from "#animals/item.tsx";
 import { SAVED_ANIMAL_STATUS } from "#animals/status.ts";
-import { cn } from "#core/classNames.ts";
 import { Paginator } from "#core/controllers/paginator.tsx";
 import { prisma } from "#core/db.server.ts";
 import { createSocialMeta } from "#core/meta.ts";
 import { getPageTitle } from "#core/pageTitle.ts";
 import { getPage } from "#core/searchParams.ts";
+import { cn } from "@animeaux/core";
 import type { Prisma } from "@prisma/client";
 import type { LoaderArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";

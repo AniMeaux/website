@@ -1,6 +1,6 @@
-import { cn } from "#core/classNames.ts";
 import type { IconProps } from "#generated/icon.tsx";
 import { Icon } from "#generated/icon.tsx";
+import { cn } from "@animeaux/core";
 
 export function Timeline({ children }: { children: React.ReactNode }) {
   return <ul className={cn("pt-4 flex flex-col", "md:pt-1")}>{children}</ul>;

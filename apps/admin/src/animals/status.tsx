@@ -1,5 +1,5 @@
-import { cn } from "#core/classNames.ts";
 import { Icon } from "#generated/icon.tsx";
+import { cn } from "@animeaux/core";
 import { Status } from "@prisma/client";
 import orderBy from "lodash.orderby";
 

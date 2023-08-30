@@ -1,6 +1,5 @@
 import { Action } from "#core/actions.tsx";
 import { BaseLink } from "#core/baseLink.tsx";
-import { cn } from "#core/classNames.ts";
 import { Paginator } from "#core/controllers/paginator.tsx";
 import { Empty } from "#core/dataDisplay/empty.tsx";
 import { DynamicImage } from "#core/dataDisplay/image.tsx";
@@ -18,6 +17,7 @@ import { BadRequestResponse, NotFoundResponse } from "#core/response.server.ts";
 import { PageSearchParams } from "#core/searchParams.ts";
 import { assertCurrentUserHasGroups } from "#currentUser/groups.server.ts";
 import { Icon } from "#generated/icon.tsx";
+import { cn } from "@animeaux/core";
 import { createFormData } from "@animeaux/form-data";
 import { UserGroup } from "@prisma/client";
 import type { ActionArgs, LoaderArgs, SerializeFrom } from "@remix-run/node";
