@@ -30,11 +30,11 @@ Dialog.Content = function DialogContent({
       value={useMemo<DialogContextValue>(() => ({ variant }), [variant])}
     >
       <RadixDialog.Portal>
-        <Overlay asChild>
-          <RadixDialog.Overlay />
-        </Overlay>
+        <RadixDialog.Overlay asChild>
+          <Overlay />
+        </RadixDialog.Overlay>
 
-        <RadixDialog.Content className="fixed bottom-safe-1 left-safe-1 right-safe-1 z-30 shadow-ambient bg-white rounded-1 p-2 flex flex-col gap-2 md:bottom-auto md:top-[10vh] md:left-1/2 md:right-auto md:-translate-x-1/2 md:w-[550px]">
+        <RadixDialog.Content className="z-30 fixed md:top-[10vh] bottom-safe-1 md:bottom-auto left-safe-1 md:left-1/2 right-safe-1 md:right-auto md:-translate-x-1/2 shadow-ambient md:w-[550px] bg-white rounded-1 p-2 flex flex-col gap-2 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=open]:fade-in-0 data-[state=closed]:fade-out-0 data-[state=open]:slide-in-from-bottom-1/2 data-[state=closed]:slide-out-to-bottom-1/2 md:data-[state=open]:slide-in-from-bottom-0 md:data-[state=closed]:slide-out-to-bottom-0 md:data-[state=open]:slide-in-from-left-1/2 md:data-[state=closed]:slide-out-to-left-1/2 data-[state=open]:ease-out data-[state=closed]:ease-in data-[state=open]:duration-75 data-[state=closed]:duration-75">
           {children}
         </RadixDialog.Content>
       </RadixDialog.Portal>
