@@ -242,7 +242,7 @@ export function GlobalSearch() {
 
       <Dialog.Portal>
         <Dialog.Overlay asChild>
-          <Overlay className="md:data-[state=open]:animate-in md:data-[state=closed]:animate-out md:data-[state=open]:fade-in-0 md:data-[state=closed]:fade-out-0 md:data-[state=open]:ease-out md:data-[state=closed]:ease-in md:data-[state=open]:duration-75 md:data-[state=closed]:duration-75" />
+          <Overlay className="opacity-0 md:opacity-100" />
         </Dialog.Overlay>
 
         <Dialog.Content className="fixed top-0 left-0 bottom-0 right-0 z-30 overflow-y-auto bg-gray-50 flex flex-col md:top-[10vh] md:left-1/2 md:bottom-auto md:right-auto md:-translate-x-1/2 md:w-[550px] md:shadow-ambient md:bg-white md:rounded-1 md:data-[state=open]:animate-in md:data-[state=closed]:animate-out md:data-[state=open]:fade-in-0 md:data-[state=closed]:fade-out-0 md:data-[state=open]:slide-in-from-left-1/2 md:data-[state=closed]:slide-out-to-left-1/2 md:data-[state=open]:ease-out md:data-[state=closed]:ease-in md:data-[state=open]:duration-75 md:data-[state=closed]:duration-75">

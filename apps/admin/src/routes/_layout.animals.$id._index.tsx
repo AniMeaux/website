@@ -40,6 +40,7 @@ import { PageLayout } from "#core/layout/page.tsx";
 import { Routes } from "#core/navigation.ts";
 import { getPageTitle } from "#core/pageTitle.ts";
 import { Dialog } from "#core/popovers/dialog.tsx";
+import { DropdownSheet } from "#core/popovers/dropdownSheet";
 import { prisma } from "#core/prisma.server.ts";
 import { NotFoundResponse } from "#core/response.server.ts";
 import { assertCurrentUserHasGroups } from "#currentUser/groups.server.ts";
@@ -58,7 +59,6 @@ import {
   Status,
   UserGroup,
 } from "@prisma/client";
-import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import type { ActionArgs, LoaderArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import type { V2_MetaFunction } from "@remix-run/react";
@@ -443,24 +443,23 @@ function SituationCard() {
           </SimpleItem>
 
           {animal.fosterFamily != null ? (
-            <DropdownMenu.Root>
+            <DropdownSheet>
               <SimpleItem
                 icon={<FosterFamilyAvatar fosterFamily={animal.fosterFamily} />}
               >
                 En FA chez{" "}
-                <DropdownMenu.Trigger asChild>
+                <DropdownSheet.Trigger asChild>
                   <ProseInlineAction>
                     {animal.fosterFamily.displayName}
                   </ProseInlineAction>
-                </DropdownMenu.Trigger>
+                </DropdownSheet.Trigger>
               </SimpleItem>
 
-              <DropdownMenu.Portal>
-                <DropdownMenu.Content
+              <DropdownSheet.Portal>
+                <DropdownSheet.Content
                   side="bottom"
                   sideOffset={theme.spacing[1]}
                   collisionPadding={theme.spacing[1]}
-                  className="z-20 shadow-ambient rounded-1 w-[300px] bg-white p-1 flex flex-col gap-1"
                 >
                   <div className="grid grid-cols-[auto,minmax(0px,1fr)] items-center gap-1">
                     <FosterFamilyAvatar
@@ -472,7 +471,7 @@ function SituationCard() {
                     </div>
                   </div>
 
-                  <DropdownMenu.Separator className="border-t border-gray-100" />
+                  <hr className="border-t border-gray-100" />
 
                   <ul className="flex flex-col">
                     <SimpleItem icon={<Icon id="phone" />}>
@@ -488,28 +487,26 @@ function SituationCard() {
 
                   {canSeeFosterFamilyDetails ? (
                     <>
-                      <DropdownMenu.Separator className="border-t border-gray-100" />
-                      <DropdownMenu.Item asChild>
-                        <BaseLink
-                          to={Routes.fosterFamilies
-                            .id(animal.fosterFamily.id)
-                            .toString()}
-                          className="rounded-0.5 pr-1 grid grid-cols-[auto,minmax(0px,1fr)] items-center text-gray-500 text-left cursor-pointer transition-colors duration-100 ease-in-out hover:bg-gray-100 active:bg-gray-100 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400"
-                        >
-                          <span className="w-4 h-4 flex items-center justify-center text-[20px]">
-                            <Icon id="ellipsis" />
-                          </span>
+                      <hr className="border-t border-gray-100" />
+                      <BaseLink
+                        to={Routes.fosterFamilies
+                          .id(animal.fosterFamily.id)
+                          .toString()}
+                        className="rounded-0.5 pr-1 grid grid-cols-[auto,minmax(0px,1fr)] items-center text-gray-500 text-left cursor-pointer transition-colors duration-100 ease-in-out hover:bg-gray-100 active:bg-gray-100 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400"
+                      >
+                        <span className="w-4 h-4 flex items-center justify-center text-[20px]">
+                          <Icon id="ellipsis" />
+                        </span>
 
-                          <span className="text-body-emphasis">
-                            Voir plus d’informations
-                          </span>
-                        </BaseLink>
-                      </DropdownMenu.Item>
+                        <span className="text-body-emphasis">
+                          Voir plus d’informations
+                        </span>
+                      </BaseLink>
                     </>
                   ) : null}
-                </DropdownMenu.Content>
-              </DropdownMenu.Portal>
-            </DropdownMenu.Root>
+                </DropdownSheet.Content>
+              </DropdownSheet.Portal>
+            </DropdownSheet>
           ) : null}
 
           {animal.isSterilized != null &&
