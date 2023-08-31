@@ -26,6 +26,7 @@
   "dependencies": {
     "@animeaux/core": "*",
     "@animeaux/form-data": "*",
+    "@animeaux/react-primitives": "*",
     "@animeaux/zod-utils": "*",
     "@prisma/client": "^5.2.0",
     "@radix-ui/react-collapsible": "^1.0.3",

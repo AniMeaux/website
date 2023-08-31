@@ -14,6 +14,7 @@ FROM base as deps
 ADD ./package.json ./yarn.lock ./
 ADD ./libs/core/package.json ./libs/core/
 ADD ./libs/form-data/package.json ./libs/form-data/
+ADD ./libs/react-primitives/package.json ./libs/react-primitives/
 ADD ./libs/zod-utils/package.json ./libs/zod-utils/
 ADD ./apps/show/package.json ./apps/show/
 RUN yarn --frozen-lockfile --production=false
@@ -25,6 +26,7 @@ COPY --from=deps /workspace/apps/show/node_modules ./apps/show/node_modules
 ADD ./package.json ./yarn.lock ./
 ADD ./libs/core/package.json ./libs/core/
 ADD ./libs/form-data/package.json ./libs/form-data/
+ADD ./libs/react-primitives/package.json ./libs/react-primitives/
 ADD ./libs/zod-utils/package.json ./libs/zod-utils/
 ADD ./apps/show/package.json ./apps/show/
 RUN yarn --frozen-lockfile
@@ -40,6 +42,7 @@ RUN yarn generate:prisma
 
 ADD ./libs/core ./libs/core
 ADD ./libs/form-data ./libs/form-data
+ADD ./libs/react-primitives ./libs/react-primitives
 ADD ./libs/zod-utils ./libs/zod-utils
 ADD ./apps/show ./apps/show
 RUN yarn --cwd ./apps/show build

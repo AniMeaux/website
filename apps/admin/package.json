@@ -25,6 +25,7 @@
     "@animeaux/core": "*",
     "@animeaux/form-data": "*",
     "@animeaux/password": "*",
+    "@animeaux/react-primitives": "*",
     "@animeaux/zod-utils": "*",
     "@prisma/client": "^5.2.0",
     "@radix-ui/react-dialog": "^1.0.4",

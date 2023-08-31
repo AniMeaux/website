@@ -1,6 +1,6 @@
 import { Spinner } from "#core/loaders/spinner.tsx";
-import { Primitive } from "#core/primitives.tsx";
 import { cn } from "@animeaux/core";
+import { Primitive } from "@animeaux/react-primitives";
 import { forwardRef } from "react";
 
 type ActionVariant =
