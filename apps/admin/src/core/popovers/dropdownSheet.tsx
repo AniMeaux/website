@@ -94,7 +94,7 @@ DropdownSheet.Content = forwardRef<
         {...rest}
         ref={ref}
         className={cn(
-          "fixed z-30 bottom-safe-1 left-safe-1 right-safe-1 grid data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=open]:fade-in-0 data-[state=closed]:fade-out-0 data-[state=open]:slide-in-from-bottom-1/2 data-[state=closed]:slide-out-to-bottom-1/2 data-[state=open]:ease-out data-[state=closed]:ease-in data-[state=open]:duration-75 data-[state=closed]:duration-75",
+          "fixed z-30 bottom-0 inset-x-0 pb-safe-1 px-safe-1 grid data-[state=open]:animation-enter data-[state=closed]:animation-exit animation-translate-y-full animation-duration-150",
           className,
         )}
       >
@@ -131,7 +131,7 @@ DropdownSheet.Content = forwardRef<
       sideOffset={sideOffset}
       sticky={sticky}
       className={cn(
-        "z-30 w-[300px] grid data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=open]:fade-in-0 data-[state=closed]:fade-out-0 data-[side=bottom]:data-[state=open]:slide-in-from-top-2 data-[side=bottom]:data-[state=closed]:slide-out-to-top-2 data-[side=top]:data-[state=open]:slide-in-from-bottom-2 data-[side=top]:data-[state=closed]:slide-out-to-bottom-2 data-[state=open]:ease-out data-[state=closed]:ease-in data-[state=open]:duration-75 data-[state=closed]:duration-75",
+        "z-30 w-[300px] grid data-[state=open]:animation-enter data-[state=closed]:animation-exit animation-opacity-0 data-[side=bottom]:-animation-translate-y-2 data-[side=top]:animation-translate-y-2 animation-duration-100",
         className,
       )}
     >
