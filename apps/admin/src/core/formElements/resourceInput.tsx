@@ -3,7 +3,6 @@ import { Item } from "#core/dataDisplay/item.tsx";
 import { HIGHLIGHT_COMPONENTS, Markdown } from "#core/dataDisplay/markdown.tsx";
 import { BaseTextInput } from "#core/formElements/baseTextInput.tsx";
 import { Card } from "#core/layout/card.tsx";
-import { Overlay } from "#core/popovers/overlay.tsx";
 import { ScreenSizeValue, useScreenSizeCondition } from "#core/screenSize.tsx";
 import { Icon } from "#generated/icon.tsx";
 import { theme } from "#generated/theme.ts";
@@ -50,7 +49,7 @@ function MediumLayout({
           side="bottom"
           sideOffset={theme.spacing[1]}
           collisionPadding={theme.spacing[1]}
-          className="z-20 w-[var(--radix-popover-trigger-width)] bg-white shadow-ambient rounded-1 flex flex-col data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=open]:fade-in-0 data-[state=closed]:fade-out-0 data-[side=bottom]:data-[state=open]:slide-in-from-top-2 data-[side=bottom]:data-[state=closed]:slide-out-to-top-2 data-[side=top]:data-[state=open]:slide-in-from-bottom-2 data-[side=top]:data-[state=closed]:slide-out-to-bottom-2 data-[state=open]:ease-out data-[state=closed]:ease-in data-[state=open]:duration-75 data-[state=closed]:duration-75"
+          className="z-20 w-[var(--radix-popover-trigger-width)] bg-white shadow-ambient rounded-1 flex flex-col data-[state=open]:animation-enter data-[state=closed]:animation-exit animation-opacity-0 data-[side=bottom]:-animation-translate-y-2 data-[side=top]:animation-translate-y-2 animation-duration-100"
         >
           {content}
         </Popover.Content>
@@ -70,9 +69,7 @@ function SmallLayout({
       {inputTrigger(Dialog.Trigger)}
 
       <Dialog.Portal>
-        <Dialog.Overlay asChild>
-          <Overlay className="opacity-0" />
-        </Dialog.Overlay>
+        <Dialog.Overlay />
 
         <Dialog.Content className="fixed top-0 left-0 bottom-0 right-0 z-30 overflow-y-auto bg-gray-50 flex flex-col">
           <VisuallyHidden.Root>

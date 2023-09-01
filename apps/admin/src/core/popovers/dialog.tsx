@@ -34,8 +34,20 @@ Dialog.Content = function DialogContent({
           <Overlay />
         </RadixDialog.Overlay>
 
-        <RadixDialog.Content className="z-30 fixed md:top-[10vh] bottom-safe-1 md:bottom-auto left-safe-1 md:left-1/2 right-safe-1 md:right-auto md:-translate-x-1/2 shadow-ambient md:w-[550px] bg-white rounded-1 p-2 flex flex-col gap-2 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=open]:fade-in-0 data-[state=closed]:fade-out-0 data-[state=open]:slide-in-from-bottom-1/2 data-[state=closed]:slide-out-to-bottom-1/2 md:data-[state=open]:slide-in-from-bottom-0 md:data-[state=closed]:slide-out-to-bottom-0 md:data-[state=open]:slide-in-from-left-1/2 md:data-[state=closed]:slide-out-to-left-1/2 data-[state=open]:ease-out data-[state=closed]:ease-in data-[state=open]:duration-75 data-[state=closed]:duration-75">
-          {children}
+        <RadixDialog.Content className="z-30 fixed md:top-[10vh] bottom-0 md:bottom-auto inset-x-0 md:left-1/2 md:right-auto md:-translate-x-1/2 md:w-[550px] pb-safe-1 px-safe-1 md:p-0 grid data-[state=open]:animation-enter data-[state=closed]:animation-exit animation-translate-y-full md:animation-translate-y-0 md:animation-opacity-0 animation-duration-150 md:animation-duration-100">
+          {/*
+           * Because links can't be focused by default, we might focus an
+           * element out of order.
+           * This div wrapper will receive the focus everytime, the user can
+           * then tab in content.
+           * https://github.com/radix-ui/primitives/issues/2373
+           */}
+          <div
+            tabIndex={0}
+            className="shadow-ambient rounded-1 w-full bg-white p-2 flex flex-col gap-2 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400"
+          >
+            {children}
+          </div>
         </RadixDialog.Content>
       </RadixDialog.Portal>
     </DialogContext.Provider>
