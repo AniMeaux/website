@@ -7,10 +7,10 @@ import {
   DataUrlOrDynamicImage,
   isImageOverSize,
 } from "#core/dataDisplay/image.tsx";
-import { Primitive } from "#core/primitives.tsx";
 import type { IconProps } from "#generated/icon.tsx";
 import { Icon } from "#generated/icon.tsx";
 import { cn } from "@animeaux/core";
+import { Primitive } from "@animeaux/react-primitives";
 import { forwardRef } from "react";
 
 const ImageInputNative = forwardRef<

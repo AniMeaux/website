@@ -3,7 +3,6 @@ import { Item } from "#core/dataDisplay/item.tsx";
 import { HIGHLIGHT_COMPONENTS, Markdown } from "#core/dataDisplay/markdown.tsx";
 import { BaseTextInput } from "#core/formElements/baseTextInput.tsx";
 import { Card } from "#core/layout/card.tsx";
-import { Overlay } from "#core/popovers/overlay.tsx";
 import { ScreenSizeValue, useScreenSizeCondition } from "#core/screenSize.tsx";
 import { Icon } from "#generated/icon.tsx";
 import { theme } from "#generated/theme.ts";
@@ -47,9 +46,10 @@ function MediumLayout({
       <Popover.Portal>
         <Popover.Content
           align="start"
+          side="bottom"
           sideOffset={theme.spacing[1]}
           collisionPadding={theme.spacing[1]}
-          className="z-20 w-[var(--radix-popover-trigger-width)] bg-white shadow-ambient rounded-1 flex flex-col"
+          className="z-20 w-[var(--radix-popover-trigger-width)] bg-white shadow-ambient rounded-1 flex flex-col data-[state=open]:animation-enter data-[state=closed]:animation-exit animation-opacity-0 data-[side=bottom]:-animation-translate-y-2 data-[side=top]:animation-translate-y-2 animation-duration-100"
         >
           {content}
         </Popover.Content>
@@ -69,9 +69,7 @@ function SmallLayout({
       {inputTrigger(Dialog.Trigger)}
 
       <Dialog.Portal>
-        <Overlay asChild>
-          <Dialog.Overlay />
-        </Overlay>
+        <Dialog.Overlay />
 
         <Dialog.Content className="fixed top-0 left-0 bottom-0 right-0 z-30 overflow-y-auto bg-gray-50 flex flex-col">
           <VisuallyHidden.Root>

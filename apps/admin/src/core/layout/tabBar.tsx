@@ -77,7 +77,7 @@ TabBar.Menu = function TabBarMenu({
           side="top"
           sideOffset={theme.spacing[1]}
           collisionPadding={theme.spacing[1]}
-          className="z-20 shadow-ambient rounded-1 w-[200px] bg-white p-1 flex flex-col gap-1"
+          className="z-20 shadow-ambient rounded-1 w-[200px] bg-white p-1 flex flex-col gap-1 data-[state=open]:animation-enter data-[state=closed]:animation-exit animation-opacity-0 animation-translate-y-2 animation-duration-100"
         >
           {children}
         </DropdownMenu.Content>

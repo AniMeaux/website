@@ -1,9 +1,9 @@
 import type { BaseLinkProps } from "#core/baseLink.tsx";
 import { BaseLink } from "#core/baseLink.tsx";
-import { Primitive } from "#core/primitives.tsx";
 import type { IconProps } from "#generated/icon.tsx";
 import { Icon } from "#generated/icon.tsx";
 import { cn } from "@animeaux/core";
+import { Primitive } from "@animeaux/react-primitives";
 
 export type SideBarProps = {
   isOpened: boolean;

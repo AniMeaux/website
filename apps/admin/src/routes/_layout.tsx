@@ -5,6 +5,7 @@ import { SideBar } from "#core/layout/sideBar.tsx";
 import { TabBar } from "#core/layout/tabBar.tsx";
 import { Routes } from "#core/navigation.ts";
 import { getPageTitle } from "#core/pageTitle.ts";
+import { DropdownSheet } from "#core/popovers/dropdownSheet";
 import { NextSearchParams } from "#core/searchParams.ts";
 import { getCurrentUserPreferences } from "#currentUser/preferences.server.ts";
 import type { IconProps } from "#generated/icon.tsx";
@@ -17,17 +18,17 @@ import { UserAvatar } from "#users/avatar.tsx";
 import { hasGroups } from "#users/groups.tsx";
 import type { User } from "@prisma/client";
 import { UserGroup } from "@prisma/client";
-import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import type { LoaderArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import {
+  Link,
   Outlet,
   useFetcher,
   useLoaderData,
   useLocation,
 } from "@remix-run/react";
 import { createPath } from "history";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { promiseHash } from "remix-utils";
 
 export async function loader({ request }: LoaderArgs) {
@@ -226,10 +227,11 @@ function CurrentUserMenu() {
   const { currentUser } = useLoaderData<typeof loader>();
   const fetcher = useFetcher();
   const location = useLocation();
+  const [isOpened, setIsOpened] = useState(false);
 
   return (
-    <DropdownMenu.Root>
-      <DropdownMenu.Trigger className="rounded-0.5 flex items-center gap-1 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white">
+    <DropdownSheet open={isOpened} onOpenChange={setIsOpened}>
+      <DropdownSheet.Trigger className="rounded-0.5 flex items-center gap-1 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white">
         <span className="hidden md:inline-flex">{currentUser.displayName}</span>
 
         <span className="hidden md:inline-flex">
@@ -243,14 +245,13 @@ function CurrentUserMenu() {
         <span className="hidden text-[20px] text-gray-600 md:inline-flex">
           <Icon id="caretDown" />
         </span>
-      </DropdownMenu.Trigger>
+      </DropdownSheet.Trigger>
 
-      <DropdownMenu.Portal>
-        <DropdownMenu.Content
+      <DropdownSheet.Portal>
+        <DropdownSheet.Content
           side="bottom"
           sideOffset={theme.spacing[1]}
           collisionPadding={theme.spacing[1]}
-          className="z-20 shadow-ambient rounded-1 w-[300px] bg-white p-1 flex flex-col gap-1"
         >
           <div className="grid grid-cols-[auto,minmax(0px,1fr)] items-center gap-1">
             <UserAvatar size="lg" user={currentUser} />
@@ -262,45 +263,45 @@ function CurrentUserMenu() {
             </div>
           </div>
 
-          <DropdownMenu.Separator className="border-t border-gray-100" />
+          <hr className="border-t border-gray-100" />
 
-          <DropdownMenu.Item asChild>
-            <BaseLink
-              to={Routes.me.toString()}
-              className="rounded-0.5 pr-1 grid grid-cols-[auto,minmax(0px,1fr)] items-center text-gray-500 text-left cursor-pointer transition-colors duration-100 ease-in-out hover:bg-gray-100 active:bg-gray-100 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400"
-            >
-              <span className="w-4 h-4 flex items-center justify-center text-[20px]">
-                <Icon id="user" />
-              </span>
-
-              <span className="text-body-emphasis">Votre profil</span>
-            </BaseLink>
-          </DropdownMenu.Item>
-
-          <DropdownMenu.Separator className="border-t border-gray-100" />
-
-          <DropdownMenu.Item
-            onSelect={() =>
-              fetcher.submit(null, {
-                method: "POST",
-                action: createPath({
-                  pathname: Routes.logout.toString(),
-                  search: NextSearchParams.stringify({
-                    next: createPath(location),
-                  }),
-                }),
-              })
-            }
+          <Link
+            to={Routes.me.toString()}
+            onClick={() => setIsOpened(false)}
             className="rounded-0.5 pr-1 grid grid-cols-[auto,minmax(0px,1fr)] items-center text-gray-500 text-left cursor-pointer transition-colors duration-100 ease-in-out hover:bg-gray-100 active:bg-gray-100 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400"
           >
             <span className="w-4 h-4 flex items-center justify-center text-[20px]">
-              <Icon id="rightFromBracket" />
+              <Icon id="user" />
             </span>
 
-            <span className="text-body-emphasis">Se déconnecter</span>
-          </DropdownMenu.Item>
-        </DropdownMenu.Content>
-      </DropdownMenu.Portal>
-    </DropdownMenu.Root>
+            <span className="text-body-emphasis">Votre profil</span>
+          </Link>
+
+          <hr className="border-t border-gray-100" />
+
+          <fetcher.Form
+            method="POST"
+            action={createPath({
+              pathname: Routes.logout.toString(),
+              search: NextSearchParams.stringify({
+                next: createPath(location),
+              }),
+            })}
+            className="grid"
+          >
+            <button
+              onClick={() => setIsOpened(false)}
+              className="rounded-0.5 pr-1 grid grid-cols-[auto,minmax(0px,1fr)] items-center text-gray-500 text-left cursor-pointer transition-colors duration-100 ease-in-out hover:bg-gray-100 active:bg-gray-100 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400"
+            >
+              <span className="w-4 h-4 flex items-center justify-center text-[20px]">
+                <Icon id="rightFromBracket" />
+              </span>
+
+              <span className="text-body-emphasis">Se déconnecter</span>
+            </button>
+          </fetcher.Form>
+        </DropdownSheet.Content>
+      </DropdownSheet.Portal>
+    </DropdownSheet>
   );
 }

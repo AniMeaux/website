@@ -241,11 +241,11 @@ export function GlobalSearch() {
       </BaseTextInput.Root>
 
       <Dialog.Portal>
-        <Overlay asChild>
-          <Dialog.Overlay />
-        </Overlay>
+        <Dialog.Overlay asChild>
+          <Overlay className="opacity-0 md:opacity-100" />
+        </Dialog.Overlay>
 
-        <Dialog.Content className="fixed top-0 left-0 bottom-0 right-0 z-30 overflow-y-auto bg-gray-50 flex flex-col md:top-[10vh] md:left-1/2 md:bottom-auto md:right-auto md:-translate-x-1/2 md:w-[550px] md:shadow-ambient md:bg-white md:rounded-1">
+        <Dialog.Content className="fixed top-0 left-0 bottom-0 right-0 z-30 overflow-y-auto bg-gray-50 flex flex-col md:top-[10vh] md:left-1/2 md:bottom-auto md:right-auto md:-translate-x-1/2 md:w-[550px] md:shadow-ambient md:bg-white md:rounded-1 md:data-[state=open]:animation-enter md:data-[state=closed]:animation-exit animation-opacity-0 animation-duration-100">
           {entity != null ? (
             <Combobox
               entity={entity}
