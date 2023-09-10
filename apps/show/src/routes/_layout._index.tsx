@@ -367,7 +367,7 @@ function ExhibitorsSection() {
         </Section.Title>
 
         <p className="text-center md:text-left">
-          Cette année, XX exposants vous attendent répartis dans 3 grandes
+          Cette année, 60 exposants vous attendent répartis dans 3 grandes
           catégories.
         </p>
 
