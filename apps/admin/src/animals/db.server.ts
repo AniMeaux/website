@@ -16,19 +16,6 @@ export class AnimalDbDelegate {
   readonly profile = new AnimalProfileDbDelegate();
   readonly situation = new AnimalSituationDbDelegate();
 
-  async fuzzySearchPickUpLocation({
-    text = "",
-    maxHitCount,
-  }: {
-    text?: string;
-    maxHitCount: number;
-  }) {
-    return await algolia.animal.searchPickUpLocation({
-      text,
-      maxFacetHits: maxHitCount,
-    });
-  }
-
   async create(draft: null | AnimalDraft, pictures: AnimalPictures) {
     return await prisma.$transaction(async (prisma) => {
       if (
@@ -50,15 +37,7 @@ export class AnimalDbDelegate {
       });
 
       await prisma.animalDraft.delete({ where: { ownerId } });
-
-      await algolia.animal.create(animal.id, {
-        alias: data.alias,
-        name: data.name,
-        pickUpDate: data.pickUpDate.getTime(),
-        pickUpLocation: data.pickUpLocation,
-        species: data.species,
-        status: data.status,
-      });
+      await algolia.animal.create({ ...data, id: animal.id });
 
       return animal.id;
     });
@@ -94,8 +73,8 @@ export class AnimalDbDelegate {
     nameOrAlias: string;
     maxHitCount: number;
   }) {
-    const hits = await algolia.animal.search({
-      nameOrAlias,
+    const hits = await algolia.animal.findMany({
+      where: { nameOrAlias },
       hitsPerPage: maxHitCount,
     });
 
@@ -103,10 +82,9 @@ export class AnimalDbDelegate {
       where: { id: { in: hits.map((hit) => hit.id) } },
       select: {
         avatar: true,
-        id: true,
-        species: true,
         breed: { select: { name: true } },
         color: { select: { name: true } },
+        id: true,
       },
     });
 
@@ -114,6 +92,21 @@ export class AnimalDbDelegate {
       const animal = animals.find((animal) => animal.id === hit.id);
       invariant(animal != null, "Animal from algolia should exists.");
       return { ...hit, ...animal };
+    });
+  }
+}
+
+export class PickUpLocationDbDelegate {
+  async fuzzySearch({
+    text = "",
+    maxHitCount,
+  }: {
+    text?: string;
+    maxHitCount: number;
+  }) {
+    return await algolia.pickUpLocation.findMany({
+      where: { value: text },
+      maxFacetHits: maxHitCount,
     });
   }
 }

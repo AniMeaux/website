@@ -6,6 +6,7 @@ import {
   ReferencedError,
 } from "#core/errors.server.ts";
 import { prisma } from "#core/prisma.server.ts";
+import type { FosterFamilyHit } from "@animeaux/algolia-client";
 import type { FosterFamily } from "@prisma/client";
 import { Prisma } from "@prisma/client";
 import invariant from "tiny-invariant";
@@ -19,7 +20,7 @@ export class FosterFamilyDbDelegate {
   }: {
     displayName?: string;
     maxHitCount: number;
-  }) {
+  }): Promise<(FosterFamilyHit & Pick<FosterFamily, "city" | "zipCode">)[]> {
     // Don't use Algolia when there are no text search.
     if (displayName == null) {
       const fosterFamilies = await prisma.fosterFamily.findMany({
@@ -30,12 +31,14 @@ export class FosterFamilyDbDelegate {
 
       return fosterFamilies.map((fosterFamily) => ({
         ...fosterFamily,
-        highlightedDisplayName: fosterFamily.displayName,
+        _highlighted: {
+          displayName: fosterFamily.displayName,
+        },
       }));
     }
 
-    const hits = await algolia.fosterFamily.search({
-      displayName,
+    const hits = await algolia.fosterFamily.findMany({
+      where: { displayName },
       hitsPerPage: maxHitCount,
     });
 
@@ -81,10 +84,10 @@ export class FosterFamilyDbDelegate {
     });
   }
 
-  async update(fosterFamilyId: FosterFamily["id"], data: FosterFamilyData) {
+  async update(id: FosterFamily["id"], data: FosterFamilyData) {
     await prisma.$transaction(async (prisma) => {
       const fosterFamily = await prisma.fosterFamily.findUnique({
-        where: { id: fosterFamilyId },
+        where: { id },
         select: { speciesToHost: true },
       });
       if (fosterFamily == null) {
@@ -94,10 +97,7 @@ export class FosterFamilyDbDelegate {
       this.validate(data, fosterFamily);
 
       try {
-        await prisma.fosterFamily.update({
-          where: { id: fosterFamilyId },
-          data,
-        });
+        await prisma.fosterFamily.update({ where: { id }, data });
       } catch (error) {
         if (error instanceof Prisma.PrismaClientKnownRequestError) {
           if (error.code === PrismaErrorCodes.UNIQUE_CONSTRAINT_FAILED) {
@@ -108,9 +108,7 @@ export class FosterFamilyDbDelegate {
         throw error;
       }
 
-      await algolia.fosterFamily.update(fosterFamilyId, {
-        displayName: data.displayName,
-      });
+      await algolia.fosterFamily.update({ ...data, id });
     });
   }
 
@@ -124,9 +122,7 @@ export class FosterFamilyDbDelegate {
           select: { id: true },
         });
 
-        await algolia.fosterFamily.create(fosterFamily.id, {
-          displayName: data.displayName,
-        });
+        await algolia.fosterFamily.create({ ...data, id: fosterFamily.id });
 
         return fosterFamily.id;
       } catch (error) {

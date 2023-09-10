@@ -266,7 +266,7 @@ function Combobox({
               {...combobox.getItemProps({ item: breed, index })}
               isValue={selectedBreed?.id === breed.id}
               leftAdornment={<Icon id="dna" />}
-              label={breed.highlightedName}
+              label={breed._highlighted.name}
             />
           ))}
 

@@ -1,12 +1,12 @@
 import { algolia } from "#core/algolia/algolia.server.ts";
 import { prisma } from "#core/prisma.server.ts";
-import type { FosterFamilyFromAlgolia } from "#fosterFamilies/algolia.server.ts";
 import {
   createBatchHandlers,
   createPostHandlers,
   highlightValue,
 } from "#mocks/algolia/shared.server.ts";
 import type { Hit, SearchResponse } from "@algolia/client-search";
+import type { FosterFamily, SerializeObject } from "@animeaux/algolia-client";
 import type { Prisma } from "@prisma/client";
 import { promiseHash } from "remix-utils";
 
@@ -34,7 +34,7 @@ export const fosterFamilyHandlers = [
         }),
       });
 
-      const responseBody: SearchResponse<FosterFamilyFromAlgolia> = {
+      const responseBody: SearchResponse<SerializeObject<FosterFamily>> = {
         nbHits: totalCount,
         page: page,
         nbPages: Math.ceil(totalCount / body.hitsPerPage),
@@ -44,7 +44,7 @@ export const fosterFamilyHandlers = [
         params: "",
         renderingContent: {},
         processingTimeMS: 1,
-        hits: fosterFamilies.map<Hit<FosterFamilyFromAlgolia>>(
+        hits: fosterFamilies.map<Hit<SerializeObject<FosterFamily>>>(
           (fosterFamily) => ({
             ...fosterFamily,
             objectID: fosterFamily.id,

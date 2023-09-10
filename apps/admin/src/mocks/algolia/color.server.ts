@@ -1,4 +1,3 @@
-import type { ColorFromAlgolia } from "#colors/algolia.server.ts";
 import { algolia } from "#core/algolia/algolia.server.ts";
 import { prisma } from "#core/prisma.server.ts";
 import {
@@ -7,6 +6,7 @@ import {
   highlightValue,
 } from "#mocks/algolia/shared.server.ts";
 import type { Hit, SearchResponse } from "@algolia/client-search";
+import type { Color, SerializeObject } from "@animeaux/algolia-client";
 import type { Prisma } from "@prisma/client";
 import { promiseHash } from "remix-utils";
 
@@ -34,7 +34,7 @@ export const colorHandlers = [
         }),
       });
 
-      const responseBody: SearchResponse<ColorFromAlgolia> = {
+      const responseBody: SearchResponse<SerializeObject<Color>> = {
         nbHits: totalCount,
         page,
         nbPages: Math.ceil(totalCount / body.hitsPerPage),
@@ -44,7 +44,7 @@ export const colorHandlers = [
         params: "",
         renderingContent: {},
         processingTimeMS: 1,
-        hits: colors.map<Hit<ColorFromAlgolia>>((color) => ({
+        hits: colors.map<Hit<SerializeObject<Color>>>((color) => ({
           ...color,
           objectID: color.id,
           _highlightResult: {

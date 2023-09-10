@@ -35,10 +35,10 @@ export class MissingPickUpLocationError extends Error {}
 export class NotManagerError extends Error {}
 
 export class AnimalSituationDbDelegate {
-  async update(animalId: Animal["id"], data: AnimalSituation) {
+  async update(id: Animal["id"], data: AnimalSituation) {
     await prisma.$transaction(async (prisma) => {
       const currentAnimal = await prisma.animal.findUnique({
-        where: { id: animalId },
+        where: { id },
         select: {
           managerId: true,
           nextVaccinationDate: true,
@@ -52,13 +52,8 @@ export class AnimalSituationDbDelegate {
       await this.validate(prisma, data, currentAnimal);
       this.normalize(data);
 
-      await prisma.animal.update({ where: { id: animalId }, data });
-
-      await algolia.animal.update(animalId, {
-        status: data.status,
-        pickUpDate: data.pickUpDate.getTime(),
-        pickUpLocation: data.pickUpLocation,
-      });
+      await prisma.animal.update({ where: { id }, data });
+      await algolia.animal.update({ ...data, id });
     });
   }
 

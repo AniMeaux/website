@@ -6,6 +6,7 @@ import {
   ReferencedError,
 } from "#core/errors.server.ts";
 import { prisma } from "#core/prisma.server.ts";
+import type { BreedHit } from "@animeaux/algolia-client";
 import type { Breed, Species } from "@prisma/client";
 import { Prisma } from "@prisma/client";
 
@@ -18,10 +19,7 @@ export class BreedDbDelegate {
           select: { id: true },
         });
 
-        await algolia.breed.create(breed.id, {
-          name: data.name,
-          species: data.species,
-        });
+        await algolia.breed.create({ ...data, id: breed.id });
       } catch (error) {
         if (error instanceof Prisma.PrismaClientKnownRequestError) {
           if (error.code === PrismaErrorCodes.UNIQUE_CONSTRAINT_FAILED) {
@@ -48,10 +46,7 @@ export class BreedDbDelegate {
         throw error;
       }
 
-      await algolia.breed.update(id, {
-        name: data.name,
-        species: data.species,
-      });
+      await algolia.breed.update({ ...data, id });
     });
   }
 
@@ -87,7 +82,7 @@ export class BreedDbDelegate {
     name?: string;
     species?: Iterable<Species>;
     maxHitCount: number;
-  }) {
+  }): Promise<BreedHit[]> {
     // Don't use Algolia when there are no text search.
     if (name == null) {
       const speciesArray = Array.from(species ?? []);
@@ -95,20 +90,19 @@ export class BreedDbDelegate {
         where: {
           species: speciesArray.length === 0 ? undefined : { in: speciesArray },
         },
-        select: { id: true, name: true },
+        select: { id: true, name: true, species: true },
         orderBy: { name: "asc" },
         take: maxHitCount,
       });
 
       return breeds.map((breed) => ({
         ...breed,
-        highlightedName: breed.name,
+        _highlighted: { name: breed.name },
       }));
     }
 
-    return await algolia.breed.search({
-      name,
-      species,
+    return await algolia.breed.findMany({
+      where: { name, species },
       hitsPerPage: maxHitCount,
     });
   }

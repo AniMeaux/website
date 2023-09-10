@@ -1,4 +1,3 @@
-import type { BreedFromAlgolia } from "#breeds/algolia.server.ts";
 import { algolia } from "#core/algolia/algolia.server.ts";
 import { prisma } from "#core/prisma.server.ts";
 import {
@@ -7,6 +6,7 @@ import {
   highlightValue,
 } from "#mocks/algolia/shared.server.ts";
 import type { Hit, SearchResponse } from "@algolia/client-search";
+import type { Breed, SerializeObject } from "@animeaux/algolia-client";
 import type { Prisma } from "@prisma/client";
 import { promiseHash } from "remix-utils";
 
@@ -34,7 +34,7 @@ export const breedHandlers = [
         }),
       });
 
-      const responseBody: SearchResponse<BreedFromAlgolia> = {
+      const responseBody: SearchResponse<SerializeObject<Breed>> = {
         nbHits: totalCount,
         page,
         nbPages: Math.ceil(totalCount / body.hitsPerPage),
@@ -44,7 +44,7 @@ export const breedHandlers = [
         params: "",
         renderingContent: {},
         processingTimeMS: 1,
-        hits: breeds.map<Hit<BreedFromAlgolia>>((breed) => ({
+        hits: breeds.map<Hit<SerializeObject<Breed>>>((breed) => ({
           ...breed,
           objectID: breed.id,
           _highlightResult: {

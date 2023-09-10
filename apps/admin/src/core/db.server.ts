@@ -1,4 +1,7 @@
-import { AnimalDbDelegate } from "#animals/db.server.ts";
+import {
+  AnimalDbDelegate,
+  PickUpLocationDbDelegate,
+} from "#animals/db.server.ts";
 import { BreedDbDelegate } from "#breeds/db.server.ts";
 import { ColorDbDelegate } from "#colors/db.server.ts";
 import { CurrentUserDbDelegate } from "#currentUser/db.server.ts";
@@ -15,6 +18,7 @@ class DbClient {
   readonly currentUser = new CurrentUserDbDelegate();
   readonly event = new EventDbDelegate();
   readonly fosterFamily = new FosterFamilyDbDelegate();
+  readonly pickUpLocation = new PickUpLocationDbDelegate();
   readonly pressArticle = new PressArticleDbDelegate();
   readonly user = new UserDbDelegate();
 }

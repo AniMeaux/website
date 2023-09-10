@@ -39,7 +39,7 @@ export async function loader({ request }: LoaderArgs) {
   );
 
   return json({
-    pickUpLocations: await db.animal.fuzzySearchPickUpLocation({
+    pickUpLocations: await db.pickUpLocation.fuzzySearch({
       text: searchParams.text,
       maxHitCount: MAX_HIT_COUNT,
     }),
@@ -214,9 +214,12 @@ function Combobox({
     }
 
     visiblePickUpLocation.push({
+      id: cleanedSearch,
       value: cleanedSearch,
-      highlightedValue: `Ajouter : **${cleanedSearch}**`,
       isAdditional: true,
+      _highlighted: {
+        value: `Ajouter : **${cleanedSearch}**`,
+      },
     });
   }
 
@@ -273,7 +276,7 @@ function Combobox({
               isValue={selectedPickUpLocation === pickUpLocation.value}
               isAdditional={pickUpLocation.isAdditional}
               leftAdornment={<Icon id="locationDot" />}
-              label={pickUpLocation.highlightedValue}
+              label={pickUpLocation._highlighted.value}
             />
           ))}
 

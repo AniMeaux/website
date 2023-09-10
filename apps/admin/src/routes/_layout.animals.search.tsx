@@ -167,13 +167,17 @@ export async function loader({ request }: LoaderArgs) {
   }
 
   if (animalSearchParams.nameOrAlias != null) {
-    const animals = await algolia.animal.search({
-      nameOrAlias: animalSearchParams.nameOrAlias,
-      pickUpDateEnd: animalSearchParams.pickUpDateEnd,
-      pickUpDateStart: animalSearchParams.pickUpDateStart,
-      pickUpLocations: animalSearchParams.pickUpLocations,
-      species: animalSearchParams.species,
-      statuses: animalSearchParams.statuses,
+    const animals = await algolia.animal.findMany({
+      where: {
+        nameOrAlias: animalSearchParams.nameOrAlias,
+        pickUpDate: {
+          gte: animalSearchParams.pickUpDateStart,
+          lte: animalSearchParams.pickUpDateEnd,
+        },
+        pickUpLocation: animalSearchParams.pickUpLocations,
+        species: animalSearchParams.species,
+        status: animalSearchParams.statuses,
+      },
     });
 
     where.push({ id: { in: animals.map((animal) => animal.id) } });

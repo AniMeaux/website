@@ -44,9 +44,10 @@ export async function loader({ request }: LoaderArgs) {
   const where: Prisma.ColorWhereInput[] = [];
 
   if (colorSearchParams.name != null) {
-    const colors = await algolia.color.search({
-      name: colorSearchParams.name,
+    const colors = await algolia.color.findMany({
+      where: { name: colorSearchParams.name },
     });
+
     where.push({ id: { in: colors.map((color) => color.id) } });
   }
 
