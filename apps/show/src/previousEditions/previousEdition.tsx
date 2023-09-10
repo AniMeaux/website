@@ -10,3 +10,9 @@ export const SORTED_PREVIOUS_EDITIONS = orderBy(
   (edition) => edition,
   ["desc"],
 );
+
+export const PREVIOUS_EDITION_PHOTOGRAPH: Partial<
+  Record<PreviousEdition, string>
+> = {
+  [PreviousEdition.Y_2023]: "Julia Pommé Photographe",
+};

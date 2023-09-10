@@ -13,6 +13,7 @@ import { ScrollRestorationLocationState } from "#core/scrollRestoration.ts";
 import { PreviousEditionImage } from "#previousEditions/image.tsx";
 import { PhotoLocationState } from "#previousEditions/photoLocationState.ts";
 import {
+  PREVIOUS_EDITION_PHOTOGRAPH,
   PreviousEdition,
   SORTED_PREVIOUS_EDITIONS,
 } from "#previousEditions/previousEdition.tsx";
@@ -158,6 +159,8 @@ function ImageItem({
   const { scrollRestorationLocationKey = location.key } =
     ScrollRestorationLocationState.parse(location.state);
 
+  const photograph = PREVIOUS_EDITION_PHOTOGRAPH[edition];
+
   return (
     <li
       className={cn(
@@ -174,8 +177,12 @@ function ImageItem({
         className="group overflow-hidden rounded-1 md:rounded-2 aspect-square grid grid-cols-1 focus-visible:outline-none focus-visible:ring focus-visible:ring-mystic focus-visible:ring-offset-2 focus-visible:ring-offset-inheritBg"
       >
         <DynamicImage
-          alt={`Photo du salon ${edition} par Julia Pommé Photographe.`}
-          title="Julia Pommé Photographe"
+          alt={
+            photograph == null
+              ? `Photo du salon ${edition}.`
+              : `Photo du salon ${edition} par ${photograph}.`
+          }
+          title={photograph}
           fallbackSize={isCover ? "512" : "256"}
           image={image}
           aspectRatio="1:1"
