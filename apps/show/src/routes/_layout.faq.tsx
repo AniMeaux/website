@@ -181,8 +181,8 @@ const FAQ: Faq[] = [
     question: "L’entrée est-elle payante ?",
     answer: ({ ticketingUrl }) => (
       <>
-        Montant de l’entrée : don libre d’un minimum de 2 €, gratuit pour les
-        moins de 12 ans.
+        Donnez ce que vous pouvez, minimum 2 € en ligne, 4 € sur place, gratuit
+        pour les moins de 12 ans.
         <br />
         <br />
         Une billetterie en ligne est{" "}
@@ -198,7 +198,7 @@ const FAQ: Faq[] = [
     ),
   },
   {
-    question: "Puis-je amener mon animal ?",
+    question: "Mon animal peut-il m’accompagner ?",
     answer: (
       <>
         Seuls les chiens sont les bienvenus. Cependant il vous faudra présenter
@@ -214,8 +214,8 @@ const FAQ: Faq[] = [
     question: "Est-il possible de se restaurer sur place ?",
     answer: (
       <>
-        L’espace restauration du FoodTruck se trouve à l’extérieur du bâtiment,
-        sur le parvis.
+        L’espace restauration se trouve à l’extérieur du bâtiment. Il y en aura
+        pour tous les goûts et tous les régimes !
       </>
     ),
   },
@@ -287,7 +287,7 @@ const FAQ: Faq[] = [
     question: "Comment trouver l’exposant qui m’intéresse ?",
     answer: (
       <>
-        La liste des exposants est disponible dans la page{" "}
+        La liste des exposants est disponible sur la page{" "}
         <ProseInlineAction asChild>
           <Link to={Routes.exhibitors()} prefetch="intent">
             Exposants
@@ -310,7 +310,7 @@ const FAQ: Faq[] = [
     question: "Y a-t-il des animations sur le salon ?",
     answer: (
       <>
-        Oui, le programme des animations est disponible dans la page{" "}
+        Oui, le programme des animations est disponible sur la page{" "}
         <ProseInlineAction asChild>
           <Link to={Routes.program()} prefetch="intent">
             Programme
