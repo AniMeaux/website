@@ -11,7 +11,10 @@ import { NotFoundResponse } from "#core/response.server.ts";
 import { ScrollRestorationLocationState } from "#core/scrollRestoration.ts";
 import { Icon } from "#generated/icon.tsx";
 import { PhotoLocationState } from "#previousEditions/photoLocationState.ts";
-import { PreviousEdition } from "#previousEditions/previousEdition.tsx";
+import {
+  PREVIOUS_EDITION_PHOTOGRAPH,
+  PreviousEdition,
+} from "#previousEditions/previousEdition.tsx";
 import { cn } from "@animeaux/core";
 import { Primitive } from "@animeaux/react-primitives";
 import type { LoaderArgs } from "@remix-run/node";
@@ -61,12 +64,19 @@ export async function loader({ params }: LoaderArgs) {
 }
 
 export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
+  let title = getErrorTitle(404);
+
+  if (data != null) {
+    const photograph = PREVIOUS_EDITION_PHOTOGRAPH[data.edition];
+
+    title =
+      photograph == null
+        ? `Photo du salon ${data.edition}.`
+        : `Photo du salon ${data.edition} par ${photograph}.`;
+  }
+
   return createSocialMeta({
-    title: getPageTitle(
-      data != null
-        ? `Photo du salon ${data.edition} par Julia Pommé Photographe.`
-        : getErrorTitle(404),
-    ),
+    title: getPageTitle(title),
   });
 };
 
@@ -85,6 +95,8 @@ export default function Route() {
       ? undefined
       : Math.min(size.width, (size.height * image.width) / image.height);
 
+  const photograph = PREVIOUS_EDITION_PHOTOGRAPH[edition];
+
   return (
     <main className="overflow-hidden w-full h-full max-h-full px-safe-0 py-safe-0 grid grid-cols-[72px_minmax(0px,1fr)_72px] grid-rows-[72px_minmax(0px,1fr)_72px]">
       <div
@@ -96,7 +108,11 @@ export default function Route() {
           // of the next one.
           // With this key, the placeholder of the next image will be visible.
           key={image.id}
-          alt={`Photo du salon ${edition} par Julia Pommé Photographe.`}
+          alt={
+            photograph == null
+              ? `Photo du salon ${edition}.`
+              : `Photo du salon ${edition} par ${photograph}.`
+          }
           fallbackSize="2048"
           image={image}
           sizes={{ default: "100vw" }}

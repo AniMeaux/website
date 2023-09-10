@@ -367,7 +367,7 @@ function ExhibitorsSection() {
         </Section.Title>
 
         <p className="text-center md:text-left">
-          Cette année, XX exposants vous attendent répartis dans 3 grandes
+          Cette année, 60 exposants vous attendent répartis dans 3 grandes
           catégories.
         </p>
 
@@ -408,8 +408,19 @@ function RaffleSection() {
 
   return (
     <Section>
-      <Section.ImageAside className="aspect-square justify-items-center items-center">
-        <p>Touver une image</p>
+      <Section.ImageAside>
+        <DynamicImage
+          image={{
+            id: "/show/b2b5b577-99be-49e0-b613-0990709388c9",
+            blurhash: "UTL3}s4.?^xb_NRkWCbu%gtRIVWVxbM{M_aK",
+          }}
+          alt="Chien tenant un cadeau dans la gueule."
+          aspectRatio="1:1"
+          fallbackSize="1024"
+          sizes={{ default: "384px", md: "50vw", lg: "512px" }}
+          shape={{ id: "variant10", color: "prussianBlue", side: "left" }}
+          className="w-full"
+        />
       </Section.ImageAside>
 
       <Section.TextAside>
