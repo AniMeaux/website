@@ -5,7 +5,8 @@ import { PrismaClient } from "@prisma/client";
 import { csvFormat } from "d3-dsv";
 import { DateTime, Settings } from "luxon";
 import { mkdir, writeFile } from "node:fs/promises";
-import { join, relative, resolve } from "path";
+import { dirname, join, relative, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 import type { ConditionalKeys } from "type-fest";
 
 // We're not supposed to have invalid date objects.
@@ -47,7 +48,11 @@ downloadAllData()
 
 async function downloadAllData() {
   const folderName = DateTime.now().toISO();
-  const folderPath = resolve(__dirname, "../../dumps/", folderName);
+  const folderPath = resolve(
+    dirname(fileURLToPath(import.meta.url)),
+    "../../dumps/",
+    folderName,
+  );
   const relativeFolderPath = relative(process.cwd(), folderPath);
 
   console.log(`💾 Data will be downloaded in folder: ${relativeFolderPath}`);
