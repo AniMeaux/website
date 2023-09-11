@@ -1,8 +1,10 @@
 #!/usr/bin/env ts-node
 
-import { Client } from "pg";
+import pg from "pg";
 import { from, to } from "pg-copy-streams";
 import invariant from "tiny-invariant";
+
+const { Client } = pg;
 
 const TABLES_NAME = [
   "Animal",

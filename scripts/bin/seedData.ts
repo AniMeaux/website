@@ -1,7 +1,7 @@
 #!/usr/bin/env ts-node
 
-import { ACTIVE_ANIMAL_STATUS, NON_ACTIVE_ANIMAL_STATUS } from "@animeaux/core";
-import { generatePasswordHash } from "@animeaux/password";
+import core from "@animeaux/core";
+import password from "@animeaux/password";
 import { fakerFR as faker } from "@faker-js/faker";
 import type { Prisma } from "@prisma/client";
 import {
@@ -16,6 +16,9 @@ import {
   UserGroup,
 } from "@prisma/client";
 import { DateTime } from "luxon";
+
+const { ACTIVE_ANIMAL_STATUS, NON_ACTIVE_ANIMAL_STATUS } = core;
+const { generatePasswordHash } = password;
 
 const prisma = new PrismaClient();
 
