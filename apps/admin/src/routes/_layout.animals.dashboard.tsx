@@ -221,7 +221,7 @@ function AnimalsToVaccinateCard() {
                   sort: AnimalSort.VACCINATION,
                   nextVaccinationDateEnd: DateTime.now()
                     .plus({ days: 15 })
-                    .toJSDate(),
+                    .toISODate(),
                   statuses: new Set(ACTIVE_ANIMAL_STATUS),
                 }),
               }}
@@ -290,7 +290,7 @@ function AnimalsToSterilizeCard() {
                   sort: AnimalSort.BIRTHDATE,
                   species: new Set([Species.CAT, Species.DOG]),
                   sterilizations: new Set([AnimalSterilization.NO]),
-                  birthdateEnd: DateTime.now().minus({ months: 6 }).toJSDate(),
+                  birthdateEnd: DateTime.now().minus({ months: 6 }).toISODate(),
                   statuses: new Set(
                     SORTED_STATUS.filter(
                       (status) =>

@@ -2,6 +2,7 @@
   "name": "@animeaux/scripts",
   "version": "1.0.0",
   "private": true,
+  "type": "module",
   "bin": {
     "copy-data": "./bin/copyData.ts",
     "download-all-data": "./bin/downloadAllData.ts",

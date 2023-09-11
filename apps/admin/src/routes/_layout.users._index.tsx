@@ -67,10 +67,13 @@ export async function loader({ request }: LoaderArgs) {
   }
 
   if (userSearchParams.displayName != null) {
-    const users = await algolia.user.search({
-      displayName: userSearchParams.displayName,
-      groups: userSearchParams.groups,
+    const users = await algolia.user.findMany({
+      where: {
+        displayName: userSearchParams.displayName,
+        groups: userSearchParams.groups,
+      },
     });
+
     where.push({ id: { in: users.map((user) => user.id) } });
   }
 

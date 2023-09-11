@@ -7,6 +7,7 @@ import { Routes } from "#core/navigation.ts";
 import { FosterFamilyAvatar } from "#fosterFamilies/avatar.tsx";
 import { getShortLocation } from "#fosterFamilies/location.tsx";
 import { Icon } from "#generated/icon.tsx";
+import type { FosterFamilyHit } from "@animeaux/algolia-client";
 import { cn } from "@animeaux/core";
 import type { FosterFamily } from "@prisma/client";
 import { forwardRef } from "react";
@@ -77,9 +78,7 @@ export const FosterFamilySuggestionItem = forwardRef<
     React.ComponentPropsWithoutRef<typeof SuggestionItem>,
     "leftAdornment" | "label" | "secondaryLabel"
   > & {
-    fosterFamily: Pick<FosterFamily, "city" | "id" | "zipCode"> & {
-      highlightedDisplayName: string;
-    };
+    fosterFamily: FosterFamilyHit & Pick<FosterFamily, "city" | "zipCode">;
   }
 >(function FosterFamilySuggestionItem({ fosterFamily, ...rest }, ref) {
   return (
@@ -87,7 +86,7 @@ export const FosterFamilySuggestionItem = forwardRef<
       {...rest}
       ref={ref}
       leftAdornment={<FosterFamilyAvatar fosterFamily={fosterFamily} />}
-      label={fosterFamily.highlightedDisplayName}
+      label={fosterFamily._highlighted.displayName}
       secondaryLabel={getShortLocation(fosterFamily)}
     />
   );

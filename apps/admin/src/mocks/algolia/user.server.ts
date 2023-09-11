@@ -5,8 +5,8 @@ import {
   createPostHandlers,
   highlightValue,
 } from "#mocks/algolia/shared.server.ts";
-import type { UserFromAlgolia } from "#users/algolia.server.ts";
 import type { Hit, SearchResponse } from "@algolia/client-search";
+import type { SerializeObject, User } from "@animeaux/algolia-client";
 import type { Prisma } from "@prisma/client";
 import { promiseHash } from "remix-utils";
 
@@ -40,7 +40,7 @@ export const userHandlers = [
         }),
       });
 
-      const responseBody: SearchResponse<UserFromAlgolia> = {
+      const responseBody: SearchResponse<SerializeObject<User>> = {
         nbHits: totalCount,
         page,
         nbPages: Math.ceil(totalCount / body.hitsPerPage),
@@ -50,7 +50,7 @@ export const userHandlers = [
         params: "",
         renderingContent: {},
         processingTimeMS: 1,
-        hits: users.map<Hit<UserFromAlgolia>>((user) => ({
+        hits: users.map<Hit<SerializeObject<User>>>((user) => ({
           ...user,
           objectID: user.id,
           _highlightResult: {

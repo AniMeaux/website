@@ -247,7 +247,7 @@ function Combobox({
               {...combobox.getItemProps({ item: color, index })}
               isValue={selectedColor?.id === color.id}
               leftAdornment={<Icon id="palette" />}
-              label={color.highlightedName}
+              label={color._highlighted.name}
             />
           ))}
 

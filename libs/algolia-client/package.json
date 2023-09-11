@@ -12,13 +12,16 @@
     "generate": "# Nothing to generate"
   },
   "peerDependencies": {
+    "@animeaux/core": "*",
     "@algolia/client-search": "^4.19.1",
     "@prisma/client": "^5.2.0",
     "algoliasearch": "^4.19.1",
+    "lodash.chunk": "^4.2.0",
     "tiny-invariant": "^1.3.1",
     "zod": "^3.22.2"
   },
   "devDependencies": {
+    "@types/lodash.chunk": "^4.2.7",
     "type-fest": "^4.3.1"
   }
 }

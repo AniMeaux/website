@@ -122,12 +122,12 @@ export class CurrentUserDbDelegate {
   }
 
   async updateProfile(
-    userId: User["id"],
+    id: User["id"],
     data: Pick<User, "email" | "displayName">,
   ) {
     await prisma.$transaction(async (prisma) => {
       try {
-        await prisma.user.update({ where: { id: userId }, data });
+        await prisma.user.update({ where: { id }, data });
       } catch (error) {
         if (error instanceof Prisma.PrismaClientKnownRequestError) {
           if (error.code === PrismaErrorCodes.UNIQUE_CONSTRAINT_FAILED) {
@@ -138,7 +138,7 @@ export class CurrentUserDbDelegate {
         throw error;
       }
 
-      await algolia.user.update(userId, { displayName: data.displayName });
+      await algolia.user.update({ ...data, id });
     });
   }
 

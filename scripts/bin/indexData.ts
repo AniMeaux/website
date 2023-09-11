@@ -5,8 +5,18 @@ import { AlgoliaClient } from "@animeaux/algolia-client";
 import { PrismaClient } from "@prisma/client";
 import { z } from "zod";
 
+const ENTITY_NAMES = [
+  "animal",
+  "breed",
+  "color",
+  "fosterFamily",
+  "user",
+] as const;
+
+type EntityName = (typeof ENTITY_NAMES)[number];
+
 const entityName = z
-  .enum(["all", "animals", "breeds", "colors", "fosterFamilies", "users"])
+  .union([z.literal("all"), z.enum(ENTITY_NAMES)])
   .parse(process.argv[2]);
 
 const algolia = new AlgoliaClient();
@@ -22,147 +32,86 @@ indexData()
 async function indexData() {
   console.log(`🗄 Indexing ${entityName}...`);
 
-  const promises: Promise<void>[] = [];
-
-  if (entityName === "all" || entityName === "animals") {
-    promises.push(indexAnimals());
+  if (entityName === "all") {
+    await Promise.all(Object.values(indexors).map((indexor) => indexor()));
+  } else {
+    await indexors[entityName]();
   }
-
-  if (entityName === "all" || entityName === "breeds") {
-    promises.push(indexBreeds());
-  }
-
-  if (entityName === "all" || entityName === "colors") {
-    promises.push(indexColors());
-  }
-
-  if (entityName === "all" || entityName === "fosterFamilies") {
-    promises.push(indexFosterFamilies());
-  }
-
-  if (entityName === "all" || entityName === "users") {
-    promises.push(indexUsers());
-  }
-
-  await Promise.all(promises);
 
   console.log(`🎉 Data is indexed`);
 }
 
-async function indexAnimals() {
-  const animals = await prisma.animal.findMany({
-    select: {
-      id: true,
-      name: true,
-      alias: true,
-      species: true,
-      status: true,
-      pickUpLocation: true,
-      pickUpDate: true,
-    },
-  });
+const indexors: Record<EntityName, () => Promise<void>> = {
+  async animal() {
+    const animals = await prisma.animal.findMany({
+      select: {
+        id: true,
+        name: true,
+        alias: true,
+        species: true,
+        status: true,
+        pickUpLocation: true,
+        pickUpDate: true,
+      },
+    });
 
-  await algolia.animal.clearObjects();
-  await algolia.animal.saveObjects(animals);
+    await algolia.animal.deleteAll();
+    await algolia.animal.uploadSettings();
+    await algolia.animal.createMany(animals);
 
-  const settings: Parameters<typeof algolia.animal.setSettings>[0] = {
-    searchableAttributes: ["name", "alias"],
-    attributesForFaceting: ["searchable(pickUpLocation)", "species", "status"],
-    customRanking: ["desc(pickUpDate)"],
-    maxFacetHits: 20,
-  };
+    console.log(`- 👍 Indexed ${animals.length} animals`);
+  },
 
-  await algolia.animal.setSettings(settings);
+  async breed() {
+    const breeds = await prisma.breed.findMany({
+      select: { id: true, name: true, species: true },
+    });
 
-  console.log(
-    `- 👍 Indexed ${animals.length} animals with settings:`,
-    JSON.stringify(settings),
-  );
-}
+    await algolia.breed.deleteAll();
+    await algolia.breed.uploadSettings();
+    await algolia.breed.createMany(breeds);
 
-async function indexBreeds() {
-  const breeds = await prisma.breed.findMany({
-    select: { id: true, name: true, species: true },
-  });
+    console.log(`- 👍 Indexed ${breeds.length} breeds`);
+  },
 
-  await algolia.breed.clearObjects();
-  await algolia.breed.saveObjects(breeds);
+  async color() {
+    const colors = await prisma.color.findMany({
+      select: { id: true, name: true },
+    });
 
-  const settings: Parameters<typeof algolia.breed.setSettings>[0] = {
-    searchableAttributes: ["name"],
-    attributesForFaceting: ["species"],
-  };
+    await algolia.color.deleteAll();
+    await algolia.color.uploadSettings();
+    await algolia.color.createMany(colors);
 
-  await algolia.breed.setSettings(settings);
+    console.log(`- 👍 Indexed ${colors.length} colors`);
+  },
 
-  console.log(
-    `- 👍 Indexed ${breeds.length} breeds with settings:`,
-    JSON.stringify(settings),
-  );
-}
+  async fosterFamily() {
+    const fosterFamilies = await prisma.fosterFamily.findMany({
+      select: { id: true, displayName: true },
+    });
 
-async function indexColors() {
-  const colors = await prisma.color.findMany({
-    select: { id: true, name: true },
-  });
+    await algolia.fosterFamily.deleteAll();
+    await algolia.fosterFamily.uploadSettings();
+    await algolia.fosterFamily.createMany(fosterFamilies);
 
-  await algolia.color.clearObjects();
-  await algolia.color.saveObjects(colors);
+    console.log(`- 👍 Indexed ${fosterFamilies.length} foster families`);
+  },
 
-  const settings: Parameters<typeof algolia.color.setSettings>[0] = {
-    searchableAttributes: ["name"],
-  };
+  async user() {
+    const users = await prisma.user.findMany({
+      select: {
+        id: true,
+        displayName: true,
+        groups: true,
+        isDisabled: true,
+      },
+    });
 
-  await algolia.color.setSettings(settings);
+    await algolia.user.deleteAll();
+    await algolia.user.uploadSettings();
+    await algolia.user.createMany(users);
 
-  console.log(
-    `- 👍 Indexed ${colors.length} colors with settings:`,
-    JSON.stringify(settings),
-  );
-}
-
-async function indexUsers() {
-  const users = await prisma.user.findMany({
-    select: {
-      id: true,
-      displayName: true,
-      groups: true,
-      isDisabled: true,
-    },
-  });
-
-  await algolia.user.clearObjects();
-  await algolia.user.saveObjects(users);
-
-  const settings: Parameters<typeof algolia.user.setSettings>[0] = {
-    searchableAttributes: ["displayName"],
-    attributesForFaceting: ["groups", "isDisabled"],
-  };
-
-  await algolia.user.setSettings(settings);
-
-  console.log(
-    `- 👍 Indexed ${users.length} users with settings:`,
-    JSON.stringify(settings),
-  );
-}
-
-async function indexFosterFamilies() {
-  const fosterFamilies = await prisma.fosterFamily.findMany({
-    select: { id: true, displayName: true },
-  });
-
-  await algolia.fosterFamily.clearObjects();
-  await algolia.fosterFamily.saveObjects(fosterFamilies);
-
-  const settings: Parameters<typeof algolia.fosterFamily.setSettings>[0] = {
-    searchableAttributes: ["displayName"],
-  };
-
-  await algolia.fosterFamily.setSettings(settings);
-
-  console.log(
-    `- 👍 Indexed ${fosterFamilies.length} foster families with settings:`,
-    JSON.stringify(settings),
-  );
-}
+    console.log(`- 👍 Indexed ${users.length} users`);
+  },
+};

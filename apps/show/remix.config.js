@@ -4,6 +4,7 @@
 module.exports = {
   appDirectory: "./src",
   cacheDirectory: "./node_modules/.cache/remix",
+  watchPaths: ["../../libs/"],
   serverModuleFormat: "cjs",
   tailwind: true,
   postcss: true,

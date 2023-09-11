@@ -1,4 +1,3 @@
-import type { AnimalFromAlgolia } from "#animals/algolia.server.ts";
 import { algolia } from "#core/algolia/algolia.server.ts";
 import { prisma } from "#core/prisma.server.ts";
 import {
@@ -12,6 +11,7 @@ import type {
   SearchForFacetValuesResponse,
   SearchResponse,
 } from "@algolia/client-search";
+import type { Animal, SerializeObject } from "@animeaux/algolia-client";
 import type { Prisma } from "@prisma/client";
 import { promiseHash } from "remix-utils";
 import invariant from "tiny-invariant";
@@ -51,7 +51,7 @@ export const animalHandlers = [
         }),
       });
 
-      const responseBody: SearchResponse<AnimalFromAlgolia> = {
+      const responseBody: SearchResponse<SerializeObject<Animal>> = {
         nbHits: totalCount,
         page,
         nbPages: Math.ceil(totalCount / body.hitsPerPage),
@@ -61,7 +61,7 @@ export const animalHandlers = [
         params: "",
         renderingContent: {},
         processingTimeMS: 1,
-        hits: animals.map<Hit<AnimalFromAlgolia>>((animal) => ({
+        hits: animals.map<Hit<SerializeObject<Animal>>>((animal) => ({
           ...animal,
           pickUpDate: animal.pickUpDate.getTime(),
           objectID: animal.id,
