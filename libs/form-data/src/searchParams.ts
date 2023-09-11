@@ -54,11 +54,11 @@ export function createSearchParams<
       return schema.parse(toObject(searchParams));
     },
 
-    stringify(data: Partial<InferType<TSchemaDeclaration>>) {
+    stringify(data: Partial<SerializeObject<InferType<TSchemaDeclaration>>>) {
       return this.create(data).toString();
     },
 
-    create(data: Partial<InferType<TSchemaDeclaration>>) {
+    create(data: Partial<SerializeObject<InferType<TSchemaDeclaration>>>) {
       const searchParams = new URLSearchParams();
       this.set(searchParams, data);
       return searchParams;
@@ -67,10 +67,10 @@ export function createSearchParams<
     set(
       searchParams: URLSearchParams,
       nextData:
-        | Partial<InferType<TSchemaDeclaration>>
+        | Partial<SerializeObject<InferType<TSchemaDeclaration>>>
         | ((
             nextData: InferType<TSchemaDeclaration>,
-          ) => Partial<InferType<TSchemaDeclaration>>),
+          ) => Partial<SerializeObject<InferType<TSchemaDeclaration>>>),
     ) {
       const data =
         typeof nextData === "function"
@@ -86,13 +86,17 @@ export function createSearchParams<
 
         searchParams.delete(key);
 
+        if (value == null) {
+          return;
+        }
+
         if (Array.isArray(value) || value instanceof Set) {
-          value.forEach((value) => {
+          return value.forEach((value) => {
             searchParams.append(key, String(value));
           });
-        } else if (value != null) {
-          searchParams.set(key, String(value));
         }
+
+        searchParams.set(key, String(value));
       });
     },
 
@@ -105,6 +109,11 @@ export function createSearchParams<
     },
   };
 }
+
+type SerializeValue<TValue> = TValue extends Date ? string : TValue;
+type SerializeObject<TObject extends object> = {
+  [key in keyof TObject]: SerializeValue<TObject[key]>;
+};
 
 type KeyMappingDeclaration = {
   key: string;

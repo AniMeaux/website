@@ -22,6 +22,7 @@
   },
   "dependencies": {
     "@algolia/client-search": "^4.19.1",
+    "@animeaux/algolia-client": "*",
     "@animeaux/core": "*",
     "@animeaux/form-data": "*",
     "@animeaux/password": "*",

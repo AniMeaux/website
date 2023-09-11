@@ -6,6 +6,7 @@ import {
   ReferencedError,
 } from "#core/errors.server.ts";
 import { prisma } from "#core/prisma.server.ts";
+import type { ColorHit } from "@animeaux/algolia-client";
 import type { Color } from "@prisma/client";
 import { Prisma } from "@prisma/client";
 
@@ -18,7 +19,7 @@ export class ColorDbDelegate {
           select: { id: true },
         });
 
-        await algolia.color.create(color.id, { name: data.name });
+        await algolia.color.create({ ...data, id: color.id });
       } catch (error) {
         if (error instanceof Prisma.PrismaClientKnownRequestError) {
           if (error.code === PrismaErrorCodes.UNIQUE_CONSTRAINT_FAILED) {
@@ -45,7 +46,7 @@ export class ColorDbDelegate {
         throw error;
       }
 
-      await algolia.color.update(id, { name: data.name });
+      await algolia.color.update({ ...data, id });
     });
   }
 
@@ -79,7 +80,7 @@ export class ColorDbDelegate {
   }: {
     name?: string;
     maxHitCount: number;
-  }) {
+  }): Promise<ColorHit[]> {
     // Don't use Algolia when there are no text search.
     if (name == null) {
       const colors = await prisma.color.findMany({
@@ -90,11 +91,14 @@ export class ColorDbDelegate {
 
       return colors.map((color) => ({
         ...color,
-        highlightedName: color.name,
+        _highlighted: { name: color.name },
       }));
     }
 
-    return await algolia.color.search({ name, hitsPerPage: maxHitCount });
+    return await algolia.color.findMany({
+      where: { name },
+      hitsPerPage: maxHitCount,
+    });
   }
 }
 

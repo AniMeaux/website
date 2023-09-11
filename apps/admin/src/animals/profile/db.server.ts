@@ -26,12 +26,12 @@ type AnimalDraftProfile = Pick<AnimalDraft, ProfileKeys>;
 export class BreedNotForSpeciesError extends Error {}
 
 export class AnimalProfileDbDelegate {
-  async update(animalId: Animal["id"], data: AnimalProfile) {
+  async update(id: Animal["id"], data: AnimalProfile) {
     await prisma.$transaction(async (prisma) => {
       await this.validate(prisma, data);
 
       try {
-        await prisma.animal.update({ where: { id: animalId }, data });
+        await prisma.animal.update({ where: { id }, data });
       } catch (error) {
         if (error instanceof Prisma.PrismaClientKnownRequestError) {
           if (error.code === PrismaErrorCodes.NOT_FOUND) {
@@ -42,11 +42,7 @@ export class AnimalProfileDbDelegate {
         throw error;
       }
 
-      await algolia.animal.update(animalId, {
-        alias: data.alias,
-        name: data.name,
-        species: data.species,
-      });
+      await algolia.animal.update({ ...data, id });
     });
   }
 

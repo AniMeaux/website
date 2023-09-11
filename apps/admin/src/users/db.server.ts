@@ -6,6 +6,7 @@ import {
   ReferencedError,
 } from "#core/errors.server.ts";
 import { prisma } from "#core/prisma.server.ts";
+import type { UserHit } from "@animeaux/algolia-client";
 import { generatePasswordHash } from "@animeaux/password";
 import type { User } from "@prisma/client";
 import { Prisma, UserGroup } from "@prisma/client";
@@ -26,7 +27,7 @@ export class UserDbDelegate {
     groups?: UserGroup[];
     isDisabled?: boolean;
     maxHitCount: number;
-  }) {
+  }): Promise<UserHit[]> {
     // Don't use Algolia when there are no text search.
     if (displayName == null) {
       const users = await prisma.user.findMany({
@@ -34,41 +35,36 @@ export class UserDbDelegate {
           groups: groups.length === 0 ? undefined : { hasSome: groups },
           isDisabled: isDisabled ?? undefined,
         },
-        select: { id: true, displayName: true },
+        select: { id: true, displayName: true, groups: true, isDisabled: true },
         orderBy: { displayName: "asc" },
         take: maxHitCount,
       });
 
       return users.map((user) => ({
         ...user,
-        highlightedDisplayName: user.displayName,
+        _highlighted: { displayName: user.displayName },
       }));
     }
 
-    return await algolia.user.search({
-      displayName,
-      groups,
-      isDisabled,
+    return await algolia.user.findMany({
+      where: { displayName, groups, isDisabled },
       hitsPerPage: maxHitCount,
     });
   }
 
   async setIsDisabled(
-    userId: User["id"],
+    id: User["id"],
     currentUser: Pick<User, "id">,
     isDisabled: boolean,
   ) {
     // Don't allow a user to disable himself.
-    if (currentUser.id === userId) {
+    if (currentUser.id === id) {
       throw new DisableMyselfError();
     }
 
     await prisma.$transaction(async (prisma) => {
       try {
-        await prisma.user.update({
-          where: { id: userId },
-          data: { isDisabled },
-        });
+        await prisma.user.update({ where: { id }, data: { isDisabled } });
       } catch (error) {
         if (error instanceof Prisma.PrismaClientKnownRequestError) {
           if (error.code === PrismaErrorCodes.NOT_FOUND) {
@@ -79,7 +75,7 @@ export class UserDbDelegate {
         throw error;
       }
 
-      await algolia.user.update(userId, { isDisabled });
+      await algolia.user.update({ id, isDisabled });
     });
   }
 
@@ -138,7 +134,8 @@ export class UserDbDelegate {
           select: { id: true, isDisabled: true },
         });
 
-        await algolia.user.create(user.id, {
+        await algolia.user.create({
+          id: user.id,
           displayName,
           groups,
           isDisabled: user.isDisabled,
@@ -196,7 +193,7 @@ export class UserDbDelegate {
           select: { id: true },
         });
 
-        await algolia.user.update(user.id, { displayName, groups });
+        await algolia.user.update({ id: user.id, displayName, groups });
       } catch (error) {
         if (error instanceof Prisma.PrismaClientKnownRequestError) {
           switch (error.code) {

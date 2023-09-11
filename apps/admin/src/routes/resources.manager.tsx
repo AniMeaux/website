@@ -238,7 +238,7 @@ function Combobox({
               {...combobox.getItemProps({ item: manager, index })}
               isValue={selectedManager?.id === manager.id}
               leftAdornment={<UserAvatar user={manager} />}
-              label={manager.highlightedDisplayName}
+              label={manager._highlighted.displayName}
             />
           ))}
 

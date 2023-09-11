@@ -55,9 +55,10 @@ export async function loader({ request }: LoaderArgs) {
   }
 
   if (fosterFamilySearchParams.displayName != null) {
-    const fosterFamilies = await algolia.fosterFamily.search({
-      displayName: fosterFamilySearchParams.displayName,
+    const fosterFamilies = await algolia.fosterFamily.findMany({
+      where: { displayName: fosterFamilySearchParams.displayName },
     });
+
     where.push({
       id: { in: fosterFamilies.map((fosterFamily) => fosterFamily.id) },
     });

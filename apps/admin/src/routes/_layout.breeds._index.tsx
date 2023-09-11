@@ -49,10 +49,13 @@ export async function loader({ request }: LoaderArgs) {
   }
 
   if (breedSearchParams.name != null) {
-    const breeds = await algolia.breed.search({
-      name: breedSearchParams.name,
-      species: breedSearchParams.species,
+    const breeds = await algolia.breed.findMany({
+      where: {
+        name: breedSearchParams.name,
+        species: breedSearchParams.species,
+      },
     });
+
     where.push({ id: { in: breeds.map((breed) => breed.id) } });
   }
 
