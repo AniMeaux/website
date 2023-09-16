@@ -1,0 +1,51 @@
+app = "animeaux-db-3ac2"
+primary_region = "cdg"
+kill_signal = "SIGTERM"
+kill_timeout = "5m0s"
+
+[experimental]
+  enable_consul = true
+
+[env]
+  PRIMARY_REGION = "cdg"
+
+[[mounts]]
+  source = "pg_data_machines"
+  destination = "/data"
+
+[checks]
+  [checks.pg]
+    port = 5500
+    type = "http"
+    interval = "15s"
+    timeout = "10s"
+    grace_period = "30s"
+    method = "get"
+    path = "/flycheck/pg"
+    protocol = "http"
+    tls_skip_verify = false
+  [checks.role]
+    port = 5500
+    type = "http"
+    interval = "15s"
+    timeout = "10s"
+    grace_period = "30s"
+    method = "get"
+    path = "/flycheck/role"
+    protocol = "http"
+    tls_skip_verify = false
+
+  [checks.vm]
+    port = 5500
+    type = "http"
+    interval = "1m0s"
+    timeout = "10s"
+    grace_period = "1s"
+    method = "get"
+    path = "/flycheck/vm"
+    protocol = "http"
+    tls_skip_verify = false
+
+[metrics]
+  port = 9187
+  path = "/metrics"
