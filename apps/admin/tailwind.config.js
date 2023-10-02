@@ -1,6 +1,8 @@
 const defaultTheme = require("tailwindcss/defaultTheme");
 const plugin = require("tailwindcss/plugin");
 const animation = require("@animeaux/tailwind-animation");
+const flattenColorPalette =
+  require("tailwindcss/lib/util/flattenColorPalette").default;
 
 /**
  * @type {import('tailwindcss').Config}
@@ -53,12 +55,14 @@ module.exports = {
       },
 
       colors: {
+        inheritBg: "var(--background-color)",
         white: "#ffffff",
         black: "#000000",
       },
 
       aspectRatio: {
         "4/3": "4 / 3",
+        "A4-landscape": "29.7 / 21",
       },
 
       ringWidth: {
@@ -173,6 +177,17 @@ module.exports = {
           "line-height": "20px",
         },
       });
+    }),
+
+    plugin(({ matchUtilities, theme }) => {
+      matchUtilities(
+        {
+          "bg-var": (value) => ({
+            "--background-color": value,
+          }),
+        },
+        { values: flattenColorPalette(theme("colors")) },
+      );
     }),
 
     plugin(({ matchUtilities, theme }) => {

@@ -49,7 +49,7 @@ function MediumLayout({
           side="bottom"
           sideOffset={theme.spacing[1]}
           collisionPadding={theme.spacing[1]}
-          className="z-20 w-[var(--radix-popover-trigger-width)] bg-white shadow-ambient rounded-1 flex flex-col data-[state=open]:animation-enter data-[state=closed]:animation-exit animation-opacity-0 data-[side=bottom]:-animation-translate-y-2 data-[side=top]:animation-translate-y-2 animation-duration-100"
+          className="z-20 w-[var(--radix-popover-trigger-width)] bg-white bg-var-white shadow-ambient rounded-1 flex flex-col data-[state=open]:animation-enter data-[state=closed]:animation-exit animation-opacity-0 data-[side=bottom]:-animation-translate-y-2 data-[side=top]:animation-translate-y-2 animation-duration-100"
         >
           {content}
         </Popover.Content>
@@ -127,7 +127,7 @@ function SmallComboboxLayout({
 }: ResourceComboboxLayoutProps) {
   return (
     <div className="flex flex-col gap-1">
-      <header className="sticky top-0 z-20 px-safe-1 pt-safe-0.5 pb-0.5 flex-none bg-white flex flex-col">
+      <header className="sticky top-0 z-20 px-safe-1 pt-safe-0.5 pb-0.5 flex-none bg-white bg-var-white flex flex-col">
         {label}
         {input(
           <Dialog.Close asChild>

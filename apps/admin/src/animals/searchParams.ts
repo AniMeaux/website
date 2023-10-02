@@ -1,7 +1,7 @@
 import { endOfDay, startOfDay } from "#core/dates.ts";
 import { zsp } from "#core/schemas.tsx";
 import { AnimalAge } from "@animeaux/core";
-import { createSearchParams } from "@animeaux/form-data";
+import { SearchParamsDelegate } from "@animeaux/form-data";
 import {
   AdoptionOption,
   PickUpReason,
@@ -32,7 +32,7 @@ export enum AnimalVaccination {
   NOT_MANDATORY = "NM",
 }
 
-export const AnimalSearchParams = createSearchParams({
+export const AnimalSearchParams = SearchParamsDelegate.create({
   adoptionDateEnd: { key: "ade", schema: zsp.date(endOfDay) },
   adoptionDateStart: { key: "ads", schema: zsp.date(startOfDay) },
   adoptionOptions: { key: "ao", schema: zsp.set(z.nativeEnum(AdoptionOption)) },
@@ -60,6 +60,6 @@ export const AnimalSearchParams = createSearchParams({
   nextVaccinationDateStart: { key: "nvds", schema: zsp.date(startOfDay) },
 });
 
-export const PickUpLocationSearchParams = createSearchParams({
+export const PickUpLocationSearchParams = SearchParamsDelegate.create({
   text: { key: "q", schema: zsp.text() },
 });

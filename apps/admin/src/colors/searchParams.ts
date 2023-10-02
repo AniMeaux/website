@@ -1,5 +1,5 @@
 import { zsp } from "#core/schemas.tsx";
-import { createSearchParams } from "@animeaux/form-data";
+import { SearchParamsDelegate } from "@animeaux/form-data";
 
 export enum ColorSort {
   NAME = "N",
@@ -8,7 +8,7 @@ export enum ColorSort {
 
 export const COLOR_DEFAULT_SORT = ColorSort.NAME;
 
-export const ColorSearchParams = createSearchParams({
+export const ColorSearchParams = SearchParamsDelegate.create({
   name: { key: "q", schema: zsp.text() },
   sort: zsp.requiredEnum(ColorSort, COLOR_DEFAULT_SORT),
 });

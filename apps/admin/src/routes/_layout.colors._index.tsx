@@ -18,7 +18,10 @@ import { BadRequestResponse, NotFoundResponse } from "#core/response.server.ts";
 import { PageSearchParams } from "#core/searchParams.ts";
 import { assertCurrentUserHasGroups } from "#currentUser/groups.server.ts";
 import { Icon } from "#generated/icon.tsx";
-import { createFormData, useOptimisticSearchParams } from "@animeaux/form-data";
+import {
+  FormDataDelegate,
+  useOptimisticSearchParams,
+} from "@animeaux/form-data";
 import type { Prisma } from "@prisma/client";
 import { UserGroup } from "@prisma/client";
 import type { ActionArgs, LoaderArgs, SerializeFrom } from "@remix-run/node";
@@ -85,7 +88,7 @@ export const meta: V2_MetaFunction = () => {
   return [{ title: getPageTitle("Couleurs") }];
 };
 
-const DeleteActionFormData = createFormData(
+const DeleteActionFormData = FormDataDelegate.create(
   z.object({
     id: z.string().uuid(),
   }),

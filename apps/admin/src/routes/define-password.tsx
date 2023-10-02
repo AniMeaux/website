@@ -9,7 +9,8 @@ import { getPageTitle } from "#core/pageTitle.ts";
 import { NextSearchParams } from "#core/searchParams.ts";
 import { Icon } from "#generated/icon.tsx";
 import nameAndLogo from "#images/nameAndLogo.svg";
-import { createFormData } from "@animeaux/form-data";
+import { cn } from "@animeaux/core";
+import { FormDataDelegate } from "@animeaux/form-data";
 import type { ActionArgs, LoaderArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import type { V2_MetaFunction } from "@remix-run/react";
@@ -18,7 +19,7 @@ import { useEffect, useRef } from "react";
 import { z } from "zod";
 
 export const handle: RouteHandle = {
-  htmlBackgroundColor: "bg-white",
+  htmlBackgroundColor: cn("bg-white bg-var-white"),
 };
 
 export async function loader({ request }: LoaderArgs) {
@@ -43,7 +44,7 @@ export const meta: V2_MetaFunction = () => {
   return [{ title: getPageTitle("Définir un mot de passe") }];
 };
 
-const ActionFormData = createFormData(
+const ActionFormData = FormDataDelegate.create(
   z.object({
     password: z.string().min(1, "Veuillez entrer un mot de passe"),
   }),

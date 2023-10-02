@@ -53,7 +53,7 @@ export default function Route() {
       <CurrentUserSideBar />
 
       <div className="flex flex-col" style={{ "--header-height": "80px" }}>
-        <header className="w-full bg-white px-safe-1 pt-safe-0.5 pb-0.5 grid grid-cols-[minmax(0px,1fr)_auto] items-center justify-between gap-1 md:sticky md:top-0 md:z-20 md:pt-safe-1 md:pr-safe-2 md:pb-1 md:pl-2 md:grid-cols-[minmax(200px,500px)_auto] md:gap-4 md:border-l md:border-gray-50">
+        <header className="w-full bg-white bg-var-white px-safe-1 pt-safe-0.5 pb-0.5 grid grid-cols-[minmax(0px,1fr)_auto] items-center justify-between gap-1 md:sticky md:top-0 md:z-20 md:pt-safe-1 md:pr-safe-2 md:pb-1 md:pl-2 md:grid-cols-[minmax(200px,500px)_auto] md:gap-4 md:border-l md:border-gray-50">
           <GlobalSearch />
           <CurrentUserMenu />
         </header>
@@ -231,7 +231,7 @@ function CurrentUserMenu() {
 
   return (
     <DropdownSheet open={isOpened} onOpenChange={setIsOpened}>
-      <DropdownSheet.Trigger className="rounded-0.5 flex items-center gap-1 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white">
+      <DropdownSheet.Trigger className="rounded-0.5 flex items-center gap-1 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-inheritBg">
         <span className="hidden md:inline-flex">{currentUser.displayName}</span>
 
         <span className="hidden md:inline-flex">

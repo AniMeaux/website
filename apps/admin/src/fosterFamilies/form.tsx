@@ -10,7 +10,7 @@ import { RequiredStar } from "#core/formElements/requiredStar.tsx";
 import { Textarea } from "#core/formElements/textarea.tsx";
 import { Separator } from "#core/layout/separator.tsx";
 import { Icon } from "#generated/icon.tsx";
-import { createFormData } from "@animeaux/form-data";
+import { FormDataDelegate } from "@animeaux/form-data";
 import type { FosterFamily } from "@prisma/client";
 import { Species } from "@prisma/client";
 import type { SerializeFrom } from "@remix-run/node";
@@ -20,7 +20,7 @@ import { useEffect, useRef } from "react";
 import { z } from "zod";
 import { zfd } from "zod-form-data";
 
-export const ActionFormData = createFormData(
+export const ActionFormData = FormDataDelegate.create(
   z.object({
     address: z.string().trim().min(1, "Veuillez entrer une adresse"),
     city: z.string().trim().min(1, "Veuillez choisir une ville"),

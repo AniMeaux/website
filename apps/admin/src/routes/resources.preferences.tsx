@@ -1,7 +1,7 @@
 import { db } from "#core/db.server.ts";
 import { Routes } from "#core/navigation.ts";
 import { commitCurrentUserPreferences } from "#currentUser/preferences.server.ts";
-import { createFormData } from "@animeaux/form-data";
+import { FormDataDelegate } from "@animeaux/form-data";
 import type { ActionArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { useFetcher } from "@remix-run/react";
@@ -14,7 +14,7 @@ export async function loader() {
   return redirect(Routes.home.toString());
 }
 
-const ActionFormData = createFormData(
+const ActionFormData = FormDataDelegate.create(
   z.object({
     isSideBarCollapsed: zfd.checkbox(),
   }),

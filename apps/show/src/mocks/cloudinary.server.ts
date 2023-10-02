@@ -1,11 +1,11 @@
 import type { CloudinaryApiResponse } from "#core/cloudinary/shared.server.ts";
-import { createSearchParams } from "@animeaux/form-data";
+import { SearchParamsDelegate } from "@animeaux/form-data";
 import { rest } from "msw";
 import { v4 as uuid } from "uuid";
 import { z } from "zod";
 import { zfd } from "zod-form-data";
 
-const SearchParams = createSearchParams({
+const SearchParams = SearchParamsDelegate.create({
   maxResults: {
     key: "max_results",
     schema: zfd.numeric(

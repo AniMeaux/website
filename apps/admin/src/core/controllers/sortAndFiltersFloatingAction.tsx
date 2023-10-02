@@ -35,7 +35,7 @@ export function SortAndFiltersFloatingAction({
         />
 
         <Dialog.Content className="fixed top-0 left-0 bottom-0 right-0 z-30 overflow-y-auto bg-gray-50 flex flex-col gap-1">
-          <header className="sticky top-0 z-20 min-h-[50px] px-safe-1 pt-safe-0.5 pb-0.5 flex-none bg-white flex items-center gap-1">
+          <header className="sticky top-0 z-20 min-h-[50px] px-safe-1 pt-safe-0.5 pb-0.5 flex-none bg-white bg-var-white flex items-center gap-1">
             <Dialog.Title className="flex-1 text-title-section-large">
               {hasSort ? "Trier et filtrer" : "Filtrer"}
             </Dialog.Title>
@@ -51,7 +51,7 @@ export function SortAndFiltersFloatingAction({
             <Card.Content>{children}</Card.Content>
           </Card>
 
-          <footer className="sticky bottom-0 z-20 px-safe-1 pt-1 pb-safe-1 flex-none bg-white flex">
+          <footer className="sticky bottom-0 z-20 px-safe-1 pt-1 pb-safe-1 flex-none bg-white bg-var-white flex">
             <Dialog.Close asChild>
               <Action className="w-full">
                 Voir les résultats ({totalCount})

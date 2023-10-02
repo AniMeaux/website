@@ -19,7 +19,7 @@ export function TabBar({ children }: { children?: React.ReactNode }) {
         className="flex pt-0.5 pb-safe-0.5 before:h-4 before:w-1 md:hidden"
       />
 
-      <nav className="fixed z-20 bottom-0 left-0 right-0 bg-white px-safe-1 pt-0.5 pb-safe-0.5 grid grid-flow-col gap-1 md:hidden">
+      <nav className="fixed z-20 bottom-0 left-0 right-0 bg-white bg-var-white px-safe-1 pt-0.5 pb-safe-0.5 grid grid-flow-col gap-1 md:hidden">
         {children}
       </nav>
     </>
@@ -77,7 +77,7 @@ TabBar.Menu = function TabBarMenu({
           side="top"
           sideOffset={theme.spacing[1]}
           collisionPadding={theme.spacing[1]}
-          className="z-20 shadow-ambient rounded-1 w-[200px] bg-white p-1 flex flex-col gap-1 data-[state=open]:animation-enter data-[state=closed]:animation-exit animation-opacity-0 animation-translate-y-2 animation-duration-100"
+          className="z-20 shadow-ambient rounded-1 w-[200px] bg-white bg-var-white p-1 flex flex-col gap-1 data-[state=open]:animation-enter data-[state=closed]:animation-exit animation-opacity-0 animation-translate-y-2 animation-duration-100"
         >
           {children}
         </DropdownMenu.Content>

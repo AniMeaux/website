@@ -101,7 +101,7 @@ function Document({ children }: { children: React.ReactNode }) {
   return (
     <html
       lang="fr"
-      className={cn(htmlBackgroundColor ?? "bg-gray-50", {
+      className={cn(htmlBackgroundColor ?? "bg-gray-50 bg-var-gray-50", {
         "h-full": isFullHeight,
       })}
     >

@@ -18,7 +18,7 @@ import {
 import { Form } from "#core/formElements/form.tsx";
 import { ImageInput } from "#core/formElements/imageInput.tsx";
 import { Icon } from "#generated/icon.tsx";
-import { createFormData } from "@animeaux/form-data";
+import { FormDataDelegate } from "@animeaux/form-data";
 import type { Animal } from "@prisma/client";
 import type { SerializeFrom } from "@remix-run/node";
 import type { FetcherWithComponents } from "@remix-run/react";
@@ -28,7 +28,7 @@ import invariant from "tiny-invariant";
 import { z } from "zod";
 import { zfd } from "zod-form-data";
 
-export const ActionFormData = createFormData(
+export const ActionFormData = FormDataDelegate.create(
   z.object({
     pictures: zfd.repeatable(
       z.array(z.string()).min(1, "Veuillez ajouter au moins une photo"),
