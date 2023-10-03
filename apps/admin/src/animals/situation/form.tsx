@@ -28,7 +28,7 @@ import { FosterFamilyInput } from "#routes/resources.foster-family.tsx";
 import { ManagerInput } from "#routes/resources.manager.tsx";
 import { PickUpLocationInput } from "#routes/resources.pick-up-location.tsx";
 import { hasGroups } from "#users/groups.tsx";
-import { createFormData } from "@animeaux/form-data";
+import { FormDataDelegate } from "@animeaux/form-data";
 import type { AnimalDraft, FosterFamily, User } from "@prisma/client";
 import {
   AdoptionOption,
@@ -46,7 +46,7 @@ import { useEffect, useRef, useState } from "react";
 import { z } from "zod";
 import { zfd } from "zod-form-data";
 
-export const ActionFormData = createFormData(
+export const ActionFormData = FormDataDelegate.create(
   z.object({
     adoptionDate: zfd.text(
       z.coerce

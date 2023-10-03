@@ -2,13 +2,23 @@ import { getAllAnimalPictures } from "#animals/pictures/allPictures.ts";
 import type { AnimalPictures } from "#animals/pictures/db.server.ts";
 import { AnimalPictureDbDelegate } from "#animals/pictures/db.server.ts";
 import { AnimalProfileDbDelegate } from "#animals/profile/db.server.ts";
+import type { AnimalSearchParams } from "#animals/searchParams";
+import {
+  AnimalSort,
+  AnimalSterilization,
+  AnimalVaccination,
+} from "#animals/searchParams";
 import { AnimalSituationDbDelegate } from "#animals/situation/db.server.ts";
+import { SORTED_SPECIES } from "#animals/species";
 import { algolia } from "#core/algolia/algolia.server.ts";
 import { deleteImage } from "#core/cloudinary.server.ts";
 import { NotFoundError, PrismaErrorCodes } from "#core/errors.server.ts";
 import { prisma } from "#core/prisma.server.ts";
+import { ANIMAL_AGE_RANGE_BY_SPECIES } from "@animeaux/core";
+import type { SearchParamsDelegate } from "@animeaux/form-data";
 import type { Animal, AnimalDraft } from "@prisma/client";
-import { Prisma } from "@prisma/client";
+import { Prisma, Species, Status } from "@prisma/client";
+import { DateTime } from "luxon";
 import invariant from "tiny-invariant";
 
 export class AnimalDbDelegate {
@@ -94,6 +104,205 @@ export class AnimalDbDelegate {
       return { ...hit, ...animal };
     });
   }
+
+  async createFindManyParams(
+    searchParams: SearchParamsDelegate.Infer<typeof AnimalSearchParams>,
+  ) {
+    const where: Prisma.AnimalWhereInput[] = [];
+
+    if (searchParams.species.size > 0) {
+      where.push({ species: { in: Array.from(searchParams.species) } });
+    }
+
+    if (searchParams.ages.size > 0) {
+      const now = DateTime.now();
+
+      const conditions: Prisma.AnimalWhereInput[] = [];
+      SORTED_SPECIES.forEach((species) => {
+        searchParams.ages.forEach((age) => {
+          const ageRange = ANIMAL_AGE_RANGE_BY_SPECIES[species]?.[age];
+          if (ageRange != null) {
+            conditions.push({
+              species,
+              birthdate: {
+                gt: now.minus({ months: ageRange.maxMonths }).toJSDate(),
+                lte: now.minus({ months: ageRange.minMonths }).toJSDate(),
+              },
+            });
+          }
+        });
+      });
+
+      where.push({ OR: conditions });
+    }
+
+    if (
+      searchParams.birthdateStart != null ||
+      searchParams.birthdateEnd != null
+    ) {
+      const birthdate: Prisma.DateTimeFilter = {};
+
+      if (searchParams.birthdateStart != null) {
+        birthdate.gte = searchParams.birthdateStart;
+      }
+
+      if (searchParams.birthdateEnd != null) {
+        birthdate.lte = searchParams.birthdateEnd;
+      }
+
+      where.push({ birthdate });
+    }
+
+    if (searchParams.statuses.size > 0) {
+      where.push({ status: { in: Array.from(searchParams.statuses) } });
+    }
+
+    if (searchParams.managersId.size > 0) {
+      where.push({
+        managerId: { in: Array.from(searchParams.managersId) },
+      });
+    }
+
+    if (searchParams.fosterFamiliesId.size > 0) {
+      where.push({
+        fosterFamilyId: {
+          in: Array.from(searchParams.fosterFamiliesId),
+        },
+      });
+    }
+
+    if (
+      searchParams.pickUpDateStart != null ||
+      searchParams.pickUpDateEnd != null
+    ) {
+      const pickUpDate: Prisma.DateTimeFilter = {};
+
+      if (searchParams.pickUpDateStart != null) {
+        pickUpDate.gte = searchParams.pickUpDateStart;
+      }
+
+      if (searchParams.pickUpDateEnd != null) {
+        pickUpDate.lte = searchParams.pickUpDateEnd;
+      }
+
+      where.push({ pickUpDate });
+    }
+
+    if (searchParams.pickUpLocations.size > 0) {
+      where.push({
+        pickUpLocation: {
+          in: Array.from(searchParams.pickUpLocations),
+          mode: "insensitive",
+        },
+      });
+    }
+
+    if (searchParams.pickUpReasons.size > 0) {
+      where.push({
+        pickUpReason: { in: Array.from(searchParams.pickUpReasons) },
+      });
+    }
+
+    if (searchParams.nameOrAlias != null) {
+      const animals = await algolia.animal.findMany({
+        where: {
+          nameOrAlias: searchParams.nameOrAlias,
+          pickUpDate: {
+            gte: searchParams.pickUpDateStart,
+            lte: searchParams.pickUpDateEnd,
+          },
+          pickUpLocation: searchParams.pickUpLocations,
+          species: searchParams.species,
+          status: searchParams.statuses,
+        },
+      });
+
+      where.push({ id: { in: animals.map((animal) => animal.id) } });
+    }
+
+    if (searchParams.adoptionOptions.size > 0) {
+      where.push({
+        status: { in: [Status.ADOPTED] },
+        adoptionOption: {
+          in: Array.from(searchParams.adoptionOptions),
+        },
+      });
+    }
+
+    if (
+      searchParams.adoptionDateStart != null ||
+      searchParams.adoptionDateEnd != null
+    ) {
+      const adoptionDate: Prisma.DateTimeFilter = {};
+
+      if (searchParams.adoptionDateStart != null) {
+        adoptionDate.gte = searchParams.adoptionDateStart;
+      }
+
+      if (searchParams.adoptionDateEnd != null) {
+        adoptionDate.lte = searchParams.adoptionDateEnd;
+      }
+
+      where.push({
+        status: { in: [Status.ADOPTED] },
+        adoptionDate,
+      });
+    }
+
+    if (searchParams.fivResults.size > 0) {
+      where.push({
+        species: Species.CAT,
+        screeningFiv: { in: Array.from(searchParams.fivResults) },
+      });
+    }
+
+    if (searchParams.felvResults.size > 0) {
+      where.push({
+        species: Species.CAT,
+        screeningFelv: { in: Array.from(searchParams.felvResults) },
+      });
+    }
+
+    if (searchParams.sterilizations.size > 0) {
+      where.push({
+        OR: Array.from(searchParams.sterilizations).map(
+          (sterilization) => ANIMAL_STERILIZATION_WHERE[sterilization],
+        ),
+      });
+    }
+
+    if (searchParams.vaccination.size > 0) {
+      where.push({
+        OR: Array.from(searchParams.vaccination).map(
+          (vaccination) => ANIMAL_VACCINATION_WHERE[vaccination],
+        ),
+      });
+    }
+
+    if (
+      searchParams.nextVaccinationDateStart != null ||
+      searchParams.nextVaccinationDateEnd != null
+    ) {
+      const nextVaccinationDate: Prisma.DateTimeFilter = {};
+
+      if (searchParams.nextVaccinationDateStart != null) {
+        nextVaccinationDate.gte = searchParams.nextVaccinationDateStart;
+      }
+
+      if (searchParams.nextVaccinationDateEnd != null) {
+        nextVaccinationDate.lte = searchParams.nextVaccinationDateEnd;
+      }
+
+      where.push({ nextVaccinationDate });
+    }
+
+    const orderBy = ANIMAL_ORDER_BY[searchParams.sort];
+
+    return {
+      orderBy,
+      where: { AND: where },
+    } satisfies Prisma.AnimalFindManyArgs;
+  }
 }
 
 export class PickUpLocationDbDelegate {
@@ -112,3 +321,44 @@ export class PickUpLocationDbDelegate {
 }
 
 class StepNotValidError extends Error {}
+
+const ANIMAL_ORDER_BY: Record<
+  AnimalSort,
+  Prisma.AnimalFindManyArgs["orderBy"]
+> = {
+  [AnimalSort.BIRTHDATE]: { birthdate: "desc" },
+  [AnimalSort.NAME]: { name: "asc" },
+  [AnimalSort.PICK_UP]: { pickUpDate: "desc" },
+  [AnimalSort.VACCINATION]: { nextVaccinationDate: "asc" },
+};
+
+const ANIMAL_STERILIZATION_WHERE: Record<
+  AnimalSterilization,
+  Prisma.AnimalWhereInput
+> = {
+  [AnimalSterilization.NO]: {
+    isSterilized: false,
+    isSterilizationMandatory: true,
+  },
+  [AnimalSterilization.NOT_MANDATORY]: {
+    isSterilized: false,
+    isSterilizationMandatory: false,
+  },
+  [AnimalSterilization.YES]: {
+    isSterilized: true,
+    isSterilizationMandatory: true,
+  },
+};
+
+const ANIMAL_VACCINATION_WHERE: Record<
+  AnimalVaccination,
+  Prisma.AnimalWhereInput
+> = {
+  [AnimalVaccination.NONE_PLANNED]: {
+    isVaccinationMandatory: true,
+    nextVaccinationDate: null,
+  },
+  [AnimalVaccination.NOT_MANDATORY]: {
+    isVaccinationMandatory: false,
+  },
+};

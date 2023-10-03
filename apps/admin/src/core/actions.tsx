@@ -43,7 +43,7 @@ export const Action = Object.assign(
           {...rest}
           ref={ref}
           className={cn(
-            "relative disabled:opacity-50 flex-none flex items-center justify-center gap-0.5 duration-100 ease-in-out active:scale-95 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white",
+            "relative disabled:opacity-50 flex-none flex items-center justify-center gap-0.5 duration-100 ease-in-out active:scale-95 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-inheritBg",
             VARIANT_CLASS_NAME[variant]({ isIconOnly }),
             COLOR_CLASS_NAMES[variant][color],
             className,
@@ -121,7 +121,7 @@ const COLOR_CLASS_NAMES: Record<ActionVariant, Record<ActionColor, string>> = {
   text: {
     black: "",
     blue: "text-blue-500 hover:text-blue-600",
-    gray: "text-gray-800 hover:text-gray-700",
+    gray: "text-gray-500 hover:text-gray-800",
     green: "text-green-600 hover:text-green-500",
     orange: "text-orange-500 hover:text-orange-600",
     red: "text-red-500 hover:text-red-600",
@@ -145,7 +145,7 @@ export const ProseInlineAction = forwardRef<
       {...rest}
       ref={ref}
       className={cn(
-        "relative text-body-emphasis after:absolute after:bottom-0 after:left-0 after:w-full after:border-b after:border-blue-500 hover:after:border-b-2 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white",
+        "relative text-body-emphasis after:absolute after:bottom-0 after:left-0 after:w-full after:border-b after:border-blue-500 hover:after:border-b-2 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-inheritBg",
         className,
       )}
     />

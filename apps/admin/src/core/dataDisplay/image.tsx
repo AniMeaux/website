@@ -18,7 +18,7 @@ export function isImageOverSize(image: ImageFileOrId) {
 
 // Ordered by decreasing size.
 const IMAGE_SIZES = ["2048", "1536", "1024", "512", "256", "128"] as const;
-type ImageSize = (typeof IMAGE_SIZES)[number];
+export type ImageSize = (typeof IMAGE_SIZES)[number];
 
 // Larger to smaller.
 const SCREEN_SIZES = orderBy(

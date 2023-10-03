@@ -27,7 +27,7 @@ export function ForsterFamilyItem({
       to={Routes.fosterFamilies.id(fosterFamily.id).toString()}
       className={cn(
         className,
-        "group rounded-0.5 py-1 grid grid-cols-[auto_minmax(0px,1fr)] grid-flow-col items-start gap-1 md:gap-2 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white",
+        "group rounded-0.5 py-1 grid grid-cols-[auto_minmax(0px,1fr)] grid-flow-col items-start gap-1 md:gap-2 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-inheritBg",
       )}
     >
       <FosterFamilyAvatar fosterFamily={fosterFamily} size="sm" />

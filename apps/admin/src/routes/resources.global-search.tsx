@@ -17,7 +17,7 @@ import { FosterFamilySuggestionItem } from "#fosterFamilies/item.tsx";
 import { FosterFamilySearchParams } from "#fosterFamilies/searchParams.ts";
 import { Icon } from "#generated/icon.tsx";
 import { cn } from "@animeaux/core";
-import { createSearchParams } from "@animeaux/form-data";
+import { SearchParamsDelegate } from "@animeaux/form-data";
 import type { User } from "@prisma/client";
 import { UserGroup } from "@prisma/client";
 import * as Dialog from "@radix-ui/react-dialog";
@@ -52,7 +52,7 @@ const SORTED_ENTITIES = orderBy(
   (entity) => ENTITY_TRANSLATION[entity],
 );
 
-const GlobalSearchParams = createSearchParams({
+const GlobalSearchParams = SearchParamsDelegate.create({
   text: { key: "q", schema: zsp.text() },
   entity: zsp.optionalEnum(Entity),
 });
@@ -245,7 +245,7 @@ export function GlobalSearch() {
           <Overlay className="opacity-0 md:opacity-100" />
         </Dialog.Overlay>
 
-        <Dialog.Content className="fixed top-0 left-0 bottom-0 right-0 z-30 overflow-y-auto bg-gray-50 flex flex-col md:top-[10vh] md:left-1/2 md:bottom-auto md:right-auto md:-translate-x-1/2 md:w-[550px] md:shadow-ambient md:bg-white md:rounded-1 md:data-[state=open]:animation-enter md:data-[state=closed]:animation-exit animation-opacity-0 animation-duration-100">
+        <Dialog.Content className="fixed top-0 left-0 bottom-0 right-0 z-30 overflow-y-auto bg-gray-50 flex flex-col md:top-[10vh] md:left-1/2 md:bottom-auto md:right-auto md:-translate-x-1/2 md:w-[550px] md:shadow-ambient md:bg-white md:bg-var-white md:rounded-1 md:data-[state=open]:animation-enter md:data-[state=closed]:animation-exit animation-opacity-0 animation-duration-100">
           {entity != null ? (
             <Combobox
               entity={entity}
@@ -394,7 +394,7 @@ function Combobox({
         </Dialog.Title>
       </VisuallyHidden.Root>
 
-      <header className="sticky top-0 z-20 flex-none bg-white flex flex-col md:pb-0.5">
+      <header className="sticky top-0 z-20 flex-none bg-white bg-var-white flex flex-col md:pb-0.5">
         <div className="px-safe-1 pt-safe-0.5 pb-0.5 flex flex-col md:px-1 md:pt-1 ">
           <Input
             {...combobox.getInputProps()}
@@ -431,7 +431,7 @@ function Combobox({
       </header>
 
       <section
-        className={cn("bg-white flex flex-col", {
+        className={cn("bg-white bg-var-white flex flex-col", {
           "p-1 md:border-t md:border-gray-100": visibleItems.length > 0,
         })}
       >
@@ -542,7 +542,7 @@ function TabInput(props: React.InputHTMLAttributes<HTMLInputElement>) {
   return (
     <input
       {...props}
-      className="peer appearance-none absolute -z-10 top-0 left-0 w-full h-full rounded-0.5 cursor-pointer transition-colors duration-100 ease-in-out group-hover:bg-gray-100 checked:bg-blue-50 group-hover:checked:bg-blue-50 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+      className="peer appearance-none absolute -z-10 top-0 left-0 w-full h-full rounded-0.5 cursor-pointer transition-colors duration-100 ease-in-out group-hover:bg-gray-100 checked:bg-blue-50 group-hover:checked:bg-blue-50 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-inheritBg"
     />
   );
 }

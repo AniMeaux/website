@@ -8,7 +8,7 @@ import { PageLayout } from "#core/layout/page.tsx";
 import { Routes, useBackIfPossible } from "#core/navigation.ts";
 import { getPageTitle } from "#core/pageTitle.ts";
 import { Icon } from "#generated/icon.tsx";
-import { createFormData } from "@animeaux/form-data";
+import { FormDataDelegate } from "@animeaux/form-data";
 import type { ActionArgs, LoaderArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import type { V2_MetaFunction } from "@remix-run/react";
@@ -31,7 +31,7 @@ export const meta: V2_MetaFunction = () => {
   return [{ title: getPageTitle("Modifier votre profil") }];
 };
 
-const ActionFormData = createFormData(
+const ActionFormData = FormDataDelegate.create(
   z.object({
     name: z.string().min(1, "Veuillez entrer un nom"),
     email: z.string().email("Veuillez entrer un email valide"),

@@ -18,7 +18,7 @@ import { PageSearchParams } from "#core/searchParams.ts";
 import { assertCurrentUserHasGroups } from "#currentUser/groups.server.ts";
 import { Icon } from "#generated/icon.tsx";
 import { cn } from "@animeaux/core";
-import { createFormData } from "@animeaux/form-data";
+import { FormDataDelegate } from "@animeaux/form-data";
 import { UserGroup } from "@prisma/client";
 import type { ActionArgs, LoaderArgs, SerializeFrom } from "@remix-run/node";
 import { json } from "@remix-run/node";
@@ -67,7 +67,7 @@ export const meta: V2_MetaFunction = () => {
   return [{ title: getPageTitle("Articles de presse") }];
 };
 
-const DeleteActionFormData = createFormData(
+const DeleteActionFormData = FormDataDelegate.create(
   z.object({
     id: z.string().uuid(),
   }),
@@ -173,7 +173,7 @@ function PressArticleItem({
     <BaseLink
       shouldOpenInNewTarget
       to={pressArticle.url}
-      className="group rounded-1 flex flex-col gap-0.5 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+      className="group rounded-1 flex flex-col gap-0.5 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-inheritBg"
     >
       <span className="relative flex flex-col">
         {pressArticle.image === null ? (

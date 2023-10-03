@@ -22,7 +22,7 @@ import { Separator } from "#core/layout/separator.tsx";
 import { Icon } from "#generated/icon.tsx";
 import { BreedInput } from "#routes/resources.breed.tsx";
 import { ColorInput } from "#routes/resources.color.tsx";
-import { createFormData } from "@animeaux/form-data";
+import { FormDataDelegate } from "@animeaux/form-data";
 import type { AnimalDraft, Breed, Color } from "@prisma/client";
 import { Gender, Species } from "@prisma/client";
 import type { SerializeFrom } from "@remix-run/node";
@@ -31,7 +31,7 @@ import { useLocation } from "@remix-run/react";
 import { useEffect, useRef, useState } from "react";
 import { z } from "zod";
 
-export const ActionFormData = createFormData(
+export const ActionFormData = FormDataDelegate.create(
   z.object({
     alias: z.string().trim(),
     birthdate: z.coerce.date({
