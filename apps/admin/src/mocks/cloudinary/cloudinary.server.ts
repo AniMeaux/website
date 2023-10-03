@@ -1,4 +1,4 @@
-import { createFormData } from "@animeaux/form-data";
+import { FormDataDelegate } from "@animeaux/form-data";
 import { faker } from "@faker-js/faker";
 import type { UploadHandler } from "@remix-run/node";
 import {
@@ -10,7 +10,7 @@ import type { UploadApiErrorResponse, UploadApiResponse } from "cloudinary";
 import { rest } from "msw";
 import { z } from "zod";
 
-const ActionFormData = createFormData(
+const ActionFormData = FormDataDelegate.create(
   z.object({
     folder: z.string().optional(),
     public_id: z.string(),

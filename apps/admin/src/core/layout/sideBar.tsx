@@ -17,7 +17,7 @@ export function SideBar({
   children,
 }: SideBarProps) {
   return (
-    <nav className="hidden sticky top-0 h-screen bg-white pl-safe-2 pt-safe-1 pb-safe-2 pr-2 md:flex">
+    <nav className="hidden sticky top-0 h-screen bg-white bg-var-white pl-safe-2 pt-safe-1 pb-safe-2 pr-2 md:flex">
       <div
         className={cn(
           "h-full flex flex-col gap-4 transition-[width] duration-200 ease-in-out",

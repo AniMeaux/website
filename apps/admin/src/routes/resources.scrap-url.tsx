@@ -4,7 +4,7 @@ import { Routes } from "#core/navigation.ts";
 import { BadRequestResponse } from "#core/response.server.ts";
 import { zsp } from "#core/schemas.tsx";
 import { assertCurrentUserHasGroups } from "#currentUser/groups.server.ts";
-import { createSearchParams } from "@animeaux/form-data";
+import { SearchParamsDelegate } from "@animeaux/form-data";
 import { UserGroup } from "@prisma/client";
 import type { LoaderArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
@@ -14,7 +14,7 @@ import { DateTime } from "luxon";
 import { useEffect, useMemo } from "react";
 import { z } from "zod";
 
-const ScrapUrlSearchParams = createSearchParams({
+const ScrapUrlSearchParams = SearchParamsDelegate.create({
   url: zsp.text(z.string().url()),
 });
 

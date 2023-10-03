@@ -5,7 +5,7 @@ import { Input } from "#core/formElements/input.tsx";
 import { RadioInput, RadioInputList } from "#core/formElements/radioInput.tsx";
 import { RequiredStar } from "#core/formElements/requiredStar.tsx";
 import { Icon } from "#generated/icon.tsx";
-import { createFormData } from "@animeaux/form-data";
+import { FormDataDelegate } from "@animeaux/form-data";
 import type { Breed } from "@prisma/client";
 import { Species } from "@prisma/client";
 import type { SerializeFrom } from "@remix-run/node";
@@ -13,7 +13,7 @@ import type { FetcherWithComponents } from "@remix-run/react";
 import { useEffect, useRef } from "react";
 import { z } from "zod";
 
-export const ActionFormData = createFormData(
+export const ActionFormData = FormDataDelegate.create(
   z.object({
     name: z.string().trim().min(1, "Veuillez entrer un nom"),
     species: z.nativeEnum(Species, {

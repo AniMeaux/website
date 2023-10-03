@@ -269,7 +269,7 @@ function HeaderCard() {
               .id(animal.id)
               .pictures.pictureId(animal.avatar)
               .toString()}
-            className="rounded-1 flex focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+            className="rounded-1 flex focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-inheritBg"
           >
             <AnimalAvatar animal={animal} loading="eager" size="xl" />
           </BaseLink>
@@ -809,7 +809,7 @@ function PicturesCard() {
                 .id(animal.id)
                 .pictures.pictureId(pictureId)
                 .toString()}
-              className="aspect-4/3 rounded-0.5 flex transition-transform duration-100 ease-in-out active:scale-95 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+              className="aspect-4/3 rounded-0.5 flex transition-transform duration-100 ease-in-out active:scale-95 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-inheritBg"
             >
               <DynamicImage
                 imageId={pictureId}

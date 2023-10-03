@@ -3,111 +3,121 @@ import invariant from "tiny-invariant";
 import { z } from "zod";
 import { toObject } from "./toObject";
 
-export function createSearchParams<
-  const TSchemaDeclaration extends Record<
-    string,
-    z.ZodType | KeyMappingDeclaration
-  >,
->(schemaDeclaration: TSchemaDeclaration) {
-  const attributeToKey = Object.fromEntries(
-    Object.entries(schemaDeclaration).map(([attribute, schemaDeclaration]) => [
-      attribute,
-      schemaDeclaration instanceof z.ZodType
-        ? attribute
-        : schemaDeclaration.key,
-    ]),
-  ) as {
-    [key in keyof TSchemaDeclaration]: TSchemaDeclaration[key] extends KeyMappingDeclaration
-      ? TSchemaDeclaration[key]["key"]
-      : key;
-  };
+export namespace SearchParamsDelegate {
+  export type Infer<TSearchParams extends { parse: (...args: any[]) => any }> =
+    ReturnType<TSearchParams["parse"]>;
 
-  const keyToAttribute = Object.fromEntries(
-    Object.entries(attributeToKey).map(([attribute, key]) => [key, attribute]),
-  );
-
-  const schema = z
-    .object(
-      Object.fromEntries(
-        Object.entries(schemaDeclaration).map(
-          ([attribute, schemaDeclaration]) =>
-            schemaDeclaration instanceof z.ZodType
-              ? [attribute, schemaDeclaration]
-              : [schemaDeclaration.key, schemaDeclaration.schema],
-        ),
+  export function create<
+    const TSchemaDeclaration extends Record<
+      string,
+      z.ZodType | KeyMappingDeclaration
+    >,
+  >(schemaDeclaration: TSchemaDeclaration) {
+    const attributeToKey = Object.fromEntries(
+      Object.entries(schemaDeclaration).map(
+        ([attribute, schemaDeclaration]) => [
+          attribute,
+          schemaDeclaration instanceof z.ZodType
+            ? attribute
+            : schemaDeclaration.key,
+        ],
       ),
-    )
-    .transform(
-      (data) =>
-        Object.fromEntries(
-          Object.entries(data).map(([key, value]) => [
-            keyToAttribute[key],
-            value,
-          ]),
-        ) as InferType<TSchemaDeclaration>,
+    ) as {
+      [key in keyof TSchemaDeclaration]: TSchemaDeclaration[key] extends KeyMappingDeclaration
+        ? TSchemaDeclaration[key]["key"]
+        : key;
+    };
+
+    const keyToAttribute = Object.fromEntries(
+      Object.entries(attributeToKey).map(([attribute, key]) => [
+        key,
+        attribute,
+      ]),
     );
 
-  return {
-    keys: attributeToKey,
+    const schema = z
+      .object(
+        Object.fromEntries(
+          Object.entries(schemaDeclaration).map(
+            ([attribute, schemaDeclaration]) =>
+              schemaDeclaration instanceof z.ZodType
+                ? [attribute, schemaDeclaration]
+                : [schemaDeclaration.key, schemaDeclaration.schema],
+          ),
+        ),
+      )
+      .transform(
+        (data) =>
+          Object.fromEntries(
+            Object.entries(data).map(([key, value]) => [
+              keyToAttribute[key],
+              value,
+            ]),
+          ) as InferType<TSchemaDeclaration>,
+      );
 
-    parse(searchParams: URLSearchParams) {
-      return schema.parse(toObject(searchParams));
-    },
+    return {
+      keys: attributeToKey,
 
-    stringify(data: Partial<SerializeObject<InferType<TSchemaDeclaration>>>) {
-      return this.create(data).toString();
-    },
+      parse(searchParams: URLSearchParams) {
+        return schema.parse(toObject(searchParams));
+      },
 
-    create(data: Partial<SerializeObject<InferType<TSchemaDeclaration>>>) {
-      const searchParams = new URLSearchParams();
-      this.set(searchParams, data);
-      return searchParams;
-    },
+      stringify(data: Partial<SerializeObject<InferType<TSchemaDeclaration>>>) {
+        return this.create(data).toString();
+      },
 
-    set(
-      searchParams: URLSearchParams,
-      nextData:
-        | Partial<SerializeObject<InferType<TSchemaDeclaration>>>
-        | ((
-            nextData: InferType<TSchemaDeclaration>,
-          ) => Partial<SerializeObject<InferType<TSchemaDeclaration>>>),
-    ) {
-      const data =
-        typeof nextData === "function"
-          ? nextData(this.parse(searchParams))
-          : nextData;
+      create(data: Partial<SerializeObject<InferType<TSchemaDeclaration>>>) {
+        const searchParams = new URLSearchParams();
+        this.set(searchParams, data);
+        return searchParams;
+      },
 
-      Object.entries(data).forEach(([attribute, value]) => {
-        const key = attributeToKey[attribute];
-        invariant(
-          key != null,
-          "The key should exists in the schema declaration.",
-        );
+      set(
+        searchParams: URLSearchParams,
+        nextData:
+          | Partial<SerializeObject<InferType<TSchemaDeclaration>>>
+          | ((
+              nextData: InferType<TSchemaDeclaration>,
+            ) => Partial<SerializeObject<InferType<TSchemaDeclaration>>>),
+      ) {
+        const data =
+          typeof nextData === "function"
+            ? nextData(this.parse(searchParams))
+            : nextData;
 
-        searchParams.delete(key);
+        Object.entries(data).forEach(([attribute, value]) => {
+          const key = attributeToKey[attribute];
+          invariant(
+            key != null,
+            "The key should exists in the schema declaration.",
+          );
 
-        if (value == null) {
-          return;
-        }
+          searchParams.delete(key);
 
-        if (Array.isArray(value) || value instanceof Set) {
-          return value.forEach((value) => {
-            searchParams.append(key, String(value));
-          });
-        }
+          if (value == null) {
+            return;
+          }
 
-        searchParams.set(key, String(value));
-      });
-    },
+          if (Array.isArray(value) || value instanceof Set) {
+            return value.forEach((value) => {
+              searchParams.append(key, String(value));
+            });
+          }
 
-    isEmpty(searchParams: URLSearchParams) {
-      return this.areEqual(searchParams, new URLSearchParams());
-    },
+          searchParams.set(key, String(value));
+        });
+      },
 
-    areEqual(a: URLSearchParams, b: URLSearchParams) {
-      return isEqual(this.parse(a), this.parse(b));
-    },
-  };
+      isEmpty(searchParams: URLSearchParams) {
+        return this.areEqual(searchParams, new URLSearchParams());
+      },
+
+      areEqual(a: URLSearchParams, b: URLSearchParams) {
+        return isEqual(this.parse(a), this.parse(b));
+      },
+    };
+  }
 }
 
 type SerializeValue<TValue> = TValue extends Date ? string : TValue;

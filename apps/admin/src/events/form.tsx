@@ -15,7 +15,7 @@ import { SwitchInput } from "#core/formElements/switchInput.tsx";
 import { Textarea } from "#core/formElements/textarea.tsx";
 import { Separator } from "#core/layout/separator.tsx";
 import { Icon } from "#generated/icon.tsx";
-import { createFormData } from "@animeaux/form-data";
+import { FormDataDelegate } from "@animeaux/form-data";
 import type { Event } from "@prisma/client";
 import type { SerializeFrom } from "@remix-run/node";
 import type { FetcherWithComponents } from "@remix-run/react";
@@ -25,7 +25,7 @@ import invariant from "tiny-invariant";
 import { z } from "zod";
 import { zfd } from "zod-form-data";
 
-export const ActionFormData = createFormData(
+export const ActionFormData = FormDataDelegate.create(
   z.object({
     description: z.string().trim().min(1, "Veuillez entrer une description"),
     endDate: z.coerce.date({

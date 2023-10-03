@@ -1,6 +1,6 @@
 import { endOfDay, startOfDay } from "#core/dates.ts";
 import { zsp } from "#core/schemas.tsx";
-import { createSearchParams } from "@animeaux/form-data";
+import { SearchParamsDelegate } from "@animeaux/form-data";
 import { UserGroup } from "@prisma/client";
 import { z } from "zod";
 
@@ -11,7 +11,7 @@ export enum UserSort {
 
 export const USER_DEFAULT_SORT = UserSort.NAME;
 
-export const UserSearchParams = createSearchParams({
+export const UserSearchParams = SearchParamsDelegate.create({
   displayName: { key: "q", schema: zsp.text() },
   groups: {
     key: "group",

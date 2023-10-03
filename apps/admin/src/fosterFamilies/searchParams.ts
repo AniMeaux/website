@@ -1,10 +1,10 @@
 import { zsp } from "#core/schemas.tsx";
-import { createSearchParams } from "@animeaux/form-data";
+import { SearchParamsDelegate } from "@animeaux/form-data";
 import { Species } from "@prisma/client";
 import { z } from "zod";
 import { zfd } from "zod-form-data";
 
-export const FosterFamilySearchParams = createSearchParams({
+export const FosterFamilySearchParams = SearchParamsDelegate.create({
   displayName: { key: "q", schema: zsp.text() },
   cities: { key: "city", schema: zsp.set(zfd.text()) },
   speciesAlreadyPresent: {

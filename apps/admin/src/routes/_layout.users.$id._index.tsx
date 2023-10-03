@@ -29,7 +29,7 @@ import { Icon } from "#generated/icon.tsx";
 import { UserAvatar } from "#users/avatar.tsx";
 import { DeleteMyselfError, DisableMyselfError } from "#users/db.server.ts";
 import { GROUP_ICON, GROUP_TRANSLATION, hasGroups } from "#users/groups.tsx";
-import { createFormData } from "@animeaux/form-data";
+import { FormDataDelegate } from "@animeaux/form-data";
 import type { Prisma, User } from "@prisma/client";
 import { UserGroup } from "@prisma/client";
 import type { ActionArgs, LoaderArgs } from "@remix-run/node";
@@ -148,7 +148,7 @@ export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
   return [{ title: getPageTitle(user.displayName) }];
 };
 
-const DisableActionFormData = createFormData(
+const DisableActionFormData = FormDataDelegate.create(
   z.object({
     isDisabled: zfd.checkbox(),
   }),

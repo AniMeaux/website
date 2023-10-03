@@ -1,6 +1,17 @@
-export function Spinner() {
+import { cn } from "@animeaux/core";
+
+export function Spinner({
+  className,
+  ...rest
+}: React.ComponentPropsWithoutRef<"span">) {
   return (
-    <span className="relative w-[1em] h-[1em] inline-flex animate-spin-spinner">
+    <span
+      {...rest}
+      className={cn(
+        "relative w-[1em] h-[1em] inline-flex animate-spin-spinner",
+        className,
+      )}
+    >
       <svg
         viewBox="0 0 66 66"
         xmlns="http://www.w3.org/2000/svg"

@@ -23,7 +23,7 @@ import { useLoaderData } from "@remix-run/react";
 import { z } from "zod";
 
 export const handle: RouteHandle = {
-  htmlBackgroundColor: "bg-white",
+  htmlBackgroundColor: cn("bg-white bg-var-white"),
   isFullHeight: true,
 };
 
@@ -120,7 +120,7 @@ export default function Route() {
                 .pictures.pictureId(pictureId)
                 .toString()}
               replace
-              className="aspect-4/3 rounded-0.5 flex transition-transform duration-100 ease-in-out active:scale-95 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+              className="aspect-4/3 rounded-0.5 flex transition-transform duration-100 ease-in-out active:scale-95 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-inheritBg"
             >
               <DynamicImage
                 imageId={pictureId}

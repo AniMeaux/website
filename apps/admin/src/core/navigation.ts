@@ -82,6 +82,9 @@ export const Routes = {
   },
   definePassword: { toString: () => "/define-password" as const },
   downloads: {
+    animals: {
+      toString: () => "/downloads/animals" as const,
+    },
     picture: {
       id: (id: string) => ({
         toString: () => `/downloads/picture/${id}` as const,
