@@ -1,4 +1,4 @@
-import { SearchParamsDelegate } from "@animeaux/form-data";
+import { SearchParamsDelegate, zsp } from "@animeaux/form-data";
 import { z } from "zod";
 import { zfd } from "zod-form-data";
 
@@ -7,5 +7,5 @@ export const PageSearchParams = SearchParamsDelegate.create({
 });
 
 export const NextSearchParams = SearchParamsDelegate.create({
-  next: zfd.text(z.string().optional().catch(undefined)),
+  next: zsp.text(),
 });
