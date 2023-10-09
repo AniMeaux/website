@@ -29,6 +29,7 @@ import { ManagerInput } from "#routes/resources.manager.tsx";
 import { PickUpLocationInput } from "#routes/resources.pick-up-location.tsx";
 import { hasGroups } from "#users/groups.tsx";
 import { FormDataDelegate } from "@animeaux/form-data";
+import { zu } from "@animeaux/zod-utils";
 import type { AnimalDraft, FosterFamily, User } from "@prisma/client";
 import {
   AdoptionOption,
@@ -49,7 +50,7 @@ import { zfd } from "zod-form-data";
 export const ActionFormData = FormDataDelegate.create(
   z.object({
     adoptionDate: zfd.text(
-      z.coerce
+      zu
         .date({ invalid_type_error: "Veuillez entrer une date valide" })
         .optional(),
     ),
@@ -61,11 +62,11 @@ export const ActionFormData = FormDataDelegate.create(
     }),
     managerId: z.string().uuid().optional(),
     nextVaccinationDate: zfd.text(
-      z.coerce
+      zu
         .date({ invalid_type_error: "Veuillez entrer une date valide" })
         .optional(),
     ),
-    pickUpDate: z.coerce.date({
+    pickUpDate: zu.date({
       required_error: "Veuillez entrer une date",
       invalid_type_error: "Veuillez entrer une date valide",
     }),

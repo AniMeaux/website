@@ -1,23 +1,12 @@
+import { zu } from "@animeaux/zod-utils";
 import { z } from "zod";
 import { zfd } from "zod-form-data";
-
-export function getObjectSchemaKeys<TSchema extends z.ZodObject<any>>(
-  schema: TSchema,
-) {
-  const keys = Object.fromEntries(
-    Object.keys(schema.shape).map((key) => [key, key]),
-  );
-
-  return keys as {
-    [key in keyof Required<z.infer<TSchema>>]: string;
-  };
-}
 
 export namespace zsp {
   export function date(
     transform: (date: undefined | Date) => undefined | Date,
   ) {
-    return z.coerce.date().optional().transform(transform).catch(undefined);
+    return zu.date().optional().transform(transform).catch(undefined);
   }
 
   export function set<TSchema extends z.ZodType>(schema: TSchema) {
