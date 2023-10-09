@@ -1,6 +1,5 @@
 import { endOfDay, startOfDay } from "#core/dates.ts";
-import { zsp } from "#core/schemas.tsx";
-import { SearchParamsDelegate } from "@animeaux/form-data";
+import { SearchParamsDelegate, zsp } from "@animeaux/form-data";
 import { UserGroup } from "@prisma/client";
 import { z } from "zod";
 

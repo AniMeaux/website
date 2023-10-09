@@ -4,13 +4,11 @@ import sprite from "#generated/imageShapesSprite.svg";
 import type { ScreenSize } from "#generated/theme.ts";
 import { theme } from "#generated/theme.ts";
 import { cn } from "@animeaux/core";
-import { SearchParamsDelegate } from "@animeaux/form-data";
+import { SearchParamsDelegate, zsp } from "@animeaux/form-data";
 import { blurhashToDataUri } from "@unpic/placeholder";
 import orderBy from "lodash.orderby";
 import { useId } from "react";
 import invariant from "tiny-invariant";
-import { z } from "zod";
-import { zfd } from "zod-form-data";
 
 type ImageSize = (typeof IMAGE_SIZES)[number];
 type AspectRatio = "none" | "1:1" | "4:3" | "16:9" | "16:10";
@@ -199,7 +197,7 @@ export const ImageUrl = {
 };
 
 const BlurhashSearchParams = SearchParamsDelegate.create({
-  blurhash: zfd.text(z.string().optional().catch(undefined)),
+  blurhash: zsp.text(),
 });
 
 // Ordered by decreasing size.
