@@ -1,5 +1,4 @@
-import { zsp } from "#core/schemas.tsx";
-import { SearchParamsDelegate } from "@animeaux/form-data";
+import { SearchParamsDelegate, zsp } from "@animeaux/form-data";
 
 export enum ColorSort {
   NAME = "N",

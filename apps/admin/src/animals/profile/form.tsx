@@ -23,6 +23,7 @@ import { Icon } from "#generated/icon.tsx";
 import { BreedInput } from "#routes/resources.breed.tsx";
 import { ColorInput } from "#routes/resources.color.tsx";
 import { FormDataDelegate } from "@animeaux/form-data";
+import { zu } from "@animeaux/zod-utils";
 import type { AnimalDraft, Breed, Color } from "@prisma/client";
 import { Gender, Species } from "@prisma/client";
 import type { SerializeFrom } from "@remix-run/node";
@@ -34,7 +35,7 @@ import { z } from "zod";
 export const ActionFormData = FormDataDelegate.create(
   z.object({
     alias: z.string().trim(),
-    birthdate: z.coerce.date({
+    birthdate: zu.date({
       required_error: "Veuillez entrer une date",
       invalid_type_error: "Veuillez entrer une date valide",
     }),

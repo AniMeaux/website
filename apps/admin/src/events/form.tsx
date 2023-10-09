@@ -16,6 +16,7 @@ import { Textarea } from "#core/formElements/textarea.tsx";
 import { Separator } from "#core/layout/separator.tsx";
 import { Icon } from "#generated/icon.tsx";
 import { FormDataDelegate } from "@animeaux/form-data";
+import { zu } from "@animeaux/zod-utils";
 import type { Event } from "@prisma/client";
 import type { SerializeFrom } from "@remix-run/node";
 import type { FetcherWithComponents } from "@remix-run/react";
@@ -28,7 +29,7 @@ import { zfd } from "zod-form-data";
 export const ActionFormData = FormDataDelegate.create(
   z.object({
     description: z.string().trim().min(1, "Veuillez entrer une description"),
-    endDate: z.coerce.date({
+    endDate: zu.date({
       required_error: "Veuillez entrer une date de fin",
       invalid_type_error: "Veuillez entrer une date de fin valide",
     }),
@@ -36,7 +37,7 @@ export const ActionFormData = FormDataDelegate.create(
     isDraft: zfd.checkbox(),
     isFullDay: zfd.checkbox(),
     location: z.string().trim().min(1, "Veuillez entrer un lieu"),
-    startDate: z.coerce.date({
+    startDate: zu.date({
       required_error: "Veuillez entrer une date de début",
       invalid_type_error: "Veuillez entrer une date de début valide",
     }),
