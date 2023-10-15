@@ -1,9 +1,9 @@
+import { zu } from "@animeaux/zod-utils";
 import { createCookie, createCookieSessionStorage } from "@remix-run/node";
 import { createTypedSessionStorage } from "remix-utils";
-import { z } from "zod";
 
-const PreferencesSchema = z.object({
-  isSideBarCollapsed: z.boolean().catch(false),
+const PreferencesSchema = zu.object({
+  isSideBarCollapsed: zu.boolean().catch(false),
 });
 
 const sessionCookie = createCookie("preferences", {
@@ -27,7 +27,7 @@ export async function getCurrentUserPreferences(request?: Request) {
 }
 
 export async function commitCurrentUserPreferences(
-  preferences: z.infer<typeof PreferencesSchema>,
+  preferences: zu.infer<typeof PreferencesSchema>,
 ) {
   // Create new session with default values.
   const session = await sessionStorage.getSession();

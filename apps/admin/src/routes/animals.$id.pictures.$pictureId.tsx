@@ -15,17 +15,22 @@ import { assertCurrentUserHasGroups } from "#currentUser/groups.server.ts";
 import { Icon } from "#generated/icon.tsx";
 import { DownloadPictureLink } from "#routes/downloads.picture.$id.tsx";
 import { cn } from "@animeaux/core";
+import { zu } from "@animeaux/zod-utils";
 import { UserGroup } from "@prisma/client";
 import type { LoaderArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import type { V2_MetaFunction } from "@remix-run/react";
 import { useLoaderData } from "@remix-run/react";
-import { z } from "zod";
 
 export const handle: RouteHandle = {
   htmlBackgroundColor: cn("bg-white bg-var-white"),
   isFullHeight: true,
 };
+
+const ParamsSchema = zu.object({
+  id: zu.string().uuid(),
+  pictureId: zu.string().uuid(),
+});
 
 export async function loader({ request, params }: LoaderArgs) {
   const currentUser = await db.currentUser.get(request, {
@@ -39,13 +44,13 @@ export async function loader({ request, params }: LoaderArgs) {
     UserGroup.VOLUNTEER,
   ]);
 
-  const idResult = z.string().uuid().safeParse(params["id"]);
-  if (!idResult.success) {
+  const paramsResult = ParamsSchema.safeParse(params);
+  if (!paramsResult.success) {
     throw new NotFoundResponse();
   }
 
   const animal = await prisma.animal.findUnique({
-    where: { id: idResult.data },
+    where: { id: paramsResult.data.id },
     select: {
       alias: true,
       avatar: true,
@@ -58,12 +63,11 @@ export async function loader({ request, params }: LoaderArgs) {
   assertIsDefined(animal);
   const allPictures = getAllAnimalPictures(animal);
 
-  const pictureIdResult = z.string().uuid().safeParse(params["pictureId"]);
-  if (!pictureIdResult.success || !allPictures.includes(pictureIdResult.data)) {
+  if (!allPictures.includes(paramsResult.data.pictureId)) {
     throw new NotFoundResponse();
   }
 
-  return json({ animal, visiblePictureId: pictureIdResult.data });
+  return json({ animal, visiblePictureId: paramsResult.data.pictureId });
 }
 
 export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {

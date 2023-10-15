@@ -4,9 +4,13 @@ import { db } from "#core/db.server.ts";
 import { Routes } from "#core/navigation.ts";
 import { NotFoundResponse } from "#core/response.server.ts";
 import { assertCurrentUserHasGroups } from "#currentUser/groups.server.ts";
+import { zu } from "@animeaux/zod-utils";
 import { UserGroup } from "@prisma/client";
 import type { LoaderArgs } from "@remix-run/node";
-import { z } from "zod";
+
+const ParamsSchema = zu.object({
+  id: zu.string(),
+});
 
 export async function loader({ request, params }: LoaderArgs) {
   const currentUser = await db.currentUser.get(request, {
@@ -20,13 +24,13 @@ export async function loader({ request, params }: LoaderArgs) {
     UserGroup.VOLUNTEER,
   ]);
 
-  const id = z.string().safeParse(params["id"]);
-  if (!id.success) {
+  const paramsResult = ParamsSchema.safeParse(params);
+  if (!paramsResult.success) {
     throw new NotFoundResponse();
   }
 
   const config = createConfig();
-  const url = createCloudinaryUrl(config.cloudinaryName, id.data, {
+  const url = createCloudinaryUrl(config.cloudinaryName, paramsResult.data.id, {
     aspectRatio: "none",
     format: "jpg",
   });

@@ -19,19 +19,18 @@ import { Form } from "#core/formElements/form.tsx";
 import { ImageInput } from "#core/formElements/imageInput.tsx";
 import { Icon } from "#generated/icon.tsx";
 import { FormDataDelegate } from "@animeaux/form-data";
+import { zu } from "@animeaux/zod-utils";
 import type { Animal } from "@prisma/client";
 import type { SerializeFrom } from "@remix-run/node";
 import type { FetcherWithComponents } from "@remix-run/react";
 import { useFormAction } from "@remix-run/react";
 import { useRef, useState } from "react";
 import invariant from "tiny-invariant";
-import { z } from "zod";
-import { zfd } from "zod-form-data";
 
 export const ActionFormData = FormDataDelegate.create(
-  z.object({
-    pictures: zfd.repeatable(
-      z.array(z.string()).min(1, "Veuillez ajouter au moins une photo"),
+  zu.object({
+    pictures: zu.repeatable(
+      zu.array(zu.string()).min(1, "Veuillez ajouter au moins une photo"),
     ),
   }),
 );
@@ -42,7 +41,7 @@ export function AnimalPicturesForm({
 }: {
   defaultAnimal?: null | SerializeFrom<Pick<Animal, "avatar" | "pictures">>;
   fetcher: FetcherWithComponents<{
-    errors?: z.inferFlattenedErrors<typeof ActionFormData.schema>;
+    errors?: zu.inferFlattenedErrors<typeof ActionFormData.schema>;
   }>;
 }) {
   const isCreate = defaultAnimal == null;

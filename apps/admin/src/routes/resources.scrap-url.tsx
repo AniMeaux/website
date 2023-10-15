@@ -3,7 +3,8 @@ import { scrapUrl } from "#core/metascraper.server.ts";
 import { Routes } from "#core/navigation.ts";
 import { BadRequestResponse } from "#core/response.server.ts";
 import { assertCurrentUserHasGroups } from "#currentUser/groups.server.ts";
-import { SearchParamsDelegate, zsp } from "@animeaux/form-data";
+import { SearchParamsDelegate } from "@animeaux/form-data";
+import { zu } from "@animeaux/zod-utils";
 import { UserGroup } from "@prisma/client";
 import type { LoaderArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
@@ -11,10 +12,9 @@ import { useFetcher } from "@remix-run/react";
 import { createPath } from "history";
 import { DateTime } from "luxon";
 import { useEffect, useMemo } from "react";
-import { z } from "zod";
 
 const ScrapUrlSearchParams = SearchParamsDelegate.create({
-  url: zsp.text(z.string().url()),
+  url: zu.searchParams.string().pipe(zu.string().url()),
 });
 
 export async function loader({ request }: LoaderArgs) {
@@ -59,7 +59,7 @@ export function useScrapUrlFetcher({
 
   useEffect(() => {
     if (isEnabled) {
-      const result = z.string().url().safeParse(url);
+      const result = zu.string().url().safeParse(url);
       if (result.success) {
         load(
           createPath({

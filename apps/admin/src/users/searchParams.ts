@@ -1,7 +1,7 @@
-import { endOfDay, startOfDay } from "#core/dates.ts";
-import { SearchParamsDelegate, zsp } from "@animeaux/form-data";
+import { endOfDay } from "#core/dates.ts";
+import { SearchParamsDelegate } from "@animeaux/form-data";
+import { zu } from "@animeaux/zod-utils";
 import { UserGroup } from "@prisma/client";
-import { z } from "zod";
 
 export enum UserSort {
   LAST_ACTIVITY = "L",
@@ -11,13 +11,25 @@ export enum UserSort {
 export const USER_DEFAULT_SORT = UserSort.NAME;
 
 export const UserSearchParams = SearchParamsDelegate.create({
-  displayName: { key: "q", schema: zsp.text() },
+  displayName: {
+    key: "q",
+    schema: zu.searchParams.string(),
+  },
   groups: {
     key: "group",
-    schema: zsp.set(z.nativeEnum(UserGroup)),
+    schema: zu.searchParams.set(zu.searchParams.nativeEnum(UserGroup)),
   },
-  lastActivityEnd: { key: "lae", schema: zsp.date(endOfDay) },
-  lastActivityStart: { key: "las", schema: zsp.date(startOfDay) },
-  noActivity: { key: "na", schema: zsp.checkbox() },
-  sort: zsp.requiredEnum(UserSort, USER_DEFAULT_SORT),
+  lastActivityEnd: {
+    key: "lae",
+    schema: zu.searchParams.date().transform(endOfDay),
+  },
+  lastActivityStart: {
+    key: "las",
+    schema: zu.searchParams.date(),
+  },
+  noActivity: {
+    key: "na",
+    schema: zu.searchParams.boolean(),
+  },
+  sort: zu.searchParams.nativeEnum(UserSort).default(USER_DEFAULT_SORT),
 });

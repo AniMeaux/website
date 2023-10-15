@@ -1,6 +1,6 @@
-import { SearchParamsDelegate, zsp } from "@animeaux/form-data";
+import { SearchParamsDelegate } from "@animeaux/form-data";
+import { zu } from "@animeaux/zod-utils";
 import { Species } from "@prisma/client";
-import { z } from "zod";
 
 export enum BreedSort {
   NAME = "N",
@@ -10,7 +10,10 @@ export enum BreedSort {
 export const BREED_DEFAULT_SORT = BreedSort.NAME;
 
 export const BreedSearchParams = SearchParamsDelegate.create({
-  name: { key: "q", schema: zsp.text() },
-  sort: zsp.requiredEnum(BreedSort, BREED_DEFAULT_SORT),
-  species: zsp.set(z.nativeEnum(Species)),
+  name: {
+    key: "q",
+    schema: zu.searchParams.string(),
+  },
+  sort: zu.searchParams.nativeEnum(BreedSort).default(BREED_DEFAULT_SORT),
+  species: zu.searchParams.set(zu.searchParams.nativeEnum(Species)),
 });

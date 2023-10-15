@@ -30,6 +30,7 @@ import { UserAvatar } from "#users/avatar.tsx";
 import { DeleteMyselfError, DisableMyselfError } from "#users/db.server.ts";
 import { GROUP_ICON, GROUP_TRANSLATION, hasGroups } from "#users/groups.tsx";
 import { FormDataDelegate } from "@animeaux/form-data";
+import { zu } from "@animeaux/zod-utils";
 import type { Prisma, User } from "@prisma/client";
 import { UserGroup } from "@prisma/client";
 import type { ActionArgs, LoaderArgs } from "@remix-run/node";
@@ -38,8 +39,10 @@ import type { V2_MetaFunction } from "@remix-run/react";
 import { useFetcher, useLoaderData } from "@remix-run/react";
 import { useEffect, useState } from "react";
 import { promiseHash } from "remix-utils";
-import { z } from "zod";
-import { zfd } from "zod-form-data";
+
+const ParamsSchema = zu.object({
+  id: zu.string().uuid(),
+});
 
 export async function loader({ request, params }: LoaderArgs) {
   const currentUser = await db.currentUser.get(request, {
@@ -48,18 +51,18 @@ export async function loader({ request, params }: LoaderArgs) {
 
   assertCurrentUserHasGroups(currentUser, [UserGroup.ADMIN]);
 
-  const result = z.string().uuid().safeParse(params["id"]);
-  if (!result.success) {
+  const paramsResult = ParamsSchema.safeParse(params);
+  if (!paramsResult.success) {
     throw new NotFoundResponse();
   }
 
   const managedAnimalsWhere: Prisma.AnimalWhereInput = {
-    managerId: result.data,
+    managerId: paramsResult.data.id,
     status: { in: ACTIVE_ANIMAL_STATUS },
   };
 
   const nonActiveManagedAnimalsWhere: Prisma.AnimalWhereInput = {
-    managerId: result.data,
+    managerId: paramsResult.data.id,
     status: { in: NON_ACTIVE_ANIMAL_STATUS },
   };
 
@@ -71,7 +74,7 @@ export async function loader({ request, params }: LoaderArgs) {
     nonActiveManagedAnimals,
   } = await promiseHash({
     user: prisma.user.findUnique({
-      where: { id: result.data },
+      where: { id: paramsResult.data.id },
       select: {
         id: true,
         displayName: true,
@@ -149,8 +152,8 @@ export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
 };
 
 const DisableActionFormData = FormDataDelegate.create(
-  z.object({
-    isDisabled: zfd.checkbox(),
+  zu.object({
+    isDisabled: zu.checkbox(),
   }),
 );
 
@@ -161,16 +164,20 @@ export async function action({ request, params }: ActionArgs) {
 
   assertCurrentUserHasGroups(currentUser, [UserGroup.ADMIN]);
 
-  const result = z.string().uuid().safeParse(params["id"]);
-  if (!result.success) {
+  const paramsResult = ParamsSchema.safeParse(params);
+  if (!paramsResult.success) {
     throw new NotFoundResponse();
   }
 
   if (request.method.toUpperCase() === "DELETE") {
-    return await actionDelete({ currentUser, userId: result.data });
+    return await actionDelete({ currentUser, userId: paramsResult.data.id });
   }
 
-  return await actionDisable({ currentUser, request, userId: result.data });
+  return await actionDisable({
+    currentUser,
+    request,
+    userId: paramsResult.data.id,
+  });
 }
 
 type ActionData = {

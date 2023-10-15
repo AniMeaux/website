@@ -12,12 +12,12 @@ import { Icon } from "#generated/icon.tsx";
 import nameAndLogo from "#images/nameAndLogo.svg";
 import { cn } from "@animeaux/core";
 import { FormDataDelegate } from "@animeaux/form-data";
+import { zu } from "@animeaux/zod-utils";
 import type { ActionArgs, LoaderArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import type { V2_MetaFunction } from "@remix-run/react";
 import { useFetcher } from "@remix-run/react";
 import { useEffect, useRef } from "react";
-import { z } from "zod";
 
 export const handle: RouteHandle = {
   htmlBackgroundColor: cn("bg-white bg-var-white"),
@@ -52,14 +52,14 @@ export const meta: V2_MetaFunction = () => {
 };
 
 const ActionFormData = FormDataDelegate.create(
-  z.object({
-    email: z.string().email("Veuillez entrer un email valide"),
-    password: z.string().min(1, "Veuillez entrer un mot de passe"),
+  zu.object({
+    email: zu.string().email("Veuillez entrer un email valide"),
+    password: zu.string().min(1, "Veuillez entrer un mot de passe"),
   }),
 );
 
 type ActionData = {
-  errors?: z.inferFlattenedErrors<typeof ActionFormData.schema>;
+  errors?: zu.inferFlattenedErrors<typeof ActionFormData.schema>;
 };
 
 export async function action({ request }: ActionArgs) {

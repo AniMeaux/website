@@ -11,21 +11,20 @@ import { FormDataDelegate } from "@animeaux/form-data";
 import { zu } from "@animeaux/zod-utils";
 import type { FetcherWithComponents } from "@remix-run/react";
 import { useEffect, useRef, useState } from "react";
-import { z } from "zod";
 
 export const ActionFormData = FormDataDelegate.create(
-  z.object({
-    image: z.union([
-      z.literal(""),
-      z.string().url("Veuillez entrer une URL valide"),
+  zu.object({
+    image: zu.union([
+      zu.literal(""),
+      zu.string().url("Veuillez entrer une URL valide"),
     ]),
-    publicationDate: zu.date({
+    publicationDate: zu.coerce.date({
       required_error: "Veuillez entrer une date de publication",
       invalid_type_error: "Veuillez entrer une date de publication valide",
     }),
-    publisherName: z.string().trim().min(1, "Veuillez entrer un éditeur"),
-    title: z.string().trim().min(1, "Veuillez entrer un titre"),
-    url: z.string().url("Veuillez entrer une URL valide"),
+    publisherName: zu.string().trim().min(1, "Veuillez entrer un éditeur"),
+    title: zu.string().trim().min(1, "Veuillez entrer un titre"),
+    url: zu.string().url("Veuillez entrer une URL valide"),
   }),
 );
 
@@ -51,7 +50,7 @@ export function PressArticleForm({
   fetcher,
 }: {
   fetcher: FetcherWithComponents<{
-    errors?: z.inferFlattenedErrors<typeof ActionFormData.schema>;
+    errors?: zu.inferFlattenedErrors<typeof ActionFormData.schema>;
   }>;
 }) {
   const [state, setState] = useState(DEFAULT_STATE);

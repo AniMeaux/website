@@ -2,12 +2,11 @@ import { db } from "#core/db.server.ts";
 import { Routes } from "#core/navigation.ts";
 import { commitCurrentUserPreferences } from "#currentUser/preferences.server.ts";
 import { FormDataDelegate } from "@animeaux/form-data";
+import { zu } from "@animeaux/zod-utils";
 import type { ActionArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { useFetcher } from "@remix-run/react";
 import { useCallback, useMemo } from "react";
-import { z } from "zod";
-import { zfd } from "zod-form-data";
 
 export async function loader() {
   // Nothing to render here.
@@ -15,8 +14,8 @@ export async function loader() {
 }
 
 const ActionFormData = FormDataDelegate.create(
-  z.object({
-    isSideBarCollapsed: zfd.checkbox(),
+  zu.object({
+    isSideBarCollapsed: zu.checkbox(),
   }),
 );
 
@@ -44,7 +43,7 @@ export function usePreferencesFetcher() {
 
   const fetcherSubmit = fetcher.submit;
   const submit = useCallback(
-    (preferences: z.infer<typeof ActionFormData.schema>) => {
+    (preferences: zu.infer<typeof ActionFormData.schema>) => {
       const formData = new FormData();
       if (preferences.isSideBarCollapsed) {
         formData.set(ActionFormData.keys.isSideBarCollapsed, "on");

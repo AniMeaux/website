@@ -4,10 +4,14 @@ import { Routes } from "#core/navigation.ts";
 import { prisma } from "#core/prisma.server.ts";
 import { NotFoundResponse } from "#core/response.server.ts";
 import { assertCurrentUserHasGroups } from "#currentUser/groups.server.ts";
+import { zu } from "@animeaux/zod-utils";
 import { UserGroup } from "@prisma/client";
 import type { LoaderArgs } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
-import { z } from "zod";
+
+const ParamsSchema = zu.object({
+  id: zu.string().uuid(),
+});
 
 export async function loader({ request, params }: LoaderArgs) {
   const currentUser = await db.currentUser.get(request, {
@@ -21,20 +25,23 @@ export async function loader({ request, params }: LoaderArgs) {
     UserGroup.VOLUNTEER,
   ]);
 
-  const id = z.string().uuid().safeParse(params["id"]);
-  if (!id.success) {
+  const paramsResult = ParamsSchema.safeParse(params);
+  if (!paramsResult.success) {
     throw new NotFoundResponse();
   }
 
   const animal = await prisma.animal.findUnique({
-    where: { id: id.data },
+    where: { id: paramsResult.data.id },
     select: { alias: true, avatar: true, name: true },
   });
 
   assertIsDefined(animal);
 
   throw redirect(
-    Routes.animals.id(id.data).pictures.pictureId(animal.avatar).toString(),
+    Routes.animals
+      .id(paramsResult.data.id)
+      .pictures.pictureId(animal.avatar)
+      .toString(),
   );
 }
 

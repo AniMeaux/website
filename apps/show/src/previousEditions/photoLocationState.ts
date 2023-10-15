@@ -1,10 +1,10 @@
 import { createLocationState } from "#core/locationState.ts";
-import { z } from "zod";
+import { zu } from "@animeaux/zod-utils";
 
 export const PhotoLocationState = createLocationState(
-  z
+  zu
     .object({
-      galleryLocationKey: z.string().optional().catch(undefined),
+      galleryLocationKey: zu.string().optional().catch(undefined),
     })
     .catch({}),
 );

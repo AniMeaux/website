@@ -15,6 +15,7 @@ import { getPageTitle } from "#core/pageTitle.ts";
 import { prisma } from "#core/prisma.server.ts";
 import { NotFoundResponse } from "#core/response.server.ts";
 import { assertCurrentUserHasGroups } from "#currentUser/groups.server.ts";
+import { zu } from "@animeaux/zod-utils";
 import { UserGroup } from "@prisma/client";
 import type { ActionArgs, LoaderArgs } from "@remix-run/node";
 import {
@@ -26,7 +27,10 @@ import {
 import type { V2_MetaFunction } from "@remix-run/react";
 import { useFetcher, useLoaderData } from "@remix-run/react";
 import invariant from "tiny-invariant";
-import { z } from "zod";
+
+const ParamsSchema = zu.object({
+  id: zu.string().uuid(),
+});
 
 export async function loader({ request, params }: LoaderArgs) {
   const currentUser = await db.currentUser.get(request, {
@@ -38,13 +42,13 @@ export async function loader({ request, params }: LoaderArgs) {
     UserGroup.ANIMAL_MANAGER,
   ]);
 
-  const result = z.string().uuid().safeParse(params["id"]);
+  const result = ParamsSchema.safeParse(params);
   if (!result.success) {
     throw new NotFoundResponse();
   }
 
   const animal = await prisma.animal.findUnique({
-    where: { id: result.data },
+    where: { id: result.data.id },
     select: {
       alias: true,
       avatar: true,
@@ -76,7 +80,7 @@ export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
 
 type ActionData = {
   redirectTo?: string;
-  errors?: z.inferFlattenedErrors<typeof ActionFormData.schema>;
+  errors?: zu.inferFlattenedErrors<typeof ActionFormData.schema>;
 };
 
 export async function action({ request, params }: ActionArgs) {
@@ -89,8 +93,8 @@ export async function action({ request, params }: ActionArgs) {
     UserGroup.ANIMAL_MANAGER,
   ]);
 
-  const idResult = z.string().uuid().safeParse(params["id"]);
-  if (!idResult.success) {
+  const paramsResult = ParamsSchema.safeParse(params);
+  if (!paramsResult.success) {
     throw new NotFoundResponse();
   }
 
@@ -118,7 +122,7 @@ export async function action({ request, params }: ActionArgs) {
     const avatar = formData.data.pictures[0];
     invariant(avatar != null, "The avatar should exists");
 
-    await db.animal.picture.update(idResult.data, {
+    await db.animal.picture.update(paramsResult.data.id, {
       avatar,
       pictures: formData.data.pictures.slice(1),
     });
@@ -151,7 +155,7 @@ export async function action({ request, params }: ActionArgs) {
   }
 
   return json<ActionData>({
-    redirectTo: Routes.animals.id(idResult.data).toString(),
+    redirectTo: Routes.animals.id(paramsResult.data.id).toString(),
   });
 }
 

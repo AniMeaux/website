@@ -30,39 +30,38 @@ import type { SerializeFrom } from "@remix-run/node";
 import type { FetcherWithComponents } from "@remix-run/react";
 import { useLocation } from "@remix-run/react";
 import { useEffect, useRef, useState } from "react";
-import { z } from "zod";
 
 export const ActionFormData = FormDataDelegate.create(
-  z.object({
-    alias: z.string().trim(),
-    birthdate: zu.date({
+  zu.object({
+    alias: zu.string().trim(),
+    birthdate: zu.coerce.date({
       required_error: "Veuillez entrer une date",
       invalid_type_error: "Veuillez entrer une date valide",
     }),
-    breedId: z.string().uuid().optional(),
-    colorId: z.string().uuid().optional(),
-    description: z.string().trim(),
-    gender: z.nativeEnum(Gender, {
+    breedId: zu.string().uuid().optional(),
+    colorId: zu.string().uuid().optional(),
+    description: zu.string().trim(),
+    gender: zu.nativeEnum(Gender, {
       required_error: "Veuillez choisir un genre",
     }),
-    iCadNumber: z.string().trim(),
-    isOkCats: z
+    iCadNumber: zu.string().trim(),
+    isOkCats: zu
       .nativeEnum(AgreementValue, {
         required_error: "Veuillez choisir une option",
       })
       .transform(agreementToBoolean),
-    isOkChildren: z
+    isOkChildren: zu
       .nativeEnum(AgreementValue, {
         required_error: "Veuillez choisir une option",
       })
       .transform(agreementToBoolean),
-    isOkDogs: z
+    isOkDogs: zu
       .nativeEnum(AgreementValue, {
         required_error: "Veuillez choisir une option",
       })
       .transform(agreementToBoolean),
-    name: z.string().trim().min(1, "Veuillez entrer un nom"),
-    species: z.nativeEnum(Species, {
+    name: zu.string().trim().min(1, "Veuillez entrer un nom"),
+    species: zu.nativeEnum(Species, {
       required_error: "Veuillez choisir une espèce",
     }),
   }),
@@ -93,7 +92,7 @@ export function AnimalProfileForm({
     }
   >;
   fetcher: FetcherWithComponents<{
-    errors?: z.inferFlattenedErrors<typeof ActionFormData.schema>;
+    errors?: zu.inferFlattenedErrors<typeof ActionFormData.schema>;
   }>;
 }) {
   const [speciesState, setSpeciesState] = useState(defaultAnimal?.species);

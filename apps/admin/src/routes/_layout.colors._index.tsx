@@ -22,6 +22,7 @@ import {
   FormDataDelegate,
   useOptimisticSearchParams,
 } from "@animeaux/form-data";
+import { zu } from "@animeaux/zod-utils";
 import type { Prisma } from "@prisma/client";
 import { UserGroup } from "@prisma/client";
 import type { ActionArgs, LoaderArgs, SerializeFrom } from "@remix-run/node";
@@ -29,7 +30,6 @@ import { json } from "@remix-run/node";
 import type { V2_MetaFunction } from "@remix-run/react";
 import { useFetcher, useLoaderData } from "@remix-run/react";
 import { promiseHash } from "remix-utils";
-import { z } from "zod";
 
 const COLOR_COUNT_PER_PAGE = 20;
 
@@ -89,8 +89,8 @@ export const meta: V2_MetaFunction = () => {
 };
 
 const DeleteActionFormData = FormDataDelegate.create(
-  z.object({
-    id: z.string().uuid(),
+  zu.object({
+    id: zu.string().uuid(),
   }),
 );
 
