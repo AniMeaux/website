@@ -185,6 +185,30 @@ function CostsSection() {
         Frais d’adoption
       </h2>
 
+      <section className={bubbleSectionClassNames.root()}>
+        <span className={bubbleSectionClassNames.bubbleContainer()}>
+          <BubbleShape isDouble />
+        </span>
+
+        <div
+          className={cn(
+            bubbleSectionClassNames.content(),
+            "px-10 py-18 flex flex-col items-center gap-6 text-center",
+            "md:px-30 md:py-[60px]",
+          )}
+        >
+          <p>
+            En réglant les frais d’adoption, vous effectuez un don précieux pour
+            notre association. Ce don est{" "}
+            <strong className="text-body-emphasis">
+              déductible de vos impôts
+            </strong>{" "}
+            à hauteur de 66 % du montant versé. Si vous le souhaitez, nous vous
+            fournirons un reçu fiscal sur simple demande.
+          </p>
+        </div>
+      </section>
+
       <div className={cn("flex gap-3 justify-center", "md:gap-6")}>
         <Tab isActive={tab === "cats"} onSelect={() => setTab("cats")}>
           <Icon id={SPECIES_ICON[Species.CAT]} />
@@ -202,96 +226,139 @@ function CostsSection() {
         </Tab>
       </div>
 
-      {tab === "cats" && (
-        <OptionList>
-          <OptionCard>
-            <OptionTitle>Don libre</OptionTitle>
-            <OptionDescription>
-              <strong className="text-body-emphasis">
-                Exclusivement pour un chat de plus de 9 ans
-              </strong>
-              , un don libre d’un minimum de 50 € sera demandé.
-            </OptionDescription>
-            <OptionPrice>≥ 50 €</OptionPrice>
-            <OptionFeatureList>
-              <OptionFeature isIncluded>Identifié</OptionFeature>
-              <OptionFeature isIncluded>
-                Vacciné (Typhus et Coryza)
-              </OptionFeature>
-              <OptionFeature isIncluded>Déparasité</OptionFeature>
-              <OptionFeature isIncluded>Dépisté FIV/FELV</OptionFeature>
-              <OptionFeature isIncluded>Stérilisée / castré</OptionFeature>
-            </OptionFeatureList>
-          </OptionCard>
+      {tab === "cats" ? (
+        <>
+          <OptionList>
+            <OptionCard>
+              <OptionTitle>Sans stérilisation / castration</OptionTitle>
+              <OptionDescription>
+                <strong className="text-body-emphasis">
+                  Exclusivement pour un chaton âgé de moins d’1 an
+                </strong>
+                . La stérilisation / castration est{" "}
+                <strong className="text-body-emphasis">obligatoire</strong> à
+                l’âge de 6 mois ; un chèque de caution de 200 € vous sera
+                demandé et détruit, une fois la stérilisation / castration
+                faite, sur présentation d’un justificatif.
+              </OptionDescription>
+              <OptionPrice>200 €</OptionPrice>
+              <OptionFeatureList>
+                <OptionFeature isIncluded>Identifié</OptionFeature>
+                <OptionFeature isIncluded>
+                  Vacciné (Typhus et Coryza)
+                </OptionFeature>
+                <OptionFeature isIncluded>Déparasité</OptionFeature>
+                <OptionFeature>Dépisté FIV/FELV</OptionFeature>
+                <OptionFeature>Stérilisée / castré</OptionFeature>
+              </OptionFeatureList>
+            </OptionCard>
 
+            <OptionCard>
+              <OptionTitle>Avec stérilisation / castration</OptionTitle>
+              <OptionDescription>
+                <strong className="text-body-emphasis">
+                  Exclusivement pour un chaton âgé de moins d’1 an
+                </strong>
+                . La stérilisation / castration{" "}
+                <strong className="text-body-emphasis">obligatoire</strong> est
+                comprise en passant par l’un de nos vétérinaires partenaires, à
+                faire à l’âge de 6 mois impérativement.
+              </OptionDescription>
+              <OptionPrice>300 €</OptionPrice>
+              <OptionFeatureList>
+                <OptionFeature isIncluded>Identifié</OptionFeature>
+                <OptionFeature isIncluded>
+                  Vacciné (Typhus et Coryza)
+                </OptionFeature>
+                <OptionFeature isIncluded>Déparasité</OptionFeature>
+                <OptionFeature isIncluded>Dépisté FIV/FELV</OptionFeature>
+                <OptionFeature isIncluded>Stérilisée / castré</OptionFeature>
+              </OptionFeatureList>
+            </OptionCard>
+
+            <OptionCard>
+              <OptionTitle>Avec stérilisation / castration</OptionTitle>
+              <OptionDescription>
+                <strong className="text-body-emphasis">
+                  Exclusivement pour un chat âgé de plus d’1 an
+                </strong>
+                .
+              </OptionDescription>
+              <OptionPrice>250 €</OptionPrice>
+              <OptionFeatureList>
+                <OptionFeature isIncluded>Identifié</OptionFeature>
+                <OptionFeature isIncluded>
+                  Vacciné (Typhus et Coryza)
+                </OptionFeature>
+                <OptionFeature isIncluded>Déparasité</OptionFeature>
+                <OptionFeature isIncluded>Dépisté FIV/FELV</OptionFeature>
+                <OptionFeature isIncluded>Stérilisée / castré</OptionFeature>
+              </OptionFeatureList>
+            </OptionCard>
+
+            <OptionCard>
+              <OptionTitle>Don libre</OptionTitle>
+              <OptionDescription>
+                <strong className="text-body-emphasis">
+                  Exclusivement pour un chat de plus de 9 ans
+                </strong>
+                . Un don libre d'un minimum de 80 € sera demandé.
+              </OptionDescription>
+              <OptionPrice>≥ 80 €</OptionPrice>
+              <OptionFeatureList>
+                <OptionFeature isIncluded>Identifié</OptionFeature>
+                <OptionFeature isIncluded>
+                  Vacciné (Typhus et Coryza)
+                </OptionFeature>
+                <OptionFeature isIncluded>Déparasité</OptionFeature>
+                <OptionFeature isIncluded>Dépisté FIV/FELV</OptionFeature>
+                <OptionFeature isIncluded>Stérilisée / castré</OptionFeature>
+              </OptionFeatureList>
+            </OptionCard>
+          </OptionList>
+
+          <div className={bubbleSectionClassNames.root()}>
+            <span className={bubbleSectionClassNames.bubbleContainer()}>
+              <BubbleShape />
+            </span>
+
+            <div
+              className={cn(
+                bubbleSectionClassNames.content(),
+                "px-10 py-12 flex flex-col items-center gap-6 text-center",
+                "md:px-30 md:py-[60px]",
+              )}
+            >
+              <p>
+                <strong className="text-body-emphasis">
+                  Dans le cas d’une double adoption
+                </strong>
+                , nous pouvons envisager une{" "}
+                <strong className="text-body-emphasis">
+                  adaptation financière
+                </strong>
+                .<br />
+                Contactez-nous pour discuter des détails et trouver la meilleure
+                solution pour votre nouvelle famille de poilus.
+              </p>
+            </div>
+          </div>
+        </>
+      ) : null}
+
+      {tab === "dogs" ? (
+        <OptionList>
           <OptionCard>
             <OptionTitle>Sans stérilisation / castration</OptionTitle>
             <OptionDescription>
-              La stérilisation / castration est obligatoire à l’âge de 6 mois,
-              un chèque de caution de 200 € vous sera demandé et rendu ou
-              détruit, une fois la stérilisation / castration faite.
-            </OptionDescription>
-            <OptionPrice>180 €</OptionPrice>
-            <OptionFeatureList>
-              <OptionFeature isIncluded>Identifié</OptionFeature>
-              <OptionFeature isIncluded>
-                Vacciné (Typhus et Coryza)
-              </OptionFeature>
-              <OptionFeature isIncluded>Déparasité</OptionFeature>
-              <OptionFeature>Dépisté FIV/FELV</OptionFeature>
-              <OptionFeature>Stérilisée / castré</OptionFeature>
-            </OptionFeatureList>
-          </OptionCard>
-
-          <OptionCard>
-            <OptionTitle>Avec stérilisation / castration</OptionTitle>
-            <OptionDescription>
-              Stérilisée / castré comprise en passant par l’un de nos
-              vétérinaires partenaires, à faire à l’âge de 6 mois pour les
-              chatons ou déjà faite pour les adultes.
-            </OptionDescription>
-            <OptionPrice>250 €</OptionPrice>
-            <OptionFeatureList>
-              <OptionFeature isIncluded>Identifié</OptionFeature>
-              <OptionFeature isIncluded>
-                Vacciné (Typhus et Coryza)
-              </OptionFeature>
-              <OptionFeature isIncluded>Déparasité</OptionFeature>
-              <OptionFeature isIncluded>Dépisté FIV/FELV</OptionFeature>
-              <OptionFeature isIncluded>Stérilisée / castré</OptionFeature>
-            </OptionFeatureList>
-          </OptionCard>
-        </OptionList>
-      )}
-
-      {tab === "dogs" && (
-        <OptionList>
-          <OptionCard>
-            <OptionTitle>Don libre</OptionTitle>
-            <OptionDescription>
               <strong className="text-body-emphasis">
-                Exclusivement pour un chien de plus de 9 ans
+                Exclusivement pour un chiot âgé de moins d’1 an
               </strong>
-              , un don libre d’un minimum de 50 € sera demandé.
-            </OptionDescription>
-            <OptionPrice>≥ 50 €</OptionPrice>
-            <OptionFeatureList>
-              <OptionFeature isIncluded>Identifié</OptionFeature>
-              <OptionFeature isIncluded>Vacciné</OptionFeature>
-              <OptionFeature isIncluded>Déparasité</OptionFeature>
-              <OptionFeature isIncluded>Stérilisée / castré</OptionFeature>
-            </OptionFeatureList>
-          </OptionCard>
-
-          <OptionCard>
-            <OptionTitle>Sans stérilisation / castration</OptionTitle>
-            <OptionDescription>
-              <strong className="text-body-emphasis">
-                Exclusivement pour un chiot de moins de 1 an
-              </strong>
-              , la stérilisation / castration est obligatoire, un chèque de
-              caution de 200 € vous sera demandé et rendu ou détruit, une fois
-              la stérilisation / castration faite.
+              . La stérilisation / castration est{" "}
+              <strong className="text-body-emphasis">obligatoire</strong>, un
+              chèque de caution de 200 € vous sera demandé et détruit, une fois
+              la stérilisation / castration faite, sur présentation d’un
+              justificatif.
             </OptionDescription>
             <OptionPrice>200 €</OptionPrice>
             <OptionFeatureList>
@@ -306,10 +373,11 @@ function CostsSection() {
             <OptionTitle>Avec castration</OptionTitle>
             <OptionDescription>
               <strong className="text-body-emphasis">
-                Exclusivement pour un mâle de 1 an et plus
+                Exclusivement pour un chien mâle âgé de plus d’1 an
               </strong>
-              , la castration est comprise en passant par l’un de nos
-              vétérinaires partenaires.
+              . La castration{" "}
+              <strong className="text-body-emphasis">obligatoire</strong> est
+              comprise en passant par l’un de nos vétérinaires partenaires.
             </OptionDescription>
             <OptionPrice>300 €</OptionPrice>
             <OptionFeatureList>
@@ -324,10 +392,10 @@ function CostsSection() {
             <OptionTitle>Avec stérilisation</OptionTitle>
             <OptionDescription>
               <strong className="text-body-emphasis">
-                Exclusivement pour un femelle de 1 an et plus
+                Exclusivement pour une chienne âgée de plus d’1 an
               </strong>
-              , la stérilisation est comprise en passant par l’un de nos
-              vétérinaires partenaires.
+              . La stérilisation obligatoire est comprise en passant par l’un de
+              nos vétérinaires partenaires.
             </OptionDescription>
             <OptionPrice>350 €</OptionPrice>
             <OptionFeatureList>
@@ -337,26 +405,39 @@ function CostsSection() {
               <OptionFeature isIncluded>Stérilisée</OptionFeature>
             </OptionFeatureList>
           </OptionCard>
-        </OptionList>
-      )}
 
-      {tab === "newPets" && (
+          <OptionCard>
+            <OptionTitle>Don libre</OptionTitle>
+            <OptionDescription>
+              <strong className="text-body-emphasis">
+                Exclusivement pour un chien de plus de 9 ans
+              </strong>
+              . Un don libre d’un minimum de 80 € sera demandé.
+            </OptionDescription>
+            <OptionPrice>≥ 80 €</OptionPrice>
+            <OptionFeatureList>
+              <OptionFeature isIncluded>Identifié</OptionFeature>
+              <OptionFeature isIncluded>Vacciné</OptionFeature>
+              <OptionFeature isIncluded>Déparasité</OptionFeature>
+              <OptionFeature isIncluded>Stérilisée / castré</OptionFeature>
+            </OptionFeatureList>
+          </OptionCard>
+        </OptionList>
+      ) : null}
+
+      {tab === "newPets" ? (
         <OptionList>
           <OptionCard>
             <OptionTitle>Don libre</OptionTitle>
             <OptionDescription>
               Pour les nouveaux animaux de compagnie, un don libre d’un minimum
-              de 10 € sera demandé. Stérilisation et vaccination possible à
+              de 30 € sera demandé. Stérilisation et vaccination possible à
               votre demande et à votre charge.
             </OptionDescription>
-            <OptionPrice>≥ 10 €</OptionPrice>
-            <OptionFeatureList>
-              <OptionFeature isIncluded>Identifié</OptionFeature>
-              <OptionFeature isIncluded>Vacciné</OptionFeature>
-            </OptionFeatureList>
+            <OptionPrice>≥ 30 €</OptionPrice>
           </OptionCard>
         </OptionList>
-      )}
+      ) : null}
     </section>
   );
 }
