@@ -10,12 +10,16 @@ import { getPageTitle } from "#core/pageTitle.ts";
 import { prisma } from "#core/prisma.server.ts";
 import { NotFoundResponse } from "#core/response.server.ts";
 import { assertCurrentUserHasGroups } from "#currentUser/groups.server.ts";
+import { zu } from "@animeaux/zod-utils";
 import { UserGroup } from "@prisma/client";
 import type { ActionArgs, LoaderArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import type { V2_MetaFunction } from "@remix-run/react";
 import { useFetcher, useLoaderData } from "@remix-run/react";
-import { z } from "zod";
+
+const ParamsSchema = zu.object({
+  id: zu.string().uuid(),
+});
 
 export async function loader({ request, params }: LoaderArgs) {
   const currentUser = await db.currentUser.get(request, {
@@ -24,13 +28,13 @@ export async function loader({ request, params }: LoaderArgs) {
 
   assertCurrentUserHasGroups(currentUser, [UserGroup.ADMIN]);
 
-  const result = z.string().uuid().safeParse(params["id"]);
-  if (!result.success) {
+  const paramsResult = ParamsSchema.safeParse(params);
+  if (!paramsResult.success) {
     throw new NotFoundResponse();
   }
 
   const breed = await prisma.breed.findUnique({
-    where: { id: result.data },
+    where: { id: paramsResult.data.id },
     select: {
       name: true,
       species: true,
@@ -52,7 +56,7 @@ export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
 
 type ActionData = {
   redirectTo?: string;
-  errors?: z.inferFlattenedErrors<typeof ActionFormData.schema>;
+  errors?: zu.inferFlattenedErrors<typeof ActionFormData.schema>;
 };
 
 export async function action({ request, params }: ActionArgs) {
@@ -62,8 +66,8 @@ export async function action({ request, params }: ActionArgs) {
 
   assertCurrentUserHasGroups(currentUser, [UserGroup.ADMIN]);
 
-  const idResult = z.string().uuid().safeParse(params["id"]);
-  if (!idResult.success) {
+  const paramsResult = ParamsSchema.safeParse(params);
+  if (!paramsResult.success) {
     throw new NotFoundResponse();
   }
 
@@ -76,7 +80,7 @@ export async function action({ request, params }: ActionArgs) {
   }
 
   try {
-    await db.breed.update(idResult.data, {
+    await db.breed.update(paramsResult.data.id, {
       name: formData.data.name,
       species: formData.data.species,
     });

@@ -1,15 +1,14 @@
 import type { CloudinaryApiResponse } from "#core/cloudinary/shared.server.ts";
 import { SearchParamsDelegate } from "@animeaux/form-data";
+import { zu } from "@animeaux/zod-utils";
 import { rest } from "msw";
 import { v4 as uuid } from "uuid";
-import { z } from "zod";
-import { zfd } from "zod-form-data";
 
 const SearchParams = SearchParamsDelegate.create({
   maxResults: {
     key: "max_results",
-    schema: zfd.numeric(
-      z
+    schema: zu.searchParams.number().pipe(
+      zu
         .number()
         .int()
         .min(0)
@@ -20,7 +19,7 @@ const SearchParams = SearchParamsDelegate.create({
   },
   nextIndex: {
     key: "next_cursor",
-    schema: zfd.numeric(z.number().int().min(0).catch(0)),
+    schema: zu.searchParams.number().pipe(zu.number().int().min(0).catch(0)),
   },
 });
 

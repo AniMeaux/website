@@ -11,25 +11,24 @@ import { Separator } from "#core/layout/separator.tsx";
 import { Icon } from "#generated/icon.tsx";
 import { GROUP_TRANSLATION, SORTED_GROUPS } from "#users/groups.tsx";
 import { FormDataDelegate } from "@animeaux/form-data";
+import { zu } from "@animeaux/zod-utils";
 import type { User } from "@prisma/client";
 import { UserGroup } from "@prisma/client";
 import type { SerializeFrom } from "@remix-run/node";
 import type { FetcherWithComponents } from "@remix-run/react";
 import { useEffect, useRef } from "react";
-import { z } from "zod";
-import { zfd } from "zod-form-data";
 
 export const ActionFormData = FormDataDelegate.create(
-  z.object({
-    displayName: z.string().trim().min(1, "Veuillez entrer un nom"),
-    email: z.string().email("Veuillez entrer un email valide"),
-    groups: zfd.repeatable(
-      z
+  zu.object({
+    displayName: zu.string().trim().min(1, "Veuillez entrer un nom"),
+    email: zu.string().email("Veuillez entrer un email valide"),
+    groups: zu.repeatable(
+      zu
         .nativeEnum(UserGroup)
         .array()
         .min(1, "Veuillez choisir au moins 1 groupe"),
     ),
-    temporaryPassword: z.string(),
+    temporaryPassword: zu.string(),
   }),
 );
 
@@ -41,7 +40,7 @@ export function UserForm({
     Pick<User, "displayName" | "email" | "groups">
   >;
   fetcher: FetcherWithComponents<{
-    errors?: z.inferFlattenedErrors<typeof ActionFormData.schema>;
+    errors?: zu.inferFlattenedErrors<typeof ActionFormData.schema>;
   }>;
 }) {
   const isCreate = defaultUser == null;

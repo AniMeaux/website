@@ -27,6 +27,7 @@ import { FosterFamilyAvatar } from "#fosterFamilies/avatar.tsx";
 import { ActionFormData } from "#fosterFamilies/form.tsx";
 import { getLongLocation } from "#fosterFamilies/location.tsx";
 import { Icon } from "#generated/icon.tsx";
+import { zu } from "@animeaux/zod-utils";
 import { UserGroup } from "@prisma/client";
 import type { ActionArgs, LoaderArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
@@ -34,7 +35,10 @@ import type { V2_MetaFunction } from "@remix-run/react";
 import { useFetcher, useLoaderData } from "@remix-run/react";
 import { useState } from "react";
 import { promiseHash } from "remix-utils";
-import { z } from "zod";
+
+const ParamsSchema = zu.object({
+  id: zu.string().uuid(),
+});
 
 export async function loader({ request, params }: LoaderArgs) {
   const currentUser = await db.currentUser.get(request, {
@@ -46,14 +50,14 @@ export async function loader({ request, params }: LoaderArgs) {
     UserGroup.ANIMAL_MANAGER,
   ]);
 
-  const result = z.string().uuid().safeParse(params["id"]);
-  if (!result.success) {
+  const paramsResult = ParamsSchema.safeParse(params);
+  if (!paramsResult.success) {
     throw new NotFoundResponse();
   }
 
   const { fosterFamily, fosterAnimalCount, fosterAnimals } = await promiseHash({
     fosterFamily: prisma.fosterFamily.findUnique({
-      where: { id: result.data },
+      where: { id: paramsResult.data.id },
       select: {
         address: true,
         city: true,
@@ -69,11 +73,11 @@ export async function loader({ request, params }: LoaderArgs) {
     }),
 
     fosterAnimalCount: prisma.animal.count({
-      where: { fosterFamilyId: result.data },
+      where: { fosterFamilyId: paramsResult.data.id },
     }),
 
     fosterAnimals: prisma.animal.findMany({
-      where: { fosterFamilyId: result.data },
+      where: { fosterFamilyId: paramsResult.data.id },
       take: 5,
       orderBy: { pickUpDate: "desc" },
       select: {
@@ -121,13 +125,13 @@ export async function action({ request, params }: ActionArgs) {
     UserGroup.ANIMAL_MANAGER,
   ]);
 
-  const result = z.string().uuid().safeParse(params["id"]);
-  if (!result.success) {
+  const paramsResult = ParamsSchema.safeParse(params);
+  if (!paramsResult.success) {
     throw new NotFoundResponse();
   }
 
   try {
-    await db.fosterFamily.delete(result.data);
+    await db.fosterFamily.delete(paramsResult.data.id);
   } catch (error) {
     if (error instanceof NotFoundError) {
       throw new NotFoundResponse();

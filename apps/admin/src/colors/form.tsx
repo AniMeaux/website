@@ -4,15 +4,15 @@ import { Input } from "#core/formElements/input.tsx";
 import { RequiredStar } from "#core/formElements/requiredStar.tsx";
 import { Icon } from "#generated/icon.tsx";
 import { FormDataDelegate } from "@animeaux/form-data";
+import { zu } from "@animeaux/zod-utils";
 import type { Color } from "@prisma/client";
 import type { SerializeFrom } from "@remix-run/node";
 import type { FetcherWithComponents } from "@remix-run/react";
 import { useEffect, useRef } from "react";
-import { z } from "zod";
 
 export const ActionFormData = FormDataDelegate.create(
-  z.object({
-    name: z.string().trim().min(1, "Veuillez entrer un nom"),
+  zu.object({
+    name: zu.string().trim().min(1, "Veuillez entrer un nom"),
   }),
 );
 
@@ -22,7 +22,7 @@ export function ColorForm({
 }: {
   defaultColor?: SerializeFrom<Pick<Color, "name">>;
   fetcher: FetcherWithComponents<{
-    errors?: z.inferFlattenedErrors<typeof ActionFormData.schema>;
+    errors?: zu.inferFlattenedErrors<typeof ActionFormData.schema>;
   }>;
 }) {
   const isCreate = defaultColor == null;

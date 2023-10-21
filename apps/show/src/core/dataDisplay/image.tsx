@@ -4,7 +4,8 @@ import sprite from "#generated/imageShapesSprite.svg";
 import type { ScreenSize } from "#generated/theme.ts";
 import { theme } from "#generated/theme.ts";
 import { cn } from "@animeaux/core";
-import { SearchParamsDelegate, zsp } from "@animeaux/form-data";
+import { SearchParamsDelegate } from "@animeaux/form-data";
+import { zu } from "@animeaux/zod-utils";
 import { blurhashToDataUri } from "@unpic/placeholder";
 import orderBy from "lodash.orderby";
 import { useId } from "react";
@@ -197,7 +198,7 @@ export const ImageUrl = {
 };
 
 const BlurhashSearchParams = SearchParamsDelegate.create({
-  blurhash: zsp.text(),
+  blurhash: zu.searchParams.string(),
 });
 
 // Ordered by decreasing size.

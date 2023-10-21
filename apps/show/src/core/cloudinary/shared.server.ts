@@ -1,21 +1,21 @@
+import { zu } from "@animeaux/zod-utils";
 import type { v2 as cloudinaryClient } from "cloudinary";
-import { z } from "zod";
 
 export type CloudinaryClient = typeof cloudinaryClient;
 
 // Because `cloudinary.api.resources` returns `any`.
-export const CloudinaryApiResponseSchema = z.object({
-  next_cursor: z.string().optional(),
-  resources: z
+export const CloudinaryApiResponseSchema = zu.object({
+  next_cursor: zu.string().optional(),
+  resources: zu
     .object({
-      public_id: z.string(),
-      width: z.number(),
-      height: z.number(),
-      context: z
+      public_id: zu.string(),
+      width: zu.number(),
+      height: zu.number(),
+      context: zu
         .object({
-          custom: z
+          custom: zu
             .object({
-              blurhash: z
+              blurhash: zu
                 .string()
                 .optional()
                 .transform((value) =>
@@ -29,7 +29,9 @@ export const CloudinaryApiResponseSchema = z.object({
     .array(),
 });
 
-export type CloudinaryApiResponse = z.infer<typeof CloudinaryApiResponseSchema>;
+export type CloudinaryApiResponse = zu.infer<
+  typeof CloudinaryApiResponseSchema
+>;
 
 export abstract class CloudinaryDelegate {
   // It's not useless because it automatically initialize the instance

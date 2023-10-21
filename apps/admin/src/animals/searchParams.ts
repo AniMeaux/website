@@ -1,6 +1,7 @@
-import { endOfDay, startOfDay } from "#core/dates.ts";
+import { endOfDay } from "#core/dates.ts";
 import { AnimalAge } from "@animeaux/core";
-import { SearchParamsDelegate, zsp } from "@animeaux/form-data";
+import { SearchParamsDelegate } from "@animeaux/form-data";
+import { zu } from "@animeaux/zod-utils";
 import {
   AdoptionOption,
   PickUpReason,
@@ -8,8 +9,6 @@ import {
   Species,
   Status,
 } from "@prisma/client";
-import { z } from "zod";
-import { zfd } from "zod-form-data";
 
 export enum AnimalSort {
   BIRTHDATE = "B",
@@ -32,33 +31,103 @@ export enum AnimalVaccination {
 }
 
 export const AnimalSearchParams = SearchParamsDelegate.create({
-  adoptionDateEnd: { key: "ade", schema: zsp.date(endOfDay) },
-  adoptionDateStart: { key: "ads", schema: zsp.date(startOfDay) },
-  adoptionOptions: { key: "ao", schema: zsp.set(z.nativeEnum(AdoptionOption)) },
-  ages: { key: "a", schema: zsp.set(z.nativeEnum(AnimalAge)) },
-  birthdateEnd: { key: "be", schema: zsp.date(endOfDay) },
-  birthdateStart: { key: "bs", schema: zsp.date(startOfDay) },
-  felvResults: { key: "felv", schema: zsp.set(z.nativeEnum(ScreeningResult)) },
-  fivResults: { key: "fiv", schema: zsp.set(z.nativeEnum(ScreeningResult)) },
-  fosterFamiliesId: { key: "ffid", schema: zsp.set(z.string().uuid()) },
-  managersId: { key: "mid", schema: zsp.set(z.string().uuid()) },
-  nameOrAlias: { key: "q", schema: zsp.text() },
-  vaccination: { key: "v", schema: zsp.set(z.nativeEnum(AnimalVaccination)) },
-  pickUpDateEnd: { key: "pude", schema: zsp.date(endOfDay) },
-  pickUpDateStart: { key: "puds", schema: zsp.date(startOfDay) },
-  pickUpLocations: { key: "pul", schema: zsp.set(zfd.text()) },
-  pickUpReasons: { key: "pur", schema: zsp.set(z.nativeEnum(PickUpReason)) },
-  sort: zsp.requiredEnum(AnimalSort, ANIMAL_DEFAULT_SORT),
-  species: { key: "sp", schema: zsp.set(z.nativeEnum(Species)) },
-  statuses: { key: "st", schema: zsp.set(z.nativeEnum(Status)) },
+  adoptionDateEnd: {
+    key: "ade",
+    schema: zu.searchParams.date().transform(endOfDay),
+  },
+  adoptionDateStart: {
+    key: "ads",
+    schema: zu.searchParams.date(),
+  },
+  adoptionOptions: {
+    key: "ao",
+    schema: zu.searchParams.set(zu.searchParams.nativeEnum(AdoptionOption)),
+  },
+  ages: {
+    key: "a",
+    schema: zu.searchParams.set(zu.searchParams.nativeEnum(AnimalAge)),
+  },
+  birthdateEnd: {
+    key: "be",
+    schema: zu.searchParams.date().transform(endOfDay),
+  },
+  birthdateStart: {
+    key: "bs",
+    schema: zu.searchParams.date(),
+  },
+  felvResults: {
+    key: "felv",
+    schema: zu.searchParams.set(zu.searchParams.nativeEnum(ScreeningResult)),
+  },
+  fivResults: {
+    key: "fiv",
+    schema: zu.searchParams.set(zu.searchParams.nativeEnum(ScreeningResult)),
+  },
+  fosterFamiliesId: {
+    key: "ffid",
+    schema: zu.searchParams.set(
+      zu.searchParams
+        .string()
+        .pipe(zu.string().uuid().optional().catch(undefined)),
+    ),
+  },
+  managersId: {
+    key: "mid",
+    schema: zu.searchParams.set(
+      zu.searchParams
+        .string()
+        .pipe(zu.string().uuid().optional().catch(undefined)),
+    ),
+  },
+  nameOrAlias: {
+    key: "q",
+    schema: zu.searchParams.string(),
+  },
+  vaccination: {
+    key: "v",
+    schema: zu.searchParams.set(zu.searchParams.nativeEnum(AnimalVaccination)),
+  },
+  pickUpDateEnd: {
+    key: "pude",
+    schema: zu.searchParams.date().transform(endOfDay),
+  },
+  pickUpDateStart: {
+    key: "puds",
+    schema: zu.searchParams.date(),
+  },
+  pickUpLocations: {
+    key: "pul",
+    schema: zu.searchParams.set(zu.searchParams.string()),
+  },
+  pickUpReasons: {
+    key: "pur",
+    schema: zu.searchParams.set(zu.searchParams.nativeEnum(PickUpReason)),
+  },
+  sort: zu.searchParams.nativeEnum(AnimalSort).default(ANIMAL_DEFAULT_SORT),
+  species: {
+    key: "sp",
+    schema: zu.searchParams.set(zu.searchParams.nativeEnum(Species)),
+  },
+  statuses: {
+    key: "st",
+    schema: zu.searchParams.set(zu.searchParams.nativeEnum(Status)),
+  },
   sterilizations: {
     key: "stz",
-    schema: zsp.set(z.nativeEnum(AnimalSterilization)),
+    schema: zu.searchParams.set(
+      zu.searchParams.nativeEnum(AnimalSterilization),
+    ),
   },
-  nextVaccinationDateEnd: { key: "nvde", schema: zsp.date(endOfDay) },
-  nextVaccinationDateStart: { key: "nvds", schema: zsp.date(startOfDay) },
+  nextVaccinationDateEnd: {
+    key: "nvde",
+    schema: zu.searchParams.date().transform(endOfDay),
+  },
+  nextVaccinationDateStart: {
+    key: "nvds",
+    schema: zu.searchParams.date(),
+  },
 });
 
 export const PickUpLocationSearchParams = SearchParamsDelegate.create({
-  text: { key: "q", schema: zsp.text() },
+  text: { key: "q", schema: zu.searchParams.string() },
 });

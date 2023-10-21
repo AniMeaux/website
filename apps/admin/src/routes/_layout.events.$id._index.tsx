@@ -19,12 +19,16 @@ import { assertCurrentUserHasGroups } from "#currentUser/groups.server.ts";
 import { EventAvatar } from "#events/avatar.tsx";
 import { Icon } from "#generated/icon.tsx";
 import { formatDateRange } from "@animeaux/core";
+import { zu } from "@animeaux/zod-utils";
 import { UserGroup } from "@prisma/client";
 import type { ActionArgs, LoaderArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import type { V2_MetaFunction } from "@remix-run/react";
 import { useFetcher, useLoaderData } from "@remix-run/react";
-import { z } from "zod";
+
+const ParamsSchema = zu.object({
+  id: zu.string().uuid(),
+});
 
 export async function loader({ request, params }: LoaderArgs) {
   const currentUser = await db.currentUser.get(request, {
@@ -33,13 +37,13 @@ export async function loader({ request, params }: LoaderArgs) {
 
   assertCurrentUserHasGroups(currentUser, [UserGroup.ADMIN]);
 
-  const result = z.string().uuid().safeParse(params["id"]);
-  if (!result.success) {
+  const paramsResult = ParamsSchema.safeParse(params);
+  if (!paramsResult.success) {
     throw new NotFoundResponse();
   }
 
   const event = await prisma.event.findUnique({
-    where: { id: result.data },
+    where: { id: paramsResult.data.id },
     select: {
       description: true,
       endDate: true,
@@ -79,13 +83,13 @@ export async function action({ request, params }: ActionArgs) {
 
   assertCurrentUserHasGroups(currentUser, [UserGroup.ADMIN]);
 
-  const result = z.string().uuid().safeParse(params["id"]);
-  if (!result.success) {
+  const paramsResult = ParamsSchema.safeParse(params);
+  if (!paramsResult.success) {
     throw new NotFoundResponse();
   }
 
   try {
-    await db.event.delete(result.data);
+    await db.event.delete(paramsResult.data.id);
   } catch (error) {
     if (error instanceof NotFoundError) {
       throw new NotFoundResponse();

@@ -51,6 +51,7 @@ import { theme } from "#generated/theme.ts";
 import { UserAvatar } from "#users/avatar.tsx";
 import { hasGroups } from "#users/groups.tsx";
 import { cn, formatAge } from "@animeaux/core";
+import { zu } from "@animeaux/zod-utils";
 import {
   AdoptionOption,
   Gender,
@@ -64,7 +65,10 @@ import { json, redirect } from "@remix-run/node";
 import type { V2_MetaFunction } from "@remix-run/react";
 import { useFetcher, useLoaderData } from "@remix-run/react";
 import { DateTime } from "luxon";
-import { z } from "zod";
+
+const ParamsSchema = zu.object({
+  id: zu.string().uuid(),
+});
 
 export async function loader({ request, params }: LoaderArgs) {
   const currentUser = await db.currentUser.get(request, {
@@ -78,7 +82,7 @@ export async function loader({ request, params }: LoaderArgs) {
     UserGroup.VOLUNTEER,
   ]);
 
-  const result = z.string().uuid().safeParse(params["id"]);
+  const result = ParamsSchema.safeParse(params);
   if (!result.success) {
     throw new NotFoundResponse();
   }
@@ -90,7 +94,7 @@ export async function loader({ request, params }: LoaderArgs) {
   ]);
 
   const animal = await prisma.animal.findUnique({
-    where: { id: result.data },
+    where: { id: result.data.id },
     select: {
       adoptionDate: true,
       adoptionOption: true,
@@ -185,7 +189,7 @@ export async function action({ request, params }: ActionArgs) {
     UserGroup.ANIMAL_MANAGER,
   ]);
 
-  const result = z.string().uuid().safeParse(params["id"]);
+  const result = zu.string().uuid().safeParse(params["id"]);
   if (!result.success) {
     throw new NotFoundResponse();
   }

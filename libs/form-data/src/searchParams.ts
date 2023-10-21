@@ -1,8 +1,6 @@
 import { zu } from "@animeaux/zod-utils";
 import isEqual from "lodash.isequal";
 import invariant from "tiny-invariant";
-import { z } from "zod";
-import { zfd } from "zod-form-data";
 import { toObject } from "./toObject";
 
 export namespace SearchParamsDelegate {
@@ -12,14 +10,14 @@ export namespace SearchParamsDelegate {
   export function create<
     const TSchemaDeclaration extends Record<
       string,
-      z.ZodType | KeyMappingDeclaration
+      zu.ZodType | KeyMappingDeclaration
     >,
   >(schemaDeclaration: TSchemaDeclaration) {
     const attributeToKey = Object.fromEntries(
       Object.entries(schemaDeclaration).map(
         ([attribute, schemaDeclaration]) => [
           attribute,
-          schemaDeclaration instanceof z.ZodType
+          schemaDeclaration instanceof zu.ZodType
             ? attribute
             : schemaDeclaration.key,
         ],
@@ -37,12 +35,12 @@ export namespace SearchParamsDelegate {
       ]),
     );
 
-    const schema = z
+    const schema = zu
       .object(
         Object.fromEntries(
           Object.entries(schemaDeclaration).map(
             ([attribute, schemaDeclaration]) =>
-              schemaDeclaration instanceof z.ZodType
+              schemaDeclaration instanceof zu.ZodType
                 ? [attribute, schemaDeclaration]
                 : [schemaDeclaration.key, schemaDeclaration.schema],
           ),
@@ -129,61 +127,19 @@ type SerializeObject<TObject extends object> = {
 
 type KeyMappingDeclaration = {
   key: string;
-  schema: z.ZodType;
+  schema: zu.ZodType;
 };
 
-type GetSchema<TType> = TType extends z.ZodType
+type GetSchema<TType> = TType extends zu.ZodType
   ? TType
   : TType extends KeyMappingDeclaration
   ? TType["schema"]
   : never;
 
 type InferType<
-  TSchemaDeclaration extends Record<string, z.ZodType | KeyMappingDeclaration>,
+  TSchemaDeclaration extends Record<string, zu.ZodType | KeyMappingDeclaration>,
 > = {
-  [key in keyof TSchemaDeclaration]: z.infer<
+  [key in keyof TSchemaDeclaration]: zu.infer<
     GetSchema<TSchemaDeclaration[key]>
   >;
-};
-
-export namespace zsp {
-  export function date(
-    transform: (date: undefined | Date) => undefined | Date,
-  ) {
-    return zu.date().optional().transform(transform).catch(undefined);
-  }
-
-  export function set<TSchema extends z.ZodType>(schema: TSchema) {
-    return zfd
-      .repeatable(schema.array().catch([]))
-      .transform((array) => new Set(array));
-  }
-
-  export const text: InputType<z.ZodString> = (schema = z.string()) => {
-    return zfd.text(schema.optional().catch(undefined)) as any;
-  };
-
-  export function checkbox() {
-    return zfd.checkbox().catch(false);
-  }
-
-  export function optionalEnum<TEnum extends z.EnumLike>(values: TEnum) {
-    return z.nativeEnum(values).optional().catch(undefined);
-  }
-
-  export function requiredEnum<TEnum extends z.EnumLike>(
-    values: TEnum,
-    defaultValue: TEnum[string | number],
-  ) {
-    return z.nativeEnum(values).catch(defaultValue);
-  }
-}
-
-// Copied from:
-// https://github.com/airjp73/remix-validated-form/blob/zod-form-data-v2.0.1/packages/zod-form-data/src/helpers.ts#L13
-type InputType<DefaultType extends z.ZodTypeAny> = {
-  (): z.ZodEffects<DefaultType>;
-  <ProvidedType extends z.ZodTypeAny>(
-    schema: ProvidedType,
-  ): z.ZodEffects<ProvidedType>;
 };

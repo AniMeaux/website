@@ -19,6 +19,7 @@ import { assertCurrentUserHasGroups } from "#currentUser/groups.server.ts";
 import { Icon } from "#generated/icon.tsx";
 import { cn } from "@animeaux/core";
 import { FormDataDelegate } from "@animeaux/form-data";
+import { zu } from "@animeaux/zod-utils";
 import { UserGroup } from "@prisma/client";
 import type { ActionArgs, LoaderArgs, SerializeFrom } from "@remix-run/node";
 import { json } from "@remix-run/node";
@@ -26,7 +27,6 @@ import type { V2_MetaFunction } from "@remix-run/react";
 import { useFetcher, useLoaderData } from "@remix-run/react";
 import { DateTime } from "luxon";
 import { promiseHash } from "remix-utils";
-import { z } from "zod";
 
 const PRESS_ARTICLES_COUNT_PER_PAGE = 20;
 
@@ -68,8 +68,8 @@ export const meta: V2_MetaFunction = () => {
 };
 
 const DeleteActionFormData = FormDataDelegate.create(
-  z.object({
-    id: z.string().uuid(),
+  zu.object({
+    id: zu.string().uuid(),
   }),
 );
 

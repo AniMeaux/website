@@ -8,26 +8,26 @@ import { Routes, useBackIfPossible } from "#core/navigation.ts";
 import { getPageTitle } from "#core/pageTitle.ts";
 import { Icon } from "#generated/icon.tsx";
 import { FormDataDelegate } from "@animeaux/form-data";
+import { zu } from "@animeaux/zod-utils";
 import type { ActionArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import type { V2_MetaFunction } from "@remix-run/react";
 import { useFetcher } from "@remix-run/react";
 import { useEffect, useRef } from "react";
-import { z } from "zod";
 
 export const meta: V2_MetaFunction = () => {
   return [{ title: getPageTitle("Changer de mot de passe") }];
 };
 
 const ActionFormData = FormDataDelegate.create(
-  z.object({
-    password: z.string().min(1, "Veuillez entrer un mot de passe"),
+  zu.object({
+    password: zu.string().min(1, "Veuillez entrer un mot de passe"),
   }),
 );
 
 type ActionData = {
   redirectTo?: string;
-  errors?: z.inferFlattenedErrors<typeof ActionFormData.schema>;
+  errors?: zu.inferFlattenedErrors<typeof ActionFormData.schema>;
 };
 
 export async function action({ request }: ActionArgs) {

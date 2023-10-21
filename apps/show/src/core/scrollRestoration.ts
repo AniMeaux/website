@@ -1,10 +1,10 @@
 import { createLocationState } from "#core/locationState.ts";
-import { z } from "zod";
+import { zu } from "@animeaux/zod-utils";
 
 export const ScrollRestorationLocationState = createLocationState(
-  z
+  zu
     .object({
-      scrollRestorationLocationKey: z.string().optional().catch(undefined),
+      scrollRestorationLocationKey: zu.string().optional().catch(undefined),
     })
     .catch({}),
 );

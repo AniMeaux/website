@@ -9,12 +9,12 @@ import { Routes, useBackIfPossible } from "#core/navigation.ts";
 import { getPageTitle } from "#core/pageTitle.ts";
 import { Icon } from "#generated/icon.tsx";
 import { FormDataDelegate } from "@animeaux/form-data";
+import { zu } from "@animeaux/zod-utils";
 import type { ActionArgs, LoaderArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import type { V2_MetaFunction } from "@remix-run/react";
 import { useFetcher, useLoaderData } from "@remix-run/react";
 import { useEffect, useRef } from "react";
-import { z } from "zod";
 
 export async function loader({ request }: LoaderArgs) {
   const currentUser = await db.currentUser.get(request, {
@@ -32,15 +32,15 @@ export const meta: V2_MetaFunction = () => {
 };
 
 const ActionFormData = FormDataDelegate.create(
-  z.object({
-    name: z.string().min(1, "Veuillez entrer un nom"),
-    email: z.string().email("Veuillez entrer un email valide"),
+  zu.object({
+    name: zu.string().min(1, "Veuillez entrer un nom"),
+    email: zu.string().email("Veuillez entrer un email valide"),
   }),
 );
 
 type ActionData = {
   redirectTo?: string;
-  errors?: z.inferFlattenedErrors<typeof ActionFormData.schema>;
+  errors?: zu.inferFlattenedErrors<typeof ActionFormData.schema>;
 };
 
 export async function action({ request }: ActionArgs) {

@@ -12,10 +12,13 @@
     "generate": "# Nothing to generate"
   },
   "peerDependencies": {
+    "@animeaux/core": "*",
     "luxon": "^3.4.2",
-    "zod": "^3.22.2"
+    "zod": "^3.22.2",
+    "zod-form-data": "^2.0.1"
   },
   "devDependencies": {
+    "@total-typescript/ts-reset": "^0.5.1",
     "@types/luxon": "^3.3.1"
   }
 }

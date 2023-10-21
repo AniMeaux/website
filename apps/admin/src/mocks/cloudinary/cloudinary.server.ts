@@ -1,4 +1,5 @@
 import { FormDataDelegate } from "@animeaux/form-data";
+import { zu } from "@animeaux/zod-utils";
 import { faker } from "@faker-js/faker";
 import type { UploadHandler } from "@remix-run/node";
 import {
@@ -8,12 +9,11 @@ import {
 } from "@remix-run/node";
 import type { UploadApiErrorResponse, UploadApiResponse } from "cloudinary";
 import { rest } from "msw";
-import { z } from "zod";
 
 const ActionFormData = FormDataDelegate.create(
-  z.object({
-    folder: z.string().optional(),
-    public_id: z.string(),
+  zu.object({
+    folder: zu.string().optional(),
+    public_id: zu.string(),
   }),
 );
 

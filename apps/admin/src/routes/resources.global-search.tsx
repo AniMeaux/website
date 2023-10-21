@@ -16,7 +16,8 @@ import { FosterFamilySuggestionItem } from "#fosterFamilies/item.tsx";
 import { FosterFamilySearchParams } from "#fosterFamilies/searchParams.ts";
 import { Icon } from "#generated/icon.tsx";
 import { cn } from "@animeaux/core";
-import { SearchParamsDelegate, zsp } from "@animeaux/form-data";
+import { SearchParamsDelegate } from "@animeaux/form-data";
+import { zu } from "@animeaux/zod-utils";
 import type { User } from "@prisma/client";
 import { UserGroup } from "@prisma/client";
 import * as Dialog from "@radix-ui/react-dialog";
@@ -52,8 +53,8 @@ const SORTED_ENTITIES = orderBy(
 );
 
 const GlobalSearchParams = SearchParamsDelegate.create({
-  text: { key: "q", schema: zsp.text() },
-  entity: zsp.optionalEnum(Entity),
+  text: { key: "q", schema: zu.searchParams.string() },
+  entity: zu.searchParams.nativeEnum(Entity),
 });
 
 export async function loader({ request }: LoaderArgs) {
