@@ -11,7 +11,7 @@ import { getPageTitle } from "#core/pageTitle";
 import { prisma } from "#core/prisma.server";
 import { assertCurrentUserHasGroups } from "#currentUser/groups.server";
 import { Icon } from "#generated/icon";
-import { cn } from "@animeaux/core";
+import { cn, fromPrismaPromise } from "@animeaux/core";
 import { Gender, UserGroup } from "@prisma/client";
 import type {
   LoaderArgs,
@@ -59,10 +59,7 @@ export async function loader({ request }: LoaderArgs) {
 
   return defer({
     totalCount: await totalCount,
-
-    // Primsa doesn't return a real Promise.
-    // See https://github.com/remix-run/remix/issues/5153#issuecomment-1538484918
-    animals: Promise.resolve().then(() => animals),
+    animals: fromPrismaPromise(animals),
   });
 }
 
