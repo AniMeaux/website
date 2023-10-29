@@ -6,6 +6,7 @@ export const EXHIBITOR_CATEGORY_TRANSLATIONS: Record<
 > = {
   [ExhibitorCategory.ACCESSORIES]: "Accessoires",
   [ExhibitorCategory.ALTERNATIVE_MEDICINE]: "Médecine douce",
+  [ExhibitorCategory.ARTIST]: "Artiste",
   [ExhibitorCategory.ASSOCIATION_PETS]: "Association animaux de compagnie",
   [ExhibitorCategory.ASSOCIATION_WILDLIFE]: "Association faune sauvage",
   [ExhibitorCategory.ASSOCIATION]: "Association",
@@ -18,7 +19,9 @@ export const EXHIBITOR_CATEGORY_TRANSLATIONS: Record<
   [ExhibitorCategory.HYGIENE]: "Hygiène",
   [ExhibitorCategory.INSURANCE]: "Assurance",
   [ExhibitorCategory.ONLINE_PLATFORM]: "Plateforme en ligne",
+  [ExhibitorCategory.PHOTO_STUDIO]: "Studio photo",
   [ExhibitorCategory.PROVISION_OF_SERVICES]: "Prestation de services",
+  [ExhibitorCategory.PUBLISHER]: "Editeur",
   [ExhibitorCategory.SENSITIZATION]: "Sensibilisation",
   [ExhibitorCategory.TOYS_CAT_AND_DOG]: "Jeux chiens et chats",
   [ExhibitorCategory.TOYS_CAT]: "Jeux chats",

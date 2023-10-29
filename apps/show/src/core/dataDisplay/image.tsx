@@ -1,26 +1,19 @@
 import { useConfig } from "#core/config.ts";
+import type { ImageData } from "#core/dataDisplay/imageUrl";
 import type { ImageShapeId } from "#generated/imageShapeId.ts";
 import sprite from "#generated/imageShapesSprite.svg";
 import type { ScreenSize } from "#generated/theme.ts";
 import { theme } from "#generated/theme.ts";
 import { cn } from "@animeaux/core";
-import { SearchParamsDelegate } from "@animeaux/form-data";
-import { zu } from "@animeaux/zod-utils";
 import { blurhashToDataUri } from "@unpic/placeholder";
 import orderBy from "lodash.orderby";
 import { useId } from "react";
-import invariant from "tiny-invariant";
 
 type ImageSize = (typeof IMAGE_SIZES)[number];
 type AspectRatio = "none" | "1:1" | "4:3" | "16:9" | "16:10";
 type ObjectFit = "cover" | "contain";
 type ImageShapeColor = "alabaster" | "mystic" | "paleBlue" | "prussianBlue";
 type ImageShapeSide = "left" | "right";
-type ImageData = {
-  id: string;
-  blurhash?: string;
-};
-
 export type DynamicImageProps = Omit<
   React.ComponentPropsWithoutRef<"img">,
   "alt" | "sizes"
@@ -183,23 +176,6 @@ export function createImageUrl(
 
   return `https://res.cloudinary.com/${cloudName}/image/upload/${transformationsStr}/${imageId}`;
 }
-
-export const ImageUrl = {
-  parse(image: string): ImageData {
-    const [id, searchParams] = image.split("?");
-    invariant(id != null, "The image should exists");
-
-    const { blurhash } = BlurhashSearchParams.parse(
-      new URLSearchParams(searchParams),
-    );
-
-    return { id, blurhash };
-  },
-};
-
-const BlurhashSearchParams = SearchParamsDelegate.create({
-  blurhash: zu.searchParams.string(),
-});
 
 // Ordered by decreasing size.
 const IMAGE_SIZES = ["2048", "1536", "1024", "512", "256", "128"] as const;
