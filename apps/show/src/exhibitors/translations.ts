@@ -15,6 +15,7 @@ export const EXHIBITOR_CATEGORY_TRANSLATIONS: Record<
   [ExhibitorCategory.FOOD_AND_ACCESSORIES]: "Alimentation et accessoires",
   [ExhibitorCategory.FOOD_AND_HYGIENE]: "Alimentation et hygiène",
   [ExhibitorCategory.FOOD_CAT_AND_DOG]: "Alimentation chat et chien",
+  [ExhibitorCategory.FOOD_NACS]: "Alimentation NACS",
   [ExhibitorCategory.FOOD_DOG]: "Alimentation chien",
   [ExhibitorCategory.HYGIENE]: "Hygiène",
   [ExhibitorCategory.INSURANCE]: "Assurance",
