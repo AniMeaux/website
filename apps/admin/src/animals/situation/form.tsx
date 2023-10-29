@@ -47,9 +47,11 @@ import { useEffect, useRef, useState } from "react";
 
 export const ActionFormData = FormDataDelegate.create(
   zu.object({
-    adoptionDate: zu.coerce
-      .date({ invalid_type_error: "Veuillez entrer une date valide" })
-      .optional(),
+    adoptionDate: zu.text(
+      zu.coerce
+        .date({ invalid_type_error: "Veuillez entrer une date valide" })
+        .optional(),
+    ),
     adoptionOption: zu.nativeEnum(AdoptionOption).optional(),
     comments: zu.string().trim(),
     fosterFamilyId: zu.string().uuid().optional(),
@@ -57,9 +59,11 @@ export const ActionFormData = FormDataDelegate.create(
       required_error: "Veuillez choisir une option",
     }),
     managerId: zu.string().uuid().optional(),
-    nextVaccinationDate: zu.coerce
-      .date({ invalid_type_error: "Veuillez entrer une date valide" })
-      .optional(),
+    nextVaccinationDate: zu.text(
+      zu.coerce
+        .date({ invalid_type_error: "Veuillez entrer une date valide" })
+        .optional(),
+    ),
     pickUpDate: zu.coerce.date({
       required_error: "Veuillez entrer une date",
       invalid_type_error: "Veuillez entrer une date valide",
