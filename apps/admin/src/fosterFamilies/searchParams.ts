@@ -1,16 +1,32 @@
-import { SearchParamsDelegate, zsp } from "@animeaux/form-data";
+import { SearchParamsDelegate } from "@animeaux/form-data";
+import { zu } from "@animeaux/zod-utils";
 import { Species } from "@prisma/client";
-import { z } from "zod";
-import { zfd } from "zod-form-data";
 
 export const FosterFamilySearchParams = SearchParamsDelegate.create({
-  displayName: { key: "q", schema: zsp.text() },
-  cities: { key: "city", schema: zsp.set(zfd.text()) },
+  displayName: {
+    key: "q",
+    schema: zu.searchParams.string(),
+  },
+  cities: {
+    key: "city",
+    schema: zu.searchParams.set(zu.searchParams.string()),
+  },
   speciesAlreadyPresent: {
     key: "present",
-    schema: zsp.set(z.nativeEnum(Species)),
+    schema: zu.searchParams.set(zu.searchParams.nativeEnum(Species)),
   },
-  speciesToAvoid: { key: "avoid", schema: zsp.set(z.nativeEnum(Species)) },
-  speciesToHost: { key: "host", schema: zsp.optionalEnum(Species) },
-  zipCode: { key: "zip", schema: zsp.text(z.string().regex(/^\d+$/)) },
+  speciesToAvoid: {
+    key: "avoid",
+    schema: zu.searchParams.set(zu.searchParams.nativeEnum(Species)),
+  },
+  speciesToHost: {
+    key: "host",
+    schema: zu.searchParams.nativeEnum(Species),
+  },
+  zipCode: {
+    key: "zip",
+    schema: zu.searchParams
+      .string()
+      .pipe(zu.string().regex(/^\d+$/).optional().catch(undefined)),
+  },
 });

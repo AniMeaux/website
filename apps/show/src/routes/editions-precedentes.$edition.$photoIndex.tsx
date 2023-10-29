@@ -17,22 +17,21 @@ import {
 } from "#previousEditions/previousEdition.tsx";
 import { cn } from "@animeaux/core";
 import { Primitive } from "@animeaux/react-primitives";
+import { zu } from "@animeaux/zod-utils";
 import type { LoaderArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import type { V2_MetaFunction } from "@remix-run/react";
 import { Link, useLoaderData, useLocation, useParams } from "@remix-run/react";
 import { forwardRef } from "react";
-import { z } from "zod";
-import { zfd } from "zod-form-data";
 
 export const handle: RouteHandle = {
   htmlBackgroundColor: cn("bg-black bg-var-black"),
   isFullHeight: true,
 };
 
-const ParamsSchema = z.object({
-  edition: z.nativeEnum(PreviousEdition),
-  photoIndex: zfd.numeric(z.number().int().min(0)),
+const ParamsSchema = zu.object({
+  edition: zu.nativeEnum(PreviousEdition),
+  photoIndex: zu.searchParams.number().pipe(zu.number().int().min(0)),
 });
 
 export async function loader({ params }: LoaderArgs) {

@@ -11,12 +11,16 @@ import { NotFoundResponse } from "#core/response.server.ts";
 import { assertCurrentUserHasGroups } from "#currentUser/groups.server.ts";
 import { MissingSpeciesToHostError } from "#fosterFamilies/db.server.ts";
 import { ActionFormData, FosterFamilyForm } from "#fosterFamilies/form.tsx";
+import { zu } from "@animeaux/zod-utils";
 import { UserGroup } from "@prisma/client";
 import type { ActionArgs, LoaderArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import type { V2_MetaFunction } from "@remix-run/react";
 import { useFetcher, useLoaderData } from "@remix-run/react";
-import { z } from "zod";
+
+const ParamsSchema = zu.object({
+  id: zu.string().uuid(),
+});
 
 export async function loader({ request, params }: LoaderArgs) {
   const currentUser = await db.currentUser.get(request, {
@@ -28,13 +32,13 @@ export async function loader({ request, params }: LoaderArgs) {
     UserGroup.ANIMAL_MANAGER,
   ]);
 
-  const result = z.string().uuid().safeParse(params["id"]);
-  if (!result.success) {
+  const paramsResult = ParamsSchema.safeParse(params);
+  if (!paramsResult.success) {
     throw new NotFoundResponse();
   }
 
   const fosterFamily = await prisma.fosterFamily.findUnique({
-    where: { id: result.data },
+    where: { id: paramsResult.data.id },
     select: {
       address: true,
       city: true,
@@ -64,7 +68,7 @@ export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
 
 type ActionData = {
   redirectTo?: string;
-  errors?: z.inferFlattenedErrors<typeof ActionFormData.schema>;
+  errors?: zu.inferFlattenedErrors<typeof ActionFormData.schema>;
 };
 
 export async function action({ request, params }: ActionArgs) {
@@ -77,8 +81,8 @@ export async function action({ request, params }: ActionArgs) {
     UserGroup.ANIMAL_MANAGER,
   ]);
 
-  const idResult = z.string().uuid().safeParse(params["id"]);
-  if (!idResult.success) {
+  const paramsResult = ParamsSchema.safeParse(params);
+  if (!paramsResult.success) {
     throw new NotFoundResponse();
   }
 
@@ -92,7 +96,7 @@ export async function action({ request, params }: ActionArgs) {
   }
 
   try {
-    await db.fosterFamily.update(idResult.data, {
+    await db.fosterFamily.update(paramsResult.data.id, {
       address: formData.data.address,
       city: formData.data.city,
       comments: formData.data.comments || null,
@@ -146,7 +150,7 @@ export async function action({ request, params }: ActionArgs) {
   }
 
   return json<ActionData>({
-    redirectTo: Routes.fosterFamilies.id(idResult.data).toString(),
+    redirectTo: Routes.fosterFamilies.id(paramsResult.data.id).toString(),
   });
 }
 

@@ -18,15 +18,15 @@ import { getPageTitle } from "#core/pageTitle.ts";
 import { prisma } from "#core/prisma.server.ts";
 import { NotFoundResponse } from "#core/response.server.ts";
 import { cn } from "@animeaux/core";
+import { zu } from "@animeaux/zod-utils";
 import type { LoaderArgs, SerializeFrom } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import type { V2_MetaFunction } from "@remix-run/react";
 import { Link, useLoaderData } from "@remix-run/react";
 import { DateTime } from "luxon";
-import { z } from "zod";
 
-const DaySchema = z.object({
-  day: z.nativeEnum(ShowDay),
+const DaySchema = zu.object({
+  day: zu.nativeEnum(ShowDay),
 });
 
 export async function loader({ params }: LoaderArgs) {

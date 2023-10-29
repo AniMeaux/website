@@ -11,6 +11,7 @@ import { PageLayout } from "#core/layout/page.tsx";
 import { Routes } from "#core/navigation.ts";
 import { getPageTitle } from "#core/pageTitle.ts";
 import { assertCurrentUserHasGroups } from "#currentUser/groups.server.ts";
+import type { zu } from "@animeaux/zod-utils";
 import { UserGroup } from "@prisma/client";
 import type { ActionArgs, LoaderArgs } from "@remix-run/node";
 import {
@@ -23,7 +24,6 @@ import {
 import type { V2_MetaFunction } from "@remix-run/react";
 import { useFetcher } from "@remix-run/react";
 import invariant from "tiny-invariant";
-import type { z } from "zod";
 
 export async function loader({ request }: LoaderArgs) {
   const currentUser = await db.currentUser.get(request, {
@@ -46,7 +46,7 @@ export const meta: V2_MetaFunction = () => {
 };
 
 type ActionData = {
-  errors?: z.inferFlattenedErrors<typeof ActionFormData.schema>;
+  errors?: zu.inferFlattenedErrors<typeof ActionFormData.schema>;
 };
 
 export async function action({ request }: ActionArgs) {

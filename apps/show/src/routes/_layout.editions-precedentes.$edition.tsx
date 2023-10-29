@@ -18,15 +18,15 @@ import {
   SORTED_PREVIOUS_EDITIONS,
 } from "#previousEditions/previousEdition.tsx";
 import { cn } from "@animeaux/core";
+import { zu } from "@animeaux/zod-utils";
 import type { LoaderArgs, SerializeFrom } from "@remix-run/node";
 import { defer } from "@remix-run/node";
 import type { V2_MetaFunction } from "@remix-run/react";
 import { Await, Link, useLoaderData, useLocation } from "@remix-run/react";
 import { Suspense } from "react";
-import { z } from "zod";
 
-const ParamsSchema = z.object({
-  edition: z.nativeEnum(PreviousEdition),
+const ParamsSchema = zu.object({
+  edition: zu.nativeEnum(PreviousEdition),
 });
 
 export async function loader({ params }: LoaderArgs) {

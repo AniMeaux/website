@@ -11,29 +11,28 @@ import { Textarea } from "#core/formElements/textarea.tsx";
 import { Separator } from "#core/layout/separator.tsx";
 import { Icon } from "#generated/icon.tsx";
 import { FormDataDelegate } from "@animeaux/form-data";
+import { zu } from "@animeaux/zod-utils";
 import type { FosterFamily } from "@prisma/client";
 import { Species } from "@prisma/client";
 import type { SerializeFrom } from "@remix-run/node";
 import type { FetcherWithComponents } from "@remix-run/react";
 import { useLocation } from "@remix-run/react";
 import { useEffect, useRef } from "react";
-import { z } from "zod";
-import { zfd } from "zod-form-data";
 
 export const ActionFormData = FormDataDelegate.create(
-  z.object({
-    address: z.string().trim().min(1, "Veuillez entrer une adresse"),
-    city: z.string().trim().min(1, "Veuillez choisir une ville"),
-    comments: z.string().trim(),
-    displayName: z.string().trim().min(1, "Veuillez entrer un nom"),
-    email: z.string().email("Veuillez entrer un email valide"),
-    phone: z
+  zu.object({
+    address: zu.string().trim().min(1, "Veuillez entrer une adresse"),
+    city: zu.string().trim().min(1, "Veuillez choisir une ville"),
+    comments: zu.string().trim(),
+    displayName: zu.string().trim().min(1, "Veuillez entrer un nom"),
+    email: zu.string().email("Veuillez entrer un email valide"),
+    phone: zu
       .string()
       .trim()
       .regex(/^\+?[\s\d]+$/, "Veuillez entrer un numéro de téléphone valide"),
-    speciesAlreadyPresent: zfd.repeatable(z.nativeEnum(Species).array()),
-    speciesToHost: zfd.repeatable(z.nativeEnum(Species).array()),
-    zipCode: z
+    speciesAlreadyPresent: zu.repeatable(zu.nativeEnum(Species).array()),
+    speciesToHost: zu.repeatable(zu.nativeEnum(Species).array()),
+    zipCode: zu
       .string()
       .trim()
       .regex(/^\d{5}$/, "Veuillez entrer un code postal valide"),
@@ -59,7 +58,7 @@ export function FosterFamilyForm({
     >
   >;
   fetcher: FetcherWithComponents<{
-    errors?: z.inferFlattenedErrors<typeof ActionFormData.schema>;
+    errors?: zu.inferFlattenedErrors<typeof ActionFormData.schema>;
   }>;
 }) {
   const isCreate = defaultFosterFamily == null;

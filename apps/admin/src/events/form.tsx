@@ -23,28 +23,26 @@ import type { FetcherWithComponents } from "@remix-run/react";
 import { useFormAction } from "@remix-run/react";
 import { useEffect, useRef, useState } from "react";
 import invariant from "tiny-invariant";
-import { z } from "zod";
-import { zfd } from "zod-form-data";
 
 export const ActionFormData = FormDataDelegate.create(
-  z.object({
-    description: z.string().trim().min(1, "Veuillez entrer une description"),
-    endDate: zu.date({
+  zu.object({
+    description: zu.string().trim().min(1, "Veuillez entrer une description"),
+    endDate: zu.coerce.date({
       required_error: "Veuillez entrer une date de fin",
       invalid_type_error: "Veuillez entrer une date de fin valide",
     }),
-    image: z.string({ required_error: "Veuillez choisir une affiche" }),
-    isDraft: zfd.checkbox(),
-    isFullDay: zfd.checkbox(),
-    location: z.string().trim().min(1, "Veuillez entrer un lieu"),
-    startDate: zu.date({
+    image: zu.string({ required_error: "Veuillez choisir une affiche" }),
+    isDraft: zu.checkbox(),
+    isFullDay: zu.checkbox(),
+    location: zu.string().trim().min(1, "Veuillez entrer un lieu"),
+    startDate: zu.coerce.date({
       required_error: "Veuillez entrer une date de début",
       invalid_type_error: "Veuillez entrer une date de début valide",
     }),
-    title: z.string().trim().min(1, "Veuillez entrer un titre"),
-    url: z.union([
-      z.literal(""),
-      z.string().url("Veuillez entrer une URL valide"),
+    title: zu.string().trim().min(1, "Veuillez entrer un titre"),
+    url: zu.union([
+      zu.literal(""),
+      zu.string().url("Veuillez entrer une URL valide"),
     ]),
   }),
 );
@@ -70,7 +68,7 @@ export function EventForm({
     >
   >;
   fetcher: FetcherWithComponents<{
-    errors?: z.inferFlattenedErrors<typeof ActionFormData.schema>;
+    errors?: zu.inferFlattenedErrors<typeof ActionFormData.schema>;
   }>;
 }) {
   const isCreate = defaultEvent == null;

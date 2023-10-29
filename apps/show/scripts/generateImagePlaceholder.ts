@@ -1,6 +1,7 @@
 import { getPixels } from "@unpic/pixels";
 import { encode } from "blurhash";
 import invariant from "tiny-invariant";
+import { ImageUrl } from "../src/core/dataDisplay/imageUrl";
 
 invariant(
   process.env.CLOUDINARY_CLOUD_NAME,
@@ -29,4 +30,5 @@ async function generateImagePlaceholder() {
   );
 
   console.log("blurhash:", blurhash);
+  console.log("Image URL:", ImageUrl.stringify({ id: imageId, blurhash }));
 }

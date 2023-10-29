@@ -1,12 +1,12 @@
+import { zu } from "@animeaux/zod-utils";
 import { useLocation } from "@remix-run/react";
 import { useMemo } from "react";
-import { z } from "zod";
 
-const LocationStateSchema = z
-  .object({ fromApp: z.boolean().catch(false) })
+const LocationStateSchema = zu
+  .object({ fromApp: zu.boolean().catch(false) })
   .catch({ fromApp: false });
 
-export type LocationState = z.infer<typeof LocationStateSchema>;
+export type LocationState = zu.infer<typeof LocationStateSchema>;
 
 export function useLocationState() {
   const location = useLocation();

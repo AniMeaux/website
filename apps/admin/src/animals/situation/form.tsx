@@ -44,46 +44,44 @@ import type { SerializeFrom } from "@remix-run/node";
 import type { FetcherWithComponents } from "@remix-run/react";
 import { useLocation } from "@remix-run/react";
 import { useEffect, useRef, useState } from "react";
-import { z } from "zod";
-import { zfd } from "zod-form-data";
 
 export const ActionFormData = FormDataDelegate.create(
-  z.object({
-    adoptionDate: zfd.text(
-      zu
+  zu.object({
+    adoptionDate: zu.text(
+      zu.coerce
         .date({ invalid_type_error: "Veuillez entrer une date valide" })
         .optional(),
     ),
-    adoptionOption: z.nativeEnum(AdoptionOption).optional(),
-    comments: z.string().trim(),
-    fosterFamilyId: z.string().uuid().optional(),
-    isSterilized: z.enum(["YES", "NO", "NOT_MANDATORY"], {
+    adoptionOption: zu.nativeEnum(AdoptionOption).optional(),
+    comments: zu.string().trim(),
+    fosterFamilyId: zu.string().uuid().optional(),
+    isSterilized: zu.enum(["YES", "NO", "NOT_MANDATORY"], {
       required_error: "Veuillez choisir une option",
     }),
-    managerId: z.string().uuid().optional(),
-    nextVaccinationDate: zfd.text(
-      zu
+    managerId: zu.string().uuid().optional(),
+    nextVaccinationDate: zu.text(
+      zu.coerce
         .date({ invalid_type_error: "Veuillez entrer une date valide" })
         .optional(),
     ),
-    pickUpDate: zu.date({
+    pickUpDate: zu.coerce.date({
       required_error: "Veuillez entrer une date",
       invalid_type_error: "Veuillez entrer une date valide",
     }),
-    pickUpLocation: z.string().trim().optional(),
-    pickUpReason: z.nativeEnum(PickUpReason, {
+    pickUpLocation: zu.string().trim().optional(),
+    pickUpReason: zu.nativeEnum(PickUpReason, {
       required_error: "Veuillez choisir une raison",
     }),
-    screeningFelv: z
+    screeningFelv: zu
       .nativeEnum(ScreeningResult)
       .default(ScreeningResult.UNKNOWN),
-    screeningFiv: z
+    screeningFiv: zu
       .nativeEnum(ScreeningResult)
       .default(ScreeningResult.UNKNOWN),
-    status: z.nativeEnum(Status, {
+    status: zu.nativeEnum(Status, {
       required_error: "Veuillez choisir un statut",
     }),
-    vaccination: z.enum(["MANDATORY", "WONT_BE_DONE"]),
+    vaccination: zu.enum(["MANDATORY", "WONT_BE_DONE"]),
   }),
 );
 
@@ -118,7 +116,7 @@ export function AnimalSituationForm({
   >;
   currentUser?: null | Pick<User, "id" | "displayName" | "groups">;
   fetcher: FetcherWithComponents<{
-    errors?: z.inferFlattenedErrors<typeof ActionFormData.schema>;
+    errors?: zu.inferFlattenedErrors<typeof ActionFormData.schema>;
   }>;
 }) {
   const [statusState, setStatusState] = useState(
