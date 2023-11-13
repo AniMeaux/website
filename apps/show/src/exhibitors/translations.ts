@@ -11,6 +11,7 @@ export const EXHIBITOR_CATEGORY_TRANSLATIONS: Record<
   [ExhibitorCategory.ASSOCIATION_WILDLIFE]: "Association faune sauvage",
   [ExhibitorCategory.ASSOCIATION]: "Association",
   [ExhibitorCategory.CANINE_EDUCATION]: "Éducation canine",
+  [ExhibitorCategory.CARE]: "Soins",
   [ExhibitorCategory.FELINE_BEHAVIOR]: "Comportement félin",
   [ExhibitorCategory.FOOD_AND_ACCESSORIES]: "Alimentation et accessoires",
   [ExhibitorCategory.FOOD_AND_HYGIENE]: "Alimentation et hygiène",
