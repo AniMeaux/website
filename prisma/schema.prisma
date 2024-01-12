@@ -191,6 +191,16 @@ model PressArticle {
   url             String   @unique
 }
 
+model ShowPartner {
+  id        String   @id @default(uuid()) @db.VarChar(255)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  image String
+  name  String @unique @db.VarChar(255)
+  url   String @unique
+}
+
 model Exhibitor {
   id        String   @id @default(uuid()) @db.VarChar(255)
   createdAt DateTime @default(now())
