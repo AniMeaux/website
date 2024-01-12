@@ -19,14 +19,6 @@ export const partners: Partner[] = orderBy(
       url: "https://www.anideo.fr",
     },
     {
-      id: "09d72a39-a7f7-4635-a816-8125a0daeaea",
-      image: "partners/00c8e356-ed74-46a3-9d67-22d68f8cf407",
-      name: "HugoDogs",
-      description:
-        "Educateur canin comportementaliste, HugoDogs vous accompagne dans l’éducation ou la ré-éducation de votre chien. Il est également artisan fabriquant de sellerie canine.",
-      url: "https://www.hugodogs.fr",
-    },
-    {
       id: "6042efa7-8dbe-4216-a79e-de3e5f12090b",
       image: "partners/570514db-e012-436a-8e8e-ea40a4299567",
       name: "La vie de nos animaux",
@@ -35,20 +27,12 @@ export const partners: Partner[] = orderBy(
       url: "http://www.la-vie-de-nos-animaux.fr",
     },
     {
-      id: "e747aa03-fd3d-4703-8e54-7e79525b69f3",
-      image: "partners/d0601d2b-260b-4d9f-95dc-0d8230e95f29",
-      name: "Le Muso Français",
+      id: "92a23125-5520-46ae-97f6-6108df513977",
+      image: "partners/9fa78dca-24d1-4734-80b6-56bf0c5b1075",
+      name: "MaxiZoo",
       description:
-        "Des accessoires chien et chat tendances et solides ! Une fabrication Française & à la main !",
-      url: "https://lemusofrancais.fr",
-    },
-    {
-      id: "9b6e3cba-aa89-4452-a806-d8f0e36e74e9",
-      image: "partners/38bc33a0-3037-4a13-8029-ab23935dfe3b",
-      name: "MedaillesChien",
-      description:
-        "Médailles Gravées et Accessoires pour Animaux (Chiens, Chats, Chevaux, ânes, Lapins, etc…). Choix de matières, de formes, de tailles et de couleurs. Entreprise et Atelier en France. Envoi et Livraison Rapide.",
-      url: "https://medailleschien.com",
+        "Maxi Zoo, votre destination préférée pour les besoins de vos animaux de compagnie. En plus de proposer une large gamme de produits de qualité, Maxi Zoo nous soutient en nous accueillant pour des collectes pour nos protégés.",
+      url: "https://www.maxizoo.fr/stores/maxi-zoo-mareuil-les-meaux",
     },
     {
       id: "0be42a59-4d05-4e09-ba5a-a7e5550be7a6",
@@ -59,12 +43,12 @@ export const partners: Partner[] = orderBy(
       url: "https://www.neovoice.fr",
     },
     {
-      id: "393f0531-f2cf-4db2-a3f6-50a5c28317b7",
-      image: "partners/0bc4ccc9-587e-4ade-b75a-9c260565efaf",
-      name: "Pixie and Friends",
+      id: "f0d3b7bd-722d-489d-8b7a-7224feb96c50",
+      image: "partners/b4c93e5e-0421-40a2-bb1a-b08f4ef9d317",
+      name: "Roses Confettis",
       description:
-        "Sélection de friandises et alimentation naturelle pour votre chien. Accessoires fait main et jouets eco-responsables.",
-      url: "https://pixieandfriends.com",
+        "Des accessoires colorés et amusants en Biothane® pour chiens, conçus à la main à Montpellier. Chaque commande contribue à soutenir l’association Ani’Meaux avec 1€ de don.",
+      url: "https://rosesetconfettis.store",
     },
     {
       id: "ce96c1c2-687b-4725-8ea7-4b50b6e76cd5",
@@ -73,14 +57,6 @@ export const partners: Partner[] = orderBy(
       description:
         "En tant que graphiste professionnelle spécialisée dans la **création de logo d’entreprise**, Super Logo vous propose ses services pour la réalisation de votre identité visuelle. Passionnée par le monde du graphisme et à l’écoute de ses clients, Super Logo met ses compétences à profit pour les particuliers, les petites et les grandes entreprises.",
       url: "https://www.super-logo.com",
-    },
-    {
-      id: "d712924a-007f-42fd-bfc8-a9312c0bcff1",
-      image: "partners/a58690ad-984b-4e91-b9bb-ea103ab2894b",
-      name: "Zolux",
-      description:
-        "Professionnel de l’animalerie, Zolux est une entreprise française qui conçoit, fabrique et commercialise des produits pour l’habitat, le confort et l’hygiène des animaux domestiques : chat, chien, poisson, rongeur, oiseau, reptile !",
-      url: "https://www.zolux.com",
     },
     {
       id: "01c5f92b-c600-4d25-8697-0f92c7a9d841",
