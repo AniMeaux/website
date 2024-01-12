@@ -93,7 +93,7 @@ function HeroSection() {
           </Section.Title>
 
           <p className="text-center md:text-left">
-            Premier salon dédié au bien-être animal à Meaux.
+            3ème édition du salon dédié au bien-être animal à Meaux.
             <br />
             <strong className="text-body-lowercase-emphasis">
               <time dateTime={OPENING_TIME.toISO()}>
