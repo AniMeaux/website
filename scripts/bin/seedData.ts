@@ -41,6 +41,7 @@ async function seedData() {
     seedColors(),
     seedEvents(),
     seedPressArticle(),
+    seedShowPartners(),
     seedExhibitors(),
     seedShowEvents(),
   ]);
@@ -449,6 +450,19 @@ async function seedPressArticle() {
 
   const count = await prisma.pressArticle.count();
   console.log(`- 👍 ${count} press articles`);
+}
+
+async function seedShowPartners() {
+  await prisma.showPartner.createMany({
+    data: repeate({ min: 5, max: 10 }, () => ({
+      image: faker.string.uuid(),
+      name: faker.company.name(),
+      url: faker.internet.url(),
+    })),
+  });
+
+  const count = await prisma.showPartner.count();
+  console.log(`- 👍 ${count} show partners`);
 }
 
 async function seedExhibitors() {

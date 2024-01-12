@@ -12,6 +12,7 @@ declare global {
       EXHIBITORS_FORM_URL?: string;
       FACEBOOK_URL?: string;
       FEATURE_FLAG_SHOW_EXHIBITORS?: "true" | "false";
+      FEATURE_FLAG_SHOW_PARTNERS?: "true" | "false";
       FEATURE_FLAG_SHOW_PROGRAM?: "true" | "false";
       FEATURE_FLAG_SITE_ONLINE?: "true" | "false";
       GOOGLE_TAG_MANAGER_ID?: string;
