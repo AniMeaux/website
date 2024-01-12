@@ -21,8 +21,8 @@ export function PartnerItem({
       <Link
         to={partner.url}
         className={cn(
-          "group overflow-hidden border border-alabaster grid grid-cols-1 focus-visible:outline-none focus-visible:ring focus-visible:ring-mystic focus-visible:ring-offset-2 focus-visible:ring-offset-inheritBg",
-          isSmall ? "rounded-1" : "rounded-2",
+          "group overflow-hidden grid grid-cols-1 focus-visible:outline-none focus-visible:ring focus-visible:ring-mystic focus-visible:ring-offset-2 focus-visible:ring-offset-inheritBg",
+          isSmall ? "rounded-1" : "rounded-2 border border-alabaster",
         )}
       >
         <DynamicImage
