@@ -9,7 +9,9 @@ import { Routes } from "#core/navigation.tsx";
 import { Icon } from "#generated/icon.tsx";
 import { Pictogram } from "#generated/pictogram.tsx";
 import logoAniMeaux from "#images/logoAniMeaux.svg";
+import { usePartners } from "#partners/data";
 import { PartnersImage } from "#partners/image.tsx";
+import { PartnerItem } from "#partners/item";
 import { Link } from "@remix-run/react";
 
 export function Footer() {
@@ -71,14 +73,31 @@ function LinksSection() {
     pressReleaseUrl,
   } = useConfig();
 
+  const partners = usePartners();
+
   return (
     <section className="bg-paleBlue bg-var-paleBlue px-page-narrow md:px-page-normal py-4 grid grid-cols-1 md:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] gap-2 sm:gap-4 lg:gap-8 md:items-center">
       <Section.TextAside className="justify-self-center md:justify-self-stretch max-w-sm md:max-w-none">
-        <PartnersImage
-          fallbackSize="512"
-          sizes={{ default: "384px", md: "50vw", lg: "341px" }}
-          className="w-full"
-        />
+        {partners.length === 0 ? (
+          <PartnersImage
+            fallbackSize="512"
+            sizes={{ default: "384px", md: "50vw", lg: "341px" }}
+            className="w-full"
+          />
+        ) : (
+          <ul className="flex flex-wrap gap-1 justify-center">
+            {partners.map((partner) => (
+              <PartnerItem
+                key={partner.id}
+                partner={partner}
+                fallbackSize="128"
+                isSmall
+                sizes={{ default: "70px" }}
+                className="flex-none w-[70px]"
+              />
+            ))}
+          </ul>
+        )}
 
         <Section.Action asChild isCentered>
           <Action asChild color="prussianBlue">

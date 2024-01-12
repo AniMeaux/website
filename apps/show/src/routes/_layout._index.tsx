@@ -19,7 +19,9 @@ import { Icon } from "#generated/icon.tsx";
 import { Pictogram } from "#generated/pictogram.tsx";
 import logoAniMeaux from "#images/logoAniMeaux.svg";
 import logoLarge from "#images/logoLarge.svg";
+import { usePartners } from "#partners/data";
 import { PartnersImage } from "#partners/image.tsx";
+import { PartnerItem } from "#partners/item";
 import { PreviousEditionImage } from "#previousEditions/image.tsx";
 import { cn } from "@animeaux/core";
 import type { V2_MetaFunction } from "@remix-run/react";
@@ -320,6 +322,7 @@ function OriginSection() {
 
 function PartnersSection() {
   const { partnersFormUrl } = useConfig();
+  const partners = usePartners();
 
   return (
     <Section width="full" columnCount={1}>
@@ -338,12 +341,26 @@ function PartnersSection() {
         </Section.Action>
       </Section.TextAside>
 
-      <section className="px-safe-page-narrow md:px-safe-page-normal grid grid-cols-1">
-        <PartnersImage
-          fallbackSize="1024"
-          sizes={{ default: "100vw", lg: "1024px" }}
-          className="w-full"
-        />
+      <section className="px-safe-page-narrow md:px-safe-page-normal pt-2 md:pt-0 grid grid-cols-1">
+        {partners.length === 0 ? (
+          <PartnersImage
+            fallbackSize="1024"
+            sizes={{ default: "100vw", lg: "1024px" }}
+            className="w-full"
+          />
+        ) : (
+          <ul className="flex flex-wrap gap-1 md:gap-2 justify-center">
+            {partners.map((partner) => (
+              <PartnerItem
+                key={partner.id}
+                partner={partner}
+                fallbackSize="512"
+                sizes={{ default: "130px", lg: "180px" }}
+                className="flex-none w-[130px] md:w-[180px]"
+              />
+            ))}
+          </ul>
+        )}
       </section>
     </Section>
   );
