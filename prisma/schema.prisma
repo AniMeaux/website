@@ -206,10 +206,11 @@ model Exhibitor {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  category ExhibitorCategory
-  image    String
-  name     String            @unique @db.VarChar(255)
-  url      String            @unique
+  category         ExhibitorCategory
+  eventDescription String?
+  image            String
+  name             String            @unique @db.VarChar(255)
+  url              String            @unique
 }
 
 enum ExhibitorCategory {
