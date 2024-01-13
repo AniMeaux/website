@@ -4,6 +4,7 @@ import { useConfig } from "#core/config.ts";
 import { ErrorPage, getErrorTitle } from "#core/dataDisplay/errorPage.tsx";
 import { DynamicImage } from "#core/dataDisplay/image.tsx";
 import { ImageUrl } from "#core/dataDisplay/imageUrl";
+import { Markdown, SENTENCE_COMPONENTS } from "#core/dataDisplay/markdown";
 import { BoardCard } from "#core/layout/boardCard.tsx";
 import { LightBoardCard } from "#core/layout/lightBoardCard.tsx";
 import { Section } from "#core/layout/section.tsx";
@@ -19,7 +20,11 @@ import type { V2_MetaFunction } from "@remix-run/react";
 import { Link, useLoaderData } from "@remix-run/react";
 
 export async function loader() {
-  const { featureFlagShowExhibitors, featureFlagSiteOnline } = createConfig();
+  const {
+    featureFlagShowExhibitors,
+    featureFlagSiteOnline,
+    featureFlagShowProgram,
+  } = createConfig();
 
   if (!featureFlagSiteOnline) {
     throw new NotFoundResponse();
@@ -33,6 +38,7 @@ export async function loader() {
     orderBy: { name: "asc" },
     select: {
       category: true,
+      eventDescription: featureFlagShowProgram,
       id: true,
       image: true,
       name: true,
@@ -164,7 +170,7 @@ function ExhibitorItem({
   >;
 }) {
   return (
-    <li className="grid grid-cols-1">
+    <li className="grid grid-cols-1 gap-2">
       <Link
         to={exhibitor.url}
         className="group rounded-t-2 rounded-b-0.5 grid grid-cols-1 gap-2 focus-visible:outline-none focus-visible:ring focus-visible:ring-mystic focus-visible:ring-offset-2 focus-visible:ring-offset-inheritBg"
@@ -187,6 +193,21 @@ function ExhibitorItem({
           <p>{EXHIBITOR_CATEGORY_TRANSLATIONS[exhibitor.category]}</p>
         </div>
       </Link>
+
+      {exhibitor.eventDescription != null ? (
+        <div className="rounded-1 px-2 py-1 bg-alabaster bg-var-alabaster grid grid-cols-[minmax(0,1fr)_auto] gap-1 items-start">
+          <p>
+            <Markdown
+              components={SENTENCE_COMPONENTS}
+              content={exhibitor.eventDescription}
+            />
+          </p>
+
+          <span className="h-2 flex items-center">
+            <Pictogram id="standMystic" className="text-[16px]" />
+          </span>
+        </div>
+      ) : null}
     </li>
   );
 }

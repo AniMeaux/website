@@ -11,6 +11,7 @@ import {
   SORTED_SHOW_DAYS,
   ShowDay,
 } from "#core/dates.ts";
+import { LightBoardCard } from "#core/layout/lightBoardCard";
 import { Section } from "#core/layout/section.tsx";
 import { createSocialMeta } from "#core/meta.ts";
 import { Routes } from "#core/navigation.tsx";
@@ -85,6 +86,7 @@ export default function Route() {
     <>
       <TitleSection />
       <EventListSection />
+      <ExhibitorsEventsListSection />
     </>
   );
 }
@@ -349,5 +351,30 @@ function SeparatorLargeBlock({
         />
       ) : null}
     </div>
+  );
+}
+
+function ExhibitorsEventsListSection() {
+  return (
+    <Section columnCount={1}>
+      <Section.TextAside asChild>
+        <LightBoardCard>
+          <Section.Title>Surprises de nos exposants</Section.Title>
+
+          <p>
+            Tout au long de l’événement, nos exposants ont prévu des animations
+            et des surprises pour ravir les visiteurs de tous âges. Pour en
+            savoir plus sur ces animations, rendez-vous sur la page des
+            exposants où vous trouverez ce qu’ils ont préparé pour vous.
+          </p>
+
+          <Section.Action asChild>
+            <Action asChild>
+              <Link to={Routes.exhibitors()}>Voir les surprises</Link>
+            </Action>
+          </Section.Action>
+        </LightBoardCard>
+      </Section.TextAside>
+    </Section>
   );
 }
