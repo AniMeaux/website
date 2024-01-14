@@ -11,6 +11,7 @@ declare global {
       CLOUDINARY_API_SECRET?: string;
       CLOUDINARY_CLOUD_NAME?: string;
       DATABASE_URL?: string;
+      ENABLE_CRONS?: "true" | "false";
       PUBLIC_HOST?: string;
       RUNTIME_ENV?: "staging" | "production";
       SESSION_SECRET?: string;

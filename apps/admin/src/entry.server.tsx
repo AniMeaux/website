@@ -15,6 +15,11 @@ if (process.env.NODE_ENV === "development") {
   startWorker();
 }
 
+if (process.env.ENABLE_CRONS === "true") {
+  const { startCrons } = require("#core/crons/crons.server.ts");
+  startCrons();
+}
+
 export default async function handleRequest(
   request: Request,
   responseStatusCode: number,

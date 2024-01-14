@@ -1,8 +1,10 @@
+import { AnimalAvatar } from "#animals/avatar";
 import { Action } from "#core/actions.tsx";
 import { algolia } from "#core/algolia/algolia.server.ts";
 import { BaseLink } from "#core/baseLink.tsx";
 import { Paginator } from "#core/controllers/paginator.tsx";
 import { SortAndFiltersFloatingAction } from "#core/controllers/sortAndFiltersFloatingAction.tsx";
+import { Avatar } from "#core/dataDisplay/avatar";
 import { Empty } from "#core/dataDisplay/empty.tsx";
 import { db } from "#core/db.server.ts";
 import { Card } from "#core/layout/card.tsx";
@@ -12,13 +14,15 @@ import { getPageTitle } from "#core/pageTitle.ts";
 import { prisma } from "#core/prisma.server.ts";
 import { PageSearchParams } from "#core/searchParams.ts";
 import { assertCurrentUserHasGroups } from "#currentUser/groups.server.ts";
+import { FosterFamilyAvatar } from "#fosterFamilies/avatar";
 import { FosterFamilyFilters } from "#fosterFamilies/filterForm.tsx";
-import { ForsterFamilyItem } from "#fosterFamilies/item.tsx";
+import { getShortLocation } from "#fosterFamilies/location";
 import { FosterFamilySearchParams } from "#fosterFamilies/searchParams.ts";
+import { cn } from "@animeaux/core";
 import { useOptimisticSearchParams } from "@animeaux/form-data";
 import type { Prisma } from "@prisma/client";
 import { UserGroup } from "@prisma/client";
-import type { LoaderArgs } from "@remix-run/node";
+import type { LoaderArgs, SerializeFrom } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import type { V2_MetaFunction } from "@remix-run/react";
 import { useLoaderData } from "@remix-run/react";
@@ -109,10 +113,11 @@ export async function loader({ request }: LoaderArgs) {
       orderBy: { displayName: "asc" },
       where: { AND: where },
       select: {
+        availability: true,
         city: true,
         displayName: true,
+        fosterAnimals: { select: { avatar: true, name: true, id: true } },
         id: true,
-        speciesToHost: true,
         zipCode: true,
       },
     }),
@@ -133,7 +138,7 @@ export const meta: V2_MetaFunction = () => {
 };
 
 export default function Route() {
-  const { totalCount, pageCount, fosterFamilies } =
+  const { totalCount, pageCount, fosterFamilies, possibleCities } =
     useLoaderData<typeof loader>();
   const [searchParams] = useOptimisticSearchParams();
 
@@ -156,12 +161,12 @@ export default function Route() {
                 </Action>
               </Card.Header>
 
-              <Card.Content>
+              <Card.Content hasNewItems>
                 {fosterFamilies.length > 0 ? (
                   <ul className="grid grid-cols-1">
                     {fosterFamilies.map((fosterFamily) => (
                       <li key={fosterFamily.id} className="flex">
-                        <ForsterFamilyItem
+                        <FosterFamilyItem
                           fosterFamily={fosterFamily}
                           className="w-full"
                         />
@@ -204,21 +209,78 @@ export default function Route() {
               </Card.Header>
 
               <Card.Content hasVerticalScroll>
-                <SortAndFilters />
+                <FosterFamilyFilters possibleCities={possibleCities} />
               </Card.Content>
             </Card>
           </aside>
         </section>
 
         <SortAndFiltersFloatingAction totalCount={totalCount}>
-          <SortAndFilters />
+          <FosterFamilyFilters possibleCities={possibleCities} />
         </SortAndFiltersFloatingAction>
       </PageLayout.Content>
     </PageLayout>
   );
 }
 
-function SortAndFilters() {
-  const { possibleCities } = useLoaderData<typeof loader>();
-  return <FosterFamilyFilters possibleCities={possibleCities} />;
+function FosterFamilyItem({
+  fosterFamily,
+  className,
+}: {
+  fosterFamily: SerializeFrom<typeof loader>["fosterFamilies"][number];
+  className?: string;
+}) {
+  const fosterAnimalsAvatars = fosterFamily.fosterAnimals.map((animal) => (
+    <AnimalAvatar
+      key={animal.id}
+      size="sm"
+      animal={animal}
+      className={ANIMAL_AVATAR_CLASS_NAME}
+    />
+  ));
+
+  if (fosterAnimalsAvatars.length > MAX_ANIMAL_AVATAR_COUNT) {
+    const restCount =
+      fosterAnimalsAvatars.length - (MAX_ANIMAL_AVATAR_COUNT - 1);
+
+    fosterAnimalsAvatars.splice(
+      MAX_ANIMAL_AVATAR_COUNT - 1,
+      restCount,
+      <Avatar
+        key="ellipsis"
+        color="gray-light"
+        size="sm"
+        className={ANIMAL_AVATAR_CLASS_NAME}
+      >
+        <span className="text-caption-emphasis">+{restCount}</span>
+      </Avatar>,
+    );
+  }
+
+  return (
+    <BaseLink
+      to={Routes.fosterFamilies.id(fosterFamily.id).toString()}
+      className={cn(
+        className,
+        "rounded-0.5 px-0.5 md:px-1 py-1 grid grid-cols-[auto_minmax(0px,1fr)] grid-flow-col items-start gap-1 md:gap-2 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 bg-white bg-var-white hover:bg-gray-100 hover:bg-var-gray-100 focus-visible:z-10",
+      )}
+    >
+      <FosterFamilyAvatar size="sm" availability={fosterFamily.availability} />
+
+      <span className="flex flex-col md:flex-row md:gap-2">
+        <span className="text-body-emphasis">{fosterFamily.displayName}</span>
+        <span className="text-gray-500">{getShortLocation(fosterFamily)}</span>
+      </span>
+
+      {fosterAnimalsAvatars.length > 0 ? (
+        <span className="flex self-center">{fosterAnimalsAvatars}</span>
+      ) : null}
+    </BaseLink>
+  );
 }
+
+const MAX_ANIMAL_AVATAR_COUNT = 5;
+
+const ANIMAL_AVATAR_CLASS_NAME = cn(
+  "flex-none ring-2 ring-inheritBg -ml-0.5 first:ml-0",
+);

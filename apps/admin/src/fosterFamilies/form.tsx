@@ -1,27 +1,40 @@
 import { SORTED_SPECIES, SPECIES_TRANSLATION } from "#animals/species.tsx";
 import { Action } from "#core/actions.tsx";
+import { toIsoDateValue } from "#core/dates";
 import {
   CheckboxInput,
   CheckboxInputList,
 } from "#core/formElements/checkboxInput.tsx";
 import { Form } from "#core/formElements/form.tsx";
 import { Input } from "#core/formElements/input.tsx";
+import { RadioInput, RadioInputList } from "#core/formElements/radioInput";
 import { RequiredStar } from "#core/formElements/requiredStar.tsx";
 import { Textarea } from "#core/formElements/textarea.tsx";
 import { Separator } from "#core/layout/separator.tsx";
+import {
+  AVAILABILITY_TRANSLATION,
+  SORTED_AVAILABILITIES,
+} from "#fosterFamilies/availability";
 import { Icon } from "#generated/icon.tsx";
 import { FormDataDelegate } from "@animeaux/form-data";
 import { zu } from "@animeaux/zod-utils";
 import type { FosterFamily } from "@prisma/client";
-import { Species } from "@prisma/client";
+import { FosterFamilyAvailability, Species } from "@prisma/client";
 import type { SerializeFrom } from "@remix-run/node";
 import type { FetcherWithComponents } from "@remix-run/react";
 import { useLocation } from "@remix-run/react";
-import { useEffect, useRef } from "react";
+import { DateTime } from "luxon";
+import { useEffect, useRef, useState } from "react";
 
 export const ActionFormData = FormDataDelegate.create(
   zu.object({
     address: zu.string().trim().min(1, "Veuillez entrer une adresse"),
+    availability: zu.nativeEnum(FosterFamilyAvailability),
+    availabilityExpirationDate: zu.text(
+      zu.coerce
+        .date({ invalid_type_error: "Veuillez entrer une date valide" })
+        .optional(),
+    ),
     city: zu.string().trim().min(1, "Veuillez choisir une ville"),
     comments: zu.string().trim(),
     displayName: zu.string().trim().min(1, "Veuillez entrer un nom"),
@@ -47,6 +60,8 @@ export function FosterFamilyForm({
     Pick<
       FosterFamily,
       | "address"
+      | "availability"
+      | "availabilityExpirationDate"
       | "city"
       | "comments"
       | "displayName"
@@ -63,6 +78,7 @@ export function FosterFamilyForm({
 }) {
   const isCreate = defaultFosterFamily == null;
   const addressRef = useRef<HTMLInputElement>(null);
+  const availabilityDateRef = useRef<HTMLInputElement>(null);
   const cityRef = useRef<HTMLInputElement>(null);
   const commentsRef = useRef<HTMLTextAreaElement>(null);
   const displayNameRef = useRef<HTMLInputElement>(null);
@@ -88,6 +104,10 @@ export function FosterFamilyForm({
         zipCodeRef.current?.focus();
       } else if (fetcher.data.errors.fieldErrors.city != null) {
         cityRef.current?.focus();
+      } else if (
+        fetcher.data.errors.fieldErrors.availabilityExpirationDate != null
+      ) {
+        availabilityDateRef.current?.focus();
       } else if (fetcher.data.errors.fieldErrors.speciesToHost != null) {
         speciesToHostRef.current?.focus();
       }
@@ -101,6 +121,13 @@ export function FosterFamilyForm({
       commentsRef.current?.focus();
     }
   }, [hash]);
+
+  const [availabilityState, setAvailabilityState] = useState(
+    defaultFosterFamily?.availability ?? FosterFamilyAvailability.UNKNOWN,
+  );
+
+  const [availabilityExpirationDateState, setAvailabilityExpirationDateState] =
+    useState(toIsoDateValue(defaultFosterFamily?.availabilityExpirationDate));
 
   return (
     <Form asChild hasHeader>
@@ -276,6 +303,100 @@ export function FosterFamilyForm({
                 </Form.ErrorMessage>
               ) : null}
             </Form.Field>
+          </Form.Row>
+
+          <Separator />
+
+          <Form.Row>
+            <Form.Field>
+              <Form.Label asChild>
+                <span>
+                  Disponibilité <RequiredStar />
+                </span>
+              </Form.Label>
+
+              <RadioInputList>
+                {SORTED_AVAILABILITIES.map((availability) => (
+                  <RadioInput
+                    key={availability}
+                    label={AVAILABILITY_TRANSLATION[availability]}
+                    name={ActionFormData.keys.availability}
+                    value={availability}
+                    checked={availability === availabilityState}
+                    onChange={() => setAvailabilityState(availability)}
+                  />
+                ))}
+              </RadioInputList>
+            </Form.Field>
+
+            {availabilityState !== FosterFamilyAvailability.UNKNOWN ? (
+              <Form.Field>
+                <Form.Label
+                  htmlFor={ActionFormData.keys.availabilityExpirationDate}
+                >
+                  Jusqu’au
+                </Form.Label>
+
+                <Input
+                  ref={availabilityDateRef}
+                  id={ActionFormData.keys.availabilityExpirationDate}
+                  type="date"
+                  min={toIsoDateValue(
+                    DateTime.now().plus({ days: 1 }).toJSDate(),
+                  )}
+                  name={ActionFormData.keys.availabilityExpirationDate}
+                  value={availabilityExpirationDateState}
+                  onChange={(event) =>
+                    setAvailabilityExpirationDateState(event.target.value)
+                  }
+                  hasError={
+                    fetcher.data?.errors?.fieldErrors
+                      .availabilityExpirationDate != null
+                  }
+                  aria-describedby={
+                    fetcher.data?.errors?.fieldErrors
+                      .availabilityExpirationDate != null
+                      ? "availabilityExpirationDate-error"
+                      : "availabilityExpirationDate-helper"
+                  }
+                  leftAdornment={
+                    <Input.Adornment>
+                      <Icon id="calendarDays" />
+                    </Input.Adornment>
+                  }
+                  rightAdornment={
+                    availabilityExpirationDateState !== "" ? (
+                      <Input.ActionAdornment
+                        onClick={() => setAvailabilityExpirationDateState("")}
+                      >
+                        <Icon id="xMark" />
+                      </Input.ActionAdornment>
+                    ) : null
+                  }
+                />
+
+                {fetcher.data?.errors?.fieldErrors.availabilityExpirationDate !=
+                null ? (
+                  <Form.ErrorMessage id="availabilityExpirationDate-error">
+                    {fetcher.data.errors.fieldErrors.availabilityExpirationDate}
+                  </Form.ErrorMessage>
+                ) : null}
+
+                <Form.HelperMessage id="availabilityExpirationDate-helper">
+                  Une fois la date passée, la famille d’accueil sera{" "}
+                  <strong className="text-caption-emphasis">
+                    {
+                      AVAILABILITY_TRANSLATION[
+                        availabilityState === FosterFamilyAvailability.AVAILABLE
+                          ? FosterFamilyAvailability.UNAVAILABLE
+                          : FosterFamilyAvailability.AVAILABLE
+                      ]
+                    }
+                  </strong>
+                  .
+                </Form.HelperMessage>
+              </Form.Field>
+            ) : null}
           </Form.Row>
 
           <Separator />

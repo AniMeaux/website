@@ -99,7 +99,11 @@ export async function loader({ request }: LoaderArgs) {
               some: {},
             },
           },
-          select: { id: true, displayName: true },
+          select: {
+            availability: true,
+            displayName: true,
+            id: true,
+          },
           orderBy: { displayName: "asc" },
         })
       : Promise.resolve([]),

@@ -49,6 +49,7 @@ import { hasGroups } from "#users/groups.tsx";
 import { useOptimisticSearchParams } from "@animeaux/form-data";
 import type { FosterFamily, User } from "@prisma/client";
 import { Gender, UserGroup } from "@prisma/client";
+import type { SerializeFrom } from "@remix-run/node";
 
 export function AnimalFilters({
   currentUser,
@@ -58,7 +59,9 @@ export function AnimalFilters({
 }: {
   currentUser: Pick<User, "groups" | "id">;
   managers: Pick<User, "displayName" | "id">[];
-  fosterFamilies: Pick<FosterFamily, "displayName" | "id">[];
+  fosterFamilies: SerializeFrom<
+    Pick<FosterFamily, "availability" | "displayName" | "id">
+  >[];
   possiblePickUpLocations: string[];
 }) {
   const [searchParams, setSearchParams] = useOptimisticSearchParams();
@@ -935,7 +938,10 @@ export function AnimalFilters({
                   name={AnimalSearchParams.keys.fosterFamiliesId}
                   value={fosterFamily.id}
                   icon={
-                    <FosterFamilyAvatar fosterFamily={fosterFamily} size="sm" />
+                    <FosterFamilyAvatar
+                      size="sm"
+                      availability={fosterFamily.availability}
+                    />
                   }
                   checked={animalSearchParams.fosterFamiliesId.has(
                     fosterFamily.id,

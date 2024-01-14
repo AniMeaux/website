@@ -125,6 +125,7 @@ export async function loader({ request, params }: LoaderArgs) {
             comments: true,
             fosterFamily: {
               select: {
+                availability: true,
                 address: true,
                 city: true,
                 displayName: true,
@@ -451,8 +452,8 @@ function SituationCard() {
               <SimpleItem
                 icon={
                   <FosterFamilyAvatar
-                    fosterFamily={animal.fosterFamily}
                     size="sm"
+                    availability={animal.fosterFamily.availability}
                   />
                 }
               >
@@ -473,7 +474,7 @@ function SituationCard() {
                   <div className="grid grid-cols-[auto,minmax(0px,1fr)] items-center gap-1">
                     <FosterFamilyAvatar
                       size="md"
-                      fosterFamily={animal.fosterFamily}
+                      availability={animal.fosterFamily.availability}
                     />
                     <div className="flex flex-col">
                       <span>{animal.fosterFamily.displayName}</span>
