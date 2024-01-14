@@ -1,9 +1,10 @@
 import { GENDER_ICON } from "#animals/gender";
 import { AnimalSearchParams } from "#animals/searchParams";
 import { Action } from "#core/actions";
+import { useConfig } from "#core/config";
 import { BlockHelper } from "#core/dataDisplay/helper";
 import type { DynamicImageProps, ImageSize } from "#core/dataDisplay/image";
-import { DynamicImage } from "#core/dataDisplay/image";
+import { BaseImage, createCloudinaryUrl } from "#core/dataDisplay/image";
 import { db } from "#core/db.server";
 import type { RouteHandle } from "#core/handles";
 import { Spinner } from "#core/loaders/spinner";
@@ -64,7 +65,7 @@ export async function loader({ request }: LoaderArgs) {
 }
 
 export const meta: V2_MetaFunction = () => {
-  return [{ title: getPageTitle("Exports des animaux") }];
+  return [{ title: getPageTitle("Exports d’animaux") }];
 };
 
 export default function Route() {
@@ -120,20 +121,25 @@ function Page({
   animals: Awaited<SerializeFrom<typeof loader>["animals"]>;
 }) {
   let itemWidth = 400;
-  let fallbackSize: ImageSize = "1024";
+  let fallbackSize: ImageSize = "512";
+
   if (animals.length >= 31) {
     itemWidth = 136;
+    fallbackSize = "256";
   } else if (animals.length >= 25) {
     itemWidth = 145;
+    fallbackSize = "256";
   } else if (animals.length >= 21) {
     itemWidth = 163;
+    fallbackSize = "256";
   } else if (animals.length >= 16) {
     itemWidth = 197;
+    fallbackSize = "256";
   } else if (animals.length >= 13) {
     itemWidth = 199;
+    fallbackSize = "256";
   } else if (animals.length >= 10) {
     itemWidth = 254;
-    fallbackSize = "512";
   } else if (animals.length >= 7) {
     itemWidth = 282;
   } else if (animals.length >= 5) {
@@ -201,17 +207,21 @@ function AnimalItem({
   imageSize: DynamicImageProps["fallbackSize"];
   width: number;
 }) {
+  const config = useConfig();
+
   return (
     <li
       {...rest}
       className={cn("flex-none grid grid-cols-1 gap-0.5", className)}
       style={{ width }}
     >
-      <DynamicImage
-        imageId={animal.avatar}
+      <BaseImage
+        src={createCloudinaryUrl(config.cloudinaryName, animal.avatar, {
+          size: imageSize,
+          aspectRatio: "4:3",
+        })}
         alt={animal.name}
-        fallbackSize={imageSize}
-        sizes={{ default: `${imageSize}px` }}
+        aspectRatio="4:3"
         className="w-full rounded-1"
       />
 

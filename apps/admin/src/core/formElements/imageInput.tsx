@@ -2,7 +2,6 @@ import type { ActionProps } from "#core/actions.tsx";
 import { Action } from "#core/actions.tsx";
 import { toBooleanAttribute } from "#core/attributes.ts";
 import { DenseHelper } from "#core/dataDisplay/helper.tsx";
-import type { DataUrlOrDynamicImageProps } from "#core/dataDisplay/image.tsx";
 import {
   DataUrlOrDynamicImage,
   isImageOverSize,
@@ -71,7 +70,10 @@ function ImageInputPreviewImage({
   className,
   image,
   ...rest
-}: Omit<DataUrlOrDynamicImageProps, "loading">) {
+}: Omit<
+  React.ComponentPropsWithoutRef<typeof DataUrlOrDynamicImage>,
+  "loading"
+>) {
   const isOverSize = isImageOverSize(image);
 
   return (

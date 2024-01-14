@@ -106,7 +106,7 @@ export default function Route() {
           alt={`Photo ${visiblePictureIndex + 1} de ${getAnimalDisplayName(
             animal,
           )}`}
-          sizes={{ default: "100vw" }}
+          sizeMapping={{ default: "100vw" }}
           fallbackSize="2048"
           aspectRatio="none"
           background="none"
@@ -129,7 +129,7 @@ export default function Route() {
               <DynamicImage
                 imageId={pictureId}
                 alt={`Photo ${index + 1} de ${getAnimalDisplayName(animal)}`}
-                sizes={{ md: "80px", default: "60px" }}
+                sizeMapping={{ md: "80px", default: "60px" }}
                 fallbackSize="512"
                 className={cn(
                   "w-full rounded-0.5 transition-opacity duration-100 ease-in-out",
