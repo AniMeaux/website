@@ -182,7 +182,7 @@ function PressArticleItem({
             imageId="press-articles/fallback"
             alt={pressArticle.title}
             fallbackSize="512"
-            sizes={{ default: "300px" }}
+            sizeMapping={{ default: "300px" }}
             className="w-full flex-none rounded-1"
           />
         ) : (

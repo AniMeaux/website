@@ -11,7 +11,7 @@ import type { SerializeFrom } from "@remix-run/node";
 
 export function EventItem({
   event,
-  imageSizes,
+  imageSizeMapping,
   imageLoading,
   className,
 }: {
@@ -28,7 +28,7 @@ export function EventItem({
       | "title"
     >
   >;
-  imageSizes: DynamicImageProps["sizes"];
+  imageSizeMapping: DynamicImageProps["sizeMapping"];
   imageLoading?: DynamicImageProps["loading"];
   className?: string;
 }) {
@@ -46,7 +46,7 @@ export function EventItem({
           imageId={event.image}
           alt={event.title}
           fallbackSize="512"
-          sizes={imageSizes}
+          sizeMapping={imageSizeMapping}
           className="w-full flex-none rounded-1"
         />
 

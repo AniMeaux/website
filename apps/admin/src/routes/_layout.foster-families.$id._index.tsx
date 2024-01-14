@@ -398,7 +398,7 @@ function FosterAnimalsCard() {
               >
                 <AnimalItem
                   animal={animal}
-                  imageSizes={{ default: "300px" }}
+                  imageSizeMapping={{ default: "300px" }}
                   className="w-[150px]"
                 />
               </li>

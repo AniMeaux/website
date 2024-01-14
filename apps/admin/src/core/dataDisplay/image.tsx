@@ -5,6 +5,8 @@ import type { ScreenSize } from "#generated/theme.ts";
 import { theme } from "#generated/theme.ts";
 import { cn } from "@animeaux/core";
 import orderBy from "lodash.orderby";
+import { forwardRef } from "react";
+import type { Merge } from "type-fest";
 
 export const IMAGE_SIZE_LIMIT_MB = CLOUDINARY_IMAGE_SIZE_LIMIT_MB;
 export const IMAGE_SIZE_LIMIT_B =
@@ -57,20 +59,12 @@ const OBJECT_FIT_CLASS_NAME: Record<ObjectFit, string> = {
   cover: "object-cover",
 };
 
-type CommonImageProps = Omit<
-  React.ImgHTMLAttributes<HTMLImageElement>,
-  "alt" | "background" | "sizes"
+export type DynamicImageProps = React.ComponentPropsWithoutRef<
+  typeof BaseImage
 > & {
-  alt: string;
-  aspectRatio?: AspectRatio;
-  background?: ImageBackground;
-  objectFit?: ObjectFit;
-};
-
-export type DynamicImageProps = CommonImageProps & {
   fallbackSize: ImageSize;
   imageId: string;
-  sizes: Partial<Record<ScreenSize, string>> & {
+  sizeMapping: Partial<Record<ScreenSize, string>> & {
     // `default` is mandatory.
     default: string;
   };
@@ -78,15 +72,9 @@ export type DynamicImageProps = CommonImageProps & {
 
 export function DynamicImage({
   imageId,
-  alt,
-  sizes: sizesProp,
+  sizeMapping,
   aspectRatio = "4:3",
-  objectFit = "contain",
-  background = "gray",
   fallbackSize,
-  loading = "lazy",
-  className,
-  style,
   ...rest
 }: DynamicImageProps) {
   const config = useConfig();
@@ -101,7 +89,7 @@ export function DynamicImage({
   }).join(",");
 
   const sizes = SCREEN_SIZES.reduce<string[]>((sizes, screen) => {
-    const width = sizesProp[screen];
+    const width = sizeMapping[screen];
 
     if (width != null) {
       sizes.push(
@@ -115,23 +103,15 @@ export function DynamicImage({
   }, []).join(",");
 
   return (
-    <img
+    <BaseImage
       {...rest}
-      alt={alt}
-      loading={loading}
+      aspectRatio={aspectRatio}
       src={createCloudinaryUrl(config.cloudinaryName, imageId, {
         size: fallbackSize,
         aspectRatio,
       })}
       srcSet={srcSet}
       sizes={sizes}
-      className={cn(
-        className,
-        ASPECT_RATIO_CLASS_NAME[aspectRatio],
-        IMAGE_BACKGROUND_CLASS_NAME[background],
-        OBJECT_FIT_CLASS_NAME[objectFit],
-      )}
-      style={style}
     />
   );
 }
@@ -197,87 +177,36 @@ export function getImageId(image: ImageFileOrId) {
   return isImageFile(image) ? image.id : image;
 }
 
-export type DataUrlOrDynamicImageProps = Omit<DataUrlImageProps, "imageFile"> &
-  Omit<DynamicImageProps, "imageId"> & {
-    image: ImageFileOrId;
-  };
-
 export function DataUrlOrDynamicImage({
-  alt,
-  aspectRatio = "4:3",
-  background = "gray",
-  className,
   fallbackSize,
   image,
-  loading = "lazy",
-  objectFit = "contain",
-  sizes,
-  style,
+  sizeMapping: sizes,
   ...rest
-}: DataUrlOrDynamicImageProps) {
+}: Omit<React.ComponentPropsWithoutRef<typeof DataUrlImage>, "imageFile"> &
+  Omit<DynamicImageProps, "imageId"> & {
+    image: ImageFileOrId;
+  }) {
   if (isImageFile(image)) {
-    return (
-      <DataUrlImage
-        {...rest}
-        alt={alt}
-        aspectRatio={aspectRatio}
-        background={background}
-        className={className}
-        imageFile={image}
-        loading={loading}
-        objectFit={objectFit}
-        style={style}
-      />
-    );
+    return <DataUrlImage {...rest} imageFile={image} />;
   }
 
   return (
     <DynamicImage
       {...rest}
-      alt={alt}
-      aspectRatio={aspectRatio}
-      background={background}
-      className={className}
-      fallbackSize={fallbackSize}
       imageId={image}
-      loading={loading}
-      objectFit={objectFit}
-      sizes={sizes}
-      style={style}
+      fallbackSize={fallbackSize}
+      sizeMapping={sizes}
     />
   );
 }
 
-type DataUrlImageProps = CommonImageProps & {
-  imageFile: ImageFile;
-};
-
 function DataUrlImage({
-  alt,
-  aspectRatio = "4:3",
-  background = "gray",
-  className,
   imageFile,
-  loading = "lazy",
-  objectFit = "contain",
-  style,
   ...rest
-}: DataUrlImageProps) {
-  return (
-    <img
-      {...rest}
-      alt={alt}
-      loading={loading}
-      src={imageFile.dataUrl}
-      className={cn(
-        className,
-        ASPECT_RATIO_CLASS_NAME[aspectRatio],
-        IMAGE_BACKGROUND_CLASS_NAME[background],
-        OBJECT_FIT_CLASS_NAME[objectFit],
-      )}
-      style={style}
-    />
-  );
+}: React.ComponentPropsWithoutRef<typeof BaseImage> & {
+  imageFile: ImageFile;
+}) {
+  return <BaseImage {...rest} src={imageFile.dataUrl} />;
 }
 
 export async function readFiles(fileList: FileList): Promise<ImageFile[]> {
@@ -303,3 +232,44 @@ export async function readFile(file: File): Promise<ImageFile> {
     reader.readAsDataURL(file);
   });
 }
+
+export const BaseImage = forwardRef<
+  React.ComponentRef<"img">,
+  Merge<
+    React.ComponentPropsWithoutRef<"img">,
+    {
+      aspectRatio?: AspectRatio;
+      background?: ImageBackground;
+      objectFit?: ObjectFit;
+
+      // Make it required.
+      alt: string;
+    }
+  >
+>(function BaseImage(
+  {
+    aspectRatio = "4:3",
+    objectFit = "contain",
+    background = "gray",
+    alt,
+    loading = "lazy",
+    className,
+    ...rest
+  },
+  ref,
+) {
+  return (
+    <img
+      {...rest}
+      ref={ref}
+      alt={alt}
+      loading={loading}
+      className={cn(
+        ASPECT_RATIO_CLASS_NAME[aspectRatio],
+        IMAGE_BACKGROUND_CLASS_NAME[background],
+        OBJECT_FIT_CLASS_NAME[objectFit],
+        className,
+      )}
+    />
+  );
+});

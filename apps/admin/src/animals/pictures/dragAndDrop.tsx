@@ -27,7 +27,7 @@ export function PictureItemPreview() {
     <DataUrlOrDynamicImage
       alt="Dragged image"
       image={preview.item.data}
-      sizes={{ default: "300px" }}
+      sizeMapping={{ default: "300px" }}
       fallbackSize="512"
       loading="eager"
       className="overflow-hidden shadow-ambient rounded-1"

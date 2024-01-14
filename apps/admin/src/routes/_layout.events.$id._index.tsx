@@ -228,7 +228,7 @@ function ImageCard() {
           imageId={event.image}
           alt={event.title}
           fallbackSize="512"
-          sizes={{ default: "100vw", md: "30vw" }}
+          sizeMapping={{ default: "100vw", md: "30vw" }}
           className="w-full rounded-1"
         />
       </Card.Content>

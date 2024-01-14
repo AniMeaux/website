@@ -194,7 +194,7 @@ export function EventForm({
                 alt="Affiche"
                 image={imageState.image}
                 fallbackSize="1024"
-                sizes={{ default: "100vw", md: "600px" }}
+                sizeMapping={{ default: "100vw", md: "600px" }}
               />
 
               <ImageInput.PreviewOverSizeHelper>

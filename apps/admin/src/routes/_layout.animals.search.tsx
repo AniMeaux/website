@@ -213,7 +213,7 @@ export default function Route() {
                   <li key={animal.id} className="flex">
                     <AnimalItem
                       animal={animal}
-                      imageSizes={{ default: "300px" }}
+                      imageSizeMapping={{ default: "300px" }}
                       imageLoading={index < 15 ? "eager" : "lazy"}
                       className="w-full"
                     />
