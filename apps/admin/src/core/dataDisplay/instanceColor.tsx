@@ -1,7 +1,13 @@
+import type { AvatarColor } from "#core/dataDisplay/avatar";
 import { simpleHash } from "#core/simpleHash.tsx";
 import invariant from "tiny-invariant";
 
-const COLORS = ["blue", "green", "red", "yellow"] as const;
+const COLORS = [
+  "blue-light",
+  "green-light",
+  "red-light",
+  "yellow-light",
+] satisfies AvatarColor[];
 
 export type InstanceColor = (typeof COLORS)[number];
 

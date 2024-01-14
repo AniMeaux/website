@@ -1,4 +1,4 @@
-import { AVATAR_SIZE_CLASS_NAME } from "#core/dataDisplay/avatar.tsx";
+import { Avatar } from "#core/dataDisplay/avatar.tsx";
 import { cn } from "@animeaux/core";
 import type { Event } from "@prisma/client";
 import type { SerializeFrom } from "@remix-run/node";
@@ -12,11 +12,11 @@ export function EventAvatar({
   className?: string;
 }) {
   return (
-    <span
+    <Avatar
+      size="xl"
       className={cn(
+        "z-0 relative bg-white flex-col overflow-hidden",
         className,
-        "z-0 relative bg-white inline-flex flex-col overflow-hidden",
-        AVATAR_SIZE_CLASS_NAME.xl,
       )}
     >
       {/*
@@ -30,9 +30,9 @@ export function EventAvatar({
         className="-z-10 absolute top-0 left-0 w-full h-full border border-gray-100 rounded-[inherit]"
       />
 
-      <span aria-hidden className="flex-none h-2 bg-red-500" />
+      <span aria-hidden className="flex-none w-full h-2 bg-red-500" />
 
-      <span className="flex-1 flex flex-col justify-center text-center">
+      <span className="w-full flex-1 flex flex-col justify-center text-center">
         <span className="font-semibold leading-none text-[40px]">
           {DateTime.fromISO(event.startDate).day}
         </span>
@@ -41,6 +41,6 @@ export function EventAvatar({
           {DateTime.fromISO(event.startDate).toLocaleString({ month: "long" })}
         </span>
       </span>
-    </span>
+    </Avatar>
   );
 }

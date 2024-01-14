@@ -400,7 +400,7 @@ function SituationCard() {
 
         <ItemList>
           {animal.manager != null ? (
-            <SimpleItem icon={<UserAvatar user={animal.manager} />}>
+            <SimpleItem icon={<UserAvatar user={animal.manager} size="sm" />}>
               Est géré par{" "}
               {canSeeManagerDetails ? (
                 <ProseInlineAction asChild>
@@ -449,7 +449,12 @@ function SituationCard() {
           {animal.fosterFamily != null ? (
             <DropdownSheet>
               <SimpleItem
-                icon={<FosterFamilyAvatar fosterFamily={animal.fosterFamily} />}
+                icon={
+                  <FosterFamilyAvatar
+                    fosterFamily={animal.fosterFamily}
+                    size="sm"
+                  />
+                }
               >
                 En FA chez{" "}
                 <DropdownSheet.Trigger asChild>

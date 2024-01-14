@@ -66,10 +66,10 @@ export function ForsterFamilyItem({
 }
 
 const DISPLAY_NAME_CLASS_NAME: Record<InstanceColor, string> = {
-  blue: "group-hover:text-blue-600",
-  green: "group-hover:text-green-700",
-  red: "group-hover:text-red-600",
-  yellow: "group-hover:text-yellow-600",
+  "blue-light": cn("group-hover:text-blue-600"),
+  "green-light": cn("group-hover:text-green-700"),
+  "red-light": cn("group-hover:text-red-600"),
+  "yellow-light": cn("group-hover:text-yellow-600"),
 };
 
 export const FosterFamilySuggestionItem = forwardRef<
@@ -85,7 +85,9 @@ export const FosterFamilySuggestionItem = forwardRef<
     <SuggestionItem
       {...rest}
       ref={ref}
-      leftAdornment={<FosterFamilyAvatar fosterFamily={fosterFamily} />}
+      leftAdornment={
+        <FosterFamilyAvatar fosterFamily={fosterFamily} size="sm" />
+      }
       label={fosterFamily._highlighted.displayName}
       secondaryLabel={getShortLocation(fosterFamily)}
     />
