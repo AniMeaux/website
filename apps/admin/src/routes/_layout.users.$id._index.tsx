@@ -440,7 +440,7 @@ function ManagedAnimalsCard() {
               >
                 <AnimalItem
                   animal={animal}
-                  imageSizes={{ default: "300px" }}
+                  imageSizeMapping={{ default: "300px" }}
                   className="w-[150px]"
                 />
               </li>
@@ -516,7 +516,7 @@ function NonActiveManagedAnimalsCard() {
               >
                 <AnimalItem
                   animal={animal}
-                  imageSizes={{ default: "300px" }}
+                  imageSizeMapping={{ default: "300px" }}
                   className="w-[150px]"
                 />
               </li>

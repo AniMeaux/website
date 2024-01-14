@@ -4,15 +4,16 @@ import type { DynamicImageProps } from "#core/dataDisplay/image.tsx";
 import { DynamicImage } from "#core/dataDisplay/image.tsx";
 import { cn } from "@animeaux/core";
 import type { Animal } from "@prisma/client";
+import type { Except } from "type-fest";
 
 export function AnimalAvatar({
   animal,
   size = "sm",
   className,
   ...rest
-}: Omit<
+}: Except<
   DynamicImageProps,
-  "imageId" | "alt" | "fallbackSize" | "sizes" | "aspectRatio"
+  "imageId" | "alt" | "fallbackSize" | "sizeMapping" | "aspectRatio"
 > & {
   animal: Pick<Animal, "avatar" | "name">;
   size?: AvatarSize;
@@ -23,7 +24,7 @@ export function AnimalAvatar({
       imageId={animal.avatar}
       alt={animal.name}
       fallbackSize="256"
-      sizes={{ default: SIZE_VALUE[size] }}
+      sizeMapping={{ default: SIZE_VALUE[size] }}
       aspectRatio="1:1"
       className={cn(className, AVATAR_SIZE_CLASS_NAME[size])}
     />

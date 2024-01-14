@@ -241,7 +241,7 @@ function ImageItem({
         <ImageInput.PreviewImage
           alt={`Photo ${index + 1}`}
           image={image}
-          sizes={{ default: "300px" }}
+          sizeMapping={{ default: "300px" }}
           fallbackSize="512"
         />
 

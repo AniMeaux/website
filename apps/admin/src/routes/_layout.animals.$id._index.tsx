@@ -818,7 +818,7 @@ function PicturesCard() {
               <DynamicImage
                 imageId={pictureId}
                 alt={`Photo ${index + 1} de ${getAnimalDisplayName(animal)}`}
-                sizes={{ md: "200px", default: "160px" }}
+                sizeMapping={{ md: "200px", default: "160px" }}
                 fallbackSize="512"
                 className="w-full rounded-0.5"
               />

@@ -95,7 +95,7 @@ export default function Route() {
                   <li key={event.id} className="flex">
                     <EventItem
                       event={event}
-                      imageSizes={{ default: "300px" }}
+                      imageSizeMapping={{ default: "300px" }}
                       imageLoading={index < 15 ? "eager" : "lazy"}
                       className="w-full"
                     />

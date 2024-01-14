@@ -25,7 +25,7 @@ import { forwardRef } from "react";
 
 export function AnimalItem({
   animal,
-  imageSizes,
+  imageSizeMapping,
   imageLoading,
   className,
 }: {
@@ -50,7 +50,7 @@ export function AnimalItem({
         manager?: null | Pick<User, "displayName">;
       }
   >;
-  imageSizes: DynamicImageProps["sizes"];
+  imageSizeMapping: DynamicImageProps["sizeMapping"];
   imageLoading?: DynamicImageProps["loading"];
   className?: string;
 }) {
@@ -68,7 +68,7 @@ export function AnimalItem({
           imageId={animal.avatar}
           alt={animal.name}
           fallbackSize="512"
-          sizes={imageSizes}
+          sizeMapping={imageSizeMapping}
           className="w-full flex-none rounded-1"
         />
 
