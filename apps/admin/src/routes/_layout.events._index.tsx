@@ -1,7 +1,10 @@
 import { Action } from "#core/actions.tsx";
 import { BaseLink } from "#core/baseLink.tsx";
 import { Paginator } from "#core/controllers/paginator.tsx";
+import { Chip } from "#core/dataDisplay/chip.tsx";
 import { Empty } from "#core/dataDisplay/empty.tsx";
+import type { DynamicImageProps } from "#core/dataDisplay/image.tsx";
+import { DynamicImage } from "#core/dataDisplay/image.tsx";
 import { db } from "#core/db.server.ts";
 import { Card } from "#core/layout/card.tsx";
 import { PageLayout } from "#core/layout/page.tsx";
@@ -10,10 +13,10 @@ import { getPageTitle } from "#core/pageTitle.ts";
 import { prisma } from "#core/prisma.server.ts";
 import { PageSearchParams } from "#core/searchParams.ts";
 import { assertCurrentUserHasGroups } from "#currentUser/groups.server.ts";
-import { EventItem } from "#events/item.tsx";
+import { cn, formatDateRange } from "@animeaux/core";
 import type { Prisma } from "@prisma/client";
 import { UserGroup } from "@prisma/client";
-import type { LoaderArgs } from "@remix-run/node";
+import type { LoaderArgs, SerializeFrom } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import type { V2_MetaFunction } from "@remix-run/react";
 import { useLoaderData } from "@remix-run/react";
@@ -88,9 +91,9 @@ export default function Route() {
             </Action>
           </Card.Header>
 
-          <Card.Content>
+          <Card.Content hasListItems>
             {events.length > 0 ? (
-              <ul className="grid grid-cols-[repeat(auto-fill,minmax(150px,1fr))] gap-1 md:gap-2">
+              <ul className="grid grid-cols-[repeat(auto-fill,minmax(150px,1fr))] items-start">
                 {events.map((event, index) => (
                   <li key={event.id} className="flex">
                     <EventItem
@@ -122,5 +125,60 @@ export default function Route() {
         </Card>
       </PageLayout.Content>
     </PageLayout>
+  );
+}
+
+function EventItem({
+  event,
+  imageSizeMapping,
+  imageLoading,
+  className,
+}: {
+  event: SerializeFrom<typeof loader>["events"][number];
+  imageSizeMapping: DynamicImageProps["sizeMapping"];
+  imageLoading?: DynamicImageProps["loading"];
+  className?: string;
+}) {
+  return (
+    <BaseLink
+      to={Routes.events.id(event.id).toString()}
+      className={cn(
+        "rounded-1 flex flex-col p-0.5 md:p-1 gap-0.5 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 bg-white hover:bg-gray-100 focus-visible:z-10",
+        className,
+      )}
+    >
+      <span className="relative flex flex-col">
+        <DynamicImage
+          loading={imageLoading}
+          imageId={event.image}
+          alt={event.title}
+          fallbackSize="512"
+          sizeMapping={imageSizeMapping}
+          className="w-full flex-none rounded-1"
+        />
+
+        {!event.isVisible ? (
+          <span className="absolute bottom-0 left-0 w-full p-0.5 flex">
+            <Chip
+              color="orange"
+              icon="eyeSlash"
+              title="L’évènement n’est pas visible."
+            />
+          </span>
+        ) : null}
+      </span>
+
+      <div className="flex flex-col">
+        <p className="text-caption-default text-gray-500">
+          {formatDateRange(event.startDate, event.endDate, {
+            showTime: !event.isFullDay,
+          })}
+        </p>
+
+        <p className="text-body-emphasis">{event.title}</p>
+
+        <p className="text-caption-default text-gray-500">{event.location}</p>
+      </div>
+    </BaseLink>
   );
 }
