@@ -18,6 +18,7 @@ import { BadRequestResponse, NotFoundResponse } from "#core/response.server.ts";
 import { PageSearchParams } from "#core/searchParams.ts";
 import { assertCurrentUserHasGroups } from "#currentUser/groups.server.ts";
 import { Icon } from "#generated/icon.tsx";
+import { cn } from "@animeaux/core";
 import {
   FormDataDelegate,
   useOptimisticSearchParams,
@@ -146,12 +147,12 @@ export default function Route() {
               </Action>
             </Card.Header>
 
-            <Card.Content>
+            <Card.Content hasListItems>
               {colors.length > 0 ? (
                 <ul className="grid grid-cols-1">
                   {colors.map((color) => (
                     <li key={color.id} className="flex">
-                      <ColorItem color={color} />
+                      <ColorItem color={color} className="w-full" />
                     </li>
                   ))}
                 </ul>
@@ -206,13 +207,20 @@ export default function Route() {
 
 export function ColorItem({
   color,
+  className,
 }: {
   color: SerializeFrom<typeof loader>["colors"][number];
+  className?: string;
 }) {
   const fetcher = useFetcher<typeof action>();
 
   return (
-    <span className="w-full py-1 grid grid-cols-[auto_minmax(0px,1fr)] grid-flow-col items-start gap-1 md:gap-2">
+    <span
+      className={cn(
+        "px-0.5 md:px-1 py-1 grid grid-cols-[auto_minmax(0px,1fr)] grid-flow-col items-start gap-1 md:gap-2",
+        className,
+      )}
+    >
       <Icon id="palette" className="text-[20px] text-gray-600" />
 
       <span className="flex flex-col md:flex-row md:gap-2">
