@@ -303,7 +303,7 @@ function HeaderCard() {
 
       <AvatarCard.Content>
         <AvatarCard.Avatar>
-          <UserAvatar user={user} size="xl" />
+          <UserAvatar user={user} size="md" />
         </AvatarCard.Avatar>
 
         <AvatarCard.Lines>

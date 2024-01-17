@@ -159,7 +159,7 @@ export function AnimalSmallItem({
         "group rounded-0.5 grid grid-cols-[auto_minmax(0px,1fr)_auto] items-center gap-1 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-inheritBg",
       )}
     >
-      <AnimalAvatar animal={animal} size="lg" loading={imageLoading} />
+      <AnimalAvatar animal={animal} size="md" loading={imageLoading} />
 
       <div className="flex flex-col">
         <p className="flex items-start gap-0.25">

@@ -3,7 +3,7 @@ import { Primitive } from "@animeaux/react-primitives";
 import { forwardRef } from "react";
 import type { Merge } from "type-fest";
 
-export type AvatarSize = "sm" | "lg" | "xl";
+export type AvatarSize = "sm" | "md" | "lg";
 
 export type AvatarColor =
   | "blue"
@@ -43,8 +43,8 @@ export const Avatar = forwardRef<
 
 const CLASS_NAME_BY_SIZE: Record<AvatarSize, string> = {
   sm: cn("rounded-0.5 w-2 h-2 text-[14px]"),
-  lg: cn("rounded-0.5 w-4 h-4 text-[28px]"),
-  xl: cn("rounded-1 w-8 h-8 text-[56px]"),
+  md: cn("rounded-0.5 w-4 h-4 text-[28px]"),
+  lg: cn("rounded-1 w-8 h-8 text-[56px]"),
 };
 
 const CLASS_NAME_BY_COLOR: Record<AvatarColor, string> = {

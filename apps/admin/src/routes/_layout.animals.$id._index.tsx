@@ -275,7 +275,7 @@ function HeaderCard() {
               .toString()}
             className="rounded-1 flex focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-inheritBg"
           >
-            <AnimalAvatar animal={animal} loading="eager" size="xl" />
+            <AnimalAvatar animal={animal} loading="eager" size="md" />
           </BaseLink>
         </AvatarCard.Avatar>
 
@@ -472,7 +472,7 @@ function SituationCard() {
                 >
                   <div className="grid grid-cols-[auto,minmax(0px,1fr)] items-center gap-1">
                     <FosterFamilyAvatar
-                      size="lg"
+                      size="md"
                       fosterFamily={animal.fosterFamily}
                     />
                     <div className="flex flex-col">

@@ -13,7 +13,7 @@ export function EventAvatar({
 }) {
   return (
     <Avatar
-      size="xl"
+      size="lg"
       className={cn(
         "z-0 relative bg-white flex-col overflow-hidden",
         className,

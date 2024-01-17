@@ -239,7 +239,7 @@ function CurrentUserMenu() {
         </span>
 
         <span className="inline-flex md:hidden">
-          <UserAvatar size="lg" user={currentUser} />
+          <UserAvatar size="md" user={currentUser} />
         </span>
 
         <span className="hidden text-[20px] text-gray-600 md:inline-flex">
@@ -254,7 +254,7 @@ function CurrentUserMenu() {
           collisionPadding={theme.spacing[1]}
         >
           <div className="grid grid-cols-[auto,minmax(0px,1fr)] items-center gap-1">
-            <UserAvatar size="lg" user={currentUser} />
+            <UserAvatar size="md" user={currentUser} />
             <div className="flex flex-col">
               <span>{currentUser.displayName}</span>
               <span className="text-caption-default text-gray-500">

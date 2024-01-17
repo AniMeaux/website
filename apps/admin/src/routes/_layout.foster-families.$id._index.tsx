@@ -200,7 +200,7 @@ function HeaderCard() {
 
       <AvatarCard.Content>
         <AvatarCard.Avatar>
-          <FosterFamilyAvatar fosterFamily={fosterFamily} size="xl" />
+          <FosterFamilyAvatar fosterFamily={fosterFamily} size="lg" />
         </AvatarCard.Avatar>
 
         <AvatarCard.Lines>

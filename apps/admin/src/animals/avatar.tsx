@@ -32,6 +32,6 @@ export function AnimalAvatar({
 
 const SIZE_VALUE: Record<AvatarSize, string> = {
   sm: "20px",
-  lg: "40px",
-  xl: "80px",
+  md: "40px",
+  lg: "80px",
 };
