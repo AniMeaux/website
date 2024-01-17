@@ -161,7 +161,7 @@ export default function Route() {
                 </Action>
               </Card.Header>
 
-              <Card.Content hasNewItems>
+              <Card.Content hasListItems>
                 {fosterFamilies.length > 0 ? (
                   <ul className="grid grid-cols-1">
                     {fosterFamilies.map((fosterFamily) => (
