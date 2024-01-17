@@ -15,7 +15,7 @@ import { prisma } from "#core/prisma.server.ts";
 import { ForbiddenResponse } from "#core/response.server.ts";
 import { PageSearchParams } from "#core/searchParams.ts";
 import { assertCurrentUserHasGroups } from "#currentUser/groups.server.ts";
-import { Icon } from "#generated/icon";
+import { Icon } from "#generated/icon.tsx";
 import { hasGroups } from "#users/groups.tsx";
 import { useOptimisticSearchParams } from "@animeaux/form-data";
 import { UserGroup } from "@prisma/client";

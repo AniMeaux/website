@@ -1,4 +1,4 @@
-import { ExpireFosterFamilyAvailabilityCron } from "#fosterFamilies/crons.server";
+import { ExpireFosterFamilyAvailabilityCron } from "#fosterFamilies/crons.server.ts";
 import { Cron } from "croner";
 import { DateTime } from "luxon";
 

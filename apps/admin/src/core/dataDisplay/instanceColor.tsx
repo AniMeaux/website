@@ -1,4 +1,4 @@
-import type { AvatarColor } from "#core/dataDisplay/avatar";
+import type { AvatarColor } from "#core/dataDisplay/avatar.tsx";
 import { simpleHash } from "#core/simpleHash.tsx";
 import invariant from "tiny-invariant";
 

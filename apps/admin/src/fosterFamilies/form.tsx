@@ -14,7 +14,7 @@ import { Separator } from "#core/layout/separator.tsx";
 import {
   AVAILABILITY_TRANSLATION,
   SORTED_AVAILABILITIES,
-} from "#fosterFamilies/availability";
+} from "#fosterFamilies/availability.tsx";
 import { Icon } from "#generated/icon.tsx";
 import { FormDataDelegate } from "@animeaux/form-data";
 import { zu } from "@animeaux/zod-utils";

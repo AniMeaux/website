@@ -25,7 +25,7 @@ import { assertCurrentUserHasGroups } from "#currentUser/groups.server.ts";
 import {
   AVAILABILITY_TRANSLATION,
   AvailabilityIcon,
-} from "#fosterFamilies/availability";
+} from "#fosterFamilies/availability.tsx";
 import {
   AVATAR_COLOR_BY_AVAILABILITY,
   FosterFamilyAvatar,

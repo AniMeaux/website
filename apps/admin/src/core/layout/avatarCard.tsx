@@ -1,5 +1,5 @@
 import { useConfig } from "#core/config.ts";
-import type { AvatarColor } from "#core/dataDisplay/avatar";
+import type { AvatarColor } from "#core/dataDisplay/avatar.tsx";
 import { createCloudinaryUrl } from "#core/dataDisplay/image.tsx";
 import { Card } from "#core/layout/card.tsx";
 import { cn } from "@animeaux/core";

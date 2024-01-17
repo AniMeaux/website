@@ -1,6 +1,6 @@
 import type { AvatarColor } from "#core/dataDisplay/avatar.tsx";
 import { Avatar } from "#core/dataDisplay/avatar.tsx";
-import { Icon } from "#generated/icon";
+import { Icon } from "#generated/icon.tsx";
 import { FosterFamilyAvailability } from "@prisma/client";
 import type { Except } from "type-fest";
 
