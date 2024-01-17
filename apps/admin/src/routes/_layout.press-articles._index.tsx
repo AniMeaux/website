@@ -3,8 +3,6 @@ import { BaseLink } from "#core/baseLink.tsx";
 import { Paginator } from "#core/controllers/paginator.tsx";
 import { Empty } from "#core/dataDisplay/empty.tsx";
 import { DynamicImage } from "#core/dataDisplay/image.tsx";
-import type { InstanceColor } from "#core/dataDisplay/instanceColor.tsx";
-import { inferInstanceColor } from "#core/dataDisplay/instanceColor.tsx";
 import { db } from "#core/db.server.ts";
 import { NotFoundError } from "#core/errors.server.ts";
 import { Card } from "#core/layout/card.tsx";
@@ -123,14 +121,15 @@ export default function Route() {
             </Action>
           </Card.Header>
 
-          <Card.Content>
+          <Card.Content hasListItems>
             {pressArticles.length > 0 ? (
-              <ul className="grid grid-cols-[repeat(auto-fill,minmax(150px,1fr))] gap-1 md:gap-2">
+              <ul className="grid grid-cols-[repeat(auto-fill,minmax(150px,1fr))] items-start">
                 {pressArticles.map((pressArticle, index) => (
-                  <li key={pressArticle.id} className="flex flex-col">
+                  <li key={pressArticle.id} className="flex">
                     <PressArticleItem
                       pressArticle={pressArticle}
                       imageLoading={index < 15 ? "eager" : "lazy"}
+                      className="w-full"
                     />
                   </li>
                 ))}
@@ -161,11 +160,13 @@ export default function Route() {
 function PressArticleItem({
   pressArticle,
   imageLoading,
+  className,
 }: {
   pressArticle: SerializeFrom<typeof loader>["pressArticles"][number];
   imageLoading: NonNullable<
     React.ComponentPropsWithoutRef<typeof DynamicImage>["loading"]
   >;
+  className?: string;
 }) {
   const fetcher = useFetcher<typeof action>();
 
@@ -173,7 +174,10 @@ function PressArticleItem({
     <BaseLink
       shouldOpenInNewTarget
       to={pressArticle.url}
-      className="group rounded-1 flex flex-col gap-0.5 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-inheritBg"
+      className={cn(
+        "rounded-1 flex flex-col p-0.5 md:p-1 gap-0.5 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 bg-white hover:bg-gray-100 focus-visible:z-10",
+        className,
+      )}
     >
       <span className="relative flex flex-col">
         {pressArticle.image === null ? (
@@ -250,22 +254,8 @@ function PressArticleItem({
           {pressArticle.publisherName}
         </p>
 
-        <p
-          className={cn(
-            "text-body-default transition-colors duration-100 ease-in-out",
-            TITLE_CLASS_NAME[inferInstanceColor(pressArticle.id)],
-          )}
-        >
-          {pressArticle.title}
-        </p>
+        <p className="text-body-default">{pressArticle.title}</p>
       </div>
     </BaseLink>
   );
 }
-
-const TITLE_CLASS_NAME: Record<InstanceColor, string> = {
-  "blue-light": cn("group-hover:text-blue-600"),
-  "green-light": cn("group-hover:text-green-700"),
-  "red-light": cn("group-hover:text-red-600"),
-  "yellow-light": cn("group-hover:text-yellow-600"),
-};
