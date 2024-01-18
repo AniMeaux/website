@@ -432,11 +432,11 @@ function ManagedAnimalsCard() {
             }
           />
         ) : (
-          <ul className="flex gap-1">
+          <ul className="flex">
             {managedAnimals.map((animal) => (
               <li
                 key={animal.id}
-                className="flex-none flex flex-col first:pl-1 last:pr-1 md:first:pl-2 md:last:pr-2"
+                className="flex-none flex flex-col first:pl-0.5 last:pr-0.5 md:first:pl-1 md:last:pr-1"
               >
                 <AnimalItem
                   animal={animal}
@@ -508,11 +508,11 @@ function NonActiveManagedAnimalsCard() {
             }
           />
         ) : (
-          <ul className="flex gap-1">
+          <ul className="flex">
             {nonActiveManagedAnimals.map((animal) => (
               <li
                 key={animal.id}
-                className="flex-none flex flex-col first:pl-1 last:pr-1 md:first:pl-2 md:last:pr-2"
+                className="flex-none flex flex-col first:pl-0.5 last:pr-0.5 md:first:pl-1 md:last:pr-1"
               >
                 <AnimalItem
                   animal={animal}
