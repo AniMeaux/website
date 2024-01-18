@@ -7,7 +7,6 @@ import { Empty } from "#core/dataDisplay/empty.tsx";
 import { ErrorPage, getErrorTitle } from "#core/dataDisplay/errorPage.tsx";
 import { ErrorsInlineHelper } from "#core/dataDisplay/errors.tsx";
 import { InlineHelper } from "#core/dataDisplay/helper.tsx";
-import { inferInstanceColor } from "#core/dataDisplay/instanceColor.tsx";
 import { ItemList, SimpleItem } from "#core/dataDisplay/item.tsx";
 import { ARTICLE_COMPONENTS, Markdown } from "#core/dataDisplay/markdown.tsx";
 import { db } from "#core/db.server.ts";
@@ -23,16 +22,24 @@ import { Dialog } from "#core/popovers/dialog.tsx";
 import { prisma } from "#core/prisma.server.ts";
 import { NotFoundResponse } from "#core/response.server.ts";
 import { assertCurrentUserHasGroups } from "#currentUser/groups.server.ts";
-import { FosterFamilyAvatar } from "#fosterFamilies/avatar.tsx";
+import {
+  AVAILABILITY_TRANSLATION,
+  AvailabilityIcon,
+} from "#fosterFamilies/availability.tsx";
+import {
+  AVATAR_COLOR_BY_AVAILABILITY,
+  FosterFamilyAvatar,
+} from "#fosterFamilies/avatar.tsx";
 import { ActionFormData } from "#fosterFamilies/form.tsx";
 import { getLongLocation } from "#fosterFamilies/location.tsx";
 import { Icon } from "#generated/icon.tsx";
 import { zu } from "@animeaux/zod-utils";
-import { UserGroup } from "@prisma/client";
+import { FosterFamilyAvailability, UserGroup } from "@prisma/client";
 import type { ActionArgs, LoaderArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import type { V2_MetaFunction } from "@remix-run/react";
 import { useFetcher, useLoaderData } from "@remix-run/react";
+import { DateTime } from "luxon";
 import { useState } from "react";
 import { promiseHash } from "remix-utils";
 
@@ -60,6 +67,8 @@ export async function loader({ request, params }: LoaderArgs) {
       where: { id: paramsResult.data.id },
       select: {
         address: true,
+        availability: true,
+        availabilityExpirationDate: true,
         city: true,
         comments: true,
         displayName: true,
@@ -196,11 +205,16 @@ function HeaderCard() {
 
   return (
     <AvatarCard>
-      <AvatarCard.BackgroundColor color={inferInstanceColor(fosterFamily.id)} />
+      <AvatarCard.BackgroundColor
+        color={AVATAR_COLOR_BY_AVAILABILITY[fosterFamily.availability]}
+      />
 
       <AvatarCard.Content>
         <AvatarCard.Avatar>
-          <FosterFamilyAvatar fosterFamily={fosterFamily} size="xl" />
+          <FosterFamilyAvatar
+            size="lg"
+            availability={fosterFamily.availability}
+          />
         </AvatarCard.Avatar>
 
         <AvatarCard.Lines>
@@ -274,6 +288,37 @@ function SituationCard() {
 
       <Card.Content>
         <ItemList>
+          <SimpleItem
+            icon={<AvailabilityIcon availability={fosterFamily.availability} />}
+          >
+            {fosterFamily.availability === FosterFamilyAvailability.UNKNOWN ? (
+              <>
+                Disponibilité{" "}
+                <strong className="text-body-emphasis">
+                  {AVAILABILITY_TRANSLATION[fosterFamily.availability]}
+                </strong>
+              </>
+            ) : (
+              <>
+                Est{" "}
+                <strong className="text-body-emphasis">
+                  {AVAILABILITY_TRANSLATION[fosterFamily.availability]}
+                </strong>
+                {fosterFamily.availabilityExpirationDate != null ? (
+                  <>
+                    {" "}
+                    jusqu’au{" "}
+                    <strong className="text-body-emphasis">
+                      {DateTime.fromISO(
+                        fosterFamily.availabilityExpirationDate,
+                      ).toLocaleString(DateTime.DATE_FULL)}
+                    </strong>
+                  </>
+                ) : null}
+              </>
+            )}
+          </SimpleItem>
+
           <SimpleItem icon={<Icon id="handHoldingHeart" />}>
             Peut accueillir :{" "}
             {fosterFamily.speciesToHost.length === 0 ? (
@@ -390,20 +435,35 @@ function FosterAnimalsCard() {
             message="Pour l’instant ;)"
           />
         ) : (
-          <ul className="flex gap-1">
-            {fosterAnimals.map((animal) => (
-              <li
-                key={animal.id}
-                className="flex-none flex flex-col first:pl-1 last:pr-1 md:first:pl-2 md:last:pr-2"
-              >
-                <AnimalItem
-                  animal={animal}
-                  imageSizeMapping={{ default: "300px" }}
-                  className="w-[150px]"
-                />
-              </li>
-            ))}
-          </ul>
+          <>
+            {fosterFamily.availability === FosterFamilyAvailability.AVAILABLE &&
+            fosterFamily.availabilityExpirationDate != null ? (
+              <span className="grid grid-cols-1 px-1 md:px-2">
+                <InlineHelper variant="warning" icon="clock">
+                  {fosterFamily.displayName} ne sera plus disponible à partir du{" "}
+                  {DateTime.fromISO(fosterFamily.availabilityExpirationDate)
+                    .plus({ days: 1 })
+                    .toLocaleString(DateTime.DATE_FULL)}
+                  .
+                </InlineHelper>
+              </span>
+            ) : null}
+
+            <ul className="flex">
+              {fosterAnimals.map((animal) => (
+                <li
+                  key={animal.id}
+                  className="flex-none flex flex-col first:pl-0.5 last:pr-0.5 md:first:pl-1 md:last:pr-1"
+                >
+                  <AnimalItem
+                    animal={animal}
+                    imageSizeMapping={{ default: "300px" }}
+                    className="w-[150px]"
+                  />
+                </li>
+              ))}
+            </ul>
+          </>
         )}
       </Card.Content>
     </Card>

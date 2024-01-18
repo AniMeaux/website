@@ -53,7 +53,7 @@ Form.Row = function FormRow({
   return (
     <Primitive.div
       {...rest}
-      className={cn("grid grid-cols-1 gap-2 md:grid-cols-2", className)}
+      className={cn("grid auto-cols-fr gap-2 md:grid-flow-col", className)}
     />
   );
 };

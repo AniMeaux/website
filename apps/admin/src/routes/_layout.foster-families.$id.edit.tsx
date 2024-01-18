@@ -9,7 +9,10 @@ import { getPageTitle } from "#core/pageTitle.ts";
 import { prisma } from "#core/prisma.server.ts";
 import { NotFoundResponse } from "#core/response.server.ts";
 import { assertCurrentUserHasGroups } from "#currentUser/groups.server.ts";
-import { MissingSpeciesToHostError } from "#fosterFamilies/db.server.ts";
+import {
+  InvalidAvailabilityDateError,
+  MissingSpeciesToHostError,
+} from "#fosterFamilies/db.server.ts";
 import { ActionFormData, FosterFamilyForm } from "#fosterFamilies/form.tsx";
 import { zu } from "@animeaux/zod-utils";
 import { UserGroup } from "@prisma/client";
@@ -41,6 +44,8 @@ export async function loader({ request, params }: LoaderArgs) {
     where: { id: paramsResult.data.id },
     select: {
       address: true,
+      availability: true,
+      availabilityExpirationDate: true,
       city: true,
       comments: true,
       displayName: true,
@@ -98,6 +103,9 @@ export async function action({ request, params }: ActionArgs) {
   try {
     await db.fosterFamily.update(paramsResult.data.id, {
       address: formData.data.address,
+      availability: formData.data.availability,
+      availabilityExpirationDate:
+        formData.data.availabilityExpirationDate ?? null,
       city: formData.data.city,
       comments: formData.data.comments || null,
       displayName: formData.data.displayName,
@@ -139,6 +147,22 @@ export async function action({ request, params }: ActionArgs) {
             formErrors: [],
             fieldErrors: {
               speciesToHost: ["Veuillez choisir au moins une espèces"],
+            },
+          },
+        },
+        { status: 400 },
+      );
+    }
+
+    if (error instanceof InvalidAvailabilityDateError) {
+      return json<ActionData>(
+        {
+          errors: {
+            formErrors: [],
+            fieldErrors: {
+              availabilityExpirationDate: [
+                "Veuillez choisir une date dans le futur.",
+              ],
             },
           },
         },

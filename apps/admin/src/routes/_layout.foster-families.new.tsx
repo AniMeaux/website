@@ -7,7 +7,10 @@ import { Routes, useBackIfPossible } from "#core/navigation.ts";
 import { getPageTitle } from "#core/pageTitle.ts";
 import { NextSearchParams } from "#core/searchParams.ts";
 import { assertCurrentUserHasGroups } from "#currentUser/groups.server.ts";
-import { MissingSpeciesToHostError } from "#fosterFamilies/db.server.ts";
+import {
+  InvalidAvailabilityDateError,
+  MissingSpeciesToHostError,
+} from "#fosterFamilies/db.server.ts";
 import { ActionFormData, FosterFamilyForm } from "#fosterFamilies/form.tsx";
 import type { zu } from "@animeaux/zod-utils";
 import { UserGroup } from "@prisma/client";
@@ -60,6 +63,9 @@ export async function action({ request }: ActionArgs) {
   try {
     const fosterFamilyId = await db.fosterFamily.create({
       address: formData.data.address,
+      availability: formData.data.availability,
+      availabilityExpirationDate:
+        formData.data.availabilityExpirationDate ?? null,
       city: formData.data.city,
       comments: formData.data.comments || null,
       displayName: formData.data.displayName,
@@ -100,6 +106,22 @@ export async function action({ request }: ActionArgs) {
             formErrors: [],
             fieldErrors: {
               speciesToHost: ["Veuillez choisir au moins une espèces"],
+            },
+          },
+        },
+        { status: 400 },
+      );
+    }
+
+    if (error instanceof InvalidAvailabilityDateError) {
+      return json<ActionData>(
+        {
+          errors: {
+            formErrors: [],
+            fieldErrors: {
+              availabilityExpirationDate: [
+                "Veuillez choisir une date dans le futur.",
+              ],
             },
           },
         },

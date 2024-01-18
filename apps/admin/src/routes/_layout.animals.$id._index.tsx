@@ -125,6 +125,7 @@ export async function loader({ request, params }: LoaderArgs) {
             comments: true,
             fosterFamily: {
               select: {
+                availability: true,
                 address: true,
                 city: true,
                 displayName: true,
@@ -275,7 +276,7 @@ function HeaderCard() {
               .toString()}
             className="rounded-1 flex focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-inheritBg"
           >
-            <AnimalAvatar animal={animal} loading="eager" size="xl" />
+            <AnimalAvatar animal={animal} loading="eager" size="md" />
           </BaseLink>
         </AvatarCard.Avatar>
 
@@ -400,7 +401,7 @@ function SituationCard() {
 
         <ItemList>
           {animal.manager != null ? (
-            <SimpleItem icon={<UserAvatar user={animal.manager} />}>
+            <SimpleItem icon={<UserAvatar user={animal.manager} size="sm" />}>
               Est géré par{" "}
               {canSeeManagerDetails ? (
                 <ProseInlineAction asChild>
@@ -449,7 +450,12 @@ function SituationCard() {
           {animal.fosterFamily != null ? (
             <DropdownSheet>
               <SimpleItem
-                icon={<FosterFamilyAvatar fosterFamily={animal.fosterFamily} />}
+                icon={
+                  <FosterFamilyAvatar
+                    size="sm"
+                    availability={animal.fosterFamily.availability}
+                  />
+                }
               >
                 En FA chez{" "}
                 <DropdownSheet.Trigger asChild>
@@ -467,8 +473,8 @@ function SituationCard() {
                 >
                   <div className="grid grid-cols-[auto,minmax(0px,1fr)] items-center gap-1">
                     <FosterFamilyAvatar
-                      size="lg"
-                      fosterFamily={animal.fosterFamily}
+                      size="md"
+                      availability={animal.fosterFamily.availability}
                     />
                     <div className="flex flex-col">
                       <span>{animal.fosterFamily.displayName}</span>

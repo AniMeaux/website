@@ -3,7 +3,9 @@ import { algolia } from "#core/algolia/algolia.server.ts";
 import { BaseLink } from "#core/baseLink.tsx";
 import { Paginator } from "#core/controllers/paginator.tsx";
 import { SortAndFiltersFloatingAction } from "#core/controllers/sortAndFiltersFloatingAction.tsx";
+import { Chip } from "#core/dataDisplay/chip.tsx";
 import { Empty } from "#core/dataDisplay/empty.tsx";
+import { toRoundedRelative } from "#core/dates.ts";
 import { db } from "#core/db.server.ts";
 import { Card } from "#core/layout/card.tsx";
 import { PageLayout } from "#core/layout/page.tsx";
@@ -12,13 +14,16 @@ import { getPageTitle } from "#core/pageTitle.ts";
 import { prisma } from "#core/prisma.server.ts";
 import { PageSearchParams } from "#core/searchParams.ts";
 import { assertCurrentUserHasGroups } from "#currentUser/groups.server.ts";
+import { Icon } from "#generated/icon.tsx";
+import { UserAvatar } from "#users/avatar.tsx";
 import { UserFilterForm } from "#users/filterForm.tsx";
-import { UserItem } from "#users/item.tsx";
+import { GROUP_ICON } from "#users/groups.tsx";
 import { UserSearchParams, UserSort } from "#users/searchParams.ts";
+import { cn } from "@animeaux/core";
 import { useOptimisticSearchParams } from "@animeaux/form-data";
 import type { Prisma } from "@prisma/client";
 import { UserGroup } from "@prisma/client";
-import type { LoaderArgs } from "@remix-run/node";
+import type { LoaderArgs, SerializeFrom } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import type { V2_MetaFunction } from "@remix-run/react";
 import { useLoaderData } from "@remix-run/react";
@@ -129,7 +134,7 @@ export default function Route() {
                 </Action>
               </Card.Header>
 
-              <Card.Content>
+              <Card.Content hasListItems>
                 {users.length > 0 ? (
                   <ul className="grid grid-cols-1">
                     {users.map((user) => (
@@ -185,5 +190,48 @@ export default function Route() {
         </SortAndFiltersFloatingAction>
       </PageLayout.Content>
     </PageLayout>
+  );
+}
+
+function UserItem({
+  user,
+  className,
+}: {
+  user: SerializeFrom<typeof loader>["users"][number];
+  className?: string;
+}) {
+  return (
+    <BaseLink
+      to={Routes.users.id(user.id).toString()}
+      className={cn(
+        className,
+        "rounded-0.5 px-0.5 md:px-1 py-1 grid grid-cols-[auto_minmax(0px,1fr)] grid-flow-col items-start gap-1 md:gap-2 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 bg-white hover:bg-gray-100 focus-visible:z-10",
+      )}
+    >
+      <UserAvatar user={user} size="sm" />
+
+      <span className="flex flex-col md:flex-row md:gap-2">
+        <span className="text-body-emphasis">{user.displayName}</span>
+
+        <span className="text-gray-500">
+          {user.lastActivityAt == null
+            ? "Aucune activité"
+            : `Actif ${toRoundedRelative(user.lastActivityAt)}`}
+        </span>
+      </span>
+
+      {user.isDisabled ? (
+        <Chip color="orange" icon="ban" title="Bloqué" />
+      ) : null}
+
+      <span
+        className="h-2 flex items-center gap-0.5 text-[20px] text-gray-500"
+        title="Groupes"
+      >
+        {user.groups.map((group) => (
+          <Icon key={group} id={GROUP_ICON[group]} />
+        ))}
+      </span>
+    </BaseLink>
   );
 }

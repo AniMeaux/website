@@ -7,6 +7,7 @@ import type { Prisma } from "@prisma/client";
 import {
   AdoptionOption,
   ExhibitorCategory,
+  FosterFamilyAvailability,
   Gender,
   PickUpReason,
   PrismaClient,
@@ -108,22 +109,36 @@ async function seedUsers() {
 
 async function seedFosterFamilies() {
   await prisma.fosterFamily.createMany({
-    data: repeate({ min: 80, max: 120 }, () => ({
-      comments: faker.helpers.maybe(() => faker.lorem.lines()),
-      displayName: faker.person.fullName(),
-      email: faker.internet.email(),
-      phone: faker.phone.number(),
-      speciesAlreadyPresent: faker.helpers.maybe(() =>
-        faker.helpers.arrayElements(Object.values(Species)),
-      ),
-      speciesToHost: faker.helpers.maybe(() =>
-        faker.helpers.arrayElements(Object.values(Species)),
-      ),
+    data: repeate({ min: 80, max: 120 }, () => {
+      const availability = faker.helpers.arrayElement(
+        Object.values(FosterFamilyAvailability),
+      );
 
-      address: faker.location.streetAddress(),
-      city: faker.location.city(),
-      zipCode: faker.location.zipCode(),
-    })),
+      return {
+        availability,
+        availabilityExpirationDate:
+          availability === FosterFamilyAvailability.UNKNOWN
+            ? undefined
+            : faker.helpers.maybe(() =>
+                DateTime.fromJSDate(faker.date.soon({ days: 30 }))
+                  .startOf("day")
+                  .toJSDate(),
+              ),
+        comments: faker.helpers.maybe(() => faker.lorem.lines()),
+        displayName: faker.person.fullName(),
+        email: faker.internet.email(),
+        phone: faker.phone.number(),
+        speciesAlreadyPresent: faker.helpers.maybe(() =>
+          faker.helpers.arrayElements(Object.values(Species)),
+        ),
+        speciesToHost: faker.helpers.maybe(() =>
+          faker.helpers.arrayElements(Object.values(Species)),
+        ),
+        address: faker.location.streetAddress(),
+        city: faker.location.city(),
+        zipCode: faker.location.zipCode(),
+      };
+    }),
   });
 
   const count = await prisma.fosterFamily.count();
