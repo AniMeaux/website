@@ -341,9 +341,7 @@ export function FosterFamilyForm({
                   ref={availabilityDateRef}
                   id={ActionFormData.keys.availabilityExpirationDate}
                   type="date"
-                  min={toIsoDateValue(
-                    DateTime.now().plus({ days: 1 }).toJSDate(),
-                  )}
+                  min={toIsoDateValue(DateTime.now().toJSDate())}
                   name={ActionFormData.keys.availabilityExpirationDate}
                   value={availabilityExpirationDateState}
                   onChange={(event) =>

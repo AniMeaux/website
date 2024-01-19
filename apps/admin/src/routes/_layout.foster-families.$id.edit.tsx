@@ -160,9 +160,7 @@ export async function action({ request, params }: ActionArgs) {
           errors: {
             formErrors: [],
             fieldErrors: {
-              availabilityExpirationDate: [
-                "Veuillez choisir une date dans le futur.",
-              ],
+              availabilityExpirationDate: ["Veuillez choisir une date à venir"],
             },
           },
         },

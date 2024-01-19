@@ -172,7 +172,8 @@ export class FosterFamilyDbDelegate {
       newData.availabilityExpirationDate != null
     ) {
       if (
-        DateTime.fromJSDate(newData.availabilityExpirationDate) < DateTime.now()
+        DateTime.fromJSDate(newData.availabilityExpirationDate) <
+        DateTime.now().startOf("day")
       ) {
         throw new InvalidAvailabilityDateError();
       }
