@@ -1,5 +1,6 @@
 import { AccessImage } from "#access/image.tsx";
 import { Action, ProseInlineAction } from "#core/actions.tsx";
+import { createConfig } from "#core/config.server.ts";
 import { useConfig } from "#core/config.ts";
 import { ErrorPage } from "#core/dataDisplay/errorPage.tsx";
 import { DynamicImage } from "#core/dataDisplay/image.tsx";
@@ -13,6 +14,7 @@ import { Section } from "#core/layout/section.tsx";
 import { createSocialMeta } from "#core/meta.ts";
 import { Routes } from "#core/navigation.tsx";
 import { getPageTitle } from "#core/pageTitle.ts";
+import { prisma } from "#core/prisma.server.ts";
 import { ExhibitorsImage } from "#exhibitors/image.tsx";
 import type { IconProps } from "#generated/icon.tsx";
 import { Icon } from "#generated/icon.tsx";
@@ -24,8 +26,9 @@ import { PartnersImage } from "#partners/image.tsx";
 import { PartnerItem } from "#partners/item";
 import { PreviousEditionImage } from "#previousEditions/image.tsx";
 import { cn } from "@animeaux/core";
+import { json } from "@remix-run/node";
 import type { V2_MetaFunction } from "@remix-run/react";
-import { Link } from "@remix-run/react";
+import { Link, useLoaderData } from "@remix-run/react";
 import { DateTime } from "luxon";
 import { useEffect, useState } from "react";
 
@@ -34,6 +37,16 @@ const ONE_MINUTE_IN_MS = 60 * 1000;
 export const handle: RouteHandle = {
   hasExpandedPageBackground: true,
 };
+
+export async function loader() {
+  const { featureFlagShowExhibitors, featureFlagSiteOnline } = createConfig();
+
+  if (!featureFlagSiteOnline || !featureFlagShowExhibitors) {
+    return json({ exhibitorCount: 60 });
+  }
+
+  return json({ exhibitorCount: await prisma.exhibitor.count() });
+}
 
 export const meta: V2_MetaFunction = () => {
   return createSocialMeta({ title: getPageTitle() });
@@ -210,6 +223,8 @@ function ComeWithYourDogSection() {
 }
 
 function PresentationSection() {
+  const { exhibitorCount } = useLoaderData<typeof loader>();
+
   return (
     <Section width="full" columnCount={1}>
       <div className="grid grid-cols-1">
@@ -255,7 +270,7 @@ function PresentationSection() {
           <aside className="grid grid-cols-1">
             <ul className="grid grid-cols-1 md:grid-flow-col md:auto-cols-fr gap-2 md:gap-4">
               <HighLightItem icon="standPrussianBlue">
-                60 exposants dévoués au bien-être des animaux.
+                {exhibitorCount} exposants dévoués au bien-être des animaux.
               </HighLightItem>
 
               <HighLightItem icon="dog">
@@ -367,6 +382,8 @@ function PartnersSection() {
 }
 
 function ExhibitorsSection() {
+  const { exhibitorCount } = useLoaderData<typeof loader>();
+
   return (
     <Section>
       <Section.ImageAside>
@@ -384,8 +401,8 @@ function ExhibitorsSection() {
         </Section.Title>
 
         <p className="text-center md:text-left">
-          Cette année, 60 exposants vous attendent répartis dans 3 grandes
-          catégories.
+          Cette année, {exhibitorCount} exposants vous attendent répartis dans 3
+          grandes catégories.
         </p>
 
         <ul className="flex flex-wrap justify-center items-start gap-x-1 gap-y-2 md:gap-x-2">
