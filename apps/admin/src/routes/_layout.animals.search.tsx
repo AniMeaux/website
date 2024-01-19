@@ -15,7 +15,7 @@ import { prisma } from "#core/prisma.server.ts";
 import { ForbiddenResponse } from "#core/response.server.ts";
 import { PageSearchParams } from "#core/searchParams.ts";
 import { assertCurrentUserHasGroups } from "#currentUser/groups.server.ts";
-import { Icon } from "#generated/icon";
+import { Icon } from "#generated/icon.tsx";
 import { hasGroups } from "#users/groups.tsx";
 import { useOptimisticSearchParams } from "@animeaux/form-data";
 import { UserGroup } from "@prisma/client";
@@ -99,7 +99,11 @@ export async function loader({ request }: LoaderArgs) {
               some: {},
             },
           },
-          select: { id: true, displayName: true },
+          select: {
+            availability: true,
+            displayName: true,
+            id: true,
+          },
           orderBy: { displayName: "asc" },
         })
       : Promise.resolve([]),
@@ -206,9 +210,9 @@ export default function Route() {
             ) : null}
           </Card.Header>
 
-          <Card.Content>
+          <Card.Content hasListItems>
             {animals.length > 0 ? (
-              <ul className="grid grid-cols-[repeat(auto-fill,minmax(150px,1fr))] gap-1 md:gap-2">
+              <ul className="grid grid-cols-[repeat(auto-fill,minmax(150px,1fr))] items-start">
                 {animals.map((animal, index) => (
                   <li key={animal.id} className="flex">
                     <AnimalItem

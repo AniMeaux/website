@@ -232,7 +232,7 @@ function AnimalsToVaccinateCard() {
         ) : null}
       </Card.Header>
 
-      <Card.Content>
+      <Card.Content hasListItems>
         {animalToVaccinateCount === 0 ? (
           <Empty
             isCompact
@@ -244,7 +244,7 @@ function AnimalsToVaccinateCard() {
             className="h-full"
           />
         ) : (
-          <ul className="grid grid-cols-1 gap-x-2 gap-y-1 xs:grid-cols-[repeat(auto-fill,minmax(300px,1fr))] md:gap-x-4 md:gap-y-2">
+          <ul className="grid grid-cols-1 xs:grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-x-1">
             {animalsToVaccinate.map((animal) => (
               <li key={animal.id} className="flex flex-col">
                 <AnimalSmallItem
@@ -307,7 +307,7 @@ function AnimalsToSterilizeCard() {
         ) : null}
       </Card.Header>
 
-      <Card.Content>
+      <Card.Content hasListItems>
         {animalToSterilizeCount === 0 ? (
           <Empty
             isCompact
@@ -319,7 +319,7 @@ function AnimalsToSterilizeCard() {
             className="h-full"
           />
         ) : (
-          <ul className="grid grid-cols-1 gap-x-2 gap-y-1 xs:grid-cols-[repeat(auto-fill,minmax(300px,1fr))] md:gap-x-4 md:gap-y-2">
+          <ul className="grid grid-cols-1 xs:grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-x-1">
             {animalsToSterilize.map((animal) => (
               <li key={animal.id} className="flex flex-col">
                 <AnimalSmallItem
@@ -379,11 +379,11 @@ function ManagedAnimalsCard() {
             message="Pour l’instant ;)"
           />
         ) : (
-          <ul className="flex gap-1">
+          <ul className="flex">
             {managedAnimals.map((animal) => (
               <li
                 key={animal.id}
-                className="flex-none flex flex-col first:pl-1 last:pr-1 md:first:pl-2 md:last:pr-2"
+                className="flex-none flex flex-col first:pl-0.5 last:pr-0.5 md:first:pl-1 md:last:pr-1"
               >
                 <AnimalItem
                   animal={animal}
@@ -440,11 +440,11 @@ function ActiveAnimalsCard() {
             message="Pour l’instant ;)"
           />
         ) : (
-          <ul className="flex gap-1">
+          <ul className="flex">
             {activeAnimals.map((animal) => (
               <li
                 key={animal.id}
-                className="flex-none flex flex-col first:pl-1 last:pr-1 md:first:pl-2 md:last:pr-2"
+                className="flex-none flex flex-col first:pl-0.5 last:pr-0.5 md:first:pl-1 md:last:pr-1"
               >
                 <AnimalItem
                   animal={animal}

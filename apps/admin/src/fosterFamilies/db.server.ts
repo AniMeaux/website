@@ -8,10 +8,12 @@ import {
 import { prisma } from "#core/prisma.server.ts";
 import type { FosterFamilyHit } from "@animeaux/algolia-client";
 import type { FosterFamily } from "@prisma/client";
-import { Prisma } from "@prisma/client";
+import { FosterFamilyAvailability, Prisma } from "@prisma/client";
+import { DateTime } from "luxon";
 import invariant from "tiny-invariant";
 
 export class MissingSpeciesToHostError extends Error {}
+export class InvalidAvailabilityDateError extends Error {}
 
 export class FosterFamilyDbDelegate {
   async fuzzySearch({
@@ -20,11 +22,20 @@ export class FosterFamilyDbDelegate {
   }: {
     displayName?: string;
     maxHitCount: number;
-  }): Promise<(FosterFamilyHit & Pick<FosterFamily, "city" | "zipCode">)[]> {
+  }): Promise<
+    (FosterFamilyHit &
+      Pick<FosterFamily, "availability" | "city" | "zipCode">)[]
+  > {
     // Don't use Algolia when there are no text search.
     if (displayName == null) {
       const fosterFamilies = await prisma.fosterFamily.findMany({
-        select: { id: true, displayName: true, city: true, zipCode: true },
+        select: {
+          availability: true,
+          city: true,
+          displayName: true,
+          id: true,
+          zipCode: true,
+        },
         orderBy: { displayName: "asc" },
         take: maxHitCount,
       });
@@ -44,7 +55,12 @@ export class FosterFamilyDbDelegate {
 
     const fosterFamilies = await prisma.fosterFamily.findMany({
       where: { id: { in: hits.map((hit) => hit.id) } },
-      select: { city: true, id: true, zipCode: true },
+      select: {
+        availability: true,
+        city: true,
+        id: true,
+        zipCode: true,
+      },
     });
 
     return hits.map((hit) => {
@@ -95,6 +111,7 @@ export class FosterFamilyDbDelegate {
       }
 
       this.validate(data, fosterFamily);
+      this.normalize(data);
 
       try {
         await prisma.fosterFamily.update({ where: { id }, data });
@@ -115,6 +132,7 @@ export class FosterFamilyDbDelegate {
   async create(data: FosterFamilyData) {
     return await prisma.$transaction(async (prisma) => {
       this.validate(data);
+      this.normalize(data);
 
       try {
         const fosterFamily = await prisma.fosterFamily.create({
@@ -144,8 +162,27 @@ export class FosterFamilyDbDelegate {
     if (newData.speciesToHost.length === 0) {
       // Allow old foster family (without species to host) to be updated without
       // setting them. But we can't unset them.
-      if (currentData == null || currentData.speciesToHost.length > 0)
+      if (currentData == null || currentData.speciesToHost.length > 0) {
         throw new MissingSpeciesToHostError();
+      }
+    }
+
+    if (
+      newData.availability !== FosterFamilyAvailability.UNKNOWN &&
+      newData.availabilityExpirationDate != null
+    ) {
+      if (
+        DateTime.fromJSDate(newData.availabilityExpirationDate) <
+        DateTime.now().startOf("day")
+      ) {
+        throw new InvalidAvailabilityDateError();
+      }
+    }
+  }
+
+  private normalize(data: FosterFamilyData) {
+    if (data.availability === FosterFamilyAvailability.UNKNOWN) {
+      data.availabilityExpirationDate = null;
     }
   }
 }
@@ -153,6 +190,8 @@ export class FosterFamilyDbDelegate {
 type FosterFamilyData = Pick<
   FosterFamily,
   | "address"
+  | "availability"
+  | "availabilityExpirationDate"
   | "city"
   | "comments"
   | "displayName"

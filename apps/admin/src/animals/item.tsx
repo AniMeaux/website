@@ -59,7 +59,7 @@ export function AnimalItem({
       to={Routes.animals.id(animal.id).toString()}
       className={cn(
         className,
-        "group rounded-1 flex flex-col gap-0.5 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-inheritBg",
+        "rounded-1.5 md:rounded-2 p-0.5 md:p-1 flex flex-col gap-0.5 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 bg-white hover:bg-gray-100 focus-visible:z-10",
       )}
     >
       <span className="relative flex flex-col">
@@ -156,10 +156,10 @@ export function AnimalSmallItem({
       to={Routes.animals.id(animal.id).toString()}
       className={cn(
         className,
-        "group rounded-0.5 grid grid-cols-[auto_minmax(0px,1fr)_auto] items-center gap-1 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-inheritBg",
+        "rounded-0.5 px-0.5 md:px-1 py-1 grid grid-cols-[auto_minmax(0px,1fr)_auto] items-center gap-1 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 bg-white bg-var-white hover:bg-gray-100 hover:bg-var-gray-100 focus-visible:z-10",
       )}
     >
-      <AnimalAvatar animal={animal} size="lg" loading={imageLoading} />
+      <AnimalAvatar animal={animal} size="md" loading={imageLoading} />
 
       <div className="flex flex-col">
         <p className="flex items-start gap-0.25">
@@ -175,14 +175,7 @@ export function AnimalSmallItem({
             <Icon id={GENDER_ICON[animal.gender]} />
           </span>
 
-          <span
-            className={cn(
-              "flex-1 text-body-emphasis truncate transition-colors duration-100 ease-in-out",
-              animal.gender === Gender.FEMALE
-                ? "group-hover:text-pink-500"
-                : "group-hover:text-blue-500",
-            )}
-          >
+          <span className="flex-1 text-body-emphasis truncate">
             {getAnimalDisplayName(animal)}
           </span>
         </p>

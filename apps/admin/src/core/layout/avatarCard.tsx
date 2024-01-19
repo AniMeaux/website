@@ -1,6 +1,6 @@
 import { useConfig } from "#core/config.ts";
+import type { AvatarColor } from "#core/dataDisplay/avatar.tsx";
 import { createCloudinaryUrl } from "#core/dataDisplay/image.tsx";
-import type { InstanceColor } from "#core/dataDisplay/instanceColor.tsx";
 import { Card } from "#core/layout/card.tsx";
 import { cn } from "@animeaux/core";
 import { cloneElement } from "react";
@@ -37,16 +37,29 @@ AvatarCard.BackgroundImage = function AvatarCardBackgroundImage({
 AvatarCard.BackgroundColor = function AvatarCardBackgroundColor({
   color,
 }: {
-  color: InstanceColor;
+  color: AvatarColor;
 }) {
-  return <div className={cn("h-6 flex md:h-10", BACKGROUND_COLOR[color])} />;
+  return (
+    <div
+      className={cn(
+        "h-6 flex md:h-10",
+        BACKGROUND_CLASS_NAME_BY_AVATAR_COLOR[color],
+      )}
+    />
+  );
 };
 
-const BACKGROUND_COLOR: Record<InstanceColor, string> = {
-  blue: "bg-blue-50",
-  green: "bg-green-50",
-  red: "bg-red-50",
-  yellow: "bg-yellow-50",
+const BACKGROUND_CLASS_NAME_BY_AVATAR_COLOR: Record<AvatarColor, string> = {
+  blue: cn("bg-blue-50"),
+  "blue-light": cn("bg-blue-50"),
+  gray: cn("bg-gray-50"),
+  "gray-light": cn("bg-gray-50"),
+  green: cn("bg-green-50"),
+  "green-light": cn("bg-green-50"),
+  red: cn("bg-red-50"),
+  "red-light": cn("bg-red-50"),
+  yellow: cn("bg-yellow-50"),
+  "yellow-light": cn("bg-yellow-50"),
 };
 
 AvatarCard.Content = function AvatarCardContent({
