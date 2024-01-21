@@ -82,8 +82,8 @@ export default function Route() {
         </h1>
 
         <p className={cn("text-center", "md:text-left")}>
-          Vous ne savez pas comment nommer votre animal ? Voici notre outils
-          pour vous aider !
+          Vous ne savez pas comment nommer votre animal ? Voici notre outil pour
+          vous aider !
         </p>
       </header>
 
