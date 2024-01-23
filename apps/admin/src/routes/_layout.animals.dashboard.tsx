@@ -5,10 +5,12 @@ import {
   AnimalSterilization,
 } from "#animals/searchParams.ts";
 import {
+  HAS_UP_COMMING_STERILISATION_CONDITIONS,
+  HAS_UP_COMMING_VACCINATION_CONDITIONS,
   formatNextVaccinationDate,
-  hasPastVaccination,
+  getNextVaccinationState,
 } from "#animals/situation/health.ts";
-import { ACTIVE_ANIMAL_STATUS, SORTED_STATUS } from "#animals/status.tsx";
+import { ACTIVE_ANIMAL_STATUS } from "#animals/status.tsx";
 import { Action } from "#core/actions.tsx";
 import { BaseLink } from "#core/baseLink.tsx";
 import { Empty } from "#core/dataDisplay/empty.tsx";
@@ -22,7 +24,7 @@ import { assertCurrentUserHasGroups } from "#currentUser/groups.server.ts";
 import { hasGroups } from "#users/groups.tsx";
 import { formatAge } from "@animeaux/core";
 import type { Prisma } from "@prisma/client";
-import { Species, Status, UserGroup } from "@prisma/client";
+import { UserGroup } from "@prisma/client";
 import type { LoaderArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import type { V2_MetaFunction } from "@remix-run/react";
@@ -46,17 +48,26 @@ export async function loader({ request }: LoaderArgs) {
   };
 
   const animalsToSterilizeWhere: Prisma.AnimalWhereInput = {
-    birthdate: { lte: DateTime.now().minus({ months: 6 }).toJSDate() },
-    isSterilizationMandatory: true,
-    isSterilized: false,
-    species: { in: [Species.CAT, Species.DOG] },
-    status: { notIn: [Status.DECEASED, Status.TRANSFERRED] },
+    birthdate: {
+      lte: DateTime.now()
+        .minus({ months: HAS_UP_COMMING_STERILISATION_CONDITIONS.ageInMonths })
+        .toJSDate(),
+    },
+    isSterilizationMandatory:
+      HAS_UP_COMMING_STERILISATION_CONDITIONS.isSterilizationMandatory,
+    isSterilized: HAS_UP_COMMING_STERILISATION_CONDITIONS.isSterilized,
+    species: { in: HAS_UP_COMMING_STERILISATION_CONDITIONS.species },
+    status: { in: HAS_UP_COMMING_STERILISATION_CONDITIONS.status },
   };
 
   const animalsToVaccinateWhere: Prisma.AnimalWhereInput = {
-    status: { in: ACTIVE_ANIMAL_STATUS },
+    status: { in: HAS_UP_COMMING_VACCINATION_CONDITIONS.status },
     nextVaccinationDate: {
-      lte: DateTime.now().plus({ days: 15 }).toJSDate(),
+      lte: DateTime.now()
+        .plus({
+          days: HAS_UP_COMMING_VACCINATION_CONDITIONS.nextVaccinationInDays,
+        })
+        .toJSDate(),
     },
   };
 
@@ -220,9 +231,13 @@ function AnimalsToVaccinateCard() {
                 search: AnimalSearchParams.stringify({
                   sort: AnimalSort.VACCINATION,
                   nextVaccinationDateEnd: DateTime.now()
-                    .plus({ days: 15 })
+                    .plus({
+                      days: HAS_UP_COMMING_VACCINATION_CONDITIONS.nextVaccinationInDays,
+                    })
                     .toISODate(),
-                  statuses: new Set(ACTIVE_ANIMAL_STATUS),
+                  statuses: new Set(
+                    HAS_UP_COMMING_VACCINATION_CONDITIONS.status,
+                  ),
                 }),
               }}
             >
@@ -249,10 +264,13 @@ function AnimalsToVaccinateCard() {
               <li key={animal.id} className="flex flex-col">
                 <AnimalSmallItem
                   animal={animal}
-                  hasError={hasPastVaccination(animal)}
+                  hasError={
+                    getNextVaccinationState(animal.nextVaccinationDate) ===
+                    "past"
+                  }
                   secondaryLabel={
                     <span className="first-letter:capitalize">
-                      {formatNextVaccinationDate(animal)}
+                      {formatNextVaccinationDate(animal.nextVaccinationDate)}
                     </span>
                   }
                   imageLoading="eager"
@@ -288,15 +306,18 @@ function AnimalsToSterilizeCard() {
                 pathname: Routes.animals.search.toString(),
                 search: AnimalSearchParams.stringify({
                   sort: AnimalSort.BIRTHDATE,
-                  species: new Set([Species.CAT, Species.DOG]),
+                  species: new Set(
+                    HAS_UP_COMMING_STERILISATION_CONDITIONS.species,
+                  ),
                   sterilizations: new Set([AnimalSterilization.NO]),
-                  birthdateEnd: DateTime.now().minus({ months: 6 }).toISODate(),
+                  birthdateEnd: DateTime.now()
+                    .minus({
+                      months:
+                        HAS_UP_COMMING_STERILISATION_CONDITIONS.ageInMonths,
+                    })
+                    .toISODate(),
                   statuses: new Set(
-                    SORTED_STATUS.filter(
-                      (status) =>
-                        status !== Status.DECEASED &&
-                        status !== Status.TRANSFERRED,
-                    ),
+                    HAS_UP_COMMING_STERILISATION_CONDITIONS.status,
                   ),
                 }),
               }}

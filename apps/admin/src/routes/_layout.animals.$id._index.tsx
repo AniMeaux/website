@@ -12,9 +12,8 @@ import {
 import { ActionFormData as SituationActionFormData } from "#animals/situation/form.tsx";
 import {
   formatNextVaccinationDate,
-  hasPastVaccination,
+  getNextVaccinationState,
   hasUpCommingSterilisation,
-  hasUpCommingVaccination,
 } from "#animals/situation/health.ts";
 import { SPECIES_ICON, getSpeciesLabels } from "#animals/species.tsx";
 import {
@@ -362,6 +361,37 @@ function SituationCard() {
   const { canEdit, animal, canSeeFosterFamilyDetails, canSeeManagerDetails } =
     useLoaderData<typeof loader>();
 
+  let vaccinationHelper: React.ReactNode;
+
+  if (animal.nextVaccinationDate != null) {
+    const state = getNextVaccinationState(animal.nextVaccinationDate);
+
+    switch (state) {
+      case "past": {
+        vaccinationHelper = (
+          <InlineHelper variant="error" icon="syringe">
+            Une vaccination était prévue{" "}
+            {formatNextVaccinationDate(animal.nextVaccinationDate)}.
+            <br />
+            Pensez à mettre à jour la prochaine date.
+          </InlineHelper>
+        );
+
+        break;
+      }
+
+      case "up-comming": {
+        vaccinationHelper = (
+          <InlineHelper variant="warning" icon="syringe">
+            Prochaine vaccination{" "}
+            {formatNextVaccinationDate(animal.nextVaccinationDate)}.
+          </InlineHelper>
+        );
+        break;
+      }
+    }
+  }
+
   return (
     <Card>
       <Card.Header>
@@ -379,19 +409,7 @@ function SituationCard() {
       </Card.Header>
 
       <Card.Content>
-        {hasUpCommingVaccination(animal) ? (
-          <InlineHelper variant="warning" icon="syringe">
-            Prochaine vaccination {formatNextVaccinationDate(animal)}.
-          </InlineHelper>
-        ) : null}
-
-        {hasPastVaccination(animal) ? (
-          <InlineHelper variant="error" icon="syringe">
-            Une vaccination était prévue {formatNextVaccinationDate(animal)}.
-            <br />
-            Pensez à mettre à jour la prochaine date.
-          </InlineHelper>
-        ) : null}
+        {vaccinationHelper}
 
         {hasUpCommingSterilisation(animal) ? (
           <InlineHelper variant="warning" icon="scissors">

@@ -2,9 +2,8 @@ import { AnimalAvatar } from "#animals/avatar.tsx";
 import { GENDER_ICON, GENDER_TRANSLATION } from "#animals/gender.tsx";
 import { getAnimalDisplayName } from "#animals/profile/name.tsx";
 import {
-  hasPastVaccination,
+  getNextVaccinationState,
   hasUpCommingSterilisation,
-  hasUpCommingVaccination,
 } from "#animals/situation/health.ts";
 import { getSpeciesLabels } from "#animals/species.tsx";
 import { StatusBadge } from "#animals/status.tsx";
@@ -54,6 +53,29 @@ export function AnimalItem({
   imageLoading?: DynamicImageProps["loading"];
   className?: string;
 }) {
+  let vaccinationChip: React.ReactNode;
+
+  if (animal.nextVaccinationDate != null) {
+    const state = getNextVaccinationState(animal.nextVaccinationDate);
+
+    switch (state) {
+      case "past": {
+        vaccinationChip = (
+          <Chip color="red" icon="syringe" title="Date de vaccination passée" />
+        );
+
+        break;
+      }
+
+      case "up-comming": {
+        vaccinationChip = (
+          <Chip color="orange" icon="syringe" title="Vaccination prévue" />
+        );
+        break;
+      }
+    }
+  }
+
   return (
     <BaseLink
       to={Routes.animals.id(animal.id).toString()}
@@ -74,17 +96,7 @@ export function AnimalItem({
 
         <span className="absolute bottom-0 left-0 w-full p-0.5 flex justify-end">
           <span className="mr-auto flex gap-0.5">
-            {hasPastVaccination(animal) ? (
-              <Chip
-                color="red"
-                icon="syringe"
-                title="Date de vaccination passée"
-              />
-            ) : null}
-
-            {hasUpCommingVaccination(animal) ? (
-              <Chip color="orange" icon="syringe" title="Vaccination prévue" />
-            ) : null}
+            {vaccinationChip}
 
             {hasUpCommingSterilisation(animal) ? (
               <Chip

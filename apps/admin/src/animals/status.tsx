@@ -1,7 +1,27 @@
 import { Icon } from "#generated/icon.tsx";
 import { cn } from "@animeaux/core";
 import { Status } from "@prisma/client";
+import difference from "lodash.difference";
 import orderBy from "lodash.orderby";
+
+export const STATUS_TRANSLATION: Record<Status, string> = {
+  [Status.ADOPTED]: "Adopté",
+  [Status.DECEASED]: "Décédé",
+  [Status.FREE]: "Libre",
+  [Status.LOST]: "Perdu",
+  [Status.OPEN_TO_ADOPTION]: "Adoptable",
+  [Status.OPEN_TO_RESERVATION]: "Réservable",
+  [Status.RESERVED]: "Réservé",
+  [Status.RETIRED]: "Retraité",
+  [Status.RETURNED]: "Restitué",
+  [Status.UNAVAILABLE]: "Indisponible",
+  [Status.TRANSFERRED]: "Transféré",
+};
+
+export const SORTED_STATUS = orderBy(
+  Object.values(Status),
+  (status) => STATUS_TRANSLATION[status],
+);
 
 export const ACTIVE_ANIMAL_STATUS: Status[] = [
   Status.OPEN_TO_ADOPTION,
@@ -11,8 +31,9 @@ export const ACTIVE_ANIMAL_STATUS: Status[] = [
   Status.UNAVAILABLE,
 ];
 
-export const NON_ACTIVE_ANIMAL_STATUS = Object.values(Status).filter(
-  (status) => !ACTIVE_ANIMAL_STATUS.includes(status),
+export const NON_ACTIVE_ANIMAL_STATUS = difference(
+  SORTED_STATUS,
+  ACTIVE_ANIMAL_STATUS,
 );
 
 export function StatusBadge({
@@ -77,22 +98,3 @@ const STATUS_ICON_CLASS_NAMES: Record<Status, string> = {
   [Status.UNAVAILABLE]: "text-red-500",
   [Status.TRANSFERRED]: "text-gray-800",
 };
-
-export const STATUS_TRANSLATION: Record<Status, string> = {
-  [Status.ADOPTED]: "Adopté",
-  [Status.DECEASED]: "Décédé",
-  [Status.FREE]: "Libre",
-  [Status.LOST]: "Perdu",
-  [Status.OPEN_TO_ADOPTION]: "Adoptable",
-  [Status.OPEN_TO_RESERVATION]: "Réservable",
-  [Status.RESERVED]: "Réservé",
-  [Status.RETIRED]: "Retraité",
-  [Status.RETURNED]: "Restitué",
-  [Status.UNAVAILABLE]: "Indisponible",
-  [Status.TRANSFERRED]: "Transféré",
-};
-
-export const SORTED_STATUS = orderBy(
-  Object.values(Status),
-  (status) => STATUS_TRANSLATION[status],
-);

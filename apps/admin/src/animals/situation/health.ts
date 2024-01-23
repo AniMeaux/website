@@ -1,9 +1,22 @@
-import { ACTIVE_ANIMAL_STATUS } from "#animals/status.tsx";
+import { ACTIVE_ANIMAL_STATUS, SORTED_STATUS } from "#animals/status.tsx";
 import type { Animal } from "@prisma/client";
 import { Species, Status } from "@prisma/client";
 import type { SerializeFrom } from "@remix-run/node";
+import difference from "lodash.difference";
 import { DateTime } from "luxon";
 import type { SetNonNullable } from "type-fest";
+
+export const HAS_UP_COMMING_STERILISATION_CONDITIONS = {
+  isSterilizationMandatory: true,
+  isSterilized: false,
+  species: [Species.CAT, Species.DOG],
+  status: difference(SORTED_STATUS, [
+    Status.DECEASED,
+    Status.TRANSFERRED,
+    Status.RETURNED,
+  ]),
+  ageInMonths: 6,
+};
 
 export function hasUpCommingSterilisation<
   TAnimal extends SerializeFrom<
@@ -16,59 +29,41 @@ export function hasUpCommingSterilisation<
   SetNonNullable<TAnimal, "isSterilizationMandatory" | "isSterilized">
 > {
   return (
-    Boolean(animal.isSterilizationMandatory) &&
-    animal.isSterilized === false &&
-    (animal.species === Species.CAT || animal.species === Species.DOG) &&
-    animal.status !== Status.DECEASED &&
-    DateTime.fromISO(animal.birthdate) <= DateTime.now().minus({ months: 6 })
+    animal.isSterilizationMandatory ===
+      HAS_UP_COMMING_STERILISATION_CONDITIONS.isSterilizationMandatory &&
+    animal.isSterilized ===
+      HAS_UP_COMMING_STERILISATION_CONDITIONS.isSterilized &&
+    HAS_UP_COMMING_STERILISATION_CONDITIONS.species.includes(animal.species) &&
+    HAS_UP_COMMING_STERILISATION_CONDITIONS.status.includes(animal.status) &&
+    DateTime.now().diff(DateTime.fromISO(animal.birthdate), "months").months >=
+      HAS_UP_COMMING_STERILISATION_CONDITIONS.ageInMonths
   );
 }
 
-export function hasUpCommingVaccination<
-  TAnimal extends SerializeFrom<
-    Partial<Pick<Animal, "nextVaccinationDate">> & Pick<Animal, "status">
-  >,
->(
-  animal: TAnimal,
-): animal is Required<SetNonNullable<TAnimal, "nextVaccinationDate">> {
-  if (
-    animal.nextVaccinationDate == null ||
-    !ACTIVE_ANIMAL_STATUS.includes(animal.status)
-  ) {
-    return false;
-  }
+export const HAS_UP_COMMING_VACCINATION_CONDITIONS = {
+  status: ACTIVE_ANIMAL_STATUS,
+  nextVaccinationInDays: 14,
+};
 
-  const nextVaccinationDate = DateTime.fromISO(animal.nextVaccinationDate);
+type NextVaccinationState = "past" | "up-comming" | "planned";
 
-  return (
-    nextVaccinationDate >= DateTime.now().startOf("day") &&
-    nextVaccinationDate <= DateTime.now().plus({ days: 15 })
-  );
+export function getNextVaccinationState(
+  nextDate: string,
+): NextVaccinationState {
+  const diffInDays = DateTime.fromISO(nextDate).diff(
+    DateTime.now().startOf("day"),
+    "days",
+  ).days;
+
+  return diffInDays < 0
+    ? "past"
+    : diffInDays <= HAS_UP_COMMING_VACCINATION_CONDITIONS.nextVaccinationInDays
+    ? "up-comming"
+    : "planned";
 }
 
-export function hasPastVaccination<
-  TAnimal extends SerializeFrom<
-    Partial<Pick<Animal, "nextVaccinationDate">> & Pick<Animal, "status">
-  >,
->(
-  animal: TAnimal,
-): animal is Required<SetNonNullable<TAnimal, "nextVaccinationDate">> {
-  if (
-    animal.nextVaccinationDate == null ||
-    !ACTIVE_ANIMAL_STATUS.includes(animal.status)
-  ) {
-    return false;
-  }
-
-  return (
-    DateTime.fromISO(animal.nextVaccinationDate) < DateTime.now().startOf("day")
-  );
-}
-
-export function formatNextVaccinationDate(
-  animal: SetNonNullable<SerializeFrom<Pick<Animal, "nextVaccinationDate">>>,
-) {
-  const nextVaccinationDate = DateTime.fromISO(animal.nextVaccinationDate);
+export function formatNextVaccinationDate(nextDate: string) {
+  const nextVaccinationDate = DateTime.fromISO(nextDate);
 
   if (nextVaccinationDate.hasSame(DateTime.now(), "day")) {
     return "aujourd’hui";
