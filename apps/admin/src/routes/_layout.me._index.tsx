@@ -8,6 +8,7 @@ import { Action } from "#core/actions.tsx";
 import { BaseLink } from "#core/baseLink.tsx";
 import { Empty } from "#core/dataDisplay/empty.tsx";
 import { inferInstanceColor } from "#core/dataDisplay/instanceColor.tsx";
+import { ItemList, SimpleItem } from "#core/dataDisplay/item";
 import { db } from "#core/db.server.ts";
 import { AvatarCard } from "#core/layout/avatarCard.tsx";
 import { Card } from "#core/layout/card.tsx";
@@ -171,20 +172,13 @@ function GroupCard() {
       </Card.Header>
 
       <Card.Content>
-        <ul className="flex flex-col">
+        <ItemList>
           {currentUser.groups.map((group) => (
-            <li
-              key={group}
-              className="grid grid-cols-[auto_minmax(0px,1fr)] items-start"
-            >
-              <span className="w-4 h-4 flex items-center justify-center text-gray-600">
-                <Icon id={GROUP_ICON[group]} />
-              </span>
-
-              <span className="py-1">{GROUP_TRANSLATION[group]}</span>
-            </li>
+            <SimpleItem key={group} icon={<Icon id={GROUP_ICON[group]} />}>
+              {GROUP_TRANSLATION[group]}
+            </SimpleItem>
           ))}
-        </ul>
+        </ItemList>
       </Card.Content>
     </Card>
   );
@@ -272,8 +266,8 @@ function ManagedAnimalsCard() {
               >
                 <AnimalItem
                   animal={animal}
-                  imageSizeMapping={{ default: "300px" }}
-                  className="w-[150px]"
+                  imageSizeMapping={{ default: "150px" }}
+                  className="w-[160px] md:w-[170px]"
                 />
               </li>
             ))}
@@ -348,8 +342,8 @@ function NonActiveManagedAnimalsCard() {
               >
                 <AnimalItem
                   animal={animal}
-                  imageSizeMapping={{ default: "300px" }}
-                  className="w-[150px]"
+                  imageSizeMapping={{ default: "150px" }}
+                  className="w-[160px] md:w-[170px]"
                 />
               </li>
             ))}
