@@ -275,7 +275,7 @@ function HeaderCard() {
               .toString()}
             className="rounded-1 flex focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-inheritBg"
           >
-            <AnimalAvatar animal={animal} loading="eager" size="md" />
+            <AnimalAvatar animal={animal} loading="eager" size="lg" />
           </BaseLink>
         </AvatarCard.Avatar>
 
