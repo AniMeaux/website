@@ -12,8 +12,9 @@ export const HAS_UP_COMMING_STERILISATION_CONDITIONS = {
   species: [Species.CAT, Species.DOG],
   status: difference(SORTED_STATUS, [
     Status.DECEASED,
-    Status.TRANSFERRED,
+    Status.LOST,
     Status.RETURNED,
+    Status.TRANSFERRED,
   ]),
   ageInMonths: 6,
 };
