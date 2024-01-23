@@ -212,7 +212,7 @@ export default function Route() {
 
           <Card.Content hasListItems>
             {animals.length > 0 ? (
-              <ul className="grid grid-cols-[repeat(auto-fill,minmax(150px,1fr))] items-start">
+              <ul className="grid grid-cols-[repeat(auto-fill,minmax(160px,1fr))] md:grid-cols-[repeat(auto-fill,minmax(170px,1fr))] items-start">
                 {animals.map((animal, index) => (
                   <li key={animal.id} className="flex">
                     <AnimalItem
