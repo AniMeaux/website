@@ -221,29 +221,21 @@ export default function Route() {
       <HeaderCard />
 
       <section className="grid grid-cols-1 gap-1 md:hidden">
-        <aside className="flex flex-col gap-1">
-          <SituationCard />
-          <CommentsCard />
-        </aside>
-
-        <section className="flex flex-col gap-1">
-          <ProfileCard />
-          <PicturesCard />
-          <DescriptionCard />
-        </section>
-
-        {canEdit ? (
-          <aside className="flex flex-col">
-            <ActionCard />
-          </aside>
-        ) : null}
+        <ProfileCard />
+        <AgreementsCard />
+        <SituationCard />
+        <CommentsCard />
+        <DescriptionCard />
+        <PicturesCard />
+        {canEdit ? <ActionCard /> : null}
       </section>
 
       <section className="hidden md:grid md:grid-cols-[minmax(0px,2fr)_minmax(250px,1fr)] md:items-start md:gap-2">
         <section className="md:flex md:flex-col md:gap-2">
           <ProfileCard />
-          <PicturesCard />
+          <AgreementsCard />
           <DescriptionCard />
+          <PicturesCard />
         </section>
 
         <aside className="md:flex md:flex-col md:gap-2">
@@ -346,7 +338,21 @@ function ProfileCard() {
             </SimpleItem>
           ) : null}
         </ItemList>
+      </Card.Content>
+    </Card>
+  );
+}
 
+function AgreementsCard() {
+  const { animal } = useLoaderData<typeof loader>();
+
+  return (
+    <Card>
+      <Card.Header>
+        <Card.Title>Ententes</Card.Title>
+      </Card.Header>
+
+      <Card.Content>
         <ul className="grid grid-cols-3 gap-1">
           <AgreementItem entity="cats" value={animal.isOkCats} />
           <AgreementItem entity="dogs" value={animal.isOkDogs} />
