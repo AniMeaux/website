@@ -46,11 +46,16 @@ export const HAS_UP_COMMING_VACCINATION_CONDITIONS = {
   nextVaccinationInDays: 14,
 };
 
-type NextVaccinationState = "past" | "up-comming" | "planned";
+type NextVaccinationState = "none" | "past" | "up-comming" | "planned";
 
 export function getNextVaccinationState(
   nextDate: string,
+  status: Status,
 ): NextVaccinationState {
+  if (!HAS_UP_COMMING_VACCINATION_CONDITIONS.status.includes(status)) {
+    return "none";
+  }
+
   const diffInDays = DateTime.fromISO(nextDate).diff(
     DateTime.now().startOf("day"),
     "days",

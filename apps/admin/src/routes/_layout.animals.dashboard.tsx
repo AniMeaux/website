@@ -265,8 +265,10 @@ function AnimalsToVaccinateCard() {
                 <AnimalSmallItem
                   animal={animal}
                   hasError={
-                    getNextVaccinationState(animal.nextVaccinationDate) ===
-                    "past"
+                    getNextVaccinationState(
+                      animal.nextVaccinationDate,
+                      animal.status,
+                    ) === "past"
                   }
                   secondaryLabel={
                     <span className="first-letter:capitalize">
