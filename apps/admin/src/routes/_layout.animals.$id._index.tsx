@@ -370,7 +370,10 @@ function SituationCard() {
   let vaccinationHelper: React.ReactNode;
 
   if (animal.nextVaccinationDate != null) {
-    const state = getNextVaccinationState(animal.nextVaccinationDate);
+    const state = getNextVaccinationState(
+      animal.nextVaccinationDate,
+      animal.status,
+    );
 
     switch (state) {
       case "past": {
