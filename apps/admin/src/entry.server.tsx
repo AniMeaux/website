@@ -1,10 +1,7 @@
 import { extendCurrentUserPreferences } from "#currentUser/preferences.server.ts";
 import { extendCurrentUserSession } from "#currentUser/session.server.ts";
-import {
-  createReadableStreamFromReadable,
-  type EntryContext,
-  type HandleDataRequestFunction,
-} from "@remix-run/node";
+import type { EntryContext, HandleDataRequestFunction } from "@remix-run/node";
+import { createReadableStreamFromReadable } from "@remix-run/node";
 import { RemixServer } from "@remix-run/react";
 import isbot from "isbot";
 import { PassThrough } from "node:stream";
