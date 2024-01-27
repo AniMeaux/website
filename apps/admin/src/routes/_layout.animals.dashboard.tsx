@@ -258,7 +258,7 @@ function AnimalsToVaccinateCard() {
             className="h-full"
           />
         ) : (
-          <ul className="grid grid-cols-1 xs:grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-x-1">
+          <ul className="grid grid-cols-1 gap-x-1 xs:grid-cols-[repeat(auto-fill,minmax(300px,1fr))]">
             {animalsToVaccinate.map((animal) => (
               <li key={animal.id} className="flex flex-col">
                 <AnimalSmallItem
@@ -341,7 +341,7 @@ function AnimalsToSterilizeCard() {
             className="h-full"
           />
         ) : (
-          <ul className="grid grid-cols-1 xs:grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-x-1">
+          <ul className="grid grid-cols-1 gap-x-1 xs:grid-cols-[repeat(auto-fill,minmax(300px,1fr))]">
             {animalsToSterilize.map((animal) => (
               <li key={animal.id} className="flex flex-col">
                 <AnimalSmallItem
@@ -405,7 +405,7 @@ function ManagedAnimalsCard() {
             {managedAnimals.map((animal) => (
               <li
                 key={animal.id}
-                className="flex-none flex flex-col first:pl-0.5 last:pr-0.5 md:first:pl-1 md:last:pr-1"
+                className="flex flex-none flex-col first:pl-0.5 last:pr-0.5 md:first:pl-1 md:last:pr-1"
               >
                 <AnimalItem
                   animal={animal}
@@ -466,7 +466,7 @@ function ActiveAnimalsCard() {
             {activeAnimals.map((animal) => (
               <li
                 key={animal.id}
-                className="flex-none flex flex-col first:pl-0.5 last:pr-0.5 md:first:pl-1 md:last:pr-1"
+                className="flex flex-none flex-col first:pl-0.5 last:pr-0.5 md:first:pl-1 md:last:pr-1"
               >
                 <AnimalItem
                   animal={animal}

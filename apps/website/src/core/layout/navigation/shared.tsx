@@ -13,7 +13,7 @@ export const navLinkClassName = ({
 }: {
   isActive?: boolean;
 } = {}) =>
-  cn("px-3 py-2 flex items-center justify-between gap-1", {
+  cn("flex items-center justify-between gap-1 px-3 py-2", {
     "text-black": isActive,
     "text-gray-700 hover:text-black": !isActive,
   });
@@ -55,7 +55,7 @@ export const SubNavItem = forwardRef<
       ref={ref}
       to={to}
       className={cn(
-        "group bg-opacity-0 px-3 py-2 flex items-center hover:bg-opacity-100 rounded-bubble-sm transition-colors duration-100 ease-in-out",
+        "group flex items-center bg-opacity-0 px-3 py-2 transition-colors duration-100 ease-in-out rounded-bubble-sm hover:bg-opacity-100",
         subNavItemBgColorClassName[color],
         {
           "flex-col gap-1": isMultiline,
@@ -65,7 +65,7 @@ export const SubNavItem = forwardRef<
     >
       <span
         className={cn(
-          "rounded-bubble-sm flex transition-colors duration-100 ease-in-out",
+          "flex transition-colors duration-100 ease-in-out rounded-bubble-sm",
           {
             "p-3 text-[32px]": isMultiline,
             "p-2 text-[20px]": !isMultiline,
@@ -77,13 +77,13 @@ export const SubNavItem = forwardRef<
         <Icon id={icon} />
       </span>
 
-      <span className="flex-1 min-w-0">{children}</span>
+      <span className="min-w-0 flex-1">{children}</span>
 
       {!isMultiline && (
         <Icon
           id="arrowRight"
           className={cn(
-            "opacity-0 text-[20px] group-hover:opacity-100 transition-opacity duration-100 ease-in-out",
+            "text-[20px] opacity-0 transition-opacity duration-100 ease-in-out group-hover:opacity-100",
             subNavItemTextColorClassName[color],
           )}
         />

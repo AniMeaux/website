@@ -34,7 +34,7 @@ Dialog.Content = function DialogContent({
           <Overlay />
         </RadixDialog.Overlay>
 
-        <RadixDialog.Content className="z-30 fixed md:top-[10vh] bottom-0 md:bottom-auto inset-x-0 md:left-1/2 md:right-auto md:-translate-x-1/2 md:w-[550px] pb-safe-1 px-safe-1 md:p-0 grid data-[state=open]:animation-enter data-[state=closed]:animation-exit animation-translate-y-full md:animation-translate-y-0 md:animation-opacity-0 animation-duration-150 md:animation-duration-100">
+        <RadixDialog.Content className="fixed inset-x-0 bottom-0 z-30 grid animation-duration-150 animation-translate-y-full pb-safe-1 px-safe-1 data-[state=open]:animation-enter data-[state=closed]:animation-exit md:bottom-auto md:left-1/2 md:right-auto md:top-[10vh] md:w-[550px] md:-translate-x-1/2 md:p-0 md:animation-opacity-0 md:animation-duration-100 md:animation-translate-y-0">
           {/*
            * Because links can't be focused by default, we might focus an
            * element out of order.
@@ -44,7 +44,7 @@ Dialog.Content = function DialogContent({
            */}
           <div
             tabIndex={0}
-            className="shadow-ambient rounded-1 w-full bg-white bg-var-white p-2 flex flex-col gap-2 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400"
+            className="flex w-full flex-col gap-2 rounded-1 bg-white p-2 shadow-ambient bg-var-white focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400"
           >
             {children}
           </div>

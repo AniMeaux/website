@@ -180,7 +180,7 @@ function Document({
 
       <body
         className={cn(
-          "overflow-x-clip grid grid-cols-1 text-prussianBlue text-body-lowercase-default",
+          "grid grid-cols-1 overflow-x-clip text-prussianBlue text-body-lowercase-default",
           // Make sure children with absolute positionning are correctly placed.
           "relative",
           isFullHeight ? "h-full" : "min-h-screen content-start",

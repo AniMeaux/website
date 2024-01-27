@@ -27,7 +27,7 @@ export function HeroSection({
 
 export function HeroSectionAside({ children }: { children: React.ReactNode }) {
   return (
-    <div className={cn("w-full flex flex-col gap-6", "md:flex-1")}>
+    <div className={cn("flex w-full flex-col gap-6", "md:flex-1")}>
       {children}
     </div>
   );
@@ -44,7 +44,7 @@ export function HeroSectionImage({
 }) {
   return (
     <StaticImage
-      className={cn(className, "w-full aspect-square")}
+      className={cn(className, "aspect-square w-full")}
       image={image}
       sizes={{ lg: "512px", md: "50vw", default: "100vw" }}
       loading={loading}

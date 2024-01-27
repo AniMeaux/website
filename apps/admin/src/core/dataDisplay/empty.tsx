@@ -23,7 +23,7 @@ export function Empty({
     <section
       className={cn(
         className,
-        "w-full p-2 flex flex-col items-center justify-center gap-4",
+        "flex w-full flex-col items-center justify-center gap-4 p-2",
       )}
     >
       <div
@@ -37,7 +37,7 @@ export function Empty({
         {icon}
       </div>
 
-      <div className="max-w-[400px] flex flex-col gap-2 text-center">
+      <div className="flex max-w-[400px] flex-col gap-2 text-center">
         <TitleElementType
           className={cn("text-title-section-small", {
             "md:text-title-section-large": !isCompact,

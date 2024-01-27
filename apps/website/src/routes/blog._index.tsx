@@ -19,12 +19,12 @@ export default function Route() {
   const { articles } = useLoaderData<typeof loader>();
 
   return (
-    <main className="w-full px-page flex flex-col gap-12">
+    <main className="flex w-full flex-col gap-12 px-page">
       <header className="flex">
         <h1
           className={cn(
-            "text-title-hero-small text-center",
-            "md:text-title-hero-large md:text-left",
+            "text-center text-title-hero-small",
+            "md:text-left md:text-title-hero-large",
           )}
         >
           Blog
@@ -35,7 +35,7 @@ export default function Route() {
         <section className="flex flex-col">
           <ul
             className={cn(
-              "grid grid-cols-1 gap-12 items-start",
+              "grid grid-cols-1 items-start gap-12",
               "xs:grid-cols-2",
               "md:grid-cols-3",
             )}

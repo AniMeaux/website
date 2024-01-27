@@ -73,7 +73,7 @@ export default function Route() {
 
   return (
     <>
-      <main className="w-full px-article flex flex-col gap-12">
+      <main className="flex w-full flex-col gap-12 px-article">
         <header className="flex flex-col gap-6">
           <h1
             className={cn("text-title-hero-small", "md:text-title-hero-large")}
@@ -95,7 +95,7 @@ export default function Route() {
           sizes={{ lg: "1024px", default: "100vw" }}
           fallbackSize="1024"
           className={cn(
-            "w-full aspect-4/3 flex-none rounded-bubble-md",
+            "aspect-4/3 w-full flex-none rounded-bubble-md",
             "sm:rounded-bubble-lg",
             "md:rounded-bubble-xl",
           )}
@@ -106,7 +106,7 @@ export default function Route() {
         </article>
       </main>
 
-      <aside className="w-full px-page pt-18 md:pt-12 flex flex-col">
+      <aside className="flex w-full flex-col px-page pt-18 md:pt-12">
         <DonationSection />
       </aside>
 

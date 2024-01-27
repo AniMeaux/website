@@ -100,7 +100,7 @@ function HeroSection() {
           className="w-full"
         />
 
-        <Section.TextAside className="md:absolute md:top-0 md:left-0">
+        <Section.TextAside className="md:absolute md:left-0 md:top-0">
           <Section.Title asChild className="text-center md:text-left">
             <h1>Salon des Ani’Meaux</h1>
           </Section.Title>
@@ -178,7 +178,7 @@ function Countdown({ className }: { className?: string }) {
 function CountDownItem({ label, value }: { label: string; value: number }) {
   return (
     <div className="grid grid-cols-1 justify-items-center gap-0.5">
-      <span className="w-5 aspect-square rounded-1 bg-alabaster font-serif text-[32px] leading-none tracking-wider text-mystic grid justify-items-center items-center">
+      <span className="grid aspect-square w-5 items-center justify-items-center rounded-1 bg-alabaster font-serif text-[32px] leading-none tracking-wider text-mystic">
         {value.toLocaleString("fr-FR", { minimumIntegerDigits: 2 })}
       </span>
 
@@ -212,7 +212,7 @@ function ComeWithYourDogSection() {
           autorisation de détention.
         </p>
 
-        <p className="rounded-1 px-2 py-1 bg-paleBlue">
+        <p className="rounded-1 bg-paleBlue px-2 py-1">
           Pour le bien-être de votre chien et celui des autres présents durant
           le salon, veillez à ne l’amener que s’il est sociable avec les autres
           animaux et à l’aise en présence de nombreuses personnes.
@@ -228,7 +228,7 @@ function PresentationSection() {
   return (
     <Section width="full" columnCount={1}>
       <div className="grid grid-cols-1">
-        <section className="px-safe-page-narrow md:px-safe-page-normal grid grid-cols-1 md:grid-cols-2 gap-2 sm:gap-4 lg:gap-8 md:items-end">
+        <section className="grid grid-cols-1 gap-2 px-safe-page-narrow sm:gap-4 md:grid-cols-2 md:items-end md:px-safe-page-normal lg:gap-8">
           <Section.TextAside className="md:pb-4">
             <Section.Title>Présentation</Section.Title>
 
@@ -261,14 +261,14 @@ function PresentationSection() {
           </Section.ImageAside>
         </section>
 
-        <section className="relative px-safe-page-narrow md:px-safe-page-normal py-2 md:py-4">
+        <section className="relative py-2 px-safe-page-narrow md:py-4 md:px-safe-page-normal">
           <HighLightBackground
             color="paleBlue"
-            className="absolute -z-10 top-0 left-0 w-full h-full"
+            className="absolute left-0 top-0 -z-10 h-full w-full"
           />
 
           <aside className="grid grid-cols-1">
-            <ul className="grid grid-cols-1 md:grid-flow-col md:auto-cols-fr gap-2 md:gap-4">
+            <ul className="grid grid-cols-1 gap-2 md:auto-cols-fr md:grid-flow-col md:gap-4">
               <HighLightItem icon="standPrussianBlue">
                 {exhibitorCount} exposants dévoués au bien-être des animaux.
               </HighLightItem>
@@ -295,7 +295,7 @@ function HighLightItem({
   icon: React.ComponentProps<typeof Pictogram>["id"];
 }>) {
   return (
-    <li className="grid grid-cols-[auto_minmax(0,1fr)] gap-2 items-center">
+    <li className="grid grid-cols-[auto_minmax(0,1fr)] items-center gap-2">
       <Pictogram id={icon} className="text-[48px]" />
       <span>{children}</span>
     </li>
@@ -356,7 +356,7 @@ function PartnersSection() {
         </Section.Action>
       </Section.TextAside>
 
-      <section className="px-safe-page-narrow md:px-safe-page-normal pt-2 md:pt-0 grid grid-cols-1">
+      <section className="grid grid-cols-1 pt-2 px-safe-page-narrow md:pt-0 md:px-safe-page-normal">
         {partners.length === 0 ? (
           <PartnersImage
             fallbackSize="1024"
@@ -364,14 +364,14 @@ function PartnersSection() {
             className="w-full"
           />
         ) : (
-          <ul className="flex flex-wrap gap-1 md:gap-2 justify-center">
+          <ul className="flex flex-wrap justify-center gap-1 md:gap-2">
             {partners.map((partner) => (
               <PartnerItem
                 key={partner.id}
                 partner={partner}
                 fallbackSize="512"
                 sizes={{ default: "130px", lg: "180px" }}
-                className="flex-none w-[130px] md:w-[180px]"
+                className="w-[130px] flex-none md:w-[180px]"
               />
             ))}
           </ul>
@@ -405,7 +405,7 @@ function ExhibitorsSection() {
           grandes catégories.
         </p>
 
-        <ul className="flex flex-wrap justify-center items-start gap-x-1 gap-y-2 md:gap-x-2">
+        <ul className="flex flex-wrap items-start justify-center gap-x-1 gap-y-2 md:gap-x-2">
           <ExhibitorItem icon="group">Associations</ExhibitorItem>
           <ExhibitorItem icon="help">Soins et activités</ExhibitorItem>
           <ExhibitorItem icon="food">Alimentation et accessoires</ExhibitorItem>
@@ -430,7 +430,7 @@ function ExhibitorItem({
   icon: React.ComponentProps<typeof Pictogram>["id"];
 }>) {
   return (
-    <li className="flex-1 min-w-[130px] grid grid-cols-1 gap-1 justify-items-center">
+    <li className="grid min-w-[130px] flex-1 grid-cols-1 justify-items-center gap-1">
       <Pictogram id={icon} className="text-[48px]" />
       <span className="w-full text-center">{children}</span>
     </li>
@@ -485,10 +485,10 @@ function RaffleSection() {
 function PreviousEditionsSection() {
   return (
     <Section width="full" columnCount={1}>
-      <div className="relative px-safe-page-narrow md:px-safe-page-normal py-2 md:py-4 bg-var-alabaster grid grid-cols-1 md:grid-cols-2 gap-2 sm:gap-4 lg:gap-8 md:items-center">
+      <div className="relative grid grid-cols-1 gap-2 py-2 bg-var-alabaster px-safe-page-narrow sm:gap-4 md:grid-cols-2 md:items-center md:py-4 md:px-safe-page-normal lg:gap-8">
         <HighLightBackground
           color="alabaster"
-          className="absolute -z-10 top-0 left-0 w-full h-full"
+          className="absolute left-0 top-0 -z-10 h-full w-full"
         />
 
         <Section.ImageAside>
@@ -578,11 +578,11 @@ function WaitingPage() {
 
 function LogoSection() {
   return (
-    <header className="px-safe-page-narrow md:px-safe-page-normal pt-safe-4 pb-4 grid grid-cols-1 justify-items-center">
+    <header className="grid grid-cols-1 justify-items-center pb-4 pt-safe-4 px-safe-page-narrow md:px-safe-page-normal">
       <img
         src={logoLarge}
         alt="Salon des Ani’Meaux"
-        className="w-2/3 md:w-1/2 aspect-square"
+        className="aspect-square w-2/3 md:w-1/2"
       />
     </header>
   );
@@ -590,7 +590,7 @@ function LogoSection() {
 
 function ComeBackSection() {
   return (
-    <section className="px-safe-page-narrow md:px-safe-page-normal py-4 grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-4 lg:gap-8 md:items-center">
+    <section className="grid grid-cols-1 gap-2 py-4 px-safe-page-narrow md:grid-cols-2 md:items-center md:gap-4 md:px-safe-page-normal lg:gap-8">
       <aside className="relative grid grid-cols-1">
         <ExhibitorsImage
           fallbackSize="1024"
@@ -601,7 +601,7 @@ function ComeBackSection() {
       </aside>
 
       <aside className="grid grid-cols-1 gap-2">
-        <h1 className="text-title-small md:text-title-large text-mystic">
+        <h1 className="text-mystic text-title-small md:text-title-large">
           Revient en 2024
         </h1>
 
@@ -628,15 +628,15 @@ function ActionsSection() {
   const { exhibitorsFormUrl, partnersFormUrl } = useConfig();
 
   return (
-    <section className="py-4 grid grid-cols-1">
-      <div className="relative bg-var-alabaster px-safe-page-narrow md:px-safe-page-normal py-4 grid grid-cols-1 md:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] gap-4 lg:gap-8 md:items-start">
+    <section className="grid grid-cols-1 py-4">
+      <div className="relative grid grid-cols-1 gap-4 py-4 bg-var-alabaster px-safe-page-narrow md:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] md:items-start md:px-safe-page-normal lg:gap-8">
         <HighLightBackground
           color="alabaster"
-          className="absolute -z-10 top-0 left-0 w-full h-full"
+          className="absolute left-0 top-0 -z-10 h-full w-full"
         />
 
         <aside className="grid grid-cols-1 gap-2">
-          <h1 className="text-title-small md:text-title-large text-mystic">
+          <h1 className="text-mystic text-title-small md:text-title-large">
             Devenir partenaire
           </h1>
 
@@ -670,7 +670,7 @@ function ActionsSection() {
         <HorizontalSeparator />
 
         <aside className="grid grid-cols-1 gap-2">
-          <h1 className="text-title-small md:text-title-large text-mystic">
+          <h1 className="text-mystic text-title-small md:text-title-large">
             Devenir Exposant
           </h1>
 
@@ -712,7 +712,7 @@ function VerticalSeparator() {
       // Allow the shape to stretch.
       preserveAspectRatio="none"
       xmlns="http://www.w3.org/2000/svg"
-      className="hidden md:block h-full w-[3px] overflow-visible text-mystic"
+      className="hidden h-full w-[3px] overflow-visible text-mystic md:block"
     >
       <path
         d="M1.5 0L1.5 100"
@@ -736,7 +736,7 @@ function HorizontalSeparator() {
       // Allow the shape to stretch.
       preserveAspectRatio="none"
       xmlns="http://www.w3.org/2000/svg"
-      className="md:hidden h-[3px] w-full overflow-visible text-mystic"
+      className="h-[3px] w-full overflow-visible text-mystic md:hidden"
     >
       <path
         d="M0 1.5L100 1.5"
@@ -756,9 +756,9 @@ function FollowSection() {
   const { facebookUrl, instagramUrl } = useConfig();
 
   return (
-    <section className="px-safe-page-narrow py-4 flex">
+    <section className="flex py-4 px-safe-page-narrow">
       <aside className="grid grid-cols-1 gap-2 text-center">
-        <h1 className="text-title-small md:text-title-large text-mystic">
+        <h1 className="text-mystic text-title-small md:text-title-large">
           Restez informés
         </h1>
 
@@ -787,16 +787,16 @@ function FooterSection() {
 
   return (
     <footer className="grid grid-cols-1">
-      <FooterWave className="w-full h-[53px] md:h-[90px]" />
+      <FooterWave className="h-[53px] w-full md:h-[90px]" />
 
-      <section className="bg-paleBlue bg-var-paleBlue px-page-narrow md:px-page-normal py-4 grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-8 justify-items-center md:items-center">
+      <section className="grid grid-cols-1 justify-items-center gap-4 bg-paleBlue px-page-narrow py-4 bg-var-paleBlue md:grid-cols-2 md:items-center md:px-page-normal lg:gap-8">
         <img
           src={logoAniMeaux}
           alt="Association Ani’Meaux"
-          className="w-[200px] aspect-square"
+          className="aspect-square w-[200px]"
         />
 
-        <aside className="w-full grid grid-cols-1 gap-2">
+        <aside className="grid w-full grid-cols-1 gap-2">
           <div className="grid grid-cols-[auto_auto] justify-start gap-1">
             <SocialLink to={facebookUrl}>
               <Pictogram id="facebook" className="text-[24px]" />
@@ -826,10 +826,10 @@ function FooterSection() {
         </aside>
       </section>
 
-      <section className="relative z-10 px-page-narrow md:px-page-normal py-2 grid grid-cols-1">
-        <LegalBackground className="absolute -z-10 top-0 left-0 w-full h-full" />
+      <section className="relative z-10 grid grid-cols-1 px-page-narrow py-2 md:px-page-normal">
+        <LegalBackground className="absolute left-0 top-0 -z-10 h-full w-full" />
 
-        <p className="text-caption-lowercase-emphasis text-white text-center">
+        <p className="text-center text-white text-caption-lowercase-emphasis">
           Copyright © {new Date().getFullYear()} Ani’Meaux
         </p>
       </section>
@@ -844,7 +844,7 @@ function SocialLink({
   return (
     <Link
       {...rest}
-      className="rounded-full grid grid-cols-1 transition-transform duration-100 ease-in-out hover:scale-105 active:scale-95 hover:active:scale-95 focus-visible:outline-none focus-visible:ring focus-visible:ring-prussianBlue focus-visible:ring-offset-2 focus-visible:ring-offset-inheritBg"
+      className="grid grid-cols-1 rounded-full transition-transform duration-100 ease-in-out active:scale-95 focus-visible:outline-none focus-visible:ring focus-visible:ring-prussianBlue focus-visible:ring-offset-2 focus-visible:ring-offset-inheritBg hover:scale-105 hover:active:scale-95"
     >
       {children}
     </Link>
@@ -864,9 +864,9 @@ function ContactItem({
     <li className="grid grid-cols-1 justify-items-start">
       <Link
         to={to}
-        className="rounded-0.5 grid grid-cols-[auto_auto] items-start gap-1 transition-transform duration-100 ease-in-out hover:scale-105 active:scale-95 hover:active:scale-95 focus-visible:outline-none focus-visible:ring focus-visible:ring-mystic focus-visible:ring-offset-2 focus-visible:ring-offset-paleBlue"
+        className="grid grid-cols-[auto_auto] items-start gap-1 rounded-0.5 transition-transform duration-100 ease-in-out active:scale-95 focus-visible:outline-none focus-visible:ring focus-visible:ring-mystic focus-visible:ring-offset-2 focus-visible:ring-offset-paleBlue hover:scale-105 hover:active:scale-95"
       >
-        <span className="h-2 flex items-center">
+        <span className="flex h-2 items-center">
           <Icon id={icon} className="text-[16px] text-mystic" />
         </span>
 

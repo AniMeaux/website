@@ -90,7 +90,7 @@ function WaitingSection() {
     <Section columnCount={1}>
       <Section.TextAside asChild>
         <BoardCard>
-          <h2 className="text-title-item text-mystic">
+          <h2 className="text-mystic text-title-item">
             Il est encore un peu tôt
           </h2>
 
@@ -125,7 +125,7 @@ function ListSection() {
 
   return (
     <Section columnCount={1}>
-      <ul className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 gap-4 items-start">
+      <ul className="grid grid-cols-1 items-start gap-4 xs:grid-cols-2 md:grid-cols-3">
         <BecomeExhibitorItem />
 
         {exhibitors.map((exhibitor, index) => (
@@ -147,7 +147,7 @@ function BecomeExhibitorItem() {
     <li className="grid grid-cols-1 gap-2">
       <LightBoardCard
         isSmall
-        className="aspect-4/3 grid grid-cols-1 justify-items-center items-center"
+        className="grid aspect-4/3 grid-cols-1 items-center justify-items-center"
       >
         <Pictogram id="standMystic" className="text-[96px]" />
       </LightBoardCard>
@@ -172,9 +172,9 @@ function ExhibitorItem({
     <li className="grid grid-cols-1 gap-2">
       <Link
         to={exhibitor.url}
-        className="group rounded-t-2 rounded-b-0.5 grid grid-cols-1 gap-2 focus-visible:outline-none focus-visible:ring focus-visible:ring-mystic focus-visible:ring-offset-2 focus-visible:ring-offset-inheritBg"
+        className="group grid grid-cols-1 gap-2 rounded-b-0.5 rounded-t-2 focus-visible:outline-none focus-visible:ring focus-visible:ring-mystic focus-visible:ring-offset-2 focus-visible:ring-offset-inheritBg"
       >
-        <div className="overflow-hidden w-full rounded-2 border border-alabaster grid grid-cols-1">
+        <div className="grid w-full grid-cols-1 overflow-hidden rounded-2 border border-alabaster">
           <DynamicImage
             image={ImageUrl.parse(exhibitor.image)}
             alt={exhibitor.name}
@@ -183,7 +183,7 @@ function ExhibitorItem({
             objectFit="cover"
             fallbackSize="512"
             sizes={{ default: "100vw", xs: "50vw", md: "30vw", lg: "310px" }}
-            className="w-full group-hover:scale-105 transition-transform duration-150 ease-in-out"
+            className="w-full transition-transform duration-150 ease-in-out group-hover:scale-105"
           />
         </div>
 
@@ -194,7 +194,7 @@ function ExhibitorItem({
       </Link>
 
       {exhibitor.eventDescription != null ? (
-        <div className="rounded-1 px-2 py-1 bg-alabaster bg-var-alabaster grid grid-cols-[minmax(0,1fr)_auto] gap-1 items-start">
+        <div className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-1 rounded-1 bg-alabaster px-2 py-1 bg-var-alabaster">
           <p>
             <Markdown
               components={SENTENCE_COMPONENTS}
@@ -202,7 +202,7 @@ function ExhibitorItem({
             />
           </p>
 
-          <span className="h-2 flex items-center">
+          <span className="flex h-2 items-center">
             <Pictogram id="standMystic" className="text-[16px]" />
           </span>
         </div>

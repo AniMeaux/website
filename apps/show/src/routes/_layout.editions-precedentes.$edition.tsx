@@ -128,7 +128,7 @@ function PhotoGrid() {
               <li
                 key={index}
                 className={cn(
-                  "rounded-1 md:rounded-2 aspect-square bg-alabaster animate-pulse",
+                  "aspect-square animate-pulse rounded-1 bg-alabaster md:rounded-2",
                   index === 0 ? "sm:col-span-2 sm:row-span-2" : undefined,
                 )}
               />
@@ -177,7 +177,7 @@ function ImageItem({
         state={PhotoLocationState.create({
           galleryLocationKey: scrollRestorationLocationKey,
         })}
-        className="group overflow-hidden rounded-1 md:rounded-2 aspect-square grid grid-cols-1 focus-visible:outline-none focus-visible:ring focus-visible:ring-mystic focus-visible:ring-offset-2 focus-visible:ring-offset-inheritBg"
+        className="group grid aspect-square grid-cols-1 overflow-hidden rounded-1 focus-visible:outline-none focus-visible:ring focus-visible:ring-mystic focus-visible:ring-offset-2 focus-visible:ring-offset-inheritBg md:rounded-2"
       >
         <DynamicImage
           alt={
@@ -194,7 +194,7 @@ function ImageItem({
             isCover ? { default: "256px", sm: "400px" } : { default: "256px" }
           }
           loading={index < 5 ? "eager" : "lazy"}
-          className="w-full group-hover:scale-105 transition-transform duration-150 ease-in-out"
+          className="w-full transition-transform duration-150 ease-in-out group-hover:scale-105"
         />
       </Link>
     </li>

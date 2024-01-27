@@ -96,10 +96,10 @@ export default function Route() {
   const photograph = PREVIOUS_EDITION_PHOTOGRAPH[edition];
 
   return (
-    <main className="overflow-hidden w-full h-full max-h-full px-safe-0 py-safe-0 grid grid-cols-[72px_minmax(0px,1fr)_72px] grid-rows-[72px_minmax(0px,1fr)_72px]">
+    <main className="grid h-full max-h-full w-full grid-cols-[72px_minmax(0px,1fr)_72px] grid-rows-[72px_minmax(0px,1fr)_72px] overflow-hidden px-safe-0 py-safe-0">
       <div
         ref={ref}
-        className="row-start-2 col-start-1 md:col-start-2 col-span-3 md:col-span-1 grid justify-items-center items-center"
+        className="col-span-3 col-start-1 row-start-2 grid items-center justify-items-center md:col-span-1 md:col-start-2"
       >
         <DynamicImage
           // We don't want the previous image to stay visible during the loading
@@ -117,11 +117,11 @@ export default function Route() {
           aspectRatio="none"
           loading="eager"
           style={{ width, aspectRatio: `${image.width} / ${image.height}` }}
-          className="min-w-0 max-w-full min-h-0 max-h-full"
+          className="max-h-full min-h-0 min-w-0 max-w-full"
         />
       </div>
 
-      <PhotoAction asChild className="row-start-1 col-start-1">
+      <PhotoAction asChild className="col-start-1 row-start-1">
         <Link
           to={Routes.previousEditions(edition)}
           state={ScrollRestorationLocationState.create({
@@ -133,7 +133,7 @@ export default function Route() {
       </PhotoAction>
 
       {photoIndex > 0 ? (
-        <PhotoAction asChild className="row-start-3 md:row-start-2 col-start-1">
+        <PhotoAction asChild className="col-start-1 row-start-3 md:row-start-2">
           <Link
             to={Routes.photo(edition, photoIndex - 1)}
             state={PhotoLocationState.create({ galleryLocationKey })}
@@ -144,7 +144,7 @@ export default function Route() {
       ) : null}
 
       {photoIndex < imageCount - 1 ? (
-        <PhotoAction asChild className="row-start-3 md:row-start-2 col-start-3">
+        <PhotoAction asChild className="col-start-3 row-start-3 md:row-start-2">
           <Link
             to={Routes.photo(edition, photoIndex + 1)}
             state={PhotoLocationState.create({ galleryLocationKey })}
@@ -166,7 +166,7 @@ const PhotoAction = forwardRef<
       {...props}
       ref={ref}
       className={cn(
-        "justify-self-center self-center opacity-70 hover:opacity-100 focus-visible:opacity-100 grid grid-cols-1 text-[48px] text-white focus-visible:outline-none focus-visible:ring focus-visible:ring-mystic",
+        "grid grid-cols-1 self-center justify-self-center text-[48px] text-white opacity-70 focus-visible:opacity-100 focus-visible:outline-none focus-visible:ring focus-visible:ring-mystic hover:opacity-100",
         className,
       )}
     />

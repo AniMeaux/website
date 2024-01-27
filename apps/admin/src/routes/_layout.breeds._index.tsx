@@ -148,7 +148,7 @@ export default function Route() {
   return (
     <PageLayout>
       <PageLayout.Content className="flex flex-col gap-1 md:flex-row md:gap-2">
-        <section className="md:min-w-0 md:flex-2 flex flex-col">
+        <section className="flex flex-col md:min-w-0 md:flex-2">
           <Card>
             <Card.Header>
               <Card.Title>
@@ -198,7 +198,7 @@ export default function Route() {
           </Card>
         </section>
 
-        <aside className="hidden flex-col min-w-[250px] max-w-[300px] flex-1 md:flex">
+        <aside className="hidden min-w-[250px] max-w-[300px] flex-1 flex-col md:flex">
           <Card className="sticky top-8 max-h-[calc(100vh-100px)]">
             <Card.Header>
               <Card.Title>Trier et filtrer</Card.Title>
@@ -230,7 +230,7 @@ export function BreedItem({
   return (
     <span
       className={cn(
-        "px-0.5 md:px-1 py-1 grid grid-cols-[auto_minmax(0px,1fr)] grid-flow-col items-start gap-1 md:gap-2",
+        "grid grid-flow-col grid-cols-[auto_minmax(0px,1fr)] items-start gap-1 px-0.5 py-1 md:gap-2 md:px-1",
         className,
       )}
     >
@@ -248,7 +248,7 @@ export function BreedItem({
         </span>
       </span>
 
-      <span className="h-2 flex items-center gap-0.5">
+      <span className="flex h-2 items-center gap-0.5">
         <Action asChild variant="text" color="gray" isIconOnly title="Modifier">
           <BaseLink to={Routes.breeds.id(breed.id).edit.toString()}>
             <Icon id="pen" />

@@ -49,7 +49,7 @@ export function SubscriptionForm() {
   return (
     <div
       className={cn(
-        "w-full max-w-sm flex flex-col items-start gap-3",
+        "flex w-full max-w-sm flex-col items-start gap-3",
         "md:max-w-none",
       )}
     >
@@ -58,7 +58,7 @@ export function SubscriptionForm() {
         method="POST"
         action={RESOURCE_PATHNAME}
         className={cn(
-          "w-full rounded-tl-[16px] rounded-tr-[10px] rounded-br-[16px] rounded-bl-[10px] shadow-base p-1 flex gap-2",
+          "flex w-full gap-2 rounded-bl-[10px] rounded-br-[16px] rounded-tl-[16px] rounded-tr-[10px] p-1 shadow-base",
           {
             "bg-brandRed-lightest": isError,
             "bg-white": !isError,
@@ -71,15 +71,15 @@ export function SubscriptionForm() {
           name={ActionFormData.keys.email}
           aria-label="Email"
           placeholder="jean@email.com"
-          className="min-w-0 flex-1 rounded-bubble-sm bg-transparent px-6 py-2 placeholder-gray-500"
+          className="min-w-0 flex-1 bg-transparent px-6 py-2 placeholder-gray-500 rounded-bubble-sm"
         />
 
         <button
           className={cn(
-            "flex p-3 rounded-bubble-sm text-white transition-[background-color,transform] duration-100 ease-in-out",
+            "flex p-3 text-white transition-[background-color,transform] duration-100 ease-in-out rounded-bubble-sm",
             {
               "bg-brandGreen": isSuccess,
-              "bg-brandBlue hover:bg-brandBlue-lighter active:scale-95":
+              "bg-brandBlue active:scale-95 hover:bg-brandBlue-lighter":
                 !isSuccess,
             },
           )}

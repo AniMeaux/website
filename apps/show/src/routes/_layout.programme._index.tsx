@@ -49,7 +49,7 @@ export default function Route() {
       <Section columnCount={1}>
         <Section.TextAside asChild>
           <BoardCard>
-            <h2 className="text-title-item text-mystic">
+            <h2 className="text-mystic text-title-item">
               En pleine effervescence
             </h2>
 

@@ -146,7 +146,7 @@ function EventItem({
     <BaseLink
       to={Routes.events.id(event.id).toString()}
       className={cn(
-        "rounded-1.5 md:rounded-2 flex flex-col p-0.5 md:p-1 gap-0.5 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 bg-white hover:bg-gray-100 focus-visible:z-10",
+        "flex flex-col gap-0.5 rounded-1.5 bg-white p-0.5 focus-visible:z-10 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 hover:bg-gray-100 md:rounded-2 md:p-1",
         className,
       )}
     >
@@ -161,7 +161,7 @@ function EventItem({
         />
 
         {!event.isVisible ? (
-          <span className="absolute bottom-0 left-0 w-full p-0.5 flex">
+          <span className="absolute bottom-0 left-0 flex w-full p-0.5">
             <Chip
               color="orange"
               icon="eyeSlash"
@@ -172,7 +172,7 @@ function EventItem({
       </span>
 
       <div className="flex flex-col">
-        <p className="text-caption-default text-gray-500">
+        <p className="text-gray-500 text-caption-default">
           {formatDateRange(event.startDate, event.endDate, {
             showTime: !event.isFullDay,
           })}
@@ -180,7 +180,7 @@ function EventItem({
 
         <p className="text-body-emphasis">{event.title}</p>
 
-        <p className="text-caption-default text-gray-500">{event.location}</p>
+        <p className="text-gray-500 text-caption-default">{event.location}</p>
       </div>
     </BaseLink>
   );

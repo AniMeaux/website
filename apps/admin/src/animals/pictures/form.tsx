@@ -253,11 +253,11 @@ function ImageItem({
           <div
             ref={handleRef}
             draggable
-            className="absolute top-1/2 -translate-y-1/2 left-0 h-4 w-4 flex items-center justify-center opacity-75 cursor-move"
+            className="absolute left-0 top-1/2 flex h-4 w-4 -translate-y-1/2 cursor-move items-center justify-center opacity-75"
           >
             <Icon
               id="gripDotsVertical"
-              className="text-[20px] text-white stroke-black"
+              className="stroke-black text-[20px] text-white"
             />
           </div>
         ) : null}
@@ -271,7 +271,7 @@ function ImageItem({
 }
 
 function ImageItemPlaceholder() {
-  return <li className="rounded-1 bg-gray-100 aspect-4/3" />;
+  return <li className="aspect-4/3 rounded-1 bg-gray-100" />;
 }
 
 function ImageItemInput({
@@ -314,7 +314,7 @@ function ImageItemInput({
   }
 
   return (
-    <li className="aspect-4/3 flex">
+    <li className="flex aspect-4/3">
       <ImageInput.Native ref={inputRef} multiple onChange={handleChange} />
 
       <ImageInput.Trigger

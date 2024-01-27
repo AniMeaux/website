@@ -49,11 +49,11 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
 export default function Route() {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-[auto,minmax(0px,1fr)] items-start">
+    <div className="grid grid-cols-1 items-start md:grid-cols-[auto,minmax(0px,1fr)]">
       <CurrentUserSideBar />
 
       <div className="flex flex-col" style={{ "--header-height": "80px" }}>
-        <header className="w-full bg-white bg-var-white px-safe-1 pt-safe-0.5 pb-0.5 grid grid-cols-[minmax(0px,1fr)_auto] items-center justify-between gap-1 md:sticky md:top-0 md:z-20 md:pt-safe-1 md:pr-safe-2 md:pb-1 md:pl-2 md:grid-cols-[minmax(200px,500px)_auto] md:gap-4 md:border-l md:border-gray-50">
+        <header className="grid w-full grid-cols-[minmax(0px,1fr)_auto] items-center justify-between gap-1 bg-white pb-0.5 bg-var-white pt-safe-0.5 px-safe-1 md:sticky md:top-0 md:z-20 md:grid-cols-[minmax(200px,500px)_auto] md:gap-4 md:border-l md:border-gray-50 md:pb-1 md:pl-2 md:pr-safe-2 md:pt-safe-1">
           <GlobalSearch />
           <CurrentUserMenu />
         </header>
@@ -231,7 +231,7 @@ function CurrentUserMenu() {
 
   return (
     <DropdownSheet open={isOpened} onOpenChange={setIsOpened}>
-      <DropdownSheet.Trigger className="rounded-0.5 flex items-center gap-1 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-inheritBg">
+      <DropdownSheet.Trigger className="flex items-center gap-1 rounded-0.5 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-inheritBg">
         <span className="hidden md:inline-flex">{currentUser.displayName}</span>
 
         <span className="hidden md:inline-flex">
@@ -257,7 +257,7 @@ function CurrentUserMenu() {
             <UserAvatar size="md" user={currentUser} />
             <div className="flex flex-col">
               <span>{currentUser.displayName}</span>
-              <span className="text-caption-default text-gray-500">
+              <span className="text-gray-500 text-caption-default">
                 {currentUser.email}
               </span>
             </div>
@@ -268,9 +268,9 @@ function CurrentUserMenu() {
           <Link
             to={Routes.me.toString()}
             onClick={() => setIsOpened(false)}
-            className="rounded-0.5 pr-1 grid grid-cols-[auto,minmax(0px,1fr)] items-center text-gray-500 text-left cursor-pointer transition-colors duration-100 ease-in-out hover:bg-gray-100 active:bg-gray-100 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400"
+            className="grid cursor-pointer grid-cols-[auto,minmax(0px,1fr)] items-center rounded-0.5 pr-1 text-left text-gray-500 transition-colors duration-100 ease-in-out active:bg-gray-100 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 hover:bg-gray-100"
           >
-            <span className="w-4 h-4 flex items-center justify-center text-[20px]">
+            <span className="flex h-4 w-4 items-center justify-center text-[20px]">
               <Icon id="user" />
             </span>
 
@@ -291,9 +291,9 @@ function CurrentUserMenu() {
           >
             <button
               onClick={() => setIsOpened(false)}
-              className="rounded-0.5 pr-1 grid grid-cols-[auto,minmax(0px,1fr)] items-center text-gray-500 text-left cursor-pointer transition-colors duration-100 ease-in-out hover:bg-gray-100 active:bg-gray-100 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400"
+              className="grid cursor-pointer grid-cols-[auto,minmax(0px,1fr)] items-center rounded-0.5 pr-1 text-left text-gray-500 transition-colors duration-100 ease-in-out active:bg-gray-100 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 hover:bg-gray-100"
             >
-              <span className="w-4 h-4 flex items-center justify-center text-[20px]">
+              <span className="flex h-4 w-4 items-center justify-center text-[20px]">
                 <Icon id="rightFromBracket" />
               </span>
 

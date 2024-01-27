@@ -84,8 +84,8 @@ export default function Route() {
   const visiblePictureIndex = allPictures.indexOf(visiblePictureId);
 
   return (
-    <main className="w-full h-full grid grid-cols-1 grid-rows-[auto_minmax(0px,1fr)_auto]">
-      <header className="min-h-[50px] px-safe-1 pt-safe-0.5 pb-0.5 flex justify-end items-center md:min-h-[60px] md:px-safe-2 md:pt-safe-1 md:pb-1">
+    <main className="grid h-full w-full grid-cols-1 grid-rows-[auto_minmax(0px,1fr)_auto]">
+      <header className="flex min-h-[50px] items-center justify-end pb-0.5 pt-safe-0.5 px-safe-1 md:min-h-[60px] md:pb-1 md:pt-safe-1 md:px-safe-2">
         <Action asChild variant="text">
           <DownloadPictureLink
             pictureId={visiblePictureId}
@@ -109,12 +109,12 @@ export default function Route() {
           fallbackSize="2048"
           aspectRatio="none"
           background="none"
-          className="min-w-0 max-w-full min-h-0 max-h-full"
+          className="max-h-full min-h-0 min-w-0 max-w-full"
         />
       </div>
 
-      <footer className="pt-0.5 pb-safe-0.5 flex justify-center md:pt-1 md:pb-safe-1">
-        <div className="overflow-x-auto scrollbars-none max-w-full px-safe-1 grid grid-flow-col auto-cols-[60px] justify-start gap-1 md:auto-cols-[80px] md:gap-2">
+      <footer className="flex justify-center pt-0.5 pb-safe-0.5 md:pt-1 md:pb-safe-1">
+        <div className="grid max-w-full auto-cols-[60px] grid-flow-col justify-start gap-1 overflow-x-auto px-safe-1 scrollbars-none md:auto-cols-[80px] md:gap-2">
           {allPictures.map((pictureId, index) => (
             <BaseLink
               key={pictureId}
@@ -123,7 +123,7 @@ export default function Route() {
                 .pictures.pictureId(pictureId)
                 .toString()}
               replace
-              className="aspect-4/3 rounded-0.5 flex transition-transform duration-100 ease-in-out active:scale-95 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-inheritBg"
+              className="flex aspect-4/3 rounded-0.5 transition-transform duration-100 ease-in-out active:scale-95 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-inheritBg"
             >
               <DynamicImage
                 imageId={pictureId}

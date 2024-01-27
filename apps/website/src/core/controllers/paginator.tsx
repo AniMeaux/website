@@ -68,7 +68,7 @@ function PaginatorItem({
   children: React.ReactNode;
 }) {
   return (
-    <li className="flex-none flex">
+    <li className="flex flex-none">
       <BaseLink
         to={isActive ? undefined : to}
         className={cn(
@@ -76,7 +76,7 @@ function PaginatorItem({
           {
             "w-[40px] rounded-bubble-sm": !isEllipsis,
           },
-          "flex items-center justify-center text-body-emphasis transition-colors duration-100 ease-in-out",
+          "flex items-center justify-center transition-colors duration-100 ease-in-out text-body-emphasis",
           {
             "bg-brandBlue text-white": isActive,
             "hover:bg-gray-200": !isActive && to != null,

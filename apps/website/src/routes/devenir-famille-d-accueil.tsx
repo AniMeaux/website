@@ -31,7 +31,7 @@ export default function Route() {
   const { fosterFamilyFormUrl } = useConfig();
 
   return (
-    <main className="w-full px-page flex flex-col gap-24">
+    <main className="flex w-full flex-col gap-24 px-page">
       <HeroSection>
         <HeroSectionAside>
           <HeroSectionImage image={fosterFamilyLargeImages} loading="eager" />
@@ -52,7 +52,7 @@ export default function Route() {
       <section className="flex flex-col gap-12">
         <h2
           className={cn(
-            "text-title-section-small text-center",
+            "text-center text-title-section-small",
             "md:text-title-section-large",
           )}
         >

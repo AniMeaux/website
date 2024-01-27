@@ -16,11 +16,11 @@ export function DonationSection() {
       <div
         className={cn(
           bubbleSectionClassNames.content(),
-          "px-10 py-12 flex flex-col items-center gap-6",
+          "flex flex-col items-center gap-6 px-10 py-12",
           "md:px-30 md:py-[60px]",
         )}
       >
-        <div className="w-full flex flex-col gap-6 text-center">
+        <div className="flex w-full flex-col gap-6 text-center">
           <h2
             className={cn(
               "text-title-section-small",

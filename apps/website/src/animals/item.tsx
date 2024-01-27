@@ -38,20 +38,20 @@ export function AnimalItem({
         to={
           isDisabled ? undefined : `/animal/${toSlug(animal.name)}-${animal.id}`
         }
-        className="group w-full rounded-bubble-md flex flex-col gap-3"
+        className="group flex w-full flex-col gap-3 rounded-bubble-md"
       >
         <DynamicImage
           imageId={animal.avatar}
           alt={animal.name}
           sizes={{ lg: "300px", sm: "30vw", xs: "50vw", default: "100vw" }}
           fallbackSize="512"
-          className="w-full aspect-4/3 flex-none rounded-bubble-md"
+          className="aspect-4/3 w-full flex-none rounded-bubble-md"
         />
 
         <div className="flex flex-col">
           <p className="flex items-start gap-1">
             <span
-              className={cn("h-6 flex-none flex items-center text-[20px]", {
+              className={cn("flex h-6 flex-none items-center text-[20px]", {
                 "text-pink-500": animal.gender === Gender.FEMALE,
                 "text-brandBlue": animal.gender === Gender.MALE,
               })}
@@ -62,7 +62,7 @@ export function AnimalItem({
 
             <span
               className={cn(
-                "flex-1 text-title-item transition-colors duration-100 ease-in-out",
+                "flex-1 transition-colors duration-100 ease-in-out text-title-item",
                 {
                   "group-hover:text-brandBlue":
                     !isDisabled && animal.gender === Gender.MALE,
@@ -75,7 +75,7 @@ export function AnimalItem({
             </span>
           </p>
 
-          <p className="flex items-start gap-6 text-caption-default text-gray-500">
+          <p className="flex items-start gap-6 text-gray-500 text-caption-default">
             <span className="flex-1">{speciesLabels}</span>
             <span className="flex-none">{formatAge(animal.birthdate)}</span>
           </p>

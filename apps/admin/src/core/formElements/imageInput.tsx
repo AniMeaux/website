@@ -22,7 +22,7 @@ const ImageInputNative = forwardRef<
       ref={ref}
       type="file"
       accept="image/*"
-      className="hidden invisible"
+      className="invisible hidden"
     />
   );
 });
@@ -45,7 +45,7 @@ function ImageInputTrigger({
       data-invalid={toBooleanAttribute(hasError)}
       className={cn(
         className,
-        "rounded-1 border border-gray-300 border-dashed flex flex-col items-center justify-center gap-0.5 text-blue-500 transition-colors duration-100 ease-in-out hover:border-gray-500 focus-visible:outline-none focus-visible:border-0 focus-visible:ring-outset focus-visible:ring focus-visible:ring-blue-400 data-[invalid=true]:border-red-500 data-[invalid=true]:hover:border-red-500 data-[invalid=true]:focus-visible:ring-red-500",
+        "flex flex-col items-center justify-center gap-0.5 rounded-1 border border-dashed border-gray-300 text-blue-500 transition-colors duration-100 ease-in-out data-[invalid=true]:border-red-500 focus-visible:border-0 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 focus-visible:ring-outset data-[invalid=true]:focus-visible:ring-red-500 hover:border-gray-500 data-[invalid=true]:hover:border-red-500",
       )}
     >
       <Icon id={icon} className="text-[30px]" />
@@ -61,7 +61,7 @@ function ImageInputPreview({
   return (
     <Primitive.div
       {...rest}
-      className={cn(className, "relative overflow-hidden rounded-1 aspect-4/3")}
+      className={cn(className, "relative aspect-4/3 overflow-hidden rounded-1")}
     />
   );
 }
@@ -98,7 +98,7 @@ function ImageInputPreviewOverSizeHelper({
   return (
     <DenseHelper
       variant="error"
-      className="absolute top-0.5 left-0.5 w-[calc(100%-10px)] peer-data-[is-over-size=false]:hidden"
+      className="absolute left-0.5 top-0.5 w-[calc(100%-10px)] peer-data-[is-over-size=false]:hidden"
     >
       {children}
     </DenseHelper>

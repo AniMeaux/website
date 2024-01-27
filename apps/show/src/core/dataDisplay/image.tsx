@@ -107,7 +107,7 @@ export function DynamicImage({
           stroke="none"
           viewBox="0 0 1 1"
           className={cn(
-            "absolute -z-10 top-0 left-0 -translate-y-1 md:-translate-y-2 w-full aspect-square transition-transform ease-in-out duration-100",
+            "absolute left-0 top-0 -z-10 aspect-square w-full -translate-y-1 transition-transform duration-100 ease-in-out md:-translate-y-2",
             IMAGE_SHAPE_COLOR_CLASS_NAME[shape.color],
             IMAGE_SHAPE_SIDE_CLASS_NAME[shape.side],
           )}

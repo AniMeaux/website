@@ -41,7 +41,7 @@ Form.Fields = function FormFields({
   return (
     <Primitive.div
       {...rest}
-      className={cn("w-full flex flex-col gap-2", className)}
+      className={cn("flex w-full flex-col gap-2", className)}
     />
   );
 };
@@ -70,7 +70,7 @@ Form.Field = function FormField({
       {...rest}
       className={cn(
         isInline
-          ? "grid grid-cols-1 grid-flow-col items-center gap-1"
+          ? "grid grid-flow-col grid-cols-1 items-center gap-1"
           : "flex flex-col",
         className,
       )}
@@ -86,7 +86,7 @@ Form.Label = function FormLabel({
     <Primitive.label
       {...rest}
       className={cn(
-        "text-caption-default text-gray-500 [label&]:cursor-pointer",
+        "text-gray-500 text-caption-default [label&]:cursor-pointer",
         className,
       )}
     />
@@ -100,7 +100,7 @@ Form.ErrorMessage = function FormErrorMessage({
   return (
     <Primitive.p
       {...rest}
-      className={cn("text-caption-default text-red-500", className)}
+      className={cn("text-red-500 text-caption-default", className)}
     />
   );
 };
@@ -112,7 +112,7 @@ Form.HelperMessage = function FormHelperMessage({
   return (
     <Primitive.p
       {...rest}
-      className={cn("text-caption-default text-gray-500", className)}
+      className={cn("text-gray-500 text-caption-default", className)}
     />
   );
 };

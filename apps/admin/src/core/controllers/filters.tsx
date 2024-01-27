@@ -89,11 +89,11 @@ Filters.Filter = function Filter({
             openedFilter === value ? null : value,
           )
         }
-        className="group w-full rounded-0.5 grid grid-cols-1 grid-flow-col items-start text-left focus:z-10 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-inheritBg"
+        className="group grid w-full grid-flow-col grid-cols-1 items-start rounded-0.5 text-left focus:z-10 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-inheritBg"
       >
         <span
           className={cn(
-            "py-1 text-body-emphasis transition-colors duration-100 ease-in-out",
+            "py-1 transition-colors duration-100 ease-in-out text-body-emphasis",
             {
               "text-gray-500 group-hover:text-inherit":
                 !isOpened && count === 0,
@@ -104,16 +104,16 @@ Filters.Filter = function Filter({
         </span>
 
         {count > 0 ? (
-          <span className="h-4 flex items-center">
+          <span className="flex h-4 items-center">
             <Chip color="gray">{count}</Chip>
           </span>
         ) : null}
 
         <span
           className={cn(
-            "w-4 h-4 flex items-center justify-center transition-[color,transform] duration-100 ease-in-out ",
+            "flex h-4 w-4 items-center justify-center transition-[color,transform] duration-100 ease-in-out ",
             isOpened
-              ? "text-gray-600 -rotate-90"
+              ? "-rotate-90 text-gray-600"
               : "text-gray-500 group-hover:text-gray-600",
           )}
         >

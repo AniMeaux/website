@@ -45,7 +45,7 @@ export const meta: MetaFunction = ({ matches }) => {
 
 export default function Route() {
   return (
-    <main className="w-full px-page flex flex-col gap-24">
+    <main className="flex w-full flex-col gap-24 px-page">
       <HeroSection>
         <HeroSectionAside>
           <HeroSectionImage image={adoptImages} loading="eager" />
@@ -96,14 +96,14 @@ function StepsSection() {
     <section className="flex flex-col gap-12">
       <h2
         className={cn(
-          "text-title-section-small text-center",
+          "text-center text-title-section-small",
           "md:text-title-section-large",
         )}
       >
         Les étapes
       </h2>
 
-      <div className={cn("flex gap-3 justify-center", "md:gap-6")}>
+      <div className={cn("flex justify-center gap-3", "md:gap-6")}>
         <Tab isActive={tab === "adoption"} onSelect={() => setTab("adoption")}>
           Adoption
         </Tab>
@@ -122,7 +122,7 @@ function StepsSection() {
           <div
             className={cn(
               bubbleSectionClassNames.content(),
-              "px-10 py-12 flex flex-col items-center gap-6 text-center",
+              "flex flex-col items-center gap-6 px-10 py-12 text-center",
               "md:px-30 md:py-[60px]",
             )}
           >
@@ -178,7 +178,7 @@ function CostsSection() {
     <section className="flex flex-col gap-12">
       <h2
         className={cn(
-          "text-title-section-small text-center",
+          "text-center text-title-section-small",
           "md:text-title-section-large",
         )}
       >
@@ -193,7 +193,7 @@ function CostsSection() {
         <div
           className={cn(
             bubbleSectionClassNames.content(),
-            "px-10 py-18 flex flex-col items-center gap-6 text-center",
+            "flex flex-col items-center gap-6 px-10 py-18 text-center",
             "md:px-30 md:py-[60px]",
           )}
         >
@@ -209,7 +209,7 @@ function CostsSection() {
         </div>
       </section>
 
-      <div className={cn("flex gap-3 justify-center", "md:gap-6")}>
+      <div className={cn("flex justify-center gap-3", "md:gap-6")}>
         <Tab isActive={tab === "cats"} onSelect={() => setTab("cats")}>
           <Icon id={SPECIES_ICON[Species.CAT]} />
           Chat
@@ -325,7 +325,7 @@ function CostsSection() {
             <div
               className={cn(
                 bubbleSectionClassNames.content(),
-                "px-10 py-12 flex flex-col items-center gap-6 text-center",
+                "flex flex-col items-center gap-6 px-10 py-12 text-center",
                 "md:px-30 md:py-[60px]",
               )}
             >

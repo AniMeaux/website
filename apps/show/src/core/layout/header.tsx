@@ -25,9 +25,9 @@ function SmallHeader() {
   const config = useConfig();
 
   return (
-    <header className="relative z-20 w-full grid md:hidden grid-cols-1">
+    <header className="relative z-20 grid w-full grid-cols-1 md:hidden">
       <NavigationMenu.Root className="grid grid-cols-1">
-        <NavigationMenu.List className="px-safe-page-narrow pt-safe-0.5 pb-0.5 grid grid-cols-[auto_auto] items-center justify-between gap-2">
+        <NavigationMenu.List className="grid grid-cols-[auto_auto] items-center justify-between gap-2 pb-0.5 pt-safe-0.5 px-safe-page-narrow">
           <NavigationMenu.Item className="flex">
             <HomeNavItem />
           </NavigationMenu.Item>
@@ -38,7 +38,7 @@ function SmallHeader() {
               // https://github.com/radix-ui/primitives/issues/1630
               onPointerMove={(event) => event.preventDefault()}
               onPointerLeave={(event) => event.preventDefault()}
-              className="group w-4 aspect-square flex items-center justify-center text-[24px] transition-transform duration-100 ease-in-out active:scale-95 focus-visible:outline-none focus-visible:ring focus-visible:ring-mystic"
+              className="group flex aspect-square w-4 items-center justify-center text-[24px] transition-transform duration-100 ease-in-out active:scale-95 focus-visible:outline-none focus-visible:ring focus-visible:ring-mystic"
             >
               <Icon id="menu" className="group-data-[state=open]:hidden" />
               <Icon id="close" className="group-data-[state=closed]:hidden" />
@@ -60,7 +60,7 @@ function SmallHeader() {
           // https://github.com/radix-ui/primitives/issues/1630
           onPointerEnter={(event) => event.preventDefault()}
           onPointerLeave={(event) => event.preventDefault()}
-          className="absolute -z-10 top-0 left-0 w-full bg-white/70 backdrop-blur-2xl px-safe-page-narrow pt-safe-[84px] pb-4 grid grid-cols-1 transition-[transform,opacity] duration-150 data-[state=open]:ease-out data-[state=open]:translate-y-0 data-[state=open]:opacity-100 data-[state=closed]:ease-in data-[state=closed]:-translate-y-full data-[state=closed]:opacity-0"
+          className="absolute left-0 top-0 -z-10 grid w-full grid-cols-1 bg-white/70 pb-4 backdrop-blur-2xl transition-[transform,opacity] duration-150 pt-safe-[84px] px-safe-page-narrow data-[state=closed]:-translate-y-full data-[state=open]:translate-y-0 data-[state=closed]:opacity-0 data-[state=open]:opacity-100 data-[state=closed]:ease-in data-[state=open]:ease-out"
         />
       </NavigationMenu.Root>
     </header>
@@ -72,7 +72,7 @@ function LargeHeader() {
 
   return (
     <header className="z-20 hidden md:grid md:grid-cols-1">
-      <nav className="px-safe-page-normal pt-safe-1 pb-1 grid grid-cols-[auto_auto] items-center justify-between gap-2">
+      <nav className="grid grid-cols-[auto_auto] items-center justify-between gap-2 pb-1 pt-safe-1 px-safe-page-normal">
         <HomeNavItem />
 
         <div className="grid grid-flow-col items-center justify-end">
@@ -112,7 +112,7 @@ function HomeNavItem({
         <img
           src={logoSmall}
           alt="Salon des Ani’Meaux"
-          className="w-4 md:w-6 aspect-square"
+          className="aspect-square w-4 md:w-6"
         />
       </picture>
     </Link>
@@ -145,7 +145,7 @@ function NavAction({
     <Primitive.button
       {...rest}
       className={cn(
-        "group px-1 lg:px-2 flex justify-center text-body-uppercase-emphasis transition-[color,transform] duration-100 ease-in-out hover:text-mystic aria-[current=page]:text-mystic active:scale-95 focus-visible:outline-none focus-visible:ring focus-visible:ring-mystic",
+        "group flex justify-center px-1 transition-[color,transform] duration-100 ease-in-out text-body-uppercase-emphasis active:scale-95 aria-[current=page]:text-mystic focus-visible:outline-none focus-visible:ring focus-visible:ring-mystic hover:text-mystic lg:px-2",
         className,
       )}
     />
@@ -158,7 +158,7 @@ NavAction.Content = function NavActionContent(
     "className"
   >,
 ) {
-  return <Primitive.span {...props} className="relative py-0.5 flex" />;
+  return <Primitive.span {...props} className="relative flex py-0.5" />;
 };
 
 NavAction.Marker = function NavActionMarker(
@@ -171,7 +171,7 @@ NavAction.Marker = function NavActionMarker(
     <Primitive.span
       {...props}
       aria-hidden
-      className="absolute bottom-0 left-0 w-full h-[3px] bg-mystic transition-transform duration-150 ease-in-out origin-left scale-x-0 group-aria-[current=page]:scale-x-100"
+      className="absolute bottom-0 left-0 h-[3px] w-full origin-left scale-x-0 bg-mystic transition-transform duration-150 ease-in-out group-aria-[current=page]:scale-x-100"
     />
   );
 };

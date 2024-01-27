@@ -72,9 +72,9 @@ export default function Route() {
   const { animals, totalCount } = useLoaderData<typeof loader>();
 
   return (
-    <main className="py-1 md:py-2 print:py-0 md:print:py-0 grid grid-cols-1 gap-1 md:gap-2 print:gap-0 md:print:gap-0">
+    <main className="grid grid-cols-1 gap-1 py-1 print:gap-0 print:py-0 md:gap-2 md:py-2 md:print:gap-0 md:print:py-0">
       {totalCount > MAX_ANIMAL_COUNT ? (
-        <div className="px-1 md:px-2 grid print:hidden grid-cols-1">
+        <div className="grid grid-cols-1 px-1 print:hidden md:px-2">
           <BlockHelper variant="warning">
             Pour des raisons de performance, seulement {MAX_ANIMAL_COUNT}{" "}
             animaux sur {totalCount} sont affichés.
@@ -82,7 +82,7 @@ export default function Route() {
         </div>
       ) : null}
 
-      <div className="px-1 md:px-2 grid print:hidden grid-cols-1 justify-items-end">
+      <div className="grid grid-cols-1 justify-items-end px-1 print:hidden md:px-2">
         <Action onClick={() => window.print()}>
           <Icon id="print" />
           Imprimer
@@ -171,11 +171,11 @@ function PageSection({
     <section
       {...rest}
       className={cn(
-        "overflow-auto scrollbars-none grid grid-cols-[auto] justify-items-center",
+        "grid grid-cols-[auto] justify-items-center overflow-auto scrollbars-none",
         className,
       )}
     >
-      <div className="px-1 md:px-2 print:px-0 md:print:px-0 flex">
+      <div className="flex px-1 print:px-0 md:px-2 md:print:px-0">
         {children}
       </div>
     </section>
@@ -190,7 +190,7 @@ function CardList({
     <ul
       {...rest}
       className={cn(
-        "w-[29.6cm] aspect-A4-landscape bg-white bg-var-white p-2 flex flex-wrap content-center justify-center gap-2",
+        "flex aspect-A4-landscape w-[29.6cm] flex-wrap content-center justify-center gap-2 bg-white p-2 bg-var-white",
       )}
     />
   );
@@ -212,7 +212,7 @@ function AnimalItem({
   return (
     <li
       {...rest}
-      className={cn("flex-none grid grid-cols-1 gap-0.5", className)}
+      className={cn("grid flex-none grid-cols-1 gap-0.5", className)}
       style={{ width }}
     >
       <BaseImage
@@ -225,10 +225,10 @@ function AnimalItem({
         className="w-full rounded-1"
       />
 
-      <p className="grid grid-cols-[auto] grid-flow-col auto-cols-fr gap-0.25 text-body-emphasis">
+      <p className="grid auto-cols-fr grid-flow-col grid-cols-[auto] gap-0.25 text-body-emphasis">
         <span
           className={cn(
-            "h-2 flex items-center",
+            "flex h-2 items-center",
             animal.gender === Gender.FEMALE ? "text-pink-500" : "text-blue-500",
           )}
         >

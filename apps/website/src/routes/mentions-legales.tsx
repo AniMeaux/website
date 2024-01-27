@@ -14,7 +14,7 @@ export default function Route() {
   const config = useConfig();
 
   return (
-    <main className="w-full px-article flex flex-col gap-12">
+    <main className="flex w-full flex-col gap-12 px-article">
       <header className="flex flex-col gap-6">
         <h1 className={cn("text-title-hero-small", "md:text-title-hero-large")}>
           Mentions légales

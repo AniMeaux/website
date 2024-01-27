@@ -34,8 +34,8 @@ export function EventItem({
     <li className="flex">
       <BaseLink
         to={isDisabled ? undefined : event.url}
-        className={cn("group rounded-bubble-md w-full flex flex-col gap-3", {
-          "sm:flex-row sm:gap-6 sm:items-start": isInlined,
+        className={cn("group flex w-full flex-col gap-3 rounded-bubble-md", {
+          "sm:flex-row sm:items-start sm:gap-6": isInlined,
         })}
       >
         <DynamicImage
@@ -47,15 +47,15 @@ export function EventItem({
               : { lg: "300px", md: "30vw", xs: "50vw", default: "100vw" }
           }
           fallbackSize="512"
-          className={cn("w-full aspect-4/3 flex-none rounded-bubble-md", {
+          className={cn("aspect-4/3 w-full flex-none rounded-bubble-md", {
             "sm:w-[150px]": isInlined,
           })}
         />
 
-        <div className="flex-1 flex flex-col">
+        <div className="flex flex-1 flex-col">
           <p
             className={cn(
-              "text-title-item transition-colors duration-100 ease-in-out",
+              "transition-colors duration-100 ease-in-out text-title-item",
               { "group-hover:text-brandBlue": !isDisabled },
             )}
           >
@@ -100,7 +100,7 @@ function DetailsItem({
 }) {
   return (
     <li className="flex items-start gap-2 text-gray-500">
-      <span className="flex-none flex h-6 items-center">
+      <span className="flex h-6 flex-none items-center">
         <Icon id={icon} className="text-[14px]" />
       </span>
 

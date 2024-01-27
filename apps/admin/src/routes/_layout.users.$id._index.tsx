@@ -439,7 +439,7 @@ function ManagedAnimalsCard() {
             {managedAnimals.map((animal) => (
               <li
                 key={animal.id}
-                className="flex-none flex flex-col first:pl-0.5 last:pr-0.5 md:first:pl-1 md:last:pr-1"
+                className="flex flex-none flex-col first:pl-0.5 last:pr-0.5 md:first:pl-1 md:last:pr-1"
               >
                 <AnimalItem
                   animal={animal}
@@ -515,7 +515,7 @@ function NonActiveManagedAnimalsCard() {
             {nonActiveManagedAnimals.map((animal) => (
               <li
                 key={animal.id}
-                className="flex-none flex flex-col first:pl-0.5 last:pr-0.5 md:first:pl-1 md:last:pr-1"
+                className="flex flex-none flex-col first:pl-0.5 last:pr-0.5 md:first:pl-1 md:last:pr-1"
               >
                 <AnimalItem
                   animal={animal}

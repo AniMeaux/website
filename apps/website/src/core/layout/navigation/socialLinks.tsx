@@ -58,7 +58,7 @@ function SocialLink({
       title={title}
       className={cn(
         className,
-        "rounded-bubble-sm bg-opacity-0 p-2 flex items-center text-gray-700 hover:bg-opacity-10 transition-colors duration-100 ease-in-out",
+        "flex items-center bg-opacity-0 p-2 text-gray-700 transition-colors duration-100 ease-in-out rounded-bubble-sm hover:bg-opacity-10",
       )}
     >
       <Icon id={icon} />

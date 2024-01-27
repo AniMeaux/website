@@ -22,12 +22,12 @@ export default function Route() {
   const { partners } = useLoaderData<typeof loader>();
 
   return (
-    <main className="w-full px-page flex flex-col gap-12">
+    <main className="flex w-full flex-col gap-12 px-page">
       <header className="flex">
         <h1
           className={cn(
-            "text-title-hero-small text-center",
-            "md:text-title-hero-large md:text-left",
+            "text-center text-title-hero-small",
+            "md:text-left md:text-title-hero-large",
           )}
         >
           Partenaires
@@ -38,7 +38,7 @@ export default function Route() {
         <section className="flex flex-col">
           <ul
             className={cn(
-              "grid grid-cols-1 gap-12 items-start",
+              "grid grid-cols-1 items-start gap-12",
               "xs:grid-cols-2",
               "md:grid-cols-3",
             )}
@@ -74,18 +74,18 @@ function PartnerItem({
     <li className="flex">
       <BaseLink
         to={partner.url}
-        className="group w-full rounded-bubble-md flex flex-col gap-3"
+        className="group flex w-full flex-col gap-3 rounded-bubble-md"
       >
         <DynamicImage
           imageId={partner.image}
           alt={partner.name}
           sizes={{ lg: "300px", md: "30vw", xs: "50vw", default: "100vw" }}
           fallbackSize="512"
-          className="w-full aspect-4/3 flex-none rounded-bubble-md border border-gray-200 bg-white"
+          className="aspect-4/3 w-full flex-none border border-gray-200 bg-white rounded-bubble-md"
         />
 
         <div className="flex flex-col">
-          <p className="text-title-item transition-colors duration-100 ease-in-out group-hover:text-brandBlue">
+          <p className="transition-colors duration-100 ease-in-out text-title-item group-hover:text-brandBlue">
             {partner.name}
           </p>
           <p>

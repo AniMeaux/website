@@ -11,17 +11,17 @@ export function Footer() {
   return (
     <footer
       className={cn(
-        "w-full pt-18 px-page pb-12 flex flex-col items-center gap-24",
+        "flex w-full flex-col items-center gap-24 px-page pb-12 pt-18",
         "md:pt-12",
       )}
     >
       <LineShapeHorizontal
-        className={cn("w-full h-4 text-gray-300", "md:h-6")}
+        className={cn("h-4 w-full text-gray-300", "md:h-6")}
       />
 
       <div
         className={cn(
-          "w-full flex flex-col items-center gap-24",
+          "flex w-full flex-col items-center gap-24",
           "md:flex-row",
         )}
       >
@@ -29,8 +29,8 @@ export function Footer() {
           <div className="flex flex-col gap-6">
             <h2
               className={cn(
-                "text-title-section-small text-center",
-                "md:text-title-section-large md:text-left",
+                "text-center text-title-section-small",
+                "md:text-left md:text-title-section-large",
               )}
             >
               Newsletter
@@ -44,7 +44,7 @@ export function Footer() {
 
           <div
             className={cn(
-              "w-full flex flex-col items-center",
+              "flex w-full flex-col items-center",
               "md:items-start",
             )}
           >
@@ -87,7 +87,7 @@ export function Footer() {
 
       <section
         className={cn(
-          "py-6 flex flex-col gap-6 text-gray-500 text-center",
+          "flex flex-col gap-6 py-6 text-center text-gray-500",
           "md:w-full md:flex-row md:items-center md:justify-between md:gap-12 md:text-left",
         )}
       >
@@ -121,10 +121,10 @@ function ContactItem({
         to={to}
         className="group flex items-start gap-2 hover:text-black"
       >
-        <span className="h-6 flex items-center">
+        <span className="flex h-6 items-center">
           <Icon
             id={icon}
-            className="text-gray-500 text-[14px] group-hover:text-gray-800"
+            className="text-[14px] text-gray-500 group-hover:text-gray-800"
           />
         </span>
 

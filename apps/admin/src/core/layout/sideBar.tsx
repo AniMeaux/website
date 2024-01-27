@@ -17,10 +17,10 @@ export function SideBar({
   children,
 }: SideBarProps) {
   return (
-    <nav className="hidden sticky top-0 h-screen bg-white bg-var-white pl-safe-2 pt-safe-1 pb-safe-2 pr-2 md:flex">
+    <nav className="sticky top-0 hidden h-screen bg-white pr-2 bg-var-white pb-safe-2 pl-safe-2 pt-safe-1 md:flex">
       <div
         className={cn(
-          "h-full flex flex-col gap-4 transition-[width] duration-200 ease-in-out",
+          "flex h-full flex-col gap-4 transition-[width] duration-200 ease-in-out",
           isOpened ? "w-[210px]" : "w-[40px]",
         )}
       >
@@ -49,7 +49,7 @@ SideBar.RootItem = function SideBarRootItem({
   return (
     <BaseLink
       to={to}
-      className="overflow-hidden flex-none rounded-0.5 p-0.5 flex transition-colors duration-100 ease-in-out hover:bg-gray-100 active:bg-gray-100 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400"
+      className="flex flex-none overflow-hidden rounded-0.5 p-0.5 transition-colors duration-100 ease-in-out active:bg-gray-100 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 hover:bg-gray-100"
     >
       <img src={logo} alt={alt} className="h-3 object-cover object-left" />
     </BaseLink>
@@ -62,7 +62,7 @@ SideBar.Content = function SideBarContent({
   children?: React.ReactNode;
 }) {
   return (
-    <div className="flex-1 flex flex-col justify-start gap-1">{children}</div>
+    <div className="flex flex-1 flex-col justify-start gap-1">{children}</div>
   );
 };
 
@@ -74,7 +74,7 @@ SideBar.Item = function SideBarItem({
     <Primitive.span
       {...rest}
       className={cn(
-        "overflow-hidden flex-none rounded-0.5 flex items-center text-left text-gray-500 transition-colors duration-100 ease-in-out focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 hover:bg-gray-100 aria-[current=page]:bg-blue-50 aria-[current=page]:text-blue-500 aria-[current=page]:hover:bg-blue-50",
+        "flex flex-none items-center overflow-hidden rounded-0.5 text-left text-gray-500 transition-colors duration-100 ease-in-out aria-[current=page]:bg-blue-50 aria-[current=page]:text-blue-500 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 hover:bg-gray-100 aria-[current=page]:hover:bg-blue-50",
       )}
     />
   );
@@ -82,7 +82,7 @@ SideBar.Item = function SideBarItem({
 
 SideBar.ItemIcon = function SideBarItemIcon({ id }: { id: IconProps["id"] }) {
   return (
-    <span className="w-4 h-4 flex-none flex items-center justify-center text-[20px]">
+    <span className="flex h-4 w-4 flex-none items-center justify-center text-[20px]">
       <Icon id={id} />
     </span>
   );
@@ -94,6 +94,6 @@ SideBar.ItemContent = function SideBarItemContent({
   children?: React.ReactNode;
 }) {
   return (
-    <span className="flex-1 pr-1 text-body-emphasis truncate">{children}</span>
+    <span className="flex-1 truncate pr-1 text-body-emphasis">{children}</span>
   );
 };

@@ -144,13 +144,13 @@ function CarpoolSection() {
 function InformationSection() {
   return (
     <Section columnCount={1} width="full">
-      <div className="relative px-safe-page-narrow md:px-safe-page-normal py-2 md:py-4">
+      <div className="relative py-2 px-safe-page-narrow md:py-4 md:px-safe-page-normal">
         <HighLightBackground
           color="paleBlue"
-          className="absolute -z-10 top-0 left-0 w-full h-full"
+          className="absolute left-0 top-0 -z-10 h-full w-full"
         />
 
-        <ul className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-4">
+        <ul className="grid grid-cols-1 gap-2 md:grid-cols-2 md:gap-4">
           <HighLightItem icon="location" title="Adresse">
             Colisée de Meaux, 73 Av. Henri Dunant, 77100 Meaux.
           </HighLightItem>
@@ -187,7 +187,7 @@ function HighLightItem({
   title: string;
 }>) {
   return (
-    <li className="grid grid-cols-[auto_minmax(0,1fr)] gap-2 items-start">
+    <li className="grid grid-cols-[auto_minmax(0,1fr)] items-start gap-2">
       <Pictogram id={icon} className="text-[48px]" />
       <div className="grid grid-cols-1">
         <p className="text-body-uppercase-emphasis">{title}</p>

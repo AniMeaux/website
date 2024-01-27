@@ -139,7 +139,7 @@ export function GlobalSearch() {
           <Overlay className="opacity-0 md:opacity-100" />
         </Dialog.Overlay>
 
-        <Dialog.Content className="fixed top-0 left-0 bottom-0 right-0 z-30 overflow-y-auto bg-gray-50 flex flex-col md:top-[10vh] md:left-1/2 md:bottom-auto md:right-auto md:-translate-x-1/2 md:w-[550px] md:shadow-ambient md:bg-white md:bg-var-white md:rounded-1 md:data-[state=open]:animation-enter md:data-[state=closed]:animation-exit animation-opacity-0 animation-duration-100">
+        <Dialog.Content className="fixed bottom-0 left-0 right-0 top-0 z-30 flex flex-col overflow-y-auto bg-gray-50 animation-opacity-0 animation-duration-100 md:bottom-auto md:left-1/2 md:right-auto md:top-[10vh] md:w-[550px] md:-translate-x-1/2 md:rounded-1 md:bg-white md:shadow-ambient md:bg-var-white md:data-[state=open]:animation-enter md:data-[state=closed]:animation-exit">
           {entity != null ? (
             <Combobox
               entity={entity}
@@ -288,8 +288,8 @@ function Combobox({
         </Dialog.Title>
       </VisuallyHidden.Root>
 
-      <header className="sticky top-0 z-20 flex-none bg-white bg-var-white flex flex-col md:pb-0.5">
-        <div className="px-safe-1 pt-safe-0.5 pb-0.5 flex flex-col md:px-1 md:pt-1 ">
+      <header className="sticky top-0 z-20 flex flex-none flex-col bg-white bg-var-white md:pb-0.5">
+        <div className="flex flex-col pb-0.5 pt-safe-0.5 px-safe-1 md:px-1 md:pt-1 ">
           <Input
             {...combobox.getInputProps()}
             hideFocusRing
@@ -325,7 +325,7 @@ function Combobox({
       </header>
 
       <section
-        className={cn("bg-white bg-var-white flex flex-col", {
+        className={cn("flex flex-col bg-white bg-var-white", {
           "p-1 md:border-t md:border-gray-100": visibleItems.length > 0,
         })}
       >
@@ -416,7 +416,7 @@ function Tabs({
     <div
       className={cn(
         className,
-        "overflow-auto scrollbars-none grid grid-flow-col justify-start gap-0.5",
+        "grid grid-flow-col justify-start gap-0.5 overflow-auto scrollbars-none",
       )}
     >
       {children}
@@ -426,7 +426,7 @@ function Tabs({
 
 function Tab({ children }: { children?: React.ReactNode }) {
   return (
-    <label className="group relative z-0 rounded-0.5 flex cursor-pointer focus-within:z-10">
+    <label className="group relative z-0 flex cursor-pointer rounded-0.5 focus-within:z-10">
       {children}
     </label>
   );
@@ -436,14 +436,14 @@ function TabInput(props: React.InputHTMLAttributes<HTMLInputElement>) {
   return (
     <input
       {...props}
-      className="peer appearance-none absolute -z-10 top-0 left-0 w-full h-full rounded-0.5 cursor-pointer transition-colors duration-100 ease-in-out group-hover:bg-gray-100 checked:bg-blue-50 group-hover:checked:bg-blue-50 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-inheritBg"
+      className="peer absolute left-0 top-0 -z-10 h-full w-full cursor-pointer appearance-none rounded-0.5 transition-colors duration-100 ease-in-out checked:bg-blue-50 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-inheritBg group-hover:bg-gray-100 group-hover:checked:bg-blue-50"
     />
   );
 }
 
 function TabLabel({ children }: { children?: React.ReactNode }) {
   return (
-    <span className="px-1 py-0.5 text-body-emphasis text-gray-500 peer-checked:text-blue-500">
+    <span className="px-1 py-0.5 text-gray-500 text-body-emphasis peer-checked:text-blue-500">
       {children}
     </span>
   );

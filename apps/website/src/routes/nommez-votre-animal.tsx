@@ -69,12 +69,12 @@ export default function Route() {
   const params = getParams(searchParams);
 
   return (
-    <main className={cn("w-full px-page flex flex-col gap-12", "md:gap-24")}>
+    <main className={cn("flex w-full flex-col gap-12 px-page", "md:gap-24")}>
       <header className="flex flex-col gap-6">
         <h1
           className={cn(
-            "text-title-hero-small text-center",
-            "md:text-title-hero-large md:text-left",
+            "text-center text-title-hero-small",
+            "md:text-left md:text-title-hero-large",
           )}
         >
           Nommez votre animal
@@ -94,15 +94,15 @@ export default function Route() {
       >
         <section
           className={cn(
-            "shadow-base rounded-bubble-lg bg-white p-6 flex",
-            "md:flex-1 md:max-w-xs",
+            "flex bg-white p-6 shadow-base rounded-bubble-lg",
+            "md:max-w-xs md:flex-1",
           )}
         >
           <Form
             method="GET"
             replace
             preventScrollReset
-            className="w-full flex flex-col gap-6"
+            className="flex w-full flex-col gap-6"
           >
             <h2 className="text-title-item">Critères</h2>
 
@@ -168,7 +168,7 @@ export default function Route() {
           {names.length === 0 ? (
             <p
               className={cn(
-                "w-full py-12 text-gray-500 text-center",
+                "w-full py-12 text-center text-gray-500",
                 "md:py-40",
               )}
             >
@@ -178,7 +178,7 @@ export default function Route() {
             <>
               <ul
                 className={cn(
-                  "w-full grid grid-cols-1 grid-rows-[auto] gap-6 items-start",
+                  "grid w-full grid-cols-1 grid-rows-[auto] items-start gap-6",
                   "xs:grid-cols-2",
                   "sm:grid-cols-3",
                   "md:grid-cols-2 md:gap-y-12",
@@ -258,7 +258,7 @@ function FirstLetterInput({ defaultValue }: { defaultValue: string }) {
 
         setValue(value);
       }}
-      className="w-full rounded-bubble-sm border border-gray-200 px-6 py-2"
+      className="w-full border border-gray-200 px-6 py-2 rounded-bubble-sm"
     />
   );
 }
