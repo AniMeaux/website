@@ -84,5 +84,5 @@ export const HAS_UP_COMMING_DIAGNOSE_CONDITIONS = {
   ageInMonths: 8,
   diagnosis: [Diagnosis.UNKNOWN],
   species: [Species.DOG],
-  status: ACTIVE_ANIMAL_STATUS,
+  status: ACTIVE_ANIMAL_STATUS.concat([Status.ADOPTED]),
 };
