@@ -61,7 +61,8 @@ export async function loader({ request }: LoaderFunctionArgs) {
       animalSearchParams.sterilizations.size > 0 ||
       animalSearchParams.vaccination.size > 0 ||
       animalSearchParams.nextVaccinationDateStart != null ||
-      animalSearchParams.nextVaccinationDateEnd != null)
+      animalSearchParams.nextVaccinationDateEnd != null ||
+      animalSearchParams.diagnosis.size > 0)
   ) {
     throw new ForbiddenResponse();
   }

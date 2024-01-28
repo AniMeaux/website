@@ -84,6 +84,7 @@ export async function action({ request }: ActionFunctionArgs) {
       adoptionDate: formData.data.adoptionDate ?? null,
       adoptionOption: formData.data.adoptionOption ?? null,
       comments: formData.data.comments || null,
+      diagnosis: formData.data.diagnosis,
       fosterFamilyId: formData.data.fosterFamilyId ?? null,
       isSterilizationMandatory:
         formData.data.isSterilized !==

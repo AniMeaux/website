@@ -11,6 +11,7 @@ type SituationKeys =
   | "adoptionDate"
   | "adoptionOption"
   | "comments"
+  | "diagnosis"
   | "fosterFamilyId"
   | "isSterilizationMandatory"
   | "isSterilized"
@@ -158,6 +159,7 @@ export class AnimalSituationDbDelegate {
   ): draft is AnimalSituation {
     return (
       draft != null &&
+      draft.diagnosis != null &&
       draft.isSterilizationMandatory != null &&
       draft.isSterilized != null &&
       draft.isVaccinationMandatory != null &&

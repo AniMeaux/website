@@ -57,7 +57,9 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
       adoptionOption: true,
       alias: true,
       comments: true,
+      diagnosis: true,
       fosterFamily: { select: { id: true, displayName: true } },
+      gender: true,
       isSterilizationMandatory: true,
       isSterilized: true,
       isVaccinationMandatory: true,
@@ -128,6 +130,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
       adoptionDate: formData.data.adoptionDate ?? null,
       adoptionOption: formData.data.adoptionOption ?? null,
       comments: formData.data.comments || null,
+      diagnosis: formData.data.diagnosis,
       fosterFamilyId: formData.data.fosterFamilyId ?? null,
       isSterilizationMandatory:
         formData.data.isSterilized !==
