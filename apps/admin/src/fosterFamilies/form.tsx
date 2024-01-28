@@ -1,21 +1,21 @@
-import { SORTED_SPECIES, SPECIES_TRANSLATION } from "#animals/species.tsx";
-import { Action } from "#core/actions.tsx";
+import { SORTED_SPECIES, SPECIES_TRANSLATION } from "#animals/species";
+import { Action } from "#core/actions";
 import { toIsoDateValue } from "#core/dates";
 import {
   CheckboxInput,
   CheckboxInputList,
-} from "#core/formElements/checkboxInput.tsx";
-import { Form } from "#core/formElements/form.tsx";
-import { Input } from "#core/formElements/input.tsx";
+} from "#core/formElements/checkboxInput";
+import { Form } from "#core/formElements/form";
+import { Input } from "#core/formElements/input";
 import { RadioInput, RadioInputList } from "#core/formElements/radioInput";
-import { RequiredStar } from "#core/formElements/requiredStar.tsx";
-import { Textarea } from "#core/formElements/textarea.tsx";
-import { Separator } from "#core/layout/separator.tsx";
+import { RequiredStar } from "#core/formElements/requiredStar";
+import { Textarea } from "#core/formElements/textarea";
+import { Separator } from "#core/layout/separator";
 import {
   AVAILABILITY_TRANSLATION,
   SORTED_AVAILABILITIES,
-} from "#fosterFamilies/availability.tsx";
-import { Icon } from "#generated/icon.tsx";
+} from "#fosterFamilies/availability";
+import { Icon } from "#generated/icon";
 import { FormDataDelegate } from "@animeaux/form-data";
 import { zu } from "@animeaux/zod-utils";
 import type { FosterFamily } from "@prisma/client";

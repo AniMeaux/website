@@ -1,4 +1,4 @@
-import type { loader as rootLoader } from "#root.tsx";
+import type { loader as rootLoader } from "#root";
 import type { SerializeFrom } from "@remix-run/node";
 import { useRouteLoaderData } from "@remix-run/react";
 import invariant from "tiny-invariant";

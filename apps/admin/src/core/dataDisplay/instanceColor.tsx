@@ -1,5 +1,5 @@
-import type { AvatarColor } from "#core/dataDisplay/avatar.tsx";
-import { simpleHash } from "#core/simpleHash.tsx";
+import type { AvatarColor } from "#core/dataDisplay/avatar";
+import { simpleHash } from "#core/simpleHash";
 import invariant from "tiny-invariant";
 
 const COLORS = [

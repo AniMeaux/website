@@ -1,8 +1,8 @@
-import { Action } from "#core/actions.tsx";
-import { useOptionalConfig } from "#core/config.ts";
-import { DynamicImage } from "#core/dataDisplay/image.tsx";
-import { Section } from "#core/layout/section.tsx";
-import { Routes } from "#core/navigation.tsx";
+import { Action } from "#core/actions";
+import { useOptionalConfig } from "#core/config";
+import { DynamicImage } from "#core/dataDisplay/image";
+import { Section } from "#core/layout/section";
+import { Routes } from "#core/navigation";
 import { cn } from "@animeaux/core";
 import { Link, isRouteErrorResponse, useRouteError } from "@remix-run/react";
 

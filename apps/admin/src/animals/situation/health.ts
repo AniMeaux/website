@@ -1,4 +1,4 @@
-import { ACTIVE_ANIMAL_STATUS, SORTED_STATUS } from "#animals/status.tsx";
+import { ACTIVE_ANIMAL_STATUS, SORTED_STATUS } from "#animals/status";
 import type { Animal } from "@prisma/client";
 import { Diagnosis, Species, Status } from "@prisma/client";
 import type { SerializeFrom } from "@remix-run/node";

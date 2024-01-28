@@ -1,4 +1,4 @@
-import type { ImageDescriptor } from "#core/dataDisplay/image.tsx";
+import type { ImageDescriptor } from "#core/dataDisplay/image";
 import socialAdoptionConditions1024 from "#images/socialAdoptionConditions-1024w.jpg";
 import socialDefault1024 from "#images/socialDefault-1024w.jpg";
 import socialDonation1024 from "#images/socialDonation-1024w.jpg";

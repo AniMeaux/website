@@ -1,14 +1,14 @@
-import { actionClassNames } from "#core/actions.ts";
-import { BaseLink } from "#core/baseLink.tsx";
-import { prisma } from "#core/db.server.ts";
+import { actionClassNames } from "#core/actions";
+import { BaseLink } from "#core/baseLink";
+import { prisma } from "#core/db.server";
 import {
   RelatedSection,
   RelatedSectionList,
   RelatedSectionTitle,
-} from "#core/layout/relatedSection.tsx";
-import { createSocialMeta } from "#core/meta.ts";
-import { getPageTitle } from "#core/pageTitle.ts";
-import { EventItem } from "#events/item.tsx";
+} from "#core/layout/relatedSection";
+import { createSocialMeta } from "#core/meta";
+import { getPageTitle } from "#core/pageTitle";
+import { EventItem } from "#events/item";
 import { cn } from "@animeaux/core";
 import { Prisma } from "@prisma/client";
 import type { MetaFunction } from "@remix-run/node";

@@ -1,6 +1,6 @@
-import { deleteImage } from "#core/cloudinary.server.ts";
-import { NotFoundError, PrismaErrorCodes } from "#core/errors.server.ts";
-import { prisma } from "#core/prisma.server.ts";
+import { deleteImage } from "#core/cloudinary.server";
+import { NotFoundError, PrismaErrorCodes } from "#core/errors.server";
+import { prisma } from "#core/prisma.server";
 import type { Event } from "@prisma/client";
 import { Prisma } from "@prisma/client";
 import { DateTime } from "luxon";

@@ -1,4 +1,4 @@
-import { createLocationState } from "#core/locationState.ts";
+import { createLocationState } from "#core/locationState";
 import { zu } from "@animeaux/zod-utils";
 
 export const ScrollRestorationLocationState = createLocationState(

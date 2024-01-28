@@ -1,38 +1,38 @@
-import { AnimalItem } from "#animals/item.tsx";
-import { AnimalSearchParams } from "#animals/searchParams.ts";
-import { SPECIES_TRANSLATION } from "#animals/species.tsx";
-import { Action } from "#core/actions.tsx";
-import { BaseLink } from "#core/baseLink.tsx";
-import { Empty } from "#core/dataDisplay/empty.tsx";
-import { ErrorPage, getErrorTitle } from "#core/dataDisplay/errorPage.tsx";
-import { ErrorsInlineHelper } from "#core/dataDisplay/errors.tsx";
-import { InlineHelper } from "#core/dataDisplay/helper.tsx";
-import { ItemList, SimpleItem } from "#core/dataDisplay/item.tsx";
-import { ARTICLE_COMPONENTS, Markdown } from "#core/dataDisplay/markdown.tsx";
-import { db } from "#core/db.server.ts";
-import { NotFoundError, ReferencedError } from "#core/errors.server.ts";
-import { assertIsDefined } from "#core/isDefined.server.ts";
-import { joinReactNodes } from "#core/joinReactNodes.tsx";
-import { AvatarCard } from "#core/layout/avatarCard.tsx";
-import { Card } from "#core/layout/card.tsx";
-import { PageLayout } from "#core/layout/page.tsx";
-import { Routes } from "#core/navigation.ts";
-import { getPageTitle } from "#core/pageTitle.ts";
-import { Dialog } from "#core/popovers/dialog.tsx";
-import { prisma } from "#core/prisma.server.ts";
-import { NotFoundResponse } from "#core/response.server.ts";
-import { assertCurrentUserHasGroups } from "#currentUser/groups.server.ts";
+import { AnimalItem } from "#animals/item";
+import { AnimalSearchParams } from "#animals/searchParams";
+import { SPECIES_TRANSLATION } from "#animals/species";
+import { Action } from "#core/actions";
+import { BaseLink } from "#core/baseLink";
+import { Empty } from "#core/dataDisplay/empty";
+import { ErrorPage, getErrorTitle } from "#core/dataDisplay/errorPage";
+import { ErrorsInlineHelper } from "#core/dataDisplay/errors";
+import { InlineHelper } from "#core/dataDisplay/helper";
+import { ItemList, SimpleItem } from "#core/dataDisplay/item";
+import { ARTICLE_COMPONENTS, Markdown } from "#core/dataDisplay/markdown";
+import { db } from "#core/db.server";
+import { NotFoundError, ReferencedError } from "#core/errors.server";
+import { assertIsDefined } from "#core/isDefined.server";
+import { joinReactNodes } from "#core/joinReactNodes";
+import { AvatarCard } from "#core/layout/avatarCard";
+import { Card } from "#core/layout/card";
+import { PageLayout } from "#core/layout/page";
+import { Routes } from "#core/navigation";
+import { getPageTitle } from "#core/pageTitle";
+import { Dialog } from "#core/popovers/dialog";
+import { prisma } from "#core/prisma.server";
+import { NotFoundResponse } from "#core/response.server";
+import { assertCurrentUserHasGroups } from "#currentUser/groups.server";
 import {
   AVAILABILITY_TRANSLATION,
   AvailabilityIcon,
-} from "#fosterFamilies/availability.tsx";
+} from "#fosterFamilies/availability";
 import {
   AVATAR_COLOR_BY_AVAILABILITY,
   FosterFamilyAvatar,
-} from "#fosterFamilies/avatar.tsx";
-import { ActionFormData } from "#fosterFamilies/form.tsx";
-import { getLongLocation } from "#fosterFamilies/location.tsx";
-import { Icon } from "#generated/icon.tsx";
+} from "#fosterFamilies/avatar";
+import { ActionFormData } from "#fosterFamilies/form";
+import { getLongLocation } from "#fosterFamilies/location";
+import { Icon } from "#generated/icon";
 import { zu } from "@animeaux/zod-utils";
 import { FosterFamilyAvailability, UserGroup } from "@prisma/client";
 import type {

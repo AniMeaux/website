@@ -1,6 +1,6 @@
-import { BaseLink } from "#core/baseLink.tsx";
-import { AGE_TRANSLATION, SPECIES_TRANSLATION } from "#core/translations.ts";
-import { Icon } from "#generated/icon.tsx";
+import { BaseLink } from "#core/baseLink";
+import { AGE_TRANSLATION, SPECIES_TRANSLATION } from "#core/translations";
+import { Icon } from "#generated/icon";
 import { ANIMAL_AGE_RANGE_BY_SPECIES, AnimalAge, cn } from "@animeaux/core";
 import { Species } from "@prisma/client";
 import orderBy from "lodash.orderby";

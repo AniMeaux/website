@@ -1,4 +1,4 @@
-import type { ImageDescriptor } from "#core/dataDisplay/image.tsx";
+import type { ImageDescriptor } from "#core/dataDisplay/image";
 import missionIntervention512 from "#images/missionIntervention-512w.png";
 
 export const missionInterventionImages: ImageDescriptor = {

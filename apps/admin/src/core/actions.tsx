@@ -1,4 +1,4 @@
-import { Spinner } from "#core/loaders/spinner.tsx";
+import { Spinner } from "#core/loaders/spinner";
 import { cn } from "@animeaux/core";
 import { Primitive } from "@animeaux/react-primitives";
 import { forwardRef } from "react";

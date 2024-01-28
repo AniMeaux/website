@@ -1,25 +1,25 @@
-import { AnimalItem } from "#animals/item.tsx";
-import { ADOPTABLE_ANIMAL_STATUS } from "#animals/status.ts";
-import { actionClassNames } from "#core/actions.ts";
-import { BaseLink } from "#core/baseLink.tsx";
-import { Paginator } from "#core/controllers/paginator.tsx";
+import { AnimalItem } from "#animals/item";
+import { ADOPTABLE_ANIMAL_STATUS } from "#animals/status";
+import { actionClassNames } from "#core/actions";
+import { BaseLink } from "#core/baseLink";
+import { Paginator } from "#core/controllers/paginator";
 import {
   AGES_TO_PATH,
   ANIMAL_AGES_BY_SPECIES,
   SPECIES_TO_PATH,
   SearchForm,
-} from "#core/controllers/searchForm.tsx";
-import { ErrorPage, getErrorTitle } from "#core/dataDisplay/errorPage.tsx";
-import { prisma } from "#core/db.server.ts";
-import { createSocialMeta } from "#core/meta.ts";
-import { getPageTitle } from "#core/pageTitle.ts";
-import { getPage } from "#core/searchParams.ts";
+} from "#core/controllers/searchForm";
+import { ErrorPage, getErrorTitle } from "#core/dataDisplay/errorPage";
+import { prisma } from "#core/db.server";
+import { createSocialMeta } from "#core/meta";
+import { getPageTitle } from "#core/pageTitle";
+import { getPage } from "#core/searchParams";
 import {
   AGE_PLURAL_TRANSLATION,
   AGE_TRANSLATION,
   SPECIES_PLURAL_TRANSLATION,
   SPECIES_TRANSLATION,
-} from "#core/translations.ts";
+} from "#core/translations";
 import type { AnimalAge } from "@animeaux/core";
 import { ANIMAL_AGE_RANGE_BY_SPECIES, cn } from "@animeaux/core";
 import type { Prisma, Species } from "@prisma/client";

@@ -1,13 +1,13 @@
-import type { ActionProps } from "#core/actions.tsx";
-import { Action } from "#core/actions.tsx";
-import { toBooleanAttribute } from "#core/attributes.ts";
-import { DenseHelper } from "#core/dataDisplay/helper.tsx";
+import type { ActionProps } from "#core/actions";
+import { Action } from "#core/actions";
+import { toBooleanAttribute } from "#core/attributes";
+import { DenseHelper } from "#core/dataDisplay/helper";
 import {
   DataUrlOrDynamicImage,
   isImageOverSize,
-} from "#core/dataDisplay/image.tsx";
-import type { IconProps } from "#generated/icon.tsx";
-import { Icon } from "#generated/icon.tsx";
+} from "#core/dataDisplay/image";
+import type { IconProps } from "#generated/icon";
+import { Icon } from "#generated/icon";
 import { cn } from "@animeaux/core";
 import { Primitive } from "@animeaux/react-primitives";
 import { forwardRef } from "react";

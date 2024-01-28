@@ -1,7 +1,7 @@
-import type { ActionColor } from "#core/actions.tsx";
-import { Action } from "#core/actions.tsx";
-import type { IconProps } from "#generated/icon.tsx";
-import { Icon } from "#generated/icon.tsx";
+import type { ActionColor } from "#core/actions";
+import { Action } from "#core/actions";
+import type { IconProps } from "#generated/icon";
+import { Icon } from "#generated/icon";
 import { cn } from "@animeaux/core";
 
 type HelperVariant = "error" | "info" | "success" | "warning";

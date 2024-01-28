@@ -1,8 +1,8 @@
 import {
   cloudinary,
   cloudinaryClient,
-} from "#core/cloudinary/cloudinary.server.ts";
-import { PreviousEdition } from "#previousEditions/previousEdition.tsx";
+} from "#core/cloudinary/cloudinary.server";
+import { PreviousEdition } from "#previousEditions/previousEdition";
 import { getPixels } from "@unpic/pixels";
 import { encode } from "blurhash";
 

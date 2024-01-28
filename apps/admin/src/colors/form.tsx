@@ -1,8 +1,8 @@
-import { Action } from "#core/actions.tsx";
-import { Form } from "#core/formElements/form.tsx";
-import { Input } from "#core/formElements/input.tsx";
-import { RequiredStar } from "#core/formElements/requiredStar.tsx";
-import { Icon } from "#generated/icon.tsx";
+import { Action } from "#core/actions";
+import { Form } from "#core/formElements/form";
+import { Input } from "#core/formElements/input";
+import { RequiredStar } from "#core/formElements/requiredStar";
+import { Icon } from "#generated/icon";
 import { FormDataDelegate } from "@animeaux/form-data";
 import { zu } from "@animeaux/zod-utils";
 import type { Color } from "@prisma/client";

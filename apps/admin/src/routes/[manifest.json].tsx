@@ -1,6 +1,6 @@
-import { Routes } from "#core/navigation.ts";
-import { getPageTitle } from "#core/pageTitle.ts";
-import { theme } from "#generated/theme.ts";
+import { Routes } from "#core/navigation";
+import { getPageTitle } from "#core/pageTitle";
+import { theme } from "#generated/theme";
 import googleTouchIcon from "#images/googleTouchIcon.png";
 import googleTouchIconMac from "#images/googleTouchIconMac.png";
 import googleTouchIconMaskable from "#images/googleTouchIconMaskable.png";

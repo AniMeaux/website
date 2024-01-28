@@ -1,4 +1,4 @@
-import { Icon } from "#generated/icon.tsx";
+import { Icon } from "#generated/icon";
 import { cn } from "@animeaux/core";
 import { Status } from "@prisma/client";
 import difference from "lodash.difference";

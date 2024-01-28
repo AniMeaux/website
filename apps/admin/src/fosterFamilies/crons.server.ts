@@ -1,5 +1,5 @@
-import type { CronDefinition } from "#core/crons/shared.server.ts";
-import { prisma } from "#core/prisma.server.ts";
+import type { CronDefinition } from "#core/crons/shared.server";
+import { prisma } from "#core/prisma.server";
 import { FosterFamilyAvailability } from "@prisma/client";
 import { DateTime } from "luxon";
 import { promiseHash } from "remix-utils/promise";

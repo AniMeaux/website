@@ -1,8 +1,8 @@
-import type { Config } from "#core/config.ts";
-import { useConfig } from "#core/config.ts";
-import { ARTICLE_COMPONENTS, Markdown } from "#core/dataDisplay/markdown.tsx";
-import { createSocialMeta } from "#core/meta.ts";
-import { getPageTitle } from "#core/pageTitle.ts";
+import type { Config } from "#core/config";
+import { useConfig } from "#core/config";
+import { ARTICLE_COMPONENTS, Markdown } from "#core/dataDisplay/markdown";
+import { createSocialMeta } from "#core/meta";
+import { getPageTitle } from "#core/pageTitle";
 import { cn } from "@animeaux/core";
 import type { MetaFunction } from "@remix-run/node";
 

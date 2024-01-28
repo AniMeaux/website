@@ -1,20 +1,20 @@
-import { Action } from "#core/actions.tsx";
-import type { ImageFileOrId } from "#core/dataDisplay/image.tsx";
+import { Action } from "#core/actions";
+import type { ImageFileOrId } from "#core/dataDisplay/image";
 import {
   IMAGE_SIZE_LIMIT_MB,
   isImageFile,
   isImageOverSize,
   readFile,
-} from "#core/dataDisplay/image.tsx";
-import { toIsoDateValue } from "#core/dates.ts";
-import { Form } from "#core/formElements/form.tsx";
-import { ImageInput } from "#core/formElements/imageInput.tsx";
-import { Input } from "#core/formElements/input.tsx";
-import { RequiredStar } from "#core/formElements/requiredStar.tsx";
-import { SwitchInput } from "#core/formElements/switchInput.tsx";
-import { Textarea } from "#core/formElements/textarea.tsx";
-import { Separator } from "#core/layout/separator.tsx";
-import { Icon } from "#generated/icon.tsx";
+} from "#core/dataDisplay/image";
+import { toIsoDateValue } from "#core/dates";
+import { Form } from "#core/formElements/form";
+import { ImageInput } from "#core/formElements/imageInput";
+import { Input } from "#core/formElements/input";
+import { RequiredStar } from "#core/formElements/requiredStar";
+import { SwitchInput } from "#core/formElements/switchInput";
+import { Textarea } from "#core/formElements/textarea";
+import { Separator } from "#core/layout/separator";
+import { Icon } from "#generated/icon";
 import { FormDataDelegate } from "@animeaux/form-data";
 import { zu } from "@animeaux/zod-utils";
 import type { Event } from "@prisma/client";

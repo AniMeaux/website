@@ -1,5 +1,5 @@
-import { RequiredStar } from "#core/formElements/requiredStar.tsx";
-import { Icon } from "#generated/icon.tsx";
+import { RequiredStar } from "#core/formElements/requiredStar";
+import { Icon } from "#generated/icon";
 import { cn } from "@animeaux/core";
 import { forwardRef } from "react";
 

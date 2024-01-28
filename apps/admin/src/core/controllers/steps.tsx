@@ -1,7 +1,7 @@
-import type { BaseLinkProps } from "#core/baseLink.tsx";
-import { BaseLink } from "#core/baseLink.tsx";
-import { joinReactNodes } from "#core/joinReactNodes.tsx";
-import { Icon } from "#generated/icon.tsx";
+import type { BaseLinkProps } from "#core/baseLink";
+import { BaseLink } from "#core/baseLink";
+import { joinReactNodes } from "#core/joinReactNodes";
+import { Icon } from "#generated/icon";
 import { cn } from "@animeaux/core";
 import { cloneElement } from "react";
 

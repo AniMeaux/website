@@ -1,4 +1,4 @@
-import { usePreviousValue } from "#core/hooks.ts";
+import { usePreviousValue } from "#core/hooks";
 import { createFocusTrap } from "focus-trap";
 import { useEffect, useRef } from "react";
 

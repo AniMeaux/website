@@ -1,16 +1,16 @@
-import { AnimalCreationSteps } from "#animals/creationSteps.tsx";
-import { ActionFormData, AnimalPicturesForm } from "#animals/pictures/form.tsx";
+import { AnimalCreationSteps } from "#animals/creationSteps";
+import { ActionFormData, AnimalPicturesForm } from "#animals/pictures/form";
 import {
   CloudinaryUploadApiError,
   createCloudinaryUploadHandler,
-} from "#core/cloudinary.server.ts";
-import { ErrorPage } from "#core/dataDisplay/errorPage.tsx";
-import { db } from "#core/db.server.ts";
-import { Card } from "#core/layout/card.tsx";
-import { PageLayout } from "#core/layout/page.tsx";
-import { Routes } from "#core/navigation.ts";
-import { getPageTitle } from "#core/pageTitle.ts";
-import { assertCurrentUserHasGroups } from "#currentUser/groups.server.ts";
+} from "#core/cloudinary.server";
+import { ErrorPage } from "#core/dataDisplay/errorPage";
+import { db } from "#core/db.server";
+import { Card } from "#core/layout/card";
+import { PageLayout } from "#core/layout/page";
+import { Routes } from "#core/navigation";
+import { getPageTitle } from "#core/pageTitle";
+import { assertCurrentUserHasGroups } from "#currentUser/groups.server";
 import type { zu } from "@animeaux/zod-utils";
 import { UserGroup } from "@prisma/client";
 import type {

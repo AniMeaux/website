@@ -1,19 +1,19 @@
-import { getAllAnimalPictures } from "#animals/pictures/allPictures.ts";
-import type { AnimalPictures } from "#animals/pictures/db.server.ts";
-import { AnimalPictureDbDelegate } from "#animals/pictures/db.server.ts";
-import { AnimalProfileDbDelegate } from "#animals/profile/db.server.ts";
+import { getAllAnimalPictures } from "#animals/pictures/allPictures";
+import type { AnimalPictures } from "#animals/pictures/db.server";
+import { AnimalPictureDbDelegate } from "#animals/pictures/db.server";
+import { AnimalProfileDbDelegate } from "#animals/profile/db.server";
 import type { AnimalSearchParams } from "#animals/searchParams";
 import {
   AnimalSort,
   AnimalSterilization,
   AnimalVaccination,
 } from "#animals/searchParams";
-import { AnimalSituationDbDelegate } from "#animals/situation/db.server.ts";
+import { AnimalSituationDbDelegate } from "#animals/situation/db.server";
 import { SORTED_SPECIES } from "#animals/species";
-import { algolia } from "#core/algolia/algolia.server.ts";
-import { deleteImage } from "#core/cloudinary.server.ts";
-import { NotFoundError, PrismaErrorCodes } from "#core/errors.server.ts";
-import { prisma } from "#core/prisma.server.ts";
+import { algolia } from "#core/algolia/algolia.server";
+import { deleteImage } from "#core/cloudinary.server";
+import { NotFoundError, PrismaErrorCodes } from "#core/errors.server";
+import { prisma } from "#core/prisma.server";
 import { ANIMAL_AGE_RANGE_BY_SPECIES } from "@animeaux/core";
 import type { SearchParamsDelegate } from "@animeaux/form-data";
 import type { Animal, AnimalDraft } from "@prisma/client";

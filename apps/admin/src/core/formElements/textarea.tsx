@@ -1,6 +1,6 @@
-import { toBooleanAttribute } from "#core/attributes.ts";
-import { BaseTextInput } from "#core/formElements/baseTextInput.tsx";
-import { useLayoutEffect } from "#core/useLayoutEffect.ts";
+import { toBooleanAttribute } from "#core/attributes";
+import { BaseTextInput } from "#core/formElements/baseTextInput";
+import { useLayoutEffect } from "#core/useLayoutEffect";
 import autosize from "autosize";
 import { forwardRef, useRef } from "react";
 import invariant from "tiny-invariant";

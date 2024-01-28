@@ -1,10 +1,10 @@
-import { algolia } from "#core/algolia/algolia.server.ts";
-import { prisma } from "#core/prisma.server.ts";
+import { algolia } from "#core/algolia/algolia.server";
+import { prisma } from "#core/prisma.server";
 import {
   createBatchHandlers,
   createPostHandlers,
   highlightValue,
-} from "#mocks/algolia/shared.server.ts";
+} from "#mocks/algolia/shared.server";
 import type {
   FacetHit,
   Hit,

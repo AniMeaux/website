@@ -1,7 +1,7 @@
-import { algolia } from "#core/algolia/algolia.server.ts";
-import { NotFoundError, PrismaErrorCodes } from "#core/errors.server.ts";
-import { Routes } from "#core/navigation.ts";
-import { prisma } from "#core/prisma.server.ts";
+import { algolia } from "#core/algolia/algolia.server";
+import { NotFoundError, PrismaErrorCodes } from "#core/errors.server";
+import { Routes } from "#core/navigation";
+import { prisma } from "#core/prisma.server";
 import type { Animal, AnimalDraft } from "@prisma/client";
 import { Prisma } from "@prisma/client";
 import { redirect } from "@remix-run/node";

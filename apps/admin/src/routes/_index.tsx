@@ -1,5 +1,5 @@
-import { db } from "#core/db.server.ts";
-import { Routes } from "#core/navigation.ts";
+import { db } from "#core/db.server";
+import { Routes } from "#core/navigation";
 import { UserGroup } from "@prisma/client";
 import type { LoaderFunctionArgs } from "@remix-run/node";
 import { redirect } from "@remix-run/node";

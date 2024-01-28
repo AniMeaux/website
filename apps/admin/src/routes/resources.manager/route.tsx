@@ -1,6 +1,6 @@
-import { db } from "#core/db.server.ts";
-import { assertCurrentUserHasGroups } from "#currentUser/groups.server.ts";
-import { UserSearchParams } from "#users/searchParams.ts";
+import { db } from "#core/db.server";
+import { assertCurrentUserHasGroups } from "#currentUser/groups.server";
+import { UserSearchParams } from "#users/searchParams";
 import { UserGroup } from "@prisma/client";
 import type { LoaderFunctionArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";

@@ -1,20 +1,20 @@
-import { AnimalAvatar } from "#animals/avatar.tsx";
-import { GENDER_ICON, GENDER_TRANSLATION } from "#animals/gender.tsx";
-import { getAnimalDisplayName } from "#animals/profile/name.tsx";
+import { AnimalAvatar } from "#animals/avatar";
+import { GENDER_ICON, GENDER_TRANSLATION } from "#animals/gender";
+import { getAnimalDisplayName } from "#animals/profile/name";
 import {
   getNextVaccinationState,
   hasUpCommingSterilisation,
-} from "#animals/situation/health.ts";
-import { getSpeciesLabels } from "#animals/species.tsx";
-import { StatusBadge } from "#animals/status.tsx";
-import { BaseLink } from "#core/baseLink.tsx";
-import { Chip } from "#core/dataDisplay/chip.tsx";
-import type { DynamicImageProps } from "#core/dataDisplay/image.tsx";
-import { DynamicImage } from "#core/dataDisplay/image.tsx";
-import type { SuggestionItemProps } from "#core/formElements/resourceInput.tsx";
-import { SuggestionItem } from "#core/formElements/resourceInput.tsx";
-import { Routes } from "#core/navigation.ts";
-import { Icon } from "#generated/icon.tsx";
+} from "#animals/situation/health";
+import { getSpeciesLabels } from "#animals/species";
+import { StatusBadge } from "#animals/status";
+import { BaseLink } from "#core/baseLink";
+import { Chip } from "#core/dataDisplay/chip";
+import type { DynamicImageProps } from "#core/dataDisplay/image";
+import { DynamicImage } from "#core/dataDisplay/image";
+import type { SuggestionItemProps } from "#core/formElements/resourceInput";
+import { SuggestionItem } from "#core/formElements/resourceInput";
+import { Routes } from "#core/navigation";
+import { Icon } from "#generated/icon";
 import type { AnimalHit } from "@animeaux/algolia-client";
 import { cn } from "@animeaux/core";
 import type { Animal, Breed, Color, User } from "@prisma/client";

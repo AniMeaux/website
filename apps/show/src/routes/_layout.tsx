@@ -1,9 +1,9 @@
+import { useConfig } from "#core/config";
 import { createConfig } from "#core/config.server";
-import { useConfig } from "#core/config.ts";
-import { asRouteHandle } from "#core/handles.ts";
-import { Footer } from "#core/layout/footer.tsx";
-import { Header } from "#core/layout/header.tsx";
-import { PageBackground } from "#core/layout/pageBackground.tsx";
+import { asRouteHandle } from "#core/handles";
+import { Footer } from "#core/layout/footer";
+import { Header } from "#core/layout/header";
+import { PageBackground } from "#core/layout/pageBackground";
 import { prisma } from "#core/prisma.server";
 import { json } from "@remix-run/node";
 import { Outlet, useMatches } from "@remix-run/react";

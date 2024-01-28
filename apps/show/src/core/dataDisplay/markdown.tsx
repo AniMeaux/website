@@ -1,4 +1,4 @@
-import { ProseInlineAction } from "#core/actions.tsx";
+import { ProseInlineAction } from "#core/actions";
 import { Link } from "@remix-run/react";
 import type { Options as ReactMarkdownOptions } from "react-markdown";
 import ReactMarkdown from "react-markdown";

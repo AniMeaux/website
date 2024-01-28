@@ -1,18 +1,18 @@
-import { toBooleanAttribute } from "#core/attributes.ts";
-import { BaseTextInput } from "#core/formElements/baseTextInput.tsx";
-import { Input } from "#core/formElements/input.tsx";
+import { toBooleanAttribute } from "#core/attributes";
+import { BaseTextInput } from "#core/formElements/baseTextInput";
+import { Input } from "#core/formElements/input";
 import {
   NoSuggestion,
   ResourceComboboxLayout,
   ResourceInputLayout,
   SuggestionItem,
   SuggestionList,
-} from "#core/formElements/resourceInput.tsx";
-import { Routes } from "#core/navigation.ts";
-import { Icon } from "#generated/icon.tsx";
+} from "#core/formElements/resourceInput";
+import { Routes } from "#core/navigation";
+import { Icon } from "#generated/icon";
 import type { loader } from "#routes/resources.manager/route";
-import { UserAvatar } from "#users/avatar.tsx";
-import { UserSearchParams } from "#users/searchParams.ts";
+import { UserAvatar } from "#users/avatar";
+import { UserSearchParams } from "#users/searchParams";
 import type { User } from "@prisma/client";
 import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
 import type { SerializeFrom } from "@remix-run/node";

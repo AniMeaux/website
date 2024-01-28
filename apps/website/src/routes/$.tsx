@@ -1,7 +1,7 @@
-import { getPath } from "#core/controllers/searchForm.tsx";
-import { ErrorPage, getErrorTitle } from "#core/dataDisplay/errorPage.tsx";
-import { createSocialMeta } from "#core/meta.ts";
-import { getPageTitle } from "#core/pageTitle.ts";
+import { getPath } from "#core/controllers/searchForm";
+import { ErrorPage, getErrorTitle } from "#core/dataDisplay/errorPage";
+import { createSocialMeta } from "#core/meta";
+import { getPageTitle } from "#core/pageTitle";
 import { AnimalAge } from "@animeaux/core";
 import { Species } from "@prisma/client";
 import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";

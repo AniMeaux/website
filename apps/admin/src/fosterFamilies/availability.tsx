@@ -1,4 +1,4 @@
-import { Icon } from "#generated/icon.tsx";
+import { Icon } from "#generated/icon";
 import { cn } from "@animeaux/core";
 import { FosterFamilyAvailability } from "@prisma/client";
 import type { Except } from "type-fest";

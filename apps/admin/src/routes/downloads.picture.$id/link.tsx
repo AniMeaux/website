@@ -1,4 +1,4 @@
-import { Routes } from "#core/navigation.ts";
+import { Routes } from "#core/navigation";
 
 export function DownloadPictureLink({
   children,
