@@ -17,15 +17,15 @@ import { getPageTitle } from "#core/pageTitle.ts";
 import { agreementsImages } from "#images/agreements.tsx";
 import { citiesWithAgreements } from "#sterilisationAgreements/data.server.ts";
 import { cn } from "@animeaux/core";
+import type { MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import type { V2_MetaFunction } from "@remix-run/react";
 import { useLoaderData } from "@remix-run/react";
 
 export async function loader() {
   return json({ citiesWithAgreements });
 }
 
-export const meta: V2_MetaFunction = () => {
+export const meta: MetaFunction = () => {
   return createSocialMeta({
     title: getPageTitle("Conventions de stérilisation"),
   });
@@ -33,7 +33,7 @@ export const meta: V2_MetaFunction = () => {
 
 export default function Route() {
   return (
-    <main className="w-full px-page flex flex-col gap-24">
+    <main className="flex w-full flex-col gap-24 px-page">
       <Header />
       <AlertSection />
       <ErrandsSection />
@@ -72,11 +72,11 @@ function AlertSection() {
       <div
         className={cn(
           bubbleSectionClassNames.content(),
-          "px-10 py-12 flex flex-col gap-6",
+          "flex flex-col gap-6 px-10 py-12",
           "md:px-30 md:py-[60px]",
         )}
       >
-        <h2 className="text-title-section-small text-center md:text-title-section-large">
+        <h2 className="text-center text-title-section-small md:text-title-section-large">
           Signalements
         </h2>
 
@@ -106,16 +106,16 @@ function LawSection() {
       <div
         className={cn(
           bubbleSectionClassNames.content(),
-          "px-10 py-12 flex flex-col gap-6",
+          "flex flex-col gap-6 px-10 py-12",
           "md:px-30 md:py-[60px]",
         )}
       >
-        <h2 className="text-title-section-small text-center md:text-title-section-large">
+        <h2 className="text-center text-title-section-small md:text-title-section-large">
           Législation
         </h2>
 
         <div className="flex flex-col">
-          <h3 className="text-title-item text-center">
+          <h3 className="text-center text-title-item">
             Article L211-27 du Code Rural et de la Pêche Maritime
           </h3>
 
@@ -138,7 +138,7 @@ function LawSection() {
 function ErrandsSection() {
   return (
     <section className="flex flex-col gap-6 md:gap-12">
-      <h2 className="text-title-section-small md:text-title-section-large text-center">
+      <h2 className="text-center text-title-section-small md:text-title-section-large">
         Gestion des chats errants
       </h2>
 
@@ -196,7 +196,7 @@ function CitiesSection() {
   return (
     <section className="flex flex-col gap-12">
       <div className="flex flex-col gap-6">
-        <h2 className="text-title-section-small text-center md:text-title-section-large">
+        <h2 className="text-center text-title-section-small md:text-title-section-large">
           Communes
         </h2>
 
@@ -209,7 +209,7 @@ function CitiesSection() {
       {citiesWithAgreements.length > 0 ? (
         <ul
           className={cn(
-            "grid grid-cols-1 gap-12 items-start",
+            "grid grid-cols-1 items-start gap-12",
             "xs:grid-cols-2",
             "md:grid-cols-3",
           )}
@@ -227,10 +227,10 @@ function CitiesSection() {
                 }}
                 fallbackSize="512"
                 background="none"
-                className="w-full aspect-4/3 flex-none rounded-bubble-md border border-gray-200"
+                className="aspect-4/3 w-full flex-none border border-gray-200 rounded-bubble-md"
               />
 
-              <p className="text-title-item text-gray-500 text-center">
+              <p className="text-center text-gray-500 text-title-item">
                 {city.name}
               </p>
             </li>

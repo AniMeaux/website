@@ -18,12 +18,15 @@ import { getPageTitle } from "#core/pageTitle.ts";
 import { assertCurrentUserHasGroups } from "#currentUser/groups.server.ts";
 import type { zu } from "@animeaux/zod-utils";
 import { UserGroup } from "@prisma/client";
-import type { ActionArgs, LoaderArgs } from "@remix-run/node";
+import type {
+  ActionFunctionArgs,
+  LoaderFunctionArgs,
+  MetaFunction,
+} from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
-import type { V2_MetaFunction } from "@remix-run/react";
 import { useFetcher, useLoaderData } from "@remix-run/react";
 
-export async function loader({ request }: LoaderArgs) {
+export async function loader({ request }: LoaderFunctionArgs) {
   const { draft, ...currentUser } = await db.currentUser.get(request, {
     select: {
       id: true,
@@ -48,7 +51,7 @@ export async function loader({ request }: LoaderArgs) {
   return json({ draft, currentUser });
 }
 
-export const meta: V2_MetaFunction = () => {
+export const meta: MetaFunction = () => {
   return [{ title: getPageTitle(["Nouvel animal", "Situation"]) }];
 };
 
@@ -56,7 +59,7 @@ type ActionData = {
   errors?: zu.inferFlattenedErrors<typeof ActionFormData.schema>;
 };
 
-export async function action({ request }: ActionArgs) {
+export async function action({ request }: ActionFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {
     select: { id: true, groups: true, draft: true },
   });

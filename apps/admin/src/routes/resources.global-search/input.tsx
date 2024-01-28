@@ -1,7 +1,6 @@
 import { AnimalSuggestionItem } from "#animals/item.tsx";
 import { getAnimalDisplayName } from "#animals/profile/name.tsx";
 import { AnimalSearchParams } from "#animals/searchParams.ts";
-import { db } from "#core/db.server.ts";
 import { BaseTextInput } from "#core/formElements/baseTextInput.tsx";
 import { Input } from "#core/formElements/input.tsx";
 import {
@@ -10,20 +9,20 @@ import {
 } from "#core/formElements/resourceInput.tsx";
 import { Routes, useNavigate } from "#core/navigation.ts";
 import { Overlay } from "#core/popovers/overlay.tsx";
-import { ForbiddenResponse } from "#core/response.server.ts";
-import { assertCurrentUserHasGroups } from "#currentUser/groups.server.ts";
 import { FosterFamilySuggestionItem } from "#fosterFamilies/item.tsx";
 import { FosterFamilySearchParams } from "#fosterFamilies/searchParams.ts";
 import { Icon } from "#generated/icon.tsx";
+import type { loader } from "#routes/resources.global-search/route";
+import {
+  ENTITY_TRANSLATION,
+  Entity,
+  GlobalSearchParams,
+  SORTED_ENTITIES,
+} from "#routes/resources.global-search/shared";
 import { cn } from "@animeaux/core";
-import { SearchParamsDelegate } from "@animeaux/form-data";
-import { zu } from "@animeaux/zod-utils";
-import type { User } from "@prisma/client";
-import { UserGroup } from "@prisma/client";
 import * as Dialog from "@radix-ui/react-dialog";
 import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
-import type { LoaderArgs, SerializeFrom } from "@remix-run/node";
-import { json } from "@remix-run/node";
+import type { SerializeFrom } from "@remix-run/node";
 import type { FetcherWithComponents } from "@remix-run/react";
 import { useFetcher, useNavigation } from "@remix-run/react";
 import type {
@@ -32,112 +31,7 @@ import type {
 } from "downshift";
 import { useCombobox } from "downshift";
 import { createPath } from "history";
-import orderBy from "lodash.orderby";
 import { useEffect, useState } from "react";
-
-const MAX_HIT_COUNT = 6;
-
-enum Entity {
-  ANIMAL = "ANIMAL",
-  FOSTER_FAMILY = "FOSTER_FAMILY",
-}
-
-const ENTITY_TRANSLATION: Record<Entity, string> = {
-  [Entity.ANIMAL]: "Animaux",
-  [Entity.FOSTER_FAMILY]: "FA",
-};
-
-const SORTED_ENTITIES = orderBy(
-  Object.values(Entity),
-  (entity) => ENTITY_TRANSLATION[entity],
-);
-
-const GlobalSearchParams = SearchParamsDelegate.create({
-  text: { key: "q", schema: zu.searchParams.string() },
-  entity: zu.searchParams.nativeEnum(Entity),
-});
-
-export async function loader({ request }: LoaderArgs) {
-  const currentUser = await db.currentUser.get(request, {
-    select: { groups: true },
-  });
-
-  assertCurrentUserHasGroups(currentUser, [
-    UserGroup.ADMIN,
-    UserGroup.ANIMAL_MANAGER,
-    UserGroup.VETERINARIAN,
-    UserGroup.VOLUNTEER,
-  ]);
-
-  const searchParams = GlobalSearchParams.parse(
-    new URL(request.url).searchParams,
-  );
-
-  const possibleEntities = getPossibleEntitiesForCurrentUser(currentUser);
-  const entity =
-    searchParams.entity ??
-    SORTED_ENTITIES.find((entity) => possibleEntities.has(entity));
-
-  if (entity == null || !possibleEntities.has(entity)) {
-    throw new ForbiddenResponse();
-  }
-
-  if (searchParams.text == null) {
-    return json({
-      possibleEntities: Array.from(possibleEntities),
-      items: [],
-    });
-  }
-
-  if (entity === Entity.ANIMAL) {
-    const animals = await db.animal.fuzzySearch({
-      nameOrAlias: searchParams.text,
-      maxHitCount: MAX_HIT_COUNT,
-    });
-    const items = animals.map((animal) => ({
-      type: Entity.ANIMAL as const,
-      ...animal,
-    }));
-    return json({
-      possibleEntities: Array.from(possibleEntities),
-      items,
-    });
-  }
-
-  const fosterFamilies = await db.fosterFamily.fuzzySearch({
-    displayName: searchParams.text,
-    maxHitCount: MAX_HIT_COUNT,
-  });
-
-  const items = fosterFamilies.map((fosterFamily) => ({
-    type: Entity.FOSTER_FAMILY as const,
-    ...fosterFamily,
-  }));
-
-  return json({
-    possibleEntities: Array.from(possibleEntities),
-    items,
-  });
-}
-
-function getPossibleEntitiesForCurrentUser(currentUser: Pick<User, "groups">) {
-  const possibleEntities = new Set<Entity>();
-  currentUser.groups.forEach((group) => {
-    ALLOWED_ENTITIES_PER_GROUP[group].forEach((entity) =>
-      possibleEntities.add(entity),
-    );
-  });
-  return possibleEntities;
-}
-
-const ALLOWED_ENTITIES_PER_GROUP: Record<UserGroup, Set<Entity>> = {
-  [UserGroup.ADMIN]: new Set([Entity.ANIMAL, Entity.FOSTER_FAMILY]),
-  [UserGroup.ANIMAL_MANAGER]: new Set([Entity.ANIMAL, Entity.FOSTER_FAMILY]),
-  [UserGroup.BLOGGER]: new Set(),
-  [UserGroup.HEAD_OF_PARTNERSHIPS]: new Set(),
-  [UserGroup.VETERINARIAN]: new Set([Entity.ANIMAL]),
-  [UserGroup.VOLUNTEER]: new Set([Entity.ANIMAL]),
-};
 
 export function GlobalSearch() {
   const [isOpened, setIsOpened] = useState(false);
@@ -178,7 +72,7 @@ export function GlobalSearch() {
     return undefined;
   }, [isOpened]);
 
-  const fetcher = useFetcher<typeof loader>();
+  const fetcher = useFetcher<loader>();
   const possibleEntities = new Set(fetcher.data?.possibleEntities);
 
   // Make sure we clear any search when the combobox is closed.
@@ -245,7 +139,7 @@ export function GlobalSearch() {
           <Overlay className="opacity-0 md:opacity-100" />
         </Dialog.Overlay>
 
-        <Dialog.Content className="fixed top-0 left-0 bottom-0 right-0 z-30 overflow-y-auto bg-gray-50 flex flex-col md:top-[10vh] md:left-1/2 md:bottom-auto md:right-auto md:-translate-x-1/2 md:w-[550px] md:shadow-ambient md:bg-white md:bg-var-white md:rounded-1 md:data-[state=open]:animation-enter md:data-[state=closed]:animation-exit animation-opacity-0 animation-duration-100">
+        <Dialog.Content className="fixed bottom-0 left-0 right-0 top-0 z-30 flex flex-col overflow-y-auto bg-gray-50 animation-opacity-0 animation-duration-100 md:bottom-auto md:left-1/2 md:right-auto md:top-[10vh] md:w-[550px] md:-translate-x-1/2 md:rounded-1 md:bg-white md:shadow-ambient md:bg-var-white md:data-[state=open]:animation-enter md:data-[state=closed]:animation-exit">
           {entity != null ? (
             <Combobox
               entity={entity}
@@ -394,8 +288,8 @@ function Combobox({
         </Dialog.Title>
       </VisuallyHidden.Root>
 
-      <header className="sticky top-0 z-20 flex-none bg-white bg-var-white flex flex-col md:pb-0.5">
-        <div className="px-safe-1 pt-safe-0.5 pb-0.5 flex flex-col md:px-1 md:pt-1 ">
+      <header className="sticky top-0 z-20 flex flex-none flex-col bg-white bg-var-white md:pb-0.5">
+        <div className="flex flex-col pb-0.5 pt-safe-0.5 px-safe-1 md:px-1 md:pt-1 ">
           <Input
             {...combobox.getInputProps()}
             hideFocusRing
@@ -431,7 +325,7 @@ function Combobox({
       </header>
 
       <section
-        className={cn("bg-white bg-var-white flex flex-col", {
+        className={cn("flex flex-col bg-white bg-var-white", {
           "p-1 md:border-t md:border-gray-100": visibleItems.length > 0,
         })}
       >
@@ -522,7 +416,7 @@ function Tabs({
     <div
       className={cn(
         className,
-        "overflow-auto scrollbars-none grid grid-flow-col justify-start gap-0.5",
+        "grid grid-flow-col justify-start gap-0.5 overflow-auto scrollbars-none",
       )}
     >
       {children}
@@ -532,7 +426,7 @@ function Tabs({
 
 function Tab({ children }: { children?: React.ReactNode }) {
   return (
-    <label className="group relative z-0 rounded-0.5 flex cursor-pointer focus-within:z-10">
+    <label className="group relative z-0 flex cursor-pointer rounded-0.5 focus-within:z-10">
       {children}
     </label>
   );
@@ -542,14 +436,14 @@ function TabInput(props: React.InputHTMLAttributes<HTMLInputElement>) {
   return (
     <input
       {...props}
-      className="peer appearance-none absolute -z-10 top-0 left-0 w-full h-full rounded-0.5 cursor-pointer transition-colors duration-100 ease-in-out group-hover:bg-gray-100 checked:bg-blue-50 group-hover:checked:bg-blue-50 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-inheritBg"
+      className="peer absolute left-0 top-0 -z-10 h-full w-full cursor-pointer appearance-none rounded-0.5 transition-colors duration-100 ease-in-out checked:bg-blue-50 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-inheritBg group-hover:bg-gray-100 group-hover:checked:bg-blue-50"
     />
   );
 }
 
 function TabLabel({ children }: { children?: React.ReactNode }) {
   return (
-    <span className="px-1 py-0.5 text-body-emphasis text-gray-500 peer-checked:text-blue-500">
+    <span className="px-1 py-0.5 text-gray-500 text-body-emphasis peer-checked:text-blue-500">
       {children}
     </span>
   );

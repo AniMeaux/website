@@ -8,9 +8,8 @@ import favicon from "#images/favicon.svg";
 import maskIcon from "#images/maskIcon.svg";
 import stylesheet from "#tailwind.css";
 import { cn } from "@animeaux/core";
-import type { LinksFunction } from "@remix-run/node";
+import type { LinksFunction, MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import type { V2_MetaFunction } from "@remix-run/react";
 import {
   Links,
   LiveReload,
@@ -70,7 +69,7 @@ export async function loader() {
   return json({ config: createConfig() });
 }
 
-export const meta: V2_MetaFunction = () => {
+export const meta: MetaFunction = () => {
   return [{ title: getPageTitle() }];
 };
 
@@ -128,7 +127,7 @@ function Document({ children }: { children: React.ReactNode }) {
           // Make sure children with absolute positionning are correctly placed.
           "relative",
           { "h-full": isFullHeight },
-          "text-gray-800 text-body-default flex flex-col",
+          "flex flex-col text-gray-800 text-body-default",
         )}
       >
         {children}

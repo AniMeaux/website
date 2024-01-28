@@ -31,10 +31,10 @@ export const BaseTextInput = Object.assign(
         {...rest}
         ref={ref}
         className={cn(
-          "appearance-none w-full min-w-0 min-h-[40px] rounded-0.5 ring-inset ring-1 py-1 text-left transition-colors duration-100 ease-in-out placeholder:text-gray-500 focus-visible:outline-none aria-[invalid=true]:ring-red-500 data-[invalid=true]:ring-red-500",
+          "min-h-[40px] w-full min-w-0 appearance-none rounded-0.5 py-1 text-left ring-1 ring-inset transition-colors duration-100 ease-in-out placeholder:text-gray-500 aria-[invalid=true]:ring-red-500 data-[invalid=true]:ring-red-500 focus-visible:outline-none",
           hideFocusRing
             ? undefined
-            : "focus-visible:ring-outset focus-visible:ring focus-visible:ring-blue-400 aria-[invalid=true]:focus-visible:ring-red-500 data-[invalid=true]:focus-visible:ring-red-500",
+            : "focus-visible:ring focus-visible:ring-blue-400 focus-visible:ring-outset aria-[invalid=true]:focus-visible:ring-red-500 data-[invalid=true]:focus-visible:ring-red-500",
           INPUT_VARIANT_CLASS_NAMES[variant],
           {
             "pl-1": leftAdornmentCount === 0,
@@ -96,7 +96,7 @@ export const BaseTextInput = Object.assign(
           ...rest,
           ref,
           className: cn(
-            "absolute top-0 p-0.5 flex items-center pointer-events-none",
+            "pointer-events-none absolute top-0 flex items-center p-0.5",
             side === "left" ? "left-0" : "right-0",
             className,
           ),
@@ -114,7 +114,7 @@ export const BaseTextInput = Object.assign(
           {...rest}
           ref={ref}
           className={cn(
-            "w-3 h-3 flex-none flex items-center justify-center text-[20px] text-gray-600",
+            "flex h-3 w-3 flex-none items-center justify-center text-[20px] text-gray-600",
             className,
           )}
         />
@@ -132,7 +132,7 @@ export const BaseTextInput = Object.assign(
             ref={ref}
             type="button"
             className={cn(
-              "rounded-full pointer-events-auto cursor-pointer transition-colors duration-100 ease-in-out hover:bg-gray-100 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400",
+              "pointer-events-auto cursor-pointer rounded-full transition-colors duration-100 ease-in-out focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 hover:bg-gray-100",
               className,
             )}
           />

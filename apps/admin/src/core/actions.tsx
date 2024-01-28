@@ -43,7 +43,7 @@ export const Action = Object.assign(
           {...rest}
           ref={ref}
           className={cn(
-            "relative disabled:opacity-50 flex-none flex items-center justify-center gap-0.5 duration-100 ease-in-out active:scale-95 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-inheritBg",
+            "relative flex flex-none items-center justify-center gap-0.5 duration-100 ease-in-out active:scale-95 disabled:opacity-50 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-inheritBg",
             VARIANT_CLASS_NAME[variant]({ isIconOnly }),
             COLOR_CLASS_NAMES[variant][color],
             className,
@@ -57,7 +57,7 @@ export const Action = Object.assign(
       return (
         <span
           className={cn(
-            "absolute top-0 left-0 w-full h-full rounded-[inherit] bg-inherit flex items-center justify-center transition-opacity duration-100 ease-in-out",
+            "absolute left-0 top-0 flex h-full w-full items-center justify-center rounded-[inherit] bg-inherit transition-opacity duration-100 ease-in-out",
             isLoading ? "opacity-100" : "opacity-0",
           )}
         >
@@ -76,19 +76,19 @@ const VARIANT_CLASS_NAME: Record<
     "shadow-ambient rounded-full w-5 h-5 justify-center text-[25px] transition-[background-color,transform]",
   primary: ({ isIconOnly }) =>
     cn(
-      "rounded-0.5 min-w-[40px] h-4 text-body-emphasis transition-[background-color,transform]",
+      "h-4 min-w-[40px] rounded-0.5 transition-[background-color,transform] text-body-emphasis",
       isIconOnly ? "px-1" : "px-2",
     ),
   secondary: ({ isIconOnly }) =>
     cn(
-      "rounded-0.5 min-w-[40px] h-4 text-body-emphasis transition-[background-color,transform]",
+      "h-4 min-w-[40px] rounded-0.5 transition-[background-color,transform] text-body-emphasis",
       isIconOnly ? "px-1" : "px-2",
     ),
   text: () =>
     "rounded-0.5 min-w-[20px] h-2 text-body-emphasis transition-[color,transform]",
   translucid: ({ isIconOnly }) =>
     cn(
-      "rounded-0.5 min-w-[40px] h-4 bg-opacity-50 text-body-emphasis transition-[background-color,transform] hover:bg-opacity-70",
+      "h-4 min-w-[40px] rounded-0.5 bg-opacity-50 transition-[background-color,transform] text-body-emphasis hover:bg-opacity-70",
       isIconOnly ? "px-1" : "px-2",
     ),
 };
@@ -145,7 +145,7 @@ export const ProseInlineAction = forwardRef<
       {...rest}
       ref={ref}
       className={cn(
-        "relative text-body-emphasis after:absolute after:bottom-0 after:left-0 after:w-full after:border-b after:border-blue-500 hover:after:border-b-2 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-inheritBg",
+        "relative text-body-emphasis after:absolute after:bottom-0 after:left-0 after:w-full after:border-b after:border-blue-500 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-inheritBg hover:after:border-b-2",
         className,
       )}
     />

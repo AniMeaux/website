@@ -49,7 +49,7 @@ export const ARTICLE_COMPONENTS: MarkdownProps["components"] = {
   ),
   em: ({ children }) => <em>{children}</em>,
   code: ({ children }) => (
-    <code className="bg-gray-100 rounded-0.5 px-0.5 inline-flex text-code-default">
+    <code className="inline-flex rounded-0.5 bg-gray-100 px-0.5 text-code-default">
       {children}
     </code>
   ),
@@ -61,10 +61,10 @@ export const ARTICLE_COMPONENTS: MarkdownProps["components"] = {
     </ProseInlineAction>
   ),
   ul: ({ children }) => (
-    <ul className="my-2 pl-2 list-disc first:mt-0 last:mb-0">{children}</ul>
+    <ul className="my-2 list-disc pl-2 first:mt-0 last:mb-0">{children}</ul>
   ),
   ol: ({ children, start }) => (
-    <ol start={start} className="my-2 pl-2 list-decimal first:mt-0 last:mb-0">
+    <ol start={start} className="my-2 list-decimal pl-2 first:mt-0 last:mb-0">
       {children}
     </ol>
   ),

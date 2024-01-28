@@ -1,6 +1,6 @@
-#!/usr/bin/env ts-node
+#!/usr/bin/env tsx
 
-import "#env.ts";
+import "#env";
 import { AlgoliaClient } from "@animeaux/algolia-client";
 import { PrismaClient } from "@prisma/client";
 import { z } from "zod";
@@ -19,27 +19,7 @@ const entityName = z
   .union([z.literal("all"), z.enum(ENTITY_NAMES)])
   .parse(process.argv[2]);
 
-const algolia = new AlgoliaClient();
-const prisma = new PrismaClient();
-
-indexData()
-  .catch((error) => {
-    console.error(error);
-    process.exit(1);
-  })
-  .finally(async () => await prisma.$disconnect());
-
-async function indexData() {
-  console.log(`🗄 Indexing ${entityName}...`);
-
-  if (entityName === "all") {
-    await Promise.all(Object.values(indexors).map((indexor) => indexor()));
-  } else {
-    await indexors[entityName]();
-  }
-
-  console.log(`🎉 Data is indexed`);
-}
+console.log(`🗄 Indexing ${entityName}...`);
 
 const indexors: Record<EntityName, () => Promise<void>> = {
   async animal() {
@@ -115,3 +95,18 @@ const indexors: Record<EntityName, () => Promise<void>> = {
     console.log(`- 👍 Indexed ${users.length} users`);
   },
 };
+
+const algolia = new AlgoliaClient();
+const prisma = new PrismaClient();
+
+try {
+  if (entityName === "all") {
+    await Promise.all(Object.values(indexors).map((indexor) => indexor()));
+  } else {
+    await indexors[entityName]();
+  }
+} finally {
+  await prisma.$disconnect();
+}
+
+console.log(`🎉 Data is indexed`);

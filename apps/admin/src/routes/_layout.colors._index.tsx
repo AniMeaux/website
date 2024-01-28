@@ -26,15 +26,19 @@ import {
 import { zu } from "@animeaux/zod-utils";
 import type { Prisma } from "@prisma/client";
 import { UserGroup } from "@prisma/client";
-import type { ActionArgs, LoaderArgs, SerializeFrom } from "@remix-run/node";
+import type {
+  ActionFunctionArgs,
+  LoaderFunctionArgs,
+  MetaFunction,
+  SerializeFrom,
+} from "@remix-run/node";
 import { json } from "@remix-run/node";
-import type { V2_MetaFunction } from "@remix-run/react";
 import { useFetcher, useLoaderData } from "@remix-run/react";
-import { promiseHash } from "remix-utils";
+import { promiseHash } from "remix-utils/promise";
 
 const COLOR_COUNT_PER_PAGE = 20;
 
-export async function loader({ request }: LoaderArgs) {
+export async function loader({ request }: LoaderFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {
     select: { groups: true },
   });
@@ -85,7 +89,7 @@ const COLOR_ORDER_BY: Record<ColorSort, Prisma.ColorFindManyArgs["orderBy"]> = {
   [ColorSort.ANIMAL_COUNT]: { animals: { _count: "desc" } },
 };
 
-export const meta: V2_MetaFunction = () => {
+export const meta: MetaFunction = () => {
   return [{ title: getPageTitle("Couleurs") }];
 };
 
@@ -95,7 +99,7 @@ const DeleteActionFormData = FormDataDelegate.create(
   }),
 );
 
-export async function action({ request }: ActionArgs) {
+export async function action({ request }: ActionFunctionArgs) {
   if (request.method.toUpperCase() !== "DELETE") {
     throw new NotFoundResponse();
   }
@@ -135,7 +139,7 @@ export default function Route() {
   return (
     <PageLayout>
       <PageLayout.Content className="flex flex-col gap-1 md:flex-row md:gap-2">
-        <section className="md:min-w-0 md:flex-2 flex flex-col">
+        <section className="flex flex-col md:min-w-0 md:flex-2">
           <Card>
             <Card.Header>
               <Card.Title>
@@ -185,7 +189,7 @@ export default function Route() {
           </Card>
         </section>
 
-        <aside className="hidden flex-col min-w-[250px] max-w-[300px] flex-1 md:flex">
+        <aside className="hidden min-w-[250px] max-w-[300px] flex-1 flex-col md:flex">
           <Card className="sticky top-8 max-h-[calc(100vh-100px)]">
             <Card.Header>
               <Card.Title>Trier et filtrer</Card.Title>
@@ -217,7 +221,7 @@ export function ColorItem({
   return (
     <span
       className={cn(
-        "px-0.5 md:px-1 py-1 grid grid-cols-[auto_minmax(0px,1fr)] grid-flow-col items-start gap-1 md:gap-2",
+        "grid grid-flow-col grid-cols-[auto_minmax(0px,1fr)] items-start gap-1 px-0.5 py-1 md:gap-2 md:px-1",
         className,
       )}
     >
@@ -232,7 +236,7 @@ export function ColorItem({
         </span>
       </span>
 
-      <span className="h-2 flex items-center gap-0.5">
+      <span className="flex h-2 items-center gap-0.5">
         <Action asChild variant="text" color="gray" isIconOnly title="Modifier">
           <BaseLink to={Routes.colors.id(color.id).edit.toString()}>
             <Icon id="pen" />

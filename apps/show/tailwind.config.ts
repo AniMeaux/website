@@ -1,9 +1,8 @@
-const defaultTheme = require("tailwindcss/defaultTheme");
-const plugin = require("tailwindcss/plugin");
-const flattenColorPalette =
-  require("tailwindcss/lib/util/flattenColorPalette").default;
+import defaultColors from "tailwindcss/colors";
+import defaultTheme from "tailwindcss/defaultTheme";
+import plugin from "tailwindcss/plugin";
 
-const SPACING = {
+export const spacing = {
   0: "0px",
   0.5: "6px",
   1: "12px",
@@ -19,20 +18,43 @@ const SPACING = {
   14: "168px",
 };
 
+export const screens = {
+  xs: "475px",
+  ...defaultTheme.screens,
+};
+
+// Don't spread `...defaultColors` to avoid deprecation warnings.
+export const colors = {
+  inheritBg: "var(--background-color)",
+  prussianBlue: {
+    DEFAULT: "#003047",
+  },
+  mystic: {
+    DEFAULT: "#db5072",
+  },
+  paleBlue: {
+    DEFAULT: "#bae8f0",
+  },
+  alabaster: {
+    DEFAULT: "#f2e8e3",
+  },
+
+  black: defaultColors.black,
+  white: defaultColors.white,
+};
+
 /**
  * @type {import('tailwindcss').Config}
  */
-module.exports = {
+export default {
   content: ["./src/**/*.{ts,tsx}"],
 
   theme: {
-    screens: {
-      xs: "475px",
-      ...defaultTheme.screens,
-    },
+    screens,
+    colors,
 
     spacing: {
-      ...SPACING,
+      ...spacing,
 
       // The values in the formula are defined by:
       // - A page takes 90% of the width, 5% spacing on each side.
@@ -44,7 +66,7 @@ module.exports = {
     },
 
     borderRadius: {
-      ...SPACING,
+      ...spacing,
       none: "0",
       full: "9999px",
     },
@@ -53,22 +75,6 @@ module.exports = {
       fontFamily: {
         serif: ['"CARAMEL MOCACINO"', ...defaultTheme.fontFamily.serif],
         sans: ["Fira Sans", ...defaultTheme.fontFamily.sans],
-      },
-
-      colors: {
-        inheritBg: "var(--background-color)",
-        prussianBlue: {
-          DEFAULT: "#003047",
-        },
-        mystic: {
-          DEFAULT: "#db5072",
-        },
-        paleBlue: {
-          DEFAULT: "#bae8f0",
-        },
-        alabaster: {
-          DEFAULT: "#f2e8e3",
-        },
       },
 
       aspectRatio: {
@@ -239,11 +245,10 @@ module.exports = {
   ],
 };
 
-/**
- * @param {"top" | "right" | "bottom" | "left"} side
- * @param {string} value
- */
-function createSafePadding(side, value) {
+function createSafePadding(
+  side: "top" | "right" | "bottom" | "left",
+  value: string,
+) {
   const name = {
     top: "paddingTop",
     right: "paddingRight",
@@ -265,4 +270,28 @@ function createSafePadding(side, value) {
       `calc(${value} + env(${envVariable}, 0))`,
     ],
   };
+}
+
+type Colors = { [key: string]: string | Colors };
+
+/**
+ * Copied from Tailwind's flattenColorPalette because types are not exported.
+ *
+ * @see https://github.com/tailwindlabs/tailwindcss/blob/v3.3.3/src/util/flattenColorPalette.js
+ */
+function flattenColorPalette(colors: Colors = {}): Record<string, string> {
+  return Object.assign(
+    {},
+    ...Object.entries(colors).flatMap(([key, value]) => {
+      if (typeof value === "object") {
+        return Object.entries(flattenColorPalette(value)).map(
+          ([childKey, value]) => ({
+            [key + (childKey === "DEFAULT" ? "" : `-${childKey}`)]: value,
+          }),
+        );
+      }
+
+      return [{ [`${key}`]: value }];
+    }),
+  );
 }

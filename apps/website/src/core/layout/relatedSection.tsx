@@ -6,15 +6,15 @@ export function RelatedSection({ children }: { children: React.ReactNode }) {
   return (
     <aside
       className={cn(
-        "w-full px-page pt-18 flex flex-col items-center gap-24",
+        "flex w-full flex-col items-center gap-24 px-page pt-18",
         "md:pt-12",
       )}
     >
       <LineShapeHorizontal
-        className={cn("w-full h-4 text-gray-300", "md:h-6")}
+        className={cn("h-4 w-full text-gray-300", "md:h-6")}
       />
 
-      <div className="w-full flex flex-col gap-12">{children}</div>
+      <div className="flex w-full flex-col gap-12">{children}</div>
     </aside>
   );
 }
@@ -27,8 +27,8 @@ export function RelatedSectionTitle({
   return (
     <h2
       className={cn(
-        "text-title-section-small text-center",
-        "md:text-title-section-large md:text-left",
+        "text-center text-title-section-small",
+        "md:text-left md:text-title-section-large",
       )}
     >
       {children}
@@ -45,7 +45,7 @@ export function RelatedSectionList({
 
   return (
     <ul
-      className={cn("grid grid-cols-1 gap-12 items-start", "xs:grid-cols-2", {
+      className={cn("grid grid-cols-1 items-start gap-12", "xs:grid-cols-2", {
         "md:grid-cols-3": childrenCount > 2,
       })}
     >

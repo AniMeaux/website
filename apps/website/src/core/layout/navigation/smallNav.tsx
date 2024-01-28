@@ -56,7 +56,7 @@ export function SmallNav({
   return (
     <header
       ref={headerRef}
-      className="relative z-10 w-full flex flex-col md:hidden"
+      className="relative z-10 flex w-full flex-col md:hidden"
       onKeyDown={handleEscape(() => {
         setState((prevState) =>
           state.isOpened ? { isOpened: false } : prevState,
@@ -68,11 +68,11 @@ export function SmallNav({
 
       <div
         className={cn(
-          "px-page pb-2 flex items-center justify-between",
+          "flex items-center justify-between px-page pb-2",
           displayShowBanner ? "pt-2" : "pt-safe-2",
         )}
       >
-        <BaseLink to="/" className="z-10 overflow-hidden flex">
+        <BaseLink to="/" className="z-10 flex overflow-hidden">
           <Transition in={!state.isOpened} timeout={100}>
             {(transitionState) => {
               return (
@@ -119,24 +119,24 @@ export function SmallNav({
             return (
               <div
                 className={cn(
-                  "absolute top-0 left-0 w-full h-screen bg-white",
+                  "absolute left-0 top-0 h-screen w-full bg-white",
                   // We need to handle safe areas because this element has
                   // absolute positioning.
-                  "pt-safe-[calc(8px+var(--header-height))] px-safe-page pb-safe-2",
+                  "pb-safe-2 pt-safe-[calc(8px+var(--header-height))] px-safe-page",
                   "flex",
                   {
-                    "opacity-100 translate-y-0 transition-[opacity,transform] duration-100 ease-out":
+                    "translate-y-0 opacity-100 transition-[opacity,transform] duration-100 ease-out":
                       transitionState === "entering",
-                    "opacity-100 translate-y-0": transitionState === "entered",
-                    "opacity-0 -translate-y-4 transition-[opacity,transform] duration-100 ease-in":
+                    "translate-y-0 opacity-100": transitionState === "entered",
+                    "-translate-y-4 opacity-0 transition-[opacity,transform] duration-100 ease-in":
                       transitionState === "exiting",
-                    "opacity-0 -translate-y-4": transitionState === "exited",
+                    "-translate-y-4 opacity-0": transitionState === "exited",
                   },
                 )}
               >
                 <nav
                   ref={navRef}
-                  className="w-full h-full min-h-0 overflow-auto flex flex-col"
+                  className="flex h-full min-h-0 w-full flex-col overflow-auto"
                 >
                   <NavGroupButton
                     isActive={state.openedGroup === "adopt"}
@@ -207,13 +207,13 @@ export function SmallNav({
         >
           {(transitionState) => (
             <SocialLinks
-              className={cn("absolute z-10 bottom-3 left-1/2", {
-                "opacity-100 -translate-x-1/2 transition-[opacity,transform] duration-100 ease-out":
+              className={cn("absolute bottom-3 left-1/2 z-10", {
+                "-translate-x-1/2 opacity-100 transition-[opacity,transform] duration-100 ease-out":
                   transitionState === "entering",
-                "opacity-100 -translate-x-1/2": transitionState === "entered",
-                "opacity-0 translate-x-0 transition-[opacity,transform] duration-100 ease-in":
+                "-translate-x-1/2 opacity-100": transitionState === "entered",
+                "translate-x-0 opacity-0 transition-[opacity,transform] duration-100 ease-in":
                   transitionState === "exiting",
-                "opacity-0 translate-x-0": transitionState === "exited",
+                "translate-x-0 opacity-0": transitionState === "exited",
               })}
             />
           )}
@@ -292,7 +292,7 @@ function SubNav({
         return (
           <div
             ref={containerRef}
-            className={cn("flex-none flex flex-col overflow-hidden", {
+            className={cn("flex flex-none flex-col overflow-hidden", {
               // Use `ease-in-out` to make sure animation is symetrical between
               // entering and exiting to avoid a weird progress missmatch.
               "transition-[height] duration-100 ease-in-out":
@@ -302,7 +302,7 @@ function SubNav({
           >
             <div
               ref={childrenRef}
-              className="bg-gray-50 rounded-bubble-md px-2 py-3 flex flex-col"
+              className="flex flex-col bg-gray-50 px-2 py-3 rounded-bubble-md"
             >
               {children}
             </div>

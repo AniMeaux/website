@@ -4,6 +4,7 @@
   "private": true,
   "sideEffects": false,
   "main": "./src/index.ts",
+  "type": "module",
   "exports": {
     ".": "./src/index.ts"
   },

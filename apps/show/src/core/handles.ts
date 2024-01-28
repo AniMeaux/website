@@ -1,12 +1,10 @@
-import type { RouteMatch } from "@remix-run/react";
-
 export type RouteHandle = {
   hasExpandedPageBackground?: boolean;
   htmlBackgroundColor?: string;
   isFullHeight?: boolean;
 };
 
-export function asRouteHandle(handle: RouteMatch["handle"]): RouteHandle {
+export function asRouteHandle(handle: unknown): RouteHandle {
   if (handle == null) {
     return {};
   }

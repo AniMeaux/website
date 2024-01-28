@@ -13,13 +13,12 @@ import { prisma } from "#core/prisma.server.ts";
 import { NotFoundResponse } from "#core/response.server.ts";
 import { assertCurrentUserHasGroups } from "#currentUser/groups.server.ts";
 import { Icon } from "#generated/icon.tsx";
-import { DownloadPictureLink } from "#routes/downloads.picture.$id.tsx";
+import { DownloadPictureLink } from "#routes/downloads.picture.$id/link";
 import { cn } from "@animeaux/core";
 import { zu } from "@animeaux/zod-utils";
 import { UserGroup } from "@prisma/client";
-import type { LoaderArgs } from "@remix-run/node";
+import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import type { V2_MetaFunction } from "@remix-run/react";
 import { useLoaderData } from "@remix-run/react";
 
 export const handle: RouteHandle = {
@@ -32,7 +31,7 @@ const ParamsSchema = zu.object({
   pictureId: zu.string().uuid(),
 });
 
-export async function loader({ request, params }: LoaderArgs) {
+export async function loader({ request, params }: LoaderFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {
     select: { groups: true },
   });
@@ -70,7 +69,7 @@ export async function loader({ request, params }: LoaderArgs) {
   return json({ animal, visiblePictureId: paramsResult.data.pictureId });
 }
 
-export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
+export const meta: MetaFunction<typeof loader> = ({ data }) => {
   const animal = data?.animal;
   if (animal == null) {
     return [{ title: getPageTitle(getErrorTitle(404)) }];
@@ -85,8 +84,8 @@ export default function Route() {
   const visiblePictureIndex = allPictures.indexOf(visiblePictureId);
 
   return (
-    <main className="w-full h-full grid grid-cols-1 grid-rows-[auto_minmax(0px,1fr)_auto]">
-      <header className="min-h-[50px] px-safe-1 pt-safe-0.5 pb-0.5 flex justify-end items-center md:min-h-[60px] md:px-safe-2 md:pt-safe-1 md:pb-1">
+    <main className="grid h-full w-full grid-cols-1 grid-rows-[auto_minmax(0px,1fr)_auto]">
+      <header className="flex min-h-[50px] items-center justify-end pb-0.5 pt-safe-0.5 px-safe-1 md:min-h-[60px] md:pb-1 md:pt-safe-1 md:px-safe-2">
         <Action asChild variant="text">
           <DownloadPictureLink
             pictureId={visiblePictureId}
@@ -110,12 +109,12 @@ export default function Route() {
           fallbackSize="2048"
           aspectRatio="none"
           background="none"
-          className="min-w-0 max-w-full min-h-0 max-h-full"
+          className="max-h-full min-h-0 min-w-0 max-w-full"
         />
       </div>
 
-      <footer className="pt-0.5 pb-safe-0.5 flex justify-center md:pt-1 md:pb-safe-1">
-        <div className="overflow-x-auto scrollbars-none max-w-full px-safe-1 grid grid-flow-col auto-cols-[60px] justify-start gap-1 md:auto-cols-[80px] md:gap-2">
+      <footer className="flex justify-center pt-0.5 pb-safe-0.5 md:pt-1 md:pb-safe-1">
+        <div className="grid max-w-full auto-cols-[60px] grid-flow-col justify-start gap-1 overflow-x-auto px-safe-1 scrollbars-none md:auto-cols-[80px] md:gap-2">
           {allPictures.map((pictureId, index) => (
             <BaseLink
               key={pictureId}
@@ -124,7 +123,7 @@ export default function Route() {
                 .pictures.pictureId(pictureId)
                 .toString()}
               replace
-              className="aspect-4/3 rounded-0.5 flex transition-transform duration-100 ease-in-out active:scale-95 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-inheritBg"
+              className="flex aspect-4/3 rounded-0.5 transition-transform duration-100 ease-in-out active:scale-95 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-inheritBg"
             >
               <DynamicImage
                 imageId={pictureId}

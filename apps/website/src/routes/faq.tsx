@@ -15,9 +15,9 @@ import { Icon } from "#generated/icon.tsx";
 import { questionsImages } from "#images/questions.tsx";
 import { socialImages } from "#images/social.tsx";
 import { cn } from "@animeaux/core";
-import type { V2_MetaFunction } from "@remix-run/react";
+import type { MetaFunction } from "@remix-run/node";
 
-export const meta: V2_MetaFunction = ({ matches }) => {
+export const meta: MetaFunction = ({ matches }) => {
   const config = getConfigFromMetaMatches(matches);
   return createSocialMeta({
     title: getPageTitle("Foire aux questions"),
@@ -27,7 +27,7 @@ export const meta: V2_MetaFunction = ({ matches }) => {
 
 export default function Route() {
   return (
-    <main className="w-full px-page flex flex-col gap-24">
+    <main className="flex w-full flex-col gap-24 px-page">
       <HeroSection>
         <HeroSectionAside>
           <HeroSectionImage image={questionsImages} loading="eager" />
@@ -45,7 +45,7 @@ export default function Route() {
       <section className="flex">
         <ul
           className={cn(
-            "w-full grid grid-cols-1 gap-12",
+            "grid w-full grid-cols-1 gap-12",
             "sm:grid-cols-2",
             "md:grid-cols-3",
           )}
@@ -54,7 +54,7 @@ export default function Route() {
             <li key={faq.question} className="flex flex-col items-start gap-6">
               <span
                 className={cn(
-                  "rounded-bubble-sm p-3 flex items-center justify-center text-[40px]",
+                  "flex items-center justify-center p-3 text-[40px] rounded-bubble-sm",
                   ICON_COLOR_CLASS_NAME[faq.color],
                 )}
               >

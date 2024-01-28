@@ -84,7 +84,7 @@ export function AnimalItem({
       to={Routes.animals.id(animal.id).toString()}
       className={cn(
         className,
-        "rounded-1.5 md:rounded-2 p-0.5 md:p-1 flex flex-col gap-0.5 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 bg-white hover:bg-gray-100 focus-visible:z-10",
+        "flex flex-col gap-0.5 rounded-1.5 bg-white p-0.5 focus-visible:z-10 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 hover:bg-gray-100 md:rounded-2 md:p-1",
       )}
     >
       <span className="relative flex flex-col">
@@ -97,7 +97,7 @@ export function AnimalItem({
           className="w-full flex-none rounded-1"
         />
 
-        <span className="absolute bottom-0 left-0 w-full p-0.5 flex justify-end">
+        <span className="absolute bottom-0 left-0 flex w-full justify-end p-0.5">
           <span className="mr-auto flex gap-0.5">
             {vaccinationChip}
 
@@ -118,7 +118,7 @@ export function AnimalItem({
         <p className="flex items-start gap-0.25">
           <span
             className={cn(
-              "h-2 flex-none flex items-center",
+              "flex h-2 flex-none items-center",
               animal.gender === Gender.FEMALE
                 ? "text-pink-500"
                 : "text-blue-500",
@@ -130,7 +130,7 @@ export function AnimalItem({
 
           <span
             className={cn(
-              "flex-1 text-body-emphasis transition-colors duration-100 ease-in-out",
+              "flex-1 transition-colors duration-100 ease-in-out text-body-emphasis",
               animal.gender === Gender.FEMALE
                 ? "group-hover:text-pink-500"
                 : "group-hover:text-blue-500",
@@ -141,7 +141,7 @@ export function AnimalItem({
         </p>
 
         {animal.manager != null ? (
-          <p className="flex text-caption-default text-gray-500">
+          <p className="flex text-gray-500 text-caption-default">
             {animal.manager.displayName}
           </p>
         ) : null}
@@ -171,7 +171,7 @@ export function AnimalSmallItem({
       to={Routes.animals.id(animal.id).toString()}
       className={cn(
         className,
-        "rounded-0.5 px-0.5 md:px-1 py-1 grid grid-cols-[auto_minmax(0px,1fr)_auto] items-center gap-1 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 bg-white bg-var-white hover:bg-gray-100 hover:bg-var-gray-100 focus-visible:z-10",
+        "grid grid-cols-[auto_minmax(0px,1fr)_auto] items-center gap-1 rounded-0.5 bg-white px-0.5 py-1 bg-var-white focus-visible:z-10 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 hover:bg-gray-100 hover:bg-var-gray-100 md:px-1",
       )}
     >
       <AnimalAvatar animal={animal} size="md" loading={imageLoading} />
@@ -180,7 +180,7 @@ export function AnimalSmallItem({
         <p className="flex items-start gap-0.25">
           <span
             className={cn(
-              "h-2 flex-none flex items-center",
+              "flex h-2 flex-none items-center",
               animal.gender === Gender.FEMALE
                 ? "text-pink-500"
                 : "text-blue-500",
@@ -190,7 +190,7 @@ export function AnimalSmallItem({
             <Icon id={GENDER_ICON[animal.gender]} />
           </span>
 
-          <span className="flex-1 text-body-emphasis truncate">
+          <span className="flex-1 truncate text-body-emphasis">
             {getAnimalDisplayName(animal)}
           </span>
         </p>
@@ -199,8 +199,8 @@ export function AnimalSmallItem({
           className={cn(
             "flex",
             hasError
-              ? "text-caption-emphasis text-red-500"
-              : "text-caption-default text-gray-500",
+              ? "text-red-500 text-caption-emphasis"
+              : "text-gray-500 text-caption-default",
           )}
         >
           {secondaryLabel}

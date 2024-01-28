@@ -65,11 +65,11 @@ export const SubNavAdopt: SubNavComponent = () => {
 
       <div
         className={cn(
-          "w-full px-2 flex text-gray-100",
-          "md:w-auto md:h-full md:px-0 md:py-2",
+          "flex w-full px-2 text-gray-100",
+          "md:h-full md:w-auto md:px-0 md:py-2",
         )}
       >
-        <LineShapeHorizontal className={cn("w-full h-2", "md:hidden")} />
+        <LineShapeHorizontal className={cn("h-2 w-full", "md:hidden")} />
         <LineShapeVertical className={cn("hidden", "md:block md:w-2")} />
       </div>
 

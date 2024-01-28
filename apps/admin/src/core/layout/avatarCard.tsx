@@ -19,8 +19,8 @@ AvatarCard.BackgroundImage = function AvatarCardBackgroundImage({
   const { cloudinaryName } = useConfig();
 
   return (
-    <div className="z-0 relative h-6 flex md:h-10">
-      <span className="absolute top-0 left-0 w-full h-full backdrop-blur-3xl" />
+    <div className="relative z-0 flex h-6 md:h-10">
+      <span className="absolute left-0 top-0 h-full w-full backdrop-blur-3xl" />
 
       <img
         src={createCloudinaryUrl(cloudinaryName, imageId, {
@@ -28,7 +28,7 @@ AvatarCard.BackgroundImage = function AvatarCardBackgroundImage({
           aspectRatio: "1:1",
         })}
         alt={imageAlt}
-        className="w-full h-full object-cover object-top"
+        className="h-full w-full object-cover object-top"
       />
     </div>
   );
@@ -42,7 +42,7 @@ AvatarCard.BackgroundColor = function AvatarCardBackgroundColor({
   return (
     <div
       className={cn(
-        "h-6 flex md:h-10",
+        "flex h-6 md:h-10",
         BACKGROUND_CLASS_NAME_BY_AVATAR_COLOR[color],
       )}
     />
@@ -68,7 +68,7 @@ AvatarCard.Content = function AvatarCardContent({
   children?: React.ReactNode;
 }) {
   return (
-    <div className="z-0 p-1 flex gap-1 items-center md:p-2 md:gap-2">
+    <div className="z-0 flex items-center gap-1 p-1 md:gap-2 md:p-2">
       {children}
     </div>
   );
@@ -80,7 +80,7 @@ AvatarCard.Avatar = function AvatarCardAvatar({
   children: React.ReactElement<{ className?: string }>;
 }) {
   return (
-    <span className="h-[45px] flex-none self-start flex items-end">
+    <span className="flex h-[45px] flex-none items-end self-start">
       {cloneElement(children, {
         className: cn("ring-5 ring-white", children.props.className),
       })}
@@ -93,7 +93,7 @@ AvatarCard.Lines = function AvatarCardLines({
 }: {
   children?: React.ReactNode;
 }) {
-  return <div className="min-w-0 flex-1 flex flex-col gap-0.5">{children}</div>;
+  return <div className="flex min-w-0 flex-1 flex-col gap-0.5">{children}</div>;
 };
 
 AvatarCard.FirstLine = function AvatarCardFirstLine({
@@ -115,6 +115,6 @@ AvatarCard.SecondLine = function AvatarCardSecondLine({
   children: React.ReactElement<{ className?: string }>;
 }) {
   return cloneElement(children, {
-    className: cn("text-body-emphasis text-gray-500", children.props.className),
+    className: cn("text-gray-500 text-body-emphasis", children.props.className),
   });
 };

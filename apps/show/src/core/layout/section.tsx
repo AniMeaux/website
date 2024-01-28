@@ -16,10 +16,10 @@ export function Section({
     <Primitive.section
       {...rest}
       className={cn(
-        "py-4 grid grid-cols-1 gap-2 sm:gap-4",
+        "grid grid-cols-1 gap-2 py-4 sm:gap-4",
         SECTION_WIDTH_CLASS_NAMES[width],
         columnCount === 2
-          ? "md:grid-cols-2 lg:gap-8 md:items-center"
+          ? "md:grid-cols-2 md:items-center lg:gap-8"
           : undefined,
         className,
       )}
@@ -53,7 +53,7 @@ Section.Title = function SectionTitle({
     <Primitive.h2
       {...rest}
       className={cn(
-        "text-title-small md:text-title-small text-mystic",
+        "text-mystic text-title-small md:text-title-small",
         className,
       )}
     />
@@ -87,7 +87,7 @@ Section.ImageAside = function SectionImageAside({
     <Primitive.aside
       {...rest}
       className={cn(
-        "relative justify-self-center md:justify-self-stretch w-full max-w-sm md:max-w-none grid grid-cols-1",
+        "relative grid w-full max-w-sm grid-cols-1 justify-self-center md:max-w-none md:justify-self-stretch",
         className,
       )}
     />

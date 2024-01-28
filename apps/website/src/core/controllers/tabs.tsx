@@ -20,7 +20,7 @@ export function Tab({
       type="button"
       onClick={onSelect}
       className={cn(
-        "relative px-3 py-2 flex text-body-emphasis transition-colors duration-150 ease-in-out",
+        "relative flex px-3 py-2 transition-colors duration-150 ease-in-out text-body-emphasis",
         {
           "text-brandBlue": isActive,
           "text-gray-600 hover:text-black": !isActive,
@@ -32,7 +32,7 @@ export function Tab({
       <Transition in={isActive} timeout={150}>
         {(transitionState) => (
           <LineShapeHorizontal
-            className={cn("absolute bottom-0 left-0 w-full h-1 block", {
+            className={cn("absolute bottom-0 left-0 block h-1 w-full", {
               "transition-[stroke-dashoffset] duration-150 ease-in-out":
                 transitionState === "entering" || transitionState === "exiting",
             })}

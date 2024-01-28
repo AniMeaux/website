@@ -4,8 +4,7 @@ import { StrictMode, startTransition } from "react";
 import { hydrateRoot } from "react-dom/client";
 
 if (process.env.NODE_ENV === "development") {
-  const { startWorker } = require("#mocks/mocks.client.ts");
-  startWorker();
+  import("#mocks/mocks.client.ts").then((module) => module.startWorker());
 }
 
 // Remove hydration warnings on unused class and attribute.

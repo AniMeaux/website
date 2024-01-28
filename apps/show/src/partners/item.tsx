@@ -21,7 +21,7 @@ export function PartnerItem({
       <Link
         to={partner.url}
         className={cn(
-          "group overflow-hidden grid grid-cols-1 focus-visible:outline-none focus-visible:ring focus-visible:ring-mystic focus-visible:ring-offset-2 focus-visible:ring-offset-inheritBg",
+          "group grid grid-cols-1 overflow-hidden focus-visible:outline-none focus-visible:ring focus-visible:ring-mystic focus-visible:ring-offset-2 focus-visible:ring-offset-inheritBg",
           isSmall ? "rounded-1" : "rounded-2 border border-alabaster",
         )}
       >
@@ -32,7 +32,7 @@ export function PartnerItem({
           objectFit="cover"
           fallbackSize={fallbackSize}
           sizes={sizes}
-          className="w-full group-hover:scale-105 transition-transform duration-150 ease-in-out"
+          className="w-full transition-transform duration-150 ease-in-out group-hover:scale-105"
         />
       </Link>
     </li>

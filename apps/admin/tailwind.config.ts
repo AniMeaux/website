@@ -1,37 +1,55 @@
-const defaultTheme = require("tailwindcss/defaultTheme");
-const plugin = require("tailwindcss/plugin");
-const animation = require("@animeaux/tailwind-animation");
-const flattenColorPalette =
-  require("tailwindcss/lib/util/flattenColorPalette").default;
+import animation from "@animeaux/tailwind-animation";
+import type { Config } from "tailwindcss";
+import defaultColors from "tailwindcss/colors";
+import defaultTheme from "tailwindcss/defaultTheme";
+import plugin from "tailwindcss/plugin";
+import type { CSSRuleObject } from "tailwindcss/types/config";
 
-/**
- * @type {import('tailwindcss').Config}
- */
-module.exports = {
+export const spacing = {
+  0: "0px",
+  0.25: "2.5px",
+  0.5: "5px",
+  1: "10px",
+  2: "20px",
+  3: "30px",
+  4: "40px",
+  5: "50px",
+  6: "60px",
+  7: "70px",
+  8: "80px",
+  9: "90px",
+  10: "100px",
+  13: "130px",
+};
+
+export const screens = {
+  xs: "475px",
+  ...defaultTheme.screens,
+};
+
+// Don't spread `...defaultColors` to avoid deprecation warnings.
+export const colors = {
+  black: defaultColors.black,
+  blue: defaultColors.blue,
+  gray: defaultColors.gray,
+  green: defaultColors.green,
+  inherit: defaultColors.inherit,
+  inheritBg: "var(--background-color)",
+  orange: defaultColors.orange,
+  pink: defaultColors.pink,
+  red: defaultColors.red,
+  transparent: defaultColors.transparent,
+  white: defaultColors.white,
+  yellow: defaultColors.yellow,
+};
+
+export default {
   content: ["./src/**/*.{ts,tsx}"],
 
   theme: {
-    screens: {
-      xs: "475px",
-      ...defaultTheme.screens,
-    },
-
-    spacing: {
-      0: "0px",
-      0.25: "2.5px",
-      0.5: "5px",
-      1: "10px",
-      2: "20px",
-      3: "30px",
-      4: "40px",
-      5: "50px",
-      6: "60px",
-      7: "70px",
-      8: "80px",
-      9: "90px",
-      10: "100px",
-      13: "130px",
-    },
+    colors,
+    screens,
+    spacing,
 
     borderRadius: {
       none: "0px",
@@ -54,12 +72,6 @@ module.exports = {
       fontFamily: {
         serif: ['"Open Sans"', ...defaultTheme.fontFamily.serif],
         sans: ["Roboto", ...defaultTheme.fontFamily.sans],
-      },
-
-      colors: {
-        inheritBg: "var(--background-color)",
-        white: "#ffffff",
-        black: "#000000",
       },
 
       aspectRatio: {
@@ -233,14 +245,15 @@ module.exports = {
     plugin(({ matchUtilities, theme }) => {
       matchUtilities(
         {
-          scrollbars: (value) => {
+          scrollbars: (value): CSSRuleObject => {
             if (value === "none") {
               return {
                 "&::-webkit-scrollbar": {
-                  width: 0,
-                  height: 0,
+                  width: "0",
+                  height: "0",
                   display: "none",
                 },
+
                 "&::-webkit-scrollbar-track-piece": {
                   "background-color": "transparent",
                 },
@@ -252,6 +265,7 @@ module.exports = {
                 width: "5px",
                 height: "5px",
               },
+
               "&::-webkit-scrollbar-thumb": {
                 "background-color": theme("colors.gray.200"),
               },
@@ -279,13 +293,12 @@ module.exports = {
       });
     }),
   ],
-};
+} satisfies Config;
 
-/**
- * @param {"top" | "right" | "bottom" | "left"} side
- * @param {string} value
- */
-function createSafePadding(side, value) {
+function createSafePadding(
+  side: "top" | "right" | "bottom" | "left",
+  value: string,
+) {
   const name = {
     top: "paddingTop",
     right: "paddingRight",
@@ -309,11 +322,10 @@ function createSafePadding(side, value) {
   };
 }
 
-/**
- * @param {"top" | "right" | "bottom" | "left"} side
- * @param {string} value
- */
-function createSafePosition(side, value) {
+function createSafePosition(
+  side: "top" | "right" | "bottom" | "left",
+  value: string,
+) {
   const envVariable = {
     top: "safe-area-inset-top",
     right: "safe-area-inset-right",
@@ -328,4 +340,28 @@ function createSafePosition(side, value) {
       `calc(${value} + env(${envVariable}, 0))`,
     ],
   };
+}
+
+type Colors = { [key: string]: string | Colors };
+
+/**
+ * Copied from Tailwind's flattenColorPalette because types are not exported.
+ *
+ * @see https://github.com/tailwindlabs/tailwindcss/blob/v3.3.3/src/util/flattenColorPalette.js
+ */
+function flattenColorPalette(colors: Colors = {}): Record<string, string> {
+  return Object.assign(
+    {},
+    ...Object.entries(colors).flatMap(([key, value]) => {
+      if (typeof value === "object") {
+        return Object.entries(flattenColorPalette(value)).map(
+          ([childKey, value]) => ({
+            [key + (childKey === "DEFAULT" ? "" : `-${childKey}`)]: value,
+          }),
+        );
+      }
+
+      return [{ [`${key}`]: value }];
+    }),
+  );
 }

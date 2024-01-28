@@ -171,7 +171,7 @@ export function PlaceholderImage({
 }) {
   return (
     <div
-      className={cn(className, "bg-gray-100 flex items-center justify-center")}
+      className={cn(className, "flex items-center justify-center bg-gray-100")}
     >
       <Icon id={icon} height="50%" width="auto" className="text-gray-600" />
     </div>

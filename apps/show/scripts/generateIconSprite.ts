@@ -1,102 +1,220 @@
-import fs from "fs";
-import path from "path";
-import util from "util";
+import { watch } from "chokidar";
+import { parse } from "node-html-parser";
+import { mkdir, readFile, readdir, writeFile } from "node:fs/promises";
+import { basename, dirname, join, relative, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
+import { oneAtTheTime, relativeToCwd, safelyReadFile } from "./shared";
 
-const readdir = util.promisify(fs.readdir);
-const readFile = util.promisify(fs.readFile);
-const writeFile = util.promisify(fs.writeFile);
-const mkdir = util.promisify(fs.mkdir);
+const FILENAME = fileURLToPath(import.meta.url);
+const DIRNAME = dirname(FILENAME);
+const SCRIPT_NAME = relativeToCwd(FILENAME);
+const SRC_DIRECTORY = resolve(DIRNAME, "../src");
+const ICON_SRC_DIRECTORY = resolve(DIRNAME, "../icons");
+const DEST_DIRECTORY = resolve(DIRNAME, "../src/generated");
+const SPRITE_DEST_FILE = join(DEST_DIRECTORY, "sprite.svg");
+const COMPONENT_DEST_FILE = join(DEST_DIRECTORY, "icon.tsx");
 
-const ICON_SRC = path.resolve(__dirname, "../icons");
-const ICON_DEST = path.resolve(__dirname, "../src/generated");
-const ICON_SPRITE_DEST = path.join(ICON_DEST, "iconSprite.svg");
-const ICON_COMPONENT_DEST = path.join(ICON_DEST, "icon.tsx");
+const ARGS = {
+  shouldMinify: process.argv.some((arg) => arg === "--minify"),
+  shouldWatch: process.argv.some((arg) => arg === "--watch"),
+};
 
-generateIconSprite().catch((error) => {
-  console.error(error);
-  process.exit(1);
-});
+// Ensure the destination directory exists.
+await mkdir(DEST_DIRECTORY, { recursive: true });
 
-async function generateIconSprite() {
-  const shouldMinify = process.argv.some((arg) => arg === "--minify");
-
-  const iconFilenames = await readdir(ICON_SRC);
-
-  const contents = await Promise.all(
-    iconFilenames.map(async (filename) => {
-      const svg = await readFile(path.join(ICON_SRC, filename), "utf-8");
-
-      const symbol = svg
-        // Replace svg by symbol.
-        .replace("<svg", `<symbol id="${path.basename(filename, ".svg")}"`)
-        .replace("</svg>", "</symbol>")
-        // Remove attributes.
-        .replace(/\s*(width|height|fill|xmlns(:xlink)?)="[^"]+"/g, "");
-
-      return symbol;
-    }),
-  );
-
-  let sprite = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-  <defs>
-${contents.map((symbol) => `    ${symbol}`).join("\n")}
-  </defs>
-</svg>`;
-
-  if (shouldMinify) {
-    sprite = sprite.replace(/\n\s*/g, "");
+try {
+  await buildIcons();
+} catch (error) {
+  if (!ARGS.shouldWatch) {
+    throw error;
   }
 
-  await mkdir(ICON_DEST, { recursive: true });
+  console.error(error);
+}
 
-  await writeFile(ICON_SPRITE_DEST, sprite);
-  console.info(`🎉 Sprite file wrote: ${relativeToCwd(ICON_SPRITE_DEST)}`);
+if (ARGS.shouldWatch) {
+  // In watch mode we don't want to have parallel builds.
+  const safelyBuildIcons = oneAtTheTime(async () => {
+    try {
+      await buildIcons();
+    } catch (error) {
+      console.error(error);
+    }
+  });
 
-  const component = `import sprite from "#${path.relative(
-    path.resolve(__dirname, "../src"),
-    ICON_SPRITE_DEST,
-  )}";
+  const watcher = watch([ICON_SRC_DIRECTORY], {
+    // We already built once.
+    ignoreInitial: true,
 
-export const iconsIds = [
-${iconFilenames
-  .map((filename) => `  "${path.basename(filename, ".svg")}",`)
-  .join("\n")}
-] as const;
+    // To avoid building to fast.
+    awaitWriteFinish: {
+      stabilityThreshold: 100,
+      pollInterval: 100,
+    },
+  })
+    .on("error", console.error)
+    .on("all", safelyBuildIcons);
 
-type IconId = typeof iconsIds[number];
+  process.once("SIGINT", async () => {
+    try {
+      await watcher.close();
+    } catch (error) {
+      console.error("Could not stop watcher:", error);
+    }
 
-export type IconProps = React.SVGAttributes<SVGElement> & {
-  id: IconId;
+    process.exit(0);
+  });
+
+  console.log("Watching for changes. Press Ctrl-C to stop.");
+}
+
+async function buildIcons() {
+  console.log("Building...");
+
+  const icons = await getAllIcons();
+
+  await Promise.all([
+    generateIconComponentFile(icons),
+    generateSpriteFile(icons),
+  ]);
+}
+
+type IconDescriptor = {
+  /**
+   * Absolute pathname of the SVG file.
+   */
+  pathname: string;
+
+  /**
+   * Unique identifier of an icon.
+   */
+  iconName: string;
 };
-  
-export function Icon({
-  id,
-  width = "1em",
-  height = "1em",
-  stroke = "none",
-  fill = "currentColor",
-  ...rest
-}: IconProps) {
+
+/**
+ * Get all SVG icons from the _icons/_ folder.
+ *
+ * @returns Icon descriptors.
+ */
+async function getAllIcons() {
+  const filenames = await readdir(ICON_SRC_DIRECTORY);
+
+  // Sort alphabetically to ease search in generated files.
+  filenames.sort();
+
+  return filenames.map<IconDescriptor>((filename) => ({
+    iconName: basename(filename, ".svg"),
+    pathname: join(ICON_SRC_DIRECTORY, filename),
+  }));
+}
+
+/**
+ * Generates the `Icon` component file.
+ * The `IconName` type contains all possible names.
+ *
+ * @param icons All icon descriptors.
+ */
+async function generateIconComponentFile(icons: IconDescriptor[]) {
+  const component = `// This file is generated by ${SCRIPT_NAME}
+import sprite from "#${relative(SRC_DIRECTORY, SPRITE_DEST_FILE)}";
+import { forwardRef } from "react";
+
+export const Icon = forwardRef<
+  React.ComponentRef<"svg">,
+  Omit<React.ComponentPropsWithoutRef<"svg">, "id"> & {
+    id: IconName;
+  }
+>(function Icon({ id, ...props }, ref) {
   return (
     <svg
-      {...rest}
-      width={width}
-      height={height}
-      stroke={stroke}
-      fill={fill}
+      width="1em"
+      height="1em"
+      stroke="none"
+      fill="currentColor"
+      {...props}
+      ref={ref}
     >
       <use href={\`\${sprite}#\${id}\`} />
     </svg>
   );
-}
+});
+
+export type IconProps = React.ComponentPropsWithoutRef<typeof Icon>;
+
+export type IconName = 
+${icons.map((icon) => `  | "${icon.iconName}"`).join("\n")};
 `;
 
-  await writeFile(ICON_COMPONENT_DEST, component);
-  console.info(
-    `🎉 Icon component file wrote: ${relativeToCwd(ICON_COMPONENT_DEST)}`,
-  );
+  const currentComponent = await safelyReadFile(COMPONENT_DEST_FILE);
+  if (currentComponent === component) {
+    console.info(
+      `Icon component didn't change (${relativeToCwd(COMPONENT_DEST_FILE)})`,
+    );
+
+    // The icon component will not change so we don't re-generate it to avoid
+    // triggering a re-build of remix.
+    return;
+  }
+
+  await writeFile(COMPONENT_DEST_FILE, component);
+  console.info(`Built icon component (${relativeToCwd(COMPONENT_DEST_FILE)})`);
 }
 
-function relativeToCwd(filePath: string): string {
-  return path.relative(process.cwd(), filePath);
+/**
+ * Generates the SVG sprite file.
+ *
+ * @param icons All icon descriptors.
+ */
+async function generateSpriteFile(icons: IconDescriptor[]) {
+  const contents = await Promise.all(icons.map(generateSymbolForIcon));
+
+  let sprite = [
+    '<?xml version="1.0" encoding="UTF-8"?>',
+    ARGS.shouldMinify
+      ? undefined
+      : `<!-- This file is generated by ${SCRIPT_NAME} -->`,
+    '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">',
+    // Don't wrap `symbol` elements in a `defs` as browser handle them
+    // differently.
+    // https://stackoverflow.com/a/74173265
+    contents.map((content) => `  ${content}`).join("\n"),
+    "</svg>",
+  ]
+    .filter(Boolean)
+    .join("\n");
+
+  if (ARGS.shouldMinify) {
+    sprite = sprite.replace(/\n\s*/g, "");
+  }
+
+  const currentSprite = await safelyReadFile(SPRITE_DEST_FILE);
+  if (currentSprite === sprite) {
+    console.info(
+      `SVG sprite didn't change (${relativeToCwd(SPRITE_DEST_FILE)})`,
+    );
+
+    // The SVG sprite will not change so we don't re-generate it to avoid
+    // triggering a re-build of remix.
+    return;
+  }
+
+  await writeFile(SPRITE_DEST_FILE, sprite);
+  console.info(`Built SVG sprite (${relativeToCwd(SPRITE_DEST_FILE)})`);
+}
+
+async function generateSymbolForIcon(icon: IconDescriptor) {
+  const root = parse(await readFile(icon.pathname, "utf-8"));
+
+  const svg = root.querySelector("svg");
+  if (svg == null) {
+    throw new Error(`No SVG element found in ${icon.pathname}.`);
+  }
+
+  // Make it a valid SVG symbol.
+  // https://developer.mozilla.org/en-US/docs/Web/SVG/Element/symbol
+  svg.tagName = "symbol";
+  svg.setAttribute("id", icon.iconName);
+  svg.removeAttribute("xmlns");
+  svg.removeAttribute("xmlns:xlink");
+  return svg.toString();
 }

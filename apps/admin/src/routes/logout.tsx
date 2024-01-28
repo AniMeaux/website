@@ -1,6 +1,6 @@
 import { Routes } from "#core/navigation.ts";
 import { destroyCurrentUserSession } from "#currentUser/session.server.ts";
-import type { ActionArgs } from "@remix-run/node";
+import type { ActionFunctionArgs } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
 import { createPath } from "history";
 
@@ -9,7 +9,7 @@ export async function loader() {
   return redirect(Routes.home.toString());
 }
 
-export async function action({ request }: ActionArgs) {
+export async function action({ request }: ActionFunctionArgs) {
   return redirect(
     createPath({
       pathname: Routes.login.toString(),

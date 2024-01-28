@@ -6,7 +6,7 @@ import { SwitchInput } from "#core/formElements/switchInput.tsx";
 import { Separator } from "#core/layout/separator.tsx";
 import { Spinner } from "#core/loaders/spinner.tsx";
 import { Icon } from "#generated/icon.tsx";
-import { useScrapUrlFetcher } from "#routes/resources.scrap-url.tsx";
+import { useScrapUrlFetcher } from "#routes/resources.scrap-url/hook";
 import { FormDataDelegate } from "@animeaux/form-data";
 import { zu } from "@animeaux/zod-utils";
 import type { FetcherWithComponents } from "@remix-run/react";

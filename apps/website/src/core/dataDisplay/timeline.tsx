@@ -3,7 +3,7 @@ import { Icon } from "#generated/icon.tsx";
 import { cn } from "@animeaux/core";
 
 export function Timeline({ children }: { children: React.ReactNode }) {
-  return <ul className={cn("pt-4 flex flex-col", "md:pt-1")}>{children}</ul>;
+  return <ul className={cn("flex flex-col pt-4", "md:pt-1")}>{children}</ul>;
 }
 
 export function TimelineItem({
@@ -20,36 +20,36 @@ export function TimelineItem({
   return (
     <li
       className={cn(
-        "group relative py-3 flex items-center gap-6",
-        "md:p-6 md:gap-12 md:odd:flex-row-reverse",
+        "group relative flex items-center gap-6 py-3",
+        "md:gap-12 md:p-6 md:odd:flex-row-reverse",
       )}
     >
       <TopLine
         className={cn(
-          "hidden absolute -z-10 -top-2 left-4 w-6 h-12 text-gray-300 group-first:block",
-          "md:-top-0.5 md:left-1/2 md:-translate-x-1/2 md:h-20",
+          "absolute -top-2 left-4 -z-10 hidden h-12 w-6 text-gray-300 group-first:block",
+          "md:-top-0.5 md:left-1/2 md:h-20 md:-translate-x-1/2",
         )}
       />
 
       <BottomLine
         className={cn(
-          "absolute -z-10 top-10 left-4 w-6 h-full text-gray-300 group-even:scale-x-[-1] group-last:hidden",
-          "md:top-[78px] md:left-1/2 md:-translate-x-1/2",
+          "absolute left-4 top-10 -z-10 h-full w-6 text-gray-300 group-last:hidden group-even:scale-x-[-1]",
+          "md:left-1/2 md:top-[78px] md:-translate-x-1/2",
         )}
       />
 
       <TopLine
         className={cn(
-          "hidden absolute -z-10 top-10 left-4 w-6 h-12 text-gray-300 scale-y-[-1] group-last:block group-odd:scale-x-[-1]",
-          "md:top-[78px] md:left-1/2 md:-translate-x-1/2 md:h-20",
+          "absolute left-4 top-10 -z-10 hidden h-12 w-6 scale-y-[-1] text-gray-300 group-last:block group-odd:scale-x-[-1]",
+          "md:left-1/2 md:top-[78px] md:h-20 md:-translate-x-1/2",
         )}
       />
 
-      <span className={cn("hidden", "md:h-1 md:flex md:flex-1")} />
+      <span className={cn("hidden", "md:flex md:h-1 md:flex-1")} />
 
-      <span className="self-stretch flex-none flex flex-col justify-start">
+      <span className="flex flex-none flex-col justify-start self-stretch">
         <span
-          className={cn("rounded-full shadow-base bg-white p-4 flex", "md:p-6")}
+          className={cn("flex rounded-full bg-white p-4 shadow-base", "md:p-6")}
         >
           <Icon
             id={icon}
@@ -58,7 +58,7 @@ export function TimelineItem({
         </span>
       </span>
 
-      <div className="flex-1 flex flex-col gap-3 md:gap-6">
+      <div className="flex flex-1 flex-col gap-3 md:gap-6">
         <div className={cn("flex flex-col", "md:group-odd:text-right")}>
           <h3 className="text-title-item">{title}</h3>
           <p>{children}</p>

@@ -4,11 +4,10 @@ import { createSocialMeta } from "#core/meta.ts";
 import { getPageTitle } from "#core/pageTitle.ts";
 import { AnimalAge } from "@animeaux/core";
 import { Species } from "@prisma/client";
-import type { LoaderArgs } from "@remix-run/node";
+import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
-import type { V2_MetaFunction } from "@remix-run/react";
 
-export async function loader({ params }: LoaderArgs) {
+export async function loader({ params }: LoaderFunctionArgs) {
   const redirectTo = REDIRECTIONS[`/${params["*"]}`];
   if (redirectTo != null) {
     throw redirect(redirectTo, 301);
@@ -17,7 +16,7 @@ export async function loader({ params }: LoaderArgs) {
   throw new Response("Not found", { status: 404 });
 }
 
-export const meta: V2_MetaFunction = () => {
+export const meta: MetaFunction = () => {
   return createSocialMeta({ title: getPageTitle(getErrorTitle(404)) });
 };
 

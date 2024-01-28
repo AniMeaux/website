@@ -1,6 +1,6 @@
 import type { loader as rootLoader } from "#root.tsx";
 import type { SerializeFrom } from "@remix-run/node";
-import type { V2_MetaArgs } from "@remix-run/react";
+import type { MetaArgs } from "@remix-run/react";
 import { useRouteLoaderData } from "@remix-run/react";
 import invariant from "tiny-invariant";
 
@@ -28,7 +28,7 @@ export function useConfig(): Config {
   return (data as SerializeFrom<typeof rootLoader>).config;
 }
 
-export function getConfigFromMetaMatches(matches: V2_MetaArgs["matches"]) {
+export function getConfigFromMetaMatches(matches: MetaArgs["matches"]) {
   const match = matches.find((match) => match.id === "root");
   invariant(match != null, "A root match must exists");
   return (match.data as SerializeFrom<typeof rootLoader>).config;

@@ -22,15 +22,18 @@ import { cn } from "@animeaux/core";
 import { useOptimisticSearchParams } from "@animeaux/form-data";
 import type { Prisma } from "@prisma/client";
 import { UserGroup } from "@prisma/client";
-import type { LoaderArgs, SerializeFrom } from "@remix-run/node";
+import type {
+  LoaderFunctionArgs,
+  MetaFunction,
+  SerializeFrom,
+} from "@remix-run/node";
 import { json } from "@remix-run/node";
-import type { V2_MetaFunction } from "@remix-run/react";
 import { useLoaderData } from "@remix-run/react";
-import { promiseHash } from "remix-utils";
+import { promiseHash } from "remix-utils/promise";
 
 const FOSTER_FAMILY_COUNT_PER_PAGE = 20;
 
-export async function loader({ request }: LoaderArgs) {
+export async function loader({ request }: LoaderFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {
     select: { groups: true },
   });
@@ -133,7 +136,7 @@ export async function loader({ request }: LoaderArgs) {
   });
 }
 
-export const meta: V2_MetaFunction = () => {
+export const meta: MetaFunction = () => {
   return [{ title: getPageTitle("Familles d’accueil") }];
 };
 
@@ -202,7 +205,7 @@ export default function Route() {
             </Card>
           </section>
 
-          <aside className="hidden flex-col min-w-[250px] max-w-[300px] flex-1 md:flex">
+          <aside className="hidden min-w-[250px] max-w-[300px] flex-1 flex-col md:flex">
             <Card className="sticky top-8 max-h-[calc(100vh-100px)]">
               <Card.Header>
                 <Card.Title>Filtrer</Card.Title>
@@ -262,7 +265,7 @@ function FosterFamilyItem({
       to={Routes.fosterFamilies.id(fosterFamily.id).toString()}
       className={cn(
         className,
-        "rounded-0.5 px-0.5 md:px-1 py-1 grid grid-cols-[auto_minmax(0px,1fr)] grid-flow-col items-start gap-1 md:gap-2 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 bg-white bg-var-white hover:bg-gray-100 hover:bg-var-gray-100 focus-visible:z-10",
+        "grid grid-flow-col grid-cols-[auto_minmax(0px,1fr)] items-start gap-1 rounded-0.5 bg-white px-0.5 py-1 bg-var-white focus-visible:z-10 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 hover:bg-gray-100 hover:bg-var-gray-100 md:gap-2 md:px-1",
       )}
     >
       <FosterFamilyAvatar size="sm" availability={fosterFamily.availability} />
@@ -282,5 +285,5 @@ function FosterFamilyItem({
 const MAX_ANIMAL_AVATAR_COUNT = 5;
 
 const ANIMAL_AVATAR_CLASS_NAME = cn(
-  "flex-none ring-2 ring-inheritBg -ml-0.5 first:ml-0",
+  "-ml-0.5 flex-none ring-2 ring-inheritBg first:ml-0",
 );

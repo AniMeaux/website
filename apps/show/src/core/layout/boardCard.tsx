@@ -11,7 +11,7 @@ export function BoardCard({
   return (
     <div
       className={cn(
-        "relative p-3 md:px-10 md:py-6 bg-var-alabaster",
+        "relative p-3 bg-var-alabaster md:px-10 md:py-6",
         className,
       )}
     >
@@ -19,7 +19,7 @@ export function BoardCard({
 
       <BeeIllustration
         direction="left-to-right"
-        className="absolute -z-10 bottom-0 translate-y-1/2 right-2 md:right-4 w-[25px]"
+        className="absolute bottom-0 right-2 -z-10 w-[25px] translate-y-1/2 md:right-4"
       />
 
       {children}
@@ -36,14 +36,14 @@ function BoardBackground() {
   return (
     // ResizeObserver don't seem to work on SVG in Safari.
     // https://stackoverflow.com/questions/65565149/how-to-apply-resizeobserver-to-svg-element
-    <div ref={ref} className="absolute -z-10 top-0 left-0 w-full h-full grid">
+    <div ref={ref} className="absolute left-0 top-0 -z-10 grid h-full w-full">
       <svg
         viewBox={size == null ? "0 0 0 0" : `0 0 ${size.width} ${size.height}`}
         fill="none"
         // Allow the shape to stretch.
         preserveAspectRatio="none"
         xmlns="http://www.w3.org/2000/svg"
-        className="overflow-visible w-full h-full"
+        className="h-full w-full overflow-visible"
       >
         {size != null ? (
           <>

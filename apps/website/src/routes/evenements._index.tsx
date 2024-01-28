@@ -11,10 +11,10 @@ import { getPageTitle } from "#core/pageTitle.ts";
 import { EventItem } from "#events/item.tsx";
 import { cn } from "@animeaux/core";
 import { Prisma } from "@prisma/client";
+import type { MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import type { V2_MetaFunction } from "@remix-run/react";
 import { useLoaderData } from "@remix-run/react";
-import { promiseHash } from "remix-utils";
+import { promiseHash } from "remix-utils/promise";
 
 const eventSelect = Prisma.validator<Prisma.EventArgs>()({
   select: {
@@ -55,7 +55,7 @@ export async function loader() {
   return json({ events, pastEvents });
 }
 
-export const meta: V2_MetaFunction = () => {
+export const meta: MetaFunction = () => {
   return createSocialMeta({ title: getPageTitle("Événements à venir") });
 };
 
@@ -64,12 +64,12 @@ export default function Route() {
 
   return (
     <>
-      <main className="w-full px-page flex flex-col gap-12">
+      <main className="flex w-full flex-col gap-12 px-page">
         <header className="flex flex-col">
           <h1
             className={cn(
-              "text-title-hero-small text-center",
-              "md:flex-1 md:text-title-hero-large md:text-left",
+              "text-center text-title-hero-small",
+              "md:flex-1 md:text-left md:text-title-hero-large",
             )}
           >
             Événements à venir
@@ -80,7 +80,7 @@ export default function Route() {
           <section className="flex flex-col gap-6">
             <ul
               className={cn(
-                "grid grid-cols-1 gap-12 items-start",
+                "grid grid-cols-1 items-start gap-12",
                 "xs:grid-cols-2",
                 "md:grid-cols-3",
               )}
@@ -93,7 +93,7 @@ export default function Route() {
         ) : (
           <section
             className={cn(
-              "py-12 flex flex-col gap-6 items-center text-center text-gray-500",
+              "flex flex-col items-center gap-6 py-12 text-center text-gray-500",
               "md:px-30 md:py-40",
             )}
           >

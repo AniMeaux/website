@@ -29,9 +29,9 @@ import { missionInterventionImages } from "#images/missionIntervention.tsx";
 import { socialImages } from "#images/social.tsx";
 import { volunteerImages } from "#images/volunteer.tsx";
 import { cn } from "@animeaux/core";
-import type { V2_MetaFunction } from "@remix-run/react";
+import type { MetaFunction } from "@remix-run/node";
 
-export const meta: V2_MetaFunction = ({ matches }) => {
+export const meta: MetaFunction = ({ matches }) => {
   const config = getConfigFromMetaMatches(matches);
   return createSocialMeta({
     title: getPageTitle("Devenez bénévole"),
@@ -41,7 +41,7 @@ export const meta: V2_MetaFunction = ({ matches }) => {
 
 export default function Route() {
   return (
-    <main className="w-full px-page flex flex-col gap-24">
+    <main className="flex w-full flex-col gap-24 px-page">
       <HeroSection>
         <HeroSectionAside>
           <HeroSectionImage image={volunteerImages} loading="eager" />
@@ -72,7 +72,7 @@ function OptionsSection() {
     <section className="flex flex-col gap-12">
       <h2
         className={cn(
-          "text-title-section-small text-center",
+          "text-center text-title-section-small",
           "md:text-title-section-large",
         )}
       >
@@ -123,7 +123,7 @@ function VolunteerSection() {
     <section className="flex flex-col gap-12">
       <h2
         className={cn(
-          "text-title-section-small text-center",
+          "text-center text-title-section-small",
           "md:text-title-section-large",
         )}
       >
@@ -132,7 +132,7 @@ function VolunteerSection() {
 
       <ul
         className={cn(
-          "grid grid-cols-1 gap-12 items-start",
+          "grid grid-cols-1 items-start gap-12",
           "xs:grid-cols-2",
           "md:grid-cols-3",
         )}
@@ -210,7 +210,7 @@ function MissionItem({
       <StaticImage
         image={image}
         sizes={{ default: "128px" }}
-        className="w-32 aspect-square"
+        className="aspect-square w-32"
       />
       <h3 className="text-title-item">{title}</h3>
       <p>{children}</p>

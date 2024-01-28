@@ -4,7 +4,7 @@ import { NavLink } from "@remix-run/react";
 
 export function Tabs({ children }: React.PropsWithChildren<{}>) {
   return (
-    <div className="grid grid-flow-col gap-1 justify-center">{children}</div>
+    <div className="grid grid-flow-col justify-center gap-1">{children}</div>
   );
 }
 

@@ -13,9 +13,12 @@ import nameAndLogo from "#images/nameAndLogo.svg";
 import { cn } from "@animeaux/core";
 import { FormDataDelegate } from "@animeaux/form-data";
 import { zu } from "@animeaux/zod-utils";
-import type { ActionArgs, LoaderArgs } from "@remix-run/node";
+import type {
+  ActionFunctionArgs,
+  LoaderFunctionArgs,
+  MetaFunction,
+} from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
-import type { V2_MetaFunction } from "@remix-run/react";
 import { useFetcher } from "@remix-run/react";
 import { useEffect, useRef } from "react";
 
@@ -23,7 +26,7 @@ export const handle: RouteHandle = {
   htmlBackgroundColor: cn("bg-white bg-var-white"),
 };
 
-export async function loader({ request }: LoaderArgs) {
+export async function loader({ request }: LoaderFunctionArgs) {
   let hasCurrentUser: boolean;
   try {
     await db.currentUser.get(
@@ -47,7 +50,7 @@ export async function loader({ request }: LoaderArgs) {
   return null;
 }
 
-export const meta: V2_MetaFunction = () => {
+export const meta: MetaFunction = () => {
   return [{ title: getPageTitle("Connexion") }];
 };
 
@@ -62,7 +65,7 @@ type ActionData = {
   errors?: zu.inferFlattenedErrors<typeof ActionFormData.schema>;
 };
 
-export async function action({ request }: ActionArgs) {
+export async function action({ request }: ActionFunctionArgs) {
   const formData = ActionFormData.safeParse(await request.formData());
   if (!formData.success) {
     return json<ActionData>(
@@ -112,17 +115,17 @@ export default function Route() {
   }, [fetcher.data?.errors]);
 
   return (
-    <main className="w-full grid grid-cols-[minmax(0px,500px)] justify-center justify-items-center md:min-h-screen md:grid-cols-[1fr_minmax(500px,1fr)]">
+    <main className="grid w-full grid-cols-[minmax(0px,500px)] justify-center justify-items-center md:min-h-screen md:grid-cols-[1fr_minmax(500px,1fr)]">
       <section className="hidden w-full bg-blue-500 md:block" />
 
-      <section className="w-full max-w-[500px] p-safe-2 flex flex-col justify-start md:pl-4 md:pr-safe-4 md:py-safe-4">
+      <section className="flex w-full max-w-[500px] flex-col justify-start p-safe-2 md:pl-4 md:pr-safe-4 md:py-safe-4">
         <img
           src={nameAndLogo}
           alt={getPageTitle()}
-          className="self-start h-3 md:h-4"
+          className="h-3 self-start md:h-4"
         />
 
-        <section className="mt-4 md:mt-[10vh] flex flex-col gap-2">
+        <section className="mt-4 flex flex-col gap-2 md:mt-[10vh]">
           <h1 className="text-title-hero-small md:text-title-hero-large">
             Bienvenue
           </h1>

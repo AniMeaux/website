@@ -1,5 +1,4 @@
 import { toBooleanAttribute } from "#core/attributes.ts";
-import { db } from "#core/db.server.ts";
 import { BaseTextInput } from "#core/formElements/baseTextInput.tsx";
 import { Input } from "#core/formElements/input.tsx";
 import {
@@ -10,43 +9,17 @@ import {
   SuggestionList,
 } from "#core/formElements/resourceInput.tsx";
 import { Routes } from "#core/navigation.ts";
-import { assertCurrentUserHasGroups } from "#currentUser/groups.server.ts";
 import { Icon } from "#generated/icon.tsx";
+import type { loader } from "#routes/resources.manager/route";
 import { UserAvatar } from "#users/avatar.tsx";
 import { UserSearchParams } from "#users/searchParams.ts";
 import type { User } from "@prisma/client";
-import { UserGroup } from "@prisma/client";
 import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
-import type { LoaderArgs, SerializeFrom } from "@remix-run/node";
-import { json } from "@remix-run/node";
+import type { SerializeFrom } from "@remix-run/node";
 import { useFetcher } from "@remix-run/react";
 import { useCombobox } from "downshift";
 import { createPath } from "history";
 import { forwardRef, useEffect, useState } from "react";
-
-export async function loader({ request }: LoaderArgs) {
-  const currentUser = await db.currentUser.get(request, {
-    select: { groups: true },
-  });
-
-  assertCurrentUserHasGroups(currentUser, [
-    UserGroup.ADMIN,
-    UserGroup.ANIMAL_MANAGER,
-  ]);
-
-  const searchParams = UserSearchParams.parse(
-    new URL(request.url).searchParams,
-  );
-
-  return json({
-    managers: await db.user.fuzzySearch({
-      displayName: searchParams.displayName,
-      groups: [UserGroup.ANIMAL_MANAGER],
-      isDisabled: false,
-      maxHitCount: 6,
-    }),
-  });
-}
 
 type ManagerInputProps = {
   name: string;
@@ -63,7 +36,7 @@ export const ManagerInput = forwardRef<
   ref,
 ) {
   const [isOpened, setIsOpened] = useState(false);
-  const fetcher = useFetcher<typeof loader>();
+  const fetcher = useFetcher<loader>();
 
   // This effect does 2 things:
   // - Make sure we display suggestions without delay when the combobox is

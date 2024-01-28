@@ -20,9 +20,8 @@ import type { IconProps } from "#generated/icon.tsx";
 import { Icon } from "#generated/icon.tsx";
 import { cn, formatAge } from "@animeaux/core";
 import { Gender, ScreeningResult, Species } from "@prisma/client";
-import type { LoaderArgs } from "@remix-run/node";
+import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import type { V2_MetaFunction } from "@remix-run/react";
 import { useLoaderData } from "@remix-run/react";
 import { DateTime } from "luxon";
 import { useRef, useState } from "react";
@@ -33,7 +32,7 @@ const UuidSchema = z.string().uuid();
 
 const UUID_LENGTH = 36;
 
-export async function loader({ params }: LoaderArgs) {
+export async function loader({ params }: LoaderFunctionArgs) {
   const result = UuidSchema.safeParse(params["slug"]?.slice(-UUID_LENGTH));
   if (!result.success) {
     throw new Response("Not found", { status: 404 });
@@ -73,7 +72,7 @@ export async function loader({ params }: LoaderArgs) {
   return json({ animal });
 }
 
-export const meta: V2_MetaFunction<typeof loader> = ({ data, matches }) => {
+export const meta: MetaFunction<typeof loader> = ({ data, matches }) => {
   const animal = data?.animal;
   if (animal == null) {
     return createSocialMeta({ title: getPageTitle(getErrorTitle(404)) });
@@ -97,7 +96,7 @@ export default function Route() {
   const { animal } = useLoaderData<typeof loader>();
 
   return (
-    <main className="w-full px-page flex flex-col gap-12">
+    <main className="flex w-full flex-col gap-12 px-page">
       <header
         className={cn(
           "flex flex-col",
@@ -106,8 +105,8 @@ export default function Route() {
       >
         <h1
           className={cn(
-            "text-title-hero-small text-center break-words",
-            "md:text-title-hero-large md:text-left",
+            "break-words text-center text-title-hero-small",
+            "md:text-left md:text-title-hero-large",
           )}
         >
           {animal.name}
@@ -130,7 +129,7 @@ export default function Route() {
         )}
       >
         <ImageSection className="md:flex-[1_1_66%]" />
-        <InfoSection className="md:flex-[1_1_34%] md:max-w-xs" />
+        <InfoSection className="md:max-w-xs md:flex-[1_1_34%]" />
       </div>
 
       <div
@@ -139,7 +138,7 @@ export default function Route() {
           "md:flex-row-reverse md:items-start md:gap-24",
         )}
       >
-        <AggrementsSection className="md:flex-[1_1_34%] md:max-w-xs" />
+        <AggrementsSection className="md:max-w-xs md:flex-[1_1_34%]" />
         <DescriptionSection className="md:flex-[1_1_66%]" />
       </div>
 
@@ -187,7 +186,7 @@ function ImageSection({ className }: { className: string }) {
           );
         }}
         className={cn(
-          "overflow-auto snap-x snap-mandatory scrollbars-none scroll-smooth min-w-0 rounded-bubble-md flex",
+          "flex min-w-0 snap-x snap-mandatory overflow-auto scroll-smooth rounded-bubble-md scrollbars-none",
           "sm:rounded-bubble-lg",
           "lg:rounded-bubble-xl",
         )}
@@ -200,12 +199,12 @@ function ImageSection({ className }: { className: string }) {
             sizes={{ lg: "512px", md: "50vw", default: "100vw" }}
             fallbackSize="2048"
             loading="eager"
-            className="snap-center w-full min-w-0 h-full min-h-0 aspect-4/3 flex-none"
+            className="aspect-4/3 h-full min-h-0 w-full min-w-0 flex-none snap-center"
           />
         ))}
       </div>
 
-      <div className="grid grid-cols-[repeat(auto-fit,64px)] gap-3 justify-center">
+      <div className="grid grid-cols-[repeat(auto-fit,64px)] justify-center gap-3">
         {allPictures.map((pictureId, index) => (
           <button
             key={pictureId}
@@ -228,7 +227,7 @@ function ImageSection({ className }: { className: string }) {
               fallbackSize="512"
               loading="eager"
               className={cn(
-                "w-16 aspect-4/3 rounded-bubble-sm transition-opacity duration-100 ease-in-out",
+                "aspect-4/3 w-16 transition-opacity duration-100 ease-in-out rounded-bubble-sm",
                 {
                   "opacity-50": visibleIndex !== index,
                   "opacity-100": visibleIndex === index,
@@ -374,24 +373,24 @@ function Agreement({
       ? value == null
         ? "babyCircleQuestion"
         : value
-        ? "babyCircleCheck"
-        : "babyCircleXMark"
+          ? "babyCircleCheck"
+          : "babyCircleXMark"
       : entity === "cats"
-      ? value == null
-        ? "catCircleQuestion"
-        : value
-        ? "catCircleCheck"
-        : "catCircleXMark"
-      : value == null
-      ? "dogCircleQuestion"
-      : value
-      ? "dogCircleCheck"
-      : "dogCircleXMark";
+        ? value == null
+          ? "catCircleQuestion"
+          : value
+            ? "catCircleCheck"
+            : "catCircleXMark"
+        : value == null
+          ? "dogCircleQuestion"
+          : value
+            ? "dogCircleCheck"
+            : "dogCircleXMark";
 
   return (
     <li
       className={cn(
-        "flex-1 rounded-bubble-sm p-3 flex flex-col items-center justify-center gap-2",
+        "flex flex-1 flex-col items-center justify-center gap-2 p-3 rounded-bubble-sm",
         {
           "bg-gray-100 text-gray-700": value == null,
           "bg-brandGreen-lightest text-brandGreen": value === true,
@@ -415,7 +414,7 @@ const DESCRIPTION_COMPONENTS: MarkdownProps["components"] = {
   ),
   em: ({ children }) => <em>{children}</em>,
   code: ({ children }) => (
-    <code className="bg-gray-100 rounded-sm px-1 inline-flex text-code-default">
+    <code className="inline-flex rounded-sm bg-gray-100 px-1 text-code-default">
       {children}
     </code>
   ),
@@ -429,10 +428,10 @@ const DESCRIPTION_COMPONENTS: MarkdownProps["components"] = {
     </BaseLink>
   ),
   ul: ({ children }) => (
-    <ul className="my-6 pl-4 list-disc first:mt-0 last:mb-0">{children}</ul>
+    <ul className="my-6 list-disc pl-4 first:mt-0 last:mb-0">{children}</ul>
   ),
   ol: ({ children, start }) => (
-    <ol start={start} className="my-6 pl-4 list-decimal first:mt-0 last:mb-0">
+    <ol start={start} className="my-6 list-decimal pl-4 first:mt-0 last:mb-0">
       {children}
     </ol>
   ),

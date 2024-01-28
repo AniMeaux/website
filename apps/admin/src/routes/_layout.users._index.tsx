@@ -23,16 +23,19 @@ import { cn } from "@animeaux/core";
 import { useOptimisticSearchParams } from "@animeaux/form-data";
 import type { Prisma } from "@prisma/client";
 import { UserGroup } from "@prisma/client";
-import type { LoaderArgs, SerializeFrom } from "@remix-run/node";
+import type {
+  LoaderFunctionArgs,
+  MetaFunction,
+  SerializeFrom,
+} from "@remix-run/node";
 import { json } from "@remix-run/node";
-import type { V2_MetaFunction } from "@remix-run/react";
 import { useLoaderData } from "@remix-run/react";
 import { DateTime } from "luxon";
-import { promiseHash } from "remix-utils";
+import { promiseHash } from "remix-utils/promise";
 
 const USER_COUNT_PER_PAGE = 20;
 
-export async function loader({ request }: LoaderArgs) {
+export async function loader({ request }: LoaderFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {
     select: { groups: true },
   });
@@ -110,7 +113,7 @@ const USER_ORDER_BY: Record<UserSort, Prisma.UserFindManyArgs["orderBy"]> = {
   [UserSort.LAST_ACTIVITY]: { lastActivityAt: "desc" },
 };
 
-export const meta: V2_MetaFunction = () => {
+export const meta: MetaFunction = () => {
   return [{ title: getPageTitle("Utilisateurs") }];
 };
 
@@ -172,7 +175,7 @@ export default function Route() {
             </Card>
           </section>
 
-          <aside className="hidden flex-col min-w-[250px] max-w-[300px] flex-1 md:flex">
+          <aside className="hidden min-w-[250px] max-w-[300px] flex-1 flex-col md:flex">
             <Card className="sticky top-8 max-h-[calc(100vh-100px)]">
               <Card.Header>
                 <Card.Title>Trier et filtrer</Card.Title>
@@ -205,7 +208,7 @@ function UserItem({
       to={Routes.users.id(user.id).toString()}
       className={cn(
         className,
-        "rounded-0.5 px-0.5 md:px-1 py-1 grid grid-cols-[auto_minmax(0px,1fr)] grid-flow-col items-start gap-1 md:gap-2 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 bg-white hover:bg-gray-100 focus-visible:z-10",
+        "grid grid-flow-col grid-cols-[auto_minmax(0px,1fr)] items-start gap-1 rounded-0.5 bg-white px-0.5 py-1 focus-visible:z-10 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 hover:bg-gray-100 md:gap-2 md:px-1",
       )}
     >
       <UserAvatar user={user} size="sm" />
@@ -225,7 +228,7 @@ function UserItem({
       ) : null}
 
       <span
-        className="h-2 flex items-center gap-0.5 text-[20px] text-gray-500"
+        className="flex h-2 items-center gap-0.5 text-[20px] text-gray-500"
         title="Groupes"
       >
         {user.groups.map((group) => (

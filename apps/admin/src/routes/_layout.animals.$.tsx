@@ -2,13 +2,13 @@ import { ErrorPage, getErrorTitle } from "#core/dataDisplay/errorPage.tsx";
 import { PageLayout } from "#core/layout/page.tsx";
 import { getPageTitle } from "#core/pageTitle.ts";
 import { NotFoundResponse } from "#core/response.server.ts";
-import type { V2_MetaFunction } from "@remix-run/react";
+import type { MetaFunction } from "@remix-run/node";
 
 export async function loader() {
   throw new NotFoundResponse();
 }
 
-export const meta: V2_MetaFunction = () => {
+export const meta: MetaFunction = () => {
   return [{ title: getPageTitle(getErrorTitle(404)) }];
 };
 

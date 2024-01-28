@@ -30,7 +30,7 @@ import { cn } from "@animeaux/core";
 import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { DateTime } from "luxon";
-import { promiseHash } from "remix-utils";
+import { promiseHash } from "remix-utils/promise";
 
 export async function loader() {
   const { pickUpCount, upcomingEvents } = await promiseHash({
@@ -66,7 +66,7 @@ export async function loader() {
 
 export default function Route() {
   return (
-    <main className="w-full px-page flex flex-col gap-24">
+    <main className="flex w-full flex-col gap-24 px-page">
       <HeroSection isReversed>
         <HeroSectionAside>
           <HeroSectionImage image={heroImages} loading="eager" />
@@ -167,7 +167,7 @@ function WhoWeAreSection() {
         </p>
       </div>
 
-      <ul className="flex items-start flex-wrap gap-12 justify-evenly">
+      <ul className="flex flex-wrap items-start justify-evenly gap-12">
         <WhoWeAreItem
           text="Nous recueillons les animaux abandonnés, maltraités ou errants."
           image={pickUpImages}
@@ -195,11 +195,11 @@ function WhoWeAreItem({
   image: StaticImageProps["image"];
 }) {
   return (
-    <li className="w-[200px] flex flex-col gap-6 text-center">
+    <li className="flex w-[200px] flex-col gap-6 text-center">
       <StaticImage
         image={image}
         sizes={{ default: "200px" }}
-        className="w-full aspect-square"
+        className="aspect-square w-full"
       />
 
       <p>{text}</p>
@@ -223,7 +223,7 @@ function NumbersSection() {
       <ul
         className={cn(
           bubbleSectionClassNames.content(),
-          "px-10 py-12 flex items-start flex-wrap justify-evenly gap-12",
+          "flex flex-wrap items-start justify-evenly gap-12 px-10 py-12",
           "md:px-30 md:py-10",
         )}
       >
@@ -265,7 +265,7 @@ function NumberItem({
     <li className="flex flex-col items-center gap-4 text-center">
       <Icon id={icon} className="text-[60px] text-gray-700" />
 
-      <div className="w-full flex flex-col">
+      <div className="flex w-full flex-col">
         <h3
           className={cn("font-serif text-[32px] font-bold leading-normal", {
             "text-brandGreen": color === "green",
@@ -292,7 +292,7 @@ function UpcomingEventsSection() {
     <section className="flex flex-col items-center gap-12">
       <h2
         className={cn(
-          "w-full text-title-section-small text-center",
+          "w-full text-center text-title-section-small",
           "md:px-30 md:text-title-section-large",
         )}
       >

@@ -7,16 +7,15 @@ import { getPageTitle } from "#core/pageTitle.ts";
 import { getPage } from "#core/searchParams.ts";
 import { cn } from "@animeaux/core";
 import type { Prisma } from "@prisma/client";
-import type { LoaderArgs } from "@remix-run/node";
+import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import type { V2_MetaFunction } from "@remix-run/react";
 import { useLoaderData } from "@remix-run/react";
-import { promiseHash } from "remix-utils";
+import { promiseHash } from "remix-utils/promise";
 
 // Multiple of 2 and 3 to be nicely displayed.
 const ANIMAL_COUNT_PER_PAGE = 18;
 
-export async function loader({ request }: LoaderArgs) {
+export async function loader({ request }: LoaderFunctionArgs) {
   const where: Prisma.AnimalWhereInput = {
     status: { in: SAVED_ANIMAL_STATUS },
   };
@@ -49,7 +48,7 @@ export async function loader({ request }: LoaderArgs) {
   return json({ totalCount, pageCount, animals });
 }
 
-export const meta: V2_MetaFunction = () => {
+export const meta: MetaFunction = () => {
   return createSocialMeta({ title: getPageTitle("Animaux sauvés") });
 };
 
@@ -57,7 +56,7 @@ export default function Route() {
   const { totalCount, pageCount, animals } = useLoaderData<typeof loader>();
 
   return (
-    <main className="w-full px-page flex flex-col gap-12">
+    <main className="flex w-full flex-col gap-12 px-page">
       <header
         className={cn(
           "flex flex-col gap-6",
@@ -66,8 +65,8 @@ export default function Route() {
       >
         <h1
           className={cn(
-            "text-title-hero-small text-center",
-            "md:flex-1 md:text-title-hero-large md:text-left",
+            "text-center text-title-hero-small",
+            "md:flex-1 md:text-left md:text-title-hero-large",
           )}
         >
           Animaux sauvés
@@ -76,14 +75,14 @@ export default function Route() {
 
       {totalCount > 0 ? (
         <>
-          <h2 className={cn("text-gray-500 text-center", "md:text-left")}>
+          <h2 className={cn("text-center text-gray-500", "md:text-left")}>
             {totalCount} {totalCount > 1 ? "animaux" : "animal"}
           </h2>
 
           <section className="flex">
             <ul
               className={cn(
-                "w-full grid grid-cols-1 gap-12 items-start",
+                "grid w-full grid-cols-1 items-start gap-12",
                 "xs:grid-cols-2",
                 "sm:grid-cols-3",
               )}

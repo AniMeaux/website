@@ -19,9 +19,12 @@ import {
 } from "#previousEditions/previousEdition.tsx";
 import { cn } from "@animeaux/core";
 import { zu } from "@animeaux/zod-utils";
-import type { LoaderArgs, SerializeFrom } from "@remix-run/node";
+import type {
+  LoaderFunctionArgs,
+  MetaFunction,
+  SerializeFrom,
+} from "@remix-run/node";
 import { defer } from "@remix-run/node";
-import type { V2_MetaFunction } from "@remix-run/react";
 import { Await, Link, useLoaderData, useLocation } from "@remix-run/react";
 import { Suspense } from "react";
 
@@ -29,7 +32,7 @@ const ParamsSchema = zu.object({
   edition: zu.nativeEnum(PreviousEdition),
 });
 
-export async function loader({ params }: LoaderArgs) {
+export async function loader({ params }: LoaderFunctionArgs) {
   const { featureFlagSiteOnline } = createConfig();
 
   if (!featureFlagSiteOnline) {
@@ -47,7 +50,7 @@ export async function loader({ params }: LoaderArgs) {
   });
 }
 
-export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
+export const meta: MetaFunction<typeof loader> = ({ data }) => {
   return createSocialMeta({
     title: getPageTitle(
       data != null ? `Édition de ${data.edition}` : getErrorTitle(404),
@@ -125,7 +128,7 @@ function PhotoGrid() {
               <li
                 key={index}
                 className={cn(
-                  "rounded-1 md:rounded-2 aspect-square bg-alabaster animate-pulse",
+                  "aspect-square animate-pulse rounded-1 bg-alabaster md:rounded-2",
                   index === 0 ? "sm:col-span-2 sm:row-span-2" : undefined,
                 )}
               />
@@ -174,7 +177,7 @@ function ImageItem({
         state={PhotoLocationState.create({
           galleryLocationKey: scrollRestorationLocationKey,
         })}
-        className="group overflow-hidden rounded-1 md:rounded-2 aspect-square grid grid-cols-1 focus-visible:outline-none focus-visible:ring focus-visible:ring-mystic focus-visible:ring-offset-2 focus-visible:ring-offset-inheritBg"
+        className="group grid aspect-square grid-cols-1 overflow-hidden rounded-1 focus-visible:outline-none focus-visible:ring focus-visible:ring-mystic focus-visible:ring-offset-2 focus-visible:ring-offset-inheritBg md:rounded-2"
       >
         <DynamicImage
           alt={
@@ -191,7 +194,7 @@ function ImageItem({
             isCover ? { default: "256px", sm: "400px" } : { default: "256px" }
           }
           loading={index < 5 ? "eager" : "lazy"}
-          className="w-full group-hover:scale-105 transition-transform duration-150 ease-in-out"
+          className="w-full transition-transform duration-150 ease-in-out group-hover:scale-105"
         />
       </Link>
     </li>

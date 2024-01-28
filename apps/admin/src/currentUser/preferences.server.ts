@@ -1,6 +1,6 @@
 import { zu } from "@animeaux/zod-utils";
 import { createCookie, createCookieSessionStorage } from "@remix-run/node";
-import { createTypedSessionStorage } from "remix-utils";
+import { createTypedSessionStorage } from "remix-utils/typed-session";
 
 const PreferencesSchema = zu.object({
   isSideBarCollapsed: zu.boolean().catch(false),
