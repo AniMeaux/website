@@ -48,13 +48,15 @@ export function Markdown({ children, components, className }: MarkdownProps) {
 }
 
 export enum MarkdownLink {
-  PICK_UP_FORM = "PICK_UP_FORM",
   FACEBOOK = "FACEBOOK",
+  INSTAGRAM = "INSTAGRAM",
+  PICK_UP_FORM = "PICK_UP_FORM",
 }
 
 const LINK_TO_CONFIG_KEY: Record<MarkdownLink, keyof Config> = {
-  [MarkdownLink.PICK_UP_FORM]: "pickUpFormUrl",
   [MarkdownLink.FACEBOOK]: "facebookUrl",
+  [MarkdownLink.INSTAGRAM]: "instagramUrl",
+  [MarkdownLink.PICK_UP_FORM]: "pickUpFormUrl",
 };
 
 export const ARTICLE_COMPONENTS: MarkdownProps["components"] = {

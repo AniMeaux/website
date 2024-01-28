@@ -1,3 +1,4 @@
+import { MarkdownLink } from "#core/dataDisplay/markdown";
 import orderBy from "lodash.orderby";
 import { DateTime } from "luxon";
 
@@ -14,6 +15,35 @@ export type Article = {
 
 export const articles: Article[] = orderBy(
   [
+    {
+      id: "3245df53-65ee-429d-b4a0-9e18d4e199c3",
+      title:
+        "Rejoignez notre équipe : Stages en communication disponibles toute l’année !",
+      authorName: "Sara",
+      publicationDate: DateTime.fromISO("2024-01-28").toJSDate(),
+      image: "blog/6d75f223-eb0d-4f3f-ab6a-9d263b87df40",
+      slug: "rejoignez-notre-equipe-stages-en-communication-disponibles-toute-l-année",
+      description:
+        "Chez Ani’Meaux, nous croyons au pouvoir de la communication pour faire rayonner nos initiatives et notre salon annuel dédié au bien-être des animaux.",
+      content: `Chez Ani’Meaux, nous croyons au pouvoir de la communication pour faire rayonner nos initiatives et notre salon annuel dédié au bien-être des animaux. C’est pourquoi nous sommes constamment à la recherche de stagiaires talentueux en communication pour rejoindre notre équipe dynamique et passionnée !
+
+## Votre Rôle
+
+En tant que Chargé(e) de Communication stagiaire, vous aurez l’opportunité unique de développer notre présence sur les réseaux sociaux, en particulier [Instagram](${MarkdownLink.INSTAGRAM}) et [Facebook](${MarkdownLink.FACEBOOK}), et de participer à la création de contenu visuel innovant. Votre travail sera crucial pour engager notre communauté et promouvoir nos événements.
+
+## Qui Recherchons-Nous ?
+
+Nous cherchons des étudiants passionnés par la communication, le marketing numérique, et la création de contenu. Si vous êtes créatif(ve), autonome, sensible au bien-être des animaux et prêt(e) à relever de nouveaux défis, ce stage est fait pour vous !
+
+## Pourquoi Rejoindre Ani’Meaux ?
+
+En intégrant notre équipe, vous bénéficierez d’une expérience pratique dans un environnement stimulant. C’est une opportunité parfaite pour enrichir votre CV et contribuer activement au succès de nos actions.
+
+## Comment Postuler ?
+
+Si cette opportunité vous intéresse, envoyez-nous votre CV et votre lettre de motivation à recrutement@animeaux.org. Nous avons hâte de découvrir votre candidature et de vous accueillir parmi nous !`,
+    },
+
     {
       id: "3c27118f-bca3-4916-aca3-8e24655a2e45",
       title: "L’histoire inspirante de Plume",
