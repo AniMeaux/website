@@ -147,7 +147,7 @@ function BecomeExhibitorItem() {
     <li className="grid grid-cols-1 gap-2">
       <LightBoardCard
         isSmall
-        className="grid aspect-4/3 grid-cols-1 items-center justify-items-center"
+        className="grid aspect-4/3 grid-cols-1 content-center justify-items-center"
       >
         <Pictogram id="standMystic" className="text-[96px]" />
       </LightBoardCard>
