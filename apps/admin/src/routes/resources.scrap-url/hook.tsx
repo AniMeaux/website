@@ -1,4 +1,4 @@
-import { Routes } from "#core/navigation.ts";
+import { Routes } from "#core/navigation";
 import type { loader } from "#routes/resources.scrap-url/route";
 import { ScrapUrlSearchParams } from "#routes/resources.scrap-url/shared";
 import { zu } from "@animeaux/zod-utils";

@@ -1,5 +1,5 @@
-import { Overlay } from "#core/popovers/overlay.tsx";
-import { ScreenSizeValue, useScreenSizeCondition } from "#core/screenSize.tsx";
+import { Overlay } from "#core/popovers/overlay";
+import { ScreenSizeValue, useScreenSizeCondition } from "#core/screenSize";
 import { cn } from "@animeaux/core";
 import * as Dialog from "@radix-ui/react-dialog";
 import * as Popover from "@radix-ui/react-popover";

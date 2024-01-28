@@ -1,13 +1,13 @@
-import { ErrorPage } from "#core/dataDisplay/errorPage.tsx";
-import { db } from "#core/db.server.ts";
-import { EmailAlreadyUsedError } from "#core/errors.server.ts";
-import { Card } from "#core/layout/card.tsx";
-import { PageLayout } from "#core/layout/page.tsx";
-import { Routes } from "#core/navigation.ts";
-import { getPageTitle } from "#core/pageTitle.ts";
-import { assertCurrentUserHasGroups } from "#currentUser/groups.server.ts";
-import { MissingPasswordError } from "#users/db.server.ts";
-import { ActionFormData, UserForm } from "#users/form.tsx";
+import { ErrorPage } from "#core/dataDisplay/errorPage";
+import { db } from "#core/db.server";
+import { EmailAlreadyUsedError } from "#core/errors.server";
+import { Card } from "#core/layout/card";
+import { PageLayout } from "#core/layout/page";
+import { Routes } from "#core/navigation";
+import { getPageTitle } from "#core/pageTitle";
+import { assertCurrentUserHasGroups } from "#currentUser/groups.server";
+import { MissingPasswordError } from "#users/db.server";
+import { ActionFormData, UserForm } from "#users/form";
 import type { zu } from "@animeaux/zod-utils";
 import { UserGroup } from "@prisma/client";
 import type {

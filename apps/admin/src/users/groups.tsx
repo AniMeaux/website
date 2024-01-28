@@ -1,4 +1,4 @@
-import type { IconProps } from "#generated/icon.tsx";
+import type { IconProps } from "#generated/icon";
 import type { User } from "@prisma/client";
 import { UserGroup } from "@prisma/client";
 import intersection from "lodash.intersection";

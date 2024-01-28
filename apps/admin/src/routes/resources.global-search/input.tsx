@@ -1,17 +1,17 @@
-import { AnimalSuggestionItem } from "#animals/item.tsx";
-import { getAnimalDisplayName } from "#animals/profile/name.tsx";
-import { AnimalSearchParams } from "#animals/searchParams.ts";
-import { BaseTextInput } from "#core/formElements/baseTextInput.tsx";
-import { Input } from "#core/formElements/input.tsx";
+import { AnimalSuggestionItem } from "#animals/item";
+import { getAnimalDisplayName } from "#animals/profile/name";
+import { AnimalSearchParams } from "#animals/searchParams";
+import { BaseTextInput } from "#core/formElements/baseTextInput";
+import { Input } from "#core/formElements/input";
 import {
   SuggestionItem,
   SuggestionList,
-} from "#core/formElements/resourceInput.tsx";
-import { Routes, useNavigate } from "#core/navigation.ts";
-import { Overlay } from "#core/popovers/overlay.tsx";
-import { FosterFamilySuggestionItem } from "#fosterFamilies/item.tsx";
-import { FosterFamilySearchParams } from "#fosterFamilies/searchParams.ts";
-import { Icon } from "#generated/icon.tsx";
+} from "#core/formElements/resourceInput";
+import { Routes, useNavigate } from "#core/navigation";
+import { Overlay } from "#core/popovers/overlay";
+import { FosterFamilySuggestionItem } from "#fosterFamilies/item";
+import { FosterFamilySearchParams } from "#fosterFamilies/searchParams";
+import { Icon } from "#generated/icon";
 import type { loader } from "#routes/resources.global-search/route";
 import {
   ENTITY_TRANSLATION,

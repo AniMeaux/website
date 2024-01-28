@@ -1,5 +1,5 @@
-import type { LocationState } from "#core/locationState.ts";
-import { useLocationState } from "#core/locationState.ts";
+import type { LocationState } from "#core/locationState";
+import { useLocationState } from "#core/locationState";
 import type { NavigateFunction } from "@remix-run/react";
 import { useNavigate as useBaseNavigate } from "@remix-run/react";
 import { useCallback, useEffect } from "react";

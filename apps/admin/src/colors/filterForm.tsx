@@ -2,16 +2,13 @@ import {
   COLOR_DEFAULT_SORT,
   ColorSearchParams,
   ColorSort,
-} from "#colors/searchParams.ts";
-import { Action } from "#core/actions.tsx";
-import { BaseLink } from "#core/baseLink.tsx";
-import { Filters } from "#core/controllers/filters.tsx";
-import { ControlledInput } from "#core/formElements/controlledInput.tsx";
-import {
-  ToggleInput,
-  ToggleInputList,
-} from "#core/formElements/toggleInput.tsx";
-import { Icon } from "#generated/icon.tsx";
+} from "#colors/searchParams";
+import { Action } from "#core/actions";
+import { BaseLink } from "#core/baseLink";
+import { Filters } from "#core/controllers/filters";
+import { ControlledInput } from "#core/formElements/controlledInput";
+import { ToggleInput, ToggleInputList } from "#core/formElements/toggleInput";
+import { Icon } from "#generated/icon";
 import { useOptimisticSearchParams } from "@animeaux/form-data";
 
 export function ColorFilterForm() {

@@ -2,21 +2,18 @@ import {
   SORTED_SPECIES,
   SPECIES_ICON,
   SPECIES_TRANSLATION,
-} from "#animals/species.tsx";
+} from "#animals/species";
 import {
   BREED_DEFAULT_SORT,
   BreedSearchParams,
   BreedSort,
-} from "#breeds/searchParams.ts";
-import { Action } from "#core/actions.tsx";
-import { BaseLink } from "#core/baseLink.tsx";
-import { Filters } from "#core/controllers/filters.tsx";
-import { ControlledInput } from "#core/formElements/controlledInput.tsx";
-import {
-  ToggleInput,
-  ToggleInputList,
-} from "#core/formElements/toggleInput.tsx";
-import { Icon } from "#generated/icon.tsx";
+} from "#breeds/searchParams";
+import { Action } from "#core/actions";
+import { BaseLink } from "#core/baseLink";
+import { Filters } from "#core/controllers/filters";
+import { ControlledInput } from "#core/formElements/controlledInput";
+import { ToggleInput, ToggleInputList } from "#core/formElements/toggleInput";
+import { Icon } from "#generated/icon";
 import { useOptimisticSearchParams } from "@animeaux/form-data";
 
 export function BreedFilterForm() {

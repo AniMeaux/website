@@ -2,14 +2,14 @@ import {
   HAS_UP_COMMING_DIAGNOSE_CONDITIONS,
   HAS_UP_COMMING_STERILISATION_CONDITIONS,
   HAS_UP_COMMING_VACCINATION_CONDITIONS,
-} from "#animals/situation/health.ts";
-import { ACTIVE_ANIMAL_STATUS } from "#animals/status.tsx";
-import { db } from "#core/db.server.ts";
-import { PageLayout } from "#core/layout/page.tsx";
-import { getPageTitle } from "#core/pageTitle.ts";
-import { prisma } from "#core/prisma.server.ts";
-import { assertCurrentUserHasGroups } from "#currentUser/groups.server.ts";
-import { hasGroups } from "#users/groups.tsx";
+} from "#animals/situation/health";
+import { ACTIVE_ANIMAL_STATUS } from "#animals/status";
+import { db } from "#core/db.server";
+import { PageLayout } from "#core/layout/page";
+import { getPageTitle } from "#core/pageTitle";
+import { prisma } from "#core/prisma.server";
+import { assertCurrentUserHasGroups } from "#currentUser/groups.server";
+import { hasGroups } from "#users/groups";
 import type { Prisma } from "@prisma/client";
 import { UserGroup } from "@prisma/client";
 import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";

@@ -1,4 +1,4 @@
-import { RequiredStar } from "#core/formElements/requiredStar.tsx";
+import { RequiredStar } from "#core/formElements/requiredStar";
 import { cn } from "@animeaux/core";
 import { forwardRef } from "react";
 

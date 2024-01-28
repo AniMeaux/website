@@ -1,8 +1,8 @@
-import type { BaseLinkProps } from "#core/baseLink.tsx";
-import { BaseLink } from "#core/baseLink.tsx";
-import type { IconProps } from "#generated/icon.tsx";
-import { Icon } from "#generated/icon.tsx";
-import { theme } from "#generated/theme.ts";
+import type { BaseLinkProps } from "#core/baseLink";
+import { BaseLink } from "#core/baseLink";
+import type { IconProps } from "#generated/icon";
+import { Icon } from "#generated/icon";
+import { theme } from "#generated/theme";
 import { cn } from "@animeaux/core";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { useState } from "react";

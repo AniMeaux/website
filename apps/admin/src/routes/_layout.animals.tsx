@@ -1,7 +1,7 @@
-import { db } from "#core/db.server.ts";
-import { PageLayout } from "#core/layout/page.tsx";
-import { Routes } from "#core/navigation.ts";
-import { hasGroups } from "#users/groups.tsx";
+import { db } from "#core/db.server";
+import { PageLayout } from "#core/layout/page";
+import { Routes } from "#core/navigation";
+import { hasGroups } from "#users/groups";
 import { UserGroup } from "@prisma/client";
 import type { LoaderFunctionArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";

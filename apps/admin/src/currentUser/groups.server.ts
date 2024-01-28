@@ -1,5 +1,5 @@
-import { ForbiddenResponse } from "#core/response.server.ts";
-import { hasGroups } from "#users/groups.tsx";
+import { ForbiddenResponse } from "#core/response.server";
+import { hasGroups } from "#users/groups";
 import type { User, UserGroup } from "@prisma/client";
 
 export function assertCurrentUserHasGroups(

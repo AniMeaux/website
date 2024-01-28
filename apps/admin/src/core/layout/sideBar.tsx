@@ -1,7 +1,7 @@
-import type { BaseLinkProps } from "#core/baseLink.tsx";
-import { BaseLink } from "#core/baseLink.tsx";
-import type { IconProps } from "#generated/icon.tsx";
-import { Icon } from "#generated/icon.tsx";
+import type { BaseLinkProps } from "#core/baseLink";
+import { BaseLink } from "#core/baseLink";
+import type { IconProps } from "#generated/icon";
+import { Icon } from "#generated/icon";
 import { cn } from "@animeaux/core";
 import { Primitive } from "@animeaux/react-primitives";
 

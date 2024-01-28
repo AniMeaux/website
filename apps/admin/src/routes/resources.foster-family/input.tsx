@@ -1,17 +1,17 @@
-import { toBooleanAttribute } from "#core/attributes.ts";
-import { BaseTextInput } from "#core/formElements/baseTextInput.tsx";
-import { Input } from "#core/formElements/input.tsx";
+import { toBooleanAttribute } from "#core/attributes";
+import { BaseTextInput } from "#core/formElements/baseTextInput";
+import { Input } from "#core/formElements/input";
 import {
   ResourceComboboxLayout,
   ResourceInputLayout,
   SuggestionItem,
   SuggestionList,
-} from "#core/formElements/resourceInput.tsx";
-import { Routes, useNavigate } from "#core/navigation.ts";
-import { NextSearchParams } from "#core/searchParams.ts";
-import { FosterFamilySuggestionItem } from "#fosterFamilies/item.tsx";
-import { FosterFamilySearchParams } from "#fosterFamilies/searchParams.ts";
-import { Icon } from "#generated/icon.tsx";
+} from "#core/formElements/resourceInput";
+import { Routes, useNavigate } from "#core/navigation";
+import { NextSearchParams } from "#core/searchParams";
+import { FosterFamilySuggestionItem } from "#fosterFamilies/item";
+import { FosterFamilySearchParams } from "#fosterFamilies/searchParams";
+import { Icon } from "#generated/icon";
 import type { loader } from "#routes/resources.foster-family/route";
 import type { FosterFamily } from "@prisma/client";
 import * as VisuallyHidden from "@radix-ui/react-visually-hidden";

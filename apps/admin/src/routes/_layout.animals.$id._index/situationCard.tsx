@@ -1,28 +1,28 @@
-import { ADOPTION_OPTION_TRANSLATION } from "#animals/adoption.tsx";
-import { PICK_UP_REASON_TRANSLATION } from "#animals/pickUp.ts";
+import { ADOPTION_OPTION_TRANSLATION } from "#animals/adoption";
+import { PICK_UP_REASON_TRANSLATION } from "#animals/pickUp";
 import {
   SCREENING_RESULT_ICON,
   SCREENING_RESULT_TRANSLATION,
-} from "#animals/screening.ts";
+} from "#animals/screening";
 import {
   formatNextVaccinationDate,
   getNextVaccinationState,
   hasUpCommingSterilisation,
-} from "#animals/situation/health.ts";
-import { STATUS_TRANSLATION, StatusIcon } from "#animals/status.tsx";
-import { Action, ProseInlineAction } from "#core/actions.tsx";
-import { BaseLink } from "#core/baseLink.tsx";
-import { InlineHelper } from "#core/dataDisplay/helper.tsx";
-import { ItemList, SimpleItem } from "#core/dataDisplay/item.tsx";
+} from "#animals/situation/health";
+import { STATUS_TRANSLATION, StatusIcon } from "#animals/status";
+import { Action, ProseInlineAction } from "#core/actions";
+import { BaseLink } from "#core/baseLink";
+import { InlineHelper } from "#core/dataDisplay/helper";
+import { ItemList, SimpleItem } from "#core/dataDisplay/item";
 import { HIGHLIGHT_COMPONENTS, Markdown } from "#core/dataDisplay/markdown";
-import { Card } from "#core/layout/card.tsx";
-import { Routes } from "#core/navigation.ts";
+import { Card } from "#core/layout/card";
+import { Routes } from "#core/navigation";
 import { DropdownSheet } from "#core/popovers/dropdownSheet";
-import { FosterFamilyAvatar } from "#fosterFamilies/avatar.tsx";
-import { getLongLocation } from "#fosterFamilies/location.tsx";
-import { Icon } from "#generated/icon.tsx";
-import { theme } from "#generated/theme.ts";
-import { UserAvatar } from "#users/avatar.tsx";
+import { FosterFamilyAvatar } from "#fosterFamilies/avatar";
+import { getLongLocation } from "#fosterFamilies/location";
+import { Icon } from "#generated/icon";
+import { theme } from "#generated/theme";
+import { UserAvatar } from "#users/avatar";
 import {
   AdoptionOption,
   Diagnosis,

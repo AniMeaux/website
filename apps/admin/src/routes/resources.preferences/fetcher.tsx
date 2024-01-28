@@ -1,4 +1,4 @@
-import { Routes } from "#core/navigation.ts";
+import { Routes } from "#core/navigation";
 import type { action } from "#routes/resources.preferences/route";
 import { ActionFormData } from "#routes/resources.preferences/shared";
 import type { zu } from "@animeaux/zod-utils";

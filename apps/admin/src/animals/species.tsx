@@ -1,5 +1,5 @@
-import { isDefined } from "#core/isDefined.ts";
-import type { IconProps } from "#generated/icon.tsx";
+import { isDefined } from "#core/isDefined";
+import type { IconProps } from "#generated/icon";
 import type { Animal, Breed, Color } from "@prisma/client";
 import { Species } from "@prisma/client";
 import orderBy from "lodash.orderby";

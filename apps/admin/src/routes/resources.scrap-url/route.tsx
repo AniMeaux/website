@@ -1,7 +1,7 @@
-import { db } from "#core/db.server.ts";
-import { scrapUrl } from "#core/metascraper.server.ts";
-import { BadRequestResponse } from "#core/response.server.ts";
-import { assertCurrentUserHasGroups } from "#currentUser/groups.server.ts";
+import { db } from "#core/db.server";
+import { scrapUrl } from "#core/metascraper.server";
+import { BadRequestResponse } from "#core/response.server";
+import { assertCurrentUserHasGroups } from "#currentUser/groups.server";
 import { ScrapUrlSearchParams } from "#routes/resources.scrap-url/shared";
 import { UserGroup } from "@prisma/client";
 import type { LoaderFunctionArgs } from "@remix-run/node";

@@ -1,6 +1,6 @@
-import { Action } from "#core/actions.tsx";
-import { Card } from "#core/layout/card.tsx";
-import { Icon } from "#generated/icon.tsx";
+import { Action } from "#core/actions";
+import { Card } from "#core/layout/card";
+import { Icon } from "#generated/icon";
 import { cn } from "@animeaux/core";
 import * as Dialog from "@radix-ui/react-dialog";
 

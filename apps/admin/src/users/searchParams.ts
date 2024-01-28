@@ -1,4 +1,4 @@
-import { endOfDay } from "#core/dates.ts";
+import { endOfDay } from "#core/dates";
 import { SearchParamsDelegate } from "@animeaux/form-data";
 import { zu } from "@animeaux/zod-utils";
 import { UserGroup } from "@prisma/client";

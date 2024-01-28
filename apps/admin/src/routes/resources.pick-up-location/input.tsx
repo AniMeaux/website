@@ -1,16 +1,16 @@
-import { PickUpLocationSearchParams } from "#animals/searchParams.ts";
-import { toBooleanAttribute } from "#core/attributes.ts";
-import { BaseTextInput } from "#core/formElements/baseTextInput.tsx";
-import { Input } from "#core/formElements/input.tsx";
+import { PickUpLocationSearchParams } from "#animals/searchParams";
+import { toBooleanAttribute } from "#core/attributes";
+import { BaseTextInput } from "#core/formElements/baseTextInput";
+import { Input } from "#core/formElements/input";
 import {
   NoSuggestion,
   ResourceComboboxLayout,
   ResourceInputLayout,
   SuggestionItem,
   SuggestionList,
-} from "#core/formElements/resourceInput.tsx";
-import { Routes } from "#core/navigation.ts";
-import { Icon } from "#generated/icon.tsx";
+} from "#core/formElements/resourceInput";
+import { Routes } from "#core/navigation";
+import { Icon } from "#generated/icon";
 import type { loader } from "#routes/resources.pick-up-location/route";
 import { MAX_HIT_COUNT } from "#routes/resources.pick-up-location/shared";
 import * as VisuallyHidden from "@radix-ui/react-visually-hidden";

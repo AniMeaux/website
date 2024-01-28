@@ -1,5 +1,5 @@
 import { db } from "#core/db.server";
-import { Routes } from "#core/navigation.ts";
+import { Routes } from "#core/navigation";
 import { commitCurrentUserPreferences } from "#currentUser/preferences.server";
 import { ActionFormData } from "#routes/resources.preferences/shared";
 import type { ActionFunctionArgs } from "@remix-run/node";

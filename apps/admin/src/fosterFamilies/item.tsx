@@ -1,6 +1,6 @@
-import { SuggestionItem } from "#core/formElements/resourceInput.tsx";
-import { FosterFamilyAvatar } from "#fosterFamilies/avatar.tsx";
-import { getShortLocation } from "#fosterFamilies/location.tsx";
+import { SuggestionItem } from "#core/formElements/resourceInput";
+import { FosterFamilyAvatar } from "#fosterFamilies/avatar";
+import { getShortLocation } from "#fosterFamilies/location";
 import type { FosterFamilyHit } from "@animeaux/algolia-client";
 import type { FosterFamily } from "@prisma/client";
 import type { SerializeFrom } from "@remix-run/node";

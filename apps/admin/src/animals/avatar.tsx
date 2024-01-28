@@ -1,7 +1,7 @@
-import type { AvatarSize } from "#core/dataDisplay/avatar.tsx";
-import { Avatar } from "#core/dataDisplay/avatar.tsx";
-import type { DynamicImageProps } from "#core/dataDisplay/image.tsx";
-import { DynamicImage } from "#core/dataDisplay/image.tsx";
+import type { AvatarSize } from "#core/dataDisplay/avatar";
+import { Avatar } from "#core/dataDisplay/avatar";
+import type { DynamicImageProps } from "#core/dataDisplay/image";
+import { DynamicImage } from "#core/dataDisplay/image";
 import type { Animal } from "@prisma/client";
 import type { Except } from "type-fest";
 

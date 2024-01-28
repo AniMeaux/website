@@ -1,8 +1,8 @@
-import { createConfig } from "#core/config.server.ts";
-import { ErrorPage } from "#core/dataDisplay/errorPage.tsx";
-import { asRouteHandle } from "#core/handles.ts";
-import { getPageTitle } from "#core/pageTitle.ts";
-import { theme } from "#generated/theme.ts";
+import { createConfig } from "#core/config.server";
+import { ErrorPage } from "#core/dataDisplay/errorPage";
+import { asRouteHandle } from "#core/handles";
+import { getPageTitle } from "#core/pageTitle";
+import { theme } from "#generated/theme";
 import appleTouchIcon from "#images/appleTouchIcon.png";
 import favicon from "#images/favicon.svg";
 import maskIcon from "#images/maskIcon.svg";
