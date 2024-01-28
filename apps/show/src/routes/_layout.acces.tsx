@@ -11,8 +11,8 @@ import { createSocialMeta } from "#core/meta.ts";
 import { getPageTitle } from "#core/pageTitle.ts";
 import { NotFoundResponse } from "#core/response.server.ts";
 import { Pictogram } from "#generated/pictogram.tsx";
+import type { MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import type { V2_MetaFunction } from "@remix-run/react";
 import { Link } from "@remix-run/react";
 
 export async function loader() {
@@ -25,7 +25,7 @@ export async function loader() {
   return json("ok" as const);
 }
 
-export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
+export const meta: MetaFunction<typeof loader> = ({ data }) => {
   return createSocialMeta({
     title: getPageTitle(data === "ok" ? "Accès au salon" : getErrorTitle(404)),
   });
@@ -144,13 +144,13 @@ function CarpoolSection() {
 function InformationSection() {
   return (
     <Section columnCount={1} width="full">
-      <div className="relative px-safe-page-narrow md:px-safe-page-normal py-2 md:py-4">
+      <div className="relative py-2 px-safe-page-narrow md:py-4 md:px-safe-page-normal">
         <HighLightBackground
           color="paleBlue"
-          className="absolute -z-10 top-0 left-0 w-full h-full"
+          className="absolute left-0 top-0 -z-10 h-full w-full"
         />
 
-        <ul className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-4">
+        <ul className="grid grid-cols-1 gap-2 md:grid-cols-2 md:gap-4">
           <HighLightItem icon="location" title="Adresse">
             Colisée de Meaux, 73 Av. Henri Dunant, 77100 Meaux.
           </HighLightItem>
@@ -187,7 +187,7 @@ function HighLightItem({
   title: string;
 }>) {
   return (
-    <li className="grid grid-cols-[auto_minmax(0,1fr)] gap-2 items-start">
+    <li className="grid grid-cols-[auto_minmax(0,1fr)] items-start gap-2">
       <Pictogram id={icon} className="text-[48px]" />
       <div className="grid grid-cols-1">
         <p className="text-body-uppercase-emphasis">{title}</p>

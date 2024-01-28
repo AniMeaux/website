@@ -15,7 +15,7 @@ export function EventAvatar({
     <Avatar
       size="lg"
       className={cn(
-        "z-0 relative bg-white flex-col overflow-hidden",
+        "relative z-0 flex-col overflow-hidden bg-white",
         className,
       )}
     >
@@ -27,17 +27,17 @@ export function EventAvatar({
       */}
       <span
         aria-hidden
-        className="-z-10 absolute top-0 left-0 w-full h-full border border-gray-100 rounded-[inherit]"
+        className="absolute left-0 top-0 -z-10 h-full w-full rounded-[inherit] border border-gray-100"
       />
 
-      <span aria-hidden className="flex-none w-full h-2 bg-red-500" />
+      <span aria-hidden className="h-2 w-full flex-none bg-red-500" />
 
-      <span className="w-full flex-1 flex flex-col justify-center text-center">
-        <span className="font-semibold leading-none text-[40px]">
+      <span className="flex w-full flex-1 flex-col justify-center text-center">
+        <span className="text-[40px] font-semibold leading-none">
           {DateTime.fromISO(event.startDate).day}
         </span>
 
-        <span className="font-semibold leading-none text-[12px]">
+        <span className="text-[12px] font-semibold leading-none">
           {DateTime.fromISO(event.startDate).toLocaleString({ month: "long" })}
         </span>
       </span>

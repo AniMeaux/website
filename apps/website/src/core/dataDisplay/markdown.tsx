@@ -75,7 +75,7 @@ export const ARTICLE_COMPONENTS: MarkdownProps["components"] = {
         sizes={{ lg: "1024px", default: "100vw" }}
         fallbackSize="1024"
         className={cn(
-          "my-12 w-full aspect-4/3 flex-none rounded-bubble-md",
+          "my-12 aspect-4/3 w-full flex-none rounded-bubble-md",
           "sm:rounded-bubble-lg",
           "md:rounded-bubble-xl",
         )}
@@ -106,7 +106,7 @@ export const ARTICLE_COMPONENTS: MarkdownProps["components"] = {
   h2: ({ children }) => (
     <h2
       className={cn(
-        "mt-12 mb-6 text-title-section-small first:mt-0 last:mb-0",
+        "mb-6 mt-12 text-title-section-small first:mt-0 last:mb-0",
         "md:text-title-section-large",
       )}
     >
@@ -114,16 +114,16 @@ export const ARTICLE_COMPONENTS: MarkdownProps["components"] = {
     </h2>
   ),
   ul: ({ children }) => (
-    <ul className="my-6 pl-4 list-disc first:mt-0 last:mb-0">{children}</ul>
+    <ul className="my-6 list-disc pl-4 first:mt-0 last:mb-0">{children}</ul>
   ),
   ol: ({ children, start }) => (
-    <ol start={start} className="my-6 pl-4 list-decimal first:mt-0 last:mb-0">
+    <ol start={start} className="my-6 list-decimal pl-4 first:mt-0 last:mb-0">
       {children}
     </ol>
   ),
   li: ({ children }) => <li>{children}</li>,
   table: ({ children }) => (
-    <table className="block w-full my-6 overflow-auto first:mt-0 last:mb-0">
+    <table className="my-6 block w-full overflow-auto first:mt-0 last:mb-0">
       {children}
     </table>
   ),

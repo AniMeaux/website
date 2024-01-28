@@ -24,9 +24,9 @@ import { RequiredStar } from "#core/formElements/requiredStar.tsx";
 import { Textarea } from "#core/formElements/textarea.tsx";
 import { Separator } from "#core/layout/separator.tsx";
 import { Icon } from "#generated/icon.tsx";
-import { FosterFamilyInput } from "#routes/resources.foster-family.tsx";
-import { ManagerInput } from "#routes/resources.manager.tsx";
-import { PickUpLocationInput } from "#routes/resources.pick-up-location.tsx";
+import { FosterFamilyInput } from "#routes/resources.foster-family/input";
+import { ManagerInput } from "#routes/resources.manager/input";
+import { PickUpLocationInput } from "#routes/resources.pick-up-location/input";
 import { hasGroups } from "#users/groups.tsx";
 import { FormDataDelegate } from "@animeaux/form-data";
 import { zu } from "@animeaux/zod-utils";
@@ -521,8 +521,9 @@ export function AnimalSituationForm({
                         name={ActionFormData.keys.screeningFiv}
                         value={result}
                         defaultChecked={
-                          result === defaultAnimal?.screeningFiv ??
-                          ScreeningResult.UNKNOWN
+                          result ===
+                          (defaultAnimal?.screeningFiv ??
+                            ScreeningResult.UNKNOWN)
                         }
                       />
                     ))}
@@ -546,8 +547,9 @@ export function AnimalSituationForm({
                         name={ActionFormData.keys.screeningFelv}
                         value={result}
                         defaultChecked={
-                          result === defaultAnimal?.screeningFelv ??
-                          ScreeningResult.UNKNOWN
+                          result ===
+                          (defaultAnimal?.screeningFelv ??
+                            ScreeningResult.UNKNOWN)
                         }
                       />
                     ))}

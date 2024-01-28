@@ -1,23 +1,16 @@
 import { db } from "#core/db.server.ts";
 import { scrapUrl } from "#core/metascraper.server.ts";
-import { Routes } from "#core/navigation.ts";
 import { BadRequestResponse } from "#core/response.server.ts";
 import { assertCurrentUserHasGroups } from "#currentUser/groups.server.ts";
-import { SearchParamsDelegate } from "@animeaux/form-data";
-import { zu } from "@animeaux/zod-utils";
+import { ScrapUrlSearchParams } from "#routes/resources.scrap-url/shared";
 import { UserGroup } from "@prisma/client";
-import type { LoaderArgs } from "@remix-run/node";
+import type { LoaderFunctionArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { useFetcher } from "@remix-run/react";
-import { createPath } from "history";
 import { DateTime } from "luxon";
-import { useEffect, useMemo } from "react";
 
-const ScrapUrlSearchParams = SearchParamsDelegate.create({
-  url: zu.searchParams.string().pipe(zu.string().url()),
-});
+export type loader = typeof loader;
 
-export async function loader({ request }: LoaderArgs) {
+export async function loader({ request }: LoaderFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {
     select: { groups: true },
   });
@@ -46,30 +39,4 @@ export async function loader({ request }: LoaderArgs) {
         : DateTime.fromISO(result.date).startOf("day").toISODate(),
     title: result.title?.trim() || undefined,
   });
-}
-
-export function useScrapUrlFetcher({
-  url,
-  isEnabled,
-}: {
-  url: string;
-  isEnabled: boolean;
-}) {
-  const { load, data, state } = useFetcher<typeof loader>();
-
-  useEffect(() => {
-    if (isEnabled) {
-      const result = zu.string().url().safeParse(url);
-      if (result.success) {
-        load(
-          createPath({
-            pathname: Routes.resources.scrapUrl.toString(),
-            search: ScrapUrlSearchParams.stringify({ url: result.data }),
-          }),
-        );
-      }
-    }
-  }, [url, isEnabled, load]);
-
-  return useMemo(() => ({ data, state }), [data, state]);
 }

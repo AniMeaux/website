@@ -34,7 +34,7 @@ export function AgreementItem({
   return (
     <li
       className={cn(
-        "rounded-0.5 p-1 flex flex-col items-center justify-center gap-0.5",
+        "flex flex-col items-center justify-center gap-0.5 rounded-0.5 p-1",
         AGREEMENT_CLASS_NAMES[agreement],
       )}
     >
@@ -84,6 +84,6 @@ export function agreementFromBoolean(value: boolean | null) {
   return value == null
     ? AgreementValue.UNKNOWN
     : value
-    ? AgreementValue.TRUE
-    : AgreementValue.FALSE;
+      ? AgreementValue.TRUE
+      : AgreementValue.FALSE;
 }

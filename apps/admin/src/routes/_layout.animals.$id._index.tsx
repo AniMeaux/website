@@ -59,9 +59,12 @@ import {
   Status,
   UserGroup,
 } from "@prisma/client";
-import type { ActionArgs, LoaderArgs } from "@remix-run/node";
+import type {
+  ActionFunctionArgs,
+  LoaderFunctionArgs,
+  MetaFunction,
+} from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
-import type { V2_MetaFunction } from "@remix-run/react";
 import { useFetcher, useLoaderData } from "@remix-run/react";
 import { DateTime } from "luxon";
 
@@ -69,7 +72,7 @@ const ParamsSchema = zu.object({
   id: zu.string().uuid(),
 });
 
-export async function loader({ request, params }: LoaderArgs) {
+export async function loader({ request, params }: LoaderFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {
     select: { groups: true },
   });
@@ -166,7 +169,7 @@ export async function loader({ request, params }: LoaderArgs) {
   });
 }
 
-export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
+export const meta: MetaFunction<typeof loader> = ({ data }) => {
   const animal = data?.animal;
   if (animal == null) {
     return [{ title: getPageTitle(getErrorTitle(404)) }];
@@ -175,7 +178,7 @@ export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
   return [{ title: getPageTitle(getAnimalDisplayName(animal)) }];
 };
 
-export async function action({ request, params }: ActionArgs) {
+export async function action({ request, params }: ActionFunctionArgs) {
   if (request.method.toUpperCase() !== "DELETE") {
     throw new NotFoundResponse();
   }
@@ -265,7 +268,7 @@ function HeaderCard() {
               .id(animal.id)
               .pictures.pictureId(animal.avatar)
               .toString()}
-            className="rounded-1 flex focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-inheritBg"
+            className="flex rounded-1 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-inheritBg"
           >
             <AnimalAvatar animal={animal} loading="eager" size="lg" />
           </BaseLink>
@@ -276,7 +279,7 @@ function HeaderCard() {
             <div className="grid grid-cols-[auto_minmax(0px,auto)_auto] items-start justify-start gap-0.5">
               <div
                 className={cn(
-                  "h-2 flex items-center",
+                  "flex h-2 items-center",
                   animal.gender === Gender.FEMALE
                     ? "text-pink-500"
                     : "text-blue-500",
@@ -529,9 +532,9 @@ function SituationCard() {
                         to={Routes.fosterFamilies
                           .id(animal.fosterFamily.id)
                           .toString()}
-                        className="rounded-0.5 pr-1 grid grid-cols-[auto,minmax(0px,1fr)] items-center text-gray-500 text-left cursor-pointer transition-colors duration-100 ease-in-out hover:bg-gray-100 active:bg-gray-100 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400"
+                        className="grid cursor-pointer grid-cols-[auto,minmax(0px,1fr)] items-center rounded-0.5 pr-1 text-left text-gray-500 transition-colors duration-100 ease-in-out active:bg-gray-100 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 hover:bg-gray-100"
                       >
-                        <span className="w-4 h-4 flex items-center justify-center text-[20px]">
+                        <span className="flex h-4 w-4 items-center justify-center text-[20px]">
                           <Icon id="ellipsis" />
                         </span>
 
@@ -838,7 +841,7 @@ function PicturesCard() {
       </Card.Header>
 
       <Card.Content>
-        <div className="grid grid-cols-[repeat(auto-fill,minmax(80px,1fr))] gap-1 justify-center md:grid-cols-[repeat(auto-fill,minmax(100px,1fr))] md:gap-2">
+        <div className="grid grid-cols-[repeat(auto-fill,minmax(80px,1fr))] justify-center gap-1 md:grid-cols-[repeat(auto-fill,minmax(100px,1fr))] md:gap-2">
           {allPictures.map((pictureId, index) => (
             <BaseLink
               key={pictureId}
@@ -846,7 +849,7 @@ function PicturesCard() {
                 .id(animal.id)
                 .pictures.pictureId(pictureId)
                 .toString()}
-              className="aspect-4/3 rounded-0.5 flex transition-transform duration-100 ease-in-out active:scale-95 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-inheritBg"
+              className="flex aspect-4/3 rounded-0.5 transition-transform duration-100 ease-in-out active:scale-95 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-inheritBg"
             >
               <DynamicImage
                 imageId={pictureId}

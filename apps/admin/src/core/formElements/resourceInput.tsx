@@ -49,7 +49,7 @@ function MediumLayout({
           side="bottom"
           sideOffset={theme.spacing[1]}
           collisionPadding={theme.spacing[1]}
-          className="z-20 w-[var(--radix-popover-trigger-width)] bg-white bg-var-white shadow-ambient rounded-1 flex flex-col data-[state=open]:animation-enter data-[state=closed]:animation-exit animation-opacity-0 data-[side=bottom]:-animation-translate-y-2 data-[side=top]:animation-translate-y-2 animation-duration-100"
+          className="z-20 flex w-[var(--radix-popover-trigger-width)] flex-col rounded-1 bg-white shadow-ambient animation-opacity-0 animation-duration-100 bg-var-white data-[side=bottom]:-animation-translate-y-2 data-[side=top]:animation-translate-y-2 data-[state=open]:animation-enter data-[state=closed]:animation-exit"
         >
           {content}
         </Popover.Content>
@@ -71,7 +71,7 @@ function SmallLayout({
       <Dialog.Portal>
         <Dialog.Overlay />
 
-        <Dialog.Content className="fixed top-0 left-0 bottom-0 right-0 z-30 overflow-y-auto bg-gray-50 flex flex-col">
+        <Dialog.Content className="fixed bottom-0 left-0 right-0 top-0 z-30 flex flex-col overflow-y-auto bg-gray-50">
           <VisuallyHidden.Root>
             <Dialog.Title>Rechercher une couleur</Dialog.Title>
           </VisuallyHidden.Root>
@@ -106,7 +106,7 @@ function MediumComboboxLayout({
 }: ResourceComboboxLayoutProps) {
   return (
     <div className="flex flex-col">
-      <header className="border-b border-gray-100 p-0.5 flex flex-col">
+      <header className="flex flex-col border-b border-gray-100 p-0.5">
         {label}
         {input(
           <BaseTextInput.Adornment>
@@ -115,7 +115,7 @@ function MediumComboboxLayout({
         )}
       </header>
 
-      <section className="p-0.5 flex flex-col">{list}</section>
+      <section className="flex flex-col p-0.5">{list}</section>
     </div>
   );
 }
@@ -127,7 +127,7 @@ function SmallComboboxLayout({
 }: ResourceComboboxLayoutProps) {
   return (
     <div className="flex flex-col gap-1">
-      <header className="sticky top-0 z-20 px-safe-1 pt-safe-0.5 pb-0.5 flex-none bg-white bg-var-white flex flex-col">
+      <header className="sticky top-0 z-20 flex flex-none flex-col bg-white pb-0.5 bg-var-white pt-safe-0.5 px-safe-1">
         {label}
         {input(
           <Dialog.Close asChild>
@@ -195,7 +195,7 @@ export const SuggestionItem = forwardRef<
       </Item.Icon>
 
       <Item.Content asChild>
-        <span className="group-data-[is-value=true]:text-body-emphasis group-data-[is-additional=true]:text-blue-500">
+        <span className="group-data-[is-additional=true]:text-blue-500 group-data-[is-value=true]:text-body-emphasis">
           <Markdown components={HIGHLIGHT_COMPONENTS}>{label}</Markdown>
           {secondaryLabel != null ? (
             <span className="text-gray-500"> - {secondaryLabel}</span>
@@ -204,7 +204,7 @@ export const SuggestionItem = forwardRef<
       </Item.Content>
 
       <Item.Icon className="opacity-0 transition-opacity duration-100 ease-in-out group-data-[is-value=true]:opacity-100">
-        <Icon id="check" className="text-green-600 text-[14px]" />
+        <Icon id="check" className="text-[14px] text-green-600" />
       </Item.Icon>
     </Item>
   );
@@ -212,8 +212,8 @@ export const SuggestionItem = forwardRef<
 
 export function NoSuggestion({ children }: { children?: React.ReactNode }) {
   return (
-    <li className="h-4 flex flex-col justify-center">
-      <p className="text-gray-500 text-center">{children}</p>
+    <li className="flex h-4 flex-col justify-center">
+      <p className="text-center text-gray-500">{children}</p>
     </li>
   );
 }

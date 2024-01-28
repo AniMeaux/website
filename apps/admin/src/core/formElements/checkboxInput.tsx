@@ -16,7 +16,7 @@ export const CheckboxInput = forwardRef<
 >(function CheckboxInput({ label, required = false, className, ...rest }, ref) {
   return (
     <label
-      className={cn(className, "flex items-center gap-0.5 cursor-pointer")}
+      className={cn(className, "flex cursor-pointer items-center gap-0.5")}
     >
       <span className="relative flex">
         <input
@@ -24,12 +24,12 @@ export const CheckboxInput = forwardRef<
           ref={ref}
           type="checkbox"
           required={required}
-          className="appearance-none relative w-[14px] h-[14px] rounded-0.5 border border-gray-200 bg-white inline-flex cursor-pointer transition-colors duration-100 ease-in-out focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-inheritBg checked:border-blue-500 checked:bg-blue-500"
+          className="relative inline-flex h-[14px] w-[14px] cursor-pointer appearance-none rounded-0.5 border border-gray-200 bg-white transition-colors duration-100 ease-in-out checked:border-blue-500 checked:bg-blue-500 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-inheritBg"
         />
 
         <Icon
           id="check"
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white text-[10px]"
+          className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-[10px] text-white"
         />
       </span>
 
@@ -45,5 +45,5 @@ export function CheckboxInputList({
 }: {
   children?: React.ReactNode;
 }) {
-  return <div className="py-1 flex flex-wrap gap-2">{children}</div>;
+  return <div className="flex flex-wrap gap-2 py-1">{children}</div>;
 }

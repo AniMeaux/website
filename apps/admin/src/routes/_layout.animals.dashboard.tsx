@@ -25,15 +25,14 @@ import { hasGroups } from "#users/groups.tsx";
 import { formatAge } from "@animeaux/core";
 import type { Prisma } from "@prisma/client";
 import { UserGroup } from "@prisma/client";
-import type { LoaderArgs } from "@remix-run/node";
+import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import type { V2_MetaFunction } from "@remix-run/react";
 import { useLoaderData } from "@remix-run/react";
 import { DateTime } from "luxon";
-import { promiseHash } from "remix-utils";
+import { promiseHash } from "remix-utils/promise";
 import invariant from "tiny-invariant";
 
-export async function loader({ request }: LoaderArgs) {
+export async function loader({ request }: LoaderFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {
     select: { id: true, groups: true },
   });
@@ -165,7 +164,7 @@ export async function loader({ request }: LoaderArgs) {
             status: true,
           },
         })
-      : Promise.resolve([]),
+      : Promise.resolve(null),
   });
 
   return json({
@@ -188,7 +187,7 @@ export async function loader({ request }: LoaderArgs) {
   });
 }
 
-export const meta: V2_MetaFunction = () => {
+export const meta: MetaFunction = () => {
   return [{ title: getPageTitle("Tableau de bord") }];
 };
 
@@ -219,8 +218,8 @@ function AnimalsToVaccinateCard() {
           {animalToVaccinateCount === 0
             ? "Vaccinations prévues"
             : animalToVaccinateCount > 1
-            ? `${animalToVaccinateCount} vaccinations prévues`
-            : "1 vaccination prévue"}
+              ? `${animalToVaccinateCount} vaccinations prévues`
+              : "1 vaccination prévue"}
         </Card.Title>
 
         {animalToVaccinateCount > 0 ? (
@@ -259,7 +258,7 @@ function AnimalsToVaccinateCard() {
             className="h-full"
           />
         ) : (
-          <ul className="grid grid-cols-1 xs:grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-x-1">
+          <ul className="grid grid-cols-1 gap-x-1 xs:grid-cols-[repeat(auto-fill,minmax(300px,1fr))]">
             {animalsToVaccinate.map((animal) => (
               <li key={animal.id} className="flex flex-col">
                 <AnimalSmallItem
@@ -297,8 +296,8 @@ function AnimalsToSterilizeCard() {
           {animalToSterilizeCount === 0
             ? "Stérilisations à prévoir"
             : animalToSterilizeCount > 1
-            ? `${animalToSterilizeCount} stérilisations à prévoir`
-            : "1 stérilisation à prévoir"}
+              ? `${animalToSterilizeCount} stérilisations à prévoir`
+              : "1 stérilisation à prévoir"}
         </Card.Title>
 
         {animalToSterilizeCount > 0 ? (
@@ -342,7 +341,7 @@ function AnimalsToSterilizeCard() {
             className="h-full"
           />
         ) : (
-          <ul className="grid grid-cols-1 xs:grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-x-1">
+          <ul className="grid grid-cols-1 gap-x-1 xs:grid-cols-[repeat(auto-fill,minmax(300px,1fr))]">
             {animalsToSterilize.map((animal) => (
               <li key={animal.id} className="flex flex-col">
                 <AnimalSmallItem
@@ -370,8 +369,8 @@ function ManagedAnimalsCard() {
           {managedAnimalCount === 0
             ? "À votre charge"
             : managedAnimalCount > 1
-            ? `${managedAnimalCount} animaux à votre charge`
-            : "1 animal à votre charge"}
+              ? `${managedAnimalCount} animaux à votre charge`
+              : "1 animal à votre charge"}
         </Card.Title>
 
         {managedAnimalCount > 0 ? (
@@ -392,7 +391,7 @@ function ManagedAnimalsCard() {
       </Card.Header>
 
       <Card.Content hasHorizontalScroll={managedAnimalCount > 0}>
-        {managedAnimalCount === 0 ? (
+        {managedAnimalCount === 0 || managedAnimals == null ? (
           <Empty
             isCompact
             icon="🦤"
@@ -406,7 +405,7 @@ function ManagedAnimalsCard() {
             {managedAnimals.map((animal) => (
               <li
                 key={animal.id}
-                className="flex-none flex flex-col first:pl-0.5 last:pr-0.5 md:first:pl-1 md:last:pr-1"
+                className="flex flex-none flex-col first:pl-0.5 last:pr-0.5 md:first:pl-1 md:last:pr-1"
               >
                 <AnimalItem
                   animal={animal}
@@ -432,8 +431,8 @@ function ActiveAnimalsCard() {
           {activeAnimalCount === 0
             ? "Animaux en charge"
             : activeAnimalCount > 1
-            ? `${activeAnimalCount} animaux en charge`
-            : "1 animal en charge"}
+              ? `${activeAnimalCount} animaux en charge`
+              : "1 animal en charge"}
         </Card.Title>
 
         {activeAnimalCount > 0 ? (
@@ -467,7 +466,7 @@ function ActiveAnimalsCard() {
             {activeAnimals.map((animal) => (
               <li
                 key={animal.id}
-                className="flex-none flex flex-col first:pl-0.5 last:pr-0.5 md:first:pl-1 md:last:pr-1"
+                className="flex flex-none flex-col first:pl-0.5 last:pr-0.5 md:first:pl-1 md:last:pr-1"
               >
                 <AnimalItem
                   animal={animal}

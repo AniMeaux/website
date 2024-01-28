@@ -1,7 +1,5 @@
-import { BreedSearchParams } from "#breeds/searchParams.ts";
+import { ColorSearchParams } from "#colors/searchParams.ts";
 import { toBooleanAttribute } from "#core/attributes.ts";
-import { ensureArray } from "#core/collections.ts";
-import { db } from "#core/db.server.ts";
 import { BaseTextInput } from "#core/formElements/baseTextInput.tsx";
 import { Input } from "#core/formElements/input.tsx";
 import {
@@ -12,64 +10,32 @@ import {
   SuggestionList,
 } from "#core/formElements/resourceInput.tsx";
 import { Routes } from "#core/navigation.ts";
-import { assertCurrentUserHasGroups } from "#currentUser/groups.server.ts";
 import { Icon } from "#generated/icon.tsx";
-import type { Breed, Species } from "@prisma/client";
-import { UserGroup } from "@prisma/client";
+import type { loader } from "#routes/resources.color/route";
+import type { Color } from "@prisma/client";
 import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
-import type { LoaderArgs, SerializeFrom } from "@remix-run/node";
-import { json } from "@remix-run/node";
+import type { SerializeFrom } from "@remix-run/node";
 import { useFetcher } from "@remix-run/react";
 import { useCombobox } from "downshift";
 import { createPath } from "history";
 import { forwardRef, useEffect, useState } from "react";
 
-export async function loader({ request }: LoaderArgs) {
-  const currentUser = await db.currentUser.get(request, {
-    select: { groups: true },
-  });
-
-  assertCurrentUserHasGroups(currentUser, [
-    UserGroup.ADMIN,
-    UserGroup.ANIMAL_MANAGER,
-  ]);
-
-  const searchParams = BreedSearchParams.parse(
-    new URL(request.url).searchParams,
-  );
-
-  return json({
-    breeds: await db.breed.fuzzySearch({
-      name: searchParams.name,
-      species: searchParams.species,
-      maxHitCount: 6,
-    }),
-  });
-}
-
-type BreedInputProps = {
+type ColorInputProps = {
   name: string;
-  defaultValue?: null | Pick<Breed, "id" | "name">;
-  species?: null | Species;
+  defaultValue?: null | Pick<Color, "id" | "name">;
   disabled?: boolean;
   hasError?: boolean;
 };
 
-export const BreedInput = forwardRef<
+export const ColorInput = forwardRef<
   React.ComponentRef<typeof InputTrigger>,
-  BreedInputProps
->(function BreedInput(
-  {
-    name,
-    defaultValue = null,
-    species = null,
-    disabled = false,
-    hasError = false,
-  },
+  ColorInputProps
+>(function ColorInput(
+  { name, defaultValue = null, disabled = false, hasError = false },
   ref,
 ) {
   const [isOpened, setIsOpened] = useState(false);
-  const fetcher = useFetcher<typeof loader>();
+  const fetcher = useFetcher<loader>();
 
   // This effect does 2 things:
   // - Make sure we display suggestions without delay when the combobox is
@@ -78,26 +44,19 @@ export const BreedInput = forwardRef<
   const load = fetcher.load;
   useEffect(() => {
     if (!isOpened) {
-      load(
-        createPath({
-          pathname: Routes.resources.breed.toString(),
-          search: BreedSearchParams.stringify({
-            species: new Set(ensureArray(species)),
-          }),
-        }),
-      );
+      load(Routes.resources.color.toString());
     }
-  }, [load, isOpened, species]);
+  }, [load, isOpened]);
 
-  const [breed, setBreed] = useState(defaultValue);
+  const [color, setColor] = useState(defaultValue);
 
   return (
     <>
       {
         // Conditionally rendering the hidden input allows us to make it
         // optional in the enclosing form.
-        breed != null ? (
-          <input type="hidden" name={name} value={breed.id} />
+        color != null ? (
+          <input type="hidden" name={name} value={color.id} />
         ) : null
       }
 
@@ -107,30 +66,27 @@ export const BreedInput = forwardRef<
         inputTrigger={(triggerElement) => (
           <InputTrigger
             ref={ref}
-            breed={breed}
+            color={color}
             disabled={disabled}
             hasError={hasError}
-            setBreed={setBreed}
+            setColor={setColor}
             triggerElement={triggerElement}
           />
         )}
         content={
           <Combobox
-            breed={breed}
-            breeds={fetcher.data?.breeds ?? []}
+            color={color}
+            colors={fetcher.data?.colors ?? []}
             onInputValueChange={(value) => {
               fetcher.load(
                 createPath({
-                  pathname: Routes.resources.breed.toString(),
-                  search: BreedSearchParams.stringify({
-                    species: new Set(ensureArray(species)),
-                    name: value,
-                  }),
+                  pathname: Routes.resources.color.toString(),
+                  search: ColorSearchParams.stringify({ name: value }),
                 }),
               );
             }}
-            onSelectedItem={(breed) => {
-              setBreed(breed);
+            onSelectedItem={(color) => {
+              setColor(color);
               setIsOpened(false);
             }}
             onClose={() => setIsOpened(false)}
@@ -145,20 +101,20 @@ const InputTrigger = forwardRef<
   React.ComponentRef<"button">,
   {
     disabled: boolean;
-    breed: null | Pick<Breed, "id" | "name">;
-    setBreed: React.Dispatch<null | Pick<Breed, "id" | "name">>;
+    color: null | Pick<Color, "id" | "name">;
+    setColor: React.Dispatch<null | Pick<Color, "id" | "name">>;
     hasError: boolean;
     triggerElement: React.ElementType<React.ComponentPropsWithoutRef<"button">>;
   }
 >(function InputTrigger(
-  { disabled, breed, setBreed, hasError, triggerElement: TriggerElement },
+  { disabled, color, setColor, hasError, triggerElement: TriggerElement },
   ref,
 ) {
   const rightAdornments = [
-    breed != null ? (
+    color != null ? (
       <BaseTextInput.ActionAdornment
         key="remove"
-        onClick={() => setBreed(null)}
+        onClick={() => setColor(null)}
       >
         <Icon id="xMark" />
       </BaseTextInput.ActionAdornment>
@@ -182,7 +138,7 @@ const InputTrigger = forwardRef<
           disabled={disabled}
           data-invalid={toBooleanAttribute(hasError)}
         >
-          {breed?.name}
+          {color?.name}
         </TriggerElement>
       </BaseTextInput>
 
@@ -190,7 +146,7 @@ const InputTrigger = forwardRef<
         side="left"
         adornment={
           <BaseTextInput.Adornment>
-            <Icon id="dna" />
+            <Icon id="palette" />
           </BaseTextInput.Adornment>
         }
       />
@@ -204,22 +160,22 @@ const InputTrigger = forwardRef<
 });
 
 function Combobox({
-  breed: selectedBreed,
-  breeds,
+  color: selectedColor,
+  colors,
   onInputValueChange,
   onSelectedItem,
   onClose,
 }: {
-  breed: null | Pick<Breed, "id" | "name">;
-  breeds: SerializeFrom<typeof loader>["breeds"];
+  color: null | Pick<Color, "id" | "name">;
+  colors: SerializeFrom<typeof loader>["colors"];
   onInputValueChange: React.Dispatch<string>;
-  onSelectedItem: React.Dispatch<null | Pick<Breed, "id" | "name">>;
+  onSelectedItem: React.Dispatch<null | Pick<Color, "id" | "name">>;
   onClose: () => void;
 }) {
   const combobox = useCombobox({
     isOpen: true,
-    items: breeds,
-    itemToString: (breed) => breed?.name ?? "",
+    items: colors,
+    itemToString: (color) => color?.name ?? "",
     onSelectedItemChange: ({ selectedItem = null }) => {
       onSelectedItem(selectedItem);
     },
@@ -237,7 +193,7 @@ function Combobox({
     <ResourceComboboxLayout
       label={
         <VisuallyHidden.Root {...combobox.getLabelProps()}>
-          Rechercher une race
+          Rechercher une couleur
         </VisuallyHidden.Root>
       }
       input={(leftAdornment) => (
@@ -245,14 +201,14 @@ function Combobox({
           hideFocusRing
           type="search"
           variant="transparent"
-          placeholder="Rechercher une race"
+          placeholder="Rechercher une couleur"
           leftAdornment={leftAdornment}
           {...combobox.getInputProps()}
         />
       )}
       list={
         <SuggestionList {...combobox.getMenuProps()}>
-          {breeds.map((breed, index) => (
+          {colors.map((color, index) => (
             <SuggestionItem
               // For some reason, if `key` is not passed before
               // `...combobox.getItemProps`, the app crash with:
@@ -262,16 +218,16 @@ function Combobox({
               // > components) but got: undefined. You likely forgot to export
               // > your component from the file it's defined in, or you might
               // > have mixed up default and named imports.
-              key={breed.id}
-              {...combobox.getItemProps({ item: breed, index })}
-              isValue={selectedBreed?.id === breed.id}
-              leftAdornment={<Icon id="dna" />}
-              label={breed._highlighted.name}
+              key={color.id}
+              {...combobox.getItemProps({ item: color, index })}
+              isValue={selectedColor?.id === color.id}
+              leftAdornment={<Icon id="palette" />}
+              label={color._highlighted.name}
             />
           ))}
 
-          {breeds.length === 0 ? (
-            <NoSuggestion>Aucune race trouvée</NoSuggestion>
+          {colors.length === 0 ? (
+            <NoSuggestion>Aucune couleur trouvée</NoSuggestion>
           ) : null}
         </SuggestionList>
       }

@@ -56,14 +56,14 @@ export function LargeNav({
   return (
     <header
       {...getFocusTrapIgnoreAttribute()}
-      className={cn("z-0 w-full hidden flex-col", "md:flex")}
+      className={cn("z-0 hidden w-full flex-col", "md:flex")}
       style={{ "--header-height": displayShowBanner ? "112px" : "56px" }}
     >
       {displayShowBanner ? <ShowBanner /> : null}
 
       <div
         className={cn(
-          "pb-2 px-page flex items-center justify-between",
+          "flex items-center justify-between px-page pb-2",
           displayShowBanner ? "pt-2" : "pt-safe-2",
         )}
       >
@@ -164,7 +164,7 @@ function NavGroupButton({
         {(transitionState) => (
           <LineShapeHorizontal
             className={cn(
-              "absolute bottom-0 left-0 w-full h-1 block text-brandBlue",
+              "absolute bottom-0 left-0 block h-1 w-full text-brandBlue",
               {
                 "transition-[stroke-dashoffset] duration-150 ease-in-out":
                   transitionState === "entering" ||
@@ -216,7 +216,7 @@ function NavLink({
             {(transitionState) => (
               <LineShapeHorizontal
                 className={cn(
-                  "absolute bottom-0 left-0 w-full h-1 block text-brandBlue",
+                  "absolute bottom-0 left-0 block h-1 w-full text-brandBlue",
                   {
                     "transition-[stroke-dashoffset] duration-150 ease-in-out":
                       transitionState === "entering" ||
@@ -263,7 +263,7 @@ const Dropdown = forwardRef<
           <div
             ref={ref}
             className={cn(
-              "absolute -z-10 top-0 left-0 w-full bg-white shadow-base rounded-bubble-b-lg flex flex-col items-center overflow-hidden",
+              "absolute left-0 top-0 -z-10 flex w-full flex-col items-center overflow-hidden bg-white shadow-base rounded-bubble-b-lg",
               {
                 // Use `ease-in-out` to make sure animation is symetrical between
                 // entering and exiting to avoid a weird progress missmatch.
@@ -278,7 +278,7 @@ const Dropdown = forwardRef<
           >
             <div
               ref={childrenRef}
-              className="w-[600px] pt-safe-[calc(48px+var(--header-height))] pb-12 flex flex-col"
+              className="flex w-[600px] flex-col pb-12 pt-safe-[calc(48px+var(--header-height))]"
               onKeyDown={handleEscape(onClose)}
             >
               {children}
@@ -293,7 +293,7 @@ const Dropdown = forwardRef<
           aria-hidden
           tabIndex={-1}
           onClick={() => onClose()}
-          className="absolute -z-20 top-0 left-0 w-full h-full cursor-pointer"
+          className="absolute left-0 top-0 -z-20 h-full w-full cursor-pointer"
         />
       )}
     </>

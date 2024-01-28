@@ -1,7 +1,7 @@
 import { extendCurrentUserPreferences } from "#currentUser/preferences.server.ts";
 import { extendCurrentUserSession } from "#currentUser/session.server.ts";
 import type { EntryContext, HandleDataRequestFunction } from "@remix-run/node";
-import { Response } from "@remix-run/node";
+import { createReadableStreamFromReadable } from "@remix-run/node";
 import { RemixServer } from "@remix-run/react";
 import isbot from "isbot";
 import { PassThrough } from "node:stream";
@@ -11,13 +11,11 @@ import { renderToPipeableStream } from "react-dom/server";
 const ABORT_DELAY = 5000;
 
 if (process.env.NODE_ENV === "development") {
-  const { startWorker } = require("#mocks/mocks.server.ts");
-  startWorker();
+  import("#mocks/mocks.server.ts").then((module) => module.startWorker());
 }
 
 if (process.env.ENABLE_CRONS === "true") {
-  const { startCrons } = require("#core/crons/crons.server.ts");
-  startCrons();
+  import("#core/crons/crons.server.ts").then((module) => module.startCrons());
 }
 
 export default async function handleRequest(
@@ -53,7 +51,7 @@ export default async function handleRequest(
           responseHeaders.set("Content-Type", "text/html");
 
           resolve(
-            new Response(body, {
+            new Response(createReadableStreamFromReadable(body), {
               headers: responseHeaders,
               status: didError ? 500 : responseStatusCode,
             }),

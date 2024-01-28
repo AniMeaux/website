@@ -71,8 +71,8 @@ export function ErrorPage({
 
   return (
     <main
-      className={cn("w-full px-page flex flex-col", {
-        "min-h-screen py-12 justify-center": isStandAlone,
+      className={cn("flex w-full flex-col px-page", {
+        "min-h-screen justify-center py-12": isStandAlone,
       })}
     >
       <HeroSection>

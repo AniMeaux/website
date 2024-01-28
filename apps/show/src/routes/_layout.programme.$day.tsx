@@ -20,9 +20,12 @@ import { prisma } from "#core/prisma.server.ts";
 import { NotFoundResponse } from "#core/response.server.ts";
 import { cn } from "@animeaux/core";
 import { zu } from "@animeaux/zod-utils";
-import type { LoaderArgs, SerializeFrom } from "@remix-run/node";
+import type {
+  LoaderFunctionArgs,
+  MetaFunction,
+  SerializeFrom,
+} from "@remix-run/node";
 import { json } from "@remix-run/node";
-import type { V2_MetaFunction } from "@remix-run/react";
 import { Link, useLoaderData } from "@remix-run/react";
 import { DateTime } from "luxon";
 
@@ -30,7 +33,7 @@ const DaySchema = zu.object({
   day: zu.nativeEnum(ShowDay),
 });
 
-export async function loader({ params }: LoaderArgs) {
+export async function loader({ params }: LoaderFunctionArgs) {
   const { featureFlagShowProgram, featureFlagSiteOnline } = createConfig();
 
   if (!featureFlagSiteOnline || !featureFlagShowProgram) {
@@ -67,7 +70,7 @@ export async function loader({ params }: LoaderArgs) {
   return json({ day, events });
 }
 
-export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
+export const meta: MetaFunction<typeof loader> = ({ data }) => {
   return createSocialMeta({
     title: getPageTitle(
       data != null ? `Programme du ${data.day}` : getErrorTitle(404),
@@ -133,7 +136,7 @@ function EventListSection() {
         <SeparatorLargeBlock
           key={`${event.id}.Medium.SeparatorLargeBlock`}
           hasBee={(index + 1) % 3 === 0}
-          className="hidden sm:block md:hidden col-span-3"
+          className="col-span-3 hidden sm:block md:hidden"
         />,
       );
     }
@@ -154,7 +157,7 @@ function EventListSection() {
         <SeparatorLargeBlock
           key={`${event.id}.Large.SeparatorLargeBlock`}
           hasBee={(index + 1) % 4 === 0}
-          className="hidden md:block col-span-5"
+          className="col-span-5 hidden md:block"
         />,
       );
     }
@@ -177,7 +180,7 @@ function EventListSection() {
         ))}
       </Tabs>
 
-      <div className="grid grid-cols-1 sm:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] md:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)_auto_minmax(0,1fr)] items-start">
+      <div className="grid grid-cols-1 items-start sm:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] md:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)_auto_minmax(0,1fr)]">
         {nodes}
       </div>
     </Section>
@@ -193,7 +196,7 @@ function EventItem({
     <div className="relative grid grid-cols-1 pt-2">
       <time
         dateTime={event.startTime}
-        className="absolute top-0 left-1/2 -translate-x-1/2 rounded-1 h-4 min-w-[48px] px-0.5 bg-mystic font-serif text-[24px] leading-none tracking-wider text-white grid justify-items-center items-center"
+        className="absolute left-1/2 top-0 grid h-4 min-w-[48px] -translate-x-1/2 items-center justify-items-center rounded-1 bg-mystic px-0.5 font-serif text-[24px] leading-none tracking-wider text-white"
       >
         {DateTime.fromISO(event.startTime)
           .toLocaleString(DateTime.TIME_24_SIMPLE)
@@ -203,7 +206,7 @@ function EventItem({
           .replace(/00$/, "")}
       </time>
 
-      <div className="rounded-1 bg-alabaster bg-var-alabaster px-2 pt-3 pb-1 grid grid-cols-1 gap-2">
+      <div className="grid grid-cols-1 gap-2 rounded-1 bg-alabaster px-2 pb-1 pt-3 bg-var-alabaster">
         <p>
           <Markdown
             components={SENTENCE_COMPONENTS}
@@ -231,14 +234,14 @@ function SeparatorInline({
   className?: string;
 }) {
   return (
-    <div className={cn("relative -z-10 w-4 lg:w-8 aspect-square", className)}>
+    <div className={cn("relative -z-10 aspect-square w-4 lg:w-8", className)}>
       <svg
         fill="none"
         viewBox="0 0 168 24"
         // Allow the shape to stretch.
         preserveAspectRatio="none"
         xmlns="http://www.w3.org/2000/svg"
-        className="overflow-visible absolute top-0 left-1/2 -translate-x-1/2 h-2 w-10 md:w-14"
+        className="absolute left-1/2 top-0 h-2 w-10 -translate-x-1/2 overflow-visible md:w-14"
       >
         <path
           d="M0 24C19.83 9.36 50.09 0 84 0C117.91 0 148.17 9.36 168 24"
@@ -255,7 +258,7 @@ function SeparatorInline({
       {hasBee ? (
         <BeeIllustration
           direction="left-to-right"
-          className="absolute top-0 -translate-y-1/2 w-[25px] left-1/2 -translate-x-1/2"
+          className="absolute left-1/2 top-0 w-[25px] -translate-x-1/2 -translate-y-1/2"
         />
       ) : null}
     </div>
@@ -272,7 +275,7 @@ function SeparatorSmallBlock({
   className?: string;
 }) {
   return (
-    <div className={cn("relative -z-10 w-full h-4", className)}>
+    <div className={cn("relative -z-10 h-4 w-full", className)}>
       <svg
         fill="none"
         height="72"
@@ -280,7 +283,7 @@ function SeparatorSmallBlock({
         width="12"
         xmlns="http://www.w3.org/2000/svg"
         className={cn(
-          "overflow-visible absolute top-0",
+          "absolute top-0 overflow-visible",
           side === "left" ? "left-2" : "right-2",
         )}
       >
@@ -302,7 +305,7 @@ function SeparatorSmallBlock({
             side === "left" ? "top-to-bottom-left" : "top-to-bottom-right"
           }
           className={cn(
-            "absolute top-[36px] -translate-y-1/2 h-[25px]",
+            "absolute top-[36px] h-[25px] -translate-y-1/2",
             side === "left"
               ? "left-2 -translate-x-1/2"
               : "right-2 translate-x-1/2",
@@ -330,7 +333,7 @@ function SeparatorLargeBlock({
         // Allow the shape to stretch.
         preserveAspectRatio="none"
         xmlns="http://www.w3.org/2000/svg"
-        className="overflow-visible w-full h-full"
+        className="h-full w-full overflow-visible"
       >
         <path
           d="M24 120C-48 0 305.33 15 512 30C718.67 45 1000 150 1000 -100"
@@ -347,7 +350,7 @@ function SeparatorLargeBlock({
       {hasBee ? (
         <BeeIllustration
           direction="right-to-left"
-          className="absolute top-[64px] -translate-y-1/2 right-[15.5%] -translate-x-1/2 w-[25px]"
+          className="absolute right-[15.5%] top-[64px] w-[25px] -translate-x-1/2 -translate-y-1/2"
         />
       ) : null}
     </div>

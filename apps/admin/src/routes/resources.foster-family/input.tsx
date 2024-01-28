@@ -1,5 +1,4 @@
 import { toBooleanAttribute } from "#core/attributes.ts";
-import { db } from "#core/db.server.ts";
 import { BaseTextInput } from "#core/formElements/baseTextInput.tsx";
 import { Input } from "#core/formElements/input.tsx";
 import {
@@ -10,42 +9,17 @@ import {
 } from "#core/formElements/resourceInput.tsx";
 import { Routes, useNavigate } from "#core/navigation.ts";
 import { NextSearchParams } from "#core/searchParams.ts";
-import { assertCurrentUserHasGroups } from "#currentUser/groups.server.ts";
 import { FosterFamilySuggestionItem } from "#fosterFamilies/item.tsx";
 import { FosterFamilySearchParams } from "#fosterFamilies/searchParams.ts";
 import { Icon } from "#generated/icon.tsx";
+import type { loader } from "#routes/resources.foster-family/route";
 import type { FosterFamily } from "@prisma/client";
-import { UserGroup } from "@prisma/client";
 import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
-import type { LoaderArgs, SerializeFrom } from "@remix-run/node";
-import { json } from "@remix-run/node";
+import type { SerializeFrom } from "@remix-run/node";
 import { useFetcher, useLocation } from "@remix-run/react";
 import { useCombobox } from "downshift";
 import { createPath } from "history";
 import { forwardRef, useEffect, useState } from "react";
-
-export async function loader({ request }: LoaderArgs) {
-  const currentUser = await db.currentUser.get(request, {
-    select: { groups: true },
-  });
-
-  assertCurrentUserHasGroups(currentUser, [
-    UserGroup.ADMIN,
-    UserGroup.ANIMAL_MANAGER,
-  ]);
-
-  const searchParams = FosterFamilySearchParams.parse(
-    new URL(request.url).searchParams,
-  );
-
-  return json({
-    fosterFamilies: await db.fosterFamily.fuzzySearch({
-      displayName: searchParams.displayName,
-      // Use 5 instead of 6 to save space for the additional item.
-      maxHitCount: 5,
-    }),
-  });
-}
 
 type FosterFamilyInputProps = {
   name: string;
@@ -62,7 +36,7 @@ export const FosterFamilyInput = forwardRef<
   ref,
 ) {
   const [isOpened, setIsOpened] = useState(false);
-  const fetcher = useFetcher<typeof loader>();
+  const fetcher = useFetcher<loader>();
 
   // This effect does 2 things:
   // - Make sure we display suggestions without delay when the combobox is

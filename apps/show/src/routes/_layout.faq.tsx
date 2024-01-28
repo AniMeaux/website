@@ -12,8 +12,8 @@ import { getPageTitle } from "#core/pageTitle.ts";
 import { NotFoundResponse } from "#core/response.server.ts";
 import { Icon } from "#generated/icon.tsx";
 import * as Collapsible from "@radix-ui/react-collapsible";
+import type { MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import type { V2_MetaFunction } from "@remix-run/react";
 import { Link } from "@remix-run/react";
 import chunk from "lodash.chunk";
 
@@ -27,7 +27,7 @@ export async function loader() {
   return json("ok" as const);
 }
 
-export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
+export const meta: MetaFunction<typeof loader> = ({ data }) => {
   return createSocialMeta({
     title: getPageTitle(
       data === "ok" ? "Foire aux questions" : getErrorTitle(404),
@@ -85,16 +85,16 @@ function TitleSection() {
 function QuestionsSection() {
   return (
     <Section columnCount={1}>
-      <ul className="grid sm:hidden grid-cols-1 gap-2">
+      <ul className="grid grid-cols-1 gap-2 sm:hidden">
         {FAQ.map((faq) => (
           <FaqItem key={faq.question} faq={faq} />
         ))}
       </ul>
 
-      <ul className="hidden sm:grid md:hidden grid-cols-2 gap-x-4">
+      <ul className="hidden grid-cols-2 gap-x-4 sm:grid md:hidden">
         {chunk(FAQ, Math.ceil(FAQ.length / 2)).map((column, index) => (
           <li key={index} className="grid grid-cols-1">
-            <ul className="grid grid-cols-1 gap-2 content-start">
+            <ul className="grid grid-cols-1 content-start gap-2">
               {column.map((faq) => (
                 <FaqItem key={faq.question} faq={faq} />
               ))}
@@ -103,10 +103,10 @@ function QuestionsSection() {
         ))}
       </ul>
 
-      <ul className="hidden md:grid grid-cols-3 gap-x-4">
+      <ul className="hidden grid-cols-3 gap-x-4 md:grid">
         {chunk(FAQ, Math.ceil(FAQ.length / 3)).map((column, index) => (
           <li key={index} className="grid grid-cols-1">
-            <ul className="grid grid-cols-1 gap-2 content-start">
+            <ul className="grid grid-cols-1 content-start gap-2">
               {column.map((faq) => (
                 <FaqItem key={faq.question} faq={faq} />
               ))}
@@ -123,17 +123,17 @@ function FaqItem({ faq }: { faq: Faq }) {
 
   return (
     <Collapsible.Root asChild>
-      <li className="group/item rounded-1 bg-alabaster data-[state=open]:bg-paleBlue grid grid-cols-1 transition-colors duration-150 ease-in-out">
-        <Collapsible.Trigger className="group/trigger rounded-1 px-2 py-1 grid grid-cols-[minmax(0,1fr)_auto] items-center gap-2 text-left text-body-uppercase-emphasis focus-visible:outline-none focus-visible:ring focus-visible:ring-mystic focus-visible:ring-offset-2 focus-visible:ring-offset-inheritBg">
+      <li className="group/item grid grid-cols-1 rounded-1 bg-alabaster transition-colors duration-150 ease-in-out data-[state=open]:bg-paleBlue">
+        <Collapsible.Trigger className="group/trigger grid grid-cols-[minmax(0,1fr)_auto] items-center gap-2 rounded-1 px-2 py-1 text-left text-body-uppercase-emphasis focus-visible:outline-none focus-visible:ring focus-visible:ring-mystic focus-visible:ring-offset-2 focus-visible:ring-offset-inheritBg">
           {faq.question}
 
           <Icon
             id="linearArrowDown"
-            className="text-[16px] group-data-[state=open]/trigger:-rotate-180 transition-transform group-hover/trigger:group-data-[state=open]/trigger:-translate-y-0.5 group-hover/trigger:group-data-[state=closed]/trigger:translate-y-0.5 duration-150 ease-in-out"
+            className="text-[16px] transition-transform duration-150 ease-in-out group-data-[state=open]/trigger:-rotate-180 group-hover/trigger:group-data-[state=closed]/trigger:translate-y-0.5 group-hover/trigger:group-data-[state=open]/trigger:-translate-y-0.5"
           />
         </Collapsible.Trigger>
 
-        <Collapsible.Content className="overflow-hidden bg-var-alabaster group-data-[state=open]/item:bg-var-paleBlue px-2 py-1 group-data-[state=open]/item:animate-radix-collapsible-content-open group-data-[state=closed]/item:animate-radix-collapsible-content-close">
+        <Collapsible.Content className="overflow-hidden px-2 py-1 bg-var-alabaster group-data-[state=closed]/item:animate-radix-collapsible-content-close group-data-[state=open]/item:animate-radix-collapsible-content-open group-data-[state=open]/item:bg-var-paleBlue">
           {typeof faq.answer === "function" ? faq.answer(config) : faq.answer}
         </Collapsible.Content>
       </li>

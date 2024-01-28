@@ -28,10 +28,10 @@ function AccessSection() {
   const { ticketingUrl } = useConfig();
 
   return (
-    <section className="relative px-page-narrow md:px-page-normal py-4 grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-4 lg:gap-8 md:items-end">
-      <FooterWave className="absolute -z-10 left-0 bottom-0 w-full h-[53px] md:h-[90px]" />
+    <section className="relative grid grid-cols-1 gap-2 px-page-narrow py-4 md:grid-cols-2 md:items-end md:gap-4 md:px-page-normal lg:gap-8">
+      <FooterWave className="absolute bottom-0 left-0 -z-10 h-[53px] w-full md:h-[90px]" />
 
-      <Section.TextAside className="rounded-2 bg-alabaster bg-var-alabaster p-2">
+      <Section.TextAside className="rounded-2 bg-alabaster p-2 bg-var-alabaster">
         <Section.Title>Économisez, soutenez, profitez !</Section.Title>
 
         <p>
@@ -50,14 +50,14 @@ function AccessSection() {
         )}
       </Section.TextAside>
 
-      <Section.ImageAside className="w-full aspect-4/3">
+      <Section.ImageAside className="aspect-4/3 w-full">
         <DynamicImage
           image={{ id: "/show/ae7c7389-eb8a-4b19-bc18-a8c504f410c5" }}
           alt="Chien"
           fallbackSize="512"
           sizes={{ default: "384px", md: "50vw", lg: "464px" }}
           aspectRatio="none"
-          className="absolute top-0 left-0 w-full"
+          className="absolute left-0 top-0 w-full"
         />
       </Section.ImageAside>
     </section>
@@ -76,8 +76,8 @@ function LinksSection() {
   const partners = usePartners();
 
   return (
-    <section className="bg-paleBlue bg-var-paleBlue px-page-narrow md:px-page-normal py-4 grid grid-cols-1 md:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] gap-2 sm:gap-4 lg:gap-8 md:items-center">
-      <Section.TextAside className="justify-self-center md:justify-self-stretch max-w-sm md:max-w-none">
+    <section className="grid grid-cols-1 gap-2 bg-paleBlue px-page-narrow py-4 bg-var-paleBlue sm:gap-4 md:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] md:items-center md:px-page-normal lg:gap-8">
+      <Section.TextAside className="max-w-sm justify-self-center md:max-w-none md:justify-self-stretch">
         {partners.length === 0 ? (
           <PartnersImage
             fallbackSize="512"
@@ -85,7 +85,7 @@ function LinksSection() {
             className="w-full"
           />
         ) : (
-          <ul className="flex flex-wrap gap-1 justify-center">
+          <ul className="flex flex-wrap justify-center gap-1">
             {partners.map((partner) => (
               <PartnerItem
                 key={partner.id}
@@ -93,7 +93,7 @@ function LinksSection() {
                 fallbackSize="128"
                 isSmall
                 sizes={{ default: "70px" }}
-                className="flex-none w-[70px]"
+                className="w-[70px] flex-none"
               />
             ))}
           </ul>
@@ -109,10 +109,10 @@ function LinksSection() {
       <img
         src={logoAniMeaux}
         alt="Association Ani’Meaux"
-        className="justify-self-center md:justify-self-stretch w-[150px] aspect-square"
+        className="aspect-square w-[150px] justify-self-center md:justify-self-stretch"
       />
 
-      <Section.TextAside className="justify-self-center md:justify-self-stretch max-w-sm md:max-w-none">
+      <Section.TextAside className="max-w-sm justify-self-center md:max-w-none md:justify-self-stretch">
         <div className="grid grid-flow-col justify-start gap-1">
           <SocialLink to={facebookUrl}>
             <Pictogram id="facebook" className="text-[24px]" />
@@ -160,7 +160,7 @@ function SocialLink({
   return (
     <Link
       {...rest}
-      className="rounded-full grid grid-cols-1 transition-transform duration-100 ease-in-out hover:scale-105 active:scale-95 hover:active:scale-95 focus-visible:outline-none focus-visible:ring focus-visible:ring-prussianBlue focus-visible:ring-offset-2 focus-visible:ring-offset-inheritBg"
+      className="grid grid-cols-1 rounded-full transition-transform duration-100 ease-in-out active:scale-95 focus-visible:outline-none focus-visible:ring focus-visible:ring-prussianBlue focus-visible:ring-offset-2 focus-visible:ring-offset-inheritBg hover:scale-105 hover:active:scale-95"
     >
       {children}
     </Link>
@@ -181,9 +181,9 @@ function ContactItem({
       <Link
         to={to}
         prefetch="intent"
-        className="rounded-0.5 grid grid-cols-[auto_auto] items-start gap-1 transition-[color,transform] duration-100 ease-in-out hover:text-mystic active:scale-95 focus-visible:outline-none focus-visible:ring focus-visible:ring-mystic focus-visible:ring-offset-2 focus-visible:ring-offset-inheritBg"
+        className="grid grid-cols-[auto_auto] items-start gap-1 rounded-0.5 transition-[color,transform] duration-100 ease-in-out active:scale-95 focus-visible:outline-none focus-visible:ring focus-visible:ring-mystic focus-visible:ring-offset-2 focus-visible:ring-offset-inheritBg hover:text-mystic"
       >
-        <span className="h-2 flex items-center">
+        <span className="flex h-2 items-center">
           <Icon id={icon} className="text-[16px] text-mystic" />
         </span>
 
@@ -195,10 +195,10 @@ function ContactItem({
 
 function LegalSection() {
   return (
-    <section className="relative z-10 px-page-narrow md:px-page-normal py-2 grid grid-cols-1">
-      <LegalBackground className="absolute -z-10 top-0 left-0 w-full h-full" />
+    <section className="relative z-10 grid grid-cols-1 px-page-narrow py-2 md:px-page-normal">
+      <LegalBackground className="absolute left-0 top-0 -z-10 h-full w-full" />
 
-      <p className="text-caption-lowercase-emphasis text-white text-center">
+      <p className="text-center text-white text-caption-lowercase-emphasis">
         Copyright © {new Date().getFullYear()} Ani’Meaux
       </p>
     </section>

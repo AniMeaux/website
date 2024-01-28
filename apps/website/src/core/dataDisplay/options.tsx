@@ -8,11 +8,11 @@ export function OptionList({ children }: { children: React.ReactNode }) {
         // Ensure the list takes the entire viewport width for better overflow
         // indicators.
         "-mx-page w-screen min-w-0",
-        "snap-x snap-mandatory scrollbars-none scroll-smooth overflow-x-auto flex items-start gap-3",
+        "flex snap-x snap-mandatory items-start gap-3 overflow-x-auto scroll-smooth scrollbars-none",
         // Because of `overflow-x-auto`, we need to ensure card shadows are
         // visible.
         "-my-6 py-6",
-        "md:m-0 md:overflow-visible md:w-auto md:p-0 md:items-end md:justify-center md:gap-6",
+        "md:m-0 md:w-auto md:items-end md:justify-center md:gap-6 md:overflow-visible md:p-0",
       )}
     >
       {children}
@@ -32,11 +32,11 @@ export function OptionCard({ children }: { children: React.ReactNode }) {
         // item.
         // https://github.com/w3c/csswg-drafts/issues/129#issuecomment-417525242
         "-mx-page px-page first:ml-0 last:mr-0",
-        "snap-center w-11/12 first:last:w-full flex-none flex",
-        "md:m-0 md:p-0 md:w-auto md:flex-1 md:max-w-sm",
+        "flex w-11/12 flex-none snap-center first:last:w-full",
+        "md:m-0 md:w-auto md:max-w-sm md:flex-1 md:p-0",
       )}
     >
-      <div className="shadow-base rounded-bubble-lg w-full bg-white p-6 flex flex-col gap-6">
+      <div className="flex w-full flex-col gap-6 bg-white p-6 shadow-base rounded-bubble-lg">
         {children}
       </div>
     </section>
@@ -62,7 +62,7 @@ export function OptionPrice({
     <p>
       <span
         className={cn(
-          "font-serif font-bold text-[32px] leading-normal",
+          "font-serif text-[32px] font-bold leading-normal",
           "md:text-[40px] md:leading-[1.2]",
         )}
       >
@@ -87,7 +87,7 @@ export function OptionFeature({
 }) {
   return (
     <li className="flex items-start gap-2">
-      <span className="flex-none flex h-6 items-center">
+      <span className="flex h-6 flex-none items-center">
         <Icon
           id={isIncluded ? "check" : "xMark"}
           className={isIncluded ? "text-brandGreen" : "text-brandRed"}

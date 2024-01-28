@@ -6,8 +6,8 @@ import { Routes } from "#core/navigation.tsx";
 import { getPageTitle } from "#core/pageTitle.ts";
 import { NotFoundResponse } from "#core/response.server.ts";
 import { SORTED_PREVIOUS_EDITIONS } from "#previousEditions/previousEdition.tsx";
+import type { MetaFunction } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
-import type { V2_MetaFunction } from "@remix-run/react";
 
 export async function loader() {
   const { featureFlagSiteOnline } = createConfig();
@@ -19,7 +19,7 @@ export async function loader() {
   throw redirect(Routes.previousEditions(SORTED_PREVIOUS_EDITIONS[0]));
 }
 
-export const meta: V2_MetaFunction = () => {
+export const meta: MetaFunction = () => {
   return createSocialMeta({ title: getPageTitle(getErrorTitle(404)) });
 };
 

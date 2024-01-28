@@ -1,9 +1,10 @@
-#!/usr/bin/env ts-node
+#!/usr/bin/env tsx
 
 import pg from "pg";
 import { from, to } from "pg-copy-streams";
 import invariant from "tiny-invariant";
 
+// pg package doesn't support ESM yet.
 const { Client } = pg;
 
 const TABLES_NAME = [
@@ -28,31 +29,22 @@ invariant(source !== destination, "source and destination should not be equal");
 const sourceHost = source.replace(/^.*@/, "");
 const destinationHost = destination.replace(/^.*@/, "");
 
+console.log(`🚚 Copying data: ${sourceHost} 👉 ${destinationHost}`);
+
 const sourceClient = new Client({ connectionString: source });
 const destinationClient = new Client({ connectionString: destination });
 
-copyData()
-  .catch((error) => {
-    console.error(error);
-    process.exit(1);
-  })
-  .finally(async () => {
-    return await Promise.allSettled([
-      sourceClient.end(),
-      destinationClient.end(),
-    ]);
-  });
-
-async function copyData() {
-  console.log(`🚚 Copying data: ${sourceHost} 👉 ${destinationHost}`);
+try {
   await sourceClient.connect();
   await destinationClient.connect();
 
   await clearDestination();
   await copyTables();
-
-  console.log(`🎉 Copied ${TABLES_NAME.length} tables(s)`);
+} finally {
+  await Promise.allSettled([sourceClient.end(), destinationClient.end()]);
 }
+
+console.log(`🎉 Copied ${TABLES_NAME.length} tables(s)`);
 
 async function clearDestination() {
   console.log("[1/2] 🗑 Removing all data from destination...");

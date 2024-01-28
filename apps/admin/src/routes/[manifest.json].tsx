@@ -4,7 +4,7 @@ import { theme } from "#generated/theme.ts";
 import googleTouchIcon from "#images/googleTouchIcon.png";
 import googleTouchIconMac from "#images/googleTouchIconMac.png";
 import googleTouchIconMaskable from "#images/googleTouchIconMaskable.png";
-import type { LinksFunction, LoaderArgs } from "@remix-run/node";
+import type { LinksFunction, LoaderFunctionArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import Bowser from "bowser";
 
@@ -19,7 +19,7 @@ export const links: LinksFunction = () => {
   ];
 };
 
-export async function loader({ request }: LoaderArgs) {
+export async function loader({ request }: LoaderFunctionArgs) {
   const browser = Bowser.getParser(request.headers.get("user-agent") ?? "");
   const isDesktop = browser.getPlatformType() === "desktop";
   const isMacOS = browser.getOSName() === "macOS";

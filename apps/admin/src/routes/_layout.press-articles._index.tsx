@@ -19,16 +19,20 @@ import { cn } from "@animeaux/core";
 import { FormDataDelegate } from "@animeaux/form-data";
 import { zu } from "@animeaux/zod-utils";
 import { UserGroup } from "@prisma/client";
-import type { ActionArgs, LoaderArgs, SerializeFrom } from "@remix-run/node";
+import type {
+  ActionFunctionArgs,
+  LoaderFunctionArgs,
+  MetaFunction,
+  SerializeFrom,
+} from "@remix-run/node";
 import { json } from "@remix-run/node";
-import type { V2_MetaFunction } from "@remix-run/react";
 import { useFetcher, useLoaderData } from "@remix-run/react";
 import { DateTime } from "luxon";
-import { promiseHash } from "remix-utils";
+import { promiseHash } from "remix-utils/promise";
 
 const PRESS_ARTICLES_COUNT_PER_PAGE = 20;
 
-export async function loader({ request }: LoaderArgs) {
+export async function loader({ request }: LoaderFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {
     select: { groups: true },
   });
@@ -61,7 +65,7 @@ export async function loader({ request }: LoaderArgs) {
   return json({ totalCount, pageCount, pressArticles });
 }
 
-export const meta: V2_MetaFunction = () => {
+export const meta: MetaFunction = () => {
   return [{ title: getPageTitle("Articles de presse") }];
 };
 
@@ -71,7 +75,7 @@ const DeleteActionFormData = FormDataDelegate.create(
   }),
 );
 
-export async function action({ request }: ActionArgs) {
+export async function action({ request }: ActionFunctionArgs) {
   if (request.method.toUpperCase() !== "DELETE") {
     throw new NotFoundResponse();
   }
@@ -175,7 +179,7 @@ function PressArticleItem({
       shouldOpenInNewTarget
       to={pressArticle.url}
       className={cn(
-        "rounded-1.5 md:rounded-2 flex flex-col p-0.5 md:p-1 gap-0.5 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 bg-white hover:bg-gray-100 focus-visible:z-10",
+        "flex flex-col gap-0.5 rounded-1.5 bg-white p-0.5 focus-visible:z-10 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 hover:bg-gray-100 md:rounded-2 md:p-1",
         className,
       )}
     >
@@ -194,7 +198,7 @@ function PressArticleItem({
             loading={imageLoading}
             src={pressArticle.image}
             alt={pressArticle.title}
-            className="w-full aspect-4/3 flex-none rounded-1 bg-gray-100 object-cover"
+            className="aspect-4/3 w-full flex-none rounded-1 bg-gray-100 object-cover"
           />
         )}
 
@@ -246,7 +250,7 @@ function PressArticleItem({
       </span>
 
       <div className="flex flex-col">
-        <p className="text-caption-default text-gray-500">
+        <p className="text-gray-500 text-caption-default">
           {DateTime.fromISO(pressArticle.publicationDate).toLocaleString(
             DateTime.DATE_MED,
           )}

@@ -22,7 +22,7 @@ export function Chip({
       title={title}
       className={cn(
         className,
-        "h-2 rounded-0.5 px-0.5 flex items-center justify-center text-caption-emphasis",
+        "flex h-2 items-center justify-center rounded-0.5 px-0.5 text-caption-emphasis",
         COLOR_CLASS_NAME[color],
       )}
     >

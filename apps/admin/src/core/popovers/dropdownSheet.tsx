@@ -94,7 +94,7 @@ DropdownSheet.Content = forwardRef<
         {...rest}
         ref={ref}
         className={cn(
-          "fixed z-30 bottom-0 inset-x-0 pb-safe-1 px-safe-1 grid data-[state=open]:animation-enter data-[state=closed]:animation-exit animation-translate-y-full animation-duration-150",
+          "fixed inset-x-0 bottom-0 z-30 grid animation-duration-150 animation-translate-y-full pb-safe-1 px-safe-1 data-[state=open]:animation-enter data-[state=closed]:animation-exit",
           className,
         )}
       >
@@ -107,7 +107,7 @@ DropdownSheet.Content = forwardRef<
          */}
         <div
           tabIndex={0}
-          className="shadow-ambient rounded-1 w-full bg-white bg-var-white p-1 flex flex-col gap-1 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400"
+          className="flex w-full flex-col gap-1 rounded-1 bg-white p-1 shadow-ambient bg-var-white focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400"
         >
           {children}
         </div>
@@ -131,7 +131,7 @@ DropdownSheet.Content = forwardRef<
       sideOffset={sideOffset}
       sticky={sticky}
       className={cn(
-        "z-30 w-[300px] grid data-[state=open]:animation-enter data-[state=closed]:animation-exit animation-opacity-0 data-[side=bottom]:-animation-translate-y-2 data-[side=top]:animation-translate-y-2 animation-duration-100",
+        "z-30 grid w-[300px] animation-opacity-0 animation-duration-100 data-[side=bottom]:-animation-translate-y-2 data-[side=top]:animation-translate-y-2 data-[state=open]:animation-enter data-[state=closed]:animation-exit",
         className,
       )}
     >
@@ -144,7 +144,7 @@ DropdownSheet.Content = forwardRef<
        */}
       <div
         tabIndex={0}
-        className="shadow-ambient rounded-1 w-full bg-white bg-var-white p-1 flex flex-col gap-1 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400"
+        className="flex w-full flex-col gap-1 rounded-1 bg-white p-1 shadow-ambient bg-var-white focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400"
       >
         {children}
       </div>

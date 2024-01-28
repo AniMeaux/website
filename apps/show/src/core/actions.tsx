@@ -15,7 +15,7 @@ export const Action = forwardRef<
       {...rest}
       ref={ref}
       className={cn(
-        "flex-none rounded-0.5 px-2 py-0.5 flex text-body-lowercase-emphasis transition-[background-color,color,transform] duration-100 ease-in-out hover:scale-105 active:scale-95 hover:active:scale-95 focus-visible:outline-none focus-visible:ring focus-visible:ring-offset-2 focus-visible:ring-offset-inheritBg",
+        "flex flex-none rounded-0.5 px-2 py-0.5 transition-[background-color,color,transform] duration-100 ease-in-out text-body-lowercase-emphasis active:scale-95 focus-visible:outline-none focus-visible:ring focus-visible:ring-offset-2 focus-visible:ring-offset-inheritBg hover:scale-105 hover:active:scale-95",
         COLOR_CLASS_NAMES[color],
         className,
       )}
@@ -38,7 +38,7 @@ export const ProseInlineAction = forwardRef<
       {...rest}
       ref={ref}
       className={cn(
-        "relative border-b border-mystic hover:border-b-2 text-body-lowercase-emphasis focus-visible:outline-none focus-visible:ring focus-visible:ring-mystic focus-visible:ring-offset-2 focus-visible:ring-offset-inheritBg",
+        "relative border-b border-mystic text-body-lowercase-emphasis focus-visible:outline-none focus-visible:ring focus-visible:ring-mystic focus-visible:ring-offset-2 focus-visible:ring-offset-inheritBg hover:border-b-2",
         className,
       )}
     />

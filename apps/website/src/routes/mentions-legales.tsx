@@ -4,9 +4,9 @@ import { ARTICLE_COMPONENTS, Markdown } from "#core/dataDisplay/markdown.tsx";
 import { createSocialMeta } from "#core/meta.ts";
 import { getPageTitle } from "#core/pageTitle.ts";
 import { cn } from "@animeaux/core";
-import type { V2_MetaFunction } from "@remix-run/react";
+import type { MetaFunction } from "@remix-run/node";
 
-export const meta: V2_MetaFunction = () => {
+export const meta: MetaFunction = () => {
   return createSocialMeta({ title: getPageTitle("Mentions légales") });
 };
 
@@ -14,7 +14,7 @@ export default function Route() {
   const config = useConfig();
 
   return (
-    <main className="w-full px-article flex flex-col gap-12">
+    <main className="flex w-full flex-col gap-12 px-article">
       <header className="flex flex-col gap-6">
         <h1 className={cn("text-title-hero-small", "md:text-title-hero-large")}>
           Mentions légales

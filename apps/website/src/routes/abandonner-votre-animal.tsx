@@ -14,11 +14,11 @@ import { createSocialMeta } from "#core/meta.ts";
 import { getPageTitle } from "#core/pageTitle.ts";
 import { WarnItem } from "#warn/item.tsx";
 import { cn } from "@animeaux/core";
-import type { V2_MetaFunction } from "@remix-run/react";
+import type { MetaFunction } from "@remix-run/node";
 
 const IMAGE_ID = "blog/2bf99fd0-da8b-4326-b7fa-d2a0eaa8ecc6";
 
-export const meta: V2_MetaFunction = ({ matches }) => {
+export const meta: MetaFunction = ({ matches }) => {
   const config = getConfigFromMetaMatches(matches);
   return createSocialMeta({
     title: getPageTitle("Abandonner votre animal"),
@@ -32,7 +32,7 @@ export const meta: V2_MetaFunction = ({ matches }) => {
 export default function Route() {
   return (
     <>
-      <main className="w-full px-article flex flex-col gap-12">
+      <main className="flex w-full flex-col gap-12 px-article">
         <header className="flex flex-col">
           <h1
             className={cn("text-title-hero-small", "md:text-title-hero-large")}
@@ -47,7 +47,7 @@ export default function Route() {
           sizes={{ lg: "1024px", default: "100vw" }}
           fallbackSize="1024"
           className={cn(
-            "w-full aspect-4/3 flex-none rounded-bubble-md",
+            "aspect-4/3 w-full flex-none rounded-bubble-md",
             "sm:rounded-bubble-lg",
             "md:rounded-bubble-xl",
           )}

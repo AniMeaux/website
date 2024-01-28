@@ -600,11 +600,11 @@ type RecursiveObjectKeyOf<TObject extends object> = {
   [TKey in keyof TObject & (string | number)]: TObject[TKey] extends any[]
     ? `${TKey}`
     : // Don't list a date attributes because they are stored as numbers.
-    TObject[TKey] extends Date
-    ? `${TKey}`
-    : TObject[TKey] extends object
-    ? `${TKey}` | `${TKey}.${RecursiveObjectKeyOf<TObject[TKey]>}`
-    : `${TKey}`;
+      TObject[TKey] extends Date
+      ? `${TKey}`
+      : TObject[TKey] extends object
+        ? `${TKey}` | `${TKey}.${RecursiveObjectKeyOf<TObject[TKey]>}`
+        : `${TKey}`;
 }[keyof TObject & (string | number)];
 
 type DateTimeFilter = {

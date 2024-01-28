@@ -3,8 +3,7 @@ import "focus-visible";
 import { hydrate } from "react-dom";
 
 if (process.env.NODE_ENV === "development") {
-  const { startWorker } = require("./mocks");
-  startWorker();
+  import("#mocks/mocks.client.ts").then((module) => module.startWorker());
 }
 
 // Remove hydration warnings on unused class and attribute.

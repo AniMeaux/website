@@ -19,17 +19,16 @@ import { Icon } from "#generated/icon.tsx";
 import { hasGroups } from "#users/groups.tsx";
 import { useOptimisticSearchParams } from "@animeaux/form-data";
 import { UserGroup } from "@prisma/client";
-import type { LoaderArgs } from "@remix-run/node";
+import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import type { V2_MetaFunction } from "@remix-run/react";
 import { useLoaderData } from "@remix-run/react";
-import { promiseHash } from "remix-utils";
+import { promiseHash } from "remix-utils/promise";
 import invariant from "tiny-invariant";
 
 // Multiple of 6, 5, 4 and 3 to be nicely displayed.
 const ANIMAL_COUNT_PER_PAGE = 60;
 
-export async function loader({ request }: LoaderArgs) {
+export async function loader({ request }: LoaderFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {
     select: { id: true, groups: true },
   });
@@ -106,7 +105,7 @@ export async function loader({ request }: LoaderArgs) {
           },
           orderBy: { displayName: "asc" },
         })
-      : Promise.resolve([]),
+      : Promise.resolve(null),
 
     possiblePickUpLocations: prisma.animal.groupBy({
       by: ["pickUpLocation"],
@@ -169,7 +168,7 @@ export async function loader({ request }: LoaderArgs) {
   });
 }
 
-export const meta: V2_MetaFunction = () => {
+export const meta: MetaFunction = () => {
   return [{ title: getPageTitle("Tous les animaux") }];
 };
 
@@ -212,7 +211,7 @@ export default function Route() {
 
           <Card.Content hasListItems>
             {animals.length > 0 ? (
-              <ul className="grid grid-cols-[repeat(auto-fill,minmax(160px,1fr))] md:grid-cols-[repeat(auto-fill,minmax(170px,1fr))] items-start">
+              <ul className="grid grid-cols-[repeat(auto-fill,minmax(160px,1fr))] items-start md:grid-cols-[repeat(auto-fill,minmax(170px,1fr))]">
                 {animals.map((animal, index) => (
                   <li key={animal.id} className="flex">
                     <AnimalItem
@@ -253,7 +252,7 @@ export default function Route() {
         </Card>
       </section>
 
-      <aside className="hidden flex-col min-w-[250px] max-w-[300px] flex-1 md:flex">
+      <aside className="hidden min-w-[250px] max-w-[300px] flex-1 flex-col md:flex">
         <Card className="sticky top-[var(--header-height)] max-h-[calc(100vh-20px-var(--header-height))]">
           <Card.Header>
             <Card.Title>Trier et filtrer</Card.Title>
@@ -280,7 +279,7 @@ function SortAndFilters() {
     <AnimalFilters
       currentUser={currentUser}
       managers={managers}
-      fosterFamilies={fosterFamilies}
+      fosterFamilies={fosterFamilies ?? []}
       possiblePickUpLocations={possiblePickUpLocations}
     />
   );

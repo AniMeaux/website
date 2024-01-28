@@ -23,9 +23,9 @@ import paypalImage from "#images/paypal.png";
 import { socialImages } from "#images/social.tsx";
 import teamingImage from "#images/teaming.png";
 import { cn } from "@animeaux/core";
-import type { V2_MetaFunction } from "@remix-run/react";
+import type { MetaFunction } from "@remix-run/node";
 
-export const meta: V2_MetaFunction = ({ matches }) => {
+export const meta: MetaFunction = ({ matches }) => {
   const config = getConfigFromMetaMatches(matches);
   return createSocialMeta({
     title: getPageTitle("Faire un don"),
@@ -37,7 +37,7 @@ export default function Route() {
   const { donationUrl } = useConfig();
 
   return (
-    <main className="w-full px-page flex flex-col gap-24">
+    <main className="flex w-full flex-col gap-24 px-page">
       <HeroSection>
         <HeroSectionAside>
           <HeroSectionImage image={donationImages} loading="eager" />
@@ -94,14 +94,14 @@ function OtherOptionsSection() {
     <section className="flex flex-col gap-12">
       <h2
         className={cn(
-          "text-title-section-small text-center",
+          "text-center text-title-section-small",
           "md:text-title-section-large",
         )}
       >
         Autres options
       </h2>
 
-      <ul className="flex items-start flex-wrap gap-12 justify-evenly">
+      <ul className="flex flex-wrap items-start justify-evenly gap-12">
         <OtherOption
           image={{ src: paypalImage, alt: "PayPal" }}
           action={
@@ -153,16 +153,16 @@ function OtherOption({
   children: React.ReactNode;
 }) {
   return (
-    <li className="w-[200px] flex-none flex flex-col gap-6 text-center">
+    <li className="flex w-[200px] flex-none flex-col gap-6 text-center">
       {typeof image === "string" ? (
-        <span className="w-[200px] aspect-video flex items-center justify-center text-[80px] text-gray-700">
+        <span className="flex aspect-video w-[200px] items-center justify-center text-[80px] text-gray-700">
           <Icon id={image} />
         </span>
       ) : (
         <img
           src={image.src}
           alt={image.alt}
-          className="w-[200px] aspect-video"
+          className="aspect-video w-[200px]"
         />
       )}
 
@@ -182,7 +182,7 @@ function TaxationSection() {
       <div
         className={cn(
           bubbleSectionClassNames.content(),
-          "px-10 py-18 flex flex-col items-center gap-6 text-center",
+          "flex flex-col items-center gap-6 px-10 py-18 text-center",
           "md:px-30 md:py-[60px]",
         )}
       >
@@ -205,12 +205,12 @@ function TaxationSection() {
         <div
           className={cn("flex flex-col gap-6", "md:flex-row md:items-start")}
         >
-          <div className="flex-1 flex flex-col">
+          <div className="flex flex-1 flex-col">
             <h3 className="text-title-item">En passant par Helloasso</h3>
             <p>Vous recevrez automatiquement votre reçu fiscal par mail.</p>
           </div>
 
-          <div className="flex-1 flex flex-col">
+          <div className="flex flex-1 flex-col">
             <h3 className="text-title-item">
               En passant par les autres options
             </h3>

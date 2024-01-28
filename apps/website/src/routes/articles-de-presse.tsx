@@ -5,9 +5,8 @@ import { createSocialMeta } from "#core/meta.ts";
 import { getPageTitle } from "#core/pageTitle.ts";
 import { cn } from "@animeaux/core";
 import type { PressArticle } from "@prisma/client";
-import type { SerializeFrom } from "@remix-run/node";
+import type { MetaFunction, SerializeFrom } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import type { V2_MetaFunction } from "@remix-run/react";
 import { useLoaderData } from "@remix-run/react";
 import { DateTime } from "luxon";
 
@@ -27,7 +26,7 @@ export async function loader() {
   return json({ pressArticles });
 }
 
-export const meta: V2_MetaFunction = () => {
+export const meta: MetaFunction = () => {
   return createSocialMeta({ title: getPageTitle("Articles de presse") });
 };
 
@@ -35,12 +34,12 @@ export default function Route() {
   const { pressArticles } = useLoaderData<typeof loader>();
 
   return (
-    <main className="w-full px-page flex flex-col gap-12">
+    <main className="flex w-full flex-col gap-12 px-page">
       <header className="flex">
         <h1
           className={cn(
-            "text-title-hero-small text-center",
-            "md:text-title-hero-large md:text-left",
+            "text-center text-title-hero-small",
+            "md:text-left md:text-title-hero-large",
           )}
         >
           Articles de presse
@@ -51,7 +50,7 @@ export default function Route() {
         <section className="flex flex-col">
           <ul
             className={cn(
-              "grid grid-cols-1 gap-12 items-start",
+              "grid grid-cols-1 items-start gap-12",
               "xs:grid-cols-2",
               "md:grid-cols-3",
             )}
@@ -89,7 +88,7 @@ function PressArticleItem({
     <li className="flex">
       <BaseLink
         to={pressArticle.url}
-        className="group w-full rounded-bubble-md flex flex-col gap-3"
+        className="group flex w-full flex-col gap-3 rounded-bubble-md"
       >
         {pressArticle.image == null ? (
           <DynamicImage
@@ -98,19 +97,19 @@ function PressArticleItem({
             sizes={{ lg: "300px", md: "30vw", xs: "50vw", default: "100vw" }}
             fallbackSize="512"
             loading="lazy"
-            className="w-full aspect-4/3 flex-none rounded-bubble-md"
+            className="aspect-4/3 w-full flex-none rounded-bubble-md"
           />
         ) : (
           <img
             alt={pressArticle.title}
             src={pressArticle.image}
             loading="lazy"
-            className="w-full aspect-4/3 flex-none rounded-bubble-md bg-gray-100 object-cover"
+            className="aspect-4/3 w-full flex-none bg-gray-100 object-cover rounded-bubble-md"
           />
         )}
 
         <div className="flex flex-col">
-          <p className="text-caption-default text-gray-500">
+          <p className="text-gray-500 text-caption-default">
             {DateTime.fromISO(pressArticle.publicationDate).toLocaleString(
               DateTime.DATE_MED,
             )}
@@ -118,7 +117,7 @@ function PressArticleItem({
             {pressArticle.publisherName}
           </p>
 
-          <p className="text-title-item transition-colors duration-100 ease-in-out group-hover:text-brandBlue">
+          <p className="transition-colors duration-100 ease-in-out text-title-item group-hover:text-brandBlue">
             {pressArticle.title}
           </p>
         </div>

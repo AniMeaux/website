@@ -23,12 +23,11 @@ import {
 import type { AnimalAge } from "@animeaux/core";
 import { ANIMAL_AGE_RANGE_BY_SPECIES, cn } from "@animeaux/core";
 import type { Prisma, Species } from "@prisma/client";
-import type { LoaderArgs } from "@remix-run/node";
+import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import type { V2_MetaFunction } from "@remix-run/react";
 import { useLoaderData, useParams } from "@remix-run/react";
 import { DateTime } from "luxon";
-import { promiseHash } from "remix-utils";
+import { promiseHash } from "remix-utils/promise";
 import invariant from "tiny-invariant";
 
 type PageParams = {
@@ -63,7 +62,7 @@ function createPathToPageParams() {
 // Multiple of 2 and 3 to be nicely displayed.
 const ANIMAL_COUNT_PER_PAGE = 18;
 
-export async function loader({ params, request }: LoaderArgs) {
+export async function loader({ params, request }: LoaderFunctionArgs) {
   const pageParams = PATH_TO_PAGE_PARAMS.get(params["*"] ?? "");
   if (pageParams == null) {
     throw new Response("Not found", { status: 404 });
@@ -129,7 +128,7 @@ function getAgeRangeSearchFilter(
   };
 }
 
-export const meta: V2_MetaFunction = ({ params }) => {
+export const meta: MetaFunction = ({ params }) => {
   const pageParams = PATH_TO_PAGE_PARAMS.get(params["*"] ?? "");
   if (pageParams == null) {
     return createSocialMeta({ title: getPageTitle(getErrorTitle(404)) });
@@ -179,7 +178,7 @@ export default function Route() {
   const { totalCount, pageCount, animals } = useLoaderData<typeof loader>();
 
   return (
-    <main className="w-full px-page flex flex-col gap-12">
+    <main className="flex w-full flex-col gap-12 px-page">
       <header
         className={cn(
           "flex flex-col gap-6",
@@ -188,8 +187,8 @@ export default function Route() {
       >
         <h1
           className={cn(
-            "text-title-hero-small text-center",
-            "md:flex-1 md:text-title-hero-large md:text-left",
+            "text-center text-title-hero-small",
+            "md:flex-1 md:text-left md:text-title-hero-large",
           )}
         >
           À adopter
@@ -197,8 +196,8 @@ export default function Route() {
 
         <div
           className={cn(
-            "flex-none flex justify-center",
-            "md:flex-1 md:max-w-sm",
+            "flex flex-none justify-center",
+            "md:max-w-sm md:flex-1",
           )}
         >
           <SearchForm
@@ -212,7 +211,7 @@ export default function Route() {
 
       {totalCount > 0 ? (
         <>
-          <h2 className={cn("text-gray-500 text-center", "md:text-left")}>
+          <h2 className={cn("text-center text-gray-500", "md:text-left")}>
             {totalCount}{" "}
             {getPageParamsTranslation(pageParams, {
               isPlural: totalCount > 1,
@@ -222,7 +221,7 @@ export default function Route() {
           <section className="flex">
             <ul
               className={cn(
-                "w-full grid grid-cols-1 gap-12 items-start",
+                "grid w-full grid-cols-1 items-start gap-12",
                 "xs:grid-cols-2",
                 "sm:grid-cols-3",
               )}
@@ -236,7 +235,7 @@ export default function Route() {
       ) : (
         <section
           className={cn(
-            "py-12 flex flex-col gap-6 items-center text-center text-gray-500",
+            "flex flex-col items-center gap-6 py-12 text-center text-gray-500",
             "md:px-30 md:py-40",
           )}
         >

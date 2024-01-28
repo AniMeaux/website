@@ -13,13 +13,13 @@ export function ShowBanner({ className }: { className?: string }) {
       to={showUrl}
       className={cn(
         className,
-        "bg-showBrandBlue-lightest pt-safe-2 px-page pb-2 flex items-center gap-3 text-body-emphasis text-showBrandBlue-darkest hover:text-showBrandBlue-darker md:gap-6",
+        "flex items-center gap-3 bg-showBrandBlue-lightest px-page pb-2 text-showBrandBlue-darkest text-body-emphasis pt-safe-2 hover:text-showBrandBlue-darker md:gap-6",
       )}
     >
       <StaticImage
         image={showLogoImages}
         sizes={{ default: "40px" }}
-        className="w-10 aspect-square"
+        className="aspect-square w-10"
       />
 
       <p className="flex-auto">
@@ -30,7 +30,7 @@ export function ShowBanner({ className }: { className?: string }) {
         </span>
       </p>
 
-      <p className="p-2 flex items-center gap-3">
+      <p className="flex items-center gap-3 p-2">
         <span className="hidden md:inline">En savoir plus</span>
         <Icon id="arrowRight" className="text-[20px]" />
       </p>

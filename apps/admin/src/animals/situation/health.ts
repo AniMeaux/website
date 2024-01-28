@@ -64,8 +64,8 @@ export function getNextVaccinationState(
   return diffInDays < 0
     ? "past"
     : diffInDays <= HAS_UP_COMMING_VACCINATION_CONDITIONS.nextVaccinationInDays
-    ? "up-comming"
-    : "planned";
+      ? "up-comming"
+      : "planned";
 }
 
 export function formatNextVaccinationDate(nextDate: string) {

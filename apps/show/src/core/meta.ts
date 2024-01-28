@@ -1,4 +1,4 @@
-import type { V2_MetaDescriptor } from "@remix-run/react";
+import type { MetaDescriptor } from "@remix-run/react";
 
 /**
  * @see https://metatags.io/
@@ -6,7 +6,7 @@ import type { V2_MetaDescriptor } from "@remix-run/react";
  * @see https://developer.twitter.com/en/docs/twitter-for-websites/cards/overview/abouts-cards
  */
 export function createSocialMeta({ title }: { title: string }) {
-  const meta: V2_MetaDescriptor[] = [
+  const meta: MetaDescriptor[] = [
     { title },
     { property: "og:title", content: title },
     { property: "twitter:title", content: title },
