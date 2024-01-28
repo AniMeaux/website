@@ -1,4 +1,4 @@
-import type { ImageDescriptor } from "#core/dataDisplay/image.tsx";
+import type { ImageDescriptor } from "#core/dataDisplay/image";
 import equipment1024 from "#images/equipment-1024w.png";
 import equipment1536 from "#images/equipment-1536w.png";
 import equipment2048 from "#images/equipment-2048w.png";

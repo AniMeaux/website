@@ -1,10 +1,10 @@
-import { BaseLink } from "#core/baseLink.tsx";
-import { DynamicImage } from "#core/dataDisplay/image.tsx";
-import type { MarkdownProps } from "#core/dataDisplay/markdown.tsx";
-import { Markdown } from "#core/dataDisplay/markdown.tsx";
-import { createSocialMeta } from "#core/meta.ts";
-import { getPageTitle } from "#core/pageTitle.ts";
-import { partners } from "#partners/data.server.ts";
+import { BaseLink } from "#core/baseLink";
+import { DynamicImage } from "#core/dataDisplay/image";
+import type { MarkdownProps } from "#core/dataDisplay/markdown";
+import { Markdown } from "#core/dataDisplay/markdown";
+import { createSocialMeta } from "#core/meta";
+import { getPageTitle } from "#core/pageTitle";
+import { partners } from "#partners/data.server";
 import { cn } from "@animeaux/core";
 import type { MetaFunction, SerializeFrom } from "@remix-run/node";
 import { json } from "@remix-run/node";

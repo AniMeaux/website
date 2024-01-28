@@ -1,20 +1,17 @@
-import type { BaseLinkProps } from "#core/baseLink.tsx";
-import { BaseLink } from "#core/baseLink.tsx";
-import { getFocusTrapIgnoreAttribute, useFocusTrap } from "#core/focusTrap.ts";
-import { useWidth } from "#core/hooks.ts";
-import { LineShapeHorizontal } from "#core/layout/lineShape.tsx";
-import type { NavGroup } from "#core/layout/navigation/shared.tsx";
-import {
-  handleEscape,
-  navLinkClassName,
-} from "#core/layout/navigation/shared.tsx";
-import { ShowBanner } from "#core/layout/navigation/showBanner.tsx";
-import { SocialLinks } from "#core/layout/navigation/socialLinks.tsx";
-import { SubNavAct } from "#core/layout/navigation/subNavAct.tsx";
-import { SubNavAdopt } from "#core/layout/navigation/subNavAdopt.tsx";
-import { SubNavDiscover } from "#core/layout/navigation/subNavDiscover.tsx";
-import { SubNavWarn } from "#core/layout/navigation/subNavWarn.tsx";
-import { useScrollLock } from "#core/scrollLock.ts";
+import type { BaseLinkProps } from "#core/baseLink";
+import { BaseLink } from "#core/baseLink";
+import { getFocusTrapIgnoreAttribute, useFocusTrap } from "#core/focusTrap";
+import { useWidth } from "#core/hooks";
+import { LineShapeHorizontal } from "#core/layout/lineShape";
+import type { NavGroup } from "#core/layout/navigation/shared";
+import { handleEscape, navLinkClassName } from "#core/layout/navigation/shared";
+import { ShowBanner } from "#core/layout/navigation/showBanner";
+import { SocialLinks } from "#core/layout/navigation/socialLinks";
+import { SubNavAct } from "#core/layout/navigation/subNavAct";
+import { SubNavAdopt } from "#core/layout/navigation/subNavAdopt";
+import { SubNavDiscover } from "#core/layout/navigation/subNavDiscover";
+import { SubNavWarn } from "#core/layout/navigation/subNavWarn";
+import { useScrollLock } from "#core/scrollLock";
 import nameAndLogo from "#images/nameAndLogo.svg";
 import { cn } from "@animeaux/core";
 import { useLocation } from "@remix-run/react";

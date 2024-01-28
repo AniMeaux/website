@@ -1,5 +1,5 @@
-import { createActionData } from "#core/schemas.ts";
-import { Icon } from "#generated/icon.tsx";
+import { createActionData } from "#core/schemas";
+import { Icon } from "#generated/icon";
 import type { action } from "#routes/resources.subscribe/route";
 import { cn } from "@animeaux/core";
 import { useFetcher } from "@remix-run/react";

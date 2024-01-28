@@ -1,4 +1,4 @@
-import type { ImageDescriptor } from "#core/dataDisplay/image.tsx";
+import type { ImageDescriptor } from "#core/dataDisplay/image";
 import error1024 from "#images/error-1024w.png";
 import error1536 from "#images/error-1536w.png";
 import error2048 from "#images/error-2048w.png";

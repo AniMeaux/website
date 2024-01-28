@@ -1,8 +1,8 @@
-import { useConfig } from "#core/config.ts";
-import type { IconProps } from "#generated/icon.tsx";
-import { Icon } from "#generated/icon.tsx";
-import type { ScreenSize } from "#generated/theme.ts";
-import { theme } from "#generated/theme.ts";
+import { useConfig } from "#core/config";
+import type { IconProps } from "#generated/icon";
+import { Icon } from "#generated/icon";
+import type { ScreenSize } from "#generated/theme";
+import { theme } from "#generated/theme";
 import { cn } from "@animeaux/core";
 import orderBy from "lodash.orderby";
 import invariant from "tiny-invariant";

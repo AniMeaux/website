@@ -1,19 +1,19 @@
-import { actionClassNames } from "#core/actions.ts";
-import { BaseLink } from "#core/baseLink.tsx";
-import { getConfigFromMetaMatches } from "#core/config.ts";
+import { actionClassNames } from "#core/actions";
+import { BaseLink } from "#core/baseLink";
+import { getConfigFromMetaMatches } from "#core/config";
 import {
   HeroSection,
   HeroSectionAside,
   HeroSectionImage,
   HeroSectionParagraph,
   HeroSectionTitle,
-} from "#core/layout/heroSection.tsx";
-import { createSocialMeta } from "#core/meta.ts";
-import { getPageTitle } from "#core/pageTitle.ts";
-import type { IconProps } from "#generated/icon.tsx";
-import { Icon } from "#generated/icon.tsx";
-import { questionsImages } from "#images/questions.tsx";
-import { socialImages } from "#images/social.tsx";
+} from "#core/layout/heroSection";
+import { createSocialMeta } from "#core/meta";
+import { getPageTitle } from "#core/pageTitle";
+import type { IconProps } from "#generated/icon";
+import { Icon } from "#generated/icon";
+import { questionsImages } from "#images/questions";
+import { socialImages } from "#images/social";
 import { cn } from "@animeaux/core";
 import type { MetaFunction } from "@remix-run/node";
 

@@ -1,17 +1,17 @@
-import { articles } from "#blog/data.server.ts";
-import { ArticleItem } from "#blog/item.tsx";
-import { getConfigFromMetaMatches } from "#core/config.ts";
-import { ErrorPage, getErrorTitle } from "#core/dataDisplay/errorPage.tsx";
-import { DynamicImage, createCloudinaryUrl } from "#core/dataDisplay/image.tsx";
-import { ARTICLE_COMPONENTS, Markdown } from "#core/dataDisplay/markdown.tsx";
+import { articles } from "#blog/data.server";
+import { ArticleItem } from "#blog/item";
+import { getConfigFromMetaMatches } from "#core/config";
+import { ErrorPage, getErrorTitle } from "#core/dataDisplay/errorPage";
+import { DynamicImage, createCloudinaryUrl } from "#core/dataDisplay/image";
+import { ARTICLE_COMPONENTS, Markdown } from "#core/dataDisplay/markdown";
 import {
   RelatedSection,
   RelatedSectionList,
   RelatedSectionTitle,
-} from "#core/layout/relatedSection.tsx";
-import { createSocialMeta } from "#core/meta.ts";
-import { getPageTitle } from "#core/pageTitle.ts";
-import { DonationSection } from "#donation/section.tsx";
+} from "#core/layout/relatedSection";
+import { createSocialMeta } from "#core/meta";
+import { getPageTitle } from "#core/pageTitle";
+import { DonationSection } from "#donation/section";
 import { cn } from "@animeaux/core";
 import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";

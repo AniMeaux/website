@@ -1,4 +1,4 @@
-import { prisma } from "#core/db.server.ts";
+import { prisma } from "#core/db.server";
 
 // Learn more: https://fly.io/docs/reference/configuration/#services-http_checks
 export async function loader() {

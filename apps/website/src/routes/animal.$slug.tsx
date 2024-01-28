@@ -1,23 +1,23 @@
 import {
   SCREENING_RESULT_ICON,
   SCREENING_RESULT_TRANSLATION,
-} from "#animals/screening.ts";
-import { SPECIES_ICON } from "#animals/species.ts";
-import { ADOPTABLE_ANIMAL_STATUS } from "#animals/status.ts";
-import { actionClassNames } from "#core/actions.ts";
-import { BaseLink } from "#core/baseLink.tsx";
-import { getConfigFromMetaMatches, useConfig } from "#core/config.ts";
-import { ErrorPage, getErrorTitle } from "#core/dataDisplay/errorPage.tsx";
-import { DynamicImage, createCloudinaryUrl } from "#core/dataDisplay/image.tsx";
-import type { MarkdownProps } from "#core/dataDisplay/markdown.tsx";
-import { Markdown } from "#core/dataDisplay/markdown.tsx";
-import { prisma } from "#core/db.server.ts";
-import { isDefined } from "#core/isDefined.ts";
-import { createSocialMeta } from "#core/meta.ts";
-import { getPageTitle } from "#core/pageTitle.ts";
-import { GENDER_TRANSLATION, SPECIES_TRANSLATION } from "#core/translations.ts";
-import type { IconProps } from "#generated/icon.tsx";
-import { Icon } from "#generated/icon.tsx";
+} from "#animals/screening";
+import { SPECIES_ICON } from "#animals/species";
+import { ADOPTABLE_ANIMAL_STATUS } from "#animals/status";
+import { actionClassNames } from "#core/actions";
+import { BaseLink } from "#core/baseLink";
+import { getConfigFromMetaMatches, useConfig } from "#core/config";
+import { ErrorPage, getErrorTitle } from "#core/dataDisplay/errorPage";
+import { DynamicImage, createCloudinaryUrl } from "#core/dataDisplay/image";
+import type { MarkdownProps } from "#core/dataDisplay/markdown";
+import { Markdown } from "#core/dataDisplay/markdown";
+import { prisma } from "#core/db.server";
+import { isDefined } from "#core/isDefined";
+import { createSocialMeta } from "#core/meta";
+import { getPageTitle } from "#core/pageTitle";
+import { GENDER_TRANSLATION, SPECIES_TRANSLATION } from "#core/translations";
+import type { IconProps } from "#generated/icon";
+import { Icon } from "#generated/icon";
 import { cn, formatAge } from "@animeaux/core";
 import { Gender, ScreeningResult, Species } from "@prisma/client";
 import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";

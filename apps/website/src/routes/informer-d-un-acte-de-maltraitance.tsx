@@ -1,18 +1,18 @@
-import { getConfigFromMetaMatches } from "#core/config.ts";
-import { createCloudinaryUrl, DynamicImage } from "#core/dataDisplay/image.tsx";
+import { getConfigFromMetaMatches } from "#core/config";
+import { createCloudinaryUrl, DynamicImage } from "#core/dataDisplay/image";
 import {
   ARTICLE_COMPONENTS,
   Markdown,
   MarkdownLink,
-} from "#core/dataDisplay/markdown.tsx";
+} from "#core/dataDisplay/markdown";
 import {
   RelatedSection,
   RelatedSectionList,
   RelatedSectionTitle,
-} from "#core/layout/relatedSection.tsx";
-import { createSocialMeta } from "#core/meta.ts";
-import { getPageTitle } from "#core/pageTitle.ts";
-import { WarnItem } from "#warn/item.tsx";
+} from "#core/layout/relatedSection";
+import { createSocialMeta } from "#core/meta";
+import { getPageTitle } from "#core/pageTitle";
+import { WarnItem } from "#warn/item";
 import { cn } from "@animeaux/core";
 import type { MetaFunction } from "@remix-run/node";
 

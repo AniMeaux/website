@@ -1,21 +1,21 @@
-import { actionClassNames } from "#core/actions.ts";
-import { BaseLink } from "#core/baseLink.tsx";
-import { DynamicImage } from "#core/dataDisplay/image.tsx";
+import { actionClassNames } from "#core/actions";
+import { BaseLink } from "#core/baseLink";
+import { DynamicImage } from "#core/dataDisplay/image";
 import {
   bubbleSectionClassNames,
   BubbleShape,
-} from "#core/layout/bubbleSection.tsx";
+} from "#core/layout/bubbleSection";
 import {
   HeroSection,
   HeroSectionAside,
   HeroSectionImage,
   HeroSectionParagraph,
   HeroSectionTitle,
-} from "#core/layout/heroSection.tsx";
-import { createSocialMeta } from "#core/meta.ts";
-import { getPageTitle } from "#core/pageTitle.ts";
-import { agreementsImages } from "#images/agreements.tsx";
-import { citiesWithAgreements } from "#sterilisationAgreements/data.server.ts";
+} from "#core/layout/heroSection";
+import { createSocialMeta } from "#core/meta";
+import { getPageTitle } from "#core/pageTitle";
+import { agreementsImages } from "#images/agreements";
+import { citiesWithAgreements } from "#sterilisationAgreements/data.server";
 import { cn } from "@animeaux/core";
 import type { MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
