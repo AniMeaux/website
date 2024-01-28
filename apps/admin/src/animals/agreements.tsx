@@ -84,6 +84,6 @@ export function agreementFromBoolean(value: boolean | null) {
   return value == null
     ? AgreementValue.UNKNOWN
     : value
-    ? AgreementValue.TRUE
-    : AgreementValue.FALSE;
+      ? AgreementValue.TRUE
+      : AgreementValue.FALSE;
 }

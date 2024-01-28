@@ -7,16 +7,15 @@ import { getPageTitle } from "#core/pageTitle.ts";
 import { getPage } from "#core/searchParams.ts";
 import { cn } from "@animeaux/core";
 import type { Prisma } from "@prisma/client";
-import type { LoaderArgs } from "@remix-run/node";
+import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import type { V2_MetaFunction } from "@remix-run/react";
 import { useLoaderData } from "@remix-run/react";
-import { promiseHash } from "remix-utils";
+import { promiseHash } from "remix-utils/promise";
 
 // Multiple of 2 and 3 to be nicely displayed.
 const ANIMAL_COUNT_PER_PAGE = 18;
 
-export async function loader({ request }: LoaderArgs) {
+export async function loader({ request }: LoaderFunctionArgs) {
   const where: Prisma.AnimalWhereInput = {
     status: { in: SAVED_ANIMAL_STATUS },
   };
@@ -49,7 +48,7 @@ export async function loader({ request }: LoaderArgs) {
   return json({ totalCount, pageCount, animals });
 }
 
-export const meta: V2_MetaFunction = () => {
+export const meta: MetaFunction = () => {
   return createSocialMeta({ title: getPageTitle("Animaux sauvés") });
 };
 

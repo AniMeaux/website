@@ -2,23 +2,26 @@
   "compilerOptions": {
     "allowJs": true,
     "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
     "isolatedModules": true,
     "jsx": "react-jsx",
     "lib": ["DOM", "DOM.Iterable", "ES2022"],
-    "module": "CommonJS",
-    "moduleResolution": "Node",
-    "noEmit": true,
+    "moduleDetection": "force",
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "target": "ES2022",
+    "verbatimModuleSyntax": true,
+
+    // Not transpiling with TypeScript.
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "noEmit": true,
 
     // Options for a more strict type checking.
-    "strict": true,
+    "forceConsistentCasingInFileNames": true,
     "noImplicitOverride": true,
-    "noImplicitReturns": true,
     "noUncheckedIndexedAccess": true,
     "noUnusedLocals": true,
-    "noUnusedParameters": true
+    "noUnusedParameters": true,
+    "strict": true
   }
 }

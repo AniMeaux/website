@@ -5,9 +5,8 @@ import { createSocialMeta } from "#core/meta.ts";
 import { getPageTitle } from "#core/pageTitle.ts";
 import { cn } from "@animeaux/core";
 import type { PressArticle } from "@prisma/client";
-import type { SerializeFrom } from "@remix-run/node";
+import type { MetaFunction, SerializeFrom } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import type { V2_MetaFunction } from "@remix-run/react";
 import { useLoaderData } from "@remix-run/react";
 import { DateTime } from "luxon";
 
@@ -27,7 +26,7 @@ export async function loader() {
   return json({ pressArticles });
 }
 
-export const meta: V2_MetaFunction = () => {
+export const meta: MetaFunction = () => {
   return createSocialMeta({ title: getPageTitle("Articles de presse") });
 };
 

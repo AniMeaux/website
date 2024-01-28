@@ -8,7 +8,7 @@ import {
 import type { Hit, SearchResponse } from "@algolia/client-search";
 import type { Color, SerializeObject } from "@animeaux/algolia-client";
 import type { Prisma } from "@prisma/client";
-import { promiseHash } from "remix-utils";
+import { promiseHash } from "remix-utils/promise";
 
 export const colorHandlers = [
   ...createPostHandlers(

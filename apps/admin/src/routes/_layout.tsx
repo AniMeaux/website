@@ -12,13 +12,13 @@ import type { IconProps } from "#generated/icon.tsx";
 import { Icon } from "#generated/icon.tsx";
 import { theme } from "#generated/theme.ts";
 import nameAndLogo from "#images/nameAndLogo.svg";
-import { GlobalSearch } from "#routes/resources.global-search.tsx";
-import { usePreferencesFetcher } from "#routes/resources.preferences.tsx";
+import { GlobalSearch } from "#routes/resources.global-search/input";
+import { usePreferencesFetcher } from "#routes/resources.preferences/fetcher";
 import { UserAvatar } from "#users/avatar.tsx";
 import { hasGroups } from "#users/groups.tsx";
 import type { User } from "@prisma/client";
 import { UserGroup } from "@prisma/client";
-import type { LoaderArgs } from "@remix-run/node";
+import type { LoaderFunctionArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import {
   Link,
@@ -29,9 +29,9 @@ import {
 } from "@remix-run/react";
 import { createPath } from "history";
 import { useEffect, useState } from "react";
-import { promiseHash } from "remix-utils";
+import { promiseHash } from "remix-utils/promise";
 
-export async function loader({ request }: LoaderArgs) {
+export async function loader({ request }: LoaderFunctionArgs) {
   const { currentUser, preferences } = await promiseHash({
     preferences: getCurrentUserPreferences(request),
     currentUser: db.currentUser.get(request, {

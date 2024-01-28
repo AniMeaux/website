@@ -133,8 +133,8 @@ type KeyMappingDeclaration = {
 type GetSchema<TType> = TType extends zu.ZodType
   ? TType
   : TType extends KeyMappingDeclaration
-  ? TType["schema"]
-  : never;
+    ? TType["schema"]
+    : never;
 
 type InferType<
   TSchemaDeclaration extends Record<string, zu.ZodType | KeyMappingDeclaration>,

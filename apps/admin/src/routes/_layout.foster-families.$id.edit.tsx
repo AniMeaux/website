@@ -16,16 +16,19 @@ import {
 import { ActionFormData, FosterFamilyForm } from "#fosterFamilies/form.tsx";
 import { zu } from "@animeaux/zod-utils";
 import { UserGroup } from "@prisma/client";
-import type { ActionArgs, LoaderArgs } from "@remix-run/node";
+import type {
+  ActionFunctionArgs,
+  LoaderFunctionArgs,
+  MetaFunction,
+} from "@remix-run/node";
 import { json } from "@remix-run/node";
-import type { V2_MetaFunction } from "@remix-run/react";
 import { useFetcher, useLoaderData } from "@remix-run/react";
 
 const ParamsSchema = zu.object({
   id: zu.string().uuid(),
 });
 
-export async function loader({ request, params }: LoaderArgs) {
+export async function loader({ request, params }: LoaderFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {
     select: { groups: true },
   });
@@ -62,7 +65,7 @@ export async function loader({ request, params }: LoaderArgs) {
   return json({ fosterFamily });
 }
 
-export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
+export const meta: MetaFunction<typeof loader> = ({ data }) => {
   const fosterFamily = data?.fosterFamily;
   if (fosterFamily == null) {
     return [{ title: getPageTitle(getErrorTitle(404)) }];
@@ -76,7 +79,7 @@ type ActionData = {
   errors?: zu.inferFlattenedErrors<typeof ActionFormData.schema>;
 };
 
-export async function action({ request, params }: ActionArgs) {
+export async function action({ request, params }: ActionFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {
     select: { groups: true },
   });

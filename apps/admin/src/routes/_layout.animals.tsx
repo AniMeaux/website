@@ -3,11 +3,11 @@ import { PageLayout } from "#core/layout/page.tsx";
 import { Routes } from "#core/navigation.ts";
 import { hasGroups } from "#users/groups.tsx";
 import { UserGroup } from "@prisma/client";
-import type { LoaderArgs } from "@remix-run/node";
+import type { LoaderFunctionArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { Outlet, useLoaderData, useLocation } from "@remix-run/react";
 
-export async function loader({ request }: LoaderArgs) {
+export async function loader({ request }: LoaderFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {
     select: { groups: true },
   });

@@ -8,8 +8,8 @@ import { createSocialMeta } from "#core/meta.ts";
 import { Routes } from "#core/navigation.tsx";
 import { getPageTitle } from "#core/pageTitle.ts";
 import { NotFoundResponse } from "#core/response.server.ts";
+import type { MetaFunction } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
-import type { V2_MetaFunction } from "@remix-run/react";
 
 export async function loader() {
   const { featureFlagShowProgram, featureFlagSiteOnline } = createConfig();
@@ -25,7 +25,7 @@ export async function loader() {
   throw redirect(Routes.program(ShowDay.SATURDAY));
 }
 
-export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
+export const meta: MetaFunction<typeof loader> = ({ data }) => {
   return createSocialMeta({
     title: getPageTitle(data === "ok" ? "Programme" : getErrorTitle(404)),
   });

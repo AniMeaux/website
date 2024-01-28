@@ -1,4 +1,4 @@
-import type { V2_MetaDescriptor } from "@remix-run/react";
+import type { MetaDescriptor } from "@remix-run/react";
 
 /**
  * @see https://metatags.io/
@@ -20,7 +20,7 @@ export function createSocialMeta(
   ) = {},
 ) {
   const { type = "website", title, description, imageUrl } = params;
-  const meta: V2_MetaDescriptor[] = [{ property: "og:type", content: type }];
+  const meta: MetaDescriptor[] = [{ property: "og:type", content: type }];
 
   if (title != null) {
     meta.push(

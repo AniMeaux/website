@@ -10,13 +10,16 @@ import { getPageTitle } from "#core/pageTitle.ts";
 import { Icon } from "#generated/icon.tsx";
 import { FormDataDelegate } from "@animeaux/form-data";
 import { zu } from "@animeaux/zod-utils";
-import type { ActionArgs, LoaderArgs } from "@remix-run/node";
+import type {
+  ActionFunctionArgs,
+  LoaderFunctionArgs,
+  MetaFunction,
+} from "@remix-run/node";
 import { json } from "@remix-run/node";
-import type { V2_MetaFunction } from "@remix-run/react";
 import { useFetcher, useLoaderData } from "@remix-run/react";
 import { useEffect, useRef } from "react";
 
-export async function loader({ request }: LoaderArgs) {
+export async function loader({ request }: LoaderFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {
     select: {
       displayName: true,
@@ -27,7 +30,7 @@ export async function loader({ request }: LoaderArgs) {
   return json({ currentUser });
 }
 
-export const meta: V2_MetaFunction = () => {
+export const meta: MetaFunction = () => {
   return [{ title: getPageTitle("Modifier votre profil") }];
 };
 
@@ -43,7 +46,7 @@ type ActionData = {
   errors?: zu.inferFlattenedErrors<typeof ActionFormData.schema>;
 };
 
-export async function action({ request }: ActionArgs) {
+export async function action({ request }: ActionFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {
     select: { id: true },
   });

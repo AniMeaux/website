@@ -11,8 +11,8 @@ import { createSocialMeta } from "#core/meta.ts";
 import { getPageTitle } from "#core/pageTitle.ts";
 import { NotFoundResponse } from "#core/response.server.ts";
 import { Pictogram } from "#generated/pictogram.tsx";
+import type { MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import type { V2_MetaFunction } from "@remix-run/react";
 import { Link } from "@remix-run/react";
 
 export async function loader() {
@@ -25,7 +25,7 @@ export async function loader() {
   return json("ok" as const);
 }
 
-export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
+export const meta: MetaFunction<typeof loader> = ({ data }) => {
   return createSocialMeta({
     title: getPageTitle(data === "ok" ? "Accès au salon" : getErrorTitle(404)),
   });

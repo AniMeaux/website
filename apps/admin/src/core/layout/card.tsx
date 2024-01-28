@@ -62,8 +62,8 @@ Card.Content = function CardContent({
         hasHorizontalScroll
           ? "scrollbars-none overflow-x-auto"
           : hasListItems
-          ? "px-0.5 md:px-1"
-          : "px-1 md:px-2",
+            ? "px-0.5 md:px-1"
+            : "px-1 md:px-2",
         hasVerticalScroll
           ? "flex-1 overflow-y-scroll scrollbars-custom overscroll-contain"
           : "flex-auto",

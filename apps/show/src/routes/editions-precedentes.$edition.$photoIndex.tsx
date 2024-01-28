@@ -18,9 +18,8 @@ import {
 import { cn } from "@animeaux/core";
 import { Primitive } from "@animeaux/react-primitives";
 import { zu } from "@animeaux/zod-utils";
-import type { LoaderArgs } from "@remix-run/node";
+import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import type { V2_MetaFunction } from "@remix-run/react";
 import { Link, useLoaderData, useLocation, useParams } from "@remix-run/react";
 import { forwardRef } from "react";
 
@@ -34,7 +33,7 @@ const ParamsSchema = zu.object({
   photoIndex: zu.searchParams.number().pipe(zu.number().int().min(0)),
 });
 
-export async function loader({ params }: LoaderArgs) {
+export async function loader({ params }: LoaderFunctionArgs) {
   const { featureFlagSiteOnline } = createConfig();
 
   if (!featureFlagSiteOnline) {
@@ -62,7 +61,7 @@ export async function loader({ params }: LoaderArgs) {
   });
 }
 
-export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
+export const meta: MetaFunction<typeof loader> = ({ data }) => {
   let title = getErrorTitle(404);
 
   if (data != null) {

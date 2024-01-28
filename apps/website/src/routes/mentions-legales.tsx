@@ -4,9 +4,9 @@ import { ARTICLE_COMPONENTS, Markdown } from "#core/dataDisplay/markdown.tsx";
 import { createSocialMeta } from "#core/meta.ts";
 import { getPageTitle } from "#core/pageTitle.ts";
 import { cn } from "@animeaux/core";
-import type { V2_MetaFunction } from "@remix-run/react";
+import type { MetaFunction } from "@remix-run/node";
 
-export const meta: V2_MetaFunction = () => {
+export const meta: MetaFunction = () => {
   return createSocialMeta({ title: getPageTitle("Mentions légales") });
 };
 

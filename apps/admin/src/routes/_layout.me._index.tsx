@@ -21,13 +21,12 @@ import { UserAvatar } from "#users/avatar.tsx";
 import { GROUP_ICON, GROUP_TRANSLATION, hasGroups } from "#users/groups.tsx";
 import type { Prisma } from "@prisma/client";
 import { UserGroup } from "@prisma/client";
-import type { LoaderArgs } from "@remix-run/node";
+import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import type { V2_MetaFunction } from "@remix-run/react";
 import { useLoaderData } from "@remix-run/react";
-import { promiseHash } from "remix-utils";
+import { promiseHash } from "remix-utils/promise";
 
-export async function loader({ request }: LoaderArgs) {
+export async function loader({ request }: LoaderFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {
     select: { id: true, displayName: true, email: true, groups: true },
   });
@@ -100,7 +99,7 @@ export async function loader({ request }: LoaderArgs) {
   });
 }
 
-export const meta: V2_MetaFunction = () => {
+export const meta: MetaFunction = () => {
   return [{ title: getPageTitle("Mon profil") }];
 };
 
@@ -214,8 +213,8 @@ function ManagedAnimalsCard() {
           {managedAnimalCount === 0
             ? "À votre charge"
             : managedAnimalCount > 1
-            ? `${managedAnimalCount} animaux à votre charge`
-            : "1 animal à votre charge"}
+              ? `${managedAnimalCount} animaux à votre charge`
+              : "1 animal à votre charge"}
         </Card.Title>
 
         {managedAnimalCount > 0 ? (
@@ -290,8 +289,8 @@ function NonActiveManagedAnimalsCard() {
           {nonActiveManagedAnimalCount === 0
             ? "Animaux gérés et sortis"
             : nonActiveManagedAnimalCount > 1
-            ? `${nonActiveManagedAnimalCount} animaux gérés et sortis`
-            : "1 animal géré et sorti"}
+              ? `${nonActiveManagedAnimalCount} animaux gérés et sortis`
+              : "1 animal géré et sorti"}
         </Card.Title>
 
         {nonActiveManagedAnimalCount > 0 ? (

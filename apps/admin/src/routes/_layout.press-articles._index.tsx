@@ -19,16 +19,20 @@ import { cn } from "@animeaux/core";
 import { FormDataDelegate } from "@animeaux/form-data";
 import { zu } from "@animeaux/zod-utils";
 import { UserGroup } from "@prisma/client";
-import type { ActionArgs, LoaderArgs, SerializeFrom } from "@remix-run/node";
+import type {
+  ActionFunctionArgs,
+  LoaderFunctionArgs,
+  MetaFunction,
+  SerializeFrom,
+} from "@remix-run/node";
 import { json } from "@remix-run/node";
-import type { V2_MetaFunction } from "@remix-run/react";
 import { useFetcher, useLoaderData } from "@remix-run/react";
 import { DateTime } from "luxon";
-import { promiseHash } from "remix-utils";
+import { promiseHash } from "remix-utils/promise";
 
 const PRESS_ARTICLES_COUNT_PER_PAGE = 20;
 
-export async function loader({ request }: LoaderArgs) {
+export async function loader({ request }: LoaderFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {
     select: { groups: true },
   });
@@ -61,7 +65,7 @@ export async function loader({ request }: LoaderArgs) {
   return json({ totalCount, pageCount, pressArticles });
 }
 
-export const meta: V2_MetaFunction = () => {
+export const meta: MetaFunction = () => {
   return [{ title: getPageTitle("Articles de presse") }];
 };
 
@@ -71,7 +75,7 @@ const DeleteActionFormData = FormDataDelegate.create(
   }),
 );
 
-export async function action({ request }: ActionArgs) {
+export async function action({ request }: ActionFunctionArgs) {
   if (request.method.toUpperCase() !== "DELETE") {
     throw new NotFoundResponse();
   }

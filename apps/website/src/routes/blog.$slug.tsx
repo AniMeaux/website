@@ -13,15 +13,14 @@ import { createSocialMeta } from "#core/meta.ts";
 import { getPageTitle } from "#core/pageTitle.ts";
 import { DonationSection } from "#donation/section.tsx";
 import { cn } from "@animeaux/core";
-import type { LoaderArgs } from "@remix-run/node";
+import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import type { V2_MetaFunction } from "@remix-run/react";
 import { useLoaderData } from "@remix-run/react";
 import { DateTime } from "luxon";
 
 const OTHER_ARTICLE_COUNT = 3;
 
-export async function loader({ params }: LoaderArgs) {
+export async function loader({ params }: LoaderFunctionArgs) {
   const article = articles.find((article) => article.slug === params["slug"]);
   if (article == null) {
     throw new Response("Not found", { status: 404 });
@@ -45,7 +44,7 @@ export async function loader({ params }: LoaderArgs) {
   return json({ article, otherArticles });
 }
 
-export const meta: V2_MetaFunction<typeof loader> = ({ data, matches }) => {
+export const meta: MetaFunction<typeof loader> = ({ data, matches }) => {
   const article = data?.article;
   if (article == null) {
     return createSocialMeta({ title: getPageTitle(getErrorTitle(404)) });

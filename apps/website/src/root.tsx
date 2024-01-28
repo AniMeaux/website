@@ -13,9 +13,8 @@ import maskIcon from "#images/maskIcon.svg";
 import { socialImages } from "#images/social.tsx";
 import stylesheet from "#tailwind.css";
 import { cn } from "@animeaux/core";
-import type { LinksFunction } from "@remix-run/node";
+import type { LinksFunction, MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import type { V2_MetaFunction } from "@remix-run/react";
 import {
   Links,
   LiveReload,
@@ -75,7 +74,7 @@ export async function loader() {
   return json({ config: createConfig() });
 }
 
-export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
+export const meta: MetaFunction<typeof loader> = ({ data }) => {
   // The data can be null in case of error.
   const config = data?.config;
 

@@ -15,9 +15,9 @@ import { Icon } from "#generated/icon.tsx";
 import { questionsImages } from "#images/questions.tsx";
 import { socialImages } from "#images/social.tsx";
 import { cn } from "@animeaux/core";
-import type { V2_MetaFunction } from "@remix-run/react";
+import type { MetaFunction } from "@remix-run/node";
 
-export const meta: V2_MetaFunction = ({ matches }) => {
+export const meta: MetaFunction = ({ matches }) => {
   const config = getConfigFromMetaMatches(matches);
   return createSocialMeta({
     title: getPageTitle("Foire aux questions"),

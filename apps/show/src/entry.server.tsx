@@ -1,5 +1,7 @@
-import type { EntryContext } from "@remix-run/node";
-import { Response } from "@remix-run/node";
+import {
+  createReadableStreamFromReadable,
+  type EntryContext,
+} from "@remix-run/node";
 import { RemixServer } from "@remix-run/react";
 import isbot from "isbot";
 import { PassThrough } from "node:stream";
@@ -10,8 +12,7 @@ import invariant from "tiny-invariant";
 const ABORT_DELAY = 5000;
 
 if (process.env.NODE_ENV === "development") {
-  const { startWorker } = require("#mocks/mocks.server.ts");
-  startWorker();
+  import("#mocks/mocks.server.ts").then((module) => module.startWorker());
 }
 
 export default function handleRequest(
@@ -50,7 +51,7 @@ export default function handleRequest(
           responseHeaders.set("Content-Type", "text/html");
 
           resolve(
-            new Response(body, {
+            new Response(createReadableStreamFromReadable(body), {
               headers: responseHeaders,
               status: didError ? 500 : responseStatusCode,
             }),

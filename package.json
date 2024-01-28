@@ -10,11 +10,12 @@
     "node": "^18.17.0",
     "yarn": "^1.22.0"
   },
+  "type": "module",
   "scripts": {
     "db:migrate": "yarn prisma-env migrate dev",
     "db:reset": "yarn prisma-env migrate reset -f",
     "down:docker": "docker-compose down",
-    "down:ecosystem": "pm2 delete ./ecosystem.config.js && rm -rf ./logs",
+    "down:ecosystem": "pm2 delete ./ecosystem.config.cjs && rm -rf ./logs",
     "down": "run-s down:ecosystem down:docker",
     "format": "prettier --write .",
     "generate": "run-s generate:prisma generate:workspaces",
@@ -29,23 +30,23 @@
     "prisma-env": "node -r dotenv-flow/config ./node_modules/.bin/prisma",
     "restart:ecosystem": "run-s down:ecosystem up:ecosystem",
     "up:docker": "docker-compose up -d",
-    "up:ecosystem": "pm2 start ./ecosystem.config.js",
+    "up:ecosystem": "pm2 start ./ecosystem.config.cjs",
     "up": "run-s up:docker up:ecosystem"
   },
   "prisma": {
     "seed": "yarn seed-data"
   },
   "dependencies": {
-    "prisma": "^5.2.0"
+    "prisma": "^5.8.1"
   },
   "devDependencies": {
-    "@remix-run/eslint-config": "~1.19.3",
-    "eslint": "^8.48.0",
-    "eslint-config-prettier": "^9.0.0",
+    "@remix-run/eslint-config": "~2.5.1",
+    "eslint": "^8.56.0",
+    "eslint-config-prettier": "^9.1.0",
     "npm-run-all": "^4.1.5",
     "pm2": "^5.3.0",
-    "prettier": "^3.0.2",
-    "prettier-plugin-organize-imports": "^3.2.3",
+    "prettier": "^3.2.4",
+    "prettier-plugin-organize-imports": "^3.2.4",
     "typescript": "~5.2.2"
   }
 }

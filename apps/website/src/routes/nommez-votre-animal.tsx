@@ -7,9 +7,8 @@ import { getPageTitle } from "#core/pageTitle.ts";
 import { Icon } from "#generated/icon.tsx";
 import { cn } from "@animeaux/core";
 import { Gender } from "@prisma/client";
-import type { LoaderArgs } from "@remix-run/node";
+import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import type { V2_MetaFunction } from "@remix-run/react";
 import { Form, useLoaderData, useSearchParams } from "@remix-run/react";
 import orderBy from "lodash.orderby";
 import { useEffect, useState } from "react";
@@ -19,7 +18,7 @@ import { z } from "zod";
 // Multiple of 2 and 3 to be nicely displayed.
 const ANIMAL_NAME_COUNT_PER_PAGE = 18;
 
-export async function loader({ request }: LoaderArgs) {
+export async function loader({ request }: LoaderFunctionArgs) {
   const url = new URL(request.url);
   const params = getParams(url.searchParams);
 
@@ -60,7 +59,7 @@ export async function loader({ request }: LoaderArgs) {
   return json({ names });
 }
 
-export const meta: V2_MetaFunction = () => {
+export const meta: MetaFunction = () => {
   return createSocialMeta({ title: getPageTitle("Nommez votre animal") });
 };
 

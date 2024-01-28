@@ -20,9 +20,12 @@ import { prisma } from "#core/prisma.server.ts";
 import { NotFoundResponse } from "#core/response.server.ts";
 import { cn } from "@animeaux/core";
 import { zu } from "@animeaux/zod-utils";
-import type { LoaderArgs, SerializeFrom } from "@remix-run/node";
+import type {
+  LoaderFunctionArgs,
+  MetaFunction,
+  SerializeFrom,
+} from "@remix-run/node";
 import { json } from "@remix-run/node";
-import type { V2_MetaFunction } from "@remix-run/react";
 import { Link, useLoaderData } from "@remix-run/react";
 import { DateTime } from "luxon";
 
@@ -30,7 +33,7 @@ const DaySchema = zu.object({
   day: zu.nativeEnum(ShowDay),
 });
 
-export async function loader({ params }: LoaderArgs) {
+export async function loader({ params }: LoaderFunctionArgs) {
   const { featureFlagShowProgram, featureFlagSiteOnline } = createConfig();
 
   if (!featureFlagSiteOnline || !featureFlagShowProgram) {
@@ -67,7 +70,7 @@ export async function loader({ params }: LoaderArgs) {
   return json({ day, events });
 }
 
-export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
+export const meta: MetaFunction<typeof loader> = ({ data }) => {
   return createSocialMeta({
     title: getPageTitle(
       data != null ? `Programme du ${data.day}` : getErrorTitle(404),

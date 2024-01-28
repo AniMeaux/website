@@ -20,9 +20,8 @@ import type { IconProps } from "#generated/icon.tsx";
 import { Icon } from "#generated/icon.tsx";
 import { cn, formatAge } from "@animeaux/core";
 import { Gender, ScreeningResult, Species } from "@prisma/client";
-import type { LoaderArgs } from "@remix-run/node";
+import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import type { V2_MetaFunction } from "@remix-run/react";
 import { useLoaderData } from "@remix-run/react";
 import { DateTime } from "luxon";
 import { useRef, useState } from "react";
@@ -33,7 +32,7 @@ const UuidSchema = z.string().uuid();
 
 const UUID_LENGTH = 36;
 
-export async function loader({ params }: LoaderArgs) {
+export async function loader({ params }: LoaderFunctionArgs) {
   const result = UuidSchema.safeParse(params["slug"]?.slice(-UUID_LENGTH));
   if (!result.success) {
     throw new Response("Not found", { status: 404 });
@@ -73,7 +72,7 @@ export async function loader({ params }: LoaderArgs) {
   return json({ animal });
 }
 
-export const meta: V2_MetaFunction<typeof loader> = ({ data, matches }) => {
+export const meta: MetaFunction<typeof loader> = ({ data, matches }) => {
   const animal = data?.animal;
   if (animal == null) {
     return createSocialMeta({ title: getPageTitle(getErrorTitle(404)) });
@@ -374,19 +373,19 @@ function Agreement({
       ? value == null
         ? "babyCircleQuestion"
         : value
-        ? "babyCircleCheck"
-        : "babyCircleXMark"
+          ? "babyCircleCheck"
+          : "babyCircleXMark"
       : entity === "cats"
-      ? value == null
-        ? "catCircleQuestion"
-        : value
-        ? "catCircleCheck"
-        : "catCircleXMark"
-      : value == null
-      ? "dogCircleQuestion"
-      : value
-      ? "dogCircleCheck"
-      : "dogCircleXMark";
+        ? value == null
+          ? "catCircleQuestion"
+          : value
+            ? "catCircleCheck"
+            : "catCircleXMark"
+        : value == null
+          ? "dogCircleQuestion"
+          : value
+            ? "dogCircleCheck"
+            : "dogCircleXMark";
 
   return (
     <li

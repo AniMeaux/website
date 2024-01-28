@@ -14,9 +14,8 @@ import { prisma } from "#core/prisma.server.ts";
 import { NotFoundResponse } from "#core/response.server.ts";
 import { EXHIBITOR_CATEGORY_TRANSLATIONS } from "#exhibitors/translations.ts";
 import { Pictogram } from "#generated/pictogram.tsx";
-import type { SerializeFrom } from "@remix-run/node";
+import type { MetaFunction, SerializeFrom } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import type { V2_MetaFunction } from "@remix-run/react";
 import { Link, useLoaderData } from "@remix-run/react";
 
 export async function loader() {
@@ -49,7 +48,7 @@ export async function loader() {
   return json({ exhibitors });
 }
 
-export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
+export const meta: MetaFunction<typeof loader> = ({ data }) => {
   return createSocialMeta({
     title: getPageTitle(
       data?.exhibitors != null ? "Exposants" : getErrorTitle(404),

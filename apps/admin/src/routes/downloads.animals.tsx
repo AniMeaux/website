@@ -15,9 +15,9 @@ import { Icon } from "#generated/icon.tsx";
 import { cn, fromPrismaPromise } from "@animeaux/core";
 import { Gender, UserGroup } from "@prisma/client";
 import type {
-  LoaderArgs,
+  LoaderFunctionArgs,
+  MetaFunction,
   SerializeFrom,
-  V2_MetaFunction,
 } from "@remix-run/node";
 import { defer } from "@remix-run/node";
 import { Await, useLoaderData } from "@remix-run/react";
@@ -32,7 +32,7 @@ const MAX_ITEM_PER_PAGES = 35;
 const MAX_PAGES = 5;
 const MAX_ANIMAL_COUNT = MAX_ITEM_PER_PAGES * MAX_PAGES;
 
-export async function loader({ request }: LoaderArgs) {
+export async function loader({ request }: LoaderFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {
     select: { id: true, groups: true },
   });
@@ -64,7 +64,7 @@ export async function loader({ request }: LoaderArgs) {
   });
 }
 
-export const meta: V2_MetaFunction = () => {
+export const meta: MetaFunction = () => {
   return [{ title: getPageTitle("Exports d’animaux") }];
 };
 

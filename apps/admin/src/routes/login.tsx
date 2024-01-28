@@ -13,9 +13,12 @@ import nameAndLogo from "#images/nameAndLogo.svg";
 import { cn } from "@animeaux/core";
 import { FormDataDelegate } from "@animeaux/form-data";
 import { zu } from "@animeaux/zod-utils";
-import type { ActionArgs, LoaderArgs } from "@remix-run/node";
+import type {
+  ActionFunctionArgs,
+  LoaderFunctionArgs,
+  MetaFunction,
+} from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
-import type { V2_MetaFunction } from "@remix-run/react";
 import { useFetcher } from "@remix-run/react";
 import { useEffect, useRef } from "react";
 
@@ -23,7 +26,7 @@ export const handle: RouteHandle = {
   htmlBackgroundColor: cn("bg-white bg-var-white"),
 };
 
-export async function loader({ request }: LoaderArgs) {
+export async function loader({ request }: LoaderFunctionArgs) {
   let hasCurrentUser: boolean;
   try {
     await db.currentUser.get(
@@ -47,7 +50,7 @@ export async function loader({ request }: LoaderArgs) {
   return null;
 }
 
-export const meta: V2_MetaFunction = () => {
+export const meta: MetaFunction = () => {
   return [{ title: getPageTitle("Connexion") }];
 };
 
@@ -62,7 +65,7 @@ type ActionData = {
   errors?: zu.inferFlattenedErrors<typeof ActionFormData.schema>;
 };
 
-export async function action({ request }: ActionArgs) {
+export async function action({ request }: ActionFunctionArgs) {
   const formData = ActionFormData.safeParse(await request.formData());
   if (!formData.success) {
     return json<ActionData>(

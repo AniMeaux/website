@@ -30,7 +30,7 @@ import { cn } from "@animeaux/core";
 import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { DateTime } from "luxon";
-import { promiseHash } from "remix-utils";
+import { promiseHash } from "remix-utils/promise";
 
 export async function loader() {
   const { pickUpCount, upcomingEvents } = await promiseHash({

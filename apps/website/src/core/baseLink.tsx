@@ -84,10 +84,14 @@ function defaultCallProp<
   prop:
     | undefined
     | TValue
-    | ((arg: { isActive: boolean; isPending: boolean }) => undefined | TValue),
+    | ((arg: {
+        isActive: boolean;
+        isPending: boolean;
+        isTransitioning: boolean;
+      }) => undefined | TValue),
 ) {
   if (typeof prop === "function") {
-    return prop({ isActive: false, isPending: false });
+    return prop({ isActive: false, isPending: false, isTransitioning: false });
   }
 
   return prop;

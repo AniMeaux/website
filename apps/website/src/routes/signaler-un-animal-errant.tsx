@@ -14,11 +14,11 @@ import { createSocialMeta } from "#core/meta.ts";
 import { getPageTitle } from "#core/pageTitle.ts";
 import { WarnItem } from "#warn/item.tsx";
 import { cn } from "@animeaux/core";
-import type { V2_MetaFunction } from "@remix-run/react";
+import type { MetaFunction } from "@remix-run/node";
 
 const IMAGE_ID = "blog/a2bf3ad2-a475-4c63-8f30-fd29928c8fa3";
 
-export const meta: V2_MetaFunction = ({ matches }) => {
+export const meta: MetaFunction = ({ matches }) => {
   const config = getConfigFromMetaMatches(matches);
   return createSocialMeta({
     title: getPageTitle("Signaler un animal errant"),

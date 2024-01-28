@@ -21,16 +21,19 @@ import { Icon } from "#generated/icon.tsx";
 import { formatDateRange } from "@animeaux/core";
 import { zu } from "@animeaux/zod-utils";
 import { UserGroup } from "@prisma/client";
-import type { ActionArgs, LoaderArgs } from "@remix-run/node";
+import type {
+  ActionFunctionArgs,
+  LoaderFunctionArgs,
+  MetaFunction,
+} from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
-import type { V2_MetaFunction } from "@remix-run/react";
 import { useFetcher, useLoaderData } from "@remix-run/react";
 
 const ParamsSchema = zu.object({
   id: zu.string().uuid(),
 });
 
-export async function loader({ request, params }: LoaderArgs) {
+export async function loader({ request, params }: LoaderFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {
     select: { groups: true },
   });
@@ -63,7 +66,7 @@ export async function loader({ request, params }: LoaderArgs) {
   return json({ event });
 }
 
-export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
+export const meta: MetaFunction<typeof loader> = ({ data }) => {
   const event = data?.event;
   if (event == null) {
     return [{ title: getPageTitle(getErrorTitle(404)) }];
@@ -72,7 +75,7 @@ export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
   return [{ title: getPageTitle(event.title) }];
 };
 
-export async function action({ request, params }: ActionArgs) {
+export async function action({ request, params }: ActionFunctionArgs) {
   if (request.method.toUpperCase() !== "DELETE") {
     throw new NotFoundResponse();
   }

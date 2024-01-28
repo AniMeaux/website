@@ -35,19 +35,22 @@ import { getLongLocation } from "#fosterFamilies/location.tsx";
 import { Icon } from "#generated/icon.tsx";
 import { zu } from "@animeaux/zod-utils";
 import { FosterFamilyAvailability, UserGroup } from "@prisma/client";
-import type { ActionArgs, LoaderArgs } from "@remix-run/node";
+import type {
+  ActionFunctionArgs,
+  LoaderFunctionArgs,
+  MetaFunction,
+} from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
-import type { V2_MetaFunction } from "@remix-run/react";
 import { useFetcher, useLoaderData } from "@remix-run/react";
 import { DateTime } from "luxon";
 import { useState } from "react";
-import { promiseHash } from "remix-utils";
+import { promiseHash } from "remix-utils/promise";
 
 const ParamsSchema = zu.object({
   id: zu.string().uuid(),
 });
 
-export async function loader({ request, params }: LoaderArgs) {
+export async function loader({ request, params }: LoaderFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {
     select: { groups: true },
   });
@@ -111,7 +114,7 @@ export async function loader({ request, params }: LoaderArgs) {
   return json({ fosterFamily, fosterAnimalCount, fosterAnimals });
 }
 
-export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
+export const meta: MetaFunction<typeof loader> = ({ data }) => {
   const fosterFamily = data?.fosterFamily;
   if (fosterFamily == null) {
     return [{ title: getPageTitle(getErrorTitle(404)) }];
@@ -120,7 +123,7 @@ export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
   return [{ title: getPageTitle(fosterFamily.displayName) }];
 };
 
-export async function action({ request, params }: ActionArgs) {
+export async function action({ request, params }: ActionFunctionArgs) {
   if (request.method.toUpperCase() !== "DELETE") {
     throw new NotFoundResponse();
   }
@@ -404,8 +407,8 @@ function FosterAnimalsCard() {
           {fosterAnimalCount === 0
             ? "Animaux accueillis"
             : fosterAnimalCount > 1
-            ? `${fosterAnimalCount} animaux accueillis`
-            : "1 animal accueillis"}
+              ? `${fosterAnimalCount} animaux accueillis`
+              : "1 animal accueillis"}
         </Card.Title>
 
         {fosterAnimalCount > 0 ? (

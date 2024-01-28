@@ -2,7 +2,7 @@ import type { CronDefinition } from "#core/crons/shared.server.ts";
 import { prisma } from "#core/prisma.server.ts";
 import { FosterFamilyAvailability } from "@prisma/client";
 import { DateTime } from "luxon";
-import { promiseHash } from "remix-utils";
+import { promiseHash } from "remix-utils/promise";
 
 export const ExpireFosterFamilyAvailabilityCron: CronDefinition = {
   name: "Expire foster family availability",

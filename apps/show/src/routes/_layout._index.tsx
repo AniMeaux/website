@@ -26,8 +26,8 @@ import { PartnersImage } from "#partners/image.tsx";
 import { PartnerItem } from "#partners/item";
 import { PreviousEditionImage } from "#previousEditions/image.tsx";
 import { cn } from "@animeaux/core";
+import type { MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import type { V2_MetaFunction } from "@remix-run/react";
 import { Link, useLoaderData } from "@remix-run/react";
 import { DateTime } from "luxon";
 import { useEffect, useState } from "react";
@@ -48,7 +48,7 @@ export async function loader() {
   return json({ exhibitorCount: await prisma.exhibitor.count() });
 }
 
-export const meta: V2_MetaFunction = () => {
+export const meta: MetaFunction = () => {
   return createSocialMeta({ title: getPageTitle() });
 };
 

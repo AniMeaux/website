@@ -1,7 +1,7 @@
-#!/usr/bin/env ts-node
+#!/usr/bin/env tsx
 
-import core from "@animeaux/core";
-import password from "@animeaux/password";
+import { ACTIVE_ANIMAL_STATUS, NON_ACTIVE_ANIMAL_STATUS } from "@animeaux/core";
+import { generatePasswordHash } from "@animeaux/password";
 import { fakerFR as faker } from "@faker-js/faker";
 import type { Prisma } from "@prisma/client";
 import {
@@ -18,23 +18,13 @@ import {
 } from "@prisma/client";
 import { DateTime } from "luxon";
 
-const { ACTIVE_ANIMAL_STATUS, NON_ACTIVE_ANIMAL_STATUS } = core;
-const { generatePasswordHash } = password;
+const DEFAULT_PASSWORD = "NotASword1!";
+
+console.log("🌱 Seeding data...");
 
 const prisma = new PrismaClient();
 
-const DEFAULT_PASSWORD = "NotASword1!";
-
-seedData()
-  .catch((error) => {
-    console.error(error);
-    process.exit(1);
-  })
-  .finally(async () => await prisma.$disconnect());
-
-async function seedData() {
-  console.log("🌱 Seeding data...");
-
+try {
   await Promise.all([
     seedUsers(),
     seedFosterFamilies(),
@@ -48,9 +38,11 @@ async function seedData() {
   ]);
 
   await seedAnimals();
-
-  console.log(`🎉 Data is seeded`);
+} finally {
+  await prisma.$disconnect();
 }
+
+console.log(`🎉 Data is seeded`);
 
 async function seedUsers() {
   await prisma.user.create({

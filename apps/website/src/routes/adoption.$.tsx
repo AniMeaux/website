@@ -23,12 +23,11 @@ import {
 import type { AnimalAge } from "@animeaux/core";
 import { ANIMAL_AGE_RANGE_BY_SPECIES, cn } from "@animeaux/core";
 import type { Prisma, Species } from "@prisma/client";
-import type { LoaderArgs } from "@remix-run/node";
+import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import type { V2_MetaFunction } from "@remix-run/react";
 import { useLoaderData, useParams } from "@remix-run/react";
 import { DateTime } from "luxon";
-import { promiseHash } from "remix-utils";
+import { promiseHash } from "remix-utils/promise";
 import invariant from "tiny-invariant";
 
 type PageParams = {
@@ -63,7 +62,7 @@ function createPathToPageParams() {
 // Multiple of 2 and 3 to be nicely displayed.
 const ANIMAL_COUNT_PER_PAGE = 18;
 
-export async function loader({ params, request }: LoaderArgs) {
+export async function loader({ params, request }: LoaderFunctionArgs) {
   const pageParams = PATH_TO_PAGE_PARAMS.get(params["*"] ?? "");
   if (pageParams == null) {
     throw new Response("Not found", { status: 404 });
@@ -129,7 +128,7 @@ function getAgeRangeSearchFilter(
   };
 }
 
-export const meta: V2_MetaFunction = ({ params }) => {
+export const meta: MetaFunction = ({ params }) => {
   const pageParams = PATH_TO_PAGE_PARAMS.get(params["*"] ?? "");
   if (pageParams == null) {
     return createSocialMeta({ title: getPageTitle(getErrorTitle(404)) });

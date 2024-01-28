@@ -33,18 +33,21 @@ import { FormDataDelegate } from "@animeaux/form-data";
 import { zu } from "@animeaux/zod-utils";
 import type { Prisma, User } from "@prisma/client";
 import { UserGroup } from "@prisma/client";
-import type { ActionArgs, LoaderArgs } from "@remix-run/node";
+import type {
+  ActionFunctionArgs,
+  LoaderFunctionArgs,
+  MetaFunction,
+} from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
-import type { V2_MetaFunction } from "@remix-run/react";
 import { useFetcher, useLoaderData } from "@remix-run/react";
 import { useEffect, useState } from "react";
-import { promiseHash } from "remix-utils";
+import { promiseHash } from "remix-utils/promise";
 
 const ParamsSchema = zu.object({
   id: zu.string().uuid(),
 });
 
-export async function loader({ request, params }: LoaderArgs) {
+export async function loader({ request, params }: LoaderFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {
     select: { id: true, groups: true },
   });
@@ -142,7 +145,7 @@ export async function loader({ request, params }: LoaderArgs) {
   });
 }
 
-export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
+export const meta: MetaFunction<typeof loader> = ({ data }) => {
   const user = data?.user;
   if (user == null) {
     return [{ title: getPageTitle(getErrorTitle(404)) }];
@@ -157,7 +160,7 @@ const DisableActionFormData = FormDataDelegate.create(
   }),
 );
 
-export async function action({ request, params }: ActionArgs) {
+export async function action({ request, params }: ActionFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {
     select: { id: true, groups: true },
   });
@@ -225,7 +228,7 @@ async function actionDisable({
   request,
   currentUser,
   userId,
-}: Pick<ActionArgs, "request"> & {
+}: Pick<ActionFunctionArgs, "request"> & {
   currentUser: Pick<User, "id">;
   userId: User["id"];
 }) {
@@ -388,8 +391,8 @@ function ManagedAnimalsCard() {
           {managedAnimalCount === 0
             ? "À sa charge"
             : managedAnimalCount > 1
-            ? `${managedAnimalCount} animaux à sa charge`
-            : "1 animal à sa charge"}
+              ? `${managedAnimalCount} animaux à sa charge`
+              : "1 animal à sa charge"}
         </Card.Title>
 
         {managedAnimalCount > 0 ? (
@@ -464,8 +467,8 @@ function NonActiveManagedAnimalsCard() {
           {nonActiveManagedAnimalCount === 0
             ? "Animaux gérés et sortis"
             : nonActiveManagedAnimalCount > 1
-            ? `${nonActiveManagedAnimalCount} animaux gérés et sortis`
-            : "1 animal géré et sorti"}
+              ? `${nonActiveManagedAnimalCount} animaux gérés et sortis`
+              : "1 animal géré et sorti"}
         </Card.Title>
 
         {nonActiveManagedAnimalCount > 0 ? (
@@ -649,8 +652,8 @@ function ActionDelete() {
           {isCurrentUser
             ? "Vous ne pouvez pas vous supprimer."
             : hasManagedAnimals
-            ? "L’utilisateur ne peut être supprimé tant qu’il a des animaux gérés ou à sa charge."
-            : null}
+              ? "L’utilisateur ne peut être supprimé tant qu’il a des animaux gérés ou à sa charge."
+              : null}
         </InlineHelper>
       ) : null}
 

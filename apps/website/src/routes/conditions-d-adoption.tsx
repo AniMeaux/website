@@ -32,10 +32,10 @@ import { questionsImages } from "#images/questions.tsx";
 import { socialImages } from "#images/social.tsx";
 import { cn } from "@animeaux/core";
 import { Species } from "@prisma/client";
-import type { V2_MetaFunction } from "@remix-run/react";
+import type { MetaFunction } from "@remix-run/node";
 import { useState } from "react";
 
-export const meta: V2_MetaFunction = ({ matches }) => {
+export const meta: MetaFunction = ({ matches }) => {
   const config = getConfigFromMetaMatches(matches);
   return createSocialMeta({
     title: getPageTitle("Conditions d’adoption"),

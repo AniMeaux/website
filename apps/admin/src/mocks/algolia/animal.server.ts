@@ -13,7 +13,7 @@ import type {
 } from "@algolia/client-search";
 import type { Animal, SerializeObject } from "@animeaux/algolia-client";
 import type { Prisma } from "@prisma/client";
-import { promiseHash } from "remix-utils";
+import { promiseHash } from "remix-utils/promise";
 import invariant from "tiny-invariant";
 
 export const animalHandlers = [

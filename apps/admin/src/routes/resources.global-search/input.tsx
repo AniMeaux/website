@@ -1,7 +1,6 @@
 import { AnimalSuggestionItem } from "#animals/item.tsx";
 import { getAnimalDisplayName } from "#animals/profile/name.tsx";
 import { AnimalSearchParams } from "#animals/searchParams.ts";
-import { db } from "#core/db.server.ts";
 import { BaseTextInput } from "#core/formElements/baseTextInput.tsx";
 import { Input } from "#core/formElements/input.tsx";
 import {
@@ -10,20 +9,20 @@ import {
 } from "#core/formElements/resourceInput.tsx";
 import { Routes, useNavigate } from "#core/navigation.ts";
 import { Overlay } from "#core/popovers/overlay.tsx";
-import { ForbiddenResponse } from "#core/response.server.ts";
-import { assertCurrentUserHasGroups } from "#currentUser/groups.server.ts";
 import { FosterFamilySuggestionItem } from "#fosterFamilies/item.tsx";
 import { FosterFamilySearchParams } from "#fosterFamilies/searchParams.ts";
 import { Icon } from "#generated/icon.tsx";
+import type { loader } from "#routes/resources.global-search/route";
+import {
+  ENTITY_TRANSLATION,
+  Entity,
+  GlobalSearchParams,
+  SORTED_ENTITIES,
+} from "#routes/resources.global-search/shared";
 import { cn } from "@animeaux/core";
-import { SearchParamsDelegate } from "@animeaux/form-data";
-import { zu } from "@animeaux/zod-utils";
-import type { User } from "@prisma/client";
-import { UserGroup } from "@prisma/client";
 import * as Dialog from "@radix-ui/react-dialog";
 import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
-import type { LoaderArgs, SerializeFrom } from "@remix-run/node";
-import { json } from "@remix-run/node";
+import type { SerializeFrom } from "@remix-run/node";
 import type { FetcherWithComponents } from "@remix-run/react";
 import { useFetcher, useNavigation } from "@remix-run/react";
 import type {
@@ -32,112 +31,7 @@ import type {
 } from "downshift";
 import { useCombobox } from "downshift";
 import { createPath } from "history";
-import orderBy from "lodash.orderby";
 import { useEffect, useState } from "react";
-
-const MAX_HIT_COUNT = 6;
-
-enum Entity {
-  ANIMAL = "ANIMAL",
-  FOSTER_FAMILY = "FOSTER_FAMILY",
-}
-
-const ENTITY_TRANSLATION: Record<Entity, string> = {
-  [Entity.ANIMAL]: "Animaux",
-  [Entity.FOSTER_FAMILY]: "FA",
-};
-
-const SORTED_ENTITIES = orderBy(
-  Object.values(Entity),
-  (entity) => ENTITY_TRANSLATION[entity],
-);
-
-const GlobalSearchParams = SearchParamsDelegate.create({
-  text: { key: "q", schema: zu.searchParams.string() },
-  entity: zu.searchParams.nativeEnum(Entity),
-});
-
-export async function loader({ request }: LoaderArgs) {
-  const currentUser = await db.currentUser.get(request, {
-    select: { groups: true },
-  });
-
-  assertCurrentUserHasGroups(currentUser, [
-    UserGroup.ADMIN,
-    UserGroup.ANIMAL_MANAGER,
-    UserGroup.VETERINARIAN,
-    UserGroup.VOLUNTEER,
-  ]);
-
-  const searchParams = GlobalSearchParams.parse(
-    new URL(request.url).searchParams,
-  );
-
-  const possibleEntities = getPossibleEntitiesForCurrentUser(currentUser);
-  const entity =
-    searchParams.entity ??
-    SORTED_ENTITIES.find((entity) => possibleEntities.has(entity));
-
-  if (entity == null || !possibleEntities.has(entity)) {
-    throw new ForbiddenResponse();
-  }
-
-  if (searchParams.text == null) {
-    return json({
-      possibleEntities: Array.from(possibleEntities),
-      items: [],
-    });
-  }
-
-  if (entity === Entity.ANIMAL) {
-    const animals = await db.animal.fuzzySearch({
-      nameOrAlias: searchParams.text,
-      maxHitCount: MAX_HIT_COUNT,
-    });
-    const items = animals.map((animal) => ({
-      type: Entity.ANIMAL as const,
-      ...animal,
-    }));
-    return json({
-      possibleEntities: Array.from(possibleEntities),
-      items,
-    });
-  }
-
-  const fosterFamilies = await db.fosterFamily.fuzzySearch({
-    displayName: searchParams.text,
-    maxHitCount: MAX_HIT_COUNT,
-  });
-
-  const items = fosterFamilies.map((fosterFamily) => ({
-    type: Entity.FOSTER_FAMILY as const,
-    ...fosterFamily,
-  }));
-
-  return json({
-    possibleEntities: Array.from(possibleEntities),
-    items,
-  });
-}
-
-function getPossibleEntitiesForCurrentUser(currentUser: Pick<User, "groups">) {
-  const possibleEntities = new Set<Entity>();
-  currentUser.groups.forEach((group) => {
-    ALLOWED_ENTITIES_PER_GROUP[group].forEach((entity) =>
-      possibleEntities.add(entity),
-    );
-  });
-  return possibleEntities;
-}
-
-const ALLOWED_ENTITIES_PER_GROUP: Record<UserGroup, Set<Entity>> = {
-  [UserGroup.ADMIN]: new Set([Entity.ANIMAL, Entity.FOSTER_FAMILY]),
-  [UserGroup.ANIMAL_MANAGER]: new Set([Entity.ANIMAL, Entity.FOSTER_FAMILY]),
-  [UserGroup.BLOGGER]: new Set(),
-  [UserGroup.HEAD_OF_PARTNERSHIPS]: new Set(),
-  [UserGroup.VETERINARIAN]: new Set([Entity.ANIMAL]),
-  [UserGroup.VOLUNTEER]: new Set([Entity.ANIMAL]),
-};
 
 export function GlobalSearch() {
   const [isOpened, setIsOpened] = useState(false);
@@ -178,7 +72,7 @@ export function GlobalSearch() {
     return undefined;
   }, [isOpened]);
 
-  const fetcher = useFetcher<typeof loader>();
+  const fetcher = useFetcher<loader>();
   const possibleEntities = new Set(fetcher.data?.possibleEntities);
 
   // Make sure we clear any search when the combobox is closed.

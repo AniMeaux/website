@@ -19,9 +19,12 @@ import {
 } from "#previousEditions/previousEdition.tsx";
 import { cn } from "@animeaux/core";
 import { zu } from "@animeaux/zod-utils";
-import type { LoaderArgs, SerializeFrom } from "@remix-run/node";
+import type {
+  LoaderFunctionArgs,
+  MetaFunction,
+  SerializeFrom,
+} from "@remix-run/node";
 import { defer } from "@remix-run/node";
-import type { V2_MetaFunction } from "@remix-run/react";
 import { Await, Link, useLoaderData, useLocation } from "@remix-run/react";
 import { Suspense } from "react";
 
@@ -29,7 +32,7 @@ const ParamsSchema = zu.object({
   edition: zu.nativeEnum(PreviousEdition),
 });
 
-export async function loader({ params }: LoaderArgs) {
+export async function loader({ params }: LoaderFunctionArgs) {
   const { featureFlagSiteOnline } = createConfig();
 
   if (!featureFlagSiteOnline) {
@@ -47,7 +50,7 @@ export async function loader({ params }: LoaderArgs) {
   });
 }
 
-export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
+export const meta: MetaFunction<typeof loader> = ({ data }) => {
   return createSocialMeta({
     title: getPageTitle(
       data != null ? `Édition de ${data.edition}` : getErrorTitle(404),

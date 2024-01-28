@@ -13,13 +13,12 @@ import { prisma } from "#core/prisma.server.ts";
 import { NotFoundResponse } from "#core/response.server.ts";
 import { assertCurrentUserHasGroups } from "#currentUser/groups.server.ts";
 import { Icon } from "#generated/icon.tsx";
-import { DownloadPictureLink } from "#routes/downloads.picture.$id.tsx";
+import { DownloadPictureLink } from "#routes/downloads.picture.$id/link";
 import { cn } from "@animeaux/core";
 import { zu } from "@animeaux/zod-utils";
 import { UserGroup } from "@prisma/client";
-import type { LoaderArgs } from "@remix-run/node";
+import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import type { V2_MetaFunction } from "@remix-run/react";
 import { useLoaderData } from "@remix-run/react";
 
 export const handle: RouteHandle = {
@@ -32,7 +31,7 @@ const ParamsSchema = zu.object({
   pictureId: zu.string().uuid(),
 });
 
-export async function loader({ request, params }: LoaderArgs) {
+export async function loader({ request, params }: LoaderFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {
     select: { groups: true },
   });
@@ -70,7 +69,7 @@ export async function loader({ request, params }: LoaderArgs) {
   return json({ animal, visiblePictureId: paramsResult.data.pictureId });
 }
 
-export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
+export const meta: MetaFunction<typeof loader> = ({ data }) => {
   const animal = data?.animal;
   if (animal == null) {
     return [{ title: getPageTitle(getErrorTitle(404)) }];

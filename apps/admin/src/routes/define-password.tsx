@@ -12,9 +12,12 @@ import nameAndLogo from "#images/nameAndLogo.svg";
 import { cn } from "@animeaux/core";
 import { FormDataDelegate } from "@animeaux/form-data";
 import { zu } from "@animeaux/zod-utils";
-import type { ActionArgs, LoaderArgs } from "@remix-run/node";
+import type {
+  ActionFunctionArgs,
+  LoaderFunctionArgs,
+  MetaFunction,
+} from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
-import type { V2_MetaFunction } from "@remix-run/react";
 import { useFetcher } from "@remix-run/react";
 import { useEffect, useRef } from "react";
 
@@ -22,7 +25,7 @@ export const handle: RouteHandle = {
   htmlBackgroundColor: cn("bg-white bg-var-white"),
 };
 
-export async function loader({ request }: LoaderArgs) {
+export async function loader({ request }: LoaderFunctionArgs) {
   const currentUser = await db.currentUser.get(
     request,
     { select: { shouldChangePassword: true } },
@@ -40,7 +43,7 @@ export async function loader({ request }: LoaderArgs) {
   return null;
 }
 
-export const meta: V2_MetaFunction = () => {
+export const meta: MetaFunction = () => {
   return [{ title: getPageTitle("Définir un mot de passe") }];
 };
 
@@ -50,7 +53,7 @@ const ActionFormData = FormDataDelegate.create(
   }),
 );
 
-export async function action({ request }: ActionArgs) {
+export async function action({ request }: ActionFunctionArgs) {
   const currentUser = await db.currentUser.get(
     request,
     { select: { id: true } },

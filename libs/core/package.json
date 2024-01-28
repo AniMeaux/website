@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "sideEffects": false,
+  "type": "module",
   "main": "./src/index.ts",
   "exports": {
     ".": "./src/index.ts"
@@ -12,6 +13,6 @@
     "generate": "# Nothing to generate"
   },
   "peerDependencies": {
-    "@prisma/client": "^4.8.0"
+    "@prisma/client": "^5.8.1"
   }
 }

@@ -1,6 +1,5 @@
 import { PickUpLocationSearchParams } from "#animals/searchParams.ts";
 import { toBooleanAttribute } from "#core/attributes.ts";
-import { db } from "#core/db.server.ts";
 import { BaseTextInput } from "#core/formElements/baseTextInput.tsx";
 import { Input } from "#core/formElements/input.tsx";
 import {
@@ -11,40 +10,15 @@ import {
   SuggestionList,
 } from "#core/formElements/resourceInput.tsx";
 import { Routes } from "#core/navigation.ts";
-import { assertCurrentUserHasGroups } from "#currentUser/groups.server.ts";
 import { Icon } from "#generated/icon.tsx";
-import { UserGroup } from "@prisma/client";
+import type { loader } from "#routes/resources.pick-up-location/route";
+import { MAX_HIT_COUNT } from "#routes/resources.pick-up-location/shared";
 import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
-import type { LoaderArgs, SerializeFrom } from "@remix-run/node";
-import { json } from "@remix-run/node";
+import type { SerializeFrom } from "@remix-run/node";
 import { useFetcher } from "@remix-run/react";
 import { useCombobox } from "downshift";
 import { createPath } from "history";
 import { forwardRef, useEffect, useState } from "react";
-
-const MAX_HIT_COUNT = 6;
-
-export async function loader({ request }: LoaderArgs) {
-  const currentUser = await db.currentUser.get(request, {
-    select: { groups: true },
-  });
-
-  assertCurrentUserHasGroups(currentUser, [
-    UserGroup.ADMIN,
-    UserGroup.ANIMAL_MANAGER,
-  ]);
-
-  const searchParams = PickUpLocationSearchParams.parse(
-    new URL(request.url).searchParams,
-  );
-
-  return json({
-    pickUpLocations: await db.pickUpLocation.fuzzySearch({
-      text: searchParams.text,
-      maxHitCount: MAX_HIT_COUNT,
-    }),
-  });
-}
 
 type PickUpLocationInputProps = {
   name: string;
@@ -61,7 +35,7 @@ export const PickUpLocationInput = forwardRef<
   ref,
 ) {
   const [isOpened, setIsOpened] = useState(false);
-  const fetcher = useFetcher<typeof loader>();
+  const fetcher = useFetcher<loader>();
 
   // This effect does 2 things:
   // - Make sure we display suggestions without delay when the combobox is

@@ -16,15 +16,18 @@ import { assertCurrentUserHasGroups } from "#currentUser/groups.server.ts";
 import { cn, formatDateRange } from "@animeaux/core";
 import type { Prisma } from "@prisma/client";
 import { UserGroup } from "@prisma/client";
-import type { LoaderArgs, SerializeFrom } from "@remix-run/node";
+import type {
+  LoaderFunctionArgs,
+  MetaFunction,
+  SerializeFrom,
+} from "@remix-run/node";
 import { json } from "@remix-run/node";
-import type { V2_MetaFunction } from "@remix-run/react";
 import { useLoaderData } from "@remix-run/react";
-import { promiseHash } from "remix-utils";
+import { promiseHash } from "remix-utils/promise";
 
 const EVENT_COUNT_PER_PAGE = 20;
 
-export async function loader({ request }: LoaderArgs) {
+export async function loader({ request }: LoaderFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {
     select: { groups: true },
   });
@@ -69,7 +72,7 @@ export async function loader({ request }: LoaderArgs) {
   return json({ totalCount, pageCount, events });
 }
 
-export const meta: V2_MetaFunction = () => {
+export const meta: MetaFunction = () => {
   return [{ title: getPageTitle("Événements") }];
 };
 
