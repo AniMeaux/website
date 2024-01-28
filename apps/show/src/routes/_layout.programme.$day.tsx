@@ -1,23 +1,23 @@
-import { BeeIllustration } from "#core/Illustration/bee.tsx";
-import { Action } from "#core/actions.tsx";
-import { createConfig } from "#core/config.server.ts";
-import { useConfig } from "#core/config.ts";
-import { Tab, Tabs } from "#core/controllers/tabs.tsx";
-import { ErrorPage, getErrorTitle } from "#core/dataDisplay/errorPage.tsx";
-import { Markdown, SENTENCE_COMPONENTS } from "#core/dataDisplay/markdown.tsx";
+import { BeeIllustration } from "#core/Illustration/bee";
+import { Action } from "#core/actions";
+import { useConfig } from "#core/config";
+import { createConfig } from "#core/config.server";
+import { Tab, Tabs } from "#core/controllers/tabs";
+import { ErrorPage, getErrorTitle } from "#core/dataDisplay/errorPage";
+import { Markdown, SENTENCE_COMPONENTS } from "#core/dataDisplay/markdown";
 import {
   CLOSING_TIME,
   OPENING_TIME,
   SORTED_SHOW_DAYS,
   ShowDay,
-} from "#core/dates.ts";
+} from "#core/dates";
 import { LightBoardCard } from "#core/layout/lightBoardCard";
-import { Section } from "#core/layout/section.tsx";
-import { createSocialMeta } from "#core/meta.ts";
-import { Routes } from "#core/navigation.tsx";
-import { getPageTitle } from "#core/pageTitle.ts";
-import { prisma } from "#core/prisma.server.ts";
-import { NotFoundResponse } from "#core/response.server.ts";
+import { Section } from "#core/layout/section";
+import { createSocialMeta } from "#core/meta";
+import { Routes } from "#core/navigation";
+import { getPageTitle } from "#core/pageTitle";
+import { prisma } from "#core/prisma.server";
+import { NotFoundResponse } from "#core/response.server";
 import { cn } from "@animeaux/core";
 import { zu } from "@animeaux/zod-utils";
 import type {

@@ -1,5 +1,5 @@
-import { getPageTitle } from "#core/pageTitle.ts";
-import { theme } from "#generated/theme.ts";
+import { getPageTitle } from "#core/pageTitle";
+import { theme } from "#generated/theme";
 import googleTouchIcon from "#images/googleTouchIcon.png";
 import type { LinksFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";

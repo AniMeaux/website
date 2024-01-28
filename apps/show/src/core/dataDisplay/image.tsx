@@ -1,9 +1,9 @@
-import { useConfig } from "#core/config.ts";
+import { useConfig } from "#core/config";
 import type { ImageData } from "#core/dataDisplay/imageUrl";
-import type { ImageShapeId } from "#generated/imageShapeId.ts";
+import type { ImageShapeId } from "#generated/imageShapeId";
 import sprite from "#generated/imageShapesSprite.svg";
-import type { ScreenSize } from "#generated/theme.ts";
-import { theme } from "#generated/theme.ts";
+import type { ScreenSize } from "#generated/theme";
+import { theme } from "#generated/theme";
 import { cn } from "@animeaux/core";
 import { blurhashToDataUri } from "@unpic/placeholder";
 import orderBy from "lodash.orderby";

@@ -1,11 +1,11 @@
-import { createConfig } from "#core/config.server.ts";
-import { useConfig } from "#core/config.ts";
-import { ErrorPage, getErrorTitle } from "#core/dataDisplay/errorPage.tsx";
-import { createSocialMeta } from "#core/meta.ts";
-import { Routes } from "#core/navigation.tsx";
-import { getPageTitle } from "#core/pageTitle.ts";
-import { NotFoundResponse } from "#core/response.server.ts";
-import { SORTED_PREVIOUS_EDITIONS } from "#previousEditions/previousEdition.tsx";
+import { useConfig } from "#core/config";
+import { createConfig } from "#core/config.server";
+import { ErrorPage, getErrorTitle } from "#core/dataDisplay/errorPage";
+import { createSocialMeta } from "#core/meta";
+import { Routes } from "#core/navigation";
+import { getPageTitle } from "#core/pageTitle";
+import { NotFoundResponse } from "#core/response.server";
+import { SORTED_PREVIOUS_EDITIONS } from "#previousEditions/previousEdition";
 import type { MetaFunction } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
 

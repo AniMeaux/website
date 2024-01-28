@@ -1,4 +1,4 @@
-import type { CloudinaryApiResponse } from "#core/cloudinary/shared.server.ts";
+import type { CloudinaryApiResponse } from "#core/cloudinary/shared.server";
 import { SearchParamsDelegate } from "@animeaux/form-data";
 import { zu } from "@animeaux/zod-utils";
 import { rest } from "msw";

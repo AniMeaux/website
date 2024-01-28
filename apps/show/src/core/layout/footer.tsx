@@ -1,16 +1,16 @@
-import { Action, ProseInlineAction } from "#core/actions.tsx";
-import { useConfig } from "#core/config.ts";
-import { DynamicImage } from "#core/dataDisplay/image.tsx";
-import { hasShowEnded } from "#core/dates.ts";
-import { FooterWave } from "#core/layout/footerWave.tsx";
-import { LegalBackground } from "#core/layout/legalBackground.tsx";
-import { Section } from "#core/layout/section.tsx";
-import { Routes } from "#core/navigation.tsx";
-import { Icon } from "#generated/icon.tsx";
-import { Pictogram } from "#generated/pictogram.tsx";
+import { Action, ProseInlineAction } from "#core/actions";
+import { useConfig } from "#core/config";
+import { DynamicImage } from "#core/dataDisplay/image";
+import { hasShowEnded } from "#core/dates";
+import { FooterWave } from "#core/layout/footerWave";
+import { LegalBackground } from "#core/layout/legalBackground";
+import { Section } from "#core/layout/section";
+import { Routes } from "#core/navigation";
+import { Icon } from "#generated/icon";
+import { Pictogram } from "#generated/pictogram";
 import logoAniMeaux from "#images/logoAniMeaux.svg";
 import { usePartners } from "#partners/data";
-import { PartnersImage } from "#partners/image.tsx";
+import { PartnersImage } from "#partners/image";
 import { PartnerItem } from "#partners/item";
 import { Link } from "@remix-run/react";
 
