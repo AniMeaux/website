@@ -263,6 +263,13 @@ export class AnimalDbDelegate {
       });
     }
 
+    if (searchParams.diagnosis.size > 0) {
+      where.push({
+        species: Species.DOG,
+        diagnosis: { in: Array.from(searchParams.diagnosis) },
+      });
+    }
+
     if (searchParams.sterilizations.size > 0) {
       where.push({
         OR: Array.from(searchParams.sterilizations).map(

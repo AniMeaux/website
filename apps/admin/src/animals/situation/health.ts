@@ -1,6 +1,6 @@
 import { ACTIVE_ANIMAL_STATUS, SORTED_STATUS } from "#animals/status.tsx";
 import type { Animal } from "@prisma/client";
-import { Species, Status } from "@prisma/client";
+import { Diagnosis, Species, Status } from "@prisma/client";
 import type { SerializeFrom } from "@remix-run/node";
 import difference from "lodash.difference";
 import { DateTime } from "luxon";
@@ -79,3 +79,10 @@ export function formatNextVaccinationDate(nextDate: string) {
     base: DateTime.now().startOf("day"),
   });
 }
+
+export const HAS_UP_COMMING_DIAGNOSE_CONDITIONS = {
+  ageInMonths: 8,
+  diagnosis: [Diagnosis.UNKNOWN],
+  species: [Species.DOG],
+  status: ACTIVE_ANIMAL_STATUS,
+};

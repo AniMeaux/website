@@ -102,6 +102,7 @@ model Animal {
   colorId                  String?
   comments                 String?
   description              String?
+  diagnosis                Diagnosis       @default(UNKNOWN)
   fosterFamily             FosterFamily?   @relation(fields: [fosterFamilyId], references: [id], onDelete: Restrict)
   fosterFamilyId           String?
   gender                   Gender
@@ -146,6 +147,7 @@ model AnimalDraft {
   colorId                  String?
   comments                 String?
   description              String?
+  diagnosis                Diagnosis?       @default(UNKNOWN)
   fosterFamily             FosterFamily?    @relation(fields: [fosterFamilyId], references: [id])
   fosterFamilyId           String?
   gender                   Gender?
@@ -323,5 +325,12 @@ enum AnimalAge {
 enum ScreeningResult {
   NEGATIVE
   POSITIVE
+  UNKNOWN
+}
+
+enum Diagnosis {
+  CATEGORIZED
+  NOT_APPLICABLE
+  UNCATEGORIZED
   UNKNOWN
 }
