@@ -1,9 +1,9 @@
-import type { Config } from "#core/config.ts";
-import { useConfig } from "#core/config.ts";
-import { createImageMedia } from "#core/dataDisplay/image.tsx";
-import { hasShowEnded } from "#core/dates.ts";
-import { Routes } from "#core/navigation.tsx";
-import { Icon } from "#generated/icon.tsx";
+import type { Config } from "#core/config";
+import { useConfig } from "#core/config";
+import { createImageMedia } from "#core/dataDisplay/image";
+import { hasShowEnded } from "#core/dates";
+import { Routes } from "#core/navigation";
+import { Icon } from "#generated/icon";
 import logoMedium from "#images/logoMedium.svg";
 import logoSmall from "#images/logoSmall.svg";
 import { cn } from "@animeaux/core";

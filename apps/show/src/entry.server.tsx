@@ -10,7 +10,7 @@ import invariant from "tiny-invariant";
 const ABORT_DELAY = 5000;
 
 if (process.env.NODE_ENV === "development") {
-  import("#mocks/mocks.server.ts").then((module) => module.startWorker());
+  import("#mocks/mocks.server").then((module) => module.startWorker());
 }
 
 export default function handleRequest(

@@ -1,5 +1,5 @@
-import { extendCurrentUserPreferences } from "#currentUser/preferences.server.ts";
-import { extendCurrentUserSession } from "#currentUser/session.server.ts";
+import { extendCurrentUserPreferences } from "#currentUser/preferences.server";
+import { extendCurrentUserSession } from "#currentUser/session.server";
 import type { EntryContext, HandleDataRequestFunction } from "@remix-run/node";
 import { createReadableStreamFromReadable } from "@remix-run/node";
 import { RemixServer } from "@remix-run/react";
@@ -11,11 +11,11 @@ import { renderToPipeableStream } from "react-dom/server";
 const ABORT_DELAY = 5000;
 
 if (process.env.NODE_ENV === "development") {
-  import("#mocks/mocks.server.ts").then((module) => module.startWorker());
+  import("#mocks/mocks.server").then((module) => module.startWorker());
 }
 
 if (process.env.ENABLE_CRONS === "true") {
-  import("#core/crons/crons.server.ts").then((module) => module.startCrons());
+  import("#core/crons/crons.server").then((module) => module.startCrons());
 }
 
 export default async function handleRequest(

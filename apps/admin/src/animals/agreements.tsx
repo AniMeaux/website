@@ -1,5 +1,5 @@
-import type { IconProps } from "#generated/icon.tsx";
-import { Icon } from "#generated/icon.tsx";
+import type { IconProps } from "#generated/icon";
+import { Icon } from "#generated/icon";
 import { cn } from "@animeaux/core";
 
 export enum AgreementValue {

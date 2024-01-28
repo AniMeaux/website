@@ -1,6 +1,6 @@
-import { db } from "#core/db.server.ts";
-import { ForbiddenResponse } from "#core/response.server.ts";
-import { assertCurrentUserHasGroups } from "#currentUser/groups.server.ts";
+import { db } from "#core/db.server";
+import { ForbiddenResponse } from "#core/response.server";
+import { assertCurrentUserHasGroups } from "#currentUser/groups.server";
 import {
   Entity,
   GlobalSearchParams,

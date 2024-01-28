@@ -1,10 +1,10 @@
-import { lruCache } from "#core/cache.server.ts";
-import type { CloudinaryApiResponse } from "#core/cloudinary/shared.server.ts";
+import { lruCache } from "#core/cache.server";
+import type { CloudinaryApiResponse } from "#core/cloudinary/shared.server";
 import {
   CloudinaryApiResponseSchema,
   CloudinaryDelegate,
-} from "#core/cloudinary/shared.server.ts";
-import type { PreviousEdition } from "#previousEditions/previousEdition.tsx";
+} from "#core/cloudinary/shared.server";
+import type { PreviousEdition } from "#previousEditions/previousEdition";
 import { cachified } from "cachified";
 
 export class PrevousEditionCloudinaryDelegate extends CloudinaryDelegate {

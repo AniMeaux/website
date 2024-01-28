@@ -1,4 +1,4 @@
-import { isIterable } from "#core/collections.ts";
+import { isIterable } from "#core/collections";
 import type { SearchOptions } from "@algolia/client-search";
 import type { SearchIndex } from "algoliasearch";
 import chunk from "lodash.chunk";

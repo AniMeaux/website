@@ -1,8 +1,8 @@
-import type { BaseLinkProps } from "#core/baseLink.tsx";
-import { BaseLink } from "#core/baseLink.tsx";
-import { LineShapeHorizontal } from "#core/layout/lineShape.tsx";
-import type { IconProps } from "#generated/icon.tsx";
-import { Icon } from "#generated/icon.tsx";
+import type { BaseLinkProps } from "#core/baseLink";
+import { BaseLink } from "#core/baseLink";
+import { LineShapeHorizontal } from "#core/layout/lineShape";
+import type { IconProps } from "#generated/icon";
+import { Icon } from "#generated/icon";
 import nameAndLogo from "#images/nameAndLogo.svg";
 import { SubscriptionForm } from "#routes/resources.subscribe/input";
 import { cn } from "@animeaux/core";

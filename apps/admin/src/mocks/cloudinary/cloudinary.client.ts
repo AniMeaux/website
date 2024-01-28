@@ -1,4 +1,4 @@
-import { simpleHash } from "#core/simpleHash.tsx";
+import { simpleHash } from "#core/simpleHash";
 import { rest } from "msw";
 import invariant from "tiny-invariant";
 

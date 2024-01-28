@@ -1,5 +1,5 @@
-import { Input } from "#core/formElements/input.tsx";
-import { Icon } from "#generated/icon.tsx";
+import { Input } from "#core/formElements/input";
+import { Icon } from "#generated/icon";
 import { forwardRef, useState } from "react";
 
 export const PasswordInput = Object.assign(

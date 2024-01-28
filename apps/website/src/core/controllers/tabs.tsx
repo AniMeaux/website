@@ -1,5 +1,5 @@
-import { useWidth } from "#core/hooks.ts";
-import { LineShapeHorizontal } from "#core/layout/lineShape.tsx";
+import { useWidth } from "#core/hooks";
+import { LineShapeHorizontal } from "#core/layout/lineShape";
 import { cn } from "@animeaux/core";
 import { Transition } from "react-transition-group";
 

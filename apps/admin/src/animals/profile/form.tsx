@@ -4,22 +4,22 @@ import {
   SORTED_AGREEMENTS,
   agreementFromBoolean,
   agreementToBoolean,
-} from "#animals/agreements.tsx";
-import { GENDER_TRANSLATION, SORTED_GENDERS } from "#animals/gender.tsx";
+} from "#animals/agreements";
+import { GENDER_TRANSLATION, SORTED_GENDERS } from "#animals/gender";
 import {
   SORTED_SPECIES,
   SPECIES_ICON,
   SPECIES_TRANSLATION,
-} from "#animals/species.tsx";
-import { Action } from "#core/actions.tsx";
-import { toIsoDateValue } from "#core/dates.ts";
-import { Form } from "#core/formElements/form.tsx";
-import { Input } from "#core/formElements/input.tsx";
-import { RadioInput, RadioInputList } from "#core/formElements/radioInput.tsx";
-import { RequiredStar } from "#core/formElements/requiredStar.tsx";
-import { Textarea } from "#core/formElements/textarea.tsx";
-import { Separator } from "#core/layout/separator.tsx";
-import { Icon } from "#generated/icon.tsx";
+} from "#animals/species";
+import { Action } from "#core/actions";
+import { toIsoDateValue } from "#core/dates";
+import { Form } from "#core/formElements/form";
+import { Input } from "#core/formElements/input";
+import { RadioInput, RadioInputList } from "#core/formElements/radioInput";
+import { RequiredStar } from "#core/formElements/requiredStar";
+import { Textarea } from "#core/formElements/textarea";
+import { Separator } from "#core/layout/separator";
+import { Icon } from "#generated/icon";
 import { BreedInput } from "#routes/resources.breed/input";
 import { ColorInput } from "#routes/resources.color/input";
 import { FormDataDelegate } from "@animeaux/form-data";

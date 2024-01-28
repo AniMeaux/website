@@ -1,6 +1,6 @@
-import type { ImageFileOrId } from "#core/dataDisplay/image.tsx";
-import { DataUrlOrDynamicImage } from "#core/dataDisplay/image.tsx";
-import { createDragAndDropContext } from "#core/dragAndDrop.tsx";
+import type { ImageFileOrId } from "#core/dataDisplay/image";
+import { DataUrlOrDynamicImage } from "#core/dataDisplay/image";
+import { createDragAndDropContext } from "#core/dragAndDrop";
 
 const {
   DragAndDropContextProvider,

@@ -1,22 +1,22 @@
-import { cloudinary } from "#core/cloudinary/cloudinary.server.ts";
-import { createConfig } from "#core/config.server.ts";
-import { useConfig } from "#core/config.ts";
-import { Tab, Tabs } from "#core/controllers/tabs.tsx";
-import { ErrorPage, getErrorTitle } from "#core/dataDisplay/errorPage.tsx";
-import { DynamicImage } from "#core/dataDisplay/image.tsx";
-import { Section } from "#core/layout/section.tsx";
-import { createSocialMeta } from "#core/meta.ts";
-import { Routes } from "#core/navigation.tsx";
-import { getPageTitle } from "#core/pageTitle.ts";
-import { NotFoundResponse } from "#core/response.server.ts";
-import { ScrollRestorationLocationState } from "#core/scrollRestoration.ts";
-import { PreviousEditionImage } from "#previousEditions/image.tsx";
-import { PhotoLocationState } from "#previousEditions/photoLocationState.ts";
+import { cloudinary } from "#core/cloudinary/cloudinary.server";
+import { useConfig } from "#core/config";
+import { createConfig } from "#core/config.server";
+import { Tab, Tabs } from "#core/controllers/tabs";
+import { ErrorPage, getErrorTitle } from "#core/dataDisplay/errorPage";
+import { DynamicImage } from "#core/dataDisplay/image";
+import { Section } from "#core/layout/section";
+import { createSocialMeta } from "#core/meta";
+import { Routes } from "#core/navigation";
+import { getPageTitle } from "#core/pageTitle";
+import { NotFoundResponse } from "#core/response.server";
+import { ScrollRestorationLocationState } from "#core/scrollRestoration";
+import { PreviousEditionImage } from "#previousEditions/image";
+import { PhotoLocationState } from "#previousEditions/photoLocationState";
 import {
   PREVIOUS_EDITION_PHOTOGRAPH,
   PreviousEdition,
   SORTED_PREVIOUS_EDITIONS,
-} from "#previousEditions/previousEdition.tsx";
+} from "#previousEditions/previousEdition";
 import { cn } from "@animeaux/core";
 import { zu } from "@animeaux/zod-utils";
 import type {

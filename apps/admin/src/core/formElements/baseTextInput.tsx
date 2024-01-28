@@ -1,5 +1,5 @@
-import { fromBooleanAttribute } from "#core/attributes.ts";
-import { ensureArray } from "#core/collections.ts";
+import { fromBooleanAttribute } from "#core/attributes";
+import { ensureArray } from "#core/collections";
 import { cn } from "@animeaux/core";
 import { Primitive } from "@animeaux/react-primitives";
 import { createElement, forwardRef } from "react";

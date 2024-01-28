@@ -1,10 +1,10 @@
-import { SORTED_SPECIES, SPECIES_TRANSLATION } from "#animals/species.tsx";
-import { Action } from "#core/actions.tsx";
-import { Form } from "#core/formElements/form.tsx";
-import { Input } from "#core/formElements/input.tsx";
-import { RadioInput, RadioInputList } from "#core/formElements/radioInput.tsx";
-import { RequiredStar } from "#core/formElements/requiredStar.tsx";
-import { Icon } from "#generated/icon.tsx";
+import { SORTED_SPECIES, SPECIES_TRANSLATION } from "#animals/species";
+import { Action } from "#core/actions";
+import { Form } from "#core/formElements/form";
+import { Input } from "#core/formElements/input";
+import { RadioInput, RadioInputList } from "#core/formElements/radioInput";
+import { RequiredStar } from "#core/formElements/requiredStar";
+import { Icon } from "#generated/icon";
 import { FormDataDelegate } from "@animeaux/form-data";
 import { zu } from "@animeaux/zod-utils";
 import type { Breed } from "@prisma/client";

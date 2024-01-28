@@ -1,5 +1,5 @@
-import { generateId } from "#core/id.ts";
-import { useIsTouchScreen } from "#core/touchScreen.tsx";
+import { generateId } from "#core/id";
+import { useIsTouchScreen } from "#core/touchScreen";
 import {
   createContext,
   useCallback,

@@ -1,4 +1,4 @@
-import { createConfig } from "#core/config.server.ts";
+import { createConfig } from "#core/config.server";
 
 export async function loader() {
   const config = createConfig();

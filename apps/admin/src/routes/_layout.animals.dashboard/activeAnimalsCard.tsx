@@ -1,11 +1,11 @@
-import { AnimalItem } from "#animals/item.tsx";
-import { AnimalSearchParams } from "#animals/searchParams.ts";
-import { ACTIVE_ANIMAL_STATUS } from "#animals/status.tsx";
-import { Action } from "#core/actions.tsx";
-import { BaseLink } from "#core/baseLink.tsx";
-import { Empty } from "#core/dataDisplay/empty.tsx";
-import { Card } from "#core/layout/card.tsx";
-import { Routes } from "#core/navigation.ts";
+import { AnimalItem } from "#animals/item";
+import { AnimalSearchParams } from "#animals/searchParams";
+import { ACTIVE_ANIMAL_STATUS } from "#animals/status";
+import { Action } from "#core/actions";
+import { BaseLink } from "#core/baseLink";
+import { Empty } from "#core/dataDisplay/empty";
+import { Card } from "#core/layout/card";
+import { Routes } from "#core/navigation";
 import { useLoaderData } from "@remix-run/react";
 import type { loader } from "./route";
 

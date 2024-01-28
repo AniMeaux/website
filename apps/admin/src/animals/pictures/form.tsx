@@ -1,23 +1,23 @@
-import { getAllAnimalPictures } from "#animals/pictures/allPictures.ts";
+import { getAllAnimalPictures } from "#animals/pictures/allPictures";
 import {
   DragAndDropContextProvider,
   PictureItemPreview,
   useDragItem,
   useDropContainer,
-} from "#animals/pictures/dragAndDrop.tsx";
-import { Action } from "#core/actions.tsx";
-import { InlineHelper } from "#core/dataDisplay/helper.tsx";
-import type { ImageFile, ImageFileOrId } from "#core/dataDisplay/image.tsx";
+} from "#animals/pictures/dragAndDrop";
+import { Action } from "#core/actions";
+import { InlineHelper } from "#core/dataDisplay/helper";
+import type { ImageFile, ImageFileOrId } from "#core/dataDisplay/image";
 import {
   IMAGE_SIZE_LIMIT_MB,
   getImageId,
   isImageFile,
   isImageOverSize,
   readFiles,
-} from "#core/dataDisplay/image.tsx";
-import { Form } from "#core/formElements/form.tsx";
-import { ImageInput } from "#core/formElements/imageInput.tsx";
-import { Icon } from "#generated/icon.tsx";
+} from "#core/dataDisplay/image";
+import { Form } from "#core/formElements/form";
+import { ImageInput } from "#core/formElements/imageInput";
+import { Icon } from "#generated/icon";
 import { FormDataDelegate } from "@animeaux/form-data";
 import { zu } from "@animeaux/zod-utils";
 import type { Animal } from "@prisma/client";

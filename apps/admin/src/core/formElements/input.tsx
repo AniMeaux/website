@@ -1,6 +1,6 @@
-import { toBooleanAttribute } from "#core/attributes.ts";
-import { ensureArray } from "#core/collections.ts";
-import { BaseTextInput } from "#core/formElements/baseTextInput.tsx";
+import { toBooleanAttribute } from "#core/attributes";
+import { ensureArray } from "#core/collections";
+import { BaseTextInput } from "#core/formElements/baseTextInput";
 import { forwardRef } from "react";
 
 export type InputProps = Omit<

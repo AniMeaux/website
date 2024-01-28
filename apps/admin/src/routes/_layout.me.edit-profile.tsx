@@ -1,13 +1,13 @@
-import { Action } from "#core/actions.tsx";
-import { db } from "#core/db.server.ts";
-import { EmailAlreadyUsedError } from "#core/errors.server.ts";
-import { Form } from "#core/formElements/form.tsx";
-import { Input } from "#core/formElements/input.tsx";
-import { Card } from "#core/layout/card.tsx";
-import { PageLayout } from "#core/layout/page.tsx";
-import { Routes, useBackIfPossible } from "#core/navigation.ts";
-import { getPageTitle } from "#core/pageTitle.ts";
-import { Icon } from "#generated/icon.tsx";
+import { Action } from "#core/actions";
+import { db } from "#core/db.server";
+import { EmailAlreadyUsedError } from "#core/errors.server";
+import { Form } from "#core/formElements/form";
+import { Input } from "#core/formElements/input";
+import { Card } from "#core/layout/card";
+import { PageLayout } from "#core/layout/page";
+import { Routes, useBackIfPossible } from "#core/navigation";
+import { getPageTitle } from "#core/pageTitle";
+import { Icon } from "#generated/icon";
 import { FormDataDelegate } from "@animeaux/form-data";
 import { zu } from "@animeaux/zod-utils";
 import type {

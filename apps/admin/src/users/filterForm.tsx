@@ -1,24 +1,17 @@
-import { Action } from "#core/actions.tsx";
-import { BaseLink } from "#core/baseLink.tsx";
-import { Filters } from "#core/controllers/filters.tsx";
-import { toIsoDateValue } from "#core/dates.ts";
-import { ControlledInput } from "#core/formElements/controlledInput.tsx";
-import { Form } from "#core/formElements/form.tsx";
-import {
-  ToggleInput,
-  ToggleInputList,
-} from "#core/formElements/toggleInput.tsx";
-import { Icon } from "#generated/icon.tsx";
-import {
-  GROUP_ICON,
-  GROUP_TRANSLATION,
-  SORTED_GROUPS,
-} from "#users/groups.tsx";
+import { Action } from "#core/actions";
+import { BaseLink } from "#core/baseLink";
+import { Filters } from "#core/controllers/filters";
+import { toIsoDateValue } from "#core/dates";
+import { ControlledInput } from "#core/formElements/controlledInput";
+import { Form } from "#core/formElements/form";
+import { ToggleInput, ToggleInputList } from "#core/formElements/toggleInput";
+import { Icon } from "#generated/icon";
+import { GROUP_ICON, GROUP_TRANSLATION, SORTED_GROUPS } from "#users/groups";
 import {
   USER_DEFAULT_SORT,
   UserSearchParams,
   UserSort,
-} from "#users/searchParams.ts";
+} from "#users/searchParams";
 import { useOptimisticSearchParams } from "@animeaux/form-data";
 
 export function UserFilterForm() {

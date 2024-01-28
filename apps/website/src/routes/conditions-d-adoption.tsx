@@ -1,8 +1,8 @@
-import { SPECIES_ICON } from "#animals/species.ts";
-import { actionClassNames } from "#core/actions.ts";
-import { BaseLink } from "#core/baseLink.tsx";
-import { getConfigFromMetaMatches } from "#core/config.ts";
-import { Tab } from "#core/controllers/tabs.tsx";
+import { SPECIES_ICON } from "#animals/species";
+import { actionClassNames } from "#core/actions";
+import { BaseLink } from "#core/baseLink";
+import { getConfigFromMetaMatches } from "#core/config";
+import { Tab } from "#core/controllers/tabs";
 import {
   OptionCard,
   OptionDescription,
@@ -11,25 +11,25 @@ import {
   OptionList,
   OptionPrice,
   OptionTitle,
-} from "#core/dataDisplay/options.tsx";
-import { Timeline, TimelineItem } from "#core/dataDisplay/timeline.tsx";
+} from "#core/dataDisplay/options";
+import { Timeline, TimelineItem } from "#core/dataDisplay/timeline";
 import {
   BubbleShape,
   bubbleSectionClassNames,
-} from "#core/layout/bubbleSection.tsx";
+} from "#core/layout/bubbleSection";
 import {
   HeroSection,
   HeroSectionAside,
   HeroSectionImage,
   HeroSectionParagraph,
   HeroSectionTitle,
-} from "#core/layout/heroSection.tsx";
-import { createSocialMeta } from "#core/meta.ts";
-import { getPageTitle } from "#core/pageTitle.ts";
-import { Icon } from "#generated/icon.tsx";
-import { adoptImages } from "#images/adopt.tsx";
-import { questionsImages } from "#images/questions.tsx";
-import { socialImages } from "#images/social.tsx";
+} from "#core/layout/heroSection";
+import { createSocialMeta } from "#core/meta";
+import { getPageTitle } from "#core/pageTitle";
+import { Icon } from "#generated/icon";
+import { adoptImages } from "#images/adopt";
+import { questionsImages } from "#images/questions";
+import { socialImages } from "#images/social";
 import { cn } from "@animeaux/core";
 import { Species } from "@prisma/client";
 import type { MetaFunction } from "@remix-run/node";

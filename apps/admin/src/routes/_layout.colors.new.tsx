@@ -1,12 +1,12 @@
-import { ActionFormData, ColorForm } from "#colors/form.tsx";
-import { ErrorPage } from "#core/dataDisplay/errorPage.tsx";
-import { db } from "#core/db.server.ts";
-import { AlreadyExistError } from "#core/errors.server.ts";
-import { Card } from "#core/layout/card.tsx";
-import { PageLayout } from "#core/layout/page.tsx";
-import { Routes, useBackIfPossible } from "#core/navigation.ts";
-import { getPageTitle } from "#core/pageTitle.ts";
-import { assertCurrentUserHasGroups } from "#currentUser/groups.server.ts";
+import { ActionFormData, ColorForm } from "#colors/form";
+import { ErrorPage } from "#core/dataDisplay/errorPage";
+import { db } from "#core/db.server";
+import { AlreadyExistError } from "#core/errors.server";
+import { Card } from "#core/layout/card";
+import { PageLayout } from "#core/layout/page";
+import { Routes, useBackIfPossible } from "#core/navigation";
+import { getPageTitle } from "#core/pageTitle";
+import { assertCurrentUserHasGroups } from "#currentUser/groups.server";
 import type { zu } from "@animeaux/zod-utils";
 import { UserGroup } from "@prisma/client";
 import type {

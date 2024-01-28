@@ -1,15 +1,15 @@
-import { AnimalSmallItem } from "#animals/item.tsx";
+import { AnimalSmallItem } from "#animals/item";
 import {
   AnimalSearchParams,
   AnimalSort,
   AnimalSterilization,
-} from "#animals/searchParams.ts";
-import { HAS_UP_COMMING_STERILISATION_CONDITIONS } from "#animals/situation/health.ts";
-import { Action } from "#core/actions.tsx";
-import { BaseLink } from "#core/baseLink.tsx";
-import { Empty } from "#core/dataDisplay/empty.tsx";
-import { Card } from "#core/layout/card.tsx";
-import { Routes } from "#core/navigation.ts";
+} from "#animals/searchParams";
+import { HAS_UP_COMMING_STERILISATION_CONDITIONS } from "#animals/situation/health";
+import { Action } from "#core/actions";
+import { BaseLink } from "#core/baseLink";
+import { Empty } from "#core/dataDisplay/empty";
+import { Card } from "#core/layout/card";
+import { Routes } from "#core/navigation";
 import { formatAge } from "@animeaux/core";
 import { useLoaderData } from "@remix-run/react";
 import { DateTime } from "luxon";

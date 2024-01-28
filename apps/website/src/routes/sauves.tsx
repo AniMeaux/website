@@ -1,10 +1,10 @@
-import { AnimalItem } from "#animals/item.tsx";
-import { SAVED_ANIMAL_STATUS } from "#animals/status.ts";
-import { Paginator } from "#core/controllers/paginator.tsx";
-import { prisma } from "#core/db.server.ts";
-import { createSocialMeta } from "#core/meta.ts";
-import { getPageTitle } from "#core/pageTitle.ts";
-import { getPage } from "#core/searchParams.ts";
+import { AnimalItem } from "#animals/item";
+import { SAVED_ANIMAL_STATUS } from "#animals/status";
+import { Paginator } from "#core/controllers/paginator";
+import { prisma } from "#core/db.server";
+import { createSocialMeta } from "#core/meta";
+import { getPageTitle } from "#core/pageTitle";
+import { getPage } from "#core/searchParams";
 import { cn } from "@animeaux/core";
 import type { Prisma } from "@prisma/client";
 import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";

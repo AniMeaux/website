@@ -1,8 +1,8 @@
-import { BaseLink } from "#core/baseLink.tsx";
-import { DynamicImage } from "#core/dataDisplay/image.tsx";
-import { prisma } from "#core/db.server.ts";
-import { createSocialMeta } from "#core/meta.ts";
-import { getPageTitle } from "#core/pageTitle.ts";
+import { BaseLink } from "#core/baseLink";
+import { DynamicImage } from "#core/dataDisplay/image";
+import { prisma } from "#core/db.server";
+import { createSocialMeta } from "#core/meta";
+import { getPageTitle } from "#core/pageTitle";
 import { cn } from "@animeaux/core";
 import type { PressArticle } from "@prisma/client";
 import type { MetaFunction, SerializeFrom } from "@remix-run/node";

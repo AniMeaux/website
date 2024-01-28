@@ -1,4 +1,4 @@
-import type { ImageDescriptor } from "#core/dataDisplay/image.tsx";
+import type { ImageDescriptor } from "#core/dataDisplay/image";
 import engagement1024 from "#images/engagement-1024w.png";
 import engagement1536 from "#images/engagement-1536w.png";
 import engagement2048 from "#images/engagement-2048w.png";

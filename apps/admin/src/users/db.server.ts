@@ -1,11 +1,11 @@
-import { algolia } from "#core/algolia/algolia.server.ts";
+import { algolia } from "#core/algolia/algolia.server";
 import {
   EmailAlreadyUsedError,
   NotFoundError,
   PrismaErrorCodes,
   ReferencedError,
-} from "#core/errors.server.ts";
-import { prisma } from "#core/prisma.server.ts";
+} from "#core/errors.server";
+import { prisma } from "#core/prisma.server";
 import type { UserHit } from "@animeaux/algolia-client";
 import { generatePasswordHash } from "@animeaux/password";
 import type { User } from "@prisma/client";

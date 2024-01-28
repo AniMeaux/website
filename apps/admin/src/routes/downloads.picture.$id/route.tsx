@@ -1,8 +1,8 @@
-import { createConfig } from "#core/config.server.ts";
-import { createCloudinaryUrl } from "#core/dataDisplay/image.tsx";
-import { db } from "#core/db.server.ts";
-import { NotFoundResponse } from "#core/response.server.ts";
-import { assertCurrentUserHasGroups } from "#currentUser/groups.server.ts";
+import { createConfig } from "#core/config.server";
+import { createCloudinaryUrl } from "#core/dataDisplay/image";
+import { db } from "#core/db.server";
+import { NotFoundResponse } from "#core/response.server";
+import { assertCurrentUserHasGroups } from "#currentUser/groups.server";
 import { zu } from "@animeaux/zod-utils";
 import { UserGroup } from "@prisma/client";
 import type { LoaderFunctionArgs } from "@remix-run/node";

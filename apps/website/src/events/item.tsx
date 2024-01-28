@@ -1,7 +1,7 @@
-import { BaseLink } from "#core/baseLink.tsx";
-import { DynamicImage } from "#core/dataDisplay/image.tsx";
-import type { IconProps } from "#generated/icon.tsx";
-import { Icon } from "#generated/icon.tsx";
+import { BaseLink } from "#core/baseLink";
+import { DynamicImage } from "#core/dataDisplay/image";
+import type { IconProps } from "#generated/icon";
+import { Icon } from "#generated/icon";
 import { cn, formatDateRange } from "@animeaux/core";
 import type { Event } from "@prisma/client";
 import type { SerializeFrom } from "@remix-run/node";

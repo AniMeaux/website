@@ -1,21 +1,21 @@
-import { actionClassNames } from "#core/actions.ts";
-import { BaseLink } from "#core/baseLink.tsx";
-import { getConfigFromMetaMatches, useConfig } from "#core/config.ts";
-import { Timeline, TimelineItem } from "#core/dataDisplay/timeline.tsx";
+import { actionClassNames } from "#core/actions";
+import { BaseLink } from "#core/baseLink";
+import { getConfigFromMetaMatches, useConfig } from "#core/config";
+import { Timeline, TimelineItem } from "#core/dataDisplay/timeline";
 import {
   HeroSection,
   HeroSectionAside,
   HeroSectionImage,
   HeroSectionParagraph,
   HeroSectionTitle,
-} from "#core/layout/heroSection.tsx";
-import { createSocialMeta } from "#core/meta.ts";
-import { getPageTitle } from "#core/pageTitle.ts";
-import { engagementImages } from "#images/engagement.tsx";
-import { equipmentImages } from "#images/equipment.tsx";
-import { followUpImages } from "#images/followUp.tsx";
-import { fosterFamilyLargeImages } from "#images/fosterFamilyLarge.tsx";
-import { socialImages } from "#images/social.tsx";
+} from "#core/layout/heroSection";
+import { createSocialMeta } from "#core/meta";
+import { getPageTitle } from "#core/pageTitle";
+import { engagementImages } from "#images/engagement";
+import { equipmentImages } from "#images/equipment";
+import { followUpImages } from "#images/followUp";
+import { fosterFamilyLargeImages } from "#images/fosterFamilyLarge";
+import { socialImages } from "#images/social";
 import { cn } from "@animeaux/core";
 import type { MetaFunction } from "@remix-run/node";
 

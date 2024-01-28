@@ -1,21 +1,18 @@
-import { AnimalCreationSteps } from "#animals/creationSteps.tsx";
+import { AnimalCreationSteps } from "#animals/creationSteps";
 import {
   MissingAdoptionDateError,
   MissingManagerError,
   MissingPickUpLocationError,
   NotManagerError,
-} from "#animals/situation/db.server.ts";
-import {
-  ActionFormData,
-  AnimalSituationForm,
-} from "#animals/situation/form.tsx";
-import { ErrorPage } from "#core/dataDisplay/errorPage.tsx";
-import { db } from "#core/db.server.ts";
-import { Card } from "#core/layout/card.tsx";
-import { PageLayout } from "#core/layout/page.tsx";
-import { Routes } from "#core/navigation.ts";
-import { getPageTitle } from "#core/pageTitle.ts";
-import { assertCurrentUserHasGroups } from "#currentUser/groups.server.ts";
+} from "#animals/situation/db.server";
+import { ActionFormData, AnimalSituationForm } from "#animals/situation/form";
+import { ErrorPage } from "#core/dataDisplay/errorPage";
+import { db } from "#core/db.server";
+import { Card } from "#core/layout/card";
+import { PageLayout } from "#core/layout/page";
+import { Routes } from "#core/navigation";
+import { getPageTitle } from "#core/pageTitle";
+import { assertCurrentUserHasGroups } from "#currentUser/groups.server";
 import type { zu } from "@animeaux/zod-utils";
 import { UserGroup } from "@prisma/client";
 import type {

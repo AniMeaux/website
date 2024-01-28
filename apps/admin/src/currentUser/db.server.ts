@@ -1,16 +1,13 @@
-import { algolia } from "#core/algolia/algolia.server.ts";
-import {
-  EmailAlreadyUsedError,
-  PrismaErrorCodes,
-} from "#core/errors.server.ts";
-import { Routes } from "#core/navigation.ts";
-import { prisma } from "#core/prisma.server.ts";
-import { NextSearchParams } from "#core/searchParams.ts";
+import { algolia } from "#core/algolia/algolia.server";
+import { EmailAlreadyUsedError, PrismaErrorCodes } from "#core/errors.server";
+import { Routes } from "#core/navigation";
+import { prisma } from "#core/prisma.server";
+import { NextSearchParams } from "#core/searchParams";
 import {
   destroyCurrentUserSession,
   getCurrentUserSession,
-} from "#currentUser/session.server.ts";
-import { hasGroups } from "#users/groups.tsx";
+} from "#currentUser/session.server";
+import { hasGroups } from "#users/groups";
 import { generatePasswordHash, isSamePassword } from "@animeaux/password";
 import type { User } from "@prisma/client";
 import { Prisma, UserGroup } from "@prisma/client";

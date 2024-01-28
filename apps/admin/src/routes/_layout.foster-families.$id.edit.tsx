@@ -1,19 +1,19 @@
-import { ErrorPage, getErrorTitle } from "#core/dataDisplay/errorPage.tsx";
-import { db } from "#core/db.server.ts";
-import { EmailAlreadyUsedError, NotFoundError } from "#core/errors.server.ts";
-import { assertIsDefined } from "#core/isDefined.server.ts";
-import { Card } from "#core/layout/card.tsx";
-import { PageLayout } from "#core/layout/page.tsx";
-import { Routes, useBackIfPossible } from "#core/navigation.ts";
-import { getPageTitle } from "#core/pageTitle.ts";
-import { prisma } from "#core/prisma.server.ts";
-import { NotFoundResponse } from "#core/response.server.ts";
-import { assertCurrentUserHasGroups } from "#currentUser/groups.server.ts";
+import { ErrorPage, getErrorTitle } from "#core/dataDisplay/errorPage";
+import { db } from "#core/db.server";
+import { EmailAlreadyUsedError, NotFoundError } from "#core/errors.server";
+import { assertIsDefined } from "#core/isDefined.server";
+import { Card } from "#core/layout/card";
+import { PageLayout } from "#core/layout/page";
+import { Routes, useBackIfPossible } from "#core/navigation";
+import { getPageTitle } from "#core/pageTitle";
+import { prisma } from "#core/prisma.server";
+import { NotFoundResponse } from "#core/response.server";
+import { assertCurrentUserHasGroups } from "#currentUser/groups.server";
 import {
   InvalidAvailabilityDateError,
   MissingSpeciesToHostError,
-} from "#fosterFamilies/db.server.ts";
-import { ActionFormData, FosterFamilyForm } from "#fosterFamilies/form.tsx";
+} from "#fosterFamilies/db.server";
+import { ActionFormData, FosterFamilyForm } from "#fosterFamilies/form";
 import { zu } from "@animeaux/zod-utils";
 import { UserGroup } from "@prisma/client";
 import type {

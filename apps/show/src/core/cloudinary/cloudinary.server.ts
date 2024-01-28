@@ -1,4 +1,4 @@
-import { PrevousEditionCloudinaryDelegate } from "#previousEditions/cloudinary.server.ts";
+import { PrevousEditionCloudinaryDelegate } from "#previousEditions/cloudinary.server";
 import { v2 as cloudinaryClient } from "cloudinary";
 import invariant from "tiny-invariant";
 

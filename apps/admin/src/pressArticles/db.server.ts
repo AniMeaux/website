@@ -1,5 +1,5 @@
-import { NotFoundError, PrismaErrorCodes } from "#core/errors.server.ts";
-import { prisma } from "#core/prisma.server.ts";
+import { NotFoundError, PrismaErrorCodes } from "#core/errors.server";
+import { prisma } from "#core/prisma.server";
 import type { PressArticle } from "@prisma/client";
 import { Prisma } from "@prisma/client";
 import { DateTime } from "luxon";
