@@ -11,6 +11,10 @@ import {
   SORTED_SCREENING_RESULTS,
 } from "#animals/screening.ts";
 import {
+  DIAGNOSIS_TRANSLATION,
+  SORTED_DIAGNOSIS,
+} from "#animals/situation/diagnosis";
+import {
   ACTIVE_ANIMAL_STATUS,
   SORTED_STATUS,
   STATUS_TRANSLATION,
@@ -33,6 +37,7 @@ import { zu } from "@animeaux/zod-utils";
 import type { AnimalDraft, FosterFamily, User } from "@prisma/client";
 import {
   AdoptionOption,
+  Diagnosis,
   Gender,
   PickUpReason,
   ScreeningResult,
@@ -44,6 +49,7 @@ import type { SerializeFrom } from "@remix-run/node";
 import type { FetcherWithComponents } from "@remix-run/react";
 import { useLocation } from "@remix-run/react";
 import { useEffect, useRef, useState } from "react";
+import invariant from "tiny-invariant";
 
 export const ActionFormData = FormDataDelegate.create(
   zu.object({
@@ -54,6 +60,7 @@ export const ActionFormData = FormDataDelegate.create(
     ),
     adoptionOption: zu.nativeEnum(AdoptionOption).optional(),
     comments: zu.string().trim(),
+    diagnosis: zu.nativeEnum(Diagnosis).default(Diagnosis.UNKNOWN),
     fosterFamilyId: zu.string().uuid().optional(),
     isSterilized: zu.enum(["YES", "NO", "NOT_MANDATORY"], {
       required_error: "Veuillez choisir une option",
@@ -85,6 +92,31 @@ export const ActionFormData = FormDataDelegate.create(
   }),
 );
 
+type DefaultAnimal = null | SerializeFrom<
+  Pick<
+    AnimalDraft,
+    | "adoptionDate"
+    | "adoptionOption"
+    | "comments"
+    | "diagnosis"
+    | "gender"
+    | "isSterilizationMandatory"
+    | "isSterilized"
+    | "isVaccinationMandatory"
+    | "nextVaccinationDate"
+    | "pickUpDate"
+    | "pickUpLocation"
+    | "pickUpReason"
+    | "screeningFelv"
+    | "screeningFiv"
+    | "species"
+    | "status"
+  > & {
+    fosterFamily?: null | Pick<FosterFamily, "id" | "displayName">;
+    manager?: null | Pick<User, "id" | "displayName">;
+  }
+>;
+
 export function AnimalSituationForm({
   isCreate = false,
   defaultAnimal,
@@ -92,28 +124,7 @@ export function AnimalSituationForm({
   fetcher,
 }: {
   isCreate?: boolean;
-  defaultAnimal?: null | SerializeFrom<
-    Pick<
-      AnimalDraft,
-      | "adoptionDate"
-      | "adoptionOption"
-      | "comments"
-      | "isSterilizationMandatory"
-      | "isSterilized"
-      | "isVaccinationMandatory"
-      | "nextVaccinationDate"
-      | "pickUpDate"
-      | "pickUpLocation"
-      | "pickUpReason"
-      | "screeningFelv"
-      | "screeningFiv"
-      | "species"
-      | "status"
-    > & {
-      fosterFamily?: null | Pick<FosterFamily, "id" | "displayName">;
-      manager?: null | Pick<User, "id" | "displayName">;
-    }
-  >;
+  defaultAnimal?: DefaultAnimal;
   currentUser?: null | Pick<User, "id" | "displayName" | "groups">;
   fetcher: FetcherWithComponents<{
     errors?: zu.inferFlattenedErrors<typeof ActionFormData.schema>;
@@ -500,64 +511,57 @@ export function AnimalSituationForm({
           </Form.Row>
 
           {defaultAnimal?.species === Species.CAT ? (
-            <>
-              <Separator />
+            <Form.Row>
+              <Form.Field>
+                <Form.Label asChild>
+                  <span>
+                    Dépistage FIV <RequiredStar />
+                  </span>
+                </Form.Label>
 
-              <Form.Row>
-                <Form.Field>
-                  <Form.Label asChild>
-                    <span>
-                      Dépistage FIV <RequiredStar />
-                    </span>
-                  </Form.Label>
+                <RadioInputList>
+                  {SORTED_SCREENING_RESULTS.map((result) => (
+                    <RadioInput
+                      key={result}
+                      label={SCREENING_RESULT_TRANSLATION[result][Gender.MALE]}
+                      name={ActionFormData.keys.screeningFiv}
+                      value={result}
+                      defaultChecked={
+                        result ===
+                        (defaultAnimal?.screeningFiv ?? ScreeningResult.UNKNOWN)
+                      }
+                    />
+                  ))}
+                </RadioInputList>
+              </Form.Field>
 
-                  <RadioInputList>
-                    {SORTED_SCREENING_RESULTS.map((result) => (
-                      <RadioInput
-                        key={result}
-                        label={
-                          SCREENING_RESULT_TRANSLATION[result][Gender.MALE]
-                        }
-                        name={ActionFormData.keys.screeningFiv}
-                        value={result}
-                        defaultChecked={
-                          result ===
-                          (defaultAnimal?.screeningFiv ??
-                            ScreeningResult.UNKNOWN)
-                        }
-                      />
-                    ))}
-                  </RadioInputList>
-                </Form.Field>
+              <Form.Field>
+                <Form.Label asChild>
+                  <span>
+                    Dépistage FeLV <RequiredStar />
+                  </span>
+                </Form.Label>
 
-                <Form.Field>
-                  <Form.Label asChild>
-                    <span>
-                      Dépistage FeLV <RequiredStar />
-                    </span>
-                  </Form.Label>
-
-                  <RadioInputList>
-                    {SORTED_SCREENING_RESULTS.map((result) => (
-                      <RadioInput
-                        key={result}
-                        label={
-                          SCREENING_RESULT_TRANSLATION[result][Gender.MALE]
-                        }
-                        name={ActionFormData.keys.screeningFelv}
-                        value={result}
-                        defaultChecked={
-                          result ===
-                          (defaultAnimal?.screeningFelv ??
-                            ScreeningResult.UNKNOWN)
-                        }
-                      />
-                    ))}
-                  </RadioInputList>
-                </Form.Field>
-              </Form.Row>
-            </>
+                <RadioInputList>
+                  {SORTED_SCREENING_RESULTS.map((result) => (
+                    <RadioInput
+                      key={result}
+                      label={SCREENING_RESULT_TRANSLATION[result][Gender.MALE]}
+                      name={ActionFormData.keys.screeningFelv}
+                      value={result}
+                      defaultChecked={
+                        result ===
+                        (defaultAnimal?.screeningFelv ??
+                          ScreeningResult.UNKNOWN)
+                      }
+                    />
+                  ))}
+                </RadioInputList>
+              </Form.Field>
+            </Form.Row>
           ) : null}
+
+          <DiagnosisField defaultAnimal={defaultAnimal} />
 
           <Separator />
 
@@ -581,5 +585,38 @@ export function AnimalSituationForm({
         </Form.Action>
       </fetcher.Form>
     </Form>
+  );
+}
+
+function DiagnosisField({ defaultAnimal }: { defaultAnimal?: DefaultAnimal }) {
+  const gender = defaultAnimal?.gender;
+  invariant(gender != null, "gender must be defined");
+
+  if (defaultAnimal?.species !== Species.DOG) {
+    return null;
+  }
+
+  return (
+    <Form.Field>
+      <Form.Label asChild>
+        <span>
+          Diagnose <RequiredStar />
+        </span>
+      </Form.Label>
+
+      <RadioInputList>
+        {SORTED_DIAGNOSIS.map((diagnosis) => (
+          <RadioInput
+            key={diagnosis}
+            label={DIAGNOSIS_TRANSLATION[diagnosis][gender]}
+            name={ActionFormData.keys.diagnosis}
+            value={diagnosis}
+            defaultChecked={
+              diagnosis === (defaultAnimal?.diagnosis ?? Diagnosis.UNKNOWN)
+            }
+          />
+        ))}
+      </RadioInputList>
+    </Form.Field>
   );
 }

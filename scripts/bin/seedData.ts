@@ -6,6 +6,7 @@ import { fakerFR as faker } from "@faker-js/faker";
 import type { Prisma } from "@prisma/client";
 import {
   AdoptionOption,
+  Diagnosis,
   ExhibitorCategory,
   FosterFamilyAvailability,
   Gender,
@@ -401,6 +402,10 @@ function createAnimalInput({
     description: faker.helpers.maybe(() =>
       faker.lorem.paragraphs(faker.number.int({ min: 1, max: 5 }), "\n\n"),
     ),
+    diagnosis:
+      species === Species.DOG
+        ? faker.helpers.arrayElement(Object.values(Diagnosis))
+        : undefined,
     fosterFamilyId: ACTIVE_ANIMAL_STATUS.includes(status)
       ? faker.helpers.arrayElement(fosterFamilies).id
       : null,

@@ -1,32 +1,16 @@
-import { ADOPTION_OPTION_TRANSLATION } from "#animals/adoption.tsx";
 import { AgreementItem } from "#animals/agreements.tsx";
 import { AnimalAvatar } from "#animals/avatar.tsx";
 import { GENDER_ICON } from "#animals/gender.tsx";
-import { PICK_UP_REASON_TRANSLATION } from "#animals/pickUp.ts";
 import { ActionFormData as ProfileActionFormData } from "#animals/profile/form.tsx";
 import { getAnimalDisplayName } from "#animals/profile/name.tsx";
-import {
-  SCREENING_RESULT_ICON,
-  SCREENING_RESULT_TRANSLATION,
-} from "#animals/screening.ts";
 import { ActionFormData as SituationActionFormData } from "#animals/situation/form.tsx";
-import {
-  formatNextVaccinationDate,
-  getNextVaccinationState,
-  hasUpCommingSterilisation,
-} from "#animals/situation/health.ts";
 import { SPECIES_ICON, getSpeciesLabels } from "#animals/species.tsx";
-import {
-  STATUS_TRANSLATION,
-  StatusBadge,
-  StatusIcon,
-} from "#animals/status.tsx";
-import { Action, ProseInlineAction } from "#core/actions.tsx";
+import { StatusBadge } from "#animals/status.tsx";
+import { Action } from "#core/actions.tsx";
 import type { BaseLinkProps } from "#core/baseLink.tsx";
 import { BaseLink } from "#core/baseLink.tsx";
 import { Empty } from "#core/dataDisplay/empty.tsx";
 import { ErrorPage, getErrorTitle } from "#core/dataDisplay/errorPage.tsx";
-import { InlineHelper } from "#core/dataDisplay/helper.tsx";
 import { DynamicImage } from "#core/dataDisplay/image.tsx";
 import { ItemList, SimpleItem } from "#core/dataDisplay/item.tsx";
 import { ARTICLE_COMPONENTS, Markdown } from "#core/dataDisplay/markdown.tsx";
@@ -39,26 +23,14 @@ import { PageLayout } from "#core/layout/page.tsx";
 import { Routes } from "#core/navigation.ts";
 import { getPageTitle } from "#core/pageTitle.ts";
 import { Dialog } from "#core/popovers/dialog.tsx";
-import { DropdownSheet } from "#core/popovers/dropdownSheet";
 import { prisma } from "#core/prisma.server.ts";
 import { NotFoundResponse } from "#core/response.server.ts";
 import { assertCurrentUserHasGroups } from "#currentUser/groups.server.ts";
-import { FosterFamilyAvatar } from "#fosterFamilies/avatar.tsx";
-import { getLongLocation } from "#fosterFamilies/location.tsx";
 import { Icon } from "#generated/icon.tsx";
-import { theme } from "#generated/theme.ts";
-import { UserAvatar } from "#users/avatar.tsx";
 import { hasGroups } from "#users/groups.tsx";
 import { cn, formatAge } from "@animeaux/core";
 import { zu } from "@animeaux/zod-utils";
-import {
-  AdoptionOption,
-  Gender,
-  ScreeningResult,
-  Species,
-  Status,
-  UserGroup,
-} from "@prisma/client";
+import { Gender, UserGroup } from "@prisma/client";
 import type {
   ActionFunctionArgs,
   LoaderFunctionArgs,
@@ -67,10 +39,13 @@ import type {
 import { json, redirect } from "@remix-run/node";
 import { useFetcher, useLoaderData } from "@remix-run/react";
 import { DateTime } from "luxon";
+import { SituationCard } from "./situationCard";
 
 const ParamsSchema = zu.object({
   id: zu.string().uuid(),
 });
+
+export type loader = typeof loader;
 
 export async function loader({ request, params }: LoaderFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {
@@ -125,6 +100,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
       ...(isCurrentUserAnimalAdmin
         ? {
             comments: true,
+            diagnosis: true,
             fosterFamily: {
               select: {
                 availability: true,
@@ -361,326 +337,6 @@ function AgreementsCard() {
           <AgreementItem entity="dogs" value={animal.isOkDogs} />
           <AgreementItem entity="babies" value={animal.isOkChildren} />
         </ul>
-      </Card.Content>
-    </Card>
-  );
-}
-
-function SituationCard() {
-  const { canEdit, animal, canSeeFosterFamilyDetails, canSeeManagerDetails } =
-    useLoaderData<typeof loader>();
-
-  let vaccinationHelper: React.ReactNode;
-
-  if (animal.nextVaccinationDate != null) {
-    const state = getNextVaccinationState(
-      animal.nextVaccinationDate,
-      animal.status,
-    );
-
-    switch (state) {
-      case "past": {
-        vaccinationHelper = (
-          <InlineHelper variant="error" icon="syringe">
-            Une vaccination était prévue{" "}
-            {formatNextVaccinationDate(animal.nextVaccinationDate)}.
-            <br />
-            Pensez à mettre à jour la prochaine date.
-          </InlineHelper>
-        );
-
-        break;
-      }
-
-      case "up-comming": {
-        vaccinationHelper = (
-          <InlineHelper variant="warning" icon="syringe">
-            Prochaine vaccination{" "}
-            {formatNextVaccinationDate(animal.nextVaccinationDate)}.
-          </InlineHelper>
-        );
-        break;
-      }
-    }
-  }
-
-  return (
-    <Card>
-      <Card.Header>
-        <Card.Title>Situation</Card.Title>
-
-        {canEdit ? (
-          <Action asChild variant="text">
-            <BaseLink
-              to={Routes.animals.id(animal.id).edit.situation.toString()}
-            >
-              Modifier
-            </BaseLink>
-          </Action>
-        ) : null}
-      </Card.Header>
-
-      <Card.Content>
-        {vaccinationHelper}
-
-        {hasUpCommingSterilisation(animal) ? (
-          <InlineHelper variant="warning" icon="scissors">
-            Stérilisation à prévoir.
-          </InlineHelper>
-        ) : null}
-
-        <ItemList>
-          {animal.manager != null ? (
-            <SimpleItem icon={<UserAvatar user={animal.manager} size="sm" />}>
-              Est géré par{" "}
-              {canSeeManagerDetails ? (
-                <ProseInlineAction asChild>
-                  <BaseLink to={Routes.users.id(animal.manager.id).toString()}>
-                    {animal.manager.displayName}
-                  </BaseLink>
-                </ProseInlineAction>
-              ) : (
-                <strong className="text-body-emphasis">
-                  {animal.manager.displayName}
-                </strong>
-              )}
-            </SimpleItem>
-          ) : null}
-
-          <SimpleItem icon={<StatusIcon status={animal.status} />}>
-            Est{" "}
-            <strong className="text-body-emphasis">
-              {STATUS_TRANSLATION[animal.status]}
-            </strong>
-            {animal.status === Status.ADOPTED && animal.adoptionDate != null ? (
-              <>
-                {" "}
-                depuis le{" "}
-                <strong className="text-body-emphasis">
-                  {DateTime.fromISO(animal.adoptionDate).toLocaleString(
-                    DateTime.DATE_FULL,
-                  )}
-                </strong>
-              </>
-            ) : null}
-            {animal.status === Status.ADOPTED &&
-            animal.adoptionOption != null &&
-            animal.adoptionOption !== AdoptionOption.UNKNOWN ? (
-              <>
-                {" "}
-                (
-                {ADOPTION_OPTION_TRANSLATION[
-                  animal.adoptionOption
-                ].toLowerCase()}
-                )
-              </>
-            ) : null}
-          </SimpleItem>
-
-          {animal.fosterFamily != null ? (
-            <DropdownSheet>
-              <SimpleItem
-                icon={
-                  <FosterFamilyAvatar
-                    size="sm"
-                    availability={animal.fosterFamily.availability}
-                  />
-                }
-              >
-                En FA chez{" "}
-                <DropdownSheet.Trigger asChild>
-                  <ProseInlineAction>
-                    {animal.fosterFamily.displayName}
-                  </ProseInlineAction>
-                </DropdownSheet.Trigger>
-              </SimpleItem>
-
-              <DropdownSheet.Portal>
-                <DropdownSheet.Content
-                  side="bottom"
-                  sideOffset={theme.spacing[1]}
-                  collisionPadding={theme.spacing[1]}
-                >
-                  <div className="grid grid-cols-[auto,minmax(0px,1fr)] items-center gap-1">
-                    <FosterFamilyAvatar
-                      size="md"
-                      availability={animal.fosterFamily.availability}
-                    />
-                    <div className="flex flex-col">
-                      <span>{animal.fosterFamily.displayName}</span>
-                    </div>
-                  </div>
-
-                  <hr className="border-t border-gray-100" />
-
-                  <ul className="flex flex-col">
-                    <SimpleItem icon={<Icon id="phone" />}>
-                      {animal.fosterFamily.phone}
-                    </SimpleItem>
-                    <SimpleItem icon={<Icon id="envelope" />}>
-                      {animal.fosterFamily.email}
-                    </SimpleItem>
-                    <SimpleItem icon={<Icon id="locationDot" />}>
-                      {getLongLocation(animal.fosterFamily)}
-                    </SimpleItem>
-                  </ul>
-
-                  {canSeeFosterFamilyDetails ? (
-                    <>
-                      <hr className="border-t border-gray-100" />
-                      <BaseLink
-                        to={Routes.fosterFamilies
-                          .id(animal.fosterFamily.id)
-                          .toString()}
-                        className="grid cursor-pointer grid-cols-[auto,minmax(0px,1fr)] items-center rounded-0.5 pr-1 text-left text-gray-500 transition-colors duration-100 ease-in-out active:bg-gray-100 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 hover:bg-gray-100"
-                      >
-                        <span className="flex h-4 w-4 items-center justify-center text-[20px]">
-                          <Icon id="ellipsis" />
-                        </span>
-
-                        <span className="text-body-emphasis">
-                          Voir plus d’informations
-                        </span>
-                      </BaseLink>
-                    </>
-                  ) : null}
-                </DropdownSheet.Content>
-              </DropdownSheet.Portal>
-            </DropdownSheet>
-          ) : null}
-
-          {animal.isSterilized != null &&
-          animal.isSterilizationMandatory != null ? (
-            <SimpleItem icon={<Icon id="scissors" />}>
-              {animal.isSterilized ? (
-                <>
-                  Est{" "}
-                  <strong className="text-body-emphasis">
-                    {animal.gender === Gender.FEMALE
-                      ? "stérilisée"
-                      : "stérilisé"}
-                  </strong>
-                </>
-              ) : animal.isSterilizationMandatory ? (
-                <>
-                  N’est{" "}
-                  <strong className="text-body-emphasis">
-                    pas{" "}
-                    {animal.gender === Gender.FEMALE
-                      ? "stérilisée"
-                      : "stérilisé"}
-                  </strong>
-                </>
-              ) : (
-                <>
-                  Ne sera{" "}
-                  <strong className="text-body-emphasis">
-                    pas{" "}
-                    {animal.gender === Gender.FEMALE
-                      ? "stérilisée"
-                      : "stérilisé"}
-                  </strong>
-                </>
-              )}
-            </SimpleItem>
-          ) : null}
-
-          {animal.nextVaccinationDate != null ? (
-            <SimpleItem icon={<Icon id="syringe" />}>
-              Prochaine vaccination le{" "}
-              <strong className="text-body-emphasis">
-                {DateTime.fromISO(animal.nextVaccinationDate).toLocaleString(
-                  DateTime.DATE_FULL,
-                )}
-              </strong>
-            </SimpleItem>
-          ) : null}
-
-          {animal.isVaccinationMandatory === false ? (
-            <SimpleItem icon={<Icon id="syringe" />}>
-              Ne sera{" "}
-              <strong className="text-body-emphasis">
-                pas {animal.gender === Gender.FEMALE ? "vaccinée" : "vacciné"}
-              </strong>
-            </SimpleItem>
-          ) : null}
-
-          {animal.species === Species.CAT &&
-          animal.screeningFiv !== ScreeningResult.UNKNOWN ? (
-            <SimpleItem
-              icon={
-                <Icon
-                  id={SCREENING_RESULT_ICON[animal.screeningFiv]}
-                  className={
-                    animal.screeningFiv === ScreeningResult.NEGATIVE
-                      ? "text-green-600"
-                      : "text-red-500"
-                  }
-                />
-              }
-            >
-              Est{" "}
-              <strong className="text-body-emphasis">
-                {
-                  SCREENING_RESULT_TRANSLATION[animal.screeningFiv][
-                    animal.gender
-                  ]
-                }
-              </strong>{" "}
-              au FIV
-            </SimpleItem>
-          ) : null}
-
-          {animal.species === Species.CAT &&
-          animal.screeningFelv !== ScreeningResult.UNKNOWN ? (
-            <SimpleItem
-              icon={
-                <Icon
-                  id={SCREENING_RESULT_ICON[animal.screeningFelv]}
-                  className={
-                    animal.screeningFelv === ScreeningResult.NEGATIVE
-                      ? "text-green-600"
-                      : "text-red-500"
-                  }
-                />
-              }
-            >
-              Est{" "}
-              <strong className="text-body-emphasis">
-                {
-                  SCREENING_RESULT_TRANSLATION[animal.screeningFelv][
-                    animal.gender
-                  ]
-                }
-              </strong>{" "}
-              au FeLV
-            </SimpleItem>
-          ) : null}
-
-          <SimpleItem icon={<Icon id="handHoldingHeart" />}>
-            {animal.gender === Gender.FEMALE
-              ? "Prise en charge le"
-              : "Pris en charge le"}{" "}
-            <strong className="text-body-emphasis">
-              {DateTime.fromISO(animal.pickUpDate).toLocaleString(
-                DateTime.DATE_FULL,
-              )}
-            </strong>
-            {animal.pickUpLocation != null ? (
-              <>
-                <br />à{" "}
-                <strong className="text-body-emphasis">
-                  {animal.pickUpLocation}
-                </strong>
-              </>
-            ) : null}
-            <br />
-            suite à{" "}
-            <strong className="text-body-emphasis">
-              {PICK_UP_REASON_TRANSLATION[animal.pickUpReason]}
-            </strong>
-          </SimpleItem>
-        </ItemList>
       </Card.Content>
     </Card>
   );

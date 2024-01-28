@@ -4,6 +4,7 @@ import { SearchParamsDelegate } from "@animeaux/form-data";
 import { zu } from "@animeaux/zod-utils";
 import {
   AdoptionOption,
+  Diagnosis,
   PickUpReason,
   ScreeningResult,
   Species,
@@ -54,6 +55,10 @@ export const AnimalSearchParams = SearchParamsDelegate.create({
   birthdateStart: {
     key: "bs",
     schema: zu.searchParams.date(),
+  },
+  diagnosis: {
+    key: "dia",
+    schema: zu.searchParams.set(zu.searchParams.nativeEnum(Diagnosis)),
   },
   felvResults: {
     key: "felv",

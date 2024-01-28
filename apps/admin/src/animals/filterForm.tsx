@@ -22,6 +22,10 @@ import {
   AnimalVaccination,
 } from "#animals/searchParams.ts";
 import {
+  DIAGNOSIS_TRANSLATION,
+  SORTED_DIAGNOSIS,
+} from "#animals/situation/diagnosis";
+import {
   SORTED_SPECIES,
   SPECIES_ICON,
   SPECIES_TRANSLATION,
@@ -711,78 +715,7 @@ export function AnimalFilters({
           </Filters.Filter>
         ) : null}
 
-        <Filters.Filter
-          value={AnimalSearchParams.keys.fivResults}
-          label="Dépistage"
-          count={
-            animalSearchParams.fivResults.size +
-            animalSearchParams.felvResults.size
-          }
-          hiddenContent={
-            <>
-              {Array.from(animalSearchParams.fivResults).map((result) => (
-                <input
-                  key={result}
-                  type="hidden"
-                  name={AnimalSearchParams.keys.fivResults}
-                  value={result}
-                />
-              ))}
-              {Array.from(animalSearchParams.felvResults).map((result) => (
-                <input
-                  key={result}
-                  type="hidden"
-                  name={AnimalSearchParams.keys.felvResults}
-                  value={result}
-                />
-              ))}
-            </>
-          }
-        >
-          <Form.Fields>
-            <Form.Field>
-              <Form.Label asChild>
-                <span>FIV</span>
-              </Form.Label>
-
-              <ToggleInputList>
-                {SORTED_SCREENING_RESULTS.map((result) => (
-                  <ToggleInput
-                    key={result}
-                    type="checkbox"
-                    label={SCREENING_RESULT_TRANSLATION[result][Gender.MALE]}
-                    name={AnimalSearchParams.keys.fivResults}
-                    value={result}
-                    icon={<Icon id={SCREENING_RESULT_ICON[result]} />}
-                    checked={animalSearchParams.fivResults.has(result)}
-                    onChange={() => {}}
-                  />
-                ))}
-              </ToggleInputList>
-            </Form.Field>
-
-            <Form.Field>
-              <Form.Label asChild>
-                <span>FeLV</span>
-              </Form.Label>
-
-              <ToggleInputList>
-                {SORTED_SCREENING_RESULTS.map((result) => (
-                  <ToggleInput
-                    key={result}
-                    type="checkbox"
-                    label={SCREENING_RESULT_TRANSLATION[result][Gender.MALE]}
-                    name={AnimalSearchParams.keys.felvResults}
-                    value={result}
-                    icon={<Icon id={SCREENING_RESULT_ICON[result]} />}
-                    checked={animalSearchParams.felvResults.has(result)}
-                    onChange={() => {}}
-                  />
-                ))}
-              </ToggleInputList>
-            </Form.Field>
-          </Form.Fields>
-        </Filters.Filter>
+        <ScreeningAndDiagnosisFilter currentUser={currentUser} />
 
         <Filters.Filter
           value={AnimalSearchParams.keys.adoptionOptions}
@@ -1064,5 +997,129 @@ function ManagerActiveFilterLink({
         {isActive ? <Icon id="check" /> : null}À votre charge
       </BaseLink>
     </Action>
+  );
+}
+
+function ScreeningAndDiagnosisFilter({
+  currentUser,
+}: {
+  currentUser: Pick<User, "groups" | "id">;
+}) {
+  const [searchParams] = useOptimisticSearchParams();
+  const animalSearchParams = AnimalSearchParams.parse(searchParams);
+
+  const isCurrentUserAnimalAdmin = hasGroups(currentUser, [
+    UserGroup.ADMIN,
+    UserGroup.ANIMAL_MANAGER,
+    UserGroup.VETERINARIAN,
+  ]);
+
+  return (
+    <Filters.Filter
+      value={AnimalSearchParams.keys.fivResults}
+      label="Dépistage et Diagnose"
+      count={
+        animalSearchParams.fivResults.size +
+        animalSearchParams.felvResults.size +
+        animalSearchParams.diagnosis.size
+      }
+      hiddenContent={
+        <>
+          {Array.from(animalSearchParams.fivResults).map((result) => (
+            <input
+              key={result}
+              type="hidden"
+              name={AnimalSearchParams.keys.fivResults}
+              value={result}
+            />
+          ))}
+
+          {Array.from(animalSearchParams.felvResults).map((result) => (
+            <input
+              key={result}
+              type="hidden"
+              name={AnimalSearchParams.keys.felvResults}
+              value={result}
+            />
+          ))}
+
+          {Array.from(animalSearchParams.diagnosis).map((diagnosis) => (
+            <input
+              key={diagnosis}
+              type="hidden"
+              name={AnimalSearchParams.keys.diagnosis}
+              value={diagnosis}
+            />
+          ))}
+        </>
+      }
+    >
+      <Form.Fields>
+        <Form.Field>
+          <Form.Label asChild>
+            <span>FIV</span>
+          </Form.Label>
+
+          <ToggleInputList>
+            {SORTED_SCREENING_RESULTS.map((result) => (
+              <ToggleInput
+                key={result}
+                type="checkbox"
+                label={SCREENING_RESULT_TRANSLATION[result][Gender.MALE]}
+                name={AnimalSearchParams.keys.fivResults}
+                value={result}
+                icon={<Icon id={SCREENING_RESULT_ICON[result]} />}
+                checked={animalSearchParams.fivResults.has(result)}
+                onChange={() => {}}
+              />
+            ))}
+          </ToggleInputList>
+        </Form.Field>
+
+        <Form.Field>
+          <Form.Label asChild>
+            <span>FeLV</span>
+          </Form.Label>
+
+          <ToggleInputList>
+            {SORTED_SCREENING_RESULTS.map((result) => (
+              <ToggleInput
+                key={result}
+                type="checkbox"
+                label={SCREENING_RESULT_TRANSLATION[result][Gender.MALE]}
+                name={AnimalSearchParams.keys.felvResults}
+                value={result}
+                icon={<Icon id={SCREENING_RESULT_ICON[result]} />}
+                checked={animalSearchParams.felvResults.has(result)}
+                onChange={() => {}}
+              />
+            ))}
+          </ToggleInputList>
+        </Form.Field>
+
+        {isCurrentUserAnimalAdmin ? (
+          <Form.Field>
+            <Form.Label asChild>
+              <span>Diagnose</span>
+            </Form.Label>
+
+            <ToggleInputList>
+              {SORTED_DIAGNOSIS.map((diagnosis) => (
+                <ToggleInput
+                  key={diagnosis}
+                  type="checkbox"
+                  label={DIAGNOSIS_TRANSLATION[diagnosis][Gender.MALE]}
+                  name={AnimalSearchParams.keys.diagnosis}
+                  value={diagnosis}
+                  icon={<Icon id="shieldDog" />}
+                  checked={animalSearchParams.diagnosis.has(diagnosis)}
+                  onChange={() => {}}
+                />
+              ))}
+            </ToggleInputList>
+          </Form.Field>
+        ) : null}
+      </Form.Fields>
+    </Filters.Filter>
   );
 }
