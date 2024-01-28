@@ -62,7 +62,7 @@ export function DogsToDiagnoseCard() {
             className="h-full"
           />
         ) : (
-          <ul className="grid grid-cols-1 gap-1">
+          <ul className="grid grid-cols-1">
             {dogsToDiagnose.map((animal) => (
               <li key={animal.id} className="flex flex-col">
                 <AnimalSmallItem
