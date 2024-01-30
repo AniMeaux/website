@@ -10,7 +10,7 @@ import {
   AVAILABILITY_TRANSLATION,
   AvailabilityIcon,
 } from "#fosterFamilies/availability";
-import { ICON_BY_GARDEN, ICON_BY_HOUSING } from "#fosterFamilies/housing";
+import { ICON_BY_HOUSING } from "#fosterFamilies/housing";
 import { Icon } from "#generated/icon";
 import {
   FosterFamilyAvailability,
@@ -107,13 +107,10 @@ export function SituationCard() {
 
           <SimpleItem icon={ICON_BY_HOUSING[fosterFamily.housing]}>
             <Markdown components={HIGHLIGHT_COMPONENTS}>
-              {TEXT_BY_HOUSING[fosterFamily.housing]}
-            </Markdown>
-          </SimpleItem>
-
-          <SimpleItem icon={ICON_BY_GARDEN[fosterFamily.garden]}>
-            <Markdown components={HIGHLIGHT_COMPONENTS}>
-              {TEXT_BY_GARDEN[fosterFamily.garden]}
+              {[
+                TEXT_BY_HOUSING[fosterFamily.housing],
+                TEXT_BY_GARDEN[fosterFamily.garden],
+              ].join("")}
             </Markdown>
           </SimpleItem>
         </ItemList>
@@ -130,7 +127,7 @@ const TEXT_BY_HOUSING: Record<FosterFamilyHousing, string> = {
 };
 
 const TEXT_BY_GARDEN: Record<FosterFamilyGarden, string> = {
-  [FosterFamilyGarden.NO]: "N’a pas de **jardin**",
-  [FosterFamilyGarden.UNKNOWN]: "Présence d’un jardin **inconnue**",
-  [FosterFamilyGarden.YES]: "A un **jardin**",
+  [FosterFamilyGarden.NO]: ", sans **jardin**",
+  [FosterFamilyGarden.UNKNOWN]: "",
+  [FosterFamilyGarden.YES]: ", avec **jardin**",
 };
