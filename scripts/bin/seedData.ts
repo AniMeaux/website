@@ -9,6 +9,8 @@ import {
   Diagnosis,
   ExhibitorCategory,
   FosterFamilyAvailability,
+  FosterFamilyGarden,
+  FosterFamilyHousing,
   Gender,
   PickUpReason,
   PrismaClient,
@@ -120,6 +122,8 @@ async function seedFosterFamilies() {
         comments: faker.helpers.maybe(() => faker.lorem.lines()),
         displayName: faker.person.fullName(),
         email: faker.internet.email(),
+        garden: faker.helpers.arrayElement(Object.values(FosterFamilyGarden)),
+        housing: faker.helpers.arrayElement(Object.values(FosterFamilyHousing)),
         phone: faker.phone.number(),
         speciesAlreadyPresent: faker.helpers.maybe(() =>
           faker.helpers.arrayElements(Object.values(Species)),

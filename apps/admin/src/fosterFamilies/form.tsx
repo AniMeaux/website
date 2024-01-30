@@ -15,11 +15,22 @@ import {
   AVAILABILITY_TRANSLATION,
   SORTED_AVAILABILITIES,
 } from "#fosterFamilies/availability";
+import {
+  GARDEN_TRANSLATION,
+  HOUSING_TRANSLATION,
+  SORTED_GARDEN,
+  SORTED_HOUSING,
+} from "#fosterFamilies/housing";
 import { Icon } from "#generated/icon";
 import { FormDataDelegate } from "@animeaux/form-data";
 import { zu } from "@animeaux/zod-utils";
 import type { FosterFamily } from "@prisma/client";
-import { FosterFamilyAvailability, Species } from "@prisma/client";
+import {
+  FosterFamilyAvailability,
+  FosterFamilyGarden,
+  FosterFamilyHousing,
+  Species,
+} from "@prisma/client";
 import type { SerializeFrom } from "@remix-run/node";
 import type { FetcherWithComponents } from "@remix-run/react";
 import { useLocation } from "@remix-run/react";
@@ -39,6 +50,8 @@ export const ActionFormData = FormDataDelegate.create(
     comments: zu.string().trim(),
     displayName: zu.string().trim().min(1, "Veuillez entrer un nom"),
     email: zu.string().email("Veuillez entrer un email valide"),
+    garden: zu.nativeEnum(FosterFamilyGarden),
+    housing: zu.nativeEnum(FosterFamilyHousing),
     phone: zu
       .string()
       .trim()
@@ -52,26 +65,30 @@ export const ActionFormData = FormDataDelegate.create(
   }),
 );
 
+type DefaultFosterFamily = null | SerializeFrom<
+  Pick<
+    FosterFamily,
+    | "address"
+    | "availability"
+    | "availabilityExpirationDate"
+    | "city"
+    | "comments"
+    | "displayName"
+    | "email"
+    | "garden"
+    | "housing"
+    | "phone"
+    | "speciesAlreadyPresent"
+    | "speciesToHost"
+    | "zipCode"
+  >
+>;
+
 export function FosterFamilyForm({
   defaultFosterFamily,
   fetcher,
 }: {
-  defaultFosterFamily?: null | SerializeFrom<
-    Pick<
-      FosterFamily,
-      | "address"
-      | "availability"
-      | "availabilityExpirationDate"
-      | "city"
-      | "comments"
-      | "displayName"
-      | "email"
-      | "phone"
-      | "speciesAlreadyPresent"
-      | "speciesToHost"
-      | "zipCode"
-    >
-  >;
+  defaultFosterFamily?: DefaultFosterFamily;
   fetcher: FetcherWithComponents<{
     errors?: zu.inferFlattenedErrors<typeof ActionFormData.schema>;
   }>;
@@ -307,6 +324,11 @@ export function FosterFamilyForm({
 
           <Separator />
 
+          <HousingField defaultFosterFamily={defaultFosterFamily} />
+          <GardenField defaultFosterFamily={defaultFosterFamily} />
+
+          <Separator />
+
           <Form.Row>
             <Form.Field>
               <Form.Label asChild>
@@ -474,5 +496,67 @@ export function FosterFamilyForm({
         </Form.Action>
       </fetcher.Form>
     </Form>
+  );
+}
+
+function HousingField({
+  defaultFosterFamily,
+}: {
+  defaultFosterFamily?: DefaultFosterFamily;
+}) {
+  return (
+    <Form.Field>
+      <Form.Label asChild>
+        <span>
+          Type de logement <RequiredStar />
+        </span>
+      </Form.Label>
+
+      <RadioInputList>
+        {SORTED_HOUSING.map((housing) => (
+          <RadioInput
+            key={housing}
+            label={HOUSING_TRANSLATION[housing]}
+            name={ActionFormData.keys.housing}
+            value={housing}
+            defaultChecked={
+              housing ===
+              (defaultFosterFamily?.housing ?? FosterFamilyHousing.UNKNOWN)
+            }
+          />
+        ))}
+      </RadioInputList>
+    </Form.Field>
+  );
+}
+
+function GardenField({
+  defaultFosterFamily,
+}: {
+  defaultFosterFamily?: DefaultFosterFamily;
+}) {
+  return (
+    <Form.Field>
+      <Form.Label asChild>
+        <span>
+          Présence d’un jardin <RequiredStar />
+        </span>
+      </Form.Label>
+
+      <RadioInputList>
+        {SORTED_GARDEN.map((garden) => (
+          <RadioInput
+            key={garden}
+            label={GARDEN_TRANSLATION[garden]}
+            name={ActionFormData.keys.garden}
+            value={garden}
+            defaultChecked={
+              garden ===
+              (defaultFosterFamily?.garden ?? FosterFamilyGarden.UNKNOWN)
+            }
+          />
+        ))}
+      </RadioInputList>
+    </Form.Field>
   );
 }

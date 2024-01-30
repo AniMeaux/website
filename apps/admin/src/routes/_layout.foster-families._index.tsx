@@ -71,6 +71,16 @@ export async function loader({ request }: LoaderFunctionArgs) {
     });
   }
 
+  if (fosterFamilySearchParams.garden.size > 0) {
+    where.push({ garden: { in: Array.from(fosterFamilySearchParams.garden) } });
+  }
+
+  if (fosterFamilySearchParams.housing.size > 0) {
+    where.push({
+      housing: { in: Array.from(fosterFamilySearchParams.housing) },
+    });
+  }
+
   if (fosterFamilySearchParams.speciesToHost != null) {
     where.push({
       speciesToHost: { has: fosterFamilySearchParams.speciesToHost },

@@ -195,6 +195,8 @@ type FosterFamilyData = Pick<
   | "city"
   | "comments"
   | "displayName"
+  | "garden"
+  | "housing"
   | "email"
   | "phone"
   | "speciesAlreadyPresent"

@@ -42,6 +42,8 @@ model FosterFamily {
   comments                   String?
   displayName                String                   @db.VarChar(255)
   email                      String                   @unique @db.VarChar(255)
+  garden                     FosterFamilyGarden       @default(UNKNOWN)
+  housing                    FosterFamilyHousing      @default(UNKNOWN)
   phone                      String                   @db.VarChar(255)
   speciesAlreadyPresent      Species[]                @default([])
   speciesToHost              Species[]                @default([])
@@ -58,6 +60,19 @@ enum FosterFamilyAvailability {
   AVAILABLE
   UNAVAILABLE
   UNKNOWN
+}
+
+enum FosterFamilyHousing {
+  FLAT
+  HOUSE
+  OTHER
+  UNKNOWN
+}
+
+enum FosterFamilyGarden {
+  NO
+  UNKNOWN
+  YES
 }
 
 model Breed {
