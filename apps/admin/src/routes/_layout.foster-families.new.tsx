@@ -73,6 +73,8 @@ export async function action({ request }: ActionFunctionArgs) {
       comments: formData.data.comments || null,
       displayName: formData.data.displayName,
       email: formData.data.email,
+      garden: formData.data.garden,
+      housing: formData.data.housing,
       phone: formData.data.phone,
       speciesAlreadyPresent: formData.data.speciesAlreadyPresent,
       speciesToHost: formData.data.speciesToHost,

@@ -1,11 +1,25 @@
 import { SearchParamsDelegate } from "@animeaux/form-data";
 import { zu } from "@animeaux/zod-utils";
-import { Species } from "@prisma/client";
+import {
+  FosterFamilyGarden,
+  FosterFamilyHousing,
+  Species,
+} from "@prisma/client";
 
 export const FosterFamilySearchParams = SearchParamsDelegate.create({
   displayName: {
     key: "q",
     schema: zu.searchParams.string(),
+  },
+  garden: {
+    key: "garden",
+    schema: zu.searchParams.set(zu.searchParams.nativeEnum(FosterFamilyGarden)),
+  },
+  housing: {
+    key: "housing",
+    schema: zu.searchParams.set(
+      zu.searchParams.nativeEnum(FosterFamilyHousing),
+    ),
   },
   cities: {
     key: "city",

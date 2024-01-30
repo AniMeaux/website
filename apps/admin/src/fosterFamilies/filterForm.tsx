@@ -7,7 +7,16 @@ import { Action } from "#core/actions";
 import { BaseLink } from "#core/baseLink";
 import { Filters } from "#core/controllers/filters";
 import { ControlledInput } from "#core/formElements/controlledInput";
+import { Form } from "#core/formElements/form";
 import { ToggleInput, ToggleInputList } from "#core/formElements/toggleInput";
+import {
+  GARDEN_TRANSLATION,
+  HOUSING_TRANSLATION,
+  ICON_BY_GARDEN,
+  ICON_BY_HOUSING,
+  SORTED_GARDEN,
+  SORTED_HOUSING,
+} from "#fosterFamilies/housing";
 import { FosterFamilySearchParams } from "#fosterFamilies/searchParams";
 import { Icon } from "#generated/icon";
 import { useOptimisticSearchParams } from "@animeaux/form-data";
@@ -162,6 +171,8 @@ export function FosterFamilyFilters({
           </ToggleInputList>
         </Filters.Filter>
 
+        <HousingFilter />
+
         <Filters.Filter
           value={FosterFamilySearchParams.keys.zipCode}
           label="Département ou code postal"
@@ -238,5 +249,86 @@ export function FosterFamilyFilters({
         </Filters.Filter>
       </Filters.Content>
     </Filters>
+  );
+}
+
+function HousingFilter() {
+  const [searchParams] = useOptimisticSearchParams();
+  const fosterFamilySearchParams = FosterFamilySearchParams.parse(searchParams);
+
+  return (
+    <Filters.Filter
+      value={FosterFamilySearchParams.keys.housing}
+      label="Logement"
+      count={
+        fosterFamilySearchParams.housing.size +
+        fosterFamilySearchParams.garden.size
+      }
+      hiddenContent={
+        <>
+          {Array.from(fosterFamilySearchParams.housing).map((housing) => (
+            <input
+              key={housing}
+              type="hidden"
+              name={FosterFamilySearchParams.keys.housing}
+              value={housing}
+            />
+          ))}
+
+          {Array.from(fosterFamilySearchParams.garden).map((garden) => (
+            <input
+              key={garden}
+              type="hidden"
+              name={FosterFamilySearchParams.keys.garden}
+              value={garden}
+            />
+          ))}
+        </>
+      }
+    >
+      <Form.Fields>
+        <Form.Field>
+          <Form.Label asChild>
+            <span>Type de logement</span>
+          </Form.Label>
+
+          <ToggleInputList>
+            {SORTED_HOUSING.map((housing) => (
+              <ToggleInput
+                key={housing}
+                type="checkbox"
+                label={HOUSING_TRANSLATION[housing]}
+                name={FosterFamilySearchParams.keys.housing}
+                value={housing}
+                icon={ICON_BY_HOUSING[housing]}
+                checked={fosterFamilySearchParams.housing.has(housing)}
+                onChange={() => {}}
+              />
+            ))}
+          </ToggleInputList>
+        </Form.Field>
+
+        <Form.Field>
+          <Form.Label asChild>
+            <span>Jardin</span>
+          </Form.Label>
+
+          <ToggleInputList>
+            {SORTED_GARDEN.map((garden) => (
+              <ToggleInput
+                key={garden}
+                type="checkbox"
+                label={GARDEN_TRANSLATION[garden]}
+                name={FosterFamilySearchParams.keys.garden}
+                value={garden}
+                icon={ICON_BY_GARDEN[garden]}
+                checked={fosterFamilySearchParams.garden.has(garden)}
+                onChange={() => {}}
+              />
+            ))}
+          </ToggleInputList>
+        </Form.Field>
+      </Form.Fields>
+    </Filters.Filter>
   );
 }
