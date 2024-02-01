@@ -1,15 +1,14 @@
 import { db } from "#core/db.server";
 import { ForbiddenResponse } from "#core/response.server";
 import { assertCurrentUserHasGroups } from "#currentUser/groups.server";
-import {
-  Entity,
-  GlobalSearchParams,
-  SORTED_ENTITIES,
-} from "#routes/resources.global-search/shared";
-import type { User } from "@prisma/client";
 import { UserGroup } from "@prisma/client";
 import type { LoaderFunctionArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
+import {
+  Entity,
+  GlobalSearchParams,
+  getPossibleEntitiesForCurrentUser,
+} from "./shared";
 
 const MAX_HIT_COUNT = 6;
 
@@ -32,19 +31,14 @@ export async function loader({ request }: LoaderFunctionArgs) {
   );
 
   const possibleEntities = getPossibleEntitiesForCurrentUser(currentUser);
-  const entity =
-    searchParams.entity ??
-    SORTED_ENTITIES.find((entity) => possibleEntities.has(entity));
+  const entity = searchParams.entity ?? possibleEntities[0];
 
-  if (entity == null || !possibleEntities.has(entity)) {
+  if (entity == null || !possibleEntities.includes(entity)) {
     throw new ForbiddenResponse();
   }
 
   if (searchParams.text == null) {
-    return json({
-      possibleEntities: Array.from(possibleEntities),
-      items: [],
-    });
+    return json({ items: [] });
   }
 
   if (entity === Entity.ANIMAL) {
@@ -52,14 +46,13 @@ export async function loader({ request }: LoaderFunctionArgs) {
       nameOrAlias: searchParams.text,
       maxHitCount: MAX_HIT_COUNT,
     });
+
     const items = animals.map((animal) => ({
       type: Entity.ANIMAL as const,
       ...animal,
     }));
-    return json({
-      possibleEntities: Array.from(possibleEntities),
-      items,
-    });
+
+    return json({ items });
   }
 
   const fosterFamilies = await db.fosterFamily.fuzzySearch({
@@ -72,27 +65,5 @@ export async function loader({ request }: LoaderFunctionArgs) {
     ...fosterFamily,
   }));
 
-  return json({
-    possibleEntities: Array.from(possibleEntities),
-    items,
-  });
+  return json({ items });
 }
-
-function getPossibleEntitiesForCurrentUser(currentUser: Pick<User, "groups">) {
-  const possibleEntities = new Set<Entity>();
-  currentUser.groups.forEach((group) => {
-    ALLOWED_ENTITIES_PER_GROUP[group].forEach((entity) =>
-      possibleEntities.add(entity),
-    );
-  });
-  return possibleEntities;
-}
-
-const ALLOWED_ENTITIES_PER_GROUP: Record<UserGroup, Set<Entity>> = {
-  [UserGroup.ADMIN]: new Set([Entity.ANIMAL, Entity.FOSTER_FAMILY]),
-  [UserGroup.ANIMAL_MANAGER]: new Set([Entity.ANIMAL, Entity.FOSTER_FAMILY]),
-  [UserGroup.BLOGGER]: new Set(),
-  [UserGroup.HEAD_OF_PARTNERSHIPS]: new Set(),
-  [UserGroup.VETERINARIAN]: new Set([Entity.ANIMAL]),
-  [UserGroup.VOLUNTEER]: new Set([Entity.ANIMAL]),
-};
