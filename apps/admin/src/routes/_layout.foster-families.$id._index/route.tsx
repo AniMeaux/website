@@ -1,18 +1,15 @@
 import { AnimalItem } from "#animals/item";
 import { AnimalSearchParams } from "#animals/searchParams";
-import { SPECIES_TRANSLATION } from "#animals/species";
 import { Action } from "#core/actions";
 import { BaseLink } from "#core/baseLink";
 import { Empty } from "#core/dataDisplay/empty";
 import { ErrorPage, getErrorTitle } from "#core/dataDisplay/errorPage";
 import { ErrorsInlineHelper } from "#core/dataDisplay/errors";
 import { InlineHelper } from "#core/dataDisplay/helper";
-import { ItemList, SimpleItem } from "#core/dataDisplay/item";
 import { ARTICLE_COMPONENTS, Markdown } from "#core/dataDisplay/markdown";
 import { db } from "#core/db.server";
 import { NotFoundError, ReferencedError } from "#core/errors.server";
 import { assertIsDefined } from "#core/isDefined.server";
-import { joinReactNodes } from "#core/joinReactNodes";
 import { AvatarCard } from "#core/layout/avatarCard";
 import { Card } from "#core/layout/card";
 import { PageLayout } from "#core/layout/page";
@@ -23,15 +20,10 @@ import { prisma } from "#core/prisma.server";
 import { NotFoundResponse } from "#core/response.server";
 import { assertCurrentUserHasGroups } from "#currentUser/groups.server";
 import {
-  AVAILABILITY_TRANSLATION,
-  AvailabilityIcon,
-} from "#fosterFamilies/availability";
-import {
   AVATAR_COLOR_BY_AVAILABILITY,
   FosterFamilyAvatar,
 } from "#fosterFamilies/avatar";
 import { ActionFormData } from "#fosterFamilies/form";
-import { getLongLocation } from "#fosterFamilies/location";
 import { Icon } from "#generated/icon";
 import { zu } from "@animeaux/zod-utils";
 import { FosterFamilyAvailability, UserGroup } from "@prisma/client";
@@ -45,10 +37,14 @@ import { useFetcher, useLoaderData } from "@remix-run/react";
 import { DateTime } from "luxon";
 import { useState } from "react";
 import { promiseHash } from "remix-utils/promise";
+import { ContactCard } from "./contactCard";
+import { SituationCard } from "./situationCard";
 
 const ParamsSchema = zu.object({
   id: zu.string().uuid(),
 });
+
+export type loader = typeof loader;
 
 export async function loader({ request, params }: LoaderFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {
@@ -76,6 +72,8 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
         comments: true,
         displayName: true,
         email: true,
+        garden: true,
+        housing: true,
         id: true,
         phone: true,
         speciesAlreadyPresent: true,
@@ -179,7 +177,7 @@ export default function Route() {
         <HeaderCard />
 
         <section className="grid grid-cols-1 gap-1 md:hidden">
-          <ProfileCard />
+          <ContactCard />
           <SituationCard />
           <CommentsCard />
           <FosterAnimalsCard />
@@ -188,7 +186,7 @@ export default function Route() {
 
         <section className="hidden md:grid md:grid-cols-[minmax(0px,2fr)_minmax(250px,1fr)] md:items-start md:gap-2">
           <section className="md:flex md:flex-col md:gap-2">
-            <ProfileCard />
+            <ContactCard />
             <FosterAnimalsCard />
           </section>
 
@@ -235,129 +233,6 @@ function HeaderCard() {
         </Action>
       </AvatarCard.Content>
     </AvatarCard>
-  );
-}
-
-function ProfileCard() {
-  const { fosterFamily } = useLoaderData<typeof loader>();
-
-  return (
-    <Card>
-      <Card.Header>
-        <Card.Title>Profile</Card.Title>
-
-        <Action asChild variant="text">
-          <BaseLink
-            to={Routes.fosterFamilies.id(fosterFamily.id).edit.toString()}
-          >
-            Modifier
-          </BaseLink>
-        </Action>
-      </Card.Header>
-
-      <Card.Content>
-        <ItemList>
-          <SimpleItem icon={<Icon id="phone" />}>
-            {fosterFamily.phone}
-          </SimpleItem>
-          <SimpleItem icon={<Icon id="envelope" />}>
-            {fosterFamily.email}
-          </SimpleItem>
-          <SimpleItem icon={<Icon id="locationDot" />}>
-            {getLongLocation(fosterFamily)}
-          </SimpleItem>
-        </ItemList>
-      </Card.Content>
-    </Card>
-  );
-}
-
-function SituationCard() {
-  const { fosterFamily } = useLoaderData<typeof loader>();
-
-  return (
-    <Card>
-      <Card.Header>
-        <Card.Title>Situation</Card.Title>
-
-        <Action asChild variant="text">
-          <BaseLink
-            to={Routes.fosterFamilies.id(fosterFamily.id).edit.toString()}
-          >
-            Modifier
-          </BaseLink>
-        </Action>
-      </Card.Header>
-
-      <Card.Content>
-        <ItemList>
-          <SimpleItem
-            icon={<AvailabilityIcon availability={fosterFamily.availability} />}
-          >
-            {fosterFamily.availability === FosterFamilyAvailability.UNKNOWN ? (
-              <>
-                Disponibilité{" "}
-                <strong className="text-body-emphasis">
-                  {AVAILABILITY_TRANSLATION[fosterFamily.availability]}
-                </strong>
-              </>
-            ) : (
-              <>
-                Est{" "}
-                <strong className="text-body-emphasis">
-                  {AVAILABILITY_TRANSLATION[fosterFamily.availability]}
-                </strong>
-                {fosterFamily.availabilityExpirationDate != null ? (
-                  <>
-                    {" "}
-                    jusqu’au{" "}
-                    <strong className="text-body-emphasis">
-                      {DateTime.fromISO(
-                        fosterFamily.availabilityExpirationDate,
-                      ).toLocaleString(DateTime.DATE_FULL)}
-                    </strong>
-                  </>
-                ) : null}
-              </>
-            )}
-          </SimpleItem>
-
-          <SimpleItem icon={<Icon id="handHoldingHeart" />}>
-            Peut accueillir :{" "}
-            {fosterFamily.speciesToHost.length === 0 ? (
-              <strong className="text-body-emphasis">Inconnu</strong>
-            ) : (
-              joinReactNodes(
-                fosterFamily.speciesToHost.map((species) => (
-                  <strong key={species} className="text-body-emphasis">
-                    {SPECIES_TRANSLATION[species]}
-                  </strong>
-                )),
-                ", ",
-              )
-            )}
-          </SimpleItem>
-
-          <SimpleItem icon={<Icon id="houseChimneyPaw" />}>
-            {fosterFamily.speciesAlreadyPresent.length === 0 ? (
-              "Aucun animal déjà présents"
-            ) : (
-              <>
-                Sont déjà présents :{" "}
-                {joinReactNodes(
-                  fosterFamily.speciesAlreadyPresent.map((species) => (
-                    <strong key={species} className="text-body-emphasis">
-                      {SPECIES_TRANSLATION[species]}
-                    </strong>
-                  )),
-                  ", ",
-                )}
-              </>
-            )}
-          </SimpleItem>
-        </ItemList>
-      </Card.Content>
-    </Card>
   );
 }
 

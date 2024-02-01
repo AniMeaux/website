@@ -1,6 +1,6 @@
 import { createConfig } from "#core/config.server";
 import { ErrorPage } from "#core/dataDisplay/errorPage";
-import { asRouteHandle } from "#core/handles";
+import { useRouteHandles } from "#core/handles";
 import { getPageTitle } from "#core/pageTitle";
 import { theme } from "#generated/theme";
 import appleTouchIcon from "#images/appleTouchIcon.png";
@@ -17,7 +17,6 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
-  useMatches,
 } from "@remix-run/react";
 import { Settings } from "luxon";
 
@@ -90,8 +89,7 @@ export function ErrorBoundary() {
 }
 
 function Document({ children }: { children: React.ReactNode }) {
-  const matches = useMatches();
-  const routeHandles = matches.map((match) => asRouteHandle(match.handle));
+  const routeHandles = useRouteHandles();
   const htmlBackgroundColor = routeHandles
     .map((handle) => handle.htmlBackgroundColor)
     .find((color) => color != null);

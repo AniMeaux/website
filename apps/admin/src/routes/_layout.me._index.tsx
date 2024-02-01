@@ -141,7 +141,7 @@ function HeaderCard() {
 
       <AvatarCard.Content>
         <AvatarCard.Avatar>
-          <UserAvatar user={currentUser} size="md" />
+          <UserAvatar user={currentUser} size="lg" />
         </AvatarCard.Avatar>
 
         <AvatarCard.Lines>
