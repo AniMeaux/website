@@ -7,19 +7,14 @@ import {
   SuggestionItem,
   SuggestionList,
 } from "#core/formElements/resourceInput";
+import { useRouteHandles } from "#core/handles";
 import { Routes, useNavigate } from "#core/navigation";
 import { Overlay } from "#core/popovers/overlay";
 import { FosterFamilySuggestionItem } from "#fosterFamilies/item";
 import { FosterFamilySearchParams } from "#fosterFamilies/searchParams";
 import { Icon } from "#generated/icon";
-import type { loader } from "#routes/resources.global-search/route";
-import {
-  ENTITY_TRANSLATION,
-  Entity,
-  GlobalSearchParams,
-  SORTED_ENTITIES,
-} from "#routes/resources.global-search/shared";
 import { cn } from "@animeaux/core";
+import type { User } from "@prisma/client";
 import * as Dialog from "@radix-ui/react-dialog";
 import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
 import type { SerializeFrom } from "@remix-run/node";
@@ -32,10 +27,40 @@ import type {
 import { useCombobox } from "downshift";
 import { createPath } from "history";
 import { useEffect, useState } from "react";
+import type { loader } from "./route";
+import {
+  ENTITY_TRANSLATION,
+  Entity,
+  GlobalSearchParams,
+  getPossibleEntitiesForCurrentUser,
+} from "./shared";
 
-export function GlobalSearch() {
+export function GlobalSearch({
+  currentUser,
+}: {
+  currentUser: Pick<User, "groups">;
+}) {
   const [isOpened, setIsOpened] = useState(false);
-  const [entity, setEntity] = useState<undefined | Entity>();
+
+  const possibleEntities = getPossibleEntitiesForCurrentUser(currentUser);
+
+  const suggestedEntity = useRouteHandles()
+    .map((handle) => handle.globalSearchEntity)
+    .find(Boolean);
+
+  const defaultSelectedEntity =
+    // Ensure `suggestedEntity` is possible
+    possibleEntities.find((entity) => entity === suggestedEntity) ??
+    possibleEntities[0];
+
+  const [entity, setEntity] = useState(defaultSelectedEntity);
+
+  // Reset to the default selected entity when the combobox is closed.
+  useEffect(() => {
+    if (defaultSelectedEntity != null && !isOpened) {
+      setEntity(defaultSelectedEntity);
+    }
+  }, [defaultSelectedEntity, isOpened]);
 
   const navigate = useNavigate();
   const navigation = useNavigation();
@@ -73,7 +98,6 @@ export function GlobalSearch() {
   }, [isOpened]);
 
   const fetcher = useFetcher<loader>();
-  const possibleEntities = new Set(fetcher.data?.possibleEntities);
 
   // Make sure we clear any search when the combobox is closed.
   // We can't load during a navigation or it will cancel the navigation.
@@ -88,18 +112,6 @@ export function GlobalSearch() {
       );
     }
   }, [load, isOpened, isNavigating, entity]);
-
-  // - Set the first possible type once we get it.
-  // - Reset to the first possible type when the combobox is closed.
-  const firstPossibleEntity = SORTED_ENTITIES.find((entity) =>
-    possibleEntities.has(entity),
-  );
-
-  useEffect(() => {
-    if (firstPossibleEntity != null && (entity == null || !isOpened)) {
-      setEntity(firstPossibleEntity);
-    }
-  }, [firstPossibleEntity, entity, isOpened]);
 
   return (
     <Dialog.Root
@@ -144,6 +156,7 @@ export function GlobalSearch() {
             <Combobox
               entity={entity}
               setEntity={setEntity}
+              possibleEntities={possibleEntities}
               fetcher={fetcher}
               onClose={() => setIsOpened(false)}
               onSelectedItemChange={(item) => {
@@ -200,6 +213,7 @@ function stateReducer<TItem>(
 function Combobox({
   entity,
   setEntity,
+  possibleEntities,
   fetcher,
   onSelectedItemChange,
   onSelectSearch,
@@ -208,6 +222,7 @@ function Combobox({
   entity: Entity;
   setEntity: React.Dispatch<Entity>;
   fetcher: FetcherWithComponents<SerializeFrom<typeof loader>>;
+  possibleEntities: Entity[];
   onSelectedItemChange: React.Dispatch<
     SerializeFrom<typeof loader>["items"][number]
   >;
@@ -320,7 +335,7 @@ function Combobox({
         <EntityInput
           entity={entity}
           setEntity={setEntity}
-          possibleEntities={new Set(fetcher.data?.possibleEntities)}
+          possibleEntities={possibleEntities}
         />
       </header>
 
@@ -373,34 +388,32 @@ function EntityInput({
 }: {
   entity: Entity;
   setEntity: React.Dispatch<Entity>;
-  possibleEntities: Set<Entity>;
+  possibleEntities: Entity[];
 }) {
-  if (possibleEntities.size < 2) {
+  if (possibleEntities.length < 2) {
     return null;
   }
 
   return (
     <Tabs className="py-0.5">
-      {SORTED_ENTITIES.filter((entity) => possibleEntities.has(entity)).map(
-        (possibleEntity) => (
-          <span
-            key={possibleEntity}
-            className="flex flex-col first:pl-safe-1 last:pr-safe-1 md:first:pl-1 md:last:pr-1"
-          >
-            <Tab>
-              <TabInput
-                type="radio"
-                name={GlobalSearchParams.keys.entity}
-                value={possibleEntity}
-                checked={possibleEntity === entity}
-                onChange={() => setEntity(possibleEntity)}
-              />
+      {possibleEntities.map((possibleEntity) => (
+        <span
+          key={possibleEntity}
+          className="flex flex-col first:pl-safe-1 last:pr-safe-1 md:first:pl-1 md:last:pr-1"
+        >
+          <Tab>
+            <TabInput
+              type="radio"
+              name={GlobalSearchParams.keys.entity}
+              value={possibleEntity}
+              checked={possibleEntity === entity}
+              onChange={() => setEntity(possibleEntity)}
+            />
 
-              <TabLabel>{ENTITY_TRANSLATION[possibleEntity]}</TabLabel>
-            </Tab>
-          </span>
-        ),
-      )}
+            <TabLabel>{ENTITY_TRANSLATION[possibleEntity]}</TabLabel>
+          </Tab>
+        </span>
+      ))}
     </Tabs>
   );
 }
