@@ -1,5 +1,5 @@
-import { BaseLink } from "#core/baseLink";
-import { DynamicImage } from "#core/dataDisplay/image";
+import { BaseLink } from "#core/base-link";
+import { DynamicImage } from "#core/data-display/image";
 import { DateTime } from "luxon";
 
 export function ArticleItem({

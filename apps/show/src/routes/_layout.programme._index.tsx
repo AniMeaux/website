@@ -1,12 +1,12 @@
 import { useConfig } from "#core/config";
 import { createConfig } from "#core/config.server";
-import { ErrorPage, getErrorTitle } from "#core/dataDisplay/errorPage";
+import { ErrorPage, getErrorTitle } from "#core/data-display/error-page";
 import { ShowDay } from "#core/dates";
-import { BoardCard } from "#core/layout/boardCard";
+import { BoardCard } from "#core/layout/board-card";
 import { Section } from "#core/layout/section";
 import { createSocialMeta } from "#core/meta";
 import { Routes } from "#core/navigation";
-import { getPageTitle } from "#core/pageTitle";
+import { getPageTitle } from "#core/page-title";
 import { NotFoundResponse } from "#core/response.server";
 import type { MetaFunction } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";

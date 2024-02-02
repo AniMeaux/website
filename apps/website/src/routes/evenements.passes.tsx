@@ -1,10 +1,10 @@
 import { actionClassNames } from "#core/actions";
-import { BaseLink } from "#core/baseLink";
+import { BaseLink } from "#core/base-link";
 import { Paginator } from "#core/controllers/paginator";
 import { prisma } from "#core/db.server";
 import { createSocialMeta } from "#core/meta";
-import { getPageTitle } from "#core/pageTitle";
-import { getPage } from "#core/searchParams";
+import { getPageTitle } from "#core/page-title";
+import { getPage } from "#core/search-params";
 import { EventItem } from "#events/item";
 import { cn } from "@animeaux/core";
 import type { Prisma } from "@prisma/client";

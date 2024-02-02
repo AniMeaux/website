@@ -1,30 +1,30 @@
 import { AnimalItem } from "#animals/item";
-import { AnimalSearchParams } from "#animals/searchParams";
+import { AnimalSearchParams } from "#animals/search-params";
 import {
   ACTIVE_ANIMAL_STATUS,
   NON_ACTIVE_ANIMAL_STATUS,
 } from "#animals/status";
 import { Action } from "#core/actions";
-import { BaseLink } from "#core/baseLink";
-import { Empty } from "#core/dataDisplay/empty";
-import { ErrorPage, getErrorTitle } from "#core/dataDisplay/errorPage";
-import { ErrorsInlineHelper } from "#core/dataDisplay/errors";
-import { BlockHelper, InlineHelper } from "#core/dataDisplay/helper";
-import { inferInstanceColor } from "#core/dataDisplay/instanceColor";
-import { ItemList, SimpleItem } from "#core/dataDisplay/item";
+import { BaseLink } from "#core/base-link";
+import { Empty } from "#core/data-display/empty";
+import { ErrorPage, getErrorTitle } from "#core/data-display/error-page";
+import { ErrorsInlineHelper } from "#core/data-display/errors";
+import { BlockHelper, InlineHelper } from "#core/data-display/helper";
+import { inferInstanceColor } from "#core/data-display/instance-color";
+import { ItemList, SimpleItem } from "#core/data-display/item";
 import { toRoundedRelative } from "#core/dates";
 import { db } from "#core/db.server";
 import { NotFoundError, ReferencedError } from "#core/errors.server";
-import { assertIsDefined } from "#core/isDefined.server";
-import { AvatarCard } from "#core/layout/avatarCard";
+import { assertIsDefined } from "#core/is-defined.server";
+import { AvatarCard } from "#core/layout/avatar-card";
 import { Card } from "#core/layout/card";
 import { PageLayout } from "#core/layout/page";
 import { Routes } from "#core/navigation";
-import { getPageTitle } from "#core/pageTitle";
+import { getPageTitle } from "#core/page-title";
 import { Dialog } from "#core/popovers/dialog";
 import { prisma } from "#core/prisma.server";
 import { BadRequestResponse, NotFoundResponse } from "#core/response.server";
-import { assertCurrentUserHasGroups } from "#currentUser/groups.server";
+import { assertCurrentUserHasGroups } from "#current-user/groups.server";
 import { Icon } from "#generated/icon";
 import { UserAvatar } from "#users/avatar";
 import { DeleteMyselfError, DisableMyselfError } from "#users/db.server";
@@ -339,7 +339,7 @@ function ActivityCard() {
 
       <Card.Content>
         <ItemList>
-          <SimpleItem icon={<Icon id="wavePulse" />}>
+          <SimpleItem icon={<Icon id="wave-pulse" />}>
             {user.lastActivityAt == null ? (
               "Aucune activité"
             ) : (

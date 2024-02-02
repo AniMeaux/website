@@ -1,4 +1,4 @@
-import type { ImageDescriptor } from "#core/dataDisplay/image";
+import type { ImageDescriptor } from "#core/data-display/image";
 import adoption1024 from "#images/adoption-1024w.png";
 import adoption512 from "#images/adoption-512w.png";
 

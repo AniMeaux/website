@@ -1,7 +1,7 @@
 import { AnimalItem } from "#animals/item";
 import { ADOPTABLE_ANIMAL_STATUS } from "#animals/status";
 import { actionClassNames } from "#core/actions";
-import { BaseLink } from "#core/baseLink";
+import { BaseLink } from "#core/base-link";
 import { Paginator } from "#core/controllers/paginator";
 import {
   AGES_TO_PATH,
@@ -9,11 +9,11 @@ import {
   SPECIES_TO_PATH,
   SearchForm,
 } from "#core/controllers/searchForm";
-import { ErrorPage, getErrorTitle } from "#core/dataDisplay/errorPage";
+import { ErrorPage, getErrorTitle } from "#core/data-display/error-page";
 import { prisma } from "#core/db.server";
 import { createSocialMeta } from "#core/meta";
-import { getPageTitle } from "#core/pageTitle";
-import { getPage } from "#core/searchParams";
+import { getPageTitle } from "#core/page-title";
+import { getPage } from "#core/search-params";
 import {
   AGE_PLURAL_TRANSLATION,
   AGE_TRANSLATION,

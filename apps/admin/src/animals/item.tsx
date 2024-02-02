@@ -7,12 +7,12 @@ import {
 } from "#animals/situation/health";
 import { getSpeciesLabels } from "#animals/species";
 import { StatusBadge } from "#animals/status";
-import { BaseLink } from "#core/baseLink";
-import { Chip } from "#core/dataDisplay/chip";
-import type { DynamicImageProps } from "#core/dataDisplay/image";
-import { DynamicImage } from "#core/dataDisplay/image";
-import type { SuggestionItemProps } from "#core/formElements/resourceInput";
-import { SuggestionItem } from "#core/formElements/resourceInput";
+import { BaseLink } from "#core/base-link";
+import { Chip } from "#core/data-display/chip";
+import type { DynamicImageProps } from "#core/data-display/image";
+import { DynamicImage } from "#core/data-display/image";
+import type { SuggestionItemProps } from "#core/form-elements/resource-input";
+import { SuggestionItem } from "#core/form-elements/resource-input";
 import { Routes } from "#core/navigation";
 import { Icon } from "#generated/icon";
 import type { AnimalHit } from "@animeaux/algolia-client";

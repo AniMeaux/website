@@ -1,21 +1,21 @@
 import { Action } from "#core/actions";
-import { BaseLink } from "#core/baseLink";
-import { ErrorPage, getErrorTitle } from "#core/dataDisplay/errorPage";
-import { BlockHelper } from "#core/dataDisplay/helper";
-import { DynamicImage } from "#core/dataDisplay/image";
-import { ItemList, SimpleItem } from "#core/dataDisplay/item";
+import { BaseLink } from "#core/base-link";
+import { ErrorPage, getErrorTitle } from "#core/data-display/error-page";
+import { BlockHelper } from "#core/data-display/helper";
+import { DynamicImage } from "#core/data-display/image";
+import { ItemList, SimpleItem } from "#core/data-display/item";
 import { db } from "#core/db.server";
 import { NotFoundError } from "#core/errors.server";
-import { assertIsDefined } from "#core/isDefined.server";
-import { AvatarCard } from "#core/layout/avatarCard";
+import { assertIsDefined } from "#core/is-defined.server";
+import { AvatarCard } from "#core/layout/avatar-card";
 import { Card } from "#core/layout/card";
 import { PageLayout } from "#core/layout/page";
 import { Routes } from "#core/navigation";
-import { getPageTitle } from "#core/pageTitle";
+import { getPageTitle } from "#core/page-title";
 import { Dialog } from "#core/popovers/dialog";
 import { prisma } from "#core/prisma.server";
 import { NotFoundResponse } from "#core/response.server";
-import { assertCurrentUserHasGroups } from "#currentUser/groups.server";
+import { assertCurrentUserHasGroups } from "#current-user/groups.server";
 import { EventAvatar } from "#events/avatar";
 import { Icon } from "#generated/icon";
 import { formatDateRange } from "@animeaux/core";
@@ -117,7 +117,7 @@ export default function Route() {
     <PageLayout>
       <PageLayout.Content className="flex flex-col gap-1 md:gap-2">
         {!event.isVisible ? (
-          <BlockHelper variant="warning" icon="eyeSlash">
+          <BlockHelper variant="warning" icon="eye-slash">
             L’évènement n’est pas visible.
           </BlockHelper>
         ) : null}
@@ -182,13 +182,13 @@ function DetailsCard() {
 
       <Card.Content>
         <ItemList>
-          <SimpleItem icon={<Icon id="calendarDays" />}>
+          <SimpleItem icon={<Icon id="calendar-days" />}>
             {formatDateRange(event.startDate, event.endDate, {
               showTime: !event.isFullDay,
             })}
           </SimpleItem>
 
-          <SimpleItem icon={<Icon id="locationDot" />}>
+          <SimpleItem icon={<Icon id="location-dot" />}>
             {event.location}
           </SimpleItem>
 

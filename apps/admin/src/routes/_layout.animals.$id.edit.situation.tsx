@@ -7,17 +7,17 @@ import {
   NotManagerError,
 } from "#animals/situation/db.server";
 import { ActionFormData, AnimalSituationForm } from "#animals/situation/form";
-import { ErrorPage, getErrorTitle } from "#core/dataDisplay/errorPage";
+import { ErrorPage, getErrorTitle } from "#core/data-display/error-page";
 import { db } from "#core/db.server";
 import { NotFoundError } from "#core/errors.server";
-import { assertIsDefined } from "#core/isDefined.server";
+import { assertIsDefined } from "#core/is-defined.server";
 import { Card } from "#core/layout/card";
 import { PageLayout } from "#core/layout/page";
 import { Routes, useBackIfPossible } from "#core/navigation";
-import { getPageTitle } from "#core/pageTitle";
+import { getPageTitle } from "#core/page-title";
 import { prisma } from "#core/prisma.server";
 import { NotFoundResponse } from "#core/response.server";
-import { assertCurrentUserHasGroups } from "#currentUser/groups.server";
+import { assertCurrentUserHasGroups } from "#current-user/groups.server";
 import { zu } from "@animeaux/zod-utils";
 import { UserGroup } from "@prisma/client";
 import type {

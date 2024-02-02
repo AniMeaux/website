@@ -1,10 +1,10 @@
-import type { ImageDescriptor } from "#core/dataDisplay/image";
-import socialAdoptionConditions1024 from "#images/socialAdoptionConditions-1024w.jpg";
-import socialDefault1024 from "#images/socialDefault-1024w.jpg";
-import socialDonation1024 from "#images/socialDonation-1024w.jpg";
-import socialFaq1024 from "#images/socialFaq-1024w.jpg";
-import socialFosterFamily1024 from "#images/socialFosterFamily-1024w.jpg";
-import socialVolunteer1024 from "#images/socialVolunteer-1024w.jpg";
+import type { ImageDescriptor } from "#core/data-display/image";
+import socialAdoptionConditions1024 from "#images/social-adoption-conditions-1024w.jpg";
+import socialDefault1024 from "#images/social-default-1024w.jpg";
+import socialDonation1024 from "#images/social-donation-1024w.jpg";
+import socialFaq1024 from "#images/social-faq-1024w.jpg";
+import socialFosterFamily1024 from "#images/social-foster-family-1024w.jpg";
+import socialVolunteer1024 from "#images/social-volunteer-1024w.jpg";
 
 const adoptionConditions: ImageDescriptor = {
   alt: "Chat escaladant une petite grille.",

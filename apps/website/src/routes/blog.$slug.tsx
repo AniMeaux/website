@@ -1,16 +1,16 @@
 import { articles } from "#blog/data.server";
 import { ArticleItem } from "#blog/item";
 import { getConfigFromMetaMatches } from "#core/config";
-import { ErrorPage, getErrorTitle } from "#core/dataDisplay/errorPage";
-import { DynamicImage, createCloudinaryUrl } from "#core/dataDisplay/image";
-import { ARTICLE_COMPONENTS, Markdown } from "#core/dataDisplay/markdown";
+import { ErrorPage, getErrorTitle } from "#core/data-display/error-page";
+import { DynamicImage, createCloudinaryUrl } from "#core/data-display/image";
+import { ARTICLE_COMPONENTS, Markdown } from "#core/data-display/markdown";
 import {
   RelatedSection,
   RelatedSectionList,
   RelatedSectionTitle,
-} from "#core/layout/relatedSection";
+} from "#core/layout/related-section";
 import { createSocialMeta } from "#core/meta";
-import { getPageTitle } from "#core/pageTitle";
+import { getPageTitle } from "#core/page-title";
 import { DonationSection } from "#donation/section";
 import { cn } from "@animeaux/core";
 import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";

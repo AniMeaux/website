@@ -2,13 +2,13 @@ import { ProseInlineAction } from "#core/actions";
 import type { Config } from "#core/config";
 import { useConfig } from "#core/config";
 import { createConfig } from "#core/config.server";
-import { ErrorPage, getErrorTitle } from "#core/dataDisplay/errorPage";
-import { DynamicImage } from "#core/dataDisplay/image";
-import { LightBoardCard } from "#core/layout/lightBoardCard";
+import { ErrorPage, getErrorTitle } from "#core/data-display/error-page";
+import { DynamicImage } from "#core/data-display/image";
+import { LightBoardCard } from "#core/layout/light-board-card";
 import { Section } from "#core/layout/section";
 import { createSocialMeta } from "#core/meta";
 import { Routes } from "#core/navigation";
-import { getPageTitle } from "#core/pageTitle";
+import { getPageTitle } from "#core/page-title";
 import { NotFoundResponse } from "#core/response.server";
 import { Icon } from "#generated/icon";
 import * as Collapsible from "@radix-ui/react-collapsible";
@@ -64,7 +64,7 @@ function TitleSection() {
           aspectRatio="1:1"
           fallbackSize="1024"
           sizes={{ default: "384px", md: "50vw", lg: "512px" }}
-          shape={{ id: "variant11", color: "prussianBlue", side: "right" }}
+          shape={{ id: "variant-11", color: "prussianBlue", side: "right" }}
           className="w-full"
         />
       </Section.ImageAside>
@@ -128,7 +128,7 @@ function FaqItem({ faq }: { faq: Faq }) {
           {faq.question}
 
           <Icon
-            id="linearArrowDown"
+            id="linear-arrow-down"
             className="text-[16px] transition-transform duration-150 ease-in-out group-data-[state=open]/trigger:-rotate-180 group-hover/trigger:group-data-[state=closed]/trigger:translate-y-0.5 group-hover/trigger:group-data-[state=open]/trigger:-translate-y-0.5"
           />
         </Collapsible.Trigger>

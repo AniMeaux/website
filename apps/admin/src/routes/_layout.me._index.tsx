@@ -1,20 +1,20 @@
 import { AnimalItem } from "#animals/item";
-import { AnimalSearchParams } from "#animals/searchParams";
+import { AnimalSearchParams } from "#animals/search-params";
 import {
   ACTIVE_ANIMAL_STATUS,
   NON_ACTIVE_ANIMAL_STATUS,
 } from "#animals/status";
 import { Action } from "#core/actions";
-import { BaseLink } from "#core/baseLink";
-import { Empty } from "#core/dataDisplay/empty";
-import { inferInstanceColor } from "#core/dataDisplay/instanceColor";
-import { ItemList, SimpleItem } from "#core/dataDisplay/item";
+import { BaseLink } from "#core/base-link";
+import { Empty } from "#core/data-display/empty";
+import { inferInstanceColor } from "#core/data-display/instance-color";
+import { ItemList, SimpleItem } from "#core/data-display/item";
 import { db } from "#core/db.server";
-import { AvatarCard } from "#core/layout/avatarCard";
+import { AvatarCard } from "#core/layout/avatar-card";
 import { Card } from "#core/layout/card";
 import { PageLayout } from "#core/layout/page";
 import { Routes } from "#core/navigation";
-import { getPageTitle } from "#core/pageTitle";
+import { getPageTitle } from "#core/page-title";
 import { prisma } from "#core/prisma.server";
 import { Icon } from "#generated/icon";
 import { UserAvatar } from "#users/avatar";

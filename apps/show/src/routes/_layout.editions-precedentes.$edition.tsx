@@ -2,21 +2,21 @@ import { cloudinary } from "#core/cloudinary/cloudinary.server";
 import { useConfig } from "#core/config";
 import { createConfig } from "#core/config.server";
 import { Tab, Tabs } from "#core/controllers/tabs";
-import { ErrorPage, getErrorTitle } from "#core/dataDisplay/errorPage";
-import { DynamicImage } from "#core/dataDisplay/image";
+import { ErrorPage, getErrorTitle } from "#core/data-display/error-page";
+import { DynamicImage } from "#core/data-display/image";
 import { Section } from "#core/layout/section";
 import { createSocialMeta } from "#core/meta";
 import { Routes } from "#core/navigation";
-import { getPageTitle } from "#core/pageTitle";
+import { getPageTitle } from "#core/page-title";
 import { NotFoundResponse } from "#core/response.server";
-import { ScrollRestorationLocationState } from "#core/scrollRestoration";
-import { PreviousEditionImage } from "#previousEditions/image";
-import { PhotoLocationState } from "#previousEditions/photoLocationState";
+import { ScrollRestorationLocationState } from "#core/scroll-restoration";
+import { PreviousEditionImage } from "#previous-editions/image";
+import { PhotoLocationState } from "#previous-editions/photo-location-state";
 import {
   PREVIOUS_EDITION_PHOTOGRAPH,
   PreviousEdition,
   SORTED_PREVIOUS_EDITIONS,
-} from "#previousEditions/previousEdition";
+} from "#previous-editions/previous-edition";
 import { cn } from "@animeaux/core";
 import { zu } from "@animeaux/zod-utils";
 import type {
@@ -80,7 +80,7 @@ function TitleSection() {
         <PreviousEditionImage
           fallbackSize="1024"
           sizes={{ default: "384px", md: "50vw", lg: "512px" }}
-          shape={{ id: "variant3", color: "prussianBlue", side: "right" }}
+          shape={{ id: "variant-3", color: "prussianBlue", side: "right" }}
           className="w-full"
         />
       </Section.ImageAside>

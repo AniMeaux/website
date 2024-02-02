@@ -13,11 +13,11 @@ import {
 } from "#animals/species";
 import { Action } from "#core/actions";
 import { toIsoDateValue } from "#core/dates";
-import { Form } from "#core/formElements/form";
-import { Input } from "#core/formElements/input";
-import { RadioInput, RadioInputList } from "#core/formElements/radioInput";
-import { RequiredStar } from "#core/formElements/requiredStar";
-import { Textarea } from "#core/formElements/textarea";
+import { Form } from "#core/form-elements/form";
+import { Input } from "#core/form-elements/input";
+import { RadioInput, RadioInputList } from "#core/form-elements/radio-input";
+import { RequiredStar } from "#core/form-elements/required-star";
+import { Textarea } from "#core/form-elements/textarea";
 import { Separator } from "#core/layout/separator";
 import { Icon } from "#generated/icon";
 import { BreedInput } from "#routes/resources.breed/input";
@@ -239,7 +239,7 @@ export function AnimalProfileForm({
               aria-describedby="birthdate-error"
               leftAdornment={
                 <Input.Adornment>
-                  <Icon id="calendarDays" />
+                  <Icon id="calendar-days" />
                 </Input.Adornment>
               }
             />

@@ -1,16 +1,16 @@
 import { toBooleanAttribute } from "#core/attributes";
-import { BaseTextInput } from "#core/formElements/baseTextInput";
-import { Input } from "#core/formElements/input";
+import { BaseTextInput } from "#core/form-elements/base-text-input";
+import { Input } from "#core/form-elements/input";
 import {
   ResourceComboboxLayout,
   ResourceInputLayout,
   SuggestionItem,
   SuggestionList,
-} from "#core/formElements/resourceInput";
+} from "#core/form-elements/resource-input";
 import { Routes, useNavigate } from "#core/navigation";
-import { NextSearchParams } from "#core/searchParams";
-import { FosterFamilySuggestionItem } from "#fosterFamilies/item";
-import { FosterFamilySearchParams } from "#fosterFamilies/searchParams";
+import { NextSearchParams } from "#core/search-params";
+import { FosterFamilySuggestionItem } from "#foster-families/item";
+import { FosterFamilySearchParams } from "#foster-families/search-params";
 import { Icon } from "#generated/icon";
 import type { loader } from "#routes/resources.foster-family/route";
 import type { FosterFamily } from "@prisma/client";
@@ -128,11 +128,11 @@ const InputTrigger = forwardRef<
         key="remove"
         onClick={() => setFosterFamily(null)}
       >
-        <Icon id="xMark" />
+        <Icon id="x-mark" />
       </BaseTextInput.ActionAdornment>
     ) : null,
     <BaseTextInput.Adornment key="caret">
-      <Icon id="caretDown" />
+      <Icon id="caret-down" />
     </BaseTextInput.Adornment>,
   ].filter(Boolean);
 

@@ -19,12 +19,12 @@ export const SORTED_GROUPS = orderBy(
 );
 
 export const GROUP_ICON: Record<UserGroup, IconProps["id"]> = {
-  [UserGroup.ADMIN]: "shieldHalved",
+  [UserGroup.ADMIN]: "shield-halved",
   [UserGroup.ANIMAL_MANAGER]: "paw",
-  [UserGroup.BLOGGER]: "penNib",
+  [UserGroup.BLOGGER]: "pen-nib",
   [UserGroup.HEAD_OF_PARTNERSHIPS]: "handshake",
   [UserGroup.VETERINARIAN]: "stethoscope",
-  [UserGroup.VOLUNTEER]: "peopleGroup",
+  [UserGroup.VOLUNTEER]: "people-group",
 };
 
 export function hasGroups(user: Pick<User, "groups">, groups: UserGroup[]) {

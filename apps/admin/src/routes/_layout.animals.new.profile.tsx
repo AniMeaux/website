@@ -1,13 +1,13 @@
-import { AnimalCreationSteps } from "#animals/creationSteps";
+import { AnimalCreationSteps } from "#animals/creation-steps";
 import { BreedNotForSpeciesError } from "#animals/profile/db.server";
 import { ActionFormData, AnimalProfileForm } from "#animals/profile/form";
-import { ErrorPage } from "#core/dataDisplay/errorPage";
+import { ErrorPage } from "#core/data-display/error-page";
 import { db } from "#core/db.server";
 import { Card } from "#core/layout/card";
 import { PageLayout } from "#core/layout/page";
 import { Routes } from "#core/navigation";
-import { getPageTitle } from "#core/pageTitle";
-import { assertCurrentUserHasGroups } from "#currentUser/groups.server";
+import { getPageTitle } from "#core/page-title";
+import { assertCurrentUserHasGroups } from "#current-user/groups.server";
 import type { zu } from "@animeaux/zod-utils";
 import { UserGroup } from "@prisma/client";
 import type {

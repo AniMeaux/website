@@ -1,6 +1,6 @@
-import { BaseLink } from "#core/baseLink";
-import { DynamicImage } from "#core/dataDisplay/image";
-import { isDefined } from "#core/isDefined";
+import { BaseLink } from "#core/base-link";
+import { DynamicImage } from "#core/data-display/image";
+import { isDefined } from "#core/is-defined";
 import { toSlug } from "#core/slugs";
 import { GENDER_TRANSLATION, SPECIES_TRANSLATION } from "#core/translations";
 import { Icon } from "#generated/icon";

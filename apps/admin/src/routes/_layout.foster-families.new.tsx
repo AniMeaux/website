@@ -1,17 +1,17 @@
-import { ErrorPage } from "#core/dataDisplay/errorPage";
+import { ErrorPage } from "#core/data-display/error-page";
 import { db } from "#core/db.server";
 import { EmailAlreadyUsedError } from "#core/errors.server";
 import { Card } from "#core/layout/card";
 import { PageLayout } from "#core/layout/page";
 import { Routes, useBackIfPossible } from "#core/navigation";
-import { getPageTitle } from "#core/pageTitle";
-import { NextSearchParams } from "#core/searchParams";
-import { assertCurrentUserHasGroups } from "#currentUser/groups.server";
+import { getPageTitle } from "#core/page-title";
+import { NextSearchParams } from "#core/search-params";
+import { assertCurrentUserHasGroups } from "#current-user/groups.server";
 import {
   InvalidAvailabilityDateError,
   MissingSpeciesToHostError,
-} from "#fosterFamilies/db.server";
-import { ActionFormData, FosterFamilyForm } from "#fosterFamilies/form";
+} from "#foster-families/db.server";
+import { ActionFormData, FosterFamilyForm } from "#foster-families/form";
 import type { zu } from "@animeaux/zod-utils";
 import { UserGroup } from "@prisma/client";
 import type {

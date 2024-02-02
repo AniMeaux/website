@@ -84,13 +84,13 @@ export function SubscriptionForm() {
             },
           )}
         >
-          <Icon id={isSuccess ? "check" : "paperPlane"} />
+          <Icon id={isSuccess ? "check" : "paper-plane"} />
         </button>
       </fetcher.Form>
 
       {fetcher.data?.type === "error" && (
         <p className="flex items-center gap-2 text-brandRed">
-          <Icon id="circleExclamation" className="text-[14px]" />
+          <Icon id="circle-exclamation" className="text-[14px]" />
           <span className="text-caption-default">
             {fetcher.data.errors.formErrors.join(". ") ||
               fetcher.data.errors.fieldErrors.email}

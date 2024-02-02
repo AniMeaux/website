@@ -1,13 +1,13 @@
-import { getAllAnimalPictures } from "#animals/pictures/allPictures";
+import { getAllAnimalPictures } from "#animals/pictures/all-pictures";
 import type { AnimalPictures } from "#animals/pictures/db.server";
 import { AnimalPictureDbDelegate } from "#animals/pictures/db.server";
 import { AnimalProfileDbDelegate } from "#animals/profile/db.server";
-import type { AnimalSearchParams } from "#animals/searchParams";
+import type { AnimalSearchParams } from "#animals/search-params";
 import {
   AnimalSort,
   AnimalSterilization,
   AnimalVaccination,
-} from "#animals/searchParams";
+} from "#animals/search-params";
 import { AnimalSituationDbDelegate } from "#animals/situation/db.server";
 import { SORTED_SPECIES } from "#animals/species";
 import { algolia } from "#core/algolia/algolia.server";

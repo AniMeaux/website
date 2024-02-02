@@ -54,19 +54,19 @@ const AGREEMENT_CLASS_NAMES: Record<AgreementValue, string> = {
 
 const ICONS: Record<Entity, Record<AgreementValue, IconProps["id"]>> = {
   babies: {
-    [AgreementValue.TRUE]: "babyCircleCheck",
-    [AgreementValue.FALSE]: "babyCircleXMark",
-    [AgreementValue.UNKNOWN]: "babyCircleQuestion",
+    [AgreementValue.TRUE]: "baby-circle-check",
+    [AgreementValue.FALSE]: "baby-circle-x-mark",
+    [AgreementValue.UNKNOWN]: "baby-circle-question",
   },
   cats: {
-    [AgreementValue.TRUE]: "catCircleCheck",
-    [AgreementValue.FALSE]: "catCircleXMark",
-    [AgreementValue.UNKNOWN]: "catCircleQuestion",
+    [AgreementValue.TRUE]: "cat-circle-check",
+    [AgreementValue.FALSE]: "cat-circle-x-mark",
+    [AgreementValue.UNKNOWN]: "cat-circle-question",
   },
   dogs: {
-    [AgreementValue.TRUE]: "dogCircleCheck",
-    [AgreementValue.FALSE]: "dogCircleXMark",
-    [AgreementValue.UNKNOWN]: "dogCircleQuestion",
+    [AgreementValue.TRUE]: "dog-circle-check",
+    [AgreementValue.FALSE]: "dog-circle-x-mark",
+    [AgreementValue.UNKNOWN]: "dog-circle-question",
   },
 };
 

@@ -1,5 +1,5 @@
 import type { ShowDay } from "#core/dates";
-import type { PreviousEdition } from "#previousEditions/previousEdition";
+import type { PreviousEdition } from "#previous-editions/previous-edition";
 import type { NavLinkProps } from "@remix-run/react";
 import { useLocation, useNavigation, useResolvedPath } from "@remix-run/react";
 import { useContext } from "react";

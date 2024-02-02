@@ -1,6 +1,6 @@
-import { ErrorPage, getErrorTitle } from "#core/dataDisplay/errorPage";
+import { ErrorPage, getErrorTitle } from "#core/data-display/error-page";
 import { PageLayout } from "#core/layout/page";
-import { getPageTitle } from "#core/pageTitle";
+import { getPageTitle } from "#core/page-title";
 import { NotFoundResponse } from "#core/response.server";
 import type { MetaFunction } from "@remix-run/node";
 

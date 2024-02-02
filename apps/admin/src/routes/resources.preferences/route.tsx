@@ -1,6 +1,6 @@
 import { db } from "#core/db.server";
 import { Routes } from "#core/navigation";
-import { commitCurrentUserPreferences } from "#currentUser/preferences.server";
+import { commitCurrentUserPreferences } from "#current-user/preferences.server";
 import { ActionFormData } from "#routes/resources.preferences/shared";
 import type { ActionFunctionArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";

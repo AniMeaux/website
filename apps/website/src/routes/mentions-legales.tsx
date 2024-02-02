@@ -1,8 +1,8 @@
 import type { Config } from "#core/config";
 import { useConfig } from "#core/config";
-import { ARTICLE_COMPONENTS, Markdown } from "#core/dataDisplay/markdown";
+import { ARTICLE_COMPONENTS, Markdown } from "#core/data-display/markdown";
 import { createSocialMeta } from "#core/meta";
-import { getPageTitle } from "#core/pageTitle";
+import { getPageTitle } from "#core/page-title";
 import { cn } from "@animeaux/core";
 import type { MetaFunction } from "@remix-run/node";
 

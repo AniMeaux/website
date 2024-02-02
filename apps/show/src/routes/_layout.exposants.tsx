@@ -1,15 +1,15 @@
 import { Action } from "#core/actions";
 import { useConfig } from "#core/config";
 import { createConfig } from "#core/config.server";
-import { ErrorPage, getErrorTitle } from "#core/dataDisplay/errorPage";
-import { DynamicImage } from "#core/dataDisplay/image";
-import { ImageUrl } from "#core/dataDisplay/imageUrl";
-import { Markdown, SENTENCE_COMPONENTS } from "#core/dataDisplay/markdown";
-import { BoardCard } from "#core/layout/boardCard";
-import { LightBoardCard } from "#core/layout/lightBoardCard";
+import { ErrorPage, getErrorTitle } from "#core/data-display/error-page";
+import { DynamicImage } from "#core/data-display/image";
+import { ImageUrl } from "#core/data-display/image-url";
+import { Markdown, SENTENCE_COMPONENTS } from "#core/data-display/markdown";
+import { BoardCard } from "#core/layout/board-card";
+import { LightBoardCard } from "#core/layout/light-board-card";
 import { Section } from "#core/layout/section";
 import { createSocialMeta } from "#core/meta";
-import { getPageTitle } from "#core/pageTitle";
+import { getPageTitle } from "#core/page-title";
 import { prisma } from "#core/prisma.server";
 import { NotFoundResponse } from "#core/response.server";
 import { EXHIBITOR_CATEGORY_TRANSLATIONS } from "#exhibitors/translations";
@@ -149,7 +149,7 @@ function BecomeExhibitorItem() {
         isSmall
         className="grid aspect-4/3 grid-cols-1 content-center justify-items-center"
       >
-        <Pictogram id="standMystic" className="text-[96px]" />
+        <Pictogram id="stand-mystic" className="text-[96px]" />
       </LightBoardCard>
 
       <Action asChild className="justify-self-center">
@@ -203,7 +203,7 @@ function ExhibitorItem({
           </p>
 
           <span className="flex h-2 items-center">
-            <Pictogram id="standMystic" className="text-[16px]" />
+            <Pictogram id="stand-mystic" className="text-[16px]" />
           </span>
         </div>
       ) : null}

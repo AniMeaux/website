@@ -1,8 +1,8 @@
-import { BaseLink } from "#core/baseLink";
-import { DynamicImage } from "#core/dataDisplay/image";
+import { BaseLink } from "#core/base-link";
+import { DynamicImage } from "#core/data-display/image";
 import { prisma } from "#core/db.server";
 import { createSocialMeta } from "#core/meta";
-import { getPageTitle } from "#core/pageTitle";
+import { getPageTitle } from "#core/page-title";
 import { cn } from "@animeaux/core";
 import type { PressArticle } from "@prisma/client";
 import type { MetaFunction, SerializeFrom } from "@remix-run/node";

@@ -6,9 +6,9 @@ import {
 import { ACTIVE_ANIMAL_STATUS } from "#animals/status";
 import { db } from "#core/db.server";
 import { PageLayout } from "#core/layout/page";
-import { getPageTitle } from "#core/pageTitle";
+import { getPageTitle } from "#core/page-title";
 import { prisma } from "#core/prisma.server";
-import { assertCurrentUserHasGroups } from "#currentUser/groups.server";
+import { assertCurrentUserHasGroups } from "#current-user/groups.server";
 import { hasGroups } from "#users/groups";
 import type { Prisma } from "@prisma/client";
 import { UserGroup } from "@prisma/client";
@@ -18,11 +18,11 @@ import { useLoaderData } from "@remix-run/react";
 import { DateTime } from "luxon";
 import { promiseHash } from "remix-utils/promise";
 import invariant from "tiny-invariant";
-import { ActiveAnimalsCard } from "./activeAnimalsCard";
-import { AnimalsToSterilizeCard } from "./animalsToSterilizeCard";
-import { AnimalsToVaccinateCard } from "./animalsToVaccinateCard";
-import { DogsToDiagnoseCard } from "./dogsToDiagnoseCard";
-import { ManagedAnimalsCard } from "./managedAnimalsCard";
+import { ActiveAnimalsCard } from "./active-animals-card";
+import { AnimalsToSterilizeCard } from "./animals-to-sterilize-card";
+import { AnimalsToVaccinateCard } from "./animals-to-vaccinate-card";
+import { DogsToDiagnoseCard } from "./dogs-to-diagnose-card";
+import { ManagedAnimalsCard } from "./managed-animals-card";
 
 export type loader = typeof loader;
 

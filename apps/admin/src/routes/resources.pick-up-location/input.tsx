@@ -1,14 +1,14 @@
-import { PickUpLocationSearchParams } from "#animals/searchParams";
+import { PickUpLocationSearchParams } from "#animals/search-params";
 import { toBooleanAttribute } from "#core/attributes";
-import { BaseTextInput } from "#core/formElements/baseTextInput";
-import { Input } from "#core/formElements/input";
+import { BaseTextInput } from "#core/form-elements/base-text-input";
+import { Input } from "#core/form-elements/input";
 import {
   NoSuggestion,
   ResourceComboboxLayout,
   ResourceInputLayout,
   SuggestionItem,
   SuggestionList,
-} from "#core/formElements/resourceInput";
+} from "#core/form-elements/resource-input";
 import { Routes } from "#core/navigation";
 import { Icon } from "#generated/icon";
 import type { loader } from "#routes/resources.pick-up-location/route";
@@ -132,7 +132,7 @@ const InputTrigger = forwardRef<
         side="left"
         adornment={
           <BaseTextInput.Adornment>
-            <Icon id="locationDot" />
+            <Icon id="location-dot" />
           </BaseTextInput.Adornment>
         }
       />
@@ -141,7 +141,7 @@ const InputTrigger = forwardRef<
         side="right"
         adornment={
           <BaseTextInput.Adornment>
-            <Icon id="caretDown" />
+            <Icon id="caret-down" />
           </BaseTextInput.Adornment>
         }
       />
@@ -249,7 +249,7 @@ function Combobox({
               {...combobox.getItemProps({ item: pickUpLocation, index })}
               isValue={selectedPickUpLocation === pickUpLocation.value}
               isAdditional={pickUpLocation.isAdditional}
-              leftAdornment={<Icon id="locationDot" />}
+              leftAdornment={<Icon id="location-dot" />}
               label={pickUpLocation._highlighted.value}
             />
           ))}

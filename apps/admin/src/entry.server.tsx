@@ -1,5 +1,5 @@
-import { extendCurrentUserPreferences } from "#currentUser/preferences.server";
-import { extendCurrentUserSession } from "#currentUser/session.server";
+import { extendCurrentUserPreferences } from "#current-user/preferences.server";
+import { extendCurrentUserSession } from "#current-user/session.server";
 import type { EntryContext, HandleDataRequestFunction } from "@remix-run/node";
 import { createReadableStreamFromReadable } from "@remix-run/node";
 import { RemixServer } from "@remix-run/react";

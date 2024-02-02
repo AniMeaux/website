@@ -1,11 +1,11 @@
-import { ErrorPage } from "#core/dataDisplay/errorPage";
+import { ErrorPage } from "#core/data-display/error-page";
 import { db } from "#core/db.server";
 import { EmailAlreadyUsedError } from "#core/errors.server";
 import { Card } from "#core/layout/card";
 import { PageLayout } from "#core/layout/page";
 import { Routes } from "#core/navigation";
-import { getPageTitle } from "#core/pageTitle";
-import { assertCurrentUserHasGroups } from "#currentUser/groups.server";
+import { getPageTitle } from "#core/page-title";
+import { assertCurrentUserHasGroups } from "#current-user/groups.server";
 import { MissingPasswordError } from "#users/db.server";
 import { ActionFormData, UserForm } from "#users/form";
 import type { zu } from "@animeaux/zod-utils";

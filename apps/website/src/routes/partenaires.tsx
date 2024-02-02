@@ -1,9 +1,9 @@
-import { BaseLink } from "#core/baseLink";
-import { DynamicImage } from "#core/dataDisplay/image";
-import type { MarkdownProps } from "#core/dataDisplay/markdown";
-import { Markdown } from "#core/dataDisplay/markdown";
+import { BaseLink } from "#core/base-link";
+import { DynamicImage } from "#core/data-display/image";
+import type { MarkdownProps } from "#core/data-display/markdown";
+import { Markdown } from "#core/data-display/markdown";
 import { createSocialMeta } from "#core/meta";
-import { getPageTitle } from "#core/pageTitle";
+import { getPageTitle } from "#core/page-title";
 import { partners } from "#partners/data.server";
 import { cn } from "@animeaux/core";
 import type { MetaFunction, SerializeFrom } from "@remix-run/node";

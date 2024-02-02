@@ -1,9 +1,9 @@
 import { actionClassNames } from "#core/actions";
-import { BaseLink } from "#core/baseLink";
+import { BaseLink } from "#core/base-link";
 import {
   bubbleSectionClassNames,
   BubbleShape,
-} from "#core/layout/bubbleSection";
+} from "#core/layout/bubble-section";
 import { cn } from "@animeaux/core";
 
 export function DonationSection() {

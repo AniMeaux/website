@@ -1,14 +1,14 @@
-import { ColorSearchParams } from "#colors/searchParams";
+import { ColorSearchParams } from "#colors/search-params";
 import { toBooleanAttribute } from "#core/attributes";
-import { BaseTextInput } from "#core/formElements/baseTextInput";
-import { Input } from "#core/formElements/input";
+import { BaseTextInput } from "#core/form-elements/base-text-input";
+import { Input } from "#core/form-elements/input";
 import {
   NoSuggestion,
   ResourceComboboxLayout,
   ResourceInputLayout,
   SuggestionItem,
   SuggestionList,
-} from "#core/formElements/resourceInput";
+} from "#core/form-elements/resource-input";
 import { Routes } from "#core/navigation";
 import { Icon } from "#generated/icon";
 import type { loader } from "#routes/resources.color/route";
@@ -116,11 +116,11 @@ const InputTrigger = forwardRef<
         key="remove"
         onClick={() => setColor(null)}
       >
-        <Icon id="xMark" />
+        <Icon id="x-mark" />
       </BaseTextInput.ActionAdornment>
     ) : null,
     <BaseTextInput.Adornment key="caret">
-      <Icon id="caretDown" />
+      <Icon id="caret-down" />
     </BaseTextInput.Adornment>,
   ].filter(Boolean);
 
