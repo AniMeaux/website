@@ -1,20 +1,20 @@
 import { actionClassNames } from "#core/actions";
-import { BaseLink } from "#core/baseLink";
+import { BaseLink } from "#core/base-link";
 import { getConfigFromMetaMatches, useConfig } from "#core/config";
-import { Timeline, TimelineItem } from "#core/dataDisplay/timeline";
+import { Timeline, TimelineItem } from "#core/data-display/timeline";
 import {
   HeroSection,
   HeroSectionAside,
   HeroSectionImage,
   HeroSectionParagraph,
   HeroSectionTitle,
-} from "#core/layout/heroSection";
+} from "#core/layout/hero-section";
 import { createSocialMeta } from "#core/meta";
-import { getPageTitle } from "#core/pageTitle";
+import { getPageTitle } from "#core/page-title";
 import { engagementImages } from "#images/engagement";
 import { equipmentImages } from "#images/equipment";
-import { followUpImages } from "#images/followUp";
-import { fosterFamilyLargeImages } from "#images/fosterFamilyLarge";
+import { followUpImages } from "#images/follow-up";
+import { fosterFamilyLargeImages } from "#images/foster-family-large";
 import { socialImages } from "#images/social";
 import { cn } from "@animeaux/core";
 import type { MetaFunction } from "@remix-run/node";
@@ -62,7 +62,7 @@ export default function Route() {
         <Timeline>
           <TimelineItem
             title="Formulaire"
-            icon="fileLines"
+            icon="file-lines"
             action={
               <BaseLink
                 to={fosterFamilyFormUrl}
@@ -76,12 +76,12 @@ export default function Route() {
             mieux vous connaître.
           </TimelineItem>
 
-          <TimelineItem title="Pré-visite" icon="clipboardCheck">
+          <TimelineItem title="Pré-visite" icon="clipboard-check">
             Un bénévole effectuera une pré-visite chez vous afin de préparer au
             mieux l’accueil de votre futur colocataire.
           </TimelineItem>
 
-          <TimelineItem title="Arrivée de l’animal" icon="houseChimneyPaw">
+          <TimelineItem title="Arrivée de l’animal" icon="house-chimney-paw">
             Si votre dossier est validé, nous organiserons l’arrivée de l’animal
             chez vous.
           </TimelineItem>

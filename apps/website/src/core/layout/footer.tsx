@@ -1,9 +1,9 @@
-import type { BaseLinkProps } from "#core/baseLink";
-import { BaseLink } from "#core/baseLink";
-import { LineShapeHorizontal } from "#core/layout/lineShape";
+import type { BaseLinkProps } from "#core/base-link";
+import { BaseLink } from "#core/base-link";
+import { LineShapeHorizontal } from "#core/layout/line-shape";
 import type { IconProps } from "#generated/icon";
 import { Icon } from "#generated/icon";
-import nameAndLogo from "#images/nameAndLogo.svg";
+import nameAndLogo from "#images/name-and-logo.svg";
 import { SubscriptionForm } from "#routes/resources.subscribe/input";
 import { cn } from "@animeaux/core";
 
@@ -69,7 +69,7 @@ export function Footer() {
             </ContactItem>
 
             <ContactItem
-              icon="locationDot"
+              icon="location-dot"
               to="https://goo.gl/maps/X9869FvsTewM4XDz6"
             >
               30 Rue Pierre Brasseur, 77100 Meaux

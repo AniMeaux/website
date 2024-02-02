@@ -1,4 +1,4 @@
-import animation from "@animeaux/tailwind-animation";
+import { tailwindAnimation } from "@animeaux/tailwind-animation";
 import type { Config } from "tailwindcss";
 import defaultColors from "tailwindcss/colors";
 import defaultTheme from "tailwindcss/defaultTheme";
@@ -110,7 +110,7 @@ export default {
   },
 
   plugins: [
-    animation,
+    tailwindAnimation,
 
     plugin(({ addVariant }) => {
       // Override focus-visible to make sure it supports the `.focus-visible`

@@ -1,4 +1,4 @@
-import type { ImageDescriptor } from "#core/dataDisplay/image";
+import type { ImageDescriptor } from "#core/data-display/image";
 import agreements1024 from "#images/agreements-1024w.png";
 import agreements1536 from "#images/agreements-1536w.png";
 import agreements2048 from "#images/agreements-2048w.png";

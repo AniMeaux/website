@@ -1,13 +1,13 @@
 import { actionClassNames } from "#core/actions";
-import { BaseLink } from "#core/baseLink";
+import { BaseLink } from "#core/base-link";
 import { prisma } from "#core/db.server";
 import {
   RelatedSection,
   RelatedSectionList,
   RelatedSectionTitle,
-} from "#core/layout/relatedSection";
+} from "#core/layout/related-section";
 import { createSocialMeta } from "#core/meta";
-import { getPageTitle } from "#core/pageTitle";
+import { getPageTitle } from "#core/page-title";
 import { EventItem } from "#events/item";
 import { cn } from "@animeaux/core";
 import { Prisma } from "@prisma/client";

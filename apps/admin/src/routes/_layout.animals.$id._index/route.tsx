@@ -7,25 +7,25 @@ import { ActionFormData as SituationActionFormData } from "#animals/situation/fo
 import { SPECIES_ICON, getSpeciesLabels } from "#animals/species";
 import { StatusBadge } from "#animals/status";
 import { Action } from "#core/actions";
-import type { BaseLinkProps } from "#core/baseLink";
-import { BaseLink } from "#core/baseLink";
-import { Empty } from "#core/dataDisplay/empty";
-import { ErrorPage, getErrorTitle } from "#core/dataDisplay/errorPage";
-import { DynamicImage } from "#core/dataDisplay/image";
-import { ItemList, SimpleItem } from "#core/dataDisplay/item";
-import { ARTICLE_COMPONENTS, Markdown } from "#core/dataDisplay/markdown";
+import type { BaseLinkProps } from "#core/base-link";
+import { BaseLink } from "#core/base-link";
+import { Empty } from "#core/data-display/empty";
+import { ErrorPage, getErrorTitle } from "#core/data-display/error-page";
+import { DynamicImage } from "#core/data-display/image";
+import { ItemList, SimpleItem } from "#core/data-display/item";
+import { ARTICLE_COMPONENTS, Markdown } from "#core/data-display/markdown";
 import { db } from "#core/db.server";
 import { NotFoundError } from "#core/errors.server";
-import { assertIsDefined } from "#core/isDefined.server";
-import { AvatarCard } from "#core/layout/avatarCard";
+import { assertIsDefined } from "#core/is-defined.server";
+import { AvatarCard } from "#core/layout/avatar-card";
 import { Card } from "#core/layout/card";
 import { PageLayout } from "#core/layout/page";
 import { Routes } from "#core/navigation";
-import { getPageTitle } from "#core/pageTitle";
+import { getPageTitle } from "#core/page-title";
 import { Dialog } from "#core/popovers/dialog";
 import { prisma } from "#core/prisma.server";
 import { NotFoundResponse } from "#core/response.server";
-import { assertCurrentUserHasGroups } from "#currentUser/groups.server";
+import { assertCurrentUserHasGroups } from "#current-user/groups.server";
 import { Icon } from "#generated/icon";
 import { hasGroups } from "#users/groups";
 import { cn, formatAge } from "@animeaux/core";
@@ -39,7 +39,7 @@ import type {
 import { json, redirect } from "@remix-run/node";
 import { useFetcher, useLoaderData } from "@remix-run/react";
 import { DateTime } from "luxon";
-import { SituationCard } from "./situationCard";
+import { SituationCard } from "./situation-card";
 
 const ParamsSchema = zu.object({
   id: zu.string().uuid(),
@@ -304,7 +304,7 @@ function ProfileCard() {
             {getSpeciesLabels(animal)}
           </SimpleItem>
 
-          <SimpleItem icon={<Icon id="cakeCandles" />}>
+          <SimpleItem icon={<Icon id="cake-candles" />}>
             {DateTime.fromISO(animal.birthdate).toLocaleString(
               DateTime.DATE_FULL,
             )}{" "}

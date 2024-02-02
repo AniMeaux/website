@@ -1,18 +1,18 @@
 import { Action } from "#core/actions";
-import { BaseLink } from "#core/baseLink";
+import { BaseLink } from "#core/base-link";
 import { Paginator } from "#core/controllers/paginator";
-import { Chip } from "#core/dataDisplay/chip";
-import { Empty } from "#core/dataDisplay/empty";
-import type { DynamicImageProps } from "#core/dataDisplay/image";
-import { DynamicImage } from "#core/dataDisplay/image";
+import { Chip } from "#core/data-display/chip";
+import { Empty } from "#core/data-display/empty";
+import type { DynamicImageProps } from "#core/data-display/image";
+import { DynamicImage } from "#core/data-display/image";
 import { db } from "#core/db.server";
 import { Card } from "#core/layout/card";
 import { PageLayout } from "#core/layout/page";
 import { Routes } from "#core/navigation";
-import { getPageTitle } from "#core/pageTitle";
+import { getPageTitle } from "#core/page-title";
 import { prisma } from "#core/prisma.server";
-import { PageSearchParams } from "#core/searchParams";
-import { assertCurrentUserHasGroups } from "#currentUser/groups.server";
+import { PageSearchParams } from "#core/search-params";
+import { assertCurrentUserHasGroups } from "#current-user/groups.server";
 import { cn, formatDateRange } from "@animeaux/core";
 import type { Prisma } from "@prisma/client";
 import { UserGroup } from "@prisma/client";
@@ -164,7 +164,7 @@ function EventItem({
           <span className="absolute bottom-0 left-0 flex w-full p-0.5">
             <Chip
               color="orange"
-              icon="eyeSlash"
+              icon="eye-slash"
               title="L’évènement n’est pas visible."
             />
           </span>

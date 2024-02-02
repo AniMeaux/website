@@ -1,4 +1,4 @@
-import { getAllAnimalPictures } from "#animals/pictures/allPictures";
+import { getAllAnimalPictures } from "#animals/pictures/all-pictures";
 import { deleteImage } from "#core/cloudinary.server";
 import { NotFoundError } from "#core/errors.server";
 import { prisma } from "#core/prisma.server";

@@ -1,5 +1,5 @@
-import type { BaseLinkProps } from "#core/baseLink";
-import { BaseLink } from "#core/baseLink";
+import type { BaseLinkProps } from "#core/base-link";
+import { BaseLink } from "#core/base-link";
 import type { IconProps } from "#generated/icon";
 import { Icon } from "#generated/icon";
 import { cn } from "@animeaux/core";
@@ -81,7 +81,7 @@ export const SubNavItem = forwardRef<
 
       {!isMultiline && (
         <Icon
-          id="arrowRight"
+          id="arrow-right"
           className={cn(
             "text-[20px] opacity-0 transition-opacity duration-100 ease-in-out group-hover:opacity-100",
             subNavItemTextColorClassName[color],

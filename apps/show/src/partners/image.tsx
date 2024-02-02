@@ -1,4 +1,4 @@
-import { DynamicImage } from "#core/dataDisplay/image";
+import { DynamicImage } from "#core/data-display/image";
 
 export function PartnersImage(
   props: Omit<

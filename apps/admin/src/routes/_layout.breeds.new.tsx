@@ -1,12 +1,12 @@
 import { ActionFormData, BreedForm } from "#breeds/form";
-import { ErrorPage } from "#core/dataDisplay/errorPage";
+import { ErrorPage } from "#core/data-display/error-page";
 import { db } from "#core/db.server";
 import { AlreadyExistError } from "#core/errors.server";
 import { Card } from "#core/layout/card";
 import { PageLayout } from "#core/layout/page";
 import { Routes, useBackIfPossible } from "#core/navigation";
-import { getPageTitle } from "#core/pageTitle";
-import { assertCurrentUserHasGroups } from "#currentUser/groups.server";
+import { getPageTitle } from "#core/page-title";
+import { assertCurrentUserHasGroups } from "#current-user/groups.server";
 import type { zu } from "@animeaux/zod-utils";
 import { UserGroup } from "@prisma/client";
 import type {

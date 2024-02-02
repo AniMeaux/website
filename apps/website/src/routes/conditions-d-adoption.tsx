@@ -1,6 +1,6 @@
 import { SPECIES_ICON } from "#animals/species";
 import { actionClassNames } from "#core/actions";
-import { BaseLink } from "#core/baseLink";
+import { BaseLink } from "#core/base-link";
 import { getConfigFromMetaMatches } from "#core/config";
 import { Tab } from "#core/controllers/tabs";
 import {
@@ -11,21 +11,21 @@ import {
   OptionList,
   OptionPrice,
   OptionTitle,
-} from "#core/dataDisplay/options";
-import { Timeline, TimelineItem } from "#core/dataDisplay/timeline";
+} from "#core/data-display/options";
+import { Timeline, TimelineItem } from "#core/data-display/timeline";
 import {
   BubbleShape,
   bubbleSectionClassNames,
-} from "#core/layout/bubbleSection";
+} from "#core/layout/bubble-section";
 import {
   HeroSection,
   HeroSectionAside,
   HeroSectionImage,
   HeroSectionParagraph,
   HeroSectionTitle,
-} from "#core/layout/heroSection";
+} from "#core/layout/hero-section";
 import { createSocialMeta } from "#core/meta";
-import { getPageTitle } from "#core/pageTitle";
+import { getPageTitle } from "#core/page-title";
 import { Icon } from "#generated/icon";
 import { adoptImages } from "#images/adopt";
 import { questionsImages } from "#images/questions";
@@ -138,7 +138,7 @@ function StepsSection() {
       )}
 
       <Timeline>
-        <TimelineItem title="Formulaire" icon="fileLines">
+        <TimelineItem title="Formulaire" icon="file-lines">
           Un formulaire d’adoption sera à remplir afin que nous puissions mieux
           vous connaître.
         </TimelineItem>
@@ -148,20 +148,20 @@ function StepsSection() {
           famille d’accueil où se trouve l’élu de votre cœur.
         </TimelineItem>
 
-        <TimelineItem title="Pré-visite" icon="clipboardCheck">
+        <TimelineItem title="Pré-visite" icon="clipboard-check">
           Un bénévole effectuera une pré-visite chez vous afin de vous
           conseiller au mieux pour l’arrivée de votre futur compagnon et de nous
           assurer de son futur bien-être et de sa sécurité.
         </TimelineItem>
 
         {tab === "booking" && (
-          <TimelineItem title="Réservation" icon="ticketSimple">
+          <TimelineItem title="Réservation" icon="ticket-simple">
             Pour officialiser la réservation il vous faudra verser la moitié des
             frais d’adoption demandés pour l’animal.
           </TimelineItem>
         )}
 
-        <TimelineItem title="Arrivée de l’animal" icon="houseChimneyPaw">
+        <TimelineItem title="Arrivée de l’animal" icon="house-chimney-paw">
           {tab === "adoption"
             ? "Si votre dossier est validé, nous organiserons l’arrivée de l’animal chez vous."
             : "Si votre dossier est validé, nous organiserons l’arrivée de l’animal chez vous lorsqu’il sera en mesure d’être adopté après le versement du solde restant dû pour l’adoption."}

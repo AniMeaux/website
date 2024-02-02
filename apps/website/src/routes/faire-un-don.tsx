@@ -1,10 +1,10 @@
 import { actionClassNames } from "#core/actions";
-import { BaseLink } from "#core/baseLink";
+import { BaseLink } from "#core/base-link";
 import { getConfigFromMetaMatches, useConfig } from "#core/config";
 import {
   BubbleShape,
   bubbleSectionClassNames,
-} from "#core/layout/bubbleSection";
+} from "#core/layout/bubble-section";
 import {
   HeroSection,
   HeroSectionAction,
@@ -12,9 +12,9 @@ import {
   HeroSectionImage,
   HeroSectionParagraph,
   HeroSectionTitle,
-} from "#core/layout/heroSection";
+} from "#core/layout/hero-section";
 import { createSocialMeta } from "#core/meta";
-import { getPageTitle } from "#core/pageTitle";
+import { getPageTitle } from "#core/page-title";
 import type { IconProps } from "#generated/icon";
 import { Icon } from "#generated/icon";
 import { donationImages } from "#images/donation";

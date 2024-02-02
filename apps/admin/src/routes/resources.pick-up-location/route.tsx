@@ -1,6 +1,6 @@
-import { PickUpLocationSearchParams } from "#animals/searchParams";
+import { PickUpLocationSearchParams } from "#animals/search-params";
 import { db } from "#core/db.server";
-import { assertCurrentUserHasGroups } from "#currentUser/groups.server";
+import { assertCurrentUserHasGroups } from "#current-user/groups.server";
 import { MAX_HIT_COUNT } from "#routes/resources.pick-up-location/shared";
 import { UserGroup } from "@prisma/client";
 import type { LoaderFunctionArgs } from "@remix-run/node";

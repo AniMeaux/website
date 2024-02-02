@@ -1,5 +1,5 @@
-import { BaseLink } from "#core/baseLink";
-import { DynamicImage } from "#core/dataDisplay/image";
+import { BaseLink } from "#core/base-link";
+import { DynamicImage } from "#core/data-display/image";
 import type { IconProps } from "#generated/icon";
 import { Icon } from "#generated/icon";
 import { cn, formatDateRange } from "@animeaux/core";
@@ -63,19 +63,19 @@ export function EventItem({
           </p>
           <p>{event.description}</p>
           <ul className="flex flex-col">
-            <DetailsItem icon="calendarDay">
+            <DetailsItem icon="calendar-day">
               {formatDateRange(event.startDate, event.endDate, {
                 showTime: !event.isFullDay,
               })}
             </DetailsItem>
 
-            <DetailsItem icon="locationDot">{event.location}</DetailsItem>
+            <DetailsItem icon="location-dot">{event.location}</DetailsItem>
           </ul>
         </div>
 
         {isInlined && !isDisabled && (
           <Icon
-            id="arrowRight"
+            id="arrow-right"
             className={cn(
               "hidden self-center text-[32px] text-gray-500",
               {

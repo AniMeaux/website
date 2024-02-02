@@ -1,4 +1,4 @@
-import { Avatar } from "#core/dataDisplay/avatar";
+import { Avatar } from "#core/data-display/avatar";
 import { cn } from "@animeaux/core";
 import type { Event } from "@prisma/client";
 import type { SerializeFrom } from "@remix-run/node";

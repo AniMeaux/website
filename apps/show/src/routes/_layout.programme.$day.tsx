@@ -3,19 +3,19 @@ import { Action } from "#core/actions";
 import { useConfig } from "#core/config";
 import { createConfig } from "#core/config.server";
 import { Tab, Tabs } from "#core/controllers/tabs";
-import { ErrorPage, getErrorTitle } from "#core/dataDisplay/errorPage";
-import { Markdown, SENTENCE_COMPONENTS } from "#core/dataDisplay/markdown";
+import { ErrorPage, getErrorTitle } from "#core/data-display/error-page";
+import { Markdown, SENTENCE_COMPONENTS } from "#core/data-display/markdown";
 import {
   CLOSING_TIME,
   OPENING_TIME,
   SORTED_SHOW_DAYS,
   ShowDay,
 } from "#core/dates";
-import { LightBoardCard } from "#core/layout/lightBoardCard";
+import { LightBoardCard } from "#core/layout/light-board-card";
 import { Section } from "#core/layout/section";
 import { createSocialMeta } from "#core/meta";
 import { Routes } from "#core/navigation";
-import { getPageTitle } from "#core/pageTitle";
+import { getPageTitle } from "#core/page-title";
 import { prisma } from "#core/prisma.server";
 import { NotFoundResponse } from "#core/response.server";
 import { cn } from "@animeaux/core";

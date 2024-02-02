@@ -5,7 +5,7 @@ import {
 import {
   PICK_UP_REASON_TRANSLATION,
   SORTED_PICK_UP_REASON,
-} from "#animals/pickUp";
+} from "#animals/pick-up";
 import {
   SCREENING_RESULT_TRANSLATION,
   SORTED_SCREENING_RESULTS,
@@ -21,11 +21,11 @@ import {
 } from "#animals/status";
 import { Action } from "#core/actions";
 import { toIsoDateValue } from "#core/dates";
-import { Form } from "#core/formElements/form";
-import { Input } from "#core/formElements/input";
-import { RadioInput, RadioInputList } from "#core/formElements/radioInput";
-import { RequiredStar } from "#core/formElements/requiredStar";
-import { Textarea } from "#core/formElements/textarea";
+import { Form } from "#core/form-elements/form";
+import { Input } from "#core/form-elements/input";
+import { RadioInput, RadioInputList } from "#core/form-elements/radio-input";
+import { RequiredStar } from "#core/form-elements/required-star";
+import { Textarea } from "#core/form-elements/textarea";
 import { Separator } from "#core/layout/separator";
 import { Icon } from "#generated/icon";
 import { FosterFamilyInput } from "#routes/resources.foster-family/input";
@@ -221,7 +221,7 @@ export function AnimalSituationForm({
                   aria-describedby="adoptionDate-error"
                   leftAdornment={
                     <Input.Adornment>
-                      <Icon id="calendarDays" />
+                      <Icon id="calendar-days" />
                     </Input.Adornment>
                   }
                 />
@@ -311,7 +311,7 @@ export function AnimalSituationForm({
                 aria-describedby="pickUpDate-error"
                 leftAdornment={
                   <Input.Adornment>
-                    <Icon id="calendarDays" />
+                    <Icon id="calendar-days" />
                   </Input.Adornment>
                 }
               />
@@ -495,7 +495,7 @@ export function AnimalSituationForm({
                   aria-describedby="nextVaccinationDate-error"
                   leftAdornment={
                     <Input.Adornment>
-                      <Icon id="calendarDays" />
+                      <Icon id="calendar-days" />
                     </Input.Adornment>
                   }
                 />

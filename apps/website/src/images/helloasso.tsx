@@ -1,4 +1,4 @@
-import type { ImageDescriptor } from "#core/dataDisplay/image";
+import type { ImageDescriptor } from "#core/data-display/image";
 import helloasso1024 from "#images/helloasso-1024w.png";
 import helloasso1536 from "#images/helloasso-1536w.png";
 import helloasso2048 from "#images/helloasso-2048w.png";

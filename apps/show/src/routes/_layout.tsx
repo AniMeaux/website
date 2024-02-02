@@ -3,7 +3,7 @@ import { createConfig } from "#core/config.server";
 import { asRouteHandle } from "#core/handles";
 import { Footer } from "#core/layout/footer";
 import { Header } from "#core/layout/header";
-import { PageBackground } from "#core/layout/pageBackground";
+import { PageBackground } from "#core/layout/page-background";
 import { prisma } from "#core/prisma.server";
 import { json } from "@remix-run/node";
 import { Outlet, useMatches } from "@remix-run/react";

@@ -1,8 +1,8 @@
 import { createConfig } from "#core/config.server";
-import { createCloudinaryUrl } from "#core/dataDisplay/image";
+import { createCloudinaryUrl } from "#core/data-display/image";
 import { db } from "#core/db.server";
 import { NotFoundResponse } from "#core/response.server";
-import { assertCurrentUserHasGroups } from "#currentUser/groups.server";
+import { assertCurrentUserHasGroups } from "#current-user/groups.server";
 import { zu } from "@animeaux/zod-utils";
 import { UserGroup } from "@prisma/client";
 import type { LoaderFunctionArgs } from "@remix-run/node";

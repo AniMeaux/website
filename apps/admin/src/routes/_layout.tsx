@@ -1,17 +1,17 @@
-import type { BaseLinkProps } from "#core/baseLink";
-import { BaseLink } from "#core/baseLink";
+import type { BaseLinkProps } from "#core/base-link";
+import { BaseLink } from "#core/base-link";
 import { db } from "#core/db.server";
-import { SideBar } from "#core/layout/sideBar";
-import { TabBar } from "#core/layout/tabBar";
+import { SideBar } from "#core/layout/side-bar";
+import { TabBar } from "#core/layout/tab-bar";
 import { Routes } from "#core/navigation";
-import { getPageTitle } from "#core/pageTitle";
-import { DropdownSheet } from "#core/popovers/dropdownSheet";
-import { NextSearchParams } from "#core/searchParams";
-import { getCurrentUserPreferences } from "#currentUser/preferences.server";
+import { getPageTitle } from "#core/page-title";
+import { DropdownSheet } from "#core/popovers/dropdown-sheet";
+import { NextSearchParams } from "#core/search-params";
+import { getCurrentUserPreferences } from "#current-user/preferences.server";
 import type { IconProps } from "#generated/icon";
 import { Icon } from "#generated/icon";
 import { theme } from "#generated/theme";
-import nameAndLogo from "#images/nameAndLogo.svg";
+import nameAndLogo from "#images/name-and-logo.svg";
 import { GlobalSearch } from "#routes/resources.global-search/input";
 import { usePreferencesFetcher } from "#routes/resources.preferences/fetcher";
 import { UserAvatar } from "#users/avatar";
@@ -195,7 +195,7 @@ const ALL_NAVIGATION_ITEMS: NavigationItem[] = [
   },
   {
     to: Routes.events.toString(),
-    icon: "calendarDays",
+    icon: "calendar-days",
     label: "Événements",
     authorizedGroups: [UserGroup.ADMIN],
   },
@@ -245,7 +245,7 @@ function CurrentUserMenu() {
         </span>
 
         <span className="hidden text-[20px] text-gray-600 md:inline-flex">
-          <Icon id="caretDown" />
+          <Icon id="caret-down" />
         </span>
       </DropdownSheet.Trigger>
 
@@ -296,7 +296,7 @@ function CurrentUserMenu() {
               className="grid cursor-pointer grid-cols-[auto,minmax(0px,1fr)] items-center rounded-0.5 pr-1 text-left text-gray-500 transition-colors duration-100 ease-in-out active:bg-gray-100 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 hover:bg-gray-100"
             >
               <span className="flex h-4 w-4 items-center justify-center text-[20px]">
-                <Icon id="rightFromBracket" />
+                <Icon id="right-from-bracket" />
               </span>
 
               <span className="text-body-emphasis">Se déconnecter</span>

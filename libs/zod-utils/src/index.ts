@@ -1,3 +1,3 @@
-import * as zu from "./utils";
+import * as zu from "./zod-utils";
 
 export { zu };

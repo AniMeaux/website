@@ -1,5 +1,5 @@
-import type { BaseLinkProps } from "#core/baseLink";
-import { BaseLink } from "#core/baseLink";
+import type { BaseLinkProps } from "#core/base-link";
+import { BaseLink } from "#core/base-link";
 import { cn } from "@animeaux/core";
 import { Children, isValidElement } from "react";
 

@@ -7,9 +7,9 @@ export const SORTED_AGES = orderBy(Object.values(AnimalAge), (age) =>
 );
 
 export const AGE_ICON: Record<AnimalAge, IconProps["id"]> = {
-  [AnimalAge.JUNIOR]: "circleProgress1",
-  [AnimalAge.ADULT]: "circleProgress2",
-  [AnimalAge.SENIOR]: "circleProgress3",
+  [AnimalAge.JUNIOR]: "circle-progress-1",
+  [AnimalAge.ADULT]: "circle-progress-2",
+  [AnimalAge.SENIOR]: "circle-progress-3",
 };
 
 export const AGE_TRANSLATION: Record<AnimalAge, string> = {

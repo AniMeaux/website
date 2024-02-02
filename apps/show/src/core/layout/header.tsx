@@ -1,11 +1,11 @@
 import type { Config } from "#core/config";
 import { useConfig } from "#core/config";
-import { createImageMedia } from "#core/dataDisplay/image";
+import { createImageMedia } from "#core/data-display/image";
 import { hasShowEnded } from "#core/dates";
 import { Routes } from "#core/navigation";
 import { Icon } from "#generated/icon";
-import logoMedium from "#images/logoMedium.svg";
-import logoSmall from "#images/logoSmall.svg";
+import logoMedium from "#images/logo-medium.svg";
+import logoSmall from "#images/logo-small.svg";
 import { cn } from "@animeaux/core";
 import { Primitive } from "@animeaux/react-primitives";
 import * as NavigationMenu from "@radix-ui/react-navigation-menu";

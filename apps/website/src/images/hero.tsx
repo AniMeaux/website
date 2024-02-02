@@ -1,4 +1,4 @@
-import type { ImageDescriptor } from "#core/dataDisplay/image";
+import type { ImageDescriptor } from "#core/data-display/image";
 import hero1024 from "#images/hero-1024w.png";
 import hero1536 from "#images/hero-1536w.png";
 import hero2048 from "#images/hero-2048w.png";

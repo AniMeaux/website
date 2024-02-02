@@ -1,13 +1,13 @@
 import { actionClassNames } from "#core/actions";
-import { BaseLink } from "#core/baseLink";
+import { BaseLink } from "#core/base-link";
 import { SearchForm } from "#core/controllers/searchForm";
-import type { StaticImageProps } from "#core/dataDisplay/image";
-import { StaticImage } from "#core/dataDisplay/image";
+import type { StaticImageProps } from "#core/data-display/image";
+import { StaticImage } from "#core/data-display/image";
 import { prisma } from "#core/db.server";
 import {
   BubbleShape,
   bubbleSectionClassNames,
-} from "#core/layout/bubbleSection";
+} from "#core/layout/bubble-section";
 import {
   HeroSection,
   HeroSectionAction,
@@ -15,16 +15,16 @@ import {
   HeroSectionImage,
   HeroSectionParagraph,
   HeroSectionTitle,
-} from "#core/layout/heroSection";
+} from "#core/layout/hero-section";
 import { DonationSection } from "#donation/section";
 import { EventItem } from "#events/item";
 import type { IconProps } from "#generated/icon";
 import { Icon } from "#generated/icon";
 import { adoptionImages } from "#images/adoption";
-import { fosterFamilyLargeImages } from "#images/fosterFamilyLarge";
-import { fosterFamilySmallImages } from "#images/fosterFamilySmall";
+import { fosterFamilyLargeImages } from "#images/foster-family-large";
+import { fosterFamilySmallImages } from "#images/foster-family-small";
 import { heroImages } from "#images/hero";
-import { pickUpImages } from "#images/pickUp";
+import { pickUpImages } from "#images/pick-up";
 import { volunteerImages } from "#images/volunteer";
 import { cn } from "@animeaux/core";
 import { json } from "@remix-run/node";
@@ -228,19 +228,19 @@ function NumbersSection() {
         )}
       >
         <NumberItem
-          icon="cakeCandles"
+          icon="cake-candles"
           value={years}
           label="D’existence"
           color="green"
         />
         <NumberItem
-          icon="handHoldingHeart"
+          icon="hand-holding-heart"
           value={pickUpCount}
           label="Prises en charge"
           color="yellow"
         />
         <NumberItem
-          icon="peopleGroup"
+          icon="people-group"
           value="50"
           label="Bénévoles"
           color="red"

@@ -1,5 +1,5 @@
 import { actionClassNames } from "#core/actions";
-import { BaseLink } from "#core/baseLink";
+import { BaseLink } from "#core/base-link";
 import { getConfigFromMetaMatches } from "#core/config";
 import {
   HeroSection,
@@ -7,9 +7,9 @@ import {
   HeroSectionImage,
   HeroSectionParagraph,
   HeroSectionTitle,
-} from "#core/layout/heroSection";
+} from "#core/layout/hero-section";
 import { createSocialMeta } from "#core/meta";
-import { getPageTitle } from "#core/pageTitle";
+import { getPageTitle } from "#core/page-title";
 import type { IconProps } from "#generated/icon";
 import { Icon } from "#generated/icon";
 import { questionsImages } from "#images/questions";
@@ -88,7 +88,7 @@ const ICON_COLOR_CLASS_NAME: Record<Faq["color"], string> = {
 
 const FAQ: Faq[] = [
   {
-    icon: "shieldPaw",
+    icon: "shield-paw",
     color: "yellow",
     question: "Quelle est votre mission ?",
     answer: (
@@ -100,7 +100,7 @@ const FAQ: Faq[] = [
     ),
   },
   {
-    icon: "locationDot",
+    icon: "location-dot",
     color: "red",
     question: "Quelle est votre zone d’intervention ?",
     answer: (
@@ -111,7 +111,7 @@ const FAQ: Faq[] = [
     ),
   },
   {
-    icon: "commentsQuestion",
+    icon: "comments-question",
     color: "blue",
     question: "Où peut-on venir vous rencontrer ?",
     answer: (
@@ -126,7 +126,7 @@ const FAQ: Faq[] = [
     ),
   },
   {
-    icon: "houseChimneyPaw",
+    icon: "house-chimney-paw",
     color: "green",
     question: "Où vont les animaux lorsque vous les prenez en charge ?",
     answer: (
@@ -141,7 +141,7 @@ const FAQ: Faq[] = [
     ),
   },
   {
-    icon: "bookHeart",
+    icon: "book-heart",
     color: "cyan",
     question: "Quelles sont les conditions et les frais d’adoption ?",
     answer: (
@@ -163,7 +163,7 @@ const FAQ: Faq[] = [
     ),
   },
   {
-    icon: "boxHeart",
+    icon: "box-heart",
     color: "green",
     question:
       "J’ai du matériel ou de l’alimentation à vous donner, où vous les déposer ?",
@@ -195,7 +195,7 @@ const FAQ: Faq[] = [
     ),
   },
   {
-    icon: "handHoldingHeart",
+    icon: "hand-holding-heart",
     color: "yellow",
     question: "Comment vous aider dans votre action ?",
     answer: (
@@ -214,7 +214,7 @@ const FAQ: Faq[] = [
     ),
   },
   {
-    icon: "commentsQuestion",
+    icon: "comments-question",
     color: "blue",
     question: "Comment vous contacter ?",
     answer: (

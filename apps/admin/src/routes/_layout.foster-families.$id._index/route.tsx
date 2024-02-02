@@ -1,29 +1,29 @@
 import { AnimalItem } from "#animals/item";
-import { AnimalSearchParams } from "#animals/searchParams";
+import { AnimalSearchParams } from "#animals/search-params";
 import { Action } from "#core/actions";
-import { BaseLink } from "#core/baseLink";
-import { Empty } from "#core/dataDisplay/empty";
-import { ErrorPage, getErrorTitle } from "#core/dataDisplay/errorPage";
-import { ErrorsInlineHelper } from "#core/dataDisplay/errors";
-import { InlineHelper } from "#core/dataDisplay/helper";
-import { ARTICLE_COMPONENTS, Markdown } from "#core/dataDisplay/markdown";
+import { BaseLink } from "#core/base-link";
+import { Empty } from "#core/data-display/empty";
+import { ErrorPage, getErrorTitle } from "#core/data-display/error-page";
+import { ErrorsInlineHelper } from "#core/data-display/errors";
+import { InlineHelper } from "#core/data-display/helper";
+import { ARTICLE_COMPONENTS, Markdown } from "#core/data-display/markdown";
 import { db } from "#core/db.server";
 import { NotFoundError, ReferencedError } from "#core/errors.server";
-import { assertIsDefined } from "#core/isDefined.server";
-import { AvatarCard } from "#core/layout/avatarCard";
+import { assertIsDefined } from "#core/is-defined.server";
+import { AvatarCard } from "#core/layout/avatar-card";
 import { Card } from "#core/layout/card";
 import { PageLayout } from "#core/layout/page";
 import { Routes } from "#core/navigation";
-import { getPageTitle } from "#core/pageTitle";
+import { getPageTitle } from "#core/page-title";
 import { Dialog } from "#core/popovers/dialog";
 import { prisma } from "#core/prisma.server";
 import { NotFoundResponse } from "#core/response.server";
-import { assertCurrentUserHasGroups } from "#currentUser/groups.server";
+import { assertCurrentUserHasGroups } from "#current-user/groups.server";
 import {
   AVATAR_COLOR_BY_AVAILABILITY,
   FosterFamilyAvatar,
-} from "#fosterFamilies/avatar";
-import { ActionFormData } from "#fosterFamilies/form";
+} from "#foster-families/avatar";
+import { ActionFormData } from "#foster-families/form";
 import { Icon } from "#generated/icon";
 import { zu } from "@animeaux/zod-utils";
 import { FosterFamilyAvailability, UserGroup } from "@prisma/client";
@@ -37,8 +37,8 @@ import { useFetcher, useLoaderData } from "@remix-run/react";
 import { DateTime } from "luxon";
 import { useState } from "react";
 import { promiseHash } from "remix-utils/promise";
-import { ContactCard } from "./contactCard";
-import { SituationCard } from "./situationCard";
+import { ContactCard } from "./contact-card";
+import { SituationCard } from "./situation-card";
 
 const ParamsSchema = zu.object({
   id: zu.string().uuid(),

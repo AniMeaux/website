@@ -5,7 +5,7 @@ export const SCREENING_RESULT_ICON: Record<
   Exclude<ScreeningResult, "UNKNOWN">,
   IconProps["id"]
 > = {
-  [ScreeningResult.NEGATIVE]: "virusSlash",
+  [ScreeningResult.NEGATIVE]: "virus-slash",
   [ScreeningResult.POSITIVE]: "virus",
 };
 

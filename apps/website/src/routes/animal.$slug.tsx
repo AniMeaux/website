@@ -5,16 +5,16 @@ import {
 import { SPECIES_ICON } from "#animals/species";
 import { ADOPTABLE_ANIMAL_STATUS } from "#animals/status";
 import { actionClassNames } from "#core/actions";
-import { BaseLink } from "#core/baseLink";
+import { BaseLink } from "#core/base-link";
 import { getConfigFromMetaMatches, useConfig } from "#core/config";
-import { ErrorPage, getErrorTitle } from "#core/dataDisplay/errorPage";
-import { DynamicImage, createCloudinaryUrl } from "#core/dataDisplay/image";
-import type { MarkdownProps } from "#core/dataDisplay/markdown";
-import { Markdown } from "#core/dataDisplay/markdown";
+import { ErrorPage, getErrorTitle } from "#core/data-display/error-page";
+import { DynamicImage, createCloudinaryUrl } from "#core/data-display/image";
+import type { MarkdownProps } from "#core/data-display/markdown";
+import { Markdown } from "#core/data-display/markdown";
 import { prisma } from "#core/db.server";
-import { isDefined } from "#core/isDefined";
+import { isDefined } from "#core/is-defined";
 import { createSocialMeta } from "#core/meta";
-import { getPageTitle } from "#core/pageTitle";
+import { getPageTitle } from "#core/page-title";
 import { GENDER_TRANSLATION, SPECIES_TRANSLATION } from "#core/translations";
 import type { IconProps } from "#generated/icon";
 import { Icon } from "#generated/icon";
@@ -264,7 +264,7 @@ function InfoSection({ className }: { className: string }) {
 
         <Item icon={SPECIES_ICON[animal.species]}>{speciesLabels}</Item>
 
-        <Item icon="cakeCandles">
+        <Item icon="cake-candles">
           {DateTime.fromISO(animal.birthdate).toLocaleString(
             DateTime.DATE_FULL,
           )}{" "}
@@ -272,7 +272,7 @@ function InfoSection({ className }: { className: string }) {
         </Item>
 
         {animal.fosterFamily != null && (
-          <Item icon="locationDot">
+          <Item icon="location-dot">
             En famille d’accueil à {animal.fosterFamily.city} (
             {animal.fosterFamily.zipCode.slice(0, 2)})
           </Item>
@@ -371,21 +371,21 @@ function Agreement({
   let icon: IconProps["id"] =
     entity === "babies"
       ? value == null
-        ? "babyCircleQuestion"
+        ? "baby-circle-question"
         : value
-          ? "babyCircleCheck"
-          : "babyCircleXMark"
+          ? "baby-circle-check"
+          : "baby-circle-x-mark"
       : entity === "cats"
         ? value == null
-          ? "catCircleQuestion"
+          ? "cat-circle-question"
           : value
-            ? "catCircleCheck"
-            : "catCircleXMark"
+            ? "cat-circle-check"
+            : "cat-circle-x-mark"
         : value == null
-          ? "dogCircleQuestion"
+          ? "dog-circle-question"
           : value
-            ? "dogCircleCheck"
-            : "dogCircleXMark";
+            ? "dog-circle-check"
+            : "dog-circle-x-mark";
 
   return (
     <li

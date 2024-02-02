@@ -1,20 +1,20 @@
 import { cloudinary } from "#core/cloudinary/cloudinary.server";
 import { createConfig } from "#core/config.server";
-import { ErrorPage, getErrorTitle } from "#core/dataDisplay/errorPage";
-import { DynamicImage } from "#core/dataDisplay/image";
+import { ErrorPage, getErrorTitle } from "#core/data-display/error-page";
+import { DynamicImage } from "#core/data-display/image";
 import { useElementSize } from "#core/elements";
 import type { RouteHandle } from "#core/handles";
 import { createSocialMeta } from "#core/meta";
 import { Routes } from "#core/navigation";
-import { getPageTitle } from "#core/pageTitle";
+import { getPageTitle } from "#core/page-title";
 import { NotFoundResponse } from "#core/response.server";
-import { ScrollRestorationLocationState } from "#core/scrollRestoration";
+import { ScrollRestorationLocationState } from "#core/scroll-restoration";
 import { Icon } from "#generated/icon";
-import { PhotoLocationState } from "#previousEditions/photoLocationState";
+import { PhotoLocationState } from "#previous-editions/photo-location-state";
 import {
   PREVIOUS_EDITION_PHOTOGRAPH,
   PreviousEdition,
-} from "#previousEditions/previousEdition";
+} from "#previous-editions/previous-edition";
 import { cn } from "@animeaux/core";
 import { Primitive } from "@animeaux/react-primitives";
 import { zu } from "@animeaux/zod-utils";
@@ -138,7 +138,7 @@ export default function Route() {
             to={Routes.photo(edition, photoIndex - 1)}
             state={PhotoLocationState.create({ galleryLocationKey })}
           >
-            <Icon id="linearArrowLeft" />
+            <Icon id="linear-arrow-left" />
           </Link>
         </PhotoAction>
       ) : null}
@@ -149,7 +149,7 @@ export default function Route() {
             to={Routes.photo(edition, photoIndex + 1)}
             state={PhotoLocationState.create({ galleryLocationKey })}
           >
-            <Icon id="linearArrowRight" />
+            <Icon id="linear-arrow-right" />
           </Link>
         </PhotoAction>
       ) : null}
