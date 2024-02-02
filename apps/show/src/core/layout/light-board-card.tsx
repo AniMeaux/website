@@ -1,5 +1,5 @@
 import { useElementSize } from "#core/elements";
-import { BeeIllustration } from "#core/illustrationaaa/bee";
+import { BeeIllustration } from "#core/illustration/bee";
 import { useScreenSizeCondition } from "#core/screen-size";
 import { theme } from "#generated/theme";
 import { cn } from "@animeaux/core";

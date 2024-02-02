@@ -10,7 +10,7 @@ import {
   SORTED_SHOW_DAYS,
   ShowDay,
 } from "#core/dates";
-import { BeeIllustration } from "#core/illustrationaaa/bee";
+import { BeeIllustration } from "#core/illustration/bee";
 import { LightBoardCard } from "#core/layout/light-board-card";
 import { Section } from "#core/layout/section";
 import { createSocialMeta } from "#core/meta";
