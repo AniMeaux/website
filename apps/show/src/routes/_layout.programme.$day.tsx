@@ -1,4 +1,3 @@
-import { BeeIllustration } from "#core/Illustration/bee";
 import { Action } from "#core/actions";
 import { useConfig } from "#core/config";
 import { createConfig } from "#core/config.server";
@@ -11,6 +10,7 @@ import {
   SORTED_SHOW_DAYS,
   ShowDay,
 } from "#core/dates";
+import { BeeIllustration } from "#core/illustrationaaa/bee";
 import { LightBoardCard } from "#core/layout/light-board-card";
 import { Section } from "#core/layout/section";
 import { createSocialMeta } from "#core/meta";
