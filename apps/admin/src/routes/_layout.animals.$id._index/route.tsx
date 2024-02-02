@@ -323,12 +323,20 @@ function ProfileCard() {
 }
 
 function AgreementsCard() {
-  const { animal } = useLoaderData<typeof loader>();
+  const { canEdit, animal } = useLoaderData<typeof loader>();
 
   return (
     <Card>
       <Card.Header>
         <Card.Title>Ententes</Card.Title>
+
+        {canEdit ? (
+          <Action asChild variant="text">
+            <BaseLink to={Routes.animals.id(animal.id).edit.profile.toString()}>
+              Modifier
+            </BaseLink>
+          </Action>
+        ) : null}
       </Card.Header>
 
       <Card.Content>
