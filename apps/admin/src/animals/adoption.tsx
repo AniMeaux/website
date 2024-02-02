@@ -12,8 +12,8 @@ export const ADOPTION_OPTION_TRANSLATION: Record<AdoptionOption, string> = {
 export const ADOPTION_OPTION_ICON: Record<AdoptionOption, IconProps["id"]> = {
   [AdoptionOption.WITH_STERILIZATION]: "scissors",
   [AdoptionOption.WITHOUT_STERILIZATION]: "scissors",
-  [AdoptionOption.FREE_DONATION]: "handHoldingEuro",
-  [AdoptionOption.UNKNOWN]: "circleQuestion",
+  [AdoptionOption.FREE_DONATION]: "hand-holding-euro",
+  [AdoptionOption.UNKNOWN]: "circle-question",
 };
 
 export const SORTED_ADOPTION_OPTION = orderBy(

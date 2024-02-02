@@ -1,4 +1,4 @@
-import { BaseLink } from "#core/baseLink";
+import { BaseLink } from "#core/base-link";
 import { AGE_TRANSLATION, SPECIES_TRANSLATION } from "#core/translations";
 import { Icon } from "#generated/icon";
 import { ANIMAL_AGE_RANGE_BY_SPECIES, AnimalAge, cn } from "@animeaux/core";
@@ -129,7 +129,7 @@ export function SearchForm({
         title="Rechercher"
         className="flex flex-none bg-brandBlue p-3 text-white transition-[background-color,transform] duration-100 ease-in-out rounded-bubble-sm active:scale-95 hover:bg-brandBlue-lighter"
       >
-        <Icon id="magnifyingGlass" />
+        <Icon id="magnifying-glass" />
       </BaseLink>
     </div>
   );

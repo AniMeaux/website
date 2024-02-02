@@ -1,6 +1,6 @@
-import type { DynamicImageProps } from "#core/dataDisplay/image";
-import { DynamicImage } from "#core/dataDisplay/image";
-import { ImageUrl } from "#core/dataDisplay/imageUrl";
+import type { DynamicImageProps } from "#core/data-display/image";
+import { DynamicImage } from "#core/data-display/image";
+import { ImageUrl } from "#core/data-display/image-url";
 import { cn } from "@animeaux/core";
 import type { ShowPartner } from "@prisma/client";
 import { Link } from "@remix-run/react";

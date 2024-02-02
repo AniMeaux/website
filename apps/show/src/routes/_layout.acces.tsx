@@ -2,13 +2,13 @@ import { AccessImage } from "#access/image";
 import { Action } from "#core/actions";
 import { useConfig } from "#core/config";
 import { createConfig } from "#core/config.server";
-import { ErrorPage, getErrorTitle } from "#core/dataDisplay/errorPage";
-import { DynamicImage } from "#core/dataDisplay/image";
-import { BoardCard } from "#core/layout/boardCard";
-import { HighLightBackground } from "#core/layout/highlightBackground";
+import { ErrorPage, getErrorTitle } from "#core/data-display/error-page";
+import { DynamicImage } from "#core/data-display/image";
+import { BoardCard } from "#core/layout/board-card";
+import { HighLightBackground } from "#core/layout/highlight-background";
 import { Section } from "#core/layout/section";
 import { createSocialMeta } from "#core/meta";
-import { getPageTitle } from "#core/pageTitle";
+import { getPageTitle } from "#core/page-title";
 import { NotFoundResponse } from "#core/response.server";
 import { Pictogram } from "#generated/pictogram";
 import type { MetaFunction } from "@remix-run/node";
@@ -55,7 +55,7 @@ function TitleSection() {
         <AccessImage
           fallbackSize="1024"
           sizes={{ default: "384px", md: "50vw", lg: "512px" }}
-          shape={{ id: "variant7", color: "prussianBlue", side: "right" }}
+          shape={{ id: "variant-7", color: "prussianBlue", side: "right" }}
           className="w-full"
         />
       </Section.ImageAside>
@@ -116,7 +116,7 @@ function CarpoolSection() {
           aspectRatio="1:1"
           fallbackSize="1024"
           sizes={{ default: "384px", md: "50vw", lg: "512px" }}
-          shape={{ id: "variant10", color: "paleBlue", side: "left" }}
+          shape={{ id: "variant-10", color: "paleBlue", side: "left" }}
           className="w-full"
         />
       </Section.ImageAside>

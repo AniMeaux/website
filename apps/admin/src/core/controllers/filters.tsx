@@ -1,5 +1,5 @@
-import { Chip } from "#core/dataDisplay/chip";
-import { joinReactNodes } from "#core/joinReactNodes";
+import { Chip } from "#core/data-display/chip";
+import { joinReactNodes } from "#core/join-react-nodes";
 import { Separator } from "#core/layout/separator";
 import { Icon } from "#generated/icon";
 import { cn } from "@animeaux/core";
@@ -117,7 +117,7 @@ Filters.Filter = function Filter({
               : "text-gray-500 group-hover:text-gray-600",
           )}
         >
-          <Icon id="angleRight" />
+          <Icon id="angle-right" />
         </span>
       </button>
 

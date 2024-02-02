@@ -1,6 +1,6 @@
-import type { BaseLinkProps } from "#core/baseLink";
-import { BaseLink } from "#core/baseLink";
-import { joinReactNodes } from "#core/joinReactNodes";
+import type { BaseLinkProps } from "#core/base-link";
+import { BaseLink } from "#core/base-link";
+import { joinReactNodes } from "#core/join-react-nodes";
 import { Icon } from "#generated/icon";
 import { cn } from "@animeaux/core";
 import { cloneElement } from "react";
@@ -24,7 +24,7 @@ export function Steps({
     <nav className="flex items-center gap-1">
       {joinReactNodes(
         steps,
-        <Icon id="angleRight" className="text-gray-200" />,
+        <Icon id="angle-right" className="text-gray-200" />,
       )}
     </nav>
   );

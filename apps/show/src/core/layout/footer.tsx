@@ -1,14 +1,14 @@
 import { Action, ProseInlineAction } from "#core/actions";
 import { useConfig } from "#core/config";
-import { DynamicImage } from "#core/dataDisplay/image";
+import { DynamicImage } from "#core/data-display/image";
 import { hasShowEnded } from "#core/dates";
-import { FooterWave } from "#core/layout/footerWave";
-import { LegalBackground } from "#core/layout/legalBackground";
+import { FooterWave } from "#core/layout/footer-wave";
+import { LegalBackground } from "#core/layout/legal-background";
 import { Section } from "#core/layout/section";
 import { Routes } from "#core/navigation";
 import { Icon } from "#generated/icon";
 import { Pictogram } from "#generated/pictogram";
-import logoAniMeaux from "#images/logoAniMeaux.svg";
+import logoAniMeaux from "#images/logo-ani-meaux.svg";
 import { usePartners } from "#partners/data";
 import { PartnersImage } from "#partners/image";
 import { PartnerItem } from "#partners/item";
@@ -124,19 +124,19 @@ function LinksSection() {
         </div>
 
         <ul className="grid grid-cols-1">
-          <ContactItem icon="boldCall" to="tel:+33612194392">
+          <ContactItem icon="bold-call" to="tel:+33612194392">
             06 12 19 43 92
           </ContactItem>
 
-          <ContactItem icon="boldSms" to="mailto:salon@animeaux.org">
+          <ContactItem icon="bold-sms" to="mailto:salon@animeaux.org">
             salon@animeaux.org
           </ContactItem>
 
-          <ContactItem icon="boldGlobal" to={pressReleaseUrl}>
+          <ContactItem icon="bold-global" to={pressReleaseUrl}>
             Communiqué de presse
           </ContactItem>
 
-          <ContactItem icon="boldGallery" to={Routes.previousEditions()}>
+          <ContactItem icon="bold-gallery" to={Routes.previousEditions()}>
             Éditions précédentes
           </ContactItem>
         </ul>

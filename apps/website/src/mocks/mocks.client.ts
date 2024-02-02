@@ -7,5 +7,8 @@ export function startWorker() {
   worker.start({
     onUnhandledRequest: "bypass",
     quiet: true,
+    serviceWorker: {
+      url: "/mock-service-worker.js",
+    },
   });
 }

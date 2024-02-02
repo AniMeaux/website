@@ -1,9 +1,9 @@
 import { SORTED_SPECIES, SPECIES_TRANSLATION } from "#animals/species";
 import { Action } from "#core/actions";
-import { Form } from "#core/formElements/form";
-import { Input } from "#core/formElements/input";
-import { RadioInput, RadioInputList } from "#core/formElements/radioInput";
-import { RequiredStar } from "#core/formElements/requiredStar";
+import { Form } from "#core/form-elements/form";
+import { Input } from "#core/form-elements/input";
+import { RadioInput, RadioInputList } from "#core/form-elements/radio-input";
+import { RequiredStar } from "#core/form-elements/required-star";
 import { Icon } from "#generated/icon";
 import { FormDataDelegate } from "@animeaux/form-data";
 import { zu } from "@animeaux/zod-utils";

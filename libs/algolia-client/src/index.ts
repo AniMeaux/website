@@ -1,1 +1,1 @@
-export * from "./algoliaClient";
+export * from "./algolia-client";

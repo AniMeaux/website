@@ -1,18 +1,18 @@
 import { Action } from "#core/actions";
-import type { ImageFileOrId } from "#core/dataDisplay/image";
+import type { ImageFileOrId } from "#core/data-display/image";
 import {
   IMAGE_SIZE_LIMIT_MB,
   isImageFile,
   isImageOverSize,
   readFile,
-} from "#core/dataDisplay/image";
+} from "#core/data-display/image";
 import { toIsoDateValue } from "#core/dates";
-import { Form } from "#core/formElements/form";
-import { ImageInput } from "#core/formElements/imageInput";
-import { Input } from "#core/formElements/input";
-import { RequiredStar } from "#core/formElements/requiredStar";
-import { SwitchInput } from "#core/formElements/switchInput";
-import { Textarea } from "#core/formElements/textarea";
+import { Form } from "#core/form-elements/form";
+import { ImageInput } from "#core/form-elements/image-input";
+import { Input } from "#core/form-elements/input";
+import { RequiredStar } from "#core/form-elements/required-star";
+import { SwitchInput } from "#core/form-elements/switch-input";
+import { Textarea } from "#core/form-elements/textarea";
 import { Separator } from "#core/layout/separator";
 import { Icon } from "#generated/icon";
 import { FormDataDelegate } from "@animeaux/form-data";
@@ -271,7 +271,7 @@ export function EventForm({
             aria-describedby="location-error"
             leftAdornment={
               <Input.Adornment>
-                <Icon id="locationDot" />
+                <Icon id="location-dot" />
               </Input.Adornment>
             }
           />
@@ -349,7 +349,7 @@ export function EventForm({
               aria-describedby="startDate-error"
               leftAdornment={
                 <Input.Adornment>
-                  <Icon id="calendarDays" />
+                  <Icon id="calendar-days" />
                 </Input.Adornment>
               }
             />
@@ -384,7 +384,7 @@ export function EventForm({
               aria-describedby="endDate-error"
               leftAdornment={
                 <Input.Adornment>
-                  <Icon id="calendarDays" />
+                  <Icon id="calendar-days" />
                 </Input.Adornment>
               }
             />

@@ -1,7 +1,7 @@
 import { Action } from "#core/actions";
-import { Form } from "#core/formElements/form";
-import { Input } from "#core/formElements/input";
-import { RequiredStar } from "#core/formElements/requiredStar";
+import { Form } from "#core/form-elements/form";
+import { Input } from "#core/form-elements/input";
+import { RequiredStar } from "#core/form-elements/required-star";
 import { Icon } from "#generated/icon";
 import { FormDataDelegate } from "@animeaux/form-data";
 import { zu } from "@animeaux/zod-utils";

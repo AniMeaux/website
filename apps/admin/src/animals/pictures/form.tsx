@@ -1,22 +1,22 @@
-import { getAllAnimalPictures } from "#animals/pictures/allPictures";
+import { getAllAnimalPictures } from "#animals/pictures/all-pictures";
 import {
   DragAndDropContextProvider,
   PictureItemPreview,
   useDragItem,
   useDropContainer,
-} from "#animals/pictures/dragAndDrop";
+} from "#animals/pictures/drag-and-drop";
 import { Action } from "#core/actions";
-import { InlineHelper } from "#core/dataDisplay/helper";
-import type { ImageFile, ImageFileOrId } from "#core/dataDisplay/image";
+import { InlineHelper } from "#core/data-display/helper";
+import type { ImageFile, ImageFileOrId } from "#core/data-display/image";
 import {
   IMAGE_SIZE_LIMIT_MB,
   getImageId,
   isImageFile,
   isImageOverSize,
   readFiles,
-} from "#core/dataDisplay/image";
-import { Form } from "#core/formElements/form";
-import { ImageInput } from "#core/formElements/imageInput";
+} from "#core/data-display/image";
+import { Form } from "#core/form-elements/form";
+import { ImageInput } from "#core/form-elements/image-input";
 import { Icon } from "#generated/icon";
 import { FormDataDelegate } from "@animeaux/form-data";
 import { zu } from "@animeaux/zod-utils";
@@ -256,7 +256,7 @@ function ImageItem({
             className="absolute left-0 top-1/2 flex h-4 w-4 -translate-y-1/2 cursor-move items-center justify-center opacity-75"
           >
             <Icon
-              id="gripDotsVertical"
+              id="grip-dots-vertical"
               className="stroke-black text-[20px] text-white"
             />
           </div>

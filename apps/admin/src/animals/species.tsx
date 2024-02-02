@@ -1,4 +1,4 @@
-import { isDefined } from "#core/isDefined";
+import { isDefined } from "#core/is-defined";
 import type { IconProps } from "#generated/icon";
 import type { Animal, Breed, Color } from "@prisma/client";
 import { Species } from "@prisma/client";

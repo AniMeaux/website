@@ -2,29 +2,29 @@ import { AccessImage } from "#access/image";
 import { Action, ProseInlineAction } from "#core/actions";
 import { useConfig } from "#core/config";
 import { createConfig } from "#core/config.server";
-import { ErrorPage } from "#core/dataDisplay/errorPage";
-import { DynamicImage } from "#core/dataDisplay/image";
+import { ErrorPage } from "#core/data-display/error-page";
+import { DynamicImage } from "#core/data-display/image";
 import { OPENING_TIME, hasShowEnded } from "#core/dates";
 import type { RouteHandle } from "#core/handles";
-import { BoardCard } from "#core/layout/boardCard";
-import { FooterWave } from "#core/layout/footerWave";
-import { HighLightBackground } from "#core/layout/highlightBackground";
-import { LegalBackground } from "#core/layout/legalBackground";
+import { BoardCard } from "#core/layout/board-card";
+import { FooterWave } from "#core/layout/footer-wave";
+import { HighLightBackground } from "#core/layout/highlight-background";
+import { LegalBackground } from "#core/layout/legal-background";
 import { Section } from "#core/layout/section";
 import { createSocialMeta } from "#core/meta";
 import { Routes } from "#core/navigation";
-import { getPageTitle } from "#core/pageTitle";
+import { getPageTitle } from "#core/page-title";
 import { prisma } from "#core/prisma.server";
 import { ExhibitorsImage } from "#exhibitors/image";
 import type { IconProps } from "#generated/icon";
 import { Icon } from "#generated/icon";
 import { Pictogram } from "#generated/pictogram";
-import logoAniMeaux from "#images/logoAniMeaux.svg";
-import logoLarge from "#images/logoLarge.svg";
+import logoAniMeaux from "#images/logo-ani-meaux.svg";
+import logoLarge from "#images/logo-large.svg";
 import { usePartners } from "#partners/data";
 import { PartnersImage } from "#partners/image";
 import { PartnerItem } from "#partners/item";
-import { PreviousEditionImage } from "#previousEditions/image";
+import { PreviousEditionImage } from "#previous-editions/image";
 import { cn } from "@animeaux/core";
 import type { MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
@@ -269,7 +269,7 @@ function PresentationSection() {
 
           <aside className="grid grid-cols-1">
             <ul className="grid grid-cols-1 gap-2 md:auto-cols-fr md:grid-flow-col md:gap-4">
-              <HighLightItem icon="standPrussianBlue">
+              <HighLightItem icon="stand-prussian-blue">
                 {exhibitorCount} exposants dévoués au bien-être des animaux.
               </HighLightItem>
 
@@ -390,7 +390,7 @@ function ExhibitorsSection() {
         <ExhibitorsImage
           fallbackSize="1024"
           sizes={{ default: "384px", md: "50vw", lg: "512px" }}
-          shape={{ id: "variant2", color: "paleBlue", side: "right" }}
+          shape={{ id: "variant-2", color: "paleBlue", side: "right" }}
           className="w-full"
         />
       </Section.ImageAside>
@@ -452,7 +452,7 @@ function RaffleSection() {
           aspectRatio="1:1"
           fallbackSize="1024"
           sizes={{ default: "384px", md: "50vw", lg: "512px" }}
-          shape={{ id: "variant10", color: "prussianBlue", side: "left" }}
+          shape={{ id: "variant-10", color: "prussianBlue", side: "left" }}
           className="w-full"
         />
       </Section.ImageAside>
@@ -495,7 +495,7 @@ function PreviousEditionsSection() {
           <PreviousEditionImage
             fallbackSize="1024"
             sizes={{ default: "384px", md: "50vw", lg: "512px" }}
-            shape={{ id: "variant3", color: "mystic", side: "right" }}
+            shape={{ id: "variant-3", color: "mystic", side: "right" }}
             className="w-full"
           />
         </Section.ImageAside>
@@ -537,7 +537,7 @@ function AccessSection() {
         <AccessImage
           fallbackSize="1024"
           sizes={{ default: "384px", md: "50vw", lg: "512px" }}
-          shape={{ id: "variant7", color: "paleBlue", side: "left" }}
+          shape={{ id: "variant-7", color: "paleBlue", side: "left" }}
           className="w-full"
         />
       </Section.ImageAside>
@@ -596,7 +596,7 @@ function ComeBackSection() {
           fallbackSize="1024"
           sizes={{ default: "100vw", md: "50vw", lg: "512px" }}
           loading="eager"
-          shape={{ id: "variant2", color: "alabaster", side: "left" }}
+          shape={{ id: "variant-2", color: "alabaster", side: "left" }}
         />
       </aside>
 
@@ -808,11 +808,11 @@ function FooterSection() {
           </div>
 
           <ul className="grid grid-cols-1">
-            <ContactItem icon="boldCall" to="tel:+33612194392">
+            <ContactItem icon="bold-call" to="tel:+33612194392">
               06 12 19 43 92
             </ContactItem>
 
-            <ContactItem icon="boldSms" to="mailto:salon@animeaux.org">
+            <ContactItem icon="bold-sms" to="mailto:salon@animeaux.org">
               salon@animeaux.org
             </ContactItem>
           </ul>

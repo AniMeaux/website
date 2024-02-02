@@ -1,12 +1,12 @@
 import { Action } from "#core/actions";
 import { db } from "#core/db.server";
 import { EmailAlreadyUsedError } from "#core/errors.server";
-import { Form } from "#core/formElements/form";
-import { Input } from "#core/formElements/input";
+import { Form } from "#core/form-elements/form";
+import { Input } from "#core/form-elements/input";
 import { Card } from "#core/layout/card";
 import { PageLayout } from "#core/layout/page";
 import { Routes, useBackIfPossible } from "#core/navigation";
-import { getPageTitle } from "#core/pageTitle";
+import { getPageTitle } from "#core/page-title";
 import { Icon } from "#generated/icon";
 import { FormDataDelegate } from "@animeaux/form-data";
 import { zu } from "@animeaux/zod-utils";

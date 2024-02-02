@@ -4,10 +4,10 @@
   "private": true,
   "type": "module",
   "bin": {
-    "copy-data": "./bin/copyData.ts",
-    "download-all-data": "./bin/downloadAllData.ts",
-    "index-data": "./bin/indexData.ts",
-    "seed-data": "./bin/seedData.ts"
+    "copy-data": "./bin/copy-data.ts",
+    "download-all-data": "./bin/download-all-data.ts",
+    "index-data": "./bin/index-data.ts",
+    "seed-data": "./bin/seed-data.ts"
   },
   "imports": {
     "#*": "./src/*"

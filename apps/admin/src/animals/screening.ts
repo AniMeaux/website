@@ -21,9 +21,9 @@ export const SCREENING_RESULT_TRANSLATION: Record<
 };
 
 export const SCREENING_RESULT_ICON: Record<ScreeningResult, IconProps["id"]> = {
-  [ScreeningResult.NEGATIVE]: "virusSlash",
+  [ScreeningResult.NEGATIVE]: "virus-slash",
   [ScreeningResult.POSITIVE]: "virus",
-  [ScreeningResult.UNKNOWN]: "circleQuestion",
+  [ScreeningResult.UNKNOWN]: "circle-question",
 };
 
 export const SORTED_SCREENING_RESULTS = orderBy(

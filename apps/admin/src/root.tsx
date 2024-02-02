@@ -1,11 +1,11 @@
 import { createConfig } from "#core/config.server";
-import { ErrorPage } from "#core/dataDisplay/errorPage";
+import { ErrorPage } from "#core/data-display/error-page";
 import { useRouteHandles } from "#core/handles";
-import { getPageTitle } from "#core/pageTitle";
+import { getPageTitle } from "#core/page-title";
 import { theme } from "#generated/theme";
-import appleTouchIcon from "#images/appleTouchIcon.png";
+import appleTouchIcon from "#images/apple-touch-icon.png";
 import favicon from "#images/favicon.svg";
-import maskIcon from "#images/maskIcon.svg";
+import maskIcon from "#images/mask-icon.svg";
 import stylesheet from "#tailwind.css";
 import { cn } from "@animeaux/core";
 import type { LinksFunction, MetaFunction } from "@remix-run/node";

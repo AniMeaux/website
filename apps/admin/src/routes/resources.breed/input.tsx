@@ -1,15 +1,15 @@
-import { BreedSearchParams } from "#breeds/searchParams";
+import { BreedSearchParams } from "#breeds/search-params";
 import { toBooleanAttribute } from "#core/attributes";
 import { ensureArray } from "#core/collections";
-import { BaseTextInput } from "#core/formElements/baseTextInput";
-import { Input } from "#core/formElements/input";
+import { BaseTextInput } from "#core/form-elements/base-text-input";
+import { Input } from "#core/form-elements/input";
 import {
   NoSuggestion,
   ResourceComboboxLayout,
   ResourceInputLayout,
   SuggestionItem,
   SuggestionList,
-} from "#core/formElements/resourceInput";
+} from "#core/form-elements/resource-input";
 import { Routes } from "#core/navigation";
 import { Icon } from "#generated/icon";
 import type { loader } from "#routes/resources.breed/route";
@@ -134,11 +134,11 @@ const InputTrigger = forwardRef<
         key="remove"
         onClick={() => setBreed(null)}
       >
-        <Icon id="xMark" />
+        <Icon id="x-mark" />
       </BaseTextInput.ActionAdornment>
     ) : null,
     <BaseTextInput.Adornment key="caret">
-      <Icon id="caretDown" />
+      <Icon id="caret-down" />
     </BaseTextInput.Adornment>,
   ].filter(Boolean);
 

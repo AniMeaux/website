@@ -2,11 +2,11 @@ import { Action } from "#core/actions";
 import {
   CheckboxInput,
   CheckboxInputList,
-} from "#core/formElements/checkboxInput";
-import { Form } from "#core/formElements/form";
-import { Input } from "#core/formElements/input";
-import { PasswordInput } from "#core/formElements/passwordInput";
-import { RequiredStar } from "#core/formElements/requiredStar";
+} from "#core/form-elements/checkbox-input";
+import { Form } from "#core/form-elements/form";
+import { Input } from "#core/form-elements/input";
+import { PasswordInput } from "#core/form-elements/password-input";
+import { RequiredStar } from "#core/form-elements/required-star";
 import { Separator } from "#core/layout/separator";
 import { Icon } from "#generated/icon";
 import { GROUP_TRANSLATION, SORTED_GROUPS } from "#users/groups";

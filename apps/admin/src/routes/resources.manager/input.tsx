@@ -1,18 +1,18 @@
 import { toBooleanAttribute } from "#core/attributes";
-import { BaseTextInput } from "#core/formElements/baseTextInput";
-import { Input } from "#core/formElements/input";
+import { BaseTextInput } from "#core/form-elements/base-text-input";
+import { Input } from "#core/form-elements/input";
 import {
   NoSuggestion,
   ResourceComboboxLayout,
   ResourceInputLayout,
   SuggestionItem,
   SuggestionList,
-} from "#core/formElements/resourceInput";
+} from "#core/form-elements/resource-input";
 import { Routes } from "#core/navigation";
 import { Icon } from "#generated/icon";
 import type { loader } from "#routes/resources.manager/route";
 import { UserAvatar } from "#users/avatar";
-import { UserSearchParams } from "#users/searchParams";
+import { UserSearchParams } from "#users/search-params";
 import type { User } from "@prisma/client";
 import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
 import type { SerializeFrom } from "@remix-run/node";
@@ -140,7 +140,7 @@ const InputTrigger = forwardRef<
         side="right"
         adornment={
           <BaseTextInput.Adornment>
-            <Icon id="caretDown" />
+            <Icon id="caret-down" />
           </BaseTextInput.Adornment>
         }
       />

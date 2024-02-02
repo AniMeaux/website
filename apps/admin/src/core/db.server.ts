@@ -1,10 +1,10 @@
 import { AnimalDbDelegate, PickUpLocationDbDelegate } from "#animals/db.server";
 import { BreedDbDelegate } from "#breeds/db.server";
 import { ColorDbDelegate } from "#colors/db.server";
-import { CurrentUserDbDelegate } from "#currentUser/db.server";
+import { CurrentUserDbDelegate } from "#current-user/db.server";
 import { EventDbDelegate } from "#events/db.server";
-import { FosterFamilyDbDelegate } from "#fosterFamilies/db.server";
-import { PressArticleDbDelegate } from "#pressArticles/db.server";
+import { FosterFamilyDbDelegate } from "#foster-families/db.server";
+import { PressArticleDbDelegate } from "#press-articles/db.server";
 import { UserDbDelegate } from "#users/db.server";
 import { singleton } from "@animeaux/core";
 

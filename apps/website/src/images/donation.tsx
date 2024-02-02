@@ -1,4 +1,4 @@
-import type { ImageDescriptor } from "#core/dataDisplay/image";
+import type { ImageDescriptor } from "#core/data-display/image";
 import donation1024 from "#images/donation-1024w.png";
 import donation1536 from "#images/donation-1536w.png";
 import donation2048 from "#images/donation-2048w.png";

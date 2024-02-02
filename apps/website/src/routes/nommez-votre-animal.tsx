@@ -3,7 +3,7 @@ import { ACTIVE_ANIMAL_STATUS } from "#animals/status";
 import { actionClassNames } from "#core/actions";
 import { prisma } from "#core/db.server";
 import { createSocialMeta } from "#core/meta";
-import { getPageTitle } from "#core/pageTitle";
+import { getPageTitle } from "#core/page-title";
 import { Icon } from "#generated/icon";
 import { cn } from "@animeaux/core";
 import { Gender } from "@prisma/client";

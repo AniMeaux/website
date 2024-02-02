@@ -1,17 +1,17 @@
 import { AnimalSuggestionItem } from "#animals/item";
 import { getAnimalDisplayName } from "#animals/profile/name";
-import { AnimalSearchParams } from "#animals/searchParams";
-import { BaseTextInput } from "#core/formElements/baseTextInput";
-import { Input } from "#core/formElements/input";
+import { AnimalSearchParams } from "#animals/search-params";
+import { BaseTextInput } from "#core/form-elements/base-text-input";
+import { Input } from "#core/form-elements/input";
 import {
   SuggestionItem,
   SuggestionList,
-} from "#core/formElements/resourceInput";
+} from "#core/form-elements/resource-input";
 import { useRouteHandles } from "#core/handles";
 import { Routes, useNavigate } from "#core/navigation";
 import { Overlay } from "#core/popovers/overlay";
-import { FosterFamilySuggestionItem } from "#fosterFamilies/item";
-import { FosterFamilySearchParams } from "#fosterFamilies/searchParams";
+import { FosterFamilySuggestionItem } from "#foster-families/item";
+import { FosterFamilySearchParams } from "#foster-families/search-params";
 import { Icon } from "#generated/icon";
 import { cn } from "@animeaux/core";
 import type { User } from "@prisma/client";
@@ -140,7 +140,7 @@ export function GlobalSearch({
           side="left"
           adornment={
             <BaseTextInput.Adornment>
-              <Icon id="magnifyingGlass" />
+              <Icon id="magnifying-glass" />
             </BaseTextInput.Adornment>
           }
         />
@@ -317,14 +317,14 @@ function Combobox({
                 <span className="flex md:hidden">
                   <Dialog.Close asChild>
                     <Input.ActionAdornment>
-                      <Icon id="angleLeft" />
+                      <Icon id="angle-left" />
                     </Input.ActionAdornment>
                   </Dialog.Close>
                 </span>
 
                 <span className="hidden md:flex">
                   <Input.Adornment>
-                    <Icon id="magnifyingGlass" />
+                    <Icon id="magnifying-glass" />
                   </Input.Adornment>
                 </span>
               </>
@@ -351,7 +351,7 @@ function Combobox({
                 <SuggestionItem
                   key="search-item"
                   {...combobox.getItemProps({ item, index })}
-                  leftAdornment={<Icon id="magnifyingGlass" />}
+                  leftAdornment={<Icon id="magnifying-glass" />}
                   label={`Rechercher : **${cleanedInputValue}**`}
                 />
               );
