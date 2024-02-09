@@ -73,7 +73,9 @@ const VARIANT_CLASS_NAME: Record<
   (args: { isIconOnly: boolean }) => string
 > = {
   floating: () =>
-    "shadow-ambient rounded-full w-5 h-5 justify-center text-[25px] transition-[background-color,transform]",
+    cn(
+      "h-5 w-5 justify-center rounded-full text-[25px] shadow-popover-sm transition-[background-color,transform]",
+    ),
   primary: ({ isIconOnly }) =>
     cn(
       "h-4 min-w-[40px] rounded-0.5 transition-[background-color,transform] text-body-emphasis",
@@ -85,7 +87,9 @@ const VARIANT_CLASS_NAME: Record<
       isIconOnly ? "px-1" : "px-2",
     ),
   text: () =>
-    "rounded-0.5 min-w-[20px] h-2 text-body-emphasis transition-[color,transform]",
+    cn(
+      "h-2 min-w-[20px] rounded-0.5 transition-[color,transform] text-body-emphasis",
+    ),
   translucid: ({ isIconOnly }) =>
     cn(
       "h-4 min-w-[40px] rounded-0.5 bg-opacity-50 transition-[background-color,transform] text-body-emphasis hover:bg-opacity-70",

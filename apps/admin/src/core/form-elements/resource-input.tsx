@@ -49,7 +49,7 @@ function MediumLayout({
           side="bottom"
           sideOffset={theme.spacing[1]}
           collisionPadding={theme.spacing[1]}
-          className="z-20 flex w-[var(--radix-popover-trigger-width)] flex-col rounded-1 bg-white shadow-ambient animation-opacity-0 animation-duration-100 bg-var-white data-[side=bottom]:-animation-translate-y-2 data-[side=top]:animation-translate-y-2 data-[state=open]:animation-enter data-[state=closed]:animation-exit"
+          className="z-20 flex w-[var(--radix-popover-trigger-width)] flex-col rounded-1 bg-white shadow-popover-sm animation-opacity-0 animation-duration-100 bg-var-white data-[side=bottom]:-animation-translate-y-2 data-[side=top]:animation-translate-y-2 data-[state=open]:animation-enter data-[state=closed]:animation-exit"
         >
           {content}
         </Popover.Content>
