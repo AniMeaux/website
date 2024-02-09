@@ -30,7 +30,7 @@ export function PictureItemPreview() {
       sizeMapping={{ default: "300px" }}
       fallbackSize="512"
       loading="eager"
-      className="overflow-hidden rounded-1 shadow-ambient"
+      className="overflow-hidden rounded-1 shadow-popover-sm"
       style={preview.style}
     />
   );

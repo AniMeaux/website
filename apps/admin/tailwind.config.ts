@@ -62,7 +62,8 @@ export default {
 
     extend: {
       boxShadow: {
-        ambient: "0px 7px 29px 0px rgba(100, 100, 111, 0.2)",
+        "popover-md": "0px 15px 80px -10px rgba(0, 0, 0, 0.3)",
+        "popover-sm": "0px 10px 40px -10px rgba(0, 0, 0, 0.2)",
       },
 
       flex: {
