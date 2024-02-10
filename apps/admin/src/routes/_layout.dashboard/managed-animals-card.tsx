@@ -28,7 +28,7 @@ export function ManagedAnimalsCard() {
           <Action asChild variant="text">
             <BaseLink
               to={{
-                pathname: Routes.animals.search.toString(),
+                pathname: Routes.animals.toString(),
                 search: AnimalSearchParams.stringify({
                   statuses: new Set(ACTIVE_ANIMAL_STATUS),
                   managersId: new Set([currentUser.id]),

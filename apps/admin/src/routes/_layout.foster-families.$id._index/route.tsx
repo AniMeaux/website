@@ -290,7 +290,7 @@ function FosterAnimalsCard() {
           <Action asChild variant="text">
             <BaseLink
               to={{
-                pathname: Routes.animals.search.toString(),
+                pathname: Routes.animals.toString(),
                 search: AnimalSearchParams.stringify({
                   fosterFamiliesId: new Set([fosterFamily.id]),
                 }),

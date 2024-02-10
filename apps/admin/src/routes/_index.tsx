@@ -15,8 +15,8 @@ export async function loader({ request }: LoaderFunctionArgs) {
 }
 
 const USER_GROUP_LANDING_PAGE: Record<UserGroup, string> = {
-  [UserGroup.ADMIN]: Routes.animals.toString(),
-  [UserGroup.ANIMAL_MANAGER]: Routes.animals.toString(),
+  [UserGroup.ADMIN]: Routes.dashboard.toString(),
+  [UserGroup.ANIMAL_MANAGER]: Routes.dashboard.toString(),
   [UserGroup.BLOGGER]: Routes.home.toString(),
   [UserGroup.HEAD_OF_PARTNERSHIPS]: Routes.home.toString(),
   [UserGroup.VETERINARIAN]: Routes.animals.toString(),
@@ -24,10 +24,6 @@ const USER_GROUP_LANDING_PAGE: Record<UserGroup, string> = {
 };
 
 function getUserMainGroup(groups: UserGroup[]): UserGroup {
-  if (groups.includes(UserGroup.VOLUNTEER)) {
-    return UserGroup.VOLUNTEER;
-  }
-
   if (groups.includes(UserGroup.ADMIN)) {
     return UserGroup.ADMIN;
   }
@@ -44,5 +40,9 @@ function getUserMainGroup(groups: UserGroup[]): UserGroup {
     return UserGroup.BLOGGER;
   }
 
-  return UserGroup.HEAD_OF_PARTNERSHIPS;
+  if (groups.includes(UserGroup.HEAD_OF_PARTNERSHIPS)) {
+    return UserGroup.HEAD_OF_PARTNERSHIPS;
+  }
+
+  return UserGroup.VOLUNTEER;
 }
