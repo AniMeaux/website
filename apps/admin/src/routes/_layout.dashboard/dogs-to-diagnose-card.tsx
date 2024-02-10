@@ -28,7 +28,7 @@ export function DogsToDiagnoseCard() {
           <Action asChild variant="text">
             <BaseLink
               to={{
-                pathname: Routes.animals.search.toString(),
+                pathname: Routes.animals.toString(),
                 search: AnimalSearchParams.stringify({
                   birthdateEnd: DateTime.now()
                     .minus({

@@ -7,10 +7,9 @@ import type { NavigateOptions, To } from "react-router";
 
 export const Routes = {
   home: { toString: () => "/" as const },
+  dashboard: { toString: () => "/dashboard" as const },
   animals: {
     toString: () => "/animals" as const,
-    dashboard: { toString: () => "/animals/dashboard" as const },
-    search: { toString: () => "/animals/search" as const },
     id: (id: string) =>
       ({
         toString: () => `/animals/${id}` as const,
