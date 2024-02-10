@@ -170,7 +170,7 @@ export function GlobalSearch({
                 if (entity === Entity.ANIMAL) {
                   navigate(
                     createPath({
-                      pathname: Routes.animals.search.toString(),
+                      pathname: Routes.animals.toString(),
                       search: AnimalSearchParams.stringify({
                         nameOrAlias: search,
                       }),

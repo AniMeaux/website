@@ -185,7 +185,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
 
   // We are forced to redirect to avoid re-calling the loader with a
   // non-existing aniaml.
-  throw redirect(Routes.animals.search.toString());
+  throw redirect(Routes.animals.toString());
 }
 
 export function ErrorBoundary() {
