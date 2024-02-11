@@ -4,12 +4,12 @@ import { Form } from "#core/form-elements/form";
 import { Input } from "#core/form-elements/input";
 import { PasswordInput } from "#core/form-elements/password-input";
 import type { RouteHandle } from "#core/handles";
+import { AuthPage } from "#core/layout/auth-page";
 import { Routes } from "#core/navigation";
 import { getPageTitle } from "#core/page-title";
 import { NextSearchParams } from "#core/search-params";
 import { createCurrentUserSession } from "#current-user/session.server";
 import { Icon } from "#generated/icon";
-import nameAndLogo from "#images/name-and-logo.svg";
 import { cn } from "@animeaux/core";
 import { FormDataDelegate } from "@animeaux/form-data";
 import { zu } from "@animeaux/zod-utils";
@@ -115,89 +115,69 @@ export default function Route() {
   }, [fetcher.data?.errors]);
 
   return (
-    <main className="grid w-full grid-cols-[minmax(0px,500px)] justify-center justify-items-center md:min-h-screen md:grid-cols-[1fr_minmax(500px,1fr)]">
-      <section className="hidden w-full bg-blue-500 md:block" />
+    <AuthPage.Main>
+      <AuthPage.Title>Bienvenue</AuthPage.Title>
 
-      <section className="flex w-full max-w-[500px] flex-col justify-start p-safe-2 md:pl-4 md:pr-safe-4 md:py-safe-4">
-        <img
-          src={nameAndLogo}
-          alt={getPageTitle()}
-          className="h-3 self-start md:h-4"
-        />
+      <fetcher.Form method="POST" noValidate className="flex flex-col gap-4">
+        <Form.Fields>
+          <Form.Errors errors={fetcher.data?.errors?.formErrors} />
 
-        <section className="mt-4 flex flex-col gap-2 md:mt-[10vh]">
-          <h1 className="text-title-hero-small md:text-title-hero-large">
-            Bienvenue
-          </h1>
+          <Form.Field>
+            <Form.Label htmlFor={ActionFormData.keys.email}>Email</Form.Label>
 
-          <fetcher.Form
-            method="POST"
-            noValidate
-            className="flex flex-col gap-4"
-          >
-            <Form.Fields>
-              <Form.Errors errors={fetcher.data?.errors?.formErrors} />
+            <Input
+              autoFocus
+              ref={emailRef}
+              id={ActionFormData.keys.email}
+              type="email"
+              name={ActionFormData.keys.email}
+              autoComplete="email"
+              hasError={fetcher.data?.errors?.fieldErrors.email != null}
+              aria-describedby="email-error"
+              placeholder="jean@mail.com"
+              leftAdornment={
+                <Input.Adornment>
+                  <Icon id="envelope" />
+                </Input.Adornment>
+              }
+            />
 
-              <Form.Field>
-                <Form.Label htmlFor={ActionFormData.keys.email}>
-                  Email
-                </Form.Label>
+            {fetcher.data?.errors?.fieldErrors.email != null ? (
+              <Form.ErrorMessage id="email-error">
+                {fetcher.data.errors.fieldErrors.email}
+              </Form.ErrorMessage>
+            ) : null}
+          </Form.Field>
 
-                <Input
-                  autoFocus
-                  ref={emailRef}
-                  id={ActionFormData.keys.email}
-                  type="email"
-                  name={ActionFormData.keys.email}
-                  autoComplete="email"
-                  hasError={fetcher.data?.errors?.fieldErrors.email != null}
-                  aria-describedby="email-error"
-                  placeholder="jean@mail.com"
-                  leftAdornment={
-                    <Input.Adornment>
-                      <Icon id="envelope" />
-                    </Input.Adornment>
-                  }
-                />
+          <Form.Field>
+            <Form.Label htmlFor={ActionFormData.keys.password}>
+              Mot de passe
+            </Form.Label>
 
-                {fetcher.data?.errors?.fieldErrors.email != null ? (
-                  <Form.ErrorMessage id="email-error">
-                    {fetcher.data.errors.fieldErrors.email}
-                  </Form.ErrorMessage>
-                ) : null}
-              </Form.Field>
+            <PasswordInput
+              ref={passwordRef}
+              id={ActionFormData.keys.password}
+              name={ActionFormData.keys.password}
+              autoComplete="current-password"
+              hasError={fetcher.data?.errors?.fieldErrors.password != null}
+              aria-describedby="password-error"
+              leftAdornment={
+                <PasswordInput.Adornment>
+                  <Icon id="lock" />
+                </PasswordInput.Adornment>
+              }
+            />
 
-              <Form.Field>
-                <Form.Label htmlFor={ActionFormData.keys.password}>
-                  Mot de passe
-                </Form.Label>
+            {fetcher.data?.errors?.fieldErrors.password != null ? (
+              <Form.ErrorMessage id="password-error">
+                {fetcher.data.errors.fieldErrors.password}
+              </Form.ErrorMessage>
+            ) : null}
+          </Form.Field>
+        </Form.Fields>
 
-                <PasswordInput
-                  ref={passwordRef}
-                  id={ActionFormData.keys.password}
-                  name={ActionFormData.keys.password}
-                  autoComplete="current-password"
-                  hasError={fetcher.data?.errors?.fieldErrors.password != null}
-                  aria-describedby="password-error"
-                  leftAdornment={
-                    <PasswordInput.Adornment>
-                      <Icon id="lock" />
-                    </PasswordInput.Adornment>
-                  }
-                />
-
-                {fetcher.data?.errors?.fieldErrors.password != null ? (
-                  <Form.ErrorMessage id="password-error">
-                    {fetcher.data.errors.fieldErrors.password}
-                  </Form.ErrorMessage>
-                ) : null}
-              </Form.Field>
-            </Form.Fields>
-
-            <Action type="submit">Se connecter</Action>
-          </fetcher.Form>
-        </section>
-      </section>
-    </main>
+        <Action type="submit">Se connecter</Action>
+      </fetcher.Form>
+    </AuthPage.Main>
   );
 }

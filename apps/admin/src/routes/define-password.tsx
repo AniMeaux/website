@@ -4,11 +4,11 @@ import { db } from "#core/db.server";
 import { Form } from "#core/form-elements/form";
 import { PasswordInput } from "#core/form-elements/password-input";
 import type { RouteHandle } from "#core/handles";
+import { AuthPage } from "#core/layout/auth-page";
 import { Routes } from "#core/navigation";
 import { getPageTitle } from "#core/page-title";
 import { NextSearchParams } from "#core/search-params";
 import { Icon } from "#generated/icon";
-import nameAndLogo from "#images/name-and-logo.svg";
 import { cn } from "@animeaux/core";
 import { FormDataDelegate } from "@animeaux/form-data";
 import { zu } from "@animeaux/zod-utils";
@@ -90,64 +90,46 @@ export default function Route() {
   }, [fetcher.data?.errors]);
 
   return (
-    <main className="grid w-full grid-cols-[minmax(0px,500px)] justify-center justify-items-center md:min-h-screen md:grid-cols-[1fr_minmax(500px,1fr)]">
-      <section className="hidden w-full bg-blue-500 md:block" />
+    <AuthPage.Main>
+      <AuthPage.Title>Définir un mot de passe</AuthPage.Title>
 
-      <section className="flex w-full max-w-[500px] flex-col justify-start p-safe-2 md:pl-4 md:pr-safe-4 md:py-safe-4">
-        <img
-          src={nameAndLogo}
-          alt={getPageTitle()}
-          className="h-3 self-start md:h-4"
-        />
+      <fetcher.Form method="POST" noValidate className="flex flex-col gap-4">
+        <Form.Fields>
+          <InlineHelper variant="info">
+            Pour plus de sécurité, veuillez définir un nouveau mot de passe.
+          </InlineHelper>
 
-        <section className="mt-4 flex flex-col gap-2 md:mt-[10vh]">
-          <h1 className="text-title-hero-small md:text-title-hero-large">
-            Définir un mot de passe
-          </h1>
+          <Form.Errors errors={fetcher.data?.errors.formErrors} />
 
-          <fetcher.Form
-            method="POST"
-            noValidate
-            className="flex flex-col gap-4"
-          >
-            <Form.Fields>
-              <InlineHelper variant="info">
-                Pour plus de sécurité, veuillez définir un nouveau mot de passe.
-              </InlineHelper>
+          <Form.Field>
+            <Form.Label htmlFor={ActionFormData.keys.password}>
+              Nouveau mot de passe
+            </Form.Label>
 
-              <Form.Errors errors={fetcher.data?.errors.formErrors} />
+            <PasswordInput
+              ref={passwordRef}
+              id={ActionFormData.keys.password}
+              name={ActionFormData.keys.password}
+              autoComplete="current-password"
+              hasError={fetcher.data?.errors.fieldErrors.password != null}
+              aria-describedby="password-error"
+              leftAdornment={
+                <PasswordInput.Adornment>
+                  <Icon id="lock" />
+                </PasswordInput.Adornment>
+              }
+            />
 
-              <Form.Field>
-                <Form.Label htmlFor={ActionFormData.keys.password}>
-                  Nouveau mot de passe
-                </Form.Label>
+            {fetcher.data?.errors.fieldErrors.password != null ? (
+              <Form.ErrorMessage id="password-error">
+                {fetcher.data?.errors.fieldErrors.password}
+              </Form.ErrorMessage>
+            ) : null}
+          </Form.Field>
+        </Form.Fields>
 
-                <PasswordInput
-                  ref={passwordRef}
-                  id={ActionFormData.keys.password}
-                  name={ActionFormData.keys.password}
-                  autoComplete="current-password"
-                  hasError={fetcher.data?.errors.fieldErrors.password != null}
-                  aria-describedby="password-error"
-                  leftAdornment={
-                    <PasswordInput.Adornment>
-                      <Icon id="lock" />
-                    </PasswordInput.Adornment>
-                  }
-                />
-
-                {fetcher.data?.errors.fieldErrors.password != null ? (
-                  <Form.ErrorMessage id="password-error">
-                    {fetcher.data?.errors.fieldErrors.password}
-                  </Form.ErrorMessage>
-                ) : null}
-              </Form.Field>
-            </Form.Fields>
-
-            <Action type="submit">Enregistrer</Action>
-          </fetcher.Form>
-        </section>
-      </section>
-    </main>
+        <Action type="submit">Enregistrer</Action>
+      </fetcher.Form>
+    </AuthPage.Main>
   );
 }
