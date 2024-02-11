@@ -20,7 +20,7 @@ export function SortAndFiltersFloatingAction({
           variant="floating"
           className="fixed z-20 bottom-safe-6 right-safe-1 md:hidden"
         >
-          <Icon id="filter" />
+          <Icon href="icon-filter" />
         </Action>
       </Dialog.Trigger>
 

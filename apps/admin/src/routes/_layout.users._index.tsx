@@ -224,7 +224,7 @@ function UserItem({
       </span>
 
       {user.isDisabled ? (
-        <Chip color="orange" icon="ban" title="Bloqué" />
+        <Chip color="orange" icon="icon-ban" title="Bloqué" />
       ) : null}
 
       <span
@@ -232,7 +232,7 @@ function UserItem({
         title="Groupes"
       >
         {user.groups.map((group) => (
-          <Icon key={group} id={GROUP_ICON[group]} />
+          <Icon key={group} href={GROUP_ICON[group]} />
         ))}
       </span>
     </BaseLink>

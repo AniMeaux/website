@@ -6,7 +6,7 @@ import {
   DataUrlOrDynamicImage,
   isImageOverSize,
 } from "#core/data-display/image";
-import type { IconProps } from "#generated/icon";
+import type { IconName } from "#generated/icon";
 import { Icon } from "#generated/icon";
 import { cn } from "@animeaux/core";
 import { Primitive } from "@animeaux/react-primitives";
@@ -35,7 +35,7 @@ function ImageInputTrigger({
   ...rest
 }: Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "children" | "type"> & {
   hasError?: boolean;
-  icon: IconProps["id"];
+  icon: IconName;
   label: React.ReactNode;
 }) {
   return (
@@ -48,7 +48,7 @@ function ImageInputTrigger({
         "flex flex-col items-center justify-center gap-0.5 rounded-1 border border-dashed border-gray-300 text-blue-500 transition-colors duration-100 ease-in-out data-[invalid=true]:border-red-500 focus-visible:border-0 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 focus-visible:ring-outset data-[invalid=true]:focus-visible:ring-red-500 hover:border-gray-500 data-[invalid=true]:hover:border-red-500",
       )}
     >
-      <Icon id={icon} className="text-[30px]" />
+      <Icon href={icon} className="text-[30px]" />
       <span className="text-body-emphasis">{label}</span>
     </button>
   );

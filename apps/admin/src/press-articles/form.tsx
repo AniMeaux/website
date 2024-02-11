@@ -129,7 +129,7 @@ export function PressArticleForm({
               aria-describedby="url-error"
               leftAdornment={
                 <Input.Adornment>
-                  <Icon id="globe" />
+                  <Icon href="icon-globe" />
                 </Input.Adornment>
               }
             />
@@ -219,7 +219,7 @@ export function PressArticleForm({
                 aria-describedby="publisherName-error"
                 leftAdornment={
                   <Input.Adornment>
-                    <Icon id="pen-nib" />
+                    <Icon href="icon-pen-nib" />
                   </Input.Adornment>
                 }
               />
@@ -263,7 +263,7 @@ export function PressArticleForm({
                 aria-describedby="publicationDate-error"
                 leftAdornment={
                   <Input.Adornment>
-                    <Icon id="calendar-days" />
+                    <Icon href="icon-calendar-days" />
                   </Input.Adornment>
                 }
               />
@@ -306,7 +306,7 @@ export function PressArticleForm({
               aria-describedby="image-error"
               leftAdornment={
                 <Input.Adornment>
-                  <Icon id="image" />
+                  <Icon href="icon-image" />
                 </Input.Adornment>
               }
             />

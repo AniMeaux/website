@@ -137,7 +137,7 @@ export default function Route() {
               placeholder="jean@mail.com"
               leftAdornment={
                 <Input.Adornment>
-                  <Icon id="envelope" />
+                  <Icon href="icon-envelope" />
                 </Input.Adornment>
               }
             />
@@ -163,7 +163,7 @@ export default function Route() {
               aria-describedby="password-error"
               leftAdornment={
                 <PasswordInput.Adornment>
-                  <Icon id="lock" />
+                  <Icon href="icon-lock" />
                 </PasswordInput.Adornment>
               }
             />

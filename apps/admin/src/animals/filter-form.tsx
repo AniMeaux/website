@@ -115,7 +115,7 @@ export function AnimalFilters({
               label="Date de prise en charge"
               name={AnimalSearchParams.keys.sort}
               value={AnimalSort.PICK_UP}
-              icon={<Icon id="hand-holding-heart" />}
+              icon={<Icon href="icon-hand-holding-heart" />}
               checked={animalSearchParams.sort === AnimalSort.PICK_UP}
               onChange={() => {}}
             />
@@ -125,7 +125,7 @@ export function AnimalFilters({
               label="Alphabétique"
               name={AnimalSearchParams.keys.sort}
               value={AnimalSort.NAME}
-              icon={<Icon id="arrow-down-a-z" />}
+              icon={<Icon href="icon-arrow-down-a-z" />}
               checked={animalSearchParams.sort === AnimalSort.NAME}
               onChange={() => {}}
             />
@@ -135,7 +135,7 @@ export function AnimalFilters({
               label="Date de naissance"
               name={AnimalSearchParams.keys.sort}
               value={AnimalSort.BIRTHDATE}
-              icon={<Icon id="cake-candles" />}
+              icon={<Icon href="icon-cake-candles" />}
               checked={animalSearchParams.sort === AnimalSort.BIRTHDATE}
               onChange={() => {}}
             />
@@ -146,7 +146,7 @@ export function AnimalFilters({
                 label="Date de vaccination"
                 name={AnimalSearchParams.keys.sort}
                 value={AnimalSort.VACCINATION}
-                icon={<Icon id="syringe" />}
+                icon={<Icon href="icon-syringe" />}
                 checked={animalSearchParams.sort === AnimalSort.VACCINATION}
                 onChange={() => {}}
               />
@@ -177,7 +177,7 @@ export function AnimalFilters({
                 label={SPECIES_TRANSLATION[species]}
                 name={AnimalSearchParams.keys.species}
                 value={species}
-                icon={<Icon id={SPECIES_ICON[species]} />}
+                icon={<Icon href={SPECIES_ICON[species]} />}
                 checked={animalSearchParams.species.has(species)}
                 onChange={() => {}}
               />
@@ -230,7 +230,7 @@ export function AnimalFilters({
                     label={AGE_TRANSLATION[age]}
                     name={AnimalSearchParams.keys.ages}
                     value={age}
-                    icon={<Icon id={AGE_ICON[age]} />}
+                    icon={<Icon href={AGE_ICON[age]} />}
                     checked={animalSearchParams.ages.has(age)}
                     onChange={() => {}}
                   />
@@ -250,7 +250,7 @@ export function AnimalFilters({
                 value={toIsoDateValue(animalSearchParams.birthdateStart)}
                 leftAdornment={
                   <ControlledInput.Adornment>
-                    <Icon id="calendar-days" />
+                    <Icon href="icon-calendar-days" />
                   </ControlledInput.Adornment>
                 }
                 rightAdornment={
@@ -266,7 +266,7 @@ export function AnimalFilters({
                         });
                       }}
                     >
-                      <Icon id="x-mark" />
+                      <Icon href="icon-x-mark" />
                     </ControlledInput.ActionAdornment>
                   ) : null
                 }
@@ -285,7 +285,7 @@ export function AnimalFilters({
                 value={toIsoDateValue(animalSearchParams.birthdateEnd)}
                 leftAdornment={
                   <ControlledInput.Adornment>
-                    <Icon id="calendar-days" />
+                    <Icon href="icon-calendar-days" />
                   </ControlledInput.Adornment>
                 }
                 rightAdornment={
@@ -301,7 +301,7 @@ export function AnimalFilters({
                         });
                       }}
                     >
-                      <Icon id="x-mark" />
+                      <Icon href="icon-x-mark" />
                     </ControlledInput.ActionAdornment>
                   ) : null
                 }
@@ -403,7 +403,7 @@ export function AnimalFilters({
                     label={PICK_UP_REASON_TRANSLATION[pickUpReason]}
                     name={AnimalSearchParams.keys.pickUpReasons}
                     value={pickUpReason}
-                    icon={<Icon id={PICK_UP_REASON_ICON[pickUpReason]} />}
+                    icon={<Icon href={PICK_UP_REASON_ICON[pickUpReason]} />}
                     checked={animalSearchParams.pickUpReasons.has(pickUpReason)}
                     onChange={() => {}}
                   />
@@ -423,7 +423,7 @@ export function AnimalFilters({
                 value={toIsoDateValue(animalSearchParams.pickUpDateStart)}
                 leftAdornment={
                   <ControlledInput.Adornment>
-                    <Icon id="calendar-days" />
+                    <Icon href="icon-calendar-days" />
                   </ControlledInput.Adornment>
                 }
                 rightAdornment={
@@ -439,7 +439,7 @@ export function AnimalFilters({
                         });
                       }}
                     >
-                      <Icon id="x-mark" />
+                      <Icon href="icon-x-mark" />
                     </ControlledInput.ActionAdornment>
                   ) : null
                 }
@@ -458,7 +458,7 @@ export function AnimalFilters({
                 value={toIsoDateValue(animalSearchParams.pickUpDateEnd)}
                 leftAdornment={
                   <ControlledInput.Adornment>
-                    <Icon id="calendar-days" />
+                    <Icon href="icon-calendar-days" />
                   </ControlledInput.Adornment>
                 }
                 rightAdornment={
@@ -474,7 +474,7 @@ export function AnimalFilters({
                         });
                       }}
                     >
-                      <Icon id="x-mark" />
+                      <Icon href="icon-x-mark" />
                     </ControlledInput.ActionAdornment>
                   ) : null
                 }
@@ -494,7 +494,7 @@ export function AnimalFilters({
                     label={location}
                     name={AnimalSearchParams.keys.pickUpLocations}
                     value={location}
-                    icon={<Icon id="location-dot" />}
+                    icon={<Icon href="icon-location-dot" />}
                     checked={animalSearchParams.pickUpLocations.has(location)}
                     onChange={() => {}}
                   />
@@ -526,7 +526,7 @@ export function AnimalFilters({
                 label="Oui"
                 name={AnimalSearchParams.keys.sterilizations}
                 value={AnimalSterilization.YES}
-                icon={<Icon id="scissors" />}
+                icon={<Icon href="icon-scissors" />}
                 checked={animalSearchParams.sterilizations.has(
                   AnimalSterilization.YES,
                 )}
@@ -538,7 +538,7 @@ export function AnimalFilters({
                 label="Non"
                 name={AnimalSearchParams.keys.sterilizations}
                 value={AnimalSterilization.NO}
-                icon={<Icon id="scissors" />}
+                icon={<Icon href="icon-scissors" />}
                 checked={animalSearchParams.sterilizations.has(
                   AnimalSterilization.NO,
                 )}
@@ -550,7 +550,7 @@ export function AnimalFilters({
                 label="Non, et ne le sera pas"
                 name={AnimalSearchParams.keys.sterilizations}
                 value={AnimalSterilization.NOT_MANDATORY}
-                icon={<Icon id="scissors" />}
+                icon={<Icon href="icon-scissors" />}
                 checked={animalSearchParams.sterilizations.has(
                   AnimalSterilization.NOT_MANDATORY,
                 )}
@@ -610,7 +610,7 @@ export function AnimalFilters({
                     label="Aucune prévue"
                     name={AnimalSearchParams.keys.vaccination}
                     value={AnimalVaccination.NONE_PLANNED}
-                    icon={<Icon id="syringe" />}
+                    icon={<Icon href="icon-syringe" />}
                     checked={animalSearchParams.vaccination.has(
                       AnimalVaccination.NONE_PLANNED,
                     )}
@@ -622,7 +622,7 @@ export function AnimalFilters({
                     label="Ne sera pas vacciné"
                     name={AnimalSearchParams.keys.vaccination}
                     value={AnimalVaccination.NOT_MANDATORY}
-                    icon={<Icon id="syringe" />}
+                    icon={<Icon href="icon-syringe" />}
                     checked={animalSearchParams.vaccination.has(
                       AnimalVaccination.NOT_MANDATORY,
                     )}
@@ -647,7 +647,7 @@ export function AnimalFilters({
                   )}
                   leftAdornment={
                     <ControlledInput.Adornment>
-                      <Icon id="calendar-days" />
+                      <Icon href="icon-calendar-days" />
                     </ControlledInput.Adornment>
                   }
                   rightAdornment={
@@ -663,7 +663,7 @@ export function AnimalFilters({
                           });
                         }}
                       >
-                        <Icon id="x-mark" />
+                        <Icon href="icon-x-mark" />
                       </ControlledInput.ActionAdornment>
                     ) : null
                   }
@@ -686,7 +686,7 @@ export function AnimalFilters({
                   )}
                   leftAdornment={
                     <ControlledInput.Adornment>
-                      <Icon id="calendar-days" />
+                      <Icon href="icon-calendar-days" />
                     </ControlledInput.Adornment>
                   }
                   rightAdornment={
@@ -702,7 +702,7 @@ export function AnimalFilters({
                           });
                         }}
                       >
-                        <Icon id="x-mark" />
+                        <Icon href="icon-x-mark" />
                       </ControlledInput.ActionAdornment>
                     ) : null
                   }
@@ -761,7 +761,7 @@ export function AnimalFilters({
                     label={ADOPTION_OPTION_TRANSLATION[adoptionOption]}
                     name={AnimalSearchParams.keys.adoptionOptions}
                     value={adoptionOption}
-                    icon={<Icon id={ADOPTION_OPTION_ICON[adoptionOption]} />}
+                    icon={<Icon href={ADOPTION_OPTION_ICON[adoptionOption]} />}
                     checked={animalSearchParams.adoptionOptions.has(
                       adoptionOption,
                     )}
@@ -783,7 +783,7 @@ export function AnimalFilters({
                 value={toIsoDateValue(animalSearchParams.adoptionDateStart)}
                 leftAdornment={
                   <ControlledInput.Adornment>
-                    <Icon id="calendar-days" />
+                    <Icon href="icon-calendar-days" />
                   </ControlledInput.Adornment>
                 }
                 rightAdornment={
@@ -799,7 +799,7 @@ export function AnimalFilters({
                         });
                       }}
                     >
-                      <Icon id="x-mark" />
+                      <Icon href="icon-x-mark" />
                     </ControlledInput.ActionAdornment>
                   ) : null
                 }
@@ -818,7 +818,7 @@ export function AnimalFilters({
                 value={toIsoDateValue(animalSearchParams.adoptionDateEnd)}
                 leftAdornment={
                   <ControlledInput.Adornment>
-                    <Icon id="calendar-days" />
+                    <Icon href="icon-calendar-days" />
                   </ControlledInput.Adornment>
                 }
                 rightAdornment={
@@ -834,7 +834,7 @@ export function AnimalFilters({
                         });
                       }}
                     >
-                      <Icon id="x-mark" />
+                      <Icon href="icon-x-mark" />
                     </ControlledInput.ActionAdornment>
                   ) : null
                 }
@@ -944,7 +944,7 @@ export function AnimalFilters({
                     });
                   }}
                 >
-                  <Icon id="x-mark" />
+                  <Icon href="icon-x-mark" />
                 </ControlledInput.ActionAdornment>
               ) : null
             }
@@ -966,7 +966,7 @@ function ActiveFilterLink() {
   return (
     <Action asChild variant="secondary" color={isActive ? "blue" : "gray"}>
       <BaseLink replace to={{ search: toSearchParams.toString() }}>
-        {isActive ? <Icon id="check" /> : null}
+        {isActive ? <Icon href="icon-check" /> : null}
         Animaux en charge
       </BaseLink>
     </Action>
@@ -991,7 +991,7 @@ function ManagerActiveFilterLink({
   return (
     <Action asChild variant="secondary" color={isActive ? "blue" : "gray"}>
       <BaseLink replace to={{ search: toSearchParams.toString() }}>
-        {isActive ? <Icon id="check" /> : null}À votre charge
+        {isActive ? <Icon href="icon-check" /> : null}À votre charge
       </BaseLink>
     </Action>
   );
@@ -1065,7 +1065,7 @@ function ScreeningAndDiagnosisFilter({
                 label={SCREENING_RESULT_TRANSLATION[result][Gender.MALE]}
                 name={AnimalSearchParams.keys.fivResults}
                 value={result}
-                icon={<Icon id={SCREENING_RESULT_ICON[result]} />}
+                icon={<Icon href={SCREENING_RESULT_ICON[result]} />}
                 checked={animalSearchParams.fivResults.has(result)}
                 onChange={() => {}}
               />
@@ -1086,7 +1086,7 @@ function ScreeningAndDiagnosisFilter({
                 label={SCREENING_RESULT_TRANSLATION[result][Gender.MALE]}
                 name={AnimalSearchParams.keys.felvResults}
                 value={result}
-                icon={<Icon id={SCREENING_RESULT_ICON[result]} />}
+                icon={<Icon href={SCREENING_RESULT_ICON[result]} />}
                 checked={animalSearchParams.felvResults.has(result)}
                 onChange={() => {}}
               />
@@ -1108,7 +1108,7 @@ function ScreeningAndDiagnosisFilter({
                   label={DIAGNOSIS_TRANSLATION[diagnosis][Gender.MALE]}
                   name={AnimalSearchParams.keys.diagnosis}
                   value={diagnosis}
-                  icon={<Icon id="shield-dog" />}
+                  icon={<Icon href="icon-shield-dog" />}
                   checked={animalSearchParams.diagnosis.has(diagnosis)}
                   onChange={() => {}}
                 />

@@ -134,11 +134,11 @@ const InputTrigger = forwardRef<
         key="remove"
         onClick={() => setBreed(null)}
       >
-        <Icon id="x-mark" />
+        <Icon href="icon-x-mark" />
       </BaseTextInput.ActionAdornment>
     ) : null,
     <BaseTextInput.Adornment key="caret">
-      <Icon id="caret-down" />
+      <Icon href="icon-caret-down" />
     </BaseTextInput.Adornment>,
   ].filter(Boolean);
 
@@ -164,7 +164,7 @@ const InputTrigger = forwardRef<
         side="left"
         adornment={
           <BaseTextInput.Adornment>
-            <Icon id="dna" />
+            <Icon href="icon-dna" />
           </BaseTextInput.Adornment>
         }
       />
@@ -239,7 +239,7 @@ function Combobox({
               key={breed.id}
               {...combobox.getItemProps({ item: breed, index })}
               isValue={selectedBreed?.id === breed.id}
-              leftAdornment={<Icon id="dna" />}
+              leftAdornment={<Icon href="icon-dna" />}
               label={breed._highlighted.name}
             />
           ))}

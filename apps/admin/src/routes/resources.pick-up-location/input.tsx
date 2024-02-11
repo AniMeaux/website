@@ -132,7 +132,7 @@ const InputTrigger = forwardRef<
         side="left"
         adornment={
           <BaseTextInput.Adornment>
-            <Icon id="location-dot" />
+            <Icon href="icon-location-dot" />
           </BaseTextInput.Adornment>
         }
       />
@@ -141,7 +141,7 @@ const InputTrigger = forwardRef<
         side="right"
         adornment={
           <BaseTextInput.Adornment>
-            <Icon id="caret-down" />
+            <Icon href="icon-caret-down" />
           </BaseTextInput.Adornment>
         }
       />
@@ -249,7 +249,7 @@ function Combobox({
               {...combobox.getItemProps({ item: pickUpLocation, index })}
               isValue={selectedPickUpLocation === pickUpLocation.value}
               isAdditional={pickUpLocation.isAdditional}
-              leftAdornment={<Icon id="location-dot" />}
+              leftAdornment={<Icon href="icon-location-dot" />}
               label={pickUpLocation._highlighted.value}
             />
           ))}

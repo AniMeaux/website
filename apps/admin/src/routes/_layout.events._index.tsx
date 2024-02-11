@@ -164,7 +164,7 @@ function EventItem({
           <span className="absolute bottom-0 left-0 flex w-full p-0.5">
             <Chip
               color="orange"
-              icon="eye-slash"
+              icon="icon-eye-slash"
               title="L’évènement n’est pas visible."
             />
           </span>

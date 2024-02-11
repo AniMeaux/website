@@ -1,6 +1,6 @@
 import type { ActionColor } from "#core/actions";
 import { Action } from "#core/actions";
-import type { IconProps } from "#generated/icon";
+import type { IconName } from "#generated/icon";
 import { Icon } from "#generated/icon";
 import { cn } from "@animeaux/core";
 
@@ -8,7 +8,7 @@ type HelperVariant = "error" | "info" | "success" | "warning";
 
 type BlockHelperProps = {
   children?: React.ReactNode;
-  icon?: IconProps["id"];
+  icon?: IconName;
   variant: HelperVariant;
 };
 
@@ -22,7 +22,7 @@ export function BlockHelper({ children, icon, variant }: BlockHelperProps) {
       )}
     >
       <span className="flex text-[20px]">
-        <Icon id={icon ?? VARIANT_ICON[variant]} />
+        <Icon href={icon ?? VARIANT_ICON[variant]} />
       </span>
 
       <p className="text-body-emphasis">{children}</p>
@@ -40,7 +40,7 @@ const BLOCK_VARIANT_CLASS_NAME: Record<HelperVariant, string> = {
 export type InlineHelperProps = {
   action?: React.ReactElement;
   children?: React.ReactNode;
-  icon?: IconProps["id"];
+  icon?: IconName;
   variant: HelperVariant;
 };
 
@@ -58,7 +58,7 @@ export function InlineHelper({
       )}
     >
       <span className="flex text-[20px]">
-        <Icon id={icon ?? VARIANT_ICON[variant]} />
+        <Icon href={icon ?? VARIANT_ICON[variant]} />
       </span>
 
       <p className="text-body-emphasis">{children}</p>
@@ -82,7 +82,7 @@ const VARIANT_ACTION_COLOR: Record<HelperVariant, ActionColor> = {
 export type DenseHelperProps = {
   children?: React.ReactNode;
   className?: string;
-  icon?: IconProps["id"];
+  icon?: IconName;
   variant: HelperVariant;
 };
 
@@ -101,7 +101,7 @@ export function DenseHelper({
       )}
     >
       <span className="flex h-2 items-center">
-        <Icon id={icon ?? VARIANT_ICON[variant]} />
+        <Icon href={icon ?? VARIANT_ICON[variant]} />
       </span>
 
       <p className="text-caption-emphasis">{children}</p>
@@ -116,9 +116,9 @@ const VARIANT_CLASS_NAME: Record<HelperVariant, string> = {
   warning: "bg-orange-50 text-orange-500",
 };
 
-const VARIANT_ICON: Record<HelperVariant, IconProps["id"]> = {
-  error: "circle-exclamation",
-  info: "circle-info",
-  success: "circle-check",
-  warning: "triangle-exclamation",
+const VARIANT_ICON: Record<HelperVariant, IconName> = {
+  error: "icon-circle-exclamation",
+  info: "icon-circle-info",
+  success: "icon-circle-check",
+  warning: "icon-triangle-exclamation",
 };

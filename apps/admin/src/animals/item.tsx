@@ -64,7 +64,11 @@ export function AnimalItem({
     switch (state) {
       case "past": {
         vaccinationChip = (
-          <Chip color="red" icon="syringe" title="Date de vaccination passée" />
+          <Chip
+            color="red"
+            icon="icon-syringe"
+            title="Date de vaccination passée"
+          />
         );
 
         break;
@@ -72,7 +76,7 @@ export function AnimalItem({
 
       case "up-comming": {
         vaccinationChip = (
-          <Chip color="orange" icon="syringe" title="Vaccination prévue" />
+          <Chip color="orange" icon="icon-syringe" title="Vaccination prévue" />
         );
         break;
       }
@@ -104,7 +108,7 @@ export function AnimalItem({
             {hasUpCommingSterilisation(animal) ? (
               <Chip
                 color="orange"
-                icon="scissors"
+                icon="icon-scissors"
                 title="Stérilisation à prévoir"
               />
             ) : null}
@@ -125,7 +129,7 @@ export function AnimalItem({
             )}
             title={GENDER_TRANSLATION[animal.gender]}
           >
-            <Icon id={GENDER_ICON[animal.gender]} />
+            <Icon href={GENDER_ICON[animal.gender]} />
           </span>
 
           <span
@@ -187,7 +191,7 @@ export function AnimalSmallItem({
             )}
             title={GENDER_TRANSLATION[animal.gender]}
           >
-            <Icon id={GENDER_ICON[animal.gender]} />
+            <Icon href={GENDER_ICON[animal.gender]} />
           </span>
 
           <span className="flex-1 truncate text-body-emphasis">

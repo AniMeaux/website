@@ -214,7 +214,7 @@ function PressArticleItem({
                 variant="translucid"
                 color="black"
               >
-                <Icon id="trash" />
+                <Icon href="icon-trash" />
               </Action>
             </Dialog.Trigger>
           </span>

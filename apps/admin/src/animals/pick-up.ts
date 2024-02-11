@@ -1,4 +1,4 @@
-import type { IconProps } from "#generated/icon";
+import type { IconName } from "#generated/icon";
 import { PickUpReason } from "@prisma/client";
 import orderBy from "lodash.orderby";
 
@@ -11,13 +11,13 @@ export const PICK_UP_REASON_TRANSLATION: Record<PickUpReason, string> = {
   [PickUpReason.OTHER]: "Autre raison",
 };
 
-export const PICK_UP_REASON_ICON: Record<PickUpReason, IconProps["id"]> = {
-  [PickUpReason.ABANDONMENT]: "heart-crack",
-  [PickUpReason.BIRTH]: "cake-candles",
-  [PickUpReason.DECEASED_MASTER]: "cross",
-  [PickUpReason.MISTREATMENT]: "siren-on",
-  [PickUpReason.STRAY_ANIMAL]: "cat-tree",
-  [PickUpReason.OTHER]: "circle-question",
+export const PICK_UP_REASON_ICON: Record<PickUpReason, IconName> = {
+  [PickUpReason.ABANDONMENT]: "icon-heart-crack",
+  [PickUpReason.BIRTH]: "icon-cake-candles",
+  [PickUpReason.DECEASED_MASTER]: "icon-cross",
+  [PickUpReason.MISTREATMENT]: "icon-siren-on",
+  [PickUpReason.STRAY_ANIMAL]: "icon-cat-tree",
+  [PickUpReason.OTHER]: "icon-circle-question",
 };
 
 export const SORTED_PICK_UP_REASON = orderBy(

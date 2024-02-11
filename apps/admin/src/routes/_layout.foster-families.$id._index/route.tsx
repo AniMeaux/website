@@ -317,7 +317,7 @@ function FosterAnimalsCard() {
             {fosterFamily.availability === FosterFamilyAvailability.AVAILABLE &&
             fosterFamily.availabilityExpirationDate != null ? (
               <span className="grid grid-cols-1 px-1 md:px-2">
-                <InlineHelper variant="warning" icon="clock">
+                <InlineHelper variant="warning" icon="icon-clock">
                   {fosterFamily.displayName} ne sera plus disponible à partir du{" "}
                   {DateTime.fromISO(fosterFamily.availabilityExpirationDate)
                     .plus({ days: 1 })
@@ -388,7 +388,7 @@ function ActionCard() {
             }
           >
             <Action variant="secondary" color="red">
-              <Icon id="trash" />
+              <Icon href="icon-trash" />
               Supprimer
             </Action>
           </Dialog.Trigger>

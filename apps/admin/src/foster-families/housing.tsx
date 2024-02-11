@@ -16,10 +16,10 @@ export const HOUSING_TRANSLATION: Record<FosterFamilyHousing, string> = {
 };
 
 export const ICON_BY_HOUSING: Record<FosterFamilyHousing, React.ReactNode> = {
-  [FosterFamilyHousing.FLAT]: <Icon id="building" />,
-  [FosterFamilyHousing.HOUSE]: <Icon id="house" />,
-  [FosterFamilyHousing.OTHER]: <Icon id="tent" />,
-  [FosterFamilyHousing.UNKNOWN]: <Icon id="house-building" />,
+  [FosterFamilyHousing.FLAT]: <Icon href="icon-building" />,
+  [FosterFamilyHousing.HOUSE]: <Icon href="icon-house" />,
+  [FosterFamilyHousing.OTHER]: <Icon href="icon-tent" />,
+  [FosterFamilyHousing.UNKNOWN]: <Icon href="icon-house-building" />,
 };
 
 export const SORTED_GARDEN = [
@@ -35,7 +35,7 @@ export const GARDEN_TRANSLATION: Record<FosterFamilyGarden, string> = {
 };
 
 export const ICON_BY_GARDEN: Record<FosterFamilyGarden, React.ReactNode> = {
-  [FosterFamilyGarden.NO]: <Icon id="tree-slash" />,
-  [FosterFamilyGarden.UNKNOWN]: <Icon id="tree-question" />,
-  [FosterFamilyGarden.YES]: <Icon id="tree" />,
+  [FosterFamilyGarden.NO]: <Icon href="icon-tree-slash" />,
+  [FosterFamilyGarden.UNKNOWN]: <Icon href="icon-tree-question" />,
+  [FosterFamilyGarden.YES]: <Icon href="icon-tree" />,
 };
