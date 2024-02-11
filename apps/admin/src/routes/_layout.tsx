@@ -178,7 +178,7 @@ function getNavigationItems(currentUser: Pick<User, "groups">) {
 const ALL_NAVIGATION_ITEMS: NavigationItem[] = [
   {
     to: Routes.dashboard.toString(),
-    icon: "icon-table",
+    icon: "icon-table-layout",
     label: "Tableau de bord",
     authorizedGroups: [UserGroup.ADMIN, UserGroup.ANIMAL_MANAGER],
   },
