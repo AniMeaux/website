@@ -1,5 +1,5 @@
 import { isDefined } from "#core/is-defined";
-import type { IconProps } from "#generated/icon";
+import type { IconName } from "#generated/icon";
 import type { Animal, Breed, Color } from "@prisma/client";
 import { Species } from "@prisma/client";
 import orderBy from "lodash.orderby";
@@ -12,12 +12,12 @@ export const SPECIES_TRANSLATION: Record<Species, string> = {
   [Species.RODENT]: "Rongeur",
 };
 
-export const SPECIES_ICON: Record<Species, IconProps["id"]> = {
-  [Species.BIRD]: "bird",
-  [Species.CAT]: "cat",
-  [Species.DOG]: "dog",
-  [Species.REPTILE]: "turtle",
-  [Species.RODENT]: "rabbit",
+export const SPECIES_ICON: Record<Species, IconName> = {
+  [Species.BIRD]: "icon-bird",
+  [Species.CAT]: "icon-cat",
+  [Species.DOG]: "icon-dog",
+  [Species.REPTILE]: "icon-turtle",
+  [Species.RODENT]: "icon-rabbit",
 };
 
 export const SORTED_SPECIES = orderBy(

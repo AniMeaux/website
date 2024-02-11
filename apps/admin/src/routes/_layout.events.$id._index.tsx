@@ -117,7 +117,7 @@ export default function Route() {
     <PageLayout>
       <PageLayout.Content className="flex flex-col gap-1 md:gap-2">
         {!event.isVisible ? (
-          <BlockHelper variant="warning" icon="eye-slash">
+          <BlockHelper variant="warning" icon="icon-eye-slash">
             L’évènement n’est pas visible.
           </BlockHelper>
         ) : null}
@@ -182,18 +182,20 @@ function DetailsCard() {
 
       <Card.Content>
         <ItemList>
-          <SimpleItem icon={<Icon id="calendar-days" />}>
+          <SimpleItem icon={<Icon href="icon-calendar-days" />}>
             {formatDateRange(event.startDate, event.endDate, {
               showTime: !event.isFullDay,
             })}
           </SimpleItem>
 
-          <SimpleItem icon={<Icon id="location-dot" />}>
+          <SimpleItem icon={<Icon href="icon-location-dot" />}>
             {event.location}
           </SimpleItem>
 
           {event.url != null ? (
-            <SimpleItem icon={<Icon id="globe" />}>{event.url}</SimpleItem>
+            <SimpleItem icon={<Icon href="icon-globe" />}>
+              {event.url}
+            </SimpleItem>
           ) : null}
         </ItemList>
       </Card.Content>
@@ -253,7 +255,7 @@ function ActionCard() {
         <Dialog>
           <Dialog.Trigger asChild>
             <Action variant="secondary" color="red">
-              <Icon id="trash" />
+              <Icon href="icon-trash" />
               Supprimer
             </Action>
           </Dialog.Trigger>

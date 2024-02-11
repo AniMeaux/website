@@ -87,8 +87,9 @@ type IconDescriptor = {
 
   /**
    * Unique identifier of an icon.
+   * We use a prefix to easily search them in source code.
    */
-  iconName: string;
+  iconName: `icon-${string}`;
 };
 
 /**
@@ -103,7 +104,7 @@ async function getAllIcons() {
   filenames.sort();
 
   return filenames.map<IconDescriptor>((filename) => ({
-    iconName: basename(filename, ".svg"),
+    iconName: `icon-${basename(filename, ".svg")}`,
     pathname: join(ICON_SRC_DIRECTORY, filename),
   }));
 }
@@ -121,10 +122,10 @@ import { forwardRef } from "react";
 
 export const Icon = forwardRef<
   React.ComponentRef<"svg">,
-  Omit<React.ComponentPropsWithoutRef<"svg">, "id"> & {
-    id: IconName;
+  Omit<React.ComponentPropsWithoutRef<"svg">, "href"> & {
+    href: IconName;
   }
->(function Icon({ id, ...props }, ref) {
+>(function Icon({ href, ...props }, ref) {
   return (
     <svg
       width="1em"
@@ -134,12 +135,10 @@ export const Icon = forwardRef<
       {...props}
       ref={ref}
     >
-      <use href={\`\${sprite}#\${id}\`} />
+      <use href={\`\${sprite}#\${href}\`} />
     </svg>
   );
 });
-
-export type IconProps = React.ComponentPropsWithoutRef<typeof Icon>;
 
 export type IconName = 
 ${icons.map((icon) => `  | "${icon.iconName}"`).join("\n")};

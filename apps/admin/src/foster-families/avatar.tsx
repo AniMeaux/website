@@ -12,7 +12,7 @@ export function FosterFamilyAvatar({
 }) {
   return (
     <Avatar {...props} color={AVATAR_COLOR_BY_AVAILABILITY[availability]}>
-      <Icon id="house" />
+      <Icon href="icon-house" />
     </Avatar>
   );
 }

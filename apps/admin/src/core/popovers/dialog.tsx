@@ -1,7 +1,7 @@
 import type { ActionColor } from "#core/actions";
 import { Action } from "#core/actions";
 import { Overlay } from "#core/popovers/overlay";
-import type { IconProps } from "#generated/icon";
+import type { IconName } from "#generated/icon";
 import { Icon } from "#generated/icon";
 import { cn } from "@animeaux/core";
 import * as RadixDialog from "@radix-ui/react-dialog";
@@ -64,7 +64,7 @@ Dialog.Header = function DialogHeader({
   return (
     <header className="grid grid-cols-[auto_minmax(0px,1fr)] gap-1">
       <Icon
-        id={VARIANT_ICON[variant]}
+        href={VARIANT_ICON[variant]}
         className={cn("text-[20px]", VARIANT_ICON_CLASS_NAME[variant])}
       />
 
@@ -75,9 +75,9 @@ Dialog.Header = function DialogHeader({
   );
 };
 
-const VARIANT_ICON: Record<DialogVariant, IconProps["id"]> = {
-  alert: "circle-exclamation",
-  warning: "triangle-exclamation",
+const VARIANT_ICON: Record<DialogVariant, IconName> = {
+  alert: "icon-circle-exclamation",
+  warning: "icon-triangle-exclamation",
 };
 
 const VARIANT_ICON_CLASS_NAME: Record<DialogVariant, string> = {

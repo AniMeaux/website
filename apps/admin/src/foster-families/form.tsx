@@ -167,7 +167,7 @@ export function FosterFamilyForm({
               aria-describedby="displayName-error"
               leftAdornment={
                 <Input.Adornment>
-                  <Icon id="user" />
+                  <Icon href="icon-user" />
                 </Input.Adornment>
               }
             />
@@ -197,7 +197,7 @@ export function FosterFamilyForm({
               aria-describedby="phone-error"
               leftAdornment={
                 <Input.Adornment>
-                  <Icon id="phone" />
+                  <Icon href="icon-phone" />
                 </Input.Adornment>
               }
             />
@@ -225,7 +225,7 @@ export function FosterFamilyForm({
               aria-describedby="email-error"
               leftAdornment={
                 <Input.Adornment>
-                  <Icon id="envelope" />
+                  <Icon href="icon-envelope" />
                 </Input.Adornment>
               }
             />
@@ -252,7 +252,7 @@ export function FosterFamilyForm({
               aria-describedby="address-error"
               leftAdornment={
                 <Input.Adornment>
-                  <Icon id="location-dot" />
+                  <Icon href="icon-location-dot" />
                 </Input.Adornment>
               }
             />
@@ -282,7 +282,7 @@ export function FosterFamilyForm({
                 aria-describedby="zipCode-error"
                 leftAdornment={
                   <Input.Adornment>
-                    <Icon id="location-dot" />
+                    <Icon href="icon-location-dot" />
                   </Input.Adornment>
                 }
               />
@@ -309,7 +309,7 @@ export function FosterFamilyForm({
                 aria-describedby="city-error"
                 leftAdornment={
                   <Input.Adornment>
-                    <Icon id="location-dot" />
+                    <Icon href="icon-location-dot" />
                   </Input.Adornment>
                 }
               />
@@ -381,7 +381,7 @@ export function FosterFamilyForm({
                   }
                   leftAdornment={
                     <Input.Adornment>
-                      <Icon id="calendar-days" />
+                      <Icon href="icon-calendar-days" />
                     </Input.Adornment>
                   }
                   rightAdornment={
@@ -389,7 +389,7 @@ export function FosterFamilyForm({
                       <Input.ActionAdornment
                         onClick={() => setAvailabilityExpirationDateState("")}
                       >
-                        <Icon id="x-mark" />
+                        <Icon href="icon-x-mark" />
                       </Input.ActionAdornment>
                     ) : null
                   }

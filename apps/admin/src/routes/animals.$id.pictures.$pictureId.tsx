@@ -93,7 +93,7 @@ export default function Route() {
               visiblePictureIndex + 1
             })`}
           >
-            <Icon id="download" />
+            <Icon href="icon-download" />
             Télécharger
           </DownloadPictureLink>
         </Action>

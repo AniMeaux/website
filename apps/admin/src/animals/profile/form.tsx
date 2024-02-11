@@ -194,7 +194,7 @@ export function AnimalProfileForm({
                 leftAdornment={
                   speciesState != null ? (
                     <Input.Adornment>
-                      <Icon id={SPECIES_ICON[speciesState]} />
+                      <Icon href={SPECIES_ICON[speciesState]} />
                     </Input.Adornment>
                   ) : null
                 }
@@ -217,7 +217,7 @@ export function AnimalProfileForm({
                 defaultValue={defaultAnimal?.alias ?? undefined}
                 leftAdornment={
                   <Input.Adornment>
-                    <Icon id="comment" />
+                    <Icon href="icon-comment" />
                   </Input.Adornment>
                 }
               />
@@ -239,7 +239,7 @@ export function AnimalProfileForm({
               aria-describedby="birthdate-error"
               leftAdornment={
                 <Input.Adornment>
-                  <Icon id="calendar-days" />
+                  <Icon href="icon-calendar-days" />
                 </Input.Adornment>
               }
             />
@@ -293,7 +293,7 @@ export function AnimalProfileForm({
               defaultValue={defaultAnimal?.iCadNumber ?? undefined}
               leftAdornment={
                 <Input.Adornment>
-                  <Icon id="fingerprint" />
+                  <Icon href="icon-fingerprint" />
                 </Input.Adornment>
               }
             />

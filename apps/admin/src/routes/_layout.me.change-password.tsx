@@ -95,7 +95,7 @@ export default function Route() {
                       aria-describedby="password-error"
                       leftAdornment={
                         <PasswordInput.Adornment>
-                          <Icon id="lock" />
+                          <Icon href="icon-lock" />
                         </PasswordInput.Adornment>
                       }
                     />

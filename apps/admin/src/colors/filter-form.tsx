@@ -46,7 +46,7 @@ export function ColorFilterForm() {
               label="Alphabétique"
               name={ColorSearchParams.keys.sort}
               value={ColorSort.NAME}
-              icon={<Icon id="arrow-down-a-z" />}
+              icon={<Icon href="icon-arrow-down-a-z" />}
               checked={colorSearchParams.sort === ColorSort.NAME}
               onChange={() => {}}
             />
@@ -56,7 +56,7 @@ export function ColorFilterForm() {
               label="Nombre d’animaux"
               name={ColorSearchParams.keys.sort}
               value={ColorSort.ANIMAL_COUNT}
-              icon={<Icon id="arrow-down-9-1" />}
+              icon={<Icon href="icon-arrow-down-9-1" />}
               checked={colorSearchParams.sort === ColorSort.ANIMAL_COUNT}
               onChange={() => {}}
             />
@@ -91,7 +91,7 @@ export function ColorFilterForm() {
                     });
                   }}
                 >
-                  <Icon id="x-mark" />
+                  <Icon href="icon-x-mark" />
                 </ControlledInput.ActionAdornment>
               ) : null
             }

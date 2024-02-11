@@ -1,6 +1,6 @@
 import type { BaseLinkProps } from "#core/base-link";
 import { BaseLink } from "#core/base-link";
-import type { IconProps } from "#generated/icon";
+import type { IconName } from "#generated/icon";
 import { Icon } from "#generated/icon";
 import { theme } from "#generated/theme";
 import { cn } from "@animeaux/core";
@@ -30,7 +30,7 @@ TabBar.Item = function TabBarItem({
   icon,
   to,
 }: {
-  icon: IconProps["id"];
+  icon: IconName;
   to: BaseLinkProps["to"];
 }) {
   return (
@@ -47,7 +47,7 @@ TabBar.Item = function TabBarItem({
         )
       }
     >
-      <Icon id={icon} />
+      <Icon href={icon} />
     </BaseLink>
   );
 };
@@ -56,7 +56,7 @@ TabBar.Menu = function TabBarMenu({
   icon,
   children,
 }: {
-  icon: IconProps["id"];
+  icon: IconName;
   children?: React.ReactNode;
 }) {
   const [isOpened, setIsOpened] = useState(false);
@@ -69,7 +69,7 @@ TabBar.Menu = function TabBarMenu({
           { "bg-gray-100": isOpened },
         )}
       >
-        <Icon id={icon} />
+        <Icon href={icon} />
       </DropdownMenu.Trigger>
 
       <DropdownMenu.Portal>
@@ -91,7 +91,7 @@ TabBar.MenuItem = function TabBarMenuItem({
   label,
   to,
 }: {
-  icon: IconProps["id"];
+  icon: IconName;
   label: string;
   to: BaseLinkProps["to"];
 }) {
@@ -110,7 +110,7 @@ TabBar.MenuItem = function TabBarMenuItem({
             )}
           >
             <span className="flex h-4 w-4 items-center justify-center text-[20px]">
-              <Icon id={icon} />
+              <Icon href={icon} />
             </span>
 
             <span className="text-body-emphasis">{label}</span>
