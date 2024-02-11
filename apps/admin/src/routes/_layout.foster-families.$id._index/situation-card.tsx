@@ -120,8 +120,8 @@ export function SituationCard() {
 }
 
 const TEXT_BY_HOUSING: Record<FosterFamilyHousing, string> = {
-  [FosterFamilyHousing.FLAT]: "Vie en **appartement**",
-  [FosterFamilyHousing.HOUSE]: "Vie en **maison**",
+  [FosterFamilyHousing.FLAT]: "Vit en **appartement**",
+  [FosterFamilyHousing.HOUSE]: "Vit en **maison**",
   [FosterFamilyHousing.OTHER]: "**Autre** type de logement",
   [FosterFamilyHousing.UNKNOWN]: "Type de logement **inconnu**",
 };
