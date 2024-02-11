@@ -69,7 +69,7 @@ export function BreedForm({
               aria-describedby="name-error"
               leftAdornment={
                 <Input.Adornment>
-                  <Icon id="dna" />
+                  <Icon href="icon-dna" />
                 </Input.Adornment>
               }
             />

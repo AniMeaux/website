@@ -70,7 +70,7 @@ export function FosterFamilyFilters({
                     })
                   }
                 >
-                  <Icon id="x-mark" />
+                  <Icon href="icon-x-mark" />
                 </ControlledInput.ActionAdornment>
               ) : null
             }
@@ -99,7 +99,7 @@ export function FosterFamilyFilters({
                 label={SPECIES_TRANSLATION[species]}
                 name={FosterFamilySearchParams.keys.speciesToHost}
                 value={species}
-                icon={<Icon id={SPECIES_ICON[species]} />}
+                icon={<Icon href={SPECIES_ICON[species]} />}
                 checked={fosterFamilySearchParams.speciesToHost === species}
                 onChange={() => {}}
               />
@@ -130,7 +130,7 @@ export function FosterFamilyFilters({
                 label={SPECIES_TRANSLATION[species]}
                 name={FosterFamilySearchParams.keys.speciesAlreadyPresent}
                 value={species}
-                icon={<Icon id={SPECIES_ICON[species]} />}
+                icon={<Icon href={SPECIES_ICON[species]} />}
                 checked={fosterFamilySearchParams.speciesAlreadyPresent.has(
                   species,
                 )}
@@ -163,7 +163,7 @@ export function FosterFamilyFilters({
                 label={SPECIES_TRANSLATION[species]}
                 name={FosterFamilySearchParams.keys.speciesToAvoid}
                 value={species}
-                icon={<Icon id={SPECIES_ICON[species]} />}
+                icon={<Icon href={SPECIES_ICON[species]} />}
                 checked={fosterFamilySearchParams.speciesToAvoid.has(species)}
                 onChange={() => {}}
               />
@@ -194,7 +194,7 @@ export function FosterFamilyFilters({
             pattern="\d+"
             leftAdornment={
               <ControlledInput.Adornment>
-                <Icon id="location-dot" />
+                <Icon href="icon-location-dot" />
               </ControlledInput.Adornment>
             }
             rightAdornment={
@@ -210,7 +210,7 @@ export function FosterFamilyFilters({
                     })
                   }
                 >
-                  <Icon id="x-mark" />
+                  <Icon href="icon-x-mark" />
                 </ControlledInput.ActionAdornment>
               ) : null
             }
@@ -240,7 +240,7 @@ export function FosterFamilyFilters({
                 label={city}
                 name={FosterFamilySearchParams.keys.cities}
                 value={city}
-                icon={<Icon id="location-dot" />}
+                icon={<Icon href="icon-location-dot" />}
                 checked={fosterFamilySearchParams.cities.has(city)}
                 onChange={() => {}}
               />

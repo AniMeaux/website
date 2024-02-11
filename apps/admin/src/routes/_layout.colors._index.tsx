@@ -225,7 +225,7 @@ export function ColorItem({
         className,
       )}
     >
-      <Icon id="palette" className="text-[20px] text-gray-600" />
+      <Icon href="icon-palette" className="text-[20px] text-gray-600" />
 
       <span className="flex flex-col md:flex-row md:gap-2">
         <span className="text-body-emphasis">{color.name}</span>
@@ -239,7 +239,7 @@ export function ColorItem({
       <span className="flex h-2 items-center gap-0.5">
         <Action asChild variant="text" color="gray" isIconOnly title="Modifier">
           <BaseLink to={Routes.colors.id(color.id).edit.toString()}>
-            <Icon id="pen" />
+            <Icon href="icon-pen" />
           </BaseLink>
         </Action>
 
@@ -256,7 +256,7 @@ export function ColorItem({
               }
               disabled={color._count.animals > 0}
             >
-              <Icon id="trash" />
+              <Icon href="icon-trash" />
             </Action>
           </Dialog.Trigger>
 

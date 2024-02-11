@@ -140,7 +140,7 @@ export function GlobalSearch({
           side="left"
           adornment={
             <BaseTextInput.Adornment>
-              <Icon id="magnifying-glass" />
+              <Icon href="icon-magnifying-glass" />
             </BaseTextInput.Adornment>
           }
         />
@@ -317,14 +317,14 @@ function Combobox({
                 <span className="flex md:hidden">
                   <Dialog.Close asChild>
                     <Input.ActionAdornment>
-                      <Icon id="angle-left" />
+                      <Icon href="icon-angle-left" />
                     </Input.ActionAdornment>
                   </Dialog.Close>
                 </span>
 
                 <span className="hidden md:flex">
                   <Input.Adornment>
-                    <Icon id="magnifying-glass" />
+                    <Icon href="icon-magnifying-glass" />
                   </Input.Adornment>
                 </span>
               </>
@@ -351,7 +351,7 @@ function Combobox({
                 <SuggestionItem
                   key="search-item"
                   {...combobox.getItemProps({ item, index })}
-                  leftAdornment={<Icon id="magnifying-glass" />}
+                  leftAdornment={<Icon href="icon-magnifying-glass" />}
                   label={`Rechercher : **${cleanedInputValue}**`}
                 />
               );

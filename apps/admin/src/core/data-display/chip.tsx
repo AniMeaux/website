@@ -1,4 +1,4 @@
-import type { IconProps } from "#generated/icon";
+import type { IconName } from "#generated/icon";
 import { Icon } from "#generated/icon";
 import { cn } from "@animeaux/core";
 
@@ -12,7 +12,7 @@ export function Chip({
   className,
 }: {
   color: ChipColor;
-  icon?: IconProps["id"];
+  icon?: IconName;
   title?: string;
   children?: React.ReactNode;
   className?: string;
@@ -26,7 +26,7 @@ export function Chip({
         COLOR_CLASS_NAME[color],
       )}
     >
-      {icon != null ? <Icon id={icon} className="text-[14px]" /> : null}
+      {icon != null ? <Icon href={icon} className="text-[14px]" /> : null}
       {children}
     </span>
   );

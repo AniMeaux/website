@@ -79,7 +79,7 @@ export function StatusIcon({
 }) {
   return (
     <Icon
-      id="status"
+      href="icon-status"
       className={cn(className, STATUS_ICON_CLASS_NAMES[status])}
     />
   );

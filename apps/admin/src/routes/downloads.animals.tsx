@@ -84,7 +84,7 @@ export default function Route() {
 
       <div className="grid grid-cols-1 justify-items-end px-1 print:hidden md:px-2">
         <Action onClick={() => window.print()}>
-          <Icon id="print" />
+          <Icon href="icon-print" />
           Imprimer
         </Action>
       </div>
@@ -232,7 +232,7 @@ function AnimalItem({
             animal.gender === Gender.FEMALE ? "text-pink-500" : "text-blue-500",
           )}
         >
-          <Icon id={GENDER_ICON[animal.gender]} />
+          <Icon href={GENDER_ICON[animal.gender]} />
         </span>
 
         <span className="truncate">{animal.name}</span>

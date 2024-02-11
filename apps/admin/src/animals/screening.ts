@@ -1,4 +1,4 @@
-import type { IconProps } from "#generated/icon";
+import type { IconName } from "#generated/icon";
 import { Gender, ScreeningResult } from "@prisma/client";
 import orderBy from "lodash.orderby";
 
@@ -20,10 +20,10 @@ export const SCREENING_RESULT_TRANSLATION: Record<
   },
 };
 
-export const SCREENING_RESULT_ICON: Record<ScreeningResult, IconProps["id"]> = {
-  [ScreeningResult.NEGATIVE]: "virus-slash",
-  [ScreeningResult.POSITIVE]: "virus",
-  [ScreeningResult.UNKNOWN]: "circle-question",
+export const SCREENING_RESULT_ICON: Record<ScreeningResult, IconName> = {
+  [ScreeningResult.NEGATIVE]: "icon-virus-slash",
+  [ScreeningResult.POSITIVE]: "icon-virus",
+  [ScreeningResult.UNKNOWN]: "icon-circle-question",
 };
 
 export const SORTED_SCREENING_RESULTS = orderBy(

@@ -235,7 +235,7 @@ export function BreedItem({
       )}
     >
       <Icon
-        id={SPECIES_ICON[breed.species]}
+        href={SPECIES_ICON[breed.species]}
         className="text-[20px] text-gray-600"
       />
 
@@ -251,7 +251,7 @@ export function BreedItem({
       <span className="flex h-2 items-center gap-0.5">
         <Action asChild variant="text" color="gray" isIconOnly title="Modifier">
           <BaseLink to={Routes.breeds.id(breed.id).edit.toString()}>
-            <Icon id="pen" />
+            <Icon href="icon-pen" />
           </BaseLink>
         </Action>
 
@@ -268,7 +268,7 @@ export function BreedItem({
               }
               disabled={breed._count.animals > 0}
             >
-              <Icon id="trash" />
+              <Icon href="icon-trash" />
             </Action>
           </Dialog.Trigger>
 

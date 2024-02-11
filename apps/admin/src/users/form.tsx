@@ -87,7 +87,7 @@ export function UserForm({
               aria-describedby="displayName-error"
               leftAdornment={
                 <Input.Adornment>
-                  <Icon id="user" />
+                  <Icon href="icon-user" />
                 </Input.Adornment>
               }
             />
@@ -115,7 +115,7 @@ export function UserForm({
               aria-describedby="email-error"
               leftAdornment={
                 <Input.Adornment>
-                  <Icon id="envelope" />
+                  <Icon href="icon-envelope" />
                 </Input.Adornment>
               }
             />
@@ -179,7 +179,7 @@ export function UserForm({
               }
               leftAdornment={
                 <PasswordInput.Adornment>
-                  <Icon id="lock" />
+                  <Icon href="icon-lock" />
                 </PasswordInput.Adornment>
               }
             />

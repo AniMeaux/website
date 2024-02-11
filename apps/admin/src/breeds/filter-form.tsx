@@ -51,7 +51,7 @@ export function BreedFilterForm() {
               label="Alphabétique"
               name={BreedSearchParams.keys.sort}
               value={BreedSort.NAME}
-              icon={<Icon id="arrow-down-a-z" />}
+              icon={<Icon href="icon-arrow-down-a-z" />}
               checked={breedSearchParams.sort === BreedSort.NAME}
               onChange={() => {}}
             />
@@ -61,7 +61,7 @@ export function BreedFilterForm() {
               label="Nombre d’animaux"
               name={BreedSearchParams.keys.sort}
               value={BreedSort.ANIMAL_COUNT}
-              icon={<Icon id="arrow-down-9-1" />}
+              icon={<Icon href="icon-arrow-down-9-1" />}
               checked={breedSearchParams.sort === BreedSort.ANIMAL_COUNT}
               onChange={() => {}}
             />
@@ -91,7 +91,7 @@ export function BreedFilterForm() {
                 label={SPECIES_TRANSLATION[species]}
                 name={BreedSearchParams.keys.species}
                 value={species}
-                icon={<Icon id={SPECIES_ICON[species]} />}
+                icon={<Icon href={SPECIES_ICON[species]} />}
                 checked={breedSearchParams.species.has(species)}
                 onChange={() => {}}
               />
@@ -127,7 +127,7 @@ export function BreedFilterForm() {
                     });
                   }}
                 >
-                  <Icon id="x-mark" />
+                  <Icon href="icon-x-mark" />
                 </ControlledInput.ActionAdornment>
               ) : null
             }

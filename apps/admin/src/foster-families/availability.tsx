@@ -22,13 +22,13 @@ export function AvailabilityIcon({
   availability,
   className,
   ...props
-}: Except<React.ComponentPropsWithoutRef<typeof Icon>, "id"> & {
+}: Except<React.ComponentPropsWithoutRef<typeof Icon>, "href"> & {
   availability: FosterFamilyAvailability;
 }) {
   return (
     <Icon
       {...props}
-      id="status"
+      href="icon-status"
       className={cn(ICON_CLASS_NAMES_BY_AVAILABILITY[availability], className)}
     />
   );

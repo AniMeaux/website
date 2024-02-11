@@ -173,7 +173,7 @@ function GroupCard() {
       <Card.Content>
         <ItemList>
           {currentUser.groups.map((group) => (
-            <SimpleItem key={group} icon={<Icon id={GROUP_ICON[group]} />}>
+            <SimpleItem key={group} icon={<Icon href={GROUP_ICON[group]} />}>
               {GROUP_TRANSLATION[group]}
             </SimpleItem>
           ))}

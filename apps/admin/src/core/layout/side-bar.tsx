@@ -1,6 +1,5 @@
 import type { BaseLinkProps } from "#core/base-link";
 import { BaseLink } from "#core/base-link";
-import type { IconProps } from "#generated/icon";
 import { Icon } from "#generated/icon";
 import { cn } from "@animeaux/core";
 import { Primitive } from "@animeaux/react-primitives";
@@ -28,7 +27,9 @@ export function SideBar({
 
         <SideBar.Item asChild>
           <button onClick={onIsOpenedChange}>
-            <SideBar.ItemIcon id={isOpened ? "angles-left" : "angles-right"} />
+            <SideBar.ItemIcon
+              href={isOpened ? "icon-angles-left" : "icon-angles-right"}
+            />
             <SideBar.ItemContent>Réduire</SideBar.ItemContent>
           </button>
         </SideBar.Item>
@@ -80,10 +81,12 @@ SideBar.Item = function SideBarItem({
   );
 };
 
-SideBar.ItemIcon = function SideBarItemIcon({ id }: { id: IconProps["id"] }) {
+SideBar.ItemIcon = function SideBarItemIcon(
+  props: React.ComponentPropsWithoutRef<typeof Icon>,
+) {
   return (
     <span className="flex h-4 w-4 flex-none items-center justify-center text-[20px]">
-      <Icon id={id} />
+      <Icon {...props} />
     </span>
   );
 };

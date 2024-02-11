@@ -1,4 +1,4 @@
-import type { IconProps } from "#generated/icon";
+import type { IconName } from "#generated/icon";
 import type { User } from "@prisma/client";
 import { UserGroup } from "@prisma/client";
 import intersection from "lodash.intersection";
@@ -18,13 +18,13 @@ export const SORTED_GROUPS = orderBy(
   (group) => GROUP_TRANSLATION[group],
 );
 
-export const GROUP_ICON: Record<UserGroup, IconProps["id"]> = {
-  [UserGroup.ADMIN]: "shield-halved",
-  [UserGroup.ANIMAL_MANAGER]: "paw",
-  [UserGroup.BLOGGER]: "pen-nib",
-  [UserGroup.HEAD_OF_PARTNERSHIPS]: "handshake",
-  [UserGroup.VETERINARIAN]: "stethoscope",
-  [UserGroup.VOLUNTEER]: "people-group",
+export const GROUP_ICON: Record<UserGroup, IconName> = {
+  [UserGroup.ADMIN]: "icon-shield-halved",
+  [UserGroup.ANIMAL_MANAGER]: "icon-paw",
+  [UserGroup.BLOGGER]: "icon-pen-nib",
+  [UserGroup.HEAD_OF_PARTNERSHIPS]: "icon-handshake",
+  [UserGroup.VETERINARIAN]: "icon-stethoscope",
+  [UserGroup.VOLUNTEER]: "icon-people-group",
 };
 
 export function hasGroups(user: Pick<User, "groups">, groups: UserGroup[]) {

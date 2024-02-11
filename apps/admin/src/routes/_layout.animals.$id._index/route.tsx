@@ -261,7 +261,7 @@ function HeaderCard() {
                     : "text-blue-500",
                 )}
               >
-                <Icon id={GENDER_ICON[animal.gender]} />
+                <Icon href={GENDER_ICON[animal.gender]} />
               </div>
 
               <h1>{animal.name}</h1>
@@ -300,11 +300,11 @@ function ProfileCard() {
 
       <Card.Content>
         <ItemList>
-          <SimpleItem icon={<Icon id={SPECIES_ICON[animal.species]} />}>
+          <SimpleItem icon={<Icon href={SPECIES_ICON[animal.species]} />}>
             {getSpeciesLabels(animal)}
           </SimpleItem>
 
-          <SimpleItem icon={<Icon id="cake-candles" />}>
+          <SimpleItem icon={<Icon href="icon-cake-candles" />}>
             {DateTime.fromISO(animal.birthdate).toLocaleString(
               DateTime.DATE_FULL,
             )}{" "}
@@ -312,7 +312,7 @@ function ProfileCard() {
           </SimpleItem>
 
           {animal.iCadNumber != null ? (
-            <SimpleItem icon={<Icon id="fingerprint" />}>
+            <SimpleItem icon={<Icon href="icon-fingerprint" />}>
               I-CAD : {animal.iCadNumber}
             </SimpleItem>
           ) : null}
@@ -399,7 +399,7 @@ function ActionCard() {
         <Dialog>
           <Dialog.Trigger asChild>
             <Action variant="secondary" color="red">
-              <Icon id="trash" />
+              <Icon href="icon-trash" />
               Supprimer
             </Action>
           </Dialog.Trigger>

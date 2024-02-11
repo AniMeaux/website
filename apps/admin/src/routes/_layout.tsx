@@ -8,7 +8,7 @@ import { getPageTitle } from "#core/page-title";
 import { DropdownSheet } from "#core/popovers/dropdown-sheet";
 import { NextSearchParams } from "#core/search-params";
 import { getCurrentUserPreferences } from "#current-user/preferences.server";
-import type { IconProps } from "#generated/icon";
+import type { IconName } from "#generated/icon";
 import { Icon } from "#generated/icon";
 import { theme } from "#generated/theme";
 import nameAndLogo from "#images/name-and-logo.svg";
@@ -101,7 +101,7 @@ function CurrentUserTabBar() {
       ))}
 
       {menuNavigationItems.length > 0 ? (
-        <TabBar.Menu icon="ellipsis">
+        <TabBar.Menu icon="icon-ellipsis">
           {menuNavigationItems.map((item) => (
             <TabBar.MenuItem
               key={item.icon}
@@ -152,7 +152,7 @@ function CurrentUserSideBar() {
         {navigationItems.map((item) => (
           <SideBar.Item asChild key={item.label}>
             <BaseLink isNavLink to={item.to}>
-              <SideBar.ItemIcon id={item.icon} />
+              <SideBar.ItemIcon href={item.icon} />
               <SideBar.ItemContent>{item.label}</SideBar.ItemContent>
             </BaseLink>
           </SideBar.Item>
@@ -164,7 +164,7 @@ function CurrentUserSideBar() {
 
 type NavigationItem = {
   to: BaseLinkProps["to"];
-  icon: IconProps["id"];
+  icon: IconName;
   label: string;
   authorizedGroups: UserGroup[];
 };
@@ -178,13 +178,13 @@ function getNavigationItems(currentUser: Pick<User, "groups">) {
 const ALL_NAVIGATION_ITEMS: NavigationItem[] = [
   {
     to: Routes.dashboard.toString(),
-    icon: "table",
+    icon: "icon-table-layout",
     label: "Tableau de bord",
     authorizedGroups: [UserGroup.ADMIN, UserGroup.ANIMAL_MANAGER],
   },
   {
     to: Routes.animals.toString(),
-    icon: "paw",
+    icon: "icon-paw",
     label: "Animaux",
     authorizedGroups: [
       UserGroup.ADMIN,
@@ -195,37 +195,37 @@ const ALL_NAVIGATION_ITEMS: NavigationItem[] = [
   },
   {
     to: Routes.fosterFamilies.toString(),
-    icon: "house",
+    icon: "icon-house",
     label: "Familles d’accueil",
     authorizedGroups: [UserGroup.ADMIN, UserGroup.ANIMAL_MANAGER],
   },
   {
     to: Routes.events.toString(),
-    icon: "calendar-days",
+    icon: "icon-calendar-days",
     label: "Événements",
     authorizedGroups: [UserGroup.ADMIN],
   },
   {
     to: Routes.users.toString(),
-    icon: "user",
+    icon: "icon-user",
     label: "Utilisateurs",
     authorizedGroups: [UserGroup.ADMIN],
   },
   {
     to: Routes.pressArticles.toString(),
-    icon: "newspaper",
+    icon: "icon-newspaper",
     label: "Articles de presse",
     authorizedGroups: [UserGroup.ADMIN],
   },
   {
     to: Routes.breeds.toString(),
-    icon: "dna",
+    icon: "icon-dna",
     label: "Races",
     authorizedGroups: [UserGroup.ADMIN],
   },
   {
     to: Routes.colors.toString(),
-    icon: "palette",
+    icon: "icon-palette",
     label: "Couleurs",
     authorizedGroups: [UserGroup.ADMIN],
   },
@@ -251,7 +251,7 @@ function CurrentUserMenu() {
         </span>
 
         <span className="hidden text-[20px] text-gray-600 md:inline-flex">
-          <Icon id="caret-down" />
+          <Icon href="icon-caret-down" />
         </span>
       </DropdownSheet.Trigger>
 
@@ -279,7 +279,7 @@ function CurrentUserMenu() {
             className="grid cursor-pointer grid-cols-[auto,minmax(0px,1fr)] items-center rounded-0.5 pr-1 text-left text-gray-500 transition-colors duration-100 ease-in-out active:bg-gray-100 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 hover:bg-gray-100"
           >
             <span className="flex h-4 w-4 items-center justify-center text-[20px]">
-              <Icon id="user" />
+              <Icon href="icon-user" />
             </span>
 
             <span className="text-body-emphasis">Votre profil</span>
@@ -302,7 +302,7 @@ function CurrentUserMenu() {
               className="grid cursor-pointer grid-cols-[auto,minmax(0px,1fr)] items-center rounded-0.5 pr-1 text-left text-gray-500 transition-colors duration-100 ease-in-out active:bg-gray-100 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 hover:bg-gray-100"
             >
               <span className="flex h-4 w-4 items-center justify-center text-[20px]">
-                <Icon id="right-from-bracket" />
+                <Icon href="icon-right-from-bracket" />
               </span>
 
               <span className="text-body-emphasis">Se déconnecter</span>

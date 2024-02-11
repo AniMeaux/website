@@ -183,7 +183,7 @@ export function EventForm({
           ) : imageState === "error" || imageState.image == null ? (
             <ImageInput.Trigger
               label="Choisir"
-              icon="upload"
+              icon="icon-upload"
               onClick={() => imageRef.current?.click()}
               hasError={fetcher.data?.errors?.fieldErrors.image != null}
               className="aspect-4/3"
@@ -205,7 +205,7 @@ export function EventForm({
               <ImageInput.PreviewAction
                 onClick={() => imageRef.current?.click()}
               >
-                <Icon id="upload" />
+                <Icon href="icon-upload" />
                 Changer
               </ImageInput.PreviewAction>
             </ImageInput.Preview>
@@ -271,7 +271,7 @@ export function EventForm({
             aria-describedby="location-error"
             leftAdornment={
               <Input.Adornment>
-                <Icon id="location-dot" />
+                <Icon href="icon-location-dot" />
               </Input.Adornment>
             }
           />
@@ -298,7 +298,7 @@ export function EventForm({
             aria-describedby="url-error"
             leftAdornment={
               <Input.Adornment>
-                <Icon id="globe" />
+                <Icon href="icon-globe" />
               </Input.Adornment>
             }
           />
@@ -349,7 +349,7 @@ export function EventForm({
               aria-describedby="startDate-error"
               leftAdornment={
                 <Input.Adornment>
-                  <Icon id="calendar-days" />
+                  <Icon href="icon-calendar-days" />
                 </Input.Adornment>
               }
             />
@@ -384,7 +384,7 @@ export function EventForm({
               aria-describedby="endDate-error"
               leftAdornment={
                 <Input.Adornment>
-                  <Icon id="calendar-days" />
+                  <Icon href="icon-calendar-days" />
                 </Input.Adornment>
               }
             />

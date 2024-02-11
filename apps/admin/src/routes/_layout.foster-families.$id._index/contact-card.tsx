@@ -27,15 +27,15 @@ export function ContactCard() {
 
       <Card.Content>
         <ItemList>
-          <SimpleItem icon={<Icon id="phone" />}>
+          <SimpleItem icon={<Icon href="icon-phone" />}>
             {fosterFamily.phone}
           </SimpleItem>
 
-          <SimpleItem icon={<Icon id="envelope" />}>
+          <SimpleItem icon={<Icon href="icon-envelope" />}>
             {fosterFamily.email}
           </SimpleItem>
 
-          <SimpleItem icon={<Icon id="location-dot" />}>
+          <SimpleItem icon={<Icon href="icon-location-dot" />}>
             {getLongLocation(fosterFamily)}
           </SimpleItem>
         </ItemList>

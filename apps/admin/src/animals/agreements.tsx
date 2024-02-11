@@ -1,4 +1,4 @@
-import type { IconProps } from "#generated/icon";
+import type { IconName } from "#generated/icon";
 import { Icon } from "#generated/icon";
 import { cn } from "@animeaux/core";
 
@@ -38,7 +38,7 @@ export function AgreementItem({
         AGREEMENT_CLASS_NAMES[agreement],
       )}
     >
-      <Icon id={ICONS[entity][agreement]} className="text-[30px]" />
+      <Icon href={ICONS[entity][agreement]} className="text-[30px]" />
       <span className="text-body-emphasis">
         {AGREEMENT_TRANSLATION[agreement]}
       </span>
@@ -52,21 +52,21 @@ const AGREEMENT_CLASS_NAMES: Record<AgreementValue, string> = {
   [AgreementValue.UNKNOWN]: "bg-gray-100 text-gray-700",
 };
 
-const ICONS: Record<Entity, Record<AgreementValue, IconProps["id"]>> = {
+const ICONS: Record<Entity, Record<AgreementValue, IconName>> = {
   babies: {
-    [AgreementValue.TRUE]: "baby-circle-check",
-    [AgreementValue.FALSE]: "baby-circle-x-mark",
-    [AgreementValue.UNKNOWN]: "baby-circle-question",
+    [AgreementValue.TRUE]: "icon-baby-circle-check",
+    [AgreementValue.FALSE]: "icon-baby-circle-x-mark",
+    [AgreementValue.UNKNOWN]: "icon-baby-circle-question",
   },
   cats: {
-    [AgreementValue.TRUE]: "cat-circle-check",
-    [AgreementValue.FALSE]: "cat-circle-x-mark",
-    [AgreementValue.UNKNOWN]: "cat-circle-question",
+    [AgreementValue.TRUE]: "icon-cat-circle-check",
+    [AgreementValue.FALSE]: "icon-cat-circle-x-mark",
+    [AgreementValue.UNKNOWN]: "icon-cat-circle-question",
   },
   dogs: {
-    [AgreementValue.TRUE]: "dog-circle-check",
-    [AgreementValue.FALSE]: "dog-circle-x-mark",
-    [AgreementValue.UNKNOWN]: "dog-circle-question",
+    [AgreementValue.TRUE]: "icon-dog-circle-check",
+    [AgreementValue.FALSE]: "icon-dog-circle-x-mark",
+    [AgreementValue.UNKNOWN]: "icon-dog-circle-question",
   },
 };
 
