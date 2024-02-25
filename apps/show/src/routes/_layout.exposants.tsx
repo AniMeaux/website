@@ -120,7 +120,7 @@ export default function Route() {
 
 function TitleSection() {
   return (
-    <Section columnCount={1}>
+    <Section columnCount={1} isTitleOnly>
       <Section.Title asChild>
         <h1>Exposants</h1>
       </Section.Title>
