@@ -106,10 +106,9 @@ export const colors = {
     lightest: brandCyan[50],
     DEFAULT: brandCyan[300],
   },
-  showBrandBlue: {
-    lightest: "#c5e9ee",
-    darker: "#39605a",
-    darkest: "#203532",
+  show: {
+    mystic: "#db5072",
+    alabaster: "#f2e8e3",
   },
   facebook: "#3774dc",
   instagram: "#ad3d7a",
@@ -126,6 +125,7 @@ export default {
     fontFamily: {
       serif: ['"Open Sans"', ...defaultTheme.fontFamily.serif],
       sans: ["Roboto", ...defaultTheme.fontFamily.sans],
+      show: ["Fira Sans", ...defaultTheme.fontFamily.sans],
     },
 
     extend: {
@@ -187,6 +187,12 @@ export default {
         },
         ".text-body-emphasis": {
           "font-family": theme("fontFamily.sans"),
+          "font-weight": theme("fontWeight.medium"),
+          "font-size": "16px",
+          "line-height": "24px",
+        },
+        ".text-show-body-lowercase-emphasis": {
+          "font-family": theme("fontFamily.show"),
           "font-weight": theme("fontWeight.medium"),
           "font-size": "16px",
           "line-height": "24px",
