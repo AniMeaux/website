@@ -14,6 +14,7 @@
   "scripts": {
     "db:migrate": "yarn prisma-env migrate dev",
     "db:reset": "yarn prisma-env migrate reset -f",
+    "db:studio": "yarn prisma-env studio",
     "down": "run-s down:ecosystem down:docker",
     "down:docker": "docker-compose down",
     "down:ecosystem": "pm2 delete ./ecosystem.config.cjs && rm -rf ./logs",

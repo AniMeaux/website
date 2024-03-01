@@ -356,7 +356,7 @@ function PartnersSection() {
         </Section.Action>
       </Section.TextAside>
 
-      <section className="grid grid-cols-1 pt-2 px-safe-page-narrow md:pt-0 md:px-safe-page-normal">
+      <section className="grid grid-cols-1 px-safe-page-narrow md:px-safe-page-normal">
         {partners.length === 0 ? (
           <PartnersImage
             fallbackSize="1024"
@@ -808,11 +808,11 @@ function FooterSection() {
           </div>
 
           <ul className="grid grid-cols-1">
-            <ContactItem icon="bold-call" to="tel:+33612194392">
+            <ContactItem icon="phone-solid" to="tel:+33612194392">
               06 12 19 43 92
             </ContactItem>
 
-            <ContactItem icon="bold-sms" to="mailto:salon@animeaux.org">
+            <ContactItem icon="envelope-solid" to="mailto:salon@animeaux.org">
               salon@animeaux.org
             </ContactItem>
           </ul>

@@ -6,21 +6,24 @@ type SectionWidth = "full" | "narrow" | "normal";
 export function Section({
   width = "normal",
   columnCount = 2,
+  isTitleOnly = false,
   className,
   ...rest
 }: React.ComponentPropsWithoutRef<typeof Primitive.section> & {
   width?: SectionWidth;
   columnCount?: 1 | 2;
+  isTitleOnly?: boolean;
 }) {
   return (
     <Primitive.section
       {...rest}
       className={cn(
-        "grid grid-cols-1 gap-2 py-4 sm:gap-4",
+        "grid grid-cols-1",
         SECTION_WIDTH_CLASS_NAMES[width],
+        isTitleOnly ? "pt-4" : "py-4",
         columnCount === 2
-          ? "md:grid-cols-2 md:items-center lg:gap-8"
-          : undefined,
+          ? "gap-2 sm:gap-4 md:grid-cols-2 md:items-center lg:gap-8"
+          : "gap-4",
         className,
       )}
     />

@@ -40,8 +40,14 @@ function SmallHeader() {
               onPointerLeave={(event) => event.preventDefault()}
               className="group flex aspect-square w-4 items-center justify-center text-[24px] transition-transform duration-100 ease-in-out active:scale-95 focus-visible:outline-none focus-visible:ring focus-visible:ring-mystic"
             >
-              <Icon id="menu" className="group-data-[state=open]:hidden" />
-              <Icon id="close" className="group-data-[state=closed]:hidden" />
+              <Icon
+                id="bars-light"
+                className="group-data-[state=open]:hidden"
+              />
+              <Icon
+                id="x-mark-light"
+                className="group-data-[state=closed]:hidden"
+              />
             </NavigationMenu.Trigger>
 
             <NavigationMenu.Content className="grid grid-cols-1 gap-2">
