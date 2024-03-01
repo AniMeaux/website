@@ -16,11 +16,11 @@ export function Section({
     <Primitive.section
       {...rest}
       className={cn(
-        "grid grid-cols-1 gap-2 py-4 sm:gap-4",
+        "grid grid-cols-1 py-4",
         SECTION_WIDTH_CLASS_NAMES[width],
         columnCount === 2
-          ? "md:grid-cols-2 md:items-center lg:gap-8"
-          : undefined,
+          ? "gap-2 sm:gap-4 md:grid-cols-2 md:items-center lg:gap-8"
+          : "gap-4",
         className,
       )}
     />

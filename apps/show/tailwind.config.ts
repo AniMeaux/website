@@ -25,6 +25,7 @@ export const screens = {
 
 // Don't spread `...defaultColors` to avoid deprecation warnings.
 export const colors = {
+  transparent: "transparent",
   inheritBg: "var(--background-color)",
   prussianBlue: {
     DEFAULT: "#003047",

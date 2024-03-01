@@ -231,42 +231,35 @@ model Exhibitor {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  category         ExhibitorCategory
   eventDescription String?
   image            String
-  name             String            @unique @db.VarChar(255)
-  url              String            @unique
+  name             String         @unique @db.VarChar(255)
+  tags             ExhibitorTag[]
+  url              String         @unique
 }
 
-enum ExhibitorCategory {
+enum ExhibitorTag {
+  DOGS
   ACCESSORIES
-  ACTIVITY_NACS
   ALTERNATIVE_MEDICINE
   ARTIST
   ASSOCIATION
-  ASSOCIATION_PETS
-  ASSOCIATION_WILDLIFE
-  CANINE_EDUCATION
+  BEHAVIOR
   CARE
-  FELINE_BEHAVIOR
-  FOOD_AND_ACCESSORIES
-  FOOD_AND_HYGIENE
-  FOOD_CAT_AND_DOG
-  FOOD_DOG
-  FOOD_NACS
-  HYGIENE
-  INSURANCE
-  ONLINE_PLATFORM
-  PENSION
-  PHOTO_STUDIO
-  PROVISION_OF_SERVICES
-  PUBLISHER
-  RABBIT_BEHAVIOR
+  CATS
+  CITY
+  DRAWING
+  EDITING
+  EDUCATION
+  FOOD
+  HUMANS
+  NACS
+  PHOTOGRAPHER
+  RABBITS
   SENSITIZATION
-  TOYS_CAT
-  TOYS_CAT_AND_DOG
+  SERVICES
   TRAINING
-  TREATS_DOGS
+  WILDLIFE
 }
 
 model ShowEvent {

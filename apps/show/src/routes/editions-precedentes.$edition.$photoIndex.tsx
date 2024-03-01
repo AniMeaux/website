@@ -128,7 +128,7 @@ export default function Route() {
             scrollRestorationLocationKey: galleryLocationKey,
           })}
         >
-          <Icon id="close" />
+          <Icon id="x-mark-light" />
         </Link>
       </PhotoAction>
 
@@ -138,7 +138,7 @@ export default function Route() {
             to={Routes.photo(edition, photoIndex - 1)}
             state={PhotoLocationState.create({ galleryLocationKey })}
           >
-            <Icon id="linear-arrow-left" />
+            <Icon id="chevron-left-light" />
           </Link>
         </PhotoAction>
       ) : null}
@@ -149,7 +149,7 @@ export default function Route() {
             to={Routes.photo(edition, photoIndex + 1)}
             state={PhotoLocationState.create({ galleryLocationKey })}
           >
-            <Icon id="linear-arrow-right" />
+            <Icon id="chevron-right-light" />
           </Link>
         </PhotoAction>
       ) : null}

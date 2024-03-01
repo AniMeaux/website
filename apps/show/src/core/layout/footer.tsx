@@ -124,19 +124,19 @@ function LinksSection() {
         </div>
 
         <ul className="grid grid-cols-1">
-          <ContactItem icon="bold-call" to="tel:+33612194392">
+          <ContactItem icon="phone-solid" to="tel:+33612194392">
             06 12 19 43 92
           </ContactItem>
 
-          <ContactItem icon="bold-sms" to="mailto:salon@animeaux.org">
+          <ContactItem icon="envelope-solid" to="mailto:salon@animeaux.org">
             salon@animeaux.org
           </ContactItem>
 
-          <ContactItem icon="bold-global" to={pressReleaseUrl}>
+          <ContactItem icon="newspaper-solid" to={pressReleaseUrl}>
             Communiqué de presse
           </ContactItem>
 
-          <ContactItem icon="bold-gallery" to={Routes.previousEditions()}>
+          <ContactItem icon="image-solid" to={Routes.previousEditions()}>
             Éditions précédentes
           </ContactItem>
         </ul>

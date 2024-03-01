@@ -128,7 +128,7 @@ function FaqItem({ faq }: { faq: Faq }) {
           {faq.question}
 
           <Icon
-            id="linear-arrow-down"
+            id="chevron-down-light"
             className="text-[16px] transition-transform duration-150 ease-in-out group-data-[state=open]/trigger:-rotate-180 group-hover/trigger:group-data-[state=closed]/trigger:translate-y-0.5 group-hover/trigger:group-data-[state=open]/trigger:-translate-y-0.5"
           />
         </Collapsible.Trigger>
