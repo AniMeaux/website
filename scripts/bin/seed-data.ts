@@ -7,7 +7,7 @@ import type { Prisma } from "@prisma/client";
 import {
   AdoptionOption,
   Diagnosis,
-  ExhibitorCategory,
+  ExhibitorTag,
   FosterFamilyAvailability,
   FosterFamilyGarden,
   FosterFamilyHousing,
@@ -484,13 +484,16 @@ async function seedShowPartners() {
 async function seedExhibitors() {
   await prisma.exhibitor.createMany({
     data: repeate({ min: 10, max: 70 }, () => ({
-      category: faker.helpers.arrayElement(Object.values(ExhibitorCategory)),
       eventDescription: faker.helpers.maybe(
         () => faker.lorem.paragraph({ min: 1, max: 3 }),
         { probability: 1 / 5 },
       ),
       image: faker.string.uuid(),
       name: faker.company.name(),
+      tags: faker.helpers.arrayElements(Object.values(ExhibitorTag), {
+        min: 1,
+        max: 4,
+      }),
       url: faker.internet.url(),
     })),
   });
