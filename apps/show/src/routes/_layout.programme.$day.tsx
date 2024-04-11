@@ -18,6 +18,7 @@ import { Routes } from "#core/navigation";
 import { getPageTitle } from "#core/page-title";
 import { prisma } from "#core/prisma.server";
 import { NotFoundResponse } from "#core/response.server";
+import { Icon } from "#generated/icon";
 import { cn } from "@animeaux/core";
 import { zu } from "@animeaux/zod-utils";
 import type {
@@ -27,6 +28,7 @@ import type {
 } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { Link, useLoaderData } from "@remix-run/react";
+import groupBy from "lodash.groupby";
 import { DateTime } from "luxon";
 
 const DaySchema = zu.object({
@@ -62,12 +64,26 @@ export async function loader({ params }: LoaderFunctionArgs) {
     select: {
       description: true,
       id: true,
+      isOutside: true,
       registrationUrl: true,
       startTime: true,
     },
   });
 
-  return json({ day, events });
+  const eventsByStartTime = groupBy(events, (event) =>
+    DateTime.fromJSDate(event.startTime)
+      // As we only display hours and minutes, we rely on seconds to order
+      // events in a group.
+      .startOf("minute")
+      .toISO(),
+  );
+
+  return json({
+    day,
+    eventGroups: Object.entries(eventsByStartTime).map(
+      ([startTime, events]) => ({ startTime, events }),
+    ),
+  });
 }
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
@@ -105,15 +121,16 @@ function TitleSection() {
 }
 
 function EventListSection() {
-  const { events } = useLoaderData<typeof loader>();
+  const { eventGroups } = useLoaderData<typeof loader>();
 
   const nodes: React.ReactNode[] = [];
-  events.forEach((event, index) => {
+
+  eventGroups.forEach((eventGroup, index) => {
     if (index > 0) {
       // ]--, Small[
       nodes.push(
         <SeparatorSmallBlock
-          key={`${event.id}.SeparatorSmallBlock`}
+          key={`${eventGroup.startTime}.SeparatorSmallBlock`}
           side={index % 2 === 0 ? "right" : "left"}
           hasBee={(index + 1) % 3 === 0}
           className="sm:hidden"
@@ -125,7 +142,7 @@ function EventListSection() {
     if (index % 2 !== 0) {
       nodes.push(
         <SeparatorInline
-          key={`${event.id}.Medium.SeparatorInline`}
+          key={`${eventGroup.startTime}.Medium.SeparatorInline`}
           hasBee={(index + 1) % 3 === 0}
           className="hidden sm:block md:hidden"
         />,
@@ -134,7 +151,7 @@ function EventListSection() {
     if (index > 0 && index % 2 === 0) {
       nodes.push(
         <SeparatorLargeBlock
-          key={`${event.id}.Medium.SeparatorLargeBlock`}
+          key={`${eventGroup.startTime}.Medium.SeparatorLargeBlock`}
           hasBee={(index + 1) % 3 === 0}
           className="col-span-3 hidden sm:block md:hidden"
         />,
@@ -145,7 +162,7 @@ function EventListSection() {
     if (index % 3 !== 0) {
       nodes.push(
         <SeparatorInline
-          key={`${event.id}.Large.SeparatorInline`}
+          key={`${eventGroup.startTime}.Large.SeparatorInline`}
           hasBee={(index + 1) % 4 === 0}
           className="hidden md:block"
         />,
@@ -155,14 +172,16 @@ function EventListSection() {
     if (index > 0 && index % 3 === 0) {
       nodes.push(
         <SeparatorLargeBlock
-          key={`${event.id}.Large.SeparatorLargeBlock`}
+          key={`${eventGroup.startTime}.Large.SeparatorLargeBlock`}
           hasBee={(index + 1) % 4 === 0}
           className="col-span-5 hidden md:block"
         />,
       );
     }
 
-    nodes.push(<EventItem key={event.id} event={event} />);
+    nodes.push(
+      <EventGroupItem key={eventGroup.startTime} eventGroup={eventGroup} />,
+    );
   });
 
   return (
@@ -187,18 +206,18 @@ function EventListSection() {
   );
 }
 
-function EventItem({
-  event,
+function EventGroupItem({
+  eventGroup,
 }: {
-  event: SerializeFrom<typeof loader>["events"][number];
+  eventGroup: SerializeFrom<typeof loader>["eventGroups"][number];
 }) {
   return (
-    <div className="relative grid grid-cols-1 pt-2">
+    <div className="relative grid grid-cols-1 gap-1 pt-2">
       <time
-        dateTime={event.startTime}
+        dateTime={eventGroup.startTime}
         className="absolute left-1/2 top-0 grid h-4 min-w-[48px] -translate-x-1/2 items-center justify-items-center rounded-1 bg-mystic px-0.5 font-serif text-[24px] leading-none tracking-wider text-white"
       >
-        {DateTime.fromISO(event.startTime)
+        {DateTime.fromISO(eventGroup.startTime)
           .toLocaleString(DateTime.TIME_24_SIMPLE)
           // 14:00 -> 14h00
           .replace(":", "h")
@@ -206,22 +225,40 @@ function EventItem({
           .replace(/00$/, "")}
       </time>
 
-      <div className="grid grid-cols-1 gap-2 rounded-1 bg-alabaster px-2 pb-1 pt-3 bg-var-alabaster">
-        <p>
-          <Markdown
-            components={SENTENCE_COMPONENTS}
-            content={event.description}
-          />
-        </p>
+      {eventGroup.events.map((event, index) => (
+        <div
+          key={event.id}
+          className={cn(
+            "grid grid-cols-1 gap-2 rounded-1 bg-alabaster px-2 pb-1 bg-var-alabaster",
+            index === 0 ? "pt-3" : "pt-1",
+          )}
+        >
+          {event.isOutside ? (
+            <p className="grid grid-cols-[auto_1fr] items-start gap-0.5 text-mystic text-body-lowercase-emphasis">
+              <span className="flex h-2 items-center">
+                <Icon id="leaf-solid" />
+              </span>
 
-        {event.registrationUrl != null ? (
-          <Action asChild>
-            <Link to={event.registrationUrl} className="justify-self-center">
-              Inscrivez-vous
-            </Link>
-          </Action>
-        ) : null}
-      </div>
+              <span>Animation extérieure</span>
+            </p>
+          ) : null}
+
+          <p>
+            <Markdown
+              components={SENTENCE_COMPONENTS}
+              content={event.description}
+            />
+          </p>
+
+          {event.registrationUrl != null ? (
+            <Action asChild>
+              <Link to={event.registrationUrl} className="justify-self-center">
+                Inscrivez-vous
+              </Link>
+            </Action>
+          ) : null}
+        </div>
+      ))}
     </div>
   );
 }
