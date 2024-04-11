@@ -524,6 +524,7 @@ async function seedShowEvents() {
       registrationUrl: faker.helpers.maybe(() => faker.internet.url(), {
         probability: 1 / 5,
       }),
+      isOutside: faker.datatype.boolean(),
     })),
   });
 
