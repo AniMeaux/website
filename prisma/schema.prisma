@@ -270,6 +270,7 @@ model ShowEvent {
   description     String
   startTime       DateTime
   registrationUrl String?
+  isOutside       Boolean  @default(false)
 }
 
 enum UserGroup {
