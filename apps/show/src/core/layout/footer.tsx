@@ -184,7 +184,7 @@ function ContactItem({
         className="grid grid-cols-[auto_auto] items-start gap-1 rounded-0.5 transition-[color,transform] duration-100 ease-in-out active:scale-95 focus-visible:outline-none focus-visible:ring focus-visible:ring-mystic focus-visible:ring-offset-2 focus-visible:ring-offset-inheritBg hover:text-mystic"
       >
         <span className="flex h-2 items-center">
-          <Icon id={icon} className="text-[16px] text-mystic" />
+          <Icon id={icon} className="text-[16px]" />
         </span>
 
         <span>{children}</span>
