@@ -13,13 +13,15 @@ import { createSocialMeta } from "#core/meta";
 import { getPageTitle } from "#core/page-title";
 import { prisma } from "#core/prisma.server";
 import { NotFoundResponse } from "#core/response.server";
+import { ExhibitorSearchParams } from "#exhibitors/search-params";
 import {
   EXHIBITOR_ACTIVITY_TAGS,
+  EXHIBITOR_TAG_ICON,
+  EXHIBITOR_TAG_TRANSLATIONS,
   EXHIBITOR_TARGET_TAGS,
-  ExhibitorSearchParams,
+  ExhibitorFilterChip,
+  ExhibitorFilterSelector,
   ExhibitorTagChip,
-  ExhibitorTagFilter,
-  ExhibitorTagSelector,
   SORTED_EXHIBITOR_TAGS,
 } from "#exhibitors/tag";
 import { Icon } from "#generated/icon";
@@ -58,7 +60,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
     new URL(request.url).searchParams,
   );
 
-  const where: Prisma.ExhibitorWhereInput = {};
+  const where: Prisma.ExhibitorWhereInput[] = [];
 
   if (searchParams.tags.size > 0) {
     const [targets, activities] = partition(
@@ -66,19 +68,21 @@ export async function loader({ request }: LoaderFunctionArgs) {
       (tag) => EXHIBITOR_TARGET_TAGS.includes(tag),
     );
 
-    where.AND = [];
-
     if (targets.length > 0) {
-      where.AND.push({ tags: { hasSome: targets } });
+      where.push({ tags: { hasSome: targets } });
     }
 
     if (activities.length > 0) {
-      where.AND.push({ tags: { hasSome: activities } });
+      where.push({ tags: { hasSome: activities } });
     }
   }
 
+  if (searchParams.hasEvent) {
+    where.push({ eventDescription: { not: null } });
+  }
+
   const exhibitors = await prisma.exhibitor.findMany({
-    where,
+    where: { AND: where },
     orderBy: { name: "asc" },
     select: {
       eventDescription: featureFlagShowProgram,
@@ -182,10 +186,27 @@ function ListSection() {
             </Action>
           </Dialog.Trigger>
 
+          {searchParams.hasEvent ? (
+            <ExhibitorFilterChip
+              name={ExhibitorSearchParams.keys.hasEvent}
+              value="on"
+              icon="calendar-day-solid"
+              label="Animations sur stand"
+              className="flex-none"
+            />
+          ) : null}
+
           {SORTED_EXHIBITOR_TAGS.filter((tag) =>
             searchParams.tags.has(tag),
           ).map((tag) => (
-            <ExhibitorTagFilter key={tag} tag={tag} className="flex-none" />
+            <ExhibitorFilterChip
+              key={tag}
+              name={ExhibitorSearchParams.keys.tags}
+              value={tag}
+              icon={EXHIBITOR_TAG_ICON[tag].solid}
+              label={EXHIBITOR_TAG_TRANSLATIONS[tag]}
+              className="flex-none"
+            />
           ))}
         </SearchParamsForm>
 
@@ -295,14 +316,35 @@ const FilterModal = forwardRef<
         </header>
 
         <SearchParamsFormSection.Root>
+          <SearchParamsFormSection.Title>
+            Animations
+          </SearchParamsFormSection.Title>
+
+          <SearchParamsFormSection.List>
+            <ExhibitorFilterSelector
+              label="Sur stand"
+              name={ExhibitorSearchParams.keys.hasEvent}
+              value="on"
+              checked={searchParams.hasEvent}
+              checkedIcon="calendar-day-solid"
+              uncheckedIcon="calendar-day-light"
+            />
+          </SearchParamsFormSection.List>
+        </SearchParamsFormSection.Root>
+
+        <SearchParamsFormSection.Root>
           <SearchParamsFormSection.Title>Cibles</SearchParamsFormSection.Title>
 
           <SearchParamsFormSection.List>
             {EXHIBITOR_TARGET_TAGS.map((tag) => (
-              <ExhibitorTagSelector
+              <ExhibitorFilterSelector
                 key={tag}
-                tag={tag}
+                label={EXHIBITOR_TAG_TRANSLATIONS[tag]}
+                name={ExhibitorSearchParams.keys.tags}
+                value={tag}
                 checked={searchParams.tags.has(tag)}
+                checkedIcon={EXHIBITOR_TAG_ICON[tag].solid}
+                uncheckedIcon={EXHIBITOR_TAG_ICON[tag].light}
               />
             ))}
           </SearchParamsFormSection.List>
@@ -315,10 +357,14 @@ const FilterModal = forwardRef<
 
           <SearchParamsFormSection.List>
             {EXHIBITOR_ACTIVITY_TAGS.map((tag) => (
-              <ExhibitorTagSelector
+              <ExhibitorFilterSelector
                 key={tag}
-                tag={tag}
+                label={EXHIBITOR_TAG_TRANSLATIONS[tag]}
+                name={ExhibitorSearchParams.keys.tags}
+                value={tag}
                 checked={searchParams.tags.has(tag)}
+                checkedIcon={EXHIBITOR_TAG_ICON[tag].solid}
+                uncheckedIcon={EXHIBITOR_TAG_ICON[tag].light}
               />
             ))}
           </SearchParamsFormSection.List>
@@ -476,17 +522,21 @@ function ExhibitorItem({
       </Link>
 
       {exhibitor.eventDescription != null ? (
-        <div className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-1 rounded-1 bg-alabaster px-2 py-1 bg-var-alabaster">
+        <div className="grid grid-cols-1 gap-2 rounded-1 bg-alabaster px-2 py-1 bg-var-alabaster">
+          <p className="grid grid-cols-[auto_1fr] items-start gap-0.5 text-mystic text-body-lowercase-emphasis">
+            <span className="flex h-2 items-center">
+              <Icon id="calendar-day-solid" />
+            </span>
+
+            <span>Animations sur stand</span>
+          </p>
+
           <p>
             <Markdown
               components={SENTENCE_COMPONENTS}
               content={exhibitor.eventDescription}
             />
           </p>
-
-          <span className="flex h-2 items-center">
-            <Pictogram id="stand-mystic" className="text-[16px]" />
-          </span>
         </div>
       ) : null}
     </li>

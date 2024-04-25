@@ -410,7 +410,16 @@ function ExhibitorsEventsListSection() {
 
           <Section.Action asChild>
             <Action asChild>
-              <Link to={Routes.exhibitors()}>Voir les surprises</Link>
+              <Link
+                to={{
+                  pathname: Routes.exhibitors(),
+                  // TODO: Fix this.
+                  // search: ExhibitorSearchParams.stringify({ hasEvent: true }),
+                  search: "event=on",
+                }}
+              >
+                Voir les surprises
+              </Link>
             </Action>
           </Section.Action>
         </LightBoardCard>
