@@ -1,18 +1,9 @@
 import type { IconName } from "#generated/icon";
 import { Icon } from "#generated/icon";
 import { cn } from "@animeaux/core";
-import { SearchParamsDelegate } from "@animeaux/form-data";
-import { zu } from "@animeaux/zod-utils";
 import { ExhibitorTag } from "@prisma/client";
 import difference from "lodash.difference";
 import orderBy from "lodash.orderby";
-
-export const ExhibitorSearchParams = SearchParamsDelegate.create({
-  tags: {
-    key: "tag",
-    schema: zu.searchParams.set(zu.searchParams.nativeEnum(ExhibitorTag)),
-  },
-});
 
 export const EXHIBITOR_TAG_TRANSLATIONS: Record<ExhibitorTag, string> = {
   [ExhibitorTag.DOGS]: "Chiens",
@@ -99,11 +90,17 @@ export function ExhibitorTagChip({
   );
 }
 
-export function ExhibitorTagFilter({
-  tag,
+export function ExhibitorFilterChip({
+  label,
+  name,
+  value,
+  icon,
   className,
 }: {
-  tag: ExhibitorTag;
+  label: React.ReactNode;
+  name: string;
+  value: string;
+  icon: IconName;
   className?: string;
 }) {
   return (
@@ -116,25 +113,20 @@ export function ExhibitorTagFilter({
       <input
         type="checkbox"
         defaultChecked
-        name={ExhibitorSearchParams.keys.tags}
-        value={tag}
+        name={name}
+        value={value}
         className="absolute left-0 top-0 -z-10 h-full w-full cursor-pointer appearance-none rounded-0.5 focus-visible:outline-none focus-visible:ring focus-visible:ring-mystic focus-visible:ring-offset-2 focus-visible:ring-offset-inheritBg"
       />
 
       <span className="grid auto-cols-auto grid-flow-col gap-0.5">
-        <Icon
-          id={EXHIBITOR_TAG_ICON[tag].solid}
-          className="text-[24px] group-hover:hidden"
-        />
+        <Icon id={icon} className="text-[24px] group-hover:hidden" />
 
         <Icon
           id="x-mark-light"
           className="hidden text-[24px] group-hover:block"
         />
 
-        <span className="text-body-lowercase-emphasis">
-          {EXHIBITOR_TAG_TRANSLATIONS[tag]}
-        </span>
+        <span className="text-body-lowercase-emphasis">{label}</span>
       </span>
 
       <Icon
@@ -145,41 +137,40 @@ export function ExhibitorTagFilter({
   );
 }
 
-export function ExhibitorTagSelector({
-  tag,
+export function ExhibitorFilterSelector({
+  label,
+  checkedIcon,
+  uncheckedIcon,
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"input"> & {
-  tag: ExhibitorTag;
+  label: React.ReactNode;
+  checkedIcon: IconName;
+  uncheckedIcon: IconName;
 }) {
   return (
     <label
       className={cn(
-        "group relative grid cursor-pointer grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-1 rounded-0.5 px-1 py-0.5 transition-transform duration-100 hover:scale-105 hover:active:scale-95 [@media(any-hover:hover)]:active:scale-95",
+        "group relative grid cursor-pointer grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-1 rounded-0.5 px-1 py-0.5",
         className,
       )}
     >
       <input
         {...props}
         type="checkbox"
-        name={ExhibitorSearchParams.keys.tags}
-        value={tag}
         onChange={() => {}}
-        className="peer absolute left-0 top-0 -z-10 h-full w-full cursor-pointer appearance-none rounded-0.5 transition-colors duration-100 checked:bg-mystic focus-visible:outline-none focus-visible:ring focus-visible:ring-mystic focus-visible:ring-offset-2 focus-visible:ring-offset-inheritBg"
+        className="peer absolute left-0 top-0 -z-10 h-full w-full cursor-pointer appearance-none rounded-0.5 border border-mystic/20 transition-colors duration-100 checked:border-mystic checked:bg-mystic focus-visible:outline-none focus-visible:ring focus-visible:ring-mystic focus-visible:ring-offset-2 focus-visible:ring-offset-inheritBg hover:bg-mystic/10 hover:checked:bg-mystic/90 hover:active:bg-mystic/20 hover:checked:active:bg-mystic/80 [@media(any-hover:hover)]:active:bg-mystic/20 [@media(any-hover:hover)]:checked:active:bg-mystic/80"
       />
 
-      <Icon
-        id={EXHIBITOR_TAG_ICON[tag].light}
-        className="text-[24px] peer-checked:hidden"
-      />
+      <Icon id={uncheckedIcon} className="text-[24px] peer-checked:hidden" />
 
       <Icon
-        id={EXHIBITOR_TAG_ICON[tag].solid}
+        id={checkedIcon}
         className="hidden text-[24px] text-white peer-checked:block"
       />
 
       <span className="transition-colors duration-100 text-body-lowercase-default peer-checked:text-white peer-checked:text-body-lowercase-emphasis">
-        {EXHIBITOR_TAG_TRANSLATIONS[tag]}
+        {label}
       </span>
 
       <span className="grid aspect-square w-[16px] items-center justify-center rounded-0.5 border border-mystic text-transparent transition-colors duration-100 peer-checked:border-white peer-checked:bg-white peer-checked:text-mystic">
@@ -189,7 +180,7 @@ export function ExhibitorTagSelector({
   );
 }
 
-const EXHIBITOR_TAG_ICON: Record<
+export const EXHIBITOR_TAG_ICON: Record<
   ExhibitorTag,
   { solid: IconName; light: IconName }
 > = {
