@@ -48,6 +48,7 @@ const DOWNLOADERS: Record<TableName, () => Promise<object[]>> = {
   pressArticle: () => prisma.pressArticle.findMany(),
   showEvent: () => prisma.showEvent.findMany(),
   showPartner: () => prisma.showPartner.findMany(),
+  showProvider: () => prisma.showProvider.findMany(),
   user: () => prisma.user.findMany(),
 };
 
