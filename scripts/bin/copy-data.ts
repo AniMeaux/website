@@ -19,6 +19,7 @@ const TABLES_NAME = [
   "Exhibitor",
   "ShowEvent",
   "ShowPartner",
+  "ShowProvider",
 ];
 
 const [, , source, destination] = process.argv;

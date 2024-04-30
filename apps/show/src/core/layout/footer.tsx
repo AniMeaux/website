@@ -10,8 +10,8 @@ import { Icon } from "#generated/icon";
 import { Pictogram } from "#generated/pictogram";
 import logoAniMeaux from "#images/logo-ani-meaux.svg";
 import { usePartners } from "#partners/data";
-import { PartnersImage } from "#partners/image";
 import { PartnerItem } from "#partners/item";
+import { PartnersPlaceholderImage } from "#partners/placeholder-image";
 import { Link } from "@remix-run/react";
 
 export function Footer() {
@@ -79,7 +79,7 @@ function LinksSection() {
     <section className="grid grid-cols-1 gap-2 bg-paleBlue px-page-narrow py-4 bg-var-paleBlue sm:gap-4 md:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] md:items-center md:px-page-normal lg:gap-8">
       <Section.TextAside className="max-w-sm justify-self-center md:max-w-none md:justify-self-stretch">
         {partners.length === 0 ? (
-          <PartnersImage
+          <PartnersPlaceholderImage
             fallbackSize="512"
             sizes={{ default: "384px", md: "50vw", lg: "341px" }}
             className="w-full"
