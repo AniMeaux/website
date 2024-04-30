@@ -3,7 +3,9 @@ import { Action, ProseInlineAction } from "#core/actions";
 import { useConfig } from "#core/config";
 import { createConfig } from "#core/config.server";
 import { ErrorPage } from "#core/data-display/error-page";
+import type { DynamicImageProps } from "#core/data-display/image";
 import { DynamicImage } from "#core/data-display/image";
+import { ImageUrl } from "#core/data-display/image-url";
 import { OPENING_TIME, hasShowEnded } from "#core/dates";
 import type { RouteHandle } from "#core/handles";
 import { BoardCard } from "#core/layout/board-card";
@@ -22,15 +24,17 @@ import { Pictogram } from "#generated/pictogram";
 import logoAniMeaux from "#images/logo-ani-meaux.svg";
 import logoLarge from "#images/logo-large.svg";
 import { usePartners } from "#partners/data";
-import { PartnersImage } from "#partners/image";
 import { PartnerItem } from "#partners/item";
+import { PartnersPlaceholderImage } from "#partners/placeholder-image";
 import { PreviousEditionImage } from "#previous-editions/image";
 import { cn } from "@animeaux/core";
+import type { ShowProvider } from "@prisma/client";
 import type { MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { Link, useLoaderData } from "@remix-run/react";
 import { DateTime } from "luxon";
 import { useEffect, useState } from "react";
+import { promiseHash } from "remix-utils/promise";
 
 const ONE_MINUTE_IN_MS = 60 * 1000;
 
@@ -42,10 +46,24 @@ export async function loader() {
   const { featureFlagShowExhibitors, featureFlagSiteOnline } = createConfig();
 
   if (!featureFlagSiteOnline || !featureFlagShowExhibitors) {
-    return json({ exhibitorCount: 60 });
+    return json({ exhibitorCount: 60, providers: [] });
   }
 
-  return json({ exhibitorCount: await prisma.exhibitor.count() });
+  const { exhibitorCount, providers } = await promiseHash({
+    exhibitorCount: prisma.exhibitor.count(),
+
+    providers: prisma.showProvider.findMany({
+      orderBy: { createdAt: "asc" },
+      select: {
+        id: true,
+        image: true,
+        name: true,
+        url: true,
+      },
+    }),
+  });
+
+  return json({ exhibitorCount, providers });
 }
 
 export const meta: MetaFunction = () => {
@@ -80,6 +98,7 @@ function HomePage() {
       <RaffleSection />
       <PreviousEditionsSection />
       <AccessSection />
+      <ProvidersSection />
     </>
   );
 }
@@ -358,7 +377,7 @@ function PartnersSection() {
 
       <section className="grid grid-cols-1 px-safe-page-narrow md:px-safe-page-normal">
         {partners.length === 0 ? (
-          <PartnersImage
+          <PartnersPlaceholderImage
             fallbackSize="1024"
             sizes={{ default: "100vw", lg: "1024px" }}
             className="w-full"
@@ -561,6 +580,93 @@ function AccessSection() {
         </Section.Action>
       </Section.TextAside>
     </Section>
+  );
+}
+
+function ProvidersSection() {
+  const { providers } = useLoaderData<typeof loader>();
+
+  return (
+    <Section width="full" columnCount={1}>
+      <Section.TextAside className="px-safe-page-narrow">
+        <Section.Title className="text-center">Nos prestataires</Section.Title>
+
+        <p className="text-center">
+          Nous aurons la joie de collaborer avec ces prestataires.
+        </p>
+      </Section.TextAside>
+
+      <section className="grid grid-cols-1 px-safe-page-narrow md:px-safe-page-normal">
+        {providers.length === 0 ? (
+          <ProviderPlaceholderImage
+            fallbackSize="1024"
+            sizes={{ default: "100vw", lg: "1024px" }}
+            className="w-full"
+          />
+        ) : (
+          <ul className="flex flex-wrap justify-center gap-1 md:gap-2">
+            {providers.map((provider) => (
+              <ProviderItem
+                key={provider.id}
+                provider={provider}
+                fallbackSize="512"
+                sizes={{ default: "130px", lg: "180px" }}
+                className="w-[130px] flex-none md:w-[180px]"
+              />
+            ))}
+          </ul>
+        )}
+      </section>
+    </Section>
+  );
+}
+
+function ProviderPlaceholderImage(
+  props: Omit<
+    React.ComponentPropsWithoutRef<typeof DynamicImage>,
+    "alt" | "aspectRatio" | "image" | "title"
+  >,
+) {
+  return (
+    <DynamicImage
+      {...props}
+      image={{ id: "/show/2bb4f949-4874-4d66-8822-30bf26ebde2c" }}
+      alt="Prestataires du Salon des Ani’Meaux."
+      title="Prestataires du Salon des Ani’Meaux."
+      aspectRatio="16:9"
+    />
+  );
+}
+
+function ProviderItem({
+  provider,
+  fallbackSize,
+  sizes,
+  className,
+}: Pick<DynamicImageProps, "fallbackSize" | "sizes"> & {
+  provider: Pick<ShowProvider, "id" | "image" | "name" | "url">;
+  isSmall?: boolean;
+  className?: string;
+}) {
+  return (
+    <li className={cn("grid grid-cols-1", className)}>
+      <Link
+        to={provider.url}
+        className={cn(
+          "group grid grid-cols-1 overflow-hidden rounded-2 border border-alabaster focus-visible:outline-none focus-visible:ring focus-visible:ring-mystic focus-visible:ring-offset-2 focus-visible:ring-offset-inheritBg",
+        )}
+      >
+        <DynamicImage
+          image={ImageUrl.parse(provider.image)}
+          alt={provider.name}
+          aspectRatio="4:3"
+          objectFit="cover"
+          fallbackSize={fallbackSize}
+          sizes={sizes}
+          className="w-full transition-transform duration-150 ease-in-out group-hover:scale-105"
+        />
+      </Link>
+    </li>
   );
 }
 
