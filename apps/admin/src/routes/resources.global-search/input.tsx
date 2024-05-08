@@ -304,7 +304,7 @@ function Combobox({
       </VisuallyHidden.Root>
 
       <header className="sticky top-0 z-20 flex flex-none flex-col bg-white bg-var-white md:pb-0.5">
-        <div className="flex flex-col pb-0.5 pt-safe-0.5 px-safe-1 md:px-1 md:pt-1 ">
+        <div className="flex flex-col pb-0.5 pt-safe-0.5 px-safe-1.5 md:px-1 md:pt-1 ">
           <Input
             {...combobox.getInputProps()}
             hideFocusRing
@@ -341,7 +341,8 @@ function Combobox({
 
       <section
         className={cn("flex flex-col bg-white bg-var-white", {
-          "p-1 md:border-t md:border-gray-100": visibleItems.length > 0,
+          "px-1.5 py-2 md:border-t md:border-gray-100 md:p-1":
+            visibleItems.length > 0,
         })}
       >
         <SuggestionList {...combobox.getMenuProps()}>
@@ -399,7 +400,7 @@ function EntityInput({
       {possibleEntities.map((possibleEntity) => (
         <span
           key={possibleEntity}
-          className="flex flex-col first:pl-safe-1 last:pr-safe-1 md:first:pl-1 md:last:pr-1"
+          className="flex flex-col first:pl-safe-1.5 last:pr-safe-1.5 md:first:pl-1 md:last:pr-1"
         >
           <Tab>
             <TabInput

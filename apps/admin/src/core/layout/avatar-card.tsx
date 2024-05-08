@@ -68,7 +68,7 @@ AvatarCard.Content = function AvatarCardContent({
   children?: React.ReactNode;
 }) {
   return (
-    <div className="z-0 flex items-center gap-1 p-1 md:gap-2 md:p-2">
+    <div className="z-0 flex items-center gap-1 px-1.5 py-2 md:gap-2 md:px-2">
       {children}
     </div>
   );
