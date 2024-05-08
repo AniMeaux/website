@@ -316,7 +316,7 @@ function FosterAnimalsCard() {
           <>
             {fosterFamily.availability === FosterFamilyAvailability.AVAILABLE &&
             fosterFamily.availabilityExpirationDate != null ? (
-              <span className="grid grid-cols-1 px-1 md:px-2">
+              <span className="grid grid-cols-1 px-1.5 md:px-2">
                 <InlineHelper variant="warning" icon="icon-clock">
                   {fosterFamily.displayName} ne sera plus disponible à partir du{" "}
                   {DateTime.fromISO(fosterFamily.availabilityExpirationDate)
@@ -331,7 +331,7 @@ function FosterAnimalsCard() {
               {fosterAnimals.map((animal) => (
                 <li
                   key={animal.id}
-                  className="flex flex-none flex-col first:pl-0.5 last:pr-0.5 md:first:pl-1 md:last:pr-1"
+                  className="flex flex-none flex-col first:pl-1 last:pr-1 md:first:pl-1 md:last:pr-1"
                 >
                   <AnimalItem
                     animal={animal}

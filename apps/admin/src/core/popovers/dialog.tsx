@@ -34,7 +34,7 @@ Dialog.Content = function DialogContent({
           <Overlay />
         </RadixDialog.Overlay>
 
-        <RadixDialog.Content className="fixed inset-x-0 bottom-0 z-30 grid animation-duration-150 animation-translate-y-full pb-safe-1 px-safe-1 data-[state=open]:animation-enter data-[state=closed]:animation-exit md:bottom-auto md:left-1/2 md:right-auto md:top-[10vh] md:w-[550px] md:-translate-x-1/2 md:p-0 md:animation-opacity-0 md:animation-duration-100 md:animation-translate-y-0">
+        <RadixDialog.Content className="fixed inset-x-0 bottom-0 z-30 grid animation-duration-150 animation-translate-y-full pb-safe-1 px-safe-1.5 data-[state=open]:animation-enter data-[state=closed]:animation-exit md:bottom-auto md:left-1/2 md:right-auto md:top-[10vh] md:w-[550px] md:-translate-x-1/2 md:p-0 md:animation-opacity-0 md:animation-duration-100 md:animation-translate-y-0">
           {/*
            * Because links can't be focused by default, we might focus an
            * element out of order.
