@@ -46,7 +46,7 @@ export const colors = {
   yellow: defaultColors.yellow,
 };
 
-export default {
+const theme: Config = {
   content: ["./src/**/*.{ts,tsx}"],
 
   theme: {
@@ -64,6 +64,16 @@ export default {
     },
 
     extend: {
+      animation: {
+        "spin-spinner": "spin 1.5s linear infinite",
+        "stroke-spinner": "stroke 2s ease-in-out infinite",
+      },
+
+      aspectRatio: {
+        "4/3": "4 / 3",
+        "A4-landscape": "29.7 / 21",
+      },
+
       boxShadow: {
         "popover-md": "0px 15px 80px -10px rgba(0, 0, 0, 0.3)",
         "popover-sm": "0px 10px 40px -10px rgba(0, 0, 0, 0.2)",
@@ -78,18 +88,9 @@ export default {
         sans: ["Roboto", ...defaultTheme.fontFamily.sans],
       },
 
-      aspectRatio: {
-        "4/3": "4 / 3",
-        "A4-landscape": "29.7 / 21",
-      },
-
-      ringWidth: {
-        5: "5px",
-      },
-
-      animation: {
-        "spin-spinner": "spin 1.5s linear infinite",
-        "stroke-spinner": "stroke 2s ease-in-out infinite",
+      gridTemplateColumns: {
+        "2-auto": "repeat(2, auto)",
+        "fr-auto": "minmax(0, 1fr) auto",
       },
 
       keyframes: {
@@ -110,194 +111,224 @@ export default {
           },
         },
       },
+
+      ringWidth: {
+        5: "5px",
+      },
     },
   },
 
   plugins: [
     tailwindAnimation,
+    pluginBackgroundVariable(),
+    pluginCustomScrollbar(),
+    pluginFocusVisible(),
+    pluginHover(),
+    pluginRingOutset(),
+    pluginSafePadding(),
+    pluginSafePosition(),
+    pluginTextStyles(),
+  ],
+};
 
-    plugin(({ addVariant }) => {
-      // Override focus-visible to make sure it supports the `.focus-visible`
-      // class.
-      // We also don't want touch screens devices to have visible focus.
-      // They usally don't have input mechanism that can hover over elements so
-      // we check that.
-      // https://tailwindcss.com/docs/plugins#adding-variants
-      addVariant(
-        "focus-visible",
-        "@media(any-hover:hover){&:is(:focus-visible, .focus-visible)}",
-      );
-    }),
+export default theme;
 
-    plugin(({ addVariant }) => {
-      // Override hover to make sure it's only applied on supported devices.
-      // https://tailwindcss.com/docs/hover-focus-and-other-states#using-arbitrary-variants
-      addVariant("hover", "@media(any-hover:hover){&:hover}");
-      addVariant("group-hover", "@media(any-hover:hover){.group:hover &}");
-    }),
+/**
+ * Override focus-visible to make sure it supports the `.focus-visible` class.
+ * We also don't want touch screens devices to have visible focus.
+ * They usally don't have input mechanism that can hover over elements so we
+ * check that.
+ *
+ * @see https://tailwindcss.com/docs/plugins#adding-variants
+ */
+function pluginFocusVisible() {
+  return plugin(({ addVariant }) => {
+    addVariant(
+      "focus-visible",
+      "@media(any-hover:hover){&:is(:focus-visible, .focus-visible)}",
+    );
+  });
+}
 
-    /*
-     * In order to preserve a nice vertical rhythm, all text must have a
-     * line-height multiple of 20px.
-     */
-    plugin(({ addUtilities, theme }) => {
-      addUtilities({
-        ".text-body-default": {
-          "font-family": theme("fontFamily.sans"),
-          "font-size": "14px",
-          "line-height": "20px",
-        },
-        ".text-body-emphasis": {
-          "font-family": theme("fontFamily.sans"),
-          "font-size": "14px",
-          "font-weight": theme("fontWeight.semibold"),
-          "line-height": "20px",
-        },
-        ".text-caption-default": {
-          "font-family": theme("fontFamily.sans"),
-          "font-size": "12px",
-          "line-height": "20px",
-        },
-        ".text-caption-emphasis": {
-          "font-family": theme("fontFamily.sans"),
-          "font-size": "12px",
-          "font-weight": theme("fontWeight.semibold"),
-          "line-height": "20px",
-        },
-        ".text-code-default": {
-          "font-family": theme("fontFamily.mono"),
-          "font-size": "12px",
-          "font-weight": theme("fontWeight.semibold"),
-          "line-height": "20px",
-        },
-        ".text-title-hero-small": {
-          "font-family": theme("fontFamily.serif"),
-          "font-size": "26px",
-          "font-weight": theme("fontWeight.bold"),
-          "line-height": "40px",
-        },
-        ".text-title-hero-large": {
-          "font-family": theme("fontFamily.serif"),
-          "font-size": "32px",
-          "font-weight": theme("fontWeight.bold"),
-          "line-height": "40px",
-        },
-        ".text-title-section-small": {
-          "font-family": theme("fontFamily.serif"),
-          "font-size": "16px",
-          "font-weight": theme("fontWeight.bold"),
-          "line-height": "20px",
-        },
-        ".text-title-section-large": {
-          "font-family": theme("fontFamily.serif"),
-          "font-size": "18px",
-          "font-weight": theme("fontWeight.bold"),
-          "line-height": "20px",
-        },
-      });
-    }),
+/**
+ * Override hover to make sure it's only applied on supported devices.
+ *
+ * @see https://tailwindcss.com/docs/hover-focus-and-other-states#using-arbitrary-variants
+ */
+function pluginHover() {
+  return plugin(({ addVariant }) => {
+    addVariant("hover", "@media(any-hover:hover){&:hover}");
+    addVariant("group-hover", "@media(any-hover:hover){.group:hover &}");
+  });
+}
 
-    plugin(({ matchUtilities, theme }) => {
-      matchUtilities(
-        {
-          "bg-var": (value) => ({
-            "--background-color": value,
-          }),
-        },
-        { values: flattenColorPalette(theme("colors")) },
-      );
-    }),
+/**
+ * In order to preserve a nice vertical rhythm, all text must have a line-height
+ * multiple of 20px.
+ */
+function pluginTextStyles() {
+  return plugin(({ addUtilities, theme }) => {
+    addUtilities({
+      ".text-body-default": {
+        "font-family": theme("fontFamily.sans"),
+        "font-size": "14px",
+        "line-height": "20px",
+      },
+      ".text-body-emphasis": {
+        "font-family": theme("fontFamily.sans"),
+        "font-size": "14px",
+        "font-weight": theme("fontWeight.semibold"),
+        "line-height": "20px",
+      },
+      ".text-caption-default": {
+        "font-family": theme("fontFamily.sans"),
+        "font-size": "12px",
+        "line-height": "20px",
+      },
+      ".text-caption-emphasis": {
+        "font-family": theme("fontFamily.sans"),
+        "font-size": "12px",
+        "font-weight": theme("fontWeight.semibold"),
+        "line-height": "20px",
+      },
+      ".text-code-default": {
+        "font-family": theme("fontFamily.mono"),
+        "font-size": "12px",
+        "font-weight": theme("fontWeight.semibold"),
+        "line-height": "20px",
+      },
+      ".text-title-hero-small": {
+        "font-family": theme("fontFamily.serif"),
+        "font-size": "26px",
+        "font-weight": theme("fontWeight.bold"),
+        "line-height": "40px",
+      },
+      ".text-title-hero-large": {
+        "font-family": theme("fontFamily.serif"),
+        "font-size": "32px",
+        "font-weight": theme("fontWeight.bold"),
+        "line-height": "40px",
+      },
+      ".text-title-section-small": {
+        "font-family": theme("fontFamily.serif"),
+        "font-size": "16px",
+        "font-weight": theme("fontWeight.bold"),
+        "line-height": "20px",
+      },
+      ".text-title-section-large": {
+        "font-family": theme("fontFamily.serif"),
+        "font-size": "18px",
+        "font-weight": theme("fontWeight.bold"),
+        "line-height": "20px",
+      },
+    });
+  });
+}
 
-    plugin(({ matchUtilities, theme }) => {
-      matchUtilities(
-        {
-          "p-safe": (value) => ({
-            ...createSafePadding("top", value),
-            ...createSafePadding("right", value),
-            ...createSafePadding("bottom", value),
-            ...createSafePadding("left", value),
-          }),
-          "px-safe": (value) => ({
-            ...createSafePadding("right", value),
-            ...createSafePadding("left", value),
-          }),
-          "py-safe": (value) => ({
-            ...createSafePadding("top", value),
-            ...createSafePadding("bottom", value),
-          }),
-          "pt-safe": (value) => createSafePadding("top", value),
-          "pr-safe": (value) => createSafePadding("right", value),
-          "pb-safe": (value) => createSafePadding("bottom", value),
-          "pl-safe": (value) => createSafePadding("left", value),
-        },
-        { values: theme("spacing") },
-      );
-    }),
+function pluginBackgroundVariable() {
+  return plugin(({ matchUtilities, theme }) => {
+    matchUtilities(
+      { "bg-var": (value) => ({ "--background-color": value }) },
+      { values: flattenColorPalette(theme("colors")) },
+    );
+  });
+}
 
-    plugin(({ matchUtilities, theme }) => {
-      matchUtilities(
-        {
-          "top-safe": (value) => createSafePosition("top", value),
-          "right-safe": (value) => createSafePosition("right", value),
-          "bottom-safe": (value) => createSafePosition("bottom", value),
-          "left-safe": (value) => createSafePosition("left", value),
-        },
-        { values: theme("spacing") },
-      );
-    }),
+function pluginSafePadding() {
+  return plugin(({ matchUtilities, theme }) => {
+    matchUtilities(
+      {
+        "p-safe": (value) => ({
+          ...createSafePadding("top", value),
+          ...createSafePadding("right", value),
+          ...createSafePadding("bottom", value),
+          ...createSafePadding("left", value),
+        }),
+        "px-safe": (value) => ({
+          ...createSafePadding("right", value),
+          ...createSafePadding("left", value),
+        }),
+        "py-safe": (value) => ({
+          ...createSafePadding("top", value),
+          ...createSafePadding("bottom", value),
+        }),
+        "pt-safe": (value) => createSafePadding("top", value),
+        "pr-safe": (value) => createSafePadding("right", value),
+        "pb-safe": (value) => createSafePadding("bottom", value),
+        "pl-safe": (value) => createSafePadding("left", value),
+      },
+      { values: theme("spacing") },
+    );
+  });
+}
 
-    plugin(({ matchUtilities, theme }) => {
-      matchUtilities(
-        {
-          scrollbars: (value): CSSRuleObject => {
-            if (value === "none") {
-              return {
-                "&::-webkit-scrollbar": {
-                  width: "0",
-                  height: "0",
-                  display: "none",
-                },
+function pluginSafePosition() {
+  return plugin(({ matchUtilities, theme }) => {
+    matchUtilities(
+      {
+        "top-safe": (value) => createSafePosition("top", value),
+        "right-safe": (value) => createSafePosition("right", value),
+        "bottom-safe": (value) => createSafePosition("bottom", value),
+        "left-safe": (value) => createSafePosition("left", value),
+      },
+      { values: theme("spacing") },
+    );
+  });
+}
 
-                "&::-webkit-scrollbar-track-piece": {
-                  "background-color": "transparent",
-                },
-              };
-            }
-
+function pluginCustomScrollbar() {
+  return plugin(({ matchUtilities, theme }) => {
+    matchUtilities(
+      {
+        scrollbars: (value): CSSRuleObject => {
+          if (value === "none") {
             return {
               "&::-webkit-scrollbar": {
-                width: "5px",
-                height: "5px",
+                width: "0",
+                height: "0",
+                display: "none",
               },
 
-              "&::-webkit-scrollbar-thumb": {
-                "background-color": theme("colors.gray.200"),
+              "&::-webkit-scrollbar-track-piece": {
+                "background-color": "transparent",
               },
             };
-          },
-        },
-        {
-          values: {
-            none: "none",
-            custom: "custom",
-          },
-        },
-      );
-    }),
+          }
 
-    /*
-     * Tailwind allows to set `inset` with `ring-inset`, this allow us to unset
-     * it.
-     */
-    plugin(({ addUtilities }) => {
-      addUtilities({
-        ".ring-outset": {
-          "--tw-ring-inset": "",
+          return {
+            "&::-webkit-scrollbar": {
+              width: "5px",
+              height: "5px",
+            },
+
+            "&::-webkit-scrollbar-thumb": {
+              "background-color": theme("colors.gray.200"),
+            },
+          };
         },
-      });
-    }),
-  ],
-} satisfies Config;
+      },
+      {
+        values: {
+          none: "none",
+          custom: "custom",
+        },
+      },
+    );
+  });
+}
+
+/**
+ * Tailwind allows to set `inset` with `ring-inset`, this allow us to unset it.
+ */
+function pluginRingOutset() {
+  return plugin(({ addUtilities }) => {
+    addUtilities({
+      ".ring-outset": {
+        "--tw-ring-inset": "",
+      },
+    });
+  });
+}
 
 function createSafePadding(
   side: "top" | "right" | "bottom" | "left",
