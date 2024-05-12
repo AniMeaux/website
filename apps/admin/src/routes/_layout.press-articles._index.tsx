@@ -14,7 +14,6 @@ import { prisma } from "#core/prisma.server";
 import { BadRequestResponse, NotFoundResponse } from "#core/response.server";
 import { PageSearchParams } from "#core/search-params";
 import { assertCurrentUserHasGroups } from "#current-user/groups.server";
-import { Icon } from "#generated/icon";
 import { cn } from "@animeaux/core";
 import { FormDataDelegate } from "@animeaux/form-data";
 import { zu } from "@animeaux/zod-utils";
@@ -214,7 +213,7 @@ function PressArticleItem({
                 variant="translucid"
                 color="black"
               >
-                <Icon href="icon-trash" />
+                <Action.Icon href="icon-trash" />
               </Action>
             </Dialog.Trigger>
           </span>

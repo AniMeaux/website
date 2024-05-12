@@ -12,7 +12,6 @@ import { getPageTitle } from "#core/page-title";
 import { prisma } from "#core/prisma.server";
 import { NotFoundResponse } from "#core/response.server";
 import { assertCurrentUserHasGroups } from "#current-user/groups.server";
-import { Icon } from "#generated/icon";
 import { DownloadPictureLink } from "#routes/downloads.picture.$id/link";
 import { cn } from "@animeaux/core";
 import { zu } from "@animeaux/zod-utils";
@@ -93,7 +92,7 @@ export default function Route() {
               visiblePictureIndex + 1
             })`}
           >
-            <Icon href="icon-download" />
+            <Action.Icon href="icon-download" />
             Télécharger
           </DownloadPictureLink>
         </Action>

@@ -239,7 +239,7 @@ export function ColorItem({
       <span className="flex h-2 items-center gap-0.5">
         <Action asChild variant="text" color="gray" isIconOnly title="Modifier">
           <BaseLink to={Routes.colors.id(color.id).edit.toString()}>
-            <Icon href="icon-pen" />
+            <Action.Icon href="icon-pen" />
           </BaseLink>
         </Action>
 
@@ -256,7 +256,7 @@ export function ColorItem({
               }
               disabled={color._count.animals > 0}
             >
-              <Icon href="icon-trash" />
+              <Action.Icon href="icon-trash" />
             </Action>
           </Dialog.Trigger>
 

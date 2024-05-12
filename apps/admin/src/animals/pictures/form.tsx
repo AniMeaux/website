@@ -263,7 +263,7 @@ function ImageItem({
         ) : null}
 
         <ImageInput.PreviewAction isIconOnly onClick={() => onRemove()}>
-          <Icon href="icon-trash" />
+          <Action.Icon href="icon-trash" />
         </ImageInput.PreviewAction>
       </li>
     </ImageInput.Preview>

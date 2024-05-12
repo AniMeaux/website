@@ -591,7 +591,7 @@ function ActionDisable() {
           }
         >
           <Action variant="secondary" color="orange">
-            <Icon href="icon-ban" />
+            <Action.Icon href="icon-ban" />
             {user.isDisabled ? "Débloquer" : "Bloquer"}
           </Action>
         </Dialog.Trigger>
@@ -672,7 +672,7 @@ function ActionDelete() {
           }
         >
           <Action variant="secondary" color="red">
-            <Icon href="icon-trash" />
+            <Action.Icon href="icon-trash" />
             Supprimer
           </Action>
         </Dialog.Trigger>
