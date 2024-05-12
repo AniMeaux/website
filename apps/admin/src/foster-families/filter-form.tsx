@@ -300,7 +300,7 @@ function HousingFilter() {
                 label={HOUSING_TRANSLATION[housing]}
                 name={FosterFamilySearchParams.keys.housing}
                 value={housing}
-                icon={ICON_BY_HOUSING[housing]}
+                icon={<Icon href={ICON_BY_HOUSING[housing]} />}
                 checked={fosterFamilySearchParams.housing.has(housing)}
                 onChange={() => {}}
               />
@@ -321,7 +321,7 @@ function HousingFilter() {
                 label={GARDEN_TRANSLATION[garden]}
                 name={FosterFamilySearchParams.keys.garden}
                 value={garden}
-                icon={ICON_BY_GARDEN[garden]}
+                icon={<Icon href={ICON_BY_GARDEN[garden]} />}
                 checked={fosterFamilySearchParams.garden.has(garden)}
                 onChange={() => {}}
               />

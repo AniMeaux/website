@@ -1,6 +1,7 @@
 import { Icon } from "#generated/icon";
 import { cn } from "@animeaux/core";
 import { FosterFamilyAvailability } from "@prisma/client";
+import { DateTime } from "luxon";
 import type { Except } from "type-fest";
 
 export const AVAILABILITY_TRANSLATION: Record<
@@ -42,3 +43,26 @@ const ICON_CLASS_NAMES_BY_AVAILABILITY: Record<
   [FosterFamilyAvailability.UNAVAILABLE]: cn("text-red-500"),
   [FosterFamilyAvailability.UNKNOWN]: cn("text-gray-800"),
 };
+
+export function getAvailabilityLabel(
+  availability: FosterFamilyAvailability,
+  expirationDate: null | string,
+) {
+  if (availability === FosterFamilyAvailability.UNKNOWN) {
+    return "Disponibilité inconnue";
+  }
+
+  const expirationLabel =
+    expirationDate == null
+      ? null
+      : ` jusqu’au ${DateTime.fromISO(expirationDate).toLocaleString(
+          DateTime.DATE_FULL,
+        )}`;
+
+  const label =
+    availability === FosterFamilyAvailability.AVAILABLE
+      ? "Disponible"
+      : "Indisponible";
+
+  return [label, expirationLabel].filter(Boolean).join(" ");
+}

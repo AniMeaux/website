@@ -1,10 +1,5 @@
-import { Action } from "#core/actions";
-import { BaseLink } from "#core/base-link";
-import { ItemList, SimpleItem } from "#core/data-display/item";
+import { ItemList } from "#core/data-display/item-list";
 import { Card } from "#core/layout/card";
-import { Routes } from "#core/navigation";
-import { getLongLocation } from "#foster-families/location";
-import { Icon } from "#generated/icon";
 import { useLoaderData } from "@remix-run/react";
 import type { loader } from "./route";
 
@@ -15,30 +10,20 @@ export function ContactCard() {
     <Card>
       <Card.Header>
         <Card.Title>Contact</Card.Title>
-
-        <Action asChild variant="text">
-          <BaseLink
-            to={Routes.fosterFamilies.id(fosterFamily.id).edit.toString()}
-          >
-            Modifier
-          </BaseLink>
-        </Action>
       </Card.Header>
 
       <Card.Content>
-        <ItemList>
-          <SimpleItem icon={<Icon href="icon-phone" />}>
-            {fosterFamily.phone}
-          </SimpleItem>
+        <ItemList.List>
+          <ItemList.Item>
+            <ItemList.Icon href="icon-phone" />
+            <ItemList.Label>{fosterFamily.phone}</ItemList.Label>
+          </ItemList.Item>
 
-          <SimpleItem icon={<Icon href="icon-envelope" />}>
-            {fosterFamily.email}
-          </SimpleItem>
-
-          <SimpleItem icon={<Icon href="icon-location-dot" />}>
-            {getLongLocation(fosterFamily)}
-          </SimpleItem>
-        </ItemList>
+          <ItemList.Item>
+            <ItemList.Icon href="icon-envelope" />
+            <ItemList.Label>{fosterFamily.email}</ItemList.Label>
+          </ItemList.Item>
+        </ItemList.List>
       </Card.Content>
     </Card>
   );

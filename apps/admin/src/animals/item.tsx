@@ -175,7 +175,9 @@ export function AnimalSmallItem({
       to={Routes.animals.id(animal.id).toString()}
       className={cn(
         className,
-        "grid grid-cols-[auto_minmax(0px,1fr)_auto] items-center gap-1 rounded-0.5 bg-white px-0.5 py-1 bg-var-white focus-visible:z-10 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 hover:bg-gray-100 hover:bg-var-gray-100 md:px-1",
+        "relative z-stacking-context grid grid-cols-[auto_minmax(0px,1fr)_auto] items-center gap-1 rounded-0.5 bg-var-white focus-visible:z-just-above focus-visible:outline-none hover:bg-var-gray-100",
+        // After.
+        "after:absolute after:-bottom-1 after:-left-0.5 after:-right-0.5 after:-top-1 after:-z-just-above after:flex after:rounded-inherit after:bg-white after:transition-colors after:duration-100 focus-visible:after:focus-compact hover:after:bg-gray-100 md:after:-left-1 md:after:-right-1",
       )}
     >
       <AnimalAvatar animal={animal} size="md" loading={imageLoading} />

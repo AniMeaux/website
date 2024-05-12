@@ -48,7 +48,5 @@ PageLayout.Content = function PageContent({
   children?: React.ReactNode;
   className?: string;
 }) {
-  return (
-    <main className={cn("my-1 md:my-2 md:px-2", className)}>{children}</main>
-  );
+  return <main className={cn("py-1 md:p-2", className)}>{children}</main>;
 };

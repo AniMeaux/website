@@ -1,4 +1,6 @@
 import { cn } from "@animeaux/core";
+import { Primitive } from "@animeaux/react-primitives";
+import { forwardRef } from "react";
 
 export function Card({
   children,
@@ -91,4 +93,47 @@ Card.Footer = function CardFooter({
       {children}
     </footer>
   );
+};
+
+export const SubCard = {
+  Root: forwardRef<
+    React.ComponentRef<typeof Primitive.section>,
+    React.ComponentPropsWithoutRef<typeof Primitive.section>
+  >(function SubCardRoot({ className, ...props }, ref) {
+    return (
+      <Primitive.section
+        {...props}
+        ref={ref}
+        className={cn("grid grid-cols-1 gap-2", className)}
+      />
+    );
+  }),
+
+  Header: forwardRef<
+    React.ComponentRef<typeof Primitive.header>,
+    React.ComponentPropsWithoutRef<typeof Primitive.header>
+  >(function SubCardHeader({ className, ...props }, ref) {
+    return (
+      <Primitive.header
+        {...props}
+        ref={ref}
+        className={cn("flex items-center", className)}
+      />
+    );
+  }),
+
+  Title: forwardRef<
+    React.ComponentRef<typeof Primitive.h3>,
+    React.ComponentPropsWithoutRef<typeof Primitive.h3>
+  >(function SubCardTitle({ className, ...props }, ref) {
+    return (
+      <Primitive.h3
+        {...props}
+        ref={ref}
+        className={cn("flex-1 text-body-emphasis", className)}
+      />
+    );
+  }),
+
+  Content: Primitive.div,
 };

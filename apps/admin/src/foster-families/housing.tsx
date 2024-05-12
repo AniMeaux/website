@@ -1,4 +1,4 @@
-import { Icon } from "#generated/icon";
+import type { IconName } from "#generated/icon";
 import { FosterFamilyGarden, FosterFamilyHousing } from "@prisma/client";
 
 export const SORTED_HOUSING = [
@@ -15,11 +15,11 @@ export const HOUSING_TRANSLATION: Record<FosterFamilyHousing, string> = {
   [FosterFamilyHousing.UNKNOWN]: "Inconnu",
 };
 
-export const ICON_BY_HOUSING: Record<FosterFamilyHousing, React.ReactNode> = {
-  [FosterFamilyHousing.FLAT]: <Icon href="icon-building" />,
-  [FosterFamilyHousing.HOUSE]: <Icon href="icon-house" />,
-  [FosterFamilyHousing.OTHER]: <Icon href="icon-tent" />,
-  [FosterFamilyHousing.UNKNOWN]: <Icon href="icon-house-building" />,
+export const ICON_BY_HOUSING: Record<FosterFamilyHousing, IconName> = {
+  [FosterFamilyHousing.FLAT]: "icon-building",
+  [FosterFamilyHousing.HOUSE]: "icon-house",
+  [FosterFamilyHousing.OTHER]: "icon-tent",
+  [FosterFamilyHousing.UNKNOWN]: "icon-house-building",
 };
 
 export const SORTED_GARDEN = [
@@ -34,8 +34,8 @@ export const GARDEN_TRANSLATION: Record<FosterFamilyGarden, string> = {
   [FosterFamilyGarden.YES]: "Oui",
 };
 
-export const ICON_BY_GARDEN: Record<FosterFamilyGarden, React.ReactNode> = {
-  [FosterFamilyGarden.NO]: <Icon href="icon-tree-slash" />,
-  [FosterFamilyGarden.UNKNOWN]: <Icon href="icon-tree-question" />,
-  [FosterFamilyGarden.YES]: <Icon href="icon-tree" />,
+export const ICON_BY_GARDEN: Record<FosterFamilyGarden, IconName> = {
+  [FosterFamilyGarden.NO]: "icon-tree-slash",
+  [FosterFamilyGarden.UNKNOWN]: "icon-tree-question",
+  [FosterFamilyGarden.YES]: "icon-tree",
 };

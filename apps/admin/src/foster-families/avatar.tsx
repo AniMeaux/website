@@ -17,7 +17,7 @@ export function FosterFamilyAvatar({
   );
 }
 
-export const AVATAR_COLOR_BY_AVAILABILITY: Record<
+const AVATAR_COLOR_BY_AVAILABILITY: Record<
   FosterFamilyAvailability,
   AvatarColor
 > = {

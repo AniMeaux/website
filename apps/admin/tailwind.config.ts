@@ -61,6 +61,7 @@ const theme: Config = {
       1.5: "15px",
       2: "20px",
       full: "9999px",
+      inherit: "inherit",
     },
 
     extend: {
@@ -112,8 +113,20 @@ const theme: Config = {
         },
       },
 
+      minWidth: {
+        100: "100px",
+      },
+
       ringWidth: {
         5: "5px",
+      },
+
+      zIndex: {
+        // Just to create a new stacking context.
+        // https://developer.mozilla.org/en-US/docs/Web/CSS/z-index
+        "stacking-context": "0",
+
+        "just-above": "1",
       },
     },
   },
@@ -122,8 +135,11 @@ const theme: Config = {
     tailwindAnimation,
     pluginBackgroundVariable(),
     pluginCustomScrollbar(),
+    pluginFocus(),
     pluginFocusVisible(),
+    pluginGridDynamicColumns(),
     pluginHover(),
+    pluginIconsSizes(),
     pluginRingOutset(),
     pluginSafePadding(),
     pluginSafePosition(),
@@ -325,6 +341,56 @@ function pluginRingOutset() {
     addUtilities({
       ".ring-outset": {
         "--tw-ring-inset": "",
+      },
+    });
+  });
+}
+
+function pluginGridDynamicColumns() {
+  return plugin(({ matchUtilities, theme }) => {
+    matchUtilities(
+      {
+        "grid-auto-fill-cols": (value) => ({
+          "grid-template-columns": `repeat(auto-fill, minmax(${value}, 1fr))`,
+        }),
+      },
+      {
+        values: theme("minWidth"),
+        type: ["length"],
+      },
+    );
+  });
+}
+
+function pluginIconsSizes() {
+  return plugin(({ matchUtilities }) => {
+    matchUtilities(
+      { icon: (value) => ({ "font-size": value }) },
+      {
+        values: {
+          "20": "20px",
+          "30": "30px",
+        },
+      },
+    );
+  });
+}
+
+function pluginFocus() {
+  return plugin(({ addUtilities, theme }) => {
+    addUtilities({
+      ".focus-compact": {
+        "outline-color": theme("colors.blue.400"),
+        "outline-offset": "0px",
+        "outline-style": "solid",
+        "outline-width": "3px",
+      },
+
+      ".focus-spaced": {
+        "outline-color": theme("colors.blue.400"),
+        "outline-offset": "2px",
+        "outline-style": "solid",
+        "outline-width": "3px",
       },
     });
   });

@@ -59,7 +59,7 @@ export function AnimalsToSterilizeCard() {
         ) : null}
       </Card.Header>
 
-      <Card.Content hasListItems>
+      <Card.Content>
         {animalToSterilizeCount === 0 ? (
           <Empty
             isCompact
@@ -71,7 +71,7 @@ export function AnimalsToSterilizeCard() {
             className="h-full"
           />
         ) : (
-          <ul className="grid grid-cols-1">
+          <ul className="grid grid-cols-1 gap-2">
             {animalsToSterilize.map((animal) => (
               <li key={animal.id} className="flex flex-col">
                 <AnimalSmallItem

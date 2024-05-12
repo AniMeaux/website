@@ -10,15 +10,30 @@ export function Empty({
   titleElementType: TitleElementType = "h1",
   className,
 }: {
-  icon: string;
-  iconAlt: string;
-  title: string;
-  message: React.ReactNode;
+  message?: React.ReactNode;
   action?: React.ReactNode;
   isCompact?: boolean;
-  titleElementType?: React.ElementType;
   className?: string;
-}) {
+} & (
+  | {
+      icon: string;
+      iconAlt: string;
+    }
+  | {
+      icon?: undefined;
+      iconAlt?: undefined;
+    }
+) &
+  (
+    | {
+        title: string;
+        titleElementType?: React.ElementType;
+      }
+    | {
+        title?: undefined;
+        titleElementType?: undefined;
+      }
+  )) {
   return (
     <section
       className={cn(
@@ -26,30 +41,39 @@ export function Empty({
         "flex w-full flex-col items-center justify-center gap-4 p-2",
       )}
     >
-      <div
-        role="img"
-        aria-label={iconAlt}
-        title={iconAlt}
-        className={cn("text-[80px] leading-none", {
-          "md:text-[120px]": !isCompact,
-        })}
-      >
-        {icon}
-      </div>
-
-      <div className="flex max-w-[400px] flex-col gap-2 text-center">
-        <TitleElementType
-          className={cn("text-title-section-small", {
-            "md:text-title-section-large": !isCompact,
+      {icon != null ? (
+        <div
+          role="img"
+          aria-label={iconAlt}
+          title={iconAlt}
+          className={cn("text-[80px] leading-none", {
+            "md:text-[120px]": !isCompact,
           })}
         >
-          {title}
-        </TitleElementType>
+          {icon}
+        </div>
+      ) : null}
 
-        <p>{message}</p>
-      </div>
+      {title != null || message != null || action != null ? (
+        <div className="flex flex-col items-center gap-2">
+          {title != null ? (
+            <TitleElementType
+              className={cn(
+                "max-w-[400px] text-center text-title-section-small",
+                !isCompact ? "md:text-title-section-large" : undefined,
+              )}
+            >
+              {title}
+            </TitleElementType>
+          ) : null}
 
-      {action}
+          {message != null ? (
+            <p className="max-w-[400px] text-center">{message}</p>
+          ) : null}
+
+          {action}
+        </div>
+      ) : null}
     </section>
   );
 }
