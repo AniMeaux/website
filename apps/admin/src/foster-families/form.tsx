@@ -10,11 +10,8 @@ import { Input } from "#core/form-elements/input";
 import { RadioInput, RadioInputList } from "#core/form-elements/radio-input";
 import { RequiredStar } from "#core/form-elements/required-star";
 import { Textarea } from "#core/form-elements/textarea";
+import { Card } from "#core/layout/card";
 import { Separator } from "#core/layout/separator";
-import {
-  AVAILABILITY_TRANSLATION,
-  SORTED_AVAILABILITIES,
-} from "#foster-families/availability";
 import {
   GARDEN_TRANSLATION,
   HOUSING_TRANSLATION,
@@ -33,9 +30,12 @@ import {
 } from "@prisma/client";
 import type { SerializeFrom } from "@remix-run/node";
 import type { FetcherWithComponents } from "@remix-run/react";
-import { useLocation } from "@remix-run/react";
 import { DateTime } from "luxon";
 import { useEffect, useRef, useState } from "react";
+import {
+  AVAILABILITY_TRANSLATION,
+  SORTED_AVAILABILITIES,
+} from "./availability";
 
 export const ActionFormData = FormDataDelegate.create(
   zu.object({
@@ -131,14 +131,6 @@ export function FosterFamilyForm({
     }
   }, [fetcher.data?.errors]);
 
-  const { hash } = useLocation();
-  useEffect(() => {
-    const key = hash.replace("#", "");
-    if (key === ActionFormData.keys.comments) {
-      commentsRef.current?.focus();
-    }
-  }, [hash]);
-
   const [availabilityState, setAvailabilityState] = useState(
     defaultFosterFamily?.availability ?? FosterFamilyAvailability.UNKNOWN,
   );
@@ -146,10 +138,38 @@ export function FosterFamilyForm({
   const [availabilityExpirationDateState, setAvailabilityExpirationDateState] =
     useState(toIsoDateValue(defaultFosterFamily?.availabilityExpirationDate));
 
+  // <Card className="w-full md:max-w-[600px]">
+  //   <Card.Header>
+  //     <Card.Title>Modifier {fosterFamily.displayName}</Card.Title>
+  //   </Card.Header>
+  //   <Card.Content>
+  //   </Card.Content>
+  // </Card>
+
+  // <Card className="w-full md:max-w-[600px]">
+  //   <Card.Header>
+  //     <Card.Title>Nouvelle famille d’accueil</Card.Title>
+  //   </Card.Header>
+  //   <Card.Content>
+  //   </Card.Content>
+  // </Card>
+
   return (
-    <Form asChild hasHeader>
-      <fetcher.Form method="POST" noValidate>
-        <Form.Fields>
+    <fetcher.Form
+      method="POST"
+      noValidate
+      className="grid w-full grid-cols-1 gap-1 md:max-w-[600px] md:gap-2"
+    >
+      <Card>
+        <Card.Header>
+          <Card.Title>
+            {isCreate
+              ? "Nouvelle famille d’accueil"
+              : `Modifier ${defaultFosterFamily.displayName}`}
+          </Card.Title>
+        </Card.Header>
+
+        <Card.Content>
           <Form.Errors errors={fetcher.data?.errors?.formErrors} />
 
           <Form.Field>
@@ -178,154 +198,6 @@ export function FosterFamilyForm({
               </Form.ErrorMessage>
             ) : null}
           </Form.Field>
-
-          <Separator />
-
-          <Form.Field>
-            <Form.Label htmlFor={ActionFormData.keys.phone}>
-              Téléphone <RequiredStar />
-            </Form.Label>
-
-            <Input
-              ref={phoneRef}
-              id={ActionFormData.keys.phone}
-              type="tel"
-              name={ActionFormData.keys.phone}
-              defaultValue={defaultFosterFamily?.phone}
-              placeholder="+33612345678"
-              hasError={fetcher.data?.errors?.fieldErrors.phone != null}
-              aria-describedby="phone-error"
-              leftAdornment={
-                <Input.Adornment>
-                  <Icon href="icon-phone" />
-                </Input.Adornment>
-              }
-            />
-
-            {fetcher.data?.errors?.fieldErrors.phone != null ? (
-              <Form.ErrorMessage id="phone-error">
-                {fetcher.data.errors.fieldErrors.phone}
-              </Form.ErrorMessage>
-            ) : null}
-          </Form.Field>
-
-          <Form.Field>
-            <Form.Label htmlFor={ActionFormData.keys.email}>
-              Email <RequiredStar />
-            </Form.Label>
-
-            <Input
-              ref={emailRef}
-              id={ActionFormData.keys.email}
-              type="email"
-              name={ActionFormData.keys.email}
-              defaultValue={defaultFosterFamily?.email}
-              placeholder="jean@mail.com"
-              hasError={fetcher.data?.errors?.fieldErrors.email != null}
-              aria-describedby="email-error"
-              leftAdornment={
-                <Input.Adornment>
-                  <Icon href="icon-envelope" />
-                </Input.Adornment>
-              }
-            />
-
-            {fetcher.data?.errors?.fieldErrors.email != null ? (
-              <Form.ErrorMessage id="email-error">
-                {fetcher.data.errors.fieldErrors.email}
-              </Form.ErrorMessage>
-            ) : null}
-          </Form.Field>
-
-          <Form.Field>
-            <Form.Label htmlFor={ActionFormData.keys.address}>
-              Adresse <RequiredStar />
-            </Form.Label>
-
-            <Input
-              ref={addressRef}
-              id={ActionFormData.keys.address}
-              type="text"
-              name={ActionFormData.keys.address}
-              defaultValue={defaultFosterFamily?.address}
-              hasError={fetcher.data?.errors?.fieldErrors.address != null}
-              aria-describedby="address-error"
-              leftAdornment={
-                <Input.Adornment>
-                  <Icon href="icon-location-dot" />
-                </Input.Adornment>
-              }
-            />
-
-            {fetcher.data?.errors?.fieldErrors.address != null ? (
-              <Form.ErrorMessage id="address-error">
-                {fetcher.data.errors.fieldErrors.address}
-              </Form.ErrorMessage>
-            ) : null}
-          </Form.Field>
-
-          <Form.Row>
-            <Form.Field>
-              <Form.Label htmlFor={ActionFormData.keys.zipCode}>
-                Code postal <RequiredStar />
-              </Form.Label>
-
-              <Input
-                ref={zipCodeRef}
-                id={ActionFormData.keys.zipCode}
-                type="text"
-                inputMode="numeric"
-                pattern="\d{5}"
-                name={ActionFormData.keys.zipCode}
-                defaultValue={defaultFosterFamily?.zipCode}
-                hasError={fetcher.data?.errors?.fieldErrors.zipCode != null}
-                aria-describedby="zipCode-error"
-                leftAdornment={
-                  <Input.Adornment>
-                    <Icon href="icon-location-dot" />
-                  </Input.Adornment>
-                }
-              />
-
-              {fetcher.data?.errors?.fieldErrors.zipCode != null ? (
-                <Form.ErrorMessage id="zipCode-error">
-                  {fetcher.data.errors.fieldErrors.zipCode}
-                </Form.ErrorMessage>
-              ) : null}
-            </Form.Field>
-
-            <Form.Field>
-              <Form.Label htmlFor={ActionFormData.keys.city}>
-                Ville <RequiredStar />
-              </Form.Label>
-
-              <Input
-                ref={cityRef}
-                id={ActionFormData.keys.city}
-                type="text"
-                name={ActionFormData.keys.city}
-                defaultValue={defaultFosterFamily?.city}
-                hasError={fetcher.data?.errors?.fieldErrors.city != null}
-                aria-describedby="city-error"
-                leftAdornment={
-                  <Input.Adornment>
-                    <Icon href="icon-location-dot" />
-                  </Input.Adornment>
-                }
-              />
-
-              {fetcher.data?.errors?.fieldErrors.city != null ? (
-                <Form.ErrorMessage id="city-error">
-                  {fetcher.data.errors.fieldErrors.city}
-                </Form.ErrorMessage>
-              ) : null}
-            </Form.Field>
-          </Form.Row>
-
-          <Separator />
-
-          <HousingField defaultFosterFamily={defaultFosterFamily} />
-          <GardenField defaultFosterFamily={defaultFosterFamily} />
 
           <Separator />
 
@@ -418,9 +290,177 @@ export function FosterFamilyForm({
               </Form.Field>
             ) : null}
           </Form.Row>
+        </Card.Content>
+      </Card>
+
+      <Card>
+        <Card.Header>
+          <Card.Title>Situation</Card.Title>
+        </Card.Header>
+
+        <Card.Content>
+          <HousingField defaultFosterFamily={defaultFosterFamily} />
+          <GardenField defaultFosterFamily={defaultFosterFamily} />
+        </Card.Content>
+      </Card>
+
+      <Card>
+        <Card.Header>
+          <Card.Title>Coordonnées</Card.Title>
+        </Card.Header>
+
+        <Card.Content>
+          <Form.Field>
+            <Form.Label htmlFor={ActionFormData.keys.phone}>
+              Téléphone <RequiredStar />
+            </Form.Label>
+
+            <Input
+              ref={phoneRef}
+              id={ActionFormData.keys.phone}
+              type="tel"
+              name={ActionFormData.keys.phone}
+              defaultValue={defaultFosterFamily?.phone}
+              placeholder="+33612345678"
+              hasError={fetcher.data?.errors?.fieldErrors.phone != null}
+              aria-describedby="phone-error"
+              leftAdornment={
+                <Input.Adornment>
+                  <Icon href="icon-phone" />
+                </Input.Adornment>
+              }
+            />
+
+            {fetcher.data?.errors?.fieldErrors.phone != null ? (
+              <Form.ErrorMessage id="phone-error">
+                {fetcher.data.errors.fieldErrors.phone}
+              </Form.ErrorMessage>
+            ) : null}
+          </Form.Field>
+
+          <Form.Field>
+            <Form.Label htmlFor={ActionFormData.keys.email}>
+              Email <RequiredStar />
+            </Form.Label>
+
+            <Input
+              ref={emailRef}
+              id={ActionFormData.keys.email}
+              type="email"
+              name={ActionFormData.keys.email}
+              defaultValue={defaultFosterFamily?.email}
+              placeholder="jean@mail.com"
+              hasError={fetcher.data?.errors?.fieldErrors.email != null}
+              aria-describedby="email-error"
+              leftAdornment={
+                <Input.Adornment>
+                  <Icon href="icon-envelope" />
+                </Input.Adornment>
+              }
+            />
+
+            {fetcher.data?.errors?.fieldErrors.email != null ? (
+              <Form.ErrorMessage id="email-error">
+                {fetcher.data.errors.fieldErrors.email}
+              </Form.ErrorMessage>
+            ) : null}
+          </Form.Field>
 
           <Separator />
 
+          <Form.Field>
+            <Form.Label htmlFor={ActionFormData.keys.address}>
+              Adresse <RequiredStar />
+            </Form.Label>
+
+            <Input
+              ref={addressRef}
+              id={ActionFormData.keys.address}
+              type="text"
+              name={ActionFormData.keys.address}
+              defaultValue={defaultFosterFamily?.address}
+              hasError={fetcher.data?.errors?.fieldErrors.address != null}
+              aria-describedby="address-error"
+              leftAdornment={
+                <Input.Adornment>
+                  <Icon href="icon-location-dot" />
+                </Input.Adornment>
+              }
+            />
+
+            {fetcher.data?.errors?.fieldErrors.address != null ? (
+              <Form.ErrorMessage id="address-error">
+                {fetcher.data.errors.fieldErrors.address}
+              </Form.ErrorMessage>
+            ) : null}
+          </Form.Field>
+
+          <Form.Row>
+            <Form.Field>
+              <Form.Label htmlFor={ActionFormData.keys.zipCode}>
+                Code postal <RequiredStar />
+              </Form.Label>
+
+              <Input
+                ref={zipCodeRef}
+                id={ActionFormData.keys.zipCode}
+                type="text"
+                inputMode="numeric"
+                pattern="\d{5}"
+                name={ActionFormData.keys.zipCode}
+                defaultValue={defaultFosterFamily?.zipCode}
+                hasError={fetcher.data?.errors?.fieldErrors.zipCode != null}
+                aria-describedby="zipCode-error"
+                leftAdornment={
+                  <Input.Adornment>
+                    <Icon href="icon-location-dot" />
+                  </Input.Adornment>
+                }
+              />
+
+              {fetcher.data?.errors?.fieldErrors.zipCode != null ? (
+                <Form.ErrorMessage id="zipCode-error">
+                  {fetcher.data.errors.fieldErrors.zipCode}
+                </Form.ErrorMessage>
+              ) : null}
+            </Form.Field>
+
+            <Form.Field>
+              <Form.Label htmlFor={ActionFormData.keys.city}>
+                Ville <RequiredStar />
+              </Form.Label>
+
+              <Input
+                ref={cityRef}
+                id={ActionFormData.keys.city}
+                type="text"
+                name={ActionFormData.keys.city}
+                defaultValue={defaultFosterFamily?.city}
+                hasError={fetcher.data?.errors?.fieldErrors.city != null}
+                aria-describedby="city-error"
+                leftAdornment={
+                  <Input.Adornment>
+                    <Icon href="icon-location-dot" />
+                  </Input.Adornment>
+                }
+              />
+
+              {fetcher.data?.errors?.fieldErrors.city != null ? (
+                <Form.ErrorMessage id="city-error">
+                  {fetcher.data.errors.fieldErrors.city}
+                </Form.ErrorMessage>
+              ) : null}
+            </Form.Field>
+          </Form.Row>
+        </Card.Content>
+      </Card>
+
+      <Card>
+        <Card.Header>
+          <Card.Title>Peut accueillir</Card.Title>
+        </Card.Header>
+
+        <Card.Content>
           <Form.Field>
             <Form.Label asChild>
               <span>
@@ -453,10 +493,18 @@ export function FosterFamilyForm({
               </Form.ErrorMessage>
             ) : null}
           </Form.Field>
+        </Card.Content>
+      </Card>
 
+      <Card>
+        <Card.Header>
+          <Card.Title>Foyer</Card.Title>
+        </Card.Header>
+
+        <Card.Content>
           <Form.Field>
             <Form.Label asChild>
-              <span>Espèces déjà présentes</span>
+              <span>Animaux de la famille</span>
             </Form.Label>
 
             <CheckboxInputList>
@@ -473,29 +521,30 @@ export function FosterFamilyForm({
               ))}
             </CheckboxInputList>
           </Form.Field>
+        </Card.Content>
+      </Card>
 
-          <Separator />
+      <Card>
+        <Card.Header>
+          <Card.Title>Commentaires</Card.Title>
+        </Card.Header>
 
+        <Card.Content>
           <Form.Field>
-            <Form.Label htmlFor={ActionFormData.keys.comments}>
-              Commentaires privés
-            </Form.Label>
-
             <Textarea
               ref={commentsRef}
-              id={ActionFormData.keys.comments}
               name={ActionFormData.keys.comments}
               defaultValue={defaultFosterFamily?.comments ?? undefined}
               rows={5}
             />
           </Form.Field>
-        </Form.Fields>
+        </Card.Content>
+      </Card>
 
-        <Form.Action asChild>
-          <Action>{isCreate ? "Créer" : "Enregistrer"}</Action>
-        </Form.Action>
-      </fetcher.Form>
-    </Form>
+      <div className="grid grid-cols-1 px-1.5 md:justify-items-end md:px-0">
+        <Action type="submit">{isCreate ? "Créer" : "Enregistrer"}</Action>
+      </div>
+    </fetcher.Form>
   );
 }
 

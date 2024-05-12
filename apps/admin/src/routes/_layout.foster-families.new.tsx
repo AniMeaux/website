@@ -1,7 +1,6 @@
 import { ErrorPage } from "#core/data-display/error-page";
 import { db } from "#core/db.server";
 import { EmailAlreadyUsedError } from "#core/errors.server";
-import { Card } from "#core/layout/card";
 import { PageLayout } from "#core/layout/page";
 import { Routes, useBackIfPossible } from "#core/navigation";
 import { getPageTitle } from "#core/page-title";
@@ -147,15 +146,7 @@ export default function Route() {
   return (
     <PageLayout>
       <PageLayout.Content className="flex flex-col items-center">
-        <Card className="w-full md:max-w-[600px]">
-          <Card.Header>
-            <Card.Title>Nouvelle famille d’accueil</Card.Title>
-          </Card.Header>
-
-          <Card.Content>
-            <FosterFamilyForm fetcher={fetcher} />
-          </Card.Content>
-        </Card>
+        <FosterFamilyForm fetcher={fetcher} />
       </PageLayout.Content>
     </PageLayout>
   );
