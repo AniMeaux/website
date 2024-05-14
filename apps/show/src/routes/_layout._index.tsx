@@ -226,7 +226,7 @@ function ComeWithYourDogSection() {
         <p>
           Votre chien est le bienvenu durant le salon. Cependant, un contrôle
           vétérinaire sera effectué à l’entrée. Le carnet de santé et les
-          papiers d’identification des animaux seront obligatoire lors de ce
+          papiers d’identification des animaux seront obligatoires lors de ce
           contrôle. Pour les chiens de catégorie, veillez à prévoir votre
           autorisation de détention.
         </p>
