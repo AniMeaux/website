@@ -966,7 +966,7 @@ function ActiveFilterLink() {
   return (
     <Action asChild variant="secondary" color={isActive ? "blue" : "gray"}>
       <BaseLink replace to={{ search: toSearchParams.toString() }}>
-        {isActive ? <Icon href="icon-check" /> : null}
+        {isActive ? <Action.Icon href="icon-check" /> : null}
         Animaux en charge
       </BaseLink>
     </Action>
@@ -991,7 +991,7 @@ function ManagerActiveFilterLink({
   return (
     <Action asChild variant="secondary" color={isActive ? "blue" : "gray"}>
       <BaseLink replace to={{ search: toSearchParams.toString() }}>
-        {isActive ? <Icon href="icon-check" /> : null}À votre charge
+        {isActive ? <Action.Icon href="icon-check" /> : null}À votre charge
       </BaseLink>
     </Action>
   );

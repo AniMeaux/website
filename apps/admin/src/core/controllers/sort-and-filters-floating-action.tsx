@@ -15,13 +15,8 @@ export function SortAndFiltersFloatingAction({
 }) {
   return (
     <Dialog.Root>
-      <Dialog.Trigger asChild>
-        <Action
-          variant="floating"
-          className="fixed z-20 bottom-safe-6.5 right-safe-1.5 md:hidden"
-        >
-          <Icon href="icon-filter" />
-        </Action>
+      <Dialog.Trigger className="fixed z-20 flex h-5 w-5 items-center justify-center rounded-full bg-blue-500 shadow-popover-sm transition-[background-color,transform] duration-100 ease-in-out bottom-safe-6.5 right-safe-1.5 active:scale-95 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-inheritBg hover:bg-blue-400 md:hidden">
+        <Icon href="icon-filter" className="text-[25px] text-white" />
       </Dialog.Trigger>
 
       <Dialog.Portal>

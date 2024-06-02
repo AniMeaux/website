@@ -24,7 +24,6 @@ import {
   FosterFamilyAvatar,
 } from "#foster-families/avatar";
 import { ActionFormData } from "#foster-families/form";
-import { Icon } from "#generated/icon";
 import { zu } from "@animeaux/zod-utils";
 import { FosterFamilyAvailability, UserGroup } from "@prisma/client";
 import type {
@@ -388,7 +387,7 @@ function ActionCard() {
             }
           >
             <Action variant="secondary" color="red">
-              <Icon href="icon-trash" />
+              <Action.Icon href="icon-trash" />
               Supprimer
             </Action>
           </Dialog.Trigger>

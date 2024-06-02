@@ -1,14 +1,10 @@
 import { Spinner } from "#core/loaders/spinner";
+import { Icon } from "#generated/icon";
 import { cn } from "@animeaux/core";
 import { Primitive } from "@animeaux/react-primitives";
 import { forwardRef } from "react";
 
-type ActionVariant =
-  | "floating"
-  | "primary"
-  | "secondary"
-  | "text"
-  | "translucid";
+type ActionVariant = "primary" | "secondary" | "text" | "translucid";
 
 export type ActionColor =
   | "black"
@@ -61,9 +57,16 @@ export const Action = Object.assign(
             isLoading ? "opacity-100" : "opacity-0",
           )}
         >
-          <Spinner />
+          <Spinner className="text-[20px]" />
         </span>
       );
+    },
+
+    Icon: function ActionIcon({
+      className,
+      ...props
+    }: React.ComponentPropsWithoutRef<typeof Icon>) {
+      return <Icon {...props} className={cn("text-[20px]", className)} />;
     },
   },
 );
@@ -72,10 +75,6 @@ const VARIANT_CLASS_NAME: Record<
   ActionVariant,
   (args: { isIconOnly: boolean }) => string
 > = {
-  floating: () =>
-    cn(
-      "h-5 w-5 justify-center rounded-full text-[25px] shadow-popover-sm transition-[background-color,transform]",
-    ),
   primary: ({ isIconOnly }) =>
     cn(
       "h-4 min-w-[40px] rounded-0.5 transition-[background-color,transform] text-body-emphasis",
@@ -98,14 +97,6 @@ const VARIANT_CLASS_NAME: Record<
 };
 
 const COLOR_CLASS_NAMES: Record<ActionVariant, Record<ActionColor, string>> = {
-  floating: {
-    black: "",
-    blue: "bg-blue-500 text-white hover:bg-blue-400",
-    gray: "",
-    green: "",
-    orange: "",
-    red: "",
-  },
   primary: {
     black: "",
     blue: "bg-blue-500 text-white hover:bg-blue-400",

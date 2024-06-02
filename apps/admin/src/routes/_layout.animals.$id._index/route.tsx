@@ -399,7 +399,7 @@ function ActionCard() {
         <Dialog>
           <Dialog.Trigger asChild>
             <Action variant="secondary" color="red">
-              <Icon href="icon-trash" />
+              <Action.Icon href="icon-trash" />
               Supprimer
             </Action>
           </Dialog.Trigger>
