@@ -44,7 +44,6 @@ COPY --from=production-deps /workspace/node_modules ./node_modules
 COPY --from=production-deps /workspace/apps/website/node_modules ./apps/website/node_modules
 COPY --from=build /workspace/node_modules/.prisma ./node_modules/.prisma
 COPY --from=build /workspace/apps/website/build ./apps/website/build
-COPY --from=build /workspace/apps/website/public/build ./apps/website/public/build
 ADD ./prisma ./prisma
 ADD ./apps/website ./apps/website
 

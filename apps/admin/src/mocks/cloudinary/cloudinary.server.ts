@@ -8,7 +8,8 @@ import {
   unstable_parseMultipartFormData,
 } from "@remix-run/node";
 import type { UploadApiErrorResponse, UploadApiResponse } from "cloudinary";
-import { rest } from "msw";
+import type { HttpResponseResolver } from "msw";
+import { HttpResponse, http } from "msw";
 
 const ActionFormData = FormDataDelegate.create(
   zu.object({
@@ -17,13 +18,7 @@ const ActionFormData = FormDataDelegate.create(
   }),
 );
 
-const resolver: Parameters<typeof rest.post>[1] = async (req, res, ctx) => {
-  const request = new Request(req.url, {
-    method: req.method,
-    headers: Array.from(req.headers.entries()),
-    body: await req.arrayBuffer(),
-  });
-
+const resolver: HttpResponseResolver = async ({ request }) => {
   const rawFormData = await unstable_parseMultipartFormData(
     request,
     unstable_composeUploadHandlers(
@@ -42,7 +37,7 @@ const resolver: Parameters<typeof rest.post>[1] = async (req, res, ctx) => {
       name: "name",
     };
 
-    return res(ctx.status(400), ctx.json(response));
+    return HttpResponse.json(response, { status: 400 });
   }
 
   let publicId = formData.data.public_id;
@@ -55,7 +50,7 @@ const resolver: Parameters<typeof rest.post>[1] = async (req, res, ctx) => {
     public_id: publicId,
   };
 
-  return res(ctx.json(response));
+  return HttpResponse.json(response);
 };
 
 function createFileMockUploadHandler(): UploadHandler {
@@ -79,12 +74,12 @@ function createFileMockUploadHandler(): UploadHandler {
 }
 
 export const cloudinaryHandlers = [
-  rest.post(
+  http.post(
     "https://api.cloudinary.com/v1_1/mock-cloud-name/image/upload",
     resolver,
   ),
-  rest.post(
+  http.post(
     "https://api.cloudinary.com/v1_1/mock-cloud-name/image/destroy",
-    (_req, res, ctx) => res(ctx.json({ result: "ok" })),
+    () => HttpResponse.json({ result: "ok" }),
   ),
 ];

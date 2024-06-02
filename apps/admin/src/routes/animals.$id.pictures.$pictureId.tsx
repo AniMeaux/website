@@ -113,7 +113,7 @@ export default function Route() {
       </div>
 
       <footer className="flex justify-center pt-0.5 pb-safe-0.5 md:pt-1 md:pb-safe-1">
-        <div className="grid max-w-full auto-cols-[60px] grid-flow-col justify-start gap-1 overflow-x-auto px-safe-1 scrollbars-none md:auto-cols-[80px] md:gap-2">
+        <div className="grid max-w-full auto-cols-[60px] grid-flow-col justify-start gap-1 overflow-x-auto scrollbars-none px-safe-1 md:auto-cols-[80px] md:gap-2">
           {allPictures.map((pictureId, index) => (
             <BaseLink
               key={pictureId}

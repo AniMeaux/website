@@ -1,20 +1,20 @@
-import type {
-  DefaultBodyType,
-  PathParams,
-  ResponseResolver,
-  RestContext,
-  RestRequest,
-} from "msw";
-import { rest } from "msw";
+import type { DefaultBodyType, HttpResponseResolver, PathParams } from "msw";
+import { HttpResponse, http } from "msw";
 
-export function createPostHandlers(
-  path: string,
-  resolver: ResponseResolver<
-    RestRequest<DefaultBodyType, PathParams<string>>,
-    RestContext,
-    DefaultBodyType
-  >,
-) {
+export type QueryBody = {
+  query?: string;
+  page?: number;
+  hitsPerPage?: number;
+};
+
+export type FacetBody = {
+  facetQuery?: string;
+  maxFacetHits?: number;
+};
+
+export function createPostHandlers<
+  RequestBodyType extends DefaultBodyType = DefaultBodyType,
+>(path: string, resolver: HttpResponseResolver<PathParams, RequestBodyType>) {
   // Mock all primary and fallback hosts.
   // See https://www.algolia.com/doc/rest-api/search/#hosts
   return [
@@ -23,14 +23,15 @@ export function createPostHandlers(
     `https://mock-id-1.algolianet.com${path}`,
     `https://mock-id-2.algolianet.com${path}`,
     `https://mock-id-3.algolianet.com${path}`,
-  ].map((path) => rest.post(path, resolver));
+  ].map((path) => http.post(path, resolver));
 }
 
 export function createBatchHandlers(path: string) {
-  return createPostHandlers(path, async (_req, res, ctx) => {
-    return res(
-      ctx.json({ taskID: Math.round(Math.random() * 1000), objectIDs: [] }),
-    );
+  return createPostHandlers(path, async () => {
+    return HttpResponse.json({
+      taskID: Math.round(Math.random() * 1000),
+      objectIDs: [],
+    });
   });
 }
 

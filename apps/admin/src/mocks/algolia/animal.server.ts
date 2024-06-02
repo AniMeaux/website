@@ -1,5 +1,6 @@
 import { algolia } from "#core/algolia/algolia.server";
 import { prisma } from "#core/prisma.server";
+import type { FacetBody, QueryBody } from "#mocks/algolia/shared.server";
 import {
   createBatchHandlers,
   createPostHandlers,
@@ -13,16 +14,18 @@ import type {
 } from "@algolia/client-search";
 import type { Animal, SerializeObject } from "@animeaux/algolia-client";
 import type { Prisma } from "@prisma/client";
+import { HttpResponse } from "msw";
 import { promiseHash } from "remix-utils/promise";
 import invariant from "tiny-invariant";
 
 export const animalHandlers = [
-  ...createPostHandlers(
+  ...createPostHandlers<QueryBody>(
     `/1/indexes/${algolia.animal.index.indexName}/query`,
-    async (req, res, ctx) => {
-      const body = await req.json();
+    async ({ request }) => {
+      const body = await request.json();
       const query = body.query || "";
       const page = body.page ?? 0;
+      const hitsPerPage = body.hitsPerPage ?? 100;
 
       const where: Prisma.AnimalWhereInput = {};
       if (query !== "") {
@@ -37,8 +40,8 @@ export const animalHandlers = [
         animals: prisma.animal.findMany({
           where,
           orderBy: { name: "asc" },
-          take: body.hitsPerPage,
-          skip: page * body.hitsPerPage,
+          take: hitsPerPage,
+          skip: page * hitsPerPage,
           select: {
             alias: true,
             id: true,
@@ -54,8 +57,8 @@ export const animalHandlers = [
       const responseBody: SearchResponse<SerializeObject<Animal>> = {
         nbHits: totalCount,
         page,
-        nbPages: Math.ceil(totalCount / body.hitsPerPage),
-        hitsPerPage: body.hitsPerPage,
+        nbPages: Math.ceil(totalCount / hitsPerPage),
+        hitsPerPage,
         exhaustiveNbHits: true,
         query,
         params: "",
@@ -85,14 +88,14 @@ export const animalHandlers = [
         })),
       };
 
-      return res(ctx.json(responseBody));
+      return HttpResponse.json(responseBody);
     },
   ),
 
-  ...createPostHandlers(
+  ...createPostHandlers<FacetBody>(
     `/1/indexes/${algolia.animal.index.indexName}/facets/pickUpLocation/query`,
-    async (req, res, ctx) => {
-      const body = await req.json();
+    async ({ request }) => {
+      const body = await request.json();
       const facetQuery = body.facetQuery || "";
 
       const where: Prisma.AnimalWhereInput = {};
@@ -131,7 +134,7 @@ export const animalHandlers = [
         }),
       };
 
-      return res(ctx.json(response));
+      return HttpResponse.json(response);
     },
   ),
 

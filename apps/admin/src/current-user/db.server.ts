@@ -15,9 +15,9 @@ import { redirect } from "@remix-run/node";
 import { createPath } from "history";
 
 export class CurrentUserDbDelegate {
-  async get<T extends Prisma.UserFindFirstArgs>(
+  async get<T extends Prisma.UserSelect>(
     request: Request,
-    args: Prisma.SelectSubset<T, Prisma.UserFindFirstArgs>,
+    args: { select: T },
     {
       skipPasswordChangeCheck = false,
     }: { skipPasswordChangeCheck?: boolean } = {},
@@ -28,11 +28,21 @@ export class CurrentUserDbDelegate {
     }
 
     const user = await prisma.$transaction(async (prisma) => {
-      const user = await prisma.user.findFirst<T>({
-        ...args,
-        select: { ...args.select, shouldChangePassword: true, groups: true },
+      // For some reason, the type of the `user` object get messed up when
+      // merging the internal and given `select`.
+      // So what we do is:
+      // - Cast the object to the internal properties for internal usages.
+      // - Cast the object to the given properties for the return value.
+      const internalSelect = {
+        shouldChangePassword: true,
+        groups: true,
+      } satisfies Prisma.UserSelect;
+
+      const user = (await prisma.user.findFirst({
+        select: { ...args.select, ...internalSelect },
         where: { id: session.data.userId, isDisabled: false },
-      });
+      })) as Prisma.UserGetPayload<{ select: typeof internalSelect }>;
+
       if (user == null) {
         throw await this.redirectToLogin(request);
       }
@@ -60,7 +70,7 @@ export class CurrentUserDbDelegate {
       throw await this.redirectToDefinePassword(request);
     }
 
-    return user;
+    return user as Prisma.UserGetPayload<{ select: typeof args.select }>;
   }
 
   async verifyLogin({

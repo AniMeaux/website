@@ -304,7 +304,7 @@ function Combobox({
       </VisuallyHidden.Root>
 
       <header className="sticky top-0 z-20 flex flex-none flex-col bg-white bg-var-white md:pb-0.5">
-        <div className="flex flex-col pb-0.5 pt-safe-0.5 px-safe-1.5 md:px-1 md:pt-1 ">
+        <div className="flex flex-col pb-0.5 pt-safe-0.5 px-safe-1.5 md:px-1 md:pt-1">
           <Input
             {...combobox.getInputProps()}
             hideFocusRing

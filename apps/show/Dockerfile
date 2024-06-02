@@ -53,7 +53,6 @@ COPY --from=production-deps /workspace/node_modules ./node_modules
 COPY --from=production-deps /workspace/apps/show/node_modules ./apps/show/node_modules
 COPY --from=build /workspace/node_modules/.prisma ./node_modules/.prisma
 COPY --from=build /workspace/apps/show/build ./apps/show/build
-COPY --from=build /workspace/apps/show/public/build ./apps/show/public/build
 ADD ./prisma ./prisma
 ADD ./apps/show ./apps/show
 
