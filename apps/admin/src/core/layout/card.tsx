@@ -8,7 +8,7 @@ export function Card({
   className?: string;
 }) {
   return (
-    <section className={cn(className, "flex flex-col bg-white bg-var-white")}>
+    <section className={cn(className, "flex flex-col bg-white")}>
       {children}
     </section>
   );
@@ -27,7 +27,7 @@ Card.Header = function CardHeader({
     <header
       className={cn(
         className,
-        "flex flex-none bg-white px-1.5 py-2 bg-var-white md:px-2",
+        "flex flex-none bg-white px-1.5 py-2 md:px-2",
         isVertical ? "flex-col gap-1" : "gap-1 md:gap-2",
       )}
     >
@@ -85,7 +85,7 @@ Card.Footer = function CardFooter({
     <footer
       className={cn(
         className,
-        "flex flex-none gap-1 bg-white px-1.5 py-2 bg-var-white md:gap-2 md:px-2",
+        "flex flex-none gap-1 bg-white px-1.5 py-2 md:gap-2 md:px-2",
       )}
     >
       {children}

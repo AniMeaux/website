@@ -115,7 +115,7 @@ export function ExhibitorFilterChip({
         defaultChecked
         name={name}
         value={value}
-        className="absolute left-0 top-0 -z-10 h-full w-full cursor-pointer appearance-none rounded-0.5 focus-visible:outline-none focus-visible:ring focus-visible:ring-mystic focus-visible:ring-offset-2 focus-visible:ring-offset-inheritBg"
+        className="absolute left-0 top-0 -z-10 h-full w-full cursor-pointer appearance-none rounded-0.5 focus-visible:focus-spaced-mystic"
       />
 
       <span className="grid auto-cols-auto grid-flow-col gap-0.5">
@@ -159,7 +159,7 @@ export function ExhibitorFilterSelector({
         {...props}
         type="checkbox"
         onChange={() => {}}
-        className="peer absolute left-0 top-0 -z-10 h-full w-full cursor-pointer appearance-none rounded-0.5 border border-mystic/20 transition-colors duration-100 checked:border-mystic checked:bg-mystic focus-visible:outline-none focus-visible:ring focus-visible:ring-mystic focus-visible:ring-offset-2 focus-visible:ring-offset-inheritBg hover:bg-mystic/10 hover:checked:bg-mystic/90 hover:active:bg-mystic/20 hover:checked:active:bg-mystic/80 [@media(any-hover:hover)]:active:bg-mystic/20 [@media(any-hover:hover)]:checked:active:bg-mystic/80"
+        className="peer absolute left-0 top-0 -z-10 h-full w-full cursor-pointer appearance-none rounded-0.5 border border-mystic/20 transition-colors duration-100 checked:border-mystic checked:bg-mystic focus-visible:focus-spaced-mystic hover:bg-mystic/10 hover:checked:bg-mystic/90 hover:active:bg-mystic/20 hover:checked:active:bg-mystic/80 [@media(any-hover:hover)]:active:bg-mystic/20 [@media(any-hover:hover)]:checked:active:bg-mystic/80"
       />
 
       <Icon id={uncheckedIcon} className="text-[24px] peer-checked:hidden" />

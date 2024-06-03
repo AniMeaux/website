@@ -55,7 +55,7 @@ export default function Route() {
       <CurrentUserSideBar />
 
       <div className="flex flex-col" style={{ "--header-height": "80px" }}>
-        <header className="grid w-full grid-cols-[minmax(0px,1fr)_auto] items-center justify-between gap-1 bg-white pb-0.5 bg-var-white pt-safe-0.5 px-safe-1.5 md:sticky md:top-0 md:z-20 md:grid-cols-[minmax(200px,500px)_auto] md:gap-4 md:border-l md:border-gray-50 md:pb-1 md:pl-2 md:pr-safe-2 md:pt-safe-1">
+        <header className="grid w-full grid-cols-[minmax(0px,1fr)_auto] items-center justify-between gap-1 bg-white pb-0.5 pt-safe-0.5 px-safe-1.5 md:sticky md:top-0 md:z-20 md:grid-cols-[minmax(200px,500px)_auto] md:gap-4 md:border-l md:border-gray-50 md:pb-1 md:pl-2 md:pr-safe-2 md:pt-safe-1">
           <GlobalSearch currentUser={currentUser} />
           <CurrentUserMenu />
         </header>
@@ -239,7 +239,7 @@ function CurrentUserMenu() {
 
   return (
     <DropdownSheet open={isOpened} onOpenChange={setIsOpened}>
-      <DropdownSheet.Trigger className="flex items-center gap-1 rounded-0.5 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-inheritBg">
+      <DropdownSheet.Trigger className="flex items-center gap-1 rounded-0.5 focus-visible:focus-spaced-blue-400">
         <span className="hidden md:inline-flex">{currentUser.displayName}</span>
 
         <span className="hidden md:inline-flex">
@@ -276,7 +276,7 @@ function CurrentUserMenu() {
           <Link
             to={Routes.me.toString()}
             onClick={() => setIsOpened(false)}
-            className="grid cursor-pointer grid-cols-[auto,minmax(0px,1fr)] items-center rounded-0.5 pr-1 text-left text-gray-500 transition-colors duration-100 ease-in-out active:bg-gray-100 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 hover:bg-gray-100"
+            className="grid cursor-pointer grid-cols-[auto,minmax(0px,1fr)] items-center rounded-0.5 pr-1 text-left text-gray-500 transition-colors duration-100 ease-in-out active:bg-gray-100 focus-visible:focus-compact-blue-400 hover:bg-gray-100"
           >
             <span className="flex h-4 w-4 items-center justify-center text-[20px]">
               <Icon href="icon-user" />
@@ -299,7 +299,7 @@ function CurrentUserMenu() {
           >
             <button
               onClick={() => setIsOpened(false)}
-              className="grid cursor-pointer grid-cols-[auto,minmax(0px,1fr)] items-center rounded-0.5 pr-1 text-left text-gray-500 transition-colors duration-100 ease-in-out active:bg-gray-100 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 hover:bg-gray-100"
+              className="grid cursor-pointer grid-cols-[auto,minmax(0px,1fr)] items-center rounded-0.5 pr-1 text-left text-gray-500 transition-colors duration-100 ease-in-out active:bg-gray-100 focus-visible:focus-compact-blue-400 hover:bg-gray-100"
             >
               <span className="flex h-4 w-4 items-center justify-center text-[20px]">
                 <Icon href="icon-right-from-bracket" />

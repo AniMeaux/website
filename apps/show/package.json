@@ -49,7 +49,6 @@
     "@total-typescript/ts-reset": "^0.5.1",
     "@unpic/placeholder": "^0.1.2",
     "cloudinary": "^2.2.0",
-    "focus-visible": "^5.2.0",
     "isbot": "^5.1.8",
     "lodash.chunk": "^4.2.0",
     "lodash.difference": "^4.5.0",

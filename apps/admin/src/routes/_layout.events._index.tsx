@@ -146,7 +146,7 @@ function EventItem({
     <BaseLink
       to={Routes.events.id(event.id).toString()}
       className={cn(
-        "flex flex-col gap-0.5 rounded-1.5 bg-white p-0.5 focus-visible:z-10 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 hover:bg-gray-100 md:rounded-2 md:p-1",
+        "flex flex-col gap-0.5 rounded-1.5 bg-white p-0.5 focus-visible:z-10 focus-visible:focus-compact-blue-400 hover:bg-gray-100 md:rounded-2 md:p-1",
         className,
       )}
     >

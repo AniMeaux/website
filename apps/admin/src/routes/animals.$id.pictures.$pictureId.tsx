@@ -21,7 +21,7 @@ import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 
 export const handle: RouteHandle = {
-  htmlBackgroundColor: cn("bg-white bg-var-white"),
+  htmlBackgroundColor: cn("bg-white"),
   isFullHeight: true,
 };
 
@@ -122,7 +122,7 @@ export default function Route() {
                 .pictures.pictureId(pictureId)
                 .toString()}
               replace
-              className="flex aspect-4/3 rounded-0.5 transition-transform duration-100 ease-in-out active:scale-95 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-inheritBg"
+              className="flex aspect-4/3 rounded-0.5 transition-transform duration-100 ease-in-out active:scale-95 focus-visible:focus-spaced-blue-400"
             >
               <DynamicImage
                 imageId={pictureId}

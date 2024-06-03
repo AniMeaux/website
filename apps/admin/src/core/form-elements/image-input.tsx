@@ -45,7 +45,7 @@ function ImageInputTrigger({
       data-invalid={toBooleanAttribute(hasError)}
       className={cn(
         className,
-        "flex flex-col items-center justify-center gap-0.5 rounded-1 border border-dashed border-gray-300 text-blue-500 transition-colors duration-100 ease-in-out data-[invalid=true]:border-red-500 focus-visible:border-0 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 focus-visible:ring-outset data-[invalid=true]:focus-visible:ring-red-500 hover:border-gray-500 data-[invalid=true]:hover:border-red-500",
+        "flex flex-col items-center justify-center gap-0.5 rounded-1 border border-dashed border-gray-300 text-blue-500 transition-colors duration-100 ease-in-out data-[invalid=true]:border-red-500 focus-visible:border-0 focus-visible:focus-compact-blue-400 data-[invalid=true]:focus-visible:focus-compact-red-500 hover:border-gray-500 data-[invalid=true]:hover:border-red-500",
       )}
     >
       <Icon href={icon} className="text-[30px]" />

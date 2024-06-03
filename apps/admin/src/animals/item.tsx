@@ -88,7 +88,7 @@ export function AnimalItem({
       to={Routes.animals.id(animal.id).toString()}
       className={cn(
         className,
-        "flex flex-col gap-0.5 rounded-1.5 bg-white p-0.5 focus-visible:z-10 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 hover:bg-gray-100 md:rounded-2 md:p-1",
+        "flex flex-col gap-0.5 rounded-1.5 bg-white p-0.5 focus-visible:z-10 focus-visible:focus-compact-blue-400 hover:bg-gray-100 md:rounded-2 md:p-1",
       )}
     >
       <span className="relative flex flex-col">
@@ -175,7 +175,7 @@ export function AnimalSmallItem({
       to={Routes.animals.id(animal.id).toString()}
       className={cn(
         className,
-        "grid grid-cols-[auto_minmax(0px,1fr)_auto] items-center gap-1 rounded-0.5 bg-white px-0.5 py-1 bg-var-white focus-visible:z-10 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 hover:bg-gray-100 hover:bg-var-gray-100 md:px-1",
+        "grid grid-cols-[auto_minmax(0px,1fr)_auto] items-center gap-1 rounded-0.5 bg-white px-0.5 py-1 focus-visible:z-10 focus-visible:focus-compact-blue-400 hover:bg-gray-100 md:px-1",
       )}
     >
       <AnimalAvatar animal={animal} size="md" loading={imageLoading} />

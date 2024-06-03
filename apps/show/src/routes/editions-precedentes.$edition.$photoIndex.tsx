@@ -24,7 +24,7 @@ import { Link, useLoaderData, useLocation, useParams } from "@remix-run/react";
 import { forwardRef } from "react";
 
 export const handle: RouteHandle = {
-  htmlBackgroundColor: cn("bg-black bg-var-black"),
+  htmlBackgroundColor: cn("bg-black"),
   isFullHeight: true,
 };
 
@@ -166,7 +166,7 @@ const PhotoAction = forwardRef<
       {...props}
       ref={ref}
       className={cn(
-        "grid grid-cols-1 self-center justify-self-center text-[48px] text-white opacity-70 focus-visible:opacity-100 focus-visible:outline-none focus-visible:ring focus-visible:ring-mystic hover:opacity-100",
+        "grid grid-cols-1 self-center justify-self-center text-[48px] text-white opacity-70 focus-visible:opacity-100 focus-visible:focus-compact-mystic hover:opacity-100",
         className,
       )}
     />

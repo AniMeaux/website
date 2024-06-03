@@ -151,7 +151,7 @@ export function GlobalSearch({
           <Overlay className="opacity-0 md:opacity-100" />
         </Dialog.Overlay>
 
-        <Dialog.Content className="fixed bottom-0 left-0 right-0 top-0 z-30 flex flex-col overflow-y-auto bg-gray-50 animation-opacity-0 animation-duration-100 md:bottom-auto md:left-1/2 md:right-auto md:top-[10vh] md:w-[550px] md:-translate-x-1/2 md:rounded-1 md:bg-white md:shadow-popover-md md:bg-var-white md:data-[state=open]:animation-enter md:data-[state=closed]:animation-exit">
+        <Dialog.Content className="fixed bottom-0 left-0 right-0 top-0 z-30 flex flex-col overflow-y-auto bg-gray-50 animation-opacity-0 animation-duration-100 md:bottom-auto md:left-1/2 md:right-auto md:top-[10vh] md:w-[550px] md:-translate-x-1/2 md:rounded-1 md:bg-white md:shadow-popover-md md:data-[state=open]:animation-enter md:data-[state=closed]:animation-exit">
           {entity != null ? (
             <Combobox
               entity={entity}
@@ -303,7 +303,7 @@ function Combobox({
         </Dialog.Title>
       </VisuallyHidden.Root>
 
-      <header className="sticky top-0 z-20 flex flex-none flex-col bg-white bg-var-white md:pb-0.5">
+      <header className="sticky top-0 z-20 flex flex-none flex-col bg-white md:pb-0.5">
         <div className="flex flex-col pb-0.5 pt-safe-0.5 px-safe-1.5 md:px-1 md:pt-1">
           <Input
             {...combobox.getInputProps()}
@@ -340,7 +340,7 @@ function Combobox({
       </header>
 
       <section
-        className={cn("flex flex-col bg-white bg-var-white", {
+        className={cn("flex flex-col bg-white", {
           "px-1.5 py-2 md:border-t md:border-gray-100 md:p-1":
             visibleItems.length > 0,
         })}
@@ -450,7 +450,7 @@ function TabInput(props: React.InputHTMLAttributes<HTMLInputElement>) {
   return (
     <input
       {...props}
-      className="peer absolute left-0 top-0 -z-10 h-full w-full cursor-pointer appearance-none rounded-0.5 transition-colors duration-100 ease-in-out checked:bg-blue-50 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-inheritBg group-hover:bg-gray-100 group-hover:checked:bg-blue-50"
+      className="peer absolute left-0 top-0 -z-10 h-full w-full cursor-pointer appearance-none rounded-0.5 transition-colors duration-100 ease-in-out checked:bg-blue-50 focus-visible:focus-spaced-blue-400 group-hover:bg-gray-100 group-hover:checked:bg-blue-50"
     />
   );
 }
