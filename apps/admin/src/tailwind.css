@@ -6,7 +6,7 @@
   /*
    * Make sure focused elements without focus-visible don't have an outline.
    */
-  :focus:not(:is(:focus-visible, .focus-visible)) {
+  :focus:not(:focus-visible) {
     @apply outline-none;
   }
 

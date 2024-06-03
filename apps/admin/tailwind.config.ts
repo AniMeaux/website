@@ -134,8 +134,8 @@ const theme: Config = {
 export default theme;
 
 /**
- * Override focus-visible to make sure it supports the `.focus-visible` class.
- * We also don't want touch screens devices to have visible focus.
+ * Override focus-visible because we don't want touch screens devices to have
+ * visible focus.
  * They usally don't have input mechanism that can hover over elements so we
  * check that.
  *
@@ -143,10 +143,7 @@ export default theme;
  */
 function pluginFocusVisible() {
   return plugin(({ addVariant }) => {
-    addVariant(
-      "focus-visible",
-      "@media(any-hover:hover){&:is(:focus-visible, .focus-visible)}",
-    );
+    addVariant("focus-visible", "@media(any-hover:hover){&:focus-visible}");
   });
 }
 

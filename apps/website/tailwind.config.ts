@@ -161,13 +161,6 @@ export default {
 
   plugins: [
     plugin(({ addVariant }) => {
-      // Override focus-visible to make sure it supports the `.focus-visible`
-      // class.
-      // https://tailwindcss.com/docs/plugins#adding-variants
-      addVariant("focus-visible", "&:is(:focus-visible, .focus-visible)");
-    }),
-
-    plugin(({ addVariant }) => {
       // Override hover to make sure it's only applied on supported devices.
       // https://tailwindcss.com/docs/hover-focus-and-other-states#using-arbitrary-variants
       addVariant("hover", "@media(any-hover:hover){&:hover}");

@@ -105,16 +105,12 @@ export default {
 
   plugins: [
     plugin(({ addVariant }) => {
-      // Override focus-visible to make sure it supports the `.focus-visible`
-      // class.
-      // We also don't want touch screens devices to have visible focus.
+      // Override focus-visible because we don't want touch screens devices to
+      // have visible focus.
       // They usally don't have input mechanism that can hover over elements so
       // we check that.
       // https://tailwindcss.com/docs/plugins#adding-variants
-      addVariant(
-        "focus-visible",
-        "@media(any-hover:hover){&:is(:focus-visible, .focus-visible)}",
-      );
+      addVariant("focus-visible", "@media(any-hover:hover){&:focus-visible}");
     }),
 
     plugin(({ addVariant, matchVariant }) => {
