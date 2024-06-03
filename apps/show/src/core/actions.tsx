@@ -15,7 +15,7 @@ export const Action = forwardRef<
       {...rest}
       ref={ref}
       className={cn(
-        "flex flex-none rounded-0.5 px-2 py-0.5 transition-[background-color,color,transform] duration-100 ease-in-out text-body-lowercase-emphasis active:scale-95 focus-visible:outline-none focus-visible:ring focus-visible:ring-offset-2 focus-visible:ring-offset-inheritBg hover:scale-105 hover:active:scale-95",
+        "flex flex-none rounded-0.5 px-2 py-0.5 transition-[background-color,color,transform] duration-100 ease-in-out text-body-lowercase-emphasis active:scale-95 hover:scale-105 hover:active:scale-95",
         COLOR_CLASS_NAMES[color],
         className,
       )}
@@ -24,9 +24,13 @@ export const Action = forwardRef<
 });
 
 const COLOR_CLASS_NAMES: Record<ActionColor, string> = {
-  alabaster: "bg-alabaster text-prussianBlue focus-visible:ring-mystic",
-  mystic: "bg-mystic text-white focus-visible:ring-mystic",
-  prussianBlue: "bg-prussianBlue text-white focus-visible:ring-prussianBlue",
+  alabaster: cn(
+    "bg-alabaster text-prussianBlue focus-visible:focus-spaced-mystic",
+  ),
+  mystic: cn("bg-mystic text-white focus-visible:focus-spaced-mystic"),
+  prussianBlue: cn(
+    "bg-prussianBlue text-white focus-visible:focus-spaced-prussianBlue",
+  ),
 };
 
 export const ProseInlineAction = forwardRef<
@@ -38,7 +42,7 @@ export const ProseInlineAction = forwardRef<
       {...rest}
       ref={ref}
       className={cn(
-        "relative border-b border-mystic text-body-lowercase-emphasis focus-visible:outline-none focus-visible:ring focus-visible:ring-mystic focus-visible:ring-offset-2 focus-visible:ring-offset-inheritBg hover:border-b-2",
+        "relative border-b border-mystic text-body-lowercase-emphasis focus-visible:focus-spaced-mystic hover:border-b-2",
         className,
       )}
     />

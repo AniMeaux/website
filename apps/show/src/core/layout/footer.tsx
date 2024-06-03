@@ -31,7 +31,7 @@ function AccessSection() {
     <section className="relative grid grid-cols-1 gap-2 px-page-narrow py-4 md:grid-cols-2 md:items-end md:gap-4 md:px-page-normal lg:gap-8">
       <FooterWave className="absolute bottom-0 left-0 -z-10 h-[53px] w-full md:h-[90px]" />
 
-      <Section.TextAside className="rounded-2 bg-alabaster p-2 bg-var-alabaster">
+      <Section.TextAside className="rounded-2 bg-alabaster p-2">
         <Section.Title>Économisez, soutenez, profitez !</Section.Title>
 
         <p>
@@ -76,7 +76,7 @@ function LinksSection() {
   const partners = usePartners();
 
   return (
-    <section className="grid grid-cols-1 gap-2 bg-paleBlue px-page-narrow py-4 bg-var-paleBlue sm:gap-4 md:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] md:items-center md:px-page-normal lg:gap-8">
+    <section className="grid grid-cols-1 gap-2 bg-paleBlue px-page-narrow py-4 sm:gap-4 md:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] md:items-center md:px-page-normal lg:gap-8">
       <Section.TextAside className="max-w-sm justify-self-center md:max-w-none md:justify-self-stretch">
         {partners.length === 0 ? (
           <PartnersPlaceholderImage
@@ -160,7 +160,7 @@ function SocialLink({
   return (
     <Link
       {...rest}
-      className="grid grid-cols-1 rounded-full transition-transform duration-100 ease-in-out active:scale-95 focus-visible:outline-none focus-visible:ring focus-visible:ring-prussianBlue focus-visible:ring-offset-2 focus-visible:ring-offset-inheritBg hover:scale-105 hover:active:scale-95"
+      className="grid grid-cols-1 rounded-full transition-transform duration-100 ease-in-out active:scale-95 focus-visible:focus-spaced-prussianBlue hover:scale-105 hover:active:scale-95"
     >
       {children}
     </Link>
@@ -181,7 +181,7 @@ function ContactItem({
       <Link
         to={to}
         prefetch="intent"
-        className="grid grid-cols-[auto_auto] items-start gap-1 rounded-0.5 transition-[color,transform] duration-100 ease-in-out active:scale-95 focus-visible:outline-none focus-visible:ring focus-visible:ring-mystic focus-visible:ring-offset-2 focus-visible:ring-offset-inheritBg hover:text-mystic"
+        className="grid grid-cols-[auto_auto] items-start gap-1 rounded-0.5 transition-[color,transform] duration-100 ease-in-out active:scale-95 focus-visible:focus-spaced-mystic hover:text-mystic"
       >
         <span className="flex h-2 items-center">
           <Icon id={icon} className="text-[16px]" />

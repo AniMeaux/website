@@ -1,3 +1,4 @@
+import type { Config } from "tailwindcss";
 import defaultColors from "tailwindcss/colors";
 import defaultTheme from "tailwindcss/defaultTheme";
 import plugin from "tailwindcss/plugin";
@@ -44,10 +45,7 @@ export const colors = {
   white: defaultColors.white,
 };
 
-/**
- * @type {import('tailwindcss').Config}
- */
-export default {
+const theme: Config = {
   content: ["./src/**/*.{ts,tsx}"],
 
   theme: {
@@ -104,143 +102,178 @@ export default {
   },
 
   plugins: [
-    plugin(({ addVariant }) => {
-      // Override focus-visible because we don't want touch screens devices to
-      // have visible focus.
-      // They usally don't have input mechanism that can hover over elements so
-      // we check that.
-      // https://tailwindcss.com/docs/plugins#adding-variants
-      addVariant("focus-visible", "@media(any-hover:hover){&:focus-visible}");
-    }),
-
-    plugin(({ addVariant, matchVariant }) => {
-      // Override hover to make sure it's only applied on supported devices.
-      // https://tailwindcss.com/docs/hover-focus-and-other-states#using-arbitrary-variants
-      addVariant("hover", "@media(any-hover:hover){&:hover}");
-      // https://github.com/tailwindlabs/tailwindcss/discussions/9788#discussioncomment-4098439
-      matchVariant(
-        "group",
-        (_, { modifier }) => {
-          const suffix = modifier == null ? "" : `\\/${modifier}`;
-          return `@media(any-hover:hover){:merge(.group${suffix}):hover &}`;
-        },
-        { values: { hover: "hover" } },
-      );
-    }),
-
-    /*
-     * In order to preserve a nice vertical rhythm, all text must have a size
-     * multiple of 24px.
-     */
-    plugin(({ addUtilities, theme }) => {
-      addUtilities({
-        ".text-caption-uppercase-default": {
-          "font-family": theme("fontFamily.sans"),
-          "font-size": "14px",
-          "line-height": "24px",
-          "text-transform": "uppercase",
-        },
-        ".text-caption-lowercase-default": {
-          "font-family": theme("fontFamily.sans"),
-          "font-size": "14px",
-          "line-height": "24px",
-        },
-        ".text-caption-lowercase-emphasis": {
-          "font-family": theme("fontFamily.sans"),
-          "font-weight": theme("fontWeight.medium"),
-          "font-size": "14px",
-          "line-height": "24px",
-        },
-        ".text-body-uppercase-default": {
-          "font-family": theme("fontFamily.sans"),
-          "font-size": "16px",
-          "line-height": "24px",
-          "text-transform": "uppercase",
-        },
-        ".text-body-uppercase-emphasis": {
-          "font-family": theme("fontFamily.sans"),
-          "font-weight": theme("fontWeight.semibold"),
-          "font-size": "16px",
-          "line-height": "24px",
-          "text-transform": "uppercase",
-        },
-        ".text-body-lowercase-default": {
-          "font-family": theme("fontFamily.sans"),
-          "font-size": "16px",
-          "line-height": "24px",
-        },
-        ".text-body-lowercase-emphasis": {
-          "font-family": theme("fontFamily.sans"),
-          "font-weight": theme("fontWeight.medium"),
-          "font-size": "16px",
-          "line-height": "24px",
-        },
-        ".text-title-item": {
-          "font-family": theme("fontFamily.serif"),
-          "font-size": "24px",
-          "line-height": "24px",
-          "text-transform": "uppercase",
-        },
-        ".text-title-small": {
-          "font-family": theme("fontFamily.serif"),
-          "font-size": "48px",
-          "line-height": "48px",
-          "text-transform": "uppercase",
-        },
-        ".text-title-large": {
-          "font-family": theme("fontFamily.serif"),
-          "font-size": "48px",
-          "line-height": "48px",
-          "text-transform": "uppercase",
-        },
-      });
-    }),
-
-    plugin(({ matchUtilities, theme }) => {
-      matchUtilities(
-        {
-          "bg-var": (value) => ({
-            "--background-color": value,
-          }),
-        },
-        { values: flattenColorPalette(theme("colors")) },
-      );
-    }),
-
-    plugin(({ matchUtilities, theme }) => {
-      matchUtilities(
-        { "stroke-dashoffset": (value) => ({ "stroke-dashoffset": value }) },
-        { values: theme("spacing") },
-      );
-    }),
-
-    plugin(({ matchUtilities, theme }) => {
-      matchUtilities(
-        {
-          "p-safe": (value) => ({
-            ...createSafePadding("top", value),
-            ...createSafePadding("right", value),
-            ...createSafePadding("bottom", value),
-            ...createSafePadding("left", value),
-          }),
-          "px-safe": (value) => ({
-            ...createSafePadding("right", value),
-            ...createSafePadding("left", value),
-          }),
-          "py-safe": (value) => ({
-            ...createSafePadding("top", value),
-            ...createSafePadding("bottom", value),
-          }),
-          "pt-safe": (value) => createSafePadding("top", value),
-          "pr-safe": (value) => createSafePadding("right", value),
-          "pb-safe": (value) => createSafePadding("bottom", value),
-          "pl-safe": (value) => createSafePadding("left", value),
-        },
-        { values: theme("spacing") },
-      );
-    }),
+    pluginFocus(),
+    pluginFocusVisible(),
+    pluginHover(),
+    pluginSafePadding(),
+    pluginStrokeDashoffset(),
+    pluginTextStyles(),
   ],
 };
+
+export default theme;
+
+function pluginFocusVisible() {
+  return plugin(({ addVariant }) => {
+    // Override focus-visible because we don't want touch screens devices to
+    // have visible focus.
+    // They usally don't have input mechanism that can hover over elements so
+    // we check that.
+    // https://tailwindcss.com/docs/plugins#adding-variants
+    addVariant("focus-visible", "@media(any-hover:hover){&:focus-visible}");
+  });
+}
+
+/**
+ * Override hover to make sure it's only applied on supported devices.
+ *
+ * @see https://tailwindcss.com/docs/hover-focus-and-other-states#using-arbitrary-variants
+ * @see https://github.com/tailwindlabs/tailwindcss/discussions/9788#discussioncomment-4098439
+ */
+function pluginHover() {
+  return plugin(({ addVariant, matchVariant }) => {
+    addVariant("hover", "@media(any-hover:hover){&:hover}");
+
+    matchVariant(
+      "group",
+      (_, { modifier }) => {
+        const suffix = modifier == null ? "" : `\\/${modifier}`;
+        return `@media(any-hover:hover){:merge(.group${suffix}):hover &}`;
+      },
+      { values: { hover: "hover" } },
+    );
+  });
+}
+
+/**
+ * In order to preserve a nice vertical rhythm, all text must have a size
+ * multiple of 24px.
+ */
+function pluginTextStyles() {
+  return plugin(({ addUtilities, theme }) => {
+    addUtilities({
+      ".text-caption-uppercase-default": {
+        "font-family": theme("fontFamily.sans"),
+        "font-size": "14px",
+        "line-height": "24px",
+        "text-transform": "uppercase",
+      },
+      ".text-caption-lowercase-default": {
+        "font-family": theme("fontFamily.sans"),
+        "font-size": "14px",
+        "line-height": "24px",
+      },
+      ".text-caption-lowercase-emphasis": {
+        "font-family": theme("fontFamily.sans"),
+        "font-weight": theme("fontWeight.medium"),
+        "font-size": "14px",
+        "line-height": "24px",
+      },
+      ".text-body-uppercase-default": {
+        "font-family": theme("fontFamily.sans"),
+        "font-size": "16px",
+        "line-height": "24px",
+        "text-transform": "uppercase",
+      },
+      ".text-body-uppercase-emphasis": {
+        "font-family": theme("fontFamily.sans"),
+        "font-weight": theme("fontWeight.semibold"),
+        "font-size": "16px",
+        "line-height": "24px",
+        "text-transform": "uppercase",
+      },
+      ".text-body-lowercase-default": {
+        "font-family": theme("fontFamily.sans"),
+        "font-size": "16px",
+        "line-height": "24px",
+      },
+      ".text-body-lowercase-emphasis": {
+        "font-family": theme("fontFamily.sans"),
+        "font-weight": theme("fontWeight.medium"),
+        "font-size": "16px",
+        "line-height": "24px",
+      },
+      ".text-title-item": {
+        "font-family": theme("fontFamily.serif"),
+        "font-size": "24px",
+        "line-height": "24px",
+        "text-transform": "uppercase",
+      },
+      ".text-title-small": {
+        "font-family": theme("fontFamily.serif"),
+        "font-size": "48px",
+        "line-height": "48px",
+        "text-transform": "uppercase",
+      },
+      ".text-title-large": {
+        "font-family": theme("fontFamily.serif"),
+        "font-size": "48px",
+        "line-height": "48px",
+        "text-transform": "uppercase",
+      },
+    });
+  });
+}
+
+function pluginStrokeDashoffset() {
+  return plugin(({ matchUtilities, theme }) => {
+    matchUtilities(
+      { "stroke-dashoffset": (value) => ({ "stroke-dashoffset": value }) },
+      { values: theme("spacing") },
+    );
+  });
+}
+
+function pluginSafePadding() {
+  return plugin(({ matchUtilities, theme }) => {
+    matchUtilities(
+      {
+        "p-safe": (value) => ({
+          ...createSafePadding("top", value),
+          ...createSafePadding("right", value),
+          ...createSafePadding("bottom", value),
+          ...createSafePadding("left", value),
+        }),
+        "px-safe": (value) => ({
+          ...createSafePadding("right", value),
+          ...createSafePadding("left", value),
+        }),
+        "py-safe": (value) => ({
+          ...createSafePadding("top", value),
+          ...createSafePadding("bottom", value),
+        }),
+        "pt-safe": (value) => createSafePadding("top", value),
+        "pr-safe": (value) => createSafePadding("right", value),
+        "pb-safe": (value) => createSafePadding("bottom", value),
+        "pl-safe": (value) => createSafePadding("left", value),
+      },
+      { values: theme("spacing") },
+    );
+  });
+}
+
+function pluginFocus() {
+  return plugin(({ matchUtilities, theme }) => {
+    matchUtilities(
+      {
+        "focus-compact": (value) => ({
+          "outline-color": value,
+          "outline-offset": "0px",
+          "outline-style": "solid",
+          "outline-width": "3px",
+        }),
+
+        "focus-spaced": (value) => ({
+          "outline-color": value,
+          "outline-offset": "2px",
+          "outline-style": "solid",
+          "outline-width": "3px",
+        }),
+      },
+      { values: flattenColorPalette(theme("colors")) },
+    );
+  });
+}
 
 function createSafePadding(
   side: "top" | "right" | "bottom" | "left",

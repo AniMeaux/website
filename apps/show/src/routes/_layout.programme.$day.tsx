@@ -229,7 +229,7 @@ function EventGroupItem({
         <div
           key={event.id}
           className={cn(
-            "grid grid-cols-1 gap-2 rounded-1 bg-alabaster px-2 pb-1 bg-var-alabaster",
+            "grid grid-cols-1 gap-2 rounded-1 bg-alabaster px-2 pb-1",
             index === 0 ? "pt-3" : "pt-1",
           )}
         >

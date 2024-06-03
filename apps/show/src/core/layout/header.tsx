@@ -38,7 +38,7 @@ function SmallHeader() {
               // https://github.com/radix-ui/primitives/issues/1630
               onPointerMove={(event) => event.preventDefault()}
               onPointerLeave={(event) => event.preventDefault()}
-              className="group flex aspect-square w-4 items-center justify-center text-[24px] transition-transform duration-100 ease-in-out active:scale-95 focus-visible:outline-none focus-visible:ring focus-visible:ring-mystic"
+              className="group flex aspect-square w-4 items-center justify-center text-[24px] transition-transform duration-100 ease-in-out active:scale-95 focus-visible:focus-compact-mystic"
             >
               <Icon
                 id="bars-light"
@@ -111,7 +111,7 @@ function HomeNavItem({
       to={Routes.home()}
       prefetch="intent"
       onClick={onClick}
-      className="transition-transform duration-100 ease-in-out active:scale-95 focus-visible:outline-none focus-visible:ring focus-visible:ring-mystic"
+      className="transition-transform duration-100 ease-in-out active:scale-95 focus-visible:focus-compact-mystic"
     >
       <picture>
         <source srcSet={logoMedium} media={createImageMedia("md")} />
@@ -151,7 +151,7 @@ function NavAction({
     <Primitive.button
       {...rest}
       className={cn(
-        "group flex justify-center px-1 transition-[color,transform] duration-100 ease-in-out text-body-uppercase-emphasis active:scale-95 aria-[current=page]:text-mystic focus-visible:outline-none focus-visible:ring focus-visible:ring-mystic hover:text-mystic lg:px-2",
+        "group flex justify-center px-1 transition-[color,transform] duration-100 ease-in-out text-body-uppercase-emphasis active:scale-95 aria-[current=page]:text-mystic focus-visible:focus-compact-mystic hover:text-mystic lg:px-2",
         className,
       )}
     />

@@ -21,7 +21,7 @@ export function PartnerItem({
       <Link
         to={partner.url}
         className={cn(
-          "group grid grid-cols-1 overflow-hidden focus-visible:outline-none focus-visible:ring focus-visible:ring-mystic focus-visible:ring-offset-2 focus-visible:ring-offset-inheritBg",
+          "group grid grid-cols-1 overflow-hidden focus-visible:focus-spaced-mystic",
           isSmall ? "rounded-1" : "rounded-2 border border-alabaster",
         )}
       >

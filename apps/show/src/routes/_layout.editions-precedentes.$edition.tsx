@@ -177,7 +177,7 @@ function ImageItem({
         state={PhotoLocationState.create({
           galleryLocationKey: scrollRestorationLocationKey,
         })}
-        className="group grid aspect-square grid-cols-1 overflow-hidden rounded-1 focus-visible:outline-none focus-visible:ring focus-visible:ring-mystic focus-visible:ring-offset-2 focus-visible:ring-offset-inheritBg md:rounded-2"
+        className="group grid aspect-square grid-cols-1 overflow-hidden rounded-1 focus-visible:focus-spaced-mystic md:rounded-2"
       >
         <DynamicImage
           alt={
