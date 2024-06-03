@@ -19,7 +19,7 @@ export function TabBar({ children }: { children?: React.ReactNode }) {
         className="flex pt-0.5 pb-safe-0.5 before:h-4.5 before:w-1 md:hidden"
       />
 
-      <nav className="fixed bottom-0 left-0 right-0 z-20 grid grid-flow-col gap-1 bg-white pt-0.5 bg-var-white pb-safe-0.5 px-safe-1.5 md:hidden">
+      <nav className="fixed bottom-0 left-0 right-0 z-20 grid grid-flow-col gap-1 bg-white pt-0.5 pb-safe-0.5 px-safe-1.5 md:hidden">
         {children}
       </nav>
     </>
@@ -39,7 +39,7 @@ TabBar.Item = function TabBarItem({
       to={to}
       className={({ isActive }) =>
         cn(
-          "flex items-center justify-center rounded-0.5 py-1 text-[25px] transition-colors duration-100 ease-in-out focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400",
+          "flex items-center justify-center rounded-0.5 py-1 text-[25px] transition-colors duration-100 ease-in-out focus-visible:focus-compact-blue-400",
           {
             "bg-blue-50 text-blue-500": isActive,
             "text-gray-500 active:bg-gray-100 hover:bg-gray-100": !isActive,
@@ -65,7 +65,7 @@ TabBar.Menu = function TabBarMenu({
     <DropdownMenu.Root open={isOpened} onOpenChange={setIsOpened}>
       <DropdownMenu.Trigger
         className={cn(
-          "flex items-center justify-center rounded-0.5 py-1 text-[20px] text-gray-500 transition-colors duration-100 ease-in-out active:bg-gray-100 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 hover:bg-gray-100",
+          "flex items-center justify-center rounded-0.5 py-1 text-[20px] text-gray-500 transition-colors duration-100 ease-in-out active:bg-gray-100 focus-visible:focus-compact-blue-400 hover:bg-gray-100",
           { "bg-gray-100": isOpened },
         )}
       >
@@ -77,7 +77,7 @@ TabBar.Menu = function TabBarMenu({
           side="top"
           sideOffset={theme.spacing[1]}
           collisionPadding={theme.spacing[1]}
-          className="z-20 flex w-[200px] flex-col gap-1 rounded-1 bg-white p-1 shadow-popover-sm animation-opacity-0 animation-duration-100 animation-translate-y-2 bg-var-white data-[state=open]:animation-enter data-[state=closed]:animation-exit"
+          className="z-20 flex w-[200px] flex-col gap-1 rounded-1 bg-white p-1 shadow-popover-sm animation-opacity-0 animation-duration-100 animation-translate-y-2 data-[state=open]:animation-enter data-[state=closed]:animation-exit"
         >
           {children}
         </DropdownMenu.Content>
@@ -100,7 +100,7 @@ TabBar.MenuItem = function TabBarMenuItem({
       <BaseLink
         isNavLink
         to={to}
-        className="flex rounded-0.5 transition-colors duration-100 ease-in-out active:bg-gray-100 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 hover:bg-gray-100"
+        className="flex rounded-0.5 transition-colors duration-100 ease-in-out active:bg-gray-100 focus-visible:focus-compact-blue-400 hover:bg-gray-100"
       >
         {({ isActive }) => (
           <span

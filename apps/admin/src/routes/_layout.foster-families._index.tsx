@@ -275,7 +275,7 @@ function FosterFamilyItem({
       to={Routes.fosterFamilies.id(fosterFamily.id).toString()}
       className={cn(
         className,
-        "grid grid-flow-col grid-cols-[auto_minmax(0px,1fr)] items-start gap-1 rounded-0.5 bg-white px-0.5 py-1 bg-var-white focus-visible:z-10 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 hover:bg-gray-100 hover:bg-var-gray-100 md:gap-2 md:px-1",
+        "grid grid-flow-col grid-cols-[auto_minmax(0px,1fr)] items-start gap-1 rounded-0.5 bg-white px-0.5 py-1 focus-visible:z-10 focus-visible:focus-compact-blue-400 hover:bg-gray-100 md:gap-2 md:px-1",
       )}
     >
       <FosterFamilyAvatar size="sm" availability={fosterFamily.availability} />

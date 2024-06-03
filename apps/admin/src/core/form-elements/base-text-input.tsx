@@ -31,10 +31,10 @@ export const BaseTextInput = Object.assign(
         {...rest}
         ref={ref}
         className={cn(
-          "min-h-[40px] w-full min-w-0 appearance-none rounded-0.5 py-1 text-left ring-1 ring-inset transition-colors duration-100 ease-in-out placeholder:text-gray-500 aria-[invalid=true]:ring-red-500 data-[invalid=true]:ring-red-500 focus-visible:outline-none",
+          "min-h-[40px] w-full min-w-0 appearance-none rounded-0.5 py-1 text-left ring-1 ring-inset transition-colors duration-100 ease-in-out placeholder:text-gray-500 aria-[invalid=true]:ring-red-500 data-[invalid=true]:ring-red-500",
           hideFocusRing
-            ? undefined
-            : "focus-visible:ring focus-visible:ring-blue-400 focus-visible:ring-outset aria-[invalid=true]:focus-visible:ring-red-500 data-[invalid=true]:focus-visible:ring-red-500",
+            ? "focus-visible:outline-none"
+            : "focus-visible:focus-compact-blue-400 aria-[invalid=true]:focus-visible:focus-compact-red-500 data-[invalid=true]:focus-visible:focus-compact-red-500",
           INPUT_VARIANT_CLASS_NAMES[variant],
           {
             "pl-1": leftAdornmentCount === 0,
@@ -132,7 +132,7 @@ export const BaseTextInput = Object.assign(
             ref={ref}
             type="button"
             className={cn(
-              "pointer-events-auto cursor-pointer rounded-full transition-colors duration-100 ease-in-out focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 hover:bg-gray-100",
+              "pointer-events-auto cursor-pointer rounded-full transition-colors duration-100 ease-in-out focus-visible:focus-compact-blue-400 hover:bg-gray-100",
               className,
             )}
           />

@@ -16,7 +16,7 @@ export function SideBar({
   children,
 }: SideBarProps) {
   return (
-    <nav className="sticky top-0 hidden h-screen bg-white pr-2 bg-var-white pb-safe-2 pl-safe-2 pt-safe-1 md:flex">
+    <nav className="sticky top-0 hidden h-screen bg-white pr-2 pb-safe-2 pl-safe-2 pt-safe-1 md:flex">
       <div
         className={cn(
           "flex h-full flex-col gap-4 transition-[width] duration-200 ease-in-out",
@@ -50,7 +50,7 @@ SideBar.RootItem = function SideBarRootItem({
   return (
     <BaseLink
       to={to}
-      className="flex flex-none overflow-hidden rounded-0.5 p-0.5 transition-colors duration-100 ease-in-out active:bg-gray-100 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 hover:bg-gray-100"
+      className="flex flex-none overflow-hidden rounded-0.5 p-0.5 transition-colors duration-100 ease-in-out active:bg-gray-100 focus-visible:focus-compact-blue-400 hover:bg-gray-100"
     >
       <img src={logo} alt={alt} className="h-3 object-cover object-left" />
     </BaseLink>
@@ -75,7 +75,7 @@ SideBar.Item = function SideBarItem({
     <Primitive.span
       {...rest}
       className={cn(
-        "flex flex-none items-center overflow-hidden rounded-0.5 text-left text-gray-500 transition-colors duration-100 ease-in-out aria-[current=page]:bg-blue-50 aria-[current=page]:text-blue-500 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 hover:bg-gray-100 aria-[current=page]:hover:bg-blue-50",
+        "flex flex-none items-center overflow-hidden rounded-0.5 text-left text-gray-500 transition-colors duration-100 ease-in-out aria-[current=page]:bg-blue-50 aria-[current=page]:text-blue-500 focus-visible:focus-compact-blue-400 hover:bg-gray-100 aria-[current=page]:hover:bg-blue-50",
       )}
     />
   );

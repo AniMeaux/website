@@ -107,7 +107,7 @@ DropdownSheet.Content = forwardRef<
          */}
         <div
           tabIndex={0}
-          className="flex w-full flex-col gap-1 rounded-1 bg-white p-1 shadow-popover-md bg-var-white focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400"
+          className="flex w-full flex-col gap-1 rounded-1 bg-white p-1 shadow-popover-md focus-visible:focus-compact-blue-400"
         >
           {children}
         </div>
@@ -144,7 +144,7 @@ DropdownSheet.Content = forwardRef<
        */}
       <div
         tabIndex={0}
-        className="flex w-full flex-col gap-1 rounded-1 bg-white p-1 shadow-popover-sm bg-var-white focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400"
+        className="flex w-full flex-col gap-1 rounded-1 bg-white p-1 shadow-popover-sm focus-visible:focus-compact-blue-400"
       >
         {children}
       </div>

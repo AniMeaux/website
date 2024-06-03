@@ -201,7 +201,7 @@ export function SituationCard() {
                         to={Routes.fosterFamilies
                           .id(animal.fosterFamily.id)
                           .toString()}
-                        className="grid cursor-pointer grid-cols-[auto,minmax(0px,1fr)] items-center rounded-0.5 pr-1 text-left text-gray-500 transition-colors duration-100 ease-in-out active:bg-gray-100 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 hover:bg-gray-100"
+                        className="grid cursor-pointer grid-cols-[auto,minmax(0px,1fr)] items-center rounded-0.5 pr-1 text-left text-gray-500 transition-colors duration-100 ease-in-out active:bg-gray-100 focus-visible:focus-compact-blue-400 hover:bg-gray-100"
                       >
                         <span className="flex h-4 w-4 items-center justify-center text-[20px]">
                           <Icon href="icon-ellipsis" />

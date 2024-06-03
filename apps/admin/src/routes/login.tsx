@@ -23,7 +23,7 @@ import { useFetcher } from "@remix-run/react";
 import { useEffect, useRef } from "react";
 
 export const handle: RouteHandle = {
-  htmlBackgroundColor: cn("bg-white bg-var-white"),
+  htmlBackgroundColor: cn("bg-white"),
 };
 
 export async function loader({ request }: LoaderFunctionArgs) {
