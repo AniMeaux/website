@@ -11,7 +11,7 @@ export function ShowBanner({ className }: { className?: string }) {
       to={showUrl}
       className={cn(
         className,
-        "flex items-center gap-3 bg-show-mystic px-page pb-2 text-show-alabaster text-show-body-lowercase-emphasis pt-safe-2 md:gap-6",
+        "flex items-center gap-3 bg-show-mystic px-page pb-2 text-show-alabaster pt-safe-2 text-show-body-lowercase-emphasis md:gap-6",
       )}
     >
       <ShowLogo />

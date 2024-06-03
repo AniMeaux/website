@@ -116,7 +116,7 @@ export const colors = {
   twitter: "#499be9",
 };
 
-export default {
+const theme: Config = {
   content: ["./src/**/*.{ts,tsx}"],
 
   theme: {
@@ -138,7 +138,6 @@ export default {
       spacing: {
         // We cannot use the `theme` parameter because referencing the `spacing`
         // values ends in a infinite recursion: `theme("spacing.4")`.
-
         // The values in the formula are defined by:
         // - A page takes 90% of the width, 5% spacing on each side.
         // - Left and right spacing cannot go under spacing 4 (16px).
@@ -160,150 +159,171 @@ export default {
   },
 
   plugins: [
-    plugin(({ addVariant }) => {
-      // Override hover to make sure it's only applied on supported devices.
-      // https://tailwindcss.com/docs/hover-focus-and-other-states#using-arbitrary-variants
-      addVariant("hover", "@media(any-hover:hover){&:hover}");
-      addVariant("group-hover", "@media(any-hover:hover){.group:hover &}");
-    }),
-
-    /*
-     * In order to preserve a nice vertical rhythm, all text must have a size
-     * multiple of 24px.
-     */
-    plugin(({ addUtilities, theme }) => {
-      addUtilities({
-        ".text-body-default": {
-          "font-family": theme("fontFamily.sans"),
-          "font-size": "16px",
-          "line-height": "24px",
-        },
-        ".text-body-emphasis": {
-          "font-family": theme("fontFamily.sans"),
-          "font-weight": theme("fontWeight.medium"),
-          "font-size": "16px",
-          "line-height": "24px",
-        },
-        ".text-show-body-lowercase-emphasis": {
-          "font-family": theme("fontFamily.show"),
-          "font-weight": theme("fontWeight.medium"),
-          "font-size": "16px",
-          "line-height": "24px",
-        },
-        ".text-caption-default": {
-          "font-family": theme("fontFamily.sans"),
-          "font-size": "14px",
-          "line-height": "24px",
-        },
-        ".text-code-default": {
-          "font-family": theme("fontFamily.mono"),
-          "font-size": "14px",
-          "font-weight": theme("fontWeight.semibold"),
-          "line-height": "24px",
-        },
-        ".text-title-item": {
-          "font-family": theme("fontFamily.serif"),
-          "font-weight": theme("fontWeight.bold"),
-          "font-size": "16px",
-          "line-height": "24px",
-        },
-        ".text-title-hero-large": {
-          "font-family": theme("fontFamily.serif"),
-          "font-weight": theme("fontWeight.semibold"),
-          "font-size": "60px",
-          "line-height": "72px",
-        },
-        ".text-title-hero-small": {
-          "font-family": theme("fontFamily.serif"),
-          "font-weight": theme("fontWeight.semibold"),
-          "font-size": "40px",
-          "line-height": "48px",
-        },
-        ".text-title-section-large": {
-          "font-family": theme("fontFamily.serif"),
-          "font-weight": theme("fontWeight.semibold"),
-          "font-size": "40px",
-          "line-height": "48px",
-        },
-        ".text-title-section-small": {
-          "font-family": theme("fontFamily.serif"),
-          "font-weight": theme("fontWeight.bold"),
-          "font-size": "20px",
-          "line-height": "24px",
-        },
-      });
-    }),
-
-    plugin(({ matchUtilities, theme }) => {
-      matchUtilities(
-        {
-          "p-safe": (value) => ({
-            ...createSafePadding("top", value),
-            ...createSafePadding("right", value),
-            ...createSafePadding("bottom", value),
-            ...createSafePadding("left", value),
-          }),
-          "px-safe": (value) => ({
-            ...createSafePadding("right", value),
-            ...createSafePadding("left", value),
-          }),
-          "py-safe": (value) => ({
-            ...createSafePadding("top", value),
-            ...createSafePadding("bottom", value),
-          }),
-          "pt-safe": (value) => createSafePadding("top", value),
-          "pr-safe": (value) => createSafePadding("right", value),
-          "pb-safe": (value) => createSafePadding("bottom", value),
-          "pl-safe": (value) => createSafePadding("left", value),
-        },
-        { values: theme("spacing") },
-      );
-    }),
-
-    plugin(({ matchUtilities, theme }) => {
-      matchUtilities(
-        {
-          "rounded-bubble": (value) => ({
-            borderTopLeftRadius: String(value[0]),
-            borderTopRightRadius: String(value[1]),
-            borderBottomRightRadius: String(value[0]),
-            borderBottomLeftRadius: String(value[1]),
-          }),
-          "rounded-bubble-b": (value) => ({
-            borderBottomRightRadius: String(value[0]),
-            borderBottomLeftRadius: String(value[1]),
-          }),
-        },
-        {
-          values: {
-            sm: [theme("spacing.3"), theme("spacing[1.5]")],
-            md: [theme("spacing.6"), theme("spacing.3")],
-            lg: [theme("spacing.12"), theme("spacing.6")],
-            xl: [theme("spacing.24"), theme("spacing.12")],
-          },
-        },
-      );
-    }),
-
-    plugin(({ matchUtilities }) => {
-      matchUtilities(
-        {
-          scrollbars: () => ({
-            "&::-webkit-scrollbar": {
-              width: "0",
-              height: "0",
-              display: "none",
-            },
-            "&::-webkit-scrollbar-track-piece": {
-              "background-color": "transparent",
-            },
-          }),
-        },
-        { values: { none: "none" } },
-      );
-    }),
+    pluginBubble(),
+    pluginCustomScrollbar(),
+    pluginHover(),
+    pluginSafePadding(),
+    pluginTextStyles(),
   ],
-} satisfies Config;
+};
+
+export default theme;
+
+/**
+ * Override hover to make sure it's only applied on supported devices.
+ *
+ * @see https://tailwindcss.com/docs/hover-focus-and-other-states#using-arbitrary-variants
+ */
+function pluginHover() {
+  return plugin(({ addVariant }) => {
+    addVariant("hover", "@media(any-hover:hover){&:hover}");
+    addVariant("group-hover", "@media(any-hover:hover){.group:hover &}");
+  });
+}
+
+/**
+ * In order to preserve a nice vertical rhythm, all text must have a size
+ * multiple of 24px.
+ */
+function pluginTextStyles() {
+  return plugin(({ addUtilities, theme }) => {
+    addUtilities({
+      ".text-body-default": {
+        "font-family": theme("fontFamily.sans"),
+        "font-size": "16px",
+        "line-height": "24px",
+      },
+      ".text-body-emphasis": {
+        "font-family": theme("fontFamily.sans"),
+        "font-weight": theme("fontWeight.medium"),
+        "font-size": "16px",
+        "line-height": "24px",
+      },
+      ".text-show-body-lowercase-emphasis": {
+        "font-family": theme("fontFamily.show"),
+        "font-weight": theme("fontWeight.medium"),
+        "font-size": "16px",
+        "line-height": "24px",
+      },
+      ".text-caption-default": {
+        "font-family": theme("fontFamily.sans"),
+        "font-size": "14px",
+        "line-height": "24px",
+      },
+      ".text-code-default": {
+        "font-family": theme("fontFamily.mono"),
+        "font-size": "14px",
+        "font-weight": theme("fontWeight.semibold"),
+        "line-height": "24px",
+      },
+      ".text-title-item": {
+        "font-family": theme("fontFamily.serif"),
+        "font-weight": theme("fontWeight.bold"),
+        "font-size": "16px",
+        "line-height": "24px",
+      },
+      ".text-title-hero-large": {
+        "font-family": theme("fontFamily.serif"),
+        "font-weight": theme("fontWeight.semibold"),
+        "font-size": "60px",
+        "line-height": "72px",
+      },
+      ".text-title-hero-small": {
+        "font-family": theme("fontFamily.serif"),
+        "font-weight": theme("fontWeight.semibold"),
+        "font-size": "40px",
+        "line-height": "48px",
+      },
+      ".text-title-section-large": {
+        "font-family": theme("fontFamily.serif"),
+        "font-weight": theme("fontWeight.semibold"),
+        "font-size": "40px",
+        "line-height": "48px",
+      },
+      ".text-title-section-small": {
+        "font-family": theme("fontFamily.serif"),
+        "font-weight": theme("fontWeight.bold"),
+        "font-size": "20px",
+        "line-height": "24px",
+      },
+    });
+  });
+}
+
+function pluginSafePadding() {
+  return plugin(({ matchUtilities, theme }) => {
+    matchUtilities(
+      {
+        "p-safe": (value) => ({
+          ...createSafePadding("top", value),
+          ...createSafePadding("right", value),
+          ...createSafePadding("bottom", value),
+          ...createSafePadding("left", value),
+        }),
+        "px-safe": (value) => ({
+          ...createSafePadding("right", value),
+          ...createSafePadding("left", value),
+        }),
+        "py-safe": (value) => ({
+          ...createSafePadding("top", value),
+          ...createSafePadding("bottom", value),
+        }),
+        "pt-safe": (value) => createSafePadding("top", value),
+        "pr-safe": (value) => createSafePadding("right", value),
+        "pb-safe": (value) => createSafePadding("bottom", value),
+        "pl-safe": (value) => createSafePadding("left", value),
+      },
+      { values: theme("spacing") },
+    );
+  });
+}
+
+function pluginBubble() {
+  return plugin(({ matchUtilities, theme }) => {
+    matchUtilities(
+      {
+        "rounded-bubble": (value) => ({
+          borderTopLeftRadius: String(value[0]),
+          borderTopRightRadius: String(value[1]),
+          borderBottomRightRadius: String(value[0]),
+          borderBottomLeftRadius: String(value[1]),
+        }),
+        "rounded-bubble-b": (value) => ({
+          borderBottomRightRadius: String(value[0]),
+          borderBottomLeftRadius: String(value[1]),
+        }),
+      },
+      {
+        values: {
+          sm: [theme("spacing.3"), theme("spacing[1.5]")],
+          md: [theme("spacing.6"), theme("spacing.3")],
+          lg: [theme("spacing.12"), theme("spacing.6")],
+          xl: [theme("spacing.24"), theme("spacing.12")],
+        },
+      },
+    );
+  });
+}
+
+function pluginCustomScrollbar() {
+  return plugin(({ matchUtilities }) => {
+    matchUtilities(
+      {
+        scrollbars: () => ({
+          "&::-webkit-scrollbar": {
+            width: "0",
+            height: "0",
+            display: "none",
+          },
+          "&::-webkit-scrollbar-track-piece": {
+            "background-color": "transparent",
+          },
+        }),
+      },
+      { values: { none: "none" } },
+    );
+  });
+}
 
 function createSafePadding(
   side: "top" | "right" | "bottom" | "left",
