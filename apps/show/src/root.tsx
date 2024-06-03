@@ -10,13 +10,11 @@ import appleTouchIcon from "#images/apple-touch-icon.png";
 import faviconDark from "#images/favicon-dark.png";
 import faviconLight from "#images/favicon-light.png";
 import maskIcon from "#images/mask-icon.png";
-import stylesheet from "#tailwind.css";
 import { cn } from "@animeaux/core";
 import type { LinksFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import {
   Links,
-  LiveReload,
   Meta,
   Outlet,
   Scripts,
@@ -25,6 +23,8 @@ import {
   useMatches,
 } from "@remix-run/react";
 import { Settings } from "luxon";
+
+import "#tailwind.css";
 
 // Display dates in French.
 Settings.defaultLocale = "fr";
@@ -44,7 +44,6 @@ declare module "luxon" {
 
 export const links: LinksFunction = () => {
   return [
-    { rel: "stylesheet", href: stylesheet },
     { rel: "manifest", href: "/manifest.json" },
     { rel: "icon", href: faviconLight, media: "(prefers-color-scheme: light)" },
     { rel: "icon", href: faviconDark, media: "(prefers-color-scheme: dark)" },
@@ -202,7 +201,6 @@ function Document({
         />
 
         <Scripts />
-        <LiveReload />
       </body>
     </html>
   );

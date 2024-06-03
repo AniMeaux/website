@@ -16,7 +16,7 @@ export function BlockHelper({ children, icon, variant }: BlockHelperProps) {
   return (
     <section
       className={cn(
-        "grid grid-flow-col grid-cols-[auto_1fr] items-start gap-1 border p-1 md:p-2",
+        "grid grid-flow-col grid-cols-[auto_1fr] items-start gap-1 border p-2",
         VARIANT_CLASS_NAME[variant],
         BLOCK_VARIANT_CLASS_NAME[variant],
       )}

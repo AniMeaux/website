@@ -15,7 +15,6 @@ import { prisma } from "#core/prisma.server";
 import { ForbiddenResponse } from "#core/response.server";
 import { PageSearchParams } from "#core/search-params";
 import { assertCurrentUserHasGroups } from "#current-user/groups.server";
-import { Icon } from "#generated/icon";
 import { hasGroups } from "#users/groups";
 import { useOptimisticSearchParams } from "@animeaux/form-data";
 import { UserGroup } from "@prisma/client";
@@ -195,7 +194,7 @@ export default function Route() {
                     search: searchParams.toString(),
                   }}
                 >
-                  <Icon href="icon-print" />
+                  <Action.Icon href="icon-print" />
                   Imprimer
                 </BaseLink>
               </Action>

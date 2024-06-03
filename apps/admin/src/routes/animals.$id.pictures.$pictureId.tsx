@@ -12,7 +12,6 @@ import { getPageTitle } from "#core/page-title";
 import { prisma } from "#core/prisma.server";
 import { NotFoundResponse } from "#core/response.server";
 import { assertCurrentUserHasGroups } from "#current-user/groups.server";
-import { Icon } from "#generated/icon";
 import { DownloadPictureLink } from "#routes/downloads.picture.$id/link";
 import { cn } from "@animeaux/core";
 import { zu } from "@animeaux/zod-utils";
@@ -93,7 +92,7 @@ export default function Route() {
               visiblePictureIndex + 1
             })`}
           >
-            <Icon href="icon-download" />
+            <Action.Icon href="icon-download" />
             Télécharger
           </DownloadPictureLink>
         </Action>
@@ -114,7 +113,7 @@ export default function Route() {
       </div>
 
       <footer className="flex justify-center pt-0.5 pb-safe-0.5 md:pt-1 md:pb-safe-1">
-        <div className="grid max-w-full auto-cols-[60px] grid-flow-col justify-start gap-1 overflow-x-auto px-safe-1 scrollbars-none md:auto-cols-[80px] md:gap-2">
+        <div className="grid max-w-full auto-cols-[60px] grid-flow-col justify-start gap-1 overflow-x-auto scrollbars-none px-safe-1 md:auto-cols-[80px] md:gap-2">
           {allPictures.map((pictureId, index) => (
             <BaseLink
               key={pictureId}

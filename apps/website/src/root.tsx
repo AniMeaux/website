@@ -11,13 +11,11 @@ import background from "#images/background.svg";
 import favicon from "#images/favicon.svg";
 import maskIcon from "#images/mask-icon.svg";
 import { socialImages } from "#images/social";
-import stylesheet from "#tailwind.css";
 import { cn } from "@animeaux/core";
 import type { LinksFunction, MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import {
   Links,
-  LiveReload,
   Meta,
   Outlet,
   Scripts,
@@ -25,6 +23,8 @@ import {
   useLocation,
 } from "@remix-run/react";
 import { Settings } from "luxon";
+
+import "#tailwind.css";
 
 // Display dates in French.
 Settings.defaultLocale = "fr";
@@ -44,7 +44,6 @@ declare module "luxon" {
 
 export const links: LinksFunction = () => {
   return [
-    { rel: "stylesheet", href: stylesheet },
     { rel: "manifest", href: "/manifest.json" },
     { rel: "icon", href: favicon },
     {
@@ -182,7 +181,6 @@ function Document({
         {children}
         <ScrollRestoration />
         <Scripts />
-        <LiveReload />
       </body>
     </html>
   );

@@ -72,9 +72,9 @@ export default function Route() {
   const { animals, totalCount } = useLoaderData<typeof loader>();
 
   return (
-    <main className="grid grid-cols-1 gap-1 py-1 print:gap-0 print:py-0 md:gap-2 md:py-2 md:print:gap-0 md:print:py-0">
+    <main className="grid grid-cols-1 gap-1 py-1 md:gap-2 md:py-2 print:gap-0 print:py-0 md:print:gap-0 md:print:py-0">
       {totalCount > MAX_ANIMAL_COUNT ? (
-        <div className="grid grid-cols-1 px-1 print:hidden md:px-2">
+        <div className="grid grid-cols-1 px-1 md:px-2 print:hidden">
           <BlockHelper variant="warning">
             Pour des raisons de performance, seulement {MAX_ANIMAL_COUNT}{" "}
             animaux sur {totalCount} sont affichés.
@@ -82,9 +82,9 @@ export default function Route() {
         </div>
       ) : null}
 
-      <div className="grid grid-cols-1 justify-items-end px-1 print:hidden md:px-2">
+      <div className="grid grid-cols-1 justify-items-end px-1 md:px-2 print:hidden">
         <Action onClick={() => window.print()}>
-          <Icon href="icon-print" />
+          <Action.Icon href="icon-print" />
           Imprimer
         </Action>
       </div>
@@ -175,7 +175,7 @@ function PageSection({
         className,
       )}
     >
-      <div className="flex px-1 print:px-0 md:px-2 md:print:px-0">
+      <div className="flex px-1 md:px-2 print:px-0 md:print:px-0">
         {children}
       </div>
     </section>

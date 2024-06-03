@@ -1,5 +1,6 @@
 import { simpleHash } from "#core/simple-hash";
-import { rest } from "msw";
+import type { HttpResponseResolver, StrictResponse } from "msw";
+import { HttpResponse, http } from "msw";
 import invariant from "tiny-invariant";
 
 const SVGS = [
@@ -13,28 +14,29 @@ const SVGS = [
   '<svg fill="none" height="3000" viewBox="0 0 40 30" width="4000" xmlns="http://www.w3.org/2000/svg"><path d="m0 0h40v30h-40z" fill="#bbf7d0"/><path d="m25.5045 9.27187c-.2382-1.29166-1.3659-2.27187-2.7267-2.27187-1.3622 0-2.4903.98229-2.7271 2.27569-5.6496.53541-10.06801 5.29791-10.0506 11.09161.0038 1.2125 1.0097 2.1882 2.2222 2.1882h10.5555c.3069 0 .5556-.2486.5556-.5555 0-.6136-.4976-1.1111-1.1112-1.1111h-2.76l1.243-1.6782c.8382-1.258.3594-3.0652-1.1705-3.7013-.8295-.3448-1.7899-.1615-2.5083.3777l-1.1375.8538c-.2451.1844-.5934.1358-.7781-.1107-.184-.2458-.1347-.5941.1108-.7781l1.2076-.9059c1.2792-.9605 3.0653-.9591 4.3448 0 .3774.2829 1.5927 1.3562 1.4166 3.2364l4.1157 4.3729h3.1381c.307 0 .5556-.2486.5556-.5555 0-.6136-.4976-1.1111-1.1111-1.1111h-1.8622l-3.4208-3.6348 5.3625-3.0086c.3129-.1755.5734-.4312.7548-.7408.1813-.3096.2768-.6619.2768-1.0207 0-.743-.4069-1.4219-1.0583-1.7788-1.4084-.77153-3.4372-1.43333-3.4372-1.43333zm-2.7267 1.33923c-.4604 0-.8333-.3733-.8333-.83333 0-.46042.3729-.83333.8333-.83333.4601 0 .8333.37291.8333.83333 0 .46003-.3732.83333-.8333.83333z" fill="#1f2937"/></svg>',
 ];
 
-const resolver: Parameters<typeof rest.get>[1] = async (req, res, ctx) => {
-  invariant(typeof req.params.id === "string", "id is required");
-  const svg = SVGS[simpleHash(req.params.id) % SVGS.length];
+const resolver: HttpResponseResolver = async ({ params }) => {
+  invariant(typeof params.id === "string", "id is required");
+  const svg = SVGS[simpleHash(params.id) % SVGS.length];
   invariant(svg != null, "An SVG should exists");
 
-  return res(
-    ctx.set("Content-Length", String(svg.length)),
-    ctx.set("Content-Type", "image/svg+xml"),
-    ctx.body(svg),
-  );
+  return new HttpResponse(svg, {
+    headers: {
+      "Content-Length": String(svg.length),
+      "Content-Type": "image/svg+xml",
+    },
+  }) as StrictResponse<string>;
 };
 
 export const cloudinaryHandlers = [
-  rest.get(
+  http.get(
     "https://res.cloudinary.com/mock-cloud-name/image/upload/:filters/:id",
     resolver,
   ),
-  rest.get(
+  http.get(
     "https://res.cloudinary.com/mock-cloud-name/image/upload/:filters/:folder/:id",
     resolver,
   ),
-  rest.get(
+  http.get(
     "https://res.cloudinary.com/mock-cloud-name/image/upload/:id",
     resolver,
   ),

@@ -205,7 +205,7 @@ export function EventForm({
               <ImageInput.PreviewAction
                 onClick={() => imageRef.current?.click()}
               >
-                <Icon href="icon-upload" />
+                <Action.Icon href="icon-upload" />
                 Changer
               </ImageInput.PreviewAction>
             </ImageInput.Preview>

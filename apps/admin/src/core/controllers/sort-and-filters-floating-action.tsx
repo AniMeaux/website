@@ -15,13 +15,8 @@ export function SortAndFiltersFloatingAction({
 }) {
   return (
     <Dialog.Root>
-      <Dialog.Trigger asChild>
-        <Action
-          variant="floating"
-          className="fixed z-20 bottom-safe-6 right-safe-1 md:hidden"
-        >
-          <Icon href="icon-filter" />
-        </Action>
+      <Dialog.Trigger className="fixed z-20 flex h-5 w-5 items-center justify-center rounded-full bg-blue-500 shadow-popover-sm transition-[background-color,transform] duration-100 ease-in-out bottom-safe-6.5 right-safe-1.5 active:scale-95 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-inheritBg hover:bg-blue-400 md:hidden">
+        <Icon href="icon-filter" className="text-[25px] text-white" />
       </Dialog.Trigger>
 
       <Dialog.Portal>
@@ -35,7 +30,7 @@ export function SortAndFiltersFloatingAction({
         />
 
         <Dialog.Content className="fixed bottom-0 left-0 right-0 top-0 z-30 flex flex-col gap-1 overflow-y-auto bg-gray-50">
-          <header className="sticky top-0 z-20 flex min-h-[50px] flex-none items-center gap-1 bg-white pb-0.5 bg-var-white pt-safe-0.5 px-safe-1">
+          <header className="sticky top-0 z-20 flex min-h-[50px] flex-none items-center gap-1 bg-white pb-0.5 bg-var-white pt-safe-0.5 px-safe-1.5">
             <Dialog.Title className="flex-1 text-title-section-large">
               {hasSort ? "Trier et filtrer" : "Filtrer"}
             </Dialog.Title>
@@ -51,7 +46,7 @@ export function SortAndFiltersFloatingAction({
             <Card.Content>{children}</Card.Content>
           </Card>
 
-          <footer className="sticky bottom-0 z-20 flex flex-none bg-white pt-1 bg-var-white pb-safe-1 px-safe-1">
+          <footer className="sticky bottom-0 z-20 flex flex-none bg-white pt-1 bg-var-white pb-safe-1 px-safe-1.5">
             <Dialog.Close asChild>
               <Action className="w-full">
                 Voir les résultats ({totalCount})

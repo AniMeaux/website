@@ -94,7 +94,7 @@ DropdownSheet.Content = forwardRef<
         {...rest}
         ref={ref}
         className={cn(
-          "fixed inset-x-0 bottom-0 z-30 grid animation-duration-150 animation-translate-y-full pb-safe-1 px-safe-1 data-[state=open]:animation-enter data-[state=closed]:animation-exit",
+          "fixed inset-x-0 bottom-0 z-30 grid animation-duration-150 animation-translate-y-full pb-safe-1 px-safe-1.5 data-[state=open]:animation-enter data-[state=closed]:animation-exit",
           className,
         )}
       >

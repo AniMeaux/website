@@ -5,7 +5,7 @@ import {
   CloudinaryDelegate,
 } from "#core/cloudinary/shared.server";
 import type { PreviousEdition } from "#previous-editions/previous-edition";
-import { cachified } from "cachified";
+import { cachified } from "@epic-web/cachified";
 
 export class PrevousEditionCloudinaryDelegate extends CloudinaryDelegate {
   async findAllImages(edition: PreviousEdition) {

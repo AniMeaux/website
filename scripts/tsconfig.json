@@ -6,6 +6,6 @@
   "compilerOptions": {
     // Paths.
     "baseUrl": "./",
-    "paths": { "#*": ["./src/*"] },
-  },
+    "paths": { "#*": ["./src/*"] }
+  }
 }

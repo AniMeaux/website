@@ -1,5 +1,6 @@
 import { algolia } from "#core/algolia/algolia.server";
 import { prisma } from "#core/prisma.server";
+import type { QueryBody } from "#mocks/algolia/shared.server";
 import {
   createBatchHandlers,
   createPostHandlers,
@@ -8,15 +9,17 @@ import {
 import type { Hit, SearchResponse } from "@algolia/client-search";
 import type { FosterFamily, SerializeObject } from "@animeaux/algolia-client";
 import type { Prisma } from "@prisma/client";
+import { HttpResponse } from "msw";
 import { promiseHash } from "remix-utils/promise";
 
 export const fosterFamilyHandlers = [
-  ...createPostHandlers(
+  ...createPostHandlers<QueryBody>(
     `/1/indexes/${algolia.fosterFamily.index.indexName}/query`,
-    async (req, res, ctx) => {
-      const body = await req.json();
+    async ({ request }) => {
+      const body = await request.json();
       const query = body.query || "";
       const page = body.page ?? 0;
+      const hitsPerPage = body.hitsPerPage ?? 10;
 
       const where: Prisma.FosterFamilyWhereInput = {};
       if (query !== "") {
@@ -28,8 +31,8 @@ export const fosterFamilyHandlers = [
         fosterFamilies: prisma.fosterFamily.findMany({
           where,
           orderBy: { displayName: "asc" },
-          take: body.hitsPerPage,
-          skip: page * body.hitsPerPage,
+          take: hitsPerPage,
+          skip: page * hitsPerPage,
           select: { id: true, displayName: true },
         }),
       });
@@ -37,8 +40,8 @@ export const fosterFamilyHandlers = [
       const responseBody: SearchResponse<SerializeObject<FosterFamily>> = {
         nbHits: totalCount,
         page: page,
-        nbPages: Math.ceil(totalCount / body.hitsPerPage),
-        hitsPerPage: body.hitsPerPage,
+        nbPages: Math.ceil(totalCount / hitsPerPage),
+        hitsPerPage,
         exhaustiveNbHits: true,
         query,
         params: "",
@@ -62,7 +65,7 @@ export const fosterFamilyHandlers = [
         ),
       };
 
-      return res(ctx.json(responseBody));
+      return HttpResponse.json(responseBody);
     },
   ),
 

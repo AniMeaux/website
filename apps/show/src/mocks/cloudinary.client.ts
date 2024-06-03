@@ -1,4 +1,5 @@
-import { rest } from "msw";
+import type { HttpResponseResolver, StrictResponse } from "msw";
+import { HttpResponse, http } from "msw";
 import invariant from "tiny-invariant";
 
 const SVGS = [
@@ -12,29 +13,30 @@ const SVGS = [
   '<svg fill="none" height="8000" viewBox="0 0 800 800" width="8000" xmlns="http://www.w3.org/2000/svg"><path d="m0 0h800v800h-800z" fill="#b7e69b"/><path d="m537.613 262.797c-5.955-32.292-34.149-56.797-68.168-56.797-34.054 0-62.257 24.557-68.177 56.892-141.241 13.386-251.701 132.448-251.267 277.291.096 30.313 25.243 54.705 55.556 54.705h263.888c7.674 0 13.889-6.215 13.889-13.889 0-15.338-12.439-27.778-27.778-27.778h-69.001l31.076-41.953c20.955-31.449 8.984-76.631-29.262-92.534-20.738-8.62-44.748-4.037-62.708 9.444l-28.438 21.346c-6.128 4.609-14.835 3.394-19.453-2.769-4.601-6.146-3.368-14.853 2.769-19.453l30.191-22.648c31.979-24.01 76.632-23.976 108.62 0 9.435 7.075 39.817 33.906 35.416 80.911l102.89 109.323h78.455c7.674 0 13.889-6.215 13.889-13.889 0-15.338-12.439-27.778-27.778-27.778h-46.553l-85.521-90.867 134.062-75.217c7.823-4.388 14.336-10.78 18.869-18.52s6.922-16.547 6.921-25.517c0-18.576-10.174-35.546-26.458-44.47-35.208-19.288-85.929-35.833-85.929-35.833zm-68.168 33.481c-11.51 0-20.833-9.332-20.833-20.834 0-11.51 9.323-20.833 20.833-20.833 11.502 0 20.833 9.323 20.833 20.833 0 11.502-9.331 20.834-20.833 20.834z" fill="#000"/></svg>',
 ];
 
-const resolver: Parameters<typeof rest.get>[1] = async (req, res, ctx) => {
-  invariant(typeof req.params.id === "string", "id is required");
-  const hash = Number(stringToHex(req.params.id));
+const resolver: HttpResponseResolver = async ({ params }) => {
+  invariant(typeof params.id === "string", "id is required");
+  const hash = Number(stringToHex(params.id));
   const svg = SVGS[hash % SVGS.length];
   invariant(svg != null, "An SVG should exists");
 
-  return res(
-    ctx.set("Content-Length", String(svg.length)),
-    ctx.set("Content-Type", "image/svg+xml"),
-    ctx.body(svg),
-  );
+  return new HttpResponse(svg, {
+    headers: {
+      "Content-Length": String(svg.length),
+      "Content-Type": "image/svg+xml",
+    },
+  }) as StrictResponse<string>;
 };
 
 export const cloudinaryHandlers = [
-  rest.get(
+  http.get(
     "https://res.cloudinary.com/mock-cloud-name/image/upload/:filters/:id",
     resolver,
   ),
-  rest.get(
+  http.get(
     "https://res.cloudinary.com/mock-cloud-name/image/upload/:filters/:folder/:id",
     resolver,
   ),
-  rest.get(
+  http.get(
     "https://res.cloudinary.com/mock-cloud-name/image/upload/:id",
     resolver,
   ),

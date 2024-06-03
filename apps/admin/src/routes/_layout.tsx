@@ -55,7 +55,7 @@ export default function Route() {
       <CurrentUserSideBar />
 
       <div className="flex flex-col" style={{ "--header-height": "80px" }}>
-        <header className="grid w-full grid-cols-[minmax(0px,1fr)_auto] items-center justify-between gap-1 bg-white pb-0.5 bg-var-white pt-safe-0.5 px-safe-1 md:sticky md:top-0 md:z-20 md:grid-cols-[minmax(200px,500px)_auto] md:gap-4 md:border-l md:border-gray-50 md:pb-1 md:pl-2 md:pr-safe-2 md:pt-safe-1">
+        <header className="grid w-full grid-cols-[minmax(0px,1fr)_auto] items-center justify-between gap-1 bg-white pb-0.5 bg-var-white pt-safe-0.5 px-safe-1.5 md:sticky md:top-0 md:z-20 md:grid-cols-[minmax(200px,500px)_auto] md:gap-4 md:border-l md:border-gray-50 md:pb-1 md:pl-2 md:pr-safe-2 md:pt-safe-1">
           <GlobalSearch currentUser={currentUser} />
           <CurrentUserMenu />
         </header>
