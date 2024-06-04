@@ -120,8 +120,8 @@ const theme: Config = {
 
   plugins: [
     tailwindAnimation,
-    pluginBackgroundVariable(),
     pluginCustomScrollbar(),
+    pluginFocus(),
     pluginFocusVisible(),
     pluginHover(),
     pluginRingOutset(),
@@ -133,9 +133,32 @@ const theme: Config = {
 
 export default theme;
 
+function pluginFocus() {
+  return plugin(({ matchUtilities, theme }) => {
+    matchUtilities(
+      {
+        "focus-compact": (value) => ({
+          "outline-color": value,
+          "outline-offset": "0px",
+          "outline-style": "solid",
+          "outline-width": "3px",
+        }),
+
+        "focus-spaced": (value) => ({
+          "outline-color": value,
+          "outline-offset": "2px",
+          "outline-style": "solid",
+          "outline-width": "3px",
+        }),
+      },
+      { values: flattenColorPalette(theme("colors")) },
+    );
+  });
+}
+
 /**
- * Override focus-visible to make sure it supports the `.focus-visible` class.
- * We also don't want touch screens devices to have visible focus.
+ * Override focus-visible because we don't want touch screens devices to have
+ * visible focus.
  * They usally don't have input mechanism that can hover over elements so we
  * check that.
  *
@@ -143,10 +166,7 @@ export default theme;
  */
 function pluginFocusVisible() {
   return plugin(({ addVariant }) => {
-    addVariant(
-      "focus-visible",
-      "@media(any-hover:hover){&:is(:focus-visible, .focus-visible)}",
-    );
+    addVariant("focus-visible", "@media(any-hover:hover){&:focus-visible}");
   });
 }
 
@@ -222,15 +242,6 @@ function pluginTextStyles() {
         "line-height": "20px",
       },
     });
-  });
-}
-
-function pluginBackgroundVariable() {
-  return plugin(({ matchUtilities, theme }) => {
-    matchUtilities(
-      { "bg-var": (value) => ({ "--background-color": value }) },
-      { values: flattenColorPalette(theme("colors")) },
-    );
   });
 }
 

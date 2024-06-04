@@ -504,7 +504,7 @@ function RaffleSection() {
 function PreviousEditionsSection() {
   return (
     <Section width="full" columnCount={1}>
-      <div className="relative grid grid-cols-1 gap-2 py-2 bg-var-alabaster px-safe-page-narrow sm:gap-4 md:grid-cols-2 md:items-center md:py-4 md:px-safe-page-normal lg:gap-8">
+      <div className="relative grid grid-cols-1 gap-2 py-2 px-safe-page-narrow sm:gap-4 md:grid-cols-2 md:items-center md:py-4 md:px-safe-page-normal lg:gap-8">
         <HighLightBackground
           color="alabaster"
           className="absolute left-0 top-0 -z-10 h-full w-full"
@@ -653,7 +653,7 @@ function ProviderItem({
       <Link
         to={provider.url}
         className={cn(
-          "group grid grid-cols-1 overflow-hidden rounded-2 border border-alabaster focus-visible:outline-none focus-visible:ring focus-visible:ring-mystic focus-visible:ring-offset-2 focus-visible:ring-offset-inheritBg",
+          "group grid grid-cols-1 overflow-hidden rounded-2 border border-alabaster focus-visible:focus-spaced-mystic",
         )}
       >
         <DynamicImage
@@ -735,7 +735,7 @@ function ActionsSection() {
 
   return (
     <section className="grid grid-cols-1 py-4">
-      <div className="relative grid grid-cols-1 gap-4 py-4 bg-var-alabaster px-safe-page-narrow md:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] md:items-start md:px-safe-page-normal lg:gap-8">
+      <div className="relative grid grid-cols-1 gap-4 py-4 px-safe-page-narrow md:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] md:items-start md:px-safe-page-normal lg:gap-8">
         <HighLightBackground
           color="alabaster"
           className="absolute left-0 top-0 -z-10 h-full w-full"
@@ -895,7 +895,7 @@ function FooterSection() {
     <footer className="grid grid-cols-1">
       <FooterWave className="h-[53px] w-full md:h-[90px]" />
 
-      <section className="grid grid-cols-1 justify-items-center gap-4 bg-paleBlue px-page-narrow py-4 bg-var-paleBlue md:grid-cols-2 md:items-center md:px-page-normal lg:gap-8">
+      <section className="grid grid-cols-1 justify-items-center gap-4 bg-paleBlue px-page-narrow py-4 md:grid-cols-2 md:items-center md:px-page-normal lg:gap-8">
         <img
           src={logoAniMeaux}
           alt="Association Ani’Meaux"
@@ -950,7 +950,7 @@ function SocialLink({
   return (
     <Link
       {...rest}
-      className="grid grid-cols-1 rounded-full transition-transform duration-100 ease-in-out active:scale-95 focus-visible:outline-none focus-visible:ring focus-visible:ring-prussianBlue focus-visible:ring-offset-2 focus-visible:ring-offset-inheritBg hover:scale-105 hover:active:scale-95"
+      className="grid grid-cols-1 rounded-full transition-transform duration-100 ease-in-out active:scale-95 focus-visible:focus-spaced-prussianBlue hover:scale-105 hover:active:scale-95"
     >
       {children}
     </Link>
@@ -970,7 +970,7 @@ function ContactItem({
     <li className="grid grid-cols-1 justify-items-start">
       <Link
         to={to}
-        className="grid grid-cols-[auto_auto] items-start gap-1 rounded-0.5 transition-transform duration-100 ease-in-out active:scale-95 focus-visible:outline-none focus-visible:ring focus-visible:ring-mystic focus-visible:ring-offset-2 focus-visible:ring-offset-paleBlue hover:scale-105 hover:active:scale-95"
+        className="grid grid-cols-[auto_auto] items-start gap-1 rounded-0.5 transition-transform duration-100 ease-in-out active:scale-95 focus-visible:focus-spaced-mystic hover:scale-105 hover:active:scale-95"
       >
         <span className="flex h-2 items-center">
           <Icon id={icon} className="text-[16px] text-mystic" />

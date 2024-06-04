@@ -44,7 +44,7 @@ Dialog.Content = function DialogContent({
            */}
           <div
             tabIndex={0}
-            className="flex w-full flex-col gap-2 rounded-1 bg-white p-2 shadow-popover-md bg-var-white focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400"
+            className="flex w-full flex-col gap-2 rounded-1 bg-white p-2 shadow-popover-md focus-visible:focus-compact-blue-400"
           >
             {children}
           </div>

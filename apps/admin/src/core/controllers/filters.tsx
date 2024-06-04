@@ -89,7 +89,7 @@ Filters.Filter = function Filter({
             openedFilter === value ? null : value,
           )
         }
-        className="group grid w-full grid-flow-col grid-cols-1 items-start rounded-0.5 text-left focus:z-10 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-inheritBg"
+        className="group grid w-full grid-flow-col grid-cols-1 items-start rounded-0.5 text-left focus:z-10 focus-visible:focus-spaced-blue-400"
       >
         <span
           className={cn(

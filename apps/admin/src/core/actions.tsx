@@ -39,7 +39,7 @@ export const Action = Object.assign(
           {...rest}
           ref={ref}
           className={cn(
-            "relative flex flex-none items-center justify-center gap-0.5 duration-100 ease-in-out active:scale-95 disabled:opacity-50 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-inheritBg",
+            "relative flex flex-none items-center justify-center gap-0.5 duration-100 ease-in-out active:scale-95 disabled:opacity-50 focus-visible:focus-spaced-blue-400",
             VARIANT_CLASS_NAME[variant]({ isIconOnly }),
             COLOR_CLASS_NAMES[variant][color],
             className,
@@ -140,7 +140,7 @@ export const ProseInlineAction = forwardRef<
       {...rest}
       ref={ref}
       className={cn(
-        "relative text-body-emphasis after:absolute after:bottom-0 after:left-0 after:w-full after:border-b after:border-blue-500 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-inheritBg hover:after:border-b-2",
+        "relative text-body-emphasis after:absolute after:bottom-0 after:left-0 after:w-full after:border-b after:border-blue-500 focus-visible:focus-spaced-blue-400 hover:after:border-b-2",
         className,
       )}
     />

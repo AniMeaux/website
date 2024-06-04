@@ -124,7 +124,7 @@ function FaqItem({ faq }: { faq: Faq }) {
   return (
     <Collapsible.Root asChild>
       <li className="group/item grid grid-cols-1 rounded-1 bg-alabaster transition-colors duration-150 ease-in-out data-[state=open]:bg-paleBlue">
-        <Collapsible.Trigger className="group/trigger grid grid-cols-[minmax(0,1fr)_auto] items-center gap-2 rounded-1 px-2 py-1 text-left text-body-uppercase-emphasis focus-visible:outline-none focus-visible:ring focus-visible:ring-mystic focus-visible:ring-offset-2 focus-visible:ring-offset-inheritBg">
+        <Collapsible.Trigger className="group/trigger grid grid-cols-[minmax(0,1fr)_auto] items-center gap-2 rounded-1 px-2 py-1 text-left text-body-uppercase-emphasis focus-visible:focus-spaced-mystic">
           {faq.question}
 
           <Icon
@@ -133,7 +133,7 @@ function FaqItem({ faq }: { faq: Faq }) {
           />
         </Collapsible.Trigger>
 
-        <Collapsible.Content className="overflow-hidden px-2 py-1 bg-var-alabaster group-data-[state=closed]/item:animate-radix-collapsible-content-close group-data-[state=open]/item:animate-radix-collapsible-content-open group-data-[state=open]/item:bg-var-paleBlue">
+        <Collapsible.Content className="overflow-hidden px-2 py-1 group-data-[state=closed]/item:animate-radix-collapsible-content-close group-data-[state=open]/item:animate-radix-collapsible-content-open">
           {typeof faq.answer === "function" ? faq.answer(config) : faq.answer}
         </Collapsible.Content>
       </li>

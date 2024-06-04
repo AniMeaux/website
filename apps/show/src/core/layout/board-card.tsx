@@ -9,12 +9,7 @@ export function BoardCard({
   className,
 }: React.PropsWithChildren<{ className?: string }>) {
   return (
-    <div
-      className={cn(
-        "relative p-3 bg-var-alabaster md:px-10 md:py-6",
-        className,
-      )}
-    >
+    <div className={cn("relative p-3 md:px-10 md:py-6", className)}>
       <BoardBackground />
 
       <BeeIllustration

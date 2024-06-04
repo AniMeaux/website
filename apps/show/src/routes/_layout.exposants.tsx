@@ -284,7 +284,7 @@ const FilterModal = forwardRef<
       {...props}
       ref={ref}
       className={cn(
-        "fixed bottom-0 left-0 right-0 top-0 z-30 flex w-full flex-col bg-var-alabaster md:bottom-auto md:top-1/2 md:max-h-[90vh] md:-translate-y-1/2",
+        "fixed bottom-0 left-0 right-0 top-0 z-30 flex w-full flex-col md:bottom-auto md:top-1/2 md:max-h-[90vh] md:-translate-y-1/2",
         className,
       )}
     >
@@ -309,7 +309,7 @@ const FilterModal = forwardRef<
 
           <Dialog.Close
             title="Fermer"
-            className="flex aspect-square w-[48px] items-center justify-center text-[24px] text-mystic transition-transform duration-100 active:scale-95 focus-visible:outline-none focus-visible:ring focus-visible:ring-mystic focus-visible:ring-offset-2 focus-visible:ring-offset-inheritBg hover:scale-105 hover:active:scale-95"
+            className="flex aspect-square w-[48px] items-center justify-center text-[24px] text-mystic transition-transform duration-100 active:scale-95 focus-visible:focus-spaced-mystic hover:scale-105 hover:active:scale-95"
           >
             <Icon id="x-mark-light" />
           </Dialog.Close>
@@ -490,7 +490,7 @@ function ExhibitorItem({
     <li className="grid grid-cols-1 gap-2">
       <Link
         to={exhibitor.url}
-        className="group grid grid-cols-1 gap-2 rounded-b-0.5 rounded-t-2 focus-visible:outline-none focus-visible:ring focus-visible:ring-mystic focus-visible:ring-offset-2 focus-visible:ring-offset-inheritBg"
+        className="group grid grid-cols-1 gap-2 rounded-b-0.5 rounded-t-2 focus-visible:focus-spaced-mystic"
       >
         <div className="grid w-full grid-cols-1 overflow-hidden rounded-2 border border-alabaster">
           <DynamicImage
@@ -522,7 +522,7 @@ function ExhibitorItem({
       </Link>
 
       {exhibitor.eventDescription != null ? (
-        <div className="grid grid-cols-1 gap-2 rounded-1 bg-alabaster px-2 py-1 bg-var-alabaster">
+        <div className="grid grid-cols-1 gap-2 rounded-1 bg-alabaster px-2 py-1">
           <p className="grid grid-cols-[auto_1fr] items-start gap-0.5 text-mystic text-body-lowercase-emphasis">
             <span className="flex h-2 items-center">
               <Icon id="calendar-day-solid" />

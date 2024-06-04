@@ -133,7 +133,7 @@ function Document({
     <html
       lang="fr"
       className={cn(
-        htmlBackgroundColor ?? "bg-white bg-var-white",
+        htmlBackgroundColor ?? "bg-white",
         isFullHeight ? "h-full" : undefined,
       )}
     >

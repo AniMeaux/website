@@ -25,7 +25,7 @@ import chunk from "lodash.chunk";
 import { Suspense } from "react";
 
 export const handle: RouteHandle = {
-  htmlBackgroundColor: cn("bg-gray-50 bg-var-gray-50 print:bg-white"),
+  htmlBackgroundColor: cn("bg-gray-50 print:bg-white"),
 };
 
 const MAX_ITEM_PER_PAGES = 35;
@@ -190,7 +190,7 @@ function CardList({
     <ul
       {...rest}
       className={cn(
-        "flex aspect-A4-landscape w-[29.6cm] flex-wrap content-center justify-center gap-2 bg-white p-2 bg-var-white",
+        "flex aspect-A4-landscape w-[29.6cm] flex-wrap content-center justify-center gap-2 bg-white p-2",
       )}
     />
   );
