@@ -9,6 +9,7 @@ on:
       - yarn.lock
       - .dockerignore
       - prisma/**
+      - libs/**
       - apps/show/**
       - .github/workflows/show.deploy.yml
 
