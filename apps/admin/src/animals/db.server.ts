@@ -15,7 +15,7 @@ import { deleteImage } from "#core/cloudinary.server";
 import { NotFoundError, PrismaErrorCodes } from "#core/errors.server";
 import { prisma } from "#core/prisma.server";
 import { ANIMAL_AGE_RANGE_BY_SPECIES } from "@animeaux/core";
-import type { SearchParamsDelegate } from "@animeaux/form-data";
+import type { SearchParamsIO } from "@animeaux/search-params-io";
 import type { Animal, AnimalDraft } from "@prisma/client";
 import { Prisma, Species, Status } from "@prisma/client";
 import { DateTime } from "luxon";
@@ -106,7 +106,8 @@ export class AnimalDbDelegate {
   }
 
   async createFindManyParams(
-    searchParams: SearchParamsDelegate.Infer<typeof AnimalSearchParams>,
+    searchParams: SearchParamsIO.Infer<typeof AnimalSearchParams>,
+    sort: AnimalSort,
   ) {
     const where: Prisma.AnimalWhereInput[] = [];
 
@@ -278,9 +279,9 @@ export class AnimalDbDelegate {
       });
     }
 
-    if (searchParams.vaccination.size > 0) {
+    if (searchParams.vaccinations.size > 0) {
       where.push({
-        OR: Array.from(searchParams.vaccination).map(
+        OR: Array.from(searchParams.vaccinations).map(
           (vaccination) => ANIMAL_VACCINATION_WHERE[vaccination],
         ),
       });
@@ -303,7 +304,7 @@ export class AnimalDbDelegate {
       where.push({ nextVaccinationDate });
     }
 
-    const orderBy = ANIMAL_ORDER_BY[searchParams.sort];
+    const orderBy = ANIMAL_ORDER_BY[sort];
 
     return {
       orderBy,

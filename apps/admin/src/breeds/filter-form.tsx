@@ -14,7 +14,7 @@ import { Filters } from "#core/controllers/filters";
 import { ControlledInput } from "#core/form-elements/controlled-input";
 import { ToggleInput, ToggleInputList } from "#core/form-elements/toggle-input";
 import { Icon } from "#generated/icon";
-import { useOptimisticSearchParams } from "@animeaux/form-data";
+import { useOptimisticSearchParams } from "@animeaux/search-params-io";
 
 export function BreedFilterForm() {
   const [searchParams, setSearchParams] = useOptimisticSearchParams();
@@ -121,9 +121,13 @@ export function BreedFilterForm() {
                 <ControlledInput.ActionAdornment
                   onClick={() => {
                     setSearchParams((searchParams) => {
-                      const copy = new URLSearchParams(searchParams);
-                      BreedSearchParams.set(copy, { name: undefined });
-                      return copy;
+                      return BreedSearchParams.set(
+                        searchParams,
+                        (breedSearchParams) => ({
+                          ...breedSearchParams,
+                          name: undefined,
+                        }),
+                      );
                     });
                   }}
                 >

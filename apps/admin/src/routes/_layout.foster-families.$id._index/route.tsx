@@ -290,7 +290,7 @@ function FosterAnimalsCard() {
             <BaseLink
               to={{
                 pathname: Routes.animals.toString(),
-                search: AnimalSearchParams.stringify({
+                search: AnimalSearchParams.format({
                   fosterFamiliesId: new Set([fosterFamily.id]),
                 }),
               }}

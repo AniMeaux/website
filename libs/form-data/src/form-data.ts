@@ -1,5 +1,4 @@
 import { zu } from "@animeaux/zod-utils";
-import { toObject } from "./to-object";
 
 export namespace FormDataDelegate {
   export function create<TSchema extends zu.ZodObject<any>>(schema: TSchema) {
@@ -18,5 +17,26 @@ export namespace FormDataDelegate {
         >;
       },
     };
+  }
+
+  function toObject(data: FormData | URLSearchParams) {
+    const map = new Map<string, unknown[]>();
+
+    for (const [key, value] of data) {
+      const currentValue = map.get(key);
+
+      if (currentValue == null) {
+        map.set(key, [value]);
+      } else {
+        currentValue.push(value);
+      }
+    }
+
+    return Object.fromEntries(
+      Array.from(map.entries()).map(([key, value]) => [
+        key,
+        value.length === 1 ? value[0] : value,
+      ]),
+    );
   }
 }

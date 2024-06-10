@@ -11,7 +11,6 @@ import {
 } from "#core/form-elements/resource-input";
 import { Routes } from "#core/navigation";
 import { Icon } from "#generated/icon";
-import type { loader } from "#routes/resources.color/route";
 import type { Color } from "@prisma/client";
 import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
 import type { SerializeFrom } from "@remix-run/node";
@@ -19,6 +18,7 @@ import { useFetcher } from "@remix-run/react";
 import { useCombobox } from "downshift";
 import { createPath } from "history";
 import { forwardRef, useEffect, useState } from "react";
+import type { loader } from "./route";
 
 type ColorInputProps = {
   name: string;
@@ -81,7 +81,7 @@ export const ColorInput = forwardRef<
               fetcher.load(
                 createPath({
                   pathname: Routes.resources.color.toString(),
-                  search: ColorSearchParams.stringify({ name: value }),
+                  search: ColorSearchParams.format({ name: value }),
                 }),
               );
             }}

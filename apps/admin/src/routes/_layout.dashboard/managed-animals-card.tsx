@@ -29,7 +29,7 @@ export function ManagedAnimalsCard() {
             <BaseLink
               to={{
                 pathname: Routes.animals.toString(),
-                search: AnimalSearchParams.stringify({
+                search: AnimalSearchParams.format({
                   statuses: new Set(ACTIVE_ANIMAL_STATUS),
                   managersId: new Set([currentUser.id]),
                 }),

@@ -17,6 +17,7 @@ ADD ./libs/core/package.json ./libs/core/
 ADD ./libs/form-data/package.json ./libs/form-data/
 ADD ./libs/password/package.json ./libs/password/
 ADD ./libs/react-primitives/package.json ./libs/react-primitives/
+ADD ./libs/search-params-io/package.json ./libs/search-params-io/
 ADD ./libs/tailwind-animation/package.json ./libs/tailwind-animation/
 ADD ./libs/zod-utils/package.json ./libs/zod-utils/
 ADD ./apps/admin/package.json ./apps/admin/
@@ -32,6 +33,7 @@ ADD ./libs/core/package.json ./libs/core/
 ADD ./libs/form-data/package.json ./libs/form-data/
 ADD ./libs/password/package.json ./libs/password/
 ADD ./libs/react-primitives/package.json ./libs/react-primitives/
+ADD ./libs/search-params-io/package.json ./libs/search-params-io/
 ADD ./libs/tailwind-animation/package.json ./libs/tailwind-animation/
 ADD ./libs/zod-utils/package.json ./libs/zod-utils/
 ADD ./apps/admin/package.json ./apps/admin/
@@ -51,6 +53,7 @@ ADD ./libs/core ./libs/core
 ADD ./libs/form-data ./libs/form-data
 ADD ./libs/password ./libs/password
 ADD ./libs/react-primitives ./libs/react-primitives
+ADD ./libs/search-params-io ./libs/search-params-io
 ADD ./libs/tailwind-animation ./libs/tailwind-animation
 ADD ./libs/zod-utils ./libs/zod-utils
 ADD ./apps/admin ./apps/admin

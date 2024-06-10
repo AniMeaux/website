@@ -12,7 +12,7 @@ import {
   UserSearchParams,
   UserSort,
 } from "#users/search-params";
-import { useOptimisticSearchParams } from "@animeaux/form-data";
+import { useOptimisticSearchParams } from "@animeaux/search-params-io";
 
 export function UserFilterForm() {
   const [searchParams, setSearchParams] = useOptimisticSearchParams();
@@ -88,9 +88,13 @@ export function UserFilterForm() {
                 <ControlledInput.ActionAdornment
                   onClick={() =>
                     setSearchParams((searchParams) => {
-                      const copy = new URLSearchParams(searchParams);
-                      UserSearchParams.set(copy, { displayName: undefined });
-                      return copy;
+                      return UserSearchParams.set(
+                        searchParams,
+                        (userSearchParams) => ({
+                          ...userSearchParams,
+                          displayName: undefined,
+                        }),
+                      );
                     })
                   }
                 >
@@ -198,11 +202,13 @@ export function UserFilterForm() {
                     <ControlledInput.ActionAdornment
                       onClick={() =>
                         setSearchParams((searchParams) => {
-                          const copy = new URLSearchParams(searchParams);
-                          UserSearchParams.set(copy, {
-                            lastActivityStart: undefined,
-                          });
-                          return copy;
+                          return UserSearchParams.set(
+                            searchParams,
+                            (userSearchParams) => ({
+                              ...userSearchParams,
+                              lastActivityStart: undefined,
+                            }),
+                          );
                         })
                       }
                     >
@@ -233,11 +239,13 @@ export function UserFilterForm() {
                     <ControlledInput.ActionAdornment
                       onClick={() =>
                         setSearchParams((searchParams) => {
-                          const copy = new URLSearchParams(searchParams);
-                          UserSearchParams.set(copy, {
-                            lastActivityEnd: undefined,
-                          });
-                          return copy;
+                          return UserSearchParams.set(
+                            searchParams,
+                            (userSearchParams) => ({
+                              ...userSearchParams,
+                              lastActivityEnd: undefined,
+                            }),
+                          );
                         })
                       }
                     >

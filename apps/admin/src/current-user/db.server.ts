@@ -155,7 +155,7 @@ export class CurrentUserDbDelegate {
     return redirect(
       createPath({
         pathname: Routes.login.toString(),
-        search: NextSearchParams.stringify({ next: path }),
+        search: NextSearchParams.format({ next: path }),
       }),
       { headers: { "Set-Cookie": await destroyCurrentUserSession() } },
     );
@@ -167,7 +167,7 @@ export class CurrentUserDbDelegate {
     return redirect(
       createPath({
         pathname: Routes.definePassword.toString(),
-        search: NextSearchParams.stringify({ next: path }),
+        search: NextSearchParams.format({ next: path }),
       }),
     );
   }
