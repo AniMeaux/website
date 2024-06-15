@@ -70,7 +70,7 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
     title =
       photograph == null
         ? `Photo du salon ${data.edition}.`
-        : `Photo du salon ${data.edition} par ${photograph}.`;
+        : `Photo du salon ${data.edition} par ${photograph.name}.`;
   }
 
   return createSocialMeta({
@@ -109,7 +109,7 @@ export default function Route() {
           alt={
             photograph == null
               ? `Photo du salon ${edition}.`
-              : `Photo du salon ${edition} par ${photograph}.`
+              : `Photo du salon ${edition} par ${photograph.name}.`
           }
           fallbackSize="2048"
           image={image}
