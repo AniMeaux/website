@@ -11,6 +11,7 @@ export const CloudinaryApiResponseSchema = zu.object({
       public_id: zu.string(),
       width: zu.number(),
       height: zu.number(),
+      bytes: zu.number(),
       context: zu
         .object({
           custom: zu

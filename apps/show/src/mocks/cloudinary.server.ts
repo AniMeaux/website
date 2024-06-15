@@ -42,7 +42,7 @@ export const cloudinaryHandlers = [
         next_cursor: endIndex === RESOURCE_COUNT ? undefined : String(endIndex),
         resources: Array.from(
           { length: endIndex - searchParams.nextIndex },
-          () => ({ public_id: uuid(), width: 8000, height: 8000 }),
+          () => ({ public_id: uuid(), width: 8000, height: 8000, bytes: 1024 }),
         ),
       };
 
