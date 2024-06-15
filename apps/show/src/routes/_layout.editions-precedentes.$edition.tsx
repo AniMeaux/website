@@ -1,3 +1,4 @@
+import { ProseInlineAction } from "#core/actions";
 import { cloudinary } from "#core/cloudinary/cloudinary.server";
 import { useConfig } from "#core/config";
 import { createConfig } from "#core/config.server";
@@ -74,6 +75,10 @@ export default function Route() {
 }
 
 function TitleSection() {
+  const { edition } = useLoaderData<typeof loader>();
+
+  const photograph = PREVIOUS_EDITION_PHOTOGRAPH[edition];
+
   return (
     <Section>
       <Section.ImageAside>
@@ -94,6 +99,16 @@ function TitleSection() {
           Revivez les moments forts des éditions précédentes de notre salon en
           parcourant notre galerie de photos.
         </p>
+
+        {photograph != null ? (
+          <p className="text-center md:text-left">
+            Les photos ont été prises par{" "}
+            <ProseInlineAction asChild>
+              <a href={photograph.url}>{photograph.name}</a>
+            </ProseInlineAction>
+            .
+          </p>
+        ) : null}
       </Section.TextAside>
     </Section>
   );
@@ -183,9 +198,9 @@ function ImageItem({
           alt={
             photograph == null
               ? `Photo du salon ${edition}.`
-              : `Photo du salon ${edition} par ${photograph}.`
+              : `Photo du salon ${edition} par ${photograph.name}.`
           }
-          title={photograph}
+          title={photograph?.name}
           fallbackSize={isCover ? "512" : "256"}
           image={image}
           aspectRatio="1:1"

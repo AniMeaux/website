@@ -35,7 +35,11 @@ export class PrevousEditionCloudinaryDelegate extends CloudinaryDelegate {
               }),
             );
 
-            allImages = allImages.concat(response.images);
+            allImages = allImages.concat(
+              response.images
+                // It looks like deleted images are still listed but have 0 bytes.
+                .filter((image) => image.bytes > 0),
+            );
             nextCursor = response.nextCursor;
           } while (nextCursor != null);
         } catch (error) {
@@ -59,6 +63,7 @@ function flattenCloudinaryApiResponse(response: CloudinaryApiResponse) {
       blurhash: resource.context?.custom?.blurhash,
       width: resource.width,
       height: resource.height,
+      bytes: resource.bytes,
     })),
   };
 }

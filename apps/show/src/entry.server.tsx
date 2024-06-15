@@ -7,7 +7,7 @@ import type { RenderToPipeableStreamOptions } from "react-dom/server";
 import { renderToPipeableStream } from "react-dom/server";
 import invariant from "tiny-invariant";
 
-const ABORT_DELAY = 5000;
+const ABORT_DELAY = 20_000;
 
 if (process.env.NODE_ENV === "development") {
   import("#mocks/mocks.server").then((module) => module.startWorker());
