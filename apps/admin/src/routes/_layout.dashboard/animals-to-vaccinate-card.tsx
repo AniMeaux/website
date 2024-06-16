@@ -1,5 +1,9 @@
 import { AnimalSmallItem } from "#animals/item";
-import { AnimalSearchParams, AnimalSort } from "#animals/search-params";
+import {
+  AnimalSearchParams,
+  AnimalSort,
+  AnimalSortSearchParams,
+} from "#animals/search-params";
 import {
   HAS_UP_COMMING_VACCINATION_CONDITIONS,
   formatNextVaccinationDate,
@@ -34,17 +38,24 @@ export function AnimalsToVaccinateCard() {
             <BaseLink
               to={{
                 pathname: Routes.animals.toString(),
-                search: AnimalSearchParams.stringify({
-                  sort: AnimalSort.VACCINATION,
-                  nextVaccinationDateEnd: DateTime.now()
-                    .plus({
-                      days: HAS_UP_COMMING_VACCINATION_CONDITIONS.nextVaccinationInDays,
-                    })
-                    .toISODate(),
-                  statuses: new Set(
-                    HAS_UP_COMMING_VACCINATION_CONDITIONS.status,
-                  ),
-                }),
+                search: (() => {
+                  const searchParams = AnimalSearchParams.create({
+                    nextVaccinationDateEnd: DateTime.now()
+                      .plus({
+                        days: HAS_UP_COMMING_VACCINATION_CONDITIONS.nextVaccinationInDays,
+                      })
+                      .toJSDate(),
+                    statuses: new Set(
+                      HAS_UP_COMMING_VACCINATION_CONDITIONS.status,
+                    ),
+                  });
+
+                  AnimalSortSearchParams.set(searchParams, {
+                    sort: AnimalSort.VACCINATION,
+                  });
+
+                  return searchParams.toString();
+                })(),
               }}
             >
               Tout voir

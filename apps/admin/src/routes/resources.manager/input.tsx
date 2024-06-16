@@ -81,7 +81,7 @@ export const ManagerInput = forwardRef<
               fetcher.load(
                 createPath({
                   pathname: Routes.resources.manager.toString(),
-                  search: UserSearchParams.stringify({ displayName: value }),
+                  search: UserSearchParams.format({ displayName: value }),
                 }),
               );
             }}

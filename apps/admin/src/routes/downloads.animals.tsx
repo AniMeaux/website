@@ -1,5 +1,8 @@
 import { GENDER_ICON } from "#animals/gender";
-import { AnimalSearchParams } from "#animals/search-params";
+import {
+  AnimalSearchParams,
+  AnimalSortSearchParams,
+} from "#animals/search-params";
 import { Action } from "#core/actions";
 import { useConfig } from "#core/config";
 import { BlockHelper } from "#core/data-display/helper";
@@ -39,11 +42,14 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
   assertCurrentUserHasGroups(currentUser, [UserGroup.ADMIN]);
 
-  const searchParams = AnimalSearchParams.parse(
-    new URL(request.url).searchParams,
-  );
+  const url = new URL(request.url);
+  const animalSortSearchParams = AnimalSortSearchParams.parse(url.searchParams);
+  const animalSearchParams = AnimalSearchParams.parse(url.searchParams);
 
-  const { where, orderBy } = await db.animal.createFindManyParams(searchParams);
+  const { where, orderBy } = await db.animal.createFindManyParams(
+    animalSearchParams,
+    animalSortSearchParams.sort,
+  );
 
   const totalCount = prisma.animal.count({ where });
   const animals = prisma.animal.findMany({

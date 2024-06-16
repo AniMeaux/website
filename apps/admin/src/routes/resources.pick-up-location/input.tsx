@@ -80,7 +80,7 @@ export const PickUpLocationInput = forwardRef<
               fetcher.load(
                 createPath({
                   pathname: Routes.resources.pickUpLocation.toString(),
-                  search: PickUpLocationSearchParams.stringify({
+                  search: PickUpLocationSearchParams.format({
                     text: value,
                   }),
                 }),

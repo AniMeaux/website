@@ -1,6 +1,10 @@
 import { AnimalFilters } from "#animals/filter-form";
 import { AnimalItem } from "#animals/item";
-import { AnimalSearchParams, AnimalSort } from "#animals/search-params";
+import {
+  AnimalSearchParams,
+  AnimalSort,
+  AnimalSortSearchParams,
+} from "#animals/search-params";
 import { Action } from "#core/actions";
 import { BaseLink } from "#core/base-link";
 import { Paginator } from "#core/controllers/paginator";
@@ -16,7 +20,7 @@ import { ForbiddenResponse } from "#core/response.server";
 import { PageSearchParams } from "#core/search-params";
 import { assertCurrentUserHasGroups } from "#current-user/groups.server";
 import { hasGroups } from "#users/groups";
-import { useOptimisticSearchParams } from "@animeaux/form-data";
+import { useOptimisticSearchParams } from "@animeaux/search-params-io";
 import { UserGroup } from "@prisma/client";
 import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
@@ -52,13 +56,14 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
   const searchParams = new URL(request.url).searchParams;
   const pageSearchParams = PageSearchParams.parse(searchParams);
+  const animalSortSearchParams = AnimalSortSearchParams.parse(searchParams);
   const animalSearchParams = AnimalSearchParams.parse(searchParams);
 
   if (
     !isCurrentUserAnimalAdmin &&
-    (animalSearchParams.sort === AnimalSort.VACCINATION ||
+    (animalSortSearchParams.sort === AnimalSort.VACCINATION ||
       animalSearchParams.sterilizations.size > 0 ||
-      animalSearchParams.vaccination.size > 0 ||
+      animalSearchParams.vaccinations.size > 0 ||
       animalSearchParams.nextVaccinationDateStart != null ||
       animalSearchParams.nextVaccinationDateEnd != null ||
       animalSearchParams.diagnosis.size > 0)
@@ -70,8 +75,10 @@ export async function loader({ request }: LoaderFunctionArgs) {
     throw new ForbiddenResponse();
   }
 
-  const { where, orderBy } =
-    await db.animal.createFindManyParams(animalSearchParams);
+  const { where, orderBy } = await db.animal.createFindManyParams(
+    animalSearchParams,
+    animalSortSearchParams.sort,
+  );
 
   const {
     managers,

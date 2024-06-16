@@ -1,5 +1,4 @@
-import { SearchParamsDelegate } from "@animeaux/form-data";
-import { zu } from "@animeaux/zod-utils";
+import { SearchParamsIO } from "@animeaux/search-params-io";
 import { createPath } from "@remix-run/react";
 import invariant from "tiny-invariant";
 
@@ -23,11 +22,25 @@ export const ImageUrl = {
   stringify(image: ImageData) {
     return createPath({
       pathname: image.id,
-      search: BlurhashSearchParams.stringify({ blurhash: image.blurhash }),
+      search: BlurhashSearchParams.format({ blurhash: image.blurhash }),
     });
   },
 };
 
-const BlurhashSearchParams = SearchParamsDelegate.create({
-  blurhash: zu.searchParams.string(),
+const BlurhashSearchParams = SearchParamsIO.create({
+  keys: { blurhash: "blurhash" },
+
+  parseFunction: (searchParams, keys) => {
+    const blurhash = searchParams.get(keys.blurhash)?.trim() || undefined;
+    return { blurhash };
+  },
+
+  setFunction: (searchParams, data, keys) => {
+    if (data.blurhash == null) {
+      searchParams.delete(keys.blurhash);
+      return;
+    }
+
+    searchParams.set(keys.blurhash, data.blurhash);
+  },
 });

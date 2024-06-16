@@ -291,9 +291,7 @@ function CurrentUserMenu() {
             method="POST"
             action={createPath({
               pathname: Routes.logout.toString(),
-              search: NextSearchParams.stringify({
-                next: createPath(location),
-              }),
+              search: NextSearchParams.format({ next: createPath(location) }),
             })}
             className="grid"
           >

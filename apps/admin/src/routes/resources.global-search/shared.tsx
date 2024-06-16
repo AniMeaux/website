@@ -1,4 +1,4 @@
-import { SearchParamsDelegate } from "@animeaux/form-data";
+import { SearchParamsIO } from "@animeaux/search-params-io";
 import { zu } from "@animeaux/zod-utils";
 import type { User } from "@prisma/client";
 import { UserGroup } from "@prisma/client";
@@ -19,8 +19,33 @@ export const SORTED_ENTITIES = orderBy(
   (entity) => ENTITY_TRANSLATION[entity],
 );
 
-export const GlobalSearchParams = SearchParamsDelegate.create({
-  text: { key: "q", schema: zu.searchParams.string() },
+export const GlobalSearchParams = SearchParamsIO.create({
+  keys: { text: "q", entity: "entity" },
+
+  parseFunction: (searchParams, keys) => {
+    return GlobalSearchParamsSchema.parse({
+      text: searchParams.get(keys.text),
+      entity: searchParams.get(keys.entity),
+    });
+  },
+
+  setFunction: (searchParams, data, keys) => {
+    if (data.text == null) {
+      searchParams.delete(keys.text);
+    } else {
+      searchParams.set(keys.text, data.text);
+    }
+
+    if (data.entity == null) {
+      searchParams.delete(keys.entity);
+    } else {
+      searchParams.set(keys.entity, data.entity);
+    }
+  },
+});
+
+const GlobalSearchParamsSchema = zu.object({
+  text: zu.searchParams.string(),
   entity: zu.searchParams.nativeEnum(Entity),
 });
 

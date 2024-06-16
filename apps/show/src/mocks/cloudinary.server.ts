@@ -1,29 +1,8 @@
 import type { CloudinaryApiResponse } from "#core/cloudinary/shared.server";
-import { SearchParamsDelegate } from "@animeaux/form-data";
+import { SearchParamsReader } from "@animeaux/search-params-io";
 import { zu } from "@animeaux/zod-utils";
 import { HttpResponse, http } from "msw";
 import { v4 as uuid } from "uuid";
-
-const SearchParams = SearchParamsDelegate.create({
-  maxResults: {
-    key: "max_results",
-    schema: zu.searchParams.number().pipe(
-      zu
-        .number()
-        .int()
-        .min(0)
-        // Cloudinary default value.
-        // https://cloudinary.com/documentation/admin_api#get_resources_optional_parameters
-        .catch(10),
-    ),
-  },
-  nextIndex: {
-    key: "next_cursor",
-    schema: zu.searchParams.number().pipe(zu.number().int().min(0).catch(0)),
-  },
-});
-
-const RESOURCE_COUNT = 200;
 
 export const cloudinaryHandlers = [
   http.get(
@@ -50,3 +29,30 @@ export const cloudinaryHandlers = [
     },
   ),
 ];
+
+const RESOURCE_COUNT = 200;
+
+const SearchParams = SearchParamsReader.create({
+  keys: { maxResults: "max_results", nextIndex: "next_cursor" },
+
+  parseFunction: (searchParams, keys) => {
+    return Schema.parse({
+      maxResults: searchParams.get(keys.maxResults),
+      nextIndex: searchParams.get(keys.nextIndex),
+    });
+  },
+});
+
+const Schema = zu.object({
+  maxResults: zu.searchParams.number().pipe(
+    zu
+      .number()
+      .int()
+      .min(0)
+      // Cloudinary default value.
+      // https://cloudinary.com/documentation/admin_api#get_resources_optional_parameters
+      .catch(10),
+  ),
+
+  nextIndex: zu.searchParams.number().pipe(zu.number().int().min(0).catch(0)),
+});
