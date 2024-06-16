@@ -1,5 +1,9 @@
 import { AnimalSmallItem } from "#animals/item";
-import { AnimalSearchParams, AnimalSort } from "#animals/search-params";
+import {
+  AnimalSearchParams,
+  AnimalSort,
+  AnimalSortSearchParams,
+} from "#animals/search-params";
 import { HAS_UP_COMMING_DIAGNOSE_CONDITIONS } from "#animals/situation/health";
 import { Action } from "#core/actions";
 import { BaseLink } from "#core/base-link";
@@ -29,19 +33,30 @@ export function DogsToDiagnoseCard() {
             <BaseLink
               to={{
                 pathname: Routes.animals.toString(),
-                search: AnimalSearchParams.stringify({
-                  birthdateEnd: DateTime.now()
-                    .minus({
-                      months: HAS_UP_COMMING_DIAGNOSE_CONDITIONS.ageInMonths,
-                    })
-                    .toISODate(),
-                  diagnosis: new Set(
-                    HAS_UP_COMMING_DIAGNOSE_CONDITIONS.diagnosis,
-                  ),
-                  sort: AnimalSort.PICK_UP,
-                  species: new Set(HAS_UP_COMMING_DIAGNOSE_CONDITIONS.species),
-                  statuses: new Set(HAS_UP_COMMING_DIAGNOSE_CONDITIONS.status),
-                }),
+                search: (() => {
+                  const searchParams = AnimalSearchParams.create({
+                    birthdateEnd: DateTime.now()
+                      .minus({
+                        months: HAS_UP_COMMING_DIAGNOSE_CONDITIONS.ageInMonths,
+                      })
+                      .toJSDate(),
+                    diagnosis: new Set(
+                      HAS_UP_COMMING_DIAGNOSE_CONDITIONS.diagnosis,
+                    ),
+                    species: new Set(
+                      HAS_UP_COMMING_DIAGNOSE_CONDITIONS.species,
+                    ),
+                    statuses: new Set(
+                      HAS_UP_COMMING_DIAGNOSE_CONDITIONS.status,
+                    ),
+                  });
+
+                  AnimalSortSearchParams.set(searchParams, {
+                    sort: AnimalSort.PICK_UP,
+                  });
+
+                  return searchParams.toString();
+                })(),
               }}
             >
               Tout voir

@@ -1,10 +1,10 @@
 import { Routes } from "#core/navigation";
-import type { loader } from "#routes/resources.scrap-url/route";
-import { ScrapUrlSearchParams } from "#routes/resources.scrap-url/shared";
 import { zu } from "@animeaux/zod-utils";
 import { useFetcher } from "@remix-run/react";
 import { createPath } from "history";
 import { useEffect, useMemo } from "react";
+import type { loader } from "./route";
+import { ScrapUrlSearchParams } from "./shared";
 
 export function useScrapUrlFetcher({
   url,
@@ -22,7 +22,7 @@ export function useScrapUrlFetcher({
         load(
           createPath({
             pathname: Routes.resources.scrapUrl.toString(),
-            search: ScrapUrlSearchParams.stringify({ url: result.data }),
+            search: ScrapUrlSearchParams.format({ url: result.data }),
           }),
         );
       }

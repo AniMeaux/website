@@ -17,14 +17,15 @@ export function Paginator({
 
   const items: ReactNode[] = [];
   for (let index = 0; index < pageCount; index++) {
-    const copy = new URLSearchParams(searchParams);
-    PageSearchParams.set(copy, { page: index });
-
     items.push(
       <PaginatorItem
         key={index}
         isActive={page === index}
-        to={{ search: copy.toString() }}
+        to={{
+          search: PageSearchParams.set(new URLSearchParams(searchParams), {
+            page: index,
+          }).toString(),
+        }}
       >
         {index + 1}
       </PaginatorItem>,

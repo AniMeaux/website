@@ -19,7 +19,7 @@ import { FosterFamilyFilters } from "#foster-families/filter-form";
 import { getShortLocation } from "#foster-families/location";
 import { FosterFamilySearchParams } from "#foster-families/search-params";
 import { cn } from "@animeaux/core";
-import { useOptimisticSearchParams } from "@animeaux/form-data";
+import { useOptimisticSearchParams } from "@animeaux/search-params-io";
 import type { Prisma } from "@prisma/client";
 import { UserGroup } from "@prisma/client";
 import type {

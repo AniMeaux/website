@@ -107,7 +107,7 @@ export function GlobalSearch({
       load(
         createPath({
           pathname: Routes.resources.globalSearch.toString(),
-          search: GlobalSearchParams.stringify({ entity }),
+          search: GlobalSearchParams.format({ entity }),
         }),
       );
     }
@@ -171,7 +171,7 @@ export function GlobalSearch({
                   navigate(
                     createPath({
                       pathname: Routes.animals.toString(),
-                      search: AnimalSearchParams.stringify({
+                      search: AnimalSearchParams.format({
                         nameOrAlias: search,
                       }),
                     }),
@@ -180,7 +180,7 @@ export function GlobalSearch({
                   navigate(
                     createPath({
                       pathname: Routes.fosterFamilies.toString(),
-                      search: FosterFamilySearchParams.stringify({
+                      search: FosterFamilySearchParams.format({
                         displayName: search,
                       }),
                     }),

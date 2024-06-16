@@ -27,7 +27,7 @@ import {
 import { Icon } from "#generated/icon";
 import { Pictogram } from "#generated/pictogram";
 import { cn } from "@animeaux/core";
-import { useOptimisticSearchParams } from "@animeaux/form-data";
+import { useOptimisticSearchParams } from "@animeaux/search-params-io";
 import type { ExhibitorTag, Prisma } from "@prisma/client";
 import * as Dialog from "@radix-ui/react-dialog";
 import type {

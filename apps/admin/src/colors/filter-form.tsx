@@ -9,7 +9,7 @@ import { Filters } from "#core/controllers/filters";
 import { ControlledInput } from "#core/form-elements/controlled-input";
 import { ToggleInput, ToggleInputList } from "#core/form-elements/toggle-input";
 import { Icon } from "#generated/icon";
-import { useOptimisticSearchParams } from "@animeaux/form-data";
+import { useOptimisticSearchParams } from "@animeaux/search-params-io";
 
 export function ColorFilterForm() {
   const [searchParams, setSearchParams] = useOptimisticSearchParams();
@@ -85,9 +85,13 @@ export function ColorFilterForm() {
                 <ControlledInput.ActionAdornment
                   onClick={() => {
                     setSearchParams((searchParams) => {
-                      const copy = new URLSearchParams(searchParams);
-                      ColorSearchParams.set(copy, { name: undefined });
-                      return copy;
+                      return ColorSearchParams.set(
+                        searchParams,
+                        (colorSearchParams) => ({
+                          ...colorSearchParams,
+                          name: undefined,
+                        }),
+                      );
                     });
                   }}
                 >

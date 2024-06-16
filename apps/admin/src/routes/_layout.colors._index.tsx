@@ -19,10 +19,8 @@ import { PageSearchParams } from "#core/search-params";
 import { assertCurrentUserHasGroups } from "#current-user/groups.server";
 import { Icon } from "#generated/icon";
 import { cn } from "@animeaux/core";
-import {
-  FormDataDelegate,
-  useOptimisticSearchParams,
-} from "@animeaux/form-data";
+import { FormDataDelegate } from "@animeaux/form-data";
+import { useOptimisticSearchParams } from "@animeaux/search-params-io";
 import { zu } from "@animeaux/zod-utils";
 import type { Prisma } from "@prisma/client";
 import { UserGroup } from "@prisma/client";

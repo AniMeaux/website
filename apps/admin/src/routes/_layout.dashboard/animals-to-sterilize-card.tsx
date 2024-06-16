@@ -2,6 +2,7 @@ import { AnimalSmallItem } from "#animals/item";
 import {
   AnimalSearchParams,
   AnimalSort,
+  AnimalSortSearchParams,
   AnimalSterilization,
 } from "#animals/search-params";
 import { HAS_UP_COMMING_STERILISATION_CONDITIONS } from "#animals/situation/health";
@@ -35,22 +36,29 @@ export function AnimalsToSterilizeCard() {
             <BaseLink
               to={{
                 pathname: Routes.animals.toString(),
-                search: AnimalSearchParams.stringify({
-                  sort: AnimalSort.BIRTHDATE,
-                  species: new Set(
-                    HAS_UP_COMMING_STERILISATION_CONDITIONS.species,
-                  ),
-                  sterilizations: new Set([AnimalSterilization.NO]),
-                  birthdateEnd: DateTime.now()
-                    .minus({
-                      months:
-                        HAS_UP_COMMING_STERILISATION_CONDITIONS.ageInMonths,
-                    })
-                    .toISODate(),
-                  statuses: new Set(
-                    HAS_UP_COMMING_STERILISATION_CONDITIONS.status,
-                  ),
-                }),
+                search: (() => {
+                  const searchParams = AnimalSearchParams.create({
+                    species: new Set(
+                      HAS_UP_COMMING_STERILISATION_CONDITIONS.species,
+                    ),
+                    sterilizations: new Set([AnimalSterilization.NO]),
+                    birthdateEnd: DateTime.now()
+                      .minus({
+                        months:
+                          HAS_UP_COMMING_STERILISATION_CONDITIONS.ageInMonths,
+                      })
+                      .toJSDate(),
+                    statuses: new Set(
+                      HAS_UP_COMMING_STERILISATION_CONDITIONS.status,
+                    ),
+                  });
+
+                  AnimalSortSearchParams.set(searchParams, {
+                    sort: AnimalSort.BIRTHDATE,
+                  });
+
+                  return searchParams.toString();
+                })(),
               }}
             >
               Tout voir

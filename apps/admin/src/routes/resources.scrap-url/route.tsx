@@ -2,11 +2,11 @@ import { db } from "#core/db.server";
 import { scrapUrl } from "#core/metascraper.server";
 import { BadRequestResponse } from "#core/response.server";
 import { assertCurrentUserHasGroups } from "#current-user/groups.server";
-import { ScrapUrlSearchParams } from "#routes/resources.scrap-url/shared";
 import { UserGroup } from "@prisma/client";
 import type { LoaderFunctionArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { DateTime } from "luxon";
+import { ScrapUrlSearchParams } from "./shared";
 
 export type loader = typeof loader;
 

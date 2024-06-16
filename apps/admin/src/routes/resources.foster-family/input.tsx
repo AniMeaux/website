@@ -82,7 +82,7 @@ export const FosterFamilyInput = forwardRef<
               fetcher.load(
                 createPath({
                   pathname: Routes.resources.fosterFamily.toString(),
-                  search: FosterFamilySearchParams.stringify({
+                  search: FosterFamilySearchParams.format({
                     displayName: value,
                   }),
                 }),
@@ -209,7 +209,7 @@ function Combobox({
         navigate(
           createPath({
             pathname: Routes.fosterFamilies.new.toString(),
-            search: NextSearchParams.stringify({ next: createPath(location) }),
+            search: NextSearchParams.format({ next: createPath(location) }),
           }),
         );
       } else {

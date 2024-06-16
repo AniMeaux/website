@@ -12,7 +12,6 @@ import {
 } from "#core/form-elements/resource-input";
 import { Routes } from "#core/navigation";
 import { Icon } from "#generated/icon";
-import type { loader } from "#routes/resources.breed/route";
 import type { Breed, Species } from "@prisma/client";
 import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
 import type { SerializeFrom } from "@remix-run/node";
@@ -20,6 +19,7 @@ import { useFetcher } from "@remix-run/react";
 import { useCombobox } from "downshift";
 import { createPath } from "history";
 import { forwardRef, useEffect, useState } from "react";
+import type { loader } from "./route";
 
 type BreedInputProps = {
   name: string;
@@ -55,7 +55,7 @@ export const BreedInput = forwardRef<
       load(
         createPath({
           pathname: Routes.resources.breed.toString(),
-          search: BreedSearchParams.stringify({
+          search: BreedSearchParams.format({
             species: new Set(ensureArray(species)),
           }),
         }),
@@ -96,7 +96,7 @@ export const BreedInput = forwardRef<
               fetcher.load(
                 createPath({
                   pathname: Routes.resources.breed.toString(),
-                  search: BreedSearchParams.stringify({
+                  search: BreedSearchParams.format({
                     species: new Set(ensureArray(species)),
                     name: value,
                   }),

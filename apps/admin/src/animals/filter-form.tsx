@@ -18,6 +18,7 @@ import {
   ANIMAL_DEFAULT_SORT,
   AnimalSearchParams,
   AnimalSort,
+  AnimalSortSearchParams,
   AnimalSterilization,
   AnimalVaccination,
 } from "#animals/search-params";
@@ -47,7 +48,7 @@ import { FosterFamilyAvatar } from "#foster-families/avatar";
 import { Icon } from "#generated/icon";
 import { UserAvatar } from "#users/avatar";
 import { hasGroups } from "#users/groups";
-import { useOptimisticSearchParams } from "@animeaux/form-data";
+import { useOptimisticSearchParams } from "@animeaux/search-params-io";
 import type { FosterFamily, User } from "@prisma/client";
 import { Gender, UserGroup } from "@prisma/client";
 import type { SerializeFrom } from "@remix-run/node";
@@ -66,6 +67,7 @@ export function AnimalFilters({
   possiblePickUpLocations: string[];
 }) {
   const [searchParams, setSearchParams] = useOptimisticSearchParams();
+  const animalSortSearchParams = AnimalSortSearchParams.parse(searchParams);
   const animalSearchParams = AnimalSearchParams.parse(searchParams);
 
   const isCurrentUserManager = hasGroups(currentUser, [
@@ -96,15 +98,15 @@ export function AnimalFilters({
 
       <Filters.Content>
         <Filters.Filter
-          value={AnimalSearchParams.keys.sort}
+          value={AnimalSortSearchParams.keys.sort}
           label="Trier"
-          count={animalSearchParams.sort === ANIMAL_DEFAULT_SORT ? 0 : 1}
+          count={animalSortSearchParams.sort === ANIMAL_DEFAULT_SORT ? 0 : 1}
           hiddenContent={
-            animalSearchParams.sort !== ANIMAL_DEFAULT_SORT ? (
+            animalSortSearchParams.sort !== ANIMAL_DEFAULT_SORT ? (
               <input
                 type="hidden"
-                name={AnimalSearchParams.keys.sort}
-                value={animalSearchParams.sort}
+                name={AnimalSortSearchParams.keys.sort}
+                value={animalSortSearchParams.sort}
               />
             ) : null
           }
@@ -113,30 +115,30 @@ export function AnimalFilters({
             <ToggleInput
               type="radio"
               label="Date de prise en charge"
-              name={AnimalSearchParams.keys.sort}
+              name={AnimalSortSearchParams.keys.sort}
               value={AnimalSort.PICK_UP}
               icon={<Icon href="icon-hand-holding-heart" />}
-              checked={animalSearchParams.sort === AnimalSort.PICK_UP}
+              checked={animalSortSearchParams.sort === AnimalSort.PICK_UP}
               onChange={() => {}}
             />
 
             <ToggleInput
               type="radio"
               label="Alphabétique"
-              name={AnimalSearchParams.keys.sort}
+              name={AnimalSortSearchParams.keys.sort}
               value={AnimalSort.NAME}
               icon={<Icon href="icon-arrow-down-a-z" />}
-              checked={animalSearchParams.sort === AnimalSort.NAME}
+              checked={animalSortSearchParams.sort === AnimalSort.NAME}
               onChange={() => {}}
             />
 
             <ToggleInput
               type="radio"
               label="Date de naissance"
-              name={AnimalSearchParams.keys.sort}
+              name={AnimalSortSearchParams.keys.sort}
               value={AnimalSort.BIRTHDATE}
               icon={<Icon href="icon-cake-candles" />}
-              checked={animalSearchParams.sort === AnimalSort.BIRTHDATE}
+              checked={animalSortSearchParams.sort === AnimalSort.BIRTHDATE}
               onChange={() => {}}
             />
 
@@ -144,10 +146,10 @@ export function AnimalFilters({
               <ToggleInput
                 type="radio"
                 label="Date de vaccination"
-                name={AnimalSearchParams.keys.sort}
+                name={AnimalSortSearchParams.keys.sort}
                 value={AnimalSort.VACCINATION}
                 icon={<Icon href="icon-syringe" />}
-                checked={animalSearchParams.sort === AnimalSort.VACCINATION}
+                checked={animalSortSearchParams.sort === AnimalSort.VACCINATION}
                 onChange={() => {}}
               />
             ) : null}
@@ -258,11 +260,13 @@ export function AnimalFilters({
                     <ControlledInput.ActionAdornment
                       onClick={() => {
                         setSearchParams((searchParams) => {
-                          const copy = new URLSearchParams(searchParams);
-                          AnimalSearchParams.set(copy, {
-                            birthdateStart: undefined,
-                          });
-                          return copy;
+                          return AnimalSearchParams.set(
+                            searchParams,
+                            (animalSearchParams) => ({
+                              ...animalSearchParams,
+                              birthdateStart: undefined,
+                            }),
+                          );
                         });
                       }}
                     >
@@ -293,11 +297,13 @@ export function AnimalFilters({
                     <ControlledInput.ActionAdornment
                       onClick={() => {
                         setSearchParams((searchParams) => {
-                          const copy = new URLSearchParams(searchParams);
-                          AnimalSearchParams.set(copy, {
-                            birthdateEnd: undefined,
-                          });
-                          return copy;
+                          return AnimalSearchParams.set(
+                            searchParams,
+                            (animalSearchParams) => ({
+                              ...animalSearchParams,
+                              birthdateEnd: undefined,
+                            }),
+                          );
                         });
                       }}
                     >
@@ -431,11 +437,13 @@ export function AnimalFilters({
                     <ControlledInput.ActionAdornment
                       onClick={() => {
                         setSearchParams((searchParams) => {
-                          const copy = new URLSearchParams(searchParams);
-                          AnimalSearchParams.set(copy, {
-                            pickUpDateStart: undefined,
-                          });
-                          return copy;
+                          return AnimalSearchParams.set(
+                            searchParams,
+                            (animalSearchParams) => ({
+                              ...animalSearchParams,
+                              pickUpDateStart: undefined,
+                            }),
+                          );
                         });
                       }}
                     >
@@ -466,11 +474,13 @@ export function AnimalFilters({
                     <ControlledInput.ActionAdornment
                       onClick={() => {
                         setSearchParams((searchParams) => {
-                          const copy = new URLSearchParams(searchParams);
-                          AnimalSearchParams.set(copy, {
-                            pickUpDateEnd: undefined,
-                          });
-                          return copy;
+                          return AnimalSearchParams.set(
+                            searchParams,
+                            (animalSearchParams) => ({
+                              ...animalSearchParams,
+                              pickUpDateEnd: undefined,
+                            }),
+                          );
                         });
                       }}
                     >
@@ -562,21 +572,21 @@ export function AnimalFilters({
 
         {isCurrentUserAnimalAdmin ? (
           <Filters.Filter
-            value={AnimalSearchParams.keys.vaccination}
+            value={AnimalSearchParams.keys.vaccinations}
             label="Prochaine vaccination"
             count={
-              animalSearchParams.vaccination.size +
+              animalSearchParams.vaccinations.size +
               (animalSearchParams.nextVaccinationDateStart == null ? 0 : 1) +
               (animalSearchParams.nextVaccinationDateEnd == null ? 0 : 1)
             }
             hiddenContent={
               <>
-                {Array.from(animalSearchParams.vaccination).map(
+                {Array.from(animalSearchParams.vaccinations).map(
                   (vaccination) => (
                     <input
                       key={vaccination}
                       type="hidden"
-                      name={AnimalSearchParams.keys.vaccination}
+                      name={AnimalSearchParams.keys.vaccinations}
                       value={vaccination}
                     />
                   ),
@@ -608,10 +618,10 @@ export function AnimalFilters({
                   <ToggleInput
                     type="checkbox"
                     label="Aucune prévue"
-                    name={AnimalSearchParams.keys.vaccination}
+                    name={AnimalSearchParams.keys.vaccinations}
                     value={AnimalVaccination.NONE_PLANNED}
                     icon={<Icon href="icon-syringe" />}
-                    checked={animalSearchParams.vaccination.has(
+                    checked={animalSearchParams.vaccinations.has(
                       AnimalVaccination.NONE_PLANNED,
                     )}
                     onChange={() => {}}
@@ -620,10 +630,10 @@ export function AnimalFilters({
                   <ToggleInput
                     type="checkbox"
                     label="Ne sera pas vacciné"
-                    name={AnimalSearchParams.keys.vaccination}
+                    name={AnimalSearchParams.keys.vaccinations}
                     value={AnimalVaccination.NOT_MANDATORY}
                     icon={<Icon href="icon-syringe" />}
-                    checked={animalSearchParams.vaccination.has(
+                    checked={animalSearchParams.vaccinations.has(
                       AnimalVaccination.NOT_MANDATORY,
                     )}
                     onChange={() => {}}
@@ -655,11 +665,13 @@ export function AnimalFilters({
                       <ControlledInput.ActionAdornment
                         onClick={() => {
                           setSearchParams((searchParams) => {
-                            const copy = new URLSearchParams(searchParams);
-                            AnimalSearchParams.set(copy, {
-                              nextVaccinationDateStart: undefined,
-                            });
-                            return copy;
+                            return AnimalSearchParams.set(
+                              searchParams,
+                              (animalSearchParams) => ({
+                                ...animalSearchParams,
+                                nextVaccinationDateStart: undefined,
+                              }),
+                            );
                           });
                         }}
                       >
@@ -694,11 +706,13 @@ export function AnimalFilters({
                       <ControlledInput.ActionAdornment
                         onClick={() => {
                           setSearchParams((searchParams) => {
-                            const copy = new URLSearchParams(searchParams);
-                            AnimalSearchParams.set(copy, {
-                              nextVaccinationDateEnd: undefined,
-                            });
-                            return copy;
+                            return AnimalSearchParams.set(
+                              new URLSearchParams(searchParams),
+                              (animalSearchParams) => ({
+                                ...animalSearchParams,
+                                nextVaccinationDateEnd: undefined,
+                              }),
+                            );
                           });
                         }}
                       >
@@ -791,11 +805,13 @@ export function AnimalFilters({
                     <ControlledInput.ActionAdornment
                       onClick={() => {
                         setSearchParams((searchParams) => {
-                          const copy = new URLSearchParams(searchParams);
-                          AnimalSearchParams.set(copy, {
-                            adoptionDateStart: undefined,
-                          });
-                          return copy;
+                          return AnimalSearchParams.set(
+                            searchParams,
+                            (animalSearchParams) => ({
+                              ...animalSearchParams,
+                              adoptionDateStart: undefined,
+                            }),
+                          );
                         });
                       }}
                     >
@@ -826,11 +842,13 @@ export function AnimalFilters({
                     <ControlledInput.ActionAdornment
                       onClick={() => {
                         setSearchParams((searchParams) => {
-                          const copy = new URLSearchParams(searchParams);
-                          AnimalSearchParams.set(copy, {
-                            adoptionDateEnd: undefined,
-                          });
-                          return copy;
+                          return AnimalSearchParams.set(
+                            searchParams,
+                            (animalSearchParams) => ({
+                              ...animalSearchParams,
+                              adoptionDateEnd: undefined,
+                            }),
+                          );
                         });
                       }}
                     >
@@ -936,11 +954,13 @@ export function AnimalFilters({
                 <ControlledInput.ActionAdornment
                   onClick={() => {
                     setSearchParams((searchParams) => {
-                      const copy = new URLSearchParams(searchParams);
-                      AnimalSearchParams.set(copy, {
-                        nameOrAlias: undefined,
-                      });
-                      return copy;
+                      return AnimalSearchParams.set(
+                        searchParams,
+                        (animalSearchParams) => ({
+                          ...animalSearchParams,
+                          nameOrAlias: undefined,
+                        }),
+                      );
                     });
                   }}
                 >
@@ -961,6 +981,8 @@ function ActiveFilterLink() {
   });
 
   const [searchParams] = useOptimisticSearchParams();
+  AnimalSortSearchParams.copy(searchParams, toSearchParams);
+
   const isActive = AnimalSearchParams.areEqual(searchParams, toSearchParams);
 
   return (
@@ -986,6 +1008,8 @@ function ManagerActiveFilterLink({
   });
 
   const [searchParams] = useOptimisticSearchParams();
+  AnimalSortSearchParams.copy(searchParams, toSearchParams);
+
   const isActive = AnimalSearchParams.areEqual(searchParams, toSearchParams);
 
   return (

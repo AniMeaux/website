@@ -19,7 +19,7 @@ import {
 } from "#foster-families/housing";
 import { FosterFamilySearchParams } from "#foster-families/search-params";
 import { Icon } from "#generated/icon";
-import { useOptimisticSearchParams } from "@animeaux/form-data";
+import { useOptimisticSearchParams } from "@animeaux/search-params-io";
 
 export function FosterFamilyFilters({
   possibleCities,
@@ -62,11 +62,13 @@ export function FosterFamilyFilters({
                 <ControlledInput.ActionAdornment
                   onClick={() =>
                     setSearchParams((searchParams) => {
-                      const copy = new URLSearchParams(searchParams);
-                      FosterFamilySearchParams.set(copy, {
-                        displayName: undefined,
-                      });
-                      return copy;
+                      return FosterFamilySearchParams.set(
+                        searchParams,
+                        (fosterFamilySearchParams) => ({
+                          ...fosterFamilySearchParams,
+                          displayName: undefined,
+                        }),
+                      );
                     })
                   }
                 >
@@ -202,11 +204,13 @@ export function FosterFamilyFilters({
                 <ControlledInput.ActionAdornment
                   onClick={() =>
                     setSearchParams((searchParams) => {
-                      const copy = new URLSearchParams(searchParams);
-                      FosterFamilySearchParams.set(copy, {
-                        zipCode: undefined,
-                      });
-                      return copy;
+                      return FosterFamilySearchParams.set(
+                        searchParams,
+                        (fosterFamilySearchParams) => ({
+                          ...fosterFamilySearchParams,
+                          zipCode: undefined,
+                        }),
+                      );
                     })
                   }
                 >
