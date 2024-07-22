@@ -7,8 +7,8 @@ export const ExhibitorSearchParams = SearchParamsReader.create({
 
   parseFunction: (searchParams, keys) => {
     return Schema.parse({
-      tags: searchParams.getAll(keys.tags),
-      hasEvent: searchParams.get(keys.hasEvent),
+      tags: SearchParamsReader.getValues(searchParams, keys.tags),
+      hasEvent: SearchParamsReader.getValue(searchParams, keys.hasEvent),
     });
   },
 });

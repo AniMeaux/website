@@ -1,20 +1,23 @@
-import type { Merge } from "type-fest";
 import { SearchParamsReader } from "./reader";
 import { SearchParamsWritter } from "./writter";
 
-export type SearchParamsIO<TKeys extends Record<string, string>, TData> = Merge<
-  SearchParamsReader<TKeys, TData> & SearchParamsWritter<TKeys, Partial<TData>>,
-  {
-    set(
-      searchParams: URLSearchParams,
-      data: Partial<TData> | ((data: TData) => Partial<TData>),
-    ): URLSearchParams;
+export interface SearchParamsIO<TKeys extends Record<string, string>, TData>
+  extends SearchParamsReader<TKeys, TData>,
+    SearchParamsWritter<TKeys, Partial<TData>> {
+  set(
+    searchParams: URLSearchParams,
+    data: Partial<TData> | ((data: TData) => Partial<TData>),
+  ): URLSearchParams;
 
-    copy(from: URLSearchParams, to: URLSearchParams): URLSearchParams;
-  }
->;
+  copy(from: URLSearchParams, to: URLSearchParams): URLSearchParams;
+}
 
 export namespace SearchParamsIO {
+  export const getValue = SearchParamsReader.getValue;
+  export const getValues = SearchParamsReader.getValues;
+  export const setValue = SearchParamsWritter.setValue;
+  export const setValues = SearchParamsWritter.setValues;
+
   export function create<TKeys extends Record<string, string>, TData>({
     keys,
     parseFunction,

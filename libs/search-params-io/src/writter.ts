@@ -1,7 +1,7 @@
-export type SearchParamsWritter<
+export interface SearchParamsWritter<
   TKeys extends Record<string, string>,
   TInput,
-> = {
+> {
   keys: TKeys;
 
   set(searchParams: URLSearchParams, data: TInput): URLSearchParams;
@@ -17,7 +17,7 @@ export type SearchParamsWritter<
   format(data: TInput): string;
 
   clear(searchParams: URLSearchParams): URLSearchParams;
-};
+}
 
 export namespace SearchParamsWritter {
   export function create<TKeys extends Record<string, string>, TInput>({
@@ -54,6 +54,37 @@ export namespace SearchParamsWritter {
     };
 
     return { keys, set, create, format, clear };
+  }
+
+  /**
+   * Sets or deletes the value for the given search parameter.
+   */
+  export function setValue(
+    searchParams: URLSearchParams,
+    key: string,
+    value?: null | string,
+  ) {
+    if (value == null) {
+      searchParams.delete(key);
+      return;
+    }
+
+    searchParams.set(key, value);
+  }
+
+  /**
+   * Sets of deletes the values for the given search parameter.
+   */
+  export function setValues(
+    searchParams: URLSearchParams,
+    key: string,
+    values?: null | string[] | Set<string>,
+  ) {
+    searchParams.delete(key);
+
+    values?.forEach((value) => {
+      searchParams.append(key, value);
+    });
   }
 
   export type Infer<TWritter extends SearchParamsWritter<any, any>> =

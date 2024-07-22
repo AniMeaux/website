@@ -20,60 +20,51 @@ export const FosterFamilySearchParams = SearchParamsIO.create({
 
   parseFunction: (searchParams, keys) => {
     return Schema.parse({
-      displayName: searchParams.get(keys.displayName),
-      garden: searchParams.getAll(keys.garden),
-      housing: searchParams.getAll(keys.housing),
-      cities: searchParams.getAll(keys.cities),
-      speciesAlreadyPresent: searchParams.getAll(keys.speciesAlreadyPresent),
-      speciesToAvoid: searchParams.getAll(keys.speciesToAvoid),
-      speciesToHost: searchParams.get(keys.speciesToHost),
-      zipCode: searchParams.get(keys.zipCode),
+      displayName: SearchParamsIO.getValue(searchParams, keys.displayName),
+      garden: SearchParamsIO.getValues(searchParams, keys.garden),
+      housing: SearchParamsIO.getValues(searchParams, keys.housing),
+      cities: SearchParamsIO.getValues(searchParams, keys.cities),
+      speciesAlreadyPresent: SearchParamsIO.getValues(
+        searchParams,
+        keys.speciesAlreadyPresent,
+      ),
+      speciesToAvoid: SearchParamsIO.getValues(
+        searchParams,
+        keys.speciesToAvoid,
+      ),
+      speciesToHost: SearchParamsIO.getValue(searchParams, keys.speciesToHost),
+      zipCode: SearchParamsIO.getValue(searchParams, keys.zipCode),
     });
   },
 
   setFunction: (searchParams, data, keys) => {
-    if (data.displayName == null) {
-      searchParams.delete(keys.displayName);
-    } else {
-      searchParams.set(keys.displayName, data.displayName);
-    }
+    SearchParamsIO.setValue(searchParams, keys.displayName, data.displayName);
 
-    searchParams.delete(keys.garden);
-    data.garden?.forEach((garden) => {
-      searchParams.append(keys.garden, garden);
-    });
+    SearchParamsIO.setValues(searchParams, keys.garden, data.garden);
 
-    searchParams.delete(keys.housing);
-    data.housing?.forEach((housing) => {
-      searchParams.append(keys.housing, housing);
-    });
+    SearchParamsIO.setValues(searchParams, keys.housing, data.housing);
 
-    searchParams.delete(keys.cities);
-    data.cities?.forEach((city) => {
-      searchParams.append(keys.cities, city);
-    });
+    SearchParamsIO.setValues(searchParams, keys.cities, data.cities);
 
-    searchParams.delete(keys.speciesAlreadyPresent);
-    data.speciesAlreadyPresent?.forEach((speciesAlreadyPresent) => {
-      searchParams.append(keys.speciesAlreadyPresent, speciesAlreadyPresent);
-    });
+    SearchParamsIO.setValues(
+      searchParams,
+      keys.speciesAlreadyPresent,
+      data.speciesAlreadyPresent,
+    );
 
-    searchParams.delete(keys.speciesToAvoid);
-    data.speciesToAvoid?.forEach((speciesToAvoid) => {
-      searchParams.append(keys.speciesToAvoid, speciesToAvoid);
-    });
+    SearchParamsIO.setValues(
+      searchParams,
+      keys.speciesToAvoid,
+      data.speciesToAvoid,
+    );
 
-    if (data.speciesToHost == null) {
-      searchParams.delete(keys.speciesToHost);
-    } else {
-      searchParams.set(keys.speciesToHost, data.speciesToHost);
-    }
+    SearchParamsIO.setValue(
+      searchParams,
+      keys.speciesToHost,
+      data.speciesToHost,
+    );
 
-    if (data.zipCode == null) {
-      searchParams.delete(keys.zipCode);
-    } else {
-      searchParams.set(keys.zipCode, data.zipCode);
-    }
+    SearchParamsIO.setValue(searchParams, keys.zipCode, data.zipCode);
   },
 });
 

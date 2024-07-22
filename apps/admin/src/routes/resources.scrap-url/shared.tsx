@@ -5,16 +5,13 @@ export const ScrapUrlSearchParams = SearchParamsIO.create({
   keys: { url: "url" },
 
   parseFunction: (searchParams, keys) => {
-    return Schema.parse({ url: searchParams.get(keys.url) });
+    return Schema.parse({
+      url: SearchParamsIO.getValue(searchParams, keys.url),
+    });
   },
 
   setFunction: (searchParams, data, keys) => {
-    if (data.url == null) {
-      searchParams.delete(keys.url);
-      return;
-    }
-
-    searchParams.set(keys.url, data.url);
+    SearchParamsIO.setValue(searchParams, keys.url, data.url);
   },
 });
 
