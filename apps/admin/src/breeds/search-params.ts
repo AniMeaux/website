@@ -14,30 +14,22 @@ export const BreedSearchParams = SearchParamsIO.create({
 
   parseFunction: (searchParams, keys) => {
     return BreedSearchParamsSchema.parse({
-      name: searchParams.get(keys.name),
-      sort: searchParams.get(keys.sort) ?? undefined,
-      species: searchParams.getAll(keys.species),
+      name: SearchParamsIO.getValue(searchParams, keys.name),
+      sort: SearchParamsIO.getValue(searchParams, keys.sort),
+      species: SearchParamsIO.getValues(searchParams, keys.species),
     });
   },
 
   setFunction: (searchParams, data, keys) => {
-    if (data.name == null) {
-      searchParams.delete(keys.name);
-    } else {
-      searchParams.set(keys.name, data.name);
-    }
+    SearchParamsIO.setValue(searchParams, keys.name, data.name);
 
-    if (data.sort == null || data.sort === BREED_DEFAULT_SORT) {
-      searchParams.delete(keys.sort);
-    } else {
-      searchParams.set(keys.sort, data.sort);
-    }
+    SearchParamsIO.setValue(
+      searchParams,
+      keys.sort,
+      data.sort === BREED_DEFAULT_SORT ? undefined : data.sort,
+    );
 
-    searchParams.delete(keys.species);
-
-    data.species?.forEach((species) => {
-      searchParams.append(keys.species, species);
-    });
+    SearchParamsIO.setValues(searchParams, keys.species, data.species);
   },
 });
 

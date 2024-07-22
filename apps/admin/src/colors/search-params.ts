@@ -13,23 +13,19 @@ export const ColorSearchParams = SearchParamsIO.create({
 
   parseFunction: (searchParams, keys) => {
     return ColorSearchParamsSchema.parse({
-      name: searchParams.get(keys.name),
-      sort: searchParams.get(keys.sort) ?? undefined,
+      name: SearchParamsIO.getValue(searchParams, keys.name),
+      sort: SearchParamsIO.getValue(searchParams, keys.sort),
     });
   },
 
   setFunction: (searchParams, data, keys) => {
-    if (data.name == null) {
-      searchParams.delete(keys.name);
-    } else {
-      searchParams.set(keys.name, data.name);
-    }
+    SearchParamsIO.setValue(searchParams, keys.name, data.name);
 
-    if (data.sort == null || data.sort === COLOR_DEFAULT_SORT) {
-      searchParams.delete(keys.sort);
-    } else {
-      searchParams.set(keys.sort, data.sort);
-    }
+    SearchParamsIO.setValue(
+      searchParams,
+      keys.sort,
+      data.sort === COLOR_DEFAULT_SORT ? undefined : data.sort,
+    );
   },
 });
 
