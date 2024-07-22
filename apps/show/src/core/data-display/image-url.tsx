@@ -31,16 +31,12 @@ const BlurhashSearchParams = SearchParamsIO.create({
   keys: { blurhash: "blurhash" },
 
   parseFunction: (searchParams, keys) => {
-    const blurhash = searchParams.get(keys.blurhash)?.trim() || undefined;
-    return { blurhash };
+    return {
+      blurhash: SearchParamsIO.getValue(searchParams, keys.blurhash)?.trim(),
+    };
   },
 
   setFunction: (searchParams, data, keys) => {
-    if (data.blurhash == null) {
-      searchParams.delete(keys.blurhash);
-      return;
-    }
-
-    searchParams.set(keys.blurhash, data.blurhash);
+    SearchParamsIO.setValue(searchParams, keys.blurhash, data.blurhash);
   },
 });

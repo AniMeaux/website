@@ -37,8 +37,8 @@ const SearchParams = SearchParamsReader.create({
 
   parseFunction: (searchParams, keys) => {
     return Schema.parse({
-      maxResults: searchParams.get(keys.maxResults),
-      nextIndex: searchParams.get(keys.nextIndex),
+      maxResults: SearchParamsReader.getValue(searchParams, keys.maxResults),
+      nextIndex: SearchParamsReader.getValue(searchParams, keys.nextIndex),
     });
   },
 });

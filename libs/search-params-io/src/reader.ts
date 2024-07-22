@@ -1,9 +1,9 @@
 import isEqual from "lodash.isequal";
 
-export type SearchParamsReader<
+export interface SearchParamsReader<
   TKeys extends Record<string, string>,
   TOutput,
-> = {
+> {
   keys: TKeys;
 
   parse(searchParams: URLSearchParams): TOutput;
@@ -14,7 +14,7 @@ export type SearchParamsReader<
    * Alias for `reader.areEqual(searchParams, new URLSearchParams())`.
    */
   isEmpty(searchParams: URLSearchParams): boolean;
-};
+}
 
 export namespace SearchParamsReader {
   export function create<TKeys extends Record<string, string>, TOutput>({
@@ -41,6 +41,22 @@ export namespace SearchParamsReader {
     };
 
     return { keys, parse, areEqual, isEmpty };
+  }
+
+  /**
+   * Same as `URLSearchParams.get()` but returns `undefined` instead of `null`
+   * for missing search parameters.
+   */
+  export function getValue(searchParams: URLSearchParams, key: string) {
+    return searchParams.get(key) ?? undefined;
+  }
+
+  /**
+   * Same as `URLSearchParams.getAll()`.
+   * Here for consistency with `getValue`.
+   */
+  export function getValues(searchParams: URLSearchParams, key: string) {
+    return searchParams.getAll(key);
   }
 
   export type Infer<TReader extends SearchParamsReader<any, any>> =
