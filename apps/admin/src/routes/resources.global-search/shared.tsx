@@ -24,23 +24,15 @@ export const GlobalSearchParams = SearchParamsIO.create({
 
   parseFunction: (searchParams, keys) => {
     return GlobalSearchParamsSchema.parse({
-      text: searchParams.get(keys.text),
-      entity: searchParams.get(keys.entity),
+      text: SearchParamsIO.getValue(searchParams, keys.text),
+      entity: SearchParamsIO.getValue(searchParams, keys.entity),
     });
   },
 
   setFunction: (searchParams, data, keys) => {
-    if (data.text == null) {
-      searchParams.delete(keys.text);
-    } else {
-      searchParams.set(keys.text, data.text);
-    }
+    SearchParamsIO.setValue(searchParams, keys.text, data.text);
 
-    if (data.entity == null) {
-      searchParams.delete(keys.entity);
-    } else {
-      searchParams.set(keys.entity, data.entity);
-    }
+    SearchParamsIO.setValue(searchParams, keys.entity, data.entity);
   },
 });
 

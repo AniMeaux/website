@@ -5,16 +5,17 @@ export const PageSearchParams = SearchParamsIO.create({
   keys: { page: "page" },
 
   parseFunction: (searchParams, keys) => {
-    return PageSchema.parse({ page: searchParams.get(keys.page) });
+    return PageSchema.parse({
+      page: SearchParamsIO.getValue(searchParams, keys.page),
+    });
   },
 
   setFunction: (searchParams, data, keys) => {
-    if (data.page == null || data.page === 0) {
-      searchParams.delete(keys.page);
-      return;
-    }
-
-    searchParams.set(keys.page, String(data.page));
+    SearchParamsIO.setValue(
+      searchParams,
+      keys.page,
+      data.page == null || data.page === 0 ? undefined : String(data.page),
+    );
   },
 });
 
@@ -26,16 +27,13 @@ export const NextSearchParams = SearchParamsIO.create({
   keys: { next: "next" },
 
   parseFunction: (searchParams, keys) => {
-    return NextSchema.parse({ next: searchParams.get(keys.next) });
+    return NextSchema.parse({
+      next: SearchParamsIO.getValue(searchParams, keys.next),
+    });
   },
 
   setFunction: (searchParams, data, keys) => {
-    if (data.next == null) {
-      searchParams.delete(keys.next);
-      return;
-    }
-
-    searchParams.set(keys.next, data.next);
+    SearchParamsIO.setValue(searchParams, keys.next, data.next);
   },
 });
 
