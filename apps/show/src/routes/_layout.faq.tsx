@@ -1,4 +1,4 @@
-import { ProseInlineAction } from "#core/actions";
+import { ProseInlineAction } from "#core/actions/actions";
 import type { Config } from "#core/config";
 import { useConfig } from "#core/config";
 import { createConfig } from "#core/config.server";
@@ -36,9 +36,7 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
 };
 
 export function ErrorBoundary() {
-  const { featureFlagSiteOnline } = useConfig();
-
-  return <ErrorPage isStandAlone={!featureFlagSiteOnline} />;
+  return <ErrorPage />;
 }
 
 export default function Route() {

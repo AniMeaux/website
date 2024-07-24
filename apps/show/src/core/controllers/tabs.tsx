@@ -1,10 +1,10 @@
-import { Action } from "#core/actions";
+import { Action } from "#core/actions/actions";
 import { useNavLink } from "#core/navigation";
 import { NavLink } from "@remix-run/react";
 
 export function Tabs({ children }: React.PropsWithChildren<{}>) {
   return (
-    <div className="grid grid-flow-col justify-center gap-1">{children}</div>
+    <div className="grid grid-flow-col justify-start gap-1">{children}</div>
   );
 }
 

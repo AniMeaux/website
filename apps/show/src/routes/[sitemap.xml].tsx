@@ -49,19 +49,19 @@ export async function loader() {
     { path: Routes.home(), changeFrequency: "weekly" },
   ];
 
+  SORTED_PREVIOUS_EDITIONS.forEach((edition) => {
+    urlDefinitions.push({
+      path: Routes.previousEditions(edition),
+      changeFrequency: "monthly",
+    });
+  });
+
   if (featureFlagSiteOnline) {
     urlDefinitions.push(
       { path: Routes.exhibitors(), changeFrequency: "weekly" },
       { path: Routes.access(), changeFrequency: "weekly" },
       { path: Routes.faq(), changeFrequency: "weekly" },
     );
-
-    SORTED_PREVIOUS_EDITIONS.forEach((edition) => {
-      urlDefinitions.push({
-        path: Routes.previousEditions(edition),
-        changeFrequency: "monthly",
-      });
-    });
 
     if (featureFlagShowProgram) {
       SORTED_SHOW_DAYS.forEach((day) => {

@@ -1,6 +1,5 @@
 import { cloudinary } from "#core/cloudinary/cloudinary.server";
-import { createConfig } from "#core/config.server";
-import { ErrorPage, getErrorTitle } from "#core/data-display/error-page";
+import { getErrorTitle } from "#core/data-display/error-page";
 import { DynamicImage } from "#core/data-display/image";
 import { useElementSize } from "#core/elements";
 import type { RouteHandle } from "#core/handles";
@@ -34,12 +33,6 @@ const ParamsSchema = zu.object({
 });
 
 export async function loader({ params }: LoaderFunctionArgs) {
-  const { featureFlagSiteOnline } = createConfig();
-
-  if (!featureFlagSiteOnline) {
-    throw new NotFoundResponse();
-  }
-
   const result = ParamsSchema.safeParse(params);
   if (!result.success) {
     throw new NotFoundResponse();
@@ -77,10 +70,6 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
     title: getPageTitle(title),
   });
 };
-
-export function ErrorBoundary() {
-  return <ErrorPage isStandAlone />;
-}
 
 export default function Route() {
   const { photoIndex } = ParamsSchema.parse(useParams());
