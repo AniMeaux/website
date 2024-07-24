@@ -9,10 +9,17 @@ import logoSmall from "#images/logo-small.svg";
 import { cn } from "@animeaux/core";
 import { Primitive } from "@animeaux/react-primitives";
 import * as NavigationMenu from "@radix-ui/react-navigation-menu";
-import { Link, NavLink } from "@remix-run/react";
+import { Link, NavLink, useLocation } from "@remix-run/react";
 import { forwardRef } from "react";
 
 export function Header() {
+  const location = useLocation();
+  const { featureFlagSiteOnline } = useConfig();
+
+  if (!featureFlagSiteOnline && location.pathname === Routes.home()) {
+    return null;
+  }
+
   return (
     <>
       <SmallHeader />
@@ -23,6 +30,7 @@ export function Header() {
 
 function SmallHeader() {
   const config = useConfig();
+  const { featureFlagSiteOnline } = config;
 
   return (
     <header className="relative z-20 grid w-full grid-cols-1 md:hidden">
@@ -32,32 +40,34 @@ function SmallHeader() {
             <HomeNavItem />
           </NavigationMenu.Item>
 
-          <NavigationMenu.Item className="flex">
-            <NavigationMenu.Trigger
-              // We don't want the menu to open or close on hover.
-              // https://github.com/radix-ui/primitives/issues/1630
-              onPointerMove={(event) => event.preventDefault()}
-              onPointerLeave={(event) => event.preventDefault()}
-              className="group flex aspect-square w-4 items-center justify-center text-[24px] transition-transform duration-100 ease-in-out active:scale-95 focus-visible:focus-compact-mystic"
-            >
-              <Icon
-                id="bars-light"
-                className="group-data-[state=open]:hidden"
-              />
-              <Icon
-                id="x-mark-light"
-                className="group-data-[state=closed]:hidden"
-              />
-            </NavigationMenu.Trigger>
+          {featureFlagSiteOnline ? (
+            <NavigationMenu.Item className="flex">
+              <NavigationMenu.Trigger
+                // We don't want the menu to open or close on hover.
+                // https://github.com/radix-ui/primitives/issues/1630
+                onPointerMove={(event) => event.preventDefault()}
+                onPointerLeave={(event) => event.preventDefault()}
+                className="group flex aspect-square w-4 items-center justify-center text-[24px] transition-transform duration-100 ease-in-out active:scale-95 focus-visible:focus-compact-mystic"
+              >
+                <Icon
+                  id="bars-light"
+                  className="group-data-[state=open]:hidden"
+                />
+                <Icon
+                  id="x-mark-light"
+                  className="group-data-[state=closed]:hidden"
+                />
+              </NavigationMenu.Trigger>
 
-            <NavigationMenu.Content className="grid grid-cols-1 gap-2">
-              {getNavigationItems(config).map(({ to, label }) => (
-                <NavigationMenu.Link asChild key={to}>
-                  <NavItem to={to}>{label}</NavItem>
-                </NavigationMenu.Link>
-              ))}
-            </NavigationMenu.Content>
-          </NavigationMenu.Item>
+              <NavigationMenu.Content className="grid grid-cols-1 gap-2">
+                {getNavigationItems(config).map(({ to, label }) => (
+                  <NavigationMenu.Link asChild key={to}>
+                    <NavItem to={to}>{label}</NavItem>
+                  </NavigationMenu.Link>
+                ))}
+              </NavigationMenu.Content>
+            </NavigationMenu.Item>
+          ) : null}
         </NavigationMenu.List>
 
         <NavigationMenu.Viewport
@@ -75,19 +85,22 @@ function SmallHeader() {
 
 function LargeHeader() {
   const config = useConfig();
+  const { featureFlagSiteOnline } = config;
 
   return (
     <header className="z-20 hidden md:grid md:grid-cols-1">
       <nav className="grid grid-cols-[auto_auto] items-center justify-between gap-2 pb-1 pt-safe-1 px-safe-page-normal">
         <HomeNavItem />
 
-        <div className="grid grid-flow-col items-center justify-end">
-          {getNavigationItems(config).map(({ to, label }) => (
-            <NavItem key={to} to={to}>
-              {label}
-            </NavItem>
-          ))}
-        </div>
+        {featureFlagSiteOnline ? (
+          <div className="grid grid-flow-col items-center justify-end">
+            {getNavigationItems(config).map(({ to, label }) => (
+              <NavItem key={to} to={to}>
+                {label}
+              </NavItem>
+            ))}
+          </div>
+        ) : null}
       </nav>
     </header>
   );

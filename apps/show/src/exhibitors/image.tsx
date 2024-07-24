@@ -10,8 +10,8 @@ export function ExhibitorsImage(
     <DynamicImage
       {...props}
       image={{
-        id: "/show/d7cc20a6-3cb7-4b57-a25c-f4a612ab5fa8",
-        blurhash: "U5FO+L0000?[00EJ?t$m00^,RQk95QyD4;IA",
+        id: "/show/exhibitors-jehiq1",
+        blurhash: "U3C$cgMd579Y^8jI?b^+Iu-;00M}01~W?Gs=",
       }}
       alt="Stands des exposants du salon."
       title="Julia Pommé Photographe"

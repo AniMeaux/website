@@ -44,9 +44,9 @@ export default function Route() {
         isExpanded={featureFlagSiteOnline && hasExpandedPageBackground}
       />
 
-      {featureFlagSiteOnline ? <Header /> : null}
+      <Header />
       <Outlet />
-      {featureFlagSiteOnline ? <Footer /> : null}
+      <Footer />
     </>
   );
 }

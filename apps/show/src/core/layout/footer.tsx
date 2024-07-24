@@ -1,4 +1,5 @@
-import { Action, ProseInlineAction } from "#core/actions";
+import { Action, ProseInlineAction } from "#core/actions/actions";
+import { SocialLink } from "#core/actions/social-link";
 import { useConfig } from "#core/config";
 import { DynamicImage } from "#core/data-display/image";
 import { hasShowEnded } from "#core/dates";
@@ -15,16 +16,18 @@ import { PartnersPlaceholderImage } from "#partners/placeholder-image";
 import { Link } from "@remix-run/react";
 
 export function Footer() {
+  const { featureFlagSiteOnline } = useConfig();
+
   return (
     <footer className="grid grid-cols-1">
-      <AccessSection />
-      <LinksSection />
+      {featureFlagSiteOnline ? <HintSection /> : <WaitingWaveSection />}
+      {featureFlagSiteOnline ? <LinksSection /> : <WaitingLinksSection />}
       <LegalSection />
     </footer>
   );
 }
 
-function AccessSection() {
+function HintSection() {
   const { ticketingUrl } = useConfig();
 
   return (
@@ -64,6 +67,14 @@ function AccessSection() {
   );
 }
 
+function WaitingWaveSection() {
+  return (
+    <section className="grid grid-cols-1 pt-4">
+      <FooterWave className="h-[53px] w-full md:h-[90px]" />
+    </section>
+  );
+}
+
 function LinksSection() {
   const {
     animeauxUrl,
@@ -76,7 +87,7 @@ function LinksSection() {
   const partners = usePartners();
 
   return (
-    <section className="grid grid-cols-1 gap-2 bg-paleBlue px-page-narrow py-4 sm:gap-4 md:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] md:items-center md:px-page-normal lg:gap-8">
+    <section className="grid grid-cols-1 gap-4 bg-paleBlue px-page-narrow py-4 md:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] md:items-center md:px-page-normal lg:gap-8">
       <Section.TextAside className="max-w-sm justify-self-center md:max-w-none md:justify-self-stretch">
         {partners.length === 0 ? (
           <PartnersPlaceholderImage
@@ -153,17 +164,51 @@ function LinksSection() {
   );
 }
 
-function SocialLink({
-  children,
-  ...rest
-}: Omit<React.ComponentPropsWithoutRef<typeof Link>, "className">) {
+function WaitingLinksSection() {
+  const { animeauxUrl, facebookUrl, instagramUrl } = useConfig();
+
   return (
-    <Link
-      {...rest}
-      className="grid grid-cols-1 rounded-full transition-transform duration-100 ease-in-out active:scale-95 focus-visible:focus-spaced-prussianBlue hover:scale-105 hover:active:scale-95"
-    >
-      {children}
-    </Link>
+    <section className="grid grid-cols-1 gap-4 bg-paleBlue px-page-narrow py-4 md:grid-cols-2 md:items-center md:px-page-normal lg:gap-8">
+      <img
+        src={logoAniMeaux}
+        alt="Association Ani’Meaux"
+        className="aspect-square w-[150px] justify-self-center md:w-[200px]"
+      />
+
+      <Section.TextAside className="max-w-sm justify-self-center md:max-w-none md:justify-self-stretch">
+        <div className="grid grid-flow-col justify-start gap-1">
+          <SocialLink to={facebookUrl}>
+            <Pictogram id="facebook" className="text-[24px]" />
+          </SocialLink>
+
+          <SocialLink to={instagramUrl}>
+            <Pictogram id="instagram" className="text-[24px]" />
+          </SocialLink>
+        </div>
+
+        <ul className="grid grid-cols-1">
+          <ContactItem icon="phone-solid" to="tel:+33612194392">
+            06 12 19 43 92
+          </ContactItem>
+
+          <ContactItem icon="envelope-solid" to="mailto:salon@animeaux.org">
+            salon@animeaux.org
+          </ContactItem>
+
+          <ContactItem icon="image-solid" to={Routes.previousEditions()}>
+            Éditions précédentes
+          </ContactItem>
+        </ul>
+
+        <p>
+          Le Salon des Ani’Meaux est organisé par l'association{" "}
+          <ProseInlineAction asChild>
+            <Link to={animeauxUrl}>Ani’Meaux</Link>
+          </ProseInlineAction>
+          .
+        </p>
+      </Section.TextAside>
+    </section>
   );
 }
 
