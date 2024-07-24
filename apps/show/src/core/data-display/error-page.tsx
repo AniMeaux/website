@@ -1,4 +1,4 @@
-import { Action } from "#core/actions";
+import { Action } from "#core/actions/actions";
 import { useOptionalConfig } from "#core/config";
 import { DynamicImage } from "#core/data-display/image";
 import { Section } from "#core/layout/section";

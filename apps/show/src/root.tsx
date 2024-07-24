@@ -75,7 +75,7 @@ export async function loader() {
 
 export function ErrorBoundary() {
   return (
-    <Document>
+    <Document isErrorPage>
       <ErrorPage isStandAlone />
     </Document>
   );
@@ -96,15 +96,17 @@ export default function App() {
 }
 
 function Document({
-  children,
+  isErrorPage = false,
   cloudinaryName,
   googleTagManagerId,
   publicHost,
+  children,
 }: {
-  children: React.ReactNode;
+  isErrorPage?: boolean;
   cloudinaryName?: string;
   googleTagManagerId?: string;
   publicHost?: string;
+  children: React.ReactNode;
 }) {
   const location = useLocation();
 
@@ -133,7 +135,9 @@ function Document({
     <html
       lang="fr"
       className={cn(
-        htmlBackgroundColor ?? "bg-white",
+        isErrorPage || htmlBackgroundColor == null
+          ? "bg-white"
+          : htmlBackgroundColor,
         isFullHeight ? "h-full" : undefined,
       )}
     >

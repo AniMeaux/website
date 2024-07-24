@@ -1,7 +1,5 @@
-import { ProseInlineAction } from "#core/actions";
+import { ProseInlineAction } from "#core/actions/actions";
 import { cloudinary } from "#core/cloudinary/cloudinary.server";
-import { useConfig } from "#core/config";
-import { createConfig } from "#core/config.server";
 import { Tab, Tabs } from "#core/controllers/tabs";
 import { ErrorPage, getErrorTitle } from "#core/data-display/error-page";
 import { DynamicImage } from "#core/data-display/image";
@@ -34,12 +32,6 @@ const ParamsSchema = zu.object({
 });
 
 export async function loader({ params }: LoaderFunctionArgs) {
-  const { featureFlagSiteOnline } = createConfig();
-
-  if (!featureFlagSiteOnline) {
-    throw new NotFoundResponse();
-  }
-
   const result = ParamsSchema.safeParse(params);
   if (!result.success) {
     throw new NotFoundResponse();
@@ -60,9 +52,7 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
 };
 
 export function ErrorBoundary() {
-  const { featureFlagSiteOnline } = useConfig();
-
-  return <ErrorPage isStandAlone={!featureFlagSiteOnline} />;
+  return <ErrorPage />;
 }
 
 export default function Route() {
@@ -75,47 +65,35 @@ export default function Route() {
 }
 
 function TitleSection() {
-  const { edition } = useLoaderData<typeof loader>();
-
-  const photograph = PREVIOUS_EDITION_PHOTOGRAPH[edition];
-
   return (
     <Section>
       <Section.ImageAside>
         <PreviousEditionImage
           fallbackSize="1024"
           sizes={{ default: "384px", md: "50vw", lg: "512px" }}
-          shape={{ id: "variant-3", color: "prussianBlue", side: "right" }}
+          shape={{ id: "variant-7", color: "prussianBlue", side: "right" }}
           className="w-full"
         />
       </Section.ImageAside>
 
       <Section.TextAside className="md:col-start-1 md:row-start-1">
-        <Section.Title asChild className="text-center md:text-left">
+        <Section.Title asChild>
           <h1>Éditions précédentes</h1>
         </Section.Title>
 
-        <p className="text-center md:text-left">
+        <p>
           Revivez les moments forts des éditions précédentes de notre salon en
           parcourant notre galerie de photos.
         </p>
-
-        {photograph != null ? (
-          <p className="text-center md:text-left">
-            Les photos ont été prises par{" "}
-            <ProseInlineAction asChild>
-              <a href={photograph.url}>{photograph.name}</a>
-            </ProseInlineAction>
-            .
-          </p>
-        ) : null}
       </Section.TextAside>
     </Section>
   );
 }
 
 function PhotoGrid() {
-  const { images } = useLoaderData<typeof loader>();
+  const { images, edition } = useLoaderData<typeof loader>();
+
+  const photograph = PREVIOUS_EDITION_PHOTOGRAPH[edition];
 
   return (
     <Section columnCount={1}>
@@ -131,6 +109,16 @@ function PhotoGrid() {
           </Tab>
         ))}
       </Tabs>
+
+      {photograph != null ? (
+        <p>
+          Les photos ont été prises par{" "}
+          <ProseInlineAction asChild>
+            <a href={photograph.url}>{photograph.name}</a>
+          </ProseInlineAction>
+          .
+        </p>
+      ) : null}
 
       <ul className="grid grid-cols-[repeat(auto-fill,minmax(150px,1fr))] gap-0.5 md:gap-1">
         <Suspense

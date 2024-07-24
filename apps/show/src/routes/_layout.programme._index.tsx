@@ -1,4 +1,3 @@
-import { useConfig } from "#core/config";
 import { createConfig } from "#core/config.server";
 import { ErrorPage, getErrorTitle } from "#core/data-display/error-page";
 import { ShowDay } from "#core/dates";
@@ -32,9 +31,7 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
 };
 
 export function ErrorBoundary() {
-  const { featureFlagSiteOnline } = useConfig();
-
-  return <ErrorPage isStandAlone={!featureFlagSiteOnline} />;
+  return <ErrorPage />;
 }
 
 export default function Route() {
