@@ -19,6 +19,14 @@ export const partners: Partner[] = orderBy(
       url: "https://www.anideo.fr",
     },
     {
+      id: "76458a6b-226b-4ef6-ac1b-7a14a83c7bfb",
+      image: "partners/0d10aafb-b026-411d-852d-1cda85742a77",
+      name: "Bitiba",
+      description:
+        "Prix discount sur les grandes marques d’aliments et accessoires pour animaux ! Livraison rapide et large choix. -5 % dès 109 € d’achat ou -3 % dès 59 €. 2 % du montant de votre commande reversé à l’association en passant par **ce lien**.",
+      url: "https://www.awin1.com/cread.php?s=2190108&v=13330&q=340481&r=765013",
+    },
+    {
       id: "6042efa7-8dbe-4216-a79e-de3e5f12090b",
       image: "partners/570514db-e012-436a-8e8e-ea40a4299567",
       name: "La vie de nos animaux",
@@ -64,7 +72,7 @@ export const partners: Partner[] = orderBy(
       name: "Zooplus",
       description:
         "Zooplus Animalerie en ligne N°1 en France. Large Choix : +9000 articles pour animaux, prix choc, livraison rapide. 4 % du montant de votre commande reversé à l’association en passant par **ce lien**.",
-      url: "https://marketing.net.zooplus.fr/ts/i3971185/tsc?typ=r&amc=con.zooplus.391263.404652.CRTD9sCr3t7",
+      url: "https://www.awin1.com/cread.php?s=3165838&v=7334&q=308797&r=765013",
     },
   ],
   (partner) => partner.name.toLowerCase(),
