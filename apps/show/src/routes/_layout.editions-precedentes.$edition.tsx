@@ -3,13 +3,13 @@ import { cloudinary } from "#core/cloudinary/cloudinary.server";
 import { Tab, Tabs } from "#core/controllers/tabs";
 import { ErrorPage, getErrorTitle } from "#core/data-display/error-page";
 import { DynamicImage } from "#core/data-display/image";
+import { LazyElement } from "#core/layout/lazy-element";
 import { Section } from "#core/layout/section";
 import { createSocialMeta } from "#core/meta";
 import { Routes } from "#core/navigation";
 import { getPageTitle } from "#core/page-title";
 import { NotFoundResponse } from "#core/response.server";
 import { ScrollRestorationLocationState } from "#core/scroll-restoration";
-import { PreviousEditionImage } from "#previous-editions/image";
 import { PhotoLocationState } from "#previous-editions/photo-location-state";
 import {
   PREVIOUS_EDITION_PHOTOGRAPH,
@@ -67,25 +67,34 @@ export default function Route() {
 function TitleSection() {
   return (
     <Section>
-      <Section.ImageAside>
-        <PreviousEditionImage
-          fallbackSize="1024"
-          sizes={{ default: "384px", md: "50vw", lg: "512px" }}
-          shape={{ id: "variant-7", color: "prussianBlue", side: "right" }}
-          className="w-full"
-        />
-      </Section.ImageAside>
+      <LazyElement asChild>
+        <Section.TextAside className="-translate-x-4 opacity-0 transition-[opacity,transform] duration-1000 data-visible:translate-x-0 data-visible:opacity-100">
+          <Section.Title asChild>
+            <h1>Éditions précédentes</h1>
+          </Section.Title>
 
-      <Section.TextAside className="md:col-start-1 md:row-start-1">
-        <Section.Title asChild>
-          <h1>Éditions précédentes</h1>
-        </Section.Title>
+          <p>
+            Revivez les moments forts des éditions précédentes de notre salon en
+            parcourant notre galerie de photos.
+          </p>
+        </Section.TextAside>
+      </LazyElement>
 
-        <p>
-          Revivez les moments forts des éditions précédentes de notre salon en
-          parcourant notre galerie de photos.
-        </p>
-      </Section.TextAside>
+      <LazyElement asChild>
+        <Section.ImageAside className="aspect-4/3 translate-x-4 opacity-0 transition-[opacity,transform] duration-1000 data-visible:translate-x-0 data-visible:opacity-100">
+          <DynamicImage
+            image={{
+              id: "/show/pages/pott-et-pollen-photos-ajfy5llvexzgl0df2rsy",
+            }}
+            fallbackSize="1024"
+            sizes={{ default: "100vw", md: "50vw", lg: "512px" }}
+            loading="eager"
+            alt="Pott regarde un album photo."
+            aspectRatio="none"
+            className="absolute inset-x-0 top-0 w-full"
+          />
+        </Section.ImageAside>
+      </LazyElement>
     </Section>
   );
 }

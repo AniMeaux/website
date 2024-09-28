@@ -69,7 +69,7 @@ function HintSection() {
 
 function WaitingWaveSection() {
   return (
-    <section className="grid grid-cols-1 pt-4">
+    <section className="grid grid-cols-1 pt-8">
       <FooterWave className="h-[53px] w-full md:h-[90px]" />
     </section>
   );
