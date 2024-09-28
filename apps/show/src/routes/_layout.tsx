@@ -1,4 +1,3 @@
-import { useConfig } from "#core/config";
 import { createConfig } from "#core/config.server";
 import { asRouteHandle } from "#core/handles";
 import { Footer } from "#core/layout/footer";
@@ -31,7 +30,6 @@ export async function loader() {
 }
 
 export default function Route() {
-  const { featureFlagSiteOnline } = useConfig();
   const matches = useMatches();
   const routeHandles = matches.map((match) => asRouteHandle(match.handle));
   const hasExpandedPageBackground = routeHandles.some(
@@ -40,9 +38,7 @@ export default function Route() {
 
   return (
     <>
-      <PageBackground
-        isExpanded={featureFlagSiteOnline && hasExpandedPageBackground}
-      />
+      <PageBackground isExpanded={hasExpandedPageBackground} />
 
       <Header />
       <Outlet />
