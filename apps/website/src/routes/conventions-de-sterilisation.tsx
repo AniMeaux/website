@@ -178,7 +178,7 @@ function ErrandsSection() {
             prend en charge les chats errants quotidiennement
           </strong>
           . Afin de faire perdurer son action, une équipe de bénévoles dédiée
-          aux chats errants a été mise en place, et des
+          aux chats errants a été mise en place, et des{" "}
           <strong className="text-body-emphasis">
             conventions de stérilisations ont été mises en place avec plusieurs
             communes
