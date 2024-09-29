@@ -1,8 +1,40 @@
 import { createConfig } from "#core/config.server";
-import { SORTED_SHOW_DAYS } from "#core/dates";
 import { Routes } from "#core/navigation";
 import { SORTED_PREVIOUS_EDITIONS } from "#previous-editions/previous-edition";
 import { renderToStaticMarkup } from "react-dom/server";
+
+export async function loader() {
+  const { publicHost } = createConfig();
+
+  const urlDefinitions: UrlDefinition[] = [
+    { path: Routes.home(), changeFrequency: "weekly" },
+  ];
+
+  SORTED_PREVIOUS_EDITIONS.forEach((edition) => {
+    urlDefinitions.push({
+      path: Routes.previousEditions(edition),
+      changeFrequency: "monthly",
+    });
+  });
+
+  const markup = renderToStaticMarkup(
+    <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+      {urlDefinitions.map((url) => (
+        <url key={url.path}>
+          <loc>{`${publicHost}${url.path}`}</loc>
+          <changefreq>{url.changeFrequency}</changefreq>
+          {url.priority != null && <priority>{url.priority}</priority>}
+        </url>
+      ))}
+    </urlset>,
+  );
+
+  return new Response('<?xml version="1.0" encoding="UTF-8"?>' + markup, {
+    headers: {
+      "Content-Type": "application/xml",
+    },
+  });
+}
 
 type SitemapAttribute = {
   key?: React.Key;
@@ -40,59 +72,3 @@ type UrlDefinition = {
   /** Number in range [0, 1] */
   priority?: number;
 };
-
-export async function loader() {
-  const { featureFlagSiteOnline, featureFlagShowProgram, publicHost } =
-    createConfig();
-
-  const urlDefinitions: UrlDefinition[] = [
-    { path: Routes.home(), changeFrequency: "weekly" },
-  ];
-
-  SORTED_PREVIOUS_EDITIONS.forEach((edition) => {
-    urlDefinitions.push({
-      path: Routes.previousEditions(edition),
-      changeFrequency: "monthly",
-    });
-  });
-
-  if (featureFlagSiteOnline) {
-    urlDefinitions.push(
-      { path: Routes.exhibitors(), changeFrequency: "weekly" },
-      { path: Routes.access(), changeFrequency: "weekly" },
-      { path: Routes.faq(), changeFrequency: "weekly" },
-    );
-
-    if (featureFlagShowProgram) {
-      SORTED_SHOW_DAYS.forEach((day) => {
-        urlDefinitions.push({
-          path: Routes.program(day),
-          changeFrequency: "weekly",
-        });
-      });
-    } else {
-      urlDefinitions.push({
-        path: Routes.program(),
-        changeFrequency: "weekly",
-      });
-    }
-  }
-
-  const markup = renderToStaticMarkup(
-    <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-      {urlDefinitions.map((url) => (
-        <url key={url.path}>
-          <loc>{`${publicHost}${url.path}`}</loc>
-          <changefreq>{url.changeFrequency}</changefreq>
-          {url.priority != null && <priority>{url.priority}</priority>}
-        </url>
-      ))}
-    </urlset>,
-  );
-
-  return new Response('<?xml version="1.0" encoding="UTF-8"?>' + markup, {
-    headers: {
-      "Content-Type": "application/xml",
-    },
-  });
-}

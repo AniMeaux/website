@@ -3,18 +3,21 @@ import { Primitive } from "@animeaux/react-primitives";
 import { forwardRef } from "react";
 
 type SectionWidth = "full" | "narrow" | "normal";
+type SectionHeight = "large" | "normal";
 
 export const Section = Object.assign(
   forwardRef<
     React.ComponentRef<typeof Primitive.section>,
     React.ComponentPropsWithoutRef<typeof Primitive.section> & {
       width?: SectionWidth;
+      height?: SectionHeight;
       columnCount?: 1 | 2;
       isTitleOnly?: boolean;
     }
   >(function Section(
     {
       width = "normal",
+      height = "normal",
       columnCount = 2,
       isTitleOnly = false,
       className,
@@ -29,7 +32,13 @@ export const Section = Object.assign(
         className={cn(
           "grid grid-cols-1",
           SECTION_WIDTH_CLASS_NAMES[width],
-          isTitleOnly ? "pt-8" : "py-8",
+          isTitleOnly
+            ? height === "normal"
+              ? "pt-4"
+              : "pt-8"
+            : height === "normal"
+              ? "py-4"
+              : "py-8",
           columnCount === 2
             ? "gap-2 sm:gap-4 md:grid-cols-2 md:items-center lg:gap-8"
             : "gap-4",

@@ -7,7 +7,6 @@ export type Config = {
   animeauxUrl: string;
   carpoolFacebookGroupUrl: string;
   cloudinaryName: string;
-  exhibitorsFormUrl: string;
   facebookUrl: string;
   featureFlagShowExhibitors: boolean;
   featureFlagShowPartners: boolean;
@@ -15,11 +14,9 @@ export type Config = {
   featureFlagSiteOnline: boolean;
   googleTagManagerId?: string;
   instagramUrl: string;
-  kidWorkshopRegistrationUrl: string;
   partnersFormUrl: string;
   pressReleaseUrl: string;
   publicHost: string;
-  raffleUrl: string;
   ticketingUrl: string;
 };
 

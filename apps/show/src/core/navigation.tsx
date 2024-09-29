@@ -1,4 +1,3 @@
-import type { ShowDay } from "#core/dates";
 import type { PreviousEdition } from "#previous-editions/previous-edition";
 import type { NavLinkProps } from "@remix-run/react";
 import { useLocation, useNavigation, useResolvedPath } from "@remix-run/react";
@@ -7,10 +6,6 @@ import { UNSAFE_NavigationContext } from "react-router";
 
 export const Routes = {
   home: () => "/",
-  exhibitors: () => "/exposants",
-  program: (day?: ShowDay) => ["/programme", day].filter(Boolean).join("/"),
-  access: () => "/acces",
-  faq: () => "/faq",
   previousEditions: (edition?: PreviousEdition) =>
     ["/editions-precedentes", edition].filter(Boolean).join("/"),
   photo: (edition: PreviousEdition, photoIndex: number) =>

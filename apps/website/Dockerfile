@@ -13,6 +13,7 @@ WORKDIR /workspace
 FROM base as deps
 ADD ./package.json ./yarn.lock ./
 ADD ./libs/core/package.json ./libs/core/
+ADD ./libs/search-params-io/package.json ./libs/search-params-io/
 ADD ./apps/website/package.json ./apps/website/
 RUN yarn --frozen-lockfile --production=false
 
@@ -22,6 +23,7 @@ COPY --from=deps /workspace/node_modules ./node_modules
 COPY --from=deps /workspace/apps/website/node_modules ./apps/website/node_modules
 ADD ./package.json ./yarn.lock ./
 ADD ./libs/core/package.json ./libs/core/
+ADD ./libs/search-params-io/package.json ./libs/search-params-io/
 ADD ./apps/website/package.json ./apps/website/
 RUN yarn --frozen-lockfile
 
@@ -35,6 +37,7 @@ ADD ./prisma ./prisma
 RUN yarn generate:prisma
 
 ADD ./libs/core ./libs/core
+ADD ./libs/search-params-io ./libs/search-params-io
 ADD ./apps/website ./apps/website
 RUN yarn --cwd ./apps/website build
 

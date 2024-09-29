@@ -23,14 +23,12 @@ export function WaitingPage() {
 
 function LogoSection() {
   return (
-    <header className="grid grid-cols-1 justify-items-center pb-8 pt-safe-8 px-safe-page-narrow md:px-safe-page-normal">
-      <LazyElement asChild>
-        <img
-          src={logoLarge}
-          alt="Salon des Ani’Meaux"
-          className="aspect-square w-2/3 scale-90 opacity-0 transition-[opacity,transform] duration-1000 data-visible:scale-100 data-visible:opacity-100 md:w-1/2"
-        />
-      </LazyElement>
+    <header className="grid grid-cols-1 justify-items-center pb-4 pt-safe-4 px-safe-page-narrow md:px-safe-page-normal">
+      <img
+        src={logoLarge}
+        alt="Salon des Ani’Meaux"
+        className="aspect-square w-2/3 md:w-1/2"
+      />
     </header>
   );
 }
@@ -39,7 +37,7 @@ function ComeBackSection() {
   return (
     <Section>
       <LazyElement asChild>
-        <Section.ImageAside className="aspect-4/3 translate-y-4 opacity-0 transition-[opacity,transform] duration-1000 data-visible:translate-y-0 data-visible:opacity-100">
+        <Section.ImageAside className="aspect-square translate-y-4 opacity-0 transition-[opacity,transform] duration-1000 data-visible:translate-y-0 data-visible:opacity-100">
           <DynamicImage
             image={{
               id: "/show/pages/pott-et-pollen-stand-nduainkltifzvy2idnvl",
@@ -49,13 +47,13 @@ function ComeBackSection() {
             loading="eager"
             alt="Pott derrière un stand."
             aspectRatio="none"
-            className="absolute inset-x-0 bottom-0 w-full md:bottom-auto md:top-1/2 md:-translate-y-[55%]"
+            className="absolute inset-x-0 bottom-0 w-full"
           />
         </Section.ImageAside>
       </LazyElement>
 
       <LazyElement asChild>
-        <Section.TextAside className="translate-y-4 opacity-0 transition-[opacity,transform] duration-1000 data-visible:translate-y-0 data-visible:opacity-100 md:delay-150">
+        <Section.TextAside className="translate-y-4 opacity-0 transition-[opacity,transform] duration-1000 data-visible:translate-y-0 data-visible:opacity-100">
           <Section.Title>Revient en 2025</Section.Title>
 
           <p>
@@ -80,7 +78,7 @@ function ComeBackSection() {
 
 function PreviousEditionsSection() {
   return (
-    <Section width="full" columnCount={1}>
+    <Section width="full" height="large" columnCount={1}>
       <div className="relative grid grid-cols-1 gap-2 py-2 px-safe-page-narrow sm:gap-4 md:grid-cols-2 md:items-center md:py-4 md:px-safe-page-normal lg:gap-8">
         <HighLightBackground
           color="alabaster"

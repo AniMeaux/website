@@ -76,7 +76,7 @@ export async function loader() {
 export function ErrorBoundary() {
   return (
     <Document isErrorPage>
-      <ErrorPage isStandAlone />
+      <ErrorPage isRoot />
     </Document>
   );
 }

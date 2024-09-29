@@ -42,13 +42,9 @@ const DOWNLOADERS: Record<TableName, () => Promise<object[]>> = {
   breed: () => prisma.breed.findMany(),
   color: () => prisma.color.findMany(),
   event: () => prisma.event.findMany(),
-  exhibitor: () => prisma.exhibitor.findMany(),
   fosterFamily: () => prisma.fosterFamily.findMany(),
   password: () => prisma.password.findMany(),
   pressArticle: () => prisma.pressArticle.findMany(),
-  showEvent: () => prisma.showEvent.findMany(),
-  showPartner: () => prisma.showPartner.findMany(),
-  showProvider: () => prisma.showProvider.findMany(),
   user: () => prisma.user.findMany(),
 };
 
