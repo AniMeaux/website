@@ -1,6 +1,6 @@
 import { Action } from "#core/actions/actions";
-import { useOptionalConfig } from "#core/config";
 import { DynamicImage } from "#core/data-display/image";
+import { LazyElement } from "#core/layout/lazy-element";
 import { Section } from "#core/layout/section";
 import { Routes } from "#core/navigation";
 import { cn } from "@animeaux/core";
@@ -10,15 +10,9 @@ export function getErrorTitle(status: number): string {
   return STATUS_CODE_ERROR_META_DATA[asStatusCode(status)].title;
 }
 
-export function ErrorPage({
-  isStandAlone = false,
-}: {
-  isStandAlone?: boolean;
-}) {
+export function ErrorPage({ isRoot = false }: { isRoot?: boolean }) {
   const error = useRouteError();
-  console.error("ErrorBoundary error", error);
 
-  const config = useOptionalConfig();
   const status = isRouteErrorResponse(error)
     ? asStatusCode(error.status)
     : DEFAULT_STATUS_CODE;
@@ -29,31 +23,28 @@ export function ErrorPage({
     <main
       className={cn(
         "grid grid-cols-1",
-        isStandAlone ? "min-h-screen items-center" : undefined,
+        isRoot ? "min-h-screen items-center" : undefined,
       )}
     >
-      <div
-        className={cn(
-          "grid grid-cols-1",
-          isStandAlone ? "py-safe-0" : undefined,
-        )}
-      >
-        <Section>
-          <Section.ImageAside>
-            {config != null ? (
-              <DynamicImage
-                image={{
-                  id: "/show/32721bd7-fc37-4dc3-8a1d-c080f6ed1dec",
-                  blurhash: "UcL|ii00r=xa.TIBaet6-oxZRjWBIoS4RjR*",
-                }}
-                loading="eager"
-                alt="Chiot allongé sur le sol."
-                fallbackSize="1024"
-                sizes={{ default: "384px", md: "50vw", lg: "512px" }}
-                shape={{ id: "variant-12", color: "alabaster", side: "left" }}
-              />
-            ) : null}
-          </Section.ImageAside>
+      <div className={cn("grid grid-cols-1", isRoot ? "py-safe-0" : undefined)}>
+        <Section columnCount={isRoot ? 1 : 2}>
+          {!isRoot ? (
+            <LazyElement asChild>
+              <Section.ImageAside className="aspect-square -translate-x-4 opacity-0 transition-[opacity,transform] duration-1000 data-visible:translate-x-0 data-visible:opacity-100">
+                <DynamicImage
+                  image={{
+                    id: "show/pages/pott-et-pollen-faq-vozbjrvath4s7gt8vhpa",
+                  }}
+                  fallbackSize="1024"
+                  sizes={{ default: "100vw", md: "50vw", lg: "512px" }}
+                  loading="eager"
+                  alt="Pott se pose des questions."
+                  aspectRatio="1:1"
+                  className="w-full"
+                />
+              </Section.ImageAside>
+            </LazyElement>
+          ) : null}
 
           <Section.TextAside>
             <Section.Title asChild>

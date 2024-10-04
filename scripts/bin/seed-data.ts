@@ -7,7 +7,6 @@ import type { Prisma } from "@prisma/client";
 import {
   AdoptionOption,
   Diagnosis,
-  ExhibitorTag,
   FosterFamilyAvailability,
   FosterFamilyGarden,
   FosterFamilyHousing,
@@ -35,10 +34,6 @@ try {
     seedColors(),
     seedEvents(),
     seedPressArticle(),
-    seedShowPartners(),
-    seedShowProviders(),
-    seedExhibitors(),
-    seedShowEvents(),
   ]);
 
   await seedAnimals();
@@ -467,83 +462,6 @@ async function seedPressArticle() {
 
   const count = await prisma.pressArticle.count();
   console.log(`- 👍 ${count} press articles`);
-}
-
-async function seedShowPartners() {
-  await prisma.showPartner.createMany({
-    data: repeate({ min: 5, max: 10 }, () => ({
-      image: faker.string.uuid(),
-      name: faker.company.name(),
-      url: faker.internet.url(),
-    })),
-  });
-
-  const count = await prisma.showPartner.count();
-  console.log(`- 👍 ${count} show partners`);
-}
-
-async function seedShowProviders() {
-  await prisma.showProvider.createMany({
-    data: repeate({ min: 5, max: 10 }, () => ({
-      image: faker.string.uuid(),
-      name: faker.company.name(),
-      url: faker.internet.url(),
-    })),
-  });
-
-  const count = await prisma.showProvider.count();
-  console.log(`- 👍 ${count} show providers`);
-}
-
-async function seedExhibitors() {
-  await prisma.exhibitor.createMany({
-    data: repeate({ min: 10, max: 70 }, () => ({
-      eventDescription: faker.helpers.maybe(
-        () => faker.lorem.paragraph({ min: 1, max: 3 }),
-        { probability: 1 / 5 },
-      ),
-      image: faker.string.uuid(),
-      name: faker.company.name(),
-      tags: faker.helpers.arrayElements(Object.values(ExhibitorTag), {
-        min: 1,
-        max: 4,
-      }),
-      url: faker.internet.url(),
-    })),
-  });
-
-  const count = await prisma.exhibitor.count();
-  console.log(`- 👍 ${count} exhibitors`);
-}
-
-async function seedShowEvents() {
-  const OPENING_TIME = DateTime.fromISO("2024-06-08T10:00:00.000+02:00");
-
-  await prisma.showEvent.createMany({
-    data: Array.from({ length: 18 }, (_, index) => ({
-      description: faker.lorem.paragraph({ min: 1, max: 3 }),
-      startTime: OPENING_TIME.plus({
-        // [0, 8]: first day
-        // [9, 17]: second day
-        day: Math.floor(index / 9),
-        hour: index % 9,
-        minute:
-          index % 9 < 8
-            ? faker.helpers.maybe(
-                () => faker.helpers.arrayElement([15, 30, 45]),
-                { probability: 1 / 4 },
-              )
-            : undefined,
-      }).toJSDate(),
-      registrationUrl: faker.helpers.maybe(() => faker.internet.url(), {
-        probability: 1 / 5,
-      }),
-      isOutside: faker.datatype.boolean(),
-    })),
-  });
-
-  const count = await prisma.showEvent.count();
-  console.log(`- 👍 ${count} show events`);
 }
 
 function nullableBoolean() {

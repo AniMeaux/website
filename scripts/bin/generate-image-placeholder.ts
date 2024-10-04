@@ -1,4 +1,7 @@
-import { ImageUrl } from "#core/data-display/image-url";
+#!/usr/bin/env tsx
+
+import "#env";
+import { ImageUrl } from "@animeaux/core";
 import { getPixels } from "@unpic/pixels";
 import { encode } from "blurhash";
 import invariant from "tiny-invariant";
@@ -23,5 +26,4 @@ const blurhash = encode(
   4,
 );
 
-console.log("blurhash:", blurhash);
 console.log("Image URL:", ImageUrl.stringify({ id: imageId, blurhash }));

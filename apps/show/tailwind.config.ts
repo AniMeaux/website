@@ -88,6 +88,10 @@ const theme: Config = {
           "radix-collapsible-content-close 150ms ease-in-out",
       },
 
+      data: {
+        visible: "visible=true",
+      },
+
       keyframes: {
         "radix-collapsible-content-open": {
           "0%": { height: "0px" },

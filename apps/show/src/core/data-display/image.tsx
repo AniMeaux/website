@@ -1,58 +1,44 @@
-import { useConfig } from "#core/config";
-import type { ImageData } from "#core/data-display/image-url";
-import type { ImageShapeId } from "#generated/image-shape-id";
-import sprite from "#generated/image-shapes-sprite.svg";
 import type { ScreenSize } from "#generated/theme";
 import { theme } from "#generated/theme";
+import type { ImageData } from "@animeaux/core";
 import { cn } from "@animeaux/core";
 import { blurhashToDataUri } from "@unpic/placeholder";
 import orderBy from "lodash.orderby";
-import { useId } from "react";
+import { forwardRef } from "react";
 
-type ImageSize = (typeof IMAGE_SIZES)[number];
-type AspectRatio = "none" | "1:1" | "4:3" | "16:9" | "16:10";
-type ObjectFit = "cover" | "contain";
-type ImageShapeColor = "alabaster" | "mystic" | "paleBlue" | "prussianBlue";
-type ImageShapeSide = "left" | "right";
-export type DynamicImageProps = Omit<
-  React.ComponentPropsWithoutRef<"img">,
-  "alt" | "sizes"
-> & {
-  alt: string;
-  aspectRatio?: AspectRatio;
-  fallbackSize: ImageSize;
-  image: ImageData;
-  objectFit?: ObjectFit;
-  shape?: {
-    id: ImageShapeId;
-    color: ImageShapeColor;
-    side: ImageShapeSide;
-  };
-  sizes: Partial<Record<ScreenSize, string>> & {
-    // `default` is mandatory.
-    default: string;
-  };
-};
-
-export function DynamicImage({
-  image,
-  alt,
-  sizes: sizesProp,
-  aspectRatio = "1:1",
-  objectFit = "contain",
-  shape,
-  fallbackSize,
-  loading = "lazy",
-  className,
-  style: styleProp,
-  ...rest
-}: DynamicImageProps) {
-  const config = useConfig();
-
+export const DynamicImage = forwardRef<
+  React.ComponentRef<"img">,
+  Omit<React.ComponentPropsWithoutRef<"img">, "alt" | "sizes"> & {
+    alt: string;
+    aspectRatio?: AspectRatio;
+    fallbackSize: ImageSize;
+    image: ImageData;
+    objectFit?: ObjectFit;
+    sizes: Partial<Record<ScreenSize, string>> & {
+      // `default` is mandatory.
+      default: string;
+    };
+  }
+>(function DynamicImage(
+  {
+    image,
+    alt,
+    sizes: sizesProp,
+    aspectRatio = "1:1",
+    objectFit = "contain",
+    fallbackSize,
+    loading = "lazy",
+    className,
+    style: styleProp = {},
+    ...props
+  },
+  ref,
+) {
   const srcSet = IMAGE_SIZES.map((size) => {
-    const url = createImageUrl(config.cloudinaryName, image.id, {
+    const url = createImageUrl(CLIENT_ENV.CLOUDINARY_CLOUD_NAME, image.id, {
       size,
       aspectRatio,
+      objectFit,
     });
 
     return `${url} ${size}w`;
@@ -70,63 +56,42 @@ export function DynamicImage({
     return sizes;
   }, []).join(",");
 
-  const imageShapeInstanceId = `image-shape-${useId()}`;
-  const style = styleProp ?? {};
+  const style = styleProp;
 
   if (image.blurhash != null) {
     style.backgroundImage = `url(${blurhashToDataUri(image.blurhash, 16, 16)})`;
   }
 
-  if (shape != null) {
-    style.clipPath = `url(#${imageShapeInstanceId})`;
-  }
-
   return (
-    <>
-      <img
-        {...rest}
-        alt={alt}
-        loading={loading}
-        src={createImageUrl(config.cloudinaryName, image.id, {
-          size: fallbackSize,
-          aspectRatio,
-        })}
-        srcSet={srcSet}
-        sizes={sizes}
-        className={cn(
-          "bg-cover",
-          ASPECT_RATIO_CLASS_NAME[aspectRatio],
-          OBJECT_FIT_CLASS_NAME[objectFit],
-          className,
-        )}
-        style={style}
-      />
-
-      {shape != null ? (
-        <svg
-          stroke="none"
-          viewBox="0 0 1 1"
-          className={cn(
-            "absolute left-0 top-0 -z-10 aspect-square w-full -translate-y-1 transition-transform duration-100 ease-in-out md:-translate-y-2",
-            IMAGE_SHAPE_COLOR_CLASS_NAME[shape.color],
-            IMAGE_SHAPE_SIDE_CLASS_NAME[shape.side],
-          )}
-        >
-          <defs>
-            <clipPath
-              id={imageShapeInstanceId}
-              clipPathUnits="objectBoundingBox"
-            >
-              <use href={`${sprite}#${shape.id}`} />
-            </clipPath>
-          </defs>
-
-          <use href={`${sprite}#${shape.id}`} />
-        </svg>
-      ) : null}
-    </>
+    <img
+      {...props}
+      ref={ref}
+      alt={alt}
+      loading={loading}
+      src={createImageUrl(CLIENT_ENV.CLOUDINARY_CLOUD_NAME, image.id, {
+        size: fallbackSize,
+        aspectRatio,
+        objectFit,
+      })}
+      srcSet={srcSet}
+      sizes={sizes}
+      className={cn(
+        image.blurhash != null ? "bg-cover" : undefined,
+        ASPECT_RATIO_CLASS_NAME[aspectRatio],
+        OBJECT_FIT_CLASS_NAME[objectFit],
+        className,
+      )}
+      style={style}
+    />
   );
-}
+});
+
+// Ordered by decreasing size.
+const IMAGE_SIZES = ["2048", "1536", "1024", "512", "256", "128"] as const;
+type ImageSize = (typeof IMAGE_SIZES)[number];
+
+type AspectRatio = "none" | "1:1" | "4:3" | "16:9" | "16:10";
+type ObjectFit = "cover" | "contain";
 
 export function createImageMedia(screenSize: ScreenSize, width?: string) {
   return [`(min-width: ${theme.screens[screenSize]})`, width]
@@ -139,10 +104,12 @@ export function createImageUrl(
   imageId: string,
   {
     aspectRatio = "none",
+    objectFit = "contain",
     format = "auto",
     size,
   }: {
     aspectRatio?: AspectRatio;
+    objectFit?: ObjectFit;
     format?: "auto" | "jpg";
     size?: ImageSize;
   },
@@ -168,7 +135,8 @@ export function createImageUrl(
       // https://cloudinary.com/documentation/transformation_reference#ar_aspect_ratio
       `ar_${aspectRatio}`,
       // https://cloudinary.com/documentation/transformation_reference#c_fill
-      "c_fill",
+      // https://cloudinary.com/documentation/transformation_reference#c_fit
+      objectFit === "contain" ? "c_fit" : "c_fill",
     );
   }
 
@@ -176,9 +144,6 @@ export function createImageUrl(
 
   return `https://res.cloudinary.com/${cloudName}/image/upload/${transformationsStr}/${imageId}`;
 }
-
-// Ordered by decreasing size.
-const IMAGE_SIZES = ["2048", "1536", "1024", "512", "256", "128"] as const;
 
 // Larger to smaller.
 const SCREEN_SIZES = orderBy(
@@ -206,16 +171,4 @@ const ASPECT_RATIO_CLASS_NAME: Record<AspectRatio, string> = {
 const OBJECT_FIT_CLASS_NAME: Record<ObjectFit, string> = {
   contain: "object-contain",
   cover: "object-cover",
-};
-
-const IMAGE_SHAPE_COLOR_CLASS_NAME: Record<ImageShapeColor, string> = {
-  alabaster: "fill-alabaster",
-  mystic: "fill-mystic",
-  paleBlue: "fill-paleBlue",
-  prussianBlue: "fill-prussianBlue",
-};
-
-const IMAGE_SHAPE_SIDE_CLASS_NAME: Record<ImageShapeSide, string> = {
-  left: "-translate-x-1 md:-translate-x-2 -rotate-12",
-  right: "translate-x-1 md:translate-x-2 rotate-12",
 };

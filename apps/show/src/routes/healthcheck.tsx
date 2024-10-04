@@ -5,7 +5,7 @@ import { prisma } from "#core/prisma.server";
 export async function loader() {
   try {
     // We're good if we can connect to the database and make a simple query.
-    await prisma.exhibitor.count();
+    await prisma.user.count();
 
     return new Response("OK");
   } catch (error) {
