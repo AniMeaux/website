@@ -1,6 +1,5 @@
 import { ProseInlineAction } from "#core/actions/actions";
 import { SocialLink } from "#core/actions/social-link";
-import { useConfig } from "#core/config";
 import { FooterWave } from "#core/layout/footer-wave";
 import { LegalBackground } from "#core/layout/legal-background";
 import { Section } from "#core/layout/section";
@@ -29,8 +28,6 @@ function WaitingWaveSection() {
 }
 
 function WaitingLinksSection() {
-  const { animeauxUrl, facebookUrl, instagramUrl } = useConfig();
-
   return (
     <section className="grid grid-cols-1 gap-4 bg-paleBlue px-page-narrow py-4 md:grid-cols-2 md:items-center md:px-page-normal lg:gap-8">
       <img
@@ -41,11 +38,11 @@ function WaitingLinksSection() {
 
       <Section.TextAside className="max-w-sm justify-self-center md:max-w-none md:justify-self-stretch">
         <div className="grid grid-flow-col justify-start gap-1">
-          <SocialLink to={facebookUrl}>
+          <SocialLink to={CLIENT_ENV.FACEBOOK_URL}>
             <Pictogram id="facebook" className="text-[24px]" />
           </SocialLink>
 
-          <SocialLink to={instagramUrl}>
+          <SocialLink to={CLIENT_ENV.INSTAGRAM_URL}>
             <Pictogram id="instagram" className="text-[24px]" />
           </SocialLink>
         </div>
@@ -67,7 +64,7 @@ function WaitingLinksSection() {
         <p>
           Le Salon des Ani’Meaux est organisé par l'association{" "}
           <ProseInlineAction asChild>
-            <Link to={animeauxUrl}>Ani’Meaux</Link>
+            <Link to={CLIENT_ENV.ANIMEAUX_URL}>Ani’Meaux</Link>
           </ProseInlineAction>
           .
         </p>

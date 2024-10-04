@@ -1,4 +1,3 @@
-import { useConfig } from "#core/config";
 import type { ScreenSize } from "#generated/theme";
 import { theme } from "#generated/theme";
 import type { ImageData } from "@animeaux/core";
@@ -35,10 +34,8 @@ export const DynamicImage = forwardRef<
   },
   ref,
 ) {
-  const config = useConfig();
-
   const srcSet = IMAGE_SIZES.map((size) => {
-    const url = createImageUrl(config.cloudinaryName, image.id, {
+    const url = createImageUrl(CLIENT_ENV.CLOUDINARY_CLOUD_NAME, image.id, {
       size,
       aspectRatio,
       objectFit,
@@ -71,7 +68,7 @@ export const DynamicImage = forwardRef<
       ref={ref}
       alt={alt}
       loading={loading}
-      src={createImageUrl(config.cloudinaryName, image.id, {
+      src={createImageUrl(CLIENT_ENV.CLOUDINARY_CLOUD_NAME, image.id, {
         size: fallbackSize,
         aspectRatio,
         objectFit,

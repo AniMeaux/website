@@ -1,7 +1,6 @@
-import { useConfig } from "#core/config";
-import { createConfig } from "#core/config.server";
 import { ErrorPage } from "#core/data-display/error-page";
 import { createImageUrl } from "#core/data-display/image";
+import { getClientEnv } from "#core/env.server";
 import { asRouteHandle } from "#core/handles";
 import { getPageTitle, pageDescription } from "#core/page-title";
 import { ScrollRestorationLocationState } from "#core/scroll-restoration";
@@ -19,6 +18,7 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useLoaderData,
   useLocation,
   useMatches,
 } from "@remix-run/react";
@@ -70,27 +70,31 @@ export const links: LinksFunction = () => {
 };
 
 export async function loader() {
-  return json({ config: createConfig() });
+  return json({ CLIENT_ENV: getClientEnv() });
 }
 
 export function ErrorBoundary() {
   return (
     <Document isErrorPage>
       <ErrorPage isRoot />
+
+      <GlobalClientEnv />
     </Document>
   );
 }
 
 export default function App() {
-  const { cloudinaryName, googleTagManagerId, publicHost } = useConfig();
+  const { CLIENT_ENV } = useLoaderData<typeof loader>();
 
   return (
     <Document
-      cloudinaryName={cloudinaryName}
-      googleTagManagerId={googleTagManagerId}
-      publicHost={publicHost}
+      cloudinaryName={CLIENT_ENV.CLOUDINARY_CLOUD_NAME}
+      googleTagManagerId={CLIENT_ENV.GOOGLE_TAG_MANAGER_ID}
+      publicHost={CLIENT_ENV.PUBLIC_HOST}
     >
       <Outlet />
+
+      <GlobalClientEnv clientEnv={CLIENT_ENV} />
     </Document>
   );
 }
@@ -207,6 +211,20 @@ function Document({
         <Scripts />
       </body>
     </html>
+  );
+}
+
+function GlobalClientEnv({
+  clientEnv = {},
+}: {
+  clientEnv?: Record<string, any>;
+}) {
+  return (
+    <script
+      dangerouslySetInnerHTML={{
+        __html: `window.CLIENT_ENV = ${JSON.stringify(clientEnv)};`,
+      }}
+    />
   );
 }
 

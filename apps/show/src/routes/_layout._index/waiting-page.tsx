@@ -1,6 +1,5 @@
 import { Action } from "#core/actions/actions";
 import { SocialLink } from "#core/actions/social-link";
-import { useConfig } from "#core/config";
 import { DynamicImage } from "#core/data-display/image";
 import { HighLightBackground } from "#core/layout/highlight-background";
 import { LazyElement } from "#core/layout/lazy-element";
@@ -134,8 +133,6 @@ function PreviousEditionsSection() {
 }
 
 function FollowSection() {
-  const { facebookUrl, instagramUrl } = useConfig();
-
   return (
     <Section width="full" columnCount={1}>
       <LazyElement asChild>
@@ -151,11 +148,11 @@ function FollowSection() {
           </p>
 
           <div className="grid grid-cols-[auto_auto] justify-center gap-2">
-            <SocialLink to={facebookUrl}>
+            <SocialLink to={CLIENT_ENV.FACEBOOK_URL}>
               <Pictogram id="facebook" className="text-[48px]" />
             </SocialLink>
 
-            <SocialLink to={instagramUrl}>
+            <SocialLink to={CLIENT_ENV.INSTAGRAM_URL}>
               <Pictogram id="instagram" className="text-[48px]" />
             </SocialLink>
           </div>

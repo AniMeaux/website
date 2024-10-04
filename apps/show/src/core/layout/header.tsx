@@ -1,4 +1,3 @@
-import { useConfig } from "#core/config";
 import { createImageMedia } from "#core/data-display/image";
 import { Routes } from "#core/navigation";
 import logoMedium from "#images/logo-medium.svg";
@@ -10,9 +9,11 @@ import { Link, useLocation } from "@remix-run/react";
 
 export function Header() {
   const location = useLocation();
-  const { featureFlagSiteOnline } = useConfig();
 
-  if (!featureFlagSiteOnline && location.pathname === Routes.home()) {
+  if (
+    !CLIENT_ENV.FEATURE_FLAG_SITE_ONLINE &&
+    location.pathname === Routes.home()
+  ) {
     return null;
   }
 

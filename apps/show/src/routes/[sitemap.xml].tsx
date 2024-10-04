@@ -1,11 +1,8 @@
-import { createConfig } from "#core/config.server";
 import { Routes } from "#core/navigation";
 import { SORTED_PREVIOUS_EDITIONS } from "#previous-editions/previous-edition";
 import { renderToStaticMarkup } from "react-dom/server";
 
 export async function loader() {
-  const { publicHost } = createConfig();
-
   const urlDefinitions: UrlDefinition[] = [
     { path: Routes.home(), changeFrequency: "weekly" },
   ];
@@ -21,7 +18,7 @@ export async function loader() {
     <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
       {urlDefinitions.map((url) => (
         <url key={url.path}>
-          <loc>{`${publicHost}${url.path}`}</loc>
+          <loc>{`${process.env.PUBLIC_HOST}${url.path}`}</loc>
           <changefreq>{url.changeFrequency}</changefreq>
           {url.priority != null && <priority>{url.priority}</priority>}
         </url>
