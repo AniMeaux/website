@@ -68,20 +68,7 @@ function TitleSection() {
   return (
     <Section>
       <LazyElement asChild>
-        <Section.TextAside className="-translate-x-4 opacity-0 transition-[opacity,transform] duration-1000 data-visible:translate-x-0 data-visible:opacity-100">
-          <Section.Title asChild>
-            <h1>Éditions précédentes</h1>
-          </Section.Title>
-
-          <p>
-            Revivez les moments forts des éditions précédentes de notre salon en
-            parcourant notre galerie de photos.
-          </p>
-        </Section.TextAside>
-      </LazyElement>
-
-      <LazyElement asChild>
-        <Section.ImageAside className="aspect-4/3 translate-x-4 opacity-0 transition-[opacity,transform] duration-1000 data-visible:translate-x-0 data-visible:opacity-100">
+        <Section.ImageAside className="aspect-square translate-x-4 opacity-0 transition-[opacity,transform] duration-1000 data-visible:translate-x-0 data-visible:opacity-100">
           <DynamicImage
             image={{
               id: "/show/pages/pott-et-pollen-photos-ajfy5llvexzgl0df2rsy",
@@ -90,11 +77,22 @@ function TitleSection() {
             sizes={{ default: "100vw", md: "50vw", lg: "512px" }}
             loading="eager"
             alt="Pott regarde un album photo."
-            aspectRatio="none"
-            className="absolute inset-x-0 top-0 w-full"
+            aspectRatio="1:1"
+            className="w-full"
           />
         </Section.ImageAside>
       </LazyElement>
+
+      <Section.TextAside className="md:col-start-1 md:row-start-1">
+        <Section.Title asChild>
+          <h1>Éditions précédentes</h1>
+        </Section.Title>
+
+        <p>
+          Revivez les moments forts des éditions précédentes de notre salon en
+          parcourant notre galerie de photos.
+        </p>
+      </Section.TextAside>
     </Section>
   );
 }

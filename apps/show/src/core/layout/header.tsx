@@ -1,22 +1,19 @@
-import type { Config } from "#core/config";
-import { useConfig } from "#core/config";
 import { createImageMedia } from "#core/data-display/image";
-import { hasShowEnded } from "#core/dates";
 import { Routes } from "#core/navigation";
-import { Icon } from "#generated/icon";
 import logoMedium from "#images/logo-medium.svg";
 import logoSmall from "#images/logo-small.svg";
 import { cn } from "@animeaux/core";
 import { Primitive } from "@animeaux/react-primitives";
 import * as NavigationMenu from "@radix-ui/react-navigation-menu";
-import { Link, NavLink, useLocation } from "@remix-run/react";
-import { forwardRef } from "react";
+import { Link, useLocation } from "@remix-run/react";
 
 export function Header() {
   const location = useLocation();
-  const { featureFlagSiteOnline } = useConfig();
 
-  if (!featureFlagSiteOnline && location.pathname === Routes.home()) {
+  if (
+    !CLIENT_ENV.FEATURE_FLAG_SITE_ONLINE &&
+    location.pathname === Routes.home()
+  ) {
     return null;
   }
 
@@ -29,9 +26,6 @@ export function Header() {
 }
 
 function SmallHeader() {
-  const config = useConfig();
-  const { featureFlagSiteOnline } = config;
-
   return (
     <header className="relative z-20 grid w-full grid-cols-1 md:hidden">
       <NavigationMenu.Root className="grid grid-cols-1">
@@ -39,35 +33,6 @@ function SmallHeader() {
           <NavigationMenu.Item className="flex">
             <HomeNavItem />
           </NavigationMenu.Item>
-
-          {featureFlagSiteOnline ? (
-            <NavigationMenu.Item className="flex">
-              <NavigationMenu.Trigger
-                // We don't want the menu to open or close on hover.
-                // https://github.com/radix-ui/primitives/issues/1630
-                onPointerMove={(event) => event.preventDefault()}
-                onPointerLeave={(event) => event.preventDefault()}
-                className="group flex aspect-square w-4 items-center justify-center text-[24px] transition-transform duration-100 ease-in-out active:scale-95 focus-visible:focus-compact-mystic"
-              >
-                <Icon
-                  id="bars-light"
-                  className="group-data-[state=open]:hidden"
-                />
-                <Icon
-                  id="x-mark-light"
-                  className="group-data-[state=closed]:hidden"
-                />
-              </NavigationMenu.Trigger>
-
-              <NavigationMenu.Content className="grid grid-cols-1 gap-2">
-                {getNavigationItems(config).map(({ to, label }) => (
-                  <NavigationMenu.Link asChild key={to}>
-                    <NavItem to={to}>{label}</NavItem>
-                  </NavigationMenu.Link>
-                ))}
-              </NavigationMenu.Content>
-            </NavigationMenu.Item>
-          ) : null}
         </NavigationMenu.List>
 
         <NavigationMenu.Viewport
@@ -84,36 +49,13 @@ function SmallHeader() {
 }
 
 function LargeHeader() {
-  const config = useConfig();
-  const { featureFlagSiteOnline } = config;
-
   return (
     <header className="z-20 hidden md:grid md:grid-cols-1">
       <nav className="grid grid-cols-[auto_auto] items-center justify-between gap-2 pb-1 pt-safe-1 px-safe-page-normal">
         <HomeNavItem />
-
-        {featureFlagSiteOnline ? (
-          <div className="grid grid-flow-col items-center justify-end">
-            {getNavigationItems(config).map(({ to, label }) => (
-              <NavItem key={to} to={to}>
-                {label}
-              </NavItem>
-            ))}
-          </div>
-        ) : null}
       </nav>
     </header>
   );
-}
-
-function getNavigationItems({ ticketingUrl }: Config) {
-  return [
-    hasShowEnded() ? null : { to: ticketingUrl, label: "Billetterie" },
-    { to: Routes.exhibitors(), label: "Exposants" },
-    { to: Routes.program(), label: "Programme" },
-    { to: Routes.access(), label: "Accès" },
-    { to: Routes.faq(), label: "FAQ" },
-  ].filter(Boolean);
 }
 
 function HomeNavItem({
@@ -137,24 +79,6 @@ function HomeNavItem({
     </Link>
   );
 }
-
-const NavItem = forwardRef<
-  React.ElementRef<typeof NavLink>,
-  React.PropsWithChildren<
-    Pick<React.ComponentPropsWithoutRef<typeof NavLink>, "to">
-  >
->(function NavItem({ children, to, ...rest }, ref) {
-  return (
-    <NavAction asChild>
-      <NavLink {...rest} ref={ref} to={to} prefetch="intent" role="menuitem">
-        <NavAction.Content>
-          {children}
-          <NavAction.Marker />
-        </NavAction.Content>
-      </NavLink>
-    </NavAction>
-  );
-});
 
 function NavAction({
   className,

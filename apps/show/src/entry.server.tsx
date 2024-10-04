@@ -1,3 +1,4 @@
+import { checkEnv, getClientEnv } from "#core/env.server";
 import type { EntryContext } from "@remix-run/node";
 import { createReadableStreamFromReadable } from "@remix-run/node";
 import { RemixServer } from "@remix-run/react";
@@ -6,6 +7,9 @@ import { PassThrough } from "node:stream";
 import type { RenderToPipeableStreamOptions } from "react-dom/server";
 import { renderToPipeableStream } from "react-dom/server";
 import invariant from "tiny-invariant";
+
+checkEnv();
+global.CLIENT_ENV = getClientEnv();
 
 const ABORT_DELAY = 20_000;
 
