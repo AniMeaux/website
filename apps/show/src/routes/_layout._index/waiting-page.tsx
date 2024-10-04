@@ -34,7 +34,7 @@ function LogoSection() {
 
 function ComeBackSection() {
   return (
-    <Section>
+    <Section.Root>
       <LazyElement asChild>
         <Section.ImageAside className="aspect-square translate-y-4 opacity-0 transition-[opacity,transform] duration-1000 data-visible:translate-y-0 data-visible:opacity-100">
           <DynamicImage
@@ -71,13 +71,13 @@ function ComeBackSection() {
           </p>
         </Section.TextAside>
       </LazyElement>
-    </Section>
+    </Section.Root>
   );
 }
 
 function PreviousEditionsSection() {
   return (
-    <Section width="full" height="large" columnCount={1}>
+    <Section.Root width="full" height="large" columnCount={1}>
       <div className="relative grid grid-cols-1 gap-2 py-2 px-safe-page-narrow sm:gap-4 md:grid-cols-2 md:items-center md:py-4 md:px-safe-page-normal lg:gap-8">
         <HighLightBackground
           color="alabaster"
@@ -128,13 +128,13 @@ function PreviousEditionsSection() {
           </Section.TextAside>
         </LazyElement>
       </div>
-    </Section>
+    </Section.Root>
   );
 }
 
 function FollowSection() {
   return (
-    <Section width="full" columnCount={1}>
+    <Section.Root width="full" columnCount={1}>
       <LazyElement asChild>
         <Section.TextAside className="translate-y-4 opacity-0 transition-[opacity,transform] duration-1000 px-safe-page-narrow data-visible:translate-y-0 data-visible:opacity-100">
           <Section.Title className="md:text-center">
@@ -158,6 +158,6 @@ function FollowSection() {
           </div>
         </Section.TextAside>
       </LazyElement>
-    </Section>
+    </Section.Root>
   );
 }

@@ -66,7 +66,7 @@ export default function Route() {
 
 function TitleSection() {
   return (
-    <Section>
+    <Section.Root>
       <LazyElement asChild>
         <Section.ImageAside className="aspect-square translate-x-4 opacity-0 transition-[opacity,transform] duration-1000 data-visible:translate-x-0 data-visible:opacity-100">
           <DynamicImage
@@ -93,7 +93,7 @@ function TitleSection() {
           parcourant notre galerie de photos.
         </p>
       </Section.TextAside>
-    </Section>
+    </Section.Root>
   );
 }
 
@@ -103,7 +103,7 @@ function PhotoGrid() {
   const photograph = PREVIOUS_EDITION_PHOTOGRAPH[edition];
 
   return (
-    <Section columnCount={1}>
+    <Section.Root columnCount={1}>
       <Tabs>
         {SORTED_PREVIOUS_EDITIONS.map((edition) => (
           <Tab
@@ -154,7 +154,7 @@ function PhotoGrid() {
           </Await>
         </Suspense>
       </ul>
-    </Section>
+    </Section.Root>
   );
 }
 
