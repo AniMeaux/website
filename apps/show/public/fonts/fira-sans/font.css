@@ -1,0 +1,23 @@
+@font-face {
+  font-family: "Fira Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(/fonts/fira-sans/fira-sans-regular.ttf) format("truetype");
+}
+
+@font-face {
+  font-family: "Fira Sans";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(/fonts/fira-sans/fira-sans-medium.ttf) format("truetype");
+}
+
+@font-face {
+  font-family: "Fira Sans";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(/fonts/fira-sans/fira-sans-semi-bold.ttf) format("truetype");
+}
