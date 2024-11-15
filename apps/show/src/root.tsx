@@ -49,20 +49,31 @@ export const links: LinksFunction = () => {
     { rel: "icon", href: faviconDark, media: "(prefers-color-scheme: dark)" },
     { rel: "mask-icon", href: maskIcon, color: theme.colors.mystic.DEFAULT },
     { rel: "apple-touch-icon", href: appleTouchIcon },
-    { rel: "preconnect", href: "https://fonts.googleapis.com" },
-    {
-      rel: "preconnect",
-      href: "https://fonts.gstatic.com",
-      crossOrigin: "anonymous",
-    },
-    {
-      rel: "stylesheet",
-      href: "https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;600&display=swap",
-    },
+
     { rel: "stylesheet", href: "/fonts/caramel-mocacino/font.css" },
     {
       rel: "preload",
       href: "/fonts/caramel-mocacino/caramel-mocacino.otf",
+      as: "font",
+      crossOrigin: "anonymous",
+    },
+
+    { rel: "stylesheet", href: "/fonts/fira-sans/font.css" },
+    {
+      rel: "preload",
+      href: "/fonts/fira-sans/fira-sans-medium.ttf",
+      as: "font",
+      crossOrigin: "anonymous",
+    },
+    {
+      rel: "preload",
+      href: "/fonts/fira-sans/fira-sans-regular.ttf",
+      as: "font",
+      crossOrigin: "anonymous",
+    },
+    {
+      rel: "preload",
+      href: "/fonts/fira-sans/fira-sans-semi-bold.ttf",
       as: "font",
       crossOrigin: "anonymous",
     },
