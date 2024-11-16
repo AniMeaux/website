@@ -27,7 +27,7 @@ export function ErrorPage({ isRoot = false }: { isRoot?: boolean }) {
       )}
     >
       <div className={cn("grid grid-cols-1", isRoot ? "py-safe-0" : undefined)}>
-        <Section columnCount={isRoot ? 1 : 2}>
+        <Section.Root columnCount={isRoot ? 1 : 2}>
           {!isRoot ? (
             <LazyElement asChild>
               <Section.ImageAside className="aspect-square -translate-x-4 opacity-0 transition-[opacity,transform] duration-1000 data-visible:translate-x-0 data-visible:opacity-100">
@@ -55,7 +55,7 @@ export function ErrorPage({ isRoot = false }: { isRoot?: boolean }) {
 
             {meta.action}
           </Section.TextAside>
-        </Section>
+        </Section.Root>
       </div>
     </main>
   );

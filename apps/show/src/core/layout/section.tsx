@@ -5,8 +5,8 @@ import { forwardRef } from "react";
 type SectionWidth = "full" | "narrow" | "normal";
 type SectionHeight = "large" | "normal";
 
-export const Section = Object.assign(
-  forwardRef<
+export const Section = {
+  Root: forwardRef<
     React.ComponentRef<typeof Primitive.section>,
     React.ComponentPropsWithoutRef<typeof Primitive.section> & {
       width?: SectionWidth;
@@ -14,24 +14,24 @@ export const Section = Object.assign(
       columnCount?: 1 | 2;
       isTitleOnly?: boolean;
     }
-  >(function Section(
+  >(function SectionRoot(
     {
       width = "normal",
       height = "normal",
       columnCount = 2,
       isTitleOnly = false,
       className,
-      ...rest
+      ...props
     },
     ref,
   ) {
     return (
       <Primitive.section
-        {...rest}
+        {...props}
         ref={ref}
         className={cn(
           "grid grid-cols-1",
-          SECTION_WIDTH_CLASS_NAMES[width],
+          SECTION_ROOT_WIDTH_CLASS_NAMES[width],
           isTitleOnly
             ? height === "normal"
               ? "pt-4"
@@ -47,73 +47,73 @@ export const Section = Object.assign(
       />
     );
   }),
-  {
-    TextAside: forwardRef<
-      React.ComponentRef<typeof Primitive.aside>,
-      React.ComponentPropsWithoutRef<typeof Primitive.aside>
-    >(function SectionTextAside({ className, ...rest }, ref) {
-      return (
-        <Primitive.aside
-          {...rest}
-          ref={ref}
-          className={cn("grid grid-cols-1 gap-2", className)}
-        />
-      );
-    }),
 
-    Title: function SectionTitle({
-      className,
-      ...rest
-    }: React.ComponentPropsWithoutRef<typeof Primitive.h2>) {
-      return (
-        <Primitive.h2
-          {...rest}
-          className={cn(
-            "text-mystic text-title-small md:text-title-small",
-            className,
-          )}
-        />
-      );
-    },
+  TextAside: forwardRef<
+    React.ComponentRef<typeof Primitive.aside>,
+    React.ComponentPropsWithoutRef<typeof Primitive.aside>
+  >(function SectionTextAside({ className, ...props }, ref) {
+    return (
+      <Primitive.aside
+        {...props}
+        ref={ref}
+        className={cn("grid grid-cols-1 gap-2", className)}
+      />
+    );
+  }),
 
-    Action: function SectionAction({
-      isCentered = false,
-      className,
-      ...rest
-    }: React.ComponentPropsWithoutRef<typeof Primitive.button> & {
+  Title: forwardRef<
+    React.ComponentRef<typeof Primitive.h2>,
+    React.ComponentPropsWithoutRef<typeof Primitive.h2>
+  >(function SectionTitle({ className, ...props }, ref) {
+    return (
+      <Primitive.h2
+        {...props}
+        ref={ref}
+        className={cn(
+          "text-mystic text-title-small md:text-title-small",
+          className,
+        )}
+      />
+    );
+  }),
+
+  Action: forwardRef<
+    React.ComponentRef<typeof Primitive.button>,
+    React.ComponentPropsWithoutRef<typeof Primitive.button> & {
       isCentered?: boolean;
-    }) {
-      return (
-        <Primitive.button
-          {...rest}
-          className={cn(
-            "justify-self-center",
-            isCentered ? undefined : "md:justify-self-start",
-            className,
-          )}
-        />
-      );
-    },
+    }
+  >(function SectionAction({ isCentered = false, className, ...props }, ref) {
+    return (
+      <Primitive.button
+        {...props}
+        ref={ref}
+        className={cn(
+          "justify-self-center",
+          isCentered ? undefined : "md:justify-self-start",
+          className,
+        )}
+      />
+    );
+  }),
 
-    ImageAside: forwardRef<
-      React.ComponentRef<typeof Primitive.aside>,
-      React.ComponentPropsWithoutRef<typeof Primitive.aside>
-    >(function SectionImageAside({ className, ...rest }, ref) {
-      return (
-        <Primitive.aside
-          {...rest}
-          ref={ref}
-          className={cn(
-            "relative grid w-full max-w-sm grid-cols-1 justify-self-center md:max-w-none md:justify-self-stretch",
-            className,
-          )}
-        />
-      );
-    }),
-  },
-);
+  ImageAside: forwardRef<
+    React.ComponentRef<typeof Primitive.aside>,
+    React.ComponentPropsWithoutRef<typeof Primitive.aside>
+  >(function SectionImageAside({ className, ...props }, ref) {
+    return (
+      <Primitive.aside
+        {...props}
+        ref={ref}
+        className={cn(
+          "relative grid w-full max-w-sm grid-cols-1 justify-self-center md:max-w-none md:justify-self-stretch",
+          className,
+        )}
+      />
+    );
+  }),
+};
 
-const SECTION_WIDTH_CLASS_NAMES: Record<SectionWidth, string> = {
+const SECTION_ROOT_WIDTH_CLASS_NAMES: Record<SectionWidth, string> = {
   full: "",
   narrow: cn("px-safe-page-narrow"),
   normal: cn("px-safe-page-narrow md:px-safe-page-normal"),
