@@ -1,6 +1,6 @@
 import type { InlineHelperProps } from "#core/data-display/helper";
 import { InlineHelper } from "#core/data-display/helper";
-import { joinReactNodes } from "#core/join-react-nodes";
+import { joinReactNodes } from "@animeaux/core";
 
 export function ErrorsInlineHelper({
   errors,

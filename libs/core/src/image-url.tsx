@@ -1,5 +1,5 @@
 import { SearchParamsIO } from "@animeaux/search-params-io";
-import { createPath } from "@remix-run/react";
+import { createPath, parsePath } from "@remix-run/react";
 import invariant from "tiny-invariant";
 
 export type ImageData = {
@@ -9,14 +9,14 @@ export type ImageData = {
 
 export const ImageUrl = {
   parse(image: string): ImageData {
-    const [id, searchParams] = image.split("?");
-    invariant(id != null, "The image should exists");
+    const path = parsePath(image);
+    invariant(path.pathname != null, "The image should exists");
 
     const { blurhash } = BlurhashSearchParams.parse(
-      new URLSearchParams(searchParams),
+      new URLSearchParams(path.search),
     );
 
-    return { id, blurhash };
+    return { id: path.pathname, blurhash };
   },
 
   stringify(image: ImageData) {

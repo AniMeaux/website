@@ -1,7 +1,4 @@
-import {
-  cloudinary,
-  cloudinaryClient,
-} from "#core/cloudinary/cloudinary.server";
+import { cloudinary } from "#core/cloudinary/cloudinary.server";
 import { PreviousEdition } from "#previous-editions/previous-edition";
 import { getPixels } from "@unpic/pixels";
 import { encode } from "blurhash";
@@ -26,7 +23,7 @@ for (const edition of Object.values(PreviousEdition)) {
           4,
         );
 
-        await cloudinaryClient.uploader.add_context(
+        await cloudinary.client.uploader.add_context(
           ["blurhash", encodeURIComponent(blurhash)].join("="),
           [image.id],
         );

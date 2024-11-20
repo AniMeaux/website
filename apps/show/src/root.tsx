@@ -10,7 +10,7 @@ import faviconDark from "#images/favicon-dark.png";
 import faviconLight from "#images/favicon-light.png";
 import maskIcon from "#images/mask-icon.png";
 import { cn } from "@animeaux/core";
-import type { LinksFunction } from "@remix-run/node";
+import type { LinkDescriptor, LinksFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import {
   Links,
@@ -22,6 +22,7 @@ import {
   useLocation,
   useMatches,
 } from "@remix-run/react";
+import { withSentry } from "@sentry/remix";
 import { Settings } from "luxon";
 
 import "#tailwind.css";
@@ -50,33 +51,21 @@ export const links: LinksFunction = () => {
     { rel: "mask-icon", href: maskIcon, color: theme.colors.mystic.DEFAULT },
     { rel: "apple-touch-icon", href: appleTouchIcon },
 
-    { rel: "stylesheet", href: "/fonts/caramel-mocacino/font.css" },
-    {
+    { rel: "stylesheet", href: theme.fonts.serif.cssUrl },
+    ...theme.fonts.serif.variants.map<LinkDescriptor>((variant) => ({
       rel: "preload",
-      href: "/fonts/caramel-mocacino/caramel-mocacino.otf",
+      href: variant.url,
       as: "font",
       crossOrigin: "anonymous",
-    },
+    })),
 
-    { rel: "stylesheet", href: "/fonts/fira-sans/font.css" },
-    {
+    { rel: "stylesheet", href: theme.fonts.sans.cssUrl },
+    ...theme.fonts.sans.variants.map<LinkDescriptor>((variant) => ({
       rel: "preload",
-      href: "/fonts/fira-sans/fira-sans-medium.ttf",
+      href: variant.url,
       as: "font",
       crossOrigin: "anonymous",
-    },
-    {
-      rel: "preload",
-      href: "/fonts/fira-sans/fira-sans-regular.ttf",
-      as: "font",
-      crossOrigin: "anonymous",
-    },
-    {
-      rel: "preload",
-      href: "/fonts/fira-sans/fira-sans-semi-bold.ttf",
-      as: "font",
-      crossOrigin: "anonymous",
-    },
+    })),
   ];
 };
 
@@ -94,7 +83,9 @@ export function ErrorBoundary() {
   );
 }
 
-export default function App() {
+export default withSentry(App);
+
+function App() {
   const { CLIENT_ENV } = useLoaderData<typeof loader>();
 
   return (
@@ -198,10 +189,18 @@ function Document({
 
       <body
         className={cn(
-          "grid grid-cols-1 overflow-x-clip text-prussianBlue text-body-lowercase-default",
+          "grid grid-cols-1 text-prussianBlue text-body-lowercase-default",
+          isFullHeight ? "h-full" : "min-h-screen content-start",
+
+          // We never want horizontal scroll at the page level.
+          "overflow-x-clip",
+
           // Make sure children with absolute positionning are correctly placed.
           "relative",
-          isFullHeight ? "h-full" : "min-h-screen content-start",
+
+          // Make line breaks are added mid-word if needed.
+          // See https://tailwindcss.com/docs/word-break#break-words
+          "break-words",
         )}
       >
         {googleTagManagerId != null && (

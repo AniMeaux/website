@@ -1,4 +1,4 @@
-import { ProseInlineAction } from "#core/actions/actions";
+import { ProseInlineAction } from "#core/actions/prose-inline-action";
 import { SocialLink } from "#core/actions/social-link";
 import { FooterWave } from "#core/layout/footer-wave";
 import { LegalBackground } from "#core/layout/legal-background";
@@ -39,11 +39,11 @@ function WaitingLinksSection() {
       <Section.TextAside className="max-w-sm justify-self-center md:max-w-none md:justify-self-stretch">
         <div className="grid grid-flow-col justify-start gap-1">
           <SocialLink to={CLIENT_ENV.FACEBOOK_URL}>
-            <Pictogram id="facebook" className="text-[24px]" />
+            <Pictogram id="facebook" className="icon-24" />
           </SocialLink>
 
           <SocialLink to={CLIENT_ENV.INSTAGRAM_URL}>
-            <Pictogram id="instagram" className="text-[24px]" />
+            <Pictogram id="instagram" className="icon-24" />
           </SocialLink>
         </div>
 
@@ -56,7 +56,10 @@ function WaitingLinksSection() {
             salon@animeaux.org
           </ContactItem>
 
-          <ContactItem icon="image-solid" to={Routes.previousEditions()}>
+          <ContactItem
+            icon="image-solid"
+            to={Routes.previousEditions.toString()}
+          >
             Éditions précédentes
           </ContactItem>
         </ul>
@@ -87,10 +90,10 @@ function ContactItem({
       <Link
         to={to}
         prefetch="intent"
-        className="grid grid-cols-[auto_auto] items-start gap-1 rounded-0.5 transition-[color,transform] duration-100 ease-in-out active:scale-95 focus-visible:focus-spaced-mystic hover:text-mystic"
+        className="grid grid-cols-2-auto items-start gap-1 rounded-0.5 transition-opacity duration-normal active:opacity-80 can-hover:hover:opacity-90 can-hover:focus-visible:focus-spaced active:can-hover:hover:opacity-80"
       >
         <span className="flex h-2 items-center">
-          <Icon id={icon} className="text-[16px]" />
+          <Icon id={icon} className="icon-16" />
         </span>
 
         <span>{children}</span>
@@ -101,8 +104,8 @@ function ContactItem({
 
 function LegalSection() {
   return (
-    <section className="relative z-10 grid grid-cols-1 px-page-narrow py-2 md:px-page-normal">
-      <LegalBackground className="absolute left-0 top-0 -z-10 h-full w-full" />
+    <section className="relative z-just-above grid grid-cols-1 px-page-narrow py-2 md:px-page-normal">
+      <LegalBackground className="absolute left-0 top-0 -z-just-above h-full w-full" />
 
       <p className="text-center text-white text-caption-lowercase-emphasis">
         Copyright © {new Date().getFullYear()} Ani’Meaux

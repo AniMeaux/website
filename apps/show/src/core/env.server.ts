@@ -40,6 +40,10 @@ export function getClientEnv() {
     PARTNERS_FORM_URL: process.env.PARTNERS_FORM_URL,
     PRESS_RELEASE_URL: process.env.PRESS_RELEASE_URL,
     PUBLIC_HOST: process.env.PUBLIC_HOST,
+    RUNTIME_ENV: process.env.RUNTIME_ENV,
+    SENTRY_DSN: process.env.SENTRY_DSN,
+    SENTRY_ENABLE_LOCAL: process.env.SENTRY_ENABLE_LOCAL,
+    SENTRY_TRACES_SAMPLE_RATE: process.env.SENTRY_TRACES_SAMPLE_RATE,
     TICKETING_URL: process.env.TICKETING_URL,
   };
 }
@@ -75,6 +79,18 @@ const ProcessEnvSchema = zu.object({
   PARTNERS_FORM_URL: zu.string(),
   PRESS_RELEASE_URL: zu.string(),
   PUBLIC_HOST: zu.string(),
+  RESEND_API_KEY: zu.string().optional(),
+  RESEND_ENABLE_LOCAL: zu.enum(["false", "true"]).optional(),
   RUNTIME_ENV: zu.enum(["local", "production", "staging"]),
+  SENTRY_DSN: zu.string().optional(),
+  SENTRY_ENABLE_LOCAL: zu.enum(["false", "true"]).optional(),
+  SENTRY_TRACES_SAMPLE_RATE: zu.coerce
+    .number()
+    .min(0)
+    .max(1)
+    // Because we access the raw value and not the parsed one, we need to be
+    // sure the type remains string and not number.
+    .transform((value) => String(value))
+    .optional(),
   TICKETING_URL: zu.string(),
 });

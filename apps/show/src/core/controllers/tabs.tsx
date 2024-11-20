@@ -1,4 +1,4 @@
-import { Action } from "#core/actions/actions";
+import { Action } from "#core/actions/action";
 import { useNavLink } from "#core/navigation";
 import { NavLink } from "@remix-run/react";
 

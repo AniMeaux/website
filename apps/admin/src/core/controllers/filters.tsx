@@ -1,8 +1,7 @@
 import { Chip } from "#core/data-display/chip";
-import { joinReactNodes } from "#core/join-react-nodes";
 import { Separator } from "#core/layout/separator";
 import { Icon } from "#generated/icon";
-import { cn } from "@animeaux/core";
+import { cn, joinReactNodes } from "@animeaux/core";
 import { Form, useSubmit } from "@remix-run/react";
 import { Children, createContext, useContext, useMemo, useState } from "react";
 

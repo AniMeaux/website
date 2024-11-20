@@ -7,7 +7,7 @@ export function SocialLink({
   return (
     <Link
       {...rest}
-      className="grid grid-cols-1 rounded-full transition-transform duration-100 ease-in-out active:scale-95 focus-visible:focus-spaced-prussianBlue hover:scale-105 hover:active:scale-95"
+      className="grid grid-cols-1 rounded-full can-hover:focus-visible:focus-spaced"
     >
       {children}
     </Link>

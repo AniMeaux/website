@@ -24,8 +24,8 @@ export function HighLightBackground({
 }
 
 const COLOR_CLASS_NAME: Record<HighLightColor, string> = {
-  alabaster: "fill-alabaster",
-  paleBlue: "fill-paleBlue",
+  alabaster: cn("fill-alabaster"),
+  paleBlue: cn("fill-paleBlue"),
 };
 
 const COLOR_PATH: Record<HighLightColor, string> = {

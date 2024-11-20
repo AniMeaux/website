@@ -1,5 +1,3 @@
-export class NotFoundResponse extends Response {
-  constructor() {
-    super("Not Found", { status: 404 });
-  }
+export function notFound(init?: ResponseInit) {
+  return new Response("Not Found", { status: 404, ...init });
 }

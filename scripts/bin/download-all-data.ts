@@ -45,6 +45,16 @@ const DOWNLOADERS: Record<TableName, () => Promise<object[]>> = {
   fosterFamily: () => prisma.fosterFamily.findMany(),
   password: () => prisma.password.findMany(),
   pressArticle: () => prisma.pressArticle.findMany(),
+  showAnimation: () => prisma.showAnimation.findMany(),
+  showExhibitor: () => prisma.showExhibitor.findMany(),
+  showExhibitorApplication: () => prisma.showExhibitorApplication.findMany(),
+  showExhibitorDocuments: () => prisma.showExhibitorDocuments.findMany(),
+  showExhibitorDog: () => prisma.showExhibitorDog.findMany(),
+  showExhibitorProfile: () => prisma.showExhibitorProfile.findMany(),
+  showExhibitorStandConfiguration: () =>
+    prisma.showExhibitorStandConfiguration.findMany(),
+  showPartner: () => prisma.showPartner.findMany(),
+  showProvider: () => prisma.showProvider.findMany(),
   user: () => prisma.user.findMany(),
 };
 
