@@ -5,11 +5,32 @@ import { useContext } from "react";
 import { UNSAFE_NavigationContext } from "react-router";
 
 export const Routes = {
-  home: () => "/",
-  previousEditions: (edition?: PreviousEdition) =>
-    ["/editions-precedentes", edition].filter(Boolean).join("/"),
-  photo: (edition: PreviousEdition, photoIndex: number) =>
-    ["/editions-precedentes", edition, photoIndex].join("/"),
+  exhibitorApplication: {
+    toString: () => "/candidature-exposant" as const,
+
+    confirmation: {
+      applicationId: (applicationId: string) => ({
+        toString: () => `/candidature-exposant/${applicationId}` as const,
+      }),
+    },
+  },
+
+  home: {
+    toString: () => "/" as const,
+  },
+
+  previousEditions: {
+    toString: () => "/editions-precedentes" as const,
+
+    edition: (edition: PreviousEdition) => ({
+      toString: () => `/editions-precedentes/${edition}` as const,
+
+      photoIndex: (photoIndex: number) => ({
+        toString: () =>
+          `/editions-precedentes/${edition}/${photoIndex}` as const,
+      }),
+    }),
+  },
 };
 
 /**

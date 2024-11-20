@@ -4,15 +4,22 @@ import { renderToStaticMarkup } from "react-dom/server";
 
 export async function loader() {
   const urlDefinitions: UrlDefinition[] = [
-    { path: Routes.home(), changeFrequency: "weekly" },
+    { path: Routes.home.toString(), changeFrequency: "weekly" },
   ];
 
   SORTED_PREVIOUS_EDITIONS.forEach((edition) => {
     urlDefinitions.push({
-      path: Routes.previousEditions(edition),
+      path: Routes.previousEditions.edition(edition).toString(),
       changeFrequency: "monthly",
     });
   });
+
+  if (process.env.FEATURE_FLAG_SITE_ONLINE === "true") {
+    urlDefinitions.push({
+      path: Routes.exhibitorApplication.toString(),
+      changeFrequency: "weekly",
+    });
+  }
 
   const markup = renderToStaticMarkup(
     <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">

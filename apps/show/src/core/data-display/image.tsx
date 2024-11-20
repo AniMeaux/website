@@ -112,7 +112,7 @@ export function createImageUrl(
     objectFit?: ObjectFit;
     format?: "auto" | "jpg";
     size?: ImageSize;
-  },
+  } = {},
 ) {
   const transformations = [
     // https://cloudinary.com/documentation/image_optimization#automatic_quality_selection_q_auto

@@ -13,7 +13,7 @@ export function PageBackground({
       preserveAspectRatio="none"
       xmlns="http://www.w3.org/2000/svg"
       className={cn(
-        "absolute left-0 -z-10 h-[200px] w-full transition-[height,top] duration-150 ease-in-out md:h-[600px]",
+        "absolute left-0 -z-just-above h-[200px] w-full transition-[height,top] duration-slow md:h-[600px]",
         isExpanded ? "top-0" : "-top-[100px] md:-top-[300px]",
       )}
     >

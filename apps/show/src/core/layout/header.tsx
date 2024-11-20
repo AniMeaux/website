@@ -12,7 +12,7 @@ export function Header() {
 
   if (
     !CLIENT_ENV.FEATURE_FLAG_SITE_ONLINE &&
-    location.pathname === Routes.home()
+    location.pathname === Routes.home.toString()
   ) {
     return null;
   }
@@ -27,9 +27,9 @@ export function Header() {
 
 function SmallHeader() {
   return (
-    <header className="relative z-20 grid w-full grid-cols-1 md:hidden">
+    <header className="relative z-header grid w-full grid-cols-1 md:hidden">
       <NavigationMenu.Root className="grid grid-cols-1">
-        <NavigationMenu.List className="grid grid-cols-[auto_auto] items-center justify-between gap-2 pb-0.5 pt-safe-0.5 px-safe-page-narrow">
+        <NavigationMenu.List className="grid grid-cols-2-auto items-center justify-between gap-2 pb-0.5 pt-safe-0.5 px-safe-page-narrow">
           <NavigationMenu.Item className="flex">
             <HomeNavItem />
           </NavigationMenu.Item>
@@ -41,7 +41,7 @@ function SmallHeader() {
           // https://github.com/radix-ui/primitives/issues/1630
           onPointerEnter={(event) => event.preventDefault()}
           onPointerLeave={(event) => event.preventDefault()}
-          className="absolute left-0 top-0 -z-10 grid w-full grid-cols-1 bg-white/70 pb-4 backdrop-blur-2xl transition-[transform,opacity] duration-150 pt-safe-[84px] px-safe-page-narrow data-[state=closed]:-translate-y-full data-[state=open]:translate-y-0 data-[state=closed]:opacity-0 data-[state=open]:opacity-100 data-[state=closed]:ease-in data-[state=open]:ease-out"
+          className="absolute left-0 top-0 -z-just-above grid w-full grid-cols-1 bg-white/70 pb-4 backdrop-blur-2xl transition-[transform,opacity] duration-slow pt-safe-[84px] px-safe-page-narrow data-[state=closed]:-translate-y-full data-[state=open]:translate-y-0 data-[state=closed]:opacity-0 data-[state=open]:opacity-100 data-[state=closed]:ease-in data-[state=open]:ease-out"
         />
       </NavigationMenu.Root>
     </header>
@@ -50,8 +50,8 @@ function SmallHeader() {
 
 function LargeHeader() {
   return (
-    <header className="z-20 hidden md:grid md:grid-cols-1">
-      <nav className="grid grid-cols-[auto_auto] items-center justify-between gap-2 pb-1 pt-safe-1 px-safe-page-normal">
+    <header className="z-header hidden md:grid md:grid-cols-1">
+      <nav className="grid grid-cols-2-auto items-center justify-between gap-2 pb-1 pt-safe-1 px-safe-page-normal">
         <HomeNavItem />
       </nav>
     </header>
@@ -63,10 +63,10 @@ function HomeNavItem({
 }: Pick<React.ComponentPropsWithoutRef<typeof Link>, "onClick">) {
   return (
     <Link
-      to={Routes.home()}
+      to={Routes.home.toString()}
       prefetch="intent"
       onClick={onClick}
-      className="transition-transform duration-100 ease-in-out active:scale-95 focus-visible:focus-compact-mystic"
+      className="transition-transform duration-normal active:scale-95 can-hover:focus-visible:focus-compact"
     >
       <picture>
         <source srcSet={logoMedium} media={createImageMedia("md")} />
@@ -88,7 +88,7 @@ function NavAction({
     <Primitive.button
       {...rest}
       className={cn(
-        "group flex justify-center px-1 transition-[color,transform] duration-100 ease-in-out text-body-uppercase-emphasis active:scale-95 aria-[current=page]:text-mystic focus-visible:focus-compact-mystic hover:text-mystic lg:px-2",
+        "group flex justify-center px-1 transition-[color,transform] duration-normal text-body-uppercase-emphasis active:scale-95 aria-[current=page]:text-mystic can-hover:hover:text-mystic can-hover:focus-visible:focus-compact lg:px-2",
         className,
       )}
     />
@@ -114,7 +114,7 @@ NavAction.Marker = function NavActionMarker(
     <Primitive.span
       {...props}
       aria-hidden
-      className="absolute bottom-0 left-0 h-[3px] w-full origin-left scale-x-0 bg-mystic transition-transform duration-150 ease-in-out group-aria-[current=page]:scale-x-100"
+      className="absolute bottom-0 left-0 h-[3px] w-full origin-left scale-x-0 bg-mystic transition-transform duration-slow group-aria-[current=page]:scale-x-100"
     />
   );
 };

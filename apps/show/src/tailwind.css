@@ -4,7 +4,7 @@
 
 @layer base {
   /*
-   * Make sure focused elements without focus-visible don't have an outline.
+   * Make sure focused elements without `:focus-visible` don't have an outline.
    */
   :focus:not(:focus-visible) {
     @apply outline-none;
@@ -39,12 +39,6 @@
   }
 
   body {
-    /*
-     * Make line breaks are added mid-word if needed.
-     * See https://tailwindcss.com/docs/word-break#break-words
-     */
-    @apply break-words;
-
     text-size-adjust: 100%;
     text-rendering: optimizeLegibility;
   }

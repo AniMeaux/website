@@ -1,21 +1,6 @@
 import { PrevousEditionCloudinaryDelegate } from "#previous-editions/cloudinary.server";
+import { ReversibleUploadCloudinaryDelegate } from "@animeaux/cloudinary/server";
 import { v2 as cloudinaryClient } from "cloudinary";
-import invariant from "tiny-invariant";
-
-invariant(
-  process.env.CLOUDINARY_CLOUD_NAME != null,
-  "CLOUDINARY_CLOUD_NAME must be defined",
-);
-
-invariant(
-  process.env.CLOUDINARY_API_KEY != null,
-  "CLOUDINARY_API_KEY must be defined",
-);
-
-invariant(
-  process.env.CLOUDINARY_API_SECRET != null,
-  "CLOUDINARY_API_SECRET must be defined",
-);
 
 cloudinaryClient.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -23,8 +8,9 @@ cloudinaryClient.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-export { cloudinaryClient };
-
 export const cloudinary = {
+  client: cloudinaryClient,
+
   previousEdition: new PrevousEditionCloudinaryDelegate(cloudinaryClient),
+  reversibleUpload: new ReversibleUploadCloudinaryDelegate(cloudinaryClient),
 };

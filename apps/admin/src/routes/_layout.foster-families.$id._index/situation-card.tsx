@@ -3,7 +3,6 @@ import { Action } from "#core/actions";
 import { BaseLink } from "#core/base-link";
 import { ItemList, SimpleItem } from "#core/data-display/item";
 import { HIGHLIGHT_COMPONENTS, Markdown } from "#core/data-display/markdown";
-import { joinReactNodes } from "#core/join-react-nodes";
 import { Card } from "#core/layout/card";
 import { Routes } from "#core/navigation";
 import {
@@ -12,6 +11,7 @@ import {
 } from "#foster-families/availability";
 import { ICON_BY_HOUSING } from "#foster-families/housing";
 import { Icon } from "#generated/icon";
+import { joinReactNodes } from "@animeaux/core";
 import {
   FosterFamilyAvailability,
   FosterFamilyGarden,
