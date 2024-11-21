@@ -56,6 +56,7 @@ const ALLOWED_ENTITIES_PER_GROUP: Record<UserGroup, Set<Entity>> = {
   [UserGroup.ANIMAL_MANAGER]: new Set([Entity.ANIMAL, Entity.FOSTER_FAMILY]),
   [UserGroup.BLOGGER]: new Set(),
   [UserGroup.HEAD_OF_PARTNERSHIPS]: new Set(),
+  [UserGroup.SHOW_ORGANIZER]: new Set(),
   [UserGroup.VETERINARIAN]: new Set([Entity.ANIMAL]),
   [UserGroup.VOLUNTEER]: new Set([Entity.ANIMAL]),
 };

@@ -29,7 +29,7 @@ export async function loader({ params }: LoaderFunctionArgs) {
 }
 
 const RouteParamsSchema = zu.object({
-  applicationId: zu.string(),
+  applicationId: zu.string().uuid(),
 });
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
