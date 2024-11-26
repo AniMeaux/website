@@ -5,6 +5,7 @@ import { Card } from "#core/layout/card";
 import { Icon } from "#generated/icon";
 import { ACTIVITY_FIELD_TRANSLATION } from "#show/applications/activity-field";
 import { LEGAL_STATUS_TRANSLATION } from "#show/applications/legal-status";
+import { ImageUrl } from "@animeaux/core";
 import { useLoaderData } from "@remix-run/react";
 import type { loader } from "./route";
 
@@ -51,11 +52,11 @@ export function StructureCard() {
         </ItemList>
 
         <DynamicImage
-          imageId={application.structureLogoPath}
+          image={ImageUrl.parse(application.structureLogoPath)}
           alt={application.structureName}
           sizeMapping={{ md: "200px", default: "160px" }}
           fallbackSize="512"
-          className="w-full rounded-0.5"
+          className="w-full rounded-2"
         />
       </Card.Content>
     </Card>

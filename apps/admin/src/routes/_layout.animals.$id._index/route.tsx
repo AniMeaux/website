@@ -28,7 +28,7 @@ import { NotFoundResponse } from "#core/response.server";
 import { assertCurrentUserHasGroups } from "#current-user/groups.server";
 import { Icon } from "#generated/icon";
 import { hasGroups } from "#users/groups";
-import { cn, formatAge } from "@animeaux/core";
+import { ImageUrl, cn, formatAge } from "@animeaux/core";
 import { zu } from "@animeaux/zod-utils";
 import { Gender, UserGroup } from "@prisma/client";
 import type {
@@ -508,24 +508,28 @@ function PicturesCard() {
 
       <Card.Content>
         <div className="grid grid-cols-[repeat(auto-fill,minmax(80px,1fr))] justify-center gap-1 md:grid-cols-[repeat(auto-fill,minmax(100px,1fr))] md:gap-2">
-          {allPictures.map((pictureId, index) => (
-            <BaseLink
-              key={pictureId}
-              to={Routes.animals
-                .id(animal.id)
-                .pictures.pictureId(pictureId)
-                .toString()}
-              className="flex aspect-4/3 rounded-0.5 transition-transform duration-100 ease-in-out active:scale-95 focus-visible:focus-spaced-blue-400"
-            >
-              <DynamicImage
-                imageId={pictureId}
-                alt={`Photo ${index + 1} de ${getAnimalDisplayName(animal)}`}
-                sizeMapping={{ md: "200px", default: "160px" }}
-                fallbackSize="512"
-                className="w-full rounded-0.5"
-              />
-            </BaseLink>
-          ))}
+          {allPictures.map((pictureId, index) => {
+            const image = ImageUrl.parse(pictureId);
+
+            return (
+              <BaseLink
+                key={image.id}
+                to={Routes.animals
+                  .id(animal.id)
+                  .pictures.pictureId(image.id)
+                  .toString()}
+                className="flex aspect-4/3 rounded-0.5 transition-transform duration-100 ease-in-out active:scale-95 focus-visible:focus-spaced-blue-400"
+              >
+                <DynamicImage
+                  image={image}
+                  alt={`Photo ${index + 1} de ${getAnimalDisplayName(animal)}`}
+                  sizeMapping={{ md: "200px", default: "160px" }}
+                  fallbackSize="512"
+                  className="w-full rounded-0.5"
+                />
+              </BaseLink>
+            );
+          })}
         </div>
       </Card.Content>
     </Card>

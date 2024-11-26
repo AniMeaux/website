@@ -43,6 +43,7 @@
     "@remix-run/node": "~2.9.2",
     "@remix-run/react": "~2.9.2",
     "@remix-run/serve": "~2.9.2",
+    "@unpic/placeholder": "^0.1.2",
     "algoliasearch": "^4.19.1",
     "autosize": "^6.0.1",
     "bowser": "^2.11.0",

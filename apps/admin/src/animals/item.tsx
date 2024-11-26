@@ -16,7 +16,7 @@ import { SuggestionItem } from "#core/form-elements/resource-input";
 import { Routes } from "#core/navigation";
 import { Icon } from "#generated/icon";
 import type { AnimalHit } from "@animeaux/algolia-client";
-import { cn } from "@animeaux/core";
+import { ImageUrl, cn } from "@animeaux/core";
 import type { Animal, Breed, Color, User } from "@prisma/client";
 import { Gender } from "@prisma/client";
 import type { SerializeFrom } from "@remix-run/node";
@@ -94,7 +94,7 @@ export function AnimalItem({
       <span className="relative flex flex-col">
         <DynamicImage
           loading={imageLoading}
-          imageId={animal.avatar}
+          image={ImageUrl.parse(animal.avatar)}
           alt={animal.name}
           fallbackSize="512"
           sizeMapping={imageSizeMapping}

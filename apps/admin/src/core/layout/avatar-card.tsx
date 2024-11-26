@@ -26,6 +26,7 @@ AvatarCard.BackgroundImage = function AvatarCardBackgroundImage({
         src={createCloudinaryUrl(cloudinaryName, imageId, {
           size: "128",
           aspectRatio: "1:1",
+          objectFit: "cover",
         })}
         alt={imageAlt}
         className="h-full w-full object-cover object-top"

@@ -2,6 +2,7 @@ import type { AvatarSize } from "#core/data-display/avatar";
 import { Avatar } from "#core/data-display/avatar";
 import type { DynamicImageProps } from "#core/data-display/image";
 import { DynamicImage } from "#core/data-display/image";
+import { ImageUrl } from "@animeaux/core";
 import type { Animal } from "@prisma/client";
 import type { Except } from "type-fest";
 
@@ -11,7 +12,7 @@ export function AnimalAvatar({
   ...props
 }: Except<
   DynamicImageProps,
-  "imageId" | "alt" | "fallbackSize" | "sizeMapping" | "aspectRatio"
+  "image" | "alt" | "fallbackSize" | "sizeMapping" | "aspectRatio"
 > & {
   animal: Pick<Animal, "avatar" | "name">;
   size?: AvatarSize;
@@ -20,7 +21,7 @@ export function AnimalAvatar({
     <Avatar asChild size={size}>
       <DynamicImage
         {...props}
-        imageId={animal.avatar}
+        image={ImageUrl.parse(animal.avatar)}
         alt={animal.name}
         fallbackSize="256"
         sizeMapping={{ default: SIZE_VALUE[size] }}

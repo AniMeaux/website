@@ -13,7 +13,7 @@ import { getPageTitle } from "#core/page-title";
 import { prisma } from "#core/prisma.server";
 import { PageSearchParams } from "#core/search-params";
 import { assertCurrentUserHasGroups } from "#current-user/groups.server";
-import { cn, formatDateRange } from "@animeaux/core";
+import { ImageUrl, cn, formatDateRange } from "@animeaux/core";
 import type { Prisma } from "@prisma/client";
 import { UserGroup } from "@prisma/client";
 import type {
@@ -153,7 +153,7 @@ function EventItem({
       <span className="relative flex flex-col">
         <DynamicImage
           loading={imageLoading}
-          imageId={event.image}
+          image={ImageUrl.parse(event.image)}
           alt={event.title}
           fallbackSize="512"
           sizeMapping={imageSizeMapping}

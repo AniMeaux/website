@@ -7,10 +7,9 @@ import {
 } from "#animals/pictures/drag-and-drop";
 import { Action } from "#core/actions";
 import { InlineHelper } from "#core/data-display/helper";
-import type { ImageFile, ImageFileOrId } from "#core/data-display/image";
+import type { ImageFile, ImageFileOrData } from "#core/data-display/image";
 import {
   IMAGE_SIZE_LIMIT_MB,
-  getImageId,
   isImageFile,
   isImageOverSize,
   readFiles,
@@ -18,6 +17,7 @@ import {
 import { Form } from "#core/form-elements/form";
 import { ImageInput } from "#core/form-elements/image-input";
 import { Icon } from "#generated/icon";
+import { ImageUrl } from "@animeaux/core";
 import { FormDataDelegate } from "@animeaux/form-data";
 import { zu } from "@animeaux/zod-utils";
 import type { Animal } from "@prisma/client";
@@ -47,8 +47,10 @@ export function AnimalPicturesForm({
   const isCreate = defaultAnimal == null;
   const action = useFormAction();
 
-  const [pictures, setPictures] = useState<ImageFileOrId[]>(
-    defaultAnimal == null ? [] : getAllAnimalPictures(defaultAnimal),
+  const [pictures, setPictures] = useState<ImageFileOrData[]>(
+    defaultAnimal == null
+      ? []
+      : getAllAnimalPictures(defaultAnimal).map(ImageUrl.parse),
   );
   const [pendingPictureCount, setPendingPictureCount] = useState(0);
   const [hasImageImportError, setHasImageImportError] = useState(false);
@@ -94,7 +96,7 @@ export function AnimalPicturesForm({
 
         pictures.forEach((picture) => {
           if (!isImageOverSize(picture)) {
-            const value = isImageFile(picture) ? picture.file : picture;
+            const value = isImageFile(picture) ? picture.file : picture.id;
             formData.append(ActionFormData.keys.pictures, value);
           }
         });
@@ -150,8 +152,8 @@ function ImagesInput({
   onImportImagesFailed,
   hasError,
 }: {
-  images: ImageFileOrId[];
-  setImages: React.Dispatch<React.SetStateAction<ImageFileOrId[]>>;
+  images: ImageFileOrData[];
+  setImages: React.Dispatch<React.SetStateAction<ImageFileOrData[]>>;
   pendingImageCount: number;
   setPendingImageCount: React.Dispatch<React.SetStateAction<number>>;
   onImportImagesFailed: React.Dispatch<void>;
@@ -165,7 +167,7 @@ function ImagesInput({
 
   const imagesElement = images.map((image, index) => (
     <ImageItem
-      key={getImageId(image)}
+      key={image.id}
       image={image}
       index={index}
       onRemove={() =>
@@ -222,7 +224,7 @@ function ImageItem({
   index,
   onRemove,
 }: {
-  image: ImageFileOrId;
+  image: ImageFileOrData;
   index: number;
   onRemove: () => void;
 }) {

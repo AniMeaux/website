@@ -18,7 +18,7 @@ import { NotFoundResponse } from "#core/response.server";
 import { assertCurrentUserHasGroups } from "#current-user/groups.server";
 import { EventAvatar } from "#events/avatar";
 import { Icon } from "#generated/icon";
-import { formatDateRange } from "@animeaux/core";
+import { ImageUrl, formatDateRange } from "@animeaux/core";
 import { zu } from "@animeaux/zod-utils";
 import { UserGroup } from "@prisma/client";
 import type {
@@ -230,7 +230,7 @@ function ImageCard() {
 
       <Card.Content>
         <DynamicImage
-          imageId={event.image}
+          image={ImageUrl.parse(event.image)}
           alt={event.title}
           fallbackSize="512"
           sizeMapping={{ default: "100vw", md: "30vw" }}

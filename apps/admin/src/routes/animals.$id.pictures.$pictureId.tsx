@@ -13,7 +13,7 @@ import { prisma } from "#core/prisma.server";
 import { NotFoundResponse } from "#core/response.server";
 import { assertCurrentUserHasGroups } from "#current-user/groups.server";
 import { DownloadPictureLink } from "#routes/downloads.picture.$id/link";
-import { cn } from "@animeaux/core";
+import { ImageUrl, cn } from "@animeaux/core";
 import { zu } from "@animeaux/zod-utils";
 import { UserGroup } from "@prisma/client";
 import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
@@ -61,11 +61,20 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
   assertIsDefined(animal);
   const allPictures = getAllAnimalPictures(animal);
 
-  if (!allPictures.includes(paramsResult.data.pictureId)) {
+  const visiblePictureIndex = allPictures
+    .map((picture) => ImageUrl.parse(picture).id)
+    .indexOf(paramsResult.data.pictureId);
+
+  if (visiblePictureIndex === -1) {
     throw new NotFoundResponse();
   }
 
-  return json({ animal, visiblePictureId: paramsResult.data.pictureId });
+  return json({
+    animal,
+    allPictures,
+    visiblePictureId: paramsResult.data.pictureId,
+    visiblePictureIndex,
+  });
 }
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
@@ -78,9 +87,8 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
 };
 
 export default function Route() {
-  const { animal, visiblePictureId } = useLoaderData<typeof loader>();
-  const allPictures = getAllAnimalPictures(animal);
-  const visiblePictureIndex = allPictures.indexOf(visiblePictureId);
+  const { animal, allPictures, visiblePictureId, visiblePictureIndex } =
+    useLoaderData<typeof loader>();
 
   return (
     <main className="grid h-full w-full grid-cols-1 grid-rows-[auto_minmax(0px,1fr)_auto]">
@@ -100,7 +108,7 @@ export default function Route() {
 
       <div className="flex flex-col items-center justify-center">
         <DynamicImage
-          imageId={visiblePictureId}
+          image={{ id: visiblePictureId }}
           alt={`Photo ${visiblePictureIndex + 1} de ${getAnimalDisplayName(
             animal,
           )}`}
@@ -114,28 +122,34 @@ export default function Route() {
 
       <footer className="flex justify-center pt-0.5 pb-safe-0.5 md:pt-1 md:pb-safe-1">
         <div className="grid max-w-full auto-cols-[60px] grid-flow-col justify-start gap-1 overflow-x-auto scrollbars-none px-safe-1 md:auto-cols-[80px] md:gap-2">
-          {allPictures.map((pictureId, index) => (
-            <BaseLink
-              key={pictureId}
-              to={Routes.animals
-                .id(animal.id)
-                .pictures.pictureId(pictureId)
-                .toString()}
-              replace
-              className="flex aspect-4/3 rounded-0.5 transition-transform duration-100 ease-in-out active:scale-95 focus-visible:focus-spaced-blue-400"
-            >
-              <DynamicImage
-                imageId={pictureId}
-                alt={`Photo ${index + 1} de ${getAnimalDisplayName(animal)}`}
-                sizeMapping={{ md: "80px", default: "60px" }}
-                fallbackSize="512"
-                className={cn(
-                  "w-full rounded-0.5 transition-opacity duration-100 ease-in-out",
-                  pictureId === visiblePictureId ? "opacity-100" : "opacity-50",
-                )}
-              />
-            </BaseLink>
-          ))}
+          {allPictures.map((pictureId, index) => {
+            const image = ImageUrl.parse(pictureId);
+
+            return (
+              <BaseLink
+                key={image.id}
+                to={Routes.animals
+                  .id(animal.id)
+                  .pictures.pictureId(image.id)
+                  .toString()}
+                replace
+                className="flex aspect-4/3 rounded-0.5 transition-transform duration-100 ease-in-out active:scale-95 focus-visible:focus-spaced-blue-400"
+              >
+                <DynamicImage
+                  image={image}
+                  alt={`Photo ${index + 1} de ${getAnimalDisplayName(animal)}`}
+                  sizeMapping={{ md: "80px", default: "60px" }}
+                  fallbackSize="512"
+                  className={cn(
+                    "w-full rounded-0.5 transition-opacity duration-100 ease-in-out",
+                    pictureId === visiblePictureId
+                      ? "opacity-100"
+                      : "opacity-50",
+                  )}
+                />
+              </BaseLink>
+            );
+          })}
         </div>
       </footer>
     </main>

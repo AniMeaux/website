@@ -1,4 +1,4 @@
-import type { ImageFileOrId } from "#core/data-display/image";
+import type { ImageFileOrData } from "#core/data-display/image";
 import { DataUrlOrDynamicImage } from "#core/data-display/image";
 import { createDragAndDropContext } from "#core/drag-and-drop";
 
@@ -7,7 +7,7 @@ const {
   useDragItem,
   useDragPreview,
   useDropContainer,
-} = createDragAndDropContext<ImageFileOrId>();
+} = createDragAndDropContext<ImageFileOrData>();
 
 export {
   DragAndDropContextProvider,

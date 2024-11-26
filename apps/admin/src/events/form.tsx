@@ -1,5 +1,5 @@
 import { Action } from "#core/actions";
-import type { ImageFileOrId } from "#core/data-display/image";
+import type { ImageFileOrData } from "#core/data-display/image";
 import {
   IMAGE_SIZE_LIMIT_MB,
   isImageFile,
@@ -15,6 +15,7 @@ import { SwitchInput } from "#core/form-elements/switch-input";
 import { Textarea } from "#core/form-elements/textarea";
 import { Separator } from "#core/layout/separator";
 import { Icon } from "#generated/icon";
+import { ImageUrl } from "@animeaux/core";
 import { FormDataDelegate } from "@animeaux/form-data";
 import { zu } from "@animeaux/zod-utils";
 import type { Event } from "@prisma/client";
@@ -47,7 +48,7 @@ export const ActionFormData = FormDataDelegate.create(
   }),
 );
 
-type ImageState = "loading" | "error" | { image: undefined | ImageFileOrId };
+type ImageState = "loading" | "error" | { image: undefined | ImageFileOrData };
 
 export function EventForm({
   defaultEvent,
@@ -74,7 +75,8 @@ export function EventForm({
   const isCreate = defaultEvent == null;
   const action = useFormAction();
   const [imageState, setImageState] = useState<ImageState>({
-    image: defaultEvent?.image,
+    image:
+      defaultEvent == null ? undefined : ImageUrl.parse(defaultEvent.image),
   });
   const [isFullDay, setisFullDay] = useState(defaultEvent?.isFullDay ?? true);
   const descriptionRef = useRef<HTMLTextAreaElement>(null);
@@ -152,7 +154,7 @@ export function EventForm({
         ) {
           const value = isImageFile(imageState.image)
             ? imageState.image.file
-            : imageState.image;
+            : imageState.image.id;
           formData.set(ActionFormData.keys.image, value);
         }
 

@@ -3,10 +3,12 @@ import { useConfig } from "#core/config";
 import { generateId } from "#core/id";
 import type { ScreenSize } from "#generated/theme";
 import { theme } from "#generated/theme";
+import type { ImageData } from "@animeaux/core";
 import { cn } from "@animeaux/core";
+import { blurhashToDataUri } from "@unpic/placeholder";
 import orderBy from "lodash.orderby";
 import { forwardRef } from "react";
-import type { Merge } from "type-fest";
+import type { Except, Merge } from "type-fest";
 
 export const IMAGE_SIZE_LIMIT_MB = CLOUDINARY_IMAGE_SIZE_LIMIT_MB;
 export const IMAGE_SIZE_LIMIT_B =
@@ -14,7 +16,7 @@ export const IMAGE_SIZE_LIMIT_B =
   // 1024 * 1024 B
   1048576;
 
-export function isImageOverSize(image: ImageFileOrId) {
+export function isImageOverSize(image: ImageFileOrData) {
   return isImageFile(image) && image.file.size > IMAGE_SIZE_LIMIT_B;
 }
 
@@ -39,10 +41,19 @@ const SCREEN_SIZES = orderBy(
 
 type AspectRatio = "none" | "1:1" | "4:3";
 
-const ASPECT_RATIO_CLASS_NAME: Record<AspectRatio, string> = {
-  "1:1": "aspect-square",
-  "4:3": "aspect-4/3",
-  none: "",
+const ASPECT_RATIO_CLASS_NAME: Record<AspectRatio, undefined | string> = {
+  "1:1": cn("aspect-square"),
+  "4:3": cn("aspect-4/3"),
+  none: undefined,
+};
+
+const ASPECT_RATIO_BLURHASH_SIZE: Record<
+  AspectRatio,
+  { width: number; height: number }
+> = {
+  "1:1": { width: 16, height: 16 },
+  "4:3": { width: 16, height: 12 },
+  none: { width: 16, height: 16 },
 };
 
 type ImageBackground = "none" | "gray";
@@ -55,15 +66,15 @@ const IMAGE_BACKGROUND_CLASS_NAME: Record<ImageBackground, string> = {
 type ObjectFit = "cover" | "contain";
 
 const OBJECT_FIT_CLASS_NAME: Record<ObjectFit, string> = {
-  contain: "object-contain",
-  cover: "object-cover",
+  contain: cn("object-contain"),
+  cover: cn("object-cover"),
 };
 
 export type DynamicImageProps = React.ComponentPropsWithoutRef<
   typeof BaseImage
 > & {
   fallbackSize: ImageSize;
-  imageId: string;
+  image: ImageData;
   sizeMapping: Partial<Record<ScreenSize, string>> & {
     // `default` is mandatory.
     default: string;
@@ -71,18 +82,23 @@ export type DynamicImageProps = React.ComponentPropsWithoutRef<
 };
 
 export function DynamicImage({
-  imageId,
+  image,
   sizeMapping,
   aspectRatio = "4:3",
   fallbackSize,
-  ...rest
+  background,
+  objectFit = "contain",
+  className,
+  style: styleProp = {},
+  ...props
 }: DynamicImageProps) {
   const config = useConfig();
 
   const srcSet = IMAGE_SIZES.map((size) => {
-    const url = createCloudinaryUrl(config.cloudinaryName, imageId, {
+    const url = createCloudinaryUrl(config.cloudinaryName, image.id, {
       size,
       aspectRatio,
+      objectFit,
     });
 
     return `${url} ${size}w`;
@@ -102,16 +118,28 @@ export function DynamicImage({
     return sizes;
   }, []).join(",");
 
+  const style = styleProp;
+
+  if (image.blurhash != null) {
+    const blurhashSize = ASPECT_RATIO_BLURHASH_SIZE[aspectRatio];
+
+    style.backgroundImage = `url(${blurhashToDataUri(image.blurhash, blurhashSize.width, blurhashSize.width)})`;
+  }
+
   return (
     <BaseImage
-      {...rest}
+      {...props}
       aspectRatio={aspectRatio}
-      src={createCloudinaryUrl(config.cloudinaryName, imageId, {
+      src={createCloudinaryUrl(config.cloudinaryName, image.id, {
         size: fallbackSize,
         aspectRatio,
+        objectFit,
       })}
       srcSet={srcSet}
       sizes={sizes}
+      background={image.blurhash != null ? "none" : background}
+      className={cn(image.blurhash != null ? "bg-cover" : undefined, className)}
+      style={style}
     />
   );
 }
@@ -120,14 +148,16 @@ export function createCloudinaryUrl(
   cloudName: string,
   imageId: string,
   {
-    aspectRatio,
+    aspectRatio = "none",
+    objectFit = "contain",
     format = "auto",
     size,
   }: {
-    aspectRatio: AspectRatio;
+    aspectRatio?: AspectRatio;
+    objectFit?: ObjectFit;
     format?: "auto" | "jpg";
     size?: ImageSize;
-  },
+  } = {},
 ) {
   const transformations = [
     // https://cloudinary.com/documentation/image_optimization#automatic_quality_selection_q_auto
@@ -149,11 +179,21 @@ export function createCloudinaryUrl(
     transformations.push(
       // https://cloudinary.com/documentation/transformation_reference#ar_aspect_ratio
       `ar_${aspectRatio}`,
-      // https://cloudinary.com/documentation/transformation_reference#c_pad
-      "c_pad",
-      // https://cloudinary.com/documentation/transformation_reference#b_auto
-      "b_auto",
     );
+
+    if (objectFit === "cover") {
+      // https://cloudinary.com/documentation/transformation_reference#c_fit
+      transformations.push("c_fill");
+    }
+    // A size is required for c_pad.
+    else if (size != null) {
+      transformations.push(
+        // https://cloudinary.com/documentation/transformation_reference#c_pad
+        "c_pad",
+        // https://cloudinary.com/documentation/transformation_reference#b_auto
+        "b_auto",
+      );
+    }
   }
 
   const transformationsStr = transformations.join(",");
@@ -167,14 +207,10 @@ export type ImageFile = {
   id: string;
 };
 
-export type ImageFileOrId = string | ImageFile;
+export type ImageFileOrData = ImageData | ImageFile;
 
-export function isImageFile(image: ImageFileOrId): image is ImageFile {
-  return typeof image !== "string";
-}
-
-export function getImageId(image: ImageFileOrId) {
-  return isImageFile(image) ? image.id : image;
+export function isImageFile(image: ImageFileOrData): image is ImageFile {
+  return "dataUrl" in image;
 }
 
 export function DataUrlOrDynamicImage({
@@ -182,9 +218,9 @@ export function DataUrlOrDynamicImage({
   image,
   sizeMapping: sizes,
   ...rest
-}: Omit<React.ComponentPropsWithoutRef<typeof DataUrlImage>, "imageFile"> &
-  Omit<DynamicImageProps, "imageId"> & {
-    image: ImageFileOrId;
+}: Except<React.ComponentPropsWithoutRef<typeof DataUrlImage>, "imageFile"> &
+  Except<DynamicImageProps, "image"> & {
+    image: ImageFileOrData;
   }) {
   if (isImageFile(image)) {
     return <DataUrlImage {...rest} imageFile={image} />;
@@ -193,7 +229,7 @@ export function DataUrlOrDynamicImage({
   return (
     <DynamicImage
       {...rest}
-      imageId={image}
+      image={image}
       fallbackSize={fallbackSize}
       sizeMapping={sizes}
     />
