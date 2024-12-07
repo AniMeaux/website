@@ -9,3 +9,20 @@ export function getLongLocation(location: {
 }) {
   return `${location.address}, ${location.zipCode} ${location.city}`;
 }
+
+export function getCompleteLocation(location: {
+  address: string;
+  zipCode: string;
+  city: string;
+  country: string;
+}) {
+  return (
+    <>
+      {location.address}
+      <br />
+      {location.zipCode} {location.city}
+      <br />
+      {location.country}
+    </>
+  );
+}

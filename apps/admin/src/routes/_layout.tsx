@@ -229,6 +229,12 @@ const ALL_NAVIGATION_ITEMS: NavigationItem[] = [
     label: "Couleurs",
     authorizedGroups: [UserGroup.ADMIN],
   },
+  {
+    to: Routes.show.toString(),
+    icon: "icon-show",
+    label: "Salon",
+    authorizedGroups: [UserGroup.ADMIN, UserGroup.SHOW_ORGANIZER],
+  },
 ];
 
 function CurrentUserMenu() {

@@ -9,6 +9,7 @@ export const GROUP_TRANSLATION: Record<UserGroup, string> = {
   [UserGroup.ANIMAL_MANAGER]: "Sociables mais de loin",
   [UserGroup.BLOGGER]: "Redacteur",
   [UserGroup.HEAD_OF_PARTNERSHIPS]: "Partenariat",
+  [UserGroup.SHOW_ORGANIZER]: "Organisateur Salon",
   [UserGroup.VETERINARIAN]: "Vétérinaire",
   [UserGroup.VOLUNTEER]: "Bénévole",
 };
@@ -23,6 +24,7 @@ export const GROUP_ICON: Record<UserGroup, IconName> = {
   [UserGroup.ANIMAL_MANAGER]: "icon-paw",
   [UserGroup.BLOGGER]: "icon-pen-nib",
   [UserGroup.HEAD_OF_PARTNERSHIPS]: "icon-handshake",
+  [UserGroup.SHOW_ORGANIZER]: "icon-show",
   [UserGroup.VETERINARIAN]: "icon-stethoscope",
   [UserGroup.VOLUNTEER]: "icon-people-group",
 };
