@@ -196,34 +196,36 @@ export default function Route() {
   const { canEdit } = useLoaderData<typeof loader>();
 
   return (
-    <PageLayout.Content className="flex flex-col gap-1 md:gap-2">
-      <HeaderCard />
+    <PageLayout.Root>
+      <PageLayout.Content className="flex flex-col gap-1 md:gap-2">
+        <HeaderCard />
 
-      <section className="grid grid-cols-1 gap-1 md:hidden">
-        <ProfileCard />
-        <AgreementsCard />
-        <SituationCard />
-        <CommentsCard />
-        <DescriptionCard />
-        <PicturesCard />
-        {canEdit ? <ActionCard /> : null}
-      </section>
-
-      <section className="hidden md:grid md:grid-cols-[minmax(0px,2fr)_minmax(250px,1fr)] md:items-start md:gap-2">
-        <section className="md:flex md:flex-col md:gap-2">
+        <section className="grid grid-cols-1 gap-1 md:hidden">
           <ProfileCard />
           <AgreementsCard />
-          <DescriptionCard />
-          <PicturesCard />
-        </section>
-
-        <aside className="md:flex md:flex-col md:gap-2">
           <SituationCard />
           <CommentsCard />
+          <DescriptionCard />
+          <PicturesCard />
           {canEdit ? <ActionCard /> : null}
-        </aside>
-      </section>
-    </PageLayout.Content>
+        </section>
+
+        <section className="hidden md:grid md:grid-cols-[minmax(0px,2fr)_minmax(250px,1fr)] md:items-start md:gap-2">
+          <section className="md:flex md:flex-col md:gap-2">
+            <ProfileCard />
+            <AgreementsCard />
+            <DescriptionCard />
+            <PicturesCard />
+          </section>
+
+          <aside className="md:flex md:flex-col md:gap-2">
+            <SituationCard />
+            <CommentsCard />
+            {canEdit ? <ActionCard /> : null}
+          </aside>
+        </section>
+      </PageLayout.Content>
+    </PageLayout.Root>
   );
 }
 

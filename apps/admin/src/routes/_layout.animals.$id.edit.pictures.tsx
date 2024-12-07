@@ -172,16 +172,18 @@ export default function Route() {
   useBackIfPossible({ fallbackRedirectTo: fetcher.data?.redirectTo });
 
   return (
-    <PageLayout.Content className="flex flex-col items-center">
-      <Card className="w-full md:max-w-[600px]">
-        <Card.Header>
-          <Card.Title>Modifier {animal.name}</Card.Title>
-        </Card.Header>
+    <PageLayout.Root>
+      <PageLayout.Content className="flex flex-col items-center">
+        <Card className="w-full md:max-w-[600px]">
+          <Card.Header>
+            <Card.Title>Modifier {animal.name}</Card.Title>
+          </Card.Header>
 
-        <Card.Content>
-          <AnimalPicturesForm defaultAnimal={animal} fetcher={fetcher} />
-        </Card.Content>
-      </Card>
-    </PageLayout.Content>
+          <Card.Content>
+            <AnimalPicturesForm defaultAnimal={animal} fetcher={fetcher} />
+          </Card.Content>
+        </Card>
+      </PageLayout.Content>
+    </PageLayout.Root>
   );
 }

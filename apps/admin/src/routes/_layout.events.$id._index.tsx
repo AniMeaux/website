@@ -114,7 +114,7 @@ export default function Route() {
   const { event } = useLoaderData<typeof loader>();
 
   return (
-    <PageLayout>
+    <PageLayout.Root>
       <PageLayout.Content className="flex flex-col gap-1 md:gap-2">
         {!event.isVisible ? (
           <BlockHelper variant="warning" icon="icon-eye-slash">
@@ -136,7 +136,7 @@ export default function Route() {
           </section>
         </section>
       </PageLayout.Content>
-    </PageLayout>
+    </PageLayout.Root>
   );
 }
 

@@ -108,7 +108,7 @@ export default function Route() {
     useLoaderData<typeof loader>();
 
   return (
-    <PageLayout>
+    <PageLayout.Root>
       <PageLayout.Content className="flex flex-col">
         <Card>
           <Card.Header>
@@ -156,7 +156,7 @@ export default function Route() {
           ) : null}
         </Card>
       </PageLayout.Content>
-    </PageLayout>
+    </PageLayout.Root>
   );
 }
 

@@ -122,7 +122,7 @@ export default function Route() {
   const [searchParams] = useOptimisticSearchParams();
 
   return (
-    <PageLayout>
+    <PageLayout.Root>
       <PageLayout.Content className="flex flex-col gap-1 md:gap-2">
         <section className="flex flex-col gap-1 md:flex-row md:gap-2">
           <section className="flex flex-col md:min-w-0 md:flex-2">
@@ -176,7 +176,7 @@ export default function Route() {
           </section>
 
           <aside className="hidden min-w-[250px] max-w-[300px] flex-1 flex-col md:flex">
-            <Card className="sticky top-8 max-h-[calc(100vh-100px)]">
+            <Card className="sticky top-[calc(20px+var(--header-height))] max-h-[calc(100vh-40px-var(--header-height))]">
               <Card.Header>
                 <Card.Title>Trier et filtrer</Card.Title>
               </Card.Header>
@@ -192,7 +192,7 @@ export default function Route() {
           <UserFilterForm />
         </SortAndFiltersFloatingAction>
       </PageLayout.Content>
-    </PageLayout>
+    </PageLayout.Root>
   );
 }
 
