@@ -1,6 +1,6 @@
+import { getShortLocation } from "#core/data-display/location";
 import { SuggestionItem } from "#core/form-elements/resource-input";
 import { FosterFamilyAvatar } from "#foster-families/avatar";
-import { getShortLocation } from "#foster-families/location";
 import type { FosterFamilyHit } from "@animeaux/algolia-client";
 import type { FosterFamily } from "@prisma/client";
 import type { SerializeFrom } from "@remix-run/node";
