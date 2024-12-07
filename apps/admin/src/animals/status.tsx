@@ -1,3 +1,5 @@
+import type { ChipColor } from "#core/data-display/chip";
+import { Chip } from "#core/data-display/chip";
 import { Icon } from "#generated/icon";
 import { cn } from "@animeaux/core";
 import { Status } from "@prisma/client";
@@ -44,30 +46,24 @@ export function StatusBadge({
   className?: string;
 }) {
   return (
-    <span
-      className={cn(
-        className,
-        "inline-flex rounded-0.5 px-0.5 text-caption-emphasis",
-        STATUS_BADGE_CLASS_NAMES[status],
-      )}
-    >
+    <Chip color={STATUS_CHIP_COLOR[status]} className={className}>
       {STATUS_TRANSLATION[status]}
-    </span>
+    </Chip>
   );
 }
 
-const STATUS_BADGE_CLASS_NAMES: Record<Status, string> = {
-  [Status.ADOPTED]: "bg-green-600 text-white",
-  [Status.DECEASED]: "bg-gray-800 text-white",
-  [Status.FREE]: "bg-gray-800 text-white",
-  [Status.LOST]: "bg-red-500 text-white",
-  [Status.OPEN_TO_ADOPTION]: "bg-blue-500 text-white",
-  [Status.OPEN_TO_RESERVATION]: "bg-blue-500 text-white",
-  [Status.RESERVED]: "bg-yellow-400 text-black",
-  [Status.RETIRED]: "bg-gray-800 text-white",
-  [Status.RETURNED]: "bg-gray-800 text-white",
-  [Status.UNAVAILABLE]: "bg-red-500 text-white",
-  [Status.TRANSFERRED]: "bg-gray-800 text-white",
+const STATUS_CHIP_COLOR: Record<Status, ChipColor> = {
+  [Status.ADOPTED]: "green",
+  [Status.DECEASED]: "black",
+  [Status.FREE]: "black",
+  [Status.LOST]: "red",
+  [Status.OPEN_TO_ADOPTION]: "blue",
+  [Status.OPEN_TO_RESERVATION]: "blue",
+  [Status.RESERVED]: "yellow",
+  [Status.RETIRED]: "black",
+  [Status.RETURNED]: "black",
+  [Status.UNAVAILABLE]: "red",
+  [Status.TRANSFERRED]: "black",
 };
 
 export function StatusIcon({
@@ -80,21 +76,20 @@ export function StatusIcon({
   return (
     <Icon
       href="icon-status"
-      className={cn(className, STATUS_ICON_CLASS_NAMES[status])}
+      className={cn(
+        className,
+        CHIP_COLOR_STATUS_ICON_CLASS_NAMES[STATUS_CHIP_COLOR[status]],
+      )}
     />
   );
 }
 
-const STATUS_ICON_CLASS_NAMES: Record<Status, string> = {
-  [Status.ADOPTED]: "text-green-600",
-  [Status.DECEASED]: "text-gray-800",
-  [Status.FREE]: "text-gray-800",
-  [Status.LOST]: "text-red-500",
-  [Status.OPEN_TO_ADOPTION]: "text-blue-500",
-  [Status.OPEN_TO_RESERVATION]: "text-blue-500",
-  [Status.RESERVED]: "text-yellow-400",
-  [Status.RETIRED]: "text-gray-800",
-  [Status.RETURNED]: "text-gray-800",
-  [Status.UNAVAILABLE]: "text-red-500",
-  [Status.TRANSFERRED]: "text-gray-800",
+const CHIP_COLOR_STATUS_ICON_CLASS_NAMES: Record<ChipColor, string> = {
+  green: cn("text-green-600"),
+  black: cn("text-gray-800"),
+  red: cn("text-red-500"),
+  blue: cn("text-blue-500"),
+  yellow: cn("text-yellow-400"),
+  gray: cn("text-gray-100"),
+  orange: cn("text-orange-500"),
 };
