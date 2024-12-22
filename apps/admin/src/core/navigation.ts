@@ -79,11 +79,17 @@ export const Routes = {
 
       id: (id: string) => ({
         toString: () => `/show/applications/${id}` as const,
+
+        edit: { toString: () => `/show/applications/${id}/edit` as const },
       }),
     },
 
     exhibitors: {
       toString: () => "/show/exhibitors" as const,
+
+      id: (id: string) => ({
+        toString: () => `/show/exhibitors/${id}` as const,
+      }),
     },
   },
   users: {

@@ -5,7 +5,9 @@ import ReactMarkdown from "react-markdown";
 import breaks from "remark-breaks";
 import gfm from "remark-gfm";
 
-type MarkdownComponents = NonNullable<ReactMarkdownOptions["components"]>;
+export type MarkdownComponents = NonNullable<
+  ReactMarkdownOptions["components"]
+>;
 
 export function Markdown({
   content,

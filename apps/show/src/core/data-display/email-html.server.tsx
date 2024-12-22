@@ -3,6 +3,7 @@ import { createImageUrl } from "#core/data-display/image";
 import { cn } from "@animeaux/core";
 import {
   Body,
+  Button,
   Column,
   Container,
   Font,
@@ -101,8 +102,24 @@ export const EmailHtml = {
         {...props}
         className="border-0 border-b border-solid border-mystic text-prussianBlue text-body-lowercase-emphasis"
       >
-        {children}
+        {/* Use strong because the font weight is not well rendered */}
+        <strong>{children}</strong>
       </Link>
+    );
+  },
+
+  Button: function EmailButton({
+    children,
+    ...props
+  }: React.PropsWithChildren<{ href: string }>) {
+    return (
+      <Button
+        {...props}
+        className="rounded-0.5 bg-mystic px-2 py-0.5 text-white text-body-lowercase-emphasis"
+      >
+        {/* Use strong because the font weight is not well rendered */}
+        <strong>{children}</strong>
+      </Button>
     );
   },
 

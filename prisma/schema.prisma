@@ -344,6 +344,9 @@ model ShowExhibitor {
   updatedAt DateTime @updatedAt
   isVisible Boolean  @default(true)
 
+  // Used by exhibitors to "sign in" to their account.
+  token String @unique @default(uuid()) @db.Uuid
+
   partnership ShowPartner?
   animations  ShowAnimation[]
 
@@ -361,7 +364,8 @@ model ShowExhibitorApplication {
   exhibitor   ShowExhibitor? @relation(fields: [exhibitorId], references: [id], onDelete: Cascade)
   exhibitorId String?        @unique @db.Uuid
 
-  status ShowExhibitorApplicationStatus @default(UNTREATED)
+  status         ShowExhibitorApplicationStatus @default(UNTREATED)
+  refusalMessage String?                        @db.VarChar(512)
 
   contactLastname  String @db.VarChar(64)
   contactFirstname String @db.VarChar(64)

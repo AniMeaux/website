@@ -493,6 +493,10 @@ async function seedShowProviders() {
 async function seedShowExhibitorApplications() {
   await prisma.showExhibitorApplication.createMany({
     data: repeate({ min: 100, max: 120 }, () => {
+      const status = faker.helpers.arrayElement(
+        Object.values(ShowExhibitorApplicationStatus),
+      );
+
       const legalStatus = faker.helpers.maybe(
         () =>
           faker.helpers.arrayElement(
@@ -508,9 +512,12 @@ async function seedShowExhibitorApplications() {
       );
 
       return {
-        status: faker.helpers.arrayElement(
-          Object.values(ShowExhibitorApplicationStatus),
-        ),
+        status,
+        refusalMessage:
+          status === ShowExhibitorApplicationStatus.REFUSED
+            ? faker.lorem.paragraph().substring(0, 512)
+            : undefined,
+
         contactLastname: faker.person.lastName(),
         contactFirstname: faker.person.firstName(),
         contactEmail: faker.internet.email(),

@@ -5,8 +5,8 @@ import { CurrentUserDbDelegate } from "#current-user/db.server";
 import { EventDbDelegate } from "#events/db.server";
 import { FosterFamilyDbDelegate } from "#foster-families/db.server";
 import { PressArticleDbDelegate } from "#press-articles/db.server";
+import { ShowDbDelegate } from "#show/db.server";
 import { UserDbDelegate } from "#users/db.server";
-import { singleton } from "@animeaux/core";
 
 class DbClient {
   readonly animal = new AnimalDbDelegate();
@@ -17,7 +17,8 @@ class DbClient {
   readonly fosterFamily = new FosterFamilyDbDelegate();
   readonly pickUpLocation = new PickUpLocationDbDelegate();
   readonly pressArticle = new PressArticleDbDelegate();
+  readonly show = new ShowDbDelegate();
   readonly user = new UserDbDelegate();
 }
 
-export const db = singleton("db", () => new DbClient());
+export const db = new DbClient();

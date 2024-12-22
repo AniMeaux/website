@@ -15,6 +15,14 @@ export const Routes = {
     },
   },
 
+  exhibitors: {
+    toString: () => "/exposants" as const,
+
+    token: (exhibitorToken: string) => ({
+      toString: () => `/exposants/${exhibitorToken}` as const,
+    }),
+  },
+
   home: {
     toString: () => "/" as const,
   },

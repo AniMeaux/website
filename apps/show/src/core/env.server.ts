@@ -64,6 +64,7 @@ declare global {
 
 const ProcessEnvSchema = zu.object({
   ANIMEAUX_URL: zu.string(),
+  APPLICATION_TOKEN_ADMIN: zu.string(),
   CARPOOL_FACEBOOK_GROUP_URL: zu.string(),
   CLOUDINARY_API_KEY: zu.string(),
   CLOUDINARY_API_SECRET: zu.string(),
