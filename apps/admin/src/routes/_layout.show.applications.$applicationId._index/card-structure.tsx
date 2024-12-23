@@ -4,6 +4,7 @@ import { getCompleteLocation } from "#core/data-display/location";
 import { Card } from "#core/layout/card";
 import { Icon } from "#generated/icon";
 import { ACTIVITY_FIELD_TRANSLATION } from "#show/applications/activity-field";
+import { ACTIVITY_TARGET_TRANSLATION } from "#show/applications/activity-target";
 import { LEGAL_STATUS_TRANSLATION } from "#show/applications/legal-status";
 import { ImageUrl } from "@animeaux/core";
 import { useLoaderData } from "@remix-run/react";
@@ -62,6 +63,12 @@ export function CardStructure() {
 
             <SimpleItem icon={<Icon href="icon-globe" />}>
               {application.structureUrl}
+            </SimpleItem>
+
+            <SimpleItem icon={<Icon href="icon-bullseye-arrow" />}>
+              {application.structureActivityTargets
+                .map((target) => ACTIVITY_TARGET_TRANSLATION[target])
+                .join(", ")}
             </SimpleItem>
 
             <SimpleItem icon={<Icon href="icon-tags" />}>

@@ -44,6 +44,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
       contactFirstname: true,
       contactLastname: true,
       contactPhone: true,
+      structureActivityTargets: true,
       structureActivityFields: true,
       structureAddress: true,
       structureCity: true,

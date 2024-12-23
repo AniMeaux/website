@@ -55,6 +55,7 @@ export class ShowExhibitorApplicationDbDelegate {
 
             profile: {
               create: {
+                activityTargets: application.structureActivityTargets,
                 activityFields: application.structureActivityFields,
                 links: [application.structureUrl],
                 logoPath: application.structureLogoPath,
