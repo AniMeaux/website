@@ -5,6 +5,7 @@ import {
 import { zu } from "@animeaux/zod-utils";
 import {
   ShowActivityField,
+  ShowActivityTarget,
   ShowExhibitorApplicationLegalStatus,
   ShowExhibitorApplicationOtherPartnershipCategory,
   ShowPartnershipCategory,
@@ -82,6 +83,11 @@ export const ActionSchema = zu
           zu
             .array(zu.nativeEnum(ShowActivityField))
             .min(1, "Veuillez choisir un domaine d’activité"),
+        ),
+        activityTargets: zu.repeatable(
+          zu
+            .array(zu.nativeEnum(ShowActivityTarget))
+            .min(1, "Veuillez choisir une cible"),
         ),
         logo: zu
           .instanceof(File, { message: "Veuillez choisir un logo" })

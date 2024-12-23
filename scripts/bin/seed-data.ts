@@ -529,6 +529,10 @@ async function seedShowExhibitorApplications() {
         structureOtherLegalStatus:
           legalStatus == null ? faker.lorem.word() : undefined,
         structureSiret: faker.string.numeric({ length: 14 }),
+        structureActivityTargets: faker.helpers.arrayElements(
+          Object.values(ShowActivityTarget),
+          { min: 1, max: 3 },
+        ),
         structureActivityFields: faker.helpers.arrayElements(
           Object.values(ShowActivityField),
           { min: 1, max: 4 },
@@ -577,6 +581,7 @@ async function seedShowExhibitors() {
       id: true,
       structureName: true,
       structureUrl: true,
+      structureActivityTargets: true,
       structureActivityFields: true,
       structureLogoPath: true,
       desiredStandSize: true,
@@ -588,6 +593,7 @@ async function seedShowExhibitors() {
       prisma.showExhibitor.create({
         data: {
           isVisible: faker.datatype.boolean({ probability: 9 / 10 }),
+          hasPaid: faker.datatype.boolean({ probability: 1 / 5 }),
 
           application: { connect: { id: application.id } },
 
@@ -596,10 +602,7 @@ async function seedShowExhibitors() {
           profile: {
             create: {
               activityFields: application.structureActivityFields,
-              activityTargets: faker.helpers.arrayElements(
-                Object.values(ShowActivityTarget),
-                { min: 1, max: 3 },
-              ),
+              activityTargets: application.structureActivityTargets,
               description: faker.helpers.maybe(() =>
                 faker.lorem.paragraph().substring(0, 256),
               ),

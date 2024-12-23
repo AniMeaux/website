@@ -347,6 +347,8 @@ model ShowExhibitor {
   // Used by exhibitors to "sign in" to their account.
   token String @unique @default(uuid()) @db.Uuid
 
+  hasPaid Boolean @default(false)
+
   partnership ShowPartner?
   animations  ShowAnimation[]
 
@@ -377,6 +379,7 @@ model ShowExhibitorApplication {
   structureLegalStatus      ShowExhibitorApplicationLegalStatus?
   structureOtherLegalStatus String?                              @db.VarChar(64)
   structureSiret            String                               @db.VarChar(128)
+  structureActivityTargets  ShowActivityTarget[]
   structureActivityFields   ShowActivityField[]
   structureAddress          String                               @db.VarChar(128)
   structureZipCode          String                               @db.VarChar(64)

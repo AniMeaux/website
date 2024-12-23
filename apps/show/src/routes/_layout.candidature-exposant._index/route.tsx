@@ -97,6 +97,7 @@ export async function action({ request }: ActionFunctionArgs) {
       structureZipCode: submission.value.structure.zipCode,
       structureCity: submission.value.structure.city,
       structureCountry: submission.value.structure.country,
+      structureActivityTargets: submission.value.structure.activityTargets,
       structureActivityFields: submission.value.structure.activityFields,
       structureLogoPath: submission.value.structure.logo.name,
 

@@ -20,6 +20,7 @@ import {
 import { getZodConstraint, parseWithZod } from "@conform-to/zod";
 import type {
   ShowActivityField,
+  ShowActivityTarget,
   ShowExhibitorApplicationLegalStatus,
   ShowExhibitorApplicationOtherPartnershipCategory,
   ShowPartnershipCategory,
@@ -38,6 +39,11 @@ import {
   SMALL_SIZED_STANDS_ACTIVITY_FIELDS,
   SORTED_ACTIVITY_FIELDS,
 } from "./activity-field";
+import {
+  ACTIVITY_TARGET_ICON,
+  ACTIVITY_TARGET_TRANSLATION,
+  SORTED_ACTIVITY_TARGETS,
+} from "./activity-target";
 import {
   LEGAL_STATUS_TRANSLATION,
   OTHER_SHOW_LEGAL_STATUS,
@@ -132,6 +138,7 @@ export function SectionForm() {
               fieldsets.structure.value?.zipCode != null &&
               fieldsets.structure.value?.city != null &&
               fieldsets.structure.value?.country != null &&
+              fieldsets.structure.value?.activityTargets != null &&
               fieldsets.structure.value?.activityFields != null &&
               fieldsets.structure.value?.logo != null
             }
@@ -275,6 +282,7 @@ function FieldsetStructure() {
         <FieldText label="Pays" field={fieldset.country} />
       </FormLayout.Row>
 
+      <FieldActivityTarget />
       <FieldActivityField />
 
       <FieldLogo />
@@ -313,6 +321,50 @@ function FieldLegalStatus() {
             <FormLayout.Selector.RadioIcon />
           </FormLayout.Selector.Root>
         ))}
+      </FormLayout.Selectors>
+
+      <FieldErrorHelper field={field} />
+    </FormLayout.Field>
+  );
+}
+
+function FieldActivityTarget() {
+  const { fieldsets } = useFieldsets();
+  const field = fieldsets.structure.getFieldset().activityTargets;
+
+  return (
+    <FormLayout.Field>
+      <FormLayout.Label asChild>
+        <p>Cibles</p>
+      </FormLayout.Label>
+
+      <FormLayout.Selectors columnMinWidth="250px">
+        {getCollectionProps(field, {
+          type: "checkbox",
+          options: SORTED_ACTIVITY_TARGETS,
+        }).map((props) => {
+          const activityTarget = props.value as ShowActivityTarget;
+
+          return (
+            <FormLayout.Selector.Root key={props.key}>
+              <FormLayout.Selector.Input {...props} key={props.key} />
+
+              <FormLayout.Selector.CheckedIcon asChild>
+                <Icon id={ACTIVITY_TARGET_ICON[activityTarget].solid} />
+              </FormLayout.Selector.CheckedIcon>
+
+              <FormLayout.Selector.UncheckedIcon asChild>
+                <Icon id={ACTIVITY_TARGET_ICON[activityTarget].light} />
+              </FormLayout.Selector.UncheckedIcon>
+
+              <FormLayout.Selector.Label>
+                {ACTIVITY_TARGET_TRANSLATION[activityTarget]}
+              </FormLayout.Selector.Label>
+
+              <FormLayout.Selector.CheckboxIcon />
+            </FormLayout.Selector.Root>
+          );
+        })}
       </FormLayout.Selectors>
 
       <FieldErrorHelper field={field} />
