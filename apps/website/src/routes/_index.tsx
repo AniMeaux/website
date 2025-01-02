@@ -73,7 +73,7 @@ export default function Route() {
         </HeroSectionAside>
 
         <HeroSectionAside>
-          <HeroSectionTitle isLarge>Adoptez !</HeroSectionTitle>
+          <HeroSectionTitle isLarge>Ani'meaux!</HeroSectionTitle>
           <HeroSectionParagraph>
             Trouvez le compagnon de vos rêves et donnez-lui une seconde chance.
           </HeroSectionParagraph>
