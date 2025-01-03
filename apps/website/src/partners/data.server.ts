@@ -19,14 +19,6 @@ export const partners: Partner[] = orderBy(
       url: "https://www.anideo.fr",
     },
     {
-      id: "76458a6b-226b-4ef6-ac1b-7a14a83c7bfb",
-      image: "partners/0d10aafb-b026-411d-852d-1cda85742a77",
-      name: "Bitiba",
-      description:
-        "Prix discount sur les grandes marques d’aliments et accessoires pour animaux ! Livraison rapide et large choix. -5 % dès 109 € d’achat ou -3 % dès 59 €. 2 % du montant de votre commande reversé à l’association en passant par **ce lien**.",
-      url: "https://www.awin1.com/cread.php?s=2190108&v=13330&q=340481&r=765013",
-    },
-    {
       id: "6042efa7-8dbe-4216-a79e-de3e5f12090b",
       image: "partners/570514db-e012-436a-8e8e-ea40a4299567",
       name: "La vie de nos animaux",
@@ -49,14 +41,6 @@ export const partners: Partner[] = orderBy(
       description:
         "NeoVoice est l’application 100 % gratuite, construite avec un vétérinaire, qui vous aide à mieux comprendre la santé et le comportement de votre chien.",
       url: "https://www.neovoice.fr",
-    },
-    {
-      id: "f0d3b7bd-722d-489d-8b7a-7224feb96c50",
-      image: "partners/b4c93e5e-0421-40a2-bb1a-b08f4ef9d317",
-      name: "Roses Confettis",
-      description:
-        "Des accessoires colorés et amusants en Biothane® pour chiens, conçus à la main à Montpellier. Chaque commande contribue à soutenir l’association Ani’Meaux avec 1€ de don.",
-      url: "https://rosesetconfettis.store",
     },
     {
       id: "ce96c1c2-687b-4725-8ea7-4b50b6e76cd5",
