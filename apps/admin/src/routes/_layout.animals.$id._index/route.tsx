@@ -70,6 +70,11 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
     UserGroup.VETERINARIAN,
   ]);
 
+  const canSeeComments = hasGroups(currentUser, [
+    UserGroup.ADMIN,
+    UserGroup.ANIMAL_MANAGER,
+  ]);
+
   const animal = await prisma.animal.findUnique({
     where: { id: result.data.id },
     select: {
@@ -99,7 +104,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
 
       ...(isCurrentUserAnimalAdmin
         ? {
-            comments: true,
+            comments: canSeeComments,
             diagnosis: true,
             fosterFamily: {
               select: {
