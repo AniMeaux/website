@@ -53,7 +53,23 @@ export async function action({ request }: ActionFunctionArgs) {
     }
   }
 
+  const fileUploads: unknown[] = [];
+
+  const requestObject = {
+    bodyUsed: request.bodyUsed,
+    headers: Array.from(request.headers.entries()),
+    method: request.method,
+    referrer: request.referrer,
+    referrerPolicy: request.referrerPolicy,
+  };
+
   const formData = await parseFormData(request, async (fileUpload) => {
+    fileUploads.push({
+      fieldName: fileUpload.fieldName,
+      name: fileUpload.name,
+      type: fileUpload.type,
+    });
+
     if (fileUpload.fieldName !== "structure.logo" || fileUpload.name === "") {
       return undefined;
     }
@@ -75,6 +91,8 @@ export async function action({ request }: ActionFunctionArgs) {
 
   captureException(new Error("DEBUG"), {
     extra: {
+      requestObject: JSON.stringify(requestObject),
+      fileUploads: JSON.stringify(fileUploads),
       submission: JSON.stringify(submission),
       formData: JSON.stringify(formDataEntries),
     },
