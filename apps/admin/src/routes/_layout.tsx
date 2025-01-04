@@ -54,7 +54,7 @@ export default function Route() {
     <div className="grid grid-cols-1 items-start md:grid-cols-[auto,minmax(0px,1fr)]">
       <CurrentUserSideBar />
 
-      <div className="flex flex-col" style={{ "--header-height": "80px" }}>
+      <div className="flex flex-col" style={{ "--header-height": "60px" }}>
         <header className="grid w-full grid-cols-[minmax(0px,1fr)_auto] items-center justify-between gap-1 bg-white pb-0.5 pt-safe-0.5 px-safe-1.5 md:sticky md:top-0 md:z-20 md:grid-cols-[minmax(200px,500px)_auto] md:gap-4 md:border-l md:border-gray-50 md:pb-1 md:pl-2 md:pr-safe-2 md:pt-safe-1">
           <GlobalSearch currentUser={currentUser} />
           <CurrentUserMenu />
@@ -228,6 +228,12 @@ const ALL_NAVIGATION_ITEMS: NavigationItem[] = [
     icon: "icon-palette",
     label: "Couleurs",
     authorizedGroups: [UserGroup.ADMIN],
+  },
+  {
+    to: Routes.show.toString(),
+    icon: "icon-show",
+    label: "Salon",
+    authorizedGroups: [UserGroup.ADMIN, UserGroup.SHOW_ORGANIZER],
   },
 ];
 

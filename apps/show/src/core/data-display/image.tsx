@@ -59,7 +59,9 @@ export const DynamicImage = forwardRef<
   const style = styleProp;
 
   if (image.blurhash != null) {
-    style.backgroundImage = `url(${blurhashToDataUri(image.blurhash, 16, 16)})`;
+    const blurhashSize = ASPECT_RATIO_BLURHASH_SIZE[aspectRatio];
+
+    style.backgroundImage = `url(${blurhashToDataUri(image.blurhash, blurhashSize.width, blurhashSize.height)})`;
   }
 
   return (
@@ -112,7 +114,7 @@ export function createImageUrl(
     objectFit?: ObjectFit;
     format?: "auto" | "jpg";
     size?: ImageSize;
-  },
+  } = {},
 ) {
   const transformations = [
     // https://cloudinary.com/documentation/image_optimization#automatic_quality_selection_q_auto
@@ -166,6 +168,17 @@ const ASPECT_RATIO_CLASS_NAME: Record<AspectRatio, string> = {
   "16:9": cn("aspect-video"),
   "16:10": cn("aspect-16/10"),
   none: "",
+};
+
+const ASPECT_RATIO_BLURHASH_SIZE: Record<
+  AspectRatio,
+  { width: number; height: number }
+> = {
+  "1:1": { width: 16, height: 16 },
+  "4:3": { width: 16, height: 12 },
+  "16:9": { width: 16, height: 9 },
+  "16:10": { width: 16, height: 10 },
+  none: { width: 16, height: 16 },
 };
 
 const OBJECT_FIT_CLASS_NAME: Record<ObjectFit, string> = {

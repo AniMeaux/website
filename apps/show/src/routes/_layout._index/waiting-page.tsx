@@ -1,4 +1,4 @@
-import { Action } from "#core/actions/actions";
+import { Action } from "#core/actions/action";
 import { SocialLink } from "#core/actions/social-link";
 import { DynamicImage } from "#core/data-display/image";
 import { HighLightBackground } from "#core/layout/highlight-background";
@@ -36,7 +36,7 @@ function ComeBackSection() {
   return (
     <Section.Root>
       <LazyElement asChild>
-        <Section.ImageAside className="aspect-square translate-y-4 opacity-0 transition-[opacity,transform] duration-1000 data-visible:translate-y-0 data-visible:opacity-100">
+        <Section.ImageAside className="aspect-square translate-y-4 opacity-0 transition-[opacity,transform] duration-very-slow data-visible:translate-y-0 data-visible:opacity-100">
           <DynamicImage
             image={{
               id: "/show/pages/pott-et-pollen-stand-nduainkltifzvy2idnvl",
@@ -52,7 +52,7 @@ function ComeBackSection() {
       </LazyElement>
 
       <LazyElement asChild>
-        <Section.TextAside className="translate-y-4 opacity-0 transition-[opacity,transform] duration-1000 data-visible:translate-y-0 data-visible:opacity-100">
+        <Section.TextAside className="translate-y-4 opacity-0 transition-[opacity,transform] duration-very-slow data-visible:translate-y-0 data-visible:opacity-100">
           <Section.Title>Revient en 2025</Section.Title>
 
           <p>
@@ -81,11 +81,11 @@ function PreviousEditionsSection() {
       <div className="relative grid grid-cols-1 gap-2 py-2 px-safe-page-narrow sm:gap-4 md:grid-cols-2 md:items-center md:py-4 md:px-safe-page-normal lg:gap-8">
         <HighLightBackground
           color="alabaster"
-          className="absolute left-0 top-0 -z-10 h-full w-full"
+          className="absolute left-0 top-0 -z-just-above h-full w-full"
         />
 
         <LazyElement asChild>
-          <Section.ImageAside className="aspect-4/3 translate-x-4 opacity-0 transition-[opacity,transform] duration-1000 data-visible:translate-x-0 data-visible:opacity-100">
+          <Section.ImageAside className="aspect-4/3 translate-x-4 opacity-0 transition-[opacity,transform] duration-very-slow data-visible:translate-x-0 data-visible:opacity-100">
             <DynamicImage
               image={{
                 id: "/show/pages/pott-et-pollen-photos-ajfy5llvexzgl0df2rsy",
@@ -101,7 +101,7 @@ function PreviousEditionsSection() {
         </LazyElement>
 
         <LazyElement asChild>
-          <Section.TextAside className="-translate-x-4 opacity-0 transition-[opacity,transform] delay-150 duration-1000 data-visible:translate-x-0 data-visible:opacity-100 md:col-start-1 md:row-start-1">
+          <Section.TextAside className="-translate-x-4 opacity-0 transition-[opacity,transform] delay-150 duration-very-slow data-visible:translate-x-0 data-visible:opacity-100 md:col-start-1 md:row-start-1">
             <Section.Title>Éditions Précédentes</Section.Title>
 
             <p>
@@ -120,7 +120,7 @@ function PreviousEditionsSection() {
 
             <Section.Action asChild>
               <Action asChild color="mystic">
-                <Link to={Routes.previousEditions()} prefetch="intent">
+                <Link to={Routes.previousEditions.toString()} prefetch="intent">
                   Voir les photos
                 </Link>
               </Action>
@@ -136,7 +136,7 @@ function FollowSection() {
   return (
     <Section.Root width="full" columnCount={1}>
       <LazyElement asChild>
-        <Section.TextAside className="translate-y-4 opacity-0 transition-[opacity,transform] duration-1000 px-safe-page-narrow data-visible:translate-y-0 data-visible:opacity-100">
+        <Section.TextAside className="translate-y-4 opacity-0 transition-[opacity,transform] duration-very-slow px-safe-page-narrow data-visible:translate-y-0 data-visible:opacity-100">
           <Section.Title className="md:text-center">
             Restez informés
           </Section.Title>
@@ -147,13 +147,13 @@ function FollowSection() {
             l'aventure animale avec nous !
           </p>
 
-          <div className="grid grid-cols-[auto_auto] justify-center gap-2">
+          <div className="grid grid-cols-2-auto justify-center gap-2">
             <SocialLink to={CLIENT_ENV.FACEBOOK_URL}>
-              <Pictogram id="facebook" className="text-[48px]" />
+              <Pictogram id="facebook" className="icon-48" />
             </SocialLink>
 
             <SocialLink to={CLIENT_ENV.INSTAGRAM_URL}>
-              <Pictogram id="instagram" className="text-[48px]" />
+              <Pictogram id="instagram" className="icon-48" />
             </SocialLink>
           </div>
         </Section.TextAside>

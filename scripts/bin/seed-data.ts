@@ -14,6 +14,14 @@ import {
   PickUpReason,
   PrismaClient,
   ScreeningResult,
+  ShowActivityField,
+  ShowActivityTarget,
+  ShowExhibitorApplicationLegalStatus,
+  ShowExhibitorApplicationOtherPartnershipCategory,
+  ShowExhibitorApplicationStatus,
+  ShowPartnershipCategory,
+  ShowStandSize,
+  ShowStandZone,
   Species,
   Status,
   UserGroup,
@@ -34,9 +42,13 @@ try {
     seedColors(),
     seedEvents(),
     seedPressArticle(),
+    seedShowProviders(),
+    seedShowExhibitorApplications(),
   ]);
 
-  await seedAnimals();
+  await Promise.all([seedAnimals(), seedShowExhibitors()]);
+
+  await Promise.all([seedShowPartners(), seedShowAnimations()]);
 } finally {
   await prisma.$disconnect();
 }
@@ -462,6 +474,245 @@ async function seedPressArticle() {
 
   const count = await prisma.pressArticle.count();
   console.log(`- 👍 ${count} press articles`);
+}
+
+async function seedShowProviders() {
+  await prisma.showProvider.createMany({
+    data: repeate({ min: 5, max: 10 }, () => ({
+      isVisible: faker.datatype.boolean({ probability: 9 / 10 }),
+      logoPath: faker.string.uuid(),
+      name: faker.company.name(),
+      url: faker.internet.url(),
+    })),
+  });
+
+  const count = await prisma.showProvider.count();
+  console.log(`- 👍 ${count} show providers`);
+}
+
+async function seedShowExhibitorApplications() {
+  await prisma.showExhibitorApplication.createMany({
+    data: repeate({ min: 100, max: 120 }, () => {
+      const status = faker.helpers.arrayElement(
+        Object.values(ShowExhibitorApplicationStatus),
+      );
+
+      const legalStatus = faker.helpers.maybe(
+        () =>
+          faker.helpers.arrayElement(
+            Object.values(ShowExhibitorApplicationLegalStatus),
+          ),
+        { probability: 9 / 10 },
+      );
+
+      const partnershipCategory = faker.helpers.maybe(
+        () =>
+          faker.helpers.arrayElement(Object.values(ShowPartnershipCategory)),
+        { probability: 1 / 6 },
+      );
+
+      return {
+        status,
+        refusalMessage:
+          status === ShowExhibitorApplicationStatus.REFUSED
+            ? faker.lorem.paragraph().substring(0, 512)
+            : undefined,
+
+        contactLastname: faker.person.lastName(),
+        contactFirstname: faker.person.firstName(),
+        contactEmail: faker.internet.email(),
+        contactPhone: faker.phone.number(),
+
+        structureName: faker.company.name(),
+        structureUrl: faker.internet.url(),
+        structureLegalStatus: legalStatus,
+        structureOtherLegalStatus:
+          legalStatus == null ? faker.lorem.word() : undefined,
+        structureSiret: faker.string.numeric({ length: 14 }),
+        structureActivityTargets: faker.helpers.arrayElements(
+          Object.values(ShowActivityTarget),
+          { min: 1, max: 3 },
+        ),
+        structureActivityFields: faker.helpers.arrayElements(
+          Object.values(ShowActivityField),
+          { min: 1, max: 4 },
+        ),
+        structureAddress: faker.location.streetAddress(),
+        structureZipCode: faker.location.zipCode(),
+        structureCity: faker.location.city(),
+        structureCountry: faker.location.country(),
+        structureLogoPath: faker.string.uuid(),
+
+        billingAddress: faker.location.streetAddress(),
+        billingZipCode: faker.location.zipCode(),
+        billingCity: faker.location.city(),
+        billingCountry: faker.location.country(),
+
+        desiredStandSize: faker.helpers.arrayElement(
+          Object.values(ShowStandSize),
+        ),
+
+        proposalForOnStageEntertainment: faker.helpers.maybe(
+          () => faker.lorem.paragraph().substring(0, 512),
+          { probability: 1 / 10 },
+        ),
+
+        partnershipCategory,
+        otherPartnershipCategory:
+          partnershipCategory == null
+            ? faker.helpers.arrayElement(
+                Object.values(ShowExhibitorApplicationOtherPartnershipCategory),
+              )
+            : undefined,
+
+        discoverySource: faker.lorem.word(),
+      };
+    }),
+  });
+
+  const count = await prisma.showExhibitorApplication.count();
+  console.log(`- 👍 ${count} show exhibitor applications`);
+}
+
+async function seedShowExhibitors() {
+  const applications = await prisma.showExhibitorApplication.findMany({
+    where: { status: ShowExhibitorApplicationStatus.VALIDATED },
+    select: {
+      id: true,
+      structureName: true,
+      structureUrl: true,
+      structureActivityTargets: true,
+      structureActivityFields: true,
+      structureLogoPath: true,
+      desiredStandSize: true,
+    },
+  });
+
+  await Promise.all(
+    applications.map((application) =>
+      prisma.showExhibitor.create({
+        data: {
+          isVisible: faker.datatype.boolean({ probability: 9 / 10 }),
+          hasPaid: faker.datatype.boolean({ probability: 1 / 5 }),
+
+          application: { connect: { id: application.id } },
+
+          documents: { create: { folderId: faker.string.uuid() } },
+
+          profile: {
+            create: {
+              activityFields: application.structureActivityFields,
+              activityTargets: application.structureActivityTargets,
+              description: faker.helpers.maybe(() =>
+                faker.lorem.paragraph().substring(0, 256),
+              ),
+              links: [application.structureUrl].concat(
+                repeate({ min: 0, max: 2 }, () => faker.internet.url()),
+              ),
+              logoPath: application.structureLogoPath,
+              name: application.structureName,
+              onStandAnimations: faker.helpers.maybe(
+                () => faker.lorem.lines().substring(0, 128),
+                { probability: 1 / 5 },
+              ),
+            },
+          },
+
+          standConfiguration: {
+            create: {
+              size: application.desiredStandSize,
+              tableCount: faker.number.int({ min: 0, max: 3 }),
+            },
+          },
+        },
+      }),
+    ),
+  );
+
+  const count = await prisma.showExhibitor.count();
+  console.log(`- 👍 ${count} show exhibitors`);
+}
+
+async function seedShowPartners() {
+  const exhibitors = await prisma.showExhibitor.findMany({
+    where: {
+      application: {
+        partnershipCategory: { not: null },
+      },
+    },
+    select: {
+      isVisible: true,
+      id: true,
+      application: {
+        select: {
+          partnershipCategory: true,
+        },
+      },
+    },
+  });
+
+  await prisma.showPartner.createMany({
+    data: [
+      ...exhibitors.map((exhibitor) => ({
+        isVisible: exhibitor.isVisible,
+        exhibitorId: exhibitor.id,
+        category: exhibitor.application!.partnershipCategory!,
+      })),
+      ...repeate({ min: 2, max: 5 }, () => ({
+        isVisible: faker.datatype.boolean(),
+        category: faker.helpers.arrayElement(
+          Object.values(ShowPartnershipCategory),
+        ),
+        logoPath: faker.string.uuid(),
+        name: faker.company.name(),
+        url: faker.internet.url(),
+      })),
+    ],
+  });
+
+  const count = await prisma.showPartner.count();
+  console.log(`- 👍 ${count} show partners`);
+}
+
+async function seedShowAnimations() {
+  const exhibitors = await prisma.showExhibitor.findMany({
+    select: { id: true },
+  });
+
+  const OPENING_TIME = DateTime.fromISO("2025-06-07T10:00:00.000+02:00");
+
+  await Promise.all(
+    Array.from({ length: 18 }, (_, index) => {
+      const startTime = OPENING_TIME.plus({
+        // [0, 8]: first day
+        // [9, 17]: second day
+        day: Math.floor(index / 9),
+        hour: index % 9,
+      });
+
+      return prisma.showAnimation.create({
+        data: {
+          isVisible: faker.datatype.boolean(),
+          description: faker.lorem.paragraph().substring(0, 128),
+          startTime: startTime.toJSDate(),
+          endTime: startTime.plus({ hour: 1 }).toJSDate(),
+          registrationUrl: faker.helpers.maybe(() => faker.internet.url(), {
+            probability: 1 / 5,
+          }),
+          zone: faker.helpers.arrayElement(Object.values(ShowStandZone)),
+          animators: {
+            connect: faker.helpers.arrayElements(exhibitors, {
+              min: 0,
+              max: 2,
+            }),
+          },
+        },
+      });
+    }),
+  );
+
+  const count = await prisma.showAnimation.count();
+  console.log(`- 👍 ${count} show animations`);
 }
 
 function nullableBoolean() {

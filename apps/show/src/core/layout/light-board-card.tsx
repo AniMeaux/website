@@ -3,16 +3,21 @@ import { BeeIllustration } from "#core/illustration/bee";
 import { useScreenSizeCondition } from "#core/screen-size";
 import { theme } from "#generated/theme";
 import { cn } from "@animeaux/core";
+import { forwardRef } from "react";
 
-export function LightBoardCard({
-  isSmall = false,
-  children,
-  className,
-}: React.PropsWithChildren<{ className?: string }> & {
-  isSmall?: boolean;
-}) {
+export const LightBoardCard = forwardRef<
+  React.ComponentRef<"div">,
+  React.ComponentPropsWithoutRef<"div"> & {
+    isSmall?: boolean;
+  }
+>(function LightBoardCard(
+  { isSmall = false, children, className, ...props },
+  ref,
+) {
   return (
     <div
+      {...props}
+      ref={ref}
       className={cn(
         "relative p-3",
         isSmall ? undefined : "md:px-10 md:py-6",
@@ -24,7 +29,7 @@ export function LightBoardCard({
       <BeeIllustration
         direction="left-to-right"
         className={cn(
-          "absolute bottom-0.5 right-2.5 -z-10 w-[25px] translate-y-1/2",
+          "absolute bottom-0.5 right-2.5 -z-just-above w-[25px] translate-y-1/2",
           isSmall ? undefined : "md:bottom-1 md:right-5",
         )}
       />
@@ -32,7 +37,7 @@ export function LightBoardCard({
       {children}
     </div>
   );
-}
+});
 
 function LightBoardBackground({ isSmall }: { isSmall: boolean }) {
   const { ref, size } = useElementSize<HTMLDivElement>();
@@ -43,7 +48,10 @@ function LightBoardBackground({ isSmall }: { isSmall: boolean }) {
   return (
     // ResizeObserver don't seem to work on SVG in Safari.
     // https://stackoverflow.com/questions/65565149/how-to-apply-resizeobserver-to-svg-element
-    <div ref={ref} className="absolute left-0 top-0 -z-10 grid h-full w-full">
+    <div
+      ref={ref}
+      className="absolute left-0 top-0 -z-just-above grid h-full w-full"
+    >
       <svg
         viewBox={size == null ? "0 0 0 0" : `0 0 ${size.width} ${size.height}`}
         fill="none"

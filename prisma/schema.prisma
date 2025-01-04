@@ -221,6 +221,7 @@ enum UserGroup {
   ANIMAL_MANAGER
   BLOGGER
   HEAD_OF_PARTNERSHIPS
+  SHOW_ORGANIZER
   VETERINARIAN
   VOLUNTEER
 }
@@ -285,4 +286,276 @@ enum Diagnosis {
   NOT_APPLICABLE
   UNCATEGORIZED
   UNKNOWN
+}
+
+model ShowProvider {
+  id        String   @id @default(uuid()) @db.VarChar(255)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  isVisible Boolean  @default(true)
+
+  logoPath String @unique @db.VarChar(128)
+  name     String @unique @db.VarChar(64)
+  url      String @unique @db.VarChar(128)
+}
+
+model ShowPartner {
+  id        String   @id @default(uuid()) @db.Uuid
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  isVisible Boolean  @default(true)
+
+  category ShowPartnershipCategory
+
+  // Either an exhibitor...
+  exhibitor   ShowExhibitor? @relation(fields: [exhibitorId], references: [id], onDelete: Cascade)
+  exhibitorId String?        @unique @db.Uuid
+
+  // ...or a structure with these properties.
+  logoPath String? @unique @db.VarChar(128)
+  name     String? @unique @db.VarChar(64)
+  url      String? @unique @db.VarChar(128)
+}
+
+enum ShowPartnershipCategory {
+  BRONZE
+  SILVER
+  GOLD
+}
+
+model ShowAnimation {
+  id        String   @id @default(uuid()) @db.VarChar(255)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  isVisible Boolean  @default(true)
+
+  animators ShowExhibitor[]
+
+  description     String        @db.VarChar(128)
+  endTime         DateTime
+  registrationUrl String?       @db.VarChar(128)
+  startTime       DateTime
+  zone            ShowStandZone
+}
+
+model ShowExhibitor {
+  id        String   @id @default(uuid()) @db.Uuid
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  isVisible Boolean  @default(true)
+
+  // Used by exhibitors to "sign in" to their account.
+  token String @unique @default(uuid()) @db.Uuid
+
+  hasPaid Boolean @default(false)
+
+  partnership ShowPartner?
+  animations  ShowAnimation[]
+
+  application        ShowExhibitorApplication?
+  documents          ShowExhibitorDocuments?
+  profile            ShowExhibitorProfile?
+  standConfiguration ShowExhibitorStandConfiguration?
+}
+
+model ShowExhibitorApplication {
+  id        String   @id @default(uuid()) @db.Uuid
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  exhibitor   ShowExhibitor? @relation(fields: [exhibitorId], references: [id], onDelete: Cascade)
+  exhibitorId String?        @unique @db.Uuid
+
+  status         ShowExhibitorApplicationStatus @default(UNTREATED)
+  refusalMessage String?                        @db.VarChar(512)
+
+  contactLastname  String @db.VarChar(64)
+  contactFirstname String @db.VarChar(64)
+  contactEmail     String @unique @db.VarChar(64)
+  contactPhone     String @db.VarChar(64)
+
+  structureName             String                               @db.VarChar(64)
+  structureUrl              String                               @db.VarChar(128)
+  structureLegalStatus      ShowExhibitorApplicationLegalStatus?
+  structureOtherLegalStatus String?                              @db.VarChar(64)
+  structureSiret            String                               @db.VarChar(128)
+  structureActivityTargets  ShowActivityTarget[]
+  structureActivityFields   ShowActivityField[]
+  structureAddress          String                               @db.VarChar(128)
+  structureZipCode          String                               @db.VarChar(64)
+  structureCity             String                               @db.VarChar(128)
+  structureCountry          String                               @db.VarChar(64)
+  structureLogoPath         String                               @db.VarChar(128)
+
+  billingAddress String @db.VarChar(128)
+  billingCity    String @db.VarChar(128)
+  billingZipCode String @db.VarChar(64)
+  billingCountry String @db.VarChar(64)
+
+  desiredStandSize                ShowStandSize
+  proposalForOnStageEntertainment String?       @db.VarChar(512)
+
+  partnershipCategory      ShowPartnershipCategory?
+  otherPartnershipCategory ShowExhibitorApplicationOtherPartnershipCategory?
+
+  discoverySource String @db.VarChar(128)
+}
+
+enum ShowExhibitorApplicationStatus {
+  UNTREATED
+  REFUSED
+  VALIDATED
+  WAITING_LIST
+}
+
+enum ShowExhibitorApplicationOtherPartnershipCategory {
+  MAYBE
+  NO_PARTNERSHIP
+}
+
+enum ShowExhibitorApplicationLegalStatus {
+  ASSOCIATION
+  SOLE_PROPRIETORSHIP
+  COMPANY
+}
+
+model ShowExhibitorDocuments {
+  id        String   @id @default(uuid()) @db.Uuid
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  exhibitor   ShowExhibitor @relation(fields: [exhibitorId], references: [id], onDelete: Cascade)
+  exhibitorId String        @unique @db.Uuid
+
+  status        ShowExhibitorDocumentsStatus @default(TO_BE_FILLED)
+  statusMessage String?                      @db.VarChar(512)
+
+  folderId             String  @db.VarChar(128)
+  identificationFileId String? @db.VarChar(128)
+  insuranceFileId      String? @db.VarChar(128)
+  kbisFileId           String? @db.VarChar(128)
+}
+
+enum ShowExhibitorDocumentsStatus {
+  TO_BE_FILLED
+  AWAITING_VALIDATION
+  TO_MODIFY
+  VALIDATED
+}
+
+model ShowExhibitorProfile {
+  id        String   @id @default(uuid()) @db.Uuid
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  exhibitor   ShowExhibitor @relation(fields: [exhibitorId], references: [id], onDelete: Cascade)
+  exhibitorId String        @unique @db.Uuid
+
+  activityFields  ShowActivityField[]
+  activityTargets ShowActivityTarget[]
+
+  description       String?  @db.VarChar(256)
+  links             String[]
+  logoPath          String   @db.VarChar(128)
+  name              String   @db.VarChar(64)
+  onStandAnimations String?  @db.VarChar(128)
+}
+
+model ShowExhibitorStandConfiguration {
+  id        String   @id @default(uuid()) @db.Uuid
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  exhibitor   ShowExhibitor @relation(fields: [exhibitorId], references: [id], onDelete: Cascade)
+  exhibitorId String        @unique @db.Uuid
+
+  status        ShowExhibitorStandConfigurationStatus @default(TO_BE_FILLED)
+  statusMessage String?                               @db.VarChar(512)
+
+  chairCount       Int                                             @default(1)
+  dividerCount     Int                                             @default(0)
+  dividerType      ShowExhibitorStandConfigurationDividerType?
+  hasTablecloths   Boolean                                         @default(true)
+  installationDay  ShowExhibitorStandConfigurationInstallationDay?
+  locationNumber   Int?
+  peopleCount      Int                                             @default(1)
+  placementComment String?                                         @db.VarChar(256)
+  presentDogs      ShowExhibitorDog[]
+  size             ShowStandSize
+  standNumber      Int?
+  tableCount       Int
+  zone             ShowStandZone?
+}
+
+enum ShowExhibitorStandConfigurationStatus {
+  TO_BE_FILLED
+  AWAITING_VALIDATION
+  TO_MODIFY
+  VALIDATED
+}
+
+enum ShowExhibitorStandConfigurationDividerType {
+  GRID
+  FABRIC_PANEL
+  WOOD_PANEL
+}
+
+enum ShowExhibitorStandConfigurationInstallationDay {
+  FRIDAY
+  SATURDAY
+}
+
+model ShowExhibitorDog {
+  id        String   @id @default(uuid()) @db.Uuid
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  standConfiguration   ShowExhibitorStandConfiguration @relation(fields: [standConfigurationId], references: [id], onDelete: Cascade)
+  standConfigurationId String                          @db.Uuid
+
+  gender        Gender
+  idNumber      String  @db.VarChar(64)
+  isCategorized Boolean
+  isSterilized  Boolean
+}
+
+enum ShowStandZone {
+  INSIDE
+  OUTSIDE
+}
+
+enum ShowActivityField {
+  ACCESSORIES
+  ALTERNATIVE_MEDICINE
+  ARTIST
+  ASSOCIATION
+  BEHAVIOR
+  CARE
+  CITY
+  DRAWING
+  EDITING
+  EDUCATION
+  FOOD
+  PHOTOGRAPHER
+  SENSITIZATION
+  SERVICES
+  TRAINING
+}
+
+enum ShowActivityTarget {
+  CATS
+  DOGS
+  EQUINES
+  HUMANS
+  NACS
+  RABBITS
+  WILDLIFE
+}
+
+enum ShowStandSize {
+  S_6
+  S_9
+  S_12
+  S_18
+  S_36
 }

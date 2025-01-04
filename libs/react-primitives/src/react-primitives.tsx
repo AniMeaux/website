@@ -2,11 +2,13 @@ import { Slot } from "@radix-ui/react-slot";
 import { forwardRef } from "react";
 
 const ELEMENT_TYPES = [
+  "a",
   "aside",
   "button",
   "div",
   "form",
   "h2",
+  "h3",
   "input",
   "label",
   "li",

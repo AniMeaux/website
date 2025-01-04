@@ -15,8 +15,8 @@ const SVGS = [
 ];
 
 const resolver: HttpResponseResolver = async ({ params }) => {
-  invariant(typeof params.id === "string", "id is required");
-  const svg = SVGS[simpleHash(params.id) % SVGS.length];
+  invariant(typeof params[0] === "string", "An id is required");
+  const svg = SVGS[simpleHash(params[0]) % SVGS.length];
   invariant(svg != null, "An SVG should exists");
 
   return new HttpResponse(svg, {
@@ -29,15 +29,7 @@ const resolver: HttpResponseResolver = async ({ params }) => {
 
 export const cloudinaryHandlers = [
   http.get(
-    "https://res.cloudinary.com/mock-cloud-name/image/upload/:filters/:id",
-    resolver,
-  ),
-  http.get(
-    "https://res.cloudinary.com/mock-cloud-name/image/upload/:filters/:folder/:id",
-    resolver,
-  ),
-  http.get(
-    "https://res.cloudinary.com/mock-cloud-name/image/upload/:id",
+    "https://res.cloudinary.com/mock-cloud-name/image/upload/:filters/*",
     resolver,
   ),
 ];

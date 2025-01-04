@@ -6,7 +6,7 @@ import type { RouteHandle } from "#core/handles";
 import { createSocialMeta } from "#core/meta";
 import { Routes } from "#core/navigation";
 import { getPageTitle } from "#core/page-title";
-import { NotFoundResponse } from "#core/response.server";
+import { notFound } from "#core/response.server";
 import { ScrollRestorationLocationState } from "#core/scroll-restoration";
 import { Icon } from "#generated/icon";
 import { PhotoLocationState } from "#previous-editions/photo-location-state";
@@ -35,7 +35,7 @@ const ParamsSchema = zu.object({
 export async function loader({ params }: LoaderFunctionArgs) {
   const result = ParamsSchema.safeParse(params);
   if (!result.success) {
-    throw new NotFoundResponse();
+    throw notFound();
   }
 
   const images = await cloudinary.previousEdition.findAllImages(
@@ -44,7 +44,7 @@ export async function loader({ params }: LoaderFunctionArgs) {
 
   const image = images[result.data.photoIndex];
   if (image == null) {
-    throw new NotFoundResponse();
+    throw notFound();
   }
 
   return json({
@@ -112,7 +112,7 @@ export default function Route() {
 
       <PhotoAction asChild className="col-start-1 row-start-1">
         <Link
-          to={Routes.previousEditions(edition)}
+          to={Routes.previousEditions.edition(edition).toString()}
           state={ScrollRestorationLocationState.create({
             scrollRestorationLocationKey: galleryLocationKey,
           })}
@@ -124,7 +124,10 @@ export default function Route() {
       {photoIndex > 0 ? (
         <PhotoAction asChild className="col-start-1 row-start-3 md:row-start-2">
           <Link
-            to={Routes.photo(edition, photoIndex - 1)}
+            to={Routes.previousEditions
+              .edition(edition)
+              .photoIndex(photoIndex - 1)
+              .toString()}
             state={PhotoLocationState.create({ galleryLocationKey })}
           >
             <Icon id="chevron-left-light" />
@@ -135,7 +138,10 @@ export default function Route() {
       {photoIndex < imageCount - 1 ? (
         <PhotoAction asChild className="col-start-3 row-start-3 md:row-start-2">
           <Link
-            to={Routes.photo(edition, photoIndex + 1)}
+            to={Routes.previousEditions
+              .edition(edition)
+              .photoIndex(photoIndex + 1)
+              .toString()}
             state={PhotoLocationState.create({ galleryLocationKey })}
           >
             <Icon id="chevron-right-light" />
@@ -155,7 +161,7 @@ const PhotoAction = forwardRef<
       {...props}
       ref={ref}
       className={cn(
-        "grid grid-cols-1 self-center justify-self-center text-[48px] text-white opacity-70 focus-visible:opacity-100 focus-visible:focus-compact-mystic hover:opacity-100",
+        "grid grid-cols-1 self-center justify-self-center text-white opacity-70 icon-48 can-hover:hover:opacity-100 can-hover:focus-visible:opacity-100 can-hover:focus-visible:focus-compact",
         className,
       )}
     />

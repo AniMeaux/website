@@ -171,7 +171,7 @@ export function ErrorBoundary() {
 
 export default function Route() {
   return (
-    <PageLayout>
+    <PageLayout.Root>
       <PageLayout.Content className="flex flex-col gap-1 md:gap-2">
         <HeaderCard />
 
@@ -196,7 +196,7 @@ export default function Route() {
           </section>
         </section>
       </PageLayout.Content>
-    </PageLayout>
+    </PageLayout.Root>
   );
 }
 

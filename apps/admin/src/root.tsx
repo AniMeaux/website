@@ -15,6 +15,7 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useLoaderData,
 } from "@remix-run/react";
 import { Settings } from "luxon";
 
@@ -64,7 +65,7 @@ export const links: LinksFunction = () => {
 };
 
 export async function loader() {
-  return json({ config: createConfig() });
+  return json({ CLIENT_ENV: global.CLIENT_ENV, config: createConfig() });
 }
 
 export const meta: MetaFunction = () => {
@@ -72,9 +73,13 @@ export const meta: MetaFunction = () => {
 };
 
 export default function App() {
+  const { CLIENT_ENV } = useLoaderData<typeof loader>();
+
   return (
     <Document>
       <Outlet />
+
+      <GlobalClientEnv clientEnv={CLIENT_ENV} />
     </Document>
   );
 }
@@ -132,5 +137,19 @@ function Document({ children }: { children: React.ReactNode }) {
         <Scripts />
       </body>
     </html>
+  );
+}
+
+function GlobalClientEnv({
+  clientEnv = {},
+}: {
+  clientEnv?: Record<string, any>;
+}) {
+  return (
+    <script
+      dangerouslySetInnerHTML={{
+        __html: `window.CLIENT_ENV = ${JSON.stringify(clientEnv)};`,
+      }}
+    />
   );
 }

@@ -175,22 +175,24 @@ export default function Route() {
   const fetcher = useFetcher<typeof action>();
 
   return (
-    <PageLayout.Content className="flex flex-col items-center">
-      <Card className="w-full md:max-w-[600px]">
-        <Card.Header isVertical>
-          <Card.Title>Nouvel animal</Card.Title>
-          <AnimalCreationSteps activeStep="situation" />
-        </Card.Header>
+    <PageLayout.Root>
+      <PageLayout.Content className="flex flex-col items-center">
+        <Card className="w-full md:max-w-[600px]">
+          <Card.Header isVertical>
+            <Card.Title>Nouvel animal</Card.Title>
+            <AnimalCreationSteps activeStep="situation" />
+          </Card.Header>
 
-        <Card.Content>
-          <AnimalSituationForm
-            isCreate
-            currentUser={currentUser}
-            defaultAnimal={draft}
-            fetcher={fetcher}
-          />
-        </Card.Content>
-      </Card>
-    </PageLayout.Content>
+          <Card.Content>
+            <AnimalSituationForm
+              isCreate
+              currentUser={currentUser}
+              defaultAnimal={draft}
+              fetcher={fetcher}
+            />
+          </Card.Content>
+        </Card>
+      </PageLayout.Content>
+    </PageLayout.Root>
   );
 }

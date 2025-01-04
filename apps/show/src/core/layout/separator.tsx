@@ -1,4 +1,8 @@
-export function VerticalSeparator() {
+import { cn } from "@animeaux/core";
+
+type SeparatorColor = "alabaster" | "mystic" | "prussianBlue";
+
+export function VerticalSeparator({ color }: { color: SeparatorColor }) {
   return (
     <svg
       viewBox="0 0 3 100"
@@ -6,7 +10,10 @@ export function VerticalSeparator() {
       // Allow the shape to stretch.
       preserveAspectRatio="none"
       xmlns="http://www.w3.org/2000/svg"
-      className="hidden h-full w-[3px] overflow-visible text-mystic md:block"
+      className={cn(
+        "h-full w-[3px] overflow-visible",
+        COLOR_CLASS_NAMES[color],
+      )}
     >
       <path
         d="M1.5 0L1.5 100"
@@ -22,7 +29,7 @@ export function VerticalSeparator() {
   );
 }
 
-export function HorizontalSeparator() {
+export function HorizontalSeparator({ color }: { color: SeparatorColor }) {
   return (
     <svg
       viewBox="0 0 100 3"
@@ -30,7 +37,10 @@ export function HorizontalSeparator() {
       // Allow the shape to stretch.
       preserveAspectRatio="none"
       xmlns="http://www.w3.org/2000/svg"
-      className="h-[3px] w-full overflow-visible text-mystic md:hidden"
+      className={cn(
+        "h-[3px] w-full overflow-visible",
+        COLOR_CLASS_NAMES[color],
+      )}
     >
       <path
         d="M0 1.5L100 1.5"
@@ -45,3 +55,9 @@ export function HorizontalSeparator() {
     </svg>
   );
 }
+
+const COLOR_CLASS_NAMES: Record<SeparatorColor, string> = {
+  alabaster: cn("text-alabaster"),
+  mystic: cn("text-mystic"),
+  prussianBlue: cn("text-prussianBlue"),
+};
