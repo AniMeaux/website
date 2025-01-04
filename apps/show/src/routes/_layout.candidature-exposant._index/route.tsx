@@ -55,14 +55,6 @@ export async function action({ request }: ActionFunctionArgs) {
 
   const fileUploads: unknown[] = [];
 
-  const requestObject = {
-    bodyUsed: request.bodyUsed,
-    headers: Array.from(request.headers.entries()),
-    method: request.method,
-    referrer: request.referrer,
-    referrerPolicy: request.referrerPolicy,
-  };
-
   const formData = await parseFormData(request, async (fileUpload) => {
     fileUploads.push({
       fieldName: fileUpload.fieldName,
@@ -84,6 +76,14 @@ export async function action({ request }: ActionFunctionArgs) {
       return undefined;
     }
   });
+
+  const requestObject = {
+    bodyUsed: request.bodyUsed,
+    headers: Array.from(request.headers.entries()),
+    method: request.method,
+    referrer: request.referrer,
+    referrerPolicy: request.referrerPolicy,
+  };
 
   const submission = parseWithZod(formData, { schema: ActionSchema });
 

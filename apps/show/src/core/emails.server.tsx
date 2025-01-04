@@ -9,7 +9,9 @@ const resend =
 
 export const email = {
   send: new SendResendDelegate(resend, {
-    useTestEmail: process.env.RESEND_ENABLE_LOCAL !== "true",
+    useTestEmail:
+      process.env.RUNTIME_ENV === "local" &&
+      process.env.RESEND_ENABLE_LOCAL !== "true",
 
     onError: (error, { template, effectiveTo, textBody }) => {
       console.error("Could not send email:", error);
