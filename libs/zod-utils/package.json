@@ -14,6 +14,7 @@
   },
   "peerDependencies": {
     "@animeaux/core": "*",
+    "@sentry/remix": "^8.37.1",
     "luxon": "^3.4.2",
     "zod": "^3.22.2",
     "zod-form-data": "^2.0.1"

@@ -1,0 +1,532 @@
+import { EmailHtml } from "#core/data-display/email-html.server";
+import { createImageUrl } from "#core/data-display/image";
+import { Routes } from "#core/navigation";
+import { services } from "#core/services/services.server";
+import { ACTIVITY_FIELD_TRANSLATION } from "#exhibitors/activity-field/activity-field";
+import { ACTIVITY_TARGET_TRANSLATION } from "#exhibitors/activity-target/activity-target";
+import { LEGAL_STATUS_TRANSLATION } from "#exhibitors/application/legal-status";
+import {
+  EXHIBITOR_APPLICATION_OTHER_PARTNERSHIP_CATEGORY_TRANSLATION,
+  PARTNERSHIP_CATEGORY_TRANSLATION,
+} from "#exhibitors/partnership/category";
+import { STAND_SIZE_TRANSLATION } from "#exhibitors/stand-size/stand-size";
+import { ImageUrl, getCompleteLocation } from "@animeaux/core";
+import type { EmailTemplate } from "@animeaux/resend";
+import type { ShowExhibitorApplication } from "@prisma/client";
+import { ShowExhibitorApplicationStatus } from "@prisma/client";
+import { Img } from "@react-email/components";
+import invariant from "tiny-invariant";
+
+export function createEmailTemplateConfirmation(
+  application: ShowExhibitorApplication,
+): EmailTemplate {
+  function SectionInformation() {
+    return (
+      <EmailHtml.Section.Root>
+        <EmailHtml.Paragraph>
+          <EmailHtml.Strong>
+            Merci pour votre candidature au Salon des Ani’Meaux 2025 !
+          </EmailHtml.Strong>
+        </EmailHtml.Paragraph>
+
+        <EmailHtml.Paragraph>
+          Votre dossier a bien été reçu et est actuellement en cours d’étude par
+          nos équipes de bénévoles. Vous serez informé(e) par e-mail dès qu’une
+          mise à jour concernant votre demande sera disponible.
+        </EmailHtml.Paragraph>
+
+        <EmailHtml.Paragraph>
+          Pour toute question ou complément d’information, n’hésitez pas à nous
+          contacter en répondant à cet e-mail.
+        </EmailHtml.Paragraph>
+      </EmailHtml.Section.Root>
+    );
+  }
+
+  function SectionContact() {
+    return (
+      <EmailHtml.Section.Root>
+        <EmailHtml.Section.Title>Contact</EmailHtml.Section.Title>
+
+        <EmailHtml.Output.Table>
+          <EmailHtml.Output.Row>
+            <EmailHtml.Output.Label>Nom</EmailHtml.Output.Label>
+
+            <EmailHtml.Output.Value>
+              {application.contactLastname}
+            </EmailHtml.Output.Value>
+          </EmailHtml.Output.Row>
+
+          <EmailHtml.Output.Row>
+            <EmailHtml.Output.Label>Prénom</EmailHtml.Output.Label>
+
+            <EmailHtml.Output.Value>
+              {application.contactFirstname}
+            </EmailHtml.Output.Value>
+          </EmailHtml.Output.Row>
+
+          <EmailHtml.Output.Row>
+            <EmailHtml.Output.Label>Adresse e-mail</EmailHtml.Output.Label>
+
+            <EmailHtml.Output.Value>
+              {application.contactEmail}
+            </EmailHtml.Output.Value>
+          </EmailHtml.Output.Row>
+
+          <EmailHtml.Output.Row>
+            <EmailHtml.Output.Label>Numéro de téléphone</EmailHtml.Output.Label>
+
+            <EmailHtml.Output.Value>
+              {application.contactPhone}
+            </EmailHtml.Output.Value>
+          </EmailHtml.Output.Row>
+        </EmailHtml.Output.Table>
+      </EmailHtml.Section.Root>
+    );
+  }
+
+  function SectionStructure() {
+    return (
+      <EmailHtml.Section.Root>
+        <EmailHtml.Section.Title>Structure</EmailHtml.Section.Title>
+
+        <EmailHtml.Output.Table>
+          <EmailHtml.Output.Row>
+            <EmailHtml.Output.Label>Nom</EmailHtml.Output.Label>
+
+            <EmailHtml.Output.Value>
+              {application.structureName}
+            </EmailHtml.Output.Value>
+          </EmailHtml.Output.Row>
+
+          <EmailHtml.Output.Row>
+            <EmailHtml.Output.Label>Lien</EmailHtml.Output.Label>
+            <EmailHtml.Output.Value>
+              {application.structureUrl}
+            </EmailHtml.Output.Value>
+          </EmailHtml.Output.Row>
+
+          <EmailHtml.Output.Row>
+            <EmailHtml.Output.Label>Forme juridique</EmailHtml.Output.Label>
+
+            <EmailHtml.Output.Value>
+              {application.structureLegalStatus != null
+                ? LEGAL_STATUS_TRANSLATION[application.structureLegalStatus]
+                : application.structureOtherLegalStatus}
+            </EmailHtml.Output.Value>
+          </EmailHtml.Output.Row>
+
+          <EmailHtml.Output.Row>
+            <EmailHtml.Output.Label>
+              Numéro d’identification
+            </EmailHtml.Output.Label>
+
+            <EmailHtml.Output.Value>
+              {application.structureSiret}
+            </EmailHtml.Output.Value>
+          </EmailHtml.Output.Row>
+
+          <EmailHtml.Output.Row>
+            <EmailHtml.Output.Label>
+              Adresse de domiciliation
+            </EmailHtml.Output.Label>
+
+            <EmailHtml.Output.Value>
+              <EmailHtml.Markdown
+                content={getCompleteLocation({
+                  address: application.structureAddress,
+                  zipCode: application.structureZipCode,
+                  city: application.structureCity,
+                  country: application.structureCountry,
+                })}
+              />
+            </EmailHtml.Output.Value>
+          </EmailHtml.Output.Row>
+
+          <EmailHtml.Output.Row>
+            <EmailHtml.Output.Label>Cibles</EmailHtml.Output.Label>
+
+            <EmailHtml.Output.Value>
+              {application.structureActivityTargets
+                .map((target) => ACTIVITY_TARGET_TRANSLATION[target])
+                .join(", ")}
+            </EmailHtml.Output.Value>
+          </EmailHtml.Output.Row>
+
+          <EmailHtml.Output.Row>
+            <EmailHtml.Output.Label>
+              Domaines d’activités
+            </EmailHtml.Output.Label>
+
+            <EmailHtml.Output.Value>
+              {application.structureActivityFields
+                .map((field) => ACTIVITY_FIELD_TRANSLATION[field])
+                .join(", ")}
+            </EmailHtml.Output.Value>
+          </EmailHtml.Output.Row>
+
+          <EmailHtml.Output.Row>
+            <EmailHtml.Output.Label>Logo</EmailHtml.Output.Label>
+
+            <EmailHtml.Output.Value>
+              <Img
+                src={createImageUrl(
+                  process.env.CLOUDINARY_CLOUD_NAME,
+                  ImageUrl.parse(application.structureLogoPath).id,
+                  {
+                    size: "512",
+                    aspectRatio: "4:3",
+                    objectFit: "contain",
+                  },
+                )}
+                alt={application.structureName}
+                // Reset Img default styles to avoid conflicts.
+                style={{ border: undefined }}
+                className="aspect-4/3 w-full min-w-0 rounded-2 border border-solid border-mystic-200 object-contain"
+              />
+            </EmailHtml.Output.Value>
+          </EmailHtml.Output.Row>
+        </EmailHtml.Output.Table>
+      </EmailHtml.Section.Root>
+    );
+  }
+
+  function SectionBilling() {
+    return (
+      <EmailHtml.Section.Root>
+        <EmailHtml.Section.Title>Facturation</EmailHtml.Section.Title>
+
+        <EmailHtml.Output.Table>
+          <EmailHtml.Output.Row>
+            <EmailHtml.Output.Label>
+              Adresse de facturation
+            </EmailHtml.Output.Label>
+
+            <EmailHtml.Output.Value>
+              <EmailHtml.Markdown
+                content={getCompleteLocation({
+                  address: application.billingAddress,
+                  zipCode: application.billingZipCode,
+                  city: application.billingCity,
+                  country: application.billingCountry,
+                })}
+              />
+            </EmailHtml.Output.Value>
+          </EmailHtml.Output.Row>
+        </EmailHtml.Output.Table>
+      </EmailHtml.Section.Root>
+    );
+  }
+
+  function SectionParticipation() {
+    return (
+      <EmailHtml.Section.Root>
+        <EmailHtml.Section.Title>Participation</EmailHtml.Section.Title>
+
+        <EmailHtml.Output.Table>
+          <EmailHtml.Output.Row>
+            <EmailHtml.Output.Label>
+              Taille du stand souhaité
+            </EmailHtml.Output.Label>
+
+            <EmailHtml.Output.Value>
+              {STAND_SIZE_TRANSLATION[application.desiredStandSize]}
+            </EmailHtml.Output.Value>
+          </EmailHtml.Output.Row>
+
+          <EmailHtml.Output.Row>
+            <EmailHtml.Output.Label>Animation sur scène</EmailHtml.Output.Label>
+
+            <EmailHtml.Output.Value>
+              {application.proposalForOnStageEntertainment ?? "Aucune"}
+            </EmailHtml.Output.Value>
+          </EmailHtml.Output.Row>
+        </EmailHtml.Output.Table>
+      </EmailHtml.Section.Root>
+    );
+  }
+
+  function SectionPartnership() {
+    return (
+      <EmailHtml.Section.Root>
+        <EmailHtml.Section.Title>Partenariat</EmailHtml.Section.Title>
+
+        <EmailHtml.Output.Table>
+          <EmailHtml.Output.Row>
+            <EmailHtml.Output.Label>
+              Catégorie de partenariat
+            </EmailHtml.Output.Label>
+
+            <EmailHtml.Output.Value>
+              {application.partnershipCategory != null
+                ? PARTNERSHIP_CATEGORY_TRANSLATION[
+                    application.partnershipCategory
+                  ]
+                : application.otherPartnershipCategory != null
+                  ? EXHIBITOR_APPLICATION_OTHER_PARTNERSHIP_CATEGORY_TRANSLATION[
+                      application.otherPartnershipCategory
+                    ]
+                  : null}
+            </EmailHtml.Output.Value>
+          </EmailHtml.Output.Row>
+        </EmailHtml.Output.Table>
+      </EmailHtml.Section.Root>
+    );
+  }
+
+  function SectionDiscoverySource() {
+    return (
+      <EmailHtml.Section.Root>
+        <EmailHtml.Section.Title>Source</EmailHtml.Section.Title>
+
+        <EmailHtml.Output.Table>
+          <EmailHtml.Output.Row>
+            <EmailHtml.Output.Label>
+              Comment avez-vous connu le salon ?
+            </EmailHtml.Output.Label>
+
+            <EmailHtml.Output.Value>
+              {application.discoverySource}
+            </EmailHtml.Output.Value>
+          </EmailHtml.Output.Row>
+        </EmailHtml.Output.Table>
+      </EmailHtml.Section.Root>
+    );
+  }
+
+  return {
+    name: "candidature-exposant-confirmation",
+    from: "Salon des Ani’Meaux <salon@animeaux.org>",
+    to: [application.contactEmail],
+    subject: "Candidature exposant - Salon des Ani’Meaux 2025",
+    body: (
+      <EmailHtml.Root>
+        <EmailHtml.Title>Candidature exposant</EmailHtml.Title>
+
+        <SectionInformation />
+
+        <EmailHtml.SectionSeparator />
+
+        <SectionContact />
+        <SectionStructure />
+        <SectionBilling />
+        <SectionParticipation />
+        <SectionPartnership />
+        <SectionDiscoverySource />
+
+        <EmailHtml.SectionSeparator />
+
+        <EmailHtml.Footer>Salon des Ani’Meaux</EmailHtml.Footer>
+      </EmailHtml.Root>
+    ),
+  };
+}
+
+export async function createEmailTemplateStatusUpdate(
+  applicationId: string,
+): Promise<null | EmailTemplate> {
+  const application = await services.exhibitor.application.get(applicationId, {
+    select: {
+      contactEmail: true,
+      status: true,
+      refusalMessage: true,
+      exhibitor: {
+        select: { token: true },
+      },
+    },
+  });
+
+  if (application.status === ShowExhibitorApplicationStatus.UNTREATED) {
+    return null;
+  }
+
+  switch (application.status) {
+    case ShowExhibitorApplicationStatus.REFUSED: {
+      invariant(
+        application.refusalMessage != null,
+        "A refusalMessage should exists",
+      );
+
+      return {
+        name: "candidature-exposant-refusee",
+        from: "Salon des Ani’Meaux <salon@animeaux.org>",
+        to: [application.contactEmail],
+        subject: "Candidature refusée - Salon des Ani’Meaux 2025",
+        body: (
+          <EmailHtml.Root>
+            <EmailHtml.Title>Candidature refusée</EmailHtml.Title>
+
+            <EmailHtml.Section.Root>
+              <EmailHtml.Paragraph>
+                <EmailHtml.Markdown content={application.refusalMessage} />
+              </EmailHtml.Paragraph>
+
+              <EmailHtml.Paragraph>
+                Pour toute question ou complément d’information, n’hésitez pas à
+                nous contacter en répondant à cet e-mail.
+              </EmailHtml.Paragraph>
+            </EmailHtml.Section.Root>
+
+            <EmailHtml.SectionSeparator />
+
+            <EmailHtml.Footer>Salon des Ani’Meaux</EmailHtml.Footer>
+          </EmailHtml.Root>
+        ),
+      };
+    }
+
+    case ShowExhibitorApplicationStatus.VALIDATED: {
+      invariant(application.exhibitor != null, "An exhibitor should exists");
+
+      return {
+        name: "candidature-exposant-validee",
+        from: "Salon des Ani’Meaux <salon@animeaux.org>",
+        to: [application.contactEmail],
+        subject: "Candidature validée - Salon des Ani’Meaux 2025",
+        body: (
+          <EmailHtml.Root>
+            <EmailHtml.Title>Candidature validée</EmailHtml.Title>
+
+            <EmailHtml.Section.Root>
+              <EmailHtml.Paragraph>Bonjour,</EmailHtml.Paragraph>
+
+              <EmailHtml.Paragraph>
+                C’est avec un immense plaisir que nous vous annonçons que votre
+                candidature pour le{" "}
+                <EmailHtml.Strong>Salon des Ani’Meaux 2025</EmailHtml.Strong> a
+                été <EmailHtml.Strong>validée</EmailHtml.Strong> 🎉 !
+              </EmailHtml.Paragraph>
+
+              <EmailHtml.Paragraph>
+                Nous vous invitons à accéder à votre espace exposant pour
+                compléter toutes les informations utiles pour la suite !
+              </EmailHtml.Paragraph>
+
+              <EmailHtml.Paragraph>
+                <EmailHtml.Button
+                  href={`${process.env.PUBLIC_HOST}${Routes.exhibitors.token(application.exhibitor.token)}`}
+                >
+                  Accédez à votre espace exposant
+                </EmailHtml.Button>
+              </EmailHtml.Paragraph>
+
+              <EmailHtml.Paragraph>
+                Dans cet espace, vous pourrez :
+              </EmailHtml.Paragraph>
+
+              <EmailHtml.UnorderedList>
+                <li>
+                  <EmailHtml.Strong>
+                    Compléter vos informations
+                  </EmailHtml.Strong>{" "}
+                  pour votre stand.
+                </li>
+
+                <li>
+                  <EmailHtml.Strong>
+                    Télécharger les documents nécessaires
+                  </EmailHtml.Strong>{" "}
+                  pour votre installation.
+                </li>
+
+                <li>
+                  <EmailHtml.Strong>
+                    Préparer vos visuels et supports de communication.
+                  </EmailHtml.Strong>
+                </li>
+              </EmailHtml.UnorderedList>
+
+              <EmailHtml.Paragraph>
+                ⚠️ <EmailHtml.Strong>Attention</EmailHtml.Strong>
+                {" "}: Votre inscription ne sera définitivement confirmée
+                qu’après{" "}
+                <EmailHtml.Strong>
+                  réception de votre dossier complet
+                </EmailHtml.Strong>{" "}
+                ainsi que du{" "}
+                <EmailHtml.Strong>
+                  règlement des frais liés à votre participation
+                </EmailHtml.Strong>
+                .
+              </EmailHtml.Paragraph>
+
+              <EmailHtml.Paragraph>
+                Pour toute question ou besoin d’assistance, notre équipe de
+                bénévoles reste à votre disposition par e-mail.
+              </EmailHtml.Paragraph>
+
+              <EmailHtml.Paragraph>
+                Nous avons hâte de vous accueillir et de partager cette belle
+                aventure avec vous !
+              </EmailHtml.Paragraph>
+
+              <EmailHtml.Paragraph>À très bientôt,</EmailHtml.Paragraph>
+            </EmailHtml.Section.Root>
+
+            <EmailHtml.SectionSeparator />
+
+            <EmailHtml.Footer>Salon des Ani’Meaux</EmailHtml.Footer>
+          </EmailHtml.Root>
+        ),
+      };
+    }
+
+    case ShowExhibitorApplicationStatus.WAITING_LIST: {
+      return {
+        name: "candidature-exposant-liste-d-attente",
+        from: "Salon des Ani’Meaux <salon@animeaux.org>",
+        to: [application.contactEmail],
+        subject:
+          "Mise en attente de votre candidature - Salon des Ani’Meaux 2025",
+        body: (
+          <EmailHtml.Root>
+            <EmailHtml.Title>
+              Mise en attente de votre candidature
+            </EmailHtml.Title>
+
+            <EmailHtml.Section.Root>
+              <EmailHtml.Paragraph>Bonjour,</EmailHtml.Paragraph>
+
+              <EmailHtml.Paragraph>
+                Nous vous remercions pour l’intérêt que vous portez au Salon des
+                Ani’Meaux 2025 et pour votre candidature.
+              </EmailHtml.Paragraph>
+
+              <EmailHtml.Paragraph>
+                Après examen de votre dossier, nous vous informons que votre
+                candidature a été placée sur liste d’attente. Cette décision est
+                liée à la forte demande de participation et au nombre limité de
+                places disponibles.
+              </EmailHtml.Paragraph>
+
+              <EmailHtml.Paragraph>
+                Nous reviendrons vers vous dès qu’une place se libérera ou si
+                nous sommes en mesure d’ouvrir des espaces supplémentaires.
+              </EmailHtml.Paragraph>
+
+              <EmailHtml.Paragraph>
+                En attendant, n’hésitez pas à nous contacter pour toute question
+                ou complément d’information en répondant à cet e-mail.
+              </EmailHtml.Paragraph>
+
+              <EmailHtml.Paragraph>
+                Merci pour votre compréhension et votre enthousiasme pour notre
+                événement.
+              </EmailHtml.Paragraph>
+
+              <EmailHtml.Paragraph>Bien à vous,</EmailHtml.Paragraph>
+            </EmailHtml.Section.Root>
+
+            <EmailHtml.SectionSeparator />
+
+            <EmailHtml.Footer>Salon des Ani’Meaux</EmailHtml.Footer>
+          </EmailHtml.Root>
+        ),
+      };
+    }
+
+    default: {
+      return application.status satisfies never;
+    }
+  }
+}

@@ -1,8 +1,7 @@
 import type { BaseLinkProps } from "#core/base-link";
 import { BaseLink } from "#core/base-link";
-import { joinReactNodes } from "#core/join-react-nodes";
 import { Icon } from "#generated/icon";
-import { cn } from "@animeaux/core";
+import { cn, joinReactNodes } from "@animeaux/core";
 import { cloneElement } from "react";
 
 export function Steps({

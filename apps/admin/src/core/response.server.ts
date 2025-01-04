@@ -1,3 +1,9 @@
+export class OkResponse extends Response {
+  constructor() {
+    super("OK", { status: 200 });
+  }
+}
+
 export class NotFoundResponse extends Response {
   constructor() {
     super("Not Found", { status: 404 });

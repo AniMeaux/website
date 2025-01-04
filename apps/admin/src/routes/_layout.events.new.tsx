@@ -134,7 +134,7 @@ export default function Route() {
   const fetcher = useFetcher<typeof action>();
 
   return (
-    <PageLayout>
+    <PageLayout.Root>
       <PageLayout.Content className="flex flex-col items-center">
         <Card className="w-full md:max-w-[600px]">
           <Card.Header>
@@ -146,6 +146,6 @@ export default function Route() {
           </Card.Content>
         </Card>
       </PageLayout.Content>
-    </PageLayout>
+    </PageLayout.Root>
   );
 }

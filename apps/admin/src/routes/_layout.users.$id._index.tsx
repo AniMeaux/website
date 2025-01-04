@@ -262,7 +262,7 @@ export default function Route() {
   const { user } = useLoaderData<typeof loader>();
 
   return (
-    <PageLayout>
+    <PageLayout.Root>
       <PageLayout.Content className="flex flex-col gap-1 md:gap-2">
         {user.isDisabled ? (
           <BlockHelper variant="warning" icon="icon-ban">
@@ -293,7 +293,7 @@ export default function Route() {
           </section>
         </section>
       </PageLayout.Content>
-    </PageLayout>
+    </PageLayout.Root>
   );
 }
 

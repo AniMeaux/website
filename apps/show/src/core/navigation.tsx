@@ -1,15 +1,86 @@
 import type { PreviousEdition } from "#previous-editions/previous-edition";
-import type { NavLinkProps } from "@remix-run/react";
+import type { NavLinkProps, Path } from "@remix-run/react";
 import { useLocation, useNavigation, useResolvedPath } from "@remix-run/react";
 import { useContext } from "react";
 import { UNSAFE_NavigationContext } from "react-router";
 
+export type To = string | Partial<Path>;
+
 export const Routes = {
-  home: () => "/",
-  previousEditions: (edition?: PreviousEdition) =>
-    ["/editions-precedentes", edition].filter(Boolean).join("/"),
-  photo: (edition: PreviousEdition, photoIndex: number) =>
-    ["/editions-precedentes", edition, photoIndex].join("/"),
+  exhibitorApplication: {
+    toString: () => "/candidature-exposant" as const,
+
+    confirmation: {
+      applicationId: (applicationId: string) => ({
+        toString: () => `/candidature-exposant/${applicationId}` as const,
+      }),
+    },
+  },
+
+  exhibitors: {
+    toString: () => "/exposants" as const,
+
+    token: (exhibitorToken: string) => ({
+      toString: () => `/exposants/${exhibitorToken}` as const,
+
+      animations: {
+        toString: () => `/exposants/${exhibitorToken}/animations` as const,
+
+        edit: {
+          toString: () =>
+            `/exposants/${exhibitorToken}/animations/modifier` as const,
+        },
+      },
+
+      documents: {
+        toString: () => `/exposants/${exhibitorToken}/documents` as const,
+
+        edit: {
+          toString: () =>
+            `/exposants/${exhibitorToken}/documents/modifier` as const,
+        },
+      },
+
+      faq: {
+        toString: () => `/exposants/${exhibitorToken}/faq` as const,
+      },
+
+      profile: {
+        toString: () => `/exposants/${exhibitorToken}/profil` as const,
+
+        edit: {
+          toString: () =>
+            `/exposants/${exhibitorToken}/profil/modifier` as const,
+        },
+      },
+
+      stand: {
+        toString: () => `/exposants/${exhibitorToken}/stand` as const,
+
+        edit: {
+          toString: () =>
+            `/exposants/${exhibitorToken}/stand/modifier` as const,
+        },
+      },
+    }),
+  },
+
+  home: {
+    toString: () => "/" as const,
+  },
+
+  previousEditions: {
+    toString: () => "/editions-precedentes" as const,
+
+    edition: (edition: PreviousEdition) => ({
+      toString: () => `/editions-precedentes/${edition}` as const,
+
+      photoIndex: (photoIndex: number) => ({
+        toString: () =>
+          `/editions-precedentes/${edition}/${photoIndex}` as const,
+      }),
+    }),
+  },
 };
 
 /**

@@ -71,6 +71,27 @@ export const Routes = {
     toString: () => "/press-articles" as const,
     add: { toString: () => "/press-articles/add" as const },
   },
+  show: {
+    toString: () => "/show" as const,
+
+    applications: {
+      toString: () => "/show/applications" as const,
+
+      id: (id: string) => ({
+        toString: () => `/show/applications/${id}` as const,
+
+        edit: { toString: () => `/show/applications/${id}/edit` as const },
+      }),
+    },
+
+    exhibitors: {
+      toString: () => "/show/exhibitors" as const,
+
+      id: (id: string) => ({
+        toString: () => `/show/exhibitors/${id}` as const,
+      }),
+    },
+  },
   users: {
     toString: () => "/users" as const,
     id: (id: string) => ({

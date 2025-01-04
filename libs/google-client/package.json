@@ -1,0 +1,38 @@
+{
+  "name": "@animeaux/google-client",
+  "version": "1.0.0",
+  "private": true,
+  "sideEffects": false,
+  "type": "module",
+  "main": "./src/index.ts",
+  "exports": {
+    "./client": "./src.client/index.ts",
+    "./server": "./src.server/index.ts"
+  },
+  "typesVersions": {
+    "*": {
+      "./client": [
+        "./src.client/index.ts"
+      ],
+      "./server": [
+        "./src.server/index.ts"
+      ]
+    }
+  },
+  "scripts": {
+    "generate": "# Nothing to generate"
+  },
+  "peerDependencies": {
+    "@animeaux/core": "*",
+    "@animeaux/zod-utils": "*",
+    "@mjackson/lazy-file": "^3.2.0",
+    "@sentry/remix": "^8.37.1",
+    "googleapis": "^144.0.0"
+  },
+  "devDependencies": {
+    "@mjackson/form-data-parser": "^0.4.0",
+    "@total-typescript/ts-reset": "^0.5.1",
+    "@types/node": "^22.8.7",
+    "type-fest": "^4.3.1"
+  }
+}

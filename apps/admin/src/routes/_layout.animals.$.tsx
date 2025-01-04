@@ -20,9 +20,11 @@ export const meta: MetaFunction = () => {
  */
 export function ErrorBoundary() {
   return (
-    <PageLayout.Content className="flex flex-col">
-      <ErrorPage />
-    </PageLayout.Content>
+    <PageLayout.Root>
+      <PageLayout.Content className="flex flex-col">
+        <ErrorPage />
+      </PageLayout.Content>
+    </PageLayout.Root>
   );
 }
 

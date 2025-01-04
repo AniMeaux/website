@@ -70,7 +70,7 @@ export const Section = {
         {...props}
         ref={ref}
         className={cn(
-          "text-mystic text-title-small md:text-title-small",
+          "text-mystic text-title-small md:text-title-large",
           className,
         )}
       />

@@ -219,15 +219,17 @@ export default function Route() {
   const { isCurrentUserManager } = useLoaderData<typeof loader>();
 
   return (
-    <PageLayout.Content className="flex flex-col gap-1 md:gap-2">
-      <section className="grid grid-cols-1 gap-1 md:grid-cols-3 md:gap-2">
-        <AnimalsToVaccinateCard />
-        <AnimalsToSterilizeCard />
-        <DogsToDiagnoseCard />
-      </section>
+    <PageLayout.Root>
+      <PageLayout.Content className="flex flex-col gap-1 md:gap-2">
+        <section className="grid grid-cols-1 gap-1 md:grid-cols-3 md:gap-2">
+          <AnimalsToVaccinateCard />
+          <AnimalsToSterilizeCard />
+          <DogsToDiagnoseCard />
+        </section>
 
-      {isCurrentUserManager ? <ManagedAnimalsCard /> : null}
-      <ActiveAnimalsCard />
-    </PageLayout.Content>
+        {isCurrentUserManager ? <ManagedAnimalsCard /> : null}
+        <ActiveAnimalsCard />
+      </PageLayout.Content>
+    </PageLayout.Root>
   );
 }

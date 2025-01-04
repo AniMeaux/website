@@ -1,4 +1,4 @@
-import { ProseInlineAction } from "#core/actions/actions";
+import { ProseInlineAction } from "#core/actions/prose-inline-action";
 import { cloudinary } from "#core/cloudinary/cloudinary.server";
 import { Tab, Tabs } from "#core/controllers/tabs";
 import { ErrorPage, getErrorTitle } from "#core/data-display/error-page";
@@ -8,7 +8,7 @@ import { Section } from "#core/layout/section";
 import { createSocialMeta } from "#core/meta";
 import { Routes } from "#core/navigation";
 import { getPageTitle } from "#core/page-title";
-import { NotFoundResponse } from "#core/response.server";
+import { notFound } from "#core/response.server";
 import { ScrollRestorationLocationState } from "#core/scroll-restoration";
 import { PhotoLocationState } from "#previous-editions/photo-location-state";
 import {
@@ -34,7 +34,7 @@ const ParamsSchema = zu.object({
 export async function loader({ params }: LoaderFunctionArgs) {
   const result = ParamsSchema.safeParse(params);
   if (!result.success) {
-    throw new NotFoundResponse();
+    throw notFound();
   }
 
   return defer({
@@ -68,7 +68,7 @@ function TitleSection() {
   return (
     <Section.Root>
       <LazyElement asChild>
-        <Section.ImageAside className="aspect-square translate-x-4 opacity-0 transition-[opacity,transform] duration-1000 data-visible:translate-x-0 data-visible:opacity-100">
+        <Section.ImageAside className="aspect-square translate-x-4 opacity-0 transition-[opacity,transform] duration-very-slow data-visible:translate-x-0 data-visible:opacity-100">
           <DynamicImage
             image={{
               id: "/show/pages/pott-et-pollen-photos-ajfy5llvexzgl0df2rsy",
@@ -108,9 +108,7 @@ function PhotoGrid() {
         {SORTED_PREVIOUS_EDITIONS.map((edition) => (
           <Tab
             key={edition}
-            to={Routes.previousEditions(edition)}
-            preventScrollReset
-            prefetch="intent"
+            to={Routes.previousEditions.edition(edition).toString()}
           >
             {edition}
           </Tab>
@@ -127,7 +125,7 @@ function PhotoGrid() {
         </p>
       ) : null}
 
-      <ul className="grid grid-cols-[repeat(auto-fill,minmax(150px,1fr))] gap-0.5 md:gap-1">
+      <ul className="grid gap-0.5 grid-auto-fill-cols-[150px] md:gap-1">
         <Suspense
           fallback={Array.from(
             {
@@ -182,12 +180,15 @@ function ImageItem({
       )}
     >
       <Link
-        to={Routes.photo(edition, index)}
+        to={Routes.previousEditions
+          .edition(edition)
+          .photoIndex(index)
+          .toString()}
         prefetch="intent"
         state={PhotoLocationState.create({
           galleryLocationKey: scrollRestorationLocationKey,
         })}
-        className="group grid aspect-square grid-cols-1 overflow-hidden rounded-1 focus-visible:focus-spaced-mystic md:rounded-2"
+        className="group grid aspect-square grid-cols-1 overflow-hidden rounded-1 can-hover:focus-visible:focus-spaced md:rounded-2"
       >
         <DynamicImage
           alt={
@@ -204,7 +205,7 @@ function ImageItem({
             isCover ? { default: "256px", sm: "400px" } : { default: "256px" }
           }
           loading={index < 5 ? "eager" : "lazy"}
-          className="w-full transition-transform duration-150 ease-in-out group-hover:scale-105"
+          className="w-full transition-transform duration-slow can-hover:group-hover:scale-105"
         />
       </Link>
     </li>
