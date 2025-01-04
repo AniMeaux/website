@@ -71,6 +71,21 @@ export const ARTICLE_COMPONENTS: MarkdownProps["components"] = {
   li: ({ children }) => <li>{children}</li>,
 };
 
+export const SENTENCE_COMPONENTS: MarkdownProps["components"] = {
+  br: () => <br />,
+  strong: ({ children }) => (
+    <strong className="text-body-emphasis">{children}</strong>
+  ),
+  em: ({ children }) => <em>{children}</em>,
+  a: ({ children, href, title }) => (
+    <ProseInlineAction asChild>
+      <BaseLink to={href} title={title}>
+        {children}
+      </BaseLink>
+    </ProseInlineAction>
+  ),
+};
+
 export const HIGHLIGHT_COMPONENTS: MarkdownProps["components"] = {
   strong: ({ children }) => (
     <strong className="text-body-emphasis">{children}</strong>

@@ -1,7 +1,7 @@
 import { SuggestionItem } from "#core/form-elements/resource-input";
 import { FosterFamilyAvatar } from "#foster-families/avatar";
-import { getShortLocation } from "#foster-families/location";
 import type { FosterFamilyHit } from "@animeaux/algolia-client";
+import { getShortLocation } from "@animeaux/core";
 import type { FosterFamily } from "@prisma/client";
 import type { SerializeFrom } from "@remix-run/node";
 import { forwardRef } from "react";

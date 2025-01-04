@@ -1,3 +1,4 @@
+import { checkEnv, getClientEnv } from "#core/env.server";
 import { extendCurrentUserPreferences } from "#current-user/preferences.server";
 import { extendCurrentUserSession } from "#current-user/session.server";
 import type { EntryContext, HandleDataRequestFunction } from "@remix-run/node";
@@ -7,6 +8,9 @@ import { isbot } from "isbot";
 import { PassThrough } from "node:stream";
 import type { RenderToPipeableStreamOptions } from "react-dom/server";
 import { renderToPipeableStream } from "react-dom/server";
+
+checkEnv();
+global.CLIENT_ENV = getClientEnv();
 
 const ABORT_DELAY = 5000;
 

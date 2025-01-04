@@ -3,16 +3,20 @@ import { z } from "zod";
 import { zfd } from "zod-form-data";
 
 export {
+  ZodIssueCode,
   ZodObject,
   ZodType,
   array,
   boolean,
+  discriminatedUnion,
   enum,
+  instanceof,
   literal,
   nativeEnum,
   number,
   object,
   string,
+  undefined,
   union,
 } from "zod";
 export type {

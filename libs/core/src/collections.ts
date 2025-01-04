@@ -5,8 +5,7 @@ export function ensureArray<DataType>(
     return [];
   }
 
-  const array = Array.isArray(value) ? value : [value];
-  return array.filter(Boolean);
+  return Array.isArray(value) ? value : [value];
 }
 
 export function isIterable(value: unknown): value is Iterable<any> {

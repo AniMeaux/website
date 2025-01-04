@@ -19,10 +19,10 @@ import { Card } from "#core/layout/card";
 import { Routes } from "#core/navigation";
 import { DropdownSheet } from "#core/popovers/dropdown-sheet";
 import { FosterFamilyAvatar } from "#foster-families/avatar";
-import { getLongLocation } from "#foster-families/location";
 import { Icon } from "#generated/icon";
 import { theme } from "#generated/theme";
 import { UserAvatar } from "#users/avatar";
+import { getLongLocation } from "@animeaux/core";
 import {
   AdoptionOption,
   Diagnosis,

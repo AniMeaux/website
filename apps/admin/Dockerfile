@@ -15,6 +15,7 @@ ADD ./package.json ./yarn.lock ./
 ADD ./libs/algolia-client/package.json ./libs/algolia-client/
 ADD ./libs/core/package.json ./libs/core/
 ADD ./libs/form-data/package.json ./libs/form-data/
+ADD ./libs/google-client/package.json ./libs/google-client/
 ADD ./libs/password/package.json ./libs/password/
 ADD ./libs/react-primitives/package.json ./libs/react-primitives/
 ADD ./libs/search-params-io/package.json ./libs/search-params-io/
@@ -31,6 +32,7 @@ ADD ./package.json ./yarn.lock ./
 ADD ./libs/algolia-client/package.json ./libs/algolia-client/
 ADD ./libs/core/package.json ./libs/core/
 ADD ./libs/form-data/package.json ./libs/form-data/
+ADD ./libs/google-client/package.json ./libs/google-client/
 ADD ./libs/password/package.json ./libs/password/
 ADD ./libs/react-primitives/package.json ./libs/react-primitives/
 ADD ./libs/search-params-io/package.json ./libs/search-params-io/
@@ -51,6 +53,7 @@ RUN yarn generate:prisma
 ADD ./libs/algolia-client ./libs/algolia-client
 ADD ./libs/core ./libs/core
 ADD ./libs/form-data ./libs/form-data
+ADD ./libs/google-client ./libs/google-client
 ADD ./libs/password ./libs/password
 ADD ./libs/react-primitives ./libs/react-primitives
 ADD ./libs/search-params-io ./libs/search-params-io

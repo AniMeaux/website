@@ -19,6 +19,7 @@ const USER_GROUP_LANDING_PAGE: Record<UserGroup, string> = {
   [UserGroup.ANIMAL_MANAGER]: Routes.dashboard.toString(),
   [UserGroup.BLOGGER]: Routes.home.toString(),
   [UserGroup.HEAD_OF_PARTNERSHIPS]: Routes.home.toString(),
+  [UserGroup.SHOW_ORGANIZER]: Routes.show.toString(),
   [UserGroup.VETERINARIAN]: Routes.animals.toString(),
   [UserGroup.VOLUNTEER]: Routes.animals.toString(),
 };
@@ -30,6 +31,10 @@ function getUserMainGroup(groups: UserGroup[]): UserGroup {
 
   if (groups.includes(UserGroup.ANIMAL_MANAGER)) {
     return UserGroup.ANIMAL_MANAGER;
+  }
+
+  if (groups.includes(UserGroup.SHOW_ORGANIZER)) {
+    return UserGroup.SHOW_ORGANIZER;
   }
 
   if (groups.includes(UserGroup.VETERINARIAN)) {

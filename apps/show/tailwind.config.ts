@@ -2,21 +2,22 @@ import type { Config } from "tailwindcss";
 import defaultColors from "tailwindcss/colors";
 import defaultTheme from "tailwindcss/defaultTheme";
 import plugin from "tailwindcss/plugin";
+import type { CSSRuleObject } from "tailwindcss/types/config";
 
 export const spacing = {
-  0: "0px",
-  0.5: "6px",
-  1: "12px",
-  1.5: "18px",
-  2: "24px",
-  2.5: "30px",
-  3: "36px",
-  4: "48px",
-  5: "60px",
-  6: "72px",
-  8: "96px",
-  10: "120px",
-  14: "168px",
+  "0": "0px",
+  "0.5": "6px",
+  "1": "12px",
+  "1.5": "18px",
+  "2": "24px",
+  "2.5": "30px",
+  "3": "36px",
+  "4": "48px",
+  "5": "60px",
+  "6": "72px",
+  "8": "96px",
+  "10": "120px",
+  "14": "168px",
 };
 
 export const screens = {
@@ -27,30 +28,160 @@ export const screens = {
 // Don't spread `...defaultColors` to avoid deprecation warnings.
 export const colors = {
   transparent: "transparent",
-  inheritBg: "var(--background-color)",
+
   prussianBlue: {
+    "50": "#eefaff",
+    "100": "#dcf6ff",
+    "200": "#dcf6ff",
+    "300": "#6de4ff",
+    "400": "#20d7ff",
+    "500": "#00c2ff",
+    "600": "#009ddf",
+    "700": "#007db4",
+    "800": "#006995",
+    "900": "#00567a",
+
     DEFAULT: "#003047",
+    "950": "#003047",
   },
+
   mystic: {
+    "50": "#fdf3f5",
+    "100": "#fbe8ea",
+    "200": "#f8d3db",
+    "300": "#f1b0bd",
+    "400": "#e98399",
+
     DEFAULT: "#db5072",
+    "500": "#db5072",
+
+    "600": "#c73761",
+    "700": "#a82850",
+    "800": "#8d2449",
+    "900": "#792243",
+    "950": "#430e21",
   },
+
   paleBlue: {
+    "50": "#effafc",
+    "100": "#d6f3f7",
+
     DEFAULT: "#bae8f0",
+    "200": "#bae8f0",
+
+    "300": "#7ed2e2",
+    "400": "#42b6ce",
+    "500": "#2699b4",
+    "600": "#237c97",
+    "700": "#22647c",
+    "800": "#245366",
+    "900": "#224757",
+    "950": "#112d3b",
   },
+
   alabaster: {
+    "50": "#faf7f6",
+
     DEFAULT: "#f2e8e3",
+    "100": "#f2e8e3",
+
+    "200": "#eee1da",
+    "300": "#e2cbbf",
+    "400": "#cfac9a",
+    "500": "#bb8e78",
+    "600": "#a5755d",
+    "700": "#89604c",
+    "800": "#735241",
+    "900": "#61483b",
+    "950": "#33241c",
   },
 
   black: defaultColors.black,
   white: defaultColors.white,
 };
 
+type FontFamily = {
+  family: string;
+  fallback: string;
+  cssUrl: string;
+  variants: {
+    style: React.CSSProperties["fontStyle"];
+    weight: React.CSSProperties["fontWeight"];
+    url: string;
+    format: "woff" | "woff2" | "truetype" | "opentype" | "embedded-opentype";
+  }[];
+};
+
+export const fonts: { serif: FontFamily; sans: FontFamily } = {
+  serif: {
+    family: "CARAMEL MOCACINO",
+    // Impact should be safe for email.
+    // https://myemma.com/blog/email-safe-fonts-how-to-stay-compatible-and-on-brand/
+    fallback: "Impact",
+    cssUrl: "/fonts/caramel-mocacino/font.css",
+    variants: [
+      {
+        style: "normal",
+        weight: 400,
+        url: "/fonts/caramel-mocacino/caramel-mocacino.otf",
+        format: "opentype",
+      },
+    ],
+  },
+  sans: {
+    family: "Fira Sans",
+    fallback: "Arial",
+    cssUrl: "/fonts/fira-sans/font.css",
+    variants: [
+      {
+        style: "normal",
+        weight: 400,
+        url: "/fonts/fira-sans/fira-sans-regular.ttf",
+        format: "truetype",
+      },
+      {
+        style: "normal",
+        weight: 500,
+        url: "/fonts/fira-sans/fira-sans-medium.ttf",
+        format: "truetype",
+      },
+      {
+        style: "normal",
+        weight: 600,
+        url: "/fonts/fira-sans/fira-sans-semi-bold.ttf",
+        format: "truetype",
+      },
+    ],
+  },
+};
+
 const theme: Config = {
   content: ["./src/**/*.{ts,tsx}"],
 
+  plugins: [
+    pluginAnimation(),
+    pluginChildren(),
+    pluginCustomScrollbar(),
+    pluginFocus(),
+    pluginFocusVisibleWithin(),
+    pluginGridDynamicColumns(),
+    pluginIconSizes(),
+    pluginMediaHover(),
+    pluginSafePadding(),
+    pluginStrokeDashoffset(),
+    pluginTextStyles(),
+  ],
+
   theme: {
-    screens,
+    borderRadius: {
+      ...spacing,
+      none: "0",
+      full: "9999px",
+    },
+
     colors,
+
+    screens,
 
     spacing: {
       ...spacing,
@@ -64,167 +195,395 @@ const theme: Config = {
       "page-narrow": `calc(max(16px, 5vw, (100vw - ${defaultTheme.screens.sm}) / 2))`,
     },
 
-    borderRadius: {
-      ...spacing,
-      none: "0",
-      full: "9999px",
+    transitionDuration: {
+      fast: "50ms",
+      normal: "100ms",
+      slow: "150ms",
+      "very-slow": "1s",
+    },
+
+    zIndex: {
+      // Just to create a new stacking context.
+      // https://developer.mozilla.org/en-US/docs/Web/CSS/z-index
+      "stacking-context": "0",
+
+      "just-above": "1",
+      header: "20",
     },
 
     extend: {
-      fontFamily: {
-        serif: ['"CARAMEL MOCACINO"', ...defaultTheme.fontFamily.serif],
-        sans: ["Fira Sans", ...defaultTheme.fontFamily.sans],
-      },
-
-      aspectRatio: {
-        "4/3": "4 / 3",
-        "16/10": "16 / 10",
-      },
-
       animation: {
+        "spinner-spin": "spin 1.5s linear infinite",
+        "spinner-stroke": "spinner-stroke 2s ease-in-out infinite",
+
         "radix-collapsible-content-open":
           "radix-collapsible-content-open 150ms ease-in-out",
         "radix-collapsible-content-close":
           "radix-collapsible-content-close 150ms ease-in-out",
       },
 
+      aspectRatio: {
+        "4/3": "4 / 3",
+        "3/4": "3 / 4",
+        "16/10": "16 / 10",
+      },
+
       data: {
         visible: "visible=true",
+        opened: "state=open",
+        closed: "state=closed",
+      },
+
+      fontFamily: {
+        serif: [fonts.serif.family, fonts.serif.fallback],
+        sans: [fonts.sans.family, fonts.sans.fallback],
+      },
+
+      gridTemplateColumns: {
+        "1-auto": "repeat(1, auto)",
+        "2-auto": "repeat(2, auto)",
+        "auto-fr": "auto minmax(0, 1fr)",
+        "auto-fr-auto": "auto minmax(0, 1fr) auto",
+        "fr-auto": "minmax(0, 1fr) auto",
       },
 
       keyframes: {
+        "spinner-stroke": {
+          "0%": {
+            "stroke-dasharray": "1, 300",
+            "stroke-dashoffset": "0",
+          },
+          "50%": {
+            "stroke-dasharray": "150, 300",
+            // Yep, that's right!
+            // Computed by: circle.getTotalLength().
+            "stroke-dashoffset": "-175.6449737548828 / 4",
+          },
+          "100%": {
+            "stroke-dasharray": "150, 300",
+            "stroke-dashoffset": "-175.6449737548828",
+          },
+        },
+
         "radix-collapsible-content-open": {
           "0%": { height: "0px" },
           "100%": { height: "var(--radix-collapsible-content-height)" },
         },
+
         "radix-collapsible-content-close": {
           "0%": { height: "var(--radix-collapsible-content-height)" },
           "100%": { height: "0px" },
         },
       },
+
+      opacity: {
+        disabled: "0.5",
+      },
     },
   },
-
-  plugins: [
-    pluginFocus(),
-    pluginFocusVisible(),
-    pluginHover(),
-    pluginSafePadding(),
-    pluginStrokeDashoffset(),
-    pluginTextStyles(),
-  ],
 };
 
 export default theme;
 
-function pluginFocusVisible() {
+/**
+ * Animation plugin inspired from tailwindcss-animate but:
+ * - Without overriding transition utilities.
+ * - With custom properties as fallbacks to avoid enter or exit style
+ *   missmatch.
+ * - With symetrical enter and exit animations.
+ * - With _current_ styles for the ones that should only be set during the
+ *   animation (`animation-fill-mode: none;`)
+ *
+ * @see https://github.com/jamiebuilds/tailwindcss-animate
+ * @see https://developer.mozilla.org/en-US/docs/Web/CSS/animation-fill-mode#none
+ * @example
+ * // Opacity
+ * "data-opened:animation-enter data-closed:animation-exit animation-opacity-0"
+ *
+ * // Height
+ * "data-opened:animation-enter data-closed:animation-exit animation-h-0 animation-current-h-[var(--radix-accordion-content-height)] animation-current-overflow-hidden"
+ */
+function pluginAnimation() {
+  return plugin(
+    ({ matchUtilities, addUtilities, theme }) => {
+      matchUtilities(
+        {
+          "animation-h": (value) => ({
+            "--tw-animation-h": value,
+          }),
+
+          "animation-current-h": (value) => ({
+            "--tw-animation-current-h": value,
+          }),
+        },
+        { values: theme("height") },
+      );
+
+      matchUtilities(
+        {
+          "animation-opacity": (value) => ({
+            "--tw-animation-opacity": value,
+          }),
+
+          "animation-current-opacity": (value) => ({
+            "--tw-animation-current-opacity": value,
+          }),
+        },
+        { values: theme("opacity") },
+      );
+
+      matchUtilities(
+        {
+          "animation-duration": (value) => ({
+            "--tw-animation-duration": value,
+          }),
+        },
+        { values: theme("transitionDuration") },
+      );
+
+      matchUtilities(
+        {
+          "animation-translate-x": (value) => ({
+            "--tw-animation-translate-x": value,
+          }),
+
+          "animation-translate-y": (value) => ({
+            "--tw-animation-translate-y": value,
+          }),
+        },
+        {
+          values: theme("translate"),
+          supportsNegativeValues: true,
+        },
+      );
+
+      matchUtilities(
+        {
+          "animation-overflow": (value) => ({
+            "--tw-animation-overflow": value,
+          }),
+
+          "animation-current-overflow": (value) => ({
+            "--tw-animation-current-overflow": value,
+          }),
+        },
+        {
+          values: {
+            auto: "auto",
+            clip: "clip",
+            hidden: "hidden",
+            scroll: "scroll",
+            visible: "visible",
+          },
+        },
+      );
+
+      // Somehow required for our custom keyframes to be found.
+      addUtilities({
+        "@keyframes enter": theme("keyframes.enter"),
+        "@keyframes exit": theme("keyframes.exit"),
+      });
+
+      addUtilities({
+        ".animation-enter": {
+          animationDuration: `var(--tw-animation-duration, ${theme(
+            "transitionDuration.normal",
+          )})`,
+          animationName: "enter",
+          animationTimingFunction: theme("transitionTimingFunction.out"),
+        },
+
+        ".animation-exit": {
+          animationDuration: `var(--tw-animation-duration, ${theme(
+            "transitionDuration.normal",
+          )})`,
+          animationName: "exit",
+          animationTimingFunction: theme("transitionTimingFunction.in"),
+        },
+      });
+    },
+    {
+      // Keep this here for a better code collocation.
+      theme: {
+        extend: {
+          keyframes: () => {
+            // If an `--tw-animation-*` is not defined, fallback to the current
+            // value to make sure the animation is a NOP.
+            const animationCss = {
+              overflow:
+                "var(--tw-animation-overflow, var(--tw-animation-current-overflow, initial))",
+              height:
+                "var(--tw-animation-h, var(--tw-animation-current-h, initial))",
+              opacity:
+                "var(--tw-animation-opacity, var(--tw-animation-current-opacity, initial))",
+
+              // Keep other transformations so we don't break the styles.
+              transform: [
+                "translate(var(--tw-animation-translate-x, var(--tw-translate-x)), var(--tw-animation-translate-y, var(--tw-translate-y)))",
+                "rotate(var(--tw-rotate))",
+                "skewX(var(--tw-skew-x))",
+                "skewY(var(--tw-skew-y))",
+                "scaleX(var(--tw-scale-x))",
+                "scaleY(var(--tw-scale-y))",
+              ].join(" "),
+            } satisfies CSSRuleObject;
+
+            // Current styles that should only be set during the animation
+            // (because the animation-fill-mode is `none` by default).
+            // If the target element set them permanently, it would either
+            // break the animation or the element styles.
+            const currentCss = {
+              overflow: "var(--tw-animation-current-overflow, initial)",
+              height: "var(--tw-animation-current-h, initial)",
+              opacity: "var(--tw-animation-current-opacity, initial)",
+
+              transform: [
+                "translate(var(--tw-translate-x), var(--tw-translate-y))",
+                "rotate(var(--tw-rotate))",
+                "skewX(var(--tw-skew-x))",
+                "skewY(var(--tw-skew-y))",
+                "scaleX(var(--tw-scale-x))",
+                "scaleY(var(--tw-scale-y))",
+              ].join(" "),
+            } satisfies CSSRuleObject;
+
+            return {
+              enter: { from: animationCss, to: currentCss },
+              exit: { from: currentCss, to: animationCss },
+            };
+          },
+        },
+      },
+    },
+  );
+}
+
+function pluginChildren() {
   return plugin(({ addVariant }) => {
-    // Override focus-visible because we don't want touch screens devices to
-    // have visible focus.
-    // They usally don't have input mechanism that can hover over elements so
-    // we check that.
-    // https://tailwindcss.com/docs/plugins#adding-variants
-    addVariant("focus-visible", "@media(any-hover:hover){&:focus-visible}");
+    addVariant("children", "& > *");
   });
 }
 
 /**
- * Override hover to make sure it's only applied on supported devices.
+ * Custom scrollbars.
  *
- * @see https://tailwindcss.com/docs/hover-focus-and-other-states#using-arbitrary-variants
- * @see https://github.com/tailwindlabs/tailwindcss/discussions/9788#discussioncomment-4098439
+ * @example
+ * scrollbars-none
+ * scrollbars-custom
  */
-function pluginHover() {
-  return plugin(({ addVariant, matchVariant }) => {
-    addVariant("hover", "@media(any-hover:hover){&:hover}");
+function pluginCustomScrollbar() {
+  return plugin(({ matchUtilities, theme }) => {
+    matchUtilities(
+      {
+        scrollbars: (value): CSSRuleObject => {
+          if (value === "none") {
+            return {
+              "&::-webkit-scrollbar": {
+                width: "0",
+                height: "0",
+                display: "none",
+              },
+              "&::-webkit-scrollbar-track-piece": {
+                "background-color": "transparent",
+              },
+            };
+          }
 
-    matchVariant(
-      "group",
-      (_, { modifier }) => {
-        const suffix = modifier == null ? "" : `\\/${modifier}`;
-        return `@media(any-hover:hover){:merge(.group${suffix}):hover &}`;
+          return {
+            "&::-webkit-scrollbar": {
+              width: "3px",
+              height: "3px",
+            },
+            "&::-webkit-scrollbar-thumb": {
+              "background-color": theme("colors.prussianBlue.DEFAULT"),
+            },
+          };
+        },
       },
-      { values: { hover: "hover" } },
+      {
+        values: {
+          none: "none",
+          custom: "custom",
+        },
+      },
     );
   });
 }
 
-/**
- * In order to preserve a nice vertical rhythm, all text must have a size
- * multiple of 24px.
- */
-function pluginTextStyles() {
+function pluginFocus() {
   return plugin(({ addUtilities, theme }) => {
     addUtilities({
-      ".text-caption-uppercase-default": {
-        "font-family": theme("fontFamily.sans"),
-        "font-size": "14px",
-        "line-height": "24px",
-        "text-transform": "uppercase",
+      ".focus-compact": {
+        "outline-color": theme("colors.mystic.DEFAULT"),
+        "outline-offset": "0px",
+        "outline-style": "solid",
+        "outline-width": "3px",
       },
-      ".text-caption-lowercase-default": {
-        "font-family": theme("fontFamily.sans"),
-        "font-size": "14px",
-        "line-height": "24px",
-      },
-      ".text-caption-lowercase-emphasis": {
-        "font-family": theme("fontFamily.sans"),
-        "font-weight": theme("fontWeight.medium"),
-        "font-size": "14px",
-        "line-height": "24px",
-      },
-      ".text-body-uppercase-default": {
-        "font-family": theme("fontFamily.sans"),
-        "font-size": "16px",
-        "line-height": "24px",
-        "text-transform": "uppercase",
-      },
-      ".text-body-uppercase-emphasis": {
-        "font-family": theme("fontFamily.sans"),
-        "font-weight": theme("fontWeight.semibold"),
-        "font-size": "16px",
-        "line-height": "24px",
-        "text-transform": "uppercase",
-      },
-      ".text-body-lowercase-default": {
-        "font-family": theme("fontFamily.sans"),
-        "font-size": "16px",
-        "line-height": "24px",
-      },
-      ".text-body-lowercase-emphasis": {
-        "font-family": theme("fontFamily.sans"),
-        "font-weight": theme("fontWeight.medium"),
-        "font-size": "16px",
-        "line-height": "24px",
-      },
-      ".text-title-item": {
-        "font-family": theme("fontFamily.serif"),
-        "font-size": "24px",
-        "line-height": "24px",
-        "text-transform": "uppercase",
-      },
-      ".text-title-small": {
-        "font-family": theme("fontFamily.serif"),
-        "font-size": "48px",
-        "line-height": "48px",
-        "text-transform": "uppercase",
-      },
-      ".text-title-large": {
-        "font-family": theme("fontFamily.serif"),
-        "font-size": "48px",
-        "line-height": "48px",
-        "text-transform": "uppercase",
+
+      ".focus-spaced": {
+        "outline-color": theme("colors.mystic.DEFAULT"),
+        "outline-offset": "2px",
+        "outline-style": "solid",
+        "outline-width": "3px",
       },
     });
   });
 }
 
-function pluginStrokeDashoffset() {
+/**
+ * Alias of `has-[:focus-visible]`.
+ *
+ * @see https://stackoverflow.com/a/76115257
+ */
+function pluginFocusVisibleWithin() {
+  return plugin(({ addVariant }) => {
+    addVariant("focus-visible-within", "&:has(:focus-visible)");
+  });
+}
+
+function pluginGridDynamicColumns() {
   return plugin(({ matchUtilities, theme }) => {
     matchUtilities(
-      { "stroke-dashoffset": (value) => ({ "stroke-dashoffset": value }) },
-      { values: theme("spacing") },
+      {
+        "grid-auto-fill-cols": (value) => ({
+          "grid-template-columns": `repeat(auto-fill, minmax(${value}, 1fr))`,
+        }),
+      },
+      {
+        values: theme("minWidth"),
+        type: ["length"],
+      },
     );
+  });
+}
+
+/**
+ * Alias of `text-[<size>]` for usage in icon component because it feels
+ * more natural to use `icon-<size>` than `text-[<size>]`.
+ */
+function pluginIconSizes() {
+  return plugin(({ matchUtilities }) => {
+    matchUtilities(
+      { icon: (value) => ({ "font-size": value }) },
+      {
+        values: {
+          "12": "12px",
+          "16": "16px",
+          "24": "24px",
+          "48": "48px",
+          "64": "64px",
+        },
+      },
+    );
+  });
+}
+
+/**
+ * Alias of `[@media(any-hover:hover)]:`.
+ */
+function pluginMediaHover() {
+  return plugin(({ addVariant }) => {
+    addVariant("can-hover", "@media(any-hover:hover){&}");
   });
 }
 
@@ -256,29 +615,6 @@ function pluginSafePadding() {
   });
 }
 
-function pluginFocus() {
-  return plugin(({ matchUtilities, theme }) => {
-    matchUtilities(
-      {
-        "focus-compact": (value) => ({
-          "outline-color": value,
-          "outline-offset": "0px",
-          "outline-style": "solid",
-          "outline-width": "3px",
-        }),
-
-        "focus-spaced": (value) => ({
-          "outline-color": value,
-          "outline-offset": "2px",
-          "outline-style": "solid",
-          "outline-width": "3px",
-        }),
-      },
-      { values: flattenColorPalette(theme("colors")) },
-    );
-  });
-}
-
 function createSafePadding(
   side: "top" | "right" | "bottom" | "left",
   value: string,
@@ -306,26 +642,88 @@ function createSafePadding(
   };
 }
 
-type Colors = { [key: string]: string | Colors };
+function pluginStrokeDashoffset() {
+  return plugin(({ matchUtilities, theme }) => {
+    matchUtilities(
+      { "stroke-dashoffset": (value) => ({ "stroke-dashoffset": value }) },
+      { values: theme("spacing") },
+    );
+  });
+}
 
 /**
- * Copied from Tailwind's flattenColorPalette because types are not exported.
- *
- * @see https://github.com/tailwindlabs/tailwindcss/blob/v3.3.3/src/util/flattenColorPalette.js
+ * In order to preserve a nice vertical rhythm, all text must have a size
+ * multiple of 24px.
  */
-function flattenColorPalette(colors: Colors = {}): Record<string, string> {
-  return Object.assign(
-    {},
-    ...Object.entries(colors).flatMap(([key, value]) => {
-      if (typeof value === "object") {
-        return Object.entries(flattenColorPalette(value)).map(
-          ([childKey, value]) => ({
-            [key + (childKey === "DEFAULT" ? "" : `-${childKey}`)]: value,
-          }),
-        );
-      }
-
-      return [{ [`${key}`]: value }];
-    }),
-  );
+function pluginTextStyles() {
+  return plugin(({ addUtilities, theme }) => {
+    addUtilities({
+      ".text-caption-uppercase-default": {
+        "font-family": theme("fontFamily.sans"),
+        "font-weight": theme("fontWeight.normal"),
+        "font-size": "14px",
+        "line-height": "24px",
+        "text-transform": "uppercase",
+      },
+      ".text-caption-lowercase-default": {
+        "font-family": theme("fontFamily.sans"),
+        "font-weight": theme("fontWeight.normal"),
+        "font-size": "14px",
+        "line-height": "24px",
+      },
+      ".text-caption-lowercase-emphasis": {
+        "font-family": theme("fontFamily.sans"),
+        "font-weight": theme("fontWeight.medium"),
+        "font-size": "14px",
+        "line-height": "24px",
+      },
+      ".text-body-uppercase-default": {
+        "font-family": theme("fontFamily.sans"),
+        "font-weight": theme("fontWeight.normal"),
+        "font-size": "16px",
+        "line-height": "24px",
+        "text-transform": "uppercase",
+      },
+      ".text-body-uppercase-emphasis": {
+        "font-family": theme("fontFamily.sans"),
+        "font-weight": theme("fontWeight.semibold"),
+        "font-size": "16px",
+        "line-height": "24px",
+        "text-transform": "uppercase",
+      },
+      ".text-body-lowercase-default": {
+        "font-family": theme("fontFamily.sans"),
+        "font-weight": theme("fontWeight.normal"),
+        "font-size": "16px",
+        "line-height": "24px",
+      },
+      ".text-body-lowercase-emphasis": {
+        "font-family": theme("fontFamily.sans"),
+        "font-weight": theme("fontWeight.medium"),
+        "font-size": "16px",
+        "line-height": "24px",
+      },
+      ".text-title-item": {
+        "font-family": theme("fontFamily.serif"),
+        "font-weight": theme("fontWeight.normal"),
+        "font-size": "24px",
+        "line-height": "24px",
+        "text-transform": "uppercase",
+      },
+      ".text-title-small": {
+        "font-family": theme("fontFamily.serif"),
+        "font-weight": theme("fontWeight.normal"),
+        "font-size": "48px",
+        "line-height": "48px",
+        "text-transform": "uppercase",
+      },
+      ".text-title-large": {
+        "font-family": theme("fontFamily.serif"),
+        "font-weight": theme("fontWeight.normal"),
+        "font-size": "48px",
+        "line-height": "48px",
+        "text-transform": "uppercase",
+      },
+    });
+  });
 }

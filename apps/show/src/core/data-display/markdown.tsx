@@ -1,11 +1,13 @@
-import { ProseInlineAction } from "#core/actions/actions";
+import { ProseInlineAction } from "#core/actions/prose-inline-action";
 import { Link } from "@remix-run/react";
 import type { Options as ReactMarkdownOptions } from "react-markdown";
 import ReactMarkdown from "react-markdown";
 import breaks from "remark-breaks";
 import gfm from "remark-gfm";
 
-type MarkdownComponents = NonNullable<ReactMarkdownOptions["components"]>;
+export type MarkdownComponents = NonNullable<
+  ReactMarkdownOptions["components"]
+>;
 
 export function Markdown({
   content,
@@ -36,6 +38,8 @@ export function Markdown({
 }
 
 export const SENTENCE_COMPONENTS: MarkdownComponents = {
+  br: () => <br />,
+
   a: ({ children, href, title }) => {
     if (href == null) {
       return <span title={title}>children</span>;
