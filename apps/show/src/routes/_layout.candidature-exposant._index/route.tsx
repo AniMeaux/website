@@ -71,6 +71,15 @@ export async function action({ request }: ActionFunctionArgs) {
 
   const submission = parseWithZod(formData, { schema: ActionSchema });
 
+  const formDataEntries = Array.from(formData.entries());
+
+  captureException(new Error("DEBUG"), {
+    extra: {
+      submission: JSON.stringify(submission),
+      formData: JSON.stringify(formDataEntries),
+    },
+  });
+
   if (submission.status !== "success") {
     await revertUpload();
 
