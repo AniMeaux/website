@@ -2,3 +2,4 @@ build/
 generated/
 mock-service-worker.js
 node_modules/
+server.js

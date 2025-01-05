@@ -53,15 +53,7 @@ export async function action({ request }: ActionFunctionArgs) {
     }
   }
 
-  const fileUploads: unknown[] = [];
-
   const formData = await parseFormData(request, async (fileUpload) => {
-    fileUploads.push({
-      fieldName: fileUpload.fieldName,
-      name: fileUpload.name,
-      type: fileUpload.type,
-    });
-
     if (fileUpload.fieldName !== "structure.logo" || fileUpload.name === "") {
       return undefined;
     }
@@ -77,26 +69,7 @@ export async function action({ request }: ActionFunctionArgs) {
     }
   });
 
-  const requestObject = {
-    bodyUsed: request.bodyUsed,
-    headers: Array.from(request.headers.entries()),
-    method: request.method,
-    referrer: request.referrer,
-    referrerPolicy: request.referrerPolicy,
-  };
-
   const submission = parseWithZod(formData, { schema: ActionSchema });
-
-  const formDataEntries = Array.from(formData.entries());
-
-  captureException(new Error("DEBUG"), {
-    extra: {
-      requestObject: JSON.stringify(requestObject),
-      fileUploads: JSON.stringify(fileUploads),
-      submission: JSON.stringify(submission),
-      formData: JSON.stringify(formDataEntries),
-    },
-  });
 
   if (submission.status !== "success") {
     await revertUpload();

@@ -6,3 +6,4 @@ dumps/
 generated/
 logs/
 node_modules/
+server.js
