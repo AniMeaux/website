@@ -26,6 +26,7 @@ export async function createEmailTemplateRequest(
           chairCount: true,
           dividerCount: true,
           dividerType: true,
+          hasElectricalConnection: true,
           hasTablecloths: true,
           installationDay: true,
           peopleCount: true,
@@ -66,6 +67,16 @@ export async function createEmailTemplateRequest(
 
             <EmailHtml.Output.Value>
               {STAND_SIZE_TRANSLATION[standConfiguration.size]}
+            </EmailHtml.Output.Value>
+          </EmailHtml.Output.Row>
+
+          <EmailHtml.Output.Row>
+            <EmailHtml.Output.Label>
+              Raccordement électrique
+            </EmailHtml.Output.Label>
+
+            <EmailHtml.Output.Value>
+              {standConfiguration.hasElectricalConnection ? "Oui" : "Non"}
             </EmailHtml.Output.Value>
           </EmailHtml.Output.Row>
 

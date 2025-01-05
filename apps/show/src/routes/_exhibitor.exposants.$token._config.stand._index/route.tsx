@@ -23,6 +23,7 @@ export async function loader({ params }: LoaderFunctionArgs) {
           chairCount: true,
           dividerCount: true,
           dividerType: true,
+          hasElectricalConnection: true,
           hasTablecloths: true,
           installationDay: true,
           peopleCount: true,

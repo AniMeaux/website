@@ -13,13 +13,23 @@ export function SectionStandConfiguration() {
     <FormLayout.Section>
       <FormLayout.Title>Configuration de stand</FormLayout.Title>
 
-      <FormLayout.Field>
-        <FormLayout.Label>Taille du stand</FormLayout.Label>
+      <FormLayout.Row>
+        <FormLayout.Field>
+          <FormLayout.Label>Taille du stand</FormLayout.Label>
 
-        <FormLayout.Output>
-          {STAND_SIZE_TRANSLATION[standConfiguration.size]}
-        </FormLayout.Output>
-      </FormLayout.Field>
+          <FormLayout.Output>
+            {STAND_SIZE_TRANSLATION[standConfiguration.size]}
+          </FormLayout.Output>
+        </FormLayout.Field>
+
+        <FormLayout.Field>
+          <FormLayout.Label>Raccordement électrique</FormLayout.Label>
+
+          <FormLayout.Output>
+            {standConfiguration.hasElectricalConnection ? "Oui" : "Non"}
+          </FormLayout.Output>
+        </FormLayout.Field>
+      </FormLayout.Row>
 
       <FormLayout.Row>
         <FormLayout.Field>
