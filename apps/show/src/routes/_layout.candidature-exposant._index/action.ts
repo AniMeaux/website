@@ -5,7 +5,7 @@ import {
   IMAGE_SIZE_LIMIT_B,
   IMAGE_SIZE_LIMIT_MB,
 } from "@animeaux/cloudinary/client";
-import { zu } from "@animeaux/zod-utils";
+import { simpleUrl, zu } from "@animeaux/zod-utils";
 import {
   ShowActivityField,
   ShowActivityTarget,
@@ -50,8 +50,8 @@ export const ActionSchema = zu
         url: zu
           .string({ required_error: "Veuillez entrer une URL" })
           .trim()
-          .url("Veuillez entrer une URL valide")
-          .max(128, "Veuillez entrer une URL plus courte"),
+          .pipe(simpleUrl("Veuillez entrer une URL valide"))
+          .pipe(zu.string().max(128, "Veuillez entrer une URL plus courte")),
         siret: zu
           .string({
             required_error: "Veuillez entrer un numéro d’identification",
