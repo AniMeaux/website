@@ -14,7 +14,7 @@ declare global {
       DATABASE_URL?: string;
       ENABLE_CRONS?: "true" | "false";
       PUBLIC_HOST?: string;
-      RUNTIME_ENV?: "staging" | "production";
+      RUNTIME_ENV?: "local" | "staging" | "production";
       SESSION_SECRET?: string;
       SHOW_NOTIFICATION_ENDPOINT?: string;
     }
