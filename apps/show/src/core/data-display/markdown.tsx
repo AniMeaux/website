@@ -38,7 +38,7 @@ export function Markdown({
 }
 
 export const SENTENCE_COMPONENTS: MarkdownComponents = {
-  br: () => <br />,
+  br: (props) => <br {...withoutNode(props)} />,
 
   a: ({ children, href, title }) => {
     if (href == null) {
@@ -54,11 +54,35 @@ export const SENTENCE_COMPONENTS: MarkdownComponents = {
     );
   },
 
-  em: ({ children }) => <em>{children}</em>,
+  em: (props) => <em {...withoutNode(props)} />,
 
-  strong: ({ children }) => (
-    <strong className="text-body-lowercase-emphasis">{children}</strong>
+  strong: (props) => (
+    <strong {...withoutNode(props)} className="text-body-lowercase-emphasis" />
   ),
+};
+
+export const PARAGRAPH_COMPONENTS: MarkdownComponents = {
+  ...SENTENCE_COMPONENTS,
+
+  p: (props) => (
+    <p {...withoutNode(props)} className="my-2 first:mt-0 last:mb-0" />
+  ),
+
+  ul: (props) => (
+    <ul
+      {...withoutNode(props)}
+      className="my-2 list-disc pl-[16px] first:mt-0 last:mb-0"
+    />
+  ),
+
+  ol: (props) => (
+    <ol
+      {...withoutNode(props)}
+      className="my-2 list-decimal pl-[16px] first:mt-0 last:mb-0"
+    />
+  ),
+
+  li: (props) => <li {...withoutNode(props)} />,
 };
 
 const REMARK_PLUGINS: ReactMarkdownOptions["remarkPlugins"] = [
@@ -67,3 +91,14 @@ const REMARK_PLUGINS: ReactMarkdownOptions["remarkPlugins"] = [
   // Allow autolink literals, strikethrough, table and task list.
   gfm,
 ];
+
+/**
+ * Remove `node` from props object because we don't want to have
+ * `node="[object Object]"` in the DOM.
+ */
+export function withoutNode<TProps extends Record<string, any>>({
+  node,
+  ...props
+}: TProps): Omit<TProps, "node"> {
+  return props;
+}

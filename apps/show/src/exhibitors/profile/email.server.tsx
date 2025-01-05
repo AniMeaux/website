@@ -1,4 +1,8 @@
-import { EmailHtml } from "#core/data-display/email-html.server";
+import {
+  EMAIL_PARAGRAPH_COMPONENTS,
+  EMAIL_SENTENCE_COMPONENTS,
+  EmailHtml,
+} from "#core/data-display/email-html.server";
 import { createImageUrl } from "#core/data-display/image";
 import { Routes } from "#core/navigation";
 import { services } from "#core/services/services.server";
@@ -28,6 +32,87 @@ export async function createEmailTemplateUpdated(
       select: { contactEmail: true },
     }),
   });
+
+  function SectionPublicProfile() {
+    return (
+      <EmailHtml.Section.Root>
+        <EmailHtml.Section.Title>Profil public</EmailHtml.Section.Title>
+
+        <EmailHtml.Output.Table>
+          <EmailHtml.Output.Row>
+            <EmailHtml.Output.Label>Logo</EmailHtml.Output.Label>
+
+            <EmailHtml.Output.Value>
+              <Img
+                src={createImageUrl(
+                  process.env.CLOUDINARY_CLOUD_NAME,
+                  ImageUrl.parse(profile.logoPath).id,
+                  {
+                    size: "512",
+                    aspectRatio: "4:3",
+                    objectFit: "contain",
+                  },
+                )}
+                alt={profile.name}
+                // Reset Img default styles to avoid conflicts.
+                style={{ border: undefined }}
+                className="aspect-4/3 w-full min-w-0 rounded-2 border border-solid border-mystic-200 object-contain"
+              />
+            </EmailHtml.Output.Value>
+          </EmailHtml.Output.Row>
+
+          <EmailHtml.Output.Row>
+            <EmailHtml.Output.Label>Cibles</EmailHtml.Output.Label>
+
+            <EmailHtml.Output.Value>
+              {profile.activityTargets
+                .map((target) => ACTIVITY_TARGET_TRANSLATION[target])
+                .join(", ")}
+            </EmailHtml.Output.Value>
+          </EmailHtml.Output.Row>
+
+          <EmailHtml.Output.Row>
+            <EmailHtml.Output.Label>
+              Domaines d’activités
+            </EmailHtml.Output.Label>
+
+            <EmailHtml.Output.Value>
+              {profile.activityFields
+                .map((field) => ACTIVITY_FIELD_TRANSLATION[field])
+                .join(", ")}
+            </EmailHtml.Output.Value>
+          </EmailHtml.Output.Row>
+
+          <EmailHtml.Output.Row>
+            <EmailHtml.Output.Label>
+              Liens du site internet ou réseaux sociaux
+            </EmailHtml.Output.Label>
+
+            <EmailHtml.Output.Value>
+              {joinReactNodes(profile.links, <br />)}
+            </EmailHtml.Output.Value>
+          </EmailHtml.Output.Row>
+        </EmailHtml.Output.Table>
+      </EmailHtml.Section.Root>
+    );
+  }
+
+  function SectionDescription() {
+    return (
+      <EmailHtml.Section.Root>
+        <EmailHtml.Section.Title>Description</EmailHtml.Section.Title>
+
+        {profile.description != null ? (
+          <EmailHtml.Markdown
+            content={profile.description}
+            components={EMAIL_PARAGRAPH_COMPONENTS}
+          />
+        ) : (
+          <EmailHtml.Paragraph>Aucune description</EmailHtml.Paragraph>
+        )}
+      </EmailHtml.Section.Root>
+    );
+  }
 
   return {
     name: "profil-exposant-mis-a-jour",
@@ -59,75 +144,11 @@ export async function createEmailTemplateUpdated(
 
         <EmailHtml.SectionSeparator />
 
-        <EmailHtml.Section.Root>
-          <EmailHtml.Output.Table>
-            <EmailHtml.Output.Row>
-              <EmailHtml.Output.Label>Logo</EmailHtml.Output.Label>
+        <SectionPublicProfile />
 
-              <EmailHtml.Output.Value>
-                <Img
-                  src={createImageUrl(
-                    process.env.CLOUDINARY_CLOUD_NAME,
-                    ImageUrl.parse(profile.logoPath).id,
-                    {
-                      size: "512",
-                      aspectRatio: "4:3",
-                      objectFit: "contain",
-                    },
-                  )}
-                  alt={profile.name}
-                  // Reset Img default styles to avoid conflicts.
-                  style={{ border: undefined }}
-                  className="aspect-4/3 w-full min-w-0 rounded-2 border border-solid border-mystic-200 object-contain"
-                />
-              </EmailHtml.Output.Value>
-            </EmailHtml.Output.Row>
+        <EmailHtml.SectionSeparator />
 
-            <EmailHtml.Output.Row>
-              <EmailHtml.Output.Label>Cibles</EmailHtml.Output.Label>
-
-              <EmailHtml.Output.Value>
-                {profile.activityTargets
-                  .map((target) => ACTIVITY_TARGET_TRANSLATION[target])
-                  .join(", ")}
-              </EmailHtml.Output.Value>
-            </EmailHtml.Output.Row>
-
-            <EmailHtml.Output.Row>
-              <EmailHtml.Output.Label>
-                Domaines d’activités
-              </EmailHtml.Output.Label>
-
-              <EmailHtml.Output.Value>
-                {profile.activityFields
-                  .map((field) => ACTIVITY_FIELD_TRANSLATION[field])
-                  .join(", ")}
-              </EmailHtml.Output.Value>
-            </EmailHtml.Output.Row>
-
-            <EmailHtml.Output.Row>
-              <EmailHtml.Output.Label>
-                Liens du site internet ou réseaux sociaux
-              </EmailHtml.Output.Label>
-
-              <EmailHtml.Output.Value>
-                {joinReactNodes(profile.links, <br />)}
-              </EmailHtml.Output.Value>
-            </EmailHtml.Output.Row>
-
-            <EmailHtml.Output.Row>
-              <EmailHtml.Output.Label>Description</EmailHtml.Output.Label>
-
-              <EmailHtml.Output.Value>
-                {profile.description != null ? (
-                  <EmailHtml.Markdown content={profile.description} />
-                ) : (
-                  "-"
-                )}
-              </EmailHtml.Output.Value>
-            </EmailHtml.Output.Row>
-          </EmailHtml.Output.Table>
-        </EmailHtml.Section.Root>
+        <SectionDescription />
 
         <EmailHtml.SectionSeparator />
 
@@ -187,7 +208,10 @@ export async function createEmailTemplateAnimationsOnStandUpdated(
 
               <EmailHtml.Output.Value>
                 {profile.onStandAnimations != null ? (
-                  <EmailHtml.Markdown content={profile.onStandAnimations} />
+                  <EmailHtml.Markdown
+                    content={profile.onStandAnimations}
+                    components={EMAIL_SENTENCE_COMPONENTS}
+                  />
                 ) : (
                   "-"
                 )}

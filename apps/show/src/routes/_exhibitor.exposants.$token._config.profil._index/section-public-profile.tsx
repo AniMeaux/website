@@ -1,7 +1,6 @@
 import { ProseInlineAction } from "#core/actions/prose-inline-action";
 import { ChipList } from "#core/data-display/chip";
 import { DynamicImage } from "#core/data-display/image";
-import { Markdown, SENTENCE_COMPONENTS } from "#core/data-display/markdown";
 import { FormLayout } from "#core/layout/form-layout";
 import { ChipActivityField } from "#exhibitors/activity-field/chip";
 import { ChipActivityTarget } from "#exhibitors/activity-target/chip";
@@ -9,11 +8,13 @@ import { ImageUrl, joinReactNodes } from "@animeaux/core";
 import { useLoaderData } from "@remix-run/react";
 import type { loader } from "./route";
 
-export function SectionProfile() {
+export function SectionPublicProfile() {
   const { profile } = useLoaderData<typeof loader>();
 
   return (
     <FormLayout.Section>
+      <FormLayout.Title>Profil public</FormLayout.Title>
+
       <FormLayout.Row>
         <FormLayout.Field>
           <FormLayout.Label>Logo</FormLayout.Label>
@@ -78,21 +79,6 @@ export function SectionProfile() {
               </ProseInlineAction>
             )),
             <br />,
-          )}
-        </FormLayout.Output>
-      </FormLayout.Field>
-
-      <FormLayout.Field>
-        <FormLayout.Label>Description</FormLayout.Label>
-
-        <FormLayout.Output>
-          {profile.description != null ? (
-            <Markdown
-              content={profile.description}
-              components={SENTENCE_COMPONENTS}
-            />
-          ) : (
-            "-"
           )}
         </FormLayout.Output>
       </FormLayout.Field>

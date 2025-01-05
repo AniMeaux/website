@@ -1,7 +1,12 @@
 import tailwindConfig, { fonts } from "#../tailwind.config";
 import { createImageUrl } from "#core/data-display/image";
 import type { MarkdownComponents } from "#core/data-display/markdown";
-import { Markdown, SENTENCE_COMPONENTS } from "#core/data-display/markdown";
+import {
+  Markdown,
+  PARAGRAPH_COMPONENTS,
+  SENTENCE_COMPONENTS,
+  withoutNode,
+} from "#core/data-display/markdown";
 import { cn } from "@animeaux/core";
 import {
   Body,
@@ -114,13 +119,9 @@ export const EmailHtml = {
     );
   },
 
-  Strong: Strong,
+  Strong,
 
-  Markdown: function EmailHtmlMarkdown({ content }: { content: string }) {
-    return (
-      <Markdown content={content} components={EMAIL_SENTENCE_COMPONENTS} />
-    );
-  },
+  Markdown,
 
   Link: function EmailHtmlLink({
     children,
@@ -312,12 +313,12 @@ function Strong(props: React.PropsWithChildren<{}>) {
   // rendered.
   return (
     <span className="text-body-lowercase-emphasis">
-      <strong {...props} />
+      <strong {...withoutNode(props)} />
     </span>
   );
 }
 
-const EMAIL_SENTENCE_COMPONENTS: MarkdownComponents = {
+export const EMAIL_SENTENCE_COMPONENTS: MarkdownComponents = {
   ...SENTENCE_COMPONENTS,
 
   strong: Strong,
@@ -329,4 +330,26 @@ const EMAIL_SENTENCE_COMPONENTS: MarkdownComponents = {
 
     return <EmailHtml.Link href={href}>{children}</EmailHtml.Link>;
   },
+};
+
+export const EMAIL_PARAGRAPH_COMPONENTS: MarkdownComponents = {
+  ...PARAGRAPH_COMPONENTS,
+  ...EMAIL_SENTENCE_COMPONENTS,
+
+  p: (props) => <EmailHtml.Paragraph {...withoutNode(props)} />,
+
+  ul: (props) => (
+    <ul {...withoutNode(props)} className="m-0 mt-2 list-disc p-0 pl-[16px]" />
+  ),
+
+  ol: (props) => (
+    <ol
+      {...withoutNode(props)}
+      className="m-0 mt-2 list-decimal p-0 pl-[16px]"
+    />
+  ),
+
+  li: (props) => (
+    <li {...withoutNode(props)} className="m-0 text-body-lowercase-default" />
+  ),
 };

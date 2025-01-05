@@ -6,8 +6,9 @@ import { services } from "#core/services/services.server";
 import { RouteParamsSchema } from "#exhibitors/route-params";
 import type { LoaderFunctionArgs } from "@remix-run/node";
 import type { MetaFunction } from "@remix-run/react";
+import { SectionDescription } from "./section-description";
 import { SectionHelper } from "./section-helper";
-import { SectionProfile } from "./section-profile";
+import { SectionPublicProfile } from "./section-public-profile";
 import { SectionStatus } from "./section-status";
 
 export async function loader({ params }: LoaderFunctionArgs) {
@@ -45,7 +46,9 @@ export default function Route() {
       <FormLayout.Form asChild>
         <div>
           <SectionStatus />
-          <SectionProfile />
+          <SectionPublicProfile />
+          <FormLayout.SectionSeparator />
+          <SectionDescription />
         </div>
       </FormLayout.Form>
 
