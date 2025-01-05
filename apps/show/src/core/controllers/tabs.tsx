@@ -1,6 +1,4 @@
-import { Action } from "#core/actions/action";
-import { useNavLink } from "#core/navigation";
-import { cn } from "@animeaux/core";
+import { callFactory, cn } from "@animeaux/core";
 import { Primitive } from "@animeaux/react-primitives";
 import { NavLink } from "@remix-run/react";
 import { forwardRef } from "react";
@@ -20,15 +18,25 @@ export const Tabs = forwardRef<
 
 export function Tab({
   children,
+  className,
   ...props
 }: React.ComponentPropsWithoutRef<typeof NavLink>) {
-  const { isActive } = useNavLink(props);
-
   return (
-    <Action color={isActive ? "mystic" : "alabaster"} asChild>
-      <NavLink preventScrollReset prefetch="intent" {...props}>
-        {children}
-      </NavLink>
-    </Action>
+    <NavLink
+      preventScrollReset
+      prefetch="intent"
+      {...props}
+      className={(props) =>
+        cn(
+          "rounded-0.5 px-1 py-0.5 transition-colors duration-normal",
+          props.isActive
+            ? "bg-alabaster text-body-lowercase-emphasis can-hover:focus-visible:focus-spaced"
+            : "text-body-lowercase-default can-hover:hover:bg-alabaster-50 can-hover:focus-visible:focus-compact",
+          callFactory(className, () => props),
+        )
+      }
+    >
+      {children}
+    </NavLink>
   );
 }
