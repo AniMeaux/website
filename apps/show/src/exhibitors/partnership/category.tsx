@@ -13,9 +13,9 @@ export const PARTNERSHIP_CATEGORY_TRANSLATION: Record<
   ShowPartnershipCategory,
   string
 > = {
-  [ShowPartnershipCategory.BRONZE]: "Patte de bronze",
-  [ShowPartnershipCategory.SILVER]: "Patte d’argent",
-  [ShowPartnershipCategory.GOLD]: "Patte d’or",
+  [ShowPartnershipCategory.BRONZE]: "Pott de bronze",
+  [ShowPartnershipCategory.SILVER]: "Pott d’argent",
+  [ShowPartnershipCategory.GOLD]: "Pott d’or",
 };
 
 export function PartnershipCategoryDescription({
