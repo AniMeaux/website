@@ -1,4 +1,7 @@
-import { EmailHtml } from "#core/data-display/email-html.server";
+import {
+  EMAIL_SENTENCE_COMPONENTS,
+  EmailHtml,
+} from "#core/data-display/email-html.server";
 import { createImageUrl } from "#core/data-display/image";
 import { Routes } from "#core/navigation";
 import { services } from "#core/services/services.server";
@@ -139,6 +142,7 @@ export function createEmailTemplateConfirmation(
                   city: application.structureCity,
                   country: application.structureCountry,
                 })}
+                components={EMAIL_SENTENCE_COMPONENTS}
               />
             </EmailHtml.Output.Value>
           </EmailHtml.Output.Row>
@@ -210,6 +214,7 @@ export function createEmailTemplateConfirmation(
                   city: application.billingCity,
                   country: application.billingCountry,
                 })}
+                components={EMAIL_SENTENCE_COMPONENTS}
               />
             </EmailHtml.Output.Value>
           </EmailHtml.Output.Row>
@@ -358,7 +363,10 @@ export async function createEmailTemplateStatusUpdate(
 
             <EmailHtml.Section.Root>
               <EmailHtml.Paragraph>
-                <EmailHtml.Markdown content={application.refusalMessage} />
+                <EmailHtml.Markdown
+                  content={application.refusalMessage}
+                  components={EMAIL_SENTENCE_COMPONENTS}
+                />
               </EmailHtml.Paragraph>
 
               <EmailHtml.Paragraph>

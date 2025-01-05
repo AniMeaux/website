@@ -1,30 +1,23 @@
 import { FieldText } from "#core/form-elements/field-text";
 import { FieldYesNo } from "#core/form-elements/field-yes-no";
 import { FormLayout } from "#core/layout/form-layout";
-import type { FieldMetadata, FormMetadata } from "@conform-to/react";
+import { DogsHelper } from "#exhibitors/stand-configuration/dogs-helper";
 import { Gender } from "@prisma/client";
 import { Fragment } from "react/jsx-runtime";
 import { FieldDogGender } from "./field-dog-gender";
+import { useForm } from "./form";
 
-export function FieldsetDogs<TFormSchema extends Record<string, unknown>>({
-  form,
-  field,
-}: {
-  form: FormMetadata<TFormSchema>;
-  field: FieldMetadata<
-    {
-      gender: Gender;
-      idNumber: string;
-      isCategorized: "on" | "off";
-      isSterilized: "on" | "off";
-    }[]
-  >;
-}) {
-  const fields = field.getFieldList();
+export function FieldsetDogs() {
+  const { form, fields } = useForm();
+  const fieldsDogs = fields.presentDogs.getFieldList();
 
   return (
-    <>
-      {fields.map((fieldDog, index) => {
+    <FormLayout.Section>
+      <FormLayout.Title>Chiens présents</FormLayout.Title>
+
+      <DogsHelper />
+
+      {fieldsDogs.map((fieldDog, index) => {
         const fieldsetDog = fieldDog.getFieldset();
 
         const gender = fieldsetDog.gender.value as undefined | Gender;
@@ -67,7 +60,10 @@ export function FieldsetDogs<TFormSchema extends Record<string, unknown>>({
             />
 
             <FormLayout.InputList.Action
-              {...form.remove.getButtonProps({ index, name: field.name })}
+              {...form.remove.getButtonProps({
+                index,
+                name: fields.presentDogs.name,
+              })}
             >
               Retirer
             </FormLayout.InputList.Action>
@@ -78,10 +74,10 @@ export function FieldsetDogs<TFormSchema extends Record<string, unknown>>({
       })}
 
       <FormLayout.InputList.Action
-        {...form.insert.getButtonProps({ name: field.name })}
+        {...form.insert.getButtonProps({ name: fields.presentDogs.name })}
       >
         Ajouter un chien
       </FormLayout.InputList.Action>
-    </>
+    </FormLayout.Section>
   );
 }

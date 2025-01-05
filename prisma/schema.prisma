@@ -454,11 +454,11 @@ model ShowExhibitorProfile {
   activityFields  ShowActivityField[]
   activityTargets ShowActivityTarget[]
 
-  description       String?  @db.VarChar(256)
+  description       String?  @db.VarChar(512)
   links             String[]
   logoPath          String   @db.VarChar(128)
   name              String   @db.VarChar(64)
-  onStandAnimations String?  @db.VarChar(128)
+  onStandAnimations String?  @db.VarChar(256)
 }
 
 model ShowExhibitorStandConfiguration {
@@ -472,19 +472,20 @@ model ShowExhibitorStandConfiguration {
   status        ShowExhibitorStandConfigurationStatus @default(TO_BE_FILLED)
   statusMessage String?                               @db.VarChar(512)
 
-  chairCount       Int                                             @default(1)
-  dividerCount     Int                                             @default(0)
-  dividerType      ShowExhibitorStandConfigurationDividerType?
-  hasTablecloths   Boolean                                         @default(true)
-  installationDay  ShowExhibitorStandConfigurationInstallationDay?
-  locationNumber   Int?
-  peopleCount      Int                                             @default(1)
-  placementComment String?                                         @db.VarChar(256)
-  presentDogs      ShowExhibitorDog[]
-  size             ShowStandSize
-  standNumber      Int?
-  tableCount       Int
-  zone             ShowStandZone?
+  chairCount              Int                                             @default(1)
+  dividerCount            Int                                             @default(0)
+  dividerType             ShowExhibitorStandConfigurationDividerType?
+  hasElectricalConnection Boolean                                         @default(false)
+  hasTablecloths          Boolean                                         @default(true)
+  installationDay         ShowExhibitorStandConfigurationInstallationDay?
+  locationNumber          Int?
+  peopleCount             Int                                             @default(1)
+  placementComment        String?                                         @db.VarChar(256)
+  presentDogs             ShowExhibitorDog[]
+  size                    ShowStandSize
+  standNumber             Int?
+  tableCount              Int
+  zone                    ShowStandZone?
 }
 
 enum ShowExhibitorStandConfigurationStatus {

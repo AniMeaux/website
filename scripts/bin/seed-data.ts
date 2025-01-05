@@ -604,7 +604,7 @@ async function seedShowExhibitors() {
               activityFields: application.structureActivityFields,
               activityTargets: application.structureActivityTargets,
               description: faker.helpers.maybe(() =>
-                faker.lorem.paragraph().substring(0, 256),
+                faker.lorem.paragraph().substring(0, 512),
               ),
               links: [application.structureUrl].concat(
                 repeate({ min: 0, max: 2 }, () => faker.internet.url()),
@@ -612,7 +612,7 @@ async function seedShowExhibitors() {
               logoPath: application.structureLogoPath,
               name: application.structureName,
               onStandAnimations: faker.helpers.maybe(
-                () => faker.lorem.lines().substring(0, 128),
+                () => faker.lorem.lines().substring(0, 256),
                 { probability: 1 / 5 },
               ),
             },

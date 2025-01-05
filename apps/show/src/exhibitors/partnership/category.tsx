@@ -1,4 +1,8 @@
-import { Markdown } from "#core/data-display/markdown";
+import {
+  Markdown,
+  PARAGRAPH_COMPONENTS,
+  withoutNode,
+} from "#core/data-display/markdown";
 import { cn } from "@animeaux/core";
 import {
   ShowExhibitorApplicationOtherPartnershipCategory,
@@ -9,9 +13,9 @@ export const PARTNERSHIP_CATEGORY_TRANSLATION: Record<
   ShowPartnershipCategory,
   string
 > = {
-  [ShowPartnershipCategory.BRONZE]: "Patte de bronze",
-  [ShowPartnershipCategory.SILVER]: "Patte d’argent",
-  [ShowPartnershipCategory.GOLD]: "Patte d’or",
+  [ShowPartnershipCategory.BRONZE]: "Pott de bronze",
+  [ShowPartnershipCategory.SILVER]: "Pott d’argent",
+  [ShowPartnershipCategory.GOLD]: "Pott d’or",
 };
 
 export function PartnershipCategoryDescription({
@@ -26,22 +30,21 @@ export function PartnershipCategoryDescription({
       <Markdown
         content={PARTNERSHIP_CATEGORY_DESCRIPTION[category]}
         components={{
-          p: ({ children }) => <p>{children}</p>,
+          ...PARAGRAPH_COMPONENTS,
 
-          strong: ({ children }) => (
+          strong: (props) => (
             <strong
-              // Only change the weight so it works with body and caption text.
+              {...withoutNode(props)}
+              // Only update the font-weight for a more flexible font-size.
               className="font-medium"
-            >
-              {children}
-            </strong>
+            />
           ),
 
-          ul: ({ children }) => (
-            <ul className="list-disc pl-[16px]">{children}</ul>
-          ),
+          p: (props) => <p {...withoutNode(props)} />,
 
-          li: ({ children }) => <li>{children}</li>,
+          ul: (props) => (
+            <ul {...withoutNode(props)} className="list-disc pl-[16px]" />
+          ),
         }}
       />
     </div>

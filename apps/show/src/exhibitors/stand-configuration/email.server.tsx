@@ -1,5 +1,8 @@
 import type { IsFirstProps } from "#core/data-display/email-html.server";
-import { EmailHtml } from "#core/data-display/email-html.server";
+import {
+  EMAIL_SENTENCE_COMPONENTS,
+  EmailHtml,
+} from "#core/data-display/email-html.server";
 import { Routes } from "#core/navigation";
 import { services } from "#core/services/services.server";
 import { DIVIDER_TYPE_TRANSLATION } from "#exhibitors/stand-configuration/divider-type";
@@ -23,6 +26,7 @@ export async function createEmailTemplateRequest(
           chairCount: true,
           dividerCount: true,
           dividerType: true,
+          hasElectricalConnection: true,
           hasTablecloths: true,
           installationDay: true,
           peopleCount: true,
@@ -63,6 +67,16 @@ export async function createEmailTemplateRequest(
 
             <EmailHtml.Output.Value>
               {STAND_SIZE_TRANSLATION[standConfiguration.size]}
+            </EmailHtml.Output.Value>
+          </EmailHtml.Output.Row>
+
+          <EmailHtml.Output.Row>
+            <EmailHtml.Output.Label>
+              Raccordement électrique
+            </EmailHtml.Output.Label>
+
+            <EmailHtml.Output.Value>
+              {standConfiguration.hasElectricalConnection ? "Oui" : "Non"}
             </EmailHtml.Output.Value>
           </EmailHtml.Output.Row>
 
@@ -149,6 +163,7 @@ export async function createEmailTemplateRequest(
               {standConfiguration.placementComment != null ? (
                 <EmailHtml.Markdown
                   content={standConfiguration.placementComment}
+                  components={EMAIL_SENTENCE_COMPONENTS}
                 />
               ) : (
                 "-"

@@ -27,7 +27,16 @@ export const ActionSchema = zu
     dividerType: zu.nativeEnum(ShowExhibitorStandConfigurationDividerType, {
       required_error: "Veuillez choisir un type de cloisons",
     }),
-    hasTablecloths: zu.boolean().default(false),
+    hasElectricalConnection: zu
+      .enum(["on", "off"], {
+        required_error: "Veuillez choisir une option",
+      })
+      .transform((value) => value === "on"),
+    hasTablecloths: zu
+      .enum(["on", "off"], {
+        required_error: "Veuillez choisir une option",
+      })
+      .transform((value) => value === "on"),
     installationDay: zu.nativeEnum(
       ShowExhibitorStandConfigurationInstallationDay,
       { required_error: "Veuillez choisir un jour d’installation" },
