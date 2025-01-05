@@ -9,6 +9,7 @@
  * - Code for `NODE_ENV="development"` have been removed. We use
  *   `remix vite:dev` in dev.
  *
+ * @see https://github.com/mjackson/remix-the-web/issues/26
  * @see https://github.com/remix-run/remix/blob/%40remix-run/serve%402.9.2/packages/remix-serve/cli.ts
  */
 
