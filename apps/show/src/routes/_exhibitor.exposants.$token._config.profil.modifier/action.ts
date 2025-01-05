@@ -37,6 +37,6 @@ export const ActionSchema = zu.object({
   description: zu
     .string()
     .trim()
-    .max(256, "Veuillez entrer une description plus courte")
+    .max(512, "Veuillez entrer une description plus courte")
     .optional(),
 });

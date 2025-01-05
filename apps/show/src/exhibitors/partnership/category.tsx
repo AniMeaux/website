@@ -1,4 +1,8 @@
-import { Markdown } from "#core/data-display/markdown";
+import {
+  Markdown,
+  PARAGRAPH_COMPONENTS,
+  withoutNode,
+} from "#core/data-display/markdown";
 import { cn } from "@animeaux/core";
 import {
   ShowExhibitorApplicationOtherPartnershipCategory,
@@ -26,22 +30,13 @@ export function PartnershipCategoryDescription({
       <Markdown
         content={PARTNERSHIP_CATEGORY_DESCRIPTION[category]}
         components={{
-          p: ({ children }) => <p>{children}</p>,
+          ...PARAGRAPH_COMPONENTS,
 
-          strong: ({ children }) => (
-            <strong
-              // Only change the weight so it works with body and caption text.
-              className="font-medium"
-            >
-              {children}
-            </strong>
+          p: (props) => <p {...withoutNode(props)} />,
+
+          ul: (props) => (
+            <ul {...withoutNode(props)} className="list-disc pl-[16px]" />
           ),
-
-          ul: ({ children }) => (
-            <ul className="list-disc pl-[16px]">{children}</ul>
-          ),
-
-          li: ({ children }) => <li>{children}</li>,
         }}
       />
     </div>

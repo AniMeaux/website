@@ -1,5 +1,8 @@
 import type { IsFirstProps } from "#core/data-display/email-html.server";
-import { EmailHtml } from "#core/data-display/email-html.server";
+import {
+  EMAIL_SENTENCE_COMPONENTS,
+  EmailHtml,
+} from "#core/data-display/email-html.server";
 import { Routes } from "#core/navigation";
 import { services } from "#core/services/services.server";
 import { DIVIDER_TYPE_TRANSLATION } from "#exhibitors/stand-configuration/divider-type";
@@ -149,6 +152,7 @@ export async function createEmailTemplateRequest(
               {standConfiguration.placementComment != null ? (
                 <EmailHtml.Markdown
                   content={standConfiguration.placementComment}
+                  components={EMAIL_SENTENCE_COMPONENTS}
                 />
               ) : (
                 "-"

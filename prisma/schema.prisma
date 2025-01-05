@@ -454,7 +454,7 @@ model ShowExhibitorProfile {
   activityFields  ShowActivityField[]
   activityTargets ShowActivityTarget[]
 
-  description       String?  @db.VarChar(256)
+  description       String?  @db.VarChar(512)
   links             String[]
   logoPath          String   @db.VarChar(128)
   name              String   @db.VarChar(64)
