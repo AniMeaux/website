@@ -32,6 +32,14 @@ export function PartnershipCategoryDescription({
         components={{
           ...PARAGRAPH_COMPONENTS,
 
+          strong: (props) => (
+            <strong
+              {...withoutNode(props)}
+              // Only update the font-weight for a more flexible font-size.
+              className="font-medium"
+            />
+          ),
+
           p: (props) => <p {...withoutNode(props)} />,
 
           ul: (props) => (
