@@ -458,7 +458,7 @@ model ShowExhibitorProfile {
   links             String[]
   logoPath          String   @db.VarChar(128)
   name              String   @db.VarChar(64)
-  onStandAnimations String?  @db.VarChar(128)
+  onStandAnimations String?  @db.VarChar(256)
 }
 
 model ShowExhibitorStandConfiguration {

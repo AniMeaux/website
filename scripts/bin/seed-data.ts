@@ -612,7 +612,7 @@ async function seedShowExhibitors() {
               logoPath: application.structureLogoPath,
               name: application.structureName,
               onStandAnimations: faker.helpers.maybe(
-                () => faker.lorem.lines().substring(0, 128),
+                () => faker.lorem.lines().substring(0, 256),
                 { probability: 1 / 5 },
               ),
             },
