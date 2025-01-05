@@ -19,7 +19,10 @@ export function useFormRoot() {
       chairCount: standConfiguration.chairCount,
       dividerCount: standConfiguration.dividerCount,
       dividerType: standConfiguration.dividerType,
-      hasTablecloths: standConfiguration.hasTablecloths,
+      hasElectricalConnection: standConfiguration.hasElectricalConnection
+        ? "on"
+        : "off",
+      hasTablecloths: standConfiguration.hasTablecloths ? "on" : "off",
       installationDay: standConfiguration.installationDay,
       peopleCount: standConfiguration.peopleCount,
       placementComment: standConfiguration.placementComment,

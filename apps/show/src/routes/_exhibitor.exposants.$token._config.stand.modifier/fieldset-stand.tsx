@@ -1,6 +1,6 @@
 import { FieldStepper } from "#core/form-elements/field-stepper";
-import { FieldSwitch } from "#core/form-elements/field-switch";
 import { FieldTextarea } from "#core/form-elements/field-textarea";
+import { FieldYesNo } from "#core/form-elements/field-yes-no";
 import { FormLayout } from "#core/layout/form-layout";
 import {
   MAX_DIVIDER_COUNT,
@@ -37,6 +37,11 @@ export function FieldsetStand() {
         selectedActivityFields={profile.activityFields}
       />
 
+      <FieldYesNo
+        label="Raccordement électrique"
+        field={fields.hasElectricalConnection}
+      />
+
       <FormLayout.Row>
         <FieldDividerType label="Type de cloisons" field={fields.dividerType} />
 
@@ -69,7 +74,7 @@ export function FieldsetStand() {
         }
       />
 
-      <FieldSwitch label="Nappage des tables" field={fields.hasTablecloths} />
+      <FieldYesNo label="Nappage des tables" field={fields.hasTablecloths} />
 
       <FormLayout.Row>
         <FieldStepper

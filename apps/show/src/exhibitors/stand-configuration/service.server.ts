@@ -69,6 +69,7 @@ type ExhibitorStandConfigurationData = Pick<
   | "chairCount"
   | "dividerCount"
   | "dividerType"
+  | "hasElectricalConnection"
   | "hasTablecloths"
   | "installationDay"
   | "peopleCount"
