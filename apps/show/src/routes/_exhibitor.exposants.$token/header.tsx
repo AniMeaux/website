@@ -14,7 +14,9 @@ export function ExhibitorHeader() {
         {profile.name}
       </Header.NavItem>
 
-      <Header.NavItem to={routes.faq.toString()}>FAQ Exposant</Header.NavItem>
+      <Header.NavItem to={routes.faq.toString()}>
+        FAQ et Documents
+      </Header.NavItem>
     </Header.Root>
   );
 }
