@@ -22,7 +22,11 @@ export class GoogleClient {
         scopes: ["https://www.googleapis.com/auth/drive"],
         credentials: {
           client_email: credentials.clientEmail,
-          private_key: credentials.privateKey,
+          private_key: credentials.privateKey
+            // Prevent node crypto error:
+            // Error: error:1E08010C:DECODER routines::unsupported
+            // See https://stackoverflow.com/questions/74131595/error-error1e08010cdecoder-routinesunsupported-with-google-auth-library
+            .replace(/\\n/g, "\n"),
         },
       });
 
