@@ -13,7 +13,7 @@ export function FieldsetDogs() {
 
   return (
     <FormLayout.Section>
-      <FormLayout.Title>Chiens présents</FormLayout.Title>
+      <FormLayout.Title>Chiens sur stand</FormLayout.Title>
 
       <DogsHelper />
 

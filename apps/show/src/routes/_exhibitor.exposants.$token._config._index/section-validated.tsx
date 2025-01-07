@@ -84,7 +84,7 @@ export function SectionValidated() {
           <TaskItem.Title>Chiens sur stand</TaskItem.Title>
 
           <TaskItem.Description>
-            Le profil des chiens présents sur votre stand a été validé.
+            Le profil des chiens sur votre stand a été validé.
           </TaskItem.Description>
         </TaskItem.Content>
 

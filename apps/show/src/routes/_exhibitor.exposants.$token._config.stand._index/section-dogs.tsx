@@ -18,7 +18,7 @@ export function SectionDogs() {
   return (
     <FormLayout.Section id="dogs">
       <FormLayout.Header>
-        <FormLayout.Title>Chiens présents</FormLayout.Title>
+        <FormLayout.Title>Chiens sur stand</FormLayout.Title>
 
         {dogsConfiguration.status !==
         ShowExhibitorDogsConfigurationStatus.VALIDATED ? (
@@ -126,9 +126,9 @@ function SectionStatus() {
           <HelperCard.Title>En cours de traitement</HelperCard.Title>
 
           <p>
-            Le profil des chiens présents sur votre stand est en cours de
-            validation par notre équipe. Pour toute question, vous pouvez nous
-            contacter par e-mail à{" "}
+            Le profil des chiens sur votre stand est en cours de validation par
+            notre équipe. Pour toute question, vous pouvez nous contacter par
+            e-mail à{" "}
             <ProseInlineAction asChild>
               <a href="mailto:salon@animeaux.org">salon@animeaux.org</a>
             </ProseInlineAction>
@@ -150,7 +150,7 @@ function SectionStatus() {
           <p>
             {dogsConfiguration.statusMessage == null ? (
               <>
-                Le profil des chiens présents sur votre stand nécessite quelques
+                Le profil des chiens sur votre stand nécessite quelques
                 modifications. Nous vous invitons à les apporter rapidement et à
                 nous contacter par e-mail à{" "}
                 <ProseInlineAction asChild>
@@ -175,7 +175,7 @@ function SectionStatus() {
           <HelperCard.Title>Validée</HelperCard.Title>
 
           <p>
-            Le profil des chiens présents sur votre stand est validé et aucune
+            Le profil des chiens sur votre stand est validé et aucune
             modification n’est plus possible. Pour toute question ou besoin
             particulier, merci de nous contacter par e-mail à{" "}
             <ProseInlineAction asChild>

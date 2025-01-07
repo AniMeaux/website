@@ -85,7 +85,7 @@ export async function createEmailTemplateRequest(
   function SectionDogs() {
     return (
       <EmailHtml.Section.Root>
-        <EmailHtml.Section.Title>Chiens présents</EmailHtml.Section.Title>
+        <EmailHtml.Section.Title>Chiens sur stand</EmailHtml.Section.Title>
 
         {dogsConfiguration.dogs.length === 0 ? (
           <EmailHtml.Paragraph>
