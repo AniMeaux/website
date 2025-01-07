@@ -65,17 +65,21 @@ function SectionDog({
 }) {
   return (
     <>
-      <FormLayout.Field>
-        <FormLayout.Label>Numéro d’identification</FormLayout.Label>
+      <FormLayout.Row>
+        <FormLayout.Field>
+          <FormLayout.Label>Numéro d’identification</FormLayout.Label>
 
-        <FormLayout.Output>{dog.idNumber}</FormLayout.Output>
-      </FormLayout.Field>
+          <FormLayout.Output>{dog.idNumber}</FormLayout.Output>
+        </FormLayout.Field>
 
-      <FormLayout.Field>
-        <FormLayout.Label>Genre</FormLayout.Label>
+        <FormLayout.Field>
+          <FormLayout.Label>Genre</FormLayout.Label>
 
-        <FormLayout.Output>{GENDER_TRANSLATION[dog.gender]}</FormLayout.Output>
-      </FormLayout.Field>
+          <FormLayout.Output>
+            {GENDER_TRANSLATION[dog.gender]}
+          </FormLayout.Output>
+        </FormLayout.Field>
+      </FormLayout.Row>
 
       <FormLayout.Row>
         <FormLayout.Field>

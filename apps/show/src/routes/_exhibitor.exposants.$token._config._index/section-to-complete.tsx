@@ -5,13 +5,14 @@ import { Routes } from "#core/navigation";
 import { Icon } from "#generated/icon";
 import {
   ShowExhibitorDocumentsStatus,
+  ShowExhibitorDogsConfigurationStatus,
   ShowExhibitorStandConfigurationStatus,
 } from "@prisma/client";
 import { useLoaderData } from "@remix-run/react";
 import type { loader } from "./route";
 
 export function SectionToComplete() {
-  const { profile, standConfiguration, documents, token } =
+  const { profile, standConfiguration, documents, dogsConfiguration, token } =
     useLoaderData<typeof loader>();
 
   const items: React.ReactNode[] = [];
@@ -101,6 +102,34 @@ export function SectionToComplete() {
 
           <TaskItem.Description>
             Votre description est à compléter.
+          </TaskItem.Description>
+        </TaskItem.Content>
+
+        <TaskItem.ChevronIcon />
+      </TaskItem.Root>,
+    );
+  }
+
+  if (
+    dogsConfiguration.status === ShowExhibitorDogsConfigurationStatus.TO_MODIFY
+  ) {
+    items.push(
+      <TaskItem.Root
+        key="dogs"
+        to={{
+          pathname: Routes.exhibitors.token(token).stand.toString(),
+          hash: "dogs",
+        }}
+      >
+        <TaskItem.Icon asChild>
+          <Icon id="dog-light" />
+        </TaskItem.Icon>
+
+        <TaskItem.Content>
+          <TaskItem.Title>Chiens sur stand</TaskItem.Title>
+
+          <TaskItem.Description>
+            Le profil des chiens sur votre stand est à compléter ou modifier.
           </TaskItem.Description>
         </TaskItem.Content>
 
