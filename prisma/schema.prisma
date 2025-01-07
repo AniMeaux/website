@@ -354,6 +354,7 @@ model ShowExhibitor {
 
   application        ShowExhibitorApplication?
   documents          ShowExhibitorDocuments?
+  dogsConfiguration  ShowExhibitorDogsConfiguration?
   profile            ShowExhibitorProfile?
   standConfiguration ShowExhibitorStandConfiguration?
 }
@@ -481,7 +482,6 @@ model ShowExhibitorStandConfiguration {
   locationNumber          Int?
   peopleCount             Int                                             @default(1)
   placementComment        String?                                         @db.VarChar(256)
-  presentDogs             ShowExhibitorDog[]
   size                    ShowStandSize
   standNumber             Int?
   tableCount              Int
@@ -506,13 +506,34 @@ enum ShowExhibitorStandConfigurationInstallationDay {
   SATURDAY
 }
 
+model ShowExhibitorDogsConfiguration {
+  id        String   @id @default(uuid()) @db.Uuid
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  exhibitor   ShowExhibitor @relation(fields: [exhibitorId], references: [id], onDelete: Cascade)
+  exhibitorId String        @unique @db.Uuid
+
+  status        ShowExhibitorDogsConfigurationStatus @default(NOT_TOUCHED)
+  statusMessage String?                              @db.VarChar(512)
+
+  dogs ShowExhibitorDog[]
+}
+
+enum ShowExhibitorDogsConfigurationStatus {
+  NOT_TOUCHED
+  AWAITING_VALIDATION
+  TO_MODIFY
+  VALIDATED
+}
+
 model ShowExhibitorDog {
   id        String   @id @default(uuid()) @db.Uuid
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  standConfiguration   ShowExhibitorStandConfiguration @relation(fields: [standConfigurationId], references: [id], onDelete: Cascade)
-  standConfigurationId String                          @db.Uuid
+  dogsConfiguration   ShowExhibitorDogsConfiguration @relation(fields: [dogsConfigurationId], references: [id], onDelete: Cascade)
+  dogsConfigurationId String                         @db.Uuid
 
   gender        Gender
   idNumber      String  @db.VarChar(64)

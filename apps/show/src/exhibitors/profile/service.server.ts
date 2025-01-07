@@ -37,17 +37,12 @@ export class ServiceProfile extends Service {
       }
     }
 
-    const exhibitor = await prisma.showExhibitor.update({
+    await prisma.showExhibitor.update({
       where: { token },
       data: { profile: { update: data } },
-      select: { profile: { select: { id: true } } },
     });
 
-    if (exhibitor.profile == null) {
-      throw notFound();
-    }
-
-    return exhibitor.profile;
+    return true;
   }
 }
 

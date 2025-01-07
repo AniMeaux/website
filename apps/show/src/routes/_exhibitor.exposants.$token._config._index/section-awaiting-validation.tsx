@@ -4,13 +4,14 @@ import { Routes } from "#core/navigation";
 import { Icon } from "#generated/icon";
 import {
   ShowExhibitorDocumentsStatus,
+  ShowExhibitorDogsConfigurationStatus,
   ShowExhibitorStandConfigurationStatus,
 } from "@prisma/client";
 import { useLoaderData } from "@remix-run/react";
 import type { loader } from "./route";
 
 export function SectionAwaitingValidation() {
-  const { standConfiguration, documents, token } =
+  const { standConfiguration, documents, dogsConfiguration, token } =
     useLoaderData<typeof loader>();
 
   const items: React.ReactNode[] = [];
@@ -58,6 +59,36 @@ export function SectionAwaitingValidation() {
           <TaskItem.Description>
             Les éléments de votre stand sont en cours de traitement par notre
             équipe.
+          </TaskItem.Description>
+        </TaskItem.Content>
+
+        <TaskItem.ChevronIcon />
+      </TaskItem.Root>,
+    );
+  }
+
+  if (
+    dogsConfiguration.status ===
+    ShowExhibitorDogsConfigurationStatus.AWAITING_VALIDATION
+  ) {
+    items.push(
+      <TaskItem.Root
+        key="dogs"
+        to={{
+          pathname: Routes.exhibitors.token(token).stand.toString(),
+          hash: "dogs",
+        }}
+      >
+        <TaskItem.Icon asChild>
+          <Icon id="dog-light" />
+        </TaskItem.Icon>
+
+        <TaskItem.Content>
+          <TaskItem.Title>Chiens sur stand</TaskItem.Title>
+
+          <TaskItem.Description>
+            Le profil des chiens présents sur votre stand est en cours de
+            traitement par notre équipe.
           </TaskItem.Description>
         </TaskItem.Content>
 

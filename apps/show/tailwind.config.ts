@@ -169,6 +169,7 @@ const theme: Config = {
     pluginMediaHover(),
     pluginSafePadding(),
     pluginStrokeDashoffset(),
+    pluginTagSelectors(),
     pluginTextStyles(),
   ],
 
@@ -648,6 +649,12 @@ function pluginStrokeDashoffset() {
       { "stroke-dashoffset": (value) => ({ "stroke-dashoffset": value }) },
       { values: theme("spacing") },
     );
+  });
+}
+
+function pluginTagSelectors() {
+  return plugin(({ addVariant }) => {
+    addVariant("is-link", "&:is(a)");
   });
 }
 

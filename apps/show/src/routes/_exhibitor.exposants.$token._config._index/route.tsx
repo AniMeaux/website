@@ -18,38 +18,51 @@ import { SectionValidated } from "./section-validated";
 export async function loader({ params }: LoaderFunctionArgs) {
   const routeParams = RouteParamsSchema.parse(params);
 
-  const { exhibitor, application, profile, standConfiguration, documents } =
-    await promiseHash({
-      exhibitor: services.exhibitor.getByToken(routeParams.token, {
-        select: { hasPaid: true, partnership: { select: { category: true } } },
-      }),
+  const {
+    exhibitor,
+    application,
+    profile,
+    standConfiguration,
+    documents,
+    dogsConfiguration,
+  } = await promiseHash({
+    exhibitor: services.exhibitor.getByToken(routeParams.token, {
+      select: { hasPaid: true, partnership: { select: { category: true } } },
+    }),
 
-      application: services.exhibitor.application.getByToken(
-        routeParams.token,
-        {
-          select: { otherPartnershipCategory: true },
+    application: services.exhibitor.application.getByToken(routeParams.token, {
+      select: { otherPartnershipCategory: true },
+    }),
+
+    profile: services.exhibitor.profile.getByToken(routeParams.token, {
+      select: { name: true, description: true },
+    }),
+
+    standConfiguration: services.exhibitor.standConfiguration.getByToken(
+      routeParams.token,
+      {
+        select: {
+          standNumber: true,
+          status: true,
+          statusMessage: true,
         },
-      ),
+      },
+    ),
 
-      profile: services.exhibitor.profile.getByToken(routeParams.token, {
-        select: { name: true, description: true },
-      }),
+    documents: services.exhibitor.documents.getByToken(routeParams.token, {
+      select: { status: true, statusMessage: true },
+    }),
 
-      standConfiguration: services.exhibitor.standConfiguration.getByToken(
-        routeParams.token,
-        {
-          select: {
-            standNumber: true,
-            status: true,
-            statusMessage: true,
-          },
+    dogsConfiguration: services.exhibitor.dogsConfiguration.getByToken(
+      routeParams.token,
+      {
+        select: {
+          status: true,
+          statusMessage: true,
         },
-      ),
-
-      documents: services.exhibitor.documents.getByToken(routeParams.token, {
-        select: { status: true, statusMessage: true },
-      }),
-    });
+      },
+    ),
+  });
 
   return {
     exhibitor,
@@ -57,6 +70,7 @@ export async function loader({ params }: LoaderFunctionArgs) {
     profile,
     standConfiguration,
     documents,
+    dogsConfiguration,
     token: routeParams.token,
   };
 }

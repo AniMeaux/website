@@ -45,18 +45,28 @@ export const Routes = {
       profile: {
         toString: () => `/exposants/${exhibitorToken}/profil` as const,
 
-        edit: {
+        editPublicProfile: {
           toString: () =>
-            `/exposants/${exhibitorToken}/profil/modifier` as const,
+            `/exposants/${exhibitorToken}/profil/modifier-profil-public` as const,
+        },
+
+        editDescription: {
+          toString: () =>
+            `/exposants/${exhibitorToken}/profil/modifier-description` as const,
         },
       },
 
       stand: {
         toString: () => `/exposants/${exhibitorToken}/stand` as const,
 
-        edit: {
+        editStand: {
           toString: () =>
-            `/exposants/${exhibitorToken}/stand/modifier` as const,
+            `/exposants/${exhibitorToken}/stand/modifier-stand` as const,
+        },
+
+        editDogs: {
+          toString: () =>
+            `/exposants/${exhibitorToken}/stand/modifier-chiens` as const,
         },
       },
     }),

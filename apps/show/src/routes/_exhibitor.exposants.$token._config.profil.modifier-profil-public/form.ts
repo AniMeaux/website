@@ -10,7 +10,7 @@ export function useFormRoot() {
   const actionData = useActionData<typeof action>();
 
   const [form, fields] = useFormBase({
-    id: "exhibitor-profile",
+    id: "exhibitor-public-profile",
     constraint: getZodConstraint(ActionSchema),
     shouldValidate: "onBlur",
     lastResult: actionData,
@@ -19,7 +19,6 @@ export function useFormRoot() {
       activityTargets: profile.activityTargets,
       activityFields: profile.activityFields,
       links: profile.links,
-      description: profile.description,
     },
 
     onValidate: ({ formData }) =>

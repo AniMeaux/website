@@ -1,16 +1,8 @@
 import { FormLayout } from "#core/layout/form-layout";
-import { Routes } from "#core/navigation";
-import {
-  PROFILE_EDITION_DEADLINE,
-  canEditProfile,
-} from "#exhibitors/profile/dates";
-import { Link, useLoaderData } from "@remix-run/react";
+import { PROFILE_EDITION_DEADLINE } from "#exhibitors/profile/dates";
 import { DateTime } from "luxon";
-import type { loader } from "./route";
 
 export function SectionHelper() {
-  const { token } = useLoaderData<typeof loader>();
-
   return (
     <FormLayout.AsideHelper.Root>
       <p>
@@ -26,14 +18,6 @@ export function SectionHelper() {
           {PROFILE_EDITION_DEADLINE.toLocaleString(DateTime.DATE_FULL)}.
         </strong>
       </p>
-
-      {canEditProfile() ? (
-        <FormLayout.AsideHelper.Action asChild>
-          <Link to={Routes.exhibitors.token(token).animations.edit.toString()}>
-            Modifier
-          </Link>
-        </FormLayout.AsideHelper.Action>
-      ) : null}
     </FormLayout.AsideHelper.Root>
   );
 }

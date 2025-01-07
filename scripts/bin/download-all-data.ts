@@ -50,6 +50,8 @@ const DOWNLOADERS: Record<TableName, () => Promise<object[]>> = {
   showExhibitorApplication: () => prisma.showExhibitorApplication.findMany(),
   showExhibitorDocuments: () => prisma.showExhibitorDocuments.findMany(),
   showExhibitorDog: () => prisma.showExhibitorDog.findMany(),
+  showExhibitorDogsConfiguration: () =>
+    prisma.showExhibitorDogsConfiguration.findMany(),
   showExhibitorProfile: () => prisma.showExhibitorProfile.findMany(),
   showExhibitorStandConfiguration: () =>
     prisma.showExhibitorStandConfiguration.findMany(),
