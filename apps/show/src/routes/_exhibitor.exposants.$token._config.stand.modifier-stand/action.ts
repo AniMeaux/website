@@ -3,7 +3,6 @@ import { MAX_PEOPLE_COUNT_BY_STAND_SIZE } from "#exhibitors/stand-size/people-co
 import { MAX_TABLE_COUNT_BY_STAND_SIZE } from "#exhibitors/stand-size/table-count";
 import { zu } from "@animeaux/zod-utils";
 import {
-  Gender,
   ShowExhibitorStandConfigurationDividerType,
   ShowExhibitorStandConfigurationInstallationDay,
   ShowStandSize,
@@ -64,30 +63,6 @@ export const ActionSchema = zu
     zone: zu.nativeEnum(ShowStandZone, {
       required_error: "Veuillez choisir un emplacement",
     }),
-    presentDogs: zu.array(
-      zu.object({
-        gender: zu.nativeEnum(Gender, {
-          required_error: "Veuillez choisir un genre",
-        }),
-        idNumber: zu
-          .string({
-            required_error: "Veuillez entrer un numéro d’identification",
-          })
-          .trim()
-          .min(1, "Veuillez entrer un numéro d’identification")
-          .max(64, "Veuillez entrer un numéro d’identification plus court"),
-        isCategorized: zu
-          .enum(["on", "off"], {
-            required_error: "Veuillez choisir une option",
-          })
-          .transform((value) => value === "on"),
-        isSterilized: zu
-          .enum(["on", "off"], {
-            required_error: "Veuillez choisir une option",
-          })
-          .transform((value) => value === "on"),
-      }),
-    ),
   })
   .refine(
     (value) => value.chairCount <= value.peopleCount,

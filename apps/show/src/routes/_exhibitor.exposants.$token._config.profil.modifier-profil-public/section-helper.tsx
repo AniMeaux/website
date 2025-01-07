@@ -6,17 +6,18 @@ export function SectionHelper() {
   return (
     <FormLayout.AsideHelper.Root hideOnSmallScreens>
       <p>
-        Les animations sont au cœur de la dynamique du salon ! Elles seront
-        répertoriées dans un programme officiel et mises en avant sur nos
-        réseaux sociaux, notre site internet, ainsi que dans le programme papier
-        distribué sur place.
+        Ces informations seront utilisées pour votre présentation publique sur
+        notre site internet et nos réseaux sociaux.
       </p>
 
       <p>
+        Veuillez vérifier attentivement leur exactitude et la bonne qualité de
+        votre logo, car{" "}
         <strong className="text-body-lowercase-emphasis">
-          Aucune modification ne sera possible après le{" "}
-          {PROFILE_EDITION_DEADLINE.toLocaleString(DateTime.DATE_FULL)}.
+          aucune modification ne sera possible après le{" "}
+          {PROFILE_EDITION_DEADLINE.toLocaleString(DateTime.DATE_FULL)}
         </strong>
+        .
       </p>
     </FormLayout.AsideHelper.Root>
   );

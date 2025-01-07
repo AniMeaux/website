@@ -169,6 +169,7 @@ const theme: Config = {
     pluginMediaHover(),
     pluginSafePadding(),
     pluginStrokeDashoffset(),
+    pluginTagSelectors(),
     pluginTextStyles(),
   ],
 
@@ -651,6 +652,12 @@ function pluginStrokeDashoffset() {
   });
 }
 
+function pluginTagSelectors() {
+  return plugin(({ addVariant }) => {
+    addVariant("is-link", "&:is(a)");
+  });
+}
+
 /**
  * In order to preserve a nice vertical rhythm, all text must have a size
  * multiple of 24px.
@@ -706,7 +713,7 @@ function pluginTextStyles() {
       ".text-title-item": {
         "font-family": theme("fontFamily.serif"),
         "font-weight": theme("fontWeight.normal"),
-        "font-size": "24px",
+        "font-size": "26px",
         "line-height": "24px",
         "text-transform": "uppercase",
       },
@@ -720,7 +727,7 @@ function pluginTextStyles() {
       ".text-title-large": {
         "font-family": theme("fontFamily.serif"),
         "font-weight": theme("fontWeight.normal"),
-        "font-size": "48px",
+        "font-size": "60px",
         "line-height": "48px",
         "text-transform": "uppercase",
       },

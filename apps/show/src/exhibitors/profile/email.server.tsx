@@ -13,7 +13,7 @@ import type { EmailTemplate } from "@animeaux/resend";
 import { Img } from "@react-email/components";
 import { promiseHash } from "remix-utils/promise";
 
-export async function createEmailTemplateUpdated(
+export async function createEmailTemplatePublicProfileUpdated(
   token: string,
 ): Promise<EmailTemplate> {
   const { profile, application } = await promiseHash({
@@ -21,7 +21,6 @@ export async function createEmailTemplateUpdated(
       select: {
         activityFields: true,
         activityTargets: true,
-        description: true,
         links: true,
         logoPath: true,
         name: true,
@@ -97,35 +96,18 @@ export async function createEmailTemplateUpdated(
     );
   }
 
-  function SectionDescription() {
-    return (
-      <EmailHtml.Section.Root>
-        <EmailHtml.Section.Title>Description</EmailHtml.Section.Title>
-
-        {profile.description != null ? (
-          <EmailHtml.Markdown
-            content={profile.description}
-            components={EMAIL_PARAGRAPH_COMPONENTS}
-          />
-        ) : (
-          <EmailHtml.Paragraph>Aucune description</EmailHtml.Paragraph>
-        )}
-      </EmailHtml.Section.Root>
-    );
-  }
-
   return {
-    name: "profil-exposant-mis-a-jour",
+    name: "profil-public-exposant-mis-a-jour",
     from: "Salon des Ani’Meaux <salon@animeaux.org>",
     to: [application.contactEmail],
-    subject: "Profil mis à jour - Salon des Ani’Meaux 2025",
+    subject: "Profil public mis à jour - Salon des Ani’Meaux 2025",
     body: (
       <EmailHtml.Root>
-        <EmailHtml.Title>Profil mis à jour</EmailHtml.Title>
+        <EmailHtml.Title>Profil public mis à jour</EmailHtml.Title>
 
         <EmailHtml.Section.Root>
           <EmailHtml.Paragraph>
-            Votre profil exposant a bien été mis à jour.
+            Votre profil public a bien été mis à jour.
           </EmailHtml.Paragraph>
 
           <EmailHtml.Paragraph>
@@ -145,6 +127,72 @@ export async function createEmailTemplateUpdated(
         <EmailHtml.SectionSeparator />
 
         <SectionPublicProfile />
+
+        <EmailHtml.SectionSeparator />
+
+        <EmailHtml.Footer>Salon des Ani’Meaux</EmailHtml.Footer>
+      </EmailHtml.Root>
+    ),
+  };
+}
+
+export async function createEmailTemplateDescriptionUpdated(
+  token: string,
+): Promise<EmailTemplate> {
+  const { profile, application } = await promiseHash({
+    profile: services.exhibitor.profile.getByToken(token, {
+      select: { description: true },
+    }),
+
+    application: services.exhibitor.application.getByToken(token, {
+      select: { contactEmail: true },
+    }),
+  });
+
+  function SectionDescription() {
+    return (
+      <EmailHtml.Section.Root>
+        <EmailHtml.Section.Title>Description</EmailHtml.Section.Title>
+
+        {profile.description != null ? (
+          <EmailHtml.Markdown
+            content={profile.description}
+            components={EMAIL_PARAGRAPH_COMPONENTS}
+          />
+        ) : (
+          <EmailHtml.Paragraph>Aucune description.</EmailHtml.Paragraph>
+        )}
+      </EmailHtml.Section.Root>
+    );
+  }
+
+  return {
+    name: "description-exposant-mis-a-jour",
+    from: "Salon des Ani’Meaux <salon@animeaux.org>",
+    to: [application.contactEmail],
+    subject: "Description mise à jour - Salon des Ani’Meaux 2025",
+    body: (
+      <EmailHtml.Root>
+        <EmailHtml.Title>Description mise à jour</EmailHtml.Title>
+
+        <EmailHtml.Section.Root>
+          <EmailHtml.Paragraph>
+            Votre description a bien été mise à jour.
+          </EmailHtml.Paragraph>
+
+          <EmailHtml.Paragraph>
+            <EmailHtml.Button
+              href={`${process.env.PUBLIC_HOST}${Routes.exhibitors.token(token).profile.toString()}`}
+            >
+              Accédez à votre profil
+            </EmailHtml.Button>
+          </EmailHtml.Paragraph>
+
+          <EmailHtml.Paragraph>
+            Pour toute question ou complément d’information, n’hésitez pas à
+            nous contacter en répondant à cet e-mail.
+          </EmailHtml.Paragraph>
+        </EmailHtml.Section.Root>
 
         <EmailHtml.SectionSeparator />
 

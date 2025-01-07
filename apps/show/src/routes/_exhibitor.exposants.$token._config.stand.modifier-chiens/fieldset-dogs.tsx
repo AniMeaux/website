@@ -1,19 +1,19 @@
 import { FieldText } from "#core/form-elements/field-text";
 import { FieldYesNo } from "#core/form-elements/field-yes-no";
 import { FormLayout } from "#core/layout/form-layout";
-import { DogsHelper } from "#exhibitors/stand-configuration/dogs-helper";
+import { DogsHelper } from "#exhibitors/dogs-configuration/helper";
 import { Gender } from "@prisma/client";
-import { Fragment } from "react/jsx-runtime";
+import { Fragment } from "react";
 import { FieldDogGender } from "./field-dog-gender";
 import { useForm } from "./form";
 
 export function FieldsetDogs() {
   const { form, fields } = useForm();
-  const fieldsDogs = fields.presentDogs.getFieldList();
+  const fieldsDogs = fields.dogs.getFieldList();
 
   return (
     <FormLayout.Section>
-      <FormLayout.Title>Chiens présents</FormLayout.Title>
+      <FormLayout.Title>Chiens sur stand</FormLayout.Title>
 
       <DogsHelper />
 
@@ -62,7 +62,7 @@ export function FieldsetDogs() {
             <FormLayout.InputList.Action
               {...form.remove.getButtonProps({
                 index,
-                name: fields.presentDogs.name,
+                name: fields.dogs.name,
               })}
             >
               Retirer
@@ -74,7 +74,7 @@ export function FieldsetDogs() {
       })}
 
       <FormLayout.InputList.Action
-        {...form.insert.getButtonProps({ name: fields.presentDogs.name })}
+        {...form.insert.getButtonProps({ name: fields.dogs.name })}
       >
         Ajouter un chien
       </FormLayout.InputList.Action>

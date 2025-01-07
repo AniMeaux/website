@@ -599,6 +599,8 @@ async function seedShowExhibitors() {
 
           documents: { create: { folderId: faker.string.uuid() } },
 
+          dogsConfiguration: { create: {} },
+
           profile: {
             create: {
               activityFields: application.structureActivityFields,

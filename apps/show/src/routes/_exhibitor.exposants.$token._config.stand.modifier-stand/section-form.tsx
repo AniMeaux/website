@@ -1,8 +1,7 @@
 import { FormLayout } from "#core/layout/form-layout";
 import { getFormProps } from "@conform-to/react";
 import { Form, useFormAction, useNavigation } from "@remix-run/react";
-import { FieldsetDescription } from "./fieldset-description";
-import { FieldsetPublicProfile } from "./fieldset-public-profile";
+import { FieldsetStand } from "./fieldset-stand";
 import { FormProvider, useFormRoot } from "./form";
 
 export function SectionForm() {
@@ -13,16 +12,8 @@ export function SectionForm() {
   return (
     <FormProvider form={form} fields={fields}>
       <FormLayout.Form asChild>
-        <Form
-          {...getFormProps(form)}
-          method="POST"
-          encType="multipart/form-data"
-        >
-          <FieldsetPublicProfile />
-
-          <FormLayout.SectionSeparator />
-
-          <FieldsetDescription />
+        <Form {...getFormProps(form)} method="POST">
+          <FieldsetStand />
 
           <FormLayout.SectionSeparator />
 

@@ -8,7 +8,7 @@ import { getPageTitle } from "#core/page-title";
 import { badRequest } from "#core/response.server";
 import { services } from "#core/services/services.server";
 import { canEditProfile } from "#exhibitors/profile/dates";
-import { createEmailTemplateUpdated } from "#exhibitors/profile/email.server";
+import { createEmailTemplatePublicProfileUpdated } from "#exhibitors/profile/email.server";
 import { RouteParamsSchema } from "#exhibitors/route-params";
 import { parseWithZod } from "@conform-to/zod";
 import { parseFormData } from "@mjackson/form-data-parser";
@@ -40,7 +40,6 @@ export async function loader({ params }: LoaderFunctionArgs) {
         updatedAt: true,
         activityFields: true,
         activityTargets: true,
-        description: true,
         links: true,
         logoPath: true,
         name: true,
@@ -55,7 +54,7 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
   return createSocialMeta({
     title: getPageTitle(
       data != null
-        ? ["Modifier le profil", data.profile.name]
+        ? ["Modifier le profil public", data.profile.name]
         : getErrorTitle(404),
     ),
   });
@@ -114,7 +113,6 @@ export async function action({ request, params }: ActionFunctionArgs) {
       activityTargets: submission.value.activityTargets,
       activityFields: submission.value.activityFields,
       links: submission.value.links,
-      description: submission.value.description || null,
       logoPath: submission.value.logo?.name,
     });
   } catch (error) {
@@ -123,7 +121,9 @@ export async function action({ request, params }: ActionFunctionArgs) {
     throw error;
   }
 
-  email.send.template(createEmailTemplateUpdated(routeParams.token));
+  email.send.template(
+    createEmailTemplatePublicProfileUpdated(routeParams.token),
+  );
 
   throw redirect(
     createPath({
