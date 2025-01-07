@@ -4,7 +4,7 @@ import { DateTime } from "luxon";
 
 export function SectionHelper() {
   return (
-    <FormLayout.AsideHelper.Root>
+    <FormLayout.AsideHelper.Root hideOnSmallScreens>
       <p>
         Les animations sont au cœur de la dynamique du salon ! Elles seront
         répertoriées dans un programme officiel et mises en avant sur nos

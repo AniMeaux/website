@@ -2,7 +2,7 @@ import { FormLayout } from "#core/layout/form-layout";
 
 export function SectionHelper() {
   return (
-    <FormLayout.AsideHelper.Root>
+    <FormLayout.AsideHelper.Root hideOnSmallScreens>
       <p>
         Le montant de votre stand dépend de sa{" "}
         <strong className="text-body-lowercase-emphasis">taille</strong> et de

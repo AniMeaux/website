@@ -44,8 +44,13 @@ export const FormLayout = {
 
     Root: forwardRef<
       React.ComponentRef<typeof Primitive.aside>,
-      React.ComponentPropsWithoutRef<typeof Primitive.aside>
-    >(function FormLayoutAsideHelperRoot({ className, ...props }, ref) {
+      React.ComponentPropsWithoutRef<typeof Primitive.aside> & {
+        hideOnSmallScreens?: boolean;
+      }
+    >(function FormLayoutAsideHelperRoot(
+      { hideOnSmallScreens = false, className, ...props },
+      ref,
+    ) {
       return (
         <HelperCard.Root color="alabaster" asChild>
           <Primitive.aside
@@ -53,6 +58,7 @@ export const FormLayout = {
             ref={ref}
             className={cn(
               "row-start-1 md:sticky md:top-4 md:col-start-2 md:w-[300px]",
+              hideOnSmallScreens ? "hidden md:grid" : undefined,
               className,
             )}
           />
