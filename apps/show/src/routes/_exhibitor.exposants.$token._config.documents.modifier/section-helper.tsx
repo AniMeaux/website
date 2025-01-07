@@ -3,7 +3,7 @@ import { FormLayout } from "#core/layout/form-layout";
 
 export function SectionHelper() {
   return (
-    <FormLayout.AsideHelper.Root>
+    <FormLayout.AsideHelper.Root hideOnSmallScreens>
       <p>
         La fourniture des documents demandés est obligatoire pour valider votre
         dossier et confirmer votre participation au Salon des Ani'Meaux 2025.

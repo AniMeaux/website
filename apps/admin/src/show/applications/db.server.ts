@@ -59,6 +59,8 @@ export class ShowExhibitorApplicationDbDelegate {
 
             documents: { create: { folderId: folder.id } },
 
+            dogsConfiguration: { create: {} },
+
             profile: {
               create: {
                 activityTargets: application.structureActivityTargets,

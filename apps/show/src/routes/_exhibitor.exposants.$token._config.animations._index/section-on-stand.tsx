@@ -2,17 +2,32 @@ import { ProseInlineAction } from "#core/actions/prose-inline-action";
 import { FormLayout } from "#core/layout/form-layout";
 import { HelperCard } from "#core/layout/helper-card";
 import { LightBoardCard } from "#core/layout/light-board-card";
+import { Routes } from "#core/navigation";
 import { CardAnimationsOnStand } from "#exhibitors/profile/card-animations-on-stand";
 import { canEditProfile } from "#exhibitors/profile/dates";
-import { useLoaderData } from "@remix-run/react";
+import { Icon } from "#generated/icon";
+import { Link, useLoaderData } from "@remix-run/react";
 import type { loader } from "./route";
 
 export function SectionOnStand() {
-  const { profile } = useLoaderData<typeof loader>();
+  const { profile, token } = useLoaderData<typeof loader>();
 
   return (
     <FormLayout.Section>
-      <FormLayout.Title>Animations sur stand</FormLayout.Title>
+      <FormLayout.Header>
+        <FormLayout.Title>Animations sur stand</FormLayout.Title>
+
+        {canEditProfile() ? (
+          <FormLayout.HeaderAction asChild>
+            <Link
+              to={Routes.exhibitors.token(token).animations.edit.toString()}
+              title="Modifier"
+            >
+              <Icon id="pen-light" />
+            </Link>
+          </FormLayout.HeaderAction>
+        ) : null}
+      </FormLayout.Header>
 
       <StatusHelper />
 

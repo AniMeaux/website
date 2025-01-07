@@ -29,12 +29,6 @@ export function useFormRoot() {
       size: standConfiguration.size,
       tableCount: standConfiguration.tableCount,
       zone: standConfiguration.zone,
-
-      presentDogs: standConfiguration.presentDogs.map((presentDog) => ({
-        ...presentDog,
-        isSterilized: presentDog.isSterilized ? "on" : "off",
-        isCategorized: presentDog.isCategorized ? "on" : "off",
-      })),
     },
 
     onValidate: ({ formData }) =>

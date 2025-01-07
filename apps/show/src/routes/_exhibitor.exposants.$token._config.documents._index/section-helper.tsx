@@ -1,13 +1,7 @@
 import { ProseInlineAction } from "#core/actions/prose-inline-action";
 import { FormLayout } from "#core/layout/form-layout";
-import { Routes } from "#core/navigation";
-import { ShowExhibitorDocumentsStatus } from "@prisma/client";
-import { Link, useLoaderData } from "@remix-run/react";
-import type { loader } from "./route";
 
 export function SectionHelper() {
-  const { documents, token } = useLoaderData<typeof loader>();
-
   return (
     <FormLayout.AsideHelper.Root>
       <p>
@@ -34,14 +28,6 @@ export function SectionHelper() {
         </ProseInlineAction>
         .
       </p>
-
-      {documents.status !== ShowExhibitorDocumentsStatus.VALIDATED ? (
-        <FormLayout.AsideHelper.Action asChild>
-          <Link to={Routes.exhibitors.token(token).documents.edit.toString()}>
-            Modifier
-          </Link>
-        </FormLayout.AsideHelper.Action>
-      ) : null}
     </FormLayout.AsideHelper.Root>
   );
 }

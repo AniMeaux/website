@@ -1,4 +1,3 @@
-import type { IsFirstProps } from "#core/data-display/email-html.server";
 import {
   EMAIL_SENTENCE_COMPONENTS,
   EmailHtml,
@@ -6,13 +5,10 @@ import {
 import { Routes } from "#core/navigation";
 import { services } from "#core/services/services.server";
 import { DIVIDER_TYPE_TRANSLATION } from "#exhibitors/stand-configuration/divider-type";
-import { GENDER_TRANSLATION } from "#exhibitors/stand-configuration/dog-gender";
 import { INSTALLATION_DAY_TRANSLATION } from "#exhibitors/stand-configuration/installation-day";
 import { STAND_ZONE_TRANSLATION } from "#exhibitors/stand-configuration/stand-zone";
 import { STAND_SIZE_TRANSLATION } from "#exhibitors/stand-size/stand-size";
-import { joinReactNodes } from "@animeaux/core";
 import type { EmailTemplate } from "@animeaux/resend";
-import { Gender } from "@prisma/client";
 import { promiseHash } from "remix-utils/promise";
 
 export async function createEmailTemplateRequest(
@@ -34,15 +30,6 @@ export async function createEmailTemplateRequest(
           size: true,
           tableCount: true,
           zone: true,
-          presentDogs: {
-            select: {
-              gender: true,
-              id: true,
-              idNumber: true,
-              isCategorized: true,
-              isSterilized: true,
-            },
-          },
         },
       },
     ),
@@ -175,82 +162,6 @@ export async function createEmailTemplateRequest(
     );
   }
 
-  function SectionDog({
-    dog,
-    _isFirst,
-  }: IsFirstProps & {
-    dog: (typeof standConfiguration.presentDogs)[number];
-  }) {
-    return (
-      <>
-        <EmailHtml.Output.Row _isFirst={_isFirst}>
-          <EmailHtml.Output.Label>
-            Numéro d’identification
-          </EmailHtml.Output.Label>
-
-          <EmailHtml.Output.Value>{dog.idNumber}</EmailHtml.Output.Value>
-        </EmailHtml.Output.Row>
-
-        <EmailHtml.Output.Row>
-          <EmailHtml.Output.Label>Genre</EmailHtml.Output.Label>
-
-          <EmailHtml.Output.Value>
-            {GENDER_TRANSLATION[dog.gender]}
-          </EmailHtml.Output.Value>
-        </EmailHtml.Output.Row>
-
-        <EmailHtml.Output.Row>
-          <EmailHtml.Output.Label>
-            {dog.gender === Gender.FEMALE
-              ? "Elle est stérilisée"
-              : "Il est castré"}
-          </EmailHtml.Output.Label>
-
-          <EmailHtml.Output.Value>
-            {dog.isSterilized ? "Oui" : "Non"}
-          </EmailHtml.Output.Value>
-        </EmailHtml.Output.Row>
-
-        <EmailHtml.Output.Row>
-          <EmailHtml.Output.Label>
-            {dog.gender === Gender.FEMALE
-              ? "Elle est catégorisée"
-              : "Il est catégorisé"}
-          </EmailHtml.Output.Label>
-
-          <EmailHtml.Output.Value>
-            {dog.isCategorized ? "Oui" : "Non"}
-          </EmailHtml.Output.Value>
-        </EmailHtml.Output.Row>
-      </>
-    );
-  }
-
-  function SectionDogs() {
-    if (standConfiguration.presentDogs.length === 0) {
-      return null;
-    }
-
-    return (
-      <>
-        <EmailHtml.Section.Root>
-          <EmailHtml.Section.Title>Chiens présents</EmailHtml.Section.Title>
-
-          <EmailHtml.Output.Table>
-            {joinReactNodes(
-              standConfiguration.presentDogs.map((dog) => (
-                <SectionDog key={dog.id} dog={dog} />
-              )),
-              <EmailHtml.Output.RowSeparator />,
-            )}
-          </EmailHtml.Output.Table>
-        </EmailHtml.Section.Root>
-
-        <EmailHtml.SectionSeparator />
-      </>
-    );
-  }
-
   return {
     name: "stand-exposant-demandé",
     from: "Salon des Ani’Meaux <salon@animeaux.org>",
@@ -284,8 +195,6 @@ export async function createEmailTemplateRequest(
         <SectionStand />
 
         <EmailHtml.SectionSeparator />
-
-        <SectionDogs />
 
         <EmailHtml.Footer>Salon des Ani’Meaux</EmailHtml.Footer>
       </EmailHtml.Root>

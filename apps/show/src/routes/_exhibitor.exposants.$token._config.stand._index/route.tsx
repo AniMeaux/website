@@ -10,12 +10,11 @@ import { promiseHash } from "remix-utils/promise";
 import { SectionDogs } from "./section-dogs";
 import { SectionHelper } from "./section-helper";
 import { SectionStandConfiguration } from "./section-stand-configuration";
-import { SectionStatus } from "./section-status";
 
 export async function loader({ params }: LoaderFunctionArgs) {
   const routeParams = RouteParamsSchema.parse(params);
 
-  const { standConfiguration, profile } = await promiseHash({
+  const { standConfiguration, profile, dogsConfiguration } = await promiseHash({
     standConfiguration: services.exhibitor.standConfiguration.getByToken(
       routeParams.token,
       {
@@ -33,8 +32,17 @@ export async function loader({ params }: LoaderFunctionArgs) {
           statusMessage: true,
           tableCount: true,
           zone: true,
+        },
+      },
+    ),
 
-          presentDogs: {
+    dogsConfiguration: services.exhibitor.dogsConfiguration.getByToken(
+      routeParams.token,
+      {
+        select: {
+          status: true,
+          statusMessage: true,
+          dogs: {
             select: {
               gender: true,
               idNumber: true,
@@ -51,7 +59,12 @@ export async function loader({ params }: LoaderFunctionArgs) {
     }),
   });
 
-  return { standConfiguration, profile, token: routeParams.token };
+  return {
+    standConfiguration,
+    profile,
+    dogsConfiguration,
+    token: routeParams.token,
+  };
 }
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
@@ -67,8 +80,6 @@ export default function Route() {
     <FormLayout.Root className="py-4 px-safe-page-narrow md:px-safe-page-normal">
       <FormLayout.Form asChild>
         <div>
-          <SectionStatus />
-
           <SectionStandConfiguration />
 
           <FormLayout.SectionSeparator />

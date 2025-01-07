@@ -40,15 +40,6 @@ export async function loader({ params }: LoaderFunctionArgs) {
           tableCount: true,
           updatedAt: true,
           zone: true,
-
-          presentDogs: {
-            select: {
-              gender: true,
-              idNumber: true,
-              isCategorized: true,
-              isSterilized: true,
-            },
-          },
         },
       },
     ),
@@ -79,7 +70,7 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
   return createSocialMeta({
     title: getPageTitle(
       data != null
-        ? ["Modifier le stand", data.profile.name]
+        ? ["Modifier la configuration de stand", data.profile.name]
         : getErrorTitle(404),
     ),
   });
@@ -108,23 +99,19 @@ export async function action({ request, params }: ActionFunctionArgs) {
     return json(submission.reply(), { status: 400 });
   }
 
-  await services.exhibitor.standConfiguration.update(
-    routeParams.token,
-    {
-      chairCount: submission.value.chairCount,
-      dividerCount: submission.value.dividerCount,
-      dividerType: submission.value.dividerType,
-      hasElectricalConnection: submission.value.hasElectricalConnection,
-      hasTablecloths: submission.value.hasTablecloths,
-      installationDay: submission.value.installationDay,
-      peopleCount: submission.value.peopleCount,
-      placementComment: submission.value.placementComment || null,
-      size: submission.value.size,
-      tableCount: submission.value.tableCount,
-      zone: submission.value.zone,
-    },
-    submission.value.presentDogs,
-  );
+  await services.exhibitor.standConfiguration.update(routeParams.token, {
+    chairCount: submission.value.chairCount,
+    dividerCount: submission.value.dividerCount,
+    dividerType: submission.value.dividerType,
+    hasElectricalConnection: submission.value.hasElectricalConnection,
+    hasTablecloths: submission.value.hasTablecloths,
+    installationDay: submission.value.installationDay,
+    peopleCount: submission.value.peopleCount,
+    placementComment: submission.value.placementComment || null,
+    size: submission.value.size,
+    tableCount: submission.value.tableCount,
+    zone: submission.value.zone,
+  });
 
   email.send.template(createEmailTemplateRequest(routeParams.token));
 

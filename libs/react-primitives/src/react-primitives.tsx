@@ -9,6 +9,7 @@ const ELEMENT_TYPES = [
   "form",
   "h2",
   "h3",
+  "header",
   "input",
   "label",
   "li",

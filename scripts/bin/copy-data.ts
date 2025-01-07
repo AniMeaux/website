@@ -7,6 +7,7 @@ import invariant from "tiny-invariant";
 // pg package doesn't support ESM yet.
 const { Client } = pg;
 
+// Order: last table is copied first.
 const TABLES_NAME = [
   "Animal",
   "Breed",
@@ -16,14 +17,15 @@ const TABLES_NAME = [
   "Password",
   "PressArticle",
   "ShowAnimation",
-  "ShowExhibitor",
   "ShowExhibitorApplication",
   "ShowExhibitorDocuments",
   "ShowExhibitorDog",
+  "ShowExhibitorDogsConfiguration",
   "ShowExhibitorProfile",
   "ShowExhibitorStandConfiguration",
   "ShowPartner",
   "ShowProvider",
+  "ShowExhibitor",
   "User",
 ];
 

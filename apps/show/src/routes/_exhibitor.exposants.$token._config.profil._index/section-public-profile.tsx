@@ -2,18 +2,36 @@ import { ProseInlineAction } from "#core/actions/prose-inline-action";
 import { ChipList } from "#core/data-display/chip";
 import { DynamicImage } from "#core/data-display/image";
 import { FormLayout } from "#core/layout/form-layout";
+import { Routes } from "#core/navigation";
 import { ChipActivityField } from "#exhibitors/activity-field/chip";
 import { ChipActivityTarget } from "#exhibitors/activity-target/chip";
+import { canEditProfile } from "#exhibitors/profile/dates";
+import { Icon } from "#generated/icon";
 import { ImageUrl, joinReactNodes } from "@animeaux/core";
-import { useLoaderData } from "@remix-run/react";
+import { Link, useLoaderData } from "@remix-run/react";
 import type { loader } from "./route";
 
 export function SectionPublicProfile() {
-  const { profile } = useLoaderData<typeof loader>();
+  const { profile, token } = useLoaderData<typeof loader>();
 
   return (
     <FormLayout.Section>
-      <FormLayout.Title>Profil public</FormLayout.Title>
+      <FormLayout.Header>
+        <FormLayout.Title>Profil public</FormLayout.Title>
+
+        {canEditProfile() ? (
+          <FormLayout.HeaderAction asChild>
+            <Link
+              to={Routes.exhibitors
+                .token(token)
+                .profile.editPublicProfile.toString()}
+              title="Modifier"
+            >
+              <Icon id="pen-light" />
+            </Link>
+          </FormLayout.HeaderAction>
+        ) : null}
+      </FormLayout.Header>
 
       <FormLayout.Row>
         <FormLayout.Field>

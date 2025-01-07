@@ -1,28 +1,49 @@
+import { ProseInlineAction } from "#core/actions/prose-inline-action";
+import { Markdown, SENTENCE_COMPONENTS } from "#core/data-display/markdown";
 import { FormLayout } from "#core/layout/form-layout";
+import { HelperCard } from "#core/layout/helper-card";
 import { LightBoardCard } from "#core/layout/light-board-card";
-import { GENDER_TRANSLATION } from "#exhibitors/stand-configuration/dog-gender";
-import { DogsHelper } from "#exhibitors/stand-configuration/dogs-helper";
+import { Routes } from "#core/navigation";
+import { GENDER_TRANSLATION } from "#exhibitors/dogs-configuration/gender";
+import { DogsHelper } from "#exhibitors/dogs-configuration/helper";
+import { Icon } from "#generated/icon";
 import { joinReactNodes } from "@animeaux/core";
-import { Gender } from "@prisma/client";
-import { useLoaderData } from "@remix-run/react";
+import { Gender, ShowExhibitorDogsConfigurationStatus } from "@prisma/client";
+import { Link, useLoaderData } from "@remix-run/react";
 import type { loader } from "./route";
 
 export function SectionDogs() {
-  const { standConfiguration } = useLoaderData<typeof loader>();
+  const { dogsConfiguration, token } = useLoaderData<typeof loader>();
 
   return (
-    <FormLayout.Section>
-      <FormLayout.Title>Chiens présents</FormLayout.Title>
+    <FormLayout.Section id="dogs">
+      <FormLayout.Header>
+        <FormLayout.Title>Chiens présents</FormLayout.Title>
+
+        {dogsConfiguration.status !==
+        ShowExhibitorDogsConfigurationStatus.VALIDATED ? (
+          <FormLayout.HeaderAction asChild>
+            <Link
+              to={Routes.exhibitors.token(token).stand.editDogs.toString()}
+              title="Modifier"
+            >
+              <Icon id="pen-light" />
+            </Link>
+          </FormLayout.HeaderAction>
+        ) : null}
+      </FormLayout.Header>
+
+      <SectionStatus />
 
       <DogsHelper />
 
-      {standConfiguration.presentDogs.length === 0 ? (
+      {dogsConfiguration.dogs.length === 0 ? (
         <LightBoardCard isSmall>
           <p>Aucun chien présent sur le stand.</p>
         </LightBoardCard>
       ) : (
         joinReactNodes(
-          standConfiguration.presentDogs.map((dog) => (
+          dogsConfiguration.dogs.map((dog) => (
             <SectionDog key={dog.idNumber} dog={dog} />
           )),
           <FormLayout.FieldSeparator />,
@@ -44,17 +65,21 @@ function SectionDog({
 }) {
   return (
     <>
-      <FormLayout.Field>
-        <FormLayout.Label>Numéro d’identification</FormLayout.Label>
+      <FormLayout.Row>
+        <FormLayout.Field>
+          <FormLayout.Label>Numéro d’identification</FormLayout.Label>
 
-        <FormLayout.Output>{dog.idNumber}</FormLayout.Output>
-      </FormLayout.Field>
+          <FormLayout.Output>{dog.idNumber}</FormLayout.Output>
+        </FormLayout.Field>
 
-      <FormLayout.Field>
-        <FormLayout.Label>Genre</FormLayout.Label>
+        <FormLayout.Field>
+          <FormLayout.Label>Genre</FormLayout.Label>
 
-        <FormLayout.Output>{GENDER_TRANSLATION[dog.gender]}</FormLayout.Output>
-      </FormLayout.Field>
+          <FormLayout.Output>
+            {GENDER_TRANSLATION[dog.gender]}
+          </FormLayout.Output>
+        </FormLayout.Field>
+      </FormLayout.Row>
 
       <FormLayout.Row>
         <FormLayout.Field>
@@ -89,4 +114,81 @@ function SectionDog({
       </FormLayout.Row>
     </>
   );
+}
+
+function SectionStatus() {
+  const { dogsConfiguration } = useLoaderData<typeof loader>();
+
+  switch (dogsConfiguration.status) {
+    case ShowExhibitorDogsConfigurationStatus.AWAITING_VALIDATION: {
+      return (
+        <HelperCard.Root color="paleBlue">
+          <HelperCard.Title>En cours de traitement</HelperCard.Title>
+
+          <p>
+            Le profil des chiens présents sur votre stand est en cours de
+            validation par notre équipe. Pour toute question, vous pouvez nous
+            contacter par e-mail à{" "}
+            <ProseInlineAction asChild>
+              <a href="mailto:salon@animeaux.org">salon@animeaux.org</a>
+            </ProseInlineAction>
+            .
+          </p>
+        </HelperCard.Root>
+      );
+    }
+
+    case ShowExhibitorDogsConfigurationStatus.NOT_TOUCHED: {
+      return null;
+    }
+
+    case ShowExhibitorDogsConfigurationStatus.TO_MODIFY: {
+      return (
+        <HelperCard.Root color="paleBlue">
+          <HelperCard.Title>À modifier</HelperCard.Title>
+
+          <p>
+            {dogsConfiguration.statusMessage == null ? (
+              <>
+                Le profil des chiens présents sur votre stand nécessite quelques
+                modifications. Nous vous invitons à les apporter rapidement et à
+                nous contacter par e-mail à{" "}
+                <ProseInlineAction asChild>
+                  <a href="mailto:salon@animeaux.org">salon@animeaux.org</a>
+                </ProseInlineAction>{" "}
+                pour toute question.
+              </>
+            ) : (
+              <Markdown
+                content={dogsConfiguration.statusMessage}
+                components={SENTENCE_COMPONENTS}
+              />
+            )}
+          </p>
+        </HelperCard.Root>
+      );
+    }
+
+    case ShowExhibitorDogsConfigurationStatus.VALIDATED: {
+      return (
+        <HelperCard.Root color="paleBlue">
+          <HelperCard.Title>Validée</HelperCard.Title>
+
+          <p>
+            Le profil des chiens présents sur votre stand est validé et aucune
+            modification n’est plus possible. Pour toute question ou besoin
+            particulier, merci de nous contacter par e-mail à{" "}
+            <ProseInlineAction asChild>
+              <a href="mailto:salon@animeaux.org">salon@animeaux.org</a>
+            </ProseInlineAction>
+            .
+          </p>
+        </HelperCard.Root>
+      );
+    }
+
+    default: {
+      return dogsConfiguration.status satisfies never;
+    }
+  }
 }

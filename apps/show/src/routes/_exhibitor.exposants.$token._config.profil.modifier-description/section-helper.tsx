@@ -4,7 +4,7 @@ import { DateTime } from "luxon";
 
 export function SectionHelper() {
   return (
-    <FormLayout.AsideHelper.Root>
+    <FormLayout.AsideHelper.Root hideOnSmallScreens>
       <p>
         Ces informations seront utilisées pour votre présentation publique sur
         notre site internet et nos réseaux sociaux.

@@ -1,4 +1,5 @@
-import { Action } from "#core/actions/action";
+import { Action, ActionIcon } from "#core/actions/action";
+import { ActionInline } from "#core/actions/inline";
 import { HelperCard } from "#core/layout/helper-card";
 import { HorizontalSeparator } from "#core/layout/separator";
 import { Icon } from "#generated/icon";
@@ -43,8 +44,13 @@ export const FormLayout = {
 
     Root: forwardRef<
       React.ComponentRef<typeof Primitive.aside>,
-      React.ComponentPropsWithoutRef<typeof Primitive.aside>
-    >(function FormLayoutAsideHelperRoot({ className, ...props }, ref) {
+      React.ComponentPropsWithoutRef<typeof Primitive.aside> & {
+        hideOnSmallScreens?: boolean;
+      }
+    >(function FormLayoutAsideHelperRoot(
+      { hideOnSmallScreens = false, className, ...props },
+      ref,
+    ) {
       return (
         <HelperCard.Root color="alabaster" asChild>
           <Primitive.aside
@@ -52,6 +58,7 @@ export const FormLayout = {
             ref={ref}
             className={cn(
               "row-start-1 md:sticky md:top-4 md:col-start-2 md:w-[300px]",
+              hideOnSmallScreens ? "hidden md:grid" : undefined,
               className,
             )}
           />
@@ -120,6 +127,22 @@ export const FormLayout = {
     return <hr className="border-t border-alabaster" />;
   },
 
+  Header: forwardRef<
+    React.ComponentRef<typeof Primitive.header>,
+    React.ComponentPropsWithoutRef<typeof Primitive.header>
+  >(function FormLayoutHeader({ className, ...props }, ref) {
+    return (
+      <Primitive.header
+        {...props}
+        ref={ref}
+        className={cn(
+          "grid auto-cols-auto grid-flow-col grid-cols-1 items-center gap-2",
+          className,
+        )}
+      />
+    );
+  }),
+
   Title: forwardRef<
     React.ComponentRef<typeof Primitive.h2>,
     React.ComponentPropsWithoutRef<typeof Primitive.h2>
@@ -130,6 +153,20 @@ export const FormLayout = {
         ref={ref}
         className={cn("text-mystic text-title-item", className)}
       />
+    );
+  }),
+
+  HeaderAction: forwardRef<
+    React.ComponentRef<typeof ActionIcon>,
+    Except<
+      React.ComponentPropsWithoutRef<typeof ActionIcon>,
+      "variant" | "color"
+    >
+  >(function FormLayoutHeaderAction(props, ref) {
+    return (
+      <ActionInline>
+        <ActionIcon {...props} ref={ref} variant="link" color="prussianBlue" />
+      </ActionInline>
     );
   }),
 
