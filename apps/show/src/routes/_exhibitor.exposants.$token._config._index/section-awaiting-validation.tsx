@@ -87,8 +87,8 @@ export function SectionAwaitingValidation() {
           <TaskItem.Title>Chiens sur stand</TaskItem.Title>
 
           <TaskItem.Description>
-            Le profil des chiens présents sur votre stand est en cours de
-            traitement par notre équipe.
+            Le profil des chiens sur votre stand est en cours de traitement par
+            notre équipe.
           </TaskItem.Description>
         </TaskItem.Content>
 
