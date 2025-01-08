@@ -91,7 +91,7 @@ export function SectionPublicProfile() {
         <FormLayout.Output>
           {joinReactNodes(
             profile.links.map((link) => (
-              <ProseInlineAction key={link} asChild>
+              <ProseInlineAction key={link} variant="subtle" asChild>
                 <a href={link} target="_blank" rel="noreferrer">
                   {link}
                 </a>
