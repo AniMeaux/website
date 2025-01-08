@@ -50,6 +50,7 @@ export async function createEmailTemplatePublicProfileUpdated(
                     size: "512",
                     aspectRatio: "4:3",
                     objectFit: "contain",
+                    fillTransparentBackground: true,
                   },
                 )}
                 alt={profile.name}

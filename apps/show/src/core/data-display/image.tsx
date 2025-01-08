@@ -12,6 +12,7 @@ export const DynamicImage = forwardRef<
     alt: string;
     aspectRatio?: AspectRatio;
     fallbackSize: ImageSize;
+    fillTransparentBackground?: boolean;
     image: ImageData;
     objectFit?: ObjectFit;
     sizes: Partial<Record<ScreenSize, string>> & {
@@ -27,6 +28,7 @@ export const DynamicImage = forwardRef<
     aspectRatio = "1:1",
     objectFit = "contain",
     fallbackSize,
+    fillTransparentBackground = false,
     loading = "lazy",
     className,
     style: styleProp = {},
@@ -39,6 +41,7 @@ export const DynamicImage = forwardRef<
       size,
       aspectRatio,
       objectFit,
+      fillTransparentBackground,
     });
 
     return `${url} ${size}w`;
@@ -74,6 +77,7 @@ export const DynamicImage = forwardRef<
         size: fallbackSize,
         aspectRatio,
         objectFit,
+        fillTransparentBackground,
       })}
       srcSet={srcSet}
       sizes={sizes}
@@ -106,11 +110,13 @@ export function createImageUrl(
   imageId: string,
   {
     aspectRatio = "none",
+    fillTransparentBackground = false,
     objectFit = "contain",
     format = "auto",
     size,
   }: {
     aspectRatio?: AspectRatio;
+    fillTransparentBackground?: boolean;
     objectFit?: ObjectFit;
     format?: "auto" | "jpg";
     size?: ImageSize;
@@ -140,6 +146,12 @@ export function createImageUrl(
       // https://cloudinary.com/documentation/transformation_reference#c_fit
       objectFit === "contain" ? "c_fit" : "c_fill",
     );
+  }
+
+  // Ensure transparent images have a background that hides the blurhash.
+  if (fillTransparentBackground) {
+    // https://cloudinary.com/documentation/transformation_reference#b_background
+    transformations.push("b_white");
   }
 
   const transformationsStr = transformations.join(",");

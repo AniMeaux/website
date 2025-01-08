@@ -42,6 +42,7 @@ export function SectionPublicProfile() {
             aspectRatio="4:3"
             fallbackSize="512"
             image={ImageUrl.parse(profile.logoPath)}
+            fillTransparentBackground
             objectFit="cover"
             sizes={{ default: "100vw", md: "33vw", lg: "400px" }}
             loading="eager"
