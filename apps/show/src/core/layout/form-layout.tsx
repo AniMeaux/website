@@ -316,18 +316,7 @@ export const FormLayout = {
     );
   }),
 
-  Output: forwardRef<
-    React.ComponentRef<typeof Primitive.p>,
-    React.ComponentPropsWithoutRef<typeof Primitive.p>
-  >(function FormLayoutLabel({ className, ...props }, ref) {
-    return (
-      <Primitive.p
-        {...props}
-        ref={ref}
-        className={cn("text-body-lowercase-emphasis", className)}
-      />
-    );
-  }),
+  Output: Primitive.p,
 
   InputList: {
     Root: forwardRef<
