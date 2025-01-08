@@ -286,11 +286,11 @@ export const EmailHtml = {
       return (
         <Column
           className={cn(
-            "w-1/2 align-top text-body-lowercase-emphasis",
+            "w-1/2 align-top text-body-lowercase-default",
             _isFirstRow ? undefined : "pt-1",
           )}
         >
-          <EmailHtml.Strong>{children}</EmailHtml.Strong>
+          {children}
         </Column>
       );
     },

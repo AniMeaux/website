@@ -42,6 +42,7 @@ export function SectionPublicProfile() {
             aspectRatio="4:3"
             fallbackSize="512"
             image={ImageUrl.parse(profile.logoPath)}
+            fillTransparentBackground
             objectFit="cover"
             sizes={{ default: "100vw", md: "33vw", lg: "400px" }}
             loading="eager"
@@ -90,7 +91,7 @@ export function SectionPublicProfile() {
         <FormLayout.Output>
           {joinReactNodes(
             profile.links.map((link) => (
-              <ProseInlineAction key={link} asChild>
+              <ProseInlineAction key={link} variant="subtle" asChild>
                 <a href={link} target="_blank" rel="noreferrer">
                   {link}
                 </a>
