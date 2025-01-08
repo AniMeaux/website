@@ -148,7 +148,7 @@ function getPageParamsTranslation(
   { isPlural = false }: { isPlural?: boolean } = {},
 ) {
   if (pageParams.species == null) {
-    return isPlural ? "Animaux" : "Animal";
+    return isPlural ? "animaux" : "animal";
   }
 
   const speciesMap = isPlural
@@ -215,7 +215,7 @@ export default function Route() {
             {totalCount}{" "}
             {getPageParamsTranslation(pageParams, {
               isPlural: totalCount > 1,
-            }).toLowerCase()}
+            })}
           </h2>
 
           <section className="flex">

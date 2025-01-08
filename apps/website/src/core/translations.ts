@@ -2,19 +2,35 @@ import { AnimalAge } from "@animeaux/core";
 import { Gender, Species } from "@prisma/client";
 
 export const SPECIES_TRANSLATION: Record<Species, string> = {
+  [Species.BIRD]: "oiseau",
+  [Species.CAT]: "chat",
+  [Species.DOG]: "chien",
+  [Species.REPTILE]: "reptile",
+  [Species.RODENT]: "PAC",
+};
+
+export const SPECIES_PLURAL_TRANSLATION: Record<Species, string> = {
+  [Species.BIRD]: "oiseaux",
+  [Species.CAT]: "chats",
+  [Species.DOG]: "chiens",
+  [Species.REPTILE]: "reptiles",
+  [Species.RODENT]: "PACs",
+};
+
+export const SPECIES_TRANSLATION_STANDALONE: Record<Species, string> = {
   [Species.BIRD]: "Oiseau",
   [Species.CAT]: "Chat",
   [Species.DOG]: "Chien",
   [Species.REPTILE]: "Reptile",
-  [Species.RODENT]: "Rongeur",
+  [Species.RODENT]: "PAC",
 };
 
-export const SPECIES_PLURAL_TRANSLATION: Record<Species, string> = {
+export const SPECIES_PLURAL_TRANSLATION_STANDALONE: Record<Species, string> = {
   [Species.BIRD]: "Oiseaux",
   [Species.CAT]: "Chats",
   [Species.DOG]: "Chiens",
   [Species.REPTILE]: "Reptiles",
-  [Species.RODENT]: "Rongeurs",
+  [Species.RODENT]: "PACs",
 };
 
 export const AGE_TRANSLATION: Record<AnimalAge, string> = {
