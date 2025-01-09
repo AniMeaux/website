@@ -1,5 +1,9 @@
 import { BaseLink } from "#core/base-link";
-import { AGE_TRANSLATION, SPECIES_TRANSLATION, SPECIES_TRANSLATION_STANDALONE } from "#core/translations";
+import {
+  AGE_TRANSLATION,
+  SPECIES_TRANSLATION,
+  SPECIES_TRANSLATION_STANDALONE,
+} from "#core/translations";
 import { Icon } from "#generated/icon";
 import { ANIMAL_AGE_RANGE_BY_SPECIES, AnimalAge, cn } from "@animeaux/core";
 import { Species } from "@prisma/client";
