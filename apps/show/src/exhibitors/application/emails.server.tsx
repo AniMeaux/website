@@ -187,7 +187,7 @@ export function createEmailTemplateConfirmation(
                 alt={application.structureName}
                 // Reset Img default styles to avoid conflicts.
                 style={{ border: undefined }}
-                className="aspect-4/3 w-full min-w-0 rounded-2 border border-solid border-mystic-200 object-contain"
+                className="aspect-4/3 w-full min-w-0 rounded-2 border border-solid border-alabaster object-contain"
               />
             </EmailHtml.Output.Value>
           </EmailHtml.Output.Row>
