@@ -9,18 +9,18 @@ import { Pictogram } from "#generated/pictogram";
 import logoLarge from "#images/logo-large.svg";
 import { Link } from "@remix-run/react";
 
-export function WaitingPage() {
+export function RouteWaiting() {
   return (
     <>
-      <LogoSection />
-      <ComeBackSection />
-      <PreviousEditionsSection />
-      <FollowSection />
+      <SectionLogo />
+      <SectionComeBack />
+      <SectionPreviousEditions />
+      <SectionFollow />
     </>
   );
 }
 
-function LogoSection() {
+function SectionLogo() {
   return (
     <header className="grid grid-cols-1 justify-items-center pb-4 pt-safe-4 px-safe-page-narrow md:px-safe-page-normal">
       <img
@@ -32,7 +32,7 @@ function LogoSection() {
   );
 }
 
-function ComeBackSection() {
+function SectionComeBack() {
   return (
     <Section.Root>
       <LazyElement asChild>
@@ -59,13 +59,15 @@ function ComeBackSection() {
             Le Salon des Ani’Meaux revient en force pour une nouvelle édition en
             2025 ! Préparez-vous à vivre une expérience unique dédiée au
             bien-être des animaux domestiques et sauvages.
-            <br />
-            <br />
+          </p>
+
+          <p>
             Rencontrez des exposants passionnés, découvrez des produits et
             services de qualité, participez à des animations ludiques et
             éducatives, le tout dans une ambiance conviviale et bienveillante.
-            <br />
-            <br />
+          </p>
+
+          <p>
             Restez à l’affût des prochaines annonces pour ne pas manquer cet
             événement incontournable pour tous les amoureux des animaux.
           </p>
@@ -75,9 +77,14 @@ function ComeBackSection() {
   );
 }
 
-function PreviousEditionsSection() {
+function SectionPreviousEditions() {
   return (
-    <Section.Root width="full" height="large" columnCount={1}>
+    <Section.Root
+      width="full"
+      height="large"
+      columnCount={1}
+      className="pt-12 md:pt-8"
+    >
       <div className="relative grid grid-cols-1 gap-2 py-2 px-safe-page-narrow sm:gap-4 md:grid-cols-2 md:items-center md:py-4 md:px-safe-page-normal lg:gap-8">
         <HighLightBackground
           color="alabaster"
@@ -95,7 +102,7 @@ function PreviousEditionsSection() {
               loading="eager"
               alt="Pott regarde un album photo."
               aspectRatio="none"
-              className="absolute inset-x-0 bottom-0 w-full md:bottom-auto md:top-1/2 md:-translate-y-[55%]"
+              className="absolute inset-x-0 top-1/2 w-full -translate-y-[63%] md:-translate-y-[55%]"
             />
           </Section.ImageAside>
         </LazyElement>
@@ -107,19 +114,21 @@ function PreviousEditionsSection() {
             <p>
               Revivez les moments forts des éditions précédentes de notre salon
               en parcourant notre galerie de photos.
-              <br />
-              <br />
+            </p>
+
+            <p>
               Découvrez les sourires, les émotions et les moments de partage qui
               ont marqué les visiteurs, les exposants et les bénévoles.
-              <br />
-              <br />
+            </p>
+
+            <p>
               Plongez dans l’univers passionnant de notre événement et
               laissez-vous emporter par l’ambiance chaleureuse et conviviale qui
               caractérise chaque édition.
             </p>
 
             <Section.Action asChild>
-              <Action asChild color="mystic">
+              <Action color="mystic" asChild>
                 <Link to={Routes.previousEditions.toString()} prefetch="intent">
                   Voir les photos
                 </Link>
@@ -132,7 +141,7 @@ function PreviousEditionsSection() {
   );
 }
 
-function FollowSection() {
+function SectionFollow() {
   return (
     <Section.Root width="full" columnCount={1}>
       <LazyElement asChild>

@@ -1,9 +1,12 @@
+import type { ShowDay } from "#core/dates";
 import type { PreviousEdition } from "#previous-editions/previous-edition";
 import type { Path } from "@remix-run/react";
 
 export type To = string | Partial<Path>;
 
 export const Routes = {
+  access: { toString: () => "/acces" as const },
+
   exhibitorApplication: {
     toString: () => "/candidature-exposant" as const,
 
@@ -72,9 +75,9 @@ export const Routes = {
     }),
   },
 
-  home: {
-    toString: () => "/" as const,
-  },
+  faq: { toString: () => "/faq" as const },
+
+  home: { toString: () => "/" as const },
 
   previousEditions: {
     toString: () => "/editions-precedentes" as const,
@@ -86,6 +89,14 @@ export const Routes = {
         toString: () =>
           `/editions-precedentes/${edition}/${photoIndex}` as const,
       }),
+    }),
+  },
+
+  program: {
+    toString: () => "/programme" as const,
+
+    day: (day: ShowDay) => ({
+      toString: () => `/programme/${day}` as const,
     }),
   },
 };

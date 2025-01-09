@@ -1,12 +1,11 @@
 import { ProseInlineAction } from "#core/actions/prose-inline-action";
 import { SocialLink } from "#core/actions/social-link";
-import { FooterWave } from "#core/layout/footer-wave";
+import { DynamicImage } from "#core/data-display/image";
 import { LegalBackground } from "#core/layout/legal-background";
 import { Section } from "#core/layout/section";
 import { Routes } from "#core/navigation";
 import { Icon } from "#generated/icon";
 import { Pictogram } from "#generated/pictogram";
-import logoAniMeaux from "#images/logo-ani-meaux.svg";
 import { cn } from "@animeaux/core";
 import { Link } from "@remix-run/react";
 
@@ -15,10 +14,23 @@ export const Footer = {
     return <footer className="grid grid-cols-1">{children}</footer>;
   },
 
-  WaveSection: function FooterWaveSection() {
+  WaveSection: function FooterWaveSection({
+    children,
+    className,
+  }: React.PropsWithChildren<{ className?: string }>) {
     return (
-      <section className="grid grid-cols-1 pt-4">
-        <FooterWave className="h-[53px] w-full md:h-[90px]" />
+      <section
+        className={cn(
+          "grid pt-4",
+          children != null
+            ? "relative px-page-narrow pb-4 md:px-page-normal"
+            : undefined,
+          className,
+        )}
+      >
+        {children}
+
+        <Wave className="absolute inset-x-0 bottom-0 -z-just-above h-[53px] w-full md:h-[90px]" />
       </section>
     );
   },
@@ -50,12 +62,26 @@ export const Footer = {
     );
   },
 
-  AnimeauxLogo: function FooterAnimeauxLogo() {
+  AnimeauxLogo: function FooterAnimeauxLogo({
+    isLarge = false,
+  }: {
+    isLarge?: boolean;
+  }) {
     return (
-      <img
-        src={logoAniMeaux}
+      <DynamicImage
+        image={{
+          id: "/show/logos/animeaux_edoni2",
+          blurhash: "ULQvB*s+?^tRt2oJt8WX.mSPMKskTKWVe8sl",
+        }}
+        fallbackSize="256"
+        sizes={{ default: "150px", md: "200px" }}
+        loading="lazy"
         alt="Association Ani’Meaux"
-        className="aspect-square w-[150px] justify-self-center md:w-[200px]"
+        aspectRatio="1:1"
+        className={cn(
+          "w-[150px] justify-self-center rounded-full",
+          isLarge ? "md:w-[200px]" : undefined,
+        )}
       />
     );
   },
@@ -74,17 +100,17 @@ export const Footer = {
         </div>
 
         <ul className="grid grid-cols-1">
-          <ContactItem icon="phone-solid" to="tel:+33612194392">
+          <ContactItem icon="phone-light" to="tel:+33612194392">
             06 12 19 43 92
           </ContactItem>
 
-          <ContactItem icon="envelope-solid" to="mailto:salon@animeaux.org">
+          <ContactItem icon="envelope-light" to="mailto:salon@animeaux.org">
             salon@animeaux.org
           </ContactItem>
 
           {CLIENT_ENV.PRESS_RELEASE_URL != null ? (
             <ContactItem
-              icon="newspaper-solid"
+              icon="newspaper-light"
               to={CLIENT_ENV.PRESS_RELEASE_URL}
             >
               Communiqué de presse
@@ -92,7 +118,7 @@ export const Footer = {
           ) : null}
 
           <ContactItem
-            icon="image-solid"
+            icon="image-light"
             to={Routes.previousEditions.toString()}
           >
             Éditions précédentes
@@ -125,7 +151,12 @@ function ContactItem({
       <Link
         to={to}
         prefetch="intent"
-        className="grid grid-cols-2-auto items-start gap-1 rounded-0.5 transition-opacity duration-normal active:opacity-80 can-hover:hover:opacity-90 can-hover:focus-visible:focus-spaced active:can-hover:hover:opacity-80"
+        className={cn(
+          "grid grid-cols-2-auto items-start gap-1 rounded-0.5 can-hover:focus-visible:focus-spaced",
+
+          // Text color.
+          "text-prussianBlue transition-colors duration-normal can-hover:hover:text-prussianBlue-900 active:can-hover:hover:text-prussianBlue-800",
+        )}
       >
         <span className="flex h-2 items-center">
           <Icon id={icon} className="icon-16" />
@@ -134,5 +165,39 @@ function ContactItem({
         <span>{children}</span>
       </Link>
     </li>
+  );
+}
+
+function Wave({ className }: { className?: string }) {
+  return (
+    <>
+      <svg
+        viewBox="0 0 1440 90"
+        fill="none"
+        // Allow the shape to stretch.
+        preserveAspectRatio="none"
+        xmlns="http://www.w3.org/2000/svg"
+        className={cn("hidden md:block", className)}
+      >
+        <path
+          d="m0 27.1955c103-17.44588 244.5-33.89436 371.5-24.42371 141.665 10.56421 329 38.87881 455 38.87881 145.5 0 249-.0036 349-.0036 122.92 0 183-7.4732 264.5-7.4732v55.8262h-1440z"
+          className="fill-paleBlue"
+        />
+      </svg>
+
+      <svg
+        viewBox="0 0 320 53"
+        fill="none"
+        // Allow the shape to stretch.
+        preserveAspectRatio="none"
+        xmlns="http://www.w3.org/2000/svg"
+        className={cn("md:hidden", className)}
+      >
+        <path
+          d="m0 9.02789c13-3.00984 27.5221-4.51477 45.5-4.51477h232.5c16.476 0 28.5-1.50492 42-4.01312v53h-320z"
+          className="fill-paleBlue"
+        />
+      </svg>
+    </>
   );
 }

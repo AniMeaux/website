@@ -18,7 +18,7 @@ export function LazyElement(
           observer.disconnect();
         }
       },
-      { threshold: 0.25 },
+      { threshold: 0.2 },
     );
 
     invariant(elementRef.current != null, "elementRef should be set");

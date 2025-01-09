@@ -7,8 +7,8 @@ import { ShowExhibitorApplicationStatus } from "@prisma/client";
 import type { LoaderFunctionArgs } from "@remix-run/node";
 import { Outlet } from "@remix-run/react";
 import { promiseHash } from "remix-utils/promise";
-import { ExhibitorFooter } from "./footer";
-import { ExhibitorHeader } from "./header";
+import { LayoutFooter } from "./footer";
+import { LayoutHeader } from "./header";
 
 export async function loader({ params }: LoaderFunctionArgs) {
   if (process.env.FEATURE_FLAG_EXHIBITOR_APPLICATION_ONLINE !== "true") {
@@ -44,9 +44,9 @@ export default function Route() {
     <>
       <PageBackground />
 
-      <ExhibitorHeader />
+      <LayoutHeader />
       <Outlet />
-      <ExhibitorFooter />
+      <LayoutFooter />
     </>
   );
 }

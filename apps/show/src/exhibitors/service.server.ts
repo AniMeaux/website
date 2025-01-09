@@ -41,4 +41,10 @@ export class ServiceExhibitor extends Service {
 
     return exhibitor;
   }
+
+  async getVisibleCount() {
+    return await prisma.showExhibitor.count({
+      where: { isVisible: true },
+    });
+  }
 }
