@@ -1,21 +1,20 @@
 import { ErrorPage, getErrorTitle } from "#core/data-display/error-page";
 import { createSocialMeta } from "#core/meta";
 import { getPageTitle } from "#core/page-title";
-import { services } from "#core/services/services.server";
+import { notFound } from "#core/response.server";
 import type { MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { QUESTIONS } from "./data.server";
 import { SectionMoreQuestions } from "./section-more-questions";
 import { SectionQuestions } from "./section-questions";
-import { SectionSharedFiles } from "./section-shared-files";
 import { SectionTitle } from "./section-title";
 
 export async function loader() {
-  const files = await services.drive.getFiles(
-    process.env.GOOGLE_DRIVE_SHARED_FOLDER_ID,
-  );
+  if (process.env.FEATURE_FLAG_SITE_ONLINE !== "true") {
+    throw notFound();
+  }
 
-  return json({ questions: QUESTIONS, files });
+  return json({ questions: QUESTIONS });
 }
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
@@ -35,7 +34,6 @@ export default function Route() {
     <>
       <SectionTitle />
       <SectionQuestions />
-      <SectionSharedFiles />
       <SectionMoreQuestions />
     </>
   );
