@@ -99,7 +99,6 @@ function SectionPreviousEditions() {
               }}
               fallbackSize="1024"
               sizes={{ default: "100vw", md: "50vw", lg: "512px" }}
-              loading="eager"
               alt="Pott regarde un album photo."
               aspectRatio="none"
               className="absolute inset-x-0 top-1/2 w-full -translate-y-[63%] md:-translate-y-[55%]"

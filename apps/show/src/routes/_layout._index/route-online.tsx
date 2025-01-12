@@ -38,48 +38,54 @@ function SectionHero() {
   return (
     <Section.Root columnCount={1}>
       <div className="grid grid-cols-1 gap-2 sm:gap-0 md:grid-cols-auto-fr md:items-start">
-        <div className="relative aspect-4/3 md:grid md:grid-cols-1">
-          <DynamicImage
-            image={{ id: "/show/pages/pott-and-co_ugp2id" }}
-            alt="Pott et ses amis."
-            fallbackSize="1024"
-            sizes={{ default: "100vw", md: "66vw", lg: "1024px" }}
-            aspectRatio="none"
-            objectFit="contain"
-            loading="eager"
-            className="absolute inset-x-0 bottom-0 w-full md:static md:aspect-4/3"
-          />
-        </div>
+        <LazyElement asChild>
+          <div className="relative aspect-4/3 translate-x-4 opacity-0 transition-[opacity,transform] duration-very-slow data-visible:translate-x-0 data-visible:opacity-100 md:grid md:grid-cols-1">
+            <DynamicImage
+              image={{ id: "/show/pages/pott-and-co_ugp2id" }}
+              alt="Pott et ses amis."
+              fallbackSize="1024"
+              sizes={{ default: "100vw", md: "66vw", lg: "1024px" }}
+              aspectRatio="none"
+              objectFit="contain"
+              loading="eager"
+              className="absolute inset-x-0 bottom-0 w-full md:static md:aspect-4/3"
+            />
+          </div>
+        </LazyElement>
 
-        <Section.TextAside className="md:col-start-1 md:row-start-1">
-          <h1 className="text-center text-hero-small md:text-left md:text-hero-large">
-            <span className="text-prussianBlue">Salon des</span>
-            <br />
-            <span className="text-mystic">Ani’Meaux</span>
-            <br />
-          </h1>
+        <LazyElement asChild>
+          <Section.TextAside className="-translate-x-4 opacity-0 transition-[opacity,transform] duration-very-slow data-visible:translate-x-0 data-visible:opacity-100 md:col-start-1 md:row-start-1">
+            <h1 className="text-center text-hero-small md:text-left md:text-hero-large">
+              <span className="text-prussianBlue">Salon des</span>
+              <br />
+              <span className="text-mystic">Ani’Meaux</span>
+              <br />
+            </h1>
 
-          <p className="text-center md:text-left">
-            4ème édition du salon dédié au bien-être animal.
-            <br />
-            <strong className="text-body-lowercase-emphasis">
-              <time dateTime={OPENING_TIME.toISO()}>
-                7 et 8 juin 2025 - 10h à 18h
-              </time>{" "}
-              - Colisée de Meaux.
-            </strong>
-          </p>
+            <p className="text-center md:text-left">
+              4ème édition du salon dédié au bien-être animal.
+              <br />
+              <strong className="text-body-lowercase-emphasis">
+                <time dateTime={OPENING_TIME.toISO()}>
+                  7 et 8 juin 2025 - 10h à 18h
+                </time>{" "}
+                - Colisée de Meaux.
+              </strong>
+            </p>
 
-          <Countdown className="justify-self-center md:justify-self-start" />
+            <Countdown className="justify-self-center md:justify-self-start" />
 
-          {!hasShowEnded() ? (
-            <Section.Action asChild>
-              <Action color="mystic" asChild>
-                <Link to={CLIENT_ENV.TICKETING_URL}>Achetez votre billet</Link>
-              </Action>
-            </Section.Action>
-          ) : null}
-        </Section.TextAside>
+            {!hasShowEnded() ? (
+              <Section.Action asChild>
+                <Action color="mystic" asChild>
+                  <Link to={CLIENT_ENV.TICKETING_URL}>
+                    Achetez votre billet
+                  </Link>
+                </Action>
+              </Section.Action>
+            ) : null}
+          </Section.TextAside>
+        </LazyElement>
       </div>
     </Section.Root>
   );
@@ -155,7 +161,6 @@ function SectionComeWithYourDog() {
             alt="Pott et Pollen font un contrôle vétérinaire."
             fallbackSize="512"
             sizes={{ default: "100vw", md: "50vw", lg: "464px" }}
-            loading="eager"
             aspectRatio="none"
             className="absolute inset-y-0 left-1/2 h-full max-w-none -translate-x-1/2"
           />
@@ -222,7 +227,6 @@ function SectionPresentation() {
                 alt="Pott et Pollen disent bonjour."
                 fallbackSize="512"
                 sizes={{ default: "100vw", md: "50vw", lg: "464px" }}
-                loading="eager"
                 aspectRatio="none"
                 className="absolute inset-x-0 top-0 w-full"
               />
@@ -371,7 +375,6 @@ function SectionExhibitors() {
             }}
             fallbackSize="1024"
             sizes={{ default: "100vw", md: "50vw", lg: "512px" }}
-            loading="eager"
             alt="Pott derrière un stand."
             aspectRatio="none"
             className="absolute inset-x-0 bottom-0 w-full"
@@ -445,7 +448,6 @@ function SectionPreviousEditions() {
               }}
               fallbackSize="1024"
               sizes={{ default: "100vw", md: "50vw", lg: "512px" }}
-              loading="eager"
               alt="Pott regarde un album photo."
               aspectRatio="none"
               className="absolute inset-x-0 top-1/2 w-full -translate-y-[63%] md:-translate-y-[55%]"
@@ -498,7 +500,6 @@ function SectionAccess() {
             }}
             fallbackSize="1024"
             sizes={{ default: "100vw", md: "50vw", lg: "512px" }}
-            loading="eager"
             alt="Pott regarde un plan."
             aspectRatio="none"
             className="absolute inset-x-0 top-1/2 w-full -translate-y-[56%] md:-translate-y-[53%]"
