@@ -3,7 +3,7 @@ import { createSocialMeta } from "#core/meta";
 import { getPageTitle } from "#core/page-title";
 import { notFound } from "#core/response.server";
 import { services } from "#core/services/services.server";
-import { zu } from "@animeaux/zod-utils";
+import { safeParseRouteParam, zu } from "@animeaux/zod-utils";
 import type { LoaderFunctionArgs } from "@remix-run/node";
 import type { MetaFunction } from "@remix-run/react";
 import { SectionInformation } from "./section-information";
@@ -14,7 +14,7 @@ export async function loader({ params }: LoaderFunctionArgs) {
     throw notFound();
   }
 
-  const routeParams = RouteParamsSchema.parse(params);
+  const routeParams = safeParseRouteParam(RouteParamsSchema, params);
 
   const application = await services.exhibitor.application.get(
     routeParams.applicationId,

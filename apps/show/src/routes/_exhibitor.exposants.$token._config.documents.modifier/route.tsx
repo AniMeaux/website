@@ -8,6 +8,7 @@ import { badRequest } from "#core/response.server";
 import { services } from "#core/services/services.server";
 import { createEmailTemplateRequest } from "#exhibitors/documents/email.server";
 import { RouteParamsSchema } from "#exhibitors/route-params";
+import { safeParseRouteParam } from "@animeaux/zod-utils";
 import { parseWithZod } from "@conform-to/zod";
 import { parseFormData } from "@mjackson/form-data-parser";
 import { ShowExhibitorDocumentsStatus } from "@prisma/client";
@@ -21,7 +22,7 @@ import { SectionForm } from "./section-form";
 import { SectionHelper } from "./section-helper";
 
 export async function loader({ params }: LoaderFunctionArgs) {
-  const routeParams = RouteParamsSchema.parse(params);
+  const routeParams = safeParseRouteParam(RouteParamsSchema, params);
 
   const { documents, files, profile } = await promiseHash({
     documents: services.exhibitor.documents.getByToken(routeParams.token, {
@@ -55,7 +56,7 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
 };
 
 export async function action({ request, params }: ActionFunctionArgs) {
-  const routeParams = RouteParamsSchema.parse(params);
+  const routeParams = safeParseRouteParam(RouteParamsSchema, params);
 
   const documents = await services.exhibitor.documents.getByToken(
     routeParams.token,

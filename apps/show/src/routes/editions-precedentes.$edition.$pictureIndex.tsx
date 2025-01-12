@@ -16,7 +16,7 @@ import {
 } from "#previous-editions/previous-edition";
 import { cn } from "@animeaux/core";
 import { Primitive } from "@animeaux/react-primitives";
-import { zu } from "@animeaux/zod-utils";
+import { safeParseRouteParam, zu } from "@animeaux/zod-utils";
 import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { Link, useLoaderData, useLocation, useParams } from "@remix-run/react";
@@ -33,22 +33,19 @@ const ParamsSchema = zu.object({
 });
 
 export async function loader({ params }: LoaderFunctionArgs) {
-  const result = ParamsSchema.safeParse(params);
-  if (!result.success) {
-    throw notFound();
-  }
+  const routeParams = safeParseRouteParam(ParamsSchema, params);
 
   const pictures = await cloudinary.previousEdition.findAllPictures(
-    result.data.edition,
+    routeParams.edition,
   );
 
-  const picture = pictures[result.data.pictureIndex];
+  const picture = pictures[routeParams.pictureIndex];
   if (picture == null) {
     throw notFound();
   }
 
   return json({
-    edition: result.data.edition,
+    edition: routeParams.edition,
     picture,
     pictureCount: pictures.length,
   });

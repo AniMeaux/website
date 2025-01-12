@@ -10,6 +10,7 @@ import { services } from "#core/services/services.server";
 import { canEditProfile } from "#exhibitors/profile/dates";
 import { createEmailTemplatePublicProfileUpdated } from "#exhibitors/profile/email.server";
 import { RouteParamsSchema } from "#exhibitors/route-params";
+import { safeParseRouteParam } from "@animeaux/zod-utils";
 import { parseWithZod } from "@conform-to/zod";
 import { parseFormData } from "@mjackson/form-data-parser";
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
@@ -22,7 +23,7 @@ import { SectionForm } from "./section-form";
 import { SectionHelper } from "./section-helper";
 
 export async function loader({ params }: LoaderFunctionArgs) {
-  const routeParams = RouteParamsSchema.parse(params);
+  const routeParams = safeParseRouteParam(RouteParamsSchema, params);
 
   if (!canEditProfile()) {
     throw redirect(
@@ -58,7 +59,7 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
 };
 
 export async function action({ request, params }: ActionFunctionArgs) {
-  const routeParams = RouteParamsSchema.parse(params);
+  const routeParams = safeParseRouteParam(RouteParamsSchema, params);
 
   if (!canEditProfile()) {
     throw badRequest();

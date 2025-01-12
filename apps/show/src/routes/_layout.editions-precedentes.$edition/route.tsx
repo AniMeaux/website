@@ -2,9 +2,8 @@ import { cloudinary } from "#core/cloudinary/cloudinary.server";
 import { ErrorPage, getErrorTitle } from "#core/data-display/error-page";
 import { createSocialMeta } from "#core/meta";
 import { getPageTitle } from "#core/page-title";
-import { notFound } from "#core/response.server";
 import { PreviousEdition } from "#previous-editions/previous-edition";
-import { zu } from "@animeaux/zod-utils";
+import { safeParseRouteParam, zu } from "@animeaux/zod-utils";
 import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
 import { defer } from "@remix-run/node";
 import { SectionPictures } from "./section-pictures";
@@ -15,14 +14,11 @@ const ParamsSchema = zu.object({
 });
 
 export async function loader({ params }: LoaderFunctionArgs) {
-  const result = ParamsSchema.safeParse(params);
-  if (!result.success) {
-    throw notFound();
-  }
+  const routeParams = safeParseRouteParam(ParamsSchema, params);
 
   return defer({
-    edition: result.data.edition,
-    pictures: cloudinary.previousEdition.findAllPictures(result.data.edition),
+    edition: routeParams.edition,
+    pictures: cloudinary.previousEdition.findAllPictures(routeParams.edition),
   });
 }
 

@@ -3,6 +3,7 @@ import { PageBackground } from "#core/layout/page-background";
 import { notFound } from "#core/response.server";
 import { services } from "#core/services/services.server";
 import { RouteParamsSchema } from "#exhibitors/route-params";
+import { safeParseRouteParam } from "@animeaux/zod-utils";
 import { ShowExhibitorApplicationStatus } from "@prisma/client";
 import type { LoaderFunctionArgs } from "@remix-run/node";
 import { Outlet } from "@remix-run/react";
@@ -15,7 +16,7 @@ export async function loader({ params }: LoaderFunctionArgs) {
     throw notFound();
   }
 
-  const routeParams = RouteParamsSchema.parse(params);
+  const routeParams = safeParseRouteParam(RouteParamsSchema, params);
 
   const { application, profile } = await promiseHash({
     application: services.exhibitor.application.getByToken(routeParams.token, {

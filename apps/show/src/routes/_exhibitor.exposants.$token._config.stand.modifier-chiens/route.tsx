@@ -8,6 +8,7 @@ import { badRequest } from "#core/response.server";
 import { services } from "#core/services/services.server";
 import { createEmailTemplateRequest } from "#exhibitors/dogs-configuration/email.server";
 import { RouteParamsSchema } from "#exhibitors/route-params";
+import { safeParseRouteParam } from "@animeaux/zod-utils";
 import { parseWithZod } from "@conform-to/zod";
 import { ShowExhibitorDogsConfigurationStatus } from "@prisma/client";
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
@@ -19,7 +20,7 @@ import { SectionForm } from "./section-form";
 import { SectionHelper } from "./section-helper";
 
 export async function loader({ params }: LoaderFunctionArgs) {
-  const routeParams = RouteParamsSchema.parse(params);
+  const routeParams = safeParseRouteParam(RouteParamsSchema, params);
 
   const { dogsConfiguration, profile } = await promiseHash({
     dogsConfiguration: services.exhibitor.dogsConfiguration.getByToken(
@@ -65,7 +66,7 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
 };
 
 export async function action({ request, params }: ActionFunctionArgs) {
-  const routeParams = RouteParamsSchema.parse(params);
+  const routeParams = safeParseRouteParam(RouteParamsSchema, params);
 
   const dogsConfiguration =
     await services.exhibitor.dogsConfiguration.getByToken(routeParams.token, {
