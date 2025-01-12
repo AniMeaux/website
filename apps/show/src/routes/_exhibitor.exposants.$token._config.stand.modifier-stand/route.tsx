@@ -13,7 +13,6 @@ import { ShowExhibitorStandConfigurationStatus } from "@prisma/client";
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import type { MetaFunction } from "@remix-run/react";
-import { createPath } from "@remix-run/react";
 import { promiseHash } from "remix-utils/promise";
 import { ActionSchema } from "./action";
 import { SectionForm } from "./section-form";
@@ -56,11 +55,7 @@ export async function loader({ params }: LoaderFunctionArgs) {
     standConfiguration.status ===
     ShowExhibitorStandConfigurationStatus.VALIDATED
   ) {
-    throw redirect(
-      createPath({
-        pathname: Routes.exhibitors.token(routeParams.token).stand.toString(),
-      }),
-    );
+    throw redirect(Routes.exhibitors.token(routeParams.token).stand.toString());
   }
 
   return { standConfiguration, profile };
@@ -115,11 +110,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
 
   email.send.template(createEmailTemplateRequest(routeParams.token));
 
-  throw redirect(
-    createPath({
-      pathname: Routes.exhibitors.token(routeParams.token).stand.toString(),
-    }),
-  );
+  throw redirect(Routes.exhibitors.token(routeParams.token).stand.toString());
 }
 
 export default function Route() {

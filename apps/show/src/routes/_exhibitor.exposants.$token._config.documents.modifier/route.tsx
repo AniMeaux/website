@@ -14,7 +14,6 @@ import { ShowExhibitorDocumentsStatus } from "@prisma/client";
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import type { MetaFunction } from "@remix-run/react";
-import { createPath } from "@remix-run/react";
 import { captureException } from "@sentry/remix";
 import { promiseHash } from "remix-utils/promise";
 import { ActionSchema } from "./action";
@@ -38,11 +37,7 @@ export async function loader({ params }: LoaderFunctionArgs) {
 
   if (documents.status === ShowExhibitorDocumentsStatus.VALIDATED) {
     throw redirect(
-      createPath({
-        pathname: Routes.exhibitors
-          .token(routeParams.token)
-          .documents.toString(),
-      }),
+      Routes.exhibitors.token(routeParams.token).documents.toString(),
     );
   }
 
@@ -123,9 +118,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
   email.send.template(createEmailTemplateRequest(routeParams.token));
 
   throw redirect(
-    createPath({
-      pathname: Routes.exhibitors.token(routeParams.token).documents.toString(),
-    }),
+    Routes.exhibitors.token(routeParams.token).documents.toString(),
   );
 }
 

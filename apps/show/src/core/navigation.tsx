@@ -7,18 +7,16 @@ export type To = string | Partial<Path>;
 export const Routes = {
   access: { toString: () => "/acces" as const },
 
-  exhibitorApplication: {
-    toString: () => "/candidature-exposant" as const,
-
-    confirmation: {
-      applicationId: (applicationId: string) => ({
-        toString: () => `/candidature-exposant/${applicationId}` as const,
-      }),
-    },
-  },
-
   exhibitors: {
     toString: () => "/exposants" as const,
+
+    application: {
+      toString: () => "/exposants/candidature" as const,
+
+      applicationId: (applicationId: string) => ({
+        toString: () => `/exposants/candidature/${applicationId}` as const,
+      }),
+    },
 
     token: (exhibitorToken: string) => ({
       toString: () => `/exposants/${exhibitorToken}` as const,

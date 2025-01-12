@@ -39,7 +39,7 @@ export async function loader() {
 
   if (process.env.FEATURE_FLAG_EXHIBITOR_APPLICATION_ONLINE === "true") {
     urlDefinitions.push({
-      path: Routes.exhibitorApplication.toString(),
+      path: Routes.exhibitors.application.toString(),
       changeFrequency: "weekly",
     });
   }

@@ -32,7 +32,7 @@ export function SectionWaitingHelper() {
           {CLIENT_ENV.FEATURE_FLAG_EXHIBITOR_APPLICATION_ONLINE === "true" ? (
             <Section.Action asChild>
               <Action asChild>
-                <Link to={Routes.exhibitorApplication.toString()}>
+                <Link to={Routes.exhibitors.application.toString()}>
                   Devenez exposant
                 </Link>
               </Action>

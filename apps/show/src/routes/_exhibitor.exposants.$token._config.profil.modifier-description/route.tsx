@@ -13,7 +13,6 @@ import { parseWithZod } from "@conform-to/zod";
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import type { MetaFunction } from "@remix-run/react";
-import { createPath } from "@remix-run/react";
 import { ActionSchema } from "./action";
 import { SectionForm } from "./section-form";
 import { SectionHelper } from "./section-helper";
@@ -23,9 +22,7 @@ export async function loader({ params }: LoaderFunctionArgs) {
 
   if (!canEditProfile()) {
     throw redirect(
-      createPath({
-        pathname: Routes.exhibitors.token(routeParams.token).profile.toString(),
-      }),
+      Routes.exhibitors.token(routeParams.token).profile.toString(),
     );
   }
 
@@ -68,11 +65,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
 
   email.send.template(createEmailTemplateDescriptionUpdated(routeParams.token));
 
-  throw redirect(
-    createPath({
-      pathname: Routes.exhibitors.token(routeParams.token).profile.toString(),
-    }),
-  );
+  throw redirect(Routes.exhibitors.token(routeParams.token).profile.toString());
 }
 
 export default function Route() {

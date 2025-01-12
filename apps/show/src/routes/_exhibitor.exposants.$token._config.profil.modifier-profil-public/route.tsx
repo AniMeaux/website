@@ -15,7 +15,6 @@ import { parseFormData } from "@mjackson/form-data-parser";
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import type { MetaFunction } from "@remix-run/react";
-import { createPath } from "@remix-run/react";
 import { captureException } from "@sentry/remix";
 import { v4 as uuid } from "uuid";
 import { ActionSchema } from "./action";
@@ -27,9 +26,7 @@ export async function loader({ params }: LoaderFunctionArgs) {
 
   if (!canEditProfile()) {
     throw redirect(
-      createPath({
-        pathname: Routes.exhibitors.token(routeParams.token).profile.toString(),
-      }),
+      Routes.exhibitors.token(routeParams.token).profile.toString(),
     );
   }
 
@@ -125,11 +122,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
     createEmailTemplatePublicProfileUpdated(routeParams.token),
   );
 
-  throw redirect(
-    createPath({
-      pathname: Routes.exhibitors.token(routeParams.token).profile.toString(),
-    }),
-  );
+  throw redirect(Routes.exhibitors.token(routeParams.token).profile.toString());
 }
 
 export default function Route() {

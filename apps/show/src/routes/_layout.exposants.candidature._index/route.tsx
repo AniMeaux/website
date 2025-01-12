@@ -16,7 +16,6 @@ import { parseFormData } from "@mjackson/form-data-parser";
 import type { ActionFunctionArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import type { MetaFunction } from "@remix-run/react";
-import { createPath } from "@remix-run/react";
 import { captureException } from "@sentry/remix";
 import { v4 as uuid } from "uuid";
 import { ActionSchema } from "./action";
@@ -151,11 +150,7 @@ export async function action({ request }: ActionFunctionArgs) {
   email.send.template(createEmailTemplateConfirmation(application));
 
   throw redirect(
-    createPath({
-      pathname: Routes.exhibitorApplication.confirmation
-        .applicationId(application.id)
-        .toString(),
-    }),
+    Routes.exhibitors.application.applicationId(application.id).toString(),
   );
 }
 
