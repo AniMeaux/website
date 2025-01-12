@@ -1,21 +1,22 @@
+import type { ShowDay } from "#core/dates";
 import type { PreviousEdition } from "#previous-editions/previous-edition";
 import type { Path } from "@remix-run/react";
 
 export type To = string | Partial<Path>;
 
 export const Routes = {
-  exhibitorApplication: {
-    toString: () => "/candidature-exposant" as const,
-
-    confirmation: {
-      applicationId: (applicationId: string) => ({
-        toString: () => `/candidature-exposant/${applicationId}` as const,
-      }),
-    },
-  },
+  access: { toString: () => "/acces" as const },
 
   exhibitors: {
     toString: () => "/exposants" as const,
+
+    application: {
+      toString: () => "/exposants/candidature" as const,
+
+      applicationId: (applicationId: string) => ({
+        toString: () => `/exposants/candidature/${applicationId}` as const,
+      }),
+    },
 
     token: (exhibitorToken: string) => ({
       toString: () => `/exposants/${exhibitorToken}` as const,
@@ -72,9 +73,9 @@ export const Routes = {
     }),
   },
 
-  home: {
-    toString: () => "/" as const,
-  },
+  faq: { toString: () => "/faq" as const },
+
+  home: { toString: () => "/" as const },
 
   previousEditions: {
     toString: () => "/editions-precedentes" as const,
@@ -82,10 +83,18 @@ export const Routes = {
     edition: (edition: PreviousEdition) => ({
       toString: () => `/editions-precedentes/${edition}` as const,
 
-      photoIndex: (photoIndex: number) => ({
+      pictureIndex: (pictureIndex: number) => ({
         toString: () =>
-          `/editions-precedentes/${edition}/${photoIndex}` as const,
+          `/editions-precedentes/${edition}/${pictureIndex}` as const,
       }),
+    }),
+  },
+
+  program: {
+    toString: () => "/programme" as const,
+
+    day: (day: ShowDay) => ({
+      toString: () => `/programme/${day}` as const,
     }),
   },
 };

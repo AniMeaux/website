@@ -1,3 +1,4 @@
+import { SORTED_SHOW_DAYS } from "#core/dates";
 import { Routes } from "#core/navigation";
 import { SORTED_PREVIOUS_EDITIONS } from "#previous-editions/previous-edition";
 import { renderToStaticMarkup } from "react-dom/server";
@@ -15,8 +16,30 @@ export async function loader() {
   });
 
   if (process.env.FEATURE_FLAG_SITE_ONLINE === "true") {
+    urlDefinitions.push(
+      { path: Routes.exhibitors.toString(), changeFrequency: "weekly" },
+      { path: Routes.access.toString(), changeFrequency: "weekly" },
+      { path: Routes.faq.toString(), changeFrequency: "weekly" },
+    );
+
+    if (process.env.FEATURE_FLAG_SHOW_PROGRAM === "true") {
+      SORTED_SHOW_DAYS.forEach((day) => {
+        urlDefinitions.push({
+          path: Routes.program.day(day).toString(),
+          changeFrequency: "weekly",
+        });
+      });
+    } else {
+      urlDefinitions.push({
+        path: Routes.program.toString(),
+        changeFrequency: "weekly",
+      });
+    }
+  }
+
+  if (process.env.FEATURE_FLAG_EXHIBITOR_APPLICATION_ONLINE === "true") {
     urlDefinitions.push({
-      path: Routes.exhibitorApplication.toString(),
+      path: Routes.exhibitors.application.toString(),
       changeFrequency: "weekly",
     });
   }

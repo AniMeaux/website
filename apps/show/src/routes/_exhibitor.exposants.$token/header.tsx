@@ -3,7 +3,7 @@ import { Routes } from "#core/navigation";
 import { useLoaderData } from "@remix-run/react";
 import type { loader } from "./route";
 
-export function ExhibitorHeader() {
+export function LayoutHeader() {
   const { profile, token } = useLoaderData<typeof loader>();
 
   const routes = Routes.exhibitors.token(token);

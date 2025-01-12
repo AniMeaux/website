@@ -6,34 +6,34 @@ import { encode } from "blurhash";
 for (const edition of Object.values(PreviousEdition)) {
   console.log(`📆 Edition ${edition}:`);
 
-  const images = await cloudinary.previousEdition.findAllImages(edition);
+  const pictures = await cloudinary.previousEdition.findAllPictures(edition);
 
-  for (const image of images) {
-    if (image.blurhash == null) {
+  for (const picture of pictures) {
+    if (picture.blurhash == null) {
       try {
-        const imageData = await getPixels(
-          `https://res.cloudinary.com/${process.env.CLOUDINARY_CLOUD_NAME}/image/upload/q_auto,f_jpg,w_128/${image.id}`,
+        const pictureData = await getPixels(
+          `https://res.cloudinary.com/${process.env.CLOUDINARY_CLOUD_NAME}/image/upload/q_auto,f_jpg,w_128/${picture.id}`,
         );
 
         const blurhash = encode(
-          Uint8ClampedArray.from(imageData.data),
-          imageData.width,
-          imageData.height,
+          Uint8ClampedArray.from(pictureData.data),
+          pictureData.width,
+          pictureData.height,
           4,
           4,
         );
 
         await cloudinary.client.uploader.add_context(
           ["blurhash", encodeURIComponent(blurhash)].join("="),
-          [image.id],
+          [picture.id],
         );
 
-        console.log(`- 👍 ${image.id}`);
+        console.log(`- 👍 ${picture.id}`);
       } catch (error) {
-        console.error(`- 👎 ${image.id}:`, error);
+        console.error(`- 👎 ${picture.id}:`, error);
       }
     } else {
-      console.log(`- 🤷 ${image.id}`);
+      console.log(`- 🤷 ${picture.id}`);
     }
   }
 

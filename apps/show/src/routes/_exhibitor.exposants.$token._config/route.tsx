@@ -1,12 +1,13 @@
 import { services } from "#core/services/services.server";
 import { RouteParamsSchema } from "#exhibitors/route-params";
+import { safeParseRouteParam } from "@animeaux/zod-utils";
 import type { LoaderFunctionArgs } from "@remix-run/node";
 import { Outlet } from "@remix-run/react";
 import { SectionTabs } from "./section-tabs";
 import { SectionTitle } from "./section-title";
 
 export async function loader({ params }: LoaderFunctionArgs) {
-  const routeParams = RouteParamsSchema.parse(params);
+  const routeParams = safeParseRouteParam(RouteParamsSchema, params);
 
   const profile = await services.exhibitor.profile.getByToken(
     routeParams.token,

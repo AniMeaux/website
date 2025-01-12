@@ -8,19 +8,19 @@ import { badRequest } from "#core/response.server";
 import { services } from "#core/services/services.server";
 import { RouteParamsSchema } from "#exhibitors/route-params";
 import { createEmailTemplateRequest } from "#exhibitors/stand-configuration/email.server";
+import { safeParseRouteParam } from "@animeaux/zod-utils";
 import { parseWithZod } from "@conform-to/zod";
 import { ShowExhibitorStandConfigurationStatus } from "@prisma/client";
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import type { MetaFunction } from "@remix-run/react";
-import { createPath } from "@remix-run/react";
 import { promiseHash } from "remix-utils/promise";
 import { ActionSchema } from "./action";
 import { SectionForm } from "./section-form";
 import { SectionHelper } from "./section-helper";
 
 export async function loader({ params }: LoaderFunctionArgs) {
-  const routeParams = RouteParamsSchema.parse(params);
+  const routeParams = safeParseRouteParam(RouteParamsSchema, params);
 
   const { standConfiguration, profile } = await promiseHash({
     standConfiguration: services.exhibitor.standConfiguration.getByToken(
@@ -56,11 +56,7 @@ export async function loader({ params }: LoaderFunctionArgs) {
     standConfiguration.status ===
     ShowExhibitorStandConfigurationStatus.VALIDATED
   ) {
-    throw redirect(
-      createPath({
-        pathname: Routes.exhibitors.token(routeParams.token).stand.toString(),
-      }),
-    );
+    throw redirect(Routes.exhibitors.token(routeParams.token).stand.toString());
   }
 
   return { standConfiguration, profile };
@@ -77,7 +73,7 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
 };
 
 export async function action({ request, params }: ActionFunctionArgs) {
-  const routeParams = RouteParamsSchema.parse(params);
+  const routeParams = safeParseRouteParam(RouteParamsSchema, params);
 
   const standConfiguration =
     await services.exhibitor.standConfiguration.getByToken(routeParams.token, {
@@ -115,11 +111,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
 
   email.send.template(createEmailTemplateRequest(routeParams.token));
 
-  throw redirect(
-    createPath({
-      pathname: Routes.exhibitors.token(routeParams.token).stand.toString(),
-    }),
-  );
+  throw redirect(Routes.exhibitors.token(routeParams.token).stand.toString());
 }
 
 export default function Route() {

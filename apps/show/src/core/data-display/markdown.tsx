@@ -47,7 +47,7 @@ export const SENTENCE_COMPONENTS: MarkdownComponents = {
 
     return (
       <ProseInlineAction asChild>
-        <Link to={href} title={title}>
+        <Link to={href} title={title} prefetch="intent">
           {children}
         </Link>
       </ProseInlineAction>

@@ -4,6 +4,7 @@ import { getPageTitle } from "#core/page-title";
 import { services } from "#core/services/services.server";
 import type { MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
+import { QUESTIONS } from "./data.server";
 import { SectionMoreQuestions } from "./section-more-questions";
 import { SectionQuestions } from "./section-questions";
 import { SectionSharedFiles } from "./section-shared-files";
@@ -14,7 +15,7 @@ export async function loader() {
     process.env.GOOGLE_DRIVE_SHARED_FOLDER_ID,
   );
 
-  return json({ files });
+  return json({ questions: QUESTIONS, files });
 }
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {

@@ -46,7 +46,7 @@ export function SectionPublicProfile() {
             objectFit="cover"
             sizes={{ default: "100vw", md: "33vw", lg: "400px" }}
             loading="eager"
-            className="w-full rounded-2 border border-mystic-200"
+            className="w-full rounded-2 border border-alabaster"
           />
         </FormLayout.Field>
 

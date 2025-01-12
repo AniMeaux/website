@@ -59,10 +59,7 @@ export const Header = {
   }),
 };
 
-function HeaderRootSmall({
-  toHome,
-  children,
-}: React.PropsWithChildren<{ toHome?: To }>) {
+function HeaderRootSmall({ children }: React.PropsWithChildren) {
   const navItems = Children.toArray(children).filter(
     (child): child is React.ReactElement<{ to: To }> => {
       return (
@@ -79,7 +76,7 @@ function HeaderRootSmall({
       <NavigationMenu.Root className="grid grid-cols-1">
         <NavigationMenu.List className="grid grid-cols-[auto_auto] items-center justify-between gap-2 pb-0.5 pt-safe-0.5 px-safe-page-narrow">
           <NavigationMenu.Item className="flex">
-            <NavItemHome to={toHome} />
+            <NavItemHome />
           </NavigationMenu.Item>
 
           {navItems.length > 0 ? (
@@ -132,14 +129,11 @@ function HeaderRootSmall({
   );
 }
 
-function HeaderRootLarge({
-  toHome,
-  children,
-}: React.PropsWithChildren<{ toHome?: To }>) {
+function HeaderRootLarge({ children }: React.PropsWithChildren) {
   return (
     <header className="z-header hidden md:grid md:grid-cols-1">
       <nav className="grid grid-cols-[auto_auto] items-center justify-between gap-2 pb-1 pt-safe-1 px-safe-page-normal">
-        <NavItemHome to={toHome} />
+        <NavItemHome />
 
         {children != null ? (
           <div className="grid grid-flow-col items-center justify-end">
@@ -151,10 +145,10 @@ function HeaderRootLarge({
   );
 }
 
-function NavItemHome({ to = Routes.home.toString() }: { to?: To }) {
+function NavItemHome() {
   return (
     <Link
-      to={to}
+      to={Routes.home.toString()}
       prefetch="intent"
       className="transition-transform duration-normal active:scale-95 can-hover:focus-visible:focus-compact"
     >
