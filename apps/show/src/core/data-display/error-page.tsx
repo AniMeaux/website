@@ -46,7 +46,7 @@ export function ErrorPage({ isRoot = false }: { isRoot?: boolean }) {
                   loading="eager"
                   alt="Pott et Pollen se posent des questions."
                   aspectRatio="none"
-                  className="absolute inset-x-0 bottom-0 md:bottom-auto md:top-1/2 md:-translate-y-[52%]"
+                  className="absolute inset-x-0 top-1/2 -translate-y-[55%] md:-translate-y-[52%]"
                 />
               </Section.ImageAside>
             </LazyElement>
