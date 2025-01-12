@@ -9,7 +9,7 @@ import { getPageTitle } from "#core/page-title";
 import { notFound } from "#core/response.server";
 import { ScrollRestorationLocationState } from "#core/scroll-restoration";
 import { Icon } from "#generated/icon";
-import { PhotoLocationState } from "#previous-editions/photo-location-state";
+import { PicturesLocationState } from "#previous-editions/pictures-location-state";
 import {
   PREVIOUS_EDITION_PHOTOGRAPH,
   PreviousEdition,
@@ -29,7 +29,7 @@ export const handle: RouteHandle = {
 
 const ParamsSchema = zu.object({
   edition: zu.nativeEnum(PreviousEdition),
-  photoIndex: zu.searchParams.number().pipe(zu.number().int().min(0)),
+  pictureIndex: zu.searchParams.number().pipe(zu.number().int().min(0)),
 });
 
 export async function loader({ params }: LoaderFunctionArgs) {
@@ -38,19 +38,19 @@ export async function loader({ params }: LoaderFunctionArgs) {
     throw notFound();
   }
 
-  const images = await cloudinary.previousEdition.findAllImages(
+  const pictures = await cloudinary.previousEdition.findAllPictures(
     result.data.edition,
   );
 
-  const image = images[result.data.photoIndex];
-  if (image == null) {
+  const picture = pictures[result.data.pictureIndex];
+  if (picture == null) {
     throw notFound();
   }
 
   return json({
     edition: result.data.edition,
-    image,
-    imageCount: images.length,
+    picture,
+    pictureCount: pictures.length,
   });
 }
 
@@ -66,21 +66,21 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
         : `Photo du salon ${data.edition} par ${photograph.name}.`;
   }
 
-  return createSocialMeta({
-    title: getPageTitle(title),
-  });
+  return createSocialMeta({ title: getPageTitle(title) });
 };
 
 export default function Route() {
-  const { photoIndex } = ParamsSchema.parse(useParams());
-  const { edition, image, imageCount } = useLoaderData<typeof loader>();
-  const { galleryLocationKey } = PhotoLocationState.parse(useLocation().state);
+  const { pictureIndex } = ParamsSchema.parse(useParams());
+  const { edition, picture, pictureCount } = useLoaderData<typeof loader>();
+  const { galleryLocationKey } = PicturesLocationState.parse(
+    useLocation().state,
+  );
   const { ref, size } = useElementSize<React.ComponentRef<"div">>();
 
   const width =
     size == null
       ? undefined
-      : Math.min(size.width, (size.height * image.width) / image.height);
+      : Math.min(size.width, (size.height * picture.width) / picture.height);
 
   const photograph = PREVIOUS_EDITION_PHOTOGRAPH[edition];
 
@@ -94,23 +94,23 @@ export default function Route() {
           // We don't want the previous image to stay visible during the loading
           // of the next one.
           // With this key, the placeholder of the next image will be visible.
-          key={image.id}
+          key={picture.id}
           alt={
             photograph == null
               ? `Photo du salon ${edition}.`
               : `Photo du salon ${edition} par ${photograph.name}.`
           }
           fallbackSize="2048"
-          image={image}
+          image={picture}
           sizes={{ default: "100vw" }}
           aspectRatio="none"
           loading="eager"
-          style={{ width, aspectRatio: `${image.width} / ${image.height}` }}
+          style={{ width, aspectRatio: `${picture.width} / ${picture.height}` }}
           className="max-h-full min-h-0 min-w-0 max-w-full"
         />
       </div>
 
-      <PhotoAction asChild className="col-start-1 row-start-1">
+      <PictureAction asChild className="col-start-1 row-start-1">
         <Link
           to={Routes.previousEditions.edition(edition).toString()}
           state={ScrollRestorationLocationState.create({
@@ -119,43 +119,49 @@ export default function Route() {
         >
           <Icon id="x-mark-light" />
         </Link>
-      </PhotoAction>
+      </PictureAction>
 
-      {photoIndex > 0 ? (
-        <PhotoAction asChild className="col-start-1 row-start-3 md:row-start-2">
+      {pictureIndex > 0 ? (
+        <PictureAction
+          asChild
+          className="col-start-1 row-start-3 md:row-start-2"
+        >
           <Link
             to={Routes.previousEditions
               .edition(edition)
-              .photoIndex(photoIndex - 1)
+              .pictureIndex(pictureIndex - 1)
               .toString()}
-            state={PhotoLocationState.create({ galleryLocationKey })}
+            state={PicturesLocationState.create({ galleryLocationKey })}
           >
             <Icon id="chevron-left-light" />
           </Link>
-        </PhotoAction>
+        </PictureAction>
       ) : null}
 
-      {photoIndex < imageCount - 1 ? (
-        <PhotoAction asChild className="col-start-3 row-start-3 md:row-start-2">
+      {pictureIndex < pictureCount - 1 ? (
+        <PictureAction
+          asChild
+          className="col-start-3 row-start-3 md:row-start-2"
+        >
           <Link
             to={Routes.previousEditions
               .edition(edition)
-              .photoIndex(photoIndex + 1)
+              .pictureIndex(pictureIndex + 1)
               .toString()}
-            state={PhotoLocationState.create({ galleryLocationKey })}
+            state={PicturesLocationState.create({ galleryLocationKey })}
           >
             <Icon id="chevron-right-light" />
           </Link>
-        </PhotoAction>
+        </PictureAction>
       ) : null}
     </main>
   );
 }
 
-const PhotoAction = forwardRef<
+const PictureAction = forwardRef<
   React.ComponentRef<typeof Primitive.button>,
   React.ComponentPropsWithoutRef<typeof Primitive.button>
->(function PhotoAction({ className, ...props }, ref) {
+>(function PictureAction({ className, ...props }, ref) {
   return (
     <Primitive.button
       {...props}

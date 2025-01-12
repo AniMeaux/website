@@ -83,9 +83,9 @@ export const Routes = {
     edition: (edition: PreviousEdition) => ({
       toString: () => `/editions-precedentes/${edition}` as const,
 
-      photoIndex: (photoIndex: number) => ({
+      pictureIndex: (pictureIndex: number) => ({
         toString: () =>
-          `/editions-precedentes/${edition}/${photoIndex}` as const,
+          `/editions-precedentes/${edition}/${pictureIndex}` as const,
       }),
     }),
   },

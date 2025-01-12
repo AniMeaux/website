@@ -1,104 +1,23 @@
 import { ProseInlineAction } from "#core/actions/prose-inline-action";
-import { cloudinary } from "#core/cloudinary/cloudinary.server";
 import { Tab, Tabs } from "#core/controllers/tabs";
-import { ErrorPage, getErrorTitle } from "#core/data-display/error-page";
 import { DynamicImage } from "#core/data-display/image";
-import { LazyElement } from "#core/layout/lazy-element";
 import { Section } from "#core/layout/section";
-import { createSocialMeta } from "#core/meta";
 import { Routes } from "#core/navigation";
-import { getPageTitle } from "#core/page-title";
-import { notFound } from "#core/response.server";
 import { ScrollRestorationLocationState } from "#core/scroll-restoration";
-import { PhotoLocationState } from "#previous-editions/photo-location-state";
+import type { PrevousEditionCloudinaryDelegate } from "#previous-editions/cloudinary.server";
+import { PicturesLocationState } from "#previous-editions/pictures-location-state";
 import {
   PREVIOUS_EDITION_PHOTOGRAPH,
-  PreviousEdition,
   SORTED_PREVIOUS_EDITIONS,
 } from "#previous-editions/previous-edition";
 import { cn } from "@animeaux/core";
-import { zu } from "@animeaux/zod-utils";
-import type {
-  LoaderFunctionArgs,
-  MetaFunction,
-  SerializeFrom,
-} from "@remix-run/node";
-import { defer } from "@remix-run/node";
+import type { SerializeFrom } from "@remix-run/node";
 import { Await, Link, useLoaderData, useLocation } from "@remix-run/react";
 import { Suspense } from "react";
+import type { loader } from "./route";
 
-const ParamsSchema = zu.object({
-  edition: zu.nativeEnum(PreviousEdition),
-});
-
-export async function loader({ params }: LoaderFunctionArgs) {
-  const result = ParamsSchema.safeParse(params);
-  if (!result.success) {
-    throw notFound();
-  }
-
-  return defer({
-    edition: result.data.edition,
-    images: cloudinary.previousEdition.findAllImages(result.data.edition),
-  });
-}
-
-export const meta: MetaFunction<typeof loader> = ({ data }) => {
-  return createSocialMeta({
-    title: getPageTitle(
-      data != null ? `Édition de ${data.edition}` : getErrorTitle(404),
-    ),
-  });
-};
-
-export function ErrorBoundary() {
-  return <ErrorPage />;
-}
-
-export default function Route() {
-  return (
-    <>
-      <TitleSection />
-      <PhotoGrid />
-    </>
-  );
-}
-
-function TitleSection() {
-  return (
-    <Section.Root>
-      <LazyElement asChild>
-        <Section.ImageAside className="aspect-square translate-x-4 opacity-0 transition-[opacity,transform] duration-very-slow data-visible:translate-x-0 data-visible:opacity-100">
-          <DynamicImage
-            image={{
-              id: "/show/pages/pott-et-pollen-photos-ajfy5llvexzgl0df2rsy",
-            }}
-            fallbackSize="1024"
-            sizes={{ default: "100vw", md: "50vw", lg: "512px" }}
-            loading="eager"
-            alt="Pott regarde un album photo."
-            aspectRatio="1:1"
-            className="w-full"
-          />
-        </Section.ImageAside>
-      </LazyElement>
-
-      <Section.TextAside className="md:col-start-1 md:row-start-1">
-        <Section.Title asChild>
-          <h1>Éditions précédentes</h1>
-        </Section.Title>
-
-        <p>
-          Revivez les moments forts des éditions précédentes de notre salon en
-          parcourant notre galerie de photos.
-        </p>
-      </Section.TextAside>
-    </Section.Root>
-  );
-}
-
-function PhotoGrid() {
-  const { images, edition } = useLoaderData<typeof loader>();
+export function SectionPictures() {
+  const { pictures, edition } = useLoaderData<typeof loader>();
 
   const photograph = PREVIOUS_EDITION_PHOTOGRAPH[edition];
 
@@ -127,6 +46,8 @@ function PhotoGrid() {
 
       <ul className="grid gap-0.5 grid-auto-fill-cols-[150px] md:gap-1">
         <Suspense
+          // Force skelton to show when changing edition.
+          key={edition}
           fallback={Array.from(
             {
               // To be sure they get displayed nicely on 2 to 6 columns.
@@ -143,10 +64,10 @@ function PhotoGrid() {
             ),
           )}
         >
-          <Await resolve={images}>
-            {(images) =>
-              images.map((image, index) => (
-                <ImageItem key={image.id} image={image} index={index} />
+          <Await resolve={pictures}>
+            {(pictures) =>
+              pictures.map((picture, index) => (
+                <PictureItem key={picture.id} picture={picture} index={index} />
               ))
             }
           </Await>
@@ -156,11 +77,11 @@ function PhotoGrid() {
   );
 }
 
-function ImageItem({
-  image,
+function PictureItem({
+  picture,
   index,
 }: {
-  image: Awaited<SerializeFrom<typeof loader>["images"]>[number];
+  picture: SerializeFrom<PrevousEditionCloudinaryDelegate.Picture>;
   index: number;
 }) {
   const { edition } = useLoaderData<typeof loader>();
@@ -182,10 +103,10 @@ function ImageItem({
       <Link
         to={Routes.previousEditions
           .edition(edition)
-          .photoIndex(index)
+          .pictureIndex(index)
           .toString()}
         prefetch="intent"
-        state={PhotoLocationState.create({
+        state={PicturesLocationState.create({
           galleryLocationKey: scrollRestorationLocationKey,
         })}
         className="group grid aspect-square grid-cols-1 overflow-hidden rounded-1 can-hover:focus-visible:focus-spaced md:rounded-2"
@@ -198,7 +119,7 @@ function ImageItem({
           }
           title={photograph?.name}
           fallbackSize={isCover ? "512" : "256"}
-          image={image}
+          image={picture}
           aspectRatio="1:1"
           objectFit="cover"
           sizes={
