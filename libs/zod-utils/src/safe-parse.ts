@@ -3,7 +3,7 @@ import type { z } from "zod";
 
 export function safeParse<TSchema extends z.ZodTypeAny>(
   schema: TSchema,
-  data: any,
+  data: unknown,
   errorMessage: string,
 ): z.infer<TSchema> {
   const result = schema.safeParse(data);
@@ -24,6 +24,19 @@ export function safeParse<TSchema extends z.ZodTypeAny>(
     });
 
     throw error;
+  }
+
+  return result.data;
+}
+
+export function safeParseRouteParam<TSchema extends z.ZodTypeAny>(
+  schema: TSchema,
+  params: unknown,
+): z.infer<TSchema> {
+  const result = schema.safeParse(params);
+
+  if (!result.success) {
+    throw new Response("Not Found", { status: 404 });
   }
 
   return result.data;

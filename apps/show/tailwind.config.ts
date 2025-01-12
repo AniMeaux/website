@@ -17,6 +17,7 @@ export const spacing = {
   "6": "72px",
   "8": "96px",
   "10": "120px",
+  "12": "144px",
   "14": "168px",
 };
 
@@ -246,6 +247,7 @@ const theme: Config = {
         "auto-fr": "auto minmax(0, 1fr)",
         "auto-fr-auto": "auto minmax(0, 1fr) auto",
         "fr-auto": "minmax(0, 1fr) auto",
+        "fr-auto-fr": "minmax(0, 1fr) auto minmax(0, 1fr)",
       },
 
       keyframes: {
@@ -720,15 +722,29 @@ function pluginTextStyles() {
       ".text-title-small": {
         "font-family": theme("fontFamily.serif"),
         "font-weight": theme("fontWeight.normal"),
-        "font-size": "48px",
+        "font-size": "52px",
         "line-height": "48px",
         "text-transform": "uppercase",
       },
       ".text-title-large": {
         "font-family": theme("fontFamily.serif"),
         "font-weight": theme("fontWeight.normal"),
-        "font-size": "60px",
+        "font-size": "52px",
         "line-height": "48px",
+        "text-transform": "uppercase",
+      },
+      ".text-hero-small": {
+        "font-family": theme("fontFamily.serif"),
+        "font-weight": theme("fontWeight.normal"),
+        "font-size": "79px",
+        "line-height": "72px",
+        "text-transform": "uppercase",
+      },
+      ".text-hero-large": {
+        "font-family": theme("fontFamily.serif"),
+        "font-weight": theme("fontWeight.normal"),
+        "font-size": "79px",
+        "line-height": "72px",
         "text-transform": "uppercase",
       },
     });

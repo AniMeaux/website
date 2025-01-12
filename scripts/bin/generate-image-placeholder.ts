@@ -26,4 +26,5 @@ const blurhash = encode(
   4,
 );
 
+console.log("Image blurhash:", blurhash);
 console.log("Image URL:", ImageUrl.stringify({ id: imageId, blurhash }));

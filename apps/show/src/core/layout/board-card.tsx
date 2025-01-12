@@ -3,13 +3,18 @@ import { BeeIllustration } from "#core/illustration/bee";
 import { useScreenSizeCondition } from "#core/screen-size";
 import { theme } from "#generated/theme";
 import { cn } from "@animeaux/core";
+import { forwardRef } from "react";
 
-export function BoardCard({
-  children,
-  className,
-}: React.PropsWithChildren<{ className?: string }>) {
+export const BoardCard = forwardRef<
+  React.ComponentRef<"div">,
+  React.ComponentPropsWithoutRef<"div">
+>(function BoardCard({ children, className, ...props }, ref) {
   return (
-    <div className={cn("relative p-3 md:px-10 md:py-6", className)}>
+    <div
+      {...props}
+      ref={ref}
+      className={cn("relative p-3 md:px-10 md:py-6", className)}
+    >
       <BoardBackground />
 
       <BeeIllustration
@@ -20,7 +25,7 @@ export function BoardCard({
       {children}
     </div>
   );
-}
+});
 
 function BoardBackground() {
   const { ref, size } = useElementSize<HTMLDivElement>();

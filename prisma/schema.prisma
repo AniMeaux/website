@@ -292,7 +292,7 @@ model ShowProvider {
   id        String   @id @default(uuid()) @db.VarChar(255)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  isVisible Boolean  @default(true)
+  isVisible Boolean  @default(false)
 
   logoPath String @unique @db.VarChar(128)
   name     String @unique @db.VarChar(64)
@@ -303,7 +303,7 @@ model ShowPartner {
   id        String   @id @default(uuid()) @db.Uuid
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  isVisible Boolean  @default(true)
+  isVisible Boolean  @default(false)
 
   category ShowPartnershipCategory
 
@@ -327,7 +327,7 @@ model ShowAnimation {
   id        String   @id @default(uuid()) @db.VarChar(255)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  isVisible Boolean  @default(true)
+  isVisible Boolean  @default(false)
 
   animators ShowExhibitor[]
 
@@ -342,7 +342,7 @@ model ShowExhibitor {
   id        String   @id @default(uuid()) @db.Uuid
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  isVisible Boolean  @default(true)
+  isVisible Boolean  @default(false)
 
   // Used by exhibitors to "sign in" to their account.
   token String @unique @default(uuid()) @db.Uuid

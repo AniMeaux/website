@@ -4,6 +4,7 @@ import { createSocialMeta } from "#core/meta";
 import { getPageTitle } from "#core/page-title";
 import { services } from "#core/services/services.server";
 import { RouteParamsSchema } from "#exhibitors/route-params";
+import { safeParseRouteParam } from "@animeaux/zod-utils";
 import type { LoaderFunctionArgs } from "@remix-run/node";
 import type { MetaFunction } from "@remix-run/react";
 import { promiseHash } from "remix-utils/promise";
@@ -16,7 +17,7 @@ import { SectionToComplete } from "./section-to-complete";
 import { SectionValidated } from "./section-validated";
 
 export async function loader({ params }: LoaderFunctionArgs) {
-  const routeParams = RouteParamsSchema.parse(params);
+  const routeParams = safeParseRouteParam(RouteParamsSchema, params);
 
   const {
     exhibitor,
