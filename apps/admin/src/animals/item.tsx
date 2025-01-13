@@ -65,6 +65,7 @@ export function AnimalItem({
       case "past": {
         vaccinationChip = (
           <Chip
+            variant="filled"
             color="red"
             icon="icon-syringe-solid"
             title="Date de vaccination passée"
@@ -77,6 +78,7 @@ export function AnimalItem({
       case "up-comming": {
         vaccinationChip = (
           <Chip
+            variant="filled"
             color="orange"
             icon="icon-syringe-solid"
             title="Vaccination prévue"
@@ -111,6 +113,7 @@ export function AnimalItem({
 
             {hasUpCommingSterilisation(animal) ? (
               <Chip
+                variant="filled"
                 color="orange"
                 icon="icon-scissors-solid"
                 title="Stérilisation à prévoir"

@@ -104,7 +104,9 @@ Filters.Filter = function Filter({
 
         {count > 0 ? (
           <span className="flex h-4 items-center">
-            <Chip color="gray">{count}</Chip>
+            <Chip variant="filled" color="gray">
+              {count}
+            </Chip>
           </span>
         ) : null}
 

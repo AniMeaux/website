@@ -46,7 +46,11 @@ export function StatusBadge({
   className?: string;
 }) {
   return (
-    <Chip color={STATUS_CHIP_COLOR[status]} className={className}>
+    <Chip
+      variant="filled"
+      color={STATUS_CHIP_COLOR[status]}
+      className={className}
+    >
       {STATUS_TRANSLATION[status]}
     </Chip>
   );

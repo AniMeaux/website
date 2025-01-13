@@ -26,7 +26,9 @@ export function StatusBadge({
   status: ShowExhibitorApplicationStatus;
 }) {
   return (
-    <Chip color={STATUS_CHIP_COLOR[status]}>{STATUS_TRANSLATION[status]}</Chip>
+    <Chip variant="filled" color={STATUS_CHIP_COLOR[status]}>
+      {STATUS_TRANSLATION[status]}
+    </Chip>
   );
 }
 
