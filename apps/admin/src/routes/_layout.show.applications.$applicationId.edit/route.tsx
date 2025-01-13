@@ -15,7 +15,10 @@ import { prisma } from "#core/prisma.server";
 import { NotFoundResponse } from "#core/response.server";
 import { assertCurrentUserHasGroups } from "#current-user/groups.server";
 import { MissingRefusalMessageError } from "#show/applications/db.server";
-import { SORTED_STATUS, STATUS_TRANSLATION } from "#show/applications/status";
+import {
+  SORTED_STATUSES,
+  TRANSLATION_BY_STATUS,
+} from "#show/applications/status";
 import { FormDataDelegate } from "@animeaux/form-data";
 import { zu } from "@animeaux/zod-utils";
 import { ShowExhibitorApplicationStatus, UserGroup } from "@prisma/client";
@@ -206,10 +209,10 @@ function ApplicationForm() {
             </Form.Label>
 
             <RadioInputList>
-              {SORTED_STATUS.map((status) => (
+              {SORTED_STATUSES.map((status) => (
                 <RadioInput
                   key={status}
-                  label={STATUS_TRANSLATION[status]}
+                  label={TRANSLATION_BY_STATUS[status]}
                   name={ActionFormData.keys.status}
                   value={status}
                   checked={statusState === status}

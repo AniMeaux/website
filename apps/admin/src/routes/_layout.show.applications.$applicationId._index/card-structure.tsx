@@ -3,8 +3,8 @@ import { ItemList, SimpleItem } from "#core/data-display/item";
 import { Markdown, SENTENCE_COMPONENTS } from "#core/data-display/markdown";
 import { Card } from "#core/layout/card";
 import { Icon } from "#generated/icon";
-import { ACTIVITY_FIELD_TRANSLATION } from "#show/applications/activity-field";
-import { ACTIVITY_TARGET_TRANSLATION } from "#show/applications/activity-target";
+import { TRANSLATION_BY_ACTIVITY_FIELD } from "#show/activity-field/translation";
+import { TRANSLATION_BY_ACTIVITY_TARGET } from "#show/activity-target/translation";
 import { LEGAL_STATUS_TRANSLATION } from "#show/applications/legal-status";
 import { ImageUrl, getCompleteLocation } from "@animeaux/core";
 import { useLoaderData } from "@remix-run/react";
@@ -71,13 +71,13 @@ export function CardStructure() {
 
             <SimpleItem icon={<Icon href="icon-bullseye-arrow-solid" />}>
               {application.structureActivityTargets
-                .map((target) => ACTIVITY_TARGET_TRANSLATION[target])
+                .map((target) => TRANSLATION_BY_ACTIVITY_TARGET[target])
                 .join(", ")}
             </SimpleItem>
 
             <SimpleItem icon={<Icon href="icon-tags-solid" />}>
               {application.structureActivityFields
-                .map((field) => ACTIVITY_FIELD_TRANSLATION[field])
+                .map((field) => TRANSLATION_BY_ACTIVITY_FIELD[field])
                 .join(", ")}
             </SimpleItem>
           </ItemList>

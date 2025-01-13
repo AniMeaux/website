@@ -4,7 +4,7 @@ import { ItemList, SimpleItem } from "#core/data-display/item";
 import { Card } from "#core/layout/card";
 import { Routes } from "#core/navigation";
 import { Icon } from "#generated/icon";
-import { STATUS_TRANSLATION, StatusIcon } from "#show/applications/status";
+import { StatusIcon, TRANSLATION_BY_STATUS } from "#show/applications/status";
 import { useLoaderData } from "@remix-run/react";
 import type { loader } from "./route";
 
@@ -30,7 +30,7 @@ export function CardSituation() {
           <SimpleItem icon={<StatusIcon status={application.status} />}>
             Est{" "}
             <strong className="text-body-emphasis">
-              {STATUS_TRANSLATION[application.status]}
+              {TRANSLATION_BY_STATUS[application.status]}
             </strong>
           </SimpleItem>
 

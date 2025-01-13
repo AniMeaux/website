@@ -1,11 +1,10 @@
-import type { ChipColor } from "#core/data-display/chip";
-import { Chip } from "#core/data-display/chip";
+import type { IconName } from "#generated/icon";
 import { Icon } from "#generated/icon";
 import { cn } from "@animeaux/core";
 import { ShowExhibitorApplicationStatus } from "@prisma/client";
 import orderBy from "lodash.orderby";
 
-export const STATUS_TRANSLATION: Record<
+export const TRANSLATION_BY_STATUS: Record<
   ShowExhibitorApplicationStatus,
   string
 > = {
@@ -15,29 +14,10 @@ export const STATUS_TRANSLATION: Record<
   [ShowExhibitorApplicationStatus.WAITING_LIST]: "Sur liste d’attente",
 };
 
-export const SORTED_STATUS = orderBy(
+export const SORTED_STATUSES = orderBy(
   Object.values(ShowExhibitorApplicationStatus),
-  (status) => STATUS_TRANSLATION[status],
+  (status) => TRANSLATION_BY_STATUS[status],
 );
-
-export function StatusBadge({
-  status,
-}: {
-  status: ShowExhibitorApplicationStatus;
-}) {
-  return (
-    <Chip variant="filled" color={STATUS_CHIP_COLOR[status]}>
-      {STATUS_TRANSLATION[status]}
-    </Chip>
-  );
-}
-
-const STATUS_CHIP_COLOR: Record<ShowExhibitorApplicationStatus, ChipColor> = {
-  [ShowExhibitorApplicationStatus.REFUSED]: "red",
-  [ShowExhibitorApplicationStatus.UNTREATED]: "black",
-  [ShowExhibitorApplicationStatus.VALIDATED]: "green",
-  [ShowExhibitorApplicationStatus.WAITING_LIST]: "yellow",
-};
 
 export function StatusIcon({
   status,
@@ -47,22 +27,28 @@ export function StatusIcon({
   className?: string;
 }) {
   return (
-    <Icon
-      href="icon-status-solid"
-      className={cn(
-        className,
-        CHIP_COLOR_STATUS_ICON_CLASS_NAMES[STATUS_CHIP_COLOR[status]],
-      )}
-    />
+    <span title={TRANSLATION_BY_STATUS[status]} className={className}>
+      <Icon
+        href={ICON_NAME_BY_STATUS[status]}
+        className={ICON_CLASS_NAMES_BY_STATUS[status]}
+      />
+    </span>
   );
 }
 
-const CHIP_COLOR_STATUS_ICON_CLASS_NAMES: Record<ChipColor, string> = {
-  green: cn("text-green-600"),
-  black: cn("text-gray-800"),
-  red: cn("text-red-500"),
-  blue: cn("text-blue-500"),
-  yellow: cn("text-yellow-400"),
-  gray: cn("text-gray-100"),
-  orange: cn("text-orange-500"),
+const ICON_NAME_BY_STATUS: Record<ShowExhibitorApplicationStatus, IconName> = {
+  [ShowExhibitorApplicationStatus.REFUSED]: "icon-circle-x-mark-solid",
+  [ShowExhibitorApplicationStatus.UNTREATED]: "icon-circle-light",
+  [ShowExhibitorApplicationStatus.VALIDATED]: "icon-circle-check-solid",
+  [ShowExhibitorApplicationStatus.WAITING_LIST]: "icon-clock-solid",
+};
+
+const ICON_CLASS_NAMES_BY_STATUS: Record<
+  ShowExhibitorApplicationStatus,
+  string
+> = {
+  [ShowExhibitorApplicationStatus.REFUSED]: cn("text-red-500"),
+  [ShowExhibitorApplicationStatus.UNTREATED]: cn("text-gray-900"),
+  [ShowExhibitorApplicationStatus.VALIDATED]: cn("text-green-600"),
+  [ShowExhibitorApplicationStatus.WAITING_LIST]: cn("text-yellow-500"),
 };
