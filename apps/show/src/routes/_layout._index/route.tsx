@@ -19,7 +19,7 @@ export async function loader() {
       process.env.FEATURE_FLAG_SITE_ONLINE === "true" &&
       process.env.FEATURE_FLAG_SHOW_EXHIBITORS === "true"
         ? services.exhibitor.getVisibleCount()
-        : Promise.resolve(80),
+        : Promise.resolve(null),
 
     partners:
       process.env.FEATURE_FLAG_SITE_ONLINE === "true" &&

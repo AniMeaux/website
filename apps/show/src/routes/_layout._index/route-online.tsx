@@ -243,7 +243,9 @@ function SectionPresentation() {
           <aside className="grid grid-cols-1">
             <ul className="flex flex-wrap justify-center gap-2 md:gap-4">
               <PresentationItem icon="stand-prussian-blue">
-                {exhibitorCount} exposants dévoués au bien-être des animaux.
+                {exhibitorCount == null
+                  ? "De nombreux exposants dévoués au bien-être des animaux."
+                  : `${exhibitorCount} exposants dévoués au bien-être des animaux.`}
               </PresentationItem>
 
               <PresentationItem icon="dog">
@@ -386,10 +388,17 @@ function SectionExhibitors() {
         <Section.TextAside className="translate-y-4 opacity-0 transition-[opacity,transform] duration-very-slow data-visible:translate-y-0 data-visible:opacity-100">
           <Section.Title>Nos exposants</Section.Title>
 
-          <p>
-            Cette année, {exhibitorCount} exposants vous attendent répartis dans
-            3 grandes catégories.
-          </p>
+          {exhibitorCount == null ? (
+            <p>
+              Cette année, de nombreux exposants vous attendent répartis dans 3
+              grandes catégories.
+            </p>
+          ) : (
+            <p>
+              Cette année, {exhibitorCount} exposants vous attendent répartis
+              dans 3 grandes catégories.
+            </p>
+          )}
 
           <ul className="flex flex-wrap items-start justify-center gap-x-1 gap-y-2 md:gap-x-2">
             <ExhibitorItem icon="group">Associations</ExhibitorItem>
