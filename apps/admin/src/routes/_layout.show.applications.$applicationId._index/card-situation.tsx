@@ -35,7 +35,7 @@ export function CardSituation() {
           </SimpleItem>
 
           {application.exhibitor != null ? (
-            <SimpleItem icon={<Icon href="icon-store" />}>
+            <SimpleItem icon={<Icon href="icon-store-solid" />}>
               Exposant{" "}
               <ProseInlineAction asChild>
                 <BaseLink

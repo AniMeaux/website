@@ -224,7 +224,7 @@ function UserItem({
       </span>
 
       {user.isDisabled ? (
-        <Chip color="orange" icon="icon-ban" title="Bloqué" />
+        <Chip color="orange" icon="icon-ban-solid" title="Bloqué" />
       ) : null}
 
       <span

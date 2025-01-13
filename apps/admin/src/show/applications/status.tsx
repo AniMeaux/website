@@ -46,7 +46,7 @@ export function StatusIcon({
 }) {
   return (
     <Icon
-      href="icon-status"
+      href="icon-status-solid"
       className={cn(
         className,
         CHIP_COLOR_STATUS_ICON_CLASS_NAMES[STATUS_CHIP_COLOR[status]],

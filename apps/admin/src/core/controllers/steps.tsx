@@ -23,7 +23,7 @@ export function Steps({
     <nav className="flex items-center gap-1">
       {joinReactNodes(
         steps,
-        <Icon href="icon-angle-right" className="text-gray-200" />,
+        <Icon href="icon-angle-right-solid" className="text-gray-200" />,
       )}
     </nav>
   );

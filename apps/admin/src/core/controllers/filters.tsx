@@ -116,7 +116,7 @@ Filters.Filter = function Filter({
               : "text-gray-500 group-hover:text-gray-600",
           )}
         >
-          <Icon href="icon-angle-right" />
+          <Icon href="icon-angle-right-solid" />
         </span>
       </button>
 

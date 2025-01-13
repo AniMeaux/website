@@ -19,7 +19,7 @@ export function CardPartnership() {
 
       <Card.Content>
         <ItemList>
-          <SimpleItem icon={<Icon href="icon-paw-ribbon" />}>
+          <SimpleItem icon={<Icon href="icon-paw-ribbon-solid" />}>
             {application.partnershipCategory != null
               ? PARTNERSHIP_CATEGORY_TRANSLATION[
                   application.partnershipCategory

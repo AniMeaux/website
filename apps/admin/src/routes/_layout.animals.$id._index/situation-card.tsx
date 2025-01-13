@@ -50,7 +50,7 @@ export function SituationCard() {
     switch (state) {
       case "past": {
         vaccinationHelper = (
-          <InlineHelper variant="error" icon="icon-syringe">
+          <InlineHelper variant="error" icon="icon-syringe-solid">
             Une vaccination était prévue{" "}
             {formatNextVaccinationDate(animal.nextVaccinationDate)}.
             <br />
@@ -63,7 +63,7 @@ export function SituationCard() {
 
       case "up-comming": {
         vaccinationHelper = (
-          <InlineHelper variant="warning" icon="icon-syringe">
+          <InlineHelper variant="warning" icon="icon-syringe-solid">
             Prochaine vaccination{" "}
             {formatNextVaccinationDate(animal.nextVaccinationDate)}.
           </InlineHelper>
@@ -93,7 +93,7 @@ export function SituationCard() {
         {vaccinationHelper}
 
         {hasUpCommingSterilisation(animal) ? (
-          <InlineHelper variant="warning" icon="icon-scissors">
+          <InlineHelper variant="warning" icon="icon-scissors-solid">
             Stérilisation à prévoir.
           </InlineHelper>
         ) : null}
@@ -183,13 +183,13 @@ export function SituationCard() {
                   <hr className="border-t border-gray-100" />
 
                   <ul className="flex flex-col">
-                    <SimpleItem icon={<Icon href="icon-phone" />}>
+                    <SimpleItem icon={<Icon href="icon-phone-solid" />}>
                       {animal.fosterFamily.phone}
                     </SimpleItem>
-                    <SimpleItem icon={<Icon href="icon-envelope" />}>
+                    <SimpleItem icon={<Icon href="icon-envelope-solid" />}>
                       {animal.fosterFamily.email}
                     </SimpleItem>
-                    <SimpleItem icon={<Icon href="icon-location-dot" />}>
+                    <SimpleItem icon={<Icon href="icon-location-dot-solid" />}>
                       {getLongLocation(animal.fosterFamily)}
                     </SimpleItem>
                   </ul>
@@ -204,7 +204,7 @@ export function SituationCard() {
                         className="grid cursor-pointer grid-cols-[auto,minmax(0px,1fr)] items-center rounded-0.5 pr-1 text-left text-gray-500 transition-colors duration-100 ease-in-out active:bg-gray-100 focus-visible:focus-compact-blue-400 hover:bg-gray-100"
                       >
                         <span className="flex h-4 w-4 items-center justify-center text-[20px]">
-                          <Icon href="icon-ellipsis" />
+                          <Icon href="icon-ellipsis-solid" />
                         </span>
 
                         <span className="text-body-emphasis">
@@ -220,7 +220,7 @@ export function SituationCard() {
 
           {animal.isSterilized != null &&
           animal.isSterilizationMandatory != null ? (
-            <SimpleItem icon={<Icon href="icon-scissors" />}>
+            <SimpleItem icon={<Icon href="icon-scissors-solid" />}>
               {animal.isSterilized ? (
                 <>
                   Est{" "}
@@ -255,7 +255,7 @@ export function SituationCard() {
           ) : null}
 
           {animal.nextVaccinationDate != null ? (
-            <SimpleItem icon={<Icon href="icon-syringe" />}>
+            <SimpleItem icon={<Icon href="icon-syringe-solid" />}>
               Prochaine vaccination le{" "}
               <strong className="text-body-emphasis">
                 {DateTime.fromISO(animal.nextVaccinationDate).toLocaleString(
@@ -266,7 +266,7 @@ export function SituationCard() {
           ) : null}
 
           {animal.isVaccinationMandatory === false ? (
-            <SimpleItem icon={<Icon href="icon-syringe" />}>
+            <SimpleItem icon={<Icon href="icon-syringe-solid" />}>
               Ne sera{" "}
               <strong className="text-body-emphasis">
                 pas {animal.gender === Gender.FEMALE ? "vaccinée" : "vacciné"}
@@ -328,7 +328,7 @@ export function SituationCard() {
 
           <DiagnosisItem />
 
-          <SimpleItem icon={<Icon href="icon-hand-holding-heart" />}>
+          <SimpleItem icon={<Icon href="icon-hand-holding-heart-solid" />}>
             {animal.gender === Gender.FEMALE
               ? "Prise en charge le"
               : "Pris en charge le"}{" "}
@@ -382,12 +382,12 @@ const DIAGNOSIS_ICON: Record<
   React.ReactNode
 > = {
   [Diagnosis.CATEGORIZED]: (
-    <Icon href="icon-shield-dog" className="text-red-500" />
+    <Icon href="icon-shield-dog-solid" className="text-red-500" />
   ),
   [Diagnosis.UNCATEGORIZED]: (
-    <Icon href="icon-shield-dog" className="text-green-600" />
+    <Icon href="icon-shield-dog-solid" className="text-green-600" />
   ),
-  [Diagnosis.UNKNOWN]: <Icon href="icon-shield-dog" />,
+  [Diagnosis.UNKNOWN]: <Icon href="icon-shield-dog-solid" />,
 };
 
 const DIAGNOSIS_TEXT: Record<

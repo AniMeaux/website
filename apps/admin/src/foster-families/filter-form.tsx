@@ -72,7 +72,7 @@ export function FosterFamilyFilters({
                     })
                   }
                 >
-                  <Icon href="icon-x-mark" />
+                  <Icon href="icon-x-mark-solid" />
                 </ControlledInput.ActionAdornment>
               ) : null
             }
@@ -196,7 +196,7 @@ export function FosterFamilyFilters({
             pattern="\d+"
             leftAdornment={
               <ControlledInput.Adornment>
-                <Icon href="icon-location-dot" />
+                <Icon href="icon-location-dot-solid" />
               </ControlledInput.Adornment>
             }
             rightAdornment={
@@ -214,7 +214,7 @@ export function FosterFamilyFilters({
                     })
                   }
                 >
-                  <Icon href="icon-x-mark" />
+                  <Icon href="icon-x-mark-solid" />
                 </ControlledInput.ActionAdornment>
               ) : null
             }
@@ -244,7 +244,7 @@ export function FosterFamilyFilters({
                 label={city}
                 name={FosterFamilySearchParams.keys.cities}
                 value={city}
-                icon={<Icon href="icon-location-dot" />}
+                icon={<Icon href="icon-location-dot-solid" />}
                 checked={fosterFamilySearchParams.cities.has(city)}
                 onChange={() => {}}
               />

@@ -32,7 +32,10 @@ export function ToggleInput({
         </Item.Content>
 
         <Item.Icon className="opacity-0 transition-opacity duration-100 ease-in-out peer-checked:opacity-100">
-          <Icon href="icon-check" className="text-[14px] text-green-600" />
+          <Icon
+            href="icon-check-solid"
+            className="text-[14px] text-green-600"
+          />
         </Item.Icon>
       </label>
     </Item>

@@ -30,11 +30,11 @@ export function CardStructure() {
           />
 
           <ItemList>
-            <SimpleItem icon={<Icon href="icon-house-building" />}>
+            <SimpleItem icon={<Icon href="icon-house-building-solid" />}>
               {application.structureName}
             </SimpleItem>
 
-            <SimpleItem icon={<Icon href="icon-location-dot" />}>
+            <SimpleItem icon={<Icon href="icon-location-dot-solid" />}>
               <Markdown components={SENTENCE_COMPONENTS}>
                 {getCompleteLocation({
                   address: application.structureAddress,
@@ -45,7 +45,7 @@ export function CardStructure() {
               </Markdown>
             </SimpleItem>
 
-            <SimpleItem icon={<Icon href="icon-envelope-open-dollar" />}>
+            <SimpleItem icon={<Icon href="icon-envelope-open-dollar-solid" />}>
               <Markdown components={SENTENCE_COMPONENTS}>
                 {getCompleteLocation({
                   address: application.billingAddress,
@@ -56,7 +56,7 @@ export function CardStructure() {
               </Markdown>
             </SimpleItem>
 
-            <SimpleItem icon={<Icon href="icon-fingerprint" />}>
+            <SimpleItem icon={<Icon href="icon-fingerprint-solid" />}>
               {application.structureLegalStatus == null
                 ? application.structureOtherLegalStatus
                 : LEGAL_STATUS_TRANSLATION[
@@ -65,17 +65,17 @@ export function CardStructure() {
               • {application.structureSiret}
             </SimpleItem>
 
-            <SimpleItem icon={<Icon href="icon-globe" />}>
+            <SimpleItem icon={<Icon href="icon-globe-solid" />}>
               {application.structureUrl}
             </SimpleItem>
 
-            <SimpleItem icon={<Icon href="icon-bullseye-arrow" />}>
+            <SimpleItem icon={<Icon href="icon-bullseye-arrow-solid" />}>
               {application.structureActivityTargets
                 .map((target) => ACTIVITY_TARGET_TRANSLATION[target])
                 .join(", ")}
             </SimpleItem>
 
-            <SimpleItem icon={<Icon href="icon-tags" />}>
+            <SimpleItem icon={<Icon href="icon-tags-solid" />}>
               {application.structureActivityFields
                 .map((field) => ACTIVITY_FIELD_TRANSLATION[field])
                 .join(", ")}
