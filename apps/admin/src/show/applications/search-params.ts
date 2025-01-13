@@ -17,31 +17,24 @@ export const ApplicationSearchParams = SearchParamsIO.create({
     targets: "ta",
   },
 
-  parseFunction: (searchParams, keys) => {
+  parseFunction: ({ keys, getValue, getValues }) => {
     return SearchParamsSchema.parse({
-      fields: SearchParamsIO.getValues(searchParams, keys.fields),
-      name: SearchParamsIO.getValue(searchParams, keys.name),
-      partnershipCategories: SearchParamsIO.getValues(
-        searchParams,
-        keys.partnershipCategories,
-      ),
-      sort: SearchParamsIO.getValue(searchParams, keys.sort),
-      statuses: SearchParamsIO.getValues(searchParams, keys.statuses),
-      targets: SearchParamsIO.getValues(searchParams, keys.targets),
+      fields: getValues(keys.fields),
+      name: getValue(keys.name),
+      partnershipCategories: getValues(keys.partnershipCategories),
+      sort: getValue(keys.sort),
+      statuses: getValues(keys.statuses),
+      targets: getValues(keys.targets),
     });
   },
 
-  setFunction: (searchParams, data, keys) => {
-    SearchParamsIO.setValues(searchParams, keys.fields, data.fields);
-    SearchParamsIO.setValue(searchParams, keys.name, data.name);
-    SearchParamsIO.setValues(
-      searchParams,
-      keys.partnershipCategories,
-      data.partnershipCategories,
-    );
-    SearchParamsIO.setValue(searchParams, keys.sort, data.sort);
-    SearchParamsIO.setValues(searchParams, keys.statuses, data.statuses);
-    SearchParamsIO.setValues(searchParams, keys.targets, data.targets);
+  setFunction: (data, { keys, setValue, setValues }) => {
+    setValues(keys.fields, data.fields);
+    setValue(keys.name, data.name);
+    setValues(keys.partnershipCategories, data.partnershipCategories);
+    setValue(keys.sort, data.sort);
+    setValues(keys.statuses, data.statuses);
+    setValues(keys.targets, data.targets);
   },
 });
 

@@ -12,24 +12,23 @@ export const BREED_DEFAULT_SORT = BreedSort.NAME;
 export const BreedSearchParams = SearchParamsIO.create({
   keys: { name: "q", sort: "sort", species: "species" },
 
-  parseFunction: (searchParams, keys) => {
+  parseFunction: ({ keys, getValue, getValues }) => {
     return BreedSearchParamsSchema.parse({
-      name: SearchParamsIO.getValue(searchParams, keys.name),
-      sort: SearchParamsIO.getValue(searchParams, keys.sort),
-      species: SearchParamsIO.getValues(searchParams, keys.species),
+      name: getValue(keys.name),
+      sort: getValue(keys.sort),
+      species: getValues(keys.species),
     });
   },
 
-  setFunction: (searchParams, data, keys) => {
-    SearchParamsIO.setValue(searchParams, keys.name, data.name);
+  setFunction: (data, { keys, setValue, setValues }) => {
+    setValue(keys.name, data.name);
 
-    SearchParamsIO.setValue(
-      searchParams,
+    setValue(
       keys.sort,
       data.sort === BREED_DEFAULT_SORT ? undefined : data.sort,
     );
 
-    SearchParamsIO.setValues(searchParams, keys.species, data.species);
+    setValues(keys.species, data.species);
   },
 });
 

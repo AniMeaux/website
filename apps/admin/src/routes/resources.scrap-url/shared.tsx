@@ -4,14 +4,14 @@ import { zu } from "@animeaux/zod-utils";
 export const ScrapUrlSearchParams = SearchParamsIO.create({
   keys: { url: "url" },
 
-  parseFunction: (searchParams, keys) => {
+  parseFunction: ({ keys, getValue }) => {
     return Schema.parse({
-      url: SearchParamsIO.getValue(searchParams, keys.url),
+      url: getValue(keys.url),
     });
   },
 
-  setFunction: (searchParams, data, keys) => {
-    SearchParamsIO.setValue(searchParams, keys.url, data.url);
+  setFunction: (data, { keys, setValue }) => {
+    setValue(keys.url, data.url);
   },
 });
 

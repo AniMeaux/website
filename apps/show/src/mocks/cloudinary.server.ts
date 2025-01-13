@@ -55,10 +55,10 @@ const RESOURCE_COUNT = 200;
 const GetResourcesImageUploadSearchParams = SearchParamsReader.create({
   keys: { maxResults: "max_results", nextIndex: "next_cursor" },
 
-  parseFunction: (searchParams, keys) => {
+  parseFunction: ({ keys, getValue }) => {
     return ResourcesImageUploadSearchParamsSchema.parse({
-      maxResults: SearchParamsReader.getValue(searchParams, keys.maxResults),
-      nextIndex: SearchParamsReader.getValue(searchParams, keys.nextIndex),
+      maxResults: getValue(keys.maxResults),
+      nextIndex: getValue(keys.nextIndex),
     });
   },
 });

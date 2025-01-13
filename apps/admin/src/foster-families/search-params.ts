@@ -18,53 +18,28 @@ export const FosterFamilySearchParams = SearchParamsIO.create({
     zipCode: "zip",
   },
 
-  parseFunction: (searchParams, keys) => {
+  parseFunction: ({ keys, getValue, getValues }) => {
     return Schema.parse({
-      displayName: SearchParamsIO.getValue(searchParams, keys.displayName),
-      garden: SearchParamsIO.getValues(searchParams, keys.garden),
-      housing: SearchParamsIO.getValues(searchParams, keys.housing),
-      cities: SearchParamsIO.getValues(searchParams, keys.cities),
-      speciesAlreadyPresent: SearchParamsIO.getValues(
-        searchParams,
-        keys.speciesAlreadyPresent,
-      ),
-      speciesToAvoid: SearchParamsIO.getValues(
-        searchParams,
-        keys.speciesToAvoid,
-      ),
-      speciesToHost: SearchParamsIO.getValue(searchParams, keys.speciesToHost),
-      zipCode: SearchParamsIO.getValue(searchParams, keys.zipCode),
+      displayName: getValue(keys.displayName),
+      garden: getValues(keys.garden),
+      housing: getValues(keys.housing),
+      cities: getValues(keys.cities),
+      speciesAlreadyPresent: getValues(keys.speciesAlreadyPresent),
+      speciesToAvoid: getValues(keys.speciesToAvoid),
+      speciesToHost: getValue(keys.speciesToHost),
+      zipCode: getValue(keys.zipCode),
     });
   },
 
-  setFunction: (searchParams, data, keys) => {
-    SearchParamsIO.setValue(searchParams, keys.displayName, data.displayName);
-
-    SearchParamsIO.setValues(searchParams, keys.garden, data.garden);
-
-    SearchParamsIO.setValues(searchParams, keys.housing, data.housing);
-
-    SearchParamsIO.setValues(searchParams, keys.cities, data.cities);
-
-    SearchParamsIO.setValues(
-      searchParams,
-      keys.speciesAlreadyPresent,
-      data.speciesAlreadyPresent,
-    );
-
-    SearchParamsIO.setValues(
-      searchParams,
-      keys.speciesToAvoid,
-      data.speciesToAvoid,
-    );
-
-    SearchParamsIO.setValue(
-      searchParams,
-      keys.speciesToHost,
-      data.speciesToHost,
-    );
-
-    SearchParamsIO.setValue(searchParams, keys.zipCode, data.zipCode);
+  setFunction: (data, { keys, setValue, setValues }) => {
+    setValue(keys.displayName, data.displayName);
+    setValues(keys.garden, data.garden);
+    setValues(keys.housing, data.housing);
+    setValues(keys.cities, data.cities);
+    setValues(keys.speciesAlreadyPresent, data.speciesAlreadyPresent);
+    setValues(keys.speciesToAvoid, data.speciesToAvoid);
+    setValue(keys.speciesToHost, data.speciesToHost);
+    setValue(keys.zipCode, data.zipCode);
   },
 });
 

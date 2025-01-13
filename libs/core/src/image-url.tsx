@@ -30,13 +30,13 @@ export const ImageUrl = {
 const BlurhashSearchParams = SearchParamsIO.create({
   keys: { blurhash: "blurhash" },
 
-  parseFunction: (searchParams, keys) => {
+  parseFunction: ({ keys, getValue }) => {
     return {
-      blurhash: SearchParamsIO.getValue(searchParams, keys.blurhash)?.trim(),
+      blurhash: getValue(keys.blurhash)?.trim(),
     };
   },
 
-  setFunction: (searchParams, data, keys) => {
-    SearchParamsIO.setValue(searchParams, keys.blurhash, data.blurhash);
+  setFunction: (data, { keys, setValue }) => {
+    setValue(keys.blurhash, data.blurhash);
   },
 });

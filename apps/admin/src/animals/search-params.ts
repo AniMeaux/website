@@ -24,15 +24,14 @@ export const ANIMAL_DEFAULT_SORT = AnimalSort.PICK_UP;
 export const AnimalSortSearchParams = SearchParamsIO.create({
   keys: { sort: "sort" },
 
-  parseFunction: (searchParams, keys) => {
+  parseFunction: ({ keys, getValue }) => {
     return AnimalSortSearchParamsSchema.parse({
-      sort: SearchParamsIO.getValue(searchParams, keys.sort),
+      sort: getValue(keys.sort),
     });
   },
 
-  setFunction: (searchParams, data, keys) => {
-    SearchParamsIO.setValue(
-      searchParams,
+  setFunction: (data, { keys, setValue }) => {
+    setValue(
       keys.sort,
       data.sort === ANIMAL_DEFAULT_SORT ? undefined : data.sort,
     );
@@ -80,179 +79,117 @@ export const AnimalSearchParams = SearchParamsIO.create({
     vaccinations: "v",
   },
 
-  parseFunction: (searchParams, keys) => {
+  parseFunction: ({ keys, getValue, getValues }) => {
     return AnimalSearchParamsSchema.parse({
-      adoptionDateEnd: SearchParamsIO.getValue(
-        searchParams,
-        keys.adoptionDateEnd,
-      ),
-      adoptionDateStart: SearchParamsIO.getValue(
-        searchParams,
-        keys.adoptionDateStart,
-      ),
-      adoptionOptions: SearchParamsIO.getValues(
-        searchParams,
-        keys.adoptionOptions,
-      ),
-      ages: SearchParamsIO.getValues(searchParams, keys.ages),
-      birthdateEnd: SearchParamsIO.getValue(searchParams, keys.birthdateEnd),
-      birthdateStart: SearchParamsIO.getValue(
-        searchParams,
-        keys.birthdateStart,
-      ),
-      diagnosis: SearchParamsIO.getValues(searchParams, keys.diagnosis),
-      felvResults: SearchParamsIO.getValues(searchParams, keys.felvResults),
-      fivResults: SearchParamsIO.getValues(searchParams, keys.fivResults),
-      fosterFamiliesId: SearchParamsIO.getValues(
-        searchParams,
-        keys.fosterFamiliesId,
-      ),
-      managersId: SearchParamsIO.getValues(searchParams, keys.managersId),
-      nameOrAlias: SearchParamsIO.getValue(searchParams, keys.nameOrAlias),
-      nextVaccinationDateEnd: SearchParamsIO.getValue(
-        searchParams,
-        keys.nextVaccinationDateEnd,
-      ),
-      nextVaccinationDateStart: SearchParamsIO.getValue(
-        searchParams,
-        keys.nextVaccinationDateStart,
-      ),
-      pickUpDateEnd: SearchParamsIO.getValue(searchParams, keys.pickUpDateEnd),
-      pickUpDateStart: SearchParamsIO.getValue(
-        searchParams,
-        keys.pickUpDateStart,
-      ),
-      pickUpLocations: SearchParamsIO.getValues(
-        searchParams,
-        keys.pickUpLocations,
-      ),
-      pickUpReasons: SearchParamsIO.getValues(searchParams, keys.pickUpReasons),
-      species: SearchParamsIO.getValues(searchParams, keys.species),
-      statuses: SearchParamsIO.getValues(searchParams, keys.statuses),
-      sterilizations: SearchParamsIO.getValues(
-        searchParams,
-        keys.sterilizations,
-      ),
-      vaccinations: SearchParamsIO.getValues(searchParams, keys.vaccinations),
+      adoptionDateEnd: getValue(keys.adoptionDateEnd),
+      adoptionDateStart: getValue(keys.adoptionDateStart),
+      adoptionOptions: getValues(keys.adoptionOptions),
+      ages: getValues(keys.ages),
+      birthdateEnd: getValue(keys.birthdateEnd),
+      birthdateStart: getValue(keys.birthdateStart),
+      diagnosis: getValues(keys.diagnosis),
+      felvResults: getValues(keys.felvResults),
+      fivResults: getValues(keys.fivResults),
+      fosterFamiliesId: getValues(keys.fosterFamiliesId),
+      managersId: getValues(keys.managersId),
+      nameOrAlias: getValue(keys.nameOrAlias),
+      nextVaccinationDateEnd: getValue(keys.nextVaccinationDateEnd),
+      nextVaccinationDateStart: getValue(keys.nextVaccinationDateStart),
+      pickUpDateEnd: getValue(keys.pickUpDateEnd),
+      pickUpDateStart: getValue(keys.pickUpDateStart),
+      pickUpLocations: getValues(keys.pickUpLocations),
+      pickUpReasons: getValues(keys.pickUpReasons),
+      species: getValues(keys.species),
+      statuses: getValues(keys.statuses),
+      sterilizations: getValues(keys.sterilizations),
+      vaccinations: getValues(keys.vaccinations),
     });
   },
 
-  setFunction: (searchParams, data, keys) => {
-    SearchParamsIO.setValue(
-      searchParams,
+  setFunction: (data, { keys, setValue, setValues }) => {
+    setValue(
       keys.adoptionDateEnd,
       data.adoptionDateEnd == null
         ? undefined
         : DateTime.fromJSDate(data.adoptionDateEnd).toISODate(),
     );
 
-    SearchParamsIO.setValue(
-      searchParams,
+    setValue(
       keys.adoptionDateStart,
       data.adoptionDateStart == null
         ? undefined
         : DateTime.fromJSDate(data.adoptionDateStart).toISODate(),
     );
 
-    SearchParamsIO.setValues(
-      searchParams,
-      keys.adoptionOptions,
-      data.adoptionOptions,
-    );
+    setValues(keys.adoptionOptions, data.adoptionOptions);
 
-    SearchParamsIO.setValues(searchParams, keys.ages, data.ages);
+    setValues(keys.ages, data.ages);
 
-    SearchParamsIO.setValue(
-      searchParams,
+    setValue(
       keys.birthdateEnd,
       data.birthdateEnd == null
         ? undefined
         : DateTime.fromJSDate(data.birthdateEnd).toISODate(),
     );
 
-    SearchParamsIO.setValue(
-      searchParams,
+    setValue(
       keys.birthdateStart,
       data.birthdateStart == null
         ? undefined
         : DateTime.fromJSDate(data.birthdateStart).toISODate(),
     );
 
-    SearchParamsIO.setValues(searchParams, keys.diagnosis, data.diagnosis);
+    setValues(keys.diagnosis, data.diagnosis);
 
-    SearchParamsIO.setValues(searchParams, keys.felvResults, data.felvResults);
+    setValues(keys.felvResults, data.felvResults);
 
-    SearchParamsIO.setValues(searchParams, keys.fivResults, data.fivResults);
+    setValues(keys.fivResults, data.fivResults);
 
-    SearchParamsIO.setValues(
-      searchParams,
-      keys.fosterFamiliesId,
-      data.fosterFamiliesId,
-    );
+    setValues(keys.fosterFamiliesId, data.fosterFamiliesId);
 
-    SearchParamsIO.setValues(searchParams, keys.managersId, data.managersId);
+    setValues(keys.managersId, data.managersId);
 
-    SearchParamsIO.setValue(searchParams, keys.nameOrAlias, data.nameOrAlias);
+    setValue(keys.nameOrAlias, data.nameOrAlias);
 
-    SearchParamsIO.setValue(
-      searchParams,
+    setValue(
       keys.nextVaccinationDateEnd,
       data.nextVaccinationDateEnd == null
         ? undefined
         : DateTime.fromJSDate(data.nextVaccinationDateEnd).toISODate(),
     );
 
-    SearchParamsIO.setValue(
-      searchParams,
+    setValue(
       keys.nextVaccinationDateStart,
       data.nextVaccinationDateStart == null
         ? undefined
         : DateTime.fromJSDate(data.nextVaccinationDateStart).toISODate(),
     );
 
-    SearchParamsIO.setValue(
-      searchParams,
+    setValue(
       keys.pickUpDateEnd,
       data.pickUpDateEnd == null
         ? undefined
         : DateTime.fromJSDate(data.pickUpDateEnd).toISODate(),
     );
 
-    SearchParamsIO.setValue(
-      searchParams,
+    setValue(
       keys.pickUpDateStart,
       data.pickUpDateStart == null
         ? undefined
         : DateTime.fromJSDate(data.pickUpDateStart).toISODate(),
     );
 
-    SearchParamsIO.setValues(
-      searchParams,
-      keys.pickUpLocations,
-      data.pickUpLocations,
-    );
+    setValues(keys.pickUpLocations, data.pickUpLocations);
 
-    SearchParamsIO.setValues(
-      searchParams,
-      keys.pickUpReasons,
-      data.pickUpReasons,
-    );
+    setValues(keys.pickUpReasons, data.pickUpReasons);
 
-    SearchParamsIO.setValues(searchParams, keys.species, data.species);
+    setValues(keys.species, data.species);
 
-    SearchParamsIO.setValues(searchParams, keys.statuses, data.statuses);
+    setValues(keys.statuses, data.statuses);
 
-    SearchParamsIO.setValues(
-      searchParams,
-      keys.sterilizations,
-      data.sterilizations,
-    );
+    setValues(keys.sterilizations, data.sterilizations);
 
-    SearchParamsIO.setValues(
-      searchParams,
-      keys.vaccinations,
-      data.vaccinations,
-    );
+    setValues(keys.vaccinations, data.vaccinations);
   },
 });
 
@@ -298,14 +235,14 @@ const AnimalSearchParamsSchema = zu.object({
 export const PickUpLocationSearchParams = SearchParamsIO.create({
   keys: { text: "q" },
 
-  parseFunction: (searchParams, keys) => {
+  parseFunction: ({ keys, getValue }) => {
     return PickUpLocationSearchParamsSchema.parse({
-      text: SearchParamsIO.getValue(searchParams, keys.text),
+      text: getValue(keys.text),
     });
   },
 
-  setFunction: (searchParams, data, keys) => {
-    SearchParamsIO.setValue(searchParams, keys.text, data.text);
+  setFunction: (data, { keys, setValue }) => {
+    setValue(keys.text, data.text);
   },
 });
 

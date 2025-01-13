@@ -11,18 +11,17 @@ export const COLOR_DEFAULT_SORT = ColorSort.NAME;
 export const ColorSearchParams = SearchParamsIO.create({
   keys: { name: "q", sort: "sort" },
 
-  parseFunction: (searchParams, keys) => {
+  parseFunction: ({ keys, getValue }) => {
     return ColorSearchParamsSchema.parse({
-      name: SearchParamsIO.getValue(searchParams, keys.name),
-      sort: SearchParamsIO.getValue(searchParams, keys.sort),
+      name: getValue(keys.name),
+      sort: getValue(keys.sort),
     });
   },
 
-  setFunction: (searchParams, data, keys) => {
-    SearchParamsIO.setValue(searchParams, keys.name, data.name);
+  setFunction: (data, { keys, setValue }) => {
+    setValue(keys.name, data.name);
 
-    SearchParamsIO.setValue(
-      searchParams,
+    setValue(
       keys.sort,
       data.sort === COLOR_DEFAULT_SORT ? undefined : data.sort,
     );

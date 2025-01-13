@@ -21,52 +21,38 @@ export const UserSearchParams = SearchParamsIO.create({
     sort: "sort",
   },
 
-  parseFunction: (searchParams, keys) => {
+  parseFunction: ({ keys, getValue, getValues }) => {
     return Schema.parse({
-      displayName: SearchParamsIO.getValue(searchParams, keys.displayName),
-      groups: SearchParamsIO.getValues(searchParams, keys.groups),
-      lastActivityEnd: SearchParamsIO.getValue(
-        searchParams,
-        keys.lastActivityEnd,
-      ),
-      lastActivityStart: SearchParamsIO.getValue(
-        searchParams,
-        keys.lastActivityStart,
-      ),
-      noActivity: SearchParamsIO.getValue(searchParams, keys.noActivity),
-      sort: SearchParamsIO.getValue(searchParams, keys.sort),
+      displayName: getValue(keys.displayName),
+      groups: getValues(keys.groups),
+      lastActivityEnd: getValue(keys.lastActivityEnd),
+      lastActivityStart: getValue(keys.lastActivityStart),
+      noActivity: getValue(keys.noActivity),
+      sort: getValue(keys.sort),
     });
   },
 
-  setFunction: (searchParams, data, keys) => {
-    SearchParamsIO.setValue(searchParams, keys.displayName, data.displayName);
+  setFunction: (data, { keys, setValue, setValues }) => {
+    setValue(keys.displayName, data.displayName);
+    setValues(keys.groups, data.groups);
 
-    SearchParamsIO.setValues(searchParams, keys.groups, data.groups);
-
-    SearchParamsIO.setValue(
-      searchParams,
+    setValue(
       keys.lastActivityEnd,
       data.lastActivityEnd == null
         ? undefined
         : DateTime.fromJSDate(data.lastActivityEnd).toISODate(),
     );
 
-    SearchParamsIO.setValue(
-      searchParams,
+    setValue(
       keys.lastActivityStart,
       data.lastActivityStart == null
         ? undefined
         : DateTime.fromJSDate(data.lastActivityStart).toISODate(),
     );
 
-    SearchParamsIO.setValue(
-      searchParams,
-      keys.noActivity,
-      data.noActivity ? "on" : undefined,
-    );
+    setValue(keys.noActivity, data.noActivity ? "on" : undefined);
 
-    SearchParamsIO.setValue(
-      searchParams,
+    setValue(
       keys.sort,
       data.sort === USER_DEFAULT_SORT ? undefined : data.sort,
     );
