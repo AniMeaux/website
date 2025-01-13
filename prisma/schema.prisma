@@ -400,6 +400,8 @@ model ShowExhibitorApplication {
   otherPartnershipCategory ShowExhibitorApplicationOtherPartnershipCategory?
 
   discoverySource String @db.VarChar(128)
+
+  comments String? @db.VarChar(512)
 }
 
 enum ShowExhibitorApplicationStatus {

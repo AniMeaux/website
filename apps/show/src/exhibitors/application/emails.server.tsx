@@ -280,10 +280,10 @@ export function createEmailTemplateConfirmation(
     );
   }
 
-  function SectionDiscoverySource() {
+  function SectionComments() {
     return (
       <EmailHtml.Section.Root>
-        <EmailHtml.Section.Title>Source</EmailHtml.Section.Title>
+        <EmailHtml.Section.Title>Commentaires</EmailHtml.Section.Title>
 
         <EmailHtml.Output.Table>
           <EmailHtml.Output.Row>
@@ -293,6 +293,14 @@ export function createEmailTemplateConfirmation(
 
             <EmailHtml.Output.Value>
               {application.discoverySource}
+            </EmailHtml.Output.Value>
+          </EmailHtml.Output.Row>
+
+          <EmailHtml.Output.Row>
+            <EmailHtml.Output.Label>Remarques</EmailHtml.Output.Label>
+
+            <EmailHtml.Output.Value>
+              {application.comments ?? "-"}
             </EmailHtml.Output.Value>
           </EmailHtml.Output.Row>
         </EmailHtml.Output.Table>
@@ -318,7 +326,7 @@ export function createEmailTemplateConfirmation(
         <SectionBilling />
         <SectionParticipation />
         <SectionPartnership />
-        <SectionDiscoverySource />
+        <SectionComments />
 
         <EmailHtml.SectionSeparator />
 
