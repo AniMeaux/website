@@ -183,11 +183,19 @@ export const ActionSchema = zu
       { required_error: "Veuillez choisir une option" },
     ),
 
-    discoverySource: zu
-      .string({ required_error: "Veuillez entrer une réponse" })
-      .trim()
-      .min(1, "Veuillez entrer une réponse")
-      .max(128, "Veuillez entrer une réponse plus courte"),
+    comments: zu.object({
+      discoverySource: zu
+        .string({ required_error: "Veuillez entrer une réponse" })
+        .trim()
+        .min(1, "Veuillez entrer une réponse")
+        .max(128, "Veuillez entrer une réponse plus courte"),
+
+      comments: zu
+        .string()
+        .trim()
+        .max(512, "Veuillez entrer un commentaire plus court")
+        .optional(),
+    }),
   })
   .refine(
     (value) => {

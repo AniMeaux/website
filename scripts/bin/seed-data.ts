@@ -566,6 +566,11 @@ async function seedShowExhibitorApplications() {
             : undefined,
 
         discoverySource: faker.lorem.word(),
+
+        comments: faker.helpers.maybe(
+          () => faker.lorem.paragraph().substring(0, 512),
+          { probability: 1 / 5 },
+        ),
       };
     }),
   });

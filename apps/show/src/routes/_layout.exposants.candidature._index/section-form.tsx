@@ -80,7 +80,7 @@ export function SectionForm() {
 
             <FormLayout.SectionSeparator />
 
-            <FieldsetDiscoverySource />
+            <FieldsetComments />
 
             <FormLayout.SectionSeparator />
 
@@ -164,13 +164,13 @@ export function SectionForm() {
           </FormLayout.NavItem>
 
           <FormLayout.NavItem
-            sectionId={FieldsetId.DISCOVERY_SOURCE}
+            sectionId={FieldsetId.COMMENTS}
             isComplete={
-              fieldsets.discoverySource.valid &&
-              fieldsets.discoverySource.value != null
+              fieldsets.comments.valid &&
+              fieldsets.comments.value?.discoverySource != null
             }
           >
-            Source
+            Commentaires
           </FormLayout.NavItem>
         </FormLayout.Nav>
       </FormLayout.Root>
@@ -206,7 +206,7 @@ const FieldsetId = {
   BILLING: "billing",
   PARTICIPATION: "participation",
   PARTNERSHIP: "partnership",
-  DISCOVERY_SOURCE: "discovery-source",
+  COMMENTS: "comments",
 } as const;
 
 function FieldsetContact() {
@@ -458,17 +458,20 @@ function FieldPartnershipCategory() {
   );
 }
 
-function FieldsetDiscoverySource() {
+function FieldsetComments() {
   const { fieldsets } = useFieldsets();
+  const fieldset = fieldsets.comments.getFieldset();
 
   return (
-    <FormLayout.Section id={FieldsetId.DISCOVERY_SOURCE}>
-      <FormLayout.Title>Source</FormLayout.Title>
+    <FormLayout.Section id={FieldsetId.COMMENTS}>
+      <FormLayout.Title>Commentaires</FormLayout.Title>
 
       <FieldText
         label="Comment avez-vous connu le salon ?"
-        field={fieldsets.discoverySource}
+        field={fieldset.discoverySource}
       />
+
+      <FieldTextarea label="Remarques" field={fieldset.comments} rows={3} />
     </FormLayout.Section>
   );
 }

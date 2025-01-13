@@ -124,7 +124,9 @@ export async function action({ request }: ActionFunctionArgs) {
         ? submission.value.partnershipCategory
         : undefined,
 
-      discoverySource: submission.value.discoverySource,
+      discoverySource: submission.value.comments.discoverySource,
+
+      comments: submission.value.comments.comments,
     }),
   );
 
