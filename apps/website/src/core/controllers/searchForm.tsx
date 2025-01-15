@@ -12,7 +12,8 @@ import { useCallback, useEffect, useState } from "react";
 
 const SORTED_SPECIES = orderBy(
   Object.values(Species),
-  (species) => SPECIES_TRANSLATION[species].toLowerCase(), ['asc'],
+  (species) => SPECIES_TRANSLATION[species].toLowerCase(),
+  ["asc"],
 );
 
 const SORTED_AGES = orderBy(Object.values(AnimalAge), (age) =>

@@ -2,7 +2,10 @@ import { BaseLink } from "#core/base-link";
 import { DynamicImage } from "#core/data-display/image";
 import { isDefined } from "#core/is-defined";
 import { toSlug } from "#core/slugs";
-import { GENDER_TRANSLATION, SPECIES_TRANSLATION_STANDALONE } from "#core/translations";
+import {
+  GENDER_TRANSLATION,
+  SPECIES_TRANSLATION_STANDALONE,
+} from "#core/translations";
 import { Icon } from "#generated/icon";
 import { cn, formatAge } from "@animeaux/core";
 import type { Species } from "@prisma/client";

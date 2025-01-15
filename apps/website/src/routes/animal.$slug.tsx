@@ -15,7 +15,10 @@ import { prisma } from "#core/db.server";
 import { isDefined } from "#core/is-defined";
 import { createSocialMeta } from "#core/meta";
 import { getPageTitle } from "#core/page-title";
-import { GENDER_TRANSLATION, SPECIES_TRANSLATION_STANDALONE } from "#core/translations";
+import {
+  GENDER_TRANSLATION,
+  SPECIES_TRANSLATION_STANDALONE,
+} from "#core/translations";
 import type { IconProps } from "#generated/icon";
 import { Icon } from "#generated/icon";
 import { cn, formatAge } from "@animeaux/core";
