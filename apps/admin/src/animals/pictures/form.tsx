@@ -256,14 +256,14 @@ function ImageItem({
             className="absolute left-0 top-1/2 flex h-4 w-4 -translate-y-1/2 cursor-move items-center justify-center opacity-75"
           >
             <Icon
-              href="icon-grip-dots-vertical"
+              href="icon-grip-dots-vertical-solid"
               className="stroke-black text-[20px] text-white"
             />
           </div>
         ) : null}
 
         <ImageInput.PreviewAction isIconOnly onClick={() => onRemove()}>
-          <Action.Icon href="icon-trash" />
+          <Action.Icon href="icon-trash-solid" />
         </ImageInput.PreviewAction>
       </li>
     </ImageInput.Preview>
@@ -318,7 +318,7 @@ function ImageItemInput({
       <ImageInput.Native ref={inputRef} multiple onChange={handleChange} />
 
       <ImageInput.Trigger
-        icon="icon-plus"
+        icon="icon-plus-solid"
         label="Ajouter"
         onClick={() => inputRef.current?.click()}
         hasError={hasError}

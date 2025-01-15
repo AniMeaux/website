@@ -12,12 +12,12 @@ export const PICK_UP_REASON_TRANSLATION: Record<PickUpReason, string> = {
 };
 
 export const PICK_UP_REASON_ICON: Record<PickUpReason, IconName> = {
-  [PickUpReason.ABANDONMENT]: "icon-heart-crack",
-  [PickUpReason.BIRTH]: "icon-cake-candles",
-  [PickUpReason.DECEASED_MASTER]: "icon-cross",
-  [PickUpReason.MISTREATMENT]: "icon-siren-on",
-  [PickUpReason.STRAY_ANIMAL]: "icon-cat-tree",
-  [PickUpReason.OTHER]: "icon-circle-question",
+  [PickUpReason.ABANDONMENT]: "icon-heart-crack-solid",
+  [PickUpReason.BIRTH]: "icon-cake-candles-solid",
+  [PickUpReason.DECEASED_MASTER]: "icon-cross-solid",
+  [PickUpReason.MISTREATMENT]: "icon-siren-on-solid",
+  [PickUpReason.STRAY_ANIMAL]: "icon-cat-tree-solid",
+  [PickUpReason.OTHER]: "icon-circle-question-solid",
 };
 
 export const SORTED_PICK_UP_REASON = orderBy(

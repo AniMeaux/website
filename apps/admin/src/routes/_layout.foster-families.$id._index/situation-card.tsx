@@ -71,7 +71,7 @@ export function SituationCard() {
             )}
           </SimpleItem>
 
-          <SimpleItem icon={<Icon href="icon-hand-holding-heart" />}>
+          <SimpleItem icon={<Icon href="icon-hand-holding-heart-solid" />}>
             Peut accueillir :{" "}
             {fosterFamily.speciesToHost.length === 0 ? (
               <strong className="text-body-emphasis">Inconnu</strong>
@@ -87,7 +87,7 @@ export function SituationCard() {
             )}
           </SimpleItem>
 
-          <SimpleItem icon={<Icon href="icon-house-chimney-paw" />}>
+          <SimpleItem icon={<Icon href="icon-house-chimney-paw-solid" />}>
             {fosterFamily.speciesAlreadyPresent.length === 0 ? (
               "Aucun animal déjà présents"
             ) : (

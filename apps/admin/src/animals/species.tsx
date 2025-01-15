@@ -13,11 +13,11 @@ export const SPECIES_TRANSLATION: Record<Species, string> = {
 };
 
 export const SPECIES_ICON: Record<Species, IconName> = {
-  [Species.BIRD]: "icon-bird",
-  [Species.CAT]: "icon-cat",
-  [Species.DOG]: "icon-dog",
-  [Species.REPTILE]: "icon-turtle",
-  [Species.RODENT]: "icon-rabbit",
+  [Species.BIRD]: "icon-bird-solid",
+  [Species.CAT]: "icon-cat-solid",
+  [Species.DOG]: "icon-dog-solid",
+  [Species.REPTILE]: "icon-turtle-solid",
+  [Species.RODENT]: "icon-rabbit-solid",
 };
 
 export const SORTED_SPECIES = orderBy(

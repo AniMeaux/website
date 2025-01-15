@@ -135,7 +135,7 @@ export default function Route() {
                       aria-describedby="name-error"
                       leftAdornment={
                         <Input.Adornment>
-                          <Icon href="icon-user" />
+                          <Icon href="icon-user-solid" />
                         </Input.Adornment>
                       }
                     />
@@ -164,7 +164,7 @@ export default function Route() {
                       placeholder="jean@mail.com"
                       leftAdornment={
                         <Input.Adornment>
-                          <Icon href="icon-envelope" />
+                          <Icon href="icon-envelope-solid" />
                         </Input.Adornment>
                       }
                     />

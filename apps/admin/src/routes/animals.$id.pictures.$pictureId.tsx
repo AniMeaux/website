@@ -92,7 +92,7 @@ export default function Route() {
               visiblePictureIndex + 1
             })`}
           >
-            <Action.Icon href="icon-download" />
+            <Action.Icon href="icon-download-solid" />
             Télécharger
           </DownloadPictureLink>
         </Action>

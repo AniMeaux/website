@@ -163,8 +163,9 @@ function EventItem({
         {!event.isVisible ? (
           <span className="absolute bottom-0 left-0 flex w-full p-0.5">
             <Chip
+              variant="filled"
               color="orange"
-              icon="icon-eye-slash"
+              icon="icon-eye-slash-solid"
               title="L’évènement n’est pas visible."
             />
           </span>

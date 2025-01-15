@@ -16,11 +16,11 @@ export function CardParticipation() {
 
       <Card.Content>
         <ItemList>
-          <SimpleItem icon={<Icon href="icon-expand" />}>
+          <SimpleItem icon={<Icon href="icon-expand-solid" />}>
             {STAND_SIZE_TRANSLATION[application.desiredStandSize]}
           </SimpleItem>
 
-          <SimpleItem icon={<Icon href="icon-microphone-stand" />}>
+          <SimpleItem icon={<Icon href="icon-microphone-stand-solid" />}>
             {application.proposalForOnStageEntertainment ??
               "Aucune proposition d’animation sur scène"}
           </SimpleItem>

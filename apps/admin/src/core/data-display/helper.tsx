@@ -117,8 +117,8 @@ const VARIANT_CLASS_NAME: Record<HelperVariant, string> = {
 };
 
 const VARIANT_ICON: Record<HelperVariant, IconName> = {
-  error: "icon-circle-exclamation",
-  info: "icon-circle-info",
-  success: "icon-circle-check",
-  warning: "icon-triangle-exclamation",
+  error: "icon-circle-exclamation-solid",
+  info: "icon-circle-info-solid",
+  success: "icon-circle-check-solid",
+  warning: "icon-triangle-exclamation-solid",
 };

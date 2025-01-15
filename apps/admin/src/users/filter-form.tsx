@@ -49,7 +49,7 @@ export function UserFilterForm() {
               label="Alphabétique"
               name={UserSearchParams.keys.sort}
               value={UserSort.NAME}
-              icon={<Icon href="icon-arrow-down-a-z" />}
+              icon={<Icon href="icon-arrow-down-a-z-solid" />}
               checked={userSearchParams.sort === UserSort.NAME}
               onChange={() => {}}
             />
@@ -59,7 +59,7 @@ export function UserFilterForm() {
               label="Dernière activité"
               name={UserSearchParams.keys.sort}
               value={UserSort.LAST_ACTIVITY}
-              icon={<Icon href="icon-wave-pulse" />}
+              icon={<Icon href="icon-wave-pulse-solid" />}
               checked={userSearchParams.sort === UserSort.LAST_ACTIVITY}
               onChange={() => {}}
             />
@@ -98,7 +98,7 @@ export function UserFilterForm() {
                     })
                   }
                 >
-                  <Icon href="icon-x-mark" />
+                  <Icon href="icon-x-mark-solid" />
                 </ControlledInput.ActionAdornment>
               ) : null
             }
@@ -175,7 +175,7 @@ export function UserFilterForm() {
                   type="checkbox"
                   label="Aucune activité"
                   name={UserSearchParams.keys.noActivity}
-                  icon={<Icon href="icon-wave-pulse" />}
+                  icon={<Icon href="icon-wave-pulse-solid" />}
                   checked={userSearchParams.noActivity}
                   onChange={() => {}}
                 />
@@ -194,7 +194,7 @@ export function UserFilterForm() {
                 value={toIsoDateValue(userSearchParams.lastActivityStart)}
                 leftAdornment={
                   <ControlledInput.Adornment>
-                    <Icon href="icon-calendar-days" />
+                    <Icon href="icon-calendar-days-solid" />
                   </ControlledInput.Adornment>
                 }
                 rightAdornment={
@@ -212,7 +212,7 @@ export function UserFilterForm() {
                         })
                       }
                     >
-                      <Icon href="icon-x-mark" />
+                      <Icon href="icon-x-mark-solid" />
                     </ControlledInput.ActionAdornment>
                   ) : null
                 }
@@ -231,7 +231,7 @@ export function UserFilterForm() {
                 value={toIsoDateValue(userSearchParams.lastActivityEnd)}
                 leftAdornment={
                   <ControlledInput.Adornment>
-                    <Icon href="icon-calendar-days" />
+                    <Icon href="icon-calendar-days-solid" />
                   </ControlledInput.Adornment>
                 }
                 rightAdornment={
@@ -249,7 +249,7 @@ export function UserFilterForm() {
                         })
                       }
                     >
-                      <Icon href="icon-x-mark" />
+                      <Icon href="icon-x-mark-solid" />
                     </ControlledInput.ActionAdornment>
                   ) : null
                 }

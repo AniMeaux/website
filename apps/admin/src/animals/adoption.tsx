@@ -10,10 +10,10 @@ export const ADOPTION_OPTION_TRANSLATION: Record<AdoptionOption, string> = {
 };
 
 export const ADOPTION_OPTION_ICON: Record<AdoptionOption, IconName> = {
-  [AdoptionOption.WITH_STERILIZATION]: "icon-scissors",
-  [AdoptionOption.WITHOUT_STERILIZATION]: "icon-scissors",
-  [AdoptionOption.FREE_DONATION]: "icon-hand-holding-euro",
-  [AdoptionOption.UNKNOWN]: "icon-circle-question",
+  [AdoptionOption.WITH_STERILIZATION]: "icon-scissors-solid",
+  [AdoptionOption.WITHOUT_STERILIZATION]: "icon-scissors-solid",
+  [AdoptionOption.FREE_DONATION]: "icon-hand-holding-euro-solid",
+  [AdoptionOption.UNKNOWN]: "icon-circle-question-solid",
 };
 
 export const SORTED_ADOPTION_OPTION = orderBy(

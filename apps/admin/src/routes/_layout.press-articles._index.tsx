@@ -213,7 +213,7 @@ function PressArticleItem({
                 variant="translucid"
                 color="black"
               >
-                <Action.Icon href="icon-trash" />
+                <Action.Icon href="icon-trash-solid" />
               </Action>
             </Dialog.Trigger>
           </span>

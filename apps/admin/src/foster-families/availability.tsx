@@ -28,7 +28,7 @@ export function AvailabilityIcon({
   return (
     <Icon
       {...props}
-      href="icon-status"
+      href="icon-status-solid"
       className={cn(ICON_CLASS_NAMES_BY_AVAILABILITY[availability], className)}
     />
   );

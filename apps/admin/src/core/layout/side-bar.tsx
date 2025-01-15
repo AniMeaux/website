@@ -28,7 +28,9 @@ export function SideBar({
         <SideBar.Item asChild>
           <button onClick={onIsOpenedChange}>
             <SideBar.ItemIcon
-              href={isOpened ? "icon-angles-left" : "icon-angles-right"}
+              href={
+                isOpened ? "icon-angles-left-solid" : "icon-angles-right-solid"
+              }
             />
             <SideBar.ItemContent>Réduire</SideBar.ItemContent>
           </button>

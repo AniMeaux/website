@@ -15,15 +15,15 @@ export function CardContact() {
 
       <Card.Content>
         <ItemList>
-          <SimpleItem icon={<Icon href="icon-user" />}>
+          <SimpleItem icon={<Icon href="icon-user-solid" />}>
             {application.contactFirstname} {application.contactLastname}
           </SimpleItem>
 
-          <SimpleItem icon={<Icon href="icon-envelope" />}>
+          <SimpleItem icon={<Icon href="icon-envelope-solid" />}>
             {application.contactEmail}
           </SimpleItem>
 
-          <SimpleItem icon={<Icon href="icon-phone" />}>
+          <SimpleItem icon={<Icon href="icon-phone-solid" />}>
             {application.contactPhone}
           </SimpleItem>
         </ItemList>

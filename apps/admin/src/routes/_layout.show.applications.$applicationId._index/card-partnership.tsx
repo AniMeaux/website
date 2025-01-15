@@ -1,15 +1,18 @@
 import { ItemList, SimpleItem } from "#core/data-display/item";
 import { Card } from "#core/layout/card";
-import { Icon } from "#generated/icon";
-import {
-  EXHIBITOR_APPLICATION_OTHER_PARTNERSHIP_CATEGORY_TRANSLATION,
-  PARTNERSHIP_CATEGORY_TRANSLATION,
-} from "#show/applications/partnership-category";
+import { TRANSLATION_BY_APPLICATION_PARTNERSHIP_CATEGORY } from "#show/partnership/category";
+import { ApplicationPartnershipCategoryIcon } from "#show/partnership/icon";
 import { useLoaderData } from "@remix-run/react";
+import invariant from "tiny-invariant";
 import type { loader } from "./route";
 
 export function CardPartnership() {
   const { application } = useLoaderData<typeof loader>();
+
+  const category =
+    application.partnershipCategory ?? application.otherPartnershipCategory;
+
+  invariant(category != null, "A category should exist");
 
   return (
     <Card>
@@ -19,16 +22,10 @@ export function CardPartnership() {
 
       <Card.Content>
         <ItemList>
-          <SimpleItem icon={<Icon href="icon-paw-ribbon" />}>
-            {application.partnershipCategory != null
-              ? PARTNERSHIP_CATEGORY_TRANSLATION[
-                  application.partnershipCategory
-                ]
-              : application.otherPartnershipCategory != null
-                ? EXHIBITOR_APPLICATION_OTHER_PARTNERSHIP_CATEGORY_TRANSLATION[
-                    application.otherPartnershipCategory
-                  ]
-                : null}
+          <SimpleItem
+            icon={<ApplicationPartnershipCategoryIcon category={category} />}
+          >
+            {TRANSLATION_BY_APPLICATION_PARTNERSHIP_CATEGORY[category]}
           </SimpleItem>
         </ItemList>
       </Card.Content>

@@ -21,7 +21,9 @@ export const PasswordInput = Object.assign(
           <Input.ActionAdornment
             onClick={() => setShowPassword((showPassword) => !showPassword)}
           >
-            <Icon href={showPassword ? "icon-eye-slash" : "icon-eye"} />
+            <Icon
+              href={showPassword ? "icon-eye-slash-solid" : "icon-eye-solid"}
+            />
           </Input.ActionAdornment>
         }
         // Prevent Spell-jacking passwords.

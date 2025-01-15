@@ -5,7 +5,7 @@ export const LEGAL_STATUS_TRANSLATION: Record<
   string
 > = {
   [ShowExhibitorApplicationLegalStatus.ASSOCIATION]: "Association",
-  [ShowExhibitorApplicationLegalStatus.COMPANY]: "Société (SA, SAS, SARL…)",
+  [ShowExhibitorApplicationLegalStatus.COMPANY]: "Société",
   [ShowExhibitorApplicationLegalStatus.SOLE_PROPRIETORSHIP]:
     "Entreprise individuelle",
 };
