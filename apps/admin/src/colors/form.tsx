@@ -60,7 +60,7 @@ export function ColorForm({
               aria-describedby="name-error"
               leftAdornment={
                 <Input.Adornment>
-                  <Icon href="icon-palette" />
+                  <Icon href="icon-palette-solid" />
                 </Input.Adornment>
               }
             />

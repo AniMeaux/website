@@ -54,19 +54,19 @@ const AGREEMENT_CLASS_NAMES: Record<AgreementValue, string> = {
 
 const ICONS: Record<Entity, Record<AgreementValue, IconName>> = {
   babies: {
-    [AgreementValue.TRUE]: "icon-baby-circle-check",
-    [AgreementValue.FALSE]: "icon-baby-circle-x-mark",
-    [AgreementValue.UNKNOWN]: "icon-baby-circle-question",
+    [AgreementValue.TRUE]: "icon-baby-circle-check-solid",
+    [AgreementValue.FALSE]: "icon-baby-circle-x-mark-solid",
+    [AgreementValue.UNKNOWN]: "icon-baby-circle-question-solid",
   },
   cats: {
-    [AgreementValue.TRUE]: "icon-cat-circle-check",
-    [AgreementValue.FALSE]: "icon-cat-circle-x-mark",
-    [AgreementValue.UNKNOWN]: "icon-cat-circle-question",
+    [AgreementValue.TRUE]: "icon-cat-circle-check-solid",
+    [AgreementValue.FALSE]: "icon-cat-circle-x-mark-solid",
+    [AgreementValue.UNKNOWN]: "icon-cat-circle-question-solid",
   },
   dogs: {
-    [AgreementValue.TRUE]: "icon-dog-circle-check",
-    [AgreementValue.FALSE]: "icon-dog-circle-x-mark",
-    [AgreementValue.UNKNOWN]: "icon-dog-circle-question",
+    [AgreementValue.TRUE]: "icon-dog-circle-check-solid",
+    [AgreementValue.FALSE]: "icon-dog-circle-x-mark-solid",
+    [AgreementValue.UNKNOWN]: "icon-dog-circle-question-solid",
   },
 };
 

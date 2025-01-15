@@ -1,21 +1,18 @@
-import { BaseLink } from "#core/base-link";
-import { Paginator } from "#core/controllers/paginator";
-import { Empty } from "#core/data-display/empty";
+import { SortAndFiltersFloatingAction } from "#core/controllers/sort-and-filters-floating-action";
 import { db } from "#core/db.server";
 import { Card } from "#core/layout/card";
 import { PageLayout } from "#core/layout/page";
-import { Routes } from "#core/navigation";
 import { getPageTitle } from "#core/page-title";
-import { prisma } from "#core/prisma.server";
 import { PageSearchParams } from "#core/search-params";
 import { assertCurrentUserHasGroups } from "#current-user/groups.server";
-import { StatusBadge } from "#show/applications/status";
+import { ApplicationFilters } from "#show/applications/filter-form";
+import { ApplicationSearchParams } from "#show/applications/search-params";
 import { UserGroup } from "@prisma/client";
-import type { LoaderFunctionArgs, SerializeFrom } from "@remix-run/node";
+import type { LoaderFunctionArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import type { MetaFunction } from "@remix-run/react";
 import { useLoaderData } from "@remix-run/react";
-import { promiseHash } from "remix-utils/promise";
+import { CardList } from "./card-list";
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {
@@ -28,23 +25,23 @@ export async function loader({ request }: LoaderFunctionArgs) {
   ]);
 
   const searchParams = new URL(request.url).searchParams;
-  const pageSearchParams = PageSearchParams.parse(searchParams);
 
-  const { applications, totalCount } = await promiseHash({
-    totalCount: prisma.showExhibitorApplication.count(),
-
-    applications: prisma.showExhibitorApplication.findMany({
-      skip: pageSearchParams.page * APPLICATION_COUNT_PER_PAGE,
-      take: APPLICATION_COUNT_PER_PAGE,
-      orderBy: { createdAt: "desc" },
+  const { applications, totalCount } =
+    await db.show.exhibitorApplication.findMany({
+      page: PageSearchParams.parse(searchParams).page,
+      countPerPage: APPLICATION_COUNT_PER_PAGE,
+      searchParams: ApplicationSearchParams.parse(searchParams),
       select: {
+        createdAt: true,
         id: true,
         status: true,
-        structureLogoPath: true,
+        structureActivityFields: true,
+        structureActivityTargets: true,
+        structureLegalStatus: true,
         structureName: true,
+        structureOtherLegalStatus: true,
       },
-    }),
-  });
+    });
 
   const pageCount = Math.ceil(totalCount / APPLICATION_COUNT_PER_PAGE);
 
@@ -62,63 +59,31 @@ export const meta: MetaFunction = () => {
 };
 
 export default function Route() {
-  const { totalCount, pageCount, applications } =
-    useLoaderData<typeof loader>();
+  const { totalCount } = useLoaderData<typeof loader>();
 
   return (
     <PageLayout.Content className="grid grid-cols-1">
-      <Card>
-        <Card.Header>
-          <Card.Title>
-            {totalCount} {totalCount > 1 ? "candidatures" : "candidature"}
-          </Card.Title>
-        </Card.Header>
+      <section className="flex flex-col gap-1 md:flex-row md:gap-2">
+        <section className="flex flex-col md:min-w-0 md:flex-2">
+          <CardList />
+        </section>
 
-        <Card.Content hasListItems>
-          {applications.length > 0 ? (
-            <ul className="grid grid-cols-1">
-              {applications.map((application) => (
-                <li key={application.id} className="grid grid-cols-1">
-                  <ApplicationItem application={application} />
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <Empty
-              isCompact
-              icon="📝"
-              iconAlt="Memo"
-              title="Aucune candidature trouvée"
-              message="Nous n’avons pas trouvé ce que vous cherchiez. Essayez à nouveau de rechercher."
-              titleElementType="h3"
-            />
-          )}
-        </Card.Content>
+        <aside className="hidden min-w-[250px] max-w-[300px] flex-1 flex-col md:flex">
+          <Card className="sticky top-[calc(20px+var(--header-height))] max-h-[calc(100vh-40px-var(--header-height))]">
+            <Card.Header>
+              <Card.Title>Filtrer</Card.Title>
+            </Card.Header>
 
-        {pageCount > 1 ? (
-          <Card.Footer>
-            <Paginator pageCount={pageCount} />
-          </Card.Footer>
-        ) : null}
-      </Card>
+            <Card.Content hasVerticalScroll>
+              <ApplicationFilters />
+            </Card.Content>
+          </Card>
+        </aside>
+      </section>
+
+      <SortAndFiltersFloatingAction totalCount={totalCount}>
+        <ApplicationFilters />
+      </SortAndFiltersFloatingAction>
     </PageLayout.Content>
-  );
-}
-
-function ApplicationItem({
-  application,
-}: {
-  application: SerializeFrom<typeof loader>["applications"][number];
-}) {
-  return (
-    <BaseLink
-      to={Routes.show.applications.id(application.id).toString()}
-      className="grid grid-cols-2 items-start gap-1 rounded-0.5 bg-white px-0.5 py-1 focus-visible:z-10 focus-visible:focus-compact-blue-400 hover:bg-gray-100 md:gap-2 md:px-1"
-    >
-      <span className="text-body-emphasis">{application.structureName}</span>
-      <span>
-        <StatusBadge status={application.status} />
-      </span>
-    </BaseLink>
   );
 }

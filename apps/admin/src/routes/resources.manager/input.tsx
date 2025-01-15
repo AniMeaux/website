@@ -131,7 +131,7 @@ const InputTrigger = forwardRef<
         side="left"
         adornment={
           <BaseTextInput.Adornment>
-            <Icon href="icon-user" />
+            <Icon href="icon-user-solid" />
           </BaseTextInput.Adornment>
         }
       />
@@ -140,7 +140,7 @@ const InputTrigger = forwardRef<
         side="right"
         adornment={
           <BaseTextInput.Adornment>
-            <Icon href="icon-caret-down" />
+            <Icon href="icon-caret-down-solid" />
           </BaseTextInput.Adornment>
         }
       />

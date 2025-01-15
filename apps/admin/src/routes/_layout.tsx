@@ -101,7 +101,7 @@ function CurrentUserTabBar() {
       ))}
 
       {menuNavigationItems.length > 0 ? (
-        <TabBar.Menu icon="icon-ellipsis">
+        <TabBar.Menu icon="icon-ellipsis-solid">
           {menuNavigationItems.map((item) => (
             <TabBar.MenuItem
               key={item.icon}
@@ -178,13 +178,13 @@ function getNavigationItems(currentUser: Pick<User, "groups">) {
 const ALL_NAVIGATION_ITEMS: NavigationItem[] = [
   {
     to: Routes.dashboard.toString(),
-    icon: "icon-table-layout",
+    icon: "icon-table-layout-solid",
     label: "Tableau de bord",
     authorizedGroups: [UserGroup.ADMIN, UserGroup.ANIMAL_MANAGER],
   },
   {
     to: Routes.animals.toString(),
-    icon: "icon-paw",
+    icon: "icon-paw-solid",
     label: "Animaux",
     authorizedGroups: [
       UserGroup.ADMIN,
@@ -195,43 +195,43 @@ const ALL_NAVIGATION_ITEMS: NavigationItem[] = [
   },
   {
     to: Routes.fosterFamilies.toString(),
-    icon: "icon-house",
+    icon: "icon-house-solid",
     label: "Familles d’accueil",
     authorizedGroups: [UserGroup.ADMIN, UserGroup.ANIMAL_MANAGER],
   },
   {
     to: Routes.events.toString(),
-    icon: "icon-calendar-days",
+    icon: "icon-calendar-days-solid",
     label: "Événements",
     authorizedGroups: [UserGroup.ADMIN],
   },
   {
     to: Routes.users.toString(),
-    icon: "icon-user",
+    icon: "icon-user-solid",
     label: "Utilisateurs",
     authorizedGroups: [UserGroup.ADMIN],
   },
   {
     to: Routes.pressArticles.toString(),
-    icon: "icon-newspaper",
+    icon: "icon-newspaper-solid",
     label: "Articles de presse",
     authorizedGroups: [UserGroup.ADMIN],
   },
   {
     to: Routes.breeds.toString(),
-    icon: "icon-dna",
+    icon: "icon-dna-solid",
     label: "Races",
     authorizedGroups: [UserGroup.ADMIN],
   },
   {
     to: Routes.colors.toString(),
-    icon: "icon-palette",
+    icon: "icon-palette-solid",
     label: "Couleurs",
     authorizedGroups: [UserGroup.ADMIN],
   },
   {
     to: Routes.show.toString(),
-    icon: "icon-show",
+    icon: "icon-show-solid",
     label: "Salon",
     authorizedGroups: [UserGroup.ADMIN, UserGroup.SHOW_ORGANIZER],
   },
@@ -257,7 +257,7 @@ function CurrentUserMenu() {
         </span>
 
         <span className="hidden text-[20px] text-gray-600 md:inline-flex">
-          <Icon href="icon-caret-down" />
+          <Icon href="icon-caret-down-solid" />
         </span>
       </DropdownSheet.Trigger>
 
@@ -285,7 +285,7 @@ function CurrentUserMenu() {
             className="grid cursor-pointer grid-cols-[auto,minmax(0px,1fr)] items-center rounded-0.5 pr-1 text-left text-gray-500 transition-colors duration-100 ease-in-out active:bg-gray-100 focus-visible:focus-compact-blue-400 hover:bg-gray-100"
           >
             <span className="flex h-4 w-4 items-center justify-center text-[20px]">
-              <Icon href="icon-user" />
+              <Icon href="icon-user-solid" />
             </span>
 
             <span className="text-body-emphasis">Votre profil</span>
@@ -306,7 +306,7 @@ function CurrentUserMenu() {
               className="grid cursor-pointer grid-cols-[auto,minmax(0px,1fr)] items-center rounded-0.5 pr-1 text-left text-gray-500 transition-colors duration-100 ease-in-out active:bg-gray-100 focus-visible:focus-compact-blue-400 hover:bg-gray-100"
             >
               <span className="flex h-4 w-4 items-center justify-center text-[20px]">
-                <Icon href="icon-right-from-bracket" />
+                <Icon href="icon-right-from-bracket-solid" />
               </span>
 
               <span className="text-body-emphasis">Se déconnecter</span>

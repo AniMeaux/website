@@ -202,7 +202,7 @@ export default function Route() {
                       search: searchParams.toString(),
                     }}
                   >
-                    <Action.Icon href="icon-print" />
+                    <Action.Icon href="icon-print-solid" />
                     Imprimer
                   </BaseLink>
                 </Action>

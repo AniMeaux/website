@@ -8,8 +8,8 @@ export const GENDER_TRANSLATION: Record<Gender, string> = {
 };
 
 export const GENDER_ICON: Record<Gender, IconName> = {
-  [Gender.FEMALE]: "icon-venus",
-  [Gender.MALE]: "icon-mars",
+  [Gender.FEMALE]: "icon-venus-solid",
+  [Gender.MALE]: "icon-mars-solid",
 };
 
 export const SORTED_GENDERS = orderBy(

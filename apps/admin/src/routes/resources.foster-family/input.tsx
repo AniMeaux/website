@@ -128,11 +128,11 @@ const InputTrigger = forwardRef<
         key="remove"
         onClick={() => setFosterFamily(null)}
       >
-        <Icon href="icon-x-mark" />
+        <Icon href="icon-x-mark-solid" />
       </BaseTextInput.ActionAdornment>
     ) : null,
     <BaseTextInput.Adornment key="caret">
-      <Icon href="icon-caret-down" />
+      <Icon href="icon-caret-down-solid" />
     </BaseTextInput.Adornment>,
   ].filter(Boolean);
 
@@ -158,7 +158,7 @@ const InputTrigger = forwardRef<
         side="left"
         adornment={
           <BaseTextInput.Adornment>
-            <Icon href="icon-house" />
+            <Icon href="icon-house-solid" />
           </BaseTextInput.Adornment>
         }
       />

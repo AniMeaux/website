@@ -117,7 +117,7 @@ export function AnimalFilters({
               label="Date de prise en charge"
               name={AnimalSortSearchParams.keys.sort}
               value={AnimalSort.PICK_UP}
-              icon={<Icon href="icon-hand-holding-heart" />}
+              icon={<Icon href="icon-hand-holding-heart-solid" />}
               checked={animalSortSearchParams.sort === AnimalSort.PICK_UP}
               onChange={() => {}}
             />
@@ -127,7 +127,7 @@ export function AnimalFilters({
               label="Alphabétique"
               name={AnimalSortSearchParams.keys.sort}
               value={AnimalSort.NAME}
-              icon={<Icon href="icon-arrow-down-a-z" />}
+              icon={<Icon href="icon-arrow-down-a-z-solid" />}
               checked={animalSortSearchParams.sort === AnimalSort.NAME}
               onChange={() => {}}
             />
@@ -137,7 +137,7 @@ export function AnimalFilters({
               label="Date de naissance"
               name={AnimalSortSearchParams.keys.sort}
               value={AnimalSort.BIRTHDATE}
-              icon={<Icon href="icon-cake-candles" />}
+              icon={<Icon href="icon-cake-candles-solid" />}
               checked={animalSortSearchParams.sort === AnimalSort.BIRTHDATE}
               onChange={() => {}}
             />
@@ -148,7 +148,7 @@ export function AnimalFilters({
                 label="Date de vaccination"
                 name={AnimalSortSearchParams.keys.sort}
                 value={AnimalSort.VACCINATION}
-                icon={<Icon href="icon-syringe" />}
+                icon={<Icon href="icon-syringe-solid" />}
                 checked={animalSortSearchParams.sort === AnimalSort.VACCINATION}
                 onChange={() => {}}
               />
@@ -252,7 +252,7 @@ export function AnimalFilters({
                 value={toIsoDateValue(animalSearchParams.birthdateStart)}
                 leftAdornment={
                   <ControlledInput.Adornment>
-                    <Icon href="icon-calendar-days" />
+                    <Icon href="icon-calendar-days-solid" />
                   </ControlledInput.Adornment>
                 }
                 rightAdornment={
@@ -270,7 +270,7 @@ export function AnimalFilters({
                         });
                       }}
                     >
-                      <Icon href="icon-x-mark" />
+                      <Icon href="icon-x-mark-solid" />
                     </ControlledInput.ActionAdornment>
                   ) : null
                 }
@@ -289,7 +289,7 @@ export function AnimalFilters({
                 value={toIsoDateValue(animalSearchParams.birthdateEnd)}
                 leftAdornment={
                   <ControlledInput.Adornment>
-                    <Icon href="icon-calendar-days" />
+                    <Icon href="icon-calendar-days-solid" />
                   </ControlledInput.Adornment>
                 }
                 rightAdornment={
@@ -307,7 +307,7 @@ export function AnimalFilters({
                         });
                       }}
                     >
-                      <Icon href="icon-x-mark" />
+                      <Icon href="icon-x-mark-solid" />
                     </ControlledInput.ActionAdornment>
                   ) : null
                 }
@@ -429,7 +429,7 @@ export function AnimalFilters({
                 value={toIsoDateValue(animalSearchParams.pickUpDateStart)}
                 leftAdornment={
                   <ControlledInput.Adornment>
-                    <Icon href="icon-calendar-days" />
+                    <Icon href="icon-calendar-days-solid" />
                   </ControlledInput.Adornment>
                 }
                 rightAdornment={
@@ -447,7 +447,7 @@ export function AnimalFilters({
                         });
                       }}
                     >
-                      <Icon href="icon-x-mark" />
+                      <Icon href="icon-x-mark-solid" />
                     </ControlledInput.ActionAdornment>
                   ) : null
                 }
@@ -466,7 +466,7 @@ export function AnimalFilters({
                 value={toIsoDateValue(animalSearchParams.pickUpDateEnd)}
                 leftAdornment={
                   <ControlledInput.Adornment>
-                    <Icon href="icon-calendar-days" />
+                    <Icon href="icon-calendar-days-solid" />
                   </ControlledInput.Adornment>
                 }
                 rightAdornment={
@@ -484,7 +484,7 @@ export function AnimalFilters({
                         });
                       }}
                     >
-                      <Icon href="icon-x-mark" />
+                      <Icon href="icon-x-mark-solid" />
                     </ControlledInput.ActionAdornment>
                   ) : null
                 }
@@ -504,7 +504,7 @@ export function AnimalFilters({
                     label={location}
                     name={AnimalSearchParams.keys.pickUpLocations}
                     value={location}
-                    icon={<Icon href="icon-location-dot" />}
+                    icon={<Icon href="icon-location-dot-solid" />}
                     checked={animalSearchParams.pickUpLocations.has(location)}
                     onChange={() => {}}
                   />
@@ -536,7 +536,7 @@ export function AnimalFilters({
                 label="Oui"
                 name={AnimalSearchParams.keys.sterilizations}
                 value={AnimalSterilization.YES}
-                icon={<Icon href="icon-scissors" />}
+                icon={<Icon href="icon-scissors-solid" />}
                 checked={animalSearchParams.sterilizations.has(
                   AnimalSterilization.YES,
                 )}
@@ -548,7 +548,7 @@ export function AnimalFilters({
                 label="Non"
                 name={AnimalSearchParams.keys.sterilizations}
                 value={AnimalSterilization.NO}
-                icon={<Icon href="icon-scissors" />}
+                icon={<Icon href="icon-scissors-solid" />}
                 checked={animalSearchParams.sterilizations.has(
                   AnimalSterilization.NO,
                 )}
@@ -560,7 +560,7 @@ export function AnimalFilters({
                 label="Non, et ne le sera pas"
                 name={AnimalSearchParams.keys.sterilizations}
                 value={AnimalSterilization.NOT_MANDATORY}
-                icon={<Icon href="icon-scissors" />}
+                icon={<Icon href="icon-scissors-solid" />}
                 checked={animalSearchParams.sterilizations.has(
                   AnimalSterilization.NOT_MANDATORY,
                 )}
@@ -620,7 +620,7 @@ export function AnimalFilters({
                     label="Aucune prévue"
                     name={AnimalSearchParams.keys.vaccinations}
                     value={AnimalVaccination.NONE_PLANNED}
-                    icon={<Icon href="icon-syringe" />}
+                    icon={<Icon href="icon-syringe-solid" />}
                     checked={animalSearchParams.vaccinations.has(
                       AnimalVaccination.NONE_PLANNED,
                     )}
@@ -632,7 +632,7 @@ export function AnimalFilters({
                     label="Ne sera pas vacciné"
                     name={AnimalSearchParams.keys.vaccinations}
                     value={AnimalVaccination.NOT_MANDATORY}
-                    icon={<Icon href="icon-syringe" />}
+                    icon={<Icon href="icon-syringe-solid" />}
                     checked={animalSearchParams.vaccinations.has(
                       AnimalVaccination.NOT_MANDATORY,
                     )}
@@ -657,7 +657,7 @@ export function AnimalFilters({
                   )}
                   leftAdornment={
                     <ControlledInput.Adornment>
-                      <Icon href="icon-calendar-days" />
+                      <Icon href="icon-calendar-days-solid" />
                     </ControlledInput.Adornment>
                   }
                   rightAdornment={
@@ -675,7 +675,7 @@ export function AnimalFilters({
                           });
                         }}
                       >
-                        <Icon href="icon-x-mark" />
+                        <Icon href="icon-x-mark-solid" />
                       </ControlledInput.ActionAdornment>
                     ) : null
                   }
@@ -698,7 +698,7 @@ export function AnimalFilters({
                   )}
                   leftAdornment={
                     <ControlledInput.Adornment>
-                      <Icon href="icon-calendar-days" />
+                      <Icon href="icon-calendar-days-solid" />
                     </ControlledInput.Adornment>
                   }
                   rightAdornment={
@@ -716,7 +716,7 @@ export function AnimalFilters({
                           });
                         }}
                       >
-                        <Icon href="icon-x-mark" />
+                        <Icon href="icon-x-mark-solid" />
                       </ControlledInput.ActionAdornment>
                     ) : null
                   }
@@ -797,7 +797,7 @@ export function AnimalFilters({
                 value={toIsoDateValue(animalSearchParams.adoptionDateStart)}
                 leftAdornment={
                   <ControlledInput.Adornment>
-                    <Icon href="icon-calendar-days" />
+                    <Icon href="icon-calendar-days-solid" />
                   </ControlledInput.Adornment>
                 }
                 rightAdornment={
@@ -815,7 +815,7 @@ export function AnimalFilters({
                         });
                       }}
                     >
-                      <Icon href="icon-x-mark" />
+                      <Icon href="icon-x-mark-solid" />
                     </ControlledInput.ActionAdornment>
                   ) : null
                 }
@@ -834,7 +834,7 @@ export function AnimalFilters({
                 value={toIsoDateValue(animalSearchParams.adoptionDateEnd)}
                 leftAdornment={
                   <ControlledInput.Adornment>
-                    <Icon href="icon-calendar-days" />
+                    <Icon href="icon-calendar-days-solid" />
                   </ControlledInput.Adornment>
                 }
                 rightAdornment={
@@ -852,7 +852,7 @@ export function AnimalFilters({
                         });
                       }}
                     >
-                      <Icon href="icon-x-mark" />
+                      <Icon href="icon-x-mark-solid" />
                     </ControlledInput.ActionAdornment>
                   ) : null
                 }
@@ -964,7 +964,7 @@ export function AnimalFilters({
                     });
                   }}
                 >
-                  <Icon href="icon-x-mark" />
+                  <Icon href="icon-x-mark-solid" />
                 </ControlledInput.ActionAdornment>
               ) : null
             }
@@ -988,7 +988,7 @@ function ActiveFilterLink() {
   return (
     <Action asChild variant="secondary" color={isActive ? "blue" : "gray"}>
       <BaseLink replace to={{ search: toSearchParams.toString() }}>
-        {isActive ? <Action.Icon href="icon-check" /> : null}
+        {isActive ? <Action.Icon href="icon-check-solid" /> : null}
         Animaux en charge
       </BaseLink>
     </Action>
@@ -1015,7 +1015,8 @@ function ManagerActiveFilterLink({
   return (
     <Action asChild variant="secondary" color={isActive ? "blue" : "gray"}>
       <BaseLink replace to={{ search: toSearchParams.toString() }}>
-        {isActive ? <Action.Icon href="icon-check" /> : null}À votre charge
+        {isActive ? <Action.Icon href="icon-check-solid" /> : null}À votre
+        charge
       </BaseLink>
     </Action>
   );
@@ -1132,7 +1133,7 @@ function ScreeningAndDiagnosisFilter({
                   label={DIAGNOSIS_TRANSLATION[diagnosis][Gender.MALE]}
                   name={AnimalSearchParams.keys.diagnosis}
                   value={diagnosis}
-                  icon={<Icon href="icon-shield-dog" />}
+                  icon={<Icon href="icon-shield-dog-solid" />}
                   checked={animalSearchParams.diagnosis.has(diagnosis)}
                   onChange={() => {}}
                 />

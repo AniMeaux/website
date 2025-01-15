@@ -90,7 +90,7 @@ export default function Route() {
 
       <div className="grid grid-cols-1 justify-items-end px-1 md:px-2 print:hidden">
         <Action onClick={() => window.print()}>
-          <Action.Icon href="icon-print" />
+          <Action.Icon href="icon-print-solid" />
           Imprimer
         </Action>
       </div>

@@ -1,6 +1,9 @@
 import { ShowActivityTarget } from "@prisma/client";
 
-export const ACTIVITY_TARGET_TRANSLATION: Record<ShowActivityTarget, string> = {
+export const TRANSLATION_BY_ACTIVITY_TARGET: Record<
+  ShowActivityTarget,
+  string
+> = {
   [ShowActivityTarget.CATS]: "Chats",
   [ShowActivityTarget.DOGS]: "Chiens",
   [ShowActivityTarget.EQUINES]: "Équidés",

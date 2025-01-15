@@ -104,7 +104,9 @@ Filters.Filter = function Filter({
 
         {count > 0 ? (
           <span className="flex h-4 items-center">
-            <Chip color="gray">{count}</Chip>
+            <Chip variant="filled" color="gray">
+              {count}
+            </Chip>
           </span>
         ) : null}
 
@@ -116,7 +118,7 @@ Filters.Filter = function Filter({
               : "text-gray-500 group-hover:text-gray-600",
           )}
         >
-          <Icon href="icon-angle-right" />
+          <Icon href="icon-angle-right-solid" />
         </span>
       </button>
 

@@ -221,7 +221,7 @@ export function AnimalSituationForm({
                   aria-describedby="adoptionDate-error"
                   leftAdornment={
                     <Input.Adornment>
-                      <Icon href="icon-calendar-days" />
+                      <Icon href="icon-calendar-days-solid" />
                     </Input.Adornment>
                   }
                 />
@@ -311,7 +311,7 @@ export function AnimalSituationForm({
                 aria-describedby="pickUpDate-error"
                 leftAdornment={
                   <Input.Adornment>
-                    <Icon href="icon-calendar-days" />
+                    <Icon href="icon-calendar-days-solid" />
                   </Input.Adornment>
                 }
               />
@@ -495,7 +495,7 @@ export function AnimalSituationForm({
                   aria-describedby="nextVaccinationDate-error"
                   leftAdornment={
                     <Input.Adornment>
-                      <Icon href="icon-calendar-days" />
+                      <Icon href="icon-calendar-days-solid" />
                     </Input.Adornment>
                   }
                 />

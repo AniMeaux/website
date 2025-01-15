@@ -2,13 +2,85 @@ import { NotFoundError, PrismaErrorCodes } from "#core/errors.server";
 import { googleClient } from "#core/google-client.server";
 import { notifyShowApp } from "#core/notification.server";
 import { prisma } from "#core/prisma.server";
+import { ApplicationSearchParamsN } from "#show/applications/search-params";
 import { TABLE_COUNT_BY_SIZE } from "#show/applications/stand-size";
+import { isPartnershipCategory } from "#show/partnership/category";
 import type { ShowExhibitorApplication } from "@prisma/client";
 import { Prisma, ShowExhibitorApplicationStatus } from "@prisma/client";
+import partition from "lodash.partition";
+import { promiseHash } from "remix-utils/promise";
 
 export class MissingRefusalMessageError extends Error {}
 
 export class ShowExhibitorApplicationDbDelegate {
+  async findMany<T extends Prisma.ShowExhibitorApplicationSelect>(params: {
+    searchParams: ApplicationSearchParamsN.Value;
+    page: number;
+    countPerPage: number;
+    select: T;
+  }) {
+    const where: Prisma.ShowExhibitorApplicationWhereInput[] = [];
+
+    if (params.searchParams.partnershipCategories.size > 0) {
+      const [partnershipCategories, otherPartnershipCategories] = partition(
+        Array.from(params.searchParams.partnershipCategories),
+        isPartnershipCategory,
+      );
+
+      where.push({
+        OR: [
+          { partnershipCategory: { in: partnershipCategories } },
+          { otherPartnershipCategory: { in: otherPartnershipCategories } },
+        ],
+      });
+    }
+
+    if (params.searchParams.name != null) {
+      where.push({
+        structureName: {
+          contains: params.searchParams.name,
+          mode: "insensitive",
+        },
+      });
+    }
+
+    if (params.searchParams.statuses.size > 0) {
+      where.push({ status: { in: Array.from(params.searchParams.statuses) } });
+    }
+
+    if (params.searchParams.targets.size > 0) {
+      where.push({
+        structureActivityTargets: {
+          hasSome: Array.from(params.searchParams.targets),
+        },
+      });
+    }
+
+    if (params.searchParams.fields.size > 0) {
+      where.push({
+        structureActivityFields: {
+          hasSome: Array.from(params.searchParams.fields),
+        },
+      });
+    }
+
+    const { applications, totalCount } = await promiseHash({
+      totalCount: prisma.showExhibitorApplication.count({
+        where: { AND: where },
+      }),
+
+      applications: prisma.showExhibitorApplication.findMany({
+        where: { AND: where },
+        skip: params.page * params.countPerPage,
+        take: params.countPerPage,
+        orderBy: FIND_ORDER_BY_SORT[params.searchParams.sort],
+        select: params.select,
+      }),
+    });
+
+    return { applications, totalCount };
+  }
+
   async update(
     id: ShowExhibitorApplication["id"],
     data: ShowExhibitorApplicationData,
@@ -108,3 +180,11 @@ type ShowExhibitorApplicationData = Pick<
   ShowExhibitorApplication,
   "status" | "refusalMessage"
 >;
+
+const FIND_ORDER_BY_SORT: Record<
+  ApplicationSearchParamsN.Sort,
+  Prisma.ShowExhibitorApplicationFindManyArgs["orderBy"]
+> = {
+  [ApplicationSearchParamsN.Sort.CREATED_AT]: { createdAt: "desc" },
+  [ApplicationSearchParamsN.Sort.NAME]: { structureName: "asc" },
+};

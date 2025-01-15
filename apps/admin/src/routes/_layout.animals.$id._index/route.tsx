@@ -311,7 +311,7 @@ function ProfileCard() {
             {getSpeciesLabels(animal)}
           </SimpleItem>
 
-          <SimpleItem icon={<Icon href="icon-cake-candles" />}>
+          <SimpleItem icon={<Icon href="icon-cake-candles-solid" />}>
             {DateTime.fromISO(animal.birthdate).toLocaleString(
               DateTime.DATE_FULL,
             )}{" "}
@@ -319,7 +319,7 @@ function ProfileCard() {
           </SimpleItem>
 
           {animal.iCadNumber != null ? (
-            <SimpleItem icon={<Icon href="icon-fingerprint" />}>
+            <SimpleItem icon={<Icon href="icon-fingerprint-solid" />}>
               I-CAD : {animal.iCadNumber}
             </SimpleItem>
           ) : null}
@@ -406,7 +406,7 @@ function ActionCard() {
         <Dialog>
           <Dialog.Trigger asChild>
             <Action variant="secondary" color="red">
-              <Action.Icon href="icon-trash" />
+              <Action.Icon href="icon-trash-solid" />
               Supprimer
             </Action>
           </Dialog.Trigger>

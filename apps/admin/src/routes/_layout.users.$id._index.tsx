@@ -265,7 +265,7 @@ export default function Route() {
     <PageLayout.Root>
       <PageLayout.Content className="flex flex-col gap-1 md:gap-2">
         {user.isDisabled ? (
-          <BlockHelper variant="warning" icon="icon-ban">
+          <BlockHelper variant="warning" icon="icon-ban-solid">
             {user.displayName} est actuellement bloqué.
           </BlockHelper>
         ) : null}
@@ -339,7 +339,7 @@ function ActivityCard() {
 
       <Card.Content>
         <ItemList>
-          <SimpleItem icon={<Icon href="icon-wave-pulse" />}>
+          <SimpleItem icon={<Icon href="icon-wave-pulse-solid" />}>
             {user.lastActivityAt == null ? (
               "Aucune activité"
             ) : (
@@ -591,7 +591,7 @@ function ActionDisable() {
           }
         >
           <Action variant="secondary" color="orange">
-            <Action.Icon href="icon-ban" />
+            <Action.Icon href="icon-ban-solid" />
             {user.isDisabled ? "Débloquer" : "Bloquer"}
           </Action>
         </Dialog.Trigger>
@@ -672,7 +672,7 @@ function ActionDelete() {
           }
         >
           <Action variant="secondary" color="red">
-            <Action.Icon href="icon-trash" />
+            <Action.Icon href="icon-trash-solid" />
             Supprimer
           </Action>
         </Dialog.Trigger>

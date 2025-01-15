@@ -110,7 +110,7 @@ function MediumComboboxLayout({
         {label}
         {input(
           <BaseTextInput.Adornment>
-            <Icon href="icon-magnifying-glass" />
+            <Icon href="icon-magnifying-glass-solid" />
           </BaseTextInput.Adornment>,
         )}
       </header>
@@ -132,7 +132,7 @@ function SmallComboboxLayout({
         {input(
           <Dialog.Close asChild>
             <BaseTextInput.ActionAdornment>
-              <Icon href="icon-angle-left" />
+              <Icon href="icon-angle-left-solid" />
             </BaseTextInput.ActionAdornment>
           </Dialog.Close>,
         )}
@@ -191,7 +191,7 @@ export const SuggestionItem = forwardRef<
       )}
     >
       <Item.Icon className="group-data-[is-additional=true]:text-blue-500">
-        {isAdditional ? <Icon href="icon-plus" /> : leftAdornment}
+        {isAdditional ? <Icon href="icon-plus-solid" /> : leftAdornment}
       </Item.Icon>
 
       <Item.Content asChild>
@@ -204,7 +204,7 @@ export const SuggestionItem = forwardRef<
       </Item.Content>
 
       <Item.Icon className="opacity-0 transition-opacity duration-100 ease-in-out group-data-[is-value=true]:opacity-100">
-        <Icon href="icon-check" className="text-[14px] text-green-600" />
+        <Icon href="icon-check-solid" className="text-[14px] text-green-600" />
       </Item.Icon>
     </Item>
   );

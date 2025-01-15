@@ -116,11 +116,11 @@ const InputTrigger = forwardRef<
         key="remove"
         onClick={() => setColor(null)}
       >
-        <Icon href="icon-x-mark" />
+        <Icon href="icon-x-mark-solid" />
       </BaseTextInput.ActionAdornment>
     ) : null,
     <BaseTextInput.Adornment key="caret">
-      <Icon href="icon-caret-down" />
+      <Icon href="icon-caret-down-solid" />
     </BaseTextInput.Adornment>,
   ].filter(Boolean);
 
@@ -146,7 +146,7 @@ const InputTrigger = forwardRef<
         side="left"
         adornment={
           <BaseTextInput.Adornment>
-            <Icon href="icon-palette" />
+            <Icon href="icon-palette-solid" />
           </BaseTextInput.Adornment>
         }
       />
@@ -221,7 +221,7 @@ function Combobox({
               key={color.id}
               {...combobox.getItemProps({ item: color, index })}
               isValue={selectedColor?.id === color.id}
-              leftAdornment={<Icon href="icon-palette" />}
+              leftAdornment={<Icon href="icon-palette-solid" />}
               label={color._highlighted.name}
             />
           ))}

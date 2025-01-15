@@ -76,8 +76,8 @@ Dialog.Header = function DialogHeader({
 };
 
 const VARIANT_ICON: Record<DialogVariant, IconName> = {
-  alert: "icon-circle-exclamation",
-  warning: "icon-triangle-exclamation",
+  alert: "icon-circle-exclamation-solid",
+  warning: "icon-triangle-exclamation-solid",
 };
 
 const VARIANT_ICON_CLASS_NAME: Record<DialogVariant, string> = {

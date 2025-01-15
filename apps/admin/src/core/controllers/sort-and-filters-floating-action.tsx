@@ -16,7 +16,7 @@ export function SortAndFiltersFloatingAction({
   return (
     <Dialog.Root>
       <Dialog.Trigger className="fixed z-20 flex h-5 w-5 items-center justify-center rounded-full bg-blue-500 shadow-popover-sm transition-[background-color,transform] duration-100 ease-in-out bottom-safe-6.5 right-safe-1.5 active:scale-95 focus-visible:focus-spaced-blue-400 hover:bg-blue-400 md:hidden">
-        <Icon href="icon-filter" className="text-[25px] text-white" />
+        <Icon href="icon-filter-solid" className="text-[25px] text-white" />
       </Dialog.Trigger>
 
       <Dialog.Portal>

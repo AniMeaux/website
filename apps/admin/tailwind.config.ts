@@ -1,4 +1,5 @@
 import { tailwindAnimation } from "@animeaux/tailwind-animation";
+import containerQueries from "@tailwindcss/container-queries";
 import type { Config } from "tailwindcss";
 import defaultColors from "tailwindcss/colors";
 import defaultTheme from "tailwindcss/defaultTheme";
@@ -120,10 +121,12 @@ const theme: Config = {
 
   plugins: [
     tailwindAnimation,
+    containerQueries,
     pluginCustomScrollbar(),
     pluginFocus(),
     pluginFocusVisible(),
     pluginHover(),
+    pluginIconSizes(),
     pluginRingOutset(),
     pluginSafePadding(),
     pluginSafePosition(),
@@ -179,6 +182,23 @@ function pluginHover() {
   return plugin(({ addVariant }) => {
     addVariant("hover", "@media(any-hover:hover){&:hover}");
     addVariant("group-hover", "@media(any-hover:hover){.group:hover &}");
+  });
+}
+
+/**
+ * Alias of `text-[<size>]` for usage in icon component because it feels
+ * more natural to use `icon-<size>` than `text-[<size>]`.
+ */
+function pluginIconSizes() {
+  return plugin(({ matchUtilities }) => {
+    matchUtilities(
+      { icon: (value) => ({ "font-size": value }) },
+      {
+        values: {
+          "20": "20px",
+        },
+      },
+    );
   });
 }
 

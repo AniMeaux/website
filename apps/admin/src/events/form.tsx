@@ -183,7 +183,7 @@ export function EventForm({
           ) : imageState === "error" || imageState.image == null ? (
             <ImageInput.Trigger
               label="Choisir"
-              icon="icon-upload"
+              icon="icon-upload-solid"
               onClick={() => imageRef.current?.click()}
               hasError={fetcher.data?.errors?.fieldErrors.image != null}
               className="aspect-4/3"
@@ -205,7 +205,7 @@ export function EventForm({
               <ImageInput.PreviewAction
                 onClick={() => imageRef.current?.click()}
               >
-                <Action.Icon href="icon-upload" />
+                <Action.Icon href="icon-upload-solid" />
                 Changer
               </ImageInput.PreviewAction>
             </ImageInput.Preview>
@@ -271,7 +271,7 @@ export function EventForm({
             aria-describedby="location-error"
             leftAdornment={
               <Input.Adornment>
-                <Icon href="icon-location-dot" />
+                <Icon href="icon-location-dot-solid" />
               </Input.Adornment>
             }
           />
@@ -298,7 +298,7 @@ export function EventForm({
             aria-describedby="url-error"
             leftAdornment={
               <Input.Adornment>
-                <Icon href="icon-globe" />
+                <Icon href="icon-globe-solid" />
               </Input.Adornment>
             }
           />
@@ -349,7 +349,7 @@ export function EventForm({
               aria-describedby="startDate-error"
               leftAdornment={
                 <Input.Adornment>
-                  <Icon href="icon-calendar-days" />
+                  <Icon href="icon-calendar-days-solid" />
                 </Input.Adornment>
               }
             />
@@ -384,7 +384,7 @@ export function EventForm({
               aria-describedby="endDate-error"
               leftAdornment={
                 <Input.Adornment>
-                  <Icon href="icon-calendar-days" />
+                  <Icon href="icon-calendar-days-solid" />
                 </Input.Adornment>
               }
             />

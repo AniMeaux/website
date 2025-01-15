@@ -49,11 +49,13 @@ Card.Content = function CardContent({
   hasHorizontalScroll = false,
   hasVerticalScroll = false,
   hasListItems = false,
+  className,
 }: {
   children?: React.ReactNode;
   hasHorizontalScroll?: boolean;
   hasVerticalScroll?: boolean;
   hasListItems?: boolean;
+  className?: string;
 }) {
   return (
     <div
@@ -67,6 +69,7 @@ Card.Content = function CardContent({
         hasVerticalScroll
           ? "flex-1 overflow-y-scroll overscroll-contain scrollbars-custom"
           : "flex-auto",
+        className,
       )}
     >
       {children}
