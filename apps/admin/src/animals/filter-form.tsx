@@ -361,29 +361,37 @@ export function AnimalFilters({
             )
           }
         >
-          <ControlledInput
-            name={AnimalSearchParams.keys.iCadNumber}
-            value={animalSearchParams.iCadNumber ?? ""}
-            rightAdornment={
-              animalSearchParams.iCadNumber != null ? (
-                <ControlledInput.ActionAdornment
-                  onClick={() => {
-                    setSearchParams((searchParams) => {
-                      return AnimalSearchParams.set(
-                        searchParams,
-                        (animalSearchParams) => ({
-                          ...animalSearchParams,
-                          iCadNumber: undefined,
-                        }),
-                      );
-                    });
-                  }}
-                >
-                  <Icon href="icon-x-mark" />
-                </ControlledInput.ActionAdornment>
-              ) : null
-            }
-          />
+          <Form.Fields>
+            <Form.Field>
+              <Form.Label htmlFor={AnimalSearchParams.keys.iCadNumber}>
+                Numéro I-CAD
+              </Form.Label>
+
+              <ControlledInput
+                name={AnimalSearchParams.keys.iCadNumber}
+                value={animalSearchParams.iCadNumber ?? ""}
+                rightAdornment={
+                  animalSearchParams.iCadNumber != null ? (
+                    <ControlledInput.ActionAdornment
+                      onClick={() => {
+                        setSearchParams((searchParams) => {
+                          return AnimalSearchParams.set(
+                            searchParams,
+                            (animalSearchParams) => ({
+                              ...animalSearchParams,
+                              iCadNumber: undefined,
+                            }),
+                          );
+                        });
+                      }}
+                    >
+                      <Icon href="icon-x-mark-solid" />
+                    </ControlledInput.ActionAdornment>
+                  ) : null
+                }
+              />
+            </Form.Field>
+          </Form.Fields>
         </Filters.Filter>
 
         <Filters.Filter
