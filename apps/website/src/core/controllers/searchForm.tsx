@@ -1,7 +1,6 @@
 import { BaseLink } from "#core/base-link";
 import {
   AGE_TRANSLATION,
-  SPECIES_TRANSLATION,
   SPECIES_TRANSLATION_STANDALONE,
 } from "#core/translations";
 import { Icon } from "#generated/icon";
@@ -12,8 +11,7 @@ import { useCallback, useEffect, useState } from "react";
 
 const SORTED_SPECIES = orderBy(
   Object.values(Species),
-  (species) => SPECIES_TRANSLATION[species].toLowerCase(),
-  ["asc"],
+  (species) => SPECIES_TRANSLATION_STANDALONE[species],
 );
 
 const SORTED_AGES = orderBy(Object.values(AnimalAge), (age) =>
