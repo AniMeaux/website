@@ -15,7 +15,10 @@ export function CardDiscoverySource() {
 
       <Card.Content>
         <ItemList>
-          <SimpleItem icon={<Icon href="icon-people-arrows-solid" />}>
+          <SimpleItem
+            isLightIcon
+            icon={<Icon href="icon-people-arrows-light" />}
+          >
             {application.discoverySource}
           </SimpleItem>
         </ItemList>

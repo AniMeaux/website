@@ -15,15 +15,21 @@ export const PartnershipCategoryIcon = forwardRef<
   React.ComponentRef<"span">,
   Except<React.ComponentPropsWithoutRef<"span">, "title"> & {
     category: ShowPartnershipCategory;
+    variant?: "light" | "solid";
   }
->(function PartnershipCategoryIcon({ category, ...props }, ref) {
+>(function PartnershipCategoryIcon(
+  { category, variant = "light", ...props },
+  ref,
+) {
   return (
     <span
       {...props}
       ref={ref}
       title={TRANSLATION_BY_PARTNERSHIP_CATEGORY[category]}
     >
-      <Icon href="icon-award-light" />
+      <Icon
+        href={variant === "light" ? "icon-award-light" : "icon-award-solid"}
+      />
     </span>
   );
 });
@@ -32,9 +38,10 @@ export const ApplicationOtherPartnershipCategoryIcon = forwardRef<
   React.ComponentRef<"span">,
   Except<React.ComponentPropsWithoutRef<"span">, "title"> & {
     category: ShowExhibitorApplicationOtherPartnershipCategory;
+    variant?: "light" | "solid";
   }
 >(function ApplicationOtherPartnershipCategoryIcon(
-  { category, ...props },
+  { category, variant = "light", ...props },
   ref,
 ) {
   return (
@@ -44,7 +51,7 @@ export const ApplicationOtherPartnershipCategoryIcon = forwardRef<
       title={TRANSLATION_BY_APPLICATION_OTHER_PARTNERSHIP_CATEGORY[category]}
     >
       <Icon
-        href={ICON_BY_APPLICATION_OTHER_PARTNERSHIP_CATEGORY[category].light}
+        href={ICON_BY_APPLICATION_OTHER_PARTNERSHIP_CATEGORY[category][variant]}
       />
     </span>
   );
@@ -68,10 +75,21 @@ export const ApplicationPartnershipCategoryIcon = forwardRef<
   React.ComponentRef<"span">,
   Except<React.ComponentPropsWithoutRef<"span">, "title"> & {
     category: ApplicationPartnershipCategory;
+    variant?: "light" | "solid";
   }
->(function ApplicationPartnershipCategoryIcon({ category, ...props }, ref) {
+>(function ApplicationPartnershipCategoryIcon(
+  { category, variant, ...props },
+  ref,
+) {
   if (isPartnershipCategory(category)) {
-    return <PartnershipCategoryIcon {...props} ref={ref} category={category} />;
+    return (
+      <PartnershipCategoryIcon
+        {...props}
+        ref={ref}
+        category={category}
+        variant={variant}
+      />
+    );
   }
 
   return (
@@ -79,6 +97,7 @@ export const ApplicationPartnershipCategoryIcon = forwardRef<
       {...props}
       ref={ref}
       category={category}
+      variant={variant}
     />
   );
 });

@@ -9,15 +9,19 @@ export const ActivityFieldIcon = forwardRef<
   React.ComponentRef<"span">,
   Except<React.ComponentPropsWithoutRef<"span">, "title"> & {
     activityField: ShowActivityField;
+    variant?: "light" | "solid";
   }
->(function ActivityFieldIcon({ activityField, ...props }, ref) {
+>(function ActivityFieldIcon(
+  { activityField, variant = "light", ...props },
+  ref,
+) {
   return (
     <span
       {...props}
       ref={ref}
       title={TRANSLATION_BY_ACTIVITY_FIELD[activityField]}
     >
-      <Icon href={ICON_BY_ACTIVITY_FIELD[activityField].light} />
+      <Icon href={ICON_BY_ACTIVITY_FIELD[activityField][variant]} />
     </span>
   );
 });

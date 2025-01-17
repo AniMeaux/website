@@ -26,15 +26,22 @@ export function CardStructure() {
             alt={application.structureName}
             sizeMapping={{ sm: "100vw", md: "33vw", default: "160px" }}
             fallbackSize="512"
+            background="none"
             className="w-full rounded-2 border border-gray-200"
           />
 
           <ItemList>
-            <SimpleItem icon={<Icon href="icon-house-building-solid" />}>
+            <SimpleItem
+              isLightIcon
+              icon={<Icon href="icon-house-building-light" />}
+            >
               {application.structureName}
             </SimpleItem>
 
-            <SimpleItem icon={<Icon href="icon-location-dot-solid" />}>
+            <SimpleItem
+              isLightIcon
+              icon={<Icon href="icon-location-dot-light" />}
+            >
               <Markdown components={SENTENCE_COMPONENTS}>
                 {getCompleteLocation({
                   address: application.structureAddress,
@@ -45,7 +52,10 @@ export function CardStructure() {
               </Markdown>
             </SimpleItem>
 
-            <SimpleItem icon={<Icon href="icon-envelope-open-dollar-solid" />}>
+            <SimpleItem
+              isLightIcon
+              icon={<Icon href="icon-envelope-open-dollar-light" />}
+            >
               <Markdown components={SENTENCE_COMPONENTS}>
                 {getCompleteLocation({
                   address: application.billingAddress,
@@ -56,7 +66,10 @@ export function CardStructure() {
               </Markdown>
             </SimpleItem>
 
-            <SimpleItem icon={<Icon href="icon-fingerprint-solid" />}>
+            <SimpleItem
+              isLightIcon
+              icon={<Icon href="icon-fingerprint-light" />}
+            >
               {application.structureLegalStatus == null
                 ? application.structureOtherLegalStatus
                 : LEGAL_STATUS_TRANSLATION[
@@ -65,17 +78,20 @@ export function CardStructure() {
               • {application.structureSiret}
             </SimpleItem>
 
-            <SimpleItem icon={<Icon href="icon-globe-solid" />}>
+            <SimpleItem isLightIcon icon={<Icon href="icon-globe-light" />}>
               {application.structureUrl}
             </SimpleItem>
 
-            <SimpleItem icon={<Icon href="icon-bullseye-arrow-solid" />}>
+            <SimpleItem
+              isLightIcon
+              icon={<Icon href="icon-bullseye-arrow-light" />}
+            >
               {application.structureActivityTargets
                 .map((target) => TRANSLATION_BY_ACTIVITY_TARGET[target])
                 .join(", ")}
             </SimpleItem>
 
-            <SimpleItem icon={<Icon href="icon-tags-solid" />}>
+            <SimpleItem isLightIcon icon={<Icon href="icon-tags-light" />}>
               {application.structureActivityFields
                 .map((field) => TRANSLATION_BY_ACTIVITY_FIELD[field])
                 .join(", ")}

@@ -153,7 +153,7 @@ export const SuggestionList = forwardRef<
 });
 
 export type SuggestionItemProps = React.ComponentPropsWithoutRef<
-  typeof Item
+  typeof Item.Root
 > & {
   isAdditional?: boolean;
   isValue?: boolean;
@@ -165,7 +165,7 @@ export type SuggestionItemProps = React.ComponentPropsWithoutRef<
 };
 
 export const SuggestionItem = forwardRef<
-  React.ComponentRef<typeof Item>,
+  React.ComponentRef<typeof Item.Root>,
   SuggestionItemProps
 >(function SuggestionItem(
   {
@@ -180,7 +180,7 @@ export const SuggestionItem = forwardRef<
   ref,
 ) {
   return (
-    <Item
+    <Item.Root
       {...rest}
       ref={ref}
       data-is-value={toBooleanAttribute(isValue)}
@@ -190,7 +190,7 @@ export const SuggestionItem = forwardRef<
         "cursor-pointer aria-selected:bg-gray-100 data-[is-value=true]:bg-gray-100",
       )}
     >
-      <Item.Icon className="group-data-[is-additional=true]:text-blue-500">
+      <Item.Icon className="text-gray-600 group-data-[is-additional=true]:text-blue-500">
         {isAdditional ? <Icon href="icon-plus-solid" /> : leftAdornment}
       </Item.Icon>
 
@@ -206,7 +206,7 @@ export const SuggestionItem = forwardRef<
       <Item.Icon className="opacity-0 transition-opacity duration-100 ease-in-out group-data-[is-value=true]:opacity-100">
         <Icon href="icon-check-solid" className="text-[14px] text-green-600" />
       </Item.Icon>
-    </Item>
+    </Item.Root>
   );
 });
 

@@ -11,6 +11,7 @@ import { UserGroup } from "@prisma/client";
 import type { LoaderFunctionArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import type { MetaFunction } from "@remix-run/react";
+import { CardComments } from "./card-comments";
 import { CardContact } from "./card-contact";
 import { CardDiscoverySource } from "./card-discovery-source";
 import { CardParticipation } from "./card-participation";
@@ -37,15 +38,26 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
   const application = await prisma.showExhibitorApplication.findUnique({
     where: { id: routeParams.data.applicationId },
     select: {
-      id: true,
-      status: true,
-      refusalMessage: true,
+      billingAddress: true,
+      billingCity: true,
+      billingCountry: true,
+      billingZipCode: true,
+      comments: true,
       contactEmail: true,
       contactFirstname: true,
       contactLastname: true,
       contactPhone: true,
-      structureActivityTargets: true,
+      createdAt: true,
+      desiredStandSize: true,
+      discoverySource: true,
+      id: true,
+      otherPartnershipCategory: true,
+      partnershipCategory: true,
+      proposalForOnStageEntertainment: true,
+      refusalMessage: true,
+      status: true,
       structureActivityFields: true,
+      structureActivityTargets: true,
       structureAddress: true,
       structureCity: true,
       structureCountry: true,
@@ -56,15 +68,6 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
       structureSiret: true,
       structureUrl: true,
       structureZipCode: true,
-      billingAddress: true,
-      billingCity: true,
-      billingCountry: true,
-      billingZipCode: true,
-      desiredStandSize: true,
-      proposalForOnStageEntertainment: true,
-      partnershipCategory: true,
-      otherPartnershipCategory: true,
-      discoverySource: true,
 
       exhibitor: {
         select: {
@@ -107,20 +110,21 @@ export function ErrorBoundary() {
 export default function Route() {
   return (
     <PageLayout.Content className="grid grid-cols-1 gap-1 md:grid-cols-[minmax(0px,2fr)_minmax(250px,1fr)] md:items-start md:gap-2">
+      <div className="grid grid-cols-1 gap-1 md:col-start-2 md:row-start-1 md:gap-2">
+        <CardSituation />
+        <CardSituationRefusalMessage />
+        <CardContact />
+      </div>
+
       <div className="grid grid-cols-1 gap-1 md:gap-2">
         <CardStructure />
         <CardParticipation />
+        <CardComments />
 
         <div className="grid grid-cols-1 gap-1 md:grid-cols-2 md:gap-2">
           <CardPartnership />
           <CardDiscoverySource />
         </div>
-      </div>
-
-      <div className="grid grid-cols-1 gap-1 md:gap-2">
-        <CardSituation />
-        <CardSituationRefusalMessage />
-        <CardContact />
       </div>
     </PageLayout.Content>
   );
