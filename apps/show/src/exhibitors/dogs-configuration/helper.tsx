@@ -2,7 +2,7 @@ import { HelperCard } from "#core/layout/helper-card";
 
 export function DogsHelper() {
   return (
-    <HelperCard.Root color="paleBlue">
+    <HelperCard.Root color="alabaster">
       <p>
         Votre chien est le bienvenu sous réserve de respecter le{" "}
         <strong className="text-body-lowercase-emphasis">

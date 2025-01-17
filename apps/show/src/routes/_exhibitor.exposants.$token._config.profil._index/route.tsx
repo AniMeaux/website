@@ -10,7 +10,6 @@ import type { MetaFunction } from "@remix-run/react";
 import { SectionDescription } from "./section-description";
 import { SectionHelper } from "./section-helper";
 import { SectionPublicProfile } from "./section-public-profile";
-import { SectionStatus } from "./section-status";
 
 export async function loader({ params }: LoaderFunctionArgs) {
   const routeParams = safeParseRouteParam(RouteParamsSchema, params);
@@ -19,13 +18,17 @@ export async function loader({ params }: LoaderFunctionArgs) {
     routeParams.token,
     {
       select: {
-        updatedAt: true,
         activityFields: true,
         activityTargets: true,
         description: true,
+        descriptionStatus: true,
+        descriptionStatusMessage: true,
         links: true,
         logoPath: true,
         name: true,
+        publicProfileStatus: true,
+        publicProfileStatusMessage: true,
+        updatedAt: true,
       },
     },
   );
@@ -46,7 +49,6 @@ export default function Route() {
     <FormLayout.Root className="py-4 px-safe-page-narrow md:px-safe-page-normal">
       <FormLayout.Form asChild>
         <div>
-          <SectionStatus />
           <SectionPublicProfile />
           <FormLayout.SectionSeparator />
           <SectionDescription />

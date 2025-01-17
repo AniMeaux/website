@@ -2,8 +2,8 @@ import { zu } from "@animeaux/zod-utils";
 
 export const ActionSchema = zu.object({
   description: zu
-    .string()
+    .string({ required_error: "Veuillez entrer une description" })
     .trim()
-    .max(512, "Veuillez entrer une description plus courte")
-    .optional(),
+    .min(1, "Veuillez entrer une description")
+    .max(512, "Veuillez entrer une description plus courte"),
 });

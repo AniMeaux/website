@@ -8,7 +8,7 @@ export function SectionOnStage() {
     <FormLayout.Section>
       <FormLayout.Title>Animations sur scène</FormLayout.Title>
 
-      <HelperCard.Root color="paleBlue">
+      <HelperCard.Root color="alabaster">
         <p>
           Vous avez la possibilité d’organiser une animation sur scène (débat,
           conférence, animation participative, etc…), sous réserve de la

@@ -4,8 +4,9 @@ import { Routes } from "#core/navigation";
 import { Icon } from "#generated/icon";
 import logoMedium from "#images/logo-medium.svg";
 import logoSmall from "#images/logo-small.svg";
+import { cn } from "@animeaux/core";
 import * as NavigationMenu from "@radix-ui/react-navigation-menu";
-import { Link, NavLink, createPath } from "@remix-run/react";
+import { Link, NavLink, createPath, useLocation } from "@remix-run/react";
 import { Children, forwardRef, isValidElement } from "react";
 import type { Except } from "type-fest";
 
@@ -26,10 +27,13 @@ export const Header = {
         React.ComponentPropsWithoutRef<typeof NavLink>,
         "prefetch" | "role" | "className" | "children"
       >
-    >
+    > & {
+      exclude?: string;
+    }
   >(function HeaderNavItem(
     {
       to,
+      exclude,
       children,
 
       // Allow usages with `asChild`.
@@ -37,6 +41,16 @@ export const Header = {
     },
     ref,
   ) {
+    const location = useLocation();
+
+    function isReallyActive({ isActive }: { isActive: boolean }) {
+      if (exclude == null) {
+        return isActive;
+      }
+
+      return isActive && !location.pathname.startsWith(exclude);
+    }
+
     return (
       <NavLink
         {...props}
@@ -44,16 +58,29 @@ export const Header = {
         to={to}
         prefetch="intent"
         role="menuitem"
-        className="group/nav-item flex justify-center px-1 transition-[color,transform] duration-normal text-body-uppercase-emphasis active:scale-95 aria-[current=page]:text-mystic can-hover:hover:text-mystic can-hover:focus-visible:focus-compact lg:px-2"
-      >
-        <span className="relative flex py-0.5">
-          {children}
+        className={(props) =>
+          cn(
+            "flex justify-center px-1 transition-[color,transform] duration-normal text-body-uppercase-emphasis active:scale-95 can-hover:focus-visible:focus-compact lg:px-2",
 
-          <span
-            aria-hidden
-            className="absolute bottom-0 left-0 h-[3px] w-full origin-left scale-x-0 bg-mystic transition-transform duration-slow group-aria-[current=page]/nav-item:scale-x-100"
-          />
-        </span>
+            isReallyActive(props)
+              ? "text-mystic"
+              : "can-hover:hover:text-mystic",
+          )
+        }
+      >
+        {(props) => (
+          <span className="relative flex py-0.5">
+            {children}
+
+            <span
+              aria-hidden
+              className={cn(
+                "absolute bottom-0 left-0 h-[3px] w-full origin-left scale-x-0 bg-mystic transition-transform duration-slow",
+                isReallyActive(props) ? "scale-x-100" : undefined,
+              )}
+            />
+          </span>
+        )}
       </NavLink>
     );
   }),

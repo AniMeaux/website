@@ -26,7 +26,8 @@ export async function createEmailTemplateRequest(
 
         <EmailHtml.Section.Root>
           <EmailHtml.Paragraph>
-            Vos documents ont bien été mis à jour.
+            Vos documents ont bien été mis à jour et son en attente de
+            traitement.
           </EmailHtml.Paragraph>
 
           <EmailHtml.Paragraph>

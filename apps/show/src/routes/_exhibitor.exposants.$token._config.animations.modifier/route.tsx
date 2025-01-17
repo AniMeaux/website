@@ -6,14 +6,15 @@ import { Routes } from "#core/navigation";
 import { getPageTitle } from "#core/page-title";
 import { badRequest } from "#core/response.server";
 import { services } from "#core/services/services.server";
-import { canEditProfile } from "#exhibitors/profile/dates";
 import { createEmailTemplateAnimationsOnStandUpdated } from "#exhibitors/profile/email.server";
 import { RouteParamsSchema } from "#exhibitors/route-params";
 import { safeParseRouteParam } from "@animeaux/zod-utils";
 import { parseWithZod } from "@conform-to/zod";
+import { ShowExhibitorProfileStatus } from "@prisma/client";
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import type { MetaFunction } from "@remix-run/react";
+import { createPath } from "@remix-run/react";
 import { ActionSchema } from "./action";
 import { SectionForm } from "./section-form";
 import { SectionHelper } from "./section-helper";
@@ -21,21 +22,29 @@ import { SectionHelper } from "./section-helper";
 export async function loader({ params }: LoaderFunctionArgs) {
   const routeParams = safeParseRouteParam(RouteParamsSchema, params);
 
-  if (!canEditProfile()) {
-    throw redirect(
-      Routes.exhibitors.token(routeParams.token).animations.toString(),
-    );
-  }
-
   const profile = await services.exhibitor.profile.getByToken(
     routeParams.token,
     {
       select: {
         name: true,
         onStandAnimations: true,
+        onStandAnimationsStatus: true,
       },
     },
   );
+
+  if (
+    profile.onStandAnimationsStatus === ShowExhibitorProfileStatus.VALIDATED
+  ) {
+    throw redirect(
+      createPath({
+        pathname: Routes.exhibitors
+          .token(routeParams.token)
+          .animations.toString(),
+        hash: "on-stand-animations",
+      }),
+    );
+  }
 
   return { profile };
 }
@@ -53,7 +62,14 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
 export async function action({ request, params }: ActionFunctionArgs) {
   const routeParams = safeParseRouteParam(RouteParamsSchema, params);
 
-  if (!canEditProfile()) {
+  const profile = await services.exhibitor.profile.getByToken(
+    routeParams.token,
+    { select: { onStandAnimationsStatus: true } },
+  );
+
+  if (
+    profile.onStandAnimationsStatus === ShowExhibitorProfileStatus.VALIDATED
+  ) {
     throw badRequest();
   }
 
@@ -65,7 +81,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
     return json(submission.reply(), { status: 400 });
   }
 
-  await services.exhibitor.profile.update(routeParams.token, {
+  await services.exhibitor.profile.updateOnStandAnimations(routeParams.token, {
     onStandAnimations: submission.value.onStandAnimations || null,
   });
 
@@ -74,7 +90,12 @@ export async function action({ request, params }: ActionFunctionArgs) {
   );
 
   throw redirect(
-    Routes.exhibitors.token(routeParams.token).animations.toString(),
+    createPath({
+      pathname: Routes.exhibitors
+        .token(routeParams.token)
+        .animations.toString(),
+      hash: "on-stand-animations",
+    }),
   );
 }
 

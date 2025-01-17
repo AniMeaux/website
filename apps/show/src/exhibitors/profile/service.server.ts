@@ -4,6 +4,7 @@ import { notFound } from "#core/response.server";
 import { Service } from "#core/services/service.server";
 import { ImageUrl } from "@animeaux/core";
 import type { Prisma } from "@prisma/client";
+import { ShowExhibitorProfileStatus } from "@prisma/client";
 import { captureException } from "@sentry/remix";
 
 export class ServiceProfile extends Service {
@@ -23,7 +24,7 @@ export class ServiceProfile extends Service {
     return exhibitor.profile;
   }
 
-  async update(token: string, data: ExhibitorProfileData) {
+  async updatePublicProfile(token: string, data: ExhibitorPublicProfileData) {
     const logoPath =
       typeof data.logoPath === "string" ? data.logoPath : data.logoPath?.set;
 
@@ -39,19 +40,67 @@ export class ServiceProfile extends Service {
 
     await prisma.showExhibitor.update({
       where: { token },
-      data: { profile: { update: data } },
+      data: {
+        profile: {
+          update: {
+            ...data,
+            publicProfileStatus: ShowExhibitorProfileStatus.AWAITING_VALIDATION,
+          },
+        },
+      },
+    });
+
+    return true;
+  }
+
+  async updateDescription(token: string, data: ExhibitorDescriptionData) {
+    await prisma.showExhibitor.update({
+      where: { token },
+      data: {
+        profile: {
+          update: {
+            ...data,
+            descriptionStatus: ShowExhibitorProfileStatus.AWAITING_VALIDATION,
+          },
+        },
+      },
+    });
+
+    return true;
+  }
+
+  async updateOnStandAnimations(
+    token: string,
+    data: ExhibitorOnStandAnimationsData,
+  ) {
+    await prisma.showExhibitor.update({
+      where: { token },
+      data: {
+        profile: {
+          update: {
+            ...data,
+            onStandAnimationsStatus:
+              ShowExhibitorProfileStatus.AWAITING_VALIDATION,
+          },
+        },
+      },
     });
 
     return true;
   }
 }
 
-type ExhibitorProfileData = Pick<
+type ExhibitorPublicProfileData = Pick<
   Prisma.ShowExhibitorProfileUpdateInput,
-  | "activityFields"
-  | "activityTargets"
-  | "description"
-  | "links"
-  | "logoPath"
-  | "onStandAnimations"
+  "activityFields" | "activityTargets" | "links" | "logoPath"
+>;
+
+type ExhibitorDescriptionData = Pick<
+  Prisma.ShowExhibitorProfileUpdateInput,
+  "description"
+>;
+
+type ExhibitorOnStandAnimationsData = Pick<
+  Prisma.ShowExhibitorProfileUpdateInput,
+  "onStandAnimations"
 >;

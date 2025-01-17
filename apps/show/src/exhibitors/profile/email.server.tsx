@@ -108,7 +108,8 @@ export async function createEmailTemplatePublicProfileUpdated(
 
         <EmailHtml.Section.Root>
           <EmailHtml.Paragraph>
-            Votre profil public a bien été mis à jour.
+            Votre profil public a bien été mis à jour et est en attente de
+            traitement.
           </EmailHtml.Paragraph>
 
           <EmailHtml.Paragraph>
@@ -178,7 +179,8 @@ export async function createEmailTemplateDescriptionUpdated(
 
         <EmailHtml.Section.Root>
           <EmailHtml.Paragraph>
-            Votre description a bien été mise à jour.
+            Votre description a bien été mise à jour et est en attente de
+            traitement.
           </EmailHtml.Paragraph>
 
           <EmailHtml.Paragraph>
@@ -231,7 +233,8 @@ export async function createEmailTemplateAnimationsOnStandUpdated(
 
         <EmailHtml.Section.Root>
           <EmailHtml.Paragraph>
-            La description de vos animations sur stand a bien été mise à jour.
+            La description de vos animations sur stand a bien été mise à jour et
+            est en attente de traitement.
           </EmailHtml.Paragraph>
 
           <EmailHtml.Paragraph>

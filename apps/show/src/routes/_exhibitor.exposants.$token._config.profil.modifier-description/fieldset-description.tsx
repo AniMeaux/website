@@ -10,7 +10,7 @@ export function FieldsetDescription() {
     <FormLayout.Section>
       <FormLayout.Title>Description</FormLayout.Title>
 
-      <HelperCard.Root color="paleBlue">
+      <HelperCard.Root color="alabaster">
         <p>
           Cette description nous servira de base pour nos publications sur les
           réseaux sociaux.

@@ -1,5 +1,8 @@
-import { ProseInlineAction } from "#core/actions/prose-inline-action";
-import { Markdown, SENTENCE_COMPONENTS } from "#core/data-display/markdown";
+import {
+  Markdown,
+  PARAGRAPH_COMPONENTS,
+  SENTENCE_COMPONENTS,
+} from "#core/data-display/markdown";
 import { FormLayout } from "#core/layout/form-layout";
 import { HelperCard } from "#core/layout/helper-card";
 import { Routes } from "#core/navigation";
@@ -135,75 +138,41 @@ export function SectionStandConfiguration() {
 function SectionStatus() {
   const { standConfiguration } = useLoaderData<typeof loader>();
 
-  switch (standConfiguration.status) {
-    case ShowExhibitorStandConfigurationStatus.AWAITING_VALIDATION: {
-      return (
-        <HelperCard.Root color="paleBlue">
-          <HelperCard.Title>En cours de traitement</HelperCard.Title>
-
-          <p>
-            La configuration de votre stand est en cours de validation par notre
-            équipe. Pour toute question, vous pouvez nous contacter par e-mail à{" "}
-            <ProseInlineAction asChild>
-              <a href="mailto:salon@animeaux.org">salon@animeaux.org</a>
-            </ProseInlineAction>
-            .
-          </p>
-        </HelperCard.Root>
-      );
-    }
-
-    case ShowExhibitorStandConfigurationStatus.TO_BE_FILLED: {
-      return null;
-    }
-
-    case ShowExhibitorStandConfigurationStatus.TO_MODIFY: {
-      return (
-        <HelperCard.Root color="paleBlue">
-          <HelperCard.Title>À modifier</HelperCard.Title>
-
-          <p>
-            {standConfiguration.statusMessage == null ? (
-              <>
-                La configuration de votre stand nécessite quelques
-                modifications. Nous vous invitons à les apporter rapidement et à
-                nous contacter par e-mail à{" "}
-                <ProseInlineAction asChild>
-                  <a href="mailto:salon@animeaux.org">salon@animeaux.org</a>
-                </ProseInlineAction>{" "}
-                pour toute question.
-              </>
-            ) : (
-              <Markdown
-                content={standConfiguration.statusMessage}
-                components={SENTENCE_COMPONENTS}
-              />
-            )}
-          </p>
-        </HelperCard.Root>
-      );
-    }
-
-    case ShowExhibitorStandConfigurationStatus.VALIDATED: {
-      return (
-        <HelperCard.Root color="paleBlue">
-          <HelperCard.Title>Validée</HelperCard.Title>
-
-          <p>
-            La configuration de votre stand est validée et aucune modification
-            n’est plus possible. Pour toute question ou besoin particulier,
-            merci de nous contacter par e-mail à{" "}
-            <ProseInlineAction asChild>
-              <a href="mailto:salon@animeaux.org">salon@animeaux.org</a>
-            </ProseInlineAction>
-            .
-          </p>
-        </HelperCard.Root>
-      );
-    }
-
-    default: {
-      return standConfiguration.status satisfies never;
-    }
+  if (
+    standConfiguration.status ===
+    ShowExhibitorStandConfigurationStatus.TO_BE_FILLED
+  ) {
+    return null;
   }
+
+  const title = (
+    {
+      [ShowExhibitorStandConfigurationStatus.AWAITING_VALIDATION]:
+        "En cours de traitement",
+      [ShowExhibitorStandConfigurationStatus.TO_MODIFY]: "À modifier",
+      [ShowExhibitorStandConfigurationStatus.VALIDATED]: "Validée",
+    } satisfies Record<typeof standConfiguration.status, string>
+  )[standConfiguration.status];
+
+  const content = (
+    {
+      [ShowExhibitorStandConfigurationStatus.AWAITING_VALIDATION]:
+        "La configuration de votre stand est en cours de traitement par notre équipe. Pour toute question, vous pouvez nous contacter par e-mail à salon@animeaux.org.",
+      [ShowExhibitorStandConfigurationStatus.TO_MODIFY]:
+        standConfiguration.statusMessage ??
+        "La configuration de votre stand nécessite quelques modifications. Nous vous invitons à les apporter rapidement et à nous contacter par e-mail à salon@animeaux.org pour toute question.",
+      [ShowExhibitorStandConfigurationStatus.VALIDATED]:
+        "La configuration de votre stand est validée par notre équipe et aucune modification n’est plus possible. Pour toute question ou besoin particulier, merci de nous contacter par e-mail à salon@animeaux.org.",
+    } satisfies Record<typeof standConfiguration.status, string>
+  )[standConfiguration.status];
+
+  return (
+    <HelperCard.Root color="paleBlue">
+      <HelperCard.Title>{title}</HelperCard.Title>
+
+      <div>
+        <Markdown content={content} components={PARAGRAPH_COMPONENTS} />
+      </div>
+    </HelperCard.Root>
+  );
 }
