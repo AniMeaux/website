@@ -1,6 +1,6 @@
 import type { IconName } from "#generated/icon";
 import { Icon } from "#generated/icon";
-import { TRANSLATION_BY_ACTIVITY_FIELD } from "#show/activity-field/translation";
+import { TRANSLATION_BY_ACTIVITY_FIELD } from "#show/exhibitors/activity-field/translation";
 import { ShowActivityField } from "@prisma/client";
 import { forwardRef } from "react";
 import type { Except } from "type-fest";

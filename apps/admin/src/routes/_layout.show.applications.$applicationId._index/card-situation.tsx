@@ -4,7 +4,10 @@ import { ItemList, SimpleItem } from "#core/data-display/item";
 import { Card } from "#core/layout/card";
 import { Routes } from "#core/navigation";
 import { Icon } from "#generated/icon";
-import { StatusIcon, TRANSLATION_BY_STATUS } from "#show/applications/status";
+import {
+  StatusIcon,
+  TRANSLATION_BY_STATUS,
+} from "#show/exhibitors/applications/status";
 import { useLoaderData } from "@remix-run/react";
 import { DateTime } from "luxon";
 import type { loader } from "./route";

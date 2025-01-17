@@ -3,7 +3,7 @@ import { BaseLink } from "#core/base-link";
 import { Paginator } from "#core/controllers/paginator";
 import { Empty } from "#core/data-display/empty";
 import { Card } from "#core/layout/card";
-import { ApplicationSearchParams } from "#show/applications/search-params";
+import { ApplicationSearchParams } from "#show/exhibitors/applications/search-params";
 import { useOptimisticSearchParams } from "@animeaux/search-params-io";
 import { useLoaderData } from "@remix-run/react";
 import { ApplicationItem } from "./item";

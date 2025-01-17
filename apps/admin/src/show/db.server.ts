@@ -1,5 +1,5 @@
-import { ShowExhibitorApplicationDbDelegate } from "#show/applications/db.server";
+import { ShowExhibitorDbDelegate } from "#show/exhibitors/db.server";
 
 export class ShowDbDelegate {
-  readonly exhibitorApplication = new ShowExhibitorApplicationDbDelegate();
+  readonly exhibitor = new ShowExhibitorDbDelegate();
 }

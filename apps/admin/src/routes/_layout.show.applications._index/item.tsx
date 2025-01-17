@@ -1,9 +1,9 @@
 import { BaseLink } from "#core/base-link";
 import { Routes } from "#core/navigation";
-import { ActivityFieldIcon } from "#show/activity-field/icon";
-import { ActivityTargetIcon } from "#show/activity-target/icon";
-import { LEGAL_STATUS_TRANSLATION } from "#show/applications/legal-status";
-import { StatusIcon } from "#show/applications/status";
+import { ActivityFieldIcon } from "#show/exhibitors/activity-field/icon";
+import { ActivityTargetIcon } from "#show/exhibitors/activity-target/icon";
+import { LEGAL_STATUS_TRANSLATION } from "#show/exhibitors/applications/legal-status";
+import { StatusIcon } from "#show/exhibitors/applications/status";
 import type { SerializeFrom } from "@remix-run/node";
 import { DateTime } from "luxon";
 import type { loader } from "./route";

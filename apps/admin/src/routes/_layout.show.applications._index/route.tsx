@@ -5,8 +5,8 @@ import { PageLayout } from "#core/layout/page";
 import { getPageTitle } from "#core/page-title";
 import { PageSearchParams } from "#core/search-params";
 import { assertCurrentUserHasGroups } from "#current-user/groups.server";
-import { ApplicationFilters } from "#show/applications/filter-form";
-import { ApplicationSearchParams } from "#show/applications/search-params";
+import { ApplicationFilters } from "#show/exhibitors/applications/filter-form";
+import { ApplicationSearchParams } from "#show/exhibitors/applications/search-params";
 import { UserGroup } from "@prisma/client";
 import type { LoaderFunctionArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
@@ -27,7 +27,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
   const searchParams = new URL(request.url).searchParams;
 
   const { applications, totalCount } =
-    await db.show.exhibitorApplication.findMany({
+    await db.show.exhibitor.application.findMany({
       page: PageSearchParams.parse(searchParams).page,
       countPerPage: APPLICATION_COUNT_PER_PAGE,
       searchParams: ApplicationSearchParams.parse(searchParams),
