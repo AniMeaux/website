@@ -11,7 +11,7 @@ import { Routes } from "#core/navigation";
 import { getPageTitle } from "#core/page-title";
 import { Dialog } from "#core/popovers/dialog";
 import { prisma } from "#core/prisma.server";
-import { BadRequestResponse, NotFoundResponse } from "#core/response.server";
+import { badRequest, notFound } from "#core/response.server";
 import { PageSearchParams } from "#core/search-params";
 import { assertCurrentUserHasGroups } from "#current-user/groups.server";
 import { cn } from "@animeaux/core";
@@ -76,7 +76,7 @@ const DeleteActionFormData = FormDataDelegate.create(
 
 export async function action({ request }: ActionFunctionArgs) {
   if (request.method.toUpperCase() !== "DELETE") {
-    throw new NotFoundResponse();
+    throw notFound();
   }
 
   const currentUser = await db.currentUser.get(request, {
@@ -87,14 +87,14 @@ export async function action({ request }: ActionFunctionArgs) {
 
   const formData = DeleteActionFormData.safeParse(await request.formData());
   if (!formData.success) {
-    throw new BadRequestResponse();
+    throw badRequest();
   }
 
   try {
     await db.pressArticle.delete(formData.data.id);
   } catch (error) {
     if (error instanceof NotFoundError) {
-      throw new NotFoundResponse();
+      throw notFound();
     }
 
     throw error;

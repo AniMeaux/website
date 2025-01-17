@@ -1,7 +1,7 @@
 import { db } from "#core/db.server";
 import { PageLayout } from "#core/layout/page";
 import { Routes } from "#core/navigation";
-import { OkResponse } from "#core/response.server";
+import { ok } from "#core/response.server";
 import { assertCurrentUserHasGroups } from "#current-user/groups.server";
 import { UserGroup } from "@prisma/client";
 import type { LoaderFunctionArgs } from "@remix-run/node";
@@ -17,7 +17,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
     UserGroup.SHOW_ORGANIZER,
   ]);
 
-  return new OkResponse();
+  return ok();
 }
 
 export default function Route() {

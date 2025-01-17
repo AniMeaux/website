@@ -1,6 +1,6 @@
 import { db } from "#core/db.server";
 import { scrapUrl } from "#core/metascraper.server";
-import { BadRequestResponse } from "#core/response.server";
+import { badRequest } from "#core/response.server";
 import { assertCurrentUserHasGroups } from "#current-user/groups.server";
 import { UserGroup } from "@prisma/client";
 import type { LoaderFunctionArgs } from "@remix-run/node";
@@ -22,7 +22,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
   );
 
   if (searchParams.url == null) {
-    throw new BadRequestResponse();
+    throw badRequest();
   }
 
   const response = await fetch(searchParams.url);

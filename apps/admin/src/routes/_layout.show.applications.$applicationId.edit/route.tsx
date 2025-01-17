@@ -12,7 +12,7 @@ import { PageLayout } from "#core/layout/page";
 import { Routes, useBackIfPossible } from "#core/navigation";
 import { getPageTitle } from "#core/page-title";
 import { prisma } from "#core/prisma.server";
-import { NotFoundResponse } from "#core/response.server";
+import { notFound } from "#core/response.server";
 import { assertCurrentUserHasGroups } from "#current-user/groups.server";
 import { MissingRefusalMessageError } from "#show/applications/db.server";
 import {
@@ -40,7 +40,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
 
   const routeParams = RouteParamsSchema.safeParse(params);
   if (!routeParams.success) {
-    throw new NotFoundResponse();
+    throw notFound();
   }
 
   const application = await prisma.showExhibitorApplication.findUnique({
@@ -97,7 +97,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
 
   const routeParams = RouteParamsSchema.safeParse(params);
   if (!routeParams.success) {
-    throw new NotFoundResponse();
+    throw notFound();
   }
 
   const rawFormData = await request.formData();

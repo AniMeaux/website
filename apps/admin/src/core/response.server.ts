@@ -1,23 +1,15 @@
-export class OkResponse extends Response {
-  constructor() {
-    super("OK", { status: 200 });
-  }
+export function ok(init?: ResponseInit) {
+  return new Response("OK", { status: 200, ...init });
 }
 
-export class NotFoundResponse extends Response {
-  constructor() {
-    super("Not Found", { status: 404 });
-  }
+export function notFound(init?: ResponseInit) {
+  return new Response("Not Found", { status: 404, ...init });
 }
 
-export class BadRequestResponse extends Response {
-  constructor() {
-    super("Bad Request", { status: 400 });
-  }
+export function badRequest(init?: ResponseInit) {
+  return new Response("Bad Request", { status: 400, ...init });
 }
 
-export class ForbiddenResponse extends Response {
-  constructor() {
-    super("Forbidden", { status: 403 });
-  }
+export function forbidden(init?: ResponseInit) {
+  return new Response("Forbidden", { status: 403, ...init });
 }
