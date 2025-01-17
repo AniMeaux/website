@@ -16,7 +16,7 @@ export function useFormRoot() {
     lastResult: actionData,
 
     defaultValue: {
-      description: profile.description,
+      description: profile.description ?? "",
     },
 
     onValidate: ({ formData }) =>

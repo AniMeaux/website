@@ -7,12 +7,12 @@ import { Routes } from "#core/navigation";
 import { getPageTitle } from "#core/page-title";
 import { badRequest } from "#core/response.server";
 import { services } from "#core/services/services.server";
-import { canEditProfile } from "#exhibitors/profile/dates";
 import { createEmailTemplatePublicProfileUpdated } from "#exhibitors/profile/email.server";
 import { RouteParamsSchema } from "#exhibitors/route-params";
 import { safeParseRouteParam } from "@animeaux/zod-utils";
 import { parseWithZod } from "@conform-to/zod";
 import { parseFormData } from "@mjackson/form-data-parser";
+import { ShowExhibitorProfileStatus } from "@prisma/client";
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import type { MetaFunction } from "@remix-run/react";
@@ -25,12 +25,6 @@ import { SectionHelper } from "./section-helper";
 export async function loader({ params }: LoaderFunctionArgs) {
   const routeParams = safeParseRouteParam(RouteParamsSchema, params);
 
-  if (!canEditProfile()) {
-    throw redirect(
-      Routes.exhibitors.token(routeParams.token).profile.toString(),
-    );
-  }
-
   const profile = await services.exhibitor.profile.getByToken(
     routeParams.token,
     {
@@ -41,9 +35,16 @@ export async function loader({ params }: LoaderFunctionArgs) {
         links: true,
         logoPath: true,
         name: true,
+        publicProfileStatus: true,
       },
     },
   );
+
+  if (profile.publicProfileStatus === ShowExhibitorProfileStatus.VALIDATED) {
+    throw redirect(
+      Routes.exhibitors.token(routeParams.token).profile.toString(),
+    );
+  }
 
   return { profile };
 }
@@ -61,7 +62,12 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
 export async function action({ request, params }: ActionFunctionArgs) {
   const routeParams = safeParseRouteParam(RouteParamsSchema, params);
 
-  if (!canEditProfile()) {
+  const profile = await services.exhibitor.profile.getByToken(
+    routeParams.token,
+    { select: { publicProfileStatus: true } },
+  );
+
+  if (profile.publicProfileStatus === ShowExhibitorProfileStatus.VALIDATED) {
     throw badRequest();
   }
 
@@ -107,7 +113,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
   }
 
   try {
-    await services.exhibitor.profile.update(routeParams.token, {
+    await services.exhibitor.profile.updatePublicProfile(routeParams.token, {
       activityTargets: submission.value.activityTargets,
       activityFields: submission.value.activityFields,
       links: submission.value.links,

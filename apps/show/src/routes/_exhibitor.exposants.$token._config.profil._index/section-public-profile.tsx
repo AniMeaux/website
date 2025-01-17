@@ -1,13 +1,15 @@
 import { ProseInlineAction } from "#core/actions/prose-inline-action";
 import { ChipList } from "#core/data-display/chip";
 import { DynamicImage } from "#core/data-display/image";
+import { Markdown, PARAGRAPH_COMPONENTS } from "#core/data-display/markdown";
 import { FormLayout } from "#core/layout/form-layout";
+import { HelperCard } from "#core/layout/helper-card";
 import { Routes } from "#core/navigation";
 import { ChipActivityField } from "#exhibitors/activity-field/chip";
 import { ChipActivityTarget } from "#exhibitors/activity-target/chip";
-import { canEditProfile } from "#exhibitors/profile/dates";
 import { Icon } from "#generated/icon";
 import { ImageUrl, joinReactNodes } from "@animeaux/core";
+import { ShowExhibitorProfileStatus } from "@prisma/client";
 import { Link, useLoaderData } from "@remix-run/react";
 import type { loader } from "./route";
 
@@ -19,7 +21,8 @@ export function SectionPublicProfile() {
       <FormLayout.Header>
         <FormLayout.Title>Profil public</FormLayout.Title>
 
-        {canEditProfile() ? (
+        {profile.publicProfileStatus !==
+        ShowExhibitorProfileStatus.VALIDATED ? (
           <FormLayout.HeaderAction asChild>
             <Link
               to={Routes.exhibitors
@@ -32,6 +35,8 @@ export function SectionPublicProfile() {
           </FormLayout.HeaderAction>
         ) : null}
       </FormLayout.Header>
+
+      <SectionStatus />
 
       <FormLayout.Row>
         <FormLayout.Field>
@@ -102,5 +107,44 @@ export function SectionPublicProfile() {
         </FormLayout.Output>
       </FormLayout.Field>
     </FormLayout.Section>
+  );
+}
+
+function SectionStatus() {
+  const { profile } = useLoaderData<typeof loader>();
+
+  if (profile.publicProfileStatus === ShowExhibitorProfileStatus.NOT_TOUCHED) {
+    return null;
+  }
+
+  const title = (
+    {
+      [ShowExhibitorProfileStatus.AWAITING_VALIDATION]:
+        "En cours de traitement",
+      [ShowExhibitorProfileStatus.TO_MODIFY]: "À modifier",
+      [ShowExhibitorProfileStatus.VALIDATED]: "Validé",
+    } satisfies Record<typeof profile.publicProfileStatus, string>
+  )[profile.publicProfileStatus];
+
+  const content = (
+    {
+      [ShowExhibitorProfileStatus.AWAITING_VALIDATION]:
+        "Votre profil public est en cours de traitement par notre équipe. Pour toute question, vous pouvez nous contacter par e-mail à salon@animeaux.org.",
+      [ShowExhibitorProfileStatus.TO_MODIFY]:
+        profile.publicProfileStatusMessage ??
+        "Votre profil public nécessite quelques modifications. Nous vous invitons à les apporter rapidement et à nous contacter par e-mail à salon@animeaux.org pour toute question.",
+      [ShowExhibitorProfileStatus.VALIDATED]:
+        "Votre profil public est complété et validé par notre équipe. Pour toute demande de modification, merci de nous contacter par e-mail à salon@animeaux.org.",
+    } satisfies Record<typeof profile.publicProfileStatus, string>
+  )[profile.publicProfileStatus];
+
+  return (
+    <HelperCard.Root color="paleBlue">
+      <HelperCard.Title>{title}</HelperCard.Title>
+
+      <div>
+        <Markdown content={content} components={PARAGRAPH_COMPONENTS} />
+      </div>
+    </HelperCard.Root>
   );
 }

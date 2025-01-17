@@ -173,7 +173,7 @@ export async function createEmailTemplateRequest(
 
         <EmailHtml.Section.Root>
           <EmailHtml.Paragraph>
-            Votre demande a bien été envoyée et est en attente de validation.
+            Votre demande a bien été envoyée et est en attente de traitement.
           </EmailHtml.Paragraph>
 
           <EmailHtml.Paragraph>

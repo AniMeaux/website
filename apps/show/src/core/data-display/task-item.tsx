@@ -14,7 +14,7 @@ export const TaskItem = {
         {...props}
         ref={ref}
         className={cn(
-          "grid auto-cols-auto grid-flow-col grid-cols-auto-fr items-center gap-1 rounded-2 border border-mystic-200 px-2 py-1 transition-colors duration-normal can-hover:focus-visible:focus-spaced md:gap-2",
+          "grid auto-cols-auto grid-flow-col grid-cols-auto-fr items-center gap-1 rounded-2 border border-mystic-200 px-2 py-1 transition-colors duration-normal can-hover:focus-visible:focus-compact md:gap-2",
 
           // Background.
           "bg-transparent active:bg-mystic-100 can-hover:hover:bg-mystic-50 active:can-hover:hover:bg-mystic-100",
@@ -65,7 +65,7 @@ export const TaskItem = {
     );
   }),
 
-  Description: Primitive.p,
+  Description: Primitive.div,
 
   ChevronIcon: function TaskItemChevronIcon() {
     return (

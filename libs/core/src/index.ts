@@ -9,3 +9,4 @@ export * from "./image-url";
 export * from "./locations";
 export * from "./prisma";
 export * from "./singleton";
+export * from "./type-utils";

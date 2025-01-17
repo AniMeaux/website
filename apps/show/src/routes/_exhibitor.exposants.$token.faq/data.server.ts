@@ -10,7 +10,7 @@ Le salon se tiendra les **7 et 8 juin 2025**, de **10h à 18h** au **Colisée de
   {
     question: "Comment puis-je contacter l’équipe organisatrice ?",
     answer: `
-Vous pouvez joindre l’équipe à [salon@animeaux.org](mailto:salon@animeaux.org).
+Vous pouvez joindre l’équipe à salon@animeaux.org.
 `.trim(),
   },
   {

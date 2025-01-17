@@ -19,6 +19,7 @@ import {
   ShowExhibitorApplicationLegalStatus,
   ShowExhibitorApplicationOtherPartnershipCategory,
   ShowExhibitorApplicationStatus,
+  ShowExhibitorProfileStatus,
   ShowPartnershipCategory,
   ShowStandSize,
   ShowStandZone,
@@ -594,8 +595,16 @@ async function seedShowExhibitors() {
   });
 
   await Promise.all(
-    applications.map((application) =>
-      prisma.showExhibitor.create({
+    applications.map((application) => {
+      const descriptionStatus = faker.helpers.arrayElement(
+        Object.values(ShowExhibitorProfileStatus),
+      );
+
+      const onStandAnimationsStatus = faker.helpers.arrayElement(
+        Object.values(ShowExhibitorProfileStatus),
+      );
+
+      return prisma.showExhibitor.create({
         data: {
           isVisible: faker.datatype.boolean({ probability: 9 / 10 }),
           hasPaid: faker.datatype.boolean({ probability: 1 / 5 }),
@@ -610,18 +619,24 @@ async function seedShowExhibitors() {
             create: {
               activityFields: application.structureActivityFields,
               activityTargets: application.structureActivityTargets,
-              description: faker.helpers.maybe(() =>
-                faker.lorem.paragraph().substring(0, 512),
-              ),
               links: [application.structureUrl].concat(
                 repeate({ min: 0, max: 2 }, () => faker.internet.url()),
               ),
               logoPath: application.structureLogoPath,
               name: application.structureName,
-              onStandAnimations: faker.helpers.maybe(
-                () => faker.lorem.lines().substring(0, 256),
-                { probability: 1 / 5 },
-              ),
+
+              descriptionStatus,
+              description:
+                descriptionStatus === ShowExhibitorProfileStatus.NOT_TOUCHED
+                  ? undefined
+                  : faker.lorem.paragraph().substring(0, 512),
+
+              onStandAnimationsStatus,
+              onStandAnimations:
+                onStandAnimationsStatus ===
+                ShowExhibitorProfileStatus.NOT_TOUCHED
+                  ? undefined
+                  : faker.lorem.lines().substring(0, 256),
             },
           },
 
@@ -632,8 +647,8 @@ async function seedShowExhibitors() {
             },
           },
         },
-      }),
-    ),
+      });
+    }),
   );
 
   const count = await prisma.showExhibitor.count();

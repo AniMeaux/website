@@ -1,18 +1,23 @@
-import { Markdown, SENTENCE_COMPONENTS } from "#core/data-display/markdown";
-import { TaskItem } from "#core/data-display/task-item";
 import { FormLayout } from "#core/layout/form-layout";
-import { Routes } from "#core/navigation";
-import { Icon } from "#generated/icon";
 import {
   ShowExhibitorDocumentsStatus,
   ShowExhibitorDogsConfigurationStatus,
+  ShowExhibitorProfileStatus,
   ShowExhibitorStandConfigurationStatus,
 } from "@prisma/client";
 import { useLoaderData } from "@remix-run/react";
 import type { loader } from "./route";
+import {
+  TaskItemDescription,
+  TaskItemDocument,
+  TaskItemDogs,
+  TaskItemOnStandAnimations,
+  TaskItemPublicProfile,
+  TaskItemStand,
+} from "./task-items";
 
 export function SectionToComplete() {
-  const { profile, standConfiguration, documents, dogsConfiguration, token } =
+  const { profile, standConfiguration, documents, dogsConfiguration } =
     useLoaderData<typeof loader>();
 
   const items: React.ReactNode[] = [];
@@ -23,33 +28,7 @@ export function SectionToComplete() {
       ShowExhibitorDocumentsStatus.TO_MODIFY,
     ].includes(documents.status)
   ) {
-    items.push(
-      <TaskItem.Root
-        key="documents"
-        to={Routes.exhibitors.token(token).documents.toString()}
-      >
-        <TaskItem.Icon asChild>
-          <Icon id="file-light" />
-        </TaskItem.Icon>
-
-        <TaskItem.Content>
-          <TaskItem.Title>Documents</TaskItem.Title>
-
-          <TaskItem.Description>
-            {documents.statusMessage == null ? (
-              <>Des documents justificatifs sont à joindre.</>
-            ) : (
-              <Markdown
-                content={documents.statusMessage}
-                components={SENTENCE_COMPONENTS}
-              />
-            )}
-          </TaskItem.Description>
-        </TaskItem.Content>
-
-        <TaskItem.ChevronIcon />
-      </TaskItem.Root>,
-    );
+    items.push(<TaskItemDocument key="documents" status={documents.status} />);
   }
 
   if (
@@ -59,82 +38,47 @@ export function SectionToComplete() {
     ].includes(standConfiguration.status)
   ) {
     items.push(
-      <TaskItem.Root
-        key="stand"
-        to={Routes.exhibitors.token(token).stand.toString()}
-      >
-        <TaskItem.Icon asChild>
-          <Icon id="store-light" />
-        </TaskItem.Icon>
-
-        <TaskItem.Content>
-          <TaskItem.Title>Stand</TaskItem.Title>
-
-          <TaskItem.Description>
-            {standConfiguration.statusMessage == null ? (
-              <>Des éléments de stand sont à compléter ou modifier.</>
-            ) : (
-              <Markdown
-                content={standConfiguration.statusMessage}
-                components={SENTENCE_COMPONENTS}
-              />
-            )}
-          </TaskItem.Description>
-        </TaskItem.Content>
-
-        <TaskItem.ChevronIcon />
-      </TaskItem.Root>,
+      <TaskItemStand key="stand" status={standConfiguration.status} />,
     );
   }
 
-  if (profile.description == null) {
+  if (
+    [
+      ShowExhibitorProfileStatus.NOT_TOUCHED,
+      ShowExhibitorProfileStatus.TO_MODIFY,
+    ].includes(profile.descriptionStatus)
+  ) {
     items.push(
-      <TaskItem.Root
+      <TaskItemDescription
         key="description"
-        to={Routes.exhibitors.token(token).profile.toString()}
-      >
-        <TaskItem.Icon asChild>
-          <Icon id="subtitles-light" />
-        </TaskItem.Icon>
-
-        <TaskItem.Content>
-          <TaskItem.Title>Description</TaskItem.Title>
-
-          <TaskItem.Description>
-            Votre description est à compléter.
-          </TaskItem.Description>
-        </TaskItem.Content>
-
-        <TaskItem.ChevronIcon />
-      </TaskItem.Root>,
+        status={profile.descriptionStatus}
+      />,
     );
   }
 
   if (
     dogsConfiguration.status === ShowExhibitorDogsConfigurationStatus.TO_MODIFY
   ) {
+    items.push(<TaskItemDogs key="dogs" status={dogsConfiguration.status} />);
+  }
+
+  if (profile.publicProfileStatus === ShowExhibitorProfileStatus.TO_MODIFY) {
     items.push(
-      <TaskItem.Root
-        key="dogs"
-        to={{
-          pathname: Routes.exhibitors.token(token).stand.toString(),
-          hash: "dogs",
-        }}
-      >
-        <TaskItem.Icon asChild>
-          <Icon id="dog-light" />
-        </TaskItem.Icon>
+      <TaskItemPublicProfile
+        key="public-profile"
+        status={profile.publicProfileStatus}
+      />,
+    );
+  }
 
-        <TaskItem.Content>
-          <TaskItem.Title>Chiens sur stand</TaskItem.Title>
-
-          <TaskItem.Description>
-            Le profil des chiens sur votre stand est à compléter ou modifier.
-          </TaskItem.Description>
-        </TaskItem.Content>
-
-        <TaskItem.ChevronIcon />
-      </TaskItem.Root>,
+  if (
+    profile.onStandAnimationsStatus === ShowExhibitorProfileStatus.TO_MODIFY
+  ) {
+    items.push(
+      <TaskItemOnStandAnimations
+        key="on-stand-animations"
+        status={profile.onStandAnimationsStatus}
+      />,
     );
   }
 
