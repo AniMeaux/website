@@ -453,15 +453,29 @@ model ShowExhibitorProfile {
 
   exhibitor   ShowExhibitor @relation(fields: [exhibitorId], references: [id], onDelete: Cascade)
   exhibitorId String        @unique @db.Uuid
+  name        String        @db.VarChar(64)
 
-  activityFields  ShowActivityField[]
-  activityTargets ShowActivityTarget[]
+  publicProfileStatus        ShowExhibitorProfileStatus @default(NOT_TOUCHED)
+  publicProfileStatusMessage String?                    @db.VarChar(512)
+  activityFields             ShowActivityField[]
+  activityTargets            ShowActivityTarget[]
+  links                      String[]
+  logoPath                   String                     @db.VarChar(128)
 
-  description       String?  @db.VarChar(512)
-  links             String[]
-  logoPath          String   @db.VarChar(128)
-  name              String   @db.VarChar(64)
-  onStandAnimations String?  @db.VarChar(256)
+  descriptionStatus        ShowExhibitorProfileStatus @default(NOT_TOUCHED)
+  descriptionStatusMessage String?                    @db.VarChar(512)
+  description              String?                    @db.VarChar(512)
+
+  onStandAnimationsStatus        ShowExhibitorProfileStatus @default(NOT_TOUCHED)
+  onStandAnimationsStatusMessage String?                    @db.VarChar(512)
+  onStandAnimations              String?                    @db.VarChar(256)
+}
+
+enum ShowExhibitorProfileStatus {
+  NOT_TOUCHED
+  AWAITING_VALIDATION
+  TO_MODIFY
+  VALIDATED
 }
 
 model ShowExhibitorStandConfiguration {

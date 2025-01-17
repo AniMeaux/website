@@ -1,5 +1,4 @@
-import { ProseInlineAction } from "#core/actions/prose-inline-action";
-import { Markdown, SENTENCE_COMPONENTS } from "#core/data-display/markdown";
+import { Markdown, PARAGRAPH_COMPONENTS } from "#core/data-display/markdown";
 import { FormLayout } from "#core/layout/form-layout";
 import { HelperCard } from "#core/layout/helper-card";
 import { LightBoardCard } from "#core/layout/light-board-card";
@@ -119,76 +118,41 @@ function SectionDog({
 function SectionStatus() {
   const { dogsConfiguration } = useLoaderData<typeof loader>();
 
-  switch (dogsConfiguration.status) {
-    case ShowExhibitorDogsConfigurationStatus.AWAITING_VALIDATION: {
-      return (
-        <HelperCard.Root color="paleBlue">
-          <HelperCard.Title>En cours de traitement</HelperCard.Title>
-
-          <p>
-            Le profil des chiens sur votre stand est en cours de validation par
-            notre équipe. Pour toute question, vous pouvez nous contacter par
-            e-mail à{" "}
-            <ProseInlineAction asChild>
-              <a href="mailto:salon@animeaux.org">salon@animeaux.org</a>
-            </ProseInlineAction>
-            .
-          </p>
-        </HelperCard.Root>
-      );
-    }
-
-    case ShowExhibitorDogsConfigurationStatus.NOT_TOUCHED: {
-      return null;
-    }
-
-    case ShowExhibitorDogsConfigurationStatus.TO_MODIFY: {
-      return (
-        <HelperCard.Root color="paleBlue">
-          <HelperCard.Title>À modifier</HelperCard.Title>
-
-          <p>
-            {dogsConfiguration.statusMessage == null ? (
-              <>
-                Le profil des chiens sur votre stand nécessite quelques
-                modifications. Nous vous invitons à les apporter rapidement et à
-                nous contacter par e-mail à{" "}
-                <ProseInlineAction asChild>
-                  <a href="mailto:salon@animeaux.org">salon@animeaux.org</a>
-                </ProseInlineAction>{" "}
-                pour toute question.
-              </>
-            ) : (
-              <Markdown
-                content={dogsConfiguration.statusMessage}
-                components={SENTENCE_COMPONENTS}
-              />
-            )}
-          </p>
-        </HelperCard.Root>
-      );
-    }
-
-    case ShowExhibitorDogsConfigurationStatus.VALIDATED: {
-      return (
-        <HelperCard.Root color="paleBlue">
-          <HelperCard.Title>Validée</HelperCard.Title>
-
-          <p>
-            Le profil des chiens sur votre stand est validé et aucune
-            modification n’est plus possible. Pour toute question ou besoin
-            particulier, merci de nous contacter par e-mail à{" "}
-            <ProseInlineAction asChild>
-              <a href="mailto:salon@animeaux.org">salon@animeaux.org</a>
-            </ProseInlineAction>
-            .
-          </p>
-        </HelperCard.Root>
-      );
-    }
-
-    default: {
-      return dogsConfiguration.status satisfies never;
-    }
+  if (
+    dogsConfiguration.status ===
+    ShowExhibitorDogsConfigurationStatus.NOT_TOUCHED
+  ) {
+    return null;
   }
+
+  const title = (
+    {
+      [ShowExhibitorDogsConfigurationStatus.AWAITING_VALIDATION]:
+        "En cours de traitement",
+      [ShowExhibitorDogsConfigurationStatus.TO_MODIFY]: "À modifier",
+      [ShowExhibitorDogsConfigurationStatus.VALIDATED]: "Validé",
+    } satisfies Record<typeof dogsConfiguration.status, string>
+  )[dogsConfiguration.status];
+
+  const content = (
+    {
+      [ShowExhibitorDogsConfigurationStatus.AWAITING_VALIDATION]:
+        "Le profil des chiens sur votre stand est en cours de traitement par notre équipe. Pour toute question, vous pouvez nous contacter par e-mail à salon@animeaux.org.",
+      [ShowExhibitorDogsConfigurationStatus.TO_MODIFY]:
+        dogsConfiguration.statusMessage ??
+        "Le profil des chiens sur votre stand nécessite quelques modifications. Nous vous invitons à les apporter rapidement et à nous contacter par e-mail à salon@animeaux.org pour toute question.",
+      [ShowExhibitorDogsConfigurationStatus.VALIDATED]:
+        "Le profil des chiens sur votre stand est validé par notre équipe et aucune modification n’est plus possible. Pour toute question ou besoin particulier, merci de nous contacter par e-mail à salon@animeaux.org.",
+    } satisfies Record<typeof dogsConfiguration.status, string>
+  )[dogsConfiguration.status];
+
+  return (
+    <HelperCard.Root color="paleBlue">
+      <HelperCard.Title>{title}</HelperCard.Title>
+
+      <div>
+        <Markdown content={content} components={PARAGRAPH_COMPONENTS} />
+      </div>
+    </HelperCard.Root>
+  );
 }

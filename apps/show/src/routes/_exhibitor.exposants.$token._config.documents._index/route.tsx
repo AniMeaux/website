@@ -10,7 +10,6 @@ import type { MetaFunction } from "@remix-run/react";
 import { promiseHash } from "remix-utils/promise";
 import { SectionDocuments } from "./section-documents";
 import { SectionHelper } from "./section-helper";
-import { SectionStatus } from "./section-status";
 import { SectionStructure } from "./section-structure";
 
 export async function loader({ params }: LoaderFunctionArgs) {
@@ -65,8 +64,6 @@ export default function Route() {
     <FormLayout.Root className="py-4 px-safe-page-narrow md:px-safe-page-normal">
       <FormLayout.Form asChild>
         <div>
-          <SectionStatus />
-
           <SectionDocuments />
 
           <FormLayout.SectionSeparator />

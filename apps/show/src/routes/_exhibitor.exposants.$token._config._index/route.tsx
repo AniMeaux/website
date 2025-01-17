@@ -36,18 +36,17 @@ export async function loader({ params }: LoaderFunctionArgs) {
     }),
 
     profile: services.exhibitor.profile.getByToken(routeParams.token, {
-      select: { name: true, description: true },
+      select: {
+        name: true,
+        publicProfileStatus: true,
+        descriptionStatus: true,
+        onStandAnimationsStatus: true,
+      },
     }),
 
     standConfiguration: services.exhibitor.standConfiguration.getByToken(
       routeParams.token,
-      {
-        select: {
-          standNumber: true,
-          status: true,
-          statusMessage: true,
-        },
-      },
+      { select: { standNumber: true, status: true } },
     ),
 
     documents: services.exhibitor.documents.getByToken(routeParams.token, {
@@ -56,12 +55,7 @@ export async function loader({ params }: LoaderFunctionArgs) {
 
     dogsConfiguration: services.exhibitor.dogsConfiguration.getByToken(
       routeParams.token,
-      {
-        select: {
-          status: true,
-          statusMessage: true,
-        },
-      },
+      { select: { status: true } },
     ),
   });
 

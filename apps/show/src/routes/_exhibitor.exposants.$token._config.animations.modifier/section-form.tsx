@@ -25,7 +25,7 @@ export function SectionForm() {
         <FormLayout.Section>
           <FormLayout.Title>Animations sur stand</FormLayout.Title>
 
-          <HelperCard.Root color="paleBlue">
+          <HelperCard.Root color="alabaster">
             <p>
               Vous avez la possibilité d’organiser une animation sur votre stand
               (atelier, offre promotionnelle spéciale, ou encore un reversement

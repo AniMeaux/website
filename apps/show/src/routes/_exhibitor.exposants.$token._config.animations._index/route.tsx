@@ -20,6 +20,8 @@ export async function loader({ params }: LoaderFunctionArgs) {
       select: {
         name: true,
         onStandAnimations: true,
+        onStandAnimationsStatus: true,
+        onStandAnimationsStatusMessage: true,
       },
     },
   );

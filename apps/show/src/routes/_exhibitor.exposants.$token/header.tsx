@@ -10,7 +10,7 @@ export function LayoutHeader() {
 
   return (
     <Header.Root>
-      <Header.NavItem to={routes.toString()} end>
+      <Header.NavItem to={routes.toString()} exclude={routes.faq.toString()}>
         {profile.name}
       </Header.NavItem>
 
