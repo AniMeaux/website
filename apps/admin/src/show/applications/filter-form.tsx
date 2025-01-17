@@ -68,7 +68,8 @@ export function ApplicationFilters() {
               label="Date de candidature"
               name={ApplicationSearchParams.keys.sort}
               value={ApplicationSearchParamsN.Sort.CREATED_AT}
-              icon={<Icon href="icon-clock-solid" />}
+              icon={<Icon href="icon-clock-light" />}
+              iconChecked={<Icon href="icon-clock-solid" />}
               checked={
                 applicationSearchParams.sort ===
                 ApplicationSearchParamsN.Sort.CREATED_AT
@@ -81,7 +82,8 @@ export function ApplicationFilters() {
               label="Alphabétique"
               name={ApplicationSearchParams.keys.sort}
               value={ApplicationSearchParamsN.Sort.NAME}
-              icon={<Icon href="icon-arrow-down-a-z-solid" />}
+              icon={<Icon href="icon-arrow-down-a-z-light" />}
+              iconChecked={<Icon href="icon-arrow-down-a-z-solid" />}
               checked={
                 applicationSearchParams.sort ===
                 ApplicationSearchParamsN.Sort.NAME
@@ -191,7 +193,16 @@ export function ApplicationFilters() {
                     name={ApplicationSearchParams.keys.targets}
                     value={activityTarget}
                     icon={
-                      <ActivityTargetIcon activityTarget={activityTarget} />
+                      <ActivityTargetIcon
+                        activityTarget={activityTarget}
+                        variant="light"
+                      />
+                    }
+                    iconChecked={
+                      <ActivityTargetIcon
+                        activityTarget={activityTarget}
+                        variant="solid"
+                      />
                     }
                     checked={applicationSearchParams.targets.has(
                       activityTarget,
@@ -215,7 +226,18 @@ export function ApplicationFilters() {
                     label={TRANSLATION_BY_ACTIVITY_FIELD[activityField]}
                     name={ApplicationSearchParams.keys.fields}
                     value={activityField}
-                    icon={<ActivityFieldIcon activityField={activityField} />}
+                    icon={
+                      <ActivityFieldIcon
+                        activityField={activityField}
+                        variant="light"
+                      />
+                    }
+                    iconChecked={
+                      <ActivityFieldIcon
+                        activityField={activityField}
+                        variant="solid"
+                      />
+                    }
                     checked={applicationSearchParams.fields.has(activityField)}
                     onChange={() => {}}
                   />
@@ -251,7 +273,16 @@ export function ApplicationFilters() {
                 name={ApplicationSearchParams.keys.partnershipCategories}
                 value={category}
                 icon={
-                  <ApplicationPartnershipCategoryIcon category={category} />
+                  <ApplicationPartnershipCategoryIcon
+                    category={category}
+                    variant="light"
+                  />
+                }
+                iconChecked={
+                  <ApplicationPartnershipCategoryIcon
+                    category={category}
+                    variant="solid"
+                  />
                 }
                 checked={applicationSearchParams.partnershipCategories.has(
                   category,

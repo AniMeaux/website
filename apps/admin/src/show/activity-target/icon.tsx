@@ -9,15 +9,19 @@ export const ActivityTargetIcon = forwardRef<
   React.ComponentRef<"span">,
   Except<React.ComponentPropsWithoutRef<"span">, "title"> & {
     activityTarget: ShowActivityTarget;
+    variant?: "light" | "solid";
   }
->(function ActivityTargetIcon({ activityTarget, ...props }, ref) {
+>(function ActivityTargetIcon(
+  { activityTarget, variant = "light", ...props },
+  ref,
+) {
   return (
     <span
       {...props}
       ref={ref}
       title={TRANSLATION_BY_ACTIVITY_TARGET[activityTarget]}
     >
-      <Icon href={ICON_BY_ACTIVITY_TARGET[activityTarget].light} />
+      <Icon href={ICON_BY_ACTIVITY_TARGET[activityTarget][variant]} />
     </span>
   );
 });

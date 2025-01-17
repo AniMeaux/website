@@ -23,6 +23,7 @@ export function CardPartnership() {
       <Card.Content>
         <ItemList>
           <SimpleItem
+            isLightIcon
             icon={<ApplicationPartnershipCategoryIcon category={category} />}
           >
             {TRANSLATION_BY_APPLICATION_PARTNERSHIP_CATEGORY[category]}
