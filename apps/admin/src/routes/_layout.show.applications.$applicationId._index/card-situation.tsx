@@ -6,6 +6,7 @@ import { Routes } from "#core/navigation";
 import { Icon } from "#generated/icon";
 import { StatusIcon, TRANSLATION_BY_STATUS } from "#show/applications/status";
 import { useLoaderData } from "@remix-run/react";
+import { DateTime } from "luxon";
 import type { loader } from "./route";
 
 export function CardSituation() {
@@ -27,7 +28,10 @@ export function CardSituation() {
 
       <Card.Content>
         <ItemList>
-          <SimpleItem icon={<StatusIcon status={application.status} />}>
+          <SimpleItem
+            isLightIcon
+            icon={<StatusIcon status={application.status} />}
+          >
             Est{" "}
             <strong className="text-body-emphasis">
               {TRANSLATION_BY_STATUS[application.status]}
@@ -35,7 +39,7 @@ export function CardSituation() {
           </SimpleItem>
 
           {application.exhibitor != null ? (
-            <SimpleItem icon={<Icon href="icon-store-solid" />}>
+            <SimpleItem isLightIcon icon={<Icon href="icon-store-light" />}>
               Exposant{" "}
               <ProseInlineAction asChild>
                 <BaseLink
@@ -48,6 +52,15 @@ export function CardSituation() {
               </ProseInlineAction>
             </SimpleItem>
           ) : null}
+
+          <SimpleItem isLightIcon icon={<Icon href="icon-clock-light" />}>
+            Candidature reçu le{" "}
+            <strong className="text-body-emphasis">
+              {DateTime.fromISO(application.createdAt).toLocaleString(
+                DateTime.DATETIME_MED,
+              )}
+            </strong>
+          </SimpleItem>
         </ItemList>
       </Card.Content>
     </Card>

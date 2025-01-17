@@ -148,6 +148,7 @@ export function ApplicationFilters() {
           <ToggleInputList>
             {SORTED_STATUSES.map((status) => (
               <ToggleInput
+                isLightIcon
                 key={status}
                 type="checkbox"
                 label={TRANSLATION_BY_STATUS[status]}
@@ -185,6 +186,7 @@ export function ApplicationFilters() {
               <ToggleInputList>
                 {SORTED_ACTIVITY_TARGETS.map((activityTarget) => (
                   <ToggleInput
+                    isLightIcon
                     key={activityTarget}
                     type="checkbox"
                     label={TRANSLATION_BY_ACTIVITY_TARGET[activityTarget]}
@@ -210,6 +212,7 @@ export function ApplicationFilters() {
               <ToggleInputList>
                 {SORTED_ACTIVITY_FIELDS.map((activityField) => (
                   <ToggleInput
+                    isLightIcon
                     key={activityField}
                     type="checkbox"
                     label={TRANSLATION_BY_ACTIVITY_FIELD[activityField]}
@@ -243,6 +246,7 @@ export function ApplicationFilters() {
           <ToggleInputList>
             {SORTED_APPLICATION_PARTNERSHIP_CATEGORIES.map((category) => (
               <ToggleInput
+                isLightIcon
                 key={category}
                 type="checkbox"
                 label={
