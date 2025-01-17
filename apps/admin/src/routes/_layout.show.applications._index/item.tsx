@@ -16,7 +16,7 @@ export function ApplicationItem({
   return (
     <BaseLink
       to={Routes.show.applications.id(application.id).toString()}
-      className="col-span-full grid grid-cols-subgrid items-start rounded-0.5 bg-white px-0.5 py-1 focus-visible:z-10 focus-visible:focus-compact-blue-400 hover:bg-gray-100 md:px-1"
+      className="col-span-full grid grid-cols-subgrid items-center rounded-0.5 bg-white px-0.5 py-1 focus-visible:z-10 focus-visible:focus-compact-blue-400 hover:bg-gray-100 md:px-1"
     >
       <StatusIcon status={application.status} className="icon-20" />
 
@@ -50,6 +50,7 @@ export function ApplicationItem({
 
       <span
         title={`Candidature reçu le ${DateTime.fromISO(application.createdAt).toLocaleString(DateTime.DATETIME_MED)}`}
+        className="text-right"
       >
         {DateTime.fromISO(application.createdAt).toLocaleString({
           ...DateTime.DATE_MED,
