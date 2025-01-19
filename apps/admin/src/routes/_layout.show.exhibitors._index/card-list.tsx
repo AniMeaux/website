@@ -3,42 +3,41 @@ import { BaseLink } from "#core/base-link";
 import { Paginator } from "#core/controllers/paginator";
 import { Empty } from "#core/data-display/empty";
 import { Card } from "#core/layout/card";
-import { ApplicationSearchParams } from "#show/exhibitors/applications/search-params";
+import { ExhibitorSearchParams } from "#show/exhibitors/search-params";
 import { useOptimisticSearchParams } from "@animeaux/search-params-io";
 import { useLoaderData } from "@remix-run/react";
-import { ApplicationItem } from "./item";
+import { ExhibitorItem } from "./item";
 import type { loader } from "./route";
 
 export function CardList() {
-  const { totalCount, pageCount, applications } =
-    useLoaderData<typeof loader>();
+  const { totalCount, pageCount, exhibitors } = useLoaderData<typeof loader>();
   const [searchParams] = useOptimisticSearchParams();
 
   return (
     <Card>
       <Card.Header>
         <Card.Title>
-          {totalCount} {totalCount > 1 ? "candidatures" : "candidature"}
+          {totalCount} {totalCount > 1 ? "exposants" : "exposant"}
         </Card.Title>
       </Card.Header>
 
       <Card.Content hasListItems>
-        {applications.length > 0 ? (
-          <div className="grid grid-cols-[auto_1fr_auto] gap-x-1 @lg/card-content:grid-cols-[auto_auto_1fr_auto] @3xl/card-content:grid-cols-[auto_auto_auto_1fr_auto_auto] md:gap-x-2">
-            {applications.map((application) => (
-              <ApplicationItem key={application.id} application={application} />
+        {exhibitors.length > 0 ? (
+          <div className="grid grid-cols-[auto_1fr_auto] gap-x-1 md:gap-x-2">
+            {exhibitors.map((exhibitor) => (
+              <ExhibitorItem key={exhibitor.id} exhibitor={exhibitor} />
             ))}
           </div>
         ) : (
           <Empty
             isCompact
-            icon="📝"
-            iconAlt="Memo"
-            title="Aucune candidature trouvée"
+            icon="🛍️"
+            iconAlt="Sacs de course"
+            title="Aucun exposant trouvé"
             message="Nous n’avons pas trouvé ce que vous cherchiez. Essayez à nouveau de rechercher."
             titleElementType="h3"
             action={
-              !ApplicationSearchParams.isEmpty(searchParams) ? (
+              !ExhibitorSearchParams.isEmpty(searchParams) ? (
                 <Action asChild>
                   <BaseLink to={{ search: "" }}>Effacer les filtres</BaseLink>
                 </Action>

@@ -37,7 +37,7 @@ export function StatusIcon({
 }
 
 const ICON_NAME_BY_STATUS: Record<ShowExhibitorApplicationStatus, IconName> = {
-  [ShowExhibitorApplicationStatus.REFUSED]: "icon-circle-x-mark-solid",
+  [ShowExhibitorApplicationStatus.REFUSED]: "icon-circle-x-solid",
   [ShowExhibitorApplicationStatus.UNTREATED]: "icon-circle-light",
   [ShowExhibitorApplicationStatus.VALIDATED]: "icon-circle-check-solid",
   [ShowExhibitorApplicationStatus.WAITING_LIST]: "icon-clock-solid",
