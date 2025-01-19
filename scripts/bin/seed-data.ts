@@ -516,7 +516,7 @@ async function seedShowExhibitorApplications() {
         status,
         refusalMessage:
           status === ShowExhibitorApplicationStatus.REFUSED
-            ? faker.lorem.paragraph().substring(0, 512)
+            ? faker.lorem.paragraph()
             : undefined,
 
         contactLastname: faker.person.lastName(),
