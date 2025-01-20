@@ -22,17 +22,16 @@ export const SORTED_ENTITIES = orderBy(
 export const GlobalSearchParams = SearchParamsIO.create({
   keys: { text: "q", entity: "entity" },
 
-  parseFunction: (searchParams, keys) => {
+  parseFunction: ({ keys, getValue }) => {
     return GlobalSearchParamsSchema.parse({
-      text: SearchParamsIO.getValue(searchParams, keys.text),
-      entity: SearchParamsIO.getValue(searchParams, keys.entity),
+      text: getValue(keys.text),
+      entity: getValue(keys.entity),
     });
   },
 
-  setFunction: (searchParams, data, keys) => {
-    SearchParamsIO.setValue(searchParams, keys.text, data.text);
-
-    SearchParamsIO.setValue(searchParams, keys.entity, data.entity);
+  setFunction: (data, { keys, setValue }) => {
+    setValue(keys.text, data.text);
+    setValue(keys.entity, data.entity);
   },
 });
 

@@ -12,7 +12,7 @@ export interface SearchParamsWritter<
   create(data: TInput): URLSearchParams;
 
   /**
-   * Alias for `writter.set(new URLSearchParams(), data).toString()`.
+   * Alias for `writter.create(data).toString()`.
    */
   format(data: TInput): string;
 
@@ -31,7 +31,28 @@ export namespace SearchParamsWritter {
       searchParams,
       data,
     ) => {
-      setFunction(searchParams, data, keys);
+      setFunction(data, {
+        searchParams,
+        keys,
+
+        setValue(key, value) {
+          if (value == null) {
+            searchParams.delete(key);
+            return;
+          }
+
+          searchParams.set(key, value);
+        },
+
+        setValues(key, values) {
+          searchParams.delete(key);
+
+          values?.forEach((value) => {
+            searchParams.append(key, value);
+          });
+        },
+      });
+
       return searchParams;
     };
 
@@ -56,43 +77,24 @@ export namespace SearchParamsWritter {
     return { keys, set, create, format, clear };
   }
 
-  /**
-   * Sets or deletes the value for the given search parameter.
-   */
-  export function setValue(
-    searchParams: URLSearchParams,
-    key: string,
-    value?: null | string,
-  ) {
-    if (value == null) {
-      searchParams.delete(key);
-      return;
-    }
-
-    searchParams.set(key, value);
-  }
-
-  /**
-   * Sets of deletes the values for the given search parameter.
-   */
-  export function setValues(
-    searchParams: URLSearchParams,
-    key: string,
-    values?: null | string[] | Set<string>,
-  ) {
-    searchParams.delete(key);
-
-    values?.forEach((value) => {
-      searchParams.append(key, value);
-    });
-  }
-
   export type Infer<TWritter extends SearchParamsWritter<any, any>> =
     TWritter extends SearchParamsWritter<any, infer TInput> ? TInput : never;
 
   export type SetFunction<TKeys extends Record<string, string>, TInput> = (
-    searchParams: URLSearchParams,
     data: TInput,
-    keys: TKeys,
+    context: {
+      searchParams: URLSearchParams;
+      keys: TKeys;
+
+      /**
+       * Sets or deletes the value for the given search parameter.
+       */
+      setValue: (key: string, value?: null | string) => void;
+
+      /**
+       * Sets of deletes the values for the given search parameter.
+       */
+      setValues: (key: string, values?: null | string[] | Set<string>) => void;
+    },
   ) => void;
 }

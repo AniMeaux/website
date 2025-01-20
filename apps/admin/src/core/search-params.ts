@@ -4,15 +4,14 @@ import { zu } from "@animeaux/zod-utils";
 export const PageSearchParams = SearchParamsIO.create({
   keys: { page: "page" },
 
-  parseFunction: (searchParams, keys) => {
+  parseFunction: ({ keys, getValue }) => {
     return PageSchema.parse({
-      page: SearchParamsIO.getValue(searchParams, keys.page),
+      page: getValue(keys.page),
     });
   },
 
-  setFunction: (searchParams, data, keys) => {
-    SearchParamsIO.setValue(
-      searchParams,
+  setFunction: (data, { keys, setValue }) => {
+    setValue(
       keys.page,
       data.page == null || data.page === 0 ? undefined : String(data.page),
     );
@@ -26,14 +25,14 @@ const PageSchema = zu.object({
 export const NextSearchParams = SearchParamsIO.create({
   keys: { next: "next" },
 
-  parseFunction: (searchParams, keys) => {
+  parseFunction: ({ keys, getValue }) => {
     return NextSchema.parse({
-      next: SearchParamsIO.getValue(searchParams, keys.next),
+      next: getValue(keys.next),
     });
   },
 
-  setFunction: (searchParams, data, keys) => {
-    SearchParamsIO.setValue(searchParams, keys.next, data.next);
+  setFunction: (data, { keys, setValue }) => {
+    setValue(keys.next, data.next);
   },
 });
 
