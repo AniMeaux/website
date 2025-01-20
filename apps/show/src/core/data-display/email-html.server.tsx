@@ -121,7 +121,16 @@ export const EmailHtml = {
 
   Strong,
 
-  Markdown,
+  Markdown: function EmailHtmlMarkdown({
+    _isFirst,
+    ...props
+  }: React.ComponentPropsWithoutRef<typeof Markdown> & IsFirstProps) {
+    return (
+      <Section className={cn("m-0", _isFirst ? undefined : "mt-4")}>
+        <Markdown {...props} />
+      </Section>
+    );
+  },
 
   Link: function EmailHtmlLink({
     children,
@@ -151,6 +160,21 @@ export const EmailHtml = {
     );
   },
 
+  OrderedList: function EmailHtmlOrderedList({
+    _isFirst,
+    ...props
+  }: React.PropsWithChildren<IsFirstProps>) {
+    return (
+      <ol
+        {...props}
+        className={cn(
+          "m-0 list-decimal pl-[16px] text-body-lowercase-default",
+          _isFirst ? undefined : "mt-2",
+        )}
+      />
+    );
+  },
+
   UnorderedList: function EmailHtmlUnorderedList({
     _isFirst,
     ...props
@@ -159,7 +183,7 @@ export const EmailHtml = {
       <ul
         {...props}
         className={cn(
-          "m-0 pl-[16px] text-body-lowercase-default",
+          "m-0 list-disc pl-[16px] text-body-lowercase-default",
           _isFirst ? undefined : "mt-2",
         )}
       />
@@ -184,12 +208,18 @@ export const EmailHtml = {
       );
     },
 
-    Title: function EmailHtmlSectionTitle(props: React.PropsWithChildren<{}>) {
+    Title: function EmailHtmlSectionTitle({
+      _isFirst,
+      ...props
+    }: React.PropsWithChildren<IsFirstProps>) {
       return (
         <Heading
           {...props}
           as="h2"
-          className="m-0 text-mystic text-title-item"
+          className={cn(
+            "m-0 text-mystic text-title-item",
+            _isFirst ? undefined : "mt-2",
+          )}
         />
       );
     },
@@ -336,16 +366,24 @@ export const EMAIL_PARAGRAPH_COMPONENTS: MarkdownComponents = {
   ...PARAGRAPH_COMPONENTS,
   ...EMAIL_SENTENCE_COMPONENTS,
 
-  p: (props) => <EmailHtml.Paragraph {...withoutNode(props)} />,
+  p: (props) => (
+    <EmailHtml.Paragraph
+      {...withoutNode(props)}
+      _isFirst={props.node?.position?.start.line === 1}
+    />
+  ),
 
   ul: (props) => (
-    <ul {...withoutNode(props)} className="m-0 mt-2 list-disc p-0 pl-[16px]" />
+    <EmailHtml.UnorderedList
+      {...withoutNode(props)}
+      _isFirst={props.node?.position?.start.line === 1}
+    />
   ),
 
   ol: (props) => (
-    <ol
+    <EmailHtml.OrderedList
       {...withoutNode(props)}
-      className="m-0 mt-2 list-decimal p-0 pl-[16px]"
+      _isFirst={props.node?.position?.start.line === 1}
     />
   ),
 

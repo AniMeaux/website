@@ -368,7 +368,7 @@ model ShowExhibitorApplication {
   exhibitorId String?        @unique @db.Uuid
 
   status         ShowExhibitorApplicationStatus @default(UNTREATED)
-  refusalMessage String?                        @db.VarChar(512)
+  refusalMessage String?
 
   contactLastname  String @db.VarChar(64)
   contactFirstname String @db.VarChar(64)
@@ -431,7 +431,7 @@ model ShowExhibitorDocuments {
   exhibitorId String        @unique @db.Uuid
 
   status        ShowExhibitorDocumentsStatus @default(TO_BE_FILLED)
-  statusMessage String?                      @db.VarChar(512)
+  statusMessage String?
 
   folderId             String  @db.VarChar(128)
   identificationFileId String? @db.VarChar(128)
@@ -456,18 +456,18 @@ model ShowExhibitorProfile {
   name        String        @db.VarChar(64)
 
   publicProfileStatus        ShowExhibitorProfileStatus @default(NOT_TOUCHED)
-  publicProfileStatusMessage String?                    @db.VarChar(512)
+  publicProfileStatusMessage String?
   activityFields             ShowActivityField[]
   activityTargets            ShowActivityTarget[]
   links                      String[]
   logoPath                   String                     @db.VarChar(128)
 
   descriptionStatus        ShowExhibitorProfileStatus @default(NOT_TOUCHED)
-  descriptionStatusMessage String?                    @db.VarChar(512)
+  descriptionStatusMessage String?
   description              String?                    @db.VarChar(512)
 
   onStandAnimationsStatus        ShowExhibitorProfileStatus @default(NOT_TOUCHED)
-  onStandAnimationsStatusMessage String?                    @db.VarChar(512)
+  onStandAnimationsStatusMessage String?
   onStandAnimations              String?                    @db.VarChar(256)
 }
 
@@ -487,7 +487,7 @@ model ShowExhibitorStandConfiguration {
   exhibitorId String        @unique @db.Uuid
 
   status        ShowExhibitorStandConfigurationStatus @default(TO_BE_FILLED)
-  statusMessage String?                               @db.VarChar(512)
+  statusMessage String?
 
   chairCount              Int                                             @default(1)
   dividerCount            Int                                             @default(0)
@@ -531,7 +531,7 @@ model ShowExhibitorDogsConfiguration {
   exhibitorId String        @unique @db.Uuid
 
   status        ShowExhibitorDogsConfigurationStatus @default(NOT_TOUCHED)
-  statusMessage String?                              @db.VarChar(512)
+  statusMessage String?
 
   dogs ShowExhibitorDog[]
 }
