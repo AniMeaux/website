@@ -17,9 +17,11 @@ export function CardSituationRefusalMessage() {
       </Card.Header>
 
       <Card.Content>
-        <Markdown components={ARTICLE_COMPONENTS}>
-          {application.refusalMessage}
-        </Markdown>
+        <div>
+          <Markdown components={ARTICLE_COMPONENTS}>
+            {application.refusalMessage}
+          </Markdown>
+        </div>
       </Card.Content>
     </Card>
   );

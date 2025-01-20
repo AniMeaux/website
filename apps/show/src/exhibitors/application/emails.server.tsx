@@ -1,4 +1,5 @@
 import {
+  EMAIL_PARAGRAPH_COMPONENTS,
   EMAIL_SENTENCE_COMPONENTS,
   EmailHtml,
 } from "#core/data-display/email-html.server";
@@ -371,17 +372,10 @@ export async function createEmailTemplateStatusUpdate(
             <EmailHtml.Title>Candidature refusée</EmailHtml.Title>
 
             <EmailHtml.Section.Root>
-              <EmailHtml.Paragraph>
-                <EmailHtml.Markdown
-                  content={application.refusalMessage}
-                  components={EMAIL_SENTENCE_COMPONENTS}
-                />
-              </EmailHtml.Paragraph>
-
-              <EmailHtml.Paragraph>
-                Pour toute question ou complément d’information, n’hésitez pas à
-                nous contacter en répondant à cet e-mail.
-              </EmailHtml.Paragraph>
+              <EmailHtml.Markdown
+                content={application.refusalMessage}
+                components={EMAIL_PARAGRAPH_COMPONENTS}
+              />
             </EmailHtml.Section.Root>
 
             <EmailHtml.SectionSeparator />

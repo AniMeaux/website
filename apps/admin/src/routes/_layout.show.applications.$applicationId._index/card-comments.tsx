@@ -17,9 +17,11 @@ export function CardComments() {
       </Card.Header>
 
       <Card.Content>
-        <Markdown components={ARTICLE_COMPONENTS}>
-          {application.comments}
-        </Markdown>
+        <div>
+          <Markdown components={ARTICLE_COMPONENTS}>
+            {application.comments}
+          </Markdown>
+        </div>
       </Card.Content>
     </Card>
   );
