@@ -348,6 +348,53 @@ export function AnimalFilters({
         </Filters.Filter>
 
         <Filters.Filter
+          value={AnimalSearchParams.keys.iCadNumber}
+          label="Identification"
+          count={animalSearchParams.iCadNumber == null ? 0 : 1}
+          hiddenContent={
+            animalSearchParams.iCadNumber == null ? null : (
+              <input
+                type="hidden"
+                name={AnimalSearchParams.keys.iCadNumber}
+                value={animalSearchParams.iCadNumber}
+              />
+            )
+          }
+        >
+          <Form.Fields>
+            <Form.Field>
+              <Form.Label htmlFor={AnimalSearchParams.keys.iCadNumber}>
+                Numéro I-CAD
+              </Form.Label>
+
+              <ControlledInput
+                name={AnimalSearchParams.keys.iCadNumber}
+                value={animalSearchParams.iCadNumber ?? ""}
+                rightAdornment={
+                  animalSearchParams.iCadNumber != null ? (
+                    <ControlledInput.ActionAdornment
+                      onClick={() => {
+                        setSearchParams((searchParams) => {
+                          return AnimalSearchParams.set(
+                            searchParams,
+                            (animalSearchParams) => ({
+                              ...animalSearchParams,
+                              iCadNumber: undefined,
+                            }),
+                          );
+                        });
+                      }}
+                    >
+                      <Icon href="icon-x-mark-solid" />
+                    </ControlledInput.ActionAdornment>
+                  ) : null
+                }
+              />
+            </Form.Field>
+          </Form.Fields>
+        </Filters.Filter>
+
+        <Filters.Filter
           value={AnimalSearchParams.keys.pickUpLocations}
           label="Prise en charge"
           count={

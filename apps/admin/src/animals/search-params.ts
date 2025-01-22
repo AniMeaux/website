@@ -78,6 +78,7 @@ export const AnimalSearchParams = SearchParamsIO.create({
     statuses: "st",
     sterilizations: "stz",
     vaccinations: "v",
+    iCadNumber: "icn",
   },
 
   parseFunction: (searchParams, keys) => {
@@ -134,6 +135,7 @@ export const AnimalSearchParams = SearchParamsIO.create({
         keys.sterilizations,
       ),
       vaccinations: SearchParamsIO.getValues(searchParams, keys.vaccinations),
+      iCadNumber: SearchParamsIO.getValue(searchParams, keys.iCadNumber),
     });
   },
 
@@ -193,6 +195,8 @@ export const AnimalSearchParams = SearchParamsIO.create({
     SearchParamsIO.setValues(searchParams, keys.managersId, data.managersId);
 
     SearchParamsIO.setValue(searchParams, keys.nameOrAlias, data.nameOrAlias);
+
+    SearchParamsIO.setValue(searchParams, keys.iCadNumber, data.iCadNumber);
 
     SearchParamsIO.setValue(
       searchParams,
@@ -293,6 +297,7 @@ const AnimalSearchParamsSchema = zu.object({
   vaccinations: zu.searchParams.set(
     zu.searchParams.nativeEnum(AnimalVaccination),
   ),
+  iCadNumber: zu.searchParams.string(),
 });
 
 export const PickUpLocationSearchParams = SearchParamsIO.create({
