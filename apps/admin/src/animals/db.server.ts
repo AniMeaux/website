@@ -221,6 +221,10 @@ export class AnimalDbDelegate {
       where.push({ id: { in: animals.map((animal) => animal.id) } });
     }
 
+    if (searchParams.iCadNumber != null) {
+      where.push({ iCadNumber: { equals: searchParams.iCadNumber } });
+    }
+
     if (searchParams.adoptionOptions.size > 0) {
       where.push({
         status: { in: [Status.ADOPTED] },

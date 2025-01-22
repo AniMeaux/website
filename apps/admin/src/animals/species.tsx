@@ -9,7 +9,7 @@ export const SPECIES_TRANSLATION: Record<Species, string> = {
   [Species.CAT]: "Chat",
   [Species.DOG]: "Chien",
   [Species.REPTILE]: "Reptile",
-  [Species.RODENT]: "Rongeur",
+  [Species.RODENT]: "PAC",
 };
 
 export const SPECIES_ICON: Record<Species, IconName> = {
