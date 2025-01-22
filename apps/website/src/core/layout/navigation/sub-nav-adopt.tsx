@@ -57,9 +57,9 @@ export const SubNavAdopt: SubNavComponent = () => {
           isMultiline
           color="cyan"
           icon={SPECIES_ICON[Species.RODENT]}
-          to="/adoption/rongeur"
+          to="/adoption/pac"
         >
-          Rongeur
+          PAC
         </SubNavItem>
       </div>
 

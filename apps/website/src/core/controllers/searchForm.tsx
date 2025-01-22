@@ -1,5 +1,8 @@
 import { BaseLink } from "#core/base-link";
-import { AGE_TRANSLATION, SPECIES_TRANSLATION } from "#core/translations";
+import {
+  AGE_TRANSLATION,
+  SPECIES_TRANSLATION_STANDALONE,
+} from "#core/translations";
 import { Icon } from "#generated/icon";
 import { ANIMAL_AGE_RANGE_BY_SPECIES, AnimalAge, cn } from "@animeaux/core";
 import { Species } from "@prisma/client";
@@ -8,7 +11,7 @@ import { useCallback, useEffect, useState } from "react";
 
 const SORTED_SPECIES = orderBy(
   Object.values(Species),
-  (species) => SPECIES_TRANSLATION[species],
+  (species) => SPECIES_TRANSLATION_STANDALONE[species],
 );
 
 const SORTED_AGES = orderBy(Object.values(AnimalAge), (age) =>
@@ -103,7 +106,7 @@ export function SearchForm({
 
         {SORTED_SPECIES.map((species) => (
           <option key={species} value={species}>
-            {SPECIES_TRANSLATION[species]}
+            {SPECIES_TRANSLATION_STANDALONE[species]}
           </option>
         ))}
       </Select>
@@ -171,7 +174,7 @@ export const SPECIES_TO_PATH: Record<Species, string> = {
   [Species.CAT]: "chat",
   [Species.DOG]: "chien",
   [Species.REPTILE]: "reptile",
-  [Species.RODENT]: "rongeur",
+  [Species.RODENT]: "pac",
 };
 
 export const AGES_TO_PATH: Record<AnimalAge, string> = {
