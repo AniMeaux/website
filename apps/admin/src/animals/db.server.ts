@@ -4,6 +4,7 @@ import { AnimalPictureDbDelegate } from "#animals/pictures/db.server";
 import { AnimalProfileDbDelegate } from "#animals/profile/db.server";
 import type { AnimalSearchParams } from "#animals/search-params";
 import {
+  AnimalIdentification,
   AnimalSort,
   AnimalSterilization,
   AnimalVaccination,
@@ -221,6 +222,14 @@ export class AnimalDbDelegate {
       where.push({ id: { in: animals.map((animal) => animal.id) } });
     }
 
+    if (searchParams.identification.size > 0) {
+      where.push({
+        OR: Array.from(searchParams.identification).map(
+          (identification) => ANIMAL_IDENTIFICATION_WHERE[identification],
+        ),
+      });
+    }
+
     if (searchParams.iCadNumber != null) {
       where.push({ iCadNumber: { equals: searchParams.iCadNumber } });
     }
@@ -372,5 +381,14 @@ const ANIMAL_VACCINATION_WHERE: Record<
   },
   [AnimalVaccination.NOT_MANDATORY]: {
     isVaccinationMandatory: false,
+  },
+};
+
+const ANIMAL_IDENTIFICATION_WHERE: Record<
+  AnimalIdentification,
+  Prisma.AnimalWhereInput
+> = {
+  [AnimalIdentification.NO_ICAD_NUMBER]: {
+    iCadNumber: null,
   },
 };
