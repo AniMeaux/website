@@ -5,6 +5,7 @@ import { zu } from "@animeaux/zod-utils";
 import {
   AdoptionOption,
   Diagnosis,
+  Gender,
   PickUpReason,
   ScreeningResult,
   Species,
@@ -70,6 +71,9 @@ export const AnimalSearchParams = SearchParamsIO.create({
     felvResults: "felv",
     fivResults: "fiv",
     fosterFamiliesId: "ffid",
+    genders: "g",
+    iCadNumber: "icn",
+    identification: "i",
     managersId: "mid",
     nameOrAlias: "q",
     nextVaccinationDateEnd: "nvde",
@@ -82,8 +86,6 @@ export const AnimalSearchParams = SearchParamsIO.create({
     statuses: "st",
     sterilizations: "stz",
     vaccinations: "v",
-    identification: "i",
-    iCadNumber: "icn",
   },
 
   parseFunction: (searchParams, keys) => {
@@ -145,6 +147,7 @@ export const AnimalSearchParams = SearchParamsIO.create({
         keys.identification,
       ),
       iCadNumber: SearchParamsIO.getValue(searchParams, keys.iCadNumber),
+      genders: SearchParamsIO.getValues(searchParams, keys.genders),
     });
   },
 
@@ -212,6 +215,8 @@ export const AnimalSearchParams = SearchParamsIO.create({
     );
 
     SearchParamsIO.setValue(searchParams, keys.iCadNumber, data.iCadNumber);
+
+    SearchParamsIO.setValues(searchParams, keys.genders, data.genders);
 
     SearchParamsIO.setValue(
       searchParams,
@@ -316,6 +321,7 @@ const AnimalSearchParamsSchema = zu.object({
     zu.searchParams.nativeEnum(AnimalIdentification),
   ),
   iCadNumber: zu.searchParams.string(),
+  genders: zu.searchParams.set(zu.searchParams.nativeEnum(Gender)),
 });
 
 export const PickUpLocationSearchParams = SearchParamsIO.create({

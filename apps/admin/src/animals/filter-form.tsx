@@ -5,6 +5,11 @@ import {
 } from "#animals/adoption";
 import { AGE_ICON, AGE_TRANSLATION, SORTED_AGES } from "#animals/age";
 import {
+  GENDER_ICON,
+  GENDER_TRANSLATION,
+  SORTED_GENDERS,
+} from "#animals/gender";
+import {
   PICK_UP_REASON_ICON,
   PICK_UP_REASON_TRANSLATION,
   SORTED_PICK_UP_REASON,
@@ -315,6 +320,37 @@ export function AnimalFilters({
               />
             </Form.Field>
           </Form.Fields>
+        </Filters.Filter>
+
+        <Filters.Filter
+          value={AnimalSearchParams.keys.genders}
+          label="Genres"
+          count={animalSearchParams.genders.size}
+          hiddenContent={Array.from(animalSearchParams.genders).map(
+            (gender) => (
+              <input
+                key={gender}
+                type="hidden"
+                name={AnimalSearchParams.keys.genders}
+                value={gender}
+              />
+            ),
+          )}
+        >
+          <ToggleInputList>
+            {SORTED_GENDERS.map((gender) => (
+              <ToggleInput
+                key={gender}
+                type="checkbox"
+                label={GENDER_TRANSLATION[gender]}
+                name={AnimalSearchParams.keys.genders}
+                value={gender}
+                icon={<Icon href={GENDER_ICON[gender]} />}
+                checked={animalSearchParams.genders.has(gender)}
+                onChange={() => {}}
+              />
+            ))}
+          </ToggleInputList>
         </Filters.Filter>
 
         <Filters.Filter
