@@ -1,4 +1,4 @@
-import { TRANSLATION_BY_ACTIVITY_FIELD } from "#show/activity-field/translation";
+import { TRANSLATION_BY_ACTIVITY_FIELD } from "#show/exhibitors/activity-field/translation";
 import { ShowActivityField } from "@prisma/client";
 import orderBy from "lodash.orderby";
 

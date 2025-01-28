@@ -12,13 +12,13 @@ import { PageLayout } from "#core/layout/page";
 import { Routes, useBackIfPossible } from "#core/navigation";
 import { getPageTitle } from "#core/page-title";
 import { prisma } from "#core/prisma.server";
-import { NotFoundResponse } from "#core/response.server";
+import { notFound } from "#core/response.server";
 import { assertCurrentUserHasGroups } from "#current-user/groups.server";
-import { MissingRefusalMessageError } from "#show/applications/db.server";
+import { MissingRefusalMessageError } from "#show/exhibitors/applications/db.server";
 import {
   SORTED_STATUSES,
   TRANSLATION_BY_STATUS,
-} from "#show/applications/status";
+} from "#show/exhibitors/applications/status";
 import { FormDataDelegate } from "@animeaux/form-data";
 import { zu } from "@animeaux/zod-utils";
 import { ShowExhibitorApplicationStatus, UserGroup } from "@prisma/client";
@@ -40,7 +40,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
 
   const routeParams = RouteParamsSchema.safeParse(params);
   if (!routeParams.success) {
-    throw new NotFoundResponse();
+    throw notFound();
   }
 
   const application = await prisma.showExhibitorApplication.findUnique({
@@ -97,7 +97,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
 
   const routeParams = RouteParamsSchema.safeParse(params);
   if (!routeParams.success) {
-    throw new NotFoundResponse();
+    throw notFound();
   }
 
   const rawFormData = await request.formData();
@@ -110,7 +110,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
   }
 
   try {
-    await db.show.exhibitorApplication.update(routeParams.data.applicationId, {
+    await db.show.exhibitor.application.update(routeParams.data.applicationId, {
       status: formData.data.status,
       refusalMessage: formData.data.refusalMessage || null,
     });

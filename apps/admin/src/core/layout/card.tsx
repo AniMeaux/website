@@ -60,7 +60,7 @@ Card.Content = function CardContent({
   return (
     <div
       className={cn(
-        "flex flex-col gap-1 first:pt-2 last:pb-2 md:gap-2",
+        "flex flex-col gap-1 @container/card-content first:pt-2 last:pb-2 md:gap-2",
         hasHorizontalScroll
           ? "overflow-x-auto scrollbars-none"
           : hasListItems

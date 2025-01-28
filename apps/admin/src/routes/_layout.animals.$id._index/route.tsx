@@ -24,7 +24,7 @@ import { Routes } from "#core/navigation";
 import { getPageTitle } from "#core/page-title";
 import { Dialog } from "#core/popovers/dialog";
 import { prisma } from "#core/prisma.server";
-import { NotFoundResponse } from "#core/response.server";
+import { notFound } from "#core/response.server";
 import { assertCurrentUserHasGroups } from "#current-user/groups.server";
 import { Icon } from "#generated/icon";
 import { hasGroups } from "#users/groups";
@@ -61,7 +61,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
 
   const result = ParamsSchema.safeParse(params);
   if (!result.success) {
-    throw new NotFoundResponse();
+    throw notFound();
   }
 
   const isCurrentUserAnimalAdmin = hasGroups(currentUser, [
@@ -161,7 +161,7 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
 
 export async function action({ request, params }: ActionFunctionArgs) {
   if (request.method.toUpperCase() !== "DELETE") {
-    throw new NotFoundResponse();
+    throw notFound();
   }
 
   const currentUser = await db.currentUser.get(request, {
@@ -175,14 +175,14 @@ export async function action({ request, params }: ActionFunctionArgs) {
 
   const result = zu.string().uuid().safeParse(params["id"]);
   if (!result.success) {
-    throw new NotFoundResponse();
+    throw notFound();
   }
 
   try {
     await db.animal.delete(result.data);
   } catch (error) {
     if (error instanceof NotFoundError) {
-      throw new NotFoundResponse();
+      throw notFound();
     }
 
     throw error;

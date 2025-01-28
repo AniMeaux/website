@@ -11,7 +11,7 @@ import { PageLayout } from "#core/layout/page";
 import { Routes, useBackIfPossible } from "#core/navigation";
 import { getPageTitle } from "#core/page-title";
 import { prisma } from "#core/prisma.server";
-import { NotFoundResponse } from "#core/response.server";
+import { notFound } from "#core/response.server";
 import { assertCurrentUserHasGroups } from "#current-user/groups.server";
 import { InvalidDateRangeError } from "#events/db.server";
 import { ActionFormData, EventForm } from "#events/form";
@@ -43,7 +43,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
 
   const paramsResult = ParamsSchema.safeParse(params);
   if (!paramsResult.success) {
-    throw new NotFoundResponse();
+    throw notFound();
   }
 
   const event = await prisma.event.findUnique({
@@ -89,7 +89,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
 
   const paramsResult = ParamsSchema.safeParse(params);
   if (!paramsResult.success) {
-    throw new NotFoundResponse();
+    throw notFound();
   }
 
   const cloudinaryUploadHandler = createCloudinaryUploadHandler({

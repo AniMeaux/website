@@ -14,7 +14,7 @@ import { Routes } from "#core/navigation";
 import { getPageTitle } from "#core/page-title";
 import { Dialog } from "#core/popovers/dialog";
 import { prisma } from "#core/prisma.server";
-import { NotFoundResponse } from "#core/response.server";
+import { notFound } from "#core/response.server";
 import { assertCurrentUserHasGroups } from "#current-user/groups.server";
 import { EventAvatar } from "#events/avatar";
 import { Icon } from "#generated/icon";
@@ -42,7 +42,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
 
   const paramsResult = ParamsSchema.safeParse(params);
   if (!paramsResult.success) {
-    throw new NotFoundResponse();
+    throw notFound();
   }
 
   const event = await prisma.event.findUnique({
@@ -77,7 +77,7 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
 
 export async function action({ request, params }: ActionFunctionArgs) {
   if (request.method.toUpperCase() !== "DELETE") {
-    throw new NotFoundResponse();
+    throw notFound();
   }
 
   const currentUser = await db.currentUser.get(request, {
@@ -88,14 +88,14 @@ export async function action({ request, params }: ActionFunctionArgs) {
 
   const paramsResult = ParamsSchema.safeParse(params);
   if (!paramsResult.success) {
-    throw new NotFoundResponse();
+    throw notFound();
   }
 
   try {
     await db.event.delete(paramsResult.data.id);
   } catch (error) {
     if (error instanceof NotFoundError) {
-      throw new NotFoundResponse();
+      throw notFound();
     }
 
     throw error;

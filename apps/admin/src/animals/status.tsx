@@ -47,7 +47,7 @@ export function StatusBadge({
 }) {
   return (
     <Chip
-      variant="filled"
+      variant="primary"
       color={STATUS_CHIP_COLOR[status]}
       className={className}
     >
@@ -94,6 +94,5 @@ const CHIP_COLOR_STATUS_ICON_CLASS_NAMES: Record<ChipColor, string> = {
   red: cn("text-red-500"),
   blue: cn("text-blue-500"),
   yellow: cn("text-yellow-400"),
-  gray: cn("text-gray-100"),
   orange: cn("text-orange-500"),
 };

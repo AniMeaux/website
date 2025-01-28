@@ -23,7 +23,7 @@ import { Routes } from "#core/navigation";
 import { getPageTitle } from "#core/page-title";
 import { Dialog } from "#core/popovers/dialog";
 import { prisma } from "#core/prisma.server";
-import { BadRequestResponse, NotFoundResponse } from "#core/response.server";
+import { badRequest, notFound } from "#core/response.server";
 import { assertCurrentUserHasGroups } from "#current-user/groups.server";
 import { Icon } from "#generated/icon";
 import { UserAvatar } from "#users/avatar";
@@ -56,7 +56,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
 
   const paramsResult = ParamsSchema.safeParse(params);
   if (!paramsResult.success) {
-    throw new NotFoundResponse();
+    throw notFound();
   }
 
   const managedAnimalsWhere: Prisma.AnimalWhereInput = {
@@ -169,7 +169,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
 
   const paramsResult = ParamsSchema.safeParse(params);
   if (!paramsResult.success) {
-    throw new NotFoundResponse();
+    throw notFound();
   }
 
   if (request.method.toUpperCase() === "DELETE") {
@@ -198,11 +198,11 @@ async function actionDelete({
     await db.user.delete(userId, currentUser);
   } catch (error) {
     if (error instanceof NotFoundError) {
-      throw new NotFoundResponse();
+      throw notFound();
     }
 
     if (error instanceof DeleteMyselfError) {
-      throw new BadRequestResponse();
+      throw badRequest();
     }
 
     if (error instanceof ReferencedError) {
@@ -234,18 +234,18 @@ async function actionDisable({
 }) {
   const formData = DisableActionFormData.safeParse(await request.formData());
   if (!formData.success) {
-    throw new BadRequestResponse();
+    throw badRequest();
   }
 
   try {
     await db.user.setIsDisabled(userId, currentUser, formData.data.isDisabled);
   } catch (error) {
     if (error instanceof NotFoundError) {
-      throw new NotFoundResponse();
+      throw notFound();
     }
 
     if (error instanceof DisableMyselfError) {
-      throw new BadRequestResponse();
+      throw badRequest();
     }
 
     throw error;
