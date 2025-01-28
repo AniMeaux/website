@@ -3,7 +3,7 @@ import { BaseLink } from "#core/base-link";
 import { Paginator } from "#core/controllers/paginator";
 import { Empty } from "#core/data-display/empty";
 import { Card } from "#core/layout/card";
-import { ApplicationSearchParams } from "#show/applications/search-params";
+import { ApplicationSearchParams } from "#show/exhibitors/applications/search-params";
 import { useOptimisticSearchParams } from "@animeaux/search-params-io";
 import { useLoaderData } from "@remix-run/react";
 import { ApplicationItem } from "./item";
@@ -22,7 +22,7 @@ export function CardList() {
         </Card.Title>
       </Card.Header>
 
-      <Card.Content hasListItems className="@container/card-content">
+      <Card.Content hasListItems>
         {applications.length > 0 ? (
           <div className="grid grid-cols-[auto_1fr_auto] gap-x-1 @lg/card-content:grid-cols-[auto_auto_1fr_auto] @3xl/card-content:grid-cols-[auto_auto_auto_1fr_auto_auto] md:gap-x-2">
             {applications.map((application) => (

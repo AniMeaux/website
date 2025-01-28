@@ -17,7 +17,7 @@ import { Routes } from "#core/navigation";
 import { getPageTitle } from "#core/page-title";
 import { Dialog } from "#core/popovers/dialog";
 import { prisma } from "#core/prisma.server";
-import { NotFoundResponse } from "#core/response.server";
+import { notFound } from "#core/response.server";
 import { assertCurrentUserHasGroups } from "#current-user/groups.server";
 import {
   AVATAR_COLOR_BY_AVAILABILITY,
@@ -57,7 +57,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
 
   const paramsResult = ParamsSchema.safeParse(params);
   if (!paramsResult.success) {
-    throw new NotFoundResponse();
+    throw notFound();
   }
 
   const { fosterFamily, fosterAnimalCount, fosterAnimals } = await promiseHash({
@@ -122,7 +122,7 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
 
 export async function action({ request, params }: ActionFunctionArgs) {
   if (request.method.toUpperCase() !== "DELETE") {
-    throw new NotFoundResponse();
+    throw notFound();
   }
 
   const currentUser = await db.currentUser.get(request, {
@@ -136,14 +136,14 @@ export async function action({ request, params }: ActionFunctionArgs) {
 
   const paramsResult = ParamsSchema.safeParse(params);
   if (!paramsResult.success) {
-    throw new NotFoundResponse();
+    throw notFound();
   }
 
   try {
     await db.fosterFamily.delete(paramsResult.data.id);
   } catch (error) {
     if (error instanceof NotFoundError) {
-      throw new NotFoundResponse();
+      throw notFound();
     }
 
     if (error instanceof ReferencedError) {

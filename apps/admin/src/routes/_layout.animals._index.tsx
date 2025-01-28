@@ -16,7 +16,7 @@ import { PageLayout } from "#core/layout/page";
 import { Routes } from "#core/navigation";
 import { getPageTitle } from "#core/page-title";
 import { prisma } from "#core/prisma.server";
-import { ForbiddenResponse } from "#core/response.server";
+import { forbidden } from "#core/response.server";
 import { PageSearchParams } from "#core/search-params";
 import { assertCurrentUserHasGroups } from "#current-user/groups.server";
 import { hasGroups } from "#users/groups";
@@ -68,11 +68,11 @@ export async function loader({ request }: LoaderFunctionArgs) {
       animalSearchParams.nextVaccinationDateEnd != null ||
       animalSearchParams.diagnosis.size > 0)
   ) {
-    throw new ForbiddenResponse();
+    throw forbidden();
   }
 
   if (!showFosterFamilies && animalSearchParams.fosterFamiliesId.size > 0) {
-    throw new ForbiddenResponse();
+    throw forbidden();
   }
 
   const { where, orderBy } = await db.animal.createFindManyParams(

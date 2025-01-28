@@ -225,7 +225,7 @@ function UserItem({
 
       {user.isDisabled ? (
         <Chip
-          variant="filled"
+          variant="primary"
           color="orange"
           icon="icon-ban-solid"
           title="Bloqué"

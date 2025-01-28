@@ -10,7 +10,7 @@ import { assertIsDefined } from "#core/is-defined.server";
 import { Routes } from "#core/navigation";
 import { getPageTitle } from "#core/page-title";
 import { prisma } from "#core/prisma.server";
-import { NotFoundResponse } from "#core/response.server";
+import { notFound } from "#core/response.server";
 import { assertCurrentUserHasGroups } from "#current-user/groups.server";
 import { DownloadPictureLink } from "#routes/downloads.picture.$id/link";
 import { cn } from "@animeaux/core";
@@ -44,7 +44,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
 
   const paramsResult = ParamsSchema.safeParse(params);
   if (!paramsResult.success) {
-    throw new NotFoundResponse();
+    throw notFound();
   }
 
   const animal = await prisma.animal.findUnique({
@@ -62,7 +62,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
   const allPictures = getAllAnimalPictures(animal);
 
   if (!allPictures.includes(paramsResult.data.pictureId)) {
-    throw new NotFoundResponse();
+    throw notFound();
   }
 
   return json({ animal, visiblePictureId: paramsResult.data.pictureId });

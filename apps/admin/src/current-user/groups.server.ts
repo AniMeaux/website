@@ -1,4 +1,4 @@
-import { ForbiddenResponse } from "#core/response.server";
+import { forbidden } from "#core/response.server";
 import { hasGroups } from "#users/groups";
 import type { User, UserGroup } from "@prisma/client";
 
@@ -7,6 +7,6 @@ export function assertCurrentUserHasGroups(
   groups: UserGroup[],
 ) {
   if (!hasGroups(user, groups)) {
-    throw new ForbiddenResponse();
+    throw forbidden();
   }
 }

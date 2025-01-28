@@ -2,7 +2,7 @@ import { db } from "#core/db.server";
 import { assertIsDefined } from "#core/is-defined.server";
 import { Routes } from "#core/navigation";
 import { prisma } from "#core/prisma.server";
-import { NotFoundResponse } from "#core/response.server";
+import { notFound } from "#core/response.server";
 import { assertCurrentUserHasGroups } from "#current-user/groups.server";
 import { zu } from "@animeaux/zod-utils";
 import { UserGroup } from "@prisma/client";
@@ -27,7 +27,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
 
   const paramsResult = ParamsSchema.safeParse(params);
   if (!paramsResult.success) {
-    throw new NotFoundResponse();
+    throw notFound();
   }
 
   const animal = await prisma.animal.findUnique({

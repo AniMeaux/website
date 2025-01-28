@@ -25,6 +25,8 @@ export class ServiceStandConfiguration extends Service {
     await prisma.showExhibitor.update({
       where: { token },
       data: {
+        updatedAt: new Date(),
+
         standConfiguration: {
           update: {
             ...data,

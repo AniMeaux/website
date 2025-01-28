@@ -5,21 +5,21 @@ import { ControlledInput } from "#core/form-elements/controlled-input";
 import { Form } from "#core/form-elements/form";
 import { ToggleInput, ToggleInputList } from "#core/form-elements/toggle-input";
 import { Icon } from "#generated/icon";
-import { SORTED_ACTIVITY_FIELDS } from "#show/activity-field/activity-field";
-import { ActivityFieldIcon } from "#show/activity-field/icon";
-import { TRANSLATION_BY_ACTIVITY_FIELD } from "#show/activity-field/translation";
-import { SORTED_ACTIVITY_TARGETS } from "#show/activity-target/activity-target";
-import { ActivityTargetIcon } from "#show/activity-target/icon";
-import { TRANSLATION_BY_ACTIVITY_TARGET } from "#show/activity-target/translation";
+import { SORTED_ACTIVITY_FIELDS } from "#show/exhibitors/activity-field/activity-field";
+import { ActivityFieldIcon } from "#show/exhibitors/activity-field/icon";
+import { TRANSLATION_BY_ACTIVITY_FIELD } from "#show/exhibitors/activity-field/translation";
+import { SORTED_ACTIVITY_TARGETS } from "#show/exhibitors/activity-target/activity-target";
+import { ActivityTargetIcon } from "#show/exhibitors/activity-target/icon";
+import { TRANSLATION_BY_ACTIVITY_TARGET } from "#show/exhibitors/activity-target/translation";
 import {
   ApplicationSearchParams,
   ApplicationSearchParamsN,
-} from "#show/applications/search-params";
+} from "#show/exhibitors/applications/search-params";
 import {
   SORTED_STATUSES,
   StatusIcon,
   TRANSLATION_BY_STATUS,
-} from "#show/applications/status";
+} from "#show/exhibitors/applications/status";
 import {
   SORTED_APPLICATION_PARTNERSHIP_CATEGORIES,
   TRANSLATION_BY_APPLICATION_PARTNERSHIP_CATEGORY,

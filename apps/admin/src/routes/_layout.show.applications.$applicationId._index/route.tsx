@@ -4,7 +4,7 @@ import { assertIsDefined } from "#core/is-defined.server";
 import { PageLayout } from "#core/layout/page";
 import { getPageTitle } from "#core/page-title";
 import { prisma } from "#core/prisma.server";
-import { NotFoundResponse } from "#core/response.server";
+import { notFound } from "#core/response.server";
 import { assertCurrentUserHasGroups } from "#current-user/groups.server";
 import { zu } from "@animeaux/zod-utils";
 import { UserGroup } from "@prisma/client";
@@ -32,7 +32,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
 
   const routeParams = RouteParamsSchema.safeParse(params);
   if (!routeParams.success) {
-    throw new NotFoundResponse();
+    throw notFound();
   }
 
   const application = await prisma.showExhibitorApplication.findUnique({

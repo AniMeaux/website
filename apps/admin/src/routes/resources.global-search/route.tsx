@@ -1,5 +1,5 @@
 import { db } from "#core/db.server";
-import { ForbiddenResponse } from "#core/response.server";
+import { forbidden } from "#core/response.server";
 import { assertCurrentUserHasGroups } from "#current-user/groups.server";
 import { UserGroup } from "@prisma/client";
 import type { LoaderFunctionArgs } from "@remix-run/node";
@@ -34,7 +34,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
   const entity = searchParams.entity ?? possibleEntities[0];
 
   if (entity == null || !possibleEntities.includes(entity)) {
-    throw new ForbiddenResponse();
+    throw forbidden();
   }
 
   if (searchParams.text == null) {

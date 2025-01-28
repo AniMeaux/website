@@ -1,4 +1,4 @@
-import { TRANSLATION_BY_ACTIVITY_TARGET } from "#show/activity-target/translation";
+import { TRANSLATION_BY_ACTIVITY_TARGET } from "#show/exhibitors/activity-target/translation";
 import { ShowActivityTarget } from "@prisma/client";
 import orderBy from "lodash.orderby";
 

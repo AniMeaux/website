@@ -12,7 +12,7 @@ import { renderToPipeableStream } from "react-dom/server";
 checkEnv();
 global.CLIENT_ENV = getClientEnv();
 
-const ABORT_DELAY = 5000;
+const ABORT_DELAY_MS = 5000;
 
 if (process.env.NODE_ENV === "development") {
   import("#mocks/mocks.server").then((module) => module.startWorker());
@@ -47,7 +47,7 @@ export default async function handleRequest(
       <RemixServer
         context={remixContext}
         url={request.url}
-        abortDelay={ABORT_DELAY}
+        abortDelay={ABORT_DELAY_MS}
       />,
       {
         [callbackName]() {
@@ -75,7 +75,7 @@ export default async function handleRequest(
       },
     );
 
-    setTimeout(abort, ABORT_DELAY);
+    setTimeout(abort, ABORT_DELAY_MS);
   });
 }
 

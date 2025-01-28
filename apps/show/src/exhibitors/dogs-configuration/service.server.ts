@@ -26,6 +26,8 @@ export class ServiceDogsConfiguration extends Service {
       const exhibitor = await prisma.showExhibitor.update({
         where: { token },
         data: {
+          updatedAt: new Date(),
+
           dogsConfiguration: {
             update: {
               status: ShowExhibitorDogsConfigurationStatus.AWAITING_VALIDATION,
