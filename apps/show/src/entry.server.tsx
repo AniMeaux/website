@@ -14,7 +14,7 @@ checkEnv();
 global.CLIENT_ENV = getClientEnv();
 initMonitoring();
 
-const ABORT_DELAY = 20_000;
+const ABORT_DELAY_MS = 60_000;
 
 if (process.env.NODE_ENV === "development") {
   import("#mocks/mocks.server").then((module) => module.startWorker());
@@ -48,7 +48,7 @@ export default function handleRequest(
       <RemixServer
         context={remixContext}
         url={request.url}
-        abortDelay={ABORT_DELAY}
+        abortDelay={ABORT_DELAY_MS}
       />,
       {
         [callbackName]() {
@@ -76,7 +76,7 @@ export default function handleRequest(
       },
     );
 
-    setTimeout(abort, ABORT_DELAY);
+    setTimeout(abort, ABORT_DELAY_MS);
   });
 }
 

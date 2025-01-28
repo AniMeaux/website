@@ -7,7 +7,7 @@ import type { RenderToPipeableStreamOptions } from "react-dom/server";
 import { renderToPipeableStream } from "react-dom/server";
 import invariant from "tiny-invariant";
 
-const ABORT_DELAY = 5000;
+const ABORT_DELAY_MS = 5000;
 
 export default function handleRequest(
   request: Request,
@@ -37,7 +37,7 @@ export default function handleRequest(
       <RemixServer
         context={remixContext}
         url={request.url}
-        abortDelay={ABORT_DELAY}
+        abortDelay={ABORT_DELAY_MS}
       />,
       {
         [callbackName]() {
@@ -65,6 +65,6 @@ export default function handleRequest(
       },
     );
 
-    setTimeout(abort, ABORT_DELAY);
+    setTimeout(abort, ABORT_DELAY_MS);
   });
 }
