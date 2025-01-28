@@ -31,10 +31,10 @@ export function BlockHelper({ children, icon, variant }: BlockHelperProps) {
 }
 
 const BLOCK_VARIANT_CLASS_NAME: Record<HelperVariant, string> = {
-  error: "border-red-100",
-  info: "border-blue-100",
-  success: "border-green-100",
-  warning: "border-orange-100",
+  error: cn("border-red-100"),
+  info: cn("border-blue-100"),
+  success: cn("border-green-100"),
+  warning: cn("border-orange-100"),
 };
 
 export type InlineHelperProps = {
@@ -110,10 +110,10 @@ export function DenseHelper({
 }
 
 const VARIANT_CLASS_NAME: Record<HelperVariant, string> = {
-  error: "bg-red-50 text-red-500",
-  info: "bg-blue-50 text-blue-500",
-  success: "bg-green-50 text-green-600",
-  warning: "bg-orange-50 text-orange-500",
+  error: cn("bg-red-50 text-red-500"),
+  info: cn("bg-blue-50 text-blue-500"),
+  success: cn("bg-green-50 text-green-600"),
+  warning: cn("bg-orange-50 text-orange-500"),
 };
 
 const VARIANT_ICON: Record<HelperVariant, IconName> = {

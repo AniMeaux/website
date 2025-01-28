@@ -4,7 +4,7 @@ import { cn } from "@animeaux/core";
 import { ShowExhibitorApplicationStatus } from "@prisma/client";
 import orderBy from "lodash.orderby";
 
-export const TRANSLATION_BY_STATUS: Record<
+export const TRANSLATION_BY_APPLICATION_STATUS: Record<
   ShowExhibitorApplicationStatus,
   string
 > = {
@@ -16,10 +16,10 @@ export const TRANSLATION_BY_STATUS: Record<
 
 export const SORTED_STATUSES = orderBy(
   Object.values(ShowExhibitorApplicationStatus),
-  (status) => TRANSLATION_BY_STATUS[status],
+  (status) => TRANSLATION_BY_APPLICATION_STATUS[status],
 );
 
-export function StatusIcon({
+export function ApplicationStatusIcon({
   status,
   className,
 }: {
@@ -27,7 +27,10 @@ export function StatusIcon({
   className?: string;
 }) {
   return (
-    <span title={TRANSLATION_BY_STATUS[status]} className={className}>
+    <span
+      title={TRANSLATION_BY_APPLICATION_STATUS[status]}
+      className={className}
+    >
       <Icon
         href={ICON_NAME_BY_STATUS[status]}
         className={ICON_CLASS_NAMES_BY_STATUS[status]}

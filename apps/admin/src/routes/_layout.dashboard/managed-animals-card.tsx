@@ -3,7 +3,7 @@ import { AnimalSearchParams } from "#animals/search-params";
 import { ACTIVE_ANIMAL_STATUS } from "#animals/status";
 import { Action } from "#core/actions";
 import { BaseLink } from "#core/base-link";
-import { Empty } from "#core/data-display/empty";
+import { SimpleEmpty } from "#core/data-display/empty";
 import { Card } from "#core/layout/card";
 import { Routes } from "#core/navigation";
 import { useLoaderData } from "@remix-run/react";
@@ -43,7 +43,7 @@ export function ManagedAnimalsCard() {
 
       <Card.Content hasHorizontalScroll={managedAnimalCount > 0}>
         {managedAnimalCount === 0 || managedAnimals == null ? (
-          <Empty
+          <SimpleEmpty
             isCompact
             icon="🦤"
             iconAlt="Dodo bird"

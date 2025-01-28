@@ -1,13 +1,34 @@
 import { prisma } from "#core/prisma.server";
+import { notFound } from "#core/response.server";
 import { ShowExhibitorApplicationDbDelegate } from "#show/exhibitors/applications/db.server";
 import { paymentToBoolean } from "#show/exhibitors/payment";
+import { ShowExhibitorProfileDbDelegate } from "#show/exhibitors/profile/db.server";
 import { ExhibitorSearchParamsN } from "#show/exhibitors/search-params";
+import { ShowExhibitorStandConfigurationDbDelegate } from "#show/exhibitors/stand-configuration/db.server";
 import { visibilityToBoolean } from "#show/visibility";
 import type { Prisma } from "@prisma/client";
 import { promiseHash } from "remix-utils/promise";
 
 export class ShowExhibitorDbDelegate {
   readonly application = new ShowExhibitorApplicationDbDelegate();
+  readonly profile = new ShowExhibitorProfileDbDelegate();
+  readonly standConfiguration = new ShowExhibitorStandConfigurationDbDelegate();
+
+  async findUnique<T extends Prisma.ShowExhibitorSelect>(
+    id: string,
+    params: { select: T },
+  ) {
+    const exhibitor = await prisma.showExhibitor.findUnique({
+      where: { id },
+      select: params.select,
+    });
+
+    if (exhibitor == null) {
+      throw notFound();
+    }
+
+    return exhibitor;
+  }
 
   async findMany<T extends Prisma.ShowExhibitorSelect>(params: {
     searchParams: ExhibitorSearchParamsN.Value;

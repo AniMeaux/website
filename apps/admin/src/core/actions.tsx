@@ -133,16 +133,26 @@ const COLOR_CLASS_NAMES: Record<ActionVariant, Record<ActionColor, string>> = {
 
 export const ProseInlineAction = forwardRef<
   React.ComponentRef<typeof Primitive.button>,
-  React.ComponentPropsWithoutRef<typeof Primitive.button>
->(function ProseInlineAction({ className, ...rest }, ref) {
+  React.ComponentPropsWithoutRef<typeof Primitive.button> & {
+    variant?: ProseInlineActionVariant;
+  }
+>(function ProseInlineAction({ variant = "normal", className, ...rest }, ref) {
   return (
     <Primitive.button
       {...rest}
       ref={ref}
       className={cn(
-        "relative text-body-emphasis after:absolute after:bottom-0 after:left-0 after:w-full after:border-b after:border-blue-500 focus-visible:focus-spaced-blue-400 hover:after:border-b-2",
+        "relative after:absolute after:bottom-0 after:left-0 after:w-full after:border-b after:border-blue-500 focus-visible:focus-spaced-blue-400",
+        CLASS_NAME_BY_VARIANT[variant],
         className,
       )}
     />
   );
 });
+
+type ProseInlineActionVariant = "subtle" | "normal";
+
+const CLASS_NAME_BY_VARIANT: Record<ProseInlineActionVariant, string> = {
+  normal: cn("text-body-emphasis hover:after:border-b-2"),
+  subtle: cn("text-body-default after:opacity-0 hover:after:opacity-100"),
+};

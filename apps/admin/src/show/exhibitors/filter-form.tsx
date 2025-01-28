@@ -12,9 +12,9 @@ import { SORTED_ACTIVITY_TARGETS } from "#show/exhibitors/activity-target/activi
 import { ActivityTargetIcon } from "#show/exhibitors/activity-target/icon";
 import { TRANSLATION_BY_ACTIVITY_TARGET } from "#show/exhibitors/activity-target/translation";
 import {
+  ApplicationStatusIcon,
   SORTED_STATUSES,
-  StatusIcon,
-  TRANSLATION_BY_STATUS,
+  TRANSLATION_BY_APPLICATION_STATUS,
 } from "#show/exhibitors/applications/status";
 import {
   DOCUMENTS_STATUS_TRANSLATION,
@@ -333,7 +333,8 @@ function FilterPayment() {
             label={PAYMENT_TRANSLATIONS[payment]}
             name={ExhibitorSearchParams.keys.payment}
             value={payment}
-            icon={<PaymentIcon payment={payment} />}
+            icon={<PaymentIcon variant="light" payment={payment} />}
+            iconChecked={<PaymentIcon variant="solid" payment={payment} />}
             checked={exhibitorSearchParams.payment.has(payment)}
             onChange={() => {}}
           />
@@ -629,10 +630,10 @@ function FilterStatuses() {
               <ToggleInput
                 key={status}
                 type="checkbox"
-                label={TRANSLATION_BY_STATUS[status]}
+                label={TRANSLATION_BY_APPLICATION_STATUS[status]}
                 name={ExhibitorSearchParams.keys.applicationStatuses}
                 value={status}
-                icon={<StatusIcon status={status} />}
+                icon={<ApplicationStatusIcon status={status} />}
                 checked={exhibitorSearchParams.applicationStatuses.has(status)}
                 onChange={() => {}}
               />
@@ -672,7 +673,10 @@ function FilterVisibility() {
             label={VISIBILITY_TRANSLATIONS[visibility]}
             name={ExhibitorSearchParams.keys.visibility}
             value={visibility}
-            icon={<VisibilityIcon visibility={visibility} />}
+            icon={<VisibilityIcon variant="light" visibility={visibility} />}
+            iconChecked={
+              <VisibilityIcon variant="solid" visibility={visibility} />
+            }
             checked={exhibitorSearchParams.visibility.has(visibility)}
             onChange={() => {}}
           />

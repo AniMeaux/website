@@ -2,8 +2,9 @@ import { NotFoundError, PrismaErrorCodes } from "#core/errors.server";
 import { googleClient } from "#core/google-client.server";
 import { notifyShowApp } from "#core/notification.server";
 import { prisma } from "#core/prisma.server";
+import { notFound } from "#core/response.server";
 import { ApplicationSearchParamsN } from "#show/exhibitors/applications/search-params";
-import { TABLE_COUNT_BY_SIZE } from "#show/exhibitors/applications/stand-size";
+import { TABLE_COUNT_BY_SIZE } from "#show/exhibitors/stand-configuration/table";
 import { isPartnershipCategory } from "#show/partnership/category";
 import type { ShowExhibitorApplication } from "@prisma/client";
 import { Prisma, ShowExhibitorApplicationStatus } from "@prisma/client";
@@ -13,6 +14,38 @@ import { promiseHash } from "remix-utils/promise";
 export class MissingRefusalMessageError extends Error {}
 
 export class ShowExhibitorApplicationDbDelegate {
+  async findUnique<T extends Prisma.ShowExhibitorApplicationSelect>(
+    id: string,
+    params: { select: T },
+  ) {
+    const application = await prisma.showExhibitorApplication.findUnique({
+      where: { id },
+      select: params.select,
+    });
+
+    if (application == null) {
+      throw notFound();
+    }
+
+    return application;
+  }
+
+  async findUniqueByExhibitor<T extends Prisma.ShowExhibitorApplicationSelect>(
+    exhibitorId: string,
+    params: { select: T },
+  ) {
+    const application = await prisma.showExhibitorApplication.findUnique({
+      where: { exhibitorId },
+      select: params.select,
+    });
+
+    if (application == null) {
+      throw notFound();
+    }
+
+    return application;
+  }
+
   async findMany<T extends Prisma.ShowExhibitorApplicationSelect>(params: {
     searchParams: ApplicationSearchParamsN.Value;
     page: number;

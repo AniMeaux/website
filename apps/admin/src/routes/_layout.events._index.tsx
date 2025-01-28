@@ -2,7 +2,7 @@ import { Action } from "#core/actions";
 import { BaseLink } from "#core/base-link";
 import { Paginator } from "#core/controllers/paginator";
 import { Chip } from "#core/data-display/chip";
-import { Empty } from "#core/data-display/empty";
+import { SimpleEmpty } from "#core/data-display/empty";
 import type { DynamicImageProps } from "#core/data-display/image";
 import { DynamicImage } from "#core/data-display/image";
 import { db } from "#core/db.server";
@@ -109,7 +109,7 @@ export default function Route() {
                 ))}
               </ul>
             ) : (
-              <Empty
+              <SimpleEmpty
                 isCompact
                 icon="🛋️"
                 iconAlt="Canapé et lampe"

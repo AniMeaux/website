@@ -7,11 +7,3 @@ export const STAND_SIZE_TRANSLATION: Record<ShowStandSize, string> = {
   [ShowStandSize.S_18]: "18 m² (6x3)",
   [ShowStandSize.S_36]: "36 m² (6x6)",
 };
-
-export const TABLE_COUNT_BY_SIZE: Record<ShowStandSize, number> = {
-  [ShowStandSize.S_6]: 2,
-  [ShowStandSize.S_9]: 3,
-  [ShowStandSize.S_12]: 3,
-  [ShowStandSize.S_18]: 6,
-  [ShowStandSize.S_36]: 12,
-};

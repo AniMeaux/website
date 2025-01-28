@@ -16,9 +16,9 @@ import {
   ApplicationSearchParamsN,
 } from "#show/exhibitors/applications/search-params";
 import {
+  ApplicationStatusIcon,
   SORTED_STATUSES,
-  StatusIcon,
-  TRANSLATION_BY_STATUS,
+  TRANSLATION_BY_APPLICATION_STATUS,
 } from "#show/exhibitors/applications/status";
 import {
   SORTED_APPLICATION_PARTNERSHIP_CATEGORIES,
@@ -152,10 +152,10 @@ export function ApplicationFilters() {
               <ToggleInput
                 key={status}
                 type="checkbox"
-                label={TRANSLATION_BY_STATUS[status]}
+                label={TRANSLATION_BY_APPLICATION_STATUS[status]}
                 name={ApplicationSearchParams.keys.statuses}
                 value={status}
-                icon={<StatusIcon status={status} />}
+                icon={<ApplicationStatusIcon status={status} />}
                 checked={applicationSearchParams.statuses.has(status)}
                 onChange={() => {}}
               />

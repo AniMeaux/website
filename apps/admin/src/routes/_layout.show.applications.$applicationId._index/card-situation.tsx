@@ -5,8 +5,8 @@ import { Card } from "#core/layout/card";
 import { Routes } from "#core/navigation";
 import { Icon } from "#generated/icon";
 import {
-  StatusIcon,
-  TRANSLATION_BY_STATUS,
+  ApplicationStatusIcon,
+  TRANSLATION_BY_APPLICATION_STATUS,
 } from "#show/exhibitors/applications/status";
 import { useLoaderData } from "@remix-run/react";
 import { DateTime } from "luxon";
@@ -33,11 +33,11 @@ export function CardSituation() {
         <ItemList>
           <SimpleItem
             isLightIcon
-            icon={<StatusIcon status={application.status} />}
+            icon={<ApplicationStatusIcon status={application.status} />}
           >
             Est{" "}
             <strong className="text-body-emphasis">
-              {TRANSLATION_BY_STATUS[application.status]}
+              {TRANSLATION_BY_APPLICATION_STATUS[application.status]}
             </strong>
           </SimpleItem>
 

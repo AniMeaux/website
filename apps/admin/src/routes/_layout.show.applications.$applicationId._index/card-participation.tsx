@@ -1,7 +1,7 @@
 import { ItemList, SimpleItem } from "#core/data-display/item";
 import { Card } from "#core/layout/card";
 import { Icon } from "#generated/icon";
-import { STAND_SIZE_TRANSLATION } from "#show/exhibitors/applications/stand-size";
+import { STAND_SIZE_TRANSLATION } from "#show/exhibitors/stand-configuration/stand-size";
 import { useLoaderData } from "@remix-run/react";
 import type { loader } from "./route";
 

@@ -3,7 +3,7 @@ import { Routes } from "#core/navigation";
 import { ActivityFieldIcon } from "#show/exhibitors/activity-field/icon";
 import { ActivityTargetIcon } from "#show/exhibitors/activity-target/icon";
 import { LEGAL_STATUS_TRANSLATION } from "#show/exhibitors/applications/legal-status";
-import { StatusIcon } from "#show/exhibitors/applications/status";
+import { ApplicationStatusIcon } from "#show/exhibitors/applications/status";
 import type { SerializeFrom } from "@remix-run/node";
 import { DateTime } from "luxon";
 import type { loader } from "./route";
@@ -18,7 +18,7 @@ export function ApplicationItem({
       to={Routes.show.applications.id(application.id).toString()}
       className="col-span-full grid grid-cols-subgrid items-center rounded-0.5 bg-white px-0.5 py-1 focus-visible:z-10 focus-visible:focus-compact-blue-400 hover:bg-gray-100 md:px-1"
     >
-      <StatusIcon status={application.status} className="icon-20" />
+      <ApplicationStatusIcon status={application.status} className="icon-20" />
 
       <span className="text-body-emphasis">{application.structureName}</span>
 
