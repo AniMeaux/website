@@ -15,6 +15,7 @@ import { SwitchInput } from "#core/form-elements/switch-input";
 import { Textarea } from "#core/form-elements/textarea";
 import { Separator } from "#core/layout/separator";
 import { Icon } from "#generated/icon";
+import { toBooleanAttribute } from "@animeaux/core";
 import { FormDataDelegate } from "@animeaux/form-data";
 import { zu } from "@animeaux/zod-utils";
 import type { Event } from "@prisma/client";
@@ -409,7 +410,9 @@ export function EventForm({
             id={ActionFormData.keys.description}
             name={ActionFormData.keys.description}
             defaultValue={defaultEvent?.description}
-            hasError={fetcher.data?.errors?.fieldErrors.description != null}
+            aria-invalid={toBooleanAttribute(
+              fetcher.data?.errors?.fieldErrors.description != null,
+            )}
             aria-describedby="description-error"
             rows={5}
           />

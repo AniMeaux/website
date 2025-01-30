@@ -18,6 +18,7 @@ import {
   SORTED_STATUSES,
   TRANSLATION_BY_APPLICATION_STATUS,
 } from "#show/exhibitors/applications/status";
+import { toBooleanAttribute } from "@animeaux/core";
 import { FormDataDelegate } from "@animeaux/form-data";
 import { safeParseRouteParam, zu } from "@animeaux/zod-utils";
 import { ShowExhibitorApplicationStatus, UserGroup } from "@prisma/client";
@@ -232,9 +233,9 @@ function ApplicationForm() {
                 name={ActionFormData.keys.refusalMessage}
                 defaultValue={application.refusalMessage ?? undefined}
                 rows={5}
-                hasError={
-                  fetcher.data?.errors?.fieldErrors.refusalMessage != null
-                }
+                aria-invalid={toBooleanAttribute(
+                  fetcher.data?.errors?.fieldErrors.refusalMessage != null,
+                )}
                 aria-describedby={
                   fetcher.data?.errors?.fieldErrors.refusalMessage != null
                     ? "refusal-message-error"

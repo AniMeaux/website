@@ -1,4 +1,3 @@
-import { toBooleanAttribute } from "#core/attributes";
 import { BaseTextInput } from "#core/form-elements/base-text-input";
 import { Input } from "#core/form-elements/input";
 import {
@@ -13,6 +12,7 @@ import { FosterFamilySuggestionItem } from "#foster-families/item";
 import { FosterFamilySearchParams } from "#foster-families/search-params";
 import { Icon } from "#generated/icon";
 import type { loader } from "#routes/resources.foster-family/route";
+import { toBooleanAttribute } from "@animeaux/core";
 import type { FosterFamily } from "@prisma/client";
 import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
 import type { SerializeFrom } from "@remix-run/node";
