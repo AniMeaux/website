@@ -75,7 +75,7 @@ export async function action({ request }: ActionFunctionArgs) {
       colorId: formData.data.colorId || null,
       description: formData.data.description || null,
       gender: formData.data.gender,
-      iCadNumber: formData.data.iCadNumber || null,
+      iCadNumber: formData.data.iCadNumber.replace(/\s+/g, "") || null,
       isOkCats: formData.data.isOkCats,
       isOkChildren: formData.data.isOkChildren,
       isOkDogs: formData.data.isOkDogs,

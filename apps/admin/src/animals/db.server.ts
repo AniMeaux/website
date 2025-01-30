@@ -222,7 +222,9 @@ export class AnimalDbDelegate {
     }
 
     if (searchParams.iCadNumber != null) {
-      where.push({ iCadNumber: { equals: searchParams.iCadNumber } });
+      where.push({
+        iCadNumber: { contains: searchParams.iCadNumber, mode: "insensitive" },
+      });
     }
 
     if (searchParams.adoptionOptions.size > 0) {
