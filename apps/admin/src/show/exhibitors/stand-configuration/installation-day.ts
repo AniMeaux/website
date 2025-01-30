@@ -1,16 +1,13 @@
 import { ShowExhibitorStandConfigurationInstallationDay } from "@prisma/client";
 
-export const INSTALLATION_DAY_TRANSLATION: Record<
-  ShowExhibitorStandConfigurationInstallationDay,
-  string
-> = {
-  [ShowExhibitorStandConfigurationInstallationDay.FRIDAY]:
-    "Vendredi à partir de 15h",
-  [ShowExhibitorStandConfigurationInstallationDay.SATURDAY]:
-    "Samedi à partir de 8h",
-};
+export namespace InstallationDay {
+  export const Enum = ShowExhibitorStandConfigurationInstallationDay;
+  export type Enum = ShowExhibitorStandConfigurationInstallationDay;
 
-export const SORTED_INSTALLATION_DAYS = [
-  ShowExhibitorStandConfigurationInstallationDay.FRIDAY,
-  ShowExhibitorStandConfigurationInstallationDay.SATURDAY,
-];
+  export const translation: Record<Enum, string> = {
+    [Enum.FRIDAY]: "Vendredi à partir de 15h",
+    [Enum.SATURDAY]: "Samedi à partir de 8h",
+  };
+
+  export const values = [Enum.FRIDAY, Enum.SATURDAY];
+}

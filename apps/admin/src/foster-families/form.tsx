@@ -5,9 +5,9 @@ import {
   CheckboxInput,
   CheckboxInputList,
 } from "#core/form-elements/checkbox-input";
+import { RadioInput, RadioInputList } from "#core/form-elements/field-choice";
 import { Form } from "#core/form-elements/form";
 import { Input } from "#core/form-elements/input";
-import { RadioInput, RadioInputList } from "#core/form-elements/radio-input";
 import { RequiredStar } from "#core/form-elements/required-star";
 import { Textarea } from "#core/form-elements/textarea";
 import { Separator } from "#core/layout/separator";

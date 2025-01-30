@@ -41,8 +41,7 @@ import {
   ExhibitorSearchParamsN,
 } from "#show/exhibitors/search-params";
 import {
-  STAND_CONFIGURATION_STATUS_TRANSLATION,
-  STAND_CONFIGURATION_STATUS_VALUES,
+  StandConfigurationStatus,
   StandConfigurationStatusIcon,
 } from "#show/exhibitors/stand-configuration/status";
 import {
@@ -580,11 +579,11 @@ function FilterStatuses() {
           </Form.Label>
 
           <ToggleInputList>
-            {STAND_CONFIGURATION_STATUS_VALUES.map((status) => (
+            {StandConfigurationStatus.values.map((status) => (
               <ToggleInput
                 key={status}
                 type="checkbox"
-                label={STAND_CONFIGURATION_STATUS_TRANSLATION[status]}
+                label={StandConfigurationStatus.translation[status]}
                 name={ExhibitorSearchParams.keys.standConfigurationStatuses}
                 value={status}
                 icon={<StandConfigurationStatusIcon status={status} />}

@@ -1,18 +1,18 @@
 import { ShowExhibitorStandConfigurationDividerType } from "@prisma/client";
 import orderBy from "lodash.orderby";
 
-export const DIVIDER_TYPE_TRANSLATION: Record<
-  ShowExhibitorStandConfigurationDividerType,
-  string
-> = {
-  [ShowExhibitorStandConfigurationDividerType.FABRIC_PANEL]:
-    "Panneau plein en tissus noir",
-  [ShowExhibitorStandConfigurationDividerType.GRID]: "Grille",
-  [ShowExhibitorStandConfigurationDividerType.WOOD_PANEL]:
-    "Panneau plein en bois",
-};
+export namespace DividerType {
+  export const Enum = ShowExhibitorStandConfigurationDividerType;
+  export type Enum = ShowExhibitorStandConfigurationDividerType;
 
-export const SORTED_DIVIDER_TYPES = orderBy(
-  Object.values(ShowExhibitorStandConfigurationDividerType),
-  (dividerType) => DIVIDER_TYPE_TRANSLATION[dividerType],
-);
+  export const translation: Record<Enum, string> = {
+    [Enum.FABRIC_PANEL]: "Panneau plein en tissus noir",
+    [Enum.GRID]: "Grille",
+    [Enum.WOOD_PANEL]: "Panneau plein en bois",
+  };
+
+  export const values = orderBy(
+    Object.values(Enum),
+    (dividerType) => translation[dividerType],
+  );
+}

@@ -7,7 +7,7 @@ import { getPageTitle } from "#core/page-title";
 import { badRequest } from "#core/response.server";
 import { services } from "#core/services/services.server";
 import { RouteParamsSchema } from "#exhibitors/route-params";
-import { createEmailTemplateRequest } from "#exhibitors/stand-configuration/email.server";
+import { StandConfigurationEmails } from "#exhibitors/stand-configuration/email.server";
 import { safeParseRouteParam } from "@animeaux/zod-utils";
 import { parseWithZod } from "@conform-to/zod";
 import { ShowExhibitorStandConfigurationStatus } from "@prisma/client";
@@ -109,7 +109,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
     zone: submission.value.zone,
   });
 
-  email.send.template(createEmailTemplateRequest(routeParams.token));
+  email.send.template(StandConfigurationEmails.submitted(routeParams.token));
 
   throw redirect(Routes.exhibitors.token(routeParams.token).stand.toString());
 }

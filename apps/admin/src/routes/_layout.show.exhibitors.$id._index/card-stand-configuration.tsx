@@ -1,3 +1,5 @@
+import { Action } from "#core/actions";
+import { BaseLink } from "#core/base-link";
 import { ItemList, SimpleItem } from "#core/data-display/item";
 import {
   ARTICLE_COMPONENTS,
@@ -5,26 +7,37 @@ import {
   SENTENCE_COMPONENTS,
 } from "#core/data-display/markdown";
 import { Card } from "#core/layout/card";
+import { Routes } from "#core/navigation";
 import { Icon } from "#generated/icon";
-import { DIVIDER_TYPE_TRANSLATION } from "#show/exhibitors/stand-configuration/divider";
-import { INSTALLATION_DAY_TRANSLATION } from "#show/exhibitors/stand-configuration/installation-day";
-import { STAND_SIZE_TRANSLATION } from "#show/exhibitors/stand-configuration/stand-size";
-import { STAND_ZONE_TRANSLATION } from "#show/exhibitors/stand-configuration/stand-zone";
+import { DividerType } from "#show/exhibitors/stand-configuration/divider";
+import { InstallationDay } from "#show/exhibitors/stand-configuration/installation-day";
+import { StandSize } from "#show/exhibitors/stand-configuration/stand-size";
+import { StandZone } from "#show/exhibitors/stand-configuration/stand-zone";
 import {
-  STAND_CONFIGURATION_STATUS_TRANSLATION,
+  StandConfigurationStatus,
   StandConfigurationStatusIcon,
 } from "#show/exhibitors/stand-configuration/status";
 import { StatusHelper } from "#show/exhibitors/status-helper";
-import { joinReactNodes } from "@animeaux/core";
 import { useLoaderData } from "@remix-run/react";
-import { Fragment } from "react";
 import type { loader } from "./route";
 
 export function CardStandConfiguration() {
+  const { exhibitor } = useLoaderData<typeof loader>();
+
   return (
     <Card>
       <Card.Header>
         <Card.Title>Configuration de stand</Card.Title>
+
+        <Action asChild variant="text">
+          <BaseLink
+            to={Routes.show.exhibitors
+              .id(exhibitor.id)
+              .edit.standConfiguration.toString()}
+          >
+            Modifier
+          </BaseLink>
+        </Action>
       </Card.Header>
 
       <Card.Content>
@@ -39,7 +52,6 @@ export function CardStandConfiguration() {
           </ItemList>
 
           <ItemList>
-            <ItemLocationNumber />
             <ItemInstallationDay />
             <ItemComment />
           </ItemList>
@@ -60,7 +72,7 @@ function StandConfigurationStatusHelper() {
         </StatusHelper.Icon>
 
         <StatusHelper.Title>
-          {STAND_CONFIGURATION_STATUS_TRANSLATION[standConfiguration.status]}
+          {StandConfigurationStatus.translation[standConfiguration.status]}
         </StatusHelper.Title>
       </StatusHelper.Header>
 
@@ -128,7 +140,7 @@ function ItemDivider() {
           <br />
           En{" "}
           <strong className="text-body-emphasis">
-            {DIVIDER_TYPE_TRANSLATION[standConfiguration.dividerType]}
+            {DividerType.translation[standConfiguration.dividerType]}
           </strong>
         </>
       ) : null}
@@ -143,14 +155,14 @@ function ItemStandInfo() {
     <SimpleItem isLightIcon icon={<Icon href="icon-store-light" />}>
       Stand de{" "}
       <strong className="text-body-emphasis">
-        {STAND_SIZE_TRANSLATION[standConfiguration.size]}
+        {StandSize.translation[standConfiguration.size]}
       </strong>
       {standConfiguration.zone != null ? (
         <>
           <br />
           En{" "}
           <strong className="text-body-emphasis">
-            {STAND_ZONE_TRANSLATION[standConfiguration.zone]}
+            {StandZone.translation[standConfiguration.zone]}
           </strong>
         </>
       ) : null}
@@ -159,43 +171,6 @@ function ItemStandInfo() {
         {standConfiguration.hasElectricalConnection ? "Avec" : "Sans"}
       </strong>{" "}
       raccordement électrique
-    </SimpleItem>
-  );
-}
-
-function ItemLocationNumber() {
-  const { standConfiguration } = useLoaderData<typeof loader>();
-
-  if (
-    standConfiguration.standNumber == null &&
-    standConfiguration.locationNumber == null
-  ) {
-    return null;
-  }
-
-  return (
-    <SimpleItem isLightIcon icon={<Icon href="icon-expand-light" />}>
-      {joinReactNodes(
-        [
-          standConfiguration.standNumber != null ? (
-            <Fragment key="stand-number">
-              Stand nº
-              <strong className="text-body-emphasis">
-                {standConfiguration.standNumber}
-              </strong>
-            </Fragment>
-          ) : null,
-          standConfiguration.locationNumber != null ? (
-            <Fragment key="location-number">
-              Emplacement nº
-              <strong className="text-body-emphasis">
-                {standConfiguration.locationNumber}
-              </strong>
-            </Fragment>
-          ) : null,
-        ].filter(Boolean),
-        <br />,
-      )}
     </SimpleItem>
   );
 }
@@ -211,7 +186,7 @@ function ItemInstallationDay() {
     <SimpleItem isLightIcon icon={<Icon href="icon-calendar-day-light" />}>
       Installation le{" "}
       <strong className="text-body-emphasis">
-        {INSTALLATION_DAY_TRANSLATION[standConfiguration.installationDay]}
+        {InstallationDay.translation[standConfiguration.installationDay]}
       </strong>
     </SimpleItem>
   );

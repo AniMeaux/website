@@ -1,8 +1,13 @@
 import { ShowStandZone } from "@prisma/client";
 
-export const STAND_ZONE_TRANSLATION: Record<ShowStandZone, string> = {
-  [ShowStandZone.INSIDE]: "Intérieur",
-  [ShowStandZone.OUTSIDE]: "Extérieur couvert",
-};
+export namespace StandZone {
+  export const Enum = ShowStandZone;
+  export type Enum = ShowStandZone;
 
-export const SORTED_STAND_ZONES = [ShowStandZone.INSIDE, ShowStandZone.OUTSIDE];
+  export const translation: Record<Enum, string> = {
+    [Enum.INSIDE]: "Intérieur",
+    [Enum.OUTSIDE]: "Extérieur couvert",
+  };
+
+  export const values = [Enum.INSIDE, Enum.OUTSIDE];
+}
