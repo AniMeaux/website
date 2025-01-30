@@ -54,6 +54,10 @@ export enum AnimalVaccination {
   NOT_MANDATORY = "NM",
 }
 
+export enum AnimalIdentification {
+  NO_ICAD_NUMBER = "NICN",
+}
+
 export const AnimalSearchParams = SearchParamsIO.create({
   keys: {
     adoptionDateEnd: "ade",
@@ -78,6 +82,7 @@ export const AnimalSearchParams = SearchParamsIO.create({
     statuses: "st",
     sterilizations: "stz",
     vaccinations: "v",
+    identification: "i",
     iCadNumber: "icn",
   },
 
@@ -135,6 +140,10 @@ export const AnimalSearchParams = SearchParamsIO.create({
         keys.sterilizations,
       ),
       vaccinations: SearchParamsIO.getValues(searchParams, keys.vaccinations),
+      identification: SearchParamsIO.getValues(
+        searchParams,
+        keys.identification,
+      ),
       iCadNumber: SearchParamsIO.getValue(searchParams, keys.iCadNumber),
     });
   },
@@ -195,6 +204,12 @@ export const AnimalSearchParams = SearchParamsIO.create({
     SearchParamsIO.setValues(searchParams, keys.managersId, data.managersId);
 
     SearchParamsIO.setValue(searchParams, keys.nameOrAlias, data.nameOrAlias);
+
+    SearchParamsIO.setValues(
+      searchParams,
+      keys.identification,
+      data.identification,
+    );
 
     SearchParamsIO.setValue(searchParams, keys.iCadNumber, data.iCadNumber);
 
@@ -296,6 +311,9 @@ const AnimalSearchParamsSchema = zu.object({
   ),
   vaccinations: zu.searchParams.set(
     zu.searchParams.nativeEnum(AnimalVaccination),
+  ),
+  identification: zu.searchParams.set(
+    zu.searchParams.nativeEnum(AnimalIdentification),
   ),
   iCadNumber: zu.searchParams.string(),
 });

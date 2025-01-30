@@ -16,6 +16,7 @@ import {
 } from "#animals/screening";
 import {
   ANIMAL_DEFAULT_SORT,
+  AnimalIdentification,
   AnimalSearchParams,
   AnimalSort,
   AnimalSortSearchParams,
@@ -362,6 +363,22 @@ export function AnimalFilters({
           }
         >
           <Form.Fields>
+            <Form.Field>
+              <ToggleInputList>
+                <ToggleInput
+                  type="checkbox"
+                  label="Numéro I-CAD manquant"
+                  name={AnimalSearchParams.keys.identification}
+                  value={AnimalIdentification.NO_ICAD_NUMBER}
+                  icon={<Icon href="icon-fingerprint-slash-solid" />}
+                  checked={animalSearchParams.identification.has(
+                    AnimalIdentification.NO_ICAD_NUMBER,
+                  )}
+                  onChange={() => {}}
+                />
+              </ToggleInputList>
+            </Form.Field>
+
             <Form.Field>
               <Form.Label htmlFor={AnimalSearchParams.keys.iCadNumber}>
                 Numéro I-CAD
