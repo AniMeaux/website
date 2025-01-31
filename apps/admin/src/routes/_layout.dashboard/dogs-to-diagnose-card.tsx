@@ -7,7 +7,7 @@ import {
 import { HAS_UP_COMMING_DIAGNOSE_CONDITIONS } from "#animals/situation/health";
 import { Action } from "#core/actions";
 import { BaseLink } from "#core/base-link";
-import { Empty } from "#core/data-display/empty";
+import { SimpleEmpty } from "#core/data-display/empty";
 import { Card } from "#core/layout/card";
 import { Routes } from "#core/navigation";
 import { useLoaderData } from "@remix-run/react";
@@ -67,7 +67,7 @@ export function DogsToDiagnoseCard() {
 
       <Card.Content hasListItems>
         {dogToDiagnoseCount === 0 ? (
-          <Empty
+          <SimpleEmpty
             isCompact
             icon="🛡️"
             iconAlt="Bouclier"

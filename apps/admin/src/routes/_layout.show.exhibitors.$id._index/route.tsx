@@ -1,0 +1,141 @@
+import { ErrorPage, getErrorTitle } from "#core/data-display/error-page";
+import { db } from "#core/db.server";
+import { PageLayout } from "#core/layout/page";
+import { getPageTitle } from "#core/page-title";
+import { assertCurrentUserHasGroups } from "#current-user/groups.server";
+import { safeParseRouteParam, zu } from "@animeaux/zod-utils";
+import { UserGroup } from "@prisma/client";
+import type { LoaderFunctionArgs } from "@remix-run/node";
+import { json } from "@remix-run/node";
+import type { MetaFunction } from "@remix-run/react";
+import { promiseHash } from "remix-utils/promise";
+import { CardDescription } from "./card-description";
+import { CardOnStandAnimations } from "./card-on-stand-animations";
+import { CardProfile } from "./card-profile";
+import { CardSituation } from "./card-situation";
+import { CardStandConfiguration } from "./card-stand-configuration";
+
+export async function loader({ request, params }: LoaderFunctionArgs) {
+  const currentUser = await db.currentUser.get(request, {
+    select: { groups: true },
+  });
+
+  assertCurrentUserHasGroups(currentUser, [
+    UserGroup.ADMIN,
+    UserGroup.SHOW_ORGANIZER,
+  ]);
+
+  const routeParams = safeParseRouteParam(RouteParamsSchema, params);
+
+  const { exhibitor, application, profile, standConfiguration } =
+    await promiseHash({
+      exhibitor: db.show.exhibitor.findUnique(routeParams.id, {
+        select: {
+          id: true,
+          isVisible: true,
+          token: true,
+          hasPaid: true,
+        },
+      }),
+
+      application: db.show.exhibitor.application.findUniqueByExhibitor(
+        routeParams.id,
+        {
+          select: {
+            id: true,
+            status: true,
+          },
+        },
+      ),
+
+      profile: db.show.exhibitor.profile.findUniqueByExhibitor(routeParams.id, {
+        select: {
+          activityFields: true,
+          activityTargets: true,
+          description: true,
+          descriptionStatus: true,
+          descriptionStatusMessage: true,
+          links: true,
+          logoPath: true,
+          name: true,
+          onStandAnimations: true,
+          onStandAnimationsStatus: true,
+          onStandAnimationsStatusMessage: true,
+          publicProfileStatus: true,
+          publicProfileStatusMessage: true,
+        },
+      }),
+
+      standConfiguration:
+        db.show.exhibitor.standConfiguration.findUniqueByExhibitor(
+          routeParams.id,
+          {
+            select: {
+              chairCount: true,
+              dividerCount: true,
+              dividerType: true,
+              hasElectricalConnection: true,
+              hasTablecloths: true,
+              installationDay: true,
+              locationNumber: true,
+              peopleCount: true,
+              placementComment: true,
+              size: true,
+              standNumber: true,
+              status: true,
+              statusMessage: true,
+              tableCount: true,
+              zone: true,
+            },
+          },
+        ),
+    });
+
+  return json({
+    exhibitor,
+    application,
+    profile,
+    standConfiguration,
+  });
+}
+
+const RouteParamsSchema = zu.object({
+  id: zu.string().uuid(),
+});
+
+export const meta: MetaFunction<typeof loader> = ({ data }) => {
+  return [
+    {
+      title: getPageTitle(
+        data?.profile.name != null ? data.profile.name : getErrorTitle(404),
+      ),
+    },
+  ];
+};
+
+export function ErrorBoundary() {
+  return (
+    <PageLayout.Content className="grid grid-cols-1">
+      <ErrorPage />
+    </PageLayout.Content>
+  );
+}
+
+export default function Route() {
+  return (
+    <PageLayout.Content className="grid grid-cols-1 gap-1 md:grid-cols-[minmax(0px,2fr)_minmax(250px,1fr)] md:items-start md:gap-2">
+      <div className="grid grid-cols-1 gap-1 md:col-start-2 md:row-start-1 md:gap-2">
+        <CardSituation />
+        <CardProfile />
+      </div>
+
+      <div className="grid grid-cols-1 gap-1 md:gap-2">
+        <CardDescription />
+        <CardStandConfiguration />
+        <CardOnStandAnimations />
+
+        <div className="grid grid-cols-1 gap-1 md:grid-cols-2 md:gap-2"></div>
+      </div>
+    </PageLayout.Content>
+  );
+}

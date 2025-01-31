@@ -5,7 +5,7 @@ import { algolia } from "#core/algolia/algolia.server";
 import { BaseLink } from "#core/base-link";
 import { Paginator } from "#core/controllers/paginator";
 import { SortAndFiltersFloatingAction } from "#core/controllers/sort-and-filters-floating-action";
-import { Empty } from "#core/data-display/empty";
+import { SimpleEmpty } from "#core/data-display/empty";
 import { db } from "#core/db.server";
 import { NotFoundError, ReferencedError } from "#core/errors.server";
 import { Card } from "#core/layout/card";
@@ -159,7 +159,7 @@ export default function Route() {
                   ))}
                 </ul>
               ) : (
-                <Empty
+                <SimpleEmpty
                   isCompact
                   icon="🎨"
                   iconAlt="Palette d’artiste"

@@ -1,5 +1,6 @@
 import type { IconName } from "#generated/icon";
 import { Payment } from "#show/exhibitors/payment";
+import { StandConfigurationStatus } from "#show/exhibitors/stand-configuration/status";
 import { Visibility } from "#show/visibility";
 import { SearchParamsIO } from "@animeaux/search-params-io";
 import { zu } from "@animeaux/zod-utils";
@@ -10,7 +11,6 @@ import {
   ShowExhibitorDocumentsStatus,
   ShowExhibitorDogsConfigurationStatus,
   ShowExhibitorProfileStatus,
-  ShowExhibitorStandConfigurationStatus,
   ShowPartnershipCategory,
 } from "@prisma/client";
 
@@ -225,7 +225,7 @@ const SearchParamsSchema = zu.object({
     .nativeEnum(ExhibitorSearchParamsN.Sort)
     .default(ExhibitorSearchParamsN.SORT_DEFAULT_VALUE),
   standConfigurationStatuses: zu.searchParams.set(
-    zu.searchParams.nativeEnum(ShowExhibitorStandConfigurationStatus),
+    zu.searchParams.nativeEnum(StandConfigurationStatus.Enum),
   ),
   targets: zu.searchParams.set(zu.searchParams.nativeEnum(ShowActivityTarget)),
   visibility: zu.searchParams.set(zu.searchParams.nativeEnum(Visibility)),

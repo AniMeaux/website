@@ -1,4 +1,3 @@
-import { toBooleanAttribute } from "#core/attributes";
 import { BaseTextInput } from "#core/form-elements/base-text-input";
 import { useLayoutEffect } from "#core/use-layout-effect";
 import autosize from "autosize";
@@ -7,10 +6,9 @@ import invariant from "tiny-invariant";
 
 export const Textarea = forwardRef<
   React.ComponentRef<"textarea">,
-  React.ComponentPropsWithoutRef<"textarea"> & { hasError?: boolean }
+  React.ComponentPropsWithoutRef<"textarea">
 >(function Textarea(
   {
-    hasError = false,
     rows = 3,
     disabled,
     className,
@@ -45,10 +43,10 @@ export const Textarea = forwardRef<
   return (
     <BaseTextInput.Root aria-disabled={disabled} className={className}>
       <BaseTextInput
-        asChild
         variant="outlined"
         leftAdornmentCount={0}
         rightAdornmentCount={0}
+        asChild
       >
         <textarea
           {...rest}
@@ -56,7 +54,6 @@ export const Textarea = forwardRef<
           rows={rows}
           autoComplete={autoComplete}
           disabled={disabled}
-          aria-invalid={toBooleanAttribute(hasError)}
         />
       </BaseTextInput>
     </BaseTextInput.Root>

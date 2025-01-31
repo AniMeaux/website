@@ -1,5 +1,4 @@
 import { PickUpLocationSearchParams } from "#animals/search-params";
-import { toBooleanAttribute } from "#core/attributes";
 import { BaseTextInput } from "#core/form-elements/base-text-input";
 import { Input } from "#core/form-elements/input";
 import {
@@ -13,6 +12,7 @@ import { Routes } from "#core/navigation";
 import { Icon } from "#generated/icon";
 import type { loader } from "#routes/resources.pick-up-location/route";
 import { MAX_HIT_COUNT } from "#routes/resources.pick-up-location/shared";
+import { toBooleanAttribute } from "@animeaux/core";
 import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
 import type { SerializeFrom } from "@remix-run/node";
 import { useFetcher } from "@remix-run/react";

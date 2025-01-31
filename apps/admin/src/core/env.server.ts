@@ -1,7 +1,7 @@
 import { zu } from "@animeaux/zod-utils";
 
 export function checkEnv() {
-  const result = ProcessEnvSchema.safeParse(process.env);
+  const result = processEnvSchema.safeParse(process.env);
 
   if (!result.success) {
     console.error(
@@ -24,7 +24,9 @@ export function checkEnv() {
  * @returns All public ENV variables for client side
  */
 export function getClientEnv() {
-  return {};
+  return {
+    SHOW_URL: process.env.SHOW_URL,
+  };
 }
 
 type CLIENT_ENV = ReturnType<typeof getClientEnv>;
@@ -37,12 +39,13 @@ declare global {
   }
 
   namespace NodeJS {
-    interface ProcessEnv extends zu.infer<typeof ProcessEnvSchema> {}
+    interface ProcessEnv extends zu.infer<typeof processEnvSchema> {}
   }
 }
 
-const ProcessEnvSchema = zu.object({
+const processEnvSchema = zu.object({
   GOOGLE_API_CLIENT_EMAIL: zu.string().optional(),
   GOOGLE_API_PRIVATE_KEY: zu.string().optional(),
   GOOGLE_DRIVE_ROOT_FOLDER_ID: zu.string(),
+  SHOW_URL: zu.string(),
 });

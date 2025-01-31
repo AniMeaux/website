@@ -5,20 +5,19 @@ import ReactMarkdown from "react-markdown";
 import breaks from "remark-breaks";
 import gfm from "remark-gfm";
 
-const REMARK_PLUGINS: ReactMarkdownOptions["remarkPlugins"] = [
-  // Allow line breaks in paragraphs.
-  breaks,
-  // Allow autolink literals, strikethrough, table and task list.
-  gfm,
-];
+export type MarkdownComponents = NonNullable<
+  ReactMarkdownOptions["components"]
+>;
 
-type MarkdownProps = {
+export function Markdown({
+  children,
+  components,
+  className,
+}: {
   children: string;
-  components: NonNullable<ReactMarkdownOptions["components"]>;
+  components: MarkdownComponents;
   className?: string;
-};
-
-export function Markdown({ children, components, className }: MarkdownProps) {
+}) {
   return (
     <ReactMarkdown
       // Keep the content of a disallowed elements.
@@ -27,10 +26,7 @@ export function Markdown({ children, components, className }: MarkdownProps) {
       unwrapDisallowed
       allowElement={(element) => {
         // Only allow elements defined in the `components`.
-        return (
-          components[element.tagName as keyof MarkdownProps["components"]] !=
-          null
-        );
+        return components[element.tagName as keyof MarkdownComponents] != null;
       }}
       components={components}
       remarkPlugins={REMARK_PLUGINS}
@@ -41,42 +37,19 @@ export function Markdown({ children, components, className }: MarkdownProps) {
   );
 }
 
-export const ARTICLE_COMPONENTS: MarkdownProps["components"] = {
-  br: () => <br />,
-  p: ({ children }) => <p className="my-2 first:mt-0 last:mb-0">{children}</p>,
-  strong: ({ children }) => (
-    <strong className="text-body-emphasis">{children}</strong>
+export const HIGHLIGHT_COMPONENTS: MarkdownComponents = {
+  strong: (props) => (
+    <strong {...withoutNode(props)} className="text-body-emphasis" />
   ),
-  em: ({ children }) => <em>{children}</em>,
-  code: ({ children }) => (
-    <code className="inline-flex rounded-0.5 bg-gray-100 px-0.5 text-code-default">
-      {children}
-    </code>
-  ),
-  a: ({ children, href, title }) => (
-    <ProseInlineAction asChild>
-      <BaseLink to={href} title={title}>
-        {children}
-      </BaseLink>
-    </ProseInlineAction>
-  ),
-  ul: ({ children }) => (
-    <ul className="my-2 list-disc pl-2 first:mt-0 last:mb-0">{children}</ul>
-  ),
-  ol: ({ children, start }) => (
-    <ol start={start} className="my-2 list-decimal pl-2 first:mt-0 last:mb-0">
-      {children}
-    </ol>
-  ),
-  li: ({ children }) => <li>{children}</li>,
 };
 
-export const SENTENCE_COMPONENTS: MarkdownProps["components"] = {
-  br: () => <br />,
-  strong: ({ children }) => (
-    <strong className="text-body-emphasis">{children}</strong>
-  ),
-  em: ({ children }) => <em>{children}</em>,
+export const SENTENCE_COMPONENTS: MarkdownComponents = {
+  ...HIGHLIGHT_COMPONENTS,
+
+  br: (props) => <br {...withoutNode(props)} />,
+
+  em: (props) => <em {...withoutNode(props)} />,
+
   a: ({ children, href, title }) => (
     <ProseInlineAction asChild>
       <BaseLink to={href} title={title}>
@@ -86,8 +59,51 @@ export const SENTENCE_COMPONENTS: MarkdownProps["components"] = {
   ),
 };
 
-export const HIGHLIGHT_COMPONENTS: MarkdownProps["components"] = {
-  strong: ({ children }) => (
-    <strong className="text-body-emphasis">{children}</strong>
+export const ARTICLE_COMPONENTS: MarkdownComponents = {
+  ...SENTENCE_COMPONENTS,
+
+  p: (props) => (
+    <p {...withoutNode(props)} className="my-2 first:mt-0 last:mb-0" />
+  ),
+
+  ul: (props) => (
+    <ul
+      {...withoutNode(props)}
+      className="my-2 list-disc pl-2 first:mt-0 last:mb-0"
+    />
+  ),
+
+  ol: (props) => (
+    <ol
+      {...withoutNode(props)}
+      className="my-2 list-decimal pl-2 first:mt-0 last:mb-0"
+    />
+  ),
+
+  li: (props) => <li {...withoutNode(props)} />,
+
+  code: (props) => (
+    <code
+      {...withoutNode(props)}
+      className="inline-flex rounded-0.5 bg-gray-100 px-0.5 text-code-default"
+    />
   ),
 };
+
+const REMARK_PLUGINS: ReactMarkdownOptions["remarkPlugins"] = [
+  // Allow line breaks in paragraphs.
+  breaks,
+  // Allow autolink literals, strikethrough, table and task list.
+  gfm,
+];
+
+/**
+ * Remove `node` from props object because we don't want to have
+ * `node="[object Object]"` in the DOM.
+ */
+function withoutNode<TProps extends Record<string, any>>({
+  node,
+  ...props
+}: TProps): Omit<TProps, "node"> {
+  return props;
+}

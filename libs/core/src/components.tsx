@@ -181,6 +181,10 @@ export function toBooleanAttribute(condition: boolean): BooleanAttribute {
   return condition ? "true" : undefined;
 }
 
+export function fromBooleanAttribute(value: BooleanAttribute) {
+  return String(value) === "true";
+}
+
 /**
  * Calls the factory or returns the new object.
  *

@@ -11,7 +11,7 @@ import {
 } from "#animals/situation/health";
 import { Action } from "#core/actions";
 import { BaseLink } from "#core/base-link";
-import { Empty } from "#core/data-display/empty";
+import { SimpleEmpty } from "#core/data-display/empty";
 import { Card } from "#core/layout/card";
 import { Routes } from "#core/navigation";
 import { useLoaderData } from "@remix-run/react";
@@ -66,7 +66,7 @@ export function AnimalsToVaccinateCard() {
 
       <Card.Content hasListItems>
         {animalToVaccinateCount === 0 ? (
-          <Empty
+          <SimpleEmpty
             isCompact
             icon="💉"
             iconAlt="Seringue"

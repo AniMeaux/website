@@ -1,6 +1,5 @@
 import type { ActionProps } from "#core/actions";
 import { Action } from "#core/actions";
-import { toBooleanAttribute } from "#core/attributes";
 import { DenseHelper } from "#core/data-display/helper";
 import {
   DataUrlOrDynamicImage,
@@ -8,7 +7,7 @@ import {
 } from "#core/data-display/image";
 import type { IconName } from "#generated/icon";
 import { Icon } from "#generated/icon";
-import { cn } from "@animeaux/core";
+import { cn, toBooleanAttribute } from "@animeaux/core";
 import { Primitive } from "@animeaux/react-primitives";
 import { forwardRef } from "react";
 

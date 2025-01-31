@@ -1,5 +1,4 @@
 import { BreedSearchParams } from "#breeds/search-params";
-import { toBooleanAttribute } from "#core/attributes";
 import { ensureArray } from "#core/collections";
 import { BaseTextInput } from "#core/form-elements/base-text-input";
 import { Input } from "#core/form-elements/input";
@@ -12,6 +11,7 @@ import {
 } from "#core/form-elements/resource-input";
 import { Routes } from "#core/navigation";
 import { Icon } from "#generated/icon";
+import { toBooleanAttribute } from "@animeaux/core";
 import type { Breed, Species } from "@prisma/client";
 import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
 import type { SerializeFrom } from "@remix-run/node";

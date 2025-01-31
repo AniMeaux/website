@@ -1,7 +1,7 @@
 import { Action } from "#core/actions";
 import { BaseLink } from "#core/base-link";
 import { Paginator } from "#core/controllers/paginator";
-import { Empty } from "#core/data-display/empty";
+import { SimpleEmpty } from "#core/data-display/empty";
 import { DynamicImage } from "#core/data-display/image";
 import { db } from "#core/db.server";
 import { NotFoundError } from "#core/errors.server";
@@ -138,7 +138,7 @@ export default function Route() {
                 ))}
               </ul>
             ) : (
-              <Empty
+              <SimpleEmpty
                 isCompact
                 icon="📰"
                 iconAlt="Journal"

@@ -26,6 +26,22 @@ export class ServiceExhibitor extends Service {
     this.standConfiguration = new ServiceStandConfiguration(services);
   }
 
+  async get<T extends Prisma.ShowExhibitorSelect>(
+    id: string,
+    params: { select: T },
+  ) {
+    const exhibitor = await prisma.showExhibitor.findUnique({
+      where: { id },
+      select: params.select,
+    });
+
+    if (exhibitor == null) {
+      throw notFound();
+    }
+
+    return exhibitor;
+  }
+
   async getByToken<T extends Prisma.ShowExhibitorSelect>(
     token: string,
     params: { select: T },

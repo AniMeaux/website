@@ -1,7 +1,7 @@
 import { Action } from "#core/actions";
 import { BaseLink } from "#core/base-link";
 import { Paginator } from "#core/controllers/paginator";
-import { Empty } from "#core/data-display/empty";
+import { SimpleEmpty } from "#core/data-display/empty";
 import { Card } from "#core/layout/card";
 import { ApplicationSearchParams } from "#show/exhibitors/applications/search-params";
 import { useOptimisticSearchParams } from "@animeaux/search-params-io";
@@ -30,7 +30,7 @@ export function CardList() {
             ))}
           </div>
         ) : (
-          <Empty
+          <SimpleEmpty
             isCompact
             icon="📝"
             iconAlt="Memo"

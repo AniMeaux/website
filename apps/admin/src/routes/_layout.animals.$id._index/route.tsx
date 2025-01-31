@@ -9,7 +9,7 @@ import { StatusBadge } from "#animals/status";
 import { Action } from "#core/actions";
 import type { BaseLinkProps } from "#core/base-link";
 import { BaseLink } from "#core/base-link";
-import { Empty } from "#core/data-display/empty";
+import { SimpleEmpty } from "#core/data-display/empty";
 import { ErrorPage, getErrorTitle } from "#core/data-display/error-page";
 import { DynamicImage } from "#core/data-display/image";
 import { ItemList, SimpleItem } from "#core/data-display/item";
@@ -464,7 +464,7 @@ function DescriptionCard() {
 
       <Card.Content>
         {animal.description == null ? (
-          <Empty
+          <SimpleEmpty
             isCompact
             titleElementType="h3"
             icon="📝"
