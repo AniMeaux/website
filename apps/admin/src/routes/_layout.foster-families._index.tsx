@@ -70,6 +70,12 @@ export async function loader({ request }: LoaderFunctionArgs) {
     });
   }
 
+  if (fosterFamilySearchParams.availability.size > 0) {
+    where.push({
+      availability: { in: Array.from(fosterFamilySearchParams.availability) },
+    });
+  }
+
   if (fosterFamilySearchParams.garden.size > 0) {
     where.push({ garden: { in: Array.from(fosterFamilySearchParams.garden) } });
   }
