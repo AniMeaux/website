@@ -1,5 +1,6 @@
 import type { IconName } from "#generated/icon";
 import { Payment } from "#show/exhibitors/payment";
+import { ProfileStatus } from "#show/exhibitors/profile/status";
 import { StandConfigurationStatus } from "#show/exhibitors/stand-configuration/status";
 import { Visibility } from "#show/visibility";
 import { SearchParamsIO } from "@animeaux/search-params-io";
@@ -10,7 +11,6 @@ import {
   ShowExhibitorApplicationStatus,
   ShowExhibitorDocumentsStatus,
   ShowExhibitorDogsConfigurationStatus,
-  ShowExhibitorProfileStatus,
   ShowPartnershipCategory,
 } from "@prisma/client";
 
@@ -201,7 +201,7 @@ const SearchParamsSchema = zu.object({
     zu.searchParams.nativeEnum(ShowExhibitorApplicationStatus),
   ),
   descriptionStatuses: zu.searchParams.set(
-    zu.searchParams.nativeEnum(ShowExhibitorProfileStatus),
+    zu.searchParams.nativeEnum(ProfileStatus.Enum),
   ),
   documentsStatuses: zu.searchParams.set(
     zu.searchParams.nativeEnum(ShowExhibitorDocumentsStatus),
@@ -212,14 +212,14 @@ const SearchParamsSchema = zu.object({
   fields: zu.searchParams.set(zu.searchParams.nativeEnum(ShowActivityField)),
   name: zu.searchParams.string(),
   onStandAnimationsStatuses: zu.searchParams.set(
-    zu.searchParams.nativeEnum(ShowExhibitorProfileStatus),
+    zu.searchParams.nativeEnum(ProfileStatus.Enum),
   ),
   partnershipCategories: zu.searchParams.set(
     zu.searchParams.nativeEnum(ShowPartnershipCategory),
   ),
   payment: zu.searchParams.set(zu.searchParams.nativeEnum(Payment)),
   publicProfileStatuses: zu.searchParams.set(
-    zu.searchParams.nativeEnum(ShowExhibitorProfileStatus),
+    zu.searchParams.nativeEnum(ProfileStatus.Enum),
   ),
   sort: zu.searchParams
     .nativeEnum(ExhibitorSearchParamsN.Sort)

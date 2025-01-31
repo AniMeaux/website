@@ -1,13 +1,15 @@
-import { ProseInlineAction } from "#core/actions";
+import { Action, ProseInlineAction } from "#core/actions";
+import { BaseLink } from "#core/base-link";
 import { DynamicImage } from "#core/data-display/image";
 import { ItemList, SimpleItem } from "#core/data-display/item";
 import { ARTICLE_COMPONENTS, Markdown } from "#core/data-display/markdown";
 import { Card } from "#core/layout/card";
+import { Routes } from "#core/navigation";
 import { Icon } from "#generated/icon";
-import { TRANSLATION_BY_ACTIVITY_FIELD } from "#show/exhibitors/activity-field/translation";
-import { TRANSLATION_BY_ACTIVITY_TARGET } from "#show/exhibitors/activity-target/translation";
+import { ActivityField } from "#show/exhibitors/activity-field/activity-field";
+import { ActivityTarget } from "#show/exhibitors/activity-target/activity-target";
 import {
-  PROFILE_STATUS_TRANSLATION,
+  ProfileStatus,
   ProfileStatusIcon,
 } from "#show/exhibitors/profile/status";
 import { StatusHelper } from "#show/exhibitors/status-helper";
@@ -16,12 +18,22 @@ import { useLoaderData } from "@remix-run/react";
 import type { loader } from "./route";
 
 export function CardProfile() {
-  const { profile } = useLoaderData<typeof loader>();
+  const { exhibitor, profile } = useLoaderData<typeof loader>();
 
   return (
     <Card>
       <Card.Header>
         <Card.Title>Profil public</Card.Title>
+
+        <Action asChild variant="text">
+          <BaseLink
+            to={Routes.show.exhibitors
+              .id(exhibitor.id)
+              .edit.publicProfile.toString()}
+          >
+            Modifier
+          </BaseLink>
+        </Action>
       </Card.Header>
 
       <Card.Content>
@@ -42,13 +54,13 @@ export function CardProfile() {
             icon={<Icon href="icon-bullseye-arrow-light" />}
           >
             {profile.activityTargets
-              .map((target) => TRANSLATION_BY_ACTIVITY_TARGET[target])
+              .map((target) => ActivityTarget.translation[target])
               .join(", ")}
           </SimpleItem>
 
           <SimpleItem isLightIcon icon={<Icon href="icon-tags-light" />}>
             {profile.activityFields
-              .map((field) => TRANSLATION_BY_ACTIVITY_FIELD[field])
+              .map((field) => ActivityField.translation[field])
               .join(", ")}
           </SimpleItem>
 
@@ -81,7 +93,7 @@ function PublicProfileStatusHelper() {
         </StatusHelper.Icon>
 
         <StatusHelper.Title>
-          {PROFILE_STATUS_TRANSLATION[profile.publicProfileStatus]}
+          {ProfileStatus.translation[profile.publicProfileStatus]}
         </StatusHelper.Title>
       </StatusHelper.Header>
 

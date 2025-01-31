@@ -2,7 +2,7 @@ import { Action } from "#core/actions";
 import {
   CheckboxInput,
   CheckboxInputList,
-} from "#core/form-elements/checkbox-input";
+} from "#core/form-elements/field-choice";
 import { Form } from "#core/form-elements/form";
 import { Input } from "#core/form-elements/input";
 import { PasswordInput } from "#core/form-elements/password-input";

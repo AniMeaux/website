@@ -3,6 +3,7 @@ export * from "./catch-error";
 export * from "./class-names";
 export * from "./collections";
 export * from "./components";
+export * from "./conform";
 export * from "./context";
 export * from "./dates";
 export * from "./image-url";

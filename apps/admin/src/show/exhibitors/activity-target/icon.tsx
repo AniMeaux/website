@@ -1,6 +1,6 @@
 import type { IconName } from "#generated/icon";
 import { Icon } from "#generated/icon";
-import { TRANSLATION_BY_ACTIVITY_TARGET } from "#show/exhibitors/activity-target/translation";
+import { ActivityTarget } from "#show/exhibitors/activity-target/activity-target";
 import { ShowActivityTarget } from "@prisma/client";
 import { forwardRef } from "react";
 import type { Except } from "type-fest";
@@ -19,7 +19,7 @@ export const ActivityTargetIcon = forwardRef<
     <span
       {...props}
       ref={ref}
-      title={TRANSLATION_BY_ACTIVITY_TARGET[activityTarget]}
+      title={ActivityTarget.translation[activityTarget]}
     >
       <Icon href={ICON_BY_ACTIVITY_TARGET[activityTarget][variant]} />
     </span>
