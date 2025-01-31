@@ -11,6 +11,7 @@ import { BaseImage, createCloudinaryUrl } from "#core/data-display/image";
 import { db } from "#core/db.server";
 import type { RouteHandle } from "#core/handles";
 import { Spinner } from "#core/loaders/spinner";
+import { useCurrentUserForMonitoring } from "#core/monitoring";
 import { getPageTitle } from "#core/page-title";
 import { prisma } from "#core/prisma.server";
 import { assertCurrentUserHasGroups } from "#current-user/groups.server";
@@ -37,7 +38,7 @@ const MAX_ANIMAL_COUNT = MAX_ITEM_PER_PAGES * MAX_PAGES;
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {
-    select: { id: true, groups: true },
+    select: { displayName: true, email: true, groups: true, id: true },
   });
 
   assertCurrentUserHasGroups(currentUser, [UserGroup.ADMIN]);
@@ -65,6 +66,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
   });
 
   return defer({
+    currentUser,
     totalCount: await totalCount,
     animals: fromPrismaPromise(animals),
   });
@@ -75,7 +77,9 @@ export const meta: MetaFunction = () => {
 };
 
 export default function Route() {
-  const { animals, totalCount } = useLoaderData<typeof loader>();
+  const { currentUser, animals, totalCount } = useLoaderData<typeof loader>();
+
+  useCurrentUserForMonitoring(currentUser);
 
   return (
     <main className="grid grid-cols-1 gap-1 py-1 md:gap-2 md:py-2 print:gap-0 print:py-0 md:print:gap-0 md:print:py-0">

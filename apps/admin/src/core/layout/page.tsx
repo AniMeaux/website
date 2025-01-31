@@ -40,6 +40,35 @@ export const PageLayout = {
     );
   },
 
+  Header: {
+    Root: function PageLayoutHeaderRoot({
+      className,
+      ...props
+    }: React.PropsWithChildren<{ className?: string }>) {
+      return (
+        <header
+          {...props}
+          className={cn("bg-white px-1.5 py-2 md:px-2 md:py-4", className)}
+        />
+      );
+    },
+
+    Title: function PageLayoutHeaderTitle({
+      className,
+      ...props
+    }: React.PropsWithChildren<{ className?: string }>) {
+      return (
+        <h1
+          {...props}
+          className={cn(
+            "text-title-section-small md:text-title-section-large",
+            className,
+          )}
+        />
+      );
+    },
+  },
+
   Content: function PageLayoutContent({
     className,
     ...props

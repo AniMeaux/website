@@ -1,4 +1,6 @@
+import { InputCheckbox } from "#core/form-elements/input-checkbox";
 import { InputRadio } from "#core/form-elements/input-radio";
+import { RequiredStar } from "#core/form-elements/required-star";
 import { cn } from "@animeaux/core";
 import { Primitive } from "@animeaux/react-primitives";
 import { forwardRef } from "react";
@@ -19,6 +21,9 @@ export const FieldChoices = forwardRef<
 /** @deprecated */
 export const RadioInputList = FieldChoices;
 
+/** @deprecated */
+export const CheckboxInputList = FieldChoices;
+
 export const FieldChoice = {
   Root: forwardRef<
     React.ComponentRef<"label">,
@@ -37,21 +42,46 @@ export const FieldChoice = {
   }),
 
   InputRadio,
+  InputCheckbox,
 
   Label: Primitive.span,
 };
 
 /** @deprecated */
 export const RadioInput = forwardRef<
-  React.ComponentRef<"input">,
+  React.ComponentRef<typeof FieldChoice.InputRadio>,
   React.ComponentPropsWithoutRef<typeof FieldChoice.InputRadio> & {
     label: React.ReactNode;
   }
->(function RadioInput({ label, className, ...props }, ref) {
+>(function RadioInput({ label, required = false, className, ...props }, ref) {
   return (
     <FieldChoice.Root className={className}>
       <FieldChoice.InputRadio {...props} ref={ref} />
-      <FieldChoice.Label>{label}</FieldChoice.Label>
+
+      <FieldChoice.Label>
+        {label} {required ? <RequiredStar /> : null}
+      </FieldChoice.Label>
+    </FieldChoice.Root>
+  );
+});
+
+/** @deprecated */
+export const CheckboxInput = forwardRef<
+  React.ComponentRef<typeof FieldChoice.InputCheckbox>,
+  React.ComponentPropsWithoutRef<typeof FieldChoice.InputCheckbox> & {
+    label: React.ReactNode;
+  }
+>(function CheckboxInput(
+  { label, required = false, className, ...props },
+  ref,
+) {
+  return (
+    <FieldChoice.Root className={className}>
+      <FieldChoice.InputCheckbox {...props} ref={ref} />
+
+      <FieldChoice.Label>
+        {label} {required ? <RequiredStar /> : null}
+      </FieldChoice.Label>
     </FieldChoice.Root>
   );
 });

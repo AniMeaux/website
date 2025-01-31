@@ -2,7 +2,7 @@ import { Empty } from "#core/data-display/empty";
 import { ARTICLE_COMPONENTS, Markdown } from "#core/data-display/markdown";
 import { Card } from "#core/layout/card";
 import {
-  PROFILE_STATUS_TRANSLATION,
+  ProfileStatus,
   ProfileStatusIcon,
 } from "#show/exhibitors/profile/status";
 import { StatusHelper } from "#show/exhibitors/status-helper";
@@ -50,7 +50,7 @@ function DescriptionStatusHelper() {
         </StatusHelper.Icon>
 
         <StatusHelper.Title>
-          {PROFILE_STATUS_TRANSLATION[profile.descriptionStatus]}
+          {ProfileStatus.translation[profile.descriptionStatus]}
         </StatusHelper.Title>
       </StatusHelper.Header>
 

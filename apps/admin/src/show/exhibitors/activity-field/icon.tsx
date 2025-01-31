@@ -1,6 +1,6 @@
 import type { IconName } from "#generated/icon";
 import { Icon } from "#generated/icon";
-import { TRANSLATION_BY_ACTIVITY_FIELD } from "#show/exhibitors/activity-field/translation";
+import { ActivityField } from "#show/exhibitors/activity-field/activity-field";
 import { ShowActivityField } from "@prisma/client";
 import { forwardRef } from "react";
 import type { Except } from "type-fest";
@@ -16,11 +16,7 @@ export const ActivityFieldIcon = forwardRef<
   ref,
 ) {
   return (
-    <span
-      {...props}
-      ref={ref}
-      title={TRANSLATION_BY_ACTIVITY_FIELD[activityField]}
-    >
+    <span {...props} ref={ref} title={ActivityField.translation[activityField]}>
       <Icon href={ICON_BY_ACTIVITY_FIELD[activityField][variant]} />
     </span>
   );
