@@ -1,11 +1,11 @@
 import { ActionIcon } from "#core/actions/action";
-import { withoutKey } from "#core/conform";
 import { FieldErrorHelper } from "#core/form-elements/field-error-helper";
 import { FormLayout } from "#core/layout/form-layout";
 import { FieldActivityField } from "#exhibitors/activity-field/field";
 import { FieldActivityTarget } from "#exhibitors/activity-target/field";
 import { FieldLogo } from "#exhibitors/field-logo";
 import { Icon } from "#generated/icon";
+import { withoutKey } from "@animeaux/core";
 import { getInputProps } from "@conform-to/react";
 import { useLoaderData } from "@remix-run/react";
 import { useForm } from "./form";

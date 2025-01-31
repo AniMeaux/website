@@ -1,6 +1,6 @@
-import { withoutKey } from "#core/conform";
 import { FieldErrorHelper } from "#core/form-elements/field-error-helper";
 import { FormLayout } from "#core/layout/form-layout";
+import { withoutKey } from "@animeaux/core";
 import type { FieldMetadata } from "@conform-to/react";
 import { getTextareaProps } from "@conform-to/react";
 

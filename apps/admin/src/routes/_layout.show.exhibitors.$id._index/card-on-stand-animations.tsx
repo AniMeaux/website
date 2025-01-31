@@ -6,7 +6,7 @@ import {
 } from "#core/data-display/markdown";
 import { Card } from "#core/layout/card";
 import {
-  PROFILE_STATUS_TRANSLATION,
+  ProfileStatus,
   ProfileStatusIcon,
 } from "#show/exhibitors/profile/status";
 import { StatusHelper } from "#show/exhibitors/status-helper";
@@ -54,7 +54,7 @@ function OnStandAnimationsStatusHelper() {
         </StatusHelper.Icon>
 
         <StatusHelper.Title>
-          {PROFILE_STATUS_TRANSLATION[profile.onStandAnimationsStatus]}
+          {ProfileStatus.translation[profile.onStandAnimationsStatus]}
         </StatusHelper.Title>
       </StatusHelper.Header>
 

@@ -11,6 +11,7 @@ invariant(process.env.APPLICATION_TOKEN, "APPLICATION_TOKEN must be set");
 
 type ShowNotification =
   | { type: "application-status-updated"; applicationId: string }
+  | { type: "public-profile-treated"; exhibitorId: string }
   | { type: "stand-configuration-treated"; exhibitorId: string };
 
 export async function notifyShowApp(notification: ShowNotification) {

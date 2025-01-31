@@ -5,12 +5,10 @@ import { ControlledInput } from "#core/form-elements/controlled-input";
 import { Form } from "#core/form-elements/form";
 import { ToggleInput, ToggleInputList } from "#core/form-elements/toggle-input";
 import { Icon } from "#generated/icon";
-import { SORTED_ACTIVITY_FIELDS } from "#show/exhibitors/activity-field/activity-field";
+import { ActivityField } from "#show/exhibitors/activity-field/activity-field";
 import { ActivityFieldIcon } from "#show/exhibitors/activity-field/icon";
-import { TRANSLATION_BY_ACTIVITY_FIELD } from "#show/exhibitors/activity-field/translation";
-import { SORTED_ACTIVITY_TARGETS } from "#show/exhibitors/activity-target/activity-target";
+import { ActivityTarget } from "#show/exhibitors/activity-target/activity-target";
 import { ActivityTargetIcon } from "#show/exhibitors/activity-target/icon";
-import { TRANSLATION_BY_ACTIVITY_TARGET } from "#show/exhibitors/activity-target/translation";
 import {
   ApplicationSearchParams,
   ApplicationSearchParamsN,
@@ -185,11 +183,11 @@ export function ApplicationFilters() {
               </Form.Label>
 
               <ToggleInputList>
-                {SORTED_ACTIVITY_TARGETS.map((activityTarget) => (
+                {ActivityTarget.values.map((activityTarget) => (
                   <ToggleInput
                     key={activityTarget}
                     type="checkbox"
-                    label={TRANSLATION_BY_ACTIVITY_TARGET[activityTarget]}
+                    label={ActivityTarget.translation[activityTarget]}
                     name={ApplicationSearchParams.keys.targets}
                     value={activityTarget}
                     icon={
@@ -219,11 +217,11 @@ export function ApplicationFilters() {
               </Form.Label>
 
               <ToggleInputList>
-                {SORTED_ACTIVITY_FIELDS.map((activityField) => (
+                {ActivityField.values.map((activityField) => (
                   <ToggleInput
                     key={activityField}
                     type="checkbox"
-                    label={TRANSLATION_BY_ACTIVITY_FIELD[activityField]}
+                    label={ActivityField.translation[activityField]}
                     name={ApplicationSearchParams.keys.fields}
                     value={activityField}
                     icon={

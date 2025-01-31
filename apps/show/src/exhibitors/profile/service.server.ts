@@ -24,6 +24,22 @@ export class ServiceProfile extends Service {
     return exhibitor.profile;
   }
 
+  async getByExhibitor<T extends Prisma.ShowExhibitorProfileSelect>(
+    exhibitorId: string,
+    params: { select: T },
+  ) {
+    const profile = await prisma.showExhibitorProfile.findUnique({
+      where: { exhibitorId },
+      select: params.select,
+    });
+
+    if (profile == null) {
+      throw notFound();
+    }
+
+    return profile;
+  }
+
   async updatePublicProfile(token: string, data: ExhibitorPublicProfileData) {
     const logoPath =
       typeof data.logoPath === "string" ? data.logoPath : data.logoPath?.set;

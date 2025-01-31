@@ -10,132 +10,324 @@ import { ACTIVITY_FIELD_TRANSLATION } from "#exhibitors/activity-field/activity-
 import { ACTIVITY_TARGET_TRANSLATION } from "#exhibitors/activity-target/activity-target";
 import { ImageUrl, joinReactNodes } from "@animeaux/core";
 import type { EmailTemplate } from "@animeaux/resend";
+import { ShowExhibitorProfileStatus } from "@prisma/client";
 import { Img } from "@react-email/components";
 import { promiseHash } from "remix-utils/promise";
+import invariant from "tiny-invariant";
 
-export async function createEmailTemplatePublicProfileUpdated(
-  token: string,
-): Promise<EmailTemplate> {
-  const { profile, application } = await promiseHash({
-    profile: services.exhibitor.profile.getByToken(token, {
-      select: {
-        activityFields: true,
-        activityTargets: true,
-        links: true,
-        logoPath: true,
-        name: true,
-      },
-    }),
+export namespace PublicProfileEmails {
+  export async function submitted(token: string): Promise<EmailTemplate> {
+    const { profile, application } = await promiseHash({
+      profile: services.exhibitor.profile.getByToken(token, {
+        select: {
+          activityFields: true,
+          activityTargets: true,
+          links: true,
+          logoPath: true,
+          name: true,
+        },
+      }),
 
-    application: services.exhibitor.application.getByToken(token, {
-      select: { contactEmail: true },
-    }),
-  });
+      application: services.exhibitor.application.getByToken(token, {
+        select: { contactEmail: true },
+      }),
+    });
 
-  function SectionPublicProfile() {
-    return (
-      <EmailHtml.Section.Root>
-        <EmailHtml.Section.Title>Profil public</EmailHtml.Section.Title>
+    function SectionPublicProfile() {
+      return (
+        <EmailHtml.Section.Root>
+          <EmailHtml.Section.Title>Profil public</EmailHtml.Section.Title>
 
-        <EmailHtml.Output.Table>
-          <EmailHtml.Output.Row>
-            <EmailHtml.Output.Label>Logo</EmailHtml.Output.Label>
+          <EmailHtml.Output.Table>
+            <EmailHtml.Output.Row>
+              <EmailHtml.Output.Label>Logo</EmailHtml.Output.Label>
 
-            <EmailHtml.Output.Value>
-              <Img
-                src={createImageUrl(
-                  process.env.CLOUDINARY_CLOUD_NAME,
-                  ImageUrl.parse(profile.logoPath).id,
-                  {
-                    size: "512",
-                    aspectRatio: "4:3",
-                    objectFit: "contain",
-                    fillTransparentBackground: true,
-                  },
-                )}
-                alt={profile.name}
-                // Reset Img default styles to avoid conflicts.
-                style={{ border: undefined }}
-                className="aspect-4/3 w-full min-w-0 rounded-2 border border-solid border-alabaster object-contain"
-              />
-            </EmailHtml.Output.Value>
-          </EmailHtml.Output.Row>
+              <EmailHtml.Output.Value>
+                <Img
+                  src={createImageUrl(
+                    process.env.CLOUDINARY_CLOUD_NAME,
+                    ImageUrl.parse(profile.logoPath).id,
+                    {
+                      size: "512",
+                      aspectRatio: "4:3",
+                      objectFit: "contain",
+                      fillTransparentBackground: true,
+                    },
+                  )}
+                  alt={profile.name}
+                  // Reset Img default styles to avoid conflicts.
+                  style={{ border: undefined }}
+                  className="aspect-4/3 w-full min-w-0 rounded-2 border border-solid border-alabaster object-contain"
+                />
+              </EmailHtml.Output.Value>
+            </EmailHtml.Output.Row>
 
-          <EmailHtml.Output.Row>
-            <EmailHtml.Output.Label>Cibles</EmailHtml.Output.Label>
+            <EmailHtml.Output.Row>
+              <EmailHtml.Output.Label>Cibles</EmailHtml.Output.Label>
 
-            <EmailHtml.Output.Value>
-              {profile.activityTargets
-                .map((target) => ACTIVITY_TARGET_TRANSLATION[target])
-                .join(", ")}
-            </EmailHtml.Output.Value>
-          </EmailHtml.Output.Row>
+              <EmailHtml.Output.Value>
+                {profile.activityTargets
+                  .map((target) => ACTIVITY_TARGET_TRANSLATION[target])
+                  .join(", ")}
+              </EmailHtml.Output.Value>
+            </EmailHtml.Output.Row>
 
-          <EmailHtml.Output.Row>
-            <EmailHtml.Output.Label>
-              Domaines d’activités
-            </EmailHtml.Output.Label>
+            <EmailHtml.Output.Row>
+              <EmailHtml.Output.Label>
+                Domaines d’activités
+              </EmailHtml.Output.Label>
 
-            <EmailHtml.Output.Value>
-              {profile.activityFields
-                .map((field) => ACTIVITY_FIELD_TRANSLATION[field])
-                .join(", ")}
-            </EmailHtml.Output.Value>
-          </EmailHtml.Output.Row>
+              <EmailHtml.Output.Value>
+                {profile.activityFields
+                  .map((field) => ACTIVITY_FIELD_TRANSLATION[field])
+                  .join(", ")}
+              </EmailHtml.Output.Value>
+            </EmailHtml.Output.Row>
 
-          <EmailHtml.Output.Row>
-            <EmailHtml.Output.Label>
-              Liens du site internet ou réseaux sociaux
-            </EmailHtml.Output.Label>
+            <EmailHtml.Output.Row>
+              <EmailHtml.Output.Label>
+                Liens du site internet ou réseaux sociaux
+              </EmailHtml.Output.Label>
 
-            <EmailHtml.Output.Value>
-              {joinReactNodes(profile.links, <br />)}
-            </EmailHtml.Output.Value>
-          </EmailHtml.Output.Row>
-        </EmailHtml.Output.Table>
-      </EmailHtml.Section.Root>
-    );
+              <EmailHtml.Output.Value>
+                {joinReactNodes(profile.links, <br />)}
+              </EmailHtml.Output.Value>
+            </EmailHtml.Output.Row>
+          </EmailHtml.Output.Table>
+        </EmailHtml.Section.Root>
+      );
+    }
+
+    return {
+      name: "profil-public-exposant-mis-a-jour",
+      from: "Salon des Ani’Meaux <salon@animeaux.org>",
+      to: [application.contactEmail],
+      subject: "Profil public mis à jour - Salon des Ani’Meaux 2025",
+      body: (
+        <EmailHtml.Root>
+          <EmailHtml.Title>Profil public mis à jour</EmailHtml.Title>
+
+          <EmailHtml.Section.Root>
+            <EmailHtml.Paragraph>
+              Votre profil public a bien été mis à jour et est en attente de
+              traitement.
+            </EmailHtml.Paragraph>
+
+            <EmailHtml.Paragraph>
+              <EmailHtml.Button
+                href={`${process.env.PUBLIC_HOST}${Routes.exhibitors.token(token).profile.toString()}`}
+              >
+                Accédez à votre profil
+              </EmailHtml.Button>
+            </EmailHtml.Paragraph>
+
+            <EmailHtml.Paragraph>
+              Pour toute question ou complément d’information, n’hésitez pas à
+              nous contacter en répondant à cet e-mail.
+            </EmailHtml.Paragraph>
+          </EmailHtml.Section.Root>
+
+          <EmailHtml.SectionSeparator />
+
+          <SectionPublicProfile />
+
+          <EmailHtml.SectionSeparator />
+
+          <EmailHtml.Footer>Salon des Ani’Meaux</EmailHtml.Footer>
+        </EmailHtml.Root>
+      ),
+    };
   }
 
-  return {
-    name: "profil-public-exposant-mis-a-jour",
-    from: "Salon des Ani’Meaux <salon@animeaux.org>",
-    to: [application.contactEmail],
-    subject: "Profil public mis à jour - Salon des Ani’Meaux 2025",
-    body: (
-      <EmailHtml.Root>
-        <EmailHtml.Title>Profil public mis à jour</EmailHtml.Title>
+  export async function treated(
+    exhibitorId: string,
+  ): Promise<null | EmailTemplate> {
+    const { profile, exhibitor, application } = await promiseHash({
+      profile: services.exhibitor.profile.getByExhibitor(exhibitorId, {
+        select: {
+          activityFields: true,
+          activityTargets: true,
+          links: true,
+          logoPath: true,
+          name: true,
+          publicProfileStatus: true,
+          publicProfileStatusMessage: true,
+        },
+      }),
 
-        <EmailHtml.Section.Root>
-          <EmailHtml.Paragraph>
-            Votre profil public a bien été mis à jour et est en attente de
-            traitement.
-          </EmailHtml.Paragraph>
+      exhibitor: services.exhibitor.get(exhibitorId, {
+        select: { token: true },
+      }),
 
-          <EmailHtml.Paragraph>
-            <EmailHtml.Button
-              href={`${process.env.PUBLIC_HOST}${Routes.exhibitors.token(token).profile.toString()}`}
-            >
-              Accédez à votre profil
-            </EmailHtml.Button>
-          </EmailHtml.Paragraph>
+      application: services.exhibitor.application.getByExhibitor(exhibitorId, {
+        select: { contactEmail: true },
+      }),
+    });
 
-          <EmailHtml.Paragraph>
-            Pour toute question ou complément d’information, n’hésitez pas à
-            nous contacter en répondant à cet e-mail.
-          </EmailHtml.Paragraph>
-        </EmailHtml.Section.Root>
+    if (
+      profile.publicProfileStatus ===
+        ShowExhibitorProfileStatus.AWAITING_VALIDATION ||
+      profile.publicProfileStatus === ShowExhibitorProfileStatus.NOT_TOUCHED
+    ) {
+      return null;
+    }
 
-        <EmailHtml.SectionSeparator />
+    switch (profile.publicProfileStatus) {
+      case ShowExhibitorProfileStatus.VALIDATED: {
+        function SectionPublicProfile() {
+          return (
+            <EmailHtml.Section.Root>
+              <EmailHtml.Section.Title>Profil public</EmailHtml.Section.Title>
 
-        <SectionPublicProfile />
+              <EmailHtml.Output.Table>
+                <EmailHtml.Output.Row>
+                  <EmailHtml.Output.Label>Logo</EmailHtml.Output.Label>
 
-        <EmailHtml.SectionSeparator />
+                  <EmailHtml.Output.Value>
+                    <Img
+                      src={createImageUrl(
+                        process.env.CLOUDINARY_CLOUD_NAME,
+                        ImageUrl.parse(profile.logoPath).id,
+                        {
+                          size: "512",
+                          aspectRatio: "4:3",
+                          objectFit: "contain",
+                          fillTransparentBackground: true,
+                        },
+                      )}
+                      alt={profile.name}
+                      // Reset Img default styles to avoid conflicts.
+                      style={{ border: undefined }}
+                      className="aspect-4/3 w-full min-w-0 rounded-2 border border-solid border-alabaster object-contain"
+                    />
+                  </EmailHtml.Output.Value>
+                </EmailHtml.Output.Row>
 
-        <EmailHtml.Footer>Salon des Ani’Meaux</EmailHtml.Footer>
-      </EmailHtml.Root>
-    ),
-  };
+                <EmailHtml.Output.Row>
+                  <EmailHtml.Output.Label>Cibles</EmailHtml.Output.Label>
+
+                  <EmailHtml.Output.Value>
+                    {profile.activityTargets
+                      .map((target) => ACTIVITY_TARGET_TRANSLATION[target])
+                      .join(", ")}
+                  </EmailHtml.Output.Value>
+                </EmailHtml.Output.Row>
+
+                <EmailHtml.Output.Row>
+                  <EmailHtml.Output.Label>
+                    Domaines d’activités
+                  </EmailHtml.Output.Label>
+
+                  <EmailHtml.Output.Value>
+                    {profile.activityFields
+                      .map((field) => ACTIVITY_FIELD_TRANSLATION[field])
+                      .join(", ")}
+                  </EmailHtml.Output.Value>
+                </EmailHtml.Output.Row>
+
+                <EmailHtml.Output.Row>
+                  <EmailHtml.Output.Label>
+                    Liens du site internet ou réseaux sociaux
+                  </EmailHtml.Output.Label>
+
+                  <EmailHtml.Output.Value>
+                    {joinReactNodes(profile.links, <br />)}
+                  </EmailHtml.Output.Value>
+                </EmailHtml.Output.Row>
+              </EmailHtml.Output.Table>
+            </EmailHtml.Section.Root>
+          );
+        }
+
+        return {
+          name: "profil-public-exposant-traité",
+          from: "Salon des Ani’Meaux <salon@animeaux.org>",
+          to: [application.contactEmail],
+          subject: "Profil public - Salon des Ani’Meaux 2025",
+          body: (
+            <EmailHtml.Root>
+              <EmailHtml.Title>Profil public</EmailHtml.Title>
+
+              <EmailHtml.Section.Root>
+                <EmailHtml.Paragraph>
+                  Votre profil public a été validé et ne peut plus être
+                  modifiée.
+                </EmailHtml.Paragraph>
+
+                <EmailHtml.Paragraph>
+                  <EmailHtml.Button
+                    href={`${process.env.PUBLIC_HOST}${Routes.exhibitors.token(exhibitor.token).profile.toString()}`}
+                  >
+                    Accédez à votre profil
+                  </EmailHtml.Button>
+                </EmailHtml.Paragraph>
+
+                <EmailHtml.Paragraph>
+                  Pour toute question ou complément d’information, n’hésitez pas
+                  à nous contacter en répondant à cet e-mail.
+                </EmailHtml.Paragraph>
+              </EmailHtml.Section.Root>
+
+              <EmailHtml.SectionSeparator />
+
+              <SectionPublicProfile />
+
+              <EmailHtml.SectionSeparator />
+
+              <EmailHtml.Footer>Salon des Ani’Meaux</EmailHtml.Footer>
+            </EmailHtml.Root>
+          ),
+        };
+      }
+
+      case ShowExhibitorProfileStatus.TO_MODIFY: {
+        invariant(
+          profile.publicProfileStatusMessage != null,
+          "A publicProfileStatusMessage should exists",
+        );
+
+        return {
+          name: "profil-public-exposant-traité",
+          from: "Salon des Ani’Meaux <salon@animeaux.org>",
+          to: [application.contactEmail],
+          subject: "Profil public - Salon des Ani’Meaux 2025",
+          body: (
+            <EmailHtml.Root>
+              <EmailHtml.Title>Profil public</EmailHtml.Title>
+
+              <EmailHtml.Section.Root>
+                <EmailHtml.Markdown
+                  content={profile.publicProfileStatusMessage}
+                  components={EMAIL_PARAGRAPH_COMPONENTS}
+                />
+
+                <EmailHtml.Paragraph>
+                  <EmailHtml.Button
+                    href={`${process.env.PUBLIC_HOST}${Routes.exhibitors.token(exhibitor.token).profile.toString()}`}
+                  >
+                    Accédez à votre profil
+                  </EmailHtml.Button>
+                </EmailHtml.Paragraph>
+
+                <EmailHtml.Paragraph>
+                  Pour toute question ou complément d’information, n’hésitez pas
+                  à nous contacter en répondant à cet e-mail.
+                </EmailHtml.Paragraph>
+              </EmailHtml.Section.Root>
+
+              <EmailHtml.SectionSeparator />
+
+              <EmailHtml.Footer>Salon des Ani’Meaux</EmailHtml.Footer>
+            </EmailHtml.Root>
+          ),
+        };
+      }
+
+      default: {
+        return profile.publicProfileStatus satisfies never;
+      }
+    }
+  }
 }
 
 export async function createEmailTemplateDescriptionUpdated(
