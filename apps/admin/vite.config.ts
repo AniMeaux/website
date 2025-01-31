@@ -1,12 +1,8 @@
 import { vitePlugin as remix } from "@remix-run/dev";
-import { installGlobals } from "@remix-run/node";
 import { createRequire } from "node:module";
 import type { Plugin } from "vite";
 import { defineConfig } from "vite";
 import tsconfigPaths from "vite-tsconfig-paths";
-
-// Install the web fetch globals for Node.
-installGlobals();
 
 export default defineConfig({
   cacheDir: "./node_modules/.cache/vite",
