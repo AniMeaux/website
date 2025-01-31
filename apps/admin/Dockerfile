@@ -1,3 +1,5 @@
+ARG APPLICATION_VERSION
+
 # base node image
 FROM node:22.11-bullseye-slim as base
 
@@ -60,7 +62,8 @@ ADD ./libs/search-params-io ./libs/search-params-io
 ADD ./libs/tailwind-animation ./libs/tailwind-animation
 ADD ./libs/zod-utils ./libs/zod-utils
 ADD ./apps/admin ./apps/admin
-RUN yarn --cwd ./apps/admin build
+RUN --mount=type=secret,id=SENTRY_AUTH_TOKEN,env=SENTRY_AUTH_TOKEN \
+  yarn --cwd ./apps/admin build
 
 # Finally, build the production image with minimal footprint
 FROM base
@@ -68,6 +71,7 @@ COPY --from=production-deps /workspace/node_modules ./node_modules
 COPY --from=production-deps /workspace/apps/admin/node_modules ./apps/admin/node_modules
 COPY --from=build /workspace/node_modules/.prisma ./node_modules/.prisma
 COPY --from=build /workspace/apps/admin/build ./apps/admin/build
+COPY --from=build /workspace/apps/admin/server.js ./apps/admin/
 ADD ./prisma ./prisma
 ADD ./apps/admin ./apps/admin
 

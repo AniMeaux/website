@@ -25,6 +25,11 @@ export function checkEnv() {
  */
 export function getClientEnv() {
   return {
+    APPLICATION_VERSION: process.env.APPLICATION_VERSION,
+    RUNTIME_ENV: process.env.RUNTIME_ENV,
+    SENTRY_DSN: process.env.SENTRY_DSN,
+    SENTRY_ENABLE_LOCAL: process.env.SENTRY_ENABLE_LOCAL,
+    SENTRY_TRACES_SAMPLE_RATE: process.env.SENTRY_TRACES_SAMPLE_RATE,
     SHOW_URL: process.env.SHOW_URL,
   };
 }
@@ -44,8 +49,20 @@ declare global {
 }
 
 const processEnvSchema = zu.object({
+  APPLICATION_VERSION: zu.string(),
   GOOGLE_API_CLIENT_EMAIL: zu.string().optional(),
   GOOGLE_API_PRIVATE_KEY: zu.string().optional(),
   GOOGLE_DRIVE_ROOT_FOLDER_ID: zu.string(),
+  RUNTIME_ENV: zu.enum(["local", "production", "staging"]),
+  SENTRY_DSN: zu.string().optional(),
+  SENTRY_ENABLE_LOCAL: zu.enum(["false", "true"]).optional(),
+  SENTRY_TRACES_SAMPLE_RATE: zu.coerce
+    .number()
+    .min(0)
+    .max(1)
+    // Because we access the raw value and not the parsed one, we need to be
+    // sure the type remains string and not number.
+    .transform((value) => String(value))
+    .optional(),
   SHOW_URL: zu.string(),
 });

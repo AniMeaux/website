@@ -7,6 +7,7 @@ import { DynamicImage } from "#core/data-display/image";
 import { db } from "#core/db.server";
 import type { RouteHandle } from "#core/handles";
 import { assertIsDefined } from "#core/is-defined.server";
+import { useCurrentUserForMonitoring } from "#core/monitoring";
 import { Routes } from "#core/navigation";
 import { getPageTitle } from "#core/page-title";
 import { prisma } from "#core/prisma.server";
@@ -32,7 +33,7 @@ const ParamsSchema = zu.object({
 
 export async function loader({ request, params }: LoaderFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {
-    select: { groups: true },
+    select: { displayName: true, email: true, groups: true, id: true },
   });
 
   assertCurrentUserHasGroups(currentUser, [
@@ -65,7 +66,11 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
     throw notFound();
   }
 
-  return json({ animal, visiblePictureId: paramsResult.data.pictureId });
+  return json({
+    currentUser,
+    animal,
+    visiblePictureId: paramsResult.data.pictureId,
+  });
 }
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
@@ -78,7 +83,11 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
 };
 
 export default function Route() {
-  const { animal, visiblePictureId } = useLoaderData<typeof loader>();
+  const { currentUser, animal, visiblePictureId } =
+    useLoaderData<typeof loader>();
+
+  useCurrentUserForMonitoring(currentUser);
+
   const allPictures = getAllAnimalPictures(animal);
   const visiblePictureIndex = allPictures.indexOf(visiblePictureId);
 

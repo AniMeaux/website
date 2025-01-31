@@ -1,0 +1,12 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "files": ["./server.ts"],
+  "exclude": ["./node_modules"],
+
+  "compilerOptions": {
+    // Transpiling with TypeScript.
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "noEmit": false
+  }
+}

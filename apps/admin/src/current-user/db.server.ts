@@ -1,5 +1,6 @@
 import { algolia } from "#core/algolia/algolia.server";
 import { EmailAlreadyUsedError, PrismaErrorCodes } from "#core/errors.server";
+import { setCurrentUserForMonitoring } from "#core/monitoring.server";
 import { Routes } from "#core/navigation";
 import { prisma } from "#core/prisma.server";
 import { NextSearchParams } from "#core/search-params";
@@ -34,8 +35,11 @@ export class CurrentUserDbDelegate {
       // - Cast the object to the internal properties for internal usages.
       // - Cast the object to the given properties for the return value.
       const internalSelect = {
-        shouldChangePassword: true,
+        displayName: true,
+        email: true,
         groups: true,
+        id: true,
+        shouldChangePassword: true,
       } satisfies Prisma.UserSelect;
 
       const user = (await prisma.user.findFirst({
@@ -65,6 +69,8 @@ export class CurrentUserDbDelegate {
     ) {
       throw await this.redirectToLogin(request);
     }
+
+    setCurrentUserForMonitoring(user);
 
     if (!skipPasswordChangeCheck && user.shouldChangePassword) {
       throw await this.redirectToDefinePassword(request);
@@ -150,6 +156,8 @@ export class CurrentUserDbDelegate {
   }
 
   private async redirectToLogin(request: Request) {
+    setCurrentUserForMonitoring(null);
+
     const path = this.getCurrentRoutePath(request);
 
     return redirect(

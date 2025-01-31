@@ -7,10 +7,16 @@ import {
   useLocation,
   useRouteError,
 } from "@remix-run/react";
+import { captureRemixErrorBoundaryError } from "@sentry/remix";
+import { useEffect } from "react";
 
 export function ErrorPage() {
   const error = useRouteError();
   console.error("ErrorBoundary error", error);
+
+  useEffect(() => {
+    captureRemixErrorBoundaryError(error);
+  }, [error]);
 
   const status = isRouteErrorResponse(error)
     ? asStatusCode(error.status)
