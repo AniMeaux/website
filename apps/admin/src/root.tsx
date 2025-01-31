@@ -17,6 +17,7 @@ import {
   ScrollRestoration,
   useLoaderData,
 } from "@remix-run/react";
+import { withSentry } from "@sentry/remix";
 import { Settings } from "luxon";
 
 import "#tailwind.css";
@@ -72,7 +73,9 @@ export const meta: MetaFunction = () => {
   return [{ title: getPageTitle() }];
 };
 
-export default function App() {
+export default withSentry(App);
+
+function App() {
   const { CLIENT_ENV } = useLoaderData<typeof loader>();
 
   return (
