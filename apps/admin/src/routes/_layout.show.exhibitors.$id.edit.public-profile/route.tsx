@@ -1,4 +1,5 @@
 import { Action } from "#core/actions";
+import { cloudinary } from "#core/cloudinary/cloudinary.server.js";
 import { ErrorPage, getErrorTitle } from "#core/data-display/error-page";
 import { db } from "#core/db.server";
 import { PageLayout } from "#core/layout/page";
@@ -9,11 +10,14 @@ import { safeParseRouteParam, zu } from "@animeaux/zod-utils";
 import type { SubmissionResult } from "@conform-to/react";
 import { getFormProps } from "@conform-to/react";
 import { parseWithZod } from "@conform-to/zod";
+import { parseFormData } from "@mjackson/form-data-parser";
 import { UserGroup } from "@prisma/client";
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import type { MetaFunction } from "@remix-run/react";
+import { captureException } from "@sentry/remix";
 import type { MergeExclusive } from "type-fest";
+import { v4 as uuid } from "uuid";
 import { ActionSchema } from "./action";
 import { FieldsetProfile } from "./fieldset-profile";
 import { FieldsetStatus } from "./fieldset-status";
@@ -38,6 +42,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
         activityFields: true,
         activityTargets: true,
         links: true,
+        logoPath: true,
         name: true,
         publicProfileStatus: true,
         publicProfileStatusMessage: true,
@@ -81,24 +86,64 @@ export async function action({ request, params }: ActionFunctionArgs) {
 
   const routeParams = safeParseRouteParam(RouteParamsSchema, params);
 
-  const formData = await request.formData();
+  const reversibleUpload = cloudinary.reversibleUpload.create();
+
+  async function revertUpload() {
+    const errors = await reversibleUpload.revert();
+
+    if (errors != null) {
+      captureException(new Error("Could not delete exhibitor profile logo"), {
+        extra: {
+          errors: errors.map(({ error, ...rest }) => ({
+            ...rest,
+            error: error instanceof Error ? error.message : String(error),
+          })),
+        },
+      });
+    }
+  }
+
+  const formData = await parseFormData(request, async (fileUpload) => {
+    if (fileUpload.fieldName !== "logo" || fileUpload.name === "") {
+      return undefined;
+    }
+
+    try {
+      return await reversibleUpload.upload(fileUpload, {
+        imageId: `show/exhibitors-logo/${uuid()}`,
+      });
+    } catch (error) {
+      captureException(error);
+
+      return undefined;
+    }
+  });
 
   const submission = parseWithZod(formData, { schema: ActionSchema });
 
   if (submission.status !== "success") {
+    await revertUpload();
+
     return json<ActionData>(
       { submissionResult: submission.reply() },
       { status: 400 },
     );
   }
 
-  await db.show.exhibitor.profile.updatePublicProfile(routeParams.id, {
-    activityFields: submission.value.activityFields,
-    activityTargets: submission.value.activityTargets,
-    links: submission.value.links,
-    publicProfileStatus: submission.value.status,
-    publicProfileStatusMessage: submission.value.statusMessage || null,
-  });
+  try {
+    await db.show.exhibitor.profile.updatePublicProfile(routeParams.id, {
+      activityFields: submission.value.activityFields,
+      activityTargets: submission.value.activityTargets,
+      links: submission.value.links,
+      logoPath: submission.value.logo?.name,
+      publicProfileStatus: submission.value.status,
+      publicProfileStatusMessage: submission.value.statusMessage || null,
+    });
+  } catch (error) {
+    await revertUpload();
+
+    throw error;
+  }
 
   return json<ActionData>({
     redirectTo: Routes.show.exhibitors.id(routeParams.id).toString(),

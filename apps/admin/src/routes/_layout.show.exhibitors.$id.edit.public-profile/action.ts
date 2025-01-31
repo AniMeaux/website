@@ -1,6 +1,10 @@
 import { ActivityField } from "#show/exhibitors/activity-field/activity-field";
 import { ActivityTarget } from "#show/exhibitors/activity-target/activity-target";
 import { ProfileStatus } from "#show/exhibitors/profile/status";
+import {
+  IMAGE_SIZE_LIMIT_B,
+  IMAGE_SIZE_LIMIT_MB,
+} from "@animeaux/cloudinary/client";
 import { simpleUrl, zu } from "@animeaux/zod-utils";
 
 export const ActionSchema = zu
@@ -28,6 +32,14 @@ export const ActionSchema = zu
         )
         .min(1, "Veuillez entrer une URL"),
     ),
+
+    logo: zu
+      .instanceof(File, { message: "Veuillez choisir un logo" })
+      .refine(
+        (file) => file.size <= IMAGE_SIZE_LIMIT_B,
+        `Le logo doit faire moins de ${IMAGE_SIZE_LIMIT_MB} MB`,
+      )
+      .optional(),
 
     status: zu.nativeEnum(ProfileStatus.Enum),
 

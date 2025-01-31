@@ -5,11 +5,15 @@
   "sideEffects": false,
   "type": "module",
   "exports": {
+    ".": "./src/index.ts",
     "./client": "./src.client/index.ts",
     "./server": "./src.server/index.ts"
   },
   "typesVersions": {
     "*": {
+      ".": [
+        "./src/index.ts"
+      ],
       "./client": [
         "./src.client/index.ts"
       ],
@@ -25,9 +29,13 @@
     "@mjackson/form-data-parser": "^0.4.0",
     "@mjackson/lazy-file": "^3.2.0",
     "@remix-run/node": "~2.9.2",
-    "cloudinary": "^2.2.0"
+    "@unpic/pixels": "^1.2.0",
+    "blurhash": "^2.0.5",
+    "cloudinary": "^2.2.0",
+    "lodash.orderby": "^4.6.0"
   },
   "devDependencies": {
-    "@total-typescript/ts-reset": "^0.5.1"
+    "@total-typescript/ts-reset": "^0.5.1",
+    "@types/lodash.orderby": "^4.6.7"
   }
 }

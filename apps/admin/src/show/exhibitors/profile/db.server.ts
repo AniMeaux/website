@@ -2,8 +2,9 @@ import { PrismaErrorCodes } from "#core/errors.server";
 import { prisma } from "#core/prisma.server";
 import { notFound } from "#core/response.server";
 import { ProfileStatus } from "#show/exhibitors/profile/status";
-import type { ShowExhibitorProfile } from "@prisma/client";
+import { ImageUrl } from "@animeaux/core";
 import { Prisma } from "@prisma/client";
+import { captureException } from "@sentry/remix";
 
 export class ShowExhibitorProfileDbDelegate {
   async findUniqueByExhibitor<T extends Prisma.ShowExhibitorProfileSelect>(
@@ -27,6 +28,19 @@ export class ShowExhibitorProfileDbDelegate {
     data: ShowExhibitorPublicProfileData,
   ) {
     this.normalizePublicProfile(data);
+
+    const logoPath =
+      typeof data.logoPath === "string" ? data.logoPath : data.logoPath?.set;
+
+    if (logoPath != null) {
+      try {
+        const blurhash = await createImageBlurhash(logoPath);
+        data.logoPath = ImageUrl.stringify({ id: logoPath, blurhash });
+      } catch (error) {
+        console.error(error);
+        captureException(error, { extra: { logoPath } });
+      }
+    }
 
     try {
       await prisma.showExhibitor.update({
@@ -53,17 +67,21 @@ export class ShowExhibitorProfileDbDelegate {
   }
 
   normalizePublicProfile(data: ShowExhibitorPublicProfileData) {
-    if (data.publicProfileStatus !== ProfileStatus.Enum.TO_MODIFY) {
+    if (
+      data.publicProfileStatus != null &&
+      data.publicProfileStatus !== ProfileStatus.Enum.TO_MODIFY
+    ) {
       data.publicProfileStatusMessage = null;
     }
   }
 }
 
 type ShowExhibitorPublicProfileData = Pick<
-  ShowExhibitorProfile,
+  Prisma.ShowExhibitorProfileUpdateInput,
   | "activityFields"
   | "activityTargets"
   | "links"
+  | "logoPath"
   | "publicProfileStatus"
   | "publicProfileStatusMessage"
 >;
