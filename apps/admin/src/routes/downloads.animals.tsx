@@ -11,7 +11,7 @@ import { BaseImage, createCloudinaryUrl } from "#core/data-display/image";
 import { db } from "#core/db.server";
 import type { RouteHandle } from "#core/handles";
 import { Spinner } from "#core/loaders/spinner";
-import { useCurrentUserForMonitoring } from "#core/monitoring.client";
+import { useCurrentUserForMonitoring } from "#core/monitoring";
 import { getPageTitle } from "#core/page-title";
 import { prisma } from "#core/prisma.server";
 import { assertCurrentUserHasGroups } from "#current-user/groups.server";

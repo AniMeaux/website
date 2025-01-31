@@ -5,7 +5,7 @@ import { Form } from "#core/form-elements/form";
 import { PasswordInput } from "#core/form-elements/password-input";
 import type { RouteHandle } from "#core/handles";
 import { AuthPage } from "#core/layout/auth-page";
-import { useCurrentUserForMonitoring } from "#core/monitoring.client";
+import { useCurrentUserForMonitoring } from "#core/monitoring";
 import { Routes } from "#core/navigation";
 import { getPageTitle } from "#core/page-title";
 import { NextSearchParams } from "#core/search-params";

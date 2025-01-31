@@ -7,7 +7,7 @@ import { DynamicImage } from "#core/data-display/image";
 import { db } from "#core/db.server";
 import type { RouteHandle } from "#core/handles";
 import { assertIsDefined } from "#core/is-defined.server";
-import { useCurrentUserForMonitoring } from "#core/monitoring.client";
+import { useCurrentUserForMonitoring } from "#core/monitoring";
 import { Routes } from "#core/navigation";
 import { getPageTitle } from "#core/page-title";
 import { prisma } from "#core/prisma.server";

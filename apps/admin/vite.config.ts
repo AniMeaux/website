@@ -1,13 +1,9 @@
 import { vitePlugin as remix } from "@remix-run/dev";
-import { installGlobals } from "@remix-run/node";
 import { sentryVitePlugin } from "@sentry/vite-plugin";
 import { createRequire } from "node:module";
 import type { Plugin } from "vite";
 import { defineConfig } from "vite";
 import tsconfigPaths from "vite-tsconfig-paths";
-
-// Install the web fetch globals for Node.
-installGlobals();
 
 const shouldCreateSentryRelease = process.env.SENTRY_AUTH_TOKEN != null;
 

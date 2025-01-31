@@ -1,10 +1,8 @@
-import type { User } from "@prisma/client";
 import { useLocation, useMatches } from "@remix-run/react";
 import {
   browserTracingIntegration,
   httpClientIntegration,
   init,
-  setUser,
 } from "@sentry/remix";
 import { useEffect } from "react";
 
@@ -27,22 +25,4 @@ export function initMonitoring() {
       ],
     });
   }
-}
-
-export function useCurrentUserForMonitoring(
-  currentUser: null | Pick<User, "displayName" | "email" | "groups" | "id">,
-) {
-  // Do this as early as possible for possible errors during rendering.
-
-  if (currentUser == null) {
-    setUser(null);
-    return;
-  }
-
-  setUser({
-    id: currentUser.id,
-    username: currentUser.displayName,
-    email: currentUser.email,
-    groups: currentUser.groups,
-  });
 }
