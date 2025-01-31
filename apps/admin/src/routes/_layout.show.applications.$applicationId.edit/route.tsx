@@ -2,8 +2,8 @@ import { Action } from "#core/actions";
 import { ErrorPage, getErrorTitle } from "#core/data-display/error-page";
 import { db } from "#core/db.server";
 import { NotFoundError } from "#core/errors.server";
+import { RadioInput, RadioInputList } from "#core/form-elements/field-choice";
 import { Form } from "#core/form-elements/form";
-import { RadioInput, RadioInputList } from "#core/form-elements/radio-input";
 import { RequiredStar } from "#core/form-elements/required-star";
 import { Textarea } from "#core/form-elements/textarea";
 import { assertIsDefined } from "#core/is-defined.server";
@@ -11,16 +11,16 @@ import { Card } from "#core/layout/card";
 import { PageLayout } from "#core/layout/page";
 import { Routes, useBackIfPossible } from "#core/navigation";
 import { getPageTitle } from "#core/page-title";
-import { prisma } from "#core/prisma.server";
 import { notFound } from "#core/response.server";
 import { assertCurrentUserHasGroups } from "#current-user/groups.server";
 import { MissingRefusalMessageError } from "#show/exhibitors/applications/db.server";
 import {
   SORTED_STATUSES,
-  TRANSLATION_BY_STATUS,
+  TRANSLATION_BY_APPLICATION_STATUS,
 } from "#show/exhibitors/applications/status";
+import { toBooleanAttribute } from "@animeaux/core";
 import { FormDataDelegate } from "@animeaux/form-data";
-import { zu } from "@animeaux/zod-utils";
+import { safeParseRouteParam, zu } from "@animeaux/zod-utils";
 import { ShowExhibitorApplicationStatus, UserGroup } from "@prisma/client";
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
@@ -38,19 +38,18 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
     UserGroup.SHOW_ORGANIZER,
   ]);
 
-  const routeParams = RouteParamsSchema.safeParse(params);
-  if (!routeParams.success) {
-    throw notFound();
-  }
+  const routeParams = safeParseRouteParam(RouteParamsSchema, params);
 
-  const application = await prisma.showExhibitorApplication.findUnique({
-    where: { id: routeParams.data.applicationId },
-    select: {
-      status: true,
-      refusalMessage: true,
-      structureName: true,
+  const application = await db.show.exhibitor.application.findUnique(
+    routeParams.applicationId,
+    {
+      select: {
+        status: true,
+        refusalMessage: true,
+        structureName: true,
+      },
     },
-  });
+  );
 
   assertIsDefined(application);
 
@@ -212,7 +211,7 @@ function ApplicationForm() {
               {SORTED_STATUSES.map((status) => (
                 <RadioInput
                   key={status}
-                  label={TRANSLATION_BY_STATUS[status]}
+                  label={TRANSLATION_BY_APPLICATION_STATUS[status]}
                   name={ActionFormData.keys.status}
                   value={status}
                   checked={statusState === status}
@@ -234,9 +233,9 @@ function ApplicationForm() {
                 name={ActionFormData.keys.refusalMessage}
                 defaultValue={application.refusalMessage ?? undefined}
                 rows={5}
-                hasError={
-                  fetcher.data?.errors?.fieldErrors.refusalMessage != null
-                }
+                aria-invalid={toBooleanAttribute(
+                  fetcher.data?.errors?.fieldErrors.refusalMessage != null,
+                )}
                 aria-describedby={
                   fetcher.data?.errors?.fieldErrors.refusalMessage != null
                     ? "refusal-message-error"

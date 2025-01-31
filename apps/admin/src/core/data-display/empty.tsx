@@ -1,6 +1,90 @@
-import { cn } from "@animeaux/core";
+import { cn, createHookContext } from "@animeaux/core";
+import { Primitive } from "@animeaux/react-primitives";
+import { forwardRef } from "react";
 
-export function Empty({
+export const Empty = {
+  Root: forwardRef<
+    React.ComponentRef<typeof Primitive.section>,
+    React.ComponentPropsWithoutRef<typeof Primitive.section> & {
+      isCompact?: boolean;
+    }
+  >(function EmptyRoot({ isCompact = false, className, ...props }, ref) {
+    return (
+      <ContextProvider isCompact={isCompact}>
+        <Primitive.section
+          {...props}
+          ref={ref}
+          className={cn(
+            "flex w-full flex-col items-center justify-center gap-4 p-2",
+            className,
+          )}
+        />
+      </ContextProvider>
+    );
+  }),
+
+  Icon: forwardRef<
+    React.ComponentRef<typeof Primitive.span>,
+    React.ComponentPropsWithoutRef<typeof Primitive.span>
+  >(function EmptyIcon({ className, ...props }, ref) {
+    const { isCompact } = useContext();
+
+    return (
+      <Primitive.span
+        {...props}
+        ref={ref}
+        className={cn(
+          "leading-none icon-80",
+          isCompact ? undefined : "md:icon-120",
+          className,
+        )}
+      />
+    );
+  }),
+
+  Content: forwardRef<
+    React.ComponentRef<typeof Primitive.div>,
+    React.ComponentPropsWithoutRef<typeof Primitive.div>
+  >(function EmptyContent({ className, ...props }, ref) {
+    return (
+      <Primitive.div
+        {...props}
+        ref={ref}
+        className={cn(
+          "flex max-w-[400px] flex-col gap-2 text-center",
+          className,
+        )}
+      />
+    );
+  }),
+
+  Title: forwardRef<
+    React.ComponentRef<typeof Primitive.h1>,
+    React.ComponentPropsWithoutRef<typeof Primitive.h1>
+  >(function EmptyTitle({ className, ...props }, ref) {
+    const { isCompact } = useContext();
+
+    return (
+      <Primitive.h1
+        {...props}
+        ref={ref}
+        className={cn(
+          "text-title-section-small",
+          isCompact ? undefined : "md:text-title-section-large",
+          className,
+        )}
+      />
+    );
+  }),
+
+  Message: Primitive.p,
+};
+
+const [ContextProvider, useContext] = createHookContext(
+  ({ isCompact }: { isCompact: boolean }) => ({ isCompact }),
+);
+
+export function SimpleEmpty({
   icon,
   iconAlt,
   title,
@@ -20,36 +104,20 @@ export function Empty({
   className?: string;
 }) {
   return (
-    <section
-      className={cn(
-        className,
-        "flex w-full flex-col items-center justify-center gap-4 p-2",
-      )}
-    >
-      <div
-        role="img"
-        aria-label={iconAlt}
-        title={iconAlt}
-        className={cn("text-[80px] leading-none", {
-          "md:text-[120px]": !isCompact,
-        })}
-      >
+    <Empty.Root isCompact={isCompact} className={className}>
+      <Empty.Icon role="img" aria-label={iconAlt} title={iconAlt}>
         {icon}
-      </div>
+      </Empty.Icon>
 
-      <div className="flex max-w-[400px] flex-col gap-2 text-center">
-        <TitleElementType
-          className={cn("text-title-section-small", {
-            "md:text-title-section-large": !isCompact,
-          })}
-        >
-          {title}
-        </TitleElementType>
+      <Empty.Content>
+        <Empty.Title asChild>
+          <TitleElementType>{title}</TitleElementType>
+        </Empty.Title>
 
-        <p>{message}</p>
-      </div>
+        <Empty.Message>{message}</Empty.Message>
+      </Empty.Content>
 
       {action}
-    </section>
+    </Empty.Root>
   );
 }

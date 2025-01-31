@@ -40,6 +40,22 @@ export class ServiceApplication extends Service {
     return exhibitor.application;
   }
 
+  async getByExhibitor<T extends Prisma.ShowExhibitorApplicationSelect>(
+    exhibitorId: string,
+    params: { select: T },
+  ) {
+    const application = await prisma.showExhibitorApplication.findUnique({
+      where: { exhibitorId },
+      select: params.select,
+    });
+
+    if (application == null) {
+      throw notFound();
+    }
+
+    return application;
+  }
+
   async create(data: ExhibitorApplicationData) {
     try {
       const blurhash = await createImageBlurhash(data.structureLogoPath);

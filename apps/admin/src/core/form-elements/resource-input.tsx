@@ -1,4 +1,3 @@
-import { toBooleanAttribute } from "#core/attributes";
 import { Item } from "#core/data-display/item";
 import { HIGHLIGHT_COMPONENTS, Markdown } from "#core/data-display/markdown";
 import { BaseTextInput } from "#core/form-elements/base-text-input";
@@ -6,7 +5,7 @@ import { Card } from "#core/layout/card";
 import { ScreenSizeValue, useScreenSizeCondition } from "#core/screen-size";
 import { Icon } from "#generated/icon";
 import { theme } from "#generated/theme";
-import { cn } from "@animeaux/core";
+import { cn, toBooleanAttribute } from "@animeaux/core";
 import * as Dialog from "@radix-ui/react-dialog";
 import * as Popover from "@radix-ui/react-popover";
 import * as VisuallyHidden from "@radix-ui/react-visually-hidden";

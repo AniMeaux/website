@@ -1,6 +1,7 @@
 import { email } from "#core/emails.server";
 import { badRequest, unauthorized } from "#core/response.server";
 import { createEmailTemplateStatusUpdate } from "#exhibitors/application/emails.server";
+import { StandConfigurationEmails } from "#exhibitors/stand-configuration/email.server";
 import { zu } from "@animeaux/zod-utils";
 import type { ActionFunctionArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
@@ -9,7 +10,10 @@ export async function action({ request }: ActionFunctionArgs) {
   assertIsAuthorizedApplication(request);
 
   const action = zu
-    .union([ActionSchemaApplicationStatusUpdated, ActionSchemaTodo])
+    .union([
+      ActionSchemaApplicationStatusUpdated,
+      ActionSchemaStandConfigurationTreated,
+    ])
     .safeParse(await request.json());
 
   if (!action.success) {
@@ -25,7 +29,11 @@ export async function action({ request }: ActionFunctionArgs) {
       return json({ ok: true });
     }
 
-    case ActionSchemaTodo.shape.type.value: {
+    case ActionSchemaStandConfigurationTreated.shape.type.value: {
+      email.send.template(
+        StandConfigurationEmails.treated(action.data.exhibitorId),
+      );
+
       return json({ ok: true });
     }
 
@@ -40,8 +48,9 @@ const ActionSchemaApplicationStatusUpdated = zu.object({
   applicationId: zu.string().uuid(),
 });
 
-const ActionSchemaTodo = zu.object({
-  type: zu.literal("todo"),
+const ActionSchemaStandConfigurationTreated = zu.object({
+  type: zu.literal("stand-configuration-treated"),
+  exhibitorId: zu.string().uuid(),
 });
 
 function assertIsAuthorizedApplication(request: Request) {

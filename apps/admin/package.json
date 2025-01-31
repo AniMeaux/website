@@ -35,6 +35,8 @@
     "@animeaux/react-primitives": "*",
     "@animeaux/search-params-io": "*",
     "@animeaux/zod-utils": "*",
+    "@conform-to/react": "^1.2.2",
+    "@conform-to/zod": "^1.2.2",
     "@mjackson/lazy-file": "^3.2.0",
     "@prisma/client": "^5.8.1",
     "@radix-ui/react-dialog": "^1.0.4",

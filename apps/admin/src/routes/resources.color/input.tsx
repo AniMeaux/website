@@ -1,5 +1,4 @@
 import { ColorSearchParams } from "#colors/search-params";
-import { toBooleanAttribute } from "#core/attributes";
 import { BaseTextInput } from "#core/form-elements/base-text-input";
 import { Input } from "#core/form-elements/input";
 import {
@@ -11,6 +10,7 @@ import {
 } from "#core/form-elements/resource-input";
 import { Routes } from "#core/navigation";
 import { Icon } from "#generated/icon";
+import { toBooleanAttribute } from "@animeaux/core";
 import type { Color } from "@prisma/client";
 import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
 import type { SerializeFrom } from "@remix-run/node";

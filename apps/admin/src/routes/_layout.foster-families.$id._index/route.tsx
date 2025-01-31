@@ -2,7 +2,7 @@ import { AnimalItem } from "#animals/item";
 import { AnimalSearchParams } from "#animals/search-params";
 import { Action } from "#core/actions";
 import { BaseLink } from "#core/base-link";
-import { Empty } from "#core/data-display/empty";
+import { SimpleEmpty } from "#core/data-display/empty";
 import { ErrorPage, getErrorTitle } from "#core/data-display/error-page";
 import { ErrorsInlineHelper } from "#core/data-display/errors";
 import { InlineHelper } from "#core/data-display/helper";
@@ -303,7 +303,7 @@ function FosterAnimalsCard() {
 
       <Card.Content hasHorizontalScroll={fosterAnimalCount > 0}>
         {fosterAnimalCount === 0 ? (
-          <Empty
+          <SimpleEmpty
             isCompact
             icon="🏡"
             iconAlt="Maison avec jardin"

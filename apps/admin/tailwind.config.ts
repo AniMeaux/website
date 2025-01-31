@@ -92,6 +92,7 @@ const theme: Config = {
       gridTemplateColumns: {
         "2-auto": "repeat(2, auto)",
         "fr-auto": "minmax(0, 1fr) auto",
+        "auto-fr": "auto minmax(0, 1fr)",
       },
 
       keyframes: {
@@ -196,6 +197,8 @@ function pluginIconSizes() {
       {
         values: {
           "20": "20px",
+          "80": "80px",
+          "120": "120px",
         },
       },
     );

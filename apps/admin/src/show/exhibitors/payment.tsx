@@ -28,25 +28,19 @@ export const PAYMENT_VALUES: Payment[] = [
 
 export function PaymentIcon({
   payment,
+  variant = "light",
   className,
 }: {
   payment: Payment;
+  variant?: "light" | "solid";
   className?: string;
 }) {
   return (
     <span title={PAYMENT_TRANSLATIONS[payment]} className={className}>
-      <Icon
-        href={ICON_NAME[payment].solid}
-        className={ICON_CLASS_NAME[payment]}
-      />
+      <Icon href={ICON_NAME[payment][variant]} />
     </span>
   );
 }
-
-const ICON_CLASS_NAME: Record<Payment, string> = {
-  [Payment.HAS_NOT_PAID]: "text-gray-900",
-  [Payment.HAS_PAID]: "text-green-600",
-};
 
 const ICON_NAME: Record<Payment, { light: IconName; solid: IconName }> = {
   [Payment.HAS_NOT_PAID]: {

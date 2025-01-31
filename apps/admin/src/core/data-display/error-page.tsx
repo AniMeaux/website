@@ -1,6 +1,6 @@
 import { Action } from "#core/actions";
 import { BaseLink } from "#core/base-link";
-import { Empty } from "#core/data-display/empty";
+import { SimpleEmpty } from "#core/data-display/empty";
 import { Routes } from "#core/navigation";
 import {
   isRouteErrorResponse,
@@ -19,7 +19,7 @@ export function ErrorPage() {
   const meta = STATUS_CODE_ERROR_META_DATA[status];
 
   return (
-    <Empty
+    <SimpleEmpty
       icon={meta.icon}
       iconAlt={meta.title}
       title={meta.title}

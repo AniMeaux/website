@@ -9,7 +9,7 @@ import { Action } from "#core/actions";
 import { BaseLink } from "#core/base-link";
 import { Paginator } from "#core/controllers/paginator";
 import { SortAndFiltersFloatingAction } from "#core/controllers/sort-and-filters-floating-action";
-import { Empty } from "#core/data-display/empty";
+import { SimpleEmpty } from "#core/data-display/empty";
 import { db } from "#core/db.server";
 import { Card } from "#core/layout/card";
 import { PageLayout } from "#core/layout/page";
@@ -232,7 +232,7 @@ export default function Route() {
                   ))}
                 </ul>
               ) : (
-                <Empty
+                <SimpleEmpty
                   isCompact
                   icon="🪹"
                   iconAlt="Nid vide"

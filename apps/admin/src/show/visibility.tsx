@@ -28,17 +28,16 @@ export const VISIBILITY_VALUES: Visibility[] = [
 
 export function VisibilityIcon({
   visibility,
+  variant = "light",
   className,
 }: {
   visibility: Visibility;
+  variant?: "light" | "solid";
   className?: string;
 }) {
   return (
     <span title={ICON_TITLE[visibility]} className={className}>
-      <Icon
-        href={ICON_NAME[visibility].solid}
-        className={ICON_CLASS_NAME[visibility]}
-      />
+      <Icon href={ICON_NAME[visibility][variant]} />
     </span>
   );
 }
@@ -46,11 +45,6 @@ export function VisibilityIcon({
 const ICON_TITLE: Record<Visibility, string> = {
   [Visibility.HIDDEN]: "N’est pas visible sur le site",
   [Visibility.VISIBLE]: "Est visible sur le site",
-};
-
-const ICON_CLASS_NAME: Record<Visibility, string> = {
-  [Visibility.HIDDEN]: "text-gray-900",
-  [Visibility.VISIBLE]: "text-green-600",
 };
 
 const ICON_NAME: Record<Visibility, { light: IconName; solid: IconName }> = {

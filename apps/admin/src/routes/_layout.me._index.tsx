@@ -6,7 +6,7 @@ import {
 } from "#animals/status";
 import { Action } from "#core/actions";
 import { BaseLink } from "#core/base-link";
-import { Empty } from "#core/data-display/empty";
+import { SimpleEmpty } from "#core/data-display/empty";
 import { inferInstanceColor } from "#core/data-display/instance-color";
 import { ItemList, SimpleItem } from "#core/data-display/item";
 import { db } from "#core/db.server";
@@ -236,7 +236,7 @@ function ManagedAnimalsCard() {
 
       <Card.Content hasHorizontalScroll={managedAnimalCount > 0}>
         {managedAnimalCount === 0 ? (
-          <Empty
+          <SimpleEmpty
             isCompact
             icon="🦤"
             iconAlt="Dodo bird"
@@ -312,7 +312,7 @@ function NonActiveManagedAnimalsCard() {
 
       <Card.Content hasHorizontalScroll={nonActiveManagedAnimalCount > 0}>
         {nonActiveManagedAnimalCount === 0 ? (
-          <Empty
+          <SimpleEmpty
             isCompact
             icon="📭"
             iconAlt="Boîte aux lettres ouverte avec drapeau abaissé"
