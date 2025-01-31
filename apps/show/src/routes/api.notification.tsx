@@ -1,6 +1,7 @@
 import { email } from "#core/emails.server";
 import { badRequest, unauthorized } from "#core/response.server";
 import { createEmailTemplateStatusUpdate } from "#exhibitors/application/emails.server";
+import { PublicProfileEmails } from "#exhibitors/profile/email.server";
 import { StandConfigurationEmails } from "#exhibitors/stand-configuration/email.server";
 import { zu } from "@animeaux/zod-utils";
 import type { ActionFunctionArgs } from "@remix-run/node";
@@ -12,6 +13,7 @@ export async function action({ request }: ActionFunctionArgs) {
   const action = zu
     .union([
       ActionSchemaApplicationStatusUpdated,
+      ActionSchemaPublicProfileTreated,
       ActionSchemaStandConfigurationTreated,
     ])
     .safeParse(await request.json());
@@ -25,6 +27,12 @@ export async function action({ request }: ActionFunctionArgs) {
       email.send.template(
         createEmailTemplateStatusUpdate(action.data.applicationId),
       );
+
+      return json({ ok: true });
+    }
+
+    case ActionSchemaPublicProfileTreated.shape.type.value: {
+      email.send.template(PublicProfileEmails.treated(action.data.exhibitorId));
 
       return json({ ok: true });
     }
@@ -46,6 +54,11 @@ export async function action({ request }: ActionFunctionArgs) {
 const ActionSchemaApplicationStatusUpdated = zu.object({
   type: zu.literal("application-status-updated"),
   applicationId: zu.string().uuid(),
+});
+
+const ActionSchemaPublicProfileTreated = zu.object({
+  type: zu.literal("public-profile-treated"),
+  exhibitorId: zu.string().uuid(),
 });
 
 const ActionSchemaStandConfigurationTreated = zu.object({

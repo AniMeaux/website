@@ -8,6 +8,7 @@ import { UserGroup } from "@prisma/client";
 import type { LoaderFunctionArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import type { MetaFunction } from "@remix-run/react";
+import { useLoaderData } from "@remix-run/react";
 import { promiseHash } from "remix-utils/promise";
 import { CardDescription } from "./card-description";
 import { CardOnStandAnimations } from "./card-on-stand-animations";
@@ -123,19 +124,33 @@ export function ErrorBoundary() {
 
 export default function Route() {
   return (
-    <PageLayout.Content className="grid grid-cols-1 gap-1 md:grid-cols-[minmax(0px,2fr)_minmax(250px,1fr)] md:items-start md:gap-2">
-      <div className="grid grid-cols-1 gap-1 md:col-start-2 md:row-start-1 md:gap-2">
-        <CardSituation />
-        <CardProfile />
-      </div>
+    <>
+      <Header />
 
-      <div className="grid grid-cols-1 gap-1 md:gap-2">
-        <CardDescription />
-        <CardStandConfiguration />
-        <CardOnStandAnimations />
+      <PageLayout.Content className="grid grid-cols-1 gap-1 md:grid-cols-[minmax(0px,2fr)_minmax(250px,1fr)] md:items-start md:gap-2">
+        <div className="grid grid-cols-1 gap-1 md:col-start-2 md:row-start-1 md:gap-2">
+          <CardSituation />
+          <CardProfile />
+        </div>
 
-        <div className="grid grid-cols-1 gap-1 md:grid-cols-2 md:gap-2"></div>
-      </div>
-    </PageLayout.Content>
+        <div className="grid grid-cols-1 gap-1 md:gap-2">
+          <CardDescription />
+          <CardStandConfiguration />
+          <CardOnStandAnimations />
+
+          <div className="grid grid-cols-1 gap-1 md:grid-cols-2 md:gap-2"></div>
+        </div>
+      </PageLayout.Content>
+    </>
+  );
+}
+
+export function Header() {
+  const { profile } = useLoaderData<typeof loader>();
+
+  return (
+    <PageLayout.Header.Root>
+      <PageLayout.Header.Title>{profile.name}</PageLayout.Header.Title>
+    </PageLayout.Header.Root>
   );
 }

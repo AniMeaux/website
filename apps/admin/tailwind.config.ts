@@ -196,6 +196,7 @@ function pluginIconSizes() {
       { icon: (value) => ({ "font-size": value }) },
       {
         values: {
+          "10": "10px",
           "20": "20px",
           "80": "80px",
           "120": "120px",

@@ -5,12 +5,10 @@ import { ControlledInput } from "#core/form-elements/controlled-input";
 import { Form } from "#core/form-elements/form";
 import { ToggleInput, ToggleInputList } from "#core/form-elements/toggle-input";
 import { Icon } from "#generated/icon";
-import { SORTED_ACTIVITY_FIELDS } from "#show/exhibitors/activity-field/activity-field";
+import { ActivityField } from "#show/exhibitors/activity-field/activity-field";
 import { ActivityFieldIcon } from "#show/exhibitors/activity-field/icon";
-import { TRANSLATION_BY_ACTIVITY_FIELD } from "#show/exhibitors/activity-field/translation";
-import { SORTED_ACTIVITY_TARGETS } from "#show/exhibitors/activity-target/activity-target";
+import { ActivityTarget } from "#show/exhibitors/activity-target/activity-target";
 import { ActivityTargetIcon } from "#show/exhibitors/activity-target/icon";
-import { TRANSLATION_BY_ACTIVITY_TARGET } from "#show/exhibitors/activity-target/translation";
 import {
   ApplicationStatusIcon,
   SORTED_STATUSES,
@@ -32,8 +30,7 @@ import {
   PaymentIcon,
 } from "#show/exhibitors/payment";
 import {
-  PROFILE_STATUS_TRANSLATION,
-  PROFILE_STATUS_VALUES,
+  ProfileStatus,
   ProfileStatusIcon,
 } from "#show/exhibitors/profile/status";
 import {
@@ -106,11 +103,11 @@ function FilterActivity() {
           </Form.Label>
 
           <ToggleInputList>
-            {SORTED_ACTIVITY_TARGETS.map((activityTarget) => (
+            {ActivityTarget.values.map((activityTarget) => (
               <ToggleInput
                 key={activityTarget}
                 type="checkbox"
-                label={TRANSLATION_BY_ACTIVITY_TARGET[activityTarget]}
+                label={ActivityTarget.translation[activityTarget]}
                 name={ExhibitorSearchParams.keys.targets}
                 value={activityTarget}
                 icon={
@@ -138,11 +135,11 @@ function FilterActivity() {
           </Form.Label>
 
           <ToggleInputList>
-            {SORTED_ACTIVITY_FIELDS.map((activityField) => (
+            {ActivityField.values.map((activityField) => (
               <ToggleInput
                 key={activityField}
                 type="checkbox"
-                label={TRANSLATION_BY_ACTIVITY_FIELD[activityField]}
+                label={ActivityField.translation[activityField]}
                 name={ExhibitorSearchParams.keys.fields}
                 value={activityField}
                 icon={
@@ -491,11 +488,11 @@ function FilterStatuses() {
           </Form.Label>
 
           <ToggleInputList>
-            {PROFILE_STATUS_VALUES.map((status) => (
+            {ProfileStatus.values.map((status) => (
               <ToggleInput
                 key={status}
                 type="checkbox"
-                label={PROFILE_STATUS_TRANSLATION[status]}
+                label={ProfileStatus.translation[status]}
                 name={ExhibitorSearchParams.keys.publicProfileStatuses}
                 value={status}
                 icon={<ProfileStatusIcon status={status} />}
@@ -514,11 +511,11 @@ function FilterStatuses() {
           </Form.Label>
 
           <ToggleInputList>
-            {PROFILE_STATUS_VALUES.map((status) => (
+            {ProfileStatus.values.map((status) => (
               <ToggleInput
                 key={status}
                 type="checkbox"
-                label={PROFILE_STATUS_TRANSLATION[status]}
+                label={ProfileStatus.translation[status]}
                 name={ExhibitorSearchParams.keys.descriptionStatuses}
                 value={status}
                 icon={<ProfileStatusIcon status={status} />}
@@ -535,11 +532,11 @@ function FilterStatuses() {
           </Form.Label>
 
           <ToggleInputList>
-            {PROFILE_STATUS_VALUES.map((status) => (
+            {ProfileStatus.values.map((status) => (
               <ToggleInput
                 key={status}
                 type="checkbox"
-                label={PROFILE_STATUS_TRANSLATION[status]}
+                label={ProfileStatus.translation[status]}
                 name={ExhibitorSearchParams.keys.onStandAnimationsStatuses}
                 value={status}
                 icon={<ProfileStatusIcon status={status} />}
