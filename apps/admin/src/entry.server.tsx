@@ -1,9 +1,11 @@
 import { checkEnv, getClientEnv } from "#core/env.server";
+import { initMonitoring } from "#core/monitoring.server";
 import { extendCurrentUserPreferences } from "#current-user/preferences.server";
 import { extendCurrentUserSession } from "#current-user/session.server";
 import type { EntryContext, HandleDataRequestFunction } from "@remix-run/node";
 import { createReadableStreamFromReadable } from "@remix-run/node";
 import { RemixServer } from "@remix-run/react";
+import { sentryHandleError } from "@sentry/remix";
 import { isbot } from "isbot";
 import { PassThrough } from "node:stream";
 import type { RenderToPipeableStreamOptions } from "react-dom/server";
@@ -11,6 +13,7 @@ import { renderToPipeableStream } from "react-dom/server";
 
 checkEnv();
 global.CLIENT_ENV = getClientEnv();
+initMonitoring();
 
 const ABORT_DELAY_MS = 5000;
 
@@ -78,6 +81,8 @@ export default async function handleRequest(
     setTimeout(abort, ABORT_DELAY_MS);
   });
 }
+
+export const handleError = sentryHandleError;
 
 export const handleDataRequest: HandleDataRequestFunction = async (
   response,

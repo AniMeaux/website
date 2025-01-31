@@ -3,6 +3,7 @@ import { BaseLink } from "#core/base-link";
 import { db } from "#core/db.server";
 import { SideBar } from "#core/layout/side-bar";
 import { TabBar } from "#core/layout/tab-bar";
+import { useCurrentUserForMonitoring } from "#core/monitoring.client";
 import { Routes } from "#core/navigation";
 import { getPageTitle } from "#core/page-title";
 import { DropdownSheet } from "#core/popovers/dropdown-sheet";
@@ -49,6 +50,8 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
 export default function Route() {
   const { currentUser } = useLoaderData<typeof loader>();
+
+  useCurrentUserForMonitoring(currentUser);
 
   return (
     <div className="grid grid-cols-1 items-start md:grid-cols-[auto,minmax(0px,1fr)]">

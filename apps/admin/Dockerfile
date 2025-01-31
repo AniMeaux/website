@@ -1,3 +1,5 @@
+ARG APPLICATION_VERSION
+
 # base node image
 FROM node:22.11-bullseye-slim as base
 
@@ -60,7 +62,8 @@ ADD ./libs/search-params-io ./libs/search-params-io
 ADD ./libs/tailwind-animation ./libs/tailwind-animation
 ADD ./libs/zod-utils ./libs/zod-utils
 ADD ./apps/admin ./apps/admin
-RUN yarn --cwd ./apps/admin build
+RUN --mount=type=secret,id=SENTRY_AUTH_TOKEN,env=SENTRY_AUTH_TOKEN \
+  yarn --cwd ./apps/admin build
 
 # Finally, build the production image with minimal footprint
 FROM base

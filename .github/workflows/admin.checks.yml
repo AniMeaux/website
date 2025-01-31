@@ -50,6 +50,8 @@ jobs:
           context: .
           file: ./apps/admin/Dockerfile
           tags: registry.fly.io/${{ steps.app_name.outputs.value }}:${{ github.head_ref }}-${{ github.sha }}
+          secrets: "SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_TOKEN }}"
+          build-args: APPLICATION_VERSION=${{ github.sha }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,mode=max,dest=/tmp/.buildx-cache-new
 

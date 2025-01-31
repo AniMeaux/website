@@ -48,6 +48,7 @@
     "@remix-run/react": "~2.9.2",
     "@remix-run/serve": "~2.9.2",
     "@sentry/remix": "^8.37.1",
+    "@sentry/vite-plugin": "^3.1.1",
     "@tailwindcss/container-queries": "^0.1.1",
     "algoliasearch": "^4.19.1",
     "autosize": "^6.0.1",

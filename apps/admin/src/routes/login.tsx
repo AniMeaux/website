@@ -5,6 +5,7 @@ import { Input } from "#core/form-elements/input";
 import { PasswordInput } from "#core/form-elements/password-input";
 import type { RouteHandle } from "#core/handles";
 import { AuthPage } from "#core/layout/auth-page";
+import { useCurrentUserForMonitoring } from "#core/monitoring.client";
 import { Routes } from "#core/navigation";
 import { getPageTitle } from "#core/page-title";
 import { NextSearchParams } from "#core/search-params";
@@ -97,6 +98,8 @@ export async function action({ request }: ActionFunctionArgs) {
 }
 
 export default function Route() {
+  useCurrentUserForMonitoring(null);
+
   const fetcher = useFetcher<typeof action>();
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);

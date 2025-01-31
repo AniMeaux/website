@@ -5,6 +5,7 @@ import { Form } from "#core/form-elements/form";
 import { PasswordInput } from "#core/form-elements/password-input";
 import type { RouteHandle } from "#core/handles";
 import { AuthPage } from "#core/layout/auth-page";
+import { useCurrentUserForMonitoring } from "#core/monitoring.client";
 import { Routes } from "#core/navigation";
 import { getPageTitle } from "#core/page-title";
 import { NextSearchParams } from "#core/search-params";
@@ -18,7 +19,7 @@ import type {
   MetaFunction,
 } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
-import { useFetcher } from "@remix-run/react";
+import { useFetcher, useLoaderData } from "@remix-run/react";
 import { useEffect, useRef } from "react";
 
 export const handle: RouteHandle = {
@@ -28,7 +29,15 @@ export const handle: RouteHandle = {
 export async function loader({ request }: LoaderFunctionArgs) {
   const currentUser = await db.currentUser.get(
     request,
-    { select: { shouldChangePassword: true } },
+    {
+      select: {
+        displayName: true,
+        email: true,
+        groups: true,
+        id: true,
+        shouldChangePassword: true,
+      },
+    },
     { skipPasswordChangeCheck: true },
   );
 
@@ -40,7 +49,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
     throw redirect(next);
   }
 
-  return null;
+  return json({ currentUser });
 }
 
 export const meta: MetaFunction = () => {
@@ -75,6 +84,10 @@ export async function action({ request }: ActionFunctionArgs) {
 }
 
 export default function Route() {
+  const { currentUser } = useLoaderData<typeof loader>();
+
+  useCurrentUserForMonitoring(currentUser);
+
   const fetcher = useFetcher<typeof action>();
   const passwordRef = useRef<HTMLInputElement>(null);
 
