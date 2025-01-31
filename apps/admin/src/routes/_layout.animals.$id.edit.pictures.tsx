@@ -3,7 +3,7 @@ import { getAnimalDisplayName } from "#animals/profile/name";
 import {
   CloudinaryUploadApiError,
   createCloudinaryUploadHandler,
-} from "#core/cloudinary.server";
+} from "#core/cloudinary/cloudinary-legacy.server";
 import { ErrorPage, getErrorTitle } from "#core/data-display/error-page";
 import { db } from "#core/db.server";
 import { NotFoundError } from "#core/errors.server";

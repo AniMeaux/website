@@ -25,6 +25,7 @@ export function checkEnv() {
  */
 export function getClientEnv() {
   return {
+    CLOUDINARY_CLOUD_NAME: process.env.CLOUDINARY_CLOUD_NAME,
     RUNTIME_ENV: process.env.RUNTIME_ENV,
     SENTRY_DSN: process.env.SENTRY_DSN,
     SENTRY_ENABLE_LOCAL: process.env.SENTRY_ENABLE_LOCAL,
@@ -48,6 +49,9 @@ declare global {
 }
 
 const processEnvSchema = zu.object({
+  CLOUDINARY_API_KEY: zu.string(),
+  CLOUDINARY_API_SECRET: zu.string(),
+  CLOUDINARY_CLOUD_NAME: zu.string(),
   GOOGLE_API_CLIENT_EMAIL: zu.string().optional(),
   GOOGLE_API_PRIVATE_KEY: zu.string().optional(),
   GOOGLE_DRIVE_ROOT_FOLDER_ID: zu.string(),

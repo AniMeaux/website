@@ -8,9 +8,6 @@ declare global {
       ALGOLIA_ADMIN_KEY?: string;
       ALGOLIA_ID?: string;
       APPLICATION_TOKEN?: string;
-      CLOUDINARY_API_KEY?: string;
-      CLOUDINARY_API_SECRET?: string;
-      CLOUDINARY_CLOUD_NAME?: string;
       DATABASE_URL?: string;
       ENABLE_CRONS?: "true" | "false";
       PUBLIC_HOST?: string;

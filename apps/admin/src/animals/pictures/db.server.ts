@@ -1,5 +1,5 @@
 import { getAllAnimalPictures } from "#animals/pictures/all-pictures";
-import { deleteImage } from "#core/cloudinary.server";
+import { deleteImage } from "#core/cloudinary/cloudinary-legacy.server";
 import { NotFoundError } from "#core/errors.server";
 import { prisma } from "#core/prisma.server";
 import type { Animal } from "@prisma/client";

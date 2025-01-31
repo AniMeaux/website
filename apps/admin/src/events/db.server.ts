@@ -1,4 +1,4 @@
-import { deleteImage } from "#core/cloudinary.server";
+import { deleteImage } from "#core/cloudinary/cloudinary-legacy.server";
 import { NotFoundError, PrismaErrorCodes } from "#core/errors.server";
 import { prisma } from "#core/prisma.server";
 import type { Event } from "@prisma/client";

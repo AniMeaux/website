@@ -1,7 +1,7 @@
 import {
   CloudinaryUploadApiError,
   createCloudinaryUploadHandler,
-} from "#core/cloudinary.server";
+} from "#core/cloudinary/cloudinary-legacy.server";
 import { ErrorPage } from "#core/data-display/error-page";
 import { db } from "#core/db.server";
 import { Card } from "#core/layout/card";

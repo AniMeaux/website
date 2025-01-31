@@ -29,6 +29,7 @@
   "dependencies": {
     "@algolia/client-search": "^4.22.1",
     "@animeaux/algolia-client": "*",
+    "@animeaux/cloudinary": "*",
     "@animeaux/core": "*",
     "@animeaux/form-data": "*",
     "@animeaux/google-client": "*",

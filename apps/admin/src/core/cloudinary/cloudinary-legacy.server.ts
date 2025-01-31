@@ -1,31 +1,11 @@
+import { cloudinary } from "#core/cloudinary/cloudinary.server";
 import type { UploadHandler } from "@remix-run/node";
 import { writeAsyncIterableToWritable } from "@remix-run/node";
 import type { UploadApiErrorResponse } from "cloudinary";
-import { v2 as cloudinary } from "cloudinary";
 import invariant from "tiny-invariant";
 import { v4 as uuid } from "uuid";
 
-invariant(
-  process.env.CLOUDINARY_CLOUD_NAME != null,
-  "CLOUDINARY_CLOUD_NAME must be defined",
-);
-
-invariant(
-  process.env.CLOUDINARY_API_KEY != null,
-  "CLOUDINARY_API_KEY must be defined",
-);
-
-invariant(
-  process.env.CLOUDINARY_API_SECRET != null,
-  "CLOUDINARY_API_SECRET must be defined",
-);
-
-cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
-});
-
+/** @deprecated */
 export class CloudinaryUploadApiError extends Error {
   status: number;
 
@@ -39,6 +19,7 @@ type CloudinaryUploadHandler = UploadHandler & {
   revert: () => Promise<void>;
 };
 
+/** @deprecated */
 export function createCloudinaryUploadHandler({
   filter,
 }: {
@@ -63,7 +44,7 @@ export function createCloudinaryUploadHandler({
     }
 
     return await new Promise<string>(async (resolve, reject) => {
-      const uploadStream = cloudinary.uploader.upload_stream(
+      const uploadStream = cloudinary.client.uploader.upload_stream(
         { public_id: uuid() },
         (error, result) => {
           if (error != null) {
@@ -92,9 +73,10 @@ export function createCloudinaryUploadHandler({
   return Object.assign(uploadHandler, { revert });
 }
 
+/** @deprecated */
 export async function deleteImage(image: string) {
   try {
-    await cloudinary.uploader.destroy(image);
+    await cloudinary.client.uploader.destroy(image);
   } catch (error) {
     console.error(`Could not delete image "${image}":`, error);
   }

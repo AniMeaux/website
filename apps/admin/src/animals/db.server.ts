@@ -12,7 +12,7 @@ import {
 import { AnimalSituationDbDelegate } from "#animals/situation/db.server";
 import { SORTED_SPECIES } from "#animals/species";
 import { algolia } from "#core/algolia/algolia.server";
-import { deleteImage } from "#core/cloudinary.server";
+import { deleteImage } from "#core/cloudinary/cloudinary-legacy.server";
 import { NotFoundError, PrismaErrorCodes } from "#core/errors.server";
 import { prisma } from "#core/prisma.server";
 import { ANIMAL_AGE_RANGE_BY_SPECIES } from "@animeaux/core";
