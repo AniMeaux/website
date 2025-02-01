@@ -332,10 +332,8 @@ export function FosterFamilyForm({
 
           <Form.Row>
             <Form.Field>
-              <Form.Label asChild>
-                <span>
-                  Disponibilité <RequiredStar />
-                </span>
+              <Form.Label>
+                Disponibilité <RequiredStar />
               </Form.Label>
 
               <RadioInputList>
@@ -423,13 +421,11 @@ export function FosterFamilyForm({
           <Separator />
 
           <Form.Field>
-            <Form.Label asChild>
-              <span>
-                Espèces à accueillir{" "}
-                {isCreate || defaultFosterFamily.speciesToHost.length !== 0 ? (
-                  <RequiredStar />
-                ) : null}
-              </span>
+            <Form.Label>
+              Espèces à accueillir{" "}
+              {isCreate || defaultFosterFamily.speciesToHost.length !== 0 ? (
+                <RequiredStar />
+              ) : null}
             </Form.Label>
 
             <CheckboxInputList>
@@ -456,9 +452,7 @@ export function FosterFamilyForm({
           </Form.Field>
 
           <Form.Field>
-            <Form.Label asChild>
-              <span>Espèces déjà présentes</span>
-            </Form.Label>
+            <Form.Label>Espèces déjà présentes</Form.Label>
 
             <CheckboxInputList>
               {SORTED_SPECIES.map((species) => (
@@ -507,10 +501,8 @@ function HousingField({
 }) {
   return (
     <Form.Field>
-      <Form.Label asChild>
-        <span>
-          Type de logement <RequiredStar />
-        </span>
+      <Form.Label>
+        Type de logement <RequiredStar />
       </Form.Label>
 
       <RadioInputList>
@@ -538,10 +530,8 @@ function GardenField({
 }) {
   return (
     <Form.Field>
-      <Form.Label asChild>
-        <span>
-          Présence d’un jardin <RequiredStar />
-        </span>
+      <Form.Label>
+        Présence d’un jardin <RequiredStar />
       </Form.Label>
 
       <RadioInputList>

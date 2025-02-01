@@ -82,10 +82,8 @@ export function BreedForm({
           </Form.Field>
 
           <Form.Field>
-            <Form.Label asChild>
-              <span>
-                Espèce <RequiredStar />
-              </span>
+            <Form.Label>
+              Espèce <RequiredStar />
             </Form.Label>
 
             <RadioInputList>

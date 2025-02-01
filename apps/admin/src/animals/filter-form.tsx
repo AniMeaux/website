@@ -461,9 +461,7 @@ export function AnimalFilters({
         >
           <Form.Fields>
             <Form.Field>
-              <Form.Label asChild>
-                <span>Raison</span>
-              </Form.Label>
+              <Form.Label>Raison</Form.Label>
 
               <ToggleInputList>
                 {SORTED_PICK_UP_REASON.map((pickUpReason) => (
@@ -556,9 +554,7 @@ export function AnimalFilters({
             </Form.Field>
 
             <Form.Field>
-              <Form.Label asChild>
-                <span>Lieu</span>
-              </Form.Label>
+              <Form.Label>Lieu</Form.Label>
 
               <ToggleInputList>
                 {possiblePickUpLocations.map((location) => (
@@ -1142,9 +1138,7 @@ function ScreeningAndDiagnosisFilter({
     >
       <Form.Fields>
         <Form.Field>
-          <Form.Label asChild>
-            <span>FIV</span>
-          </Form.Label>
+          <Form.Label>FIV</Form.Label>
 
           <ToggleInputList>
             {SORTED_SCREENING_RESULTS.map((result) => (
@@ -1163,9 +1157,7 @@ function ScreeningAndDiagnosisFilter({
         </Form.Field>
 
         <Form.Field>
-          <Form.Label asChild>
-            <span>FeLV</span>
-          </Form.Label>
+          <Form.Label>FeLV</Form.Label>
 
           <ToggleInputList>
             {SORTED_SCREENING_RESULTS.map((result) => (
@@ -1185,9 +1177,7 @@ function ScreeningAndDiagnosisFilter({
 
         {isCurrentUserAnimalAdmin ? (
           <Form.Field>
-            <Form.Label asChild>
-              <span>Diagnose</span>
-            </Form.Label>
+            <Form.Label>Diagnose</Form.Label>
 
             <ToggleInputList>
               {SORTED_DIAGNOSIS.map((diagnosis) => (

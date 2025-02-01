@@ -128,10 +128,8 @@ export function UserForm({
           </Form.Field>
 
           <Form.Field>
-            <Form.Label asChild>
-              <span>
-                Groupes <RequiredStar />
-              </span>
+            <Form.Label>
+              Groupes <RequiredStar />
             </Form.Label>
 
             <CheckboxInputList>

@@ -79,14 +79,19 @@ Form.Field = function FormField({
 };
 
 Form.Label = function FormLabel({
+  htmlFor,
   className,
-  ...rest
+  ...props
 }: React.ComponentPropsWithoutRef<typeof Primitive.label>) {
+  const Component = htmlFor == null ? Primitive.span : Primitive.label;
+
   return (
-    <Primitive.label
-      {...rest}
+    <Component
+      {...props}
+      htmlFor={htmlFor}
       className={cn(
-        "text-gray-500 text-caption-default [label&]:cursor-pointer",
+        "text-gray-500 text-caption-default",
+        htmlFor != null ? "cursor-pointer" : undefined,
         className,
       )}
     />

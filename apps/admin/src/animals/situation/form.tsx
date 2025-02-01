@@ -180,10 +180,8 @@ export function AnimalSituationForm({
           <Form.Errors errors={fetcher.data?.errors?.formErrors} />
 
           <Form.Field>
-            <Form.Label asChild>
-              <span>
-                Statut <RequiredStar />
-              </span>
+            <Form.Label>
+              Statut <RequiredStar />
             </Form.Label>
 
             <RadioInputList>
@@ -234,10 +232,8 @@ export function AnimalSituationForm({
               </Form.Field>
 
               <Form.Field>
-                <Form.Label asChild>
-                  <span>
-                    Option d’adoption <RequiredStar />
-                  </span>
+                <Form.Label>
+                  Option d’adoption <RequiredStar />
                 </Form.Label>
 
                 <RadioInputList>
@@ -262,13 +258,11 @@ export function AnimalSituationForm({
           <Separator />
 
           <Form.Field>
-            <Form.Label asChild>
-              <span>
-                Responsable{" "}
-                {isCreate || defaultAnimal?.manager != null ? (
-                  <RequiredStar />
-                ) : null}
-              </span>
+            <Form.Label>
+              Responsable{" "}
+              {isCreate || defaultAnimal?.manager != null ? (
+                <RequiredStar />
+              ) : null}
             </Form.Label>
 
             <ManagerInput
@@ -324,13 +318,11 @@ export function AnimalSituationForm({
             </Form.Field>
 
             <Form.Field>
-              <Form.Label asChild>
-                <span>
-                  Lieux de prise en charge{" "}
-                  {isCreate || defaultAnimal?.pickUpLocation != null ? (
-                    <RequiredStar />
-                  ) : null}
-                </span>
+              <Form.Label>
+                Lieux de prise en charge{" "}
+                {isCreate || defaultAnimal?.pickUpLocation != null ? (
+                  <RequiredStar />
+                ) : null}
               </Form.Label>
 
               <PickUpLocationInput
@@ -352,10 +344,8 @@ export function AnimalSituationForm({
           </Form.Row>
 
           <Form.Field>
-            <Form.Label asChild>
-              <span>
-                Raison de la prise en charge <RequiredStar />
-              </span>
+            <Form.Label>
+              Raison de la prise en charge <RequiredStar />
             </Form.Label>
 
             <RadioInputList>
@@ -379,9 +369,7 @@ export function AnimalSituationForm({
               <Separator />
 
               <Form.Field>
-                <Form.Label asChild>
-                  <span>Famille d’accueil</span>
-                </Form.Label>
+                <Form.Label>Famille d’accueil</Form.Label>
 
                 <FosterFamilyInput
                   name={ActionFormData.keys.fosterFamilyId}
@@ -394,10 +382,8 @@ export function AnimalSituationForm({
           <Separator />
 
           <Form.Field>
-            <Form.Label asChild>
-              <span>
-                Stérilisé <RequiredStar />
-              </span>
+            <Form.Label>
+              Stérilisé <RequiredStar />
             </Form.Label>
 
             <RadioInputList>
@@ -443,10 +429,8 @@ export function AnimalSituationForm({
 
           <Form.Row>
             <Form.Field>
-              <Form.Label asChild>
-                <span>
-                  Vaccination <RequiredStar />
-                </span>
+              <Form.Label>
+                Vaccination <RequiredStar />
               </Form.Label>
 
               <RadioInputList>
@@ -513,10 +497,8 @@ export function AnimalSituationForm({
           {defaultAnimal?.species === Species.CAT ? (
             <Form.Row>
               <Form.Field>
-                <Form.Label asChild>
-                  <span>
-                    Dépistage FIV <RequiredStar />
-                  </span>
+                <Form.Label>
+                  Dépistage FIV <RequiredStar />
                 </Form.Label>
 
                 <RadioInputList>
@@ -536,10 +518,8 @@ export function AnimalSituationForm({
               </Form.Field>
 
               <Form.Field>
-                <Form.Label asChild>
-                  <span>
-                    Dépistage FeLV <RequiredStar />
-                  </span>
+                <Form.Label>
+                  Dépistage FeLV <RequiredStar />
                 </Form.Label>
 
                 <RadioInputList>
@@ -598,10 +578,8 @@ function DiagnosisField({ defaultAnimal }: { defaultAnimal?: DefaultAnimal }) {
 
   return (
     <Form.Field>
-      <Form.Label asChild>
-        <span>
-          Diagnose <RequiredStar />
-        </span>
+      <Form.Label>
+        Diagnose <RequiredStar />
       </Form.Label>
 
       <RadioInputList>
