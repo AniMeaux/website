@@ -4,6 +4,7 @@ import { FileItem } from "#core/data-display/file-item";
 import { ARTICLE_COMPONENTS, Markdown } from "#core/data-display/markdown";
 import { Form } from "#core/form-elements/form";
 import { Card } from "#core/layout/card";
+import { Routes } from "#core/navigation";
 import {
   DocumentsStatus,
   DocumentsStatusIcon,
@@ -13,7 +14,7 @@ import { useLoaderData } from "@remix-run/react";
 import type { loader } from "./route";
 
 export function CardDocuments() {
-  const { documents } = useLoaderData<typeof loader>();
+  const { exhibitor, documents } = useLoaderData<typeof loader>();
 
   const filesItems = [
     { label: "Pièce d’identité", file: documents.identificationFile },
@@ -33,6 +34,16 @@ export function CardDocuments() {
           >
             <Action.Icon href="icon-google-drive-solid" />
             Dossier Drive
+          </BaseLink>
+        </Action>
+
+        <Action variant="text" asChild>
+          <BaseLink
+            to={Routes.show.exhibitors
+              .id(exhibitor.id)
+              .edit.documents.toString()}
+          >
+            Modifier
           </BaseLink>
         </Action>
       </Card.Header>
