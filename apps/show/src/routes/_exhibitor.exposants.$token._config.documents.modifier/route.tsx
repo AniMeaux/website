@@ -6,7 +6,7 @@ import { Routes } from "#core/navigation";
 import { getPageTitle } from "#core/page-title";
 import { badRequest } from "#core/response.server";
 import { services } from "#core/services/services.server";
-import { createEmailTemplateRequest } from "#exhibitors/documents/email.server";
+import { DocumentsEmails } from "#exhibitors/documents/email.server";
 import { RouteParamsSchema } from "#exhibitors/route-params";
 import { safeParseRouteParam } from "@animeaux/zod-utils";
 import { parseWithZod } from "@conform-to/zod";
@@ -116,7 +116,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
     throw error;
   }
 
-  email.send.template(createEmailTemplateRequest(routeParams.token));
+  email.send.template(DocumentsEmails.submitted(routeParams.token));
 
   throw redirect(
     Routes.exhibitors.token(routeParams.token).documents.toString(),

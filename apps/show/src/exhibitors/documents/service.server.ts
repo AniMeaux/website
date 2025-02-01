@@ -1,7 +1,7 @@
 import { prisma } from "#core/prisma.server";
 import { notFound } from "#core/response.server";
 import { Service } from "#core/services/service.server";
-import type { Prisma } from "@prisma/client";
+import type { Prisma, ShowExhibitorDocuments } from "@prisma/client";
 import { ShowExhibitorDocumentsStatus } from "@prisma/client";
 import { promiseHash } from "remix-utils/promise";
 
@@ -22,6 +22,22 @@ export class ServiceDocuments extends Service {
     return exhibitor.documents;
   }
 
+  async getByExhibitor<T extends Prisma.ShowExhibitorDocumentsSelect>(
+    exhibitorId: string,
+    params: { select: T },
+  ) {
+    const documents = await prisma.showExhibitorDocuments.findUnique({
+      where: { exhibitorId },
+      select: params.select,
+    });
+
+    if (documents == null) {
+      throw notFound();
+    }
+
+    return documents;
+  }
+
   async getFilesByToken(token: string) {
     const exhibitor = await prisma.showExhibitor.findUnique({
       where: { token },
@@ -40,12 +56,36 @@ export class ServiceDocuments extends Service {
       throw notFound();
     }
 
+    return await this.#getFiles(exhibitor.documents);
+  }
+
+  async getFilesByExhibitor(exhibitorId: string) {
+    const documents = await prisma.showExhibitorDocuments.findUnique({
+      where: { exhibitorId },
+      select: {
+        identificationFileId: true,
+        insuranceFileId: true,
+        kbisFileId: true,
+      },
+    });
+
+    if (documents == null) {
+      throw notFound();
+    }
+
+    return await this.#getFiles(documents);
+  }
+
+  async #getFiles(
+    documents: Pick<
+      ShowExhibitorDocuments,
+      "identificationFileId" | "insuranceFileId" | "kbisFileId"
+    >,
+  ) {
     return await promiseHash({
-      identificationFile: this.#getFileMaybe(
-        exhibitor.documents.identificationFileId,
-      ),
-      insuranceFile: this.#getFileMaybe(exhibitor.documents.insuranceFileId),
-      kbisFile: this.#getFileMaybe(exhibitor.documents.kbisFileId),
+      identificationFile: this.#getFileMaybe(documents.identificationFileId),
+      insuranceFile: this.#getFileMaybe(documents.insuranceFileId),
+      kbisFile: this.#getFileMaybe(documents.kbisFileId),
     });
   }
 

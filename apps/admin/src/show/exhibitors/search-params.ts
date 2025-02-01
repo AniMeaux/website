@@ -1,4 +1,5 @@
 import type { IconName } from "#generated/icon";
+import { DocumentsStatus } from "#show/exhibitors/documents/status";
 import { Payment } from "#show/exhibitors/payment";
 import { ProfileStatus } from "#show/exhibitors/profile/status";
 import { StandConfigurationStatus } from "#show/exhibitors/stand-configuration/status";
@@ -9,7 +10,6 @@ import {
   ShowActivityField,
   ShowActivityTarget,
   ShowExhibitorApplicationStatus,
-  ShowExhibitorDocumentsStatus,
   ShowExhibitorDogsConfigurationStatus,
   ShowPartnershipCategory,
 } from "@prisma/client";
@@ -204,7 +204,7 @@ const SearchParamsSchema = zu.object({
     zu.searchParams.nativeEnum(ProfileStatus.Enum),
   ),
   documentsStatuses: zu.searchParams.set(
-    zu.searchParams.nativeEnum(ShowExhibitorDocumentsStatus),
+    zu.searchParams.nativeEnum(DocumentsStatus.Enum),
   ),
   dogsConfigurationStatuses: zu.searchParams.set(
     zu.searchParams.nativeEnum(ShowExhibitorDogsConfigurationStatus),

@@ -11,6 +11,7 @@ import type { MetaFunction } from "@remix-run/react";
 import { useLoaderData } from "@remix-run/react";
 import { promiseHash } from "remix-utils/promise";
 import { CardDescription } from "./card-description";
+import { CardDocuments } from "./card-documents";
 import { CardOnStandAnimations } from "./card-on-stand-animations";
 import { CardProfile } from "./card-profile";
 import { CardSituation } from "./card-situation";
@@ -28,73 +29,93 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
 
   const routeParams = safeParseRouteParam(RouteParamsSchema, params);
 
-  const { exhibitor, application, profile, standConfiguration } =
-    await promiseHash({
-      exhibitor: db.show.exhibitor.findUnique(routeParams.id, {
+  const {
+    exhibitor,
+    application,
+    documents,
+    files,
+    profile,
+    standConfiguration,
+  } = await promiseHash({
+    exhibitor: db.show.exhibitor.findUnique(routeParams.id, {
+      select: {
+        id: true,
+        isVisible: true,
+        token: true,
+        hasPaid: true,
+      },
+    }),
+
+    application: db.show.exhibitor.application.findUniqueByExhibitor(
+      routeParams.id,
+      {
         select: {
           id: true,
-          isVisible: true,
-          token: true,
-          hasPaid: true,
+          status: true,
         },
-      }),
+      },
+    ),
 
-      application: db.show.exhibitor.application.findUniqueByExhibitor(
+    documents: db.show.exhibitor.documents.findUniqueByExhibitor(
+      routeParams.id,
+      {
+        select: {
+          status: true,
+          statusMessage: true,
+          folderId: true,
+        },
+      },
+    ),
+
+    files: db.show.exhibitor.documents.getFilesByExhibitor(routeParams.id),
+
+    profile: db.show.exhibitor.profile.findUniqueByExhibitor(routeParams.id, {
+      select: {
+        activityFields: true,
+        activityTargets: true,
+        description: true,
+        descriptionStatus: true,
+        descriptionStatusMessage: true,
+        links: true,
+        logoPath: true,
+        name: true,
+        onStandAnimations: true,
+        onStandAnimationsStatus: true,
+        onStandAnimationsStatusMessage: true,
+        publicProfileStatus: true,
+        publicProfileStatusMessage: true,
+      },
+    }),
+
+    standConfiguration:
+      db.show.exhibitor.standConfiguration.findUniqueByExhibitor(
         routeParams.id,
         {
           select: {
-            id: true,
+            chairCount: true,
+            dividerCount: true,
+            dividerType: true,
+            hasElectricalConnection: true,
+            hasTablecloths: true,
+            installationDay: true,
+            locationNumber: true,
+            peopleCount: true,
+            placementComment: true,
+            size: true,
+            standNumber: true,
             status: true,
+            statusMessage: true,
+            tableCount: true,
+            zone: true,
           },
         },
       ),
-
-      profile: db.show.exhibitor.profile.findUniqueByExhibitor(routeParams.id, {
-        select: {
-          activityFields: true,
-          activityTargets: true,
-          description: true,
-          descriptionStatus: true,
-          descriptionStatusMessage: true,
-          links: true,
-          logoPath: true,
-          name: true,
-          onStandAnimations: true,
-          onStandAnimationsStatus: true,
-          onStandAnimationsStatusMessage: true,
-          publicProfileStatus: true,
-          publicProfileStatusMessage: true,
-        },
-      }),
-
-      standConfiguration:
-        db.show.exhibitor.standConfiguration.findUniqueByExhibitor(
-          routeParams.id,
-          {
-            select: {
-              chairCount: true,
-              dividerCount: true,
-              dividerType: true,
-              hasElectricalConnection: true,
-              hasTablecloths: true,
-              installationDay: true,
-              locationNumber: true,
-              peopleCount: true,
-              placementComment: true,
-              size: true,
-              standNumber: true,
-              status: true,
-              statusMessage: true,
-              tableCount: true,
-              zone: true,
-            },
-          },
-        ),
-    });
+  });
 
   return json({
     exhibitor,
     application,
+    documents: { ...documents, ...files },
     profile,
     standConfiguration,
   });
@@ -136,6 +157,7 @@ export default function Route() {
         <div className="grid grid-cols-1 gap-1 md:gap-2">
           <CardDescription />
           <CardStandConfiguration />
+          <CardDocuments />
           <CardOnStandAnimations />
 
           <div className="grid grid-cols-1 gap-1 md:grid-cols-2 md:gap-2"></div>

@@ -292,9 +292,7 @@ function HousingFilter() {
     >
       <Form.Fields>
         <Form.Field>
-          <Form.Label asChild>
-            <span>Type de logement</span>
-          </Form.Label>
+          <Form.Label>Type de logement</Form.Label>
 
           <ToggleInputList>
             {SORTED_HOUSING.map((housing) => (
@@ -313,9 +311,7 @@ function HousingFilter() {
         </Form.Field>
 
         <Form.Field>
-          <Form.Label asChild>
-            <span>Jardin</span>
-          </Form.Label>
+          <Form.Label>Jardin</Form.Label>
 
           <ToggleInputList>
             {SORTED_GARDEN.map((garden) => (

@@ -42,10 +42,8 @@ export function FieldOnOff({
 }) {
   return (
     <Form.Field>
-      <Form.Label asChild>
-        <span>
-          {label} {field.required || required ? <RequiredStar /> : null}
-        </span>
+      <Form.Label>
+        {label} {field.required || required ? <RequiredStar /> : null}
       </Form.Label>
 
       <FieldChoices>
