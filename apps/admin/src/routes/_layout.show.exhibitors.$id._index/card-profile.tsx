@@ -25,7 +25,7 @@ export function CardProfile() {
       <Card.Header>
         <Card.Title>Profil public</Card.Title>
 
-        <Action asChild variant="text">
+        <Action variant="text" asChild>
           <BaseLink
             to={Routes.show.exhibitors
               .id(exhibitor.id)

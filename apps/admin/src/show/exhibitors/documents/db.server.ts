@@ -1,7 +1,9 @@
+import { PrismaErrorCodes } from "#core/errors.server";
 import { googleClient } from "#core/google-client.server";
+import { notifyShowApp } from "#core/notification.server";
 import { prisma } from "#core/prisma.server";
 import { notFound } from "#core/response.server";
-import type { Prisma } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 import { promiseHash } from "remix-utils/promise";
 
 export class ShowExhibitorDocumentsDbDelegate {
@@ -49,4 +51,34 @@ export class ShowExhibitorDocumentsDbDelegate {
 
     return googleClient.getFile(fileId);
   }
+
+  async update(exhibitorId: string, data: ShowExhibitorDocumentsData) {
+    try {
+      await prisma.showExhibitor.update({
+        where: { id: exhibitorId },
+        data: {
+          updatedAt: new Date(),
+          documents: { update: data },
+        },
+      });
+    } catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === PrismaErrorCodes.NOT_FOUND) {
+          throw notFound();
+        }
+      }
+
+      throw error;
+    }
+
+    await notifyShowApp({
+      type: "documents-treated",
+      exhibitorId,
+    });
+  }
 }
+
+type ShowExhibitorDocumentsData = Pick<
+  Prisma.ShowExhibitorDocumentsUpdateInput,
+  "status" | "statusMessage"
+>;
