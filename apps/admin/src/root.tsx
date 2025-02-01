@@ -131,7 +131,12 @@ function Document({ children }: { children: React.ReactNode }) {
         className={cn(
           // Make sure children with absolute positionning are correctly placed.
           "relative",
-          { "h-full": isFullHeight },
+
+          // Remove bounce effect when scrolling, which doesn't feel right with
+          // PWA.
+          "overscroll-y-none",
+
+          isFullHeight ? "h-full" : undefined,
           "flex flex-col text-gray-800 text-body-default",
         )}
       >
