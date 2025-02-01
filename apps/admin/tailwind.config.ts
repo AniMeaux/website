@@ -128,6 +128,7 @@ const theme: Config = {
     pluginFocusVisible(),
     pluginHover(),
     pluginIconSizes(),
+    pluginMediaHover(),
     pluginRingOutset(),
     pluginSafePadding(),
     pluginSafePosition(),
@@ -182,7 +183,6 @@ function pluginFocusVisible() {
 function pluginHover() {
   return plugin(({ addVariant }) => {
     addVariant("hover", "@media(any-hover:hover){&:hover}");
-    addVariant("group-hover", "@media(any-hover:hover){.group:hover &}");
   });
 }
 
@@ -203,6 +203,15 @@ function pluginIconSizes() {
         },
       },
     );
+  });
+}
+
+/**
+ * Alias of `[@media(any-hover:hover)]:`.
+ */
+function pluginMediaHover() {
+  return plugin(({ addVariant }) => {
+    addVariant("can-hover", "@media(any-hover:hover){&}");
   });
 }
 

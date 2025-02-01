@@ -51,14 +51,14 @@ Steps.Step = function Step({
     <BaseLink
       to={to}
       replace
-      className="group flex gap-0.5 rounded-0.5 text-caption-emphasis focus-visible:focus-spaced-blue-400"
+      className="group/step flex gap-0.5 rounded-0.5 text-caption-emphasis focus-visible:focus-spaced-blue-400"
     >
       <span
         className={cn(
           "flex h-2 w-2 items-center justify-center rounded-0.5 border",
           isActive
             ? "border-blue-500 bg-blue-500 text-white"
-            : "border-gray-200 text-gray-500 group-hover:text-gray-800",
+            : "border-gray-200 text-gray-500 can-hover:group-hover/step:text-gray-800",
         )}
       >
         {stepIndex}
@@ -66,7 +66,9 @@ Steps.Step = function Step({
 
       <span
         className={
-          isActive ? "text-gray-800" : "text-gray-500 group-hover:text-gray-800"
+          isActive
+            ? "text-gray-800"
+            : "text-gray-500 can-hover:group-hover/step:text-gray-800"
         }
       >
         {children}
