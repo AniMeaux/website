@@ -65,10 +65,8 @@ function FieldLogo() {
 
   return (
     <Form.Field>
-      <Form.Label asChild>
-        <span>
-          Logo <RequiredStar />
-        </span>
+      <Form.Label>
+        Logo <RequiredStar />
       </Form.Label>
 
       <DynamicImage

@@ -149,10 +149,8 @@ export function AnimalProfileForm({
           <Form.Errors errors={fetcher.data?.errors?.formErrors} />
 
           <Form.Field>
-            <Form.Label asChild>
-              <span>
-                Espèce <RequiredStar />
-              </span>
+            <Form.Label>
+              Espèce <RequiredStar />
             </Form.Label>
 
             <RadioInputList>
@@ -252,10 +250,8 @@ export function AnimalProfileForm({
           </Form.Field>
 
           <Form.Field>
-            <Form.Label asChild>
-              <span>
-                Genre <RequiredStar />
-              </span>
+            <Form.Label>
+              Genre <RequiredStar />
             </Form.Label>
 
             <RadioInputList>
@@ -303,9 +299,7 @@ export function AnimalProfileForm({
 
           <Form.Row>
             <Form.Field>
-              <Form.Label asChild>
-                <span>Race</span>
-              </Form.Label>
+              <Form.Label>Race</Form.Label>
 
               <BreedInput
                 ref={breedRef}
@@ -324,9 +318,7 @@ export function AnimalProfileForm({
             </Form.Field>
 
             <Form.Field>
-              <Form.Label asChild>
-                <span>Couleur</span>
-              </Form.Label>
+              <Form.Label>Couleur</Form.Label>
 
               <ColorInput
                 ref={colorRef}
@@ -347,10 +339,8 @@ export function AnimalProfileForm({
           <Separator />
 
           <Form.Field>
-            <Form.Label asChild>
-              <span>
-                Ok chats <RequiredStar />
-              </span>
+            <Form.Label>
+              Ok chats <RequiredStar />
             </Form.Label>
 
             <RadioInputList>
@@ -378,10 +368,8 @@ export function AnimalProfileForm({
           </Form.Field>
 
           <Form.Field>
-            <Form.Label asChild>
-              <span>
-                Ok chiens <RequiredStar />
-              </span>
+            <Form.Label>
+              Ok chiens <RequiredStar />
             </Form.Label>
 
             <RadioInputList>
@@ -409,10 +397,8 @@ export function AnimalProfileForm({
           </Form.Field>
 
           <Form.Field>
-            <Form.Label asChild>
-              <span>
-                Ok enfants <RequiredStar />
-              </span>
+            <Form.Label>
+              Ok enfants <RequiredStar />
             </Form.Label>
 
             <RadioInputList>

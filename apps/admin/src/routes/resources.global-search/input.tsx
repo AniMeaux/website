@@ -440,7 +440,7 @@ function Tabs({
 
 function Tab({ children }: { children?: React.ReactNode }) {
   return (
-    <label className="group relative z-0 flex cursor-pointer rounded-0.5 focus-within:z-10">
+    <label className="group/tab relative z-0 flex cursor-pointer rounded-0.5 focus-within:z-10">
       {children}
     </label>
   );
@@ -450,7 +450,7 @@ function TabInput(props: React.InputHTMLAttributes<HTMLInputElement>) {
   return (
     <input
       {...props}
-      className="peer absolute left-0 top-0 -z-10 h-full w-full cursor-pointer appearance-none rounded-0.5 transition-colors duration-100 ease-in-out checked:bg-blue-50 focus-visible:focus-spaced-blue-400 group-hover:bg-gray-100 group-hover:checked:bg-blue-50"
+      className="peer absolute left-0 top-0 -z-10 h-full w-full cursor-pointer appearance-none rounded-0.5 transition-colors duration-100 ease-in-out checked:bg-blue-50 focus-visible:focus-spaced-blue-400 can-hover:group-hover/tab:bg-gray-100 can-hover:group-hover/tab:checked:bg-blue-50"
     />
   );
 }

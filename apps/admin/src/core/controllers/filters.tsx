@@ -88,13 +88,13 @@ Filters.Filter = function Filter({
             openedFilter === value ? null : value,
           )
         }
-        className="group grid w-full grid-flow-col grid-cols-1 items-start rounded-0.5 text-left focus:z-10 focus-visible:focus-spaced-blue-400"
+        className="group/filter grid w-full grid-flow-col grid-cols-1 items-start rounded-0.5 text-left focus:z-10 focus-visible:focus-spaced-blue-400"
       >
         <span
           className={cn(
             "py-1 transition-colors duration-100 ease-in-out text-body-emphasis",
             {
-              "text-gray-500 group-hover:text-inherit":
+              "text-gray-500 can-hover:group-hover/filter:text-inherit":
                 !isOpened && count === 0,
             },
           )}
@@ -115,7 +115,7 @@ Filters.Filter = function Filter({
             "flex h-4 w-4 items-center justify-center transition-[color,transform] duration-100 ease-in-out",
             isOpened
               ? "-rotate-90 text-gray-600"
-              : "text-gray-500 group-hover:text-gray-600",
+              : "text-gray-500 can-hover:group-hover/filter:text-gray-600",
           )}
         >
           <Icon href="icon-angle-right-solid" />

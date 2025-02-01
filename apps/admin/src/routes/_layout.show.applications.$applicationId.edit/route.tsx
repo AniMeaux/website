@@ -201,10 +201,8 @@ function ApplicationForm() {
           <Form.Errors errors={fetcher.data?.errors?.formErrors} />
 
           <Form.Field>
-            <Form.Label asChild>
-              <span>
-                Statut <RequiredStar />
-              </span>
+            <Form.Label>
+              Statut <RequiredStar />
             </Form.Label>
 
             <RadioInputList>

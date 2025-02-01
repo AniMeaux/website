@@ -178,9 +178,7 @@ export function ApplicationFilters() {
         >
           <Form.Fields>
             <Form.Field>
-              <Form.Label asChild>
-                <span>Cibles</span>
-              </Form.Label>
+              <Form.Label>Cibles</Form.Label>
 
               <ToggleInputList>
                 {ActivityTarget.values.map((activityTarget) => (
@@ -212,9 +210,7 @@ export function ApplicationFilters() {
             </Form.Field>
 
             <Form.Field>
-              <Form.Label asChild>
-                <span>Domaines d’activités</span>
-              </Form.Label>
+              <Form.Label>Domaines d’activités</Form.Label>
 
               <ToggleInputList>
                 {ActivityField.values.map((activityField) => (

@@ -139,14 +139,7 @@ export function AnimalItem({
             <Icon href={GENDER_ICON[animal.gender]} />
           </span>
 
-          <span
-            className={cn(
-              "flex-1 transition-colors duration-100 ease-in-out text-body-emphasis",
-              animal.gender === Gender.FEMALE
-                ? "group-hover:text-pink-500"
-                : "group-hover:text-blue-500",
-            )}
-          >
+          <span className="flex-1 transition-colors duration-100 ease-in-out text-body-emphasis">
             {getAnimalDisplayName(animal)}
           </span>
         </p>

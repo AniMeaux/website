@@ -15,7 +15,7 @@ export const FileItem = {
         {...props}
         ref={ref}
         className={cn(
-          "group/item relative grid aspect-3/4 grid-cols-1 rounded-2 border border-mystic-200",
+          "group/item relative grid aspect-3/4 grid-cols-1 rounded-2 border border-gray-200",
           className,
         )}
       />
@@ -26,13 +26,13 @@ export const FileItem = {
     React.ComponentRef<typeof Icon>,
     Except<
       React.ComponentPropsWithoutRef<typeof Icon>,
-      "id" | "width" | "height"
+      "href" | "width" | "height"
     > & {
-      id?: IconName;
+      href?: IconName;
       mimeType?: string;
     }
   >(function FileItemIcon(
-    { mimeType, id = getMimeTypeIcon(mimeType), className, ...props },
+    { mimeType, href = getMimeTypeIcon(mimeType), className, ...props },
     ref,
   ) {
     return (
@@ -45,10 +45,10 @@ export const FileItem = {
         <Icon
           {...props}
           ref={ref}
-          id={id}
+          href={href}
           width="42%"
           height={undefined}
-          className="aspect-square text-mystic"
+          className="aspect-square"
         />
       </div>
     );
@@ -88,7 +88,7 @@ export const FileItem = {
         {...props}
         ref={ref}
         className={cn(
-          "absolute inset-x-0 bottom-0 rounded-b-[inherit] border-t border-mystic-200 bg-white p-1 text-center text-caption-lowercase-default",
+          "absolute inset-x-0 bottom-0 rounded-b-[inherit] border-t border-[inherit] bg-white p-1 text-center text-caption-default",
           className,
         )}
       >
@@ -100,16 +100,16 @@ export const FileItem = {
 
 function getMimeTypeIcon(mimeType?: string): IconName {
   if (mimeType == null) {
-    return "empty-set-light";
+    return "icon-empty-set-light";
   }
 
   if (mimeType === "application/pdf") {
-    return "file-pdf-light";
+    return "icon-file-pdf-light";
   }
 
   if (mimeType.startsWith("image/")) {
-    return "file-image-light";
+    return "icon-file-image-light";
   }
 
-  return "file-light";
+  return "icon-file-image-light";
 }

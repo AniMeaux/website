@@ -15,8 +15,7 @@ import {
   TRANSLATION_BY_APPLICATION_STATUS,
 } from "#show/exhibitors/applications/status";
 import {
-  DOCUMENTS_STATUS_TRANSLATION,
-  DOCUMENTS_STATUS_VALUES,
+  DocumentsStatus,
   DocumentsStatusIcon,
 } from "#show/exhibitors/documents/status";
 import {
@@ -98,9 +97,7 @@ function FilterActivity() {
     >
       <Form.Fields>
         <Form.Field>
-          <Form.Label asChild>
-            <span>Cibles</span>
-          </Form.Label>
+          <Form.Label>Cibles</Form.Label>
 
           <ToggleInputList>
             {ActivityTarget.values.map((activityTarget) => (
@@ -130,9 +127,7 @@ function FilterActivity() {
         </Form.Field>
 
         <Form.Field>
-          <Form.Label asChild>
-            <span>Domaines d’activités</span>
-          </Form.Label>
+          <Form.Label>Domaines d’activités</Form.Label>
 
           <ToggleInputList>
             {ActivityField.values.map((activityField) => (
@@ -483,9 +478,7 @@ function FilterStatuses() {
     >
       <Form.Fields>
         <Form.Field>
-          <Form.Label asChild>
-            <span>Profil public</span>
-          </Form.Label>
+          <Form.Label>Profil public</Form.Label>
 
           <ToggleInputList>
             {ProfileStatus.values.map((status) => (
@@ -506,9 +499,7 @@ function FilterStatuses() {
         </Form.Field>
 
         <Form.Field>
-          <Form.Label asChild>
-            <span>Description</span>
-          </Form.Label>
+          <Form.Label>Description</Form.Label>
 
           <ToggleInputList>
             {ProfileStatus.values.map((status) => (
@@ -527,9 +518,7 @@ function FilterStatuses() {
         </Form.Field>
 
         <Form.Field>
-          <Form.Label asChild>
-            <span>Animations sur stand</span>
-          </Form.Label>
+          <Form.Label>Animations sur stand</Form.Label>
 
           <ToggleInputList>
             {ProfileStatus.values.map((status) => (
@@ -550,16 +539,14 @@ function FilterStatuses() {
         </Form.Field>
 
         <Form.Field>
-          <Form.Label asChild>
-            <span>Documents</span>
-          </Form.Label>
+          <Form.Label>Documents</Form.Label>
 
           <ToggleInputList>
-            {DOCUMENTS_STATUS_VALUES.map((status) => (
+            {DocumentsStatus.values.map((status) => (
               <ToggleInput
                 key={status}
                 type="checkbox"
-                label={DOCUMENTS_STATUS_TRANSLATION[status]}
+                label={DocumentsStatus.translation[status]}
                 name={ExhibitorSearchParams.keys.documentsStatuses}
                 value={status}
                 icon={<DocumentsStatusIcon status={status} />}
@@ -571,9 +558,7 @@ function FilterStatuses() {
         </Form.Field>
 
         <Form.Field>
-          <Form.Label asChild>
-            <span>Configuration de stand</span>
-          </Form.Label>
+          <Form.Label>Configuration de stand</Form.Label>
 
           <ToggleInputList>
             {StandConfigurationStatus.values.map((status) => (
@@ -594,9 +579,7 @@ function FilterStatuses() {
         </Form.Field>
 
         <Form.Field>
-          <Form.Label asChild>
-            <span>Chiens sur stand</span>
-          </Form.Label>
+          <Form.Label>Chiens sur stand</Form.Label>
 
           <ToggleInputList>
             {DOGS_CONFIGURATION_STATUS_VALUES.map((status) => (
@@ -617,9 +600,7 @@ function FilterStatuses() {
         </Form.Field>
 
         <Form.Field>
-          <Form.Label asChild>
-            <span>Candidature</span>
-          </Form.Label>
+          <Form.Label>Candidature</Form.Label>
 
           <ToggleInputList>
             {SORTED_STATUSES.map((status) => (
