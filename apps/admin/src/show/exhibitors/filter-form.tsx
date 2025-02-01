@@ -15,8 +15,7 @@ import {
   TRANSLATION_BY_APPLICATION_STATUS,
 } from "#show/exhibitors/applications/status";
 import {
-  DOCUMENTS_STATUS_TRANSLATION,
-  DOCUMENTS_STATUS_VALUES,
+  DocumentsStatus,
   DocumentsStatusIcon,
 } from "#show/exhibitors/documents/status";
 import {
@@ -543,11 +542,11 @@ function FilterStatuses() {
           <Form.Label>Documents</Form.Label>
 
           <ToggleInputList>
-            {DOCUMENTS_STATUS_VALUES.map((status) => (
+            {DocumentsStatus.values.map((status) => (
               <ToggleInput
                 key={status}
                 type="checkbox"
-                label={DOCUMENTS_STATUS_TRANSLATION[status]}
+                label={DocumentsStatus.translation[status]}
                 name={ExhibitorSearchParams.keys.documentsStatuses}
                 value={status}
                 icon={<DocumentsStatusIcon status={status} />}

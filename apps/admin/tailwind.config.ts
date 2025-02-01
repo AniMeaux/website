@@ -72,6 +72,7 @@ const theme: Config = {
 
       aspectRatio: {
         "4/3": "4 / 3",
+        "3/4": "3 / 4",
         "A4-landscape": "29.7 / 21",
       },
 
@@ -126,6 +127,7 @@ const theme: Config = {
     pluginCustomScrollbar(),
     pluginFocus(),
     pluginFocusVisible(),
+    pluginGridDynamicColumns(),
     pluginHover(),
     pluginIconSizes(),
     pluginMediaHover(),
@@ -137,6 +139,47 @@ const theme: Config = {
 };
 
 export default theme;
+
+function pluginCustomScrollbar() {
+  return plugin(({ matchUtilities, theme }) => {
+    matchUtilities(
+      {
+        scrollbars: (value): CSSRuleObject => {
+          if (value === "none") {
+            return {
+              "&::-webkit-scrollbar": {
+                width: "0",
+                height: "0",
+                display: "none",
+              },
+
+              "&::-webkit-scrollbar-track-piece": {
+                "background-color": "transparent",
+              },
+            };
+          }
+
+          return {
+            "&::-webkit-scrollbar": {
+              width: "5px",
+              height: "5px",
+            },
+
+            "&::-webkit-scrollbar-thumb": {
+              "background-color": theme("colors.gray.200"),
+            },
+          };
+        },
+      },
+      {
+        values: {
+          none: "none",
+          custom: "custom",
+        },
+      },
+    );
+  });
+}
 
 function pluginFocus() {
   return plugin(({ matchUtilities, theme }) => {
@@ -172,6 +215,22 @@ function pluginFocus() {
 function pluginFocusVisible() {
   return plugin(({ addVariant }) => {
     addVariant("focus-visible", "@media(any-hover:hover){&:focus-visible}");
+  });
+}
+
+function pluginGridDynamicColumns() {
+  return plugin(({ matchUtilities, theme }) => {
+    matchUtilities(
+      {
+        "grid-auto-fill-cols": (value) => ({
+          "grid-template-columns": `repeat(auto-fill, minmax(${value}, 1fr))`,
+        }),
+      },
+      {
+        values: theme("minWidth"),
+        type: ["length"],
+      },
+    );
   });
 }
 
@@ -212,6 +271,108 @@ function pluginIconSizes() {
 function pluginMediaHover() {
   return plugin(({ addVariant }) => {
     addVariant("can-hover", "@media(any-hover:hover){&}");
+  });
+}
+
+function pluginSafePadding() {
+  return plugin(({ matchUtilities, theme }) => {
+    matchUtilities(
+      {
+        "p-safe": (value) => ({
+          ...createSafePadding("top", value),
+          ...createSafePadding("right", value),
+          ...createSafePadding("bottom", value),
+          ...createSafePadding("left", value),
+        }),
+        "px-safe": (value) => ({
+          ...createSafePadding("right", value),
+          ...createSafePadding("left", value),
+        }),
+        "py-safe": (value) => ({
+          ...createSafePadding("top", value),
+          ...createSafePadding("bottom", value),
+        }),
+        "pt-safe": (value) => createSafePadding("top", value),
+        "pr-safe": (value) => createSafePadding("right", value),
+        "pb-safe": (value) => createSafePadding("bottom", value),
+        "pl-safe": (value) => createSafePadding("left", value),
+      },
+      { values: theme("spacing") },
+    );
+  });
+}
+
+function createSafePadding(
+  side: "top" | "right" | "bottom" | "left",
+  value: string,
+) {
+  const name = {
+    top: "paddingTop",
+    right: "paddingRight",
+    bottom: "paddingBottom",
+    left: "paddingLeft",
+  }[side];
+
+  const envVariable = {
+    top: "safe-area-inset-top",
+    right: "safe-area-inset-right",
+    bottom: "safe-area-inset-bottom",
+    left: "safe-area-inset-left",
+  }[side];
+
+  return {
+    [name]: [
+      // Fallback value for browsers that don't support `env`.
+      `${value}`,
+      `calc(${value} + env(${envVariable}, 0))`,
+    ],
+  };
+}
+
+function pluginSafePosition() {
+  return plugin(({ matchUtilities, theme }) => {
+    matchUtilities(
+      {
+        "top-safe": (value) => createSafePosition("top", value),
+        "right-safe": (value) => createSafePosition("right", value),
+        "bottom-safe": (value) => createSafePosition("bottom", value),
+        "left-safe": (value) => createSafePosition("left", value),
+      },
+      { values: theme("spacing") },
+    );
+  });
+}
+
+function createSafePosition(
+  side: "top" | "right" | "bottom" | "left",
+  value: string,
+) {
+  const envVariable = {
+    top: "safe-area-inset-top",
+    right: "safe-area-inset-right",
+    bottom: "safe-area-inset-bottom",
+    left: "safe-area-inset-left",
+  }[side];
+
+  return {
+    [side]: [
+      // Fallback value for browsers that don't support `env`.
+      `${value}`,
+      `calc(${value} + env(${envVariable}, 0))`,
+    ],
+  };
+}
+
+/**
+ * Tailwind allows to set `inset` with `ring-inset`, this allow us to unset it.
+ */
+function pluginRingOutset() {
+  return plugin(({ addUtilities }) => {
+    addUtilities({
+      ".ring-outset": {
+        "--tw-ring-inset": "",
+      },
+    });
   });
 }
 
@@ -276,149 +437,6 @@ function pluginTextStyles() {
       },
     });
   });
-}
-
-function pluginSafePadding() {
-  return plugin(({ matchUtilities, theme }) => {
-    matchUtilities(
-      {
-        "p-safe": (value) => ({
-          ...createSafePadding("top", value),
-          ...createSafePadding("right", value),
-          ...createSafePadding("bottom", value),
-          ...createSafePadding("left", value),
-        }),
-        "px-safe": (value) => ({
-          ...createSafePadding("right", value),
-          ...createSafePadding("left", value),
-        }),
-        "py-safe": (value) => ({
-          ...createSafePadding("top", value),
-          ...createSafePadding("bottom", value),
-        }),
-        "pt-safe": (value) => createSafePadding("top", value),
-        "pr-safe": (value) => createSafePadding("right", value),
-        "pb-safe": (value) => createSafePadding("bottom", value),
-        "pl-safe": (value) => createSafePadding("left", value),
-      },
-      { values: theme("spacing") },
-    );
-  });
-}
-
-function pluginSafePosition() {
-  return plugin(({ matchUtilities, theme }) => {
-    matchUtilities(
-      {
-        "top-safe": (value) => createSafePosition("top", value),
-        "right-safe": (value) => createSafePosition("right", value),
-        "bottom-safe": (value) => createSafePosition("bottom", value),
-        "left-safe": (value) => createSafePosition("left", value),
-      },
-      { values: theme("spacing") },
-    );
-  });
-}
-
-function pluginCustomScrollbar() {
-  return plugin(({ matchUtilities, theme }) => {
-    matchUtilities(
-      {
-        scrollbars: (value): CSSRuleObject => {
-          if (value === "none") {
-            return {
-              "&::-webkit-scrollbar": {
-                width: "0",
-                height: "0",
-                display: "none",
-              },
-
-              "&::-webkit-scrollbar-track-piece": {
-                "background-color": "transparent",
-              },
-            };
-          }
-
-          return {
-            "&::-webkit-scrollbar": {
-              width: "5px",
-              height: "5px",
-            },
-
-            "&::-webkit-scrollbar-thumb": {
-              "background-color": theme("colors.gray.200"),
-            },
-          };
-        },
-      },
-      {
-        values: {
-          none: "none",
-          custom: "custom",
-        },
-      },
-    );
-  });
-}
-
-/**
- * Tailwind allows to set `inset` with `ring-inset`, this allow us to unset it.
- */
-function pluginRingOutset() {
-  return plugin(({ addUtilities }) => {
-    addUtilities({
-      ".ring-outset": {
-        "--tw-ring-inset": "",
-      },
-    });
-  });
-}
-
-function createSafePadding(
-  side: "top" | "right" | "bottom" | "left",
-  value: string,
-) {
-  const name = {
-    top: "paddingTop",
-    right: "paddingRight",
-    bottom: "paddingBottom",
-    left: "paddingLeft",
-  }[side];
-
-  const envVariable = {
-    top: "safe-area-inset-top",
-    right: "safe-area-inset-right",
-    bottom: "safe-area-inset-bottom",
-    left: "safe-area-inset-left",
-  }[side];
-
-  return {
-    [name]: [
-      // Fallback value for browsers that don't support `env`.
-      `${value}`,
-      `calc(${value} + env(${envVariable}, 0))`,
-    ],
-  };
-}
-
-function createSafePosition(
-  side: "top" | "right" | "bottom" | "left",
-  value: string,
-) {
-  const envVariable = {
-    top: "safe-area-inset-top",
-    right: "safe-area-inset-right",
-    bottom: "safe-area-inset-bottom",
-    left: "safe-area-inset-left",
-  }[side];
-
-  return {
-    [side]: [
-      // Fallback value for browsers that don't support `env`.
-      `${value}`,
-      `calc(${value} + env(${envVariable}, 0))`,
-    ],
-  };
 }
 
 type Colors = { [key: string]: string | Colors };
