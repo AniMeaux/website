@@ -2,6 +2,7 @@ import { email } from "#core/emails.server";
 import { badRequest, unauthorized } from "#core/response.server";
 import { createEmailTemplateStatusUpdate } from "#exhibitors/application/emails.server";
 import { DocumentsEmails } from "#exhibitors/documents/email.server";
+import { ExhibitorEmails } from "#exhibitors/email.server";
 import { PublicProfileEmails } from "#exhibitors/profile/email.server";
 import { StandConfigurationEmails } from "#exhibitors/stand-configuration/email.server";
 import { zu } from "@animeaux/zod-utils";
@@ -15,6 +16,7 @@ export async function action({ request }: ActionFunctionArgs) {
     .union([
       ActionSchemaApplicationStatusUpdated,
       ActionSchemaDocumentsTreated,
+      ActionSchemaExhibitorVisibleTreated,
       ActionSchemaPublicProfileTreated,
       ActionSchemaStandConfigurationTreated,
     ])
@@ -35,6 +37,12 @@ export async function action({ request }: ActionFunctionArgs) {
 
     case ActionSchemaDocumentsTreated.shape.type.value: {
       email.send.template(DocumentsEmails.treated(action.data.exhibitorId));
+
+      return json({ ok: true });
+    }
+
+    case ActionSchemaExhibitorVisibleTreated.shape.type.value: {
+      email.send.template(ExhibitorEmails.isVisible(action.data.exhibitorId));
 
       return json({ ok: true });
     }
@@ -66,6 +74,11 @@ const ActionSchemaApplicationStatusUpdated = zu.object({
 
 const ActionSchemaDocumentsTreated = zu.object({
   type: zu.literal("documents-treated"),
+  exhibitorId: zu.string().uuid(),
+});
+
+const ActionSchemaExhibitorVisibleTreated = zu.object({
+  type: zu.literal("exhibitor-visible"),
   exhibitorId: zu.string().uuid(),
 });
 

@@ -1,0 +1,56 @@
+import { FieldInput } from "#core/form-elements/field-input";
+import { FieldRadios } from "#core/form-elements/field-radios";
+import { Form } from "#core/form-elements/form";
+import { Card } from "#core/layout/card";
+import { Separator } from "#core/layout/separator";
+import { Payment } from "#show/exhibitors/payment";
+import { Visibility } from "#show/visibility";
+import { useForm } from "./form";
+
+export function FieldsetSituation() {
+  const { form, fields } = useForm();
+
+  return (
+    <Card>
+      <Card.Header>
+        <Card.Title>Situation</Card.Title>
+      </Card.Header>
+
+      <Card.Content>
+        <Form.Fields>
+          <Form.Errors errors={form.errors} />
+
+          <FieldRadios
+            label="Paiement"
+            field={fields.hasPaid}
+            getLabel={(payment) => Payment.translation[payment]}
+            options={Payment.values}
+          />
+
+          <FieldRadios
+            label="Visibilité"
+            field={fields.isVisible}
+            getLabel={(visibility) => Visibility.translation[visibility]}
+            options={Visibility.values}
+          />
+
+          <Separator />
+
+          <Form.Row>
+            <FieldInput
+              label="Numéro d’emplacement"
+              field={fields.locationNumber}
+              inputMode="numeric"
+            />
+
+            <FieldInput
+              label="Numéro de stand"
+              field={fields.standNumber}
+              inputMode="numeric"
+            />
+          </Form.Row>
+        </Form.Fields>
+      </Card.Content>
+    </Card>
+  );
+}

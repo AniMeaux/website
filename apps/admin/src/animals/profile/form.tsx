@@ -13,9 +13,9 @@ import {
 } from "#animals/species";
 import { Action } from "#core/actions";
 import { toIsoDateValue } from "#core/dates";
-import { RadioInput, RadioInputList } from "#core/form-elements/field-choice";
 import { Form } from "#core/form-elements/form";
 import { Input } from "#core/form-elements/input";
+import { RadioInput, RadioInputList } from "#core/form-elements/input-choice";
 import { RequiredStar } from "#core/form-elements/required-star";
 import { Textarea } from "#core/form-elements/textarea";
 import { Separator } from "#core/layout/separator";

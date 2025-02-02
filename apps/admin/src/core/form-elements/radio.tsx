@@ -2,10 +2,10 @@ import { cn } from "@animeaux/core";
 import { forwardRef } from "react";
 import type { Except } from "type-fest";
 
-export const InputRadio = forwardRef<
+export const Radio = forwardRef<
   React.ComponentRef<"input">,
   Except<React.ComponentPropsWithoutRef<"input">, "type">
->(function InputRadio({ className, ...props }, ref) {
+>(function Radio({ className, ...props }, ref) {
   return (
     <input
       {...props}

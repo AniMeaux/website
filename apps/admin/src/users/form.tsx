@@ -1,10 +1,10 @@
 import { Action } from "#core/actions";
+import { Form } from "#core/form-elements/form";
+import { Input } from "#core/form-elements/input";
 import {
   CheckboxInput,
   CheckboxInputList,
-} from "#core/form-elements/field-choice";
-import { Form } from "#core/form-elements/form";
-import { Input } from "#core/form-elements/input";
+} from "#core/form-elements/input-choice";
 import { PasswordInput } from "#core/form-elements/password-input";
 import { RequiredStar } from "#core/form-elements/required-star";
 import { Separator } from "#core/layout/separator";

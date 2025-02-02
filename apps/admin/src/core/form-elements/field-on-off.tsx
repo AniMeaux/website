@@ -1,6 +1,6 @@
-import { FieldChoice, FieldChoices } from "#core/form-elements/field-choice";
 import { FieldErrorHelper } from "#core/form-elements/field-error-helper";
 import { Form } from "#core/form-elements/form";
+import { InputChoice, InputsChoices } from "#core/form-elements/input-choice";
 import { RequiredStar } from "#core/form-elements/required-star";
 import type { FieldMetadata } from "@conform-to/react";
 import { getCollectionProps } from "@conform-to/react";
@@ -46,20 +46,20 @@ export function FieldOnOff({
         {label} {field.required || required ? <RequiredStar /> : null}
       </Form.Label>
 
-      <FieldChoices>
+      <InputsChoices>
         {getCollectionProps(field, {
           type: "radio",
           options: OnOff.values,
         }).map(({ key, ...props }) => (
-          <FieldChoice.Root key={key}>
-            <FieldChoice.InputRadio {...props} />
+          <InputChoice.Root key={key}>
+            <InputChoice.Radio {...props} />
 
-            <FieldChoice.Label>
+            <InputChoice.Label>
               {OnOff.translation[props.value as OnOff.Enum]}
-            </FieldChoice.Label>
-          </FieldChoice.Root>
+            </InputChoice.Label>
+          </InputChoice.Root>
         ))}
-      </FieldChoices>
+      </InputsChoices>
 
       {field.errors != null ? <FieldErrorHelper field={field} /> : helper}
     </Form.Field>

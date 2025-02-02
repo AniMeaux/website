@@ -16,8 +16,7 @@ import type { MetaFunction } from "@remix-run/react";
 import { promiseHash } from "remix-utils/promise";
 import type { MergeExclusive } from "type-fest";
 import { ActionSchema } from "./action";
-import { FieldsetDocuments } from "./fieldset-documents";
-import { FieldsetStatus } from "./fieldset-status";
+import { FieldsetSituation } from "./fieldset-situation";
 import { FormProvider, useFormRoot } from "./form";
 
 export async function loader({ request, params }: LoaderFunctionArgs) {
@@ -32,20 +31,23 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
 
   const routeParams = safeParseRouteParam(RouteParamsSchema, params);
 
-  const { profile, documents, files } = await promiseHash({
+  const { profile, exhbitor, standConfiguration } = await promiseHash({
     profile: db.show.exhibitor.profile.findUniqueByExhibitor(routeParams.id, {
       select: { name: true },
     }),
 
-    documents: db.show.exhibitor.documents.findUniqueByExhibitor(
-      routeParams.id,
-      { select: { status: true, statusMessage: true } },
-    ),
+    exhbitor: db.show.exhibitor.findUnique(routeParams.id, {
+      select: { hasPaid: true, isVisible: true },
+    }),
 
-    files: db.show.exhibitor.documents.getFilesByExhibitor(routeParams.id),
+    standConfiguration:
+      db.show.exhibitor.standConfiguration.findUniqueByExhibitor(
+        routeParams.id,
+        { select: { locationNumber: true, standNumber: true } },
+      ),
   });
 
-  return json({ profile, documents: { ...documents, ...files } });
+  return json({ profile, exhbitor, standConfiguration });
 }
 
 const RouteParamsSchema = zu.object({
@@ -57,7 +59,7 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
     {
       title: getPageTitle(
         data?.profile.name != null
-          ? [`Modifier ${data.profile.name}`, "Documents"]
+          ? [`Modifier ${data.profile.name}`, "Situation"]
           : getErrorTitle(404),
       ),
     },
@@ -92,9 +94,11 @@ export async function action({ request, params }: ActionFunctionArgs) {
     );
   }
 
-  await db.show.exhibitor.documents.update(routeParams.id, {
-    status: submission.value.status,
-    statusMessage: submission.value.statusMessage || null,
+  await db.show.exhibitor.update(routeParams.id, {
+    hasPaid: submission.value.hasPaid,
+    isVisible: submission.value.isVisible,
+    locationNumber: submission.value.locationNumber || null,
+    standNumber: submission.value.standNumber || null,
   });
 
   return json<ActionData>({
@@ -121,8 +125,7 @@ export default function Route() {
           method="POST"
           className="grid grid-cols-1 gap-1 md:gap-2"
         >
-          <FieldsetStatus />
-          <FieldsetDocuments />
+          <FieldsetSituation />
 
           <Action type="submit" className="mx-1.5 md:mx-0 md:justify-self-end">
             Enregistrer

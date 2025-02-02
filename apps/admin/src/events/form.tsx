@@ -11,7 +11,7 @@ import { Form } from "#core/form-elements/form";
 import { ImageInput } from "#core/form-elements/image-input";
 import { Input } from "#core/form-elements/input";
 import { RequiredStar } from "#core/form-elements/required-star";
-import { SwitchInput } from "#core/form-elements/switch-input";
+import { Switch } from "#core/form-elements/switch";
 import { Textarea } from "#core/form-elements/textarea";
 import { Separator } from "#core/layout/separator";
 import { Icon } from "#generated/icon";
@@ -248,7 +248,7 @@ export function EventForm({
             Brouillon
           </Form.Label>
 
-          <SwitchInput
+          <Switch
             id={ActionFormData.keys.isDraft}
             name={ActionFormData.keys.isDraft}
             defaultChecked={defaultEvent?.isVisible === false}
@@ -318,7 +318,7 @@ export function EventForm({
             Journée complète
           </Form.Label>
 
-          <SwitchInput
+          <Switch
             id={ActionFormData.keys.isFullDay}
             name={ActionFormData.keys.isFullDay}
             checked={isFullDay}
