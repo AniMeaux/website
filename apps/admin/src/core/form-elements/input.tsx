@@ -2,6 +2,7 @@ import { ensureArray } from "#core/collections";
 import { BaseTextInput } from "#core/form-elements/base-text-input";
 import { toBooleanAttribute } from "@animeaux/core";
 import { forwardRef } from "react";
+import type { SetRequired } from "type-fest";
 
 export type InputProps = Omit<
   React.ComponentPropsWithoutRef<typeof BaseTextInput>,
@@ -26,7 +27,8 @@ export const Input = Object.assign(
       hideFocusRing,
       disabled,
       type = "text",
-      pattern = getTypeFallbackPattern(type),
+      inputMode,
+      pattern = getTypeFallbackPattern({ type, inputMode }),
       className,
       // Should use `"off"` as default value but it is ingored by Chrome.
       // See https://bugs.chromium.org/p/chromium/issues/detail?id=587466
@@ -43,6 +45,7 @@ export const Input = Object.assign(
           {...rest}
           ref={ref}
           type={type}
+          inputMode={inputMode}
           pattern={pattern}
           autoComplete={autoComplete}
           disabled={disabled}
@@ -72,7 +75,13 @@ export const Input = Object.assign(
   },
 );
 
-function getTypeFallbackPattern(type: React.HTMLInputTypeAttribute) {
+function getTypeFallbackPattern({
+  type,
+  inputMode,
+}: SetRequired<
+  Pick<React.ComponentProps<"input">, "type" | "inputMode">,
+  "type"
+>) {
   switch (type) {
     case "date": {
       return "\\d{4}-\\d{2}-\\d{2}";
@@ -97,6 +106,22 @@ function getTypeFallbackPattern(type: React.HTMLInputTypeAttribute) {
 
     case "url": {
       return "https://.*";
+    }
+
+    case "text": {
+      if (inputMode != null) {
+        switch (inputMode) {
+          case "numeric": {
+            return "\\d+";
+          }
+
+          default: {
+            // Fall through.
+          }
+        }
+      }
+
+      return undefined;
     }
 
     default: {

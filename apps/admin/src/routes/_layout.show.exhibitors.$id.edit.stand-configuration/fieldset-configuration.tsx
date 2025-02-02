@@ -53,7 +53,6 @@ export function FieldsetConfiguration() {
               label="Nombre de cloisons"
               field={fields.dividerCount}
               inputMode="numeric"
-              pattern="\d+"
             />
           </Form.Row>
 
@@ -62,7 +61,6 @@ export function FieldsetConfiguration() {
               label="Nombre de tables"
               field={fields.tableCount}
               inputMode="numeric"
-              pattern="\d+"
             />
 
             <FieldOnOff
@@ -76,14 +74,12 @@ export function FieldsetConfiguration() {
               label="Nombre de personnes sur le stand"
               field={fields.peopleCount}
               inputMode="numeric"
-              pattern="\d+"
             />
 
             <FieldInput
               label="Nombre de chaises"
               field={fields.chairCount}
               inputMode="numeric"
-              pattern="\d+"
             />
           </Form.Row>
 
