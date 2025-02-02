@@ -1,4 +1,4 @@
-import { FieldSelectorsRadio } from "#core/form-elements/field-selectors-radio";
+import { FieldRadios } from "#core/form-elements/field-radios";
 import { FieldTextarea } from "#core/form-elements/field-textarea";
 import { Form } from "#core/form-elements/form";
 import { Card } from "#core/layout/card";
@@ -18,7 +18,7 @@ export function FieldsetStatus() {
         <Form.Fields>
           <Form.Errors errors={form.errors} />
 
-          <FieldSelectorsRadio
+          <FieldRadios
             label="Statut"
             field={fields.status}
             getLabel={(status) => StandConfigurationStatus.translation[status]}
