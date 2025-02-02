@@ -1,53 +1,52 @@
 import type { IconName } from "#generated/icon";
 import { Icon } from "#generated/icon";
 
-export const Payment = {
-  HAS_PAID: "HAS_PAID",
-  HAS_NOT_PAID: "HAS_NOT_PAID",
-} as const;
+export namespace Payment {
+  export const Enum = {
+    HAS_PAID: "HAS_PAID",
+    HAS_NOT_PAID: "HAS_NOT_PAID",
+  } as const;
 
-export type Payment = (typeof Payment)[keyof typeof Payment];
+  export type Enum = (typeof Enum)[keyof typeof Enum];
 
-export function paymentFromBoolean(hasPaid: boolean) {
-  return hasPaid ? Payment.HAS_PAID : Payment.HAS_NOT_PAID;
+  export const values = [Enum.HAS_PAID, Enum.HAS_NOT_PAID];
+
+  export const translation: Record<Enum, string> = {
+    [Enum.HAS_NOT_PAID]: "Non payé",
+    [Enum.HAS_PAID]: "A payé",
+  };
+
+  export function fromBoolean(hasPaid: boolean) {
+    return hasPaid ? Enum.HAS_PAID : Enum.HAS_NOT_PAID;
+  }
+
+  export function toBoolean(payment: Enum) {
+    return payment === Enum.HAS_PAID;
+  }
 }
-
-export function paymentToBoolean(payment: Payment) {
-  return payment === Payment.HAS_PAID;
-}
-
-export const PAYMENT_TRANSLATIONS: Record<Payment, string> = {
-  [Payment.HAS_NOT_PAID]: "Non payé",
-  [Payment.HAS_PAID]: "A payé",
-};
-
-export const PAYMENT_VALUES: Payment[] = [
-  Payment.HAS_PAID,
-  Payment.HAS_NOT_PAID,
-];
 
 export function PaymentIcon({
   payment,
   variant = "light",
   className,
 }: {
-  payment: Payment;
+  payment: Payment.Enum;
   variant?: "light" | "solid";
   className?: string;
 }) {
   return (
-    <span title={PAYMENT_TRANSLATIONS[payment]} className={className}>
+    <span title={Payment.translation[payment]} className={className}>
       <Icon href={ICON_NAME[payment][variant]} />
     </span>
   );
 }
 
-const ICON_NAME: Record<Payment, { light: IconName; solid: IconName }> = {
-  [Payment.HAS_NOT_PAID]: {
+const ICON_NAME: Record<Payment.Enum, { light: IconName; solid: IconName }> = {
+  [Payment.Enum.HAS_NOT_PAID]: {
     light: "icon-credit-card-slash-light",
     solid: "icon-credit-card-slash-solid",
   },
-  [Payment.HAS_PAID]: {
+  [Payment.Enum.HAS_PAID]: {
     light: "icon-credit-card-light",
     solid: "icon-credit-card-solid",
   },

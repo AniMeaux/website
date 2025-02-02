@@ -2,8 +2,8 @@ import { Action } from "#core/actions";
 import { ErrorPage, getErrorTitle } from "#core/data-display/error-page";
 import { db } from "#core/db.server";
 import { NotFoundError } from "#core/errors.server";
-import { RadioInput, RadioInputList } from "#core/form-elements/field-choice";
 import { Form } from "#core/form-elements/form";
+import { RadioInput, RadioInputList } from "#core/form-elements/input-choice";
 import { RequiredStar } from "#core/form-elements/required-star";
 import { Textarea } from "#core/form-elements/textarea";
 import { assertIsDefined } from "#core/is-defined.server";
@@ -255,7 +255,10 @@ function ApplicationForm() {
         </Form.Fields>
 
         <Form.Action asChild>
-          <Action>Enregistrer</Action>
+          <Action>
+            Enregistrer
+            <Action.Loader isLoading={fetcher.state !== "idle"} />
+          </Action>
         </Form.Action>
       </fetcher.Form>
     </Form>

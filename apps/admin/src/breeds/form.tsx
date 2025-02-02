@@ -1,8 +1,8 @@
 import { SORTED_SPECIES, SPECIES_TRANSLATION } from "#animals/species";
 import { Action } from "#core/actions";
-import { RadioInput, RadioInputList } from "#core/form-elements/field-choice";
 import { Form } from "#core/form-elements/form";
 import { Input } from "#core/form-elements/input";
+import { RadioInput, RadioInputList } from "#core/form-elements/input-choice";
 import { RequiredStar } from "#core/form-elements/required-star";
 import { Icon } from "#generated/icon";
 import { FormDataDelegate } from "@animeaux/form-data";

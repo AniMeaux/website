@@ -1,7 +1,7 @@
 import { BaseLink } from "#core/base-link";
 import { DynamicImage } from "#core/data-display/image";
 import { Routes } from "#core/navigation";
-import { VisibilityIcon, visibilityFromBoolean } from "#show/visibility";
+import { Visibility, VisibilityIcon } from "#show/visibility";
 import { ImageUrl, cn } from "@animeaux/core";
 import { ShowExhibitorApplicationStatus } from "@prisma/client";
 import type { SerializeFrom } from "@remix-run/node";
@@ -45,7 +45,7 @@ export function ExhibitorItem({
       </span>
 
       <VisibilityIcon
-        visibility={visibilityFromBoolean(exhibitor.isVisible)}
+        visibility={Visibility.fromBoolean(exhibitor.isVisible)}
         className="icon-20"
       />
     </BaseLink>

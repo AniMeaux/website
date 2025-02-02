@@ -217,7 +217,7 @@ const SearchParamsSchema = zu.object({
   partnershipCategories: zu.searchParams.set(
     zu.searchParams.nativeEnum(ShowPartnershipCategory),
   ),
-  payment: zu.searchParams.set(zu.searchParams.nativeEnum(Payment)),
+  payment: zu.searchParams.set(zu.searchParams.nativeEnum(Payment.Enum)),
   publicProfileStatuses: zu.searchParams.set(
     zu.searchParams.nativeEnum(ProfileStatus.Enum),
   ),
@@ -228,5 +228,5 @@ const SearchParamsSchema = zu.object({
     zu.searchParams.nativeEnum(StandConfigurationStatus.Enum),
   ),
   targets: zu.searchParams.set(zu.searchParams.nativeEnum(ShowActivityTarget)),
-  visibility: zu.searchParams.set(zu.searchParams.nativeEnum(Visibility)),
+  visibility: zu.searchParams.set(zu.searchParams.nativeEnum(Visibility.Enum)),
 });

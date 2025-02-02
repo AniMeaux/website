@@ -2,7 +2,7 @@ import { Action } from "#core/actions";
 import { Form } from "#core/form-elements/form";
 import { Input } from "#core/form-elements/input";
 import { RequiredStar } from "#core/form-elements/required-star";
-import { SwitchInput } from "#core/form-elements/switch-input";
+import { Switch } from "#core/form-elements/switch";
 import { Separator } from "#core/layout/separator";
 import { Spinner } from "#core/loaders/spinner";
 import { Icon } from "#generated/icon";
@@ -147,7 +147,7 @@ export function PressArticleForm({
             <Form.Label htmlFor="autofill">Remplissage automatique</Form.Label>
             {scrapUrlFetcher.state === "loading" ? <Spinner /> : null}
 
-            <SwitchInput
+            <Switch
               id="autofill"
               name="autofill"
               checked={state.isAutofill}

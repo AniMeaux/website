@@ -1,6 +1,6 @@
 import { DynamicImage } from "#core/data-display/image";
+import { FieldCheckboxes } from "#core/form-elements/field-checkboxes";
 import { FieldList } from "#core/form-elements/field-list";
-import { FieldSelectorsCheckbox } from "#core/form-elements/field-selectors-checkbox";
 import { Form } from "#core/form-elements/form";
 import { Input } from "#core/form-elements/input";
 import { RequiredStar } from "#core/form-elements/required-star";
@@ -26,7 +26,7 @@ export function FieldsetProfile() {
         <Form.Fields>
           <FieldLogo />
 
-          <FieldSelectorsCheckbox
+          <FieldCheckboxes
             label="Cibles"
             field={fields.activityTargets}
             options={ActivityTarget.values}
@@ -35,7 +35,7 @@ export function FieldsetProfile() {
             }
           />
 
-          <FieldSelectorsCheckbox
+          <FieldCheckboxes
             label="Domaines d’activités"
             field={fields.activityFields}
             options={ActivityField.values}

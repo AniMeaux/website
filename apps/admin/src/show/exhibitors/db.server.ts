@@ -1,13 +1,16 @@
+import { PrismaErrorCodes } from "#core/errors.server";
+import { notifyShowApp } from "#core/notification.server";
 import { prisma } from "#core/prisma.server";
 import { notFound } from "#core/response.server";
 import { ShowExhibitorApplicationDbDelegate } from "#show/exhibitors/applications/db.server";
 import { ShowExhibitorDocumentsDbDelegate } from "#show/exhibitors/documents/db.server";
-import { paymentToBoolean } from "#show/exhibitors/payment";
+import { Payment } from "#show/exhibitors/payment";
 import { ShowExhibitorProfileDbDelegate } from "#show/exhibitors/profile/db.server";
 import { ExhibitorSearchParamsN } from "#show/exhibitors/search-params";
 import { ShowExhibitorStandConfigurationDbDelegate } from "#show/exhibitors/stand-configuration/db.server";
-import { visibilityToBoolean } from "#show/visibility";
-import type { Prisma } from "@prisma/client";
+import { Visibility } from "#show/visibility";
+import { catchError } from "@animeaux/core";
+import { Prisma } from "@prisma/client";
 import { promiseHash } from "remix-utils/promise";
 
 export class ShowExhibitorDbDelegate {
@@ -148,7 +151,7 @@ export class ShowExhibitorDbDelegate {
     if (params.searchParams.payment.size > 0) {
       where.push({
         OR: Array.from(params.searchParams.payment).map((payment) => ({
-          hasPaid: paymentToBoolean(payment),
+          hasPaid: Payment.toBoolean(payment),
         })),
       });
     }
@@ -186,7 +189,7 @@ export class ShowExhibitorDbDelegate {
     if (params.searchParams.visibility.size > 0) {
       where.push({
         OR: Array.from(params.searchParams.visibility).map((visibility) => ({
-          isVisible: visibilityToBoolean(visibility),
+          isVisible: Visibility.toBoolean(visibility),
         })),
       });
     }
@@ -211,6 +214,56 @@ export class ShowExhibitorDbDelegate {
 
     return { exhibitors, totalCount };
   }
+
+  async update(exhibitorId: string, data: ShowExhibitorData) {
+    const [error, becameVisible] = await catchError(() =>
+      prisma.$transaction(async (prisma) => {
+        const previousExhibitor = await prisma.showExhibitor.findUnique({
+          where: { id: exhibitorId },
+          select: { isVisible: true },
+        });
+
+        if (previousExhibitor == null) {
+          throw notFound();
+        }
+
+        const exhibitor = await prisma.showExhibitor.update({
+          where: { id: exhibitorId },
+          data: {
+            hasPaid: data.hasPaid,
+            isVisible: data.isVisible,
+
+            standConfiguration: {
+              update: {
+                locationNumber: data.locationNumber,
+                standNumber: data.standNumber,
+              },
+            },
+          },
+          select: { isVisible: true },
+        });
+
+        return exhibitor.isVisible && !previousExhibitor.isVisible;
+      }),
+    );
+
+    if (error != null) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === PrismaErrorCodes.NOT_FOUND) {
+          throw notFound();
+        }
+      }
+
+      throw error;
+    }
+
+    if (becameVisible) {
+      await notifyShowApp({
+        type: "exhibitor-visible",
+        exhibitorId,
+      });
+    }
+  }
 }
 
 const FIND_ORDER_BY_SORT: Record<
@@ -220,3 +273,12 @@ const FIND_ORDER_BY_SORT: Record<
   [ExhibitorSearchParamsN.Sort.NAME]: { profile: { name: "asc" } },
   [ExhibitorSearchParamsN.Sort.UPDATED_AT]: { updatedAt: "desc" },
 };
+
+type ShowExhibitorData = Pick<
+  Prisma.ShowExhibitorUpdateInput,
+  "hasPaid" | "isVisible"
+> &
+  Pick<
+    Prisma.ShowExhibitorStandConfigurationUpdateInput,
+    "locationNumber" | "standNumber"
+  >;

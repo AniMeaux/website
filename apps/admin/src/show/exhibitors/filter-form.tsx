@@ -23,11 +23,7 @@ import {
   DOGS_CONFIGURATION_STATUS_VALUES,
   DogsConfigurationStatusIcon,
 } from "#show/exhibitors/dogs-configuration/status";
-import {
-  PAYMENT_TRANSLATIONS,
-  PAYMENT_VALUES,
-  PaymentIcon,
-} from "#show/exhibitors/payment";
+import { Payment, PaymentIcon } from "#show/exhibitors/payment";
 import {
   ProfileStatus,
   ProfileStatusIcon,
@@ -45,11 +41,7 @@ import {
   TRANSLATION_BY_PARTNERSHIP_CATEGORY,
 } from "#show/partnership/category";
 import { PartnershipCategoryIcon } from "#show/partnership/icon";
-import {
-  VISIBILITY_TRANSLATIONS,
-  VISIBILITY_VALUES,
-  VisibilityIcon,
-} from "#show/visibility";
+import { Visibility, VisibilityIcon } from "#show/visibility";
 import { useOptimisticSearchParams } from "@animeaux/search-params-io";
 
 export function ExhibitorFilters() {
@@ -317,11 +309,11 @@ function FilterPayment() {
       )}
     >
       <ToggleInputList>
-        {PAYMENT_VALUES.map((payment) => (
+        {Payment.values.map((payment) => (
           <ToggleInput
             key={payment}
             type="checkbox"
-            label={PAYMENT_TRANSLATIONS[payment]}
+            label={Payment.translation[payment]}
             name={ExhibitorSearchParams.keys.payment}
             value={payment}
             icon={<PaymentIcon variant="light" payment={payment} />}
@@ -643,11 +635,11 @@ function FilterVisibility() {
       )}
     >
       <ToggleInputList>
-        {VISIBILITY_VALUES.map((visibility) => (
+        {Visibility.values.map((visibility) => (
           <ToggleInput
             key={visibility}
             type="checkbox"
-            label={VISIBILITY_TRANSLATIONS[visibility]}
+            label={Visibility.translation[visibility]}
             name={ExhibitorSearchParams.keys.visibility}
             value={visibility}
             icon={<VisibilityIcon variant="light" visibility={visibility} />}
