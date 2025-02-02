@@ -255,7 +255,10 @@ function ApplicationForm() {
         </Form.Fields>
 
         <Form.Action asChild>
-          <Action>Enregistrer</Action>
+          <Action>
+            Enregistrer
+            <Action.Loader isLoading={fetcher.state !== "idle"} />
+          </Action>
         </Form.Action>
       </fetcher.Form>
     </Form>

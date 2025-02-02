@@ -126,6 +126,7 @@ export default function Route() {
 
           <Action type="submit" className="mx-1.5 md:mx-0 md:justify-self-end">
             Enregistrer
+            <Action.Loader isLoading={fetcher.state !== "idle"} />
           </Action>
         </fetcher.Form>
       </PageLayout.Content>
