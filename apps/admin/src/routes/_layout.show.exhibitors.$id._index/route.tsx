@@ -16,6 +16,7 @@ import { CardOnStandAnimations } from "./card-on-stand-animations";
 import { CardProfile } from "./card-profile";
 import { CardSituation } from "./card-situation";
 import { CardStandConfiguration } from "./card-stand-configuration";
+import { CardStructure } from "./card-structure";
 
 export async function loader({ request, params }: LoaderFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {
@@ -50,8 +51,19 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
       routeParams.id,
       {
         select: {
+          billingAddress: true,
+          billingCity: true,
+          billingCountry: true,
+          billingZipCode: true,
           id: true,
           status: true,
+          structureAddress: true,
+          structureCity: true,
+          structureCountry: true,
+          structureLegalStatus: true,
+          structureOtherLegalStatus: true,
+          structureSiret: true,
+          structureZipCode: true,
         },
       },
     ),
@@ -152,6 +164,7 @@ export default function Route() {
         <div className="grid grid-cols-1 gap-1 md:col-start-2 md:row-start-1 md:gap-2">
           <CardSituation />
           <CardProfile />
+          <CardStructure />
         </div>
 
         <div className="grid grid-cols-1 gap-1 md:gap-2">

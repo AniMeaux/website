@@ -27,7 +27,7 @@ export class ShowExhibitorProfileDbDelegate {
     exhibitorId: string,
     data: ShowExhibitorPublicProfileData,
   ) {
-    this.normalizePublicProfile(data);
+    this.#normalizePublicProfile(data);
 
     try {
       await prisma.showExhibitor.update({
@@ -53,9 +53,29 @@ export class ShowExhibitorProfileDbDelegate {
     });
   }
 
-  normalizePublicProfile(data: ShowExhibitorPublicProfileData) {
+  #normalizePublicProfile(data: ShowExhibitorPublicProfileData) {
     if (data.publicProfileStatus !== ProfileStatus.Enum.TO_MODIFY) {
       data.publicProfileStatusMessage = null;
+    }
+  }
+
+  async updateName(exhibitorId: string, data: ShowExhibitorNameData) {
+    try {
+      await prisma.showExhibitor.update({
+        where: { id: exhibitorId },
+        data: {
+          updatedAt: new Date(),
+          profile: { update: data },
+        },
+      });
+    } catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === PrismaErrorCodes.NOT_FOUND) {
+          throw notFound();
+        }
+      }
+
+      throw error;
     }
   }
 }
@@ -68,3 +88,5 @@ type ShowExhibitorPublicProfileData = Pick<
   | "publicProfileStatus"
   | "publicProfileStatusMessage"
 >;
+
+type ShowExhibitorNameData = Pick<ShowExhibitorProfile, "name">;
