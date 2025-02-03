@@ -5,7 +5,7 @@ import { Card } from "#core/layout/card";
 import { Icon } from "#generated/icon";
 import { ActivityField } from "#show/exhibitors/activity-field/activity-field";
 import { ActivityTarget } from "#show/exhibitors/activity-target/activity-target";
-import { LEGAL_STATUS_TRANSLATION } from "#show/exhibitors/applications/legal-status";
+import { LegalStatus } from "#show/exhibitors/applications/legal-status";
 import { ImageUrl, getCompleteLocation } from "@animeaux/core";
 import { useLoaderData } from "@remix-run/react";
 import type { loader } from "./route";
@@ -70,11 +70,10 @@ export function CardStructure() {
               isLightIcon
               icon={<Icon href="icon-fingerprint-light" />}
             >
-              {application.structureLegalStatus == null
-                ? application.structureOtherLegalStatus
-                : LEGAL_STATUS_TRANSLATION[
-                    application.structureLegalStatus
-                  ]}{" "}
+              {LegalStatus.getVisibleLegalStatus({
+                legalStatus: application.structureLegalStatus,
+                otherLegalStatus: application.structureOtherLegalStatus,
+              })}{" "}
               • {application.structureSiret}
             </SimpleItem>
 

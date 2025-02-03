@@ -2,7 +2,7 @@ import { BaseLink } from "#core/base-link";
 import { Routes } from "#core/navigation";
 import { ActivityFieldIcon } from "#show/exhibitors/activity-field/icon";
 import { ActivityTargetIcon } from "#show/exhibitors/activity-target/icon";
-import { LEGAL_STATUS_TRANSLATION } from "#show/exhibitors/applications/legal-status";
+import { LegalStatus } from "#show/exhibitors/applications/legal-status";
 import { ApplicationStatusIcon } from "#show/exhibitors/applications/status";
 import type { SerializeFrom } from "@remix-run/node";
 import { DateTime } from "luxon";
@@ -23,9 +23,10 @@ export function ApplicationItem({
       <span className="text-body-emphasis">{application.structureName}</span>
 
       <span className="hidden @lg/card-content:inline">
-        {application.structureLegalStatus != null
-          ? LEGAL_STATUS_TRANSLATION[application.structureLegalStatus]
-          : application.structureOtherLegalStatus}
+        {LegalStatus.getVisibleLegalStatus({
+          legalStatus: application.structureLegalStatus,
+          otherLegalStatus: application.structureOtherLegalStatus,
+        })}
       </span>
 
       <span className="hidden grid-flow-col justify-end gap-0.5 @3xl/card-content:grid">

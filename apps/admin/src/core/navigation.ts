@@ -108,6 +108,10 @@ export const Routes = {
             toString: () =>
               `/show/exhibitors/${id}/edit/stand-configuration` as const,
           },
+
+          structure: {
+            toString: () => `/show/exhibitors/${id}/edit/structure` as const,
+          },
         },
       }),
     },
