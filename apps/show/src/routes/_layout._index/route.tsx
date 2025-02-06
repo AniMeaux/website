@@ -18,7 +18,8 @@ export async function loader() {
     exhibitorCount:
       process.env.FEATURE_FLAG_SITE_ONLINE === "true" &&
       process.env.FEATURE_FLAG_SHOW_EXHIBITORS === "true"
-        ? services.exhibitor.getVisibleCount()
+        ? // Don't count visible exhibitors only.
+          services.exhibitor.getCount()
         : Promise.resolve(null),
 
     partners:
