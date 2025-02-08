@@ -6,6 +6,7 @@ import type { CSSRuleObject } from "tailwindcss/types/config";
 
 export const spacing = {
   "0": "0px",
+  "0.25": "3px",
   "0.5": "6px",
   "1": "12px",
   "1.5": "18px",
@@ -211,6 +212,7 @@ const theme: Config = {
 
       "just-above": "1",
       header: "20",
+      modal: "30",
     },
 
     extend: {
@@ -228,6 +230,10 @@ const theme: Config = {
         "4/3": "4 / 3",
         "3/4": "3 / 4",
         "16/10": "16 / 10",
+      },
+
+      boxShadow: {
+        modal: "0px 15px 80px -10px rgba(0, 0, 0, 0.3)",
       },
 
       data: {
@@ -498,7 +504,7 @@ function pluginCustomScrollbar() {
               height: "3px",
             },
             "&::-webkit-scrollbar-thumb": {
-              "background-color": theme("colors.prussianBlue.DEFAULT"),
+              "background-color": theme("colors.alabaster.300"),
             },
           };
         },

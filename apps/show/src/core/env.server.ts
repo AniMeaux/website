@@ -32,6 +32,8 @@ export function getClientEnv() {
     FEATURE_FLAG_EXHIBITOR_APPLICATION_ONLINE:
       process.env.FEATURE_FLAG_EXHIBITOR_APPLICATION_ONLINE,
     FEATURE_FLAG_SHOW_EXHIBITORS: process.env.FEATURE_FLAG_SHOW_EXHIBITORS,
+    FEATURE_FLAG_SHOW_ON_STAND_ANIMATIONS:
+      process.env.FEATURE_FLAG_SHOW_ON_STAND_ANIMATIONS,
     FEATURE_FLAG_SHOW_PARTNERS: process.env.FEATURE_FLAG_SHOW_PARTNERS,
     FEATURE_FLAG_SHOW_PROVIDERS: process.env.FEATURE_FLAG_SHOW_PROVIDERS,
     FEATURE_FLAG_SHOW_PROGRAM: process.env.FEATURE_FLAG_SHOW_PROGRAM,
@@ -75,6 +77,7 @@ const ProcessEnvSchema = zu.object({
     .enum(["true", "false"])
     .optional(),
   FEATURE_FLAG_SHOW_EXHIBITORS: zu.enum(["true", "false"]).optional(),
+  FEATURE_FLAG_SHOW_ON_STAND_ANIMATIONS: zu.enum(["true", "false"]).optional(),
   FEATURE_FLAG_SHOW_PARTNERS: zu.enum(["true", "false"]).optional(),
   FEATURE_FLAG_SHOW_PROVIDERS: zu.enum(["true", "false"]).optional(),
   FEATURE_FLAG_SHOW_PROGRAM: zu.enum(["true", "false"]).optional(),
@@ -84,6 +87,7 @@ const ProcessEnvSchema = zu.object({
   GOOGLE_DRIVE_SHARED_FOLDER_ID: zu.string(),
   GOOGLE_TAG_MANAGER_ID: zu.string().optional(),
   INSTAGRAM_URL: zu.string(),
+  ORGANIZER_EXHIBITOR_ID: zu.string().optional(),
   PRESS_RELEASE_URL: zu.string().optional(),
   PUBLIC_HOST: zu.string(),
   RESEND_API_KEY: zu.string().optional(),

@@ -245,7 +245,7 @@ export function TaskItemOnStandAnimations({
       }}
     >
       <TaskItem.Icon asChild>
-        <Icon id="calendar-day-light" />
+        <Icon id="comments-light" />
       </TaskItem.Icon>
 
       <TaskItem.Content>
