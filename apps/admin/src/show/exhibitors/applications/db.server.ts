@@ -5,7 +5,7 @@ import { prisma } from "#core/prisma.server";
 import { notFound } from "#core/response.server";
 import { ApplicationSearchParamsN } from "#show/exhibitors/applications/search-params";
 import { TABLE_COUNT_BY_SIZE } from "#show/exhibitors/stand-configuration/table";
-import { isPartnershipCategory } from "#show/partnership/category";
+import { isPartnershipCategory } from "#show/partners/category";
 import type { ShowExhibitorApplication } from "@prisma/client";
 import { Prisma, ShowExhibitorApplicationStatus } from "@prisma/client";
 import partition from "lodash.partition";

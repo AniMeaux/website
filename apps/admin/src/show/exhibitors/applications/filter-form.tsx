@@ -21,8 +21,8 @@ import {
 import {
   SORTED_APPLICATION_PARTNERSHIP_CATEGORIES,
   TRANSLATION_BY_APPLICATION_PARTNERSHIP_CATEGORY,
-} from "#show/partnership/category";
-import { ApplicationPartnershipCategoryIcon } from "#show/partnership/icon";
+} from "#show/partners/category";
+import { ApplicationPartnershipCategoryIcon } from "#show/partners/icon";
 import { useOptimisticSearchParams } from "@animeaux/search-params-io";
 
 export function ApplicationFilters() {

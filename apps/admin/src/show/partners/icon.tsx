@@ -1,11 +1,11 @@
 import type { IconName } from "#generated/icon";
 import { Icon } from "#generated/icon";
-import type { ApplicationPartnershipCategory } from "#show/partnership/category";
+import type { ApplicationPartnershipCategory } from "#show/partners/category";
 import {
   TRANSLATION_BY_APPLICATION_OTHER_PARTNERSHIP_CATEGORY,
   TRANSLATION_BY_PARTNERSHIP_CATEGORY,
   isPartnershipCategory,
-} from "#show/partnership/category";
+} from "#show/partners/category";
 import type { ShowPartnershipCategory } from "@prisma/client";
 import { ShowExhibitorApplicationOtherPartnershipCategory } from "@prisma/client";
 import { forwardRef } from "react";

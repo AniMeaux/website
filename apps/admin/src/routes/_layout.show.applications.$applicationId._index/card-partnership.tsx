@@ -1,7 +1,7 @@
 import { ItemList, SimpleItem } from "#core/data-display/item";
 import { Card } from "#core/layout/card";
-import { TRANSLATION_BY_APPLICATION_PARTNERSHIP_CATEGORY } from "#show/partnership/category";
-import { ApplicationPartnershipCategoryIcon } from "#show/partnership/icon";
+import { TRANSLATION_BY_APPLICATION_PARTNERSHIP_CATEGORY } from "#show/partners/category";
+import { ApplicationPartnershipCategoryIcon } from "#show/partners/icon";
 import { useLoaderData } from "@remix-run/react";
 import invariant from "tiny-invariant";
 import type { loader } from "./route";

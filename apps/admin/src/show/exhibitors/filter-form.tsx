@@ -39,8 +39,8 @@ import {
 import {
   SORTED_PARTNERSHIP_CATEGORIES,
   TRANSLATION_BY_PARTNERSHIP_CATEGORY,
-} from "#show/partnership/category";
-import { PartnershipCategoryIcon } from "#show/partnership/icon";
+} from "#show/partners/category";
+import { PartnershipCategoryIcon } from "#show/partners/icon";
 import { Visibility, VisibilityIcon } from "#show/visibility";
 import { useOptimisticSearchParams } from "@animeaux/search-params-io";
 

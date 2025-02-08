@@ -1,4 +1,4 @@
-import { ApplicationPartnershipCategory } from "#show/partnership/category";
+import { ApplicationPartnershipCategory } from "#show/partners/category";
 import { SearchParamsIO } from "@animeaux/search-params-io";
 import { zu } from "@animeaux/zod-utils";
 import {
