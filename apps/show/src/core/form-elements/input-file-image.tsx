@@ -120,7 +120,7 @@ export const InputFileImage = {
             fallbackSize="512"
             image={ImageUrl.parse(defaultLogo.path)}
             fillTransparentBackground
-            objectFit="cover"
+            objectFit="contain"
             sizes={{ default: "100vw", md: "33vw", lg: "400px" }}
             loading="eager"
             className="w-full transition-transform duration-slow can-hover:group-hover/item:scale-105"

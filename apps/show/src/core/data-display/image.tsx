@@ -142,9 +142,11 @@ export function createImageUrl(
     transformations.push(
       // https://cloudinary.com/documentation/transformation_reference#ar_aspect_ratio
       `ar_${aspectRatio}`,
+      // Use c_pad instead of c_fit to ensure remaining space is filled with a
+      // background.
       // https://cloudinary.com/documentation/transformation_reference#c_fill
-      // https://cloudinary.com/documentation/transformation_reference#c_fit
-      objectFit === "contain" ? "c_fit" : "c_fill",
+      // https://cloudinary.com/documentation/transformation_reference#c_pad
+      objectFit === "contain" ? "c_pad" : "c_fill",
     );
   }
 

@@ -51,7 +51,7 @@ export function ExhibitorItem({
             alt={exhibitor.name}
             loading={imageLoading}
             aspectRatio="4:3"
-            objectFit="cover"
+            objectFit="contain"
             fallbackSize="512"
             sizes={imageSizes}
             className="w-full transition-transform duration-slow can-hover:group-hover/item:scale-105"
