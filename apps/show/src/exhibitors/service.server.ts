@@ -6,6 +6,7 @@ import { ServiceApplication } from "#exhibitors/application/service.server";
 import { ServiceDocuments } from "#exhibitors/documents/service.server";
 import { ServiceDogsConfiguration } from "#exhibitors/dogs-configuration/service.server";
 import { ServiceProfile } from "#exhibitors/profile/service.server";
+import { ExhibitorSearchParamsN } from "#exhibitors/search-params";
 import { ServiceStandConfiguration } from "#exhibitors/stand-configuration/service.server";
 import type { Prisma } from "@prisma/client";
 
@@ -58,9 +59,65 @@ export class ServiceExhibitor extends Service {
     return exhibitor;
   }
 
-  async getVisibleCount() {
-    return await prisma.showExhibitor.count({
-      where: { isVisible: true },
+  async getCount() {
+    return await prisma.showExhibitor.count();
+  }
+
+  async findManyVisible<T extends Prisma.ShowExhibitorSelect>(params: {
+    searchParams: ExhibitorSearchParamsN.Value;
+    select: T;
+  }) {
+    const where: Prisma.ShowExhibitorWhereInput[] = [{ isVisible: true }];
+
+    if (params.searchParams.targets.size > 0) {
+      where.push({
+        profile: {
+          activityTargets: { hasSome: Array.from(params.searchParams.targets) },
+        },
+      });
+    }
+
+    if (params.searchParams.fields.size > 0) {
+      where.push({
+        profile: {
+          activityFields: { hasSome: Array.from(params.searchParams.fields) },
+        },
+      });
+    }
+
+    if (params.searchParams.isPartner) {
+      if (process.env.ORGANIZER_EXHIBITOR_ID == null) {
+        where.push({ partnership: { isVisible: true } });
+      } else {
+        where.push({
+          OR: [
+            { partnership: { isVisible: true } },
+            { id: process.env.ORGANIZER_EXHIBITOR_ID },
+          ],
+        });
+      }
+    }
+
+    if (
+      params.searchParams.eventTypes.has(
+        ExhibitorSearchParamsN.EventType.Enum.ON_STAGE,
+      )
+    ) {
+      where.push({ animations: { some: { isVisible: true } } });
+    }
+
+    if (
+      params.searchParams.eventTypes.has(
+        ExhibitorSearchParamsN.EventType.Enum.ON_STAND,
+      )
+    ) {
+      where.push({ profile: { onStandAnimations: { not: null } } });
+    }
+
+    return await prisma.showExhibitor.findMany({
+      where: { AND: where },
+      orderBy: { profile: { name: "asc" } },
+      select: params.select,
     });
   }
 }

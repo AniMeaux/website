@@ -367,9 +367,10 @@ export const FormLayout = {
     React.ComponentRef<typeof Primitive.div>,
     React.ComponentPropsWithoutRef<typeof Primitive.div> & {
       columnMinWidth: string;
+      repeatCount?: "auto-fit" | "auto-fill";
     }
   >(function FormLayoutSelectors(
-    { columnMinWidth, className, style, ...props },
+    { columnMinWidth, repeatCount = "auto-fit", className, style, ...props },
     ref,
   ) {
     return (
@@ -379,7 +380,7 @@ export const FormLayout = {
         className={cn("grid gap-0.5", className)}
         style={{
           ...style,
-          gridTemplateColumns: `repeat(auto-fit, minmax(${columnMinWidth}, 1fr))`,
+          gridTemplateColumns: `repeat(${repeatCount}, minmax(${columnMinWidth}, 1fr))`,
         }}
       />
     );
