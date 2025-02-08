@@ -35,6 +35,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
     application,
     documents,
     files,
+    partner,
     profile,
     standConfiguration,
   } = await promiseHash({
@@ -80,6 +81,13 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
     ),
 
     files: db.show.exhibitor.documents.getFilesByExhibitor(routeParams.id),
+
+    partner: db.show.partner.findUniqueByExhibitor(routeParams.id, {
+      select: {
+        id: true,
+        category: true,
+      },
+    }),
 
     profile: db.show.exhibitor.profile.findUniqueByExhibitor(routeParams.id, {
       select: {
@@ -128,6 +136,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
     exhibitor,
     application,
     documents: { ...documents, ...files },
+    partner,
     profile,
     standConfiguration,
   });
