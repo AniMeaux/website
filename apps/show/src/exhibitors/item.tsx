@@ -47,6 +47,7 @@ export function ExhibitorItem({
         <div className="grid w-full grid-cols-1 overflow-hidden rounded-2 border border-alabaster">
           <DynamicImage
             image={ImageUrl.parse(exhibitor.logoPath)}
+            fillTransparentBackground
             alt={exhibitor.name}
             loading={imageLoading}
             aspectRatio="4:3"
