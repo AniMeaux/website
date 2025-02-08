@@ -25,9 +25,10 @@ export const ProviderItem = forwardRef<
       >
         <DynamicImage
           image={ImageUrl.parse(provider.logoPath)}
+          fillTransparentBackground
           alt={provider.name}
           aspectRatio="4:3"
-          objectFit="cover"
+          objectFit="contain"
           fallbackSize={imageFallbackSize}
           sizes={imageSizes}
           className="w-full transition-transform duration-slow can-hover:group-hover/item:scale-105"

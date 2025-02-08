@@ -36,9 +36,10 @@ export const PartnerItem = forwardRef<
       >
         <DynamicImage
           image={ImageUrl.parse(partner.logoPath)}
+          fillTransparentBackground
           alt={partner.name}
           aspectRatio="4:3"
-          objectFit="cover"
+          objectFit="contain"
           fallbackSize={imageFallbackSize}
           sizes={imageSizes}
           className="w-full transition-transform duration-slow can-hover:group-hover/item:scale-105"
