@@ -3,9 +3,9 @@ import { googleClient } from "#core/google-client.server";
 import { notifyShowApp } from "#core/notification.server";
 import { prisma } from "#core/prisma.server";
 import { notFound } from "#core/response.server";
+import { ApplicationPartnershipCategory } from "#show/exhibitors/applications/partnership-category";
 import { ApplicationSearchParamsN } from "#show/exhibitors/applications/search-params";
 import { TABLE_COUNT_BY_SIZE } from "#show/exhibitors/stand-configuration/table";
-import { isPartnershipCategory } from "#show/partners/category";
 import type { ShowExhibitorApplication } from "@prisma/client";
 import { Prisma, ShowExhibitorApplicationStatus } from "@prisma/client";
 import partition from "lodash.partition";
@@ -57,7 +57,7 @@ export class ShowExhibitorApplicationDbDelegate {
     if (params.searchParams.partnershipCategories.size > 0) {
       const [partnershipCategories, otherPartnershipCategories] = partition(
         Array.from(params.searchParams.partnershipCategories),
-        isPartnershipCategory,
+        ApplicationPartnershipCategory.isPartnershipCategory,
       );
 
       where.push({

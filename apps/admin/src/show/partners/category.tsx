@@ -1,63 +1,57 @@
-import {
-  ShowExhibitorApplicationOtherPartnershipCategory,
-  ShowPartnershipCategory,
-} from "@prisma/client";
+import type { IconName } from "#generated/icon";
+import { Icon } from "#generated/icon";
+import { ShowPartnershipCategory } from "@prisma/client";
+import { forwardRef } from "react";
+import type { Except } from "type-fest";
 
-export const TRANSLATION_BY_PARTNERSHIP_CATEGORY: Record<
-  ShowPartnershipCategory,
-  string
-> = {
-  [ShowPartnershipCategory.BRONZE]: "Pott de bronze",
-  [ShowPartnershipCategory.SILVER]: "Pott d’argent",
-  [ShowPartnershipCategory.GOLD]: "Pott d’or",
-};
+export namespace PartnershipCategory {
+  export const Enum = ShowPartnershipCategory;
+  export type Enum = ShowPartnershipCategory;
 
-export const SORTED_PARTNERSHIP_CATEGORIES = [
-  ShowPartnershipCategory.BRONZE,
-  ShowPartnershipCategory.SILVER,
-  ShowPartnershipCategory.GOLD,
-];
+  export const translation: Record<Enum, string> = {
+    [Enum.BRONZE]: "Pott de bronze",
+    [Enum.SILVER]: "Pott d’argent",
+    [Enum.GOLD]: "Pott d’or",
+  };
 
-export const TRANSLATION_BY_APPLICATION_OTHER_PARTNERSHIP_CATEGORY: Record<
-  ShowExhibitorApplicationOtherPartnershipCategory,
-  string
-> = {
-  [ShowExhibitorApplicationOtherPartnershipCategory.MAYBE]:
-    "J’aimerais étudier un peu plus la question",
-  [ShowExhibitorApplicationOtherPartnershipCategory.NO_PARTNERSHIP]:
-    "Malheureusement ce n’est pas possible",
-};
-
-export const SORTED_APPLICATION_OTHER_PARTNERSHIP_CATEGORIES = [
-  ShowExhibitorApplicationOtherPartnershipCategory.MAYBE,
-  ShowExhibitorApplicationOtherPartnershipCategory.NO_PARTNERSHIP,
-];
-
-export function isPartnershipCategory(
-  category:
-    | ShowPartnershipCategory
-    | ShowExhibitorApplicationOtherPartnershipCategory,
-): category is ShowPartnershipCategory {
-  return SORTED_PARTNERSHIP_CATEGORIES.includes(category);
+  export const values = [Enum.BRONZE, Enum.SILVER, Enum.GOLD];
 }
 
-export const ApplicationPartnershipCategory = {
-  ...ShowPartnershipCategory,
-  ...ShowExhibitorApplicationOtherPartnershipCategory,
-} as const;
+export const PartnershipCategoryIcon = forwardRef<
+  React.ComponentRef<"span">,
+  Except<React.ComponentPropsWithoutRef<"span">, "title"> & {
+    category: PartnershipCategory.Enum;
+    variant?: "light" | "solid";
+  }
+>(function PartnershipCategoryIcon(
+  { category, variant = "light", ...props },
+  ref,
+) {
+  return (
+    <span
+      {...props}
+      ref={ref}
+      title={PartnershipCategory.translation[category]}
+    >
+      <Icon href={PARTNERSHIP_CATEGORY_ICON[category][variant]} />
+    </span>
+  );
+});
 
-export type ApplicationPartnershipCategory =
-  (typeof ApplicationPartnershipCategory)[keyof typeof ApplicationPartnershipCategory];
-
-export const TRANSLATION_BY_APPLICATION_PARTNERSHIP_CATEGORY: Record<
-  ApplicationPartnershipCategory,
-  string
+const PARTNERSHIP_CATEGORY_ICON: Record<
+  PartnershipCategory.Enum,
+  { solid: IconName; light: IconName }
 > = {
-  ...TRANSLATION_BY_PARTNERSHIP_CATEGORY,
-  ...TRANSLATION_BY_APPLICATION_OTHER_PARTNERSHIP_CATEGORY,
+  [PartnershipCategory.Enum.BRONZE]: {
+    light: "icon-award-light",
+    solid: "icon-award-solid",
+  },
+  [PartnershipCategory.Enum.SILVER]: {
+    light: "icon-award-light",
+    solid: "icon-award-solid",
+  },
+  [PartnershipCategory.Enum.GOLD]: {
+    light: "icon-award-light",
+    solid: "icon-award-solid",
+  },
 };
-
-export const SORTED_APPLICATION_PARTNERSHIP_CATEGORIES = [
-  ...SORTED_PARTNERSHIP_CATEGORIES,
-  ...SORTED_APPLICATION_OTHER_PARTNERSHIP_CATEGORIES,
-];

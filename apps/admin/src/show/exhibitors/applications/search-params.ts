@@ -1,4 +1,4 @@
-import { ApplicationPartnershipCategory } from "#show/partners/category";
+import { ApplicationPartnershipCategory } from "#show/exhibitors/applications/partnership-category";
 import { SearchParamsIO } from "@animeaux/search-params-io";
 import { zu } from "@animeaux/zod-utils";
 import {
@@ -60,7 +60,7 @@ const SearchParamsSchema = zu.object({
   fields: zu.searchParams.set(zu.searchParams.nativeEnum(ShowActivityField)),
   name: zu.searchParams.string(),
   partnershipCategories: zu.searchParams.set(
-    zu.searchParams.nativeEnum(ApplicationPartnershipCategory),
+    zu.searchParams.nativeEnum(ApplicationPartnershipCategory.Enum),
   ),
   sort: zu.searchParams
     .nativeEnum(ApplicationSearchParamsN.Sort)

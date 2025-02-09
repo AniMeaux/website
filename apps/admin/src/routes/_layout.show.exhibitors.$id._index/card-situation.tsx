@@ -9,7 +9,7 @@ import {
   TRANSLATION_BY_APPLICATION_STATUS,
 } from "#show/exhibitors/applications/status";
 import { Payment, PaymentIcon } from "#show/exhibitors/payment";
-import { TRANSLATION_BY_PARTNERSHIP_CATEGORY } from "#show/partners/category";
+import { PartnershipCategory } from "#show/partners/category";
 import { Visibility, VisibilityIcon } from "#show/visibility";
 import { joinReactNodes } from "@animeaux/core";
 import { useLoaderData } from "@remix-run/react";
@@ -137,7 +137,7 @@ function ItemPartnership() {
     <SimpleItem isLightIcon icon={<Icon href="icon-award-light" />}>
       Partenaire{" "}
       <strong className="text-body-emphasis">
-        {TRANSLATION_BY_PARTNERSHIP_CATEGORY[partner.category]}
+        {PartnershipCategory.translation[partner.category]}
       </strong>
     </SimpleItem>
   );
