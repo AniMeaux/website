@@ -37,10 +37,9 @@ import {
   StandConfigurationStatusIcon,
 } from "#show/exhibitors/stand-configuration/status";
 import {
-  SORTED_PARTNERSHIP_CATEGORIES,
-  TRANSLATION_BY_PARTNERSHIP_CATEGORY,
-} from "#show/partnership/category";
-import { PartnershipCategoryIcon } from "#show/partnership/icon";
+  PartnershipCategory,
+  PartnershipCategoryIcon,
+} from "#show/partners/category";
 import { Visibility, VisibilityIcon } from "#show/visibility";
 import { useOptimisticSearchParams } from "@animeaux/search-params-io";
 
@@ -266,11 +265,11 @@ function FilterPartnership() {
       ))}
     >
       <ToggleInputList>
-        {SORTED_PARTNERSHIP_CATEGORIES.map((category) => (
+        {PartnershipCategory.values.map((category) => (
           <ToggleInput
             key={category}
             type="checkbox"
-            label={TRANSLATION_BY_PARTNERSHIP_CATEGORY[category]}
+            label={PartnershipCategory.translation[category]}
             name={ExhibitorSearchParams.keys.partnershipCategories}
             value={category}
             icon={

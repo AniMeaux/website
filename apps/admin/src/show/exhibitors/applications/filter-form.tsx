@@ -10,6 +10,10 @@ import { ActivityFieldIcon } from "#show/exhibitors/activity-field/icon";
 import { ActivityTarget } from "#show/exhibitors/activity-target/activity-target";
 import { ActivityTargetIcon } from "#show/exhibitors/activity-target/icon";
 import {
+  ApplicationPartnershipCategory,
+  ApplicationPartnershipCategoryIcon,
+} from "#show/exhibitors/applications/partnership-category";
+import {
   ApplicationSearchParams,
   ApplicationSearchParamsN,
 } from "#show/exhibitors/applications/search-params";
@@ -18,11 +22,6 @@ import {
   SORTED_STATUSES,
   TRANSLATION_BY_APPLICATION_STATUS,
 } from "#show/exhibitors/applications/status";
-import {
-  SORTED_APPLICATION_PARTNERSHIP_CATEGORIES,
-  TRANSLATION_BY_APPLICATION_PARTNERSHIP_CATEGORY,
-} from "#show/partnership/category";
-import { ApplicationPartnershipCategoryIcon } from "#show/partnership/icon";
 import { useOptimisticSearchParams } from "@animeaux/search-params-io";
 
 export function ApplicationFilters() {
@@ -257,13 +256,11 @@ export function ApplicationFilters() {
           ))}
         >
           <ToggleInputList>
-            {SORTED_APPLICATION_PARTNERSHIP_CATEGORIES.map((category) => (
+            {ApplicationPartnershipCategory.values.map((category) => (
               <ToggleInput
                 key={category}
                 type="checkbox"
-                label={
-                  TRANSLATION_BY_APPLICATION_PARTNERSHIP_CATEGORY[category]
-                }
+                label={ApplicationPartnershipCategory.translation[category]}
                 name={ApplicationSearchParams.keys.partnershipCategories}
                 value={category}
                 icon={

@@ -1,7 +1,10 @@
 import { ItemList, SimpleItem } from "#core/data-display/item";
 import { Card } from "#core/layout/card";
-import { TRANSLATION_BY_APPLICATION_PARTNERSHIP_CATEGORY } from "#show/partnership/category";
-import { ApplicationPartnershipCategoryIcon } from "#show/partnership/icon";
+import {
+  ApplicationPartnershipCategory,
+  ApplicationPartnershipCategoryIcon,
+} from "#show/exhibitors/applications/partnership-category";
+
 import { useLoaderData } from "@remix-run/react";
 import invariant from "tiny-invariant";
 import type { loader } from "./route";
@@ -26,7 +29,7 @@ export function CardPartnership() {
             isLightIcon
             icon={<ApplicationPartnershipCategoryIcon category={category} />}
           >
-            {TRANSLATION_BY_APPLICATION_PARTNERSHIP_CATEGORY[category]}
+            {ApplicationPartnershipCategory.translation[category]}
           </SimpleItem>
         </ItemList>
       </Card.Content>
