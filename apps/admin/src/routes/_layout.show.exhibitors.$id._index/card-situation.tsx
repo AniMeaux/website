@@ -136,9 +136,11 @@ function ItemPartnership() {
   return (
     <SimpleItem isLightIcon icon={<Icon href="icon-award-light" />}>
       Partenaire{" "}
-      <strong className="text-body-emphasis">
-        {PartnershipCategory.translation[partner.category]}
-      </strong>
+      <ProseInlineAction asChild>
+        <BaseLink to={Routes.show.partners.id(partner.id).toString()}>
+          {PartnershipCategory.translation[partner.category]}
+        </BaseLink>
+      </ProseInlineAction>
     </SimpleItem>
   );
 }

@@ -1,10 +1,27 @@
 import { prisma } from "#core/prisma.server";
+import { notFound } from "#core/response.server";
 import { PartnerSearchParamsN } from "#show/partners/search-params";
 import { Visibility } from "#show/visibility";
 import type { Prisma } from "@prisma/client";
 import { promiseHash } from "remix-utils/promise";
 
 export class ShowPartnerDbDelegate {
+  async findUnique<T extends Prisma.ShowPartnerSelect>(
+    id: string,
+    params: { select: T },
+  ) {
+    const partner = await prisma.showPartner.findUnique({
+      where: { id },
+      select: params.select,
+    });
+
+    if (partner == null) {
+      throw notFound();
+    }
+
+    return partner;
+  }
+
   async findUniqueByExhibitor<T extends Prisma.ShowPartnerSelect>(
     exhibitorId: string,
     params: { select: T },
