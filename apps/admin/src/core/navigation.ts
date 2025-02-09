@@ -115,6 +115,14 @@ export const Routes = {
         },
       }),
     },
+
+    partners: {
+      toString: () => "/show/partners" as const,
+
+      id: (id: string) => ({
+        toString: () => `/show/partners/${id}` as const,
+      }),
+    },
   },
   users: {
     toString: () => "/users" as const,

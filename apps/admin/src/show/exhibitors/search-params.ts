@@ -3,6 +3,7 @@ import { DocumentsStatus } from "#show/exhibitors/documents/status";
 import { Payment } from "#show/exhibitors/payment";
 import { ProfileStatus } from "#show/exhibitors/profile/status";
 import { StandConfigurationStatus } from "#show/exhibitors/stand-configuration/status";
+import { PartnershipCategory } from "#show/partners/category";
 import { Visibility } from "#show/visibility";
 import { SearchParamsIO } from "@animeaux/search-params-io";
 import { zu } from "@animeaux/zod-utils";
@@ -11,7 +12,6 @@ import {
   ShowActivityTarget,
   ShowExhibitorApplicationStatus,
   ShowExhibitorDogsConfigurationStatus,
-  ShowPartnershipCategory,
 } from "@prisma/client";
 
 export const ExhibitorSearchParams = SearchParamsIO.create({
@@ -215,7 +215,7 @@ const SearchParamsSchema = zu.object({
     zu.searchParams.nativeEnum(ProfileStatus.Enum),
   ),
   partnershipCategories: zu.searchParams.set(
-    zu.searchParams.nativeEnum(ShowPartnershipCategory),
+    zu.searchParams.nativeEnum(PartnershipCategory.Enum),
   ),
   payment: zu.searchParams.set(zu.searchParams.nativeEnum(Payment.Enum)),
   publicProfileStatuses: zu.searchParams.set(
