@@ -24,7 +24,7 @@ export function CardStructure() {
           <DynamicImage
             imageId={ImageUrl.parse(application.structureLogoPath).id}
             alt={application.structureName}
-            sizeMapping={{ sm: "100vw", md: "33vw", default: "160px" }}
+            sizeMapping={{ default: "160px", sm: "100vw", md: "33vw" }}
             fallbackSize="512"
             background="none"
             className="w-full rounded-2 border border-gray-200"

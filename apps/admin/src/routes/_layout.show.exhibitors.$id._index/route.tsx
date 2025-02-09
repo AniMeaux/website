@@ -181,8 +181,6 @@ export default function Route() {
           <CardStandConfiguration />
           <CardDocuments />
           <CardOnStandAnimations />
-
-          <div className="grid grid-cols-1 gap-1 md:grid-cols-2 md:gap-2"></div>
         </div>
       </PageLayout.Content>
     </>
