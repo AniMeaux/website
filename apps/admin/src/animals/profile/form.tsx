@@ -44,7 +44,7 @@ export const ActionFormData = FormDataDelegate.create(
     gender: zu.nativeEnum(Gender, {
       required_error: "Veuillez choisir un genre",
     }),
-    iCadNumber: zu.string().trim(),
+    iCadNumber: zu.string().transform((value) => value.replace(/\s+/g, "")),
     isOkCats: zu
       .nativeEnum(AgreementValue, {
         required_error: "Veuillez choisir une option",
