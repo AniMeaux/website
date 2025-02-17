@@ -284,6 +284,10 @@ export class AnimalDbDelegate {
       });
     }
 
+    if (searchParams.genders.size > 0) {
+      where.push({ gender: { in: Array.from(searchParams.genders) } });
+    }
+
     if (searchParams.sterilizations.size > 0) {
       where.push({
         OR: Array.from(searchParams.sterilizations).map(

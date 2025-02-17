@@ -10,6 +10,11 @@ import { ControlledInput } from "#core/form-elements/controlled-input";
 import { Form } from "#core/form-elements/form";
 import { ToggleInput, ToggleInputList } from "#core/form-elements/toggle-input";
 import {
+  AVAILABILITY_TRANSLATION,
+  AvailabilityIcon,
+  SORTED_AVAILABILITIES,
+} from "#foster-families/availability";
+import {
   GARDEN_TRANSLATION,
   HOUSING_TRANSLATION,
   ICON_BY_GARDEN,
@@ -77,6 +82,39 @@ export function FosterFamilyFilters({
               ) : null
             }
           />
+        </Filters.Filter>
+
+        <Filters.Filter
+          value={FosterFamilySearchParams.keys.availability}
+          label="Disponibilités"
+          count={fosterFamilySearchParams.availability.size}
+          hiddenContent={Array.from(fosterFamilySearchParams.availability).map(
+            (availability) => (
+              <input
+                key={availability}
+                type="hidden"
+                name={FosterFamilySearchParams.keys.availability}
+                value={availability}
+              />
+            ),
+          )}
+        >
+          <ToggleInputList>
+            {SORTED_AVAILABILITIES.map((availability) => (
+              <ToggleInput
+                key={availability}
+                type="checkbox"
+                label={AVAILABILITY_TRANSLATION[availability]}
+                name={FosterFamilySearchParams.keys.availability}
+                value={availability}
+                icon={<AvailabilityIcon availability={availability} />}
+                checked={fosterFamilySearchParams.availability.has(
+                  availability,
+                )}
+                onChange={() => {}}
+              />
+            ))}
+          </ToggleInputList>
         </Filters.Filter>
 
         <Filters.Filter

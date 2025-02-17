@@ -1,6 +1,7 @@
 import { SearchParamsIO } from "@animeaux/search-params-io";
 import { zu } from "@animeaux/zod-utils";
 import {
+  FosterFamilyAvailability,
   FosterFamilyGarden,
   FosterFamilyHousing,
   Species,
@@ -8,6 +9,7 @@ import {
 
 export const FosterFamilySearchParams = SearchParamsIO.create({
   keys: {
+    availability: "a",
     displayName: "q",
     garden: "garden",
     housing: "housing",
@@ -20,6 +22,7 @@ export const FosterFamilySearchParams = SearchParamsIO.create({
 
   parseFunction: (searchParams, keys) => {
     return Schema.parse({
+      availability: SearchParamsIO.getValues(searchParams, keys.availability),
       displayName: SearchParamsIO.getValue(searchParams, keys.displayName),
       garden: SearchParamsIO.getValues(searchParams, keys.garden),
       housing: SearchParamsIO.getValues(searchParams, keys.housing),
@@ -38,6 +41,12 @@ export const FosterFamilySearchParams = SearchParamsIO.create({
   },
 
   setFunction: (searchParams, data, keys) => {
+    SearchParamsIO.setValues(
+      searchParams,
+      keys.availability,
+      data.availability,
+    );
+
     SearchParamsIO.setValue(searchParams, keys.displayName, data.displayName);
 
     SearchParamsIO.setValues(searchParams, keys.garden, data.garden);
@@ -69,6 +78,9 @@ export const FosterFamilySearchParams = SearchParamsIO.create({
 });
 
 const Schema = zu.object({
+  availability: zu.searchParams.set(
+    zu.searchParams.nativeEnum(FosterFamilyAvailability),
+  ),
   displayName: zu.searchParams.string(),
   garden: zu.searchParams.set(zu.searchParams.nativeEnum(FosterFamilyGarden)),
   housing: zu.searchParams.set(zu.searchParams.nativeEnum(FosterFamilyHousing)),
