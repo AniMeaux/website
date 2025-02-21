@@ -44,6 +44,7 @@ model FosterFamily {
   email                      String                   @unique @db.VarChar(255)
   garden                     FosterFamilyGarden       @default(UNKNOWN)
   housing                    FosterFamilyHousing      @default(UNKNOWN)
+  isBanned                   Boolean                  @default(false)
   phone                      String                   @db.VarChar(255)
   speciesAlreadyPresent      Species[]                @default([])
   speciesToHost              Species[]                @default([])
