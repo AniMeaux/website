@@ -24,6 +24,7 @@ import {
   FosterFamilyAvatar,
 } from "#foster-families/avatar";
 import { ActionFormData } from "#foster-families/form";
+import { FormDataDelegate } from "@animeaux/form-data";
 import { zu } from "@animeaux/zod-utils";
 import { FosterFamilyAvailability, UserGroup } from "@prisma/client";
 import type {
@@ -34,7 +35,7 @@ import type {
 import { json, redirect } from "@remix-run/node";
 import { useFetcher, useLoaderData } from "@remix-run/react";
 import { DateTime } from "luxon";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { promiseHash } from "remix-utils/promise";
 import { ContactCard } from "./contact-card";
 import { SituationCard } from "./situation-card";
@@ -74,6 +75,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
         garden: true,
         housing: true,
         id: true,
+        isBanned: true,
         phone: true,
         speciesAlreadyPresent: true,
         speciesToHost: true,
@@ -119,6 +121,12 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
 
   return [{ title: getPageTitle(fosterFamily.displayName) }];
 };
+
+const DisableActionFormData = FormDataDelegate.create(
+  zu.object({
+    isBanned: zu.checkbox(),
+  }),
+);
 
 export async function action({ request, params }: ActionFunctionArgs) {
   if (request.method.toUpperCase() !== "DELETE") {
@@ -180,7 +188,7 @@ export default function Route() {
           <SituationCard />
           <CommentsCard />
           <FosterAnimalsCard />
-          <ActionCard />
+          <ActionsCard />
         </section>
 
         <section className="hidden md:grid md:grid-cols-[minmax(0px,2fr)_minmax(250px,1fr)] md:items-start md:gap-2">
@@ -192,7 +200,7 @@ export default function Route() {
           <section className="md:flex md:flex-col md:gap-2">
             <SituationCard />
             <CommentsCard />
-            <ActionCard />
+            <ActionsCard />
           </section>
         </section>
       </PageLayout.Content>
@@ -347,7 +355,102 @@ function FosterAnimalsCard() {
   );
 }
 
-function ActionCard() {
+function ActionsCard() {
+  return (
+    <Card>
+      <Card.Header>
+        <Card.Title>Actions</Card.Title>
+      </Card.Header>
+
+      <Card.Content>
+        <div className="flex flex-col gap-1">
+          <ActionBan />
+          <ActionDelete />
+        </div>
+      </Card.Content>
+    </Card>
+  );
+}
+
+function ActionBan() {
+  const { fosterFamily } = useLoaderData<typeof loader>();
+  const fetcher = useFetcher<typeof action>();
+  const [isDialogOpened, setIsDialogOpened] = useState(false);
+
+  const done = fetcher.state === "idle" && fetcher.data != null;
+  useEffect(() => {
+    if (done) {
+      setIsDialogOpened(false);
+    }
+  }, [done]);
+
+  const [isHelperVisible, setIsHelperVisible] = useState(false);
+
+  return (
+    <Card>
+      <Card.Content>
+        {isHelperVisible ? (
+          <InlineHelper
+            variant="info"
+            action={
+              <button onClick={() => setIsHelperVisible(false)}>Fermer</button>
+            }
+          >
+            La famille d’accueil ne peut être bloquée tant qu’elle a des animaux
+            accueillis.
+          </InlineHelper>
+        ) : null}
+
+        <Dialog open={isDialogOpened} onOpenChange={setIsDialogOpened}>
+          <Dialog.Trigger asChild>
+            <Action variant="secondary" color="orange">
+              <Action.Icon href="icon-ban-solid" />
+              {fosterFamily.isBanned ? "Débannir" : "Bannir"}
+            </Action>
+          </Dialog.Trigger>
+
+          <Dialog.Content variant="alert">
+            <Dialog.Header>
+              {fosterFamily.isBanned ? "Débannir" : "Bannir"}{" "}
+              {fosterFamily.displayName}
+            </Dialog.Header>
+
+            <Dialog.Message>
+              Êtes-vous sûr de vouloir{" "}
+              {fosterFamily.isBanned ? "débannir" : "bannir"}{" "}
+              <strong className="text-body-emphasis">
+                {fosterFamily.displayName}
+              </strong>
+              {" "}?
+            </Dialog.Message>
+
+            <ErrorsInlineHelper errors={fetcher.data?.errors} />
+
+            <Dialog.Actions>
+              <Dialog.CloseAction>Annuler</Dialog.CloseAction>
+
+              <fetcher.Form method="POST" className="flex">
+                {!fosterFamily.isBanned ? (
+                  <input
+                    type="hidden"
+                    name={DisableActionFormData.keys.isBanned}
+                    value="on"
+                  />
+                ) : null}
+
+                <Dialog.ConfirmAction type="submit">
+                  Oui, {fosterFamily.isBanned ? "débannir" : "bannir"}
+                </Dialog.ConfirmAction>
+              </fetcher.Form>
+            </Dialog.Actions>
+          </Dialog.Content>
+        </Dialog>
+      </Card.Content>
+    </Card>
+  );
+}
+
+function ActionDelete() {
   const { fosterFamily, fosterAnimalCount } = useLoaderData<typeof loader>();
   const canDelete = fosterAnimalCount === 0;
   const fetcher = useFetcher<typeof action>();
@@ -355,10 +458,6 @@ function ActionCard() {
 
   return (
     <Card>
-      <Card.Header>
-        <Card.Title>Actions</Card.Title>
-      </Card.Header>
-
       <Card.Content>
         {isHelperVisible ? (
           <InlineHelper
