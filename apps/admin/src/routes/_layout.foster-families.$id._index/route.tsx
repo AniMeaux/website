@@ -387,8 +387,7 @@ function ActionBan() {
   const [isHelperVisible, setIsHelperVisible] = useState(false);
 
   return (
-    <Card>
-      <Card.Content>
+      <>
         {isHelperVisible ? (
           <InlineHelper
             variant="info"
@@ -445,8 +444,7 @@ function ActionBan() {
             </Dialog.Actions>
           </Dialog.Content>
         </Dialog>
-      </Card.Content>
-    </Card>
+      </>
   );
 }
 
@@ -457,8 +455,7 @@ function ActionDelete() {
   const [isHelperVisible, setIsHelperVisible] = useState(false);
 
   return (
-    <Card>
-      <Card.Content>
+    <>
         {isHelperVisible ? (
           <InlineHelper
             variant="info"
@@ -517,7 +514,6 @@ function ActionDelete() {
             </Dialog.Actions>
           </Dialog.Content>
         </Dialog>
-      </Card.Content>
-    </Card>
+    </>
   );
 }
