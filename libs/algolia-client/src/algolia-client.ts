@@ -409,6 +409,7 @@ class ColorDelegate extends IndexDelegate {
 
 export type FosterFamily = {
   displayName: string;
+  isBanned: boolean;
 };
 
 export type FosterFamilyHit = Hit<FosterFamily>;
@@ -422,6 +423,7 @@ class FosterFamilyDelegate extends IndexDelegate {
     return await this.index.partialUpdateObject({
       objectID: fosterFamily.id,
       displayName: fosterFamily.displayName,
+      isBanned: fosterFamily.isBanned,
     } satisfies PartialUpdateObjectParam<FosterFamily>);
   }
 
@@ -429,6 +431,7 @@ class FosterFamilyDelegate extends IndexDelegate {
     return await this.index.saveObject({
       objectID: fosterFamily.id,
       displayName: fosterFamily.displayName,
+      isBanned: fosterFamily.isBanned,
     } satisfies SaveObjectParam<FosterFamily>);
   }
 
@@ -437,6 +440,7 @@ class FosterFamilyDelegate extends IndexDelegate {
       fosterFamilies.map<SaveObjectParam<FosterFamily>>((object) => ({
         objectID: object.id,
         displayName: object.displayName,
+        isBanned: object.isBanned,
       })),
     );
   }
@@ -444,7 +448,7 @@ class FosterFamilyDelegate extends IndexDelegate {
   async findMany({
     where: { displayName },
     ...options
-  }: FindManyParam<{ displayName: string }>) {
+  }: FindManyParam<{ displayName: string; isBanned?: boolean }>) {
     let response: SearchResponse<SerializeObject<FosterFamily>>;
 
     if (options.hitsPerPage == null) {
@@ -464,9 +468,11 @@ class FosterFamilyDelegate extends IndexDelegate {
       return {
         id: hit.objectID,
         displayName: hit.displayName,
+        isBanned: hit.isBanned,
         _highlighted: {
           displayName:
             hit._highlightResult?.displayName?.value ?? hit.displayName,
+          isBanned: hit.isBanned,
         },
       };
     });
@@ -476,6 +482,7 @@ class FosterFamilyDelegate extends IndexDelegate {
     await this.index.setSettings({
       ...DEFAULT_SETTINGS,
       searchableAttributes: ["displayName"],
+      attributesForFaceting: ["isBanned"],
     } satisfies SetSettingsParam<FosterFamily>);
   }
 }

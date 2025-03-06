@@ -6,6 +6,8 @@ export class AlreadyExistError extends Error {}
 
 export class EmailAlreadyUsedError extends Error {}
 
+export class BanMyselfError extends Error {}
+
 // Prisma only expose error codes as string.
 // See https://github.com/prisma/prisma/issues/5040
 export enum PrismaErrorCodes {
