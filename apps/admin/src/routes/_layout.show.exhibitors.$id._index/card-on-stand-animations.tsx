@@ -1,3 +1,5 @@
+import { Action } from "#core/actions";
+import { BaseLink } from "#core/base-link";
 import { Empty } from "#core/data-display/empty";
 import {
   ARTICLE_COMPONENTS,
@@ -5,6 +7,7 @@ import {
   SENTENCE_COMPONENTS,
 } from "#core/data-display/markdown";
 import { Card } from "#core/layout/card";
+import { Routes } from "#core/navigation";
 import {
   ProfileStatus,
   ProfileStatusIcon,
@@ -14,12 +17,22 @@ import { useLoaderData } from "@remix-run/react";
 import type { loader } from "./route";
 
 export function CardOnStandAnimations() {
-  const { profile } = useLoaderData<typeof loader>();
+  const { profile, exhibitor } = useLoaderData<typeof loader>();
 
   return (
     <Card>
       <Card.Header>
         <Card.Title>Animations sur stand</Card.Title>
+
+        <Action variant="text" asChild>
+          <BaseLink
+            to={Routes.show.exhibitors
+              .id(exhibitor.id)
+              .edit.onStandAnimations.toString()}
+          >
+            Modifier
+          </BaseLink>
+        </Action>
       </Card.Header>
 
       <Card.Content>

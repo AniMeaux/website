@@ -320,7 +320,15 @@ export const EmailHtml = {
             _isFirstRow ? undefined : "pt-1",
           )}
         >
-          {children}
+          {Children.toArray(children).map((child, index) => {
+            if (!isValidElement(child)) {
+              return child;
+            }
+
+            return cloneElement(child as React.ReactElement<IsFirstProps>, {
+              _isFirst: index === 0,
+            });
+          })}
         </Column>
       );
     },

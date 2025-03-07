@@ -3,7 +3,10 @@ import { badRequest, unauthorized } from "#core/response.server";
 import { createEmailTemplateStatusUpdate } from "#exhibitors/application/emails.server";
 import { DocumentsEmails } from "#exhibitors/documents/email.server";
 import { ExhibitorEmails } from "#exhibitors/email.server";
-import { PublicProfileEmails } from "#exhibitors/profile/email.server";
+import {
+  OnStandAnimationsEmails,
+  PublicProfileEmails,
+} from "#exhibitors/profile/email.server";
 import { StandConfigurationEmails } from "#exhibitors/stand-configuration/email.server";
 import { zu } from "@animeaux/zod-utils";
 import type { ActionFunctionArgs } from "@remix-run/node";
@@ -17,6 +20,7 @@ export async function action({ request }: ActionFunctionArgs) {
       ActionSchemaApplicationStatusUpdated,
       ActionSchemaDocumentsTreated,
       ActionSchemaExhibitorVisibleTreated,
+      ActionSchemaOnStandAnimationsTreated,
       ActionSchemaPublicProfileTreated,
       ActionSchemaStandConfigurationTreated,
     ])
@@ -43,6 +47,14 @@ export async function action({ request }: ActionFunctionArgs) {
 
     case ActionSchemaExhibitorVisibleTreated.shape.type.value: {
       email.send.template(ExhibitorEmails.isVisible(action.data.exhibitorId));
+
+      return json({ ok: true });
+    }
+
+    case ActionSchemaOnStandAnimationsTreated.shape.type.value: {
+      email.send.template(
+        OnStandAnimationsEmails.treated(action.data.exhibitorId),
+      );
 
       return json({ ok: true });
     }
@@ -79,6 +91,11 @@ const ActionSchemaDocumentsTreated = zu.object({
 
 const ActionSchemaExhibitorVisibleTreated = zu.object({
   type: zu.literal("exhibitor-visible"),
+  exhibitorId: zu.string().uuid(),
+});
+
+const ActionSchemaOnStandAnimationsTreated = zu.object({
+  type: zu.literal("on-stand-animations-treated"),
   exhibitorId: zu.string().uuid(),
 });
 
