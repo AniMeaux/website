@@ -13,6 +13,7 @@ type ShowNotification =
   | { type: "application-status-updated"; applicationId: string }
   | { type: "documents-treated"; exhibitorId: string }
   | { type: "exhibitor-visible"; exhibitorId: string }
+  | { type: "on-stand-animations-treated"; exhibitorId: string }
   | { type: "public-profile-treated"; exhibitorId: string }
   | { type: "stand-configuration-treated"; exhibitorId: string };
 

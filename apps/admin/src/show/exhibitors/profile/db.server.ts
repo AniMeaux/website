@@ -78,6 +78,42 @@ export class ShowExhibitorProfileDbDelegate {
       throw error;
     }
   }
+
+  async updateOnStandAnimations(
+    exhibitorId: string,
+    data: ShowExhibitorOnStandAnimationsData,
+  ) {
+    this.#normalizeOnStandAnimations(data);
+
+    try {
+      await prisma.showExhibitor.update({
+        where: { id: exhibitorId },
+        data: {
+          updatedAt: new Date(),
+          profile: { update: data },
+        },
+      });
+    } catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === PrismaErrorCodes.NOT_FOUND) {
+          throw notFound();
+        }
+      }
+
+      throw error;
+    }
+
+    await notifyShowApp({
+      type: "on-stand-animations-treated",
+      exhibitorId,
+    });
+  }
+
+  #normalizeOnStandAnimations(data: ShowExhibitorOnStandAnimationsData) {
+    if (data.onStandAnimationsStatus !== ProfileStatus.Enum.TO_MODIFY) {
+      data.onStandAnimationsStatusMessage = null;
+    }
+  }
 }
 
 type ShowExhibitorPublicProfileData = Pick<
@@ -90,3 +126,10 @@ type ShowExhibitorPublicProfileData = Pick<
 >;
 
 type ShowExhibitorNameData = Pick<ShowExhibitorProfile, "name">;
+
+type ShowExhibitorOnStandAnimationsData = Pick<
+  ShowExhibitorProfile,
+  | "onStandAnimations"
+  | "onStandAnimationsStatus"
+  | "onStandAnimationsStatusMessage"
+>;

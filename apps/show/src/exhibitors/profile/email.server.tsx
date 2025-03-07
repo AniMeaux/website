@@ -401,73 +401,211 @@ export async function createEmailTemplateDescriptionUpdated(
   };
 }
 
-export async function createEmailTemplateAnimationsOnStandUpdated(
-  token: string,
-): Promise<EmailTemplate> {
-  const { profile, application } = await promiseHash({
-    profile: services.exhibitor.profile.getByToken(token, {
-      select: { onStandAnimations: true },
-    }),
+export namespace OnStandAnimationsEmails {
+  export async function submitted(token: string): Promise<EmailTemplate> {
+    const { profile, application } = await promiseHash({
+      profile: services.exhibitor.profile.getByToken(token, {
+        select: { onStandAnimations: true },
+      }),
 
-    application: services.exhibitor.application.getByToken(token, {
-      select: { contactEmail: true },
-    }),
-  });
+      application: services.exhibitor.application.getByToken(token, {
+        select: { contactEmail: true },
+      }),
+    });
 
-  return {
-    name: "animation-sur-stand-exposant-mis-a-jour",
-    from: "Salon des Ani’Meaux <salon@animeaux.org>",
-    to: [application.contactEmail],
-    subject: "Animations sur stand mis à jour - Salon des Ani’Meaux 2025",
-    body: (
-      <EmailHtml.Root>
-        <EmailHtml.Title>Animations sur stand mis à jour</EmailHtml.Title>
+    return {
+      name: "animation-sur-stand-exposant-mis-a-jour",
+      from: "Salon des Ani’Meaux <salon@animeaux.org>",
+      to: [application.contactEmail],
+      subject: "Animations sur stand mis à jour - Salon des Ani’Meaux 2025",
+      body: (
+        <EmailHtml.Root>
+          <EmailHtml.Title>Animations sur stand mis à jour</EmailHtml.Title>
 
-        <EmailHtml.Section.Root>
-          <EmailHtml.Paragraph>
-            La description de vos animations sur stand a bien été mise à jour et
-            est en attente de traitement.
-          </EmailHtml.Paragraph>
+          <EmailHtml.Section.Root>
+            <EmailHtml.Paragraph>
+              La description de vos animations sur stand a bien été mise à jour
+              et est en attente de traitement.
+            </EmailHtml.Paragraph>
 
-          <EmailHtml.Paragraph>
-            <EmailHtml.Button
-              href={`${process.env.PUBLIC_HOST}${Routes.exhibitors.token(token).animations.toString()}`}
-            >
-              Accédez à vos animations
-            </EmailHtml.Button>
-          </EmailHtml.Paragraph>
+            <EmailHtml.Paragraph>
+              <EmailHtml.Button
+                href={`${process.env.PUBLIC_HOST}${Routes.exhibitors.token(token).animations.toString()}`}
+              >
+                Accédez à vos animations
+              </EmailHtml.Button>
+            </EmailHtml.Paragraph>
 
-          <EmailHtml.Paragraph>
-            Pour toute question ou complément d’information, n’hésitez pas à
-            nous contacter en répondant à cet e-mail.
-          </EmailHtml.Paragraph>
-        </EmailHtml.Section.Root>
+            <EmailHtml.Paragraph>
+              Pour toute question ou complément d’information, n’hésitez pas à
+              nous contacter en répondant à cet e-mail.
+            </EmailHtml.Paragraph>
+          </EmailHtml.Section.Root>
 
-        <EmailHtml.SectionSeparator />
+          <EmailHtml.SectionSeparator />
 
-        <EmailHtml.Section.Root>
-          <EmailHtml.Output.Table>
-            <EmailHtml.Output.Row>
-              <EmailHtml.Output.Label>Description</EmailHtml.Output.Label>
+          <EmailHtml.Section.Root>
+            <EmailHtml.Output.Table>
+              <EmailHtml.Output.Row>
+                <EmailHtml.Output.Label>Description</EmailHtml.Output.Label>
 
-              <EmailHtml.Output.Value>
-                {profile.onStandAnimations != null ? (
-                  <EmailHtml.Markdown
-                    content={profile.onStandAnimations}
-                    components={EMAIL_SENTENCE_COMPONENTS}
-                  />
-                ) : (
-                  "-"
-                )}
-              </EmailHtml.Output.Value>
-            </EmailHtml.Output.Row>
-          </EmailHtml.Output.Table>
-        </EmailHtml.Section.Root>
+                <EmailHtml.Output.Value>
+                  {profile.onStandAnimations != null ? (
+                    <EmailHtml.Markdown
+                      content={profile.onStandAnimations}
+                      components={EMAIL_SENTENCE_COMPONENTS}
+                    />
+                  ) : (
+                    "-"
+                  )}
+                </EmailHtml.Output.Value>
+              </EmailHtml.Output.Row>
+            </EmailHtml.Output.Table>
+          </EmailHtml.Section.Root>
 
-        <EmailHtml.SectionSeparator />
+          <EmailHtml.SectionSeparator />
 
-        <EmailHtml.Footer>Salon des Ani’Meaux</EmailHtml.Footer>
-      </EmailHtml.Root>
-    ),
-  };
+          <EmailHtml.Footer>Salon des Ani’Meaux</EmailHtml.Footer>
+        </EmailHtml.Root>
+      ),
+    };
+  }
+
+  export async function treated(
+    exhibitorId: string,
+  ): Promise<null | EmailTemplate> {
+    const { profile, exhibitor, application } = await promiseHash({
+      profile: services.exhibitor.profile.getByExhibitor(exhibitorId, {
+        select: {
+          onStandAnimations: true,
+          onStandAnimationsStatus: true,
+          onStandAnimationsStatusMessage: true,
+        },
+      }),
+
+      exhibitor: services.exhibitor.get(exhibitorId, {
+        select: { token: true },
+      }),
+
+      application: services.exhibitor.application.getByExhibitor(exhibitorId, {
+        select: { contactEmail: true },
+      }),
+    });
+
+    if (
+      profile.onStandAnimationsStatus ===
+        ShowExhibitorProfileStatus.AWAITING_VALIDATION ||
+      profile.onStandAnimationsStatus === ShowExhibitorProfileStatus.NOT_TOUCHED
+    ) {
+      return null;
+    }
+
+    switch (profile.onStandAnimationsStatus) {
+      case ShowExhibitorProfileStatus.VALIDATED: {
+        return {
+          name: "animation-sur-stand-exposant-traité",
+          from: "Salon des Ani’Meaux <salon@animeaux.org>",
+          to: [application.contactEmail],
+          subject: "Animations sur stand - Salon des Ani’Meaux 2025",
+          body: (
+            <EmailHtml.Root>
+              <EmailHtml.Title>Animations sur stand</EmailHtml.Title>
+
+              <EmailHtml.Section.Root>
+                <EmailHtml.Paragraph>
+                  La description de vos animations sur stand a été validé et ne
+                  peut plus être modifiée.
+                </EmailHtml.Paragraph>
+
+                <EmailHtml.Paragraph>
+                  <EmailHtml.Button
+                    href={`${process.env.PUBLIC_HOST}${Routes.exhibitors.token(exhibitor.token).animations.toString()}`}
+                  >
+                    Accédez à vos animations
+                  </EmailHtml.Button>
+                </EmailHtml.Paragraph>
+
+                <EmailHtml.Paragraph>
+                  Pour toute question ou complément d’information, n’hésitez pas
+                  à nous contacter en répondant à cet e-mail.
+                </EmailHtml.Paragraph>
+              </EmailHtml.Section.Root>
+
+              <EmailHtml.SectionSeparator />
+
+              <EmailHtml.Section.Root>
+                <EmailHtml.Output.Table>
+                  <EmailHtml.Output.Row>
+                    <EmailHtml.Output.Label>Description</EmailHtml.Output.Label>
+
+                    <EmailHtml.Output.Value>
+                      {profile.onStandAnimations != null ? (
+                        <EmailHtml.Markdown
+                          content={profile.onStandAnimations}
+                          components={EMAIL_SENTENCE_COMPONENTS}
+                        />
+                      ) : (
+                        "-"
+                      )}
+                    </EmailHtml.Output.Value>
+                  </EmailHtml.Output.Row>
+                </EmailHtml.Output.Table>
+              </EmailHtml.Section.Root>
+
+              <EmailHtml.SectionSeparator />
+
+              <EmailHtml.Footer>Salon des Ani’Meaux</EmailHtml.Footer>
+            </EmailHtml.Root>
+          ),
+        };
+      }
+
+      case ShowExhibitorProfileStatus.TO_MODIFY: {
+        invariant(
+          profile.onStandAnimationsStatusMessage != null,
+          "A onStandAnimationsStatusMessage should exists",
+        );
+
+        return {
+          name: "animation-sur-stand-exposant-traité",
+          from: "Salon des Ani’Meaux <salon@animeaux.org>",
+          to: [application.contactEmail],
+          subject: "Animations sur stand - Salon des Ani’Meaux 2025",
+          body: (
+            <EmailHtml.Root>
+              <EmailHtml.Title>Animations sur stand</EmailHtml.Title>
+
+              <EmailHtml.Section.Root>
+                <EmailHtml.Markdown
+                  content={profile.onStandAnimationsStatusMessage}
+                  components={EMAIL_PARAGRAPH_COMPONENTS}
+                />
+
+                <EmailHtml.Paragraph>
+                  <EmailHtml.Button
+                    href={`${process.env.PUBLIC_HOST}${Routes.exhibitors.token(exhibitor.token).animations.toString()}`}
+                  >
+                    Accédez à vos animations
+                  </EmailHtml.Button>
+                </EmailHtml.Paragraph>
+
+                <EmailHtml.Paragraph>
+                  Pour toute question ou complément d’information, n’hésitez pas
+                  à nous contacter en répondant à cet e-mail.
+                </EmailHtml.Paragraph>
+              </EmailHtml.Section.Root>
+
+              <EmailHtml.SectionSeparator />
+
+              <EmailHtml.Footer>Salon des Ani’Meaux</EmailHtml.Footer>
+            </EmailHtml.Root>
+          ),
+        };
+      }
+
+      default: {
+        return profile.onStandAnimationsStatus satisfies never;
+      }
+    }
+  }
 }

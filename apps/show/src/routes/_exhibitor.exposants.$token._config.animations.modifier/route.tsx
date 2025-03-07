@@ -6,7 +6,7 @@ import { Routes } from "#core/navigation";
 import { getPageTitle } from "#core/page-title";
 import { badRequest } from "#core/response.server";
 import { services } from "#core/services/services.server";
-import { createEmailTemplateAnimationsOnStandUpdated } from "#exhibitors/profile/email.server";
+import { OnStandAnimationsEmails } from "#exhibitors/profile/email.server";
 import { RouteParamsSchema } from "#exhibitors/route-params";
 import { safeParseRouteParam } from "@animeaux/zod-utils";
 import { parseWithZod } from "@conform-to/zod";
@@ -85,9 +85,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
     onStandAnimations: submission.value.onStandAnimations || null,
   });
 
-  email.send.template(
-    createEmailTemplateAnimationsOnStandUpdated(routeParams.token),
-  );
+  email.send.template(OnStandAnimationsEmails.submitted(routeParams.token));
 
   throw redirect(
     createPath({
