@@ -318,6 +318,7 @@ model ShowPartner {
 }
 
 enum ShowPartnershipCategory {
+  POLLEN
   BRONZE
   SILVER
   GOLD

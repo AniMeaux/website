@@ -9,12 +9,13 @@ export namespace PartnershipCategory {
   export type Enum = ShowPartnershipCategory;
 
   export const translation: Record<Enum, string> = {
+    [Enum.POLLEN]: "Pollen",
     [Enum.BRONZE]: "Pott de bronze",
     [Enum.SILVER]: "Pott d’argent",
     [Enum.GOLD]: "Pott d’or",
   };
 
-  export const values = [Enum.BRONZE, Enum.SILVER, Enum.GOLD];
+  export const values = [Enum.POLLEN, Enum.BRONZE, Enum.SILVER, Enum.GOLD];
 }
 
 export const PartnershipCategoryIcon = forwardRef<
@@ -42,6 +43,10 @@ const PARTNERSHIP_CATEGORY_ICON: Record<
   PartnershipCategory.Enum,
   { solid: IconName; light: IconName }
 > = {
+  [PartnershipCategory.Enum.POLLEN]: {
+    light: "icon-award-light",
+    solid: "icon-award-solid",
+  },
   [PartnershipCategory.Enum.BRONZE]: {
     light: "icon-award-light",
     solid: "icon-award-solid",
