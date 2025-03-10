@@ -1,15 +1,15 @@
 import { prisma } from "#core/prisma.server";
 import { Service } from "#core/services/service.server";
+import orderBy from "lodash.orderby";
 import invariant from "tiny-invariant";
 
 export class ServicePartner extends Service {
   async getManyVisible() {
-    const partners = await prisma.showPartner.findMany({
+    const partnersRaw = await prisma.showPartner.findMany({
       where: {
         isVisible: true,
         OR: [{ exhibitorId: null }, { exhibitor: { isVisible: true } }],
       },
-      orderBy: { name: "asc" },
       select: {
         id: true,
         logoPath: true,
@@ -30,7 +30,7 @@ export class ServicePartner extends Service {
       },
     });
 
-    return partners.map((partner) => {
+    const partners = partnersRaw.map((partner) => {
       if (partner.exhibitor != null) {
         invariant(
           partner.exhibitor.profile != null,
@@ -59,5 +59,7 @@ export class ServicePartner extends Service {
         url: partner.url,
       };
     });
+
+    return orderBy(partners, (partner) => partner.name, "asc");
   }
 }
