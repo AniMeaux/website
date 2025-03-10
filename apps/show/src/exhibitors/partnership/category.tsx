@@ -13,6 +13,7 @@ export const PARTNERSHIP_CATEGORY_TRANSLATION: Record<
   ShowPartnershipCategory,
   string
 > = {
+  [ShowPartnershipCategory.POLLEN]: "Pollen",
   [ShowPartnershipCategory.BRONZE]: "Pott de bronze",
   [ShowPartnershipCategory.SILVER]: "Pott d’argent",
   [ShowPartnershipCategory.GOLD]: "Pott d’or",
@@ -55,6 +56,11 @@ const PARTNERSHIP_CATEGORY_DESCRIPTION: Record<
   ShowPartnershipCategory,
   string
 > = {
+  [ShowPartnershipCategory.POLLEN]: `À partir de 100 € de don pour les stands de 6 m² et 9 m :
+
+- -40 % sur le stand
+- Visibilité digitale légère (site internet) - **mise en ligne au plus tard en avril 2025**.`,
+
   [ShowPartnershipCategory.BRONZE]: `À partir de 200 € de don :
 
 - Visibilité digitale (réseaux sociaux, site internet) - **mise en ligne au plus tard en avril 2025**.`,
@@ -76,6 +82,7 @@ const PARTNERSHIP_CATEGORY_DESCRIPTION: Record<
 };
 
 export const SORTED_PARTNERSHIP_CATEGORIES = [
+  ShowPartnershipCategory.POLLEN,
   ShowPartnershipCategory.BRONZE,
   ShowPartnershipCategory.SILVER,
   ShowPartnershipCategory.GOLD,
