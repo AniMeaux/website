@@ -9,6 +9,7 @@ import { ServiceProfile } from "#exhibitors/profile/service.server";
 import { ExhibitorSearchParamsN } from "#exhibitors/search-params";
 import { ServiceStandConfiguration } from "#exhibitors/stand-configuration/service.server";
 import type { Prisma } from "@prisma/client";
+import { ShowExhibitorProfileStatus } from "@prisma/client";
 
 export class ServiceExhibitor extends Service {
   readonly application: ServiceApplication;
@@ -111,7 +112,12 @@ export class ServiceExhibitor extends Service {
         ExhibitorSearchParamsN.EventType.Enum.ON_STAND,
       )
     ) {
-      where.push({ profile: { onStandAnimations: { not: null } } });
+      where.push({
+        profile: {
+          onStandAnimationsStatus: ShowExhibitorProfileStatus.VALIDATED,
+          onStandAnimations: { not: null },
+        },
+      });
     }
 
     return await prisma.showExhibitor.findMany({
