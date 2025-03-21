@@ -4,6 +4,7 @@ import { getPageTitle } from "#core/page-title";
 import { notFound } from "#core/response.server";
 import { services } from "#core/services/services.server";
 import { ExhibitorSearchParams } from "#exhibitors/search-params";
+import { ShowExhibitorProfileStatus } from "@prisma/client";
 import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { SectionList } from "./section-list";
@@ -34,6 +35,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
           activityFields: true,
           activityTargets: true,
           links: true,
+          onStandAnimationsStatus: true,
           onStandAnimations:
             process.env.FEATURE_FLAG_SHOW_ON_STAND_ANIMATIONS === "true",
         },
@@ -52,7 +54,14 @@ export async function loader({ request }: LoaderFunctionArgs) {
           throw notFound();
         }
 
-        const url = profile.links[0];
+        const {
+          links,
+          onStandAnimations,
+          onStandAnimationsStatus,
+          ...publicProfile
+        } = profile;
+
+        const url = links[0];
         if (url == null) {
           throw notFound();
         }
@@ -70,7 +79,16 @@ export async function loader({ request }: LoaderFunctionArgs) {
             process.env.FEATURE_FLAG_SHOW_PROGRAM === "true" &&
             _count.animations > 0,
 
-          profile: { ...profile, url },
+          profile: {
+            ...publicProfile,
+            url,
+
+            onStandAnimations:
+              process.env.FEATURE_FLAG_SHOW_ON_STAND_ANIMATIONS === "true" &&
+              onStandAnimationsStatus === ShowExhibitorProfileStatus.VALIDATED
+                ? onStandAnimations
+                : null,
+          },
         };
       },
     ),
