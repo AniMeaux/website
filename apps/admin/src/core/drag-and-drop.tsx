@@ -48,13 +48,11 @@ export function createDragAndDropContext<DataType>() {
   function DragAndDropContextProvider({
     children,
     direction = DragAndDropDirection.HORIZONTAL,
-    isBanned = false,
     isDisabled = false,
     previewElement: PreviewElement,
   }: {
     children?: React.ReactNode;
     direction?: DragAndDropDirection;
-    isBanned?: boolean;
     isDisabled?: boolean;
     previewElement: React.ElementType;
   }) {
@@ -99,23 +97,13 @@ export function createDragAndDropContext<DataType>() {
       () => ({
         ...state,
         direction,
-        isBanned: isBanned,
         isDisabled: isDisabled,
         endDrag,
         hoverItem,
         itemType,
         startDrag,
       }),
-      [
-        direction,
-        endDrag,
-        hoverItem,
-        isBanned,
-        isDisabled,
-        itemType,
-        startDrag,
-        state,
-      ],
+      [direction, endDrag, hoverItem, isDisabled, itemType, startDrag, state],
     );
 
     const { isTouchScreen } = useIsTouchScreen();
@@ -139,7 +127,7 @@ export function createDragAndDropContext<DataType>() {
     containerRef,
     setItems,
   }: UseDropContainerParameters<DataType>) {
-    const { isBanned, isDisabled, hoverItem, itemType, pendingDropIndex } =
+    const { isDisabled, hoverItem, itemType, pendingDropIndex } =
       useDragAndDropContext("useDropContainer");
 
     const [{ isOver }, drop] = useDrop<
@@ -148,7 +136,7 @@ export function createDragAndDropContext<DataType>() {
       { isOver: boolean }
     >({
       accept: itemType,
-      canDrop: () => !isBanned || (!isDisabled && pendingDropIndex != null),
+      canDrop: () => !isDisabled && pendingDropIndex != null,
       collect: (monitor) => ({ isOver: monitor.isOver() }),
       drop: (draggedItem) => {
         // We dont call `endDrag` here, it is done in the `end` method of the
@@ -203,7 +191,6 @@ export function createDragAndDropContext<DataType>() {
   }: UseDragItemParameters<DataType>) {
     const {
       direction,
-      isBanned,
       isDisabled,
       draggedIndex,
       endDrag,
@@ -214,7 +201,7 @@ export function createDragAndDropContext<DataType>() {
     } = useDragAndDropContext("useDragItem");
 
     const [, drag, preview] = useDrag<DragItem<DataType>, void, void>({
-      canDrag: () => !isBanned || !isDisabled,
+      canDrag: () => !isDisabled,
 
       // Reset the drag and drop when either a drop was done or not.
       end: () => endDrag(),
@@ -284,7 +271,6 @@ export function createDragAndDropContext<DataType>() {
     drop(itemRef);
 
     return {
-      isBanned,
       isDisabled,
 
       // We don't use react-dnd's `monitor.isDragging()` because of the small
@@ -338,7 +324,6 @@ type DragAndDropContextValue = ProviderState & {
   direction: DragAndDropDirection;
   endDrag: () => void;
   hoverItem: (index: number | null) => void;
-  isBanned: boolean;
   isDisabled: boolean;
   itemType: string;
   startDrag: (index: number, draggedElementInitialRect: DOMRect) => void;

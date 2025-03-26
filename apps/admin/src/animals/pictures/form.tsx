@@ -228,7 +228,7 @@ function ImageItem({
 }) {
   const itemRef = useRef<HTMLLIElement>(null);
   const handleRef = useRef<HTMLDivElement>(null);
-  const { isBanned, isDragging, isDisabled } = useDragItem({
+  const { isDragging, isDisabled } = useDragItem({
     data: image,
     index,
     itemRef,
@@ -250,19 +250,6 @@ function ImageItem({
         </ImageInput.PreviewOverSizeHelper>
 
         {!isDisabled ? (
-          <div
-            ref={handleRef}
-            draggable
-            className="absolute left-0 top-1/2 flex h-4 w-4 -translate-y-1/2 cursor-move items-center justify-center opacity-75"
-          >
-            <Icon
-              href="icon-grip-dots-vertical-solid"
-              className="stroke-black text-[20px] text-white"
-            />
-          </div>
-        ) : null}
-
-        {!isBanned ? (
           <div
             ref={handleRef}
             draggable

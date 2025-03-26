@@ -148,7 +148,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
     throw notFound();
   }
 
-  if (request.method.toUpperCase() !== "DELETE") {
+  if (request.method.toUpperCase() === "DELETE") {
     return await actionDelete({ fosterFamilyId: paramsResult.data.id });
   }
 

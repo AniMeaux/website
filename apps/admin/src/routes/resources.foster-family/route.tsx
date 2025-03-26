@@ -26,6 +26,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
       displayName: searchParams.displayName,
       // Use 5 instead of 6 to save space for the additional item.
       maxHitCount: 5,
+      isBanned: false,
     }),
   });
 }

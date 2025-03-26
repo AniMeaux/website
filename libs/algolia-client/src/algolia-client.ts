@@ -446,7 +446,7 @@ class FosterFamilyDelegate extends IndexDelegate {
   }
 
   async findMany({
-    where: { displayName },
+    where: { displayName, ...filters },
     ...options
   }: FindManyParam<{ displayName: string; isBanned?: boolean }>) {
     let response: SearchResponse<SerializeObject<FosterFamily>>;
@@ -455,12 +455,12 @@ class FosterFamilyDelegate extends IndexDelegate {
       response = await searchAll<SerializeObject<FosterFamily>>(
         this.index,
         displayName,
-        options,
+        { ...options, filters: createSearchFilters(filters) },
       );
     } else {
       response = await this.index.search<SerializeObject<FosterFamily>>(
         displayName,
-        options,
+        { ...options, filters: createSearchFilters(filters) },
       );
     }
 
