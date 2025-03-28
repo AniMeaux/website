@@ -5,7 +5,7 @@ export const QUESTIONS: Faq[] = [
   {
     question: "L’entrée est-elle payante ?",
     answer: `
-Donnez ce que vous pouvez, minimum 2 € en ligne, 4 € sur place, gratuit pour les moins de 12 ans.
+Donnez ce que vous pouvez, minimum 3 € en ligne, 5 € sur place, gratuit pour les moins de 12 ans.
 
 Une billetterie en ligne est [accessible ici](${process.env.TICKETING_URL}).
 
