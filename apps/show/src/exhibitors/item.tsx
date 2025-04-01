@@ -1,4 +1,5 @@
 import { Chip } from "#core/data-display/chip";
+import { IconInline } from "#core/data-display/icon-inline";
 import { DynamicImage } from "#core/data-display/image";
 import { ChipActivityField } from "#exhibitors/activity-field/chip";
 import { ChipActivityTarget } from "#exhibitors/activity-target/chip";
@@ -7,7 +8,6 @@ import {
   ExhibitorSearchParamsN,
   useExhibitorSearchParams,
 } from "#exhibitors/search-params";
-import type { IconName } from "#generated/icon";
 import { Icon } from "#generated/icon";
 import { ImageUrl, cn } from "@animeaux/core";
 import type { ShowActivityField, ShowActivityTarget } from "@prisma/client";
@@ -148,16 +148,5 @@ export function ExhibitorItem({
         />
       ) : null}
     </li>
-  );
-}
-
-function IconInline({ id, title }: { title: string; id: IconName }) {
-  return (
-    <span title={title} className="relative pl-2">
-      <Icon
-        id={id}
-        className="absolute left-0 top-1/2 -translate-y-1/2 text-mystic icon-24"
-      />
-    </span>
   );
 }
