@@ -1,12 +1,12 @@
 import { Action } from "#core/actions/action";
 import { ProseInlineAction } from "#core/actions/prose-inline-action";
 import { DynamicImage } from "#core/data-display/image";
-import { OPENING_TIME, hasShowEnded } from "#core/dates";
 import { BoardCard } from "#core/layout/board-card";
 import { HighLightBackground } from "#core/layout/highlight-background";
 import { LazyElement } from "#core/layout/lazy-element";
 import { Section } from "#core/layout/section";
 import { Routes } from "#core/navigation";
+import { ShowDay } from "#core/show-day";
 import { Pictogram } from "#generated/pictogram";
 import { PartnerItem } from "#partners/item";
 import { PartnersPlaceholderImage } from "#partners/placeholder-image";
@@ -66,7 +66,7 @@ function SectionHero() {
               4ème édition du salon dédié au bien-être animal.
               <br />
               <strong className="text-body-lowercase-emphasis">
-                <time dateTime={OPENING_TIME.toISO()}>
+                <time dateTime={ShowDay.openingTime.toISO()}>
                   7 et 8 juin 2025 - 10h à 18h
                 </time>{" "}
                 - Colisée de Meaux.
@@ -75,7 +75,7 @@ function SectionHero() {
 
             <Countdown className="justify-self-center md:justify-self-start" />
 
-            {!hasShowEnded() ? (
+            {!ShowDay.hasShowEnded() ? (
               <Section.Action asChild>
                 <Action color="mystic" asChild>
                   <Link to={CLIENT_ENV.TICKETING_URL}>
@@ -95,7 +95,7 @@ function Countdown({ className }: { className?: string }) {
   const [, forceUpdate] = useState(true);
 
   const now = DateTime.now();
-  const diff = OPENING_TIME.diff(now, ["days", "hours", "minutes"]);
+  const diff = ShowDay.openingTime.diff(now, ["days", "hours", "minutes"]);
 
   // Force a re-rendering every minutes to recompute the diff.
   useEffect(() => {

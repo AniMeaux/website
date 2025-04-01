@@ -1,6 +1,6 @@
-import { hasShowEnded } from "#core/dates";
 import { Header } from "#core/layout/header";
 import { Routes } from "#core/navigation";
+import { ShowDay } from "#core/show-day";
 import { useLocation } from "@remix-run/react";
 
 export function LayoutHeader() {
@@ -16,7 +16,7 @@ export function LayoutHeader() {
 
   return (
     <Header.Root>
-      {!hasShowEnded() ? (
+      {!ShowDay.hasShowEnded() ? (
         <Header.NavItem to={CLIENT_ENV.TICKETING_URL}>
           Billetterie
         </Header.NavItem>
