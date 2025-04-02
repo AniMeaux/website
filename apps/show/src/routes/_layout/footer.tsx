@@ -1,9 +1,9 @@
 import { Action } from "#core/actions/action";
 import { DynamicImage } from "#core/data-display/image";
-import { hasShowEnded } from "#core/dates";
 import { Footer } from "#core/layout/footer";
 import { LazyElement } from "#core/layout/lazy-element";
 import { Section } from "#core/layout/section";
+import { ShowDay } from "#core/show-day";
 import { PartnerItem } from "#partners/item";
 import { PartnersPlaceholderImage } from "#partners/placeholder-image";
 import { Link, useLoaderData } from "@remix-run/react";
@@ -33,7 +33,7 @@ function FooterOnline() {
             du salon !
           </p>
 
-          {!hasShowEnded() ? (
+          {!ShowDay.hasShowEnded() ? (
             <Section.Action asChild>
               <Action color="mystic" asChild>
                 <Link to={CLIENT_ENV.TICKETING_URL}>Achetez votre billet</Link>

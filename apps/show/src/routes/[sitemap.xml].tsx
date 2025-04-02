@@ -1,5 +1,5 @@
-import { SORTED_SHOW_DAYS } from "#core/dates";
 import { Routes } from "#core/navigation";
+import { ShowDay } from "#core/show-day";
 import { SORTED_PREVIOUS_EDITIONS } from "#previous-editions/previous-edition";
 import { renderToStaticMarkup } from "react-dom/server";
 
@@ -23,7 +23,7 @@ export async function loader() {
     );
 
     if (process.env.FEATURE_FLAG_SHOW_PROGRAM === "true") {
-      SORTED_SHOW_DAYS.forEach((day) => {
+      ShowDay.values.forEach((day) => {
         urlDefinitions.push({
           path: Routes.program.day(day).toString(),
           changeFrequency: "weekly",
