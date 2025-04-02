@@ -279,7 +279,7 @@ function AnimationItem({
       >
         <Popover.Trigger
           className={cn(
-            "grid h-full min-h-0 auto-cols-auto grid-flow-col grid-cols-1 items-start gap-1 rounded-1 bg-alabaster px-1 py-[11px] text-left focus-visible:z-just-above focus-visible:focus-compact data-opened:bg-paleBlue can-hover:hover:bg-alabaster-200 active:can-hover:hover:bg-alabaster-300 can-hover:hover:data-opened:bg-paleBlue active:can-hover:hover:data-opened:bg-paleBlue",
+            "grid h-full min-h-0 auto-cols-auto grid-flow-col grid-cols-1 items-start gap-1 rounded-1 bg-alabaster px-1 py-[11px] text-left data-opened:bg-paleBlue can-hover:hover:bg-alabaster-200 can-hover:focus-visible:z-just-above can-hover:focus-visible:focus-compact active:can-hover:hover:bg-alabaster-300 can-hover:hover:data-opened:bg-paleBlue active:can-hover:hover:data-opened:bg-paleBlue",
             hasEnded ? "opacity-disabled" : undefined,
           )}
         >
@@ -325,7 +325,7 @@ function AnimationItem({
           sideOffset={theme.spacing[1]}
           collisionPadding={theme.spacing[1]}
           hideWhenDetached
-          className="grid w-[320px] min-w-[var(--radix-popover-trigger-width)] max-w-[calc(100vw-24px)] grid-cols-1 gap-2 rounded-1 bg-white p-2 shadow-modal animation-opacity-0 focus-visible:focus-compact data-opened:animation-enter data-closed:animation-exit data-top:animation-translate-y-2 data-bottom:-animation-translate-y-2"
+          className="grid w-[320px] min-w-[var(--radix-popover-trigger-width)] max-w-[calc(100vw-24px)] grid-cols-1 gap-2 rounded-1 bg-white p-2 shadow-modal animation-opacity-0 data-opened:animation-enter data-closed:animation-exit data-top:animation-translate-y-2 data-bottom:-animation-translate-y-2 can-hover:focus-visible:focus-compact"
         >
           <div className="grid grid-cols-fr-auto items-center gap-2">
             <span>
@@ -352,7 +352,7 @@ function AnimationItem({
                 <Link
                   key={animator.id}
                   to={animator.url}
-                  className="group/item grid grid-cols-auto-fr items-center gap-1 rounded-0.5 focus-visible:focus-spaced"
+                  className="group/item grid grid-cols-auto-fr items-center gap-1 rounded-0.5 can-hover:focus-visible:focus-spaced"
                 >
                   <div className="grid w-[48px] grid-cols-1 overflow-hidden rounded-0.5 border border-alabaster">
                     <DynamicImage
