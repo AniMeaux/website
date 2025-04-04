@@ -136,7 +136,7 @@ export function AnimalItem({
             )}
             title={GENDER_TRANSLATION[animal.gender]}
           >
-            <Icon href={GENDER_ICON[animal.gender]} />
+            <Icon href={GENDER_ICON[animal.gender].solid} />
           </span>
 
           <span className="flex-1 transition-colors duration-100 ease-in-out text-body-emphasis">
@@ -191,7 +191,7 @@ export function AnimalSmallItem({
             )}
             title={GENDER_TRANSLATION[animal.gender]}
           >
-            <Icon href={GENDER_ICON[animal.gender]} />
+            <Icon href={GENDER_ICON[animal.gender].solid} />
           </span>
 
           <span className="flex-1 truncate text-body-emphasis">

@@ -345,7 +345,7 @@ export function AnimalFilters({
                 label={GENDER_TRANSLATION[gender]}
                 name={AnimalSearchParams.keys.genders}
                 value={gender}
-                icon={<Icon href={GENDER_ICON[gender]} />}
+                icon={<Icon href={GENDER_ICON[gender].solid} />}
                 checked={animalSearchParams.genders.has(gender)}
                 onChange={() => {}}
               />

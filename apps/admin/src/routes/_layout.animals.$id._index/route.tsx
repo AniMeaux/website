@@ -268,7 +268,7 @@ function HeaderCard() {
                     : "text-blue-500",
                 )}
               >
-                <Icon href={GENDER_ICON[animal.gender]} />
+                <Icon href={GENDER_ICON[animal.gender].solid} />
               </div>
 
               <h1>{animal.name}</h1>
