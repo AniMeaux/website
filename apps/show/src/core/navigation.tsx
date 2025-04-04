@@ -1,4 +1,4 @@
-import type { ShowDay } from "#core/dates";
+import type { ShowDay } from "#core/show-day";
 import type { PreviousEdition } from "#previous-editions/previous-edition";
 import type { Path } from "@remix-run/react";
 
@@ -93,7 +93,7 @@ export const Routes = {
   program: {
     toString: () => "/programme" as const,
 
-    day: (day: ShowDay) => ({
+    day: (day: ShowDay.Enum) => ({
       toString: () => `/programme/${day}` as const,
     }),
   },

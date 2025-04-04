@@ -1,5 +1,6 @@
 import type { IconName } from "#generated/icon";
 import {
+  SearchParamsIO,
   SearchParamsReader,
   useOptimisticSearchParams,
 } from "@animeaux/search-params-io";
@@ -7,7 +8,7 @@ import { zu } from "@animeaux/zod-utils";
 import { ShowActivityField, ShowActivityTarget } from "@prisma/client";
 import { useMemo } from "react";
 
-export const ExhibitorSearchParams = SearchParamsReader.create({
+export const ExhibitorSearchParams = SearchParamsIO.create({
   keys: {
     targets: "target",
     fields: "field",
@@ -22,6 +23,20 @@ export const ExhibitorSearchParams = SearchParamsReader.create({
       eventTypes: SearchParamsReader.getValues(searchParams, keys.eventTypes),
       isPartner: SearchParamsReader.getValue(searchParams, keys.isPartner),
     });
+  },
+
+  setFunction: (searchParams, data, keys) => {
+    SearchParamsIO.setValues(searchParams, keys.targets, data.targets);
+
+    SearchParamsIO.setValues(searchParams, keys.fields, data.fields);
+
+    SearchParamsIO.setValues(searchParams, keys.eventTypes, data.eventTypes);
+
+    SearchParamsIO.setValue(
+      searchParams,
+      keys.isPartner,
+      data.isPartner ? "on" : undefined,
+    );
   },
 });
 

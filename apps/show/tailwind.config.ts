@@ -240,6 +240,8 @@ const theme: Config = {
         visible: "visible=true",
         opened: "state=open",
         closed: "state=closed",
+        top: "side=top",
+        bottom: "side=bottom",
       },
 
       fontFamily: {

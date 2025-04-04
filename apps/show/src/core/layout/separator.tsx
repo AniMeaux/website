@@ -29,7 +29,13 @@ export function VerticalSeparator({ color }: { color: SeparatorColor }) {
   );
 }
 
-export function HorizontalSeparator({ color }: { color: SeparatorColor }) {
+export function HorizontalSeparator({
+  color,
+  className,
+}: {
+  color: SeparatorColor;
+  className?: string;
+}) {
   return (
     <svg
       viewBox="0 0 100 3"
@@ -40,6 +46,7 @@ export function HorizontalSeparator({ color }: { color: SeparatorColor }) {
       className={cn(
         "h-[3px] w-full overflow-visible",
         COLOR_CLASS_NAMES[color],
+        className,
       )}
     >
       <path

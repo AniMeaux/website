@@ -28,7 +28,7 @@ export const Chip = {
           {...props}
           ref={ref}
           className={cn(
-            "grid grid-cols-2-auto items-center gap-0.5 rounded-0.5 px-0.5 transition-colors duration-slow",
+            "grid auto-cols-auto grid-flow-col items-center gap-0.5 rounded-0.5 px-0.5 transition-colors duration-slow",
             isHighlighted
               ? "bg-mystic text-white"
               : "ring-1 ring-inset ring-alabaster",
