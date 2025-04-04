@@ -4,6 +4,7 @@ import { prisma } from "#core/prisma.server";
 import { notFound } from "#core/response.server";
 import { ShowExhibitorApplicationDbDelegate } from "#show/exhibitors/applications/db.server";
 import { ShowExhibitorDocumentsDbDelegate } from "#show/exhibitors/documents/db.server";
+import { ShowExhibitorDogsConfigurationDbDelegate } from "#show/exhibitors/dogs-configuration/db.server";
 import { Payment } from "#show/exhibitors/payment";
 import { ShowExhibitorProfileDbDelegate } from "#show/exhibitors/profile/db.server";
 import { ExhibitorSearchParamsN } from "#show/exhibitors/search-params";
@@ -16,6 +17,7 @@ import { promiseHash } from "remix-utils/promise";
 export class ShowExhibitorDbDelegate {
   readonly application = new ShowExhibitorApplicationDbDelegate();
   readonly documents = new ShowExhibitorDocumentsDbDelegate();
+  readonly dogsConfiguration = new ShowExhibitorDogsConfigurationDbDelegate();
   readonly profile = new ShowExhibitorProfileDbDelegate();
   readonly standConfiguration = new ShowExhibitorStandConfigurationDbDelegate();
 
