@@ -147,14 +147,14 @@ function ItemSterilisation({
         <>
           Est{" "}
           <strong className="text-body-emphasis">
-            {gender === Gender.FEMALE ? "stérilisée" : "stérilisé"}
+            {gender === Gender.FEMALE ? "stérilisée" : "castré"}
           </strong>
         </>
       ) : (
         <>
           N’est{" "}
           <strong className="text-body-emphasis">
-            pas {gender === Gender.FEMALE ? "stérilisée" : "stérilisé"}
+            pas {gender === Gender.FEMALE ? "stérilisée" : "castré"}
           </strong>
         </>
       )}
