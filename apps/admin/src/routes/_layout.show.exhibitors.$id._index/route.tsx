@@ -12,6 +12,7 @@ import { useLoaderData } from "@remix-run/react";
 import { promiseHash } from "remix-utils/promise";
 import { CardDescription } from "./card-description";
 import { CardDocuments } from "./card-documents";
+import { CardDogsConfiguration } from "./card-dogs-configuration";
 import { CardOnStandAnimations } from "./card-on-stand-animations";
 import { CardProfile } from "./card-profile";
 import { CardSituation } from "./card-situation";
@@ -34,6 +35,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
     exhibitor,
     application,
     documents,
+    dogsConfiguration,
     files,
     partner,
     profile,
@@ -79,6 +81,26 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
         },
       },
     ),
+
+    dogsConfiguration:
+      db.show.exhibitor.dogsConfiguration.findUniqueByExhibitor(
+        routeParams.id,
+        {
+          select: {
+            status: true,
+            statusMessage: true,
+            dogs: {
+              select: {
+                gender: true,
+                id: true,
+                idNumber: true,
+                isCategorized: true,
+                isSterilized: true,
+              },
+            },
+          },
+        },
+      ),
 
     files: db.show.exhibitor.documents.getFilesByExhibitor(routeParams.id),
 
@@ -136,6 +158,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
     exhibitor,
     application,
     documents: { ...documents, ...files },
+    dogsConfiguration,
     partner,
     profile,
     standConfiguration,
@@ -179,6 +202,7 @@ export default function Route() {
         <div className="grid grid-cols-1 gap-1 md:gap-2">
           <CardDescription />
           <CardStandConfiguration />
+          <CardDogsConfiguration />
           <CardDocuments />
           <CardOnStandAnimations />
         </div>

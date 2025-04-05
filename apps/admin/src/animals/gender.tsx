@@ -7,10 +7,17 @@ export const GENDER_TRANSLATION: Record<Gender, string> = {
   [Gender.MALE]: "Mâle",
 };
 
-export const GENDER_ICON: Record<Gender, IconName> = {
-  [Gender.FEMALE]: "icon-venus-solid",
-  [Gender.MALE]: "icon-mars-solid",
-};
+export const GENDER_ICON: Record<Gender, { light: IconName; solid: IconName }> =
+  {
+    [Gender.FEMALE]: {
+      light: "icon-venus-light",
+      solid: "icon-venus-solid",
+    },
+    [Gender.MALE]: {
+      light: "icon-mars-light",
+      solid: "icon-mars-solid",
+    },
+  };
 
 export const SORTED_GENDERS = orderBy(
   Object.values(Gender),

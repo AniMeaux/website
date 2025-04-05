@@ -19,8 +19,7 @@ import {
   DocumentsStatusIcon,
 } from "#show/exhibitors/documents/status";
 import {
-  DOGS_CONFIGURATION_STATUS_TRANSLATION,
-  DOGS_CONFIGURATION_STATUS_VALUES,
+  DogsConfigurationStatus,
   DogsConfigurationStatusIcon,
 } from "#show/exhibitors/dogs-configuration/status";
 import { Payment, PaymentIcon } from "#show/exhibitors/payment";
@@ -573,11 +572,11 @@ function FilterStatuses() {
           <Form.Label>Chiens sur stand</Form.Label>
 
           <ToggleInputList>
-            {DOGS_CONFIGURATION_STATUS_VALUES.map((status) => (
+            {DogsConfigurationStatus.values.map((status) => (
               <ToggleInput
                 key={status}
                 type="checkbox"
-                label={DOGS_CONFIGURATION_STATUS_TRANSLATION[status]}
+                label={DogsConfigurationStatus.translation[status]}
                 name={ExhibitorSearchParams.keys.dogsConfigurationStatuses}
                 value={status}
                 icon={<DogsConfigurationStatusIcon status={status} />}
