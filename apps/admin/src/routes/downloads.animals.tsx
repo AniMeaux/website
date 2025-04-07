@@ -242,7 +242,7 @@ function AnimalItem({
             animal.gender === Gender.FEMALE ? "text-pink-500" : "text-blue-500",
           )}
         >
-          <Icon href={GENDER_ICON[animal.gender]} />
+          <Icon href={GENDER_ICON[animal.gender].solid} />
         </span>
 
         <span className="truncate">{animal.name}</span>

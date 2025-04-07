@@ -3,34 +3,35 @@ import { Icon } from "#generated/icon";
 import { cn } from "@animeaux/core";
 import { ShowExhibitorDogsConfigurationStatus } from "@prisma/client";
 
-export const DOGS_CONFIGURATION_STATUS_TRANSLATION: Record<
-  ShowExhibitorDogsConfigurationStatus,
-  string
-> = {
-  [ShowExhibitorDogsConfigurationStatus.AWAITING_VALIDATION]: "Non traité",
-  [ShowExhibitorDogsConfigurationStatus.NOT_TOUCHED]: "Aucune modification",
-  [ShowExhibitorDogsConfigurationStatus.TO_MODIFY]: "Modification demandée",
-  [ShowExhibitorDogsConfigurationStatus.VALIDATED]: "Validé",
-};
+export namespace DogsConfigurationStatus {
+  export const Enum = ShowExhibitorDogsConfigurationStatus;
+  export type Enum = ShowExhibitorDogsConfigurationStatus;
 
-export const DOGS_CONFIGURATION_STATUS_VALUES: ShowExhibitorDogsConfigurationStatus[] =
-  [
-    ShowExhibitorDogsConfigurationStatus.NOT_TOUCHED,
-    ShowExhibitorDogsConfigurationStatus.AWAITING_VALIDATION,
-    ShowExhibitorDogsConfigurationStatus.TO_MODIFY,
-    ShowExhibitorDogsConfigurationStatus.VALIDATED,
+  export const translation: Record<Enum, string> = {
+    [Enum.AWAITING_VALIDATION]: "Non traité",
+    [Enum.NOT_TOUCHED]: "Aucune modification",
+    [Enum.TO_MODIFY]: "Modification demandée",
+    [Enum.VALIDATED]: "Validé",
+  };
+
+  export const values = [
+    Enum.NOT_TOUCHED,
+    Enum.AWAITING_VALIDATION,
+    Enum.TO_MODIFY,
+    Enum.VALIDATED,
   ];
+}
 
 export function DogsConfigurationStatusIcon({
   status,
   className,
 }: {
-  status: ShowExhibitorDogsConfigurationStatus;
+  status: DogsConfigurationStatus.Enum;
   className?: string;
 }) {
   return (
     <span
-      title={DOGS_CONFIGURATION_STATUS_TRANSLATION[status]}
+      title={DogsConfigurationStatus.translation[status]}
       className={className}
     >
       <Icon
@@ -41,24 +42,17 @@ export function DogsConfigurationStatusIcon({
   );
 }
 
-const ICON_NAME_BY_STATUS: Record<
-  ShowExhibitorDogsConfigurationStatus,
-  IconName
-> = {
-  [ShowExhibitorDogsConfigurationStatus.AWAITING_VALIDATION]:
-    "icon-circle-light",
-  [ShowExhibitorDogsConfigurationStatus.NOT_TOUCHED]: "icon-circle-dash-light",
-  [ShowExhibitorDogsConfigurationStatus.TO_MODIFY]: "icon-circle-pen-solid",
-  [ShowExhibitorDogsConfigurationStatus.VALIDATED]: "icon-circle-check-solid",
+const ICON_NAME_BY_STATUS: Record<DogsConfigurationStatus.Enum, IconName> = {
+  [DogsConfigurationStatus.Enum.AWAITING_VALIDATION]: "icon-circle-light",
+  [DogsConfigurationStatus.Enum.NOT_TOUCHED]: "icon-circle-dash-light",
+  [DogsConfigurationStatus.Enum.TO_MODIFY]: "icon-circle-pen-solid",
+  [DogsConfigurationStatus.Enum.VALIDATED]: "icon-circle-check-solid",
 };
 
-const ICON_CLASS_NAMES_BY_STATUS: Record<
-  ShowExhibitorDogsConfigurationStatus,
-  string
-> = {
-  [ShowExhibitorDogsConfigurationStatus.AWAITING_VALIDATION]:
-    cn("text-gray-900"),
-  [ShowExhibitorDogsConfigurationStatus.NOT_TOUCHED]: cn("text-gray-900"),
-  [ShowExhibitorDogsConfigurationStatus.TO_MODIFY]: cn("text-yellow-500"),
-  [ShowExhibitorDogsConfigurationStatus.VALIDATED]: cn("text-green-600"),
-};
+const ICON_CLASS_NAMES_BY_STATUS: Record<DogsConfigurationStatus.Enum, string> =
+  {
+    [DogsConfigurationStatus.Enum.AWAITING_VALIDATION]: cn("text-gray-900"),
+    [DogsConfigurationStatus.Enum.NOT_TOUCHED]: cn("text-gray-900"),
+    [DogsConfigurationStatus.Enum.TO_MODIFY]: cn("text-yellow-500"),
+    [DogsConfigurationStatus.Enum.VALIDATED]: cn("text-green-600"),
+  };

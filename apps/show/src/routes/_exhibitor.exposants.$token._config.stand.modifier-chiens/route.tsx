@@ -6,7 +6,7 @@ import { Routes } from "#core/navigation";
 import { getPageTitle } from "#core/page-title";
 import { badRequest } from "#core/response.server";
 import { services } from "#core/services/services.server";
-import { createEmailTemplateRequest } from "#exhibitors/dogs-configuration/email.server";
+import { DogsConfigurationEmails } from "#exhibitors/dogs-configuration/email.server";
 import { RouteParamsSchema } from "#exhibitors/route-params";
 import { safeParseRouteParam } from "@animeaux/zod-utils";
 import { parseWithZod } from "@conform-to/zod";
@@ -98,7 +98,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
     submission.value.dogs,
   );
 
-  email.send.template(createEmailTemplateRequest(routeParams.token));
+  email.send.template(DogsConfigurationEmails.submitted(routeParams.token));
 
   throw redirect(
     createPath({

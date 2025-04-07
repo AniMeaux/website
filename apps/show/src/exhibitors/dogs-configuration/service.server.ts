@@ -21,6 +21,23 @@ export class ServiceDogsConfiguration extends Service {
     return exhibitor.dogsConfiguration;
   }
 
+  async getByExhibitor<T extends Prisma.ShowExhibitorDogsConfigurationSelect>(
+    exhibitorId: string,
+    params: { select: T },
+  ) {
+    const dogsConfiguration =
+      await prisma.showExhibitorDogsConfiguration.findUnique({
+        where: { exhibitorId },
+        select: params.select,
+      });
+
+    if (dogsConfiguration == null) {
+      throw notFound();
+    }
+
+    return dogsConfiguration;
+  }
+
   async update(token: string, data: ExhibitorDogData[]) {
     return await prisma.$transaction(async (prisma) => {
       const exhibitor = await prisma.showExhibitor.update({
