@@ -12,6 +12,7 @@ invariant(process.env.APPLICATION_TOKEN, "APPLICATION_TOKEN must be set");
 type ShowNotification =
   | { type: "application-status-updated"; applicationId: string }
   | { type: "documents-treated"; exhibitorId: string }
+  | { type: "dogs-configuration-treated"; exhibitorId: string }
   | { type: "exhibitor-visible"; exhibitorId: string }
   | { type: "on-stand-animations-treated"; exhibitorId: string }
   | { type: "public-profile-treated"; exhibitorId: string }

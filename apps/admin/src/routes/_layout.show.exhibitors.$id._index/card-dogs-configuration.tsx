@@ -1,9 +1,12 @@
 import { GENDER_ICON, GENDER_TRANSLATION } from "#animals/gender.js";
+import { Action } from "#core/actions.js";
+import { BaseLink } from "#core/base-link.js";
 import { Empty } from "#core/data-display/empty.js";
 import { ItemList, SimpleItem } from "#core/data-display/item.js";
 import { ARTICLE_COMPONENTS, Markdown } from "#core/data-display/markdown.js";
 import { Card } from "#core/layout/card.js";
 import { Separator } from "#core/layout/separator.js";
+import { Routes } from "#core/navigation.js";
 import { Icon } from "#generated/icon.js";
 import {
   DogsConfigurationStatus,
@@ -16,12 +19,22 @@ import { useLoaderData } from "@remix-run/react";
 import type { loader } from "./route";
 
 export function CardDogsConfiguration() {
-  const { dogsConfiguration } = useLoaderData<typeof loader>();
+  const { exhibitor, dogsConfiguration } = useLoaderData<typeof loader>();
 
   return (
     <Card>
       <Card.Header>
         <Card.Title>Chiens sur stand</Card.Title>
+
+        <Action variant="text" asChild>
+          <BaseLink
+            to={Routes.show.exhibitors
+              .id(exhibitor.id)
+              .edit.dogsConfiguration.toString()}
+          >
+            Modifier
+          </BaseLink>
+        </Action>
       </Card.Header>
 
       <Card.Content>

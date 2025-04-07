@@ -2,6 +2,7 @@ import { email } from "#core/emails.server";
 import { badRequest, unauthorized } from "#core/response.server";
 import { createEmailTemplateStatusUpdate } from "#exhibitors/application/emails.server";
 import { DocumentsEmails } from "#exhibitors/documents/email.server";
+import { DogsConfigurationEmails } from "#exhibitors/dogs-configuration/email.server.js";
 import { ExhibitorEmails } from "#exhibitors/email.server";
 import {
   OnStandAnimationsEmails,
@@ -19,6 +20,7 @@ export async function action({ request }: ActionFunctionArgs) {
     .union([
       ActionSchemaApplicationStatusUpdated,
       ActionSchemaDocumentsTreated,
+      ActionSchemaDogsConfigurationTreated,
       ActionSchemaExhibitorVisibleTreated,
       ActionSchemaOnStandAnimationsTreated,
       ActionSchemaPublicProfileTreated,
@@ -41,6 +43,14 @@ export async function action({ request }: ActionFunctionArgs) {
 
     case ActionSchemaDocumentsTreated.shape.type.value: {
       email.send.template(DocumentsEmails.treated(action.data.exhibitorId));
+
+      return json({ ok: true });
+    }
+
+    case ActionSchemaDogsConfigurationTreated.shape.type.value: {
+      email.send.template(
+        DogsConfigurationEmails.treated(action.data.exhibitorId),
+      );
 
       return json({ ok: true });
     }
@@ -86,6 +96,11 @@ const ActionSchemaApplicationStatusUpdated = zu.object({
 
 const ActionSchemaDocumentsTreated = zu.object({
   type: zu.literal("documents-treated"),
+  exhibitorId: zu.string().uuid(),
+});
+
+const ActionSchemaDogsConfigurationTreated = zu.object({
+  type: zu.literal("dogs-configuration-treated"),
   exhibitorId: zu.string().uuid(),
 });
 
