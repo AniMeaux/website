@@ -413,11 +413,11 @@ const ONE_MINUTE_IN_MS = 60 * 1000;
 
 const EVENT_LIST_VERTICAL_SPACING = theme.spacing[4];
 
-// The shortest animation is 15 min and we want to show 1 line of text:
+// The shortest animation is 10 min and we want to show 1 line of text:
 //   1 line (24px) + vertical spacing (12px * 2) = 48px
-const QUARTER_HOUR_HEIGHT_PX = 48;
+const TEN_MINUTES_HEIGHT_PX = 48;
 
-const HOUR_HEIGHT_PX = QUARTER_HOUR_HEIGHT_PX * 4;
+const HOUR_HEIGHT_PX = TEN_MINUTES_HEIGHT_PX * 6;
 
 const STAND_ZONE_TRANSLATION: Record<ShowStandZone, string> = {
   [ShowStandZone.INSIDE]: "Scène intérieure",
