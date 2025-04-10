@@ -157,7 +157,10 @@ export async function loader({ request }: LoaderFunctionArgs) {
     UserGroup.ANIMAL_MANAGER,
   ]);
 
-  const canExport = hasGroups(currentUser, [UserGroup.ADMIN]);
+  const canExport = hasGroups(currentUser, [
+    UserGroup.ADMIN,
+    UserGroup.ANIMAL_MANAGER,
+  ]);
 
   return json({
     totalCount,
