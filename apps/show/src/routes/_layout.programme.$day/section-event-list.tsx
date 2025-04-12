@@ -2,15 +2,22 @@ import { Action } from "#core/actions/action.js";
 import { Tab, Tabs } from "#core/controllers/tabs.js";
 import { IconInline } from "#core/data-display/icon-inline.js";
 import { DynamicImage } from "#core/data-display/image.js";
+import { Markdown, SENTENCE_COMPONENTS } from "#core/data-display/markdown.js";
 import { useElementSize } from "#core/elements.js";
 import { BeeIllustration } from "#core/illustration/bee.js";
 import { Section } from "#core/layout/section.js";
 import { HorizontalSeparator } from "#core/layout/separator.js";
 import { Routes } from "#core/navigation.js";
 import { ShowDay } from "#core/show-day";
+import {
+  ACTIVITY_TARGET_ICON,
+  ACTIVITY_TARGET_TRANSLATION,
+} from "#exhibitors/activity-target/activity-target.js";
+import { ChipActivityTarget } from "#exhibitors/activity-target/chip.js";
 import { Icon } from "#generated/icon.js";
 import { theme } from "#generated/theme.js";
 import { ImageUrl, cn } from "@animeaux/core";
+import type { ShowActivityTarget } from "@prisma/client";
 import { ShowStandZone } from "@prisma/client";
 import * as Popover from "@radix-ui/react-popover";
 import { Link, useLoaderData } from "@remix-run/react";
@@ -245,6 +252,7 @@ function AnimationItem({
     id: string;
     registrationUrl: string | null;
     startTime: string;
+    targets: ShowActivityTarget[];
     zone: ShowStandZone;
   };
 }) {
@@ -291,7 +299,19 @@ function AnimationItem({
               maxHeight: 24 * maxLineCount,
             }}
           >
-            {animation.description}
+            {animation.targets.map((activityTarget) => (
+              <IconInline
+                key={activityTarget}
+                title={ACTIVITY_TARGET_TRANSLATION[activityTarget]}
+                id={ACTIVITY_TARGET_ICON[activityTarget].light}
+              />
+            ))}
+
+            {animation.targets.length > 0 ? " • " : null}
+
+            <span>
+              <Markdown content={animation.description} components={{}} />
+            </span>
 
             {animation.animators.length > 0 ? (
               <span className="uppercase">
@@ -327,23 +347,40 @@ function AnimationItem({
           hideWhenDetached
           className="grid w-[320px] min-w-[var(--radix-popover-trigger-width)] max-w-[calc(100vw-24px)] grid-cols-1 gap-2 rounded-1 bg-white p-2 shadow-modal animation-opacity-0 data-opened:animation-enter data-closed:animation-exit data-top:animation-translate-y-2 data-bottom:-animation-translate-y-2 can-hover:focus-visible:focus-compact"
         >
-          <div className="grid grid-cols-fr-auto items-center gap-2">
-            <span>
+          <div className="grid grid-cols-1 gap-0.5">
+            <div className="grid grid-cols-fr-auto items-center gap-2">
               <span>
-                {startTime.toLocaleString({
-                  hour: "numeric",
-                  minute: "numeric",
-                })}
+                <span>
+                  {startTime.toLocaleString({
+                    hour: "numeric",
+                    minute: "numeric",
+                  })}
+                </span>
+                {" • "}
+                <span>{duration.toHuman({ unitDisplay: "short" })}</span>
               </span>
-              {" • "}
-              <span>{duration.toHuman({ unitDisplay: "short" })}</span>
-            </span>
 
-            <span>{STAND_ZONE_TRANSLATION[animation.zone]}</span>
+              <span>{STAND_ZONE_TRANSLATION[animation.zone]}</span>
+            </div>
+
+            {animation.targets.length > 0 ? (
+              <ul className="flex flex-wrap gap-0.5">
+                {animation.targets.map((activityTarget) => (
+                  <ChipActivityTarget
+                    key={activityTarget}
+                    activityTarget={activityTarget}
+                    className="flex-none"
+                  />
+                ))}
+              </ul>
+            ) : null}
           </div>
 
-          <p className="text-body-uppercase-emphasis">
-            {animation.description}
+          <p className="text-body-lowercase-emphasis">
+            <Markdown
+              content={animation.description}
+              components={SENTENCE_COMPONENTS}
+            />
           </p>
 
           {animation.animators.length > 0 ? (

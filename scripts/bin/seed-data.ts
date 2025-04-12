@@ -701,23 +701,48 @@ async function seedShowAnimations() {
     select: { id: true },
   });
 
-  const OPENING_TIME = DateTime.fromISO("2025-06-07T10:00:00.000+02:00");
+  let times: { start: DateTime; end: DateTime }[] = [];
 
-  await Promise.all(
-    Array.from({ length: 18 }, (_, index) => {
-      const startTime = OPENING_TIME.plus({
-        // [0, 8]: first day
-        // [9, 17]: second day
-        day: Math.floor(index / 9),
-        hour: index % 9,
+  [
+    // Saturday.
+    {
+      start: DateTime.fromISO("2025-06-07T10:00:00.000+02:00"),
+      end: DateTime.fromISO("2025-06-07T18:00:00.000+02:00"),
+    },
+    // Sunday.
+    {
+      start: DateTime.fromISO("2025-06-08T10:00:00.000+02:00"),
+      end: DateTime.fromISO("2025-06-08T18:00:00.000+02:00"),
+    },
+  ].forEach((showDay) => {
+    let startTime = showDay.start;
+
+    while (showDay.end.diff(startTime, "minutes").as("minutes") >= 10) {
+      let endTime = startTime.plus({
+        minutes: faker.number.int({ min: 2, max: 9 }) * 5,
       });
 
-      return prisma.showAnimation.create({
+      if (endTime > showDay.end) {
+        endTime = showDay.end;
+      }
+
+      times.push({ start: startTime, end: endTime });
+      startTime = endTime;
+    }
+  });
+
+  times = faker.helpers.shuffle(times);
+
+  times = times.slice(4);
+
+  await Promise.all(
+    times.map(({ start, end }) =>
+      prisma.showAnimation.create({
         data: {
-          isVisible: faker.datatype.boolean(),
-          description: faker.lorem.paragraph().substring(0, 128),
-          startTime: startTime.toJSDate(),
-          endTime: startTime.plus({ hour: 1 }).toJSDate(),
+          isVisible: faker.datatype.boolean(0.9),
+          description: faker.lorem.paragraph().substring(0, 512),
+          startTime: start.toJSDate(),
+          endTime: end.toJSDate(),
           registrationUrl: faker.helpers.maybe(() => faker.internet.url(), {
             probability: 1 / 5,
           }),
@@ -728,9 +753,13 @@ async function seedShowAnimations() {
               max: 2,
             }),
           },
+          targets: faker.helpers.arrayElements(
+            Object.values(ShowActivityTarget),
+            { min: 1, max: 3 },
+          ),
         },
-      });
-    }),
+      }),
+    ),
   );
 
   const count = await prisma.showAnimation.count();
