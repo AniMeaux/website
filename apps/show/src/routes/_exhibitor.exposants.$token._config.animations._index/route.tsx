@@ -31,6 +31,7 @@ export async function loader({ params }: LoaderFunctionArgs) {
       select: {
         animators: {
           where: { isVisible: true },
+          orderBy: { profile: { name: "asc" } },
           select: {
             profile: { select: { id: true, links: true, name: true } },
           },
@@ -40,6 +41,7 @@ export async function loader({ params }: LoaderFunctionArgs) {
         id: true,
         registrationUrl: true,
         startTime: true,
+        targets: true,
         zone: true,
       },
     }),
