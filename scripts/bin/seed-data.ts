@@ -715,7 +715,7 @@ async function seedShowAnimations() {
       return prisma.showAnimation.create({
         data: {
           isVisible: faker.datatype.boolean(),
-          description: faker.lorem.paragraph().substring(0, 128),
+          description: faker.lorem.paragraph().substring(0, 512),
           startTime: startTime.toJSDate(),
           endTime: startTime.plus({ hour: 1 }).toJSDate(),
           registrationUrl: faker.helpers.maybe(() => faker.internet.url(), {

@@ -332,7 +332,7 @@ model ShowAnimation {
 
   animators ShowExhibitor[]
 
-  description     String        @db.VarChar(128)
+  description     String        @db.VarChar(512)
   endTime         DateTime
   registrationUrl String?       @db.VarChar(128)
   startTime       DateTime

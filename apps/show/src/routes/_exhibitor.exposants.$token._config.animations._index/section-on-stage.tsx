@@ -91,7 +91,12 @@ function AnimationItem({
         <span>{STAND_ZONE_TRANSLATION[animation.zone]}</span>
       </div>
 
-      <p className="text-body-uppercase-emphasis">{animation.description}</p>
+      <p className="text-body-lowercase-emphasis">
+        <Markdown
+          content={animation.description}
+          components={SENTENCE_COMPONENTS}
+        />
+      </p>
 
       {otherAnimators.length > 0 ? (
         <p>

@@ -2,6 +2,7 @@ import { Action } from "#core/actions/action.js";
 import { Tab, Tabs } from "#core/controllers/tabs.js";
 import { IconInline } from "#core/data-display/icon-inline.js";
 import { DynamicImage } from "#core/data-display/image.js";
+import { Markdown, SENTENCE_COMPONENTS } from "#core/data-display/markdown.js";
 import { useElementSize } from "#core/elements.js";
 import { BeeIllustration } from "#core/illustration/bee.js";
 import { Section } from "#core/layout/section.js";
@@ -291,7 +292,7 @@ function AnimationItem({
               maxHeight: 24 * maxLineCount,
             }}
           >
-            {animation.description}
+            <Markdown content={animation.description} components={{}} />
 
             {animation.animators.length > 0 ? (
               <span className="uppercase">
@@ -342,8 +343,11 @@ function AnimationItem({
             <span>{STAND_ZONE_TRANSLATION[animation.zone]}</span>
           </div>
 
-          <p className="text-body-uppercase-emphasis">
-            {animation.description}
+          <p className="text-body-lowercase-emphasis">
+            <Markdown
+              content={animation.description}
+              components={SENTENCE_COMPONENTS}
+            />
           </p>
 
           {animation.animators.length > 0 ? (
