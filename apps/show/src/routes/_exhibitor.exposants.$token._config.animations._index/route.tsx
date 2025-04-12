@@ -41,6 +41,7 @@ export async function loader({ params }: LoaderFunctionArgs) {
         id: true,
         registrationUrl: true,
         startTime: true,
+        targets: true,
         zone: true,
       },
     }),

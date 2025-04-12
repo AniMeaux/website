@@ -1,7 +1,10 @@
 import { ProseInlineAction } from "#core/actions/prose-inline-action";
+import { Markdown, SENTENCE_COMPONENTS } from "#core/data-display/markdown.js";
 import { FormLayout } from "#core/layout/form-layout";
 import { HelperCard } from "#core/layout/helper-card";
 import { LightBoardCard } from "#core/layout/light-board-card";
+import { ChipActivityTarget } from "#exhibitors/activity-target/chip.js";
+import type { ShowActivityTarget } from "@prisma/client";
 import { ShowStandZone } from "@prisma/client";
 import { Link, useLoaderData } from "@remix-run/react";
 import { DateTime } from "luxon";
@@ -59,6 +62,7 @@ function AnimationItem({
     endTime: string;
     registrationUrl: string | null;
     startTime: string;
+    targets: ShowActivityTarget[];
     zone: ShowStandZone;
   };
 }) {
@@ -75,20 +79,34 @@ function AnimationItem({
 
   return (
     <section className="grid grid-cols-1 gap-2 rounded-2 border border-mystic-200 px-2 py-1">
-      <div className="grid grid-cols-fr-auto items-center gap-2">
-        <span>
-          <span className="capitalize">
-            {startTime.toLocaleString({
-              weekday: "long",
-              hour: "numeric",
-              minute: "numeric",
-            })}
+      <div className="grid grid-cols-1 gap-0.5">
+        <div className="grid grid-cols-fr-auto items-center gap-2">
+          <span>
+            <span className="capitalize">
+              {startTime.toLocaleString({
+                weekday: "long",
+                hour: "numeric",
+                minute: "numeric",
+              })}
+            </span>
+            {" • "}
+            {duration.toHuman({ unitDisplay: "short" })}
           </span>
-          {" • "}
-          {duration.toHuman({ unitDisplay: "short" })}
-        </span>
 
-        <span>{STAND_ZONE_TRANSLATION[animation.zone]}</span>
+          <span>{STAND_ZONE_TRANSLATION[animation.zone]}</span>
+        </div>
+
+        {animation.targets.length > 0 ? (
+          <ul className="flex flex-wrap gap-0.5">
+            {animation.targets.map((activityTarget) => (
+              <ChipActivityTarget
+                key={activityTarget}
+                activityTarget={activityTarget}
+                className="flex-none"
+              />
+            ))}
+          </ul>
+        ) : null}
       </div>
 
       <p className="text-body-lowercase-emphasis">

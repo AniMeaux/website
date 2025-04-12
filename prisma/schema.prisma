@@ -331,6 +331,7 @@ model ShowAnimation {
   isVisible Boolean  @default(false)
 
   animators ShowExhibitor[]
+  targets   ShowActivityTarget[]
 
   description     String        @db.VarChar(512)
   endTime         DateTime
