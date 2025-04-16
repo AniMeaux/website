@@ -348,7 +348,7 @@ function AnimationItem({
           className="grid w-[320px] min-w-[var(--radix-popover-trigger-width)] max-w-[calc(100vw-24px)] grid-cols-1 gap-2 rounded-1 bg-white p-2 shadow-modal animation-opacity-0 data-opened:animation-enter data-closed:animation-exit data-top:animation-translate-y-2 data-bottom:-animation-translate-y-2 can-hover:focus-visible:focus-compact"
         >
           <div className="grid grid-cols-1 gap-0.5">
-            <div className="grid grid-cols-fr-auto items-center gap-2">
+            <div className="grid grid-cols-fr-auto items-start gap-2">
               <span>
                 <span className="capitalize">
                   {startTime.toLocaleString({
@@ -357,7 +357,10 @@ function AnimationItem({
                     minute: "numeric",
                   })}
                 </span>
+
                 {" • "}
+                <wbr />
+
                 <span>{duration.toHuman({ unitDisplay: "short" })}</span>
               </span>
 
