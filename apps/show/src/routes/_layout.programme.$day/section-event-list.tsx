@@ -350,8 +350,9 @@ function AnimationItem({
           <div className="grid grid-cols-1 gap-0.5">
             <div className="grid grid-cols-fr-auto items-center gap-2">
               <span>
-                <span>
+                <span className="capitalize">
                   {startTime.toLocaleString({
+                    weekday: "long",
                     hour: "numeric",
                     minute: "numeric",
                   })}
