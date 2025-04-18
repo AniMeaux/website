@@ -13,19 +13,15 @@ export const ActionSchema = zu.object({
     })
     .transform(Visibility.toBoolean),
 
-  locationNumber: zu.coerce
-    .number({
-      message: "Veuillez entrer un nombre valide",
-    })
-    .int({ message: "Veuillez entrer un nombre entier" })
-    .min(1, "Veuillez entrer un nombre supérieur à 1")
+  locationNumber: zu
+    .string()
+    .trim()
+    .max(16, "Veuillez entrer un numéro plus court")
     .optional(),
 
-  standNumber: zu.coerce
-    .number({
-      message: "Veuillez entrer un nombre valide",
-    })
-    .int({ message: "Veuillez entrer un nombre entier" })
-    .min(1, "Veuillez entrer un nombre supérieur à 1")
+  standNumber: zu
+    .string()
+    .trim()
+    .max(16, "Veuillez entrer un numéro plus court")
     .optional(),
 });
