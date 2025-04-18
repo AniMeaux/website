@@ -41,7 +41,10 @@ export async function loader({ request }: LoaderFunctionArgs) {
     select: { displayName: true, email: true, groups: true, id: true },
   });
 
-  assertCurrentUserHasGroups(currentUser, [UserGroup.ADMIN]);
+  assertCurrentUserHasGroups(currentUser, [
+    UserGroup.ADMIN,
+    UserGroup.ANIMAL_MANAGER,
+  ]);
 
   const url = new URL(request.url);
   const animalSortSearchParams = AnimalSortSearchParams.parse(url.searchParams);
