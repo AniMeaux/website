@@ -33,7 +33,7 @@ export const fosterFamilyHandlers = [
           orderBy: { displayName: "asc" },
           take: hitsPerPage,
           skip: page * hitsPerPage,
-          select: { id: true, displayName: true },
+          select: { id: true, isBanned: true, displayName: true },
         }),
       });
 
