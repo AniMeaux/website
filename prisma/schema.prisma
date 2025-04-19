@@ -497,11 +497,11 @@ model ShowExhibitorStandConfiguration {
   hasElectricalConnection Boolean                                         @default(false)
   hasTablecloths          Boolean                                         @default(true)
   installationDay         ShowExhibitorStandConfigurationInstallationDay?
-  locationNumber          Int?
+  locationNumber          String?                                         @db.VarChar(16)
   peopleCount             Int                                             @default(1)
   placementComment        String?                                         @db.VarChar(256)
   size                    ShowStandSize
-  standNumber             Int?
+  standNumber             String?                                         @db.VarChar(16)
   tableCount              Int
   zone                    ShowStandZone?
 }

@@ -40,14 +40,9 @@ export function FieldsetSituation() {
             <FieldInput
               label="Numéro d’emplacement"
               field={fields.locationNumber}
-              inputMode="numeric"
             />
 
-            <FieldInput
-              label="Numéro de stand"
-              field={fields.standNumber}
-              inputMode="numeric"
-            />
+            <FieldInput label="Numéro de stand" field={fields.standNumber} />
           </Form.Row>
         </Form.Fields>
       </Card.Content>
