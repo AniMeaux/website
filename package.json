@@ -16,7 +16,7 @@
     "db:reset": "yarn prisma-env migrate reset -f",
     "db:studio": "yarn prisma-env studio",
     "down": "run-s down:ecosystem down:docker",
-    "down:docker": "docker-compose down",
+    "down:docker": "docker compose down",
     "down:ecosystem": "pm2 delete ./ecosystem.config.cjs && rm -rf ./logs",
     "generate": "run-s generate:prisma generate:workspaces",
     "generate:prisma": "prisma generate",
@@ -33,7 +33,7 @@
     "prisma-env": "node -r dotenv-flow/config ./node_modules/.bin/prisma",
     "restart:ecosystem": "run-s down:ecosystem up:ecosystem",
     "up": "run-s up:docker up:ecosystem",
-    "up:docker": "docker-compose up -d",
+    "up:docker": "docker compose up -d",
     "up:ecosystem": "pm2 start ./ecosystem.config.cjs"
   },
   "prisma": {
