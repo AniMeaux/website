@@ -15,7 +15,7 @@
   "peerDependencies": {
     "@algolia/client-search": "^4.22.1",
     "@animeaux/core": "*",
-    "@prisma/client": "^5.8.1",
+    "@prisma/client": "^6.7.0",
     "algoliasearch": "^4.19.1",
     "lodash.chunk": "^4.2.0",
     "tiny-invariant": "^1.3.1",
