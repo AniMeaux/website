@@ -22,7 +22,7 @@
     "@animeaux/core": "*",
     "@animeaux/password": "*",
     "@faker-js/faker": "^8.0.2",
-    "@prisma/client": "^5.8.1",
+    "@prisma/client": "^6.7.0",
     "@types/d3-dsv": "^3.0.2",
     "@types/luxon": "^3.3.1",
     "@types/pg": "^8.10.2",
